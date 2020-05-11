@@ -3,12 +3,12 @@
   &__placeholder {
     width: 100%;
     height: 300px;
-    background-color: $mercury-grey;
+    background-color: $grey-15;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 4.375rem;
-    color: $raven-grey;
+    color: $grey-40;
   }
 
   &__loaded-image {

@@ -21,7 +21,7 @@
 }
 
 .comparison-window--body {
-  background-color: $porcelain-grey;
+  background-color: $grey-10;
   display: flex;
   flex-direction: column;
 }
@@ -84,18 +84,18 @@
   font-family: $font-open-sans;
   font-size: 1.125rem;
   font-weight: $font-heavy;
-  color: $charcoal-grey;
+  color: $grey-80;
 }
 
 .assessment-results-result-light-line {
   width: 1px;
   height: 50px;
-  border: solid 1.5px $alto-grey;
+  border: solid 1.5px $grey-20;
   margin-left: 15px;
 }
 
 .comparison-window__feedback-panel {
-  background-color: $alto-grey;
+  background-color: $grey-20;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   padding: 20px 40px;
@@ -105,7 +105,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1.3px dashed $raven-grey;
+  border: 1.3px dashed $grey-40;
   max-width: 991px;
   border-radius: 5px;
   padding: 36px 0 28px;
@@ -120,7 +120,7 @@
   font-family: $font-open-sans;
   font-size: 1.063rem;
   text-align: center;
-  color: $black;
+  color: $grey-200;
   font-weight: $font-semi-bold;
   margin-top: 10.2px;
 

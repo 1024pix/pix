@@ -7,8 +7,8 @@
   &__error {
     margin: 20px;
     padding: 20px;
-    background: $mercury-grey;
-    color: $boulder-grey;
+    background: $grey-15;
+    color: $grey-45;
   }
 
   &__error-title {
@@ -30,7 +30,7 @@
   flex-direction: column;
   align-items: center;
   padding: 40px;
-  border-bottom: 1px dashed $slate-grey;
+  border-bottom: 1px dashed $grey-50;
   margin: 0 20px;
 
   @include device-is('desktop') {

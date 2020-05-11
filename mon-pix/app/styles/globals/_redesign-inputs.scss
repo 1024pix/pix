@@ -68,7 +68,7 @@ input[type=checkbox]:before {
   width: 18px;
   top: -3px;
 
-  border: 2px solid $raven-grey;
+  border: 2px solid $grey-40;
   content: ' ';
   display: block;
   background-color: $white;
@@ -77,8 +77,8 @@ input[type=checkbox]:before {
 }
 
 input[type=checkbox]:checked:before {
-  border-color: $pix-blue;
-  background-color: $pix-blue;
+  border-color: $blue;
+  background-color: $blue;
 }
 
 input[type=checkbox]:checked:after {
@@ -99,12 +99,12 @@ input[type=checkbox]:checked:after {
 
 input[type=checkbox]:focus:before,
 input[type=checkbox]:hover:before {
-  box-shadow: 0 0px 0px 8px rgba($pix-blue, 0.1);
-  border-color: $pix-blue;
+  box-shadow: 0 0px 0px 8px rgba($blue, 0.1);
+  border-color: $blue;
 }
 
 input[type=checkbox]:active:before {
-  box-shadow: 0 0px 0px 8px rgba($pix-blue, 0.3);
+  box-shadow: 0 0px 0px 8px rgba($blue, 0.3);
 }
 
 /**
@@ -132,7 +132,7 @@ input[type=radio]:before {
   top: -3px;
   left: -5px;
 
-  border: solid 2px $dusty-grey;
+  border: solid 2px $grey-30;
   border-radius: 10px;
   background-color: $white;
 }
@@ -143,21 +143,21 @@ input[type=radio]:checked:after {
   top: -18px;
   left: 1px;
 
-  background-color: $pix-blue;
+  background-color: $blue;
 }
 
 input[type=radio]:checked:before {
-  border-color: $pix-blue;
+  border-color: $blue;
 }
 
 input[type=radio]:focus:before,
 input[type=radio]:hover:before {
-  box-shadow: 0 0px 0px 8px rgba($pix-blue, 0.1);
-  border-color: $pix-blue;
+  box-shadow: 0 0px 0px 8px rgba($blue, 0.1);
+  border-color: $blue;
 }
 
 input[type=radio]:active:before {
-  box-shadow: 0 0px 0px 8px rgba($pix-blue, 0.3);
+  box-shadow: 0 0px 0px 8px rgba($blue, 0.3);
 }
 
 /**

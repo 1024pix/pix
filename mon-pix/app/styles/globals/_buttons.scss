@@ -6,7 +6,7 @@
   letter-spacing: 0.012rem;
   text-align: center;
   border-radius: 5px;
-  background-color: $pix-blue;
+  background-color: $blue;
   color: $white;
   cursor: pointer;
   border: none;
@@ -14,7 +14,7 @@
   transition: background-color 0.2s ease;
 
   &:hover, &:active, &:focus {
-    background-color: $pix-blue-hover;
+    background-color: $blue-hover;
   }
 
   &--link {
@@ -61,86 +61,86 @@
   }
 
   &--grey {
-    background: $mercury-grey;
-    color: $grayish-grey;
+    background: $grey-15;
+    color: $grey-80;
 
     &:hover, &:active, &:focus {
-      background-color: $alto-grey;
+      background-color: $grey-20;
     }
   }
 
   &--green {
-    background: $mountain-meadow;
+    background: $green;
     color: white;
 
     &:hover, &:active, &:focus {
-      background-color: $jade;
+      background-color: $green-hover;
     }
   }
 
   &--red {
-    background: $pomegranate;
+    background: $dark-error;
     color: $white;
 
     &:hover, &:active, &:focus {
-      background-color: $monza;
+      background-color: $dark-error;
     }
   }
 
   &--yellow {
-    background: $pix-yellow;
-    color: $nero;
+    background: $yellow;
+    color: $grey-100;
     font-weight: $font-bold;
     font-size: 0.906rem;
     box-shadow: 0 2px 6px 0 rgba(12, 22, 58, 0.11), 0 1px 3px 0 rgba(0, 0, 0, 0.08);
 
     &:hover, &:active, &:focus {
-      background-color: $pix-yellow-hover;
-      color: $nero;
+      background-color: $warning;
+      color: $grey-100;
     }
   }
 
   &--dark-grey {
-    background-color: $dove-gray;
+    background-color: $grey-60;
     color: $white;
     font-weight: $font-bold;
     font-size: 0.938rem;
     &:hover, &:active, &:focus {
-      background-color: $charcoal-grey;
+      background-color: $grey-80;
     }
   }
 
   &--white {
     background-color: $white;
-    color: $black;
+    color: $grey-200;
 
     &:hover, &:active, &:focus {
-      background-color: $alto-grey;
+      background-color: $grey-20;
     }
   }
 
   &--bordered {
-    border: 1px solid $pix-blue;
-    color: $pix-blue;
+    border: 1px solid $blue;
+    color: $blue;
 
     &:hover, &:active, &:focus {
-      background-color: $pix-blue;
+      background-color: $blue;
       color: $white;
     }
   }
 
   &--no-color {
     background-color: transparent;
-    color: $nero;
+    color: $grey-100;
 
     &:hover, &:active, &:focus {
-      background-color: $alto-grey;
+      background-color: $grey-20;
     }
   }
 }
 
 .icon-button {
-  color: $dove-gray;
+  color: $grey-60;
   padding: 4px 8px;
   border: none;
   font-size: 1rem;
@@ -151,7 +151,7 @@
   border-radius: 50%;
 
   &:hover, &:active {
-    background-color: $alto-grey;
+    background-color: $grey-20;
   }
 
   &--link {
@@ -170,14 +170,14 @@
   outline: none;
   border: none;
   background-color: inherit;
-  color: $pix-blue;
+  color: $blue;
   text-decoration: none;
 
   &:hover,
   &:focus,
   &:active {
     text-decoration: underline;
-    color: $pix-blue-hover;
+    color: $blue-hover;
   }
 
   &--underline {
@@ -185,11 +185,11 @@
   }
 
   &--grey {
-    color: $dove-gray;
+    color: $grey-60;
   }
 
   &__return-to {
-    color: $black;
+    color: $grey-200;
     font-size: 0.813rem;
     font-weight: $font-semi-bold;
     letter-spacing: 0.019rem;
@@ -202,10 +202,10 @@
 
     &:hover {
       text-decoration: none;
-      color: $black;
+      color: $grey-200;
 
       .icon-button {
-        background-color: $alto-grey;
+        background-color: $grey-20;
       }
     }
   }

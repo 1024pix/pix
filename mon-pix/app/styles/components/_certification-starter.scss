@@ -5,7 +5,7 @@
 }
 
 .certification-course-page__order {
-  color: $charcoal-grey;
+  color: $grey-80;
   font-family: $font-open-sans;
   font-weight: $font-light;
   font-size: 1.25rem;
@@ -16,7 +16,7 @@
 }
 
 .certification-course-page__cgu {
-  color: $charcoal-grey;
+  color: $grey-80;
   font-size: 0.75rem;
   line-height: 18px;
   text-align: justify;
@@ -38,7 +38,7 @@
   $total-width: $nb-characters * (1ch + $space-between-dashes);
   text-transform: uppercase;
   box-sizing: content-box;
-  border: solid 2px $alto-grey;
+  border: solid 2px $grey-20;
   border-radius: 3px;
   outline: none;
   height: 50px;
@@ -46,8 +46,8 @@
   display: inline-block;
   width: $total-width;
   background: repeating-linear-gradient(90deg,
-    $silver-grey 0,
-    $silver-grey 1ch,
+    $grey-22 0,
+    $grey-22 1ch,
     transparent 0,
     transparent 1ch + $space-between-dashes) 0 100% / #{$total-width - $space-between-dashes} 2px no-repeat;
   font-size: 1.875rem;
@@ -66,8 +66,8 @@
     padding: 0 0ch 1px 1ch;
     letter-spacing: $space-between-dashes;
     background: repeating-linear-gradient(90deg,
-      $silver-grey 0,
-      $silver-grey 1.30ch,
+      $grey-22 0,
+      $grey-22 1.30ch,
       transparent 0,
       transparent 1.30ch + $space-between-dashes) 0 100% / #{$total-width - $space-between-dashes} 2px no-repeat;
     background-origin: content-box;
@@ -77,7 +77,7 @@
 
   &:focus {
     outline: none;
-    color: $tundora-grey;
+    color: $grey-70;
   }
 }
 

@@ -3,7 +3,7 @@
     display: inline-block;
     font-size: 1rem;
     line-height: 1.75rem;
-    color: $charcoal-grey;
+    color: $grey-80;
   }
 
   &__answer {
@@ -11,7 +11,7 @@
     border-radius: 3px;
     background-color: $white;
     box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.15);
-    border: solid 1px $alto-grey;
+    border: solid 1px $grey-20;
     padding: 0 10px;
 
     &-wrapper {
@@ -48,7 +48,7 @@
 
     &-text {
       font-weight: $font-bold;
-      color: $caribbean-green;
+      color: $green;
       font-size: 1rem;
       margin-left: 3px;
       padding-bottom: 1px;

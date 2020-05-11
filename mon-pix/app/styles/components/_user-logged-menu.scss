@@ -5,22 +5,22 @@
 
 .logged-user-name__link {
   text-decoration: none;
-  color: $dove-gray;
+  color: $grey-60;
   cursor: pointer;
 
   &:visited,
   &:focus,
   &:active {
     text-decoration: none;
-    color: $dove-gray;
+    color: $grey-60;
   }
 
   &:hover {
     text-decoration: none;
-    color: $dodger-blue;
+    color: $light-blue;
 
     > .caret {
-      border-color: $dodger-blue transparent transparent transparent;
+      border-color: $light-blue transparent transparent transparent;
     }
   }
 }
@@ -31,7 +31,7 @@
   font-size: 1rem;
   letter-spacing: 0.031rem;
   text-align: right;
-  color: $dove-gray;
+  color: $grey-60;
   text-transform: capitalize;
   max-width: 150px;
   white-space: nowrap;
@@ -48,7 +48,7 @@
   height: 0;
   border-style: solid;
   border-width: 4px 4px 0 4px;
-  border-color: $dove-gray transparent transparent transparent;
+  border-color: $grey-60 transparent transparent transparent;
   margin-left: 2px;
   display: inline-block;
   vertical-align: middle;
@@ -68,8 +68,8 @@
 }
 
 .logged-user-menu__details {
-  color: $charcoal-grey;
-  background-color: $porcelain-grey;
+  color: $grey-80;
+  background-color: $grey-10;
   padding: 12px 16px;
 }
 
@@ -83,7 +83,7 @@
 
 .logged-user-menu-details__identifier {
   font-size: 0.813rem;
-  color: $dove-gray;
+  color: $grey-60;
 }
 
 .logged-user-menu__link {
@@ -91,14 +91,14 @@
   align-items: center;
   font-size: 0.938rem;
   padding: 12px 16px;
-  color: $charcoal-grey;
+  color: $grey-80;
   transition: background-color 0.1s linear;
-  border-top: 1px solid $mercury-grey;
+  border-top: 1px solid $grey-15;
 
   &:hover {
     text-decoration: none;
-    color: $charcoal-grey;
-    background-color: $porcelain-grey;
+    color: $grey-80;
+    background-color: $grey-10;
   }
 
   &> svg {

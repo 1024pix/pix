@@ -1,7 +1,7 @@
 .sign-form-page {
   display: flex;
   justify-content: center;
-  background: $pix-blue-to-purple-gradient-top-left-to-bottom-right;
+  background: $pix-blue-gradient;
   background-size: cover;
   width: 100%;
   height: 100%;
@@ -32,7 +32,7 @@
       margin: 20px 0;
       padding-top: 40px;
     }
-    
+
     @include device-is('mobile'){
       padding-top: 20px;
     }
@@ -67,7 +67,7 @@
     margin: 10px 0;
 
     &--success {
-      background: $caribbean-green;
+      background: $green;
     }
 
     &--error {
@@ -76,7 +76,7 @@
   }
 
   &__validation-error {
-    color: $red-error;
+    color: $dark-error;
     font-weight: normal;
   }
 }
@@ -166,7 +166,7 @@
 
 .sign-form-title {
   font-family: $font-open-sans;
-  color: $charcoal-grey;
+  color: $grey-80;
   margin: 0;
   font-size: 1.563rem;
   font-weight: $font-light;
@@ -178,7 +178,7 @@
 
 .sign-form-subtitle {
   font-family: $font-open-sans;
-  color: $charcoal-grey;
+  color: $grey-80;
   font-size: 0.938rem;
   font-weight: $font-light;
   line-height: 28px;
@@ -192,11 +192,11 @@
 .sign-form-instruction {
   font-size: 0.938rem;
   font-weight: $font-light;
-  color: $charcoal-grey;
+  color: $grey-80;
 }
 
 .sign-form-text {
-  color: $charcoal-grey;
+  color: $grey-80;
   font-family: $font-open-sans;
   font-size: 0.625rem;
 
