@@ -1,4 +1,3 @@
-const securityController = require('../../interfaces/controllers/security-controller');
 const feedbackController = require('./feedback-controller');
 
 exports.register = async (server) => {
@@ -12,19 +11,6 @@ exports.register = async (server) => {
         tags: ['api']
       }
     },
-    {
-      method: 'GET',
-      path: '/api/feedbacks',
-      config: {
-        pre: [{
-          method: securityController.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster'
-        }],
-        handler: feedbackController.find,
-        tags: ['api']
-      }
-    }
-
   ]);
 };
 
