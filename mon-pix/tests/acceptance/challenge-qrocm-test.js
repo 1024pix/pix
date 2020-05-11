@@ -51,15 +51,15 @@ describe('Acceptance | Displaying un QROCM', function() {
       expect(findAll('.challenge-response__proposal')).to.have.lengthOf(3);
     });
 
-    it('should display an error alert if the user tried to validate without checking anything first', async function() {
-      await fillIn(findAll('input')[0], '');
-      await fillIn(findAll('input')[1], '');
+    it('should display an error alert if the user tries to validate before filling all answer fields', async function() {
+      await fillIn(findAll('input')[0], 'ANSWER');
+      await fillIn(findAll('input')[1], 'ANSWER');
       await fillIn(findAll('input')[2], '');
 
       await click(find('.challenge-actions__action-validate'));
 
       expect(find('.alert')).to.exist;
-      expect(find('.alert').textContent.trim()).to.equal('Pour valider, saisir au moins une réponse. Sinon, passer.');
+      expect(find('.alert').textContent.trim()).to.equal('Pour valider, veuillez remplir tous les champs réponse. Sinon, passer.');
     });
   });
 
