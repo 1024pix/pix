@@ -6,10 +6,10 @@
 
   <div>
 
-    <h1 class="form-title">Déjà utilisateur Pix ?</h1>
+    <h1 class="login-form__title">Connectez-vous</h1>
 
     <div class="login-form__information paragraph">
-      Vous avez déjà un compte sur Pix.fr ? Vous pouvez utiliser ce compte pour rejoindre l'espace Pix Certif.
+      La certification Pix permet d’obtenir un profil de compétences certifié reconnu par l’État et le monde professionnel.
     </div>
 
     {{#if this.isErrorMessagePresent}}
@@ -56,15 +56,15 @@
       </div>
 
       <div class="login-form__input-container">
-        <button type="submit" class="button">Je me connecte</button>
+        <button type="submit" class="button login-form__button">Je me connecte</button>
+      </div>
+
+      <div class="login-form__forgotten-password one-line-text">
+        <a href="https://app.pix.fr/mot-de-passe-oublie" target="_blank" rel="noopener noreferrer" >Mot de passe oublié ?</a>
       </div>
 
     </form>
 
-    <div class="login-form__forgotten-password one-line-text">
-      Vous avez oublié votre mot de passe ? Rendez-vous sur <a href="https://app.pix.fr/mot-de-passe-oublie" target="_blank" rel="noopener noreferrer" >pix.fr</a> pour
-      le réinitialiser.
     </div>
 
-  </div>
 </div>
