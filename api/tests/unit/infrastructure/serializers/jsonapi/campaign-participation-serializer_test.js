@@ -234,6 +234,19 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
       expect(result).to.deep.equal(expectedSerializedCampaignParticipation);
     });
 
+    it('should not serialize user if user is undefined', function() {
+      // given
+      campaignParticipation.user = undefined;
+      delete expectedSerializedCampaignParticipation.data.relationships.user;
+      expectedSerializedCampaignParticipation.included = expectedSerializedCampaignParticipation.included.filter((included) => included.type !== 'users');
+
+      // when
+      const result = serializer.serialize(campaignParticipation);
+
+      // then
+      expect(result).to.deep.equal(expectedSerializedCampaignParticipation);
+    });
+
   });
 
   describe('#deserialize', function() {
