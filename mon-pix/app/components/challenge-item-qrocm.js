@@ -33,7 +33,7 @@ class ChallengeItemQrocm extends ChallengeItemGeneric {
   }
 
   _getErrorMessage() {
-    return 'Pour valider, saisir au moins une réponse. Sinon, passer.';
+    return 'Pour valider, veuillez remplir tous les champs réponse. Sinon, passer.';
   }
 
   @action
