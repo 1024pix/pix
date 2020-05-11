@@ -64,6 +64,23 @@
           letter-spacing: normal;
           font-size: 0.85rem;
         }
+
+        &__clipboard {
+          flex-direction: row;
+
+          input {
+            width: 85%;
+          }
+        }
+
+        &__clipboard-button {
+          margin-top: -10px;
+          margin-left: 6px;
+        }
+
+        &__tooltip-text {
+          margin-bottom: 6px;
+        }
       }
 
       .pix-modal-footer {
@@ -103,6 +120,19 @@
           span {
             margin: 4px 0;
           }
+        }
+
+        &__clipboard {
+          flex-direction: row;
+
+          input {
+            width: 85%;
+          }
+        }
+
+        &__clipboard-button {
+          margin-top: -10px;
+          margin-left: 6px;
         }
       }
     }
