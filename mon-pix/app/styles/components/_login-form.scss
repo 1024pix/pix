@@ -12,9 +12,17 @@
   }
 
   &__forgotten-password {
+    font-size: 0.75rem;
+    color: $grey-60;
+    margin: 16px 0px;
+    text-align: left;
+    letter-spacing: 0.009rem;
+    line-height: 1.1875rem;
+  }
+
+  &__forgotten-password span {
     font-size: 0.875rem;
-    margin: 8px;
-    text-align: center;
+    color: $charcoal-grey;
   }
 
   .login-button-container {
