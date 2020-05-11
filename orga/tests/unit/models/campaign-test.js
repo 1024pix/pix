@@ -86,43 +86,29 @@ module('Unit | Model | campaign', function(hooks) {
     });
   });
 
-  module('canBeArchived', function() {
+  module('isArchived', function() {
     let store;
 
     hooks.beforeEach(function() {
       store = this.owner.lookup('service:store');
     });
 
-    module('when type is ASSESSMENT', function() {
-      module('when campaign is not archived', function() {
-        test('it should return true', function(assert) {
-          const campaign = store.createRecord('campaign', {
-            type: 'ASSESSMENT',
-            archivedAt: null,
-          });
-
-          assert.equal(campaign.canBeArchived, true);
-        });
-        module('when campaign is archived', function() {
-          test('it should return false', function(assert) {
-            const campaign = store.createRecord('campaign', {
-              type: 'ASSESSMENT',
-              archivedAt: new Date('2020-01-01'),
-            });
-
-            assert.equal(campaign.canBeArchived, false);
-          });
-        });
-      });
-    });
-    module('when type is PROFILES_COLLECTION', function() {
-      test('it should be false', function(assert) {
+    module('when campaign does not have an archived date', function() {
+      test('it should return false', function(assert) {
         const campaign = store.createRecord('campaign', {
-          type: 'PROFILES_COLLECTION',
           archivedAt: null,
         });
 
-        assert.equal(campaign.canBeArchived, false);
+        assert.equal(campaign.isArchived, false);
+      });
+    });
+    module('when campaign has an archived date', function() {
+      test('it should return true', function(assert) {
+        const campaign = store.createRecord('campaign', {
+          archivedAt: new Date('2020-01-01'),
+        });
+
+        assert.equal(campaign.isArchived, true);
       });
     });
   });

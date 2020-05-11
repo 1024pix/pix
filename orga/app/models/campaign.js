@@ -88,11 +88,6 @@ export default class Campaign extends Model {
     return Boolean(this.archivedAt);
   }
 
-  @computed('isTypeAssessment', 'isArchived')
-  get canBeArchived() {
-    return this.isTypeAssessment && ! this.isArchived;
-  }
-
   async archive() {
     await this.store.adapterFor('campaign').archive(this);
     return this.store.findRecord('campaign', this.id, { include: 'targetProfile' });

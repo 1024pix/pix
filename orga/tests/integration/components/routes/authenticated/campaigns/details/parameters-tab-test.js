@@ -145,39 +145,19 @@ module('Integration | Component | routes/authenticated/campaign/details | parame
   });
 
   module('on Archived action display', function() {
-    module('when type campaign can be archived', function() {
-      test('it should display the button archived', async function(assert) {
-        // given
-        const campaign = store.createRecord('campaign', {
-          type: 'ASSESSMENT',
-          archivedAt: null,
-        });
-
-        this.set('campaign', campaign);
-
-        // when
-        await render(hbs`<Routes::Authenticated::Campaigns::Details::ParametersTab @campaign={{campaign}}/>`);
-
-        // then
-        assert.dom('[aria-label="Détails de la campagne"]').includesText('Archiver');
+    test('it should display the button archived', async function(assert) {
+      // given
+      const campaign = store.createRecord('campaign', {
+        archivedAt: null,
       });
-    });
 
-    module('when type campaign cannot be archived', function() {
-      test('it should not display the button archived', async function(assert) {
-        // given
-        const campaign = store.createRecord('campaign', {
-          type: 'PROFILES_COLLECTION',
-        });
+      this.set('campaign', campaign);
 
-        this.set('campaign', campaign);
+      // when
+      await render(hbs`<Routes::Authenticated::Campaigns::Details::ParametersTab @campaign={{campaign}}/>`);
 
-        // when
-        await render(hbs`<Routes::Authenticated::Campaigns::Details::ParametersTab @campaign={{campaign}}/>`);
-
-        // then
-        assert.dom('[aria-label="Détails de la campagne"]').doesNotContainText('Archiver');
-      });
+      // then
+      assert.dom('[aria-label="Détails de la campagne"]').includesText('Archiver');
     });
   });
 
