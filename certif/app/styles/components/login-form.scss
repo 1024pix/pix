@@ -4,34 +4,60 @@
   margin: auto;
   align-items: center;
   background-color: white;
-  max-width: 360px;
   border-radius: 10px;
-  padding: 60px 100px;
+  padding: 40px 60px;
+  max-width: 400px;
+  width: 100%;
+
+  &__title {
+    text-align: center;
+    font-family: $open-sans;
+    font-size: 2rem;
+    color: $grey-80;
+    margin-top: 32px;
+    margin-bottom: 8px;
+  }
 
   &__information {
-    max-width: 360px;
-    margin-bottom: 20px;
+    margin-bottom: 32px;
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
   }
 
   &__error-message {
     margin-bottom: 10px;
+    text-align: center;
+    font-size: .875rem;
   }
 
   &__input-container {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    margin-bottom: 22px;
+    margin-bottom: 16px;
+  }
+
+  &__button {
+    margin-top: 8px;
+    font-size: .875rem;
+  }
+
+  form {
+    margin: auto;
   }
 
   &__forgotten-password {
     text-align: left;
+    font-size: .875rem;
+    color: $communication-dark;
 
     a {
       text-decoration: none;
 
-      &:hover, &:active, &:focus {
+      &:hover, &:active, &:focus, &:visited  {
         text-decoration: underline;
+        color: $communication-dark;
       }
     }
   }
@@ -66,6 +92,7 @@
         display: none;
       }
     }
+
   }
 
   &__icon {
