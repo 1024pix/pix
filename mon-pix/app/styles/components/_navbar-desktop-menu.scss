@@ -30,7 +30,7 @@
 }
 
 .navbar-header--white .navbar-desktop-menu-links__item {
-  color: $slate-grey;
+  color: $grey-50;
 }
 
 .navbar-desktop-menu-links__item:first-child {
@@ -51,7 +51,7 @@
   &:hover,
   &:focus,
   &:active {
-    color: $pix-yellow-hover;
+    color: $warning;
     text-decoration: none;
   }
 }
@@ -69,20 +69,20 @@
   &:hover,
   &:focus,
   &:active {
-    color: $pix-blue;
+    color: $blue;
     text-decoration: none;
     background-color: $white;
   }
 }
 
 .navbar-header--white .navbar-menu-signup-link {
-  color: $pix-blue;
-  border: 2px solid $pix-blue;
+  color: $blue;
+  border: 2px solid $blue;
 
   &:hover,
   &:focus,
   &:active {
     color: $white;
-    background-color: $pix-blue;
+    background-color: $blue;
   }
 }

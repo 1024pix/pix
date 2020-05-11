@@ -25,24 +25,24 @@
     padding-bottom: 5px;
     font-size: 1rem;
     font-family: $font-roboto;
-    color: $dove-gray;
+    color: $grey-60;
     text-decoration: none;
 
     &.active {
       text-decoration: none;
-      color: $dodger-blue;
-      border-bottom: 2px solid $dodger-blue;
+      color: $light-blue;
+      border-bottom: 2px solid $light-blue;
     }
 
     &:focus {
       text-decoration: none;
-      color: $gray;
+      color: $grey-35;
     }
 
     &:hover {
       text-decoration: none;
       cursor: pointer;
-      color: $dodger-blue;
+      color: $light-blue;
     }
   }
 }

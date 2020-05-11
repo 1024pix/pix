@@ -4,11 +4,11 @@
   overflow: hidden;
   font-family: $font-roboto;
   box-shadow: $box-shadow-competence-cards;
-  border: 1px solid $alto-grey;
+  border: 1px solid $grey-20;
   border-radius: 11px;
   background-color: $white;
   transition: all 0.1s linear;
-  -webkit-tap-highlight-color: rgba($dove-gray, 0.3);
+  -webkit-tap-highlight-color: rgba($grey-60, 0.3);
   pointer-events: none;
 
   &--interactive {
@@ -46,23 +46,23 @@
   }
 
   &--jaffa::after {
-    background: linear-gradient(90deg, $jaffa-dark 45%, $jaffa 100%);
+    background: linear-gradient(90deg, $information-dark 45%, $information-light 100%);
   }
 
   &--emerald::after {
-    background: linear-gradient(90deg, $emerald-dark 45%, $emerald 100%);
+    background: linear-gradient(90deg, $content-dark 45%, $content-light 100%);
   }
 
   &--cerulean::after {
-    background: linear-gradient(90deg, $cerulean-dark 45%, $cerulean 100%);
+    background: linear-gradient(90deg, $blue 45%, $communication-light 100%);
   }
 
   &--wild-strawberry::after {
-    background: linear-gradient(90deg, $wild-strawberry-dark 45%, $wild-strawberry 100%);
+    background: linear-gradient(90deg, $security-dark 45%, $security-light 100%);
   }
 
   &--butterfly-bush::after {
-    background: linear-gradient(90deg, $butterfly-bush-dark 45%, $butterfly-bush 100%);
+    background: linear-gradient(90deg, $environment-dark 45%, $environment-light 100%);
   }
 }
 

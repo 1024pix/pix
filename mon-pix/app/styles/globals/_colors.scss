@@ -1,56 +1,35 @@
-/*
-  Colors name From:
-    - http://www.colorhexa.com
-    - http://chir.ag/projects/name-that-color
-*/
+// See https://zeroheight.com/8dd127da7/p/839645-couleurs/b/21317a
+
+// primary
+$blue: #3D68FF;
+$blue-zodiac: #505F79;
 $white: #ffffff;
-$alabaster-grey: #FAFAFA;
-$porcelain-grey: #f2f3f4;
-$mercury-grey: #e6e6e6;
-$alto-grey: #DDDDDD;
-$silver-grey: #CCCCCC;
-$dusty-grey: #979797;
-$gray: #888888;
-$raven-grey: #7d808a;
-$boulder-grey: #777777;
-$slate-grey: #6a6d76;
-$dove-gray: #666666;
-$tundora-grey: #4A4A4A;
-$charcoal-grey: #3e4149;
-$grayish-grey: #39393A;
-$nero: #222222;
-$black: #000000;
 
-$periwinkle-blue: #c3d0ff;
-$jordy-blue: #8D9EF7;
-$dodger-blue: #388AFF;
-$pix-blue: #3d68ff;
-$pix-blue-hover: #3257D9;
-$pix-grey: #585F75;
-$pix-grey-hover: #414657;
-
-$bright-yellow: #fedc41;
-$pix-yellow: #ffcb00;
-$pix-yellow-hover: #ffbe00;
-$nugget-yellow: #CF9C24;
-$dark-orange: #FF9400;
-$pizazz-orange: #ff8800;
+// secondary
+$blue-hover: darken($blue, 4%);
+$dark-blue-pro: #1A38A0;
+$green-certif: #1A8C89;
+$dark-orga: #0095C0;
+$orga: #00DDFF;
+$green: #20BF55;
+$green-hover: darken($green, 4%);
+$red: #D63F00;
+$red-hover: darken($red, 4%);
+$yellow: #FFBE00;
+$yellow-hover: darken($yellow, 8%);
+$light-blue: #388AFF;
 $pure-orange: #f45c00;
 
-$vista-blue: #93CFB5;
-$deyork-green: #78C182;
-$mountain-meadow: #20BF55;
-$caribbean-green: #13c9a0;
-$jade: #0BA86D;
-$eucalyptus: #228C5E;
-
-$mandy-red: #E14956;
-$vermilion: #FF4B00;
-$pomegranate: #F52222;
-$red-error: #E62600;
-$monza: #D60606;
-
-$purple: #985FFF;
+// gradients
+$pix-blue-gradient: linear-gradient(135deg, #12A3FF 0%, #3D68FF 100%);
+$pix-gradient: linear-gradient(135deg, #388AFF 0%, #985FFF 100%);
+$pix-green-gradient: linear-gradient(0deg, #52D987 0%, #1A8C89 100%);
+$pix-orange-gradient: linear-gradient(180deg, #F24645 0%, #F1A141 100%);
+$pix-orga-gradient: linear-gradient(134deg, #00DDFF 0%, #0095C0 100%);
+$pix-orga-old-gradient: linear-gradient(0deg, #0D7DC4 0%, #213371 100%);
+$pix-pink-gradient: linear-gradient(135deg, #FF3F93 0%, #AC008D 100%);
+$pix-purple-gradient: linear-gradient(180deg, #5E2563 0%, #564DA6 100%);
+$pix-yellow-to-orange-gradient: linear-gradient(180deg, #fedc41 0%, #f45c00 100%);
 
 // light
 $grey-5: #FAFBFC;
@@ -59,6 +38,7 @@ $grey-15: #EAECF0;
 $grey-20: #DFE1E6;
 $grey-22: #C1C7D0;
 $grey-25: #A5ADBA;
+
 // medium
 $grey-30: #97A0AF;
 $grey-35: #8993A4;
@@ -66,40 +46,33 @@ $grey-40: #7A869A;
 $grey-45: #6B778C;
 $grey-50: #5E6C84;
 $grey-60: #505F79;
+
 // dark
 $grey-70: #344563;
 $grey-80: #253858;
 $grey-90: #172B4D;
 $grey-100: #091E42;
+$grey-200: #07142E;
 
+// solids
+$environment-dark: #5E2563;
+$environment-light: #564DA6;
+$communication-dark: #3D68FF;
+$communication-light: #12A3FF;
+$content-dark: #1A8C89;
+$content-light: #52D987;
+$information-dark: #F24645;
+$information-light: #F1A141;
+$security-dark: #AC008D;
+$security-light: #FF3F94;
 
-/*
-  Area Colors
- */
+// status
+$error: #FF4B00;
+$light-red: lighten($error, 8%);
+$dark-error: darken($error, 8%);
+$success: #57C884;
+$warning: #FFBE00;
 
-$jaffa: #F1A141;
-$emerald: #57C884;
-$cerulean: #12A3FF;
-$wild-strawberry: #FF3F94;
-$butterfly-bush: #574DA6;
-$jaffa-dark: #F24645;
-$emerald-dark: #1A8C89;
-$cerulean-dark: #3D68FF;
-$wild-strawberry-dark: #AC008D;
-$butterfly-bush-dark: #5E2563;
-
-/*
-  Gradients
- */
-$pix-blue-to-purple-gradient: linear-gradient(to right, $dodger-blue, $purple);
-$pix-blue-to-purple-gradient-top-left-to-bottom-right: linear-gradient(-225deg, $dodger-blue 0%, $purple 100%);
-$pix-emerald-to-emerald-dark-gradient: linear-gradient(to right, $emerald, $emerald-dark);
-$pix-emerald-to-emerald-dark-gradient-bottom-to-top: linear-gradient(to top, $emerald, $emerald-dark);
-$pix-yellow-to-orange-gradient: linear-gradient(180deg, $bright-yellow 0%, $pizazz-orange 100%);
-$pix-yellow-to-jaffa-gradient: linear-gradient(180deg, $pix-yellow-hover 0%, $jaffa 100%);
-
-/*
-  Box Shadows
- */
-$box-shadow-competence-cards: 0 3px 4px 0 rgba(12, 22, 58, 0.1), 0 1px 3px 0 rgba($black, 0.1);
-$box-shadow-competence-cards-hover: 0 7px 14px 0 rgba(12, 22, 58, 0.2), 0 3px 6px 0 rgba($black, 0.2);
+// box shadows
+$box-shadow-competence-cards: 0 3px 4px 0 rgba(12, 22, 58, 0.1), 0 1px 3px 0 rgba($grey-200, 0.1);
+$box-shadow-competence-cards-hover: 0 7px 14px 0 rgba(12, 22, 58, 0.2), 0 3px 6px 0 rgba($grey-200, 0.2);

@@ -10,11 +10,11 @@
     font-size: 0.875rem;
     font-family: $font-roboto;
     font-weight: $font-bold;
-    color: $grayish-grey;
+    color: $grey-80;
   }
 
   &__required-inputs {
-    color: $dove-gray;
+    color: $grey-60;
     font-family: $font-roboto;
     font-size: 1rem;
     font-weight: $font-normal;
@@ -37,7 +37,7 @@
   }
 
   &__validation-error {
-    color: $red-error;
+    color: $dark-error;
     font-weight: normal;
   }
 
@@ -53,8 +53,8 @@
   hr {
     height: 2px;
     border: none;
-    color: $alto-grey;
-    background-color: $alto-grey;
+    color: $grey-20;
+    background-color: $grey-20;
     margin: 20px 0;
   }
 
@@ -68,7 +68,7 @@
 
   &__return-button:hover {
     > .register-form-return-button__icon {
-      background-color: $alto-grey;
+      background-color: $grey-20;
     }
   }
 

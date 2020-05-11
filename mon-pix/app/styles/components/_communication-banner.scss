@@ -26,15 +26,15 @@
   }
 
   &--info {
-    background-color: darken($pix-blue, 5%);
+    background-color: darken($blue, 5%);
   }
 
   &--warning {
-    background-color: $dark-orange;
+    background-color: $information-light;
   }
 
   &--error {
-    background-color: darken($red-error, 10%);
+    background-color: darken($dark-error, 10%);
   }
 }
 

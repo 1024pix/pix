@@ -16,12 +16,12 @@
 
   a {
     text-decoration: underline;
-    color: $pix-blue;
+    color: $blue;
 
     &:active,
     &:focus,
     &:hover {
-      color: $pix-blue-hover;
+      color: $blue-hover;
     }
   }
 }
@@ -32,7 +32,7 @@
   margin-bottom: 20px;
 
   hr {
-    border-top: 1px solid $mercury-grey;
+    border-top: 1px solid $grey-15;
     border-bottom: none;
   }
 
@@ -48,13 +48,13 @@
 .challenge-statement__illustration-section {
   display: block;
   text-align: center;
-  border-top: 1px solid $alto-grey;
+  border-top: 1px solid $grey-20;
   box-sizing: content-box;
   padding: 10px 0;
 }
 
 .challenge-statement__attachments-section {
-  background-color: $mercury-grey;
+  background-color: $grey-15;
   text-align: center;
   padding: 20px;
 }
@@ -67,13 +67,13 @@
   display: inline-block;
   margin: 0 5px;
   cursor: pointer;
-  color: $pix-blue;
+  color: $blue;
   position: relative;
 }
 
 .challenge-statement__help-tooltip {
   visibility: hidden;
-  color: $silver-grey;
+  color: $grey-22;
   text-align: justify;
   border-radius: 6px;
   padding: 15px;
@@ -81,7 +81,7 @@
   height: auto;
   background-color: $white;
   box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.1);
-  border: solid 1px $alto-grey;
+  border: solid 1px $grey-20;
   position: absolute;
   z-index: 999;
   left: 50%;
@@ -98,7 +98,7 @@
   margin-left: -10px;
   width: 0;
   height: 0;
-  border-top: 10px solid $alto-grey;
+  border-top: 10px solid $grey-20;
   border-right: 10px solid transparent;
   border-left: 10px solid transparent;
 }
@@ -123,7 +123,7 @@
 
 .challenge-statement__help-text {
   font-size: 0.875rem;
-  color: $charcoal-grey;
+  color: $grey-80;
 }
 
 .challenge-statement__file-options {
@@ -163,7 +163,7 @@
   width: 156px;
   height: 46px;
   border-radius: 23px;
-  background-color: $pix-blue;
+  background-color: $blue;
   color: $white;
   cursor: pointer;
   text-align: center;

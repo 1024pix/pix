@@ -28,7 +28,7 @@
 .circle {
   fill: none;
   stroke-width: 1.1;
-  stroke: $alto-grey;
+  stroke: $grey-20;
   stroke-linecap: round;
 
   &--thick {
@@ -36,28 +36,28 @@
   }
 
   &--slice {
-    stroke: $dark-orange;
+    stroke: $information-light;
     animation: progress 1s ease-out forwards;
   }
 
   &--jaffa {
-    stroke: $jaffa;
+    stroke: $information-light;
   }
 
   &--emerald {
-    stroke: $emerald;
+    stroke: $content-light;
   }
 
   &--cerulean {
-    stroke: $cerulean;
+    stroke: $communication-light;
   }
 
   &--wild-strawberry {
-    stroke: $wild-strawberry;
+    stroke: $security-light;
   }
 
   &--butterfly-bush {
-    stroke: $butterfly-bush;
+    stroke: $environment-light;
   }
 }
 

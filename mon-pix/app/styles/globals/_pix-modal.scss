@@ -50,7 +50,7 @@ $pix-modal-border-radius: 5px;
 
     .pix-modal__container {
       border-radius: $pix-modal-border-radius;
-      background-color: $porcelain-grey;
+      background-color: $grey-10;
       box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
       font-size: 1rem;
       position: relative;
@@ -86,7 +86,7 @@ $pix-modal-border-radius: 5px;
         &__subtitle {
           margin: 0;
           text-align: center;
-          color: $nero;
+          color: $grey-100;
           font-family: $font-roboto;
           font-weight: $font-normal;
           font-size: 1rem;
@@ -120,7 +120,7 @@ $pix-modal-border-radius: 5px;
         }
 
         &--border {
-          border-top: 1px solid $alto-grey;
+          border-top: 1px solid $grey-20;
         }
       }
     }
@@ -134,8 +134,8 @@ $pix-modal-border-radius: 5px;
   padding: 15px;
   border-radius: $pix-modal-border-radius;
   background-color: $white;
-  border: 2px solid $alto-grey;
-  color: $slate-grey;
+  border: 2px solid $grey-20;
+  color: $grey-50;
   letter-spacing: 0.125rem;
   box-sizing: border-box;
   margin-bottom: 5px;
@@ -143,7 +143,7 @@ $pix-modal-border-radius: 5px;
   text-align: center;
 
   &:focus {
-    border-color: $pix-blue;
+    border-color: $blue;
   }
 
   @include device-is('tablet') {
@@ -156,7 +156,7 @@ $pix-modal-border-radius: 5px;
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .ember-modal-overlay.translucent {
-  background-color: rgba(red($charcoal-grey), green($charcoal-grey), blue($charcoal-grey), 0.95);
+  background-color: rgba(red($grey-80), green($grey-80), blue($grey-80), 0.95);
 }
 
 

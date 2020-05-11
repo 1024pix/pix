@@ -14,7 +14,7 @@
   }
 
   &__instruction {
-    color: $nero;
+    color: $grey-100;
     font-family: $font-open-sans;
     font-size: 1.219rem;
     text-align: center;
@@ -28,7 +28,7 @@
 
     & input {
       box-sizing: content-box;
-      border: solid 2px $alto-grey;
+      border: solid 2px $grey-20;
       border-radius: 3px;
       outline: none;
       height: 50px;
@@ -36,12 +36,12 @@
       text-transform: uppercase;
       width: 13.6ch;
       background: repeating-linear-gradient(90deg,
-        $silver-grey 0,
-        $silver-grey 1ch,
+        $grey-22 0,
+        $grey-22 1ch,
         transparent 0,
         transparent 1.5ch) 0 96%/98% 2px no-repeat;
       background-origin: content-box;
-      color: $tundora-grey;
+      color: $grey-70;
       font-size: 1.875rem;
       font-family: $font-roboto-mono;
       letter-spacing: .5ch;
@@ -52,8 +52,8 @@
         width: 15.6ch;
         letter-spacing: .4ch;
         background: repeating-linear-gradient(90deg,
-          $silver-grey 0,
-          $silver-grey 1.33ch,
+          $grey-22 0,
+          $grey-22 1.33ch,
           transparent 0,
           transparent 1.733ch) 0 96%/98% 2px no-repeat;
         background-origin: content-box;

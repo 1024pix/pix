@@ -11,12 +11,12 @@
   &--link {
     text-decoration: none;
     border: solid 2px white;
-    color: $nero;
+    color: $grey-100;
     outline: none;
     cursor: pointer;
 
     &:hover, &:active, &:focus {
-      border-color: $dodger-blue;
+      border-color: $light-blue;
       transition: border-color 1s ease;
       box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.05);
     }
