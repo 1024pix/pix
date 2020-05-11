@@ -39,13 +39,17 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
           Symbol('campaignParticipationId')
         );
 
+        let badge;
         const badgeId = Symbol('badgeId');
 
         const campaignParticipationResult = Symbol('campaignParticipationResult');
 
         beforeEach(() => {
           sinon.stub(badgeRepository, 'findOneByTargetProfileId');
-          const badge = { id: badgeId };
+          badge = {
+            id: badgeId,
+            badgeCriteria: Symbol('badgeCriteria')
+          };
           badgeRepository.findOneByTargetProfileId.withArgs(assessmentCompletedEvent.targetProfileId).resolves(badge);
 
           sinon.stub(badgeAcquisitionRepository, 'create');
@@ -60,7 +64,9 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
 
         it('should create a badge when badge requirements are fulfilled', async () => {
           // given
-          badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).returns(true);
+          badgeCriteriaService.areBadgeCriteriaFulfilled
+            .withArgs({ campaignParticipationResult, badgeCriteria: badge.badgeCriteria })
+            .returns(true);
 
           // when
           await events.handleBadgeAcquisition({ assessmentCompletedEvent, ...dependencies, domainTransaction });
@@ -71,7 +77,9 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
 
         it('should not create a badge when badge requirements are not fulfilled', async () => {
           // given
-          badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).returns(false);
+          badgeCriteriaService.areBadgeCriteriaFulfilled
+            .withArgs({ campaignParticipationResult, badgeCriteria: badge.badgeCriteria })
+            .returns(false);
           // when
           await events.handleBadgeAcquisition({ assessmentCompletedEvent, ...dependencies });
 

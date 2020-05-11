@@ -1,20 +1,41 @@
 const _ = require('lodash');
 
-const CAMPAIGN_PARTICIPATION_RESULT_THRESHOLD = 85;
-const BADGE_PARTNER_COMPETENCE_RESULT_THRESHOLD = 75;
+const CAMPAIGN_PARTICIPATION_RESULT_MASTERY_PERCENTAGE = 'La campagne est maîtrisée à X %';
+const EVERY_COMPETENCE_RESULT_MASTERY_PERCENTAGE = 'Chaque compétence de la campagne est maîtrisée à X %';
 
-function areBadgeCriteriaFulfilled({ campaignParticipationResult }) {
-  return _verifyCampaignParticipationResultMasteryPercentageCriterion(campaignParticipationResult)
-    && _verifyEveryCompetenceResultMasteryPercentageCriterion(campaignParticipationResult.partnerCompetenceResults);
+function areBadgeCriteriaFulfilled({ campaignParticipationResult, badgeCriteria }) {
+  return _.every(badgeCriteria, (badgeCriterion) => {
+    let isBadgeCriterionFulfilled;
+
+    switch (badgeCriterion.scope) {
+      case CAMPAIGN_PARTICIPATION_RESULT_MASTERY_PERCENTAGE :
+        isBadgeCriterionFulfilled = _verifyCampaignParticipationResultMasteryPercentageCriterion(
+          campaignParticipationResult,
+          badgeCriterion.threshold
+        );
+        break;
+      case EVERY_COMPETENCE_RESULT_MASTERY_PERCENTAGE :
+        isBadgeCriterionFulfilled = _verifyEveryCompetenceResultMasteryPercentageCriterion(
+          campaignParticipationResult.partnerCompetenceResults,
+          badgeCriterion.threshold
+        );
+        break;
+      default:
+        isBadgeCriterionFulfilled = false;
+        break;
+    }
+
+    return isBadgeCriterionFulfilled;
+  });
 }
 
-function _verifyCampaignParticipationResultMasteryPercentageCriterion(campaignParticipationResult) {
-  return campaignParticipationResult.masteryPercentage >= CAMPAIGN_PARTICIPATION_RESULT_THRESHOLD;
+function _verifyCampaignParticipationResultMasteryPercentageCriterion(campaignParticipationResult, threshold) {
+  return campaignParticipationResult.masteryPercentage >= threshold;
 }
 
-function _verifyEveryCompetenceResultMasteryPercentageCriterion(partnerCompetenceResults) {
+function _verifyEveryCompetenceResultMasteryPercentageCriterion(partnerCompetenceResults, threshold) {
   return _.every(partnerCompetenceResults, (partnerCompetenceResult) =>
-    partnerCompetenceResult.masteryPercentage >= BADGE_PARTNER_COMPETENCE_RESULT_THRESHOLD);
+    partnerCompetenceResult.masteryPercentage >= threshold);
 }
 
 module.exports = {
