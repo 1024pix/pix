@@ -674,7 +674,7 @@ describe('Unit | Controller | sessionController', () => {
         },
       };
       sinon.stub(usecases, 'assignCertificationOfficerToSession').withArgs({ sessionId, certificationOfficerId: userId }).resolves(session);
-      sinon.stub(sessionSerializer, 'serialize').withArgs(session).returns(sessionJsonApi);
+      sinon.stub(jurySessionSerializer, 'serialize').withArgs(session).returns(sessionJsonApi);
     });
 
     it('should return updated session', async () => {
