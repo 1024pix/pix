@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('@hapi/hapi');
-const securityController = require('../../../../lib/application/security-controller');
+const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const userTutorialsController = require('../../../../lib/application/user-tutorials/user-tutorials-controller');
 
 let server;
@@ -15,7 +15,7 @@ describe('Unit | Router | user-tutorials-router', () => {
   describe('PUT /api/users/tutorials/{tutorialId}', () => {
 
     beforeEach(() => {
-      sinon.stub(securityController, 'checkUserIsAuthenticated').
+      sinon.stub(securityPreHandlers, 'checkUserIsAuthenticated').
         callsFake((request, h) => {
           h.continue({ credentials: { accessToken: 'jwt.access.token' } });
         });
@@ -43,7 +43,7 @@ describe('Unit | Router | user-tutorials-router', () => {
   describe('GET /api/users/tutorials', () => {
 
     beforeEach(() => {
-      sinon.stub(securityController, 'checkUserIsAuthenticated').
+      sinon.stub(securityPreHandlers, 'checkUserIsAuthenticated').
         callsFake((request, h) => {
           h.continue({ credentials: { accessToken: 'jwt.access.token' } });
         });
@@ -71,7 +71,7 @@ describe('Unit | Router | user-tutorials-router', () => {
   describe('DELETE /api/users/tutorials/{tutorialId}', () => {
 
     beforeEach(() => {
-      sinon.stub(securityController, 'checkUserIsAuthenticated').
+      sinon.stub(securityPreHandlers, 'checkUserIsAuthenticated').
         callsFake((request, h) => {
           h.continue({ credentials: { accessToken: 'jwt.access.token' } });
         });

@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('@hapi/hapi');
-const securityController = require('../../../../lib/application/security-controller');
+const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const scorecardController = require('../../../../lib/application/scorecards/scorecard-controller');
 
 let server;
@@ -15,7 +15,7 @@ describe('Unit | Router | scorecard-router', () => {
   describe('GET /api/scorecards/{id}', () => {
 
     beforeEach(() => {
-      sinon.stub(securityController, 'checkUserIsAuthenticated').callsFake((request, h) => {
+      sinon.stub(securityPreHandlers, 'checkUserIsAuthenticated').callsFake((request, h) => {
         h.continue({ credentials: { accessToken: 'jwt.access.token' } });
       });
       sinon.stub(scorecardController, 'getScorecard').returns('ok');
@@ -42,7 +42,7 @@ describe('Unit | Router | scorecard-router', () => {
   describe('GET /api/scorecards/{id}/tutorials', () => {
 
     beforeEach(() => {
-      sinon.stub(securityController, 'checkUserIsAuthenticated').callsFake((request, h) => {
+      sinon.stub(securityPreHandlers, 'checkUserIsAuthenticated').callsFake((request, h) => {
         h.continue({ credentials: { accessToken: 'jwt.access.token' } });
       });
       sinon.stub(scorecardController, 'findTutorials').returns('ok');

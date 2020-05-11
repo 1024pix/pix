@@ -1,4 +1,4 @@
-const securityController = require('../security-controller');
+const securityPreHandlers = require('../security-pre-handlers');
 const userController = require('./user-controller');
 const Joi = require('@hapi/joi');
 const JSONAPIError = require('jsonapi-serializer').Error;
@@ -22,7 +22,7 @@ exports.register = async function(server) {
       path: '/api/users',
       config: {
         pre: [{
-          method: securityController.checkUserHasRolePixMaster,
+          method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
         handler: userController.findPaginatedFilteredUsers,
@@ -66,7 +66,7 @@ exports.register = async function(server) {
         },
         handler: userController.getUserDetailForAdmin,
         pre: [{
-          method: securityController.checkUserHasRolePixMaster,
+          method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
         notes: [
@@ -81,7 +81,7 @@ exports.register = async function(server) {
       path: '/api/users/{id}/memberships',
       config: {
         pre: [{
-          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser'
         }],
         handler: userController.getMemberships,
@@ -98,7 +98,7 @@ exports.register = async function(server) {
       path: '/api/users/{id}/certification-center-memberships',
       config: {
         pre: [{
-          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser'
         }],
         handler: userController.getCertificationCenterMemberships,
@@ -115,7 +115,7 @@ exports.register = async function(server) {
       path: '/api/users/{id}/campaign-participations',
       config: {
         pre: [{
-          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser'
         }],
         handler: userController.getCampaignParticipations,
@@ -134,7 +134,7 @@ exports.register = async function(server) {
       path: '/api/users/{id}/user-orga-settings',
       config: {
         pre: [{
-          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser'
         }],
         handler: userController.getUserOrgaSettings,
@@ -180,7 +180,7 @@ exports.register = async function(server) {
       path: '/api/users/{id}/pix-terms-of-service-acceptance',
       config: {
         pre: [{
-          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser'
         }],
         handler: userController.accepPixLastTermsOfService,
@@ -198,7 +198,7 @@ exports.register = async function(server) {
       path: '/api/users/{id}/pix-orga-terms-of-service-acceptance',
       config: {
         pre: [{
-          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser'
         }],
         handler: userController.acceptPixOrgaTermsOfService,
@@ -216,7 +216,7 @@ exports.register = async function(server) {
       path: '/api/users/{id}/pix-certif-terms-of-service-acceptance',
       config: {
         pre: [{
-          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser'
         }],
         handler: userController.acceptPixCertifTermsOfService,
@@ -234,7 +234,7 @@ exports.register = async function(server) {
       path: '/api/users/{id}/remember-user-has-seen-assessment-instructions',
       config: {
         pre: [{
-          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser'
         }],
         handler: userController.rememberUserHasSeenAssessmentInstructions,
@@ -252,7 +252,7 @@ exports.register = async function(server) {
       path: '/api/users/{id}/certification-profile',
       config: {
         pre: [{
-          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser'
         }],
         handler: userController.getCertificationProfile,
@@ -269,7 +269,7 @@ exports.register = async function(server) {
       path: '/api/users/{id}/pixscore',
       config: {
         pre: [{
-          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser'
         }],
         handler: userController.getPixScore,
@@ -286,7 +286,7 @@ exports.register = async function(server) {
       path: '/api/users/{id}/scorecards',
       config: {
         pre: [{
-          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser'
         }],
         handler: userController.getScorecards,
@@ -303,7 +303,7 @@ exports.register = async function(server) {
       path: '/api/users/{userId}/competences/{competenceId}/reset',
       config: {
         pre: [{
-          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser'
         }],
         handler: userController.resetScorecard,
@@ -327,7 +327,7 @@ exports.register = async function(server) {
           }),
         },
         pre: [{
-          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser'
         }],
         handler: userController.getUserCampaignParticipationToCampaign,

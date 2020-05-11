@@ -2,7 +2,7 @@ const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('@hapi/hapi');
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
 const assessmentAuthorization = require('../../../../lib/application/preHandlers/assessment-authorization');
-const securityController = require('../../../../lib/application/security-controller');
+const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 
 describe('Integration | Route | AssessmentRoute', () => {
 
@@ -25,7 +25,7 @@ describe('Integration | Route | AssessmentRoute', () => {
     sinon.stub(assessmentController, 'findByFilters');
     sinon.stub(assessmentController, 'get');
     sinon.stub(assessmentAuthorization, 'verify');
-    sinon.stub(securityController, 'checkUserHasRolePixMaster');
+    sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
 
     // instance server
     server = this.server = Hapi.server();

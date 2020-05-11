@@ -1,6 +1,6 @@
 const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 
-const securityController = require('../../../../lib/application/security-controller');
+const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
 const usecases = require ('../../../../lib/domain/usecases');
 
@@ -13,9 +13,9 @@ describe('Unit | Router | organization-router', () => {
   beforeEach(() => {
     sinon.stub(usecases, 'findPendingOrganizationInvitations').resolves([]);
 
-    sinon.stub(securityController, 'checkUserIsAdminInOrganization').returns(true);
-    sinon.stub(securityController, 'checkUserIsAdminInOrganizationOrHasRolePixMaster').returns(true);
-    sinon.stub(securityController, 'checkUserHasRolePixMaster').returns(true);
+    sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').returns(true);
+    sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganizationOrHasRolePixMaster').returns(true);
+    sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').returns(true);
 
     sinon.stub(organizationController, 'findPaginatedFilteredOrganizations').returns('ok');
     sinon.stub(organizationController, 'sendInvitations').callsFake((request, h) => h.response().created());
