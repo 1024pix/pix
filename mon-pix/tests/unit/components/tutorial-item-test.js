@@ -301,4 +301,42 @@ describe('Unit | Component | tutorial item', function() {
       expect(tutorialEvaluation.tutorial).to.equal(tutorial);
     });
   });
+
+  describe('#isEvaluateButtonDisabled', function() {
+
+    it('should return false when the tutorial has not already been evaluated', function() {
+      // given
+      component.evaluationStatus = 'unsaved';
+
+      // when
+      const result = component.isEvaluateButtonDisabled;
+
+      // then
+      expect(result).to.equal(false);
+    });
+
+    it('should return true when the tutorial has already been evaluated', function() {
+      // given
+      component.evaluationStatus = 'saved';
+
+      // when
+      const result = component.isEvaluateButtonDisabled;
+
+      // then
+      expect(result).to.equal(true);
+    });
+
+    it('should return true when the evaluate operation is in progress', function() {
+      // given
+      component.evaluationStatus = 'saving';
+
+      // when
+      const result = component.isEvaluateButtonDisabled;
+
+      // then
+      expect(result).to.equal(true);
+    });
+
+  });
+
 });
