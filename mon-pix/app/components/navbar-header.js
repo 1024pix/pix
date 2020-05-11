@@ -1,9 +1,10 @@
-import { classNames } from '@ember-decorators/component';
-import Component from '@ember/component';
-import classic from 'ember-classic-decorator';
+import { inject as service } from '@ember/service';
+import Component from '@glimmer/component';
 
-@classic
-@classNames('navbar-header')
 export default class NavbarHeader extends Component {
-  burger = null;
+  @service url;
+
+  get isFrenchDomainExtension() {
+    return this.url.isFrenchDomainExtension;
+  }
 }

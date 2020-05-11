@@ -14,7 +14,7 @@ describe('Integration | Component | navbar-desktop-header', function() {
     beforeEach(async function() {
       this.owner.register('service:session', Service.extend({ isAuthenticated: false }));
       setBreakpoint('desktop');
-      await render(hbs`{{navbar-desktop-header media=media}}`);
+      await render(hbs`<NavbarDesktopHeader/>`);
     });
 
     it('should be rendered', function() {
@@ -58,7 +58,7 @@ describe('Integration | Component | navbar-desktop-header', function() {
         }
       }));
       setBreakpoint('desktop');
-      await render(hbs`{{navbar-desktop-header media=media}}`);
+      await render(hbs`<NavbarDesktopHeader/>}`);
     });
 
     it('should be rendered', function() {
@@ -94,6 +94,28 @@ describe('Integration | Component | navbar-desktop-header', function() {
       expect(findAll('.navbar-desktop-header-menu__item')[1].textContent.trim()).to.equal('Certification');
       expect(findAll('.navbar-desktop-header-menu__item')[2].textContent.trim()).to.equal('Aide');
     });
+  });
+
+  it('should not display marianne logo when url does not have frenchDomainExtension', async function() {
+    // given
+    this.set('isFrenchDomainUrl', false);
+
+    // when
+    await render(hbs`<NavbarDesktopHeader @shouldShowTheMarianneLogo={{this.isFrenchDomainUrl}} />`);
+
+    // then
+    expect(find('.navbar-desktop-header-logo__marianne')).to.not.exist;
+  });
+
+  it('should display marianne logo when url does have frenchDomainExtension', async function() {
+    // given
+    this.set('isFrenchDomainUrl', true);
+
+    // when
+    await render(hbs`<NavbarDesktopHeader @shouldShowTheMarianneLogo={{this.isFrenchDomainUrl}} />`);
+
+    // then
+    expect(find('.navbar-desktop-header-logo__marianne')).to.exist;
   });
 
 });
