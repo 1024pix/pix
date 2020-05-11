@@ -45,6 +45,18 @@ function _findByCampaignIdForSharedCampaignParticipationWhere(campaignParticipat
     .then(_toDomain);
 }
 
+function _getByUserIdAndLimitDateQuery({ userId, limitDate }) {
+  return Bookshelf.knex
+    .select('*', Bookshelf.knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS rank', ['skillId', 'createdAt']))
+    .from('knowledge-elements')
+    .where((qb) => {
+      qb.where({ userId });
+      if (limitDate) {
+        qb.where('createdAt', '<', limitDate);
+      }
+    });
+}
+
 module.exports = {
 
   save(knowledgeElement) {
@@ -56,17 +68,9 @@ module.exports = {
   },
 
   async findUniqByUserId({ userId, limitDate }) {
-    const keRows = await Bookshelf.knex
-      .select('*', Bookshelf.knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS rank', ['skillId', 'createdAt']))
-      .from('knowledge-elements')
-      .where((qb) => {
-        qb.where({ userId });
-        if (limitDate) {
-          qb.where('createdAt', '<', limitDate);
-        }
-      });
+    const keRows = await _getByUserIdAndLimitDateQuery({ userId, limitDate });
 
-    const knowledgeElements = _.map(keRows, (keRow) => new KnowledgeElement({ ...keRow }));
+    const knowledgeElements = _.map(keRows, (keRow) => new KnowledgeElement(keRow));
     return _applyFilters(knowledgeElements);
   },
 
