@@ -73,15 +73,12 @@ module.exports = {
     return _applyFilters(knowledgeElements);
   },
 
-  findUniqByUserIdAndAssessmentId({ userId, assessmentId }) {
-    return BookshelfKnowledgeElement
-      .query((qb) => {
-        qb.where({ userId, assessmentId });
-      })
-      .fetchAll()
-      .then(_toDomain)
-      .then(_getUniqMostRecents)
-      .then(_dropResetKnowledgeElements);
+  async findUniqByUserIdAndAssessmentId({ userId, assessmentId }) {
+    const query = _getByUserIdAndLimitDateQuery({ userId });
+    const keRows = await query.where({ assessmentId });
+
+    const knowledgeElements = _.map(keRows, (keRow) => new KnowledgeElement(keRow));
+    return _applyFilters(knowledgeElements);
   },
 
   findUniqByUserIdAndCompetenceId({ userId, competenceId }) {
