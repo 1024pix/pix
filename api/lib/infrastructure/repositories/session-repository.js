@@ -4,7 +4,6 @@ const BookshelfSession = require('../data/session');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const Bookshelf = require('../bookshelf');
 const { NotFoundError } = require('../../domain/errors');
-const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
 
 module.exports = {
 
@@ -130,19 +129,5 @@ module.exports = {
     publishedSession = await publishedSession.refresh();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, publishedSession);
   },
-
-  async assignCertificationOfficer({ id, assignedCertificationOfficerId }) {
-    try {
-      let updatedSession = await new BookshelfSession({ id })
-        .save({ assignedCertificationOfficerId }, { method: 'update' });
-      updatedSession = await updatedSession.refresh();
-      return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, updatedSession);
-    } catch (bookshelfError) {
-      if (bookshelfError.code === PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR) {
-        throw new NotFoundError(`L'utilisateur d'id ${assignedCertificationOfficerId} n'existe pas`);
-      }
-      throw new NotFoundError(`La session d'id ${id} n'existe pas.`);
-    }
-  }
 
 };

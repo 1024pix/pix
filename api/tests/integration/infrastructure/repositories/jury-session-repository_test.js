@@ -8,6 +8,41 @@ const jurySessionRepository = require('../../../../lib/infrastructure/repositori
 
 describe('Integration | Repository | JurySession', function() {
 
+  describe('#get', () => {
+
+    context('when id of session exists', () => {
+      let sessionId;
+
+      beforeEach(() => {
+        const assignedCertificationOfficerId = databaseBuilder.factory.buildUser({ firstName: 'Pix', lastName: 'Doe' }).id;
+        sessionId = databaseBuilder.factory.buildSession({ assignedCertificationOfficerId }).id;
+
+        return databaseBuilder.commit();
+      });
+
+      it('should return the session', async () => {
+        // when
+        const expectedJurySession = await jurySessionRepository.get(sessionId);
+
+        // then
+        expect(expectedJurySession).to.be.an.instanceOf(JurySession);
+        expect(expectedJurySession.assignedCertificationOfficer).be.an.instanceOf(CertificationOfficer);
+      });
+
+    });
+
+    context('when id of session does not exist', () => {
+
+      it('should throw a NotFoundError', async () => {
+        // when
+        const error = await catchErr(jurySessionRepository.get)(12345);
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
+      });
+    });
+  });
+
   describe('#findPaginatedFiltered', () => {
 
     context('when there are Sessions in the database', () => {
@@ -364,34 +399,50 @@ describe('Integration | Repository | JurySession', function() {
     });
   });
 
-  describe('#get', () => {
+  describe('#assignCertificationOfficer', () => {
+    let sessionId;
+    let assignedCertificationOfficerId;
 
-    context('when id of session exists', () => {
-      let sessionId;
+    beforeEach(() => {
+      sessionId = databaseBuilder.factory.buildSession({ assignedCertificationOfficerId: null }).id;
+      assignedCertificationOfficerId = databaseBuilder.factory.buildUser().id;
 
-      beforeEach(() => {
-        const assignedCertificationOfficerId = databaseBuilder.factory.buildUser({ firstName: 'Pix', lastName: 'Doe' }).id;
-        sessionId = databaseBuilder.factory.buildSession({ assignedCertificationOfficerId }).id;
-
-        return databaseBuilder.commit();
-      });
-
-      it('should return the session', async () => {
-        // when
-        const expectedJurySession = await jurySessionRepository.get(sessionId);
-
-        // then
-        expect(expectedJurySession).to.be.an.instanceOf(JurySession);
-        expect(expectedJurySession.assignedCertificationOfficer).be.an.instanceOf(CertificationOfficer);
-      });
-
+      return databaseBuilder.commit();
     });
 
-    context('when id of session does not exist', () => {
+    it('should return an updated Session domain object', async () => {
+      // when
+      const updatedSession = await jurySessionRepository.assignCertificationOfficer({ id: sessionId, assignedCertificationOfficerId });
 
-      it('should throw a NotFoundError', async () => {
+      // then
+      expect(updatedSession).to.be.an.instanceof(JurySession);
+      expect(updatedSession.id).to.deep.equal(sessionId);
+      expect(updatedSession.assignedCertificationOfficer.id).to.deep.equal(assignedCertificationOfficerId);
+      expect(updatedSession.status).to.deep.equal(statuses.IN_PROCESS);
+    });
+
+    context('when assignedCertificationOfficerId provided does not exist', () => {
+
+      it('should return a Not found error', async () => {
+        // given
+        const unknownUserId = assignedCertificationOfficerId + 1;
+
         // when
-        const error = await catchErr(jurySessionRepository.get)(12345);
+        const error = await catchErr(jurySessionRepository.assignCertificationOfficer)({ id: sessionId, assignedCertificationOfficerId: unknownUserId });
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
+      });
+    });
+
+    context('when sessionId does not exist', () => {
+
+      it('should return a Not found error', async () => {
+        // given
+        const unknownSessionId = sessionId + 1;
+
+        // when
+        const error = await catchErr(jurySessionRepository.assignCertificationOfficer)({ id: unknownSessionId, assignedCertificationOfficerId });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
