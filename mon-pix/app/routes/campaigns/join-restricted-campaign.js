@@ -18,7 +18,7 @@ export default class JoinRestrictedCampaignRoute extends Route.extend(SecuredRou
     const student = await this.store.queryRecord('student-user-association', { userId: this.currentUser.user.id, campaignCode });
 
     if (!isEmpty(student)) {
-      return this.replaceWith('campaigns.start-or-resume', campaignCode, {
+      this.replaceWith('campaigns.start-or-resume', campaignCode, {
         queryParams: { associationDone: true }
       });
     }
