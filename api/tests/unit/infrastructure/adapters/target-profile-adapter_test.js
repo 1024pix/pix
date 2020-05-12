@@ -3,6 +3,7 @@ const BookshelfTargetProfile = require('../../../../lib/infrastructure/data/targ
 const BookshelfTargetProfileShare = require('../../../../lib/infrastructure/data/target-profile-share');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const targetProfileAdapter = require('../../../../lib/infrastructure/adapters/target-profile-adapter');
+const { DEFAULT_TUTORIAL_ID }  = require('../../../tooling/fixtures/infrastructure/skillRawAirTableFixture');
 
 describe('Unit | Infrastructure | Adapter | targetSkillAdapter', () => {
 
@@ -18,7 +19,7 @@ describe('Unit | Infrastructure | Adapter | targetSkillAdapter', () => {
       name: skillAirtableDataObject.name,
       pixValue: skillAirtableDataObject.pixValue,
       competenceId: skillAirtableDataObject.competenceId,
-      tutorialIds: ['receomyzL0AmpMFGw'],
+      tutorialIds: [DEFAULT_TUTORIAL_ID],
       tubeId: skillAirtableDataObject.tubeId,
     });
     const expectedTargetProfile = domainBuilder.buildTargetProfile({

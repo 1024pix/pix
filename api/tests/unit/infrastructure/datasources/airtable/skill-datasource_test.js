@@ -4,7 +4,7 @@ const { expect, sinon } = require('../../../../test-helper');
 const airtable = require('../../../../../lib/infrastructure/airtable');
 const skillDatasource = require('../../../../../lib/infrastructure/datasources/airtable/skill-datasource');
 const skillAirtableDataObjectFixture = require('../../../../tooling/fixtures/infrastructure/skillAirtableDataObjectFixture');
-const skillRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/skillRawAirTableFixture');
+const { skillRawAirTableFixture } = require('../../../../tooling/fixtures/infrastructure/skillRawAirTableFixture');
 const makeAirtableFake = require('../../../../tooling/airtable-builder/make-airtable-fake');
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 
@@ -30,46 +30,41 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
 
   describe('#findByRecordIds', () => {
 
-    it('should return an array of airtable skill data objects -- PARTS II -- ', function() {
+    it('should return an array of airtable skill data objects -- PARTS II -- ', async function() {
       // given
-      const rawSkill1 = skillRawAirTableFixture({ id: 'FAKE_REC_ID_RAW_SKILL_1' });
-      const rawSkill2 = skillRawAirTableFixture({ id: 'FAKE_REC_ID_RAW_SKILL_2' });
-      const rawSkill3 = skillRawAirTableFixture({ id: 'FAKE_REC_ID_RAW_SKILL_3' });
-      const rawSkill4 = skillRawAirTableFixture({ id: 'FAKE_REC_ID_RAW_SKILL_4' });
-      rawSkill4.fields['Status'] = 'périmé';
+      const rawSkill1 = skillRawAirTableFixture({ id: 'FAKE_REC_ID_RAW_SKILL_1' }).withActiveStatus();
+      const rawSkill2 = skillRawAirTableFixture({ id: 'FAKE_REC_ID_RAW_SKILL_2' }).withActiveStatus();
+      const rawSkill3 = skillRawAirTableFixture({ id: 'FAKE_REC_ID_RAW_SKILL_3' }).withActiveStatus();
+      const rawSkill4 = skillRawAirTableFixture({ id: 'FAKE_REC_ID_RAW_SKILL_4' }).withInactiveStatus();
 
       const records = [rawSkill1, rawSkill2, rawSkill3, rawSkill4];
       sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake(records));
 
       // when
-      const promise = skillDatasource.findByRecordIds([rawSkill1.id, rawSkill2.id, rawSkill4.id]);
+      const foundSkills = await skillDatasource.findByRecordIds([rawSkill1.id, rawSkill2.id, rawSkill4.id]);
 
       // then
-      return promise.then((foundSkills) => {
-        expect(foundSkills).to.be.an('array');
-        expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.id, rawSkill2.id]);
-        expect(airtable.findRecords).to.have.been.calledWith('Acquis');
-
-      });
+      expect(foundSkills).to.be.an('array');
+      expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.id, rawSkill2.id]);
+      expect(airtable.findRecords).to.have.been.calledWith('Acquis');
     });
   });
 
   describe('#findActiveSkills', () => {
 
-    it('should query Airtable skills with empty query', () => {
+    it('should query Airtable skills with empty query', async () => {
       // given
       sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake([]));
 
       // when
-      const promise = skillDatasource.findActiveSkills();
+      await skillDatasource.findActiveSkills();
 
       // then
-      return promise.then(() => {
-        expect(airtable.findRecords).to.have.been.calledWith('Acquis', skillDatasource.usedFields);
-      });
+      expect(airtable.findRecords).to.have.been.calledWith('Acquis', skillDatasource.usedFields);
+
     });
 
-    it('should resolve an array of Skills from airTable', () => {
+    it('should resolve an array of Skills from airTable', async () => {
       // given
       const
         rawSkill1 = skillRawAirTableFixture(),
@@ -77,30 +72,27 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake([rawSkill1, rawSkill2]));
 
       // when
-      const promise = skillDatasource.findActiveSkills();
+      const foundSkills = await skillDatasource.findActiveSkills();
 
       // then
-      return promise.then((foundSkills) => {
-        expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.id, rawSkill2.id]);
-      });
+      expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.id, rawSkill2.id]);
+
     });
 
-    it('should resolve an array of Skills with only activated Skillfrom airTable', () => {
+    it('should resolve an array of Skills with only activated Skillfrom airTable', async () => {
       // given
       const
-        rawSkill1 = skillRawAirTableFixture(),
-        rawSkill2 = skillRawAirTableFixture(),
-        rawSkill3 = skillRawAirTableFixture();
-      rawSkill3.fields['Status'] = 'périmé';
+        rawSkill1 = skillRawAirTableFixture().withActiveStatus(),
+        rawSkill2 = skillRawAirTableFixture().withActiveStatus(),
+        rawSkill3 = skillRawAirTableFixture().withInactiveStatus();
       sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake([rawSkill1, rawSkill2, rawSkill3]));
 
       // when
-      const promise = skillDatasource.findActiveSkills();
+      const foundSkills = await skillDatasource.findActiveSkills();
 
       // then
-      return promise.then((foundSkills) => {
-        expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.id, rawSkill2.id]);
-      });
+      expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.id, rawSkill2.id]);
+
     });
   });
 
@@ -144,14 +136,12 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
         .callsFake(makeAirtableFake([acquix1, acquix2, acquix3, acquix4]));
     });
 
-    it('should retrieve all skills from Airtable for one competence', function() {
+    it('should retrieve all skills from Airtable for one competence', async function() {
       // when
-      const promise = skillDatasource.findByCompetenceId('recCompetence');
+      const skills = await skillDatasource.findByCompetenceId('recCompetence');
 
       // then
-      return promise.then((skills) => {
-        expect(_.map(skills, 'id')).to.have.members(['recAcquix1', 'recAcquix2']);
-      });
+      expect(_.map(skills, 'id')).to.have.members(['recAcquix1', 'recAcquix2']);
     });
   });
 

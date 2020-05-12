@@ -4,6 +4,7 @@ const AirtableResourceNotFound = require(
   '../../../../lib/infrastructure/datasources/airtable/AirtableResourceNotFound');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
+const { DEFAULT_ID, DEFAULT_TUTORIAL_ID }  = require('../../../tooling/fixtures/infrastructure/skillRawAirTableFixture');
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const Skill = require('../../../../lib/domain/models/Skill');
 const Solution = require('../../../../lib/domain/models/Solution');
@@ -123,19 +124,19 @@ describe('Unit | Repository | challenge-repository', () => {
           return promise.then((challenge) => {
             expect(challenge.skills).to.have.lengthOf(2);
             expect(challenge.skills[0]).to.deep.equal(new Skill({
-              id: 'recTIddrkopID28Ep',
+              id: DEFAULT_ID,
               name: '@web1',
               pixValue: 2.4,
               competenceId: 'rec1',
-              tutorialIds: ['receomyzL0AmpMFGw'],
+              tutorialIds: [DEFAULT_TUTORIAL_ID],
               tubeId: 'recTube1',
             }));
             expect(challenge.skills[1]).to.deep.equal(new Skill({
-              id: 'recTIddrkopID28Ep',
+              id: DEFAULT_ID,
               name: '@url2',
               pixValue: 2.4,
               competenceId: 'rec1',
-              tutorialIds: ['receomyzL0AmpMFGw'],
+              tutorialIds: [DEFAULT_TUTORIAL_ID],
               tubeId: 'recTube2',
             }));
           });
@@ -284,7 +285,7 @@ describe('Unit | Repository | challenge-repository', () => {
                 'name': '@web1',
                 'pixValue': 2,
                 'competenceId': 'rec1',
-                'tutorialIds': ['receomyzL0AmpMFGw'],
+                'tutorialIds': [DEFAULT_TUTORIAL_ID],
                 'tubeId': 'recTube1',
               }
             ]);
@@ -294,7 +295,7 @@ describe('Unit | Repository | challenge-repository', () => {
                 'name': '@url2',
                 'pixValue': 3,
                 'competenceId': 'rec1',
-                'tutorialIds': ['receomyzL0AmpMFGw'],
+                'tutorialIds': [DEFAULT_TUTORIAL_ID],
                 'tubeId': 'recTube2',
               },
               {
@@ -302,7 +303,7 @@ describe('Unit | Repository | challenge-repository', () => {
                 'name': '@url3',
                 'pixValue': 3,
                 'competenceId': 'rec1',
-                'tutorialIds': ['receomyzL0AmpMFGw'],
+                'tutorialIds': [DEFAULT_TUTORIAL_ID],
                 'tubeId': 'recTube3',
               }
             ]);

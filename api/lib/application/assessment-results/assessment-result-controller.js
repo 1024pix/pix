@@ -33,6 +33,7 @@ module.exports = {
 
     const { assessmentResult, competenceMarks } = _deserializeResultsAdd(jsonResult);
     assessmentResult.juryId = request.auth.credentials.userId;
+    // FIXME (re)calculate partner certification acquisitions
     return assessmentResultService.save(assessmentResult, competenceMarks)
       .then(() => null);
   },

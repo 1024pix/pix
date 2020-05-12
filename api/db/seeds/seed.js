@@ -9,7 +9,7 @@ const buildPixAileProfile = require('./data/pix-aile-profile-builder');
 const campaignParticipationsBuilder = require('./data/campaign-participations-builder');
 const campaignsBuilder = require('./data/campaigns-builder');
 const { certificationCandidatesBuilder } = require('./data/certification/certification-candidates-builder');
-const { userBadgeBuilder } = require('./data/certification/user-badge-builder');
+const { badgeAcquisitionBuilder } = require('./data/certification/badge-acquisition-builder');
 const { certificationCentersBuilder } = require('./data/certification/certification-centers-builder');
 const { certificationCoursesBuilder } = require('./data/certification/certification-courses-builder');
 const certificationScoresBuilder = require('./data/certification/certification-scores-builder');
@@ -55,7 +55,7 @@ exports.seed = (knex) => {
   certificationCandidatesBuilder({ databaseBuilder });
   certificationCoursesBuilder({ databaseBuilder });
   certificationScoresBuilder({ databaseBuilder });
-  userBadgeBuilder({ databaseBuilder });
+  badgeAcquisitionBuilder({ databaseBuilder });
 
   // Éléments de parcours
   campaignsBuilder({ databaseBuilder });
