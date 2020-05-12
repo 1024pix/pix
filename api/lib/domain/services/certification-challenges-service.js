@@ -1,4 +1,3 @@
-
 const _ = require('lodash');
 const CertificationChallenge = require('../models/CertificationChallenge');
 
@@ -10,8 +9,8 @@ module.exports = {
         return new CertificationChallenge({
           challengeId: challenge.id,
           competenceId: challenge.competenceId,
-          associatedSkillName: challenge.testedSkill,
-          associatedSkillId: undefined, // TODO: Add skillId
+          associatedSkillName: challenge.testedSkill.name,
+          associatedSkillId: challenge.testedSkill.id,
           courseId: certificationCourseId,
         });
       });
