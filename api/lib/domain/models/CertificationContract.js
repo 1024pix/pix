@@ -21,8 +21,8 @@ class CertificationContract {
     }
   }
 
-  static assertThatScoreIsCoherentWithReproductibilityRate(scoreAfterRating, reproductibilityRate) {
-    if (scoreAfterRating < 1 && reproductibilityRate > 50) {
+  static assertThatScoreIsCoherentWithReproducibilityRate(scoreAfterRating, reproducibilityRate) {
+    if (scoreAfterRating < 1 && reproducibilityRate > 50) {
       throw new CertificationComputeError('Rejeté avec un taux de reproductibilité supérieur à 50');
     }
   }

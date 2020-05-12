@@ -1,6 +1,10 @@
 const { expect } = require('../../../test-helper');
 const CertificationPartnerAcquisition = require('../../../../lib/domain/models/CertificationPartnerAcquisition');
 
+const GREEN_ZONE_REPRO = [80, 90, 100];
+const RED_ZONE_REPRO = [1, 50];
+const GREY_ZONE_REPRO = [75];
+
 describe('Unit | Domain | Models | CertificationPartnerAcquisition', () => {
   let certificationPartnerAcquisition;
   describe('#hasAcquiredCertification', () => {
@@ -13,15 +17,13 @@ describe('Unit | Domain | Models | CertificationPartnerAcquisition', () => {
         );
       });
 
-      [1, 50, 80, 90, 100].forEach((reproducabilityRate) =>
-        it(`for ${reproducabilityRate} reproducability rate, it should not obtain certification`, async () => {
-          // when
-          const hasAcquiredCertif = certificationPartnerAcquisition.hasAcquiredCertification({ percentageCorrectAnswers: reproducabilityRate, hasAcquiredBadge: false });
+      it('for any reproducibility rate, it should not obtain certification', async () => {
+        // when
+        const hasAcquiredCertif = certificationPartnerAcquisition.hasAcquiredCertification({ hasAcquiredBadge: false });
 
-          // then
-          expect(hasAcquiredCertif).to.be.false;
-        })
-      );
+        // then
+        expect(hasAcquiredCertif).to.be.false;
+      });
     });
 
     context('when user has badge', () => {
@@ -32,27 +34,89 @@ describe('Unit | Domain | Models | CertificationPartnerAcquisition', () => {
         });
       });
 
-      [80, 90, 100].forEach((reproducabilityRate) =>
-        it(`for ${reproducabilityRate} reproducability rate, it should obtain certification`, async () => {
+      context('reproducibility rate in green zone', () => {
+        GREEN_ZONE_REPRO.forEach((reproducibilityRate) =>
+          it(`for ${reproducibilityRate} reproducibility rate, it should obtain certification`, async () => {
+            // when
+            const hasAcquiredCertif = certificationPartnerAcquisition.hasAcquiredCertification({
+              hasAcquiredBadge: true,
+              reproducibilityRate
+            });
+
+            // then
+            expect(hasAcquiredCertif).to.be.true;
+          })
+        );
+      });
+
+      context('reproducibility rate in grey zone', () => {
+        const reproducibilityRate = GREY_ZONE_REPRO[0];
+        const competenceId1 = 'competenceId1', competenceId2 = 'competenceId2';
+
+        it('for 70 reproducibility rate, it should obtain certification with all pixValue above 75% of Clea skills pixValue for each competence', async () => {
+          // given
+          const totalPixCleaByCompetence = {
+              [competenceId1]: 20,
+              [competenceId2]: 10,
+            },
+            pixScoreByCompetence = {
+              [competenceId1]: 15,
+              [competenceId2]: 7.5,
+              'competence3': 0,
+            };
+
           // when
-          const hasAcquiredCertif = certificationPartnerAcquisition.hasAcquiredCertification({ hasAcquiredBadge: true, percentageCorrectAnswers:reproducabilityRate });
+          const hasAcquiredCertif = certificationPartnerAcquisition.hasAcquiredCertification({
+            hasAcquiredBadge: true,
+            reproducibilityRate,
+            totalPixCleaByCompetence,
+            pixScoreByCompetence,
+          });
 
           // then
           expect(hasAcquiredCertif).to.be.true;
-        })
-      );
+        });
 
-      [1, 50].forEach((reproducabilityRate) =>
-        it(`for ${reproducabilityRate} reproducability rate, it should not obtain certification`, async () => {
+        it('for 70 reproducibility rate, it should not obtain certification without all pixValue above 75% of Clea skills pixValue for each competence', async () => {
+          // given
+          const totalPixCleaByCompetence = {
+              [competenceId1]: 20,
+              [competenceId2]: 10,
+            },
+            pixScoreByCompetence = {
+              [competenceId1]: 15,
+              [competenceId2]: 7.4,
+              'competence3': 0,
+            };
+
           // when
-          const hasAcquiredCertif = certificationPartnerAcquisition.hasAcquiredCertification({ hasAcquiredBadge: true, percentageCorrectAnswers:reproducabilityRate });
+          const hasAcquiredCertif = certificationPartnerAcquisition.hasAcquiredCertification({
+            hasAcquiredBadge: true,
+            reproducibilityRate,
+            totalPixCleaByCompetence,
+            pixScoreByCompetence,
+          });
 
           // then
           expect(hasAcquiredCertif).to.be.false;
+        });
+      });
 
-        })
-      );
+      context('reproducibility rate in red zone', () => {
+        RED_ZONE_REPRO.forEach((reproducibilityRate) =>
+          it(`for ${reproducibilityRate} reproducibility rate, it should not obtain certification`, async () => {
+            // when
+            const hasAcquiredCertif = certificationPartnerAcquisition.hasAcquiredCertification({
+              hasAcquiredBadge: true,
+              reproducibilityRate
+            });
+
+            // then
+            expect(hasAcquiredCertif).to.be.false;
+          })
+        );
+      });
     });
-
   });
 });
+

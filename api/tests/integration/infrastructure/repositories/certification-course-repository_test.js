@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, domainBuilder, knex } = require('../../../test-helper');
+const { catchErr, expect, databaseBuilder, domainBuilder, knex } = require('../../../test-helper');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const BookshelfCertificationCourse = require('../../../../lib/infrastructure/data/certification-course');
 const { NotFoundError } = require('../../../../lib/domain/errors');
@@ -71,6 +71,35 @@ describe('Integration | Repository | Certification Course', function() {
       // then
       expect(updatedCertificationCourse).to.be.instanceOf(CertificationCourse);
       expect(new Date(updatedCertificationCourse.completedAt)).to.deep.equal(completionDate);
+    });
+  });
+
+  describe('#getCreatedDate', () => {
+    let certificationCourse;
+
+    afterEach(() => {
+      return knex('certification-courses').delete();
+    });
+
+    beforeEach(async () => {
+      certificationCourse = databaseBuilder.factory.buildCertificationCourse({});
+      await databaseBuilder.commit();
+    });
+
+    it('should get the created date', async () => {
+      // when
+      const createdAt = await certificationCourseRepository.getCreationDate(certificationCourse.id);
+
+      // then
+      expect(createdAt).to.deep.equal(certificationCourse.createdAt);
+    });
+
+    it('should throw an error if not found', async () => {
+      // when
+      const error = await catchErr(certificationCourseRepository.getCreationDate)(certificationCourse.id + 1);
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
     });
   });
 
