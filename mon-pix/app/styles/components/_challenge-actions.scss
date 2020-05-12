@@ -83,14 +83,12 @@
   justify-content: center;
   @include button-background-transition();
   text-decoration: none;
-  &:hover{
-    background: $green-hover;
-    text-decoration: none;
-  }
 
+  &:hover,
   &:active,
   &:visited,
   &:focus {
+    background: $green-hover;
     text-decoration: none;
   }
 
