@@ -1,15 +1,9 @@
-const KnowledgeElement = require('../../domain/models/KnowledgeElement');
-const BookshelfKnowledgeElement = require('../data/knowledge-element');
 const _ = require('lodash');
 const Bookshelf = require('../bookshelf');
+const KnowledgeElement = require('../../domain/models/KnowledgeElement');
+const BookshelfKnowledgeElement = require('../data/knowledge-element');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const scoringService = require('../../domain/services/scoring/scoring-service');
-
-function _toDomain(knowledgeElementBookshelf) {
-  const knowledgeElements = knowledgeElementBookshelf.toJSON();
-  return _.isArray(knowledgeElements)
-    ? knowledgeElements.map((ke) => new KnowledgeElement(ke))
-    : new KnowledgeElement(knowledgeElements);
-}
 
 function _getUniqMostRecents(knowledgeElements) {
   return _(knowledgeElements)
@@ -22,8 +16,13 @@ function _dropResetKnowledgeElements(knowledgeElements) {
   return _.reject(knowledgeElements, { status: KnowledgeElement.StatusType.RESET });
 }
 
-function _findByCampaignIdForSharedCampaignParticipationWhere(campaignParticipationsWhereClause) {
-  return BookshelfKnowledgeElement
+function _applyFilters(knowledgeElements) {
+  const uniqsMostRecentPerSkill = _getUniqMostRecents(knowledgeElements);
+  return _dropResetKnowledgeElements(uniqsMostRecentPerSkill);
+}
+
+async function _findByCampaignIdForSharedCampaignParticipationWhere(campaignParticipationsWhereClause) {
+  const keResults = await BookshelfKnowledgeElement
     .query((qb) => {
       qb.select('knowledge-elements.*');
       qb.leftJoin('campaign-participations', 'campaign-participations.userId', 'knowledge-elements.userId');
@@ -36,58 +35,58 @@ function _findByCampaignIdForSharedCampaignParticipationWhere(campaignParticipat
     .where({ 'campaign-participations.isShared': true })
     .where(campaignParticipationsWhereClause)
     .where({ status: 'validated' })
-    .fetchAll()
-    .then(_toDomain);
+    .fetchAll();
+
+  return bookshelfToDomainConverter.buildDomainObjects(BookshelfKnowledgeElement, keResults);
+}
+
+function _getByUserIdAndLimitDateQuery({ userId, limitDate }) {
+  return Bookshelf.knex
+    .select('*', Bookshelf.knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS rank', ['skillId', 'createdAt']))
+    .from('knowledge-elements')
+    .where((qb) => {
+      qb.where({ userId });
+      if (limitDate) {
+        qb.where('createdAt', '<', limitDate);
+      }
+    });
 }
 
 module.exports = {
 
-  save(knowledgeElement) {
+  async save(knowledgeElement) {
+    const knowledgeElementToSave = _.omit(knowledgeElement, ['id', 'createdAt']);
+    const savedKnowledgeElement = await new BookshelfKnowledgeElement(knowledgeElementToSave).save();
 
-    return Promise.resolve(_.omit(knowledgeElement, ['id', 'createdAt']))
-      .then((knowledgeElement) => new BookshelfKnowledgeElement(knowledgeElement))
-      .then((knowledgeElementBookshelf) => knowledgeElementBookshelf.save())
-      .then(_toDomain);
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfKnowledgeElement, savedKnowledgeElement);
   },
 
-  findUniqByUserId({ userId, limitDate }) {
-    return BookshelfKnowledgeElement
-      .query((qb) => {
-        qb.where({ userId });
-        if (limitDate) {
-          qb.where('knowledge-elements.createdAt', '<', limitDate);
-        }
-      })
-      .fetchAll()
-      .then(_toDomain)
-      .then(_getUniqMostRecents)
-      .then(_dropResetKnowledgeElements);
+  async findUniqByUserId({ userId, limitDate }) {
+    const knowledgeElementRows = await _getByUserIdAndLimitDateQuery({ userId, limitDate });
+
+    const knowledgeElements = _.map(knowledgeElementRows, (knowledgeElementRow) => new KnowledgeElement(knowledgeElementRow));
+    return _applyFilters(knowledgeElements);
   },
 
-  findUniqByUserIdAndAssessmentId({ userId, assessmentId }) {
-    return BookshelfKnowledgeElement
-      .query((qb) => {
-        qb.where({ userId, assessmentId });
-      })
-      .fetchAll()
-      .then(_toDomain)
-      .then(_getUniqMostRecents)
-      .then(_dropResetKnowledgeElements);
+  async findUniqByUserIdAndAssessmentId({ userId, assessmentId }) {
+    const query = _getByUserIdAndLimitDateQuery({ userId });
+    const knowledgeElementRows = await query.where({ assessmentId });
+
+    const knowledgeElements = _.map(knowledgeElementRows, (knowledgeElementRow) => new KnowledgeElement(knowledgeElementRow));
+    return _applyFilters(knowledgeElements);
   },
 
-  findUniqByUserIdAndCompetenceId({ userId, competenceId }) {
-    return BookshelfKnowledgeElement
-      .where({ userId, competenceId })
-      .fetchAll()
-      .then(_toDomain)
-      .then(_getUniqMostRecents)
-      .then(_dropResetKnowledgeElements);
+  async findUniqByUserIdAndCompetenceId({ userId, competenceId }) {
+    const query = _getByUserIdAndLimitDateQuery({ userId });
+    const knowledgeElementRows = await query.where({ competenceId });
+
+    const knowledgeElements = _.map(knowledgeElementRows, (knowledgeElementRow) => new KnowledgeElement(knowledgeElementRow));
+    return _applyFilters(knowledgeElements);
   },
 
-  findUniqByUserIdGroupedByCompetenceId({ userId, limitDate }) {
-    return this.findUniqByUserId({ userId, limitDate })
-      .then(_dropResetKnowledgeElements)
-      .then((knowledgeElements) => _.groupBy(knowledgeElements, 'competenceId'));
+  async findUniqByUserIdGroupedByCompetenceId({ userId, limitDate }) {
+    const knowledgeElements = await this.findUniqByUserId({ userId, limitDate });
+    return _.groupBy(knowledgeElements, 'competenceId');
   },
 
   getSumOfPixFromUserKnowledgeElements(userId) {
