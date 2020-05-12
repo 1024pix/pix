@@ -1,5 +1,5 @@
 import { action } from '@ember/object';
-import _ from 'mon-pix/utils/lodash-custom';
+import _ from 'lodash';
 import classic from 'ember-classic-decorator';
 
 import ChallengeItemGeneric from './challenge-item-generic';
