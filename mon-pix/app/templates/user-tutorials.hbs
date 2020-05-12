@@ -1,7 +1,7 @@
 {{title pageTitle}}
 <BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
   <burger.outlet>
-    <NavbarHeader @class="navbar-header--white" @burger={{burger}} />
+    <NavbarHeader @burger={{burger}} />
     <header role="banner" class="background-banner">
       <div class="user-tutorials-banner">
         <img src="{{rootURL}}/images/user-tutorials/banner-icon.svg" class="user-tutorials-banner__icon" alt=""/>
