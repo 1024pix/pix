@@ -55,37 +55,37 @@ function _getByUserIdAndLimitDateQuery({ userId, limitDate }) {
 module.exports = {
 
   async save(knowledgeElement) {
-    const keToSave = _.omit(knowledgeElement, ['id', 'createdAt']);
-    const savedKe = await new BookshelfKnowledgeElement(keToSave).save();
+    const knowledgeElementToSave = _.omit(knowledgeElement, ['id', 'createdAt']);
+    const savedKnowledgeElement = await new BookshelfKnowledgeElement(knowledgeElementToSave).save();
 
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfKnowledgeElement, savedKe);
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfKnowledgeElement, savedKnowledgeElement);
   },
 
   async findUniqByUserId({ userId, limitDate }) {
-    const keRows = await _getByUserIdAndLimitDateQuery({ userId, limitDate });
+    const knowledgeElementRows = await _getByUserIdAndLimitDateQuery({ userId, limitDate });
 
-    const knowledgeElements = _.map(keRows, (keRow) => new KnowledgeElement(keRow));
+    const knowledgeElements = _.map(knowledgeElementRows, (knowledgeElementRow) => new KnowledgeElement(knowledgeElementRow));
     return _applyFilters(knowledgeElements);
   },
 
   async findUniqByUserIdAndAssessmentId({ userId, assessmentId }) {
     const query = _getByUserIdAndLimitDateQuery({ userId });
-    const keRows = await query.where({ assessmentId });
+    const knowledgeElementRows = await query.where({ assessmentId });
 
-    const knowledgeElements = _.map(keRows, (keRow) => new KnowledgeElement(keRow));
+    const knowledgeElements = _.map(knowledgeElementRows, (knowledgeElementRow) => new KnowledgeElement(knowledgeElementRow));
     return _applyFilters(knowledgeElements);
   },
 
   async findUniqByUserIdAndCompetenceId({ userId, competenceId }) {
     const query = _getByUserIdAndLimitDateQuery({ userId });
-    const keRows = await query.where({ competenceId });
+    const knowledgeElementRows = await query.where({ competenceId });
 
-    const knowledgeElements = _.map(keRows, (keRow) => new KnowledgeElement(keRow));
+    const knowledgeElements = _.map(knowledgeElementRows, (knowledgeElementRow) => new KnowledgeElement(knowledgeElementRow));
     return _applyFilters(knowledgeElements);
   },
 
   async findUniqByUserIdGroupedByCompetenceId({ userId, limitDate }) {
-    const knowledgeElements = await this.findUniqByUserId({ userId, limitDate })
+    const knowledgeElements = await this.findUniqByUserId({ userId, limitDate });
     return _.groupBy(knowledgeElements, 'competenceId');
   },
 
