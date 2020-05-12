@@ -28,7 +28,10 @@ function getBlockedPixScore(pixScore) {
 }
 
 function totalUserPixScore(pixEarnedByCompetence) {
-  const pixByCompetenceLimited = _.map(pixEarnedByCompetence, (pixEarnedForOneCompetence) => getBlockedPixScore(pixEarnedForOneCompetence));
+  const pixByCompetenceLimited = _.map(pixEarnedByCompetence, (pixEarnedForOneCompetence) => {
+    const flooredPixEarnedForOneCompetence = _.floor(pixEarnedForOneCompetence);
+    return getBlockedPixScore(flooredPixEarnedForOneCompetence);
+  });
   return _.sum(pixByCompetenceLimited);
 }
 
