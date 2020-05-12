@@ -69,7 +69,7 @@ describe('Unit | Component | tutorial item', function() {
 
     it('should return true when the tutorial has been saved', function() {
       // given
-      component.status = 'saved';
+      component.savingStatus = 'recorded';
 
       // when
       const result = component.isSaved;
@@ -92,7 +92,7 @@ describe('Unit | Component | tutorial item', function() {
 
     it('should return true when the tutorial has been evaluated', function() {
       // given
-      component.evaluationStatus = 'saved';
+      component.evaluationStatus = 'recorded';
 
       // when
       const result = component.isEvaluated;
@@ -115,7 +115,7 @@ describe('Unit | Component | tutorial item', function() {
 
     it('should return "Enregistrer" when the tutorial is succesfully saved', function() {
       // given
-      component.status = 'saved';
+      component.savingStatus = 'recorded';
 
       // when
       const result = component.buttonText;
@@ -138,7 +138,7 @@ describe('Unit | Component | tutorial item', function() {
 
     it('should return "Retirer" when the tutorial has been saved', function() {
       // given
-      component.status = 'saved';
+      component.savingStatus = 'recorded';
 
       // when
       const result = component.buttonTitle;
@@ -149,14 +149,14 @@ describe('Unit | Component | tutorial item', function() {
 
   });
 
-  describe('#isButtonDisabled', function() {
+  describe('#isSaveButtonDisabled', function() {
 
     it('should return false when the tutorial has not already been saved', function() {
       // given
-      component.status = 'unsaved';
+      component.savingStatus = 'unrecorded';
 
       // when
-      const result = component.isButtonDisabled;
+      const result = component.isSaveButtonDisabled;
 
       // then
       expect(result).to.equal(false);
@@ -164,10 +164,10 @@ describe('Unit | Component | tutorial item', function() {
 
     it('should return false when the tutorial has already been saved', function() {
       // given
-      component.status = 'saved';
+      component.savingStatus = 'recorded';
 
       // when
-      const result = component.isButtonDisabled;
+      const result = component.isSaveButtonDisabled;
 
       // then
       expect(result).to.equal(false);
@@ -175,10 +175,10 @@ describe('Unit | Component | tutorial item', function() {
 
     it('should return true when the save/unsave operation is in progress', function() {
       // given
-      component.status = 'saving';
+      component.savingStatus = 'pending';
 
       // when
-      const result = component.isButtonDisabled;
+      const result = component.isSaveButtonDisabled;
 
       // then
       expect(result).to.equal(true);
@@ -212,12 +212,12 @@ describe('Unit | Component | tutorial item', function() {
       sinon.assert.calledWith(userTutorial.save, { adapterOptions: { tutorialId: tutorial.id } });
     });
 
-    it('should set status to saved', async function() {
+    it('should set status to recorded', async function() {
       // when
       await component.saveTutorial();
 
       // then
-      expect(component.status).to.equal('saved');
+      expect(component.savingStatus).to.equal('recorded');
     });
 
     it('should link tutorial and userTutorial', async function() {
@@ -249,12 +249,12 @@ describe('Unit | Component | tutorial item', function() {
       sinon.assert.calledWith(userTutorial.destroyRecord, { adapterOptions: { tutorialId: tutorial.id } });
     });
 
-    it('should set status to unsaved', async function() {
+    it('should set status to unrecorded', async function() {
       // when
       await component.removeTutorial();
 
       // then
-      expect(component.status).to.equal('unsaved');
+      expect(component.savingStatus).to.equal('unrecorded');
     });
 
   });
@@ -285,12 +285,12 @@ describe('Unit | Component | tutorial item', function() {
       sinon.assert.calledWith(tutorialEvaluation.save, { adapterOptions: { tutorialId: tutorial.id } });
     });
 
-    it('should set status to saved', async function() {
+    it('should set status to recorded', async function() {
       // when
       await component.evaluateTutorial();
 
       // then
-      expect(component.evaluationStatus).to.equal('saved');
+      expect(component.evaluationStatus).to.equal('recorded');
     });
 
     it('should link tutorial and tutorialEvaluation', async function() {
@@ -301,4 +301,42 @@ describe('Unit | Component | tutorial item', function() {
       expect(tutorialEvaluation.tutorial).to.equal(tutorial);
     });
   });
+
+  describe('#isEvaluateButtonDisabled', function() {
+
+    it('should return false when the tutorial has not already been evaluated', function() {
+      // given
+      component.evaluationStatus = 'unrecorded';
+
+      // when
+      const result = component.isEvaluateButtonDisabled;
+
+      // then
+      expect(result).to.equal(false);
+    });
+
+    it('should return true when the tutorial has already been evaluated', function() {
+      // given
+      component.evaluationStatus = 'recorded';
+
+      // when
+      const result = component.isEvaluateButtonDisabled;
+
+      // then
+      expect(result).to.equal(true);
+    });
+
+    it('should return true when the evaluate operation is in progress', function() {
+      // given
+      component.evaluationStatus = 'pending';
+
+      // when
+      const result = component.isEvaluateButtonDisabled;
+
+      // then
+      expect(result).to.equal(true);
+    });
+
+  });
+
 });
