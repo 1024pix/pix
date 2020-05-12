@@ -25,7 +25,7 @@
   height: 40px;
   margin-left: 20px;
   border: none;
-  color: $white;
+  color: $grey-45;
   text-transform: uppercase;
 }
 
@@ -60,8 +60,8 @@
   border-radius: 20px;
   font-size: 0.813rem;
   text-align: center;
-  color: $white;
-  border: 2px solid $white;
+  color: $blue;
+  border: 2px solid $blue;
   width: 140px;
   padding: 10px;
   background-color: transparent;
@@ -69,9 +69,9 @@
   &:hover,
   &:focus,
   &:active {
-    color: $blue;
+    color: $white;
     text-decoration: none;
-    background-color: $white;
+    background-color: $blue;
   }
 }
 
