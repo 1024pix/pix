@@ -3,7 +3,7 @@
   align-items: center;
   height: 100vh;
   width: 100vw;
-  background: $pix-purple-gradient;
+  background: $pix-gradient;
 
 }
 
@@ -83,7 +83,6 @@
   &__cancel {
     background-color: $grey-50;
     border-radius: 4px;
-    padding: 14px 36px;
     font-weight: 400;
 
     &:hover {
