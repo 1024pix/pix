@@ -6,6 +6,8 @@ import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { setBreakpoint } from 'ember-responsive/test-support';
 
+import { contains } from '../../helpers/contains';
+
 describe('Integration | Component | navbar-desktop-header', function() {
 
   setupRenderingTest();
@@ -44,7 +46,7 @@ describe('Integration | Component | navbar-desktop-header', function() {
     });
 
     it('should not display the link "J\'ai un code"', function() {
-      expect(find('.button')).not.to.exist;
+      expect(contains('J\'ai un code')).not.to.exist;
     });
   });
 
@@ -70,7 +72,7 @@ describe('Integration | Component | navbar-desktop-header', function() {
     });
 
     it('should display the link "J\'ai un code"', function() {
-      expect(find('.button').textContent.trim()).to.equal('J\'ai un code');
+      expect(contains('J\'ai un code')).to.exist;
     });
 
     it('should display the Pix logo', function() {
@@ -98,9 +100,9 @@ describe('Integration | Component | navbar-desktop-header', function() {
       // then
       expect(find('.navbar-desktop-header-container__menu')).to.exist;
       expect(findAll('.navbar-desktop-header-menu__item')).to.have.lengthOf(3);
-      expect(findAll('.navbar-desktop-header-menu__item')[0].textContent.trim()).to.equal('Profil');
-      expect(findAll('.navbar-desktop-header-menu__item')[1].textContent.trim()).to.equal('Certification');
-      expect(findAll('.navbar-desktop-header-menu__item')[2].textContent.trim()).to.equal('Aide');
+      expect(contains('Profil')).to.exist;
+      expect(contains('Certification')).to.exist;
+      expect(contains('Aide')).to.exist;
     });
   });
 
