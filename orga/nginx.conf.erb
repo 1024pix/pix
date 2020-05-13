@@ -1,3 +1,6 @@
+# Disable compression that is performed by the Scalingo router anyway
+gzip off;
+
 root /app/dist/;
 
 # in case of 503, serve this URI
