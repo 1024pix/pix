@@ -2,14 +2,14 @@ const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 
 const schoolingRegistrationDependentUserController = require('../../../../lib/application/schooling-registration-dependent-users/schooling-registration-dependent-user-controller');
 const moduleUnderTest = require('../../../../lib/application/student-dependent-users');
-const securityController = require('../../../../lib/interfaces/controllers/security-controller');
+const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 
 describe('Integration | Application | Route | student-dependent-users', () => {
 
   let httpTestServer;
 
   beforeEach(() => {
-    sinon.stub(securityController, 'checkUserBelongsToScoOrganizationAndManagesStudents').callsFake((request, h) => h.response(true));
+    sinon.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents').callsFake((request, h) => h.response(true));
     sinon.stub(schoolingRegistrationDependentUserController, 'createAndAssociateUserToSchoolingRegistration').callsFake((request, h) => h.response('ok').code(201));
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });

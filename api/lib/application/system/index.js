@@ -1,5 +1,5 @@
 const systemController = require('./system-controller');
-const securityController = require('../../interfaces/controllers/security-controller');
+const securityPreHandlers = require('../security-pre-handlers');
 
 exports.register = async function(server) {
 
@@ -9,7 +9,7 @@ exports.register = async function(server) {
       path: '/api/system/heap-dump/{hostname}',
       config: {
         pre: [{
-          method: securityController.checkUserHasRolePixMaster,
+          method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
         handler: systemController.generateAndDownloadHeapDump,
@@ -25,7 +25,7 @@ exports.register = async function(server) {
       path: '/api/system/heap-profile/{hostname}',
       config: {
         pre: [{
-          method: securityController.checkUserHasRolePixMaster,
+          method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
         handler: systemController.generateAndDownloadHeapProfile,

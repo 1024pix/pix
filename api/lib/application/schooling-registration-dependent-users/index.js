@@ -1,5 +1,5 @@
 const schoolingRegistrationDependentUserController = require('./schooling-registration-dependent-user-controller');
-const securityController = require('../../interfaces/controllers/security-controller');
+const securityPreHandlers = require('../security-pre-handlers');
 const JSONAPIError = require('jsonapi-serializer').Error;
 const Joi = require('@hapi/joi');
 
@@ -23,7 +23,7 @@ exports.register = async function(server) {
       path: '/api/schooling-registration-dependent-users/password-update',
       config: {
         pre: [{
-          method: securityController.checkUserBelongsToScoOrganizationAndManagesStudents,
+          method: securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents,
           assign: 'belongsToScoOrganizationAndManageStudents'
         }],
         handler: schoolingRegistrationDependentUserController.updatePassword,

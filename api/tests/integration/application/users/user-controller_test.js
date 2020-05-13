@@ -1,6 +1,6 @@
 const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-helper');
 
-const securityController = require('../../../../lib/interfaces/controllers/security-controller');
+const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const usecases = require('../../../../lib/domain/usecases');
 
 const moduleUnderTest = require('../../../../lib/application/users');
@@ -13,7 +13,7 @@ describe('Integration | Application | Users | user-controller', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'getUserCampaignParticipationToCampaign');
-    sandbox.stub(securityController, 'checkRequestedUserIsAuthenticatedUser');
+    sandbox.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser');
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
@@ -30,7 +30,7 @@ describe('Integration | Application | Users | user-controller', () => {
       const campaignParticipation = domainBuilder.buildCampaignParticipation();
 
       beforeEach(() => {
-        securityController.checkRequestedUserIsAuthenticatedUser.returns(true);
+        securityPreHandlers.checkRequestedUserIsAuthenticatedUser.returns(true);
         auth.credentials.userId = '1234';
       });
 
@@ -49,7 +49,7 @@ describe('Integration | Application | Users | user-controller', () => {
     context('Error cases', () => {
 
       beforeEach(() => {
-        securityController.checkRequestedUserIsAuthenticatedUser.callsFake((request, h) => {
+        securityPreHandlers.checkRequestedUserIsAuthenticatedUser.callsFake((request, h) => {
           return Promise.resolve(h.response().code(403).takeover());
         });
       });

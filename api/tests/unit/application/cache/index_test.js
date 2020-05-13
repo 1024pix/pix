@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('@hapi/hapi');
 const cacheController = require('../../../../lib/application/cache/cache-controller');
-const securityController = require('../../../../lib/interfaces/controllers/security-controller');
+const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 
 describe('Unit | Router | cache-router', () => {
 
@@ -10,7 +10,7 @@ describe('Unit | Router | cache-router', () => {
   beforeEach(() => {
     sinon.stub(cacheController, 'refreshCacheEntries').callsFake((request, h) => h.response().code(204));
     sinon.stub(cacheController, 'refreshCacheEntry').callsFake((request, h) => h.response().code(204));
-    sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+    sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
 
     server = Hapi.server();
 

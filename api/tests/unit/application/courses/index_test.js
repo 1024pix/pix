@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('@hapi/hapi');
-const securityController = require('../../../../lib/interfaces/controllers/security-controller');
+const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const courseController = require('../../../../lib/application/courses/course-controller');
 
 describe('Integration | Router | course-router', () => {
@@ -8,7 +8,7 @@ describe('Integration | Router | course-router', () => {
   let server;
 
   beforeEach(() => {
-    sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+    sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
     sinon.stub(courseController, 'get').returns('ok');
 
     server = this.server = Hapi.server();

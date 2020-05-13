@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('@hapi/hapi');
-const securityController = require('../../../../lib/interfaces/controllers/security-controller');
+const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const userController = require('../../../../lib/application/users/user-controller');
 const userVerification = require('../../../../lib/application/preHandlers/user-existence-verification');
 
@@ -16,10 +16,10 @@ describe('Unit | Router | user-router', () => {
   describe('GET /api/users', () => {
 
     beforeEach(() => {
-      sinon.stub(securityController, 'checkUserIsAuthenticated').callsFake((request, h) => {
+      sinon.stub(securityPreHandlers, 'checkUserIsAuthenticated').callsFake((request, h) => {
         h.continue({ credentials: { accessToken: 'jwt.access.token' } });
       });
-      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(userController, 'findPaginatedFilteredUsers').returns('ok');
       startServer();
     });
@@ -99,7 +99,7 @@ describe('Unit | Router | user-router', () => {
   describe('GET /api/users/{id}/memberships', function() {
     beforeEach(() => {
       sinon.stub(userController, 'getMemberships').returns('ok');
-      sinon.stub(securityController, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
       startServer();
     });
 
@@ -193,7 +193,7 @@ describe('Unit | Router | user-router', () => {
   describe('GET /api/users/{id}/certification-profile', function() {
     beforeEach(() => {
       sinon.stub(userController, 'getCertificationProfile').returns('ok');
-      sinon.stub(securityController, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
       startServer();
     });
 
@@ -215,7 +215,7 @@ describe('Unit | Router | user-router', () => {
   describe('GET /api/users/{id}/pixscore', function() {
     beforeEach(() => {
       sinon.stub(userController, 'getPixScore').returns('ok');
-      sinon.stub(securityController, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
       startServer();
     });
 
@@ -237,7 +237,7 @@ describe('Unit | Router | user-router', () => {
   describe('GET /api/users/{id}/scorecards', function() {
     beforeEach(() => {
       sinon.stub(userController, 'getScorecards').returns('ok');
-      sinon.stub(securityController, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
       startServer();
     });
 
@@ -259,7 +259,7 @@ describe('Unit | Router | user-router', () => {
   describe('GET /api/users/{id}/user-orga-settings', function() {
     beforeEach(() => {
       sinon.stub(userController, 'getUserOrgaSettings').returns('ok');
-      sinon.stub(securityController, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
       startServer();
     });
 
@@ -281,7 +281,7 @@ describe('Unit | Router | user-router', () => {
   describe('GET /api/users/{userId}/campaigns/{campaignId}/campaign-participations', function() {
     beforeEach(() => {
       sinon.stub(userController, 'getUserCampaignParticipationToCampaign').returns('ok');
-      sinon.stub(securityController, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
       startServer();
     });
 
