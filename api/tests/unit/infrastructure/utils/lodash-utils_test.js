@@ -2,7 +2,7 @@ const { expect } = require('../../../test-helper');
 const original_lodash = require('lodash');
 const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
 
-describe('Unit | Utils | lodash-utils', function() {
+describe('Unit | Utils | lodash-response-objects', function() {
 
   describe('#scope', function() {
     it('should not affect original version of lodash', function() {
