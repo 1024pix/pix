@@ -1,7 +1,7 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
-import { isEmpty } from '@ember/utils';
+import { isEmpty } from '@ember/response-objects';
 
 export default class JoinRestrictedCampaignRoute extends Route.extend(SecuredRouteMixin) {
   @service currentUser;

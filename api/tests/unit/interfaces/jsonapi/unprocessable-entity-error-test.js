@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 
-const JSONAPI = require('../../../../lib/interfaces/jsonapi');
+const JSONAPI = require('../../../../lib/infrastructure/serializers/jsonapi/response-objects');
 
 describe('Unit | Interfaces | JSONAPI | Unprocessable Entity Error', () => {
 

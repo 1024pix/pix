@@ -1,6 +1,6 @@
 const HttpErrors = require('./http-errors');
 const DomainErrors = require('../domain/errors');
-const JSONAPI = require('../interfaces/jsonapi');
+const JSONAPI = require('../infrastructure/serializers/jsonapi/response-objects');
 const errorSerializer = require('../infrastructure/serializers/jsonapi/error-serializer');
 
 module.exports = { handle };
