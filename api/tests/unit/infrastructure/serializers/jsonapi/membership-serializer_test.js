@@ -150,7 +150,10 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
       const json = serializer.serialize(membership);
 
       // then
-      expect(json.data.relationships.organization.data).to.be.null;
+      expect(json.data.relationships.organization).to.be.undefined;
+      expect(json.included.length).to.equal(1);
+      expect(json.included[0].type).to.not.equal('organization');
+
     });
 
     it('should not force the add of user relation link if the user is undefined', () => {
