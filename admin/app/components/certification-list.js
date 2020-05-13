@@ -26,11 +26,11 @@ export default class CertificationList extends Component {
       title: 'Score'
     },
     {
-      propertyName: 'creationDate',
+      propertyName: 'createdAt',
       title: 'Début'
     },
     {
-      propertyName: 'completionDate',
+      propertyName: 'completedAt',
       title: 'Fin'
     },
     {

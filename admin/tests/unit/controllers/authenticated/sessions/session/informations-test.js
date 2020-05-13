@@ -13,15 +13,18 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
     controller = this.owner.lookup('controller:authenticated/sessions/session/informations');
 
     // context for sessionInfoService stub
-    model = { id: Symbol('an id'), certifications: [] };
+    model = { id: Symbol('an id'), juryCertificationSummaries: [{ id: 'juryCertifSummary1' }, { id: 'juryCertifSummary2' }] };
     err = { error : 'some error' };
 
-    // sessionInfoService stub
+    const store = this.owner.lookup('service:store');
+    sinon.stub(store, 'peekRecord');
+    store.peekRecord.withArgs('certification', 'juryCertifSummary1').returns('certification1');
+    store.peekRecord.withArgs('certification', 'juryCertifSummary2').returns('certification2');
     const downloadSessionExportFile = sinon.stub();
     const downloadJuryFile = sinon.stub();
-    downloadSessionExportFile.withArgs(model).returns();
+    downloadSessionExportFile.withArgs({ session: model, certifications: ['certification1', 'certification2'] }).returns();
     downloadSessionExportFile.withArgs().throws(err);
-    downloadJuryFile.withArgs(model.id, model.certifications).returns();
+    downloadJuryFile.withArgs({ sessionId: model.id, certifications: ['certification1', 'certification2'] }).returns();
     downloadJuryFile.throws(err);
     const sessionInfoServiceStub = { downloadSessionExportFile, downloadJuryFile };
 
@@ -37,20 +40,23 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
 
   module('#downloadSessionResultFile', function() {
 
-    test('should launch the download of result file', function(assert) {
+    test('should launch the download of result file', async function(assert) {
       // given
       controller.model = model;
 
       // when
-      controller.actions.downloadSessionResultFile.call(controller);
+      await controller.actions.downloadSessionResultFile.call(controller);
 
       // then
-      assert.ok(controller.sessionInfoService.downloadSessionExportFile.calledWithExactly(model));
+      assert.ok(controller.sessionInfoService.downloadSessionExportFile.calledWithExactly({ session: model, certifications: ['certification1', 'certification2'] }));
     });
 
-    test('should throw an error', function(assert) {
+    test('should notify error when session result service throws', async function(assert) {
+      // given
+      controller.model = { id: 'another model', juryCertificationSummaries: [] };
+
       // when
-      controller.actions.downloadSessionResultFile.call(controller);
+      await controller.actions.downloadSessionResultFile.call(controller);
 
       // then
       assert.ok(controller.sessionInfoService.downloadSessionExportFile.calledOnce);
@@ -60,25 +66,23 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
 
   module('#downloadBeforeJuryFile', function() {
 
-    test('should launch the download of before jury file', function(assert) {
+    test('should launch the download of before jury file', async function(assert) {
       // given
-      const modelId = model.id;
-      const modelCertifications = model.certifications;
       controller.model = model;
 
       // when
-      controller.actions.downloadBeforeJuryFile.call(controller);
+      await controller.actions.downloadBeforeJuryFile.call(controller);
 
       // then
-      assert.ok(controller.sessionInfoService.downloadJuryFile.calledWithExactly(modelId, modelCertifications));
+      assert.ok(controller.sessionInfoService.downloadJuryFile.calledWithExactly({ sessionId: model.id, certifications: ['certification1', 'certification2'] }));
     });
 
-    test('should throw an error if service is called with wrongs parameters', function(assert) {
+    test('should notify error when jury file service throws', async function(assert) {
       // given
-      controller.model = 'wrong model';
+      controller.model = { id: 'another model', juryCertificationSummaries: [] };
 
       // when
-      controller.actions.downloadBeforeJuryFile.call(controller);
+      await controller.actions.downloadBeforeJuryFile.call(controller);
 
       // then
       assert.ok(controller.sessionInfoService.downloadJuryFile.calledOnce);

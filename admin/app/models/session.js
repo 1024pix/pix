@@ -3,10 +3,10 @@ import _ from 'lodash';
 import Model, { belongsTo, hasMany, attr } from '@ember-data/model';
 import { computed } from '@ember/object';
 
-function _getNumberOf(certifications, booleanFct) {
+function _getNumberOf(juryCertificationSummaries, booleanFct) {
   return _.sumBy(
-    certifications.toArray(),
-    (certif) => Number(booleanFct(certif))
+    juryCertificationSummaries.toArray(),
+    (juryCertificationSummary) => Number(booleanFct(juryCertificationSummary))
   );
 }
 
@@ -42,7 +42,7 @@ export default class Session extends Model {
   @attr() resultsSentToPrescriberAt;
   @attr() publishedAt;
 
-  @hasMany('certification') certifications;
+  @hasMany('jury-certification-summary') juryCertificationSummaries;
   @belongsTo('user') assignedCertificationOfficer;
 
   @computed('status')
@@ -57,28 +57,31 @@ export default class Session extends Model {
     return !_.isEmpty(_.trim(this.examinerGlobalComment));
   }
 
-  @computed('certifications.@each.isPublished')
+  @computed('juryCertificationSummaries.@each.isPublished')
   get isPublished() {
     return _.some(
-      this.certifications.toArray(),
-      (certif) => certif.isPublished
+      this.juryCertificationSummaries.toArray(),
+      (juryCertificationSummary) => juryCertificationSummary.isPublished
     );
   }
 
-  @computed('certifications.[]')
+  @computed('juryCertificationSummaries.[]')
   get countExaminerComment() {
-    const condition = (certif) => certif.examinerComment ? certif.examinerComment.trim().length > 0 : 0;
-    return _getNumberOf(this.certifications, condition);
+    const condition = (juryCertificationSummary) =>
+      juryCertificationSummary.examinerComment ? juryCertificationSummary.examinerComment.trim().length > 0 : 0;
+    return _getNumberOf(this.juryCertificationSummaries, condition);
   }
 
-  @computed('certifications.[]')
+  @computed('juryCertificationSummaries.[]')
   get countNotCheckedEndScreen() {
-    return _getNumberOf(this.certifications, (certif) => !certif.hasSeenEndTestScreen);
+    return _getNumberOf(this.juryCertificationSummaries, (juryCertificationSummary) =>
+      !juryCertificationSummary.hasSeenEndTestScreen);
   }
 
-  @computed('certifications.@each.status')
+  @computed('juryCertificationSummaries.@each.status')
   get countNonValidatedCertifications() {
-    return _getNumberOf(this.certifications, (certif) => certif.status !== 'validated');
+    return _getNumberOf(this.juryCertificationSummaries, (juryCertificationSummary) =>
+      juryCertificationSummary.status !== 'validated');
   }
 
   @computed('resultsSentToPrescriberAt')

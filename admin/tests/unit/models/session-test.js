@@ -101,7 +101,7 @@ module('Unit | Model | session', function(hooks) {
       test('isPublished should be false', function(assert) {
         // given
         sessionWithoutCertifications = run(() => {
-          return store.createRecord('session', { certifications: [] });
+          return store.createRecord('session', { juryCertificationSummaries: [] });
         });
 
         // when
@@ -120,9 +120,9 @@ module('Unit | Model | session', function(hooks) {
 
         hooks.beforeEach(async function() {
           sessionWithAllCertificationsPublished = run(() => {
-            const certif1 = store.createRecord('certification', { isPublished: true });
-            const certif2 = store.createRecord('certification', { isPublished: true });
-            return store.createRecord('session', { certifications: [ certif1, certif2 ] });
+            const certif1 = store.createRecord('jury-certification-summary', { isPublished: true });
+            const certif2 = store.createRecord('jury-certification-summary', { isPublished: true });
+            return store.createRecord('session', { juryCertificationSummaries: [ certif1, certif2 ] });
           });
         });
 
@@ -138,9 +138,9 @@ module('Unit | Model | session', function(hooks) {
 
         hooks.beforeEach(async function() {
           sessionWithoutAllCertificationsPublished = run(() => {
-            const certif1 = store.createRecord('certification', { isPublished: true });
-            const certif2 = store.createRecord('certification', { isPublished: false });
-            return store.createRecord('session', { certifications: [ certif1, certif2 ] });
+            const certif1 = store.createRecord('jury-certification-summary', { isPublished: true });
+            const certif2 = store.createRecord('jury-certification-summary', { isPublished: false });
+            return store.createRecord('session', { juryCertificationSummaries: [ certif1, certif2 ] });
           });
         });
 
@@ -155,9 +155,9 @@ module('Unit | Model | session', function(hooks) {
 
         hooks.beforeEach(async function() {
           sessionWithoutAllCertificationsPublished = run(() => {
-            const certif1 = store.createRecord('certification', { isPublished: false });
-            const certif2 = store.createRecord('certification', { isPublished: false });
-            return store.createRecord('session', { certifications: [ certif1, certif2 ] });
+            const certif1 = store.createRecord('jury-certification-summary', { isPublished: false });
+            const certif2 = store.createRecord('jury-certification-summary', { isPublished: false });
+            return store.createRecord('session', { juryCertificationSummaries: [ certif1, certif2 ] });
           });
         });
 
@@ -177,13 +177,13 @@ module('Unit | Model | session', function(hooks) {
 
     hooks.beforeEach(async function() {
       sessionWithOneExaminerComment = run(() => {
-        const certif = store.createRecord('certification', { examinerComment: 'Salut' });
-        return store.createRecord('session', { certifications: [certif] });
+        const certif = store.createRecord('jury-certification-summary', { examinerComment: 'Salut' });
+        return store.createRecord('session', { juryCertificationSummaries: [certif] });
       });
 
       sessionWithNoExaminerComment = run(() => {
-        const certif = store.createRecord('certification', { examinerComment: null });
-        return store.createRecord('session', { certifications: [certif] });
+        const certif = store.createRecord('jury-certification-summary', { examinerComment: null });
+        return store.createRecord('session', { juryCertificationSummaries: [certif] });
       });
     });
 
@@ -206,13 +206,13 @@ module('Unit | Model | session', function(hooks) {
 
     hooks.beforeEach(async function() {
       sessionWithOneUncheckedEndScreen = run(() => {
-        const certif = store.createRecord('certification', { hasSeenEndTestScreen: false });
-        return store.createRecord('session', { certifications: [certif] });
+        const certif = store.createRecord('jury-certification-summary', { hasSeenEndTestScreen: false });
+        return store.createRecord('session', { juryCertificationSummaries: [certif] });
       });
 
       sessionWithOneCheckedEndScreen = run(() => {
-        const certif = store.createRecord('certification', { hasSeenEndTestScreen: true });
-        return store.createRecord('session', { certifications: [certif] });
+        const certif = store.createRecord('jury-certification-summary', { hasSeenEndTestScreen: true });
+        return store.createRecord('session', { juryCertificationSummaries: [certif] });
       });
     });
 
@@ -235,13 +235,13 @@ module('Unit | Model | session', function(hooks) {
 
     hooks.beforeEach(async function() {
       sessionWithOneNotValidatedCertif = run(() => {
-        const certif = store.createRecord('certification', { status: 'nonValidated' });
-        return store.createRecord('session', { certifications: [certif] });
+        const certif = store.createRecord('jury-certification-summary', { status: 'nonValidated' });
+        return store.createRecord('session', { juryCertificationSummaries: [certif] });
       });
 
       sessionWithValidatedCertif = run(() => {
-        const certif = store.createRecord('certification', { status: 'validated' });
-        return store.createRecord('session', { certifications: [certif] });
+        const certif = store.createRecord('jury-certification-summary', { status: 'validated' });
+        return store.createRecord('session', { juryCertificationSummaries: [certif] });
       });
     });
 
