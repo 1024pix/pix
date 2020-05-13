@@ -2,6 +2,7 @@ const Joi = require('@hapi/joi');
 const securityPreHandlers = require('../security-pre-handlers');
 const sessionController = require('./session-controller');
 const sessionAuthorization = require('../preHandlers/session-authorization');
+const settings = require('../../config');
 
 exports.register = async (server) => {
   server.route([
@@ -27,7 +28,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().required()
+            id: settings.idValidator
           }),
         },
         pre: [{
@@ -44,7 +45,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required()
+            id: settings.idValidator
           }),
         },
         pre: [{
@@ -62,7 +63,7 @@ exports.register = async (server) => {
         auth: false,
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required()
+            id: settings.idValidator
           }),
         },
         handler: sessionController.getAttendanceSheet,
@@ -91,7 +92,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required()
+            id: settings.idValidator
           }),
         },
         pre: [{
@@ -112,7 +113,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required()
+            id: settings.idValidator
           }),
         },
         payload: {
@@ -137,7 +138,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required()
+            id: settings.idValidator
           }),
         },
         pre: [{
@@ -159,7 +160,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required()
+            id: settings.idValidator
           }),
         },
         pre: [{
@@ -180,7 +181,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required()
+            id: settings.idValidator
           }),
         },
         pre: [{
@@ -201,8 +202,8 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required(),
-            certificationCandidateId: Joi.number().integer().required(),
+            id: settings.idValidator,
+            certificationCandidateId: settings.idValidator,
           }),
         },
         pre: [{
@@ -223,7 +224,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required()
+            id: settings.idValidator
           }),
         },
         pre: [{
@@ -244,7 +245,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required()
+            id: settings.idValidator
           }),
         },
         pre: [{
@@ -266,7 +267,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required()
+            id: settings.idValidator
           }),
         },
         handler: sessionController.createCandidateParticipation,
@@ -284,7 +285,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required()
+            id: settings.idValidator
           }),
         },
         pre: [{
@@ -305,7 +306,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required()
+            id: settings.idValidator
           }),
         },
         pre: [{
@@ -328,7 +329,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required()
+            id: settings.idValidator
           }),
         },
         pre: [{
