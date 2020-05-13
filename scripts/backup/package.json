@@ -1,6 +1,6 @@
 {
   "name": "pix-script-backup",
-  "version": "1.11.0",
+  "version": "1.12.0",
   "description": "Airtable backup",
   "main": "index.js",
   "scripts": {
