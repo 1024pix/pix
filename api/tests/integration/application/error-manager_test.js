@@ -8,14 +8,14 @@ describe('Integration | API | Controller Error', () => {
   const routeHandler = sinon.stub();
   const options = { method: 'GET', url: '/test_route' };
 
-  function responseDetail(response)  {
+  function responseDetail(response) {
     const payload = JSON.parse(response.payload);
     return payload.errors[0].detail;
   }
 
   beforeEach(async () => {
     server = await createServer();
-    server.route({ method: 'GET', path: '/test_route', handler: routeHandler, config:  { auth: false } });
+    server.route({ method: 'GET', path: '/test_route', handler: routeHandler, config: { auth: false } });
 
   });
 
@@ -393,6 +393,102 @@ describe('Integration | API | Controller Error', () => {
 
       expect(response.statusCode).to.equal(UNPROCESSABLE_ENTITY_ERROR);
       expect(responseDetail(response)).to.equal('L\'utilisateur n\'est pas membre de l\'organisation.');
+    });
+
+    it('responds Unprocessable Entity with invalid data attribute', async () => {
+      // given
+      const invalidAttributes = [{
+        attribute: 'firstname',
+        message: 'Le prénom n’est pas renseigné.',
+      }];
+      routeHandler.throws(new DomainErrors.EntityValidationError({ invalidAttributes }));
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(UNPROCESSABLE_ENTITY_ERROR);
+
+      const payload = JSON.parse(response.payload);
+      expect(payload.errors).to.have.lengthOf(1);
+
+      const unprocessableErrorOnFirstname = payload.errors[0];
+      expect(unprocessableErrorOnFirstname.status).to.equal('422');
+      expect(unprocessableErrorOnFirstname.source.pointer).to.equal('/data/attributes/firstname');
+      expect(unprocessableErrorOnFirstname.title).to.equal('Invalid data attribute "firstname"');
+      expect(unprocessableErrorOnFirstname.detail).to.equal('Le prénom n’est pas renseigné.');
+    });
+
+    it('responds Unprocessable Entity with invalid relationships if name ends with Id', async () => {
+      // given
+      const invalidAttributes = [{
+        attribute: 'targetProfileId',
+        message: 'Le profile cible n’est pas renseigné.',
+      }];
+      routeHandler.throws(new DomainErrors.EntityValidationError({ invalidAttributes }));
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(UNPROCESSABLE_ENTITY_ERROR);
+
+      const payload = JSON.parse(response.payload);
+      expect(payload.errors).to.have.lengthOf(1);
+
+      const unprocessableErrorOnFirstname = payload.errors[0];
+      expect(unprocessableErrorOnFirstname.status).to.equal('422');
+      expect(unprocessableErrorOnFirstname.source.pointer).to.equal('/data/relationships/target-profile');
+      expect(unprocessableErrorOnFirstname.title).to.equal('Invalid relationship "targetProfile"');
+      expect(unprocessableErrorOnFirstname.detail).to.equal('Le profile cible n’est pas renseigné.');
+    });
+
+    it('responds Unprocessable Entity with invalid data attribute, if attribute is undefined', async () => {
+      // given
+      const invalidAttributes = [{
+        attribute: undefined,
+        message: 'Vous devez renseigner une adresse e-mail et/ou un identifiant.',
+      }];
+      routeHandler.throws(new DomainErrors.EntityValidationError({ invalidAttributes }));
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(UNPROCESSABLE_ENTITY_ERROR);
+
+      const payload = JSON.parse(response.payload);
+      expect(payload.errors).to.have.lengthOf(1);
+
+      const unprocessableErrorOnFirstname = payload.errors[0];
+      expect(unprocessableErrorOnFirstname.status).to.equal('422');
+      expect(unprocessableErrorOnFirstname.source).to.be.undefined;
+      expect(unprocessableErrorOnFirstname.title).to.equal('Invalid data attributes');
+      expect(unprocessableErrorOnFirstname.detail).to.equal('Vous devez renseigner une adresse e-mail et/ou un identifiant.');
+    });
+
+    it('should create a new JSONAPI unprocessable with multiple invalid attributes', async () => {
+      // given
+      const invalidAttributes = [{
+        attribute: 'firstname',
+        message: 'Le prénom n’est pas renseigné.',
+      }, {
+        attribute: 'lastname',
+        message: 'Le nom n’est pas renseigné.',
+      }, {
+        attribute: 'targetProfileId',
+        message: 'Le profile cible n’est pas renseigné.',
+      }];
+      routeHandler.throws(new DomainErrors.EntityValidationError({ invalidAttributes }));
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(UNPROCESSABLE_ENTITY_ERROR);
+
+      const payload = JSON.parse(response.payload);
+      expect(payload.errors).to.have.lengthOf(3);
     });
   });
 
