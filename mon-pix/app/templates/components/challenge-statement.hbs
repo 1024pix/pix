@@ -16,7 +16,11 @@
 
       {{#if @challenge.hasSingleAttachment}}
         <div class="challenge-statement__action">
-          <a class="challenge-statement__action-link" href="{{@challenge.attachments.firstObject}}" target="_blank" download>
+          <a class="challenge-statement__action-link"
+             href="{{@challenge.attachments.firstObject}}"
+             target="_blank"
+             rel="noopener noreferrer"
+             download>
             <span class="challenge-statement__action-label">Télécharger</span>
           </a>
         </div>
@@ -53,7 +57,11 @@
           {{/each}}
         </ul>
         <div class="challenge-statement__action">
-          <a class="challenge-statement__action-link" href="{{this.selectedAttachmentUrl}}" target="_blank" download>
+          <a class="challenge-statement__action-link"
+             href="{{this.selectedAttachmentUrl}}"
+             target="_blank"
+             rel="noopener noreferrer"
+             download>
             <span class="challenge-statement__action-label">Télécharger</span>
           </a>
         </div>
