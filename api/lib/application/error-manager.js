@@ -1,18 +1,48 @@
+const _ = require('lodash');
+const JSONAPIError = require('jsonapi-serializer').Error;
 const HttpErrors = require('./http-errors');
 const DomainErrors = require('../domain/errors');
-const JSONAPI = require('../infrastructure/serializers/jsonapi/response-objects');
 const errorSerializer = require('../infrastructure/serializers/jsonapi/error-serializer');
 
-module.exports = { handle };
+function _formatAttribute({ attribute, message }) {
+  return {
+    status: '422',
+    source: {
+      pointer: `/data/attributes/${ _.kebabCase(attribute) }`,
+    },
+    title: `Invalid data attribute "${ attribute }"`,
+    detail: message
+  };
+}
 
-function handle(h, error) {
-  if (error instanceof DomainErrors.EntityValidationError) {
-    return h.response(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
+function _formatRelationship({ attribute, message }) {
+  const relashionship = attribute.replace('Id', '');
+  return {
+    status: '422',
+    source: {
+      pointer: `/data/relationships/${ _.kebabCase(relashionship) }`,
+    },
+    title: `Invalid relationship "${ relashionship }"`,
+    detail: message
+  };
+}
+
+function _formatUndefinedAttribute({ message }) {
+  return {
+    status: '422',
+    title: 'Invalid data attributes',
+    detail: message
+  };
+}
+
+function _formatInvalidAttribute({ attribute, message }) {
+  if (!attribute) {
+    return _formatUndefinedAttribute({ message });
   }
-
-  const httpError = _mapToHttpError(error);
-
-  return h.response(errorSerializer.serialize(httpError)).code(httpError.status);
+  if (attribute.endsWith('Id')) {
+    return _formatRelationship({ attribute, message });
+  }
+  return _formatAttribute({ attribute, message });
 }
 
 function _mapToHttpError(error) {
@@ -167,3 +197,16 @@ function _mapToHttpError(error) {
 
   return new HttpErrors.BaseHttpError(error.message);
 }
+
+function handle(h, error) {
+  if (error instanceof DomainErrors.EntityValidationError) {
+    const jsonApiError = new JSONAPIError(error.invalidAttributes.map(_formatInvalidAttribute));
+    return h.response(jsonApiError).code(422);
+  }
+
+  const httpError = _mapToHttpError(error);
+
+  return h.response(errorSerializer.serialize(httpError)).code(httpError.status);
+}
+
+module.exports = { handle };
