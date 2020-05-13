@@ -9,7 +9,7 @@ const {
   makeUpdatedOdsByContentXml, updateXmlRows, updateXmlSparseValues
 } = require('../../../../../lib/infrastructure/utils/ods/write-ods-utils');
 
-describe('Integration | Infrastructure | Utils | Ods | write-ods-response-objects', () => {
+describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', () => {
 
   const GET_CONTENT_ODS_FILE_PATH = `${__dirname}/files/get-content-xml_test.ods`;
 

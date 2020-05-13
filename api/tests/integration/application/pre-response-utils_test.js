@@ -10,7 +10,7 @@ const { EntityValidationError } = require('../../../lib/domain/errors');
 
 const { handleDomainAndHttpErrors } = require('../../../lib/application/pre-response-utils');
 
-describe('Integration | Application | PreResponse-response-objects', () => {
+describe('Integration | Application | PreResponse-utils', () => {
 
   describe('#handleDomainAndHttpErrors', () => {
 

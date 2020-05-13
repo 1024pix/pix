@@ -1,7 +1,7 @@
 import { classNames } from '@ember-decorators/component';
 import { action, computed } from '@ember/object';
 import { equal } from '@ember/object/computed';
-import { isEmpty } from '@ember/response-objects';
+import { isEmpty } from '@ember/utils';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 

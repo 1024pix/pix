@@ -6,7 +6,7 @@ const { handleDomainAndHttpErrors } = require('../../../lib/application/pre-resp
 
 const { DomainError } = require('../../../lib/domain/errors');
 
-describe('Unit | Application | PreResponse-response-objects', () => {
+describe('Unit | Application | PreResponse-utils', () => {
 
   describe('#handleDomainAndHttpErrors', () => {
 
