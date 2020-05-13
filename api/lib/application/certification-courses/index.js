@@ -1,4 +1,4 @@
-const securityController = require('../../interfaces/controllers/security-controller');
+const securityPreHandlers = require('../security-pre-handlers');
 const certificationCourseController = require('./certification-course-controller');
 
 exports.register = async function(server) {
@@ -8,7 +8,7 @@ exports.register = async function(server) {
       path: '/api/admin/certifications/{id}/details',
       config: {
         pre: [{
-          method: securityController.checkUserHasRolePixMaster,
+          method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
         handler: certificationCourseController.computeResult,
@@ -25,7 +25,7 @@ exports.register = async function(server) {
       path: '/api/admin/certifications/{id}',
       config: {
         pre: [{
-          method: securityController.checkUserHasRolePixMaster,
+          method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
         handler: certificationCourseController.getResult,

@@ -3,7 +3,7 @@ const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-
 const moduleUnderTest = require('../../../../lib/application/schooling-registration-dependent-users');
 
 const usecases = require('../../../../lib/domain/usecases');
-const securityController = require('../../../../lib/interfaces/controllers/security-controller');
+const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const { NotFoundError, UserNotAuthorizedToUpdatePasswordError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Application | Schooling-registration-dependent-users | schooling-registration-dependent-user-controller', () => {
@@ -15,7 +15,7 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'createAndAssociateUserToSchoolingRegistration').rejects(new Error('not expected error'));
     sandbox.stub(usecases, 'updateSchoolingRegistrationDependentUserPassword').rejects(new Error('not expected error'));
-    sandbox.stub(securityController, 'checkUserBelongsToScoOrganizationAndManagesStudents');
+    sandbox.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents');
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
@@ -102,7 +102,7 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
     const generatedPassword = 'Passw0rd';
 
     beforeEach(() => {
-      securityController.checkUserBelongsToScoOrganizationAndManagesStudents.callsFake((request, h) => h.response(true));
+      securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents.callsFake((request, h) => h.response(true));
 
       payload.data.attributes = {
         'schooling-registration-id': 1,

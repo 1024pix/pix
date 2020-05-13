@@ -1,14 +1,14 @@
-const { expect, sinon, hFake } = require('../../../test-helper');
+const { expect, sinon, hFake } = require('../../test-helper');
 
-const securityController = require('../../../../lib/interfaces/controllers/security-controller');
-const tokenService = require('../../../../lib/domain/services/token-service');
-const checkUserIsAuthenticatedUseCase = require('../../../../lib/application/usecases/checkUserIsAuthenticated');
-const checkUserHasRolePixMasterUseCase = require('../../../../lib/application/usecases/checkUserHasRolePixMaster');
-const checkUserIsAdminInOrganizationUseCase = require('../../../../lib/application/usecases/checkUserIsAdminInOrganization');
-const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('../../../../lib/application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
-const checkUserBelongsToOrganizationUseCase = require('../../../../lib/application/usecases/checkUserBelongsToOrganization');
+const securityPreHandlers = require('../../../lib/application/security-pre-handlers');
+const tokenService = require('../../../lib/domain/services/token-service');
+const checkUserIsAuthenticatedUseCase = require('../../../lib/application/usecases/checkUserIsAuthenticated');
+const checkUserHasRolePixMasterUseCase = require('../../../lib/application/usecases/checkUserHasRolePixMaster');
+const checkUserIsAdminInOrganizationUseCase = require('../../../lib/application/usecases/checkUserIsAdminInOrganization');
+const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('../../../lib/application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
+const checkUserBelongsToOrganizationUseCase = require('../../../lib/application/usecases/checkUserBelongsToOrganization');
 
-describe('Unit | Interfaces | Controllers | SecurityController', () => {
+describe('Unit | Application | SecurityPreHandlers', () => {
 
   describe('#checkUserIsAuthenticated', () => {
 
@@ -32,7 +32,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         // given
 
         // when
-        const response = await securityController.checkUserIsAuthenticated(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAuthenticated(request, hFake);
 
         // then
         expect(response.authenticated).to.deep.equal({ credentials: { accessToken, userId: 1234 } });
@@ -52,7 +52,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         tokenService.extractTokenFromAuthChain.returns(null);
 
         // when
-        const response = await securityController.checkUserIsAuthenticated(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAuthenticated(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(401);
@@ -65,7 +65,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         checkUserIsAuthenticatedUseCase.execute.resolves(false);
 
         // when
-        const response = await securityController.checkUserIsAuthenticated(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAuthenticated(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(401);
@@ -78,7 +78,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         checkUserIsAuthenticatedUseCase.execute.rejects(new Error('Some error'));
 
         // when
-        const response = await securityController.checkUserIsAuthenticated(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAuthenticated(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(401);
@@ -106,7 +106,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         // given
 
         // when
-        const response = await securityController.checkUserHasRolePixMaster(request, hFake);
+        const response = await securityPreHandlers.checkUserHasRolePixMaster(request, hFake);
 
         // then
         expect(response.source).to.equal(true);
@@ -122,7 +122,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         delete request.auth.credentials;
 
         // when
-        const response = await securityController.checkUserHasRolePixMaster(request, hFake);
+        const response = await securityPreHandlers.checkUserHasRolePixMaster(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -134,7 +134,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         checkUserHasRolePixMasterUseCase.execute.resolves(false);
 
         // when
-        const response = await securityController.checkUserHasRolePixMaster(request, hFake);
+        const response = await securityPreHandlers.checkUserHasRolePixMaster(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -146,7 +146,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         checkUserHasRolePixMasterUseCase.execute.rejects(new Error('Some error'));
 
         // when
-        const response = await securityController.checkUserHasRolePixMaster(request, hFake);
+        const response = await securityPreHandlers.checkUserHasRolePixMaster(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -169,7 +169,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         const request = { params: { id: '1234' }, auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } } };
 
         // when
-        const response = await securityController.checkRequestedUserIsAuthenticatedUser(request, hFake);
+        const response = await securityPreHandlers.checkRequestedUserIsAuthenticatedUser(request, hFake);
 
         // then
         expect(response.source).to.equal(true);
@@ -180,7 +180,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         const request = { params: { userId: '1234' }, auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } } };
 
         // when
-        const response = await securityController.checkRequestedUserIsAuthenticatedUser(request, hFake);
+        const response = await securityPreHandlers.checkRequestedUserIsAuthenticatedUser(request, hFake);
 
         // then
         expect(response.source).to.equal(true);
@@ -196,7 +196,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         delete request.auth.credentials;
 
         // when
-        const response = await securityController.checkRequestedUserIsAuthenticatedUser(request, hFake);
+        const response = await securityPreHandlers.checkRequestedUserIsAuthenticatedUser(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -208,7 +208,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         request.params.id = '5678';
 
         // when
-        const response = await securityController.checkRequestedUserIsAuthenticatedUser(request, hFake);
+        const response = await securityPreHandlers.checkRequestedUserIsAuthenticatedUser(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -236,7 +236,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         // given
 
         // when
-        const response = await securityController.checkUserIsAdminInOrganization(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAdminInOrganization(request, hFake);
 
         // then
         expect(response.source).to.equal(true);
@@ -252,7 +252,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         delete request.auth.credentials;
 
         // when
-        const response = await securityController.checkUserIsAdminInOrganization(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAdminInOrganization(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -264,7 +264,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         checkUserIsAdminInOrganizationUseCase.execute.resolves(false);
 
         // when
-        const response = await securityController.checkUserIsAdminInOrganization(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAdminInOrganization(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -276,7 +276,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         checkUserIsAdminInOrganizationUseCase.execute.rejects(new Error('Some error'));
 
         // when
-        const response = await securityController.checkUserIsAdminInOrganization(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAdminInOrganization(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -309,7 +309,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         checkUserIsAdminInOrganizationUseCase.execute.resolves(false);
 
         // when
-        const response = await securityController.checkUserIsAdminInOrganizationOrHasRolePixMaster(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster(request, hFake);
 
         // then
         expect(response.source).to.equal(true);
@@ -320,7 +320,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         checkUserHasRolePixMasterUseCase.execute.resolves(false);
 
         // when
-        const response = await securityController.checkUserIsAdminInOrganizationOrHasRolePixMaster(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster(request, hFake);
 
         // then
         expect(response.source).to.equal(true);
@@ -330,7 +330,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         // given
 
         // when
-        const response = await securityController.checkUserIsAdminInOrganizationOrHasRolePixMaster(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster(request, hFake);
 
         // then
         expect(response.source).to.equal(true);
@@ -346,7 +346,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         delete request.auth.credentials;
 
         // when
-        const response = await securityController.checkUserIsAdminInOrganizationOrHasRolePixMaster(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -359,7 +359,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         checkUserHasRolePixMasterUseCase.execute.resolves(false);
 
         // when
-        const response = await securityController.checkUserIsAdminInOrganizationOrHasRolePixMaster(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -371,7 +371,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         checkUserIsAdminInOrganizationUseCase.execute.rejects(new Error('Some error'));
 
         // when
-        const response = await securityController.checkUserIsAdminInOrganizationOrHasRolePixMaster(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -407,7 +407,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
           belongToScoOrganizationAndManageStudentsStub.resolves(true);
 
           // when
-          const response = await securityController.checkUserBelongsToScoOrganizationAndManagesStudents(request, hFake);
+          const response = await securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents(request, hFake);
 
           // then
           expect(response.source).to.equal(true);
@@ -429,7 +429,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
           belongToScoOrganizationAndManageStudentsStub.resolves(true);
 
           // when
-          const response = await securityController.checkUserBelongsToScoOrganizationAndManagesStudents(request, hFake);
+          const response = await securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents(request, hFake);
 
           // then
           expect(response.source).to.equal(true);
@@ -452,7 +452,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         delete request.auth.credentials;
 
         // when
-        const response = await securityController.checkUserBelongsToScoOrganizationAndManagesStudents(request, hFake);
+        const response = await securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -464,7 +464,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         belongToScoOrganizationAndManageStudentsStub.resolves(false);
 
         // when
-        const response = await securityController.checkUserBelongsToScoOrganizationAndManagesStudents(request, hFake);
+        const response = await securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -476,7 +476,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         belongToScoOrganizationAndManageStudentsStub.rejects(new Error('Some error'));
 
         // when
-        const response = await securityController.checkUserBelongsToScoOrganizationAndManagesStudents(request, hFake);
+        const response = await securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -507,7 +507,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         // given
 
         // when
-        const response = await securityController.checkUserIsAdminInScoOrganizationAndManagesStudents(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAdminInScoOrganizationAndManagesStudents(request, hFake);
 
         // then
         expect(response.source).to.equal(true);
@@ -523,7 +523,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         delete request.auth.credentials;
 
         // when
-        const response = await securityController.checkUserIsAdminInScoOrganizationAndManagesStudents(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAdminInScoOrganizationAndManagesStudents(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -536,7 +536,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         checkUserBelongsToScoOrganizationAndManagesStudentsUseCase.execute.resolves(true);
 
         // when
-        const response = await securityController.checkUserIsAdminInScoOrganizationAndManagesStudents(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAdminInScoOrganizationAndManagesStudents(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -549,7 +549,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         checkUserBelongsToScoOrganizationAndManagesStudentsUseCase.execute.resolves(false);
 
         // when
-        const response = await securityController.checkUserIsAdminInScoOrganizationAndManagesStudents(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAdminInScoOrganizationAndManagesStudents(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -561,7 +561,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         checkUserIsAdminInOrganizationUseCase.execute.rejects(new Error('Some error'));
 
         // when
-        const response = await securityController.checkUserIsAdminInScoOrganizationAndManagesStudents(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAdminInScoOrganizationAndManagesStudents(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -597,7 +597,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         hasRolePixMasterStub.resolves(false);
 
         // when
-        const response = await securityController.checkUserBelongsToOrganizationOrHasRolePixMaster(request, hFake);
+        const response = await securityPreHandlers.checkUserBelongsToOrganizationOrHasRolePixMaster(request, hFake);
 
         // then
         expect(response.source).to.equal(true);
@@ -609,7 +609,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         hasRolePixMasterStub.resolves(true);
 
         // when
-        const response = await securityController.checkUserBelongsToOrganizationOrHasRolePixMaster(request, hFake);
+        const response = await securityPreHandlers.checkUserBelongsToOrganizationOrHasRolePixMaster(request, hFake);
 
         // then
         expect(response.source).to.equal(true);
@@ -621,7 +621,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         hasRolePixMasterStub.resolves(true);
 
         // when
-        const response = await securityController.checkUserBelongsToOrganizationOrHasRolePixMaster(request, hFake);
+        const response = await securityPreHandlers.checkUserBelongsToOrganizationOrHasRolePixMaster(request, hFake);
 
         // then
         expect(response.source).to.equal(true);
@@ -643,7 +643,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         delete request.auth.credentials;
 
         // when
-        const response = await securityController.checkUserBelongsToOrganizationOrHasRolePixMaster(request, hFake);
+        const response = await securityPreHandlers.checkUserBelongsToOrganizationOrHasRolePixMaster(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -655,7 +655,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         belongsToOrganizationStub.resolves(false);
 
         // when
-        const response = await securityController.checkUserBelongsToOrganizationOrHasRolePixMaster(request, hFake);
+        const response = await securityPreHandlers.checkUserBelongsToOrganizationOrHasRolePixMaster(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -667,7 +667,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         belongsToOrganizationStub.rejects(new Error('Some error'));
 
         // when
-        const response = await securityController.checkUserBelongsToOrganizationOrHasRolePixMaster(request, hFake);
+        const response = await securityPreHandlers.checkUserBelongsToOrganizationOrHasRolePixMaster(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);

@@ -1,6 +1,6 @@
 const Joi = require('@hapi/joi');
 
-const securityController = require('../../interfaces/controllers/security-controller');
+const securityPreHandlers = require('../security-pre-handlers');
 const organisationController = require('./organization-controller');
 
 exports.register = async (server) => {
@@ -10,7 +10,7 @@ exports.register = async (server) => {
       path: '/api/organizations',
       config: {
         pre: [{
-          method: securityController.checkUserHasRolePixMaster,
+          method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
         handler: organisationController.create,
@@ -22,7 +22,7 @@ exports.register = async (server) => {
       path: '/api/organizations',
       config: {
         pre: [{
-          method: securityController.checkUserHasRolePixMaster,
+          method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
         handler: organisationController.findPaginatedFilteredOrganizations,
@@ -39,7 +39,7 @@ exports.register = async (server) => {
       path: '/api/organizations/{id}',
       config: {
         pre: [{
-          method: securityController.checkUserHasRolePixMaster,
+          method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
         handler: organisationController.getOrganizationDetails,
@@ -55,7 +55,7 @@ exports.register = async (server) => {
       path: '/api/organizations/{id}',
       config: {
         pre: [{
-          method: securityController.checkUserHasRolePixMaster,
+          method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
         handler: organisationController.updateOrganizationInformation,
@@ -83,7 +83,7 @@ exports.register = async (server) => {
       path: '/api/organizations/{id}/memberships',
       config: {
         pre: [{
-          method: securityController.checkUserBelongsToOrganizationOrHasRolePixMaster,
+          method: securityPreHandlers.checkUserBelongsToOrganizationOrHasRolePixMaster,
           assign: 'belongsToOrganization'
         }],
         handler: organisationController.getMemberships,
@@ -111,7 +111,7 @@ exports.register = async (server) => {
       path: '/api/organizations/{id}/target-profiles',
       config: {
         pre: [{
-          method: securityController.checkUserHasRolePixMaster,
+          method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
         handler: organisationController.attachTargetProfiles,
@@ -123,7 +123,7 @@ exports.register = async (server) => {
       path: '/api/organizations/{id}/students',
       config: {
         pre: [{
-          method: securityController.checkUserBelongsToScoOrganizationAndManagesStudents,
+          method: securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents,
           assign: 'belongsToScoOrganizationAndManageStudents'
         }],
         handler: organisationController.findUserWithSchoolingRegistrations,
@@ -139,7 +139,7 @@ exports.register = async (server) => {
       path: '/api/organizations/{id}/import-students',
       config: {
         pre: [{
-          method: securityController.checkUserIsAdminInScoOrganizationAndManagesStudents,
+          method: securityPreHandlers.checkUserIsAdminInScoOrganizationAndManagesStudents,
           assign: 'isAdminInScoOrganizationAndManagesStudents'
         }],
         payload: {
@@ -160,7 +160,7 @@ exports.register = async (server) => {
       path: '/api/organizations/{id}/invitations',
       config: {
         pre: [{
-          method: securityController.checkUserIsAdminInOrganizationOrHasRolePixMaster,
+          method: securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster,
           assign: 'isAdminInOrganizationOrHasRolePixMaster'
         }],
         handler: organisationController.sendInvitations,
@@ -188,7 +188,7 @@ exports.register = async (server) => {
       path: '/api/organizations/{id}/invitations',
       config: {
         pre: [{
-          method: securityController.checkUserIsAdminInOrganization,
+          method: securityPreHandlers.checkUserIsAdminInOrganization,
           assign: 'isAdminInOrganization'
         }],
         handler: organisationController.findPendingInvitations,

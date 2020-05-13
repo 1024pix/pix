@@ -1,6 +1,6 @@
 const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 
-const securityController = require('../../../../lib/interfaces/controllers/security-controller');
+const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
 const moduleUnderTest = require('../../../../lib/application/organizations');
 
@@ -9,11 +9,11 @@ describe('Integration | Application | Organizations | Routes', () => {
   let httpTestServer;
 
   beforeEach(() => {
-    sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
-    sinon.stub(securityController, 'checkUserIsAdminInScoOrganizationAndManagesStudents').callsFake((request, h) => h.response(true));
-    sinon.stub(securityController, 'checkUserIsAdminInOrganizationOrHasRolePixMaster').callsFake((request, h) => h.response(true));
-    sinon.stub(securityController, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response(true));
-    sinon.stub(securityController, 'checkUserBelongsToScoOrganizationAndManagesStudents').callsFake((request, h) => h.response(true));
+    sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+    sinon.stub(securityPreHandlers, 'checkUserIsAdminInScoOrganizationAndManagesStudents').callsFake((request, h) => h.response(true));
+    sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganizationOrHasRolePixMaster').callsFake((request, h) => h.response(true));
+    sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response(true));
+    sinon.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents').callsFake((request, h) => h.response(true));
 
     sinon.stub(organizationController, 'create').returns('ok');
     sinon.stub(organizationController, 'findPaginatedFilteredOrganizations').returns('ok');

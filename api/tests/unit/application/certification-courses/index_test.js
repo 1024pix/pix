@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('@hapi/hapi');
-const securityController = require('../../../../lib/interfaces/controllers/security-controller');
+const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const certificationCoursesController = require('../../../../lib/application/certification-courses/certification-course-controller');
 
 describe('Unit | Application | Certifications Course | Route', function() {
@@ -9,7 +9,7 @@ describe('Unit | Application | Certifications Course | Route', function() {
 
   beforeEach(() => {
 
-    sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+    sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
     sinon.stub(certificationCoursesController, 'getResult').returns('ok');
     sinon.stub(certificationCoursesController, 'update').returns('ok');
     sinon.stub(certificationCoursesController, 'computeResult').returns('ok');

@@ -9,7 +9,7 @@ const preResponseUtils = require('../../../lib/application/pre-response-utils');
  *
  * beforeEach(() => {
  *   sinon.stub(usecases, 'updateOrganizationInformation');
- *   sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
+ *   sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
  *   httpTestServer = new HttpTestServer(moduleUnderTest);
  * });
  */

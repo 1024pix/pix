@@ -1,6 +1,6 @@
 const os = require('os');
 const { expect, sinon, HttpTestServer } = require('../../../test-helper');
-const securityController = require('../../../../lib/interfaces/controllers/security-controller');
+const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const moduleUnderTest = require('../../../../lib/application/system');
 const heapdump = require('heapdump');
 const heapProfile = require('heap-profile');
@@ -11,7 +11,7 @@ describe('Integration | Application | System | system-controller', () => {
   let httpTestServer;
 
   beforeEach(() => {
-    sinon.stub(securityController, 'checkUserHasRolePixMaster');
+    sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
     sinon.stub(heapProfile, 'write').resolves(`${__dirname}/dummy-heap.txt`);
     sinon.stub(heapdump, 'writeSnapshot').yields(null, `${__dirname}/dummy-heap.txt`);
     httpTestServer = new HttpTestServer(moduleUnderTest);
@@ -26,7 +26,7 @@ describe('Integration | Application | System | system-controller', () => {
     context('Success cases', () => {
 
       beforeEach(() => {
-        securityController.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
+        securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
       });
 
       it('should redirect to same path if host does not match', async () => {
@@ -54,7 +54,7 @@ describe('Integration | Application | System | system-controller', () => {
       context('when user is not allowed to access resource', () => {
 
         beforeEach(() => {
-          securityController.checkUserHasRolePixMaster.callsFake((request, h) => {
+          securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => {
             return Promise.resolve(h.response().code(403).takeover());
           });
         });
@@ -76,7 +76,7 @@ describe('Integration | Application | System | system-controller', () => {
 
     context('when user is PixMaster', () => {
       beforeEach(() => {
-        securityController.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
+        securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
       });
 
       context('when sampling heap profiler is disabled', () => {
@@ -123,7 +123,7 @@ describe('Integration | Application | System | system-controller', () => {
     context('when user is not PixMaster', () => {
 
       beforeEach(() => {
-        securityController.checkUserHasRolePixMaster.callsFake((request, h) => {
+        securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => {
           return Promise.resolve(h.response().code(403).takeover());
         });
       });

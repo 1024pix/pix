@@ -1,5 +1,5 @@
 const Joi = require('@hapi/joi');
-const securityController = require('../../interfaces/controllers/security-controller');
+const securityPreHandlers = require('../security-pre-handlers');
 const sessionController = require('./session-controller');
 const sessionAuthorization = require('../preHandlers/session-authorization');
 
@@ -10,7 +10,7 @@ exports.register = async (server) => {
       path: '/api/jury/sessions',
       config: {
         pre: [{
-          method: securityController.checkUserHasRolePixMaster,
+          method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
         handler: sessionController.findPaginatedFilteredJurySessions,
@@ -31,7 +31,7 @@ exports.register = async (server) => {
           }),
         },
         pre: [{
-          method: securityController.checkUserHasRolePixMaster,
+          method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
         handler: sessionController.getJurySession,
@@ -227,7 +227,7 @@ exports.register = async (server) => {
           }),
         },
         pre: [{
-          method: securityController.checkUserHasRolePixMaster,
+          method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
         handler: sessionController.getCertifications,
@@ -288,7 +288,7 @@ exports.register = async (server) => {
           }),
         },
         pre: [{
-          method: securityController.checkUserHasRolePixMaster,
+          method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster',
         }],
         handler: sessionController.updatePublication,
@@ -309,7 +309,7 @@ exports.register = async (server) => {
           }),
         },
         pre: [{
-          method: securityController.checkUserHasRolePixMaster,
+          method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster',
         }],
 
@@ -332,7 +332,7 @@ exports.register = async (server) => {
           }),
         },
         pre: [{
-          method: securityController.checkUserHasRolePixMaster,
+          method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster',
         }],
         handler: sessionController.assignCertificationOfficer,

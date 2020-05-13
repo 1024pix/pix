@@ -1,5 +1,5 @@
 const Joi = require('@hapi/joi');
-const securityController = require('../../interfaces/controllers/security-controller');
+const securityPreHandlers = require('../security-pre-handlers');
 const CacheController = require('./cache-controller');
 
 exports.register = async function(server) {
@@ -9,7 +9,7 @@ exports.register = async function(server) {
       path: '/api/cache/{cachekey}',
       config: {
         pre: [{
-          method: securityController.checkUserHasRolePixMaster,
+          method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
         validate: {
@@ -31,7 +31,7 @@ exports.register = async function(server) {
       path: '/api/cache',
       config: {
         pre: [{
-          method: securityController.checkUserHasRolePixMaster,
+          method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
         handler: CacheController.refreshCacheEntries,

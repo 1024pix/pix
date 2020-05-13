@@ -1,5 +1,5 @@
 const certificationCenterController = require('./certification-center-controller');
-const securityController = require('../../interfaces/controllers/security-controller');
+const securityPreHandlers = require('../security-pre-handlers');
 
 exports.register = async function(server) {
   server.route([
@@ -10,7 +10,7 @@ exports.register = async function(server) {
       config: {
         handler: certificationCenterController.save,
         pre: [{
-          method: securityController.checkUserHasRolePixMaster,
+          method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster',
         }],
         notes: [
@@ -27,7 +27,7 @@ exports.register = async function(server) {
       config: {
         handler: certificationCenterController.findPaginatedFilteredCertificationCenters,
         pre: [{
-          method: securityController.checkUserHasRolePixMaster,
+          method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster',
         }],
         notes: [
@@ -44,7 +44,7 @@ exports.register = async function(server) {
       config: {
         handler: certificationCenterController.getById,
         pre: [{
-          method: securityController.checkUserHasRolePixMaster,
+          method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster',
         }],
         notes: [
