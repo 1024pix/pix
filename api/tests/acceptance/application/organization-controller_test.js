@@ -661,7 +661,7 @@ describe('Acceptance | Application | organization-controller', () => {
         await databaseBuilder.commit();
       });
 
-      it('should return the matching organization as JSON API', async () => {
+      it('should return the matching membership as JSON API', async () => {
         // given
         const expectedResult = {
           'data': [
@@ -671,9 +671,6 @@ describe('Acceptance | Application | organization-controller', () => {
               },
               'id': membershipId.toString(),
               'relationships': {
-                'organization': {
-                  'data': null
-                },
                 'user': {
                   'data': {
                     'id': user.id.toString(),

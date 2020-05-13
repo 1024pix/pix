@@ -8,6 +8,7 @@ module.exports = {
         if (!record.user) {
           delete record.user;
         }
+
         // we add a 'campaigns' attr to the organization so that the serializer
         // can see there is a 'campaigns' attribute and add the relationship link.
         if (record.organization) {
@@ -16,6 +17,8 @@ module.exports = {
           record.organization.memberships = [];
           record.organization.students = [];
           record.organization.organizationInvitations = [];
+        } else {
+          delete record.organization;
         }
         return record;
       },
