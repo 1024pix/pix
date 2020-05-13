@@ -6,7 +6,7 @@
 
 {{#unless this.hasChallengeTimer}}
   <form {{action "validateAnswer" on="submit"}} class="rounded-panel">
-    <ChallengeStatement @challenge={{@challenge}} @assessment={{@assessment}} @class="rounded-panel__row" />
+    <ChallengeStatement @challenge={{@challenge}} @assessment={{@assessment}} />
 
     <div class="rounded-panel__row challenge-response {{if @answer 'challenge-response--locked'}}">
       <div class="challenge-proposals">

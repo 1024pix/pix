@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import EmberObject from '@ember/object';
 import { setupTest } from 'ember-mocha';
+import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
 describe('Unit | Component | challenge statement', function() {
 
@@ -18,11 +19,10 @@ describe('Unit | Component | challenge statement', function() {
         id: 'rec_123'
       });
 
-      const component = this.owner.lookup('component:challenge-statement');
-      component.set('challenge', challenge);
+      const component = createGlimmerComponent('component:challenge-statement', { challenge });
 
       // when
-      const challengeEmbedDocument = component.get('challengeEmbedDocument');
+      const challengeEmbedDocument = component.challengeEmbedDocument;
 
       // then
       expect(challengeEmbedDocument).to.deep.equal({
@@ -38,11 +38,10 @@ describe('Unit | Component | challenge statement', function() {
         hasValidEmbedDocument: false
       });
 
-      const component = this.owner.lookup('component:challenge-statement');
-      component.set('challenge', challenge);
+      const component = createGlimmerComponent('component:challenge-statement', { challenge });
 
       // when
-      const challengeEmbedDocument = component.get('challengeEmbedDocument');
+      const challengeEmbedDocument = component.challengeEmbedDocument;
 
       // then
       expect(challengeEmbedDocument).to.be.undefined;
