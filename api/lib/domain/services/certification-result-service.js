@@ -175,8 +175,8 @@ function _getChallengeInformation(listAnswers, certificationChallenges, competen
   });
 }
 
-async function _getTestedCompetences({ userId, limitDate, isV2Certification }) {
-  const certificationProfile = await userService.getCertificationProfile({ userId, limitDate, isV2Certification });
+async function _getTestedCompetences({ userId, limitDate, isV2Certification, competences }) {
+  const certificationProfile = await userService.getCertificationProfile({ userId, limitDate, isV2Certification, competences });
   return _(certificationProfile.userCompetences)
     .filter((uc) => uc.estimatedLevel > 0)
     .map((uc) => _.pick(uc, ['id', 'area', 'index', 'name', 'estimatedLevel', 'pixScore']))
@@ -216,6 +216,7 @@ module.exports = {
       userId: assessment.userId,
       limitDate: assessment.createdAt,
       isV2Certification: certificationCourse.isV2Certification,
+      competences: allCompetences
     });
 
     const matchingCertificationChallenges = _selectChallengesMatchingCompetences(certificationChallenges, testedCompetences);

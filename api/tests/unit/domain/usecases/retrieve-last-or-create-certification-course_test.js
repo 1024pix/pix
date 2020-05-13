@@ -14,6 +14,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
   const accessCode = 'accessCode';
   let foundSession;
   const assessmentRepository = { save: sinon.stub() };
+  const competenceRepository = { listPixCompetencesOnly: sinon.stub() };
   const certificationCandidateRepository = { getBySessionIdAndUserId: sinon.stub() };
   const certificationChallengeRepository = { save: sinon.stub() };
   const certificationCourseRepository = {
@@ -29,6 +30,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
   const parameters = {
     domainTransaction,
     assessmentRepository,
+    competenceRepository,
     certificationCandidateRepository,
     certificationChallengeRepository,
     certificationCourseRepository,
@@ -102,8 +104,11 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
     context('when no certification course exists for this userId and sessionId', () => {
       let certificationProfile;
+      let competences;
 
       beforeEach(() => {
+        competences = [{ id: 'rec123' }, { id: 'rec456' }];
+        competenceRepository.listPixCompetencesOnly.resolves(competences);
         certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
           .withArgs({ userId, sessionId, domainTransaction }).onCall(0).resolves(null);
       });
@@ -112,7 +117,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
         beforeEach(() => {
           certificationProfile = { isCertifiable: sinon.stub().returns(false) };
-          userService.getCertificationProfile.withArgs({ userId, limitDate: now }).resolves(certificationProfile);
+          userService.getCertificationProfile.withArgs({ userId, limitDate: now, competences }).resolves(certificationProfile);
         });
 
         it('should throw a UserNotAuthorizedToCertifyError', async function() {
@@ -148,7 +153,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
         beforeEach(() => {
           certificationProfile = { isCertifiable: sinon.stub().returns(true), userCompetences: 'someUserCompetences' };
-          userService.getCertificationProfile.withArgs({ userId, limitDate: now }).resolves(certificationProfile);
+          userService.getCertificationProfile.withArgs({ userId, limitDate: now, competences }).resolves(certificationProfile);
+          userService.fillCertificationProfileWithChallenges.withArgs(certificationProfile).resolves(certificationProfile);
         });
 
         context('when a certification course has been created meanwhile', () => {
@@ -158,7 +164,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             existingCertificationCourse = Symbol('existingCertificationCourse');
             certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
               .withArgs({ userId, sessionId, domainTransaction }).onCall(1).resolves(existingCertificationCourse);
-            userService.fillCertificationProfileWithChallenges.withArgs(certificationProfile).resolves();
           });
 
           it('should return it with flag created marked as false', async function() {
@@ -236,7 +241,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           beforeEach(() => {
             certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
               .withArgs({ userId, sessionId, domainTransaction }).onCall(1).resolves(null);
-            userService.getCertificationProfile.withArgs({ userId, limitDate: now }).resolves(certificationProfile);
+            userService.getCertificationProfile.withArgs({ userId, limitDate: now, competences }).resolves(certificationProfile);
             certificationCandidateRepository.getBySessionIdAndUserId.withArgs({ sessionId, userId }).resolves(foundCertificationCandidate);
             certificationCourseRepository.save.resolves(savedCertificationCourse);
             assessmentRepository.save.resolves(savedAssessment);

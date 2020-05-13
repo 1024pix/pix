@@ -58,6 +58,7 @@ describe('Unit | Service | Certification Service', function() {
         userId: 'user_id',
         limitDate: dateCreationCertif,
         isV2Certification: certificationCourseV1.isV2Certification,
+        competences: []
       }).resolves([]);
       sinon.stub(certificationCourseRepository, 'get').resolves(certificationCourseV1);
     });
