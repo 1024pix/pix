@@ -39,7 +39,7 @@ module('Acceptance | Session pages', function(hooks) {
       });
     });
 
-    module('On sessions.session.informations page', function(hooks) {
+    module('Informations tab', function(hooks) {
 
       hooks.beforeEach(async () => {
         // when
@@ -59,7 +59,7 @@ module('Acceptance | Session pages', function(hooks) {
           assert.equal(document.querySelector('.page-actions form input').value, '1');
         });
 
-        test('it load new session when user give a new sessionId', async  function(assert) {
+        test('it loads new session when user give a new sessionId', async  function(assert) {
           // when
           const sessionIdInput = document.querySelector('.page-actions form input');
           await fillIn(sessionIdInput, '2');
@@ -95,7 +95,7 @@ module('Acceptance | Session pages', function(hooks) {
 
       module('Informations section', function() {
 
-        test('it show session informations', function(assert) {
+        test('it shows session informations', function(assert) {
           // then
           assert.dom('.session-info__details .row div:last-child').hasText(session.certificationCenterName);
           assert.dom('[data-test-id="session-info__finalized-at"]').hasText(session.finalizedAt.toLocaleString('fr-FR'));
@@ -105,7 +105,7 @@ module('Acceptance | Session pages', function(hooks) {
 
       module('Buttons section', function() {
 
-        test('it show all buttons', function(assert) {
+        test('it shows all buttons', function(assert) {
           // then
           assert.dom('.session-info__actions div button:first-child').hasText('M\'assigner la session');
           assert.dom('.session-info__actions div button:nth-child(2)').hasText('Récupérer le fichier avant jury');
@@ -115,27 +115,30 @@ module('Acceptance | Session pages', function(hooks) {
       });
     });
 
-    module('On sessions.session.certifications page', function(hooks) {
+    module('Certifications tab', function(hooks) {
 
-      let certification;
+      let juryCertificationSummary;
 
       hooks.beforeEach(async () => {
         // given
-        certification = server.create('certification', {
-          sessionId: 1,
-          firstName: 'Annie',
+        juryCertificationSummary = server.create('jury-certification-summary', {
+          firstName: 'Anne',
+          lastName: 'Pix1',
           isPublished: true,
         });
+        session.update({ juryCertificationSummaries: [juryCertificationSummary] });
+
         // when
         await visit('/sessions/1/certifications');
       });
 
       module('Certification section', function() {
 
-        test('it show certifications informations', function(assert) {
+        test('it shows certifications informations', function(assert) {
           // then
           const circle = document.querySelector('.certification-list tbody tr td:last-child div svg circle');
-          assert.dom('.certification-list tbody tr td:nth-child(2)').hasText(certification.firstName);
+          assert.dom('.certification-list tbody tr td:nth-child(2)').hasText(juryCertificationSummary.firstName);
+          assert.dom('.certification-list tbody tr td:nth-child(3)').hasText(juryCertificationSummary.lastName);
           assert.equal(circle.attributes.fill.value, '#39B97A');
         });
       });

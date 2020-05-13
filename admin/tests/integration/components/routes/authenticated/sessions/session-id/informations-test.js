@@ -69,9 +69,9 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
         resultsSentToPrescriberAt: new Date(),
       };
       session = this.server.create('session', sessionData);
-      const certif1 = this.server.create('certification', { sessionId: session.id, examinerComment: 'ok', status: 'validated', hasSeenEndTestScreen: 'false' });
-      const certif2 = this.server.create('certification', { sessionId: session.id, status: 'validated', hasSeenEndTestScreen: 'true' });
-      session.update({ certifications: [certif1, certif2] });
+      const juryCertifSummary1 = this.server.create('jury-certification-summary', { examinerComment: 'ok', status: 'validated', hasSeenEndTestScreen: false });
+      const juryCertifSummary2 = this.server.create('jury-certification-summary', { status: 'validated', hasSeenEndTestScreen: true });
+      session.update({ juryCertificationSummaries: [juryCertifSummary1, juryCertifSummary2] });
     });
 
     test('it renders the finalization date', async function(assert) {
