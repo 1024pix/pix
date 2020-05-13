@@ -41,9 +41,7 @@ async function _findByCampaignIdForSharedCampaignParticipationWhere(campaignPart
 }
 
 function _getByUserIdAndLimitDateQuery({ userId, limitDate }) {
-  return Bookshelf.knex
-    .select('*', Bookshelf.knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS rank', ['skillId', 'createdAt']))
-    .from('knowledge-elements')
+  return Bookshelf.knex('knowledge-elements')
     .where((qb) => {
       qb.where({ userId });
       if (limitDate) {
