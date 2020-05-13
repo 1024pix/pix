@@ -10,13 +10,11 @@ class CertificationProfile {
       profileDate,
       userId,
       userCompetences,
-      challengeIdsCorrectlyAnswered,
     } = {}) {
     // attributes
     this.profileDate = profileDate;
     this.userId = userId;
     this.userCompetences = userCompetences;
-    this.challengeIdsCorrectlyAnswered = challengeIdsCorrectlyAnswered;
   }
 
   isCertifiable() {
