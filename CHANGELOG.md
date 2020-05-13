@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## v2.152.0 (13/05/2020)
+
+- [#1398](https://github.com/1024pix/pix/pull/1398) [FEATURE] Améliorer le design de la page de login (PIX-511).
+- [#1406](https://github.com/1024pix/pix/pull/1406) [FEATURE] Centrer les messages d'erreur sur la page de connexion de Pix Orga (PIX-652).
+- [#1317](https://github.com/1024pix/pix/pull/1317) [FEATURE] Certif clea zone grise (PF-1147)
+- [#1372](https://github.com/1024pix/pix/pull/1372) [FEATURE] Ajoute le système d'archivage sur les campagnes de type collecte de profils (PIX-584).
+- [#1395](https://github.com/1024pix/pix/pull/1395) [FEATURE][FIX] Utiliser l'élément UL pour la liste à puces dans la double mire de connexion SCO (PIX-647).
+- [#1392](https://github.com/1024pix/pix/pull/1392) [FEATURE] Mettre à jour le texte de la page de login de PixOrga et son design (PIX-530).
+- [#1374](https://github.com/1024pix/pix/pull/1374) [FEATURE] Supprimer le logo de la Marianne si l'on n'est pas sur ".fr" (PIX-603)
+- [#1407](https://github.com/1024pix/pix/pull/1407) [BUGFIX] Correction des couleurs de la navigation.
+- [#1401](https://github.com/1024pix/pix/pull/1401) [BUGFIX] Ne pas permettre d'évaluer un tutoriel 2 fois (PIX-648).
+- [#1405](https://github.com/1024pix/pix/pull/1405) [BUGFIX] Utiliser le bon dégradé de couleur pour le fond de la bannière de la page évaluation.
+- [#1389](https://github.com/1024pix/pix/pull/1389) [BUGFIX] Supprime le bouton "J'ai un code" pour les utilisateurs non connectés (PIX-601).
+- [#1387](https://github.com/1024pix/pix/pull/1387) [BUGFIX] Suppression d'un warning ember-data sur les campaignParticipations.
+- [#1378](https://github.com/1024pix/pix/pull/1378) [BUGFIX] Ne plus avoir les erreurs de transition dans la console (PIX-632).
+- [#1277](https://github.com/1024pix/pix/pull/1277) [TECH] Remplir la colonne associatedSkillId de la table certification-challenges avec l'id de l'acquis approprié (PF-1229)
+- [#1404](https://github.com/1024pix/pix/pull/1404) [CLEANUP] Déplacement et renommage du module "security-controller"
+- [#1382](https://github.com/1024pix/pix/pull/1382) [INFRA] Amélioration des performances mémoire (et donc vitesse) lors de l'utilisation du knowledge-element-repository (PIX-635).
+- [#1292](https://github.com/1024pix/pix/pull/1292)  [DESIGN SYSTEM] Mise a jour des couleurs (PF-1152)
+
 ## v2.151.0 (11/05/2020)
 
 - [#1386](https://github.com/1024pix/pix/pull/1386) [FEATURE] Modification du message concernant la réinitialisation d'un mot de passe, sur la double mire de connexion (PIX-556).
