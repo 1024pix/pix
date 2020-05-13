@@ -18,9 +18,9 @@ module.exports = [
   require('./application/healthcheck'),
   require('./application/memberships'),
   require('./application/organization-invitations'),
-  require('./application/user-orga-settings'),
   require('./application/organizations'),
   require('./application/passwords'),
+  require('./application/prescribers'),
   require('./application/progressions'),
   require('./application/saml'),
   require('./application/schooling-registration-dependent-users'),
@@ -32,6 +32,7 @@ module.exports = [
   require('./application/student-user-associations'),
   require('./application/system'),
   require('./application/tutorial-evaluations'),
+  require('./application/user-orga-settings'),
   require('./application/user-tutorials'),
   require('./application/users'),
 ];
