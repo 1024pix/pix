@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const service = require('../../../../lib/domain/services/solution-service-utils');
 
-describe('Unit | Domain | Services | solution-service-utils', function() {
+describe('Unit | Domain | Services | solution-service-response-objects', function() {
 
   describe('treatmentT1T2T3', function() {
     it('Should exist', function() {

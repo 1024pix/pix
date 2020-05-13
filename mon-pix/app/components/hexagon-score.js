@@ -1,5 +1,5 @@
 import { action, computed } from '@ember/object';
-import { isNone } from '@ember/utils';
+import { isNone } from '@ember/response-objects';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 

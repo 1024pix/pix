@@ -1,7 +1,7 @@
 const { expect } = require('../../../test-helper');
 const { isValidDate, convertDateValue } = require('../../../../lib/infrastructure/utils/date-utils');
 
-describe('Unit | Utils | date-utils', () => {
+describe('Unit | Utils | date-response-objects', () => {
 
   describe('#isValidDate', () => {
 

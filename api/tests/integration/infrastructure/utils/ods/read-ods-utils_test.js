@@ -15,7 +15,7 @@ const {
   getContentXml, extractTableDataFromOdsFile, getOdsVersionByHeaders, getSheetDataRowsFromOdsBuffer
 } = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
 
-describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', () => {
+describe('Integration | Infrastructure | Utils | Ods | read-ods-response-objects', () => {
 
   const GET_CONTENT_ODS_FILE_PATH = `${__dirname}/files/get-content-xml_test.ods`;
   const DEFAULT_ODS_FILE_PATH = `${__dirname}/files/default_test.ods`;
