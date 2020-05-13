@@ -18,7 +18,7 @@ describe('Integration | Component | ChallengeStatement', function() {
   }
 
   function renderChallengeStatement() {
-    return render(hbs`{{challenge-statement challenge=challenge assessment=assessment}}`);
+    return render(hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}} />`);
   }
 
   /*
