@@ -19,7 +19,6 @@ describe('Unit | Domain | Models | CertificationProfile', () => {
           pixScore: 10,
           estimatedLevel: 5,
         })],
-        challengeIdsCorrectlyAnswered: ['challengeId'],
       };
 
       // when
