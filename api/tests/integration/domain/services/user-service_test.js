@@ -294,7 +294,7 @@ describe('Integration | Service | User Service', function() {
               userId,
               limitDate: 'salut',
               competences,
-              limitPixAndLevels: false
+              allowExcessPixAndLevels: true
             });
 
             // then
@@ -323,7 +323,7 @@ describe('Integration | Service | User Service', function() {
               userId,
               limitDate: 'salut',
               competences,
-              limitPixAndLevels: true
+              allowExcessPixAndLevels: false
             });
 
             // then
