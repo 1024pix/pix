@@ -23,7 +23,7 @@ module('Acceptance | authenticated/users/get', function(hooks) {
 
   test('User detail page can be accessed from user list page', async function(assert) {
     await visit('/users');
-    await click(this.element.querySelector('.tr--clickable:first-child'));
+    await click('tbody > tr:nth-child(1) > td:nth-child(1) > a');
     assert.equal(currentURL(), `/users/${currentUser.id}`);
   });
 
