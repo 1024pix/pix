@@ -54,4 +54,30 @@ module.exports = {
     return certificationAssessment;
   },
 
+  async getByCertificationCourseId(certificationCourseId) {
+    const certificationAssessmentRows = await knex('assessments')
+      .join('certification-courses', 'certification-courses.id', 'assessments.certificationCourseId')
+      .select({
+        id: 'assessments.id',
+        userId: 'assessments.userId',
+        certificationCourseId: 'certification-courses.id',
+        createdAt: 'certification-courses.createdAt',
+        completedAt: 'certification-courses.completedAt',
+        isV2Certification: 'certification-courses.isV2Certification',
+        state: 'assessments.state',
+      })
+      .where('assessments.certificationCourseId', '=', certificationCourseId)
+      .limit(1);
+    if (!certificationAssessmentRows[0]) {
+      throw new NotFoundError(`L'assessment de certification avec un certificationCourseId de ${certificationCourseId} n'existe pas ou son accès est restreint`);
+    }
+    const certificationAssessment = new CertificationAssessment({
+      ...certificationAssessmentRows[0],
+    });
+
+    certificationAssessment.certificationChallenges = await _getCertificationChallenges(certificationAssessment.certificationCourseId);
+    certificationAssessment.certificationAnswers = await _getCertificationAnswers(certificationAssessment.id);
+    return certificationAssessment;
+  },
+
 };
