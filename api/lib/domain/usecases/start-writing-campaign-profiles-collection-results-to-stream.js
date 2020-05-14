@@ -164,7 +164,7 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
       userId: campaignParticipationResultData.userId,
       limitDate: campaignParticipationResultData.sharedAt,
       competences: allCompetences,
-      limitPixAndLevels: true
+      allowExcessPixAndLevels: false
     });
 
     const csvLine = _createOneLineOfCSV({

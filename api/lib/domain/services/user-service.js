@@ -10,13 +10,13 @@ const challengeRepository = require('../../../lib/infrastructure/repositories/ch
 const answerRepository = require('../../../lib/infrastructure/repositories/answer-repository');
 const knowledgeElementRepository = require('../../../lib/infrastructure/repositories/knowledge-element-repository');
 
-async function getCertificationProfile({ userId, limitDate, competences, isV2Certification = true, limitPixAndLevels = false }) {
+async function getCertificationProfile({ userId, limitDate, competences, isV2Certification = true, allowExcessPixAndLevels = true }) {
   const certificationProfile = new CertificationProfile({
     userId,
     profileDate: limitDate,
   });
   if (isV2Certification) {
-    return _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV2({ certificationProfile, competences, limitPixAndLevels });
+    return _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV2({ certificationProfile, competences, allowExcessPixAndLevels });
   }
   return _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV1({ certificationProfile, competences });
 }
@@ -102,7 +102,7 @@ async function _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredC
   return certificationProfileToFill;
 }
 
-function _createUserCompetencesV2({ userId, knowledgeElementsByCompetence, allCompetences, limitPixAndLevels = false }) {
+function _createUserCompetencesV2({ userId, knowledgeElementsByCompetence, allCompetences, allowExcessPixAndLevels = true }) {
   return allCompetences.map((competence) => {
     const userCompetence = new UserCompetence(competence);
 
@@ -110,8 +110,8 @@ function _createUserCompetencesV2({ userId, knowledgeElementsByCompetence, allCo
       userId,
       knowledgeElements: knowledgeElementsByCompetence[competence.id],
       competence,
-      allowExcessPix: !limitPixAndLevels,
-      allowExcessLevel: !limitPixAndLevels,
+      allowExcessPix: allowExcessPixAndLevels,
+      allowExcessLevel: allowExcessPixAndLevels,
     });
 
     userCompetence.estimatedLevel = scorecard.level;
@@ -121,7 +121,7 @@ function _createUserCompetencesV2({ userId, knowledgeElementsByCompetence, allCo
   });
 }
 
-async function _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV2({ certificationProfile, competences, limitPixAndLevels }) {
+async function _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV2({ certificationProfile, competences, allowExcessPixAndLevels }) {
   const certificationProfileToFill = _.clone(certificationProfile);
 
   const knowledgeElementsByCompetence = await knowledgeElementRepository
@@ -131,7 +131,7 @@ async function _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredC
     userId: certificationProfile.userId,
     knowledgeElementsByCompetence,
     allCompetences: competences,
-    limitPixAndLevels,
+    allowExcessPixAndLevels,
   });
 
   return certificationProfileToFill;
