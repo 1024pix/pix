@@ -2,7 +2,7 @@ const { injectDependencies } = require('../../infrastructure/utils/dependency-in
 
 const dependencies = {
   assessmentResultRepository: require('../../infrastructure/repositories/assessment-result-repository'),
-  assessmentRepository: require('../../infrastructure/repositories/assessment-repository'),
+  certificationAssessmentRepository: require('../../infrastructure/repositories/certification-assessment-repository'),
   badgeAcquisitionRepository: require('../../infrastructure/repositories/badge-acquisition-repository'),
   badgeCriteriaService: require('../services/badge-criteria-service'),
   badgeRepository: require('../../infrastructure/repositories/badge-repository'),
