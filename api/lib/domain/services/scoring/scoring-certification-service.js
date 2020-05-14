@@ -2,7 +2,6 @@ const CertificationAssessmentScore = require('../../models/CertificationAssessme
 const CompetenceMark = require('../../models/CompetenceMark');
 const certificationService = require('../../services/certification-service');
 const scoringService = require('../../services/scoring/scoring-service');
-const _ = require('lodash');
 
 async function calculateCertificationAssessmentScore(certificationAssessment) {
 
@@ -18,7 +17,6 @@ async function calculateCertificationAssessmentScore(certificationAssessment) {
   });
 
   return new CertificationAssessmentScore({
-    nbPix: _.sumBy(competenceMarks, 'score'),
     competenceMarks,
     percentageCorrectAnswers,
   });
