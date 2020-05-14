@@ -1,4 +1,9 @@
 <div class="session-info">
+
+  <div class="session-info__certification-officer-assigned">
+    <span>{{this.session.assignedCertificationOfficer.fullName}}</span>
+  </div>
+
   <div class="session-info__details">
     <div class='row'>
       <div class='col'>Centre :</div>
@@ -85,10 +90,17 @@
     <div class='row row--btn'>
 
       {{#if this.session.finalizedAt}}
-        <button class="btn btn-primary" {{on 'click' this.assignSessionToCurrentUser}}>
-          M'assigner la session
-        </button>
+        {{#if this.isCurrentUserAssignedToSession}}
+          <button class="btn btn-primary btn-disabled">
+            Vous êtes assigné à cette session
+          </button>
+        {{else}}
+          <button class="btn btn-primary" {{on 'click' this.checkForAssignment}}>
+            M'assigner la session
+          </button>
+        {{/if}}
       {{/if}}
+
 
       <button class="btn btn-primary" {{on 'click' this.downloadBeforeJuryFile}}>
         Récupérer le fichier avant jury
@@ -106,3 +118,24 @@
     </div>
   </div>
 </div>
+
+{{#if isShowingAssignmentModal}}
+    {{#modal-dialog
+            onClose=(action "cancelAssignment")
+            targetAttachment="center"
+            translucentOverlay=true }}
+        <div class='ember-modal-dialog--title'>
+          <h2>Assignation de la session</h2>
+          <span {{on 'click' this.cancelAssignment}}>×</span>
+        </div>
+        <p>
+          L'utilisateur {{this.session.assignedCertificationOfficer.fullName}} s'est déjà assigné cette session.
+          <br>
+          Voulez-vous vous quand même vous assigner cette session ?
+        </p>
+        <div class='ember-modal-dialog--actions'>
+          <button class='btn btn-secondary' {{on 'click' this.cancelAssignment}}>Annuler</button>
+          <button class='btn btn-primary' {{on 'click' this.confirmAssignment}}>Confirmer</button>
+        </div>
+    {{/modal-dialog}}
+{{/if}}
