@@ -1,11 +1,10 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
-import { authenticateSession } from 'ember-simple-auth/test-support';
 import { visit, currentURL, find } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import {
-  statusToDisplayName
-} from 'pix-admin/models/session';
+
+import { statusToDisplayName } from 'pix-admin/models/session';
+import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
 import moment from 'moment';
 
@@ -16,7 +15,8 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
   let session;
 
   hooks.beforeEach(async function() {
-    await authenticateSession({ userId: 1 });
+    const user = server.create('user');
+    await createAuthenticateSession({ userId: user.id });
   });
 
   module('regardless of session status', function() {
@@ -110,7 +110,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
       // then
       assert.equal(find('[data-test-id="session-info__examiner-comment"]'), undefined);
     });
-    
+
     module('when results have not yet been sent to prescriber', function() {
       test('it should display the button to flag results as sent', async function(assert) {
         // given
@@ -123,7 +123,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
         const buttonSendResultsToCandidates = this.element.querySelector('.session-info__actions .row button:nth-child(4)');
         assert.equal(buttonSendResultsToCandidates.innerHTML.trim(), 'Résultats transmis au prescripteur');
       });
-      
+
     });
 
     module('when results have been sent to prescriber', function() {

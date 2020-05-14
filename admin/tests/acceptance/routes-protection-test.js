@@ -1,10 +1,13 @@
 import { module, test } from 'qunit';
 import { visit, currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { authenticateSession } from 'ember-simple-auth/test-support';
+import { setupMirage } from 'ember-cli-mirage/test-support';
+
+import { createAuthenticateSession } from '../helpers/test-init';
 
 module('Acceptance | routes protection', function(hooks) {
   setupApplicationTest(hooks);
+  setupMirage(hooks);
 
   test('guest users can visit /about', async function(assert) {
     // when
@@ -28,10 +31,8 @@ module('Acceptance | routes protection', function(hooks) {
 
   test('authenticated users can visit /organizations/new', async function(assert) {
     // given
-    await authenticateSession({
-      userId: 1,
-      otherData: 'some-data'
-    });
+    const user = this.server.create('user');
+    await createAuthenticateSession({ userId: user.id });
 
     // when
     await visit('/organizations/new');
