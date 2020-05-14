@@ -1,23 +1,21 @@
 const _ = require('lodash');
-
-const CAMPAIGN_PARTICIPATION_RESULT_MASTERY_PERCENTAGE = 'La campagne est maîtrisée à X %';
-const EVERY_COMPETENCE_RESULT_MASTERY_PERCENTAGE = 'Chaque compétence de la campagne est maîtrisée à X %';
+const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
 
 function areBadgeCriteriaFulfilled({ campaignParticipationResult, badgeCriteria }) {
-  return _.every(badgeCriteria, (badgeCriterion) => {
+  return _.every(badgeCriteria, (criterion) => {
     let isBadgeCriterionFulfilled;
 
-    switch (badgeCriterion.scope) {
-      case CAMPAIGN_PARTICIPATION_RESULT_MASTERY_PERCENTAGE :
+    switch (criterion.scope) {
+      case BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION :
         isBadgeCriterionFulfilled = _verifyCampaignParticipationResultMasteryPercentageCriterion(
           campaignParticipationResult,
-          badgeCriterion.threshold
+          criterion.threshold
         );
         break;
-      case EVERY_COMPETENCE_RESULT_MASTERY_PERCENTAGE :
-        isBadgeCriterionFulfilled = _verifyEveryCompetenceResultMasteryPercentageCriterion(
+      case BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE :
+        isBadgeCriterionFulfilled = _verifyEveryPartnerCompetenceResultMasteryPercentageCriterion(
           campaignParticipationResult.partnerCompetenceResults,
-          badgeCriterion.threshold
+          criterion.threshold
         );
         break;
       default:
@@ -33,7 +31,7 @@ function _verifyCampaignParticipationResultMasteryPercentageCriterion(campaignPa
   return campaignParticipationResult.masteryPercentage >= threshold;
 }
 
-function _verifyEveryCompetenceResultMasteryPercentageCriterion(partnerCompetenceResults, threshold) {
+function _verifyEveryPartnerCompetenceResultMasteryPercentageCriterion(partnerCompetenceResults, threshold) {
   return _.every(partnerCompetenceResults, (partnerCompetenceResult) =>
     partnerCompetenceResult.masteryPercentage >= threshold);
 }

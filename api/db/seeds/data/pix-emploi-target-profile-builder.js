@@ -1,5 +1,6 @@
 const BADGE_PIX_EMPLOI_ID = 100;
 const Badge = require('../../../lib/domain/models/Badge');
+const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
 
 function pixEmploiTargetProfileBuilder({ databaseBuilder }) {
 
@@ -410,13 +411,13 @@ function pixEmploiTargetProfileBuilder({ databaseBuilder }) {
   });
 
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: 'La campagne est maîtrisée à X %',
+    scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
     threshold: 85,
     badgeId: badge.id,
   });
   
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: 'Chaque compétence de la campagne est maîtrisée à X %',
+    scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
     threshold: 75,
     badgeId: badge.id,
   });
