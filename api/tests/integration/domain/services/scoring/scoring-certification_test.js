@@ -37,7 +37,6 @@ describe('Integration | Domain | services | scoring | scoring-certification-serv
         sinon.stub(certificationService, 'calculateCertificationResultByAssessmentId').resolves({ competencesWithMark });
         const expectedAssessmentScore = {
           level: null,
-          nbPix: 12,
           percentageCorrectAnswers: 0,
           competenceMarks: [{
             id: undefined,
