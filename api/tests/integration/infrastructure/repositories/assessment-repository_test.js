@@ -409,65 +409,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
   });
 
-  describe('#findOneCertificationAssessmentByUserIdAndCertificationCourseId', async () => {
-    let userId;
-
-    beforeEach(() => {
-      userId = databaseBuilder.factory.buildUser().id;
-      return databaseBuilder.commit();
-    });
-
-    context('When an assessment exists for this certificationCourseId', () => {
-      let certificationCourseId;
-      let assessmentId;
-
-      beforeEach(() => {
-        certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId }).id;
-        assessmentId = databaseBuilder.factory.buildAssessment({
-          userId,
-          certificationCourseId,
-          type: Assessment.types.CERTIFICATION,
-        }).id;
-
-        databaseBuilder.factory.buildAnswer({ assessmentId });
-        databaseBuilder.factory.buildAnswer({ assessmentId });
-
-        return databaseBuilder.commit();
-      });
-
-      it('should return the assessment for the given certificationId and userId', async () => {
-
-        // when
-        const assessmentReturned = await assessmentRepository.findOneCertificationAssessmentByUserIdAndCertificationCourseId(userId, certificationCourseId);
-
-        // then
-        expect(assessmentReturned.id).to.equal(assessmentId);
-        expect(assessmentReturned.certificationCourseId).to.equal(certificationCourseId);
-        expect(assessmentReturned.userId).to.equal(userId);
-      });
-
-      it('should return the appropriate answers', async () => {
-        // when
-        const assessmentReturned = await assessmentRepository.findOneCertificationAssessmentByUserIdAndCertificationCourseId(userId, certificationCourseId);
-
-        // then
-        expect(assessmentReturned.answers).to.have.lengthOf(2);
-      });
-
-    });
-
-    context('When there are no assessment for this certification course id and userId', () => {
-      it('should return null', async () => {
-        // when
-        const assessment = await assessmentRepository.findOneCertificationAssessmentByUserIdAndCertificationCourseId(userId, 1);
-
-        // then
-        expect(assessment).to.equal(null);
-      });
-    });
-
-  });
-
   describe('#getByCampaignParticipationId', () => {
 
     let campaignParticipationId;
