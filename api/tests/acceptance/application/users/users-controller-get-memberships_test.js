@@ -74,8 +74,7 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
                 'organization-role': organizationRole,
               },
               relationships: {
-                'organization': { data: { type: 'organizations', id: organization.id.toString() }, },
-                'user': { data: null, },
+                'organization': { data: { type: 'organizations', id: organization.id.toString() }, }
               },
             },
           ],
