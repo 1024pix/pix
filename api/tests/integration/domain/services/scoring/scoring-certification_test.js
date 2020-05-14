@@ -38,8 +38,6 @@ describe('Integration | Domain | services | scoring | scoring-certification-serv
         const expectedAssessmentScore = {
           level: null,
           nbPix: 12,
-          validatedSkills: [],
-          failedSkills: [],
           percentageCorrectAnswers: 0,
           competenceMarks: [{
             id: undefined,
