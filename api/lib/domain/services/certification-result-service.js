@@ -1,26 +1,18 @@
+const _ = require('lodash');
 const {
   MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED,
   MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED,
   PIX_COUNT_BY_LEVEL,
   UNCERTIFIED_LEVEL
 } = require('../constants');
-
-const qrocmDepChallenge = 'QROCM-dep';
-
-const _ = require('lodash');
-
 const AnswerStatus = require('../models/AnswerStatus');
 const CertificationContract = require('../../domain/models/CertificationContract');
 const scoringService = require('./scoring/scoring-service');
-
 const { CertificationComputeError } = require('../../../lib/domain/errors');
-
-const answersRepository = require('../../../lib/infrastructure/repositories/answer-repository');
-const certificationChallengesRepository = require('../../../lib/infrastructure/repositories/certification-challenge-repository');
-const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const userService = require('./user-service');
+const qrocmDepChallenge = 'QROCM-dep';
 
 function _selectAnswersMatchingCertificationChallenges(answers, certificationChallenges) {
   return answers.filter(
@@ -197,45 +189,34 @@ function _computeAnswersSuccessRate(answers = []) {
 
 module.exports = {
 
-  async getCertificationResult(assessment, continueOnError = false) {
-    const [
-      assessmentAnswers,
-      certificationChallenges,
-      certificationCourse,
-      allCompetences,
-      allChallenges
-    ] = await Promise.all([
-      answersRepository.findByAssessment(assessment.id),
-      certificationChallengesRepository.findByCertificationCourseId(assessment.certificationCourseId),
-      certificationCourseRepository.get(assessment.certificationCourseId),
-      competenceRepository.list(),
-      challengeRepository.list(),
-    ]);
+  async getCertificationResult({ certificationAssessment, continueOnError }) {
+    const allCompetences = await competenceRepository.list();
+    const allChallenges = await challengeRepository.list();
 
     const testedCompetences = await _getTestedCompetences({
-      userId: assessment.userId,
-      limitDate: assessment.createdAt,
-      isV2Certification: certificationCourse.isV2Certification,
-      competences: allCompetences
+      userId: certificationAssessment.userId,
+      limitDate: certificationAssessment.createdAt,
+      isV2Certification: certificationAssessment.isV2Certification,
+      competences: allCompetences,
     });
 
-    const matchingCertificationChallenges = _selectChallengesMatchingCompetences(certificationChallenges, testedCompetences);
+    const matchingCertificationChallenges = _selectChallengesMatchingCompetences(certificationAssessment.certificationChallenges, testedCompetences);
 
     matchingCertificationChallenges.forEach((certifChallenge) => {
       const challenge = _.find(allChallenges, { id: certifChallenge.challengeId });
       certifChallenge.type = challenge ? challenge.type : 'EmptyType';
     });
 
-    const matchingAnswers = _selectAnswersMatchingCertificationChallenges(assessmentAnswers, matchingCertificationChallenges);
+    const matchingAnswers = _selectAnswersMatchingCertificationChallenges(certificationAssessment.certificationAnswers, matchingCertificationChallenges);
 
     const result = _getResult(matchingAnswers, matchingCertificationChallenges, testedCompetences, continueOnError);
 
-    result.createdAt = assessment.createdAt;
-    result.userId = assessment.userId;
-    result.status = assessment.state;
-    result.completedAt = certificationCourse.completedAt;
+    result.createdAt = certificationAssessment.createdAt;
+    result.userId = certificationAssessment.userId;
+    result.status = certificationAssessment.state;
+    result.completedAt = certificationAssessment.completedAt;
 
-    result.listChallengesAndAnswers = _getChallengeInformation(matchingAnswers, certificationChallenges, allCompetences);
+    result.listChallengesAndAnswers = _getChallengeInformation(matchingAnswers, certificationAssessment.certificationChallenges, allCompetences);
     return result;
   },
 
