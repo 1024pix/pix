@@ -37,7 +37,7 @@
         </div>
         </p>
         <ul class="challenge-statement__file-options">
-          {{#each this.attachmentsData as |attachmentUrl index|}}
+          {{#each @challenge.attachments as |attachmentUrl index|}}
             <li class="challenge-statement__file-option">
 
               {{!-- This radiobutton is hidden  - SVG displayed instead - but needed to handle behaviour. --}}

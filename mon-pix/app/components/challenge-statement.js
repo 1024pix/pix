@@ -3,6 +3,7 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import config from 'mon-pix/config/environment';
 import Component from '@glimmer/component';
+import _ from 'lodash';
 
 export default class ChallengeStatement extends Component {
   @service mailGenerator;
@@ -11,13 +12,7 @@ export default class ChallengeStatement extends Component {
 
   constructor() {
     super(...arguments);
-    if (this.args.challenge.hasMultipleAttachments) {
-      this.selectedAttachmentUrl = this.args.challenge.attachments.firstObject;
-    }
-  }
-
-  get attachmentsData() {
-    return this.args.challenge.attachments;
+    this._initialiseDefaultAttachment();
   }
 
   get challengeInstruction() {
@@ -46,6 +41,10 @@ export default class ChallengeStatement extends Component {
   @action
   chooseAttachmentUrl(attachementUrl) {
     this.selectedAttachmentUrl = attachementUrl;
+  }
+
+  _initialiseDefaultAttachment() {
+    this.selectedAttachmentUrl = _.get(this.args.challenge, 'attachments.firstObject');
   }
 
   _formattedEmailForInstruction() {
