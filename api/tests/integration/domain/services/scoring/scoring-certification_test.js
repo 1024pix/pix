@@ -4,7 +4,7 @@ const scoringCertificationService = require('../../../../../lib/domain/services/
 
 describe('Integration | Domain | services | scoring | scoring-certification-service', () => {
 
-  describe('#calculateAssessmentScore', () => {
+  describe('#calculateCertificationAssessmentScore', () => {
 
     const courseId = 123;
     const assessmentId = 836;
@@ -23,7 +23,7 @@ describe('Integration | Domain | services | scoring | scoring-certification-serv
         certificationService.calculateCertificationResultByAssessmentId.rejects(new Error('Error from certificationService'));
 
         // when
-        const promise = scoringCertificationService.calculateAssessmentScore(assessment);
+        const promise = scoringCertificationService.calculateCertificationAssessmentScore(assessment);
 
         // then
         return expect(promise).to.have.been.rejectedWith(Error, 'Error from certificationService');
@@ -59,7 +59,7 @@ describe('Integration | Domain | services | scoring | scoring-certification-serv
         };
 
         // when
-        const assessmentScore = await scoringCertificationService.calculateAssessmentScore(assessment);
+        const assessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore(assessment);
 
         // then
         expect(assessmentScore).to.deep.equal(expectedAssessmentScore);
@@ -76,7 +76,7 @@ describe('Integration | Domain | services | scoring | scoring-certification-serv
         sinon.stub(certificationService, 'calculateCertificationResultByAssessmentId').resolves({ competencesWithMark: [competenceWithMarkAboveThreshold] });
 
         // when
-        const assessmentScore = await scoringCertificationService.calculateAssessmentScore(assessment);
+        const assessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore(assessment);
 
         // then
         expect(assessmentScore.nbPix).to.equal(MAX_REACHABLE_PIX);

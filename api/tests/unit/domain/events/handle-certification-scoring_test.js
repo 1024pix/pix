@@ -9,7 +9,7 @@ const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCom
 const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
 
 describe('Unit | Domain | Events | handle-certification-scoring', () => {
-  const scoringCertificationService = { calculateAssessmentScore: _.noop };
+  const scoringCertificationService = { calculateCertificationAssessmentScore: _.noop };
   const certificationAssessmentRepository = { get: _.noop };
   const assessmentResultRepository = { save: _.noop };
   const certificationCourseRepository = { changeCompletionDate: _.noop, getCreationDate: _.noop };
@@ -60,7 +60,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
     context('when an error different from a compute error happens', () => {
       const otherError = new Error();
       beforeEach(() => {
-        sinon.stub(scoringCertificationService, 'calculateAssessmentScore').rejects(otherError);
+        sinon.stub(scoringCertificationService, 'calculateCertificationAssessmentScore').rejects(otherError);
         sinon.stub(AssessmentResult, 'BuildAlgoErrorResult');
         sinon.stub(assessmentResultRepository, 'save');
         sinon.stub(certificationCourseRepository, 'changeCompletionDate');
@@ -83,7 +83,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       const errorAssessmentResult = Symbol('ErrorAssessmentResult');
       const computeError = new CertificationComputeError();
       beforeEach(() => {
-        sinon.stub(scoringCertificationService, 'calculateAssessmentScore').rejects(computeError);
+        sinon.stub(scoringCertificationService, 'calculateCertificationAssessmentScore').rejects(computeError);
         sinon.stub(AssessmentResult, 'BuildAlgoErrorResult').returns(errorAssessmentResult);
         sinon.stub(assessmentResultRepository, 'save').resolves();
         sinon.stub(certificationCourseRepository, 'changeCompletionDate').resolves();
@@ -98,7 +98,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         });
 
         // then
-        expect(scoringCertificationService.calculateAssessmentScore).to.have.been.calledWithExactly(
+        expect(scoringCertificationService.calculateCertificationAssessmentScore).to.have.been.calledWithExactly(
           certificationAssessment
         );
       });
@@ -148,7 +148,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         };
 
         beforeEach(() => {
-          sinon.stub(scoringCertificationService, 'calculateAssessmentScore').resolves(assessmentScore);
+          sinon.stub(scoringCertificationService, 'calculateCertificationAssessmentScore').resolves(assessmentScore);
         });
 
         it('should left untouched the calculated level in the assessment score', async () => {
@@ -215,7 +215,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
           competenceMarks: [competenceMarkData1, competenceMarkData2]
         };
         beforeEach(() => {
-          sinon.stub(scoringCertificationService, 'calculateAssessmentScore').resolves(assessmentScore);
+          sinon.stub(scoringCertificationService, 'calculateCertificationAssessmentScore').resolves(assessmentScore);
         });
 
         it('should change level of the assessmentScore', async () => {

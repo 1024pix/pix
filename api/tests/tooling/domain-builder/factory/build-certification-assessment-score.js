@@ -1,7 +1,7 @@
 const faker = require('faker');
-const AssessmentScore = require('../../../../lib/domain/models/AssessmentScore');
+const CertificationAssessmentScore = require('../../../../lib/domain/models/CertificationAssessmentScore');
 
-module.exports = function buildAssessmentScore({
+module.exports = function buildCertificationAssessmentScore({
 
   level = faker.random.number(),
   nbPix = faker.random.number(),
@@ -9,7 +9,7 @@ module.exports = function buildAssessmentScore({
   failedSkills = [],
   competenceMarks = [],
 } = {}) {
-  return new AssessmentScore({
+  return new CertificationAssessmentScore({
     level,
     nbPix,
     validatedSkills,
