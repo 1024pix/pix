@@ -8,6 +8,7 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   sessionId,
   userId,
   assessmentRepository,
+  competenceRepository,
   certificationCandidateRepository,
   certificationChallengeRepository,
   certificationCourseRepository,
@@ -33,6 +34,7 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     sessionId,
     userId,
     assessmentRepository,
+    competenceRepository,
     certificationCandidateRepository,
     certificationChallengeRepository,
     certificationCourseRepository,
@@ -46,19 +48,21 @@ async function _startNewCertification({
   sessionId,
   userId,
   assessmentRepository,
+  competenceRepository,
   certificationCandidateRepository,
   certificationChallengeRepository,
   certificationCourseRepository,
   certificationChallengesService,
   userService,
 }) {
-  const certificationProfile = await userService.getCertificationProfile({ userId, limitDate: new Date() });
+  const competences = await competenceRepository.listPixCompetencesOnly();
+  let certificationProfile = await userService.getCertificationProfile({ userId, limitDate: new Date(), competences });
 
   if (!certificationProfile.isCertifiable()) {
     throw new UserNotAuthorizedToCertifyError();
   }
 
-  await userService.fillCertificationProfileWithChallenges(certificationProfile);
+  certificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
 
   const existingCertificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({ userId, sessionId, domainTransaction });
   if (existingCertificationCourse) {
