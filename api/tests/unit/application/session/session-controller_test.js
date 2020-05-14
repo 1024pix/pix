@@ -673,7 +673,7 @@ describe('Unit | Controller | sessionController', () => {
           }
         },
       };
-      sinon.stub(usecases, 'assignCertificationOfficerToSession').withArgs({ sessionId, certificationOfficerId: userId }).resolves(session);
+      sinon.stub(usecases, 'assignCertificationOfficerToJurySession').withArgs({ sessionId, certificationOfficerId: userId }).resolves(session);
       sinon.stub(jurySessionSerializer, 'serialize').withArgs(session).returns(sessionJsonApi);
     });
 
@@ -682,7 +682,7 @@ describe('Unit | Controller | sessionController', () => {
       const response = await sessionController.assignCertificationOfficer(request, hFake);
 
       // then
-      expect(usecases.assignCertificationOfficerToSession).to.have.been.calledWithExactly({ sessionId, certificationOfficerId: userId });
+      expect(usecases.assignCertificationOfficerToJurySession).to.have.been.calledWithExactly({ sessionId, certificationOfficerId: userId });
       expect(response).to.deep.equal(sessionJsonApi);
     });
 
