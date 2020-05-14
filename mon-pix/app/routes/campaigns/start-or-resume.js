@@ -22,7 +22,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       this.authenticationRoute = 'restricted-campaigns.login-or-register-to-access-restricted-campaign';
     }
 
-    if (this._userIsUnauthenticated() && !this.userHasSeenLanding && !this.campaignIsRestricted) {
+    if (this._shouldShowLandingPageWhenUnauthenticated()) {
       return this.replaceWith('campaigns.campaign-landing-page', this.campaignCode, { queryParams: transition.to.queryParams });
     }
     super.beforeModel(...arguments);
@@ -59,5 +59,9 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
 
   _userIsUnauthenticated() {
     return this.session.isAuthenticated === false;
+  }
+
+  _shouldShowLandingPageWhenUnauthenticated() {
+    return this._userIsUnauthenticated() && !this.userHasSeenLanding && !this.campaignIsRestricted;
   }
 }
