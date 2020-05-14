@@ -36,7 +36,7 @@ export default class AssessmentCampaignsStartOrResumeRoute extends Route.extend(
       { filter: { type: 'SMART_PLACEMENT', codeCampaign: this.campaignCode } },
     );
 
-    if (this._thereIsNoAssessment(smartPlacementAssessments)) {
+    if (this._shouldStartCampaignParticipation(smartPlacementAssessments)) {
 
       if (this.userHasSeenLanding) {
         return this.replaceWith('campaigns.fill-in-id-pix', this.campaignCode, { queryParams: { participantExternalId: this.participantExternalId } });
@@ -56,7 +56,7 @@ export default class AssessmentCampaignsStartOrResumeRoute extends Route.extend(
     this.replaceWith('assessments.resume', assessment.get('id'));
   }
 
-  _thereIsNoAssessment(assessments) {
+  _shouldStartCampaignParticipation(assessments) {
     return isEmpty(assessments);
   }
 
