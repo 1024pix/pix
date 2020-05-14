@@ -12,6 +12,7 @@
   &__title {
     text-align: center;
     font-family: $open-sans;
+    font-weight: 400;
     font-size: 2rem;
     color: $grey-80;
     margin-top: 32px;
@@ -21,6 +22,7 @@
   &__information {
     margin-bottom: 32px;
     text-align: center;
+    font-family: $roboto;
     max-width: 400px;
     width: 100%;
   }
