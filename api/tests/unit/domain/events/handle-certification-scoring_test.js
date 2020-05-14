@@ -10,7 +10,7 @@ const CertificationScoringCompleted = require('../../../../lib/domain/events/Cer
 
 describe('Unit | Domain | Events | handle-certification-scoring', () => {
   const scoringCertificationService = { calculateAssessmentScore: _.noop };
-  const assessmentRepository = { get: _.noop };
+  const certificationAssessmentRepository = { get: _.noop };
   const assessmentResultRepository = { save: _.noop };
   const certificationCourseRepository = { changeCompletionDate: _.noop, getCreationDate: _.noop };
   const competenceMarkRepository = { save: _.noop };
@@ -24,7 +24,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
     certificationCourseRepository,
     competenceMarkRepository,
     scoringCertificationService,
-    assessmentRepository,
+    certificationAssessmentRepository,
   };
 
   beforeEach(() => {
@@ -36,19 +36,25 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
   });
 
   context('when assessment is of type CERTIFICATION', () => {
+    const assessmentId = Symbol('assessmentId');
+    const userId = Symbol('userId');
     let certificationAssessment;
 
     beforeEach(() => {
-      certificationAssessment = _buildCertificationAssessment();
-      sinon.stub(assessmentRepository, 'get').withArgs(certificationAssessment.id).resolves(certificationAssessment);
-      sinon.stub(certificationCourseRepository, 'getCreationDate').withArgs(certificationAssessment.certificationCourseId).resolves(now);
       assessmentCompletedEvent = new AssessmentCompleted(
-        certificationAssessment.id,
-        Symbol('userId'),
+        assessmentId,
+        userId,
         Symbol('targetProfileId'),
         Symbol('campaignParticipationId'),
         true,
       );
+      certificationAssessment = {
+        id: assessmentId,
+        certificationCourseId: Symbol('certificationCourseId'),
+        userId,
+        createdAt: Symbol('someCreationDate'),
+      };
+      sinon.stub(certificationAssessmentRepository, 'get').withArgs(assessmentId).resolves(certificationAssessment);
     });
 
     context('when an error different from a compute error happens', () => {
@@ -186,7 +192,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
             userId: assessmentCompletedEvent.userId,
             certificationCourseId: certificationAssessment.certificationCourseId,
             reproducibilityRate: assessmentScore.percentageCorrectAnswers,
-            limitDate: now
+            limitDate: certificationAssessment.createdAt,
           });
         });
 
@@ -255,14 +261,14 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         Symbol('campaignParticipationId'),
         false,
       );
-      sinon.stub(assessmentRepository, 'get').resolves();
+      sinon.stub(certificationAssessmentRepository, 'get').rejects();
 
       // when
       const certificationScoringCompleted = await events.handleCertificationScoring({
         assessmentCompletedEvent, ...dependencies, domainTransaction
       });
 
-      expect(assessmentRepository.get).to.not.have.been.called;
+      expect(certificationAssessmentRepository.get).to.not.have.been.called;
       expect(certificationScoringCompleted).to.be.null;
     });
 
@@ -275,5 +281,6 @@ function _buildCertificationAssessment() {
     certificationCourseId: Symbol('certificationCourseId'),
     state: 'started',
     type: Assessment.types.CERTIFICATION,
+    userId,
   });
 }
