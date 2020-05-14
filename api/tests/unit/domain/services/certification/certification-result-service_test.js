@@ -164,6 +164,7 @@ describe('Unit | Service | Certification Result Service', function() {
           userId: certificationAssessment.userId,
           limitDate: certificationAssessment.createdAt,
           isV2Certification: certificationCourseV2.isV2Certification,
+          competences: competencesFromAirtable
         }).resolves({ userCompetences: [] });
       });
 
@@ -204,6 +205,7 @@ describe('Unit | Service | Certification Result Service', function() {
           userId: 'user_id',
           limitDate: dateCreationCertif,
           isV2Certification: certificationCourseV1.isV2Certification,
+          competences: competencesFromAirtable
         }).resolves({ userCompetences });
         sinon.stub(certificationCourseRepository, 'get').resolves(certificationCourseV1);
       });
@@ -700,6 +702,7 @@ describe('Unit | Service | Certification Result Service', function() {
                 userId: 'user_id',
                 limitDate: dateCreationCertif,
                 isV2Certification: false,
+                competences: competencesFromAirtable
               }).resolves({ userCompetences });
 
               // When
@@ -737,6 +740,7 @@ describe('Unit | Service | Certification Result Service', function() {
           userId: 'user_id',
           limitDate: dateCreationCertif,
           isV2Certification: false,
+          competences: competencesFromAirtable
         }).resolves({ userCompetences });
         sinon.stub(answersRepository, 'findByAssessment').resolves(wrongAnswersForAllChallenges());
         sinon.stub(certificationChallengesRepository, 'findByCertificationCourseId').resolves(challenges);
@@ -1094,6 +1098,7 @@ describe('Unit | Service | Certification Result Service', function() {
             userId: 'user_id',
             limitDate: dateCreationCertif,
             isV2Certification: false,
+            competences: competencesFromAirtable
           }).resolves({ userCompetences });
 
         });

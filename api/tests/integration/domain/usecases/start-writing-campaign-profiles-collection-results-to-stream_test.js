@@ -31,7 +31,8 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-
       const skillWeb2 = airtableBuilder.factory.buildSkill({ id: 'recSkillWeb2', nom: '@web2', ['compétenceViaTube']: ['recCompetence1'] });
       const skillWeb3 = airtableBuilder.factory.buildSkill({ id: 'recSkillWeb3', nom: '@web3', ['compétenceViaTube']: ['recCompetence1'] });
       const skillUrl1 = airtableBuilder.factory.buildSkill({ id: 'recSkillUrl1', nom: '@url1', ['compétenceViaTube']: ['recCompetence2'] });
-      const skills = [skillWeb1, skillWeb2, skillWeb3, skillUrl1];
+      const skillUrl8 = airtableBuilder.factory.buildSkill({ id: 'recSkillUrl8', nom: '@url8', ['compétenceViaTube']: ['recCompetence2'] });
+      const skills = [skillWeb1, skillWeb2, skillWeb3, skillUrl1, skillUrl8];
 
       participant = databaseBuilder.factory.buildUser({ firstName: '@Jean', lastName: '=Bono' });
       const createdAt = new Date('2019-02-25T10:00:00Z');
@@ -79,6 +80,14 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-
         userId: participant.id,
         createdAt,
       });
+      databaseBuilder.factory.buildKnowledgeElement({
+        status: 'validated',
+        skillId: skillUrl8.id,
+        earnedPix: 64,
+        competenceId: 'recCompetence2',
+        userId: participant.id,
+        createdAt,
+      });
 
       campaign = databaseBuilder.factory.buildCampaign({
         name: '@Campagne de Test N°2',
@@ -114,7 +123,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-
         titre: 'Competence2',
         sousDomaine: '3.2',
         domaineIds: ['recArea3'],
-        acquisViaTubes: [skillUrl1.id],
+        acquisViaTubes: [skillUrl1.id, skillUrl8.id],
       });
 
       const area1 = airtableBuilder.factory.buildArea({ id: 'recArea1', code: '1', titre: 'Domain 1' });
@@ -144,13 +153,13 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-
         `"'${campaignParticipation.participantExternalId}";` +
         '"Oui";' +
         '2019-03-01;' +
-        '14;' +
+        '52;' +
         '"Non";' +
-        '1;' +
+        '2;' +
         '1;' +
         '12;' +
-        '0;' +
-        '2';
+        '5;' +
+        '40';
 
       // when
       startWritingCampaignProfilesCollectionResultsToStream({

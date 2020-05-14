@@ -162,7 +162,9 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
 
     const certificationProfile = await userService.getCertificationProfile({
       userId: campaignParticipationResultData.userId,
-      limitDate: campaignParticipationResultData.sharedAt
+      limitDate: campaignParticipationResultData.sharedAt,
+      competences: allCompetences,
+      allowExcessPixAndLevels: false
     });
 
     const csvLine = _createOneLineOfCSV({
