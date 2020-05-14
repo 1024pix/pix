@@ -2,7 +2,6 @@ const AssessmentResult = require('../models/AssessmentResult');
 const CertificationScoringCompleted = require('./CertificationScoringCompleted.js');
 const CompetenceMark = require('../models/CompetenceMark');
 const bluebird = require('bluebird');
-const { UNCERTIFIED_LEVEL } = require('../constants');
 const {
   CertificationComputeError,
 } = require('../errors');
@@ -89,18 +88,8 @@ async function _saveResult({
 }
 
 function _createAssessmentResult({ certificationAssessment, certificationAssessmentScore, assessmentResultRepository, domainTransaction }) {
-  const assessmentStatus = _getAssessmentStatus(certificationAssessmentScore);
-  const assessmentResult = AssessmentResult.BuildStandardAssessmentResult(certificationAssessmentScore.level, certificationAssessmentScore.nbPix, assessmentStatus, certificationAssessment.id);
+  const assessmentResult = AssessmentResult.BuildStandardAssessmentResult(certificationAssessmentScore.level, certificationAssessmentScore.nbPix, certificationAssessmentScore.status, certificationAssessment.id);
   return assessmentResultRepository.save(assessmentResult, domainTransaction);
-}
-
-function _getAssessmentStatus(certificationAssessmentScore) {
-  if (certificationAssessmentScore.nbPix === 0) {
-    certificationAssessmentScore.level = UNCERTIFIED_LEVEL;
-    return AssessmentResult.status.REJECTED;
-  } else {
-    return AssessmentResult.status.VALIDATED;
-  }
 }
 
 async function _saveResultAfterCertificationComputeError({

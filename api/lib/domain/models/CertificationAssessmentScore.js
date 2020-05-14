@@ -1,13 +1,13 @@
 const _ = require('lodash');
+const { UNCERTIFIED_LEVEL } = require('../constants');
+const { status } = require('./AssessmentResult');
 
 class CertificationAssessmentScore {
   constructor(
     {
-      level = null, // TODO useless now, delete everywhere !
       competenceMarks = [],
       percentageCorrectAnswers = 0,
     } = {}) {
-    this.level = level;
     this.competenceMarks = competenceMarks;
     this.percentageCorrectAnswers = percentageCorrectAnswers;
   }
@@ -18,6 +18,21 @@ class CertificationAssessmentScore {
     }
     return _.sumBy(this.competenceMarks, 'score');
   }
+
+  get level() {
+    if (this.nbPix === 0) {
+      return UNCERTIFIED_LEVEL;
+    }
+    return null;
+  }
+
+  get status() {
+    if (this.nbPix === 0) {
+      return status.REJECTED;
+    }
+    return status.VALIDATED;
+  }
 }
 
 module.exports = CertificationAssessmentScore;
+module.exports.statuses = status;
