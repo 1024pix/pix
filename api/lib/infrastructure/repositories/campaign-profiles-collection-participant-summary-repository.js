@@ -2,9 +2,9 @@ const { knex } = require('../bookshelf');
 const CampaignProfilesCollectionParticipantSummary = require('../../domain/models/CampaignProfilesCollectionParticipantSummary');
 
 const CampaignProfilesCollectionParticipantSummaryRepository = {
-  async listForCampaign(campaignId) {
+  async findByCampaignId(campaignId) {
     const results = await knex
-      .select('"campaign-participations"."id" AS campaignParticipationId', 'users.firstName', 'users.lastName', 'campaign-participations.participantExternalId', 'campaign-participations.sharedAt')
+      .select('campaign-participations.id AS campaignParticipationId', 'users.firstName', 'users.lastName', 'campaign-participations.participantExternalId', 'campaign-participations.sharedAt')
       .from('campaign-participations')
       .join('users', 'users.id', 'campaign-participations.userId')
       .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
