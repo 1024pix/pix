@@ -1,5 +1,5 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
-const assignCertificationOfficerToSession = require('../../../../lib/domain/usecases/assign-certification-officer-to-session');
+const assignCertificationOfficerToJurySession = require('../../../../lib/domain/usecases/assign-certification-officer-to-jury-session');
 const { ObjectValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | assign-certification-officer-to-session', () => {
@@ -18,7 +18,7 @@ describe('Unit | UseCase | assign-certification-officer-to-session', () => {
       sessionId = 'notANumber';
 
       // when
-      const error = await catchErr(assignCertificationOfficerToSession)({ sessionId, certificationOfficerId, jurySessionRepository });
+      const error = await catchErr(assignCertificationOfficerToJurySession)({ sessionId, certificationOfficerId, jurySessionRepository });
 
       // then
       expect(error).to.be.an.instanceOf(ObjectValidationError);
@@ -38,7 +38,7 @@ describe('Unit | UseCase | assign-certification-officer-to-session', () => {
         certificationOfficerId = 'notANumber';
 
         // when
-        const error = await catchErr(assignCertificationOfficerToSession)({ sessionId, certificationOfficerId, jurySessionRepository });
+        const error = await catchErr(assignCertificationOfficerToJurySession)({ sessionId, certificationOfficerId, jurySessionRepository });
 
         // then
         expect(error).to.be.an.instanceOf(ObjectValidationError);
@@ -55,7 +55,7 @@ describe('Unit | UseCase | assign-certification-officer-to-session', () => {
 
       it('should return the session after assigningUser to it', async () => {
         // when
-        const actualSession = await assignCertificationOfficerToSession({ sessionId, certificationOfficerId, jurySessionRepository });
+        const actualSession = await assignCertificationOfficerToJurySession({ sessionId, certificationOfficerId, jurySessionRepository });
 
         // then
         expect(jurySessionRepository.assignCertificationOfficer).to.have.been.calledWith({ id: sessionId, assignedCertificationOfficerId: certificationOfficerId });
