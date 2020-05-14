@@ -84,10 +84,18 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         expect(find('table tbody tr td:nth-child(2) .progression-gauge__tooltip').textContent).to.include(COMPETENCE_MASTERY_PERCENTAGE);
       });
 
-      it('should display different competences results when there is partnerCompetenceResults', async function() {
+      it('should display different competences results when the badge key is PIX_EMPLOI_CLEA', async function() {
         // given
         const BADGE_PARTNER_COMPETENCE_MASTERY_PERCENTAGE = '80%';
         const PROGRESSION_MAX_WIDTH = '100%';
+
+        const badge = server.create('badge', {
+          altMessage: 'Yon won a Pix Emploi badge',
+          imageUrl: '/images/badges/Pix-emploi.svg',
+          message: 'Congrats, you won a Pix Emploi badge',
+          key: 'PIX_EMPLOI_CLEA'
+        });
+
         const partnerCompetenceResult = server.create('partner-competence-result', {
           name: partnerCompetenceResultName,
           totalSkillsCount: 5,
@@ -95,6 +103,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
           masteryPercentage: 80
         });
         campaignParticipationResult.update({
+          badge,
           partnerCompetenceResults: [partnerCompetenceResult]
         });
 

@@ -6,4 +6,5 @@ export default class Badge extends Model {
   @attr('string') altMessage;
   @attr('string') message;
   @attr('string') imageUrl;
+  @attr('string') key;
 }
