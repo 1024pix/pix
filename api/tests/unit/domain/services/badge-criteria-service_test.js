@@ -1,26 +1,27 @@
 const { domainBuilder, expect } = require('../../../test-helper');
 
+const BadgeCriterion = require('../../../../lib/domain/models/BadgeCriterion');
 const badgeCriteriaService = require('../../../../lib/domain/services/badge-criteria-service');
+
+const CRITERION_THRESHOLD = {
+  CAMPAIGN_PARTICIPATION: 85,
+  EVERY_PARTNER_COMPETENCE: 75
+};
 
 describe('Unit | Domain | Services | badge-criteria', () => {
 
   describe('#areBadgeCriteriaFulfilled', () => {
-    const CAMPAIGN_PARTICIPATION_RESULT_MASTERY_PERCENTAGE = 'La campagne est maîtrisée à X %';
-    const CAMPAIGN_PARTICIPATION_RESULT_THRESHOLD = 85;
-
-    const EVERY_COMPETENCE_RESULT_MASTERY_PERCENTAGE = 'Chaque compétence de la campagne est maîtrisée à X %';
-    const COMPETENCE_RESULT_THRESHOLD = 75;
 
     const badgeCriteria = [
       domainBuilder.buildBadgeCriterion({
         id: 1,
-        scope: CAMPAIGN_PARTICIPATION_RESULT_MASTERY_PERCENTAGE,
-        threshold: CAMPAIGN_PARTICIPATION_RESULT_THRESHOLD
+        scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
+        threshold: CRITERION_THRESHOLD.CAMPAIGN_PARTICIPATION
       }),
       domainBuilder.buildBadgeCriterion({
         id: 2,
-        scope: EVERY_COMPETENCE_RESULT_MASTERY_PERCENTAGE,
-        threshold: COMPETENCE_RESULT_THRESHOLD
+        scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
+        threshold: CRITERION_THRESHOLD.EVERY_PARTNER_COMPETENCE
       }),
     ];
     const badge = domainBuilder.buildBadge({ badgeCriteria });

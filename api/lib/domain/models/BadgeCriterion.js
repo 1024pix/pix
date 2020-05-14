@@ -17,4 +17,9 @@ class BadgeCriterion {
   }
 }
 
+BadgeCriterion.SCOPES = {
+  CAMPAIGN_PARTICIPATION: 'CampaignParticipation',
+  EVERY_PARTNER_COMPETENCE: 'EveryPartnerCompetence'
+};
+
 module.exports = BadgeCriterion;
