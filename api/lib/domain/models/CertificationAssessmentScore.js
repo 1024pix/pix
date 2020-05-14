@@ -1,4 +1,4 @@
-class AssessmentScore {
+class CertificationAssessmentScore {
   constructor(
     {
       // attributes
@@ -21,4 +21,4 @@ class AssessmentScore {
   }
 }
 
-module.exports = AssessmentScore;
+module.exports = CertificationAssessmentScore;

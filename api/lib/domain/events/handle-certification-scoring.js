@@ -35,9 +35,9 @@ async function _calculateCertificationScore({
   scoringCertificationService,
 }) {
   try {
-    const assessmentScore = await scoringCertificationService.calculateAssessmentScore(certificationAssessment);
+    const certificationAssessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore(certificationAssessment);
     await _saveResult({
-      assessmentScore,
+      certificationAssessmentScore,
       certificationAssessment,
       domainTransaction,
       assessmentResultRepository,
@@ -47,7 +47,7 @@ async function _calculateCertificationScore({
     return new CertificationScoringCompleted({
       userId: certificationAssessment.userId,
       certificationCourseId: certificationAssessment.certificationCourseId,
-      reproducibilityRate: assessmentScore.percentageCorrectAnswers,
+      reproducibilityRate: certificationAssessmentScore.percentageCorrectAnswers,
       limitDate: certificationAssessment.createdAt,
     });
   }
@@ -67,7 +67,7 @@ async function _calculateCertificationScore({
 
 async function _saveResult({
   certificationAssessment,
-  assessmentScore,
+  certificationAssessmentScore,
   domainTransaction,
   assessmentResultRepository,
   certificationCourseRepository,
@@ -75,12 +75,12 @@ async function _saveResult({
 }) {
   const assessmentResult = await _createAssessmentResult({
     certificationAssessment,
-    assessmentScore,
+    certificationAssessmentScore,
     assessmentResultRepository,
     domainTransaction
   });
 
-  await bluebird.mapSeries(assessmentScore.competenceMarks, (competenceMark) => {
+  await bluebird.mapSeries(certificationAssessmentScore.competenceMarks, (competenceMark) => {
     const competenceMarkDomain = new CompetenceMark({ ...competenceMark, ...{ assessmentResultId: assessmentResult.id } });
     return competenceMarkRepository.save(competenceMarkDomain, domainTransaction);
   });
@@ -88,15 +88,15 @@ async function _saveResult({
   return certificationCourseRepository.changeCompletionDate(certificationAssessment.certificationCourseId, new Date(), domainTransaction);
 }
 
-function _createAssessmentResult({ certificationAssessment, assessmentScore, assessmentResultRepository, domainTransaction }) {
-  const assessmentStatus = _getAssessmentStatus(assessmentScore);
-  const assessmentResult = AssessmentResult.BuildStandardAssessmentResult(assessmentScore.level, assessmentScore.nbPix, assessmentStatus, certificationAssessment.id);
+function _createAssessmentResult({ certificationAssessment, certificationAssessmentScore, assessmentResultRepository, domainTransaction }) {
+  const assessmentStatus = _getAssessmentStatus(certificationAssessmentScore);
+  const assessmentResult = AssessmentResult.BuildStandardAssessmentResult(certificationAssessmentScore.level, certificationAssessmentScore.nbPix, assessmentStatus, certificationAssessment.id);
   return assessmentResultRepository.save(assessmentResult, domainTransaction);
 }
 
-function _getAssessmentStatus(assessmentScore) {
-  if (assessmentScore.nbPix === 0) {
-    assessmentScore.level = UNCERTIFIED_LEVEL;
+function _getAssessmentStatus(certificationAssessmentScore) {
+  if (certificationAssessmentScore.nbPix === 0) {
+    certificationAssessmentScore.level = UNCERTIFIED_LEVEL;
     return AssessmentResult.status.REJECTED;
   } else {
     return AssessmentResult.status.VALIDATED;
