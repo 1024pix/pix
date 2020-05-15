@@ -25,13 +25,13 @@ module.exports = {
     return _toDomain(results[0]);
   },
 
-  async findPaginatedFiltered({ filters, page }) {
+  async findPaginatedFiltered({ filters, page, currentUserId }) {
     const pageSize = page.size ? page.size : DEFAULT_PAGE_SIZE;
     const pageNumber = page.number ? page.number : DEFAULT_PAGE_NUMBER;
     const offset = (pageNumber - 1) * pageSize;
     const query = Bookshelf.knex.from('sessions');
 
-    _setupFilters(query, filters);
+    _setupFilters(query, filters, currentUserId);
     query.orderByRaw('?? ASC NULLS FIRST', 'publishedAt')
       .orderByRaw('?? ASC', 'finalizedAt')
       .orderBy('id')
@@ -94,8 +94,8 @@ function _toDomain(jurySessionFromDB) {
   return jurySession;
 }
 
-function _setupFilters(query, filters) {
-  const { id, certificationCenterName, status, resultsSentToPrescriberAt } = filters;
+function _setupFilters(query, filters, currentUserId) {
+  const { id, certificationCenterName, status, resultsSentToPrescriberAt, assignedToSelfOnly } = filters;
 
   if (id) {
     query.where('sessions.id', id);
@@ -103,10 +103,15 @@ function _setupFilters(query, filters) {
   if (certificationCenterName) {
     query.whereRaw('LOWER("certificationCenter") LIKE ?', `%${certificationCenterName.toLowerCase()}%`);
   }
-  if (resultsSentToPrescriberAt === 'true') {
+
+  if (assignedToSelfOnly === true && currentUserId) {
+    query.where('sessions.assignedCertificationOfficerId', currentUserId);
+  }
+
+  if (resultsSentToPrescriberAt === true) {
     query.whereNotNull('resultsSentToPrescriberAt');
   }
-  if (resultsSentToPrescriberAt === 'false') {
+  if (resultsSentToPrescriberAt === false) {
     query.whereNull('resultsSentToPrescriberAt');
   }
   if (status === statuses.CREATED) {
