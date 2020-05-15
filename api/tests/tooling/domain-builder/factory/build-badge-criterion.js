@@ -4,7 +4,7 @@ const faker = require('faker');
 module.exports = function buildBadgeCriterion(
   {
     id = 1,
-    scope = faker.lorem.words(),
+    scope = BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
     threshold = faker.random.number(),
   } = {}) {
   return new BadgeCriterion({
