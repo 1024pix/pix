@@ -1,14 +1,14 @@
-{{title pageTitle}}
+{{title this.pageTitle}}
 
 <div class="background-banner-wrapper">
   <div class="background-banner"></div>
   <div class="campaign-landing-page__container rounded-panel--over-background-banner">
 
-    {{#if model.isTypeAssessment}}
+    {{#if @model.isTypeAssessment}}
       <CampaignStartBlock
         @campaign={{@model}}
-        @isLoading={{isLoading}}
-        @startCampaignParticipation={{startCampaignParticipation}}
+        @isLoading={{this.isLoading}}
+        @startCampaignParticipation={{this.startCampaignParticipation}}
         @titleText="Commencez votre parcours"
         @announcementText="Démarrez votre parcours d'évaluation personnalisé.<br /> Inscrivez-vous ou connectez-vous sur la plateforme Pix et lancez votre test."
         @buttonText="Je commence"
@@ -17,8 +17,8 @@
     {{else}}
       <CampaignStartBlock
         @campaign={{@model}}
-        @isLoading={{isLoading}}
-        @startCampaignParticipation={{startCampaignParticipation}}
+        @isLoading={{this.isLoading}}
+        @startCampaignParticipation={{this.startCampaignParticipation}}
         @titleText="Envoyez votre profil"
         @announcementText="Inscrivez-vous ou connectez-vous sur la plateforme Pix et envoyez votre profil à l'organisation destinataire."
         @buttonText="C’est parti !"
@@ -26,7 +26,7 @@
       />
     {{/if}}
 
-    {{#if model.isTypeAssessment}}
+    {{#if @model.isTypeAssessment}}
       <div class="rounded-panel campaign-landing-page__container__details">
         <div class="campaign-landing-page__details__text">
           <p class="campaign-landing-page__details__text title">Durant ce parcours, vous aurez l’opportunité de :</p>
@@ -34,7 +34,7 @@
 
           <div class="campaign-landing-page__details__measure__container">
             <img class="campaign-landing-page__details__article-image measure"
-                src="{{rootURL}}/images/landing-page/icon-mesurer.svg" alt="">
+                 src="{{this.rootURL}}/images/landing-page/icon-mesurer.svg" alt="">
             <div class="campaign-landing-page__details__article-side">
               <p class="campaign-landing-page__details__text article-title ">
                 Mesurer vos compétences numériques avec des tests ludiques sur différents thèmes comme :
@@ -57,13 +57,14 @@
           <hr class="campaign-landing-page__dash-line">
 
           <div class="campaign-landing-page__details__measure__container">
-            <img src="{{rootURL}}/images/landing-page/icon-conseil.svg" alt="">
+            <img src="{{this.rootURL}}/images/landing-page/icon-conseil.svg" alt="">
             <div class="campaign-landing-page__details__article-side">
               <p class="campaign-landing-page__details__text article-title ">
                 Découvrir vos résultats au fil du test et consulter des indices pour progresser.
               </p>
               <p class="campaign-landing-page__details__text article-text">
-                Après 5 épreuves, vous pouvez visualiser vos réponses et suivre des tutos pour développer vos compétences.
+                Après 5 épreuves, vous pouvez visualiser vos réponses et suivre des tutos pour développer vos
+                compétences.
               </p>
             </div>
 
@@ -71,7 +72,7 @@
           <hr class="campaign-landing-page__dash-line">
 
           <div class="campaign-landing-page__details__measure__container">
-            <img src="{{rootURL}}/images/landing-page/icon-certif.svg" alt="">
+            <img src="{{this.rootURL}}/images/landing-page/icon-certif.svg" alt="">
             <div class="campaign-landing-page__details__article-side">
               <p class="campaign-landing-page__details__text article-title ">
                 Préparer une certification reconnue par l’État et le monde professionnel

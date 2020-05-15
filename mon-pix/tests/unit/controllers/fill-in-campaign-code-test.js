@@ -3,7 +3,7 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Controller | Campaigns | Fill in Campaign Code', function() {
+describe('Unit | Controller | Fill in Campaign Code', function() {
 
   setupTest();
 
@@ -11,7 +11,7 @@ describe('Unit | Controller | Campaigns | Fill in Campaign Code', function() {
   let storeStub;
 
   beforeEach(function() {
-    controller = this.owner.lookup('controller:campaigns/fill-in-campaign-code');
+    controller = this.owner.lookup('controller:fill-in-campaign-code');
     storeStub = { query: sinon.stub() };
     controller.transitionToRoute = sinon.stub();
     controller.set('store', storeStub);

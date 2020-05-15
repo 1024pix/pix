@@ -7,7 +7,7 @@ export default class FillInIdPixRoute extends Route.extend(SecuredRouteMixin) {
   @service session;
   @service currentUser;
 
-  givenParticipantExternalId = null;
+  participantExternalId = null;
 
   deactivate() {
     this.controller.set('participantExternalId', null);
@@ -15,11 +15,12 @@ export default class FillInIdPixRoute extends Route.extend(SecuredRouteMixin) {
   }
 
   async beforeModel(transition) {
-    this.givenParticipantExternalId = transition.to.queryParams && transition.to.queryParams.givenParticipantExternalId;
+    this.participantExternalId = transition.to.queryParams && transition.to.queryParams.participantExternalId;
   }
 
-  async model(params) {
-    const campaigns = await this.store.query('campaign', { filter: { code: params.campaign_code } });
+  async model() {
+    const campaignCode = this.paramsFor('campaigns').campaign_code;
+    const campaigns = await this.store.query('campaign', { filter: { code: campaignCode } });
     return campaigns.get('firstObject');
   }
 
@@ -35,8 +36,8 @@ export default class FillInIdPixRoute extends Route.extend(SecuredRouteMixin) {
       return this.start(campaign);
     }
 
-    if (this.givenParticipantExternalId) {
-      return this.start(campaign, this.givenParticipantExternalId);
+    if (this.participantExternalId) {
+      return this.start(campaign, this.participantExternalId);
     }
   }
 

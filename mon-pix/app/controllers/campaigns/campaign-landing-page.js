@@ -1,17 +1,16 @@
-import classic from 'ember-classic-decorator';
 import { action } from '@ember/object';
 import Controller from '@ember/controller';
+import { tracked } from '@glimmer/tracking';
 
-@classic
 export default class CampaignLandingPageController extends Controller {
   queryParams = ['participantExternalId'];
   participantExternalId = null;
-  isLoading = false;
   pageTitle = 'Présentation';
+  @tracked isLoading = false;
 
   @action
   startCampaignParticipation() {
-    this.set('isLoading', true);
+    this.isLoading = true;
     return this.transitionToRoute('campaigns.start-or-resume', this.model.code, {
       queryParams: { hasSeenLanding: true, participantExternalId: this.participantExternalId }
     });

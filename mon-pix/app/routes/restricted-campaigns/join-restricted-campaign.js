@@ -1,20 +1,14 @@
-import classic from 'ember-classic-decorator';
-import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 import { isEmpty } from '@ember/utils';
 
-@classic
 export default class JoinRestrictedCampaignRoute extends Route.extend(SecuredRouteMixin) {
   @service currentUser;
   @service session;
 
-  _isReady = false;
-
   async beforeModel(transition) {
-    this.set('_isReady', false);
-    const campaignCode = transition.to.params.campaign_code;
+    const campaignCode = transition.to.parent.params.campaign_code;
     const student = await this.store.queryRecord('student-user-association', { userId: this.currentUser.user.id, campaignCode });
 
     if (!isEmpty(student)) {
@@ -24,12 +18,8 @@ export default class JoinRestrictedCampaignRoute extends Route.extend(SecuredRou
     }
   }
 
-  model(params) {
-    return params.campaign_code;
-  }
-
-  afterModel() {
-    this.set('_isReady', true);
+  model() {
+    return this.paramsFor('restricted-campaigns').campaign_code;
   }
 
   setupController(controller) {
@@ -38,10 +28,5 @@ export default class JoinRestrictedCampaignRoute extends Route.extend(SecuredRou
       controller.set('firstName', this.currentUser.user.firstName);
       controller.set('lastName', this.currentUser.user.lastName);
     }
-  }
-
-  @action
-  loading() {
-    return this._isReady;
   }
 }

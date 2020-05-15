@@ -32,6 +32,7 @@ describe('Unit | Route | campaigns/campaign-landing-page', function() {
       const params = {
         campaign_code: 'AQST765'
       };
+      route.paramsFor = sinon.stub().returns(params);
 
       const currentCampaign = EmberObject.create({ id: 1234 });
       const campaigns = A([currentCampaign]);
@@ -39,7 +40,7 @@ describe('Unit | Route | campaigns/campaign-landing-page', function() {
       queryStub.resolves(campaigns);
 
       // when
-      const promise = route.model(params);
+      const promise = route.model();
 
       // then
       return promise.then((campaign) => {

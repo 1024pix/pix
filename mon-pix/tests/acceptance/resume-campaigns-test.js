@@ -137,7 +137,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
             await click('.skill-review-share__button');
 
             // when
-            await visit(`/campagnes/${campaign.code}/resultats/${currentAssessment.id}`);
+            await visit(`/campagnes/${campaign.code}/evaluation/resultats/${currentAssessment.id}`);
 
             expect(find('.skill-review-share__thanks')).to.exist;
           });
