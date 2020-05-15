@@ -157,7 +157,24 @@ exports.register = async function(server) {
           '- Désarchivage d\'une campagne par son id',
         ],
       }
-    }
+    },
+    {
+      method: 'GET',
+      path: '/api/campaigns/{id}/profiles-collection/participations',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required()
+          }),
+        },
+        handler: campaignController.findProfilesCollectionParticipations,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération de l\'analyse de la campagne par son id',
+        ],
+        tags: ['api', 'campaign']
+      }
+    },
   ]);
 };
 

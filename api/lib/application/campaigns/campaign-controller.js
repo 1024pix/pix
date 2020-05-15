@@ -8,6 +8,7 @@ const campaignSerializer = require('../../infrastructure/serializers/jsonapi/cam
 const campaignAnalysisSerializer = require('../../infrastructure/serializers/jsonapi/campaign-analysis-serializer');
 const campaignReportSerializer = require('../../infrastructure/serializers/jsonapi/campaign-report-serializer');
 const campaignCollectiveResultSerializer = require('../../infrastructure/serializers/jsonapi/campaign-collective-result-serializer');
+const campaignProfilesCollectionParticipantSummariesSerializer = require('../../infrastructure/serializers/jsonapi/campaign-profiles-collection-participant-summaries-serializer');
 
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
@@ -135,6 +136,14 @@ module.exports = {
 
     const campaignAnalysis = await usecases.computeCampaignAnalysis({ userId, campaignId });
     return campaignAnalysisSerializer.serialize(campaignAnalysis);
+  },
+
+  async findProfilesCollectionParticipations(request) {
+    const { userId } = request.auth.credentials;
+    const campaignId = request.params.id;
+
+    const participantSummaries = await usecases.findCampaignProfilesCollectionParticipantSummaries({ userId, campaignId });
+    return campaignProfilesCollectionParticipantSummariesSerializer.serialize(participantSummaries);
   }
 };
 
