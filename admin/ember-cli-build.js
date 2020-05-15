@@ -4,6 +4,9 @@ const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function(defaults) {
   const app = new EmberApp(defaults, {
+    babel: {
+      sourceMaps: EmberApp.env() === 'development' ? 'inline' : false
+    },
     'ember-bootstrap': {
       'importBootstrapFont': false,
       'importBootstrapCSS': true,

@@ -6,7 +6,9 @@ const pluginsToBlacklist = environment === 'production' ? ['ember-freestyle'] : 
 
 module.exports = function(defaults) {
   const app = new EmberApp(defaults, {
-    // Add options here
+    babel: {
+      sourceMaps: EmberApp.env() === 'development' ? 'inline' : false
+    },
     'ember-cli-babel': {
       includePolyfill: true
     },
