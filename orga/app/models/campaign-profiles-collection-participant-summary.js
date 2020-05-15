@@ -2,7 +2,7 @@ import DS from 'ember-data';
 
 const { Model, attr } = DS;
 
-export default class CampaignCollectProfileParticipantSummary extends Model {
+export default class CampaignProfilesCollectionParticipantSummary extends Model {
   @attr('string')
   firstName;
 
@@ -14,5 +14,6 @@ export default class CampaignCollectProfileParticipantSummary extends Model {
 
   @attr('date')
   sharedAt;
+
 }
 

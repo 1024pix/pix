@@ -46,6 +46,10 @@ td, th {
   padding-left: 24px;
 }
 
+th::first-letter {
+  text-transform: capitalize;
+}
+
 .table__column {
   width: 16%;
 
@@ -78,6 +82,10 @@ td, th {
     &--icon {
       margin-left: 8px;
     }
+  }
+
+  &--highlight {
+    color: $grey-80;
   }
 }
 
