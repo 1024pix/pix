@@ -9,6 +9,7 @@ export default class PasswordResetDemandForm extends Component {
 
   @tracked hasFailed = false;
   @tracked hasSucceeded = false;
+  @tracked isButtonEnabled = true;
 
   email = '';
 
@@ -21,15 +22,19 @@ export default class PasswordResetDemandForm extends Component {
     event && event.preventDefault();
     this.hasFailed = false;
     this.hasSucceeded = false;
+    this.isButtonEnabled = false;
 
-    const trimmedEmail = this.email ? this.email.trim() : '';
+    if (!this.email) {
+      return;
+    }
 
     try {
-      const passwordResetDemand = await this.store.createRecord('password-reset-demand', { email: trimmedEmail });
+      const passwordResetDemand = await this.store.createRecord('password-reset-demand', { email: this.email.trim() });
       await passwordResetDemand.save();
       this.hasSucceeded = true;
     } catch (error) {
       this.hasFailed = true;
+      this.isButtonEnabled = true;
     }
   }
 }

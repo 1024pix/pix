@@ -29,6 +29,15 @@ describe('Unit | Component | password-reset-demand-form', () => {
       component.email = sentEmail;
     });
 
+    it('should not call api if the user did not enter any email', async () => {
+      // when
+      component.email = undefined;
+      await component.savePasswordResetDemand();
+
+      // then
+      sinon.assert.notCalled(createRecordStub);
+    });
+
     it('should create a passwordResetDemand Record', async () => {
       // when
       await component.savePasswordResetDemand();
