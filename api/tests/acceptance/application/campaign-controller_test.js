@@ -596,4 +596,47 @@ describe('Acceptance | API | Campaign Controller', () => {
       expect(response.statusCode).to.equal(403);
     });
   });
+
+  describe('GET /api/campaigns/{id}/profiles-collection/participations', () => {
+    it('should returns collect profile campaign participations', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser({ firstName: 'Jean', lastName: 'Bono' }).id;
+      const organization = databaseBuilder.factory.buildOrganization();
+
+      databaseBuilder.factory.buildMembership({
+        userId,
+        organizationId: organization.id,
+        organizationRole: Membership.roles.MEMBER,
+      });
+      const targetProfile = databaseBuilder.factory.buildTargetProfile({
+        organizationId: organization.id,
+        name: 'Profile 3'
+      });
+      const campaign = databaseBuilder.factory.buildCampaign({
+        name: 'Campagne de Test N°3',
+        organizationId: organization.id,
+        targetProfileId: targetProfile.id
+      });
+
+      const participantId = databaseBuilder.factory.buildUser({ firstName: 'Robert', lastName: 'Bob' }).id;
+      databaseBuilder.factory.buildCampaignParticipation({ isShared: true, campaignId: campaign.id, userId: participantId });
+
+      await databaseBuilder.commit();
+
+      // when
+      const options = {
+        method: 'GET',
+        url: `/api/campaigns/${campaign.id}/profiles-collection/participations`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data[0].attributes['first-name']).to.equal('Robert');
+      expect(response.result.data[0].attributes['last-name']).to.equal('Bob');
+    });
+  });
 });
