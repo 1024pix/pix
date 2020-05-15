@@ -55,7 +55,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
         badgeCriteria: [
           domainBuilder.buildBadgeCriterion({
             id: 15,
-            scope: 'Every competences should be validated with X %',
+            scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
             threshold: 54
           })
         ],
@@ -94,7 +94,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           badgeCriteria: [
             {
               id: 15,
-              scope: 'Every competences should be validated with X %',
+              scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
               threshold: 54,
             }
           ],

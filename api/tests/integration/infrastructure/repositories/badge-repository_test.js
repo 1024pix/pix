@@ -40,7 +40,7 @@ describe('Integration | Repository | Badge', () => {
 
     badgeCriterion = {
       id: 123,
-      scope: 'Every Competences are validated with X %',
+      scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
       threshold: 53,
     };
 
