@@ -1,3 +1,5 @@
+import './contains';
+
 function _addUserToOrganization(user, { externalId, canCollectProfiles } = {}) {
   const organization = server.create('organization', {
     name: 'BRO & Evil Associates',
