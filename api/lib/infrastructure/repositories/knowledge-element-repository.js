@@ -99,7 +99,7 @@ module.exports = {
       .where({ rank: 1 })
       .groupBy('competenceId')
       .then((pixEarnedByCompetence) => {
-        const pixScoreByCompetence = _.map(pixEarnedByCompetence, (pixEarnedForOneCompetence) =>  pixEarnedForOneCompetence.earnedPix);
+        const pixScoreByCompetence = _.map(pixEarnedByCompetence, (pixEarnedForOneCompetence) => pixEarnedForOneCompetence.earnedPix);
         return scoringService.totalUserPixScore(pixScoreByCompetence);
       });
   },
