@@ -1,9 +1,9 @@
-{{#if model.isLoading }}
+{{#if @model.isLoading }}
   <div class="app-loader">
     <p class="app-loader__image"><img src="/images/interwind.gif"></p>
   </div>
 {{else}}
-  {{#if model.isArchived }}
+  {{#if @model.isArchived }}
     <InaccessibleCampaign>
       La campagne a été archivée.
     </InaccessibleCampaign>

@@ -4,7 +4,7 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
-describe('Unit | Route | campaigns/tutorial', function() {
+describe('Unit | Route | assessment-campaigns/tutorial', function() {
 
   setupTest();
 
@@ -27,15 +27,19 @@ describe('Unit | Route | campaigns/tutorial', function() {
   };
 
   beforeEach(function() {
-    route = this.owner.lookup('route:campaigns/tutorial');
+    route = this.owner.lookup('route:assessment-campaigns/tutorial');
     route.transitionTo = sinon.stub();
     route.tutorial = tutorialPages.tutorial;
   });
 
   describe('#model', function() {
     it('should initialize tutorial page with the first one', function() {
+      // given
+      const params = { campaign_code: 'AZERTY' };
+      route.paramsFor = sinon.stub().returns(params);
+
       // when
-      const tutorialPage = route.model({ campaign_code: 'AZERTY' });
+      const tutorialPage = route.model();
 
       // then
       expect(tutorialPage.title).to.equal(tutorialPages.tutorial[0].title);

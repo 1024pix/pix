@@ -59,12 +59,12 @@ describe('Unit | Controller | Campaigns | Fill in ParticipantExternalId', functi
       controller.transitionToRoute = sinon.stub();
     });
 
-    it('should transition to landing page', () => {
+    it('should transition to start or resume', () => {
       // when
       controller.actions.cancel.call(controller);
 
       // then
-      sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.campaign-landing-page', controller.get('model.code'));
+      sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.start-or-resume', controller.get('model.code'));
     });
   });
 });

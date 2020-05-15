@@ -3,7 +3,7 @@ import { setupTest } from 'ember-mocha';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-describe('Unit | Controller | Campaigns | Send Profile', function() {
+describe('Unit | Controller | Profiles Collection Campaigns | Send Profile', function() {
 
   setupTest();
 
@@ -26,7 +26,7 @@ describe('Unit | Controller | Campaigns | Send Profile', function() {
   let controller;
 
   beforeEach(function() {
-    controller = this.owner.lookup('controller:campaigns/send-profile');
+    controller = this.owner.lookup('controller:profiles-collection-campaigns/send-profile');
     controller.model = model;
     campaignParticipation.save.resolves(campaignParticipationShared);
   });

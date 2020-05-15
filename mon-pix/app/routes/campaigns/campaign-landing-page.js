@@ -1,19 +1,16 @@
-import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 
-@classic
 export default class CampaignLandingPageRoute extends Route {
   @service session;
-
-  campaignCode = null;
 
   deactivate() {
     this.controller.set('isLoading', false);
   }
 
-  async model(params) {
-    const campaigns = await this.store.query('campaign', { filter: { code: params.campaign_code } });
+  async model() {
+    const campaignCode = this.paramsFor('campaigns').campaign_code;
+    const campaigns = await this.store.query('campaign', { filter: { code: campaignCode } });
 
     return campaigns.get('firstObject');
   }

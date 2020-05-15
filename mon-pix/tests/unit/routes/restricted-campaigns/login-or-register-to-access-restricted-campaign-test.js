@@ -4,7 +4,7 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
-describe('Unit | Route | login-or-register-to-access-restricted-campaign', () => {
+describe('Unit | Route | restricted-campaigns/login-or-register-to-access-restricted-campaign', () => {
 
   setupTest();
 
@@ -18,7 +18,7 @@ describe('Unit | Route | login-or-register-to-access-restricted-campaign', () =>
       query: queryStub
     });
 
-    route = this.owner.lookup('route:login-or-register-to-access-restricted-campaign');
+    route = this.owner.lookup('route:restricted-campaigns/login-or-register-to-access-restricted-campaign');
     route.set('store', storeStub);
   });
 
@@ -26,16 +26,16 @@ describe('Unit | Route | login-or-register-to-access-restricted-campaign', () =>
     expect(route).to.be.ok;
   });
 
-  it('should retrieve a campain by his code', async function() {
+  it('should retrieve a campaign by his code', async function() {
     // given
     const expectedCampains = [{ id: 1 }];
     queryStub.resolves(expectedCampains);
 
     const expectedCode = 'RESTRICTD';
-    const params = { campaign_code: expectedCode };
+    route.campaignCode = expectedCode;
 
     // when
-    const model = await route.model(params);
+    const model = await route.model();
 
     // then
     sinon.assert.calledWith(queryStub, 'campaign', { filter: { code: expectedCode } });

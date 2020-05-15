@@ -25,7 +25,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
 
       beforeEach(async function() {
         // when
-        await visit(`/campagnes/${campaign.code}/resultats/${campaignParticipation.assessment.id}`);
+        await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
       });
 
       it('should be redirect to connexion page', async function() {
@@ -63,10 +63,10 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
 
       it('should access to the page', async function() {
         // when
-        await visit(`/campagnes/${campaign.code}/resultats/${campaignParticipation.assessment.id}`);
+        await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
 
         // then
-        expect(currentURL()).to.equal(`/campagnes/${campaign.code}/resultats/${campaignParticipation.assessment.id}`);
+        expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
       });
 
       it('should display results', async function() {
@@ -75,7 +75,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         const PROGRESSION_MAX_WIDTH = '100%';
 
         // when
-        await visit(`/campagnes/${campaign.code}/resultats/${campaignParticipation.assessment.id}`);
+        await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
 
         // then
         expect(find('table tbody tr td:nth-child(1) span:nth-child(2)').textContent).to.equal(competenceResultName);
@@ -99,7 +99,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         });
 
         // when
-        await visit(`/campagnes/${campaign.code}/resultats/${campaignParticipation.assessment.id}`);
+        await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
 
         // then
         expect(find('table tbody tr td:nth-child(1) span:nth-child(2)').textContent).to.equal(partnerCompetenceResultName);
@@ -118,7 +118,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         campaignParticipationResult.update({ badge, areBadgeCriteriaFulfilled: true });
 
         // when
-        await visit(`/campagnes/${campaign.code}/resultats/${campaignParticipation.assessment.id}`);
+        await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
 
         // then
         expect(find('.skill-review-result__badge')).to.exist;
@@ -134,7 +134,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         campaignParticipationResult.update({ badge, areBadgeCriteriaFulfilled: false });
 
         // when
-        await visit(`/campagnes/${campaign.code}/resultats/${campaignParticipation.assessment.id}`);
+        await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
 
         // then
         expect(find('.skill-review-result__badge')).to.not.exist;

@@ -80,7 +80,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
                 await click('#submit-connexion');
 
                 // then
-                expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code.toLowerCase()}/rejoindre`);
+                expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code.toLowerCase()}/restreinte/rejoindre`);
               });
             });
 
@@ -89,7 +89,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
               await visit(`/campagnes/${campaign.code}`);
 
               // then
-              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/identification`);
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/restreinte/identification`);
             });
 
             it('should redirect to landing page when reconciliation and registration are done', async function() {
@@ -115,7 +115,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
             it('should redirect to join restricted campaign page when connection is done', async function() {
               // given
               await visit(`/campagnes/${campaign.code}`);
-              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/identification`);
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/restreinte/identification`);
 
               // when
               await click('#login-button');
@@ -124,20 +124,20 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
               await click('#submit-connexion');
 
               // then
-              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/rejoindre`);
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/restreinte/rejoindre`);
             });
 
             it('should redirect to landing page when fields are filled in', async function() {
               // given
               await visit(`/campagnes/${campaign.code}`);
-              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/identification`);
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/restreinte/identification`);
 
               await click('#login-button');
               await fillIn('#login', campaignParticipant.email);
               await fillIn('#password', campaignParticipant.password);
               await click('#submit-connexion');
 
-              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/rejoindre`);
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/restreinte/rejoindre`);
 
               // when
               await fillIn('#firstName', 'Jane');
@@ -230,7 +230,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
             await click('.button');
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/envoi-profil`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
           });
         });
 
@@ -250,7 +250,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
             it('should redirect to send profile page', async function() {
               // then
-              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/envoi-profil`);
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
             });
           });
 
@@ -259,7 +259,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
               campaign = server.create('campaign', { type: PROFILES_COLLECTION, isRestricted: true, idPixLabel: 'toto' });
               await visit(`/campagnes/${campaign.code}?participantExternalId=a73at01r3`);
 
-              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/identification`);
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/restreinte/identification`);
 
               await click('#login-button');
 
@@ -278,7 +278,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
             it('should redirect to send profile page', async function() {
               // then
-              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/envoi-profil`);
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
             });
           });
         });
@@ -298,7 +298,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
         it('should redirect to send profile page after signup', async function() {
           // then
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/envoi-profil`);
+          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
         });
       });
 
@@ -316,7 +316,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
         it('should redirect to send profile page after signup', async function() {
           // then
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/envoi-profil`);
+          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
         });
       });
     });
@@ -350,7 +350,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
             await visit(`/campagnes/${campaign.code}`);
 
             //then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/rejoindre`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/restreinte/rejoindre`);
             expect(find('.join-restricted-campaign')).to.exist;
           });
 
@@ -363,13 +363,13 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
             await click('.fill-in-campaign-code__start-button');
 
             //then
-            expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code.toLowerCase()}/rejoindre`);
+            expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code.toLowerCase()}/restreinte/rejoindre`);
             expect(find('.join-restricted-campaign')).to.exist;
           });
 
           it('should not set any field by default', async function() {
             // when
-            await visit(`/campagnes/${campaign.code}/rejoindre`);
+            await visit(`/campagnes/${campaign.code}/restreinte/rejoindre`);
 
             //then
             expect(find('#firstName').value).to.equal('');
@@ -378,7 +378,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
           it('should redirect to landing page when fields are filled in', async function() {
             // given
-            await visit(`/campagnes/${campaign.code}/rejoindre`);
+            await visit(`/campagnes/${campaign.code}/restreinte/rejoindre`);
 
             // when
             await fillIn('#firstName', 'Robert');
@@ -395,7 +395,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
           it('should redirect to fill-in-id-pix page', async function() {
             // given
-            await visit(`/campagnes/${campaign.code}/rejoindre`);
+            await visit(`/campagnes/${campaign.code}/restreinte/rejoindre`);
             await fillIn('#firstName', 'Robert');
             await fillIn('#lastName', 'Smith');
             await fillIn('#dayOfBirth', '10');
@@ -412,7 +412,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
           it('should redirect to send profile page', async function() {
             // given
-            await visit(`/campagnes/${campaign.code}/rejoindre`);
+            await visit(`/campagnes/${campaign.code}/restreinte/rejoindre`);
             await fillIn('#firstName', 'Robert');
             await fillIn('#lastName', 'Smith');
             await fillIn('#dayOfBirth', '10');
@@ -426,7 +426,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
             await click('.button');
 
             //then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/envoi-profil`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
           });
         });
 
@@ -440,7 +440,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
           it('should redirect to landing page', async function() {
             // when
-            await visit(`/campagnes/${campaign.code}/rejoindre`);
+            await visit(`/campagnes/${campaign.code}/restreinte/rejoindre`);
 
             //then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
@@ -448,7 +448,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
           it('should redirect to fill-in-id-pix page', async function() {
             // given
-            await visit(`/campagnes/${campaign.code}/rejoindre`);
+            await visit(`/campagnes/${campaign.code}/restreinte/rejoindre`);
 
             // when
             await click('.button');
@@ -478,7 +478,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
             await click('.button');
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/envoi-profil`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
           });
         });
 
@@ -490,7 +490,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
           it('should redirect to send profile page', async function() {
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/envoi-profil`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
           });
         });
       });
@@ -507,7 +507,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
           await click('.campaign-landing-page__start-button');
 
           // then
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/envoi-profil`);
+          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
         });
       });
 
@@ -522,7 +522,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
           await click('.campaign-landing-page__start-button');
 
           // then
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/envoi-profil`);
+          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
         });
       });
     });
@@ -544,7 +544,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
           it('should set by default firstName and lastName', async function() {
             // when
-            await visit(`/campagnes/${campaign.code}/rejoindre`);
+            await visit(`/campagnes/${campaign.code}/restreinte/rejoindre`);
 
             //then
             expect(find('#firstName').value).to.equal(garUser.firstName);
@@ -553,7 +553,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
           it('should redirect to landing page when fields are filled in', async function() {
             // given
-            await visit(`/campagnes/${campaign.code}/rejoindre`);
+            await visit(`/campagnes/${campaign.code}/restreinte/rejoindre`);
 
             // when
             await fillIn('#dayOfBirth', '10');
@@ -576,7 +576,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
           it('should redirect to landing page', async function() {
             // when
-            await visit(`/campagnes/${campaign.code}/rejoindre`);
+            await visit(`/campagnes/${campaign.code}/restreinte/rejoindre`);
 
             //then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
