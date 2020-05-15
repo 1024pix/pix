@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { authenticateSession } from 'ember-simple-auth/test-support';
+import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Acceptance | tools page', function(hooks) {
@@ -9,7 +9,7 @@ module('Acceptance | tools page', function(hooks) {
   setupMirage(hooks);
 
   hooks.beforeEach(async function() {
-    await authenticateSession({ userId: 1 });
+    await createAuthenticateSession({ userId: 1 });
   });
 
   module('Access', function() {

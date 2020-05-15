@@ -1,4 +1,5 @@
-import Model, { attr, hasMany } from '@ember-data/model';
+import Model, { hasMany, attr } from '@ember-data/model';
+import { computed } from '@ember/object';
 
 export default class User extends Model {
 
@@ -12,4 +13,9 @@ export default class User extends Model {
   @attr('boolean') isAuthenticatedFromGar;
 
   @hasMany('membership') memberships;
+
+  @computed('firstName,lastName')
+  get fullName() {
+    return `${this.firstName} ${this.lastName}`;
+  }
 }

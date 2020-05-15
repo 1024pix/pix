@@ -4,6 +4,7 @@ const { NotFoundError } = require('../../domain/errors');
 const JurySession = require('../../domain/models/JurySession');
 const { statuses } = require('../../domain/models/JurySession');
 const CertificationOfficer = require('../../domain/models/CertificationOfficer');
+const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
 
 const DEFAULT_PAGE_SIZE = 10;
 const DEFAULT_PAGE_NUMBER = 1;
@@ -57,6 +58,21 @@ module.exports = {
       },
     };
   },
+
+  async assignCertificationOfficer({ id, assignedCertificationOfficerId }) {
+    try {
+      await Bookshelf.knex('sessions')
+        .where({ id })
+        .update({ assignedCertificationOfficerId })
+        .returning('*');
+      return this.get(id);
+    } catch (error) {
+      if (error.code === PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR) {
+        throw new NotFoundError(`L'utilisateur d'id ${assignedCertificationOfficerId} n'existe pas`);
+      }
+      throw new NotFoundError(`La session d'id ${id} n'existe pas.`);
+    }
+  }
 };
 
 function _toDomain(jurySessionFromDB) {
