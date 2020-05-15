@@ -168,8 +168,8 @@ module.exports = {
   async assignCertificationOfficer(request) {
     const sessionId = request.params.id;
     const certificationOfficerId = request.auth.credentials.userId;
-    const session = await usecases.assignCertificationOfficerToSession({ sessionId, certificationOfficerId });
-    return sessionSerializer.serialize(session);
+    const jurySession = await usecases.assignCertificationOfficerToJurySession({ sessionId, certificationOfficerId });
+    return jurySessionSerializer.serialize(jurySession);
   },
 
 };

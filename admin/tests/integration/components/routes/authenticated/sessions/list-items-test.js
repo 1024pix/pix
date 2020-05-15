@@ -26,6 +26,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       { id: 2, certificationCenterName: 'Centre B', certificationCenterType: null, date: now, time: '14:00:00',
         displayDate, displayStatus, displayFinalizationDate: 'SomeFDate',
         displayPublishedAtDate: 'SomePDate', displayResultsSentToPrescriberDate: 'SomeRDate',
+        assignedCertificationOfficer: { fullName: 'Harry Patter ' },
       },
     ];
 
@@ -46,8 +47,12 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       assert.dom(`table tbody tr:nth-child(${i + 1}) td:nth-child(7)`).hasText(sessions[i].displayPublishedAtDate);
       assert.dom(`table tbody tr:nth-child(${i + 1}) td:nth-child(8)`).hasText(sessions[i].displayResultsSentToPrescriberDate);
     }
+    // Colonne : Centre de certification
     assert.dom('table tbody tr:nth-child(1) td:nth-child(3)').hasText(sessions[0].certificationCenterType);
     assert.dom('table tbody tr:nth-child(2) td:nth-child(3)').hasText('-');
+    // Colonne : Qui ?
+    assert.dom('table tbody tr:nth-child(1) td:nth-child(9)').hasText('-');
+    assert.dom('table tbody tr:nth-child(2) td:nth-child(9)').hasText(sessions[1].assignedCertificationOfficer.fullName);
   });
 
   module('Input field for id filtering', function() {

@@ -10,6 +10,7 @@
         <th>Date de finalisation</th>
         <th>Date de publication</th>
         <th>Date de diffusion au prescripteur</th>
+        <th>Qui ?</th>
       </tr>
       <tr>
         <th>
@@ -46,6 +47,7 @@
             <xs.option @value={{@sessionResultsSentToPrescriberAtAndLabels.[2].value}}>{{@sessionResultsSentToPrescriberAtAndLabels.[2].label}}</xs.option>
           </XSelect>
         </th>
+        <th></th>
       </tr>
     </thead>
 
@@ -65,6 +67,13 @@
           <td>{{session.displayFinalizationDate}}</td>
           <td>{{session.displayPublishedAtDate}}</td>
           <td>{{session.displayResultsSentToPrescriberDate}}</td>
+          <td class="session-list__item--align-center">
+            {{#if session.assignedCertificationOfficer}}
+              {{session.assignedCertificationOfficer.fullName}}
+            {{else}}
+              -
+            {{/if}}
+          </td>
         </tr>
       {{/each}}
       </tbody>

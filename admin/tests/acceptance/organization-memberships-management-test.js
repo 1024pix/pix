@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { authenticateSession } from 'ember-simple-auth/test-support';
+import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Acceptance | organization memberships management', function(hooks) {
@@ -9,7 +9,7 @@ module('Acceptance | organization memberships management', function(hooks) {
   setupMirage(hooks);
 
   hooks.beforeEach(async function() {
-    await authenticateSession({ userId: 1 });
+    await createAuthenticateSession({ userId: 1 });
   });
 
   test('visiting /organizations/:id', async function(assert) {

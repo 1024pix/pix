@@ -50,3 +50,8 @@
   background-size: 50px;
 }
 
+.btn-disabled {
+  opacity: 0.7;
+  cursor: not-allowed !important;
+  pointer-events: visible;
+}

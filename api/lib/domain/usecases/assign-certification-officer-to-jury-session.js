@@ -3,7 +3,7 @@ const { ObjectValidationError } = require('../errors');
 module.exports = async function assignCertificationOfficerToSession({
   sessionId,
   certificationOfficerId,
-  sessionRepository,
+  jurySessionRepository,
 } = {}) {
   const integerSessionId = parseInt(sessionId);
   if (!Number.isFinite(integerSessionId)) {
@@ -14,5 +14,5 @@ module.exports = async function assignCertificationOfficerToSession({
     throw new ObjectValidationError(`L'id ${certificationOfficerId} n'est pas un id de chargé de certification valide.`);
   }
 
-  return sessionRepository.assignCertificationOfficer({ id: integerSessionId, assignedCertificationOfficerId: integerCertificationOfficerId });
+  return jurySessionRepository.assignCertificationOfficer({ id: integerSessionId, assignedCertificationOfficerId: integerCertificationOfficerId });
 };
