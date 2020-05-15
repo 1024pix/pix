@@ -12,7 +12,7 @@ function list() {
           id: areaDataObject.id,
           code: areaDataObject.code,
           name: areaDataObject.name,
-          title: areaDataObject.title,
+          title: areaDataObject.titleFrFr,
           color: areaDataObject.color,
         });
       });

@@ -25,7 +25,7 @@ function _toDomain(competenceData, areaDatas) {
     area: areaData && new Area({
       id: areaData.id,
       code: areaData.code,
-      title: areaData.title,
+      title: areaData.titleFrFr,
       color: areaData.color,
     }),
   });
