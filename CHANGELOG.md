@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v2.153.0 (15/05/2020)
+
+- [#1403](https://github.com/1024pix/pix/pull/1403) [FEATURE] Valider les QROCM seulement si l'utilisateur a rempli tous les champs réponse (PIX-375).
+- [#1424](https://github.com/1024pix/pix/pull/1424) [BUGFIX] Changer la description de la page de connexion de Pix Certif (PIX-678)
+- [#1423](https://github.com/1024pix/pix/pull/1423) [BUGFIX] Remettre l'ancien gradient sur la page de connexion sur Pix Orga (PIX-655).
+- [#1421](https://github.com/1024pix/pix/pull/1421) [BUGFIX] Corriger l'affichage de la progression sur le didacticiel (PIX-560).
+- [#1399](https://github.com/1024pix/pix/pull/1399) [BUGFIX] Limiter les Pix et Levels max sur l'export de collecte de profils (PIX-615).
+- [#1412](https://github.com/1024pix/pix/pull/1412) [BUGFIX] Empêcher le chevauchement des boutons sur la page CGU en version mobile (PIX-662)
+- [#1415](https://github.com/1024pix/pix/pull/1415) [BUGFIX] Suppression d'un warning ember-data sur les user-orga-settings.
+- [#1414](https://github.com/1024pix/pix/pull/1414) [BUGFIX] Suppression de warnings ember-data sur les memberships.
+- [#1400](https://github.com/1024pix/pix/pull/1400) [BUGFIX] Validation de la longueur d'un id de session. 
+- [#1416](https://github.com/1024pix/pix/pull/1416) [TECH] Ajout d'un helper de test contains pour vérifier qu'un texte est présent dans le rendu (PIX-675) .
+- [#1413](https://github.com/1024pix/pix/pull/1413) [CLEANUP] Retrait d'une clause SELECT inutile dans le KE repository
+
 ## v2.152.0 (13/05/2020)
 
 - [#1398](https://github.com/1024pix/pix/pull/1398) [FEATURE] Améliorer le design de la page de login (PIX-511).
