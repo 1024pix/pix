@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
-import { find, render, click } from '@ember/test-helpers';
+import { fillIn, find, render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { resolve, reject } from 'rsvp';
 import Service from '@ember/service';
@@ -28,7 +28,7 @@ describe('Integration | Component | password reset demand form', function() {
     expect(find('.button')).to.exist;
   });
 
-  it('should display error message when there is an error on password reset demand', async function() {
+  it('should display error message and re enable the button when there is an error on password reset demand', async function() {
     // given
     const storeStub = Service.extend({
       createRecord() {
@@ -44,10 +44,12 @@ describe('Integration | Component | password reset demand form', function() {
     await render(hbs`<PasswordResetDemandForm />`);
 
     // when
+    await fillIn('#email', 'test@example.net');
     await click('.sign-form-body__bottom-button .button');
 
     // then
     expect(find('.sign-form__notification-message--error')).to.exist;
+    expect(find('.button').textContent.trim()).to.equal('Réinitialiser mon mot de passe');
   });
 
   it('should display success message when there is no error on password reset demand', async function() {
@@ -66,6 +68,7 @@ describe('Integration | Component | password reset demand form', function() {
     await render(hbs`<PasswordResetDemandForm />`);
 
     // when
+    await fillIn('#email', 'test@example.net');
     await click('.sign-form-body__bottom-button .button');
 
     // then
