@@ -54,7 +54,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(200);
+      expect(response.statusCode).to.equal(204);
     });
 
     it('should return a response with HTTP status code 200 even if there is no scope in the request', async () => {
@@ -69,7 +69,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(200);
+      expect(response.statusCode).to.equal(204);
     });
 
     it('should return a 400 when grant type is not "password"', async () => {
@@ -168,7 +168,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(200);
+      expect(response.statusCode).to.equal(204);
     });
 
     it('should return a 400 when grant type is not "access_token" nor "refresh_token"', async () => {
@@ -208,7 +208,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(200);
+      expect(response.statusCode).to.equal(204);
     });
 
     it('should return a JSON API error (415) when request "Content-Type" header is not "application/x-www-form-urlencoded"', async () => {
