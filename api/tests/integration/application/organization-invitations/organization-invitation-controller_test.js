@@ -49,7 +49,7 @@ describe('Integration | Application | Organization-invitations | organization-in
         const response = await httpTestServer.request('POST', '/api/organization-invitations/1/response', payload);
 
         // then
-        expect(response.statusCode).to.equal(200);
+        expect(response.statusCode).to.equal(204);
       });
     });
 
