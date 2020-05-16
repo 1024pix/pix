@@ -29,7 +29,7 @@
     "airtable": "^0.8.1",
     "bcrypt": "^4.0.1",
     "blipp": "^4.0.1",
-    "bluebird": "^3.7.1",
+    "bluebird": "^3.7.2",
     "bookshelf": "^0.15.1",
     "bookshelf-page": "^0.3.2",
     "bookshelf-validate": "^2.0.3",
