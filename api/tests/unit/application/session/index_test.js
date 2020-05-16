@@ -12,7 +12,6 @@ describe('Unit | Application | Sessions | Routes', () => {
   let server;
 
   beforeEach(() => {
-    server = this.server = Hapi.server();
     sinon.stub(sessionAuthorization, 'verify').returns(null);
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
 
@@ -33,6 +32,7 @@ describe('Unit | Application | Sessions | Routes', () => {
     sinon.stub(sessionController, 'flagResultsAsSentToPrescriber').returns('ok');
     sinon.stub(sessionController, 'assignCertificationOfficer').returns('ok');
 
+    server = this.server = Hapi.server();
     return server.register(route);
   });
 
