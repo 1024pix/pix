@@ -182,7 +182,7 @@ module.exports = {
   getUserDetailsForAdmin(userId) {
     return BookshelfUser
       .where({ id: userId })
-      .fetch({ require: true, columns: ['id','firstName','firstName','lastName','email','username','cgu','pixOrgaTermsOfServiceAccepted',
+      .fetch({ require: true, columns: ['id','firstName','lastName','email','username','cgu','pixOrgaTermsOfServiceAccepted',
         'pixCertifTermsOfServiceAccepted','samlId', ] })
       .then((userDetailsForAdmin) => _toUserDetailsForAdminDomain(userDetailsForAdmin))
       .catch((err) => {
@@ -348,35 +348,30 @@ module.exports = {
   },
 
   async updateHasSeenAssessmentInstructionsToTrue(id) {
-    let updatedUser = await BookshelfUser
-      .where({ id })
-      .save({ 'hasSeenAssessmentInstructions': true }, { patch: true, method: 'update' });
-    updatedUser = await updatedUser.refresh();
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, updatedUser);
+    const user = await BookshelfUser.where({ id }).fetch();
+    await user.save({ 'hasSeenAssessmentInstructions': true }, { patch: true, method: 'update' });
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
   },
 
   async acceptPixLastTermsOfService(id) {
-    let updatedUser = await BookshelfUser
-      .where({ id })
-      .save({ 'lastTermsOfServiceValidatedAt': moment().toDate() , 'mustValidateTermsOfService': false }, { patch: true, method: 'update' });
-    updatedUser = await updatedUser.refresh();
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, updatedUser);
+    const user = await BookshelfUser.where({ id }).fetch();
+    await user.save({
+      'lastTermsOfServiceValidatedAt': moment().toDate(),
+      'mustValidateTermsOfService': false
+    }, { patch: true, method: 'update' });
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
   },
 
   async updatePixOrgaTermsOfServiceAcceptedToTrue(id) {
-    let updatedUser = await BookshelfUser
-      .where({ id })
-      .save({ 'pixOrgaTermsOfServiceAccepted': true }, { patch: true, method: 'update' });
-    updatedUser = await updatedUser.refresh();
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, updatedUser);
+    const user = await BookshelfUser.where({ id }).fetch();
+    await user.save({ 'pixOrgaTermsOfServiceAccepted': true }, { patch: true, method: 'update' });
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
   },
 
   async updatePixCertifTermsOfServiceAcceptedToTrue(id) {
-    let updatedUser = await BookshelfUser
-      .where({ id })
-      .save({ 'pixCertifTermsOfServiceAccepted': true }, { patch: true, method: 'update' });
-    updatedUser = await updatedUser.refresh();
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, updatedUser);
+    const user = await BookshelfUser.where({ id }).fetch();
+    await user.save({ 'pixCertifTermsOfServiceAccepted': true }, { patch: true, method: 'update' });
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
   },
 
   async createAndAssociateUserToSchoolingRegistration({ domainUser, schoolingRegistrationId }) {
@@ -384,7 +379,7 @@ module.exports = {
 
     const trx = await Bookshelf.knex.transaction();
     try {
-      const [ userId ] = await trx('users').insert(userToCreate, 'id');
+      const [userId] = await trx('users').insert(userToCreate, 'id');
 
       const updatedSchoolingRegistrationsCount = await trx('schooling-registrations')
         .where('id', schoolingRegistrationId)

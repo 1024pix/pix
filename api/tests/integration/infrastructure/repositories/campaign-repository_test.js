@@ -112,7 +112,7 @@ describe('Integration | Repository | Campaign', () => {
       campaignToSave.id = undefined;
 
       // when
-      savedCampaign = await campaignRepository.save(campaignToSave);
+      savedCampaign = await campaignRepository.create(campaignToSave);
 
       // then
       expect(savedCampaign).to.be.instanceof(Campaign);
@@ -127,7 +127,7 @@ describe('Integration | Repository | Campaign', () => {
       campaignToSave.id = undefined;
 
       // when
-      savedCampaign = await campaignRepository.save(campaignToSave);
+      savedCampaign = await campaignRepository.create(campaignToSave);
 
       // then
       expect(savedCampaign).to.be.instanceof(Campaign);
