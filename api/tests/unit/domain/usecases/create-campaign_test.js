@@ -12,7 +12,7 @@ describe('Unit | UseCase | create-campaign', () => {
   let campaignToCreate;
   const savedCampaign = domainBuilder.buildCampaign({ code: availableCampaignCode });
   const targetProfile = domainBuilder.buildTargetProfile({ id: targetProfileId, isPublic: true });
-  const campaignRepository = { save: () => undefined };
+  const campaignRepository = { create: () => undefined };
   const userRepository = { getWithMemberships: () => undefined };
   const organizationRepository = { get: () => undefined };
   const organizationService = { findAllTargetProfilesAvailableForOrganization: () => undefined };
@@ -27,7 +27,7 @@ describe('Unit | UseCase | create-campaign', () => {
   beforeEach(() => {
     campaignToCreate = domainBuilder.buildCampaign.ofTypeAssessment({ id: '', code: '', targetProfileId  });
     sinon.stub(campaignCodeGenerator, 'generate');
-    sinon.stub(campaignRepository, 'save');
+    sinon.stub(campaignRepository, 'create');
     sinon.stub(campaignValidator, 'validate');
     sinon.stub(userRepository, 'getWithMemberships');
     sinon.stub(organizationRepository, 'get');
@@ -81,7 +81,7 @@ describe('Unit | UseCase | create-campaign', () => {
     campaignValidator.validate.returns();
     _stubGetUserWithOrganizationsAccesses(campaignToCreate.organizationId);
     campaignCodeGenerator.generate.resolves(availableCampaignCode);
-    campaignRepository.save.resolves(savedCampaign);
+    campaignRepository.create.resolves(savedCampaign);
 
     // when
     await createCampaign({ campaign: campaignToCreate, campaignRepository, userRepository, organizationRepository, organizationService });
@@ -95,13 +95,13 @@ describe('Unit | UseCase | create-campaign', () => {
     campaignValidator.validate.returns();
     _stubGetUserWithOrganizationsAccesses(campaignToCreate.organizationId);
     campaignCodeGenerator.generate.resolves(availableCampaignCode);
-    campaignRepository.save.resolves(savedCampaign);
+    campaignRepository.create.resolves(savedCampaign);
 
     // when
     await createCampaign({ campaign: campaignToCreate, campaignRepository, userRepository, organizationRepository, organizationService });
 
     // then
-    const [campaignToCreateWithCode] = campaignRepository.save.firstCall.args;
+    const [campaignToCreateWithCode] = campaignRepository.create.firstCall.args;
 
     expect(campaignToCreateWithCode).to.deep.include({
       ..._.pick(campaignToCreate, ['name', 'userId', 'type', 'organizationId']),
@@ -114,7 +114,7 @@ describe('Unit | UseCase | create-campaign', () => {
     campaignValidator.validate.returns();
     _stubGetUserWithOrganizationsAccesses(campaignToCreate.organizationId);
     campaignCodeGenerator.generate.resolves(availableCampaignCode);
-    campaignRepository.save.resolves(savedCampaign);
+    campaignRepository.create.resolves(savedCampaign);
 
     // when
     const campaign = await createCampaign({ campaign: campaignToCreate, campaignRepository, userRepository, organizationRepository, organizationService });

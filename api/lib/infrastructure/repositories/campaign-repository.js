@@ -130,21 +130,32 @@ module.exports = {
     return queryBuilder.get(BookshelfCampaign, id, options);
   },
 
-  save(domainCampaign) {
-    const repositoryCampaign = _.omit(domainCampaign, ['id', 'createdAt', 'archivedAt', 'organizationLogoUrl', 'organizationName', 'targetProfile', 'campaignReport', 'campaignCollectiveResult', 'isRestricted', 'creator', 'campaignAnalysis' ]);
-    return new BookshelfCampaign(repositoryCampaign)
-      .save()
-      .then(_toDomain);
+  async create(campaign) {
+    const campaignAttributes = _.pick(campaign, [
+      'name',
+      'code',
+      'title',
+      'type',
+      'idPixLabel',
+      'customLandingPageText',
+      'creatorId',
+      'organizationId',
+      'targetProfileId'
+    ]);
+    const createdCampaign = await (new BookshelfCampaign(campaignAttributes).save());
+    return _toDomain(createdCampaign);
   },
 
-  update(campaign) {
-
-    const campaignRawData = _.pick(campaign, ['name', 'title', 'customLandingPageText', 'archivedAt']);
-
-    return new BookshelfCampaign({ id: campaign.id })
-      .save(campaignRawData, { patch: true })
-      .then((model) => model.refresh())
-      .then(_toDomain);
+  async update(campaign) {
+    const editedAttributes = _.pick(campaign, [
+      'name',
+      'title',
+      'customLandingPageText',
+      'archivedAt',
+    ]);
+    const bookshelfCampaign = await BookshelfCampaign.where({ id: campaign.id }).fetch();
+    await bookshelfCampaign.save(editedAttributes, { method: 'update', patch: true });
+    return _toDomain(bookshelfCampaign);
   },
 
   async findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page }) {
