@@ -60,7 +60,7 @@
     "node-cache": "^5.1.0",
     "node-cron": "^2.0.3",
     "node-mailjet": "^3.3.1",
-    "papaparse": "^5.1.0",
+    "papaparse": "^5.2.0",
     "path": "^0.12.7",
     "pg": "^7.14.0",
     "randomstring": "^1.1.5",
