@@ -52,7 +52,7 @@
     "json2csv": "^5.0.1",
     "jsonapi-serializer": "^3.6.6",
     "jsonwebtoken": "^8.5.1",
-    "jszip": "3.2.2",
+    "jszip": "3.4.0",
     "knex": "^0.20.2",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
