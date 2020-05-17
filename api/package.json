@@ -50,7 +50,7 @@
     "heap-profile": "^0.4.0",
     "heapdump": "^0.3.15",
     "json2csv": "^5.0.1",
-    "jsonapi-serializer": "^3.6.5",
+    "jsonapi-serializer": "^3.6.6",
     "jsonwebtoken": "^8.5.1",
     "jszip": "3.2.2",
     "knex": "^0.20.2",
