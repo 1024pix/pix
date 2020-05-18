@@ -8,10 +8,17 @@ import { tracked } from '@glimmer/tracking';
 export default class TermsOfServiceController extends Controller {
 
   pageTitle = 'Conditions d\'utilisation';
+  
   @service session;
   @service currentUser;
+  @service url;
+
   @tracked isTermsOfServiceValidated = false;
   @tracked showErrorTermsOfServiceNotSelected = false;
+
+  get homeUrl() {
+    return this.url.homeUrl;
+  }
 
   @action
   async submit() {
