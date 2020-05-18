@@ -74,7 +74,7 @@ export default Factory.extend({
 
   QROCM: trait({
     type: 'QROCM',
-    instruction: 'Un QROCMMMMM est une question avec plusieurs champs texte libre pour repondre',
+    instruction: 'Un QROCM est une question avec plusieurs champs texte libre pour repondre',
     proposals: 'Trois logiciels libres : ${logiciel1#un} ${logiciel2#deux} ${logiciel3#trois}\nMerci'
   }),
 
@@ -82,6 +82,12 @@ export default Factory.extend({
     type: 'QROCM-ind',
     instruction: 'L\'URL suivante, censée aboutir à un article, donne lieu à une redirection vers la page d\'accueil du site. Retrouvez la page recherchée. Reportez le titre de l’article et son auteur.  \n' + '\n' + '> https://www.cairn.info/revue-reseaux-2011-numero1-page-137.htm',
     proposals: 'Titre : ${titre}\n' + 'Auteur : ${auteur}'
+  }),
+
+  QROCMDep: trait({
+    type: 'QROCM-dep',
+    instruction: 'Aurélie est montée dans le métro après avoir pris cette photo sur le quai.\n A quelle station peut-elle descendre ?',
+    proposals: 'Station 1 : ${station1}\n' + 'Station 2 : ${station2}'
   }),
 
   timed: trait({
