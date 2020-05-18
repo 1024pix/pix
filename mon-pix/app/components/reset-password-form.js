@@ -31,7 +31,7 @@ export default class ResetPasswordForm extends Component {
   _displaySuccessMessage = null;
   validation = VALIDATION_MAP['default'];
 
-  get urlHome() {
+  get homeUrl() {
     return this.url.homeUrl;
   }
 

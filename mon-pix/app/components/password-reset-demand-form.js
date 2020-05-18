@@ -12,7 +12,7 @@ export default class PasswordResetDemandForm extends Component {
   _displayErrorMessage = false;
   _displaySuccessMessage = false;
 
-  get urlHome() {
+  get homeUrl() {
     return this.url.homeUrl;
   }
 
