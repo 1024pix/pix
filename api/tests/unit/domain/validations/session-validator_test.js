@@ -174,7 +174,6 @@ describe('Unit | Domain | Validators | session-validator', () => {
 
         expect(typeof value.id).to.equal('number');
         expect(value.status).to.equal('finalized');
-        expect(value.certificationCenterName).to.be.undefined;
       });
     });
 
@@ -233,7 +232,9 @@ describe('Unit | Domain | Validators | session-validator', () => {
         context('when certificationCenterName is a string', () => {
 
           it('should not throw an error', async () => {
-            expect(sessionValidator.validateFilters({ certificationCenterName: 'Coucou le dév qui lit ce message !' })).to.not.throw;
+            const certificationCenterName = '   Coucou le dév qui lit ce message !   ';
+            expect(sessionValidator.validateFilters({ certificationCenterName })).to.not.throw;
+            expect(sessionValidator.validateFilters({ certificationCenterName }).certificationCenterName).to.equal(certificationCenterName.trim());
           });
         });
       });
@@ -291,7 +292,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
 
       context('when resultsSentToPrescriberAt is in submitted filters', () => {
 
-        context('when resultsSentToPrescriberAt is not an string', () => {
+        context('when resultsSentToPrescriberAt is not a boolean', () => {
 
           it('should throw an error', async () => {
             const error = await catchErr(sessionValidator.validateFilters)({ resultsSentToPrescriberAt: 123 });
@@ -307,11 +308,49 @@ describe('Unit | Domain | Validators | session-validator', () => {
           });
         });
 
-        context('when resultsSentToPrescriberAt is string true or false', () => {
+        context('when resultsSentToPrescriberAt is a boolean', () => {
 
           it('should not throw an error', async () => {
-            expect(sessionValidator.validateFilters({ resultsSentToPrescriberAt: 'true' })).to.not.throw;
-            expect(sessionValidator.validateFilters({ resultsSentToPrescriberAt: 'false' })).to.not.throw;
+            expect(sessionValidator.validateFilters({ resultsSentToPrescriberAt: true })).to.not.throw;
+            expect(sessionValidator.validateFilters({ resultsSentToPrescriberAt: false })).to.not.throw;
+          });
+        });
+      });
+
+    });
+
+    context('when validating assignedToSelfOnly', () => {
+
+      context('when assignedToSelfOnly not in submitted filters', () => {
+
+        it('should not throw any error', () => {
+          expect(sessionValidator.validateFilters({})).to.not.throw;
+        });
+      });
+
+      context('when assignedToSelfOnly is in submitted filters', () => {
+
+        context('when assignedToSelfOnly is not an boolean', () => {
+
+          it('should throw an error', async () => {
+            const error = await catchErr(sessionValidator.validateFilters)({ assignedToSelfOnly: 'coucou' });
+            expect(error).to.be.instanceOf(EntityValidationError);
+          });
+        });
+
+        context('when assignedToSelfOnly is a boolean string', () => {
+
+          it('should throw an error', async () => {
+            expect(sessionValidator.validateFilters({ assignedToSelfOnly: 'true' })).to.not.throw;
+            expect(sessionValidator.validateFilters({ assignedToSelfOnly: 'false' })).to.not.throw;
+          });
+        });
+
+        context('when assignedToSelfOnly is a boolean', () => {
+
+          it('should not throw an error', async () => {
+            expect(sessionValidator.validateFilters({ assignedToSelfOnly: true })).to.not.throw;
+            expect(sessionValidator.validateFilters({ assignedToSelfOnly: false })).to.not.throw;
           });
         });
       });
