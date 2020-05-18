@@ -79,6 +79,7 @@
     "ember-simple-auth": "^3.0.0",
     "ember-sinon": "^4.1.1",
     "ember-source": "^3.15.0",
+    "ember-toggle": "^6.0.2",
     "ember-truth-helpers": "^2.1.0",
     "emberx-select": "^4.0.0-beta.2",
     "eslint": "^6.8.0",
