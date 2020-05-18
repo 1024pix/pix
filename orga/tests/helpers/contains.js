@@ -1,4 +1,3 @@
-import QUnit from 'qunit';
 import { getRootElement } from '@ember/test-helpers';
 
 function getChildrenThatContainsText(element, text) {
@@ -17,7 +16,7 @@ function getChildrenThatContainsText(element, text) {
     .flatMap((v) => v);
 }
 
-QUnit.assert.contains  = function(text) {
+export function contains(text) {
   const elements = getChildrenThatContainsText(getRootElement(), text);
   const result = elements.length > 0;
 
@@ -30,9 +29,9 @@ QUnit.assert.contains  = function(text) {
     result,
     message
   });
-};
+}
 
-QUnit.assert.notContains  = function(text) {
+export function notContains(text) {
   const elements = getChildrenThatContainsText(getRootElement(), text);
   const result = elements.length === 0;
 
@@ -45,4 +44,4 @@ QUnit.assert.notContains  = function(text) {
     result,
     message
   });
-};
+}

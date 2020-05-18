@@ -598,9 +598,9 @@ describe('Acceptance | API | Campaign Controller', () => {
   });
 
   describe('GET /api/campaigns/{id}/profiles-collection/participations', () => {
-    it('should returns collect profile campaign participations', async () => {
+    it('should returns profiles collection campaign participations', async () => {
       // given
-      const userId = databaseBuilder.factory.buildUser({ firstName: 'Jean', lastName: 'Bono' }).id;
+      const userId = databaseBuilder.factory.buildUser().id;
       const organization = databaseBuilder.factory.buildOrganization();
 
       databaseBuilder.factory.buildMembership({

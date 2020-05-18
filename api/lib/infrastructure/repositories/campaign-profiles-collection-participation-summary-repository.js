@@ -1,7 +1,7 @@
 const { knex } = require('../bookshelf');
-const CampaignProfilesCollectionParticipantSummary = require('../../domain/models/CampaignProfilesCollectionParticipantSummary');
+const CampaignProfilesCollectionParticipationSummary = require('../../domain/models/CampaignProfilesCollectionParticipationSummary');
 
-const CampaignProfilesCollectionParticipantSummaryRepository = {
+const CampaignProfilesCollectionParticipationSummaryRepository = {
   async findByCampaignId(campaignId) {
     const results = await knex
       .select('campaign-participations.id AS campaignParticipationId', 'users.firstName', 'users.lastName', 'campaign-participations.participantExternalId', 'campaign-participations.sharedAt')
@@ -11,8 +11,8 @@ const CampaignProfilesCollectionParticipantSummaryRepository = {
       .where('campaign-participations.campaignId', '=', campaignId)
       .orderByRaw('LOWER("lastName") ASC, LOWER("firstName") ASC');
 
-    return results.map((result) => new CampaignProfilesCollectionParticipantSummary(result));
+    return results.map((result) => new CampaignProfilesCollectionParticipationSummary(result));
   }
 };
 
-module.exports = CampaignProfilesCollectionParticipantSummaryRepository;
+module.exports = CampaignProfilesCollectionParticipationSummaryRepository;

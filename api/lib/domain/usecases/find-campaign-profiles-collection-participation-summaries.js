@@ -1,13 +1,13 @@
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 
-module.exports = async function findCampaignProfilesCollectionParticipantSummaries({
+module.exports = async function findCampaignProfilesCollectionParticipationSummaries({
   userId,
   campaignId,
   campaignRepository,
-  campaignProfilesCollectionParticipantSummaryRepository,
+  CampaignProfilesCollectionParticipationSummaryRepository,
 }) {
   if (!(await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, userId))) {
     throw new UserNotAuthorizedToAccessEntity('User does not belong to an organization that owns the campaign');
   }
-  return campaignProfilesCollectionParticipantSummaryRepository.findByCampaignId(campaignId);
+  return CampaignProfilesCollectionParticipationSummaryRepository.findByCampaignId(campaignId);
 };
