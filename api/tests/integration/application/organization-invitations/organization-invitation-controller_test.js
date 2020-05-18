@@ -41,7 +41,7 @@ describe('Integration | Application | Organization-invitations | organization-in
 
     context('Success cases', () => {
 
-      it('should return an HTTP response with status code 200', async () => {
+      it('should return an HTTP response with status code 204', async () => {
         // given
         usecases.answerToOrganizationInvitation.resolves();
 

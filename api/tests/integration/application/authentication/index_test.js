@@ -49,7 +49,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       return server.register(require('../../../../lib/application/authentication'));
     });
 
-    it('should return a response with HTTP status code 200 when route handler (a.k.a. controller) is successful', async () => {
+    it('should return a response with HTTP status code 204 when route handler (a.k.a. controller) is successful', async () => {
       // when
       const response = await server.inject(options);
 
@@ -57,7 +57,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       expect(response.statusCode).to.equal(204);
     });
 
-    it('should return a response with HTTP status code 200 even if there is no scope in the request', async () => {
+    it('should return a response with HTTP status code 204 even if there is no scope in the request', async () => {
       // given
       options.payload = querystring.stringify({
         grant_type: 'password',
@@ -163,7 +163,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       };
     });
 
-    it('should return a response with HTTP status code 200 when route handler (a.k.a. controller) is successful', async () => {
+    it('should return a response with HTTP status code 204 when route handler (a.k.a. controller) is successful', async () => {
       // when
       const response = await server.inject(options);
 
@@ -198,7 +198,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return a response with HTTP status code 200 even when token type hint is missing', async () => {
+    it('should return a response with HTTP status code 204 even when token type hint is missing', async () => {
       // given
       options.payload = querystring.stringify({
         token: 'jwt.access.token',
