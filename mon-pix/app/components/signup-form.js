@@ -28,7 +28,7 @@ export default Component.extend({
     this._resetValidationFields();
   },
 
-  get urlHome() {
+  get homeUrl() {
     return this.url.homeUrl;
   },
 

@@ -12,7 +12,7 @@ export default class SigninForm extends Component {
   username = '';
   password = '';
 
-  get urlHome() {
+  get homeUrl() {
     return this.url.homeUrl;
   }
 

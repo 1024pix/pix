@@ -33,7 +33,7 @@ describe('Integration | Component | routes/register-form', function() {
     this.owner.register('service:session', sessionStub);
   });
 
-  it.only('renders', async function() {
+  it('renders', async function() {
     // when
     await render(hbs`{{routes/register-form}}`);
 
