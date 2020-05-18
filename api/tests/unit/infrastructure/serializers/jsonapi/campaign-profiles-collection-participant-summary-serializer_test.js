@@ -1,8 +1,8 @@
 const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-profiles-collection-participant-summaries-serializer');
+const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-profiles-collection-participant-summary-serializer');
 const CampaignProfilesCollectionParticipantSummary = require('../../../../../lib/domain/models/CampaignProfilesCollectionParticipantSummary');
 
-describe('Unit | Serializer | JSONAPI | campaign-profiles-collection-participant-summaries-serializer', () => {
+describe('Unit | Serializer | JSONAPI | campaign-profiles-collection-participant-summary-serializer', () => {
   describe('#serialize', () => {
     it('should return a serialized JSON data object', () => {
       const participantSummaries = new CampaignProfilesCollectionParticipantSummary({
