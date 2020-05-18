@@ -8,7 +8,7 @@ const campaignSerializer = require('../../infrastructure/serializers/jsonapi/cam
 const campaignAnalysisSerializer = require('../../infrastructure/serializers/jsonapi/campaign-analysis-serializer');
 const campaignReportSerializer = require('../../infrastructure/serializers/jsonapi/campaign-report-serializer');
 const campaignCollectiveResultSerializer = require('../../infrastructure/serializers/jsonapi/campaign-collective-result-serializer');
-const campaignProfilesCollectionParticipantSummariesSerializer = require('../../infrastructure/serializers/jsonapi/campaign-profiles-collection-participant-summaries-serializer');
+const campaignProfilesCollectionParticipantSummariesSerializer = require('../../infrastructure/serializers/jsonapi/campaign-profiles-collection-participant-summary-serializer');
 
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
