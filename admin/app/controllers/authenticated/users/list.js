@@ -1,5 +1,4 @@
 import Controller from '@ember/controller';
-import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
 import config from 'pix-admin/config/environment';
@@ -26,9 +25,4 @@ export default class ListController extends Controller {
     this.pendingFilters = {};
     this.pageNumber = DEFAULT_PAGE_NUMBER;
   }).restartable()) triggerFiltering;
-
-  @action
-  goToUserDetailPage(userId) {
-    this.transitionToRoute('authenticated.users.get', userId);
-  }
 }
