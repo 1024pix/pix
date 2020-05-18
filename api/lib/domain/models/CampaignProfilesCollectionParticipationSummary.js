@@ -1,4 +1,4 @@
-class CampaignProfilesCollectionParticipantSummary {
+class CampaignProfilesCollectionParticipationSummary {
   constructor({
     campaignParticipationId,
     firstName,
@@ -14,4 +14,4 @@ class CampaignProfilesCollectionParticipantSummary {
   }
 }
 
-module.exports = CampaignProfilesCollectionParticipantSummary;
+module.exports = CampaignProfilesCollectionParticipationSummary;

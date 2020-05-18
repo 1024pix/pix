@@ -1,11 +1,11 @@
 const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-profiles-collection-participant-summary-serializer');
-const CampaignProfilesCollectionParticipantSummary = require('../../../../../lib/domain/models/CampaignProfilesCollectionParticipantSummary');
+const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-profiles-collection-participation-summary-serializer');
+const CampaignProfilesCollectionParticipationSummary = require('../../../../../lib/domain/models/CampaignProfilesCollectionParticipationSummary');
 
-describe('Unit | Serializer | JSONAPI | campaign-profiles-collection-participant-summary-serializer', () => {
+describe('Unit | Serializer | JSONAPI | campaign-profiles-collection-participation-summary-serializer', () => {
   describe('#serialize', () => {
     it('should return a serialized JSON data object', () => {
-      const participantSummaries = new CampaignProfilesCollectionParticipantSummary({
+      const participationSummary = new CampaignProfilesCollectionParticipationSummary({
         campaignParticipationId: '1',
         firstName: 'Antoine',
         lastName: 'Boidelo',
@@ -16,7 +16,7 @@ describe('Unit | Serializer | JSONAPI | campaign-profiles-collection-participant
       const expectedSerializedResult = {
         data: {
           id: '1',
-          type: 'campaignProfilesCollectionParticipantSummaries',
+          type: 'CampaignProfilesCollectionParticipationSummaries',
           attributes: {
             'first-name': 'Antoine',
             'last-name': 'Boidelo',
@@ -27,7 +27,7 @@ describe('Unit | Serializer | JSONAPI | campaign-profiles-collection-participant
       };
 
       // when
-      const result = serializer.serialize(participantSummaries);
+      const result = serializer.serialize(participationSummary);
 
       // then
       expect(result).to.deep.equal(expectedSerializedResult);

@@ -1,13 +1,13 @@
 const { expect, databaseBuilder } = require('../../../test-helper');
-const CampaignProfilesCollectionParticipantSummary = require('../../../../lib/domain/models/CampaignProfilesCollectionParticipantSummary');
-const campaignProfilesCollectionParticipantSummaryRepository = require('../../../../lib/infrastructure/repositories/campaign-profiles-collection-participant-summary-repository');
+const CampaignProfilesCollectionParticipationSummary = require('../../../../lib/domain/models/CampaignProfilesCollectionParticipationSummary');
+const CampaignProfilesCollectionParticipationSummaryRepository = require('../../../../lib/infrastructure/repositories/campaign-profiles-collection-participation-summary-repository');
 
 const createCampaignParticipation = (member, campaignParticipation) => {
   const { id: userId } = databaseBuilder.factory.buildUser(member);
   return databaseBuilder.factory.buildCampaignParticipation({ userId, ...campaignParticipation });
 };
 
-describe('Integration | Repository | Campaign Profiles Collection Participant Summary repository', () => {
+describe('Integration | Repository | Campaign Profiles Collection Participation Summary repository', () => {
 
   describe('#findByCampaignId', () => {
 
@@ -21,7 +21,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participant Su
 
     it('should return empty array if no participant', async () => {
       // when
-      const results = await campaignProfilesCollectionParticipantSummaryRepository.findByCampaignId(campaignId);
+      const results = await CampaignProfilesCollectionParticipationSummaryRepository.findByCampaignId(campaignId);
 
       // then
       expect(results.length).to.equal(0);
@@ -34,11 +34,11 @@ describe('Integration | Repository | Campaign Profiles Collection Participant Su
       await databaseBuilder.commit();
 
       // when
-      const results = await campaignProfilesCollectionParticipantSummaryRepository.findByCampaignId(campaignId);
+      const results = await CampaignProfilesCollectionParticipationSummaryRepository.findByCampaignId(campaignId);
 
       // then
       expect(results).to.deep.equal([
-        new CampaignProfilesCollectionParticipantSummary({
+        new CampaignProfilesCollectionParticipationSummary({
           campaignParticipationId: campaignParticipation.id,
           firstName: 'Jérémy',
           lastName: 'bugietta',
@@ -58,7 +58,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participant Su
       await databaseBuilder.commit();
 
       // when
-      const results = await campaignProfilesCollectionParticipantSummaryRepository.findByCampaignId(campaignId);
+      const results = await CampaignProfilesCollectionParticipationSummaryRepository.findByCampaignId(campaignId);
       const names = results.map((result) => result.firstName);
 
       // then
@@ -76,11 +76,11 @@ describe('Integration | Repository | Campaign Profiles Collection Participant Su
       await databaseBuilder.commit();
 
       // when
-      const results = await campaignProfilesCollectionParticipantSummaryRepository.findByCampaignId(campaignId);
+      const results = await CampaignProfilesCollectionParticipationSummaryRepository.findByCampaignId(campaignId);
       const names = results.map((result) => result.firstName);
 
       // then
-      expect(names).exactlyContainInOrder(['Arthur','Yvonnick','Estelle','Benjamin','Lise']);
+      expect(names).exactlyContainInOrder(['Arthur', 'Yvonnick', 'Estelle', 'Benjamin', 'Lise']);
     });
   });
 });

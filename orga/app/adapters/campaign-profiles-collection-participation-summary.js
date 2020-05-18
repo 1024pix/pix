@@ -1,6 +1,6 @@
 import ApplicationAdapter from './application';
 
-export default class CampaignProfilesCollectionParticipantSummary extends ApplicationAdapter {
+export default class CampaignProfilesCollectionParticipationSummary extends ApplicationAdapter {
 
   urlForFindAll(modelName, { adapterOptions }) {
     const { campaignId } = adapterOptions;

@@ -2,7 +2,7 @@ import DS from 'ember-data';
 
 const { Model, attr } = DS;
 
-export default class CampaignProfilesCollectionParticipantSummary extends Model {
+export default class CampaignProfilesCollectionParticipationSummary extends Model {
   @attr('string')
   firstName;
 
