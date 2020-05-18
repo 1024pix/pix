@@ -170,7 +170,7 @@ exports.register = async function(server) {
         handler: campaignController.findProfilesCollectionParticipations,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération de l\'analyse de la campagne par son id',
+          '- Récupération des profils collectés d\'une campagne par son id',
         ],
         tags: ['api', 'campaign']
       }
