@@ -1,8 +1,8 @@
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import isPasswordValid from '../utils/password-validator';
-import ENV from 'mon-pix/config/environment';
 
 const ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.';
 
@@ -26,9 +26,14 @@ const SUBMISSION_MAP = {
 
 @classic
 export default class ResetPasswordForm extends Component {
+  @service url;
+
   _displaySuccessMessage = null;
   validation = VALIDATION_MAP['default'];
-  urlHome = ENV.APP.HOME_HOST;
+
+  get urlHome() {
+    return this.url.homeUrl;
+  }
 
   @action
   validatePassword() {

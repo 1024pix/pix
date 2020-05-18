@@ -1,16 +1,20 @@
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 import { tracked } from '@glimmer/tracking';
 import classic from 'ember-classic-decorator';
-import ENV from 'mon-pix/config/environment';
 
 @classic
 export default class SigninForm extends Component {
 
+  @service url;
   @tracked shouldDisplayErrorMessage = false;
   username = '';
   password = '';
-  urlHome = ENV.APP.HOME_HOST;
+
+  get urlHome() {
+    return this.url.homeUrl;
+  }
 
   @action
   signin() {
