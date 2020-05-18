@@ -113,6 +113,10 @@ module.exports = (function() {
       dayBeforeCompetenceResetV2: _getNumber(process.env.DAY_BEFORE_COMPETENCE_RESET_V2,7),
     },
 
+    infra: {
+      concurrencyForHeavyOperations: _getNumber(process.env.INFRA_CONCURRENCY_HEAVY_OPERATIONS, 2),
+    },
+
     pixOrgaUrl: process.env.PIXORGA_URL,
 
     sentry: {
