@@ -11,7 +11,8 @@ module.exports = function areaRawAirTableFixture() {
         'recIkYm646lrGvLNT',
       ],
       'Code': '1',
-      'Titre': 'Information et données',
+      'Titre fr-fr': 'Information et données',
+      'Titre en-us': 'Information and data',
       'Nom': '1. Information et données',
       'Competences (nom complet)': [
         '1.1 Mener une recherche et une veille d’information',

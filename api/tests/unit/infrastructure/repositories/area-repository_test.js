@@ -14,14 +14,16 @@ describe('Unit | Repository | area-repository', function() {
       domainBuilder.buildAreaAirtableDataObject({
         id: 'recDomaine1',
         code: '1',
-        title: 'Domaine 1',
+        titleFrFr: 'Domaine 1',
+        titleEnUs: 'Area 1',
         name: '1. Domaine 1',
         color: 'emerald',
       }),
       domainBuilder.buildAreaAirtableDataObject({
         id: 'recDomaine2',
         code: '2',
-        title: 'Domaine 2',
+        titleFrFr: 'Domaine 2',
+        titleEnUs: 'Area 2',
         name: '2. Domaine 2',
         color: 'wild-strawberry',
       }),
