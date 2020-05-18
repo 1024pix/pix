@@ -10,6 +10,7 @@ module.exports = datasource.extend({
     'id persistant',
     'Code',
     'Nom',
+    'Titre',
     'Titre fr-fr',
     'Titre en-us',
     'Competences (identifiants) (id persistant)',
@@ -21,8 +22,8 @@ module.exports = datasource.extend({
       id: airtableRecord.get('id persistant'),
       code: airtableRecord.get('Code'),
       name: airtableRecord.get('Nom'),
-      titleFrFr: airtableRecord.get('Titre fr-fr'),
-      titleEnUs: airtableRecord.get('Titre en-us'),
+      titleFrFr: airtableRecord.get('Titre fr-fr') || airtableRecord.get('Titre'),
+      titleEnUs: airtableRecord.get('Titre en-us') || airtableRecord.get('Titre'),
       competenceIds: airtableRecord.get('Competences (identifiants) (id persistant)'),
       color: airtableRecord.get('Couleur'),
     };
