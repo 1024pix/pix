@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const { BadRequestError } = require('../http-errors');
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../domain/services/token-service');
@@ -12,14 +11,15 @@ const juryCertificationSummarySerializer = require('../../infrastructure/seriali
 const juryCertificationSummaryRepository = require('../../infrastructure/repositories/jury-certification-summary-repository');
 const jurySessionRepository = require('../../infrastructure/repositories/jury-session-repository');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
+const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
 
 module.exports = {
 
   async findPaginatedFilteredJurySessions(request) {
+    const currentUserId = requestResponseUtils.extractUserIdFromRequest(request);
     const { filter, page } = queryParamsUtils.extractParameters(request.query);
-    const trimmedFilters = _trimValues(filter);
-    const normalizedFilters = sessionValidator.validateFilters(trimmedFilters);
-    const jurySessionsForPaginatedList = await jurySessionRepository.findPaginatedFiltered({ filters: normalizedFilters, page });
+    const normalizedFilters = sessionValidator.validateFilters(filter);
+    const jurySessionsForPaginatedList = await jurySessionRepository.findPaginatedFiltered({ filters: normalizedFilters, page, currentUserId });
 
     return jurySessionSerializer.serializeForPaginatedList(jurySessionsForPaginatedList);
   },
@@ -175,12 +175,3 @@ module.exports = {
   },
 
 };
-
-function _trimValues(values) {
-  return _.mapValues(values, (value) => {
-    if (typeof value === 'string') {
-      return value.trim() || undefined;
-    }
-    return value;
-  });
-}
