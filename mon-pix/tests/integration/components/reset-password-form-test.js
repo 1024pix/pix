@@ -20,7 +20,7 @@ describe('Integration | Component | reset password form', function() {
   describe('Component rendering', function() {
 
     it('should be rendered', async function() {
-      await render(hbs`{{reset-password-form}}`);
+      await render(hbs`<ResetPasswordForm />`);
       expect(find('.sign-form__container')).to.exist;
     });
 
@@ -37,7 +37,7 @@ describe('Integration | Component | reset password form', function() {
       ].forEach(({ item }) => {
         it(`should contains a item with class: ${item}`, async function() {
           // when
-          await render(hbs`{{reset-password-form}}`);
+          await render(hbs`<ResetPasswordForm />`);
 
           // then
           expect(find(item)).to.exist;
@@ -50,7 +50,7 @@ describe('Integration | Component | reset password form', function() {
         this.set('user', user);
 
         // when
-        await render(hbs`{{reset-password-form user=user}}`);
+        await render(hbs`<ResetPasswordForm @user={{this.user}} />`);
 
         // then
         expect(find('.sign-form-title').textContent.trim()).to.equal(user.fullName);
@@ -62,7 +62,7 @@ describe('Integration | Component | reset password form', function() {
 
       it('should be rendered', async function() {
         // when
-        await render(hbs`{{reset-password-form}}`);
+        await render(hbs`<ResetPasswordForm />`);
 
         // then
         expect(find('.button')).to.exist;
@@ -94,7 +94,7 @@ describe('Integration | Component | reset password form', function() {
           this.set('temporaryKey', 'temp-key');
           const validPassword = 'Pix 1 2 3!';
 
-          await render(hbs `{{reset-password-form user=user temporaryKey=temporaryKey}}`);
+          await render(hbs `<ResetPasswordForm @user={{this.user}} @temporaryKey={{this.temporaryKey}} />`);
 
           // when
           await fillIn(PASSWORD_INPUT_CLASS, validPassword);
@@ -116,7 +116,7 @@ describe('Integration | Component | reset password form', function() {
           this.set('user', user);
           const validPassword = 'Pix 1 2 3!';
 
-          await render(hbs `{{reset-password-form user=user}}`);
+          await render(hbs `<ResetPasswordForm @user={{this.user}} />`);
 
           // when
           await fillIn(PASSWORD_INPUT_CLASS, validPassword);

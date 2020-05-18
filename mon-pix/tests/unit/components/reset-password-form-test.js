@@ -1,9 +1,9 @@
-import { run } from '@ember/runloop';
 import { resolve, reject } from 'rsvp';
 import EmberObject from '@ember/object';
 import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
+import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
+import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
 const ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.';
 
@@ -29,40 +29,35 @@ describe('Unit | Component | reset password form', function() {
 
   setupTest();
 
-  let component;
-
-  beforeEach(function() {
-    component = this.owner.lookup('component:reset-password-form');
-  });
-
   describe('#validatePassword', () => {
 
     it('should set validation status to default, when component is rendered', function() {
-      expect(component.get('validation')).to.eql(VALIDATION_MAP['default']);
+      const component = createGlimmerComponent('component:reset-password-form');
+      expect(component.validation).to.deep.equal(VALIDATION_MAP['default']);
     });
 
-    it('should set validation status to error, when there is an validation error on password field', function() {
+    it('should set validation status to error, when there is an validation error on password field', async function() {
       //given
       const userWithBadPassword = { firstName: 'toto', lastName: 'riri', password: 'Pix' };
-      component.set('user', userWithBadPassword);
+      const component = createGlimmerComponent('component:reset-password-form', { user: userWithBadPassword });
 
       // when
-      component.send('validatePassword');
+      await component.validatePassword();
 
       // then
-      expect(component.get('validation')).to.eql(VALIDATION_MAP['error']);
+      expect(component.validation).to.eql(VALIDATION_MAP['error']);
     });
 
-    it('should set validation status to success, when password is valid', function() {
+    it('should set validation status to success, when password is valid', async function() {
       //given
       const userWithGoodPassword = { firstName: 'toto', lastName: 'riri', password: 'Pix123 0 #' };
-      component.set('user', userWithGoodPassword);
+      const component = createGlimmerComponent('component:reset-password-form', { user: userWithGoodPassword });
 
       // when
-      component.send('validatePassword');
+      await component.validatePassword();
 
       // then
-      expect(component.get('validation')).to.eql(VALIDATION_MAP['default']);
+      expect(component.validation).to.eql(VALIDATION_MAP['default']);
     });
 
   });
@@ -77,50 +72,44 @@ describe('Unit | Component | reset password form', function() {
     });
 
     describe('When user password is saved', () => {
-      it('should update validation with success data', function() {
+      it('should update validation with success data', async function() {
         // given
-        component.set('user', userWithGoodPassword);
+        const component = createGlimmerComponent('component:reset-password-form', { user: userWithGoodPassword });
 
         // when
-        run(() => {
-          component.send('handleResetPassword');
-        });
+        await component.handleResetPassword();
 
         // then
-        expect(component.get('validation')).to.eql(SUBMISSION_MAP['default']);
+        expect(component.validation).to.eql(SUBMISSION_MAP['default']);
       });
 
-      it('should update _displaySuccessMessage', function() {
+      it('should update hasSucceeded', async function() {
         // given
-        component.set('user', userWithGoodPassword);
+        const component = createGlimmerComponent('component:reset-password-form', { user: userWithGoodPassword });
 
         // when
-        run(() => {
-          component.send('handleResetPassword');
-        });
+        await component.handleResetPassword();
 
         // then
-        expect(component.get('_displaySuccessMessage')).to.eql(true);
+        expect(component.hasSucceeded).to.eql(true);
       });
 
-      it('should reset paswword input', function() {
+      it('should reset password input', async function() {
         // given
-        component.set('user', userWithGoodPassword);
+        const component = createGlimmerComponent('component:reset-password-form', { user: userWithGoodPassword });
 
         // when
-        run(() => {
-          component.send('handleResetPassword');
-        });
+        await component.handleResetPassword();
 
         // then
-        expect(component.get('user.password')).to.eql(null);
+        expect(component.args.user.password).to.eql(null);
       });
 
     });
 
     describe('When user password saving fails', () => {
 
-      it('should set validation with errors data', function() {
+      it('should set validation with errors data', async function() {
         // given
         const userWithBadPassword = EmberObject.create({
           firstName: 'toto',
@@ -128,15 +117,13 @@ describe('Unit | Component | reset password form', function() {
           password: 'Pix',
           save: () => reject()
         });
-        component.set('user', userWithBadPassword);
+        const component = createGlimmerComponent('component:reset-password-form', { user: userWithBadPassword });
 
         // when
-        run(() => {
-          component.send('handleResetPassword');
-        });
+        await component.handleResetPassword();
 
         // then
-        expect(component.get('validation')).to.eql(SUBMISSION_MAP['error']);
+        expect(component.validation).to.eql(SUBMISSION_MAP['error']);
       });
     });
 
