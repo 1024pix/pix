@@ -29,4 +29,49 @@ describe('Unit | Service | locale', function() {
     // then
     expect(domainExtension).to.equal(false);
   });
+
+  describe('#homeUrl', function() {
+
+    it('should get default home url when is defined', function() {
+      // given
+      const service = this.owner.lookup('service:url');
+      service.definedHomeUrl = 'pix.test.fr';
+
+      // when
+      const homeUrl = service.homeUrl;
+
+      // then
+      expect(homeUrl).to.equal(service.definedHomeUrl);
+    });
+
+    it('should get "pix.fr" url when current domain contains pix.fr', function() {
+      // given
+      const service = this.owner.lookup('service:url');
+      const expectedHomeUrl = 'https://pix.fr';
+      service.definedHomeUrl = undefined;
+      service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+
+      // when
+      const homeUrl = service.homeUrl;
+
+      // then
+      expect(homeUrl).to.equal(expectedHomeUrl);
+    });
+
+    it('should get "pix.org" url when current domain contains pix.org', function() {
+      // given
+      const service = this.owner.lookup('service:url');
+      const expectedHomeUrl = 'https://pix.org';
+      service.definedHomeUrl = undefined;
+      service.currentDomain = { getExtension: sinon.stub().returns('org') };
+
+      // when
+      const homeUrl = service.homeUrl;
+
+      // then
+      expect(homeUrl).to.equal(expectedHomeUrl);
+    });
+
+  });
+
 });
