@@ -1,7 +1,7 @@
 <div class="sign-form__container">
 
-  <a href={{homeUrl}} class="pix-logo__link" title="{{t 'homepage.title'}}">
-    <img class="pix-logo__image" src="{{rootURL}}/images/pix-logo.svg" alt="Pix">
+  <a href={{this.homeUrl}} class="pix-logo__link" title="{{t 'homepage.title'}}">
+    <img class="pix-logo__image" src="{{@rootURL}}/images/pix-logo.svg" alt="Pix">
   </a>
 
   <div class="sign-form__header">
@@ -12,26 +12,26 @@
     </div>
   </div>
 
-  {{#if shouldDisplayErrorMessage}}
+  {{#if this.hasFailed}}
     <div class="sign-form__notification-message sign-form__notification-message--error" aria-live="polite">
       {{t 'signin-form.error.message'}}
     </div>
   {{/if}}
 
-  <form {{action "signin" on="submit"}} class="sign-form__body">
+  <form {{on 'submit' this.signin}} class="sign-form__body">
 
     <div class="sign-form-body__input">
       <FormTextfield @label="{{t 'signin-form.fields.login.label'}}"
                      @textfieldName="login"
                      @validationStatus="default"
-                     @inputBindingValue={{username}} @autocomplete="username" />
+                     @inputBindingValue={{this.username}} @autocomplete="username" />
     </div>
 
     <div class="sign-form-body__input">
       <FormTextfield @label="{{t 'signin-form.fields.password.label'}}"
                      @textfieldName="password"
                      @validationStatus="default"
-                     @inputBindingValue={{password}} @autocomplete="current-password" />
+                     @inputBindingValue={{this.password}} @autocomplete="current-password" />
     </div>
 
     <LinkTo @route="password-reset-demand" class="link link--grey sign-form-link sign-form-body__forgotten-password-link">
