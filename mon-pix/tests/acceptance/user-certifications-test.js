@@ -1,6 +1,6 @@
 import { currentURL, find, findAll } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
-import { authenticateByEmail } from '../helpers/authentification';
+import { authenticateByEmail } from '../helpers/authentication';
 import { expect } from 'chai';
 import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';

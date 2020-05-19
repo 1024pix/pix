@@ -3,7 +3,7 @@ import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { authenticateByUsername } from '../helpers/authentification';
+import { authenticateByUsername } from '../helpers/authentication';
 
 describe('Acceptance | Update Expired Password', function() {
 

@@ -6,7 +6,7 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 
 import visit from '../helpers/visit';
 
-import { authenticateByEmail, authenticateByUsername } from '../helpers/authentification';
+import { authenticateByEmail, authenticateByUsername } from '../helpers/authentication';
 
 describe('Acceptance | Authentication', function() {
 
