@@ -2,6 +2,7 @@ const _ = require('lodash');
 const moment = require('moment');
 const bluebird = require('bluebird');
 
+const constants = require('../../infrastructure/constants');
 const { UserNotAuthorizedToGetCampaignResultsError, CampaignWithoutOrganizationError } = require('../errors');
 const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
 
@@ -155,10 +156,10 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
   writableStream.write(headerLine);
 
   // No return/await here, we need the writing to continue in the background
-  // after this function's returned promise resolves. If we await the mapSeries
+  // after this function's returned promise resolves. If we await the map
   // function, node will keep all the data in memory until the end of the
   // complete operation.
-  bluebird.mapSeries(campaignParticipationResultDatas, async (campaignParticipationResultData) => {
+  bluebird.map(campaignParticipationResultDatas, async (campaignParticipationResultData) => {
 
     const certificationProfile = await userService.getCertificationProfile({
       userId: campaignParticipationResultData.userId,
@@ -179,7 +180,7 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
     });
 
     writableStream.write(csvLine);
-  }).then(() => {
+  }, { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }).then(() => {
     writableStream.end();
   }).catch((error) => {
     writableStream.emit('error', error);
