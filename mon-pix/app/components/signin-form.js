@@ -1,14 +1,12 @@
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import classic from 'ember-classic-decorator';
 
-@classic
 export default class SigninForm extends Component {
 
   @service url;
-  @tracked shouldDisplayErrorMessage = false;
+  @tracked hasFailed = false;
   username = '';
   password = '';
 
@@ -17,16 +15,19 @@ export default class SigninForm extends Component {
   }
 
   @action
-  signin() {
-    this.shouldDisplayErrorMessage = false;
-    this.authenticateUser(this.username, this.password)
-      .catch((err) => {
-        const title = ('errors' in err) ? err.errors.get('firstObject').title : null;
+  async signin(event) {
+    event && event.preventDefault();
+    
+    this.hasFailed = false;
+    try {
+      await this.args.authenticateUser(this.username, this.password);
+    } catch (err) {
+      const title = ('errors' in err) ? err.errors.get('firstObject').title : null;
 
-        if (title === 'PasswordShouldChange') {
-          this.updateExpiredPassword(this.username, this.password);
-        }
-        this.shouldDisplayErrorMessage = true;
-      });
+      if (title === 'PasswordShouldChange') {
+        await this.args.updateExpiredPassword(this.username, this.password);
+      }
+      this.hasFailed = true;
+    }
   }
 }

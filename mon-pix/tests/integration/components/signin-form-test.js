@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { describe, it } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
 import {
@@ -17,7 +18,7 @@ describe('Integration | Component | signin form', function() {
 
     it('should display an input for identifiant field', async function() {
       // when
-      await render(hbs`{{signin-form}}`);
+      await render(hbs`<SigninForm />`);
 
       // then
       expect(document.querySelector('input#login')).to.exist;
@@ -25,7 +26,7 @@ describe('Integration | Component | signin form', function() {
 
     it('should display an input for password field', async function() {
       // when
-      await render(hbs`{{signin-form}}`);
+      await render(hbs`<SigninForm />`);
 
       // then
       expect(document.querySelector('input#password')).to.exist;
@@ -33,7 +34,7 @@ describe('Integration | Component | signin form', function() {
 
     it('should display a submit button to authenticate', async function() {
       // when
-      await render(hbs`{{signin-form}}`);
+      await render(hbs`<SigninForm />`);
 
       // then
       expect(document.querySelector('button.button')).to.exist;
@@ -41,7 +42,7 @@ describe('Integration | Component | signin form', function() {
 
     it('should display a link to password reset view', async function() {
       // when
-      await render(hbs`{{signin-form}}`);
+      await render(hbs`<SigninForm />`);
 
       // then
       expect(document.querySelector('a.sign-form-body__forgotten-password-link')).to.exist;
@@ -49,7 +50,7 @@ describe('Integration | Component | signin form', function() {
 
     it('should not display any error by default', async function() {
       // when
-      await render(hbs`{{signin-form}}`);
+      await render(hbs`<SigninForm />`);
 
       // then
       expect(document.querySelector('div.sign-form__notification-message')).to.not.exist;
@@ -57,10 +58,11 @@ describe('Integration | Component | signin form', function() {
 
     it('should display an error if authentication failed', async function() {
       // given
-      this.set('shouldDisplayErrorMessage', true);
+      this.set('authenticateUser', sinon.stub().rejects());
+      await render(hbs`<SigninForm @authenticateUser={{this.authenticateUser}} />`);
 
       // when
-      await render(hbs`{{signin-form shouldDisplayErrorMessage=shouldDisplayErrorMessage}}`);
+      await click('button.button');
 
       // then
       expect(document.querySelector('div.sign-form__notification-message--error')).to.exist;
@@ -81,7 +83,7 @@ describe('Integration | Component | signin form', function() {
         return Promise.resolve();
       });
 
-      await render(hbs`{{signin-form authenticateUser=(action onSubmitAction)}}`);
+      await render(hbs`<SigninForm @authenticateUser={{this.onSubmitAction}} />`);
 
       await fillIn('input#login', expectedEmail);
       await triggerEvent('input#login', 'change');
