@@ -20,5 +20,18 @@
     "isShared": false,
     "participantExternalId": "La reine",
     "userId": 6
+  },
+  {
+    "id": 4,
+    "campaignId": 4,
+    "isShared": false,
+    "participantExternalId": "La reine",
+    "userId": 6
+  },{
+    "id": 5,
+    "campaignId": 4,
+    "isShared": false,
+    "participantExternalId": "La régicide",
+    "userId": 5
   }
 ]

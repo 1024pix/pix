@@ -1,3 +1,9 @@
+import QUnit from 'qunit';
+import { contains, notContains } from './contains';
+
+QUnit.assert.contains = contains;
+QUnit.assert.notContains = notContains;
+
 function _addUserToOrganization(user, { externalId, canCollectProfiles } = {}) {
   const organization = server.create('organization', {
     name: 'BRO & Evil Associates',
