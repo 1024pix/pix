@@ -1,0 +1,38 @@
+<table>
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Prénom</th>
+      {{#if @campaign.idPixLabel}}
+        <th>{{@campaign.idPixLabel}}</th>
+      {{/if}}
+      <th class="table__column--center">date d’envoi</th>
+    </tr>
+  </thead>
+
+  {{#if @participants}}
+    <tbody>
+    {{#each @participants as |participant|}}
+      <tr aria-label="Participant">
+        <td>{{participant.lastName}}</td>
+        <td>{{participant.firstName}}</td>
+        {{#if @campaign.idPixLabel}}
+          <td>{{participant.participantExternalId}}</td>
+        {{/if}}
+        <td class="table__column--center">
+          {{#if participant.sharedAt }}
+            {{moment-format participant.sharedAt 'DD/MM/YYYY' allow-empty=true}}
+          {{else}}
+            <span class="table__column--highlight">En attente</span>
+          {{/if}}
+        </td>
+      </tr>
+    {{/each}}
+    </tbody>
+  {{/if}}
+</table>
+
+{{#unless @participants}}
+  <div class="table__empty content-text">En attente de participants</div>
+{{/unless}}
+

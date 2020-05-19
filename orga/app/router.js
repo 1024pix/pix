@@ -42,6 +42,7 @@ Router.map(function() {
         this.route('collective-results', { path: '/resultats-collectifs' });
         this.route('analysis', { path: '/analyse' });
         this.route('participants');
+        this.route('profiles', { path: '/profils' });
       });
     });
   });

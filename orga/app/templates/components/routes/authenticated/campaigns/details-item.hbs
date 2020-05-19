@@ -51,10 +51,15 @@
     <LinkTo @route="authenticated.campaigns.details.parameters" class="navbar-item" @model={{@campaign}} >
       Détails
     </LinkTo>
+
+    <LinkTo
+      @route={{if @campaign.isTypeAssessment "authenticated.campaigns.details.participants" "authenticated.campaigns.details.profiles"}}
+      @model={{@campaign}}
+      class="navbar-item"
+    >
+      Participants ({{@campaign.campaignReport.participationsCount}})
+    </LinkTo>
     {{#if @campaign.isTypeAssessment}}
-      <LinkTo @route="authenticated.campaigns.details.participants" @model={{@campaign}} class="navbar-item">
-        Participants ({{@campaign.campaignReport.participationsCount}})
-      </LinkTo>
       <LinkTo @route="authenticated.campaigns.details.collective-results" @model={{@campaign}} class="navbar-item">
         Résultats collectifs
       </LinkTo>
