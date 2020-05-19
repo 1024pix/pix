@@ -35,6 +35,7 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
           certificationCenterName: undefined,
           status: undefined,
           resultsSentToPrescriberAt: undefined,
+          assignedToSelfOnly: undefined,
         };
 
         // then
@@ -53,6 +54,7 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
           certificationCenterName: undefined,
           status: undefined,
           resultsSentToPrescriberAt: undefined,
+          assignedToSelfOnly: undefined,
         };
 
         // when
@@ -74,6 +76,7 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
           certificationCenterName: 'someName',
           status: undefined,
           resultsSentToPrescriberAt: undefined,
+          assignedToSelfOnly: undefined,
         };
 
         // when
@@ -87,14 +90,15 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
 
     module('when queryParams status is truthy', function() {
 
-      test('it should call store.query with a filter with trimmed status', async function(assert) {
+      test('it should call store.query with a filter with status', async function(assert) {
         // given
-        params.status = ' someStatus';
+        params.status = 'someStatus';
         expectedQueryArgs.filter = {
           id: undefined,
           certificationCenterName: undefined,
           status: 'someStatus',
           resultsSentToPrescriberAt: undefined,
+          assignedToSelfOnly: undefined,
         };
 
         // when
@@ -106,16 +110,39 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
       });
     });
 
-    module('when queryParams resultsSentToPrescriberAt is truthy', function() {
+    module('when queryParams resultsSentToPrescriberAt is true', function() {
 
-      test('it should call store.query with a filter with trimmed resultsSentToPrescriberAt', async function(assert) {
+      test('it should call store.query with a filter with true resultsSentToPrescriberAt', async function(assert) {
         // given
-        params.resultsSentToPrescriberAt = ' someValue';
+        params.resultsSentToPrescriberAt = true;
         expectedQueryArgs.filter = {
           id: undefined,
           certificationCenterName: undefined,
           status: undefined,
-          resultsSentToPrescriberAt: 'someValue',
+          resultsSentToPrescriberAt: true,
+          assignedToSelfOnly: undefined,
+        };
+
+        // when
+        await route.model(params);
+
+        // then
+        sinon.assert.calledWith(route.store.query, 'session', expectedQueryArgs);
+        assert.ok(true);
+      });
+    });
+
+    module('when queryParams assignedToSelfOnly is truthy', function() {
+
+      test('it should call store.query with a filter with assignedToSelfOnly', async function(assert) {
+        // given
+        params.assignedToSelfOnly = true;
+        expectedQueryArgs.filter = {
+          id: undefined,
+          certificationCenterName: undefined,
+          status: undefined,
+          resultsSentToPrescriberAt: undefined,
+          assignedToSelfOnly: true,
         };
 
         // when
