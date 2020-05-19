@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v2.154.0 (19/05/2020)
+
+- [#1429](https://github.com/1024pix/pix/pull/1429) [FEATURE] Traduire les titres des domaines (PIX-664)
+- [#1420](https://github.com/1024pix/pix/pull/1420) [FEATURE] Changer la façon d'accéder à la page de détail d'un utilisateur dans Pix Admin (PIX-677). 
+- [#1408](https://github.com/1024pix/pix/pull/1408) [FEATURE] Clarifier la page de changement de mot de passe (PIX-554).
+- [#1410](https://github.com/1024pix/pix/pull/1410) [FEATURE] Modification du calcul des Pix Globaux (PIX-649)
+- [#1396](https://github.com/1024pix/pix/pull/1396) [FEATURE] Voir qui est assigné à une session sur Pix Admin (PIX-588)
+- [#1427](https://github.com/1024pix/pix/pull/1427) [BUGFIX] Nom du fichier avant jury sans underscore (PIX-661)
+- [#1431](https://github.com/1024pix/pix/pull/1431) [TECH] Ajouter les sourcemaps en développement
+- [#1409](https://github.com/1024pix/pix/pull/1409) [TECH] Diviser le flux d'accès aux campagnes (PIX-651).
+- [#1393](https://github.com/1024pix/pix/pull/1393) [TECH] Glimmerize challenge-statement (PIX-676).
+- [#1377](https://github.com/1024pix/pix/pull/1377) [DOC] Ajouter un standard de test.
+
 ## v2.153.0 (15/05/2020)
 
 - [#1403](https://github.com/1024pix/pix/pull/1403) [FEATURE] Valider les QROCM seulement si l'utilisateur a rempli tous les champs réponse (PIX-375).
