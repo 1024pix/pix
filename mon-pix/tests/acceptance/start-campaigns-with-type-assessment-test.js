@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import {
   authenticateByEmail,
   authenticateByGAR,
-} from '../helpers/authentification';
+} from '../helpers/authentication';
 import {
   startCampaignByCode,
   startCampaignByCodeAndExternalId

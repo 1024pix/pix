@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha';
 import { click, currentURL } from '@ember/test-helpers';
-import { authenticateByEmail } from '../helpers/authentification';
+import { authenticateByEmail } from '../helpers/authentication';
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
