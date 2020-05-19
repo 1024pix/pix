@@ -18,27 +18,23 @@ export default class SessionInfoServiceService extends Service {
   @service csvService;
 
   downloadSessionExportFile(session) {
+    const fileTitle = 'resultats_session';
     const data = this.buildSessionExportFileData(session);
     const fileHeaders = _buildSessionExportFileHeaders();
     const csv = json2csv.parse(data, { fields: fileHeaders, delimiter: ';', withBOM: true });
-    const sessionDateTime = moment(session.date + ' ' + session.time, 'YYYY-MM-DD HH:mm');
-    const { day, month, year, hour, minute } = {
-      day: sessionDateTime.format('DD'),
-      month: sessionDateTime.format('MM'),
-      year: sessionDateTime.format('YYYY'),
-      hour: sessionDateTime.format('HH'),
-      minute: sessionDateTime.format('mm'),
-    };
-    const fileName = `${year}${month}${day}_${hour}${minute}_resultats_session_${session.id}.csv`;
+    const dateWithTime = moment(session.date + ' ' + session.time, 'YYYY-MM-DD HH:mm');
+    const fileName = _createFileNameWithDate(dateWithTime, fileTitle, session.id);
     this.fileSaver.saveAs(csv + '\n', fileName);
   }
 
   downloadJuryFile(sessionId, certifications) {
+    const fileTitle = 'jury_session';
     const certificationsForJury = _filterCertificationsEligibleForJury(certifications);
     const data = this.buildJuryFileData(certificationsForJury);
     const fileHeaders = _buildJuryFileHeaders();
     const csv = json2csv.parse(data, { fields: fileHeaders, delimiter: ';', withBOM: true, });
-    const fileName = 'jury_session_' + sessionId + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
+    const dateWithTime = moment();
+    const fileName = _createFileNameWithDate(dateWithTime, fileTitle, sessionId);
     this.fileSaver.saveAs(`${csv}\n`, fileName);
   }
 
@@ -141,4 +137,8 @@ function _buildJuryFileHeaders() {
     ],
     competenceIndexes
   );
+}
+
+function _createFileNameWithDate(dateWithTime, fileTitle, sessionId) {
+  return `${dateWithTime.format('YYYYMMDD_HHmm')}_${fileTitle}_${sessionId}.csv`;
 }
