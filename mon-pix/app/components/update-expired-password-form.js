@@ -46,7 +46,9 @@ export default class UpdateExpiredPasswordForm extends Component {
   }
 
   @action
-  async handleUpdatePasswordAndAuthenticate() {
+  async handleUpdatePasswordAndAuthenticate(event) {
+    event && event.preventDefault();
+
     this.isLoading = true;
     this.authenticationHasFailed = false;
     try {
