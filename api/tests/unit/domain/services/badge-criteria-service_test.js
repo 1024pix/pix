@@ -1,11 +1,30 @@
 const { domainBuilder, expect } = require('../../../test-helper');
 
+const BadgeCriterion = require('../../../../lib/domain/models/BadgeCriterion');
 const badgeCriteriaService = require('../../../../lib/domain/services/badge-criteria-service');
+
+const CRITERION_THRESHOLD = {
+  CAMPAIGN_PARTICIPATION: 85,
+  EVERY_PARTNER_COMPETENCE: 75
+};
 
 describe('Unit | Domain | Services | badge-criteria', () => {
 
   describe('#areBadgeCriteriaFulfilled', () => {
-    const badge = domainBuilder.buildBadge();
+
+    const badgeCriteria = [
+      domainBuilder.buildBadgeCriterion({
+        id: 1,
+        scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
+        threshold: CRITERION_THRESHOLD.CAMPAIGN_PARTICIPATION
+      }),
+      domainBuilder.buildBadgeCriterion({
+        id: 2,
+        scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
+        threshold: CRITERION_THRESHOLD.EVERY_PARTNER_COMPETENCE
+      }),
+    ];
+    const badge = domainBuilder.buildBadge({ badgeCriteria });
 
     let campaignParticipationResult = {};
 
@@ -34,7 +53,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
 
       it('should return true', async () => {
         // when
-        const result = await badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult });
+        const result = await badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult, badgeCriteria });
 
         // then
         expect(result).to.be.equal(true);
@@ -65,7 +84,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
 
       it('should return false', async () => {
         // when
-        const result = await badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult });
+        const result = await badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult, badgeCriteria });
 
         // then
         expect(result).to.be.equal(false);
@@ -96,7 +115,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
 
       it('should return false', async () => {
         // when
-        const result = await badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult });
+        const result = await badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult, badgeCriteria });
 
         // then
         expect(result).to.be.equal(false);
@@ -127,7 +146,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
 
       it('should return false', async () => {
         // when
-        const result = await badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult });
+        const result = await badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult, badgeCriteria });
 
         // then
         expect(result).to.be.equal(false);

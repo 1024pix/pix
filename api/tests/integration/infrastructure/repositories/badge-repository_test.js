@@ -1,6 +1,7 @@
 const { expect, databaseBuilder, knex } = require('../../../test-helper');
 const badgeRepository = require('../../../../lib/infrastructure/repositories/badge-repository');
 const Badge = require('../../../../lib/domain/models/Badge');
+const BadgeCriterion = require('../../../../lib/domain/models/BadgeCriterion');
 const BadgePartnerCompetence = require('../../../../lib/domain/models/BadgePartnerCompetence');
 
 describe('Integration | Repository | Badge', () => {
@@ -10,6 +11,7 @@ describe('Integration | Repository | Badge', () => {
   let anotherTargetProfile;
   let badgeWithoutBadgePartnerCompetences;
   let badgeWithBadgePartnerCompetences;
+  let badgeCriterion;
   let badgePartnerCompetence_1;
   let badgePartnerCompetence_2;
 
@@ -36,6 +38,14 @@ describe('Integration | Repository | Badge', () => {
       targetProfileId: targetProfile.id,
     });
 
+    badgeCriterion = {
+      id: 123,
+      scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
+      threshold: 53,
+    };
+
+    databaseBuilder.factory.buildBadgeCriterion({ ...badgeCriterion, badgeId: badgeWithBadgePartnerCompetences.id });
+
     badgePartnerCompetence_1 = {
       id: 1,
       color: 'jaffa',
@@ -58,12 +68,13 @@ describe('Integration | Repository | Badge', () => {
 
   afterEach(() => {
     knex('badges').delete();
+    knex('badge-criteria').delete();
     return knex('badge-partner-competences').delete();
   });
 
   describe('#findOneByTargetProfileId', () => {
 
-    it('should return the badge linked to the given target profile with empty badge partner competences array', async () => {
+    it('should return the badge linked to the given target profile with empty badge criteria and badge partner competences array', async () => {
       // given
       const targetProfileId = targetProfileWithoutBadgePartnerCompetences.id;
 
@@ -74,11 +85,12 @@ describe('Integration | Repository | Badge', () => {
       expect(badgeReturned).to.be.an.instanceOf(Badge);
       expect(badgeReturned).to.deep.equal({
         ...badgeWithoutBadgePartnerCompetences,
+        badgeCriteria: [],
         badgePartnerCompetences: [],
       });
     });
 
-    it('should return the badge linked to the given target profile with related badge partner competences', async () => {
+    it('should return the badge linked to the given target profile with related badge criteria and badge partner competences', async () => {
       // given
       const targetProfileId = targetProfile.id;
 
@@ -87,9 +99,11 @@ describe('Integration | Repository | Badge', () => {
 
       // then
       expect(badgeReturned).to.be.an.instanceOf(Badge);
+      expect(badgeReturned.badgeCriteria[0]).to.be.an.instanceOf(BadgeCriterion);
       expect(badgeReturned.badgePartnerCompetences[0]).to.be.an.instanceOf(BadgePartnerCompetence);
       expect(badgeReturned).to.deep.equal({
         ...badgeWithBadgePartnerCompetences,
+        badgeCriteria: [ badgeCriterion ],
         badgePartnerCompetences: [ badgePartnerCompetence_1, badgePartnerCompetence_2 ],
       });
     });
@@ -119,6 +133,7 @@ describe('Integration | Repository | Badge', () => {
       expect(badgeReturned).to.be.an.instanceOf(Badge);
       expect(badgeReturned).to.deep.equal({
         ...badgeWithoutBadgePartnerCompetences,
+        badgeCriteria: [],
         badgePartnerCompetences: [],
       });
     });
@@ -135,6 +150,7 @@ describe('Integration | Repository | Badge', () => {
       expect(badgeReturned.badgePartnerCompetences[0]).to.be.an.instanceOf(BadgePartnerCompetence);
       expect(badgeReturned).to.deep.equal({
         ...badgeWithBadgePartnerCompetences,
+        badgeCriteria: [ badgeCriterion ],
         badgePartnerCompetences: [ badgePartnerCompetence_1, badgePartnerCompetence_2 ],
       });
     });

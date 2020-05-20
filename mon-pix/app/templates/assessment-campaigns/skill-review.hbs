@@ -88,7 +88,7 @@
       </thead>
 
       <tbody>
-      {{#if model.campaignParticipation.campaignParticipationResult.partnerCompetenceResults}}
+      {{#if (eq @model.campaignParticipation.campaignParticipationResult.badge.key 'PIX_EMPLOI_CLEA')}}
         {{#each model.campaignParticipation.campaignParticipationResult.partnerCompetenceResults as |partnerCompetence|}}
           <tr aria-label="Résultats par compétence">
             <td>

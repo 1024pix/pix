@@ -1,5 +1,6 @@
 const BADGE_PIX_EMPLOI_ID = 100;
 const Badge = require('../../../lib/domain/models/Badge');
+const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
 
 function pixEmploiTargetProfileBuilder({ databaseBuilder }) {
 
@@ -407,6 +408,18 @@ function pixEmploiTargetProfileBuilder({ databaseBuilder }) {
     message: 'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. ' +
       'Pour valoriser vos compétences avec une double certification Pix-CléA numérique, renseignez-vous auprès de votre conseiller ou de votre formateur.',
     targetProfileId: pixEmploiProfile.id,
+  });
+
+  databaseBuilder.factory.buildBadgeCriterion({
+    scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
+    threshold: 85,
+    badgeId: badge.id,
+  });
+  
+  databaseBuilder.factory.buildBadgeCriterion({
+    scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
+    threshold: 75,
+    badgeId: badge.id,
   });
 
   databaseBuilder.factory.buildBadgePartnerCompetence({
