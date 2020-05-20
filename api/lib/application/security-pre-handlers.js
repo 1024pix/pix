@@ -129,7 +129,8 @@ async function checkUserIsAdminInOrganizationOrHasRolePixMaster(request, h) {
   }
 
   const userId = request.auth.credentials.userId;
-  const organizationId = parseInt(request.params.id);
+  //organizationId can be retrieved from path param in case organizations/id/invitations api or from memberships payload in case memberships/id
+  const organizationId = (request.path && request.path.includes('memberships')) ?  request.payload.data.relationships.organization.data.id : parseInt(request.params.id) ;
 
   const isAdminInOrganization = await checkUserIsAdminInOrganizationUseCase.execute(userId, organizationId);
   if (isAdminInOrganization) {
