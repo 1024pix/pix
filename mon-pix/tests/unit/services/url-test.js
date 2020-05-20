@@ -74,4 +74,21 @@ describe('Unit | Service | locale', function() {
 
   });
 
+  describe('#cguUrl', function() {
+
+    it('should get "pix.fr" url when current domain contains pix.fr', function() {
+      // given
+      const service = this.owner.lookup('service:url');
+      const expectedCguUrl = 'https://pix.fr/conditions-generales-d-utilisation';
+      service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+
+      // when
+      const cguUrl = service.cguUrl;
+
+      // then
+      expect(cguUrl).to.equal(expectedCguUrl);
+    });
+
+  });
+
 });

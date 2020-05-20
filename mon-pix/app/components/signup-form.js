@@ -32,6 +32,10 @@ export default Component.extend({
     return this.url.homeUrl;
   },
 
+  get cguUrl() {
+    return this.url.cguUrl;
+  },
+
   _getErrorMessage(status, key) {
     return (status === 'error') ? this.intl.t(ERROR_INPUT_MESSAGE_MAP[key]) : null;
   },
