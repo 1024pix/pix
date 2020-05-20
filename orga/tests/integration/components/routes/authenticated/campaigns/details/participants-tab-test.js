@@ -86,9 +86,8 @@ module('Integration | Component | routes/authenticated/campaign/details | partic
     await render(hbs`{{routes/authenticated/campaigns/details/participants-tab campaign=campaign participants=participants goToParticipantPage=goToParticipantPage}}`);
 
     // then
-    assert.dom('table tbody tr td:first-child').hasText('Doe');
-    assert.dom('table tbody tr td:nth-child(2)').hasText('John');
-    assert.dom('table tbody tr td:nth-child(3)').hasText('123');
+    assert.contains('identifiant externe');
+    assert.contains('123');
   });
 
   test('it should display a sentence when there is no participant yet', async function(assert) {
