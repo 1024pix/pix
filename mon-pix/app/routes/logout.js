@@ -1,12 +1,12 @@
 import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
-import ENV from 'mon-pix/config/environment';
 
 import Route from '@ember/routing/route';
 
 @classic
 export default class LogoutRoute extends Route {
   @service session;
+  @service url;
 
   beforeModel() {
     const session = this.session;
@@ -29,6 +29,6 @@ export default class LogoutRoute extends Route {
   }
 
   _redirectToHome() {
-    return window.location.replace(ENV.APP.HOME_HOST);
+    return window.location.replace(this.url.homeUrl);
   }
 }

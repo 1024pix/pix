@@ -15,17 +15,21 @@ export default Component.extend({
 
   session: service(),
   intl: service(),
+  url: service(),
 
   _notificationMessage: null,
   validation: null,
   _tokenHasBeenUsed: null,
-  urlHome: ENV.APP.HOME_HOST,
   isRecaptchaEnabled: ENV.APP.IS_RECAPTCHA_ENABLED,
   isLoading: false,
 
   init() {
     this._super(...arguments);
     this._resetValidationFields();
+  },
+
+  get homeUrl() {
+    return this.url.homeUrl;
   },
 
   _getErrorMessage(status, key) {

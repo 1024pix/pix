@@ -3,7 +3,7 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { click, currentURL, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { authenticateByEmail } from '../helpers/authentification';
+import { authenticateByEmail } from '../helpers/authentication';
 import visit from '../helpers/visit';
 import { fillCertificationJoiner, fillCertificationStarter } from '../helpers/certification';
 

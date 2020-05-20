@@ -1,28 +1,33 @@
 import { action } from '@ember/object';
-import Component from '@ember/component';
+import { inject as service } from '@ember/service';
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import classic from 'ember-classic-decorator';
-import ENV from 'mon-pix/config/environment';
 
-@classic
 export default class SigninForm extends Component {
 
-  @tracked shouldDisplayErrorMessage = false;
+  @service url;
+  @tracked hasFailed = false;
   username = '';
   password = '';
-  urlHome = ENV.APP.HOME_HOST;
+
+  get homeUrl() {
+    return this.url.homeUrl;
+  }
 
   @action
-  signin() {
-    this.shouldDisplayErrorMessage = false;
-    this.authenticateUser(this.username, this.password)
-      .catch((err) => {
-        const title = ('errors' in err) ? err.errors.get('firstObject').title : null;
+  async signin(event) {
+    event && event.preventDefault();
+    
+    this.hasFailed = false;
+    try {
+      await this.args.authenticateUser(this.username, this.password);
+    } catch (err) {
+      const title = ('errors' in err) ? err.errors.get('firstObject').title : null;
 
-        if (title === 'PasswordShouldChange') {
-          this.updateExpiredPassword(this.username, this.password);
-        }
-        this.shouldDisplayErrorMessage = true;
-      });
+      if (title === 'PasswordShouldChange') {
+        await this.args.updateExpiredPassword(this.username, this.password);
+      }
+      this.hasFailed = true;
+    }
   }
 }
