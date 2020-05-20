@@ -16,4 +16,8 @@ export default class Url extends Service {
     const homeUrl = `https://pix.${this.currentDomain.getExtension()}`;
     return this.definedHomeUrl || homeUrl;
   }
+
+  get cguUrl() {
+    return `https://pix.${this.currentDomain.getExtension()}/conditions-generales-d-utilisation`;
+  }
 }
