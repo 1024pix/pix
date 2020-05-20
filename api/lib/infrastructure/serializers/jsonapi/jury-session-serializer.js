@@ -27,14 +27,14 @@ module.exports = {
         // included
         'assignedCertificationOfficer',
         // links
-        'certifications',
+        'juryCertificationSummaries',
       ],
-      certifications : {
+      juryCertificationSummaries : {
         ref: 'id',
         ignoreRelationshipData: true,
         relationshipLinks: {
           related(record, current, parent) {
-            return `/api/jury/sessions/${parent.id}/certifications`;
+            return `/api/jury/sessions/${parent.id}/jury-certification-summaries`;
           }
         }
       },
@@ -46,7 +46,7 @@ module.exports = {
       transform(jurySession) {
         const transformedJurySession = Object.assign({}, jurySession);
         transformedJurySession.status = jurySession.status;
-        transformedJurySession.certifications = [];
+        transformedJurySession.juryCertificationSummaries = [];
         return transformedJurySession;
       },
       typeForAttribute: function(attribute) {

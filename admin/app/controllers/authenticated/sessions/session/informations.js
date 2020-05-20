@@ -35,18 +35,20 @@ export default class IndexController extends Controller {
   }
 
   @action
-  downloadSessionResultFile() {
+  async downloadSessionResultFile() {
     try {
-      this.sessionInfoService.downloadSessionExportFile(this.session);
+      const certifications = await this._loadAllCertifications(this.session);
+      this.sessionInfoService.downloadSessionExportFile({ session: this.session, certifications });
     } catch (error) {
       this.notifications.error(error);
     }
   }
 
   @action
-  downloadBeforeJuryFile() {
+  async downloadBeforeJuryFile() {
     try {
-      this.sessionInfoService.downloadJuryFile(this.model.id, this.model.certifications);
+      const certifications = await this._loadAllCertifications(this.session);
+      this.sessionInfoService.downloadJuryFile({ sessionId: this.session.id, certifications });
     } catch (error) {
       this.notifications.error(error);
     }
@@ -84,5 +86,19 @@ export default class IndexController extends Controller {
       this.notifications.error('Erreur lors de l\'assignation à la session');
     }
     this.isShowingAssignmentModal = false;
+  }
+
+  async _loadAllCertifications(session) {
+    const certifications = [];
+    for (let i = 0; i < session.juryCertificationSummaries.length; ++i) {
+      const juryCertificationSummary = session.juryCertificationSummaries.objectAt(i);
+      let certification = this.store.peekRecord('certification', juryCertificationSummary.id);
+      if (!certification) {
+        certification = await this.store.findRecord('certification', juryCertificationSummary.id);
+      }
+      certifications.push(certification);
+    }
+
+    return certifications;
   }
 }

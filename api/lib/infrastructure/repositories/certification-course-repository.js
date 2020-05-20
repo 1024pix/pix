@@ -71,16 +71,6 @@ module.exports = {
       throw err;
     }
   },
-
-  async findIdsBySessionId(sessionId) {
-    const result = await CertificationCourseBookshelf
-      .where({ sessionId })
-      .orderBy('createdAt', 'desc')
-      .fetchAll({ columns: ['id'] });
-
-    return _.map(result.models, 'id');
-  },
-
 };
 
 function _toDomain(bookshelfCertificationCourse) {

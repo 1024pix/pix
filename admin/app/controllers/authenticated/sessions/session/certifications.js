@@ -12,10 +12,10 @@ export default class ListController extends Controller {
   @tracked displayConfirm = false;
   @tracked confirmMessage = null;
 
-  @computed('model.certifications.@each.status')
+  @computed('model.juryCertificationSummaries.@each.status')
   get canPublish() {
     return !(_.some(
-      this.model.certifications.toArray(),
+      this.model.juryCertificationSummaries.toArray(),
       (certif) => ['error', 'started'].includes(certif.status)
     ));
   }
@@ -43,7 +43,7 @@ export default class ListController extends Controller {
 
     try {
       await this.model.save({ adapterOptions: { updatePublishedCertifications: true, toPublish } });
-      this.model.certifications.reload();
+      this.model.juryCertificationSummaries.reload();
       this.model.isPublished = toPublish;
       this.notifications.success(successText);
     } catch (error) {

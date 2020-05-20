@@ -8,7 +8,8 @@ const sessionSerializer = require('../../infrastructure/serializers/jsonapi/sess
 const jurySessionSerializer = require('../../infrastructure/serializers/jsonapi/jury-session-serializer');
 const certificationCandidateSerializer = require('../../infrastructure/serializers/jsonapi/certification-candidate-serializer');
 const certificationReportSerializer = require('../../infrastructure/serializers/jsonapi/certification-report-serializer');
-const certificationResultSerializer = require('../../infrastructure/serializers/jsonapi/certification-result-serializer');
+const juryCertificationSummarySerializer = require('../../infrastructure/serializers/jsonapi/jury-certification-summary-serializer');
+const juryCertificationSummaryRepository = require('../../infrastructure/repositories/jury-certification-summary-repository');
 const jurySessionRepository = require('../../infrastructure/repositories/jury-session-repository');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 
@@ -90,11 +91,12 @@ module.exports = {
     return null;
   },
 
-  async getCertifications(request) {
+  async getJuryCertificationSummaries(request) {
     const sessionId = request.params.id;
 
-    const sessionCertifications = await usecases.getSessionCertifications({ sessionId });
-    return certificationResultSerializer.serialize(sessionCertifications);
+    const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
+
+    return juryCertificationSummarySerializer.serialize(juryCertificationSummaries);
   },
 
   async getCertificationReports(request) {
