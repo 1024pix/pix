@@ -34,6 +34,7 @@ module.exports = {
     _setupFilters(query, filters);
     query.orderByRaw('?? ASC NULLS FIRST', 'publishedAt')
       .orderByRaw('?? ASC', 'finalizedAt')
+      .orderBy('id')
       .select('sessions.*', 'certification-centers.type', 'users.firstName', 'users.lastName')
       .select(Bookshelf.knex.raw('COUNT(*) OVER() AS ??', ['rowCount']))
       .leftJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
