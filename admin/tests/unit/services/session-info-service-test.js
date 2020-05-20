@@ -73,18 +73,18 @@ module('Unit | Service | session-info-service', function(hooks) {
       // given
       const session = EmberObject.create({
         id: sessionId,
-        certificationCenterName: 'Certification center',
-        certifications: A([
-          buildCertification({ id: '1', sessionId }),
-          buildCertification({ id: '2', sessionId }),
-          buildCertification({ id: '3', sessionId }),
-          buildCertification({ id: '4', sessionId }),
-          buildCertification({ id: '5', sessionId }),
-        ])
+        certificationCenterName: 'Certification center'
       });
+      const certifications = A([
+        buildCertification({ id: '1', sessionId }),
+        buildCertification({ id: '2', sessionId }),
+        buildCertification({ id: '3', sessionId }),
+        buildCertification({ id: '4', sessionId }),
+        buildCertification({ id: '5', sessionId }),
+      ]);
 
       // when
-      await service.downloadSessionExportFile(session);
+      await service.downloadSessionExportFile({ session, certifications });
 
       // then
       assert.equal(fileSaverStub.getContent(), '\uFEFF' +
@@ -110,11 +110,11 @@ module('Unit | Service | session-info-service', function(hooks) {
         const session = EmberObject.create({
           id: sessionId,
           certificationCenterName: '@Certification center',
-          certifications: A([ certification ])
         });
+        const certifications = A([ certification ]);
 
         // when
-        await service.downloadSessionExportFile(session);
+        await service.downloadSessionExportFile({ session, certifications });
 
         // then
         assert.equal(fileSaverStub.getContent(), '\uFEFF' +
@@ -128,18 +128,16 @@ module('Unit | Service | session-info-service', function(hooks) {
   module('#downloadJuryFile', function() {
 
     test('should include certification which status is not "validated"', async function(assert) {
-      const session = EmberObject.create({
-        id: 5,
-        certifications: A([
-          buildCertification({ id: '1', status: 'validated', sessionId: 5 }),
-          buildCertification({ id: '2', status: 'started', sessionId: 5 }),
-          buildCertification({ id: '3', status: 'rejected', sessionId: 5 }),
-          buildCertification({ id: '4', status: 'error', sessionId: 5 }),
-        ])
-      });
+      const session = EmberObject.create({ id: 5 });
+      const certifications = A([
+        buildCertification({ id: '1', status: 'validated', sessionId: 5 }),
+        buildCertification({ id: '2', status: 'started', sessionId: 5 }),
+        buildCertification({ id: '3', status: 'rejected', sessionId: 5 }),
+        buildCertification({ id: '4', status: 'error', sessionId: 5 }),
+      ]);
 
       // when
-      service.downloadJuryFile(session.id, session.certifications);
+      service.downloadJuryFile({ sessionId: session.id, certifications: certifications });
 
       // then
       assert.equal(fileSaverStub.getContent(), '\uFEFF' +
@@ -151,17 +149,15 @@ module('Unit | Service | session-info-service', function(hooks) {
     });
 
     test('should include certification with comment from examiner', async function(assert) {
-      const session = EmberObject.create({
-        id: 5,
-        certifications: A([
-          buildCertification({ id: '1', status: 'validated', sessionId: 5, examinerComment: 'examiner comment' }),
-          buildCertification({ id: '2', status: 'validated', sessionId: 5, }),
-          buildCertification({ id: '3', status: 'validated', sessionId: 5, }),
-        ])
-      });
+      const session = EmberObject.create({ id: 5 });
+      const certifications = A([
+        buildCertification({ id: '1', status: 'validated', sessionId: 5, examinerComment: 'examiner comment' }),
+        buildCertification({ id: '2', status: 'validated', sessionId: 5, }),
+        buildCertification({ id: '3', status: 'validated', sessionId: 5, }),
+      ]);
 
       // when
-      service.downloadJuryFile(session.id, session.certifications);
+      service.downloadJuryFile({ sessionId: session.id, certifications: certifications });
 
       // then
       assert.equal(fileSaverStub.getContent(), '\uFEFF' +
@@ -171,17 +167,15 @@ module('Unit | Service | session-info-service', function(hooks) {
     });
 
     test('should include certification with not checked end screen from examiner', async function(assert) {
-      const session = EmberObject.create({
-        id: 5,
-        certifications: A([
-          buildCertification({ id: '1', status: 'validated', sessionId: 5, hasSeenEndTestScreen: false }),
-          buildCertification({ id: '2', status: 'validated', sessionId: 5 }),
-          buildCertification({ id: '3', status: 'validated', sessionId: 5 }),
-        ])
-      });
+      const session = EmberObject.create({ id: 5 });
+      const certifications = A([
+        buildCertification({ id: '1', status: 'validated', sessionId: 5, hasSeenEndTestScreen: false }),
+        buildCertification({ id: '2', status: 'validated', sessionId: 5 }),
+        buildCertification({ id: '3', status: 'validated', sessionId: 5 }),
+      ]);
 
       // when
-      service.downloadJuryFile(session.id, session.certifications);
+      service.downloadJuryFile({ sessionId: session.id, certifications: certifications });
 
       // then
       assert.equal(fileSaverStub.getContent(), '\uFEFF' +
@@ -197,13 +191,11 @@ module('Unit | Service | session-info-service', function(hooks) {
         const certification = buildCertification({ id: '1', status: 'validated', sessionId: 5, examinerComment: '@examiner comment' });
         certification.set('commentForJury', '-jury');
 
-        const session = EmberObject.create({
-          id: 5,
-          certifications: A([ certification ])
-        });
+        const session = EmberObject.create({ id: 5 });
+        const certifications = A([ certification ]);
 
         // when
-        service.downloadJuryFile(session.id, session.certifications);
+        service.downloadJuryFile({ sessionId: session.id, certifications: certifications });
 
         // then
         assert.equal(fileSaverStub.getContent(), '\uFEFF' +
@@ -219,16 +211,18 @@ module('Unit | Service | session-info-service', function(hooks) {
     module('when the certif status is rejected', function() {
       let certifRejected;
       let sessionWithRejectedCertif;
+      let certifications;
 
       hooks.beforeEach(function() {
         const indexedCompetences = { '1.1': { level: 3, score: 2 } } ;
         certifRejected = buildCertification({ sessionId: 1, status: 'rejected', indexedCompetences });
-        sessionWithRejectedCertif = { certificationCenterName: 'Salut', certifications: [ certifRejected ] };
+        sessionWithRejectedCertif = { certificationCenterName: 'Salut' };
+        certifications = [ certifRejected ];
       });
 
       test('should show "-" or "0" for competences', async function(assert) {
         // when
-        const result =  service.buildSessionExportFileData(sessionWithRejectedCertif);
+        const result = service.buildSessionExportFileData({ session: sessionWithRejectedCertif, certifications });
 
         // then
         const expectedResult = [{
@@ -257,16 +251,18 @@ module('Unit | Service | session-info-service', function(hooks) {
 
       let certifValidated;
       let sessionWithValidatedCertif;
+      let certifications;
 
       hooks.beforeEach(function() {
         const indexedCompetences = { '1.1': { level: 3, score: 2 } } ;
         certifValidated = buildCertification({ sessionId: 1, indexedCompetences });
-        sessionWithValidatedCertif = { certificationCenterName: 'Salut', certifications: [ certifValidated ] };
+        sessionWithValidatedCertif = { certificationCenterName: 'Salut' };
+        certifications = [ certifValidated ];
       });
 
       test('should show "-" or correct value for competences', function(assert) {
         // when
-        const result =  service.buildSessionExportFileData(sessionWithValidatedCertif);
+        const result = service.buildSessionExportFileData({ session: sessionWithValidatedCertif, certifications });
 
         // then
         const expectedResult = [{

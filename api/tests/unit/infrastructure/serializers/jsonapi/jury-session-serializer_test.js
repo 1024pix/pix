@@ -49,9 +49,9 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function() {
             'published-at': new Date('2020-02-21T14:23:56.000Z'),
           },
           relationships: {
-            certifications: {
+            'jury-certification-summaries': {
               links: {
-                related: '/api/jury/sessions/1/certifications',
+                related: '/api/jury/sessions/1/jury-certification-summaries',
               }
             },
           }

@@ -1,7 +1,7 @@
 import { createMembership } from './handlers/memberships';
 import { getOrganizationMemberships } from './handlers/organizations';
 import { attachTargetProfiles, getOrganizationTargetProfiles } from './handlers/target-profiles';
-import { getCertificationsBySessionId } from './handlers/certifications-by-session-id';
+import { getJuryCertificationSummariesBySessionId } from './handlers/get-jury-certification-summaries-by-session-id';
 import { findPaginatedAndFilteredSessions } from './handlers/find-paginated-and-filtered-sessions';
 
 export default function() {
@@ -11,7 +11,7 @@ export default function() {
 
   this.get('/jury/sessions', findPaginatedAndFilteredSessions);
   this.get('/jury/sessions/:id');
-  this.get('/jury/sessions/:id/certifications', getCertificationsBySessionId);
+  this.get('/jury/sessions/:id/jury-certification-summaries', getJuryCertificationSummariesBySessionId);
   this.put('/jury/sessions/:id/results-sent-to-prescriber', (schema, request) => {
     const sessionId = request.params.id;
     const session = schema.sessions.findBy({ id: sessionId });

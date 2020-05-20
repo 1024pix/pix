@@ -17,9 +17,9 @@ export default class SessionInfoServiceService extends Service {
   @service fileSaver;
   @service csvService;
 
-  downloadSessionExportFile(session) {
+  downloadSessionExportFile({ session, certifications }) {
     const fileTitle = 'resultats_session';
-    const data = this.buildSessionExportFileData(session);
+    const data = this.buildSessionExportFileData({ session, certifications });
     const fileHeaders = _buildSessionExportFileHeaders();
     const csv = json2csv.parse(data, { fields: fileHeaders, delimiter: ';', withBOM: true });
     const dateWithTime = moment(session.date + ' ' + session.time, 'YYYY-MM-DD HH:mm');
@@ -27,7 +27,7 @@ export default class SessionInfoServiceService extends Service {
     this.fileSaver.saveAs(csv + '\n', fileName);
   }
 
-  downloadJuryFile(sessionId, certifications) {
+  downloadJuryFile({ sessionId, certifications }) {
     const fileTitle = 'jury_session';
     const certificationsForJury = _filterCertificationsEligibleForJury(certifications);
     const data = this.buildJuryFileData(certificationsForJury);
@@ -38,8 +38,8 @@ export default class SessionInfoServiceService extends Service {
     this.fileSaver.saveAs(`${csv}\n`, fileName);
   }
 
-  buildSessionExportFileData(session) {
-    return session.certifications.map((certification) => {
+  buildSessionExportFileData({ session, certifications }) {
+    return certifications.map((certification) => {
       const isCertifRejected = certification.status === 'rejected';
       const rowItem = {
         'Numéro de certification': certification.id,

@@ -302,41 +302,4 @@ describe('Integration | Repository | Certification Course', function() {
     });
   });
 
-  describe('#findIdsBySessionId', () => {
-    let sessionIdWithoutCertificationCourses;
-    let sessionIdWithCertificationCourses;
-    const expectedCertificationCourseIds = [];
-
-    beforeEach(() => {
-      // given
-      sessionIdWithoutCertificationCourses = databaseBuilder.factory.buildSession().id;
-      sessionIdWithCertificationCourses = databaseBuilder.factory.buildSession().id;
-      const unrelatedSessionId = databaseBuilder.factory.buildSession().id;
-
-      expectedCertificationCourseIds.length = 0;
-      expectedCertificationCourseIds.push(databaseBuilder.factory.buildCertificationCourse({ sessionId: sessionIdWithCertificationCourses }).id);
-      expectedCertificationCourseIds.push(databaseBuilder.factory.buildCertificationCourse({ sessionId: sessionIdWithCertificationCourses }).id);
-      databaseBuilder.factory.buildCertificationCourse({ sessionId: unrelatedSessionId });
-
-      return databaseBuilder.commit();
-    });
-
-    it('should return an empty array there is no certification course for given session', async () => {
-      // when
-      const actualCertificationCourseIds = await certificationCourseRepository.findIdsBySessionId(sessionIdWithoutCertificationCourses);
-
-      // then
-      expect(actualCertificationCourseIds).to.be.empty;
-    });
-
-    it('should return an array with the certification course ids when session has some', async () => {
-      // when
-      const actualCertificationCourseIds = await certificationCourseRepository.findIdsBySessionId(sessionIdWithCertificationCourses);
-
-      // then
-      expect(actualCertificationCourseIds).to.include.members(expectedCertificationCourseIds);
-      expect(actualCertificationCourseIds.length).to.equal(expectedCertificationCourseIds.length);
-    });
-  });
-
 });
