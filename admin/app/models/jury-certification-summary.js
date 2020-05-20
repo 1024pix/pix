@@ -1,3 +1,4 @@
+import { computed } from '@ember/object';
 import Model, { attr } from '@ember-data/model';
 
 export default class JuryCertificationSummary extends Model {
@@ -11,4 +12,14 @@ export default class JuryCertificationSummary extends Model {
   @attr() isPublished;
   @attr() examinerComment;
   @attr() hasSeenEndTestScreen;
+
+  @computed('createdAt')
+  get creationDate() {
+    return (new Date(this.createdAt)).toLocaleString('fr-FR');
+  }
+
+  @computed('completedAt')
+  get completionDate() {
+    return (new Date(this.completedAt)).toLocaleString('fr-FR');
+  }
 }
