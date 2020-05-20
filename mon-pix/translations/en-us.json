@@ -49,7 +49,7 @@
     "fields": {
       "cgu": {
         "error": "Please accept terms of service before you sign up",
-        "label": "I accept <a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\">Pix's CGU</a>"
+        "label": "<abbr title=\"mandatory\">*</abbr> I accept <a href=\"{cguUrl}\" class=\"link\" target=\"_blank\">Pix's CGU</a>"
       },
       "email": {
         "error": "Your email is invalid",
