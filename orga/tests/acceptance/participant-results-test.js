@@ -23,6 +23,7 @@ module('Acceptance | Campaign Details Participants', function(hooks) {
     });
     server.create('campaign', { id: 1 });
     server.createList('campaign-participation', 2, { campaignId: 1 });
+    server.createList('campaign-assessment-participation-summary', 2);
   });
 
   module('When user arrives on participants page', function() {

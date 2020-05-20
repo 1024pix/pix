@@ -1,1 +1,5 @@
-<Routes::Authenticated::Campaigns::Details::ParticipantsTab @campaign={{@model.campaign}} @participants={{@model.participants}} @goToParticipantPage={{this.goToParticipantPage}} />
+<Routes::Authenticated::Campaigns::Details::ParticipantsTab
+        @campaign={{@model.campaign}}
+        @participations={{@model.campaignAssessmentParticipationSummaries}}
+        @goToParticipantPage={{this.goToParticipantPage}}
+/>
