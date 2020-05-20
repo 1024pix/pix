@@ -19,25 +19,25 @@ module('Integration | Component | routes/authenticated/campaign/details | partic
       name: 'campagne 1',
     });
 
-    const participants = [
+    const participations = [
       {
-        user: { firstName: 'John', lastName: 'Doe' },
-        campaignParticipationResult: { masteryPercentage: 80 },
-        participantExternalId: '123',
+        firstName: 'John',
+        lastName: 'Doe',
+        masteryPercentage: 80,
         isShared: true,
       },
     ];
-    participants.meta = {
+    participations.meta = {
       rowCount: 1
     };
     const goTo = function() {};
 
     this.set('campaign', campaign);
-    this.set('participants', participants);
+    this.set('participations', participations);
     this.set('goToParticipantPage', goTo);
 
     // when
-    await render(hbs`<Routes::Authenticated::Campaigns::Details::ParticipantsTab @campaign={{campaign}} @participants={{participants}} @goToParticipantPage={{goToParticipantPage}}/>`);
+    await render(hbs`<Routes::Authenticated::Campaigns::Details::ParticipantsTab @campaign={{campaign}} @participations={{participations}} @goToParticipantPage={{goToParticipantPage}}/>`);
 
     // then
     assert.notContains('En attente de participants');
@@ -53,25 +53,26 @@ module('Integration | Component | routes/authenticated/campaign/details | partic
       name: 'campagne 1',
     });
 
-    const participants = [
+    const participations = [
       {
-        user: { firstName: 'John', lastName: 'Doe2' },
-        campaignParticipationResult: { isCompleted: true },
+        firstName: 'John',
+        lastName: 'Doe2',
+        isCompleted: true,
         participantExternalId: '1234',
         isShared: false,
       },
     ];
-    participants.meta = {
+    participations.meta = {
       rowCount: 1
     };
     const goTo = function() {};
 
     this.set('campaign', campaign);
-    this.set('participants', participants);
+    this.set('participations', participations);
     this.set('goToParticipantPage', goTo);
 
     // when
-    await render(hbs`<Routes::Authenticated::Campaigns::Details::ParticipantsTab @campaign={{campaign}} @participants={{participants}} @goToParticipantPage={{goToParticipantPage}}/>`);
+    await render(hbs`<Routes::Authenticated::Campaigns::Details::ParticipantsTab @campaign={{campaign}} @participations={{participations}} @goToParticipantPage={{goToParticipantPage}}/>`);
 
     // then
     assert.contains('Doe2');
@@ -86,25 +87,26 @@ module('Integration | Component | routes/authenticated/campaign/details | partic
       name: 'campagne 1',
     });
 
-    const participants = [
+    const participations = [
       {
-        user: { firstName: 'John', lastName: 'Doe3' },
-        campaignParticipationResult: { isCompleted: false },
+        firstName: 'John',
+        lastName: 'Doe3',
+        isCompleted: false,
         participantExternalId: '12345',
         isShared: false,
       },
     ];
-    participants.meta = {
+    participations.meta = {
       rowCount: 3
     };
     const goTo = function() {};
 
     this.set('campaign', campaign);
-    this.set('participants', participants);
+    this.set('participations', participations);
     this.set('goToParticipantPage', goTo);
 
     // when
-    await render(hbs`<Routes::Authenticated::Campaigns::Details::ParticipantsTab @campaign={{campaign}} @participants={{participants}} @goToParticipantPage={{goToParticipantPage}}/>`);
+    await render(hbs`<Routes::Authenticated::Campaigns::Details::ParticipantsTab @campaign={{campaign}} @participations={{participations}} @goToParticipantPage={{goToParticipantPage}}/>`);
 
     // then
     assert.contains('Doe3');
@@ -120,19 +122,19 @@ module('Integration | Component | routes/authenticated/campaign/details | partic
       idPixLabel: 'identifiant externe'
     });
 
-    const participants = [{ user: { firstName: 'John', lastName: 'Doe' }, participantExternalId: '123' }];
-    participants.meta = {
+    const participations = [{ firstName: 'John', lastName: 'Doe', participantExternalId: '123' }];
+    participations.meta = {
       rowCount: 1
     };
 
     const goTo = function() {};
 
     this.set('campaign', campaign);
-    this.set('participants', participants);
+    this.set('participations', participations);
     this.set('goToParticipantPage', goTo);
 
     // when
-    await render(hbs`<Routes::Authenticated::Campaigns::Details::ParticipantsTab @campaign={{campaign}} @participants={{participants}} @goToParticipantPage={{goToParticipantPage}}/>`);
+    await render(hbs`<Routes::Authenticated::Campaigns::Details::ParticipantsTab @campaign={{campaign}} @participations={{participations}} @goToParticipantPage={{goToParticipantPage}}/>`);
 
     // then
     assert.contains('identifiant externe');
@@ -146,16 +148,16 @@ module('Integration | Component | routes/authenticated/campaign/details | partic
       name: 'campagne 1',
     });
 
-    const participants = [];
-    participants.meta = {
+    const participations = [];
+    participations.meta = {
       rowCount: 0
     };
 
     this.set('campaign', campaign);
-    this.set('participants', participants);
+    this.set('participations', participations);
 
     // when
-    await render(hbs`<Routes::Authenticated::Campaigns::Details::ParticipantsTab @campaign={{campaign}} @participants={{participants}}/>`);
+    await render(hbs`<Routes::Authenticated::Campaigns::Details::ParticipantsTab @campaign={{campaign}} @participations={{participations}}/>`);
 
     // then
     assert.contains('En attente de participants');
