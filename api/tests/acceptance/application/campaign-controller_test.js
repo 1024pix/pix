@@ -640,4 +640,51 @@ describe('Acceptance | API | Campaign Controller', () => {
       expect(response.result.data[0].attributes['last-name']).to.equal('Bob');
     });
   });
+
+  describe('GET /api/campaigns/{id}/assessment-participations', function() {
+    let userId;
+    let campaign;
+    const participant = { firstName: 'John', lastName: 'McClane' };
+
+    beforeEach(async () => {
+      userId = databaseBuilder.factory.buildUser().id;
+      const organization = databaseBuilder.factory.buildOrganization();
+
+      databaseBuilder.factory.buildMembership({ userId, organizationId: organization.id });
+
+      const skill = airtableBuilder.factory.buildSkill({ id: 'skill1' });
+      campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({ organizationId: organization.id }, [skill]);
+
+      const campaignParticipation = {
+        participantExternalId: 'Die Hard',
+        sharedAt: new Date(2010, 1, 1),
+        campaignId: campaign.id
+      };
+
+      databaseBuilder.factory.buildAssessmentFromParticipation(campaignParticipation, participant);
+      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([skill]).activate();
+
+      return databaseBuilder.commit();
+    });
+
+    afterEach(() => {
+      airtableBuilder.cleanAll();
+      return cache.flushAll();
+    });
+
+    it('should return the campaign participation result summaries as JSONAPI', async () => {
+      const options = {
+        method: 'GET',
+        url: `/api/campaigns/${campaign.id}/assessment-participations?page[number]=1&page[size]=10`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(200);
+      const participation = response.result.data[0].attributes;
+      expect(participation['first-name']).to.equal(participant.firstName);
+      expect(participation['last-name']).to.equal(participant.lastName);
+    });
+  });
 });
