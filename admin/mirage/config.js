@@ -47,4 +47,13 @@ export default function() {
 
     return schema.organizationInvitations.where({ email });
   });
+
+  this.patch('/memberships/:id', (schema, request) => {
+    const membershipId = request.params.id;
+    const params = JSON.parse(request.requestBody);
+    const organizationRole = params.data.attributes.organizationRole;
+
+    const membership = schema.memberships.findBy({ id: membershipId });
+    return membership.update({ organizationRole });
+  });
 }
