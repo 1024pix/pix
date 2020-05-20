@@ -13,7 +13,7 @@ module.exports = {
 
     const { targetedSkillIds, targetedSkills, participantCount } = await _fetchData(campaignId);
 
-    const participantsKECountByCompetenceId = await _fetchValidatedKECountByCompetenceId(campaignId, targetedSkillIds);
+    const participantsKECountByCompetenceId = await _fetchValidatedKECountByCompetenceId(campaignId, targetedSkillIds, competences);
 
     const { targetedSkillsByCompetenceId } = _groupByCompetenceId(targetedSkills);
 
@@ -57,13 +57,16 @@ function _keepOnlySharedParticipations(qb) {
   qb.where({ 'campaign-participations.isShared': true });
 }
 
-async function _fetchValidatedKECountByCompetenceId(campaignId, targetedSkillIds) {
-  const counts = await knex.queryBuilder()
+async function _fetchValidatedKECountByCompetenceId(campaignId, targetedSkillIds, competences) {
+  const knowledgeElements = await knex.queryBuilder()
     .modify(_selectFilteredMostRecentUntilSharedDateParticipantKEs(campaignId, targetedSkillIds))
-    .modify(_keepOnlyValidatedKEs)
-    .modify(_countByCompetenceId);
+    .modify(_keepOnlyValidatedKEs);
 
-  return _transformCountsIntoObject(counts);
+  return _.countBy(knowledgeElements, (ke) => {
+    const competence = competences.find((c) => c.skillIds.includes(ke.skillId));
+    if (competence) return competence.id;
+    return null; 
+  });
 }
 
 function _selectFilteredMostRecentUntilSharedDateParticipantKEs(campaignId, targetedSkillIds) {
@@ -75,18 +78,6 @@ function _selectFilteredMostRecentUntilSharedDateParticipantKEs(campaignId, targ
 
 function _keepOnlyValidatedKEs(qb) {
   qb.where({ status: 'validated' });
-}
-
-function _countByCompetenceId(qb) {
-  qb.groupBy('competenceId')
-    .select('competenceId')
-    .count('*');
-}
-
-function _transformCountsIntoObject(counts) {
-  return _.fromPairs(_.map(counts, ({ competenceId, count }) => {
-    return [ competenceId, parseInt(count, 10)];
-  }));
 }
 
 function _selectFilteredParticipantKEsWithRank(campaignId, targetedSkillIds) {
