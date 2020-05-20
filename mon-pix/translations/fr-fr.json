@@ -49,7 +49,7 @@
     "fields": {
       "cgu": {
         "error": "Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.",
-        "label": "<abbr title=\"obligatoire\">*</abbr> J'accepte les <a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\">conditions d'utilisation de Pix</a>"
+        "label": "<abbr title=\"obligatoire\">*</abbr> J'accepte les <a href=\"{cguUrl}\" class=\"link\" target=\"_blank\">conditions d'utilisation de Pix</a>"
       },
       "email": {
         "error": "Votre adresse e-mail n’est pas valide.",
