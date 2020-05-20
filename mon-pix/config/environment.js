@@ -31,7 +31,7 @@ module.exports = function(environment) {
       // Here you can pass flags/options to your application instance
       // when it is created
       API_HOST: process.env.API_HOST || '',
-      HOME_HOST: process.env.HOME_HOST || 'https://pix.fr',
+      HOME_URL: process.env.HOME_URL,
       isChallengeTimerEnable: true,
       MESSAGE_DISPLAY_DURATION: 1500,
       isMobileSimulationEnabled: false,
@@ -97,7 +97,7 @@ module.exports = function(environment) {
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
     // Redefined in custom initializer 'initializers/configure-pix-api-host.js'
-    ENV.APP.HOME_HOST = process.env.HOME_HOST || '/';
+    ENV.APP.HOME_URL = process.env.HOME_URL || '/';
     ENV.matomo.url = 'https://stats.pix.fr/js/container_jKDD76j4_dev_179474167add1104d6c8a92b.js';
     ENV.matomo.debug = true;
   }
@@ -115,7 +115,7 @@ module.exports = function(environment) {
 
     ENV.googleFonts = null;
     ENV.APP.API_HOST = 'http://localhost:3000';
-    ENV.APP.HOME_HOST = '/';
+    ENV.APP.HOME_URL = '/';
     ENV.APP.isChallengeTimerEnable = false;
     ENV.APP.MESSAGE_DISPLAY_DURATION = 0;
     ENV.APP.isMobileSimulationEnabled = true;

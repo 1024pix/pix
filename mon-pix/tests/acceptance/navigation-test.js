@@ -3,7 +3,7 @@ import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-mocha';
-import { authenticateByEmail } from '../helpers/authentification';
+import { authenticateByEmail } from '../helpers/authentication';
 import { resumeCampaignByCode } from '../helpers/campaign';
 import visit from '../helpers/visit';
 

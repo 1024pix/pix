@@ -1,32 +1,35 @@
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import Component from '@ember/component';
-import classic from 'ember-classic-decorator';
-import ENV from 'mon-pix/config/environment';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 
-@classic
 export default class PasswordResetDemandForm extends Component {
   @service store;
+  @service url;
+
+  @tracked hasFailed = false;
+  @tracked hasSucceeded = false;
 
   email = '';
-  _displayErrorMessage = false;
-  _displaySuccessMessage = false;
-  urlHome = ENV.APP.HOME_HOST;
+
+  get homeUrl() {
+    return this.url.homeUrl;
+  }
 
   @action
-  savePasswordResetDemand() {
-    this.set('_displayErrorMessage', false);
-    this.set('_displaySuccessMessage', false);
+  async savePasswordResetDemand(event) {
+    event && event.preventDefault();
+    this.hasFailed = false;
+    this.hasSucceeded = false;
 
-    const trimedEmail = this.email ? this.email.trim() : '';
+    const trimmedEmail = this.email ? this.email.trim() : '';
 
-    this.store.createRecord('password-reset-demand', { email: trimedEmail })
-      .save()
-      .then(() => {
-        this.set('_displaySuccessMessage', true);
-      })
-      .catch(() => {
-        this.set('_displayErrorMessage', true);
-      });
+    try {
+      const passwordResetDemand = await this.store.createRecord('password-reset-demand', { email: trimmedEmail });
+      await passwordResetDemand.save();
+      this.hasSucceeded = true;
+    } catch (error) {
+      this.hasFailed = true;
+    }
   }
 }

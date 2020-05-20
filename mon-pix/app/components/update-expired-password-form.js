@@ -2,7 +2,6 @@ import { action } from '@ember/object';
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import isPasswordValid from '../utils/password-validator';
-import ENV from 'mon-pix/config/environment';
 import { tracked } from '@glimmer/tracking';
 
 const ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.';
@@ -27,6 +26,7 @@ const SUBMISSION_MAP = {
 
 export default class UpdateExpiredPasswordForm extends Component {
   @service session;
+  @service url;
 
   @tracked validation = VALIDATION_MAP['default'];
   @tracked newPassword = null;
@@ -35,7 +35,9 @@ export default class UpdateExpiredPasswordForm extends Component {
 
   @tracked errorMessage = null;
 
-  urlHome = ENV.APP.HOME_HOST;
+  get homeUrl() {
+    return this.url.homeUrl;
+  }
 
   @action
   validatePassword() {
@@ -44,7 +46,9 @@ export default class UpdateExpiredPasswordForm extends Component {
   }
 
   @action
-  async handleUpdatePasswordAndAuthenticate() {
+  async handleUpdatePasswordAndAuthenticate(event) {
+    event && event.preventDefault();
+
     this.isLoading = true;
     this.authenticationHasFailed = false;
     try {
