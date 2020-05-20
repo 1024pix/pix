@@ -76,4 +76,15 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     idPixLabel: 'identifiant élève',
     title: null,
   });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 8,
+    name: 'Campagne Pix Emploi',
+    code: 'BADGES789',
+    type: 'ASSESSMENT',
+    organizationId: 1,
+    creatorId: 2,
+    targetProfileId: 984165,
+    idPixLabel: 'identifiant entreprise',
+  });
 };

@@ -17,7 +17,12 @@ module.exports = {
       ],
       badge: {
         ref: 'id',
-        attributes: ['altMessage', 'message', 'imageUrl'],
+        attributes: [
+          'altMessage',
+          'message',
+          'imageUrl',
+          'key'
+        ],
       },
       partnerCompetenceResults: {
         ref: 'id',

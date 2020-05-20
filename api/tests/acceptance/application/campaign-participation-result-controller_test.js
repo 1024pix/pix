@@ -65,6 +65,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
       altMessage: 'Banana',
       imageUrl: '/img/banana.svg',
       message: 'You won a Banana Badge',
+      key: 'PIX_BANANA',
       targetProfileId: targetProfile.id
     });
 
@@ -212,6 +213,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
             'alt-message': 'Banana',
             'image-url': '/img/banana.svg',
             message: 'You won a Banana Badge',
+            key: 'PIX_BANANA'
           },
         }, {
           attributes: {
