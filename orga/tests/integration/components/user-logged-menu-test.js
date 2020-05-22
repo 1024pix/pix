@@ -9,15 +9,15 @@ module('Integration | Component | user-logged-menu', function(hooks) {
 
   setupRenderingTest(hooks);
 
-  let user, organization;
+  let prescriber, organization;
 
   hooks.beforeEach(function() {
     organization = Object.create({ id: 1, name: 'Main organization', externalId: 'EXT' });
-    user = Object.create({
+    prescriber = Object.create({
       firstName: 'givenFirstName',
       lastName: 'givenLastName',
     });
-    this.owner.register('service:current-user', Service.extend({ user, organization }));
+    this.owner.register('service:current-user', Service.extend({ prescriber, organization }));
   });
 
   test('it renders', async function(assert) {
@@ -33,7 +33,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
     await render(hbs`{{user-logged-menu}}`);
 
     // then
-    assert.dom('.logged-user-summary__name').hasText(`${user.firstName} ${user.lastName}`);
+    assert.dom('.logged-user-summary__name').hasText(`${prescriber.firstName} ${prescriber.lastName}`);
   });
 
   test('should display the user current organization name and externalId', async function(assert) {
