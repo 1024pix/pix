@@ -22,7 +22,6 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
     let options;
     let server;
-    let useCaseResult;
 
     beforeEach(() => {
       // configure a request (valid by default)
@@ -41,20 +40,16 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       };
 
       // stub dependencies
-      sinon.stub(authenticationController, 'authenticateUser').callsFake((request, h) => h.response(useCaseResult));
+      sinon.stub(authenticationController, 'authenticateUser').callsFake((request, h) => h.response({
+        token_type: 'bearer',
+        access_token: 'some-jwt-access-token',
+        user_id: 'the-user-id',
+      }));
 
       // instance new Hapi.js server with minimal config to test route
       server = Hapi.server();
 
       return server.register(require('../../../../lib/application/authentication'));
-    });
-
-    it('should return a response with HTTP status code 200 when route handler (a.k.a. controller) is successful', async () => {
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(200);
     });
 
     it('should return a response with HTTP status code 200 even if there is no scope in the request', async () => {
@@ -163,12 +158,12 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       };
     });
 
-    it('should return a response with HTTP status code 200 when route handler (a.k.a. controller) is successful', async () => {
+    it('should return a response with HTTP status code 204 when route handler (a.k.a. controller) is successful', async () => {
       // when
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(200);
+      expect(response.statusCode).to.equal(204);
     });
 
     it('should return a 400 when grant type is not "access_token" nor "refresh_token"', async () => {
@@ -198,7 +193,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return a response with HTTP status code 200 even when token type hint is missing', async () => {
+    it('should return a response with HTTP status code 204 even when token type hint is missing', async () => {
       // given
       options.payload = querystring.stringify({
         token: 'jwt.access.token',
@@ -208,7 +203,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(200);
+      expect(response.statusCode).to.equal(204);
     });
 
     it('should return a JSON API error (415) when request "Content-Type" header is not "application/x-www-form-urlencoded"', async () => {

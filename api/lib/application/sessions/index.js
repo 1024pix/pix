@@ -117,6 +117,7 @@ exports.register = async (server) => {
           }),
         },
         payload: {
+          multipart: true,
           allow: 'multipart/form-data',
           maxBytes: 1048576 * 10, // 10MB
         },
