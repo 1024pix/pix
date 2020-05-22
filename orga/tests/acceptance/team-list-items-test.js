@@ -2,23 +2,29 @@ import { module, test } from 'qunit';
 import { currentURL, visit, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
-import { createUserMembershipWithRole, createAdminMembershipWithNbMembers } from '../helpers/test-init';
 import { selectChoose } from 'ember-power-select/test-support';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Accept | Team List | Items', function(hooks) {
+import {
+  createUserMembershipWithRole,
+  createAdminMembershipWithNbMembers,
+  createPrescriberByUser
+} from '../helpers/test-init';
+
+module('Acceptance | Team List | Items', function(hooks) {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
   let user;
 
-  module('When user is logged in', function() {
+  module('When prescriber is logged in', function() {
 
-    module('When user is a admin of an organization without members', function(hooks) {
+    module('When prescriber is an admin of an organization without members', function(hooks) {
 
       hooks.beforeEach(async () => {
         user = createUserMembershipWithRole('ADMIN');
+        createPrescriberByUser(user);
 
         await authenticateSession({
           user_id: user.id,
@@ -42,14 +48,14 @@ module('Accept | Team List | Items', function(hooks) {
         assert.dom('#edit-organization-role').doesNotExist();
         assert.dom('#save-organization-role').doesNotExist();
         assert.dom('#cancel-update-organization-role').doesNotExist();
-
       });
     });
 
-    module('When user is a admin of an organization with 4 members', function(hooks) {
+    module('When prescriber is an admin of an organization with 4 members', function(hooks) {
 
       hooks.beforeEach(async () => {
-        user = createAdminMembershipWithNbMembers(5);
+        user = createAdminMembershipWithNbMembers(4);
+        createPrescriberByUser(user);
 
         await authenticateSession({
           user_id: user.id,
@@ -67,7 +73,8 @@ module('Accept | Team List | Items', function(hooks) {
         assert.equal(currentURL(), '/equipe');
         assert.dom('#table-members tbody tr').exists({ count: 5 });
         assert.dom('#table-members tbody tr:first-child').hasText('Cover Harry Administrateur');
-        //On affiche un td vide pour avoir un tableau cohérent
+
+        // On affiche un td vide pour avoir un tableau cohérent
         assert.dom('#table-members tbody tr td').exists({ count: 20 });
         assert.dom('.zone-edit-role').exists({ count: 4 });
         assert.dom('#edit-organization-role').exists({ count: 4 });
@@ -82,6 +89,7 @@ module('Accept | Team List | Items', function(hooks) {
 
       hooks.beforeEach(async () => {
         user = createAdminMembershipWithNbMembers(2);
+        createPrescriberByUser(user);
 
         await authenticateSession({
           user_id: user.id,
@@ -99,11 +107,12 @@ module('Accept | Team List | Items', function(hooks) {
 
         // then
         assert.equal(currentURL(), '/equipe');
-        assert.dom('#table-members tbody tr').exists({ count: 2 });
-        assert.dom('#table-members tbody tr td').exists({ count: 8 });
 
-        assert.dom('.zone-edit-role').doesNotExist();
-        assert.dom('#edit-organization-role').doesNotExist();
+        assert.dom('#table-members tbody tr').exists({ count: 3 });
+        assert.dom('#table-members tbody tr td').exists({ count: 12 });
+
+        assert.dom('.zone-edit-role').exists();
+        assert.dom('#edit-organization-role').exists();
 
         assert.dom('.zone-save-cancel-role').exists({ count: 1 });
         assert.dom('#save-organization-role').exists({ count: 1 });
@@ -114,7 +123,8 @@ module('Accept | Team List | Items', function(hooks) {
     module('When admin change the role then click on update member role', function(hooks) {
 
       hooks.beforeEach(async () => {
-        user = createAdminMembershipWithNbMembers(2);
+        user = createAdminMembershipWithNbMembers(1);
+        createPrescriberByUser(user);
 
         await authenticateSession({
           user_id: user.id,
@@ -210,6 +220,10 @@ module('Accept | Team List | Items', function(hooks) {
         assert.dom('#table-members tbody tr:last-child td:nth-child(3)').hasText('Selectionner le rôle');
         assert.dom('#table-members tbody tr:last-child td:nth-child(4)').hasText('Enregistrer');
 
+        await selectChoose('#selectOrganizationRole', 'Administrateur');
+        await click('#save-organization-role');
+
+        await click('#edit-organization-role');
         await selectChoose('#selectOrganizationRole', 'Membre');
 
         await click('#cancel-update-organization-role');
@@ -223,7 +237,6 @@ module('Accept | Team List | Items', function(hooks) {
         assert.dom('.zone-save-cancel-role').doesNotExist();
         assert.dom('#save-organization-role').doesNotExist();
         assert.dom('#cancel-update-organization-role').doesNotExist();
-
       });
     });
   });
