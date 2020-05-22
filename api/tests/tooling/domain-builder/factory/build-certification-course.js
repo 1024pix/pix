@@ -19,6 +19,7 @@ module.exports = function buildCertificationCourse(
     isV2Certification = false,
     isPublished = faker.random.boolean(),
     // includes
+    acquiredPartnerCertifications = [],
     // references
     userId = faker.random.number(),
     sessionId = faker.random.number(),
@@ -38,6 +39,7 @@ module.exports = function buildCertificationCourse(
     nbChallenges,
     isV2Certification,
     isPublished,
+    acquiredPartnerCertifications,
     sessionId,
     userId,
   });
