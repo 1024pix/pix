@@ -5,6 +5,7 @@ const Assessment = require('../../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../../lib/domain/models/AssessmentResult');
 const CompetenceMarks = require('../../../../../lib/domain/models/CompetenceMark');
 const CertificationCourse = require('../../../../../lib/domain/models/CertificationCourse');
+const Badge = require('../../../../../lib/domain/models/Badge');
 
 const assessmentRepository = require('../../../../../lib/infrastructure/repositories/assessment-repository');
 const assessmentResultRepository = require('../../../../../lib/infrastructure/repositories/assessment-result-repository');
@@ -23,6 +24,14 @@ function _buildAssessmentResult(pixScore, level) {
     level,
     emitter: 'PIX-ALGO',
   });
+}
+
+function _createAcquiredPartnerCertifications(certificationCourseId, acquired) {
+  return [{
+    certificationCourseId,
+    partnerKey: Badge.keys.PIX_EMPLOI_CLEA,
+    acquired,
+  }];
 }
 
 describe('Unit | Service | Certification Service', function() {
@@ -60,16 +69,10 @@ describe('Unit | Service | Certification Service', function() {
     const certificationCourseId = 1;
 
     context('when certification is finished', () => {
+      let certificationCourse;
 
       beforeEach(() => {
-        const assessmentResult = _buildAssessmentResult(20, 3);
-        sinon.stub(assessmentRepository, 'getByCertificationCourseId').resolves(new Assessment({
-          state: 'completed',
-          assessmentResults: [
-            _buildAssessmentResult(20, 3),
-          ],
-        }));
-        sinon.stub(certificationCourseRepository, 'get').resolves(new CertificationCourse({
+        certificationCourse = new CertificationCourse({
           id: certificationCourseId,
           createdAt: new Date('2017-12-23T15:23:12Z'),
           completedAt: new Date('2017-12-23T16:23:12Z'),
@@ -81,7 +84,17 @@ describe('Unit | Service | Certification Service', function() {
           externalId: 'TimonsFriend',
           examinerComment: '',
           hasSeenEndTestScreen: true,
+          acquiredPartnerCertifications: _createAcquiredPartnerCertifications(certificationCourseId, true),
+        });
+
+        const assessmentResult = _buildAssessmentResult(20, 3);
+        sinon.stub(assessmentRepository, 'getByCertificationCourseId').resolves(new Assessment({
+          state: 'completed',
+          assessmentResults: [
+            _buildAssessmentResult(20, 3),
+          ],
         }));
+        sinon.stub(certificationCourseRepository, 'get').resolves(certificationCourse);
         assessmentResult.competenceMarks = [_buildCompetenceMarks(3, 27, '2', '2.1', 'rec2.1')];
         sinon.stub(assessmentResultRepository, 'get').resolves(
           assessmentResult,
@@ -125,6 +138,41 @@ describe('Unit | Service | Certification Service', function() {
         });
       });
 
+      context('when the candidated has passed the clea certification', () => {
+
+        it(`should return "${certificationService.certificationPartnerStates.ACQUIRED}" when the certification was validated`, async () => {
+          //when
+          const { cleaCertificationStatus } = await certificationService.getCertificationResult(certificationCourseId);
+
+          // then
+          expect(cleaCertificationStatus).to.equal(certificationService.certificationPartnerStates.ACQUIRED);
+        });
+
+        it(`should return "${certificationService.certificationPartnerStates.REJECTED}" when the certification was failed`, async () => {
+          //given
+          certificationCourse.acquiredPartnerCertifications = _createAcquiredPartnerCertifications(certificationCourse.certificationCourseId, false);
+
+          //when
+          const { cleaCertificationStatus } = await certificationService.getCertificationResult(certificationCourseId);
+
+          // then
+          expect(cleaCertificationStatus).to.equal(certificationService.certificationPartnerStates.REJECTED);
+        });
+      });
+
+      context('when the candidated has not passed the clea certification', () => {
+
+        it(`should return "${certificationService.certificationPartnerStates.NOT_PASSED}"`, async () => {
+          // given
+          certificationCourse.acquiredPartnerCertifications = [];
+
+          //when
+          const { cleaCertificationStatus } = await certificationService.getCertificationResult(certificationCourseId);
+
+          // then
+          expect(cleaCertificationStatus).to.equal(certificationService.certificationPartnerStates.NOT_PASSED);
+        });
+      });
     });
 
     context('when certification is not finished', () => {
