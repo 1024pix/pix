@@ -9,6 +9,7 @@ module.exports = function buildCompetenceMark({
   score = faker.random.number(),
   area_code = faker.random.number().toString(),
   competence_code = `${faker.random.number()}_${faker.random.number()}`,
+  competenceId = `rec${faker.random.uuid()}`,
   assessmentResultId,
   createdAt = faker.date.past(),
 } = {}) {
@@ -21,6 +22,7 @@ module.exports = function buildCompetenceMark({
     score,
     area_code,
     competence_code,
+    competenceId,
     assessmentResultId,
     createdAt,
   };
