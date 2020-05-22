@@ -1,6 +1,15 @@
 import { computed } from '@ember/object';
 import Model, { attr } from '@ember-data/model';
 
+export const ACQUIRED = 'acquired';
+export const REJECTED = 'rejected';
+export const NOT_PASSED = 'not_passed';
+export const partnerCertificationStatusToDisplayName = {
+  [ACQUIRED]: 'Obtenue',
+  [REJECTED]: 'Rejetée',
+  [NOT_PASSED]: 'Non passée',
+};
+
 export default class Certification extends Model {
 
   @attr() sessionId;
@@ -23,6 +32,7 @@ export default class Certification extends Model {
   @attr() competencesWithMark;
   @attr('boolean', { defaultValue: false }) isPublished;
   @attr('boolean', { defaultValue: false }) isV2Certification;
+  @attr() cleaCertificationStatus;
 
   @computed('createdAt')
   get creationDate() {
@@ -62,5 +72,10 @@ export default class Certification extends Model {
       result.push(indexedCompetences[value]);
       return result;
     }, []);
+  }
+
+  @computed('cleaCertificationStatus')
+  get displayCleaCertificationStatus() {
+    return partnerCertificationStatusToDisplayName[this.cleaCertificationStatus];
   }
 }
