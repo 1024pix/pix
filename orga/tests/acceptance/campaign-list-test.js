@@ -2,7 +2,10 @@ import { module, test } from 'qunit';
 import { currentURL, visit, click, fillIn, find } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
-import { createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
+import {
+  createUserWithMembershipAndTermsOfServiceAccepted,
+  createPrescriberByUser
+} from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -11,11 +14,9 @@ module('Acceptance | Campaign List', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  let user;
+  module('When prescriber is not logged in', function() {
 
-  module('When user is not logged in', function() {
-
-    test('it should not be accessible by an unauthenticated user', async function(assert) {
+    test('it should not be accessible by an unauthenticated prescriber', async function(assert) {
       // when
       await visit('/campagnes');
 
@@ -24,10 +25,13 @@ module('Acceptance | Campaign List', function(hooks) {
     });
   });
 
-  module('When user is logged in', function(hooks) {
+  module('When prescriber is logged in', function(hooks) {
+
+    let user;
 
     hooks.beforeEach(async () => {
       user = createUserWithMembershipAndTermsOfServiceAccepted();
+      createPrescriberByUser(user);
 
       await authenticateSession({
         user_id: user.id,
@@ -37,7 +41,7 @@ module('Acceptance | Campaign List', function(hooks) {
       });
     });
 
-    test('it should be accessible for an authenticated user', async function(assert) {
+    test('it should be accessible for an authenticated prescriber', async function(assert) {
       // when
       await visit('/campagnes');
 
@@ -45,7 +49,7 @@ module('Acceptance | Campaign List', function(hooks) {
       assert.equal(currentURL(), '/campagnes');
     });
 
-    test('it should show title indicate than user can create a campaign', async function(assert) {
+    test('it should show title indicate than prescriber can create a campaign', async function(assert) {
       // when
       await visit('/campagnes');
 
