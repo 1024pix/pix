@@ -168,7 +168,8 @@ export default class CertificationInformationsController extends Controller {
           'competence-code': code,
           'level': mark.level,
           'score': mark.score,
-          'area-code': code.substr(0, 1)
+          'area-code': code.substr(0, 1),
+          'competence-id': mark.competenceId,
         });
         return competences;
       }, A());
