@@ -2,7 +2,11 @@ import { module, test } from 'qunit';
 import { currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
-import { createUserMembershipWithRole } from '../helpers/test-init';
+
+import {
+  createUserMembershipWithRole,
+  createPrescriberByUser
+} from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -13,7 +17,7 @@ module('Acceptance | Team List', function(hooks) {
 
   let user;
 
-  module('When user is not logged in', function() {
+  module('When prescriber is not logged in', function() {
 
     test('it should not be accessible by an unauthenticated user', async function(assert) {
       // when
@@ -24,12 +28,13 @@ module('Acceptance | Team List', function(hooks) {
     });
   });
 
-  module('When user is logged in', function() {
+  module('When prescriber is logged in', function() {
 
-    module('When user is a member', function(hooks) {
+    module('When prescriber is a member', function(hooks) {
 
       hooks.beforeEach(async () => {
         user = createUserMembershipWithRole('MEMBER');
+        createPrescriberByUser(user);
 
         await authenticateSession({
           user_id: user.id,
@@ -48,10 +53,11 @@ module('Acceptance | Team List', function(hooks) {
       });
     });
 
-    module('When user is an admin', function(hooks) {
+    module('When prescriber is an admin', function(hooks) {
 
       hooks.beforeEach(async () => {
         user = createUserMembershipWithRole('ADMIN');
+        createPrescriberByUser(user);
 
         await authenticateSession({
           user_id: user.id,
@@ -64,7 +70,6 @@ module('Acceptance | Team List', function(hooks) {
       test('it should be accessible', async function(assert) {
         // when
         await visit('/equipe');
-
         // then
         assert.equal(currentURL(), '/equipe');
       });
