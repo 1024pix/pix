@@ -13,6 +13,7 @@ class CertificationResult {
       resultCreatedAt,
       isPublished,
       isV2Certification,
+      cleaCertificationStatus,
       pixScore,
       status,
       level,
@@ -40,6 +41,7 @@ class CertificationResult {
     this.resultCreatedAt = resultCreatedAt;
     this.isPublished = isPublished;
     this.isV2Certification = isV2Certification;
+    this.cleaCertificationStatus = cleaCertificationStatus;
     this.pixScore = pixScore;
     this.status = status;
     this.level = level;

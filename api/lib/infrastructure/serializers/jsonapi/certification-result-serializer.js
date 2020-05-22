@@ -28,6 +28,7 @@ module.exports = {
         'isV2Certification',
         'examinerComment',
         'hasSeenEndTestScreen',
+        'cleaCertificationStatus',
       ],
     }).serialize(certificationResult);
   },
