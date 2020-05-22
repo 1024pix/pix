@@ -3,7 +3,7 @@
 
 {{#if (not this.isEditionMode) }}
   <td>{{@membership.displayRole}}</td>
-  {{#if (not-eq @membership.user.id this.currentUser.user.id) }}
+  {{#if (not-eq @membership.user.id this.currentUser.prescriber.id) }}
     <td>
       <div class="zone-edit-role">
         <button id='edit-organization-role' class="button button--with-icon-and-text button-edit-role"
