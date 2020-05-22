@@ -11,8 +11,9 @@ export default class TermsOfServiceRoute extends Route.extend(AuthenticatedRoute
     if (transition.isAborted) {
       return;
     }
-    if (this.currentUser.user.pixOrgaTermsOfServiceAccepted) {
+    if (this.currentUser.prescriber.pixOrgaTermsOfServiceAccepted) {
       return this.replaceWith('');
     }
   }
+
 }
