@@ -1,6 +1,7 @@
 import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import { FINALIZED } from 'pix-admin/models/session';
+import { trim } from 'lodash';
 
 export default Route.extend(AuthenticatedRouteMixin, {
   queryParams: {
@@ -10,6 +11,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
     certificationCenterName: { refreshModel: true },
     status: { refreshModel: true },
     resultsSentToPrescriberAt: { refreshModel: true },
+    assignedToSelfOnly: { refreshModel: true },
   },
 
   async model(params) {
@@ -17,10 +19,11 @@ export default Route.extend(AuthenticatedRouteMixin, {
     try {
       sessions = await this.store.query('session', {
         filter: {
-          id: params.id && params.id.trim(),
-          certificationCenterName: params.certificationCenterName && params.certificationCenterName.trim(),
-          status: params.status && params.status.trim(),
-          resultsSentToPrescriberAt: params.resultsSentToPrescriberAt && params.resultsSentToPrescriberAt.trim(),
+          id: trim(params.id) || undefined,
+          certificationCenterName: trim(params.certificationCenterName) || undefined,
+          status: params.status || undefined,
+          resultsSentToPrescriberAt: params.resultsSentToPrescriberAt || undefined,
+          assignedToSelfOnly: params.assignedToSelfOnly,
         },
         page: {
           number: params.pageNumber,
@@ -42,6 +45,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
       controller.certificationCenterName = null;
       controller.status = FINALIZED;
       controller.resultsSentToPrescriberAt = null;
+      controller.assignedToSelfOnly = false;
     }
   }
 });

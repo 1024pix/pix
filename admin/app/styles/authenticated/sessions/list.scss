@@ -1,3 +1,13 @@
+.session-list__self-toogle {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 10px;
+
+  p {
+    margin: 0;
+  }
+}
+
 .session-list {
   &__item {
     &--align-center {

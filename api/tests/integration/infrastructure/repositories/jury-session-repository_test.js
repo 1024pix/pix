@@ -14,7 +14,10 @@ describe('Integration | Repository | JurySession', function() {
       let sessionId;
 
       beforeEach(() => {
-        const assignedCertificationOfficerId = databaseBuilder.factory.buildUser({ firstName: 'Pix', lastName: 'Doe' }).id;
+        const assignedCertificationOfficerId = databaseBuilder.factory.buildUser({
+          firstName: 'Pix',
+          lastName: 'Doe'
+        }).id;
         sessionId = databaseBuilder.factory.buildSession({ assignedCertificationOfficerId }).id;
 
         return databaseBuilder.commit();
@@ -50,7 +53,10 @@ describe('Integration | Repository | JurySession', function() {
       let sessionWithoutCertificationCenterId;
 
       beforeEach(() => {
-        const assignedCertificationOfficerId = databaseBuilder.factory.buildUser({ firstName: 'Pix', lastName: 'Doe' }).id;
+        const assignedCertificationOfficerId = databaseBuilder.factory.buildUser({
+          firstName: 'Pix',
+          lastName: 'Doe'
+        }).id;
         sessionWithCertificationOfficerId = databaseBuilder.factory.buildSession({ assignedCertificationOfficerId }).id;
         sessionWithoutCertificationCenterId = databaseBuilder.factory.buildSession({ certificationCenterId: null }).id;
 
@@ -64,7 +70,10 @@ describe('Integration | Repository | JurySession', function() {
         const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
 
         // when
-        const { jurySessions: matchingJurySessions, pagination } = await jurySessionRepository.findPaginatedFiltered({ filters, page });
+        const { jurySessions: matchingJurySessions, pagination } = await jurySessionRepository.findPaginatedFiltered({
+          filters,
+          page
+        });
 
         // then
         expect(matchingJurySessions).to.exist;
@@ -79,7 +88,10 @@ describe('Integration | Repository | JurySession', function() {
         const page = { number: 1, size: 3 };
 
         // when
-        const { jurySessions: matchingJurySessions } = await jurySessionRepository.findPaginatedFiltered({ filters, page });
+        const { jurySessions: matchingJurySessions } = await jurySessionRepository.findPaginatedFiltered({
+          filters,
+          page
+        });
 
         // then
         const sessionWithOfficer = _.find(matchingJurySessions, { id: sessionWithCertificationOfficerId });
@@ -104,7 +116,10 @@ describe('Integration | Repository | JurySession', function() {
         const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 4, rowCount: 12 };
 
         // when
-        const { jurySessions: matchingJurySessions, pagination } = await jurySessionRepository.findPaginatedFiltered({ filters, page });
+        const { jurySessions: matchingJurySessions, pagination } = await jurySessionRepository.findPaginatedFiltered({
+          filters,
+          page
+        });
 
         // then
         expect(matchingJurySessions).to.have.lengthOf(3);
@@ -119,10 +134,22 @@ describe('Integration | Repository | JurySession', function() {
       let fourthSessionId;
 
       beforeEach(() => {
-        firstSessionId = databaseBuilder.factory.buildSession({ finalizedAt: new Date('2020-01-01T00:00:00Z'), resultsSentToPrescriberAt: null }).id;
-        secondSessionId = databaseBuilder.factory.buildSession({ finalizedAt: new Date('2020-01-02T00:00:00Z'), resultsSentToPrescriberAt: null }).id;
-        thirdSessionId = databaseBuilder.factory.buildSession({ finalizedAt: new Date('2020-01-02T00:00:00Z'), resultsSentToPrescriberAt: new Date('2020-01-03T00:00:00Z') }).id;
-        fourthSessionId = databaseBuilder.factory.buildSession({ finalizedAt: null, resultsSentToPrescriberAt: null }).id;
+        firstSessionId = databaseBuilder.factory.buildSession({
+          finalizedAt: new Date('2020-01-01T00:00:00Z'),
+          resultsSentToPrescriberAt: null
+        }).id;
+        secondSessionId = databaseBuilder.factory.buildSession({
+          finalizedAt: new Date('2020-01-02T00:00:00Z'),
+          resultsSentToPrescriberAt: null
+        }).id;
+        thirdSessionId = databaseBuilder.factory.buildSession({
+          finalizedAt: new Date('2020-01-02T00:00:00Z'),
+          resultsSentToPrescriberAt: new Date('2020-01-03T00:00:00Z')
+        }).id;
+        fourthSessionId = databaseBuilder.factory.buildSession({
+          finalizedAt: null,
+          resultsSentToPrescriberAt: null
+        }).id;
 
         return databaseBuilder.commit();
       });
@@ -133,7 +160,10 @@ describe('Integration | Repository | JurySession', function() {
         const page = { number: 1, size: 10 };
 
         // when
-        const { jurySessions: matchingJurySessions } = await jurySessionRepository.findPaginatedFiltered({ filters, page });
+        const { jurySessions: matchingJurySessions } = await jurySessionRepository.findPaginatedFiltered({
+          filters,
+          page
+        });
 
         // then
         expect(matchingJurySessions[0].id).to.equal(firstSessionId);
@@ -199,7 +229,10 @@ describe('Integration | Repository | JurySession', function() {
 
         beforeEach(() => {
           const certificationCenter = databaseBuilder.factory.buildCertificationCenter({ name: 'Université des Laura en Folie !' });
-          expectedSession = databaseBuilder.factory.buildSession({ certificationCenter: certificationCenter.name, certificationCenterId: certificationCenter.id });
+          expectedSession = databaseBuilder.factory.buildSession({
+            certificationCenter: certificationCenter.name,
+            certificationCenterId: certificationCenter.id
+          });
           databaseBuilder.factory.buildSession();
 
           return databaseBuilder.commit();
@@ -252,8 +285,16 @@ describe('Integration | Repository | JurySession', function() {
 
           beforeEach(() => {
             const someDate = new Date('2020-01-01T00:00:00Z');
-            expectedSessionId = databaseBuilder.factory.buildSession({ finalizedAt: someDate, publishedAt: null, assignedCertificationOfficerId: null }).id;
-            databaseBuilder.factory.buildSession({ finalizedAt: someDate, publishedAt: someDate, assignedCertificationOfficerId: null });
+            expectedSessionId = databaseBuilder.factory.buildSession({
+              finalizedAt: someDate,
+              publishedAt: null,
+              assignedCertificationOfficerId: null
+            }).id;
+            databaseBuilder.factory.buildSession({
+              finalizedAt: someDate,
+              publishedAt: someDate,
+              assignedCertificationOfficerId: null
+            });
 
             return databaseBuilder.commit();
           });
@@ -278,7 +319,11 @@ describe('Integration | Repository | JurySession', function() {
           beforeEach(() => {
             const someDate = new Date('2020-01-01T00:00:00Z');
             const assignedCertificationOfficerId = databaseBuilder.factory.buildUser().id;
-            expectedSessionId = databaseBuilder.factory.buildSession({ finalizedAt: someDate, publishedAt: null, assignedCertificationOfficerId }).id;
+            expectedSessionId = databaseBuilder.factory.buildSession({
+              finalizedAt: someDate,
+              publishedAt: null,
+              assignedCertificationOfficerId
+            }).id;
             databaseBuilder.factory.buildSession({ publishedAt: someDate, assignedCertificationOfficerId });
 
             return databaseBuilder.commit();
@@ -338,7 +383,7 @@ describe('Integration | Repository | JurySession', function() {
 
           it('should apply the strict filter and return the appropriate results', async () => {
             // given
-            const filters = { resultsSentToPrescriberAt: 'true' };
+            const filters = { resultsSentToPrescriberAt: true };
             const page = { number: 1, size: 10 };
 
             // when
@@ -362,7 +407,7 @@ describe('Integration | Repository | JurySession', function() {
 
           it('should apply the strict filter and return the appropriate results', async () => {
             // given
-            const filters = { resultsSentToPrescriberAt: 'false' };
+            const filters = { resultsSentToPrescriberAt: false };
             const page = { number: 1, size: 10 };
 
             // when
@@ -396,6 +441,37 @@ describe('Integration | Repository | JurySession', function() {
           });
         });
       });
+
+      context('when there is a filter on the assigned certification officer', () => {
+        let certificationOfficerToMatchId;
+        let expectedSession;
+
+        beforeEach(() => {
+          certificationOfficerToMatchId = databaseBuilder.factory.buildUser().id;
+          const anotherCertificationOfficerId = databaseBuilder.factory.buildUser().id;
+
+          expectedSession = databaseBuilder.factory.buildSession({ assignedCertificationOfficerId: certificationOfficerToMatchId });
+          databaseBuilder.factory.buildSession({ assignedCertificationOfficerId: anotherCertificationOfficerId });
+          databaseBuilder.factory.buildSession();
+
+          return databaseBuilder.commit();
+        });
+
+        it('should only return the session assigned to the given certification officer ', async () => {
+          // given
+          const filters = { assignedCertificationOfficerId: certificationOfficerToMatchId };
+          const page = { number: 1, size: 10 };
+          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 1 };
+
+          // when
+          const { jurySessions, pagination } = await jurySessionRepository.findPaginatedFiltered({ filters, page });
+
+          // then
+          expect(pagination).to.deep.equal(expectedPagination);
+          expect(jurySessions[0].id).to.equal(expectedSession.id);
+          expect(jurySessions).to.have.length(1);
+        });
+      });
     });
   });
 
@@ -412,7 +488,10 @@ describe('Integration | Repository | JurySession', function() {
 
     it('should return an updated Session domain object', async () => {
       // when
-      const updatedSession = await jurySessionRepository.assignCertificationOfficer({ id: sessionId, assignedCertificationOfficerId });
+      const updatedSession = await jurySessionRepository.assignCertificationOfficer({
+        id: sessionId,
+        assignedCertificationOfficerId
+      });
 
       // then
       expect(updatedSession).to.be.an.instanceof(JurySession);
@@ -428,7 +507,10 @@ describe('Integration | Repository | JurySession', function() {
         const unknownUserId = assignedCertificationOfficerId + 1;
 
         // when
-        const error = await catchErr(jurySessionRepository.assignCertificationOfficer)({ id: sessionId, assignedCertificationOfficerId: unknownUserId });
+        const error = await catchErr(jurySessionRepository.assignCertificationOfficer)({
+          id: sessionId,
+          assignedCertificationOfficerId: unknownUserId
+        });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
@@ -442,7 +524,10 @@ describe('Integration | Repository | JurySession', function() {
         const unknownSessionId = sessionId + 1;
 
         // when
-        const error = await catchErr(jurySessionRepository.assignCertificationOfficer)({ id: unknownSessionId, assignedCertificationOfficerId });
+        const error = await catchErr(jurySessionRepository.assignCertificationOfficer)({
+          id: unknownSessionId,
+          assignedCertificationOfficerId
+        });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
