@@ -59,8 +59,12 @@ export default function() {
     return schema.memberships.find(id);
   });
 
-  this.get('/organizations/:id/campaigns', (schema) => {
-    return schema.campaigns.all();
+  this.get('/organizations/:id/campaigns', (schema, request) => {
+    const results = schema.campaigns.all();
+    const json = this.serializerOrRegistry.serialize(results, request);
+    json.meta = { hasCampaigns: results.length > 0 };
+
+    return json;
   });
 
   this.get('/organizations/:id/memberships', (schema, request) => {
