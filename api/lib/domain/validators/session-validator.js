@@ -59,7 +59,7 @@ module.exports = {
     }
   },
 
-  validateFilters(filters) {
+  validateAndNormalizeFilters(filters) {
     const { value, error } = sessionFiltersValidationSchema.validate(filters, validationConfiguration);
     if (error) {
       throw EntityValidationError.fromJoiErrors(error.details);

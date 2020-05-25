@@ -629,7 +629,7 @@ describe('Unit | Controller | sessionController', () => {
 
     beforeEach(() => {
       sinon.stub(queryParamsUtils, 'extractParameters');
-      sinon.stub(sessionValidator, 'validateFilters');
+      sinon.stub(sessionValidator, 'validateAndNormalizeFilters');
       sinon.stub(jurySessionRepository, 'findPaginatedFiltered');
       sinon.stub(jurySessionSerializer, 'serializeForPaginatedList');
       sinon.stub(requestResponseUtils, 'extractUserIdFromRequest');
@@ -645,7 +645,7 @@ describe('Unit | Controller | sessionController', () => {
       const jurySessionsForPaginatedList = Symbol('jurySessionsForPaginatedList');
       const serializedJurySessionsForPaginatedList = Symbol('serializedJurySessionsForPaginatedList');
       queryParamsUtils.extractParameters.withArgs(request.query).returns({ filters, page });
-      sessionValidator.validateFilters.withArgs({ filter1: 'filter1ToTrim', filter2: 'filter2' })
+      sessionValidator.validateAndNormalizeFilters.withArgs({ filter1: 'filter1ToTrim', filter2: 'filter2' })
         .returns(normalizedFilters);
       jurySessionRepository.findPaginatedFiltered.withArgs({ filters: normalizedFilters, page, currentUserId })
         .resolves(jurySessionsForPaginatedList);
