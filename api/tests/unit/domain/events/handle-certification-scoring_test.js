@@ -131,7 +131,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       const nbPix = Symbol('nbPix');
       const level = Symbol('level');
       const status = Symbol('status');
-      const assessmentScore = {
+      const certificationAssessmentScore = {
         nbPix,
         level,
         status,
@@ -144,7 +144,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         sinon.stub(assessmentResultRepository, 'save').resolves(savedAssessmentResult);
         sinon.stub(competenceMarkRepository, 'save').resolves();
         sinon.stub(certificationCourseRepository, 'changeCompletionDate').resolves();
-        sinon.stub(scoringCertificationService, 'calculateCertificationAssessmentScore').resolves(assessmentScore);
+        sinon.stub(scoringCertificationService, 'calculateCertificationAssessmentScore').resolves(certificationAssessmentScore);
       });
 
       it('should build and save an assessment result with the expected arguments', async () => {
@@ -155,9 +155,9 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
 
         // then
         expect(AssessmentResult.BuildStandardAssessmentResult).to.have.been.calledWithExactly(
-          assessmentScore.level,
-          assessmentScore.nbPix,
-          assessmentScore.status,
+          certificationAssessmentScore.level,
+          certificationAssessmentScore.nbPix,
+          certificationAssessmentScore.status,
           certificationAssessment.id
         );
         expect(assessmentResultRepository.save).to.have.been.calledWithExactly(assessmentResult, domainTransaction);
@@ -177,19 +177,19 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         expect(certificationScoringCompleted).to.deep.equal({
           userId: assessmentCompletedEvent.userId,
           certificationCourseId: certificationAssessment.certificationCourseId,
-          reproducibilityRate: assessmentScore.percentageCorrectAnswers,
+          reproducibilityRate: certificationAssessmentScore.percentageCorrectAnswers,
           limitDate: certificationAssessment.createdAt,
         });
       });
 
-      it('should build and save as many competence marks as present in the assessmentScore', async () => {
+      it('should build and save as many competence marks as present in the certificationAssessmentScore', async () => {
         // when
         await events.handleCertificationScoring({
           assessmentCompletedEvent, ...dependencies, domainTransaction
         });
 
         // then
-        expect(competenceMarkRepository.save.callCount).to.equal(assessmentScore.competenceMarks.length);
+        expect(competenceMarkRepository.save.callCount).to.equal(certificationAssessmentScore.competenceMarks.length);
       });
     });
   });
@@ -203,14 +203,12 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         Symbol('campaignParticipationId'),
         false,
       );
-      sinon.stub(certificationAssessmentRepository, 'get').rejects();
 
       // when
       const certificationScoringCompleted = await events.handleCertificationScoring({
         assessmentCompletedEvent, ...dependencies, domainTransaction
       });
 
-      expect(certificationAssessmentRepository.get).to.not.have.been.called;
       expect(certificationScoringCompleted).to.be.null;
     });
 
