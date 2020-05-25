@@ -1,5 +1,6 @@
 module.exports = {
   buildAnswer: require('./build-answer'),
+  buildAnsweredNotCompletedCertificationAssessment: require('./build-answered-not-completed-certification-assessment'),
   buildAssessment: require('./build-assessment'),
   buildAssessmentResult: require('./build-assessment-result'),
   buildBadge: require('./build-badge'),
@@ -9,6 +10,7 @@ module.exports = {
   buildCampaign: require('./build-campaign'),
   buildCampaignParticipation: require('./build-campaign-participation'),
   buildCompetenceEvaluation: require('./build-competence-evaluation'),
+  buildCertifiableUser: require('./build-certifiable-user'),
   buildCertificationCandidate: require('./build-certification-candidate'),
   buildCertificationCenter: require('./build-certification-center'),
   buildCertificationCenterMembership: require('./build-certification-center-membership'),
