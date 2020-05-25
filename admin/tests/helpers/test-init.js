@@ -1,4 +1,9 @@
+import QUnit from 'qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
+import { contains, notContains } from './contains';
+
+QUnit.assert.contains = contains;
+QUnit.assert.notContains = notContains;
 
 export async function createAuthenticateSession({ userId }) {
   return authenticateSession({
