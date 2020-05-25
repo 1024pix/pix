@@ -86,14 +86,19 @@ Exemple:
 * use-case [ici](https://github.com/1024pix/pix/blob/prod/api/tests/unit/domain/usecases/update-expired-password_test.js)
 * composant avec un service, non stubbé [ici](https://github.com/1024pix/pix/blob/prod/api/tests/unit/domain/models/CampaignTubeRecommendation_test.js)
 
+Le but est de tester le plus de cas possible.  
+
 ### Intégration
 L'utilisation de Bookshelf, Knex, Nock pour faire des assertions est autorisé.
 Exemple:
 * entre HAPI et configuration de la route [ici](https://github.com/1024pix/pix/blob/prod/api/tests/integration/application/passwords/index_test.js)
 
+Le but est de tester un cas nominal.
 ### Acceptation
 Exemple:
 * sur l'application : [ici](https://github.com/1024pix/pix/blob/prod/api/tests/acceptance/application/password-controller_test.js)
+
+Le but est de tester un cas nominal.
 
 ## Front
 
