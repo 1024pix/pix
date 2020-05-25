@@ -18,7 +18,7 @@ module.exports = {
   async findPaginatedFilteredJurySessions(request) {
     const currentUserId = requestResponseUtils.extractUserIdFromRequest(request);
     const { filter, page } = queryParamsUtils.extractParameters(request.query);
-    const normalizedFilters = sessionValidator.validateFilters(filter);
+    const normalizedFilters = sessionValidator.validateAndNormalizeFilters(filter);
     const jurySessionsForPaginatedList = await jurySessionRepository.findPaginatedFiltered({ filters: normalizedFilters, page, currentUserId });
 
     return jurySessionSerializer.serializeForPaginatedList(jurySessionsForPaginatedList);
