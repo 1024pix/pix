@@ -3,7 +3,6 @@ const Bookshelf = require('../bookshelf');
 const KnowledgeElement = require('../../domain/models/KnowledgeElement');
 const BookshelfKnowledgeElement = require('../data/knowledge-element');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const scoringService = require('../../domain/services/scoring/scoring-service');
 
 function _getUniqMostRecents(knowledgeElements) {
   return _(knowledgeElements)
@@ -85,23 +84,6 @@ module.exports = {
   async findUniqByUserIdGroupedByCompetenceId({ userId, limitDate }) {
     const knowledgeElements = await this.findUniqByUserId({ userId, limitDate });
     return _.groupBy(knowledgeElements, 'competenceId');
-  },
-
-  getSumOfPixFromUserKnowledgeElements(userId) {
-    return Bookshelf.knex.with('earnedPixWithRankPerSkill',
-      (qb) => {
-        qb.select('earnedPix', Bookshelf.knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS rank', ['skillId', 'createdAt']), 'competenceId')
-          .from('knowledge-elements')
-          .where({ userId });
-      })
-      .sum('earnedPix AS earnedPix')
-      .from('earnedPixWithRankPerSkill')
-      .where({ rank: 1 })
-      .groupBy('competenceId')
-      .then((pixEarnedByCompetence) => {
-        const pixScoreByCompetence = _.map(pixEarnedByCompetence, (pixEarnedForOneCompetence) => pixEarnedForOneCompetence.earnedPix);
-        return scoringService.totalUserPixScore(pixScoreByCompetence);
-      });
   },
 
   findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId }) {

@@ -3,10 +3,10 @@ const getUserPixScore = require('../../../../lib/domain/usecases/get-user-pix-sc
 
 describe('Unit | UseCase | get-user-pix-score', () => {
 
-  let knowledgeElementRepository;
+  let competenceRepository;
 
   beforeEach(() => {
-    knowledgeElementRepository = { getSumOfPixFromUserKnowledgeElements: sinon.stub() };
+    competenceRepository = { getPixScoreByCompetence: sinon.stub() };
   });
 
   afterEach(() => {
@@ -16,33 +16,36 @@ describe('Unit | UseCase | get-user-pix-score', () => {
   it('should resolve when authenticated user is the same as asked', () => {
     // given
     const userId = 2;
-    knowledgeElementRepository.getSumOfPixFromUserKnowledgeElements.resolves([]);
+    competenceRepository.getPixScoreByCompetence.resolves({});
 
     // when
     const promise = getUserPixScore({
       userId,
-      knowledgeElementRepository,
+      competenceRepository,
     });
 
     // then
     return expect(promise).to.be.fulfilled;
   });
 
-  it('should return the user Pix score', async () => {
+  it('should sum the competence Pix scores', async () => {
     // given
     const userId = 2;
-    const sumOfPixKnowledgeElement = 6;
+    const sumOfPixCompetenceScores = 7;
     const pixScoreExpected = {
       id: userId,
-      value: sumOfPixKnowledgeElement
+      value: sumOfPixCompetenceScores
     };
 
-    knowledgeElementRepository.getSumOfPixFromUserKnowledgeElements.resolves(sumOfPixKnowledgeElement);
+    competenceRepository.getPixScoreByCompetence.resolves({
+      'recCompetence1': 2,
+      'recCompetence2': 5,
+    });
 
     // when
     const userPixScore = await getUserPixScore({
       userId,
-      knowledgeElementRepository,
+      competenceRepository,
     });
 
     //then
