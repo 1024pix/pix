@@ -95,7 +95,7 @@ function _toDomain(jurySessionFromDB) {
 }
 
 function _setupFilters(query, filters) {
-  const { id, certificationCenterName, status, resultsSentToPrescriberAt } = filters;
+  const { id, certificationCenterName, status, resultsSentToPrescriberAt, assignedCertificationOfficerId } = filters;
 
   if (id) {
     query.where('sessions.id', id);
@@ -103,10 +103,15 @@ function _setupFilters(query, filters) {
   if (certificationCenterName) {
     query.whereRaw('LOWER("certificationCenter") LIKE ?', `%${certificationCenterName.toLowerCase()}%`);
   }
-  if (resultsSentToPrescriberAt === 'true') {
+
+  if (assignedCertificationOfficerId) {
+    query.where({ assignedCertificationOfficerId });
+  }
+
+  if (resultsSentToPrescriberAt === true) {
     query.whereNotNull('resultsSentToPrescriberAt');
   }
-  if (resultsSentToPrescriberAt === 'false') {
+  if (resultsSentToPrescriberAt === false) {
     query.whereNull('resultsSentToPrescriberAt');
   }
   if (status === statuses.CREATED) {

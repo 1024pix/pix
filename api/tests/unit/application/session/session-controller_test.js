@@ -11,6 +11,7 @@ const certificationCandidateSerializer = require('../../../../lib/infrastructure
 const certificationReportSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-report-serializer');
 const juryCertificationSummarySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/jury-certification-summary-serializer');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
+const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
 const sessionValidator = require('../../../../lib/domain/validators/session-validator');
 const juryCertificationSummaryRepository = require('../../../../lib/infrastructure/repositories/jury-certification-summary-repository');
 const jurySessionRepository = require('../../../../lib/infrastructure/repositories/jury-session-repository');
@@ -628,13 +629,15 @@ describe('Unit | Controller | sessionController', () => {
 
     beforeEach(() => {
       sinon.stub(queryParamsUtils, 'extractParameters');
-      sinon.stub(sessionValidator, 'validateFilters');
+      sinon.stub(sessionValidator, 'validateAndNormalizeFilters');
       sinon.stub(jurySessionRepository, 'findPaginatedFiltered');
       sinon.stub(jurySessionSerializer, 'serializeForPaginatedList');
+      sinon.stub(requestResponseUtils, 'extractUserIdFromRequest');
     });
 
     it('should return the serialized jurySessions', async () => {
       // given
+      const currentUserId = 5;
       const request = { query: {} };
       const filter = { filter1: ' filter1ToTrim', filter2: 'filter2' };
       const normalizedFilters = 'normalizedFilters';
@@ -642,18 +645,17 @@ describe('Unit | Controller | sessionController', () => {
       const jurySessionsForPaginatedList = Symbol('jurySessionsForPaginatedList');
       const serializedJurySessionsForPaginatedList = Symbol('serializedJurySessionsForPaginatedList');
       queryParamsUtils.extractParameters.withArgs(request.query).returns({ filter, page });
-      sessionValidator.validateFilters.withArgs({ filter1: 'filter1ToTrim', filter2: 'filter2' })
+      sessionValidator.validateAndNormalizeFilters.withArgs(filter, currentUserId)
         .returns(normalizedFilters);
       jurySessionRepository.findPaginatedFiltered.withArgs({ filters: normalizedFilters, page })
         .resolves(jurySessionsForPaginatedList);
-      jurySessionSerializer.serializeForPaginatedList.returns(serializedJurySessionsForPaginatedList);
+      jurySessionSerializer.serializeForPaginatedList.withArgs(jurySessionsForPaginatedList).returns(serializedJurySessionsForPaginatedList);
+      requestResponseUtils.extractUserIdFromRequest.withArgs(request).returns(currentUserId);
 
       // when
       const result = await sessionController.findPaginatedFilteredJurySessions(request, hFake);
 
       // then
-      expect(jurySessionRepository.findPaginatedFiltered).to.have.been.calledWithExactly({ filters: normalizedFilters, page });
-      expect(jurySessionSerializer.serializeForPaginatedList).to.have.been.calledWithExactly(jurySessionsForPaginatedList);
       expect(result).to.equal(serializedJurySessionsForPaginatedList);
     });
   });

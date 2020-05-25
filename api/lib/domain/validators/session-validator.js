@@ -43,10 +43,11 @@ const sessionValidationJoiSchema = Joi.object({
 
 const sessionFiltersValidationSchema = Joi.object({
   id: Joi.number().integer().optional(),
-  status: Joi.string()
+  status: Joi.string().trim()
     .valid(statuses.CREATED, statuses.FINALIZED, statuses.IN_PROCESS, statuses.PROCESSED).optional(),
-  resultsSentToPrescriberAt: Joi.string().valid('true', 'false').optional(),
-  certificationCenterName: Joi.string().optional(),
+  resultsSentToPrescriberAt: Joi.boolean().optional(),
+  assignedToSelfOnly: Joi.boolean().optional(),
+  certificationCenterName: Joi.string().trim().optional(),
 });
 
 module.exports = {
@@ -58,11 +59,19 @@ module.exports = {
     }
   },
 
-  validateFilters(filters) {
+  validateAndNormalizeFilters(filters, assignedCertificationOfficerId) {
     const { value, error } = sessionFiltersValidationSchema.validate(filters, validationConfiguration);
+
     if (error) {
       throw EntityValidationError.fromJoiErrors(error.details);
     }
+
+    if (value.assignedToSelfOnly) {
+      value.assignedCertificationOfficerId = assignedCertificationOfficerId;
+    }
+
+    delete value.assignedToSelfOnly;
+
     return value;
   }
 };

@@ -167,14 +167,13 @@ describe('Unit | Domain | Validators | session-validator', () => {
     context('return value', () => {
 
       it('should return the filters in a normalized form', () => {
-        const value = sessionValidator.validateFilters({
+        const value = sessionValidator.validateAndNormalizeFilters({
           id: '123',
           status: 'finalized',
         });
 
         expect(typeof value.id).to.equal('number');
         expect(value.status).to.equal('finalized');
-        expect(value.certificationCenterName).to.be.undefined;
       });
     });
 
@@ -183,7 +182,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
       context('when id not in submitted filters', () => {
 
         it('should not throw any error', () => {
-          expect(sessionValidator.validateFilters({})).to.not.throw;
+          expect(sessionValidator.validateAndNormalizeFilters({})).to.not.throw;
         });
       });
 
@@ -192,7 +191,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
         context('when id is not an integer', () => {
 
           it('should throw an error', async () => {
-            const error = await catchErr(sessionValidator.validateFilters)({ id: 'salut' });
+            const error = await catchErr(sessionValidator.validateAndNormalizeFilters)({ id: 'salut' });
             expect(error).to.be.instanceOf(EntityValidationError);
           });
         });
@@ -200,11 +199,11 @@ describe('Unit | Domain | Validators | session-validator', () => {
         context('when id is an integer', () => {
 
           it('accept a string containing an int', () => {
-            expect(sessionValidator.validateFilters({ id: '123' })).to.not.throw;
+            expect(sessionValidator.validateAndNormalizeFilters({ id: '123' })).to.not.throw;
           });
 
           it('should not throw any error', () => {
-            expect(sessionValidator.validateFilters({ id: 123 })).to.not.throw;
+            expect(sessionValidator.validateAndNormalizeFilters({ id: 123 })).to.not.throw;
           });
         });
       });
@@ -216,7 +215,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
       context('when certificationCenterName not in submitted filters', () => {
 
         it('should not throw any error', () => {
-          expect(sessionValidator.validateFilters({})).to.not.throw;
+          expect(sessionValidator.validateAndNormalizeFilters({})).to.not.throw;
         });
       });
 
@@ -225,7 +224,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
         context('when certificationCenterName is not an string', () => {
 
           it('should throw an error', async () => {
-            const error = await catchErr(sessionValidator.validateFilters)({ certificationCenterName: 123 });
+            const error = await catchErr(sessionValidator.validateAndNormalizeFilters)({ certificationCenterName: 123 });
             expect(error).to.be.instanceOf(EntityValidationError);
           });
         });
@@ -233,7 +232,9 @@ describe('Unit | Domain | Validators | session-validator', () => {
         context('when certificationCenterName is a string', () => {
 
           it('should not throw an error', async () => {
-            expect(sessionValidator.validateFilters({ certificationCenterName: 'Coucou le dév qui lit ce message !' })).to.not.throw;
+            const certificationCenterName = '   Coucou le dév qui lit ce message !   ';
+            expect(sessionValidator.validateAndNormalizeFilters({ certificationCenterName })).to.not.throw;
+            expect(sessionValidator.validateAndNormalizeFilters({ certificationCenterName }).certificationCenterName).to.equal(certificationCenterName.trim());
           });
         });
       });
@@ -245,7 +246,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
       context('when status not in submitted filters', () => {
 
         it('should not throw any error', () => {
-          expect(sessionValidator.validateFilters({})).to.not.throw;
+          expect(sessionValidator.validateAndNormalizeFilters({})).to.not.throw;
         });
       });
 
@@ -254,7 +255,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
         context('when status is not an string', () => {
 
           it('should throw an error', async () => {
-            const error = await catchErr(sessionValidator.validateFilters)({ status: 123 });
+            const error = await catchErr(sessionValidator.validateAndNormalizeFilters)({ status: 123 });
             expect(error).to.be.instanceOf(EntityValidationError);
           });
         });
@@ -262,7 +263,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
         context('when status is not in the statuses list', () => {
 
           it('should throw an error', async () => {
-            const error = await catchErr(sessionValidator.validateFilters)({ status: 'SomeOtherStatus' });
+            const error = await catchErr(sessionValidator.validateAndNormalizeFilters)({ status: 'SomeOtherStatus' });
             expect(error).to.be.instanceOf(EntityValidationError);
           });
         });
@@ -270,10 +271,10 @@ describe('Unit | Domain | Validators | session-validator', () => {
         context('when status is in the statuses list', () => {
 
           it('should not throw an error', async () => {
-            expect(sessionValidator.validateFilters({ status: statuses.CREATED })).to.not.throw;
-            expect(sessionValidator.validateFilters({ status: statuses.FINALIZED })).to.not.throw;
-            expect(sessionValidator.validateFilters({ status: statuses.IN_PROCESS })).to.not.throw;
-            expect(sessionValidator.validateFilters({ status: statuses.PROCESSED })).to.not.throw;
+            expect(sessionValidator.validateAndNormalizeFilters({ status: statuses.CREATED })).to.not.throw;
+            expect(sessionValidator.validateAndNormalizeFilters({ status: statuses.FINALIZED })).to.not.throw;
+            expect(sessionValidator.validateAndNormalizeFilters({ status: statuses.IN_PROCESS })).to.not.throw;
+            expect(sessionValidator.validateAndNormalizeFilters({ status: statuses.PROCESSED })).to.not.throw;
           });
         });
       });
@@ -285,16 +286,16 @@ describe('Unit | Domain | Validators | session-validator', () => {
       context('when resultsSentToPrescriberAt not in submitted filters', () => {
 
         it('should not throw any error', () => {
-          expect(sessionValidator.validateFilters({})).to.not.throw;
+          expect(sessionValidator.validateAndNormalizeFilters({})).to.not.throw;
         });
       });
 
       context('when resultsSentToPrescriberAt is in submitted filters', () => {
 
-        context('when resultsSentToPrescriberAt is not an string', () => {
+        context('when resultsSentToPrescriberAt is not a boolean', () => {
 
           it('should throw an error', async () => {
-            const error = await catchErr(sessionValidator.validateFilters)({ resultsSentToPrescriberAt: 123 });
+            const error = await catchErr(sessionValidator.validateAndNormalizeFilters)({ resultsSentToPrescriberAt: 123 });
             expect(error).to.be.instanceOf(EntityValidationError);
           });
         });
@@ -302,20 +303,85 @@ describe('Unit | Domain | Validators | session-validator', () => {
         context('when resultsSentToPrescriberAt is not in the resultsSentToPrescriberAt list', () => {
 
           it('should throw an error', async () => {
-            const error = await catchErr(sessionValidator.validateFilters)({ resultsSentToPrescriberAt: 'SomeOtherValue' });
+            const error = await catchErr(sessionValidator.validateAndNormalizeFilters)({ resultsSentToPrescriberAt: 'SomeOtherValue' });
             expect(error).to.be.instanceOf(EntityValidationError);
           });
         });
 
-        context('when resultsSentToPrescriberAt is string true or false', () => {
+        context('when resultsSentToPrescriberAt is a boolean', () => {
 
           it('should not throw an error', async () => {
-            expect(sessionValidator.validateFilters({ resultsSentToPrescriberAt: 'true' })).to.not.throw;
-            expect(sessionValidator.validateFilters({ resultsSentToPrescriberAt: 'false' })).to.not.throw;
+            expect(sessionValidator.validateAndNormalizeFilters({ resultsSentToPrescriberAt: true })).to.not.throw;
+            expect(sessionValidator.validateAndNormalizeFilters({ resultsSentToPrescriberAt: false })).to.not.throw;
           });
         });
       });
 
+    });
+
+    context('when validating assignedToSelfOnly', () => {
+
+      context('when assignedToSelfOnly not in submitted filters', () => {
+
+        it('should not throw any error', () => {
+          expect(sessionValidator.validateAndNormalizeFilters({})).to.not.throw;
+        });
+      });
+
+      context('when assignedToSelfOnly is in submitted filters', () => {
+
+        context('when assignedToSelfOnly is not an boolean', () => {
+
+          it('should throw an error', async () => {
+            const error = await catchErr(sessionValidator.validateAndNormalizeFilters)({ assignedToSelfOnly: 'coucou' });
+            expect(error).to.be.instanceOf(EntityValidationError);
+          });
+        });
+
+        context('when assignedToSelfOnly is a boolean string', () => {
+
+          it('should throw an error', async () => {
+            expect(sessionValidator.validateAndNormalizeFilters({ assignedToSelfOnly: 'true' })).to.not.throw;
+            expect(sessionValidator.validateAndNormalizeFilters({ assignedToSelfOnly: 'false' })).to.not.throw;
+          });
+        });
+
+        context('when assignedToSelfOnly is a boolean', () => {
+
+          it('should not throw an error', async () => {
+            expect(sessionValidator.validateAndNormalizeFilters({ assignedToSelfOnly: true })).to.not.throw;
+            expect(sessionValidator.validateAndNormalizeFilters({ assignedToSelfOnly: false })).to.not.throw;
+          });
+
+          it('should set certificationOfficerId with currentUserId', async () => {
+            // given
+            const filters = {
+              assignedToSelfOnly: true
+            };
+            const currentUserId = 5;
+
+            // when
+            const normalizedFilters = sessionValidator.validateAndNormalizeFilters(filters, currentUserId);
+
+            // then
+            expect(normalizedFilters.assignedCertificationOfficerId).to.equal(currentUserId);
+          });
+        });
+      });
+
+    });
+
+    it('should unset assignToSelfOnly in filters', () => {
+      // given
+      const filters = {
+        assignedToSelfOnly: true
+      };
+
+      // when
+      const normalizedFilters = sessionValidator.validateAndNormalizeFilters(filters, null);
+
+      // then
+      expect(normalizedFilters.assignedToSelfOnly).to.be.undefined;
     });
   });
 });

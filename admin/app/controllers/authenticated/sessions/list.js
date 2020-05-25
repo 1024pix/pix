@@ -18,6 +18,8 @@ export default class SessionListController extends Controller {
   @tracked certificationCenterName = null;
   @tracked status = FINALIZED;
   @tracked resultsSentToPrescriberAt = null;
+  @tracked assignedToSelfOnly = false;
+
   pendingFilters = {};
 
   sessionStatusAndLabels = [
@@ -31,7 +33,7 @@ export default class SessionListController extends Controller {
     { value: 'false', label: 'Résultats non diffusés' },
   ];
 
-  @(task(function * (fieldName, param) {
+  @(task(function* (fieldName, param) {
     let value;
     let debounceDuration = this.DEBOUNCE_MS;
     switch (fieldName) {
@@ -41,6 +43,7 @@ export default class SessionListController extends Controller {
         break;
       case 'status':
       case 'resultsSentToPrescriberAt':
+      case 'assignedToSelfOnly':
         debounceDuration = 0;
         value = param;
         break;
@@ -52,5 +55,6 @@ export default class SessionListController extends Controller {
     this.setProperties(this.pendingFilters);
     this.pendingFilters = {};
     this.pageNumber = DEFAULT_PAGE_NUMBER;
+
   }).restartable()) triggerFiltering;
 }
