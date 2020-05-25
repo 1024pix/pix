@@ -89,6 +89,17 @@ function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true, creatorId 
   }
 }
 
+async function _hasCampaignsInOrganization({ organizationId }) {
+  const result = await BookshelfCampaign
+    .query((qb) => {
+      qb.select('id')
+        .where('campaigns.organizationId', organizationId)
+        .limit(1);
+    }).fetch();
+
+  return Boolean(result);
+}
+
 module.exports = {
 
   isCodeAvailable(code) {
@@ -136,8 +147,8 @@ module.exports = {
       .then(_toDomain);
   },
 
-  findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page }) {
-    return BookshelfCampaign
+  async findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page }) {
+    const { models, pagination } = await BookshelfCampaign
       .query((qb) => {
         qb.select('campaigns.*', 'participations.participationsCount', 'isShared.sharedParticipationsCount')
           .where('campaigns.organizationId', organizationId)
@@ -150,11 +161,12 @@ module.exports = {
         page: page.number,
         pageSize: page.size,
         withRelated: ['creator']
-      })
-      .then(({ models, pagination }) => {
-        const campaignsWithReports = models.map(_fromBookshelfCampaignWithReportDataToDomain);
-        return { models: campaignsWithReports, pagination };
       });
+
+    const hasCampaigns = await _hasCampaignsInOrganization({ organizationId });
+    
+    const campaignsWithReports = models.map(_fromBookshelfCampaignWithReportDataToDomain);
+    return { models: campaignsWithReports, meta: { ...pagination, hasCampaigns } };
   },
 
   checkIfUserOrganizationHasAccessToCampaign(campaignId, userId) {

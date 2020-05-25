@@ -422,7 +422,7 @@ describe('Acceptance | Application | organization-controller', () => {
       it('should return archived campaigns', async () => {
         // given
         options.url = `/api/organizations/${organizationId}/campaigns?page[number]=1&page[size]=2&filter[status]=archived`;
-        const expectedMetaData = { page: 1, pageSize: 2, rowCount: 2, pageCount: 1 };
+        const expectedMetaData = { page: 1, pageSize: 2, rowCount: 2, pageCount: 1, hasCampaigns: true };
 
         // when
         const response = await server.inject(options);
@@ -452,7 +452,7 @@ describe('Acceptance | Application | organization-controller', () => {
 
       it('should return default pagination meta data', async () => {
         // given
-        const expectedMetaData = { page: 1, pageSize: 10, rowCount: 2, pageCount: 1 };
+        const expectedMetaData = { page: 1, pageSize: 10, rowCount: 2, pageCount: 1, hasCampaigns: true };
 
         // when
         const response = await server.inject(options);
@@ -464,7 +464,7 @@ describe('Acceptance | Application | organization-controller', () => {
       it('should return a 200 status code with paginated data', async () => {
         // given
         options.url = `/api/organizations/${organizationId}/campaigns?&page[number]=2&page[size]=1`;
-        const expectedMetaData = { page: 2, pageSize: 1, rowCount: 2, pageCount: 2 };
+        const expectedMetaData = { page: 2, pageSize: 1, rowCount: 2, pageCount: 2, hasCampaigns: true };
 
         // when
         const response = await server.inject(options);
@@ -479,7 +479,7 @@ describe('Acceptance | Application | organization-controller', () => {
       it('should return a 200 status code with paginated and filtered data', async () => {
         // given
         options.url = `/api/organizations/${organizationId}/campaigns?filter[name]=Two&page[number]=1&page[size]=1`;
-        const expectedMetaData = { page: 1, pageSize: 1, rowCount: 1, pageCount: 1 };
+        const expectedMetaData = { page: 1, pageSize: 1, rowCount: 1, pageCount: 1, hasCampaigns: true };
 
         // when
         const response = await server.inject(options);
@@ -494,7 +494,7 @@ describe('Acceptance | Application | organization-controller', () => {
       it('should return a 200 status code with empty result', async () => {
         // given
         options.url = `/api/organizations/${organizationId}/campaigns?&page[number]=3&page[size]=1`;
-        const expectedMetaData = { page: 3, pageSize: 1, rowCount: 2, pageCount: 2 };
+        const expectedMetaData = { page: 3, pageSize: 1, rowCount: 2, pageCount: 2, hasCampaigns: true };
 
         // when
         const response = await server.inject(options);

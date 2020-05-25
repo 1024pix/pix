@@ -61,8 +61,8 @@ module.exports = {
       options.filter.ongoing = false;
       delete options.filter.status;
     }
-    const { models: campaigns, pagination } = await usecases.findPaginatedFilteredOrganizationCampaigns({ organizationId, filter: options.filter, page: options.page });
-    return campaignSerializer.serialize(campaigns, pagination, { ignoreCampaignReportRelationshipData : false });
+    const { models: campaigns, meta } = await usecases.findPaginatedFilteredOrganizationCampaigns({ organizationId, filter: options.filter, page: options.page });
+    return campaignSerializer.serialize(campaigns, meta, { ignoreCampaignReportRelationshipData : false });
   },
 
   getMemberships(request) {
