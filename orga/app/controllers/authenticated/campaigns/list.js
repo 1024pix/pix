@@ -1,6 +1,5 @@
 import { action, computed } from '@ember/object';
 import { equal } from '@ember/object/computed';
-import { isEmpty } from '@ember/utils';
 import Controller from '@ember/controller';
 import { debounce } from '@ember/runloop';
 import { inject as service } from '@ember/service';
@@ -23,8 +22,7 @@ export default class ListController extends Controller {
 
   @computed('model')
   get displayNoCampaignPanel() {
-    const { hasCampaigns } = this.model.meta;
-    return !hasCampaigns && isEmpty(this.name) && isEmpty(this.status) && isEmpty(this.creatorId);
+    return !this.model.meta.hasCampaigns;
   }
 
   @equal('status', 'archived') isArchived;

@@ -13,12 +13,13 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
 
   module('#get displayNoCampaignPanel', function() {
 
-    test('it should know when there is no campaigns', function(assert) {
+    test('it should know when it should display "No campaign panel"', function(assert) {
       // given
       const campaigns = ArrayProxy.create({
         content: []
       });
       controller.model = campaigns;
+      controller.model.meta = { hasCampaigns: false };
 
       // when
       const displayNoCampaignPanel = controller.displayNoCampaignPanel;
@@ -27,13 +28,13 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
       assert.equal(displayNoCampaignPanel, true);
     });
 
-    test('it should know when there are campaigns', function(assert) {
+    test('it should know when it should not display "No campaign panel"', function(assert) {
       // given
-      const campaign1 = { name: 'Cat', createdAt: new Date('2018-08-07') };
       const campaigns = ArrayProxy.create({
-        content: [campaign1]
+        content: []
       });
       controller.model = campaigns;
+      controller.model.meta = { hasCampaigns: true };
 
       // when
       const displayNoCampaignPanel = controller.displayNoCampaignPanel;
@@ -52,6 +53,7 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
 
       test('it should display an empty table', function(assert) {
         controller.model = campaigns;
+        controller.model.meta = { hasCampaigns: true };
         controller.name = filterName;
 
         // when
