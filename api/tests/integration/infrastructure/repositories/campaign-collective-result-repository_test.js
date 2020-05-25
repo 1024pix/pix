@@ -58,7 +58,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
       },
 
     ], ({ competence, skillIds }) => {
-      competences.push(domainBuilder.buildCompetence(competence));
+      competences.push(domainBuilder.buildCompetence({ ...competence, skillIds }));
 
       _.each(skillIds, (skillId) => skills.push(
         airtableBuilder.factory.buildSkill({ id: skillId, 'compétenceViaTube': [competence.id] })
@@ -496,6 +496,46 @@ describe('Integration | Repository | Service | Campaign collective result reposi
         });
       });
 
+      context('when there are multiple participants with validated skills on old competences', () => {
+
+        beforeEach(async () => {
+
+          const campaignParticipationShareDate = new Date('2019-03-01');
+          const beforeCampaignParticipationShareDate = new Date('2019-02-01');
+
+          // Alice
+          const userWithCampaignParticipationAlice = _createUserWithSharedCampaignParticipation('Alice', campaignId, campaignParticipationShareDate);
+          const aliceId = userWithCampaignParticipationAlice.userId;
+
+          // Bob
+          const userWithCampaignParticipationBob = _createUserWithSharedCampaignParticipation('Bob', campaignId, campaignParticipationShareDate);
+          const bobId = userWithCampaignParticipationBob.userId;
+
+          /* KNOWLEDGE ELEMENTS */
+
+          _.each([
+            // Alice
+            { userId: aliceId, competenceId: 'recOldCompetence', skillId: url1Id, status: 'validated', createdAt: beforeCampaignParticipationShareDate },
+            { userId: aliceId, competenceId: 'recOldCompetence', skillId: url2Id, status: 'validated', createdAt: beforeCampaignParticipationShareDate },
+
+            // Bob
+            { userId: bobId, competenceId: 'recCompetenceA', skillId: url1Id, status: 'validated', createdAt: beforeCampaignParticipationShareDate },
+            { userId: bobId, competenceId: 'recCompetenceA', skillId: url2Id, status: 'invalidated', createdAt: beforeCampaignParticipationShareDate },
+          ], (knowledgeElement) => {
+            databaseBuilder.factory.buildKnowledgeElement(knowledgeElement);
+          });
+
+          await databaseBuilder.commit();
+        });
+
+        it('should return a correct average validated skills for the competence A', async () => {
+          // when
+          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId, competences);
+
+          // then
+          expect(result.campaignCompetenceCollectiveResults[0].averageValidatedSkills).to.equal(3 / 2);
+        });
+      });
     });
   });
 });

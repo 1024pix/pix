@@ -184,7 +184,8 @@ describe('Acceptance | API | Campaign Controller', () => {
       const competence1 = airtableBuilder.factory.buildCompetence({
         id: 'recCompetence1',
         titre: 'Fabriquer un meuble',
-        domaineIds: [area.id]
+        domaineIds: [area.id],
+        acquisViaTubes: ['recSkillId1','recSkillId2']
       });
       airtableBuilder.mockList({ tableName: 'Acquis' }).returns([
         airtableBuilder.factory.buildSkill({ id: 'recSkillId1', ['compétenceViaTube']: ['recCompetence1'] }),
