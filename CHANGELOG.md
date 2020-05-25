@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v2.155.0 (25/05/2020)
+
+- [#1441](https://github.com/1024pix/pix/pull/1441) [FEATURE] Résultats collectifs prenant en compte les nouvelles compétences de Pix + (PIX-673)
+- [#1443](https://github.com/1024pix/pix/pull/1443) [FEATURE] Afficher le bon lien vers les CGU sur .org et .fr (PIX-683).
+- [#1402](https://github.com/1024pix/pix/pull/1402) [FEATURE] Industrialiser les critères de badge (PIX-563).
+- [#1436](https://github.com/1024pix/pix/pull/1436) [FEATURE] Rediriger sur le site vitrine après déconnexion (PF-682).
+- [#1426](https://github.com/1024pix/pix/pull/1426) [FEATURE] Afficher la liste des participants à une collecte de profil dans pix orga (PIX-618)
+- [#1440](https://github.com/1024pix/pix/pull/1440) [BUGFIX] L'ordre de tri sur la liste paginée des sessions sur PixAdmin n'est pas déterministe (PIX-728)
+- [#1439](https://github.com/1024pix/pix/pull/1439) [BUGFIX] Rétablissement du loader quand on lance une évaluation (PIX-653).
+- [#1394](https://github.com/1024pix/pix/pull/1394) [BUGFIX] Stabilisation des perfs pour l'export CSV des campagnes de collecte de profils et d'évaluation (PIX-607).
+- [#1433](https://github.com/1024pix/pix/pull/1433) [TECH] Montée de version des dépendances de Pix API
+- [#1411](https://github.com/1024pix/pix/pull/1411) [CLEANUP] Extraction d'un JuryCertificationSummary pour plus de clarté concernant le traitement des sessions (PIX-654)
+
 ## v2.154.0 (19/05/2020)
 
 - [#1429](https://github.com/1024pix/pix/pull/1429) [FEATURE] Traduire les titres des domaines (PIX-664)
