@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const buildSkill = require('./build-skill');
 const buildChallenge = require('./build-challenge');
 const buildCompetence = require('./build-competence');
@@ -7,9 +8,8 @@ const {
   MINIMUM_CERTIFIABLE_COMPETENCES_FOR_CERTIFIABILITY,
   MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION,
 } = require('../../../../lib/domain/constants');
-const _ = require('lodash');
 
-module.exports = function buildCertificationPrerequisites() {
+module.exports = function buildLearningContentForCertification() {
   const area = buildArea();
   const competences = _.times(MINIMUM_CERTIFIABLE_COMPETENCES_FOR_CERTIFIABILITY, () => {
     return buildCompetence();
