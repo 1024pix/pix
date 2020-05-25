@@ -352,9 +352,36 @@ describe('Unit | Domain | Validators | session-validator', () => {
             expect(sessionValidator.validateAndNormalizeFilters({ assignedToSelfOnly: true })).to.not.throw;
             expect(sessionValidator.validateAndNormalizeFilters({ assignedToSelfOnly: false })).to.not.throw;
           });
+
+          it('should set certificationOfficerId with currentUserId', async () => {
+            // given
+            const filters = {
+              assignedToSelfOnly: true
+            };
+            const currentUserId = 5;
+
+            // when
+            const normalizedFilters = sessionValidator.validateAndNormalizeFilters(filters, currentUserId);
+
+            // then
+            expect(normalizedFilters.assignedCertificationOfficerId).to.equal(currentUserId);
+          });
         });
       });
 
+    });
+
+    it('should unset assignToSelfOnly in filters', () => {
+      // given
+      const filters = {
+        assignedToSelfOnly: true
+      };
+
+      // when
+      const normalizedFilters = sessionValidator.validateAndNormalizeFilters(filters, null);
+
+      // then
+      expect(normalizedFilters.assignedToSelfOnly).to.be.undefined;
     });
   });
 });

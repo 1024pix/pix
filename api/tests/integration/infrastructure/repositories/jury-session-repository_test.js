@@ -459,13 +459,12 @@ describe('Integration | Repository | JurySession', function() {
 
         it('should only return the session assigned to the given certification officer ', async () => {
           // given
-          const currentUserId = certificationOfficerToMatchId;
-          const filters = { assignedToSelfOnly: true };
+          const filters = { assignedCertificationOfficerId: certificationOfficerToMatchId };
           const page = { number: 1, size: 10 };
           const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 1 };
 
           // when
-          const { jurySessions, pagination } = await jurySessionRepository.findPaginatedFiltered({ filters, page, currentUserId });
+          const { jurySessions, pagination } = await jurySessionRepository.findPaginatedFiltered({ filters, page });
 
           // then
           expect(pagination).to.deep.equal(expectedPagination);

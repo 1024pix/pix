@@ -18,8 +18,12 @@ module.exports = {
   async findPaginatedFilteredJurySessions(request) {
     const currentUserId = requestResponseUtils.extractUserIdFromRequest(request);
     const { filter, page } = queryParamsUtils.extractParameters(request.query);
-    const normalizedFilters = sessionValidator.validateAndNormalizeFilters(filter);
-    const jurySessionsForPaginatedList = await jurySessionRepository.findPaginatedFiltered({ filters: normalizedFilters, page, currentUserId });
+    const normalizedFilters
+      = sessionValidator.validateAndNormalizeFilters(filter, currentUserId);
+    const jurySessionsForPaginatedList = await jurySessionRepository.findPaginatedFiltered({
+      filters: normalizedFilters,
+      page
+    });
 
     return jurySessionSerializer.serializeForPaginatedList(jurySessionsForPaginatedList);
   },
@@ -78,7 +82,10 @@ module.exports = {
   async addCertificationCandidate(request, h) {
     const sessionId = parseInt(request.params.id);
     const certificationCandidate = await certificationCandidateSerializer.deserialize(request.payload);
-    const addedCertificationCandidate = await usecases.addCertificationCandidateToSession({ sessionId, certificationCandidate });
+    const addedCertificationCandidate = await usecases.addCertificationCandidateToSession({
+      sessionId,
+      certificationCandidate
+    });
 
     return h.response(certificationCandidateSerializer.serialize(addedCertificationCandidate)).created();
   },
@@ -112,8 +119,7 @@ module.exports = {
 
     try {
       await usecases.importCertificationCandidatesFromAttendanceSheet({ sessionId, odsBuffer });
-    }
-    catch (err) {
+    } catch (err) {
       if (err instanceof CertificationCandidateAlreadyLinkedToUserError) {
         throw new BadRequestError(err.message);
       }
