@@ -639,17 +639,17 @@ describe('Unit | Controller | sessionController', () => {
       // given
       const currentUserId = 5;
       const request = { query: {} };
-      const filters = { filter1: ' filter1ToTrim', filter2: 'filter2' };
+      const filter = { filter1: ' filter1ToTrim', filter2: 'filter2' };
       const normalizedFilters = 'normalizedFilters';
       const page = 'somePageConfiguration';
       const jurySessionsForPaginatedList = Symbol('jurySessionsForPaginatedList');
       const serializedJurySessionsForPaginatedList = Symbol('serializedJurySessionsForPaginatedList');
-      queryParamsUtils.extractParameters.withArgs(request.query).returns({ filters, page });
-      sessionValidator.validateAndNormalizeFilters.withArgs({ filter1: 'filter1ToTrim', filter2: 'filter2' })
+      queryParamsUtils.extractParameters.withArgs(request.query).returns({ filter, page });
+      sessionValidator.validateAndNormalizeFilters.withArgs(filter, currentUserId)
         .returns(normalizedFilters);
-      jurySessionRepository.findPaginatedFiltered.withArgs({ filters: normalizedFilters, page, currentUserId })
+      jurySessionRepository.findPaginatedFiltered.withArgs({ filters: normalizedFilters, page })
         .resolves(jurySessionsForPaginatedList);
-      jurySessionSerializer.serializeForPaginatedList.returns(serializedJurySessionsForPaginatedList);
+      jurySessionSerializer.serializeForPaginatedList.withArgs(jurySessionsForPaginatedList).returns(serializedJurySessionsForPaginatedList);
       requestResponseUtils.extractUserIdFromRequest.withArgs(request).returns(currentUserId);
 
       // when

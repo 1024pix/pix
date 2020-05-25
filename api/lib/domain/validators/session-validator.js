@@ -59,11 +59,19 @@ module.exports = {
     }
   },
 
-  validateAndNormalizeFilters(filters) {
+  validateAndNormalizeFilters(filters, assignedCertificationOfficerId) {
     const { value, error } = sessionFiltersValidationSchema.validate(filters, validationConfiguration);
+
     if (error) {
       throw EntityValidationError.fromJoiErrors(error.details);
     }
+
+    if (value.assignedToSelfOnly) {
+      value.assignedCertificationOfficerId = assignedCertificationOfficerId;
+    }
+
+    delete value.assignedToSelfOnly;
+
     return value;
   }
 };
