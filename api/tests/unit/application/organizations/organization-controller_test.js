@@ -325,14 +325,14 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       expect(response).to.deep.equal(expectedResponse);
     });
 
-    it('should return a JSON API response with pagination information', async () => {
+    it('should return a JSON API response with meta information', async () => {
       // given
       request.query = {};
       const expectedResults = [campaign];
-      const expectedPagination = { page: 2, pageSize: 25, itemsCount: 100, pagesCount: 4 };
+      const expectedPagination = { page: 2, pageSize: 25, itemsCount: 100, pagesCount: 4, hasCampaigns: true };
       const expectedConfig = { ignoreCampaignReportRelationshipData: false };
       queryParamsUtils.extractParameters.withArgs({}).returns({ filter: {} });
-      usecases.findPaginatedFilteredOrganizationCampaigns.resolves({ models: expectedResults, pagination: expectedPagination });
+      usecases.findPaginatedFilteredOrganizationCampaigns.resolves({ models: expectedResults, meta: expectedPagination });
 
       // when
       await organizationController.findPaginatedFilteredCampaigns(request, hFake);

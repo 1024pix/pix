@@ -38,6 +38,9 @@
         {{/each}}
         </tbody>
       </table>
+      {{#if (eq @campaigns.length 0)}}
+        <div class="table__empty content-text">Aucune campagne</div>
+      {{/if}}
     </div>
   </div>
 </div>
