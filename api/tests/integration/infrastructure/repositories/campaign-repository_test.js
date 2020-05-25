@@ -186,10 +186,11 @@ describe('Integration | Repository | Campaign', () => {
         await databaseBuilder.commit();
 
         // when
-        const { models: campaignsWithReports } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId: otherOrganizationId, filter, page });
+        const { models: campaignsWithReports, meta } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId: otherOrganizationId, filter, page });
 
         // then
         expect(campaignsWithReports).to.deep.equal([]);
+        expect(meta.hasCampaigns).to.equal(false);
       });
     });
 
@@ -213,6 +214,28 @@ describe('Integration | Repository | Campaign', () => {
         expect(campaignsWithReports[0]).to.be.instanceof(Campaign);
 
         expect(campaignsWithReports[0]).to.deep.include(_.pick(campaign, ['id', 'name', 'code', 'createdAt', 'targetProfileId', 'idPixLabel', 'title', 'type', 'customLandingPageText', 'organizationId']));
+      });
+
+      it('should return hasCampaign to true if the organization has one campaign at least', async () => {
+        // given
+        const organizationId2 = databaseBuilder.factory.buildOrganization({}).id;
+        databaseBuilder.factory.buildCampaign({
+          organizationId: organizationId2,
+          targetProfileId,
+          creatorId,
+        });
+        databaseBuilder.factory.buildCampaign({
+          organizationId,
+          targetProfileId,
+          creatorId,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const { meta } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page });
+
+        // then
+        expect(meta.hasCampaigns).to.equal(true);
       });
 
       it('should sort campaigns by descending creation date', async () => {
@@ -414,11 +437,11 @@ describe('Integration | Repository | Campaign', () => {
 
         it('should return page size number of campaigns', async () => {
           // when
-          const { models: campaignsWithReports, pagination } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page });
+          const { models: campaignsWithReports, meta: pagination } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page });
 
           // then
           expect(campaignsWithReports).to.have.lengthOf(3);
-          expect(pagination).to.deep.equal(expectedPagination);
+          expect(pagination).to.include(expectedPagination);
         });
       });
     });
