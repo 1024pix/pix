@@ -7,7 +7,7 @@ export default class CampaignProfilesCollectionParticipationSummary extends Appl
       const { campaignId } = query.filter;
       delete query.filter.campaignId;
 
-      return `${this.host}/${this.namespace}/campaigns/${campaignId}/profiles-collection/participations`;
+      return `${this.host}/${this.namespace}/campaigns/${campaignId}/profiles-collection-participations`;
     }
     return super.urlForQuery(...arguments);
   }

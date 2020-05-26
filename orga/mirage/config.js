@@ -225,7 +225,7 @@ export default function() {
 
   this.get('/campaigns/:campaignId/assessment-participations', findPaginatedCampaignAssessmentParticipationSummaries);
 
-  this.get('/campaigns/:campaignId/profiles-collection-participations', findPaginatedCampaignProfilesCollectionParticipationSummaries);
+  this.get('/campaigns/:id/profiles-collection-participations', findPaginatedCampaignProfilesCollectionParticipationSummaries);
 
   this.get('/campaign-participations/:id');
 
