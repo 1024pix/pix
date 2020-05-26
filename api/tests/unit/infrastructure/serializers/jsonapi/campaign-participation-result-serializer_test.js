@@ -40,7 +40,7 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
         totalSkillsCount,
         validatedSkillsCount,
         competenceResults,
-        partnerCompetenceResults: partnerCompetenceResults
+        partnerCompetenceResults: partnerCompetenceResults,
       });
 
       const expectedSerializedCampaignParticipationResult = {
@@ -56,7 +56,7 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
           },
           id: '1',
           relationships: {
-            badge: {
+            badges: {
               data: null
             },
             'partner-competence-results': {

@@ -180,11 +180,11 @@ describe('Acceptance | API | Campaign Participation Result', () => {
             'are-badge-criteria-fulfilled': false,
           },
           relationships: {
-            badge: {
-              data: {
+            badges: {
+              data: [{
                 id: `${badge.id}`,
                 type: 'badges',
-              }
+              }]
             },
             'partner-competence-results': {
               data: [{

@@ -19,8 +19,7 @@ module.exports = async function getCampaignParticipationResult(
   const targetProfile = await targetProfileRepository.getByCampaignId(campaignParticipation.campaignId);
   const badges = await badgeRepository.findByTargetProfileId(targetProfile.id);
 
-  const badge = badges && badges.length > 0 ? badges[0] : null;
-  const campaignParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, badge);
+  const campaignParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, badges);
 
   if (!_.isEmpty(badges)) {
     const hasAcquiredBadgesList = await Promise.all(badges.map((badge) => badgeAcquisitionRepository.hasAcquiredBadgeWithId({ userId, badgeId: badge.id })));
