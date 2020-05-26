@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v2.156.0 (26/05/2020)
+
+- [#1444](https://github.com/1024pix/pix/pull/1444) [FEATURE] Permettre la modification du rôle d'un membership dans Pix Admin (PIX-455).
+- [#1449](https://github.com/1024pix/pix/pull/1449) [FEATURE] Voir les campagnes archivées quand plus de campagnes actives (PIX-663)
+- [#1430](https://github.com/1024pix/pix/pull/1430) [FEATURE] Ajout du filtre sur la colonne "Qui ?" dans la liste des sessions dans Pix Admin (PA-211)
+- [#1428](https://github.com/1024pix/pix/pull/1428) [BUGFIX] Empêcher l'utilisateur de demander plusieurs fois la réinitialisation de son mot de passe (PIX-489).
+- [#1451](https://github.com/1024pix/pix/pull/1451) [BUGFIX] Correction de la mise à jour de l'affichage de la liste des participants (PIX-747).
+- [#1438](https://github.com/1024pix/pix/pull/1438) [BUGFIX] Affichage correct du label de l'identifiant externe dans Pix Orga (PIX-643).
+
 ## v2.155.0 (25/05/2020)
 
 - [#1441](https://github.com/1024pix/pix/pull/1441) [FEATURE] Résultats collectifs prenant en compte les nouvelles compétences de Pix + (PIX-673)
