@@ -5,6 +5,11 @@
     display: flex;
     flex-flow: column;
     align-items: center;
+    margin-bottom: 10px;
+  }
+
+  &__image {
+    margin-top: -50px;
   }
 
   &__title {
