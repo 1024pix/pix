@@ -5,6 +5,7 @@ export default class CampaignParticipation extends Model {
   // attributes
   @attr('boolean') isShared;
   @attr('date') createdAt;
+  @attr('date') sharedAt;
 
   // references
   @attr('string') participantExternalId;
