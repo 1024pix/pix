@@ -1,12 +1,11 @@
-const AssessmentScore = require('../../models/AssessmentScore');
+const CertificationAssessmentScore = require('../../models/CertificationAssessmentScore');
 const CompetenceMark = require('../../models/CompetenceMark');
-const certificationService = require('../../services/certification-service');
+const certificationResultService = require('../../services/certification-result-service');
 const scoringService = require('../../services/scoring/scoring-service');
-const _ = require('lodash');
 
-async function calculateAssessmentScore(assessment) {
+async function calculateCertificationAssessmentScore(certificationAssessment) {
 
-  const { competencesWithMark, percentageCorrectAnswers } = await certificationService.calculateCertificationResultByAssessmentId(assessment.id);
+  const { competencesWithMark, percentageCorrectAnswers } = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError: false });
 
   const competenceMarks = competencesWithMark.map((certifiedCompetence) => {
     return new CompetenceMark({
@@ -17,13 +16,12 @@ async function calculateAssessmentScore(assessment) {
     });
   });
 
-  return new AssessmentScore({
-    nbPix: _.sumBy(competenceMarks, 'score'),
+  return new CertificationAssessmentScore({
     competenceMarks,
     percentageCorrectAnswers,
   });
 }
 
 module.exports = {
-  calculateAssessmentScore,
+  calculateCertificationAssessmentScore,
 };

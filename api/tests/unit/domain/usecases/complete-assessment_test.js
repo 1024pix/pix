@@ -6,7 +6,7 @@ const { AlreadyRatedAssessmentError } = require('../../../../lib/domain/errors')
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
 
 describe('Unit | UseCase | complete-assessment', () => {
-  const scoringCertificationService = { calculateAssessmentScore: _.noop };
+  const scoringCertificationService = { calculateCertificationAssessmentScore: _.noop };
   const assessmentRepository = {
     get: _.noop,
     completeByAssessmentId: _.noop,

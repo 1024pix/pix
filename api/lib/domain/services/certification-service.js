@@ -1,5 +1,6 @@
 const CertificationResult = require('../models/CertificationResult');
 const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
+const certificationAssessmentRepository = require('../../../lib/infrastructure/repositories/certification-assessment-repository');
 const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
 const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const certificationResultService = require('./certification-result-service');
@@ -7,17 +8,9 @@ const certificationResultService = require('./certification-result-service');
 module.exports = {
 
   calculateCertificationResultByCertificationCourseId(certificationCourseId) {
-    const continueOnError = true;
-    return assessmentRepository
+    return certificationAssessmentRepository
       .getByCertificationCourseId(certificationCourseId)
-      .then((assessment) => certificationResultService.getCertificationResult(assessment, continueOnError));
-  },
-
-  calculateCertificationResultByAssessmentId(assessmentId) {
-    const continueOnError = false;
-    return assessmentRepository
-      .get(assessmentId)
-      .then((assessment) => certificationResultService.getCertificationResult(assessment, continueOnError));
+      .then((certificationAssessment) => certificationResultService.getCertificationResult({ certificationAssessment, continueOnError: true }));
   },
 
   async getCertificationResult(certificationCourseId) {

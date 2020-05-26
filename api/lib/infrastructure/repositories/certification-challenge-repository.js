@@ -25,14 +25,6 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(CertificationChallengeBookshelf, savedCertificationChallenge);
   },
 
-  async findByCertificationCourseId(certificationCourseId) {
-    const certificationChallenges = await CertificationChallengeBookshelf
-      .where({ courseId: certificationCourseId })
-      .fetchAll();
-
-    return bookshelfToDomainConverter.buildDomainObjects(CertificationChallengeBookshelf, certificationChallenges);
-  },
-
   async getNonAnsweredChallengeByCourseId(assessmentId, courseId) {
     const answeredChallengeIds = Bookshelf.knex('answers')
       .select('challengeId')
