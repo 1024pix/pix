@@ -80,7 +80,7 @@ export default Factory.extend({
 
   QROCMind: trait({
     type: 'QROCM-ind',
-    instruction: 'L\'URL suivante, censée aboutir à un article, donne lieu à une redirection vers la page d\'accueil du site. Retrouvez la page recherchée. Reportez le titre de l’article et son auteur.  \n' + '\n' + '> https://www.cairn.info/revue-reseaux-2011-numero1-page-137.htm',
+    instruction: 'L\'URL suivante, censée aboutir à un article, donne lieu à une redirection vers la page d\'accueil du site. Retrouvez la page recherchée. Reportez le titre de l’article et son auteur.',
     proposals: 'Titre : ${titre}\n' + 'Auteur : ${auteur}'
   }),
 
