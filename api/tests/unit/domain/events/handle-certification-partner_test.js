@@ -5,8 +5,10 @@ const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repos
 const CertificationPartnerAcquisition = require('../../../../lib/domain/models/CertificationPartnerAcquisition');
 const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
 const events = require('../../../../lib/domain/events');
+const Badge = require('../../../../lib/domain/models/Badge');
 
 describe('Unit | Domain | Events | handle-certification-partner', () => {
+  const competenceMarkRepository = { getLatestByCertificationCourseId: _.noop };
   const certificationPartnerAcquisitionRepository = { save: _.noop };
   const domainTransaction = {};
 
@@ -14,14 +16,17 @@ describe('Unit | Domain | Events | handle-certification-partner', () => {
 
   const dependencies = {
     certificationPartnerAcquisitionRepository,
+    competenceMarkRepository,
   };
 
   context('when assessment is of type CERTIFICATION', () => {
+    const certificationCourseId = Symbol('certificationCourseId');
+    const userId = Symbol('userId');
 
     beforeEach(() => {
       certificationScoringEvent = new CertificationScoringCompleted({
-        certificationCourseId: Symbol('certificationCourseId'),
-        userId: Symbol('userId'),
+        certificationCourseId,
+        userId,
         isCertification: true,
         reproducibilityRate: 80,
         limitDate: new Date('2018-02-03'),
@@ -30,89 +35,70 @@ describe('Unit | Domain | Events | handle-certification-partner', () => {
     });
 
     context('when scoring is successful', () => {
-      const pixScoreByCompetence = Symbol('pixScoreByCompetence');
+      const competenceMarks = Symbol('competenceMarks');
       const totalPixCleaByCompetence = Symbol('totalPixCleaByCompetence');
+      const hasAcquiredBadge = Symbol('badgeIsAcquired');
 
       beforeEach(() => {
         sinon.stub(certificationPartnerAcquisitionRepository, 'save').resolves();
-        sinon.stub(competenceRepository, 'getPixScoreByCompetence')
-          .withArgs({
-            userId: certificationScoringEvent.userId,
-            limitDate: certificationScoringEvent.limitDate,
-          }).resolves(pixScoreByCompetence);
+        sinon.stub(competenceMarkRepository, 'getLatestByCertificationCourseId')
+          .withArgs({ certificationCourseId, domainTransaction })
+          .resolves(competenceMarks);
         sinon.stub(competenceRepository, 'getTotalPixCleaByCompetence')
-          .withArgs().resolves(totalPixCleaByCompetence);
+          .withArgs()
+          .resolves(totalPixCleaByCompetence);
       });
 
-      context('when user has clea badge', () => {
-        beforeEach(() => {
-          sinon.stub(badgeAcquisitionRepository, 'hasAcquiredBadgeWithKey').resolves(true);
-        });
+      beforeEach(() => {
+        sinon.stub(badgeAcquisitionRepository, 'hasAcquiredBadgeWithKey')
+          .withArgs({
+            badgeKey: Badge.keys.PIX_EMPLOI_CLEA,
+            userId,
+          })
+          .resolves(hasAcquiredBadge);
+      });
 
-        it('user has acquired CleA certification, it should save it', async () => {
-          // given
-          sinon.stub(CertificationPartnerAcquisition.prototype, 'hasAcquiredCertification').returns(true);
-
-          // when
-          await events.handleCertificationAcquisitionForPartner({
-            certificationScoringEvent, ...dependencies, domainTransaction
-          });
-
-          // then
-          expect(badgeAcquisitionRepository.hasAcquiredBadgeWithKey).to.have.been.called;
-          expect(competenceRepository.getPixScoreByCompetence).to.have.been.calledWith({
-            userId: certificationScoringEvent.userId,
-            limitDate: certificationScoringEvent.limitDate,
-          });
-          expect(competenceRepository.getTotalPixCleaByCompetence).to.have.been.calledWith();
-          expect(CertificationPartnerAcquisition.prototype.hasAcquiredCertification).to.have.been.calledWith({
-            hasAcquiredBadge: true,
+      it('user has acquired CleA certification, it should save it', async () => {
+        // given
+        sinon.stub(CertificationPartnerAcquisition.prototype, 'hasAcquiredCertification')
+          .withArgs({
+            hasAcquiredBadge,
             reproducibilityRate: certificationScoringEvent.reproducibilityRate,
-            pixScoreByCompetence,totalPixCleaByCompetence,
-          });
+            competenceMarks,
+            totalPixCleaByCompetence,
+          })
+          .returns(true);
+
+        // when
+        await events.handleCertificationAcquisitionForPartner({
+          certificationScoringEvent, ...dependencies, domainTransaction
         });
 
-        it('user has not acquired CleA certification, it should not save it any partner certif', async () => {
-          // given
-          sinon.stub(CertificationPartnerAcquisition.prototype, 'hasAcquiredCertification').returns(false);
-
-          // when
-          await events.handleCertificationAcquisitionForPartner({
-            certificationScoringEvent, ...dependencies, domainTransaction
-          });
-
-          // then
-          expect(badgeAcquisitionRepository.hasAcquiredBadgeWithKey).to.have.been.called;
-          expect(competenceRepository.getPixScoreByCompetence).to.have.been.calledWith({
-            userId: certificationScoringEvent.userId,
-            limitDate: certificationScoringEvent.limitDate,
-          });
-          expect(competenceRepository.getTotalPixCleaByCompetence).to.have.been.calledWith();
-          expect(certificationPartnerAcquisitionRepository.save).not.to.have.been.called;
+        // then
+        expect(certificationPartnerAcquisitionRepository.save).to.have.been.calledWithMatch({
+          certificationCourseId,
+          partnerKey: Badge.keys.PIX_EMPLOI_CLEA,
         });
       });
 
-      context('when user does not have clea badge', () => {
-        beforeEach(() => {
-          sinon.stub(badgeAcquisitionRepository, 'hasAcquiredBadgeWithKey').resolves(false);
+      it('user has not acquired CleA certification, it should not save it any partner certif', async () => {
+        // given
+        sinon.stub(CertificationPartnerAcquisition.prototype, 'hasAcquiredCertification')
+          .withArgs({
+            hasAcquiredBadge,
+            reproducibilityRate: certificationScoringEvent.reproducibilityRate,
+            competenceMarks,
+            totalPixCleaByCompetence,
+          })
+          .returns(false);
+
+        // when
+        await events.handleCertificationAcquisitionForPartner({
+          certificationScoringEvent, ...dependencies, domainTransaction
         });
 
-        it('it should not save partner certification', async () => {
-          // when
-          await events.handleCertificationAcquisitionForPartner({
-            certificationScoringEvent, ...dependencies, domainTransaction
-          });
-
-          // then
-          expect(badgeAcquisitionRepository.hasAcquiredBadgeWithKey).to.have.been.called;
-          expect(competenceRepository.getPixScoreByCompetence).to.have.been.calledWith({
-            userId: certificationScoringEvent.userId,
-            limitDate: certificationScoringEvent.limitDate,
-          });
-          expect(competenceRepository.getTotalPixCleaByCompetence).to.have.been.calledWith();
-          expect(certificationPartnerAcquisitionRepository.save).not.to.have.been.called;
-        });
-
+        // then
+        expect(certificationPartnerAcquisitionRepository.save).not.to.have.been.called;
       });
     });
   });

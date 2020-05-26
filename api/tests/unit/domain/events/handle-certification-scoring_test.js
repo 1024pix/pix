@@ -168,7 +168,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
 
       it('should return a CertificationScoringCompleted', async () => {
         // when
-        const  certificationScoringCompleted = await events.handleCertificationScoring({
+        const certificationScoringCompleted = await events.handleCertificationScoring({
           assessmentCompletedEvent, ...dependencies, domainTransaction
         });
 
@@ -178,7 +178,6 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
           userId: assessmentCompletedEvent.userId,
           certificationCourseId: certificationAssessment.certificationCourseId,
           reproducibilityRate: certificationAssessmentScore.percentageCorrectAnswers,
-          limitDate: certificationAssessment.createdAt,
         });
       });
 
