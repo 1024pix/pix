@@ -8,7 +8,7 @@ describe('Unit | UseCase | find-campaign-profiles-collection-participation-summa
   const userId = Symbol('user id');
   const campaignId = Symbol('campaign id');
   const campaignRepository = { checkIfUserOrganizationHasAccessToCampaign: sinon.stub() };
-  const CampaignProfilesCollectionParticipationSummaryRepository = { findByCampaignId: sinon.stub() };
+  const campaignProfilesCollectionParticipationSummaryRepository = { findPaginatedByCampaignId: sinon.stub() };
 
   const campaignProfilesCollectionParticipationSummaries = [
     new CampaignProfilesCollectionParticipationSummary({ campaignParticipationId: 1, firstName: 'Hello', lastName: 'World' })
@@ -23,8 +23,8 @@ describe('Unit | UseCase | find-campaign-profiles-collection-participation-summa
 
     it('should retrieve the campaign participations datas', async () => {
       // given
-      CampaignProfilesCollectionParticipationSummaryRepository
-        .findByCampaignId
+      campaignProfilesCollectionParticipationSummaryRepository
+        .findPaginatedByCampaignId
         .withArgs(campaignId)
         .resolves(campaignProfilesCollectionParticipationSummaries);
 
@@ -32,7 +32,7 @@ describe('Unit | UseCase | find-campaign-profiles-collection-participation-summa
         userId,
         campaignId,
         campaignRepository,
-        CampaignProfilesCollectionParticipationSummaryRepository,
+        campaignProfilesCollectionParticipationSummaryRepository,
       });
 
       // then
@@ -50,7 +50,7 @@ describe('Unit | UseCase | find-campaign-profiles-collection-participation-summa
         userId,
         campaignId,
         campaignRepository,
-        CampaignProfilesCollectionParticipationSummaryRepository,
+        campaignProfilesCollectionParticipationSummaryRepository,
       });
 
       expect(requestErr).to.be.instanceOf(UserNotAuthorizedToAccessEntity);
