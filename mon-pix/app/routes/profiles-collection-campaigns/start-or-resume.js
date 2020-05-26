@@ -27,7 +27,9 @@ export default class ProfilesCollectionCampaignsStartOrResumeRoute extends Route
   }
 
   async redirect(campaign) {
-    if (this.campaignParticipationIsStarted) {
+    const campaignParticipation = await this.store.queryRecord('campaignParticipation', { campaignId: campaign.id, userId: this.currentUser.user.id });
+
+    if (this.campaignParticipationIsStarted || campaignParticipation) {
       return this.replaceWith('profiles-collection-campaigns.send-profile', this.campaignCode);
     }
     if (this.userHasSeenLanding) {
