@@ -37,6 +37,9 @@ module('Integration | Component | routes/authenticated/campaign/details | profil
           sharedAt: null,
         },
       ];
+      participants.meta = {
+        rowCount: 2,
+      };
 
       this.set('campaign', campaign);
       this.set('participants', participants);
@@ -61,6 +64,9 @@ module('Integration | Component | routes/authenticated/campaign/details | profil
       }));
 
       const participants = [{ user: { firstName: 'Jane', lastName: 'Doe' }, participantExternalId: '123' }];
+      participants.meta = {
+        rowCount: 1,
+      };
 
       this.set('campaign', campaign);
       this.set('participants', participants);
@@ -83,6 +89,9 @@ module('Integration | Component | routes/authenticated/campaign/details | profil
       }));
 
       const participants = [];
+      participants.meta = {
+        rowCount: 0,
+      };
 
       this.set('campaign', campaign);
       this.set('participants', participants);
