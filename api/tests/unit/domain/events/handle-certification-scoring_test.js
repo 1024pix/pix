@@ -1,16 +1,14 @@
 const _ = require('lodash');
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
+const { expect, sinon, catchErr } = require('../../../test-helper');
 const events = require('../../../../lib/domain/events');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const Assessment = require('../../../../lib/domain/models/Assessment');
 const { CertificationComputeError } = require('../../../../lib/domain/errors');
-const { UNCERTIFIED_LEVEL } = require('../../../../lib/domain/constants');
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
 const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
 
 describe('Unit | Domain | Events | handle-certification-scoring', () => {
-  const scoringCertificationService = { calculateAssessmentScore: _.noop };
-  const assessmentRepository = { get: _.noop };
+  const scoringCertificationService = { calculateCertificationAssessmentScore: _.noop };
+  const certificationAssessmentRepository = { get: _.noop };
   const assessmentResultRepository = { save: _.noop };
   const certificationCourseRepository = { changeCompletionDate: _.noop, getCreationDate: _.noop };
   const competenceMarkRepository = { save: _.noop };
@@ -24,7 +22,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
     certificationCourseRepository,
     competenceMarkRepository,
     scoringCertificationService,
-    assessmentRepository,
+    certificationAssessmentRepository,
   };
 
   beforeEach(() => {
@@ -36,25 +34,31 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
   });
 
   context('when assessment is of type CERTIFICATION', () => {
+    const assessmentId = Symbol('assessmentId');
+    const userId = Symbol('userId');
     let certificationAssessment;
 
     beforeEach(() => {
-      certificationAssessment = _buildCertificationAssessment();
-      sinon.stub(assessmentRepository, 'get').withArgs(certificationAssessment.id).resolves(certificationAssessment);
-      sinon.stub(certificationCourseRepository, 'getCreationDate').withArgs(certificationAssessment.certificationCourseId).resolves(now);
       assessmentCompletedEvent = new AssessmentCompleted(
-        certificationAssessment.id,
-        Symbol('userId'),
+        assessmentId,
+        userId,
         Symbol('targetProfileId'),
         Symbol('campaignParticipationId'),
         true,
       );
+      certificationAssessment = {
+        id: assessmentId,
+        certificationCourseId: Symbol('certificationCourseId'),
+        userId,
+        createdAt: Symbol('someCreationDate'),
+      };
+      sinon.stub(certificationAssessmentRepository, 'get').withArgs(assessmentId).resolves(certificationAssessment);
     });
 
     context('when an error different from a compute error happens', () => {
       const otherError = new Error();
       beforeEach(() => {
-        sinon.stub(scoringCertificationService, 'calculateAssessmentScore').rejects(otherError);
+        sinon.stub(scoringCertificationService, 'calculateCertificationAssessmentScore').rejects(otherError);
         sinon.stub(AssessmentResult, 'BuildAlgoErrorResult');
         sinon.stub(assessmentResultRepository, 'save');
         sinon.stub(certificationCourseRepository, 'changeCompletionDate');
@@ -77,7 +81,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       const errorAssessmentResult = Symbol('ErrorAssessmentResult');
       const computeError = new CertificationComputeError();
       beforeEach(() => {
-        sinon.stub(scoringCertificationService, 'calculateAssessmentScore').rejects(computeError);
+        sinon.stub(scoringCertificationService, 'calculateCertificationAssessmentScore').rejects(computeError);
         sinon.stub(AssessmentResult, 'BuildAlgoErrorResult').returns(errorAssessmentResult);
         sinon.stub(assessmentResultRepository, 'save').resolves();
         sinon.stub(certificationCourseRepository, 'changeCompletionDate').resolves();
@@ -92,7 +96,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         });
 
         // then
-        expect(scoringCertificationService.calculateAssessmentScore).to.have.been.calledWithExactly(
+        expect(scoringCertificationService.calculateCertificationAssessmentScore).to.have.been.calledWithExactly(
           certificationAssessment
         );
       });
@@ -124,124 +128,68 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       const assessmentResult = Symbol('AssessmentResult');
       const assessmentResultId = 'assessmentResultId';
       const savedAssessmentResult = { id: assessmentResultId };
+      const nbPix = Symbol('nbPix');
+      const level = Symbol('level');
+      const status = Symbol('status');
+      const certificationAssessmentScore = {
+        nbPix,
+        level,
+        status,
+        competenceMarks: [competenceMarkData1, competenceMarkData2],
+        percentageCorrectAnswers: 80
+      };
 
       beforeEach(() => {
         sinon.stub(AssessmentResult, 'BuildStandardAssessmentResult').returns(assessmentResult);
         sinon.stub(assessmentResultRepository, 'save').resolves(savedAssessmentResult);
         sinon.stub(competenceMarkRepository, 'save').resolves();
         sinon.stub(certificationCourseRepository, 'changeCompletionDate').resolves();
+        sinon.stub(scoringCertificationService, 'calculateCertificationAssessmentScore').resolves(certificationAssessmentScore);
       });
 
-      context('when score is above 0', () => {
-        const originalLevel = Symbol('originalLevel');
-        const assessmentScore = {
-          nbPix: 1,
-          level: originalLevel,
-          competenceMarks: [competenceMarkData1, competenceMarkData2],
-          percentageCorrectAnswers: 80
-        };
-
-        beforeEach(() => {
-          sinon.stub(scoringCertificationService, 'calculateAssessmentScore').resolves(assessmentScore);
-        });
-
-        it('should left untouched the calculated level in the assessment score', async () => {
-          // when
-          await events.handleCertificationScoring({
-            assessmentCompletedEvent, ...dependencies, domainTransaction
-          });
-
-          // then
-          expect(assessmentScore.level).to.deep.equal(originalLevel);
-        });
-
-        it('should build and save an assessment result with the expected arguments', async () => {
-          // when
-          await events.handleCertificationScoring({
-            assessmentCompletedEvent, ...dependencies, domainTransaction
-          });
-
-          // then
-          expect(AssessmentResult.BuildStandardAssessmentResult).to.have.been.calledWithExactly(
-            originalLevel,
-            assessmentScore.nbPix,
-            AssessmentResult.status.VALIDATED,
-            certificationAssessment.id
-          );
-          expect(assessmentResultRepository.save).to.have.been.calledWithExactly(assessmentResult, domainTransaction);
-          expect(certificationCourseRepository.changeCompletionDate).to.have.been.calledWithExactly(
-            certificationAssessment.certificationCourseId, now, domainTransaction
-          );
-        });
-
-        it('should return a CertificationScoringCompleted', async () => {
-          // when
-          const  certificationScoringCompleted = await events.handleCertificationScoring({
-            assessmentCompletedEvent, ...dependencies, domainTransaction
-          });
-
-          // then
-          expect(certificationScoringCompleted).to.be.instanceof(CertificationScoringCompleted);
-          expect(certificationScoringCompleted).to.deep.equal({
-            userId: assessmentCompletedEvent.userId,
-            certificationCourseId: certificationAssessment.certificationCourseId,
-            reproducibilityRate: assessmentScore.percentageCorrectAnswers,
-            limitDate: now
-          });
-        });
-
-        it('should build and save as many competence marks as present in the assessmentScore', async () => {
+      it('should build and save an assessment result with the expected arguments', async () => {
         // when
-          await events.handleCertificationScoring({
-            assessmentCompletedEvent, ...dependencies, domainTransaction
-          });
+        await events.handleCertificationScoring({
+          assessmentCompletedEvent, ...dependencies, domainTransaction
+        });
 
-          // then
-          expect(competenceMarkRepository.save.callCount).to.equal(assessmentScore.competenceMarks.length);
+        // then
+        expect(AssessmentResult.BuildStandardAssessmentResult).to.have.been.calledWithExactly(
+          certificationAssessmentScore.level,
+          certificationAssessmentScore.nbPix,
+          certificationAssessmentScore.status,
+          certificationAssessment.id
+        );
+        expect(assessmentResultRepository.save).to.have.been.calledWithExactly(assessmentResult, domainTransaction);
+        expect(certificationCourseRepository.changeCompletionDate).to.have.been.calledWithExactly(
+          certificationAssessment.certificationCourseId, now, domainTransaction
+        );
+      });
+
+      it('should return a CertificationScoringCompleted', async () => {
+        // when
+        const  certificationScoringCompleted = await events.handleCertificationScoring({
+          assessmentCompletedEvent, ...dependencies, domainTransaction
+        });
+
+        // then
+        expect(certificationScoringCompleted).to.be.instanceof(CertificationScoringCompleted);
+        expect(certificationScoringCompleted).to.deep.equal({
+          userId: assessmentCompletedEvent.userId,
+          certificationCourseId: certificationAssessment.certificationCourseId,
+          reproducibilityRate: certificationAssessmentScore.percentageCorrectAnswers,
+          limitDate: certificationAssessment.createdAt,
         });
       });
 
-      context('when score is equal 0', () => {
-        const originalLevel = Symbol('originalLevel');
-        const assessmentScore = {
-          nbPix: 0,
-          level: originalLevel,
-          competenceMarks: [competenceMarkData1, competenceMarkData2]
-        };
-        beforeEach(() => {
-          sinon.stub(scoringCertificationService, 'calculateAssessmentScore').resolves(assessmentScore);
+      it('should build and save as many competence marks as present in the certificationAssessmentScore', async () => {
+        // when
+        await events.handleCertificationScoring({
+          assessmentCompletedEvent, ...dependencies, domainTransaction
         });
 
-        it('should change level of the assessmentScore', async () => {
-          // when
-          await events.handleCertificationScoring({
-            assessmentCompletedEvent, ...dependencies, domainTransaction
-          });
-
-          // then
-          expect(assessmentScore.level).to.deep.equal(UNCERTIFIED_LEVEL);
-        });
-
-        it('should build and save an assessment result with the expected arguments', async () => {
-          // when
-          await events.handleCertificationScoring({
-            assessmentCompletedEvent, ...dependencies, domainTransaction
-          });
-
-          // then
-          expect(AssessmentResult.BuildStandardAssessmentResult).to.have.been.calledWithExactly(
-            UNCERTIFIED_LEVEL,
-            assessmentScore.nbPix,
-            AssessmentResult.status.REJECTED,
-            certificationAssessment.id
-          );
-          expect(assessmentResultRepository.save).to.have.been.calledWithExactly(
-            assessmentResult, domainTransaction
-          );
-          expect(certificationCourseRepository.changeCompletionDate).to.have.been.calledWithExactly(
-            certificationAssessment.certificationCourseId, now, domainTransaction
-          );
-        });
+        // then
+        expect(competenceMarkRepository.save.callCount).to.equal(certificationAssessmentScore.competenceMarks.length);
       });
     });
   });
@@ -255,25 +203,14 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         Symbol('campaignParticipationId'),
         false,
       );
-      sinon.stub(assessmentRepository, 'get').resolves();
 
       // when
       const certificationScoringCompleted = await events.handleCertificationScoring({
         assessmentCompletedEvent, ...dependencies, domainTransaction
       });
 
-      expect(assessmentRepository.get).to.not.have.been.called;
       expect(certificationScoringCompleted).to.be.null;
     });
 
   });
 });
-
-function _buildCertificationAssessment() {
-  return domainBuilder.buildAssessment({
-    id: Symbol('assessmentId'),
-    certificationCourseId: Symbol('certificationCourseId'),
-    state: 'started',
-    type: Assessment.types.CERTIFICATION,
-  });
-}

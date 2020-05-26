@@ -456,7 +456,7 @@ describe('Acceptance | API | Certification Course', () => {
 
       beforeEach(async () => {
         // given
-        const { area, competences, skills, challenges, competencesAssociatedSkillsAndChallenges } = airtableBuilder.factory.buildCertificationPrerequisites();
+        const { area, competences, skills, challenges, competencesAssociatedSkillsAndChallenges } = airtableBuilder.factory.buildLearningContentForCertification();
         airtableBuilder.mockList({ tableName: 'Domaines' })
           .returns([area])
           .activate();
@@ -470,13 +470,8 @@ describe('Acceptance | API | Certification Course', () => {
           .returns(challenges)
           .activate();
 
-        certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
-          sessionId,
-          userId,
-        });
-        const assessmentId = databaseBuilder.factory.buildAssessment({
-          userId,
-        }).id;
+        certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
+        const assessmentId = databaseBuilder.factory.buildAssessment({ userId }).id;
         const commonUserIdAssessmentIdAndEarnedPixForAllKEs = { userId, assessmentId, earnedPix: 4 };
         competencesAssociatedSkillsAndChallenges.forEach((element) => {
           const { challengeId, competenceId } = element;

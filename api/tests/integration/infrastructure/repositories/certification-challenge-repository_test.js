@@ -1,5 +1,4 @@
 const { expect, knex, domainBuilder, databaseBuilder } = require('../../../test-helper');
-const _ = require('lodash');
 
 const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
 const { AssessmentEndedError } = require('../../../../lib/domain/errors');
@@ -30,54 +29,6 @@ describe('Integration | Repository | Certification Challenge', function() {
       expect(savedCertificationChallenge).to.be.an.instanceOf(CertificationChallenge);
       expect(savedCertificationChallenge).to.have.property('id').and.not.null;
       expect(savedCertificationChallenge.challengeId).to.equal(certificationChallenge.challengeId);
-    });
-  });
-
-  describe('#findByCertificationCourseId', () => {
-
-    let certificationCourseId, unusedCertificationCourseId;
-    beforeEach(async () => {
-      // given
-      certificationCourseId = databaseBuilder.factory.buildCertificationCourse({}).id;
-      unusedCertificationCourseId = databaseBuilder.factory.buildCertificationCourse({}).id;
-      databaseBuilder.factory.buildCertificationChallenge(
-        {
-          challengeId: 'chal123ABC',
-          competenceId: 'comp456DEF',
-          associatedSkill: '@url6',
-          courseId: certificationCourseId,
-        });
-      databaseBuilder.factory.buildCertificationChallenge(
-        {
-          courseId: certificationCourseId,
-        });
-      databaseBuilder.factory.buildCertificationChallenge(
-        {
-          challengeId: 'chal789GHI',
-          competenceId: 'compIUO159',
-          associatedSkill: '@utiliserserv6',
-        });
-
-      await databaseBuilder.commit();
-    });
-
-    it('should find all challenges related to a given certification courseId', async () => {
-      // when
-      const certificationChallenges = await certificationChallengeRepository.findByCertificationCourseId(certificationCourseId);
-      const sortedCertificationChallenges = _.sortBy(certificationChallenges, [(chall) => { return chall.id; }]);
-
-      // then
-      expect(sortedCertificationChallenges).to.have.lengthOf(2);
-      expect(sortedCertificationChallenges[0]).to.be.an.instanceOf(CertificationChallenge);
-      expect(sortedCertificationChallenges[0].challengeId).to.equal('chal123ABC');
-    });
-
-    it('should return an empty array if there is no found challenges', async () => {
-      // when
-      const certificationChallenges = await certificationChallengeRepository.findByCertificationCourseId(unusedCertificationCourseId);
-
-      // then
-      expect(certificationChallenges.length).to.equal(0);
     });
   });
 

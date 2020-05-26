@@ -9,7 +9,7 @@ const CertificationScoringCompleted = require('../../../../lib/domain/events/Cer
 const events = require('../../../../lib/domain/events');
 
 describe('Unit | Domain | Events | handle-certification-partner', () => {
-  const scoringCertificationService = { calculateAssessmentScore: _.noop };
+  const scoringCertificationService = { calculateCertificationAssessmentScore: _.noop };
   const assessmentRepository = { get: _.noop };
   const assessmentResultRepository = { save: _.noop };
   const certificationPartnerAcquisitionRepository = { save: _.noop };
@@ -56,7 +56,7 @@ describe('Unit | Domain | Events | handle-certification-partner', () => {
       beforeEach(() => {
         sinon.stub(AssessmentResult, 'BuildStandardAssessmentResult').returns(assessmentResult);
         sinon.stub(assessmentResultRepository, 'save').resolves(savedAssessmentResult);
-        sinon.stub(scoringCertificationService, 'calculateAssessmentScore').resolves(assessmentScore);
+        sinon.stub(scoringCertificationService, 'calculateCertificationAssessmentScore').resolves(assessmentScore);
         sinon.stub(certificationPartnerAcquisitionRepository, 'save').resolves();
         sinon.stub(competenceRepository, 'getPixScoreByCompetence')
           .withArgs({
