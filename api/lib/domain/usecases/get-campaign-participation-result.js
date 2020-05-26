@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 
 module.exports = async function getCampaignParticipationResult(
@@ -16,13 +17,15 @@ module.exports = async function getCampaignParticipationResult(
   await _checkIfUserHasAccessToThisCampaignParticipation(userId, campaignParticipation, campaignRepository);
 
   const targetProfile = await targetProfileRepository.getByCampaignId(campaignParticipation.campaignId);
-  const badge = await badgeRepository.findOneByTargetProfileId(targetProfile.id);
+  const badges = await badgeRepository.findByTargetProfileId(targetProfile.id);
 
+  const badge = badges && badges.length > 0 ? badges[0] : null;
   const campaignParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, badge);
 
-  if (badge != null) {
-    const hasAcquiredBadge = await badgeAcquisitionRepository.hasAcquiredBadgeWithId({ userId, badgeId: badge.id });
-    campaignParticipationResult.areBadgeCriteriaFulfilled = hasAcquiredBadge;
+  if (!_.isEmpty(badges)) {
+    const hasAcquiredBadgesList = await Promise.all(badges.map((badge) => badgeAcquisitionRepository.hasAcquiredBadgeWithId({ userId, badgeId: badge.id })));
+    const hasAcquiredAtLeastOneBadge = _.some(hasAcquiredBadgesList, Boolean);
+    campaignParticipationResult.areBadgeCriteriaFulfilled = hasAcquiredAtLeastOneBadge;
   }
 
   return campaignParticipationResult;
