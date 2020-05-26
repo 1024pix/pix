@@ -45,13 +45,14 @@ module.exports = {
     if (!certificationAssessmentRows[0]) {
       throw new NotFoundError(`L'assessment de certification ${id} n'existe pas ou son accès est restreint`);
     }
-    const certificationAssessment = new CertificationAssessment({
-      ...certificationAssessmentRows[0],
-    });
+    const certificationChallenges = await _getCertificationChallenges(certificationAssessmentRows[0].certificationCourseId);
+    const certificationAnswers = await _getCertificationAnswers(certificationAssessmentRows[0].id);
 
-    certificationAssessment.certificationChallenges = await _getCertificationChallenges(certificationAssessment.certificationCourseId);
-    certificationAssessment.certificationAnswers = await _getCertificationAnswers(certificationAssessment.id);
-    return certificationAssessment;
+    return new CertificationAssessment({
+      ...certificationAssessmentRows[0],
+      certificationChallenges,
+      certificationAnswers,
+    });
   },
 
   async getByCertificationCourseId(certificationCourseId) {
@@ -71,13 +72,14 @@ module.exports = {
     if (!certificationAssessmentRows[0]) {
       throw new NotFoundError(`L'assessment de certification avec un certificationCourseId de ${certificationCourseId} n'existe pas ou son accès est restreint`);
     }
-    const certificationAssessment = new CertificationAssessment({
+    const certificationChallenges = await _getCertificationChallenges(certificationAssessmentRows[0].certificationCourseId);
+    const certificationAnswers = await _getCertificationAnswers(certificationAssessmentRows[0].id);
+    
+    return new CertificationAssessment({
       ...certificationAssessmentRows[0],
+      certificationChallenges,
+      certificationAnswers,
     });
-
-    certificationAssessment.certificationChallenges = await _getCertificationChallenges(certificationAssessment.certificationCourseId);
-    certificationAssessment.certificationAnswers = await _getCertificationAnswers(certificationAssessment.id);
-    return certificationAssessment;
   },
 
 };
