@@ -9,6 +9,7 @@
       <textarea class="challenge-response__proposal challenge-response__proposal--paragraph"
                 rows="5"
                 id="qroc_input"
+                onkeydown={{action 'onInputChange'}}
                 name={{block.input}}
                 placeholder={{block.placeholder}}
                 autocomplete="off"
@@ -20,6 +21,7 @@
       <input class="challenge-response__proposal challenge-response__proposal--sentence"
              type="text"
              id="qroc_input"
+             onkeydown={{action 'onInputChange'}}
              name={{block.input}}
              placeholder={{block.placeholder}}
              autocomplete="off"
@@ -31,6 +33,7 @@
              size="{{get-qroc-input-size format}}"
              type="text"
              id="qroc_input"
+             onkeydown={{action 'onInputChange'}}
              name={{block.input}}
              placeholder={{block.placeholder}}
              autocomplete="off"

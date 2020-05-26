@@ -1,5 +1,5 @@
 import { classNames } from '@ember-decorators/component';
-import { computed } from '@ember/object';
+import { action, computed } from '@ember/object';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
@@ -23,11 +23,9 @@ export default class QrocProposal extends Component {
     return answer.indexOf('#ABAND#') > -1 ? '' : answer;
   }
 
-  didInsertElement() {
-
-    this.$('input').keydown(() => {
-      this.answerChanged();
-    });
+  @action
+  onInputChange() {
+    this.answerChanged();
   }
 
   willRender() {
