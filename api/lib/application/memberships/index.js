@@ -30,13 +30,13 @@ exports.register = async function(server) {
       path: '/api/memberships/{id}',
       config: {
         pre: [{
-          method: securityPreHandlers.checkUserIsAdminInOrganization,
-          assign: 'isAdminInOrganization'
+          method: securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster,
+          assign: 'isAdminInOrganizationOrHasRolePixMaster'
         }],
         handler: membershipController.update,
         description: 'Update organization role by admin for a organization members',
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés en tant qu\'administrateur de l\'organisation**\n' +
+          '- **Cette route est restreinte aux utilisateurs authentifiés en tant qu\'administrateur de l\'organisation ou ayant le rôle Pix Master**\n' +
           '- Elle permet de modifier le rôle d\'un membre de l\'organisation'
         ],
         plugins: {

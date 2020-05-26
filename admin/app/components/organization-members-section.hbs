@@ -53,8 +53,12 @@
   </header>
   <div class="member-list">
     <ModelsTable @data={{@organization.memberships}}
-                 @columns={{this.columns}}
-                 @showColumnsDropdown={{false}}
-                 @showGlobalFilter={{false}} />
+      @columns={{this.columns}}
+      @showColumnsDropdown={{false}}
+      @showGlobalFilter={{false}}
+      @columnComponents={{hash editRow=(component 'models-table/cell-edit-toggle'
+        editButtonLabel='Editer' cancelButtonLabel='Annuler' saveButtonLabel='Enregistrer'
+        saveRowAction=this.onSaveRow cancelRowAction=this.onCancelRow)}}
+    />
   </div>
 </section>
