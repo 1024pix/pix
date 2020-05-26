@@ -42,9 +42,9 @@ module('Acceptance | organization memberships management', function(hooks) {
 
       // then
       assert.equal(this.element.querySelectorAll('div.member-list table > tbody > tr').length, 3);
-      assert.dom('div.member-list').includesText('Alice');
-      assert.dom('div.member-list').includesText('Bob');
-      assert.dom('div.member-list').includesText('Charlie');
+      assert.contains('Alice');
+      assert.contains('Bob');
+      assert.contains('Charlie');
     });
 
     test('should display the correct user data', async function(assert) {
@@ -57,19 +57,21 @@ module('Acceptance | organization memberships management', function(hooks) {
       await visit(`/organizations/${organization.id}`);
 
       // then
-      assert.equal(this.element.querySelectorAll('div.member-list table > thead > tr > th ').length, 10);
+      assert.equal(this.element.querySelectorAll('div.member-list table > thead > tr > th ').length, 12);
 
-      assert.dom('div.member-list table > thead').includesText('Numéro du membre');
-      assert.dom('div.member-list table > thead').includesText('Prénom');
-      assert.dom('div.member-list table > thead').includesText('Nom');
-      assert.dom('div.member-list table > thead').includesText('Courriel');
-      assert.dom('div.member-list table > thead').includesText('Rôle');
+      assert.contains('Numéro du membre');
+      assert.contains('Prénom');
+      assert.contains('Nom');
+      assert.contains('Courriel');
+      assert.contains('Rôle');
+      assert.contains('Action');
 
-      assert.dom('div.member-list table > tbody').includesText(user.id);
-      assert.dom('div.member-list table > tbody').includesText('Denise');
-      assert.dom('div.member-list table > tbody').includesText('Ter Hegg');
-      assert.dom('div.member-list table > tbody').includesText('denise@example.com');
-      assert.dom('div.member-list table > tbody').includesText('Administrateur');
+      assert.contains(user.id);
+      assert.contains('Denise');
+      assert.contains('Ter Hegg');
+      assert.contains('denise@example.com');
+      assert.contains('Administrateur');
+      assert.contains('Editer');
     });
 
     test('should display the correct user data when the user is a MEMBER', async function(assert) {
@@ -82,7 +84,31 @@ module('Acceptance | organization memberships management', function(hooks) {
       await visit(`/organizations/${organization.id}`);
 
       // then
-      assert.dom('div.member-list table > tbody').includesText('Membre');
+      assert.contains('Membre');
+    });
+
+    module('modifying member\'s role', async function() {
+
+      test('should modify member\'s role', async function(assert) {
+        // given
+        const organization = this.server.create('organization');
+        const user = this.server.create('user', { firstName: 'Denise', lastName: 'Ter Hegg', email: 'denise@example.com' });
+        this.server.create('membership', { user, organization, organizationRole: 'MEMBER' });
+
+        // when
+        await visit(`/organizations/${organization.id}`);
+
+        const organizationRoleCell = 'div.member-list table > tbody > tr > td:nth-child(5)';
+        const actionCell = 'div.member-list table > tbody > tr > td:nth-child(6)';
+
+        await click(`${actionCell} > div > button`);
+        await click(`${organizationRoleCell} > div.ember-power-select-trigger`);
+        await click('.ember-power-select-option:nth-child(1)');
+        await click(`${actionCell} > div > button:nth-child(2)`);
+
+        // then
+        assert.contains('Administrateur');
+      });
     });
   });
 
@@ -99,9 +125,9 @@ module('Acceptance | organization memberships management', function(hooks) {
       await click('[aria-label="Ajouter un membre"] button');
 
       // then
-      assert.dom('div.member-list').includesText('John');
-      assert.dom('div.member-list').includesText('Doe');
-      assert.dom('div.member-list').includesText('user@example.com');
+      assert.contains('John');
+      assert.contains('Doe');
+      assert.contains('user@example.com');
       assert.dom('#userEmailToAdd').hasNoValue();
     });
 
@@ -118,7 +144,7 @@ module('Acceptance | organization memberships management', function(hooks) {
 
       // then
       assert.equal(this.element.querySelectorAll('div.member-list table > tbody > tr').length, 1);
-      assert.dom('div.member-list').includesText('Denise');
+      assert.contains('Denise');
       assert.dom('#userEmailToAdd').hasValue('denise@example.com');
     });
 
@@ -135,7 +161,7 @@ module('Acceptance | organization memberships management', function(hooks) {
 
       // then
       assert.equal(this.element.querySelectorAll('div.member-list table > tbody > tr').length, 1);
-      assert.dom('div.member-list').includesText('Erica');
+      assert.contains('Erica');
       assert.dom('#userEmailToAdd').hasValue('unexisting@example.com');
     });
   });
@@ -154,7 +180,7 @@ module('Acceptance | organization memberships management', function(hooks) {
       await click('[aria-label="Inviter un membre"] button');
 
       // then
-      assert.dom('.c-notification__content:last-child').includesText('Un email a bien a été envoyé à l\'adresse user@example.com.');
+      assert.contains('Un email a bien a été envoyé à l\'adresse user@example.com.');
       assert.dom('#userEmailToInvite').hasNoValue();
     });
 
@@ -171,7 +197,7 @@ module('Acceptance | organization memberships management', function(hooks) {
       await click('[aria-label="Inviter un membre"] button');
 
       // then
-      assert.dom('.c-notification__content:last-child').includesText('Une erreur s’est produite, veuillez réessayer.');
+      assert.contains('Une erreur s’est produite, veuillez réessayer.');
     });
   });
 });

@@ -12,7 +12,7 @@ describe('Integration | Application | Memberships | membership-controller', () =
     sinon.stub(usecases, 'createMembership');
     sinon.stub(usecases, 'updateMembershipRole');
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
-    sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization');
+    sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganizationOrHasRolePixMaster');
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
@@ -97,7 +97,7 @@ describe('Integration | Application | Memberships | membership-controller', () =
           organizationRole: Membership.roles.MEMBER
         });
         usecases.updateMembershipRole.resolves(membership);
-        securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => h.response(true));
+        securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.callsFake((request, h) => h.response(true));
       });
 
       it('should return a 200 HTTP response', async () => {
@@ -114,7 +114,7 @@ describe('Integration | Application | Memberships | membership-controller', () =
       context('when user is not allowed to access resource', () => {
 
         beforeEach(() => {
-          securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => {
+          securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.callsFake((request, h) => {
             return Promise.resolve(h.response().code(403).takeover());
           });
         });
