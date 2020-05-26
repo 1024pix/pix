@@ -27,6 +27,9 @@ export default class ProfilesCollectionCampaignsStartOrResumeRoute extends Route
   async redirect(campaign) {
     const campaignParticipation = await this.store.queryRecord('campaignParticipation', { campaignId: campaign.id, userId: this.currentUser.user.id });
 
+    if (this._isParticipationShared(campaignParticipation)) {
+      return this.replaceWith('profiles-collection-campaigns.profile-already-shared', this.campaignCode);
+    }
     if (campaignParticipation) {
       return this.replaceWith('profiles-collection-campaigns.send-profile', this.campaignCode);
     }
@@ -37,5 +40,9 @@ export default class ProfilesCollectionCampaignsStartOrResumeRoute extends Route
       return this.replaceWith('campaigns.campaign-landing-page', this.campaignCode, { queryParams: { participantExternalId: this.participantExternalId } });
     }
     return this.replaceWith('restricted-campaigns.join-restricted-campaign', this.campaignCode, { queryParams: { participantExternalId: this.participantExternalId } });
+  }
+
+  _isParticipationShared(campaignParticipation) {
+    return campaignParticipation && campaignParticipation.isShared;
   }
 }
