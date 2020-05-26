@@ -1,7 +1,5 @@
 const _ = require('lodash');
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
+const { expect, sinon } = require('../../../test-helper');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
 const CertificationPartnerAcquisition = require('../../../../lib/domain/models/CertificationPartnerAcquisition');
@@ -9,27 +7,18 @@ const CertificationScoringCompleted = require('../../../../lib/domain/events/Cer
 const events = require('../../../../lib/domain/events');
 
 describe('Unit | Domain | Events | handle-certification-partner', () => {
-  const scoringCertificationService = { calculateCertificationAssessmentScore: _.noop };
-  const assessmentRepository = { get: _.noop };
-  const assessmentResultRepository = { save: _.noop };
   const certificationPartnerAcquisitionRepository = { save: _.noop };
   const domainTransaction = {};
 
   let certificationScoringEvent;
 
   const dependencies = {
-    scoringCertificationService,
-    assessmentRepository,
     certificationPartnerAcquisitionRepository,
   };
 
   context('when assessment is of type CERTIFICATION', () => {
-    let certificationAssessment;
 
     beforeEach(() => {
-      certificationAssessment = _buildCertificationAssessment();
-      sinon.stub(assessmentRepository, 'get').withArgs(certificationAssessment.id).resolves(certificationAssessment);
-
       certificationScoringEvent = new CertificationScoringCompleted({
         certificationCourseId: Symbol('certificationCourseId'),
         userId: Symbol('userId'),
@@ -41,22 +30,10 @@ describe('Unit | Domain | Events | handle-certification-partner', () => {
     });
 
     context('when scoring is successful', () => {
-      const assessmentResult = Symbol('AssessmentResult');
-      const assessmentResultId = 'assessmentResultId';
-      const savedAssessmentResult = { id: assessmentResultId };
-      const assessmentScore = {
-        nbPix: null,
-        level: null,
-        competenceMarks: null,
-      };
-
       const pixScoreByCompetence = Symbol('pixScoreByCompetence');
       const totalPixCleaByCompetence = Symbol('totalPixCleaByCompetence');
 
       beforeEach(() => {
-        sinon.stub(AssessmentResult, 'BuildStandardAssessmentResult').returns(assessmentResult);
-        sinon.stub(assessmentResultRepository, 'save').resolves(savedAssessmentResult);
-        sinon.stub(scoringCertificationService, 'calculateCertificationAssessmentScore').resolves(assessmentScore);
         sinon.stub(certificationPartnerAcquisitionRepository, 'save').resolves();
         sinon.stub(competenceRepository, 'getPixScoreByCompetence')
           .withArgs({
@@ -140,12 +117,3 @@ describe('Unit | Domain | Events | handle-certification-partner', () => {
     });
   });
 });
-
-function _buildCertificationAssessment() {
-  return domainBuilder.buildAssessment({
-    id: Symbol('assessmentId'),
-    certificationCourseId: Symbol('certificationCourseId'),
-    state: 'started',
-    type: Assessment.types.CERTIFICATION,
-  });
-}
