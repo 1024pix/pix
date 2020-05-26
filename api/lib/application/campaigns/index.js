@@ -160,7 +160,7 @@ exports.register = async function(server) {
     },
     {
       method: 'GET',
-      path: '/api/campaigns/{id}/profiles-collection/participations',
+      path: '/api/campaigns/{id}/profiles-collection-participations',
       config: {
         validate: {
           params: Joi.object({
