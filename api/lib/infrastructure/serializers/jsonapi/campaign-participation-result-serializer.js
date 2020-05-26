@@ -10,12 +10,12 @@ module.exports = {
         'validatedSkillsCount',
         'isCompleted',
         'areBadgeCriteriaFulfilled',
-        'badge',
+        'badges',
         'partnerCompetenceResults',
         'competenceResults',
         'progress'
       ],
-      badge: {
+      badges: {
         ref: 'id',
         attributes: [
           'altMessage',
