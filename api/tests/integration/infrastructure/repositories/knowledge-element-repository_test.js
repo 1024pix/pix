@@ -186,40 +186,6 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
 
   });
 
-  describe('#getSumOfPixFromUserKnowledgeElements', () => {
-
-    let userId;
-    const today = new Date('2018-08-01T12:34:56Z');
-    const yesterday = moment(today).subtract(1, 'days').toDate();
-
-    beforeEach(() => {
-      // given
-      userId = databaseBuilder.factory.buildUser().id;
-      const userId_tmp = databaseBuilder.factory.buildUser().id;
-
-      _.each([
-        { skillId: 'rec1', userId, earnedPix: 5.0, competenceId: 1 },
-        { skillId: 'rec3', userId, earnedPix: 20.4, status: 'validated', competenceId: 1 },
-        { skillId: 'rec2', userId, earnedPix: 10.7, status: 'validated', createdAt: today, competenceId: 1 },
-        { skillId: 'rec4', userId, earnedPix: 50, status: 'validated', competenceId: 2 },
-        { skillId: 'rec5', userId, earnedPix: 10, status: 'validated', competenceId: 3 },
-        { skillId: 'rec2', userId, earnedPix: 1.1, status: 'validated', createdAt: yesterday, competenceId: 3 },
-        { skillId: 'rec1', userId: userId_tmp, earnedPix: 3, status: 'invalidated', competenceId: 1 },
-      ], (ke) => databaseBuilder.factory.buildKnowledgeElement(ke));
-
-      return databaseBuilder.commit();
-    });
-
-    it('should return the right sum of Pix from user knowledge elements', async () => {
-      // when
-      const earnedPix = await KnowledgeElementRepository.getSumOfPixFromUserKnowledgeElements(userId);
-
-      // then
-      expect(earnedPix).to.equal(86);
-    });
-
-  });
-
   describe('findUniqByUserIdAndCompetenceId', () => {
     let wantedKnowledgeElements;
     let userId;
