@@ -1,5 +1,6 @@
 const { expect } = require('../../../test-helper');
 const CertificationPartnerAcquisition = require('../../../../lib/domain/models/CertificationPartnerAcquisition');
+const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 
 const GREEN_ZONE_REPRO = [80, 90, 100];
 const RED_ZONE_REPRO = [1, 50];
@@ -56,21 +57,37 @@ describe('Unit | Domain | Models | CertificationPartnerAcquisition', () => {
         it('for 70 reproducibility rate, it should obtain certification with all pixValue above 75% of Clea skills pixValue for each competence', async () => {
           // given
           const totalPixCleaByCompetence = {
-              [competenceId1]: 20,
-              [competenceId2]: 10,
-            },
-            pixScoreByCompetence = {
-              [competenceId1]: 15,
-              [competenceId2]: 7.5,
-              'competence3': 0,
-            };
+            [competenceId1]: 20,
+            [competenceId2]: 10,
+          };
+
+          const competenceMarks = [
+            new CompetenceMark(
+              {
+                competenceId: competenceId1,
+                score: 15
+              }
+            ),
+            new CompetenceMark(
+              {
+                competenceId: competenceId2,
+                score: 7.5
+              }
+            ),
+            new CompetenceMark(
+              {
+                competenceId: 'competence3',
+                score: 0
+              }
+            ),
+          ];
 
           // when
           const hasAcquiredCertif = certificationPartnerAcquisition.hasAcquiredCertification({
             hasAcquiredBadge: true,
             reproducibilityRate,
             totalPixCleaByCompetence,
-            pixScoreByCompetence,
+            competenceMarks,
           });
 
           // then
@@ -80,21 +97,36 @@ describe('Unit | Domain | Models | CertificationPartnerAcquisition', () => {
         it('for 70 reproducibility rate, it should not obtain certification without all pixValue above 75% of Clea skills pixValue for each competence', async () => {
           // given
           const totalPixCleaByCompetence = {
-              [competenceId1]: 20,
-              [competenceId2]: 10,
-            },
-            pixScoreByCompetence = {
-              [competenceId1]: 15,
-              [competenceId2]: 7.4,
-              'competence3': 0,
-            };
+            [competenceId1]: 20,
+            [competenceId2]: 10,
+          };
+          const competenceMarks = [
+            new CompetenceMark(
+              {
+                competenceId: competenceId1,
+                score: 15
+              }
+            ),
+            new CompetenceMark(
+              {
+                competenceId: competenceId2,
+                score: 7.4
+              }
+            ),
+            new CompetenceMark(
+              {
+                competenceId: 'competence3',
+                score: 0
+              }
+            ),
+          ];
 
           // when
           const hasAcquiredCertif = certificationPartnerAcquisition.hasAcquiredCertification({
             hasAcquiredBadge: true,
             reproducibilityRate,
             totalPixCleaByCompetence,
-            pixScoreByCompetence,
+            competenceMarks,
           });
 
           // then
