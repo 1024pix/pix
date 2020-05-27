@@ -3,14 +3,12 @@ import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
-module('Unit | Controller | authenticated/organizations/list', function(hooks) {
-
+module('Unit | Controller | authenticated/organizations/get/members', function(hooks) {
   setupTest(hooks);
 
   let controller;
-
   hooks.beforeEach(function() {
-    controller = this.owner.lookup('controller:authenticated/organizations/get');
+    controller = this.owner.lookup('controller:authenticated/organizations/get/members');
   });
 
   module('#createOrganizationInvitation', function() {

@@ -86,7 +86,7 @@ module('Acceptance | Organization List', function(hooks) {
       await click('.organization-list .table-admin tbody tr:first-child');
 
       // then
-      assert.equal(currentURL(), '/organizations/1');
+      assert.equal(currentURL(), '/organizations/1/members');
     });
   });
 });
