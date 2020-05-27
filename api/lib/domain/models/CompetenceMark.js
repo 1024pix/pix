@@ -7,6 +7,7 @@ const schemaValidateCompetenceMark = Joi.object({
   score: Joi.number().integer().min(0).max(64).required(),
   area_code: Joi.required(),
   competence_code: Joi.required(),
+  competenceId: Joi.string().optional(),
   assessmentResultId: Joi.number().optional(),
 });
 
@@ -16,6 +17,7 @@ class CompetenceMark {
     // attributes
     area_code,
     competence_code,
+    competenceId,
     level,
     score,
     // includes
@@ -26,6 +28,7 @@ class CompetenceMark {
     // attributes
     this.area_code = area_code;
     this.competence_code = competence_code;
+    this.competenceId = competenceId;
     this.level = level;
     this.score = score;
     // includes

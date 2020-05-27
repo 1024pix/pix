@@ -12,8 +12,8 @@ const certificationAssessmentRepository = require('../../../../../lib/infrastruc
 const certificationCourseRepository = require('../../../../../lib/infrastructure/repositories/certification-course-repository');
 const certificationResultService = require('../../../../../lib/domain/services/certification-result-service');
 
-function _buildCompetenceMarks(level, score, area_code, competence_code) {
-  return new CompetenceMarks({ level, score, area_code, competence_code });
+function _buildCompetenceMarks(level, score, area_code, competence_code, competenceId) {
+  return new CompetenceMarks({ level, score, area_code, competence_code, competenceId });
 }
 
 function _buildAssessmentResult(pixScore, level) {
@@ -82,7 +82,7 @@ describe('Unit | Service | Certification Service', function() {
           examinerComment: '',
           hasSeenEndTestScreen: true,
         }));
-        assessmentResult.competenceMarks = [_buildCompetenceMarks(3, 27, '2', '2.1')];
+        assessmentResult.competenceMarks = [_buildCompetenceMarks(3, 27, '2', '2.1', 'rec2.1')];
         sinon.stub(assessmentResultRepository, 'get').resolves(
           assessmentResult,
         );
@@ -100,6 +100,7 @@ describe('Unit | Service | Certification Service', function() {
           area_code: '2',
           assessmentResultId: undefined,
           competence_code: '2.1',
+          competenceId: 'rec2.1',
           id: undefined,
           level: 3,
           score: 27,

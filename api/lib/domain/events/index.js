@@ -14,7 +14,6 @@ const dependencies = {
   knowledgeElementRepository: require('../../infrastructure/repositories/knowledge-element-repository'),
   scoringCertificationService: require('../services/scoring/scoring-certification-service'),
   skillRepository: require('../../infrastructure/repositories/skill-repository'),
-
 };
 
 module.exports = injectDependencies({
