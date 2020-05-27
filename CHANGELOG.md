@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v2.157.0 (27/05/2020)
+
+- [#1437](https://github.com/1024pix/pix/pull/1437) [FEATURE] Tracer les modifications des appartenances aux organisations (PF-494).
+- [#1447](https://github.com/1024pix/pix/pull/1447) [BUGFIX] Correction du calcul du score en pix (différence entre export du profil et affichage sur le profil) (PIX-739).
+- [#1419](https://github.com/1024pix/pix/pull/1419) [CLEANUP] Extraction d'un modèle d'assessment dédié au scoring de certification (PIX-733)
+
 ## v2.156.0 (26/05/2020)
 
 - [#1444](https://github.com/1024pix/pix/pull/1444) [FEATURE] Permettre la modification du rôle d'un membership dans Pix Admin (PIX-455).
