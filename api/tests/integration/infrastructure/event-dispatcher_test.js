@@ -1,14 +1,7 @@
 const { expect, sinon } = require('../../test-helper');
 const EventDispatcher = require('../../../lib/infrastructure/events/EventDispatcher');
 
-/*
- * un event, un subscribers, on pop des events, on vérifie que le subscriber a été appelé
- * deux subscribers, on pop des events, on vérifie que les subscribers ont été appelés
- * Notion de domain transaction ???
- * injection
- */
-
-function getSubscriberMock() {
+function getEventHandlerMock() {
   return {
     handle: sinon.stub()
   };
@@ -17,6 +10,7 @@ function getSubscriberMock() {
 describe('Integration | Infrastructure | EventHandler', () => {
   let eventDispatcher;
   const event = Symbol('an event');
+  const domainTransaction = Symbol('domain transaction');
 
   beforeEach(() => {
     eventDispatcher = new EventDispatcher();
@@ -24,45 +18,64 @@ describe('Integration | Infrastructure | EventHandler', () => {
 
   it('dispatches event to subscriber', () => {
     // given
-    const subscriber = getSubscriberMock();
-    eventDispatcher.subscribe(event, subscriber);
+    const eventHandler = getEventHandlerMock();
+    eventDispatcher.subscribe(event, eventHandler);
 
     // when
-    eventDispatcher.dispatch(event);
+    eventDispatcher.dispatch(domainTransaction, event);
 
     // then
-    expect(subscriber.handle).to.have.been.calledWith(event);
+    expect(eventHandler.handle).to.have.been.calledWith(domainTransaction, event);
   });
 
-  it('dispatches event to several subscribers', () => {
+  it('dispatches event to several eventHandlers', () => {
     // given
-    const subscriber_1 = getSubscriberMock();
-    const subscriber_2 = getSubscriberMock();
+    const eventHandler_1 = getEventHandlerMock();
+    const eventHandler_2 = getEventHandlerMock();
 
-    eventDispatcher.subscribe(event, subscriber_1);
-    eventDispatcher.subscribe(event, subscriber_2);
+    eventDispatcher.subscribe(event, eventHandler_1);
+    eventDispatcher.subscribe(event, eventHandler_2);
 
     // when
-    eventDispatcher.dispatch(event);
+    eventDispatcher.dispatch(domainTransaction, event);
 
     // then
-    expect(subscriber_1.handle).to.have.been.calledWith(event);
-    expect(subscriber_2.handle).to.have.been.calledWith(event);
+    expect(eventHandler_1.handle).to.have.been.calledWith(domainTransaction, event);
+    expect(eventHandler_2.handle).to.have.been.calledWith(domainTransaction, event);
   });
 
   it('calls handler only for subscribed events', () => {
     // given
-    const subscriber = getSubscriberMock();
+    const eventHandler = getEventHandlerMock();
     const otherEvent = Symbol('another event');
 
-    eventDispatcher.subscribe(event, subscriber);
+    eventDispatcher.subscribe(event, eventHandler);
 
     // when
-    eventDispatcher.dispatch(event);
-    eventDispatcher.dispatch(otherEvent);
+    eventDispatcher.dispatch(domainTransaction, event);
+    eventDispatcher.dispatch(domainTransaction, otherEvent);
 
     // then
-    expect(subscriber.handle).to.have.been.calledWith(event);
-    expect(subscriber.handle).not.to.have.been.calledWith(otherEvent);
+    expect(eventHandler.handle).to.have.been.calledWith(domainTransaction, event);
+    expect(eventHandler.handle).not.to.have.been.calledWith(domainTransaction, otherEvent);
+  });
+
+  it('dispatches events returned by eventHandlers', () => {
+    // given
+    const returnedEvent = Symbol('returned event');
+    const originEventEmitter = {
+      handle() {
+        return returnedEvent;
+      }
+    };
+    const eventHandler = getEventHandlerMock();
+    eventDispatcher.subscribe(event, originEventEmitter);
+    eventDispatcher.subscribe(returnedEvent, eventHandler);
+
+    // when
+    eventDispatcher.dispatch(domainTransaction, event);
+
+    // then
+    expect(eventHandler.handle).to.have.been.calledWith(domainTransaction, returnedEvent);
   });
 });
