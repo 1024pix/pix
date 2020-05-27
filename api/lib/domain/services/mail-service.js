@@ -15,14 +15,30 @@ function sendAccountCreationEmail(email) {
   });
 }
 
-function sendResetPasswordDemandEmail(email, baseUrl, temporaryKey) {
+function sendResetPasswordDemandEmail(email, locale, temporaryKey) {
+  let variables = {
+    homeName: `${settings.app.domainFr}`,
+    homeUrl: `https://${settings.app.domainFr}`,
+    resetUrl: `https://app.${settings.app.domainFr}/changer-mot-de-passe/${temporaryKey}`,
+    locale
+  };
+
+  if (locale === 'fr') {
+    variables = {
+      homeName: `${settings.app.domainOrg}`,
+      homeUrl: `https://${settings.app.domainOrg}`,
+      resetUrl: `https://app.${settings.app.domainOrg}/changer-mot-de-passe/${temporaryKey}`,
+      locale
+    };
+  }
+
   return mailer.sendEmail({
     from: EMAIL_ADDRESS_NO_RESPONSE,
     fromName: PIX_NAME,
     to: email,
     subject: 'Demande de réinitialisation de mot de passe PIX',
     template: mailer.passwordResetTemplateId,
-    variables: { resetUrl: `${baseUrl}/changer-mot-de-passe/${temporaryKey}` }
+    variables
   });
 }
 

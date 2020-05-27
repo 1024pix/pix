@@ -6,6 +6,7 @@ module.exports = function buildCompetenceMark({
   score = 13,
   area_code = '1',
   competence_code = '1.1',
+  competenceId = 'recSomeCompetence',
   assessmentResultId,
 } = {}) {
 
@@ -15,6 +16,7 @@ module.exports = function buildCompetenceMark({
     score,
     area_code,
     competence_code,
+    competenceId,
     assessmentResultId,
   });
 };

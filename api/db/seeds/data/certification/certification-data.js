@@ -802,41 +802,41 @@ const CERTIFICATION_FAILURE_ANSWERS_DATA = [
 ];
 
 const CERTIFICATION_SUCCESS_COMPETENCE_MARKS_DATA = [
-  { level: 4, score: 39, area_code: '5', competence_code: '5.2' },
-  { level: 5, score: 40, area_code: '5', competence_code: '5.1' },
-  { level: 5, score: 40, area_code: '4', competence_code: '4.3' },
-  { level: -1, score: 0, area_code: '4', competence_code: '4.2' },
-  { level: 5, score: 40, area_code: '4', competence_code: '4.1' },
-  { level: 2, score: 17, area_code: '3', competence_code: '3.4' },
-  { level: 5, score: 40, area_code: '3', competence_code: '3.3' },
-  { level: -1, score: 0, area_code: '3', competence_code: '3.2' },
-  { level: 5, score: 40, area_code: '3', competence_code: '3.1' },
-  { level: 5, score: 40, area_code: '2', competence_code: '2.1' },
-  { level: 4, score: 36, area_code: '2', competence_code: '2.4' },
-  { level: 5, score: 40, area_code: '2', competence_code: '2.3' },
-  { level: 3, score: 26, area_code: '2', competence_code: '2.2' },
-  { level: 5, score: 40, area_code: '1', competence_code: '1.3' },
-  { level: 5, score: 40, area_code: '1', competence_code: '1.2' },
-  { level: 5, score: 40, area_code: '1', competence_code: '1.1' }
+  { level: 4, score: 39, area_code: '5', competence_code: '5.2', competenceId: 'recudHE5Omrr10qrx' },
+  { level: 5, score: 40, area_code: '5', competence_code: '5.1', competenceId: 'recIhdrmCuEmCDAzj' },
+  { level: 5, score: 40, area_code: '4', competence_code: '4.3', competenceId: 'recfr0ax8XrfvJ3ER' },
+  { level: -1, score: 0, area_code: '4', competence_code: '4.2', competenceId: 'recofJCxg0NqTqTdP' },
+  { level: 5, score: 40, area_code: '4', competence_code: '4.1', competenceId: 'rec6rHqas39zvLZep' },
+  { level: 2, score: 17, area_code: '3', competence_code: '3.4', competenceId: 'rece6jYwH4WEw549z' },
+  { level: 5, score: 40, area_code: '3', competence_code: '3.3', competenceId: 'recHmIWG6D0huq6Kx' },
+  { level: -1, score: 0, area_code: '3', competence_code: '3.2', competenceId: 'recbDTF8KwupqkeZ6' },
+  { level: 5, score: 40, area_code: '3', competence_code: '3.1', competenceId: 'recOdC9UDVJbAXHAm' },
+  { level: 5, score: 40, area_code: '2', competence_code: '2.1', competenceId: 'recDH19F7kKrfL3Ii' },
+  { level: 4, score: 36, area_code: '2', competence_code: '2.4', competenceId: 'recFpYXCKcyhLI3Nu' },
+  { level: 5, score: 40, area_code: '2', competence_code: '2.3', competenceId: 'recMiZPNl7V1hyE1d' },
+  { level: 3, score: 26, area_code: '2', competence_code: '2.2', competenceId: 'recgxqQfz3BqEbtzh' },
+  { level: 5, score: 40, area_code: '1', competence_code: '1.3', competenceId: 'recNv8qhaY887jQb2' },
+  { level: 5, score: 40, area_code: '1', competence_code: '1.2', competenceId: 'recIkYm646lrGvLNT' },
+  { level: 5, score: 40, area_code: '1', competence_code: '1.1', competenceId: 'recsvLz0W2ShyfD63' }
 ];
 
 const CERTIFICATION_FAILURE_COMPETENCE_MARKS_DATA = [
-  { level: -1, score: 0, area_code: '5', competence_code: '5.2' },
-  { level: -1, score: 0, area_code: '5', competence_code: '5.1' },
-  { level: -1, score: 0, area_code: '4', competence_code: '4.3' },
-  { level: -1, score: 0, area_code: '4', competence_code: '4.2' },
-  { level: -1, score: 0, area_code: '4', competence_code: '4.1' },
-  { level: -1, score: 0, area_code: '3', competence_code: '3.4' },
-  { level: -1, score: 0, area_code: '3', competence_code: '3.3' },
-  { level: -1, score: 0, area_code: '3', competence_code: '3.2' },
-  { level: -1, score: 0, area_code: '3', competence_code: '3.1' },
-  { level: -1, score: 0, area_code: '2', competence_code: '2.4' },
-  { level: -1, score: 0, area_code: '2', competence_code: '2.3' },
-  { level: -1, score: 0, area_code: '2', competence_code: '2.2' },
-  { level: -1, score: 0, area_code: '2', competence_code: '2.1' },
-  { level: -1, score: 0, area_code: '1', competence_code: '1.2' },
-  { level: -1, score: 0, area_code: '1', competence_code: '1.3' },
-  { level: -1, score: 0, area_code: '1', competence_code: '1.1' }
+  { level: -1, score: 0, area_code: '5', competence_code: '5.2', competenceId: 'recudHE5Omrr10qrx' },
+  { level: -1, score: 0, area_code: '5', competence_code: '5.1', competenceId: 'recIhdrmCuEmCDAzj' },
+  { level: -1, score: 0, area_code: '4', competence_code: '4.3', competenceId: 'recfr0ax8XrfvJ3ER' },
+  { level: -1, score: 0, area_code: '4', competence_code: '4.2', competenceId: 'recofJCxg0NqTqTdP' },
+  { level: -1, score: 0, area_code: '4', competence_code: '4.1', competenceId: 'rec6rHqas39zvLZep' },
+  { level: -1, score: 0, area_code: '3', competence_code: '3.4', competenceId: 'rece6jYwH4WEw549z' },
+  { level: -1, score: 0, area_code: '3', competence_code: '3.3', competenceId: 'recHmIWG6D0huq6Kx' },
+  { level: -1, score: 0, area_code: '3', competence_code: '3.2', competenceId: 'recbDTF8KwupqkeZ6' },
+  { level: -1, score: 0, area_code: '3', competence_code: '3.1', competenceId: 'recOdC9UDVJbAXHAm' },
+  { level: -1, score: 0, area_code: '2', competence_code: '2.4', competenceId: 'recFpYXCKcyhLI3Nu' },
+  { level: -1, score: 0, area_code: '2', competence_code: '2.3', competenceId: 'recMiZPNl7V1hyE1d' },
+  { level: -1, score: 0, area_code: '2', competence_code: '2.2', competenceId: 'recgxqQfz3BqEbtzh' },
+  { level: -1, score: 0, area_code: '2', competence_code: '2.1', competenceId: 'recDH19F7kKrfL3Ii' },
+  { level: -1, score: 0, area_code: '1', competence_code: '1.2', competenceId: 'recNv8qhaY887jQb2' },
+  { level: -1, score: 0, area_code: '1', competence_code: '1.3', competenceId: 'recIkYm646lrGvLNT' },
+  { level: -1, score: 0, area_code: '1', competence_code: '1.1', competenceId: 'recsvLz0W2ShyfD63' }
 ];
 
 module.exports = {

@@ -47,7 +47,6 @@ async function _calculateCertificationScore({
       userId: certificationAssessment.userId,
       certificationCourseId: certificationAssessment.certificationCourseId,
       reproducibilityRate: certificationAssessmentScore.percentageCorrectAnswers,
-      limitDate: certificationAssessment.createdAt,
     });
   }
   catch (error) {

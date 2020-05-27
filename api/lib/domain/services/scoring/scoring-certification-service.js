@@ -13,6 +13,7 @@ async function calculateCertificationAssessmentScore(certificationAssessment) {
       score: scoringService.getBlockedPixScore(certifiedCompetence.obtainedScore),
       area_code: certifiedCompetence.area_code,
       competence_code: certifiedCompetence.index,
+      competenceId: certifiedCompetence.id,
     });
   });
 

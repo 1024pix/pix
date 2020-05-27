@@ -36,10 +36,11 @@ describe('Unit | Service | MailService', () => {
 
     context('when provided passwordResetDemandBaseUrl is not production', () => {
 
-      it('should call Mailjet with a sub-domain prefix', async () => {
+      it('should call mailer', async () => {
         // given
         const fakeTemporaryKey = 'token';
-        const passwordResetDemandBaseUrl = 'http://dev.pix.fr';
+        const locale = 'fr-fr';
+        const domainFr = 'pix.fr';
 
         const expectedOptions = {
           from: senderEmailAddress,
@@ -48,12 +49,42 @@ describe('Unit | Service | MailService', () => {
           subject: 'Demande de réinitialisation de mot de passe PIX',
           template: 'test-password-reset-template-id',
           variables: {
-            resetUrl: `${passwordResetDemandBaseUrl}/changer-mot-de-passe/${fakeTemporaryKey}`
+            resetUrl: `https://app.${domainFr}/changer-mot-de-passe/${fakeTemporaryKey}`,
+            homeName: `${domainFr}`,
+            homeUrl: `https://${domainFr}`,
+            locale
           }
         };
 
         // when
-        await mailService.sendResetPasswordDemandEmail(userEmailAddress, passwordResetDemandBaseUrl, fakeTemporaryKey);
+        await mailService.sendResetPasswordDemandEmail(userEmailAddress, locale, fakeTemporaryKey);
+
+        // then
+        expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
+      });
+
+      it('should call mailer with locale fr', async () => {
+        // given
+        const fakeTemporaryKey = 'token';
+        const locale = 'fr';
+        const domainOrg = 'pix.org';
+
+        const expectedOptions = {
+          from: senderEmailAddress,
+          fromName: 'PIX - Ne pas répondre',
+          to: userEmailAddress,
+          subject: 'Demande de réinitialisation de mot de passe PIX',
+          template: 'test-password-reset-template-id',
+          variables: {
+            resetUrl: `https://app.${domainOrg}/changer-mot-de-passe/${fakeTemporaryKey}`,
+            homeName: `${domainOrg}`,
+            homeUrl: `https://${domainOrg}`,
+            locale
+          }
+        };
+
+        // when
+        await mailService.sendResetPasswordDemandEmail(userEmailAddress, locale, fakeTemporaryKey);
 
         // then
         expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
