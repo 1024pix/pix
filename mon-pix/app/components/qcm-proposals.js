@@ -22,7 +22,7 @@ export default class QcmProposals extends Component {
   }
 
   @action
-  checkboxClicked() {
-    this.answerChanged();
+  checkboxClicked(checkboxName) {
+    this.answerChanged(checkboxName);
   }
 }

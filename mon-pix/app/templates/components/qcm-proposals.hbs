@@ -6,7 +6,7 @@
          id="checkbox_{{inc index}}"
          checked={{labeledCheckbox.[1]}}
          name="{{inc index}}"
-         onclick={{action "checkboxClicked"}}
+         onclick={{action "checkboxClicked" (inc index)}}
          disabled={{if answer true}}>
 
   {{!-- Surrounding label --}}
