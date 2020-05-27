@@ -41,72 +41,13 @@ describe('Unit | Controller | Assessment Campaigns | Skill Review', function() {
     controller.transitionToRoute = sinon.stub();
   });
 
-  describe('#shouldShowBadge', () => {
-    context('when some badge information is available', function() {
-      beforeEach(function() {
-        // given
-        const badgePixEmploi = EmberObject.create({
-          content : {
-            altMessage: 'Vous avez validé le badge Pix Emploi.',
-            message: 'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. ' +
-            'Pour valoriser vos compétences, renseignez-vous auprès de votre conseiller.',
-            imageUrl: '/images/badges/Pix-emploi.svg',
-          }
-        });
-        controller.set('model.campaignParticipation.campaignParticipationResult.badge', badgePixEmploi);
-      });
-
-      it('should return true when badge criteria are fulfilled', function() {
-        // when
-        controller.set('model.campaignParticipation.campaignParticipationResult.areBadgeCriteriaFulfilled', true);
-
-        // then
-        expect(controller.shouldShowBadge).to.equal(true);
-      });
-
-      it('should return false when badge criteria are not fulfilled', function() {
-        // when
-        controller.set('model.campaignParticipation.campaignParticipationResult.areBadgeCriteriaFulfilled', false);
-
-        // then
-        expect(controller.shouldShowBadge).to.equal(false);
-      });
-    });
-
-    context('when no badge information is available', function() {
-      beforeEach(function() {
-        // given
-        const emptyBadge = EmberObject.create({
-          content: null
-        });
-        controller.set('model.campaignParticipation.campaignParticipationResult.badge', emptyBadge);
-      });
-
-      it('should return false when user badge criteria are fulfilled', function() {
-        // when
-        controller.set('model.campaignParticipation.campaignParticipationResult.areBadgeCriteriaFulfilled', false);
-
-        // then
-        expect(controller.shouldShowBadge).to.equal(false);
-      });
-
-      it('should return false when badge criteria are not fulfilled', function() {
-        // when
-        controller.set('model.campaignParticipation.campaignParticipationResult.areBadgeCriteriaFulfilled', false);
-
-        // then
-        expect(controller.shouldShowBadge).to.equal(false);
-      });
-    });
-  });
-
   describe('#shareCampaignParticipation', function() {
     it('should set isShared to true', function() {
       // when
       controller.actions.shareCampaignParticipation.call(controller);
 
       // then
-      sinon.assert.calledWith(controller.get('model.campaignParticipation.set'), 'isShared', true);
+      expect(controller.model.campaignParticipation.isShared).to.equal(true);
     });
   });
 
@@ -125,6 +66,32 @@ describe('Unit | Controller | Assessment Campaigns | Skill Review', function() {
 
       // then
       sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.start-or-resume');
+    });
+  });
+
+  describe('#showCleaCompetences', function() {
+
+    it('should showCleaCompetences when campaignParticipationResult has partnerCompetenceResults', function() {
+      // given
+      const partnerCompetenceResult = { name : 'competence name' };
+      controller.model.campaignParticipation.campaignParticipationResult.partnerCompetenceResults = [ partnerCompetenceResult ];
+
+      // when
+      const shouldShowCleaCompetences = controller.showCleaCompetences;
+
+      // then
+      expect(shouldShowCleaCompetences).to.equal(true);
+    });
+
+    it('should not show clea competence when there is no partnerCompetenceResults', function() {
+      // given
+      controller.model.campaignParticipation.campaignParticipationResult.partnerCompetenceResults = [];
+
+      // when
+      const shouldShowCleaCompetences = controller.showCleaCompetences;
+
+      // then
+      expect(shouldShowCleaCompetences).to.equal(false);
     });
   });
 });

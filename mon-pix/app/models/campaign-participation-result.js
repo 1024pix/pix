@@ -1,4 +1,4 @@
-import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
+import Model, { attr, hasMany } from '@ember-data/model';
 import { mapBy, max } from '@ember/object/computed';
 
 export default class CampaignParticipationResult extends Model {
@@ -8,10 +8,9 @@ export default class CampaignParticipationResult extends Model {
   @attr('number') totalSkillsCount;
   @attr('number') testedSkillsCount;
   @attr('number') validatedSkillsCount;
-  @attr('boolean') areBadgeCriteriaFulfilled;
 
   // includes
-  @belongsTo('badge') badge;
+  @hasMany('badge') badges;
   @hasMany('partnerCompetenceResult') partnerCompetenceResults;
   @hasMany('competenceResult') competenceResults;
 
