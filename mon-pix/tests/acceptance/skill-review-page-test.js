@@ -103,7 +103,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
           masteryPercentage: 80
         });
         campaignParticipationResult.update({
-          badge,
+          badges: [badge],
           partnerCompetenceResults: [partnerCompetenceResult]
         });
 
@@ -117,14 +117,14 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         expect(find('table tbody tr td:nth-child(2) .progression-gauge__tooltip').textContent).to.include(BADGE_PARTNER_COMPETENCE_MASTERY_PERCENTAGE);
       });
 
-      it('should display the Pix emploi badge badged campaign when badge criteria are fulfilled', async function() {
+      it('should display the Pix emploi badge badged campaign when badge is acquired', async function() {
         // given
         const badge = server.create('badge', {
           altMessage: 'Yon won a Pix Emploi badge',
           imageUrl: '/images/badges/Pix-emploi.svg',
           message: 'Congrats, you won a Pix Emploi badge',
         });
-        campaignParticipationResult.update({ badge, areBadgeCriteriaFulfilled: true });
+        campaignParticipationResult.update({ badges: [badge] });
 
         // when
         await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
@@ -133,15 +133,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         expect(find('.skill-review-result__badge')).to.exist;
       });
 
-      it('should not display the Pix emploi badge badged campaign when badge criteria are not fulfilled', async function() {
-        // given
-        const badge = server.create('badge', {
-          altMessage: 'Yon won a Pix Emploi badge',
-          imageUrl: '/images/badges/Pix-emploi.svg',
-          message: 'Congrats, you won a Pix Emploi badge',
-        });
-        campaignParticipationResult.update({ badge, areBadgeCriteriaFulfilled: false });
-
+      it('should not display the Pix emploi badge badged campaign when badge is not acquired', async function() {
         // when
         await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
 
