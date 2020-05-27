@@ -10,14 +10,12 @@ export default class ProfilesCollectionCampaignsStartOrResumeRoute extends Route
   participantExternalId = null;
   associationDone = false;
   userHasSeenLanding = false;
-  campaignParticipationIsStarted = false;
 
   beforeModel(transition) {
     this.campaignCode = transition.to.parent.params.campaign_code;
     this.associationDone = transition.to.queryParams.associationDone;
     this.participantExternalId = transition.to.queryParams.participantExternalId;
     this.userHasSeenLanding = transition.to.queryParams.hasSeenLanding;
-    this.campaignParticipationIsStarted = transition.to.queryParams.campaignParticipationIsStarted;
     super.beforeModel(...arguments);
   }
 
@@ -29,7 +27,7 @@ export default class ProfilesCollectionCampaignsStartOrResumeRoute extends Route
   async redirect(campaign) {
     const campaignParticipation = await this.store.queryRecord('campaignParticipation', { campaignId: campaign.id, userId: this.currentUser.user.id });
 
-    if (this.campaignParticipationIsStarted || campaignParticipation) {
+    if (campaignParticipation) {
       return this.replaceWith('profiles-collection-campaigns.send-profile', this.campaignCode);
     }
     if (this.userHasSeenLanding) {

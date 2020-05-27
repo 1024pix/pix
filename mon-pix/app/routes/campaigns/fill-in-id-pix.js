@@ -29,7 +29,7 @@ export default class FillInIdPixRoute extends Route.extend(SecuredRouteMixin) {
     const campaignParticipation = await this.store.queryRecord('campaignParticipation', { campaignId: campaign.id, userId });
 
     if (campaignParticipation) {
-      return this.replaceWith('campaigns.start-or-resume', campaign.code, { queryParams: { campaignParticipationIsStarted: true } });
+      return this.replaceWith('campaigns.start-or-resume', campaign.code);
     }
 
     if (!campaign.idPixLabel) {
@@ -49,13 +49,13 @@ export default class FillInIdPixRoute extends Route.extend(SecuredRouteMixin) {
   async start(campaign, participantExternalId = null) {
     try {
       await this.store.createRecord('campaign-participation', { campaign, participantExternalId }).save();
-      this.transitionTo('campaigns.start-or-resume', campaign.code, { queryParams: { campaignParticipationIsStarted: true } });
+      this.transitionTo('campaigns.start-or-resume', campaign.code);
     } catch (err) {
       if (_.get(err, 'errors[0].status') === 403) {
         this.session.invalidate();
-        return this.transitionTo('campaigns.start-or-resume', campaign.code, { queryParams: { campaignParticipationIsStarted: true } });
+        return this.transitionTo('campaigns.start-or-resume', campaign.code);
       }
-      return this.send('error', err, this.transitionTo('campaigns.start-or-resume', campaign.code, { queryParams: { campaignParticipationIsStarted: true } }));
+      return this.send('error', err, this.transitionTo('campaigns.start-or-resume', campaign.code));
     }
   }
 }
