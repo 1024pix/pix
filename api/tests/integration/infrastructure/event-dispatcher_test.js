@@ -49,4 +49,20 @@ describe('Integration | Infrastructure | EventHandler', () => {
     expect(subscriber_1.handle).to.have.been.calledWith(event);
     expect(subscriber_2.handle).to.have.been.calledWith(event);
   });
+
+  it('calls handler only for subscribed events', () => {
+    // given
+    const subscriber = getSubscriberMock();
+    const otherEvent = Symbol('another event');
+
+    eventDispatcher.subscribe(event, subscriber);
+
+    // when
+    eventDispatcher.dispatch(event);
+    eventDispatcher.dispatch(otherEvent);
+
+    // then
+    expect(subscriber.handle).to.have.been.calledWith(event);
+    expect(subscriber.handle).not.to.have.been.calledWith(otherEvent);
+  });
 });
