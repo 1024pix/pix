@@ -1,0 +1,25 @@
+name: check
+on:
+  pull_request:
+    types:
+      - labeled
+  pull_request_review:
+    types:
+      - submitted
+  check_suite:
+    types:
+      - completed
+  status:
+jobs:
+  automerge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: automerge
+        uses: "pascalgn/automerge-action@v0.8.3"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          MERGE_LABELS: "Merge-auto test"
+          MERGE_COMMIT_MESSAGE: "pull-request-title"
+          UPDATE_LABELS: "Merge-auto test"
+          UPDATE_METHOD: "rebase"
+          MERGE_FORKS: "false"
