@@ -51,7 +51,8 @@ export default class CertificationDetailsController extends Controller {
       marks: this.get('details.competences').reduce((marks, competence) => {
         marks[competence.index] = {
           level: (competence.juryLevel === false) ? competence.obtainedLevel : competence.juryLevel,
-          score: (competence.juryScore === false) ? competence.obtainedScore : competence.juryScore
+          score: (competence.juryScore === false) ? competence.obtainedScore : competence.juryScore,
+          competenceId: competence.id,
         };
         return marks;
       }, {})
