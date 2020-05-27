@@ -65,10 +65,6 @@ class Answer {
   get hasTimedOut() {
     return _.isInteger(this.timeout) && this.timeout < 0;
   }
-
-  static filterWithEstimatedLevelGreaterThanZero(assessments) {
-    return _(assessments).filter((assessment) => assessment.getLastAssessmentResult().level >= 1).values();
-  }
 }
 
 // FIXME: DO NOT accept "#ABAND#" as an answer, give this information with a boolean,
