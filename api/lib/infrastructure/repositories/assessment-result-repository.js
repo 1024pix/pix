@@ -38,4 +38,13 @@ module.exports = {
 
     return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessmentResult, assessmentResultBookshelf);
   },
+
+  async findLatestByAssessmentId(assessmentId) {
+    const latestAssessmentResultBookshelf = await BookshelfAssessmentResult
+      .where({ assessmentId })
+      .orderBy('createdAt', 'desc')
+      .fetch({ withRelated: ['competenceMarks'] });
+
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessmentResult, latestAssessmentResultBookshelf);
+  }
 };
