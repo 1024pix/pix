@@ -153,8 +153,8 @@ module.exports = {
     const campaignId = request.params.id;
     const { page } = queryParamsUtils.extractParameters(request.query);
 
-    const { data, pagination } = await usecases.findCampaignProfilesCollectionParticipationSummaries({ userId, campaignId, page });
-    return campaignProfilesCollectionParticipationSummarySerializer.serialize(data, pagination);
+    const results = await usecases.findCampaignProfilesCollectionParticipationSummaries({ userId, campaignId, page });
+    return campaignProfilesCollectionParticipationSummarySerializer.serialize(results);
   }
 };
 
