@@ -36,7 +36,8 @@ module.exports = (function() {
     },
 
     app: {
-      domain: 'app.pix.fr'
+      domainFr: 'pix.fr',
+      domainOrg: 'pix.org'
     },
 
     logging: {
