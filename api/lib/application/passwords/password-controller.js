@@ -1,5 +1,3 @@
-const settings = require('../../config');
-
 const usecases = require('../../domain/usecases');
 
 const mailService = require('../../domain/services/mail-service');
@@ -10,6 +8,7 @@ const passwordResetSerializer = require('../../infrastructure/serializers/jsonap
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const resetPasswordDemandRepository = require('../../infrastructure/repositories/reset-password-demands-repository');
 const userRepository = require('../../infrastructure/repositories/user-repository');
+const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
 module.exports = {
 
@@ -18,7 +17,8 @@ module.exports = {
     await userRepository.isUserExistingByEmail(user.email);
     const temporaryKey = resetPasswordService.generateTemporaryKey();
     const passwordResetDemand = await resetPasswordDemandRepository.create({ email: user.email, temporaryKey });
-    await mailService.sendResetPasswordDemandEmail(user.email, `https://${settings.app.domain}`, temporaryKey);
+    const locale = extractLocaleFromRequest(request);
+    await mailService.sendResetPasswordDemandEmail(user.email, locale, temporaryKey);
     const serializedPayload = passwordResetSerializer.serialize(passwordResetDemand.attributes);
 
     return h.response(serializedPayload).created();
