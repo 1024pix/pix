@@ -20,14 +20,15 @@
                                   @onLogoUpdated={{this.updateOrganizationInformation}}
                                   @onSubmit={{this.updateOrganizationInformation}} />
 
-  <OrganizationMembersSection @organization={{@model}}
-                              @userEmailToAdd={{this.userEmailToAdd}}
-                              @userEmailToInvite={{this.userEmailToInvite}}
-                              @addMembership={{this.addMembership}}
-                              @createOrganizationInvitation={{this.createOrganizationInvitation}}
-                              @userEmailToInviteError={{this.userEmailToInviteError}}
-                              @isLoading={{this.isLoading}}/>
+  <nav class="navbar">
+    <LinkTo @route="authenticated.organizations.get.members" @model={{@model}} class="navbar-item">
+      Membres
+    </LinkTo>
 
-  <OrganizationTargetProfilesSection @targetProfiles={{@model.targetProfiles}} @targetProfilesToAttach={{this.targetProfilesToAttach}} @attachTargetProfiles={{this.attachTargetProfiles}} />
+    <LinkTo @route="authenticated.organizations.get.target-profiles" @model={{@model}} class="navbar-item">
+      Profils cibles
+    </LinkTo>
+  </nav>
 
+  {{outlet}}
 </main>

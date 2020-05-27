@@ -18,7 +18,7 @@ module('Acceptance | organization target profiles management', function(hooks) {
     this.server.create('target-profile', { name: 'Profil cible du ghetto', organization });
 
     // when
-    await visit(`/organizations/${organization.id}`);
+    await visit(`/organizations/${organization.id}/target-profiles`);
 
     // then
     assert.dom('[aria-label="Profil cible"]').includesText('Profil cible du ghetto');
@@ -29,7 +29,7 @@ module('Acceptance | organization target profiles management', function(hooks) {
     const organization = this.server.create('organization');
 
     // when
-    await visit(`/organizations/${organization.id}`);
+    await visit(`/organizations/${organization.id}/target-profiles`);
     await fillIn('[aria-label="ID du ou des profil(s) cible(s)"]', '66');
     await click('[aria-label="Rattacher un ou plusieurs profil(s) cible(s)"] button');
 
