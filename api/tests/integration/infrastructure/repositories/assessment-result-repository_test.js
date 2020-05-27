@@ -1,7 +1,7 @@
 const { expect, knex, databaseBuilder, domainBuilder } = require('../../../test-helper');
 
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const AssessmentResultRepository = require('../../../../lib/infrastructure/repositories/assessment-result-repository');
+const assessmentResultRepository = require('../../../../lib/infrastructure/repositories/assessment-result-repository');
 
 const _ = require('lodash');
 
@@ -25,7 +25,7 @@ describe('Integration | Repository | AssessmentResult', function() {
 
     it('should persist the assessment result in db', async () => {
       // when
-      assessmentResult = await AssessmentResultRepository.save(assessmentResultToSave);
+      assessmentResult = await assessmentResultRepository.save(assessmentResultToSave);
 
       // then
       const result = await knex('assessment-results').where('id', assessmentResult.id);
@@ -35,7 +35,7 @@ describe('Integration | Repository | AssessmentResult', function() {
 
     it('should return the saved assessment result', async () => {
       // when
-      assessmentResult = await AssessmentResultRepository.save(assessmentResultToSave);
+      assessmentResult = await assessmentResultRepository.save(assessmentResultToSave);
 
       // then
       expect(assessmentResult).to.be.an.instanceOf(AssessmentResult);
@@ -62,7 +62,7 @@ describe('Integration | Repository | AssessmentResult', function() {
 
     it('should return the assessmentResult', async () => {
       // when
-      const result = await AssessmentResultRepository.get(assessmentResult.id);
+      const result = await assessmentResultRepository.get(assessmentResult.id);
 
       // then
       expect(result).to.be.an.instanceOf(AssessmentResult);
@@ -75,7 +75,7 @@ describe('Integration | Repository | AssessmentResult', function() {
 
     it('should return all marks related to the assessment', async () => {
       // when
-      const result = await AssessmentResultRepository.get(assessmentResult.id);
+      const result = await assessmentResultRepository.get(assessmentResult.id);
 
       // then
       expect(result.competenceMarks).to.be.instanceOf(Array).and.to.have.lengthOf(2);
