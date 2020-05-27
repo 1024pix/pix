@@ -1,12 +1,8 @@
-const AssessmentResult = require('../../domain/models/AssessmentResult');
 const BookshelfAssessmentResult = require('../data/assessment-result');
-
-function _toDomain(bookshelfModel) {
-  return new AssessmentResult(bookshelfModel.toJSON());
-}
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 
 module.exports = {
-  save: ({
+  async save({
     pixScore,
     level,
     status,
@@ -17,8 +13,8 @@ module.exports = {
     id,
     juryId,
     assessmentId,
-  }, domainTransaction = {}) => {
-    return new BookshelfAssessmentResult({
+  }, domainTransaction = {}) {
+    const savedAssessmentResultBookshelf = await new BookshelfAssessmentResult({
       pixScore,
       level,
       status,
@@ -30,14 +26,16 @@ module.exports = {
       juryId,
       assessmentId,
     })
-      .save(null, { transacting: domainTransaction.knexTransaction })
-      .then(_toDomain);
+      .save(null, { transacting: domainTransaction.knexTransaction });
+
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessmentResult, savedAssessmentResultBookshelf);
   },
 
-  get(id) {
-    return BookshelfAssessmentResult
+  async get(id) {
+    const assessmentResultBookshelf = await BookshelfAssessmentResult
       .where('id', id)
-      .fetch({ withRelated: ['competenceMarks'] })
-      .then(_toDomain);
-  }
+      .fetch({ withRelated: ['competenceMarks'] });
+
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessmentResult, assessmentResultBookshelf);
+  },
 };

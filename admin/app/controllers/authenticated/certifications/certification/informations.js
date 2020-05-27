@@ -97,7 +97,7 @@ export default class CertificationInformationsController extends Controller {
     // TODO refacto this please
     this._saveCompetences();
     const existingCompetences = this.certification.competencesWithMark;
-    const competence = _.find(existingCompetences, { 'competence-code': code });
+    const competence = _.find(existingCompetences, { 'competence_code': code });
     if (competence) {
       if (value.trim().length === 0) {
         if (competence.level) {
@@ -110,7 +110,7 @@ export default class CertificationInformationsController extends Controller {
         competence.score = parseInt(value);
       }
     } else if (value.trim().length > 0) {
-      existingCompetences.addObject({ 'competence-code': code, 'score': parseInt(value), 'area-code': code.substr(0, 1) });
+      existingCompetences.addObject({ 'competence_code': code, 'score': parseInt(value), 'area_code': code.substr(0, 1) });
     }
     this.certification.competencesWithMark = existingCompetences;
   }
@@ -124,7 +124,7 @@ export default class CertificationInformationsController extends Controller {
       return value;
     });
     const competence = newCompetences.filter((value) => {
-      return (value['competence-code'] === code);
+      return (value['competence_code'] === code);
     })[0];
     if (competence) {
       if (value.trim().length === 0) {
@@ -138,7 +138,7 @@ export default class CertificationInformationsController extends Controller {
         competence.level = parseInt(value);
       }
     } else if (value.trim().length > 0) {
-      newCompetences.addObject({ 'competence-code': code, 'level': parseInt(value), 'area-code': code.substr(0, 1) });
+      newCompetences.addObject({ 'competence_code': code, 'level': parseInt(value), 'area_code': code.substr(0, 1) });
     }
     this.certification.competencesWithMark = newCompetences;
   }
@@ -165,10 +165,10 @@ export default class CertificationInformationsController extends Controller {
       const newCompetences = Object.keys(state.marks).reduce((competences, code) => {
         const mark = state.marks[code];
         competences.addObject({
-          'competence-code': code,
+          'competence_code': code,
           'level': mark.level,
           'score': mark.score,
-          'area-code': code.substr(0, 1),
+          'area_code': code.substr(0, 1),
           'competence-id': mark.competenceId,
         });
         return competences;
@@ -211,13 +211,13 @@ export default class CertificationInformationsController extends Controller {
       if (level > this.MAX_REACHABLE_LEVEL) {
         errors.push({
           type: 'level',
-          message: 'Le niveau de la compétence ' + competencesWithMark[index]['competence-code'] + ' dépasse ' + this.MAX_REACHABLE_LEVEL,
+          message: 'Le niveau de la compétence ' + competencesWithMark[index]['competence_code'] + ' dépasse ' + this.MAX_REACHABLE_LEVEL,
         });
       }
       if (score > this.MAX_REACHABLE_PIX_BY_COMPETENCE) {
         errors.push({
           type: 'score',
-          message: 'Le nombre de pix de la compétence ' + competencesWithMark[index]['competence-code'] + ' dépasse ' + this.MAX_REACHABLE_PIX_BY_COMPETENCE,
+          message: 'Le nombre de pix de la compétence ' + competencesWithMark[index]['competence_code'] + ' dépasse ' + this.MAX_REACHABLE_PIX_BY_COMPETENCE,
         });
       }
     }

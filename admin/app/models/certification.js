@@ -50,7 +50,7 @@ export default class Certification extends Model {
   get indexedCompetences() {
     const competencesWithMarks = this.competencesWithMark;
     return competencesWithMarks.reduce((result, value) => {
-      result[value['competence-code']] = { index: value['competence-code'], level: value.level, score: value.score };
+      result[value['competence_code']] = { index: value['competence_code'], level: value.level, score: value.score };
       return result;
     }, {});
   }

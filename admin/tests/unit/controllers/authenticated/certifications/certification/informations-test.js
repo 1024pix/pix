@@ -3,12 +3,12 @@ import { setupTest } from 'ember-qunit';
 import EmberObject from '@ember/object';
 
 module('Unit | Controller | authenticated/certifications/certification/informations', function(hooks) {
- 
+
   setupTest(hooks);
 
   const competence = (code, score, level) => {
     return {
-      'competence-code': code,
+      'competence_code': code,
       score: score,
       level: level
     };
@@ -27,7 +27,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     // Then
     const competences = controller.get('model.competencesWithMark');
     const aCompetence = competences.filter((value) => {
-      return (value['competence-code'] === '3.1');
+      return (value['competence_code'] === '3.1');
     })[0];
     assert.equal(aCompetence.score, 55);
   });
@@ -45,7 +45,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     // Then
     const competences = controller.get('model.competencesWithMark');
     const aCompetence = competences.filter((value) => {
-      return (value['competence-code'] === '4.2');
+      return (value['competence_code'] === '4.2');
     })[0];
     assert.equal(aCompetence.score, 55);
   });
@@ -63,7 +63,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     // Then
     const competences = controller.get('model.competencesWithMark');
     const aCompetence = competences.filter((value) => {
-      return (value['competence-code'] === '5.2');
+      return (value['competence_code'] === '5.2');
     })[0];
     assert.equal(aCompetence.level, 5);
   });
@@ -81,7 +81,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     // Then
     const competences = controller.get('model.competencesWithMark');
     const aCompetence = competences.filter((value) => {
-      return (value['competence-code'] === '4.3');
+      return (value['competence_code'] === '4.3');
     })[0];
     assert.equal(aCompetence.level, 8);
   });
@@ -100,7 +100,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     // Then
     const competences = controller.get('model.competencesWithMark');
     const aCompetence = competences.filter((value) => {
-      return (value['competence-code'] === '3.1');
+      return (value['competence_code'] === '3.1');
     });
     assert.equal(aCompetence.length, 0);
   });
@@ -128,15 +128,15 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     // Then
     const competences = controller.get('model.competencesWithMark');
     let aCompetence = competences.filter((value) => {
-      return (value['competence-code'] === '1.1');
+      return (value['competence_code'] === '1.1');
     })[0];
     assert.equal(aCompetence.score, 24);
     assert.equal(aCompetence.level, 3);
     aCompetence = competences.filter((value) => {
-      return (value['competence-code'] === '2.1');
+      return (value['competence_code'] === '2.1');
     });
     aCompetence = competences.filter((value) => {
-      return (value['competence-code'] === '5.2');
+      return (value['competence_code'] === '5.2');
     });
     assert.equal(aCompetence.length, 1);
     aCompetence = aCompetence[0];
