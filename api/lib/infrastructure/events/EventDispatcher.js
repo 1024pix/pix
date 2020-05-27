@@ -3,17 +3,18 @@ class EventDispatcher {
     this._subscriptions = [];
   }
 
-  subscribe(event, subscriber) {
-    this._subscriptions.push([event, subscriber]);
+  subscribe(event, eventHandler) {
+    this._subscriptions.push([event, eventHandler]);
   }
 
-  dispatch(dispatchedEvent) {
+  dispatch(domainTransaction, dispatchedEvent) {
     const subscriptions = this._subscriptions.filter(([event, _]) => {
       return event == dispatchedEvent;
     });
 
-    subscriptions.forEach(([_, subscriber]) => {
-      subscriber.handle(dispatchedEvent);
+    subscriptions.forEach(([_, eventHandler]) => {
+      const returnedEvent = eventHandler.handle(domainTransaction, dispatchedEvent);
+      this.dispatch(domainTransaction, returnedEvent);
     });
   }
 }
