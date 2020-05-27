@@ -1,14 +1,19 @@
 class EventDispatcher {
   constructor() {
-    this._subscribers = [];
-  }
-  subscribe(event, subscriber) {
-    this._subscribers.push(subscriber);
+    this._subscriptions = [];
   }
 
-  dispatch(event) {
-    this._subscribers.forEach((subscriber) => {
-      subscriber.handle(event);
+  subscribe(event, subscriber) {
+    this._subscriptions.push([event, subscriber]);
+  }
+
+  dispatch(dispatchedEvent) {
+    const subscriptions = this._subscriptions.filter(([event, _]) => {
+      return event == dispatchedEvent;
+    });
+
+    subscriptions.forEach(([_, subscriber]) => {
+      subscriber.handle(dispatchedEvent);
     });
   }
 }
