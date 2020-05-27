@@ -91,4 +91,40 @@ describe('Integration | Repository | AssessmentResult', function() {
       expect(sortedCompetenceMarks[1].competence_code).to.be.deep.equal(competenceMarks2.competence_code);
     });
   });
+
+  describe('#findLatestByAssessmentId', () => {
+
+    let assessmentWithResultsId;
+    let assessmentWithoutResultsId;
+    let expectedAssessmentResultId;
+
+    beforeEach(() => {
+      assessmentWithResultsId = databaseBuilder.factory.buildAssessment().id;
+      assessmentWithoutResultsId = databaseBuilder.factory.buildAssessment().id;
+      expectedAssessmentResultId = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessmentWithResultsId, createdAt: new Date('2019-02-01T00:00:00Z') }).id;
+      databaseBuilder.factory.buildAssessmentResult({ createdAt: new Date('2019-01-01T00:00:00Z') });
+      databaseBuilder.factory.buildCompetenceMark({ assessmentResultId: expectedAssessmentResultId });
+      databaseBuilder.factory.buildCompetenceMark({ assessmentResultId: expectedAssessmentResultId });
+
+      return databaseBuilder.commit();
+    });
+
+    it('should return the most recent assessment result when assessment has some', async () => {
+      // when
+      const mostRecentAssessmentResult = await assessmentResultRepository.findLatestByAssessmentId(assessmentWithResultsId);
+
+      // then
+      expect(mostRecentAssessmentResult).to.be.instanceOf(AssessmentResult);
+      expect(mostRecentAssessmentResult.id).to.equal(expectedAssessmentResultId);
+      expect(mostRecentAssessmentResult.competenceMarks).to.have.length(2);
+    });
+
+    it('should return null when assessment has no results', async () => {
+      // when
+      const mostRecentAssessmentResult = await assessmentResultRepository.findLatestByAssessmentId(assessmentWithoutResultsId);
+
+      // then
+      expect(mostRecentAssessmentResult).to.be.null;
+    });
+  });
 });
