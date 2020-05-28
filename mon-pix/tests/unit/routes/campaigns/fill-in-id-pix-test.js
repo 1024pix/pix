@@ -112,7 +112,7 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
       await route.afterModel(campaign);
 
       // then
-      sinon.assert.calledWithExactly(route.replaceWith, 'campaigns.start-or-resume', campaignCode, { queryParams: { campaignParticipationIsStarted: true } });
+      sinon.assert.calledWithExactly(route.replaceWith, 'campaigns.start-or-resume', campaignCode);
     });
 
     it('should start the campaign when there is no idPixLabel', async function() {

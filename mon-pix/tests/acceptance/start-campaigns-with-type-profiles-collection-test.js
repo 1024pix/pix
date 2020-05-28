@@ -15,7 +15,7 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 
 const PROFILES_COLLECTION = 'PROFILES_COLLECTION';
 
-describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles', function() {
+describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collection', function() {
   setupApplicationTest();
   setupMirage();
   let campaign;

@@ -9,16 +9,18 @@ import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentication';
 import {
-  completeCampaignAndSeeResultsByCode,
-  completeCampaignByCode,
-  resumeCampaignByCode
+  completeCampaignOfTypeAssessmentAndSeeResultsByCode,
+  completeCampaignOfTypeAssessmentByCode,
+  resumeCampaignOfTypeAssessmentByCode
 } from '../helpers/campaign';
 import visit from '../helpers/visit';
 import { invalidateSession } from 'ember-simple-auth/test-support';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | Campaigns | Resume Campaigns', function() {
+const ASSESSMENT = 'ASSESSMENT';
+
+describe('Acceptance | Campaigns | Resume Campaigns with type Assessment', function() {
   setupApplicationTest();
   setupMirage();
   let campaign;
@@ -29,8 +31,8 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
     beforeEach(async function() {
       studentInfo = server.create('user', 'withEmail');
       await authenticateByEmail(studentInfo);
-      campaign = server.create('campaign', { idPixLabel: 'email' }, 'withThreeChallenges');
-      await resumeCampaignByCode(campaign.code, true);
+      campaign = server.create('campaign', { idPixLabel: 'email', type: ASSESSMENT }, 'withThreeChallenges');
+      await resumeCampaignOfTypeAssessmentByCode(campaign.code, true);
     });
 
     context('When the user is not logged', function() {
@@ -90,7 +92,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
         it('should show the last checkpoint page', async function() {
           // given
-          await completeCampaignByCode(campaign.code);
+          await completeCampaignOfTypeAssessmentByCode(campaign.code);
 
           // when
           await visit(`/campagnes/${campaign.code}`);
@@ -101,7 +103,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
         it('should show the results page when user clicks on "voir mes résultats"', async function() {
           // given
-          await completeCampaignByCode(campaign.code);
+          await completeCampaignOfTypeAssessmentByCode(campaign.code);
           await visit(`/campagnes/${campaign.code}`);
 
           // when
@@ -114,14 +116,14 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
           it('should suggest to share his results', async function() {
             // when
-            await completeCampaignAndSeeResultsByCode(campaign.code);
+            await completeCampaignOfTypeAssessmentAndSeeResultsByCode(campaign.code);
 
             expect(find('.skill-review-share__button')).to.exist;
           });
 
           it('should thank the user when he clicks on the share button', async function() {
             // when
-            await completeCampaignAndSeeResultsByCode(campaign.code);
+            await completeCampaignOfTypeAssessmentAndSeeResultsByCode(campaign.code);
             await click('.skill-review-share__button');
 
             expect(find('.skill-review-share__thanks')).to.exist;
@@ -132,7 +134,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
           it('should still display thank message when reloading the page', async function() {
             // given
-            await completeCampaignAndSeeResultsByCode(campaign.code);
+            await completeCampaignOfTypeAssessmentAndSeeResultsByCode(campaign.code);
             const currentAssessment = server.schema.campaignParticipations.findBy({ campaignId: campaign.id }).assessment;
             await click('.skill-review-share__button');
 
@@ -157,8 +159,8 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
     beforeEach(async function() {
       prescritUserInfo = server.create('user', 'withEmail');
       await authenticateByEmail(prescritUserInfo);
-      campaign1 = server.create('campaign', 'withThreeChallenges');
-      campaign2 = server.create('campaign', 'withThreeChallenges');
+      campaign1 = server.create('campaign', { type: ASSESSMENT }, 'withThreeChallenges');
+      campaign2 = server.create('campaign', { type: ASSESSMENT }, 'withThreeChallenges');
       campaignParticipation1 = server.create('campaignParticipation', { campaign: campaign1 }, 'completedWithResults');
       campaignParticipation2 = server.create('campaignParticipation', { campaign: campaign2 }, 'completedWithResults');
     });

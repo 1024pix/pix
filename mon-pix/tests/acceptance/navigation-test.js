@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-mocha';
 import { authenticateByEmail } from '../helpers/authentication';
-import { resumeCampaignByCode } from '../helpers/campaign';
+import { resumeCampaignOfTypeAssessmentByCode } from '../helpers/campaign';
 import visit from '../helpers/visit';
 
 describe('Acceptance | Navbar', function() {
@@ -50,7 +50,7 @@ describe('Acceptance | Navbar', function() {
       const campaign = server.create('campaign', 'withOneChallenge');
 
       // when
-      await resumeCampaignByCode(campaign.code, false);
+      await resumeCampaignOfTypeAssessmentByCode(campaign.code, false);
 
       // then
       expect(find('.navbar-desktop-header')).to.not.exist;
