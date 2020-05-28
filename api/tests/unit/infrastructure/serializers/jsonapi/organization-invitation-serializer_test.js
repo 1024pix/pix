@@ -17,6 +17,7 @@ describe('Unit | Serializer | JSONAPI | organization-invitation-serializer', () 
           email: invitationObject.email,
           status: invitationObject.status,
           'created-at': invitationObject.createdAt,
+          'updated-at': invitationObject.updatedAt,
         },
       }
     };
