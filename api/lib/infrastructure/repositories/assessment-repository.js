@@ -69,7 +69,7 @@ module.exports = {
   getByCertificationCourseId(certificationCourseId) {
     return BookshelfAssessment
       .where({ certificationCourseId, type: 'CERTIFICATION' })
-      .fetch({ withRelated: ['assessmentResults'] })
+      .fetch()
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 

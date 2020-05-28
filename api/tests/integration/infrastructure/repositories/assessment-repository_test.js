@@ -340,7 +340,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
     context('When the assessment for this certificationCourseId exists', () => {
       let assessmentId;
-      let assessmentResult;
 
       beforeEach(() => {
         assessmentId = databaseBuilder.factory.buildAssessment({
@@ -348,25 +347,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           certificationCourseId,
           type: Assessment.types.CERTIFICATION,
         }).id;
-
-        assessmentResult = databaseBuilder.factory.buildAssessmentResult({
-          assessmentId,
-          level: 0,
-          pixScore: 0,
-          status: 'validated',
-          emitter: 'PIX-ALGO',
-          commentForJury: 'Computed',
-          commentForCandidate: 'Votre certification a été validé par Pix',
-          commentForOrganization: 'Sa certification a été validé par Pix',
-        });
-
-        databaseBuilder.factory.buildCompetenceMark({
-          assessmentResultId: assessmentResult.id,
-          level: 4,
-          score: 35,
-          area_code: '2',
-          competence_code: '2.1',
-        });
 
         return databaseBuilder.commit();
       });
@@ -379,18 +359,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         // then
         expect(assessmentReturned.id).to.equal(assessmentId);
         expect(assessmentReturned.certificationCourseId).to.equal(certificationCourseId);
-      });
-
-      it('should return the appropriate assessment results', async () => {
-        // given
-        const expectedAssessmentResult = { ...assessmentResult, competenceMarks: [] };
-
-        // when
-        const assessmentReturned = await assessmentRepository.getByCertificationCourseId(certificationCourseId);
-
-        // then
-        expect(assessmentReturned.assessmentResults).to.have.lengthOf(1);
-        expect(assessmentReturned.assessmentResults[0]).to.deep.equal(expectedAssessmentResult);
       });
 
     });
