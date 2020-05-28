@@ -98,7 +98,7 @@ module('Acceptance | Session pages', function(hooks) {
         test('it shows session informations', function(assert) {
           // then
           assert.dom('.session-info__details .row div:last-child').hasText(session.certificationCenterName);
-          assert.dom('[data-test-id="session-info__finalized-at"]').hasText(session.finalizedAt.toLocaleString('fr-FR'));
+          assert.dom('[data-test-id="session-info__finalized-at"]').hasText('01/01/2020');
           assert.dom('[data-test-id="session-info__examiner-global-comment"]').hasText(session.examinerGlobalComment);
         });
       });

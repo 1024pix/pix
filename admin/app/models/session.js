@@ -10,8 +10,8 @@ function _getNumberOf(juryCertificationSummaries, booleanFct) {
   );
 }
 
-function _formatHumanReadableLocaleDateTime(date, options) {
-  return date ? (new Date(date)).toLocaleString('fr-FR', options) : date;
+function _formatHumanReadableLocaleDateTime(date) {
+  return date ? (new Date(date)).toLocaleString('fr-FR', { day: 'numeric', month: 'numeric', year: 'numeric' }) : date;
 }
 
 export const CREATED = 'created';
@@ -96,7 +96,7 @@ export default class Session extends Model {
 
   @computed('date')
   get displayDate() {
-    return _formatHumanReadableLocaleDateTime(this.date, { day: 'numeric', month: 'numeric', year: 'numeric' });
+    return _formatHumanReadableLocaleDateTime(this.date);
   }
 
   @computed('finalizedAt')
