@@ -76,26 +76,17 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
         badgeRepository.findByTargetProfileId.withArgs(targetProfileId).resolves([badge]);
       });
 
-      it('should assign badge to campaignParticipationResult', async () => {
-        // when
-        const campaignParticipationResult = {
-          id: 'foo'
-        };
-
-        campaignParticipationResultRepository.getByParticipationId.resolves(campaignParticipationResult);
-        const actualCampaignParticipationResult = await getCampaignParticipationResult(usecaseDependencies);
-
-        // then
-        expect(actualCampaignParticipationResult.badge).not.to.be.null;
-      });
-
       context('when badge is acquired', () => {
         it('should assign badge acquisition to campaignParticipationResult', async () => {
           // given
           const campaignParticipationResult = {
-            id: 'foo'
+            id: 'foo',
+            badges: [badge]
           };
-          campaignParticipationResultRepository.getByParticipationId.resolves(campaignParticipationResult);
+          campaignParticipationResultRepository.getByParticipationId.withArgs(
+            campaignParticipationId,
+            [badge]
+          ).resolves(campaignParticipationResult);
 
           badgeAcquisitionRepository.hasAcquiredBadgeWithId.withArgs({
             userId,
@@ -106,7 +97,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
           const actualCampaignParticipationResult = await getCampaignParticipationResult(usecaseDependencies);
 
           // then
-          expect(actualCampaignParticipationResult.areBadgeCriteriaFulfilled).to.be.true;
+          expect(actualCampaignParticipationResult.badges.length).to.equal(1);
         });
       });
 
@@ -114,9 +105,13 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
         it('should not assign badge acquisition to campaignParticipationResult', async () => {
           // given
           const campaignParticipationResult = {
-            id: 'foo'
+            id: 'foo',
+            badges: []
           };
-          campaignParticipationResultRepository.getByParticipationId.resolves(campaignParticipationResult);
+          campaignParticipationResultRepository.getByParticipationId.withArgs(
+            campaignParticipationId,
+            []
+          ).resolves(campaignParticipationResult);
           badgeAcquisitionRepository.hasAcquiredBadgeWithId.withArgs({
             userId,
             badgeId: badge.id
@@ -126,7 +121,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
           const actualCampaignParticipationResult = await getCampaignParticipationResult(usecaseDependencies);
 
           // then
-          expect(actualCampaignParticipationResult.areBadgeCriteriaFulfilled).to.be.false;
+          expect(actualCampaignParticipationResult.badges.length).to.equal(0);
         });
       });
     });
