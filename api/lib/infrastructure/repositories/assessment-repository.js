@@ -16,7 +16,7 @@ module.exports = {
             answers: function(query) {
               query.orderBy('createdAt', 'ASC');
             },
-          }, 'assessmentResults', 'campaignParticipation', 'campaignParticipation.campaign',
+          }, 'campaignParticipation', 'campaignParticipation.campaign',
         ],
       })
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
@@ -130,7 +130,6 @@ function _adaptModelToDb(assessment) {
     'updatedAt',
     'successRate',
     'answers',
-    'assessmentResults',
     'targetProfile',
     'campaign',
     'campaignParticipation',
