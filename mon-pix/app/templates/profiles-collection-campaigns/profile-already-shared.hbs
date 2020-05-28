@@ -1,0 +1,16 @@
+{{title pageTitle}}
+<div class="background-banner-wrapper">
+  <div class="background-banner"></div>
+  <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner send-profile-header">
+    <img class="send-profile-header__image" src="{{rootURL}}/images/bees/fat-bee.svg" alt="Tout ne se passe pas comme prévu">
+    <div class="send-profile-header__announcement">
+      <p class="send-profile-header__instruction">
+        Vous avez déjà envoyé votre profil à l'organisation {{this.model.campaign.organizationName}}
+        <br>le {{moment-format this.model.campaignParticipation.sharedAt 'LL' locale='fr' allow-empty=true}}
+        à {{moment-format this.model.campaignParticipation.sharedAt 'HH:mm' locale='fr' allow-empty=true}}
+      </p>
+      <LinkTo @route="index" class="skill-review-share__back-to-home link">Continuez votre expérience Pix</LinkTo>
+    </div>
+
+  </div>
+</div>
