@@ -70,7 +70,7 @@ describe('Unit | Service | Certification Service', function() {
             state: 'completed',
           }));
         sinon.stub(assessmentResultRepository, 'findLatestByAssessmentId')
-          .withArgs('assessmentId').resolves(assessmentResult);
+          .withArgs({ assessmentId: 'assessmentId' }).resolves(assessmentResult);
         sinon.stub(certificationCourseRepository, 'get').resolves(new CertificationCourse({
           id: certificationCourseId,
           createdAt: new Date('2017-12-23T15:23:12Z'),

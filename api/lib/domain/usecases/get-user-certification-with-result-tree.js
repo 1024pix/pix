@@ -3,7 +3,7 @@ const ResultCompetenceTree = require('../models/ResultCompetenceTree');
 
 async function _getsCompetenceMarksAndAssessmentResultId({ certificationId, assessmentRepository, assessmentResultRepository }) {
   const assessment = await assessmentRepository.getByCertificationCourseId(certificationId);
-  const latestAssessmentResult = await assessmentResultRepository.findLatestByAssessmentId(assessment.id);
+  const latestAssessmentResult = await assessmentResultRepository.findLatestByAssessmentId({ assessmentId: assessment.id });
   return [
     latestAssessmentResult.id,
     latestAssessmentResult.competenceMarks,

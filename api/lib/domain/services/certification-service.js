@@ -19,7 +19,7 @@ module.exports = {
     let lastAssessmentResultFull = null;
 
     if (assessment) {
-      lastAssessmentResultFull = await assessmentResultRepository.findLatestByAssessmentId(assessment.id);
+      lastAssessmentResultFull = await assessmentResultRepository.findLatestByAssessmentId({ assessmentId: assessment.id });
     }
     if (!lastAssessmentResultFull) {
       lastAssessmentResultFull = { competenceMarks: [], status: assessment ? assessment.state : 'missing-assessment' };

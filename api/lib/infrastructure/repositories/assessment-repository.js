@@ -26,21 +26,18 @@ module.exports = {
     return BookshelfAssessment
       .collection()
       .query((qb) => {
+        qb.join('assessment-results', 'assessment-results.assessmentId', 'assessments.id');
         qb.where({ userId })
           .where(function() {
             this.where({ type: 'PLACEMENT' });
           })
-          .where('createdAt', '<', limitDate)
-          .where('state', '=', 'completed')
-          .orderBy('createdAt', 'desc');
+          .where('assessments.createdAt', '<', limitDate)
+          .where('assessment-results.createdAt', '<', limitDate)
+          .where('assessments.state', '=', 'completed')
+          .orderBy('assessments.createdAt', 'desc');
       })
-      .fetch({
-        withRelated: [
-          { assessmentResults: (qb) => { qb.where('createdAt', '<', limitDate); } },
-        ],
-      })
+      .fetch()
       .then((bookshelfAssessmentCollection) => bookshelfAssessmentCollection.models)
-      .then(_selectAssessmentsHavingAnAssessmentResult)
       .then(_selectLastAssessmentForEachCompetence)
       .then((assessments) => bookshelfToDomainConverter.buildDomainObjects(BookshelfAssessment, assessments));
   },
@@ -123,10 +120,6 @@ function _selectLastAssessmentForEachCompetence(bookshelfAssessments) {
   const assessmentsGroupedByCompetence = groupBy(bookshelfAssessments,
     (bookshelfAssessment) => bookshelfAssessment.get('competenceId'));
   return map(assessmentsGroupedByCompetence, head);
-}
-
-function _selectAssessmentsHavingAnAssessmentResult(bookshelfAssessments) {
-  return bookshelfAssessments.filter((bookshelfAssessment) => bookshelfAssessment.relations.assessmentResults.length > 0);
 }
 
 function _adaptModelToDb(assessment) {
