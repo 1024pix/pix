@@ -1,33 +1,10 @@
+const bluebird = require('bluebird');
 const AssessmentResultBookshelf = require('../data/assessment-result');
 const CertificationCourseBookshelf = require('../../../lib/infrastructure/data/certification-course');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const Bookshelf = require('../bookshelf');
 const Certification = require('../../../lib/domain/models/Certification');
 const { NotFoundError, CertificationCourseNotPublishableError } = require('../../../lib/domain/errors');
-
-function _certificationToDomain(certificationCourseBookshelf) {
-  const assessmentResultsBookshelf = certificationCourseBookshelf
-    .related('assessment')
-    .related('assessmentResults');
-  const assessmentResults = bookshelfToDomainConverter.buildDomainObjects(AssessmentResultBookshelf, assessmentResultsBookshelf);
-  return _createCertificationDomainModel({ certificationCourseBookshelf, assessmentResults });
-}
-
-function _createCertificationDomainModel({ certificationCourseBookshelf, assessmentResults }) {
-  return new Certification({
-    id: certificationCourseBookshelf.get('id'),
-    certificationCenter: certificationCourseBookshelf.related('session').get('certificationCenter'),
-    birthdate: certificationCourseBookshelf.get('birthdate'),
-    birthplace: certificationCourseBookshelf.get('birthplace'),
-    firstName: certificationCourseBookshelf.get('firstName'),
-    lastName: certificationCourseBookshelf.get('lastName'),
-    date: certificationCourseBookshelf.get('createdAt'),
-    deliveredAt: certificationCourseBookshelf.related('session').get('publishedAt'),
-    isPublished: Boolean(certificationCourseBookshelf.get('isPublished')),
-    userId: certificationCourseBookshelf.get('userId'),
-    assessmentResults,
-  });
-}
 
 async function getAssessmentResultsStatusesBySessionId(id) {
   const collection = await CertificationCourseBookshelf
@@ -46,48 +23,72 @@ async function getAssessmentResultsStatusesBySessionId(id) {
   return collection.map((obj) => obj.attributes.status);
 }
 
+async function _getLatestAssessmentResult(certificationCourseId) {
+  const latestAssessmentResultBookshelf = await AssessmentResultBookshelf
+    .query((qb) => {
+      qb.join('assessments', 'assessments.id', 'assessment-results.assessmentId');
+      qb.where('assessments.certificationCourseId', '=', certificationCourseId);
+    })
+    .orderBy('createdAt', 'desc')
+    .fetch({ require: true });
+
+  return bookshelfToDomainConverter.buildDomainObject(AssessmentResultBookshelf, latestAssessmentResultBookshelf);
+}
+
+function _getBaseCertificationQuery() {
+  return Bookshelf.knex
+    .select({
+      id: 'certification-courses.id',
+      firstName: 'certification-courses.firstName',
+      lastName: 'certification-courses.lastName',
+      birthdate: 'certification-courses.birthdate',
+      birthplace: 'certification-courses.birthplace',
+      isPublished: 'certification-courses.isPublished',
+      userId: 'certification-courses.userId',
+      date: 'certification-courses.createdAt',
+      deliveredAt: 'sessions.publishedAt',
+      certificationCenter: 'sessions.certificationCenter',
+    })
+    .from('certification-courses')
+    .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
+    .join('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
+    .join('sessions', 'sessions.id', 'certification-courses.sessionId');
+}
+
 module.exports = {
 
-  getByCertificationCourseId({ id }) {
-    return CertificationCourseBookshelf
-      .query((qb) => {
-        qb.innerJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id');
-        qb.leftOuterJoin('partner-certifications', 'partner-certifications.certificationCourseId', 'certification-courses.id');
-        qb.where('certification-courses.id', id);
-      })
-      .fetch({
-        require: true,
-        withRelated: [
-          'session', 'assessment', 'assessment.assessmentResults'
-        ],
-      })
-      .then(_certificationToDomain)
-      .catch((err) => {
-        if (err instanceof CertificationCourseBookshelf.NotFoundError) {
-          throw new NotFoundError(`Not found certification for ID ${id}`);
-        } else {
-          throw err;
-        }
-      });
+  async getByCertificationCourseId({ id }) {
+    const certification = await _getBaseCertificationQuery()
+      .where('certification-courses.id', '=', id)
+      .first();
+    if (!certification) {
+      throw new NotFoundError(`Not found certification for ID ${id}`);
+    }
+    const latestAssessmentResult = await _getLatestAssessmentResult(id);
+
+    return new Certification({
+      ...certification,
+      pixScore: latestAssessmentResult && latestAssessmentResult.pixScore,
+      status: latestAssessmentResult && latestAssessmentResult.status,
+      commentForCandidate: latestAssessmentResult && latestAssessmentResult.commentForCandidate,
+    });
   },
 
-  findByUserId(userId) {
-    return CertificationCourseBookshelf
-      .query((qb) => {
-        qb.innerJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id');
-        qb.innerJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id');
-        qb.where('certification-courses.userId', userId);
-        qb.groupBy('certification-courses.id');
-        qb.orderBy('id', 'desc');
-      })
-      .fetchAll({
-        withRelated: [
-          'session', 'assessment', 'assessment.assessmentResults'
-        ],
-      })
-      .then((certificationCoursesBookshelf) => {
-        return certificationCoursesBookshelf.map(_certificationToDomain);
+  async findByUserId(userId) {
+    const results = await _getBaseCertificationQuery()
+      .where('certification-courses.userId', '=', userId)
+      .orderBy('id', 'desc');
+
+    return bluebird.mapSeries(results, async (result) => {
+      const latestAssessmentResult = await _getLatestAssessmentResult(result.id);
+
+      return new Certification({
+        ...result,
+        pixScore: latestAssessmentResult && latestAssessmentResult.pixScore,
+        status: latestAssessmentResult && latestAssessmentResult.status,
+        commentForCandidate: latestAssessmentResult && latestAssessmentResult.commentForCandidate,
       });
+    });
   },
 
   async updatePublicationStatusesBySessionId(sessionId, toPublish) {
