@@ -85,13 +85,13 @@ function _skillHasAtLeastOneChallengeInTheReferentiel(skill, challenges) {
   return challengesBySkill.length > 0;
 }
 
-async function _createUserCompetencesV1({ allCompetences, userLastAssessments }) {
+async function _createUserCompetencesV1({ allCompetences, userLastAssessments, limitDate }) {
   return bluebird.mapSeries(allCompetences, async (competence) => {
     const userCompetence = new UserCompetence(competence);
     const assessment = _.find(userLastAssessments, { competenceId: userCompetence.id });
     let latestAssessmentResult = null;
     if (assessment) {
-      latestAssessmentResult = await assessmentResultRepository.findLatestByAssessmentId(assessment.id);
+      latestAssessmentResult = await assessmentResultRepository.findLatestByAssessmentId({ assessmentId: assessment.id, limitDate });
     }
     userCompetence.pixScore = latestAssessmentResult && latestAssessmentResult.pixScore || 0;
     userCompetence.estimatedLevel = latestAssessmentResult && latestAssessmentResult.level || 0;
@@ -103,7 +103,7 @@ async function _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredC
   const certificationProfileToFill = _.clone(certificationProfile);
   const userLastAssessments = await assessmentRepository
     .findLastCompletedAssessmentsForEachCompetenceByUser(certificationProfile.userId, certificationProfile.profileDate);
-  certificationProfileToFill.userCompetences = await _createUserCompetencesV1({ allCompetences: competences, userLastAssessments });
+  certificationProfileToFill.userCompetences = await _createUserCompetencesV1({ allCompetences: competences, userLastAssessments, limitDate: certificationProfile.profileDate });
 
   return certificationProfileToFill;
 }

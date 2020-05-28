@@ -97,21 +97,23 @@ describe('Integration | Repository | AssessmentResult', function() {
     let assessmentWithResultsId;
     let assessmentWithoutResultsId;
     let expectedAssessmentResultId;
+    let expectedAssessmentResultWithinLimitDateId;
 
     beforeEach(() => {
       assessmentWithResultsId = databaseBuilder.factory.buildAssessment().id;
       assessmentWithoutResultsId = databaseBuilder.factory.buildAssessment().id;
       expectedAssessmentResultId = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessmentWithResultsId, createdAt: new Date('2019-02-01T00:00:00Z') }).id;
-      databaseBuilder.factory.buildAssessmentResult({ createdAt: new Date('2019-01-01T00:00:00Z') });
+      expectedAssessmentResultWithinLimitDateId = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessmentWithResultsId, createdAt: new Date('2019-01-01T00:00:00Z') }).id;
       databaseBuilder.factory.buildCompetenceMark({ assessmentResultId: expectedAssessmentResultId });
       databaseBuilder.factory.buildCompetenceMark({ assessmentResultId: expectedAssessmentResultId });
+      databaseBuilder.factory.buildCompetenceMark({ assessmentResultId: expectedAssessmentResultWithinLimitDateId });
 
       return databaseBuilder.commit();
     });
 
     it('should return the most recent assessment result when assessment has some', async () => {
       // when
-      const mostRecentAssessmentResult = await assessmentResultRepository.findLatestByAssessmentId(assessmentWithResultsId);
+      const mostRecentAssessmentResult = await assessmentResultRepository.findLatestByAssessmentId({ assessmentId: assessmentWithResultsId });
 
       // then
       expect(mostRecentAssessmentResult).to.be.instanceOf(AssessmentResult);
@@ -119,9 +121,19 @@ describe('Integration | Repository | AssessmentResult', function() {
       expect(mostRecentAssessmentResult.competenceMarks).to.have.length(2);
     });
 
+    it('should return the most recent assessment result within limit date when assessment has some', async () => {
+      // when
+      const mostRecentAssessmentResult = await assessmentResultRepository.findLatestByAssessmentId({ assessmentId: assessmentWithResultsId, limitDate: new Date('2019-01-05T00:00:00Z') });
+
+      // then
+      expect(mostRecentAssessmentResult).to.be.instanceOf(AssessmentResult);
+      expect(mostRecentAssessmentResult.id).to.equal(expectedAssessmentResultWithinLimitDateId);
+      expect(mostRecentAssessmentResult.competenceMarks).to.have.length(1);
+    });
+
     it('should return null when assessment has no results', async () => {
       // when
-      const mostRecentAssessmentResult = await assessmentResultRepository.findLatestByAssessmentId(assessmentWithoutResultsId);
+      const mostRecentAssessmentResult = await assessmentResultRepository.findLatestByAssessmentId({ assessmentId: assessmentWithoutResultsId });
 
       // then
       expect(mostRecentAssessmentResult).to.be.null;

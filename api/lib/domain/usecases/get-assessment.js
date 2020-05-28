@@ -16,7 +16,7 @@ module.exports = async function getAssessment(
     throw new NotFoundError(`Assessment not found for ID ${assessmentId}`);
   }
 
-  const latestAssessmentResult = await assessmentResultRepository.findLatestByAssessmentId(assessment.id);
+  const latestAssessmentResult = await assessmentResultRepository.findLatestByAssessmentId({ assessmentId: assessment.id });
   if (latestAssessmentResult) {
     assessment.estimatedLevel = latestAssessmentResult.level;
     assessment.pixScore = latestAssessmentResult.pixScore;
