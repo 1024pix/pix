@@ -36,7 +36,6 @@ class Assessment {
     isImproving,
     // includes
     answers = [],
-    assessmentResults = [],
     campaignParticipation,
     course,
     targetProfile,
@@ -56,7 +55,6 @@ class Assessment {
     this.isImproving = isImproving;
     // includes
     this.answers = answers;
-    this.assessmentResults = assessmentResults;
     this.campaignParticipation = campaignParticipation;
     this.course = course;
     this.targetProfile = targetProfile;
