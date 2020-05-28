@@ -16,15 +16,12 @@ export default class ParticipantsRoute extends Route {
     const campaign = this.modelFor('authenticated.campaigns.details');
     return RSVP.hash({
       campaign,
-      participants: this.store.query('campaignParticipation', {
-        filter: {
-          campaignId: campaign.id,
-        },
+      campaignAssessmentParticipationSummaries: this.store.query('campaignAssessmentParticipationSummary', {
         page: {
           number: params.pageNumber,
           size: params.pageSize,
         },
-        include: 'user,campaign-participation-result',
+        campaignId: campaign.id
       }),
     });
   }
