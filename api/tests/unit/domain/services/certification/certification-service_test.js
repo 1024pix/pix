@@ -91,7 +91,7 @@ describe('Unit | Service | Certification Service', function() {
             state: 'completed',
           }));
         sinon.stub(assessmentResultRepository, 'findLatestByAssessmentId')
-          .withArgs('assessmentId').resolves(assessmentResult);
+          .withArgs({ assessmentId: 'assessmentId' }).resolves(assessmentResult);
       });
 
       it('should return certification results with pix score, date and certified competences levels', async () => {

@@ -126,7 +126,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     let johnUserId;
     let laylaUserId;
     let johnAssessmentToRemember;
-    let johnAssessmentResultToRemember;
 
     const PLACEMENT = 'PLACEMENT';
 
@@ -162,8 +161,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         createdAt: johnAssessmentDateToRemember,
         type: 'PLACEMENT',
       });
-
-      johnAssessmentResultToRemember = databaseBuilder.factory.buildAssessmentResult({
+      databaseBuilder.factory.buildAssessmentResult({
         assessmentId: johnAssessmentToRemember.id,
         createdAt: johnAssessmentResultDateToRemember,
         emitter: 'PIX',
@@ -264,22 +262,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           campaignParticipationId: null,
           certificationCourseId: null,
           competenceId: johnAssessmentToRemember.competenceId,
-          assessmentResults: [
-            {
-              id: johnAssessmentResultToRemember.id,
-              assessmentId: johnAssessmentToRemember.id,
-              commentForCandidate: johnAssessmentResultToRemember.commentForCandidate,
-              commentForJury: johnAssessmentResultToRemember.commentForJury,
-              commentForOrganization: johnAssessmentResultToRemember.commentForOrganization,
-              createdAt: johnAssessmentResultToRemember.createdAt,
-              emitter: 'PIX',
-              juryId: johnAssessmentResultToRemember.juryId,
-              level: johnAssessmentResultToRemember.level,
-              pixScore: johnAssessmentResultToRemember.pixScore,
-              status: AssessmentResult.status.VALIDATED,
-              competenceMarks: []
-            }
-          ]
+          assessmentResults: []
         })
       ];
 
