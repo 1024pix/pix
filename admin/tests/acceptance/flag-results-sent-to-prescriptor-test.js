@@ -56,7 +56,7 @@ module('Acceptance | Session page', function(hooks) {
       await visit(`/sessions/${session.id}`);
       assert.dom('div.session-info__details').exists();
       assert.dom(`.row:nth-child(${STATUS_SECTION}) .col:nth-child(${VALUE_ROW_INDEX})`).containsText(statusToDisplayName[FINALIZED]);
-      assert.dom(`.row:nth-child(${FINALISATION_DATE_SECTION}) .col:nth-child(${VALUE_ROW_INDEX})`).containsText(finalizedDate.toLocaleString('fr-FR'));
+      assert.dom(`.row:nth-child(${FINALISATION_DATE_SECTION}) .col:nth-child(${VALUE_ROW_INDEX})`).containsText('10/03/2019');
       assert.dom(`.row:nth-child(${SENT_TO_PRESCRIPTEUR_DATE_SECTION}) .col:nth-child(${VALUE_ROW_INDEX})`).doesNotExist();
     });
 
