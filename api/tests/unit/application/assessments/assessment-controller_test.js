@@ -4,6 +4,8 @@ const usecases = require('../../../../lib/domain/usecases');
 const events = require('../../../../lib/domain/events');
 const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
+const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
 
 describe('Unit | Controller | assessment-controller', function() {
 
@@ -104,8 +106,8 @@ describe('Unit | Controller | assessment-controller', function() {
 
   describe('#completeAssessment', () => {
     const assessmentId = 2;
-    const assessmentCompletedEvent = Symbol('un événement de fin de test');
-    const certificationScoringEvent = Symbol('un événement de fin de scoring');
+    const assessmentCompletedEvent = new AssessmentCompleted();
+    const certificationScoringEvent = new CertificationScoringCompleted({});
     const domainTransaction = Symbol('domain transaction');
     let transactionToBeExecuted;
 
@@ -142,7 +144,7 @@ describe('Unit | Controller | assessment-controller', function() {
       await transactionToBeExecuted(domainTransaction);
 
       // then
-      expect(events.handleBadgeAcquisition).to.have.been.calledWithExactly({ domainTransaction, assessmentCompletedEvent });
+      expect(events.handleBadgeAcquisition).to.have.been.calledWithExactly({ domainTransaction, event:assessmentCompletedEvent });
     });
 
     it('should pass the assessment completed event to the CertificationScoringHandler', async () => {
@@ -155,10 +157,10 @@ describe('Unit | Controller | assessment-controller', function() {
       await transactionToBeExecuted(domainTransaction);
 
       // then
-      expect(events.handleCertificationScoring).to.have.been.calledWithExactly({ domainTransaction, assessmentCompletedEvent,  });
+      expect(events.handleCertificationScoring).to.have.been.calledWithExactly({ domainTransaction, event:assessmentCompletedEvent });
     });
 
-    it('should pass the assessment completed event to the CertificationPartnerHandler', async () => {
+    it('should pass the scoring completed event to the CertificationPartnerHandler', async () => {
       /// given
       events.handleBadgeAcquisition.resolves({});
       events.handleCertificationScoring.resolves(certificationScoringEvent);
@@ -168,7 +170,7 @@ describe('Unit | Controller | assessment-controller', function() {
       await transactionToBeExecuted(domainTransaction);
 
       // then
-      expect(events.handleCertificationAcquisitionForPartner).to.have.been.calledWithExactly({ domainTransaction, certificationScoringEvent });
+      expect(events.handleCertificationAcquisitionForPartner).to.have.been.calledWithExactly({ domainTransaction, event:certificationScoringEvent });
     });
 
     it('should call usecase and handler within the transaction', async () => {

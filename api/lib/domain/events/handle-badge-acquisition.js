@@ -1,39 +1,39 @@
 const handleBadgeAcquisition = async function({
   domainTransaction,
-  assessmentCompletedEvent,
+  event,
   badgeCriteriaService,
   badgeAcquisitionRepository,
   badgeRepository,
   campaignParticipationResultRepository,
 }) {
-  if (completedAssessmentBelongsToACampaign(assessmentCompletedEvent)) {
-    const badge = await fetchPossibleCampaignAssociatedBadge(assessmentCompletedEvent, badgeRepository);
+  if (completedAssessmentBelongsToACampaign(event)) {
+    const badge = await fetchPossibleCampaignAssociatedBadge(event, badgeRepository);
     if (isABadgeAssociatedToCampaign(badge)) {
-      const campaignParticipationResult = await fetchCampaignParticipationResults(assessmentCompletedEvent, badge, campaignParticipationResultRepository);
+      const campaignParticipationResult = await fetchCampaignParticipationResults(event, badge, campaignParticipationResultRepository);
       if (isBadgeAcquired(campaignParticipationResult, badge.badgeCriteria, badgeCriteriaService)) {
         await badgeAcquisitionRepository.create({
           badgeId: badge.id,
-          userId: assessmentCompletedEvent.userId
+          userId: event.userId
         }, domainTransaction);
       }
     }
   }
 };
 
-function completedAssessmentBelongsToACampaign(assessmentCompletedEvent) {
-  return !!assessmentCompletedEvent.targetProfileId;
+function completedAssessmentBelongsToACampaign(event) {
+  return !!event.targetProfileId;
 }
 
-async function fetchPossibleCampaignAssociatedBadge(assessmentCompletedEvent, badgeRepository) {
-  return await badgeRepository.findOneByTargetProfileId(assessmentCompletedEvent.targetProfileId);
+async function fetchPossibleCampaignAssociatedBadge(event, badgeRepository) {
+  return await badgeRepository.findOneByTargetProfileId(event.targetProfileId);
 }
 
 function isABadgeAssociatedToCampaign(badge) {
   return !!badge;
 }
 
-async function fetchCampaignParticipationResults(assessmentCompletedEvent, badge, campaignParticipationResultRepository) {
-  return await campaignParticipationResultRepository.getByParticipationId(assessmentCompletedEvent.campaignParticipationId, badge);
+async function fetchCampaignParticipationResults(event, badge, campaignParticipationResultRepository) {
+  return await campaignParticipationResultRepository.getByParticipationId(event.campaignParticipationId, badge);
 }
 
 function isBadgeAcquired(campaignParticipationResult, badgeCriteria, badgeCriteriaService) {
