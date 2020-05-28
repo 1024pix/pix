@@ -929,9 +929,9 @@ describe('Acceptance | Application | organization-controller', () => {
         // then
         expect(response.statusCode).to.equal(201);
         expect(response.result.data.length).equal(2);
-        expect(_.omit(response.result.data[0], 'id', 'attributes.created-at', 'attributes.organization-name'))
+        expect(_.omit(response.result.data[0], 'id', 'attributes.created-at', 'attributes.updated-at', 'attributes.organization-name'))
           .to.deep.equal(expectedResults[0]);
-        expect(_.omit(response.result.data[1], 'id', 'attributes.created-at', 'attributes.organization-name'))
+        expect(_.omit(response.result.data[1], 'id', 'attributes.created-at', 'attributes.updated-at', 'attributes.organization-name'))
           .to.deep.equal(expectedResults[1]);
       });
     });
@@ -1013,6 +1013,8 @@ describe('Acceptance | Application | organization-controller', () => {
 
     let organization;
     let options;
+    let firstOrganizationInvitation;
+    let secondOrganizationInvitation;
 
     beforeEach(async () => {
       const adminUserId = databaseBuilder.factory.buildUser().id;
@@ -1024,21 +1026,18 @@ describe('Acceptance | Application | organization-controller', () => {
         organizationRole: Membership.roles.ADMIN,
       });
 
-      databaseBuilder.factory.buildOrganizationInvitation({
+      firstOrganizationInvitation = databaseBuilder.factory.buildOrganizationInvitation({
         organizationId: organization.id,
-        email: 'jojo@business.company',
+        status: OrganizationInvitation.StatusType.PENDING,
+      });
+
+      secondOrganizationInvitation = databaseBuilder.factory.buildOrganizationInvitation({
+        organizationId: organization.id,
         status: OrganizationInvitation.StatusType.PENDING,
       });
 
       databaseBuilder.factory.buildOrganizationInvitation({
         organizationId: organization.id,
-        email: 'jojo@tech.company',
-        status: OrganizationInvitation.StatusType.PENDING,
-      });
-
-      databaseBuilder.factory.buildOrganizationInvitation({
-        organizationId: organization.id,
-        email: 'jojo@medical.company',
         status: OrganizationInvitation.StatusType.ACCEPTED,
       });
 
@@ -1066,16 +1065,20 @@ describe('Acceptance | Application | organization-controller', () => {
               type: 'organization-invitations',
               attributes: {
                 'organization-id': organization.id,
-                email: 'jojo@tech.company',
+                email: firstOrganizationInvitation.email,
                 status: OrganizationInvitation.StatusType.PENDING,
+                'created-at': firstOrganizationInvitation.createdAt,
+                'updated-at': firstOrganizationInvitation.updatedAt,
               },
             },
             {
               type: 'organization-invitations',
               attributes: {
                 'organization-id': organization.id,
-                email: 'jojo@business.company',
+                email: secondOrganizationInvitation.email,
                 status: OrganizationInvitation.StatusType.PENDING,
+                'created-at': secondOrganizationInvitation.createdAt,
+                'updated-at': secondOrganizationInvitation.updatedAt,
               },
             },
           ],
@@ -1086,8 +1089,8 @@ describe('Acceptance | Application | organization-controller', () => {
 
         // then
         expect(response.statusCode).to.equal(200);
-        const omittedResult = _.omit(response.result, 'data[0].id', 'data[0].attributes.created-at', 'data[0].attributes.organization-name',
-          'data[1].id', 'data[1].attributes.created-at', 'data[1].attributes.organization-name');
+        const omittedResult = _.omit(response.result, 'data[0].id', 'data[0].attributes.organization-name',
+          'data[1].id', 'data[1].attributes.organization-name');
         expect(omittedResult.data).to.deep.have.members(expectedResult.data);
       });
     });
