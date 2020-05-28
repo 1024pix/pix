@@ -64,7 +64,7 @@ exports.register = async function(server) {
             return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
           }
         },
-        handler: userController.getUserDetailForAdmin,
+        handler: userController.getUserDetailsForAdmin,
         pre: [{
           method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
@@ -73,9 +73,57 @@ exports.register = async function(server) {
           '- **Cette route est restreinte aux utilisateurs administrateurs**\n' +
           '- Elle permet de récupérer le détail d\'un utilisateur dans un contexte d\'administration\n',
         ],
-        tags: ['api', 'user admin'],
+        tags: ['api', 'administration' , 'user'],
       }
     },
+
+    {
+      method: 'PATCH',
+      path: '/api/admin/users/{id}',
+      config: {
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
+        plugins: {
+          'hapi-swagger': {
+            payloadType: 'form'
+          }
+        },
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required(),
+          }),
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                email: Joi.string().email().allow(null).optional(),
+              }
+            }
+          }),
+          options: {
+            allowUnknown: true
+          },
+          failAction: (request, h , err) => {
+            const errorHttpStatusCode = 400;
+            const jsonApiError = new JSONAPIError({
+              code: errorHttpStatusCode.toString(),
+              title: 'Bad request',
+              detail: err.details,
+            });
+            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
+          }
+        },
+        handler: userController.updateUserDetailsForAdministration,
+        notes : [
+          '- Permet à un administrateur de mettre à jour certains attributs d\'un utilisateur identifié par son identifiant',
+        ],
+        tags: ['api', 'administration' , 'user'],
+      }
+    },
+
     {
       method: 'GET',
       path: '/api/users/{id}/memberships',

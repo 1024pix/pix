@@ -4,7 +4,7 @@ const BookshelfUser = require('../data/user');
 const moment = require('moment');
 const { AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError, SchoolingRegistrationAlreadyLinkedToUserError, UserNotFoundError } = require('../../domain/errors');
 const User = require('../../domain/models/User');
-const UserDetailForAdmin = require('../../domain/read-models/UserDetailForAdmin');
+const UserDetailsForAdmin = require('../../domain/models/UserDetailsForAdmin');
 const PixRole = require('../../domain/models/PixRole');
 const Membership = require('../../domain/models/Membership');
 const UserOrgaSettings = require('../../domain/models/UserOrgaSettings');
@@ -15,21 +15,20 @@ const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-convert
 
 const PIX_MASTER_ROLE_ID = 1;
 
-function _toUserDetailForAdminDomain(BookshelfUser) {
-
-  const rawUserDetailForAdmin = BookshelfUser.toJSON();
-  return new UserDetailForAdmin({
-    id: rawUserDetailForAdmin.id,
-    firstName: rawUserDetailForAdmin.firstName,
-    lastName: rawUserDetailForAdmin.lastName,
-    birthdate: rawUserDetailForAdmin.birthdate,
-    organizationId: rawUserDetailForAdmin.organizationId,
-    username: rawUserDetailForAdmin.username,
-    email: rawUserDetailForAdmin.email,
-    cgu: rawUserDetailForAdmin.cgu,
-    pixOrgaTermsOfServiceAccepted: rawUserDetailForAdmin.pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted: rawUserDetailForAdmin.pixCertifTermsOfServiceAccepted,
-    isAuthenticatedFromGAR: !!rawUserDetailForAdmin.samlId,
+function _toUserDetailsForAdminDomain(BookshelfUser) {
+  const rawUserDetailsForAdmin = BookshelfUser.toJSON();
+  return new UserDetailsForAdmin({
+    id: rawUserDetailsForAdmin.id,
+    firstName: rawUserDetailsForAdmin.firstName,
+    lastName: rawUserDetailsForAdmin.lastName,
+    birthdate: rawUserDetailsForAdmin.birthdate,
+    organizationId: rawUserDetailsForAdmin.organizationId,
+    username: rawUserDetailsForAdmin.username,
+    email: rawUserDetailsForAdmin.email,
+    cgu: rawUserDetailsForAdmin.cgu,
+    pixOrgaTermsOfServiceAccepted: rawUserDetailsForAdmin.pixOrgaTermsOfServiceAccepted,
+    pixCertifTermsOfServiceAccepted: rawUserDetailsForAdmin.pixCertifTermsOfServiceAccepted,
+    isAuthenticatedFromGAR: !!rawUserDetailsForAdmin.samlId,
   });
 }
 
@@ -180,12 +179,12 @@ module.exports = {
       });
   },
 
-  getUserDetailForAdmin(userId) {
+  getUserDetailsForAdmin(userId) {
     return BookshelfUser
       .where({ id: userId })
       .fetch({ require: true, columns: ['id','firstName','firstName','lastName','email','username','cgu','pixOrgaTermsOfServiceAccepted',
         'pixCertifTermsOfServiceAccepted','samlId', ] })
-      .then((userDetailForAdmin) => _toUserDetailForAdminDomain(userDetailForAdmin))
+      .then((userDetailsForAdmin) => _toUserDetailsForAdminDomain(userDetailsForAdmin))
       .catch((err) => {
         if (err instanceof BookshelfUser.NotFoundError) {
           throw new UserNotFoundError(`User not found for ID ${userId}`);
@@ -286,6 +285,19 @@ module.exports = {
       });
   },
 
+  async isEmailAllowedToUseForCurrentUser(userId, email) {
+    const userFound = await BookshelfUser
+      .where('id', '!=', userId)
+      .where({ email: email.toLowerCase() })
+      .fetch();
+    if (userFound) {
+      throw new AlreadyRegisteredEmailError();
+    }
+    else {
+      return true;
+    }
+  },
+
   isUserExistingByEmail(email) {
     return BookshelfUser
       .where({ email: email.toLowerCase() })
@@ -307,6 +319,21 @@ module.exports = {
         }
         throw err;
       });
+  },
+
+  async updateUserDetailsForAdministration(id, userAttributes) {
+    try {
+      let updatedUser = await BookshelfUser
+        .where({ id })
+        .save(userAttributes, { patch: true, method: 'update' });
+      updatedUser = await updatedUser.refresh();
+      return _toUserDetailsForAdminDomain(updatedUser);
+    } catch (err) {
+      if (err instanceof BookshelfUser.NoRowsUpdatedError) {
+        throw new UserNotFoundError(`User not found for ID ${id}`);
+      }
+      throw err;
+    }
   },
 
   async isPixMaster(id) {
