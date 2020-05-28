@@ -2,9 +2,11 @@ import { module, test } from 'qunit';
 import { find, currentURL, triggerEvent, visit, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
+
 import {
   createUserWithMembershipAndTermsOfServiceAccepted,
-  createUserManagingStudents
+  createUserManagingStudents,
+  createPrescriberByUser
 } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -14,14 +16,13 @@ module('Acceptance | Student List', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  let user;
   let organizationId;
   let username;
   let email;
 
-  module('When user is not logged in', function() {
+  module('When prescriber is not logged in', function() {
 
-    test('it should not be accessible by an unauthenticated user', async function(assert) {
+    test('it should not be accessible by an unauthenticated prescriber', async function(assert) {
       // when
       await visit('/eleves');
 
@@ -30,7 +31,9 @@ module('Acceptance | Student List', function(hooks) {
     });
   });
 
-  module('When user is logged in', function(hooks) {
+  module('When prescriber is logged in', function(hooks) {
+
+    let user;
 
     hooks.afterEach(function() {
       const notificationMessagesService = this.owner.lookup('service:notifications');
@@ -41,6 +44,7 @@ module('Acceptance | Student List', function(hooks) {
 
       hooks.beforeEach(async () => {
         user = createUserWithMembershipAndTermsOfServiceAccepted();
+        createPrescriberByUser(user);
 
         await authenticateSession({
           user_id: user.id,
@@ -63,10 +67,14 @@ module('Acceptance | Student List', function(hooks) {
 
       hooks.beforeEach(async () => {
         user = createUserManagingStudents();
+        createPrescriberByUser(user);
+
         organizationId = user.memberships.models.firstObject.organizationId;
+
+        server.createList('student', 5, { organizationId });
+
         username = 'firstname.lastname0112';
         email = 'firstname.lastname0112@example.net';
-        server.createList('student', 5, { organizationId });
         server.create('student', {
           organizationId,
           firstName: 'FirstName',
@@ -187,7 +195,7 @@ module('Acceptance | Student List', function(hooks) {
 
       });
 
-      module('when student authenticated by email )', async function() {
+      module('when student authenticated by email', async function() {
 
         test('it should open password modal window with email value', async function(assert) {
 
@@ -201,15 +209,15 @@ module('Acceptance | Student List', function(hooks) {
           assert.dom('.pix-modal-overlay').exists();
           assert.dom('#email').hasValue(email);
         });
-
       });
-
     });
 
-    module('When user is admin in organization', function(hooks) {
+    module('When prescriber is admin in organization', function(hooks) {
 
       hooks.beforeEach(async () => {
         user = createUserManagingStudents('ADMIN');
+        createPrescriberByUser(user);
+
         await authenticateSession({
           user_id: user.id,
           access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
@@ -305,26 +313,28 @@ module('Acceptance | Student List', function(hooks) {
       });
     });
 
-    module('When user is not admin in organization', function() {
+    module('When prescriber is not admin in organization', function(hooks) {
 
-      test('it should not display import button', async function(assert) {
-        // given
+      hooks.beforeEach(async () => {
         user = createUserManagingStudents('MEMBER');
+        createPrescriberByUser(user);
+
         await authenticateSession({
           user_id: user.id,
           access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
           expires_in: 3600,
           token_type: 'Bearer token type',
         });
+      });
 
+      test('it should not display import button', async function(assert) {
         // when
         await visit('/eleves');
 
         // then
         assert.dom('.button').doesNotExist();
       });
-
     });
-
   });
+
 });
