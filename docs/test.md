@@ -125,3 +125,21 @@ Elles sont testées unitairement, peu importe leur nature (component, controller
 
 ## Bout-en-bout 
 Raison: éviter les tests manuels, longs et répétitifs, de non-régression
+
+
+Exemple de use case : 
+Pas besoin de test unitaire
+api/lib/domain/usecases/find-completed-user-certifications.js
+api/lib/domain/usecases/find-latest-ongoing-user-campaign-participations.js
+
+On peut faire des tests unitaires parce qu'ils ont des responsabilités
+mais on peux faire plusieurs tests d'intégrations à voir.
+
+C'est use case très simple  ou les tests  avec les mocks / stubs ne sont pas trop complexe
+api/lib/domain/usecases/archive-campaign.js
+api/lib/domain/usecases/create-organization.js
+api/lib/domain/usecases/find-answer-by-challenge-and-assessment.js
+
+Trop complexe pour les tests unitairies et pour les test d'intégrations
+api/lib/domain/usecases/find-campaign-participations-with-results.js
+api/lib/domain/usecases/correct-answer-then-update-assessment.js
