@@ -5,7 +5,6 @@ const SmartPlacementAssessment = require('../../../../lib/domain/models/SmartPla
 
 const buildAnswer = require('./build-answer');
 const buildCourse = require('./build-course');
-const buildAssessmentResult = require('./build-assessment-result');
 const buildKnowledgeElement = require('./build-knowledge-element');
 const buildTargetProfile = require('./build-target-profile');
 const buildCampaignParticipation = require('./build-campaign-participation');
@@ -22,7 +21,6 @@ function buildAssessment({
   isImproving = false,
   course = buildCourse({ id: 'courseId' }),
   answers = [buildAnswer()],
-  assessmentResults = [buildAssessmentResult()],
   campaignParticipation = null,
   competenceId = null,
 } = {}) {
@@ -40,7 +38,6 @@ function buildAssessment({
     competenceId,
     // relationships
     answers,
-    assessmentResults,
     course,
     campaignParticipation,
   });
@@ -57,7 +54,6 @@ buildAssessment.ofTypeSmartPlacement = function({
   isImproving = false,
 
   answers = [buildAnswer()],
-  assessmentResults = [buildAssessmentResult()],
   course = buildCourse({ id: 'courseId' }),
   targetProfile = buildTargetProfile(),
   knowledgeElements = [buildKnowledgeElement()],
@@ -91,7 +87,6 @@ buildAssessment.ofTypeSmartPlacement = function({
 
     // relationships
     answers,
-    assessmentResults,
     course,
     targetProfile,
     knowledgeElements,
@@ -111,7 +106,6 @@ buildAssessment.ofTypeCompetenceEvaluation = function({
   campaignParticipationId = null,
 
   answers = [buildAnswer()],
-  assessmentResults = [buildAssessmentResult()],
   course = buildCourse({ id: 'courseId' }),
   targetProfile = buildTargetProfile(),
   knowledgeElements = [buildKnowledgeElement()],
@@ -135,7 +129,6 @@ buildAssessment.ofTypeCompetenceEvaluation = function({
 
     // relationships
     answers,
-    assessmentResults,
     course,
     targetProfile,
     knowledgeElements,
