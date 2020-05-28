@@ -3,50 +3,35 @@ const buildAssessmentResult = require('./build-assessment-result');
 
 module.exports = function buildCertification({
   id = 1,
-  assessmentResults = [buildAssessmentResult()],
-  assessmentState = 'completed',
+  firstName = 'Jean',
+  lastName = 'Bon',
   birthdate = '1992-06-12',
   birthplace = 'Paris',
+  isPublished = true,
+  userId = 1,
   certificationCenter = 'L’univeristé du Pix',
   date = new Date('2018-12-01T01:02:03Z'),
-  firstName = 'Jean',
-  isPublished = true,
-  lastName = 'Bon',
-  userId = 1,
-  resultCompetenceTree,
-  acquiredPartnerCertifications = [],
-
-  // set to overried computed properties
   commentForCandidate,
   pixScore,
   status,
+  acquiredPartnerCertifications = [],
+  resultCompetenceTree = null,
 } = {}) {
-
-  const certification = new Certification({
+  const assessmentResult = buildAssessmentResult();
+  return new Certification({
     id,
-    assessmentState,
-    assessmentResults,
+    firstName,
+    lastName,
     birthdate,
     birthplace,
+    isPublished,
+    userId,
     certificationCenter,
     date,
-    firstName,
-    isPublished,
-    lastName,
-    userId,
-    resultCompetenceTree,
+    commentForCandidate: commentForCandidate || assessmentResult.commentForCandidate,
+    pixScore: pixScore || assessmentResult.pixScore,
+    status: status || assessmentResult.status,
     acquiredPartnerCertifications,
+    resultCompetenceTree,
   });
-
-  if (pixScore !== undefined) {
-    certification.pixScore = pixScore;
-  }
-  if (status !== undefined) {
-    certification.status = status;
-  }
-  if (commentForCandidate !== undefined) {
-    certification.commentForCandidate = commentForCandidate;
-  }
-
-  return certification;
 };

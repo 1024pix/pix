@@ -34,7 +34,7 @@ describe('Integration | Repository | Certification ', () => {
       type,
     });
     const assessmentResult = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment.id });
-    expectedCertification = _buildCertification(session.certificationCenter, certificationCourse, assessment, assessmentResult,);
+    expectedCertification = _buildCertification(session.certificationCenter, certificationCourse, assessmentResult,);
     databaseBuilder.factory.buildCertificationAcquiredPartner({ certificationCourseId: expectedCertification.id, partnerKey: PARTNER_CLEA_KEY });
 
     sessionLatestAssessmentRejectedCertifCourseIds = [];
@@ -110,8 +110,8 @@ describe('Integration | Repository | Certification ', () => {
       });
       const assessmentResult2 = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment2.id });
       expectedCertifications = [
-        _buildCertification(session.certificationCenter, certificationCourse1, assessment1, assessmentResult1),
-        _buildCertification(session.certificationCenter, certificationCourse2, assessment2, assessmentResult2),
+        _buildCertification(session.certificationCenter, certificationCourse1, assessmentResult1),
+        _buildCertification(session.certificationCenter, certificationCourse2, assessmentResult2),
         expectedCertification,
       ];
 
@@ -171,10 +171,9 @@ describe('Integration | Repository | Certification ', () => {
 
 });
 
-function _buildCertification(certificationCenterName, certificationCourse, assessment, assessmentResult) {
+function _buildCertification(certificationCenterName, certificationCourse, assessmentResult) {
   return domainBuilder.buildCertification({
     id: certificationCourse.id,
-    assessmentState: assessment.state,
     birthdate: certificationCourse.birthdate,
     birthplace: certificationCourse.birthplace,
     certificationCenter: certificationCenterName,
