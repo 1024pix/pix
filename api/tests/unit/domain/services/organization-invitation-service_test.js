@@ -19,6 +19,7 @@ describe('Unit | Service | Organization-Invitation Service', () => {
     organizationInvitationRepository = {
       create: sinon.stub(),
       findOnePendingByOrganizationIdAndEmail: sinon.stub().resolves(null),
+      updateModificationDate: sinon.stub().resolves()
     };
     organizationRepository = {
       get: sinon.stub().resolves({ name: organizationName })
@@ -73,26 +74,33 @@ describe('Unit | Service | Organization-Invitation Service', () => {
 
     context('when an organization-invitation with pending status already exists', () => {
 
-      it('should re-send an email with same code', async () => {
-        // given
-        const tags = undefined;
-        const isPending = true;
+      const isPending = true;
+      const tags = undefined;
 
+      beforeEach(async () => {
+        // given
         organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves({
           id: organizationInvitationId, isPending, code
         });
-
-        const expectedParameters = {
-          email: userEmailAddress, organizationName, organizationInvitationId, code, tags
-        };
 
         // when
         await createOrganizationInvitation({
           organizationRepository, organizationInvitationRepository, organizationId, email: userEmailAddress
         });
+      });
 
+      it('should re-send an email with same code', async () => {
         // then
+        const expectedParameters = {
+          email: userEmailAddress, organizationName, organizationInvitationId, code, tags
+        };
+
         expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWith(expectedParameters);
+      });
+
+      it('should update organization-invitation modification date', () => {
+        // then
+        expect(organizationInvitationRepository.updateModificationDate).to.have.been.calledWith(organizationInvitationId);
       });
     });
   });
