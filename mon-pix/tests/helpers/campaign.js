@@ -1,5 +1,6 @@
 import { click, fillIn } from '@ember/test-helpers';
 import visit from './visit';
+import { contains } from './contains';
 
 export async function startCampaignByCode(campaignCode) {
   await visit(`/campagnes/${campaignCode}`);
@@ -11,7 +12,7 @@ export async function startCampaignByCodeAndExternalId(campaignCode) {
   await click('.campaign-landing-page__start-button');
 }
 
-export async function resumeCampaignByCode(campaignCode, hasExternalParticipantId) {
+export async function resumeCampaignOfTypeAssessmentByCode(campaignCode, hasExternalParticipantId) {
   await visit(`/campagnes/${campaignCode}`);
   await click('.campaign-landing-page__start-button');
   if (hasExternalParticipantId) {
@@ -22,13 +23,27 @@ export async function resumeCampaignByCode(campaignCode, hasExternalParticipantI
   await click('.challenge-actions__action-skip');
 }
 
-export async function completeCampaignByCode(campaignCode) {
+export async function resumeCampaignOfTypeProfilesCollectionByCode(campaignCode, hasExternalParticipantId) {
+  await visit(`/campagnes/${campaignCode}`);
+  await click(contains('C’est parti !'));
+  if (hasExternalParticipantId) {
+    await fillIn('#id-pix-label', 'monmail@truc.fr');
+    await click(contains('Continuer'));
+  }
+}
+
+export async function completeCampaignOfTypeProfilesCollectionByCode(campaignCode) {
+  await visit(`/campagnes/${campaignCode}`);
+  await click(contains('J\'envoie mon profil'));
+}
+
+export async function completeCampaignOfTypeAssessmentByCode(campaignCode) {
   await visit(`/campagnes/${campaignCode}`);
   await click('.challenge-actions__action-skip');
   await click('.challenge-actions__action-skip');
 }
 
-export async function completeCampaignAndSeeResultsByCode(campaignCode) {
+export async function completeCampaignOfTypeAssessmentAndSeeResultsByCode(campaignCode) {
   await visit(`/campagnes/${campaignCode}`);
   await click('.challenge-actions__action-skip');
   await click('.challenge-actions__action-skip');
