@@ -8,8 +8,6 @@ export default class Assessment extends Model {
   // attributes
   @attr('string') certificationNumber;
   @attr('string') codeCampaign;
-  @attr('number') estimatedLevel;
-  @attr('number') pixScore;
   @attr('string') state;
   @attr('string') title;
   @attr('string') type;

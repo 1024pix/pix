@@ -7,22 +7,12 @@ module.exports = async function getAssessment(
     assessmentId,
     // dependencies
     assessmentRepository,
-    assessmentResultRepository,
     competenceRepository,
     courseRepository,
   }) {
   const assessment = await assessmentRepository.get(assessmentId);
   if (!assessment) {
     throw new NotFoundError(`Assessment not found for ID ${assessmentId}`);
-  }
-
-  const latestAssessmentResult = await assessmentResultRepository.findLatestByAssessmentId({ assessmentId: assessment.id });
-  if (latestAssessmentResult) {
-    assessment.estimatedLevel = latestAssessmentResult.level;
-    assessment.pixScore = latestAssessmentResult.pixScore;
-  } else {
-    assessment.estimatedLevel = null;
-    assessment.pixScore = null;
   }
 
   assessment.title = await _fetchAssessmentTitle({
