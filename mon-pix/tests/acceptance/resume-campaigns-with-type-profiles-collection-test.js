@@ -73,7 +73,8 @@ describe('Acceptance | Campaigns | Resume Campaigns with type Profiles Collecti
         // when
         await visit(`/campagnes/${campaign.code}`);
 
-        expect(contains('Merci, votre profil a bien été envoyé !')).to.exist;
+        // then
+        expect(currentURL()).to.contains('/deja-envoye');
       });
     });
   });

@@ -66,6 +66,7 @@ Router.map(function() {
   this.route('profiles-collection-campaigns', { path: '/campagnes/:campaign_code/collecte' }, function() {
     this.route('start-or-resume', { path: '/' });
     this.route('send-profile', { path: '/envoi-profil' });
+    this.route('profile-already-shared', { path: '/deja-envoye' });
   });
 
   this.route('competences', { path: '/competences/:competence_id' }, function() {
