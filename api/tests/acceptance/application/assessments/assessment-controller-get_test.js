@@ -159,8 +159,6 @@ describe('Acceptance | API | assessment-controller-get', () => {
           'type': 'assessments',
           'id': assessmentId.toString(),
           'attributes': {
-            'estimated-level': null,
-            'pix-score': null,
             'state': null,
             'title': '',
             'type': null,
@@ -221,14 +219,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
     let assessmentId, answer1, answer2;
 
     beforeEach(async () => {
-      const juryId = databaseBuilder.factory.buildUser({}).id;
       assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId, state: 'completed' }).id;
-      databaseBuilder.factory.buildAssessmentResult({
-        level: 1,
-        pixScore: 12,
-        assessmentId: assessmentId,
-        juryId,
-      });
 
       answer1 = databaseBuilder.factory.buildAnswer({ assessmentId });
       answer2 = databaseBuilder.factory.buildAnswer({ assessmentId });
@@ -286,8 +277,6 @@ describe('Acceptance | API | assessment-controller-get', () => {
           'type': 'assessments',
           'id': assessmentId.toString(),
           'attributes': {
-            'estimated-level': 1,
-            'pix-score': 12,
             'state': 'completed',
             'title': '',
             'type': null,

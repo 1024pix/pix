@@ -37,8 +37,6 @@ module.exports = {
         return assessment;
       },
       attributes: [
-        'estimatedLevel',
-        'pixScore',
         'title',
         'type',
         'state',

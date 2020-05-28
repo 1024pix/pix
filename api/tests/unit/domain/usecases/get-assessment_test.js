@@ -1,7 +1,6 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const getAssessment = require('../../../../lib/domain/usecases/get-assessment');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const assessmentResultRepository = require('../../../../lib/infrastructure/repositories/assessment-result-repository');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
@@ -12,7 +11,6 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 describe('Unit | UseCase | get-assessment', () => {
 
   let assessment;
-  let assessmentResult;
   let campaign;
   let campaignParticipation;
   let competence;
@@ -24,7 +22,6 @@ describe('Unit | UseCase | get-assessment', () => {
   const expectedAssessmentTitle = 'Traiter des données';
 
   beforeEach(() => {
-    assessmentResult = domainBuilder.buildAssessmentResult();
     campaign = domainBuilder.buildCampaign.ofTypeAssessment({ title: expectedCampaignName });
     campaignParticipation = domainBuilder.buildCampaignParticipation({ campaign });
     competence = domainBuilder.buildCompetence({ id: 'recsvLz0W2ShyfD63', name: expectedAssessmentTitle });
@@ -38,7 +35,6 @@ describe('Unit | UseCase | get-assessment', () => {
     });
 
     sinon.stub(assessmentRepository, 'get');
-    sinon.stub(assessmentResultRepository, 'findLatestByAssessmentId').resolves(assessmentResult);
     sinon.stub(campaignRepository, 'get');
     sinon.stub(competenceRepository, 'getCompetenceName');
     sinon.stub(courseRepository, 'getCourseName');
@@ -49,13 +45,11 @@ describe('Unit | UseCase | get-assessment', () => {
     assessmentRepository.get.resolves(assessment);
 
     // when
-    const result = await getAssessment({ assessmentRepository, assessmentResultRepository, assessmentId: assessment.id  });
+    const result = await getAssessment({ assessmentRepository, assessmentId: assessment.id  });
 
     // then
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);
-    expect(result.pixScore).to.equal(assessmentResult.pixScore);
-    expect(result.estimatedLevel).to.equal(assessmentResult.level);
   });
 
   it('should resolve the Assessment domain object with COMPETENCE_EVALUATION title matching the given assessment ID', async () => {
@@ -68,7 +62,6 @@ describe('Unit | UseCase | get-assessment', () => {
     const result = await getAssessment({
       assessmentId: assessment.id,
       assessmentRepository,
-      assessmentResultRepository,
       competenceRepository,
     });
 
@@ -78,8 +71,6 @@ describe('Unit | UseCase | get-assessment', () => {
 
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);
-    expect(result.pixScore).to.equal(assessmentResult.pixScore);
-    expect(result.estimatedLevel).to.equal(assessmentResult.level);
     expect(result.title).to.equal(expectedAssessmentTitle);
   });
 
@@ -92,15 +83,12 @@ describe('Unit | UseCase | get-assessment', () => {
     const result = await getAssessment({
       assessmentId: assessment.id,
       assessmentRepository,
-      assessmentResultRepository,
       courseRepository,
     });
 
     // then
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);
-    expect(result.pixScore).to.equal(assessmentResult.pixScore);
-    expect(result.estimatedLevel).to.equal(assessmentResult.level);
     expect(result.title).to.equal(certificationCourseId);
   });
 
@@ -114,7 +102,6 @@ describe('Unit | UseCase | get-assessment', () => {
     const result = await getAssessment({
       assessmentId: assessment.id,
       assessmentRepository,
-      assessmentResultRepository,
       courseRepository,
     });
 
@@ -124,8 +111,6 @@ describe('Unit | UseCase | get-assessment', () => {
 
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);
-    expect(result.pixScore).to.equal(assessmentResult.pixScore);
-    expect(result.estimatedLevel).to.equal(assessmentResult.level);
     expect(result.title).to.equal(course.name);
   });
 
@@ -138,7 +123,6 @@ describe('Unit | UseCase | get-assessment', () => {
     const result = await getAssessment({
       assessmentId: assessment.id,
       assessmentRepository,
-      assessmentResultRepository,
       campaignRepository,
     });
 
@@ -147,8 +131,6 @@ describe('Unit | UseCase | get-assessment', () => {
 
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);
-    expect(result.pixScore).to.equal(assessmentResult.pixScore);
-    expect(result.estimatedLevel).to.equal(assessmentResult.level);
     expect(result.title).to.equal(expectedCampaignName);
   });
 
@@ -162,7 +144,6 @@ describe('Unit | UseCase | get-assessment', () => {
     const result = await getAssessment({
       assessmentId: assessment.id,
       assessmentRepository,
-      assessmentResultRepository,
       competenceRepository,
     });
 
@@ -172,8 +153,6 @@ describe('Unit | UseCase | get-assessment', () => {
 
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);
-    expect(result.pixScore).to.equal(assessmentResult.pixScore);
-    expect(result.estimatedLevel).to.equal(assessmentResult.level);
     expect(result.title).to.equal('');
   });
 
@@ -186,7 +165,6 @@ describe('Unit | UseCase | get-assessment', () => {
     const result = await getAssessment({
       assessmentId: assessment.id,
       assessmentRepository,
-      assessmentResultRepository,
       campaignRepository,
     });
 
@@ -195,8 +173,6 @@ describe('Unit | UseCase | get-assessment', () => {
 
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);
-    expect(result.pixScore).to.equal(assessmentResult.pixScore);
-    expect(result.estimatedLevel).to.equal(assessmentResult.level);
     expect(result.title).to.equal('Preview');
   });
 
