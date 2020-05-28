@@ -1,8 +1,8 @@
+const JSONAPISerializer = require('jsonapi-serializer').Serializer;
 const { AssessmentEndedError } = require('../../domain/errors');
 const usecases = require('../../domain/usecases');
 const events = require('../../domain/events');
 const logger = require('../../infrastructure/logger');
-const JSONAPI = require('../../interfaces/jsonapi');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
@@ -81,7 +81,8 @@ module.exports = {
       return challengeSerializer.serialize(challenge);
     } catch (error) {
       if (error instanceof AssessmentEndedError) {
-        return JSONAPI.emptyDataResponse();
+        const object = new JSONAPISerializer('', {});
+        return object.serialize(null);
       }
       throw error;
     }

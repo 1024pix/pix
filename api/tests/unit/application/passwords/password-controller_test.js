@@ -46,7 +46,7 @@ describe('Unit | Controller | PasswordController', () => {
       // given
       const generatedToken = 'token';
       const demand = { email: 'shi@fu.me', temporaryKey: generatedToken };
-      const hostBaseUrl = 'https://localhost';
+      const locale = 'fr-fr';
       const resolvedPasswordReset = {
         attributes: {
           email: 'Giles75@hotmail.com',
@@ -54,6 +54,7 @@ describe('Unit | Controller | PasswordController', () => {
           id: 15
         }
       };
+      request.locale = locale;
 
       userRepository.isUserExistingByEmail.resolves();
       resetPasswordService.generateTemporaryKey.returns(generatedToken);
@@ -68,7 +69,7 @@ describe('Unit | Controller | PasswordController', () => {
       sinon.assert.calledWith(userRepository.isUserExistingByEmail, userEmail);
       sinon.assert.calledOnce(resetPasswordService.generateTemporaryKey);
       sinon.assert.calledWith(resetPasswordRepository.create, demand);
-      sinon.assert.calledWith(mailService.sendResetPasswordDemandEmail, request.payload.data.attributes.email, hostBaseUrl, generatedToken);
+      sinon.assert.calledWith(mailService.sendResetPasswordDemandEmail, request.payload.data.attributes.email, locale, generatedToken);
       sinon.assert.calledWith(passwordResetSerializer.serialize, resolvedPasswordReset.attributes);
     });
   });
