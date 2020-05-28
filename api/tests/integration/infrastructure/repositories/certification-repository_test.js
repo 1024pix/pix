@@ -147,25 +147,6 @@ describe('Integration | Repository | Certification ', () => {
     });
   });
 
-  describe('#getStatuses', () => {
-
-    it('should get distinct latest status from certification course', async () => {
-      // when
-      const statuses = await certificationRepository.getAssessmentResultsStatusesBySessionId(sessionWithStartedAndError.id);
-
-      // then
-      expect(statuses.sort()).to.deep.equal(['started', 'error'].sort());
-    });
-
-    it('should get latest status from each assessment results', async () => {
-      // when
-      const statuses = await certificationRepository.getAssessmentResultsStatusesBySessionId(sessionLatestAssessmentRejected.id);
-
-      // then
-      expect(statuses).to.deep.equal(['rejected']);
-    });
-  });
-
   function createCertifCourseWithAssessementResults(sessionId, ...assessmentResults) {
     const { id: certifCourseId } = databaseBuilder.factory.buildCertificationCourse({ sessionId, isPublished: false });
     const { id: assessmentId } = databaseBuilder.factory.buildAssessment({

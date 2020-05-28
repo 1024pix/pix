@@ -34,6 +34,23 @@ function _createCertificationDomainModel({ certificationCourseBookshelf, assessm
   });
 }
 
+async function getAssessmentResultsStatusesBySessionId(id) {
+  const collection = await CertificationCourseBookshelf
+    .query((qb) => {
+      qb.innerJoin('assessments','assessments.certificationCourseId','certification-courses.id');
+      qb.innerJoin(
+        Bookshelf.knex.raw(
+          `"assessment-results" ar ON ar."assessmentId" = "assessments".id
+                    and ar."createdAt" = (select max(sar."createdAt") from "assessment-results" sar where sar."assessmentId" = "assessments".id)`
+        )
+      );
+      qb.where({ 'certification-courses.sessionId': id });
+    })
+    .fetchAll({ columns: ['status'] });
+
+  return collection.map((obj) => obj.attributes.status);
+}
+
 module.exports = {
 
   getByCertificationCourseId({ id }) {
@@ -59,23 +76,6 @@ module.exports = {
       });
   },
 
-  getAssessmentResultsStatusesBySessionId(id) {
-    return CertificationCourseBookshelf
-      .query((qb) => {
-        qb.innerJoin('assessments','assessments.certificationCourseId','certification-courses.id');
-        qb.innerJoin(
-          Bookshelf.knex.raw(
-            `"assessment-results" ar ON ar."assessmentId" = "assessments".id
-                    and ar."createdAt" = (select max(sar."createdAt") from "assessment-results" sar where sar."assessmentId" = "assessments".id)`
-          )
-        );
-        qb.where({ 'certification-courses.sessionId': id });
-      })
-      .fetchAll({ columns: ['status'] })
-      .then((collection) => collection.map((obj) => obj.attributes.status)
-      );
-  },
-
   findByUserId(userId) {
     return CertificationCourseBookshelf
       .query((qb) => {
@@ -96,7 +96,7 @@ module.exports = {
   },
 
   async updatePublicationStatusesBySessionId(sessionId, toPublish) {
-    const statuses = await this.getAssessmentResultsStatusesBySessionId(sessionId);
+    const statuses = await getAssessmentResultsStatusesBySessionId(sessionId);
     if (statuses.includes('error') || statuses.includes('started')) {
       throw new CertificationCourseNotPublishableError();
     }
