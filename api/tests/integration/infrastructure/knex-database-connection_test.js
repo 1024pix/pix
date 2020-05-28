@@ -1,9 +1,9 @@
-const { expect, databaseBuilder } = require('../../test-helper');
+const { expect, databaseBuilder } = require('$tests/test-helper');
 
-const knexDatabaseConnection = require('../../../db/knex-database-connection');
+const knexDatabaseConnection = require('$root/db/knex-database-connection');
 
-const { UserNotFoundError } = require('../../../lib/domain/errors');
-const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
+const { UserNotFoundError } = require('$lib/domain/errors');
+const userRepository = require('$lib/infrastructure/repositories/user-repository');
 
 describe('Integration | Infrastructure | knex-database-connection', () => {
 

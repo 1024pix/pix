@@ -1,5 +1,5 @@
-const Progression = require('../../../../lib/domain/models/Progression');
-const { expect, domainBuilder } = require('../../../test-helper');
+const Progression = require('$lib/domain/models/Progression');
+const { expect, domainBuilder } = require('$tests/test-helper');
 
 describe('Unit | Domain | Models | Progression', () => {
 

@@ -1,10 +1,10 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
+const { sinon, expect, hFake } = require('$tests/test-helper');
 
-const controller = require('../../../../lib/application/assessments/assessment-controller');
+const controller = require('$lib/application/assessments/assessment-controller');
 
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const usecases = require('../../../../lib/domain/usecases');
+const assessmentRepository = require('$lib/infrastructure/repositories/assessment-repository');
+const Assessment = require('$lib/domain/models/Assessment');
+const usecases = require('$lib/domain/usecases');
 
 describe('Unit | Controller | assessment-controller-save', () => {
 

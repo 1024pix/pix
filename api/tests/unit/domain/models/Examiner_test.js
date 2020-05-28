@@ -1,8 +1,8 @@
-const Answer = require('../../../../lib/domain/models/Answer');
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const Examiner = require('../../../../lib/domain/models/Examiner');
+const Answer = require('$lib/domain/models/Answer');
+const AnswerStatus = require('$lib/domain/models/AnswerStatus');
+const Examiner = require('$lib/domain/models/Examiner');
 
-const { expect, domainBuilder, sinon } = require('../../../test-helper');
+const { expect, domainBuilder, sinon } = require('$tests/test-helper');
 
 describe('Unit | Domain | Models | Examiner', () => {
 

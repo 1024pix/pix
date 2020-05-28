@@ -1,9 +1,9 @@
-const { expect, knex, databaseBuilder } = require('../../test-helper');
+const { expect, knex, databaseBuilder } = require('$tests/test-helper');
 
-const Membership = require('../../../lib/domain/models/Membership');
-const OrganizationInvitation = require('../../../lib/domain/models/OrganizationInvitation');
+const Membership = require('$lib/domain/models/Membership');
+const OrganizationInvitation = require('$lib/domain/models/OrganizationInvitation');
 
-const createServer = require('../../../server');
+const createServer = require('$root/server');
 
 describe('Acceptance | Application | organization-invitation-controller', () => {
 

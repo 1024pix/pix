@@ -1,5 +1,5 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/tutorial-evaluation-serializer');
+const { expect, domainBuilder } = require('$tests/test-helper');
+const serializer = require('$lib/infrastructure/serializers/jsonapi/tutorial-evaluation-serializer');
 
 describe('Unit | Serializer | JSONAPI | tutorial-evaluation-serializer', () => {
 

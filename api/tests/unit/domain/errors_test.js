@@ -1,5 +1,5 @@
-const { expect } = require('../../test-helper');
-const errors = require('../../../lib/domain/errors');
+const { expect } = require('$tests/test-helper');
+const errors = require('$lib/domain/errors');
 
 describe('Unit | Domain | Errors', () => {
 

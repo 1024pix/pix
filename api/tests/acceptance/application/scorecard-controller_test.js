@@ -1,8 +1,8 @@
-const { airtableBuilder, databaseBuilder, expect, knex, generateValidRequestAuthorizationHeader } = require('../../test-helper');
-const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
-const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
+const { airtableBuilder, databaseBuilder, expect, knex, generateValidRequestAuthorizationHeader } = require('$tests/test-helper');
+const cache = require('$lib/infrastructure/caches/learning-content-cache');
+const KnowledgeElement = require('$lib/domain/models/KnowledgeElement');
 
-const createServer = require('../../../server');
+const createServer = require('$root/server');
 
 describe('Acceptance | Controller | scorecard-controller', () => {
 

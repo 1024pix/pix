@@ -1,12 +1,12 @@
 const AirtableRecord = require('airtable').Record;
 const _ = require('lodash');
-const { expect, sinon } = require('../../../../test-helper');
-const airtable = require('../../../../../lib/infrastructure/airtable');
-const skillDatasource = require('../../../../../lib/infrastructure/datasources/airtable/skill-datasource');
-const skillAirtableDataObjectFixture = require('../../../../tooling/fixtures/infrastructure/skillAirtableDataObjectFixture');
-const { skillRawAirTableFixture } = require('../../../../tooling/fixtures/infrastructure/skillRawAirTableFixture');
-const makeAirtableFake = require('../../../../tooling/airtable-builder/make-airtable-fake');
-const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
+const { expect, sinon } = require('$tests/test-helper');
+const airtable = require('$lib/infrastructure/airtable');
+const skillDatasource = require('$lib/infrastructure/datasources/airtable/skill-datasource');
+const skillAirtableDataObjectFixture = require('$tests/tooling/fixtures/infrastructure/skillAirtableDataObjectFixture');
+const { skillRawAirTableFixture } = require('$tests/tooling/fixtures/infrastructure/skillRawAirTableFixture');
+const makeAirtableFake = require('$tests/tooling/airtable-builder/make-airtable-fake');
+const cache = require('$lib/infrastructure/caches/learning-content-cache');
 
 describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () => {
 

@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
-const updateSession = require('../../../../lib/domain/usecases/update-session');
-const sessionValidator = require('../../../../lib/domain/validators/session-validator');
+const { expect, sinon } = require('$tests/test-helper');
+const updateSession = require('$lib/domain/usecases/update-session');
+const sessionValidator = require('$lib/domain/validators/session-validator');
 
 describe('Unit | UseCase | update-session', () => {
   let originalSession;

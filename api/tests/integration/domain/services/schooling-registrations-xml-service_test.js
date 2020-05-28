@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const schoolingRegistrationsXmlService = require('../../../../lib/domain/services/schooling-registrations-xml-service');
+const { expect } = require('$tests/test-helper');
+const schoolingRegistrationsXmlService = require('$lib/domain/services/schooling-registrations-xml-service');
 
 const iconv = require('iconv-lite');
 

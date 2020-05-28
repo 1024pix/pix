@@ -1,6 +1,6 @@
-const { expect, knex, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../test-helper');
-const createServer = require('../../../server');
-const Feedback = require('../../../lib/infrastructure/data/feedback');
+const { expect, knex, generateValidRequestAuthorizationHeader, databaseBuilder } = require('$tests/test-helper');
+const createServer = require('$root/server');
+const Feedback = require('$lib/infrastructure/data/feedback');
 
 describe('Acceptance | Controller | feedback-controller', () => {
 

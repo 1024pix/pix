@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
-const getAnswer = require('../../../../lib/domain/usecases/get-answer');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const { expect, sinon } = require('$tests/test-helper');
+const getAnswer = require('$lib/domain/usecases/get-answer');
+const { NotFoundError } = require('$lib/domain/errors');
 
 describe('Unit | UseCase | get-answer', () => {
 

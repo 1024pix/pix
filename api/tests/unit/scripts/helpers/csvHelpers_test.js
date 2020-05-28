@@ -1,6 +1,6 @@
-const { expect, catchErr } = require('../../../test-helper');
-const { NotFoundError, FileValidationError } = require('../../../../lib/domain/errors');
-const { checkCsvExtensionFile, parseCsv, parseCsvWithHeader } = require('../../../../scripts/helpers/csvHelpers');
+const { expect, catchErr } = require('$tests/test-helper');
+const { NotFoundError, FileValidationError } = require('$lib/domain/errors');
+const { checkCsvExtensionFile, parseCsv, parseCsvWithHeader } = require('$root/scripts/helpers/csvHelpers');
 
 describe('Unit | Scripts | Helpers | csvHelpers.js', () => {
 

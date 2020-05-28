@@ -1,8 +1,8 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
-const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const { CampaignCodeError, NotFoundError } = require('../../../../lib/domain/errors');
+const { expect, sinon, catchErr } = require('$tests/test-helper');
+const usecases = require('$lib/domain/usecases');
+const userReconciliationService = require('$lib/domain/services/user-reconciliation-service');
+const campaignRepository = require('$lib/infrastructure/repositories/campaign-repository');
+const { CampaignCodeError, NotFoundError } = require('$lib/domain/errors');
 
 describe('Unit | UseCase | generate-username', () => {
 

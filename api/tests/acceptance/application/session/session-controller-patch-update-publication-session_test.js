@@ -1,7 +1,7 @@
 const {
   expect, generateValidRequestAuthorizationHeader, databaseBuilder, knex,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
+} = require('$tests/test-helper');
+const createServer = require('$root/server');
 
 describe('PATCH /api/jury/sessions/:id/publication', () => {
   let server;

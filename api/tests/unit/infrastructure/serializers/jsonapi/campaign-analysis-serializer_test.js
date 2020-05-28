@@ -1,5 +1,5 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-analysis-serializer');
+const { expect } = require('$tests/test-helper');
+const serializer = require('$lib/infrastructure/serializers/jsonapi/campaign-analysis-serializer');
 
 describe('Unit | Serializer | JSONAPI | campaign-analysis-serializer', () => {
 

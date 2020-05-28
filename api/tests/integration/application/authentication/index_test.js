@@ -1,7 +1,7 @@
 const Hapi = require('@hapi/hapi');
 const querystring = require('querystring');
-const { expect, sinon } = require('../../../test-helper');
-const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
+const { expect, sinon } = require('$tests/test-helper');
+const authenticationController = require('$lib/application/authentication/authentication-controller');
 
 describe('Integration | Application | Route | AuthenticationRouter', () => {
 
@@ -11,7 +11,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
     // configure and start server
     server = Hapi.server();
 
-    return server.register(require('../../../../lib/application/authentication'));
+    return server.register(require('$lib/application/authentication'));
   });
 
   afterEach(() => {
@@ -49,7 +49,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       // instance new Hapi.js server with minimal config to test route
       server = Hapi.server();
 
-      return server.register(require('../../../../lib/application/authentication'));
+      return server.register(require('$lib/application/authentication'));
     });
 
     it('should return a response with HTTP status code 200 even if there is no scope in the request', async () => {

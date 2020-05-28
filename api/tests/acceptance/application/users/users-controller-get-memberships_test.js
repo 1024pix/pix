@@ -1,7 +1,7 @@
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const createServer = require('../../../../server');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('$tests/test-helper');
+const createServer = require('$root/server');
 
-const Membership = require('../../../../lib/domain/models/Membership');
+const Membership = require('$lib/domain/models/Membership');
 
 describe('Acceptance | Controller | users-controller-get-memberships', () => {
 

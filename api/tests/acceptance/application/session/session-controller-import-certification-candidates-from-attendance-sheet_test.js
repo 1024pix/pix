@@ -1,5 +1,5 @@
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../../test-helper');
-const createServer = require('../../../../server');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } = require('$tests/test-helper');
+const createServer = require('$root/server');
 const fs = require('fs');
 const FormData = require('form-data');
 const streamToPromise = require('stream-to-promise');

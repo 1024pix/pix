@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const resetPasswordService = require('../../../../lib/domain/services/reset-password-service');
+const { expect } = require('$tests/test-helper');
+const resetPasswordService = require('$lib/domain/services/reset-password-service');
 
 describe('Integration | Service | Password Service', function() {
 

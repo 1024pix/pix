@@ -1,11 +1,11 @@
 const _ = require('lodash');
 
-const { expect, databaseBuilder, knex } = require('../../test-helper');
+const { expect, databaseBuilder, knex } = require('$tests/test-helper');
 
-const BookshelfOrganizationInvitation = require('../../../lib/infrastructure/data/organization-invitation');
+const BookshelfOrganizationInvitation = require('$lib/infrastructure/data/organization-invitation');
 const {
   getOrganizationByExternalId, buildInvitation, prepareDataForSending, sendJoinOrganizationInvitations
-} = require('../../../scripts/send-invitations-to-sco-organizations');
+} = require('$root/scripts/send-invitations-to-sco-organizations');
 
 describe('Integration | Scripts | send-invitations-to-sco-organizations.js', () => {
 

@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
-const User = require('../../../../lib/domain/models/User');
-const getOrCreateSamlUser = require('../../../../lib/domain/usecases/get-or-create-saml-user');
+const { expect, sinon } = require('$tests/test-helper');
+const User = require('$lib/domain/models/User');
+const getOrCreateSamlUser = require('$lib/domain/usecases/get-or-create-saml-user');
 
 describe('Unit | UseCase | get-or-create-saml-user', () => {
 

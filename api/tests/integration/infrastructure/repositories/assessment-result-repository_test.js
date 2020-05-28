@@ -1,7 +1,7 @@
-const { expect, knex, databaseBuilder, domainBuilder } = require('../../../test-helper');
+const { expect, knex, databaseBuilder, domainBuilder } = require('$tests/test-helper');
 
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const AssessmentResultRepository = require('../../../../lib/infrastructure/repositories/assessment-result-repository');
+const AssessmentResult = require('$lib/domain/models/AssessmentResult');
+const AssessmentResultRepository = require('$lib/infrastructure/repositories/assessment-result-repository');
 
 const _ = require('lodash');
 

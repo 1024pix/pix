@@ -1,10 +1,10 @@
 const _ = require('lodash');
-const { expect, sinon, domainBuilder } = require('../../../../test-helper');
-const certificationResultService = require('../../../../../lib/domain/services/certification-result-service');
-const Answer = require('../../../../../lib/domain/models/Answer');
-const challengeRepository = require('../../../../../lib/infrastructure/repositories/challenge-repository');
-const competenceRepository = require('../../../../../lib/infrastructure/repositories/competence-repository');
-const userService = require('../../../../../lib/domain/services/user-service');
+const { expect, sinon, domainBuilder } = require('$tests/test-helper');
+const certificationResultService = require('$lib/domain/services/certification-result-service');
+const Answer = require('$lib/domain/models/Answer');
+const challengeRepository = require('$lib/infrastructure/repositories/challenge-repository');
+const competenceRepository = require('$lib/infrastructure/repositories/competence-repository');
+const userService = require('$lib/domain/services/user-service');
 
 function _buildUserCompetence(competence, pixScore, estimatedLevel) {
   return { ...competence, estimatedLevel, pixScore, };

@@ -1,6 +1,6 @@
-const createServer = require('../../../server');
-const { expect, generateValidRequestAuthorizationHeader, airtableBuilder, databaseBuilder, knex } = require('../../test-helper');
-const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
+const createServer = require('$root/server');
+const { expect, generateValidRequestAuthorizationHeader, airtableBuilder, databaseBuilder, knex } = require('$tests/test-helper');
+const cache = require('$lib/infrastructure/caches/learning-content-cache');
 
 describe('Acceptance | API | Competence Evaluations', () => {
 

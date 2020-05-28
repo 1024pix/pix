@@ -1,11 +1,11 @@
-const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-helper');
+const { expect, sinon, domainBuilder, HttpTestServer } = require('$tests/test-helper');
 const _ = require('lodash');
 
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const usecases = require('../../../../lib/domain/usecases');
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
+const securityPreHandlers = require('$lib/application/security-pre-handlers');
+const usecases = require('$lib/domain/usecases');
+const OrganizationInvitation = require('$lib/domain/models/OrganizationInvitation');
 
-const moduleUnderTest = require('../../../../lib/application/organizations');
+const moduleUnderTest = require('$lib/application/organizations');
 
 describe('Integration | Application | Organizations | organization-controller', () => {
 

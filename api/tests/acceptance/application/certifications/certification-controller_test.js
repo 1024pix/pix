@@ -3,9 +3,9 @@ const {
   airtableBuilder,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
-const Assessment = require('../../../../lib/domain/models/Assessment');
+} = require('$tests/test-helper');
+const createServer = require('$root/server');
+const Assessment = require('$lib/domain/models/Assessment');
 const { map } = require('lodash');
 
 describe('Acceptance | API | Certifications', () => {

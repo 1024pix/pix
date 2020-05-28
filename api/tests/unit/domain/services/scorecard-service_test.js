@@ -1,8 +1,8 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const Scorecard = require('../../../../lib/domain/models/Scorecard');
-const CompetenceEvaluation = require('../../../../lib/domain/models/CompetenceEvaluation');
-const scorecardService = require('../../../../lib/domain/services/scorecard-service');
+const { expect, sinon, domainBuilder } = require('$tests/test-helper');
+const Assessment = require('$lib/domain/models/Assessment');
+const Scorecard = require('$lib/domain/models/Scorecard');
+const CompetenceEvaluation = require('$lib/domain/models/CompetenceEvaluation');
+const scorecardService = require('$lib/domain/services/scorecard-service');
 
 describe('Unit | Service | ScorecardService', function() {
 

@@ -1,11 +1,11 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const Area = require('../../../../lib/domain/models/Area');
-const Badge = require('../../../../lib/domain/models/Badge');
-const BadgeCriterion = require('../../../../lib/domain/models/BadgeCriterion');
-const BadgePartnerCompetence = require('../../../../lib/domain/models/BadgePartnerCompetence');
-const CampaignParticipationResult = require('../../../../lib/domain/models/CampaignParticipationResult');
-const CompetenceResult = require('../../../../lib/domain/models/CompetenceResult');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
+const { expect, domainBuilder } = require('$tests/test-helper');
+const Area = require('$lib/domain/models/Area');
+const Badge = require('$lib/domain/models/Badge');
+const BadgeCriterion = require('$lib/domain/models/BadgeCriterion');
+const BadgePartnerCompetence = require('$lib/domain/models/BadgePartnerCompetence');
+const CampaignParticipationResult = require('$lib/domain/models/CampaignParticipationResult');
+const CompetenceResult = require('$lib/domain/models/CompetenceResult');
+const KnowledgeElement = require('$lib/domain/models/KnowledgeElement');
 
 describe('Unit | Domain | Models | CampaignParticipationResult', () => {
 

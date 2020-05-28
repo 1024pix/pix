@@ -1,5 +1,5 @@
-const { expect, generateValidRequestAuthorizationHeader, airtableBuilder, databaseBuilder, knex } = require('../../../test-helper');
-const createServer = require('../../../../server');
+const { expect, generateValidRequestAuthorizationHeader, airtableBuilder, databaseBuilder, knex } = require('$tests/test-helper');
+const createServer = require('$root/server');
 
 describe('Acceptance | Controller | user-tutorial-controller', () => {
 

@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
-const getCampaignReport = require('../../../../lib/domain/usecases/get-campaign-report');
-const CampaignReport = require('../../../../lib/domain/models/CampaignReport');
+const { expect, sinon } = require('$tests/test-helper');
+const getCampaignReport = require('$lib/domain/usecases/get-campaign-report');
+const CampaignReport = require('$lib/domain/models/CampaignReport');
 
 describe('Unit | UseCase | get-campaign-report', () => {
 

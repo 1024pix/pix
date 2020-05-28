@@ -1,9 +1,9 @@
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const solutionServiceQcm = require('../../../../lib/domain/services/solution-service-qcm');
-const Validation = require('../../../../lib/domain/models/Validation');
-const ValidatorQCM = require('../../../../lib/domain/models/ValidatorQCM');
+const AnswerStatus = require('$lib/domain/models/AnswerStatus');
+const solutionServiceQcm = require('$lib/domain/services/solution-service-qcm');
+const Validation = require('$lib/domain/models/Validation');
+const ValidatorQCM = require('$lib/domain/models/ValidatorQCM');
 
-const { expect, domainBuilder, sinon } = require('../../../test-helper');
+const { expect, domainBuilder, sinon } = require('$tests/test-helper');
 
 describe('Unit | Domain | Models | ValidatorQCM', () => {
 

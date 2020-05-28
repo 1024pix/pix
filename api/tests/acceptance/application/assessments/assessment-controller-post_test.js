@@ -1,6 +1,6 @@
-const { expect, knex, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
-const createServer = require('../../../../server');
-const BookshelfAssessment = require('../../../../lib/infrastructure/data/assessment');
+const { expect, knex, generateValidRequestAuthorizationHeader, databaseBuilder } = require('$tests/test-helper');
+const createServer = require('$root/server');
+const BookshelfAssessment = require('$lib/infrastructure/data/assessment');
 
 describe('Acceptance | API | Assessments POST', () => {
 

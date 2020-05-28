@@ -1,7 +1,7 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-profile-serializer');
-const CertificationProfile = require('../../../../../lib/domain/models/CertificationProfile');
-const UserCompetence = require('../../../../../lib/domain/models/UserCompetence');
+const { expect } = require('$tests/test-helper');
+const serializer = require('$lib/infrastructure/serializers/jsonapi/certification-profile-serializer');
+const CertificationProfile = require('$lib/domain/models/CertificationProfile');
+const UserCompetence = require('$lib/domain/models/UserCompetence');
 
 describe('Unit | Serializer | JSONAPI | certification-profile-serializer', function() {
 

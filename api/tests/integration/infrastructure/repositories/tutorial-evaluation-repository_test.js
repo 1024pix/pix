@@ -1,5 +1,5 @@
-const { expect, knex, databaseBuilder } = require('../../../test-helper');
-const tutorialEvaluationRepository = require('../../../../lib/infrastructure/repositories/tutorial-evaluation-repository');
+const { expect, knex, databaseBuilder } = require('$tests/test-helper');
+const tutorialEvaluationRepository = require('$lib/infrastructure/repositories/tutorial-evaluation-repository');
 
 describe('Integration | Infrastructure | Repository | tutorialEvaluationRepository', () => {
   let userId;

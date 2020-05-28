@@ -1,16 +1,16 @@
-const updateUserPassword = require('../../../../lib/domain/usecases/update-user-password');
+const updateUserPassword = require('$lib/domain/usecases/update-user-password');
 
-const { sinon, expect } = require('../../../test-helper');
+const { sinon, expect } = require('$tests/test-helper');
 
-const User = require('../../../../lib/domain/models/User');
+const User = require('$lib/domain/models/User');
 
-const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
+const validationErrorSerializer = require('$lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 
-const resetPasswordService = require('../../../../lib/domain/services/reset-password-service');
-const encryptionService = require('../../../../lib/domain/services/encryption-service');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+const resetPasswordService = require('$lib/domain/services/reset-password-service');
+const encryptionService = require('$lib/domain/services/encryption-service');
+const userRepository = require('$lib/infrastructure/repositories/user-repository');
 
-const { PasswordResetDemandNotFoundError } = require('../../../../lib/domain/errors');
+const { PasswordResetDemandNotFoundError } = require('$lib/domain/errors');
 
 describe('Unit | UseCase | update-user-password', () => {
 

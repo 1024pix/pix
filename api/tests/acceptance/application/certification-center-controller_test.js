@@ -2,8 +2,8 @@ const _ = require('lodash');
 const {
   expect, generateValidRequestAuthorizationHeader,
   insertUserWithRolePixMaster, databaseBuilder, knex
-} = require('../../test-helper');
-const createServer = require('../../../server');
+} = require('$tests/test-helper');
+const createServer = require('$root/server');
 
 describe('Acceptance | API | Certification Center', () => {
 

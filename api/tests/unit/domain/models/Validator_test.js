@@ -1,8 +1,8 @@
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const Validator = require('../../../../lib/domain/models/Validator');
-const Validation = require('../../../../lib/domain/models/Validation');
+const AnswerStatus = require('$lib/domain/models/AnswerStatus');
+const Validator = require('$lib/domain/models/Validator');
+const Validation = require('$lib/domain/models/Validation');
 
-const { expect, domainBuilder } = require('../../../test-helper');
+const { expect, domainBuilder } = require('$tests/test-helper');
 
 describe('Unit | Domain | Models | Validator', () => {
 

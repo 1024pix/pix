@@ -1,6 +1,6 @@
-const { expect, generateValidRequestAuthorizationHeader, airtableBuilder, databaseBuilder } = require('../../../test-helper');
-const createServer = require('../../../../server');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
+const { expect, generateValidRequestAuthorizationHeader, airtableBuilder, databaseBuilder } = require('$tests/test-helper');
+const createServer = require('$root/server');
+const cache = require('$lib/infrastructure/caches/learning-content-cache');
 
 describe('Acceptance | Controller | answer-controller-get-correction', () => {
 

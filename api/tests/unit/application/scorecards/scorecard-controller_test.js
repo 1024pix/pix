@@ -1,11 +1,11 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
+const { sinon, expect, hFake } = require('$tests/test-helper');
 
-const scorecardController = require('../../../../lib/application/scorecards/scorecard-controller');
+const scorecardController = require('$lib/application/scorecards/scorecard-controller');
 
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('$lib/domain/usecases');
 
-const scorecardSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
-const tutorialSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/tutorial-serializer');
+const scorecardSerializer = require('$lib/infrastructure/serializers/jsonapi/scorecard-serializer');
+const tutorialSerializer = require('$lib/infrastructure/serializers/jsonapi/tutorial-serializer');
 
 describe('Unit | Controller | user-controller', () => {
 

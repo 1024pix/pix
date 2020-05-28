@@ -1,9 +1,9 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
+const { sinon, expect, hFake } = require('$tests/test-helper');
 
-const tokenService = require('../../../../lib/domain/services/token-service');
-const usecases = require('../../../../lib/domain/usecases');
+const tokenService = require('$lib/domain/services/token-service');
+const usecases = require('$lib/domain/usecases');
 
-const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
+const authenticationController = require('$lib/application/authentication/authentication-controller');
 
 describe('Unit | Application | Controller | Authentication', () => {
 

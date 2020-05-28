@@ -1,16 +1,16 @@
 const _ = require('lodash');
 
-const { expect, databaseBuilder, knex } = require('../../test-helper');
+const { expect, databaseBuilder, knex } = require('$tests/test-helper');
 
-const Membership = require('../../../lib/domain/models/Membership');
-const BookshelfCertificationCenterMembership = require('../../../lib/infrastructure/data/certification-center-membership');
+const Membership = require('$lib/domain/models/Membership');
+const BookshelfCertificationCenterMembership = require('$lib/infrastructure/data/certification-center-membership');
 
 const {
   getCertificationCenterByExternalId, getAdminMembershipsByOrganizationExternalId,
   fetchCertificationCenterMembershipsByExternalId,
   prepareDataForInsert,
   createCertificationCenterMemberships
-} = require('../../../scripts/create-certification-center-memberships-from-organization-admins');
+} = require('$root/scripts/create-certification-center-memberships-from-organization-admins');
 
 describe('Integration | Scripts | create-certification-center-memberships-from-organization-admins.js', () => {
 

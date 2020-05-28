@@ -1,19 +1,19 @@
 const { PassThrough } = require('stream');
-const { expect, airtableBuilder, databaseBuilder, streamToPromise } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
+const { expect, airtableBuilder, databaseBuilder, streamToPromise } = require('$tests/test-helper');
+const cache = require('$lib/infrastructure/caches/learning-content-cache');
 
-const startWritingCampaignAssessmentResultsToStream = require('../../../../lib/domain/usecases/start-writing-campaign-assessment-results-to-stream');
+const startWritingCampaignAssessmentResultsToStream = require('$lib/domain/usecases/start-writing-campaign-assessment-results-to-stream');
 
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
-const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
-const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
-const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
-const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const campaignCsvExportService = require('../../../../lib/domain/services/campaign-csv-export-service');
+const campaignRepository = require('$lib/infrastructure/repositories/campaign-repository');
+const campaignParticipationRepository = require('$lib/infrastructure/repositories/campaign-participation-repository');
+const competenceRepository = require('$lib/infrastructure/repositories/competence-repository');
+const knowledgeElementRepository = require('$lib/infrastructure/repositories/knowledge-element-repository');
+const organizationRepository = require('$lib/infrastructure/repositories/organization-repository');
+const targetProfileRepository = require('$lib/infrastructure/repositories/target-profile-repository');
+const userRepository = require('$lib/infrastructure/repositories/user-repository');
+const campaignCsvExportService = require('$lib/domain/services/campaign-csv-export-service');
 
-const Assessment = require('../../../../lib/domain/models/Assessment');
+const Assessment = require('$lib/domain/models/Assessment');
 
 describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', () => {
 

@@ -1,10 +1,10 @@
 const os = require('os');
-const { expect, sinon, HttpTestServer } = require('../../../test-helper');
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const moduleUnderTest = require('../../../../lib/application/system');
+const { expect, sinon, HttpTestServer } = require('$tests/test-helper');
+const securityPreHandlers = require('$lib/application/security-pre-handlers');
+const moduleUnderTest = require('$lib/application/system');
 const heapdump = require('heapdump');
 const heapProfile = require('heap-profile');
-const { system } = require('../../../../lib/config');
+const { system } = require('$lib/config');
 
 describe('Integration | Application | System | system-controller', () => {
 

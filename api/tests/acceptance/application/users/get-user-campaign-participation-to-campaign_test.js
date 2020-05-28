@@ -1,5 +1,5 @@
-const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
-const createServer = require('../../../../server');
+const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('$tests/test-helper');
+const createServer = require('$root/server');
 
 describe('Acceptance | Route | GET /users/id/campaigns/id/campaign-participations', () => {
 

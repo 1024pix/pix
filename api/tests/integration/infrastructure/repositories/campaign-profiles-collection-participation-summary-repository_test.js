@@ -1,6 +1,6 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
-const CampaignProfilesCollectionParticipationSummary = require('../../../../lib/domain/models/CampaignProfilesCollectionParticipationSummary');
-const CampaignProfilesCollectionParticipationSummaryRepository = require('../../../../lib/infrastructure/repositories/campaign-profiles-collection-participation-summary-repository');
+const { expect, databaseBuilder } = require('$tests/test-helper');
+const CampaignProfilesCollectionParticipationSummary = require('$lib/domain/models/CampaignProfilesCollectionParticipationSummary');
+const CampaignProfilesCollectionParticipationSummaryRepository = require('$lib/infrastructure/repositories/campaign-profiles-collection-participation-summary-repository');
 
 const createCampaignParticipation = (member, campaignParticipation) => {
   const { id: userId } = databaseBuilder.factory.buildUser(member);

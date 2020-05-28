@@ -1,8 +1,8 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const { CertificationCandidateAlreadyLinkedToUserError } = require('../../../../lib/domain/errors');
-const importCertificationCandidatesFromAttendanceSheet = require('../../../../lib/domain/usecases/import-certification-candidates-from-attendance-sheet');
-const certificationCandidateRepository = require('../../../../lib/infrastructure/repositories/certification-candidate-repository');
-const certificationCandidatesOdsService = require('../../../../lib/domain/services/certification-candidates-ods-service');
+const { expect, sinon, catchErr } = require('$tests/test-helper');
+const { CertificationCandidateAlreadyLinkedToUserError } = require('$lib/domain/errors');
+const importCertificationCandidatesFromAttendanceSheet = require('$lib/domain/usecases/import-certification-candidates-from-attendance-sheet');
+const certificationCandidateRepository = require('$lib/infrastructure/repositories/certification-candidate-repository');
+const certificationCandidatesOdsService = require('$lib/domain/services/certification-candidates-ods-service');
 
 describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet', () => {
 

@@ -1,14 +1,14 @@
-const { expect, sinon } = require('../../../test-helper');
-const service = require('../../../../lib/domain/services/solution-service');
-const serviceQcu = require('../../../../lib/domain/services/solution-service-qcu');
-const serviceQcm = require('../../../../lib/domain/services/solution-service-qcm');
-const serviceQroc = require('../../../../lib/domain/services/solution-service-qroc');
-const serviceQrocmInd = require('../../../../lib/domain/services/solution-service-qrocm-ind');
-const serviceQrocmDep = require('../../../../lib/domain/services/solution-service-qrocm-dep');
-const Answer = require('../../../../lib/infrastructure/data/answer');
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const Solution = require('../../../../lib/domain/models/Solution');
-const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
+const { expect, sinon } = require('$tests/test-helper');
+const service = require('$lib/domain/services/solution-service');
+const serviceQcu = require('$lib/domain/services/solution-service-qcu');
+const serviceQcm = require('$lib/domain/services/solution-service-qcm');
+const serviceQroc = require('$lib/domain/services/solution-service-qroc');
+const serviceQrocmInd = require('$lib/domain/services/solution-service-qrocm-ind');
+const serviceQrocmDep = require('$lib/domain/services/solution-service-qrocm-dep');
+const Answer = require('$lib/infrastructure/data/answer');
+const AnswerStatus = require('$lib/domain/models/AnswerStatus');
+const Solution = require('$lib/domain/models/Solution');
+const _ = require('$lib/infrastructure/utils/lodash-utils');
 
 const ANSWER_OK = 'ok';
 const ANSWER_TIMEDOUT = 'timedout';

@@ -1,8 +1,8 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon } = require('$tests/test-helper');
 const Hapi = require('@hapi/hapi');
 const _ = require('lodash');
-const Feedback = require('../../../../lib/infrastructure/data/feedback');
-const route = require('../../../../lib/application/feedbacks');
+const Feedback = require('$lib/infrastructure/data/feedback');
+const route = require('$lib/application/feedbacks');
 
 describe('Unit | Controller | feedback-controller', function() {
 

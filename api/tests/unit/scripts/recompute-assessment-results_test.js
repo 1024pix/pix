@@ -1,5 +1,5 @@
-const { sinon, expect } = require('../../test-helper');
-const recomputeAssessments = require('../../../../api/scripts/recompute-assessment-results');
+const { sinon, expect } = require('$tests/test-helper');
+const recomputeAssessments = require('$root/scripts/recompute-assessment-results');
 
 describe('Unit | Scripts | recompute-assessment-results', () => {
 

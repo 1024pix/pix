@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const MailingProvider = require('../../../../lib/infrastructure/mailers/MailingProvider');
+const { expect } = require('$tests/test-helper');
+const MailingProvider = require('$lib/infrastructure/mailers/MailingProvider');
 
 describe('Unit | Infrastructure | Mailers | MailingProvider', () => {
 

@@ -1,7 +1,7 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon } = require('$tests/test-helper');
 
-const { findOrganizationsByExternalIds, organizeOrganizationsByExternalId } = require('../../../../scripts/helpers/organizations-by-external-id-helper');
-const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
+const { findOrganizationsByExternalIds, organizeOrganizationsByExternalId } = require('$root/scripts/helpers/organizations-by-external-id-helper');
+const organizationRepository = require('$lib/infrastructure/repositories/organization-repository');
 
 describe('Unit | Scripts | organizations-by-external-id-helper.js', () => {
 

@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const findAnswerByChallengeAndAssessment = require('../../../../lib/domain/usecases/find-answer-by-challenge-and-assessment');
+const { expect, sinon } = require('$tests/test-helper');
+const findAnswerByChallengeAndAssessment = require('$lib/domain/usecases/find-answer-by-challenge-and-assessment');
 
 describe('Unit | UseCase | find-answer-by-challenge-and-assessment', () => {
 

@@ -3,11 +3,11 @@ const iconv = require('iconv-lite');
 const {
   expect, knex, databaseBuilder,
   generateValidRequestAuthorizationHeader,
-} = require('../../../test-helper');
+} = require('$tests/test-helper');
 
-const createServer = require('../../../../server');
+const createServer = require('$root/server');
 
-const Membership = require('../../../../lib/domain/models/Membership');
+const Membership = require('$lib/domain/models/Membership');
 
 describe('Acceptance | Application | organization-controller-import-schooling-registrations', () => {
 

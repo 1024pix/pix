@@ -1,7 +1,7 @@
-const { expect, sinon } = require('../../../test-helper');
-const useCase = require('../../../../lib/application/usecases/checkUserHasRolePixMaster');
-const tokenService = require('../../../../lib/domain/services/token-service');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+const { expect, sinon } = require('$tests/test-helper');
+const useCase = require('$lib/application/usecases/checkUserHasRolePixMaster');
+const tokenService = require('$lib/domain/services/token-service');
+const userRepository = require('$lib/infrastructure/repositories/user-repository');
 
 describe('Unit | Application | Use Case | CheckUserHasRolePixMaster', () => {
 

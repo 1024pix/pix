@@ -1,9 +1,9 @@
-const { expect, sinon, HttpTestServer } = require('../../../test-helper');
+const { expect, sinon, HttpTestServer } = require('$tests/test-helper');
 
-const { ForbiddenAccess, UserNotFoundError, PasswordNotMatching } = require('../../../../lib/domain/errors');
-const usecases = require('../../../../lib/domain/usecases');
+const { ForbiddenAccess, UserNotFoundError, PasswordNotMatching } = require('$lib/domain/errors');
+const usecases = require('$lib/domain/usecases');
 
-const moduleUnderTest = require('../../../../lib/application/passwords');
+const moduleUnderTest = require('$lib/application/passwords');
 
 describe('Integration | Application | Passwords | password-controller', () => {
 

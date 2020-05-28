@@ -1,5 +1,5 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const campaignValidator = require('../../../../lib/domain/validators/campaign-validator');
+const { expect, domainBuilder } = require('$tests/test-helper');
+const campaignValidator = require('$lib/domain/validators/campaign-validator');
 
 const MISSING_VALUE = null;
 const EMPTY_VALUE = '';

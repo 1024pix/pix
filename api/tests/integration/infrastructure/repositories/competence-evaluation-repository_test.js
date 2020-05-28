@@ -1,8 +1,8 @@
-const { expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
-const CompetenceEvaluation = require('../../../../lib/domain/models/CompetenceEvaluation');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const competenceEvaluationRepository = require('../../../../lib/infrastructure/repositories/competence-evaluation-repository');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const { expect, knex, databaseBuilder, catchErr } = require('$tests/test-helper');
+const CompetenceEvaluation = require('$lib/domain/models/CompetenceEvaluation');
+const Assessment = require('$lib/domain/models/Assessment');
+const competenceEvaluationRepository = require('$lib/infrastructure/repositories/competence-evaluation-repository');
+const { NotFoundError } = require('$lib/domain/errors');
 const _ = require('lodash');
 
 describe('Integration | Repository | Competence Evaluation', () => {

@@ -1,5 +1,5 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/password-reset-serializer');
+const { expect } = require('$tests/test-helper');
+const serializer = require('$lib/infrastructure/serializers/jsonapi/password-reset-serializer');
 
 describe('Unit | Serializer | JSONAPI | password-reset-serializer', function() {
 

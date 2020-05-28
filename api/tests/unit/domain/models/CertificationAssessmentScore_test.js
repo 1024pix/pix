@@ -1,6 +1,6 @@
-const CertificationAssessmentScore = require('../../../../lib/domain/models/CertificationAssessmentScore');
-const { expect } = require('../../../test-helper');
-const { UNCERTIFIED_LEVEL } = require('../../../../lib/domain/constants');
+const CertificationAssessmentScore = require('$lib/domain/models/CertificationAssessmentScore');
+const { expect } = require('$tests/test-helper');
+const { UNCERTIFIED_LEVEL } = require('$lib/domain/constants');
 
 describe('Unit | Domain | Models | CertificationAssessmentScore', () => {
 

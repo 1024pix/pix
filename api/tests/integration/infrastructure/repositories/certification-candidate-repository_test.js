@@ -1,12 +1,12 @@
-const { databaseBuilder, expect, knex, domainBuilder, catchErr } = require('../../../test-helper');
-const BookshelfCertificationCandidate = require('../../../../lib/infrastructure/data/certification-candidate');
-const certificationCandidateRepository = require('../../../../lib/infrastructure/repositories/certification-candidate-repository');
+const { databaseBuilder, expect, knex, domainBuilder, catchErr } = require('$tests/test-helper');
+const BookshelfCertificationCandidate = require('$lib/infrastructure/data/certification-candidate');
+const certificationCandidateRepository = require('$lib/infrastructure/repositories/certification-candidate-repository');
 const {
   NotFoundError,
   CertificationCandidateCreationOrUpdateError,
   CertificationCandidateDeletionError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
-} = require('../../../../lib/domain/errors');
+} = require('$lib/domain/errors');
 const _ = require('lodash');
 
 describe('Integration | Repository | CertificationCandidate', function() {

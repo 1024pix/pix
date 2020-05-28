@@ -1,15 +1,15 @@
 const { PassThrough } = require('stream');
-const { expect, airtableBuilder, databaseBuilder, streamToPromise } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
+const { expect, airtableBuilder, databaseBuilder, streamToPromise } = require('$tests/test-helper');
+const cache = require('$lib/infrastructure/caches/learning-content-cache');
 
-const startWritingCampaignProfilesCollectionResultsToStream = require('../../../../lib/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream');
+const startWritingCampaignProfilesCollectionResultsToStream = require('$lib/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream');
 
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
-const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
-const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const userService = require('../../../../lib/domain/services/user-service');
+const campaignRepository = require('$lib/infrastructure/repositories/campaign-repository');
+const campaignParticipationRepository = require('$lib/infrastructure/repositories/campaign-participation-repository');
+const competenceRepository = require('$lib/infrastructure/repositories/competence-repository');
+const organizationRepository = require('$lib/infrastructure/repositories/organization-repository');
+const userRepository = require('$lib/infrastructure/repositories/user-repository');
+const userService = require('$lib/domain/services/user-service');
 
 describe('Integration | Domain | Use Cases | start-writing-profiles-collection-campaign-results-to-stream', () => {
 

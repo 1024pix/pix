@@ -1,6 +1,6 @@
-const { airtableBuilder, databaseBuilder, expect, knex, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
-const createServer = require('../../../../server');
+const { airtableBuilder, databaseBuilder, expect, knex, generateValidRequestAuthorizationHeader } = require('$tests/test-helper');
+const cache = require('$lib/infrastructure/caches/learning-content-cache');
+const createServer = require('$root/server');
 
 describe('Acceptance | Controller | tutorial-evaluations-controller', () => {
 

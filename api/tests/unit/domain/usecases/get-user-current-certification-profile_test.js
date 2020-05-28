@@ -1,5 +1,5 @@
-const { sinon, expect } = require('../../../test-helper');
-const getUserCurrentCertificationProfile = require('../../../../lib/domain/usecases/get-user-current-certification-profile');
+const { sinon, expect } = require('$tests/test-helper');
+const getUserCurrentCertificationProfile = require('$lib/domain/usecases/get-user-current-certification-profile');
 
 describe('Unit | UseCase | get-user-current-certification-profile', () => {
 

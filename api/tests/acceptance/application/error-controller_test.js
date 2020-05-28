@@ -1,5 +1,5 @@
-const { expect } = require('../../test-helper');
-const createServer = require('../../../server');
+const { expect } = require('$tests/test-helper');
+const createServer = require('$root/server');
 
 describe('Acceptance | Controller | error-controller', () => {
 

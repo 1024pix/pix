@@ -1,20 +1,20 @@
 const _ = require('lodash');
 
-const { expect, databaseBuilder, catchErr } = require('../../../test-helper');
+const { expect, databaseBuilder, catchErr } = require('$tests/test-helper');
 
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+const campaignRepository = require('$lib/infrastructure/repositories/campaign-repository');
+const schoolingRegistrationRepository = require('$lib/infrastructure/repositories/schooling-registration-repository');
+const userRepository = require('$lib/infrastructure/repositories/user-repository');
 
-const encryptionService = require('../../../../lib/domain/services/encryption-service');
-const mailService = require('../../../../lib/domain/services/mail-service');
-const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
+const encryptionService = require('$lib/domain/services/encryption-service');
+const mailService = require('$lib/domain/services/mail-service');
+const userReconciliationService = require('$lib/domain/services/user-reconciliation-service');
 
 const {
   CampaignCodeError, NotFoundError, EntityValidationError, SchoolingRegistrationAlreadyLinkedToUserError
-} = require('../../../../lib/domain/errors');
+} = require('$lib/domain/errors');
 
-const createAndAssociateUserToSchoolingRegistration = require('../../../../lib/domain/usecases/create-and-associate-user-to-schooling-registration');
+const createAndAssociateUserToSchoolingRegistration = require('$lib/domain/usecases/create-and-associate-user-to-schooling-registration');
 
 describe('Integration | UseCases | create-and-associate-user-to-schooling-registration', () => {
 

@@ -1,7 +1,7 @@
-const { expect, sinon, hFake } = require('../../../test-helper');
-const cacheController = require('../../../../lib/application/cache/cache-controller');
-const AirtableDatasources = require('../../../../lib/infrastructure/datasources/airtable');
-const logger = require('../../../../lib/infrastructure/logger');
+const { expect, sinon, hFake } = require('$tests/test-helper');
+const cacheController = require('$lib/application/cache/cache-controller');
+const AirtableDatasources = require('$lib/infrastructure/datasources/airtable');
+const logger = require('$lib/infrastructure/logger');
 const _ = require('lodash');
 
 describe('Unit | Controller | cache-controller', () => {

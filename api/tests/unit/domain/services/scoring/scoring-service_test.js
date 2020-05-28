@@ -1,11 +1,11 @@
-const scoringService = require('../../../../../lib/domain/services/scoring/scoring-service');
+const scoringService = require('$lib/domain/services/scoring/scoring-service');
 const {
   PIX_COUNT_BY_LEVEL,
   MAX_REACHABLE_LEVEL,
   MAX_REACHABLE_PIX_BY_COMPETENCE,
-} = require('../../../../../lib/domain/constants');
+} = require('$lib/domain/constants');
 
-const { expect, domainBuilder } = require('../../../../test-helper');
+const { expect, domainBuilder } = require('$tests/test-helper');
 
 describe('Unit | Service | Scoring Service', () => {
 

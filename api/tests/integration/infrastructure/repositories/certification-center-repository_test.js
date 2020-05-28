@@ -1,7 +1,7 @@
-const { expect, knex, databaseBuilder } = require('../../../test-helper');
-const certificationCenterRepository = require('../../../../lib/infrastructure/repositories/certification-center-repository');
-const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const { expect, knex, databaseBuilder } = require('$tests/test-helper');
+const certificationCenterRepository = require('$lib/infrastructure/repositories/certification-center-repository');
+const CertificationCenter = require('$lib/domain/models/CertificationCenter');
+const { NotFoundError } = require('$lib/domain/errors');
 const _ = require('lodash');
 
 describe('Integration | Repository | Certification Center', () => {

@@ -1,10 +1,10 @@
-const { sinon, expect, catchErr } = require('../../../test-helper');
+const { sinon, expect, catchErr } = require('$tests/test-helper');
 
 const {
   UserNotFoundError, UserNotAuthorizedToUpdatePasswordError
-} = require('../../../../lib/domain/errors');
+} = require('$lib/domain/errors');
 
-const updateSchoolingRegistrationDependentUserPassword = require('../../../../lib/domain/usecases/update-schooling-registration-dependent-user-password');
+const updateSchoolingRegistrationDependentUserPassword = require('$lib/domain/usecases/update-schooling-registration-dependent-user-password');
 
 describe('Unit | UseCase | update-schooling-registration-dependent-user-password', () => {
 

@@ -1,5 +1,5 @@
-const AnswerStatusDatabaseAdapter = require('../../../../lib/infrastructure/adapters/answer-status-database-adapter');
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
+const AnswerStatusDatabaseAdapter = require('$lib/infrastructure/adapters/answer-status-database-adapter');
+const AnswerStatus = require('$lib/domain/models/AnswerStatus');
 
 const { expect } = require('chai');
 

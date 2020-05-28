@@ -1,11 +1,11 @@
 const _ = require('lodash');
-const { expect, sinon } = require('../../../../test-helper');
-const airtable = require('../../../../../lib/infrastructure/airtable');
-const tutorialDatasource = require('../../../../../lib/infrastructure/datasources/airtable/tutorial-datasource');
-const tutorialAirtableDataObjectFixture = require('../../../../tooling/fixtures/infrastructure/tutorialAirtableDataObjectFixture');
-const tutorialRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/tutorialRawAirtableFixture');
-const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
-const makeAirtableFake = require('../../../../tooling/airtable-builder/make-airtable-fake');
+const { expect, sinon } = require('$tests/test-helper');
+const airtable = require('$lib/infrastructure/airtable');
+const tutorialDatasource = require('$lib/infrastructure/datasources/airtable/tutorial-datasource');
+const tutorialAirtableDataObjectFixture = require('$tests/tooling/fixtures/infrastructure/tutorialAirtableDataObjectFixture');
+const tutorialRawAirTableFixture = require('$tests/tooling/fixtures/infrastructure/tutorialRawAirtableFixture');
+const cache = require('$lib/infrastructure/caches/learning-content-cache');
+const makeAirtableFake = require('$tests/tooling/airtable-builder/make-airtable-fake');
 
 describe('Unit | Infrastructure | Datasource | Airtable | TutorialDatasource', () => {
 

@@ -1,12 +1,12 @@
-const courseService = require('../../../../lib/domain/services/course-service');
+const courseService = require('$lib/domain/services/course-service');
 
-const Course = require('../../../../lib/domain/models/Course');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const { BaseHttpError } = require('../../../../lib/application/http-errors');
+const Course = require('$lib/domain/models/Course');
+const { NotFoundError } = require('$lib/domain/errors');
+const { BaseHttpError } = require('$lib/application/http-errors');
 
-const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
-const logger = require('../../../../lib/infrastructure/logger');
-const { expect, sinon, catchErr } = require('../../../test-helper');
+const courseRepository = require('$lib/infrastructure/repositories/course-repository');
+const logger = require('$lib/infrastructure/logger');
+const { expect, sinon, catchErr } = require('$tests/test-helper');
 
 describe('Unit | Service | Course Service', () => {
 

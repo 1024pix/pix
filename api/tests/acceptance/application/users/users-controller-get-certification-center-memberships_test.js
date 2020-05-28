@@ -1,5 +1,5 @@
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const createServer = require('../../../../server');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('$tests/test-helper');
+const createServer = require('$root/server');
 
 describe('Acceptance | Controller | users-controller-get-certification-center-memberships', () => {
 

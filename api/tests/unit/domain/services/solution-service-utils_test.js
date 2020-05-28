@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const service = require('../../../../lib/domain/services/solution-service-utils');
+const service = require('$lib/domain/services/solution-service-utils');
 
 describe('Unit | Domain | Services | solution-service-utils', function() {
 

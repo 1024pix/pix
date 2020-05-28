@@ -1,11 +1,11 @@
 const _ = require('lodash');
-const { expect, sinon } = require('../../../test-helper');
-const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
-const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
-const CertificationPartnerAcquisition = require('../../../../lib/domain/models/CertificationPartnerAcquisition');
-const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
-const events = require('../../../../lib/domain/events');
-const Badge = require('../../../../lib/domain/models/Badge');
+const { expect, sinon } = require('$tests/test-helper');
+const competenceRepository = require('$lib/infrastructure/repositories/competence-repository');
+const badgeAcquisitionRepository = require('$lib/infrastructure/repositories/badge-acquisition-repository');
+const CertificationPartnerAcquisition = require('$lib/domain/models/CertificationPartnerAcquisition');
+const CertificationScoringCompleted = require('$lib/domain/events/CertificationScoringCompleted');
+const events = require('$lib/domain/events');
+const Badge = require('$lib/domain/models/Badge');
 
 describe('Unit | Domain | Events | handle-certification-partner', () => {
   const competenceMarkRepository = { getLatestByCertificationCourseId: _.noop };

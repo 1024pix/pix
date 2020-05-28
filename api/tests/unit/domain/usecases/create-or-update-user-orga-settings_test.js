@@ -1,8 +1,8 @@
-const createOrUpdateUserOrgaSettings = require('../../../../lib/domain/usecases/create-or-update-user-orga-settings');
-const { expect, catchErr, sinon } = require('../../../test-helper');
-const { UserNotMemberOfOrganizationError } = require('../../../../lib/domain/errors');
-const userOrgaSettingsRepository = require('../../../../lib/infrastructure/repositories/user-orga-settings-repository');
-const membershipRepository = require('../../../../lib/infrastructure/repositories/membership-repository');
+const createOrUpdateUserOrgaSettings = require('$lib/domain/usecases/create-or-update-user-orga-settings');
+const { expect, catchErr, sinon } = require('$tests/test-helper');
+const { UserNotMemberOfOrganizationError } = require('$lib/domain/errors');
+const userOrgaSettingsRepository = require('$lib/infrastructure/repositories/user-orga-settings-repository');
+const membershipRepository = require('$lib/infrastructure/repositories/membership-repository');
 
 describe('Unit | UseCase | create-or-update-user-orga-settings', () => {
 

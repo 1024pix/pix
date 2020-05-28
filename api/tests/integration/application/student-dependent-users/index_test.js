@@ -1,8 +1,8 @@
-const { expect, sinon, HttpTestServer } = require('../../../test-helper');
+const { expect, sinon, HttpTestServer } = require('$tests/test-helper');
 
-const schoolingRegistrationDependentUserController = require('../../../../lib/application/schooling-registration-dependent-users/schooling-registration-dependent-user-controller');
-const moduleUnderTest = require('../../../../lib/application/student-dependent-users');
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
+const schoolingRegistrationDependentUserController = require('$lib/application/schooling-registration-dependent-users/schooling-registration-dependent-user-controller');
+const moduleUnderTest = require('$lib/application/student-dependent-users');
+const securityPreHandlers = require('$lib/application/security-pre-handlers');
 
 describe('Integration | Application | Route | student-dependent-users', () => {
 

@@ -1,12 +1,12 @@
-const { expect, sinon, HttpTestServer } = require('../../../test-helper');
+const { expect, sinon, HttpTestServer } = require('$tests/test-helper');
 
-const usecases = require('../../../../lib/domain/usecases');
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
-const moduleUnderTest = require('../../../../lib/application/organization-invitations');
+const usecases = require('$lib/domain/usecases');
+const OrganizationInvitation = require('$lib/domain/models/OrganizationInvitation');
+const moduleUnderTest = require('$lib/application/organization-invitations');
 
 const {
   AlreadyExistingOrganizationInvitationError, NotFoundError, UserNotFoundError
-} = require('../../../../lib/domain/errors');
+} = require('$lib/domain/errors');
 
 describe('Integration | Application | Organization-invitations | organization-invitation-controller', () => {
 

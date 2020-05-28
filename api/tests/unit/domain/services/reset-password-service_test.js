@@ -1,9 +1,9 @@
 const jsonwebtoken = require('jsonwebtoken');
 const crypto = require('crypto');
-const { sinon, expect } = require('../../../test-helper');
-const settings = require('../../../../lib/config');
-const resetPasswordService = require('../../../../lib/domain/services/reset-password-service');
-const resetPasswordRepository = require('../../../../lib/infrastructure/repositories/reset-password-demands-repository');
+const { sinon, expect } = require('$tests/test-helper');
+const settings = require('$lib/config');
+const resetPasswordService = require('$lib/domain/services/reset-password-service');
+const resetPasswordRepository = require('$lib/infrastructure/repositories/reset-password-demands-repository');
 
 describe('Unit | Service | Password Service', function() {
 

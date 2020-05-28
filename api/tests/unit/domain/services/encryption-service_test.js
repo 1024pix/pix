@@ -1,9 +1,9 @@
-const { sinon, expect } = require('../../../test-helper');
+const { sinon, expect } = require('$tests/test-helper');
 
 const bcrypt = require('bcrypt');
-const encryptionService = require('../../../../lib/domain/services/encryption-service');
+const encryptionService = require('$lib/domain/services/encryption-service');
 
-const PasswordNotMatching = require('../../../../lib/domain/errors').PasswordNotMatching;
+const PasswordNotMatching = require('$lib/domain/errors').PasswordNotMatching;
 
 describe('Unit | Service | Encryption', () => {
 

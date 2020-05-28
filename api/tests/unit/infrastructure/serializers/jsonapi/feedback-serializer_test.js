@@ -1,5 +1,5 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/feedback-serializer');
+const { expect } = require('$tests/test-helper');
+const serializer = require('$lib/infrastructure/serializers/jsonapi/feedback-serializer');
 
 describe('Unit | Serializer | JSONAPI | feedback-serializer', function() {
 

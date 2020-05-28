@@ -1,5 +1,5 @@
-const { expect, nock } = require('../../test-helper');
-const script = require('../../../scripts/import-certifications-from-csv');
+const { expect, nock } = require('$tests/test-helper');
+const script = require('$root/scripts/import-certifications-from-csv');
 
 describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
 

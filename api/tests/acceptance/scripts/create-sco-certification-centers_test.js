@@ -1,8 +1,8 @@
-const { expect } = require('../../test-helper');
+const { expect } = require('$tests/test-helper');
 
-const BookshelfCertificationCenter = require('../../../lib/infrastructure/data/certification-center');
+const BookshelfCertificationCenter = require('$lib/infrastructure/data/certification-center');
 
-const { createScoCertificationCenters } = require('../../../scripts/create-sco-certification-centers');
+const { createScoCertificationCenters } = require('$root/scripts/create-sco-certification-centers');
 
 describe('Acceptance | Scripts | create-sco-certification-centers.js', () => {
 

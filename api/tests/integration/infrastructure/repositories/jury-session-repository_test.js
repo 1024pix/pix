@@ -1,10 +1,10 @@
 const _ = require('lodash');
-const { databaseBuilder, expect, catchErr } = require('../../../test-helper');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const JurySession = require('../../../../lib/domain/models/JurySession');
-const { statuses } = require('../../../../lib/domain/models/JurySession');
-const CertificationOfficer = require('../../../../lib/domain/models/CertificationOfficer');
-const jurySessionRepository = require('../../../../lib/infrastructure/repositories/jury-session-repository');
+const { databaseBuilder, expect, catchErr } = require('$tests/test-helper');
+const { NotFoundError } = require('$lib/domain/errors');
+const JurySession = require('$lib/domain/models/JurySession');
+const { statuses } = require('$lib/domain/models/JurySession');
+const CertificationOfficer = require('$lib/domain/models/CertificationOfficer');
+const jurySessionRepository = require('$lib/infrastructure/repositories/jury-session-repository');
 
 describe('Integration | Repository | JurySession', function() {
 

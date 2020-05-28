@@ -1,9 +1,9 @@
 const _ = require('lodash');
 const faker = require('faker');
-const createServer = require('../../../server');
-const Assessment = require('../../../lib/domain/models/Assessment');
-const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
-const { expect, databaseBuilder, airtableBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../test-helper');
+const createServer = require('$root/server');
+const Assessment = require('$lib/domain/models/Assessment');
+const cache = require('$lib/infrastructure/caches/learning-content-cache');
+const { expect, databaseBuilder, airtableBuilder, generateValidRequestAuthorizationHeader, knex } = require('$tests/test-helper');
 
 describe('Acceptance | API | Campaign Participations', () => {
 

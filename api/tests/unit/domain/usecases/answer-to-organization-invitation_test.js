@@ -1,8 +1,8 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const answerToOrganizationInvitation = require('../../../../lib/domain/usecases/answer-to-organization-invitation');
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
-const Membership = require('../../../../lib/domain/models/Membership');
-const { NotFoundError, AlreadyExistingOrganizationInvitationError } = require('../../../../lib/domain/errors');
+const { expect, sinon, domainBuilder, catchErr } = require('$tests/test-helper');
+const answerToOrganizationInvitation = require('$lib/domain/usecases/answer-to-organization-invitation');
+const OrganizationInvitation = require('$lib/domain/models/OrganizationInvitation');
+const Membership = require('$lib/domain/models/Membership');
+const { NotFoundError, AlreadyExistingOrganizationInvitationError } = require('$lib/domain/errors');
 
 describe('Unit | UseCase | answer-to-organization-invitation', () => {
 

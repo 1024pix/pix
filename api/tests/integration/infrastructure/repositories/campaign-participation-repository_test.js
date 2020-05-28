@@ -1,11 +1,11 @@
 const _ = require('lodash');
 const moment = require('moment');
-const { sinon, expect, knex, databaseBuilder } = require('../../../test-helper');
-const Campaign = require('../../../../lib/domain/models/Campaign');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const Skill = require('../../../../lib/domain/models/Skill');
-const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
+const { sinon, expect, knex, databaseBuilder } = require('$tests/test-helper');
+const Campaign = require('$lib/domain/models/Campaign');
+const CampaignParticipation = require('$lib/domain/models/CampaignParticipation');
+const KnowledgeElement = require('$lib/domain/models/KnowledgeElement');
+const Skill = require('$lib/domain/models/Skill');
+const campaignParticipationRepository = require('$lib/infrastructure/repositories/campaign-participation-repository');
 
 describe('Integration | Repository | Campaign Participation', () => {
 

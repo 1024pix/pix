@@ -1,6 +1,6 @@
 const AirtableRecord = require('airtable').Record;
-const { airtableBuilder, expect } = require('../../test-helper');
-const airtable = require('../../../lib/infrastructure/airtable');
+const { airtableBuilder, expect } = require('$tests/test-helper');
+const airtable = require('$lib/infrastructure/airtable');
 
 function assertAirtableRecordToEqualExpectedJson(actualRecord, expectedRecordJson) {
   expect(actualRecord).to.be.an.instanceOf(AirtableRecord);

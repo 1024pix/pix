@@ -1,16 +1,16 @@
-const { expect, sinon } = require('../../../../test-helper');
-const certificationService = require('../../../../../lib/domain/services/certification-service');
+const { expect, sinon } = require('$tests/test-helper');
+const certificationService = require('$lib/domain/services/certification-service');
 
-const Assessment = require('../../../../../lib/domain/models/Assessment');
-const AssessmentResult = require('../../../../../lib/domain/models/AssessmentResult');
-const CompetenceMarks = require('../../../../../lib/domain/models/CompetenceMark');
-const CertificationCourse = require('../../../../../lib/domain/models/CertificationCourse');
+const Assessment = require('$lib/domain/models/Assessment');
+const AssessmentResult = require('$lib/domain/models/AssessmentResult');
+const CompetenceMarks = require('$lib/domain/models/CompetenceMark');
+const CertificationCourse = require('$lib/domain/models/CertificationCourse');
 
-const assessmentRepository = require('../../../../../lib/infrastructure/repositories/assessment-repository');
-const assessmentResultRepository = require('../../../../../lib/infrastructure/repositories/assessment-result-repository');
-const certificationAssessmentRepository = require('../../../../../lib/infrastructure/repositories/certification-assessment-repository');
-const certificationCourseRepository = require('../../../../../lib/infrastructure/repositories/certification-course-repository');
-const certificationResultService = require('../../../../../lib/domain/services/certification-result-service');
+const assessmentRepository = require('$lib/infrastructure/repositories/assessment-repository');
+const assessmentResultRepository = require('$lib/infrastructure/repositories/assessment-result-repository');
+const certificationAssessmentRepository = require('$lib/infrastructure/repositories/certification-assessment-repository');
+const certificationCourseRepository = require('$lib/infrastructure/repositories/certification-course-repository');
+const certificationResultService = require('$lib/domain/services/certification-result-service');
 
 function _buildCompetenceMarks(level, score, area_code, competence_code, competenceId) {
   return new CompetenceMarks({ level, score, area_code, competence_code, competenceId });

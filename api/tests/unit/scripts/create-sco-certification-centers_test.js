@@ -1,6 +1,6 @@
-const { expect } = require('../../test-helper');
+const { expect } = require('$tests/test-helper');
 
-const { prepareDataForInsert } = require('../../../scripts/create-sco-certification-centers');
+const { prepareDataForInsert } = require('$root/scripts/create-sco-certification-centers');
 
 describe('Unit | Scripts | create-sco-certification-centers.js', () => {
 

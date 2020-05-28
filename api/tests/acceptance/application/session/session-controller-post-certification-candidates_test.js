@@ -1,6 +1,6 @@
 const _ = require('lodash');
-const { expect, databaseBuilder, domainBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../../test-helper');
-const createServer = require('../../../../server');
+const { expect, databaseBuilder, domainBuilder, generateValidRequestAuthorizationHeader, knex } = require('$tests/test-helper');
+const createServer = require('$root/server');
 
 describe('Acceptance | Controller | session-controller-post-certification-candidates', () => {
 

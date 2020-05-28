@@ -1,6 +1,6 @@
-const { expect } = require('../../../../test-helper');
-const UserDetailForAdmin = require('../../../../../lib/domain/read-models/UserDetailForAdmin');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-detail-for-admin-serializer');
+const { expect } = require('$tests/test-helper');
+const UserDetailForAdmin = require('$lib/domain/read-models/UserDetailForAdmin');
+const serializer = require('$lib/infrastructure/serializers/jsonapi/user-detail-for-admin-serializer');
 
 describe('Unit | Serializer | JSONAPI | user-detail-for-admin-serializer', () => {
 

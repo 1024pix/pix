@@ -1,9 +1,9 @@
 const _ = require('lodash');
-const { expect, databaseBuilder, domainBuilder, sinon } = require('../../../test-helper');
-const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
-const Skill = require('../../../../lib/domain/models/Skill');
-const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
-const skillDatasource = require('../../../../lib/infrastructure/datasources/airtable/skill-datasource');
+const { expect, databaseBuilder, domainBuilder, sinon } = require('$tests/test-helper');
+const TargetProfile = require('$lib/domain/models/TargetProfile');
+const Skill = require('$lib/domain/models/Skill');
+const targetProfileRepository = require('$lib/infrastructure/repositories/target-profile-repository');
+const skillDatasource = require('$lib/infrastructure/datasources/airtable/skill-datasource');
 
 describe('Integration | Repository | Target-profile', () => {
 

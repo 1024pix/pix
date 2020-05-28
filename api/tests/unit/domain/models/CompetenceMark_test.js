@@ -1,6 +1,6 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
-const { ObjectValidationError } = require('../../../../lib/domain/errors');
+const { expect, domainBuilder } = require('$tests/test-helper');
+const CompetenceMark = require('$lib/domain/models/CompetenceMark');
+const { ObjectValidationError } = require('$lib/domain/errors');
 
 describe('Unit | Domain | Models | Competence Mark', () => {
 

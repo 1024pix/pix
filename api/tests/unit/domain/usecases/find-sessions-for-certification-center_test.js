@@ -1,6 +1,6 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
-const { ForbiddenAccess } = require('../../../../lib/domain/errors');
+const { expect, sinon, catchErr } = require('$tests/test-helper');
+const usecases = require('$lib/domain/usecases');
+const { ForbiddenAccess } = require('$lib/domain/errors');
 
 describe('Unit | UseCase | find-sessions-for-certification-center', () => {
 

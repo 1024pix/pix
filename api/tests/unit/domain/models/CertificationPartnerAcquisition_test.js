@@ -1,6 +1,6 @@
-const { expect } = require('../../../test-helper');
-const CertificationPartnerAcquisition = require('../../../../lib/domain/models/CertificationPartnerAcquisition');
-const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
+const { expect } = require('$tests/test-helper');
+const CertificationPartnerAcquisition = require('$lib/domain/models/CertificationPartnerAcquisition');
+const CompetenceMark = require('$lib/domain/models/CompetenceMark');
 
 const GREEN_ZONE_REPRO = [80, 90, 100];
 const RED_ZONE_REPRO = [1, 50];

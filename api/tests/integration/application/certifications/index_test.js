@@ -1,7 +1,7 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon } = require('$tests/test-helper');
 const Hapi = require('@hapi/hapi');
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const certificationController = require('../../../../lib/application/certifications/certification-controller');
+const securityPreHandlers = require('$lib/application/security-pre-handlers');
+const certificationController = require('$lib/application/certifications/certification-controller');
 
 describe('Integration | Application | Route | Certifications', () => {
 
@@ -13,7 +13,7 @@ describe('Integration | Application | Route | Certifications', () => {
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
 
     server = Hapi.server();
-    return server.register(require('../../../../lib/application/certifications'));
+    return server.register(require('$lib/application/certifications'));
   });
 
   afterEach(() => {

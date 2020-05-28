@@ -1,7 +1,7 @@
 const Redlock = require('redlock');
-const { expect, sinon } = require('../../../test-helper');
-const settings = require('../../../../lib/config');
-const RedisCache = require('../../../../lib/infrastructure/caches/RedisCache');
+const { expect, sinon } = require('$tests/test-helper');
+const settings = require('$lib/config');
+const RedisCache = require('$lib/infrastructure/caches/RedisCache');
 
 describe('Unit | Infrastructure | Cache | redis-cache', () => {
 

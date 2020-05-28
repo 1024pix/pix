@@ -1,7 +1,7 @@
-const { airtableBuilder, databaseBuilder, expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
+const { airtableBuilder, databaseBuilder, expect, generateValidRequestAuthorizationHeader } = require('$tests/test-helper');
+const cache = require('$lib/infrastructure/caches/learning-content-cache');
 
-const createServer = require('../../../../server');
+const createServer = require('$root/server');
 
 describe('Acceptance | Controller | users-controller-get-user-scorecards', () => {
 

@@ -2,10 +2,10 @@ const {
   sinon,
   expect,
   catchErr,
-} = require('../../../test-helper');
+} = require('$tests/test-helper');
 
-const deleteUnlinkedCertificationCandidate = require('../../../../lib/domain/usecases/delete-unlinked-certification-candidate');
-const { CertificationCandidateForbiddenDeletionError } = require('../../../../lib/domain/errors');
+const deleteUnlinkedCertificationCandidate = require('$lib/domain/usecases/delete-unlinked-certification-candidate');
+const { CertificationCandidateForbiddenDeletionError } = require('$lib/domain/errors');
 
 describe('Unit | UseCase | delete-unlinked-sertification-candidate', () => {
 

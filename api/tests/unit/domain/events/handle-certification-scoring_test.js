@@ -1,10 +1,10 @@
 const _ = require('lodash');
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const events = require('../../../../lib/domain/events');
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const { CertificationComputeError } = require('../../../../lib/domain/errors');
-const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
-const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
+const { expect, sinon, catchErr } = require('$tests/test-helper');
+const events = require('$lib/domain/events');
+const AssessmentResult = require('$lib/domain/models/AssessmentResult');
+const { CertificationComputeError } = require('$lib/domain/errors');
+const AssessmentCompleted = require('$lib/domain/events/AssessmentCompleted');
+const CertificationScoringCompleted = require('$lib/domain/events/CertificationScoringCompleted');
 
 describe('Unit | Domain | Events | handle-certification-scoring', () => {
   const scoringCertificationService = { calculateCertificationAssessmentScore: _.noop };

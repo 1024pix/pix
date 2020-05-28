@@ -1,8 +1,8 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const createCampaign = require('../../../../lib/domain/usecases/create-campaign');
-const campaignCodeGenerator = require('../../../../lib/domain/services/campaigns/campaign-code-generator');
-const campaignValidator = require('../../../../lib/domain/validators/campaign-validator');
-const { EntityValidationError, UserNotAuthorizedToCreateCampaignError } = require('../../../../lib/domain/errors');
+const { expect, sinon, domainBuilder, catchErr } = require('$tests/test-helper');
+const createCampaign = require('$lib/domain/usecases/create-campaign');
+const campaignCodeGenerator = require('$lib/domain/services/campaigns/campaign-code-generator');
+const campaignValidator = require('$lib/domain/validators/campaign-validator');
+const { EntityValidationError, UserNotAuthorizedToCreateCampaignError } = require('$lib/domain/errors');
 const _ = require('lodash');
 
 describe('Unit | UseCase | create-campaign', () => {

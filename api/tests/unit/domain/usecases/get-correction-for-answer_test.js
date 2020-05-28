@@ -1,9 +1,9 @@
-const getCorrectionForAnswer = require('../../../../lib/domain/usecases/get-correction-for-answer');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const Answer = require('../../../../lib/domain/models/Answer');
-const Correction = require('../../../../lib/domain/models/Correction');
-const { AssessmentNotCompletedError, NotFoundError } = require('../../../../lib/domain/errors');
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
+const getCorrectionForAnswer = require('$lib/domain/usecases/get-correction-for-answer');
+const Assessment = require('$lib/domain/models/Assessment');
+const Answer = require('$lib/domain/models/Answer');
+const Correction = require('$lib/domain/models/Correction');
+const { AssessmentNotCompletedError, NotFoundError } = require('$lib/domain/errors');
+const { expect, sinon, catchErr, domainBuilder } = require('$tests/test-helper');
 
 describe('Unit | UseCase | getCorrectionForAnswer', () => {
 

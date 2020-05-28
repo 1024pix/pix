@@ -1,7 +1,7 @@
-const { expect, sinon } = require('../../../test-helper');
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const Campaign = require('../../../../lib/infrastructure/data/campaign');
-const queryBuilder = require('../../../../lib/infrastructure/utils/query-builder');
+const { expect, sinon } = require('$tests/test-helper');
+const campaignRepository = require('$lib/infrastructure/repositories/campaign-repository');
+const Campaign = require('$lib/infrastructure/data/campaign');
+const queryBuilder = require('$lib/infrastructure/utils/query-builder');
 
 describe('Unit | Repository | CampaignRepository', function() {
 

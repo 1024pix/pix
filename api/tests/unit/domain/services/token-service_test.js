@@ -1,7 +1,7 @@
-const { expect } = require('../../../test-helper');
-const tokenService = require('../../../../lib/domain/services/token-service');
-const User = require('../../../../lib/domain/models/User');
-const { InvalidTemporaryKeyError } = require('../../../../lib/domain/errors');
+const { expect } = require('$tests/test-helper');
+const tokenService = require('$lib/domain/services/token-service');
+const User = require('$lib/domain/models/User');
+const { InvalidTemporaryKeyError } = require('$lib/domain/errors');
 
 describe('Unit | Domain | Service | Token Service', function() {
 

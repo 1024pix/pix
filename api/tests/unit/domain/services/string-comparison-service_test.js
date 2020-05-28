@@ -1,11 +1,11 @@
-const { expect } = require('../../../test-helper');
+const { expect } = require('$tests/test-helper');
 const {
   areTwoStringsCloseEnough,
   getSmallestLevenshteinDistance,
   getSmallestLevenshteinRatio,
   getLevenshteinRatio,
   isOneStringCloseEnoughFromMultipleStrings,
-} = require('../../../../lib/domain/services/string-comparison-service');
+} = require('$lib/domain/services/string-comparison-service');
 
 describe('Unit | Service | Validation Comparison', function() {
 

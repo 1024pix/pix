@@ -1,8 +1,8 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/correction-serializer');
-const Correction = require('../../../../../lib/domain/models/Correction');
-const Hint = require('../../../../../lib/domain/models/Hint');
-const Tutorial = require('../../../../../lib/domain/models/Tutorial');
+const { expect } = require('$tests/test-helper');
+const serializer = require('$lib/infrastructure/serializers/jsonapi/correction-serializer');
+const Correction = require('$lib/domain/models/Correction');
+const Hint = require('$lib/domain/models/Hint');
+const Tutorial = require('$lib/domain/models/Tutorial');
 
 describe('Unit | Serializer | JSONAPI | correction-serializer', function() {
 

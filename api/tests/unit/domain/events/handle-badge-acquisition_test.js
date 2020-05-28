@@ -1,8 +1,8 @@
 const _ = require('lodash');
 
-const { expect, sinon } = require('../../../test-helper');
-const events = require('../../../../lib/domain/events');
-const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
+const { expect, sinon } = require('$tests/test-helper');
+const events = require('$lib/domain/events');
+const AssessmentCompleted = require('$lib/domain/events/AssessmentCompleted');
 
 describe('Unit | Domain | Events | handle-badge-acquisition', () => {
 

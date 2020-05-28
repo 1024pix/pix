@@ -1,13 +1,13 @@
-const { expect, knex, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
+const { expect, knex, databaseBuilder, domainBuilder, catchErr } = require('$tests/test-helper');
 const _ = require('lodash');
 const moment = require('moment');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+const DomainTransaction = require('$lib/infrastructure/DomainTransaction');
 
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const Answer = require('../../../../lib/domain/models/Answer');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const assessmentRepository = require('$lib/infrastructure/repositories/assessment-repository');
+const Answer = require('$lib/domain/models/Answer');
+const Assessment = require('$lib/domain/models/Assessment');
+const AssessmentResult = require('$lib/domain/models/AssessmentResult');
+const CampaignParticipation = require('$lib/domain/models/CampaignParticipation');
 
 describe('Integration | Infrastructure | Repositories | assessment-repository', () => {
 

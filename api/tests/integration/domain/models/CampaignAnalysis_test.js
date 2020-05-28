@@ -1,5 +1,5 @@
-const CampaignAnalysis = require('../../../../lib/domain/models/CampaignAnalysis');
-const { expect } = require('../../../test-helper');
+const CampaignAnalysis = require('$lib/domain/models/CampaignAnalysis');
+const { expect } = require('$tests/test-helper');
 
 describe('Integration | Domain | Models | CampaignAnalysis', () => {
 

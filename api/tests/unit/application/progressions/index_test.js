@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon } = require('$tests/test-helper');
 const Hapi = require('@hapi/hapi');
-const progressionController = require('../../../../lib/application/progressions/progression-controller');
+const progressionController = require('$lib/application/progressions/progression-controller');
 
 describe('Unit | Router | progression-router', () => {
 
@@ -10,7 +10,7 @@ describe('Unit | Router | progression-router', () => {
     sinon.stub(progressionController, 'get').callsFake((request, h) => h.response().code(200));
 
     server = Hapi.server();
-    return server.register(require('../../../../lib/application/progressions'));
+    return server.register(require('$lib/application/progressions'));
   });
 
   afterEach(() => {

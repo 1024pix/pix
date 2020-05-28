@@ -1,7 +1,7 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon } = require('$tests/test-helper');
 const Hapi = require('@hapi/hapi');
-const cacheController = require('../../../../lib/application/cache/cache-controller');
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
+const cacheController = require('$lib/application/cache/cache-controller');
+const securityPreHandlers = require('$lib/application/security-pre-handlers');
 
 describe('Unit | Router | cache-router', () => {
 
@@ -14,7 +14,7 @@ describe('Unit | Router | cache-router', () => {
 
     server = Hapi.server();
 
-    return server.register(require('../../../../lib/application/cache'));
+    return server.register(require('$lib/application/cache'));
   });
 
   afterEach(() => {

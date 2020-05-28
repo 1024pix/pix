@@ -1,9 +1,9 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
+const { expect, databaseBuilder } = require('$tests/test-helper');
 
-const membershipRepository = require('../../../../lib/infrastructure/repositories/membership-repository');
-const Membership = require('../../../../lib/domain/models/Membership');
+const membershipRepository = require('$lib/infrastructure/repositories/membership-repository');
+const Membership = require('$lib/domain/models/Membership');
 
-const updateMembershipRole = require('../../../../lib/domain/usecases/update-membership-role');
+const updateMembershipRole = require('$lib/domain/usecases/update-membership-role');
 
 describe('Integration | UseCases | update-membership-role', () => {
 

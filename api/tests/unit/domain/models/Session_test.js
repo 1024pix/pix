@@ -1,5 +1,5 @@
-const Session = require('../../../../lib/domain/models/Session');
-const { expect } = require('../../../test-helper');
+const Session = require('$lib/domain/models/Session');
+const { expect } = require('$tests/test-helper');
 const _ = require('lodash');
 
 const SESSION_PROPS = [
@@ -117,7 +117,7 @@ describe('Unit | Domain | Models | Session', () => {
       });
 
       context('when session assignedCertificationOfficerId is not defined', () => {
-      
+
         context('when session finalizedAt timestamp is defined', () => {
 
           it('should return FINALIZED', () => {

@@ -1,6 +1,6 @@
-const createServer = require('../../../server');
-const { expect, sinon } = require('../../test-helper');
-const DomainErrors = require('../../../lib/domain/errors');
+const createServer = require('$root/server');
+const { expect, sinon } = require('$tests/test-helper');
+const DomainErrors = require('$lib/domain/errors');
 
 describe('Integration | API | Controller Error', () => {
 

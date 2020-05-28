@@ -1,5 +1,5 @@
-const { expect } = require('../../test-helper');
-const { BaseHttpError, MissingQueryParamError } = require('../../../lib/application/http-errors');
+const { expect } = require('$tests/test-helper');
+const { BaseHttpError, MissingQueryParamError } = require('$lib/application/http-errors');
 
 describe('Unit | Application | HTTP Errors', () => {
 

@@ -1,8 +1,8 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
+const { expect, databaseBuilder, knex } = require('$tests/test-helper');
 
-const BadgeAcquisition = require('../../../../lib/domain/models/BadgeAcquisition');
-const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+const BadgeAcquisition = require('$lib/domain/models/BadgeAcquisition');
+const badgeAcquisitionRepository = require('$lib/infrastructure/repositories/badge-acquisition-repository');
+const DomainTransaction = require('$lib/infrastructure/DomainTransaction');
 
 describe('Integration | Repository | Badge Acquisition', () => {
 

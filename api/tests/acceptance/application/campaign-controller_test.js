@@ -1,10 +1,10 @@
 const faker = require('faker');
 const jwt = require('jsonwebtoken');
-const createServer = require('../../../server');
-const { expect, databaseBuilder, airtableBuilder, knex, generateValidRequestAuthorizationHeader } = require('../../test-helper');
-const settings = require('../../../lib/config');
-const Membership = require('../../../lib/domain/models/Membership');
-const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
+const createServer = require('$root/server');
+const { expect, databaseBuilder, airtableBuilder, knex, generateValidRequestAuthorizationHeader } = require('$tests/test-helper');
+const settings = require('$lib/config');
+const Membership = require('$lib/domain/models/Membership');
+const cache = require('$lib/infrastructure/caches/learning-content-cache');
 
 describe('Acceptance | API | Campaign Controller', () => {
 

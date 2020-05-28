@@ -1,7 +1,7 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const SmartPlacementAssessment = require('../../../../lib/domain/models/SmartPlacementAssessment');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
+const { expect, domainBuilder } = require('$tests/test-helper');
+const AnswerStatus = require('$lib/domain/models/AnswerStatus');
+const SmartPlacementAssessment = require('$lib/domain/models/SmartPlacementAssessment');
+const KnowledgeElement = require('$lib/domain/models/KnowledgeElement');
 
 function generateSmartPlacementAssessmentWithNoKnowledgeElement() {
   const skills = domainBuilder.buildSkillCollection();

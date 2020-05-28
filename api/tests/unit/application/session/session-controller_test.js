@@ -1,20 +1,20 @@
 const _ = require('lodash');
-const { expect, sinon, hFake } = require('../../../test-helper');
+const { expect, sinon, hFake } = require('$tests/test-helper');
 
-const sessionController = require('../../../../lib/application/sessions/session-controller');
-const usecases = require('../../../../lib/domain/usecases');
-const Session = require('../../../../lib/domain/models/Session');
+const sessionController = require('$lib/application/sessions/session-controller');
+const usecases = require('$lib/domain/usecases');
+const Session = require('$lib/domain/models/Session');
 
-const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
-const jurySessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/jury-session-serializer');
-const certificationCandidateSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer');
-const certificationReportSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-report-serializer');
-const juryCertificationSummarySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/jury-certification-summary-serializer');
-const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
-const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
-const sessionValidator = require('../../../../lib/domain/validators/session-validator');
-const juryCertificationSummaryRepository = require('../../../../lib/infrastructure/repositories/jury-certification-summary-repository');
-const jurySessionRepository = require('../../../../lib/infrastructure/repositories/jury-session-repository');
+const sessionSerializer = require('$lib/infrastructure/serializers/jsonapi/session-serializer');
+const jurySessionSerializer = require('$lib/infrastructure/serializers/jsonapi/jury-session-serializer');
+const certificationCandidateSerializer = require('$lib/infrastructure/serializers/jsonapi/certification-candidate-serializer');
+const certificationReportSerializer = require('$lib/infrastructure/serializers/jsonapi/certification-report-serializer');
+const juryCertificationSummarySerializer = require('$lib/infrastructure/serializers/jsonapi/jury-certification-summary-serializer');
+const queryParamsUtils = require('$lib/infrastructure/utils/query-params-utils');
+const requestResponseUtils = require('$lib/infrastructure/utils/request-response-utils');
+const sessionValidator = require('$lib/domain/validators/session-validator');
+const juryCertificationSummaryRepository = require('$lib/infrastructure/repositories/jury-certification-summary-repository');
+const jurySessionRepository = require('$lib/infrastructure/repositories/jury-session-repository');
 
 describe('Unit | Controller | sessionController', () => {
 

@@ -1,6 +1,6 @@
-const { expect } = require('../../../test-helper');
-const CertificationProfile = require('../../../../lib/domain/models/CertificationProfile');
-const UserCompetence = require('../../../../lib/domain/models/UserCompetence');
+const { expect } = require('$tests/test-helper');
+const CertificationProfile = require('$lib/domain/models/CertificationProfile');
+const UserCompetence = require('$lib/domain/models/UserCompetence');
 
 describe('Unit | Domain | Models | CertificationProfile', () => {
 

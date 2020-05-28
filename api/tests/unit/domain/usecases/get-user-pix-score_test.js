@@ -1,5 +1,5 @@
-const { sinon, expect } = require('../../../test-helper');
-const getUserPixScore = require('../../../../lib/domain/usecases/get-user-pix-score');
+const { sinon, expect } = require('$tests/test-helper');
+const getUserPixScore = require('$lib/domain/usecases/get-user-pix-score');
 
 describe('Unit | UseCase | get-user-pix-score', () => {
 

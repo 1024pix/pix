@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
-const createMembership = require('../../../../lib/domain/usecases/create-membership');
-const Membership = require('../../../../lib/domain/models/Membership');
+const { expect, sinon } = require('$tests/test-helper');
+const createMembership = require('$lib/domain/usecases/create-membership');
+const Membership = require('$lib/domain/models/Membership');
 
 describe('Unit | UseCase | create-membership', () => {
 

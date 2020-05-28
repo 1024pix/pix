@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon } = require('$tests/test-helper');
 const Hapi = require('@hapi/hapi');
-const AnswerController = require('../../../../lib/application/answers/answer-controller');
+const AnswerController = require('$lib/application/answers/answer-controller');
 
 describe('Unit | Router | answer-router', function() {
 
@@ -15,7 +15,7 @@ describe('Unit | Router | answer-router', function() {
 
     server = Hapi.server();
 
-    return server.register(require('../../../../lib/application/answers'));
+    return server.register(require('$lib/application/answers'));
   });
 
   afterEach(() => {

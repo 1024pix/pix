@@ -1,12 +1,12 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
-const encryptionService = require('../../../../lib/domain/services/encryption-service');
-const mailService = require('../../../../lib/domain/services/mail-service');
-const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const userValidator = require('../../../../lib/domain/validators/user-validator');
-const { AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError, CampaignCodeError, EntityValidationError, SchoolingRegistrationAlreadyLinkedToUserError, NotFoundError } = require('../../../../lib/domain/errors');
+const { expect, sinon, domainBuilder, catchErr } = require('$tests/test-helper');
+const usecases = require('$lib/domain/usecases');
+const encryptionService = require('$lib/domain/services/encryption-service');
+const mailService = require('$lib/domain/services/mail-service');
+const userReconciliationService = require('$lib/domain/services/user-reconciliation-service');
+const campaignRepository = require('$lib/infrastructure/repositories/campaign-repository');
+const userRepository = require('$lib/infrastructure/repositories/user-repository');
+const userValidator = require('$lib/domain/validators/user-validator');
+const { AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError, CampaignCodeError, EntityValidationError, SchoolingRegistrationAlreadyLinkedToUserError, NotFoundError } = require('$lib/domain/errors');
 
 describe('Unit | UseCase | create-and-associate-user-to-schooling-registration', () => {
 

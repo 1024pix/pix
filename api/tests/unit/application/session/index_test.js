@@ -2,11 +2,11 @@ const Hapi = require('@hapi/hapi');
 const fs = require('fs');
 const FormData = require('form-data');
 const streamToPromise = require('stream-to-promise');
-const { expect, sinon } = require('../../../test-helper');
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const sessionController = require('../../../../lib/application/sessions/session-controller');
-const sessionAuthorization = require('../../../../lib/application/preHandlers/session-authorization');
-const route = require('../../../../lib/application/sessions');
+const { expect, sinon } = require('$tests/test-helper');
+const securityPreHandlers = require('$lib/application/security-pre-handlers');
+const sessionController = require('$lib/application/sessions/session-controller');
+const sessionAuthorization = require('$lib/application/preHandlers/session-authorization');
+const route = require('$lib/application/sessions');
 
 describe('Unit | Application | Sessions | Routes', () => {
   let server;

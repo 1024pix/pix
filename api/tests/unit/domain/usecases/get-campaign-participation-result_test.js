@@ -1,6 +1,6 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const getCampaignParticipationResult = require('../../../../lib/domain/usecases/get-campaign-participation-result');
-const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
+const { expect, sinon, catchErr } = require('$tests/test-helper');
+const getCampaignParticipationResult = require('$lib/domain/usecases/get-campaign-participation-result');
+const { UserNotAuthorizedToAccessEntity } = require('$lib/domain/errors');
 
 describe('Unit | UseCase | get-campaign-participation-result', () => {
 

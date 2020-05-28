@@ -1,9 +1,9 @@
-const { sinon, expect, nock } = require('../../../test-helper');
+const { sinon, expect, nock } = require('$tests/test-helper');
 
-const mailCheck = require('../../../../lib/infrastructure/mail-check');
-const { mailing } = require('../../../../lib/config');
+const mailCheck = require('$lib/infrastructure/mail-check');
+const { mailing } = require('$lib/config');
 
-const SendinblueProvider = require('../../../../lib/infrastructure/mailers/SendinblueProvider');
+const SendinblueProvider = require('$lib/infrastructure/mailers/SendinblueProvider');
 
 describe('Unit | Class | SendinblueProvider', () => {
 

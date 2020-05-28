@@ -1,6 +1,6 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const { computeCampaignCollectiveResult } = require('../../../../lib/domain/usecases');
-const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
+const { expect, sinon, catchErr, domainBuilder } = require('$tests/test-helper');
+const { computeCampaignCollectiveResult } = require('$lib/domain/usecases');
+const { UserNotAuthorizedToAccessEntity } = require('$lib/domain/errors');
 
 describe('Unit | UseCase | compute-campaign-collective-result', () => {
   const userId = 1;

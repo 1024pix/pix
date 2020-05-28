@@ -1,9 +1,9 @@
-const { expect, knex, sinon, databaseBuilder } = require('../../test-helper');
-const mailjetService = require('../../../lib/domain/services/mail-service');
-const resetPasswordService = require('../../../lib/domain/services/reset-password-service');
-const resetPasswordDemandRepository = require('../../../lib/infrastructure/repositories/reset-password-demands-repository');
+const { expect, knex, sinon, databaseBuilder } = require('$tests/test-helper');
+const mailjetService = require('$lib/domain/services/mail-service');
+const resetPasswordService = require('$lib/domain/services/reset-password-service');
+const resetPasswordDemandRepository = require('$lib/infrastructure/repositories/reset-password-demands-repository');
 
-const createServer = require('../../../server');
+const createServer = require('$root/server');
 
 function _insertPasswordResetDemand(temporaryKey, email) {
   const resetDemandRaw = { email, temporaryKey };

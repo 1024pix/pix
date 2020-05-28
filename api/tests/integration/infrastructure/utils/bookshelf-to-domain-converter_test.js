@@ -1,14 +1,14 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
-const bookshelfToDomainConverter = require('../../../../lib/infrastructure/utils/bookshelf-to-domain-converter');
+const { expect, databaseBuilder } = require('$tests/test-helper');
+const bookshelfToDomainConverter = require('$lib/infrastructure/utils/bookshelf-to-domain-converter');
 
-const User = require('../../../../lib/domain/models/User');
-const Membership = require('../../../../lib/domain/models/Membership');
-const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
+const User = require('$lib/domain/models/User');
+const Membership = require('$lib/domain/models/Membership');
+const TargetProfile = require('$lib/domain/models/TargetProfile');
+const KnowledgeElement = require('$lib/domain/models/KnowledgeElement');
 
-const BookshelfUser = require('../../../../lib/infrastructure/data/user');
-const BookshelfCampaign = require('../../../../lib/infrastructure/data/campaign');
-const BookshelfCampaignParticipation = require('../../../../lib/infrastructure/data/campaign-participation');
+const BookshelfUser = require('$lib/infrastructure/data/user');
+const BookshelfCampaign = require('$lib/infrastructure/data/campaign');
+const BookshelfCampaignParticipation = require('$lib/infrastructure/data/campaign-participation');
 
 describe('Integration | Infrastructure | Utils | Bookshelf to domain converter', function() {
 

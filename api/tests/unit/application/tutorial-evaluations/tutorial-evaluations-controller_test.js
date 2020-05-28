@@ -1,6 +1,6 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
-const tutorialEvaluationsController = require('../../../../lib/application/tutorial-evaluations/tutorial-evaluations-controller');
-const usecases = require('../../../../lib/domain/usecases');
+const { sinon, expect, hFake } = require('$tests/test-helper');
+const tutorialEvaluationsController = require('$lib/application/tutorial-evaluations/tutorial-evaluations-controller');
+const usecases = require('$lib/domain/usecases');
 
 describe('Unit | Controller | Tutorial-evaluations', function() {
 

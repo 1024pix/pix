@@ -1,6 +1,6 @@
-const { expect, sinon, knex, nock } = require('../../../test-helper');
-const mailer = require('../../../../lib/infrastructure/mailers/mailer');
-const createServer = require('../../../../server');
+const { expect, sinon, knex, nock } = require('$tests/test-helper');
+const mailer = require('$lib/infrastructure/mailers/mailer');
+const createServer = require('$root/server');
 
 describe('Acceptance | Controller | users-controller', () => {
 

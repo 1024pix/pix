@@ -1,12 +1,12 @@
 const fs = require('fs');
 const _ = require('lodash');
 
-const { expect, databaseBuilder } = require('../../../../test-helper');
+const { expect, databaseBuilder } = require('$tests/test-helper');
 
-const readOdsUtils  = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
+const readOdsUtils  = require('$lib/infrastructure/utils/ods/read-ods-utils');
 
-const sessionRepository = require('../../../../../lib/infrastructure/repositories/session-repository');
-const getAttendanceSheet = require('../../../../../lib/domain/usecases/get-attendance-sheet');
+const sessionRepository = require('$lib/infrastructure/repositories/session-repository');
+const getAttendanceSheet = require('$lib/domain/usecases/get-attendance-sheet');
 
 describe('Integration | UseCases | getAttendanceSheet', () => {
 

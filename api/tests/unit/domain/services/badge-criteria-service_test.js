@@ -1,7 +1,7 @@
-const { domainBuilder, expect } = require('../../../test-helper');
+const { domainBuilder, expect } = require('$tests/test-helper');
 
-const BadgeCriterion = require('../../../../lib/domain/models/BadgeCriterion');
-const badgeCriteriaService = require('../../../../lib/domain/services/badge-criteria-service');
+const BadgeCriterion = require('$lib/domain/models/BadgeCriterion');
+const badgeCriteriaService = require('$lib/domain/services/badge-criteria-service');
 
 const CRITERION_THRESHOLD = {
   CAMPAIGN_PARTICIPATION: 85,

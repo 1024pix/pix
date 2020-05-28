@@ -1,7 +1,7 @@
-const { expect, databaseBuilder } = require('../../../../test-helper');
-const certificationCandidatesOdsService = require('../../../../../lib/domain/services/certification-candidates-ods-service');
-const CertificationCandidate = require('../../../../../lib/domain/models/CertificationCandidate');
-const { InvalidCertificationCandidate } = require('../../../../../lib/domain/errors');
+const { expect, databaseBuilder } = require('$tests/test-helper');
+const certificationCandidatesOdsService = require('$lib/domain/services/certification-candidates-ods-service');
+const CertificationCandidate = require('$lib/domain/models/CertificationCandidate');
+const { InvalidCertificationCandidate } = require('$lib/domain/errors');
 const fs = require('fs');
 const _ = require('lodash');
 

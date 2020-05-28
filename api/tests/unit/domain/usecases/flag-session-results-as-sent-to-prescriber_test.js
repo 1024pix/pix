@@ -1,7 +1,7 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const flagSessionResultsAsSentToPrescriber = require('../../../../lib/domain/usecases/flag-session-results-as-sent-to-prescriber');
-const Session = require('../../../../lib/domain/models/Session');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const { expect, sinon, catchErr } = require('$tests/test-helper');
+const flagSessionResultsAsSentToPrescriber = require('$lib/domain/usecases/flag-session-results-as-sent-to-prescriber');
+const Session = require('$lib/domain/models/Session');
+const { NotFoundError } = require('$lib/domain/errors');
 
 describe('Unit | UseCase | flag-session-results-as-sent-to-prescriber', () => {
   let sessionId;

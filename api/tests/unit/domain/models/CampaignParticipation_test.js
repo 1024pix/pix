@@ -1,5 +1,5 @@
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
-const { expect, domainBuilder } = require('../../../test-helper');
+const CampaignParticipation = require('$lib/domain/models/CampaignParticipation');
+const { expect, domainBuilder } = require('$tests/test-helper');
 
 describe('Unit | Domain | Models | CampaignParticipation', () => {
 

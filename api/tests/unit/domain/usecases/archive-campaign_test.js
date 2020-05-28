@@ -1,6 +1,6 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const archiveCampaign = require('../../../../lib/domain/usecases/archive-campaign');
-const { UserNotAuthorizedToUpdateCampaignError } = require('../../../../lib/domain/errors');
+const { expect, sinon, catchErr } = require('$tests/test-helper');
+const archiveCampaign = require('$lib/domain/usecases/archive-campaign');
+const { UserNotAuthorizedToUpdateCampaignError } = require('$lib/domain/errors');
 
 describe('Unit | UseCase | archive-campaign', () => {
 

@@ -1,6 +1,6 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/student-serializer');
-const SchoolingRegistration = require('../../../../../lib/domain/models/SchoolingRegistration');
+const { expect } = require('$tests/test-helper');
+const serializer = require('$lib/infrastructure/serializers/jsonapi/student-serializer');
+const SchoolingRegistration = require('$lib/domain/models/SchoolingRegistration');
 
 describe('Unit | Serializer | JSONAPI | student-serializer', () => {
 

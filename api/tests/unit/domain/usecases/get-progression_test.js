@@ -1,9 +1,9 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const getProgression = require('../../../../lib/domain/usecases/get-progression');
+const { expect, sinon, domainBuilder } = require('$tests/test-helper');
+const getProgression = require('$lib/domain/usecases/get-progression');
 
-const Assessment = require('../../../../lib/domain/models/Assessment');
+const Assessment = require('$lib/domain/models/Assessment');
 
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const { NotFoundError } = require('$lib/domain/errors');
 
 describe('Unit | Domain | Use Cases | get-progression', () => {
 

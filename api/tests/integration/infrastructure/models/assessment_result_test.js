@@ -1,5 +1,5 @@
-const { sinon, knex } = require('../../../test-helper');
-const BookshelfAssessmentResults = require('../../../../lib/infrastructure/data/assessment-result');
+const { sinon, knex } = require('$tests/test-helper');
+const BookshelfAssessmentResults = require('$lib/infrastructure/data/assessment-result');
 
 describe('Integration | Infrastructure | Models | BookshelfAssessmentResult', () => {
 

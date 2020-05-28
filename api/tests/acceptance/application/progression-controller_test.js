@@ -1,5 +1,5 @@
-const { expect, generateValidRequestAuthorizationHeader, nock, databaseBuilder } = require('../../test-helper');
-const createServer = require('../../../server');
+const { expect, generateValidRequestAuthorizationHeader, nock, databaseBuilder } = require('$tests/test-helper');
+const createServer = require('$root/server');
 
 describe('Acceptance | API | Progressions', () => {
 

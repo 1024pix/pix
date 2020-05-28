@@ -1,6 +1,6 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-with-schooling-registration-serializer');
-const UserWithSchoolingRegistration = require('../../../../../lib/domain/models/UserWithSchoolingRegistration');
+const { expect } = require('$tests/test-helper');
+const serializer = require('$lib/infrastructure/serializers/jsonapi/user-with-schooling-registration-serializer');
+const UserWithSchoolingRegistration = require('$lib/domain/models/UserWithSchoolingRegistration');
 
 describe('Unit | Serializer | JSONAPI | UserWithSchoolingRegistration-serializer', () => {
 

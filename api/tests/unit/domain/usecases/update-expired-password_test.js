@@ -1,12 +1,12 @@
-const { sinon, expect, domainBuilder, catchErr } = require('../../../test-helper');
+const { sinon, expect, domainBuilder, catchErr } = require('$tests/test-helper');
 
-const authenticationService = require('../../../../lib/domain/services/authentication-service');
-const encryptionService = require('../../../../lib/domain/services/encryption-service');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+const authenticationService = require('$lib/domain/services/authentication-service');
+const encryptionService = require('$lib/domain/services/encryption-service');
+const userRepository = require('$lib/infrastructure/repositories/user-repository');
 
-const { UserNotFoundError, PasswordNotMatching, ForbiddenAccess } = require('../../../../lib/domain/errors');
+const { UserNotFoundError, PasswordNotMatching, ForbiddenAccess } = require('$lib/domain/errors');
 
-const updateExpiredPassword = require('../../../../lib/domain/usecases/update-expired-password');
+const updateExpiredPassword = require('$lib/domain/usecases/update-expired-password');
 
 describe('Unit | UseCase | update-expired-password', () => {
 

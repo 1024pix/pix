@@ -1,7 +1,7 @@
 const _ = require('lodash');
-const CertificationAssessment = require('../../../../lib/domain/models/CertificationAssessment');
-const { expect } = require('../../../test-helper');
-const { ObjectValidationError } = require('../../../../lib/domain/errors');
+const CertificationAssessment = require('$lib/domain/models/CertificationAssessment');
+const { expect } = require('$tests/test-helper');
+const { ObjectValidationError } = require('$lib/domain/errors');
 
 describe('Unit | Domain | Models | CertificationAssessment', () => {
 

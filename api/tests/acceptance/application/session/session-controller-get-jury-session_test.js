@@ -1,5 +1,5 @@
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster } = require('../../../test-helper');
-const createServer = require('../../../../server');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster } = require('$tests/test-helper');
+const createServer = require('$root/server');
 
 describe('Acceptance | Controller | session-controller-get-jury-session', () => {
 

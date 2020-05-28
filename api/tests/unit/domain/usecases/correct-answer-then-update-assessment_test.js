@@ -1,11 +1,11 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
+const { expect, sinon, domainBuilder, catchErr } = require('$tests/test-helper');
 
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const correctAnswerThenUpdateAssessment = require('../../../../lib/domain/usecases/correct-answer-then-update-assessment');
+const Assessment = require('$lib/domain/models/Assessment');
+const AnswerStatus = require('$lib/domain/models/AnswerStatus');
+const KnowledgeElement = require('$lib/domain/models/KnowledgeElement');
+const correctAnswerThenUpdateAssessment = require('$lib/domain/usecases/correct-answer-then-update-assessment');
 
-const { ChallengeAlreadyAnsweredError, NotFoundError, ForbiddenAccess } = require('../../../../lib/domain/errors');
+const { ChallengeAlreadyAnsweredError, NotFoundError, ForbiddenAccess } = require('$lib/domain/errors');
 
 describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', () => {
   const userId = 1;

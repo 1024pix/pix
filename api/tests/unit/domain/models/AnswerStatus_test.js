@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
+const AnswerStatus = require('$lib/domain/models/AnswerStatus');
 
 describe('AnswerStatus', () => {
 

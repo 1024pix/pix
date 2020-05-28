@@ -1,9 +1,9 @@
-const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-helper');
+const { expect, sinon, domainBuilder, HttpTestServer } = require('$tests/test-helper');
 
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const usecases = require('../../../../lib/domain/usecases');
+const securityPreHandlers = require('$lib/application/security-pre-handlers');
+const usecases = require('$lib/domain/usecases');
 
-const moduleUnderTest = require('../../../../lib/application/users');
+const moduleUnderTest = require('$lib/application/users');
 
 describe('Integration | Application | Users | user-controller', () => {
 

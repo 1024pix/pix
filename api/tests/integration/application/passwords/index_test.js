@@ -1,7 +1,7 @@
-const { expect, sinon, HttpTestServer } = require('../../../test-helper');
+const { expect, sinon, HttpTestServer } = require('$tests/test-helper');
 
-const passwordController = require('../../../../lib/application/passwords/password-controller');
-const moduleUnderTest = require('../../../../lib/application/passwords');
+const passwordController = require('$lib/application/passwords/password-controller');
+const moduleUnderTest = require('$lib/application/passwords');
 
 describe('Integration | Application | Password | Routes', () => {
 

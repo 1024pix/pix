@@ -1,7 +1,7 @@
-const { expect, sinon } = require('../../../test-helper');
-const DomainSkill = require('../../../../lib/domain/models/Skill');
-const skillDatasource = require('../../../../lib/infrastructure/datasources/airtable/skill-datasource');
-const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
+const { expect, sinon } = require('$tests/test-helper');
+const DomainSkill = require('$lib/domain/models/Skill');
+const skillDatasource = require('$lib/infrastructure/datasources/airtable/skill-datasource');
+const skillRepository = require('$lib/infrastructure/repositories/skill-repository');
 
 describe('Unit | Repository | skill-repository', function() {
 

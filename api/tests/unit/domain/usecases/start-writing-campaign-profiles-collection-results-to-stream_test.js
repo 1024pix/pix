@@ -1,8 +1,8 @@
 const { PassThrough } = require('stream');
-const { expect, sinon, domainBuilder, streamToPromise } = require('../../../test-helper');
+const { expect, sinon, domainBuilder, streamToPromise } = require('$tests/test-helper');
 
-const startWritingCampaignProfilesCollectionResultsToStream = require('../../../../lib/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream');
-const CertificationProfile = require('../../../../lib/domain/models/CertificationProfile');
+const startWritingCampaignProfilesCollectionResultsToStream = require('$lib/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream');
+const CertificationProfile = require('$lib/domain/models/CertificationProfile');
 
 describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collection-results-to-stream', () => {
 

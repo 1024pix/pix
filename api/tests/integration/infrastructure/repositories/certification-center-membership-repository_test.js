@@ -1,9 +1,9 @@
-const { expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
-const certificationCenterMembershipRepository = require('../../../../lib/infrastructure/repositories/certification-center-membership-repository');
-const BookshelfCertificationCenterMembership = require('../../../../lib/infrastructure/data/certification-center-membership');
-const CertificationCenterMembership = require('../../../../lib/domain/models/CertificationCenterMembership');
-const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
-const { AlreadyExistingMembershipError } = require('../../../../lib/domain/errors');
+const { expect, knex, databaseBuilder, catchErr } = require('$tests/test-helper');
+const certificationCenterMembershipRepository = require('$lib/infrastructure/repositories/certification-center-membership-repository');
+const BookshelfCertificationCenterMembership = require('$lib/infrastructure/data/certification-center-membership');
+const CertificationCenterMembership = require('$lib/domain/models/CertificationCenterMembership');
+const CertificationCenter = require('$lib/domain/models/CertificationCenter');
+const { AlreadyExistingMembershipError } = require('$lib/domain/errors');
 
 describe('Integration | Repository | Certification Center Membership', () => {
 

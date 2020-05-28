@@ -1,7 +1,7 @@
-const { expect, databaseBuilder } = require('../../test-helper');
+const { expect, databaseBuilder } = require('$tests/test-helper');
 const querystring = require('querystring');
 
-const createServer = require('../../../server');
+const createServer = require('$root/server');
 
 describe('Acceptance | Controller | authentication-controller', () => {
 

@@ -1,8 +1,8 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
+const { expect, sinon, domainBuilder, catchErr } = require('$tests/test-helper');
 
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const usecases = require('../../../../lib/domain/usecases');
-const { AlreadyExistingCampaignParticipationError, NotFoundError } = require('../../../../lib/domain/errors');
+const Assessment = require('$lib/domain/models/Assessment');
+const usecases = require('$lib/domain/usecases');
+const { AlreadyExistingCampaignParticipationError, NotFoundError } = require('$lib/domain/errors');
 
 describe('Unit | UseCase | start-campaign-participation', () => {
 

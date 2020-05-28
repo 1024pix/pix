@@ -1,6 +1,6 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const getJurySession = require('../../../../lib/domain/usecases/get-jury-session');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const { expect, sinon, catchErr } = require('$tests/test-helper');
+const getJurySession = require('$lib/domain/usecases/get-jury-session');
+const { NotFoundError } = require('$lib/domain/errors');
 
 describe('Unit | UseCase | get-jury-session', () => {
 

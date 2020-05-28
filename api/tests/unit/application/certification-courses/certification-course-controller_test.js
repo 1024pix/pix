@@ -1,14 +1,14 @@
-const { sinon, expect, hFake, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const certificationCourseController = require('../../../../lib/application/certification-courses/certification-course-controller');
-const certificationService = require('../../../../lib/domain/services/certification-service');
-const certificationCourseService = require('../../../../lib/domain/services/certification-course-service');
-const certificationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
-const usecases = require('../../../../lib/domain/usecases');
-const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+const { sinon, expect, hFake, generateValidRequestAuthorizationHeader } = require('$tests/test-helper');
+const certificationCourseController = require('$lib/application/certification-courses/certification-course-controller');
+const certificationService = require('$lib/domain/services/certification-service');
+const certificationCourseService = require('$lib/domain/services/certification-course-service');
+const certificationSerializer = require('$lib/infrastructure/serializers/jsonapi/certification-serializer');
+const usecases = require('$lib/domain/usecases');
+const certificationCourseSerializer = require('$lib/infrastructure/serializers/jsonapi/certification-course-serializer');
+const DomainTransaction = require('$lib/infrastructure/DomainTransaction');
 
-const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
-const Assessment = require('../../../../lib/domain/models/Assessment');
+const CertificationCourse = require('$lib/domain/models/CertificationCourse');
+const Assessment = require('$lib/domain/models/Assessment');
 
 describe('Unit | Controller | certification-course-controller', () => {
 

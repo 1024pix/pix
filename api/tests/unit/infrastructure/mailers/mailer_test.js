@@ -1,8 +1,8 @@
-const { expect, sinon } = require('../../../test-helper');
-const { mailing } = require('../../../../lib/config');
-const mailCheck = require('../../../../lib/infrastructure/mail-check');
-const logger = require('../../../../lib/infrastructure/logger');
-const mailer = require('../../../../lib/infrastructure/mailers/mailer');
+const { expect, sinon } = require('$tests/test-helper');
+const { mailing } = require('$lib/config');
+const mailCheck = require('$lib/infrastructure/mail-check');
+const logger = require('$lib/infrastructure/logger');
+const mailer = require('$lib/infrastructure/mailers/mailer');
 
 describe('Unit | Infrastructure | Mailers | mailer', () => {
 

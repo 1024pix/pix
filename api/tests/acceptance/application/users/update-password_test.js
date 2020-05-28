@@ -1,6 +1,6 @@
-const { expect, knex, databaseBuilder } = require('../../../test-helper');
+const { expect, knex, databaseBuilder } = require('$tests/test-helper');
 
-const createServer = require('../../../../server');
+const createServer = require('$root/server');
 
 describe('Acceptance | Controller | users-controller-update-password', () => {
 

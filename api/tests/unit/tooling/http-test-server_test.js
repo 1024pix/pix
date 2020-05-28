@@ -1,6 +1,6 @@
-const { expect } = require('../../test-helper');
+const { expect } = require('$tests/test-helper');
 
-const HttpTestServer = require('../../tooling/server/http-test-server');
+const HttpTestServer = require('$tests/tooling/server/http-test-server');
 
 describe('Unit | Tooling | Http-test-server', () => {
 

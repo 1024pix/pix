@@ -1,13 +1,13 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon } = require('$tests/test-helper');
 const Hapi = require('@hapi/hapi');
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const userTutorialsController = require('../../../../lib/application/user-tutorials/user-tutorials-controller');
+const securityPreHandlers = require('$lib/application/security-pre-handlers');
+const userTutorialsController = require('$lib/application/user-tutorials/user-tutorials-controller');
 
 let server;
 
 function startServer() {
   server = Hapi.server();
-  return server.register(require('../../../../lib/application/user-tutorials'));
+  return server.register(require('$lib/application/user-tutorials'));
 }
 
 describe('Unit | Router | user-tutorials-router', () => {

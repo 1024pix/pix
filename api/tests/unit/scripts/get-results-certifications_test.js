@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const getResultsCertifications = require('../../../../api/scripts/get-results-certifications');
+const getResultsCertifications = require('$root/scripts/get-results-certifications');
 
 describe('Unit | Scripts | get-results-certifications.js', () => {
 

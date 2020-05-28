@@ -1,10 +1,10 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
+const { expect, sinon, catchErr } = require('$tests/test-helper');
 
-const { MissingQueryParamError } = require('../../../../lib/application/http-errors');
-const organizationInvitationController = require('../../../../lib/application/organization-invitations/organization-invitation-controller');
-const usecases = require('../../../../lib/domain/usecases');
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
-const organizationInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-invitation-serializer');
+const { MissingQueryParamError } = require('$lib/application/http-errors');
+const organizationInvitationController = require('$lib/application/organization-invitations/organization-invitation-controller');
+const usecases = require('$lib/domain/usecases');
+const OrganizationInvitation = require('$lib/domain/models/OrganizationInvitation');
+const organizationInvitationSerializer = require('$lib/infrastructure/serializers/jsonapi/organization-invitation-serializer');
 
 describe('Unit | Application | Organization-Invitations | organization-invitation-controller', () => {
 

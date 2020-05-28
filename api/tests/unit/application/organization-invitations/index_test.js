@@ -1,12 +1,12 @@
-const { expect, sinon, hFake } = require('../../../test-helper');
+const { expect, sinon, hFake } = require('$tests/test-helper');
 const Hapi = require('@hapi/hapi');
-const organizationInvitationController = require('../../../../lib/application/organization-invitations/organization-invitation-controller');
+const organizationInvitationController = require('$lib/application/organization-invitations/organization-invitation-controller');
 
 let server;
 
 function startServer() {
   server = Hapi.server();
-  return server.register(require('../../../../lib/application/organization-invitations'));
+  return server.register(require('$lib/application/organization-invitations'));
 }
 
 describe('Unit | Router | organization-invitation-router', () => {

@@ -1,8 +1,8 @@
-const { expect, sinon } = require('../../../test-helper');
-const certificationCourseService = require('../../../../lib/domain/services/certification-course-service');
-const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
-const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const { expect, sinon } = require('$tests/test-helper');
+const certificationCourseService = require('$lib/domain/services/certification-course-service');
+const certificationCourseRepository = require('$lib/infrastructure/repositories/certification-course-repository');
+const CertificationCourse = require('$lib/domain/models/CertificationCourse');
+const { NotFoundError } = require('$lib/domain/errors');
 
 describe('Unit | Service | Certification Course Service', function() {
 

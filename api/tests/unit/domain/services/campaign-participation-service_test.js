@@ -1,4 +1,4 @@
-const { expect } = require('../../../test-helper');
+const { expect } = require('$tests/test-helper');
 
 const campaignParticipationService = require('./../../../../lib/domain/services/campaign-participation-service');
 

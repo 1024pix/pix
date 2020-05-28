@@ -1,6 +1,6 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-result-serializer');
-const CertificationResult = require('../../../../../lib/domain/models/CertificationResult');
+const { expect } = require('$tests/test-helper');
+const serializer = require('$lib/infrastructure/serializers/jsonapi/certification-result-serializer');
+const CertificationResult = require('$lib/domain/models/CertificationResult');
 
 describe('Unit | Serializer | JSONAPI | certification-course-serializer', function() {
 

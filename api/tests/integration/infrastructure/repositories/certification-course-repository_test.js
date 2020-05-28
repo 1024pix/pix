@@ -1,9 +1,9 @@
-const { catchErr, expect, databaseBuilder, domainBuilder, knex } = require('../../../test-helper');
-const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
-const BookshelfCertificationCourse = require('../../../../lib/infrastructure/data/certification-course');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const { catchErr, expect, databaseBuilder, domainBuilder, knex } = require('$tests/test-helper');
+const certificationCourseRepository = require('$lib/infrastructure/repositories/certification-course-repository');
+const BookshelfCertificationCourse = require('$lib/infrastructure/data/certification-course');
+const { NotFoundError } = require('$lib/domain/errors');
 
-const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
+const CertificationCourse = require('$lib/domain/models/CertificationCourse');
 const _ = require('lodash');
 
 describe('Integration | Repository | Certification Course', function() {

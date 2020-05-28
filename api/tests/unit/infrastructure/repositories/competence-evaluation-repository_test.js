@@ -1,7 +1,7 @@
-const { expect, sinon } = require('../../../test-helper');
-const competenceEvaluationRepository = require('../../../../lib/infrastructure/repositories/competence-evaluation-repository');
-const CompetenceEvaluation = require('../../../../lib/infrastructure/data/competence-evaluation');
-const queryBuilder = require('../../../../lib/infrastructure/utils/query-builder');
+const { expect, sinon } = require('$tests/test-helper');
+const competenceEvaluationRepository = require('$lib/infrastructure/repositories/competence-evaluation-repository');
+const CompetenceEvaluation = require('$lib/infrastructure/data/competence-evaluation');
+const queryBuilder = require('$lib/infrastructure/utils/query-builder');
 
 describe('Unit | Repository | CompetenceEvaluationRepository', function() {
 

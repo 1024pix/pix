@@ -1,10 +1,10 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
+const { expect, sinon, domainBuilder, catchErr } = require('$tests/test-helper');
 
-const { UserNotFoundError, PasswordNotMatching } = require('../../../../lib/domain/errors');
-const User = require('../../../../lib/domain/models/User');
+const { UserNotFoundError, PasswordNotMatching } = require('$lib/domain/errors');
+const User = require('$lib/domain/models/User');
 
-const encryptionService = require('../../../../lib/domain/services/encryption-service');
-const service = require('../../../../lib/domain/services/authentication-service');
+const encryptionService = require('$lib/domain/services/encryption-service');
+const service = require('$lib/domain/services/authentication-service');
 
 describe('Unit | Domain | Services | authentication', () => {
 

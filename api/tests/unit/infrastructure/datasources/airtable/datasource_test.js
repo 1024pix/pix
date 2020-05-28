@@ -1,8 +1,8 @@
-const { expect, sinon } = require('../../../../test-helper');
-const dataSource = require('../../../../../lib/infrastructure/datasources/airtable/datasource');
-const airtable = require('../../../../../lib/infrastructure/airtable');
-const AirtableResourceNotFound = require('../../../../../lib/infrastructure/datasources/airtable/AirtableResourceNotFound');
-const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
+const { expect, sinon } = require('$tests/test-helper');
+const dataSource = require('$lib/infrastructure/datasources/airtable/datasource');
+const airtable = require('$lib/infrastructure/airtable');
+const AirtableResourceNotFound = require('$lib/infrastructure/datasources/airtable/AirtableResourceNotFound');
+const cache = require('$lib/infrastructure/caches/learning-content-cache');
 
 describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
 

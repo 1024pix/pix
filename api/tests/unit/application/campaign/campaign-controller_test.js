@@ -1,18 +1,18 @@
 const _ = require('lodash');
 
-const { sinon, expect, domainBuilder, hFake, catchErr } = require('../../../test-helper');
+const { sinon, expect, domainBuilder, hFake, catchErr } = require('$tests/test-helper');
 
-const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
+const campaignController = require('$lib/application/campaigns/campaign-controller');
 
-const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
-const campaignAnalysisSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-analysis-serializer');
-const campaignReportSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-report-serializer');
-const campaignCollectiveResultSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-collective-result-serializer');
+const campaignSerializer = require('$lib/infrastructure/serializers/jsonapi/campaign-serializer');
+const campaignAnalysisSerializer = require('$lib/infrastructure/serializers/jsonapi/campaign-analysis-serializer');
+const campaignReportSerializer = require('$lib/infrastructure/serializers/jsonapi/campaign-report-serializer');
+const campaignCollectiveResultSerializer = require('$lib/infrastructure/serializers/jsonapi/campaign-collective-result-serializer');
 
-const tokenService = require('../../../../lib/domain/services/token-service');
-const usecases = require('../../../../lib/domain/usecases');
-const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
-const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
+const tokenService = require('$lib/domain/services/token-service');
+const usecases = require('$lib/domain/usecases');
+const { UserNotAuthorizedToAccessEntity } = require('$lib/domain/errors');
+const queryParamsUtils = require('$lib/infrastructure/utils/query-params-utils');
 
 describe('Unit | Application | Controller | Campaign', () => {
 

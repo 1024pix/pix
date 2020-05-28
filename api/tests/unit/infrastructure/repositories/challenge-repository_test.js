@@ -1,23 +1,23 @@
-const { expect, domainBuilder, sinon } = require('../../../test-helper');
+const { expect, domainBuilder, sinon } = require('$tests/test-helper');
 
 const AirtableResourceNotFound = require(
-  '../../../../lib/infrastructure/datasources/airtable/AirtableResourceNotFound');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+  '$lib/infrastructure/datasources/airtable/AirtableResourceNotFound');
+const { NotFoundError } = require('$lib/domain/errors');
 
-const { DEFAULT_ID, DEFAULT_TUTORIAL_ID }  = require('../../../tooling/fixtures/infrastructure/skillRawAirTableFixture');
-const Challenge = require('../../../../lib/domain/models/Challenge');
-const Skill = require('../../../../lib/domain/models/Skill');
-const Solution = require('../../../../lib/domain/models/Solution');
-const Validator = require('../../../../lib/domain/models/Validator');
-const ValidatorQCM = require('../../../../lib/domain/models/ValidatorQCM');
-const ValidatorQCU = require('../../../../lib/domain/models/ValidatorQCU');
-const ValidatorQROC = require('../../../../lib/domain/models/ValidatorQROC');
-const ValidatorQROCMDep = require('../../../../lib/domain/models/ValidatorQROCMDep');
-const ValidatorQROCMInd = require('../../../../lib/domain/models/ValidatorQROCMInd');
-const challengeDatasource = require('../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
-const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
-const skillDatasource = require('../../../../lib/infrastructure/datasources/airtable/skill-datasource');
-const solutionAdapter = require('../../../../lib/infrastructure/adapters/solution-adapter');
+const { DEFAULT_ID, DEFAULT_TUTORIAL_ID }  = require('$tests/tooling/fixtures/infrastructure/skillRawAirTableFixture');
+const Challenge = require('$lib/domain/models/Challenge');
+const Skill = require('$lib/domain/models/Skill');
+const Solution = require('$lib/domain/models/Solution');
+const Validator = require('$lib/domain/models/Validator');
+const ValidatorQCM = require('$lib/domain/models/ValidatorQCM');
+const ValidatorQCU = require('$lib/domain/models/ValidatorQCU');
+const ValidatorQROC = require('$lib/domain/models/ValidatorQROC');
+const ValidatorQROCMDep = require('$lib/domain/models/ValidatorQROCMDep');
+const ValidatorQROCMInd = require('$lib/domain/models/ValidatorQROCMInd');
+const challengeDatasource = require('$lib/infrastructure/datasources/airtable/challenge-datasource');
+const challengeRepository = require('$lib/infrastructure/repositories/challenge-repository');
+const skillDatasource = require('$lib/infrastructure/datasources/airtable/skill-datasource');
+const solutionAdapter = require('$lib/infrastructure/adapters/solution-adapter');
 
 describe('Unit | Repository | challenge-repository', () => {
 

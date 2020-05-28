@@ -1,7 +1,7 @@
-const { sinon, expect } = require('../../../test-helper');
-const campaignParticipationResultController = require('../../../../lib/application/campaignParticipationResults/campaign-participation-result-controller');
-const campaignParticipationResultSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-result-serializer');
-const usecases = require('../../../../lib/domain/usecases');
+const { sinon, expect } = require('$tests/test-helper');
+const campaignParticipationResultController = require('$lib/application/campaignParticipationResults/campaign-participation-result-controller');
+const campaignParticipationResultSerializer = require('$lib/infrastructure/serializers/jsonapi/campaign-participation-result-serializer');
+const usecases = require('$lib/domain/usecases');
 
 describe('Unit | Controller | campaign-participation-result-controller', () => {
   describe('#get ', () => {

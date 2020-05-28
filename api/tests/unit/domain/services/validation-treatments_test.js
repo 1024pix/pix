@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const { normalizeAndRemoveAccents, removeSpecialCharacters, applyPreTreatments, applyTreatments } = require('../../../../lib/domain/services/validation-treatments');
+const { expect } = require('$tests/test-helper');
+const { normalizeAndRemoveAccents, removeSpecialCharacters, applyPreTreatments, applyTreatments } = require('$lib/domain/services/validation-treatments');
 
 describe('Unit | Service | Validation Treatments', function() {
 

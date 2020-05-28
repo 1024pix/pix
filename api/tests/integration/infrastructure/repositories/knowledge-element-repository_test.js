@@ -1,6 +1,6 @@
-const { expect, knex, domainBuilder, databaseBuilder } = require('../../../test-helper');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const KnowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
+const { expect, knex, domainBuilder, databaseBuilder } = require('$tests/test-helper');
+const KnowledgeElement = require('$lib/domain/models/KnowledgeElement');
+const KnowledgeElementRepository = require('$lib/infrastructure/repositories/knowledge-element-repository');
 const _ = require('lodash');
 const moment = require('moment');
 

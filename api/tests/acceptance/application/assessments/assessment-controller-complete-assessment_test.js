@@ -1,8 +1,8 @@
-const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex, airtableBuilder, sinon } = require('../../../test-helper');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const badgeRepository = require('../../../../lib/infrastructure/repositories/badge-repository');
-const createServer = require('../../../../server');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
+const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex, airtableBuilder, sinon } = require('$tests/test-helper');
+const Assessment = require('$lib/domain/models/Assessment');
+const badgeRepository = require('$lib/infrastructure/repositories/badge-repository');
+const createServer = require('$root/server');
+const cache = require('$lib/infrastructure/caches/learning-content-cache');
 
 describe('Acceptance | Controller | assessment-controller-complete-assessment', () => {
 

@@ -1,5 +1,5 @@
-const { expect, domainBuilder, sinon } = require('../../../test-helper');
-const findSmartPlacementAssessments = require('../../../../lib/domain/usecases/find-smart-placement-assessments');
+const { expect, domainBuilder, sinon } = require('$tests/test-helper');
+const findSmartPlacementAssessments = require('$lib/domain/usecases/find-smart-placement-assessments');
 
 describe('Unit | UseCase | find-smart-placement-assessments', () => {
 

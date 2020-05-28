@@ -2,12 +2,12 @@ const fs = require('fs');
 const moment = require('moment');
 moment.suppressDeprecationWarnings = true;
 
-const { expect } = require('../../../../test-helper');
+const { expect } = require('$tests/test-helper');
 
-const { getContentXml } = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
+const { getContentXml } = require('$lib/infrastructure/utils/ods/read-ods-utils');
 const {
   makeUpdatedOdsByContentXml, updateXmlRows, updateXmlSparseValues
-} = require('../../../../../lib/infrastructure/utils/ods/write-ods-utils');
+} = require('$lib/infrastructure/utils/ods/write-ods-utils');
 
 describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', () => {
 

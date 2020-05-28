@@ -1,7 +1,7 @@
-const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
-const assessmentAuthorization = require('../../../../lib/application/preHandlers/assessment-authorization');
-const moduleUnderTest = require('../../../../lib/application/assessments');
+const { expect, sinon, domainBuilder, HttpTestServer } = require('$tests/test-helper');
+const usecases = require('$lib/domain/usecases');
+const assessmentAuthorization = require('$lib/application/preHandlers/assessment-authorization');
+const moduleUnderTest = require('$lib/application/assessments');
 
 describe('Integration | Application | Assessments | assessment-controller', () => {
 

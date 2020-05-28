@@ -1,6 +1,6 @@
-const Tube = require('../../../../lib/domain/models/Tube');
-const Skill = require('../../../../lib/domain/models/Skill');
-const { expect } = require('../../../test-helper');
+const Tube = require('$lib/domain/models/Tube');
+const Skill = require('$lib/domain/models/Skill');
+const { expect } = require('$tests/test-helper');
 
 describe('Unit | Domain | Models | Tube', () => {
 

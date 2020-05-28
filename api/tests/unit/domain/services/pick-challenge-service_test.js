@@ -1,6 +1,6 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const pickChallengeService = require('../../../../lib/domain/services/pick-challenge-service');
-const { FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
+const { expect, domainBuilder } = require('$tests/test-helper');
+const pickChallengeService = require('$lib/domain/services/pick-challenge-service');
+const { FRENCH_FRANCE, FRENCH_SPOKEN } = require('$lib/domain/constants').LOCALE;
 const _ = require('lodash');
 
 describe('Unit | Service | PickChallengeService', () => {

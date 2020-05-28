@@ -1,8 +1,8 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const { createOrganization } = require('../../../../lib/domain/usecases');
-const Organization = require('../../../../lib/domain/models/Organization');
-const organizationCreationValidator = require('../../../../lib/domain/validators/organization-creation-validator');
-const { EntityValidationError } = require('../../../../lib/domain/errors');
+const { expect, sinon, catchErr } = require('$tests/test-helper');
+const { createOrganization } = require('$lib/domain/usecases');
+const Organization = require('$lib/domain/models/Organization');
+const organizationCreationValidator = require('$lib/domain/validators/organization-creation-validator');
+const { EntityValidationError } = require('$lib/domain/errors');
 
 describe('Unit | UseCase | create-organization', () => {
 

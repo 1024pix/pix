@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon } = require('$tests/test-helper');
 const Hapi = require('@hapi/hapi');
-const campaignParticipationController = require('../../../../lib/application/campaignParticipations/campaign-participation-controller');
+const campaignParticipationController = require('$lib/application/campaignParticipations/campaign-participation-controller');
 
 describe('Integration | Application | Route | campaignParticipationRouter', () => {
 
@@ -13,7 +13,7 @@ describe('Integration | Application | Route | campaignParticipationRouter', () =
 
     server = Hapi.server();
 
-    return server.register(require('../../../../lib/application/campaignParticipations'));
+    return server.register(require('$lib/application/campaignParticipations'));
   });
 
   afterEach(() => {

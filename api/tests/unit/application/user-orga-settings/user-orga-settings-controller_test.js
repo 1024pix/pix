@@ -1,10 +1,10 @@
-const { sinon, expect } = require('../../../test-helper');
+const { sinon, expect } = require('$tests/test-helper');
 
-const userOrgaSettingsController = require('../../../../lib/application/user-orga-settings/user-orga-settings-controller');
+const userOrgaSettingsController = require('$lib/application/user-orga-settings/user-orga-settings-controller');
 
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('$lib/domain/usecases');
 
-const userOrgaSettingsSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-orga-settings-serializer');
+const userOrgaSettingsSerializer = require('$lib/infrastructure/serializers/jsonapi/user-orga-settings-serializer');
 
 describe('Unit | Controller | user-orga-settings-controller', () => {
 

@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const getUserDetailForAdmin = require('../../../../lib/domain/usecases/get-user-detail-for-admin');
+const { expect, sinon } = require('$tests/test-helper');
+const getUserDetailForAdmin = require('$lib/domain/usecases/get-user-detail-for-admin');
 
 describe('Unit | UseCase | get-user-detail-for-admin', () => {
 

@@ -1,7 +1,7 @@
-const { expect, sinon } = require('../../../test-helper');
-const competenceTreeRepository = require('../../../../lib/infrastructure/repositories/competence-tree-repository');
-const areaRepository = require('../../../../lib/infrastructure/repositories/area-repository');
-const CompetenceTree = require('../../../../lib/domain/models/CompetenceTree');
+const { expect, sinon } = require('$tests/test-helper');
+const competenceTreeRepository = require('$lib/infrastructure/repositories/competence-tree-repository');
+const areaRepository = require('$lib/infrastructure/repositories/area-repository');
+const CompetenceTree = require('$lib/domain/models/CompetenceTree');
 
 describe('Unit | Repository | competence-tree-repository', () => {
 

@@ -1,7 +1,7 @@
-const { knex, airtableBuilder, databaseBuilder, expect, generateValidRequestAuthorizationHeader, sinon } = require('../../../test-helper');
+const { knex, airtableBuilder, databaseBuilder, expect, generateValidRequestAuthorizationHeader, sinon } = require('$tests/test-helper');
 const _ = require('lodash');
 
-const createServer = require('../../../../server');
+const createServer = require('$root/server');
 
 describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
 

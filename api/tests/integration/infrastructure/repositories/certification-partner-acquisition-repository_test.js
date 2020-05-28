@@ -1,7 +1,7 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
-const certificationPartnerAcquisitionRepository = require('../../../../lib/infrastructure/repositories/certification-partner-acquisition-repository');
+const { expect, databaseBuilder, knex } = require('$tests/test-helper');
+const certificationPartnerAcquisitionRepository = require('$lib/infrastructure/repositories/certification-partner-acquisition-repository');
 
-const CertificationPartnerAcquisition = require('../../../../lib/domain/models/CertificationPartnerAcquisition');
+const CertificationPartnerAcquisition = require('$lib/domain/models/CertificationPartnerAcquisition');
 
 describe('Integration | Repository | Certification Partner Acquisition', function() {
 

@@ -1,6 +1,6 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const ResultCompetence = require('../../../../lib/domain/models/ResultCompetence');
-const ResultCompetenceTree = require('../../../../lib/domain/models/ResultCompetenceTree');
+const { expect, domainBuilder } = require('$tests/test-helper');
+const ResultCompetence = require('$lib/domain/models/ResultCompetence');
+const ResultCompetenceTree = require('$lib/domain/models/ResultCompetenceTree');
 
 describe('Unit | Domain | Models | ResultCompetence', () => {
 

@@ -1,8 +1,8 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const CertificationCandidate = require('../../../../lib/domain/models/CertificationCandidate');
-const certificationCandidateRepository = require('../../../../lib/infrastructure/repositories/certification-candidate-repository');
-const addCertificationCandidateToSession = require('../../../../lib/domain/usecases/add-certification-candidate-to-session');
-const { CertificationCandidateByPersonalInfoTooManyMatchesError, InvalidCertificationCandidate } = require('../../../../lib/domain/errors');
+const { expect, sinon, domainBuilder, catchErr } = require('$tests/test-helper');
+const CertificationCandidate = require('$lib/domain/models/CertificationCandidate');
+const certificationCandidateRepository = require('$lib/infrastructure/repositories/certification-candidate-repository');
+const addCertificationCandidateToSession = require('$lib/domain/usecases/add-certification-candidate-to-session');
+const { CertificationCandidateByPersonalInfoTooManyMatchesError, InvalidCertificationCandidate } = require('$lib/domain/errors');
 
 describe('Unit | UseCase | add-certification-candidate-to-session', () => {
   const sessionId = 1;

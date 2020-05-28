@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const Cache = require('../../../../lib/infrastructure/caches/Cache');
+const { expect } = require('$tests/test-helper');
+const Cache = require('$lib/infrastructure/caches/Cache');
 
 describe('Unit | Infrastructure | Caches | Cache', () => {
 

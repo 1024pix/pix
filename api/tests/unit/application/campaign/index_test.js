@@ -1,7 +1,7 @@
-const { expect, sinon, hFake, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
+const { expect, sinon, hFake, generateValidRequestAuthorizationHeader } = require('$tests/test-helper');
 const Hapi = require('@hapi/hapi');
-const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
-const route = require('../../../../lib/application/campaigns');
+const campaignController = require('$lib/application/campaigns/campaign-controller');
+const route = require('$lib/application/campaigns');
 
 describe('Unit | Application | Router | campaign-router ', function() {
 

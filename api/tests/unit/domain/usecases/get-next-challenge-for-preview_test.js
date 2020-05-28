@@ -1,7 +1,7 @@
-const { expect } = require('../../../test-helper');
-const getNextChallengeForPreview = require('../../../../lib/domain/usecases/get-next-challenge-for-preview');
+const { expect } = require('$tests/test-helper');
+const getNextChallengeForPreview = require('$lib/domain/usecases/get-next-challenge-for-preview');
 
-const { AssessmentEndedError } = require('../../../../lib/domain/errors');
+const { AssessmentEndedError } = require('$lib/domain/errors');
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-preview', () => {
 

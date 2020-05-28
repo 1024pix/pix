@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const service = require('../../../../lib/domain/services/password-generator');
+const { expect } = require('$tests/test-helper');
+const service = require('$lib/domain/services/password-generator');
 
 describe('Unit | Service | password-generator', () => {
 

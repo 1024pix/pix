@@ -1,8 +1,8 @@
-const { sinon, expect, domainBuilder, catchErr } = require('../../../test-helper');
-const { NotFoundError, UserNotAuthorizedToAccessEntity, CampaignAlreadyArchivedError } = require('../../../../lib/domain/errors');
-const usecases = require('../../../../lib/domain/usecases');
-const smartRandom = require('../../../../lib/domain/services/smart-random/smart-random');
-const dataFetcher = require('../../../../lib/domain/services/smart-random/data-fetcher');
+const { sinon, expect, domainBuilder, catchErr } = require('$tests/test-helper');
+const { NotFoundError, UserNotAuthorizedToAccessEntity, CampaignAlreadyArchivedError } = require('$lib/domain/errors');
+const usecases = require('$lib/domain/usecases');
+const smartRandom = require('$lib/domain/services/smart-random/smart-random');
+const dataFetcher = require('$lib/domain/services/smart-random/data-fetcher');
 
 describe('Unit | UseCase | share-campaign-result', () => {
 

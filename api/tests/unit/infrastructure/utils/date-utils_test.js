@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const { isValidDate, convertDateValue } = require('../../../../lib/infrastructure/utils/date-utils');
+const { expect } = require('$tests/test-helper');
+const { isValidDate, convertDateValue } = require('$lib/infrastructure/utils/date-utils');
 
 describe('Unit | Utils | date-utils', () => {
 

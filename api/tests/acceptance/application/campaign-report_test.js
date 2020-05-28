@@ -1,5 +1,5 @@
-const createServer = require('../../../server');
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../test-helper');
+const createServer = require('$root/server');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('$tests/test-helper');
 const _ = require('lodash');
 
 describe('Acceptance | API | Campaign Report', () => {

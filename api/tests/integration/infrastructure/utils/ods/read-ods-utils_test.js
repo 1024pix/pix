@@ -3,17 +3,17 @@ const _ = require('lodash');
 const moment = require('moment');
 moment.suppressDeprecationWarnings = true;
 
-const { expect, catchErr } = require('../../../../test-helper');
-const { UnprocessableEntityError } = require('../../../../../lib/application/http-errors');
+const { expect, catchErr } = require('$tests/test-helper');
+const { UnprocessableEntityError } = require('$lib/application/http-errors');
 
 const {
   TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION,
-} = require('../../../../../lib/infrastructure/files/attendance-sheet/attendance-sheet-transformation-structures');
-const { CURRENT_ATTENDANCE_SHEET_VERSION } = require('../../../../../lib/infrastructure/files/attendance-sheet/attendance-sheet-transformation-structures');
+} = require('$lib/infrastructure/files/attendance-sheet/attendance-sheet-transformation-structures');
+const { CURRENT_ATTENDANCE_SHEET_VERSION } = require('$lib/infrastructure/files/attendance-sheet/attendance-sheet-transformation-structures');
 
 const {
   getContentXml, extractTableDataFromOdsFile, getOdsVersionByHeaders, getSheetDataRowsFromOdsBuffer
-} = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
+} = require('$lib/infrastructure/utils/ods/read-ods-utils');
 
 describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', () => {
 

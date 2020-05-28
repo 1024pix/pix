@@ -1,21 +1,21 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
+const { sinon, expect, hFake } = require('$tests/test-helper');
 
-const passwordController = require('../../../../lib/application/passwords/password-controller');
+const passwordController = require('$lib/application/passwords/password-controller');
 
-const tokenService = require('../../../../lib/domain/services/token-service');
-const mailService = require('../../../../lib/domain/services/mail-service');
-const resetPasswordService = require('../../../../lib/domain/services/reset-password-service');
+const tokenService = require('$lib/domain/services/token-service');
+const mailService = require('$lib/domain/services/mail-service');
+const resetPasswordService = require('$lib/domain/services/reset-password-service');
 
-const resetPasswordRepository = require('../../../../lib/infrastructure/repositories/reset-password-demands-repository');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+const resetPasswordRepository = require('$lib/infrastructure/repositories/reset-password-demands-repository');
+const userRepository = require('$lib/infrastructure/repositories/user-repository');
 
-const passwordResetSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/password-reset-serializer');
-const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
-const errorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
+const passwordResetSerializer = require('$lib/infrastructure/serializers/jsonapi/password-reset-serializer');
+const userSerializer = require('$lib/infrastructure/serializers/jsonapi/user-serializer');
+const errorSerializer = require('$lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('$lib/domain/usecases');
 
-const User = require('../../../../lib/domain/models/User');
+const User = require('$lib/domain/models/User');
 
 describe('Unit | Controller | PasswordController', () => {
 

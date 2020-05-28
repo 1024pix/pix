@@ -1,5 +1,5 @@
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
-const { expect } = require('../../../test-helper');
+const OrganizationInvitation = require('$lib/domain/models/OrganizationInvitation');
+const { expect } = require('$tests/test-helper');
 
 describe('Unit | Domain | Models | OrganizationInvitation', () => {
 

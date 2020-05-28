@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 
-const { parseArgs, toCSVRow, buildRequestObject, findCompetence, HEADERS } = require('../../../scripts/get-results-certifications-old');
+const { parseArgs, toCSVRow, buildRequestObject, findCompetence, HEADERS } = require('$root/scripts/get-results-certifications-old');
 
 describe('Get Result Certifications Script OLD', () => {
   describe('parseArgs', () => {

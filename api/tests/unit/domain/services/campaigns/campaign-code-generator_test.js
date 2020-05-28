@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../../test-helper');
+const { expect, sinon } = require('$tests/test-helper');
 const randomString = require('randomstring');
-const campaignCodeGenerator = require('../../../../../lib/domain/services/campaigns/campaign-code-generator');
+const campaignCodeGenerator = require('$lib/domain/services/campaigns/campaign-code-generator');
 
 describe('Unit | Domain | Services | campaign code generator', function() {
 

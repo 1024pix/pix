@@ -1,9 +1,9 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
-const queryBuilder = require('../../../../lib/infrastructure/utils/query-builder');
+const { expect, databaseBuilder } = require('$tests/test-helper');
+const queryBuilder = require('$lib/infrastructure/utils/query-builder');
 
-const BookshelfCompetenceEvaluation = require('../../../../lib/infrastructure/data/competence-evaluation');
-const CompetenceEvaluation = require('../../../../lib/domain/models/CompetenceEvaluation');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const BookshelfCompetenceEvaluation = require('$lib/infrastructure/data/competence-evaluation');
+const CompetenceEvaluation = require('$lib/domain/models/CompetenceEvaluation');
+const { NotFoundError } = require('$lib/domain/errors');
 const _ = require('lodash');
 
 describe('Integration | Infrastructure | Utils | Query Builder', function() {

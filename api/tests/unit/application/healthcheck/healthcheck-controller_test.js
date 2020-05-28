@@ -1,8 +1,8 @@
-const { expect, sinon, hFake } = require('../../../test-helper');
-const { knex } = require('../../../../db/knex-database-connection');
-const redisMonitor = require('../../../../lib/infrastructure/utils/redis-monitor');
+const { expect, sinon, hFake } = require('$tests/test-helper');
+const { knex } = require('$root/db/knex-database-connection');
+const redisMonitor = require('$lib/infrastructure/utils/redis-monitor');
 
-const healthcheckController = require('../../../../lib/application/healthcheck/healthcheck-controller');
+const healthcheckController = require('$lib/application/healthcheck/healthcheck-controller');
 
 describe('Unit | Controller | healthcheckController', () => {
 

@@ -1,8 +1,8 @@
-const { expect, databaseBuilder } = require('../../test-helper');
+const { expect, databaseBuilder } = require('$tests/test-helper');
 
 const {
   markUsersRequiringTermsOfServiceValidationForRevalidation
-} = require('../../../scripts/mark-users-for-TermsOfService-revalidation');
+} = require('$root/scripts/mark-users-for-TermsOfService-revalidation');
 
 describe('Integration | Scripts | mark-users-for-TermsOfService-revalidation_test', () => {
 

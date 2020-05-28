@@ -1,9 +1,9 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
+const { expect, sinon, catchErr } = require('$tests/test-helper');
 
-const createSession = require('../../../../lib/domain/usecases/create-session');
-const sessionCodeService = require('../../../../lib/domain/services/session-code-service');
-const sessionValidator = require('../../../../lib/domain/validators/session-validator');
-const { ForbiddenAccess } = require('../../../../lib/domain/errors');
+const createSession = require('$lib/domain/usecases/create-session');
+const sessionCodeService = require('$lib/domain/services/session-code-service');
+const sessionValidator = require('$lib/domain/validators/session-validator');
+const { ForbiddenAccess } = require('$lib/domain/errors');
 
 describe('Unit | UseCase | create-session', () => {
 

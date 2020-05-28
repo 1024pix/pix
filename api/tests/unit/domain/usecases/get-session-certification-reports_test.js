@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
-const certificationReportRepository = require('../../../../lib/infrastructure/repositories/certification-report-repository');
-const getSessionCertificationReports = require('../../../../lib/domain/usecases/get-session-certification-reports');
+const { expect, sinon } = require('$tests/test-helper');
+const certificationReportRepository = require('$lib/infrastructure/repositories/certification-report-repository');
+const getSessionCertificationReports = require('$lib/domain/usecases/get-session-certification-reports');
 
 describe('Unit | Domain | Use Cases | get-session-certification-reports', () => {
 

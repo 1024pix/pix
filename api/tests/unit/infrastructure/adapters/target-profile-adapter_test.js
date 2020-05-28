@@ -1,9 +1,9 @@
-const { sinon, databaseBuilder, expect, domainBuilder } = require('../../../test-helper');
-const BookshelfTargetProfile = require('../../../../lib/infrastructure/data/target-profile');
-const BookshelfTargetProfileShare = require('../../../../lib/infrastructure/data/target-profile-share');
-const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
-const targetProfileAdapter = require('../../../../lib/infrastructure/adapters/target-profile-adapter');
-const { DEFAULT_TUTORIAL_ID }  = require('../../../tooling/fixtures/infrastructure/skillRawAirTableFixture');
+const { sinon, databaseBuilder, expect, domainBuilder } = require('$tests/test-helper');
+const BookshelfTargetProfile = require('$lib/infrastructure/data/target-profile');
+const BookshelfTargetProfileShare = require('$lib/infrastructure/data/target-profile-share');
+const TargetProfile = require('$lib/domain/models/TargetProfile');
+const targetProfileAdapter = require('$lib/infrastructure/adapters/target-profile-adapter');
+const { DEFAULT_TUTORIAL_ID }  = require('$tests/tooling/fixtures/infrastructure/skillRawAirTableFixture');
 
 describe('Unit | Infrastructure | Adapter | targetSkillAdapter', () => {
 

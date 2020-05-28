@@ -1,7 +1,7 @@
-const { expect, databaseBuilder, catchErr } = require('../../../test-helper');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const certificationAssessmentRepository = require('../../../../lib/infrastructure/repositories/certification-assessment-repository');
-const CertificationAssessment = require('../../../../lib/domain/models/CertificationAssessment');
+const { expect, databaseBuilder, catchErr } = require('$tests/test-helper');
+const { NotFoundError } = require('$lib/domain/errors');
+const certificationAssessmentRepository = require('$lib/infrastructure/repositories/certification-assessment-repository');
+const CertificationAssessment = require('$lib/domain/models/CertificationAssessment');
 
 describe('Integration | Infrastructure | Repositories | certification-assessment-repository', () => {
 

@@ -1,8 +1,8 @@
-const { expect, knex, domainBuilder, databaseBuilder } = require('../../../test-helper');
+const { expect, knex, domainBuilder, databaseBuilder } = require('$tests/test-helper');
 
-const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
-const { AssessmentEndedError } = require('../../../../lib/domain/errors');
-const certificationChallengeRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
+const CertificationChallenge = require('$lib/domain/models/CertificationChallenge');
+const { AssessmentEndedError } = require('$lib/domain/errors');
+const certificationChallengeRepository = require('$lib/infrastructure/repositories/certification-challenge-repository');
 
 describe('Integration | Repository | Certification Challenge', function() {
 

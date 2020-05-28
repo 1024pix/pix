@@ -1,13 +1,13 @@
-const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
+const { expect, sinon, domainBuilder, hFake } = require('$tests/test-helper');
 
-const answerController = require('../../../../lib/application/answers/answer-controller');
-const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
-const answerSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/answer-serializer');
-const correctionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/correction-serializer');
-const usecases = require('../../../../lib/domain/usecases');
+const answerController = require('$lib/application/answers/answer-controller');
+const answerRepository = require('$lib/infrastructure/repositories/answer-repository');
+const answerSerializer = require('$lib/infrastructure/serializers/jsonapi/answer-serializer');
+const correctionSerializer = require('$lib/infrastructure/serializers/jsonapi/correction-serializer');
+const usecases = require('$lib/domain/usecases');
 const smartPlacementAssessmentRepository =
-  require('../../../../lib/infrastructure/repositories/smart-placement-assessment-repository');
-const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
+  require('$lib/infrastructure/repositories/smart-placement-assessment-repository');
+const requestResponseUtils = require('$lib/infrastructure/utils/request-response-utils');
 
 describe('Unit | Controller | answer-controller', () => {
 

@@ -1,7 +1,7 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const updateCampaign = require('../../../../lib/domain/usecases/update-campaign');
-const { UserNotAuthorizedToUpdateResourceError } = require('../../../../lib/domain/errors');
-const { EntityValidationError } = require('../../../../lib/domain/errors');
+const { expect, sinon, catchErr } = require('$tests/test-helper');
+const updateCampaign = require('$lib/domain/usecases/update-campaign');
+const { UserNotAuthorizedToUpdateResourceError } = require('$lib/domain/errors');
+const { EntityValidationError } = require('$lib/domain/errors');
 
 describe('Unit | UseCase | update-campaign', () => {
   let originalCampaign;

@@ -1,6 +1,6 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const getUserWithOrgaSettings = require('../../../../lib/domain/usecases/get-user-with-orga-settings');
-const User = require('../../../../lib/domain/models/User');
+const { expect, sinon, domainBuilder } = require('$tests/test-helper');
+const getUserWithOrgaSettings = require('$lib/domain/usecases/get-user-with-orga-settings');
+const User = require('$lib/domain/models/User');
 
 describe('Unit | UseCase | get-user-with-orga-settings', () => {
 

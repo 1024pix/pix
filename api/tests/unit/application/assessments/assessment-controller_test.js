@@ -1,9 +1,9 @@
-const { sinon, expect, generateValidRequestAuthorizationHeader, hFake } = require('../../../test-helper');
-const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
-const usecases = require('../../../../lib/domain/usecases');
-const events = require('../../../../lib/domain/events');
-const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+const { sinon, expect, generateValidRequestAuthorizationHeader, hFake } = require('$tests/test-helper');
+const assessmentController = require('$lib/application/assessments/assessment-controller');
+const usecases = require('$lib/domain/usecases');
+const events = require('$lib/domain/events');
+const assessmentSerializer = require('$lib/infrastructure/serializers/jsonapi/assessment-serializer');
+const DomainTransaction = require('$lib/infrastructure/DomainTransaction');
 
 describe('Unit | Controller | assessment-controller', function() {
 

@@ -1,10 +1,10 @@
-const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
+const { expect, databaseBuilder, knex, catchErr } = require('$tests/test-helper');
 const _ = require('lodash');
-const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
-const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
-const UserWithSchoolingRegistration = require('../../../../lib/domain/models/UserWithSchoolingRegistration');
+const schoolingRegistrationRepository = require('$lib/infrastructure/repositories/schooling-registration-repository');
+const SchoolingRegistration = require('$lib/domain/models/SchoolingRegistration');
+const UserWithSchoolingRegistration = require('$lib/domain/models/UserWithSchoolingRegistration');
 
-const { NotFoundError, SameNationalStudentIdInOrganizationError } = require('../../../../lib/domain/errors');
+const { NotFoundError, SameNationalStudentIdInOrganizationError } = require('$lib/domain/errors');
 
 describe('Integration | Infrastructure | Repository | schooling-registration-repository', () => {
 

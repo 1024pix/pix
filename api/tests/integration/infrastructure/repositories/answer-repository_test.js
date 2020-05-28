@@ -1,14 +1,14 @@
-const { expect, knex, domainBuilder, databaseBuilder, sinon, catchErr, compareDatabaseObject } = require('../../../test-helper');
-const Answer = require('../../../../lib/domain/models/Answer');
-const answerStatusDatabaseAdapter = require('../../../../lib/infrastructure/adapters/answer-status-database-adapter');
-const BookshelfKnowledgeElement = require('../../../../lib/infrastructure/data/knowledge-element');
+const { expect, knex, domainBuilder, databaseBuilder, sinon, catchErr, compareDatabaseObject } = require('$tests/test-helper');
+const Answer = require('$lib/domain/models/Answer');
+const answerStatusDatabaseAdapter = require('$lib/infrastructure/adapters/answer-status-database-adapter');
+const BookshelfKnowledgeElement = require('$lib/infrastructure/data/knowledge-element');
 
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const { NotFoundError } = require('$lib/domain/errors');
 const _ = require('lodash');
 const moment = require('moment');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
+const cache = require('$lib/infrastructure/caches/learning-content-cache');
 
-const AnswerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
+const AnswerRepository = require('$lib/infrastructure/repositories/answer-repository');
 
 describe('Integration | Repository | AnswerRepository', () => {
   let assessmentId, otherAssessmentId, userId;

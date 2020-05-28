@@ -1,6 +1,6 @@
-const { sinon, expect, domainBuilder } = require('../../../test-helper');
-const Scorecard = require('../../../../lib/domain/models/Scorecard');
-const getUserScorecards = require('../../../../lib/domain/usecases/get-user-scorecards');
+const { sinon, expect, domainBuilder } = require('$tests/test-helper');
+const Scorecard = require('$lib/domain/models/Scorecard');
+const getUserScorecards = require('$lib/domain/usecases/get-user-scorecards');
 
 function assertScorecard(userScorecard, expectedUserScorecard) {
   expect(userScorecard.earnedPix).to.equal(expectedUserScorecard.earnedPix);

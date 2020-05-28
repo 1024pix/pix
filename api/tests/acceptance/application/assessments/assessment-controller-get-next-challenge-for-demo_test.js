@@ -1,6 +1,6 @@
-const { expect, nock, databaseBuilder } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
-const createServer = require('../../../../server');
+const { expect, nock, databaseBuilder } = require('$tests/test-helper');
+const cache = require('$lib/infrastructure/caches/learning-content-cache');
+const createServer = require('$root/server');
 
 describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo', function() {
 

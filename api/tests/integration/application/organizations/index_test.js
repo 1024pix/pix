@@ -1,8 +1,8 @@
-const { expect, sinon, HttpTestServer } = require('../../../test-helper');
+const { expect, sinon, HttpTestServer } = require('$tests/test-helper');
 
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const organizationController = require('../../../../lib/application/organizations/organization-controller');
-const moduleUnderTest = require('../../../../lib/application/organizations');
+const securityPreHandlers = require('$lib/application/security-pre-handlers');
+const organizationController = require('$lib/application/organizations/organization-controller');
+const moduleUnderTest = require('$lib/application/organizations');
 
 describe('Integration | Application | Organizations | Routes', () => {
 

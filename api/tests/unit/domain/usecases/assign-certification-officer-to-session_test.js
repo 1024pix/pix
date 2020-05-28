@@ -1,6 +1,6 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const assignCertificationOfficerToJurySession = require('../../../../lib/domain/usecases/assign-certification-officer-to-jury-session');
-const { ObjectValidationError } = require('../../../../lib/domain/errors');
+const { expect, sinon, catchErr } = require('$tests/test-helper');
+const assignCertificationOfficerToJurySession = require('$lib/domain/usecases/assign-certification-officer-to-jury-session');
+const { ObjectValidationError } = require('$lib/domain/errors');
 
 describe('Unit | UseCase | assign-certification-officer-to-session', () => {
   let sessionId;

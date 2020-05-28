@@ -1,6 +1,6 @@
-const { expect, domainBuilder, EMPTY_BLANK_AND_NULL } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-report-serializer');
-const { NO_EXAMINER_COMMENT } = require('../../../../../lib/domain/models/CertificationReport');
+const { expect, domainBuilder, EMPTY_BLANK_AND_NULL } = require('$tests/test-helper');
+const serializer = require('$lib/infrastructure/serializers/jsonapi/certification-report-serializer');
+const { NO_EXAMINER_COMMENT } = require('$lib/domain/models/CertificationReport');
 
 describe('Unit | Serializer | JSONAPI | certification-report-serializer', function() {
 

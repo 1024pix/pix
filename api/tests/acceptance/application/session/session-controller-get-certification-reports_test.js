@@ -1,9 +1,9 @@
 const _ = require('lodash');
 
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const createServer = require('../../../../server');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('$tests/test-helper');
+const createServer = require('$root/server');
 
-const CertificationReport = require('../../../../lib/domain/models/CertificationReport');
+const CertificationReport = require('$lib/domain/models/CertificationReport');
 
 describe('Acceptance | Controller | session-controller-get-certification-reports', () => {
 

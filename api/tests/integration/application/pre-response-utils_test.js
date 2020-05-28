@@ -1,14 +1,14 @@
-const { expect, hFake } = require('../../test-helper');
+const { expect, hFake } = require('$tests/test-helper');
 
 const {
   BadRequestError, ConflictError, ForbiddenError,
   BaseHttpError, MissingQueryParamError, NotFoundError,
   PreconditionFailedError, UnauthorizedError, UnprocessableEntityError
-} = require('../../../lib/application/http-errors');
+} = require('$lib/application/http-errors');
 
-const { EntityValidationError } = require('../../../lib/domain/errors');
+const { EntityValidationError } = require('$lib/domain/errors');
 
-const { handleDomainAndHttpErrors } = require('../../../lib/application/pre-response-utils');
+const { handleDomainAndHttpErrors } = require('$lib/application/pre-response-utils');
 
 describe('Integration | Application | PreResponse-utils', () => {
 

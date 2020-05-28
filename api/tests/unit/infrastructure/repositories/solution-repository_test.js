@@ -1,8 +1,8 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const solutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
-const solutionAdapter = require('../../../../lib/infrastructure/adapters/solution-adapter');
-const challengeDatasource = require('../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
-const Solution = require('../../../../lib/domain/models/Solution');
+const { expect, sinon, domainBuilder } = require('$tests/test-helper');
+const solutionRepository = require('$lib/infrastructure/repositories/solution-repository');
+const solutionAdapter = require('$lib/infrastructure/adapters/solution-adapter');
+const challengeDatasource = require('$lib/infrastructure/datasources/airtable/challenge-datasource');
+const Solution = require('$lib/domain/models/Solution');
 
 describe('Unit | Repository | solution-repository', () => {
 

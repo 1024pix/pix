@@ -1,8 +1,8 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
+const { expect, sinon, catchErr } = require('$tests/test-helper');
 
-const { UserNotAuthorizedToCertifyError, NotFoundError } = require('../../../../lib/domain/errors');
-const retrieveLastOrCreateCertificationCourse = require('../../../../lib/domain/usecases/retrieve-last-or-create-certification-course');
-const Assessment = require('../../../../lib/domain/models/Assessment');
+const { UserNotAuthorizedToCertifyError, NotFoundError } = require('$lib/domain/errors');
+const retrieveLastOrCreateCertificationCourse = require('$lib/domain/usecases/retrieve-last-or-create-certification-course');
+const Assessment = require('$lib/domain/models/Assessment');
 
 describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => {
 

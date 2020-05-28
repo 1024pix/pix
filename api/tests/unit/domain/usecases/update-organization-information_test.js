@@ -1,6 +1,6 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const { updateOrganizationInformation } = require('../../../../lib/domain/usecases');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const { expect, sinon, catchErr, domainBuilder } = require('$tests/test-helper');
+const { updateOrganizationInformation } = require('$lib/domain/usecases');
+const { NotFoundError } = require('$lib/domain/errors');
 
 describe('Unit | UseCase | update-organization-information', () => {
 

@@ -1,7 +1,7 @@
-const { expect } = require('../../../test-helper');
+const { expect } = require('$tests/test-helper');
 
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const service = require('../../../../lib/domain/services/solution-service-qcu');
+const AnswerStatus = require('$lib/domain/models/AnswerStatus');
+const service = require('$lib/domain/services/solution-service-qcu');
 
 describe('Unit | Service | SolutionServiceQCU ', function() {
 

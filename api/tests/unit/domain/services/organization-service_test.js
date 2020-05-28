@@ -1,11 +1,11 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('$tests/test-helper');
 const { concat } = require('lodash');
 
-const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
+const TargetProfile = require('$lib/domain/models/TargetProfile');
 
-const organizationService = require('../../../../lib/domain/services/organization-service');
-const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
-const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
+const organizationService = require('$lib/domain/services/organization-service');
+const organizationRepository = require('$lib/infrastructure/repositories/organization-repository');
+const targetProfileRepository = require('$lib/infrastructure/repositories/target-profile-repository');
 
 describe('Unit | Service | OrganizationService', () => {
 

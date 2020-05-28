@@ -1,9 +1,9 @@
-const { expect, domainBuilder, databaseBuilder, knex } = require('../../../test-helper');
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const Campaign = require('../../../../lib/domain/models/Campaign');
-const CampaignReport = require('../../../../lib/domain/models/CampaignReport');
-const BookshelfCampaign = require('../../../../lib/infrastructure/data/campaign');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const { expect, domainBuilder, databaseBuilder, knex } = require('$tests/test-helper');
+const campaignRepository = require('$lib/infrastructure/repositories/campaign-repository');
+const Campaign = require('$lib/domain/models/Campaign');
+const CampaignReport = require('$lib/domain/models/CampaignReport');
+const BookshelfCampaign = require('$lib/infrastructure/data/campaign');
+const { NotFoundError } = require('$lib/domain/errors');
 const _ = require('lodash');
 
 describe('Integration | Repository | Campaign', () => {
