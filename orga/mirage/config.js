@@ -35,7 +35,23 @@ export default function() {
 
   this.post('/revoke', () => {});
 
-  this.post('/users');
+  this.get('/prescription/prescribers/:id', (schema, request) => {
+    const prescriber = schema.prescribers.find(request.params.id);
+    return prescriber;
+  });
+
+  this.post('/users', (schema, request) => {
+    const body = JSON.parse(request.requestBody);
+    const user = schema.users.create({ ...body.data.attributes });
+
+    schema.prescribers.create({
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+    });
+
+    return user;
+  });
 
   this.get('/users/me', (schema, request) => {
     const userToken = request.requestHeaders.authorization.replace('Bearer ', '');
@@ -240,6 +256,7 @@ export default function() {
 
     const userOrgaSettings = schema.userOrgaSettings.find(userOrgaSettingsId);
     const organization = schema.organizations.find(organizationId);
+
     return userOrgaSettings.update({ organization });
   });
 

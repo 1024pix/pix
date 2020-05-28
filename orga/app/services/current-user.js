@@ -9,11 +9,11 @@ export default class CurrentUserService extends Service {
   async load() {
     if (this.get('session.isAuthenticated')) {
       try {
-        const user = await this.store.queryRecord('user', { me: true });
-        const userMemberships = await user.get('memberships');
-        const userOrgaSettings = await user.get('userOrgaSettings');
+        const prescriber = await this.store.queryRecord('prescriber', this.session.data.authenticated.user_id);
+        const userMemberships = await prescriber.get('memberships');
+        const userOrgaSettings = await prescriber.get('userOrgaSettings');
 
-        this.set('user', user);
+        this.set('prescriber', prescriber);
         this.set('memberships', userMemberships);
 
         let membership;
@@ -21,11 +21,13 @@ export default class CurrentUserService extends Service {
           membership = await this._getMembershipByUserOrgaSettings(userMemberships.toArray(), userOrgaSettings);
           if (!membership) {
             membership = await userMemberships.firstObject;
-            await this._updateUserOrgaSettings(userOrgaSettings, membership, user.id);
+            await this._updateUserOrgaSettings(userOrgaSettings, membership, prescriber.id);
           }
         } else {
+          const userId = prescriber.id;
           membership = await userMemberships.firstObject;
-          await this._createUserOrgaSettings(user, membership);
+          const organization = membership.organization;
+          await this._createUserOrgaSettings({ userId, organization });
         }
 
         await this._setOrganizationProperties(membership);
@@ -51,18 +53,18 @@ export default class CurrentUserService extends Service {
 
   async _updateUserOrgaSettings(userOrgaSettings, membership, userId) {
     userOrgaSettings.organization = await membership.organization;
-    userOrgaSettings.save({ adapterOptions: { userId: userId } });
+    userOrgaSettings.save({ adapterOptions: { userId } });
   }
 
-  async _createUserOrgaSettings(user, membership) {
-    const organization = await membership.organization;
-    await this.store.createRecord('user-orga-setting', { user, organization }).save({ adapterOptions: { userId: user.id } });
+  async _createUserOrgaSettings({ userId, organization }) {
+    await this.store.createRecord('user-orga-setting', { organization }).save({ adapterOptions: { userId } });
   }
 
   async _setOrganizationProperties(membership) {
     const organization = await membership.organization;
     const isAdminInOrganization = membership.isAdmin;
     const isSCOManagingStudents = organization.isSco && organization.isManagingStudents;
+
     this.set('organization', organization);
     this.set('isAdminInOrganization', isAdminInOrganization);
     this.set('isSCOManagingStudents', isSCOManagingStudents);

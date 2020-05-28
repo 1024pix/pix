@@ -4,6 +4,52 @@ import { contains, notContains } from './contains';
 QUnit.assert.contains = contains;
 QUnit.assert.notContains = notContains;
 
+export function createPrescriberByUser(user) {
+  const prescriber = server.create('prescriber', {
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
+    memberships: user.memberships,
+    userOrgaSettings: user.userOrgaSettings
+  });
+
+  return prescriber;
+}
+
+export function createPrescriberWithPixOrgaTermsOfService({ pixOrgaTermsOfServiceAccepted }) {
+  const firstName = 'Harry';
+  const lastName = 'Cover';
+  const email = 'harry@cover.com';
+
+  const user = server.create('user', { firstName, lastName, email, pixOrgaTermsOfServiceAccepted });
+
+  const organization = server.create('organization', {
+    name: 'BRO & Evil Associates',
+  });
+
+  const membership = server.create('membership', {
+    organizationId: organization.id,
+    userId: user.id
+  });
+
+  const prescriber = server.create('prescriber', {
+    id: user.id,
+    firstName,
+    lastName,
+    pixOrgaTermsOfServiceAccepted,
+    memberships: [membership]
+  });
+
+  if (pixOrgaTermsOfServiceAccepted) {
+    prescriber.userOrgaSettings = server.create('user-orga-setting', { user, organization });
+  } else {
+    server.create('user-orga-setting', {});
+  }
+
+  return prescriber;
+}
+
 function _addUserToOrganization(user, { externalId, canCollectProfiles } = {}) {
   const organization = server.create('organization', {
     name: 'BRO & Evil Associates',
@@ -52,6 +98,7 @@ export function createUserMembershipWithRole(organizationRole) {
 
   user.userOrgaSettings = server.create('user-orga-setting', { user, organization });
   user.memberships = [memberships];
+
   return user;
 }
 
@@ -81,7 +128,7 @@ export function createUserWithMultipleMemberships() {
   });
 
   user.memberships = [firstMembership, secondMembership];
-  user.userOrgaSettings =   server.create('user-orga-setting', { organization: firstOrganization, user });
+  user.userOrgaSettings = server.create('user-orga-setting', { organization: firstOrganization, user });
 
   return user;
 }
@@ -96,7 +143,7 @@ export function createAdminMembershipWithNbMembers(countMembers) {
     firstName: 'Harry',
     lastName: 'Cover',
     email: 'harry@cover.com',
-    'pixOrgaTermsOfServiceAccepted': true
+    pixOrgaTermsOfServiceAccepted: true
   });
 
   const adminMemberships = server.create('membership', {
@@ -106,25 +153,17 @@ export function createAdminMembershipWithNbMembers(countMembers) {
   });
 
   admin.userOrgaSettings = server.create('user-orga-setting', { user: admin, organization });
-  admin.memberships[0] = adminMemberships;
+  admin.memberships = [adminMemberships];
 
-  for (let i = 1; i < countMembers; i++) {
-
-    const user = server.create('user', {
-      firstName: 'Harry',
-      lastName: 'Cover',
-      email: 'harry@cover.com',
-      'pixOrgaTermsOfServiceAccepted': true
+  server.createList('user', countMembers)
+    .forEach((user) => {
+      server.create('membership', {
+        userId: user.id,
+        organizationId: organization.id,
+        organizationRole: 'MEMBER'
+      });
     });
 
-    user.userOrgaSettings = server.create('user-orga-setting', { user, organization });
-
-    admin.memberships[i] = server.create('membership', {
-      userId: user.id,
-      organizationId: organization.id,
-      organizationRole: 'ADMIN',
-    });
-  }
   return admin;
 }
 

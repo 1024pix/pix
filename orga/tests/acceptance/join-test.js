@@ -8,6 +8,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import {
   createUserWithMembership,
   createUserWithMembershipAndTermsOfServiceAccepted,
+  createPrescriberByUser
 } from '../helpers/test-init';
 
 module('Acceptance | join', function(hooks) {
@@ -15,7 +16,7 @@ module('Acceptance | join', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  module('When user tries to go on join page', function() {
+  module('When prescriber tries to go on join page', function() {
 
     test('it should remain on join page when organization-invitation exists', async function(assert) {
       // given
@@ -63,7 +64,7 @@ module('Acceptance | join', function(hooks) {
 
   module('Login', function() {
 
-    module('When user is logging in but has not accepted terms of service yet', function(hooks) {
+    module('When prescriber is logging in but has not accepted terms of service yet', function(hooks) {
 
       let user;
       let organizationInvitationId;
@@ -71,6 +72,8 @@ module('Acceptance | join', function(hooks) {
 
       hooks.beforeEach(() => {
         user = createUserWithMembership();
+        createPrescriberByUser(user);
+
         code = 'ABCDEFGH01';
         const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
         organizationInvitationId = server.create('organizationInvitation', {
@@ -113,13 +116,15 @@ module('Acceptance | join', function(hooks) {
       });
     });
 
-    module('When user is logging in and has accepted terms of service', function(hooks) {
+    module('When prescriber is logging in and has accepted terms of service', function(hooks) {
       let user;
       let organizationInvitationId;
       let code;
 
       hooks.beforeEach(() => {
         user = createUserWithMembershipAndTermsOfServiceAccepted();
+        createPrescriberByUser(user);
+
         code = 'ABCDEFGH01';
         const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
         organizationInvitationId = server.create('organizationInvitation', {
@@ -144,7 +149,7 @@ module('Acceptance | join', function(hooks) {
         assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
       });
 
-      test('it should show user name', async function(assert) {
+      test('it should show prescriber name', async function(assert) {
         // given
         server.create('campaign');
 
@@ -163,7 +168,7 @@ module('Acceptance | join', function(hooks) {
       });
     });
 
-    module('When user is logging in but his credentials are invalid', function(hooks) {
+    module('When prescriber is logging in but his credentials are invalid', function(hooks) {
 
       let user;
       let organizationInvitationId;
@@ -203,7 +208,7 @@ module('Acceptance | join', function(hooks) {
       });
     });
 
-    module('When user has already accepted organization-invitation or user is already a member of the organization', function(hooks) {
+    module('When prescriber has already accepted organization-invitation or prescriber is already a member of the organization', function(hooks) {
 
       let user;
       let organizationInvitationId;
@@ -211,6 +216,8 @@ module('Acceptance | join', function(hooks) {
 
       hooks.beforeEach(() => {
         user = createUserWithMembership();
+        createPrescriberByUser(user);
+
         code = 'ABCDEFGH01';
         const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
         organizationInvitationId = server.create('organizationInvitation', {
@@ -244,7 +251,7 @@ module('Acceptance | join', function(hooks) {
 
   module('Register', function() {
 
-    module('When user is registering', function() {
+    module('When prescriber is registering', function() {
 
       module('When a pending organization-invitation already exists', function(hooks) {
 
@@ -254,7 +261,7 @@ module('Acceptance | join', function(hooks) {
           organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
         });
 
-        test('it should accept invitation and redirect user to the terms-of-service page', async function(assert) {
+        test('it should accept invitation and redirect prescriber to the terms-of-service page', async function(assert) {
           // given
           const code = 'ABCDEFGH01';
           const organizationInvitationId = server.create('organizationInvitation', {
@@ -279,7 +286,7 @@ module('Acceptance | join', function(hooks) {
         });
       });
 
-      module('When user already exist', function(hooks) {
+      module('When prescriber already exist', function(hooks) {
 
         let organizationId;
 
@@ -287,14 +294,12 @@ module('Acceptance | join', function(hooks) {
           organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
         });
 
-        test('should redirect user to the campaigns list', async function(assert) {
+        test('should redirect prescriber to the campaigns list', async function(assert) {
           // given
           const code = 'ABCDEFGH01';
           const organizationInvitationId = server.create('organizationInvitation', {
             organizationId, email: 'random@email.com', status: 'pending', code
           }).id;
-
-          server.create('user', { firstName: 'Harry', lastName: 'Cover', email: 'alreadyUser@organization.org', 'pixOrgaTermsOfServiceAccepted': true });
 
           server.post('/users', {
             errors: [{

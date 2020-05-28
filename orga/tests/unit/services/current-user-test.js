@@ -38,7 +38,7 @@ module('Unit | Service | current-user', function(hooks) {
       await currentUserService.load();
 
       // then
-      assert.equal(currentUserService.user, connectedUser);
+      assert.equal(currentUserService.prescriber, connectedUser);
     });
 
     test('should load the memberships', async function(assert) {
@@ -165,10 +165,11 @@ module('Unit | Service | current-user', function(hooks) {
         let firstOrganization;
 
         hooks.beforeEach(function() {
+          const user = Object.create({ id: 1 });
           firstOrganization = Object.create({ id: 9, type: 'SCO', isManagingStudents: false, isSco: true });
           const secondOrganization = Object.create({ id: 10, type: 'SCO', isManagingStudents: false, isSco: true });
-          const membership1 = Object.create({ organization: firstOrganization, organizationRole: 'ADMIN', isAdmin: true });
-          const membership2 = Object.create({ organization: secondOrganization, organizationRole: 'ADMIN', isAdmin: true });
+          const membership1 = Object.create({ user, organization: firstOrganization, organizationRole: 'ADMIN', isAdmin: true });
+          const membership2 = Object.create({ user, organization: secondOrganization, organizationRole: 'ADMIN', isAdmin: true });
           connectedUser.memberships = [membership1, membership2];
 
           storeStub.createRecord = sinon.stub().returns({
@@ -186,10 +187,7 @@ module('Unit | Service | current-user', function(hooks) {
 
           // then
           assert.equal(createRecordSpy.callCount, 1);
-          assert.ok(createRecordSpy.calledWith('user-orga-setting', {
-            user: connectedUser,
-            organization: firstOrganization
-          }));
+          assert.ok(createRecordSpy.calledWith('user-orga-setting', { organization: firstOrganization }));
         });
 
         test('should set the first membership\'s organization as current organization', async function(assert) {
@@ -270,7 +268,7 @@ module('Unit | Service | current-user', function(hooks) {
       await currentUser.load();
 
       // then
-      assert.equal(currentUser.user, null);
+      assert.equal(currentUser.prescriber, null);
     });
   });
 

@@ -2,7 +2,11 @@ import { module, test } from 'qunit';
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
-import { createUserMembershipWithRole } from '../helpers/test-init';
+
+import {
+  createUserMembershipWithRole,
+  createPrescriberByUser
+} from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -11,7 +15,7 @@ module('Acceptance | Team Creation', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  test('it should not be accessible by an unauthenticated user', async function(assert) {
+  test('it should not be accessible by an unauthenticated prescriber', async function(assert) {
     // when
     await visit('/equipe/creation');
 
@@ -19,7 +23,7 @@ module('Acceptance | Team Creation', function(hooks) {
     assert.equal(currentURL(), '/connexion');
   });
 
-  module('When user is logged in', function(hooks) {
+  module('When prescriber is logged in', function(hooks) {
 
     let user;
     let organizationId;
@@ -29,10 +33,11 @@ module('Acceptance | Team Creation', function(hooks) {
       notificationMessagesService.clearAll();
     });
 
-    module('When user is a member', function(hooks) {
+    module('When prescriber is a member', function(hooks) {
 
       hooks.beforeEach(async () => {
         user = createUserMembershipWithRole('MEMBER');
+        createPrescriberByUser(user);
 
         await authenticateSession({
           user_id: user.id,
@@ -51,10 +56,12 @@ module('Acceptance | Team Creation', function(hooks) {
       });
     });
 
-    module('When user is an admin', function(hooks) {
+    module('When prescriber is an admin', function(hooks) {
 
       hooks.beforeEach(async () => {
         user = createUserMembershipWithRole('ADMIN');
+        createPrescriberByUser(user);
+
         organizationId = server.db.organizations[0].id;
 
         await authenticateSession({
@@ -73,7 +80,7 @@ module('Acceptance | Team Creation', function(hooks) {
         assert.equal(currentURL(), '/equipe/creation');
       });
 
-      test('it should allow to invite an user and redirect to team page', async function(assert) {
+      test('it should allow to invite a prescriber and redirect to team page', async function(assert) {
         // given
         const email = 'gigi@labrochette.com';
         const code = 'ABCDEFGH01';
@@ -95,7 +102,7 @@ module('Acceptance | Team Creation', function(hooks) {
         assert.dom('#table-members tbody tr').exists({ count: 1 });
       });
 
-      test('it should not allow to invite a user when an email is not given', async function(assert) {
+      test('it should not allow to invite a prescriber when an email is not given', async function(assert) {
         // given
         await visit('/equipe/creation');
         await fillIn('#email', '');

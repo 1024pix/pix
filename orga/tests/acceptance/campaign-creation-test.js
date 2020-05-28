@@ -2,11 +2,16 @@ import { module, test } from 'qunit';
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
-import { createUserWithMembershipAndTermsOfServiceAccepted, createUserThatCanCollectProfiles } from '../helpers/test-init';
+import {
+  createUserWithMembershipAndTermsOfServiceAccepted,
+  createUserThatCanCollectProfiles,
+  createPrescriberByUser
+} from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Acceptance | Campaign Creation', function(hooks) {
+
   let availableTargetProfiles;
 
   setupApplicationTest(hooks);
@@ -24,9 +29,12 @@ module('Acceptance | Campaign Creation', function(hooks) {
     availableTargetProfiles = server.createList('target-profile', 2);
   });
 
-  module('when the user is authenticated', (hooks) => {
+  module('when the prescriber is authenticated', (hooks) => {
+
     hooks.beforeEach(async function() {
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
+      createPrescriberByUser(user);
+
       await authenticateUser(user.id);
       await visit('/campagnes/creation');
     });
@@ -36,7 +44,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
       notificationMessagesService.clearAll();
     });
 
-    test('it should be accessible for an authenticated user', async function(assert) {
+    test('it should be accessible for an authenticated prescriber', async function(assert) {
       // then
       assert.equal(currentURL(), '/campagnes/creation');
       assert.dom('.page__title').hasText('Création d\'une campagne');
@@ -94,9 +102,12 @@ module('Acceptance | Campaign Creation', function(hooks) {
     });
   });
 
-  module('when user is authenticated and can collect profiles', (hooks) => {
+  module('when prescriber is authenticated and can collect profiles', (hooks) => {
+
     hooks.beforeEach(async function() {
       const user = createUserThatCanCollectProfiles();
+      createPrescriberByUser(user);
+
       await authenticateUser(user.id);
       await visit('/campagnes/creation');
     });
