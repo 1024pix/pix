@@ -31,7 +31,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     campaignParticipationRepository = { get: sinon.stub() };
     campaignRepository = { checkIfUserOrganizationHasAccessToCampaign: sinon.stub() };
     targetProfileRepository = { getByCampaignId: sinon.stub() };
-    badgeRepository = { findByTargetProfileId: sinon.stub() };
+    badgeRepository = { findByTargetProfileId: sinon.stub().resolves([]) };
     badgeAcquisitionRepository = { hasAcquiredBadgeWithId: sinon.stub() };
     campaignParticipationResultRepository = { getByParticipationId: sinon.stub() };
 

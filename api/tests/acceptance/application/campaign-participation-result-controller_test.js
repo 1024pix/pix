@@ -17,7 +17,6 @@ describe('Acceptance | API | Campaign Participation Result', () => {
     targetProfileSkills,
     skills,
     areas,
-    badge,
     competences;
 
   let server;
@@ -60,7 +59,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
     });
     const skillIds = _.map(skills, (skill) => skill.id);
 
-    badge = new databaseBuilder.factory.buildBadge({
+    databaseBuilder.factory.buildBadge({
       id: 1,
       altMessage: 'Banana',
       imageUrl: '/img/banana.svg',
@@ -177,20 +176,13 @@ describe('Acceptance | API | Campaign Participation Result', () => {
             'tested-skills-count': 5,
             'validated-skills-count': 3,
             'is-completed': true,
-            'are-badge-criteria-fulfilled': false,
           },
           relationships: {
             badges: {
-              data: [{
-                id: `${badge.id}`,
-                type: 'badges',
-              }]
+              data: []
             },
             'partner-competence-results': {
-              data: [{
-                id: '1',
-                type: 'partnerCompetenceResults'
-              }]
+              data: []
             },
             'competence-results': {
               data: [{
@@ -207,26 +199,6 @@ describe('Acceptance | API | Campaign Participation Result', () => {
           },
         },
         included: [{
-          type: 'badges',
-          id: '1',
-          attributes: {
-            'alt-message': 'Banana',
-            'image-url': '/img/banana.svg',
-            message: 'You won a Banana Badge',
-            key: 'PIX_BANANA'
-          },
-        }, {
-          attributes: {
-            'area-color': 'emerald',
-            'mastery-percentage': 38,
-            name: 'Pix Emploi',
-            'tested-skills-count': 5,
-            'total-skills-count': 8,
-            'validated-skills-count': 3,
-          },
-          id: '1',
-          type: 'partnerCompetenceResults',
-        }, {
           type: 'competenceResults',
           id: competences[0].id.toString(),
           attributes: {
