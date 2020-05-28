@@ -1,5 +1,3 @@
-const _ = require('lodash');
-
 const { ObjectValidationError } = require('../errors');
 
 const courseIdMessage = {
@@ -74,27 +72,6 @@ class Assessment {
     return this.state === Assessment.states.COMPLETED;
   }
 
-  getLastAssessmentResult() {
-    if (this.assessmentResults && this.assessmentResults.length > 0) {
-      return _(this.assessmentResults).sortBy(['createdAt']).last();
-    }
-    return null;
-  }
-
-  getPixScore() {
-    if (this.getLastAssessmentResult()) {
-      return this.getLastAssessmentResult().pixScore;
-    }
-    return null;
-  }
-
-  getLevel() {
-    if (this.getLastAssessmentResult()) {
-      return this.getLastAssessmentResult().level;
-    }
-    return null;
-  }
-
   setCompleted() {
     this.state = Assessment.states.COMPLETED;
   }
@@ -132,10 +109,6 @@ class Assessment {
 
   hasKnowledgeElements() {
     return this.isCompetenceEvaluation() || this.isSmartPlacement();
-  }
-
-  isCertifiable() {
-    return this.getLastAssessmentResult().level >= 1;
   }
 }
 

@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const bluebird = require('bluebird');
 
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 const UserCompetence = require('../../../lib/domain/models/UserCompetence');
@@ -6,6 +7,7 @@ const Challenge = require('../models/Challenge');
 const Scorecard = require('../models/Scorecard');
 const CertificationProfile = require('../models/CertificationProfile');
 const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
+const assessmentResultRepository = require('../../../lib/infrastructure/repositories/assessment-result-repository');
 const challengeRepository = require('../../../lib/infrastructure/repositories/challenge-repository');
 const answerRepository = require('../../../lib/infrastructure/repositories/answer-repository');
 const knowledgeElementRepository = require('../../../lib/infrastructure/repositories/knowledge-element-repository');
@@ -83,12 +85,16 @@ function _skillHasAtLeastOneChallengeInTheReferentiel(skill, challenges) {
   return challengesBySkill.length > 0;
 }
 
-function _createUserCompetencesV1({ allCompetences, userLastAssessments }) {
-  return allCompetences.map((competence) => {
+async function _createUserCompetencesV1({ allCompetences, userLastAssessments }) {
+  return bluebird.mapSeries(allCompetences, async (competence) => {
     const userCompetence = new UserCompetence(competence);
     const assessment = _.find(userLastAssessments, { competenceId: userCompetence.id });
-    userCompetence.pixScore = assessment && assessment.getPixScore() || 0;
-    userCompetence.estimatedLevel = assessment && assessment.getLevel() || 0;
+    let latestAssessmentResult = null;
+    if (assessment) {
+      latestAssessmentResult = await assessmentResultRepository.findLatestByAssessmentId(assessment.id);
+    }
+    userCompetence.pixScore = latestAssessmentResult && latestAssessmentResult.pixScore || 0;
+    userCompetence.estimatedLevel = latestAssessmentResult && latestAssessmentResult.level || 0;
     return userCompetence;
   });
 }
@@ -97,7 +103,7 @@ async function _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredC
   const certificationProfileToFill = _.clone(certificationProfile);
   const userLastAssessments = await assessmentRepository
     .findLastCompletedAssessmentsForEachCompetenceByUser(certificationProfile.userId, certificationProfile.profileDate);
-  certificationProfileToFill.userCompetences = _createUserCompetencesV1({ allCompetences: competences, userLastAssessments });
+  certificationProfileToFill.userCompetences = await _createUserCompetencesV1({ allCompetences: competences, userLastAssessments });
 
   return certificationProfileToFill;
 }
