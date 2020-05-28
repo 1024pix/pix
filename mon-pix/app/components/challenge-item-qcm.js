@@ -1,16 +1,15 @@
 import { action } from '@ember/object';
 import ChallengeItemGeneric from './challenge-item-generic';
-import _ from 'lodash';
 
 export default class ChallengeItemQcm extends ChallengeItemGeneric {
-  answersValue= [];
+  checkedValues = new Set();
 
   _hasError() {
-    return this._getAnswerValue().length < 1;
+    return this.checkedValues.size < 1;
   }
 
   _getAnswerValue() {
-    return this.answersValue.join(',');
+    return Array.from(this.checkedValues).join(',');
   }
 
   _getErrorMessage() {
@@ -19,7 +18,11 @@ export default class ChallengeItemQcm extends ChallengeItemGeneric {
 
   @action
   answerChanged(checkboxName) {
-    _.indexOf(this.answersValue, checkboxName) === -1 ? this.answersValue.push(checkboxName) : _.remove(this.answersValue, (value) => value === checkboxName);
+    if (this.checkedValues.has(checkboxName)) {
+      this.checkedValues.delete(checkboxName);
+    } else {
+      this.checkedValues.add(checkboxName);
+    }
     this.set('errorMessage', null);
   }
 }
