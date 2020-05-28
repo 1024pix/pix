@@ -1,6 +1,5 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 
 describe('Unit | Domain | Models | Assessment', () => {
 
@@ -26,137 +25,6 @@ describe('Unit | Domain | Models | Assessment', () => {
 
       // then
       expect(isCompleted).to.be.false;
-    });
-
-  });
-
-  describe('#getLastAssessmentResult', () => {
-
-    it('should return the last assessment results', () => {
-      // given
-      const assessmentResultComputed = new AssessmentResult({
-        id: 1,
-        createdAt: new Date('2017-12-20T02:03:04Z'),
-        emitter: 'PIX-ALGO',
-      });
-      const assessmentResultJury = new AssessmentResult({
-        id: 2,
-        createdAt: new Date('2017-12-24T01:02:03Z'),
-        emitter: 'Michel',
-      });
-
-      const assessmentResultJuryOld = new AssessmentResult({
-        id: 3,
-        createdAt: new Date('2017-12-22T01:02:03Z'),
-        emitter: 'Gerard',
-      });
-
-      const assessment = new Assessment({
-        status: 'completed',
-        assessmentResults: [assessmentResultComputed, assessmentResultJury, assessmentResultJuryOld],
-      });
-
-      // when
-      const lastResult = assessment.getLastAssessmentResult();
-
-      // then
-      expect(lastResult.id).to.be.equal(2);
-      expect(lastResult.emitter).to.be.equal('Michel');
-    });
-
-    it('should return null when assessment has no result', () => {
-      // given
-      const assessment = new Assessment({ status: '' });
-
-      // when
-      const lastResult = assessment.getLastAssessmentResult();
-
-      // then
-      expect(lastResult).to.be.null;
-    });
-
-  });
-
-  describe('#getPixScore', () => {
-
-    it('should return the pixScore of last assessment results', () => {
-      // given
-      const assessmentResultComputed = new AssessmentResult({
-        id: 1,
-        createdAt: new Date('2017-12-20T01:02:03Z'),
-        pixScore: 12,
-        emitter: 'PIX-ALGO',
-      });
-      const assessmentResultJury = new AssessmentResult({
-        id: 2,
-        createdAt: new Date('2017-12-24T01:02:03Z'),
-        pixScore: 18,
-        emitter: 'Michel',
-      });
-
-      const assessment = new Assessment({
-        status: 'completed',
-        assessmentResults: [assessmentResultComputed, assessmentResultJury],
-      });
-
-      // when
-      const pixScore = assessment.getPixScore();
-
-      // then
-      expect(pixScore).to.be.equal(18);
-    });
-
-    it('should return null when assessment has no result', () => {
-      // given
-      const assessment = new Assessment({ status: '' });
-
-      // when
-      const pixScore = assessment.getPixScore();
-
-      // then
-      expect(pixScore).to.be.null;
-    });
-
-  });
-
-  describe('#getLevel', () => {
-
-    it('should return the pixScore of last assessment results', () => {
-      // given
-      const assessmentResultComputed = new AssessmentResult({
-        id: 1,
-        createdAt: new Date('2017-12-20T01:02:03Z'),
-        level: 1,
-        emitter: 'PIX-ALGO',
-      });
-      const assessmentResultJury = new AssessmentResult({
-        id: 2,
-        createdAt: new Date('2017-12-24T01:02:03Z'),
-        level: 5,
-        emitter: 'Michel',
-      });
-
-      const assessment = new Assessment({
-        status: 'completed',
-        assessmentResults: [assessmentResultComputed, assessmentResultJury],
-      });
-
-      // when
-      const level = assessment.getLevel();
-
-      // then
-      expect(level).to.be.equal(5);
-    });
-
-    it('should return null when assessment has no result', () => {
-      // given
-      const assessment = new Assessment({ status: '' });
-
-      // when
-      const level = assessment.getLevel();
-
-      // then
-      expect(level).to.be.null;
     });
 
   });
@@ -392,49 +260,6 @@ describe('Unit | Domain | Models | Assessment', () => {
 
       // when/then
       expect(assessment.hasKnowledgeElements()).to.be.false;
-    });
-  });
-
-  describe('#isCertifiable', () => {
-
-    it('should return true when the last assessment has a level > 0', () => {
-      // given
-      const assessmentResultComputed = new AssessmentResult({
-        id: 3,
-        createdAt: new Date('2017-12-22T01:02:03Z'),
-        emitter: 'Gerard',
-        level: 3,
-      });
-
-      const assessment = new Assessment({
-        assessmentResults: [assessmentResultComputed]
-      });
-
-      // when
-      const isCompleted = assessment.isCertifiable();
-
-      // then
-      expect(isCompleted).to.be.true;
-    });
-
-    it('should return false when the last assessment has a level < 1', () => {
-      // given
-      const assessmentResultComputed = new AssessmentResult({
-        id: 3,
-        createdAt: new Date('2017-12-22T01:02:03Z'),
-        emitter: 'Gerard',
-        level: 0,
-      });
-
-      const assessment = new Assessment({
-        assessmentResults: [assessmentResultComputed]
-      });
-
-      // when
-      const isCompleted = assessment.isCertifiable();
-
-      // then
-      expect(isCompleted).to.be.false;
     });
   });
 
