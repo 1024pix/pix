@@ -1,6 +1,5 @@
 # Anatomie de la plateforme
 
-
 ## Organisation générale du code
 
 Les applications Pix (Pix API, Pix App, Pix Orga, Pix Certif et Pix Admin) sont organisées au travers un dépôt Git de type [monorepo](https://en.wikipedia.org/wiki/Monorepo).
@@ -82,7 +81,6 @@ api                                 → Sources de l'application Pix API
        └ airtable.js                → Wrapper de client Airtable 
        └ bookshelf.js               → Instance de gestionnaire Bookshelf
        └ logger.js                  → Instance de logger Bunyan
-    └ interfaces                    → (déprécié) Objets destinés à servir de glue entre la couche "application" et la couche "infrastructure" 
  └ node_modules                     → (généré) Dépendances pour les scripts et tâches NPM générales
  └ scripts                          → Divers scripts 
  └ tests                            → Sources des tests suites et test cases
