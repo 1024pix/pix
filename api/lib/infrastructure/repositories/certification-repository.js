@@ -20,7 +20,6 @@ function _certificationToDomain(certificationCourseBookshelf) {
 function _createCertificationDomainModel({ certificationCourseBookshelf, assessmentResults, acquiredPartnerCertifications }) {
   return new Certification({
     id: certificationCourseBookshelf.get('id'),
-    assessmentState: certificationCourseBookshelf.related('assessment').get('state'),
     certificationCenter: certificationCourseBookshelf.related('session').get('certificationCenter'),
     birthdate: certificationCourseBookshelf.get('birthdate'),
     birthplace: certificationCourseBookshelf.get('birthplace'),
@@ -75,7 +74,54 @@ module.exports = {
         }
       });
   },
+  /*
+  id;
+  this.assessmentState = assessmentState;
+  this.birthdate = birthdate;
+  this.birthplace = birthplace;
+  this.certificationCenter = certificationCenter;
+  this.date = date;
+  this.firstName = firstName;
+  this.isPublished = isPublished;
+  this.lastName = lastName;
+  const assessmentResultsCopy = Array.from(assessmentResults);
+  const mostRecentAssessmentResult = _.maxBy(assessmentResultsCopy, (assessmentResult) => {
+    return moment(assessmentResult.createdAt);
+  });
 
+  if (mostRecentAssessmentResult) {
+    this.pixScore = mostRecentAssessmentResult.pixScore;
+    this.status = mostRecentAssessmentResult.status;
+    this.commentForCandidate = mostRecentAssessmentResult.commentForCandidate;
+  }
+  // includes
+  this.resultCompetenceTree = resultCompetenceTree;
+  // references
+  this.userId = userId;
+  this.acquiredPartnerCertifications = acquiredPartnerCertifications;
+  getByCertificationCourseId2({ id }) {
+    return CertificationCourseBookshelf
+      .query((qb) => {
+        qb.innerJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id');
+        qb.leftOuterJoin('certification-partner-acquisitions', 'certification-partner-acquisitions.certificationCourseId', 'certification-courses.id');
+        qb.where('certification-courses.id', id);
+      })
+      .fetch({
+        require: true,
+        withRelated: [
+          'session', 'assessment', 'assessment.assessmentResults', 'acquiredPartnerCertifications',
+        ],
+      })
+      .then(_certificationToDomain)
+      .catch((err) => {
+        if (err instanceof CertificationCourseBookshelf.NotFoundError) {
+          throw new NotFoundError(`Not found certification for ID ${id}`);
+        } else {
+          throw err;
+        }
+      });
+  },
+*/
   findByUserId(userId) {
     return CertificationCourseBookshelf
       .query((qb) => {
