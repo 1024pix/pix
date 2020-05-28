@@ -7,8 +7,8 @@ const {
 } = require('../errors');
 
 async function handleCertificationScoring({
-  assessmentCompletedEvent,
   domainTransaction,
+  event,
   assessmentResultRepository,
   badgeAcquisitionRepository,
   certificationAssessmentRepository,
@@ -17,8 +17,8 @@ async function handleCertificationScoring({
   competenceMarkRepository,
   scoringCertificationService,
 }) {
-  if (assessmentCompletedEvent.isCertification) {
-    const certificationAssessment = await certificationAssessmentRepository.get(assessmentCompletedEvent.assessmentId);
+  if (event.isCertification) {
+    const certificationAssessment = await certificationAssessmentRepository.get(event.assessmentId);
     return _calculateCertificationScore({ certificationAssessment, domainTransaction, assessmentResultRepository, certificationCourseRepository, competenceMarkRepository, scoringCertificationService, badgeAcquisitionRepository, certificationPartnerAcquisitionRepository });
   }
 

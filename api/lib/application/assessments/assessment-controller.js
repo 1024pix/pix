@@ -9,6 +9,9 @@ const challengeSerializer = require('../../infrastructure/serializers/jsonapi/ch
 const { extractParameters } = require('../../infrastructure/utils/query-params-utils');
 const { extractLocaleFromRequest, extractUserIdFromRequest } = require('../../infrastructure/utils/request-response-utils');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
+const EventDispatcher = require('../../infrastructure/events/EventDispatcher');
+const AssessmentCompleted = require('../../domain/events/AssessmentCompleted');
+const CertificationScoringCompleted = require('../../domain/events/CertificationScoringCompleted');
 
 module.exports = {
 
@@ -91,20 +94,20 @@ module.exports = {
   async completeAssessment(request) {
     const assessmentId = parseInt(request.params.id);
 
+    // TODO move Dispatcher instanciation and subscriptions elsewhere ?
+    // In DI ? In a factory ?
+    const eventDispatcher = new EventDispatcher();
+    eventDispatcher.subscribe(AssessmentCompleted, events.handleBadgeAcquisition);
+    eventDispatcher.subscribe(AssessmentCompleted, events.handleCertificationScoring);
+    eventDispatcher.subscribe(CertificationScoringCompleted, events.handleCertificationAcquisitionForPartner);
+
     await DomainTransaction.execute(async (domainTransaction) => {
-      const assessmentCompletedEvent = await usecases.completeAssessment({ domainTransaction, assessmentId });
-      const certificationScoringEvent = await events.handleCertificationScoring({ domainTransaction, assessmentCompletedEvent });
-
-      await events.handleBadgeAcquisition({ domainTransaction, assessmentCompletedEvent });
-
-      if (certificationScoringEvent) {
-        // TODO this condition should be done by the broker/event bus
-        await events.handleCertificationAcquisitionForPartner({ domainTransaction, certificationScoringEvent });
-      }
+      const event = await usecases.completeAssessment({ domainTransaction, assessmentId });
+      await eventDispatcher.dispatch(domainTransaction, event);
     });
 
     return null;
-  },
+  }
 };
 
 async function _getChallenge(assessment, request) {

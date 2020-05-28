@@ -12,7 +12,7 @@ describe('Unit | Domain | Events | handle-certification-partner', () => {
   const certificationPartnerAcquisitionRepository = { save: _.noop };
   const domainTransaction = {};
 
-  let certificationScoringEvent;
+  let event;
 
   const dependencies = {
     certificationPartnerAcquisitionRepository,
@@ -24,7 +24,7 @@ describe('Unit | Domain | Events | handle-certification-partner', () => {
     const userId = Symbol('userId');
 
     beforeEach(() => {
-      certificationScoringEvent = new CertificationScoringCompleted({
+      event = new CertificationScoringCompleted({
         certificationCourseId,
         userId,
         isCertification: true,
@@ -63,7 +63,7 @@ describe('Unit | Domain | Events | handle-certification-partner', () => {
         sinon.stub(CertificationPartnerAcquisition.prototype, 'hasAcquiredCertification')
           .withArgs({
             hasAcquiredBadge,
-            reproducibilityRate: certificationScoringEvent.reproducibilityRate,
+            reproducibilityRate: event.reproducibilityRate,
             competenceMarks,
             totalPixCleaByCompetence,
           })
@@ -71,7 +71,7 @@ describe('Unit | Domain | Events | handle-certification-partner', () => {
 
         // when
         await events.handleCertificationAcquisitionForPartner({
-          certificationScoringEvent, ...dependencies, domainTransaction
+          event, ...dependencies, domainTransaction
         });
 
         // then
@@ -86,7 +86,7 @@ describe('Unit | Domain | Events | handle-certification-partner', () => {
         sinon.stub(CertificationPartnerAcquisition.prototype, 'hasAcquiredCertification')
           .withArgs({
             hasAcquiredBadge,
-            reproducibilityRate: certificationScoringEvent.reproducibilityRate,
+            reproducibilityRate: event.reproducibilityRate,
             competenceMarks,
             totalPixCleaByCompetence,
           })
@@ -94,7 +94,7 @@ describe('Unit | Domain | Events | handle-certification-partner', () => {
 
         // when
         await events.handleCertificationAcquisitionForPartner({
-          certificationScoringEvent, ...dependencies, domainTransaction
+          event, ...dependencies, domainTransaction
         });
 
         // then
