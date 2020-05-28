@@ -19,7 +19,7 @@ const membershipSerializer = require('../../../../lib/infrastructure/serializers
 const userOrgaSettingsSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-orga-settings-serializer');
 const scorecardSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
-const userDetailForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-detail-for-admin-serializer');
+const userDetailsForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-details-for-admin-serializer');
 
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 
@@ -137,6 +137,77 @@ describe('Unit | Controller | user-controller', () => {
 
       // then
       expect(response).to.be.equal('ok');
+    });
+  });
+
+  describe('#updateUserDetailsForAdministration', () => {
+
+    const userId = 1132;
+    const newEmail = 'partiel@update.com';
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'updateUserDetailsForAdministration');
+      sinon.stub(userDetailsForAdminSerializer, 'serialize');
+      sinon.stub(userDetailsForAdminSerializer, 'deserialize');
+    });
+
+    it('should update email,firstName,lastName', async () => {
+
+      const lastName = 'newLastName';
+      const firstName = 'newFirstName';
+      const payload = {
+        data: {
+          attributes: {
+            email: newEmail,
+            lastName: 'newLastName',
+            firstName: 'newFirstName'
+          },
+        },
+      };
+      const request = {
+        params: {
+          id: userId,
+        },
+        payload
+      };
+
+      // given
+      userDetailsForAdminSerializer.deserialize.withArgs(payload).returns({ email: newEmail, lastName, firstName });
+      usecases.updateUserDetailsForAdministration.resolves({ email: newEmail, lastName, firstName });
+      userDetailsForAdminSerializer.serialize.returns('updated');
+
+      // when
+      const response = await userController.updateUserDetailsForAdministration(request);
+
+      // then
+      expect(response).to.be.equal('updated');
+    });
+
+    it('should update email only', async () => {
+      // given
+      const payload = {
+        data: {
+          attributes: {
+            email: newEmail,
+          },
+        },
+      };
+      const request = {
+        params: {
+          id: userId,
+        },
+        payload
+      };
+
+      userDetailsForAdminSerializer.deserialize.withArgs(payload).returns({ email: newEmail });
+      usecases.updateUserDetailsForAdministration.resolves({ email: newEmail });
+      userDetailsForAdminSerializer.serialize.returns(newEmail);
+
+      // when
+      const response = await userController.updateUserDetailsForAdministration(request);
+
+      // then
+      expect(response).to.be.equal(newEmail);
     });
   });
 
@@ -273,23 +344,23 @@ describe('Unit | Controller | user-controller', () => {
 
   });
 
-  describe('#getUserDetailForAdmin', () => {
+  describe('#getUserDetailsForAdmin', () => {
     let request;
 
     beforeEach(() => {
       request = { params: { id: '123' } };
 
-      sinon.stub(usecases, 'getUserDetailForAdmin');
-      sinon.stub(userDetailForAdminSerializer, 'serialize');
+      sinon.stub(usecases, 'getUserDetailsForAdmin');
+      sinon.stub(userDetailsForAdminSerializer, 'serialize');
     });
 
     it('should get the specified user for admin context', async () => {
       // given
-      usecases.getUserDetailForAdmin.withArgs({ userId: 123 }).resolves('userDetail');
-      userDetailForAdminSerializer.serialize.withArgs('userDetail').returns('ok');
+      usecases.getUserDetailsForAdmin.withArgs({ userId: 123 }).resolves('userDetail');
+      userDetailsForAdminSerializer.serialize.withArgs('userDetail').returns('ok');
 
       // when
-      const response = await userController.getUserDetailForAdmin(request);
+      const response = await userController.getUserDetailsForAdmin(request);
 
       // then
       expect(response).to.be.equal('ok');

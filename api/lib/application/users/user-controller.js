@@ -7,7 +7,7 @@ const pixScoreSerializer = require('../../infrastructure/serializers/jsonapi/pix
 const scorecardSerializer = require('../../infrastructure/serializers/jsonapi/scorecard-serializer');
 const sharedProfileForCampaignSerializer = require('../../infrastructure/serializers/jsonapi/shared-profile-for-campaign-serializer');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
-const userDetailForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-detail-for-admin-serializer');
+const userDetailsForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-details-for-admin-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
@@ -37,10 +37,10 @@ module.exports = {
       .then(userSerializer.serialize);
   },
 
-  async getUserDetailForAdmin(request) {
+  async getUserDetailsForAdmin(request) {
     const userId = parseInt(request.params.id);
-    const userDetailForAdmin = await usecases.getUserDetailForAdmin({ userId });
-    return userDetailForAdminSerializer.serialize(userDetailForAdmin);
+    const userDetailsForAdmin = await usecases.getUserDetailsForAdmin({ userId });
+    return userDetailsForAdminSerializer.serialize(userDetailsForAdmin);
   },
 
   async updatePassword(request) {
@@ -54,6 +54,18 @@ module.exports = {
     });
 
     return userSerializer.serialize(updatedUser);
+  },
+
+  async updateUserDetailsForAdministration(request) {
+    const userId = parseInt(request.params.id);
+    const userDetailsForAdministration = userDetailsForAdminSerializer.deserialize(request.payload);
+
+    const updatedUser = await usecases.updateUserDetailsForAdministration({
+      userId,
+      userDetailsForAdministration
+    });
+
+    return userDetailsForAdminSerializer.serialize(updatedUser);
   },
 
   async accepPixLastTermsOfService(request) {

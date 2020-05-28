@@ -1,4 +1,5 @@
 const { Serializer } = require('jsonapi-serializer');
+const UserDetailsForAdmin = require('../../../domain/models/UserDetailsForAdmin');
 
 module.exports = {
 
@@ -10,4 +11,12 @@ module.exports = {
       ],
     }).serialize(usersDetailsForAdmin);
   },
+  deserialize(json) {
+    return new UserDetailsForAdmin({
+      id: json.data.id,
+      firstName: json.data.attributes['first-name'],
+      lastName: json.data.attributes['last-name'],
+      email: json.data.attributes.email
+    });
+  }
 };

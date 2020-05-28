@@ -9,7 +9,7 @@ const {
 } = require('../../../../lib/domain/errors');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const User = require('../../../../lib/domain/models/User');
-const UserDetailForAdmin = require('../../../../lib/domain/read-models/UserDetailForAdmin');
+const UserDetailsForAdmin = require('../../../../lib/domain/models/UserDetailsForAdmin');
 const Membership = require('../../../../lib/domain/models/Membership');
 const UserOrgaSettings = require('../../../../lib/domain/models/UserOrgaSettings');
 const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
@@ -459,9 +459,9 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
   });
 
-  describe('get user detail for administration usage', () => {
+  describe('get user details for administration usage', () => {
 
-    describe('#getUserDetailForAdmin', () => {
+    describe('#getUserDetailsForAdmin', () => {
 
       let userInDb;
 
@@ -472,15 +472,15 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       it('should return the found user', async () => {
         // when
-        const userDetailForAdmin = await userRepository.getUserDetailForAdmin(userInDb.id);
+        const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDb.id);
 
         // then
-        expect(userDetailForAdmin).to.be.an.instanceOf(UserDetailForAdmin);
-        expect(userDetailForAdmin.id).to.equal(userInDb.id);
-        expect(userDetailForAdmin.firstName).to.equal(userInDb.firstName);
-        expect(userDetailForAdmin.lastName).to.equal(userInDb.lastName);
-        expect(userDetailForAdmin.email).to.equal(userInDb.email);
-        expect(userDetailForAdmin.cgu).to.be.true;
+        expect(userDetailsForAdmin).to.be.an.instanceOf(UserDetailsForAdmin);
+        expect(userDetailsForAdmin.id).to.equal(userInDb.id);
+        expect(userDetailsForAdmin.firstName).to.equal(userInDb.firstName);
+        expect(userDetailsForAdmin.lastName).to.equal(userInDb.lastName);
+        expect(userDetailsForAdmin.email).to.equal(userInDb.email);
+        expect(userDetailsForAdmin.cgu).to.be.true;
       });
 
       it('should return a UserNotFoundError if no user is found', async () => {
@@ -488,7 +488,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         const nonExistentUserId = 678;
 
         // when
-        const result = await catchErr(userRepository.getUserDetailForAdmin)(nonExistentUserId);
+        const result = await catchErr(userRepository.getUserDetailsForAdmin)(nonExistentUserId);
 
         // then
         expect(result).to.be.instanceOf(UserNotFoundError);
@@ -506,11 +506,11 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       it('should return the "isAuthenticatedFromGAR" property to true', async () => {
         // when
-        const userDetailForAdmin = await userRepository.getUserDetailForAdmin(userInDb.id);
+        const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDb.id);
 
         // then
-        expect(userDetailForAdmin).to.be.an.instanceOf(UserDetailForAdmin);
-        expect(userDetailForAdmin.cgu).to.be.true;
+        expect(userDetailsForAdmin).to.be.an.instanceOf(UserDetailsForAdmin);
+        expect(userDetailsForAdmin.cgu).to.be.true;
       });
 
     });
@@ -534,11 +534,11 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       it('should return the "isAuthenticatedFromGAR" property to false', async () => {
         // when
-        const userDetailForAdmin = await userRepository.getUserDetailForAdmin(userInDb.id);
+        const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDb.id);
 
         // then
-        expect(userDetailForAdmin).to.be.an.instanceOf(UserDetailForAdmin);
-        expect(userDetailForAdmin.isAuthenticatedFromGAR).to.be.false;
+        expect(userDetailsForAdmin).to.be.an.instanceOf(UserDetailsForAdmin);
+        expect(userDetailsForAdmin.isAuthenticatedFromGAR).to.be.false;
       });
 
     });
@@ -632,6 +632,53 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
   });
 
+  describe('#isEmailAllowedToUseForCurrentUser', () => {
+
+    let firstUser;
+    let secondUser;
+
+    const secondUserToInsert = {
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      email: 'alreadyexist@example.net',
+      cgu: true,
+      shouldChangePassword: false,
+    };
+
+    beforeEach(async () => {
+      firstUser = databaseBuilder.factory.buildUser(userToInsert);
+      secondUser = databaseBuilder.factory.buildUser(secondUserToInsert);
+      await databaseBuilder.commit();
+    });
+
+    it('should return true when the email is not registered', async () => {
+      // when
+      const email = await userRepository.isEmailAllowedToUseForCurrentUser(firstUser.id, firstUser.email);
+
+      // then
+      expect(email).to.equal(true);
+    });
+
+    it('should reject an AlreadyRegisteredEmailError when it already exists for another user', async () => {
+      // when
+      const result = await catchErr(userRepository.isEmailAllowedToUseForCurrentUser)(firstUser.id, secondUser.email);
+
+      // then
+      expect(result).to.be.instanceOf(AlreadyRegisteredEmailError);
+    });
+
+    it('should reject an AlreadyRegisteredEmailError when email case insensitive already exists', async () => {
+      // given
+      const uppercaseEmailAlreadyInDb = secondUserToInsert.email.toUpperCase();
+
+      // when
+      const result = await catchErr(userRepository.isEmailAllowedToUseForCurrentUser)(firstUser.id,uppercaseEmailAlreadyInDb);
+
+      // then
+      expect(result).to.be.instanceOf(AlreadyRegisteredEmailError);
+    });
+  });
+
   describe('#updatePassword', () => {
 
     let userInDb;
@@ -699,6 +746,65 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       // then
       expect(error).to.be.instanceOf(UserNotFoundError);
     });
+  });
+
+  describe('#updateUserDetailsForAdministration', () => {
+
+    let userInDb;
+
+    beforeEach(async () => {
+      userInDb = databaseBuilder.factory.buildUser(userToInsert);
+      await databaseBuilder.commit();
+    });
+
+    it('should update firstName,lastName,email of the user', async () => {
+      // given
+      const patchUserFirstNameLastNameEmail = {
+        id : userInDb.id,
+        firstName : 'firstname',
+        lastName : 'lastname',
+        email : 'firstname.lastname@example.net',
+      };
+
+      // when
+      const updatedUser = await userRepository.updateUserDetailsForAdministration(userInDb.id, patchUserFirstNameLastNameEmail);
+
+      // then
+      expect(updatedUser).to.be.an.instanceOf(UserDetailsForAdmin);
+      expect(updatedUser.firstName).to.equal(patchUserFirstNameLastNameEmail.firstName);
+      expect(updatedUser.lastName).to.equal(patchUserFirstNameLastNameEmail.lastName);
+      expect(updatedUser.email).to.equal(patchUserFirstNameLastNameEmail.email);
+    });
+
+    it('should update email of the user', async () => {
+      // given
+      const patchUserFirstNameLastNameEmail = {
+        id : userInDb.id,
+        email : 'partielupdate@hotmail.com',
+      };
+
+      // when
+      const updatedUser = await userRepository.updateUserDetailsForAdministration(userInDb.id, patchUserFirstNameLastNameEmail);
+
+      // then
+      expect(updatedUser).to.be.an.instanceOf(UserDetailsForAdmin);
+      expect(updatedUser.email).to.equal(patchUserFirstNameLastNameEmail.email);
+    });
+
+    it('should throw UserNotFoundError when user id not found', async () => {
+      // given
+      const wrongUserId = 0;
+      const patchUserFirstNameLastNameEmail = {
+        email : 'partielupdate@hotmail.com',
+      };
+
+      // when
+      const error = await catchErr(userRepository.updateUserDetailsForAdministration)(wrongUserId, patchUserFirstNameLastNameEmail);
+
+      // then
+      expect(error).to.be.instanceOf(UserNotFoundError);
+    });
+
   });
 
   describe('#isUserExistingByEmail', () => {
