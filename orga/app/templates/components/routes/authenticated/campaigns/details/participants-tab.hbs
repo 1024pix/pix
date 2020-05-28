@@ -12,22 +12,22 @@
         </tr>
       </thead>
 
-      {{#if @participants}}
+      {{#if @participations}}
         <tbody>
-        {{#each @participants as |participant|}}
-          <tr aria-label="Participant" role="button" {{on 'click' (fn @goToParticipantPage @campaign.id participant.id)}} class="tr--clickable">
-            <td>{{participant.user.lastName}}</td>
-            <td>{{participant.user.firstName}}</td>
+        {{#each @participations as |participation|}}
+          <tr aria-label="Participant" role="button" {{on 'click' (fn @goToParticipantPage @campaign.id participation.id)}} class="tr--clickable">
+            <td>{{participation.lastName}}</td>
+            <td>{{participation.firstName}}</td>
             {{#if @campaign.idPixLabel}}
-              <td>{{participant.participantExternalId}}</td>
+              <td>{{participation.participantExternalId}}</td>
             {{/if}}
             <td>
-              {{#if participant.isShared}}
+              {{#if participation.isShared}}
                 <span class="participant-list__mastery-percentage">
-                  {{participant.campaignParticipationResult.masteryPercentage}}%
+                  {{participation.masteryPercentage}}%
                 </span>
               {{else}}
-                {{#if participant.campaignParticipationResult.isCompleted}}
+                {{#if participation.isCompleted}}
                   <span class="participant-list__icon">
                     <FaIcon @icon='share-square'></FaIcon>
                   </span>
@@ -46,12 +46,12 @@
       {{/if}}
     </table>
 
-    {{#unless @participants}}
+    {{#unless @participations}}
       <div class="table__empty content-text">En attente de participants</div>
     {{/unless}}
   </div>
 </div>
 
-{{#if @participants}}
-  <PaginationControl @pagination={{@participants.meta}} @paginationLink="authenticated.campaigns.details.participants" />
+{{#if @participations}}
+  <PaginationControl @pagination={{@participations.meta}} @paginationLink="authenticated.campaigns.details.participants" />
 {{/if}}
