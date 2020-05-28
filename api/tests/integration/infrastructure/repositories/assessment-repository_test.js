@@ -389,7 +389,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         const assessmentReturned = await assessmentRepository.getByCertificationCourseId(certificationCourseId);
 
         // then
-        expect(assessmentReturned.getPixScore()).to.equal(assessmentResult.pixScore);
         expect(assessmentReturned.assessmentResults).to.have.lengthOf(1);
         expect(assessmentReturned.assessmentResults[0]).to.deep.equal(expectedAssessmentResult);
       });

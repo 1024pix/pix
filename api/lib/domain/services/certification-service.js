@@ -18,12 +18,13 @@ module.exports = {
     const assessment = await assessmentRepository.getByCertificationCourseId(certificationCourseId);
     const certification = await certificationCourseRepository.get(certificationCourseId);
     const cleaCertificationStatus = await cleaCertificationStatusRepository.getCleaCertificationStatus(certificationCourseId);
+    let lastAssessmentResultFull = null;
 
-    let lastAssessmentResultFull = { competenceMarks: [], status: assessment ? assessment.state : 'missing-assessment' };
-
-    const lastAssessmentResult = assessment && assessment.getLastAssessmentResult();
-    if (lastAssessmentResult) {
-      lastAssessmentResultFull = await assessmentResultRepository.get(lastAssessmentResult.id);
+    if (assessment) {
+      lastAssessmentResultFull = await assessmentResultRepository.findLatestByAssessmentId(assessment.id);
+    }
+    if (!lastAssessmentResultFull) {
+      lastAssessmentResultFull = { competenceMarks: [], status: assessment ? assessment.state : 'missing-assessment' };
     }
 
     return new CertificationResult({

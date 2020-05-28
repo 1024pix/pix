@@ -82,19 +82,16 @@ describe('Unit | Service | Certification Service', function() {
           examinerComment: '',
           hasSeenEndTestScreen: true,
         });
-
-        const assessmentResult = _buildAssessmentResult(20, 3);
-        sinon.stub(assessmentRepository, 'getByCertificationCourseId').resolves(new Assessment({
-          state: 'completed',
-          assessmentResults: [
-            _buildAssessmentResult(20, 3),
-          ],
-        }));
         sinon.stub(certificationCourseRepository, 'get').resolves(certificationCourse);
+        const assessmentResult = _buildAssessmentResult(20, 3);
         assessmentResult.competenceMarks = [_buildCompetenceMarks(3, 27, '2', '2.1', 'rec2.1')];
-        sinon.stub(assessmentResultRepository, 'get').resolves(
-          assessmentResult,
-        );
+        sinon.stub(assessmentRepository, 'getByCertificationCourseId')
+          .withArgs(certificationCourseId).resolves(new Assessment({
+            id: 'assessmentId',
+            state: 'completed',
+          }));
+        sinon.stub(assessmentResultRepository, 'findLatestByAssessmentId')
+          .withArgs('assessmentId').resolves(assessmentResult);
       });
 
       it('should return certification results with pix score, date and certified competences levels', async () => {
@@ -139,9 +136,13 @@ describe('Unit | Service | Certification Service', function() {
     context('when certification is not finished', () => {
 
       beforeEach(() => {
-        sinon.stub(assessmentRepository, 'getByCertificationCourseId').resolves(new Assessment({
-          state: 'started',
-        }));
+        sinon.stub(assessmentRepository, 'getByCertificationCourseId')
+          .withArgs(certificationCourseId).resolves(new Assessment({
+            id: 'assessmentId',
+            state: 'started',
+          }));
+        sinon.stub(assessmentResultRepository, 'findLatestByAssessmentId')
+          .withArgs('assessmentId').resolves(null);
         sinon.stub(certificationCourseRepository, 'get').resolves(new CertificationCourse({
           id: certificationCourseId,
           createdAt: new Date('2017-12-23T15:23:12Z'),
@@ -154,7 +155,6 @@ describe('Unit | Service | Certification Service', function() {
           examinerComment: 'Hakuna matata',
           hasSeenEndTestScreen: false,
         }));
-        sinon.stub(assessmentResultRepository, 'get').resolves(null);
       });
 
       it('should return certification results with state at started, empty marks and undefined for information not yet valid', () => {
