@@ -21,7 +21,7 @@ module.exports = async function getCampaignParticipationResult(
 
   const hasAcquiredBadgesList = await Promise.all(badges.map((badge) => badgeAcquisitionRepository.hasAcquiredBadgeWithId({ userId, badgeId: badge.id })));
   const acquiredBadges = badges.filter((badge, index) => hasAcquiredBadgesList[index]);
-  
+
   return campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, acquiredBadges);
 };
 

@@ -9,7 +9,6 @@ module.exports = {
         'testedSkillsCount',
         'validatedSkillsCount',
         'isCompleted',
-        'areBadgeCriteriaFulfilled',
         'badges',
         'partnerCompetenceResults',
         'competenceResults',
