@@ -234,4 +234,33 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
     });
   });
 
+  describe('#updateModificationDate', () => {
+
+    let organizationInvitation;
+
+    beforeEach(async () => {
+      const organizationId = 2323;
+      databaseBuilder.factory.buildOrganization({
+        id: organizationId,
+      });
+      organizationInvitation = databaseBuilder.factory.buildOrganizationInvitation({
+        organizationId,
+        status: OrganizationInvitation.StatusType.PENDING,
+      });
+      await databaseBuilder.commit();
+    });
+
+    it('should update the modification date', async () => {
+      // given
+      const oldModificationDate = organizationInvitation.updatedAt;
+
+      // when
+      await organizationInvitationRepository.updateModificationDate(organizationInvitation.id);
+
+      // then
+      const updatedOrganizationInvitation = await organizationInvitationRepository.get(organizationInvitation.id);
+
+      expect(updatedOrganizationInvitation.updatedAt).to.be.above(oldModificationDate);
+    });
+  });
 });
