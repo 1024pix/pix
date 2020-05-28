@@ -14,7 +14,6 @@ module('Acceptance | Campaign Participants', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  const defaultPage = '1';
   const pageSize = 10;
   const rowCount = 50;
 
@@ -44,8 +43,7 @@ module('Acceptance | Campaign Participants', function(hooks) {
 
       // then
       assert.dom('table tbody tr').exists({ count: pageSize });
-      assert.dom('.page-navigation__current-page').hasText(defaultPage);
-      assert.dom('.page-navigation__last-page').containsText('5');
+      assert.contains('Page 1 / 5');
       assert.dom('.page-size option:checked').hasText(pageSize.toString());
     });
 
@@ -59,8 +57,7 @@ module('Acceptance | Campaign Participants', function(hooks) {
 
       // then
       assert.dom('table tbody tr').exists({ count: changedPageSize });
-      assert.dom('.page-navigation__current-page').hasText(changedPageNumber.toString());
-      assert.dom('.page-navigation__last-page').containsText('2');
+      assert.contains('Page 2 / 2');
       assert.dom('.page-size option:checked').hasText(changedPageSize.toString());
     });
 
@@ -84,25 +81,27 @@ module('Acceptance | Campaign Participants', function(hooks) {
 
       // when
       await visit('/campagnes/1/participants');
-      await fillIn('.page-size .select', changedPageSize);
+      await fillIn('.page-size select', changedPageSize);
 
       // then
       assert.dom('table tbody tr').exists({ count: changedPageSize });
-      assert.dom('.page-navigation__current-page').hasText(defaultPage);
-      assert.dom('.page-navigation__last-page').containsText('2');
+      assert.contains('Page 1 / 2');
       assert.dom('.page-size option:checked').hasText(changedPageSize.toString());
     });
 
     test('it should change participant list page when user clicks on next page', async function(assert) {
       // given
+      const changedPageSize = 25;
+
       await visit('/campagnes/1/participants');
+      await fillIn('.page-size select', changedPageSize);
       const someElementFromPage1 = this.element.querySelector('table tbody tr:nth-child(5)').textContent;
 
       // when
       await click('.page-navigation__arrow--next .icon-button');
 
       // then
-      assert.dom('.page-navigation__current-page').hasText('2');
+      assert.contains('Page 2 / 2');
       assert.dom('table tbody').doesNotContainText(someElementFromPage1);
     });
 
@@ -113,12 +112,11 @@ module('Acceptance | Campaign Participants', function(hooks) {
 
       // when
       await visit(`/campagnes/1/participants?pageNumber=${startPage}`);
-      await fillIn('.page-size .select', changedPageSize);
+      await fillIn('.page-size select', changedPageSize);
 
       // then
       assert.dom('table tbody tr').exists({ count: changedPageSize });
-      assert.dom('.page-navigation__current-page').hasText(defaultPage);
-      assert.dom('.page-navigation__last-page').containsText('2');
+      assert.contains('Page 1 / 2');
       assert.dom('.page-size option:checked').hasText(changedPageSize.toString());
     });
   });
