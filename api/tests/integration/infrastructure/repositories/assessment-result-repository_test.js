@@ -89,4 +89,41 @@ describe('Integration | Repository | AssessmentResult', function() {
       expect(mostRecentAssessmentResult).to.be.null;
     });
   });
+
+  describe('#findLatestByCertificationCourseIdWithCompetenceMarks', () => {
+
+    let ccWithResultsId;
+    let ccWithoutResultsId;
+    let expectedAssessmentResultId;
+
+    beforeEach(() => {
+      ccWithResultsId = databaseBuilder.factory.buildCertificationCourse().id;
+      ccWithoutResultsId = databaseBuilder.factory.buildCertificationCourse().id;
+      const assessmentWithResultsId = databaseBuilder.factory.buildAssessment({ certificationCourseId: ccWithResultsId }).id;
+      databaseBuilder.factory.buildAssessment({ certificationCourseId: ccWithoutResultsId }).id;
+      expectedAssessmentResultId = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessmentWithResultsId, createdAt: new Date('2019-02-01T00:00:00Z') }).id;
+      databaseBuilder.factory.buildCompetenceMark({ assessmentResultId: expectedAssessmentResultId });
+      databaseBuilder.factory.buildCompetenceMark({ assessmentResultId: expectedAssessmentResultId });
+
+      return databaseBuilder.commit();
+    });
+
+    it('should return the most recent assessment result when certification course has some', async () => {
+      // when
+      const mostRecentAssessmentResult = await assessmentResultRepository.findLatestByCertificationCourseIdWithCompetenceMarks({ certificationCourseId: ccWithResultsId });
+
+      // then
+      expect(mostRecentAssessmentResult).to.be.instanceOf(AssessmentResult);
+      expect(mostRecentAssessmentResult.id).to.equal(expectedAssessmentResultId);
+      expect(mostRecentAssessmentResult.competenceMarks).to.have.length(2);
+    });
+
+    it('should return null when certification course has no results', async () => {
+      // when
+      const mostRecentAssessmentResult = await assessmentResultRepository.findLatestByCertificationCourseIdWithCompetenceMarks({ certificationCourseId: ccWithoutResultsId });
+
+      // then
+      expect(mostRecentAssessmentResult).to.be.null;
+    });
+  });
 });

@@ -9,14 +9,11 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
   const certificationId = '23';
   const cleaCertificationStatus = 'someStatus';
 
-  const assessmentRepository = {
-    getByCertificationCourseId: () => undefined,
-  };
   const certificationRepository = {
     getByCertificationCourseId: () => undefined,
   };
   const assessmentResultRepository = {
-    findLatestByAssessmentId: () => undefined,
+    findLatestByCertificationCourseIdWithCompetenceMarks: () => undefined,
   };
   const competenceTreeRepository = {
     get: () => undefined,
@@ -26,9 +23,8 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
   };
 
   beforeEach(() => {
-    assessmentRepository.getByCertificationCourseId = sinon.stub();
     certificationRepository.getByCertificationCourseId = sinon.stub();
-    assessmentResultRepository.findLatestByAssessmentId = sinon.stub();
+    assessmentResultRepository.findLatestByCertificationCourseIdWithCompetenceMarks = sinon.stub();
     competenceTreeRepository.get = sinon.stub();
     cleaCertificationStatusRepository.getCleaCertificationStatus = sinon.stub().resolves(cleaCertificationStatus);
   });
@@ -46,7 +42,6 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
 
       // when
       promise = getUserCertificationWithResultTree({
-        assessmentRepository,
         certificationId,
         certificationRepository,
         cleaCertificationStatusRepository,
@@ -71,7 +66,6 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
 
   context('when the user is owner of the certification', () => {
 
-    let assessment;
     let assessmentResult;
     let certification;
     let competenceTree;
@@ -79,22 +73,18 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
 
     beforeEach(() => {
       // given
-      assessment = domainBuilder.buildAssessment();
-      assessmentRepository.getByCertificationCourseId.resolves(assessment);
-
       certification = domainBuilder.buildCertification({ userId });
       certificationRepository.getByCertificationCourseId.resolves(certification);
 
       assessmentResult = domainBuilder.buildAssessmentResult();
       assessmentResult.competenceMarks = [domainBuilder.buildCompetenceMark()];
-      assessmentResultRepository.findLatestByAssessmentId.resolves(assessmentResult);
+      assessmentResultRepository.findLatestByCertificationCourseIdWithCompetenceMarks.resolves(assessmentResult);
 
       competenceTree = domainBuilder.buildCompetenceTree();
       competenceTreeRepository.get.resolves(competenceTree);
 
       // when
       promise = getUserCertificationWithResultTree({
-        assessmentRepository,
         certificationId,
         certificationRepository,
         cleaCertificationStatusRepository,
@@ -108,13 +98,6 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
       // then
       return promise.then(() => {
         expect(certificationRepository.getByCertificationCourseId).to.have.been.calledWith({ id: certificationId });
-      });
-    });
-
-    it('should get the assessment from the repository', () => {
-      // then
-      return promise.then(() => {
-        expect(assessmentRepository.getByCertificationCourseId).to.have.been.calledWith(certificationId);
       });
     });
 

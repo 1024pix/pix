@@ -43,5 +43,17 @@ module.exports = {
       .fetch({ withRelated: ['competenceMarks'] });
 
     return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessmentResult, latestAssessmentResultBookshelf);
+  },
+
+  async findLatestByCertificationCourseIdWithCompetenceMarks({ certificationCourseId }) {
+    const latestAssessmentResultBookshelf = await BookshelfAssessmentResult
+      .query((qb) => {
+        qb.join('assessments', 'assessments.id', 'assessment-results.assessmentId');
+        qb.where('assessments.certificationCourseId', '=', certificationCourseId);
+      })
+      .orderBy('createdAt', 'desc')
+      .fetch({ withRelated: ['competenceMarks'] });
+
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessmentResult, latestAssessmentResultBookshelf);
   }
 };

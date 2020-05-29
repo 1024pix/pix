@@ -310,55 +310,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
-  describe('#getByCertificationCourseId', async () => {
-
-    let userId;
-    let certificationCourseId;
-
-    beforeEach(() => {
-      userId = databaseBuilder.factory.buildUser().id;
-      certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId }).id;
-      return databaseBuilder.commit();
-    });
-
-    context('When the assessment for this certificationCourseId exists', () => {
-      let assessmentId;
-
-      beforeEach(() => {
-        assessmentId = databaseBuilder.factory.buildAssessment({
-          userId,
-          certificationCourseId,
-          type: Assessment.types.CERTIFICATION,
-        }).id;
-
-        return databaseBuilder.commit();
-      });
-
-      it('should return the assessment for the given certificationCourseId', async () => {
-
-        // when
-        const assessmentReturned = await assessmentRepository.getByCertificationCourseId(certificationCourseId);
-
-        // then
-        expect(assessmentReturned.id).to.equal(assessmentId);
-        expect(assessmentReturned.certificationCourseId).to.equal(certificationCourseId);
-      });
-
-    });
-
-    context('When there are no assessment for this certification course id', () => {
-
-      it('should return null', async () => {
-        // when
-        const assessment = await assessmentRepository.getByCertificationCourseId(1);
-
-        // then
-        expect(assessment).to.equal(null);
-      });
-    });
-
-  });
-
   describe('#getByCampaignParticipationId', () => {
 
     let campaignParticipationId;

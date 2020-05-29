@@ -1,9 +1,8 @@
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 const ResultCompetenceTree = require('../models/ResultCompetenceTree');
 
-async function _getsCompetenceMarksAndAssessmentResultId({ certificationId, assessmentRepository, assessmentResultRepository }) {
-  const assessment = await assessmentRepository.getByCertificationCourseId(certificationId);
-  const latestAssessmentResult = await assessmentResultRepository.findLatestByAssessmentId({ assessmentId: assessment.id });
+async function _getsCompetenceMarksAndAssessmentResultId({ certificationId, assessmentResultRepository }) {
+  const latestAssessmentResult = await assessmentResultRepository.findLatestByCertificationCourseIdWithCompetenceMarks({ certificationCourseId: certificationId });
   return [
     latestAssessmentResult.id,
     latestAssessmentResult.competenceMarks,
@@ -15,7 +14,6 @@ module.exports = async function getUserCertificationWithResultTree({
   userId,
   certificationRepository,
   cleaCertificationStatusRepository,
-  assessmentRepository,
   assessmentResultRepository,
   competenceTreeRepository,
 }) {
@@ -27,7 +25,7 @@ module.exports = async function getUserCertificationWithResultTree({
   }
 
   const competenceTree = await competenceTreeRepository.get();
-  const [assessmentResultId, competenceMarks] = await _getsCompetenceMarksAndAssessmentResultId({ certificationId, assessmentRepository, assessmentResultRepository });
+  const [assessmentResultId, competenceMarks] = await _getsCompetenceMarksAndAssessmentResultId({ certificationId, assessmentResultRepository });
 
   const resultCompetenceTree = ResultCompetenceTree.generateTreeFromCompetenceMarks({
     competenceTree,
