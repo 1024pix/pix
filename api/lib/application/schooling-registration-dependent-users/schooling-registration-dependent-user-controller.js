@@ -1,5 +1,6 @@
 const usecases = require('../../domain/usecases');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
+const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
 module.exports = {
 
@@ -14,8 +15,9 @@ module.exports = {
       password: payload.password,
       withUsername: payload['with-username']
     };
+    const locale = extractLocaleFromRequest(request);
 
-    const createdUser = await usecases.createAndAssociateUserToSchoolingRegistration({ userAttributes, campaignCode: payload['campaign-code'] });
+    const createdUser = await usecases.createAndAssociateUserToSchoolingRegistration({ userAttributes, campaignCode: payload['campaign-code'], locale });
 
     return h.response(userSerializer.serialize(createdUser)).created();
   },
