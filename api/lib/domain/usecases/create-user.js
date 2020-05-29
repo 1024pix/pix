@@ -44,17 +44,10 @@ async function _validateData(user, reCaptchaToken, userRepository, userValidator
   return true;
 }
 
-function _checkEncryptedPassword(userPassword, encryptedPassword) {
-  if (encryptedPassword === userPassword) {
-    throw new Error('Erreur lors de l‘encryption du mot passe de l‘utilisateur');
-  }
-
-  return encryptedPassword;
-}
-
 module.exports = async function createUser({
   user,
   reCaptchaToken,
+  locale,
   userRepository,
   reCaptchaValidator,
   encryptionService,
@@ -64,14 +57,11 @@ module.exports = async function createUser({
 
   if (isValid) {
     const encryptedPassword = await encryptionService.hashPassword(user.password);
-    const isEncrypted = _checkEncryptedPassword(user.password, encryptedPassword);
 
-    if (isEncrypted) {
-      const userWithEncryptedPassword = new User({ ... user, password: encryptedPassword });
+    const userWithEncryptedPassword = new User({ ... user, password: encryptedPassword });
+    const savedUser = await userRepository.create(userWithEncryptedPassword);
 
-      const savedUser = await userRepository.create(userWithEncryptedPassword);
-      await mailService.sendAccountCreationEmail(savedUser.email);
-      return savedUser;
-    }
+    await mailService.sendAccountCreationEmail(savedUser.email, locale);
+    return savedUser;
   }
 };

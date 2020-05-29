@@ -96,6 +96,12 @@ describe('Acceptance | Controller | users-controller', () => {
           subject: 'Création de votre compte PIX',
           template: 'test-account-creation-template-id',
           to: 'john.dodoe@example.net',
+          variables: {
+            homeName: 'pix.fr',
+            homeUrl: 'https://pix.fr',
+            locale: 'fr-fr',
+            loginUrl: 'https://app.pix.fr/connexion',
+          }
         };
 
         // when
