@@ -31,7 +31,6 @@ describe('Unit | Serializer | JSONAPI | certification-result-serializer', functi
         hasSeenEndTestScreen: true,
         cleaCertificationStatus: 'acquired',
         competencesWithMark: [],
-        assessmentId: 20,
         juryId: 21,
         sessionId: 22,
       });
@@ -45,7 +44,6 @@ describe('Unit | Serializer | JSONAPI | certification-result-serializer', functi
           id: certificationResult.id.toString(),
           type: 'results',
           attributes: {
-            'assessment-id': certificationResult.assessmentId,
             birthdate: certificationResult.birthdate,
             birthplace: certificationResult.birthplace,
             'comment-for-candidate': certificationResult.commentForCandidate,

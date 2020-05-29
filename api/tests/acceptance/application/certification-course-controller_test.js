@@ -108,8 +108,7 @@ describe('Acceptance | API | Certification Course', () => {
           // then
           const result = response.result.data;
           expect(result.attributes['competences-with-mark']).to.have.lengthOf(0);
-          expect(result.attributes['assessment-id']).to.be.null;
-          expect(result.attributes['status']).to.equal('missing-assessment');
+          expect(result.attributes['status']).to.equal('started');
         });
       });
 
