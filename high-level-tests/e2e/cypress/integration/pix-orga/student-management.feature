@@ -10,7 +10,7 @@ Fonctionnalité: Génération du mot de passe à usage unique
     Alors je suis redirigé vers le compte Orga de "John Snow"
     Lorsque je clique sur "Élèves"
     Alors je suis redirigé vers la page "/eleves"
-    Lorsque je clique sur l'engrenage
+    Lorsque je veux gérer le compte d'un élève
     Alors je vois la modal de gestion du compte de l'élève
     Lorsque je clique sur "Réinitialiser le mot de passe"
     Alors je vois le mot de passe généré

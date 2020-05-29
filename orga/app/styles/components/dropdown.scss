@@ -1,0 +1,37 @@
+.dropdown {
+  float: right;
+  position: relative;
+  display: inline-block;
+
+  &__content {
+    background-color: $white;
+    border-radius: 4px;
+    box-shadow: 1px 1px 3px 1px rgba($black, 0.13), 0 1px 1px 0 rgba($black, 0.08);
+    overflow: hidden;
+    position: absolute;
+    width: 200px;
+    right: 32px; //TODO find a way to put this in common
+    padding: 0;
+    margin: 0;
+  }
+
+  &__item {
+    align-items: center;
+    border-radius: 4px;
+    color: $grey-60;
+    cursor: pointer;
+    display: flex;
+    font-size: 0.875rem;
+    padding: 12px 16px;
+    text-decoration: none;
+    transition: background-color 0.1s linear;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: $grey-10;
+      color: $grey-60;
+      text-decoration: none;
+    }
+  }
+}

@@ -130,12 +130,12 @@ module('Acceptance | Student List', function(hooks) {
 
       module('when student authenticated by username and email', async function() {
 
-        test('it should display password reset modal button for student', async function(assert) {
+        test('it should have a button to display actions on the student', async function(assert) {
           // when
           await visit('/eleves');
 
           // then
-          assert.dom('.table tbody tr:nth-child(6) td:last-child button .fa-cog').exists();
+          assert.dom('[aria-label="Afficher les actions pour cet élève"]').exists();
         });
 
         test('it should open modal and display password reset button', async function(assert) {
@@ -143,18 +143,18 @@ module('Acceptance | Student List', function(hooks) {
           await visit('/eleves');
 
           // when
-          await click('.table tbody tr:nth-child(6) td:last-child button');
+          await click('[aria-label="Afficher les actions"]');
+          await click('li');
 
           // then
-          assert.dom('.pix-modal-overlay').exists();
-          assert.dom('.pix-modal-footer button').exists();
-          assert.dom('.pix-modal-footer button').hasText('Réinitialiser le mot de passe');
+          assert.contains('Réinitialiser le mot de passe');
         });
 
         test('it should display unique password input when reset button is clicked', async function(assert) {
           // given
           await visit('/eleves');
-          await click('.table tbody tr:nth-child(6) td:last-child button');
+          await click('[aria-label="Afficher les actions"]');
+          await click('li');
 
           // when
           await click('#generate-password');
@@ -170,26 +170,26 @@ module('Acceptance | Student List', function(hooks) {
           await visit('/eleves');
 
           // when
-          await click('.table tbody tr:nth-child(6) td:last-child button');
+          await click('[aria-label="Afficher les actions"]');
+          await click('li');
 
           // then
-          assert.dom('.pix-modal-overlay').exists();
           assert.dom('#username').hasValue(username);
           assert.dom('#email').hasValue(email);
         });
       });
 
-      module('when student authenticated by username )', async function() {
+      module('when student authenticated by username', async function() {
 
         test('it should open password modal window with username value', async function(assert) {
           // given
           await visit('/eleves');
 
           // when
-          await click('.table tbody tr:nth-child(6) td:last-child button');
+          await click('[aria-label="Afficher les actions"]');
+          await click('li');
 
           // then
-          assert.dom('.pix-modal-overlay').exists();
           assert.dom('#username').hasValue(username);
         });
 
@@ -203,10 +203,10 @@ module('Acceptance | Student List', function(hooks) {
           await visit('/eleves');
 
           // when
-          await click('.table tbody tr:nth-child(6) td:last-child button');
+          await click('[aria-label="Afficher les actions"]');
+          await click('li');
 
           // then
-          assert.dom('.pix-modal-overlay').exists();
           assert.dom('#email').hasValue(email);
         });
       });
@@ -231,7 +231,7 @@ module('Acceptance | Student List', function(hooks) {
         await visit('/eleves');
 
         // then
-        assert.dom('.button').hasText('Importer (.xml)');
+        assert.contains('Importer (.xml)');
       });
 
       test('it should display success message and reload students', async function(assert) {
@@ -332,7 +332,7 @@ module('Acceptance | Student List', function(hooks) {
         await visit('/eleves');
 
         // then
-        assert.dom('.button').doesNotExist();
+        assert.notContains('Importer (.xml)');
       });
     });
   });
