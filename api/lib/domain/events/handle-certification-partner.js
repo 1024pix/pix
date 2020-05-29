@@ -1,45 +1,23 @@
-const Badge = require('../models/Badge');
-const CertificationPartnerAcquisition = require('../models/CertificationPartnerAcquisition');
-const CertificationScoringCompleted = require('./CertificationScoringCompleted');
 const { checkEventType } = require('./check-event-type');
+const CertificationScoringCompleted = require('./CertificationScoringCompleted');
 
 const eventType = CertificationScoringCompleted;
 
 async function handleCertificationAcquisitionForPartner({
-  domainTransaction,
   event,
-  badgeAcquisitionRepository,
-  competenceRepository,
-  competenceMarkRepository,
+  domainTransaction,
   certificationPartnerAcquisitionRepository,
 }) {
   checkEventType(event, eventType);
-
-  const certificationCourseId = event.certificationCourseId;
-  const cleaPartnerAcquisition = new CertificationPartnerAcquisition({
-    certificationCourseId,
-    partnerKey: Badge.keys.PIX_EMPLOI_CLEA,
-  });
-
-  const hasAcquiredBadgeClea = await _getHasAcquiredBadgeClea(badgeAcquisitionRepository, event.userId);
-  const competenceMarks = await competenceMarkRepository.getLatestByCertificationCourseId({ certificationCourseId, domainTransaction });
-  const totalPixCleaByCompetence = await competenceRepository.getTotalPixCleaByCompetence();
-
-  if (cleaPartnerAcquisition.hasAcquiredCertification({
-    hasAcquiredBadge: hasAcquiredBadgeClea,
+  const cleaPartnerAcquisition = await certificationPartnerAcquisitionRepository.buildCertificationCleaAcquisition({
+    certificationCourseId: event.certificationCourseId,
+    userId: event.userId,
     reproducibilityRate: event.reproducibilityRate,
-    totalPixCleaByCompetence,
-    competenceMarks
-  })) {
+    domainTransaction });
+
+  if (cleaPartnerAcquisition.isEligible()) {
     await certificationPartnerAcquisitionRepository.save(cleaPartnerAcquisition, domainTransaction);
   }
-}
-
-async function _getHasAcquiredBadgeClea(badgeAcquisitionRepository, userId) {
-  return badgeAcquisitionRepository.hasAcquiredBadgeWithKey({
-    badgeKey: Badge.keys.PIX_EMPLOI_CLEA,
-    userId,
-  });
 }
 
 handleCertificationAcquisitionForPartner.eventType = eventType;

@@ -1,5 +1,5 @@
 const { expect } = require('../../../test-helper');
-const CertificationPartnerAcquisition = require('../../../../lib/domain/models/CertificationPartnerAcquisition');
+const CertificationCleaAcquisition = require('../../../../lib/domain/models/CertificationCleaAcquisition');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 
 const GREEN_ZONE_REPRO = [80, 90, 100];
@@ -7,20 +7,20 @@ const RED_ZONE_REPRO = [1, 50];
 const GREY_ZONE_REPRO = [75];
 
 describe('Unit | Domain | Models | CertificationPartnerAcquisition', () => {
-  let certificationPartnerAcquisition;
+
   describe('#hasAcquiredCertification', () => {
 
     context('when user does not have badge', () => {
-      beforeEach(() => {
-        certificationPartnerAcquisition = new CertificationPartnerAcquisition(
-          Symbol('certificationCourseId'),
-          Symbol('partnerKey'),
-        );
-      });
 
       it('for any reproducibility rate, it should not obtain certification', async () => {
+        // given
+        const certificationPartnerAcquisition = new CertificationCleaAcquisition({
+          certificationCourseId: Symbol('certificationCourseId'),
+          hasAcquiredBadge: false,
+        });
+
         // when
-        const hasAcquiredCertif = certificationPartnerAcquisition.hasAcquiredCertification({ hasAcquiredBadge: false });
+        const hasAcquiredCertif = certificationPartnerAcquisition.isAcquired();
 
         // then
         expect(hasAcquiredCertif).to.be.false;
@@ -28,21 +28,18 @@ describe('Unit | Domain | Models | CertificationPartnerAcquisition', () => {
     });
 
     context('when user has badge', () => {
-      beforeEach(() => {
-        certificationPartnerAcquisition = new CertificationPartnerAcquisition({
-          certificationCourseId: Symbol('certificationCourseId'),
-          partnerKey: Symbol('partnerKey'),
-        });
-      });
-
       context('reproducibility rate in green zone', () => {
         GREEN_ZONE_REPRO.forEach((reproducibilityRate) =>
           it(`for ${reproducibilityRate} reproducibility rate, it should obtain certification`, async () => {
-            // when
-            const hasAcquiredCertif = certificationPartnerAcquisition.hasAcquiredCertification({
+            // given
+            const certificationPartnerAcquisition = new CertificationCleaAcquisition({
+              certificationCourseId: Symbol('certificationCourseId'),
               hasAcquiredBadge: true,
               reproducibilityRate
             });
+
+            // when
+            const hasAcquiredCertif = certificationPartnerAcquisition.isAcquired();
 
             // then
             expect(hasAcquiredCertif).to.be.true;
@@ -83,13 +80,16 @@ describe('Unit | Domain | Models | CertificationPartnerAcquisition', () => {
             ),
           ];
 
-          // when
-          const hasAcquiredCertif = certificationPartnerAcquisition.hasAcquiredCertification({
+          const certificationPartnerAcquisition = new CertificationCleaAcquisition({
+            certificationCourseId: Symbol('certificationCourseId'),
             hasAcquiredBadge: true,
             reproducibilityRate,
             totalPixCleaByCompetence,
             competenceMarks,
           });
+
+          // when
+          const hasAcquiredCertif = certificationPartnerAcquisition.isAcquired();
 
           // then
           expect(hasAcquiredCertif).to.be.true;
@@ -123,13 +123,16 @@ describe('Unit | Domain | Models | CertificationPartnerAcquisition', () => {
             ),
           ];
 
-          // when
-          const hasAcquiredCertif = certificationPartnerAcquisition.hasAcquiredCertification({
+          const certificationPartnerAcquisition = new CertificationCleaAcquisition({
+            certificationCourseId: Symbol('certificationCourseId'),
             hasAcquiredBadge: true,
             reproducibilityRate,
             totalPixCleaByCompetence,
             competenceMarks,
           });
+
+          // when
+          const hasAcquiredCertif = certificationPartnerAcquisition.isAcquired();
 
           // then
           expect(hasAcquiredCertif).to.be.false;
@@ -139,8 +142,15 @@ describe('Unit | Domain | Models | CertificationPartnerAcquisition', () => {
       context('reproducibility rate in red zone', () => {
         RED_ZONE_REPRO.forEach((reproducibilityRate) =>
           it(`for ${reproducibilityRate} reproducibility rate, it should not obtain certification`, async () => {
+            // given
+            const certificationPartnerAcquisition = new CertificationCleaAcquisition({
+              certificationCourseId: Symbol('certificationCourseId'),
+              hasAcquiredBadge: true,
+              reproducibilityRate,
+            });
+
             // when
-            const hasAcquiredCertif = certificationPartnerAcquisition.hasAcquiredCertification({
+            const hasAcquiredCertif = certificationPartnerAcquisition.isAcquired({
               hasAcquiredBadge: true,
               reproducibilityRate
             });
