@@ -24,7 +24,10 @@ async function _findByCampaignIdForSharedCampaignParticipationWhere(campaignPart
   const keResults = await BookshelfKnowledgeElement
     .query((qb) => {
       qb.select('knowledge-elements.*');
-      qb.leftJoin('campaign-participations', 'campaign-participations.userId', 'knowledge-elements.userId');
+      qb.innerJoin('campaign-participations', function() {
+        this.on('campaign-participations.userId', '=', 'knowledge-elements.userId')
+          .andOn('knowledge-elements.createdAt', '<', 'campaign-participations.sharedAt');
+      });
       qb.leftJoin('campaigns', 'campaigns.id', 'campaign-participations.campaignId');
       qb.innerJoin('target-profiles_skills', function() {
         this.on('target-profiles_skills.targetProfileId', '=', 'campaigns.targetProfileId')
@@ -36,7 +39,9 @@ async function _findByCampaignIdForSharedCampaignParticipationWhere(campaignPart
     .where({ status: 'validated' })
     .fetchAll();
 
-  return bookshelfToDomainConverter.buildDomainObjects(BookshelfKnowledgeElement, keResults);
+  const knowledgeElements = bookshelfToDomainConverter.buildDomainObjects(BookshelfKnowledgeElement, keResults);
+
+  return _applyFilters(knowledgeElements);
 }
 
 function _getByUserIdAndLimitDateQuery({ userId, limitDate }) {
