@@ -9,7 +9,7 @@ const createCampaignParticipation = (member, campaignParticipation) => {
 
 describe('Integration | Repository | Campaign Profiles Collection Participation Summary repository', () => {
 
-  describe('#findByCampaignId', () => {
+  describe('#findPaginatedByCampaignId', () => {
 
     let campaignId;
     const sharedAt = new Date('2018-05-06');
@@ -21,23 +21,23 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
 
     it('should return empty array if no participant', async () => {
       // when
-      const results = await CampaignProfilesCollectionParticipationSummaryRepository.findByCampaignId(campaignId);
-
+      const results = await CampaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
+  
       // then
-      expect(results.length).to.equal(0);
+      expect(results.data.length).to.equal(0);
     });
-
+  
     it('should return participant data summary for the campaign participation', async () => {
       // given
       const campaignParticipation = { id: 1, campaignId, isShared: true, sharedAt, participantExternalId: 'JeBu' };
       createCampaignParticipation({ firstName: 'Jérémy', lastName: 'bugietta' }, campaignParticipation);
       await databaseBuilder.commit();
-
+  
       // when
-      const results = await CampaignProfilesCollectionParticipationSummaryRepository.findByCampaignId(campaignId);
-
+      const results = await CampaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
+  
       // then
-      expect(results).to.deep.equal([
+      expect(results.data).to.deep.equal([
         new CampaignProfilesCollectionParticipationSummary({
           campaignParticipationId: campaignParticipation.id,
           firstName: 'Jérémy',
@@ -47,7 +47,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
         })
       ]);
     });
-
+  
     it('should return participants data summary only for the given campaign id', async () => {
       // given
       const campaignParticipation1 = { campaignId };
@@ -56,15 +56,15 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       const campaignParticipation2 = { campaignId: campaignId2 };
       createCampaignParticipation({ firstName: 'Benjamin', lastName: 'Petetot' }, campaignParticipation2);
       await databaseBuilder.commit();
-
+  
       // when
-      const results = await CampaignProfilesCollectionParticipationSummaryRepository.findByCampaignId(campaignId);
-      const names = results.map((result) => result.firstName);
-
+      const results = await CampaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
+      const names = results.data.map((result) => result.firstName);
+  
       // then
       expect(names).exactlyContainInOrder(['Lise']);
     });
-
+  
     it('should return participants data summary ordered by last name then first name asc', async () => {
       // given
       const campaignParticipation = { campaignId };
@@ -74,11 +74,11 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       createCampaignParticipation({ firstName: 'Arthur', lastName: 'Frin' }, campaignParticipation);
       createCampaignParticipation({ firstName: 'Estelle', lastName: 'Landry' }, campaignParticipation);
       await databaseBuilder.commit();
-
+  
       // when
-      const results = await CampaignProfilesCollectionParticipationSummaryRepository.findByCampaignId(campaignId);
-      const names = results.map((result) => result.firstName);
-
+      const results = await CampaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
+      const names = results.data.map((result) => result.firstName);
+  
       // then
       expect(names).exactlyContainInOrder(['Arthur', 'Yvonnick', 'Estelle', 'Benjamin', 'Lise']);
     });

@@ -5,6 +5,7 @@ const CampaignProfilesCollectionParticipationSummary = require('../../../../../l
 describe('Unit | Serializer | JSONAPI | campaign-profiles-collection-participation-summary-serializer', () => {
   describe('#serialize', () => {
     it('should return a serialized JSON data object', () => {
+      const meta = { some: 'meta' };
       const participationSummary = new CampaignProfilesCollectionParticipationSummary({
         campaignParticipationId: '1',
         firstName: 'Antoine',
@@ -23,11 +24,12 @@ describe('Unit | Serializer | JSONAPI | campaign-profiles-collection-participati
             'participant-external-id': 'abo',
             'shared-at': new Date(2020, 2, 2),
           },
-        }
+        },
+        meta
       };
 
       // when
-      const result = serializer.serialize(participationSummary);
+      const result = serializer.serialize({ data: participationSummary, pagination: meta });
 
       // then
       expect(result).to.deep.equal(expectedSerializedResult);

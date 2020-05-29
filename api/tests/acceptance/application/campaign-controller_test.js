@@ -598,7 +598,7 @@ describe('Acceptance | API | Campaign Controller', () => {
     });
   });
 
-  describe('GET /api/campaigns/{id}/profiles-collection/participations', () => {
+  describe('GET /api/campaigns/{id}/profiles-collection-participations', () => {
     it('should returns profiles collection campaign participations', async () => {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
@@ -627,7 +627,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       // when
       const options = {
         method: 'GET',
-        url: `/api/campaigns/${campaign.id}/profiles-collection/participations`,
+        url: `/api/campaigns/${campaign.id}/profiles-collection-participations`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 

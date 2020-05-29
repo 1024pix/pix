@@ -1,5 +1,8 @@
 import Response from 'ember-cli-mirage/response';
-import { findPaginatedCampaignAssessmentParticipationSummaries } from './handlers/find-paginated-campaign-assessment-participation-summaries';
+import { 
+  findPaginatedCampaignAssessmentParticipationSummaries,
+  findPaginatedCampaignProfilesCollectionParticipationSummaries,
+} from './handlers/find-paginated-campaign-participation-summaries';
 
 function parseQueryString(queryString) {
   const result = Object.create(null);
@@ -221,6 +224,8 @@ export default function() {
   });
 
   this.get('/campaigns/:campaignId/assessment-participations', findPaginatedCampaignAssessmentParticipationSummaries);
+
+  this.get('/campaigns/:id/profiles-collection-participations', findPaginatedCampaignProfilesCollectionParticipationSummaries);
 
   this.get('/campaign-participations/:id');
 
