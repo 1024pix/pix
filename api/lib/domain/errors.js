@@ -46,6 +46,12 @@ class AlreadySharedCampaignParticipationError extends DomainError {
   }
 }
 
+class NoCampaignParticipationForUserAndCampaign extends DomainError {
+  constructor(message = 'L\'utilisateur n\'a pas encore participé à la campagne') {
+    super(message);
+  }
+}
+
 class SchoolingRegistrationsCouldNotBeSavedError extends DomainError {
   constructor(message = 'Une erreur est survenue durant le traitement.') {
     super(message);
@@ -463,6 +469,7 @@ module.exports = {
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   AlreadySharedCampaignParticipationError,
+  NoCampaignParticipationForUserAndCampaign,
   AssessmentEndedError,
   AssessmentNotCompletedError,
   CampaignAlreadyArchivedError,
