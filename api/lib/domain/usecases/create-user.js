@@ -40,6 +40,8 @@ async function _validateData(user, reCaptchaToken, userRepository, userValidator
     const relevantErrors = validationErrors.filter((error) => error instanceof Error);
     throw EntityValidationError.fromMultipleEntityValidationErrors(relevantErrors);
   }
+
+  return true;
 }
 
 function _checkEncryptedPassword(userPassword, encryptedPassword) {
@@ -58,17 +60,18 @@ module.exports = async function createUser({
   encryptionService,
   mailService,
 }) {
-  return _validateData(user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator)
-    .then(() => encryptionService.hashPassword(user.password))
-    .then((encryptedPassword) => _checkEncryptedPassword(user.password, encryptedPassword))
-    .then((encryptedPassword) => {
-      const userWithEncryptedPassword = new User(user);
-      userWithEncryptedPassword.password = encryptedPassword;
-      return userWithEncryptedPassword;
-    })
-    .then(userRepository.create)
-    .then((savedUser) => {
-      mailService.sendAccountCreationEmail(savedUser.email);
+  const isValid = await _validateData(user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator);
+
+  if (isValid) {
+    const encryptedPassword = await encryptionService.hashPassword(user.password);
+    const isEncrypted = _checkEncryptedPassword(user.password, encryptedPassword);
+
+    if (isEncrypted) {
+      const userWithEncryptedPassword = new User({ ... user, password: encryptedPassword });
+
+      const savedUser = await userRepository.create(userWithEncryptedPassword);
+      await mailService.sendAccountCreationEmail(savedUser.email);
       return savedUser;
-    });
+    }
+  }
 };
