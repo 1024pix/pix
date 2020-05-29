@@ -31,14 +31,6 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessmentResult, savedAssessmentResultBookshelf);
   },
 
-  async get(id) {
-    const assessmentResultBookshelf = await BookshelfAssessmentResult
-      .where('id', id)
-      .fetch({ withRelated: ['competenceMarks'] });
-
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessmentResult, assessmentResultBookshelf);
-  },
-
   async findLatestByAssessmentId({ assessmentId, limitDate }) {
     const latestAssessmentResultBookshelf = await BookshelfAssessmentResult
       .where((qb) => {
