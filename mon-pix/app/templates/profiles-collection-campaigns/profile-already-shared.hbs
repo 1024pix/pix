@@ -5,12 +5,17 @@
     <img class="send-profile-header__image" src="{{rootURL}}/images/bees/fat-bee.svg" alt="Tout ne se passe pas comme prévu">
     <div class="send-profile-header__announcement">
       <p class="send-profile-header__instruction">
-        Vous avez déjà envoyé votre profil à l'organisation {{this.model.campaign.organizationName}}
-        <br>le {{moment-format this.model.campaignParticipation.sharedAt 'LL' locale='fr' allow-empty=true}}
-        à {{moment-format this.model.campaignParticipation.sharedAt 'HH:mm' locale='fr' allow-empty=true}}
+        Vous avez déjà envoyé le profil ci-dessous à l'organisation {{this.model.campaign.organizationName}}
+        <br>le {{moment-format this.model.sharedProfile.sharedAt 'LL' locale='fr' allow-empty=true}}
+        à {{moment-format this.model.sharedProfile.sharedAt 'HH:mm' locale='fr' allow-empty=true}}
       </p>
       <LinkTo @route="index" class="skill-review-share__back-to-home link">Continuez votre expérience Pix</LinkTo>
     </div>
-
+    <div class="send-profile-header__profile">
+      <HexagonScore @pixScore={{this.model.sharedProfile.pixScore}} />
+      <div class="send-profile-header__profile__cards">
+        <ProfileScorecards @interactive={{false}} class="send-profile-header__profile__cards" @areasCode={{this.model.sharedProfile.areasCode}} @scorecards={{this.model.sharedProfile.scorecards}}/>
+      </div>
+    </div>
   </div>
 </div>
