@@ -282,7 +282,7 @@ module('Unit | Model | session', function(hooks) {
       const displayFinalizationDate = session.displayFinalizationDate;
 
       // then
-      assert.equal(displayFinalizationDate, finalizedAt.toLocaleString('fr-FR'));
+      assert.equal(displayFinalizationDate, '01/12/2018');
     });
   });
 
@@ -297,7 +297,7 @@ module('Unit | Model | session', function(hooks) {
       const displayResultsSentToPrescriberDate = session.displayResultsSentToPrescriberDate;
 
       // then
-      assert.equal(displayResultsSentToPrescriberDate, resultsSentToPrescriberAt.toLocaleString('fr-FR'));
+      assert.equal(displayResultsSentToPrescriberDate, '01/12/2018');
     });
   });
 
@@ -312,7 +312,7 @@ module('Unit | Model | session', function(hooks) {
       const displayPublishedAtDate = session.displayPublishedAtDate;
 
       // then
-      assert.equal(displayPublishedAtDate, publishedAt.toLocaleString('fr-FR'));
+      assert.equal(displayPublishedAtDate, '01/12/2018');
     });
   });
 
