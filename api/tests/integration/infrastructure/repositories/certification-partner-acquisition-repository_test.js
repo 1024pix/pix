@@ -1,7 +1,7 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
+const { expect, databaseBuilder, knex, sinon } = require('../../../test-helper');
 const certificationPartnerAcquisitionRepository = require('../../../../lib/infrastructure/repositories/certification-partner-acquisition-repository');
-
-const CertificationPartnerAcquisition = require('../../../../lib/domain/models/CertificationPartnerAcquisition');
+const Badge = require('../../../../lib/domain/models/Badge');
+const CertificationCleaAcquisition = require('../../../../lib/domain/models/CertificationCleaAcquisition');
 
 describe('Integration | Repository | Certification Partner Acquisition', function() {
 
@@ -9,11 +9,10 @@ describe('Integration | Repository | Certification Partner Acquisition', functio
     let certificationPartnerAcquisition;
 
     beforeEach(() => {
-      const buildBadge = databaseBuilder.factory.buildBadge();
-      const partnerKey = buildBadge.key;
+      const { key: partnerKey } = databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA });
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
-      certificationPartnerAcquisition = new CertificationPartnerAcquisition({
-        certificationCourseId, partnerKey
+      certificationPartnerAcquisition = new CertificationCleaAcquisition({
+        certificationCourseId, partnerKey,
       });
 
       return databaseBuilder.commit();
@@ -26,12 +25,19 @@ describe('Integration | Repository | Certification Partner Acquisition', functio
     });
 
     it('should persist the certification partner acquisition in db', async () => {
+      // given
+      sinon.stub(certificationPartnerAcquisition, 'isAcquired').returns(true);
+
       // when
       await certificationPartnerAcquisitionRepository.save(certificationPartnerAcquisition);
 
       // then
-      const certificationPartnerAcquisitionSaved = await knex('certification-partner-acquisitions').select();
-      expect(certificationPartnerAcquisitionSaved).to.have.lengthOf(1);
+      const certificationPartnerAcquisitionSaved = await knex('certification-partner-acquisitions').first().select();
+      expect(certificationPartnerAcquisitionSaved).to.deep.equal({
+        certificationCourseId: certificationPartnerAcquisition.certificationCourseId,
+        partnerKey: certificationPartnerAcquisition.partnerKey,
+        acquired: true
+      });
     });
 
   });
