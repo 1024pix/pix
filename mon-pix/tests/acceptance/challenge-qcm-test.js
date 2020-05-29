@@ -27,10 +27,11 @@ describe('Acceptance | Displaying a QCM challenge', () => {
       expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qcmChallenge.instruction);
 
       expect(findAll('input[type="checkbox"]')).to.have.lengthOf(4);
-      expect(findAll('.proposal-text')[0].textContent.trim()).to.equal('possibilite 1, et/ou');
-      expect(findAll('.proposal-text')[1].textContent.trim()).to.equal('possibilite 2, et/ou');
-      expect(findAll('.proposal-text')[2].textContent.trim()).to.equal('possibilite 3, et/ou');
-      expect(findAll('.proposal-text')[3].textContent.trim()).to.equal('possibilite 4');
+      const proposals = findAll('.proposal-text');
+      expect(proposals[0].textContent.trim()).to.equal('possibilite 1, et/ou');
+      expect(proposals[1].textContent.trim()).to.equal('possibilite 2, et/ou');
+      expect(proposals[2].textContent.trim()).to.equal('possibilite 3, et/ou');
+      expect(proposals[3].textContent.trim()).to.equal('possibilite 4');
 
       expect(find('.alert')).to.not.exist;
 
@@ -92,7 +93,7 @@ describe('Acceptance | Displaying a QCM challenge', () => {
 
       expect(find('.challenge-actions__action-continue')).to.exist;
       expect(find('.challenge-actions__action-validate')).to.not.exist;
-      expect(find('.challenge-actions__action-validate')).to.not.exist;
+      expect(find('.challenge-actions__action-skip-text')).to.not.exist;
 
     });
   });

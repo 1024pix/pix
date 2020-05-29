@@ -88,7 +88,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
       expect(find('.challenge-actions__action-continue')).to.exist;
       expect(find('.challenge-actions__action-validate')).to.not.exist;
-      expect(find('.challenge-actions__action-validate')).to.not.exist;
+      expect(find('.challenge-actions__action-skip-text')).to.not.exist;
 
     });
   });
