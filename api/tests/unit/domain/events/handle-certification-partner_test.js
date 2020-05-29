@@ -92,6 +92,7 @@ describe('Unit | Domain | Events | handle-certification-partner', () => {
         expect(certificationPartnerAcquisitionRepository.save).to.have.been.calledWithMatch({
           certificationCourseId,
           partnerKey: Badge.keys.PIX_EMPLOI_CLEA,
+          isSuccess: true
         });
       });
 

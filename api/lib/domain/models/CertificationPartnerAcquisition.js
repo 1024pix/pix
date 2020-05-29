@@ -31,10 +31,12 @@ class CertificationPartnerAcquisition {
     {
       certificationCourseId,
       partnerKey,
+      acquired = false,
 
     } = {}) {
     this.certificationCourseId = certificationCourseId;
     this.partnerKey = partnerKey;
+    this.acquired = acquired;
   }
 
   hasAcquiredCertification({
