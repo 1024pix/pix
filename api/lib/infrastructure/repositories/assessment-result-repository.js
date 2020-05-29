@@ -1,5 +1,7 @@
+const _ = require('lodash');
 const BookshelfAssessmentResult = require('../data/assessment-result');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const { knex } = require('../bookshelf');
 
 module.exports = {
   async save({
@@ -31,8 +33,9 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessmentResult, savedAssessmentResultBookshelf);
   },
 
-  async findLatestByAssessmentId({ assessmentId, limitDate }) {
-    const latestAssessmentResultBookshelf = await BookshelfAssessmentResult
+  async findLatestLevelAndPixScoreByAssessmentId({ assessmentId, limitDate }) {
+    const result = await knex('assessment-results')
+      .select('level', 'pixScore')
       .where((qb) => {
         qb.where({ assessmentId });
         if (limitDate) {
@@ -40,9 +43,12 @@ module.exports = {
         }
       })
       .orderBy('createdAt', 'desc')
-      .fetch({ withRelated: ['competenceMarks'] });
+      .first();
 
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessmentResult, latestAssessmentResultBookshelf);
+    return {
+      level: _.get(result, 'level', 0),
+      pixScore: _.get(result, 'pixScore', 0),
+    };
   },
 
   async findLatestByCertificationCourseIdWithCompetenceMarks({ certificationCourseId }) {
