@@ -1,5 +1,6 @@
-when(`je clique sur l'engrenage`, () => {
-  cy.get('table > tbody > tr:nth-child(1) > td.list-students-page__password-reset-cell > div > button').click();
+when(`je veux gérer le compte d'un élève`, () => {
+  cy.get('[aria-label="Afficher les actions"]').click();
+  cy.contains('Gérer le compte').click();
 });
 
 then(`je vois la modal de gestion du compte de l'élève`, () => {

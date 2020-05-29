@@ -30,14 +30,11 @@
             <td>{{student.firstName}}</td>
             <td>{{moment-format student.birthdate 'DD/MM/YYYY' allow-empty=true}}</td>
             <td class="list-students-page__authentication-methods">{{student.authenticationMethods}}</td>
-            <td class="list-students-page__password-reset-cell">
-              {{#if (or student.hasUsername  student.hasEmail) }}
-                <div class="tooltip">
-                  <span class="tooltip-text list-students-page__tooltip">Gérer</span>
-                  <button class="button button--round-with-icon list-students-page__manage-button" type="button" {{on 'click' (fn this.openPasswordReset student)}}>
-                    {{fa-icon "cog" }}
-                  </button>
-                </div>
+            <td class="list-students-page__actions">
+              {{#if (or student.hasUsername student.hasEmail) }}
+                <Dropdown::IconTrigger @icon="ellipsis-v" @dropdownButtonClass="list-students-page__dropdown-button">
+                  <Dropdown::Item @onClick={{fn this.openPasswordReset student}}>Gérer le compte</Dropdown::Item>
+                </Dropdown::IconTrigger>
               {{/if}}
             </td>
           </tr>

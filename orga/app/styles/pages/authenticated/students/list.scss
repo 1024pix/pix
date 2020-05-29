@@ -18,18 +18,12 @@
     white-space: pre;
   }
 
-  &__password-reset-cell {
+  &__actions {
     text-align: right;
   }
 
-  &__manage-button {
-    margin-right: 32px;
-  }
-
-  &__tooltip {
-    bottom: 42px;
-    border-radius: 4px;
-    left: 55px;
-    width: 64px;
+  &__dropdown-button {
+    font-size: 1.1rem;
+    margin-right: 32px; //TODO find a way to put this in common
   }
 }
