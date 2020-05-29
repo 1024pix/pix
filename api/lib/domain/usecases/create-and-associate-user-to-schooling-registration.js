@@ -77,6 +77,7 @@ async function _validateData(isUsernameMode, userAttributes, userRepository, use
 module.exports = async function createAndAssociateUserToSchoolingRegistration({
   userAttributes,
   campaignCode,
+  locale,
   campaignRepository,
   schoolingRegistrationRepository,
   userRepository,
@@ -101,6 +102,6 @@ module.exports = async function createAndAssociateUserToSchoolingRegistration({
   const userId = await userRepository.createAndAssociateUserToSchoolingRegistration({ domainUser, schoolingRegistrationId });
 
   const createdUser = await userRepository.get(userId);
-  if (!isUsernameMode) await mailService.sendAccountCreationEmail(createdUser.email);
+  if (!isUsernameMode) await mailService.sendAccountCreationEmail(createdUser.email, locale);
   return createdUser;
 };
