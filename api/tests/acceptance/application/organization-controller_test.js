@@ -929,9 +929,9 @@ describe('Acceptance | Application | organization-controller', () => {
         // then
         expect(response.statusCode).to.equal(201);
         expect(response.result.data.length).equal(2);
-        expect(_.omit(response.result.data[0], 'id', 'attributes.created-at', 'attributes.updated-at', 'attributes.organization-name'))
+        expect(_.omit(response.result.data[0], 'id', 'attributes.updated-at', 'attributes.organization-name'))
           .to.deep.equal(expectedResults[0]);
-        expect(_.omit(response.result.data[1], 'id', 'attributes.created-at', 'attributes.updated-at', 'attributes.organization-name'))
+        expect(_.omit(response.result.data[1], 'id', 'attributes.updated-at', 'attributes.organization-name'))
           .to.deep.equal(expectedResults[1]);
       });
     });
@@ -1011,39 +1011,39 @@ describe('Acceptance | Application | organization-controller', () => {
 
   describe('GET /api/organizations/{id}/invitations', () => {
 
-    let organization;
+    let organizationId;
     let options;
     let firstOrganizationInvitation;
     let secondOrganizationInvitation;
 
     beforeEach(async () => {
       const adminUserId = databaseBuilder.factory.buildUser().id;
-      organization = databaseBuilder.factory.buildOrganization();
+      organizationId = databaseBuilder.factory.buildOrganization().id;
 
       databaseBuilder.factory.buildMembership({
         userId: adminUserId,
-        organizationId: organization.id,
+        organizationId,
         organizationRole: Membership.roles.ADMIN,
       });
 
       firstOrganizationInvitation = databaseBuilder.factory.buildOrganizationInvitation({
-        organizationId: organization.id,
+        organizationId,
         status: OrganizationInvitation.StatusType.PENDING,
       });
 
       secondOrganizationInvitation = databaseBuilder.factory.buildOrganizationInvitation({
-        organizationId: organization.id,
+        organizationId,
         status: OrganizationInvitation.StatusType.PENDING,
       });
 
       databaseBuilder.factory.buildOrganizationInvitation({
-        organizationId: organization.id,
+        organizationId,
         status: OrganizationInvitation.StatusType.ACCEPTED,
       });
 
       options = {
         method: 'GET',
-        url: `/api/organizations/${organization.id}/invitations`,
+        url: `/api/organizations/${organizationId}/invitations`,
         headers: { authorization: generateValidRequestAuthorizationHeader(adminUserId) },
       };
 
@@ -1064,20 +1064,18 @@ describe('Acceptance | Application | organization-controller', () => {
             {
               type: 'organization-invitations',
               attributes: {
-                'organization-id': organization.id,
+                'organization-id': organizationId,
                 email: firstOrganizationInvitation.email,
                 status: OrganizationInvitation.StatusType.PENDING,
-                'created-at': firstOrganizationInvitation.createdAt,
                 'updated-at': firstOrganizationInvitation.updatedAt,
               },
             },
             {
               type: 'organization-invitations',
               attributes: {
-                'organization-id': organization.id,
+                'organization-id': organizationId,
                 email: secondOrganizationInvitation.email,
                 status: OrganizationInvitation.StatusType.PENDING,
-                'created-at': secondOrganizationInvitation.createdAt,
                 'updated-at': secondOrganizationInvitation.updatedAt,
               },
             },
