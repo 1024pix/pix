@@ -83,16 +83,17 @@ describe('Acceptance | Displaying a QCU challenge', () => {
 
     it('should mark radio button corresponding to the answer and propose to continue', async () => {
       // then
-      expect(findAll('input[type=radio][name="radio"]')[0].checked).to.be.false;
-      expect(findAll('input[type=radio][name="radio"]')[1].checked).to.be.true;
-      expect(findAll('input[type=radio][name="radio"]')[2].checked).to.be.false;
-      expect(findAll('input[type=radio][name="radio"]')[3].checked).to.be.false;
+      const radioButtons = findAll('input[type=radio][name="radio"]');
+      expect(radioButtons[0].checked).to.be.false;
+      expect(radioButtons[1].checked).to.be.true;
+      expect(radioButtons[2].checked).to.be.false;
+      expect(radioButtons[3].checked).to.be.false;
 
       findAll('input[type=radio][name="radio"]').forEach((radioButton) => expect(radioButton.disabled).to.equal(true));
 
       expect(find('.challenge-actions__action-continue')).to.exist;
       expect(find('.challenge-actions__action-validate')).to.not.exist;
-      expect(find('.challenge-actions__action-validate')).to.not.exist;
+      expect(find('.challenge-actions__action-skip-text')).to.not.exist;
 
     });
   });

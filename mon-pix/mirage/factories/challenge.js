@@ -74,7 +74,7 @@ export default Factory.extend({
 
   QROCM: trait({
     type: 'QROCM',
-    instruction: 'Un QROCM est une question avec plusieurs champs texte libre pour repondre',
+    instruction: 'Un QROCM est une question avec plusieurs champs texte libres pour répondre',
     proposals: 'Trois logiciels libres : ${logiciel1#un} ${logiciel2#deux} ${logiciel3#trois}\nMerci'
   }),
 
