@@ -89,12 +89,14 @@ async function _createUserCompetencesV1({ allCompetences, userLastAssessments, l
   return bluebird.mapSeries(allCompetences, async (competence) => {
     const userCompetence = new UserCompetence(competence);
     const assessment = _.find(userLastAssessments, { competenceId: userCompetence.id });
-    let latestAssessmentResult = null;
     if (assessment) {
-      latestAssessmentResult = await assessmentResultRepository.findLatestByAssessmentId({ assessmentId: assessment.id, limitDate });
+      const { level, pixScore } = await assessmentResultRepository.findLatestLevelAndPixScoreByAssessmentId({ assessmentId: assessment.id, limitDate });
+      userCompetence.pixScore = level;
+      userCompetence.estimatedLevel = pixScore;
+    } else {
+      userCompetence.pixScore = 0;
+      userCompetence.estimatedLevel = 0;
     }
-    userCompetence.pixScore = latestAssessmentResult && latestAssessmentResult.pixScore || 0;
-    userCompetence.estimatedLevel = latestAssessmentResult && latestAssessmentResult.level || 0;
     return userCompetence;
   });
 }

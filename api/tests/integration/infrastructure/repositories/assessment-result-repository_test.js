@@ -42,51 +42,49 @@ describe('Integration | Repository | AssessmentResult', function() {
     });
   });
 
-  describe('#findLatestByAssessmentId', () => {
+  describe('#findLatestLevelAndPixScoreByAssessmentId', () => {
 
     let assessmentWithResultsId;
     let assessmentWithoutResultsId;
-    let expectedAssessmentResultId;
-    let expectedAssessmentResultWithinLimitDateId;
+    const expectedAssessmentResultLevel = 3;
+    const expectedAssessmentResultPixScore = 10;
+    const expectedAssessmentResultWithinLimitDateLevel = 4;
+    const expectedAssessmentResultWithinLimitDatePixScore = 20;
 
     beforeEach(() => {
       assessmentWithResultsId = databaseBuilder.factory.buildAssessment().id;
       assessmentWithoutResultsId = databaseBuilder.factory.buildAssessment().id;
-      expectedAssessmentResultId = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessmentWithResultsId, createdAt: new Date('2019-02-01T00:00:00Z') }).id;
-      expectedAssessmentResultWithinLimitDateId = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessmentWithResultsId, createdAt: new Date('2019-01-01T00:00:00Z') }).id;
-      databaseBuilder.factory.buildCompetenceMark({ assessmentResultId: expectedAssessmentResultId });
-      databaseBuilder.factory.buildCompetenceMark({ assessmentResultId: expectedAssessmentResultId });
-      databaseBuilder.factory.buildCompetenceMark({ assessmentResultId: expectedAssessmentResultWithinLimitDateId });
+      databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessmentWithResultsId, createdAt: new Date('2019-02-01T00:00:00Z'), level: expectedAssessmentResultLevel, pixScore: expectedAssessmentResultPixScore }).id;
+      databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessmentWithResultsId, createdAt: new Date('2019-01-01T00:00:00Z'), level: expectedAssessmentResultWithinLimitDateLevel, pixScore: expectedAssessmentResultWithinLimitDatePixScore }).id;
 
       return databaseBuilder.commit();
     });
 
-    it('should return the most recent assessment result when assessment has some', async () => {
+    it('should return the most recent assessment result level and pixScore when assessment has some', async () => {
       // when
-      const mostRecentAssessmentResult = await assessmentResultRepository.findLatestByAssessmentId({ assessmentId: assessmentWithResultsId });
+      const { level, pixScore } = await assessmentResultRepository.findLatestLevelAndPixScoreByAssessmentId({ assessmentId: assessmentWithResultsId });
 
       // then
-      expect(mostRecentAssessmentResult).to.be.instanceOf(AssessmentResult);
-      expect(mostRecentAssessmentResult.id).to.equal(expectedAssessmentResultId);
-      expect(mostRecentAssessmentResult.competenceMarks).to.have.length(2);
+      expect(level).to.equal(expectedAssessmentResultLevel);
+      expect(pixScore).to.equal(expectedAssessmentResultPixScore);
     });
 
-    it('should return the most recent assessment result within limit date when assessment has some', async () => {
+    it('should return the most recent assessment result level and pixScore within limit date when assessment has some', async () => {
       // when
-      const mostRecentAssessmentResult = await assessmentResultRepository.findLatestByAssessmentId({ assessmentId: assessmentWithResultsId, limitDate: new Date('2019-01-05T00:00:00Z') });
+      const { level, pixScore } = await assessmentResultRepository.findLatestLevelAndPixScoreByAssessmentId({ assessmentId: assessmentWithResultsId, limitDate: new Date('2019-01-05T00:00:00Z') });
 
       // then
-      expect(mostRecentAssessmentResult).to.be.instanceOf(AssessmentResult);
-      expect(mostRecentAssessmentResult.id).to.equal(expectedAssessmentResultWithinLimitDateId);
-      expect(mostRecentAssessmentResult.competenceMarks).to.have.length(1);
+      expect(level).to.equal(expectedAssessmentResultWithinLimitDateLevel);
+      expect(pixScore).to.equal(expectedAssessmentResultWithinLimitDatePixScore);
     });
 
     it('should return null when assessment has no results', async () => {
       // when
-      const mostRecentAssessmentResult = await assessmentResultRepository.findLatestByAssessmentId({ assessmentId: assessmentWithoutResultsId });
+      const { level, pixScore } = await assessmentResultRepository.findLatestLevelAndPixScoreByAssessmentId({ assessmentId: assessmentWithoutResultsId });
 
       // then
-      expect(mostRecentAssessmentResult).to.be.null;
+      expect(level).to.equal(0);
+      expect(pixScore).to.equal(0);
     });
   });
 
