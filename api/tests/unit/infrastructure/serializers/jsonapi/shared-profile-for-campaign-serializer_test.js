@@ -3,7 +3,6 @@ const SharedProfileForCampaign = require('../../../../../lib/domain/models/Share
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/shared-profile-for-campaign-serializer');
 
 describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer', () => {
-
   describe('#serialize()', () => {
     const area1 = {
       id: '1',
