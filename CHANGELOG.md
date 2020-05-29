@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v2.158.0 (29/05/2020)
+
+- [#1462](https://github.com/1024pix/pix/pull/1462) [FEATURE] Permettre à l'utilisateur d'obtenir un e-mail de réinitialisation de mot de passe en fonction de sa région (PIX-746).
+- [#1454](https://github.com/1024pix/pix/pull/1454) [FEATURE] Montrer de manière claire que l'utilisateur a déjà envoyé son profil Pix (PIX-610).
+- [#1453](https://github.com/1024pix/pix/pull/1453) [FEATURE] Ne pas montrer la page de présentation si l'utilisateur a déjà commencé sa participation (PIX-616).
+- [#1461](https://github.com/1024pix/pix/pull/1461) [BUGFIX] Vérifier le seuil des 75% CléA sur le score certifié par compétence (et non positionné) (PIX-680).
+- [#1446](https://github.com/1024pix/pix/pull/1446) [BUGFIX] Vérifier le seuil des 75% CléA sur le score certifié par compétence (et non positionné) (PIX-680)
+- [#1397](https://github.com/1024pix/pix/pull/1397) [TECH] Améliorer l'accès à la liste des participants sur Pix Orga (PIX-608).
+- [#1448](https://github.com/1024pix/pix/pull/1448) [CLEANUP] Utilisation d'un read-model dans le service Current-user de Pix Orga (PIX-553).
+- [#1418](https://github.com/1024pix/pix/pull/1418) [CLEANUP] Suppression du package "api/lib/interfaces" et de ses modules devenus inutiles.
+
 ## v2.157.0 (27/05/2020)
 
 - [#1437](https://github.com/1024pix/pix/pull/1437) [FEATURE] Tracer les modifications des appartenances aux organisations (PF-494).
