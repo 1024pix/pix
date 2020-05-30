@@ -17,12 +17,12 @@ module.exports = async function getCampaignParticipationResult(
   await _checkIfUserHasAccessToThisCampaignParticipation(userId, campaignParticipation, campaignRepository);
 
   const targetProfile = await targetProfileRepository.getByCampaignId(campaignParticipation.campaignId);
-  const badges = await badgeRepository.findByTargetProfileId(targetProfile.id);
+  const campaignBadges = await badgeRepository.findByTargetProfileId(targetProfile.id);
 
-  const hasAcquiredBadgesList = await Promise.all(badges.map((badge) => badgeAcquisitionRepository.hasAcquiredBadgeWithId({ userId, badgeId: badge.id })));
-  const acquiredBadges = badges.filter((badge, index) => hasAcquiredBadgesList[index]);
+  const hasAcquiredBadgesList = await Promise.all(campaignBadges.map((badge) => badgeAcquisitionRepository.hasAcquiredBadgeWithId({ userId, badgeId: badge.id })));
+  const acquiredBadges = campaignBadges.filter((badge, index) => hasAcquiredBadgesList[index]);
 
-  return campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, acquiredBadges);
+  return campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, campaignBadges, acquiredBadges);
 };
 
 async function _checkIfUserHasAccessToThisCampaignParticipation(userId, campaignParticipation, campaignRepository) {
