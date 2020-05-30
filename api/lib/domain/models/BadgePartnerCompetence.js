@@ -7,7 +7,8 @@ class BadgePartnerCompetence {
     color,
     // includes
     // references
-    skillIds
+    skillIds,
+    badgeId,
   } = {}) {
     this.id = id;
     // attributes
@@ -16,6 +17,7 @@ class BadgePartnerCompetence {
     // includes
     // references
     this.skillIds = skillIds;
+    this.badgeId = badgeId;
   }
 }
 

@@ -24,7 +24,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
         threshold: CRITERION_THRESHOLD.EVERY_PARTNER_COMPETENCE
       }),
     ];
-    const badge = domainBuilder.buildBadge({ badgeCriteria });
+    const badge = domainBuilder.buildBadge({ id: 33, badgeCriteria });
 
     let campaignParticipationResult = {};
 
@@ -36,11 +36,13 @@ describe('Unit | Domain | Services | badge-criteria', () => {
             id: 1,
             validatedSkillsCount: 9,
             totalSkillsCount: 10,
+            badgeId: badge.id,
           }),
           domainBuilder.buildCompetenceResult({
             id: 2,
             validatedSkillsCount: 9,
             totalSkillsCount: 10,
+            badgeId: badge.id,
           }),
         ];
         campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
@@ -53,7 +55,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
 
       it('should return true', async () => {
         // when
-        const result = await badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult, badgeCriteria });
+        const result = await badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult, badge });
 
         // then
         expect(result).to.be.equal(true);
@@ -67,11 +69,13 @@ describe('Unit | Domain | Services | badge-criteria', () => {
             id: 1,
             validatedSkillsCount: 1,
             totalSkillsCount: 10,
+            badgeId: badge.id,
           }),
           domainBuilder.buildCompetenceResult({
             id: 2,
             validatedSkillsCount: 3,
             totalSkillsCount: 10,
+            badgeId: badge.id,
           }),
         ];
         campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
@@ -84,7 +88,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
 
       it('should return false', async () => {
         // when
-        const result = await badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult, badgeCriteria });
+        const result = await badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult, badge });
 
         // then
         expect(result).to.be.equal(false);
@@ -98,11 +102,13 @@ describe('Unit | Domain | Services | badge-criteria', () => {
             id: 1,
             validatedSkillsCount: 9,
             totalSkillsCount: 10,
+            badgeId: badge.id,
           }),
           domainBuilder.buildCompetenceResult({
             id: 2,
             validatedSkillsCount: 9,
             totalSkillsCount: 10,
+            badgeId: badge.id,
           }),
         ];
         campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
@@ -115,7 +121,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
 
       it('should return false', async () => {
         // when
-        const result = await badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult, badgeCriteria });
+        const result = await badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult, badge });
 
         // then
         expect(result).to.be.equal(false);
@@ -129,11 +135,13 @@ describe('Unit | Domain | Services | badge-criteria', () => {
             id: 1,
             validatedSkillsCount: 9,
             totalSkillsCount: 10,
+            badgeId: badge.id,
           }),
           domainBuilder.buildCompetenceResult({
             id: 2,
             validatedSkillsCount: 3,
             totalSkillsCount: 10,
+            badgeId: badge.id,
           }),
         ];
         campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
@@ -146,7 +154,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
 
       it('should return false', async () => {
         // when
-        const result = await badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult, badgeCriteria });
+        const result = await badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult, badge });
 
         // then
         expect(result).to.be.equal(false);

@@ -40,6 +40,7 @@ module.exports = function buildCompetence({
     'recnLN4ZCdZdTC32I',
     'recRPl7tXR8n2D5xU',
     'recYLxHqrLVUBjF2a',
+    'recTIddrkopID28Ep',
   ],
   reference = '1.1 Mener une recherche et une veille d’information',
   testsRecordID = [
