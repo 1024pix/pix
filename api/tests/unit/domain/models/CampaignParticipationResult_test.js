@@ -79,6 +79,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             totalSkillsCount: 1,
             testedSkillsCount: 1,
             validatedSkillsCount: 1,
+            badgeId: undefined,
           }, {
             id: 2,
             name: 'Désobéissance civile',
@@ -87,6 +88,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             totalSkillsCount: 3,
             testedSkillsCount: 1,
             validatedSkillsCount: 0,
+            badgeId: undefined,
           }],
         });
       });
@@ -116,6 +118,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               name: 'Yellow',
               color: 'emerald',
               skillIds: [1, 2, 4],
+              badgeId: 1
             })
           ],
           targetProfileId: targetProfile.id,
@@ -161,6 +164,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               name: 'Yellow',
               color: 'emerald',
               skillIds: [1, 2, 4],
+              badgeId: 1
             }],
             targetProfileId: targetProfile.id,
           }],
@@ -172,6 +176,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             testedSkillsCount: 2,
             totalSkillsCount: 3,
             validatedSkillsCount: 1,
+            badgeId: 1,
           }],
           competenceResults: [{
             id: 1,
@@ -181,6 +186,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             totalSkillsCount: 1,
             testedSkillsCount: 1,
             validatedSkillsCount: 1,
+            badgeId: undefined,
           }, {
             id: 2,
             name: 'Désobéissance civile',
@@ -189,6 +195,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             totalSkillsCount: 3,
             testedSkillsCount: 1,
             validatedSkillsCount: 0,
+            badgeId: undefined,
           }],
         });
       });
@@ -218,6 +225,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               name: 'Green',
               color: 'jaffa',
               skillIds: [1, 2, 4],
+              badgeId: 1,
             })
           ],
           targetProfileId: targetProfile.id,
@@ -279,6 +287,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               name: 'Green',
               color: 'jaffa',
               skillIds: [1, 2, 4],
+              badgeId: 1,
             }],
             targetProfileId: 1,
           }, {
@@ -303,6 +312,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             totalSkillsCount: 3,
             testedSkillsCount: 2,
             validatedSkillsCount: 1,
+            badgeId: 1
           }],
           competenceResults: [{
             id: 1,
@@ -312,6 +322,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             totalSkillsCount: 1,
             testedSkillsCount: 1,
             validatedSkillsCount: 1,
+            badgeId: undefined,
           }, {
             id: 2,
             name: 'Désobéissance civile',
@@ -320,6 +331,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             totalSkillsCount: 3,
             testedSkillsCount: 1,
             validatedSkillsCount: 0,
+            badgeId: undefined,
           }],
         });
       });
@@ -345,6 +357,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               name: 'Green',
               color: 'jaffa',
               skillIds: [1, 2, 4],
+              badgeId: 1,
             })
           ],
           targetProfileId: targetProfile.id,
@@ -368,6 +381,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               name: 'Yellow',
               color: 'emerald',
               skillIds: [2],
+              badgeId: 2,
             })
           ],
           targetProfileId: targetProfile.id,
@@ -413,6 +427,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               name: 'Green',
               color: 'jaffa',
               skillIds: [1, 2, 4],
+              badgeId: 1,
             }],
             targetProfileId: 1,
           }],
@@ -424,6 +439,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             totalSkillsCount: 3,
             testedSkillsCount: 2,
             validatedSkillsCount: 1,
+            badgeId: 1,
           }, {
             id: 48,
             index: undefined,
@@ -432,6 +448,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             totalSkillsCount: 1,
             testedSkillsCount: 1,
             validatedSkillsCount: 0,
+            badgeId: 2,
           }],
           competenceResults: [{
             id: 1,
@@ -441,6 +458,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             totalSkillsCount: 1,
             testedSkillsCount: 1,
             validatedSkillsCount: 1,
+            badgeId: undefined,
           }, {
             id: 2,
             name: 'Désobéissance civile',
@@ -449,6 +467,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             totalSkillsCount: 3,
             testedSkillsCount: 1,
             validatedSkillsCount: 0,
+            badgeId: undefined,
           }],
         });
       });
@@ -548,6 +567,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             totalSkillsCount: 1,
             testedSkillsCount: 1,
             validatedSkillsCount: 1,
+            badgeId: undefined,
           }, {
             id: 2,
             name: 'Désobéissance civile',
@@ -556,6 +576,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             totalSkillsCount: 3,
             testedSkillsCount: 1,
             validatedSkillsCount: 0,
+            badgeId: undefined,
           }],
         });
       });
@@ -608,4 +629,24 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
     });
   });
 
+  describe('#filterPartnerCompetenceResultsWithBadge', () => {
+    it('should filter partnerCompetenceResults', function() {
+      // given
+      const partnerCompetenceResults = [{
+        badgeId: 5
+      }, {
+        badgeId: 10
+      }];
+      const campaignParticipationResult = new CampaignParticipationResult({
+        partnerCompetenceResults
+      });
+
+      // when
+      campaignParticipationResult.filterPartnerCompetenceResultsWithBadge({ id: 5 });
+
+      // then
+      expect(campaignParticipationResult.partnerCompetenceResults.length).to.equal(1);
+      expect(campaignParticipationResult.partnerCompetenceResults[0].badgeId).to.equal(5);
+    });
+  });
 });

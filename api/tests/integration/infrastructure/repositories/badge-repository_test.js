@@ -55,6 +55,7 @@ describe('Integration | Repository | Badge', () => {
       color: 'jaffa',
       name: 'Idenfier des éléments',
       skillIds: ['recA1B2', 'recC3D4'],
+      badgeId: badgeWithBadgePartnerCompetences.id,
     };
 
     badgePartnerCompetence_2 = {
@@ -62,6 +63,7 @@ describe('Integration | Repository | Badge', () => {
       color: null,
       name: 'Rechercher des éléments',
       skillIds: ['recABC1', 'recDEF2'],
+      badgeId: badgeWithBadgePartnerCompetences.id,
     };
 
     badgeCriterionForBadgeWithPartnerCompetences = {
@@ -71,8 +73,8 @@ describe('Integration | Repository | Badge', () => {
     };
 
     databaseBuilder.factory.buildBadgeCriterion({ ...badgeCriterionForBadgeWithPartnerCompetences, badgeId: badgeWithBadgePartnerCompetences.id });
-    databaseBuilder.factory.buildBadgePartnerCompetence({ ...badgePartnerCompetence_1, badgeId: badgeWithBadgePartnerCompetences.id });
-    databaseBuilder.factory.buildBadgePartnerCompetence({ ...badgePartnerCompetence_2, badgeId: badgeWithBadgePartnerCompetences.id });
+    databaseBuilder.factory.buildBadgePartnerCompetence(badgePartnerCompetence_1);
+    databaseBuilder.factory.buildBadgePartnerCompetence(badgePartnerCompetence_2);
   }
 
   function setupTargetProfileWithSeveralBadges() {

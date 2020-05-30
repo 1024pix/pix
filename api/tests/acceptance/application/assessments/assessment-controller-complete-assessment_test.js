@@ -1,6 +1,7 @@
 const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex, airtableBuilder, sinon } = require('../../../test-helper');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const badgeRepository = require('../../../../lib/infrastructure/repositories/badge-repository');
+const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
 const createServer = require('../../../../server');
 const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 
@@ -83,6 +84,71 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         // then
         expect(response.statusCode).to.equal(204);
       });
+    });
+
+    context('when assessment belongs to a campaign', () => {
+
+      let badge, campaignUser;
+
+      beforeEach(async () => {
+        campaignUser = databaseBuilder.factory.buildUser({});
+        const targetProfile = databaseBuilder.factory.buildTargetProfile();
+        const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: campaignUser.id });
+        const campaignAssessment = databaseBuilder.factory.buildAssessment({
+          id: 5,
+          type: 'SMART_PLACEMENT',
+          state: Assessment.states.STARTED,
+          userId: campaignUser.id,
+          campaignParticipationId: campaignParticipation.id
+        });
+        const targetProfileId = campaign.targetProfileId;
+        const anyDateBeforeCampaignParticipation = new Date(campaignParticipation.sharedAt.getTime() - 60 * 1000);
+        badge = databaseBuilder.factory.buildBadge({ targetProfileId });
+        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: competencesAssociatedSkillsAndChallenges[0].skillId });
+        databaseBuilder.factory.buildKnowledgeElement({
+          skillId: competencesAssociatedSkillsAndChallenges[0].skillId,
+          assessmentId: campaignAssessment.id,
+          userId: campaignUser.id,
+          competenceId: competencesAssociatedSkillsAndChallenges[0].competenceId,
+          createdAt: anyDateBeforeCampaignParticipation
+        });
+        databaseBuilder.factory.buildBadgeCriterion({
+          threshold: 75,
+          badgeId: badge.id,
+        });
+        await databaseBuilder.commit();
+
+        options.url = `/api/assessments/${campaignAssessment.id}/complete-assessment`;
+        options.headers.authorization = generateValidRequestAuthorizationHeader(campaignUser.id);
+      });
+
+      afterEach(async () => {
+        await knex('badge-acquisitions').delete();
+        await knex('badge-criteria').delete();
+        await knex('badges').delete();
+        await knex('knowledge-elements').delete();
+        await knex('assessment-results').delete();
+        await knex('answers').delete();
+        await knex('assessments').delete();
+        await knex('campaign-participations').delete();
+        await knex('campaigns').delete();
+        await knex('target-profiles_skills').delete();
+        await knex('target-profiles').delete();
+      });
+
+      it('should create a badge when it is acquired', async () => {
+        // given
+
+        await server.inject(options);
+
+        const isBadgeAcquired = await badgeAcquisitionRepository.hasAcquiredBadgeWithId({
+          badgeId: badge.id,
+          userId: campaignUser.id,
+        });
+        expect(isBadgeAcquired).to.equal(true);
+      });
+
     });
 
     context('when assessment is of type certification', () => {

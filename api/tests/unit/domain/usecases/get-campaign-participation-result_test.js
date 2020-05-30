@@ -120,7 +120,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
 
             // then
             expect(actualCampaignParticipationResult.badges.length).to.equal(1);
-            expect(actualCampaignParticipationResult.partnerCompetenceResults.length).to.equal(1);
+            expect(actualCampaignParticipationResult.partnerCompetenceResults.length).to.equal(0);
           });
         });
 
@@ -174,7 +174,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
 
           // then
           expect(actualCampaignParticipationResult.badges.length).to.equal(1);
-          expect(actualCampaignParticipationResult.partnerCompetenceResults.length).to.equal(1);
+          expect(actualCampaignParticipationResult.partnerCompetenceResults.length).to.equal(0);
         });
       });
 

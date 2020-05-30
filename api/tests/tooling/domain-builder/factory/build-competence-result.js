@@ -11,6 +11,7 @@ module.exports = function buildCompetenceResult(
     totalSkillsCount = 10,
     testedSkillsCount = 8,
     validatedSkillsCount = 5,
+    badgeId,
   } = {}) {
 
   return new CompetenceResult({
@@ -21,6 +22,7 @@ module.exports = function buildCompetenceResult(
     totalSkillsCount,
     testedSkillsCount,
     validatedSkillsCount,
+    badgeId,
   });
 
 };

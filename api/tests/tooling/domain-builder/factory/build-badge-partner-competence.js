@@ -10,11 +10,13 @@ module.exports = function buildBadgePartnerCompetence(
       faker.random.number(2),
       faker.random.number(2),
     ],
+    badgeId,
   } = {}) {
   return new BadgePartnerCompetence({
     id,
     name,
     color,
     skillIds,
+    badgeId,
   });
 };

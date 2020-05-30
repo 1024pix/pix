@@ -67,6 +67,16 @@ class CampaignParticipationResult {
   get progress() {
     return campaignParticipationService.progress(this.isCompleted, this.knowledgeElementsCount, this.totalSkillsCount);
   }
+
+  filterPartnerCompetenceResultsWithBadge(badge) {
+    if (badge) {
+      this.partnerCompetenceResults = this.partnerCompetenceResults
+        .filter((partnerCompetenceResult) => partnerCompetenceResult.badgeId === badge.id);
+    }
+    else {
+      this.partnerCompetenceResults.length = 0;
+    }
+  }
 }
 
 function _removeUntargetedKnowledgeElements(knowledgeElements, targetProfileSkillsIds) {

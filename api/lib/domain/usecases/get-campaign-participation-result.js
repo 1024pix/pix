@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
+const Badge = require('../models/Badge');
 
 module.exports = async function getCampaignParticipationResult(
   {
@@ -18,11 +19,15 @@ module.exports = async function getCampaignParticipationResult(
 
   const targetProfile = await targetProfileRepository.getByCampaignId(campaignParticipation.campaignId);
   const campaignBadges = await badgeRepository.findByTargetProfileId(targetProfile.id);
+  const emploiCleaBadge = _.find(campaignBadges, (badge) => !_.isEmpty(badge.badgePartnerCompetences) && badge.key === Badge.keys.PIX_EMPLOI_CLEA);
 
   const hasAcquiredBadgesList = await Promise.all(campaignBadges.map((badge) => badgeAcquisitionRepository.hasAcquiredBadgeWithId({ userId, badgeId: badge.id })));
   const acquiredBadges = campaignBadges.filter((badge, index) => hasAcquiredBadgesList[index]);
 
-  return campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, campaignBadges, acquiredBadges);
+  const campaignParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, campaignBadges, acquiredBadges);
+  campaignParticipationResult.filterPartnerCompetenceResultsWithBadge(emploiCleaBadge);
+
+  return campaignParticipationResult;
 };
 
 async function _checkIfUserHasAccessToThisCampaignParticipation(userId, campaignParticipation, campaignRepository) {
