@@ -1,16 +1,15 @@
 import { action } from '@ember/object';
 import ChallengeItemGeneric from './challenge-item-generic';
-import classic from 'ember-classic-decorator';
 
-@classic
-class ChallengeItemQcm extends ChallengeItemGeneric {
+export default class ChallengeItemQcm extends ChallengeItemGeneric {
+  checkedValues = new Set();
+
   _hasError() {
-    return this._getAnswerValue().length < 1;
+    return this.checkedValues.size < 1;
   }
 
-  // FIXME refactor that
   _getAnswerValue() {
-    return this.$('input[type=checkbox][id^=checkbox_]:checked').map(function() {return this.name; }).get().join(',');
+    return Array.from(this.checkedValues).join(',');
   }
 
   _getErrorMessage() {
@@ -18,9 +17,12 @@ class ChallengeItemQcm extends ChallengeItemGeneric {
   }
 
   @action
-  answerChanged() {
+  answerChanged(checkboxName) {
+    if (this.checkedValues.has(checkboxName)) {
+      this.checkedValues.delete(checkboxName);
+    } else {
+      this.checkedValues.add(checkboxName);
+    }
     this.set('errorMessage', null);
   }
 }
-
-export default ChallengeItemQcm;
