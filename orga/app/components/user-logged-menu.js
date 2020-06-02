@@ -54,6 +54,8 @@ export default class UserLoggedMenu extends Component {
 
     await this.currentUser.load();
 
+    this.closeMenu();
+
     const queryParams = {};
     Object.keys(this.router.currentRoute.queryParams).forEach((key) => queryParams[key] = undefined);
     this.router.replaceWith('authenticated', { queryParams });
