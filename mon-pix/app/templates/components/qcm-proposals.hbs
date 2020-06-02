@@ -2,12 +2,12 @@
 <p class="proposal-paragraph">
 
   {{!-- Checkbox button : hidden  - SVG displayed instead - but needed. --}}
-  <input type="checkbox"
+  <Input @type="checkbox"
          id="checkbox_{{inc index}}"
-         checked={{labeledCheckbox.[1]}}
+         @checked={{labeledCheckbox.[1]}}
          name="{{inc index}}"
-         onclick={{action "checkboxClicked"}}
-         disabled={{if answer true}}>
+         onclick={{action "checkboxClicked" (inc index)}}
+         disabled={{if answer true}} />
 
   {{!-- Surrounding label --}}
   <label for="checkbox_{{inc index}}"
