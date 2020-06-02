@@ -8,9 +8,11 @@ function _isOverPercentage(value = 0, total, percentage = MIN_PERCENTAGE) {
 }
 
 function _hasRequiredPixValue({ totalPixCleaByCompetence, competenceMarks }) {
-  const competenceIds = _.keys(totalPixCleaByCompetence);
-  return !_.isEmpty(competenceIds)
-    && _.every(competenceIds, (competenceId) => _isOverPercentage(
+  const certifiableCompetenceIds = _.map(competenceMarks, 'competenceId');
+  const partnerCompetenceIds = _.keys(totalPixCleaByCompetence);
+  const consideredCompetenceIds = _.intersection(certifiableCompetenceIds, partnerCompetenceIds);
+  return !_.isEmpty(consideredCompetenceIds)
+    && _.every(consideredCompetenceIds, (competenceId) => _isOverPercentage(
       _.find(competenceMarks, { competenceId }).score,
       totalPixCleaByCompetence[competenceId]
     ));
