@@ -58,8 +58,10 @@ describe('Acceptance | Displaying a QCM challenge', () => {
     });
 
     it('should go to checkpoint when user validated', async () => {
-      // when
+      // given
       await click(findAll('.proposal-text')[1]);
+
+      // when
       await click('.challenge-actions__action-validate');
 
       // then
