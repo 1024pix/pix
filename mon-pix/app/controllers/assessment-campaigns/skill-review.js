@@ -13,6 +13,11 @@ export default class SkillReviewController extends Controller {
     return partnerCompetenceResults.length > 0;
   }
 
+  get showBadges() {
+    const badges = this.model.campaignParticipation.campaignParticipationResult.get('badges');
+    return badges.length > 0;
+  }
+
   @action
   shareCampaignParticipation() {
     this.displayErrorMessage = false;
