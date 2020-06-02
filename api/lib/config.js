@@ -36,8 +36,8 @@ module.exports = (function() {
     },
 
     app: {
-      domainFr: 'pix.fr',
-      domainOrg: 'pix.org'
+      domainFr: process.env.DOMAIN_NAME_FR || 'pix.fr',
+      domainOrg: process.env.DOMAIN_NAME_ORG || 'pix.org',
     },
 
     logging: {
@@ -134,7 +134,8 @@ module.exports = (function() {
   if (process.env.NODE_ENV === 'test') {
     config.port = 0;
 
-    config.app.domain = 'localhost';
+    config.app.domainFr = 'pix.fr';
+    config.app.domainOrg = 'pix.org';
 
     config.airtable.apiKey = 'test-api-key';
     config.airtable.base = 'test-base';

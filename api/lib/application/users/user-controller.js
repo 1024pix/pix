@@ -8,6 +8,7 @@ const scorecardSerializer = require('../../infrastructure/serializers/jsonapi/sc
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const userDetailForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-detail-for-admin-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
+const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
 const usecases = require('../../domain/usecases');
 
@@ -17,10 +18,11 @@ module.exports = {
 
     const reCaptchaToken = request.payload.data.attributes['recaptcha-token'];
     const user = userSerializer.deserialize(request.payload);
-
+    const locale = extractLocaleFromRequest(request);
     return usecases.createUser({
       user,
       reCaptchaToken,
+      locale,
     })
       .then((savedUser) => {
         return h.response(userSerializer.serialize(savedUser)).created();

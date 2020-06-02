@@ -228,9 +228,9 @@ describe('Unit | UseCase | create-user', () => {
         expect(encryptionService.hashPassword).to.have.been.calledWith(password);
       });
 
-      it('should check if the password has been correctly encrypted, because we have a bug on this', async () => {
+      it('should throw Error when hash password function fails', async () => {
         // given
-        encryptionService.hashPassword.resolves(password);
+        encryptionService.hashPassword.rejects(new Error());
 
         // when
         const error = await catchErr(createUser)({
@@ -239,7 +239,6 @@ describe('Unit | UseCase | create-user', () => {
 
         // then
         expect(error).to.be.instanceOf(Error);
-        expect(error.message).to.equal('Erreur lors de l‘encryption du mot passe de l‘utilisateur');
       });
 
       it('should save the user with a properly encrypted password', async () => {
@@ -260,10 +259,14 @@ describe('Unit | UseCase | create-user', () => {
       const user = new User({ email: userEmail });
 
       it('should send the account creation email', async () => {
+        // given
+        const locale = 'fr-fr';
+
         // when
         await createUser({
           user,
           reCaptchaToken,
+          locale,
           userRepository,
           reCaptchaValidator,
           encryptionService,
@@ -271,7 +274,7 @@ describe('Unit | UseCase | create-user', () => {
         });
 
         // then
-        expect(mailService.sendAccountCreationEmail).to.have.been.calledWith(userEmail);
+        expect(mailService.sendAccountCreationEmail).to.have.been.calledWith(userEmail, locale);
       });
     });
 
