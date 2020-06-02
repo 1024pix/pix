@@ -9,7 +9,11 @@ module.exports = function(defaults) {
     },
     'ember-cli-babel': {
       includePolyfill: true
-    }
+    },
+    fingerprint: {
+      exclude: ['png', 'svg'],
+      extensions: ['js', 'css', 'jpg', 'gif', 'map']
+    },
   });
 
   // Use `app.import` to add additional libraries to the generated
