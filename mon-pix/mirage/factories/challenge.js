@@ -72,16 +72,26 @@ export default Factory.extend({
     proposals: 'Entrez le prénom de B. Gates : ${firstname#prénom} (en toutes lettres)\nSVP'
   }),
 
+  withTextArea: trait({
+    format: 'paragraphe',
+  }),
+
   QROCM: trait({
     type: 'QROCM',
-    instruction: 'Un QROCMMMMM est une question avec plusieurs champs texte libre pour repondre',
+    instruction: 'Un QROCM est une question avec plusieurs champs texte libres pour répondre',
     proposals: 'Trois logiciels libres : ${logiciel1#un} ${logiciel2#deux} ${logiciel3#trois}\nMerci'
   }),
 
   QROCMind: trait({
     type: 'QROCM-ind',
-    instruction: 'L\'URL suivante, censée aboutir à un article, donne lieu à une redirection vers la page d\'accueil du site. Retrouvez la page recherchée. Reportez le titre de l’article et son auteur.  \n' + '\n' + '> https://www.cairn.info/revue-reseaux-2011-numero1-page-137.htm',
+    instruction: 'L\'URL suivante, censée aboutir à un article, donne lieu à une redirection vers la page d\'accueil du site. Retrouvez la page recherchée. Reportez le titre de l’article et son auteur.',
     proposals: 'Titre : ${titre}\n' + 'Auteur : ${auteur}'
+  }),
+
+  QROCMDep: trait({
+    type: 'QROCM-dep',
+    instruction: 'Aurélie est montée dans le métro après avoir pris cette photo sur le quai.\n A quelle station peut-elle descendre ?',
+    proposals: 'Station 1 : ${station1}\n' + 'Station 2 : ${station2}'
   }),
 
   timed: trait({
