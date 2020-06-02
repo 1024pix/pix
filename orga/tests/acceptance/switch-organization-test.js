@@ -90,6 +90,7 @@ module('Acceptance | Switch Organization', function(hooks) {
         // when
         await click('.logged-user-summary__link');
         await click('.logged-user-menu-item');
+        await click('.logged-user-summary__link');
 
         // then
         assert.dom('.logged-user-menu-item__organization-name').exists();
