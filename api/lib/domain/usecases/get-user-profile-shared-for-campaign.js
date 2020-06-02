@@ -36,7 +36,6 @@ module.exports = async function getUserProfileSharedForCampaign({
   return new SharedProfileForCampaign({
     id: campaignParticipation.id,
     sharedAt: campaignParticipation.sharedAt,
-    pixScore: _.sumBy(scorecards, 'earnedPix'),
     scorecards,
   });
 };
