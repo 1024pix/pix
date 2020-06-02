@@ -72,6 +72,10 @@ export default Factory.extend({
     proposals: 'Entrez le prénom de B. Gates : ${firstname#prénom} (en toutes lettres)\nSVP'
   }),
 
+  withTextArea: trait({
+    format: 'paragraphe',
+  }),
+
   QROCM: trait({
     type: 'QROCM',
     instruction: 'Un QROCM est une question avec plusieurs champs texte libres pour répondre',
