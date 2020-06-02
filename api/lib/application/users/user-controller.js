@@ -168,11 +168,12 @@ module.exports = {
       .then((campaignParticipation) => campaignParticipationSerializer.serialize(campaignParticipation));
   },
 
-  getUserProfileSharedForCampaign(request) {
+  async getUserProfileSharedForCampaign(request) {
     const authenticatedUserId = request.auth.credentials.userId;
     const campaignId = request.params.campaignId;
 
-    return usecases.getUserProfileSharedForCampaign({ userId: authenticatedUserId, campaignId })
-      .then((sharedProfileForCampaign) => sharedProfileForCampaignSerializer.serialize(sharedProfileForCampaign));
+    const sharedProfileForCampaign = await usecases.getUserProfileSharedForCampaign({ userId: authenticatedUserId, campaignId });
+    
+    return sharedProfileForCampaignSerializer.serialize(sharedProfileForCampaign);
   }
 };
