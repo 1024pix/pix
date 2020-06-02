@@ -170,54 +170,6 @@ describe('Integration | Repository | Badge', () => {
     });
   });
 
-  describe('#findOneByTargetProfileId', () => {
-
-    it('should return the badge linked to the given target profile with empty badge criteria and badge partner competences array', async () => {
-      // given
-      const targetProfileId = targetProfileWithoutBadgePartnerCompetences.id;
-
-      // when
-      const badgeReturned = await badgeRepository.findOneByTargetProfileId(targetProfileId);
-
-      // then
-      expect(badgeReturned).to.be.an.instanceOf(Badge);
-      expect(badgeReturned).to.deep.equal({
-        ...badgeWithoutBadgePartnerCompetences,
-        badgeCriteria: [],
-        badgePartnerCompetences: [],
-      });
-    });
-
-    it('should return the badge linked to the given target profile with related badge criteria and badge partner competences', async () => {
-      // given
-      const targetProfileId = targetProfileWithPartnerCompetences.id;
-
-      // when
-      const badgeReturned = await badgeRepository.findOneByTargetProfileId(targetProfileId);
-
-      // then
-      expect(badgeReturned).to.be.an.instanceOf(Badge);
-      expect(badgeReturned.badgeCriteria[0]).to.be.an.instanceOf(BadgeCriterion);
-      expect(badgeReturned.badgePartnerCompetences[0]).to.be.an.instanceOf(BadgePartnerCompetence);
-      expect(badgeReturned).to.deep.equal({
-        ...badgeWithBadgePartnerCompetences,
-        badgeCriteria: [ badgeCriterionForBadgeWithPartnerCompetences ],
-        badgePartnerCompetences: [ badgePartnerCompetence_1, badgePartnerCompetence_2 ],
-      });
-    });
-
-    it('should return an empty array when the given target profile has no badges', async () => {
-      // given
-      const targetProfileId = targetProfileWithoutBadge.id;
-
-      // when
-      const badge = await badgeRepository.findOneByTargetProfileId(targetProfileId);
-
-      // then
-      expect(badge).to.equal(null);
-    });
-  });
-
   describe('#findOneByKey', () => {
 
     it('should return the badge linked to the given key with empty badge partner competences array', async () => {
