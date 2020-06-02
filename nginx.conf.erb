@@ -1,3 +1,6 @@
+# Disable compression that is performed by the Scalingo router anyway
+gzip off;
+
 location ~ ^/(?<app>[^/]+)/.*$ {
   root /app/dist/;
 
