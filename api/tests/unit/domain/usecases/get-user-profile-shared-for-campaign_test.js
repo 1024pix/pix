@@ -9,13 +9,23 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', () => {
   const userId = Symbol('user id');
   const campaignId = Symbol('campaign id');
   const expectedCampaignParticipation = { id: '1', sharedAt };
-
-  const campaignParticipationRepository = { findOneByCampaignIdAndUserId: sinon.stub() };
-  const knowledgeElementRepository = { findUniqByUserIdGroupedByCompetenceId: sinon.stub() };
-  const competenceRepository = { listPixCompetencesOnly: sinon.stub() };
-  sinon.stub(Scorecard, 'buildFrom');
-
+  let campaignParticipationRepository;
+  let knowledgeElementRepository;
+  let competenceRepository;
+  
   context('When user has shared its profile for the campaign', () => {
+    
+    beforeEach(() => {
+      campaignParticipationRepository = { findOneByCampaignIdAndUserId: sinon.stub() };
+      knowledgeElementRepository = { findUniqByUserIdGroupedByCompetenceId: sinon.stub() };
+      competenceRepository = { listPixCompetencesOnly: sinon.stub() };
+      sinon.stub(Scorecard, 'buildFrom');
+    });
+
+    afterEach(() => {
+      sinon.restore();
+    });
+
     it('should return the shared profile for campaign', async () => {
       const knowledgeElements = { 'competence1': [], 'competence2': [], };
       const competences = [{ id: 'competence1' },  { id: 'competence2' }];
@@ -70,6 +80,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', () => {
 
       // then
       expect(result).to.be.an.instanceOf(NoCampaignParticipationForUserAndCampaign);
+      expect(result.message).to.be.equal('L\'utilisateur n\'a pas encore participé à la campagne');
     });
   });
 });

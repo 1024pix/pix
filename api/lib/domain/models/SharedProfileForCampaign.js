@@ -1,14 +1,15 @@
+const _ = require('lodash');
+
 class SharedProfileForCampaign {
   constructor({
     id,
     sharedAt,
-    pixScore,
     scorecards = [],
   }) {
     this.id = id;
     this.sharedAt = sharedAt;
-    this.pixScore = pixScore;
     this.scorecards = scorecards;
+    this.pixScore = _.sumBy(this.scorecards, 'earnedPix') || 0;
   }
 }
 
