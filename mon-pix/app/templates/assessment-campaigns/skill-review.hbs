@@ -5,18 +5,20 @@
     <AssessmentBanner @title={{this.model.assessment.title}} @displayHomeLink={{false}} />
   </div>
   <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner skill-review__result-container">
-    <div>
-      <h2>Badges obtenus</h2>
-      <div class="skill-review-result__badges-container">
-        {{#each this.model.campaignParticipation.campaignParticipationResult.badges as |badge|}}
-          <div class="skill-review-result__badge">
-            <img src="{{this.rootURL}}{{badge.imageUrl}}"
-                 alt="{{badge.altMessage}}">
-            <p class="skill-review-result__badge-information">{{badge.message}}</p>
-          </div>
-        {{/each}}
+    {{#if this.showBadges}}
+      <div>
+        <h2>Badges obtenus</h2>
+        <div class="skill-review-result__badges-container">
+          {{#each this.model.campaignParticipation.campaignParticipationResult.badges as |badge|}}
+            <div class="skill-review-result__badge">
+              <img src="{{this.rootURL}}{{badge.imageUrl}}"
+                   alt="{{badge.altMessage}}">
+              <p class="skill-review-result__badge-information">{{badge.message}}</p>
+            </div>
+          {{/each}}
+        </div>
       </div>
-    </div>
+    {{/if}}
     {{#if (not this.model.campaignParticipation.campaign.isArchived )}}
       <h3 class="rounded-panel-title skill-review-result__abstract">
         Vous maîtrisez

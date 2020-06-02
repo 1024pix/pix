@@ -94,4 +94,31 @@ describe('Unit | Controller | Assessment Campaigns | Skill Review', function() {
       expect(shouldShowCleaCompetences).to.equal(false);
     });
   });
+
+  describe('#showBadges', function() {
+
+    it('should show badges', function() {
+      // given
+      const badges = [{ id : 33 }];
+      controller.model.campaignParticipation.campaignParticipationResult.badges = badges ;
+
+      // when
+      const shouldShowBadges = controller.showBadges;
+
+      // then
+      expect(shouldShowBadges).to.equal(true);
+    });
+
+    it('should not show badges', function() {
+      // given
+      const badges = [];
+      controller.model.campaignParticipation.campaignParticipationResult.badges = badges ;
+
+      // when
+      const shouldShowBadges = controller.showBadges;
+
+      // then
+      expect(shouldShowBadges).to.equal(false);
+    });
+  });
 });
