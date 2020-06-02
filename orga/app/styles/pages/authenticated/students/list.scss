@@ -1,3 +1,5 @@
+$margin-right: 32px;
+
 .list-students-page {
   display: flex;
   flex-direction: column;
@@ -24,11 +26,11 @@
 
   &__dropdown-button {
     font-size: 1.1rem;
-    margin-right: 32px; //TODO find a way to put this in common
+    margin-right: $margin-right;
   }
 
   &__dropdown-content {
     width: 200px;
-    right: 32px; //TODO find a way to put this in common
+    right: $margin-right;
   }
 }
