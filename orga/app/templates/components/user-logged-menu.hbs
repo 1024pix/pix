@@ -1,5 +1,5 @@
-<div class="logged-user-summary content-text content-text--small" aria-haspopup="true" aria-expanded="{{this.isMenuOpen}}">
-  <a href="#" class="link logged-user-summary__link" {{on 'click' this.toggleUserMenu}}>
+<div class="dropdown logged-user-summary content-text content-text--small" aria-label="Résumé utilisateur">
+  <a href="#" class="link logged-user-summary__link" {{on 'click' this.toggleUserMenu}} aria-haspopup="listbox" aria-expanded="{{this.isMenuOpen}}">
     <div>
       <div class="logged-user-summary__name">{{this.currentUser.prescriber.firstName}} {{this.currentUser.prescriber.lastName}}</div>
       <div class="logged-user-summary__organization">{{this.organizationNameAndExternalId}}</div>
@@ -12,21 +12,17 @@
   </a>
 </div>
 
-{{#if this.isMenuOpen}}
-  <ClickOutside @onClickOutside={{this.closeMenu}}>
-    <div class="logged-user-menu">
-      {{#each this.eligibleOrganizations as |organization|}}
-        <div class="logged-user-menu-item" title="{{organization.name}}" role="button" {{on 'click' (fn this.onOrganizationChange organization)}}>
-          <span class="logged-user-menu-item__organization-name">{{organization.name}}</span>
-          {{#if organization.externalId}}
-            <span class="logged-user-menu-item__organization-externalId">({{organization.externalId}})</span>
-          {{/if}}
-        </div>
-      {{/each}}
-      <LinkTo @route="logout" class="link logged-user-menu-item logged-user-menu-item__last">
-        <FaIcon @icon="power-off" @class="logged-user-menu-item__icon"></FaIcon>
-        Se déconnecter
-      </LinkTo>
-    </div>
-  </ClickOutside>
-{{/if}}
+<Dropdown::Content @display={{this.isMenuOpen}} @close={{this.closeMenu}} class="logged-user-menu" aria-label="Menu utilisateur">
+  {{#each this.eligibleOrganizations as |organization|}}
+    <Dropdown::Item @onClick={{fn this.onOrganizationChange organization}} title="{{organization.name}}" class="logged-user-menu-item">
+      <span class="logged-user-menu-item__organization-name">{{organization.name}}</span>
+      {{#if organization.externalId}}
+        <span class="logged-user-menu-item__organization-externalId">({{organization.externalId}})</span>
+      {{/if}}
+    </Dropdown::Item>
+  {{/each}}
+  <Dropdown::ItemLink @linkTo="logout" class="logged-user-menu-item logged-user-menu-item__last">
+      <FaIcon @icon="power-off" @class="logged-user-menu-item__icon"></FaIcon>
+      Se déconnecter
+  </Dropdown::ItemLink>
+</Dropdown::Content>

@@ -1,6 +1,6 @@
 {{#if @display}}
   <ClickOutside @onClickOutside={{@close}}>
-    <ul class="dropdown__content">
+    <ul class="dropdown__content" ...attributes>
       {{yield}}
     </ul>
   </ClickOutside>
