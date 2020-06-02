@@ -1,6 +1,6 @@
 const _ = require('lodash');
 
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, catchErr } = require('../../../test-helper');
 const events = require('../../../../lib/domain/events');
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
 
@@ -29,6 +29,17 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
       badgeCriteriaService,
     };
 
+    it('fails when event is not of correct type', async () => {
+      // given
+      const event = 'not an event of the correct type';
+      // when / then
+      const error = await catchErr(events.handleBadgeAcquisition)(
+        { event, ...dependencies, domainTransaction }
+      );
+
+      // then
+      expect(error).not.to.be.null;
+    });
     context('when the assessment belongs to a campaign', () => {
 
       context('when the campaign is associated to a badge', () => {
@@ -72,7 +83,10 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
           await events.handleBadgeAcquisition({ event, ...dependencies, domainTransaction });
 
           // then
-          expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly({ badgeId, userId: event.userId }, domainTransaction);
+          expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly({
+            badgeId,
+            userId: event.userId
+          }, domainTransaction);
         });
 
         it('should not create a badge when badge requirements are not fulfilled', async () => {

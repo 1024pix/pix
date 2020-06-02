@@ -1,5 +1,7 @@
 const Badge = require('../models/Badge');
 const CertificationPartnerAcquisition = require('../models/CertificationPartnerAcquisition');
+const CertificationScoringCompleted = require('./CertificationScoringCompleted');
+const { checkEventType } = require('./check-event-type');
 
 async function handleCertificationAcquisitionForPartner({
   domainTransaction,
@@ -9,6 +11,8 @@ async function handleCertificationAcquisitionForPartner({
   competenceMarkRepository,
   certificationPartnerAcquisitionRepository,
 }) {
+  checkEventType(event, CertificationScoringCompleted);
+
   const certificationCourseId = event.certificationCourseId;
   const cleaPartnerAcquisition = new CertificationPartnerAcquisition({
     certificationCourseId,

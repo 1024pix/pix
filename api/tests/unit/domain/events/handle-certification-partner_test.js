@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, catchErr } = require('../../../test-helper');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
 const CertificationPartnerAcquisition = require('../../../../lib/domain/models/CertificationPartnerAcquisition');
@@ -18,6 +18,18 @@ describe('Unit | Domain | Events | handle-certification-partner', () => {
     certificationPartnerAcquisitionRepository,
     competenceMarkRepository,
   };
+
+  it('fails when event is not of correct type', async () => {
+    // given
+    const event = 'not an event of the correct type';
+    // when / then
+    const error = await catchErr(events.handleCertificationAcquisitionForPartner)(
+      { event, ...dependencies, domainTransaction }
+    );
+
+    // then
+    expect(error).not.to.be.null;
+  });
 
   context('when assessment is of type CERTIFICATION', () => {
     const certificationCourseId = Symbol('certificationCourseId');

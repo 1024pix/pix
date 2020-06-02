@@ -5,6 +5,8 @@ const bluebird = require('bluebird');
 const {
   CertificationComputeError,
 } = require('../errors');
+const AssessmentCompleted = require('./AssessmentCompleted');
+const { checkEventType } = require('./check-event-type');
 
 async function handleCertificationScoring({
   domainTransaction,
@@ -17,6 +19,8 @@ async function handleCertificationScoring({
   competenceMarkRepository,
   scoringCertificationService,
 }) {
+  checkEventType(event, AssessmentCompleted);
+
   if (event.isCertification) {
     const certificationAssessment = await certificationAssessmentRepository.get(event.assessmentId);
     return _calculateCertificationScore({ certificationAssessment, domainTransaction, assessmentResultRepository, certificationCourseRepository, competenceMarkRepository, scoringCertificationService, badgeAcquisitionRepository, certificationPartnerAcquisitionRepository });
