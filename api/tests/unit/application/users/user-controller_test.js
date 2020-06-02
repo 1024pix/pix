@@ -29,6 +29,7 @@ describe('Unit | Controller | user-controller', () => {
     const email = 'to-be-free@ozone.airplane';
     const deserializedUser = new User({ password: 'password_1234' });
     const savedUser = new User({ email });
+    const locale = 'fr-fr';
 
     beforeEach(() => {
       sinon.stub(userSerializer, 'deserialize').returns(deserializedUser);
@@ -81,6 +82,7 @@ describe('Unit | Controller | user-controller', () => {
         const useCaseParameters = {
           user: deserializedUser,
           reCaptchaToken,
+          locale,
         };
 
         // when

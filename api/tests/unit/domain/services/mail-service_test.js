@@ -14,18 +14,26 @@ describe('Unit | Service | MailService', () => {
 
   describe('#sendAccountCreationEmail', () => {
 
-    it('should use mailer to send an email', async () => {
+    it('should use mailer to send an email with locale', async () => {
       // given
+      const locale = 'fr-fr';
+      const domainFr = 'pix.fr';
       const expectedOptions = {
         from: senderEmailAddress,
         fromName: 'PIX - Ne pas répondre',
         to: userEmailAddress,
         subject: 'Création de votre compte PIX',
         template: 'test-account-creation-template-id',
+        variables: {
+          homeName: `${domainFr}`,
+          homeUrl: `https://${domainFr}`,
+          loginUrl: `https://app.${domainFr}/connexion`,
+          locale
+        }
       };
 
       // when
-      await mailService.sendAccountCreationEmail(userEmailAddress);
+      await mailService.sendAccountCreationEmail(userEmailAddress, locale);
 
       // then
       expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
