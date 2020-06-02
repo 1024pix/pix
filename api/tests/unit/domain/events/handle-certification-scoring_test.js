@@ -55,6 +55,18 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       sinon.stub(certificationAssessmentRepository, 'get').withArgs(assessmentId).resolves(certificationAssessment);
     });
 
+    it('fails when event is not of correct type', async () => {
+      // given
+      const event = 'not an event of the correct type';
+      // when / then
+      const error = await catchErr(events.handleCertificationScoring)(
+        { event, ...dependencies, domainTransaction }
+      );
+
+      // then
+      expect(error).not.to.be.null;
+    });
+
     context('when an error different from a compute error happens', () => {
       const otherError = new Error();
       beforeEach(() => {
