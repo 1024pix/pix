@@ -13,6 +13,7 @@ const security = require('./lib/infrastructure/security');
 const createServer = async () => {
 
   const server = new Hapi.server({
+    compression: false,
     routes: {
       cors: {
         origin: ['*'],
