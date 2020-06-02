@@ -15,15 +15,6 @@ module.exports = {
       );
   },
 
-  findOneByTargetProfileId(targetProfileId) {
-    return new BookshelfBadge({ targetProfileId })
-      .fetch({
-        require: false,
-        withRelated: ['badgeCriteria','badgePartnerCompetences']
-      })
-      .then((results) => bookshelfToDomainConverter.buildDomainObject(BookshelfBadge, results));
-  },
-
   findOneByKey(key) {
     return new BookshelfBadge({ key })
       .fetch({
