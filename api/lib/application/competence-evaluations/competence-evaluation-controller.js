@@ -20,7 +20,7 @@ module.exports = {
     const options = queryParamsUtils.extractParameters(request.query);
 
     if (!options.filter.assessmentId) {
-      throw new BadRequestError('Competence evalutation must be fetched by assessmentId');
+      throw new BadRequestError('Competence evaluation must be fetched by assessmentId');
     }
 
     const { models: competenceEvaluations } = await usecases.findCompetenceEvaluations({ userId, options });
