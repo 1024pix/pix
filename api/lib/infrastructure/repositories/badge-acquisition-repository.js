@@ -19,9 +19,11 @@ module.exports = {
     return Boolean(badgeAcquisition);
   },
 
-  async hasAcquiredBadgeWithId({ badgeId, userId }) {
-    const badgeAcquisition = await BookshelfBadgeAcquisition
-      .where({ userId, badgeId }).fetch({ columns: ['badge-acquisitions.id'], require: false });
-    return Boolean(badgeAcquisition);
+  async getAcquiredBadgeIds({ badgeIds, userId }) {
+    const collectionResult = await BookshelfBadgeAcquisition
+      .where({ userId })
+      .where('badgeId', 'in', badgeIds)
+      .fetchAll({ columns: ['badge-acquisitions.badgeId'], require: false });
+    return collectionResult.map((obj) => obj.attributes.badgeId);
   }
 };

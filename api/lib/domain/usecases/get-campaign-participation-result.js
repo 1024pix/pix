@@ -19,10 +19,11 @@ module.exports = async function getCampaignParticipationResult(
 
   const targetProfile = await targetProfileRepository.getByCampaignId(campaignParticipation.campaignId);
   const campaignBadges = await badgeRepository.findByTargetProfileId(targetProfile.id);
+  const campaignBadgeIds = campaignBadges.map((badge) => badge.id);
   const emploiCleaBadge = _.find(campaignBadges, (badge) => !_.isEmpty(badge.badgePartnerCompetences) && badge.key === Badge.keys.PIX_EMPLOI_CLEA);
 
-  const hasAcquiredBadgesList = await Promise.all(campaignBadges.map((badge) => badgeAcquisitionRepository.hasAcquiredBadgeWithId({ userId, badgeId: badge.id })));
-  const acquiredBadges = campaignBadges.filter((badge, index) => hasAcquiredBadgesList[index]);
+  const acquiredBadgeIds = await badgeAcquisitionRepository.getAcquiredBadgeIds({ userId, badgeIds: campaignBadgeIds });
+  const acquiredBadges = campaignBadges.filter((badge) => _.includes(acquiredBadgeIds, badge.id));
 
   const campaignParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, campaignBadges, acquiredBadges);
   campaignParticipationResult.filterPartnerCompetenceResultsWithBadge(emploiCleaBadge);
