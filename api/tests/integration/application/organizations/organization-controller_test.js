@@ -245,7 +245,7 @@ describe('Integration | Application | Organizations | organization-controller', 
             'organization-id': invitation.organizationId,
             email: invitation.email,
             status,
-            'created-at': invitation.createdAt
+            'updated-at': invitation.updatedAt
           }
         };
         usecases.createOrganizationInvitations.resolves([invitation]);
