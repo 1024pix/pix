@@ -27,7 +27,7 @@ module.exports = {
         attributes: ['isShared', 'sharedAt', 'createdAt', 'participantExternalId',  'campaign', 'user', 'campaignParticipationResult', 'assessment', 'campaignAnalysis'],
         campaign: {
           ref: 'id',
-          attributes: ['code', 'title']
+          attributes: ['code', 'title', 'type']
         },
         user: {
           ref: 'id',
