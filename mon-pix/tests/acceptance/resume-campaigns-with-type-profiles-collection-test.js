@@ -66,15 +66,28 @@ describe('Acceptance | Campaigns | Resume Campaigns with type Profiles Collecti
 
     context('When user has already send his profile', async function() {
 
-      it('should redirect directly to send profile page', async function() {
+      it('should redirect directly to send already sent page', async function() {
         // given
         await completeCampaignOfTypeProfilesCollectionByCode(campaign.code);
 
         // when
         await visit(`/campagnes/${campaign.code}`);
-
+             
         // then
         expect(currentURL()).to.contains('/deja-envoye');
+      });
+
+      it('should display profile card and pix score', async function() {
+        // given
+        await completeCampaignOfTypeProfilesCollectionByCode(campaign.code);
+
+        // when
+        await visit(`/campagnes/${campaign.code}`);
+             
+        // then
+        expect(contains('156')).to.exist;
+        expect(contains('Area_1_title')).to.exist;
+        expect(contains('Area_1_Competence_1_name')).to.exist;
       });
     });
   });
