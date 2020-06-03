@@ -3,6 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
 import hbs from 'htmlbars-inline-precompile';
+import moment from 'moment';
 
 module('Integration | Component | routes/authenticated/team | list-items', function(hooks) {
   setupRenderingTest(hooks);
@@ -45,8 +46,8 @@ module('Integration | Component | routes/authenticated/team | list-items', funct
   test('it should display a list of invitations, their email and creation date', async function(assert) {
     // given
     this.set('organizationInvitations', [
-      { email: 'gigi@pix.fr', createdAt: new Date('2019-10-08') },
-      { email: 'gogo@pix.fr', createdAt: new Date('2019-10-08') },
+      { email: 'gigi@example.net', updatedAt: moment('2019-10-08T10:50:00Z').utcOffset(2) },
+      { email: 'gogo@example.net', updatedAt: moment('2019-10-08T10:50:00Z').utcOffset(2) },
     ]);
 
     // when
@@ -54,7 +55,7 @@ module('Integration | Component | routes/authenticated/team | list-items', funct
 
     // then
     assert.dom('#table-invitations tbody tr').exists({ count: 2 });
-    assert.dom('#table-invitations tbody tr:last-child td:first-child').hasText('gogo@pix.fr');
-    assert.dom('#table-invitations tbody tr:last-child td:nth-child(2)').hasText('Invité le 08/10/2019');
+    assert.dom('#table-invitations tbody tr:last-child td:first-child').hasText('gogo@example.net');
+    assert.dom('#table-invitations tbody tr:last-child td:nth-child(2)').hasText('Dernière invitation envoyée le 08/10/2019 à 12:50');
   });
 });

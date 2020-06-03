@@ -75,4 +75,10 @@ module.exports = {
       .then(_toDomain);
   },
 
+  updateModificationDate(id) {
+    return new BookshelfOrganizationInvitation({ id })
+      .save({}, { method: 'update', patch: true, require: true })
+      .catch((err) => _checkNotFoundError(err, id));
+  },
+
 };
