@@ -50,9 +50,11 @@ export default class UserLoggedMenu extends Component {
     const selectedOrganization = await this.store.peekRecord('organization', organization.get('id'));
 
     userOrgaSettings.set('organization', selectedOrganization);
-    userOrgaSettings.save({ adapterOptions: { userId: prescriber.id } });
+    await userOrgaSettings.save({ adapterOptions: { userId: prescriber.id } });
 
     await this.currentUser.load();
+
+    this.closeMenu();
 
     const queryParams = {};
     Object.keys(this.router.currentRoute.queryParams).forEach((key) => queryParams[key] = undefined);
