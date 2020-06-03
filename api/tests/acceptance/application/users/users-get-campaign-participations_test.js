@@ -6,8 +6,10 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
   let userId;
   let campaign1;
   let campaign2;
+  let campaign3;
   let campaignParticipation1;
   let campaignParticipation2;
+  let campaignParticipation3;
   let assessment1;
   let assessment2;
   let options;
@@ -37,6 +39,14 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
         userId,
         campaignId: campaign2.id,
         createdAt: recentDate,
+      });
+
+      campaign3 = databaseBuilder.factory.buildCampaign({ type: 'PROFILES_COLLECTION' });
+      const middleDate = new Date('2018-04-06T01:02:03Z');
+      campaignParticipation3 = databaseBuilder.factory.buildCampaignParticipation({
+        userId,
+        campaignId: campaign3.id,
+        createdAt: middleDate,
       });
 
       assessment1 = databaseBuilder.factory.buildAssessment({ campaignParticipationId: campaignParticipation1.id });
@@ -120,6 +130,32 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
             },
             {
               type: 'campaign-participations',
+              id: campaignParticipation3.id.toString(),
+              attributes: {
+                'is-shared': campaignParticipation3.isShared,
+                'participant-external-id': campaignParticipation3.participantExternalId,
+                'shared-at': campaignParticipation3.sharedAt,
+                'created-at': campaignParticipation3.createdAt
+              },
+              relationships: {
+                campaign: {
+                  data:
+                    { type: 'campaigns', id: `${campaign3.id}` },
+                },
+                'campaign-participation-result': {
+                  links: {
+                    'related': `/api/campaign-participations/${campaignParticipation3.id}/campaign-participation-result`
+                  }
+                },
+                'campaign-analysis': {
+                  links: {
+                    related: `/api/campaign-participations/${campaignParticipation3.id}/analyses`
+                  }
+                }
+              },
+            },
+            {
+              type: 'campaign-participations',
               id: campaignParticipation1.id.toString(),
               attributes: {
                 'is-shared': campaignParticipation1.isShared,
@@ -157,6 +193,16 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
               attributes: {
                 code: campaign2.code,
                 title: campaign2.title,
+                type: 'ASSESSMENT',
+              }
+            },
+            {
+              type: 'campaigns',
+              id: campaign3.id.toString(),
+              attributes: {
+                code: campaign3.code,
+                title: campaign3.title,
+                type: 'PROFILES_COLLECTION',
               }
             },
             {
@@ -165,6 +211,7 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
               attributes: {
                 code: campaign1.code,
                 title: campaign1.title,
+                type: 'ASSESSMENT',
               }
             },
           ],
