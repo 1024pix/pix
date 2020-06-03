@@ -142,11 +142,11 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
 
         await server.inject(options);
 
-        const isBadgeAcquired = await badgeAcquisitionRepository.hasAcquiredBadgeWithId({
-          badgeId: badge.id,
+        const badgeAcquiredIds = await badgeAcquisitionRepository.getAcquiredBadgeIds({
+          badgeIds: [badge.id],
           userId: campaignUser.id,
         });
-        expect(isBadgeAcquired).to.equal(true);
+        expect(badgeAcquiredIds).to.deep.equal([badge.id]);
       });
 
     });

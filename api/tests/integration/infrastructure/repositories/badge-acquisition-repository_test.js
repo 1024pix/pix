@@ -87,7 +87,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
     });
   });
 
-  describe('#hasAcquiredBadgeWithId', () => {
+  describe('#getAcquiredBadgeIds', () => {
     let userId;
     let badgeId;
 
@@ -107,18 +107,18 @@ describe('Integration | Repository | Badge Acquisition', () => {
 
     it('should check that the user has acquired the badge', async () => {
       // when
-      const hasBadge = await badgeAcquisitionRepository.hasAcquiredBadgeWithId({ userId, badgeId });
+      const acquiredBadgeIds = await badgeAcquisitionRepository.getAcquiredBadgeIds({ userId, badgeIds: [badgeId] });
 
       // then
-      expect(hasBadge).to.be.true;
+      expect(acquiredBadgeIds).to.deep.equal([badgeId]);
     });
 
     it('should check that the user has not acquired the badge', async () => {
       // when
-      const hasBadge = await badgeAcquisitionRepository.hasAcquiredBadgeWithId({ userId, badgeId: -1 });
+      const acquiredBadgeIds = await badgeAcquisitionRepository.getAcquiredBadgeIds({ userId, badgeIds: [-1] });
 
       // then
-      expect(hasBadge).to.be.false;
+      expect(acquiredBadgeIds.length).to.equal(0);
     });
   });
 });
