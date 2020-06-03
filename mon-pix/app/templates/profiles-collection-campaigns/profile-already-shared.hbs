@@ -6,8 +6,8 @@
     <div class="send-profile-header__announcement">
       <p class="send-profile-header__instruction">
         Vous avez déjà envoyé le profil ci-dessous à l'organisation {{this.model.campaign.organizationName}}
-        <br>le {{moment-format this.model.sharedProfile.sharedAt 'LL' locale='fr' allow-empty=true}}
-        à {{moment-format this.model.sharedProfile.sharedAt 'HH:mm' locale='fr' allow-empty=true}}
+        <br>le {{moment-format this.model.sharedProfile.sharedAt 'LL' locale='fr'}}
+        à {{moment-format this.model.sharedProfile.sharedAt 'HH:mm' locale='fr'}}
       </p>
       <LinkTo @route="index" class="skill-review-share__back-to-home link">Continuez votre expérience Pix</LinkTo>
     </div>
