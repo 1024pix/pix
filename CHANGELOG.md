@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v2.159.0 (03/06/2020)
+
+- [#1465](https://github.com/1024pix/pix/pull/1465) [FEATURE] Afficher la dernière date d'envoi d'une invitation dans Pix Orga (PIX-730).
+- [#1471](https://github.com/1024pix/pix/pull/1471) [FEATURE] Permettre à l'utilisateur d'obtenir un e-mail de création de compte en fonction de sa région (PIX-745).
+- [#1472](https://github.com/1024pix/pix/pull/1472) [FEATURE] Empêcher le candidat de faire un signalement pendant le test de certification (PIX-578)
+- [#1466](https://github.com/1024pix/pix/pull/1466) [FEATURE] Afficher uniquement la date sans la partie "temps" pour les valeurs de date de finalisation, publication et diffusion au prescripteur (PIX-765)
+- [#1455](https://github.com/1024pix/pix/pull/1455) [FEATURE] Ajout de la pagination pour les participants au collectes de profils (PIX-621)
+- [#1480](https://github.com/1024pix/pix/pull/1480) [BUGFIX] Problème d'affichage de la bannière de reprise de parcours (PIX-770)
+- [#1478](https://github.com/1024pix/pix/pull/1478) [BUGFIX] Corrections relatives au changement d'organisation dans Pix Orga (PIX-538).
+- [#1467](https://github.com/1024pix/pix/pull/1467) [BUGFIX] Ne prendre en compte que les compétences évaluées en certification lors du scoring de certification CléA (PIX-679)
+- [#1469](https://github.com/1024pix/pix/pull/1469) [BUGFIX] Récupérer les derniers knowledge-elements pour un skill avant la date de partage des résultats (PIX-767).
+- [#1457](https://github.com/1024pix/pix/pull/1457) [CLEANUP] Change la manière de récupérer les réponses d'un QCM (PIX-768).
+- [#1452](https://github.com/1024pix/pix/pull/1452) [CLEANUP] Ajout de tests sur les challenges (PIX-638).
+- [#1417](https://github.com/1024pix/pix/pull/1417) [INFRA] Désactivation de la compression des réponses HTTP
+
 ## v2.158.0 (29/05/2020)
 
 - [#1462](https://github.com/1024pix/pix/pull/1462) [FEATURE] Permettre à l'utilisateur d'obtenir un e-mail de réinitialisation de mot de passe en fonction de sa région (PIX-746).
