@@ -3,14 +3,13 @@ import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import EmberObject, { action, computed } from '@ember/object';
 import { A as EmberArray } from '@ember/array';
+import config from 'mon-pix/config/environment';
 
 @classic
 export default class ScorecardDetails extends Component {
-  @service
-  currentUser;
-
-  @service
-  store;
+  @service currentUser;
+  @service store;
+  @service router;
 
   scorecard = null;
   showResetModal = false;
@@ -33,6 +32,10 @@ export default class ScorecardDetails extends Component {
   @computed('scorecard.remainingDaysBeforeReset')
   get displayResetButton() {
     return this.scorecard.remainingDaysBeforeReset === 0;
+  }
+
+  get displayImproveButton() {
+    return config.APP.FT_IMPROVE_COMPETENCE_EVALUATION;
   }
 
   @computed('scorecard.remainingDaysBeforeReset')
@@ -78,5 +81,15 @@ export default class ScorecardDetails extends Component {
     this.scorecard.save({ adapterOptions: { resetCompetence: true, userId: this.currentUser.user.id, competenceId: this.scorecard.competenceId } });
 
     this.set('showResetModal', false);
+  }
+
+  @action
+  async improveCompetenceEvaluation() {
+    await this.store.queryRecord('competence-evaluation', {
+      improve: true,
+      userId:this.currentUser.user.id,
+      competenceId: this.scorecard.competenceId
+    });
+    this.router.transitionTo('competences.resume', this.scorecard.competenceId);
   }
 }

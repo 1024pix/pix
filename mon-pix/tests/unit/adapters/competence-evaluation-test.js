@@ -6,7 +6,7 @@ import { setupTest } from 'ember-mocha';
 describe('Unit | Adapters | competence-evaluation', function() {
   setupTest();
 
-  describe('#queryRecord', () => {
+  describe('#urlQueryForRecord', () => {
 
     let adapter;
 
@@ -29,6 +29,14 @@ describe('Unit | Adapters | competence-evaluation', function() {
 
       // then
       expect(url.endsWith('/competence-evaluations')).to.be.true;
+    });
+
+    it('should build /improve url', async function() {
+      // when
+      const url = await adapter.urlForQueryRecord({ improve: true }, 'competenceEvaluation');
+
+      // then
+      expect(url.endsWith('/competence-evaluations/improve')).to.be.true;
     });
 
   });
