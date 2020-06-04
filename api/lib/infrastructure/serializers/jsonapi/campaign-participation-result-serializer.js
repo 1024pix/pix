@@ -9,30 +9,35 @@ module.exports = {
         'testedSkillsCount',
         'validatedSkillsCount',
         'isCompleted',
-        'badges',
-        'partnerCompetenceResults',
+        'campaignParticipationBadges',
         'competenceResults',
         'progress'
       ],
-      badges: {
+      campaignParticipationBadges: {
         ref: 'id',
+        included: true,
         attributes: [
           'altMessage',
           'message',
           'imageUrl',
-          'key'
+          'key',
+          'isAcquired',
+          'partnerCompetenceResults',
         ],
-      },
-      partnerCompetenceResults: {
-        ref: 'id',
-        attributes: [
-          'name',
-          'areaColor',
-          'masteryPercentage',
-          'totalSkillsCount',
-          'testedSkillsCount',
-          'validatedSkillsCount'
-        ],
+        partnerCompetenceResults: {
+          ref: 'id',
+          typeKeyForModel: 'resultCompetences',
+          included: true,
+          attributes: [
+            'name',
+            'index',
+            'areaColor',
+            'masteryPercentage',
+            'totalSkillsCount',
+            'testedSkillsCount',
+            'validatedSkillsCount'
+          ],
+        }
       },
       competenceResults: {
         ref: 'id',

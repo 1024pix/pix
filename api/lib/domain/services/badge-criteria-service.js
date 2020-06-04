@@ -3,8 +3,8 @@ const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
 
 function areBadgeCriteriaFulfilled({ campaignParticipationResult, badge }) {
   return _.every(badge.badgeCriteria, (criterion) => {
-    let isBadgeCriterionFulfilled;
-    let badgePartnerCompetenceResults;
+    let isBadgeCriterionFulfilled = false;
+    let campaignParticipationBadge;
 
     switch (criterion.scope) {
       case BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION :
@@ -14,12 +14,16 @@ function areBadgeCriteriaFulfilled({ campaignParticipationResult, badge }) {
         );
         break;
       case BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE :
-        badgePartnerCompetenceResults = campaignParticipationResult.partnerCompetenceResults
-          .filter((partnerCompetenceResult) => partnerCompetenceResult.badgeId === badge.id);
-        isBadgeCriterionFulfilled = _verifyEveryPartnerCompetenceResultMasteryPercentageCriterion(
-          badgePartnerCompetenceResults,
-          criterion.threshold
+        campaignParticipationBadge = _.find(
+          campaignParticipationResult.campaignParticipationBadges,
+          (campaignParticipationBadge) => campaignParticipationBadge.id === badge.id
         );
+        if (campaignParticipationBadge) {
+          isBadgeCriterionFulfilled = _verifyEveryPartnerCompetenceResultMasteryPercentageCriterion(
+            campaignParticipationBadge.partnerCompetenceResults,
+            criterion.threshold
+          );
+        }
         break;
       default:
         isBadgeCriterionFulfilled = false;

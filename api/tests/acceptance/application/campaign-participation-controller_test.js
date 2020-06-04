@@ -389,7 +389,7 @@ describe('Acceptance | API | Campaign Participations', () => {
               'progress': 1,
             },
             relationships: {
-              'partner-competence-results': {
+              'campaign-participation-badges': {
                 data: []
               },
               'competence-results': {
@@ -403,7 +403,7 @@ describe('Acceptance | API | Campaign Participations', () => {
                     type: 'competenceResults',
                   }
                 ]
-              }
+              },
             },
             id: campaignParticipation.id.toString(),
             type: 'campaignParticipationResults',
