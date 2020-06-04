@@ -1,6 +1,7 @@
 const AssessmentCompleted = require('../events/AssessmentCompleted');
 const { checkEventType } = require('./check-event-type');
 
+const eventType = AssessmentCompleted;
 const handleBadgeAcquisition = async function({
   domainTransaction,
   event,
@@ -9,7 +10,7 @@ const handleBadgeAcquisition = async function({
   badgeRepository,
   campaignParticipationResultRepository,
 }) {
-  checkEventType(event, AssessmentCompleted);
+  checkEventType(event, eventType);
 
   if (completedAssessmentBelongsToACampaign(event)) {
     const badge = await fetchPossibleCampaignAssociatedBadge(event, badgeRepository);
@@ -45,4 +46,5 @@ function isBadgeAcquired(campaignParticipationResult, badgeCriteria, badgeCriter
   return badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult, badgeCriteria });
 }
 
+handleBadgeAcquisition.eventType = eventType;
 module.exports = handleBadgeAcquisition;

@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const { expect, sinon, catchErr } = require('../../../test-helper');
-const events = require('../../../../lib/domain/events');
+const { handleCertificationScoring } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const { CertificationComputeError } = require('../../../../lib/domain/errors');
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
@@ -59,7 +59,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       // given
       const event = 'not an event of the correct type';
       // when / then
-      const error = await catchErr(events.handleCertificationScoring)(
+      const error = await catchErr(handleCertificationScoring)(
         { event, ...dependencies, domainTransaction }
       );
 
@@ -78,7 +78,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
 
       it('should not save any results', async () => {
         // when
-        await catchErr(events.handleCertificationScoring)({
+        await catchErr(handleCertificationScoring)({
           event, ...dependencies
         });
 
@@ -101,7 +101,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
 
       it('should call the scoring service with the right arguments', async () => {
         // when
-        await events.handleCertificationScoring({
+        await handleCertificationScoring({
           event,
           ...dependencies,
           domainTransaction,
@@ -115,7 +115,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
 
       it('should save the error result appropriately', async () => {
         // when
-        await events.handleCertificationScoring({
+        await handleCertificationScoring({
           event,
           ...dependencies,
           domainTransaction,
@@ -161,7 +161,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
 
       it('should build and save an assessment result with the expected arguments', async () => {
         // when
-        await events.handleCertificationScoring({
+        await handleCertificationScoring({
           event, ...dependencies, domainTransaction
         });
 
@@ -180,7 +180,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
 
       it('should return a CertificationScoringCompleted', async () => {
         // when
-        const certificationScoringCompleted = await events.handleCertificationScoring({
+        const certificationScoringCompleted = await handleCertificationScoring({
           event, ...dependencies, domainTransaction
         });
 
@@ -195,7 +195,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
 
       it('should build and save as many competence marks as present in the certificationAssessmentScore', async () => {
         // when
-        await events.handleCertificationScoring({
+        await handleCertificationScoring({
           event, ...dependencies, domainTransaction
         });
 
@@ -216,7 +216,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       );
 
       // when
-      const certificationScoringCompleted = await events.handleCertificationScoring({
+      const certificationScoringCompleted = await handleCertificationScoring({
         event, ...dependencies, domainTransaction
       });
 

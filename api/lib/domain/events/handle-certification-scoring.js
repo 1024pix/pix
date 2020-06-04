@@ -8,6 +8,8 @@ const {
 const AssessmentCompleted = require('./AssessmentCompleted');
 const { checkEventType } = require('./check-event-type');
 
+const eventType = AssessmentCompleted;
+
 async function handleCertificationScoring({
   domainTransaction,
   event,
@@ -19,7 +21,7 @@ async function handleCertificationScoring({
   competenceMarkRepository,
   scoringCertificationService,
 }) {
-  checkEventType(event, AssessmentCompleted);
+  checkEventType(event, eventType);
 
   if (event.isCertification) {
     const certificationAssessment = await certificationAssessmentRepository.get(event.assessmentId);
@@ -106,5 +108,5 @@ async function _saveResultAfterCertificationComputeError({
   await assessmentResultRepository.save(assessmentResult);
   return certificationCourseRepository.changeCompletionDate(certificationAssessment.certificationCourseId, new Date(), domainTransaction);
 }
-
+handleCertificationScoring.eventType = eventType;
 module.exports = handleCertificationScoring;

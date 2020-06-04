@@ -1,7 +1,6 @@
 const _ = require('lodash');
-
 const { expect, sinon, catchErr } = require('../../../test-helper');
-const events = require('../../../../lib/domain/events');
+const { handleBadgeAcquisition } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
 
 describe('Unit | Domain | Events | handle-badge-acquisition', () => {
@@ -33,7 +32,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
       // given
       const event = 'not an event of the correct type';
       // when / then
-      const error = await catchErr(events.handleBadgeAcquisition)(
+      const error = await catchErr(handleBadgeAcquisition)(
         { event, ...dependencies, domainTransaction }
       );
 
@@ -80,7 +79,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
             .returns(true);
 
           // when
-          await events.handleBadgeAcquisition({ event, ...dependencies, domainTransaction });
+          await handleBadgeAcquisition({ event, ...dependencies, domainTransaction });
 
           // then
           expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly({
@@ -95,7 +94,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
             .withArgs({ campaignParticipationResult, badgeCriteria: badge.badgeCriteria })
             .returns(false);
           // when
-          await events.handleBadgeAcquisition({ event, ...dependencies });
+          await handleBadgeAcquisition({ event, ...dependencies });
 
           // then
           expect(badgeAcquisitionRepository.create).to.not.have.been.called;
@@ -115,7 +114,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
           const event = new AssessmentCompleted(userId, targetProfileId);
 
           // when
-          await events.handleBadgeAcquisition({ event, ...dependencies, domainTransaction });
+          await handleBadgeAcquisition({ event, ...dependencies, domainTransaction });
 
           // then
           expect(badgeAcquisitionRepository.create).to.not.have.been.called;
@@ -133,7 +132,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
         const event = new AssessmentCompleted(userId, targetProfileId);
 
         // when
-        await events.handleBadgeAcquisition({ event, ...dependencies, domainTransaction });
+        await handleBadgeAcquisition({ event, ...dependencies, domainTransaction });
 
         // then
         expect(badgeAcquisitionRepository.create).to.not.have.been.called;
