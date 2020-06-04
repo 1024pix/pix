@@ -45,7 +45,8 @@ module.exports = function(environment) {
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
       BANNER_CONTENT: process.env.BANNER_CONTENT || '',
       BANNER_TYPE: process.env.BANNER_TYPE || '',
-      LOCALE: process.env.LOCALE || 'fr-fr'
+      LOCALE: process.env.LOCALE || 'fr-fr',
+      FT_IMPROVE_COMPETENCE_EVALUATION: process.env.FT_IMPROVE_COMPETENCE_EVALUATION || false,
     },
 
     googleFonts: [
@@ -100,6 +101,7 @@ module.exports = function(environment) {
     ENV.APP.HOME_URL = process.env.HOME_URL || '/';
     ENV.matomo.url = 'https://stats.pix.fr/js/container_jKDD76j4_dev_179474167add1104d6c8a92b.js';
     ENV.matomo.debug = true;
+    ENV.APP.FT_IMPROVE_COMPETENCE_EVALUATION = true;
   }
 
   if (environment === 'test') {
