@@ -1,15 +1,14 @@
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const Bookshelf = require('../bookshelf');
 const BookshelfBadgeAcquisition = require('../../infrastructure/data/badge-acquisition');
 const DomainTransaction = require('../DomainTransaction');
 
 module.exports = {
 
-  async create({ badgeId, userId }, domainTransaction = DomainTransaction.emptyTransaction()) {
-    const result = await new BookshelfBadgeAcquisition({
-      badgeId,
-      userId
-    }).save(null, { transacting: domainTransaction.knexTransaction });
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfBadgeAcquisition, result);
+  async create(badgeAcquisitionsToCreate = [], domainTransaction = DomainTransaction.emptyTransaction()) {
+    const results = await Bookshelf.knex('badge-acquisitions')
+      .insert(badgeAcquisitionsToCreate, 'id')
+      .transacting(domainTransaction.knexTransaction);
+    return results;
   },
 
   async hasAcquiredBadgeWithKey({ badgeKey, userId }) {

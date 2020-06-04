@@ -1,7 +1,9 @@
+const _ = require('lodash');
 const AssessmentCompleted = require('../events/AssessmentCompleted');
 const { checkEventType } = require('./check-event-type');
 
 const eventType = AssessmentCompleted;
+
 const handleBadgeAcquisition = async function({
   domainTransaction,
   event,
@@ -13,19 +15,19 @@ const handleBadgeAcquisition = async function({
   checkEventType(event, eventType);
 
   if (completedAssessmentBelongsToACampaign(event)) {
-    const campaignBadges = await fetchPossibleCampaignAssociatedBadges(event, badgeRepository);
-    const campaignParticipationResult = await fetchCampaignParticipationResults(event, campaignBadges, campaignParticipationResultRepository);
+    const badges = await fetchPossibleCampaignAssociatedBadges(event, badgeRepository);
+    const campaignParticipationResult = await fetchCampaignParticipationResults(event, badges, campaignParticipationResultRepository);
 
-    const badgeAquisitionsToCreate = campaignBadges
-      .filter((badge) => isBadgeAcquired(campaignParticipationResult, badge, badgeCriteriaService))
-      .map((badge) => {
-        return badgeAcquisitionRepository.create({
-          badgeId: badge.id,
-          userId: event.userId
-        }, domainTransaction);
-      });
+    const badgesBeingAcquired = badges.filter((badge) => isBadgeAcquired(campaignParticipationResult, badge, badgeCriteriaService));
+    const badgesAcquisitionToCreate = badgesBeingAcquired.map((badge) => {
+      return {
+        badgeId: badge.id, userId: event.userId
+      };
+    });
 
-    await Promise.all(badgeAquisitionsToCreate);
+    if (!_.isEmpty(badgesAcquisitionToCreate)) {
+      await badgeAcquisitionRepository.create(badgesAcquisitionToCreate, domainTransaction);
+    }
   }
 };
 
