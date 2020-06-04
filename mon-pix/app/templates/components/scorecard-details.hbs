@@ -75,6 +75,12 @@
     {{else if displayWaitSentence}}
       <p class="scorecard-details-content-right__reset-message">{{remainingDaysText}}</p>
     {{/if}}
+    {{#if displayImproveButton}}
+      <button class="button button--grey" {{action "improveCompetenceEvaluation"}}>
+        Retenter
+        <div class="sr-only">la compétence "{{scorecard.name}}"</div>
+      </button>
+    {{/if}}
   </div>
 </div>
 {{#if tutorialsGroupedByTubeName}}

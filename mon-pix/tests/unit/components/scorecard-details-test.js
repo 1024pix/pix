@@ -1,7 +1,9 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import EmberObject from '@ember/object';
+import Service from '@ember/service';
 
 describe('Unit | Component | scorecard-details ', function() {
   setupTest();
@@ -128,7 +130,7 @@ describe('Unit | Component | scorecard-details ', function() {
     it('returns an empty array when there is no tutorials', function() {
       // given
       const tutorials = [];
-      const scorecard =  EmberObject.create({ tutorials });
+      const scorecard = EmberObject.create({ tutorials });
 
       const expectedResult = [];
 
@@ -140,5 +142,41 @@ describe('Unit | Component | scorecard-details ', function() {
       expect(result).to.deep.equal(expectedResult);
       expect(result).to.have.lengthOf(0);
     });
+  });
+
+  describe('#improveCompetenceEvaluation', function() {
+    let store, userId, competenceId, router;
+
+    beforeEach(async function() {
+      // given
+      store = Service.create({ queryRecord: sinon.stub().resolves() });
+      component.set('store', store);
+      competenceId = 'recCompetenceId';
+      const scorecard = EmberObject.create({ competenceId });
+      component.set('scorecard', scorecard);
+      userId = 'userId';
+      const user = EmberObject.create({ user: { id: userId } });
+      component.set('currentUser', user);
+      router = EmberObject.create({ transitionTo: sinon.stub() });
+      component.set('router', router);
+
+      // when
+      await component.improveCompetenceEvaluation();
+    });
+
+    it('creates a competence-evaluation for improving', async function() {
+      // then
+      sinon.assert.calledWith(store.queryRecord, 'competence-evaluation', {
+        improve: true,
+        userId,
+        competenceId
+      });
+    });
+
+    it('redirects to competences.resume route', async function() {
+      // then
+      sinon.assert.calledWith(router.transitionTo, 'competences.resume', competenceId);
+    });
+
   });
 });
