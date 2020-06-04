@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
@@ -41,6 +41,48 @@ module('Integration | Component | organization-information-section', function(ho
 
     // then
     assert.dom('.organization__canCollectProfiles').hasText('Oui');
+  });
+
+  module('Edit organization', function(hooks) {
+
+    let organization;
+
+    hooks.beforeEach(function() {
+      organization = EmberObject.create({ id: 1, name: 'Organization SCO' });
+      this.set('organization', organization);
+    });
+
+    test('it should display edit organization button', async function(assert) {
+      // when
+      await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+
+      // then
+      assert.dom('button[aria-label=\'Editer\'').exists();
+    });
+
+    test('it should toggle edition mode on click to edit button', async function(assert) {
+      // given
+      await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+
+      // when
+      await click('button[aria-label=\'Editer\'');
+
+      // then
+      assert.dom('.organization__edit-form').exists();
+    });
+
+    test('it should toggle display mode on click to cancel button', async function(assert) {
+      // given
+      await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+      await click('button[aria-label=\'Editer\'');
+
+      // when
+      await click('button[aria-label=\'Annuler\'');
+
+      // then
+      assert.dom('.organization__data').exists();
+    });
+
   });
 
   module('When organization is SCO', function(hooks) {

@@ -1,7 +1,10 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 
 export default class OrganizationInformationSection extends Component {
+
+  @tracked isEditMode = false;
 
   get isManagingStudents() {
     return this.args.organization.isManagingStudents ? 'Oui' : 'Non';
@@ -17,5 +20,10 @@ export default class OrganizationInformationSection extends Component {
       this.args.organization.logoUrl = b64;
       return this.args.onLogoUpdated();
     });
+  }
+
+  @action
+  toggleEditMode() {
+    this.isEditMode = !this.isEditMode;
   }
 }
