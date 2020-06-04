@@ -55,7 +55,7 @@ function _createCompetenceEvaluation(competenceId, assessmentId, userId, compete
     competenceId,
     status: CompetenceEvaluation.statuses.STARTED,
   });
-  return competenceEvaluationRepository.save(competenceEvaluation);
+  return competenceEvaluationRepository.save({ competenceEvaluation });
 }
 
 async function _restartCompetenceEvaluation({ userId, competenceEvaluation, assessmentRepository, competenceEvaluationRepository }) {

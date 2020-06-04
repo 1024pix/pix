@@ -4,6 +4,7 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const competenceEvaluationRepository = require('../../../../lib/infrastructure/repositories/competence-evaluation-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const _ = require('lodash');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Integration | Repository | Competence Evaluation', () => {
 
@@ -19,7 +20,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
       return knex('competence-evaluations').delete();
     });
 
-    it('should return the given competence evaluation', () => {
+    it('should return the given competence evaluation', async () => {
       // given
       const competenceEvaluationToSave = new CompetenceEvaluation({
         assessmentId: assessment.id,
@@ -29,21 +30,21 @@ describe('Integration | Repository | Competence Evaluation', () => {
       });
 
       // when
-      const promise = competenceEvaluationRepository.save(competenceEvaluationToSave);
+      const savedCompetenceEvaluation = await DomainTransaction.execute(async (domainTransaction) =>
+        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction })
+      );
 
       // then
-      return promise.then((savedCompetenceEvaluation) => {
-        expect(savedCompetenceEvaluation).to.be.instanceof(CompetenceEvaluation);
-        expect(savedCompetenceEvaluation.id).to.exist;
-        expect(savedCompetenceEvaluation.createdAt).to.exist;
-        expect(savedCompetenceEvaluation.status).to.equal(STARTED);
-        expect(savedCompetenceEvaluation.assessmentId).to.equal(competenceEvaluationToSave.assessmentId);
-        expect(savedCompetenceEvaluation.competenceId).to.equal(competenceEvaluationToSave.competenceId);
-        expect(savedCompetenceEvaluation.userId).to.equal(competenceEvaluationToSave.userId);
-      });
+      expect(savedCompetenceEvaluation).to.be.instanceof(CompetenceEvaluation);
+      expect(savedCompetenceEvaluation.id).to.exist;
+      expect(savedCompetenceEvaluation.createdAt).to.exist;
+      expect(savedCompetenceEvaluation.status).to.equal(STARTED);
+      expect(savedCompetenceEvaluation.assessmentId).to.equal(competenceEvaluationToSave.assessmentId);
+      expect(savedCompetenceEvaluation.competenceId).to.equal(competenceEvaluationToSave.competenceId);
+      expect(savedCompetenceEvaluation.userId).to.equal(competenceEvaluationToSave.userId);
     });
 
-    it('should save the given competence evaluation', () => {
+    it('should save the given competence evaluation', async () => {
       // given
       const competenceEvaluationToSave = new CompetenceEvaluation({
         assessmentId: assessment.id,
@@ -53,21 +54,21 @@ describe('Integration | Repository | Competence Evaluation', () => {
       });
 
       // when
-      const promise = competenceEvaluationRepository.save(competenceEvaluationToSave);
+      const savedCompetenceEvaluation = await DomainTransaction.execute(async (domainTransaction) =>
+        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction })
+      );
 
       // then
-      return promise.then((savedCompetenceEvaluation) => {
-        return knex.select('id', 'assessmentId', 'competenceId', 'userId', 'status')
-          .from('competence-evaluations')
-          .where({ id: savedCompetenceEvaluation.id })
-          .then(([competenceEvaluationInDb]) => {
-            expect(competenceEvaluationInDb.id).to.equal(savedCompetenceEvaluation.id);
-            expect(competenceEvaluationInDb.assessmentId).to.equal(competenceEvaluationToSave.assessmentId);
-            expect(competenceEvaluationInDb.competenceId).to.equal(competenceEvaluationToSave.competenceId);
-            expect(competenceEvaluationInDb.userId).to.equal(competenceEvaluationToSave.userId);
-            expect(competenceEvaluationInDb.status).to.equal('started');
-          });
-      });
+      return knex.select('id', 'assessmentId', 'competenceId', 'userId', 'status')
+        .from('competence-evaluations')
+        .where({ id: savedCompetenceEvaluation.id })
+        .then(([competenceEvaluationInDb]) => {
+          expect(competenceEvaluationInDb.id).to.equal(savedCompetenceEvaluation.id);
+          expect(competenceEvaluationInDb.assessmentId).to.equal(competenceEvaluationToSave.assessmentId);
+          expect(competenceEvaluationInDb.competenceId).to.equal(competenceEvaluationToSave.competenceId);
+          expect(competenceEvaluationInDb.userId).to.equal(competenceEvaluationToSave.userId);
+          expect(competenceEvaluationInDb.status).to.equal('started');
+        });
     });
 
   });

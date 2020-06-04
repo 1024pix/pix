@@ -70,7 +70,7 @@ describe('Acceptance | API | Improve Competence Evaluation', () => {
           expect(assessment).to.be.not.undefined;
         });
 
-        it('should return create an improving assessment', async () => {
+        it('should create an improving assessment', async () => {
           // then
           const [createdAssessment] = await knex('assessments').select().where({ id: assessment.id });
           expect(createdAssessment.isImproving).to.equal(true);
@@ -78,7 +78,7 @@ describe('Acceptance | API | Improve Competence Evaluation', () => {
 
       });
 
-      context('and competence does not exists', () => {
+      context('and competence evaluation does not exists', () => {
 
         it('should return 404 error', async () => {
           // given
