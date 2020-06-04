@@ -14,5 +14,4 @@ describe('Unit | Domain | Events | check-event-type', () => {
   });
 });
 
-class TestEvent {
-}
+class TestEvent {}

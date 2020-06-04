@@ -1,4 +1,6 @@
-const { injectDependencies } = require('../../infrastructure/utils/dependency-injection');
+const { injectDefaults } = require('../../infrastructure/utils/dependency-injection');
+const EventDispatcher = require('../../infrastructure/events/EventDispatcher');
+const _ = require('lodash');
 
 const dependencies = {
   assessmentResultRepository: require('../../infrastructure/repositories/assessment-result-repository'),
@@ -16,8 +18,30 @@ const dependencies = {
   skillRepository: require('../../infrastructure/repositories/skill-repository'),
 };
 
-module.exports = injectDependencies({
+const handlersToBeInjected = {
   handleBadgeAcquisition: require('./handle-badge-acquisition'),
   handleCertificationScoring: require('./handle-certification-scoring'),
-  handleCertificationAcquisitionForPartner: require('./handle-certification-partner'),
-}, dependencies);
+  handleCertificationAcquisitionForPartner: require('./handle-certification-partner')
+};
+
+function buildEventDispatcher(handlersStubs) {
+  const eventDispatcher = new EventDispatcher();
+  const handlers = { ...handlersToBeInjected, ...handlersStubs };
+
+  for (const key in handlers) {
+    const inject = _.partial(injectDefaults, dependencies);
+    eventDispatcher.subscribe(handlersToBeInjected[key].eventType, inject(handlers[key]));
+  }
+
+  return eventDispatcher;
+}
+
+module.exports = {
+  eventDispatcher: buildEventDispatcher({}),
+  _forTestOnly: {
+    handlers: handlersToBeInjected,
+    buildEventDispatcher: function(stubbedHandlers) {
+      return buildEventDispatcher(stubbedHandlers);
+    }
+  }
+};

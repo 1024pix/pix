@@ -1,15 +1,15 @@
 const _ = require('lodash');
 const { expect, sinon, catchErr } = require('../../../test-helper');
-const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
-const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
 const CertificationPartnerAcquisition = require('../../../../lib/domain/models/CertificationPartnerAcquisition');
 const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
-const events = require('../../../../lib/domain/events');
+const { handleCertificationAcquisitionForPartner } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 const Badge = require('../../../../lib/domain/models/Badge');
 
 describe('Unit | Domain | Events | handle-certification-partner', () => {
   const competenceMarkRepository = { getLatestByCertificationCourseId: _.noop };
   const certificationPartnerAcquisitionRepository = { save: _.noop };
+  const competenceRepository = { getTotalPixCleaByCompetence: _.noop };
+  const badgeAcquisitionRepository = { hasAcquiredBadgeWithKey: _.noop };
   const domainTransaction = {};
 
   let event;
@@ -17,13 +17,15 @@ describe('Unit | Domain | Events | handle-certification-partner', () => {
   const dependencies = {
     certificationPartnerAcquisitionRepository,
     competenceMarkRepository,
+    competenceRepository,
+    badgeAcquisitionRepository
   };
 
   it('fails when event is not of correct type', async () => {
     // given
     const event = 'not an event of the correct type';
     // when / then
-    const error = await catchErr(events.handleCertificationAcquisitionForPartner)(
+    const error = await catchErr(handleCertificationAcquisitionForPartner)(
       { event, ...dependencies, domainTransaction }
     );
 
@@ -82,7 +84,7 @@ describe('Unit | Domain | Events | handle-certification-partner', () => {
           .returns(true);
 
         // when
-        await events.handleCertificationAcquisitionForPartner({
+        await handleCertificationAcquisitionForPartner({
           event, ...dependencies, domainTransaction
         });
 
@@ -105,7 +107,7 @@ describe('Unit | Domain | Events | handle-certification-partner', () => {
           .returns(false);
 
         // when
-        await events.handleCertificationAcquisitionForPartner({
+        await handleCertificationAcquisitionForPartner({
           event, ...dependencies, domainTransaction
         });
 
