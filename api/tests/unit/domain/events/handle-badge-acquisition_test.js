@@ -81,10 +81,10 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
           await handleBadgeAcquisition({ event, ...dependencies, domainTransaction });
 
           // then
-          expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly({
+          expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly([{
             badgeId,
             userId: event.userId
-          }, domainTransaction);
+          }], domainTransaction);
         });
 
         it('should not create a badge when badge requirements are not fulfilled', async () => {
@@ -118,12 +118,12 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
             id: badgeId_2,
             badgeCriteria: Symbol('badgeCriteria')
           };
-          badgeRepository.findByTargetProfileId.withArgs(assessmentCompletedEvent.targetProfileId).resolves([badge1, badge2]);
+          badgeRepository.findByTargetProfileId.withArgs(event.targetProfileId).resolves([badge1, badge2]);
 
           sinon.stub(badgeAcquisitionRepository, 'create');
 
           sinon.stub(campaignParticipationResultRepository, 'getByParticipationId');
-          campaignParticipationResultRepository.getByParticipationId.withArgs(assessmentCompletedEvent.campaignParticipationId, [badge1, badge2], []).resolves(
+          campaignParticipationResultRepository.getByParticipationId.withArgs(event.campaignParticipationId, [badge1, badge2], []).resolves(
             campaignParticipationResult
           );
 
@@ -140,10 +140,10 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
             .returns(false);
 
           // when
-          await events.handleBadgeAcquisition({ assessmentCompletedEvent, ...dependencies, domainTransaction });
+          await handleBadgeAcquisition({ event, ...dependencies, domainTransaction });
 
           // then
-          expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly({ badgeId: badge1.id, userId: assessmentCompletedEvent.userId }, domainTransaction);
+          expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly([{ badgeId: badge1.id, userId: event.userId }], domainTransaction);
         });
 
         it('should create two badges when both badges requirements are fulfilled', async () => {
@@ -156,11 +156,13 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
             .returns(true);
 
           // when
-          await events.handleBadgeAcquisition({ assessmentCompletedEvent, ...dependencies, domainTransaction });
+          await handleBadgeAcquisition({ event, ...dependencies, domainTransaction });
 
           // then
-          expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly({ badgeId: badge1.id, userId: assessmentCompletedEvent.userId }, domainTransaction);
-          expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly({ badgeId: badge2.id, userId: assessmentCompletedEvent.userId }, domainTransaction);
+          expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly([
+            { badgeId: badge1.id, userId: event.userId },
+            { badgeId: badge2.id, userId: event.userId },
+          ], domainTransaction);
         });
       });
 
