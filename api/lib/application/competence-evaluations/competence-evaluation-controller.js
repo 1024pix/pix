@@ -2,6 +2,7 @@ const { BadRequestError } = require('../http-errors');
 const usecases = require('../../domain/usecases');
 const serializer = require('../../infrastructure/serializers/jsonapi/competence-evaluation-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
+const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = {
 
@@ -32,9 +33,11 @@ module.exports = {
     const userId = request.auth.credentials.userId;
     const competenceId = request.payload.competenceId;
 
-    const competenceEvaluation = await usecases.improveCompetenceEvaluation({ competenceId, userId });
-    const serializedCompetenceEvaluation = serializer.serialize(competenceEvaluation);
+    const competenceEvaluation = await DomainTransaction.execute((domainTransaction) =>
+      usecases.improveCompetenceEvaluation({ competenceId, userId, domainTransaction })
+    );
 
+    const serializedCompetenceEvaluation = serializer.serialize(competenceEvaluation);
     return h.response(serializedCompetenceEvaluation);
   }
 };
