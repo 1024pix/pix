@@ -43,7 +43,6 @@ module('Integration | Component | password-reset-window', function(hooks) {
       await render(hbs`{{password-reset-window student=student}}`);
 
       // then
-      assert.dom('.pix-modal-overlay').exists();
       assert.dom('#username').hasValue(username);
     });
 
@@ -80,7 +79,6 @@ module('Integration | Component | password-reset-window', function(hooks) {
       await render(hbs`{{password-reset-window student=student}}`);
 
       // then
-      assert.dom('.pix-modal-overlay').exists();
       assert.dom('#email').hasValue(email);
     });
 
