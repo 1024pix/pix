@@ -1,23 +1,23 @@
-const { expect, sinon } = require('../../../test-helper');
+const { catchErr, expect, sinon } = require('../../../test-helper');
 const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
-const certificationPartnerAcquisitionRepository = require('../../../../lib/infrastructure/repositories/certification-partner-acquisition-repository');
-const { handleCertificationAcquisitionForPartner } = require('../../../../lib/domain/events')._forTestOnly.handlers;
+const partnerCertificationRepository = require('../../../../lib/infrastructure/repositories/partner-certification-repository');
+const { handleCertificationForPartner } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 
-describe('Unit | Domain | Events | handle-certification-partner', () => {
+describe('Unit | Domain | Events | handle-partner-certification', () => {
   const domainTransaction = Symbol('domainTransaction');
   const reproducibilityRate = Symbol('reproducibilityRate');
 
   let event;
 
   const dependencies = {
-    certificationPartnerAcquisitionRepository,
+    partnerCertificationRepository,
   };
 
   it('fails when event is not of correct type', async () => {
     // given
     const event = 'not an event of the correct type';
     // when / then
-    const error = await catchErr(handleCertificationAcquisitionForPartner)(
+    const error = await catchErr(handleCertificationForPartner)(
       { event, ...dependencies, domainTransaction }
     );
 
@@ -25,10 +25,10 @@ describe('Unit | Domain | Events | handle-certification-partner', () => {
     expect(error).not.to.be.null;
   });
 
-  context('#handleCertificationAcquisitionForPartner', () => {
+  context('#handleCertificationForPartner', () => {
     const certificationCourseId = Symbol('certificationCourseId');
     const userId = Symbol('userId');
-    const cleaPartnerAcquisition = {};
+    const cleaCertification = {};
 
     beforeEach(() => {
       event = new CertificationScoringCompleted({
@@ -39,43 +39,43 @@ describe('Unit | Domain | Events | handle-certification-partner', () => {
         limitDate: new Date('2018-02-03'),
       });
 
-      sinon.stub(certificationPartnerAcquisitionRepository, 'save').resolves();
+      sinon.stub(partnerCertificationRepository, 'save').resolves();
 
-      sinon.stub(certificationPartnerAcquisitionRepository, 'buildCertificationCleaAcquisition').withArgs({
+      sinon.stub(partnerCertificationRepository, 'buildCleaCertification').withArgs({
         certificationCourseId,
         userId,
         reproducibilityRate,
         domainTransaction
-      }).resolves(cleaPartnerAcquisition);
+      }).resolves(cleaCertification);
 
     });
 
     context('when certification is eligible', () => {
       it('it should save a certif partner', async () => {
         // given
-        cleaPartnerAcquisition.isEligible = () => true;
+        cleaCertification.isEligible = () => true;
 
         // when
-        await handleCertificationAcquisitionForPartner({
+        await handleCertificationForPartner({
           event, ...dependencies, domainTransaction
         });
 
         // then
-        expect(certificationPartnerAcquisitionRepository.save).to.have.been.calledWithMatch(cleaPartnerAcquisition, domainTransaction);
+        expect(partnerCertificationRepository.save).to.have.been.calledWithMatch(cleaCertification, domainTransaction);
       });
     });
     context('when certification is not eligible', () => {
       it('it should not save a certif partner', async () => {
         // given
-        cleaPartnerAcquisition.isEligible = () => false;
+        cleaCertification.isEligible = () => false;
 
         // when
-        await handleCertificationAcquisitionForPartner({
+        await handleCertificationForPartner({
           event, ...dependencies, domainTransaction
         });
 
         // then
-        expect(certificationPartnerAcquisitionRepository.save).not.to.have.been.called;
+        expect(partnerCertificationRepository.save).not.to.have.been.called;
       });
     });
 

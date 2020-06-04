@@ -1,5 +1,5 @@
-const CertificationPartnerAcquisitionBookshelf = require('../data/certification-partner-acquisition');
-const CertificationCleaAcquisition = require('../../domain/models/CertificationCleaAcquisition');
+const PartnerCertificationBookshelf = require('../data/partner-certification');
+const CleaCertification = require('../../domain/models/CleaCertification');
 const competenceMarkRepository = require('./competence-mark-repository');
 const badgeAcquisitionRepository = require('./badge-acquisition-repository');
 const competenceRepository = require('./competence-repository');
@@ -7,12 +7,12 @@ const Badge = require('../../domain/models/Badge');
 
 module.exports = {
 
-  async buildCertificationCleaAcquisition({ certificationCourseId,  userId,  reproducibilityRate, domainTransaction, }) {
+  async buildCleaCertification({ certificationCourseId,  userId,  reproducibilityRate, domainTransaction, }) {
     const hasAcquiredBadgeClea = await _getHasAcquiredBadgeClea(userId);
     const competenceMarks = await competenceMarkRepository.getLatestByCertificationCourseId({ certificationCourseId,domainTransaction });
     const totalPixCleaByCompetence = await competenceRepository.getTotalPixCleaByCompetence();
 
-    return CertificationCleaAcquisition.create({
+    return CleaCertification.create({
       certificationCourseId,
       hasAcquiredBadgeClea,
       competenceMarks,
@@ -21,10 +21,10 @@ module.exports = {
     });
   },
 
-  async save(certificationPartnerAcquisition, domainTransaction = {}) {
-    return new CertificationPartnerAcquisitionBookshelf(_adaptModelToDB({
-      ...certificationPartnerAcquisition,
-      acquired: certificationPartnerAcquisition.isAcquired()
+  async save(partnerCertification, domainTransaction = {}) {
+    return new PartnerCertificationBookshelf(_adaptModelToDB({
+      ...partnerCertification,
+      acquired: partnerCertification.isAcquired()
     })).save(null , { transacting: domainTransaction.knexTransaction });
   },
 };

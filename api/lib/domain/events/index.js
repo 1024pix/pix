@@ -10,7 +10,7 @@ const dependencies = {
   badgeRepository: require('../../infrastructure/repositories/badge-repository'),
   campaignParticipationResultRepository: require('../../infrastructure/repositories/campaign-participation-result-repository'),
   certificationCourseRepository: require('../../infrastructure/repositories/certification-course-repository'),
-  certificationPartnerAcquisitionRepository: require('../../infrastructure/repositories/certification-partner-acquisition-repository'),
+  partnerCertificationRepository: require('../../infrastructure/repositories/partner-certification-repository'),
   competenceMarkRepository: require('../../infrastructure/repositories/competence-mark-repository'),
   competenceRepository: require('../../infrastructure/repositories/competence-repository'),
   knowledgeElementRepository: require('../../infrastructure/repositories/knowledge-element-repository'),
@@ -21,7 +21,7 @@ const dependencies = {
 const handlersToBeInjected = {
   handleBadgeAcquisition: require('./handle-badge-acquisition'),
   handleCertificationScoring: require('./handle-certification-scoring'),
-  handleCertificationAcquisitionForPartner: require('./handle-certification-partner')
+  handleCertificationForPartner: require('./handle-partner-certification')
 };
 
 function buildEventDispatcher(handlersStubs) {

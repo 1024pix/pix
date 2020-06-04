@@ -1,13 +1,13 @@
 const { expect, sinon, } = require('../../../test-helper');
-const certificationPartnerAcquisitionRepository = require('../../../../lib/infrastructure/repositories/certification-partner-acquisition-repository');
+const partnerCertificationRepository = require('../../../../lib/infrastructure/repositories/partner-certification-repository');
 const competenceMarkRepository = require('../../../../lib/infrastructure/repositories/competence-mark-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
-const CertificationPartnerAcquisitionBookshelf = require('../../../../lib/infrastructure/data/certification-partner-acquisition');
+const PartnerCertificationBookshelf = require('../../../../lib/infrastructure/data/partner-certification');
 const Badge = require('../../../../lib/domain/models/Badge');
-const CertificationCleaAcquisition = require('../../../../lib/domain/models/CertificationCleaAcquisition');
+const CleaCertification = require('../../../../lib/domain/models/CleaCertification');
 
-describe('Unit | Repository | Certification Partner Acquisition', function() {
+describe('Unit | Repository | Partner Certification', function() {
   const certificationCourseId = Symbol('certifCourseId');
   const userId = Symbol('userId');
   const totalPixCleaByCompetence = Symbol('totalPixCleaByCompetence');
@@ -26,23 +26,22 @@ describe('Unit | Repository | Certification Partner Acquisition', function() {
       badgeKey: Badge.keys.PIX_EMPLOI_CLEA,
       userId,
     }).resolves(hasAcquiredBadgeClea);
-    sinon.stub(CertificationCleaAcquisition, 'create');
-
+    sinon.stub(CleaCertification, 'create');
   });
 
-  describe('#buildCertificationCleaAcquisition', () => {
-    it('should create a certification clea acquisition object', async () => {
-      const certificationPartnerAcquisition = await certificationPartnerAcquisitionRepository.buildCertificationCleaAcquisition({
+  describe('#buildCleaCertification', () => {
+    it('should create a certification clea object', async () => {
+      const partnerCertification = await partnerCertificationRepository.buildCleaCertification({
         certificationCourseId,
         userId,
         reproducibilityRate,
         domainTransaction
       });
-      expect(certificationPartnerAcquisition).to.be.not.null;
+      expect(partnerCertification).to.be.not.null;
       expect(competenceMarkRepository.getLatestByCertificationCourseId).to.have.been.called;
       expect(badgeAcquisitionRepository.hasAcquiredBadgeWithKey).to.have.been.called;
       expect(competenceRepository.getTotalPixCleaByCompetence).to.have.been.called;
-      expect(CertificationCleaAcquisition.create).to.have.been.calledWith({
+      expect(CleaCertification.create).to.have.been.calledWith({
         certificationCourseId,
         hasAcquiredBadgeClea,
         competenceMarks,
@@ -53,22 +52,22 @@ describe('Unit | Repository | Certification Partner Acquisition', function() {
   });
 
   describe('#save', () => {
-    const certificationCleaAcquisition = new CertificationCleaAcquisition();
+    const cleaCertification = new CleaCertification();
     const domainTransaction = Symbol('transaction');
     const acquired = Symbol('acquired');
 
     it('should save with acquired', async () => {
-      sinon.stub(certificationCleaAcquisition, 'isAcquired').returns(acquired);
-      sinon.stub(CertificationPartnerAcquisitionBookshelf.prototype, 'save').withArgs({
+      sinon.stub(cleaCertification, 'isAcquired').returns(acquired);
+      sinon.stub(PartnerCertificationBookshelf.prototype, 'save').withArgs({
         certificationCourseId,
         badgeKey,
         acquired,
         domainTransaction
       }).resolves();
 
-      await certificationPartnerAcquisitionRepository.save(certificationCleaAcquisition, domainTransaction);
+      await partnerCertificationRepository.save(cleaCertification, domainTransaction);
 
-      expect(CertificationPartnerAcquisitionBookshelf.prototype.save).to.have.been.calledOnce;
+      expect(PartnerCertificationBookshelf.prototype.save).to.have.been.calledOnce;
 
     });
   });

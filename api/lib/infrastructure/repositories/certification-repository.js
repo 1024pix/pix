@@ -1,6 +1,6 @@
 const AssessmentResultBookshelf = require('../data/assessment-result');
 const CertificationCourseBookshelf = require('../../../lib/infrastructure/data/certification-course');
-const CertificationPartnerAcquisitionBookshelf = require('../../../lib/infrastructure/data/certification-partner-acquisition');
+const PartnerCertificationBookshelf = require('../data/partner-certification');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const Bookshelf = require('../bookshelf');
 const Certification = require('../../../lib/domain/models/Certification');
@@ -11,9 +11,9 @@ function _certificationToDomain(certificationCourseBookshelf) {
     .related('assessment')
     .related('assessmentResults');
   const assessmentResults = bookshelfToDomainConverter.buildDomainObjects(AssessmentResultBookshelf, assessmentResultsBookshelf);
-  const certificationPartnerAcquisitionBookshelf = certificationCourseBookshelf
+  const partnerCertificationBookshelf = certificationCourseBookshelf
     .related('acquiredPartnerCertifications');
-  const acquiredPartnerCertifications = bookshelfToDomainConverter.buildDomainObjects(CertificationPartnerAcquisitionBookshelf, certificationPartnerAcquisitionBookshelf);
+  const acquiredPartnerCertifications = bookshelfToDomainConverter.buildDomainObjects(PartnerCertificationBookshelf, partnerCertificationBookshelf);
   return _createCertificationDomainModel({ certificationCourseBookshelf, assessmentResults, acquiredPartnerCertifications });
 }
 
@@ -41,7 +41,7 @@ module.exports = {
     return CertificationCourseBookshelf
       .query((qb) => {
         qb.innerJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id');
-        qb.leftOuterJoin('certification-partner-acquisitions', 'certification-partner-acquisitions.certificationCourseId', 'certification-courses.id');
+        qb.leftOuterJoin('partner-certifications', 'partner-certifications.certificationCourseId', 'certification-courses.id');
         qb.where('certification-courses.id', id);
       })
       .fetch({

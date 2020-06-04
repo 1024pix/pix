@@ -17,7 +17,6 @@ async function handleCertificationScoring({
   badgeAcquisitionRepository,
   certificationAssessmentRepository,
   certificationCourseRepository,
-  certificationPartnerAcquisitionRepository,
   competenceMarkRepository,
   scoringCertificationService,
 }) {
@@ -25,7 +24,15 @@ async function handleCertificationScoring({
 
   if (event.isCertification) {
     const certificationAssessment = await certificationAssessmentRepository.get(event.assessmentId);
-    return _calculateCertificationScore({ certificationAssessment, domainTransaction, assessmentResultRepository, certificationCourseRepository, competenceMarkRepository, scoringCertificationService, badgeAcquisitionRepository, certificationPartnerAcquisitionRepository });
+    return _calculateCertificationScore({
+      certificationAssessment,
+      domainTransaction,
+      assessmentResultRepository,
+      certificationCourseRepository,
+      competenceMarkRepository,
+      scoringCertificationService,
+      badgeAcquisitionRepository,
+    });
   }
 
   return null;

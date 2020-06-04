@@ -35,7 +35,7 @@ describe('Integration | Repository | Certification ', () => {
     });
     const assessmentResult = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment.id });
     expectedCertification = _buildCertification(session.certificationCenter, certificationCourse, assessment, assessmentResult, session.publishedAt);
-    databaseBuilder.factory.buildCertificationAcquiredPartner({ certificationCourseId: expectedCertification.id, partnerKey: PARTNER_CLEA_KEY, acquired: false });
+    databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: expectedCertification.id, partnerKey: PARTNER_CLEA_KEY, acquired: false });
 
     sessionLatestAssessmentRejectedCertifCourseIds = [];
     sessionWithStartedAndErrorCertifCourseIds = [];
@@ -54,7 +54,7 @@ describe('Integration | Repository | Certification ', () => {
   });
 
   afterEach(async () => {
-    await knex('certification-partner-acquisitions').delete();
+    await knex('partner-certifications').delete();
     await knex('assessment-results').delete();
     await knex('assessments').delete();
     await knex('certification-courses').delete();

@@ -23,7 +23,7 @@ const dependencies = {
   certificationCenterRepository: require('../../infrastructure/repositories/certification-center-repository'),
   certificationCenterMembershipRepository: require('../../infrastructure/repositories/certification-center-membership-repository'),
   certificationChallengeRepository: require('../../infrastructure/repositories/certification-challenge-repository'),
-  certificationPartnerAcquisitionRepository: require('../../infrastructure/repositories/certification-partner-acquisition-repository'),
+  partnerCertificationRepository: require('../../infrastructure/repositories/partner-certification-repository'),
   certificationCourseRepository: require('../../infrastructure/repositories/certification-course-repository'),
   certificationRepository: require('../../infrastructure/repositories/certification-repository'),
   challengeRepository: require('../../infrastructure/repositories/challenge-repository'),
