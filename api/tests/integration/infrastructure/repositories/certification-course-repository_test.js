@@ -135,9 +135,8 @@ describe('Integration | Repository | Certification Course', function() {
         { certificationCourseId: expectedCertificationCourse.id,  partnerKey: databaseBuilder.factory.buildBadge({}).key },
         { certificationCourseId: expectedCertificationCourse.id,  partnerKey: databaseBuilder.factory.buildBadge({}).key },
         { certificationCourseId: anotherCourseId,  partnerKey: databaseBuilder.factory.buildBadge({}).key },
-      ], (acquiredPartnerCertification) => {
-        databaseBuilder.factory.buildCertificationAcquiredPartner(acquiredPartnerCertification,);
-      });
+      ], (acquiredPartnerCertification) =>
+        databaseBuilder.factory.buildPartnerCertification(acquiredPartnerCertification));
       return databaseBuilder.commit();
     });
 

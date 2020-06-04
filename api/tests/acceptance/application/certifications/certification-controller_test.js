@@ -38,7 +38,7 @@ describe('Acceptance | API | Certifications', () => {
       emitter: 'PIX-ALGO',
       status: 'rejected',
     });
-    databaseBuilder.factory.buildCertificationAcquiredPartner({ certificationCourseId: certificationCourse.id, partnerKey: badge.key });
+    databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificationCourse.id, partnerKey: badge.key });
 
     return databaseBuilder.commit();
   });

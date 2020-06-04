@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const Badge = require('../models/Badge');
-const CertificationPartnerAcquisition = require('./CertificationPartnerAcquisition');
+const PartnerCertification = require('./PartnerCertification');
 const MIN_PERCENTAGE = 75;
 
 const { MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED, MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED } = require('../constants');
@@ -20,15 +20,15 @@ function _hasRequiredPixValue({ totalPixCleaByCompetence, competenceMarks }) {
     ));
 }
 
-function _hasSufficientReproducibilityRateToBeCertified(reproducibilityRate) {
+function _hasSufficientReproducibilityRateToBeTrusted(reproducibilityRate) {
   return reproducibilityRate >= MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED;
 }
 
-function _hasNotMinimumReproducibilityRateToBeTrusted(reproducibilityRate) {
+function _hasNotMinimumReproducibilityRateToBeCertified(reproducibilityRate) {
   return reproducibilityRate <= MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED;
 }
 
-class CertificationCleaAcquisition extends CertificationPartnerAcquisition {
+class CleaCertification extends PartnerCertification {
 
   constructor({
     certificationCourseId,
@@ -53,9 +53,9 @@ class CertificationCleaAcquisition extends CertificationPartnerAcquisition {
   }
 
   isAcquired() {
-    if (_hasNotMinimumReproducibilityRateToBeTrusted(this.reproducibilityRate)) return false;
+    if (_hasNotMinimumReproducibilityRateToBeCertified(this.reproducibilityRate)) return false;
 
-    if (_hasSufficientReproducibilityRateToBeCertified(this.reproducibilityRate)) return true;
+    if (_hasSufficientReproducibilityRateToBeTrusted(this.reproducibilityRate)) return true;
 
     return _hasRequiredPixValue({
       competenceMarks: this.competenceMarks,
@@ -70,7 +70,7 @@ class CertificationCleaAcquisition extends CertificationPartnerAcquisition {
     competenceMarks,
     totalPixCleaByCompetence
   }) {
-    return new CertificationCleaAcquisition({
+    return new CleaCertification({
       certificationCourseId,
       hasAcquiredBadgeClea,
       reproducibilityRate,
@@ -80,4 +80,4 @@ class CertificationCleaAcquisition extends CertificationPartnerAcquisition {
   }
 }
 
-module.exports = CertificationCleaAcquisition;
+module.exports = CleaCertification;

@@ -1,4 +1,4 @@
-class CertificationPartnerAcquisition {
+class PartnerCertification {
   constructor(
     {
       certificationCourseId,
@@ -16,4 +16,4 @@ class CertificationPartnerAcquisition {
   isAcquired() {}
 }
 
-module.exports = CertificationPartnerAcquisition;
+module.exports = PartnerCertification;
