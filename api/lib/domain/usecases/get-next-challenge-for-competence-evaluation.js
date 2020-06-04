@@ -10,6 +10,7 @@ module.exports = async function getNextChallengeForCompetenceEvaluation({
   answerRepository,
   skillRepository,
   pickChallengeService,
+  improvementService,
   assessment,
   userId,
   locale

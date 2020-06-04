@@ -12,7 +12,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
       answerRepository, challengeRepository, skillRepository,
       knowledgeElementRepository, pickChallengeService,
       recentKnowledgeElements, actualComputedChallenge,
-      challengeUrl21, challengeUrl22;
+      challengeUrl21, challengeUrl22, improvementService;
 
     beforeEach(async () => {
 
@@ -32,6 +32,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
 
       recentKnowledgeElements = [{ createdAt: 4, skillId: 'url2' }, { createdAt: 2, skillId: 'web1' }];
       knowledgeElementRepository = { findUniqByUserId: sinon.stub().resolves(recentKnowledgeElements) };
+      improvementService = { filterKnowledgeElementsIfImproving: sinon.stub().resolves(recentKnowledgeElements) };
 
       const web2 = domainBuilder.buildSkill({ name: '@web2' });
       web2.challenges = [domainBuilder.buildChallenge({ id: 'challenge_web2_1' }), domainBuilder.buildChallenge({ id: 'challenge_web2_2' })];
@@ -58,7 +59,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
           challengeRepository,
           knowledgeElementRepository,
           skillRepository,
-          pickChallengeService
+          pickChallengeService,
+          improvementService
         });
       });
       it('should throw a UserNotAuthorizedToAccessEntity error', () => {
@@ -75,7 +77,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
           challengeRepository,
           knowledgeElementRepository,
           skillRepository,
-          pickChallengeService
+          pickChallengeService,
+          improvementService
         });
       });
       it('should have fetched the answers', () => {

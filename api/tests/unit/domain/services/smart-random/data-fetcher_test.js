@@ -73,8 +73,14 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
     let challengeRepository;
     let knowledgeElementRepository;
     let skillRepository;
+    let improvementService;
+    let data;
+    let answer;
+    let knowledgeElements;
+    let skills;
+    let challenges;
 
-    beforeEach(() => {
+    beforeEach(async () => {
       answerRepository = {
         findLastByAssessment: sinon.stub(),
       };
@@ -87,18 +93,18 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
       skillRepository = {
         findByCompetenceId: sinon.stub(),
       };
-    });
+      improvementService = {
+        filterKnowledgeElementsIfImproving: sinon.stub(),
+      };
 
-    it('fetches answers, targetsSkills challenges and knowledgeElements', async () => {
-      // given
-      const answer = domainBuilder.buildAnswer();
-      const challenges = [
+      answer = domainBuilder.buildAnswer();
+      challenges = [
         domainBuilder.buildChallenge(),
       ];
-      const knowledgeElements = [
+      knowledgeElements = [
         domainBuilder.buildKnowledgeElement(),
       ];
-      const skills = [
+      skills = [
         domainBuilder.buildSkill(),
       ];
       const assessment = domainBuilder.buildAssessment.ofTypeSmartPlacement();
@@ -107,16 +113,25 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
       skillRepository.findByCompetenceId.withArgs(assessment.competenceId).resolves(skills);
       challengeRepository.findByCompetenceId.withArgs(assessment.competenceId).resolves(challenges);
       knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves(knowledgeElements);
+      improvementService.filterKnowledgeElementsIfImproving.resolves(knowledgeElements);
 
       // when
-      const data = await dataFetcher.fetchForCompetenceEvaluations({
+      data = await dataFetcher.fetchForCompetenceEvaluations({
         assessment,
         answerRepository,
         challengeRepository,
         knowledgeElementRepository,
         skillRepository,
+        improvementService,
       });
+    });
 
+    it('filter knowledge elements if assessment is an improving one', async () => {
+      // then
+      expect(improvementService.filterKnowledgeElementsIfImproving).to.be.called;
+    });
+
+    it('fetches answers, targetsSkills challenges and knowledgeElements', async () => {
       // then
       expect(data.lastAnswer).to.deep.equal(answer);
       expect(data.targetSkills).to.deep.equal(skills);
