@@ -47,7 +47,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
       it('should add pix competences to the campaign participation results', () => {
         // when
         const campaignBadges = [];
-        const acquiredBadges = [];
+        const acquiredBadgeIds = [];
         const result = CampaignParticipationResult.buildFrom({
           campaignParticipationId,
           assessment,
@@ -55,13 +55,12 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           targetProfile,
           knowledgeElements,
           campaignBadges,
-          acquiredBadges,
+          acquiredBadgeIds,
         });
 
         // then
         expect(result).to.be.an.instanceOf(CampaignParticipationResult);
-        expect(result.badges.length).to.equal(0);
-        expect(result.partnerCompetenceResults.length).to.equal(0);
+        expect(result.campaignParticipationBadges.length).to.equal(0);
         expect(result).to.deep.equal({
           id: campaignParticipationId,
           isCompleted: false,
@@ -69,8 +68,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           testedSkillsCount: 2,
           validatedSkillsCount: 1,
           knowledgeElementsCount: 2,
-          badges: [],
-          partnerCompetenceResults: [],
+          campaignParticipationBadges: [],
           competenceResults: [{
             id: 1,
             name: 'Economie symbiotique',
@@ -124,7 +122,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           targetProfileId: targetProfile.id,
         });
         const campaignBadges = [yellowBadge];
-        const acquiredBadges = [yellowBadge];
+        const acquiredBadgeIds = [yellowBadge.id];
 
         // when
         const result = CampaignParticipationResult.buildFrom({
@@ -134,13 +132,13 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           targetProfile,
           knowledgeElements,
           campaignBadges,
-          acquiredBadges,
+          acquiredBadgeIds,
         });
 
         // then
         expect(result).to.be.an.instanceOf(CampaignParticipationResult);
-        expect(result.badges.length).to.equal(1);
-        expect(result.partnerCompetenceResults[0]).to.be.an.instanceOf(CompetenceResult);
+        expect(result.campaignParticipationBadges.length).to.equal(1);
+        expect(result.campaignParticipationBadges[0].partnerCompetenceResults[0]).to.be.an.instanceOf(CompetenceResult);
         expect(result).to.deep.equal({
           id: campaignParticipationId,
           isCompleted: false,
@@ -148,7 +146,8 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           testedSkillsCount: 2,
           validatedSkillsCount: 1,
           knowledgeElementsCount: 2,
-          badges: [{
+          campaignParticipationBadges: [{
+            isAcquired: true,
             id: 1,
             altMessage: 'You won the Yellow badge',
             imageUrl: '/img/yellow.svg',
@@ -167,16 +166,16 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               badgeId: 1
             }],
             targetProfileId: targetProfile.id,
-          }],
-          partnerCompetenceResults: [{
-            id: 18,
-            areaColor: 'emerald',
-            index: undefined,
-            name: 'Yellow',
-            testedSkillsCount: 2,
-            totalSkillsCount: 3,
-            validatedSkillsCount: 1,
-            badgeId: 1,
+            partnerCompetenceResults: [{
+              id: 18,
+              areaColor: 'emerald',
+              index: undefined,
+              name: 'Yellow',
+              testedSkillsCount: 2,
+              totalSkillsCount: 3,
+              validatedSkillsCount: 1,
+              badgeId: 1,
+            }],
           }],
           competenceResults: [{
             id: 1,
@@ -247,7 +246,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           targetProfileId: targetProfile.id,
         });
         const campaignBadges = [greenBadge, yellowBadge];
-        const acquiredBadges = [greenBadge, yellowBadge];
+        const acquiredBadgeIds = [greenBadge.id, yellowBadge.id];
 
         // when
         const result = CampaignParticipationResult.buildFrom({
@@ -257,13 +256,14 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           targetProfile,
           knowledgeElements,
           campaignBadges,
-          acquiredBadges,
+          acquiredBadgeIds,
         });
 
         // then
         expect(result).to.be.an.instanceOf(CampaignParticipationResult);
-        expect(result.badges.length).to.equal(2);
-        expect(result.partnerCompetenceResults.length).to.equal(1);
+        expect(result.campaignParticipationBadges.length).to.equal(2);
+        expect(result.campaignParticipationBadges[0].partnerCompetenceResults.length).to.equal(1);
+        expect(result.campaignParticipationBadges[1].partnerCompetenceResults.length).to.equal(0);
         expect(result).to.deep.equal({
           id: campaignParticipationId,
           isCompleted: false,
@@ -271,8 +271,9 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           testedSkillsCount: 2,
           validatedSkillsCount: 1,
           knowledgeElementsCount: 2,
-          badges: [{
+          campaignParticipationBadges: [{
             id: 1,
+            isAcquired: true,
             altMessage: 'You won the Green badge',
             imageUrl: '/img/green.svg',
             message: 'Congrats, you won the Green badge!',
@@ -289,9 +290,20 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               skillIds: [1, 2, 4],
               badgeId: 1,
             }],
+            partnerCompetenceResults: [{
+              id: 42,
+              name: 'Green',
+              areaColor: 'jaffa',
+              badgeId: 1,
+              testedSkillsCount: 2,
+              totalSkillsCount: 3,
+              validatedSkillsCount: 1,
+              index: undefined,
+            }],
             targetProfileId: 1,
           }, {
             id: 2,
+            isAcquired: true,
             altMessage: 'You won the Yellow badge',
             imageUrl: '/img/yellow.svg',
             message: 'Congrats, you won the Yellow badge!',
@@ -302,17 +314,8 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               threshold: 54,
             }],
             badgePartnerCompetences: [],
+            partnerCompetenceResults: [],
             targetProfileId: 1,
-          }],
-          partnerCompetenceResults: [{
-            id: 42,
-            index: undefined,
-            name: 'Green',
-            areaColor: 'jaffa',
-            totalSkillsCount: 3,
-            testedSkillsCount: 2,
-            validatedSkillsCount: 1,
-            badgeId: 1
           }],
           competenceResults: [{
             id: 1,
@@ -387,7 +390,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           targetProfileId: targetProfile.id,
         });
         const campaignBadges = [greenBadge, yellowBadge];
-        const acquiredBadges = [greenBadge];
+        const acquiredBadgeIds = [greenBadge.id];
 
         // when
         const result = CampaignParticipationResult.buildFrom({
@@ -397,13 +400,14 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           targetProfile,
           knowledgeElements,
           campaignBadges,
-          acquiredBadges,
+          acquiredBadgeIds,
         });
 
         // then
         expect(result).to.be.an.instanceOf(CampaignParticipationResult);
-        expect(result.badges.length).to.equal(1);
-        expect(result.partnerCompetenceResults.length).to.equal(2);
+        expect(result.campaignParticipationBadges.length).to.equal(2);
+        expect(result.campaignParticipationBadges[0].partnerCompetenceResults.length).to.equal(1);
+        expect(result.campaignParticipationBadges[1].partnerCompetenceResults.length).to.equal(1);
         expect(result).to.deep.equal({
           id: campaignParticipationId,
           isCompleted: false,
@@ -411,8 +415,9 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           testedSkillsCount: 2,
           validatedSkillsCount: 1,
           knowledgeElementsCount: 2,
-          badges: [{
+          campaignParticipationBadges: [{
             id: 1,
+            isAcquired: true,
             altMessage: 'You won the Green badge',
             imageUrl: '/img/green.svg',
             message: 'Congrats, you won the Green badge!',
@@ -429,26 +434,51 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               skillIds: [1, 2, 4],
               badgeId: 1,
             }],
+            partnerCompetenceResults: [{
+              id: 42,
+              index: undefined,
+              name: 'Green',
+              areaColor: 'jaffa',
+              totalSkillsCount: 3,
+              testedSkillsCount: 2,
+              validatedSkillsCount: 1,
+              badgeId: 1,
+            }],
             targetProfileId: 1,
-          }],
-          partnerCompetenceResults: [{
-            id: 42,
-            index: undefined,
-            name: 'Green',
-            areaColor: 'jaffa',
-            totalSkillsCount: 3,
-            testedSkillsCount: 2,
-            validatedSkillsCount: 1,
-            badgeId: 1,
           }, {
-            id: 48,
-            index: undefined,
-            name: 'Yellow',
-            areaColor: 'emerald',
-            totalSkillsCount: 1,
-            testedSkillsCount: 1,
-            validatedSkillsCount: 0,
-            badgeId: 2,
+            id: 2,
+            isAcquired: false,
+            altMessage: 'You won the Yellow badge',
+            imageUrl: '/img/yellow.svg',
+            message: 'Congrats, you won the Yellow badge!',
+            key: 'YELLOW',
+            badgeCriteria: [
+              domainBuilder.buildBadgeCriterion({
+                id: 15,
+                scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
+                threshold: 54
+              })
+            ],
+            badgePartnerCompetences: [
+              domainBuilder.buildBadgePartnerCompetence({
+                id: 48,
+                name: 'Yellow',
+                color: 'emerald',
+                skillIds: [2],
+                badgeId: 2,
+              })
+            ],
+            partnerCompetenceResults: [{
+              id: 48,
+              index: undefined,
+              name: 'Yellow',
+              areaColor: 'emerald',
+              totalSkillsCount: 1,
+              testedSkillsCount: 1,
+              validatedSkillsCount: 0,
+              badgeId: 2,
+            }],
+            targetProfileId: targetProfile.id,
           }],
           competenceResults: [{
             id: 1,
@@ -507,7 +537,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           targetProfileId: targetProfile.id,
         });
         const campaignBadges = [greenBadge, yellowBadge];
-        const acquiredBadges = [greenBadge, yellowBadge];
+        const acquiredBadgeIds = [greenBadge.id, yellowBadge.id];
 
         // when
         const result = CampaignParticipationResult.buildFrom({
@@ -517,13 +547,12 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           targetProfile,
           knowledgeElements,
           campaignBadges,
-          acquiredBadges,
+          acquiredBadgeIds,
         });
 
         // then
         expect(result).to.be.an.instanceOf(CampaignParticipationResult);
-        expect(result.badges.length).to.equal(2);
-        expect(result.partnerCompetenceResults.length).to.equal(0);
+        expect(result.campaignParticipationBadges.length).to.equal(2);
         expect(result).to.deep.equal({
           id: campaignParticipationId,
           isCompleted: false,
@@ -531,8 +560,9 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           testedSkillsCount: 2,
           validatedSkillsCount: 1,
           knowledgeElementsCount: 2,
-          badges: [{
+          campaignParticipationBadges: [{
             id: 1,
+            isAcquired: true,
             altMessage: 'You won the Green badge',
             imageUrl: '/img/green.svg',
             message: 'Congrats, you won the Green badge!',
@@ -543,9 +573,11 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               threshold: 54,
             }],
             badgePartnerCompetences: [],
+            partnerCompetenceResults: [],
             targetProfileId: 1,
           }, {
             id: 2,
+            isAcquired: true,
             altMessage: 'You won the Yellow badge',
             imageUrl: '/img/yellow.svg',
             message: 'Congrats, you won the Yellow badge!',
@@ -556,9 +588,9 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               threshold: 54,
             }],
             badgePartnerCompetences: [],
+            partnerCompetenceResults: [],
             targetProfileId: 1,
           }],
-          partnerCompetenceResults: [],
           competenceResults: [{
             id: 1,
             name: 'Economie symbiotique',
@@ -629,24 +661,4 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
     });
   });
 
-  describe('#filterPartnerCompetenceResultsWithBadge', () => {
-    it('should filter partnerCompetenceResults', function() {
-      // given
-      const partnerCompetenceResults = [{
-        badgeId: 5
-      }, {
-        badgeId: 10
-      }];
-      const campaignParticipationResult = new CampaignParticipationResult({
-        partnerCompetenceResults
-      });
-
-      // when
-      campaignParticipationResult.filterPartnerCompetenceResultsWithBadge({ id: 5 });
-
-      // then
-      expect(campaignParticipationResult.partnerCompetenceResults.length).to.equal(1);
-      expect(campaignParticipationResult.partnerCompetenceResults[0].badgeId).to.equal(5);
-    });
-  });
 });

@@ -1,5 +1,6 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-result-serializer');
+const CampaignParticipationBadge = require('../../../../../lib/domain/models/CampaignParticipationBadge');
 
 describe('Unit | Serializer | JSON API | campaign-participation-result-serializer', function() {
 
@@ -33,13 +34,17 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
       const totalSkillsCount = competenceResults[0].totalSkillsCount + competenceResults[1].totalSkillsCount;
       const validatedSkillsCount = competenceResults[0].validatedSkillsCount + competenceResults[1].validatedSkillsCount;
 
+      const campaignParticipationBadge = new CampaignParticipationBadge({
+        id: 19,
+        partnerCompetenceResults,
+      });
       const campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
         isCompleted: true,
         testedSkillsCount,
         totalSkillsCount,
         validatedSkillsCount,
         competenceResults,
-        partnerCompetenceResults: partnerCompetenceResults,
+        campaignParticipationBadges: [campaignParticipationBadge],
       });
 
       const expectedSerializedCampaignParticipationResult = {
@@ -54,14 +59,11 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
           },
           id: '1',
           relationships: {
-            badges: {
-              data: null
-            },
-            'partner-competence-results': {
-              data: [ {
-                id: '12',
-                type: 'partnerCompetenceResults'
-              }],
+            'campaign-participation-badges': {
+              data: [{
+                id: campaignParticipationBadge.id.toString(),
+                type: 'campaignParticipationBadges'
+              }]
             },
             'competence-results': {
               data: [
@@ -81,15 +83,37 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
         included: [
           {
             attributes: {
-              'area-color': 'emerald',
-              name: 'Pix Emploi',
-              'mastery-percentage': 33,
-              'tested-skills-count': 2,
-              'total-skills-count': 3,
-              'validated-skills-count': 1,
+              'area-color': partnerCompetenceResults[0].areaColor,
+              index: partnerCompetenceResults[0].index,
+              'mastery-percentage': partnerCompetenceResults[0].masteryPercentage,
+              name: partnerCompetenceResults[0].name,
+              'tested-skills-count': partnerCompetenceResults[0].testedSkillsCount,
+              'total-skills-count': partnerCompetenceResults[0].totalSkillsCount,
+              'validated-skills-count': partnerCompetenceResults[0].validatedSkillsCount,
             },
-            id: '12',
+            id: partnerCompetenceResults[0].id.toString(),
             type: 'partnerCompetenceResults',
+          },
+          {
+            attributes: {
+              'alt-message': campaignParticipationBadge.altMessage,
+              message: campaignParticipationBadge.message,
+              'image-url': campaignParticipationBadge.imageUrl,
+              key: campaignParticipationBadge.key,
+              'is-acquired': campaignParticipationBadge.isAcquired,
+            },
+            id: campaignParticipationBadge.id.toString(),
+            type: 'campaignParticipationBadges',
+            relationships: {
+              'partner-competence-results': {
+                data: [
+                  {
+                    id: partnerCompetenceResults[0].id.toString(),
+                    type: 'partnerCompetenceResults'
+                  }
+                ]
+              }
+            }
           },
           {
             attributes: {

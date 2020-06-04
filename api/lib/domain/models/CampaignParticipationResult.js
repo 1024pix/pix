@@ -1,5 +1,6 @@
 const campaignParticipationService = require('../services/campaign-participation-service');
 const CompetenceResult = require('./CompetenceResult');
+const CampaignParticipationBadge = require('./CampaignParticipationBadge');
 
 const _ = require('lodash');
 
@@ -13,8 +14,7 @@ class CampaignParticipationResult {
     validatedSkillsCount,
     knowledgeElementsCount,
     // relationships
-    badges,
-    partnerCompetenceResults = [],
+    campaignParticipationBadges,
     competenceResults = [],
   } = {}) {
     this.id = id;
@@ -25,18 +25,19 @@ class CampaignParticipationResult {
     this.validatedSkillsCount = validatedSkillsCount;
     this.knowledgeElementsCount = knowledgeElementsCount;
     // relationships
-    this.badges = badges;
-    this.partnerCompetenceResults = partnerCompetenceResults;
+    this.campaignParticipationBadges = campaignParticipationBadges;
     this.competenceResults = competenceResults;
   }
 
-  static buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements, campaignBadges = [], acquiredBadges = [] }) {
+  static buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements, campaignBadges = [], acquiredBadgeIds = [] }) {
     const targetProfileSkillsIds = _.map(targetProfile.skills, 'id');
     const targetedKnowledgeElements = _removeUntargetedKnowledgeElements(knowledgeElements, targetProfileSkillsIds);
 
     const targetedCompetenceResults = _computeCompetenceResults(competences, targetProfileSkillsIds, targetedKnowledgeElements);
-    const targetedPartnerCompetenceResults = _.flatMap(campaignBadges, (badge) => {
-      return _computePartnerCompetenceResults(badge, targetProfileSkillsIds, targetedKnowledgeElements);
+    const campaignParticipationBadges = _.flatMap(campaignBadges, (badge) => {
+      const partnerCompetenceResults = _computePartnerCompetenceResults(badge, targetProfileSkillsIds, targetedKnowledgeElements);
+      const isBadgeAcquired = _.includes(acquiredBadgeIds, badge.id);
+      return CampaignParticipationBadge.buildFrom({ badge, partnerCompetenceResults, isAcquired: isBadgeAcquired });
     });
 
     const validatedSkillsCount = _.sumBy(targetedCompetenceResults, 'validatedSkillsCount');
@@ -51,8 +52,7 @@ class CampaignParticipationResult {
       knowledgeElementsCount: targetedKnowledgeElements.length,
       isCompleted: assessment.isCompleted(),
       competenceResults: targetedCompetenceResults,
-      partnerCompetenceResults: targetedPartnerCompetenceResults,
-      badges: acquiredBadges,
+      campaignParticipationBadges,
     });
   }
 
@@ -66,16 +66,6 @@ class CampaignParticipationResult {
 
   get progress() {
     return campaignParticipationService.progress(this.isCompleted, this.knowledgeElementsCount, this.totalSkillsCount);
-  }
-
-  filterPartnerCompetenceResultsWithBadge(badge) {
-    if (badge) {
-      this.partnerCompetenceResults = this.partnerCompetenceResults
-        .filter((partnerCompetenceResult) => partnerCompetenceResult.badgeId === badge.id);
-    }
-    else {
-      this.partnerCompetenceResults.length = 0;
-    }
   }
 }
 

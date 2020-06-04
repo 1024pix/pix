@@ -45,9 +45,14 @@ describe('Unit | Domain | Services | badge-criteria', () => {
             badgeId: badge.id,
           }),
         ];
+        const campaignParticipationBadge = domainBuilder.buildCampaignParticipationBadge({
+          id: badge.id,
+          isAcquired: true,
+          partnerCompetenceResults: partnerCompetenceResults
+        });
         campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
           badge,
-          partnerCompetenceResults: partnerCompetenceResults,
+          campaignParticipationBadges: [campaignParticipationBadge],
           validatedSkillsCount: 9,
           totalSkillsCount: 10,
         });
@@ -78,9 +83,14 @@ describe('Unit | Domain | Services | badge-criteria', () => {
             badgeId: badge.id,
           }),
         ];
+        const campaignParticipationBadge = domainBuilder.buildCampaignParticipationBadge({
+          id: badge.id,
+          isAcquired: true,
+          partnerCompetenceResults: partnerCompetenceResults
+        });
         campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
           badge,
-          partnerCompetenceResults: partnerCompetenceResults,
+          campaignParticipationBadges: [campaignParticipationBadge],
           validatedSkillsCount: 2,
           totalSkillsCount: 10,
         });
@@ -144,9 +154,14 @@ describe('Unit | Domain | Services | badge-criteria', () => {
             badgeId: badge.id,
           }),
         ];
+        const campaignParticipationBadge = domainBuilder.buildCampaignParticipationBadge({
+          id: badge.id,
+          isAcquired: false,
+          partnerCompetenceResults: partnerCompetenceResults
+        });
         campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
           badge,
-          partnerCompetenceResults: partnerCompetenceResults,
+          campaignParticipationBadges: [campaignParticipationBadge],
           validatedSkillsCount: 9,
           totalSkillsCount: 10,
         });

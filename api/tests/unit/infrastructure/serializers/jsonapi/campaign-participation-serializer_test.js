@@ -44,6 +44,10 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
         validatedSkillsCount: 4,
       }
     ];
+    const campaignParticipationBadge = {
+      id: 5,
+      partnerCompetenceResults: partnerCompetenceResults
+    };
     const campaignParticipationResult = {
       id: 1,
       isCompleted: true,
@@ -53,7 +57,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
       validatedSkillsCount: 4,
       progress: 1,
       competenceResults,
-      partnerCompetenceResults: partnerCompetenceResults,
+      campaignParticipationBadges: [campaignParticipationBadge],
     };
     const campaignAnalysis = {};
     const campaignParticipation = new CampaignParticipation({
@@ -150,24 +154,9 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
             type: 'competenceResults'
           },
           {
-            attributes: {
-              'mastery-percentage': 50,
-              'tested-skills-count': 5,
-              'total-skills-count': 10,
-              'validated-skills-count': 5,
-            },
-            id: '1',
-            type: 'partnerCompetenceResults',
-          },
-          {
-            attributes: {
-              'mastery-percentage': 66,
-              'tested-skills-count': 5,
-              'total-skills-count': 6,
-              'validated-skills-count': 4,
-            },
-            id: '2',
-            type: 'partnerCompetenceResults'
+            attributes: {},
+            id: campaignParticipationBadge.id.toString(),
+            type: 'campaignParticipationBadges'
           },
           {
             attributes: {
@@ -180,15 +169,11 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
               'progress': 1
             },
             relationships: {
-              'partner-competence-results': {
+              'campaign-participation-badges': {
                 data: [
                   {
-                    id: '1',
-                    type: 'partnerCompetenceResults',
-                  },
-                  {
-                    id: '2',
-                    type: 'partnerCompetenceResults'
+                    id: '5',
+                    type: 'campaignParticipationBadges'
                   }
                 ]
               },
