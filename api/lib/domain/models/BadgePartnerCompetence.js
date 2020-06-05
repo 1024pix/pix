@@ -8,7 +8,6 @@ class BadgePartnerCompetence {
     // includes
     // references
     skillIds,
-    badgeId,
   } = {}) {
     this.id = id;
     // attributes
@@ -17,7 +16,6 @@ class BadgePartnerCompetence {
     // includes
     // references
     this.skillIds = skillIds;
-    this.badgeId = badgeId;
   }
 }
 
