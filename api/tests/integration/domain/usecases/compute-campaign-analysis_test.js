@@ -20,7 +20,7 @@ describe('Integration | UseCase | compute-campaign-analysis', () => {
     competenceRepository = { list: sinon.stub() };
     targetProfileRepository = { getByCampaignId: sinon.stub() };
     tubeRepository = { list: sinon.stub() };
-    knowledgeElementRepository = { findByCampaignIdForSharedCampaignParticipation: sinon.stub() };
+    knowledgeElementRepository = { findValidatedByCampaignIdForSharedCampaignParticipationInTargetProfile: sinon.stub() };
     campaignParticipationRepository = { countSharedParticipationOfCampaign: sinon.stub() };
     tutorialRepository = { list: sinon.stub() };
   });
@@ -63,7 +63,7 @@ describe('Integration | UseCase | compute-campaign-analysis', () => {
 
       targetProfileRepository.getByCampaignId.withArgs(campaignId).resolves(targetProfile);
       competenceRepository.list.resolves([competence]);
-      knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation.resolves([knowledgeElementSkill1,knowledgeElementSkill2]);
+      knowledgeElementRepository.findValidatedByCampaignIdForSharedCampaignParticipationInTargetProfile.resolves([knowledgeElementSkill1,knowledgeElementSkill2]);
       campaignParticipationRepository.countSharedParticipationOfCampaign.resolves(1);
       tubeRepository.list.resolves([tube, otherTube]);
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
