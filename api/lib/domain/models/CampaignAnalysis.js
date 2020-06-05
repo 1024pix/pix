@@ -16,10 +16,10 @@ class CampaignAnalysis {
   } = {}) {
     this.id = campaignId;
     // attributes
-    this.campaignTubeRecommendations = this._buildCampaignTubeRecommandations({ campaignId, competences, tubes, skills, validatedKnowledgeElements, participantsCount, tutorials });
+    this.campaignTubeRecommendations = this._buildCampaignTubeRecommendations({ campaignId, competences, tubes, skills, validatedKnowledgeElements, participantsCount, tutorials });
   }
 
-  _buildCampaignTubeRecommandations({ campaignId, competences, tubes, skills, validatedKnowledgeElements, participantsCount, tutorials }) {
+  _buildCampaignTubeRecommendations({ campaignId, competences, tubes, skills, validatedKnowledgeElements, participantsCount, tutorials }) {
     const { difficulty: maxSkillLevelInTargetProfile } =  _.maxBy(skills, 'difficulty');
     return tubes.map((tube) => {
       const competence = _.find(competences, { id: tube.competenceId });
