@@ -97,5 +97,8 @@
   },
   "ember": {
     "edition": "octane"
+  },
+  "dependencies": {
+    "ember-cp-validations": "^4.0.0-beta.10"
   }
 }

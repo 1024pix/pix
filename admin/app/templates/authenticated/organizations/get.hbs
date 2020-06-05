@@ -16,7 +16,9 @@
 
 <main class="page-body" id="organizations-get-page">
 
-  <OrganizationInformationSection @organization={{@model}} @onLogoUpdated={{this.updateOrganizationInformation}} />
+  <OrganizationInformationSection @organization={{@model}}
+                                  @onLogoUpdated={{this.updateOrganizationInformation}}
+                                  @onSubmit={{this.updateOrganizationInformation}} />
 
   <OrganizationMembersSection @organization={{@model}}
                               @userEmailToAdd={{this.userEmailToAdd}}
