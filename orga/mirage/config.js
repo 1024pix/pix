@@ -1,5 +1,5 @@
 import Response from 'ember-cli-mirage/response';
-import { 
+import {
   findPaginatedCampaignAssessmentParticipationSummaries,
   findPaginatedCampaignProfilesCollectionParticipationSummaries,
 } from './handlers/find-paginated-campaign-participation-summaries';
@@ -265,4 +265,7 @@ export default function() {
     return userOrgaSettings.update({ organization });
   });
 
+  this.get('/campaigns/:campaignId/profiles-collection-participations/:campaignParticipationId', (schema, request) => {
+    return schema.campaignProfiles.findBy({ ...request.params });
+  });
 }
