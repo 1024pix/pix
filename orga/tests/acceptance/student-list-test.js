@@ -99,62 +99,25 @@ module('Acceptance | Student List', function(hooks) {
         assert.equal(currentURL(), '/eleves');
       });
 
-      test('it should show title of team page', async function(assert) {
-        // when
-        await visit('/eleves');
-
-        // then
-        assert.dom('.page-title').hasText('Élèves');
-      });
-
-      test('it should list the students', async function(assert) {
-        // when
-        await visit('/eleves');
-
-        // then
-        assert.dom('.table thead th').exists({ count: 5 });
-        assert.dom('.table tbody tr').exists({ count: 6 });
-      });
-
-      test('it should display headers labels', async function(assert) {
-        // when
-        await visit('/eleves');
-
-        // then
-        assert.dom('.table thead th:nth-child(1)').hasText('Nom');
-        assert.dom('.table thead th:nth-child(2)').hasText('Prénom');
-        assert.dom('.table thead th:nth-child(3)').hasText('Date de naissance');
-        assert.dom('.table thead th:nth-child(4)').hasText('Connecté avec');
-        assert.dom('.table thead th:nth-child(5)').hasText('');
-      });
-
       module('when student authenticated by username and email', async function() {
-
-        test('it should display password reset modal button for student', async function(assert) {
-          // when
-          await visit('/eleves');
-
-          // then
-          assert.dom('.table tbody tr:nth-child(6) td:last-child button .fa-cog').exists();
-        });
 
         test('it should open modal and display password reset button', async function(assert) {
           // given
           await visit('/eleves');
 
           // when
-          await click('.table tbody tr:nth-child(6) td:last-child button');
+          await click('[aria-label="Afficher les actions"]');
+          await click('li');
 
           // then
-          assert.dom('.pix-modal-overlay').exists();
-          assert.dom('.pix-modal-footer button').exists();
-          assert.dom('.pix-modal-footer button').hasText('Réinitialiser le mot de passe');
+          assert.contains('Réinitialiser le mot de passe');
         });
 
         test('it should display unique password input when reset button is clicked', async function(assert) {
           // given
           await visit('/eleves');
-          await click('.table tbody tr:nth-child(6) td:last-child button');
+          await click('[aria-label="Afficher les actions"]');
+          await click('li');
 
           // when
           await click('#generate-password');
@@ -170,26 +133,26 @@ module('Acceptance | Student List', function(hooks) {
           await visit('/eleves');
 
           // when
-          await click('.table tbody tr:nth-child(6) td:last-child button');
+          await click('[aria-label="Afficher les actions"]');
+          await click('li');
 
           // then
-          assert.dom('.pix-modal-overlay').exists();
           assert.dom('#username').hasValue(username);
           assert.dom('#email').hasValue(email);
         });
       });
 
-      module('when student authenticated by username )', async function() {
+      module('when student authenticated by username', async function() {
 
         test('it should open password modal window with username value', async function(assert) {
           // given
           await visit('/eleves');
 
           // when
-          await click('.table tbody tr:nth-child(6) td:last-child button');
+          await click('[aria-label="Afficher les actions"]');
+          await click('li');
 
           // then
-          assert.dom('.pix-modal-overlay').exists();
           assert.dom('#username').hasValue(username);
         });
 
@@ -203,10 +166,10 @@ module('Acceptance | Student List', function(hooks) {
           await visit('/eleves');
 
           // when
-          await click('.table tbody tr:nth-child(6) td:last-child button');
+          await click('[aria-label="Afficher les actions"]');
+          await click('li');
 
           // then
-          assert.dom('.pix-modal-overlay').exists();
           assert.dom('#email').hasValue(email);
         });
       });
@@ -226,14 +189,6 @@ module('Acceptance | Student List', function(hooks) {
         });
       });
 
-      test('it should display import button', async function(assert) {
-        // when
-        await visit('/eleves');
-
-        // then
-        assert.dom('.button').hasText('Importer (.xml)');
-      });
-
       test('it should display success message and reload students', async function(assert) {
         // given
         await visit('/eleves');
@@ -247,9 +202,9 @@ module('Acceptance | Student List', function(hooks) {
         // then
         assert.dom('[data-test-notification-message="success"]').exists();
         assert.dom('[data-test-notification-message="success"]').hasText('La liste a été importée avec succès.');
-        assert.dom('.table tbody tr').exists({ count: 1 });
-        assert.dom('.table tbody tr td:first-child').hasText('Cover');
-        assert.dom('.table tbody tr td:nth-child(2)').hasText('Harry');
+        assert.dom('[aria-label="Élève"]').exists({ count: 1 });
+        assert.contains('Cover');
+        assert.contains('Harry');
       });
 
       test('it should display an error message when uploading an invalid file', async function(assert) {
@@ -310,29 +265,6 @@ module('Acceptance | Student List', function(hooks) {
         // then
         assert.dom('[data-test-notification-message="error"]').exists();
         assert.dom('[data-test-notification-message="error"]').hasText('Quelque chose s\'est mal passé. Veuillez réessayer.');
-      });
-    });
-
-    module('When prescriber is not admin in organization', function(hooks) {
-
-      hooks.beforeEach(async () => {
-        user = createUserManagingStudents('MEMBER');
-        createPrescriberByUser(user);
-
-        await authenticateSession({
-          user_id: user.id,
-          access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
-          expires_in: 3600,
-          token_type: 'Bearer token type',
-        });
-      });
-
-      test('it should not display import button', async function(assert) {
-        // when
-        await visit('/eleves');
-
-        // then
-        assert.dom('.button').doesNotExist();
       });
     });
   });

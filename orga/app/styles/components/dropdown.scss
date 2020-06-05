@@ -1,0 +1,42 @@
+.dropdown {
+  position: relative;
+  display: inline-block;
+
+  &__content {
+    background-color: $white;
+    border-radius: 4px;
+    box-shadow: 1px 1px 3px 1px rgba($black, 0.13), 0 1px 1px 0 rgba($black, 0.08);
+    overflow: hidden;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    z-index: 1;
+  }
+
+  &__item {
+    align-items: center;
+    border-radius: 4px;
+    color: $grey-60;
+    cursor: pointer;
+    display: flex;
+    font-size: 0.875rem;
+    transition: background-color 0.1s linear;
+    padding: 12px 16px;
+
+    &--link {
+      padding: 0;
+      > a {
+        padding: 12px 16px;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: $grey-10;
+      color: $grey-60;
+    }
+  }
+}
