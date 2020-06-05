@@ -226,7 +226,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
 
   });
 
-  describe('findByCampaignIdForSharedCampaignParticipation', () => {
+  describe('findValidatedByCampaignIdForSharedCampaignParticipationInTargetProfile', () => {
     let userId, targetProfileId, campaignId;
 
     beforeEach(() => {
@@ -255,7 +255,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await KnowledgeElementRepository.findValidatedByCampaignIdForSharedCampaignParticipationInTargetProfile(campaignId);
 
       // then
       expect(actualKnowledgeElements[0].skillId).to.equal('12');
@@ -279,7 +279,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await KnowledgeElementRepository.findValidatedByCampaignIdForSharedCampaignParticipationInTargetProfile(campaignId);
 
       // then
       expect(actualKnowledgeElements).to.be.empty;
@@ -326,7 +326,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await KnowledgeElementRepository.findValidatedByCampaignIdForSharedCampaignParticipationInTargetProfile(campaignId);
 
       // then
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1,2]);
@@ -360,7 +360,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await KnowledgeElementRepository.findValidatedByCampaignIdForSharedCampaignParticipationInTargetProfile(campaignId);
 
       // then
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
@@ -392,7 +392,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await KnowledgeElementRepository.findValidatedByCampaignIdForSharedCampaignParticipationInTargetProfile(campaignId);
 
       // then
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
@@ -424,7 +424,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await KnowledgeElementRepository.findValidatedByCampaignIdForSharedCampaignParticipationInTargetProfile(campaignId);
 
       // then
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
@@ -456,14 +456,14 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await KnowledgeElementRepository.findValidatedByCampaignIdForSharedCampaignParticipationInTargetProfile(campaignId);
 
       // then
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
     });
   });
 
-  describe('findByCampaignIdAndUserIdForSharedCampaignParticipation', () => {
+  describe('findValidatedByCampaignIdAndUserIdForSharedCampaignParticipationInTargetProfile', () => {
     let userId, targetProfileId, campaignId;
 
     beforeEach(() => {
@@ -514,7 +514,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId });
+      const actualKnowledgeElements = await KnowledgeElementRepository.findValidatedByCampaignIdAndUserIdForSharedCampaignParticipationInTargetProfile({ campaignId, userId });
 
       // then
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1,2]);
@@ -546,7 +546,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId });
+      const actualKnowledgeElements = await KnowledgeElementRepository.findValidatedByCampaignIdAndUserIdForSharedCampaignParticipationInTargetProfile({ campaignId, userId });
 
       // then
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
@@ -578,7 +578,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId });
+      const actualKnowledgeElements = await KnowledgeElementRepository.findValidatedByCampaignIdAndUserIdForSharedCampaignParticipationInTargetProfile({ campaignId, userId });
 
       // then
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
