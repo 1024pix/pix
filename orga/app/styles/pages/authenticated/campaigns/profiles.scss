@@ -1,0 +1,113 @@
+.profile {
+  width: 100%;
+
+  &__header {
+    margin-top: 0px;
+    margin-bottom: 24px;
+  }
+}
+
+.profile-page-header {
+  &__title {
+    font-size: 1.25rem;
+    font-weight: 400;
+    margin: 0;
+  }
+}
+
+.user {
+  width: 100%;
+  padding: 24px;
+  box-sizing: border-box;
+
+  &__header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    border-bottom: 1px solid $grey-20;
+    padding-bottom: 24px;
+  }
+
+  &__name {
+    font-size: 2rem;
+    font-family: $open-sans;
+    font-weight: 300;
+    text-align: center;
+    color: $grey-90;
+    margin: 0;
+  }
+
+  &__information {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding-top: 16px;
+  }
+}
+
+.user-data {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  padding: 16px 0;
+  margin: 0;
+  font-family: $roboto;
+
+  &__content:first-child {
+    padding-left: 0;
+  }
+
+  &__content {
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1px 28px 1px 24px;
+    border-right: 1px solid $grey-20;
+
+    &--label {
+      color: $grey-40;
+      margin-bottom: 8px;
+      font-size: 0.875rem;
+    }
+
+    &--text {
+      color: $grey-70;
+      font-weight: 500;
+      font-size: 0.875rem;
+    }
+  }
+
+  &--highlight {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    background-color: $grey-10;
+    border-radius: 8px;
+    padding: 16px;
+  }
+
+  &--highlight > &__content:last-child {
+    border: none;
+  }
+
+  &--highlight-label {
+    color: $grey-60;
+    margin-top: 4px;
+    font-size: 0.875rem;
+  }
+
+  &--highlight-text {
+    color: $grey-90;
+    font-weight: 500;
+    font-size: 0.875rem;
+  }
+
+  &--highlight-bold {
+    font-size: 1.125rem;
+    font-weight: 500;
+  }
+}
+
