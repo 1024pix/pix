@@ -36,6 +36,22 @@ exports.register = async function(server) {
         tags: ['api', 'system']
       }
     },
+    {
+      method: 'POST',
+      path: '/api/system/profile-copy',
+      config: {
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
+        handler: systemController.copyProfile,
+        notes: [
+          '- **Route nécessitant une authentification en tant que Pix Master**\n' +
+          '- Copie un profil utilisateur d\'une base de données à une autre'
+        ],
+        tags: ['api', 'system']
+      }
+    },
   ]);
 };
 
