@@ -4,6 +4,7 @@ const usecases = require('../../../../lib/domain/usecases');
 const events = require('../../../../lib/domain/events');
 const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
 
 describe('Unit | Controller | assessment-controller', function() {
 
@@ -104,8 +105,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
   describe('#completeAssessment', () => {
     const assessmentId = 2;
-    const assessmentCompletedEvent = Symbol('un événement de fin de test');
-    const certificationScoringEvent = Symbol('un événement de fin de scoring');
+    const assessmentCompletedEvent = new AssessmentCompleted();
     const domainTransaction = Symbol('domain transaction');
     let transactionToBeExecuted;
 
@@ -113,18 +113,13 @@ describe('Unit | Controller | assessment-controller', function() {
       sinon.stub(usecases, 'completeAssessment');
       usecases.completeAssessment.resolves(assessmentCompletedEvent);
 
-      sinon.stub(events, 'handleBadgeAcquisition');
-      sinon.stub(events, 'handleCertificationScoring');
-      sinon.stub(events, 'handleCertificationAcquisitionForPartner');
+      sinon.stub(events.eventDispatcher, 'dispatch');
       sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
         transactionToBeExecuted = lambda;
       });
     });
 
     it('should call the completeAssessment use case', async () => {
-      // given
-      events.handleBadgeAcquisition.resolves({});
-
       // when
       await assessmentController.completeAssessment({ params: { id: assessmentId } });
       await transactionToBeExecuted(domainTransaction);
@@ -133,54 +128,14 @@ describe('Unit | Controller | assessment-controller', function() {
       expect(usecases.completeAssessment).to.have.been.calledWithExactly({ domainTransaction, assessmentId });
     });
 
-    it('should pass the assessment completed event to the BadgeAcquisitionHandler', async () => {
-      /// given
-      events.handleBadgeAcquisition.resolves({});
+    it('should dispatch the assessment completed event', async () => {
 
       // when
       await assessmentController.completeAssessment({ params: { id: assessmentId } });
       await transactionToBeExecuted(domainTransaction);
 
       // then
-      expect(events.handleBadgeAcquisition).to.have.been.calledWithExactly({ domainTransaction, assessmentCompletedEvent });
-    });
-
-    it('should pass the assessment completed event to the CertificationScoringHandler', async () => {
-      /// given
-      events.handleBadgeAcquisition.resolves({});
-      events.handleCertificationScoring.resolves({});
-
-      // when
-      await assessmentController.completeAssessment({ params: { id: assessmentId } });
-      await transactionToBeExecuted(domainTransaction);
-
-      // then
-      expect(events.handleCertificationScoring).to.have.been.calledWithExactly({ domainTransaction, assessmentCompletedEvent,  });
-    });
-
-    it('should pass the assessment completed event to the CertificationPartnerHandler', async () => {
-      /// given
-      events.handleBadgeAcquisition.resolves({});
-      events.handleCertificationScoring.resolves(certificationScoringEvent);
-
-      // when
-      await assessmentController.completeAssessment({ params: { id: assessmentId } });
-      await transactionToBeExecuted(domainTransaction);
-
-      // then
-      expect(events.handleCertificationAcquisitionForPartner).to.have.been.calledWithExactly({ domainTransaction, certificationScoringEvent });
-    });
-
-    it('should call usecase and handler within the transaction', async () => {
-      // when
-      await assessmentController.completeAssessment({ params: { id: assessmentId } });
-      // and transactionToBeExecuted is not executed
-
-      // then
-      expect(usecases.completeAssessment).to.not.have.been.called;
-      expect(events.handleBadgeAcquisition).to.not.have.been.called;
-      expect(events.handleCertificationScoring).to.not.have.been.called;
-      expect(events.handleCertificationAcquisitionForPartner).to.not.have.been.called;
+      expect(events.eventDispatcher.dispatch).to.have.been.calledWith(domainTransaction, assessmentCompletedEvent);
     });
   });
 });

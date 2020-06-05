@@ -92,19 +92,12 @@ module.exports = {
     const assessmentId = parseInt(request.params.id);
 
     await DomainTransaction.execute(async (domainTransaction) => {
-      const assessmentCompletedEvent = await usecases.completeAssessment({ domainTransaction, assessmentId });
-      const certificationScoringEvent = await events.handleCertificationScoring({ domainTransaction, assessmentCompletedEvent });
-
-      await events.handleBadgeAcquisition({ domainTransaction, assessmentCompletedEvent });
-
-      if (certificationScoringEvent) {
-        // TODO this condition should be done by the broker/event bus
-        await events.handleCertificationAcquisitionForPartner({ domainTransaction, certificationScoringEvent });
-      }
+      const event = await usecases.completeAssessment({ domainTransaction, assessmentId });
+      await events.eventDispatcher.dispatch(domainTransaction, event);
     });
 
     return null;
-  },
+  }
 };
 
 async function _getChallenge(assessment, request) {

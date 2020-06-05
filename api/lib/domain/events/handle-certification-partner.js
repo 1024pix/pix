@@ -1,27 +1,33 @@
 const Badge = require('../models/Badge');
 const CertificationPartnerAcquisition = require('../models/CertificationPartnerAcquisition');
+const CertificationScoringCompleted = require('./CertificationScoringCompleted');
+const { checkEventType } = require('./check-event-type');
+
+const eventType = CertificationScoringCompleted;
 
 async function handleCertificationAcquisitionForPartner({
-  certificationScoringEvent,
   domainTransaction,
+  event,
   badgeAcquisitionRepository,
   competenceRepository,
   competenceMarkRepository,
   certificationPartnerAcquisitionRepository,
 }) {
-  const certificationCourseId = certificationScoringEvent.certificationCourseId;
+  checkEventType(event, eventType);
+
+  const certificationCourseId = event.certificationCourseId;
   const cleaPartnerAcquisition = new CertificationPartnerAcquisition({
     certificationCourseId,
     partnerKey: Badge.keys.PIX_EMPLOI_CLEA,
   });
 
-  const hasAcquiredBadgeClea = await _getHasAcquiredBadgeClea(badgeAcquisitionRepository, certificationScoringEvent.userId);
+  const hasAcquiredBadgeClea = await _getHasAcquiredBadgeClea(badgeAcquisitionRepository, event.userId);
   const competenceMarks = await competenceMarkRepository.getLatestByCertificationCourseId({ certificationCourseId, domainTransaction });
   const totalPixCleaByCompetence = await competenceRepository.getTotalPixCleaByCompetence();
 
   if (cleaPartnerAcquisition.hasAcquiredCertification({
     hasAcquiredBadge: hasAcquiredBadgeClea,
-    reproducibilityRate: certificationScoringEvent.reproducibilityRate,
+    reproducibilityRate: event.reproducibilityRate,
     totalPixCleaByCompetence,
     competenceMarks
   })) {
@@ -36,4 +42,5 @@ async function _getHasAcquiredBadgeClea(badgeAcquisitionRepository, userId) {
   });
 }
 
+handleCertificationAcquisitionForPartner.eventType = eventType;
 module.exports = handleCertificationAcquisitionForPartner;

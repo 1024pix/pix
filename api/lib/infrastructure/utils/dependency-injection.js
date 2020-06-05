@@ -8,4 +8,4 @@ function injectDependencies(toBeInjected, dependencies) {
   return _.mapValues(toBeInjected, _.partial(injectDefaults, dependencies));
 }
 
-module.exports = { injectDependencies };
+module.exports = { injectDependencies, injectDefaults };
