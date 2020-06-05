@@ -1,3 +1,10 @@
 .btn-refresh-cache {
   width: 180px;
 }
+
+.form-copy-user {
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+}

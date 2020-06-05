@@ -26,6 +26,60 @@
         {{/if}}
       </div>
     </section>
+    <section class="page-section" aria-label="Section de copie de profil utilisateur">
+      <header class="page-section__header">
+        <h2 class="page-section__title">Copie d'un profil utilisateur</h2>
+      </header>
+      <div>
+        <p>Outil de copie de profil à utiliser avec intelligence.<br/>
+          Cet outil permet très exactement de : copier le profil de parcours et positionnement, ainsi que les éventuels tests de certification. Il faut de toute façon renseigner tous les champs avec des valeurs valides.</p>
+        <ul>
+          <li>Pour le parcours, la campagne de chaque participation sera aussi copiée dans l'organisation de destination indiquée dans le formulaire.</li>
+          <li>Pour la certification, la session de chaque participation sera aussi copiée dans le centre de certification de destination indiqué dans le formulaire.</li>
+        </ul>
+
+        <form class="form-copy-user" {{action "copyProfile" on='submit'}}>
+          <div class="form-field form-group">
+            <label class="form-field__label">URL de la base de données SOURCE : </label>
+            <Input placeholder="URL Base de données SOURCE" @type="text" @value={{this.srcDatabaseUrl}} aria-label="Champ URL base de données source"/>
+          </div>
+          <div class="form-field form-group">
+            <label class="form-field__label">ID de l'utilisateur à copier (depuis la base de données SOURCE) : </label>
+            <Input placeholder="ID utilisateur à copier" @type="text" @value={{this.srcUserId}} aria-label="Champ ID utilisateur source"/>
+          </div>
+          <div class="form-field form-group">
+            <label class="form-field__label">URL de la base de données DESTINATION : </label>
+            <Input placeholder="URL Base de données DESTINATION" @type="text" @value={{this.destDatabaseUrl}} aria-label="Champ URL base de données destination"/>
+          </div>
+          <div class="form-field form-group">
+            <label class="form-field__label">ID de l'utilisateur recevant la copie (vers la base de données DESTINATION) : </label>
+            <Input placeholder="ID utilisateur recevant la copie" @type="text" @value={{this.destUserId}} aria-label="Champ ID utilisateur destination"/>
+          </div>
+          <div class="form-field form-group">
+            <label class="form-field__label">ID de l'organisation recevant la copie des campagnes (vers la base de données DESTINATION) : </label>
+            <Input placeholder="ID organisation" @type="text" @value={{this.destOrganizationId}} aria-label="Champ ID organisation destination"/>
+          </div>
+          <div class="form-field form-group">
+            <label class="form-field__label">ID d'un membre de l'organisation qui sera créateur de campagne (vers la base de données DESTINATION) : </label>
+            <Input placeholder="ID membre de l'organisation" @type="text" @value={{this.destCreatorId}} aria-label="Champ ID membre organisation destination"/>
+          </div>
+          <div class="form-field form-group">
+            <label class="form-field__label">ID du centre de certification recevant la copie des sessions (vers la base de données DESTINATION) : </label>
+            <Input placeholder="ID centre de certification" @type="text" @value={{this.destCertificationCenterId}} aria-label="Champ ID centre de certification destination"/>
+          </div>
+          <div class="callout alert"><strong>Attention !</strong> NE JAMAIS INDIQUER LA BASE DE PRODUCTION, RISQUE TRES ELEVEE.</div>
+          <div class="callout info">Durée de l’opération : <strong>Moins d'1 minute</strong>.</div>
+          {{#if isLoading}}
+            <button type="submit" class="btn btn-primary"><span class="loader-in-button">&nbsp;</span>
+            </button>
+          {{else}}
+            <button type="submit" class="btn btn-primary" aria-label="Copier le profil utilisateur">
+              <FaIcon @icon="copy"></FaIcon> Copier le profil
+            </button>
+          {{/if}}
+        </form>
+      </div>
+    </section>
   </main>
 
 </div>

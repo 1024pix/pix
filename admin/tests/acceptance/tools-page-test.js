@@ -33,6 +33,17 @@ module('Acceptance | tools page', function(hooks) {
       assert.dom('section.learning-content').exists();
       assert.dom('button.btn-refresh-cache').exists();
     });
+
+    test('Should render "Profile copy" section', async function(assert) {
+      assert.dom('[aria-label="Section de copie de profil utilisateur"]').exists();
+      assert.dom('[aria-label="Champ URL base de données source"]').exists();
+      assert.dom('[aria-label="Champ ID utilisateur source"]').exists();
+      assert.dom('[aria-label="Champ URL base de données destination"]').exists();
+      assert.dom('[aria-label="Champ ID utilisateur destination"]').exists();
+      assert.dom('[aria-label="Champ ID organisation destination"]').exists();
+      assert.dom('[aria-label="Champ ID membre organisation destination"]').exists();
+      assert.dom('[aria-label="Champ ID centre de certification destination"]').exists();
+    });
   });
 
 });
