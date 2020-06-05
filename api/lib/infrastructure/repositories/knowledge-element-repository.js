@@ -21,18 +21,16 @@ function _applyFilters(knowledgeElements) {
 }
 
 async function _findByCampaignIdForSharedCampaignParticipation({ campaignId, userId }) {
-  const keResults = await BookshelfKnowledgeElement
-    .query((qb) => {
-      qb.select('knowledge-elements.*');
-      qb.innerJoin('campaign-participations', function() {
-        this.on('campaign-participations.userId', '=', 'knowledge-elements.userId')
-          .andOn('knowledge-elements.createdAt', '<', 'campaign-participations.sharedAt');
-      });
-      qb.leftJoin('campaigns', 'campaigns.id', 'campaign-participations.campaignId');
-      qb.innerJoin('target-profiles_skills', function() {
-        this.on('target-profiles_skills.targetProfileId', '=', 'campaigns.targetProfileId')
-          .andOn('target-profiles_skills.skillId', '=', 'knowledge-elements.skillId');
-      });
+  const knowledgeElementRows = await knex('knowledge-elements')
+    .select('knowledge-elements.*')
+    .join('campaign-participations', function() {
+      this.on('campaign-participations.userId', '=', 'knowledge-elements.userId')
+        .andOn('knowledge-elements.createdAt', '<', 'campaign-participations.sharedAt');
+    })
+    .leftJoin('campaigns', 'campaigns.id', 'campaign-participations.campaignId') // Pourquoi left ?
+    .innerJoin('target-profiles_skills', function() {
+      this.on('target-profiles_skills.targetProfileId', '=', 'campaigns.targetProfileId')
+        .andOn('target-profiles_skills.skillId', '=', 'knowledge-elements.skillId');
     })
     .where((qb) => {
       qb.where({ 'campaign-participations.isShared': true });
@@ -41,11 +39,9 @@ async function _findByCampaignIdForSharedCampaignParticipation({ campaignId, use
       if (userId) {
         qb.where({ 'campaign-participations.userId': userId });
       }
-    })
-    .fetchAll();
+    });
 
-  const knowledgeElements = bookshelfToDomainConverter.buildDomainObjects(BookshelfKnowledgeElement, keResults);
-
+  const knowledgeElements = _.map(knowledgeElementRows, (knowledgeElementRow) => new KnowledgeElement(knowledgeElementRow));
   return _applyFilters(knowledgeElements);
 }
 
