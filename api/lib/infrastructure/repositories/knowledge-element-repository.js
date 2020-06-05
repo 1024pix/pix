@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const Bookshelf = require('../bookshelf');
+const { knex } = require('../bookshelf');
 const KnowledgeElement = require('../../domain/models/KnowledgeElement');
 const BookshelfKnowledgeElement = require('../data/knowledge-element');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
@@ -20,7 +20,7 @@ function _applyFilters(knowledgeElements) {
   return _dropResetKnowledgeElements(uniqsMostRecentPerSkill);
 }
 
-async function _findByCampaignIdForSharedCampaignParticipationWhere(campaignParticipationsWhereClause) {
+async function _findByCampaignIdForSharedCampaignParticipation({ campaignId, userId }) {
   const keResults = await BookshelfKnowledgeElement
     .query((qb) => {
       qb.select('knowledge-elements.*');
@@ -34,9 +34,14 @@ async function _findByCampaignIdForSharedCampaignParticipationWhere(campaignPart
           .andOn('target-profiles_skills.skillId', '=', 'knowledge-elements.skillId');
       });
     })
-    .where({ 'campaign-participations.isShared': true })
-    .where(campaignParticipationsWhereClause)
-    .where({ status: 'validated' })
+    .where((qb) => {
+      qb.where({ 'campaign-participations.isShared': true });
+      qb.where({ status: 'validated' });
+      qb.where({ 'campaign-participations.campaignId': campaignId });
+      if (userId) {
+        qb.where({ 'campaign-participations.userId': userId });
+      }
+    })
     .fetchAll();
 
   const knowledgeElements = bookshelfToDomainConverter.buildDomainObjects(BookshelfKnowledgeElement, keResults);
@@ -45,7 +50,7 @@ async function _findByCampaignIdForSharedCampaignParticipationWhere(campaignPart
 }
 
 function _getByUserIdAndLimitDateQuery({ userId, limitDate }) {
-  return Bookshelf.knex('knowledge-elements')
+  return knex('knowledge-elements')
     .where((qb) => {
       qb.where({ userId });
       if (limitDate) {
@@ -92,16 +97,11 @@ module.exports = {
   },
 
   findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId }) {
-    return _findByCampaignIdForSharedCampaignParticipationWhere({
-      'campaign-participations.campaignId': campaignId,
-      'campaign-participations.userId': userId,
-    });
+    return _findByCampaignIdForSharedCampaignParticipation({ campaignId, userId });
   },
 
   findByCampaignIdForSharedCampaignParticipation(campaignId) {
-    return _findByCampaignIdForSharedCampaignParticipationWhere({
-      'campaign-participations.campaignId': campaignId
-    });
+    return _findByCampaignIdForSharedCampaignParticipation({ campaignId, userId: null });
   }
 };
 
