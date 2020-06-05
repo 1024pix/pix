@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click } from '@ember/test-helpers';
+import { click, render, fillIn } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
@@ -48,7 +48,7 @@ module('Integration | Component | organization-information-section', function(ho
     let organization;
 
     hooks.beforeEach(function() {
-      organization = EmberObject.create({ id: 1, name: 'Organization SCO' });
+      organization = EmberObject.create({ id: 1, name: 'Organization SCO', externalId: 'VELIT', provinceCode: 'h50' });
       this.set('organization', organization);
     });
 
@@ -71,6 +71,19 @@ module('Integration | Component | organization-information-section', function(ho
       assert.dom('.organization__edit-form').exists();
     });
 
+    test('it should display organization edit form on click to edit button', async function(assert) {
+      // given
+      await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+
+      // when
+      await click('button[aria-label=\'Editer\'');
+
+      // then
+      assert.dom('input#name').hasValue(organization.name);
+      assert.dom('input#externalId').hasValue(organization.externalId);
+      assert.dom('input#provinceCode').hasValue(organization.provinceCode);
+    });
+
     test('it should toggle display mode on click to cancel button', async function(assert) {
       // given
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
@@ -83,6 +96,23 @@ module('Integration | Component | organization-information-section', function(ho
       assert.dom('.organization__data').exists();
     });
 
+    test('it should revert form changes on click to cancel button', async function(assert) {
+      // given
+      await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+      await click('button[aria-label=\'Editer\'');
+      await fillIn('input#name', 'new name');
+      await fillIn('input#externalId', 'new externalId');
+      await fillIn('input#provinceCode', 'new provinceCode');
+
+      // when
+      await click('button[aria-label=\'Annuler\'');
+      await click('button[aria-label=\'Editer\'');
+
+      // then
+      assert.dom('input#name').hasValue(organization.name);
+      assert.dom('input#externalId').hasValue(organization.externalId);
+      assert.dom('input#provinceCode').hasValue(organization.provinceCode);
+    });
   });
 
   module('When organization is SCO', function(hooks) {

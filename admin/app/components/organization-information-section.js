@@ -5,6 +5,12 @@ import { tracked } from '@glimmer/tracking';
 export default class OrganizationInformationSection extends Component {
 
   @tracked isEditMode = false;
+  @tracked form;
+
+  constructor() {
+    super(...arguments);
+    this._initForm();
+  }
 
   get isManagingStudents() {
     return this.args.organization.isManagingStudents ? 'Oui' : 'Non';
@@ -25,5 +31,19 @@ export default class OrganizationInformationSection extends Component {
   @action
   toggleEditMode() {
     this.isEditMode = !this.isEditMode;
+  }
+
+  @action
+  cancel() {
+    this.toggleEditMode();
+    this._initForm();
+  }
+
+  _initForm() {
+    this.form = {
+      name: this.args.organization.name,
+      externalId: this.args.organization.externalId,
+      provinceCode: this.args.organization.provinceCode,
+    };
   }
 }

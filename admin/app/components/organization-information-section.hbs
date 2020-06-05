@@ -36,7 +36,33 @@
     </div>
     {{else}}
     <div class="organization__edit-form">
-      <button class="btn btn-outline-default" aria-label="Annuler" {{on "click" this.toggleEditMode}}>Annuler</button>
+      <form class="form">
+        <div class="form-group">
+          <label for="name" class="form-field__label">Nom</label>
+          <Input id="name"
+                 type="text"
+                 class="form-control"
+                 @value={{this.form.name}} />
+        </div>
+        <div class="form-group">
+          <label for="externalId">Identifiant externe</label>
+          <Input id="externalId"
+                 type="text"
+                 class="form-control"
+                 @value={{this.form.externalId}} />
+        </div>
+        <div class="form-group">
+          <label for="provinceCode">Département</label>
+          <Input id="provinceCode"
+                 type="text"
+                 class="form-control"
+                 @value={{this.form.provinceCode}} />
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-outline-default" aria-label="Annuler" type="button" {{on "click" this.cancel}}>Annuler</button>
+          <button class="btn btn-outline-default" aria-label="Enregister" type="submit">Enregistrer</button>
+        </div>
+      </form>
     </div>
     {{/if}}
   </div>
