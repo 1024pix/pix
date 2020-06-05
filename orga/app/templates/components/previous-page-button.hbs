@@ -1,0 +1,13 @@
+<div class="previous-page-button">
+  <LinkTo
+    @route={{@route}}
+    @model={{@routeId}}
+    class="icon-button previous-page-button__return-button"
+    aria-label={{@aria-label}}
+  >
+    <FaIcon @icon='arrow-left'></FaIcon>
+  </LinkTo>
+  <h1 class="page-title {{@title-class}}">
+    {{yield}}
+  </h1>
+</div>
