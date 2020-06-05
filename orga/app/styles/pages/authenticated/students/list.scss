@@ -1,3 +1,5 @@
+$margin-right: 32px;
+
 .list-students-page {
   display: flex;
   flex-direction: column;
@@ -18,18 +20,17 @@
     white-space: pre;
   }
 
-  &__password-reset-cell {
+  &__actions {
     text-align: right;
   }
 
-  &__manage-button {
-    margin-right: 32px;
+  &__dropdown-button {
+    font-size: 1.1rem;
+    margin-right: $margin-right;
   }
 
-  &__tooltip {
-    bottom: 42px;
-    border-radius: 4px;
-    left: 55px;
-    width: 64px;
+  &__dropdown-content {
+    width: 200px;
+    right: $margin-right;
   }
 }

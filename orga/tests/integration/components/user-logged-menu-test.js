@@ -20,33 +20,25 @@ module('Integration | Component | user-logged-menu', function(hooks) {
     this.owner.register('service:current-user', Service.extend({ prescriber, organization }));
   });
 
-  test('it renders', async function(assert) {
-    // when
-    await render(hbs`{{user-logged-menu}}`);
-
-    // then
-    assert.dom('.logged-user-summary').exists();
-  });
-
   test('should display user\'s firstName and lastName', async function(assert) {
     // when
-    await render(hbs`{{user-logged-menu}}`);
+    await render(hbs`<UserLoggedMenu/>`);
 
     // then
-    assert.dom('.logged-user-summary__name').hasText(`${prescriber.firstName} ${prescriber.lastName}`);
+    assert.contains(`${prescriber.firstName} ${prescriber.lastName}`);
   });
 
   test('should display the user current organization name and externalId', async function(assert) {
     // when
-    await render(hbs`{{user-logged-menu}}`);
+    await render(hbs`<UserLoggedMenu/>`);
 
     // then
-    assert.dom('.logged-user-summary__organization').hasText(`${organization.name} (${organization.externalId})`);
+    assert.contains(`${organization.name} (${organization.externalId})`);
   });
 
   test('should display the chevron-down icon when menu is close', async function(assert) {
     // when
-    await render(hbs`{{user-logged-menu}}`);
+    await render(hbs`<UserLoggedMenu/>`);
 
     // then
     assert.dom('.fa-chevron-down').exists();
@@ -55,7 +47,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
 
   test('should display the chevron-up icon when menu is open', async function(assert) {
     // when
-    await render(hbs`{{user-logged-menu}}`);
+    await render(hbs`<UserLoggedMenu/>`);
     await click('.logged-user-summary__link');
 
     // then
@@ -65,12 +57,11 @@ module('Integration | Component | user-logged-menu', function(hooks) {
 
   test('should display the disconnect link when menu is open', async function(assert) {
     // when
-    await render(hbs`{{user-logged-menu}}`);
+    await render(hbs`<UserLoggedMenu/>`);
     await click('.logged-user-summary__link');
 
     // then
-    assert.dom('.logged-user-menu').exists();
-    assert.dom('.logged-user-menu-item__last').hasText('Se déconnecter');
+    assert.contains('Se déconnecter');
   });
 
   test('should display the organizations name and externalId when menu is open', async function(assert) {
@@ -78,14 +69,13 @@ module('Integration | Component | user-logged-menu', function(hooks) {
     const organization1 = { id: 2, name: 'Organization 2', externalId: 'EXT2' };
     const organization2 = { id: 3, name: 'Organization 3', externalId: 'EXT3' };
     this.set('organizations', [organization1, organization2]);
-    await render(hbs`{{user-logged-menu eligibleOrganizations=organizations}}`);
+    await render(hbs`<UserLoggedMenu @eligibleOrganizations={{organizations}} />`);
     await click('.logged-user-summary__link');
 
     // then
-    assert.dom('.logged-user-menu').exists();
-    assert.dom('.logged-user-menu > div:nth-child(1) > span.logged-user-menu-item__organization-name').hasText(organization1.name);
-    assert.dom('.logged-user-menu > div:nth-child(1) > span.logged-user-menu-item__organization-externalId').hasText(`(${organization1.externalId})`);
-    assert.dom('.logged-user-menu > div:nth-child(2) > span.logged-user-menu-item__organization-name').hasText(organization2.name);
-    assert.dom('.logged-user-menu > div:nth-child(2) > span.logged-user-menu-item__organization-externalId').hasText(`(${organization2.externalId})`);
+    assert.contains(organization1.name);
+    assert.contains(`(${organization1.externalId})`);
+    assert.contains(organization2.name);
+    assert.contains(`(${organization2.externalId})`);
   });
 });
