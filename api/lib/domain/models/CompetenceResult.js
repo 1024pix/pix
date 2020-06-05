@@ -8,7 +8,6 @@ class CompetenceResult {
     totalSkillsCount,
     testedSkillsCount,
     validatedSkillsCount,
-    badgeId,
   } = {}) {
     this.id = id;
     // attributes
@@ -18,7 +17,6 @@ class CompetenceResult {
     this.totalSkillsCount = totalSkillsCount;
     this.testedSkillsCount = testedSkillsCount;
     this.validatedSkillsCount = validatedSkillsCount;
-    this.badgeId = badgeId;
   }
 
   get masteryPercentage() {
