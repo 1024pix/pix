@@ -1,15 +1,57 @@
-import { action } from '@ember/object';
+import Object, { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { validator, buildValidations } from 'ember-cp-validations';
+import { getOwner } from '@ember/application';
+
+const Validations = buildValidations({
+  name: {
+    validators: [
+      validator('presence', {
+        presence: true,
+        ignoreBlank: true,
+        message: 'Le nom ne peut pas être vide'
+      }),
+      validator('length', {
+        min: 1,
+        max: 255,
+        message: 'La longueur du nom ne doit pas excéder 255 caractères'
+      })
+    ]
+  },
+  externalId: {
+    validators: [
+      validator('length', {
+        min: 0,
+        max: 255,
+        message: 'La longueur de l\'identifiant externe ne doit pas excéder 255 caractères'
+      })
+    ]
+  },
+  provinceCode: {
+    validators: [
+      validator('length', {
+        min: 0,
+        max: 255,
+        message: 'La longueur du département ne doit pas excéder 255 caractères'
+      })
+    ]
+  },
+});
+
+class Form extends Object.extend(Validations) {
+  @tracked name;
+  @tracked externalId;
+  @tracked provinceCode;
+}
 
 export default class OrganizationInformationSection extends Component {
 
   @tracked isEditMode = false;
-  @tracked form;
 
   constructor() {
     super(...arguments);
-    this._initForm();
+    this.form = Form.create(getOwner(this).ownerInjection());
   }
 
   get isManagingStudents() {
@@ -31,6 +73,7 @@ export default class OrganizationInformationSection extends Component {
   @action
   toggleEditMode() {
     this.isEditMode = !this.isEditMode;
+    this._initForm();
   }
 
   @action
@@ -39,11 +82,25 @@ export default class OrganizationInformationSection extends Component {
     this._initForm();
   }
 
+  @action
+  async updateOrganization(event) {
+    event.preventDefault();
+
+    const { validations } = await this.form.validate();
+    if (!validations.isValid) {
+      return;
+    }
+    this.args.organization.set('name', this.form.name.trim());
+    this.args.organization.set('externalId', !this.form.externalId ? null : this.form.externalId.trim());
+    this.args.organization.set('provinceCode', !this.form.provinceCode ? null : this.form.provinceCode.trim());
+
+    this.isEditMode = false;
+    return this.args.onSubmit();
+  }
+
   _initForm() {
-    this.form = {
-      name: this.args.organization.name,
-      externalId: this.args.organization.externalId,
-      provinceCode: this.args.organization.provinceCode,
-    };
+    this.form.name = this.args.organization.name;
+    this.form.externalId = this.args.organization.externalId;
+    this.form.provinceCode = this.args.organization.provinceCode;
   }
 }
