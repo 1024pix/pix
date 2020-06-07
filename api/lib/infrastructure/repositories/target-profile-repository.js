@@ -23,22 +23,6 @@ module.exports = {
     return _getWithAirtableSkills(targetProfileBookshelf);
   },
 
-  async findPublicTargetProfiles() {
-    const targetProfilesBookshelf = await BookshelfTargetProfile
-      .where({ isPublic: true })
-      .fetchAll({ withRelated: ['skillIds'] });
-
-    return Promise.all(targetProfilesBookshelf.map(_getWithAirtableSkills));
-  },
-
-  async findTargetProfilesOwnedByOrganizationId(organizationId) {
-    const targetProfilesBookshelf = await BookshelfTargetProfile
-      .where({ organizationId })
-      .fetchAll({ withRelated: ['skillIds'] });
-
-    return Promise.all(targetProfilesBookshelf.map(_getWithAirtableSkills));
-  },
-
   async findAllTargetProfilesOrganizationCanUse(organizationId) {
     const targetProfilesBookshelf = await BookshelfTargetProfile
       .query((qb) => {
