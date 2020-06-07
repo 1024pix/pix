@@ -21,13 +21,13 @@ module.exports = async function computeCampaignAnalysis(
     throw new UserNotAuthorizedToAccessEntity('User does not have access to this campaign');
   }
 
-  const [competences, tubes, targetProfile, validatedKnowledgeElements, participantsCount, tutorials] = await Promise.all([
+  const [competences, tubes, tutorials, targetProfile, validatedKnowledgeElements, participantsCount] = await Promise.all([
     competenceRepository.list(),
     tubeRepository.list(),
+    tutorialRepository.list(),
     targetProfileRepository.getByCampaignId(campaignId),
     knowledgeElementRepository.findValidatedByCampaignIdForSharedCampaignParticipationInTargetProfile(campaignId),
     campaignParticipationRepository.countSharedParticipationOfCampaign(campaignId),
-    tutorialRepository.list(),
   ]);
 
   const targetedTubeIds = _.map(targetProfile.skills, ({ tubeId }) => ({ id: tubeId }));

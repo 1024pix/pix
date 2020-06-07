@@ -5,61 +5,68 @@ const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-convert
 
 module.exports = {
 
-  get(id) {
-    return BookshelfTargetProfile
+  async get(id) {
+    const targetProfileBookshelf = await BookshelfTargetProfile
       .where({ id })
-      .fetch({ withRelated: ['skillIds', 'sharedWithOrganizations'] })
-      .then(_getWithAirtableSkills);
+      .fetch({ withRelated: ['skillIds', 'sharedWithOrganizations'] });
+
+    return _getWithAirtableSkills(targetProfileBookshelf);
   },
 
-  getByCampaignId(campaignId) {
-    return BookshelfTargetProfile
+  async getByCampaignId(campaignId) {
+    const targetProfileBookshelf = await BookshelfTargetProfile
       .query((qb) => qb.innerJoin('campaigns', 'campaigns.targetProfileId', 'target-profiles.id'))
       .query((qb) => qb.innerJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id'))
       .where({ 'campaigns.id': campaignId })
-      .fetch({ require: true, withRelated: ['skillIds'] })
-      .then(_getWithAirtableSkills);
+      .fetch({ require: true, withRelated: ['skillIds'] });
+
+    return _getWithAirtableSkills(targetProfileBookshelf);
   },
 
-  findPublicTargetProfiles() {
-    return BookshelfTargetProfile
+  async findPublicTargetProfiles() {
+    const targetProfilesBookshelf = await BookshelfTargetProfile
       .where({ isPublic: true })
-      .fetchAll({ withRelated: ['skillIds'] })
-      .then((bookshelfTargetProfiles) => Promise.all(bookshelfTargetProfiles.map(_getWithAirtableSkills)));
+      .fetchAll({ withRelated: ['skillIds'] });
+
+    return Promise.all(targetProfilesBookshelf.map(_getWithAirtableSkills));
   },
 
-  findTargetProfilesOwnedByOrganizationId(organizationId) {
-    return BookshelfTargetProfile
+  async findTargetProfilesOwnedByOrganizationId(organizationId) {
+    const targetProfilesBookshelf = await BookshelfTargetProfile
       .where({ organizationId })
-      .fetchAll({ withRelated: ['skillIds'] })
-      .then((bookshelfTargetProfiles) => Promise.all(bookshelfTargetProfiles.map(_getWithAirtableSkills)));
+      .fetchAll({ withRelated: ['skillIds'] });
+
+    return Promise.all(targetProfilesBookshelf.map(_getWithAirtableSkills));
   },
 
-  findAllTargetProfilesOrganizationCanUse(organizationId) {
-    return BookshelfTargetProfile
+  async findAllTargetProfilesOrganizationCanUse(organizationId) {
+    const targetProfilesBookshelf = await BookshelfTargetProfile
       .query((qb) => {
         qb.where({ 'organizationId': organizationId, 'outdated': false });
         qb.orWhere({ 'isPublic': true, 'outdated': false });
       })
-      .fetchAll({ withRelated: ['skillIds'] })
-      .then((bookshelfTargetProfiles) => Promise.all(bookshelfTargetProfiles.map(_getWithAirtableSkills)));
+      .fetchAll({ withRelated: ['skillIds'] });
+
+    return Promise.all(targetProfilesBookshelf.map(_getWithAirtableSkills));
   },
 
-  findByIds(targetProfileIds) {
-    return BookshelfTargetProfile
+  async findByIds(targetProfileIds) {
+    const targetProfilesBookshelf = await BookshelfTargetProfile
       .query((qb) => {
         qb.whereIn('id',  targetProfileIds);
       })
-      .fetchAll()
-      .then((foundTargetProfiles) => bookshelfToDomainConverter.buildDomainObjects(BookshelfTargetProfile, foundTargetProfiles));
+      .fetchAll();
+
+    return bookshelfToDomainConverter.buildDomainObjects(BookshelfTargetProfile, targetProfilesBookshelf);
   },
 };
 
-function _getWithAirtableSkills(targetProfile) {
-  return _getAirtableDataObjectsSkills(targetProfile)
-    .then((associatedSkillAirtableDataObjects) => targetProfileAdapter.fromDatasourceObjects({
-      bookshelfTargetProfile: targetProfile, associatedSkillAirtableDataObjects
-    }));
+async function _getWithAirtableSkills(targetProfile) {
+  const associatedSkillAirtableDataObjects = await _getAirtableDataObjectsSkills(targetProfile);
+
+  return targetProfileAdapter.fromDatasourceObjects({
+    bookshelfTargetProfile: targetProfile, associatedSkillAirtableDataObjects
+  });
 }
 
 function _getAirtableDataObjectsSkills(bookshelfTargetProfile) {
