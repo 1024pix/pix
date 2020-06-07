@@ -1,4 +1,4 @@
-import { click, find, currentURL } from '@ember/test-helpers';
+import { click, find, findAll, currentURL } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentication';
@@ -56,7 +56,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
           testedSkillsCount,
           validatedSkillsCount,
           competenceResults: [competenceResult],
-          partnerCompetenceResults: []
+          campaignParticipationBadges: [],
         });
         campaignParticipation.update({ campaignParticipationResult });
       });
@@ -89,22 +89,24 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         const BADGE_PARTNER_COMPETENCE_MASTERY_PERCENTAGE = '80%';
         const PROGRESSION_MAX_WIDTH = '100%';
 
-        const badge = server.create('badge', {
-          altMessage: 'Yon won a Pix Emploi badge',
-          imageUrl: '/images/badges/Pix-emploi.svg',
-          message: 'Congrats, you won a Pix Emploi badge',
-          key: 'PIX_EMPLOI_CLEA'
-        });
-
         const partnerCompetenceResult = server.create('partner-competence-result', {
           name: partnerCompetenceResultName,
           totalSkillsCount: 5,
           validatedSkillsCount: 4,
           masteryPercentage: 80
         });
-        campaignParticipationResult.update({
-          badges: [badge],
+
+        const badge = server.create('campaign-participation-badge', {
+          altMessage: 'Yon won a Pix Emploi badge',
+          imageUrl: '/images/badges/Pix-emploi.svg',
+          message: 'Congrats, you won a Pix Emploi badge',
+          key: 'PIX_EMPLOI_CLEA',
+          isAcquired: false,
           partnerCompetenceResults: [partnerCompetenceResult]
+        });
+
+        campaignParticipationResult.update({
+          campaignParticipationBadges: [badge],
         });
 
         // when
@@ -117,14 +119,15 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         expect(find('table tbody tr td:nth-child(2) .progression-gauge__tooltip').textContent).to.include(BADGE_PARTNER_COMPETENCE_MASTERY_PERCENTAGE);
       });
 
-      it('should display the Pix emploi badge badged campaign when badge is acquired', async function() {
+      it('should display the Pix emploi badge when badge is acquired', async function() {
         // given
-        const badge = server.create('badge', {
+        const badge = server.create('campaign-participation-badge', {
           altMessage: 'Yon won a Pix Emploi badge',
           imageUrl: '/images/badges/Pix-emploi.svg',
           message: 'Congrats, you won a Pix Emploi badge',
+          isAcquired: true,
         });
-        campaignParticipationResult.update({ badges: [badge] });
+        campaignParticipationResult.update({ campaignParticipationBadges: [badge] });
 
         // when
         await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
@@ -133,12 +136,35 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         expect(find('.skill-review-result__badge')).to.exist;
       });
 
-      it('should not display the Pix emploi badge badged campaign when badge is not acquired', async function() {
+      it('should not display the Pix emploi badge when badge is not acquired', async function() {
         // when
         await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
 
         // then
         expect(find('.skill-review-result__badge')).to.not.exist;
+      });
+
+      it('should display only one badge when badge is acquired', async function() {
+        // given
+        const acquiredBadge = server.create('campaign-participation-badge', {
+          altMessage: 'Yon won a Yellow badge',
+          imageUrl: '/images/badges/yellow.svg',
+          message: 'Congrats, you won a Yellow badge',
+          isAcquired: true,
+        });
+        const unacquiredBadge = server.create('campaign-participation-badge', {
+          altMessage: 'Yon won a green badge',
+          imageUrl: '/images/badges/green.svg',
+          message: 'Congrats, you won a Green badge',
+          isAcquired: false,
+        });
+        campaignParticipationResult.update({ campaignParticipationBadges: [acquiredBadge, unacquiredBadge] });
+
+        // when
+        await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
+
+        // then
+        expect(findAll('.skill-review-result__badge').length).to.equal(1);
       });
 
       it('should share the results', async function() {

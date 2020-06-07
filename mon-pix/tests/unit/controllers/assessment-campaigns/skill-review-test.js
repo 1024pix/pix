@@ -71,10 +71,10 @@ describe('Unit | Controller | Assessment Campaigns | Skill Review', function() {
 
   describe('#showCleaCompetences', function() {
 
-    it('should showCleaCompetences when campaignParticipationResult has partnerCompetenceResults', function() {
+    it('should showCleaCompetences when campaignParticipationResult has a clea badge', function() {
       // given
-      const partnerCompetenceResult = { name : 'competence name' };
-      controller.model.campaignParticipation.campaignParticipationResult.partnerCompetenceResults = [ partnerCompetenceResult ];
+      const cleaBadge = { id : 111 };
+      controller.model.campaignParticipation.campaignParticipationResult.cleaBadge = cleaBadge ;
 
       // when
       const shouldShowCleaCompetences = controller.showCleaCompetences;
@@ -83,9 +83,9 @@ describe('Unit | Controller | Assessment Campaigns | Skill Review', function() {
       expect(shouldShowCleaCompetences).to.equal(true);
     });
 
-    it('should not show clea competence when there is no partnerCompetenceResults', function() {
+    it('should not show clea competence when there is no cleaBadge', function() {
       // given
-      controller.model.campaignParticipation.campaignParticipationResult.partnerCompetenceResults = [];
+      controller.model.campaignParticipation.campaignParticipationResult.cleaBadge = undefined;
 
       // when
       const shouldShowCleaCompetences = controller.showCleaCompetences;
@@ -97,10 +97,10 @@ describe('Unit | Controller | Assessment Campaigns | Skill Review', function() {
 
   describe('#showBadges', function() {
 
-    it('should show badges', function() {
+    it('should show badges when acquired', function() {
       // given
-      const badges = [{ id : 33 }];
-      controller.model.campaignParticipation.campaignParticipationResult.badges = badges ;
+      const badges = [{ id : 33, isAcquired: true }];
+      controller.model.campaignParticipation.campaignParticipationResult.campaignParticipationBadges = badges ;
 
       // when
       const shouldShowBadges = controller.showBadges;
@@ -109,10 +109,22 @@ describe('Unit | Controller | Assessment Campaigns | Skill Review', function() {
       expect(shouldShowBadges).to.equal(true);
     });
 
-    it('should not show badges', function() {
+    it('should not show badges when not acquired', function() {
+      // given
+      const badges = [{ id : 33, isAcquired: false }];
+      controller.model.campaignParticipation.campaignParticipationResult.campaignParticipationBadges = badges ;
+
+      // when
+      const shouldShowBadges = controller.showBadges;
+
+      // then
+      expect(shouldShowBadges).to.equal(false);
+    });
+
+    it('should not show badges when none', function() {
       // given
       const badges = [];
-      controller.model.campaignParticipation.campaignParticipationResult.badges = badges ;
+      controller.model.campaignParticipation.campaignParticipationResult.campaignParticipationBadges = badges ;
 
       // when
       const shouldShowBadges = controller.showBadges;

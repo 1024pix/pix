@@ -9,12 +9,14 @@
       <div>
         <h2>Badges obtenus</h2>
         <div class="skill-review-result__badges-container">
-          {{#each this.model.campaignParticipation.campaignParticipationResult.badges as |badge|}}
-            <div class="skill-review-result__badge">
-              <img src="{{this.rootURL}}{{badge.imageUrl}}"
-                   alt="{{badge.altMessage}}">
-              <p class="skill-review-result__badge-information">{{badge.message}}</p>
-            </div>
+          {{#each this.model.campaignParticipation.campaignParticipationResult.campaignParticipationBadges as |badge|}}
+            {{#if badge.isAcquired}}
+              <div class="skill-review-result__badge">
+                <img src="{{this.rootURL}}{{badge.imageUrl}}"
+                     alt="{{badge.altMessage}}">
+                <p class="skill-review-result__badge-information">{{badge.message}}</p>
+              </div>
+            {{/if}}
           {{/each}}
         </div>
       </div>
@@ -97,7 +99,7 @@
 
       <tbody>
       {{#if this.showCleaCompetences}}
-        {{#each this.model.campaignParticipation.campaignParticipationResult.partnerCompetenceResults as |partnerCompetence|}}
+        {{#each this.model.campaignParticipation.campaignParticipationResult.cleaBadge.partnerCompetenceResults as |partnerCompetence|}}
           <tr aria-label="Résultats par compétence">
             <td>
               <span class="skill-review-competence__bullet skill-review-competence__bullet--{{partnerCompetence.areaColor}}">&#8226;</span>

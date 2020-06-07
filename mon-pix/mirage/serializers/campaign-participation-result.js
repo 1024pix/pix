@@ -9,8 +9,7 @@ export default ApplicationSerializer.extend({
     'isCompleted',
   ],
   include: [
-    'badges',
-    'partnerCompetenceResults',
+    'campaignParticipationBadges',
     'competenceResults',
   ],
 });
