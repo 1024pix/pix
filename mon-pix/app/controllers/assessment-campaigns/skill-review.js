@@ -9,13 +9,14 @@ export default class SkillReviewController extends Controller {
   pageTitle = 'Résultat';
 
   get showCleaCompetences() {
-    const partnerCompetenceResults = this.model.campaignParticipation.campaignParticipationResult.get('partnerCompetenceResults');
-    return partnerCompetenceResults.length > 0;
+    const cleaBadge = this.model.campaignParticipation.campaignParticipationResult.get('cleaBadge');
+    return !!cleaBadge;
   }
 
   get showBadges() {
-    const badges = this.model.campaignParticipation.campaignParticipationResult.get('badges');
-    return badges.length > 0;
+    const badges = this.model.campaignParticipation.campaignParticipationResult.get('campaignParticipationBadges');
+    const acquiredBadges = badges.filter((badge) => badge.isAcquired);
+    return acquiredBadges.length > 0;
   }
 
   @action
