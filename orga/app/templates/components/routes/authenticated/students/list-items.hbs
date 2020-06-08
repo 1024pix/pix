@@ -55,9 +55,11 @@
     {{/unless}}
   </div>
 
-  <Modal::Dialog @title="Gestion du compte de l'élève" @display={{this.isShowingModal}} @close={{this.closePasswordReset}}>
-    <PasswordResetWindow @student={{this.student}} />
-  </Modal::Dialog>
+  <PasswordResetModal
+    @student={{this.student}}
+    @display={{this.isShowingModal}}
+    @close={{this.closePasswordReset}}
+  />
 </div>
 
 {{#if this.isLoading}}
