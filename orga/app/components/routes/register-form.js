@@ -1,34 +1,10 @@
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
+import InputValidator from '../../utils/input-validator';
 
 import isEmailValid from '../../utils/email-validator';
 import isPasswordValid from '../../utils/password-validator';
-
-const ERROR_INPUT_MESSAGE_MAP = {
-  firstName: 'Votre prénom n’est pas renseigné.',
-  lastName: 'Votre nom n’est pas renseigné.',
-  email: 'Votre email n’est pas valide.',
-  password: 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.'
-};
-
-const validation = {
-  lastName: {
-    message: null
-  },
-  firstName: {
-    message: null
-  },
-  email: {
-    message: null
-  },
-  password: {
-    message: null
-  },
-  cgu: {
-    message: null
-  }
-};
 
 const isStringValid = (value) => Boolean(value.trim());
 
@@ -37,20 +13,21 @@ export default class RegisterForm extends Component {
   @service session;
   @service store;
 
+  validation = {
+    firstName: new InputValidator(isStringValid, 'Votre prénom n’est pas renseigné.'),
+    lastName: new InputValidator(isStringValid, 'Votre nom n’est pas renseigné.'),
+    email: new InputValidator(isEmailValid, 'Votre email n’est pas valide.'),
+    password: new InputValidator(isPasswordValid, 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.'),
+    cgu: new InputValidator(Boolean, 'Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.'),
+  };
+
   user = null;
   isLoading = false;
-  validation = validation;
   isPasswordVisible = false;
 
   @computed('isPasswordVisible')
   get passwordInputType() {
     return this.isPasswordVisible ? 'text' : 'password';
-  }
-
-  @computed('user.{firstName,lastName,email,password,cgu}')
-  get isFormValid() {
-    return isStringValid(this.user.firstName) && isStringValid(this.user.lastName) && isEmailValid(this.user.email)
-      && isPasswordValid(this.user.password) && this.user.cgu;
   }
 
   constructor() {
@@ -67,8 +44,8 @@ export default class RegisterForm extends Component {
   @action
   async register(event) {
     event.preventDefault();
-    if (!this.isFormValid) {
-      return this.set('isLoading', false);
+    if (this._isFormInvalid()) {
+      return;
     }
     this.set('isLoading', true);
     try {
@@ -92,33 +69,27 @@ export default class RegisterForm extends Component {
 
   @action
   validateInput(key, value) {
-    const isValuePresent = (value) => !!value.trim();
-    this._executeFieldValidation(key, value, isValuePresent);
-  }
-
-  @action
-  validateInputEmail(key, value) {
-    this._executeFieldValidation(key, value, isEmailValid);
-  }
-
-  @action
-  validateInputPassword(key, value) {
-    this._executeFieldValidation(key, value, isPasswordValid);
+    this.validation[key].validate({ value, resetServerMessage: true });
   }
 
   _updateInputsStatus() {
     const errors = this.get('user.errors');
-    errors.forEach(({ attribute, message }) => {
-      const messageObject = 'validation.' + attribute + '.message';
-      this.set(messageObject, message);
-    });
+    errors.forEach(({ attribute, message }) => this._setError(attribute, message));
   }
 
-  _executeFieldValidation(key, value, isValid) {
-    const isInvalidInput = !isValid(value);
-    const message = isInvalidInput ? ERROR_INPUT_MESSAGE_MAP[key] : null;
-    const messageObject = 'validation.' + key + '.message';
-    this.set(messageObject, message);
+  _isFormInvalid() {
+    this._processFromValidation();
+    return Object.values(this.validation).some((value) => value.hasError);
+  }
+
+  _setError(attribute, message) {
+    this.validation[attribute].hasError = true;
+    this.validation[attribute].serverMessage = message;
+  }
+
+  _processFromValidation() {
+    Object.keys(this.validation)
+      .forEach((input) => this.validation[input].validate({ value: this.user[input] }));
   }
 
   _acceptOrganizationInvitation(organizationInvitationId, organizationInvitationCode, createdUserEmail) {
