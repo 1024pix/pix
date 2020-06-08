@@ -55,7 +55,7 @@ describe('Integration | Repository | Badge', () => {
 
     badgePartnerCompetence_2 = {
       id: 2,
-      color: 'jaffa',
+      color: null,
       name: 'Rechercher des éléments',
       skillIds: ['recABC1', 'recDEF2'],
     };
