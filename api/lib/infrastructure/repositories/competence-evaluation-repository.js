@@ -27,12 +27,11 @@ module.exports = {
       .then((updatedCompetenceEvaluation) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation));
   },
 
-  updateAssessmentId({ currentAssessmentId, newAssessmentId }) {
+  updateAssessmentId({ currentAssessmentId, newAssessmentId, domainTransaction = DomainTransaction.emptyTransaction() }) {
     return BookshelfCompetenceEvaluation
       .where({ assessmentId: currentAssessmentId })
-      .save({ assessmentId: newAssessmentId }, { require: true, patch: true })
+      .save({ assessmentId: newAssessmentId }, { require: true, patch: true, transacting: domainTransaction.knexTransaction })
       .then((updatedCompetenceEvaluation) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation));
-
   },
 
   getByAssessmentId(assessmentId) {

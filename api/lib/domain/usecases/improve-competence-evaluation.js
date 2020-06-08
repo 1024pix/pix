@@ -11,7 +11,12 @@ module.exports = async function improveCompetenceEvaluation({ competenceEvaluati
     isImproving: true
   });
   const { id: assessmentId } = await assessmentRepository.save({ assessment, domainTransaction });
-  competenceEvaluation.assessmentId = assessmentId;
 
-  return competenceEvaluationRepository.save({ competenceEvaluation, domainTransaction });
+  await competenceEvaluationRepository.updateAssessmentId({
+    currentAssessmentId: competenceEvaluation.assessmentId,
+    newAssessmentId: assessmentId,
+    domainTransaction
+  });
+
+  return { ...competenceEvaluation, assessmentId };
 };

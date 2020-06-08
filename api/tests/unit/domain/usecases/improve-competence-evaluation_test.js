@@ -7,6 +7,7 @@ describe('Unit | UseCase | Improve Competence Evaluation', () => {
   let competenceId;
   let expectedAssessment;
   let createdAssessment;
+  const assessmentId = 'created-assessment-id';
   const domainTransaction = Symbol('DomainTransaction');
 
   beforeEach(() => {
@@ -21,12 +22,11 @@ describe('Unit | UseCase | Improve Competence Evaluation', () => {
       courseId: '[NOT USED] CompetenceId is in Competence Evaluation.',
       type: 'COMPETENCE_EVALUATION'
     });
-    const assessmentId = 'created-assessment-id';
     createdAssessment = { ...expectedAssessment, id: assessmentId };
 
     competenceEvaluationRepository = {
       getByCompetenceIdAndUserId: sinon.stub().resolves(competenceEvaluation),
-      save: sinon.stub().resolves({ ...competenceEvaluation, assessmentId })
+      updateAssessmentId: sinon.stub().resolves({ ...competenceEvaluation, assessmentId })
     };
     assessmentRepository = { save: sinon.stub().resolves(createdAssessment) };
   });
@@ -48,15 +48,15 @@ describe('Unit | UseCase | Improve Competence Evaluation', () => {
   });
 
   it('should update competence evaluation with newly created assessment', async () => {
-    // given
-    const expectedCompetenceEvaluation = competenceEvaluation;
-    expectedCompetenceEvaluation.assessment = createdAssessment;
-
     // when
     await improveCompetenceEvaluation({ assessmentRepository, competenceEvaluationRepository, userId, competenceId, domainTransaction });
 
     // then
-    expect(competenceEvaluationRepository.save).to.be.calledWith({ competenceEvaluation: expectedCompetenceEvaluation, domainTransaction });
+    expect(competenceEvaluationRepository.updateAssessmentId).to.be.calledWith({
+      currentAssessmentId: competenceEvaluation.assessmentId,
+      newAssessmentId: assessmentId,
+      domainTransaction
+    });
   });
 
   it('should return competence evaluation with newly created assessment', async () => {

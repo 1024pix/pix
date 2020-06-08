@@ -35,10 +35,6 @@ describe('Acceptance | API | Improve Competence Evaluation', () => {
           .mockList({ tableName: 'Competences' })
           .returns([airtableCompetence])
           .activate();
-        airtableBuilder
-          .mockList({ tableName: 'Domaines' })
-          .returns({})
-          .activate();
       });
 
       afterEach(async () => {
