@@ -122,7 +122,7 @@ function _getTestedCompetenceResults(competence, targetedKnowledgeElements) {
 
 function _getCompetenceColor(competence) {
   let areaColor;
-  const isBadgePartnerCompetenceColorAvailable = !_.isEmpty(competence.color);
+  const isBadgePartnerCompetenceColorAvailable = competence.color !== undefined;
 
   if (isBadgePartnerCompetenceColorAvailable) {
     areaColor = competence.color;
