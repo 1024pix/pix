@@ -12,7 +12,7 @@ module.exports = {
     const competenceMarks = await competenceMarkRepository.getLatestByCertificationCourseId({ certificationCourseId,domainTransaction });
     const totalPixCleaByCompetence = await competenceRepository.getTotalPixCleaByCompetence();
 
-    return CleaCertification.create({
+    return new CleaCertification({
       certificationCourseId,
       hasAcquiredBadgeClea,
       competenceMarks,

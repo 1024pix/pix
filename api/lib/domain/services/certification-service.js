@@ -4,17 +4,8 @@ const certificationAssessmentRepository = require('../../../lib/infrastructure/r
 const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
 const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const certificationResultService = require('./certification-result-service');
-const _ = require('lodash');
-const Badge = require('../../../lib/domain/models/Badge');
-
-const states = {
-  ACQUIRED: 'acquired',
-  REJECTED: 'rejected',
-  NOT_PASSED: 'not_passed',
-};
 
 module.exports = {
-  certificationPartnerStates: states,
 
   calculateCertificationResultByCertificationCourseId(certificationCourseId) {
     return certificationAssessmentRepository
@@ -23,6 +14,8 @@ module.exports = {
   },
 
   async getCertificationResult(certificationCourseId) {
+    // TODO move this construction to dedicated repo, so we can remove attribute acquiredPartnerCertifications
+    // from CertificationCourse model !
     const assessment = await assessmentRepository.getByCertificationCourseId(certificationCourseId);
     const certification = await certificationCourseRepository.get(certificationCourseId);
 
@@ -45,7 +38,7 @@ module.exports = {
       resultCreatedAt: lastAssessmentResultFull.createdAt,
       isPublished: certification.isPublished,
       isV2Certification: certification.isV2Certification,
-      cleaCertificationStatus: _getCleaCertificationStatus(certification),
+      cleaCertificationStatus: certification.cleaCertificationStatus,
       pixScore: lastAssessmentResultFull.pixScore,
       status: lastAssessmentResultFull.status,
       level: lastAssessmentResultFull.level,
@@ -62,14 +55,3 @@ module.exports = {
     });
   },
 };
-
-function _getCleaCertificationStatus(certification) {
-  const cleaCertification =
-    _.find(certification.acquiredPartnerCertifications, { partnerKey: Badge.keys.PIX_EMPLOI_CLEA });
-
-  if (cleaCertification) {
-    return cleaCertification.acquired ? states.ACQUIRED : states.REJECTED;
-  } else {
-    return states.NOT_PASSED;
-  }
-}

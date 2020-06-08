@@ -1,6 +1,8 @@
 const _ = require('lodash');
 const Badge = require('../models/Badge');
 const PartnerCertification = require('./PartnerCertification');
+const { NotEligibleCandidateError } = require('../errors');
+
 const MIN_PERCENTAGE = 75;
 
 const { MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED, MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED } = require('../constants');
@@ -53,6 +55,8 @@ class CleaCertification extends PartnerCertification {
   }
 
   isAcquired() {
+    if (!this.hasAcquiredBadge) throw new NotEligibleCandidateError();
+
     if (_hasNotMinimumReproducibilityRateToBeCertified(this.reproducibilityRate)) return false;
 
     if (_hasSufficientReproducibilityRateToBeTrusted(this.reproducibilityRate)) return true;
@@ -63,20 +67,8 @@ class CleaCertification extends PartnerCertification {
     });
   }
 
-  static create({
-    certificationCourseId,
-    hasAcquiredBadgeClea,
-    reproducibilityRate,
-    competenceMarks,
-    totalPixCleaByCompetence
-  }) {
-    return new CleaCertification({
-      certificationCourseId,
-      hasAcquiredBadgeClea,
-      reproducibilityRate,
-      competenceMarks,
-      totalPixCleaByCompetence
-    });
+  static certificationStatus(certificationPartner) {
+    return PartnerCertification.certificationStatus(certificationPartner);
   }
 }
 

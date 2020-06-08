@@ -320,6 +320,12 @@ class AssessmentNotCompletedError extends DomainError {
   }
 }
 
+class NotEligibleCandidateError extends DomainError {
+  constructor(message = 'Erreur, candidat non éligible à la certification.') {
+    super(message);
+  }
+}
+
 class NotFoundError extends DomainError {
   constructor(message = 'Erreur, ressource introuvable.') {
     super(message);
@@ -501,6 +507,7 @@ module.exports = {
   MembershipCreationError,
   MembershipUpdateError,
   MissingOrInvalidCredentialsError,
+  NotEligibleCandidateError,
   NotFoundError,
   ObjectValidationError,
   PasswordNotMatching,
