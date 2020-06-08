@@ -12,6 +12,7 @@ class Certification {
     certificationCenter,
     date,
     firstName,
+    deliveredAt,
     isPublished,
     lastName,
     // includes
@@ -29,6 +30,7 @@ class Certification {
     this.certificationCenter = certificationCenter;
     this.date = date;
     this.firstName = firstName;
+    this.deliveredAt = deliveredAt;
     this.isPublished = isPublished;
     this.lastName = lastName;
     const assessmentResultsCopy = Array.from(assessmentResults);
