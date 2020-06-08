@@ -100,4 +100,34 @@ describe('Unit | Domain | Models | CertificationProfile', () => {
     });
   });
 
+  describe('#getCompetencesCount', () => {
+
+    it('returns the number of competence', () => {
+      const userCompetence1 = new UserCompetence();
+      const userCompetence2 = new UserCompetence();
+      const certificationProfile = new CertificationProfile({
+        userCompetences: [userCompetence1, userCompetence2],
+      });
+
+      const competencesCount = certificationProfile.getCompetencesCount();
+
+      expect(competencesCount).to.equal(2);
+    });
+  });
+
+  describe('#getPixScore', () => {
+
+    it('returns the pixScore', () => {
+      const userCompetence1 = new UserCompetence({ pixScore: 12 });
+      const userCompetence2 = new UserCompetence({ pixScore: 8 });
+      const certificationProfile = new CertificationProfile({
+        userCompetences: [userCompetence1, userCompetence2],
+      });
+
+      const pixScore = certificationProfile.getPixScore();
+
+      expect(pixScore).to.equal(20);
+    });
+  });
+
 });
