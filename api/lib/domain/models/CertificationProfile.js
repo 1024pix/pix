@@ -26,6 +26,14 @@ class CertificationProfile {
       .filter((userCompetence) => userCompetence.isCertifiable())
       .size();
   }
+
+  getCompetencesCount() {
+    return this.userCompetences.length;
+  }
+
+  getPixScore() {
+    return _.sumBy(this.userCompetences, 'pixScore');
+  }
 }
 
 module.exports = CertificationProfile;
