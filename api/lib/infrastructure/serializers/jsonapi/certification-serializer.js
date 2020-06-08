@@ -25,6 +25,7 @@ module.exports = {
         'birthplace',
         'date',
         'firstName',
+        'deliveredAt',
         'isPublished',
         'lastName',
         'status',
