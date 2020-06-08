@@ -1,16 +1,16 @@
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 
-export default class PasswordResetWindow extends Component {
+export default class PasswordResetModal extends Component {
 
   @service store;
   @service notifications;
 
-  isUniquePasswordVisible = false;
+  @tracked isUniquePasswordVisible = false;
 
-  generatedPassword = null;
+  @tracked generatedPassword = null;
 
   @tracked tooltipTextUsername = 'Copier l\'identifiant';
   @tracked tooltipTextEmail = 'Copier l\'adresse e-mail';
@@ -46,14 +46,14 @@ export default class PasswordResetWindow extends Component {
   async resetPassword(event) {
     event.preventDefault();
     const schoolingRegistrationDependentUser = this.store.createRecord('schooling-registration-dependent-user', {
-      organizationId: this.student.organization.get('id'),
-      schoolingRegistrationId: this.student.id
+      organizationId: this.args.student.organization.get('id'),
+      schoolingRegistrationId: this.args.student.id
     });
 
     try {
       await schoolingRegistrationDependentUser.save();
       this.generatedPassword = schoolingRegistrationDependentUser.generatedPassword;
-      this.toggleProperty('isUniquePasswordVisible');
+      this.isUniquePasswordVisible = !this.isUniquePasswordVisible;
     } catch (e) {
       this.notifications.sendError('Quelque chose s\'est mal passé. Veuillez réessayer.');
     }
@@ -61,6 +61,7 @@ export default class PasswordResetWindow extends Component {
 
   @action
   closePasswordReset() {
-    this.set('isShowingModal', false);
+    this.isUniquePasswordVisible = false;
+    this.args.close();
   }
 }
