@@ -127,7 +127,7 @@ module('Integration | Component | password-reset-window', function(hooks) {
       await render(hbs`{{password-reset-window student=student}}`);
 
       // when
-      await click('.pix-modal-footer div button');
+      await click('.modal-footer div button');
 
       // then
       assert.dom('#generated-password').exists();
@@ -138,7 +138,7 @@ module('Integration | Component | password-reset-window', function(hooks) {
       await render(hbs`{{password-reset-window student=student}}`);
 
       // when
-      await click('.pix-modal-footer div button');
+      await click('.modal-footer div button');
 
       // then
       assert.dom('button[aria-label="Copier le mot de passe unique"]').hasAttribute('data-clipboard-text', generatedPassword);
@@ -148,7 +148,7 @@ module('Integration | Component | password-reset-window', function(hooks) {
     test('should display tooltip when generated password copy button is clicked', async function(assert) {
       // given
       await render(hbs`{{password-reset-window student=student}}`);
-      await click('.pix-modal-footer div button');
+      await click('.modal-footer div button');
 
       // when
       await triggerCopySuccess('button[aria-label="Copier le mot de passe unique"]');

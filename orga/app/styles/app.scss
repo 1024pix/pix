@@ -14,7 +14,6 @@
 @import "globals/pages";
 @import "globals/panels";
 @import "globals/pix-loader";
-@import "globals/pix-modal";
 @import "globals/tables";
 @import "globals/texts";
 @import "globals/titles";
@@ -32,6 +31,8 @@
 @import "components/login-or-register";
 @import "components/user-logged-menu";
 @import "components/select-creator";
+@import "components/password-reset-window";
+@import "components/modal";
 @import "pages/login";
 @import "pages/join";
 @import "pages/authenticated";
