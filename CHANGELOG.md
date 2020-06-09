@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v2.160.0 (09/06/2020)
+
+- [#1491](https://github.com/1024pix/pix/pull/1491) [FEATURE] Mettre à jour le nom, identifiant externe et département d'une organisation dans Pix Admin (PIX-456).
+- [#1476](https://github.com/1024pix/pix/pull/1476) [FEATURE] Modifier les attributs d'un user dans un contexte d'administration (PIX-734).
+- [#1473](https://github.com/1024pix/pix/pull/1473) [FEATURE] Affichage du profil Pix sur la page de profil déjà envoyé (PIX-752)
+- [#1474](https://github.com/1024pix/pix/pull/1474) [FEATURE] Ajout d'un composant dropdown dans Pix Orga (PIX-716).
+- [#1494](https://github.com/1024pix/pix/pull/1494) [BUGFIX] Corrige une erreur 500 en 404 quand un test de démo n'est pas trouvé
+- [#1493](https://github.com/1024pix/pix/pull/1493) [BUGFIX] La flèche de checkpoint doit s'afficher en plus grand (PIX-811).
+- [#1490](https://github.com/1024pix/pix/pull/1490) [BUGFIX] Correction d'un test knex-utils aléatoire
+- [#1477](https://github.com/1024pix/pix/pull/1477) [BUGFIX]  Amélioration de la validation du formulaire d'inscription dans Pix Orga (PIX-468).
+- [#1470](https://github.com/1024pix/pix/pull/1470) [BUGFIX] Réduction de la largeur de certaines colonnes dans le tableau des membres (PIX-459).
+- [#1464](https://github.com/1024pix/pix/pull/1464) [TECH] Utiliser un EventDispatcher pour passer les Domain Events aux Event Handlers
+- [#1442](https://github.com/1024pix/pix/pull/1442) [TECH] Ecriture d'un script pour élaborer des statistiques sur la qualité des tests de certification (PIX-738)
+- [#1485](https://github.com/1024pix/pix/pull/1485)  [FEATURE ] Obtenir la date de délivrance des certifications (PIX-164)
+- [#1479](https://github.com/1024pix/pix/pull/1479) [INFRA] Ajouter les dernières variables d'environnement dans le fichier sample.env
+- [#1482](https://github.com/1024pix/pix/pull/1482) [CLEANUP] Correction du changelog après une mauvaise manip qui a provoqué la duplication d'une entrée (PIX-774)
+
 ## v2.159.0 (03/06/2020)
 
 - [#1465](https://github.com/1024pix/pix/pull/1465) [FEATURE] Afficher la dernière date d'envoi d'une invitation dans Pix Orga (PIX-730).
