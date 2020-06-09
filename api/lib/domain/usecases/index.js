@@ -153,7 +153,7 @@ module.exports = injectDependencies({
   getUserCertificationCenterMemberships: require('./get-user-certification-center-memberships'),
   getUserCertificationWithResultTree: require('./get-user-certification-with-result-tree'),
   getUserCurrentCertificationProfile: require('./get-user-current-certification-profile'),
-  getUserDetailForAdmin: require('./get-user-detail-for-admin'),
+  getUserDetailsForAdmin: require('./get-user-details-for-admin'),
   getUserPixScore: require('./get-user-pix-score'),
   getUserScorecards: require('./get-user-scorecards'),
   getUserWithMemberships: require('./get-user-with-memberships'),
@@ -178,7 +178,9 @@ module.exports = injectDependencies({
   updateMembershipRole: require('./update-membership-role'),
   updateOrganizationInformation: require('./update-organization-information'),
   updatePublicationSession: require('./update-publication-session'),
-  updateSession: require('./update-session'),
   updateSchoolingRegistrationDependentUserPassword: require('./update-schooling-registration-dependent-user-password'),
+  updateSession: require('./update-session'),
+  updateUserDetailsForAdministration: require('./update-user-details-for-administration'),
   updateUserPassword: require('./update-user-password')
+
 }, dependencies);

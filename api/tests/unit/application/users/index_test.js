@@ -353,4 +353,65 @@ describe('Unit | Router | user-router', () => {
       expect(result.statusCode).to.equal(400);
     });
   });
+
+  describe('PATCH /api/admin/users/{id}', function() {
+
+    const userId = '12344';
+    const request = (payloadAttributes) => ({
+      method: 'PATCH',
+      url: `/api/admin/users/${userId}`,
+      payload: { data: { attributes: payloadAttributes } },
+    });
+
+    beforeEach(() => {
+      sinon.stub(userController, 'updateUserDetailsForAdministration').returns('ok');
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      startServer();
+    });
+
+    it('should verify user identity and return sucess update', async () => {
+      // given
+      const payloadAttributes = { 'first-name': 'firstname', 'last-name': 'lastname', email: 'partial@update.com' };
+
+      // when
+      const result = await server.inject(request(payloadAttributes));
+
+      // then
+      expect(result.statusCode).to.equal(200);
+      sinon.assert.calledOnce(securityPreHandlers.checkUserHasRolePixMaster);
+    });
+
+    describe('Payload and path param schema validation', () => {
+
+      it('should return bad request when param id is not numeric', async () => {
+        // given
+        const requestWithoutPayload = {
+          method: 'PATCH',
+          url: '/api/admin/users/not_number',
+          payload: { data: { attributes: { email : 'partial@update.net' } } },
+        };
+
+        // when
+        const result = await server.inject(requestWithoutPayload);
+
+        // then
+        expect(result.statusCode).to.equal(400);
+      });
+
+      it('should return bad request when payload is not found', async () => {
+        // given
+        const requestWithoutPayload = {
+          method: 'PATCH',
+          url: '/api/admin/users/NOT_NUMBER',
+        };
+
+        // when
+        const result = await server.inject(requestWithoutPayload);
+
+        // then
+        expect(result.statusCode).to.equal(400);
+      });
+
+    });
+  });
 });

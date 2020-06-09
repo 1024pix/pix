@@ -1,4 +1,4 @@
-class UserDetailForAdmin {
+class UserDetailsForAdmin {
 
   constructor({
     id,
@@ -23,5 +23,5 @@ class UserDetailForAdmin {
   }
 }
 
-module.exports = UserDetailForAdmin;
+module.exports = UserDetailsForAdmin;
 
