@@ -1,75 +1,210 @@
-const { expect, sinon, } = require('../../../test-helper');
+const { expect, sinon, catchErr } = require('../../../test-helper');
 const partnerCertificationRepository = require('../../../../lib/infrastructure/repositories/partner-certification-repository');
+const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 const competenceMarkRepository = require('../../../../lib/infrastructure/repositories/competence-mark-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
-const PartnerCertificationBookshelf = require('../../../../lib/infrastructure/data/partner-certification');
 const Badge = require('../../../../lib/domain/models/Badge');
-const CleaCertification = require('../../../../lib/domain/models/CleaCertification');
+const { NotEligibleCandidateError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Repository | Partner Certification', function() {
-  const certificationCourseId = Symbol('certifCourseId');
-  const userId = Symbol('userId');
-  const totalPixCleaByCompetence = Symbol('totalPixCleaByCompetence');
-  const badgeKey = Symbol('badgeKey');
-  const competenceMarks = Symbol('competenceMarks');
-  const hasAcquiredBadgeClea = Symbol('hasAcquired');
-  const reproducibilityRate = Symbol('reproducibilityRate');
-  const domainTransaction = Symbol('domainTransaction');
+const GREEN_ZONE_REPRO = [80, 90, 100];
+const RED_ZONE_REPRO = [1, 50];
 
-  beforeEach(() => {
-    sinon.stub(competenceMarkRepository, 'getLatestByCertificationCourseId')
-      .withArgs({ certificationCourseId, domainTransaction })
-      .resolves(competenceMarks);
-    sinon.stub(competenceRepository, 'getTotalPixCleaByCompetence').withArgs().resolves(totalPixCleaByCompetence);
-    sinon.stub(badgeAcquisitionRepository, 'hasAcquiredBadgeWithKey').withArgs({
-      badgeKey: Badge.keys.PIX_EMPLOI_CLEA,
-      userId,
-    }).resolves(hasAcquiredBadgeClea);
-    sinon.stub(CleaCertification, 'create');
-  });
+describe('Unit | Domain | Models | Clea Certification', () => {
 
-  describe('#buildCleaCertification', () => {
-    it('should create a certification clea object', async () => {
-      const partnerCertification = await partnerCertificationRepository.buildCleaCertification({
-        certificationCourseId,
-        userId,
-        reproducibilityRate,
-        domainTransaction
-      });
-      expect(partnerCertification).to.be.not.null;
-      expect(competenceMarkRepository.getLatestByCertificationCourseId).to.have.been.called;
-      expect(badgeAcquisitionRepository.hasAcquiredBadgeWithKey).to.have.been.called;
-      expect(competenceRepository.getTotalPixCleaByCompetence).to.have.been.called;
-      expect(CleaCertification.create).to.have.been.calledWith({
-        certificationCourseId,
-        hasAcquiredBadgeClea,
-        competenceMarks,
-        totalPixCleaByCompetence,
-        reproducibilityRate
-      });
+  context('#isEligible', () => {
+
+    it('when user has badge it is eligible', async () => {
+      // given
+      const partnerCertification = await _buildCleaCertificationWithBadge();
+
+      // when
+      const hasAcquiredCertif = partnerCertification.isEligible();
+
+      // then
+      expect(hasAcquiredCertif).to.be.true;
+    });
+
+    it('when user does not have badge it is not eligible', async () => {
+      // given
+      const partnerCertification = await _buildCleaCertificationWithoutBadge();
+
+      // when
+      const hasAcquiredCertif = partnerCertification.isEligible();
+
+      // then
+      expect(hasAcquiredCertif).to.be.false;
     });
   });
 
-  describe('#save', () => {
-    const cleaCertification = new CleaCertification();
-    const domainTransaction = Symbol('transaction');
-    const acquired = Symbol('acquired');
+  context('#isAcquired', () => {
 
-    it('should save with acquired', async () => {
-      sinon.stub(cleaCertification, 'isAcquired').returns(acquired);
-      sinon.stub(PartnerCertificationBookshelf.prototype, 'save').withArgs({
-        certificationCourseId,
-        badgeKey,
-        acquired,
-        domainTransaction
-      }).resolves();
+    it('throws when not eligible', async () => {
+      // given
+      const partnerCertification = await _buildCleaCertificationWithoutBadge();
 
-      await partnerCertificationRepository.save(cleaCertification, domainTransaction);
+      // when
+      const error = await catchErr(partnerCertification.isAcquired, partnerCertification)();
 
-      expect(PartnerCertificationBookshelf.prototype.save).to.have.been.calledOnce;
+      // then
+      expect(error).to.be.instanceOf(NotEligibleCandidateError);
+    });
 
+    context('reproducibility rate in green zone', () => {
+      GREEN_ZONE_REPRO.forEach((reproducibilityRate) =>
+        it(`for ${reproducibilityRate} reproducibility rate, it should obtain certification`, async () => {
+          // given
+          const partnerCertification = await _buildCleaCertificationWithReproducibilityRate(reproducibilityRate);
+
+          // when
+          const hasAcquiredCertif = partnerCertification.isAcquired();
+
+          // then
+          expect(hasAcquiredCertif).to.be.true;
+        })
+      );
+    });
+    
+    context('reproducibility rate in grey zone', () => {
+    
+      it('for 70 reproducibility rate, it should obtain certification when the pixScore for each certifiable competences is above 75% of Clea corresponding competence\'s pixScore', async () => {
+        // given
+        const partnerCertification = await _buildCleaCertificationInGreyZoneAndCertifiableCompetences();
+    
+        // when
+        const hasAcquiredCertif = partnerCertification.isAcquired();
+    
+        // then
+        expect(hasAcquiredCertif).to.be.true;
+      });
+    
+      it('for 70 reproducibility rate, it should not obtain certification when the pixScore for each certifiable competences is above 75% of Clea corresponding competence\'s pixScore', async () => {
+        // given
+        const partnerCertification = await _buildCleaCertificationInGreyZoneAndNonCertifiableCompetences();
+    
+        // when
+        const hasAcquiredCertif = partnerCertification.isAcquired();
+    
+        // then
+        expect(hasAcquiredCertif).to.be.false;
+      });
+    });
+    
+    context('reproducibility rate in red zone', () => {
+      RED_ZONE_REPRO.forEach((reproducibilityRate) =>
+        it(`for ${reproducibilityRate} reproducibility rate, it should not obtain certification`, async () => {
+          // given
+          const partnerCertification = await _buildCleaCertificationWithReproducibilityRate(reproducibilityRate);
+    
+          // when
+          const hasAcquiredCertif = partnerCertification.isAcquired({
+            hasAcquiredBadge: true,
+            reproducibilityRate
+          });
+    
+          // then
+          expect(hasAcquiredCertif).to.be.false;
+        })
+      );
     });
   });
 
 });
+
+function _buildCleaCertification(withBadge, reproducibilityRate, competenceMarks, totalPixCleaByCompetence) {
+  const certificationCourseId = Symbol('certifCourseId');
+  const userId = Symbol('userId');
+  const domainTransaction = Symbol('domainTransaction');
+
+  sinon.stub(competenceMarkRepository, 'getLatestByCertificationCourseId')
+    .withArgs({ certificationCourseId, domainTransaction })
+    .resolves(competenceMarks);
+  sinon.stub(competenceRepository, 'getTotalPixCleaByCompetence').withArgs().resolves(totalPixCleaByCompetence);
+  sinon.stub(badgeAcquisitionRepository, 'hasAcquiredBadgeWithKey').withArgs({
+    badgeKey: Badge.keys.PIX_EMPLOI_CLEA,
+    userId,
+  }).resolves(withBadge);
+
+  return partnerCertificationRepository.buildCleaCertification({
+    certificationCourseId,
+    userId,
+    reproducibilityRate,
+    domainTransaction
+  });
+}
+
+function _buildCleaCertificationWithBadge() {
+  return _buildCleaCertification(true);
+}
+
+function _buildCleaCertificationWithoutBadge() {
+  return _buildCleaCertification(false);
+}
+
+function _buildCleaCertificationWithReproducibilityRate(reproducibilityRate) {
+  return _buildCleaCertification(true, reproducibilityRate);
+}
+
+function _buildCleaCertificationInGreyZoneAndCertifiableCompetences() {
+  const competenceId1 = 'competenceId1', competenceId2 = 'competenceId2';
+
+  const totalPixCleaByCompetence = {
+    [competenceId1]: 20,
+    [competenceId2]: 10,
+    ['competenceId4']: 30,
+  };
+
+  const competenceMarks = [
+    new CompetenceMark(
+      {
+        competenceId: competenceId1,
+        score: 15
+      }
+    ),
+    new CompetenceMark(
+      {
+        competenceId: competenceId2,
+        score: 7.5
+      }
+    ),
+    new CompetenceMark(
+      {
+        competenceId: 'competence3',
+        score: 0
+      }
+    ),
+  ];
+  return _buildCleaCertification(true, 70, competenceMarks, totalPixCleaByCompetence);
+}
+
+function _buildCleaCertificationInGreyZoneAndNonCertifiableCompetences() {
+  const competenceId1 = 'competenceId1', competenceId2 = 'competenceId2';
+
+  const totalPixCleaByCompetence = {
+    [competenceId1]: 20,
+    [competenceId2]: 10,
+    ['competenceId4']: 30,
+  };
+
+  const competenceMarks = [
+    new CompetenceMark(
+      {
+        competenceId: competenceId1,
+        score: 15
+      }
+    ),
+    new CompetenceMark(
+      {
+        competenceId: competenceId2,
+        score: 7.4
+      }
+    ),
+    new CompetenceMark(
+      {
+        competenceId: 'competence3',
+        score: 0
+      }
+    ),
+  ];
+  return _buildCleaCertification(true, 70, competenceMarks, totalPixCleaByCompetence);
+}
