@@ -20,7 +20,7 @@
             @errorMessage={{this.errorMessage}}
     />
 
-    <div class="send-profile-header__profile">
+    <div class="send-profile-header__profile send-profile-header__profile--with-border-bottom">
       <HexagonScore @pixScore={{this.model.user.pixScore.value}} />
       <div class="send-profile-header__profile__cards">
         <ProfileScorecards @interactive={{false}} class="send-profile-header__profile__cards" @areasCode={{this.model.user.areasCode}} @scorecards={{this.model.user.scorecards}}/>

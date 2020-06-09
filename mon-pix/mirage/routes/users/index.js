@@ -5,12 +5,14 @@ import getPixScore from './get-pix-score';
 import getScorecards from './get-scorecards';
 import getUserCampaignParticipations from './get-user-campaign-participations';
 import getUserCampaignParticipationToCampaign from './get-user-campaign-participation-to-campaign';
+import getUserSharedProfileForCampaign from './get-user-shared-profile-for-campaign';
 import resetScorecard from './reset-scorecard';
 
 export default function index(config) {
   config.post('/users');
 
   config.get('/users/:userId/campaigns/:campaignId/campaign-participations', getUserCampaignParticipationToCampaign);
+  config.get('/users/:userId/campaigns/:campaignId/profile', getUserSharedProfileForCampaign);
   config.get('/users/:id/certification-profile', getCertificationProfile);
   config.get('/users/:id/pixscore', getPixScore);
   config.get('/users/:id/scorecards', getScorecards);

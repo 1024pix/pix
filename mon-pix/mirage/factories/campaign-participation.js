@@ -22,7 +22,7 @@ export default Factory.extend({
           codeCampaign: campaignParticipation.campaign.code,
           title: campaignParticipation.campaign.title,
         }),
-      }); 
+      });
     }
   },
 });

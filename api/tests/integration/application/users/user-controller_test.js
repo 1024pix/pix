@@ -13,6 +13,7 @@ describe('Integration | Application | Users | user-controller', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'getUserCampaignParticipationToCampaign');
+    sandbox.stub(usecases, 'getUserProfileSharedForCampaign');
     sandbox.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser');
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
@@ -60,6 +61,36 @@ describe('Integration | Application | Users | user-controller', () => {
 
         // then
         expect(response.statusCode).to.equal(403);
+      });
+    });
+  });
+
+  describe('#getUserProfileSharedForCampaign', () => {
+    context('Error cases', () => {
+      it('should return a 403 HTTP response', async () => {
+        // given
+        securityPreHandlers.checkRequestedUserIsAuthenticatedUser.callsFake((request, h) => {
+          return Promise.resolve(h.response().code(403).takeover());
+        });
+      
+        // when
+        const response = await httpTestServer.request('GET', '/api/users/1234/campaigns/5678/profile');
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+
+      it('should return a 401 HTTP response', async () => {
+        // given
+        securityPreHandlers.checkRequestedUserIsAuthenticatedUser.callsFake((request, h) => {
+          return Promise.resolve(h.response().code(401).takeover());
+        });
+      
+        // when
+        const response = await httpTestServer.request('GET', '/api/users/1234/campaigns/5678/profile');
+
+        // then
+        expect(response.statusCode).to.equal(401);
       });
     });
   });

@@ -40,8 +40,7 @@
   }
 
   &__profile {
-    border-top: 1px dashed  $grey-10;
-    border-bottom: 1px dashed  $grey-10;
+    border-top: 1px dashed  $grey-22;
     padding-top: 36px;
     padding-bottom: 22px;
     margin-top: 24px;
@@ -49,6 +48,10 @@
     display: flex;
     flex-flow: column;
     align-items: center;
+
+    &--with-border-bottom {
+      border-bottom: 1px dashed  $grey-22;
+    }
 
     &__cards {
       width: 100%;
