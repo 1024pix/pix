@@ -179,7 +179,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
     });
 
-    describe('#getByUsernameWithRoles', () => {
+    describe('#getByUsernameOrEmailWithRoles', () => {
 
       beforeEach(() => {
         return _insertUserWithOrganizationsAndCertificationCenterAccesses();
@@ -255,6 +255,28 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(associatedOrganization.type).to.equal(organizationInDB.type);
 
         expect(firstMembership.organizationRole).to.equal(membershipInDB.organizationRole);
+      });
+
+      context('when the membership associated to the user has been disabled', () => {
+
+        it('should not return the membership', async () => {
+          // given
+          const userInDB = databaseBuilder.factory.buildUser();
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+          databaseBuilder.factory.buildMembership({
+            userId: userInDB.id,
+            organizationId,
+            disabledAt: new Date(),
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const user = await userRepository.getByUsernameOrEmailWithRoles(userInDB.email);
+
+          // then
+          expect(user.memberships).to.be.an('array');
+          expect(user.memberships).to.be.empty;
+        });
       });
 
       it('should return certification center membership associated to the user', async () => {
