@@ -6,7 +6,6 @@ class Certification {
   constructor({
     id,
     // attributes
-    assessmentState,
     birthdate,
     birthplace,
     certificationCenter,
@@ -24,7 +23,6 @@ class Certification {
   } = {}) {
     this.id = id;
     // attributes
-    this.assessmentState = assessmentState;
     this.birthdate = birthdate;
     this.birthplace = birthplace;
     this.certificationCenter = certificationCenter;
