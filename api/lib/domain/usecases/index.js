@@ -160,6 +160,7 @@ module.exports = injectDependencies({
   getUserWithOrgaSettings: require('./get-user-with-orga-settings'),
   importCertificationCandidatesFromAttendanceSheet: require('./import-certification-candidates-from-attendance-sheet'),
   importSchoolingRegistrationsFromSIECLE: require('./import-schooling-registrations-from-siecle'),
+  improveCompetenceEvaluation: require('./improve-competence-evaluation'),
   linkUserToSchoolingRegistrationData: require('./link-user-to-schooling-registration-data'),
   linkUserToSessionCertificationCandidate: require('./link-user-to-session-certification-candidate'),
   rememberUserHasSeenAssessmentInstructions: require('./remember-user-has-seen-assessment-instructions'),
