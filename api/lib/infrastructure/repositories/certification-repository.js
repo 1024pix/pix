@@ -16,7 +16,6 @@ function _certificationToDomain(certificationCourseBookshelf) {
 function _createCertificationDomainModel({ certificationCourseBookshelf, assessmentResults }) {
   return new Certification({
     id: certificationCourseBookshelf.get('id'),
-    assessmentState: certificationCourseBookshelf.related('assessment').get('state'),
     certificationCenter: certificationCourseBookshelf.related('session').get('certificationCenter'),
     birthdate: certificationCourseBookshelf.get('birthdate'),
     birthplace: certificationCourseBookshelf.get('birthplace'),
