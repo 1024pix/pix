@@ -93,7 +93,6 @@ buildCampaign.ofTypeProfilesCollection = function({
   organizationId = faker.random.number(2),
   isRestricted = false,
   organizationLogoUrl,
-  targetProfileId,
 } = {}) {
   return new Campaign({
     id,
@@ -110,7 +109,7 @@ buildCampaign.ofTypeProfilesCollection = function({
     organizationId,
     isRestricted,
     organizationLogoUrl,
-    targetProfileId,
+    targetProfileId: null,
   });
 };
 

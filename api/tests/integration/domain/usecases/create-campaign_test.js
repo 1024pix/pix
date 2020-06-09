@@ -65,7 +65,7 @@ describe('Integration | UseCases | create-campaign', () => {
 
   it('should save a new campaign of type PROFILES_COLLECTION', async () => {
     // given
-    const campaign = domainBuilder.buildCampaign.ofTypeProfilesCollection({ creatorId: userId, organizationId, targetProfileId: null });
+    const campaign = domainBuilder.buildCampaign.ofTypeProfilesCollection({ creatorId: userId, organizationId });
 
     const expectedAttributes = ['type', 'title', 'idPixLabel', 'name', 'organizationId',
       'creatorId', 'isRestricted', 'customLandingPageText', 'archivedAt', 'campaignCollectiveResult', 'campaignReport',
