@@ -1,5 +1,6 @@
 const Course = require('../../domain/models/Course');
 const courseDatasource = require('../datasources/airtable/course-datasource');
+const AirtableResourceNotFound = require('../datasources/airtable/AirtableResourceNotFound');
 const { NotFoundError } = require('../../domain/errors');
 
 function _toDomain(courseDataObject) {
@@ -15,8 +16,17 @@ function _toDomain(courseDataObject) {
 
 module.exports = {
 
-  get(id) {
-    return courseDatasource.get(id).then(_toDomain);
+  async get(id) {
+    try {
+      const courseDataObject = await courseDatasource.get(id);
+      return _toDomain(courseDataObject);
+    }
+    catch (error) {
+      if (error instanceof AirtableResourceNotFound) {
+        throw new NotFoundError();
+      }
+      throw error;
+    }
   },
 
   getCourseName(id) {
