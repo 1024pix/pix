@@ -45,6 +45,7 @@ module.exports = function(environment) {
         NOT_FOUND: '404',
       },
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
+      ORGANIZATION_DASHBOARD_URL: process.env.ORGANIZATION_DASHBOARD_URL,
     },
 
     googleFonts: [
