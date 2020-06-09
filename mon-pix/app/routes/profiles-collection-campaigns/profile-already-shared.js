@@ -13,7 +13,7 @@ export default class ProfileAlreadySharedRoute extends Route {
     const campaign = campaigns.get('firstObject');
     return RSVP.hash({
       campaign,
-      campaignParticipation: this.store.queryRecord('campaignParticipation', { campaignId: campaign.id, userId: user.id }),
+      sharedProfile: this.store.queryRecord('sharedProfileForCampaign', { campaignId: campaign.id, userId: user.id }),
       user
     });
   }

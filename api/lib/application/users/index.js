@@ -318,6 +318,29 @@ exports.register = async function(server) {
     },
     {
       method: 'GET',
+      path: '/api/users/{userId}/campaigns/{campaignId}/profile',
+      config: {
+        validate: {
+          params: Joi.object({
+            userId: Joi.number().required(),
+            campaignId: Joi.number().required()
+          }),
+        },
+        pre: [{
+          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+          assign: 'requestedUserIsAuthenticatedUser'
+        }],
+        handler: userController.getUserProfileSharedForCampaign,
+        notes : [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération du profil d’un utilisateur partagé (**userId**) pour la campagne donnée (**campaignId**)\n' +
+          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+        ],
+        tags: ['api', 'user', 'campaign']
+      }
+    },
+    {
+      method: 'GET',
       path: '/api/users/{userId}/campaigns/{campaignId}/campaign-participations',
       config: {
         validate: {

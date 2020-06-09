@@ -5,6 +5,7 @@ const membershipSerializer = require('../../infrastructure/serializers/jsonapi/m
 const userOrgaSettingsSerializer = require('../../infrastructure/serializers/jsonapi/user-orga-settings-serializer');
 const pixScoreSerializer = require('../../infrastructure/serializers/jsonapi/pix-score-serializer');
 const scorecardSerializer = require('../../infrastructure/serializers/jsonapi/scorecard-serializer');
+const sharedProfileForCampaignSerializer = require('../../infrastructure/serializers/jsonapi/shared-profile-for-campaign-serializer');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const userDetailForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-detail-for-admin-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
@@ -165,5 +166,14 @@ module.exports = {
 
     return usecases.getUserCampaignParticipationToCampaign({ userId: authenticatedUserId, campaignId })
       .then((campaignParticipation) => campaignParticipationSerializer.serialize(campaignParticipation));
+  },
+
+  async getUserProfileSharedForCampaign(request) {
+    const authenticatedUserId = request.auth.credentials.userId;
+    const campaignId = request.params.campaignId;
+
+    const sharedProfileForCampaign = await usecases.getUserProfileSharedForCampaign({ userId: authenticatedUserId, campaignId });
+    
+    return sharedProfileForCampaignSerializer.serialize(sharedProfileForCampaign);
   }
 };
