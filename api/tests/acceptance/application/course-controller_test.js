@@ -65,47 +65,74 @@ describe('Acceptance | API | Courses', () => {
       return cache.flushAll();
     });
 
-    const options = {
-      method: 'GET',
-      url: '/api/courses/rec_course_id',
-      headers: {
-        authorization: generateValidRequestAuthorizationHeader(userId),
-      },
-    };
+    context('when the course exists', () => {
+      let options;
 
-    it('should return 200 HTTP status code', () => {
-      // when
-      const promise = server.inject(options);
-
-      // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
+      beforeEach(() => {
+        options = {
+          method: 'GET',
+          url: '/api/courses/rec_course_id',
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(userId),
+          },
+        };
       });
+
+      it('should return 200 HTTP status code', () => {
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(200);
+        });
+      });
+
+      it('should return application/json', () => {
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          const contentType = response.headers['content-type'];
+          expect(contentType).to.contain('application/json');
+        });
+      });
+
+      it('should return the expected course', () => {
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          const course = response.result.data;
+          expect(course.id).to.equal('rec_course_id');
+          expect(course.attributes.name).to.equal('A la recherche de l\'information #01');
+          expect(course.attributes.description).to.equal('Mener une recherche et une veille d\'information');
+        });
+      });
+
     });
 
-    it('should return application/json', () => {
-      // when
-      const promise = server.inject(options);
+    context('when the course does not exist', () => {
+      let options;
 
-      // then
-      return promise.then((response) => {
-        const contentType = response.headers['content-type'];
-        expect(contentType).to.contain('application/json');
+      beforeEach(() => {
+        options = {
+          method: 'GET',
+          url: '/api/courses/rec_i_dont_exist',
+        };
+      });
+
+      it('should return 404 HTTP status code', () => {
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(404);
+        });
       });
     });
-
-    it('should return the expected course', () => {
-      // when
-      const promise = server.inject(options);
-
-      // then
-      return promise.then((response) => {
-        const course = response.result.data;
-        expect(course.id).to.equal('rec_course_id');
-        expect(course.attributes.name).to.equal('A la recherche de l\'information #01');
-        expect(course.attributes.description).to.equal('Mener une recherche et une veille d\'information');
-      });
-    });
-
   });
 });
