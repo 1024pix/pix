@@ -29,3 +29,11 @@ figure.work-in-progress {
 input:invalid {
   box-shadow: none;
 }
+
+abbr.mandatory-mark {
+  cursor: help;
+  color: $dark-error;
+  display: contents;
+  margin: 1.25rem;
+  text-decoration: none;
+}
