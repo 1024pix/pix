@@ -17,7 +17,7 @@ function createScoCertificationCenters(certificationCenters) {
 }
 
 async function main() {
-  console.log('Starting creating or updating SCO organizations.');
+  console.log('Starting creating SCO certification centers.');
 
   try {
     const filePath = process.argv[2];
