@@ -152,7 +152,7 @@ module.exports = {
       .query((qb) => qb.where({ email: username.toLowerCase() }).orWhere({ 'username': username }))
       .fetch({
         withRelated: [
-          'memberships',
+          { 'memberships': (qb) => qb.where({ disabledAt: null }) },
           'memberships.organization',
           'pixRoles',
           'certificationCenterMemberships.certificationCenter',
