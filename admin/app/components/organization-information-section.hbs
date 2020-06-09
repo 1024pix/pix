@@ -14,6 +14,8 @@
 
       </figure>
     </div>
+
+    {{#if (not this.isEditMode) }}
     <div class="organization__data">
       <h1 class="organization__name">{{@organization.name}}</h1>
       <p>
@@ -30,6 +32,61 @@
         A accès aux campagnes de collecte de profils : <span class="organization__canCollectProfiles">{{this.canCollectProfiles}}</span><br>
         Crédits : <span class="organization__credit">{{@organization.credit}}</span>
       </p>
+      <button class="btn btn-outline-default" aria-label="Editer" {{on "click" this.toggleEditMode}}>Editer</button>
     </div>
+    {{else}}
+    <div class="organization__edit-form">
+      <form class="form" {{on "submit" this.updateOrganization}}>
+
+        <span class="form__instructions">
+          Les champs marqués de <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> sont obligatoires.
+        </span>
+
+        <div class="form-field">
+          <label for="name" class="form-field__label">
+            <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> Nom
+          </label>
+          {{#if (v-get form 'name' 'isInvalid')}}
+            <div class="form-field__error" aria-label="Message d'erreur du champ nom">
+              {{v-get form 'name' 'message'}}
+            </div>
+          {{/if}}
+          <Input id="name"
+                 @type="text"
+                 class={{if (v-get form 'name' 'isInvalid') "form-control is-invalid" "form-control"}}
+                 @value={{this.form.name}}
+                 required={{true}} />
+        </div>
+        <div class="form-field">
+          <label for="externalId" class="form-field__label">Identifiant externe</label>
+          {{#if (v-get form 'externalId' 'isInvalid')}}
+            <div class="form-field__error" aria-label="Message d'erreur du champ identifiant externe">
+              {{v-get form 'externalId' 'message'}}
+            </div>
+          {{/if}}
+          <Input id="externalId"
+                 @type="text"
+                 class={{if (v-get form 'externalId' 'isInvalid') "form-control is-invalid" "form-control"}}
+                 @value={{this.form.externalId}} />
+        </div>
+        <div class="form-field">
+          <label for="provinceCode" class="form-field__label">Département (en 3 chiffres)</label>
+          {{#if (v-get form 'provinceCode' 'isInvalid')}}
+            <div class="form-field__error" aria-label="Message d'erreur du champ département">
+              {{v-get form 'provinceCode' 'message'}}
+            </div>
+          {{/if}}
+          <Input id="provinceCode"
+                 @type="text"
+                 class={{if (v-get form 'provinceCode' 'isInvalid') "form-control is-invalid" "form-control"}}
+                 @value={{this.form.provinceCode}} />
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-outline-default" aria-label="Annuler" type="button" {{on "click" this.cancel}}>Annuler</button>
+          <button class="btn btn-success" aria-label="Enregistrer" type="submit">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+    {{/if}}
   </div>
 </section>

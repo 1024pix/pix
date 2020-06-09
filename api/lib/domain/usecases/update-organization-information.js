@@ -13,8 +13,8 @@ module.exports = async function updateOrganizationInformation({
   if (name) organization.name = name;
   if (type) organization.type = type;
   if (logoUrl) organization.logoUrl = logoUrl;
-  if (externalId) organization.externalId = externalId;
-  if (provinceCode) organization.provinceCode = provinceCode;
+  organization.externalId = externalId;
+  organization.provinceCode = provinceCode;
   if (isManagingStudents) organization.isManagingStudents = isManagingStudents;
 
   await organizationRepository.update(organization);

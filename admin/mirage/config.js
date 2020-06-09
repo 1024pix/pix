@@ -56,4 +56,12 @@ export default function() {
     const membership = schema.memberships.findBy({ id: membershipId });
     return membership.update({ organizationRole });
   });
+
+  this.patch('/organizations/:id', (schema, request) => {
+    const organizationId = request.params.id;
+    const params = JSON.parse(request.requestBody);
+
+    const organization = schema.organizations.findBy({ id: organizationId });
+    return organization.update({ params });
+  });
 }
