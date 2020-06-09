@@ -49,6 +49,7 @@ const campaignValidationJoiSchema = Joi.object({
         is: Joi.string().required().valid(Campaign.types.ASSESSMENT),
         then: Joi.required(),
       }],
+      otherwise: Joi.number().allow(null).optional()
     })
     .integer()
     .messages({
