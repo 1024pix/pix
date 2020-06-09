@@ -27,4 +27,14 @@ module.exports = {
 
     return serializer.serialize(competenceEvaluations);
   },
+
+  async improve(request, h) {
+    const userId = request.auth.credentials.userId;
+    const competenceId = request.payload.competenceId;
+
+    const competenceEvaluation = await usecases.improveCompetenceEvaluation({ competenceId, userId });
+    const serializedCompetenceEvaluation = serializer.serialize(competenceEvaluation);
+
+    return h.response(serializedCompetenceEvaluation);
+  }
 };
