@@ -12,6 +12,7 @@ module.exports = {
   buildAssessmentCampaign: require('./build-assessment-campaign'),
   buildAssessmentCampaignForSkills: require('./build-assessment-campaign-for-skills'),
   buildCampaignParticipation: require('./build-campaign-participation'),
+  buildCampaignParticipationWithUser: require('./build-campaign-participation-with-user'),
   buildCertifiableUser: require('./build-certifiable-user'),
   buildCertificationCandidate: require('./build-certification-candidate'),
   buildCertificationCenter: require('./build-certification-center'),
