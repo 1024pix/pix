@@ -5,6 +5,7 @@ const { knex } = require('../bookshelf');
 const KnowledgeElement = require('../../domain/models/KnowledgeElement');
 const BookshelfKnowledgeElement = require('../data/knowledge-element');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 function _getUniqMostRecents(knowledgeElements) {
   return _(knowledgeElements)
@@ -58,9 +59,10 @@ async function _filterValidatedKnowledgeElementsByCampaignId(knowledgeElements, 
 
 module.exports = {
 
-  async save(knowledgeElement) {
+  async save(knowledgeElement, knexTransaction = DomainTransaction.emptyTransaction()) {
     const knowledgeElementToSave = _.omit(knowledgeElement, ['id', 'createdAt']);
-    const savedKnowledgeElement = await new BookshelfKnowledgeElement(knowledgeElementToSave).save();
+    const savedKnowledgeElement = await new BookshelfKnowledgeElement(knowledgeElementToSave)
+      .save(null, { transacting: knexTransaction });
 
     return bookshelfToDomainConverter.buildDomainObject(BookshelfKnowledgeElement, savedKnowledgeElement);
   },

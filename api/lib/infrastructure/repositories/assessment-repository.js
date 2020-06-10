@@ -103,15 +103,15 @@ module.exports = {
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
-  abortByAssessmentId(assessmentId) {
-    return this._updateStateById({ id: assessmentId, state: Assessment.states.ABORTED });
+  abortByAssessmentId(assessmentId, knexTransaction = DomainTransaction.emptyTransaction()) {
+    return this._updateStateById({ id: assessmentId, state: Assessment.states.ABORTED }, knexTransaction);
   },
 
   completeByAssessmentId(assessmentId, domainTransaction = DomainTransaction.emptyTransaction()) {
     return this._updateStateById({ id: assessmentId, state: Assessment.states.COMPLETED }, domainTransaction.knexTransaction);
   },
 
-  async _updateStateById({ id, state }, knexTransaction) {
+  async _updateStateById({ id, state }, knexTransaction = DomainTransaction.emptyTransaction()) {
     const assessment = await BookshelfAssessment
       .where({ id })
       .save({ state }, { require: true, patch: true, transacting: knexTransaction });

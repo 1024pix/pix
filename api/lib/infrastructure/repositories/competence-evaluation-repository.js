@@ -1,5 +1,6 @@
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const BookshelfCompetenceEvaluation = require('../data/competence-evaluation');
+const DomainTransaction = require('../DomainTransaction');
 const _ = require('lodash');
 const { NotFoundError } = require('../../domain/errors');
 const queryBuilder = require('../utils/query-builder');
@@ -20,10 +21,10 @@ module.exports = {
       .then((updatedCompetenceEvaluation) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation));
   },
 
-  updateStatusByUserIdAndCompetenceId({ userId, competenceId, status }) {
+  updateStatusByUserIdAndCompetenceId({ userId, competenceId, status }, knexTransaction = DomainTransaction.emptyTransaction()) {
     return BookshelfCompetenceEvaluation
       .where({ userId, competenceId })
-      .save({ status }, { require: true, patch: true })
+      .save({ status }, { require: true, patch: true, transacting: knexTransaction })
       .then((updatedCompetenceEvaluation) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation));
   },
 
