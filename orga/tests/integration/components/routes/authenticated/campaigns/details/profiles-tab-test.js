@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
-import { run } from '@ember/runloop';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | routes/authenticated/campaign/details | profiles-tab', function(hooks) {
@@ -10,18 +9,16 @@ module('Integration | Component | routes/authenticated/campaign/details | profil
   let store;
 
   hooks.beforeEach(function() {
-    run(() => {
-      store = this.owner.lookup('service:store');
-    });
+    store = this.owner.lookup('service:store');
   });
 
   module('when there are profiles', function() {
     test('it should display the participant list', async function(assert) {
       // given
-      const campaign = run(() => store.createRecord('campaign', {
+      const campaign = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
-      }));
+      });
 
       const profiles = [
         {
@@ -58,11 +55,11 @@ module('Integration | Component | routes/authenticated/campaign/details | profil
 
     test('it should display the participant list of the campaign with external id', async function(assert) {
       // given
-      const campaign = run(() => store.createRecord('campaign', {
+      const campaign = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
         idPixLabel: 'identifiant externe'
-      }));
+      });
 
       const profiles = [{ participantExternalId: '123' }];
       profiles.meta = { rowCount: 1 };
@@ -81,11 +78,11 @@ module('Integration | Component | routes/authenticated/campaign/details | profil
 
     test('it should display participant certification profile info when shared', async function(assert) {
       // given
-      const campaign = run(() => store.createRecord('campaign', {
+      const campaign = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
         idPixLabel: 'identifiant externe'
-      }));
+      });
 
       const participants = [
         { 
@@ -116,10 +113,10 @@ module('Integration | Component | routes/authenticated/campaign/details | profil
   module('when there aren\'t profiles', function() {
     test('it should the empty state of participants list', async function(assert) {
       // given
-      const campaign = run(() => store.createRecord('campaign', {
+      const campaign = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
-      }));
+      });
 
       const profiles = [];
       profiles.meta = {
