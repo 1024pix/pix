@@ -30,7 +30,7 @@ module.exports = {
 
   findByOrganizationId({ organizationId, orderByName = false }) {
     return BookshelfMembership
-      .where({ organizationId })
+      .where({ organizationId, disabledAt: null })
       .query((qb) => {
         if (orderByName) {
           qb.innerJoin('users', 'memberships.userId', 'users.id');
@@ -45,7 +45,7 @@ module.exports = {
 
   findByUserIdAndOrganizationId({ userId, organizationId, includeOrganization = false }) {
     return BookshelfMembership
-      .where({ userId, organizationId })
+      .where({ userId, organizationId, disabledAt: null })
       .fetchAll({ withRelated: includeOrganization ? ['organization'] : [] })
       .then((memberships) => bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, memberships));
   },
