@@ -93,27 +93,27 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
   });
 
-  describe('#isSmartPlacement', () => {
-    it('should return true when the assessment is a SMART_PLACEMENT', () => {
+  describe('#isForCampaign', () => {
+    it('should return true when the assessment is for a CAMPAIGN', () => {
       // given
       const assessment = new Assessment({ type: 'CAMPAIGN' });
 
       // when
-      const isSmartPlacementAssessment = assessment.isSmartPlacement();
+      const isForCampaign = assessment.isForCampaign();
 
       // then
-      expect(isSmartPlacementAssessment).to.be.true;
+      expect(isForCampaign).to.be.true;
     });
 
-    it('should return false when the assessment is not a SMART_PLACEMENT', () => {
+    it('should return false when the assessment is not a CAMPAIGN type', () => {
       // given
       const assessment = new Assessment({ type: 'PLACEMENT' });
 
       // when
-      const isSmartPlacementAssessment = assessment.isSmartPlacement();
+      const isForCampaign = assessment.isForCampaign();
 
       // then
-      expect(isSmartPlacementAssessment).to.be.false;
+      expect(isForCampaign).to.be.false;
     });
 
     it('should return false when the assessment has no type', () => {
@@ -121,10 +121,10 @@ describe('Unit | Domain | Models | Assessment', () => {
       const assessment = new Assessment({});
 
       // when
-      const isSmartPlacementAssessment = assessment.isSmartPlacement();
+      const isForCampaign = assessment.isForCampaign();
 
       // then
-      expect(isSmartPlacementAssessment).to.be.false;
+      expect(isForCampaign).to.be.false;
     });
   });
 

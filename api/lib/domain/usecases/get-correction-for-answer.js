@@ -24,7 +24,7 @@ function _validateCorrectionIsAccessible(assessment, userId, answerId) {
   if (assessment.userId !== userId) {
     throw new NotFoundError(`Not found correction for answer of ID ${answerId}`);
   }
-  if (!assessment.isCompleted() && !assessment.isSmartPlacement() && !assessment.isCompetenceEvaluation()) {
+  if (!assessment.isCompleted() && !assessment.isForCampaign() && !assessment.isCompetenceEvaluation()) {
     throw new AssessmentNotCompletedError();
   }
 }
