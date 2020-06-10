@@ -64,10 +64,8 @@ module('Integration | Component | routes/authenticated/campaign/details | profil
         idPixLabel: 'identifiant externe'
       }));
 
-      const profiles = [{ firstName: 'Jane', lastName: 'Doe', participantExternalId: '123' }];
-      profiles.meta = {
-        rowCount: 1,
-      };
+      const profiles = [{ participantExternalId: '123' }];
+      profiles.meta = { rowCount: 1 };
 
       this.set('campaign', campaign);
       this.set('profiles', profiles);
@@ -80,10 +78,43 @@ module('Integration | Component | routes/authenticated/campaign/details | profil
       assert.contains('identifiant externe');
       assert.contains('123');
     });
+
+    test('it should display participant certification profile info when shared', async function(assert) {
+      // given
+      const campaign = run(() => store.createRecord('campaign', {
+        id: 1,
+        name: 'campagne 1',
+        idPixLabel: 'identifiant externe'
+      }));
+
+      const participants = [
+        { 
+          firstName: 'Jane',
+          lastName: 'Doe',
+          sharedAt: new Date(2020, 1, 1),
+          pixScore: 10,
+          certifiable: true,
+          certifiableCompetencesCount: 5,
+        }
+      ];
+      participants.meta = { rowCount: 1 };
+
+      this.set('campaign', campaign);
+      this.set('participants', participants);
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaigns::Details::ProfilesTab @campaign={{campaign}} @participants={{participants}}/>}}`);
+
+      // then
+      assert.contains('01/02/2020');
+      assert.contains('10');
+      assert.contains('true');
+      assert.contains('5');
+    });
   });
 
-  module('when there are profiles', function() {
-    test('it should the empty state of profiles list', async function(assert) {
+  module('when there aren\'t profiles', function() {
+    test('it should the empty state of participants list', async function(assert) {
       // given
       const campaign = run(() => store.createRecord('campaign', {
         id: 1,

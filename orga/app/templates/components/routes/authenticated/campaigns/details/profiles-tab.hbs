@@ -9,6 +9,9 @@
             <th>{{@campaign.idPixLabel}}</th>
           {{/if}}
           <th class="table__column--center">date d’envoi</th>
+          <th class="table__column--center">Score Pix</th>
+          <th class="table__column--center">Certifiable</th>
+          <th class="table__column--center">Comp. certifiables</th>
         </tr>
       </thead>
 
@@ -27,6 +30,15 @@
               {{else}}
                 <span class="table__column--highlight">En attente</span>
               {{/if}}
+            </td>
+            <td class="table__column--center">
+              {{participant.pixScore}}
+            </td>
+            <td class="table__column--center">
+              {{participant.certifiable}}
+            </td>
+            <td class="table__column--center">
+              {{participant.certifiableCompetencesCount}}
             </td>
           </tr>
         {{/each}}
