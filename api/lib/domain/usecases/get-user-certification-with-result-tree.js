@@ -1,52 +1,43 @@
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 const ResultCompetenceTree = require('../models/ResultCompetenceTree');
 
-function _getsCompetenceMarksAndAssessmentResultId({ certificationId, assessmentRepository, competenceMarkRepository }) {
-  return assessmentRepository.getByCertificationCourseId(certificationId)
-    .then((assessment) => {
-      return assessment.getLastAssessmentResult().id;
-    })
-    .then((assessmentResultId) => {
-      return Promise.all([
-        assessmentResultId,
-        competenceMarkRepository.findByAssessmentResultId(assessmentResultId),
-      ]);
-    });
+async function _getsCompetenceMarksAndAssessmentResultId({ certificationId, assessmentRepository, competenceMarkRepository }) {
+  const assessment = await assessmentRepository.getByCertificationCourseId(certificationId);
+  const assessmentResultId = assessment.getLastAssessmentResult().id;
+  const competenceMarks = await competenceMarkRepository.findByAssessmentResultId(assessmentResultId);
+
+  return [
+    assessmentResultId,
+    competenceMarks
+  ];
 }
 
-module.exports = function getUserCertificationWithResultTree({
+module.exports = async function getUserCertificationWithResultTree({
   certificationId,
   userId,
   certificationRepository,
+  cleaCertificationStatusRepository,
   assessmentRepository,
   competenceMarkRepository,
   competenceTreeRepository,
 }) {
-  return certificationRepository.getByCertificationCourseId({ id: certificationId })
-    .then((certification) => {
-      if (certification.userId !== userId) {
-        throw new UserNotAuthorizedToAccessEntity();
-      }
+  const certification = await certificationRepository.getByCertificationCourseId({ id: certificationId });
+  const cleaCertificationStatus = await cleaCertificationStatusRepository.getCleaCertificationStatus(certificationId);
+  certification.cleaCertificationStatus = cleaCertificationStatus;
+  if (certification.userId !== userId) {
+    throw new UserNotAuthorizedToAccessEntity();
+  }
 
-      return certification;
-    })
-    .then((certification) => {
+  const competenceTree = await competenceTreeRepository.get();
+  const [assessmentResultId, competenceMarks] = await _getsCompetenceMarksAndAssessmentResultId({ certificationId, assessmentRepository, competenceMarkRepository });
 
-      return Promise.all([
-        competenceTreeRepository.get(),
-        _getsCompetenceMarksAndAssessmentResultId({ certificationId, assessmentRepository, competenceMarkRepository }),
-      ])
-        .then(([competenceTree, [assessmentResultId, competenceMarks]]) => {
+  const resultCompetenceTree = ResultCompetenceTree.generateTreeFromCompetenceMarks({
+    competenceTree,
+    competenceMarks,
+  });
+  resultCompetenceTree.id = `${certificationId}-${assessmentResultId}`;
 
-          const resultCompetenceTree = ResultCompetenceTree.generateTreeFromCompetenceMarks({
-            competenceTree,
-            competenceMarks,
-          });
-          resultCompetenceTree.id = `${certificationId}-${assessmentResultId}`;
+  certification.resultCompetenceTree = resultCompetenceTree;
 
-          certification.resultCompetenceTree = resultCompetenceTree;
-
-          return certification;
-        });
-    });
+  return certification;
 };

@@ -3,6 +3,7 @@ const assessmentRepository = require('../../../lib/infrastructure/repositories/a
 const certificationAssessmentRepository = require('../../../lib/infrastructure/repositories/certification-assessment-repository');
 const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
 const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
+const cleaCertificationStatusRepository = require('../../infrastructure/repositories/clea-certification-status-repository');
 const certificationResultService = require('./certification-result-service');
 
 module.exports = {
@@ -14,10 +15,9 @@ module.exports = {
   },
 
   async getCertificationResult(certificationCourseId) {
-    // TODO move this construction to dedicated repo, so we can remove attribute acquiredPartnerCertifications
-    // from CertificationCourse model !
     const assessment = await assessmentRepository.getByCertificationCourseId(certificationCourseId);
     const certification = await certificationCourseRepository.get(certificationCourseId);
+    const cleaCertificationStatus = await cleaCertificationStatusRepository.getCleaCertificationStatus(certificationCourseId);
 
     let lastAssessmentResultFull = { competenceMarks: [], status: assessment ? assessment.state : 'missing-assessment' };
 
@@ -38,7 +38,7 @@ module.exports = {
       resultCreatedAt: lastAssessmentResultFull.createdAt,
       isPublished: certification.isPublished,
       isV2Certification: certification.isV2Certification,
-      cleaCertificationStatus: certification.cleaCertificationStatus,
+      cleaCertificationStatus,
       pixScore: lastAssessmentResultFull.pixScore,
       status: lastAssessmentResultFull.status,
       level: lastAssessmentResultFull.level,

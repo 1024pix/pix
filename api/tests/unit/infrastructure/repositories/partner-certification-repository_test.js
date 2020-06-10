@@ -10,7 +10,7 @@ const { NotEligibleCandidateError } = require('../../../../lib/domain/errors');
 const GREEN_ZONE_REPRO = [80, 90, 100];
 const RED_ZONE_REPRO = [1, 50];
 
-describe('Unit | Domain | Models | Clea Certification', () => {
+describe('Unit | Infrastructure | Repositories | Partner Certification Repository', () => {
 
   context('#isEligible', () => {
 
@@ -64,44 +64,44 @@ describe('Unit | Domain | Models | Clea Certification', () => {
         })
       );
     });
-    
+
     context('reproducibility rate in grey zone', () => {
-    
+
       it('for 70 reproducibility rate, it should obtain certification when the pixScore for each certifiable competences is above 75% of Clea corresponding competence\'s pixScore', async () => {
         // given
         const partnerCertification = await _buildCleaCertificationInGreyZoneAndCertifiableCompetences();
-    
+
         // when
         const hasAcquiredCertif = partnerCertification.isAcquired();
-    
+
         // then
         expect(hasAcquiredCertif).to.be.true;
       });
-    
+
       it('for 70 reproducibility rate, it should not obtain certification when the pixScore for each certifiable competences is above 75% of Clea corresponding competence\'s pixScore', async () => {
         // given
         const partnerCertification = await _buildCleaCertificationInGreyZoneAndNonCertifiableCompetences();
-    
+
         // when
         const hasAcquiredCertif = partnerCertification.isAcquired();
-    
+
         // then
         expect(hasAcquiredCertif).to.be.false;
       });
     });
-    
+
     context('reproducibility rate in red zone', () => {
       RED_ZONE_REPRO.forEach((reproducibilityRate) =>
         it(`for ${reproducibilityRate} reproducibility rate, it should not obtain certification`, async () => {
           // given
           const partnerCertification = await _buildCleaCertificationWithReproducibilityRate(reproducibilityRate);
-    
+
           // when
           const hasAcquiredCertif = partnerCertification.isAcquired({
             hasAcquiredBadge: true,
             reproducibilityRate
           });
-    
+
           // then
           expect(hasAcquiredCertif).to.be.false;
         })
