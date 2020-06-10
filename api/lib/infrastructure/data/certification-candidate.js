@@ -3,7 +3,10 @@ const Bookshelf = require('../bookshelf');
 require('./session');
 require('./user');
 
-module.exports = Bookshelf.model('CertificationCandidate', {
+const modelName = 'CertificationCandidate';
+
+module.exports = Bookshelf.model(modelName, {
+
   tableName: 'certification-candidates',
   hasTimestamps: ['createdAt'],
 
@@ -14,4 +17,7 @@ module.exports = Bookshelf.model('CertificationCandidate', {
   user() {
     return this.belongsTo('User', 'userId');
   },
+
+}, {
+  modelName
 });

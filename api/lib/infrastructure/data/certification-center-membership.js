@@ -2,7 +2,9 @@ const Bookshelf = require('../bookshelf');
 
 require('./certification-center');
 
-module.exports = Bookshelf.model('CertificationCenterMembership', {
+const modelName = 'CertificationCenterMembership';
+
+module.exports = Bookshelf.model(modelName, {
 
   tableName: 'certification-center-memberships',
   hasTimestamps: ['createdAt', null],
@@ -15,4 +17,6 @@ module.exports = Bookshelf.model('CertificationCenterMembership', {
     return this.belongsTo('CertificationCenter', 'certificationCenterId');
   },
 
+}, {
+  modelName
 });

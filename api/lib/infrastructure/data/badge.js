@@ -4,7 +4,9 @@ require('./badge-criterion');
 require('./badge-partner-competence');
 require('./target-profile');
 
-module.exports = Bookshelf.model('Badge', {
+const modelName = 'Badge';
+
+module.exports = Bookshelf.model(modelName, {
 
   tableName: 'badges',
 
@@ -19,4 +21,7 @@ module.exports = Bookshelf.model('Badge', {
   badgePartnerCompetences() {
     return this.hasMany('BadgePartnerCompetence', 'badgeId');
   },
+
+}, {
+  modelName
 });

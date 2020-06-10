@@ -6,7 +6,9 @@ require('./organization');
 require('./target-profile');
 require('./user');
 
-module.exports = Bookshelf.model('Campaign', {
+const modelName = 'Campaign';
+
+module.exports = Bookshelf.model(modelName, {
 
   tableName: 'campaigns',
   hasTimestamps: ['createdAt', null],
@@ -22,4 +24,7 @@ module.exports = Bookshelf.model('Campaign', {
   creator: function() {
     return this.belongsTo('User', 'creatorId');
   },
+
+}, {
+  modelName
 });

@@ -3,7 +3,9 @@ const CompetenceMark = require('../../domain/models/CompetenceMark');
 
 require('./assessment-result');
 
-module.exports = Bookshelf.model('CompetenceMark', {
+const modelName = 'CompetenceMark';
+
+module.exports = Bookshelf.model(modelName, {
 
   tableName: 'competence-marks',
   hasTimestamps: ['createdAt', null],
@@ -15,5 +17,8 @@ module.exports = Bookshelf.model('CompetenceMark', {
   toDomainEntity() {
     const model = this.toJSON();
     return new CompetenceMark(model);
-  }
+  },
+
+}, {
+  modelName
 });

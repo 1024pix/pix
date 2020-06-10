@@ -28,8 +28,6 @@ bookshelf.model = ((f) => (...args) => {
   }
   // This is like doing bookshelf.model() with any arguments it is passed
   const Ctor = f.call(bookshelf, ...args);
-  // The decoration part
-  Ctor.bookshelfName = args[0];
   // The original method returns Bookshelf constructor so we must return it
   return Ctor;
 })(bookshelf.model);
