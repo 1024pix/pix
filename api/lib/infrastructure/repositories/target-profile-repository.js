@@ -1,3 +1,4 @@
+const bluebird = require('bluebird');
 const BookshelfTargetProfile = require('../../infrastructure/data/target-profile');
 const skillDatasource = require('../../infrastructure/datasources/airtable/skill-datasource');
 const targetProfileAdapter = require('../adapters/target-profile-adapter');
@@ -31,7 +32,7 @@ module.exports = {
       })
       .fetchAll({ withRelated: ['skillIds'] });
 
-    return Promise.all(targetProfilesBookshelf.map(_getWithAirtableSkills));
+    return bluebird.mapSeries(targetProfilesBookshelf, _getWithAirtableSkills);
   },
 
   async findByIds(targetProfileIds) {
