@@ -65,7 +65,7 @@ async function _fetchValidatedKECountByCompetenceId(campaignId, targetedSkillIds
   return _.countBy(knowledgeElements, (ke) => {
     const competence = competences.find((c) => c.skillIds.includes(ke.skillId));
     if (competence) return competence.id;
-    return null; 
+    return null;
   });
 }
 

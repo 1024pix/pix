@@ -90,8 +90,8 @@ async function _resetSmartPlacementAssessments({ userId, resetSkills, assessment
   }
 
   const resetSmartPlacementAssessmentsPromises = _.map(notAbortedSmartPlacementAssessments,
-    (smartPlacementAssessment) => _resetSmartPlacementAssessment({
-      assessment: smartPlacementAssessment,
+    (campaignAssessment) => _resetSmartPlacementAssessment({
+      assessment: campaignAssessment,
       resetSkills,
       assessmentRepository,
       campaignParticipationRepository

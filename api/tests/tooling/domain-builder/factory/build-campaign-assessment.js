@@ -1,5 +1,5 @@
 const faker = require('faker');
-const SmartPlacementAssessment = require('../../../../lib/domain/models/SmartPlacementAssessment');
+const SmartPlacementAssessment = require('../../../../lib/domain/models/CampaignAssessment');
 
 const buildCampaignParticipation = require('./build-campaign-participation');
 const buildSkillCollection = require('./build-skill-collection');
@@ -33,7 +33,7 @@ function initialValuesForId(id) {
   return initialValues[id];
 }
 
-module.exports = function buildSmartPlacementAssessment({
+module.exports = function buildCampaignAssessment({
   id = faker.random.number(),
   createdAt = new Date('2017-10-10T01:02:03Z'),
   state = SmartPlacementAssessment.State.COMPLETED,

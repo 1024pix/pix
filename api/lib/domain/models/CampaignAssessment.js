@@ -1,6 +1,6 @@
-const SMART_PLACEMENT_TYPE = 'CAMPAIGN';
+const CAMPAIGN_ASSESSMENT_TYPE = 'CAMPAIGN';
 
-const SmartPlacementAssessmentState = Object.freeze({
+const CampaignAssessmentState = Object.freeze({
   COMPLETED: 'completed',
   STARTED: 'started',
   ABORTED: 'aborted',
@@ -9,9 +9,9 @@ const SmartPlacementAssessmentState = Object.freeze({
 const courseIdMessage = 'Campaign Assessment CourseId Not Used';
 /**
  * Traduction: Évaluation
- * Context: Objet existant dans le cadre d'un smart placement hors calcul de la réponse suivante
+ * Context: Objet existant dans le cadre d'une campagne
  */
-class SmartPlacementAssessment {
+class CampaignAssessment {
 
   constructor({
     id,
@@ -44,15 +44,15 @@ class SmartPlacementAssessment {
   }
 
   get type() {
-    return SMART_PLACEMENT_TYPE;
+    return CAMPAIGN_ASSESSMENT_TYPE;
   }
 
   get isCompleted() {
-    return this.state === SmartPlacementAssessmentState.COMPLETED;
+    return this.state === CampaignAssessmentState.COMPLETED;
   }
 
   get isStarted() {
-    return this.state === SmartPlacementAssessmentState.STARTED;
+    return this.state === CampaignAssessmentState.STARTED;
   }
 
   getValidatedSkills() {
@@ -73,7 +73,7 @@ class SmartPlacementAssessment {
 
 }
 
-SmartPlacementAssessment.State = SmartPlacementAssessmentState;
-SmartPlacementAssessment.CourseIdMessage = courseIdMessage;
+CampaignAssessment.State = CampaignAssessmentState;
+CampaignAssessment.CourseIdMessage = courseIdMessage;
 
-module.exports = SmartPlacementAssessment;
+module.exports = CampaignAssessment;

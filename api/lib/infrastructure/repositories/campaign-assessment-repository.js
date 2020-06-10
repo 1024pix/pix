@@ -6,7 +6,7 @@ const { NotFoundError } = require('../../domain/errors');
 const Assessment = require('../../domain/models/Assessment');
 const CampaignParticipation = require('../../domain/models/CampaignParticipation');
 const Answer = require('../../domain/models/Answer');
-const SmartPlacementAssessment = require('../../domain/models/SmartPlacementAssessment');
+const CampaignAssessment = require('../../domain/models/CampaignAssessment');
 const KnowledgeElement = require('../../domain/models/KnowledgeElement');
 
 module.exports = {
@@ -25,7 +25,7 @@ module.exports = {
           'campaignParticipation.campaign.targetProfile.skillIds',
         ],
       })
-      .then(_checkIsSmartPlacement)
+      .then(_checkIfCampaignAssessment)
       .then(_fetchAllDependencies)
       .then(_toDomain)
       .catch(_mapNotFoundErrorToDomainError(assessmentId));
@@ -42,9 +42,9 @@ module.exports = {
   },
 };
 
-function _checkIsSmartPlacement(bookshelfAssessment) {
+function _checkIfCampaignAssessment(bookshelfAssessment) {
   if (bookshelfAssessment.get('type') !== Assessment.types.CAMPAIGN) {
-    throw new NotFoundError(`Not found Smart Placement Assessment for ID ${bookshelfAssessment.get('id')}`);
+    throw new NotFoundError(`Not found Campaign Assessment for ID ${bookshelfAssessment.get('id')}`);
   } else {
     return bookshelfAssessment;
   }
@@ -100,7 +100,7 @@ function _toDomain({ bookshelfAssessment, bookshelfTargetProfile, bookshelfCampa
       });
     });
 
-  return new SmartPlacementAssessment({
+  return new CampaignAssessment({
     id: bookshelfAssessment.get('id'),
     state: bookshelfAssessment.get('state'),
     userId: bookshelfAssessment.get('userId'),
@@ -115,7 +115,7 @@ function _toDomain({ bookshelfAssessment, bookshelfTargetProfile, bookshelfCampa
 function _mapNotFoundErrorToDomainError(assessmentId) {
   return (err) => {
     if (err instanceof BookshelfAssessment.NotFoundError) {
-      throw new NotFoundError(`Not found Smart Placement Assessment for ID ${assessmentId}`);
+      throw new NotFoundError(`Not found Campaign Assessment for ID ${assessmentId}`);
     } else {
       throw err;
     }

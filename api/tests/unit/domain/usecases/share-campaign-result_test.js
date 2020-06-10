@@ -17,7 +17,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
     share() {},
     get() {},
   };
-  const smartPlacementAssessmentRepository = {
+  const campaignAssessmentRepository = {
     doesAssessmentBelongToUser() {},
   };
   const assessmentRepository = {
@@ -44,12 +44,12 @@ describe('Unit | UseCase | share-campaign-result', () => {
         campaignId: campaign.id
       });
       campaignParticipationId = campaignParticipation.id;
-      assessment = domainBuilder.buildSmartPlacementAssessment({ userId });
+      assessment = domainBuilder.buildCampaignAssessment({ userId });
       assessmentId = assessment.id;
 
       sinon.stub(campaignRepository, 'get').resolves(campaign);
       sinon.stub(campaignParticipationRepository, 'get').resolves(campaignParticipation);
-      sinon.stub(smartPlacementAssessmentRepository, 'doesAssessmentBelongToUser');
+      sinon.stub(campaignAssessmentRepository, 'doesAssessmentBelongToUser');
       sinon.stub(assessmentRepository, 'getByCampaignParticipationId').resolves();
       sinon.stub(dataFetcher, 'fetchForCampaigns').resolves();
       sinon.stub(smartRandom, 'getPossibleSkillsForNextChallenge').returns({ hasAssessmentEnded: true });
@@ -58,7 +58,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
     context('when the share request comes from the owner of the assessment', () => {
 
       beforeEach(() => {
-        smartPlacementAssessmentRepository.doesAssessmentBelongToUser.resolves(true);
+        campaignAssessmentRepository.doesAssessmentBelongToUser.resolves(true);
       });
 
       context('when the assessmentId is in the database', () => {
@@ -81,7 +81,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
             challengeRepository,
             campaignParticipationRepository,
             knowledgeElementRepository,
-            smartPlacementAssessmentRepository,
+            campaignAssessmentRepository,
             campaignRepository,
             targetProfileRepository,
             improvementService,
@@ -115,7 +115,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
             campaignParticipationRepository,
             knowledgeElementRepository,
             challengeRepository,
-            smartPlacementAssessmentRepository,
+            campaignAssessmentRepository,
             campaignRepository,
             targetProfileRepository,
             improvementService,
@@ -141,7 +141,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
             challengeRepository,
             campaignParticipationRepository,
             knowledgeElementRepository,
-            smartPlacementAssessmentRepository,
+            campaignAssessmentRepository,
             campaignRepository,
             targetProfileRepository,
             improvementService,
@@ -173,7 +173,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
             challengeRepository,
             campaignParticipationRepository,
             knowledgeElementRepository,
-            smartPlacementAssessmentRepository,
+            campaignAssessmentRepository,
             campaignRepository,
             targetProfileRepository,
             improvementService,
@@ -189,7 +189,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
 
       beforeEach(() => {
         assessmentRepository.getByCampaignParticipationId.resolves(assessment);
-        smartPlacementAssessmentRepository.doesAssessmentBelongToUser.resolves(false);
+        campaignAssessmentRepository.doesAssessmentBelongToUser.resolves(false);
       });
 
       it('should reject an UserNotAuthorizedToAccessEntity error', () => {
@@ -206,7 +206,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
           challengeRepository,
           campaignParticipationRepository,
           knowledgeElementRepository,
-          smartPlacementAssessmentRepository,
+          campaignAssessmentRepository,
           campaignRepository,
           targetProfileRepository,
           improvementService,
