@@ -38,7 +38,10 @@ describe('Acceptance | API | Certifications', () => {
       emitter: 'PIX-ALGO',
       status: 'rejected',
     });
-    databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificationCourse.id, partnerKey: badge.key });
+    databaseBuilder.factory.buildPartnerCertification({
+      certificationCourseId: certificationCourse.id,
+      partnerKey: badge.key
+    });
 
     return databaseBuilder.commit();
   });
@@ -72,7 +75,7 @@ describe('Acceptance | API | Certifications', () => {
             'last-name': certificationCourse.lastName,
             'pix-score': assessmentResult.pixScore,
             'status': assessmentResult.status,
-            'acquired-partner-certifications': []
+            'clea-certification-status': 'not_passed'
 
           },
           relationships: {
@@ -175,7 +178,7 @@ describe('Acceptance | API | Certifications', () => {
             'last-name': certificationCourse.lastName,
             'pix-score': assessmentResult.pixScore,
             'status': assessmentResult.status,
-            'acquired-partner-certifications': [badge.key]
+            'clea-certification-status': 'not_passed'
 
           },
           'id': `${certificationCourse.id}`,

@@ -1,7 +1,5 @@
-const { expect, databaseBuilder, knex, sinon } = require('../../../test-helper');
+const { expect, databaseBuilder, domainBuilder, knex, sinon } = require('../../../test-helper');
 const partnerCertificationRepository = require('../../../../lib/infrastructure/repositories/partner-certification-repository');
-const Badge = require('../../../../lib/domain/models/Badge');
-const CleaCertification = require('../../../../lib/domain/models/CleaCertification');
 
 describe('Integration | Repository | Partner Certification', function() {
   const PARTNER_CERTIFICATIONS_TABLE_NAME = 'partner-certifications';
@@ -10,11 +8,11 @@ describe('Integration | Repository | Partner Certification', function() {
     let partnerCertification;
 
     beforeEach(() => {
-      const { key: partnerKey } = databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA });
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
-      partnerCertification = new CleaCertification({
-        certificationCourseId, partnerKey,
+      partnerCertification = domainBuilder.buildCleaCertification({
+        certificationCourseId
       });
+      databaseBuilder.factory.buildBadge({ key: partnerCertification.partnerKey });
 
       return databaseBuilder.commit();
     });

@@ -1,7 +1,3 @@
-const _ = require('lodash');
-const Badge = require('./Badge');
-const CertificationCleaPartner = require('./CleaCertification');
-
 class CertificationCourse {
   constructor(
     {
@@ -21,7 +17,6 @@ class CertificationCourse {
       // includes
       assessment,
       challenges,
-      acquiredPartnerCertifications,
       // references
       userId,
       sessionId,
@@ -42,17 +37,9 @@ class CertificationCourse {
     // includes
     this.assessment = assessment;
     this.challenges = challenges;
-    this.acquiredPartnerCertifications = acquiredPartnerCertifications;
     // references
     this.userId = userId;
     this.sessionId = sessionId;
-  }
-
-  get cleaCertificationStatus() {
-    const cleaCertificationPartner =
-      _.find(this.acquiredPartnerCertifications, { partnerKey: Badge.keys.PIX_EMPLOI_CLEA });
-
-    return CertificationCleaPartner.certificationStatus(cleaCertificationPartner);
   }
 }
 
