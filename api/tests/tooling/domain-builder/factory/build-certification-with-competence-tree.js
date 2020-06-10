@@ -19,6 +19,7 @@ module.exports = function buildCertification({
   commentForCandidate,
   pixScore,
   status,
+  cleaCertificationStatus = 'acquired',
 
   // the id of the ResultCompetenceTree should be with the most recent assessment result.
   resultCompetenceTree = buildResultCompetenceTree({ id: `${id}-${assessmentResults[0].id}` }),
@@ -38,6 +39,7 @@ module.exports = function buildCertification({
     lastName,
     userId,
     resultCompetenceTree,
+    cleaCertificationStatus
   });
 
   if (pixScore !== undefined) {

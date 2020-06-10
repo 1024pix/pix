@@ -18,7 +18,6 @@ class Certification {
     cleaCertificationStatus,
     // includes
     assessmentResults = [],
-    acquiredPartnerCertifications = [],
     resultCompetenceTree,
     // references
     userId,
@@ -49,7 +48,6 @@ class Certification {
     this.resultCompetenceTree = resultCompetenceTree;
     // references
     this.userId = userId;
-    this.acquiredPartnerCertifications = acquiredPartnerCertifications;
   }
 }
 

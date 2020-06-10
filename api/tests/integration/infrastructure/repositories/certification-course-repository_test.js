@@ -181,14 +181,6 @@ describe('Integration | Repository | Certification Course', function() {
           expect(thisCertificationCourse.assessment.id).to.equal(assessmentId);
         });
 
-        it('should retrieve acquired badge', async () => {
-          // when
-          const thisCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
-
-          // then
-          expect(thisCertificationCourse.acquiredPartnerCertifications.length).to.equal(2);
-        });
-
       });
 
     });

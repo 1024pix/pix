@@ -64,9 +64,6 @@ describe('Integration | Repository | Certification ', () => {
   describe('#getByCertificationCourseId', () => {
 
     it('should return a certification with needed informations', async () => {
-      //given
-      _setAcquiredPartnerCertifications(expectedCertification, PARTNER_CLEA_KEY);
-
       // when
       const actualCertification = await certificationRepository.getByCertificationCourseId({ id: certificationCourse.id });
 
@@ -191,7 +188,7 @@ describe('Integration | Repository | Certification ', () => {
 });
 
 function _buildCertification(certificationCenterName, certificationCourse, assessment, assessmentResult, deliveredAt) {
-  return domainBuilder.buildCertification({
+  const certification = domainBuilder.buildCertification({
     id: certificationCourse.id,
     assessmentState: assessment.state,
     birthdate: certificationCourse.birthdate,
@@ -207,9 +204,6 @@ function _buildCertification(certificationCenterName, certificationCourse, asses
     commentForCandidate: assessmentResult.commentForCandidate,
     userId: certificationCourse.userId,
   });
-}
-
-function _setAcquiredPartnerCertifications(certificationCourse, partnerKey) {
-  certificationCourse.acquiredPartnerCertifications = [{ certificationCourseId: certificationCourse.id, acquired: false, partnerKey }];
-
+  certification.cleaCertificationStatus = undefined;
+  return certification;
 }
