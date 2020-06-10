@@ -9,6 +9,7 @@ module.exports = Bookshelf.model(modelName, {
 
   tableName: 'user-orga-settings',
   hasTimestamps: ['createdAt', 'updatedAt'],
+  requireFetch: false,
 
   user() {
     return this.belongsTo('User', 'userId');

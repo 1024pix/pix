@@ -7,6 +7,7 @@ const modelName = 'UserPixRole';
 module.exports = Bookshelf.model(modelName, {
 
   tableName: 'users_pix_roles',
+  requireFetch: false,
 
   user() {
     return this.belongsTo(BookshelfUser);
