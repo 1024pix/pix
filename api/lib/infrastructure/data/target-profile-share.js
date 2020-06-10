@@ -2,7 +2,9 @@ const Bookshelf = require('../bookshelf');
 
 require('./target-profile');
 
-module.exports = Bookshelf.model('TargetProfileShare', {
+const modelName = 'TargetProfileShare';
+
+module.exports = Bookshelf.model(modelName, {
 
   tableName: 'target-profile-shares',
   hasTimestamps: ['createdAt', null],
@@ -14,4 +16,7 @@ module.exports = Bookshelf.model('TargetProfileShare', {
   organization() {
     return this.belongsTo('Organization', 'organizationId');
   },
+
+}, {
+  modelName
 });

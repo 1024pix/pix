@@ -1,6 +1,12 @@
 const Bookshelf = require('../bookshelf');
 
-module.exports = Bookshelf.model('CertificationChallenge', {
+const modelName = 'CertificationChallenge';
+
+module.exports = Bookshelf.model(modelName, {
+
   tableName: 'certification-challenges',
   hasTimestamps: ['createdAt', 'updatedAt'],
+
+}, {
+  modelName
 });

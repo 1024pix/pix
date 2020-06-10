@@ -4,7 +4,9 @@ require('./assessment');
 require('./campaign');
 require('./user');
 
-module.exports = Bookshelf.model('CampaignParticipation', {
+const modelName = 'CampaignParticipation';
+
+module.exports = Bookshelf.model(modelName, {
 
   tableName: 'campaign-participations',
   hasTimestamps: ['createdAt', null],
@@ -28,4 +30,7 @@ module.exports = Bookshelf.model('CampaignParticipation', {
 
     return rawAttributes;
   },
+
+}, {
+  modelName
 });

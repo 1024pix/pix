@@ -3,7 +3,9 @@ const Bookshelf = require('../bookshelf');
 require('./user');
 require('./organization');
 
-module.exports = Bookshelf.model('UserOrgaSettings', {
+const modelName = 'UserOrgaSettings';
+
+module.exports = Bookshelf.model(modelName, {
 
   tableName: 'user-orga-settings',
   hasTimestamps: ['createdAt', 'updatedAt'],
@@ -16,4 +18,6 @@ module.exports = Bookshelf.model('UserOrgaSettings', {
     return this.belongsTo('Organization', 'currentOrganizationId');
   },
 
+}, {
+  modelName
 });

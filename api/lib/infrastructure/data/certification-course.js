@@ -4,7 +4,10 @@ require('./assessment');
 require('./certification-challenge');
 require('./session');
 
-module.exports = Bookshelf.model('CertificationCourse', {
+const modelName = 'CertificationCourse';
+
+module.exports = Bookshelf.model(modelName, {
+
   tableName: 'certification-courses',
   hasTimestamps: ['createdAt', 'updatedAt'],
 
@@ -26,5 +29,8 @@ module.exports = Bookshelf.model('CertificationCourse', {
 
   session() {
     return this.belongsTo('Session', 'sessionId');
-  }
+  },
+
+}, {
+  modelName
 });

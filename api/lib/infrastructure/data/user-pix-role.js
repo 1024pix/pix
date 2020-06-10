@@ -2,7 +2,9 @@ const Bookshelf = require('../bookshelf');
 const BookshelfUser = require('./user');
 const BookshelfPixRole = require('./pix-role');
 
-module.exports = Bookshelf.model('UserPixRole', {
+const modelName = 'UserPixRole';
+
+module.exports = Bookshelf.model(modelName, {
 
   tableName: 'users_pix_roles',
 
@@ -12,6 +14,8 @@ module.exports = Bookshelf.model('UserPixRole', {
 
   pixRole() {
     return this.belongsTo(BookshelfPixRole);
-  }
+  },
 
+}, {
+  modelName
 });

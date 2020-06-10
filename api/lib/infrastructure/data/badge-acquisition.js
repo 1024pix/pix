@@ -3,7 +3,9 @@ const Bookshelf = require('../bookshelf');
 require('./badge');
 require('./user');
 
-module.exports = Bookshelf.model('BadgeAcquisition', {
+const modelName = 'BadgeAcquisition';
+
+module.exports = Bookshelf.model(modelName, {
 
   tableName: 'badge-acquisitions',
 
@@ -14,4 +16,7 @@ module.exports = Bookshelf.model('BadgeAcquisition', {
   user() {
     return this.belongsTo('User', 'userId');
   },
+
+}, {
+  modelName
 });
