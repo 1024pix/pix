@@ -3,12 +3,13 @@ const BookshelfCompetenceEvaluation = require('../data/competence-evaluation');
 const _ = require('lodash');
 const { NotFoundError } = require('../../domain/errors');
 const queryBuilder = require('../utils/query-builder');
+const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = {
 
-  save(competenceEvaluation) {
+  save({ competenceEvaluation, domainTransaction = DomainTransaction.emptyTransaction() }) {
     return new BookshelfCompetenceEvaluation(_.omit(competenceEvaluation, ['assessment', 'scorecard']))
-      .save()
+      .save(null, { transacting: domainTransaction.knexTransaction })
       .then((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result));
   },
 
@@ -26,12 +27,11 @@ module.exports = {
       .then((updatedCompetenceEvaluation) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation));
   },
 
-  updateAssessmentId({ currentAssessmentId, newAssessmentId }) {
+  updateAssessmentId({ currentAssessmentId, newAssessmentId, domainTransaction = DomainTransaction.emptyTransaction() }) {
     return BookshelfCompetenceEvaluation
       .where({ assessmentId: currentAssessmentId })
-      .save({ assessmentId: newAssessmentId }, { require: true, patch: true })
+      .save({ assessmentId: newAssessmentId }, { require: true, patch: true, transacting: domainTransaction.knexTransaction })
       .then((updatedCompetenceEvaluation) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation));
-
   },
 
   getByAssessmentId(assessmentId) {
