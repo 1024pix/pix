@@ -31,9 +31,10 @@ async function resetScorecard({
   knowledgeElementRepository,
   competenceEvaluationRepository,
   campaignParticipationRepository,
+  domainTransaction
 }) {
 
-  const newKnowledgeElements = await _resetKnowledgeElements({ userId, competenceId, knowledgeElementRepository });
+  const newKnowledgeElements = await _resetKnowledgeElements({ userId, competenceId, knowledgeElementRepository, domainTransaction });
 
   const resetSkills = _.map(newKnowledgeElements, (knowledgeElement) => knowledgeElement.skillId);
 
@@ -41,8 +42,8 @@ async function resetScorecard({
   if (shouldResetCompetenceEvaluation) {
     return Promise.all([
       newKnowledgeElements,
-      _resetSmartPlacementAssessments({ userId, resetSkills, assessmentRepository, campaignParticipationRepository }),
-      _resetCompetenceEvaluation({ userId, competenceId, competenceEvaluationRepository }),
+      _resetSmartPlacementAssessments({ userId, resetSkills, assessmentRepository, campaignParticipationRepository, domainTransaction }),
+      _resetCompetenceEvaluation({ userId, competenceId, competenceEvaluationRepository, domainTransaction }),
     ]);
   }
 
@@ -52,37 +53,38 @@ async function resetScorecard({
       userId,
       resetSkills,
       assessmentRepository,
-      campaignParticipationRepository
+      campaignParticipationRepository,
+      domainTransaction
     })
   ]);
 }
 
-async function _resetKnowledgeElements({ userId, competenceId, knowledgeElementRepository }) {
+async function _resetKnowledgeElements({ userId, competenceId, knowledgeElementRepository, domainTransaction }) {
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({
     userId, competenceId
   });
   const resetKnowledgeElementsPromises = _.map(knowledgeElements,
-    (knowledgeElement) => _resetKnowledgeElement({ knowledgeElement, knowledgeElementRepository })
+    (knowledgeElement) => _resetKnowledgeElement({ knowledgeElement, knowledgeElementRepository, domainTransaction })
   );
   return Promise.all(resetKnowledgeElementsPromises);
 }
 
-function _resetKnowledgeElement({ knowledgeElement, knowledgeElementRepository }) {
+function _resetKnowledgeElement({ knowledgeElement, knowledgeElementRepository, domainTransaction }) {
   const newKnowledgeElement = {
     ...knowledgeElement,
     status: KnowledgeElement.StatusType.RESET,
     earnedPix: 0,
   };
-  return knowledgeElementRepository.save(newKnowledgeElement);
+  return knowledgeElementRepository.save(newKnowledgeElement, domainTransaction.knexTransaction);
 }
 
-function _resetCompetenceEvaluation({ userId, competenceId, competenceEvaluationRepository }) {
+function _resetCompetenceEvaluation({ userId, competenceId, competenceEvaluationRepository, domainTransaction }) {
   return competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId({
     competenceId, userId, status: CompetenceEvaluation.statuses.RESET
-  });
+  }, domainTransaction.knexTransaction);
 }
 
-async function _resetSmartPlacementAssessments({ userId, resetSkills, assessmentRepository, campaignParticipationRepository }) {
+async function _resetSmartPlacementAssessments({ userId, resetSkills, assessmentRepository, campaignParticipationRepository, domainTransaction }) {
   const notAbortedSmartPlacementAssessments = await assessmentRepository.findNotAbortedSmartPlacementAssessmentsByUserId(userId);
 
   if (!notAbortedSmartPlacementAssessments) {
@@ -94,13 +96,14 @@ async function _resetSmartPlacementAssessments({ userId, resetSkills, assessment
       assessment: smartPlacementAssessment,
       resetSkills,
       assessmentRepository,
-      campaignParticipationRepository
+      campaignParticipationRepository,
+      domainTransaction
     })
   );
   return Promise.all(resetSmartPlacementAssessmentsPromises);
 }
 
-async function _resetSmartPlacementAssessment({ assessment, resetSkills, assessmentRepository, campaignParticipationRepository }) {
+async function _resetSmartPlacementAssessment({ assessment, resetSkills, assessmentRepository, campaignParticipationRepository, domainTransaction }) {
   const campaignParticipation = await campaignParticipationRepository.findOneByAssessmentIdWithSkillIds(assessment.id);
 
   const resetSkillsNotIncludedInTargetProfile = _computeResetSkillsNotIncludedInTargetProfile({
@@ -120,8 +123,8 @@ async function _resetSmartPlacementAssessment({ assessment, resetSkills, assessm
     courseId: 'Smart Placement Tests CourseId Not Used'
   });
 
-  await assessmentRepository.abortByAssessmentId(assessment.id);
-  return await assessmentRepository.save({ assessment: newAssessment });
+  await assessmentRepository.abortByAssessmentId(assessment.id, domainTransaction.knexTransaction);
+  return await assessmentRepository.save({ assessment: newAssessment, domainTransaction });
 }
 
 function _computeResetSkillsNotIncludedInTargetProfile({ targetObjectSkills, resetSkills }) {

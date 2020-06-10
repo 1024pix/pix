@@ -4,9 +4,9 @@ const Scorecard = require('../../../../lib/domain/models/Scorecard');
 const CompetenceEvaluation = require('../../../../lib/domain/models/CompetenceEvaluation');
 const scorecardService = require('../../../../lib/domain/services/scorecard-service');
 
-describe('Unit | Service | ScorecardService', function() {
+describe('Unit | Service | ScorecardService', () => {
 
-  describe('#computeScorecard', function() {
+  describe('#computeScorecard', () => {
 
     let competenceRepository;
     let knowledgeElementRepository;
@@ -78,7 +78,7 @@ describe('Unit | Service | ScorecardService', function() {
           competenceId,
           competenceRepository,
           competenceEvaluationRepository,
-          knowledgeElementRepository
+          knowledgeElementRepository,
         });
 
         //then
@@ -87,7 +87,7 @@ describe('Unit | Service | ScorecardService', function() {
     });
   });
 
-  describe('#resetScorecard', function() {
+  describe('#resetScorecard', () => {
 
     let resetCampaignParticipation;
     let resetKnowledgeElements;
@@ -98,6 +98,7 @@ describe('Unit | Service | ScorecardService', function() {
     let campaignParticipationRepository;
     let resetKnowledgeElement1;
     let resetKnowledgeElement2;
+    let domainTransaction = null;
 
     const userId = 1;
     const competenceId = 2;
@@ -105,6 +106,7 @@ describe('Unit | Service | ScorecardService', function() {
     const updatedCompetenceEvaluation = Symbol('updated competence evaluation');
     resetKnowledgeElement2 = Symbol('reset knowledge element 2');
     resetKnowledgeElement1 = Symbol('reset knowledge element 1');
+    domainTransaction = { knexTransaction : {} };
 
     context('when competence evaluation exists', function() {
 
@@ -119,7 +121,7 @@ describe('Unit | Service | ScorecardService', function() {
         };
 
         competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId
-          .withArgs({ userId, competenceId, status: CompetenceEvaluation.statuses.RESET })
+          .withArgs({ userId, competenceId, status: CompetenceEvaluation.statuses.RESET }, domainTransaction.knexTransaction)
           .resolves(updatedCompetenceEvaluation);
 
         knowledgeElementRepository.findUniqByUserIdAndCompetenceId
@@ -130,14 +132,14 @@ describe('Unit | Service | ScorecardService', function() {
           .onSecondCall().resolves(resetKnowledgeElement2);
 
         [resetKnowledgeElements, resetCampaignParticipation, resetCompetenceEvaluation] = await scorecardService.resetScorecard({
-          userId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, knowledgeElementRepository, competenceEvaluationRepository, campaignParticipationRepository
+          userId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, knowledgeElementRepository, competenceEvaluationRepository, campaignParticipationRepository, domainTransaction,
         });
       });
 
       // then
       it('should reset each knowledge elements', async () => {
-        expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 1, status: 'reset', earnedPix: 0 });
-        expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 2, status: 'reset', earnedPix: 0 });
+        expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 1, status: 'reset', earnedPix: 0 }, domainTransaction.knexTransaction);
+        expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 2, status: 'reset', earnedPix: 0 }, domainTransaction.knexTransaction);
         expect(resetKnowledgeElements).to.deep.equal([resetKnowledgeElement1, resetKnowledgeElement2]);
       });
 
@@ -146,7 +148,7 @@ describe('Unit | Service | ScorecardService', function() {
       });
     });
 
-    context('when competence evaluation does not exists - there is only knowledge elements thanks to campaign', function() {
+    context('when competence evaluation does not exists - there is only knowledge elements thanks to campaign', () => {
 
       beforeEach(async () => {
         // when
@@ -165,19 +167,19 @@ describe('Unit | Service | ScorecardService', function() {
           .onSecondCall().resolves(resetKnowledgeElement2);
 
         [resetKnowledgeElements, resetCampaignParticipation] = await scorecardService.resetScorecard({
-          userId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, knowledgeElementRepository, competenceEvaluationRepository, campaignParticipationRepository,
+          userId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, knowledgeElementRepository, competenceEvaluationRepository, campaignParticipationRepository, domainTransaction
         });
       });
 
       // then
       it('should reset each knowledge elements', async () => {
-        expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 1, status: 'reset', earnedPix: 0 });
-        expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 2, status: 'reset', earnedPix: 0 });
+        expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 1, status: 'reset', earnedPix: 0 }, domainTransaction.knexTransaction);
+        expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 2, status: 'reset', earnedPix: 0 }, domainTransaction.knexTransaction);
         expect(resetKnowledgeElements).to.deep.equal([resetKnowledgeElement1, resetKnowledgeElement2]);
       });
     });
 
-    context('when campaign exists', function() {
+    context('when campaign exists', () => {
 
       let oldAssessment1;
       let oldAssessment2;
@@ -256,11 +258,11 @@ describe('Unit | Service | ScorecardService', function() {
       it('should reset each knowledge Element', async () => {
 
         [resetKnowledgeElements, resetCampaignParticipation] = await scorecardService.resetScorecard({
-          userId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, knowledgeElementRepository, campaignParticipationRepository, competenceEvaluationRepository,
+          userId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, knowledgeElementRepository, campaignParticipationRepository, competenceEvaluationRepository, domainTransaction
         });
 
-        expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 1, status: 'reset', earnedPix: 0 });
-        expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 2, status: 'reset', earnedPix: 0 });
+        expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 1, status: 'reset', earnedPix: 0 }, domainTransaction.knexTransaction);
+        expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 2, status: 'reset', earnedPix: 0 }, domainTransaction.knexTransaction);
         expect(resetKnowledgeElements).to.deep.equal([resetKnowledgeElement1, resetKnowledgeElement2]);
       });
 
@@ -268,16 +270,18 @@ describe('Unit | Service | ScorecardService', function() {
 
         // when
         await scorecardService.resetScorecard({
-          userId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, knowledgeElementRepository, campaignParticipationRepository, competenceEvaluationRepository,
+          userId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, knowledgeElementRepository, campaignParticipationRepository, competenceEvaluationRepository, domainTransaction
         });
         // given
         expect(assessmentRepository.save.args[0][0].assessment).to.include({ type: 'SMART_PLACEMENT', state: 'started', userId, campaignParticipationId: 1 });
+        expect(assessmentRepository.save.args[0][0].domainTransaction).to.equal(domainTransaction);
         expect(assessmentRepository.save.args[1][0].assessment).to.include({ type: 'SMART_PLACEMENT', state: 'started', userId, campaignParticipationId: 2 });
+        expect(assessmentRepository.save.args[1][0].domainTransaction).to.equal(domainTransaction);
       });
 
-      context('when campaign is already shared', function() {
+      context('when campaign is already shared', () => {
 
-        it('should return null for campaign participation', async function() {
+        it('should return null for campaign participation', async () => {
           //given
           const campaignParticipation3 = domainBuilder.buildCampaignParticipation({ assessmentId: assessmentId1, campaign, campaignId: campaign.id, isShared: true });
           const campaignParticipation4 = domainBuilder.buildCampaignParticipation({ assessmentId: assessmentId2, campaign, campaignId: campaign.id, isShared: true });
@@ -286,16 +290,16 @@ describe('Unit | Service | ScorecardService', function() {
 
           //when
           [resetKnowledgeElements, resetCampaignParticipation] =  await scorecardService.resetScorecard({
-            userId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, knowledgeElementRepository, campaignParticipationRepository, competenceEvaluationRepository,
+            userId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, knowledgeElementRepository, campaignParticipationRepository, competenceEvaluationRepository, domainTransaction
           });
           //then
           expect(resetCampaignParticipation).to.deep.equal([null, null]);
         });
       });
 
-      context('when dosen \'t intersection between target skills and reset skills', function() {
+      context('when dosen \'t intersection between target skills and reset skills', () => {
 
-        it('should return null for campaign participation', async function() {
+        it('should return null for campaign participation', async () => {
           //given
           resetKnowledgeElement1 = domainBuilder.buildKnowledgeElement({ skillId: 'recAloevera' });
           resetKnowledgeElement2 = domainBuilder.buildKnowledgeElement({ skillId: 'recDing' });
@@ -306,7 +310,7 @@ describe('Unit | Service | ScorecardService', function() {
 
           //when
           [resetKnowledgeElements, resetCampaignParticipation] =  await scorecardService.resetScorecard({
-            userId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, knowledgeElementRepository, campaignParticipationRepository, competenceEvaluationRepository,
+            userId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, knowledgeElementRepository, campaignParticipationRepository, competenceEvaluationRepository, domainTransaction
           });
 
           //then
@@ -316,7 +320,7 @@ describe('Unit | Service | ScorecardService', function() {
 
     });
 
-    context('when campaign does not exists', function() {
+    context('when campaign does not exists', () => {
 
       beforeEach(async () => {
         // when
@@ -341,14 +345,14 @@ describe('Unit | Service | ScorecardService', function() {
           .onSecondCall().resolves(resetKnowledgeElement2);
 
         [resetKnowledgeElements, resetCampaignParticipation] = await scorecardService.resetScorecard({
-          userId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, knowledgeElementRepository, competenceEvaluationRepository,
+          userId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, knowledgeElementRepository, competenceEvaluationRepository, domainTransaction
         });
       });
 
       // then
       it('should reset each assessments', async () => {
-        expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 1, status: 'reset', earnedPix: 0 });
-        expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 2, status: 'reset', earnedPix: 0 });
+        expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 1, status: 'reset', earnedPix: 0 }, domainTransaction.knexTransaction);
+        expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 2, status: 'reset', earnedPix: 0 }, domainTransaction.knexTransaction);
         expect(resetKnowledgeElements).to.deep.equal([resetKnowledgeElement1, resetKnowledgeElement2]);
       });
 
@@ -361,9 +365,9 @@ describe('Unit | Service | ScorecardService', function() {
 
   });
 
-  describe('#_computeResetSkillsNotIncludedInTargetProfile', function() {
+  describe('#_computeResetSkillsNotIncludedInTargetProfile', () => {
 
-    it('should return true when no skill is in common between target profile and reset skills', function() {
+    it('should return true when no skill is in common between target profile and reset skills', () => {
       // given
       const targetObjectSkills = [{ id: 'recmoustache' }, { id: 'recherisson' }];
       const resetSkills = ['recbarbe', 'rectaupe'];
