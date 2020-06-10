@@ -57,7 +57,7 @@ describe('Unit | UseCase | complete-assessment', () => {
   context('when assessment is not yet completed', () => {
     [
       _buildCompetenceEvaluationAssessment(),
-      _buildSmartPlacementAssessment(),
+      _buildCampaignAssessment(),
       _buildCertificationAssessment()
     ]
       .forEach((assessment) => {
@@ -107,7 +107,7 @@ describe('Unit | UseCase | complete-assessment', () => {
 
     context('when assessment is of type SMARTPLACEMENT', () => {
       it('should return a AssessmentCompleted event with a userId and targetProfileId', async () => {
-        const assessment = _buildSmartPlacementAssessment();
+        const assessment = _buildCampaignAssessment();
 
         sinon.stub(assessmentRepository, 'get').withArgs(assessment.id).resolves(assessment);
         sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
@@ -161,7 +161,7 @@ function _buildCompetenceEvaluationAssessment() {
   });
 }
 
-function _buildSmartPlacementAssessment() {
+function _buildCampaignAssessment() {
   const assessment = domainBuilder.buildAssessment(
     {
       id: Symbol('assessmentId'),

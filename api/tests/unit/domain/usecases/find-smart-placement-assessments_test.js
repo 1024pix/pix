@@ -12,7 +12,7 @@ describe('Unit | UseCase | find-smart-placement-assessments', () => {
     // given
     const userId = 1234;
     const filters = { type: 'CAMPAIGN', codeCampaign: 'Code' };
-    domainBuilder.buildAssessment.ofTypeSmartPlacement({
+    domainBuilder.buildAssessment.ofTypeCampaign({
       userId,
       campaignParticipation: null,
     });
@@ -34,7 +34,7 @@ describe('Unit | UseCase | find-smart-placement-assessments', () => {
     const filters = { type: 'CAMPAIGN', codeCampaign: campaignCode };
     const campaign = domainBuilder.buildCampaign.ofTypeAssessment({ code: campaignCode });
     const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaign });
-    const assessment = domainBuilder.buildAssessment.ofTypeSmartPlacement({
+    const assessment = domainBuilder.buildAssessment.ofTypeCampaign({
       userId,
       campaignParticipation
     });

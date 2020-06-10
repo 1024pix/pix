@@ -11,7 +11,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
   const assessmentId = 1234;
   const userId = 9874;
 
-  const smartPlacementAssessmentRepository = { get: () => undefined };
+  const campaignAssessmentRepository = { get: () => undefined };
   const knowledgeElementRepository = { findUniqByUserId: () => undefined };
   const assessmentRepository = { getByAssessmentIdAndUserId: () => undefined };
   const competenceEvaluationRepository = { getByAssessmentId: () => undefined };
@@ -40,14 +40,14 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
         type: Assessment.types.CAMPAIGN,
       });
 
-      const smartPlacementAssessment = domainBuilder.buildSmartPlacementAssessment({
+      const campaignAssessment = domainBuilder.buildCampaignAssessment({
         id: assessmentId,
         userId,
       });
 
       beforeEach(() => {
         sandbox.stub(assessmentRepository, 'getByAssessmentIdAndUserId').resolves(assessment);
-        sandbox.stub(smartPlacementAssessmentRepository, 'get').resolves(smartPlacementAssessment);
+        sandbox.stub(campaignAssessmentRepository, 'get').resolves(campaignAssessment);
       });
 
       it('should load the right assessment', () => {
@@ -57,7 +57,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
           progressionId,
           assessmentRepository,
           competenceEvaluationRepository,
-          smartPlacementAssessmentRepository,
+          campaignAssessmentRepository,
           knowledgeElementRepository,
           skillRepository,
           improvementService
@@ -65,7 +65,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
 
         // then
         return promise.then(() => {
-          expect(smartPlacementAssessmentRepository.get).to.have.been.calledWith(assessmentId);
+          expect(campaignAssessmentRepository.get).to.have.been.calledWith(assessmentId);
         });
       });
 
@@ -73,9 +73,9 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
         // given
         const expectedProgression = domainBuilder.buildProgression({
           id: progressionId,
-          targetedSkills: smartPlacementAssessment.targetProfile.skills,
+          targetedSkills: campaignAssessment.targetProfile.skills,
           knowledgeElements: [],
-          isProfileCompleted: smartPlacementAssessment.isCompleted
+          isProfileCompleted: campaignAssessment.isCompleted
         });
 
         // when
@@ -84,7 +84,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
           progressionId,
           assessmentRepository,
           competenceEvaluationRepository,
-          smartPlacementAssessmentRepository,
+          campaignAssessmentRepository,
           knowledgeElementRepository,
           skillRepository,
           improvementService
@@ -118,7 +118,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
             progressionId,
             assessmentRepository,
             competenceEvaluationRepository,
-            smartPlacementAssessmentRepository,
+            campaignAssessmentRepository,
             knowledgeElementRepository,
             skillRepository,
             improvementService,
@@ -135,9 +135,9 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
           // given
           const expectedProgression = domainBuilder.buildProgression({
             id: progressionId,
-            targetedSkills: smartPlacementAssessment.targetProfile.skills,
+            targetedSkills: campaignAssessment.targetProfile.skills,
             knowledgeElements: knowledgeElementsFiltered,
-            isProfileCompleted: smartPlacementAssessment.isCompleted
+            isProfileCompleted: campaignAssessment.isCompleted
           });
 
           // when
@@ -146,7 +146,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
             progressionId,
             assessmentRepository,
             competenceEvaluationRepository,
-            smartPlacementAssessmentRepository,
+            campaignAssessmentRepository,
             knowledgeElementRepository,
             skillRepository,
             improvementService,
@@ -189,7 +189,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
           progressionId,
           assessmentRepository,
           competenceEvaluationRepository,
-          smartPlacementAssessmentRepository,
+          campaignAssessmentRepository,
           knowledgeElementRepository,
           skillRepository,
           improvementService
@@ -216,7 +216,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
           progressionId,
           assessmentRepository,
           competenceEvaluationRepository,
-          smartPlacementAssessmentRepository,
+          campaignAssessmentRepository,
           knowledgeElementRepository,
           skillRepository,
           improvementService
@@ -251,7 +251,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
           progressionId,
           assessmentRepository,
           competenceEvaluationRepository,
-          smartPlacementAssessmentRepository,
+          campaignAssessmentRepository,
           knowledgeElementRepository,
           skillRepository,
           improvementService
