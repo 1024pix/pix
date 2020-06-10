@@ -5,13 +5,13 @@ const Assessment = require('../../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../../lib/domain/models/AssessmentResult');
 const CompetenceMarks = require('../../../../../lib/domain/models/CompetenceMark');
 const CertificationCourse = require('../../../../../lib/domain/models/CertificationCourse');
-const Badge = require('../../../../../lib/domain/models/Badge');
 
 const assessmentRepository = require('../../../../../lib/infrastructure/repositories/assessment-repository');
 const assessmentResultRepository = require('../../../../../lib/infrastructure/repositories/assessment-result-repository');
 const certificationAssessmentRepository = require('../../../../../lib/infrastructure/repositories/certification-assessment-repository');
 const certificationCourseRepository = require('../../../../../lib/infrastructure/repositories/certification-course-repository');
 const certificationResultService = require('../../../../../lib/domain/services/certification-result-service');
+const cleaCertificationStatusRepository = require('../../../../../lib/infrastructure/repositories/clea-certification-status-repository');
 
 function _buildCompetenceMarks(level, score, area_code, competence_code, competenceId) {
   return new CompetenceMarks({ level, score, area_code, competence_code, competenceId });
@@ -24,14 +24,6 @@ function _buildAssessmentResult(pixScore, level) {
     level,
     emitter: 'PIX-ALGO',
   });
-}
-
-function _createAcquiredPartnerCertifications(certificationCourseId, acquired) {
-  return [{
-    certificationCourseId,
-    partnerKey: Badge.keys.PIX_EMPLOI_CLEA,
-    acquired,
-  }];
 }
 
 describe('Unit | Service | Certification Service', function() {
@@ -67,6 +59,11 @@ describe('Unit | Service | Certification Service', function() {
 
   describe('#getCertificationResult', () => {
     const certificationCourseId = 1;
+    const cleaCertificationStatus = 'someStatus';
+
+    beforeEach(() => {
+      sinon.stub(cleaCertificationStatusRepository, 'getCleaCertificationStatus').resolves(cleaCertificationStatus);
+    });
 
     context('when certification is finished', () => {
       let certificationCourse;
@@ -84,7 +81,6 @@ describe('Unit | Service | Certification Service', function() {
           externalId: 'TimonsFriend',
           examinerComment: '',
           hasSeenEndTestScreen: true,
-          acquiredPartnerCertifications: _createAcquiredPartnerCertifications(certificationCourseId, true),
         });
 
         const assessmentResult = _buildAssessmentResult(20, 3);
@@ -135,42 +131,7 @@ describe('Unit | Service | Certification Service', function() {
           expect(certification.externalId).to.deep.equal('TimonsFriend');
           expect(certification.examinerComment).to.deep.equal('');
           expect(certification.hasSeenEndTestScreen).to.deep.equal(true);
-        });
-      });
-
-      context('when the candidated has passed the clea certification', () => {
-
-        it(`should return "${certificationService.certificationPartnerStates.ACQUIRED}" when the certification was validated`, async () => {
-          //when
-          const { cleaCertificationStatus } = await certificationService.getCertificationResult(certificationCourseId);
-
-          // then
-          expect(cleaCertificationStatus).to.equal(certificationService.certificationPartnerStates.ACQUIRED);
-        });
-
-        it(`should return "${certificationService.certificationPartnerStates.REJECTED}" when the certification was failed`, async () => {
-          //given
-          certificationCourse.acquiredPartnerCertifications = _createAcquiredPartnerCertifications(certificationCourse.certificationCourseId, false);
-
-          //when
-          const { cleaCertificationStatus } = await certificationService.getCertificationResult(certificationCourseId);
-
-          // then
-          expect(cleaCertificationStatus).to.equal(certificationService.certificationPartnerStates.REJECTED);
-        });
-      });
-
-      context('when the candidated has not passed the clea certification', () => {
-
-        it(`should return "${certificationService.certificationPartnerStates.NOT_PASSED}"`, async () => {
-          // given
-          certificationCourse.acquiredPartnerCertifications = [];
-
-          //when
-          const { cleaCertificationStatus } = await certificationService.getCertificationResult(certificationCourseId);
-
-          // then
-          expect(cleaCertificationStatus).to.equal(certificationService.certificationPartnerStates.NOT_PASSED);
+          expect(certification.cleaCertificationStatus).to.deep.equal(cleaCertificationStatus);
         });
       });
     });

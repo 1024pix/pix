@@ -1,7 +1,5 @@
 const moment = require('moment');
 const _ = require('lodash');
-const Badge = require('./Badge');
-const CleaCertification = require('./CleaCertification');
 
 class Certification {
 
@@ -17,6 +15,7 @@ class Certification {
     deliveredAt,
     isPublished,
     lastName,
+    cleaCertificationStatus,
     // includes
     assessmentResults = [],
     acquiredPartnerCertifications = [],
@@ -45,18 +44,12 @@ class Certification {
       this.status = mostRecentAssessmentResult.status;
       this.commentForCandidate = mostRecentAssessmentResult.commentForCandidate;
     }
+    this.cleaCertificationStatus = cleaCertificationStatus;
     // includes
     this.resultCompetenceTree = resultCompetenceTree;
     // references
     this.userId = userId;
     this.acquiredPartnerCertifications = acquiredPartnerCertifications;
-  }
-
-  get cleaCertificationStatus() {
-    const cleaCertification =
-      _.find(this.acquiredPartnerCertifications, { partnerKey: Badge.keys.PIX_EMPLOI_CLEA });
-
-    return CleaCertification.certificationStatus(cleaCertification);
   }
 }
 
