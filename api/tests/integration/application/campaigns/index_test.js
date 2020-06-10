@@ -40,24 +40,6 @@ describe('Integration | Application | Route | campaignRouter', () => {
 
   });
 
-  describe('GET /api/campaigns/{id}/csvResults', () => {
-
-    it('should exist', () => {
-      // when
-      const promise = server.inject({
-        method: 'GET',
-        url: '/api/campaigns/FAKE_ID/csvResults',
-      });
-
-      // then
-      return promise.then((res) => {
-        expect(res.statusCode).to.equal(200);
-      });
-
-    });
-
-  });
-
   describe('GET /api/campaigns/{id}/csv-assessment-results', () => {
 
     it('should exist', () => {
