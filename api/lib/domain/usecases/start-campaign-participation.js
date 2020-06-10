@@ -23,7 +23,7 @@ async function _createSmartPlacementAssessment(userId, assessmentRepository, cre
     userId,
     state: Assessment.states.STARTED,
     type: Assessment.types.CAMPAIGN,
-    courseId: Assessment.courseIdMessage.SMART_PLACEMENT,
+    courseId: Assessment.courseIdMessage.CAMPAIGN,
     campaignParticipationId: createdCampaignParticipation.id
   });
   return assessmentRepository.save({ assessment });
