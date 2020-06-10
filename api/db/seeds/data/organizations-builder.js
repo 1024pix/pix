@@ -6,7 +6,6 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     type: 'SUP',
     name: 'Tyrion SUP',
   });
-
   databaseBuilder.factory.buildMembership({
     userId: 3,
     organizationId: 2,
@@ -20,19 +19,16 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     isManagingStudents: true,
     canCollectProfiles: true,
   });
-
   databaseBuilder.factory.buildMembership({
     userId: 4,
     organizationId: 3,
     organizationRole: Membership.roles.ADMIN,
   });
-
   databaseBuilder.factory.buildMembership({
     userId: 9,
     organizationId: 3,
     organizationRole: Membership.roles.MEMBER,
   });
-
   databaseBuilder.factory.buildSchoolingRegistration({
     id: 1,
     firstName: 'First',
@@ -40,6 +36,18 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     birthdate: '2010-10-10',
     organizationId: 3,
     userId: null
+  });
+  const disabledUserId = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+    firstName: 'Mance',
+    lastName: 'Rayder',
+    email: 'mance.rayder@example.net',
+    rawPassword: 'Pix123',
+  }).id;
+  databaseBuilder.factory.buildMembership({
+    userId: disabledUserId,
+    organizationId: 3,
+    organizationRole: Membership.roles.MEMBER,
+    removedAt: new Date()
   });
 
   const user1Id = databaseBuilder.factory.buildUser.withUnencryptedPassword({
@@ -58,7 +66,6 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     rawPassword: 'Pix123',
     cgu: false
   }).id;
-
   databaseBuilder.factory.buildSchoolingRegistration({
     firstName: 'George',
     lastName: 'De Cambridge',
