@@ -21,6 +21,8 @@ const scorecardSerializer = require('../../../../lib/infrastructure/serializers/
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 const userDetailsForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-details-for-admin-serializer');
 
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 
 describe('Unit | Controller | user-controller', () => {
@@ -682,12 +684,17 @@ describe('Unit | Controller | user-controller', () => {
   });
 
   describe('#resetScorecard', () => {
+    const domainTransaction = Symbol('domain transaction');
+    let transactionToBeExecuted;
 
     beforeEach(() => {
       sinon.stub(usecases, 'resetScorecard').resolves({
         name: 'Comp1',
       });
       sinon.stub(scorecardSerializer, 'serialize').resolves();
+      sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
+        transactionToBeExecuted = lambda;
+      });
     });
 
     it('should call the expected usecase', async () => {
@@ -709,9 +716,10 @@ describe('Unit | Controller | user-controller', () => {
 
       // when
       await userController.resetScorecard(request);
+      await transactionToBeExecuted(domainTransaction);
 
       // then
-      expect(usecases.resetScorecard).to.have.been.calledWith({ userId, competenceId });
+      expect(usecases.resetScorecard).to.have.been.calledWith({ userId, competenceId, domainTransaction });
     });
   });
 

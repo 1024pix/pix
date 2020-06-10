@@ -10,6 +10,7 @@ const userSerializer = require('../../infrastructure/serializers/jsonapi/user-se
 const userDetailsForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-details-for-admin-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
+const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 const usecases = require('../../domain/usecases');
 
@@ -157,12 +158,14 @@ module.exports = {
       .then(scorecardSerializer.serialize);
   },
 
-  resetScorecard(request) {
+  async resetScorecard(request) {
     const authenticatedUserId = request.auth.credentials.userId;
     const competenceId = request.params.competenceId;
+    const scorecard = await DomainTransaction.execute((domainTransaction) =>
+      usecases.resetScorecard({ userId: authenticatedUserId, competenceId, domainTransaction })
+    );
 
-    return usecases.resetScorecard({ userId: authenticatedUserId, competenceId })
-      .then(scorecardSerializer.serialize);
+    return scorecardSerializer.serialize(scorecard);
   },
 
   getUserOrgaSettings(request) {
@@ -185,7 +188,7 @@ module.exports = {
     const campaignId = request.params.campaignId;
 
     const sharedProfileForCampaign = await usecases.getUserProfileSharedForCampaign({ userId: authenticatedUserId, campaignId });
-    
+
     return sharedProfileForCampaignSerializer.serialize(sharedProfileForCampaign);
   }
 };

@@ -29,7 +29,7 @@ describe('Unit | UseCase | reset-scorecard', () => {
     knowledgeElements = [{}, {}];
   });
 
-  afterEach(function() {
+  afterEach(() => {
     sinon.restore();
   });
 
@@ -37,6 +37,7 @@ describe('Unit | UseCase | reset-scorecard', () => {
     it('should reset the competenceEvaluation', async () => {
       // given
       const shouldResetCompetenceEvaluation = true;
+      const domainTransaction = Symbol('domain transaction');
 
       competenceEvaluationRepository.existsByCompetenceIdAndUserId
         .withArgs({ competenceId, userId })
@@ -67,12 +68,13 @@ describe('Unit | UseCase | reset-scorecard', () => {
         campaignParticipationRepository,
         competenceRepository,
         competenceEvaluationRepository,
-        knowledgeElementRepository
+        knowledgeElementRepository,
+        domainTransaction
       });
 
       // then
       expect(scorecardService.resetScorecard).to.have.been.calledWithExactly({
-        userId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, campaignParticipationRepository, competenceRepository, knowledgeElementRepository, competenceEvaluationRepository
+        userId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, campaignParticipationRepository, competenceRepository, knowledgeElementRepository, competenceEvaluationRepository, domainTransaction
       });
       expect(response).to.equal(scorecard);
     });
