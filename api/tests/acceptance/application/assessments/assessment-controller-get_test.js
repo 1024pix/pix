@@ -316,7 +316,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
         {
           userId,
           courseId: 'anyFromAirTable',
-          type: 'SMART_PLACEMENT',
+          type: 'CAMPAIGN',
           campaignParticipationId: campaignParticipation.id
         }).id;
 
@@ -372,7 +372,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
         'attributes': {
           'state': 'completed',
           'title': undefined,
-          'type': 'SMART_PLACEMENT',
+          'type': 'CAMPAIGN',
           'certification-number': null,
           'code-campaign': 'TESTCODE',
           'competence-id': 'recCompetenceId',

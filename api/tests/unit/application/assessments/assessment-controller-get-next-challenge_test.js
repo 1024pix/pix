@@ -152,7 +152,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         id: 1,
         courseId: 'courseId',
         userId: 5,
-        type: 'SMART_PLACEMENT',
+        type: 'CAMPAIGN',
       });
 
       beforeEach(() => {

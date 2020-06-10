@@ -96,7 +96,7 @@ describe('Unit | Model | Assessment', function() {
       const model = store.createRecord('assessment');
 
       // when
-      model.set('type', 'SMART_PLACEMENT');
+      model.set('type', 'CAMPAIGN');
 
       //then
       expect(model.isSmartPlacement).to.be.true;

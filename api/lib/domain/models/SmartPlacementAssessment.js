@@ -1,4 +1,4 @@
-const SMART_PLACEMENT_TYPE = 'SMART_PLACEMENT';
+const SMART_PLACEMENT_TYPE = 'CAMPAIGN';
 
 const SmartPlacementAssessmentState = Object.freeze({
   COMPLETED: 'completed',

@@ -20,7 +20,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
           data: {
             id: 42,
             attributes: {
-              'type': 'SMART_PLACEMENT',
+              'type': 'CAMPAIGN',
               'code-campaign': 'CODECAMPAIGN',
               'participant-external-id': 'matricule123',
             },
@@ -37,7 +37,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
         const expectedAssessment = new Assessment({
           id: 42,
           courseId: null,
-          type: 'SMART_PLACEMENT',
+          type: 'CAMPAIGN',
           state: undefined,
           userId: null,
         });
