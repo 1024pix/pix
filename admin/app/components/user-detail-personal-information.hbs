@@ -1,37 +1,99 @@
 <section class="page-section mb_10">
-  <div>
-    <div class="attribute first-name">
-      <span class="attibute__label">Prénom : </span>
-      <span class="attribute__value user__first-name">{{@user.firstName}}</span>
-    </div>
-    <div class="attribute last-name">
-      <span class="attibute__label">Nom : </span>
-      <span class="attribute__value user__last-name">{{@user.lastName}}</span>
-    </div>
-    <div class="attribute email">
-      <span class="attibute__label">E-mail : </span>
-      <span class="attribute__value user__email">{{@user.email}}</span>
-    </div>
-    <div class="attribute username">
-      <span class="attibute__label">Identifiant : </span>
-      <span class="attribute__value user__username">{{@user.username}}</span>
-    </div>
-    <div class="attribute authenticated-from-gar">
-      <span class="attibute__label">Connecté via le GAR : </span>
-      <span class="attribute__value user__is-authenticated-from-gar">{{if @user.isAuthenticatedFromGar 'OUI' 'NON'}}</span>
-    </div>
-    <br>
-    <div class="attribute cgu">
-      <span class="attibute__label">CGU Pix App validé : </span>
-      <span class="attribute__value user__cgu">{{if @user.cgu 'OUI' 'NON'}}</span>
-    </div>
-    <div class="attribute pix-orga-terms-of-service-accepted">
-      <span class="attibute__label">CGU Pix Orga validé : </span>
-      <span class="attribute__value user__pix-orga-terms-of-service-accepted">{{if @user.pixOrgaTermsOfServiceAccepted 'OUI' 'NON'}}</span>
-    </div>
-    <div class="attribute pix-certif-terms-of-service-accepted">
-      <span class="attibute__label">CGU Pix Certif validé : </span>
-      <span class="attribute__value user__pix-certif-terms-of-service-accepted">{{if @user.pixCertifTermsOfServiceAccepted 'OUI' 'NON'}}</span>
-    </div>
-  </div>
+  {{#if this.isEditionMode}}
+    <form class="form user-edit-form">
+        <span class="form__instructions col-md-4">
+          Les champs marqués de <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> sont obligatoires.
+        </span>
+      <div class="form-field col-md-4">
+        <label for="firstName" class="form-field__label"> <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> Prénom :</label>
+        {{#if (v-get form 'firstName' 'isInvalid')}}
+          <div class="form-field__error" aria-label="Message d'erreur du champ firstName">
+            {{v-get form 'firstName' 'message'}}
+          </div>
+        {{/if}}
+        <Input id="firstName"
+               type="text"
+               class={{if (v-get form 'firstName' 'isInvalid') "user-edit-form__first-name form-control is-invalid"
+                          "user-edit-form__first-name form-control"}}
+               @value={{this.form.firstName}}/>
+      </div>
+      <div class="form-field col-md-4">
+        <label for="lastName" class="form-field__label"> <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> Nom :</label>
+        {{#if (v-get form 'lastName' 'isInvalid')}}
+          <div class="form-field__error" aria-label="Message d'erreur du champ lastName">
+            {{v-get form 'lastName' 'message'}}
+          </div>
+        {{/if}}
+        <Input id="lastName"
+               type="text"
+               class={{if (v-get form 'lastName' 'isInvalid') "user-edit-form__last-name form-control is-invalid"
+                          "user-edit-form__last-name form-control"}}
+               @value={{this.form.lastName}}/>
+      </div>
+      <div class="form-field col-md-4">
+        <label for="email" class="form-field__label">E-mail : </label>
+        {{#if (v-get form 'email' 'isInvalid')}}
+          <div class="form-field__error" aria-label="Message d'erreur du champ email">
+            {{v-get form 'email' 'message'}}
+          </div>
+        {{/if}}
+        <Input id="email"
+               type="email"
+               class={{if (v-get form 'email' 'isInvalid') "user-edit-form__email  form-control is-invalid"
+                          "user-edit-form__email  form-control"}}
+               @value={{this.form.email}}/>
+      </div>
+
+      <div class="col-md-4">
+        <button class="btn btn-outline-default" aria-label="Annuler" {{on "click" this.cancelEdit}}>Annuler</button>
+        <button class="btn btn-success" aria-label="Editer">Editer</button>
+      </div>
+    </form>
+  {{else}}
+    <form class="form user-read-only-form">
+      <section class="page-section mb_10">
+        <div>
+          <div class="attribute first-name">
+            <span class="attibute__label">Prénom : </span>
+            <span class="attribute__value user__first-name">{{@user.firstName}}</span>
+          </div>
+          <div class="attribute last-name">
+            <span class="attibute__label">Nom : </span>
+            <span class="attribute__value user__last-name">{{@user.lastName}}</span>
+          </div>
+          <div class="attribute email">
+            <span class="attibute__label">E-mail : </span>
+            <span class="attribute__value user__email">{{@user.email}}</span>
+          </div>
+          <div class="attribute username">
+            <span class="attibute__label">Identifiant : </span>
+            <span class="attribute__value user__username">{{@user.username}}</span>
+          </div>
+          <div class="attribute authenticated-from-gar">
+            <span class="attibute__label">Connecté via le GAR : </span>
+            <span class="attribute__value user__is-authenticated-from-gar">{{if @user.isAuthenticatedFromGar 'OUI'
+                                                                                'NON'}}</span>
+          </div>
+          <br>
+          <div class="attribute cgu">
+            <span class="attibute__label">CGU Pix App validé : </span>
+            <span class="attribute__value user__cgu">{{if @user.cgu 'OUI' 'NON'}}</span>
+          </div>
+          <div class="attribute pix-orga-terms-of-service-accepted">
+            <span class="attibute__label">CGU Pix Orga validé : </span>
+            <span class="attribute__value user__pix-orga-terms-of-service-accepted">{{if
+                    @user.pixOrgaTermsOfServiceAccepted 'OUI' 'NON'}}</span>
+          </div>
+          <div class="attribute pix-certif-terms-of-service-accepted">
+            <span class="attibute__label">CGU Pix Certif validé : </span>
+            <span class="attribute__value user__pix-certif-terms-of-service-accepted">{{if @user.pixCertifTermsOfServiceAccepted 'OUI' 'NON'}}</span>
+          </div>
+        </div>
+      </section>
+      <div class="col-md-4">
+        <button class="btn btn-outline-default" aria-label="Modifier" {{on "click" this.changeEditionMode}}>Modifier
+        </button>
+      </div>
+    </form>
+  {{/if}}
 </section>
