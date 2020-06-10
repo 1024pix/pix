@@ -166,7 +166,7 @@ function _buildSmartPlacementAssessment() {
     {
       id: Symbol('assessmentId'),
       state: 'started',
-      type: Assessment.types.SMARTPLACEMENT,
+      type: Assessment.types.CAMPAIGN,
       userId: Symbol('userId'),
       campaignParticipation: {
         id: Symbol('campaignParticipationId'),

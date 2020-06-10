@@ -102,7 +102,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-
         campaignParticipationId: campaignParticipation.id,
         userId: participant.id,
         state: Assessment.states.COMPLETED,
-        type: Assessment.types.SMARTPLACEMENT,
+        type: Assessment.types.CAMPAIGN,
       });
 
       await databaseBuilder.commit();

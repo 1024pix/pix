@@ -39,7 +39,7 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
 
     const { id: assessmentId } = databaseBuilder.factory.buildAssessment({
       userId,
-      type: Assessment.types.SMARTPLACEMENT,
+      type: Assessment.types.CAMPAIGN,
       state: Assessment.states[state],
       campaignParticipationId
     });

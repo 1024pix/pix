@@ -43,7 +43,7 @@ module.exports = {
 };
 
 function _checkIsSmartPlacement(bookshelfAssessment) {
-  if (bookshelfAssessment.get('type') !== Assessment.types.SMARTPLACEMENT) {
+  if (bookshelfAssessment.get('type') !== Assessment.types.CAMPAIGN) {
     throw new NotFoundError(`Not found Smart Placement Assessment for ID ${bookshelfAssessment.get('id')}`);
   } else {
     return bookshelfAssessment;

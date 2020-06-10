@@ -53,7 +53,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
         const userId = 'userId';
         const unsavedTutorial = domainBuilder.buildTutorial({ id: 'unsaved-tutorial-id' });
         const savedTutorial = domainBuilder.buildTutorial({ id: 'saved-tutorial-id' });
-        const assessment = new Assessment({ state: 'started', type: Assessment.types.SMARTPLACEMENT, userId });
+        const assessment = new Assessment({ state: 'started', type: Assessment.types.CAMPAIGN, userId });
         const answer = new Answer({ assessmentId, challengeId });
         const correction = new Correction({ id: 123, tutorials: [unsavedTutorial], learningMoreTutorials: [savedTutorial] });
         assessmentRepository.get.resolves(assessment);

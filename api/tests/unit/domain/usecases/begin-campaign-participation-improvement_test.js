@@ -54,7 +54,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', () => {
       expect(assessmentRepository.save).to.have.been.called;
 
       const assessmentToSave = assessmentRepository.save.firstCall.args[0].assessment;
-      expect(assessmentToSave.type).to.equal(Assessment.types.SMARTPLACEMENT);
+      expect(assessmentToSave.type).to.equal(Assessment.types.CAMPAIGN);
       expect(assessmentToSave.state).to.equal(Assessment.states.STARTED);
       expect(assessmentToSave.userId).to.equal(userId);
       expect(assessmentToSave.courseId).to.equal('Smart Placement Tests CourseId Not Used');

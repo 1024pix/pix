@@ -18,7 +18,7 @@ module.exports = {
         }
 
         // Same here for isSmartPlacement() and isCompetenceEvaluation()
-        if ([Assessment.types.SMARTPLACEMENT, Assessment.types.COMPETENCE_EVALUATION].includes(currentAssessment.type)) {
+        if ([Assessment.types.CAMPAIGN, Assessment.types.COMPETENCE_EVALUATION].includes(currentAssessment.type)) {
           assessment.progression = {
             id: Progression.generateIdFromAssessmentId(currentAssessment.id),
           };
@@ -85,7 +85,7 @@ module.exports = {
     const type = json.data.attributes.type;
 
     let courseId = null;
-    if (type !== Assessment.types.SMARTPLACEMENT && type !== Assessment.types.PREVIEW) {
+    if (type !== Assessment.types.CAMPAIGN && type !== Assessment.types.PREVIEW) {
       courseId = json.data.relationships.course.data.id;
     }
 

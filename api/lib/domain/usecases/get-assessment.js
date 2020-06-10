@@ -44,7 +44,7 @@ async function _fetchAssessmentTitle({
     case Assessment.types.PREVIEW : {
       return 'Preview';
     }
-    case Assessment.types.SMARTPLACEMENT : {
+    case Assessment.types.CAMPAIGN : {
       return assessment.campaignParticipation.campaign.title;
     }
 

@@ -97,7 +97,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
       databaseBuilder.factory.buildAssessment({
         id: assessment.id,
         userId,
-        type: Assessment.types.SMARTPLACEMENT,
+        type: Assessment.types.CAMPAIGN,
         state: Assessment.states.COMPLETED,
         createdAt: assessment.createdAt,
         campaignParticipationId: campaignParticipation.id,
@@ -216,7 +216,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
       user = databaseBuilder.factory.buildUser();
       assessment = databaseBuilder.factory.buildAssessment({
         userId: user.id,
-        type: Assessment.types.SMARTPLACEMENT
+        type: Assessment.types.CAMPAIGN
       });
       userWithNoAssessment = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();

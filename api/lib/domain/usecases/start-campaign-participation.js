@@ -22,7 +22,7 @@ async function _createSmartPlacementAssessment(userId, assessmentRepository, cre
   const assessment = new Assessment({
     userId,
     state: Assessment.states.STARTED,
-    type: Assessment.types.SMARTPLACEMENT,
+    type: Assessment.types.CAMPAIGN,
     courseId: Assessment.courseIdMessage.SMART_PLACEMENT,
     campaignParticipationId: createdCampaignParticipation.id
   });

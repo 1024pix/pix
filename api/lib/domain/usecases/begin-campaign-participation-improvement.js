@@ -26,7 +26,7 @@ function _createImprovingAssessment({ userId, campaignParticipationId, assessmen
     userId,
     campaignParticipationId,
     state: Assessment.states.STARTED,
-    type: Assessment.types.SMARTPLACEMENT,
+    type: Assessment.types.CAMPAIGN,
     courseId: Assessment.courseIdMessage.SMART_PLACEMENT,
     isImproving: true,
   });

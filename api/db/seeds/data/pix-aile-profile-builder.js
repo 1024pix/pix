@@ -34,7 +34,7 @@ module.exports = function buildPixAileProfilev2({ databaseBuilder }) {
 
     const { id: assessmentId } = databaseBuilder.factory.buildAssessment({
       userId,
-      type: Assessment.types.SMARTPLACEMENT,
+      type: Assessment.types.CAMPAIGN,
       state: Assessment.states.STARTED,
       campaignParticipationId: campaignParticipation.id,
     });
