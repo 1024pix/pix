@@ -17,7 +17,7 @@ module.exports = {
           assessment.certificationCourse = { id: currentAssessment.certificationCourseId };
         }
 
-        // Same here for isSmartPlacement() and isCompetenceEvaluation()
+        // Same here for isForCampaign() and isCompetenceEvaluation()
         if ([Assessment.types.CAMPAIGN, Assessment.types.COMPETENCE_EVALUATION].includes(currentAssessment.type)) {
           assessment.progression = {
             id: Progression.generateIdFromAssessmentId(currentAssessment.id),

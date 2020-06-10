@@ -17,7 +17,7 @@ module.exports = async function getProgression(
   const assessment = await assessmentRepository.getByAssessmentIdAndUserId(assessmentId, userId);
   let progression;
 
-  if (assessment.isSmartPlacement()) {
+  if (assessment.isForCampaign()) {
     const smartPlacementAssessment = await smartPlacementAssessmentRepository.get(assessmentId);
     const knowledgeElementsBeforeSharedDate = await knowledgeElementRepository.findUniqByUserId({ userId, limitDate: smartPlacementAssessment.campaignParticipation.sharedAt });
     const knowledgeElementsForProgression = await improvementService.filterKnowledgeElementsIfImproving({

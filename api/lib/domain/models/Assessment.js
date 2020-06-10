@@ -93,7 +93,7 @@ class Assessment {
     return this.type === types.DEMO;
   }
 
-  isSmartPlacement() {
+  isForCampaign() {
     return this.type === types.CAMPAIGN;
   }
 
@@ -106,7 +106,7 @@ class Assessment {
   }
 
   hasKnowledgeElements() {
-    return this.isCompetenceEvaluation() || this.isSmartPlacement();
+    return this.isCompetenceEvaluation() || this.isForCampaign();
   }
 }
 
