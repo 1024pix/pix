@@ -11,7 +11,7 @@ describe('Unit | UseCase | find-smart-placement-assessments', () => {
   it('should resolve assessments that match userId and belong to the user but has no campaign participation', () => {
     // given
     const userId = 1234;
-    const filters = { type: 'SMART_PLACEMENT', codeCampaign: 'Code' };
+    const filters = { type: 'CAMPAIGN', codeCampaign: 'Code' };
     domainBuilder.buildAssessment.ofTypeSmartPlacement({
       userId,
       campaignParticipation: null,
@@ -31,7 +31,7 @@ describe('Unit | UseCase | find-smart-placement-assessments', () => {
     // given
     const userId = 1234;
     const campaignCode = 'Code';
-    const filters = { type: 'SMART_PLACEMENT', codeCampaign: campaignCode };
+    const filters = { type: 'CAMPAIGN', codeCampaign: campaignCode };
     const campaign = domainBuilder.buildCampaign.ofTypeAssessment({ code: campaignCode });
     const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaign });
     const assessment = domainBuilder.buildAssessment.ofTypeSmartPlacement({

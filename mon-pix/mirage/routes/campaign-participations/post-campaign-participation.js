@@ -11,7 +11,7 @@ export default function(schema, request) {
   }
 
   const newAssessment = {
-    type: 'SMART_PLACEMENT',
+    type: 'CAMPAIGN',
     codeCampaign: campaign.code,
   };
 

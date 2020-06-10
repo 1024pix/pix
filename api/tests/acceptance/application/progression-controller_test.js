@@ -32,7 +32,7 @@ describe('Acceptance | API | Progressions', () => {
       assessmentId = databaseBuilder.factory.buildAssessment(
         {
           userId: userId,
-          type: 'SMART_PLACEMENT',
+          type: 'CAMPAIGN',
           state: 'completed',
         }).id;
       const campaignId = databaseBuilder.factory.buildCampaign(

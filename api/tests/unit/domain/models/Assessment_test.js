@@ -83,7 +83,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return rejected promise when Smart Placement assessment has no userId', () => {
       //given
-      assessment = new Assessment({ type: 'SMART_PLACEMENT' });
+      assessment = new Assessment({ type: 'CAMPAIGN' });
 
       // when
       const promise = assessment.validate();
@@ -96,7 +96,7 @@ describe('Unit | Domain | Models | Assessment', () => {
   describe('#isSmartPlacement', () => {
     it('should return true when the assessment is a SMART_PLACEMENT', () => {
       // given
-      const assessment = new Assessment({ type: 'SMART_PLACEMENT' });
+      const assessment = new Assessment({ type: 'CAMPAIGN' });
 
       // when
       const isSmartPlacementAssessment = assessment.isSmartPlacement();

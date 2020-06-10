@@ -24,7 +24,7 @@ describe('Unit | Route | Assessments | Checkpoint', function() {
       };
       assessment = {
         codeCampaign: 'AZERTY',
-        type: 'SMART_PLACEMENT',
+        type: 'CAMPAIGN',
         isSmartPlacement: true,
         isCompetenceEvaluation: false,
         set: sinon.stub(),

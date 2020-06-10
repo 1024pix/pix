@@ -15,7 +15,7 @@ export default function(schema, request) {
     case 'COMPETENCE_EVALUATION':
       challengeIdStartsWith = 'recCOMPEVAL';
       break;
-    case 'SMART_PLACEMENT':
+    case 'CAMPAIGN':
       challengeIdStartsWith = 'recSMARPLA';
       break;
   }

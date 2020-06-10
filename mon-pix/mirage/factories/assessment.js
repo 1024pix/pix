@@ -32,7 +32,7 @@ export default Factory.extend({
   }),
 
   ofSmartPlacementType: trait({
-    type: 'SMART_PLACEMENT',
+    type: 'CAMPAIGN',
   }),
 
 });

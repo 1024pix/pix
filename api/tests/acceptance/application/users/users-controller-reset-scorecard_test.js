@@ -159,7 +159,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
             ]
           },
           {
-            assessment: { userId, type: 'SMART_PLACEMENT' },
+            assessment: { userId, type: 'CAMPAIGN' },
             campaignParticipation: { campaignId: campaign.id, isShared: false },
             knowledgeElements: [
               { skillId: 'url1', status: 'validated', source: 'direct', competenceId, earnedPix: 2, createdAt, },

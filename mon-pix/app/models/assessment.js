@@ -28,7 +28,7 @@ export default class Assessment extends Model {
   @equal('type', 'COMPETENCE_EVALUATION') isCompetenceEvaluation;
   @equal('type', 'DEMO') isDemo;
   @equal('type', 'PREVIEW') isPreview;
-  @equal('type', 'SMART_PLACEMENT') isSmartPlacement;
+  @equal('type', 'CAMPAIGN') isSmartPlacement;
 
   @equal('state', 'aborted') isAborted;
   @equal('state', 'completed') isCompleted;
