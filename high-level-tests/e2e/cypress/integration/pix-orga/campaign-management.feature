@@ -38,7 +38,7 @@ Fonctionnalité: Gestion des Campagnes
     Lorsque je clique sur "Envoi profils Lannister"
     Alors je vois le détail de la campagne "Envoi profils Lannister"
     Lorsque je clique sur "Participants (2)"
-    Alors je vois 2 participants
+    Alors je vois 2 profils
 
   Scénario: Je créé une campagne d'évaluation
     Étant donné que je suis connecté à Pix Orga
