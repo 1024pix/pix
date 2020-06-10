@@ -61,7 +61,7 @@ module.exports = {
         .fetch({ require: true,
           columns: ['id','firstName','lastName', 'pixOrgaTermsOfServiceAccepted'],
           withRelated: [
-            'memberships',
+            { 'memberships': (qb) => qb.where({ disabledAt: null }) },
             'memberships.organization',
             'userOrgaSettings',
             'userOrgaSettings.currentOrganization',

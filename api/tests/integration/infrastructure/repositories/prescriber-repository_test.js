@@ -94,6 +94,23 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       expect(associatedOrganization.type).to.equal(organization.type);
     });
 
+    context('when the membership associated to the prescriber has been disabled', () => {
+
+      it('should not return membership', async () => {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        databaseBuilder.factory.buildMembership({ userId, organizationId, disabledAt: new Date() });
+        await databaseBuilder.commit();
+
+        // when
+        const foundPrescriber = await prescriberRepository.getPrescriber(userId);
+
+        // then
+        expect(foundPrescriber.memberships).to.be.empty;
+      });
+    });
+
     it('should return user-orga-settings associated to the prescriber', async () => {
       // given
       expectedPrescriber.userOrgaSettings = userOrgaSettings;
