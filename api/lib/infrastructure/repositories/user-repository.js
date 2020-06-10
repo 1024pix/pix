@@ -211,7 +211,7 @@ module.exports = {
       .where({ id: userId })
       .fetch({
         withRelated: [
-          'memberships',
+          { 'memberships': (qb) => qb.where({ disabledAt: null }) },
           'memberships.organization',
         ]
       })
