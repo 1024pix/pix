@@ -7,10 +7,16 @@ import EmberObject from '@ember/object';
 module('Integration | Component | user-detail-personal-information', function(hooks) {
   setupRenderingTest(hooks);
 
-  module('should display by default the form in read only mode', async function() {
+  module('When the administrator click on user details', async function() {
 
-    test('should display the update button', async function(assert) {
-      this.set('user', { firstName: 'John' });
+    test('should display the update button when user is connected by email only', async function(assert) {
+      this.set('user', {
+        firstName: 'John',
+        lastName: 'Harry',
+        email: 'john.harry@example.net',
+        username: null,
+        isAuthenticatedFromGAR: false
+      });
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
@@ -18,7 +24,97 @@ module('Integration | Component | user-detail-personal-information', function(ho
 
     });
 
-    test('should display user’s first name in read only mode', async function(assert) {
+    test('should not display the update button when user is connected from GAR only', async function(assert) {
+      this.set('user', {
+        firstName: 'John',
+        lastName: 'Harry',
+        email: null,
+        username: null,
+        isAuthenticatedFromGAR: true
+      });
+
+      await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+
+      assert.dom('button[aria-label=\'Modifier\'').doesNotExist();
+
+    });
+
+    test('should not display the update button when user is connected with username only', async function(assert) {
+      this.set('user', {
+        firstName: 'John',
+        lastName: 'Harry',
+        email: null,
+        username: 'john.harry2018',
+        isAuthenticatedFromGAR: false,
+      });
+
+      await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+
+      assert.dom('button[aria-label=\'Modifier\'').doesNotExist();
+
+    });
+
+    test('should not display the update button when user is connected with username,email', async function(assert) {
+      this.set('user', {
+        firstName: 'John',
+        lastName: 'Harry',
+        email: 'john.harry@example.net',
+        username: 'john.harry2018',
+        isAuthenticatedFromGAR: false
+      });
+
+      await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+
+      assert.dom('button[aria-label=\'Modifier\'').doesNotExist();
+
+    });
+
+    test('should not display the update button when user is connected with email and GAR', async function(assert) {
+      this.set('user', {
+        firstName: 'John',
+        lastName: 'Harry',
+        email: 'john.harry@example.net',
+        username: null,
+        isAuthenticatedFromGAR: true
+      });
+
+      await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+
+      assert.dom('button[aria-label=\'Modifier\'').doesNotExist();
+
+    });
+
+    test('should not display the update button when user is connected with username and GAR', async function(assert) {
+      this.set('user', {
+        firstName: 'John',
+        lastName: 'Harry',
+        email: null,
+        username: 'john.harry2018',
+        isAuthenticatedFromGAR: true
+      });
+
+      await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+
+      assert.dom('button[aria-label=\'Modifier\'').doesNotExist();
+
+    });
+
+    test('should not display the update button when user is connected with username, email and GAR', async function(assert) {
+      this.set('user', {
+        firstName: 'John',
+        lastName: 'Harry',
+        email: 'john.harry@example.net',
+        username: 'john.harry2018',
+        isAuthenticatedFromGAR: true
+      });
+
+      await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+
+      assert.dom('button[aria-label=\'Modifier\'').doesNotExist();
+
+    });
+
+    test('should display user’s first name ', async function(assert) {
       this.set('user', { firstName: 'John' });
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -27,7 +123,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
 
     });
 
-    test('should display user’s last name in read only mode', async function(assert) {
+    test('should display user’s last name ', async function(assert) {
       this.set('user', { lastName: 'Snow' });
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -35,7 +131,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       assert.dom('.user__last-name').hasText(this.user.lastName);
     });
 
-    test('should display user’s email in read only mode', async function(assert) {
+    test('should display user’s email ', async function(assert) {
       this.set('user', { email: 'john.snow@winterfell.got' });
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -43,7 +139,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       assert.dom('.user__email').hasText(this.user.email);
     });
 
-    test('should display user’s username in read only mode', async function(assert) {
+    test('should display user’s username ', async function(assert) {
       this.set('user', { username: 'kingofthenorth' });
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -51,7 +147,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       assert.dom('.user__username').hasText(this.user.username);
     });
 
-    test('should display "OUI" when user accepted Pix App terms of service in read only mode', async function(assert) {
+    test('should display "OUI" when user accepted Pix App terms of service ', async function(assert) {
       this.set('user', { cgu: true });
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -59,7 +155,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       assert.dom('.user__cgu').hasText('OUI');
     });
 
-    test('should display "NON" when user not accepted Pix App terms of service in read only mode', async function(assert) {
+    test('should display "NON" when user not accepted Pix App terms of service ', async function(assert) {
       this.set('user', { cgu: false });
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -67,7 +163,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       assert.dom('.user__cgu').hasText('NON');
     });
 
-    test('should display "OUI" when user accepted Pix Orga terms of service in read only mode', async function(assert) {
+    test('should display "OUI" when user accepted Pix Orga terms of service ', async function(assert) {
       this.set('user', { pixOrgaTermsOfServiceAccepted: true });
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -75,7 +171,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       assert.dom('.user__pix-orga-terms-of-service-accepted').hasText('OUI');
     });
 
-    test('should display "NON" when user not accepted Pix Orga terms of service in read only mode', async function(assert) {
+    test('should display "NON" when user not accepted Pix Orga terms of service ', async function(assert) {
       this.set('user', { pixOrgaTermsOfServiceAccepted: false });
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -83,7 +179,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       assert.dom('.user__pix-orga-terms-of-service-accepted').hasText('NON');
     });
 
-    test('should display "OUI" when user accepted Pix Certif terms of service in read only mode', async function(assert) {
+    test('should display "OUI" when user accepted Pix Certif terms of service ', async function(assert) {
       this.set('user', { pixCertifTermsOfServiceAccepted: true });
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -91,7 +187,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       assert.dom('.user__pix-certif-terms-of-service-accepted').hasText('OUI');
     });
 
-    test('should display "NON" when user not accepted Pix Certif terms of service in read only mode', async function(assert) {
+    test('should display "NON" when user not accepted Pix Certif terms of service ', async function(assert) {
       this.set('user', { pixCertifTermsOfServiceAccepted: false });
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -99,7 +195,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       assert.dom('.user__pix-certif-terms-of-service-accepted').hasText('NON');
     });
 
-    test('should display that user is authenticated from GAR in read only mode', async function(assert) {
+    test('should display that user is authenticated from GAR ', async function(assert) {
       this.set('user', { isAuthenticatedFromGAR: true });
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -107,7 +203,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       assert.dom('.user__is-authenticated-from-gar').hasText('NON');
     });
 
-    test('should display that user is not authenticated from GAR in read only mode', async function(assert) {
+    test('should display that user is not authenticated from GAR ', async function(assert) {
       this.set('user', { isAuthenticatedFromGAR: false });
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -115,9 +211,31 @@ module('Integration | Component | user-detail-personal-information', function(ho
       assert.dom('.user__is-authenticated-from-gar').hasText('NON');
     });
 
-    test('should display the edit and cancel buttons when click on update button', async function(assert) {
+  });
 
-      this.set('user', { email: 'john.snow@winterfell.got' });
+  module('When the administrator click to update user details', async function() {
+
+    let user = null;
+
+    hooks.beforeEach(function() {
+      user = EmberObject.create({
+        lastName: 'Harry',
+        firstName: 'John',
+        email: 'john.harry@gmail.com',
+        username: null,
+        isAuthenticatedFromGAR: false
+      });
+    });
+
+    test('should display the edit and cancel buttons', async function(assert) {
+
+      this.set('user', {
+        firstName: 'John',
+        lastName: 'Harry',
+        email: 'john.harry@example.net',
+        username: null,
+        isAuthenticatedFromGAR: false
+      });
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
@@ -126,171 +244,35 @@ module('Integration | Component | user-detail-personal-information', function(ho
       assert.dom('button[aria-label=\'Editer\'').exists();
       assert.dom('button[aria-label=\'Annuler\'').exists();
     });
-  });
 
-  module('should display the form in editable mode when admin click on update user details', async function() {
-
-    module('should display only fields allowed for update', async function() {
-
-      let user = null;
-
-      hooks.beforeEach(function() {
-        user = EmberObject.create({ lastName: 'harry', firstName: 'John', email: 'john.harry@gmail.com' });
-      });
-
-      test('should display display the edit and cancel buttons when click on update button', async function(assert) {
-
-        this.set('user', user);
-
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        await click('button[aria-label=\'Modifier\'');
-
-        // then
-        assert.dom('button[aria-label=\'Editer\'').exists();
-        assert.dom('button[aria-label=\'Annuler\'').exists();
-      });
-
-      test('should display user’s first name in edit mode', async function(assert) {
-
-        this.set('user', user);
-
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        await click('button[aria-label=\'Modifier\'');
-
-        assert.dom('.user-edit-form__first-name').hasValue(this.user.firstName);
-
-      });
-
-      test('should display user’s last name in edit mode', async function(assert) {
-
-        this.set('user', user);
-
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        await click('button[aria-label=\'Modifier\'');
-
-        assert.dom('.user-edit-form__last-name').hasValue(this.user.lastName);
-      });
-
-      test('should display user’s email in edit mode', async function(assert) {
-
-        this.set('user', user);
-
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        await click('button[aria-label=\'Modifier\'');
-
-        assert.dom('.user-edit-form__email').hasValue(this.user.email);
-      });
-
-    });
-
-    module('should not display fields not allowed for update', async function() {
-
-      let user = null;
-
-      hooks.beforeEach(function() {
-        user = EmberObject.create({ lastName: 'harry', firstName: 'John', email: 'john.harry@gmail.com' });
-      });
-
-      test('should not display user’s username in edit mode', async function(assert) {
-
-        this.set('user', user);
-
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        await click('button[aria-label=\'Modifier\'');
-
-        assert.dom('.user-edit-form__first-name').hasValue(this.user.firstName);
-
-      });
-
-      test('should not display user’s authenticated-from-gar in edit mode', async function(assert) {
-
-        this.set('user', user);
-
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        await click('button[aria-label=\'Modifier\'');
-
-        assert.dom('.user-edit-form__last-name').hasValue(this.user.lastName);
-      });
-
-      test('should not display user’s cgu in edit mode', async function(assert) {
-
-        this.set('user', user);
-
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        await click('button[aria-label=\'Modifier\'');
-
-        assert.dom('.user__cgu').doesNotExist();
-      });
-
-      test('should not display user’s pix-orga-terms-of-service-accepted in edit mode', async function(assert) {
-
-        this.set('user', user);
-
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        await click('button[aria-label=\'Modifier\'');
-
-        assert.dom('.user__pix-orga-terms-of-service-accepted').doesNotExist();
-      });
-
-      test('should not display user’s pix-certif-terms-of-service-accepted in edit mode', async function(assert) {
-
-        this.set('user', user);
-
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        await click('button[aria-label=\'Modifier\'');
-
-        assert.dom('.user__pix-certif-terms-of-service-accepted').doesNotExist();
-      });
-
-    });
-
-  });
-
-  module('should change the edition mode when admin click on update, edit and cancel buttons', async function() {
-
-    let user = null;
-
-    hooks.beforeEach(function() {
-      user = EmberObject.create({ lastName: 'harry', firstName: 'John', email: 'john.harry@gmail.com' });
-    });
-
-    test('should display the update button when admin cancel modification ', async function(assert) {
+    test('should display user’s first name,last name and email in edit mode', async function(assert) {
 
       this.set('user', user);
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
-      await click('button[aria-label=\'Annuler\'');
+      await click('button[aria-label=\'Modifier\'');
 
-      // then
-      assert.dom('button[aria-label=\'Modifier\'').exists();
-      assert.dom('button[aria-label=\'Editer\'').doesNotExist();
-      assert.dom('button[aria-label=\'Annuler\'').doesNotExist();
+      assert.dom('.user-edit-form__first-name').hasValue(this.user.firstName);
+      assert.dom('.user-edit-form__last-name').hasValue(this.user.lastName);
+      assert.dom('.user-edit-form__email').hasValue(this.user.email);
+
     });
 
-    test('should display the update button when admin click on edit button ', async function(assert) {
+    test('should not display user’s terms of service', async function(assert) {
 
       this.set('user', user);
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
-      await click('button[aria-label=\'Editer\'');
+      await click('button[aria-label=\'Modifier\'');
 
-      assert.dom('button[aria-label=\'Modifier\'').exists();
-      assert.dom('button[aria-label=\'Editer\'').doesNotExist();
-      assert.dom('button[aria-label=\'Annuler\'').doesNotExist();
+      assert.dom('.user__cgu').doesNotExist();
+      assert.dom('.user__pix-orga-terms-of-service-accepted').doesNotExist();
+      assert.dom('.user__pix-certif-terms-of-service-accepted').doesNotExist();
+
     });
 
   });
 
 });
-
