@@ -9,7 +9,7 @@ module.exports = {
   async get(id) {
     const targetProfileBookshelf = await BookshelfTargetProfile
       .where({ id })
-      .fetch({ withRelated: ['skillIds', 'sharedWithOrganizations'] });
+      .fetch({ withRelated: ['skillIds'] });
 
     return _getWithAirtableSkills(targetProfileBookshelf);
   },

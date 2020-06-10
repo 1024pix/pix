@@ -2,7 +2,6 @@ const Bookshelf = require('../bookshelf');
 
 require('./badge');
 require('./target-profile-skill');
-require('./target-profile-share');
 
 module.exports = Bookshelf.model('TargetProfile', {
 
@@ -11,10 +10,6 @@ module.exports = Bookshelf.model('TargetProfile', {
 
   skillIds() {
     return this.hasMany('TargetProfileSkill', 'targetProfileId');
-  },
-
-  sharedWithOrganizations() {
-    return this.hasMany('TargetProfileShare', 'targetProfileId');
   },
 
   badge() {
