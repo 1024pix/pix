@@ -79,6 +79,7 @@ module.exports = {
       .fetch({
         require: true,
         withRelated: [
+          { 'memberships': (qb) => qb.where({ disabledAt: null }) },
           'memberships.user',
           'targetProfileShares.targetProfile',
         ],
