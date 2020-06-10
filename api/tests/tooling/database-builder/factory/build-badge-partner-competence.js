@@ -5,7 +5,7 @@ const _ = require('lodash');
 module.exports = function buildBadgePartnerCompetence({
   id,
   name = faker.random.word(),
-  color = faker.random.word(),
+  color = null,
   skillIds = [],
   badgeId,
 } = {}) {

@@ -50,7 +50,7 @@ function badgeTargetProfileBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildBadgePartnerCompetence({
     name : 'Rechercher des informations sur internet',
-    color : 'jaffa',
+    color : null,
     skillIds : [
       targetProfileSkills[0].skillId,
       targetProfileSkills[1].skillId,
@@ -68,7 +68,7 @@ function badgeTargetProfileBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildBadgePartnerCompetence({
     name : 'Utiliser des outils informatiques',
-    color : 'wild-strawberry',
+    color : null,
     skillIds : [
       targetProfileSkills[10].skillId,
       targetProfileSkills[11].skillId,
@@ -82,7 +82,7 @@ function badgeTargetProfileBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildBadgePartnerCompetence({
     name : 'Naviguer sur internet',
-    color : 'jaffa',
+    color : null,
     skillIds : [
       targetProfileSkills[16].skillId,
       targetProfileSkills[17].skillId,
@@ -96,7 +96,7 @@ function badgeTargetProfileBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildBadgePartnerCompetence({
     name : 'Partager sur les réseaux sociaux',
-    color : 'emerald',
+    color : null,
     skillIds : [
       targetProfileSkills[22].skillId,
       targetProfileSkills[23].skillId,
