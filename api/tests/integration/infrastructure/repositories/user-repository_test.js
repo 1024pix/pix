@@ -360,6 +360,28 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(membership.organizationRole).to.equal(membershipInDB.organizationRole);
       });
 
+      context('when the membership associated to the user has been disabled', () => {
+
+        it('should not return the membership', async () => {
+          // given
+          const userId = databaseBuilder.factory.buildUser().id;
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+          databaseBuilder.factory.buildMembership({
+            userId,
+            organizationId,
+            disabledAt: new Date(),
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const user = await userRepository.getWithMemberships(userId);
+
+          // then
+          expect(user.memberships).to.be.an('array');
+          expect(user.memberships).to.be.empty;
+        });
+      });
+
       it('should reject with a UserNotFound error when no user was found with the given id', async () => {
         // given
         const unknownUserId = 666;
