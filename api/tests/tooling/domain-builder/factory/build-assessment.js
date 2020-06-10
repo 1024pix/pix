@@ -80,7 +80,7 @@ buildAssessment.ofTypeSmartPlacement = function({
     userId,
     competenceId,
     title,
-    type: Assessment.types.SMARTPLACEMENT,
+    type: Assessment.types.CAMPAIGN,
     state,
     isImproving,
     campaignParticipationId,

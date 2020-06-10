@@ -16,13 +16,13 @@ const types = {
   COMPETENCE_EVALUATION: 'COMPETENCE_EVALUATION',
   DEMO: 'DEMO',
   PREVIEW: 'PREVIEW',
-  SMARTPLACEMENT: 'CAMPAIGN',
+  CAMPAIGN: 'CAMPAIGN',
 };
 
 const TYPES_OF_ASSESSMENT_NEEDING_USER = [
   types.CERTIFICATION,
   types.COMPETENCE_EVALUATION,
-  types.SMARTPLACEMENT,
+  types.CAMPAIGN,
 ];
 
 class Assessment {
@@ -94,7 +94,7 @@ class Assessment {
   }
 
   isSmartPlacement() {
-    return this.type === types.SMARTPLACEMENT;
+    return this.type === types.CAMPAIGN;
   }
 
   isCertification() {

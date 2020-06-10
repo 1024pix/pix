@@ -37,7 +37,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
         id: assessmentId,
         userId,
         state: 'completed',
-        type: Assessment.types.SMARTPLACEMENT,
+        type: Assessment.types.CAMPAIGN,
       });
 
       const smartPlacementAssessment = domainBuilder.buildSmartPlacementAssessment({
@@ -234,7 +234,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
       const assessment = domainBuilder.buildAssessment({
         id: assessmentId,
         userId,
-        type: Assessment.types.SMARTPLACEMENT,
+        type: Assessment.types.CAMPAIGN,
       });
 
       beforeEach(() => {

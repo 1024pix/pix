@@ -94,7 +94,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
     it('should convert an Assessment model object with type SMARTPLACEMENT into JSON API data', function() {
       //given
       const assessment = domainBuilder.buildAssessment({
-        type: Assessment.types.SMARTPLACEMENT,
+        type: Assessment.types.CAMPAIGN,
         campaignParticipation: { campaign: { code: 'Konami' } },
       });
       const expectedProgressionJson = {
@@ -171,7 +171,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
 
     it('should have a null courseId for type SMARTPLACEMENT', () => {
       //given
-      jsonAssessment.data.attributes.type = Assessment.types.SMARTPLACEMENT;
+      jsonAssessment.data.attributes.type = Assessment.types.CAMPAIGN;
 
       // when
       const assessment = serializer.deserialize(jsonAssessment);

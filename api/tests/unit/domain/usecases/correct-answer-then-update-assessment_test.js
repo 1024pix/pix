@@ -278,7 +278,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
       beforeEach(() => {
         // given
-        assessment.type = Assessment.types.SMARTPLACEMENT;
+        assessment.type = Assessment.types.CAMPAIGN;
         assessment.campaignParticipation = domainBuilder.buildCampaignParticipation();
         assessmentRepository.get.resolves(assessment);
         skills = domainBuilder.buildSkillCollection({ minLevel: 1, maxLevel: 4 });

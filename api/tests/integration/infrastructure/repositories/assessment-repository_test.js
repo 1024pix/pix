@@ -365,9 +365,9 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     before(async () => {
 
       campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({}).id;
-      databaseBuilder.factory.buildAssessment({ type: Assessment.types.SMARTPLACEMENT, campaignParticipationId }).id;
+      databaseBuilder.factory.buildAssessment({ type: Assessment.types.CAMPAIGN, campaignParticipationId }).id;
       const otherAssessmentId = databaseBuilder.factory.buildAssessment({
-        type: Assessment.types.SMARTPLACEMENT
+        type: Assessment.types.CAMPAIGN
       }).id;
 
       databaseBuilder.factory.buildCampaignParticipation({ assessmentId: otherAssessmentId });
@@ -395,13 +395,13 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildAssessment({
         userId,
-        type: Assessment.types.SMARTPLACEMENT,
+        type: Assessment.types.CAMPAIGN,
         state: Assessment.states.ABORTED
       });
 
       assessmentId = databaseBuilder.factory.buildAssessment({
         userId,
-        type: Assessment.types.SMARTPLACEMENT,
+        type: Assessment.types.CAMPAIGN,
       }).id;
 
       await databaseBuilder.commit();
@@ -451,7 +451,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         });
         assessmentId = databaseBuilder.factory.buildAssessment({
           userId,
-          type: Assessment.types.SMARTPLACEMENT,
+          type: Assessment.types.CAMPAIGN,
           campaignParticipationId: campaignParticipation.id
         }).id;
 

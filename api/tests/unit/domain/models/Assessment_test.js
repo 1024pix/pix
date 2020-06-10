@@ -213,7 +213,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return false when the assessment is not a CompetenceEvaluation', () => {
       // given
-      const assessment = domainBuilder.buildAssessment({ type: Assessment.types.SMARTPLACEMENT });
+      const assessment = domainBuilder.buildAssessment({ type: Assessment.types.CAMPAIGN });
 
       // when/then
       expect(assessment.isCompetenceEvaluation()).to.be.false;
@@ -240,7 +240,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return true when the assessment is a Smart Placement', () => {
       // given
-      const assessment = domainBuilder.buildAssessment({ type: Assessment.types.SMARTPLACEMENT });
+      const assessment = domainBuilder.buildAssessment({ type: Assessment.types.CAMPAIGN });
 
       // when/then
       expect(assessment.hasKnowledgeElements()).to.be.true;
