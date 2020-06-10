@@ -78,13 +78,13 @@ describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
           userId, state: Assessment.states.STARTED,
           competenceId,
         }) }).resolves({ id: assessmentId });
-
-        competenceEvaluationRepository.save.withArgs(new CompetenceEvaluation({
+        const competenceEvaluationToSave = new CompetenceEvaluation({
           status: CompetenceEvaluation.statuses.STARTED,
           assessmentId,
           competenceId,
           userId,
-        })).resolves(competenceEvaluation);
+        });
+        competenceEvaluationRepository.save.withArgs({ competenceEvaluation: competenceEvaluationToSave }).resolves(competenceEvaluation);
       });
       it('should return the created competence evaluation', async () => {
         const res = await usecases.startOrResumeCompetenceEvaluation({
