@@ -28,7 +28,7 @@ const Validations = buildValidations({
         message: 'Le nom ne peut pas être vide.'
       }),
       validator('length', {
-        min: 0,
+        min: 1,
         max: 255,
         message: 'La longueur du nom ne doit pas excéder 255 caractères.'
       })
@@ -42,9 +42,12 @@ const Validations = buildValidations({
         message: 'L\'e-mail ne peut pas être vide.'
       }),
       validator('length', {
-        min: 0,
         max: 255,
         message: 'La longueur de l\'email ne doit pas excéder 255 caractères.'
+      }),
+      validator('format', {
+        type: 'email',
+        message: 'L\'e-mail n\'a pas le bon format.'
       })
     ]
   },
@@ -59,10 +62,15 @@ class Form extends Object.extend(Validations) {
 export default class UserDetailPersonalInformationComponent extends Component {
 
   @tracked isEditionMode = false;
+  @service notifications;
 
   constructor() {
     super(...arguments);
     this.form = Form.create(getOwner(this).ownerInjection());
+  }
+
+  get canAdministratorModifyUserDetails() {
+    return !((this.args.user.username !== null) || this.args.user.isAuthenticatedFromGAR);
   }
 
   @action
@@ -75,8 +83,30 @@ export default class UserDetailPersonalInformationComponent extends Component {
   @action
   cancelEdit() {
     this._initForm();
-    this.model.rollbackAttributes();
-    this.isEditionMode = true;
+    this.isEditionMode = false;
+  }
+
+  @action
+  async updateUserDetails(event) {
+    event.preventDefault();
+
+    const { validations } = await this.form.validate();
+    if (!validations.isValid) {
+      return;
+    }
+    this.args.user.firstName = this.form.firstName.trim();
+    this.args.user.lastName = this.form.lastName.trim();
+    this.args.user.email = !this.form.email ? null : this.form.email.trim();
+
+    try {
+      await this.args.user.save();
+      this.notifications.success('L’utilisateur a été mis à jour avec succès.');
+      this.isEditionMode = false;
+    } catch (response) {
+      this.args.user.rollbackAttributes();
+      const messageValidationError = response.errors[0].detail || 'une erreur est survenue, vos modifications n\'ont pas été enregistrées';
+      this.notifications.error(messageValidationError);
+    }
   }
 
   _initForm() {

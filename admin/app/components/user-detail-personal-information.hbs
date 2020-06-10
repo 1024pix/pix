@@ -1,13 +1,15 @@
 <section class="page-section mb_10">
   {{#if this.isEditionMode}}
-    <form class="form user-edit-form">
+    <form class="form user-edit-form" {{on "submit" this.updateUserDetails}}>
         <span class="form__instructions col-md-4">
           Les champs marqués de <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> sont obligatoires.
         </span>
       <div class="form-field col-md-4">
-        <label for="firstName" class="form-field__label"> <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> Prénom :</label>
+        <label for="firstName" class="form-field__label">
+          <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> Prénom :
+        </label>
         {{#if (v-get form 'firstName' 'isInvalid')}}
-          <div class="form-field__error" aria-label="Message d'erreur du champ firstName">
+          <div class="form-field__error" aria-label="Message d'erreur du champ prénom">
             {{v-get form 'firstName' 'message'}}
           </div>
         {{/if}}
@@ -18,9 +20,11 @@
                @value={{this.form.firstName}}/>
       </div>
       <div class="form-field col-md-4">
-        <label for="lastName" class="form-field__label"> <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> Nom :</label>
+        <label for="lastName" class="form-field__label">
+          <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> Nom :
+        </label>
         {{#if (v-get form 'lastName' 'isInvalid')}}
-          <div class="form-field__error" aria-label="Message d'erreur du champ lastName">
+          <div class="form-field__error" aria-label="Message d'erreur du champ nom">
             {{v-get form 'lastName' 'message'}}
           </div>
         {{/if}}
@@ -31,7 +35,9 @@
                @value={{this.form.lastName}}/>
       </div>
       <div class="form-field col-md-4">
-        <label for="email" class="form-field__label">E-mail : </label>
+        <label for="email" class="form-field__label">
+          <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> E-mail :
+        </label>
         {{#if (v-get form 'email' 'isInvalid')}}
           <div class="form-field__error" aria-label="Message d'erreur du champ email">
             {{v-get form 'email' 'message'}}
@@ -71,8 +77,9 @@
           </div>
           <div class="attribute authenticated-from-gar">
             <span class="attibute__label">Connecté via le GAR : </span>
-            <span class="attribute__value user__is-authenticated-from-gar">{{if @user.isAuthenticatedFromGar 'OUI'
-                                                                                'NON'}}</span>
+            <span class="attribute__value user__is-authenticated-from-gar">
+              {{if @user.isAuthenticatedFromGar 'OUI''NON'}}
+            </span>
           </div>
           <br>
           <div class="attribute cgu">
@@ -82,17 +89,22 @@
           <div class="attribute pix-orga-terms-of-service-accepted">
             <span class="attibute__label">CGU Pix Orga validé : </span>
             <span class="attribute__value user__pix-orga-terms-of-service-accepted">{{if
-                    @user.pixOrgaTermsOfServiceAccepted 'OUI' 'NON'}}</span>
+                    @user.pixOrgaTermsOfServiceAccepted 'OUI' 'NON'}}
+            </span>
           </div>
           <div class="attribute pix-certif-terms-of-service-accepted">
             <span class="attibute__label">CGU Pix Certif validé : </span>
-            <span class="attribute__value user__pix-certif-terms-of-service-accepted">{{if @user.pixCertifTermsOfServiceAccepted 'OUI' 'NON'}}</span>
+            <span class="attribute__value user__pix-certif-terms-of-service-accepted">{{if
+                    @user.pixCertifTermsOfServiceAccepted 'OUI' 'NON'}}
+            </span>
           </div>
         </div>
       </section>
       <div class="col-md-4">
+        {{#if canAdministratorModifyUserDetails}}
         <button class="btn btn-outline-default" aria-label="Modifier" {{on "click" this.changeEditionMode}}>Modifier
         </button>
+        {{/if}}
       </div>
     </form>
   {{/if}}
