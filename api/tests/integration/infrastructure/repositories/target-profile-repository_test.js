@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { expect, databaseBuilder, domainBuilder, sinon } = require('../../../test-helper');
+const { expect, databaseBuilder, sinon } = require('../../../test-helper');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const Skill = require('../../../../lib/domain/models/Skill');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
@@ -40,10 +40,6 @@ describe('Integration | Repository | Target-profile', () => {
         expect(foundTargetProfile.skills[0]).to.be.an.instanceOf(Skill);
         expect(foundTargetProfile.skills[0].id).to.equal(skillAssociatedToTargetProfile.id);
         expect(foundTargetProfile.skills[0].name).to.equal(skillAssociatedToTargetProfile.name);
-
-        expect(foundTargetProfile.sharedWithOrganizationIds).to.be.an('array');
-        expect(foundTargetProfile.sharedWithOrganizationIds.length).to.equal(1);
-        expect(foundTargetProfile.sharedWithOrganizationIds[0]).to.equal(organizationId);
       });
     });
   });

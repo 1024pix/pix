@@ -9,7 +9,6 @@ class TargetProfile {
     skills = [],
     // references
     organizationId,
-    sharedWithOrganizationIds = [],
   } = {}) {
     this.id = id;
     // attributes
@@ -20,7 +19,6 @@ class TargetProfile {
     this.skills = skills;
     // references
     this.organizationId = organizationId;
-    this.sharedWithOrganizationIds = sharedWithOrganizationIds;
   }
 }
 
