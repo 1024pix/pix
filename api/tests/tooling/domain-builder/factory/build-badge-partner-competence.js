@@ -5,7 +5,7 @@ module.exports = function buildBadgePartnerCompetence(
   {
     id = 1,
     name = faker.lorem.words(),
-    color = 'jaffa',
+    color = null,
     skillIds = [
       faker.random.number(2),
       faker.random.number(2),
