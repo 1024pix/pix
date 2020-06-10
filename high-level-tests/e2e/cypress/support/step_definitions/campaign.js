@@ -46,6 +46,10 @@ then(`je vois {int} participants`, (numberOfParticipants) => {
   cy.get('[aria-label="Participant"]').should('have.lengthOf', numberOfParticipants);
 });
 
+then(`je vois {int} profils`, (numberOfProfiles) => {
+  cy.get('[aria-label="Profil"]').should('have.lengthOf', numberOfProfiles);
+});
+
 then(`je vois un avancement de {int}%`, (progression) => {
   cy.get('[aria-label="Avancement"]').contains(`${progression}%`);
 });
