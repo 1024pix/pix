@@ -117,7 +117,7 @@ async function _resetSmartPlacementAssessment({ assessment, resetSkills, assessm
     state: Assessment.states.STARTED,
     type: Assessment.types.CAMPAIGN,
     campaignParticipationId: assessment.campaignParticipationId,
-    courseId: 'Smart Placement Tests CourseId Not Used'
+    courseId: 'Campaign Assessment CourseId Not Used'
   });
 
   await assessmentRepository.abortByAssessmentId(assessment.id);

@@ -6,7 +6,7 @@ const SmartPlacementAssessmentState = Object.freeze({
   ABORTED: 'aborted',
 });
 
-const courseIdMessage = 'Smart Placement Tests CourseId Not Used';
+const courseIdMessage = 'Campaign Assessment CourseId Not Used';
 /**
  * Traduction: Évaluation
  * Context: Objet existant dans le cadre d'un smart placement hors calcul de la réponse suivante
