@@ -16,6 +16,7 @@ module.exports = Bookshelf.model(modelName, {
 
   tableName: 'users',
   hasTimestamps: ['createdAt', 'updatedAt'],
+  requireFetch: false,
 
   assessments() {
     return this.hasMany('Assessment', 'userId');

@@ -10,6 +10,7 @@ module.exports = Bookshelf.model(modelName, {
 
   tableName: 'certification-courses',
   hasTimestamps: ['createdAt', 'updatedAt'],
+  requireFetch: false,
 
   parse(rawAttributes) {
     if (rawAttributes.completedAt) {

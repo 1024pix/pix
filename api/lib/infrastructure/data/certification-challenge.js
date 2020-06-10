@@ -6,6 +6,7 @@ module.exports = Bookshelf.model(modelName, {
 
   tableName: 'certification-challenges',
   hasTimestamps: ['createdAt', 'updatedAt'],
+  requireFetch: false,
 
 }, {
   modelName

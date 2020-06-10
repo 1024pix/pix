@@ -8,6 +8,7 @@ module.exports = Bookshelf.model(modelName, {
 
   tableName: 'target-profile-shares',
   hasTimestamps: ['createdAt', null],
+  requireFetch: false,
 
   targetProfile() {
     return this.belongsTo('TargetProfile', 'targetProfileId');
