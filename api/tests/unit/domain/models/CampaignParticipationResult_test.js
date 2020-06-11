@@ -1,8 +1,6 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const Area = require('../../../../lib/domain/models/Area');
-const Badge = require('../../../../lib/domain/models/Badge');
 const BadgeCriterion = require('../../../../lib/domain/models/BadgeCriterion');
-const BadgePartnerCompetence = require('../../../../lib/domain/models/BadgePartnerCompetence');
 const CampaignParticipationResult = require('../../../../lib/domain/models/CampaignParticipationResult');
 const CompetenceResult = require('../../../../lib/domain/models/CompetenceResult');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
@@ -44,97 +42,555 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
       },
     };
 
-    it('should add the campaign participation results', () => {
-      // when
-      const badge = domainBuilder.buildBadge({
-        id: 1,
-        altMessage: 'You won the Banana badge',
-        imageUrl: '/img/banana.svg',
-        message: 'Congrats, you won the Banana badge!',
-        key: 'BANANA',
-        badgeCriteria: [
-          domainBuilder.buildBadgeCriterion({
-            id: 15,
-            scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
-            threshold: 54
-          })
-        ],
-        badgePartnerCompetences: [
-          domainBuilder.buildBadgePartnerCompetence({
-            id: 12,
-            name: 'Pix Emploi',
-            color: 'emerald',
-            skillIds: [1, 2, 4]
-          })
-        ],
-        targetProfileId: targetProfile.id,
-      });
-      const result = CampaignParticipationResult.buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements, badge });
+    context('when no badge', function() {
 
-      // then
-      expect(result).to.be.an.instanceOf(CampaignParticipationResult);
-      expect(result.badge).to.be.an.instanceOf(Badge);
-      expect(result.badge.badgeCriteria[0]).to.be.an.instanceOf(BadgeCriterion);
-      expect(result.badge.badgePartnerCompetences[0]).to.be.an.instanceOf(BadgePartnerCompetence);
-      expect(result.partnerCompetenceResults[0]).to.be.an.instanceOf(CompetenceResult);
-      expect(result).to.deep.equal({
-        id: campaignParticipationId,
-        isCompleted: false,
-        areBadgeCriteriaFulfilled: false,
-        totalSkillsCount: 4,
-        testedSkillsCount: 2,
-        validatedSkillsCount: 1,
-        knowledgeElementsCount: 2,
-        badge: {
+      it('should add pix competences to the campaign participation results', () => {
+        // when
+        const campaignBadges = [];
+        const acquiredBadgeIds = [];
+        const result = CampaignParticipationResult.buildFrom({
+          campaignParticipationId,
+          assessment,
+          competences,
+          targetProfile,
+          knowledgeElements,
+          campaignBadges,
+          acquiredBadgeIds,
+        });
+
+        // then
+        expect(result).to.be.an.instanceOf(CampaignParticipationResult);
+        expect(result.campaignParticipationBadges.length).to.equal(0);
+        expect(result).to.deep.equal({
+          id: campaignParticipationId,
+          isCompleted: false,
+          totalSkillsCount: 4,
+          testedSkillsCount: 2,
+          validatedSkillsCount: 1,
+          knowledgeElementsCount: 2,
+          campaignParticipationBadges: [],
+          competenceResults: [{
+            id: 1,
+            name: 'Economie symbiotique',
+            index: '5.1',
+            areaColor: 'jaffa',
+            totalSkillsCount: 1,
+            testedSkillsCount: 1,
+            validatedSkillsCount: 1,
+          }, {
+            id: 2,
+            name: 'Désobéissance civile',
+            index: '6.9',
+            areaColor: 'wild-strawberry',
+            totalSkillsCount: 3,
+            testedSkillsCount: 1,
+            validatedSkillsCount: 0,
+          }],
+        });
+      });
+
+    });
+
+    context('when single badge', function() {
+
+      it('should create campaign participation results', () => {
+        // given
+        const yellowBadge = domainBuilder.buildBadge({
           id: 1,
-          altMessage: 'You won the Banana badge',
-          imageUrl: '/img/banana.svg',
-          message: 'Congrats, you won the Banana badge!',
-          key: 'BANANA',
+          altMessage: 'You won the Yellow badge',
+          imageUrl: '/img/yellow.svg',
+          message: 'Congrats, you won the Yellow badge!',
+          key: 'YELLOW',
           badgeCriteria: [
-            {
+            domainBuilder.buildBadgeCriterion({
+              id: 17,
+              scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
+              threshold: 54
+            })
+          ],
+          badgePartnerCompetences: [
+            domainBuilder.buildBadgePartnerCompetence({
+              id: 18,
+              name: 'Yellow',
+              color: 'emerald',
+              skillIds: [1, 2, 4],
+            })
+          ],
+          targetProfileId: targetProfile.id,
+        });
+        const campaignBadges = [yellowBadge];
+        const acquiredBadgeIds = [yellowBadge.id];
+
+        // when
+        const result = CampaignParticipationResult.buildFrom({
+          campaignParticipationId,
+          assessment,
+          competences,
+          targetProfile,
+          knowledgeElements,
+          campaignBadges,
+          acquiredBadgeIds,
+        });
+
+        // then
+        expect(result).to.be.an.instanceOf(CampaignParticipationResult);
+        expect(result.campaignParticipationBadges.length).to.equal(1);
+        expect(result.campaignParticipationBadges[0].partnerCompetenceResults[0]).to.be.an.instanceOf(CompetenceResult);
+        expect(result).to.deep.equal({
+          id: campaignParticipationId,
+          isCompleted: false,
+          totalSkillsCount: 4,
+          testedSkillsCount: 2,
+          validatedSkillsCount: 1,
+          knowledgeElementsCount: 2,
+          campaignParticipationBadges: [{
+            isAcquired: true,
+            id: 1,
+            altMessage: 'You won the Yellow badge',
+            imageUrl: '/img/yellow.svg',
+            message: 'Congrats, you won the Yellow badge!',
+            key: 'YELLOW',
+            badgeCriteria: [{
+              id: 17,
+              scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
+              threshold: 54
+            }],
+            badgePartnerCompetences: [{
+              id: 18,
+              name: 'Yellow',
+              color: 'emerald',
+              skillIds: [1, 2, 4],
+            }],
+            targetProfileId: targetProfile.id,
+            partnerCompetenceResults: [{
+              id: 18,
+              areaColor: 'emerald',
+              index: undefined,
+              name: 'Yellow',
+              testedSkillsCount: 2,
+              totalSkillsCount: 3,
+              validatedSkillsCount: 1,
+            }],
+          }],
+          competenceResults: [{
+            id: 1,
+            name: 'Economie symbiotique',
+            index: '5.1',
+            areaColor: 'jaffa',
+            totalSkillsCount: 1,
+            testedSkillsCount: 1,
+            validatedSkillsCount: 1,
+          }, {
+            id: 2,
+            name: 'Désobéissance civile',
+            index: '6.9',
+            areaColor: 'wild-strawberry',
+            totalSkillsCount: 3,
+            testedSkillsCount: 1,
+            validatedSkillsCount: 0,
+          }],
+        });
+      });
+
+    });
+
+    context('when multiple badges', function() {
+
+      it('should create campaign participation results with partnerCompetenceResults from one badge', () => {
+        // given
+        const greenBadge = domainBuilder.buildBadge({
+          id: 1,
+          altMessage: 'You won the Green badge',
+          imageUrl: '/img/green.svg',
+          message: 'Congrats, you won the Green badge!',
+          key: 'GREEN',
+          badgeCriteria: [
+            domainBuilder.buildBadgeCriterion({
               id: 15,
               scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
               threshold: 54,
-            }
+            })
           ],
           badgePartnerCompetences: [
-            {
-              color: 'emerald',
-              id: 12,
-              name: 'Pix Emploi',
+            domainBuilder.buildBadgePartnerCompetence({
+              id: 42,
+              name: 'Green',
+              color: 'jaffa',
               skillIds: [1, 2, 4],
-            }
+            })
           ],
-          targetProfileId: 1,
-        },
-        partnerCompetenceResults: [{
-          id: 12,
-          areaColor: 'emerald',
-          index: undefined,
-          name: 'Pix Emploi',
-          testedSkillsCount: 2,
-          totalSkillsCount: 3,
-          validatedSkillsCount: 1
-        }],
-        competenceResults: [{
-          id: 1,
-          name: 'Economie symbiotique',
-          index: '5.1',
-          areaColor: 'jaffa',
-          totalSkillsCount: 1,
-          testedSkillsCount: 1,
-          validatedSkillsCount: 1,
-        }, {
+          targetProfileId: targetProfile.id,
+        });
+        const yellowBadge = domainBuilder.buildBadge({
           id: 2,
-          name: 'Désobéissance civile',
-          index: '6.9',
-          areaColor: 'wild-strawberry',
-          totalSkillsCount: 3,
-          testedSkillsCount: 1,
-          validatedSkillsCount: 0,
-        }],
+          altMessage: 'You won the Yellow badge',
+          imageUrl: '/img/yellow.svg',
+          message: 'Congrats, you won the Yellow badge!',
+          key: 'YELLOW',
+          badgeCriteria: [
+            domainBuilder.buildBadgeCriterion({
+              id: 15,
+              scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
+              threshold: 54
+            })
+          ],
+          badgePartnerCompetences: [],
+          targetProfileId: targetProfile.id,
+        });
+        const campaignBadges = [greenBadge, yellowBadge];
+        const acquiredBadgeIds = [greenBadge.id, yellowBadge.id];
+
+        // when
+        const result = CampaignParticipationResult.buildFrom({
+          campaignParticipationId,
+          assessment,
+          competences,
+          targetProfile,
+          knowledgeElements,
+          campaignBadges,
+          acquiredBadgeIds,
+        });
+
+        // then
+        expect(result).to.be.an.instanceOf(CampaignParticipationResult);
+        expect(result.campaignParticipationBadges.length).to.equal(2);
+        expect(result.campaignParticipationBadges[0].partnerCompetenceResults.length).to.equal(1);
+        expect(result.campaignParticipationBadges[1].partnerCompetenceResults.length).to.equal(0);
+        expect(result).to.deep.equal({
+          id: campaignParticipationId,
+          isCompleted: false,
+          totalSkillsCount: 4,
+          testedSkillsCount: 2,
+          validatedSkillsCount: 1,
+          knowledgeElementsCount: 2,
+          campaignParticipationBadges: [{
+            id: 1,
+            isAcquired: true,
+            altMessage: 'You won the Green badge',
+            imageUrl: '/img/green.svg',
+            message: 'Congrats, you won the Green badge!',
+            key: 'GREEN',
+            badgeCriteria: [{
+              id: 15,
+              scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
+              threshold: 54,
+            }],
+            badgePartnerCompetences: [{
+              id: 42,
+              name: 'Green',
+              color: 'jaffa',
+              skillIds: [1, 2, 4],
+            }],
+            partnerCompetenceResults: [{
+              id: 42,
+              name: 'Green',
+              areaColor: 'jaffa',
+              testedSkillsCount: 2,
+              totalSkillsCount: 3,
+              validatedSkillsCount: 1,
+              index: undefined,
+            }],
+            targetProfileId: 1,
+          }, {
+            id: 2,
+            isAcquired: true,
+            altMessage: 'You won the Yellow badge',
+            imageUrl: '/img/yellow.svg',
+            message: 'Congrats, you won the Yellow badge!',
+            key: 'YELLOW',
+            badgeCriteria: [{
+              id: 15,
+              scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
+              threshold: 54,
+            }],
+            badgePartnerCompetences: [],
+            partnerCompetenceResults: [],
+            targetProfileId: 1,
+          }],
+          competenceResults: [{
+            id: 1,
+            name: 'Economie symbiotique',
+            index: '5.1',
+            areaColor: 'jaffa',
+            totalSkillsCount: 1,
+            testedSkillsCount: 1,
+            validatedSkillsCount: 1,
+          }, {
+            id: 2,
+            name: 'Désobéissance civile',
+            index: '6.9',
+            areaColor: 'wild-strawberry',
+            totalSkillsCount: 3,
+            testedSkillsCount: 1,
+            validatedSkillsCount: 0,
+          }],
+        });
       });
+
+      it('should create campaign participation results with partnerCompetenceResults from two badge', () => {
+        // given
+        const greenBadge = domainBuilder.buildBadge({
+          id: 1,
+          altMessage: 'You won the Green badge',
+          imageUrl: '/img/green.svg',
+          message: 'Congrats, you won the Green badge!',
+          key: 'GREEN',
+          badgeCriteria: [
+            domainBuilder.buildBadgeCriterion({
+              id: 15,
+              scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
+              threshold: 54
+            })
+          ],
+          badgePartnerCompetences: [
+            domainBuilder.buildBadgePartnerCompetence({
+              id: 42,
+              name: 'Green',
+              color: 'jaffa',
+              skillIds: [1, 2, 4],
+            })
+          ],
+          targetProfileId: targetProfile.id,
+        });
+        const yellowBadge = domainBuilder.buildBadge({
+          id: 2,
+          altMessage: 'You won the Yellow badge',
+          imageUrl: '/img/yellow.svg',
+          message: 'Congrats, you won the Yellow badge!',
+          key: 'YELLOW',
+          badgeCriteria: [
+            domainBuilder.buildBadgeCriterion({
+              id: 15,
+              scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
+              threshold: 54
+            })
+          ],
+          badgePartnerCompetences: [
+            domainBuilder.buildBadgePartnerCompetence({
+              id: 48,
+              name: 'Yellow',
+              color: 'emerald',
+              skillIds: [2],
+            })
+          ],
+          targetProfileId: targetProfile.id,
+        });
+        const campaignBadges = [greenBadge, yellowBadge];
+        const acquiredBadgeIds = [greenBadge.id];
+
+        // when
+        const result = CampaignParticipationResult.buildFrom({
+          campaignParticipationId,
+          assessment,
+          competences,
+          targetProfile,
+          knowledgeElements,
+          campaignBadges,
+          acquiredBadgeIds,
+        });
+
+        // then
+        expect(result).to.be.an.instanceOf(CampaignParticipationResult);
+        expect(result.campaignParticipationBadges.length).to.equal(2);
+        expect(result.campaignParticipationBadges[0].partnerCompetenceResults.length).to.equal(1);
+        expect(result.campaignParticipationBadges[1].partnerCompetenceResults.length).to.equal(1);
+        expect(result).to.deep.equal({
+          id: campaignParticipationId,
+          isCompleted: false,
+          totalSkillsCount: 4,
+          testedSkillsCount: 2,
+          validatedSkillsCount: 1,
+          knowledgeElementsCount: 2,
+          campaignParticipationBadges: [{
+            id: 1,
+            isAcquired: true,
+            altMessage: 'You won the Green badge',
+            imageUrl: '/img/green.svg',
+            message: 'Congrats, you won the Green badge!',
+            key: 'GREEN',
+            badgeCriteria: [{
+              id: 15,
+              scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
+              threshold: 54,
+            }],
+            badgePartnerCompetences: [{
+              id: 42,
+              name: 'Green',
+              color: 'jaffa',
+              skillIds: [1, 2, 4],
+            }],
+            partnerCompetenceResults: [{
+              id: 42,
+              index: undefined,
+              name: 'Green',
+              areaColor: 'jaffa',
+              totalSkillsCount: 3,
+              testedSkillsCount: 2,
+              validatedSkillsCount: 1,
+            }],
+            targetProfileId: 1,
+          }, {
+            id: 2,
+            isAcquired: false,
+            altMessage: 'You won the Yellow badge',
+            imageUrl: '/img/yellow.svg',
+            message: 'Congrats, you won the Yellow badge!',
+            key: 'YELLOW',
+            badgeCriteria: [
+              domainBuilder.buildBadgeCriterion({
+                id: 15,
+                scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
+                threshold: 54
+              })
+            ],
+            badgePartnerCompetences: [
+              domainBuilder.buildBadgePartnerCompetence({
+                id: 48,
+                name: 'Yellow',
+                color: 'emerald',
+                skillIds: [2],
+              })
+            ],
+            partnerCompetenceResults: [{
+              id: 48,
+              index: undefined,
+              name: 'Yellow',
+              areaColor: 'emerald',
+              totalSkillsCount: 1,
+              testedSkillsCount: 1,
+              validatedSkillsCount: 0,
+            }],
+            targetProfileId: targetProfile.id,
+          }],
+          competenceResults: [{
+            id: 1,
+            name: 'Economie symbiotique',
+            index: '5.1',
+            areaColor: 'jaffa',
+            totalSkillsCount: 1,
+            testedSkillsCount: 1,
+            validatedSkillsCount: 1,
+          }, {
+            id: 2,
+            name: 'Désobéissance civile',
+            index: '6.9',
+            areaColor: 'wild-strawberry',
+            totalSkillsCount: 3,
+            testedSkillsCount: 1,
+            validatedSkillsCount: 0,
+          }],
+        });
+      });
+
+      it('should not add partnerCompetenceResults to the campaign participation results', () => {
+        // given
+        const greenBadge = domainBuilder.buildBadge({
+          id: 1,
+          altMessage: 'You won the Green badge',
+          imageUrl: '/img/green.svg',
+          message: 'Congrats, you won the Green badge!',
+          key: 'GREEN',
+          badgeCriteria: [
+            domainBuilder.buildBadgeCriterion({
+              id: 15,
+              scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
+              threshold: 54
+            })
+          ],
+          badgePartnerCompetences: [],
+          targetProfileId: targetProfile.id,
+        });
+        const yellowBadge = domainBuilder.buildBadge({
+          id: 2,
+          altMessage: 'You won the Yellow badge',
+          imageUrl: '/img/yellow.svg',
+          message: 'Congrats, you won the Yellow badge!',
+          key: 'YELLOW',
+          badgeCriteria: [
+            domainBuilder.buildBadgeCriterion({
+              id: 15,
+              scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
+              threshold: 54,
+            })
+          ],
+          badgePartnerCompetences: [],
+          targetProfileId: targetProfile.id,
+        });
+        const campaignBadges = [greenBadge, yellowBadge];
+        const acquiredBadgeIds = [greenBadge.id, yellowBadge.id];
+
+        // when
+        const result = CampaignParticipationResult.buildFrom({
+          campaignParticipationId,
+          assessment,
+          competences,
+          targetProfile,
+          knowledgeElements,
+          campaignBadges,
+          acquiredBadgeIds,
+        });
+
+        // then
+        expect(result).to.be.an.instanceOf(CampaignParticipationResult);
+        expect(result.campaignParticipationBadges.length).to.equal(2);
+        expect(result).to.deep.equal({
+          id: campaignParticipationId,
+          isCompleted: false,
+          totalSkillsCount: 4,
+          testedSkillsCount: 2,
+          validatedSkillsCount: 1,
+          knowledgeElementsCount: 2,
+          campaignParticipationBadges: [{
+            id: 1,
+            isAcquired: true,
+            altMessage: 'You won the Green badge',
+            imageUrl: '/img/green.svg',
+            message: 'Congrats, you won the Green badge!',
+            key: 'GREEN',
+            badgeCriteria: [{
+              id: 15,
+              scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
+              threshold: 54,
+            }],
+            badgePartnerCompetences: [],
+            partnerCompetenceResults: [],
+            targetProfileId: 1,
+          }, {
+            id: 2,
+            isAcquired: true,
+            altMessage: 'You won the Yellow badge',
+            imageUrl: '/img/yellow.svg',
+            message: 'Congrats, you won the Yellow badge!',
+            key: 'YELLOW',
+            badgeCriteria: [{
+              id: 15,
+              scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
+              threshold: 54,
+            }],
+            badgePartnerCompetences: [],
+            partnerCompetenceResults: [],
+            targetProfileId: 1,
+          }],
+          competenceResults: [{
+            id: 1,
+            name: 'Economie symbiotique',
+            index: '5.1',
+            areaColor: 'jaffa',
+            totalSkillsCount: 1,
+            testedSkillsCount: 1,
+            validatedSkillsCount: 1,
+          }, {
+            id: 2,
+            name: 'Désobéissance civile',
+            index: '6.9',
+            areaColor: 'wild-strawberry',
+            totalSkillsCount: 3,
+            testedSkillsCount: 1,
+            validatedSkillsCount: 0,
+          }],
+        });
+      });
+
     });
   });
 
@@ -182,4 +638,5 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
       expect(campaignParticipationResult.progress).to.equal(0.75);
     });
   });
+
 });

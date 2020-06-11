@@ -1,9 +1,10 @@
 const _ = require('lodash');
 const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
 
-function areBadgeCriteriaFulfilled({ campaignParticipationResult, badgeCriteria }) {
-  return _.every(badgeCriteria, (criterion) => {
-    let isBadgeCriterionFulfilled;
+function areBadgeCriteriaFulfilled({ campaignParticipationResult, badge }) {
+  return _.every(badge.badgeCriteria, (criterion) => {
+    let isBadgeCriterionFulfilled = false;
+    let campaignParticipationBadge;
 
     switch (criterion.scope) {
       case BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION :
@@ -13,10 +14,16 @@ function areBadgeCriteriaFulfilled({ campaignParticipationResult, badgeCriteria 
         );
         break;
       case BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE :
-        isBadgeCriterionFulfilled = _verifyEveryPartnerCompetenceResultMasteryPercentageCriterion(
-          campaignParticipationResult.partnerCompetenceResults,
-          criterion.threshold
+        campaignParticipationBadge = _.find(
+          campaignParticipationResult.campaignParticipationBadges,
+          (campaignParticipationBadge) => campaignParticipationBadge.id === badge.id
         );
+        if (campaignParticipationBadge) {
+          isBadgeCriterionFulfilled = _verifyEveryPartnerCompetenceResultMasteryPercentageCriterion(
+            campaignParticipationBadge.partnerCompetenceResults,
+            criterion.threshold
+          );
+        }
         break;
       default:
         isBadgeCriterionFulfilled = false;

@@ -1,6 +1,5 @@
 const { expect, databaseBuilder, knex } = require('../../../test-helper');
 
-const BadgeAcquisition = require('../../../../lib/domain/models/BadgeAcquisition');
 const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
@@ -9,8 +8,6 @@ describe('Integration | Repository | Badge Acquisition', () => {
   let badgeAcquisitionToCreate;
 
   describe('#create', () => {
-
-    let badgeAcquisition;
 
     beforeEach(async () => {
       const badgeId = databaseBuilder.factory.buildBadge().id;
@@ -29,26 +26,16 @@ describe('Integration | Repository | Badge Acquisition', () => {
 
     it('should persist the badge acquisition in db', async () => {
       // when
-      badgeAcquisition = await DomainTransaction.execute(async (domainTransaction) => {
-        return badgeAcquisitionRepository.create(badgeAcquisitionToCreate, domainTransaction);
+      const badgeAcquisitionIds = await DomainTransaction.execute(async (domainTransaction) => {
+        return badgeAcquisitionRepository.create([badgeAcquisitionToCreate], domainTransaction);
       });
 
       // then
-      const result = await knex('badge-acquisitions').where('id', badgeAcquisition.id);
-
+      expect(badgeAcquisitionIds).to.have.lengthOf(1);
+      const result = await knex('badge-acquisitions').where('id', badgeAcquisitionIds[0]);
       expect(result).to.have.lengthOf(1);
     });
 
-    it('should return the saved badge acquired', async () => {
-      // when
-      badgeAcquisition = await DomainTransaction.execute(async (domainTransaction) => {
-        return badgeAcquisitionRepository.create(badgeAcquisitionToCreate, domainTransaction);
-      });
-
-      // then
-      expect(badgeAcquisition).to.be.an.instanceOf(BadgeAcquisition);
-      expect(badgeAcquisition).to.have.property('id').and.not.to.be.null;
-    });
   });
 
   describe('#hasAcquiredBadgeWithKey', () => {
@@ -87,7 +74,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
     });
   });
 
-  describe('#hasAcquiredBadgeWithId', () => {
+  describe('#getAcquiredBadgeIds', () => {
     let userId;
     let badgeId;
 
@@ -107,18 +94,18 @@ describe('Integration | Repository | Badge Acquisition', () => {
 
     it('should check that the user has acquired the badge', async () => {
       // when
-      const hasBadge = await badgeAcquisitionRepository.hasAcquiredBadgeWithId({ userId, badgeId });
+      const acquiredBadgeIds = await badgeAcquisitionRepository.getAcquiredBadgeIds({ userId, badgeIds: [badgeId] });
 
       // then
-      expect(hasBadge).to.be.true;
+      expect(acquiredBadgeIds).to.deep.equal([badgeId]);
     });
 
     it('should check that the user has not acquired the badge', async () => {
       // when
-      const hasBadge = await badgeAcquisitionRepository.hasAcquiredBadgeWithId({ userId, badgeId: -1 });
+      const acquiredBadgeIds = await badgeAcquisitionRepository.getAcquiredBadgeIds({ userId, badgeIds: [-1] });
 
       // then
-      expect(hasBadge).to.be.false;
+      expect(acquiredBadgeIds.length).to.equal(0);
     });
   });
 });

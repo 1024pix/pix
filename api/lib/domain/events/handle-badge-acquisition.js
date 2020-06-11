@@ -1,7 +1,9 @@
+const _ = require('lodash');
 const AssessmentCompleted = require('../events/AssessmentCompleted');
 const { checkEventType } = require('./check-event-type');
 
 const eventType = AssessmentCompleted;
+
 const handleBadgeAcquisition = async function({
   domainTransaction,
   event,
@@ -13,15 +15,18 @@ const handleBadgeAcquisition = async function({
   checkEventType(event, eventType);
 
   if (completedAssessmentBelongsToACampaign(event)) {
-    const badge = await fetchPossibleCampaignAssociatedBadge(event, badgeRepository);
-    if (isABadgeAssociatedToCampaign(badge)) {
-      const campaignParticipationResult = await fetchCampaignParticipationResults(event, badge, campaignParticipationResultRepository);
-      if (isBadgeAcquired(campaignParticipationResult, badge.badgeCriteria, badgeCriteriaService)) {
-        await badgeAcquisitionRepository.create({
-          badgeId: badge.id,
-          userId: event.userId
-        }, domainTransaction);
-      }
+    const badges = await fetchPossibleCampaignAssociatedBadges(event, badgeRepository);
+    const campaignParticipationResult = await fetchCampaignParticipationResults(event, badges, campaignParticipationResultRepository);
+
+    const badgesBeingAcquired = badges.filter((badge) => isBadgeAcquired(campaignParticipationResult, badge, badgeCriteriaService));
+    const badgesAcquisitionToCreate = badgesBeingAcquired.map((badge) => {
+      return {
+        badgeId: badge.id, userId: event.userId
+      };
+    });
+
+    if (!_.isEmpty(badgesAcquisitionToCreate)) {
+      await badgeAcquisitionRepository.create(badgesAcquisitionToCreate, domainTransaction);
     }
   }
 };
@@ -30,20 +35,17 @@ function completedAssessmentBelongsToACampaign(event) {
   return !!event.targetProfileId;
 }
 
-async function fetchPossibleCampaignAssociatedBadge(event, badgeRepository) {
-  return await badgeRepository.findOneByTargetProfileId(event.targetProfileId);
+async function fetchPossibleCampaignAssociatedBadges(event, badgeRepository) {
+  return await badgeRepository.findByTargetProfileId(event.targetProfileId);
 }
 
-function isABadgeAssociatedToCampaign(badge) {
-  return !!badge;
+async function fetchCampaignParticipationResults(event, campaignBadges, campaignParticipationResultRepository) {
+  const acquiredBadges = [];
+  return await campaignParticipationResultRepository.getByParticipationId(event.campaignParticipationId, campaignBadges, acquiredBadges);
 }
 
-async function fetchCampaignParticipationResults(event, badge, campaignParticipationResultRepository) {
-  return await campaignParticipationResultRepository.getByParticipationId(event.campaignParticipationId, badge);
-}
-
-function isBadgeAcquired(campaignParticipationResult, badgeCriteria, badgeCriteriaService) {
-  return badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult, badgeCriteria });
+function isBadgeAcquired(campaignParticipationResult, badge, badgeCriteriaService) {
+  return badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult, badge });
 }
 
 handleBadgeAcquisition.eventType = eventType;

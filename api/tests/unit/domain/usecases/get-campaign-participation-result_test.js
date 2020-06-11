@@ -1,4 +1,4 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
+const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const getCampaignParticipationResult = require('../../../../lib/domain/usecases/get-campaign-participation-result');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 
@@ -31,8 +31,8 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     campaignParticipationRepository = { get: sinon.stub() };
     campaignRepository = { checkIfUserOrganizationHasAccessToCampaign: sinon.stub() };
     targetProfileRepository = { getByCampaignId: sinon.stub() };
-    badgeRepository = { findOneByTargetProfileId: sinon.stub() };
-    badgeAcquisitionRepository = { hasAcquiredBadgeWithId: sinon.stub() };
+    badgeRepository = { findByTargetProfileId: sinon.stub().resolves([]) };
+    badgeAcquisitionRepository = { getAcquiredBadgeIds: sinon.stub() };
     campaignParticipationResultRepository = { getByParticipationId: sinon.stub() };
 
     usecaseDependencies = {
@@ -57,7 +57,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
 
     it('should get the campaignParticipationResult', async () => {
       // when
-      const campaignParticipationResult = Symbol('campaignParticipationResult');
+      const campaignParticipationResult = domainBuilder.buildCampaignParticipationResult();
 
       campaignParticipationResultRepository.getByParticipationId.resolves(campaignParticipationResult);
       const actualCampaignParticipationResult = await getCampaignParticipationResult(usecaseDependencies);
@@ -67,68 +67,79 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     });
 
     context('when a badge is available for the campaignParticipationResult', () => {
-      const badge = {
-        id: Symbol('badgeId')
+      const acquiredBadge = {
+        id: Symbol('acquiredBadgeId'),
+        key: 'ACQUIRED_BADGE',
+        badgePartnerCompetences: [{
+          id: Symbol('badgePartnerCompetencesId1')
+        }]
+      };
+      const unacquiredBadge = {
+        id: Symbol('unacquiredBadgeId'),
+        key: 'UNACQUIRED_BADGE',
+        badgePartnerCompetences: [{
+          id: Symbol('badgePartnerCompetencesId2')
+        }]
       };
 
-      beforeEach(() => {
-        // given
-        badgeRepository.findOneByTargetProfileId.withArgs(targetProfileId).resolves(badge);
-      });
+      context('when the campaign only have one badge', function() {
 
-      it('should assign badge to campaignParticipationResult', async () => {
-        // when
-        const campaignParticipationResult = {
-          id: 'foo'
-        };
-
-        campaignParticipationResultRepository.getByParticipationId.resolves(campaignParticipationResult);
-        const actualCampaignParticipationResult = await getCampaignParticipationResult(usecaseDependencies);
-
-        // then
-        expect(actualCampaignParticipationResult.badge).not.to.be.null;
-      });
-
-      context('when badge is acquired', () => {
         it('should assign badge acquisition to campaignParticipationResult', async () => {
           // given
-          const campaignParticipationResult = {
-            id: 'foo'
-          };
-          campaignParticipationResultRepository.getByParticipationId.resolves(campaignParticipationResult);
-
-          badgeAcquisitionRepository.hasAcquiredBadgeWithId.withArgs({
+          const campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
+            id: 'foo',
+            campaignParticipationBadges: [acquiredBadge],
+          });
+          const campaignBadges = [acquiredBadge];
+          const acquiredBadgeIds = [acquiredBadge.id];
+          badgeRepository.findByTargetProfileId.withArgs(targetProfileId).resolves(campaignBadges);
+          badgeAcquisitionRepository.getAcquiredBadgeIds.withArgs({
             userId,
-            badgeId: badge.id
-          }).resolves(true);
+            badgeIds: acquiredBadgeIds
+          }).resolves(acquiredBadgeIds);
+          campaignParticipationResultRepository.getByParticipationId.withArgs(
+            campaignParticipationId,
+            campaignBadges,
+            acquiredBadgeIds,
+          ).resolves(campaignParticipationResult);
 
           // when
           const actualCampaignParticipationResult = await getCampaignParticipationResult(usecaseDependencies);
 
           // then
-          expect(actualCampaignParticipationResult.areBadgeCriteriaFulfilled).to.be.true;
+          expect(actualCampaignParticipationResult.campaignParticipationBadges.length).to.equal(1);
         });
+
       });
 
-      context('when badge is not acquired', () => {
-        it('should not assign badge acquisition to campaignParticipationResult', async () => {
+      context('when the campaign only have two badges', function() {
+        it('should assign badges to campaignParticipationResult', async () => {
           // given
-          const campaignParticipationResult = {
-            id: 'foo'
-          };
-          campaignParticipationResultRepository.getByParticipationId.resolves(campaignParticipationResult);
-          badgeAcquisitionRepository.hasAcquiredBadgeWithId.withArgs({
+          const campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
+            id: 'foo',
+            campaignParticipationBadges: [acquiredBadge, unacquiredBadge],
+          });
+          const campaignBadges = [acquiredBadge, unacquiredBadge];
+          const acquiredBadgeIds = [acquiredBadge.id];
+          badgeRepository.findByTargetProfileId.withArgs(targetProfileId).resolves(campaignBadges);
+          badgeAcquisitionRepository.getAcquiredBadgeIds.withArgs({
             userId,
-            badgeId: badge.id
-          }).resolves(false);
+            badgeIds: [acquiredBadge.id, unacquiredBadge.id]
+          }).resolves([acquiredBadge.id]);
+          campaignParticipationResultRepository.getByParticipationId.withArgs(
+            campaignParticipationId,
+            campaignBadges,
+            acquiredBadgeIds,
+          ).resolves(campaignParticipationResult);
 
           // when
           const actualCampaignParticipationResult = await getCampaignParticipationResult(usecaseDependencies);
 
           // then
-          expect(actualCampaignParticipationResult.areBadgeCriteriaFulfilled).to.be.false;
+          expect(actualCampaignParticipationResult.campaignParticipationBadges.length).to.equal(2);
         });
       });
+
     });
   });
 
@@ -142,7 +153,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
       campaignParticipationResultRepository.getByParticipationId.resolves(campaignParticipationResult);
       campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves({ userId });
       targetProfileRepository.getByCampaignId.withArgs(campaignParticipation.campaignId).resolves(targetProfile);
-      badgeRepository.findOneByTargetProfileId.withArgs(targetProfileId).resolves(badge);
+      badgeRepository.findByTargetProfileId.withArgs(targetProfileId).resolves([badge]);
 
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.resolves(false);
 
