@@ -10,7 +10,7 @@ function buildCampaign({
   title = faker.random.word(),
   idPixLabel = faker.random.word(),
   customLandingPageText = faker.lorem.text(),
-  archivedAt,
+  archivedAt = null,
   type = Campaign.types.ASSESSMENT,
   createdAt = faker.date.recent(),
   creatorId = faker.random.number(2),
@@ -48,7 +48,7 @@ buildCampaign.ofTypeAssessment = function({
   title = faker.random.word(),
   idPixLabel = faker.random.word(),
   customLandingPageText = faker.lorem.text(),
-  archivedAt,
+  archivedAt = null,
   type = Campaign.types.ASSESSMENT,
   createdAt = faker.date.recent(),
   creatorId = faker.random.number(2),
@@ -85,14 +85,14 @@ buildCampaign.ofTypeProfilesCollection = function({
   code = 'AZERTY123',
   idPixLabel = faker.random.word(),
   customLandingPageText = faker.lorem.text(),
-  archivedAt,
+  archivedAt = null,
   type = Campaign.types.PROFILES_COLLECTION,
   createdAt = faker.date.recent(),
   creatorId = faker.random.number(2),
   creator = buildUser({ id: creatorId }),
   organizationId = faker.random.number(2),
   isRestricted = false,
-  organizationLogoUrl
+  organizationLogoUrl,
 } = {}) {
   return new Campaign({
     id,
@@ -102,12 +102,14 @@ buildCampaign.ofTypeProfilesCollection = function({
     customLandingPageText,
     archivedAt,
     type,
+    title: null,
     createdAt,
     creatorId,
     creator,
     organizationId,
     isRestricted,
-    organizationLogoUrl
+    organizationLogoUrl,
+    targetProfileId: null,
   });
 };
 

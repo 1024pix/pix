@@ -21,7 +21,7 @@ function buildDomainObject(BookshelfClass, bookshelfObject) {
 
 function _buildDomainObject(bookshelfPrototype, bookshelfObjectJson) {
 
-  const Model = Models[bookshelfPrototype.domainModelName || bookshelfPrototype.constructor.bookshelfName];
+  const Model = Models[bookshelfPrototype.constructor.bookshelfName];
   const domainObject = new Model();
 
   const mappedObject = _.mapValues(domainObject, (value, key) => {

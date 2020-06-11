@@ -12,7 +12,7 @@ module.exports = async function createCampaign({ campaign, campaignRepository, u
   const generatedCampaignCode = await campaignCodeGenerator.generate(campaignRepository);
   const campaignWithCode = new Campaign(campaign);
   campaignWithCode.code = generatedCampaignCode;
-  return campaignRepository.save(campaignWithCode);
+  return campaignRepository.create(campaignWithCode);
 };
 
 async function _checkIfUserCanCreateCampaign(campaign, userRepository, organizationRepository, organizationService) {

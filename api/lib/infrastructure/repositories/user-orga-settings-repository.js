@@ -31,11 +31,12 @@ module.exports = {
       });
   },
 
-  update(userId, organizationId) {
-    return BookshelfUserOrgaSettings
+  async update(userId, organizationId) {
+    const bookshelfUserOrgaSettings = await BookshelfUserOrgaSettings
       .where({ userId })
-      .save({ currentOrganizationId: organizationId }, { patch: true, method: 'update' })
-      .then((bookshelfUserOrgaSettings) => bookshelfUserOrgaSettings.refresh({ withRelated: ['user', 'currentOrganization'] }))
-      .then((userOrgaSettings) => bookshelfToDomainConverter.buildDomainObject(BookshelfUserOrgaSettings, userOrgaSettings));
+      .save({ currentOrganizationId: organizationId }, { patch: true, method: 'update', });
+    await bookshelfUserOrgaSettings.related('user').fetch();
+    await bookshelfUserOrgaSettings.related('currentOrganization').fetch();
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfUserOrgaSettings, bookshelfUserOrgaSettings);
   }
 };

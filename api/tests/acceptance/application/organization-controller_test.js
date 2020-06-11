@@ -908,7 +908,7 @@ describe('Acceptance | Application | organization-controller', () => {
           {
             type: 'organization-invitations',
             attributes: {
-              'organization-id': organization.id.toString(),
+              'organization-id': organization.id,
               email: user1.email,
               status
             }
@@ -916,7 +916,7 @@ describe('Acceptance | Application | organization-controller', () => {
           {
             type: 'organization-invitations',
             attributes: {
-              'organization-id': organization.id.toString(),
+              'organization-id': organization.id,
               email: user2.email,
               status
             }
