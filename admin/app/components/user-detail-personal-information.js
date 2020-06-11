@@ -46,6 +46,7 @@ const Validations = buildValidations({
         message: 'La longueur de l\'email ne doit pas excéder 255 caractères.'
       }),
       validator('format', {
+        ignoreBlank: true,
         type: 'email',
         message: 'L\'e-mail n\'a pas le bon format.'
       })

@@ -39,7 +39,7 @@ describe('Acceptance | Controller | users-controller-update-user-details-for-adm
       // then
       expect(response.statusCode).to.equal(400);
       const firstError = response.result.errors[0];
-      expect(firstError.detail[0].message).to.equal('"data.attributes.first-name" is required');
+      expect(firstError.detail).to.equal('"data.attributes.first-name" is required');
     });
 
     it('should reply with not authorized error', async () => {
