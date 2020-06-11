@@ -39,6 +39,23 @@ async function _findValidatedByUserIdAndLimitDateQuery({ userId, limitDate }) {
   return _applyFilters(knowledgeElements);
 }
 
+async function _filterKnowledgeElementsByCampaignId(knowledgeElements, campaignId) {
+  const targetProfileSkillsFromDB = await knex('target-profiles_skills')
+    .select('target-profiles_skills.skillId')
+    .join('target-profiles', 'target-profiles.id', 'target-profiles_skills.targetProfileId')
+    .join('campaigns', 'campaigns.targetProfileId', 'target-profiles.id')
+    .where('campaigns.id', '=', campaignId);
+
+  const targetProfileSkillIds = _.map(targetProfileSkillsFromDB, 'skillId');
+
+  return _.filter(knowledgeElements, (knowledgeElement) => {
+    if (knowledgeElement.isInvalidated) {
+      return false;
+    }
+    return _.includes(targetProfileSkillIds, knowledgeElement.skillId);
+  });
+}
+
 module.exports = {
 
   async save(knowledgeElement) {
@@ -77,30 +94,19 @@ module.exports = {
   },
 
   async findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId }) {
-    const sharedCampaignParticipations = await knex('campaign-participations')
-      .select('userId', 'sharedAt')
+    const [sharedCampaignParticipation] = await knex('campaign-participations')
+      .select('sharedAt')
       .where({ campaignId, isShared: 'true', userId })
       .limit(1);
 
-    const targetProfileSkillsFromDB = await knex('target-profiles_skills')
-      .select('target-profiles_skills.skillId')
-      .join('target-profiles', 'target-profiles.id', 'target-profiles_skills.targetProfileId')
-      .join('campaigns', 'campaigns.targetProfileId', 'target-profiles.id')
-      .where('campaigns.id', '=', campaignId);
-    const targetProfileSkills = _.map(targetProfileSkillsFromDB, 'skillId');
-
-    if (!sharedCampaignParticipations[0]) {
+    if (!sharedCampaignParticipation) {
       return [];
     }
 
-    const knowledgeElements = await _findValidatedByUserIdAndLimitDateQuery({ userId: sharedCampaignParticipations[0].userId, limitDate: sharedCampaignParticipations[0].sharedAt });
+    const { sharedAt } = sharedCampaignParticipation;
+    const knowledgeElements = await _findValidatedByUserIdAndLimitDateQuery({ userId, limitDate: sharedAt });
 
-    return _.filter(knowledgeElements, (knowledgeElement) => {
-      if (knowledgeElement.isInvalidated) {
-        return false;
-      }
-      return _.includes(targetProfileSkills, knowledgeElement.skillId);
-    });
+    return _filterKnowledgeElementsByCampaignId(knowledgeElements, campaignId);
   },
 
   async findByCampaignIdForSharedCampaignParticipation(campaignId) {
@@ -108,23 +114,15 @@ module.exports = {
       .select('userId', 'sharedAt')
       .where({ campaignId, isShared: 'true' });
 
-    const targetProfileSkillsFromDB = await knex('target-profiles_skills')
-      .select('target-profiles_skills.skillId')
-      .join('target-profiles', 'target-profiles.id', 'target-profiles_skills.targetProfileId')
-      .join('campaigns', 'campaigns.targetProfileId', 'target-profiles.id')
-      .where('campaigns.id', '=', campaignId);
-    const targetProfileSkills = _.map(targetProfileSkillsFromDB, 'skillId');
+    const knowledgeElements = _.flatMap(await bluebird.map(sharedCampaignParticipations,
+      async ({ userId, sharedAt }) => {
+        return _findValidatedByUserIdAndLimitDateQuery({ userId, limitDate: sharedAt });
+      },
+      { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }
+    ));
 
-    const allKnowledgeElements = _.flatMap(await bluebird.map(sharedCampaignParticipations, async (sharedCampaignParticipation) => {
-      return _findValidatedByUserIdAndLimitDateQuery({ userId: sharedCampaignParticipation.userId, limitDate: sharedCampaignParticipation.sharedAt });
-    }, { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }));
+    return _filterKnowledgeElementsByCampaignId(knowledgeElements, campaignId);
 
-    return _.filter(allKnowledgeElements, (knowledgeElement) => {
-      if (knowledgeElement.isInvalidated) {
-        return false;
-      }
-      return _.includes(targetProfileSkills, knowledgeElement.skillId);
-    });
   }
 };
 
