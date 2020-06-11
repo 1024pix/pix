@@ -111,9 +111,14 @@ describe('Unit | Infrastructure | Repositories | Partner Certification Repositor
 
 });
 
-function _buildCleaCertification(withBadge, reproducibilityRate, competenceMarks, totalPixCleaByCompetence) {
-  const certificationCourseId = Symbol('certifCourseId');
-  const userId = Symbol('userId');
+function _buildCleaCertification({
+  withBadge = false,
+  reproducibilityRate = 0,
+  competenceMarks = [new CompetenceMark()],
+  totalPixCleaByCompetence = { competence1:1 }
+}) {
+  const certificationCourseId = 42;
+  const userId = 51;
   const domainTransaction = Symbol('domainTransaction');
 
   sinon.stub(competenceMarkRepository, 'getLatestByCertificationCourseId')
@@ -134,15 +139,15 @@ function _buildCleaCertification(withBadge, reproducibilityRate, competenceMarks
 }
 
 function _buildCleaCertificationWithBadge() {
-  return _buildCleaCertification(true);
+  return _buildCleaCertification({ withBadge: true });
 }
 
 function _buildCleaCertificationWithoutBadge() {
-  return _buildCleaCertification(false);
+  return _buildCleaCertification({ withBadge: false });
 }
 
 function _buildCleaCertificationWithReproducibilityRate(reproducibilityRate) {
-  return _buildCleaCertification(true, reproducibilityRate);
+  return _buildCleaCertification({ withBadge: true, reproducibilityRate });
 }
 
 function _buildCleaCertificationInGreyZoneAndCertifiableCompetences() {
@@ -174,7 +179,13 @@ function _buildCleaCertificationInGreyZoneAndCertifiableCompetences() {
       }
     ),
   ];
-  return _buildCleaCertification(true, 70, competenceMarks, totalPixCleaByCompetence);
+  return _buildCleaCertification(
+    {
+      withBadge: true,
+      reproducibilityRate: 70,
+      competenceMarks,
+      totalPixCleaByCompetence
+    });
 }
 
 function _buildCleaCertificationInGreyZoneAndNonCertifiableCompetences() {
@@ -206,5 +217,10 @@ function _buildCleaCertificationInGreyZoneAndNonCertifiableCompetences() {
       }
     ),
   ];
-  return _buildCleaCertification(true, 70, competenceMarks, totalPixCleaByCompetence);
+  return _buildCleaCertification({
+    withBadge: true,
+    reproducibilityRate: 70,
+    competenceMarks,
+    totalPixCleaByCompetence
+  });
 }

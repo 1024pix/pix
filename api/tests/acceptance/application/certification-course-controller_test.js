@@ -456,12 +456,15 @@ describe('Acceptance | API | Certification Course', () => {
 
       beforeEach(async () => {
         // given
-        const { area, competences, skills, challenges, competencesAssociatedSkillsAndChallenges } = airtableBuilder.factory.buildLearningContentForCertification();
+        const { area, competences, tubes, skills, challenges, competencesAssociatedSkillsAndChallenges } = airtableBuilder.factory.buildLearningContentForCertification();
         airtableBuilder.mockList({ tableName: 'Domaines' })
           .returns([area])
           .activate();
         airtableBuilder.mockList({ tableName: 'Competences' })
           .returns(competences)
+          .activate();
+        airtableBuilder.mockList({ tableName: 'Tubes' })
+          .returns(tubes)
           .activate();
         airtableBuilder.mockList({ tableName: 'Acquis' })
           .returns(skills)

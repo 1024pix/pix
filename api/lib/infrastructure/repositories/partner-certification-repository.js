@@ -7,14 +7,14 @@ const Badge = require('../../domain/models/Badge');
 
 module.exports = {
 
-  async buildCleaCertification({ certificationCourseId,  userId,  reproducibilityRate, domainTransaction, }) {
-    const hasAcquiredBadgeClea = await _getHasAcquiredBadgeClea(userId);
-    const competenceMarks = await competenceMarkRepository.getLatestByCertificationCourseId({ certificationCourseId,domainTransaction });
+  async buildCleaCertification({ certificationCourseId, userId, reproducibilityRate, domainTransaction, }) {
+    const hasAcquiredBadge = await _getHasAcquiredBadgeClea(userId);
+    const competenceMarks = await competenceMarkRepository.getLatestByCertificationCourseId({ certificationCourseId, domainTransaction });
     const totalPixCleaByCompetence = await competenceRepository.getTotalPixCleaByCompetence();
 
     return new CleaCertification({
       certificationCourseId,
-      hasAcquiredBadgeClea,
+      hasAcquiredBadge,
       competenceMarks,
       totalPixCleaByCompetence,
       reproducibilityRate
