@@ -1,4 +1,4 @@
-import { module, test, only } from 'qunit';
+import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
@@ -124,7 +124,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | profil
         assert.contains('1024');
       });
 
-      only('it displays the total number of competence', async function(assert) {
+      test('it displays the total number of competence', async function(assert) {
         const campaignProfile = {
           competencesCount: 12,
           isShared: true

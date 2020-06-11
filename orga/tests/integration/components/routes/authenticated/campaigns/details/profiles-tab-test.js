@@ -43,7 +43,12 @@ module('Integration | Component | routes/authenticated/campaign/details | profil
       this.set('goToProfilePage', goToProfilePage);
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaigns::Details::ProfilesTab @campaign={{campaign}} @profiles={{profiles}} @goToProfilePage={{goToProfilePage}}/>}}`);
+      await render(hbs`
+        <Routes::Authenticated::Campaigns::Details::ProfilesTab
+          @campaign={{campaign}}
+          @profiles={{profiles}}
+          @goToProfilePage={{goToProfilePage}}
+        />`);
 
       // then
       assert.notContains('En attente de profiles');
@@ -69,7 +74,12 @@ module('Integration | Component | routes/authenticated/campaign/details | profil
       this.set('goToProfilePage', goToProfilePage);
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaigns::Details::ProfilesTab @campaign={{campaign}} @profiles={{profiles}} @goToProfilePage={{goToProfilePage}}/>}}`);
+      await render(hbs`
+        <Routes::Authenticated::Campaigns::Details::ProfilesTab
+          @campaign={{campaign}}
+          @profiles={{profiles}}
+          @goToProfilePage={{goToProfilePage}}
+        />`);
 
       // then
       assert.contains('identifiant externe');
@@ -84,7 +94,7 @@ module('Integration | Component | routes/authenticated/campaign/details | profil
         idPixLabel: 'identifiant externe'
       });
 
-      const participants = [
+      const profiles = [
         { 
           firstName: 'Jane',
           lastName: 'Doe',
@@ -94,23 +104,29 @@ module('Integration | Component | routes/authenticated/campaign/details | profil
           certifiableCompetencesCount: 5,
         }
       ];
-      participants.meta = { rowCount: 1 };
+      profiles.meta = { rowCount: 1 };
 
       this.set('campaign', campaign);
-      this.set('participants', participants);
+      this.set('profiles', profiles);
+      this.set('goToProfilePage', goToProfilePage);
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaigns::Details::ProfilesTab @campaign={{campaign}} @participants={{participants}}/>}}`);
+      await render(hbs`
+        <Routes::Authenticated::Campaigns::Details::ProfilesTab
+          @campaign={{campaign}}
+          @profiles={{profiles}}
+          @goToProfilePage={{goToProfilePage}}
+        />`);
 
       // then
       assert.contains('01/02/2020');
       assert.contains('10');
-      assert.contains('true');
+      assert.contains('Certifiable');
       assert.contains('5');
     });
   });
 
-  module('when there aren\'t profiles', function() {
+  module('when there is no profile', function() {
     test('it should the empty state of participants list', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', {
