@@ -33,8 +33,7 @@ function _findByUserIdAndLimitDateQuery({ userId, limitDate }) {
 }
 
 async function _findValidatedByUserIdAndLimitDateQuery({ userId, limitDate }) {
-  const query = _findByUserIdAndLimitDateQuery({ userId, limitDate });
-  const knowledgeElementRows = await query.where({ status: 'validated' });
+  const knowledgeElementRows = await _findByUserIdAndLimitDateQuery({ userId, limitDate });
 
   const knowledgeElements = _.map(knowledgeElementRows, (knowledgeElementRow) => new KnowledgeElement(knowledgeElementRow));
   return _applyFilters(knowledgeElements);
@@ -77,7 +76,7 @@ module.exports = {
     return _.groupBy(knowledgeElements, 'competenceId');
   },
 
-  async findValidatedByCampaignIdAndUserIdForSharedCampaignParticipationInTargetProfile({ campaignId, userId }) {
+  async findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId }) {
     const sharedCampaignParticipations = await knex('campaign-participations')
       .select('userId', 'sharedAt')
       .where({ campaignId, isShared: 'true', userId })
@@ -97,11 +96,14 @@ module.exports = {
     const knowledgeElements = await _findValidatedByUserIdAndLimitDateQuery({ userId: sharedCampaignParticipations[0].userId, limitDate: sharedCampaignParticipations[0].sharedAt });
 
     return _.filter(knowledgeElements, (knowledgeElement) => {
+      if (knowledgeElement.isInvalidated) {
+        return false;
+      }
       return _.includes(targetProfileSkills, knowledgeElement.skillId);
     });
   },
 
-  async findValidatedByCampaignIdForSharedCampaignParticipationInTargetProfile(campaignId) {
+  async findByCampaignIdForSharedCampaignParticipation(campaignId) {
     const sharedCampaignParticipations = await knex('campaign-participations')
       .select('userId', 'sharedAt')
       .where({ campaignId, isShared: 'true' });
@@ -118,6 +120,9 @@ module.exports = {
     }, { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }));
 
     return _.filter(allKnowledgeElements, (knowledgeElement) => {
+      if (knowledgeElement.isInvalidated) {
+        return false;
+      }
       return _.includes(targetProfileSkills, knowledgeElement.skillId);
     });
   }
