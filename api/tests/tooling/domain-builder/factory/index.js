@@ -13,6 +13,7 @@ module.exports = {
   buildCampaignCollectiveResult: require('./build-campaign-collective-result'),
   buildCampaignCompetenceCollectiveResult: require('./build-campaign-competence-collective-result'),
   buildCampaignParticipation: require('./build-campaign-participation'),
+  buildCampaignParticipationBadge: require('./build-campaign-participation-badge'),
   buildCampaignParticipationResult: require('./build-campaign-participation-result'),
   buildCampaignReport: require('./build-campaign-report'),
   buildCampaignTubeRecommendation: require('./build-campaign-tube-recommendation'),

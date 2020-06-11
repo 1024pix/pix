@@ -41,72 +41,13 @@ describe('Unit | Controller | Assessment Campaigns | Skill Review', function() {
     controller.transitionToRoute = sinon.stub();
   });
 
-  describe('#shouldShowBadge', () => {
-    context('when some badge information is available', function() {
-      beforeEach(function() {
-        // given
-        const badgePixEmploi = EmberObject.create({
-          content : {
-            altMessage: 'Vous avez validé le badge Pix Emploi.',
-            message: 'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. ' +
-            'Pour valoriser vos compétences, renseignez-vous auprès de votre conseiller.',
-            imageUrl: '/images/badges/Pix-emploi.svg',
-          }
-        });
-        controller.set('model.campaignParticipation.campaignParticipationResult.badge', badgePixEmploi);
-      });
-
-      it('should return true when badge criteria are fulfilled', function() {
-        // when
-        controller.set('model.campaignParticipation.campaignParticipationResult.areBadgeCriteriaFulfilled', true);
-
-        // then
-        expect(controller.shouldShowBadge).to.equal(true);
-      });
-
-      it('should return false when badge criteria are not fulfilled', function() {
-        // when
-        controller.set('model.campaignParticipation.campaignParticipationResult.areBadgeCriteriaFulfilled', false);
-
-        // then
-        expect(controller.shouldShowBadge).to.equal(false);
-      });
-    });
-
-    context('when no badge information is available', function() {
-      beforeEach(function() {
-        // given
-        const emptyBadge = EmberObject.create({
-          content: null
-        });
-        controller.set('model.campaignParticipation.campaignParticipationResult.badge', emptyBadge);
-      });
-
-      it('should return false when user badge criteria are fulfilled', function() {
-        // when
-        controller.set('model.campaignParticipation.campaignParticipationResult.areBadgeCriteriaFulfilled', false);
-
-        // then
-        expect(controller.shouldShowBadge).to.equal(false);
-      });
-
-      it('should return false when badge criteria are not fulfilled', function() {
-        // when
-        controller.set('model.campaignParticipation.campaignParticipationResult.areBadgeCriteriaFulfilled', false);
-
-        // then
-        expect(controller.shouldShowBadge).to.equal(false);
-      });
-    });
-  });
-
   describe('#shareCampaignParticipation', function() {
     it('should set isShared to true', function() {
       // when
       controller.actions.shareCampaignParticipation.call(controller);
 
       // then
-      sinon.assert.calledWith(controller.get('model.campaignParticipation.set'), 'isShared', true);
+      expect(controller.model.campaignParticipation.isShared).to.equal(true);
     });
   });
 
@@ -125,6 +66,71 @@ describe('Unit | Controller | Assessment Campaigns | Skill Review', function() {
 
       // then
       sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.start-or-resume');
+    });
+  });
+
+  describe('#showCleaCompetences', function() {
+
+    it('should showCleaCompetences when campaignParticipationResult has a clea badge', function() {
+      // given
+      const cleaBadge = { id : 111 };
+      controller.model.campaignParticipation.campaignParticipationResult.cleaBadge = cleaBadge ;
+
+      // when
+      const shouldShowCleaCompetences = controller.showCleaCompetences;
+
+      // then
+      expect(shouldShowCleaCompetences).to.equal(true);
+    });
+
+    it('should not show clea competence when there is no cleaBadge', function() {
+      // given
+      controller.model.campaignParticipation.campaignParticipationResult.cleaBadge = undefined;
+
+      // when
+      const shouldShowCleaCompetences = controller.showCleaCompetences;
+
+      // then
+      expect(shouldShowCleaCompetences).to.equal(false);
+    });
+  });
+
+  describe('#showBadges', function() {
+
+    it('should show badges when acquired', function() {
+      // given
+      const badges = [{ id : 33, isAcquired: true }];
+      controller.model.campaignParticipation.campaignParticipationResult.campaignParticipationBadges = badges ;
+
+      // when
+      const shouldShowBadges = controller.showBadges;
+
+      // then
+      expect(shouldShowBadges).to.equal(true);
+    });
+
+    it('should not show badges when not acquired', function() {
+      // given
+      const badges = [{ id : 33, isAcquired: false }];
+      controller.model.campaignParticipation.campaignParticipationResult.campaignParticipationBadges = badges ;
+
+      // when
+      const shouldShowBadges = controller.showBadges;
+
+      // then
+      expect(shouldShowBadges).to.equal(false);
+    });
+
+    it('should not show badges when none', function() {
+      // given
+      const badges = [];
+      controller.model.campaignParticipation.campaignParticipationResult.campaignParticipationBadges = badges ;
+
+      // when
+      const shouldShowBadges = controller.showBadges;
+
+      // then
+      expect(shouldShowBadges).to.equal(false);
     });
   });
 });

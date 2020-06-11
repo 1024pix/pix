@@ -12,10 +12,10 @@ export default class PartnerCompetenceResult extends Model {
   @attr('number') validatedSkillsCount;
 
   // includes
-  @belongsTo('campaignParticipationResult') campaignParticipationResult;
+  @belongsTo('campaignParticipationBadge') campaignParticipationBadge;
 
   @computed('totalSkillsCount', 'campaignParticipationResult')
   get totalSkillsCountPercentage() {
-    return Math.round(this.totalSkillsCount * 100 / this.campaignParticipationResult.get('maxTotalSkillsCountInPartnerCompetences'));
+    return Math.round(this.totalSkillsCount * 100 / this.campaignParticipationBadge.get('maxTotalSkillsCountInPartnerCompetences'));
   }
 }

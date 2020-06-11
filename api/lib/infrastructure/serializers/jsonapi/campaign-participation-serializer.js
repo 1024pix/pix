@@ -59,7 +59,7 @@ module.exports = {
             'testedSkillsCount',
             'validatedSkillsCount',
             'competenceResults',
-            'partnerCompetenceResults',
+            'campaignParticipationBadges',
             'progress',
           ],
           competenceResults: {
@@ -74,17 +74,16 @@ module.exports = {
               'validatedSkillsCount'
             ],
           },
-          partnerCompetenceResults: {
+          campaignParticipationBadges: {
             ref: 'id',
             attributes: [
-              'name',
-              'areaColor',
-              'masteryPercentage',
-              'totalSkillsCount',
-              'testedSkillsCount',
-              'validatedSkillsCount'
+              'altMessage',
+              'message',
+              'imageUrl',
+              'key',
+              'isAcquired',
             ],
-          }
+          },
         },
         campaignAnalysis: {
           ref: 'id',

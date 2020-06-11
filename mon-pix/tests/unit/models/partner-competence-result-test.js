@@ -25,8 +25,11 @@ describe('Unit | Model | Partner-Competence-Result', function() {
       const otherPartnerCompetenceResult = store.createRecord('partner-competence-result', {
         totalSkillsCount: 1
       });
-      const campaignParticipationResult = store.createRecord('campaign-participation-result', {
+      const campaignParticipationBadge = store.createRecord('campaign-participation-badge', {
         partnerCompetenceResults: [otherPartnerCompetenceResult, partnerCompetenceResult]
+      });
+      const campaignParticipationResult = store.createRecord('campaign-participation-result', {
+        campaignParticipationBadges: [campaignParticipationBadge],
       });
 
       partnerCompetenceResult.totalSkillsCount = 2;
@@ -44,8 +47,11 @@ describe('Unit | Model | Partner-Competence-Result', function() {
       const otherPartnerCompetenceResult = store.createRecord('partner-competence-result', {
         totalSkillsCount: 4
       });
-      const campaignParticipationResult = store.createRecord('campaign-participation-result', {
+      const campaignParticipationBadge = store.createRecord('campaign-participation-badge', {
         partnerCompetenceResults: [otherPartnerCompetenceResult, partnerCompetenceResult]
+      });
+      const campaignParticipationResult = store.createRecord('campaign-participation-result', {
+        campaignParticipationBadges: [campaignParticipationBadge],
       });
 
       partnerCompetenceResult.totalSkillsCount = 1;

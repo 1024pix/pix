@@ -1,31 +1,25 @@
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 
-module.exports = async function getCampaignParticipationResult(
-  {
-    userId,
-    campaignParticipationId,
-    badgeRepository,
-    badgeAcquisitionRepository,
-    campaignParticipationRepository,
-    campaignParticipationResultRepository,
-    campaignRepository,
-    targetProfileRepository,
-  }
-) {
+module.exports = async function getCampaignParticipationResult({
+  userId,
+  campaignParticipationId,
+  badgeRepository,
+  badgeAcquisitionRepository,
+  campaignParticipationRepository,
+  campaignParticipationResultRepository,
+  campaignRepository,
+  targetProfileRepository,
+}) {
   const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
   await _checkIfUserHasAccessToThisCampaignParticipation(userId, campaignParticipation, campaignRepository);
 
   const targetProfile = await targetProfileRepository.getByCampaignId(campaignParticipation.campaignId);
-  const badge = await badgeRepository.findOneByTargetProfileId(targetProfile.id);
+  const campaignBadges = await badgeRepository.findByTargetProfileId(targetProfile.id);
+  const campaignBadgeIds = campaignBadges.map((badge) => badge.id);
 
-  const campaignParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, badge);
+  const acquiredBadgeIds = await badgeAcquisitionRepository.getAcquiredBadgeIds({ userId, badgeIds: campaignBadgeIds });
 
-  if (badge != null) {
-    const hasAcquiredBadge = await badgeAcquisitionRepository.hasAcquiredBadgeWithId({ userId, badgeId: badge.id });
-    campaignParticipationResult.areBadgeCriteriaFulfilled = hasAcquiredBadge;
-  }
-
-  return campaignParticipationResult;
+  return campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, campaignBadges, acquiredBadgeIds);
 };
 
 async function _checkIfUserHasAccessToThisCampaignParticipation(userId, campaignParticipation, campaignRepository) {
