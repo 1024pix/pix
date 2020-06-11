@@ -292,4 +292,4 @@ jobs:
             wget --retry-connrefused -T 60 -qO- http://localhost:4200
             wget --retry-connrefused -T 60 -qO- http://localhost:4201
             wget --retry-connrefused -T 60 -qO- http://localhost:3000/api
-            npm run db:initialize && npx cypress run --browser=chrome --parallel --record --group e2e-tests && exit
+            npm run cy:run:ci
