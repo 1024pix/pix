@@ -32,13 +32,19 @@
               {{/if}}
             </td>
             <td class="table__column--center">
-              {{participant.pixScore}}
+              {{#if profile.sharedAt }}
+                <PixTag @color="purple" class="pix-score-tag">
+                  {{profile.pixScore}}
+                </PixTag>
+              {{/if}}
             </td>
             <td class="table__column--center">
-              {{participant.certifiable}}
+              {{#if profile.certifiable }}
+                <PixTag @color="green-light">Certifiable</PixTag>
+              {{/if}}
             </td>
             <td class="table__column--center">
-              {{participant.certifiableCompetencesCount}}
+              {{profile.certifiableCompetencesCount}}
             </td>
           </tr>
         {{/each}}
