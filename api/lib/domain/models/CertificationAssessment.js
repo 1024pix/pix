@@ -1,7 +1,7 @@
 const Joi = require('@hapi/joi')
   .extend(require('@hapi/joi-date'));
+const { validateEntity } = require('../validators/entity-validator');
 const { states } = require('./Assessment');
-const { ObjectValidationError } = require('../errors');
 
 const certificationAssessmentSchema = Joi.object({
   id: Joi.number().integer().required(),
@@ -14,13 +14,6 @@ const certificationAssessmentSchema = Joi.object({
   certificationChallenges: Joi.array().min(1).required(),
   certificationAnswers: Joi.array().min(1).required(),
 });
-
-function validateEntity(schema, entity) {
-  const { error } = schema.validate(entity);
-  if (error) {
-    throw new ObjectValidationError(error);
-  }
-}
 
 class CertificationAssessment {
   constructor({

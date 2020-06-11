@@ -1,6 +1,7 @@
-const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex, airtableBuilder, sinon } = require('../../../test-helper');
+const moment = require('moment');
+const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex, airtableBuilder } = require('../../../test-helper');
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const badgeRepository = require('../../../../lib/infrastructure/repositories/badge-repository');
+const Badge = require('../../../../lib/domain/models/Badge');
 const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
 const createServer = require('../../../../server');
 const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
@@ -19,6 +20,9 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
       .activate();
     airtableBuilder.mockList({ tableName: 'Competences' })
       .returns(learningContentForCertification.competences)
+      .activate();
+    airtableBuilder.mockList({ tableName: 'Tubes' })
+      .returns(learningContentForCertification.tubes)
       .activate();
     airtableBuilder.mockList({ tableName: 'Acquis' })
       .returns(learningContentForCertification.skills)
@@ -156,15 +160,22 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
       let certificationAssessmentId;
 
       beforeEach(() => {
-        certifiableUserId = databaseBuilder.factory.buildCertifiableUser({ competencesAssociatedSkillsAndChallenges }).id;
+        const limitDate = new Date('2020-01-01T00:00:00Z');
+        certifiableUserId = databaseBuilder.factory.buildCertifiableUser({ competencesAssociatedSkillsAndChallenges, limitDate }).id;
         certificationAssessmentId = databaseBuilder.factory.buildAnsweredNotCompletedCertificationAssessment({
           certifiableUserId,
           competencesAssociatedSkillsAndChallenges,
+          limitDate: moment(limitDate).add(1, 'day').toDate(),
         }).id;
-
-        sinon.stub(badgeRepository, 'findOneByKey').resolves({ badgePartnerCompetences: [] });
+        const badgeId = databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA }).id;
+        databaseBuilder.factory.buildBadgePartnerCompetence({ badgeId, skillIds: [ competencesAssociatedSkillsAndChallenges[0].skillId ] });
 
         return databaseBuilder.commit();
+      });
+
+      afterEach(async () => {
+        await knex('competence-marks').delete();
+        await knex('assessment-results').delete();
       });
 
       it('should complete the certification assessment', async () => {

@@ -2,6 +2,9 @@ const _ = require('lodash');
 const Badge = require('../models/Badge');
 const PartnerCertification = require('./PartnerCertification');
 const { NotEligibleCandidateError } = require('../errors');
+const Joi = require('@hapi/joi')
+  .extend(require('@hapi/joi-date'));
+const { validateEntity } = require('../validators/entity-validator');
 
 const MIN_PERCENTAGE = 75;
 
@@ -34,7 +37,7 @@ class CleaCertification extends PartnerCertification {
 
   constructor({
     certificationCourseId,
-    hasAcquiredBadgeClea,
+    hasAcquiredBadge,
     reproducibilityRate,
     competenceMarks,
     totalPixCleaByCompetence
@@ -44,10 +47,19 @@ class CleaCertification extends PartnerCertification {
       partnerKey: Badge.keys.PIX_EMPLOI_CLEA,
     });
 
-    this.hasAcquiredBadge = hasAcquiredBadgeClea;
+    this.hasAcquiredBadge = hasAcquiredBadge;
     this.reproducibilityRate = reproducibilityRate;
     this.competenceMarks = competenceMarks;
     this.totalPixCleaByCompetence = totalPixCleaByCompetence;
+
+    const schema = Joi.object({
+      hasAcquiredBadge: Joi.boolean().required(),
+      reproducibilityRate: Joi.number().required(),
+      competenceMarks: Joi.array().min(1).required(),
+      totalPixCleaByCompetence: Joi.object().min(1).required(),
+    }).unknown();
+
+    validateEntity(schema, this);
   }
 
   isEligible() {
