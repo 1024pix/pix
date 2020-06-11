@@ -55,13 +55,15 @@
     {{/unless}}
   </div>
 
-  {{#if this.isShowingModal}}
-    <PasswordResetWindow @student={{this.student}} @isShowingModal={{this.isShowingModal}} />
-  {{/if}}
+  <PasswordResetModal
+    @student={{this.student}}
+    @display={{this.isShowingModal}}
+    @close={{this.closePasswordReset}}
+  />
 </div>
 
 {{#if this.isLoading}}
-  <ModalDialog @translucentOverlay={{true}} @containerClass="pix-modal__translucent">
+  <ModalDialog @translucentOverlay={{true}} @containerClass="modal__translucent">
     <PixLoader />
   </ModalDialog>
 {{/if}}
