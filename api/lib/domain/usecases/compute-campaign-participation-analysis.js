@@ -30,7 +30,7 @@ module.exports = async function computeCampaignParticipationAnalysis(
     competenceRepository.list(),
     tubeRepository.list(),
     targetProfileRepository.getByCampaignId(campaignId),
-    knowledgeElementRepository.findValidatedByCampaignIdAndUserIdForSharedCampaignParticipationInTargetProfile({ campaignId, userId: campaignParticipation.userId }),
+    knowledgeElementRepository.findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId: campaignParticipation.userId }),
     tutorialRepository.list(),
   ]);
 
