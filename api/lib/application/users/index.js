@@ -110,8 +110,8 @@ exports.register = async function(server) {
             const errorHttpStatusCode = 400;
             const jsonApiError = new JSONAPIError({
               code: errorHttpStatusCode.toString(),
-              title: 'Bad request',
-              detail: err.details,
+              title: 'Bad request', 
+              detail: err.details[0].message,
             });
             return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
           }

@@ -91,7 +91,7 @@ describe('Integration | Application | Users | Routes', () => {
       // then
       expect(response.statusCode).to.equal(400);
       const firstError = response.result.errors[0];
-      expect(firstError.detail[0].message).to.equal('"data.attributes.first-name" is required');
+      expect(firstError.detail).to.equal('"data.attributes.first-name" is required');
 
     });
 
@@ -115,7 +115,7 @@ describe('Integration | Application | Users | Routes', () => {
       // then
       expect(response.statusCode).to.equal(400);
       const firstError = response.result.errors[0];
-      expect(firstError.detail[0].message).to.equal('"data.attributes.first-name" is required');
+      expect(firstError.detail).to.equal('"data.attributes.first-name" is required');
 
     });
 
