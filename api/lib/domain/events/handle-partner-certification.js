@@ -3,7 +3,7 @@ const CertificationScoringCompleted = require('./CertificationScoringCompleted')
 
 const eventType = CertificationScoringCompleted;
 
-async function handleCertificationForPartner({
+async function handlePartnerCertifications({
   event,
   domainTransaction,
   partnerCertificationRepository,
@@ -20,5 +20,5 @@ async function handleCertificationForPartner({
   }
 }
 
-handleCertificationForPartner.eventType = eventType;
-module.exports = handleCertificationForPartner;
+handlePartnerCertifications.eventType = eventType;
+module.exports = handlePartnerCertifications;

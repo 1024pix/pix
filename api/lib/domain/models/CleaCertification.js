@@ -78,10 +78,6 @@ class CleaCertification extends PartnerCertification {
       totalPixCleaByCompetence:this.totalPixCleaByCompetence
     });
   }
-
-  static certificationStatus(certificationPartner) {
-    return PartnerCertification.certificationStatus(certificationPartner);
-  }
 }
 
 module.exports = CleaCertification;
