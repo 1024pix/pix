@@ -21,7 +21,7 @@ const dependencies = {
 const handlersToBeInjected = {
   handleBadgeAcquisition: require('./handle-badge-acquisition'),
   handleCertificationScoring: require('./handle-certification-scoring'),
-  handleCertificationForPartner: require('./handle-partner-certification')
+  handlePartnerCertifications: require('./handle-partner-certification'),
 };
 
 function buildEventDispatcher(handlersStubs) {

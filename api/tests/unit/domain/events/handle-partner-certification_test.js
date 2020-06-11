@@ -1,7 +1,7 @@
 const { catchErr, expect, sinon } = require('../../../test-helper');
 const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
 const partnerCertificationRepository = require('../../../../lib/infrastructure/repositories/partner-certification-repository');
-const { handleCertificationForPartner } = require('../../../../lib/domain/events')._forTestOnly.handlers;
+const { handlePartnerCertifications } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 
 describe('Unit | Domain | Events | handle-partner-certification', () => {
   const domainTransaction = Symbol('domainTransaction');
@@ -17,7 +17,7 @@ describe('Unit | Domain | Events | handle-partner-certification', () => {
     // given
     const event = 'not an event of the correct type';
     // when / then
-    const error = await catchErr(handleCertificationForPartner)(
+    const error = await catchErr(handlePartnerCertifications)(
       { event, ...dependencies, domainTransaction }
     );
 
@@ -25,7 +25,7 @@ describe('Unit | Domain | Events | handle-partner-certification', () => {
     expect(error).not.to.be.null;
   });
 
-  context('#handleCertificationForPartner', () => {
+  context('#handlePartnerCertifications', () => {
     const certificationCourseId = Symbol('certificationCourseId');
     const userId = Symbol('userId');
     const cleaCertification = {};
@@ -56,7 +56,7 @@ describe('Unit | Domain | Events | handle-partner-certification', () => {
         cleaCertification.isEligible = () => true;
 
         // when
-        await handleCertificationForPartner({
+        await handlePartnerCertifications({
           event, ...dependencies, domainTransaction
         });
 
@@ -70,7 +70,7 @@ describe('Unit | Domain | Events | handle-partner-certification', () => {
         cleaCertification.isEligible = () => false;
 
         // when
-        await handleCertificationForPartner({
+        await handlePartnerCertifications({
           event, ...dependencies, domainTransaction
         });
 
