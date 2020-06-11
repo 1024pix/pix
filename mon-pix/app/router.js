@@ -50,23 +50,12 @@ Router.map(function() {
     this.route('start-or-resume', { path: '/' });
     this.route('campaign-landing-page', { path: '/presentation' });
     this.route('fill-in-id-pix', { path: '/identifiant' });
-  });
-
-  this.route('restricted-campaigns', { path: '/campagnes/:campaign_code/restreinte' }, function() {
-    this.route('join-restricted-campaign', { path: '/rejoindre' });
-    this.route('login-or-register-to-access-restricted-campaign', { path: '/identification' });
-  });
-
-  this.route('assessment-campaigns', { path: '/campagnes/:campaign_code/evaluation' }, function() {
-    this.route('start-or-resume', { path: '/' });
-    this.route('tutorial', { path: '/didacticiel' });
-    this.route('skill-review', { path: '/resultats/:assessment_id' });
-  });
-
-  this.route('profiles-collection-campaigns', { path: '/campagnes/:campaign_code/collecte' }, function() {
-    this.route('start-or-resume', { path: '/' });
-    this.route('send-profile', { path: '/envoi-profil' });
-    this.route('profile-already-shared', { path: '/deja-envoye' });
+    this.route('tutorial', { path: '/evaluation/didacticiel' });
+    this.route('skill-review', { path: '/evaluation/resultats/:assessment_id' });
+    this.route('send-profile', { path: '/collecte/envoi-profil' });
+    this.route('profile-already-shared', { path: '/collecte/deja-envoye' });
+    this.route('join-restricted-campaign', { path: '/restreinte/rejoindre' });
+    this.route('login-or-register-to-access-restricted-campaign', { path: '/restreinte/identification' });
   });
 
   this.route('competences', { path: '/competences/:competence_id' }, function() {

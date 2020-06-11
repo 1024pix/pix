@@ -3,7 +3,6 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
 describe('Unit | Controller | Campaigns | Landing Page', function() {
-
   setupTest();
 
   let controller;
@@ -26,8 +25,7 @@ describe('Unit | Controller | Campaigns | Landing Page', function() {
       // then
       sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.start-or-resume', 'konami', {
         queryParams: {
-          hasSeenLanding: true,
-          participantExternalId: 'a73at01r3'
+          userHasSeenLanding: true,
         }
       });
     });

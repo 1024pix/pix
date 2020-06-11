@@ -28,6 +28,14 @@ describe('Acceptance | Campaigns | Resume Campaigns with type Profiles Collecti
 
     beforeEach(async function() {
       await invalidateSession();
+      // Emulate a page refresh
+      this.owner.lookup('route:campaigns.start-or-resume').set('state', {
+        campaignCode: null,
+        participantExternalId: null,
+        userHasSeenLanding: false,
+        associationDone: false,
+        userHasConsultedTutorial: false,
+      });
       await visit(`/campagnes/${campaign.code}`);
       await click(contains('C’est parti !'));
     });
@@ -72,7 +80,7 @@ describe('Acceptance | Campaigns | Resume Campaigns with type Profiles Collecti
 
         // when
         await visit(`/campagnes/${campaign.code}`);
-             
+
         // then
         expect(currentURL()).to.contains('/deja-envoye');
       });
@@ -83,7 +91,7 @@ describe('Acceptance | Campaigns | Resume Campaigns with type Profiles Collecti
 
         // when
         await visit(`/campagnes/${campaign.code}`);
-             
+
         // then
         expect(contains('156')).to.exist;
         expect(contains('Area_1_title')).to.exist;

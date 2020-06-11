@@ -33,6 +33,11 @@ export default Factory.extend({
         targetProfile : server.create('target-profile', { name: 'Target Profile' }),
       });
     }
+    if (!campaign.type) {
+      campaign.update({
+        type : 'ASSESSMENT',
+      });
+    }
   },
 
   withOneChallenge: trait({
@@ -46,6 +51,22 @@ export default Factory.extend({
       server.create('challenge', 'forSmartPlacement');
       server.create('challenge', 'forSmartPlacement');
       server.create('challenge', 'forSmartPlacement');
+    }
+  }),
+
+  ofTypeAssessment: trait({
+    afterCreate(campaign) {
+      campaign.update({
+        type : 'ASSESSMENT',
+      });
+    }
+  }),
+
+  ofTypeProfilesCollection: trait({
+    afterCreate(campaign) {
+      campaign.update({
+        type : 'PROFILES_COLLECTION',
+      });
     }
   }),
 });

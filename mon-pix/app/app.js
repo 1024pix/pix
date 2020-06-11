@@ -7,6 +7,7 @@ export default class App extends Application {
   modulePrefix = config.modulePrefix;
   podModulePrefix = config.podModulePrefix;
   Resolver = Resolver;
+  LOG_TRANSITIONS = config.APP.LOG_TRANSITIONS;
 }
 
 loadInitializers(App, config.modulePrefix);

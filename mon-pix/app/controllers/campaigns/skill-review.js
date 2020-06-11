@@ -38,9 +38,8 @@ export default class SkillReviewController extends Controller {
 
   @action
   async improvementCampaignParticipation() {
-    const assessment = this.model.assessment;
     const campaignParticipation = this.model.campaignParticipation;
     await campaignParticipation.save({ adapterOptions: { beginImprovement: true } });
-    return this.transitionToRoute('campaigns.start-or-resume', assessment.codeCampaign);
+    return this.transitionToRoute('campaigns.start-or-resume');
   }
 }

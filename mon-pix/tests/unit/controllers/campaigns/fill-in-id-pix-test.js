@@ -4,21 +4,15 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
 describe('Unit | Controller | Campaigns | Fill in ParticipantExternalId', function() {
-
   setupTest();
 
-  const model = {
-    id: 1243,
-    code: 'CODECAMPAIGN',
-    idPixLabel: 'Identifiant professionnel',
-  };
   const participantExternalId = 'matricule123';
 
   let controller;
 
   beforeEach(function() {
     controller = this.owner.lookup('controller:campaigns/fill-in-id-pix');
-    controller.set('model', model);
+    controller.set('model', {});
   });
 
   describe('#submit', () => {
@@ -38,7 +32,7 @@ describe('Unit | Controller | Campaigns | Fill in ParticipantExternalId', functi
       controller.actions.submit.call(controller);
 
       // then
-      sinon.assert.calledWith(startStub, model, participantExternalId);
+      sinon.assert.calledWith(startStub, participantExternalId);
     });
 
     it('should display error when participant external id is empty', () => {
@@ -64,7 +58,7 @@ describe('Unit | Controller | Campaigns | Fill in ParticipantExternalId', functi
       controller.actions.cancel.call(controller);
 
       // then
-      sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.start-or-resume', controller.get('model.code'));
+      sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.start-or-resume');
     });
   });
 });

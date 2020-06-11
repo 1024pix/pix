@@ -39,6 +39,14 @@ describe('Acceptance | Campaigns | Resume Campaigns with type Assessment', func
 
       beforeEach(async function() {
         await invalidateSession();
+        // Emulate a page refresh
+        this.owner.lookup('route:campaigns.start-or-resume').set('state', {
+          campaignCode: null,
+          participantExternalId: null,
+          userHasSeenLanding: false,
+          associationDone: false,
+          userHasConsultedTutorial: false,
+        });
         await visit(`/campagnes/${campaign.code}`);
         await click('.campaign-landing-page__start-button');
       });

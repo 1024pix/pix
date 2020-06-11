@@ -7,8 +7,8 @@ export default class JoinRestrictedCampaignRoute extends Route.extend(SecuredRou
   @service currentUser;
   @service session;
 
-  async beforeModel(transition) {
-    const campaignCode = transition.to.parent.params.campaign_code;
+  async beforeModel() {
+    const campaignCode = this.paramsFor('campaigns').campaign_code;
     const student = await this.store.queryRecord('student-user-association', { userId: this.currentUser.user.id, campaignCode });
 
     if (!isEmpty(student)) {
@@ -19,7 +19,7 @@ export default class JoinRestrictedCampaignRoute extends Route.extend(SecuredRou
   }
 
   model() {
-    return this.paramsFor('restricted-campaigns').campaign_code;
+    return this.paramsFor('campaigns').campaign_code;
   }
 
   setupController(controller) {
