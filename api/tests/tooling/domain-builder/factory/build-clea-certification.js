@@ -6,7 +6,7 @@ module.exports = function buildCompetence({
   hasAcquiredBadge = true,
   reproducibilityRate = 50,
   competenceMarks = [buildCompetenceMark()],
-  totalPixCleaByCompetence = { competence1: 51 }
+  maxReachablePixByCompetenceForClea = { competence1: 51 }
 } = {}) {
 
   return new CleaCertification({
@@ -14,6 +14,6 @@ module.exports = function buildCompetence({
     hasAcquiredBadge,
     reproducibilityRate,
     competenceMarks,
-    totalPixCleaByCompetence
+    maxReachablePixByCompetenceForClea
   });
 };

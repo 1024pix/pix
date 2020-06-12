@@ -174,6 +174,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
       });
 
       afterEach(async () => {
+        await knex('partner-certifications').delete();
         await knex('competence-marks').delete();
         await knex('assessment-results').delete();
       });

@@ -11,13 +11,6 @@ module.exports = {
     return results;
   },
 
-  async hasAcquiredBadgeWithKey({ badgeKey, userId }) {
-    const badgeAcquisition = await BookshelfBadgeAcquisition
-      .query((qb) => qb.innerJoin('badges', 'badges.id', 'badgeId'))
-      .where({ userId, key: badgeKey }).fetch({ columns: ['badge-acquisitions.id'], require: false });
-    return Boolean(badgeAcquisition);
-  },
-
   async getAcquiredBadgeIds({ badgeIds, userId }) {
     const collectionResult = await BookshelfBadgeAcquisition
       .where({ userId })
