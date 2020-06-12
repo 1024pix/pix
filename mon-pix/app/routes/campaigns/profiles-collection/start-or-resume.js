@@ -1,47 +1,20 @@
-import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 
 export default class ProfilesCollectionCampaignsStartOrResumeRoute extends Route.extend(SecuredRouteMixin) {
-  @service currentUser;
-  @service session;
 
-  campaignCode = null;
-  participantExternalId = null;
-  associationDone = false;
-  userHasSeenLanding = false;
-
-  beforeModel(transition) {
-    this.campaignCode = this.paramsFor('campaigns').campaign_code;
-    this.associationDone = transition.to.queryParams.associationDone;
-    this.participantExternalId = transition.to.queryParams.participantExternalId;
-    this.userHasSeenLanding = transition.to.queryParams.hasSeenLanding;
+  beforeModel() {
     super.beforeModel(...arguments);
   }
 
   async model() {
-    return this.modelFor('campaigns');
+    return this.modelFor('campaigns.profiles-collection');
   }
 
-  async redirect(campaign) {
-    const campaignParticipation = await this.store.queryRecord('campaignParticipation', { campaignId: campaign.id, userId: this.currentUser.user.id });
-
-    if (this._isParticipationShared(campaignParticipation)) {
-      return this.replaceWith('campaigns.profiles-collection.profile-already-shared', this.campaignCode);
+  redirect({ campaign, campaignParticipation }) {
+    if (campaignParticipation.isShared) {
+      return this.replaceWith('campaigns.profiles-collection.profile-already-shared', campaign.code);
     }
-    if (campaignParticipation) {
-      return this.replaceWith('campaigns.profiles-collection.send-profile', this.campaignCode);
-    }
-    if (this.userHasSeenLanding) {
-      return this.replaceWith('campaigns.fill-in-id-pix', this.campaignCode, { queryParams: { participantExternalId: this.participantExternalId } });
-    }
-    if (!campaign.isRestricted || this.associationDone) {
-      return this.replaceWith('campaigns.campaign-landing-page', this.campaignCode, { queryParams: { participantExternalId: this.participantExternalId } });
-    }
-    return this.replaceWith('campaigns.restricted.join', this.campaignCode, { queryParams: { participantExternalId: this.participantExternalId } });
-  }
-
-  _isParticipationShared(campaignParticipation) {
-    return campaignParticipation && campaignParticipation.isShared;
+    return this.replaceWith('campaigns.profiles-collection.send-profile', campaign.code);
   }
 }

@@ -3,12 +3,10 @@ import { inject as service } from '@ember/service';
 
 export default class SendProfileRoute extends Route {
   @service currentUser;
-  @service store;
 
   async model() {
     const user = this.currentUser.user;
-    const campaign = this.modelFor('campaigns');
-    const campaignParticipation = await this.store.queryRecord('campaignParticipation', { campaignId: campaign.id, userId: user.id });
+    const { campaign, campaignParticipation } = this.modelFor('campaigns.profiles-collection');
     return {
       campaign,
       campaignParticipation,
