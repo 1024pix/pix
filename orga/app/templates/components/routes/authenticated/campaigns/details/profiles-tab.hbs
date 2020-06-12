@@ -9,6 +9,9 @@
             <th>{{@campaign.idPixLabel}}</th>
           {{/if}}
           <th class="table__column--center">date d’envoi</th>
+          <th class="table__column--center">Score Pix</th>
+          <th class="table__column--center">Certifiable</th>
+          <th class="table__column--center">Comp. certifiables</th>
         </tr>
       </thead>
 
@@ -27,6 +30,21 @@
               {{else}}
                 <span class="table__column--highlight">En attente</span>
               {{/if}}
+            </td>
+            <td class="table__column--center">
+              {{#if profile.sharedAt }}
+                <PixTag @color="purple" class="pix-score-tag">
+                  {{profile.pixScore}}
+                </PixTag>
+              {{/if}}
+            </td>
+            <td class="table__column--center">
+              {{#if profile.certifiable }}
+                <PixTag @color="green-light">Certifiable</PixTag>
+              {{/if}}
+            </td>
+            <td class="table__column--center">
+              {{profile.certifiableCompetencesCount}}
             </td>
           </tr>
         {{/each}}

@@ -1,6 +1,6 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const findCampaignProfilesCollectionParticipationSummaries = require('../../../../lib/domain/usecases/find-campaign-profiles-collection-participation-summaries');
-const CampaignProfilesCollectionParticipationSummary = require('../../../../lib/domain/models/CampaignProfilesCollectionParticipationSummary');
+const CampaignProfilesCollectionParticipationSummary = require('../../../../lib/domain/read-models/CampaignProfilesCollectionParticipationSummary');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | find-campaign-profiles-collection-participation-summaries', () => {
