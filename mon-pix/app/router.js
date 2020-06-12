@@ -54,18 +54,17 @@ Router.map(function() {
       this.route('login-or-register-to-access', { path: '/identification' });
       this.route('join', { path: '/rejoindre' });
     });
+    this.route('profiles-collection', { path: '/collecte' }, function() {
+      this.route('start-or-resume', { path: '/' });
+      this.route('send-profile', { path: '/envoi-profil' });
+      this.route('profile-already-shared', { path: '/deja-envoye' });
+    });
   });
 
   this.route('assessment-campaigns', { path: '/campagnes/:campaign_code/evaluation' }, function() {
     this.route('start-or-resume', { path: '/' });
     this.route('tutorial', { path: '/didacticiel' });
     this.route('skill-review', { path: '/resultats/:assessment_id' });
-  });
-
-  this.route('profiles-collection-campaigns', { path: '/campagnes/:campaign_code/collecte' }, function() {
-    this.route('start-or-resume', { path: '/' });
-    this.route('send-profile', { path: '/envoi-profil' });
-    this.route('profile-already-shared', { path: '/deja-envoye' });
   });
 
   this.route('competences', { path: '/competences/:competence_id' }, function() {

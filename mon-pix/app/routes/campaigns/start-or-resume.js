@@ -43,7 +43,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     }
 
     if (campaign.isTypeProfilesCollection) {
-      return this.replaceWith('profiles-collection-campaigns.start-or-resume', this.campaignCode, {
+      return this.replaceWith('campaigns.profiles-collection.start-or-resume', this.campaignCode, {
         queryParams: {
           participantExternalId: this.participantExternalId,
         }
