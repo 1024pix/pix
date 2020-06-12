@@ -32,14 +32,14 @@ function _findByUserIdAndLimitDateQuery({ userId, limitDate }) {
     });
 }
 
-async function _findValidatedByUserIdAndLimitDateQuery({ userId, limitDate }) {
+async function _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate }) {
   const knowledgeElementRows = await _findByUserIdAndLimitDateQuery({ userId, limitDate });
 
   const knowledgeElements = _.map(knowledgeElementRows, (knowledgeElementRow) => new KnowledgeElement(knowledgeElementRow));
   return _applyFilters(knowledgeElements);
 }
 
-async function _filterKnowledgeElementsByCampaignId(knowledgeElements, campaignId) {
+async function _filterValidatedKnowledgeElementsByCampaignId(knowledgeElements, campaignId) {
   const targetProfileSkillsFromDB = await knex('target-profiles_skills')
     .select('target-profiles_skills.skillId')
     .join('target-profiles', 'target-profiles.id', 'target-profiles_skills.targetProfileId')
@@ -104,9 +104,9 @@ module.exports = {
     }
 
     const { sharedAt } = sharedCampaignParticipation;
-    const knowledgeElements = await _findValidatedByUserIdAndLimitDateQuery({ userId, limitDate: sharedAt });
+    const knowledgeElements = await _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate: sharedAt });
 
-    return _filterKnowledgeElementsByCampaignId(knowledgeElements, campaignId);
+    return _filterValidatedKnowledgeElementsByCampaignId(knowledgeElements, campaignId);
   },
 
   async findByCampaignIdForSharedCampaignParticipation(campaignId) {
@@ -116,12 +116,12 @@ module.exports = {
 
     const knowledgeElements = _.flatMap(await bluebird.map(sharedCampaignParticipations,
       async ({ userId, sharedAt }) => {
-        return _findValidatedByUserIdAndLimitDateQuery({ userId, limitDate: sharedAt });
+        return _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate: sharedAt });
       },
       { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }
     ));
 
-    return _filterKnowledgeElementsByCampaignId(knowledgeElements, campaignId);
+    return _filterValidatedKnowledgeElementsByCampaignId(knowledgeElements, campaignId);
 
   }
 };
