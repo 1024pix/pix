@@ -12,7 +12,7 @@ module('Acceptance | organization memberships management', function(hooks) {
     await createAuthenticateSession({ userId: 1 });
   });
 
-  test('visiting /organizations/:id', async function(assert) {
+  test('should redirect to organization members page', async function(assert) {
     // given
     const organization = this.server.create('organization');
 
@@ -20,7 +20,7 @@ module('Acceptance | organization memberships management', function(hooks) {
     await visit(`/organizations/${organization.id}`);
 
     // then
-    assert.equal(currentURL(), `/organizations/${organization.id}`);
+    assert.equal(currentURL(), `/organizations/${organization.id}/members`);
   });
 
   module('listing members', function() {

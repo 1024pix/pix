@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
+import { click, fillIn, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -10,17 +10,6 @@ module('Acceptance | organization information management', function(hooks) {
 
   hooks.beforeEach(async function() {
     await createAuthenticateSession({ userId: 1 });
-  });
-
-  test('visiting /organizations/:id', async function(assert) {
-    // given
-    const organization = this.server.create('organization');
-
-    // when
-    await visit(`/organizations/${organization.id}`);
-
-    // then
-    assert.equal(currentURL(), `/organizations/${organization.id}`);
   });
 
   module('editing organization', function() {
