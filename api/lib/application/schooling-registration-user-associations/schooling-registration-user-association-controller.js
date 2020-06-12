@@ -52,5 +52,12 @@ module.exports = {
       }
     };
     return h.response(schoolingRegistrationWithUsernameResponse).code(200);
+  },
+
+  async dissociate(request, h) {
+    const payload = request.payload.data.attributes;
+    const { userId } = request.auth.credentials;
+    await usecases.dissociateUserFromSchoolingRegistration({ userId, schoolingRegistrationId: payload['schooling-registration-id'] });
+    return h.response().code(204);
   }
 };
