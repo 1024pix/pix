@@ -3,7 +3,7 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Controller | Restricted Campaigns | Join', function() {
+describe('Unit | Controller | campaigns/restricted/join', function() {
   setupTest();
 
   let controller;
@@ -12,7 +12,7 @@ describe('Unit | Controller | Restricted Campaigns | Join', function() {
   let studentUserAssociation;
 
   beforeEach(function() {
-    controller = this.owner.lookup('controller:restricted-campaigns/join-restricted-campaign');
+    controller = this.owner.lookup('controller:campaigns.restricted.join');
     controller.transitionToRoute = sinon.stub();
     studentUserAssociation = { save: sinon.stub(), unloadRecord: sinon.stub() };
     const createStudentUserAssociationStub = sinon.stub().returns(studentUserAssociation);
