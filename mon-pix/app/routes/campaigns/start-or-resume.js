@@ -50,7 +50,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       });
     }
 
-    return this.replaceWith('assessment-campaigns.start-or-resume', this.campaignCode, {
+    return this.replaceWith('campaigns.evaluation.start-or-resume', this.campaignCode, {
       queryParams: {
         participantExternalId: this.participantExternalId,
       }
