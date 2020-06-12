@@ -12,7 +12,7 @@
           {{#each this.model.campaignParticipation.campaignParticipationResult.campaignParticipationBadges as |badge|}}
             {{#if badge.isAcquired}}
               <div class="skill-review-result__badge">
-                <img src="{{this.rootURL}}{{badge.imageUrl}}"
+                <img src="{{badge.imageUrl}}"
                      alt="{{badge.altMessage}}">
                 <p class="skill-review-result__badge-information">{{badge.message}}</p>
               </div>
