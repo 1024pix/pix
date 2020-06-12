@@ -4,6 +4,7 @@ const usecases = require('../../domain/usecases');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const serializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const campaignAnalysisSerializer = require('../../infrastructure/serializers/jsonapi/campaign-analysis-serializer');
+const campaignProfileSerializer = require('../../infrastructure/serializers/jsonapi/campaign-profile-serializer');
 
 module.exports = {
 
@@ -76,5 +77,13 @@ module.exports = {
     const campaignAnalysis = await usecases.computeCampaignParticipationAnalysis({ userId, campaignParticipationId });
     return campaignAnalysisSerializer.serialize(campaignAnalysis);
   },
+
+  async getCampaignProfile(request) {
+    const { userId } = request.auth.credentials;
+    const { campaignId, campaignParticipationId } = request.params;
+
+    const campaignProfile = await usecases.getCampaignProfile({ userId, campaignId, campaignParticipationId });
+    return campaignProfileSerializer.serialize(campaignProfile);
+  }
 
 };

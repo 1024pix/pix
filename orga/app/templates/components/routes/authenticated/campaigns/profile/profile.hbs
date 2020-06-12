@@ -1,0 +1,63 @@
+<article class="profile">
+
+  <header class="profile__header">
+   <PreviousPageButton
+     @route="authenticated.campaigns.details.profiles"
+     @routeId={{@campaign.id}}
+     @aria-label="Retourner au détail de la campagne"
+     @title-class="profile-page-header__title"
+   >
+    {{@campaign.name}}
+   </PreviousPageButton>
+  </header>
+
+  <section class="user panel">
+    <header class="user__header">
+      <h2 class="user__name">
+        {{@campaignProfile.firstName}} {{@campaignProfile.lastName}}
+      </h2>
+      {{#if (and @campaignProfile.isCertifiable @campaignProfile.isShared)}}
+        <Tag @color="green">Certifiable</Tag>
+      {{/if}}
+    </header>
+
+    <div class="user__information">
+      <ul class="user-data">
+        {{#if @campaignProfile.externalId}}
+          <li class="user-data__content">
+            <div class="user-data__content--label">Identifiant</div>
+            <div class="user-data__content--text">{{@campaignProfile.externalId}}</div>
+          </li>
+        {{/if}}
+        <li class="user-data__content">
+          <div class="user-data__content--label">Commencé le</div>
+          <div class="user-data__content--text">{{moment-format @campaignProfile.createdAt 'DD MMM YYYY'}}</div>
+        </li>
+        <li class="user-data__content">
+          <div class="user-data__content--label">Envoyé le</div>
+          {{#if @campaignProfile.sharedAt}}
+            <div class="user-data__content--text">{{moment-format @campaignProfile.sharedAt 'DD MMM YYYY'}}</div>
+          {{else}}
+            <div class="user-data__content--text">Non disponible</div>
+          {{/if}}
+        </li>
+      </ul>
+
+      {{#if @campaignProfile.isShared}}
+        <ul class="user-data user-data--highlight">
+          <li class="user-data__content">
+            <span class="user-data--highlight-bold">{{@campaignProfile.pixScore}}</span>
+            <span class="user-data--highlight-label">PIX</span>
+          </li>
+          <li class="user-data__content">
+            <span class="user-data--highlight-text">
+              <span class="user-data--highlight-bold">{{@campaignProfile.certifiableCompetencesCount}}</span>
+              <span>&nbsp;/&nbsp;{{@campaignProfile.competencesCount}}</span>
+            </span>
+            <span class="user-data--highlight-label">COMP. CERTIFIABLES</span>
+          </li>
+        </ul>
+      {{/if}}
+    </div>
+  </section>
+</article>

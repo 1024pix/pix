@@ -83,6 +83,25 @@ exports.register = async function(server) {
         tags: ['api', 'campaign-participation']
       }
     },
+    {
+      method: 'GET',
+      path: '/api/campaigns/{campaignId}/profiles-collection-participations/{campaignParticipationId}',
+      config: {
+        validate: {
+          params: Joi.object({
+            campaignId: Joi.number().integer().required(),
+            campaignParticipationId: Joi.number().integer().required()
+          }),
+        },
+        handler: campaignParticipationController.getCampaignProfile,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la participation à la campagne',
+          '- Récupération du profil d\'un participant pour la participation à la campagne',
+        ],
+        tags: ['api', 'campaign-participation']
+      }
+    },
   ]);
 };
 
