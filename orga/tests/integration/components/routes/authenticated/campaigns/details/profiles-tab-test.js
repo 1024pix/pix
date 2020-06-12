@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
-import { run } from '@ember/runloop';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | routes/authenticated/campaign/details | profiles-tab', function(hooks) {
@@ -10,18 +9,16 @@ module('Integration | Component | routes/authenticated/campaign/details | profil
   let store;
 
   hooks.beforeEach(function() {
-    run(() => {
-      store = this.owner.lookup('service:store');
-    });
+    store = this.owner.lookup('service:store');
   });
 
   module('when there are profiles', function() {
     test('it should display the participant list', async function(assert) {
       // given
-      const campaign = run(() => store.createRecord('campaign', {
+      const campaign = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
-      }));
+      });
 
       const profiles = [
         {
@@ -46,7 +43,12 @@ module('Integration | Component | routes/authenticated/campaign/details | profil
       this.set('goToProfilePage', goToProfilePage);
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaigns::Details::ProfilesTab @campaign={{campaign}} @profiles={{profiles}} @goToProfilePage={{goToProfilePage}}/>}}`);
+      await render(hbs`
+        <Routes::Authenticated::Campaigns::Details::ProfilesTab
+          @campaign={{campaign}}
+          @profiles={{profiles}}
+          @goToProfilePage={{goToProfilePage}}
+        />`);
 
       // then
       assert.notContains('En attente de profiles');
@@ -58,37 +60,79 @@ module('Integration | Component | routes/authenticated/campaign/details | profil
 
     test('it should display the participant list of the campaign with external id', async function(assert) {
       // given
-      const campaign = run(() => store.createRecord('campaign', {
+      const campaign = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
         idPixLabel: 'identifiant externe'
-      }));
+      });
 
-      const profiles = [{ firstName: 'Jane', lastName: 'Doe', participantExternalId: '123' }];
-      profiles.meta = {
-        rowCount: 1,
-      };
+      const profiles = [{ participantExternalId: '123' }];
+      profiles.meta = { rowCount: 1 };
 
       this.set('campaign', campaign);
       this.set('profiles', profiles);
       this.set('goToProfilePage', goToProfilePage);
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaigns::Details::ProfilesTab @campaign={{campaign}} @profiles={{profiles}} @goToProfilePage={{goToProfilePage}}/>}}`);
+      await render(hbs`
+        <Routes::Authenticated::Campaigns::Details::ProfilesTab
+          @campaign={{campaign}}
+          @profiles={{profiles}}
+          @goToProfilePage={{goToProfilePage}}
+        />`);
 
       // then
       assert.contains('identifiant externe');
       assert.contains('123');
     });
-  });
 
-  module('when there are profiles', function() {
-    test('it should the empty state of profiles list', async function(assert) {
+    test('it should display participant certification profile info when shared', async function(assert) {
       // given
-      const campaign = run(() => store.createRecord('campaign', {
+      const campaign = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
-      }));
+        idPixLabel: 'identifiant externe'
+      });
+
+      const profiles = [
+        { 
+          firstName: 'Jane',
+          lastName: 'Doe',
+          sharedAt: new Date(2020, 1, 1),
+          pixScore: 10,
+          certifiable: true,
+          certifiableCompetencesCount: 5,
+        }
+      ];
+      profiles.meta = { rowCount: 1 };
+
+      this.set('campaign', campaign);
+      this.set('profiles', profiles);
+      this.set('goToProfilePage', goToProfilePage);
+
+      // when
+      await render(hbs`
+        <Routes::Authenticated::Campaigns::Details::ProfilesTab
+          @campaign={{campaign}}
+          @profiles={{profiles}}
+          @goToProfilePage={{goToProfilePage}}
+        />`);
+
+      // then
+      assert.contains('01/02/2020');
+      assert.contains('10');
+      assert.contains('Certifiable');
+      assert.contains('5');
+    });
+  });
+
+  module('when there is no profile', function() {
+    test('it should the empty state of participants list', async function(assert) {
+      // given
+      const campaign = store.createRecord('campaign', {
+        id: 1,
+        name: 'campagne 1',
+      });
 
       const profiles = [];
       profiles.meta = {

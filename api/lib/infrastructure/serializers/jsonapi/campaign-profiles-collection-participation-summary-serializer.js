@@ -4,7 +4,15 @@ module.exports = {
   serialize({ data, pagination }) {
     return new Serializer('CampaignProfilesCollectionParticipationSummary', {
       ref: 'id',
-      attributes: ['firstName', 'lastName', 'participantExternalId', 'sharedAt'],
+      attributes: [
+        'firstName',
+        'lastName',
+        'participantExternalId',
+        'sharedAt',
+        'pixScore',
+        'certifiable',
+        'certifiableCompetencesCount',
+      ],
       meta: pagination,
     }).serialize(data);
   },

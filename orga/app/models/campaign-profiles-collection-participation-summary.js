@@ -15,5 +15,13 @@ export default class CampaignProfilesCollectionParticipationSummary extends Mode
   @attr('date')
   sharedAt;
 
+  @attr('number')
+  pixScore;
+
+  @attr('boolean')
+  certifiable;
+
+  @attr('number')
+  certifiableCompetencesCount;
 }
 
