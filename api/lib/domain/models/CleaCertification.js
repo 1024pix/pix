@@ -14,14 +14,12 @@ function _isOverPercentage(value = 0, total, percentage = MIN_PERCENTAGE) {
   return value >= (total * percentage / 100);
 }
 
-function _hasRequiredPixValue({ totalPixCleaByCompetence, competenceMarks }) {
+function _hasRequiredPixValue({ maxReachablePixByCompetenceForClea, competenceMarks }) {
   const certifiableCompetenceIds = _.map(competenceMarks, 'competenceId');
-  const partnerCompetenceIds = _.keys(totalPixCleaByCompetence);
-  const consideredCompetenceIds = _.intersection(certifiableCompetenceIds, partnerCompetenceIds);
-  return !_.isEmpty(consideredCompetenceIds)
-    && _.every(consideredCompetenceIds, (competenceId) => _isOverPercentage(
+  return !_.isEmpty(certifiableCompetenceIds)
+    && _.every(certifiableCompetenceIds, (competenceId) => _isOverPercentage(
       _.find(competenceMarks, { competenceId }).score,
-      totalPixCleaByCompetence[competenceId]
+      maxReachablePixByCompetenceForClea[competenceId]
     ));
 }
 
@@ -40,7 +38,7 @@ class CleaCertification extends PartnerCertification {
     hasAcquiredBadge,
     reproducibilityRate,
     competenceMarks,
-    totalPixCleaByCompetence
+    maxReachablePixByCompetenceForClea,
   } = {}) {
     super({
       certificationCourseId,
@@ -50,13 +48,13 @@ class CleaCertification extends PartnerCertification {
     this.hasAcquiredBadge = hasAcquiredBadge;
     this.reproducibilityRate = reproducibilityRate;
     this.competenceMarks = competenceMarks;
-    this.totalPixCleaByCompetence = totalPixCleaByCompetence;
+    this.maxReachablePixByCompetenceForClea = maxReachablePixByCompetenceForClea;
 
     const schema = Joi.object({
       hasAcquiredBadge: Joi.boolean().required(),
       reproducibilityRate: Joi.number().required(),
       competenceMarks: Joi.array().min(1).required(),
-      totalPixCleaByCompetence: Joi.object().min(1).required(),
+      maxReachablePixByCompetenceForClea: Joi.object().min(1).required(),
     }).unknown();
 
     validateEntity(schema, this);
@@ -75,7 +73,7 @@ class CleaCertification extends PartnerCertification {
 
     return _hasRequiredPixValue({
       competenceMarks: this.competenceMarks,
-      totalPixCleaByCompetence:this.totalPixCleaByCompetence
+      maxReachablePixByCompetenceForClea: this.maxReachablePixByCompetenceForClea
     });
   }
 }
