@@ -17,28 +17,102 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
 
   describe('POST /api/schooling-registration-dependent-users', () => {
 
-    it('should succeed', async () => {
+    let method;
+    let url;
+    let payload;
+    let response;
+
+    beforeEach(async () => {
       // given
-      const method = 'POST';
-      const url = '/api/schooling-registration-dependent-users';
-      const payload = {
+      method = 'POST';
+      url = '/api/schooling-registration-dependent-users';
+      payload = {
         data: {
           attributes: {
-            'campaign-code': 'RESTRICD',
+            'campaign-code': 'RESTRICTD',
             'first-name': 'Robert',
             'last-name': 'Smith',
             birthdate: '2012-12-12',
             username: 'robert.smith1212',
-            password: 'P@ssw0rd'
+            password: 'P@ssw0rd',
+            'with-username': true,
           }
         }
       };
+    });
 
+    it('should succeed', async () => {
       // when
-      const response = await httpTestServer.request(method, url, payload);
+      response = await httpTestServer.request(method, url, payload);
 
       // then
       expect(response.statusCode).to.equal(201);
+    });
+
+    it('should return 400 when firstName is empty', async () => {
+      // given
+      payload.data.attributes['first-name'] = '';
+
+      // when
+      response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return 400 when lastName is empty', async () => {
+      // given
+      payload.data.attributes['last-name'] = '';
+
+      // when
+      response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return 400 when birthDate is not a valid date', async () => {
+      // given
+      payload.data.attributes.birthdate = '2012*-12-12';
+
+      // when
+      response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return 400 when campaignCode is empty', async () => {
+      // given
+      payload.data.attributes['campaign-code'] = '';
+
+      // when
+      response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return 400 when password is not valid', async () => {
+      // given
+      payload.data.attributes.password = 'not_valid';
+
+      // when
+      response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return 400 when withUsername is not a boolean', async () => {
+      // given
+      payload.data.attributes['with-username'] = 'not_a_boolean';
+
+      // when
+      response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
     });
   });
 
