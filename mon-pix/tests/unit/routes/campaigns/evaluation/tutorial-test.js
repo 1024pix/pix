@@ -4,7 +4,7 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
-describe('Unit | Route | assessment-campaigns/tutorial', function() {
+describe('Unit | Route | campaigns/evaluation/tutorial', function() {
 
   setupTest();
 
@@ -27,7 +27,7 @@ describe('Unit | Route | assessment-campaigns/tutorial', function() {
   };
 
   beforeEach(function() {
-    route = this.owner.lookup('route:assessment-campaigns/tutorial');
+    route = this.owner.lookup('route:campaigns.evaluation.tutorial');
     route.transitionTo = sinon.stub();
     route.tutorial = tutorialPages.tutorial;
   });
@@ -92,7 +92,7 @@ describe('Unit | Route | assessment-campaigns/tutorial', function() {
 
       // then
       sinon.assert.calledWith(route.currentUser.user.save, { adapterOptions: { rememberUserHasSeenAssessmentInstructions: true } });
-      sinon.assert.calledWith(route.transitionTo, 'campaigns.start-or-resume', 'AZERTY123');
+      sinon.assert.calledWith(route.transitionTo, 'campaigns.evaluation.start-or-resume', 'AZERTY123');
     });
   });
 

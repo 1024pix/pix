@@ -59,12 +59,11 @@ Router.map(function() {
       this.route('send-profile', { path: '/envoi-profil' });
       this.route('profile-already-shared', { path: '/deja-envoye' });
     });
-  });
-
-  this.route('assessment-campaigns', { path: '/campagnes/:campaign_code/evaluation' }, function() {
-    this.route('start-or-resume', { path: '/' });
-    this.route('tutorial', { path: '/didacticiel' });
-    this.route('skill-review', { path: '/resultats/:assessment_id' });
+    this.route('evaluation', function() {
+      this.route('start-or-resume', { path: '/' });
+      this.route('tutorial', { path: '/didacticiel' });
+      this.route('skill-review', { path: '/resultats/:assessment_id' });
+    });
   });
 
   this.route('competences', { path: '/competences/:competence_id' }, function() {

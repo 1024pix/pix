@@ -4,7 +4,7 @@ import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 
 import { isEmpty } from '@ember/utils';
 
-export default class AssessmentCampaignsStartOrResumeRoute extends Route.extend(SecuredRouteMixin) {
+export default class EvaluationStartOrResumeRoute extends Route.extend(SecuredRouteMixin) {
   @service currentUser;
   @service session;
 
@@ -15,18 +15,16 @@ export default class AssessmentCampaignsStartOrResumeRoute extends Route.extend(
   userHasJustConsultedTutorial = false;
 
   beforeModel(transition) {
-    this.campaignCode = transition.to.parent.params.campaign_code;
+    this.campaignCode = this.paramsFor('campaigns').campaign_code;
     this.associationDone = transition.to.queryParams.associationDone;
     this.participantExternalId = transition.to.queryParams.participantExternalId;
     this.userHasSeenLanding = transition.to.queryParams.hasSeenLanding;
-    this.userHasJustConsultedTutorial = transition.to.queryParams.hasJustConsultedTutorial;
+    this.userHasJustConsultedTutorial = transition.to.queryParams.hasConsultedTutorial;
     super.beforeModel(...arguments);
   }
 
   async model() {
-    const campaigns = await this.store.query('campaign', { filter: { code: this.campaignCode } });
-
-    return campaigns.get('firstObject');
+    return this.modelFor('campaigns');
   }
 
   async redirect(campaign) {
@@ -50,7 +48,7 @@ export default class AssessmentCampaignsStartOrResumeRoute extends Route.extend(
     const assessment = await smartPlacementAssessments.get('firstObject').reload();
 
     if (this._mustShowTutorial(assessment)) {
-      return this.replaceWith('assessment-campaigns.tutorial', this.campaignCode);
+      return this.replaceWith('campaigns.evaluation.tutorial', this.campaignCode);
     }
 
     this.replaceWith('assessments.resume', assessment.get('id'));
