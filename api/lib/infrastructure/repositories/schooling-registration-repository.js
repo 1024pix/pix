@@ -81,13 +81,22 @@ module.exports = {
       .then((schoolingRegistrations) => bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations));
   },
 
-  associateUserAndSchoolingRegistration({ userId, schoolingRegistrationId }) {
-    return BookshelfSchoolingRegistration
+  async associateUserAndSchoolingRegistration({ userId, schoolingRegistrationId }) {
+    const schoolingRegistration = await BookshelfSchoolingRegistration
       .where({ id: schoolingRegistrationId })
       .save({ userId }, {
         patch: true,
-      })
-      .then((schoolingRegistration) => bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration));
+      });
+
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
+  },
+
+  async dissociateUserFromSchoolingRegistration(schoolingRegistrationId) {
+    await BookshelfSchoolingRegistration
+      .where({ id: schoolingRegistrationId })
+      .save({ userId: null }, {
+        patch: true,
+      });
   },
 
   findOneByUserIdAndOrganizationId({ userId, organizationId }) {
