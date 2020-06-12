@@ -10,6 +10,7 @@ module.exports = function buildMembership(
     organizationRole = Membership.roles.MEMBER,
     organizationId,
     userId,
+    disabledAt,
   } = {}) {
 
   userId = _.isUndefined(userId) ? buildUser().id : userId;
@@ -19,7 +20,8 @@ module.exports = function buildMembership(
     id,
     organizationId,
     organizationRole,
-    userId
+    userId,
+    disabledAt,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'memberships',
