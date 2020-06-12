@@ -61,7 +61,10 @@ describe('Unit | Domain | Events | handle-partner-certification', () => {
         });
 
         // then
-        expect(partnerCertificationRepository.save).to.have.been.calledWithMatch(cleaCertification, domainTransaction);
+        expect(partnerCertificationRepository.save).to.have.been.calledWithMatch({
+          partnerCertification: cleaCertification,
+          domainTransaction
+        });
       });
     });
     context('when certification is not eligible', () => {

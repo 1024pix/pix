@@ -13,10 +13,11 @@ async function handlePartnerCertifications({
     certificationCourseId: event.certificationCourseId,
     userId: event.userId,
     reproducibilityRate: event.reproducibilityRate,
-    domainTransaction });
+    domainTransaction
+  });
 
   if (partnerCertification.isEligible()) {
-    await partnerCertificationRepository.save(partnerCertification, domainTransaction);
+    await partnerCertificationRepository.save({ partnerCertification, domainTransaction });
   }
 }
 

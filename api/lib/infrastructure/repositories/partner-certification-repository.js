@@ -1,7 +1,6 @@
 const _ = require('lodash');
 const { knex } = require('../bookshelf');
 const DomainTransaction = require('../DomainTransaction');
-const skillRepository = require('./skill-repository');
 const PartnerCertificationBookshelf = require('../data/partner-certification');
 const CleaCertification = require('../../domain/models/CleaCertification');
 const CompetenceMark = require('../../domain/models/CompetenceMark');
@@ -9,9 +8,16 @@ const Badge = require('../../domain/models/Badge');
 
 module.exports = {
 
-  async buildCleaCertification({ certificationCourseId, userId, reproducibilityRate, domainTransaction = DomainTransaction.emptyTransaction() }) {
+  async buildCleaCertification(
+    {
+      certificationCourseId,
+      userId,
+      reproducibilityRate,
+      domainTransaction = DomainTransaction.emptyTransaction(),
+      skillRepository
+    }) {
     const hasAcquiredBadge = await _hasAcquiredBadge(userId, domainTransaction);
-    const cleaSkills = await _getCleaSkills();
+    const cleaSkills = await _getCleaSkills(skillRepository);
     const pixCompetenceIds = _(cleaSkills).map((s) => s.competenceId).uniq().value();
     const maxReachablePixByCompetenceForClea = _.zipObject(pixCompetenceIds, pixCompetenceIds.map((id) => _getSumPixValue(cleaSkills, id)));
     const cleaCompetenceMarks = await _getCleaCompetenceMarks(certificationCourseId, pixCompetenceIds, domainTransaction);
@@ -76,7 +82,7 @@ async function _getLatestAssessmentResultIdByCertificationCourseIdQuery(queryBui
     .limit(1);
 }
 
-async function _getCleaSkills() {
+async function _getCleaSkills(skillRepository) {
   const skillIds = await knex('badge-partner-competences')
     .select('skillIds')
     .join('badges', 'badges.id', 'badge-partner-competences.badgeId')

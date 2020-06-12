@@ -1,4 +1,4 @@
-const { injectDefaults } = require('../../infrastructure/utils/dependency-injection');
+const { injectDefaults, injectDependencies } = require('../../infrastructure/utils/dependency-injection');
 const EventDispatcher = require('../../infrastructure/events/EventDispatcher');
 const _ = require('lodash');
 
@@ -10,13 +10,18 @@ const dependencies = {
   badgeRepository: require('../../infrastructure/repositories/badge-repository'),
   campaignParticipationResultRepository: require('../../infrastructure/repositories/campaign-participation-result-repository'),
   certificationCourseRepository: require('../../infrastructure/repositories/certification-course-repository'),
-  partnerCertificationRepository: require('../../infrastructure/repositories/partner-certification-repository'),
   competenceMarkRepository: require('../../infrastructure/repositories/competence-mark-repository'),
   competenceRepository: require('../../infrastructure/repositories/competence-repository'),
   knowledgeElementRepository: require('../../infrastructure/repositories/knowledge-element-repository'),
   scoringCertificationService: require('../services/scoring/scoring-certification-service'),
   skillRepository: require('../../infrastructure/repositories/skill-repository'),
 };
+
+const partnerCertificationRepository = injectDependencies(
+  require('../../infrastructure/repositories/partner-certification-repository'),
+  dependencies
+);
+dependencies.partnerCertificationRepository = partnerCertificationRepository;
 
 const handlersToBeInjected = {
   handleBadgeAcquisition: require('./handle-badge-acquisition'),
