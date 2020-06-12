@@ -19,7 +19,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     this.userHasSeenLanding = transition.to.queryParams.hasSeenLanding;
 
     if (this._userIsUnauthenticated() && this.campaignIsRestricted) {
-      this.authenticationRoute = 'restricted-campaigns.login-or-register-to-access-restricted-campaign';
+      this.authenticationRoute = 'campaigns.restricted.login-or-register-to-access';
     }
 
     if (this._shouldShowLandingPageWhenUnauthenticated()) {

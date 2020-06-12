@@ -396,7 +396,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
 
           context('When campaign is restricted', function() {
             beforeEach(async function() {
-              campaign = server.create('campaign', { isRestricted: true, idPixLabel: 'toto', type: ASSESSMENT });
+              campaign = server.create('campaign', 'ofTypeAssessment', 'restricted', { idPixLabel: 'toto' });
               await visit(`/campagnes/${campaign.code}?participantExternalId=a73at01r3`);
 
               expect(currentURL()).to.equal(`/campagnes/${campaign.code}/restreinte/identification`);

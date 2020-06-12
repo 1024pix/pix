@@ -50,11 +50,10 @@ Router.map(function() {
     this.route('start-or-resume', { path: '/' });
     this.route('campaign-landing-page', { path: '/presentation' });
     this.route('fill-in-id-pix', { path: '/identifiant' });
-  });
-
-  this.route('restricted-campaigns', { path: '/campagnes/:campaign_code/restreinte' }, function() {
-    this.route('join-restricted-campaign', { path: '/rejoindre' });
-    this.route('login-or-register-to-access-restricted-campaign', { path: '/identification' });
+    this.route('restricted', { path: '/restreinte' }, function() {
+      this.route('login-or-register-to-access', { path: '/identification' });
+      this.route('join', { path: '/rejoindre' });
+    });
   });
 
   this.route('assessment-campaigns', { path: '/campagnes/:campaign_code/evaluation' }, function() {

@@ -5,7 +5,7 @@ import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | login-or-register-to-access-restricted-campaign', function() {
+describe('Acceptance | Campaigns | Restricted | login-or-register-to-access', function() {
 
   setupApplicationTest();
   setupMirage();

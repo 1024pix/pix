@@ -39,7 +39,7 @@ export default class ProfilesCollectionCampaignsStartOrResumeRoute extends Route
     if (!campaign.isRestricted || this.associationDone) {
       return this.replaceWith('campaigns.campaign-landing-page', this.campaignCode, { queryParams: { participantExternalId: this.participantExternalId } });
     }
-    return this.replaceWith('restricted-campaigns.join-restricted-campaign', this.campaignCode, { queryParams: { participantExternalId: this.participantExternalId } });
+    return this.replaceWith('campaigns.restricted.join', this.campaignCode, { queryParams: { participantExternalId: this.participantExternalId } });
   }
 
   _isParticipationShared(campaignParticipation) {
