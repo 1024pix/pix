@@ -1,5 +1,6 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 const createServer = require('../../../server');
+const Membership = require('../../../lib/domain/models/Membership');
 
 describe('Acceptance | Controller | Schooling-registration-user-associations', () => {
 
@@ -366,6 +367,68 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           expect(response.statusCode).to.equal(422);
         });
       });
+    });
+  });
+
+  describe('DELETE /api/schooling-registration-user-associations/', () => {
+    it('should return an 204 status after having successfully dissociated user from schoolingRegistration', async () => {
+      const organization = databaseBuilder.factory.buildOrganization();
+      const user = databaseBuilder.factory.buildUser();
+      databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id, organizationRole: Membership.roles.ADMIN });
+      const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id });
+
+      const authorizationToken = generateValidRequestAuthorizationHeader(user.id);
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'DELETE',
+        url: '/api/schooling-registration-user-associations/',
+        headers: {
+          authorization: authorizationToken
+        },
+        payload: {
+          data: {
+            attributes: {
+              'schooling-registration-id': schoolingRegistration.id
+            }
+          }
+        }
+      };
+
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(204);
+    });
+
+    it('should return an 403 status when user is not admin of the organization', async () => {
+      const organization = databaseBuilder.factory.buildOrganization();
+      const user = databaseBuilder.factory.buildUser();
+      databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id, organizationRole: Membership.roles.MEMBER });
+      const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id });
+
+      const authorizationToken = generateValidRequestAuthorizationHeader(user.id);
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'DELETE',
+        url: '/api/schooling-registration-user-associations/',
+        headers: {
+          authorization: authorizationToken
+        },
+        payload: {
+          data: {
+            attributes: {
+              'schooling-registration-id': schoolingRegistration.id
+            }
+          }
+        }
+      };
+
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(403);
     });
   });
 });

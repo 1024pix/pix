@@ -89,7 +89,28 @@ exports.register = async function(server) {
         ],
         tags: ['api', 'schoolingRegistrationUserAssociation']
       }
-    }
+    },
+    {
+      method: 'DELETE',
+      path: '/api/schooling-registration-user-associations',
+      config: {
+        handler: schoolingRegistrationUserAssociationController.dissociate,
+        validate: {
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'schooling-registration-id': Joi.number(),
+              }
+            }
+          })
+        },
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés et admin au sein de l\'orga**\n' +
+          '- Elle dissocie un utilisateur d\'une inscription d’élève'
+        ],
+        tags: ['api', 'schoolingRegistrationUserAssociation']
+      }
+    },
   ]);
 };
 
