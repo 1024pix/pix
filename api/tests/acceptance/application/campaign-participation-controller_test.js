@@ -751,4 +751,40 @@ describe('Acceptance | API | Campaign Participations', () => {
     });
   });
 
+  describe('GET /api/campaigns/{campaignId}/profiles-collection-participations/{campaignParticipationId}', function() {
+
+    beforeEach(() => {
+      airtableBuilder.mockList({ tableName: 'Competences' }).returns([]).activate();
+      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([]).activate();
+    });
+
+    afterEach(() => {
+      airtableBuilder.cleanAll();
+      cache.flushAll();
+    });
+
+    it('should return the campaign profile as JSONAPI', async () => {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organization = databaseBuilder.factory.buildOrganization();
+
+      databaseBuilder.factory.buildMembership({ userId, organizationId: organization.id });
+
+      const campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ participantExternalId: 'Die Hard', campaignId: campaign.id });
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/campaigns/${campaign.id}/profiles-collection-participations/${campaignParticipation.id}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(200);
+      const campaignProfile = response.result.data.attributes;
+      expect(campaignProfile['external-id']).to.equal('Die Hard');
+    });
+  });
 });

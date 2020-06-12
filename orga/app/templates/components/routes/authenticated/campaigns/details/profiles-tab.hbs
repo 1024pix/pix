@@ -12,18 +12,18 @@
         </tr>
       </thead>
 
-      {{#if @participants}}
+      {{#if @profiles}}
         <tbody>
-        {{#each @participants as |participant|}}
-          <tr aria-label="Participant">
-            <td>{{participant.lastName}}</td>
-            <td>{{participant.firstName}}</td>
+        {{#each @profiles as |profile|}}
+          <tr aria-label="Profil" role="button" {{on 'click' (fn @goToProfilePage @campaign.id profile.id)}} class="tr--clickable">
+            <td>{{profile.lastName}}</td>
+            <td>{{profile.firstName}}</td>
             {{#if @campaign.idPixLabel}}
-              <td>{{participant.participantExternalId}}</td>
+              <td>{{profile.participantExternalId}}</td>
             {{/if}}
             <td class="table__column--center">
-              {{#if participant.sharedAt }}
-                {{moment-format participant.sharedAt 'DD/MM/YYYY' allow-empty=true}}
+              {{#if profile.sharedAt }}
+                {{moment-format profile.sharedAt 'DD/MM/YYYY'}}
               {{else}}
                 <span class="table__column--highlight">En attente</span>
               {{/if}}
@@ -34,13 +34,13 @@
       {{/if}}
     </table>
 
-    {{#unless @participants}}
-      <div class="table__empty content-text">En attente de participants</div>
+    {{#unless @profiles}}
+      <div class="table__empty content-text">En attente de profiles</div>
     {{/unless}}
   </div>
 </div>
 
-{{#if @participants}}
-  <PaginationControl @pagination={{@participants.meta}} @paginationLink="authenticated.campaigns.details.profiles" />
+{{#if @profiles}}
+  <PaginationControl @pagination={{@profiles.meta}} @paginationLink="authenticated.campaigns.details.profiles" />
 {{/if}}
 

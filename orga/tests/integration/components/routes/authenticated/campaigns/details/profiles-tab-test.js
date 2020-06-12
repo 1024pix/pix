@@ -6,7 +6,7 @@ import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | routes/authenticated/campaign/details | profiles-tab', function(hooks) {
   setupRenderingTest(hooks);
-
+  const goToProfilePage = () => {};
   let store;
 
   hooks.beforeEach(function() {
@@ -15,7 +15,7 @@ module('Integration | Component | routes/authenticated/campaign/details | profil
     });
   });
 
-  module('when there are participants', function() {
+  module('when there are profiles', function() {
     test('it should display the participant list', async function(assert) {
       // given
       const campaign = run(() => store.createRecord('campaign', {
@@ -23,7 +23,7 @@ module('Integration | Component | routes/authenticated/campaign/details | profil
         name: 'campagne 1',
       }));
 
-      const participants = [
+      const profiles = [
         {
           firstName: 'John',
           lastName: 'Doe',
@@ -37,18 +37,19 @@ module('Integration | Component | routes/authenticated/campaign/details | profil
           sharedAt: null,
         },
       ];
-      participants.meta = {
+      profiles.meta = {
         rowCount: 2,
       };
 
       this.set('campaign', campaign);
-      this.set('participants', participants);
+      this.set('profiles', profiles);
+      this.set('goToProfilePage', goToProfilePage);
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaigns::Details::ProfilesTab @campaign={{campaign}} @participants={{participants}}/>}}`);
+      await render(hbs`<Routes::Authenticated::Campaigns::Details::ProfilesTab @campaign={{campaign}} @profiles={{profiles}} @goToProfilePage={{goToProfilePage}}/>}}`);
 
       // then
-      assert.notContains('En attente de participants');
+      assert.notContains('En attente de profiles');
       assert.contains('Doe');
       assert.contains('Doe2');
       assert.contains('John');
@@ -63,16 +64,17 @@ module('Integration | Component | routes/authenticated/campaign/details | profil
         idPixLabel: 'identifiant externe'
       }));
 
-      const participants = [{ user: { firstName: 'Jane', lastName: 'Doe' }, participantExternalId: '123' }];
-      participants.meta = {
+      const profiles = [{ firstName: 'Jane', lastName: 'Doe', participantExternalId: '123' }];
+      profiles.meta = {
         rowCount: 1,
       };
 
       this.set('campaign', campaign);
-      this.set('participants', participants);
+      this.set('profiles', profiles);
+      this.set('goToProfilePage', goToProfilePage);
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaigns::Details::ProfilesTab @campaign={{campaign}} @participants={{participants}}/>}}`);
+      await render(hbs`<Routes::Authenticated::Campaigns::Details::ProfilesTab @campaign={{campaign}} @profiles={{profiles}} @goToProfilePage={{goToProfilePage}}/>}}`);
 
       // then
       assert.contains('identifiant externe');
@@ -80,27 +82,28 @@ module('Integration | Component | routes/authenticated/campaign/details | profil
     });
   });
 
-  module('when there are participants', function() {
-    test('it should the empty state of participants list', async function(assert) {
+  module('when there are profiles', function() {
+    test('it should the empty state of profiles list', async function(assert) {
       // given
       const campaign = run(() => store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
       }));
 
-      const participants = [];
-      participants.meta = {
+      const profiles = [];
+      profiles.meta = {
         rowCount: 0,
       };
 
       this.set('campaign', campaign);
-      this.set('participants', participants);
+      this.set('profiles', profiles);
+      this.set('goToProfilePage', goToProfilePage);
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaigns::Details::ProfilesTab @campaign={{campaign}} @participants={{participants}}/>}}`);
+      await render(hbs`<Routes::Authenticated::Campaigns::Details::ProfilesTab @campaign={{campaign}} @profiles={{profiles}} @goToProfilePage={{goToProfilePage}}/>}}`);
 
       // then
-      assert.contains('En attente de participants');
+      assert.contains('En attente de profiles');
     });
   });
 });

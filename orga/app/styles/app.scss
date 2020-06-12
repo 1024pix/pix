@@ -18,11 +18,13 @@
 @import "globals/texts";
 @import "globals/titles";
 @import "components/login-form";
+@import "components/tag";
 @import "components/campaign-list";
 @import "components/circle-chart";
 @import "components/current-organization";
 @import "components/dropdown";
 @import "components/pagination-control";
+@import "components/previous-page-button";
 @import "components/progression-gauge";
 @import "components/recommendation-indicator";
 @import "components/register-form";
@@ -51,6 +53,7 @@
 @import "pages/authenticated/campaigns/details/participants/participant";
 @import "pages/authenticated/campaigns/details/participants/participant/header";
 @import "pages/authenticated/campaigns/details/participants/participant/results";
+@import "pages/authenticated/campaigns/profiles";
 @import "pages/authenticated/team";
 @import "pages/authenticated/team/list";
 @import "pages/authenticated/team/new";
