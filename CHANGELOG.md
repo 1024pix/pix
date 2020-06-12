@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v2.161.0 (12/06/2020)
+
+- [#1511](https://github.com/1024pix/pix/pull/1511) [FEATURE] Empêcher la connexion à Pix Orga d'un utilisateur dont le membership a été désactivé (PIX-766).
+- [#1497](https://github.com/1024pix/pix/pull/1497) [FEATURE] Ajout des info de certification dans le tableau des participants (PIX-619).
+- [#1501](https://github.com/1024pix/pix/pull/1501) [FEATURE] Ajouter un système d'onglets dans le détail d'une organisation dans Pix Admin (PIX-827).
+- [#1475](https://github.com/1024pix/pix/pull/1475) [FEATURE] Multi-badge sur une campagne (PIX-660).
+- [#1484](https://github.com/1024pix/pix/pull/1484) [FEATURE] Création d'une composant graphique Modal (PIX-717).
+- [#1481](https://github.com/1024pix/pix/pull/1481) [FEATURE] Retenter des acquis échoués depuis la page compétence (PIX-756).
+- [#1489](https://github.com/1024pix/pix/pull/1489) [BUGFIX] Eviter le crash de container lorsqu'une analyse de campagne se déclenche (PIX-785)
+- [#1499](https://github.com/1024pix/pix/pull/1499) [TECH] Suppression de la route dépréciée `/campaigns/id/csvResults` (PIX-832).
+- [#1458](https://github.com/1024pix/pix/pull/1458) [TECH] Montée de version des apps Ember de 3.15 à 3.18
+- [#1434](https://github.com/1024pix/pix/pull/1434) [TECH] Montée de version de Bookshelf
+- [#1505](https://github.com/1024pix/pix/pull/1505) [TECH] Paralléliser les tests end-to-end sur la CI.
+- [#1492](https://github.com/1024pix/pix/pull/1492) [TECH] Simplification de la création de badge en BDD (PIX-736).
+- [#1486](https://github.com/1024pix/pix/pull/1486) Afficher les informations générales d'un profil partagé pendant une campagne (PIX-626).
+- [#1495](https://github.com/1024pix/pix/pull/1495) [CLEANUP] Clarifier la log du script de création des centres de certification.
+
 ## v2.160.0 (09/06/2020)
 
 - [#1491](https://github.com/1024pix/pix/pull/1491) [FEATURE] Mettre à jour le nom, identifiant externe et département d'une organisation dans Pix Admin (PIX-456).
