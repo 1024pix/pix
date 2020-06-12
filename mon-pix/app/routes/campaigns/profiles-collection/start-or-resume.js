@@ -12,7 +12,7 @@ export default class ProfilesCollectionCampaignsStartOrResumeRoute extends Route
   userHasSeenLanding = false;
 
   beforeModel(transition) {
-    this.campaignCode = transition.to.parent.params.campaign_code;
+    this.campaignCode = this.paramsFor('campaigns').campaign_code;
     this.associationDone = transition.to.queryParams.associationDone;
     this.participantExternalId = transition.to.queryParams.participantExternalId;
     this.userHasSeenLanding = transition.to.queryParams.hasSeenLanding;
@@ -20,18 +20,17 @@ export default class ProfilesCollectionCampaignsStartOrResumeRoute extends Route
   }
 
   async model() {
-    const campaigns = await this.store.query('campaign', { filter: { code: this.campaignCode } });
-    return campaigns.get('firstObject');
+    return this.modelFor('campaigns');
   }
 
   async redirect(campaign) {
     const campaignParticipation = await this.store.queryRecord('campaignParticipation', { campaignId: campaign.id, userId: this.currentUser.user.id });
 
     if (this._isParticipationShared(campaignParticipation)) {
-      return this.replaceWith('profiles-collection-campaigns.profile-already-shared', this.campaignCode);
+      return this.replaceWith('campaigns.profiles-collection.profile-already-shared', this.campaignCode);
     }
     if (campaignParticipation) {
-      return this.replaceWith('profiles-collection-campaigns.send-profile', this.campaignCode);
+      return this.replaceWith('campaigns.profiles-collection.send-profile', this.campaignCode);
     }
     if (this.userHasSeenLanding) {
       return this.replaceWith('campaigns.fill-in-id-pix', this.campaignCode, { queryParams: { participantExternalId: this.participantExternalId } });
