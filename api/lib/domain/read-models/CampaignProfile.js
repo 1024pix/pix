@@ -1,3 +1,5 @@
+const CampaignProfileCompetence = require('./CampaignProfileCompetence');
+
 class CampaignProfile {
 
   constructor({
@@ -48,6 +50,15 @@ class CampaignProfile {
       return this.certificationProfile.getCompetencesCount();
     }
     return null;
+  }
+
+  get competences() {
+    if (this.isShared) {
+      return this.certificationProfile.userCompetences.map((competence) => {
+        return new CampaignProfileCompetence(competence);
+      });
+    }
+    return [];
   }
 }
 
