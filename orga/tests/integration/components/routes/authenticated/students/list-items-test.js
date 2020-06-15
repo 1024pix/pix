@@ -1,16 +1,20 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, fillIn } from '@ember/test-helpers';
 import Service from '@ember/service';
-import { run } from '@ember/runloop';
+import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | routes/authenticated/students | list-items', function(hooks) {
   setupRenderingTest(hooks);
 
+  hooks.beforeEach(function() {
+    this.set('noop', sinon.stub());
+  });
+
   test('it should show title of team page', async function(assert) {
     // when
-    await render(hbs`<Routes::Authenticated::Students::ListItems/>`);
+    await render(hbs`<Routes::Authenticated::Students::ListItems @triggerFiltering={{noop}}/>`);
 
     // then
     assert.contains('Élèves');
@@ -21,10 +25,9 @@ module('Integration | Component | routes/authenticated/students | list-items', f
     this.set('students', []);
 
     // when
-    await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}}/>`);
+    await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
 
     // then
-    assert.dom('th').exists({ count: 5 });
     assert.contains('Nom');
     assert.contains('Prénom');
     assert.contains('Date de naissance');
@@ -41,7 +44,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
     this.set('students', students);
 
     // when
-    await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}}/>`);
+    await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
 
     // then
     assert.dom('[aria-label="Élève"]').exists({ count: 2 });
@@ -54,12 +57,30 @@ module('Integration | Component | routes/authenticated/students | list-items', f
     this.set('students', students);
 
     // when
-    await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}}/>`);
+    await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
 
     // then
     assert.contains('La Terreur');
     assert.contains('Gigi');
     assert.contains('01/02/2010');
+  });
+
+  module('when user is filtering some users', function() {
+    test('it should trigger filtering with lastname', async function(assert) {
+      const triggerFiltering = sinon.spy();
+      this.set('triggerFiltering', triggerFiltering);
+      this.set('students', []);
+  
+      // when
+      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}}/>`);
+
+      await fillIn('[placeholder="Rechercher par nom"]', 'bob');
+
+      // then
+      const call = triggerFiltering.getCall(0);
+      assert.equal(call.args[0], 'lastName');
+      assert.equal(call.args[1].target.value, 'bob');
+    });
   });
 
   module('when user is not reconciled', function({ beforeEach }) {
@@ -72,7 +93,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
         firstName: 'Gigi',
         birthdate: '2010-01-01',
       }].forEach((student) => {
-        storedStudents.push(run(() => store.createRecord('student', student)));
+        storedStudents.push(store.createRecord('student', student));
       });
     });
 
@@ -82,7 +103,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
       this.set('students', storedStudents);
 
       // when
-      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}}/>`);
+      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
 
       // then
       assert.dom('[aria-label="Élève"]').containsText(dash);
@@ -92,7 +113,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
       this.set('students', storedStudents);
 
       // when
-      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}}/>`);
+      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
 
       // then
       assert.dom('[aria-label="Afficher les actions"]').doesNotExist();
@@ -111,7 +132,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
         username: 'blueivy.carter0701',
         isAuthenticatedFromGar: false,
       }].forEach((student) => {
-        storedStudents.push(run(() => store.createRecord('student', student)));
+        storedStudents.push(store.createRecord('student', student));
       });
     });
 
@@ -120,7 +141,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
       this.set('students', storedStudents);
 
       // when
-      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}}/>`);
+      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
 
       // then
       assert.dom('[aria-label="Élève"]').containsText('Identifiant');
@@ -130,7 +151,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
       this.set('students', storedStudents);
 
       // when
-      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}}/>`);
+      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
 
       // then
       assert.dom('[aria-label="Afficher les actions"]').exists();
@@ -149,7 +170,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
         email: 'firstname.lastname@example.net',
         isAuthenticatedFromGar: false,
       }].forEach((student) => {
-        storedStudents.push(run(() => store.createRecord('student', student)));
+        storedStudents.push(store.createRecord('student', student));
       });
     });
 
@@ -158,7 +179,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
       this.set('students', storedStudents);
 
       // when
-      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}}/>`);
+      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
 
       // then
       assert.dom('[aria-label="Élève"]').containsText('Adresse e-mail');
@@ -168,7 +189,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
       this.set('students', storedStudents);
 
       // when
-      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}}/>`);
+      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
 
       // then
       assert.dom('[aria-label="Afficher les actions"]').exists();
@@ -185,7 +206,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
 
     test('it should display import button', async function(assert) {
       // when
-      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}}/>`);
+      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
 
       // then
       assert.contains('Importer (.xml)');
@@ -201,7 +222,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
       this.set('students', []);
 
       // when
-      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}}/>`);
+      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
 
       // then
       assert.notContains('Importer (.xml)');

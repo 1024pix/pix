@@ -1,5 +1,6 @@
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { debounce } from '@ember/runloop';
 import Controller from '@ember/controller';
 import { htmlSafe } from '@ember/template';
 import ENV from 'pix-orga/config/environment';
@@ -10,6 +11,19 @@ export default class ListController extends Controller {
   @service notifications;
 
   isLoading = false;
+
+  filters = {};
+
+  updateFilters() {
+    this.setProperties(this.filters);
+  }
+
+  @action
+  triggerFiltering(fieldName, event) {
+    const value = event.target.value;
+    this.filters[fieldName] = value;
+    debounce(this, this.updateFilters, ENV.pagination.debounce);
+  }
 
   @action
   async importStudents(file) {
@@ -23,13 +37,13 @@ export default class ListController extends Controller {
           Authorization: `Bearer ${access_token}`,
         }
       });
-      await this.model.reload();
+      this.send('refreshModel');
       this.set('isLoading', false);
       this.get('notifications').sendSuccess('La liste a été importée avec succès.');
 
     } catch (errorResponse) {
       this.set('isLoading', false);
-
+      
       this.handleError(errorResponse);
     }
   }
