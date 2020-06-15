@@ -2,6 +2,7 @@ const { AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError, CampaignCod
 const User = require('../models/User');
 
 const userValidator = require('../validators/user-validator');
+const { getCampaignUrl } = require('../../infrastructure/utils/url-builder');
 
 function _encryptPassword(userPassword, encryptionService) {
   const encryptedPassword = encryptionService.hashPassword(userPassword);
@@ -102,6 +103,9 @@ module.exports = async function createAndAssociateUserToSchoolingRegistration({
   const userId = await userRepository.createAndAssociateUserToSchoolingRegistration({ domainUser, schoolingRegistrationId });
 
   const createdUser = await userRepository.get(userId);
-  if (!isUsernameMode) await mailService.sendAccountCreationEmail(createdUser.email, locale);
+  if (!isUsernameMode) {
+    const redirectionUrl = getCampaignUrl(locale, campaignCode);
+    await mailService.sendAccountCreationEmail(createdUser.email, locale, redirectionUrl);
+  }
   return createdUser;
 };
