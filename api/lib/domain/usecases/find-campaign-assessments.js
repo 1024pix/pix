@@ -1,4 +1,4 @@
-module.exports = function findSmartPlacementAssessments({ userId, filters, assessmentRepository }) {
+module.exports = function findCampaignAssessments({ userId, filters, assessmentRepository }) {
 
   const campaignCode = filters.codeCampaign;
 
