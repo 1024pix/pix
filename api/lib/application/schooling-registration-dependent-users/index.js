@@ -1,7 +1,9 @@
 const schoolingRegistrationDependentUserController = require('./schooling-registration-dependent-user-controller');
 const securityPreHandlers = require('../security-pre-handlers');
 const JSONAPIError = require('jsonapi-serializer').Error;
-const Joi = require('@hapi/joi');
+const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
+const { passwordValidationPattern } = require('../../config').account;
+const XRegExp = require('xregexp');
 
 exports.register = async function(server) {
   server.route([
@@ -11,6 +13,23 @@ exports.register = async function(server) {
       config: {
         auth: false,
         handler: schoolingRegistrationDependentUserController.createAndAssociateUserToSchoolingRegistration,
+        validate: {
+          options: {
+            allowUnknown: true
+          },
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'birthdate': Joi.date().format('YYYY-MM-DD').raw().required(),
+                'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                password: Joi.string().pattern(XRegExp(passwordValidationPattern)).required(),
+                'with-username': Joi.boolean().required(),
+              },
+            },
+          })
+        },
         notes: [
           'Cette route crée un utilisateur et l\'associe à l\'élève trouvé au sein de l\'organisation à laquelle ' +
           'appartient la campagne spécifiée'
