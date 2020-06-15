@@ -4,6 +4,7 @@ import Object, { action } from '@ember/object';
 import { validator, buildValidations } from 'ember-cp-validations';
 import { getOwner } from '@ember/application';
 import { inject as service } from '@ember/service';
+import ENV from 'pix-admin/config/environment';
 
 const Validations = buildValidations({
   firstName: {
@@ -72,6 +73,11 @@ export default class UserDetailPersonalInformationComponent extends Component {
 
   get canAdministratorModifyUserDetails() {
     return !((this.args.user.username !== null) || this.args.user.isAuthenticatedFromGAR);
+  }
+
+  get externalURL() {
+    const urlDashboardPrefix = ENV.APP.USER_DASHBOARD_URL;
+    return urlDashboardPrefix && (urlDashboardPrefix + this.args.user.id);
   }
 
   @action
