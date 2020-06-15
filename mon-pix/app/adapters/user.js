@@ -45,6 +45,13 @@ export default class User extends ApplicationAdapter {
       return this.ajax(url, 'POST', { data: payload });
     }
 
+    if (adapterOptions && adapterOptions.campaignCode) {
+      const url = this.buildURL(type.modelName, null, snapshot, 'createRecord');
+      const { data } = this.serialize(snapshot);
+      const payload = {  data: { data, meta: { 'campaign-code': adapterOptions.campaignCode } } };
+      return this.ajax(url, 'POST', payload);
+    }
+
     return super.createRecord(...arguments);
   }
 
