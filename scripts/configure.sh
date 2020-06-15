@@ -3,8 +3,8 @@
 set -e
 set -o pipefail
 
-EXPECTED_NODE_VERSION="v12.14.1"
-EXPECTED_NPM_VERSION="6.13.4"
+EXPECTED_NODE_VERSION="v12.18.0"
+EXPECTED_NPM_VERSION="6.14.4"
 
 function display_banner() {
   echo "                                                    "

@@ -62,7 +62,7 @@ workflows:
 jobs:
   checkout:
     docker:
-      - image: circleci/node:12.14.0
+      - image: circleci/node:12.18.0
     working_directory: ~/pix
     steps:
       - checkout
@@ -79,7 +79,7 @@ jobs:
 
   api_build_and_test:
     docker:
-      - image: circleci/node:12.14.0
+      - image: circleci/node:12.18.0
       - image: postgres:11.7-alpine
         environment:
           POSTGRES_USER: circleci
@@ -106,7 +106,7 @@ jobs:
 
   mon_pix_build_and_test:
     docker:
-      - image: circleci/node:12.14.0-browsers
+      - image: circleci/node:12.18.0-browsers
         environment:
           # See https://git.io/vdao3 for details.
           JOBS: 2
@@ -129,7 +129,7 @@ jobs:
 
   orga_build_and_test:
     docker:
-      - image: circleci/node:12.14.0-browsers
+      - image: circleci/node:12.18.0-browsers
         environment:
           JOBS: 2
     working_directory: ~/pix/orga
@@ -149,7 +149,7 @@ jobs:
 
   certif_build_and_test:
     docker:
-      - image: circleci/node:12.14.0-browsers
+      - image: circleci/node:12.18.0-browsers
         environment:
           JOBS: 2
     working_directory: ~/pix/certif
@@ -169,7 +169,7 @@ jobs:
 
   admin_build_and_test:
     docker:
-      - image: circleci/node:12.14.0-browsers
+      - image: circleci/node:12.18.0-browsers
         environment:
           JOBS: 2
     working_directory: ~/pix/admin
@@ -189,7 +189,7 @@ jobs:
 
   e2e_test:
     docker:
-      - image: cypress/browsers:node12.14.0-chrome79-ff71
+      - image: cypress/browsers:node12.16.2-chrome81-ff75
       - image: postgres:11.7-alpine
         environment:
           POSTGRES_USER: circleci
