@@ -88,7 +88,7 @@ module.exports = {
       .then((assessments) => bookshelfToDomainConverter.buildDomainObjects(BookshelfAssessment, assessments));
   },
 
-  findLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode, includeCampaign = false }) {
+  findLastCampaignAssessmentByUserIdAndCampaignCode({ userId, campaignCode, includeCampaign = false }) {
     return BookshelfAssessment
       .where({ 'assessments.userId': userId, 'assessments.type': 'CAMPAIGN', 'campaigns.code': campaignCode })
       .query((qb) => {

@@ -4,7 +4,7 @@ const findCampaignAssessments = require('../../../../lib/domain/usecases/find-ca
 describe('Unit | UseCase | find-campaign-assessments', () => {
 
   const assessmentRepository = {
-    findLastSmartPlacementAssessmentByUserIdAndCampaignCode: () => {
+    findLastCampaignAssessmentByUserIdAndCampaignCode: () => {
     },
   };
 
@@ -16,7 +16,7 @@ describe('Unit | UseCase | find-campaign-assessments', () => {
       userId,
       campaignParticipation: null,
     });
-    sinon.stub(assessmentRepository, 'findLastSmartPlacementAssessmentByUserIdAndCampaignCode').resolves(null);
+    sinon.stub(assessmentRepository, 'findLastCampaignAssessmentByUserIdAndCampaignCode').resolves(null);
 
     // when
     const promise = findCampaignAssessments({ userId, filters, assessmentRepository });
@@ -38,7 +38,7 @@ describe('Unit | UseCase | find-campaign-assessments', () => {
       userId,
       campaignParticipation
     });
-    sinon.stub(assessmentRepository, 'findLastSmartPlacementAssessmentByUserIdAndCampaignCode').resolves(assessment);
+    sinon.stub(assessmentRepository, 'findLastCampaignAssessmentByUserIdAndCampaignCode').resolves(assessment);
 
     // when
     const promise = findCampaignAssessments({ userId, filters, assessmentRepository });
