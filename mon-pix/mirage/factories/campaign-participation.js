@@ -17,7 +17,7 @@ export default Factory.extend({
   afterCreate(campaignParticipation, server) {
     if (!campaignParticipation.assessment) {
       campaignParticipation.update({
-        assessment: server.create('assessment', 'ofSmartPlacementType', {
+        assessment: server.create('assessment', 'ofCampaignType', {
           state: 'started',
           codeCampaign: campaignParticipation.campaign.code,
           title: campaignParticipation.campaign.title,

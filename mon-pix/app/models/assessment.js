@@ -28,15 +28,15 @@ export default class Assessment extends Model {
   @equal('type', 'COMPETENCE_EVALUATION') isCompetenceEvaluation;
   @equal('type', 'DEMO') isDemo;
   @equal('type', 'PREVIEW') isPreview;
-  @equal('type', 'CAMPAIGN') isSmartPlacement;
+  @equal('type', 'CAMPAIGN') isForCampaign;
 
   @equal('state', 'aborted') isAborted;
   @equal('state', 'completed') isCompleted;
   @equal('state', 'started') isStarted;
 
-  @or('isCompetenceEvaluation', 'isSmartPlacement') hasCheckpoints;
-  @or('isCompetenceEvaluation', 'isSmartPlacement') showLevelup;
-  @or('isCompetenceEvaluation', 'isSmartPlacement', 'isDemo') showProgressBar;
+  @or('isCompetenceEvaluation', 'isForCampaign') hasCheckpoints;
+  @or('isCompetenceEvaluation', 'isForCampaign') showLevelup;
+  @or('isCompetenceEvaluation', 'isForCampaign', 'isDemo') showProgressBar;
 
   @computed('answers.[]')
   get answersSinceLastCheckpoints() {
