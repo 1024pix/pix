@@ -55,6 +55,7 @@ workflows:
             - checkout
 
       - e2e_test:
+          context: Pix
           requires:
             - checkout
 
@@ -193,6 +194,7 @@ jobs:
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
+    parallelism: 5
     working_directory: ~/pix/high-level-tests/e2e
     steps:
       - attach_workspace:
@@ -290,4 +292,4 @@ jobs:
             wget --retry-connrefused -T 60 -qO- http://localhost:4200
             wget --retry-connrefused -T 60 -qO- http://localhost:4201
             wget --retry-connrefused -T 60 -qO- http://localhost:3000/api
-            npm run cy:run
+            npm run cy:run:ci
