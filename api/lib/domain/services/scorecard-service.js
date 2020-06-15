@@ -41,14 +41,14 @@ async function resetScorecard({
   if (shouldResetCompetenceEvaluation) {
     return Promise.all([
       newKnowledgeElements,
-      _resetSmartPlacementAssessments({ userId, resetSkills, assessmentRepository, campaignParticipationRepository }),
+      _resetCampaignAssessments({ userId, resetSkills, assessmentRepository, campaignParticipationRepository }),
       _resetCompetenceEvaluation({ userId, competenceId, competenceEvaluationRepository }),
     ]);
   }
 
   return Promise.all([
     newKnowledgeElements,
-    _resetSmartPlacementAssessments({
+    _resetCampaignAssessments({
       userId,
       resetSkills,
       assessmentRepository,
@@ -82,7 +82,7 @@ function _resetCompetenceEvaluation({ userId, competenceId, competenceEvaluation
   });
 }
 
-async function _resetSmartPlacementAssessments({ userId, resetSkills, assessmentRepository, campaignParticipationRepository }) {
+async function _resetCampaignAssessments({ userId, resetSkills, assessmentRepository, campaignParticipationRepository }) {
   const notAbortedSmartPlacementAssessments = await assessmentRepository.findNotAbortedSmartPlacementAssessmentsByUserId(userId);
 
   if (!notAbortedSmartPlacementAssessments) {
@@ -90,7 +90,7 @@ async function _resetSmartPlacementAssessments({ userId, resetSkills, assessment
   }
 
   const resetSmartPlacementAssessmentsPromises = _.map(notAbortedSmartPlacementAssessments,
-    (campaignAssessment) => _resetSmartPlacementAssessment({
+    (campaignAssessment) => _resetCampaignAssessment({
       assessment: campaignAssessment,
       resetSkills,
       assessmentRepository,
@@ -100,7 +100,7 @@ async function _resetSmartPlacementAssessments({ userId, resetSkills, assessment
   return Promise.all(resetSmartPlacementAssessmentsPromises);
 }
 
-async function _resetSmartPlacementAssessment({ assessment, resetSkills, assessmentRepository, campaignParticipationRepository }) {
+async function _resetCampaignAssessment({ assessment, resetSkills, assessmentRepository, campaignParticipationRepository }) {
   const campaignParticipation = await campaignParticipationRepository.findOneByAssessmentIdWithSkillIds(assessment.id);
 
   const resetSkillsNotIncludedInTargetProfile = _computeResetSkillsNotIncludedInTargetProfile({
