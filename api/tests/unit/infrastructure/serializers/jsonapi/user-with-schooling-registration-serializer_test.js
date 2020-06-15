@@ -28,6 +28,7 @@ describe('Unit | Serializer | JSONAPI | UserWithSchoolingRegistration-serializer
             'last-name': userWithSchoolingRegistration.lastName,
             'birthdate': userWithSchoolingRegistration.birthdate,
             'username': userWithSchoolingRegistration.username,
+            'user-id': userWithSchoolingRegistration.userId,
             'email': userWithSchoolingRegistration.email,
             'is-authenticated-from-gar': false,
           }
