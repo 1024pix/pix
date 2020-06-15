@@ -1,5 +1,3 @@
-const { injectDependencies } = require('../../infrastructure/utils/dependency-injection');
-
 const dependencies = {
   answerRepository: require('../../infrastructure/repositories/answer-repository'),
   assessmentRepository: require('../../infrastructure/repositories/assessment-repository'),
@@ -71,6 +69,8 @@ const dependencies = {
   userTutorialRepository: require('../../infrastructure/repositories/user-tutorial-repository'),
 };
 
+const { injectDependencies } = require('../../infrastructure/utils/dependency-injection');
+
 module.exports = injectDependencies({
   acceptPixLastTermsOfService: require('./accept-pix-last-terms-of-service'),
   acceptPixCertifTermsOfService: require('./accept-pix-certif-terms-of-service'),
@@ -78,6 +78,7 @@ module.exports = injectDependencies({
   addCertificationCandidateToSession: require('./add-certification-candidate-to-session'),
   addTutorialEvaluation: require('./add-tutorial-evaluation'),
   addTutorialToUser: require('./add-tutorial-to-user'),
+  anonymizeUser: require('./anonymize-user'),
   answerToOrganizationInvitation: require('./answer-to-organization-invitation'),
   attachTargetProfilesToOrganization: require('./attach-target-profiles-to-organization'),
   archiveCampaign: require('./archive-campaign'),
