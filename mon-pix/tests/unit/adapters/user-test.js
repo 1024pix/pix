@@ -100,6 +100,32 @@ describe('Unit | Adapters | user', function() {
       // then
       sinon.assert.calledWith(adapter.ajax, expectedUrl, expectedMethod, expectedData);
     });
+
+    context('when campaignCode adapterOption is defined', () => {
+      it('should add campaign-code meta', async () => {
+        // given
+        const campaignCode = 'AZERTY123';
+        const expectedUrl = 'http://localhost:3000/api/users';
+        const expectedMethod = 'POST';
+        const expectedData = {
+          data: {
+            meta: { 'campaign-code': campaignCode },
+            data: {}
+          }
+        };
+        const snapshot = {
+          record: { },
+          adapterOptions: { campaignCode },
+          serialize: function() { return { data: {} };},
+        };
+
+        // when
+        await adapter.createRecord(null, { modelName: 'user' }, snapshot);
+
+        // then
+        sinon.assert.calledWith(adapter.ajax, expectedUrl, expectedMethod, expectedData);
+      });
+    });
   });
 
 });
