@@ -32,7 +32,7 @@ function display_banner() {
 function display_header {
   echo "👋 Welcome to the Pix developer environment installation & configuration procedure."
   echo "The good news is that the procedure is fully automated!"
-  echo "The bad news is that it will take up to 15mn (as 7 000 tests should be run)."
+  echo "The bad news is that it will take up to 15mn (as 7,000 tests should be run)."
   echo "So, please take a ☕️ and enjoy this awesome moment."
   echo "If you get bored, you can always visit or website https://pix.fr or follow us on Twitter https://twitter.com/pix_officiel 😉"
   echo ""
