@@ -2,7 +2,7 @@ const { ObjectValidationError } = require('../errors');
 
 const courseIdMessage = {
   COMPETENCE_EVALUATION: '[NOT USED] CompetenceId is in Competence Evaluation.',
-  CAMPAIGN: 'Campaign Assessment CourseId Not Used',
+  CAMPAIGN: '[NOT USED] Campaign Assessment CourseId Not Used',
 };
 
 const states = {
