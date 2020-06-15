@@ -10,6 +10,12 @@ thead {
   width: 100%;
   color: $grey-100;
 
+  th {
+    font-family: $roboto;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
   caption {
     text-align: left;
     display: table-cell;
@@ -32,6 +38,13 @@ tbody {
       background-color: $grey-10;
       transition: 0.25s ease;
     }
+  }
+
+  td {
+    font-family: $roboto;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: $grey-80;
   }
 }
 
