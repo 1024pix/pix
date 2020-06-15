@@ -445,7 +445,19 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       await organizationController.findUserWithSchoolingRegistrations(request, hFake);
 
       // then
-      expect(usecases.findUserWithSchoolingRegistrations).to.have.been.calledWith({ organizationId });
+      expect(usecases.findUserWithSchoolingRegistrations).to.have.been.calledWith({ organizationId, filter: {} });
+    });
+
+    it('should call the usecase to find students with users infos related to the lastName filter', async () => {
+      // given
+      request = { ...request, query: { 'filter[lastName]': 'Bob' } };
+      usecases.findUserWithSchoolingRegistrations.resolves();
+
+      // when
+      await organizationController.findUserWithSchoolingRegistrations(request, hFake);
+
+      // then
+      expect(usecases.findUserWithSchoolingRegistrations).to.have.been.calledWith({ organizationId, filter: { lastName: 'Bob' } });
     });
 
     it('should return the serialized students belonging to the organization', async () => {
