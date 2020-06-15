@@ -18,9 +18,12 @@ module.exports = {
     }) {
     const hasAcquiredBadge = await _hasAcquiredBadge(userId, domainTransaction);
     const cleaSkills = await _getCleaSkills(skillRepository);
-    const pixCompetenceIds = _(cleaSkills).map((s) => s.competenceId).uniq().value();
-    const maxReachablePixByCompetenceForClea = _.zipObject(pixCompetenceIds, pixCompetenceIds.map((id) => _getSumPixValue(cleaSkills, id)));
-    const cleaCompetenceMarks = await _getCleaCompetenceMarks(certificationCourseId, pixCompetenceIds, domainTransaction);
+    const maxReachablePixByCompetenceForClea = _getMaxReachablePixByCompetenceForClea(cleaSkills);
+    const cleaCompetenceMarks = await _getCleaCompetenceMarks({
+      certificationCourseId,
+      cleaCompetenceIds: Object.keys(maxReachablePixByCompetenceForClea),
+      domainTransaction
+    });
 
     return new CleaCertification({
       certificationCourseId,
@@ -55,7 +58,7 @@ async function _hasAcquiredBadge(userId, domainTransaction) {
   return Boolean(badgeAcquisition);
 }
 
-async function _getCleaCompetenceMarks(certificationCourseId, cleaCompetenceIds, domainTransaction) {
+async function _getCleaCompetenceMarks({ certificationCourseId, cleaCompetenceIds, domainTransaction }) {
   const competenceMarksQuery = knex.with('rankedAssessmentResults',
     (qb) => {
       _getLatestAssessmentResultIdByCertificationCourseIdQuery(qb, certificationCourseId);
@@ -94,8 +97,9 @@ async function _getCleaSkills(skillRepository) {
   return skillRepository.findByIds(skillIds[0].skillIds);
 }
 
-function _getSumPixValue(cleaSkills, id) {
-  return _(cleaSkills)
-    .filter((skill) => skill.competenceId === id)
-    .reduce((cumulatedPixValue, skill) => cumulatedPixValue + skill.pixValue, 0);
+function _getMaxReachablePixByCompetenceForClea(cleaSkills) {
+  return _(cleaSkills).groupBy('competenceId')
+    .mapValues(
+      (skills) => _.sumBy(skills, 'pixValue')
+    ).value();
 }
