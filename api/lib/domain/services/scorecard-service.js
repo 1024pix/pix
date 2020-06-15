@@ -83,7 +83,7 @@ function _resetCompetenceEvaluation({ userId, competenceId, competenceEvaluation
 }
 
 async function _resetCampaignAssessments({ userId, resetSkills, assessmentRepository, campaignParticipationRepository }) {
-  const notAbortedSmartPlacementAssessments = await assessmentRepository.findNotAbortedSmartPlacementAssessmentsByUserId(userId);
+  const notAbortedSmartPlacementAssessments = await assessmentRepository.findNotAbortedCampaignAssessmentsByUserId(userId);
 
   if (!notAbortedSmartPlacementAssessments) {
     return null;

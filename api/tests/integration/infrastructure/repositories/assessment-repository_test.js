@@ -387,7 +387,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
   });
 
-  describe('#findNotAbortedSmartPlacementAssessmentsByUserId', () => {
+  describe('#findNotAbortedCampaignAssessmentsByUserId', () => {
     let assessmentId;
     let userId;
 
@@ -418,7 +418,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
     it('should return the assessment with campaign when it matches with userId and ignore aborted assessments', async () => {
       // when
-      const assessmentsReturned = await assessmentRepository.findNotAbortedSmartPlacementAssessmentsByUserId(userId);
+      const assessmentsReturned = await assessmentRepository.findNotAbortedCampaignAssessmentsByUserId(userId);
 
       // then
       expect(assessmentsReturned.length).to.equal(1);
