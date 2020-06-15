@@ -80,7 +80,7 @@ module.exports = {
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
-  findNotAbortedSmartPlacementAssessmentsByUserId(userId) {
+  findNotAbortedCampaignAssessmentsByUserId(userId) {
     return BookshelfAssessment
       .where({ userId, type: 'CAMPAIGN' })
       .where('state', '!=', 'aborted')
