@@ -1,5 +1,10 @@
-module.exports =  function findUserWithSchoolingRegistrations({ organizationId, schoolingRegistrationRepository }) {
-
-  return schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId({ organizationId });
-
+module.exports =  function findUserWithSchoolingRegistrations({ 
+  organizationId,
+  filter,
+  schoolingRegistrationRepository,
+}) {
+  return schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId({
+    organizationId,
+    filter,
+  });
 };

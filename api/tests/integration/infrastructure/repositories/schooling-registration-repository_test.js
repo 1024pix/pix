@@ -553,7 +553,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
     });
   });
 
-  describe('#findSchoolingRegistrationsWithUserInfoByOrganizationId', () => {
+  describe('#findUserWithSchoolingRegistrationsByOrganizationId', () => {
 
     it('should return instances of UserWithSchoolingRegistration', async () => {
       // given
@@ -616,10 +616,31 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       await databaseBuilder.commit();
 
       // when
-      const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationId({ organizationId: organization.id });
+      const schoolingRegistrations = await schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId({
+        organizationId: organization.id
+      });
 
       // then
       expect(_.map(schoolingRegistrations, 'id')).to.deep.include.ordered.members([schoolingRegistration_3.id, schoolingRegistration_4.id, schoolingRegistration_2.id, schoolingRegistration_1.id]);
+    });
+
+    it('should return school registrations filtered by lastname', async () => {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+
+      databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, lastName: 'Grenier' });
+      databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, lastName: 'Avatar' });
+      databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, lastName: 'UvAtur' });
+      await databaseBuilder.commit();
+
+      // when
+      const schoolingRegistrations = await schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId({
+        organizationId: organization.id,
+        filter: { lastName: 'Vat' },
+      });
+
+      // then
+      expect(_.map(schoolingRegistrations, 'lastName')).to.deep.equal(['Avatar', 'UvAtur']);
     });
 
     describe('When schoolingRegistration is reconciled and authenticated by email (and/or) username' , () => {
