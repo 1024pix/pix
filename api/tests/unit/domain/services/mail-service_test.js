@@ -27,13 +27,39 @@ describe('Unit | Service | MailService', () => {
         variables: {
           homeName: `${domainFr}`,
           homeUrl: `https://${domainFr}`,
-          loginUrl: `https://app.${domainFr}/connexion`,
+          redirectionUrl: `https://app.${domainFr}/connexion`,
           locale
         }
       };
 
       // when
       await mailService.sendAccountCreationEmail(userEmailAddress, locale);
+
+      // then
+      expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
+    });
+
+    it('should use mailer to send an email with redirectionUrl from parameters', async () => {
+      // given
+      const redirectionUrl = 'https://pix.fr';
+      const locale = 'fr-fr';
+      const domainFr = 'pix.fr';
+      const expectedOptions = {
+        from: senderEmailAddress,
+        fromName: 'PIX - Ne pas répondre',
+        to: userEmailAddress,
+        subject: 'Création de votre compte PIX',
+        template: 'test-account-creation-template-id',
+        variables: {
+          homeName: `${domainFr}`,
+          homeUrl: `https://${domainFr}`,
+          redirectionUrl,
+          locale
+        }
+      };
+
+      // when
+      await mailService.sendAccountCreationEmail(userEmailAddress, locale, redirectionUrl);
 
       // then
       expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
