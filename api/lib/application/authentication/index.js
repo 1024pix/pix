@@ -22,7 +22,7 @@ exports.register = async (server) => {
           failAction: (request, h, err) => {
             const errorHttpStatusCode = 400;
             const jsonApiError = new JSONAPIError({
-              code: errorHttpStatusCode.toString(),
+              status: errorHttpStatusCode.toString(),
               title: 'Bad request',
               detail: err.details[0].message,
             });
