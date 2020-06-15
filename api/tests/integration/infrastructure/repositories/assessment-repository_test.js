@@ -11,7 +11,7 @@ const CampaignParticipation = require('../../../../lib/domain/models/CampaignPar
 
 describe('Integration | Infrastructure | Repositories | assessment-repository', () => {
 
-  // TODO: rajouter la verif de l'ajout du profile dans le cas du SMART_PLACEMENT
+  // TODO: rajouter la verif de l'ajout du profile dans le cas d'une CAMPAIGN
   describe('#get', () => {
 
     let assessmentId;

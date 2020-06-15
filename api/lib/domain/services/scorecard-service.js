@@ -83,13 +83,13 @@ function _resetCompetenceEvaluation({ userId, competenceId, competenceEvaluation
 }
 
 async function _resetCampaignAssessments({ userId, resetSkills, assessmentRepository, campaignParticipationRepository }) {
-  const notAbortedSmartPlacementAssessments = await assessmentRepository.findNotAbortedCampaignAssessmentsByUserId(userId);
+  const notAbortedCampaignAssessments = await assessmentRepository.findNotAbortedCampaignAssessmentsByUserId(userId);
 
-  if (!notAbortedSmartPlacementAssessments) {
+  if (!notAbortedCampaignAssessments) {
     return null;
   }
 
-  const resetSmartPlacementAssessmentsPromises = _.map(notAbortedSmartPlacementAssessments,
+  const resetCampaignAssessmentsPromises = _.map(notAbortedCampaignAssessments,
     (campaignAssessment) => _resetCampaignAssessment({
       assessment: campaignAssessment,
       resetSkills,
@@ -97,7 +97,7 @@ async function _resetCampaignAssessments({ userId, resetSkills, assessmentReposi
       campaignParticipationRepository
     })
   );
-  return Promise.all(resetSmartPlacementAssessmentsPromises);
+  return Promise.all(resetCampaignAssessmentsPromises);
 }
 
 async function _resetCampaignAssessment({ assessment, resetSkills, assessmentRepository, campaignParticipationRepository }) {

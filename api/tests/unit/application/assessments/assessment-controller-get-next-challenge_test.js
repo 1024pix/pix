@@ -145,7 +145,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       });
     });
 
-    describe('when the assessment is a smart placement assessment', () => {
+    describe('when the assessment is a campaign assessment', () => {
 
       const defaultLocale = FRENCH_FRANCE;
       const assessment = new Assessment({

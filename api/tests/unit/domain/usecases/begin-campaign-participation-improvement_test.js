@@ -42,7 +42,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', () => {
     return expect(promise).to.be.rejectedWith(AlreadySharedCampaignParticipationError);
   });
 
-  it('should create a smart placement assessment with the campaignParticipationId and isImproving at true', () => {
+  it('should create a campaign assessment with the campaignParticipationId and isImproving at true', () => {
     // given
     assessmentRepository.save.resolves({});
 

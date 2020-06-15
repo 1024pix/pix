@@ -17,7 +17,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
       .where({ userId, competenceId });
   }
 
-  function inspectSmartPlacementAssessmentsInDb({ userId, state }) {
+  function inspectCampaignAssessmentsInDb({ userId, state }) {
     return knex.select('*')
       .from('assessments')
       .where({ userId, state });
@@ -255,7 +255,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
         response = await server.inject(options);
 
         // then
-        const campaignAssessments = await inspectSmartPlacementAssessmentsInDb({ userId, state });
+        const campaignAssessments = await inspectCampaignAssessmentsInDb({ userId, state });
         expect(campaignAssessments).to.have.lengthOf(1);
       });
 

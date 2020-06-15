@@ -69,7 +69,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
       campaignRepository.get.resolves(domainBuilder.buildCampaign.ofTypeAssessment());
     });
 
-    it('should create a smart placement assessment', async () => {
+    it('should create a campaign assessment', async () => {
       // given
       assessmentRepository.save.resolves({});
       campaignParticipationRepository.save.resolves({ id: 1 });
@@ -94,7 +94,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
       campaignRepository.get.resolves(domainBuilder.buildCampaign.ofTypeProfilesCollection());
     });
 
-    it('should not create a smart placement assessment', async () => {
+    it('should not create a campaign assessment', async () => {
       // given
       campaignParticipationRepository.save.resolves({ id: 1 });
 

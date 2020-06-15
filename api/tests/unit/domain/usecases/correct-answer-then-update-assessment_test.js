@@ -271,7 +271,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
       });
     });
 
-    context('and assessment is a SMART_PLACEMENT', () => {
+    context('and assessment is a CAMPAIGN', () => {
       let firstKnowledgeElement;
       let secondKnowledgeElement;
       let scorecard, knowledgeElement, targetProfile, skills, challenge, skillAlreadyValidated, skillNotAlreadyValidated;
@@ -500,7 +500,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
     });
 
-    context('and assessment is a nor a SMART_PLACEMENT nor a COMPETENCE_EVALUATION', () => {
+    context('and assessment is a nor a CAMPAIGN nor a COMPETENCE_EVALUATION', () => {
 
       let answer;
       let assessment;

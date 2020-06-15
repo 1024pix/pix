@@ -10,7 +10,7 @@ module.exports = {
         const assessment = Object.assign({}, currentAssessment);
 
         // TODO: We can't use currentAssessment.isCertification() because
-        // this serializer is also used by model SmartPlacementAssessment
+        // this serializer is also used by model CampaignAssessment
         assessment.certificationNumber = null;
         if (currentAssessment.type === Assessment.types.CERTIFICATION) {
           assessment.certificationNumber = currentAssessment.certificationCourseId;

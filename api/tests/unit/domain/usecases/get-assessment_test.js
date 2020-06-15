@@ -114,7 +114,7 @@ describe('Unit | UseCase | get-assessment', () => {
     expect(result.title).to.equal(course.name);
   });
 
-  it('should resolve the Assessment domain object with SMARTPLACEMENT title matching the given assessment ID', async () => {
+  it('should resolve the Assessment domain object with CAMPAIGN title matching the given assessment ID', async () => {
     // given
     assessment.type = Assessment.types.CAMPAIGN;
     assessmentRepository.get.resolves(assessment);
