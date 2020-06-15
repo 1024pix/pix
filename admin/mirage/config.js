@@ -64,4 +64,27 @@ export default function() {
     const organization = schema.organizations.findBy({ id: organizationId });
     return organization.update({ params });
   });
+
+  this.patch('/admin/users/:id', (schema, request) => {
+    const userId = request.params.id;
+    const params = JSON.parse(request.requestBody);
+
+    const userUpdated = {
+      'data': {
+        'type': 'users',
+        'id': userId,
+        'attributes': {
+          'first-name': params.data.attributes['first-name'],
+          'last-name': params.data.attributes['last-name'],
+          'email': params.data.attributes['email'],
+          'username': params.data.attributes['username'],
+          'cgu': params.data.attributes['cgu'],
+          'is-authenticated-from-gar': params.data.attributes['is-authenticated-from-gar'],
+          'pix-orga-terms-of-service-accepted': params.data.attributes['pix-orga-terms-of-service-accepted'],
+          'pix-certif-terms-of-service-accepted': params.data.attributes['pix-certif-terms-of-service-accepted']
+        }
+      }
+    };
+    return userUpdated;
+  });
 }
