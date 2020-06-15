@@ -53,7 +53,7 @@ module.exports = {
       const filters = extractParameters(request.query).filter;
 
       if (filters.codeCampaign) {
-        assessments = await usecases.findSmartPlacementAssessments({ userId, filters });
+        assessments = await usecases.findCampaignAssessments({ userId, filters });
       }
     }
 

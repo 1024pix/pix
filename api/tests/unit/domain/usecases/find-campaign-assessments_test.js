@@ -1,7 +1,7 @@
 const { expect, domainBuilder, sinon } = require('../../../test-helper');
-const findSmartPlacementAssessments = require('../../../../lib/domain/usecases/find-smart-placement-assessments');
+const findCampaignAssessments = require('../../../../lib/domain/usecases/find-campaign-assessments');
 
-describe('Unit | UseCase | find-smart-placement-assessments', () => {
+describe('Unit | UseCase | find-campaign-assessments', () => {
 
   const assessmentRepository = {
     findLastSmartPlacementAssessmentByUserIdAndCampaignCode: () => {
@@ -19,7 +19,7 @@ describe('Unit | UseCase | find-smart-placement-assessments', () => {
     sinon.stub(assessmentRepository, 'findLastSmartPlacementAssessmentByUserIdAndCampaignCode').resolves(null);
 
     // when
-    const promise = findSmartPlacementAssessments({ userId, filters, assessmentRepository });
+    const promise = findCampaignAssessments({ userId, filters, assessmentRepository });
 
     // then
     return promise.then((result) => {
@@ -41,7 +41,7 @@ describe('Unit | UseCase | find-smart-placement-assessments', () => {
     sinon.stub(assessmentRepository, 'findLastSmartPlacementAssessmentByUserIdAndCampaignCode').resolves(assessment);
 
     // when
-    const promise = findSmartPlacementAssessments({ userId, filters, assessmentRepository });
+    const promise = findCampaignAssessments({ userId, filters, assessmentRepository });
 
     // then
     return promise.then((result) => {

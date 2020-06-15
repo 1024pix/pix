@@ -120,7 +120,7 @@ module.exports = injectDependencies({
   findPaginatedFilteredUsers: require('./find-paginated-filtered-users'),
   findPendingOrganizationInvitations: require('./find-pending-organization-invitations'),
   findSessionsForCertificationCenter: require('./find-sessions-for-certification-center'),
-  findSmartPlacementAssessments: require('./find-smart-placement-assessments'),
+  findCampaignAssessments: require('./find-campaign-assessments'),
   findTutorials: require('./find-tutorials'),
   findUserTutorials: require('./find-user-tutorials'),
   findUserWithSchoolingRegistrations: require('./find-user-with-schooling-registrations'),

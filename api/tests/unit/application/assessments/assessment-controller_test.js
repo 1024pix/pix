@@ -23,7 +23,7 @@ describe('Unit | Controller | assessment-controller', function() {
     const userId = 24504875;
 
     beforeEach(() => {
-      sinon.stub(usecases, 'findSmartPlacementAssessments');
+      sinon.stub(usecases, 'findCampaignAssessments');
       sinon.stub(assessmentSerializer, 'serialize');
     });
 
@@ -33,7 +33,7 @@ describe('Unit | Controller | assessment-controller', function() {
         query: { 'filter[codeCampaign]': 'Code' },
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
       };
-      usecases.findSmartPlacementAssessments.resolves(assessments);
+      usecases.findCampaignAssessments.resolves(assessments);
       assessmentSerializer.serialize.returns(assessmentsInJSONAPI);
 
       // when
@@ -53,13 +53,13 @@ describe('Unit | Controller | assessment-controller', function() {
 
       it('should call assessment service with query filters', async function() {
         // given
-        usecases.findSmartPlacementAssessments.resolves();
+        usecases.findCampaignAssessments.resolves();
 
         // when
         await assessmentController.findByFilters(request, hFake);
 
         // then
-        expect(usecases.findSmartPlacementAssessments).to.have.been.calledWithExactly({
+        expect(usecases.findCampaignAssessments).to.have.been.calledWithExactly({
           userId,
           filters: { codeCampaign: 'Code' },
         });
