@@ -171,6 +171,32 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       // then
       expect(_.map(memberships, 'id')).to.deep.include.ordered.members([membership_1.id, membership_4.id, membership_3.id, membership_2.id, membership_5.id]);
     });
+
+    it('should return only active memberships', async () => {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+
+      const membershipActive = {
+        organizationId,
+        userId: databaseBuilder.factory.buildUser().id
+      };
+      const membershipDisabled = {
+        organizationId,
+        userId: databaseBuilder.factory.buildUser().id,
+        disabledAt: new Date(),
+      };
+      const expectedMembershipId = databaseBuilder.factory.buildMembership(membershipActive).id;
+      databaseBuilder.factory.buildMembership(membershipDisabled);
+
+      await databaseBuilder.commit();
+
+      // when
+      const foundMemberships = await membershipRepository.findByOrganizationId({ organizationId });
+
+      // then
+      expect(foundMemberships).to.have.lengthOf(1);
+      expect(foundMemberships[0].id).to.equal(expectedMembershipId);
+    });
   });
 
   describe('#findByUserIdAndOrganizationId', () => {
@@ -196,6 +222,22 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
         //then
         expect(memberships).to.have.lengthOf(1);
         expect(memberships[0].id).to.equal(membership2.id);
+      });
+
+      it('should retrieve only active membership', async () => {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+
+        databaseBuilder.factory.buildMembership({ userId, organizationId, disabledAt: new Date() });
+
+        await databaseBuilder.commit();
+
+        // when
+        const foundMemberships = await membershipRepository.findByUserIdAndOrganizationId({ userId, organizationId });
+
+        // then
+        expect(foundMemberships).to.have.lengthOf(0);
       });
     });
 

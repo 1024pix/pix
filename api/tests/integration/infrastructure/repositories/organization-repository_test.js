@@ -165,7 +165,6 @@ describe('Integration | Repository | Organization', function() {
           expect(err.message).to.equal('Not found organization for ID 10083');
         });
       });
-
     });
 
     describe('when a target profile is shared with the organisation', () => {
@@ -186,7 +185,7 @@ describe('Integration | Repository | Organization', function() {
         await databaseBuilder.commit();
       });
 
-      it('should return an list of profile containing the shared profile', async () => {
+      it('should return a list of profile containing the shared profile', async () => {
         // when
         const organization = await organizationRepository.get(insertedOrganization.id);
 
@@ -196,6 +195,35 @@ describe('Integration | Repository | Organization', function() {
         expect(firstTargetProfileShare.organizationId).to.deep.equal(insertedOrganization.id);
 
         expect(firstTargetProfileShare.targetProfile).to.deep.equal(sharedProfile);
+      });
+    });
+
+    context('when organization have memberships', () => {
+
+      it('should return a list of active members', async () => {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+
+        const membershipActive = {
+          organizationId,
+          userId: databaseBuilder.factory.buildUser().id
+        };
+        const membershipDisabled = {
+          organizationId,
+          userId: databaseBuilder.factory.buildUser().id,
+          disabledAt: new Date(),
+        };
+        databaseBuilder.factory.buildMembership(membershipActive);
+        databaseBuilder.factory.buildMembership(membershipDisabled);
+
+        await databaseBuilder.commit();
+
+        // when
+        const foundOrganization = await organizationRepository.get(organizationId);
+
+        // then
+        expect(foundOrganization.members).to.have.lengthOf(1);
+        expect(foundOrganization.members[0].id).to.deep.equal(membershipActive.userId);
       });
     });
   });
