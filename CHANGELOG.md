@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v2.162.0 (15/06/2020)
+
+- [#1445](https://github.com/1024pix/pix/pull/1445) [FEATURE] Afficher l'obtention de la certif cléa sur pix admin (PIX-630)
+- [#1496](https://github.com/1024pix/pix/pull/1496) [FEATURE] Ajouter lien vers BI sur le détail d'une organisation (PIX-605).
+- [#1507](https://github.com/1024pix/pix/pull/1507) [FEATURE] Ne plus afficher les membres désactivés dans PixOrga et PixAdmin (PIX-409).
+- [#1504](https://github.com/1024pix/pix/pull/1504) [FEATURE] Permettre la mise à jour du prénom, nom et l'email d'un utilisateur connecté par email dans Pix Admin (PIX-458).
+- [#1510](https://github.com/1024pix/pix/pull/1510) [FEATURE] Changer la source de stockage des images de badges (PIX-777)
+- [#1512](https://github.com/1024pix/pix/pull/1512) [BUGFIX] Format de date invalide lors de la création d'un utilisateur SCO (PIX-834).
+
 ## v2.161.0 (12/06/2020)
 
 - [#1511](https://github.com/1024pix/pix/pull/1511) [FEATURE] Empêcher la connexion à Pix Orga d'un utilisateur dont le membership a été désactivé (PIX-766).
