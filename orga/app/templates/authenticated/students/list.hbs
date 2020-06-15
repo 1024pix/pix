@@ -1,4 +1,9 @@
 <div class="list-students-page">
-
-  <Routes::Authenticated::Students::ListItems @students={{this.model}} @isLoading={{this.isLoading}} @importStudents={{this.importStudents}} />
+  <Routes::Authenticated::Students::ListItems
+    @students={{this.model}}
+    @isLoading={{this.isLoading}}
+    @importStudents={{this.importStudents}}
+    @triggerFiltering={{this.triggerFiltering}}
+    @lastNameFilter={{this.lastName}}
+  />
 </div>

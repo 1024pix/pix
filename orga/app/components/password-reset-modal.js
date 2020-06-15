@@ -46,7 +46,7 @@ export default class PasswordResetModal extends Component {
   async resetPassword(event) {
     event.preventDefault();
     const schoolingRegistrationDependentUser = this.store.createRecord('schooling-registration-dependent-user', {
-      organizationId: this.args.student.organization.get('id'),
+      organizationId: this.args.organizationId,
       schoolingRegistrationId: this.args.student.id
     });
 
