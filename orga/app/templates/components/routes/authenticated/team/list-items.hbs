@@ -50,3 +50,7 @@
     {{/unless}}
   </div>
 </div>
+
+{{#if @memberships}}
+  <PaginationControl @pagination={{@memberships.meta}} @paginationLink="authenticated.team" />
+{{/if}}
