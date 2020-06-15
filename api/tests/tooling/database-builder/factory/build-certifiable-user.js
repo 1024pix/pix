@@ -5,6 +5,7 @@ const buildKnowledgeElement = require('./build-knowledge-element');
 
 module.exports = function buildCertifiableUser({
   competencesAssociatedSkillsAndChallenges,
+  limitDate,
 }) {
   const certifiableUser = buildUser();
   const assessmentId = buildAssessment({ userId: certifiableUser.id }).id;
@@ -12,7 +13,7 @@ module.exports = function buildCertifiableUser({
   competencesAssociatedSkillsAndChallenges.forEach((element) => {
     const { challengeId, competenceId } = element;
     const answerId = buildAnswer({ assessmentId, challengeId }).id;
-    buildKnowledgeElement({ ...commonUserIdAssessmentIdAndEarnedPixForAllKEs, competenceId, answerId });
+    buildKnowledgeElement({ ...commonUserIdAssessmentIdAndEarnedPixForAllKEs, competenceId, answerId, createdAt: limitDate });
   });
 
   return certifiableUser;

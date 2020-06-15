@@ -7,6 +7,7 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
 
   const userId = 2;
   const certificationId = '23';
+  const cleaCertificationStatus = 'someStatus';
 
   const assessmentRepository = {
     getByCertificationCourseId: () => undefined,
@@ -20,12 +21,16 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
   const competenceTreeRepository = {
     get: () => undefined,
   };
+  const cleaCertificationStatusRepository = {
+    getCleaCertificationStatus: () => undefined,
+  };
 
   beforeEach(() => {
     assessmentRepository.getByCertificationCourseId = sinon.stub();
     certificationRepository.getByCertificationCourseId = sinon.stub();
     competenceMarkRepository.findByAssessmentResultId = sinon.stub();
     competenceTreeRepository.get = sinon.stub();
+    cleaCertificationStatusRepository.getCleaCertificationStatus = sinon.stub().resolves(cleaCertificationStatus);
   });
 
   context('when the user is not owner of the certification', () => {
@@ -44,6 +49,7 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
         assessmentRepository,
         certificationId,
         certificationRepository,
+        cleaCertificationStatusRepository,
         competenceMarkRepository,
         competenceTreeRepository,
         userId,
@@ -90,6 +96,7 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
         assessmentRepository,
         certificationId,
         certificationRepository,
+        cleaCertificationStatusRepository,
         competenceMarkRepository,
         competenceTreeRepository,
         userId,
@@ -137,6 +144,12 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
       // then
       return promise.then((certification) => {
         expect(certification.resultCompetenceTree.id).to.equal(expectedId);
+      });
+    });
+
+    it('should set cleaCertificationStatus', () => {
+      return promise.then((certification) => {
+        expect(certification.cleaCertificationStatus).to.equal(cleaCertificationStatus);
       });
     });
   });

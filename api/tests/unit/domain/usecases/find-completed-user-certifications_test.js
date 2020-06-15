@@ -6,9 +6,12 @@ const findCompletedUserCertifications = require('../../../../lib/domain/usecases
 describe('Unit | UseCase | find-completed-user-certifications', () => {
 
   const certificationRepository = {};
+  const cleaCertificationStatusRepository = {};
+  const cleaCertificationStatus = 'someStatus';
 
   beforeEach(() => {
     certificationRepository.findByUserId = sinon.stub();
+    cleaCertificationStatusRepository.getCleaCertificationStatus = sinon.stub().resolves(cleaCertificationStatus);
   });
 
   it('should return all the needed informations about certifications', function() {
@@ -29,13 +32,14 @@ describe('Unit | UseCase | find-completed-user-certifications', () => {
     certificationRepository.findByUserId.resolves([completedCertifications]);
 
     // when
-    const promise = findCompletedUserCertifications({ userId, certificationRepository });
+    const promise = findCompletedUserCertifications({ userId, certificationRepository, cleaCertificationStatusRepository });
 
     // then
     return promise.then((certifications) => {
       expect(certificationRepository.findByUserId).to.have.been.calledWith(userId);
       expect(certifications).to.have.lengthOf(1);
       expect(certifications[0].id).to.equal(1000);
+      expect(certifications[0].cleaCertificationStatus).to.equal(cleaCertificationStatus);
     });
   });
 });

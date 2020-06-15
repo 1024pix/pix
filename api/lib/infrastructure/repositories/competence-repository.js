@@ -1,14 +1,11 @@
 const _ = require('lodash');
-const { keys } = require('../../domain/models/Badge');
 const AirtableNotFoundError = require('../../infrastructure/datasources/airtable/AirtableResourceNotFound');
 const Area = require('../../domain/models/Area');
 const areaDatasource = require('../datasources/airtable/area-datasource');
 const Competence = require('../../domain/models/Competence');
 const competenceDatasource = require('../datasources/airtable/competence-datasource');
-const badgeRepository = require('./badge-repository');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const scoringService = require('../../domain/services/scoring/scoring-service');
-const skillRepository = require('./skill-repository');
 const { NotFoundError } = require('../../domain/errors');
 
 const PixOriginName = 'Pix';
@@ -80,14 +77,6 @@ module.exports = {
     });
   },
 
-  async getTotalPixCleaByCompetence() {
-    const badgeClea = await badgeRepository.findOneByKey(keys.PIX_EMPLOI_CLEA);
-    const cleaSkillIds = badgeClea.badgePartnerCompetences.flatMap((b) => b.skillIds);
-    const cleaSkills =  await skillRepository.findByIds(cleaSkillIds);
-    const competencesIds = _(cleaSkills).map((s) => s.competenceId).uniq().value();
-    return  _.zipObject(competencesIds, competencesIds.map((id) => _getSumPixValue(cleaSkills, id)));
-  }
-
 };
 
 function _list() {
@@ -99,10 +88,3 @@ function _list() {
       );
     });
 }
-
-function _getSumPixValue(cleaSkills, id) {
-  return _(cleaSkills)
-    .filter((skill) => skill.competenceId === id)
-    .reduce((cumulatedPixValue, skill) => cumulatedPixValue + skill.pixValue, 0);
-}
-

@@ -1,4 +1,4 @@
-const { injectDefaults } = require('../../infrastructure/utils/dependency-injection');
+const { injectDefaults, injectDependencies } = require('../../infrastructure/utils/dependency-injection');
 const EventDispatcher = require('../../infrastructure/events/EventDispatcher');
 const _ = require('lodash');
 
@@ -10,7 +10,6 @@ const dependencies = {
   badgeRepository: require('../../infrastructure/repositories/badge-repository'),
   campaignParticipationResultRepository: require('../../infrastructure/repositories/campaign-participation-result-repository'),
   certificationCourseRepository: require('../../infrastructure/repositories/certification-course-repository'),
-  certificationPartnerAcquisitionRepository: require('../../infrastructure/repositories/certification-partner-acquisition-repository'),
   competenceMarkRepository: require('../../infrastructure/repositories/competence-mark-repository'),
   competenceRepository: require('../../infrastructure/repositories/competence-repository'),
   knowledgeElementRepository: require('../../infrastructure/repositories/knowledge-element-repository'),
@@ -18,10 +17,16 @@ const dependencies = {
   skillRepository: require('../../infrastructure/repositories/skill-repository'),
 };
 
+const partnerCertificationRepository = injectDependencies(
+  require('../../infrastructure/repositories/partner-certification-repository'),
+  dependencies
+);
+dependencies.partnerCertificationRepository = partnerCertificationRepository;
+
 const handlersToBeInjected = {
   handleBadgeAcquisition: require('./handle-badge-acquisition'),
   handleCertificationScoring: require('./handle-certification-scoring'),
-  handleCertificationAcquisitionForPartner: require('./handle-certification-partner')
+  handlePartnerCertifications: require('./handle-partner-certification'),
 };
 
 function buildEventDispatcher(handlersStubs) {

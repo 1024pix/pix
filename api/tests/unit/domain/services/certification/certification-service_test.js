@@ -11,6 +11,7 @@ const assessmentResultRepository = require('../../../../../lib/infrastructure/re
 const certificationAssessmentRepository = require('../../../../../lib/infrastructure/repositories/certification-assessment-repository');
 const certificationCourseRepository = require('../../../../../lib/infrastructure/repositories/certification-course-repository');
 const certificationResultService = require('../../../../../lib/domain/services/certification-result-service');
+const cleaCertificationStatusRepository = require('../../../../../lib/infrastructure/repositories/clea-certification-status-repository');
 
 function _buildCompetenceMarks(level, score, area_code, competence_code, competenceId) {
   return new CompetenceMarks({ level, score, area_code, competence_code, competenceId });
@@ -58,18 +59,17 @@ describe('Unit | Service | Certification Service', function() {
 
   describe('#getCertificationResult', () => {
     const certificationCourseId = 1;
+    const cleaCertificationStatus = 'someStatus';
+
+    beforeEach(() => {
+      sinon.stub(cleaCertificationStatusRepository, 'getCleaCertificationStatus').resolves(cleaCertificationStatus);
+    });
 
     context('when certification is finished', () => {
+      let certificationCourse;
 
       beforeEach(() => {
-        const assessmentResult = _buildAssessmentResult(20, 3);
-        sinon.stub(assessmentRepository, 'getByCertificationCourseId').resolves(new Assessment({
-          state: 'completed',
-          assessmentResults: [
-            _buildAssessmentResult(20, 3),
-          ],
-        }));
-        sinon.stub(certificationCourseRepository, 'get').resolves(new CertificationCourse({
+        certificationCourse = new CertificationCourse({
           id: certificationCourseId,
           createdAt: new Date('2017-12-23T15:23:12Z'),
           completedAt: new Date('2017-12-23T16:23:12Z'),
@@ -81,7 +81,16 @@ describe('Unit | Service | Certification Service', function() {
           externalId: 'TimonsFriend',
           examinerComment: '',
           hasSeenEndTestScreen: true,
+        });
+
+        const assessmentResult = _buildAssessmentResult(20, 3);
+        sinon.stub(assessmentRepository, 'getByCertificationCourseId').resolves(new Assessment({
+          state: 'completed',
+          assessmentResults: [
+            _buildAssessmentResult(20, 3),
+          ],
         }));
+        sinon.stub(certificationCourseRepository, 'get').resolves(certificationCourse);
         assessmentResult.competenceMarks = [_buildCompetenceMarks(3, 27, '2', '2.1', 'rec2.1')];
         sinon.stub(assessmentResultRepository, 'get').resolves(
           assessmentResult,
@@ -122,9 +131,9 @@ describe('Unit | Service | Certification Service', function() {
           expect(certification.externalId).to.deep.equal('TimonsFriend');
           expect(certification.examinerComment).to.deep.equal('');
           expect(certification.hasSeenEndTestScreen).to.deep.equal(true);
+          expect(certification.cleaCertificationStatus).to.deep.equal(cleaCertificationStatus);
         });
       });
-
     });
 
     context('when certification is not finished', () => {

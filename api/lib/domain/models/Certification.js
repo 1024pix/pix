@@ -15,9 +15,9 @@ class Certification {
     deliveredAt,
     isPublished,
     lastName,
+    cleaCertificationStatus,
     // includes
     assessmentResults = [],
-    acquiredPartnerCertifications = [],
     resultCompetenceTree,
     // references
     userId,
@@ -43,12 +43,11 @@ class Certification {
       this.status = mostRecentAssessmentResult.status;
       this.commentForCandidate = mostRecentAssessmentResult.commentForCandidate;
     }
+    this.cleaCertificationStatus = cleaCertificationStatus;
     // includes
     this.resultCompetenceTree = resultCompetenceTree;
     // references
     this.userId = userId;
-    this.acquiredPartnerCertifications = acquiredPartnerCertifications;
-
   }
 }
 
