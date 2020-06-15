@@ -27,6 +27,7 @@ module.exports = {
   buildCertificationWithCompetenceTree: require('./build-certification-with-competence-tree'),
   buildChallenge: require('./build-challenge'),
   buildChallengeAirtableDataObject: require('./build-challenge-airtable-data-object'),
+  buildCleaCertification: require('./build-clea-certification'),
   buildCompetence: require('./build-competence'),
   buildCompetenceAirtableDataObject: require('./build-competence-airtable-data-object'),
   buildCompetenceEvaluation: require('./build-competence-evaluation'),

@@ -21,6 +21,6 @@ describe('Event Choregraphy | Score Partner Certification', function() {
     await eventDispatcher.dispatch(domainTransaction, assessmentCompleted);
 
     // then
-    expect(handlerStubs.handleCertificationAcquisitionForPartner).to.have.been.calledWith({ domainTransaction, event:certificationScoringCompleted });
+    expect(handlerStubs.handlePartnerCertifications).to.have.been.calledWith({ domainTransaction, event:certificationScoringCompleted });
   });
 });

@@ -120,40 +120,4 @@ describe('Integration | Repository | CompetenceMark', () => {
       });
     });
   });
-
-  describe('#getLatestByCertificationCourseId', () => {
-
-    let certificationCourseId;
-    let competenceMarks1;
-    let competenceMarks2;
-
-    beforeEach(async () => {
-      const juryId = databaseBuilder.factory.buildUser().id;
-      certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
-      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
-      const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({ juryId, assessmentId, createdAt: new Date('2019-02-01T00:00:00Z') }).id;
-      databaseBuilder.factory.buildAssessmentResult({ juryId, assessmentId, createdAt: new Date('2019-01-01T00:00:00Z') });
-      competenceMarks1 = databaseBuilder.factory.buildCompetenceMark({ id: 1, assessmentResultId });
-      competenceMarks2 = databaseBuilder.factory.buildCompetenceMark({ id: 2, assessmentResultId });
-
-      await databaseBuilder.commit();
-    });
-
-    it('should return the most recent competenceMarks', async () => {
-      // when
-      const mostRecentCompetenceMarks = await competenceMarkRepository.getLatestByCertificationCourseId({ certificationCourseId });
-
-      // then
-      const sortedCompetenceMarks = _.sortBy(mostRecentCompetenceMarks, 'id');
-      expect(sortedCompetenceMarks[0].score).to.be.deep.equal(competenceMarks1.score);
-      expect(sortedCompetenceMarks[0].level).to.be.deep.equal(competenceMarks1.level);
-      expect(sortedCompetenceMarks[0].area_code).to.be.deep.equal(competenceMarks1.area_code);
-      expect(sortedCompetenceMarks[0].competence_code).to.be.deep.equal(competenceMarks1.competence_code);
-
-      expect(sortedCompetenceMarks[1].score).to.be.deep.equal(competenceMarks2.score);
-      expect(sortedCompetenceMarks[1].level).to.be.deep.equal(competenceMarks2.level);
-      expect(sortedCompetenceMarks[1].area_code).to.be.deep.equal(competenceMarks2.area_code);
-      expect(sortedCompetenceMarks[1].competence_code).to.be.deep.equal(competenceMarks2.competence_code);
-    });
-  });
 });

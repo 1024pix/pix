@@ -1,11 +1,12 @@
 const faker = require('faker');
 const databaseBuffer = require('../database-buffer');
 
-module.exports = function buildCertificationAcquiredPartner({
+module.exports = function buildPartnerCertification({
   certificationCourseId,
   partnerKey = faker.lorem.word,
+  acquired = true,
 }) {
   return databaseBuffer.objectsToInsert.push({
-    tableName: 'certification-partner-acquisitions', values : { certificationCourseId, partnerKey }
+    tableName: 'partner-certifications', values : { certificationCourseId, partnerKey, acquired }
   });
 };

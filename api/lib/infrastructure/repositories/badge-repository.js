@@ -15,13 +15,4 @@ module.exports = {
       );
   },
 
-  findOneByKey(key) {
-    return new BookshelfBadge({ key })
-      .fetch({
-        require: false,
-        withRelated: ['badgeCriteria', 'badgePartnerCompetences']
-      })
-      .then((results) => bookshelfToDomainConverter.buildDomainObject(BookshelfBadge, results));
-  },
-
 };

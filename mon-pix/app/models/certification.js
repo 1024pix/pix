@@ -1,6 +1,8 @@
 import Model, { belongsTo, attr } from '@ember-data/model';
 import { computed } from '@ember/object';
 
+export const ACQUIRED = 'acquired';
+
 export default class Certification extends Model {
 
   static PARTNER_KEY_CLEA = 'PIX_EMPLOI_CLEA';
@@ -15,14 +17,14 @@ export default class Certification extends Model {
   @attr('string') lastName;
   @attr('number') pixScore;
   @attr('string') status;
-  @attr() acquiredPartnerCertifications;
+  @attr() cleaCertificationStatus;
 
   // includes
   @belongsTo('resultCompetenceTree') resultCompetenceTree;
   @belongsTo('user') user;
 
-  @computed('acquiredPartnerCertifications.[]')
+  @computed('cleaCertificationStatus')
   get hasCleaCertif() {
-    return this.acquiredPartnerCertifications.includes(Certification.PARTNER_KEY_CLEA);
+    return this.cleaCertificationStatus === ACQUIRED;
   }
 }

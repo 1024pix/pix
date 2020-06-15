@@ -18,7 +18,7 @@ module.exports = {
   buildCertificationCenter: require('./build-certification-center'),
   buildCertificationCenterMembership: require('./build-certification-center-membership'),
   buildCertificationChallenge: require('./build-certification-challenge'),
-  buildCertificationAcquiredPartner: require('./build-certification-acquired-partner'),
+  buildPartnerCertification: require('./build-partner-certification'),
   buildCertificationCourse: require('./build-certification-course'),
   buildCertificationReport: require('./build-certification-report'),
   buildCompetenceEvaluation: require('./build-competence-evaluation'),

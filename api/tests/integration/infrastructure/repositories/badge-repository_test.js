@@ -7,11 +7,9 @@ const BadgePartnerCompetence = require('../../../../lib/domain/models/BadgePartn
 describe('Integration | Repository | Badge', () => {
 
   let targetProfileWithPartnerCompetences;
-  let targetProfileWithoutBadgePartnerCompetences;
   let targetProfileWithoutBadge;
   let targetProfileWithSeveralBadges;
 
-  let badgeWithoutBadgePartnerCompetences;
   let badgeWithBadgePartnerCompetences;
   let badgeCriterionForBadgeWithPartnerCompetences;
   let badgePartnerCompetence_1;
@@ -22,16 +20,7 @@ describe('Integration | Repository | Badge', () => {
   let badgeCriterionForBadgeWithSameTargetProfile_2;
 
   beforeEach(async () => {
-    targetProfileWithoutBadgePartnerCompetences = databaseBuilder.factory.buildTargetProfile();
     targetProfileWithoutBadge = databaseBuilder.factory.buildTargetProfile();
-    badgeWithoutBadgePartnerCompetences = databaseBuilder.factory.buildBadge({
-      id: 1,
-      altMessage: 'You won the Banana badge!',
-      imageUrl: '/img/banana.svg',
-      key: 'BANANA',
-      message: 'Congrats, you won the Banana badge!',
-      targetProfileId: targetProfileWithoutBadgePartnerCompetences.id,
-    });
     setupTargetProfileWithPartnerCompetences();
     setupTargetProfileWithSeveralBadges();
 
@@ -165,53 +154,6 @@ describe('Integration | Repository | Badge', () => {
 
       // then
       expect(badges.length).to.equal(0);
-    });
-  });
-
-  describe('#findOneByKey', () => {
-
-    it('should return the badge linked to the given key with empty badge partner competences array', async () => {
-      // given
-      const key = badgeWithoutBadgePartnerCompetences.key;
-
-      // when
-      const badgeReturned = await badgeRepository.findOneByKey(key);
-
-      // then
-      expect(badgeReturned).to.be.an.instanceOf(Badge);
-      expect(badgeReturned).to.deep.equal({
-        ...badgeWithoutBadgePartnerCompetences,
-        badgeCriteria: [],
-        badgePartnerCompetences: [],
-      });
-    });
-
-    it('should return the badge linked to the given target profile with related badge partner competences', async () => {
-      // given
-      const key = badgeWithBadgePartnerCompetences.key;
-
-      // when
-      const badgeReturned = await badgeRepository.findOneByKey(key);
-
-      // then
-      expect(badgeReturned).to.be.an.instanceOf(Badge);
-      expect(badgeReturned.badgePartnerCompetences[0]).to.be.an.instanceOf(BadgePartnerCompetence);
-      expect(badgeReturned).to.deep.equal({
-        ...badgeWithBadgePartnerCompetences,
-        badgeCriteria: [ badgeCriterionForBadgeWithPartnerCompetences ],
-        badgePartnerCompetences: [ badgePartnerCompetence_1, badgePartnerCompetence_2 ],
-      });
-    });
-
-    it('should return an empty array when the given target profile has no badges', async () => {
-      // given
-      const key = Symbol('AnotherBadge');
-
-      // when
-      const badge = await badgeRepository.findOneByKey(key);
-
-      // then
-      expect(badge).to.equal(null);
     });
   });
 });
