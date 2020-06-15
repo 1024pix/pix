@@ -6,7 +6,7 @@ const CampaignAssessmentState = Object.freeze({
   ABORTED: 'aborted',
 });
 
-const courseIdMessage = 'Campaign Assessment CourseId Not Used';
+const courseIdMessage = '[NOT USED] Campaign Assessment CourseId Not Used';
 /**
  * Traduction: Évaluation
  * Context: Objet existant dans le cadre d'une campagne

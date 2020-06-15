@@ -117,7 +117,7 @@ async function _resetCampaignAssessment({ assessment, resetSkills, assessmentRep
     state: Assessment.states.STARTED,
     type: Assessment.types.CAMPAIGN,
     campaignParticipationId: assessment.campaignParticipationId,
-    courseId: 'Campaign Assessment CourseId Not Used'
+    courseId: '[NOT USED] Campaign Assessment CourseId Not Used'
   });
 
   await assessmentRepository.abortByAssessmentId(assessment.id);

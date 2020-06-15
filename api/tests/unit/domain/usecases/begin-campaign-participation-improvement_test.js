@@ -57,7 +57,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', () => {
       expect(assessmentToSave.type).to.equal(Assessment.types.CAMPAIGN);
       expect(assessmentToSave.state).to.equal(Assessment.states.STARTED);
       expect(assessmentToSave.userId).to.equal(userId);
-      expect(assessmentToSave.courseId).to.equal('Campaign Assessment CourseId Not Used');
+      expect(assessmentToSave.courseId).to.equal('[NOT USED] Campaign Assessment CourseId Not Used');
       expect(assessmentToSave.campaignParticipationId).to.equal(campaignParticipationId);
       expect(assessmentToSave.isImproving).to.be.ok;
     });
