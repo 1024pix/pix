@@ -9,5 +9,6 @@
   "blacklistHosts": "*stats.pix.fr*",
   "screenshotsFolder": "cypress/snapshots/actual",
   "trashAssetsBeforeRuns": true,
-  "projectId": "g2rfqp"
+  "projectId": "g2rfqp",
+  "numTestsKeptInMemory": 0
 }
