@@ -10,7 +10,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
   describe('#save', () => {
 
-    context('when the assessment saved is a smart placement', () => {
+    context('when the assessment saved is a campaign placement', () => {
 
       const request = {
         headers: {
@@ -32,7 +32,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
         sinon.stub(usecases, 'createAssessmentForCampaign').resolves({});
       });
 
-      it('should save an assessment with the type SMART_PLACEMENT and with a fake courseId', async function() {
+      it('should save an assessment with the type CAMPAIGN and with a fake courseId', async function() {
         // given
         const expectedAssessment = new Assessment({
           id: 42,

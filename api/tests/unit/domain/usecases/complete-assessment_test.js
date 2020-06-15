@@ -105,7 +105,7 @@ describe('Unit | UseCase | complete-assessment', () => {
         });
       });
 
-    context('when assessment is of type SMARTPLACEMENT', () => {
+    context('when assessment is of type CAMPAIGN', () => {
       it('should return a AssessmentCompleted event with a userId and targetProfileId', async () => {
         const assessment = _buildCampaignAssessment();
 

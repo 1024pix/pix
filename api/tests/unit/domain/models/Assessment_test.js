@@ -81,7 +81,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       return expect(promise).to.be.rejected;
     });
 
-    it('should return rejected promise when Smart Placement assessment has no userId', () => {
+    it('should return rejected promise when Campaign assessment has no userId', () => {
       //given
       assessment = new Assessment({ type: 'CAMPAIGN' });
 
@@ -238,7 +238,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       expect(assessment.hasKnowledgeElements()).to.be.true;
     });
 
-    it('should return true when the assessment is a Smart Placement', () => {
+    it('should return true when the assessment is a Campaign assessment', () => {
       // given
       const assessment = domainBuilder.buildAssessment({ type: Assessment.types.CAMPAIGN });
 
@@ -246,7 +246,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       expect(assessment.hasKnowledgeElements()).to.be.true;
     });
 
-    it('should return false when the assessment is not a CompetenceEvaluation nor SmartPlacement', () => {
+    it('should return false when the assessment is not a CompetenceEvaluation nor Campaign', () => {
       // given
       const assessment = domainBuilder.buildAssessment({ type: Assessment.types.CERTIFICATION });
 

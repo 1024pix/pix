@@ -31,7 +31,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
 
   describe('#getProgression', () => {
 
-    context('when the assessment exists and is smart placement', () => {
+    context('when the assessment exists and is campaign', () => {
 
       const assessment = domainBuilder.buildAssessment({
         id: assessmentId,

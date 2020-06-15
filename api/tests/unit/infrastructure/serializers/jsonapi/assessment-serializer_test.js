@@ -91,7 +91,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
       expect(json.data.attributes['title']).to.equal('Traiter des données');
     });
 
-    it('should convert an Assessment model object with type SMARTPLACEMENT into JSON API data', function() {
+    it('should convert an Assessment model object with type CAMPAIGN into JSON API data', function() {
       //given
       const assessment = domainBuilder.buildAssessment({
         type: Assessment.types.CAMPAIGN,
@@ -169,7 +169,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
       expect(assessment.courseId).to.equal(jsonAssessment.data.relationships.course.data.id);
     });
 
-    it('should have a null courseId for type SMARTPLACEMENT', () => {
+    it('should have a null courseId for type CAMPAIGN', () => {
       //given
       jsonAssessment.data.attributes.type = Assessment.types.CAMPAIGN;
 

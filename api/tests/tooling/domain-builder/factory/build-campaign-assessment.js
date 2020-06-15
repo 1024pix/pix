@@ -1,5 +1,5 @@
 const faker = require('faker');
-const SmartPlacementAssessment = require('../../../../lib/domain/models/CampaignAssessment');
+const CampaignAssessment = require('../../../../lib/domain/models/CampaignAssessment');
 
 const buildCampaignParticipation = require('./build-campaign-participation');
 const buildSkillCollection = require('./build-skill-collection');
@@ -36,7 +36,7 @@ function initialValuesForId(id) {
 module.exports = function buildCampaignAssessment({
   id = faker.random.number(),
   createdAt = new Date('2017-10-10T01:02:03Z'),
-  state = SmartPlacementAssessment.State.COMPLETED,
+  state = CampaignAssessment.State.COMPLETED,
   isImproving = false,
   userId = faker.random.number(),
   campaignParticipationId = initialValuesForId(id).campaignParticipation.id,
@@ -45,7 +45,7 @@ module.exports = function buildCampaignAssessment({
   targetProfile = initialValuesForId(id).targetProfile,
   campaignParticipation = initialValuesForId(id).campaignParticipation
 } = {}) {
-  return new SmartPlacementAssessment({
+  return new CampaignAssessment({
     id,
     createdAt,
     state,

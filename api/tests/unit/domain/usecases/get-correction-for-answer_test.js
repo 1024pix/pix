@@ -19,7 +19,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
 
   context('when assessment is not completed', () => {
 
-    context('and when the assessment is not a SMART_PLACEMENT', () => {
+    context('and when the assessment is not a CAMPAIGN', () => {
       it('should reject with a assessment not completed error', async () => {
         // given
         const userId = 'userId';
@@ -45,7 +45,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
       });
     });
 
-    context('and when the assessment is SMART_PLACEMENT', () => {
+    context('and when the assessment is CAMPAIGN', () => {
       it('should return the content', async () => {
         // given
         const assessmentId = 1;

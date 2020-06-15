@@ -13,12 +13,12 @@ module.exports = async function startCampaignParticipation({ campaignParticipati
 
   const createdCampaignParticipation = await _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository);
   if (campaign.isAssessment()) {
-    await _createSmartPlacementAssessment(userId, assessmentRepository, createdCampaignParticipation);
+    await _createCampaignAssessment(userId, assessmentRepository, createdCampaignParticipation);
   }
   return createdCampaignParticipation;
 };
 
-async function _createSmartPlacementAssessment(userId, assessmentRepository, createdCampaignParticipation) {
+async function _createCampaignAssessment(userId, assessmentRepository, createdCampaignParticipation) {
   const assessment = new Assessment({
     userId,
     state: Assessment.states.STARTED,
