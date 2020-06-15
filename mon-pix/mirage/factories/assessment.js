@@ -31,7 +31,7 @@ export default Factory.extend({
     type: 'DEMO',
   }),
 
-  ofSmartPlacementType: trait({
+  ofCampaignType: trait({
     type: 'CAMPAIGN',
   }),
 
