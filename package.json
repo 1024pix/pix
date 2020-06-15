@@ -6,8 +6,8 @@
   "license": "AGPL-3.0",
   "author": "GIP Pix",
   "engines": {
-    "node": "12.14.1",
-    "npm": "6.13.4"
+    "node": "12.18.0",
+    "npm": "6.14.4"
   },
   "repository": {
     "type": "git",
@@ -72,7 +72,7 @@
     "lint:mon-pix": "cd mon-pix && npm run lint",
     "lint:orga": "cd orga && npm run lint",
     "lint:scripts": "cd scripts && eslint .",
-    "preinstall": "test \"$(npm --version)\" = 6.13.4",
+    "preinstall": "test \"$(npm --version)\" = 6.14.4",
     "scalingo-post-ra-creation": "echo 'nothing to do'",
     "start": "run-p --print-label start:api start:mon-pix start:orga start:certif start:admin",
     "start:admin": "cd admin && npm start",
