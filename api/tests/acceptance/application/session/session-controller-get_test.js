@@ -77,6 +77,17 @@ describe('Acceptance | Controller | session-controller-get', () => {
         expect(response.result.meta).to.deep.equal(expectedMetaData);
         expect(response.result.data).to.have.lengthOf(0);
       });
+
+      it('should signal an entity validation error for an ID that is too large', async () => {
+        // given
+        options.url = '/api/jury/sessions?filter[id]=5656355634';
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(422);
+      });
     });
 
     context('when user is not PixMaster', () => {
