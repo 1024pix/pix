@@ -544,7 +544,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       expect(assessmentsInDb.state).to.equal(Assessment.states.STARTED);
     });
   });
-  
+
   describe('#belongsToUser', () => {
 
     let user;

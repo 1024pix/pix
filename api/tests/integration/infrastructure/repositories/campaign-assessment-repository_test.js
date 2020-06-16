@@ -211,41 +211,4 @@ describe('Integration | Repository | CampaignAssessmentRepository', () => {
       return expect(promise).to.be.rejectedWith(NotFoundError);
     });
   });
-
-  describe('#doesAssessmentBelongToUser', () => {
-
-    let user;
-    let userWithNoAssessment;
-    let assessment;
-
-    beforeEach(async () => {
-      user = databaseBuilder.factory.buildUser();
-      assessment = databaseBuilder.factory.buildAssessment({
-        userId: user.id,
-        type: Assessment.types.CAMPAIGN
-      });
-      userWithNoAssessment = databaseBuilder.factory.buildUser();
-      await databaseBuilder.commit();
-    });
-
-    it('should resolve if the given assessmentId belongs to the user', () => {
-      // when
-      const promise = campaignAssessmentRepository.doesAssessmentBelongToUser(assessment.id, user.id);
-
-      // then
-      return promise.then((result) => {
-        expect(result).to.be.true;
-      });
-    });
-
-    it('should resolve false if the given assessmentId does not belong to the user', () => {
-      // when
-      const promise = campaignAssessmentRepository.doesAssessmentBelongToUser(assessment.id, userWithNoAssessment.id);
-
-      // then
-      return promise.then((result) => {
-        expect(result).to.be.false;
-      });
-    });
-  });
 });

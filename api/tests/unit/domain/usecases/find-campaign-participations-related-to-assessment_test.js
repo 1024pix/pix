@@ -11,7 +11,7 @@ describe('Unit | UseCase | find-campaign-participations-related-to-assessment', 
   let assessmentId;
   let campaignParticipations;
 
-  const campaignAssessmentRepository = { doesAssessmentBelongToUser: sinon.stub() };
+  const assessmentRepository = { belongsToUser: sinon.stub() };
   const campaignParticipationRepository = { findByAssessmentId: sinon.stub() };
 
   beforeEach(() => {
@@ -25,13 +25,13 @@ describe('Unit | UseCase | find-campaign-participations-related-to-assessment', 
 
     context('the assessment belongs to the user', () => {
       beforeEach(async () => {
-        campaignAssessmentRepository.doesAssessmentBelongToUser.resolves(true);
+        assessmentRepository.belongsToUser.resolves(true);
         campaignParticipationRepository.findByAssessmentId.resolves(campaignParticipations);
 
-        userCampaignParticipation = await findCampaignParticipationsRelatedToAssessment({ userId, assessmentId, campaignParticipationRepository, campaignAssessmentRepository });
+        userCampaignParticipation = await findCampaignParticipationsRelatedToAssessment({ userId, assessmentId, campaignParticipationRepository, assessmentRepository });
       });
       it('should check if the assessment belongs to the user', () => {
-        expect(campaignAssessmentRepository.doesAssessmentBelongToUser).to.have.been.calledWithExactly(assessmentId, userId);
+        expect(assessmentRepository.belongsToUser).to.have.been.calledWithExactly(assessmentId, userId);
       });
       it('should find the campaign participations', () => {
         expect(campaignParticipationRepository.findByAssessmentId).to.have.been.calledWithExactly(assessmentId);
@@ -42,9 +42,9 @@ describe('Unit | UseCase | find-campaign-participations-related-to-assessment', 
     });
     context('the assessment does not belong to the user', () => {
       beforeEach(async () => {
-        campaignAssessmentRepository.doesAssessmentBelongToUser.resolves(false);
+        assessmentRepository.belongsToUser.resolves(false);
 
-        requestErr = await catchErr(findCampaignParticipationsRelatedToAssessment)({ userId, assessmentId, campaignParticipationRepository, campaignAssessmentRepository });
+        requestErr = await catchErr(findCampaignParticipationsRelatedToAssessment)({ userId, assessmentId, campaignParticipationRepository, assessmentRepository });
       });
       it('should throw a UserNotAuthorizedToAccessEntity error', () => {
         expect(requestErr).to.be.instanceOf(UserNotAuthorizedToAccessEntity);

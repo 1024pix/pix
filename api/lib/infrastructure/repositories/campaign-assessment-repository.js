@@ -30,16 +30,6 @@ module.exports = {
       .then(_toDomain)
       .catch(_mapNotFoundErrorToDomainError(assessmentId));
   },
-
-  doesAssessmentBelongToUser(assessmentId, userId) {
-    return BookshelfAssessment
-      .where({ id: assessmentId, userId: userId })
-      .fetch({
-        require: true,
-      })
-      .then(() => Promise.resolve(true))
-      .catch(() => Promise.resolve(false));
-  },
 };
 
 function _checkIfCampaignAssessment(bookshelfAssessment) {
