@@ -544,5 +544,35 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       expect(assessmentsInDb.state).to.equal(Assessment.states.STARTED);
     });
   });
+  
+  describe('#belongsToUser', () => {
+
+    let user;
+    let userWithNoAssessment;
+    let assessment;
+
+    beforeEach(() => {
+      user = databaseBuilder.factory.buildUser();
+      assessment = databaseBuilder.factory.buildAssessment({ userId: user.id });
+      userWithNoAssessment = databaseBuilder.factory.buildUser();
+      return databaseBuilder.commit();
+    });
+
+    it('should resolve true if the given assessmentId belongs to the user', async () => {
+      // when
+      const belongsToUser = await assessmentRepository.belongsToUser(assessment.id, user.id);
+
+      // then
+      expect(belongsToUser).to.be.true;
+    });
+
+    it('should resolve false if the given assessmentId does not belong to the user', async () => {
+      // when
+      const belongsToUser = await assessmentRepository.belongsToUser(assessment.id, userWithNoAssessment.id);
+
+      // then
+      expect(belongsToUser).to.be.false;
+    });
+  });
 
 });
