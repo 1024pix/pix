@@ -11,7 +11,8 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
   const assessmentId = 1234;
   const userId = 9874;
 
-  const campaignAssessmentRepository = { get: () => undefined };
+  const campaignParticipationRepository = { get: () => undefined };
+  const targetProfileRepository = { getByCampaignId: () => undefined };
   const knowledgeElementRepository = { findUniqByUserId: () => undefined };
   const assessmentRepository = { getByAssessmentIdAndUserId: () => undefined };
   const competenceEvaluationRepository = { getByAssessmentId: () => undefined };
@@ -38,44 +39,26 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
         userId,
         state: 'completed',
         type: Assessment.types.CAMPAIGN,
+        campaignParticipationId: 456,
       });
-
-      const campaignAssessment = domainBuilder.buildCampaignAssessment({
-        id: assessmentId,
-        userId,
+      const campaignParticipation = domainBuilder.buildCampaignParticipation({
+        campaignId: 123,
       });
+      const targetProfile = domainBuilder.buildTargetProfile();
 
       beforeEach(() => {
-        sandbox.stub(assessmentRepository, 'getByAssessmentIdAndUserId').resolves(assessment);
-        sandbox.stub(campaignAssessmentRepository, 'get').resolves(campaignAssessment);
-      });
-
-      it('should load the right assessment', () => {
-        // when
-        const promise = getProgression({
-          userId,
-          progressionId,
-          assessmentRepository,
-          competenceEvaluationRepository,
-          campaignAssessmentRepository,
-          knowledgeElementRepository,
-          skillRepository,
-          improvementService
-        });
-
-        // then
-        return promise.then(() => {
-          expect(campaignAssessmentRepository.get).to.have.been.calledWith(assessmentId);
-        });
+        sandbox.stub(assessmentRepository, 'getByAssessmentIdAndUserId').withArgs(assessment.id, userId).resolves(assessment);
+        sandbox.stub(campaignParticipationRepository, 'get').withArgs(assessment.campaignParticipationId).resolves(campaignParticipation);
+        sandbox.stub(targetProfileRepository, 'getByCampaignId').withArgs(campaignParticipation.campaignId).resolves(targetProfile);
       });
 
       it('should return the progression associated to the assessment', () => {
         // given
         const expectedProgression = domainBuilder.buildProgression({
           id: progressionId,
-          targetedSkills: campaignAssessment.targetProfile.skills,
+          targetedSkills: targetProfile.skills,
           knowledgeElements: [],
-          isProfileCompleted: campaignAssessment.isCompleted
+          isProfileCompleted: assessment.isCompleted()
         });
 
         // when
@@ -83,10 +66,11 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
           userId,
           progressionId,
           assessmentRepository,
+          campaignParticipationRepository,
           competenceEvaluationRepository,
-          campaignAssessmentRepository,
           knowledgeElementRepository,
           skillRepository,
+          targetProfileRepository,
           improvementService
         });
 
@@ -117,11 +101,12 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
             userId,
             progressionId,
             assessmentRepository,
+            campaignParticipationRepository,
             competenceEvaluationRepository,
-            campaignAssessmentRepository,
             knowledgeElementRepository,
             skillRepository,
-            improvementService,
+            targetProfileRepository,
+            improvementService
           });
 
           // then
@@ -135,9 +120,9 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
           // given
           const expectedProgression = domainBuilder.buildProgression({
             id: progressionId,
-            targetedSkills: campaignAssessment.targetProfile.skills,
+            targetedSkills: targetProfile.skills,
             knowledgeElements: knowledgeElementsFiltered,
-            isProfileCompleted: campaignAssessment.isCompleted
+            isProfileCompleted: assessment.isCompleted()
           });
 
           // when
@@ -145,11 +130,12 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
             userId,
             progressionId,
             assessmentRepository,
+            campaignParticipationRepository,
             competenceEvaluationRepository,
-            campaignAssessmentRepository,
             knowledgeElementRepository,
             skillRepository,
-            improvementService,
+            targetProfileRepository,
+            improvementService
 
           });
 
@@ -191,10 +177,11 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
           userId,
           progressionId,
           assessmentRepository,
+          campaignParticipationRepository,
           competenceEvaluationRepository,
-          campaignAssessmentRepository,
           knowledgeElementRepository,
           skillRepository,
+          targetProfileRepository,
           improvementService
         });
 
@@ -218,10 +205,11 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
           userId,
           progressionId,
           assessmentRepository,
+          campaignParticipationRepository,
           competenceEvaluationRepository,
-          campaignAssessmentRepository,
           knowledgeElementRepository,
           skillRepository,
+          targetProfileRepository,
           improvementService
         });
 
@@ -254,10 +242,11 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
             userId,
             progressionId,
             assessmentRepository,
+            campaignParticipationRepository,
             competenceEvaluationRepository,
-            campaignAssessmentRepository,
             knowledgeElementRepository,
             skillRepository,
+            targetProfileRepository,
             improvementService,
           });
 
@@ -281,10 +270,11 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
             userId,
             progressionId,
             assessmentRepository,
+            campaignParticipationRepository,
             competenceEvaluationRepository,
-            campaignAssessmentRepository,
             knowledgeElementRepository,
             skillRepository,
+            targetProfileRepository,
             improvementService,
           });
 
@@ -315,10 +305,11 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
           userId,
           progressionId,
           assessmentRepository,
+          campaignParticipationRepository,
           competenceEvaluationRepository,
-          campaignAssessmentRepository,
           knowledgeElementRepository,
           skillRepository,
+          targetProfileRepository,
           improvementService
         });
 
