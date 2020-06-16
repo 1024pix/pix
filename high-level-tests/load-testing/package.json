@@ -5,8 +5,8 @@
   "main": "index.js",
   "author": "GIP Pix",
   "engines": {
-    "node": "12.14.1",
-    "npm": "6.13.4"
+    "node": "12.x.x",
+    "npm": "6.14.x"
   },
   "scripts": {
     "report": "artillery report report/index.json",
