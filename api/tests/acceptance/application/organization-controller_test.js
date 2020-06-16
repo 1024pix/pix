@@ -691,7 +691,13 @@ describe('Acceptance | Application | organization-controller', () => {
               'id': user.id.toString(),
               'type': 'users'
             }
-          ]
+          ],
+          'meta': {
+            'page': 1,
+            'pageCount': 1,
+            'pageSize': 10,
+            'rowCount': 1
+          }
         };
 
         // when
