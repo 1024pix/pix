@@ -6,7 +6,6 @@ const { knex } = require('../bookshelf');
 module.exports = {
   async save({
     pixScore,
-    level,
     status,
     emitter,
     commentForJury,
@@ -18,7 +17,6 @@ module.exports = {
   }, domainTransaction = {}) {
     const savedAssessmentResultBookshelf = await new BookshelfAssessmentResult({
       pixScore,
-      level,
       status,
       emitter,
       commentForJury,

@@ -2,7 +2,6 @@ const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult
 
 module.exports = function buildAssessmentResult({
   pixScore = 31,
-  level = 3,
   status = 'validated',
   emitter = 'PIX-ALGO',
   commentForJury = 'Comment for Jury',
@@ -17,7 +16,6 @@ module.exports = function buildAssessmentResult({
 
   return new AssessmentResult({
     pixScore,
-    level,
     status,
     emitter,
     commentForJury,

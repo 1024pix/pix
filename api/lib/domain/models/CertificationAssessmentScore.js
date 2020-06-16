@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const { UNCERTIFIED_LEVEL } = require('../constants');
 const { status } = require('./AssessmentResult');
 
 class CertificationAssessmentScore {
@@ -17,13 +16,6 @@ class CertificationAssessmentScore {
       return 0;
     }
     return _.sumBy(this.competenceMarks, 'score');
-  }
-
-  get level() {
-    if (this.nbPix === 0) {
-      return UNCERTIFIED_LEVEL;
-    }
-    return null;
   }
 
   get status() {
