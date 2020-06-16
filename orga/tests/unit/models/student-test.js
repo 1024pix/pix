@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { run } from '@ember/runloop';
 
 module('Unit | Model | student', function(hooks) {
 
@@ -13,7 +12,7 @@ module('Unit | Model | student', function(hooks) {
         const dash = '\u2013';
         const store = this.owner.lookup('service:store');
         const student = { lastName: 'Last', firstName: 'First', birthdate: '2010-10-10' };
-        const model = run(() => store.createRecord('student', student));
+        const model = store.createRecord('student', student);
 
         // when
         // then
@@ -33,7 +32,7 @@ module('Unit | Model | student', function(hooks) {
             birthdate: '2012-01-07',
             username: 'blueivy.carter0701',
           };
-          const model = run(() => store.createRecord('student', student));
+          const model = store.createRecord('student', student);
 
           // when
           // then
@@ -48,7 +47,7 @@ module('Unit | Model | student', function(hooks) {
             birthdate: '2013-07-22',
             email: 'georges.decambridge@example.net'
           };
-          const model = run(() => store.createRecord('student', student));
+          const model = store.createRecord('student', student);
 
           // when
           // then
@@ -63,7 +62,7 @@ module('Unit | Model | student', function(hooks) {
             birthdate: '2013-07-22',
             isAuthenticatedFromGar: true
           };
-          const model = run(() => store.createRecord('student', student));
+          const model = store.createRecord('student', student);
 
           // when
           // then
@@ -85,7 +84,7 @@ module('Unit | Model | student', function(hooks) {
             email: 'carter.blueivy@example.net',
             isAuthenticatedFromGar: false,
           };
-          const model = run(() => store.createRecord('student', student));
+          const model = store.createRecord('student', student);
 
           // when
           // then
@@ -96,4 +95,34 @@ module('Unit | Model | student', function(hooks) {
     });
   });
 
+  module('#isStudentAssociated', function(hooks) {
+    let store;
+    hooks.beforeEach(function() {
+      store = this.owner.lookup('service:store');
+    });
+
+    test('it returns false when the student has no email, no username or is not authenticated from GAR', function(assert) {
+      const student = store.createRecord('student', { email: null, username: null, isAuthenticatedFromGar: false });
+
+      assert.equal(student.isStudentAssociated, false);
+    });
+
+    test('it returns true when the student has an email', function(assert) {
+      const student = store.createRecord('student', { email: 'martin.riggs@example.net', username: null, isAuthenticatedFromGar: false });
+
+      assert.equal(student.isStudentAssociated, true);
+    });
+
+    test('it returns true when the student has an username', function(assert) {
+      const student = store.createRecord('student', { email: null, username: 'RogerMurtaugh', isAuthenticatedFromGar: false });
+
+      assert.equal(student.isStudentAssociated, true);
+    });
+
+    test('it returns true when the student is authenticated from GAR', function(assert) {
+      const student = store.createRecord('student', { email: null, username: null, isAuthenticatedFromGar: true });
+
+      assert.equal(student.isStudentAssociated, true);
+    });
+  });
 });

@@ -1,6 +1,6 @@
-import DS from 'ember-data';
 import { notEmpty } from '@ember/object/computed';
 import { computed } from '@ember/object';
+import Model, { belongsTo, attr } from '@ember-data/model';
 
 const dash = '\u2013';
 
@@ -19,18 +19,19 @@ const StudentAuthMethod = {
   },
 };
 
-export default DS.Model.extend({
-  lastName: DS.attr('string'),
-  firstName: DS.attr('string'),
-  birthdate: DS.attr('date-only'),
-  organization: DS.belongsTo('organization'),
-  username: DS.attr('string'),
-  email: DS.attr('string'),
-  isAuthenticatedFromGar: DS.attr('boolean'),
-  hasUsername: notEmpty('username'),
-  hasEmail: notEmpty('email'),
-  authenticationMethods : computed('hasUsername', 'hasEmail', 'isAuthenticatedFromGar', function() {
+export default class Student extends Model {
+  @attr('string')lastName;
+  @attr('string') firstName;
+  @attr('date-only') birthdate;
+  @attr('string') username;
+  @attr('string') email;
+  @attr('boolean') isAuthenticatedFromGar;
+  @belongsTo('organization') organization;
+  @notEmpty('username') hasUsername;
+  @notEmpty('email') hasEmail;
 
+  @computed('hasUsername', 'hasEmail', 'isAuthenticatedFromGar')
+  get authenticationMethods() {
     const SPACING_CHARACTER = '\n';
     let message = '';
     const props = ['hasEmail', 'hasUsername', 'isAuthenticatedFromGar'];
@@ -43,5 +44,10 @@ export default DS.Model.extend({
 
     return message ?  message.trim() : StudentAuthMethod['studentNotReconcilied'].message;
 
-  }),
-});
+  }
+
+  @computed('hasUsername', 'hasEmail', 'isAuthenticatedFromGar')
+  get isStudentAssociated() {
+    return Boolean(this.email || this.username || this.isAuthenticatedFromGar);
+  }
+}
