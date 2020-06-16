@@ -414,4 +414,42 @@ describe('Unit | Router | user-router', () => {
 
     });
   });
+
+  describe('POST /api/admin/users/{id}/anonymize', () => {
+
+    beforeEach(() => {
+      sinon.stub(userController, 'anonymizeUser').callsFake((request, h) => h.response({}).code(204));
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      startServer();
+    });
+
+    it('should exist', async () => {
+      // given
+      const options = {
+        method: 'POST',
+        url: '/api/admin/users/1/anonymize',
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+
+    it('should return 400 when id is not a number', async () => {
+      // given
+      const options = {
+        method: 'POST',
+        url: '/api/admin/users/wrongId/anonymize',
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+      expect(JSON.parse(response.payload).errors[0].detail).to.equal('"id" must be a number');
+    });
+  });
 });
