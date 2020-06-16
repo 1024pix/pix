@@ -40,7 +40,7 @@ export default class ListController extends Controller {
           Authorization: `Bearer ${access_token}`,
         }
       });
-      this.send('refreshModel');
+      this.refresh();
       this.set('isLoading', false);
       this.get('notifications').sendSuccess('La liste a été importée avec succès.');
 
@@ -67,5 +67,10 @@ export default class ListController extends Controller {
       }
       return this.get('notifications').sendError(globalErrorMessage);
     });
+  }
+
+  @action
+  refresh() {
+    this.send('refreshModel');
   }
 }
