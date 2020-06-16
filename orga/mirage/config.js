@@ -277,4 +277,12 @@ export default function() {
   this.get('/campaigns/:campaignId/profiles-collection-participations/:campaignParticipationId', (schema, request) => {
     return schema.campaignProfiles.findBy({ ...request.params });
   });
+
+  this.delete('/schooling-registration-user-associations', (schema, request) => {
+    const requestBody = JSON.parse(request.requestBody);
+
+    const student = schema.students.find(requestBody.data.attributes['schooling-registration-id']);
+    return student.update({ email: null });
+  });
+
 }
