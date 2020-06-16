@@ -86,7 +86,7 @@ exports.register = async (server) => {
           method: securityPreHandlers.checkUserBelongsToOrganizationOrHasRolePixMaster,
           assign: 'belongsToOrganization'
         }],
-        handler: organisationController.getMemberships,
+        handler: organisationController.findPaginatedFilteredMemberships,
         tags: ['api', 'organizations'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
