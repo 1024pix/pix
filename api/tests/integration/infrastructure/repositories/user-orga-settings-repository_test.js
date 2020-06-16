@@ -10,8 +10,8 @@ const userOrgaSettingsRepository = require('../../../../lib/infrastructure/repos
 
 describe('Integration | Repository | UserOrgaSettings', function() {
 
-  const USER_OMITTED_PROPERTIES = ['campaignParticipations', 'certificationCenterMemberships', 'knowledgeElements',
-    'memberships', 'pixRoles', 'pixScore', 'samlId', 'scorecards', 'userOrgaSettings', 'shouldChangePassword'];
+  const USER_PICKED_PROPERTIES = ['id', 'firstName', 'lastName', 'email', 'username', 'password', 'cgu',
+    'pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted'];
 
   const ORGANIZATION_OMITTED_PROPERTIES = ['memberships', 'organizationInvitations', 'students', 'targetProfileShares',
     'createdAt', 'updatedAt'];
@@ -57,7 +57,7 @@ describe('Integration | Repository | UserOrgaSettings', function() {
 
       // then
       expect(userOrgaSettingsSaved.id).to.not.be.undefined;
-      expect(_.omit(userOrgaSettingsSaved.user, USER_OMITTED_PROPERTIES)).to.deep.equal(_.omit(user, USER_OMITTED_PROPERTIES));
+      expect(_.pick(userOrgaSettingsSaved.user, USER_PICKED_PROPERTIES)).to.deep.equal(_.pick(user, USER_PICKED_PROPERTIES));
       expect(_.omit(userOrgaSettingsSaved.currentOrganization, ORGANIZATION_OMITTED_PROPERTIES)).to.deep.equal(_.omit(organization, ORGANIZATION_OMITTED_PROPERTIES));
     });
 
@@ -91,7 +91,7 @@ describe('Integration | Repository | UserOrgaSettings', function() {
 
       // then
       expect(updatedUserOrgaSettings.id).to.deep.equal(userOrgaSettingsId);
-      expect(_.omit(updatedUserOrgaSettings.user, USER_OMITTED_PROPERTIES)).to.deep.equal(_.omit(user, USER_OMITTED_PROPERTIES));
+      expect(_.pick(updatedUserOrgaSettings.user, USER_PICKED_PROPERTIES)).to.deep.equal(_.pick(user, USER_PICKED_PROPERTIES));
       expect(_.omit(updatedUserOrgaSettings.currentOrganization, ORGANIZATION_OMITTED_PROPERTIES)).to.deep.equal(_.omit(expectedOrganization, ORGANIZATION_OMITTED_PROPERTIES));
     });
   });
@@ -119,7 +119,7 @@ describe('Integration | Repository | UserOrgaSettings', function() {
 
       // then
       expect(foundUserOrgaSettings.id).to.deep.equal(userOrgaSettingsId);
-      expect(_.omit(foundUserOrgaSettings.user, USER_OMITTED_PROPERTIES)).to.deep.equal(_.omit(user, USER_OMITTED_PROPERTIES));
+      expect(_.pick(foundUserOrgaSettings.user, USER_PICKED_PROPERTIES)).to.deep.equal(_.pick(user, USER_PICKED_PROPERTIES));
       expect(_.omit(foundUserOrgaSettings.currentOrganization, ORGANIZATION_OMITTED_PROPERTIES)).to.deep.equal(_.omit(organization, ORGANIZATION_OMITTED_PROPERTIES));
     });
 
