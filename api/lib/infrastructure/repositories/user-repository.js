@@ -323,10 +323,9 @@ module.exports = {
 
   async updateUserDetailsForAdministration(id, userAttributes) {
     try {
-      let updatedUser = await BookshelfUser
+      const updatedUser = await BookshelfUser
         .where({ id })
         .save(userAttributes, { patch: true, method: 'update' });
-      updatedUser = await updatedUser.refresh();
       return _toUserDetailsForAdminDomain(updatedUser);
     } catch (err) {
       if (err instanceof BookshelfUser.NoRowsUpdatedError) {
