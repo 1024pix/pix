@@ -7,4 +7,17 @@ export default class Student extends ApplicationAdapter {
 
     return `${this.host}/${this.namespace}/organizations/${organizationId}/students`;
   }
+
+  dissociateUser(model) {
+    const data = {
+      data: {
+        attributes: {
+          'schooling-registration-id': model.id,
+        }
+      }
+    };
+
+    const url = `${this.host}/${this.namespace}/schooling-registration-user-associations`;
+    return this.ajax(url, 'DELETE', { data });
+  }
 }
