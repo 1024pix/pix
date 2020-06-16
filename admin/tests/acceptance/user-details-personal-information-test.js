@@ -50,4 +50,21 @@ module('Acceptance | user details personal information', function(hooks) {
     });
   });
 
+  module('when administrator click on anonymize button and confirm modal', function() {
+
+    test('should anonymize the user', async function(assert) {
+      // given
+      await visit(`/users/${user.id}`);
+      await click('button[aria-label="Anonymiser"]');
+
+      // when
+      await click('.modal-dialog .btn-primary');
+
+      // then
+      assert.contains(`prenom_${user.id}`);
+      assert.contains(`nom_${user.id}`);
+      assert.contains(`email_${user.id}@example.net`);
+    });
+  });
+
 });
