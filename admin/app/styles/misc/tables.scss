@@ -61,13 +61,3 @@ td, th {
   text-align: center;
   border-top: 2px solid $grey-22;
 }
-
-.models-table-column {
-
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  &--small {
-    width: 150px;
-  }
-}
