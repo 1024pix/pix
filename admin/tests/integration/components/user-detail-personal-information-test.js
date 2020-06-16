@@ -275,4 +275,37 @@ module('Integration | Component | user-detail-personal-information', function(ho
 
   });
 
+  module('when the administrator click on anonymize button', async function() {
+    let user = null;
+
+    hooks.beforeEach(function() {
+      user = EmberObject.create({
+        lastName: 'Harry',
+        firstName: 'John',
+        email: 'john.harry@gmail.com',
+        username: null,
+        isAuthenticatedFromGAR: false
+      });
+    });
+
+    test('should show modal', async function(assert) {
+      this.set('user', user);
+      await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+
+      await click('button[aria-label=\'Anonymiser\']');
+
+      assert.dom('.modal-dialog').exists();
+      assert.contains('Etes-vous sûr de vouloir anonymiser cet utilisateur? Ceci n’est pas réversible');
+    });
+
+    test('should close the modal to cancel action', async function(assert) {
+      this.set('user', user);
+      await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+      await click('button[aria-label=\'Anonymiser\']');
+
+      await click('.modal-dialog .btn-secondary');
+
+      assert.dom('.modal-dialog').doesNotExist();
+    });
+  });
 });

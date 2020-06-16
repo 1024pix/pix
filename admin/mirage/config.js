@@ -87,4 +87,16 @@ export default function() {
     };
     return userUpdated;
   });
+
+  this.post('/admin/users/:id/anonymize', (schema, request) => {
+    const userId = request.params.id;
+    const expectedUpdatedUser = {
+      firstName: `prenom_${userId}`,
+      lastName: `nom_${userId}`,
+      email: `email_${userId}@example.net`,
+    };
+
+    const organization = schema.users.findBy({ id: userId });
+    return organization.update(expectedUpdatedUser);
+  });
 }
