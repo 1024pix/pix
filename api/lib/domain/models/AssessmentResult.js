@@ -13,7 +13,6 @@ class AssessmentResult {
     commentForOrganization,
     createdAt,
     emitter,
-    level,
     pixScore,
     status,
     // includes
@@ -29,7 +28,6 @@ class AssessmentResult {
     this.commentForOrganization = commentForOrganization;
     this.createdAt = createdAt;
     this.emitter = emitter;
-    this.level = level;
     this.pixScore = pixScore;
     this.status = status;
     // includes
@@ -43,18 +41,16 @@ class AssessmentResult {
     return new AssessmentResult({
       emitter: 'PIX-ALGO',
       commentForJury: error.message,
-      level: 0,
       pixScore: 0,
       status: 'error',
       assessmentId,
     });
   }
 
-  static BuildStandardAssessmentResult(level, pixScore, status, assessmentId) {
+  static BuildStandardAssessmentResult(pixScore, status, assessmentId) {
     return new AssessmentResult({
       emitter: 'PIX-ALGO',
       commentForJury: 'Computed',
-      level: level,
       pixScore: pixScore,
       status,
       assessmentId,

@@ -8,7 +8,7 @@ const _ = require('lodash');
 module.exports = function buildAssessmentResult({
   id,
   pixScore = faker.random.number(),
-  level = faker.random.number(),
+  level = null,
   status = AssessmentResult.status.VALIDATED,
   emitter = 'PIX_ALGO',
   commentForJury = faker.lorem.sentences(),

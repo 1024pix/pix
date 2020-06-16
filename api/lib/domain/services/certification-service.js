@@ -39,7 +39,6 @@ module.exports = {
       cleaCertificationStatus,
       pixScore: lastAssessmentResultFull.pixScore,
       status: lastAssessmentResultFull.status,
-      level: lastAssessmentResultFull.level,
       emitter: lastAssessmentResultFull.emitter,
       commentForCandidate: lastAssessmentResultFull.commentForCandidate,
       commentForJury: lastAssessmentResultFull.commentForJury,

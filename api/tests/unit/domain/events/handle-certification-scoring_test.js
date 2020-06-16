@@ -141,11 +141,9 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       const competenceMarkData2 = domainBuilder.buildCompetenceMark({ assessmentResultId });
       const savedAssessmentResult = { id: assessmentResultId };
       const nbPix = Symbol('nbPix');
-      const level = Symbol('level');
       const status = Symbol('status');
       const certificationAssessmentScore = {
         nbPix,
-        level,
         status,
         competenceMarks: [competenceMarkData1, competenceMarkData2],
         percentageCorrectAnswers: 80
@@ -167,7 +165,6 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
 
         // then
         expect(AssessmentResult.BuildStandardAssessmentResult).to.have.been.calledWithExactly(
-          certificationAssessmentScore.level,
           certificationAssessmentScore.nbPix,
           certificationAssessmentScore.status,
           certificationAssessment.id

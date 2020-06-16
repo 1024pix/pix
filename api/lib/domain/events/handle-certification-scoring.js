@@ -100,7 +100,7 @@ async function _saveResult({
 }
 
 function _createAssessmentResult({ certificationAssessment, certificationAssessmentScore, assessmentResultRepository, domainTransaction }) {
-  const assessmentResult = AssessmentResult.BuildStandardAssessmentResult(certificationAssessmentScore.level, certificationAssessmentScore.nbPix, certificationAssessmentScore.status, certificationAssessment.id);
+  const assessmentResult = AssessmentResult.BuildStandardAssessmentResult(certificationAssessmentScore.nbPix, certificationAssessmentScore.status, certificationAssessment.id);
   return assessmentResultRepository.save(assessmentResult, domainTransaction);
 }
 
