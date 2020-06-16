@@ -1,0 +1,58 @@
+.dissociate-user-modal {
+  .content-text {
+    color: $grey-90;
+
+    &--info {
+      font-size: 0.875rem;
+      color: $grey-60;
+    }
+  }
+
+  .button--bordered {
+    color: $blue;
+    border-color: $blue;
+
+    &:hover, &:active, &:focus  {
+      background-color: $blue;
+      color: $white;
+    }
+  }
+
+  .button--bordered-grey {
+    color: $grey-90;
+    border-color: $grey-80;
+    background-color: transparent;
+
+    &:hover, &:active, &:focus  {
+      background-color: $grey-20;
+    }
+  }
+
+  &__content, &__actions {
+    background: $grey-10;
+  }
+
+  &__content{
+    padding-top: 37px;
+    padding-bottom: 10px;
+
+    .content-text:first-child {
+      margin-top: 0;
+      margin-bottom: 33px;
+    }
+    .content-text:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+
+    button:first-child {
+      margin-right: 25px;
+    }
+  }
+}
+
+
