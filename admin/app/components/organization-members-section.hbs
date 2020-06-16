@@ -51,14 +51,71 @@
   <header class="page-section__header">
     <h2 class="page-section__title">Membres</h2>
   </header>
-  <div class="member-list">
-    <ModelsTable @data={{@memberships}}
-      @columns={{this.columns}}
-      @showColumnsDropdown={{false}}
-      @showGlobalFilter={{false}}
-      @columnComponents={{hash editRow=(component 'models-table/cell-edit-toggle'
-        editButtonLabel='Editer' cancelButtonLabel='Annuler' saveButtonLabel='Enregistrer'
-        saveRowAction=this.onSaveRow cancelRowAction=this.onCancelRow)}}
-    />
+  <div class="member-list content-text content-text--small">
+    <div class="table-admin">
+      <table>
+        <thead>
+          <tr>
+            <th class="table__column">ID Membre</th>
+            <th class="table__column table__column--wide">Prénom</th>
+            <th class="table__column table__column--wide">Nom</th>
+            <th class="table__column table__column--wide">Adresse email</th>
+            <th class="table__column">Rôle</th>
+            <th class="table__column">Action</th>
+          </tr>
+          <tr>
+            <th class="table__column"></th>
+            <th class="table__column table__column--wide">
+              <input id="firstName"
+                     type="text"
+                     value={{@firstName}}
+                     oninput={{fn @triggerFiltering 'firstName'}}
+                     class="table-admin-input form-control"/>
+            </th>
+            <th class="table__column table__column--wide">
+              <input id="lastName"
+                     type="text"
+                     value={{@lastName}}
+                     oninput={{fn @triggerFiltering 'lastName'}}
+                     class="table-admin-input form-control"/>
+            </th>
+            <th class="table__column table__column--wide">
+              <input id="email"
+                     type="text"
+                     value={{@email}}
+                     oninput={{fn @triggerFiltering 'email'}}
+                     class="table-admin-input form-control"/>
+            </th>
+            <th class="table__column">
+              <select id="organizationRole" class="table-admin-input form-control" {{on 'change' this.selectRole}} aria-label="Rechercher par rôle">
+                <option value="">Tous</option>
+                <option value="ADMIN" selected={{eq @organizationRole "ADMIN"}}>Administrateur</option>
+                <option value="MEMBER" selected={{eq @organizationRole "MEMBER"}}>Membre</option>
+              </select>
+            </th>
+            <th class="table__column"></th>
+          </tr>
+        </thead>
+
+        {{#if @memberships}}
+          <tbody>
+          {{#each @memberships as |membership|}}
+            <tr aria-label="Membre">
+              <MemberItem @membership={{membership}}/>
+            </tr>
+          {{/each}}
+          </tbody>
+        {{/if}}
+      </table>
+
+      {{#unless @memberships}}
+        <div class="table__empty content-text">Aucun résultat</div>
+      {{/unless}}
+    </div>
+
+    {{#if @memberships}}
+      <PaginationControl @pagination={{@memberships.meta}}/>
+    {{/if}}
   </div>
 </section>
+
