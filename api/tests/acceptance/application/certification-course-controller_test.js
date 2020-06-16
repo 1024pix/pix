@@ -108,8 +108,7 @@ describe('Acceptance | API | Certification Course', () => {
           // then
           const result = response.result.data;
           expect(result.attributes['competences-with-mark']).to.have.lengthOf(0);
-          expect(result.attributes['assessment-id']).to.be.null;
-          expect(result.attributes['status']).to.equal('missing-assessment');
+          expect(result.attributes['status']).to.equal('started');
         });
       });
 
@@ -206,11 +205,11 @@ describe('Acceptance | API | Certification Course', () => {
 
           const firstCertifiedCompetence = result.attributes['competences-with-mark'][0];
           expect(firstCertifiedCompetence.level).to.equal(2);
-          expect(firstCertifiedCompetence['competence-code']).to.equal('4.3');
+          expect(firstCertifiedCompetence.competence_code).to.equal('4.3');
 
           const secondCertifiedCompetence = result.attributes['competences-with-mark'][1];
           expect(secondCertifiedCompetence.level).to.equal(4);
-          expect(secondCertifiedCompetence['competence-code']).to.equal('2.1');
+          expect(secondCertifiedCompetence.competence_code).to.equal('2.1');
         });
       });
 

@@ -34,7 +34,7 @@ describe('Integration | Repository | Certification ', () => {
       type,
     });
     const assessmentResult = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment.id });
-    expectedCertification = _buildCertification(session.certificationCenter, certificationCourse, assessment, assessmentResult, session.publishedAt);
+    expectedCertification = _buildCertification(session.certificationCenter, certificationCourse, assessmentResult, session.publishedAt);
     databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: expectedCertification.id, partnerKey: PARTNER_CLEA_KEY, acquired: false });
 
     sessionLatestAssessmentRejectedCertifCourseIds = [];
@@ -107,8 +107,8 @@ describe('Integration | Repository | Certification ', () => {
       });
       const assessmentResult2 = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment2.id });
       expectedCertifications = [
-        _buildCertification(session.certificationCenter, certificationCourse1, assessment1, assessmentResult1, session.publishedAt),
-        _buildCertification(session.certificationCenter, certificationCourse2, assessment2, assessmentResult2, session.publishedAt),
+        _buildCertification(session.certificationCenter, certificationCourse1, assessmentResult1, session.publishedAt),
+        _buildCertification(session.certificationCenter, certificationCourse2, assessmentResult2, session.publishedAt),
         expectedCertification,
       ];
 
@@ -144,25 +144,6 @@ describe('Integration | Repository | Certification ', () => {
     });
   });
 
-  describe('#getStatuses', () => {
-
-    it('should get distinct latest status from certification course', async () => {
-      // when
-      const statuses = await certificationRepository.getAssessmentResultsStatusesBySessionId(sessionWithStartedAndError.id);
-
-      // then
-      expect(statuses.sort()).to.deep.equal(['started', 'error'].sort());
-    });
-
-    it('should get latest status from each assessment results', async () => {
-      // when
-      const statuses = await certificationRepository.getAssessmentResultsStatusesBySessionId(sessionLatestAssessmentRejected.id);
-
-      // then
-      expect(statuses).to.deep.equal(['rejected']);
-    });
-  });
-
   function createCertifCourseWithAssessementResults(sessionId, ...assessmentResults) {
     const { id: certifCourseId } = databaseBuilder.factory.buildCertificationCourse({ sessionId, isPublished: false });
     const { id: assessmentId } = databaseBuilder.factory.buildAssessment({
@@ -187,10 +168,9 @@ describe('Integration | Repository | Certification ', () => {
 
 });
 
-function _buildCertification(certificationCenterName, certificationCourse, assessment, assessmentResult, deliveredAt) {
+function _buildCertification(certificationCenterName, certificationCourse, assessmentResult, deliveredAt) {
   const certification = domainBuilder.buildCertification({
     id: certificationCourse.id,
-    assessmentState: assessment.state,
     birthdate: certificationCourse.birthdate,
     birthplace: certificationCourse.birthplace,
     certificationCenter: certificationCenterName,

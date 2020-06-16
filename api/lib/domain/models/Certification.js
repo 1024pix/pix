@@ -1,53 +1,36 @@
-const moment = require('moment');
-const _ = require('lodash');
-
 class Certification {
-
   constructor({
     id,
-    // attributes
-    assessmentState,
+    firstName,
+    lastName,
     birthdate,
     birthplace,
-    certificationCenter,
-    date,
-    firstName,
-    deliveredAt,
     isPublished,
-    lastName,
-    cleaCertificationStatus,
-    // includes
-    assessmentResults = [],
-    resultCompetenceTree,
-    // references
     userId,
+    date,
+    deliveredAt,
+    certificationCenter,
+    pixScore,
+    status,
+    commentForCandidate,
+    cleaCertificationStatus,
+    resultCompetenceTree = null,
   } = {}) {
     this.id = id;
-    // attributes
-    this.assessmentState = assessmentState;
+    this.firstName = firstName;
+    this.lastName = lastName;
     this.birthdate = birthdate;
     this.birthplace = birthplace;
-    this.certificationCenter = certificationCenter;
-    this.date = date;
-    this.firstName = firstName;
-    this.deliveredAt = deliveredAt;
     this.isPublished = isPublished;
-    this.lastName = lastName;
-    const assessmentResultsCopy = Array.from(assessmentResults);
-    const mostRecentAssessmentResult = _.maxBy(assessmentResultsCopy, (assessmentResult) => {
-      return moment(assessmentResult.createdAt);
-    });
-
-    if (mostRecentAssessmentResult) {
-      this.pixScore = mostRecentAssessmentResult.pixScore;
-      this.status = mostRecentAssessmentResult.status;
-      this.commentForCandidate = mostRecentAssessmentResult.commentForCandidate;
-    }
-    this.cleaCertificationStatus = cleaCertificationStatus;
-    // includes
-    this.resultCompetenceTree = resultCompetenceTree;
-    // references
     this.userId = userId;
+    this.date = date;
+    this.deliveredAt = deliveredAt;
+    this.certificationCenter = certificationCenter;
+    this.pixScore = pixScore;
+    this.status = status;
+    this.commentForCandidate = commentForCandidate;
+    this.cleaCertificationStatus = cleaCertificationStatus;
+    this.resultCompetenceTree = resultCompetenceTree;
   }
 }
 

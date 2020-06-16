@@ -11,7 +11,6 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 describe('Unit | UseCase | get-assessment', () => {
 
   let assessment;
-  let assessmentResult;
   let campaign;
   let campaignParticipation;
   let competence;
@@ -23,14 +22,12 @@ describe('Unit | UseCase | get-assessment', () => {
   const expectedAssessmentTitle = 'Traiter des données';
 
   beforeEach(() => {
-    assessmentResult = domainBuilder.buildAssessmentResult();
     campaign = domainBuilder.buildCampaign.ofTypeAssessment({ title: expectedCampaignName });
     campaignParticipation = domainBuilder.buildCampaignParticipation({ campaign });
     competence = domainBuilder.buildCompetence({ id: 'recsvLz0W2ShyfD63', name: expectedAssessmentTitle });
     course = domainBuilder.buildCourse({ id: 'ABC123', name: expectedCourseName });
 
     assessment = domainBuilder.buildAssessment({
-      assessmentResults:[assessmentResult],
       campaignParticipation,
       competenceId: competence.id,
       courseId: course.id,
@@ -53,8 +50,6 @@ describe('Unit | UseCase | get-assessment', () => {
     // then
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);
-    expect(result.pixScore).to.equal(assessmentResult.pixScore);
-    expect(result.estimatedLevel).to.equal(assessmentResult.level);
   });
 
   it('should resolve the Assessment domain object with COMPETENCE_EVALUATION title matching the given assessment ID', async () => {
@@ -76,8 +71,6 @@ describe('Unit | UseCase | get-assessment', () => {
 
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);
-    expect(result.pixScore).to.equal(assessmentResult.pixScore);
-    expect(result.estimatedLevel).to.equal(assessmentResult.level);
     expect(result.title).to.equal(expectedAssessmentTitle);
   });
 
@@ -96,8 +89,6 @@ describe('Unit | UseCase | get-assessment', () => {
     // then
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);
-    expect(result.pixScore).to.equal(assessmentResult.pixScore);
-    expect(result.estimatedLevel).to.equal(assessmentResult.level);
     expect(result.title).to.equal(certificationCourseId);
   });
 
@@ -120,8 +111,6 @@ describe('Unit | UseCase | get-assessment', () => {
 
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);
-    expect(result.pixScore).to.equal(assessmentResult.pixScore);
-    expect(result.estimatedLevel).to.equal(assessmentResult.level);
     expect(result.title).to.equal(course.name);
   });
 
@@ -142,8 +131,6 @@ describe('Unit | UseCase | get-assessment', () => {
 
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);
-    expect(result.pixScore).to.equal(assessmentResult.pixScore);
-    expect(result.estimatedLevel).to.equal(assessmentResult.level);
     expect(result.title).to.equal(expectedCampaignName);
   });
 
@@ -166,8 +153,6 @@ describe('Unit | UseCase | get-assessment', () => {
 
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);
-    expect(result.pixScore).to.equal(assessmentResult.pixScore);
-    expect(result.estimatedLevel).to.equal(assessmentResult.level);
     expect(result.title).to.equal('');
   });
 
@@ -188,8 +173,6 @@ describe('Unit | UseCase | get-assessment', () => {
 
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);
-    expect(result.pixScore).to.equal(assessmentResult.pixScore);
-    expect(result.estimatedLevel).to.equal(assessmentResult.level);
     expect(result.title).to.equal('Preview');
   });
 

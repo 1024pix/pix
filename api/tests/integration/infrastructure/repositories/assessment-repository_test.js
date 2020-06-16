@@ -126,7 +126,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     let johnUserId;
     let laylaUserId;
     let johnAssessmentToRemember;
-    let johnAssessmentResultToRemember;
 
     const PLACEMENT = 'PLACEMENT';
 
@@ -162,8 +161,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         createdAt: johnAssessmentDateToRemember,
         type: 'PLACEMENT',
       });
-
-      johnAssessmentResultToRemember = databaseBuilder.factory.buildAssessmentResult({
+      databaseBuilder.factory.buildAssessmentResult({
         assessmentId: johnAssessmentToRemember.id,
         createdAt: johnAssessmentResultDateToRemember,
         emitter: 'PIX',
@@ -264,22 +262,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           campaignParticipationId: null,
           certificationCourseId: null,
           competenceId: johnAssessmentToRemember.competenceId,
-          assessmentResults: [
-            {
-              id: johnAssessmentResultToRemember.id,
-              assessmentId: johnAssessmentToRemember.id,
-              commentForCandidate: johnAssessmentResultToRemember.commentForCandidate,
-              commentForJury: johnAssessmentResultToRemember.commentForJury,
-              commentForOrganization: johnAssessmentResultToRemember.commentForOrganization,
-              createdAt: johnAssessmentResultToRemember.createdAt,
-              emitter: 'PIX',
-              juryId: johnAssessmentResultToRemember.juryId,
-              level: johnAssessmentResultToRemember.level,
-              pixScore: johnAssessmentResultToRemember.pixScore,
-              status: AssessmentResult.status.VALIDATED,
-              competenceMarks: []
-            }
-          ]
+          assessmentResults: []
         })
       ];
 
@@ -325,88 +308,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       const assessmentsInDb = await knex('assessments').where('id', assessmentReturned.id).first('id', 'userId');
       expect(parseInt(assessmentsInDb.userId)).to.equal(userId);
     });
-  });
-
-  describe('#getByCertificationCourseId', async () => {
-
-    let userId;
-    let certificationCourseId;
-
-    beforeEach(() => {
-      userId = databaseBuilder.factory.buildUser().id;
-      certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId }).id;
-      return databaseBuilder.commit();
-    });
-
-    context('When the assessment for this certificationCourseId exists', () => {
-      let assessmentId;
-      let assessmentResult;
-
-      beforeEach(() => {
-        assessmentId = databaseBuilder.factory.buildAssessment({
-          userId,
-          certificationCourseId,
-          type: Assessment.types.CERTIFICATION,
-        }).id;
-
-        assessmentResult = databaseBuilder.factory.buildAssessmentResult({
-          assessmentId,
-          level: 0,
-          pixScore: 0,
-          status: 'validated',
-          emitter: 'PIX-ALGO',
-          commentForJury: 'Computed',
-          commentForCandidate: 'Votre certification a été validé par Pix',
-          commentForOrganization: 'Sa certification a été validé par Pix',
-        });
-
-        databaseBuilder.factory.buildCompetenceMark({
-          assessmentResultId: assessmentResult.id,
-          level: 4,
-          score: 35,
-          area_code: '2',
-          competence_code: '2.1',
-        });
-
-        return databaseBuilder.commit();
-      });
-
-      it('should return the assessment for the given certificationCourseId', async () => {
-
-        // when
-        const assessmentReturned = await assessmentRepository.getByCertificationCourseId(certificationCourseId);
-
-        // then
-        expect(assessmentReturned.id).to.equal(assessmentId);
-        expect(assessmentReturned.certificationCourseId).to.equal(certificationCourseId);
-      });
-
-      it('should return the appropriate assessment results', async () => {
-        // given
-        const expectedAssessmentResult = { ...assessmentResult, competenceMarks: [] };
-
-        // when
-        const assessmentReturned = await assessmentRepository.getByCertificationCourseId(certificationCourseId);
-
-        // then
-        expect(assessmentReturned.getPixScore()).to.equal(assessmentResult.pixScore);
-        expect(assessmentReturned.assessmentResults).to.have.lengthOf(1);
-        expect(assessmentReturned.assessmentResults[0]).to.deep.equal(expectedAssessmentResult);
-      });
-
-    });
-
-    context('When there are no assessment for this certification course id', () => {
-
-      it('should return null', async () => {
-        // when
-        const assessment = await assessmentRepository.getByCertificationCourseId(1);
-
-        // then
-        expect(assessment).to.equal(null);
-      });
-    });
-
   });
 
   describe('#getByCampaignParticipationId', () => {

@@ -1,5 +1,3 @@
-const _ = require('lodash');
-
 const { ObjectValidationError } = require('../errors');
 
 const courseIdMessage = {
@@ -38,7 +36,6 @@ class Assessment {
     isImproving,
     // includes
     answers = [],
-    assessmentResults = [],
     campaignParticipation,
     course,
     targetProfile,
@@ -58,7 +55,6 @@ class Assessment {
     this.isImproving = isImproving;
     // includes
     this.answers = answers;
-    this.assessmentResults = assessmentResults;
     this.campaignParticipation = campaignParticipation;
     this.course = course;
     this.targetProfile = targetProfile;
@@ -72,27 +68,6 @@ class Assessment {
 
   isCompleted() {
     return this.state === Assessment.states.COMPLETED;
-  }
-
-  getLastAssessmentResult() {
-    if (this.assessmentResults && this.assessmentResults.length > 0) {
-      return _(this.assessmentResults).sortBy(['createdAt']).last();
-    }
-    return null;
-  }
-
-  getPixScore() {
-    if (this.getLastAssessmentResult()) {
-      return this.getLastAssessmentResult().pixScore;
-    }
-    return null;
-  }
-
-  getLevel() {
-    if (this.getLastAssessmentResult()) {
-      return this.getLastAssessmentResult().level;
-    }
-    return null;
   }
 
   setCompleted() {
@@ -132,10 +107,6 @@ class Assessment {
 
   hasKnowledgeElements() {
     return this.isCompetenceEvaluation() || this.isSmartPlacement();
-  }
-
-  isCertifiable() {
-    return this.getLastAssessmentResult().level >= 1;
   }
 }
 
