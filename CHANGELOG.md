@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v2.163.0 (16/06/2020)
+
+- [#1522](https://github.com/1024pix/pix/pull/1522) [BUGFIX] Mauvais affichage des notifications après la finalisation (PIX-848)
+- [#1514](https://github.com/1024pix/pix/pull/1514) [TECH] Correction des tests e2e qui échouent aléatoirement sur la CI.
+- [#1517](https://github.com/1024pix/pix/pull/1517) [TECH] Montée de version de Node (12.18.0) et NPM (6.14.4).
+- [#1518](https://github.com/1024pix/pix/pull/1518) [TECH] Paralléliser les tests end-to-end sur la CI.
+- [#1488](https://github.com/1024pix/pix/pull/1488) [DOC] Mise à jour des bonnes pratiques d'accessibilité
+- [#1468](https://github.com/1024pix/pix/pull/1468) [CLEANUP] Ne plus sélectionner les assessment-results automatiquement lorsqu'on sélectionne un assessment depuis la BDD (PIX-775)
+
 ## v2.162.0 (15/06/2020)
 
 - [#1445](https://github.com/1024pix/pix/pull/1445) [FEATURE] Afficher l'obtention de la certif cléa sur pix admin (PIX-630)
