@@ -5,8 +5,6 @@ const answerRepository = require('../../../../lib/infrastructure/repositories/an
 const answerSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/answer-serializer');
 const correctionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/correction-serializer');
 const usecases = require('../../../../lib/domain/usecases');
-const campaignAssessmentRepository =
-  require('../../../../lib/infrastructure/repositories/campaign-assessment-repository');
 const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
 
 describe('Unit | Controller | answer-controller', () => {
@@ -15,7 +13,6 @@ describe('Unit | Controller | answer-controller', () => {
 
     sinon.stub(answerSerializer, 'serialize');
     sinon.stub(answerRepository, 'findByChallengeAndAssessment');
-    sinon.stub(campaignAssessmentRepository, 'get');
     sinon.stub(usecases, 'correctAnswerThenUpdateAssessment');
     sinon.stub(requestResponseUtils, 'extractUserIdFromRequest');
   });

@@ -41,7 +41,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
         campaignId: campaign.id
       });
       campaignParticipationId = campaignParticipation.id;
-      assessment = domainBuilder.buildCampaignAssessment({ userId });
+      assessment = domainBuilder.buildAssessment.ofTypeCampaign({ userId });
       assessmentId = assessment.id;
 
       sinon.stub(campaignRepository, 'get').resolves(campaign);

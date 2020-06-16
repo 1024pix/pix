@@ -12,10 +12,6 @@ describe('Unit | UseCase | find-campaign-assessments', () => {
     // given
     const userId = 1234;
     const filters = { type: 'CAMPAIGN', codeCampaign: 'Code' };
-    domainBuilder.buildAssessment.ofTypeCampaign({
-      userId,
-      campaignParticipation: null,
-    });
     sinon.stub(assessmentRepository, 'findLastCampaignAssessmentByUserIdAndCampaignCode').resolves(null);
 
     // when

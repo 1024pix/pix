@@ -1,7 +1,6 @@
 const faker = require('faker');
 const _ = require('lodash');
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const CampaignAssessment = require('../../../../lib/domain/models/CampaignAssessment');
 
 const buildAnswer = require('./build-answer');
 const buildCourse = require('./build-course');
@@ -56,7 +55,6 @@ buildAssessment.ofTypeCampaign = function({
   answers = [buildAnswer()],
   course = buildCourse({ id: 'courseId' }),
   targetProfile = buildTargetProfile(),
-  knowledgeElements = [buildKnowledgeElement()],
   campaignParticipation = null,
   campaignParticipationId = null,
   title = 'campaignTitle',
@@ -72,7 +70,7 @@ buildAssessment.ofTypeCampaign = function({
     campaignParticipationId = campaignParticipation.id;
   }
 
-  return new CampaignAssessment({
+  return new Assessment({
     // attributes
     id,
     courseId,
@@ -89,7 +87,6 @@ buildAssessment.ofTypeCampaign = function({
     answers,
     course,
     targetProfile,
-    knowledgeElements,
     campaignParticipation
   });
 };
