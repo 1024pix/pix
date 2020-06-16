@@ -25,7 +25,6 @@ class CertificationResult {
       examinerComment,
       hasSeenEndTestScreen,
       // references
-      assessmentId,
       juryId,
       sessionId,
     } = {}) {
@@ -53,7 +52,6 @@ class CertificationResult {
     this.examinerComment = examinerComment;
     this.hasSeenEndTestScreen = hasSeenEndTestScreen;
     // references
-    this.assessmentId = assessmentId;
     this.juryId = juryId;
     this.sessionId = sessionId;
   }

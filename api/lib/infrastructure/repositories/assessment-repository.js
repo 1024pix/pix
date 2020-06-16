@@ -16,7 +16,7 @@ module.exports = {
             answers: function(query) {
               query.orderBy('createdAt', 'ASC');
             },
-          }, 'assessmentResults', 'campaignParticipation', 'campaignParticipation.campaign',
+          }, 'campaignParticipation', 'campaignParticipation.campaign',
         ],
       })
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
@@ -26,21 +26,18 @@ module.exports = {
     return BookshelfAssessment
       .collection()
       .query((qb) => {
+        qb.join('assessment-results', 'assessment-results.assessmentId', 'assessments.id');
         qb.where({ userId })
           .where(function() {
             this.where({ type: 'PLACEMENT' });
           })
-          .where('createdAt', '<', limitDate)
-          .where('state', '=', 'completed')
-          .orderBy('createdAt', 'desc');
+          .where('assessments.createdAt', '<', limitDate)
+          .where('assessment-results.createdAt', '<', limitDate)
+          .where('assessments.state', '=', 'completed')
+          .orderBy('assessments.createdAt', 'desc');
       })
-      .fetch({
-        withRelated: [
-          { assessmentResults: (qb) => { qb.where('createdAt', '<', limitDate); } },
-        ],
-      })
+      .fetch()
       .then((bookshelfAssessmentCollection) => bookshelfAssessmentCollection.models)
-      .then(_selectAssessmentsHavingAnAssessmentResult)
       .then(_selectLastAssessmentForEachCompetence)
       .then((assessments) => bookshelfToDomainConverter.buildDomainObjects(BookshelfAssessment, assessments));
   },
@@ -63,13 +60,6 @@ module.exports = {
     return assessment.validate()
       .then(() => new BookshelfAssessment(_adaptModelToDb(assessment)))
       .then((bookshelfAssessment) => bookshelfAssessment.save(null, { transacting: domainTransaction.knexTransaction }))
-      .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
-  },
-
-  getByCertificationCourseId(certificationCourseId) {
-    return BookshelfAssessment
-      .where({ certificationCourseId, type: 'CERTIFICATION' })
-      .fetch({ withRelated: ['assessmentResults'] })
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
@@ -125,10 +115,6 @@ function _selectLastAssessmentForEachCompetence(bookshelfAssessments) {
   return map(assessmentsGroupedByCompetence, head);
 }
 
-function _selectAssessmentsHavingAnAssessmentResult(bookshelfAssessments) {
-  return bookshelfAssessments.filter((bookshelfAssessment) => bookshelfAssessment.relations.assessmentResults.length > 0);
-}
-
 function _adaptModelToDb(assessment) {
   return _.omit(assessment, [
     'id',
@@ -137,7 +123,6 @@ function _adaptModelToDb(assessment) {
     'updatedAt',
     'successRate',
     'answers',
-    'assessmentResults',
     'targetProfile',
     'campaign',
     'campaignParticipation',

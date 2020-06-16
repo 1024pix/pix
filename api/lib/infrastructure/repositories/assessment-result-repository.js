@@ -1,12 +1,10 @@
-const AssessmentResult = require('../../domain/models/AssessmentResult');
+const _ = require('lodash');
 const BookshelfAssessmentResult = require('../data/assessment-result');
-
-function _toDomain(bookshelfModel) {
-  return new AssessmentResult(bookshelfModel.toJSON());
-}
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const { knex } = require('../bookshelf');
 
 module.exports = {
-  save: ({
+  async save({
     pixScore,
     level,
     status,
@@ -17,8 +15,8 @@ module.exports = {
     id,
     juryId,
     assessmentId,
-  }, domainTransaction = {}) => {
-    return new BookshelfAssessmentResult({
+  }, domainTransaction = {}) {
+    const savedAssessmentResultBookshelf = await new BookshelfAssessmentResult({
       pixScore,
       level,
       status,
@@ -30,14 +28,38 @@ module.exports = {
       juryId,
       assessmentId,
     })
-      .save(null, { transacting: domainTransaction.knexTransaction })
-      .then(_toDomain);
+      .save(null, { transacting: domainTransaction.knexTransaction });
+
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessmentResult, savedAssessmentResultBookshelf);
   },
 
-  get(id) {
-    return BookshelfAssessmentResult
-      .where('id', id)
-      .fetch({ withRelated: ['competenceMarks'] })
-      .then(_toDomain);
+  async findLatestLevelAndPixScoreByAssessmentId({ assessmentId, limitDate }) {
+    const result = await knex('assessment-results')
+      .select('level', 'pixScore')
+      .where((qb) => {
+        qb.where({ assessmentId });
+        if (limitDate) {
+          qb.where('createdAt', '<', limitDate);
+        }
+      })
+      .orderBy('createdAt', 'desc')
+      .first();
+
+    return {
+      level: _.get(result, 'level', 0),
+      pixScore: _.get(result, 'pixScore', 0),
+    };
+  },
+
+  async findLatestByCertificationCourseIdWithCompetenceMarks({ certificationCourseId }) {
+    const latestAssessmentResultBookshelf = await BookshelfAssessmentResult
+      .query((qb) => {
+        qb.join('assessments', 'assessments.id', 'assessment-results.assessmentId');
+        qb.where('assessments.certificationCourseId', '=', certificationCourseId);
+      })
+      .orderBy('createdAt', 'desc')
+      .fetch({ withRelated: ['competenceMarks'] });
+
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessmentResult, latestAssessmentResultBookshelf);
   }
 };
