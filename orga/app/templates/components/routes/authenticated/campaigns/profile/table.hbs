@@ -1,0 +1,35 @@
+<table>
+  <thead>
+    <tr>
+      <th>Compétence</th>
+      <th class="table__column table__column--center">
+        Niveau
+      </th>
+      <th class="table__column table__column--center">
+        Score Pix
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each @competences as |competence|}}
+      <tr aria-label="Competence">
+        <td class="competences-col__name">
+          <span class="competences-col__border competences-col__border--{{competence.areaColor}}" />
+          <span>
+            {{competence.name}}
+          </span>
+        </td>
+        <td class="table__column--center">
+          {{competence.estimatedLevel}}
+        </td>
+        <td class="table__column--center">
+          {{competence.pixScore}}
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+{{#unless @isShared }}
+  <div class="table__empty content-text">En attente de résultats</div>
+{{/unless}}
