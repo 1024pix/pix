@@ -17,7 +17,21 @@ module.exports = {
         'competencesCount',
         'certifiableCompetencesCount',
         'isCertifiable',
+        'competences'
       ],
+      typeForAttribute: (attribute) => {
+        if (attribute === 'competences') return 'campaign-profile-competences';
+      },
+      competences: {
+        ref: 'id',
+        attributes: [
+          'name',
+          'index',
+          'pixScore',
+          'estimatedLevel',
+          'areaColor'
+        ],
+      },
     }).serialize(campaignProfile);
   },
 };

@@ -97,6 +97,45 @@ describe('Unit | Domain | Read-Models | CampaignProfile', () => {
     });
   });
 
+  describe('#competences', () => {
+    context('when the campaign participation is shared', () => {
+      it('returns user competences', () => {
+        const params = { isShared: true };
+        const competence = {
+          id: 1,
+          name: 'competence1',
+          pixScore: 1,
+          estimatedLevel: 1,
+          area: { color: 'blue' },
+          index: '1.1',
+        };
+        const certificationProfile = { userCompetences: [competence] };
+
+        const campaignProfile = new CampaignProfile({ ...params, certificationProfile });
+
+        expect(campaignProfile.competences).to.deep.equal([{ 
+          id: 1,
+          name: 'competence1',
+          pixScore: 1,
+          estimatedLevel: 1,
+          areaColor: 'blue', 
+          index: '1.1',
+        }]);
+      });
+    });
+
+    context('when the campaign participation is not shared', () => {
+      it('does not compute the number of competence', () => {
+        const params = { isShared: false };
+        const certificationProfile = { userCompetences: [{ name: 'competence1' }] };
+
+        const campaignProfile = new CampaignProfile({ ...params, certificationProfile });
+
+        expect(campaignProfile.competences).to.be.empty;
+      });
+    });
+  });
+
   describe('#firstName', () => {
     it('returns the user first name', () => {
       const params = { firstName: 'John' };
