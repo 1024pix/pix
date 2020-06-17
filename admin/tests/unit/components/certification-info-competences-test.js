@@ -4,11 +4,6 @@ import { setupTest } from 'ember-qunit';
 module('Unit | Component | certification-info-competences', function(hooks) {
   setupTest(hooks);
 
-  test('it exists', function(assert) {
-    const component = this.owner.factoryFor('component:certification-info-competences').create();
-    assert.ok(component);
-  });
-
   test('it computes indexed values correctly', function(assert) {
     // given
     const component = this.owner.factoryFor('component:certification-info-competences').create();
