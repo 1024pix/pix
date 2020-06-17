@@ -11,27 +11,26 @@ module('Integration | Component | routes/authenticated/team | list-items | items
   test('For an admin, it should display an administrator firstName, lastName, role and edit button', async function(assert) {
     // given
     const store = this.owner.lookup('service:store');
-    const membership =
-      run(() => store.createRecord('membership', {
-        id: 1,
-        organizationRole: 'ADMIN',
-        user: run(() => store.createRecord('user', {
-          id: 111,
-          firstName: 'Gigi',
-          lastName: 'La Terreur',
-        })),
-      }));
+    const membership = store.createRecord('membership', {
+      id: 1,
+      organizationRole: 'ADMIN',
+      user: store.createRecord('user', {
+        id: 111,
+        firstName: 'Gigi',
+        lastName: 'La Terreur',
+      }),
+    });
 
     this.set('membership', membership);
 
     // when
-    await render(hbs`{{routes/authenticated/team/items membership=membership}}`);
+    await render(hbs`<Routes::Authenticated::Team::Items @membership={{membership}}/>`);
 
     // then
-    assert.dom('td:first-child').hasText('La Terreur');
-    assert.dom('td:nth-child(2)').hasText('Gigi');
-    assert.dom('td:nth-child(3)').hasText('Administrateur');
-    assert.dom('td:nth-child(4)').hasText('Modifier le rôle');
+    assert.contains('La Terreur');
+    assert.contains('Gigi');
+    assert.contains('Administrateur');
+    assert.contains('Modifier le rôle');
 
   });
 
@@ -52,14 +51,13 @@ module('Integration | Component | routes/authenticated/team | list-items | items
     this.set('membership', membership);
 
     // when
-    await render(hbs`{{routes/authenticated/team/items membership=membership}}`);
+    await render(hbs`<Routes::Authenticated::Team::Items @membership={{membership}}/>`);
 
     // then
-    assert.dom('td:first-child').hasText('La Terreur');
-    assert.dom('td:nth-child(2)').hasText('Gigi');
-    assert.dom('td:nth-child(3)').hasText('Membre');
-    assert.dom('td:nth-child(4)').hasText('Modifier le rôle');
-
+    assert.contains('La Terreur');
+    assert.contains('Gigi');
+    assert.contains('Membre');
+    assert.contains('Modifier le rôle');
   });
 
 });

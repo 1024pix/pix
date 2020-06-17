@@ -8,14 +8,14 @@ module('Acceptance | organization memberships management', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
+  let organization;
+
   hooks.beforeEach(async function() {
     await createAuthenticateSession({ userId: 1 });
+    organization = this.server.create('organization');
   });
 
   test('should redirect to organization members page', async function(assert) {
-    // given
-    const organization = this.server.create('organization');
-
     // when
     await visit(`/organizations/${organization.id}`);
 
@@ -23,92 +23,41 @@ module('Acceptance | organization memberships management', function(hooks) {
     assert.equal(currentURL(), `/organizations/${organization.id}/members`);
   });
 
-  module('listing members', function() {
-
-    test('should display the correct number of users', async function(assert) {
-      // given
-      const organization = this.server.create('organization');
-
-      const userAlice = this.server.create('user', { firstName: 'Alice', lastName: 'Cencieuse', email: 'alice@example.com' });
-      const userBob = this.server.create('user', { firstName: 'Bob', lastName: 'Harr', email: 'bob@example.com' });
-      const userCharlie = this.server.create('user', { firstName: 'Charlie', lastName: 'Bideau', email: 'charlie@example.com' });
-
-      this.server.create('membership', { organization, user: userAlice });
-      this.server.create('membership', { organization, user: userBob });
-      this.server.create('membership', { organization, user: userCharlie });
-
-      // when
-      await visit(`/organizations/${organization.id}`);
-
-      // then
-      assert.equal(this.element.querySelectorAll('div.member-list table > tbody > tr').length, 3);
-      assert.contains('Alice');
-      assert.contains('Bob');
-      assert.contains('Charlie');
+  module('listing members', function(hooks) {
+    hooks.beforeEach(async () => {
+      server.createList('membership', 12);
     });
 
-    test('should display the correct user data', async function(assert) {
-      // given
-      const organization = this.server.create('organization');
-      const user = this.server.create('user', { firstName: 'Denise', lastName: 'Ter Hegg', email: 'denise@example.com' });
-      this.server.create('membership', { user, organization, organizationRole: 'ADMIN' });
-
+    test('it should display the current filter when memberships are filtered by firstName', async function(assert) {
       // when
-      await visit(`/organizations/${organization.id}`);
+      await visit(`/organizations/${organization.id}/members?firstName=sav`);
 
       // then
-      assert.equal(this.element.querySelectorAll('div.member-list table > thead > tr > th ').length, 12);
-
-      assert.contains('ID Membre');
-      assert.contains('Prénom');
-      assert.contains('Nom');
-      assert.contains('Courriel');
-      assert.contains('Rôle');
-      assert.contains('Action');
-
-      assert.contains(user.id);
-      assert.contains('Denise');
-      assert.contains('Ter Hegg');
-      assert.contains('denise@example.com');
-      assert.contains('Administrateur');
-      assert.contains('Editer');
+      assert.dom('#firstName').hasValue('sav');
     });
 
-    test('should display the correct user data when the user is a MEMBER', async function(assert) {
-      // given
-      const organization = this.server.create('organization');
-      const user = this.server.create('user', { firstName: 'Denise', lastName: 'Ter Hegg', email: 'denise@example.com' });
-      this.server.create('membership', { user, organization, organizationRole: 'MEMBER' });
-
+    test('it should display the current filter when organizations are filtered by lastName', async function(assert) {
       // when
-      await visit(`/organizations/${organization.id}`);
+      await visit(`/organizations/${organization.id}/members?lastName=tro`);
 
       // then
-      assert.contains('Membre');
+      assert.dom('#lastName').hasValue('tro');
     });
 
-    module('modifying member\'s role', async function() {
+    test('it should display the current filter when organizations are filtered by email', async function(assert) {
+      // when
+      await visit(`/organizations/${organization.id}/members?email=fri`);
 
-      test('should modify member\'s role', async function(assert) {
-        // given
-        const organization = this.server.create('organization');
-        const user = this.server.create('user', { firstName: 'Denise', lastName: 'Ter Hegg', email: 'denise@example.com' });
-        this.server.create('membership', { user, organization, organizationRole: 'MEMBER' });
+      // then
+      assert.dom('#email').hasValue('fri');
+    });
 
-        // when
-        await visit(`/organizations/${organization.id}`);
+    test('it should display the current filter when organizations are filtered by role', async function(assert) {
+      // when
+      await visit(`/organizations/${organization.id}/members?organizationRole=ADMIN`);
 
-        const organizationRoleCell = 'div.member-list table > tbody > tr > td:nth-child(5)';
-        const actionCell = 'div.member-list table > tbody > tr > td:nth-child(6)';
-
-        await click(`${actionCell} > div > button`);
-        await click(`${organizationRoleCell} > div.ember-power-select-trigger`);
-        await click('.ember-power-select-option:nth-child(1)');
-        await click(`${actionCell} > div > button:nth-child(2)`);
-
-        // then
-        assert.contains('Administrateur');
-      });
+      // then
+      assert.dom('#organizationRole').hasValue('ADMIN');
     });
   });
 
@@ -116,7 +65,6 @@ module('Acceptance | organization memberships management', function(hooks) {
 
     test('should create a user membership and display it in the list', async function(assert) {
       // given
-      const organization = this.server.create('organization');
       this.server.create('user', { firstName: 'John', lastName: 'Doe', email: 'user@example.com' });
 
       // when
@@ -133,7 +81,6 @@ module('Acceptance | organization memberships management', function(hooks) {
 
     test('should not do anything when the membership was already existing for given user email and organization', async function(assert) {
       // given
-      const organization = this.server.create('organization');
       const user = this.server.create('user', { firstName: 'Denise', lastName: 'Ter Hegg', email: 'denise@example.com' });
       this.server.create('membership', { user, organization });
 
@@ -150,7 +97,6 @@ module('Acceptance | organization memberships management', function(hooks) {
 
     test('should not do anything when no user was found for the input email', async function(assert) {
       // given
-      const organization = this.server.create('organization');
       const user = this.server.create('user', { firstName: 'Erica', lastName: 'Caouette', email: 'erica@example.com' });
       this.server.create('membership', { user, organization });
 
@@ -169,9 +115,6 @@ module('Acceptance | organization memberships management', function(hooks) {
   module('inviting a member', function() {
 
     test('should create an organization-invitation', async function(assert) {
-      // given
-      const organization = this.server.create('organization');
-
       // when
       await visit(`/organizations/${organization.id}`);
       await fillIn('#userEmailToInvite', 'user@example.com');
@@ -186,7 +129,6 @@ module('Acceptance | organization memberships management', function(hooks) {
 
     test('should display an error if the creation has failed', async function(assert) {
       // given
-      const organization = this.server.create('organization');
       this.server.post('/organizations/:id/invitations', () => new Response(500, {}, { errors: [{ status: '500' }] }));
 
       // when

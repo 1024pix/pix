@@ -4,7 +4,6 @@ const membershipRepository = require('../../../../lib/infrastructure/repositorie
 const { MembershipCreationError, MembershipUpdateError } = require('../../../../lib/domain/errors');
 const Membership = require('../../../../lib/domain/models/Membership');
 const Organization = require('../../../../lib/domain/models/Organization');
-const User = require('../../../../lib/domain/models/User');
 
 describe('Integration | Infrastructure | Repository | membership-repository', () => {
 
@@ -62,44 +61,6 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
 
   describe('#findByOrganizationId', () => {
 
-    it('should return Memberships with well defined relationships (OrganizationRole & User)', async () => {
-      // given
-      const organization = databaseBuilder.factory.buildOrganization();
-      const user = databaseBuilder.factory.buildUser();
-      const otherUserId = databaseBuilder.factory.buildUser().id;
-      const organizationRole = Membership.roles.ADMIN;
-
-      // Matching membership
-      databaseBuilder.factory.buildMembership({
-        organizationRole,
-        organizationId: organization.id,
-        userId: user.id,
-      });
-
-      // Other memberships
-      databaseBuilder.factory.buildMembership({ userId: otherUserId });
-      databaseBuilder.factory.buildMembership({ userId: otherUserId });
-
-      await databaseBuilder.commit();
-
-      // when
-      const memberships = await membershipRepository.findByOrganizationId({ organizationId: organization.id });
-
-      // then
-      const anyMembership = memberships[0];
-      expect(anyMembership).to.be.an.instanceOf(Membership);
-
-      expect(anyMembership.organizationRole).to.equal(Membership.roles.ADMIN);
-      expect(anyMembership.organizationRole.id).to.equal(organizationRole.id);
-      expect(anyMembership.organizationRole.name).to.equal(organizationRole.name);
-
-      expect(anyMembership.user).to.be.an.instanceOf(User);
-      expect(anyMembership.user.id).to.equal(user.id);
-      expect(anyMembership.user.firstName).to.equal(user.firstName);
-      expect(anyMembership.user.lastName).to.equal(user.lastName);
-      expect(anyMembership.user.email).to.equal(user.email);
-    });
-
     it('should return all the memberships for a given organization ID with only required relationships', async () => {
       // given
       const organization_1 = databaseBuilder.factory.buildOrganization();
@@ -146,30 +107,215 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       // then
       expect(_.map(memberships, 'id')).to.deep.include.ordered.members([membership_1.id, membership_2.id, membership_3.id]);
     });
+  });
 
-    it('should order memberships by organizationRole, user.lastName and user.firstName', async () => {
-      // given
-      const organization = databaseBuilder.factory.buildOrganization();
+  describe('#findPaginatedFiltered', () => {
+    let organizationId;
 
-      const user_1 = databaseBuilder.factory.buildUser({ lastName: 'alphonse', firstName: 'Pierre' });
-      const user_2 = databaseBuilder.factory.buildUser({ lastName: 'Avatar', firstName: 'Xavier' });
-      const user_3 = databaseBuilder.factory.buildUser({ lastName: 'avatar', firstName: 'Arthur' });
-      const user_4 = databaseBuilder.factory.buildUser({ lastName: 'Batiste', firstName: 'Arthur' });
-      const user_5 = databaseBuilder.factory.buildUser({ lastName: 'Baptiste', firstName: 'Ernest' });
+    beforeEach(() => {
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+      return databaseBuilder.commit();
+    });
 
-      const membership_1 = databaseBuilder.factory.buildMembership({ organizationRole: Membership.roles.ADMIN, organizationId: organization.id, userId: user_1.id });
-      const membership_2 = databaseBuilder.factory.buildMembership({ organizationRole: Membership.roles.MEMBER, organizationId: organization.id, userId: user_2.id });
-      const membership_3 = databaseBuilder.factory.buildMembership({ organizationRole: Membership.roles.MEMBER, organizationId: organization.id, userId: user_3.id });
-      const membership_4 = databaseBuilder.factory.buildMembership({ organizationRole: Membership.roles.ADMIN, organizationId: organization.id, userId: user_4.id });
-      const membership_5 = databaseBuilder.factory.buildMembership({ organizationRole: Membership.roles.MEMBER, organizationId: organization.id, userId: user_5.id });
+    context('when there are Memberships in the database', () => {
 
-      await databaseBuilder.commit();
+      beforeEach(() => {
+        const userId1 = databaseBuilder.factory.buildUser().id;
+        const userId2 = databaseBuilder.factory.buildUser().id;
+        const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+        databaseBuilder.factory.buildMembership({ organizationId, userId: userId1 });
+        databaseBuilder.factory.buildMembership({ organizationId, userId: userId2 });
+        databaseBuilder.factory.buildMembership({ organizationId: otherOrganizationId, userId: userId1 });
+        return databaseBuilder.commit();
+      });
 
-      // when
-      const memberships = await membershipRepository.findByOrganizationId({ organizationId: organization.id, orderByName: true });
+      it('should return an Array of Memberships', async () => {
+        // given
+        const filter = {};
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
 
-      // then
-      expect(_.map(memberships, 'id')).to.deep.include.ordered.members([membership_1.id, membership_4.id, membership_3.id, membership_2.id, membership_5.id]);
+        // when
+        const { models: matchingMemberships, pagination } = await membershipRepository.findPaginatedFiltered({ organizationId, filter, page });
+
+        // then
+        expect(matchingMemberships).to.exist;
+        expect(matchingMemberships).to.have.lengthOf(2);
+        expect(matchingMemberships[0]).to.be.an.instanceOf(Membership);
+        expect(pagination).to.deep.equal(expectedPagination);
+      });
+    });
+
+    context('when there are lots of Memberships in the database', () => {
+
+      beforeEach(() => {
+        const userId1 = databaseBuilder.factory.buildUser().id;
+        const userId2 = databaseBuilder.factory.buildUser().id;
+        const userId3 = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildMembership({ organizationId, userId: userId1 });
+        databaseBuilder.factory.buildMembership({ organizationId, userId: userId2 });
+        databaseBuilder.factory.buildMembership({ organizationId, userId: userId3 });
+        return databaseBuilder.commit();
+      });
+
+      it('should return paginated matching Organizations', async () => {
+        // given
+        const filter = {};
+        const page = { number: 1, size: 2 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 2, rowCount: 3 };
+
+        // when
+        const { models: matchingMemberships, pagination } = await membershipRepository.findPaginatedFiltered({ organizationId, filter, page });
+
+        // then
+        expect(matchingMemberships).to.have.lengthOf(2);
+        expect(pagination).to.deep.equal(expectedPagination);
+      });
+    });
+
+    context('when there are multiple Memberships matching the same "firstName" search pattern', () => {
+
+      beforeEach(() => {
+        const userId1 = databaseBuilder.factory.buildUser({ firstName: 'André' }).id;
+        const userId2 = databaseBuilder.factory.buildUser({ firstName: 'Andréa' }).id;
+        const userId3 = databaseBuilder.factory.buildUser({ firstName: 'Andranova' }).id;
+        databaseBuilder.factory.buildMembership({ organizationId, userId: userId1 });
+        databaseBuilder.factory.buildMembership({ organizationId, userId: userId2 });
+        databaseBuilder.factory.buildMembership({ organizationId, userId: userId3 });
+        return databaseBuilder.commit();
+      });
+
+      it('should return only Memberships matching "firstName" if given in filters', async () => {
+        // given
+        const filter = { firstName: 'andré' };
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
+
+        // when
+        const { models: matchingMemberships, pagination } = await membershipRepository.findPaginatedFiltered({ organizationId, filter, page });
+
+        // then
+        expect(matchingMemberships).to.have.lengthOf(2);
+        expect(_.map(matchingMemberships, 'user.firstName')).to.have.members(['André', 'Andréa']);
+        expect(pagination).to.deep.equal(expectedPagination);
+      });
+    });
+
+    context('when there are multiple Memberships matching the same "lastName" search pattern', () => {
+
+      beforeEach(() => {
+        const userId1 = databaseBuilder.factory.buildUser({ lastName: 'André' }).id;
+        const userId2 = databaseBuilder.factory.buildUser({ lastName: 'Andréa' }).id;
+        const userId3 = databaseBuilder.factory.buildUser({ lastName: 'Andranova' }).id;
+        databaseBuilder.factory.buildMembership({ organizationId, userId: userId1 });
+        databaseBuilder.factory.buildMembership({ organizationId, userId: userId2 });
+        databaseBuilder.factory.buildMembership({ organizationId, userId: userId3 });
+        return databaseBuilder.commit();
+      });
+
+      it('should return only Memberships matching "firstName" if given in filters', async () => {
+        // given
+        const filter = { lastName: 'andré' };
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
+
+        // when
+        const { models: matchingMemberships, pagination } = await membershipRepository.findPaginatedFiltered({ organizationId, filter, page });
+
+        // then
+        expect(matchingMemberships).to.have.lengthOf(2);
+        expect(_.map(matchingMemberships, 'user.lastName')).to.have.members(['André', 'Andréa']);
+        expect(pagination).to.deep.equal(expectedPagination);
+      });
+    });
+
+    context('when there are multiple Memberships matching the same "email" search pattern', () => {
+
+      beforeEach(() => {
+        const userId1 = databaseBuilder.factory.buildUser({ email: 'andre@example.net' }).id;
+        const userId2 = databaseBuilder.factory.buildUser({ email: 'andrea@example.net' }).id;
+        const userId3 = databaseBuilder.factory.buildUser({ email: 'andranova@example.net' }).id;
+        databaseBuilder.factory.buildMembership({ organizationId, userId: userId1 });
+        databaseBuilder.factory.buildMembership({ organizationId, userId: userId2 });
+        databaseBuilder.factory.buildMembership({ organizationId, userId: userId3 });
+        return databaseBuilder.commit();
+      });
+
+      it('should return only Memberships matching "firstName" if given in filters', async () => {
+        // given
+        const filter = { email: 'andre' };
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
+
+        // when
+        const { models: matchingMemberships, pagination } = await membershipRepository.findPaginatedFiltered({ organizationId, filter, page });
+
+        // then
+        expect(matchingMemberships).to.have.lengthOf(2);
+        expect(_.map(matchingMemberships, 'user.email')).to.have.members(['andre@example.net', 'andrea@example.net']);
+        expect(pagination).to.deep.equal(expectedPagination);
+      });
+    });
+
+    context('when there are multiple Memberships matching the fields "firstName", "lastName" and "email" search pattern', () => {
+
+      beforeEach(() => {
+        // Matching memberships
+        const userId1 = databaseBuilder.factory.buildUser({ firstName: 'firstName_ok_1', lastName: 'lastName_ok_1', email: 'email_ok_1@example.net' }).id;
+        const userId2 = databaseBuilder.factory.buildUser({ firstName: 'firstName_ok_2', lastName: 'lastName_ok_2', email: 'email_ok_2@example.net' }).id;
+        databaseBuilder.factory.buildMembership({ organizationId, userId: userId1 });
+        databaseBuilder.factory.buildMembership({ organizationId, userId: userId2 });
+
+        // Unmatching memberships
+        const userId3 = databaseBuilder.factory.buildUser({ firstName: 'firstName_ko', lastName: 'lastName_ok_3', email: 'email_ok_3@example.net' }).id;
+        const userId4 = databaseBuilder.factory.buildUser({ firstName: 'firstName_ok_3', lastName: 'lastName_ko', email: 'email_ok_4@example.net' }).id;
+        const userId5 = databaseBuilder.factory.buildUser({ firstName: 'firstName_ok_4', lastName: 'lastName_ok_4', email: 'email_ko@example.net' }).id;
+        databaseBuilder.factory.buildMembership({ organizationId, userId: userId3 });
+        databaseBuilder.factory.buildMembership({ organizationId, userId: userId4 });
+        databaseBuilder.factory.buildMembership({ organizationId, userId: userId5 });
+
+        return databaseBuilder.commit();
+      });
+
+      it('should return only Memberships matching "firstName" AND "lastName" AND "email" if given in filters', async () => {
+        // given
+        const filter = { firstName: 'firstname_ok', lastName: 'lastname_ok', email: 'email_ok' };
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
+
+        // when
+        const { models: matchingMemberships, pagination } = await membershipRepository.findPaginatedFiltered({ organizationId, filter, page });
+
+        // then
+        expect(_.map(matchingMemberships, 'user.firstName')).to.have.members(['firstName_ok_1', 'firstName_ok_2']);
+        expect(_.map(matchingMemberships, 'user.lastName')).to.have.members(['lastName_ok_1', 'lastName_ok_2']);
+        expect(_.map(matchingMemberships, 'user.email')).to.have.members(['email_ok_1@example.net', 'email_ok_2@example.net']);
+        expect(pagination).to.deep.equal(expectedPagination);
+      });
+    });
+
+    context('when there are filters that should be ignored', () => {
+      let membershipId;
+
+      beforeEach(() => {
+        const userId = databaseBuilder.factory.buildUser().id;
+        membershipId = databaseBuilder.factory.buildMembership({ organizationId, userId }).id;
+        return databaseBuilder.commit();
+      });
+
+      it('should ignore the filters and retrieve all organizations', async () => {
+        // given
+        const filter = { id: 999 };
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 1 };
+
+        // when
+        const { models: matchingMemberships, pagination } = await membershipRepository.findPaginatedFiltered({ organizationId, filter, page });
+
+        // then
+        expect(_.map(matchingMemberships, 'id')).to.have.members([membershipId]);
+        expect(pagination).to.deep.equal(expectedPagination);
+      });
     });
 
     it('should return only active memberships', async () => {

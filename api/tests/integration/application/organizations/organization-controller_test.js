@@ -17,7 +17,7 @@ describe('Integration | Application | Organizations | organization-controller', 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'updateOrganizationInformation');
-    sandbox.stub(usecases, 'getOrganizationMemberships');
+    sandbox.stub(usecases, 'findPaginatedFilteredOrganizationMemberships');
     sandbox.stub(usecases, 'findUserWithSchoolingRegistrations');
     sandbox.stub(usecases, 'createOrganizationInvitations');
     sandbox.stub(usecases, 'answerToOrganizationInvitation');
@@ -103,7 +103,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     });
   });
 
-  describe('#getOrganizationMemberships', () => {
+  describe('#findPaginatedFilteredOrganizationMemberships', () => {
 
     context('Success cases', () => {
 
@@ -115,7 +115,7 @@ describe('Integration | Application | Organizations | organization-controller', 
 
       it('should return an HTTP response with status code 200', async () => {
         // given
-        usecases.getOrganizationMemberships.resolves([membership]);
+        usecases.findPaginatedFilteredOrganizationMemberships.resolves({ models: [membership], pagination: {} });
 
         // when
         const response = await httpTestServer.request('GET', '/api/organizations/1234/memberships');
@@ -126,7 +126,7 @@ describe('Integration | Application | Organizations | organization-controller', 
 
       it('should return an HTTP response formatted as JSON:API', async () => {
         // given
-        usecases.getOrganizationMemberships.resolves([membership]);
+        usecases.findPaginatedFilteredOrganizationMemberships.resolves({ models: [membership], pagination: {} });
 
         // when
         const response = await httpTestServer.request('GET', '/api/organizations/1234/memberships');
@@ -138,7 +138,7 @@ describe('Integration | Application | Organizations | organization-controller', 
 
       it('should return a JSON:API response including organization, organization role & user information', async () => {
         // given
-        usecases.getOrganizationMemberships.resolves([membership]);
+        usecases.findPaginatedFilteredOrganizationMemberships.resolves(({ models: [membership], pagination: {} }));
 
         // when
         const response = await httpTestServer.request('GET', '/api/organizations/1234/memberships');
