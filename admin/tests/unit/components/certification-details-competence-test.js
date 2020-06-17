@@ -26,11 +26,6 @@ module('Unit | Component | certification-details-competence', function(hooks) {
     };
   };
 
-  test('it exists', function(assert) {
-    const component = this.owner.factoryFor('component:certification-details-competence').create();
-    assert.ok(component);
-  });
-
   test('it should not give jury values when no jury rate is set', async function(assert) {
     // given
     const component = this.owner.factoryFor('component:certification-details-competence').create();

@@ -4,11 +4,6 @@ import { setupTest } from 'ember-qunit';
 module('Unit | Component | certification-info-field', function(hooks) {
   setupTest(hooks);
 
-  test('it exists', function(assert) {
-    const component = this.owner.factoryFor('component:certification-info-field').create();
-    assert.ok(component);
-  });
-
   test('it should compute correct widths for large dimensions', function(assert) {
     // given
     const component = this.owner.factoryFor('component:certification-info-field').create();

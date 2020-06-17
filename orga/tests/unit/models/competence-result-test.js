@@ -5,12 +5,6 @@ import { run } from '@ember/runloop';
 module('Unit | Model | Competence-Result', function(hooks) {
   setupTest(hooks);
 
-  test('it exists', function(assert) {
-    const store = this.owner.lookup('service:store');
-    const model = run(() => store.createRecord('competence-result', {}));
-    assert.ok(model);
-  });
-
   module('totalSkillsCountPercentage', function() {
 
     test('should retrieve 100 since the competence is the highest number of total skills count', function(assert) {
