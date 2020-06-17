@@ -3,6 +3,7 @@ import { inject as service } from '@ember/service';
 import { debounce } from '@ember/runloop';
 import Controller from '@ember/controller';
 import { htmlSafe } from '@ember/template';
+import { tracked } from '@glimmer/tracking';
 import ENV from 'pix-orga/config/environment';
 
 export default class ListController extends Controller {
@@ -12,6 +13,8 @@ export default class ListController extends Controller {
 
   isLoading = false;
 
+  @tracked firstName = null;
+  @tracked lastName = null;
   filters = {};
 
   updateFilters() {
