@@ -15,12 +15,12 @@
     <div class="campaign-details-content">
       <h4 class="label-text campaign-details-content__label">Lien direct</h4>
       <div class="campaign-details-content__clipboard">
-        <p class="content-text campaign-details-content__text">{{@campaign.url}}</p>
+        <p class="content-text campaign-details-content__text">{{this.campaignsRootUrl}}</p>
         {{#if (is-clipboard-supported)}}
           <div class="tooltip content-text content-text--small">
             <span class="tooltip-text campaign-details-content__tooltip-text">{{this.tooltipText}}</span>
             <CopyButton
-              @clipboardText={{@campaign.url}}
+              @clipboardText={{this.campaignsRootUrl}}
               @success={{this.clipboardSuccess}}
               {{on 'mouseLeave' this.clipboardOut}}
               @classNames="icon-button campaign-details-content__clipboard-button"

@@ -6,8 +6,13 @@ export default class ParametersTab extends Component {
 
   @service store;
   @service notifications;
+  @service url;
 
   tooltipText = 'Copier le lien direct';
+
+  get campaignsRootUrl() {
+    return `${this.url.campaignsRootUrl}${this.campaign.code}`;
+  }
 
   @action
   clipboardSuccess() {
