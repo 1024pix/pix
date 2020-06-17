@@ -3,6 +3,7 @@ import {
   findPaginatedCampaignAssessmentParticipationSummaries,
   findPaginatedCampaignProfilesCollectionParticipationSummaries,
 } from './handlers/find-paginated-campaign-participation-summaries';
+import { findPaginatedOrganizationMemberships } from './handlers/find-paginated-organization-memberships';
 
 function parseQueryString(queryString) {
   const result = Object.create(null);
@@ -87,10 +88,7 @@ export default function() {
     return json;
   });
 
-  this.get('/organizations/:id/memberships', (schema, request) => {
-    const organizationId = request.params.id;
-    return schema.memberships.where({ organizationId });
-  });
+  this.get('/organizations/:id/memberships', findPaginatedOrganizationMemberships);
 
   this.get('/organizations/:id/invitations', (schema, request) => {
     const organizationId = request.params.id;

@@ -17,6 +17,7 @@ export default class NewController extends Controller {
 
     return this.model.organizationInvitation.save({ adapterOptions: { organizationId: this.model.organizationInvitation.organizationId } })
       .then(() => {
+        this.model.organization.organizationInvitations.reload();
         this.transitionToRoute('authenticated.team');
       })
       .catch((errorResponse) => {

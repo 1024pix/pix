@@ -65,11 +65,12 @@ module.exports = {
     return campaignSerializer.serialize(campaigns, meta, { ignoreCampaignReportRelationshipData : false });
   },
 
-  getMemberships(request) {
+  async findPaginatedFilteredMemberships(request) {
     const organizationId = parseInt(request.params.id);
+    const options = queryParamsUtils.extractParameters(request.query);
 
-    return usecases.getOrganizationMemberships({ organizationId })
-      .then(membershipSerializer.serialize);
+    const { models: memberships, pagination } = await usecases.findPaginatedFilteredOrganizationMemberships({ organizationId, filter: options.filter, page: options.page });
+    return membershipSerializer.serialize(memberships, pagination);
   },
 
   async findTargetProfiles(request) {

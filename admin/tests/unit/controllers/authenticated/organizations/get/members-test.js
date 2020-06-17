@@ -19,7 +19,7 @@ module('Unit | Controller | authenticated/organizations/get/members', function(h
         save: saveStub
       });
       controller.store = Service.create({ createRecord: createRecordStub });
-      controller.model = { id: 1 };
+      controller.model = { organization: { id: 1 } };
 
       controller.userEmailToInvite = 'test@example.net';
 

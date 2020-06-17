@@ -99,7 +99,7 @@ module('Acceptance | Team Creation', function(hooks) {
         assert.equal(organizationInvitation.status, 'PENDING');
         assert.equal(organizationInvitation.code, code);
         assert.equal(currentURL(), '/equipe');
-        assert.dom('#table-members tbody tr').exists({ count: 1 });
+        assert.dom('[aria-label="Membre"]').exists({ count: 1 });
       });
 
       test('it should not allow to invite a prescriber when an email is not given', async function(assert) {

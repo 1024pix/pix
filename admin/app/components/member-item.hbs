@@ -1,0 +1,46 @@
+<td>{{@membership.id}}</td>
+<td>{{@membership.user.firstName}}</td>
+<td>{{@membership.user.lastName}}</td>
+<td>{{@membership.user.email}}</td>
+<td class="editable-cell">
+  {{#if this.isEditionMode}}
+    <PowerSelect @options={{this.organizationRoles}}
+                 @selected={{this.selectedNewRole}}
+                 @searchEnabled={{false}}
+                 @onchange={{this.setRoleSelection}}
+                 @placeholder="Sélectionner"
+                 aria-label="Sélectionner un rôle"
+                 as |role|>
+      {{role.label}}
+    </PowerSelect>
+  {{else}}
+    {{@membership.displayedOrganizationRole}}
+  {{/if}}
+</td>
+<td>
+  {{#if this.isEditionMode}}
+    <div class="zone-save-cancel-role">
+      <button id='save-organization-role'
+              type="button"
+              class="btn btn-primary btn-sm"
+        {{on 'click' (fn this.updateRoleOfMember @membership)}}>
+        Enregistrer
+      </button>
+      <button id='cancel-update-organization-role'
+              type="button"
+              class="btn btn-outline-default btn-sm"
+              aria-label="Annuler"
+        {{on 'click' (fn this.cancelUpdateRoleOfMember)}}>
+        <FaIcon @icon='times'></FaIcon>
+      </button>
+    </div>
+  {{else}}
+    <div class="zone-edit-role">
+      <button id='edit-organization-role' class="btn btn-primary btn-sm"
+              type="button" {{on 'click' (fn this.editRoleOfMember @membership)}}>
+        <FaIcon @icon="edit"></FaIcon>
+        Modifier le rôle
+      </button>
+    </div>
+  {{/if}}
+</td>

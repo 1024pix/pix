@@ -2,7 +2,7 @@ const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
 
-  serialize(membership) {
+  serialize(membership, meta) {
     return new Serializer('memberships', {
       transform(record) {
         if (!record.user) {
@@ -77,7 +77,8 @@ module.exports = {
         ref: 'id',
         included: true,
         attributes: ['firstName', 'lastName', 'email']
-      }
+      },
+      meta
     }).serialize(membership);
   }
 };
