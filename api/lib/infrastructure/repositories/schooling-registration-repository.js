@@ -19,9 +19,12 @@ function _toUserWithSchoolingRegistrationDTO(BookshelfSchoolingRegistration) {
   });
 }
 
-function _setSchoolingRegistrationFilters(qb, { lastName } = {}) {
+function _setSchoolingRegistrationFilters(qb, { lastName, firstName } = {}) {
   if (lastName) {
     qb.whereRaw('LOWER("schooling-registrations"."lastName") LIKE ?', `%${lastName.toLowerCase()}%`);
+  }
+  if (firstName) {
+    qb.whereRaw('LOWER("schooling-registrations"."firstName") LIKE ?', `%${firstName.toLowerCase()}%`);
   }
 }
 
