@@ -751,4 +751,32 @@ describe('Unit | Controller | user-controller', () => {
       expect(response).to.equal(expectedCampaignParticipation);
     });
   });
+
+  describe('#anonymizeUser', () => {
+
+    const userId = 1;
+    const request = {
+      auth: {
+        credentials: {
+          userId
+        }
+      },
+      params: {
+        id: userId
+      },
+    };
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'anonymizeUser').resolves();
+    });
+
+    it('should call the anonymize user usecase', async () => {
+      // when
+      const response = await userController.anonymizeUser(request, hFake);
+
+      // then
+      expect(usecases.anonymizeUser).to.have.been.calledWith({ userId });
+      expect(response.statusCode).to.equal(204);
+    });
+  });
 });

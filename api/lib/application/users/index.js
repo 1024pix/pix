@@ -57,7 +57,7 @@ exports.register = async function(server) {
           failAction: (request, h) => {
             const errorHttpStatusCode = 400;
             const jsonApiError = new JSONAPIError({
-              code: errorHttpStatusCode.toString(),
+              status: errorHttpStatusCode.toString(),
               title: 'Bad request',
               detail: 'L\'identifiant de l\'utilisateur n\'est pas au bon format.',
             });
@@ -76,7 +76,6 @@ exports.register = async function(server) {
         tags: ['api', 'administration' , 'user'],
       }
     },
-
     {
       method: 'PATCH',
       path: '/api/admin/users/{id}',
@@ -109,8 +108,8 @@ exports.register = async function(server) {
           failAction: (request, h , err) => {
             const errorHttpStatusCode = 400;
             const jsonApiError = new JSONAPIError({
-              code: errorHttpStatusCode.toString(),
-              title: 'Bad request', 
+              status: errorHttpStatusCode.toString(),
+              title: 'Bad request',
               detail: err.details[0].message,
             });
             return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
@@ -123,7 +122,6 @@ exports.register = async function(server) {
         tags: ['api', 'administration' , 'user'],
       }
     },
-
     {
       method: 'GET',
       path: '/api/users/{id}/memberships',
@@ -408,6 +406,35 @@ exports.register = async function(server) {
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
         tags: ['api', 'user', 'campaign', 'campaign-participations']
+      }
+    },
+    {
+      method: 'POST',
+      path: '/api/admin/users/{id}/anonymize',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().positive().required(),
+          }),
+          failAction: (request, h , err) => {
+            const errorHttpStatusCode = 400;
+            const jsonApiError = new JSONAPIError({
+              status: errorHttpStatusCode.toString(),
+              title: 'Bad request',
+              detail: err.details[0].message,
+            });
+            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
+          }
+        },
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
+        handler: userController.anonymizeUser,
+        notes : [
+          '- Permet à un administrateur d\'anonymiser un utilisateur',
+        ],
+        tags: ['api', 'administration' , 'user'],
       }
     },
   ]);
