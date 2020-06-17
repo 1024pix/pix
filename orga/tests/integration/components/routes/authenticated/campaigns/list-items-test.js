@@ -125,16 +125,16 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
   
     test('it should display the list of memberships from the organization', async function(assert) {
       // given
-      const store = this.owner.lookup('service:store');
-      const user1 = store.createRecord('user', { firstName: 'Harry', lastName: 'Covert' });
-      const user2 = store.createRecord('user', { firstName: 'Jean-Michel', lastName: 'Jarre' });
-  
       const campaigns = [];
       campaigns.meta = {
         rowCount: 0
       };
   
-      const organizationMembers = [{ user: user1 }, { user:  user2 }];
+      const organizationMembers = [
+        { label: 'Tous' },
+        { label: 'Harry Covert' },
+        { label: 'Jean-Michel Jarre' }
+      ];
   
       this.set('campaigns', campaigns);
       this.set('organizationMembers', organizationMembers);
