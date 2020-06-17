@@ -23,8 +23,8 @@
         <tr>
             <th>
               <SearchInput
+                class="table__input"
                 @inputName="lastName"
-                @class="input table__input search-input"
                 @value={{@lastNameFilter}}
                 @placeholder="Rechercher par nom"
                 @filterFunction={{fn @triggerFiltering "lastName"}}
@@ -32,8 +32,8 @@
             </th>
             <th>
               <SearchInput
+                class="table__input"
                 @inputName="firstName"
-                @class="input table__input search-input"
                 @value={{@firstNameFilter}}
                 @placeholder="Rechercher par prénom"
                 @filterFunction={{fn @triggerFiltering "firstName"}}
