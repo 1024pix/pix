@@ -80,7 +80,18 @@ describe('Acceptance | Controller | session-controller-get', () => {
 
       it('should signal an entity validation error for an ID that is too large', async () => {
         // given
-        options.url = '/api/jury/sessions?filter[id]=5656355634';
+        options.url = '/api/jury/sessions?filter[id]=2147483648';
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(422);
+      });
+
+      it('should signal an entity validation error for an ID that is too small', async () => {
+        // given
+        options.url = '/api/jury/sessions?filter[id]=-2147483649';
 
         // when
         const response = await server.inject(options);
