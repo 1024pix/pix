@@ -100,6 +100,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           altMessage: 'You won the Yellow badge',
           imageUrl: '/img/yellow.svg',
           message: 'Congrats, you won the Yellow badge!',
+          title: 'Yellow',
           key: 'YELLOW',
           badgeCriteria: [
             domainBuilder.buildBadgeCriterion({
@@ -149,6 +150,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             altMessage: 'You won the Yellow badge',
             imageUrl: '/img/yellow.svg',
             message: 'Congrats, you won the Yellow badge!',
+            title: 'Yellow',
             key: 'YELLOW',
             badgeCriteria: [{
               id: 17,
@@ -203,6 +205,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           altMessage: 'You won the Green badge',
           imageUrl: '/img/green.svg',
           message: 'Congrats, you won the Green badge!',
+          title: 'Green',
           key: 'GREEN',
           badgeCriteria: [
             domainBuilder.buildBadgeCriterion({
@@ -226,6 +229,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           altMessage: 'You won the Yellow badge',
           imageUrl: '/img/yellow.svg',
           message: 'Congrats, you won the Yellow badge!',
+          title: 'Yellow',
           key: 'YELLOW',
           badgeCriteria: [
             domainBuilder.buildBadgeCriterion({
@@ -269,6 +273,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             altMessage: 'You won the Green badge',
             imageUrl: '/img/green.svg',
             message: 'Congrats, you won the Green badge!',
+            title: 'Green',
             key: 'GREEN',
             badgeCriteria: [{
               id: 15,
@@ -297,6 +302,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             altMessage: 'You won the Yellow badge',
             imageUrl: '/img/yellow.svg',
             message: 'Congrats, you won the Yellow badge!',
+            title: 'Yellow',
             key: 'YELLOW',
             badgeCriteria: [{
               id: 15,
@@ -334,6 +340,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           altMessage: 'You won the Green badge',
           imageUrl: '/img/green.svg',
           message: 'Congrats, you won the Green badge!',
+          title: 'Green',
           key: 'GREEN',
           badgeCriteria: [
             domainBuilder.buildBadgeCriterion({
@@ -357,6 +364,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           altMessage: 'You won the Yellow badge',
           imageUrl: '/img/yellow.svg',
           message: 'Congrats, you won the Yellow badge!',
+          title: 'Yellow',
           key: 'YELLOW',
           badgeCriteria: [
             domainBuilder.buildBadgeCriterion({
@@ -407,6 +415,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             altMessage: 'You won the Green badge',
             imageUrl: '/img/green.svg',
             message: 'Congrats, you won the Green badge!',
+            title: 'Green',
             key: 'GREEN',
             badgeCriteria: [{
               id: 15,
@@ -435,6 +444,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             altMessage: 'You won the Yellow badge',
             imageUrl: '/img/yellow.svg',
             message: 'Congrats, you won the Yellow badge!',
+            title: 'Yellow',
             key: 'YELLOW',
             badgeCriteria: [
               domainBuilder.buildBadgeCriterion({
@@ -489,6 +499,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           altMessage: 'You won the Green badge',
           imageUrl: '/img/green.svg',
           message: 'Congrats, you won the Green badge!',
+          title: 'Green',
           key: 'GREEN',
           badgeCriteria: [
             domainBuilder.buildBadgeCriterion({
@@ -505,6 +516,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           altMessage: 'You won the Yellow badge',
           imageUrl: '/img/yellow.svg',
           message: 'Congrats, you won the Yellow badge!',
+          title: 'Yellow',
           key: 'YELLOW',
           badgeCriteria: [
             domainBuilder.buildBadgeCriterion({
@@ -546,6 +558,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             altMessage: 'You won the Green badge',
             imageUrl: '/img/green.svg',
             message: 'Congrats, you won the Green badge!',
+            title: 'Green',
             key: 'GREEN',
             badgeCriteria: [{
               id: 15,
@@ -561,6 +574,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             altMessage: 'You won the Yellow badge',
             imageUrl: '/img/yellow.svg',
             message: 'Congrats, you won the Yellow badge!',
+            title: 'Yellow',
             key: 'YELLOW',
             badgeCriteria: [{
               id: 15,
