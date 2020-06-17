@@ -185,7 +185,13 @@ module.exports = {
     const campaignId = request.params.campaignId;
 
     const sharedProfileForCampaign = await usecases.getUserProfileSharedForCampaign({ userId: authenticatedUserId, campaignId });
-    
+
     return sharedProfileForCampaignSerializer.serialize(sharedProfileForCampaign);
+  },
+
+  async anonymizeUser(request, h) {
+    const userId = parseInt(request.params.id);
+    await usecases.anonymizeUser({ userId });
+    return h.response({}).code(204);
   }
 };

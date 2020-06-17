@@ -63,6 +63,8 @@ class Form extends Object.extend(Validations) {
 export default class UserDetailPersonalInformationComponent extends Component {
 
   @tracked isEditionMode = false;
+  @tracked displayConfirm = false;
+
   @service notifications;
 
   constructor() {
@@ -79,6 +81,21 @@ export default class UserDetailPersonalInformationComponent extends Component {
     event.preventDefault();
     this._initForm();
     this.isEditionMode = !this.isEditionMode;
+  }
+
+  @action
+  toggleDisplayConfirm(event) {
+    if (event) {
+      event.preventDefault();
+    }
+    this.displayConfirm = !this.displayConfirm;
+  }
+
+  @action
+  async anonymizeUser() {
+    await this.args.user.save({ adapterOptions: { anonymizeUser: true } });
+    await this.args.user.reload();
+    this.toggleDisplayConfirm();
   }
 
   @action
