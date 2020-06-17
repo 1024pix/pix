@@ -16,11 +16,6 @@ function createLoadServiceStub() {
 module('Unit | Route | application', function(hooks) {
   setupTest(hooks);
 
-  test('it exists', function(assert) {
-    const route = this.owner.lookup('route:application');
-    assert.ok(route);
-  });
-
   test('it should load the current user', function(assert) {
     // given
     const route =  this.owner.lookup('route:application');

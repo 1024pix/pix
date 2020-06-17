@@ -10,10 +10,6 @@ module('Unit | Service | csv-service', function(hooks) {
     service = this.owner.lookup('service:csv-service');
   });
 
-  test('it exists', function(assert) {
-    assert.ok(service);
-  });
-
   module('#sanitize', function() {
 
     module('when the string is clean', function() {

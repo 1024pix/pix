@@ -13,10 +13,6 @@ module('Unit | Component | organization-information-section', function(hooks) {
     component = createGlimmerComponent('component:organization-information-section');
   });
 
-  test('it exists', function(assert) {
-    assert.ok(component);
-  });
-
   test('it should generate link based on environment and object', async function(assert) {
     // given
     const args = { organization: { id: 1 } };
