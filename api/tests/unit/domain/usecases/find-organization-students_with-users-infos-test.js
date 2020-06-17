@@ -15,19 +15,13 @@ describe('Unit | UseCase | findUserWithSchoolingRegistrations', () => {
   const expectedReconciledSchoolingRegistrationFromGAR = { id: 5, userId , isAuthenticatedFromGAR };
   let foundOrganizationSchoolingRegistrations;
   const expectedSchoolingRegistrations = [expectedSchoolingRegistrationNotYetReconciled, expectedReconciledSchoolingRegistrationWithUsername, expectedReconciledSchoolingRegistrationWithEmail ,expectedReconciledSchoolingRegistrationFromGAR ];
-  const schoolingRegistrationRepository = { findUserWithSchoolingRegistrationsByOrganizationId: sinon.stub().withArgs({ organizationId }).returns(expectedSchoolingRegistrations) };
+  const schoolingRegistrationRepository = { findUserWithSchoolingRegistrationsByOrganizationId: sinon.stub().returns(expectedSchoolingRegistrations) };
 
-  before(async function() {
-    foundOrganizationSchoolingRegistrations = await findUserWithSchoolingRegistrations({ organizationId, schoolingRegistrationRepository });
-  });
+  it('should fetch students matching organization', async function() {
+    foundOrganizationSchoolingRegistrations = await findUserWithSchoolingRegistrations({ organizationId, filter: { lastName: 'A' }, schoolingRegistrationRepository });
 
-  it('should fetch students matching organization', function() {
-    expect(schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId).to.have.been.calledWithExactly({ organizationId });
-  });
-
-  it('should return reconcilied and not reconcilied students', function() {
+    expect(schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId).to.have.been.calledWithExactly({ organizationId, filter: { lastName: 'A' } });
     expect(foundOrganizationSchoolingRegistrations).to.deep.equal(expectedSchoolingRegistrations);
   });
-
 });
 

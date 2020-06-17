@@ -35,7 +35,7 @@ function _extractObjectParameter(query, regex) {
 }
 
 function _extractArrayParameter(query, parameterName) {
-  return query[parameterName] ? query[parameterName].split(',') : [];
+  return _.has(query, parameterName) ? query[parameterName].split(',') : [];
 }
 
 function _convertObjectValueToInt(params) {

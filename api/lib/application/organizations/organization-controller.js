@@ -88,11 +88,12 @@ module.exports = {
     return h.response().code(204);
   },
 
-  findUserWithSchoolingRegistrations: async (request) => {
+  async findUserWithSchoolingRegistrations(request) {
     const organizationId = parseInt(request.params.id);
+    const { filter } = queryParamsUtils.extractParameters(request.query);
 
-    return usecases.findUserWithSchoolingRegistrations({ organizationId })
-      .then(userWithSchoolingRegistrationSerializer.serialize);
+    const students = await usecases.findUserWithSchoolingRegistrations({ organizationId, filter });
+    return userWithSchoolingRegistrationSerializer.serialize(students);
   },
 
   importSchoolingRegistrationsFromSIECLE(request) {
