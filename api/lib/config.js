@@ -1,5 +1,4 @@
 const path = require('path');
-const Joi = require('@hapi/joi');
 
 function parseJSONEnv(varName) {
   if (process.env[varName]) {
@@ -127,8 +126,6 @@ module.exports = (function() {
       maxBreadcrumbs: _getNumber(process.env.SENTRY_MAX_BREADCRUMBS, 100),
       debug: isFeatureEnabled(process.env.SENTRY_DEBUG),
     },
-
-    idValidator: Joi.number().integer().max(2147483647).required(),
   };
 
   if (process.env.NODE_ENV === 'test') {

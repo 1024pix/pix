@@ -221,7 +221,7 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
-  describe('idValidator', () => {
+  describe('id validation', () => {
     [
       { condition: 'session ID params is not a number', request: { method: 'GET', url: '/api/sessions/salut' } },
       { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'GET', url: '/api/sessions/9999999999' } },
