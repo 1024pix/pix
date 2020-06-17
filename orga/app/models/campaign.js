@@ -69,12 +69,6 @@ export default class Campaign extends Model {
     return this.isTypeProfilesCollection ? PROFILES_COLLECTION_TEXT : ASSESSMENT_TEXT;
   }
 
-  @computed('code')
-  get url() {
-    const code = this.code;
-    return `${ENV.APP.CAMPAIGNS_ROOT_URL}${code}`;
-  }
-
   @computed('id', 'tokenForCampaignResults')
   get urlToResult() {
     if (this.isTypeAssessment) {
