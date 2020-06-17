@@ -19,6 +19,12 @@ function _toUserWithSchoolingRegistrationDTO(BookshelfSchoolingRegistration) {
   });
 }
 
+function _setSchoolingRegistrationFilters(qb, { lastName } = {}) {
+  if (lastName) {
+    qb.whereRaw('LOWER("schooling-registrations"."lastName") LIKE ?', `%${lastName.toLowerCase()}%`);
+  }
+}
+
 module.exports = {
 
   findByOrganizationId({ organizationId }) {
@@ -101,14 +107,26 @@ module.exports = {
       });
   },
 
-  findUserWithSchoolingRegistrationsByOrganizationId({ organizationId }) {
-    return BookshelfSchoolingRegistration
+  async findUserWithSchoolingRegistrationsByOrganizationId({ organizationId, filter }) {
+    const schoolingRegistrations = await BookshelfSchoolingRegistration
       .where({ organizationId })
       .query((qb) => {
         qb.orderByRaw('LOWER("schooling-registrations"."lastName") ASC, LOWER("schooling-registrations"."firstName") ASC');
         qb.leftJoin('users', 'schooling-registrations.userId', 'users.id');
+        qb.modify(_setSchoolingRegistrationFilters, filter);
       })
-      .fetchAll({ columns: ['schooling-registrations.id','schooling-registrations.firstName', 'schooling-registrations.lastName', 'schooling-registrations.birthdate', 'schooling-registrations.userId', 'schooling-registrations.organizationId' , 'users.username' , 'users.email' , 'users.samlId' , ] })
-      .then((schoolingRegistrations) => schoolingRegistrations.models.map(_toUserWithSchoolingRegistrationDTO));
+      .fetchAll({ columns: [
+        'schooling-registrations.id',
+        'schooling-registrations.firstName',
+        'schooling-registrations.lastName',
+        'schooling-registrations.birthdate',
+        'schooling-registrations.userId',
+        'schooling-registrations.organizationId',
+        'users.username',
+        'users.email',
+        'users.samlId',
+      ] });
+
+    return schoolingRegistrations.models.map(_toUserWithSchoolingRegistrationDTO);
   },
 };

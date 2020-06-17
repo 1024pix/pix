@@ -13,13 +13,28 @@
   <div class="table content-text content-text--small">
     <table>
       <thead>
-      <tr>
-        <th>Nom</th>
-        <th>Prénom</th>
-        <th>Date de naissance</th>
-        <th>Connecté avec</th>
-        <th></th>
-      </tr>
+        <tr>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Date de naissance</th>
+          <th>Connecté avec</th>
+          <th></th>
+        </tr>
+        <tr>
+            <th>
+              <SearchInput
+                @inputName="lastName"
+                @class="input table__input search-input"
+                @value={{@lastNameFilter}}
+                @placeholder="Rechercher par nom"
+                @filterFunction={{fn @triggerFiltering "lastName"}}
+              />
+            </th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
       </thead>
 
       {{#if @students}}
@@ -56,6 +71,7 @@
   </div>
 
   <PasswordResetModal
+    @organizationId={{this.currentUser.organization.id}}
     @student={{this.student}}
     @display={{this.isShowingModal}}
     @close={{this.closePasswordReset}}

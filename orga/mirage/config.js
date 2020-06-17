@@ -151,6 +151,12 @@ export default function() {
 
   this.get('/organizations/:id/students', (schema, request) => {
     const organizationId = request.params.id;
+    
+    const lastNameFilter = request.queryParams['filter[lastName]'];
+    if (lastNameFilter) {
+      return schema.students.where(({ lastName }) => lastName.includes(lastNameFilter));
+    }
+
     return schema.students.where({ organizationId });
   });
 
