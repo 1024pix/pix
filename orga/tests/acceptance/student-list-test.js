@@ -81,10 +81,20 @@ module('Acceptance | Student List', function(hooks) {
         });
       });
 
-      test('it should display the filtered list of students', async function(assert) {
+      test('it should display the students list filtered by lastname', async function(assert) {
         // when
         await visit('/eleves');
         await fillIn('[placeholder="Rechercher par nom"]', 'ambo');
+      
+        // then
+        assert.contains('Rambo');
+        assert.notContains('Norris');
+      });
+
+      test('it should display the students list filtered by firstname', async function(assert) {
+        // when
+        await visit('/eleves');
+        await fillIn('[placeholder="Rechercher par prénom"]', 'Jo');
       
         // then
         assert.contains('Rambo');
