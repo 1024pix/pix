@@ -5,6 +5,7 @@ import { debounce } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import config from 'pix-orga/config/environment';
+import get from 'lodash/get';
 
 const DEFAULT_PAGE_NUMBER = 1;
 
@@ -23,6 +24,16 @@ export default class ListController extends Controller {
   @computed('model')
   get displayNoCampaignPanel() {
     return !this.model.meta.hasCampaigns;
+  }
+
+  @computed('currentUser.organization.memberships')
+  get membersOptions() {
+    const members = get(this.currentUser,'organization.memberships', []);
+    const options = members.map(({ user }) => ({
+      value: user.get('id'),
+      label: `${user.get('firstName')} ${user.get('lastName')}`,
+    }));
+    return [{ value: '', label: 'Tous' }, ...options];
   }
 
   @equal('status', 'archived') isArchived;

@@ -1,0 +1,10 @@
+<label class="select-input__wrapper">
+  <select class={{concat "select select-input__select " @class}} {{on 'change' @onChange}}>
+    {{#each @options as |opt|}}
+      <option value={{opt.value}} selected={{eq @selectedOption opt.value}}>
+        {{opt.label}}
+      </option>
+    {{/each}}
+  </select>
+  <FaIcon class='select-input__chevron' @icon='chevron-down' />
+</label>

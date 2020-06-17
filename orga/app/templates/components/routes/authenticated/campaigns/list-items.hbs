@@ -21,10 +21,12 @@
               />
             </th>
             <th>
-              <Routes::Authenticated::Campaigns::SelectCreator
-                @organizationMembers={{@organizationMembers}}
-                @campaignCreatorId={{@campaignCreatorId}}
-                @selectCampaignCreator={{this.selectCampaignCreator}} />
+              <SelectInput
+                @class="table__input"
+                @onChange={{this.selectCampaignCreator}}
+                @options={{@organizationMembers}}
+                @selectedOption={{@campaignCreatorId}}
+              />
             </th>
             <th></th>
             <th></th>
