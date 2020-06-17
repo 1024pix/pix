@@ -1,7 +1,7 @@
 const Joi = require('@hapi/joi');
 const { statuses } = require('../models/Session');
 const { EntityValidationError } = require('../errors');
-const { idValidator } = require('../../config');
+const { idSpecification } = require('./id-specification');
 
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
@@ -43,7 +43,7 @@ const sessionValidationJoiSchema = Joi.object({
 });
 
 const sessionFiltersValidationSchema = Joi.object({
-  id: idValidator.optional(),
+  id: idSpecification.optional(),
   status: Joi.string().trim()
     .valid(statuses.CREATED, statuses.FINALIZED, statuses.IN_PROCESS, statuses.PROCESSED).optional(),
   resultsSentToPrescriberAt: Joi.boolean().optional(),
