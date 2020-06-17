@@ -19,6 +19,7 @@ module.exports = {
         attributes: [
           'altMessage',
           'message',
+          'title',
           'imageUrl',
           'key',
           'isAcquired',
