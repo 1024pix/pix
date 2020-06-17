@@ -6,6 +6,7 @@ class Badge {
     altMessage,
     imageUrl,
     message,
+    title,
     // includes
     badgeCriteria = [],
     badgePartnerCompetences = [],
@@ -17,6 +18,7 @@ class Badge {
     this.altMessage = altMessage;
     this.imageUrl = imageUrl;
     this.message = message;
+    this.title = title;
     this.key = key;
     // includes
     this.badgeCriteria = badgeCriteria;
