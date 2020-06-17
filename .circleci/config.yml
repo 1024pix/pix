@@ -189,7 +189,7 @@ jobs:
 
   e2e_test:
     docker:
-      - image: cypress/browsers:node12.16.2-chrome81-ff75
+      - image: cypress/browsers:node12.18.0-chrome83-ff77
       - image: postgres:11.7-alpine
         environment:
           POSTGRES_USER: circleci

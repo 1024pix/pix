@@ -5,7 +5,7 @@
   "homepage": "https://github.com/1024pix/pix#readme",
   "author": "GIP Pix",
   "engines": {
-    "node": "12.x.x",
+    "node": "12.18.x",
     "npm": "6.14.x"
   },
   "license": "AGPL-3.0",
@@ -26,6 +26,7 @@
     "cy:test:open:local": "DATABASE_URL=postgresql://postgres@localhost/pix_test run-p start:api start:mon-pix start:orga start:certif cy:open",
     "db:empty": "cd ../../api && npm run db:empty",
     "db:initialize": "cd ../../api && npm run db:prepare",
+    "preinstall": "npx check-engine",
     "start:api": "cd ../../api && DATABASE_URL=postgresql://postgres@localhost/pix_test npm run start:watch",
     "start:mon-pix": "cd ../../mon-pix && npm start",
     "start:orga": "cd ../../orga && npm start",

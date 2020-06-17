@@ -5,10 +5,11 @@
   "main": "index.js",
   "author": "GIP Pix",
   "engines": {
-    "node": "12.x.x",
+    "node": "12.18.x",
     "npm": "6.14.x"
   },
   "scripts": {
+    "preinstall": "npx check-engine",
     "report": "artillery report report/index.json",
     "start": "artillery run --config config/common.yml -e localhost -o report/index.json scenarios/signup-and-placement.yml"
   },
