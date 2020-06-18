@@ -200,7 +200,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
-      assert.dom('.user__is-authenticated-from-gar').hasText('NON');
+      assert.dom('.user__is-authenticated-from-gar').hasText('OUI');
     });
 
     test('should display that user is not authenticated from GAR ', async function(assert) {
