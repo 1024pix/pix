@@ -20,14 +20,12 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     this._updateStateFrom({ campaign, queryParams: transition.to.queryParams });
 
     if (this._shouldLoginToAccessRestrictedCampaign) {
-      this.session.set('attemptedTransition', transition);
-      return this.transitionTo('campaigns.restricted.login-or-register-to-access', campaign);
+      return this._redirectToLoginBeforeAccessingToCampaign(transition, campaign);
     }
 
     if (this._shouldJoinRestrictedCampaign) {
       if (this.currentUser.user.mustValidateTermsOfService) {
-        this.session.set('attemptedTransition', transition);
-        return this.transitionTo('terms-of-service');
+        return this._redirectToTermsOfServicesBeforeAccessingToCampaign(transition);
       }
       return this.replaceWith('campaigns.restricted.join', campaign);
     }
@@ -37,6 +35,16 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     }
 
     super.beforeModel(...arguments);
+  }
+
+  _redirectToTermsOfServicesBeforeAccessingToCampaign(transition) {
+    this.session.set('attemptedTransition', transition);
+    return this.transitionTo('terms-of-service');
+  }
+
+  _redirectToLoginBeforeAccessingToCampaign(transition, campaign) {
+    this.session.set('attemptedTransition', transition);
+    return this.transitionTo('campaigns.restricted.login-or-register-to-access', campaign.code);
   }
 
   async model() {
