@@ -7,86 +7,52 @@ const competenceMarkRepository = require('../../../../lib/infrastructure/reposit
 describe('Integration | Repository | CompetenceMark', () => {
 
   describe('#save', () => {
+    let assessmentResultId;
     let competenceMark;
     beforeEach(async () => {
-      // given
+      assessmentResultId = await databaseBuilder.factory.buildAssessmentResult().id;
+      await databaseBuilder.commit();
+
       competenceMark = domainBuilder.buildCompetenceMark({
         score: 13,
         level: 1,
         area_code: '4',
         competence_code: '4.2',
+        assessmentResultId,
       });
     });
 
     afterEach(async () => {
       await knex('competence-marks').delete();
+      await knex('assessment-results').delete();
     });
 
-    it('should persist the mark in db', () => {
+    it('should persist the mark in db', async () => {
       // when
-      const promise = competenceMarkRepository.save(competenceMark);
+      await competenceMarkRepository.save(competenceMark);
 
       // then
-      return promise.then(() => knex('competence-marks').select())
-        .then((marks) => {
-          expect(marks).to.have.lengthOf(1);
-        });
+      const marks = await knex('competence-marks').select();
+      expect(marks).to.have.lengthOf(1);
+
     });
 
-    it('should return the saved mark', () => {
+    it('should return the saved mark', async () => {
       // given
       const mark = domainBuilder.buildCompetenceMark({
         score: 13,
         level: 1,
         area_code: '4',
         competence_code: '4.2',
+        assessmentResultId,
       });
 
       // when
-      const promise = competenceMarkRepository.save(mark);
+      const savedMark = await competenceMarkRepository.save(mark);
 
       // then
-      return promise.then((mark) => {
-        expect(mark).to.be.an.instanceOf(CompetenceMark);
-
-        expect(mark).to.have.property('id').and.not.to.be.null;
-      });
-    });
-
-    context('when competenceMark is not validated', () => {
-      it('should return an error', () => {
-        // given
-        const expectedValidationErrorMessage = 'ValidationError: "level" must be less than or equal to 8';
-        const markWithLevelGreaterThanEight = domainBuilder.buildCompetenceMark({
-          score: 13,
-          level: 10,
-        });
-
-        // when
-        const promise = competenceMarkRepository.save(markWithLevelGreaterThanEight);
-
-        // then
-        return promise.catch((error) => {
-          expect(error.message).to.be.equal(expectedValidationErrorMessage);
-        });
-      });
-
-      it('should not saved the competenceMark', () => {
-        // given
-        const markWithLevelGreaterThanEight = domainBuilder.buildCompetenceMark({
-          score: 13,
-          level: 10,
-        });
-
-        // when
-        const promise = competenceMarkRepository.save(markWithLevelGreaterThanEight);
-
-        // then
-        return promise.catch(() => knex('competence-marks').select())
-          .then((marks) => {
-            expect(marks).to.have.lengthOf(0);
-          });
-      });
+      expect(savedMark).to.be.an.instanceOf(CompetenceMark);
+      expect(savedMark).to.have.property('id').and.not.to.be.null;
     });
   });
 

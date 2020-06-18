@@ -1,6 +1,5 @@
 const CleaCertification = require('../../../../lib/domain/models/CleaCertification');
-const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
-const { expect, catchErr } = require('../../../test-helper');
+const { expect, catchErr, domainBuilder, } = require('../../../test-helper');
 const { ObjectValidationError, NotEligibleCandidateError } = require('../../../../lib/domain/errors');
 
 const GREEN_ZONE_REPRO = [80, 90, 100];
@@ -175,16 +174,16 @@ function _buildCleaCertificationInGreyZoneAndCertifiableCompetences() {
   };
 
   const competenceMarks = [
-    new CompetenceMark(
+    domainBuilder.buildCompetenceMark(
       {
         competenceId: competenceId1,
-        score: 15
+        score: 15,
       }
     ),
-    new CompetenceMark(
+    domainBuilder.buildCompetenceMark(
       {
         competenceId: competenceId2,
-        score: 7.5
+        score: 8
       }
     ),
   ];
@@ -207,16 +206,16 @@ function _buildCleaCertificationInGreyZoneAndNonCertifiableCompetences() {
   };
 
   const competenceMarks = [
-    new CompetenceMark(
+    domainBuilder.buildCompetenceMark(
       {
         competenceId: competenceId1,
         score: 15
       }
     ),
-    new CompetenceMark(
+    domainBuilder.buildCompetenceMark(
       {
         competenceId: competenceId2,
-        score: 7.4
+        score: 7
       }
     ),
   ];
@@ -231,7 +230,7 @@ function _buildCleaCertificationInGreyZoneAndNonCertifiableCompetences() {
 function _buildCleaCertification({
   withBadge = false,
   reproducibilityRate = 0,
-  competenceMarks = [new CompetenceMark()],
+  competenceMarks = [domainBuilder.buildCompetenceMark()],
   maxReachablePixByCompetenceForClea = { competence1:1 }
 }) {
   const certificationCourseId = 42;

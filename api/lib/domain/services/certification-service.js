@@ -8,10 +8,9 @@ const certificationResultService = require('./certification-result-service');
 
 module.exports = {
 
-  calculateCertificationResultByCertificationCourseId(certificationCourseId) {
-    return certificationAssessmentRepository
-      .getByCertificationCourseId(certificationCourseId)
-      .then((certificationAssessment) => certificationResultService.getCertificationResult({ certificationAssessment, continueOnError: true }));
+  async calculateCertificationResultByCertificationCourseId(certificationCourseId) {
+    const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId(certificationCourseId);
+    return certificationResultService.getCertificationResult({ certificationAssessment, continueOnError: true });
   },
 
   async getCertificationResult(certificationCourseId) {

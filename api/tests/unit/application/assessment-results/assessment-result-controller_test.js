@@ -95,7 +95,7 @@ describe('Unit | Controller | assessment-results', () => {
 
       // then
       expect(response).to.be.null;
-      expect(assessmentResultService.save).to.have.been.calledWith(expectedAssessmentResult, [competenceMark1, competenceMark2, competenceMark3]);
+      expect(assessmentResultService.save).to.have.been.calledWithMatch(expectedAssessmentResult, [competenceMark1, competenceMark2, competenceMark3]);
     });
   });
 });

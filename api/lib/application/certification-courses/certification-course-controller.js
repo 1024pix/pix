@@ -10,20 +10,19 @@ module.exports = {
 
   computeResult(request) {
     const certificationCourseId = request.params.id;
-
     return certificationService.calculateCertificationResultByCertificationCourseId(certificationCourseId);
   },
 
-  getResult(request) {
+  async getResult(request) {
     const certificationCourseId = request.params.id;
-    return certificationService.getCertificationResult(certificationCourseId)
-      .then(certificationResultSerializer.serialize);
+    const certificationResult = await certificationService.getCertificationResult(certificationCourseId);
+    return certificationResultSerializer.serialize(certificationResult);
   },
 
-  update(request) {
-    return certificationSerializer.deserialize(request.payload)
-      .then((certificationCourse) => certificationCourseService.update(certificationCourse))
-      .then(certificationSerializer.serializeFromCertificationCourse);
+  async update(request) {
+    const certificationCourse = await certificationSerializer.deserialize(request.payload);
+    const updatedCertificationCourse = await certificationCourseService.update(certificationCourse);
+    return certificationSerializer.serializeFromCertificationCourse(updatedCertificationCourse);
   },
 
   async save(request, h) {
