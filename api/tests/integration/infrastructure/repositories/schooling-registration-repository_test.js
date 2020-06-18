@@ -624,7 +624,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       expect(_.map(schoolingRegistrations, 'id')).to.deep.include.ordered.members([schoolingRegistration_3.id, schoolingRegistration_4.id, schoolingRegistration_2.id, schoolingRegistration_1.id]);
     });
 
-    it('should return school registrations filtered by lastname', async () => {
+    it('should return schooling registrations filtered by lastname', async () => {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
 
@@ -641,6 +641,44 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
       // then
       expect(_.map(schoolingRegistrations, 'lastName')).to.deep.equal(['Avatar', 'UvAtur']);
+    });
+
+    it('should return school registrations filtered by firstname', async () => {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+
+      databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, firstName: 'Foo', lastName: '1' });
+      databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, firstName: 'Bar', lastName: '2' });
+      databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, firstName: 'Baz', lastName: '3' });
+      await databaseBuilder.commit();
+
+      // when
+      const schoolingRegistrations = await schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId({
+        organizationId: organization.id,
+        filter: { firstName: 'ba' },
+      });
+
+      // then
+      expect(_.map(schoolingRegistrations, 'firstName')).to.deep.equal(['Bar', 'Baz']);
+    });
+
+    it('should return school registrations filtered by firstname AND lastname', async () => {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+
+      databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, firstName: 'John', lastName: 'Rambo' });
+      databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, firstName: 'Jane', lastName: 'Rambo' });
+      databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, firstName: 'Chuck', lastName: 'Norris' });
+      await databaseBuilder.commit();
+
+      // when
+      const schoolingRegistrations = await schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId({
+        organizationId: organization.id,
+        filter: { firstName: 'ja', lastName: 'ram' },
+      });
+
+      // then
+      expect(_.map(schoolingRegistrations, 'firstName')).to.deep.equal(['Jane']);
     });
 
     describe('When schoolingRegistration is reconciled and authenticated by email (and/or) username' , () => {
