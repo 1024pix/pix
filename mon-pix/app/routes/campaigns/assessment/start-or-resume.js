@@ -25,7 +25,7 @@ export default class EvaluationStartOrResumeRoute extends Route.extend(SecuredRo
     const assessment = await smartPlacementAssessments.get('firstObject');
 
     if (this._shouldShowTutorial(assessment)) {
-      return this.replaceWith('campaigns.evaluation.tutorial', campaign.code);
+      return this.replaceWith('campaigns.assessment.tutorial', campaign.code);
     }
 
     this.replaceWith('assessments.resume', assessment.id);

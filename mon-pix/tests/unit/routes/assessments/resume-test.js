@@ -177,13 +177,13 @@ describe('Unit | Route | Assessments | Resume', function() {
               route.hasSeenCheckpoint = true;
             });
 
-            it('should redirect to campaigns.evaluation.skill-review page', function() {
+            it('should redirect to campaigns.assessment.skill-review page', function() {
               // when
               const promise = route.redirect(assessment);
 
               // then
               return promise.then(() => {
-                sinon.assert.calledWith(route.replaceWith, 'campaigns.evaluation.skill-review', 'konami', 123);
+                sinon.assert.calledWith(route.replaceWith, 'campaigns.assessment.skill-review', 'konami', 123);
               });
             });
           });
@@ -214,12 +214,12 @@ describe('Unit | Route | Assessments | Resume', function() {
             assessment.isCompleted = true;
           });
 
-          it('should redirect to campaigns.evaluation.skill-review page', function() {
+          it('should redirect to campaigns.assessment.skill-review page', function() {
             // when
             route.redirect(assessment);
 
             // then
-            sinon.assert.calledWith(route.replaceWith, 'campaigns.evaluation.skill-review', 'konami', 123);
+            sinon.assert.calledWith(route.replaceWith, 'campaigns.assessment.skill-review', 'konami', 123);
           });
         });
       });

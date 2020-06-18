@@ -59,7 +59,7 @@ Router.map(function() {
       this.route('send-profile', { path: '/envoi-profil' });
       this.route('profile-already-shared', { path: '/deja-envoye' });
     });
-    this.route('evaluation', function() {
+    this.route('assessment', { path: '/evaluation' }, function() {
       this.route('start-or-resume', { path: '/' });
       this.route('tutorial', { path: '/didacticiel' });
       this.route('skill-review', { path: '/resultats/:assessment_id' });

@@ -11,7 +11,7 @@ describe('Unit | Controller | Campaigns | Evaluation | Skill Review', function()
   let controller;
 
   beforeEach(function() {
-    controller = this.owner.lookup('controller:campaigns.evaluation.skill-review');
+    controller = this.owner.lookup('controller:campaigns.assessment.skill-review');
 
     const setStub = sinon.stub();
 
