@@ -19,8 +19,8 @@ function _deserializeResultsAdd(json) {
     return new CompetenceMark({
       level: competenceMark.level,
       score: competenceMark.score,
-      area_code: competenceMark['area_code'],
-      competence_code: competenceMark['competence_code'],
+      area_code: competenceMark.area_code,
+      competence_code: competenceMark.competence_code,
       competenceId: competenceMark['competence-id'],
     });
   });
