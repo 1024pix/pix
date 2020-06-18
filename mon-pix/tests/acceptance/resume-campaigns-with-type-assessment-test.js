@@ -39,7 +39,6 @@ describe('Acceptance | Campaigns | Resume Campaigns with type Assessment', func
 
       beforeEach(async function() {
         await invalidateSession();
-        // Reset state, invalidateSession() is not doing it...
         this.owner.lookup('route:campaigns.start-or-resume')._resetState();
         await visit(`/campagnes/${campaign.code}`);
         await click('.campaign-landing-page__start-button');
