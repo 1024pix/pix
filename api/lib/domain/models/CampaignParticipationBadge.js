@@ -9,6 +9,7 @@ class CampaignParticipationBadge extends Badge {
     altMessage,
     imageUrl,
     message,
+    title,
     isAcquired,
     // includes
     badgeCriteria = [],
@@ -23,6 +24,7 @@ class CampaignParticipationBadge extends Badge {
       altMessage,
       imageUrl,
       message,
+      title,
       badgeCriteria,
       badgePartnerCompetences,
       targetProfileId

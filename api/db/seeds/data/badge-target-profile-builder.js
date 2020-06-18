@@ -41,7 +41,8 @@ function badgeTargetProfileBuilder({ databaseBuilder }) {
   const badge = databaseBuilder.factory.buildBadge({
     id: BADGE_TEST_ID,
     altMessage: 'Vous avez validé le badge Pix Emploi.',
-    imageUrl: '/images/badges/Pix-emploi.svg',
+    title: 'Pix Emploi',
+    imageUrl: 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges/Pix-emploi.svg',
     key: 'Other key',
     message: 'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. ' +
       'Pour valoriser vos compétences avec une double certification Pix-CléA numérique, renseignez-vous auprès de votre conseiller ou de votre formateur.',
