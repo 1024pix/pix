@@ -2,46 +2,53 @@
 
   <ul class="menu-bar__entries">
     <li class="menu-bar__entry">
-      <LinkTo @route="authenticated.organizations" class="menu-bar__link menu-bar__link--organizations">
-        <FaIcon @icon="building"></FaIcon>
-        <pix-tooltip class="pix-tooltip--right">Organisation</pix-tooltip>
-      </LinkTo>
+      <PixTooltip @text='Organisation' @position='right'>
+        <LinkTo @route="authenticated.organizations" class="menu-bar__link menu-bar__link--organizations">
+          <FaIcon @icon="building"></FaIcon>
+        </LinkTo>
+      </PixTooltip>
     </li>
     <li class="menu-bar__entry">
-      <LinkTo @route="authenticated.users.list" class="menu-bar__link menu-bar__link--users">
-        <FaIcon @icon="users"></FaIcon>
-        <pix-tooltip class="pix-tooltip--right">Utilisateurs</pix-tooltip>
-      </LinkTo>
+      <PixTooltip @text='Utilisateurs' @position='right'>
+        <LinkTo @route="authenticated.users.list" class="menu-bar__link menu-bar__link--users">
+          <FaIcon @icon="users"></FaIcon>
+        </LinkTo>
+      </PixTooltip>
     </li>
     <li class="menu-bar__entry">
-      <LinkTo @route="authenticated.certification-centers.list" class="menu-bar__link menu-bar__link--certification-centers">
-        <FaIcon @icon="map-pin"></FaIcon>
-        <pix-tooltip class="pix-tooltip--right">Centres de certification</pix-tooltip>
-      </LinkTo>
+      <PixTooltip @text='Centres de certification' @position='right' @inline={{true}}>
+        <LinkTo @route="authenticated.certification-centers.list" class="menu-bar__link menu-bar__link--certification-centers">
+          <FaIcon @icon="map-pin"></FaIcon>
+        </LinkTo>
+      </PixTooltip>
     </li>
     <li class="menu-bar__entry">
-      <LinkTo @route="authenticated.sessions.list" class="menu-bar__link menu-bar__link--sessions">
-        <FaIcon @icon="chalkboard-teacher"></FaIcon>
-        <pix-tooltip class="pix-tooltip--right">Sessions de certifications</pix-tooltip>
-      </LinkTo>
+      <PixTooltip @text='Sessions de certifications' @position='right' @inline={{true}}>
+        <LinkTo @route="authenticated.sessions.list" class="menu-bar__link menu-bar__link--sessions">
+          <FaIcon @icon="chalkboard-teacher"></FaIcon>
+        </LinkTo>
+      </PixTooltip>
     </li>
     <li class="menu-bar__entry">
-      <LinkTo @route="authenticated.certifications" class="menu-bar__link menu-bar__link--certifications">
-        <FaIcon @icon="graduation-cap"></FaIcon>
-        <pix-tooltip class="pix-tooltip--right">Certifications</pix-tooltip>
-      </LinkTo>
+      <PixTooltip @text='Certifications' @position='right' @inline={{true}}>
+        <LinkTo @route="authenticated.certifications" class="menu-bar__link menu-bar__link--certifications">
+          <FaIcon @icon="graduation-cap"></FaIcon>
+        </LinkTo>
+      </PixTooltip>
     </li>
     <li class="menu-bar__entry">
-      <LinkTo @route="authenticated.tools" class="menu-bar__link menu-bar__link--tools">
-        <FaIcon @icon="tools"></FaIcon>
-        <pix-tooltip class="pix-tooltip--right">Outils</pix-tooltip>
-      </LinkTo>
+      <PixTooltip @text='Outils' @position='right'>
+        <LinkTo @route="authenticated.tools" class="menu-bar__link menu-bar__link--tools">
+          <FaIcon @icon="tools"></FaIcon>
+        </LinkTo>
+      </PixTooltip>
     </li>
     <li class="menu-bar__entry">
-      <LinkTo @route="logout" class="menu-bar__link menu-bar__link--logout">
-        <FaIcon @icon="power-off"></FaIcon>
-        <pix-tooltip class="pix-tooltip--right">Se déconnecter</pix-tooltip>
-      </LinkTo>
+      <PixTooltip @text='Se déconnecter' @position='right' @inline={{true}}>
+        <LinkTo @route="logout" class="menu-bar__link menu-bar__link--logout">
+          <FaIcon @icon="power-off"></FaIcon>
+        </LinkTo>
+      </PixTooltip>
     </li>
   </ul>
 </div>
