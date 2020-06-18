@@ -81,6 +81,22 @@ module('Integration | Component | routes/authenticated/students | list-items', f
       assert.equal(call.args[0], 'lastName');
       assert.equal(call.args[1].target.value, 'bob');
     });
+    
+    test('it should trigger filtering with firstname', async function(assert) {
+      const triggerFiltering = sinon.spy();
+      this.set('triggerFiltering', triggerFiltering);
+      this.set('students', []);
+      
+      // when
+      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}}/>`);
+      
+      await fillIn('[placeholder="Rechercher par prénom"]', 'bob');
+      
+      // then
+      const call = triggerFiltering.getCall(0);
+      assert.equal(call.args[0], 'firstName');
+      assert.equal(call.args[1].target.value, 'bob');
+    });
   });
 
   module('when user is not reconciled', function({ beforeEach }) {

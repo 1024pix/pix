@@ -30,7 +30,15 @@
                 @filterFunction={{fn @triggerFiltering "lastName"}}
               />
             </th>
-            <th></th>
+            <th>
+              <SearchInput
+                @inputName="firstName"
+                @class="input table__input search-input"
+                @value={{@firstNameFilter}}
+                @placeholder="Rechercher par prénom"
+                @filterFunction={{fn @triggerFiltering "firstName"}}
+              />
+            </th>
             <th></th>
             <th></th>
             <th></th>

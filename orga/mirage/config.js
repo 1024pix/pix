@@ -155,6 +155,11 @@ export default function() {
       return schema.students.where(({ lastName }) => lastName.includes(lastNameFilter));
     }
 
+    const firstNameFilter = request.queryParams['filter[firstName]'];
+    if (firstNameFilter) {
+      return schema.students.where(({ firstName }) => firstName.includes(firstNameFilter));
+    }
+
     return schema.students.where({ organizationId });
   });
 
