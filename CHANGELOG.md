@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v2.164.0 (18/06/2020)
+
+- [#1526](https://github.com/1024pix/pix/pull/1526) [FEATURE] Ajouter lien sur le tableau de bord d'un utilisateur (PIX-606).
+- [#1535](https://github.com/1024pix/pix/pull/1535) [FEATURE] Filtrer les élèves par prénom dans pix-orga (PIX-721).
+- [#1534](https://github.com/1024pix/pix/pull/1534) [FEATURE] Afficher l'url d'une campagne dans Pix Orga suivant l'extension sur laquelle on est (fr ou org) (PIX-826).
+- [#1532](https://github.com/1024pix/pix/pull/1532) [FEATURE] Ajout d'une colonne de titre pour les badges (PIX-849).
+- [#1524](https://github.com/1024pix/pix/pull/1524) [FEATURE] Permettre l'anonymisation d'un utilisateur depuis Pix Admin (PIX-729)
+- [#1527](https://github.com/1024pix/pix/pull/1527) [FEATURE] Changement du système de pagination et filtrage des membres d'une organisation dans Pix Admin et Pix Orga (PIX-860).
+- [#1520](https://github.com/1024pix/pix/pull/1520) [FEATURE] Filtrer les élèves par nom dans pix-orga (PIX-719).
+- [#1513](https://github.com/1024pix/pix/pull/1513) [FEATURE] Afficher les competences avec score et niveau pour un participant (PIX-622)
+- [#1521](https://github.com/1024pix/pix/pull/1521) [BUGFIX] Ne pas lever une erreur 500 lors de la recherche d'une session avec un identifiant trop grand.
+- [#1533](https://github.com/1024pix/pix/pull/1533) [TECH] Supprimer les tests unitaires Ember redondants
+- [#1523](https://github.com/1024pix/pix/pull/1523) [TECH] Assurer que la version de node installée est 12.18.x.
+- [#1483](https://github.com/1024pix/pix/pull/1483) [DESIGN-SYSTEM] Ajout de la PixTooltip sur Pix Admin
+
 ## v2.163.0 (16/06/2020)
 
 - [#1522](https://github.com/1024pix/pix/pull/1522) [BUGFIX] Mauvais affichage des notifications après la finalisation (PIX-848)
