@@ -90,7 +90,7 @@ export default class JoinRestrictedCampaignController extends Controller {
       return this.set('isLoading', false);
     }
 
-    const campaignCode = this.model;
+    const campaignCode = this.model.code;
     const studentUserAssociation = this.store.createRecord('student-user-association', {
       id: campaignCode + '_' + this.lastName,
       firstName: this.firstName,
@@ -101,7 +101,7 @@ export default class JoinRestrictedCampaignController extends Controller {
 
     return studentUserAssociation.save().then(() => {
       this.set('isLoading', false);
-      this.transitionToRoute('campaigns.start-or-resume', this.model, {
+      this.transitionToRoute('campaigns.start-or-resume', this.model.code, {
         queryParams: { associationDone: true, participantExternalId: this.participantExternalId }
       });
     }, (errorResponse) => {
