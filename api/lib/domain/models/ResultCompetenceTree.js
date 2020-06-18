@@ -1,5 +1,4 @@
 const Area = require('./Area');
-const CompetenceMark = require('./CompetenceMark');
 const ResultCompetence = require('./ResultCompetence');
 
 const NOT_PASSED_LEVEL = -1;
@@ -28,11 +27,10 @@ class ResultCompetenceTree {
       const areaWithResultCompetences = new Area(area);
 
       areaWithResultCompetences.resultCompetences = area.competences.map((competence) => {
-        const noLevelCompetenceMark = new CompetenceMark({ level: NOT_PASSED_LEVEL, score: NOT_PASSED_SCORE });
+        const noLevelCompetenceMarkData = { level: NOT_PASSED_LEVEL, score: NOT_PASSED_SCORE };
 
-        const associatedCompetenceMark = competenceMarks.find((competenceMark) => {
-          return competenceMark.competence_code === competence.index;
-        }) || noLevelCompetenceMark;
+        const associatedCompetenceMark = competenceMarks
+          .find((competenceMark) => competenceMark.competence_code === competence.index) || noLevelCompetenceMarkData;
 
         return new ResultCompetence({
           id: competence.id,

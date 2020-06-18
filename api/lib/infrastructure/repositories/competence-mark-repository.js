@@ -6,16 +6,17 @@ function _toDomain(bookshelfCompetenceMark) {
 }
 
 module.exports = {
-  save: (competenceMark, domainTransaction = {}) => {
-    return competenceMark.validate()
-      .then(() => new BookshelfCompetenceMark(competenceMark).save(null, { transacting: domainTransaction.knexTransaction }))
-      .then((savedCompetenceMark) => savedCompetenceMark.toDomainEntity());
+  async save(competenceMark, domainTransaction = {}) {
+    await competenceMark.validate();
+    const savedCompetenceMark = await new BookshelfCompetenceMark(competenceMark)
+      .save(null, { transacting: domainTransaction.knexTransaction });
+    return savedCompetenceMark.toDomainEntity();
   },
 
-  findByAssessmentResultId(assessmentResultId) {
-    return BookshelfCompetenceMark
+  async findByAssessmentResultId(assessmentResultId) {
+    const competenceMarks = await BookshelfCompetenceMark
       .where({ assessmentResultId })
-      .fetchAll()
-      .then((competenceMarks) => competenceMarks.models.map(_toDomain));
+      .fetchAll();
+    return competenceMarks.models.map(_toDomain);
   },
 };

@@ -8,8 +8,6 @@ const competenceMarkRepository = require('../../../../lib/infrastructure/reposit
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 
-const { ObjectValidationError } = require('../../../../lib/domain/errors');
-
 describe('Unit | Domain | Services | assessment-results', () => {
 
   describe('#save', () => {
@@ -44,78 +42,37 @@ describe('Unit | Domain | Services | assessment-results', () => {
       sinon.stub(competenceMarkRepository, 'save').resolves();
     });
 
-    it('should save the assessment results', () => {
+    it('should save the assessment results', async () => {
       // when
-      const promise = service.save(assessmentResult, competenceMarks);
+      await service.save(assessmentResult, competenceMarks);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(assessmentResultRepository.save);
-        sinon.assert.calledWith(assessmentResultRepository.save, assessmentResult);
-      });
+      expect(assessmentResultRepository.save).to.have.been.calledOnce;
+      expect(assessmentResultRepository.save).to.have.been.calledWithMatch(assessmentResult);
+
     });
 
-    it('should save all competenceMarks', () => {
+    it('should save all competenceMarks', async () => {
       // when
-      const promise = service.save(assessmentResult, competenceMarks);
+      await service.save(assessmentResult, competenceMarks);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledTwice(competenceMarkRepository.save);
-        sinon.assert.calledWith(competenceMarkRepository.save, new CompetenceMark({
-          assessmentResultId: 1,
-          level: 2,
-          score: 18,
-          area_code: 2,
-          competence_code: 2.1,
-        }));
-        sinon.assert.calledWith(competenceMarkRepository.save, new CompetenceMark({
-          assessmentResultId: 1,
-          level: 3,
-          score: 27,
-          area_code: 3,
-          competence_code: 3.2,
-        }));
-      });
-    });
+      expect(competenceMarkRepository.save).to.have.been.calledTwice;
+      expect(competenceMarkRepository.save).to.have.been.calledWithMatch(new CompetenceMark({
+        assessmentResultId: 1,
+        level: 2,
+        score: 18,
+        area_code: 2,
+        competence_code: 2.1,
+      }));
+      expect(competenceMarkRepository.save).to.have.been.calledWithMatch(new CompetenceMark({
+        assessmentResultId: 1,
+        level: 3,
+        score: 27,
+        area_code: 3,
+        competence_code: 3.2,
+      }));
 
-    context('when one competence is not valided', () => {
-
-      const competenceMarksWithOneInvalid = [
-        new CompetenceMark({
-          level: 20,
-          score: 18,
-          area_code: 2,
-          competence_code: 2.1,
-        }),
-        new CompetenceMark({
-          level: 3,
-          score: 27,
-          area_code: 3,
-          competence_code: 3.2,
-        }),
-      ];
-
-      it('should not saved assessmentResult and competenceMarks', () => {
-        // when
-        const promise = service.save(assessmentResult, competenceMarksWithOneInvalid);
-
-        // then
-        return promise.catch(() => {
-          expect(competenceMarkRepository.save).to.have.been.not.called;
-          expect(assessmentResultRepository.save).to.have.been.not.called;
-        });
-      });
-
-      it('should return a ObjectValidationError', () => {
-        // when
-        const promise = service.save(assessmentResult, competenceMarksWithOneInvalid);
-
-        // then
-        return promise.catch((error) => {
-          expect(error).to.be.instanceOf(ObjectValidationError);
-        });
-      });
     });
   });
 });

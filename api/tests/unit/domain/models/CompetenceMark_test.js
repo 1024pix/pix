@@ -1,4 +1,4 @@
-const { expect, domainBuilder } = require('../../../test-helper');
+const { catchErr, expect, domainBuilder } = require('../../../test-helper');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 const { ObjectValidationError } = require('../../../../lib/domain/errors');
 
@@ -28,58 +28,50 @@ describe('Unit | Domain | Models | Competence Mark', () => {
 
   describe('validate', () => {
 
-    it('should return a resolved promise when the object is valide', () => {
+    it('should return a resolved promise when the object is valid', () => {
       // given
       const competenceMark = domainBuilder.buildCompetenceMark();
 
       // when
-      const promise = competenceMark.validate();
+      const valid = competenceMark.validate();
 
       // then
-      return expect(promise).not.to.be.rejected;
+      expect(valid).not.to.true;
     });
 
-    it('should return an error if level is > 8', () => {
+    it('should return an error if level is > 8', async () => {
       // given
       const competenceMark = domainBuilder.buildCompetenceMark({ level: 10 });
 
       // when
-      const promise = competenceMark.validate();
-
+      const error = await catchErr(competenceMark.validate.bind(competenceMark))();
       // then
-      return promise
-        .catch((error) => {
-          expect(error.message).to.be.equal('ValidationError: "level" must be less than or equal to 8');
-        });
+      expect(error).to.be.instanceOf(ObjectValidationError);
+      expect(error.message).to.be.equal('ValidationError: "level" must be less than or equal to 8');
     });
 
-    it('should return an error if level is < -1', () => {
+    it('should return an error if level is < -1', async () => {
       // given
       const competenceMark = domainBuilder.buildCompetenceMark({ level: -2 });
 
       // when
-      const promise = competenceMark.validate();
+      const error = await catchErr(competenceMark.validate.bind(competenceMark))();
 
       // then
-      return promise
-        .catch((error) => {
-          expect(error.message).to.be.equal('ValidationError: "level" must be larger than or equal to -1');
-        });
+      expect(error).to.be.instanceOf(ObjectValidationError);
+      expect(error.message).to.be.equal('ValidationError: "level" must be larger than or equal to -1');
     });
 
-    it('should return an error if score > 64', () => {
-      // given
+    it('should return an error if score > 64', async () => {
+      // when
       const competenceMark = domainBuilder.buildCompetenceMark({ score: 65 });
 
       // when
-      const promise = competenceMark.validate();
+      const error = await catchErr(competenceMark.validate.bind(competenceMark))();
 
       // then
-      return promise
-        .catch((error) => {
-          expect(error.message).to.be.equal('ValidationError: "score" must be less than or equal to 64');
-          expect(error).to.be.instanceOf(ObjectValidationError);
-        });
+      expect(error).to.be.instanceOf(ObjectValidationError);
+      expect(error.message).to.be.equal('ValidationError: "score" must be less than or equal to 64');
     });
   });
 });
