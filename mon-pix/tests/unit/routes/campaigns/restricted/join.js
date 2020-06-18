@@ -8,13 +8,13 @@ import sinon from 'sinon';
 describe('Unit | Route | campaigns/restricted/join', function() {
   setupTest();
 
-  describe('#beforeModel', function() {
+  describe('#redirect', function() {
 
     it('should redirect to campaigns.start-or-resume when an association already exists', async function() {
       // given
       const route = this.owner.lookup('route:campaigns.restricted.join');
-      const campaign_code = 'campaignCode';
-      route.paramsFor = sinon.stub().returns({ campaign_code });
+      const code = 'campaignCode';
+      route.paramsFor = sinon.stub().returns({ code });
       route.set('store', Service.create({
         queryRecord: sinon.stub().resolves('a student user association')
       }));
@@ -24,10 +24,10 @@ describe('Unit | Route | campaigns/restricted/join', function() {
       route.replaceWith = sinon.stub();
 
       // when
-      await route.beforeModel();
+      await route.redirect(code);
 
       // then
-      sinon.assert.calledWith(route.replaceWith, 'campaigns.start-or-resume', campaign_code, { queryParams: { associationDone: true } });
+      sinon.assert.calledWith(route.replaceWith, 'campaigns.start-or-resume', code, { queryParams: { associationDone: true } });
     });
   });
 
