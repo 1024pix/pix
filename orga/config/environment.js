@@ -28,7 +28,8 @@ module.exports = function(environment) {
 
     APP: {
       API_HOST: process.env.API_HOST || '',
-      CAMPAIGNS_ROOT_URL: process.env.CAMPAIGNS_ROOT_URL || 'https://app.pix.fr/campagnes/',
+      CAMPAIGNS_ROOT_URL: process.env.CAMPAIGNS_ROOT_URL,
+      PIX_APP_URL_WITHOUT_EXTENSION: process.env.PIX_APP_URL_WITHOUT_EXTENSION || 'https://app.pix.',
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
     },
 
@@ -100,7 +101,7 @@ module.exports = function(environment) {
       autoClear: null,
       clearDuration: null,
     };
-    
+
     ENV.pagination.debounce = 0;
   }
 
