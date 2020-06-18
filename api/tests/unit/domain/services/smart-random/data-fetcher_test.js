@@ -13,7 +13,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
 
     beforeEach(() => {
       answerRepository = {
-        findLastByAssessment: sinon.stub(),
+        findByAssessment: sinon.stub(),
       };
       targetProfileRepository = {
         get: sinon.stub(),
@@ -29,7 +29,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
       };
     });
 
-    it('fetches answers, targetsSkills challenges and knowledgeElements', async () => {
+    it('fetches answers, lastAnswer, targetsSkills challenges and knowledgeElements', async () => {
       // given
       const assessment = domainBuilder.buildAssessment.ofTypeCampaign({ state: 'started' });
       const answer = domainBuilder.buildAnswer();
@@ -42,7 +42,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
       const targetProfile = domainBuilder.buildTargetProfile();
 
       assessment.campaignParticipation.getTargetProfileId = () => 1;
-      answerRepository.findLastByAssessment.withArgs(assessment.id).resolves(answer);
+      answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
       targetProfileRepository.get.withArgs(1).resolves(targetProfile);
       challengeRepository.findBySkills.withArgs(targetProfile.skills).resolves(challenges);
       knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves(knowledgeElements);
@@ -59,6 +59,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
       });
 
       // then
+      expect(data.allAnswers).to.deep.equal([answer]);
       expect(data.lastAnswer).to.deep.equal(answer);
       expect(data.targetSkills).to.deep.equal(targetProfile.skills);
       expect(data.challenges).to.deep.equal(challenges);
@@ -82,7 +83,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
 
     beforeEach(async () => {
       answerRepository = {
-        findLastByAssessment: sinon.stub(),
+        findByAssessment: sinon.stub(),
       };
       challengeRepository = {
         findByCompetenceId: sinon.stub(),
@@ -109,7 +110,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
       ];
       const assessment = domainBuilder.buildAssessment.ofTypeCampaign();
 
-      answerRepository.findLastByAssessment.withArgs(assessment.id).resolves(answer);
+      answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
       skillRepository.findByCompetenceId.withArgs(assessment.competenceId).resolves(skills);
       challengeRepository.findByCompetenceId.withArgs(assessment.competenceId).resolves(challenges);
       knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves(knowledgeElements);
@@ -134,6 +135,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
     it('fetches answers, targetsSkills challenges and knowledgeElements', async () => {
       // then
       expect(data.lastAnswer).to.deep.equal(answer);
+      expect(data.allAnswers).to.deep.equal([answer]);
       expect(data.targetSkills).to.deep.equal(skills);
       expect(data.challenges).to.deep.equal(challenges);
       expect(data.knowledgeElements).to.deep.equal(knowledgeElements);

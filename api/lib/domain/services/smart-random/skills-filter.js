@@ -9,6 +9,7 @@ module.exports = {
 
 function getFilteredSkillsForFirstChallenge({ knowledgeElements, tubes, targetSkills }) {
   return pipe(
+    _getPlayableSkill,
     _getUntestedSkills.bind(null, knowledgeElements),
     _keepSkillsFromEasyTubes.bind(null, tubes),
     _removeTimedSkillsIfNeeded.bind(null, true),
@@ -18,6 +19,7 @@ function getFilteredSkillsForFirstChallenge({ knowledgeElements, tubes, targetSk
 
 function getFilteredSkillsForNextChallenge({ knowledgeElements, tubes, predictedLevel, isLastChallengeTimed, targetSkills }) {
   return pipe(
+    _getPlayableSkill,
     _getUntestedSkills.bind(null,knowledgeElements),
     _keepSkillsFromEasyTubes.bind(null, tubes),
     _removeTimedSkillsIfNeeded.bind(null, isLastChallengeTimed),
@@ -27,6 +29,10 @@ function getFilteredSkillsForNextChallenge({ knowledgeElements, tubes, predicted
 
 function _getUntestedSkills(knowledgeElements, skills) {
   return _.filter(skills, _skillNotAlreadyTested(knowledgeElements));
+}
+
+function _getPlayableSkill(skills) {
+  return _.filter(skills, (skill) => skill.isPlayable);
 }
 
 function _getPrioritySkills(tubes) {

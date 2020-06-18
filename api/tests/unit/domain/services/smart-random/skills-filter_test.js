@@ -8,6 +8,12 @@ const KNOWLEDGE_ELEMENT_STATUS = {
   INVALIDATED: 'invalidated'
 };
 
+function setPlayableSkills(skills) {
+  skills.forEach((skill) => {
+    skill.isPlayable = true;
+  });
+}
+
 describe('Unit | Domain | services | smart-random | skillsFilter', () => {
 
   describe('#getFilteredSkillsForFirstChallenge', () => {
@@ -19,6 +25,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       const tubes =  [
         new Tube({ skills: [skill1] })
       ];
+      setPlayableSkills(targetProfile.skills);
 
       // when
       const result = skillsFilter.getFilteredSkillsForFirstChallenge({
@@ -39,6 +46,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       const tubes =  [
         new Tube({ skills: [skill1] })
       ];
+      setPlayableSkills(targetProfile.skills);
 
       // when
       const result = skillsFilter.getFilteredSkillsForFirstChallenge({
@@ -64,6 +72,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
         new Tube({ skills: [skillTube1Level4, skillTube1Level2] }),
         new Tube({ skills: [skillFromEasyTubeLevel2, skillFromEasyTubeLevel1] })
       ];
+      setPlayableSkills(targetProfile.skills);
 
       // when
       const result = skillsFilter.getFilteredSkillsForFirstChallenge({
@@ -87,6 +96,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
         new Tube({ skills: [skillTube1Level2Timed] }),
         new Tube({ skills: [skillTube2Level2] })
       ];
+      setPlayableSkills(targetProfile.skills);
 
       // when
       const result = skillsFilter.getFilteredSkillsForFirstChallenge({
@@ -111,6 +121,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
         new Tube({ skills: [skillTube1Level2Timed] }),
         new Tube({ skills: [skillTube2Level2Timed] })
       ];
+      setPlayableSkills(targetProfile.skills);
 
       // when
       const result = skillsFilter.getFilteredSkillsForFirstChallenge({
@@ -121,6 +132,29 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
 
       // then
       expect(result).to.deep.equal([skillTube1Level2Timed, skillTube2Level2Timed]);
+    });
+
+    it('should return only playable skills', function() {
+      // given
+      const playableSkill = domainBuilder.buildSkill({ name: '@web2' });
+      const notPlayableSkill = domainBuilder.buildSkill({ name: '@url2' });
+      const targetProfile = new TargetProfile({ skills: [playableSkill, notPlayableSkill] });
+      const knowledgeElements = [];
+      const tubes =  [
+        new Tube({ skills: [playableSkill, notPlayableSkill] })
+      ];
+      playableSkill.isPlayable = true;
+      notPlayableSkill.isPlayable = false;
+
+      // when
+      const result = skillsFilter.getFilteredSkillsForFirstChallenge({
+        knowledgeElements,
+        tubes,
+        targetSkills: targetProfile.skills
+      });
+
+      // then
+      expect(result).to.deep.equal([playableSkill]);
     });
 
   });
@@ -138,6 +172,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
           domainBuilder.buildKnowledgeElement({ skillId: skill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
           domainBuilder.buildKnowledgeElement({ skillId: skill2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
         ];
+        setPlayableSkills(targetProfile.skills);
 
         // when
         const result = skillsFilter.getFilteredSkillsForNextChallenge({
@@ -166,6 +201,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
           domainBuilder.buildKnowledgeElement({ skillId: skill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
         ];
         const isLastChallengeTimed = true;
+        setPlayableSkills(targetProfile.skills);
 
         // when
         const result = skillsFilter.getFilteredSkillsForNextChallenge({
@@ -191,6 +227,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
           domainBuilder.buildKnowledgeElement({ skillId: skill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
         ];
         const isLastChallengeTimed = true;
+        setPlayableSkills(targetProfile.skills);
 
         // when
         const result = skillsFilter.getFilteredSkillsForNextChallenge({
@@ -216,6 +253,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
         const tubes =  [
           new Tube({ skills: [skill1, skill2, skill3, skill4, skill5, skill6] })
         ];
+        setPlayableSkills(targetProfile.skills);
 
         // when
         const result = skillsFilter.getFilteredSkillsForNextChallenge({
@@ -244,6 +282,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
           new Tube({ skills: [skill3, skill4, skill5, skill6] }),
           new Tube({ skills: [easyTubeSkill1, easyTubeSkill2, easyTubeSkill3] })
         ];
+        setPlayableSkills(targetProfile.skills);
 
         // when
         const result = skillsFilter.getFilteredSkillsForNextChallenge({
@@ -270,6 +309,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
         const tubes =  [
           new Tube({ skills: [skill3, skill4, skill5, skill6] })
         ];
+        setPlayableSkills(targetProfile.skills);
 
         // when
         const result = skillsFilter.getFilteredSkillsForNextChallenge({
@@ -282,6 +322,30 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
 
         // then
         expect(result).to.deep.equal([skill4, skill5, skill6]);
+      });
+    });
+    describe('Verify rules: Remove skills not playable', function() {
+      it('should return only playable skills', function() {
+        // given
+        const [notPlayableSkill, playableSkill] = domainBuilder.buildSkillCollection({ name:'web', minLevel: 3, maxLevel: 6 });
+        const targetProfile = domainBuilder.buildTargetProfile({ skills: [ notPlayableSkill, playableSkill] });
+
+        const knowledgeElements = [];
+        const tubes =  [
+          new Tube({ skills: [notPlayableSkill, playableSkill] })
+        ];
+        notPlayableSkill.isPlayable = false;
+        playableSkill.isPlayable = true;
+
+        // when
+        const result = skillsFilter.getFilteredSkillsForNextChallenge({
+          knowledgeElements,
+          tubes,
+          targetSkills: targetProfile.skills
+        });
+
+        // then
+        expect(result).to.deep.equal([playableSkill]);
       });
     });
   });
