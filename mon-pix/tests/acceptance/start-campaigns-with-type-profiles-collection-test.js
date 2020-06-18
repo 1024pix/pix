@@ -80,7 +80,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
                 await click('#submit-connexion');
 
                 // then
-                expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code.toLowerCase()}/restreinte/rejoindre`);
+                expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code.toLowerCase()}/privee/rejoindre`);
               });
             });
 
@@ -89,7 +89,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
               await visit(`/campagnes/${campaign.code}`);
 
               // then
-              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/restreinte/identification`);
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification`);
             });
 
             it('should redirect to landing page when reconciliation and registration are done', async function() {
@@ -115,7 +115,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
             it('should redirect to join restricted campaign page when connection is done', async function() {
               // given
               await visit(`/campagnes/${campaign.code}`);
-              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/restreinte/identification`);
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification`);
 
               // when
               await click('#login-button');
@@ -124,20 +124,20 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
               await click('#submit-connexion');
 
               // then
-              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/restreinte/rejoindre`);
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`);
             });
 
             it('should redirect to landing page when fields are filled in', async function() {
               // given
               await visit(`/campagnes/${campaign.code}`);
-              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/restreinte/identification`);
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification`);
 
               await click('#login-button');
               await fillIn('#login', campaignParticipant.email);
               await fillIn('#password', campaignParticipant.password);
               await click('#submit-connexion');
 
-              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/restreinte/rejoindre`);
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`);
 
               // when
               await fillIn('#firstName', 'Jane');
@@ -259,7 +259,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
               campaign = server.create('campaign', { type: PROFILES_COLLECTION, isRestricted: true, idPixLabel: 'toto' });
               await visit(`/campagnes/${campaign.code}?participantExternalId=a73at01r3`);
 
-              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/restreinte/identification`);
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification`);
 
               await click('#login-button');
 
@@ -350,7 +350,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
             await visit(`/campagnes/${campaign.code}`);
 
             //then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/restreinte/rejoindre`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`);
             expect(find('.join-restricted-campaign')).to.exist;
           });
 
@@ -363,13 +363,13 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
             await click('.fill-in-campaign-code__start-button');
 
             //then
-            expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code.toLowerCase()}/restreinte/rejoindre`);
+            expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code.toLowerCase()}/privee/rejoindre`);
             expect(find('.join-restricted-campaign')).to.exist;
           });
 
           it('should not set any field by default', async function() {
             // when
-            await visit(`/campagnes/${campaign.code}/restreinte/rejoindre`);
+            await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
 
             //then
             expect(find('#firstName').value).to.equal('');
@@ -378,7 +378,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
 
           it('should redirect to landing page when fields are filled in', async function() {
             // given
-            await visit(`/campagnes/${campaign.code}/restreinte/rejoindre`);
+            await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
 
             // when
             await fillIn('#firstName', 'Robert');
@@ -395,7 +395,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
 
           it('should redirect to fill-in-id-pix page', async function() {
             // given
-            await visit(`/campagnes/${campaign.code}/restreinte/rejoindre`);
+            await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
             await fillIn('#firstName', 'Robert');
             await fillIn('#lastName', 'Smith');
             await fillIn('#dayOfBirth', '10');
@@ -412,7 +412,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
 
           it('should redirect to send profile page', async function() {
             // given
-            await visit(`/campagnes/${campaign.code}/restreinte/rejoindre`);
+            await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
             await fillIn('#firstName', 'Robert');
             await fillIn('#lastName', 'Smith');
             await fillIn('#dayOfBirth', '10');
@@ -440,7 +440,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
 
           it('should redirect to landing page', async function() {
             // when
-            await visit(`/campagnes/${campaign.code}/restreinte/rejoindre`);
+            await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
             await settled(); // TODO j'ai oublié un await/return quelque part ?
 
             //then
@@ -449,7 +449,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
 
           it('should redirect to fill-in-id-pix page', async function() {
             // given
-            await visit(`/campagnes/${campaign.code}/restreinte/rejoindre`);
+            await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
             await settled(); // TODO j'ai oublié un await/return quelque part ?
 
             // when
@@ -546,7 +546,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
 
           it('should set by default firstName and lastName', async function() {
             // when
-            await visit(`/campagnes/${campaign.code}/restreinte/rejoindre`);
+            await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
 
             //then
             expect(find('#firstName').value).to.equal(garUser.firstName);
@@ -555,7 +555,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
 
           it('should redirect to landing page when fields are filled in', async function() {
             // given
-            await visit(`/campagnes/${campaign.code}/restreinte/rejoindre`);
+            await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
 
             // when
             await fillIn('#dayOfBirth', '10');
@@ -578,7 +578,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
 
           it('should redirect to landing page', async function() {
             // when
-            await visit(`/campagnes/${campaign.code}/restreinte/rejoindre`);
+            await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
             await settled(); // TODO j'ai oublié un await/return quelque part ?
 
             //then
