@@ -34,7 +34,7 @@ export default Route.extend(SecuredRouteMixin, {
       await this.currentUser.user.save({ adapterOptions: { rememberUserHasSeenAssessmentInstructions: true } });
 
       this.tutorialPageId = 0;
-      return this.transitionTo('campaigns.evaluation.start-or-resume', this.campaignCode, {
+      return this.transitionTo('campaigns.assessment.start-or-resume', this.campaignCode, {
         queryParams: {
           hasConsultedTutorial: true
         }
