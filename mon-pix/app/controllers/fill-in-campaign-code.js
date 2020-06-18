@@ -19,11 +19,12 @@ export default class FillInCampaignCodeController extends Controller {
       this.errorMessage = 'Veuillez saisir un code.';
       return;
     }
-  
+
     const campaignCode = this.campaignCode.toUpperCase();
     try {
-      await this.store.query('campaign', { filter: { code: campaignCode } });
-      return this.transitionToRoute('campaigns.start-or-resume', campaignCode);
+      const campaigns = await this.store.query('campaign', { filter: { code: campaignCode } });
+      const campaign = campaigns.get('firstObject');
+      return this.transitionToRoute('campaigns.start-or-resume', campaign);
     } catch (error) {
       this.onStartCampaignError(error);
     }
@@ -37,7 +38,7 @@ export default class FillInCampaignCodeController extends Controller {
       this.errorMessage = 'Votre code est erroné, veuillez vérifier ou contacter l’organisateur.';
     } else {
       throw (error);
-    } 
+    }
   }
 
   @action

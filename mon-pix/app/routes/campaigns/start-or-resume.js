@@ -21,7 +21,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
 
     if (this._shouldLoginToAccessRestrictedCampaign) {
       this.session.set('attemptedTransition', transition);
-      return this.transitionTo('campaigns.restricted.login-or-register-to-access', campaign.code);
+      return this.transitionTo('campaigns.restricted.login-or-register-to-access', campaign);
     }
 
     if (this._shouldJoinRestrictedCampaign) {
@@ -29,11 +29,11 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
         this.session.set('attemptedTransition', transition);
         return this.transitionTo('terms-of-service');
       }
-      return this.replaceWith('campaigns.restricted.join', campaign.code);
+      return this.replaceWith('campaigns.restricted.join', campaign);
     }
 
     if (this._shouldVisitLandingPageAsVisitor) {
-      return this.replaceWith('campaigns.campaign-landing-page', campaign.code, { queryParams: transition.to.queryParams });
+      return this.replaceWith('campaigns.campaign-landing-page', campaign, { queryParams: transition.to.queryParams });
     }
 
     super.beforeModel(...arguments);
@@ -54,11 +54,11 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     this._updateStateFrom({ ongoingCampaignParticipation });
 
     if (this._shouldVisitLandingPageAsLoggedUser) {
-      return this.replaceWith('campaigns.campaign-landing-page', campaign.code);
+      return this.replaceWith('campaigns.campaign-landing-page', campaign);
     }
 
     if (this._shouldProvideExternalIdToAccessCampaign) {
-      return this.replaceWith('campaigns.fill-in-id-pix', campaign.code);
+      return this.replaceWith('campaigns.fill-in-id-pix', campaign);
     }
 
     if (this._shouldStartCampaignParticipation) {
@@ -68,16 +68,16 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       } catch (err) {
         if (_.get(err, 'errors[0].status') === 403) {
           this.session.invalidate();
-          return this.transitionTo('campaigns.start-or-resume', campaign.code);
+          return this.transitionTo('campaigns.start-or-resume', campaign);
         }
         return this.send('error', err, this.transitionTo('campaigns.start-or-resume'));
       }
     }
 
     if (campaign.isTypeProfilesCollection) {
-      return this.replaceWith('campaigns.profiles-collection.start-or-resume', campaign.code);
+      return this.replaceWith('campaigns.profiles-collection.start-or-resume', campaign);
     } else {
-      return this.replaceWith('campaigns.assessment.start-or-resume', campaign.code);
+      return this.replaceWith('campaigns.assessment.start-or-resume', campaign);
     }
   }
 
