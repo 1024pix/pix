@@ -140,10 +140,10 @@ export default class JoinRestrictedCampaignController extends Controller {
   _setErrorMessageForAttemptNextAction(errorResponse) {
     errorResponse.errors.forEach((error) => {
       if (error.status === '409') {
-        return this.set('errorMessage', 'Les informations saisies ont déjà été utilisées. Prévenez l’organisateur.');
+        return this.set('errorMessage', 'Vous avez déjà rejoint votre établissement avec un autre compte. Retrouvez-le. En cas d’oubli, contactez votre enseignant.');
       }
       if (error.status === '404') {
-        return this.set('errorMessage', 'Vérifiez vos informations afin de continuer ou prévenez l’organisateur.');
+        return this.set('errorMessage', 'Vous êtes enseignant ? L’accès à un parcours n’est pas disponible pour le moment. Vous êtes un élève ? Vérifiez vos informations afin de continuer ou prévenez l’organisateur de votre parcours.');
       }
       return this.set('errorMessage', error.detail);
     });
