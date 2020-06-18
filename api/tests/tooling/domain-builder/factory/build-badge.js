@@ -11,6 +11,7 @@ module.exports = function buildBadge(
     altMessage = faker.lorem.sentence(),
     imageUrl = '/img/banana',
     message = faker.lorem.sentence(),
+    title = faker.lorem.sentence(),
     key = faker.lorem.word(),
     targetProfileId = faker.random.number(2),
     badgeCriteria = [
@@ -26,6 +27,7 @@ module.exports = function buildBadge(
     altMessage,
     imageUrl,
     message,
+    title,
     key,
     targetProfileId,
     badgeCriteria,

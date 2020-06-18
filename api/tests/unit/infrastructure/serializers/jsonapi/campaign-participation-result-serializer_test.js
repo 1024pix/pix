@@ -98,6 +98,7 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
             attributes: {
               'alt-message': campaignParticipationBadge.altMessage,
               message: campaignParticipationBadge.message,
+              title: campaignParticipationBadge.title,
               'image-url': campaignParticipationBadge.imageUrl,
               key: campaignParticipationBadge.key,
               'is-acquired': campaignParticipationBadge.isAcquired,
