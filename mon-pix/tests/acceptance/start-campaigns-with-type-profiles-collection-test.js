@@ -1,4 +1,4 @@
-import { click, fillIn, currentURL, find, settled } from '@ember/test-helpers';
+import { click, fillIn, currentURL, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import {
@@ -441,7 +441,6 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
           it('should redirect to landing page', async function() {
             // when
             await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
-            await settled(); // TODO j'ai oublié un await/return quelque part ?
 
             //then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
@@ -450,7 +449,6 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
           it('should redirect to fill-in-id-pix page', async function() {
             // given
             await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
-            await settled(); // TODO j'ai oublié un await/return quelque part ?
 
             // when
             await click('.button');
@@ -579,7 +577,6 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
           it('should redirect to landing page', async function() {
             // when
             await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
-            await settled(); // TODO j'ai oublié un await/return quelque part ?
 
             //then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
