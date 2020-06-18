@@ -35,7 +35,7 @@ describe('Unit | Route | campaigns/evaluation/tutorial', function() {
   describe('#model', function() {
     it('should initialize tutorial page with the first one', function() {
       // given
-      const params = { campaign_code: 'AZERTY' };
+      const params = { code: 'AZERTY' };
       route.paramsFor = sinon.stub().returns(params);
 
       // when

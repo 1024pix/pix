@@ -46,7 +46,7 @@ Router.map(function() {
   });
 
   this.route('fill-in-campaign-code', { path: '/campagnes' });
-  this.route('campaigns', { path: '/campagnes/:campaign_code' }, function() {
+  this.route('campaigns', { path: '/campagnes/:code' }, function() {
     this.route('start-or-resume', { path: '/' });
     this.route('campaign-landing-page', { path: '/presentation' });
     this.route('fill-in-id-pix', { path: '/identifiant' });

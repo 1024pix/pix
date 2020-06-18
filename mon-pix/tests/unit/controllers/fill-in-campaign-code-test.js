@@ -25,13 +25,14 @@ describe('Unit | Controller | Fill in Campaign Code', function() {
       // given
       const campaignCode = 'azerty1';
       controller.set('campaignCode', campaignCode);
-      storeStub.query.resolves();
+      const campaign = 'someCampaign';
+      storeStub.query.resolves([campaign]);
 
       // when
       await controller.actions.startCampaign.call(controller);
 
       // then
-      sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.start-or-resume', campaignCode.toUpperCase());
+      sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.start-or-resume', campaign);
     });
 
     it('should set error when campaign code is empty', async () => {
