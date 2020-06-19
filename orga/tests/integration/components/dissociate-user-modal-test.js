@@ -44,11 +44,15 @@ module('Integration | Component | dissociate-user-modal', function(hooks) {
 
   module('dissociate button', function() {
     let studentAdapter;
+    let notifications;
 
     hooks.beforeEach(function() {
       const store = this.owner.lookup('service:store');
+      notifications = this.owner.lookup('service:notifications');
       studentAdapter = store.adapterFor('student');
       sinon.stub(studentAdapter, 'dissociateUser');
+      sinon.stub(notifications, 'sendSuccess');
+      sinon.stub(notifications, 'sendError');
     });
 
     hooks.afterEach(function() {
@@ -62,6 +66,25 @@ module('Integration | Component | dissociate-user-modal', function(hooks) {
       await click('.dissociate-user-modal__actions button:last-child');
 
       assert.ok(studentAdapter.dissociateUser.calledWith(student));
+    });
+
+    test('it should display a successful notification', async function(assert) {
+      const student = { id: 12345, lastName: 'Dupont', firstName: 'Jean' };
+      this.set('student', student);
+
+      await click('.dissociate-user-modal__actions button:last-child');
+
+      assert.ok(notifications.sendSuccess.calledWith('La dissociation du compte de l’élève Dupont Jean est réussie.'));
+    });
+
+    test('it should display an error notification', async function(assert) {
+      studentAdapter.dissociateUser.rejects();
+      const student = { id: 12345, lastName: 'Dupont', firstName: 'Jean' };
+      this.set('student', student);
+
+      await click('.dissociate-user-modal__actions button:last-child');
+
+      assert.ok(notifications.sendError.calledWith('La dissociation du compte de l’élève Dupont Jean a échoué. Veuillez réessayer.'));
     });
   });
 
