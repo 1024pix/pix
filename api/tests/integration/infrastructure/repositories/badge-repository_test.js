@@ -114,16 +114,22 @@ describe('Integration | Repository | Badge', () => {
       const badges = await badgeRepository.findByTargetProfileId(targetProfileId);
 
       expect(badges.length).to.equal(2);
-      expect(badges[0]).to.deep.equal({
-        ...badgeWithSameTargetProfile_2,
-        badgeCriteria: [ badgeCriterionForBadgeWithSameTargetProfile_2 ],
-        badgePartnerCompetences: [],
-      });
-      expect(badges[1]).to.deep.equal({
+
+      const firstBadge = badges.find(({ id }) => id === badgeWithSameTargetProfile_1.id);
+      expect(firstBadge).deep.equal({
         ...badgeWithSameTargetProfile_1,
-        badgeCriteria: [ badgeCriterionForBadgeWithSameTargetProfile_1 ],
+        badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_1],
         badgePartnerCompetences: [],
       });
+
+      const secondBadge = badges.find(({ id }) => id === badgeWithSameTargetProfile_2.id);
+      expect(secondBadge).deep.equal(
+        {
+          ...badgeWithSameTargetProfile_2,
+          badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_2],
+          badgePartnerCompetences: [],
+        });
+
     });
 
     it('should return the badge linked to the given target profile with related badge criteria and badge partner competences', async () => {
