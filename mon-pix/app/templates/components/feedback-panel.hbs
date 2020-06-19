@@ -47,9 +47,9 @@
                 <p>Votre message est limité à 10 000 caractères.</p>
                 <Textarea class="feedback-panel__field feedback-panel__field--content" @value={{_content}} placeholder="Précisez" @maxlength="10000" @rows={{5}} />
               </div>
-              {{#if _error}}
+              {{#if emptyTextBoxMessageError}}
                 <div class="alert alert-danger" role="alert">
-                  {{_error}}
+                  {{emptyTextBoxMessageError}}
                 </div>
               {{/if}}
               <button

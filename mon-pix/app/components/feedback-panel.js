@@ -17,16 +17,18 @@ export default class FeedbackPanel extends Component {
 
   assessment = null;
   challenge = null;
-  isFormOpened = false;
-  _content = null;
-  _category = null;
-  _error = null;
-  _isSubmitted = false;
-  nextCategory = null;
-  quickHelpInstructions = null;
-  displayTextBox = null;
+
   displayQuestionDropdown = false;
+  displayTextBox = null;
+  emptyTextBoxMessageError = null;
+  nextCategory = null;
+  isFormOpened = false;
+  quickHelpInstructions = null;
   sendButtonStatus = buttonStatusTypes.unrecorded;
+
+  _category = null;
+  _content = null;
+  _isSubmitted = false;
   _questions = questions;
 
   @computed('context')
@@ -47,7 +49,7 @@ export default class FeedbackPanel extends Component {
 
   _resetPanel() {
     this.set('_isSubmitted', false);
-    this.set('_error', null);
+    this.set('emptyTextBoxMessageError', null);
   }
 
   didReceiveAttrs() {
@@ -89,7 +91,7 @@ export default class FeedbackPanel extends Component {
     const answer = this.answer ? this.answer.value : null;
 
     if (isEmpty(content) || isEmpty(content.trim())) {
-      this.set('_error', 'Vous devez saisir un message.');
+      this.set('emptyTextBoxMessageError', 'Vous devez saisir un message.');
       return;
     }
 
@@ -120,7 +122,7 @@ export default class FeedbackPanel extends Component {
   displayCategoryOptions() {
     this.set('displayTextBox', false);
     this.set('quickHelpInstructions', null);
-    this.set('_error', null);
+    this.set('emptyTextBoxMessageError', null);
     this.set('displayQuestionDropdown', false);
 
     this.set('nextCategory', this._questions[event.target.value]);
@@ -138,10 +140,10 @@ export default class FeedbackPanel extends Component {
     if (event.target.value === 'default') {
       this.set('displayTextBox', false);
       this.set('quickHelpInstructions', null);
-      this.set('_error', null);
+      this.set('emptyTextBoxMessageError', null);
     }
 
-    this.set('_error', null);
+    this.set('emptyTextBoxMessageError', null);
     this.set('_category', this.nextCategory[event.target.value].name);
     this._showFeedbackActionBasedOnCategoryType(this.nextCategory[event.target.value]);
   }
