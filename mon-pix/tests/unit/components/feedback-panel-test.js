@@ -12,7 +12,7 @@ describe('Unit | Component | feedback-panel', function() {
     it('should open form', function() {
       // given
       const component = this.owner.lookup('component:feedback-panel');
-      component.set('_scrollToPanel', () => {});
+      component.set('_scrollIntoFeedbackPanel', () => {});
 
       // when
       component.send('toggleFeedbackForm');

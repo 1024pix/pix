@@ -3,8 +3,6 @@ import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import buttonStatusTypes from 'mon-pix/utils/button-status-types';
-import $ from 'jquery';
-import config from 'mon-pix/config/environment';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 
@@ -41,12 +39,6 @@ export default class FeedbackPanel extends Component {
     return this.sendButtonStatus === buttonStatusTypes.pending;
   }
 
-  _scrollToPanel() {
-    $('html,body').animate({
-      scrollTop: $('.feedback-panel__view').offset().top - 15
-    }, config.APP.SCROLL_DURATION);
-  }
-
   _resetPanel() {
     this.set('_isSubmitted', false);
     this.set('emptyTextBoxMessageError', null);
@@ -69,6 +61,13 @@ export default class FeedbackPanel extends Component {
     }
   }
 
+  _scrollIntoFeedbackPanel() {
+    const feedbackPanelElements = document.getElementsByClassName('feedback-panel__view');
+    if (feedbackPanelElements && feedbackPanelElements[0]) {
+      feedbackPanelElements[0].scrollIntoView();
+    }
+  }
+
   @action
   toggleFeedbackForm() {
     if (this.isFormOpened) {
@@ -76,7 +75,7 @@ export default class FeedbackPanel extends Component {
       this._resetPanel();
     } else {
       this.set('isFormOpened', true);
-      this._scrollToPanel();
+      this._scrollIntoFeedbackPanel();
     }
   }
 
