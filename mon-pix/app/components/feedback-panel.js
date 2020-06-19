@@ -9,6 +9,12 @@ import classic from 'ember-classic-decorator';
 
 import { topLevelLabels, questions } from 'mon-pix/static-data/feedback-panel-issue-labels';
 
+const buttonStatusTypes = {
+  unrecorded: 'unrecorded',
+  pending: 'pending',
+  recorded: 'recorded',
+};
+
 @classic
 @classNames('feedback-panel')
 export default class FeedbackPanel extends Component {
@@ -25,12 +31,17 @@ export default class FeedbackPanel extends Component {
   quickHelpInstructions = null;
   displayTextBox = null;
   displayQuestionDropdown = false;
+  sendButtonStatus = buttonStatusTypes.unrecorded;
   _questions = questions;
 
   @computed('context')
   get categories() {
     const context = this.context === 'comparison-window' ? 'displayOnlyOnChallengePage' : 'displayOnlyOnComparisonWindow';
     return topLevelLabels.filter((label) => !label[context]);
+  }
+
+  get isSaveButtonDisabled() {
+    return this.sendButtonStatus === buttonStatusTypes.pending;
   }
 
   _scrollToPanel() {
@@ -74,6 +85,10 @@ export default class FeedbackPanel extends Component {
 
   @action
   async sendFeedback() {
+    if (this.isSaveButtonDisabled) {
+      return;
+    }
+    this.set('sendButtonStatus', buttonStatusTypes.pending);
     const content = this._content;
     const category = this._category;
     const answer = this.answer ? this.answer.value : null;
@@ -91,15 +106,19 @@ export default class FeedbackPanel extends Component {
       answer,
     });
 
-    await feedback.save();
-
-    this.set('_isSubmitted', true);
-    this.set('_content', null);
-    this.set('_category', null);
-    this.set('nextCategory', null);
-    this.set('displayTextBox', false);
-    this.set('tutorialContent', null);
-    this.set('displayQuestionDropdown', false);
+    try {
+      await feedback.save();
+      this.set('_isSubmitted', true);
+      this.set('_content', null);
+      this.set('_category', null);
+      this.set('nextCategory', null);
+      this.set('displayTextBox', false);
+      this.set('tutorialContent', null);
+      this.set('displayQuestionDropdown', false);
+      this.set('sendButtonStatus', buttonStatusTypes.recorded);
+    } catch (error) {
+      this.set('sendButtonStatus', buttonStatusTypes.unrecorded);
+    }
   }
 
   @action

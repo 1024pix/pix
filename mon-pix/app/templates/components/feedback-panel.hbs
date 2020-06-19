@@ -52,7 +52,12 @@
                   {{_error}}
                 </div>
               {{/if}}
-              <button class="feedback-panel__button feedback-panel__button--send" {{action "sendFeedback"}}>Envoyer</button>
+              <button
+                class="feedback-panel__button feedback-panel__button--send"
+                {{action "sendFeedback"}}
+                disabled={{this.isSaveButtonDisabled}}>
+                  Envoyer
+              </button>
             {{/if}}
           </form>
         </div>
