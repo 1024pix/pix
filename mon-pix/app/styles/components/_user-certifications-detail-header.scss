@@ -2,19 +2,16 @@
   font-family: $font-open-sans;
   display: flex;
   flex-direction: row;
-  margin: 0 10px 40px;
-
-  @include device-is('desktop') {
-    margin: 0 0 40px;
-  }
 }
 
 .user-certifications-detail-header__data-box {
   padding-left: 2rem;
   color: $grey-80;
 
-  font-size: 1.125rem;
-  line-height: 1.25rem;
+    & > * {
+      margin: 0;
+      font-size: 1rem;
+    }
 
   p {
     padding-bottom: 0.313rem;
@@ -37,4 +34,31 @@
   line-height: 2rem;
   font-size: 1.75rem;
   font-weight: 600;
+}
+
+@include device-is('mobile') {
+  .user-certifications-detail-header {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .user-certifications-detail-header__data-box {
+    padding: 14px 24px;
+  }
+}
+
+@include device-is('tablet') {
+  .user-certifications-detail-header {
+    flex-wrap: wrap;
+  }
+
+  .user-certifications-detail-header__data-box {
+    padding: 14px 24px;
+  }
+}
+
+@include device-is('desktop') {
+  .user-certifications-detail-header {
+    margin: 0 0 40px;
+  }
 }
