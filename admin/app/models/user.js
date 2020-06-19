@@ -10,7 +10,7 @@ export default class User extends Model {
   @attr('boolean') cgu;
   @attr('boolean') pixOrgaTermsOfServiceAccepted;
   @attr('boolean') pixCertifTermsOfServiceAccepted;
-  @attr('boolean') isAuthenticatedFromGar;
+  @attr('boolean') isAuthenticatedFromGAR;
 
   @hasMany('membership') memberships;
 
