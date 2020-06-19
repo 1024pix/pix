@@ -786,6 +786,7 @@ describe('Acceptance | Application | organization-controller', () => {
                 'last-name': schoolingRegistration.lastName,
                 'first-name': schoolingRegistration.firstName,
                 'birthdate': schoolingRegistration.birthdate,
+                'user-id': user.id,
                 'username': user.username,
                 'email': user.email,
                 'is-authenticated-from-gar': true,

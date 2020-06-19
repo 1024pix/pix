@@ -420,6 +420,26 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
     });
   });
 
+  describe('#dissociateUserAndSchoolingRegistration', () => {
+
+    let schoolingRegistration;
+
+    beforeEach(async () => {
+      const user = databaseBuilder.factory.buildUser();
+      schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ userId: user.id });
+      await databaseBuilder.commit();
+    });
+
+    it('should delete association between user and schoolingRegistration', async () => {
+      // when
+      await schoolingRegistrationRepository.dissociateUserFromSchoolingRegistration(schoolingRegistration.id);
+
+      // then
+      const schoolingRegistrationPatched = await schoolingRegistrationRepository.get(schoolingRegistration.id);
+      expect(schoolingRegistrationPatched.userId).to.equal(null);
+    });
+  });
+
   describe('#associateUserAndSchoolingRegistration', () => {
 
     afterEach(() => {
