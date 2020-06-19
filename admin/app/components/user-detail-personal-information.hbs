@@ -79,7 +79,7 @@
             <div class="attribute authenticated-from-gar">
               <span class="attibute__label">Connecté via le GAR : </span>
               <span class="attribute__value user__is-authenticated-from-gar">
-                {{if @user.isAuthenticatedFromGar 'OUI''NON'}}
+                {{if @user.isAuthenticatedFromGAR 'OUI''NON'}}
               </span>
             </div>
             <br>
@@ -106,7 +106,7 @@
         </div>
       </section>
       <div class="col-md-4">
-        {{#if canAdministratorModifyUserDetails}}
+        {{#if this.canAdministratorModifyUserDetails}}
         <button class="btn btn-outline-default" aria-label="Modifier" {{on "click" this.changeEditionMode}}>Modifier
         </button>
         <button class="btn btn-outline-default btn-outline-default--danger" aria-label="Anonymiser" {{on "click" this.toggleDisplayConfirm}}>Anonymiser cet utilisateur
