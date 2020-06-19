@@ -23,14 +23,14 @@ describe('Unit | Controller | Campaigns | Fill in ParticipantExternalId', functi
 
   describe('#submit', () => {
 
-    let startStub;
+    let transitionToRouteStub;
 
     beforeEach(function() {
-      startStub = sinon.stub();
-      controller.set('start', startStub);
+      transitionToRouteStub = sinon.stub();
+      controller.set('transitionToRoute', transitionToRouteStub);
     });
 
-    it('should call start when participant external id is fulfilled', () => {
+    it('should transition to route campaigns.start-or-resume when participant external id is fulfilled', () => {
       // given
       controller.set('participantExternalId', participantExternalId);
 
@@ -38,7 +38,7 @@ describe('Unit | Controller | Campaigns | Fill in ParticipantExternalId', functi
       controller.actions.submit.call(controller);
 
       // then
-      sinon.assert.calledWith(startStub, model, participantExternalId);
+      sinon.assert.calledWith(transitionToRouteStub, 'campaigns.start-or-resume', controller.model, { queryParams: { participantExternalId } });
     });
 
     it('should display error when participant external id is empty', () => {

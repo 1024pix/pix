@@ -46,27 +46,24 @@ Router.map(function() {
   });
 
   this.route('fill-in-campaign-code', { path: '/campagnes' });
-  this.route('campaigns', { path: '/campagnes/:campaign_code' }, function() {
+  this.route('campaigns', { path: '/campagnes/:code' }, function() {
     this.route('start-or-resume', { path: '/' });
     this.route('campaign-landing-page', { path: '/presentation' });
     this.route('fill-in-id-pix', { path: '/identifiant' });
-  });
-
-  this.route('restricted-campaigns', { path: '/campagnes/:campaign_code/restreinte' }, function() {
-    this.route('join-restricted-campaign', { path: '/rejoindre' });
-    this.route('login-or-register-to-access-restricted-campaign', { path: '/identification' });
-  });
-
-  this.route('assessment-campaigns', { path: '/campagnes/:campaign_code/evaluation' }, function() {
-    this.route('start-or-resume', { path: '/' });
-    this.route('tutorial', { path: '/didacticiel' });
-    this.route('skill-review', { path: '/resultats/:assessment_id' });
-  });
-
-  this.route('profiles-collection-campaigns', { path: '/campagnes/:campaign_code/collecte' }, function() {
-    this.route('start-or-resume', { path: '/' });
-    this.route('send-profile', { path: '/envoi-profil' });
-    this.route('profile-already-shared', { path: '/deja-envoye' });
+    this.route('restricted', { path: '/privee' }, function() {
+      this.route('login-or-register-to-access', { path: '/identification' });
+      this.route('join', { path: '/rejoindre' });
+    });
+    this.route('profiles-collection', { path: '/collecte' }, function() {
+      this.route('start-or-resume', { path: '/' });
+      this.route('send-profile', { path: '/envoi-profil' });
+      this.route('profile-already-shared', { path: '/deja-envoye' });
+    });
+    this.route('assessment', { path: '/evaluation' }, function() {
+      this.route('start-or-resume', { path: '/' });
+      this.route('tutorial', { path: '/didacticiel' });
+      this.route('skill-review', { path: '/resultats/:assessment_id' });
+    });
   });
 
   this.route('competences', { path: '/competences/:competence_id' }, function() {

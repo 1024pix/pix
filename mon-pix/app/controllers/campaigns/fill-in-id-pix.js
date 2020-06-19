@@ -16,7 +16,7 @@ export default Controller.extend({
 
       if (participantExternalId) {
         this.set('isLoading', true);
-        return this.start(this.model, participantExternalId);
+        return this.transitionToRoute('campaigns.start-or-resume', this.model, { queryParams: { participantExternalId } });
       } else {
         return this.set('errorMessage', `Merci de renseigner votre ${ this.model.idPixLabel }.`);
       }
@@ -25,7 +25,9 @@ export default Controller.extend({
     cancel() {
       this.set('errorMessage', null);
 
-      return this.transitionToRoute('campaigns.start-or-resume', this.model.code);
+      return this.transitionToRoute('campaigns.start-or-resume', this.model.code, {
+        queryParams: { hasUserSeenLandingPage: false }
+      });
     },
   }
 });

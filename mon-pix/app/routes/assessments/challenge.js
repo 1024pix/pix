@@ -30,10 +30,6 @@ export default class ChallengeRoute extends Route {
     };
   }
 
-  _findCampaigns({ campaignCode }) {
-    return this.store.query('campaign', { filter: { code: campaignCode } });
-  }
-
   _findOrCreateAnswer(challenge, assessment) {
     let answer = assessment.get('answers').findBy('challenge.id', challenge.id);
     if (!answer) {
