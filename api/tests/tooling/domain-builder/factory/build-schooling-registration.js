@@ -39,6 +39,6 @@ module.exports = function buildSchoolingRegistration(
     status,
     nationalStudentId,
     division,
-    organization,
+    organizationId: organization.id,
   });
 };

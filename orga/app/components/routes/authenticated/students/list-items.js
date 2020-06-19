@@ -8,6 +8,7 @@ export default class ListItems extends Component {
 
   student = null;
   isShowingModal = false;
+  isShowingDissociateModal = false;
 
   @action
   openPasswordReset(student) {
@@ -18,5 +19,16 @@ export default class ListItems extends Component {
   @action
   closePasswordReset() {
     this.set('isShowingModal', false);
+  }
+
+  @action
+  openDissociateModal(student) {
+    this.set('student', student);
+    this.set('isShowingDissociateModal', true);
+  }
+
+  @action
+  closeDissociateModal() {
+    this.set('isShowingDissociateModal', false);
   }
 }
