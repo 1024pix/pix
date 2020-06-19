@@ -2,12 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-
-const buttonStatusTypes = {
-  unrecorded: 'unrecorded',
-  pending: 'pending',
-  recorded: 'recorded',
-};
+import buttonStatusTypes from 'mon-pix/utils/button-status-types';
 
 export default class TutorialItemComponent extends Component {
   @service store;
