@@ -10,3 +10,8 @@ export default class App extends Application {
 }
 
 loadInitializers(App, config.modulePrefix);
+if (config.environment === 'production') {
+  window.NO_EMBER_DEBUG = true;
+} else {
+  window.NO_EMBER_DEBUG = false;
+}
