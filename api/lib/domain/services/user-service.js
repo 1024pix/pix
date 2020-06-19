@@ -91,8 +91,8 @@ async function _createUserCompetencesV1({ allCompetences, userLastAssessments, l
     const assessment = _.find(userLastAssessments, { competenceId: userCompetence.id });
     if (assessment) {
       const { level, pixScore } = await assessmentResultRepository.findLatestLevelAndPixScoreByAssessmentId({ assessmentId: assessment.id, limitDate });
-      userCompetence.pixScore = level;
-      userCompetence.estimatedLevel = pixScore;
+      userCompetence.pixScore = pixScore;
+      userCompetence.estimatedLevel = level;
     } else {
       userCompetence.pixScore = 0;
       userCompetence.estimatedLevel = 0;
