@@ -37,12 +37,6 @@ describe('Integration | Component | user certifications detail result', function
       await render(hbs`{{user-certifications-detail-result certification=certification}}`);
     });
 
-    // then
-    it('should show the pix score', function() {
-      expect(find('.user-certifications-detail-result__pix-score')).to.exist;
-      expect(find('.user-certifications-detail-result__pix-score').textContent).to.include('654');
-    });
-
     it('should show the comment for candidate', function() {
       expect(find('.user-certifications-detail-result__comment-jury')).to.exist;
       expect(find('.user-certifications-detail-result__comment-jury').textContent).to.include('Comment for candidate');
@@ -69,12 +63,6 @@ describe('Integration | Component | user certifications detail result', function
 
       // when
       await render(hbs`{{user-certifications-detail-result certification=certification}}`);
-    });
-
-    // then
-    it('should show the pix score', function() {
-      expect(find('.user-certifications-detail-result__pix-score')).to.exist;
-      expect(find('.user-certifications-detail-result__pix-score').textContent).to.include('654');
     });
 
     it('should not show the comment for candidate', function() {
