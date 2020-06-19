@@ -2,12 +2,18 @@ const Bookshelf = require('../bookshelf');
 
 require('./assessment');
 
-module.exports = Bookshelf.model('Answer', {
+const modelName = 'Answer';
+
+module.exports = Bookshelf.model(modelName, {
 
   tableName: 'answers',
   hasTimestamps: ['createdAt', 'updatedAt'],
+  requireFetch: false,
 
   assessment() {
     return this.belongsTo('Assessment');
   },
+
+}, {
+  modelName
 });

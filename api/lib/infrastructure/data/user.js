@@ -10,9 +10,13 @@ require('./membership');
 require('./certification-center-membership');
 require('./user-orga-settings');
 
-module.exports = Bookshelf.model('User', {
+const modelName = 'User';
+
+module.exports = Bookshelf.model(modelName, {
+
   tableName: 'users',
   hasTimestamps: ['createdAt', 'updatedAt'],
+  requireFetch: false,
 
   assessments() {
     return this.hasMany('Assessment', 'userId');
@@ -49,6 +53,8 @@ module.exports = Bookshelf.model('User', {
     model.hasSeenAssessmentInstructions = Boolean(model.hasSeenAssessmentInstructions);
 
     return new User(model);
-  }
+  },
 
+}, {
+  modelName
 });

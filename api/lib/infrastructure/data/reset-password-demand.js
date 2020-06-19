@@ -2,11 +2,18 @@ const Bookshelf = require('../bookshelf');
 
 require('./user');
 
-module.exports = Bookshelf.model('ResetPasswordDemand', {
+const modelName = 'ResetPasswordDemand';
+
+module.exports = Bookshelf.model(modelName, {
+
   tableName: 'reset-password-demands',
   hasTimestamps: ['createdAt', 'updatedAt'],
+  requireFetch: false,
 
   user() {
     return this.belongsTo('User', 'email');
-  }
+  },
+
+}, {
+  modelName
 });

@@ -3,10 +3,13 @@ const Bookshelf = require('../bookshelf');
 require('./assessment');
 require('./competence-mark');
 
-module.exports = Bookshelf.model('AssessmentResult', {
+const modelName = 'AssessmentResult';
+
+module.exports = Bookshelf.model(modelName, {
 
   tableName: 'assessment-results',
   hasTimestamps: ['createdAt', null],
+  requireFetch: false,
 
   validations: {
     status: [
@@ -24,6 +27,8 @@ module.exports = Bookshelf.model('AssessmentResult', {
 
   competenceMarks() {
     return this.hasMany('CompetenceMark', 'assessmentResultId');
-  }
+  },
 
+}, {
+  modelName
 });

@@ -3,10 +3,13 @@ const Bookshelf = require('../bookshelf');
 require('./membership');
 require('./target-profile-share');
 
-module.exports = Bookshelf.model('Organization', {
+const modelName = 'Organization';
+
+module.exports = Bookshelf.model(modelName, {
 
   tableName: 'organizations',
   hasTimestamps: ['createdAt', 'updatedAt'],
+  requireFetch: false,
 
   memberships() {
     return this.hasMany('Membership', 'organizationId');
@@ -16,4 +19,6 @@ module.exports = Bookshelf.model('Organization', {
     return this.hasMany('TargetProfileShare', 'organizationId');
   },
 
+}, {
+  modelName
 });

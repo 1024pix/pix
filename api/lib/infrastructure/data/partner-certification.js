@@ -1,7 +1,16 @@
 const Bookshelf = require('../bookshelf');
 
-module.exports = Bookshelf.model('PartnerCertification', {
-  tableName: 'partner-certifications',
+const modelName = 'PartnerCertification';
 
-  get idAttribute() { return null; }
+module.exports = Bookshelf.model('PartnerCertification', {
+
+  tableName: 'partner-certifications',
+  requireFetch: false,
+
+  get idAttribute() {
+    return null;
+  }
+
+}, {
+  modelName
 });

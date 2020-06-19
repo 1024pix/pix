@@ -3,10 +3,13 @@ const Bookshelf = require('../bookshelf');
 require('./user');
 require('./organization');
 
-module.exports = Bookshelf.model('UserOrgaSettings', {
+const modelName = 'UserOrgaSettings';
+
+module.exports = Bookshelf.model(modelName, {
 
   tableName: 'user-orga-settings',
   hasTimestamps: ['createdAt', 'updatedAt'],
+  requireFetch: false,
 
   user() {
     return this.belongsTo('User', 'userId');
@@ -16,4 +19,6 @@ module.exports = Bookshelf.model('UserOrgaSettings', {
     return this.belongsTo('Organization', 'currentOrganizationId');
   },
 
+}, {
+  modelName
 });

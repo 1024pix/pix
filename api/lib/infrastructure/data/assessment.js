@@ -5,10 +5,13 @@ require('./user');
 require('./knowledge-element');
 require('./campaign-participation');
 
-module.exports = Bookshelf.model('Assessment', {
+const modelName = 'Assessment';
+
+module.exports = Bookshelf.model(modelName, {
 
   tableName: 'assessments',
   hasTimestamps: ['createdAt', 'updatedAt'],
+  requireFetch: false,
 
   answers() {
     return this.hasMany('Answer', 'assessmentId');
@@ -22,4 +25,6 @@ module.exports = Bookshelf.model('Assessment', {
     return this.belongsTo('CampaignParticipation', 'campaignParticipationId');
   },
 
+}, {
+  modelName
 });

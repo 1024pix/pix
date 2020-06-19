@@ -14,30 +14,30 @@ function buildDomainObjects(BookshelfClass, bookshelfObjects) {
 
 function buildDomainObject(BookshelfClass, bookshelfObject) {
   if (bookshelfObject) {
-    return _buildDomainObject(BookshelfClass.prototype, bookshelfObject.toJSON());
+    return _buildDomainObject(BookshelfClass, bookshelfObject.toJSON());
   }
   return null;
 }
 
-function _buildDomainObject(bookshelfPrototype, bookshelfObjectJson) {
+function _buildDomainObject(BookshelfClass, bookshelfObjectJson) {
 
-  const Model = Models[bookshelfPrototype.constructor.bookshelfName];
+  const Model = Models[BookshelfClass.modelName];
   const domainObject = new Model();
 
   const mappedObject = _.mapValues(domainObject, (value, key) => {
-    const { relationshipType, relationshipPrototype } =
-      _getBookshelfRelationshipInfo(bookshelfPrototype, key);
+    const { relationshipType, relationshipClass } =
+      _getBookshelfRelationshipInfo(BookshelfClass, key);
 
     if ((relationshipType === 'belongsTo' || relationshipType === 'hasOne') && _.isObject(bookshelfObjectJson[key])) {
       return _buildDomainObject(
-        relationshipPrototype,
+        relationshipClass,
         bookshelfObjectJson[key]
       );
     }
 
     if ((relationshipType === 'hasMany') && _.isArray(bookshelfObjectJson[key])) {
       return bookshelfObjectJson[key].map(
-        (bookshelfObject) => _buildDomainObject(relationshipPrototype, bookshelfObject)
+        (bookshelfObject) => _buildDomainObject(relationshipClass, bookshelfObject)
       );
     }
 
@@ -47,12 +47,12 @@ function _buildDomainObject(bookshelfPrototype, bookshelfObjectJson) {
   return new Model(mappedObject);
 }
 
-function _getBookshelfRelationshipInfo(bookshelfPrototype, key) {
-  const relatedData = (typeof bookshelfPrototype[key] === 'function') &&
-    bookshelfPrototype[key]().relatedData;
+function _getBookshelfRelationshipInfo(BookshelfClass, key) {
+  const relatedData = (typeof BookshelfClass.prototype[key] === 'function') &&
+    BookshelfClass.prototype[key]().relatedData;
 
   if (relatedData) {
-    return { relationshipType: relatedData.type, relationshipPrototype: relatedData.target.prototype };
+    return { relationshipType: relatedData.type, relationshipClass: relatedData.target };
   } else {
     return {};
   }

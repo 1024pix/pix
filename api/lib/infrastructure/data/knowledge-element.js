@@ -4,10 +4,13 @@ const Bookshelf = require('../bookshelf');
 require('./assessment');
 require('./user');
 
-module.exports = Bookshelf.model('KnowledgeElement', {
+const modelName = 'KnowledgeElement';
+
+module.exports = Bookshelf.model(modelName, {
 
   tableName: 'knowledge-elements',
   hasTimestamps: ['createdAt', null],
+  requireFetch: false,
 
   assessment() {
     return this.belongsTo('Assessment', 'assessmentId');
@@ -30,4 +33,6 @@ module.exports = Bookshelf.model('KnowledgeElement', {
     return this.get('status') === 'validated';
   },
 
+}, {
+  modelName
 });
