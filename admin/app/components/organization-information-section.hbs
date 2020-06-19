@@ -3,46 +3,16 @@
     <div class="organization__logo">
       <figure class="organization__logo-figure">
         {{#if @organization.logoUrl}}
-          <img src={{@organization.logoUrl}}>
+          <img src={{@organization.logoUrl}} alt={{@organization.name}}>
         {{else}}
-          <img src="{{rootURL}}/logo-placeholder.png">
+          <img src="{{this.rootURL}}/logo-placeholder.png" alt="placeholder">
         {{/if}}
 
-        <FileUpload @name="logo" @accept="image/*" @onfileadd={{this.updateLogo}} as |queue|>
-          <a class="file-upload__button"/>
-        </FileUpload>
-
+        <FileUpload @name="logo" @accept="image/*" @onfileadd={{this.updateLogo}} />
       </figure>
     </div>
 
-    {{#if (not this.isEditMode) }}
-    <div class="organization__data">
-      <h1 class="organization__name">{{@organization.name}}</h1>
-        <div class="organization-information-section__content">
-          <div>
-            <p>
-              Type : <span class="organization__type">{{@organization.type}}</span><br>
-              {{#if @organization.externalId}}
-                Identifiant externe : <span class="organization__externalId">{{@organization.externalId}}</span><br>
-              {{/if}}
-              {{#if @organization.provinceCode}}
-                Département : <span class="organization__provinceCode">{{@organization.provinceCode}}</span><br>
-              {{/if}}
-              {{#if @organization.isOrganizationSCO}}
-                Gère des élèves : <span class="organization__isManagingStudents">{{this.isManagingStudents}}</span><br>
-              {{/if}}
-              A accès aux campagnes de collecte de profils : <span class="organization__canCollectProfiles">{{this.canCollectProfiles}}</span><br>
-              Crédits : <span class="organization__credit">{{@organization.credit}}</span>
-            </p>
-            <button class="btn btn-outline-default" aria-label="Editer" {{on "click" this.toggleEditMode}}>Editer</button>
-          </div>
-          <div>
-            <a class="btn btn-outline-default" aria-label="Tableau de bord" href="{{this.externalURL}}" target="_blank">Tableau
-              de bord</a>
-          </div>
-        </div>
-      </div>
-    {{else}}
+    {{#if this.isEditMode}}
     <div class="organization__edit-form">
       <form class="form" {{on "submit" this.updateOrganization}}>
 
@@ -54,39 +24,39 @@
           <label for="name" class="form-field__label">
             <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> Nom
           </label>
-          {{#if (v-get form 'name' 'isInvalid')}}
-            <div class="form-field__error" aria-label="Message d'erreur du champ nom">
-              {{v-get form 'name' 'message'}}
-            </div>
+          {{#if (v-get this.form 'name' 'isInvalid')}}
+          <div class="form-field__error" aria-label="Message d'erreur du champ nom">
+            {{v-get this.form 'name' 'message'}}
+          </div>
           {{/if}}
           <Input id="name"
                  @type="text"
-                 class={{if (v-get form 'name' 'isInvalid') "form-control is-invalid" "form-control"}}
+                 class={{if (v-get this.form 'name' 'isInvalid') "form-control is-invalid" "form-control"}}
                  @value={{this.form.name}}
                  required={{true}} />
         </div>
         <div class="form-field">
           <label for="externalId" class="form-field__label">Identifiant externe</label>
-          {{#if (v-get form 'externalId' 'isInvalid')}}
-            <div class="form-field__error" aria-label="Message d'erreur du champ identifiant externe">
-              {{v-get form 'externalId' 'message'}}
-            </div>
+          {{#if (v-get this.form 'externalId' 'isInvalid')}}
+          <div class="form-field__error" aria-label="Message d'erreur du champ identifiant externe">
+            {{v-get this.form 'externalId' 'message'}}
+          </div>
           {{/if}}
           <Input id="externalId"
                  @type="text"
-                 class={{if (v-get form 'externalId' 'isInvalid') "form-control is-invalid" "form-control"}}
+                 class={{if (v-get this.form 'externalId' 'isInvalid') "form-control is-invalid" "form-control"}}
                  @value={{this.form.externalId}} />
         </div>
         <div class="form-field">
           <label for="provinceCode" class="form-field__label">Département (en 3 chiffres)</label>
-          {{#if (v-get form 'provinceCode' 'isInvalid')}}
-            <div class="form-field__error" aria-label="Message d'erreur du champ département">
-              {{v-get form 'provinceCode' 'message'}}
-            </div>
+          {{#if (v-get this.form 'provinceCode' 'isInvalid')}}
+          <div class="form-field__error" aria-label="Message d'erreur du champ département">
+            {{v-get this.form 'provinceCode' 'message'}}
+          </div>
           {{/if}}
           <Input id="provinceCode"
                  @type="text"
-                 class={{if (v-get form 'provinceCode' 'isInvalid') "form-control is-invalid" "form-control"}}
+                 class={{if (v-get this.form 'provinceCode' 'isInvalid') "form-control is-invalid" "form-control"}}
                  @value={{this.form.provinceCode}} />
         </div>
         <div class="form-actions">
@@ -94,6 +64,35 @@
           <button class="btn btn-success" aria-label="Enregistrer" type="submit">Enregistrer</button>
         </div>
       </form>
+    </div>
+
+    {{else}}
+    <div class="organization__data">
+      <h1 class="organization__name">{{@organization.name}}</h1>
+      <div class="organization-information-section__content">
+        <div>
+          <p>
+            Type : <span class="organization__type">{{@organization.type}}</span><br>
+            {{#if @organization.externalId}}
+              Identifiant externe : <span class="organization__externalId">{{@organization.externalId}}</span><br>
+            {{/if}}
+            {{#if @organization.provinceCode}}
+              Département : <span class="organization__provinceCode">{{@organization.provinceCode}}</span><br>
+            {{/if}}
+            {{#if @organization.isOrganizationSCO}}
+              Gère des élèves : <span class="organization__isManagingStudents">{{this.isManagingStudents}}</span><br>
+            {{/if}}
+            A accès aux campagnes de collecte de profils : <span class="organization__canCollectProfiles">{{this.canCollectProfiles}}</span><br>
+            Crédits : <span class="organization__credit">{{@organization.credit}}</span>
+          </p>
+          <button type="button" class="btn btn-outline-default" aria-label="Editer" {{on "click" this.toggleEditMode}}>Editer</button>
+        </div>
+        <div>
+          <a class="btn btn-outline-default" aria-label="Tableau de bord" href="{{this.externalURL}}" target="_blank" rel="noopener noreferrer">
+            Tableau de bord
+          </a>
+        </div>
+      </div>
     </div>
     {{/if}}
   </div>

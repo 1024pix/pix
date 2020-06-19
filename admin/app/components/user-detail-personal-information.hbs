@@ -1,58 +1,58 @@
 <section class="page-section mb_10">
   {{#if this.isEditionMode}}
     <form class="form user-edit-form" {{on "submit" this.updateUserDetails}}>
-        <span class="form__instructions col-md-4">
-          Les champs marqués de <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> sont obligatoires.
-        </span>
+      <span class="form__instructions col-md-4">
+        Les champs marqués de <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> sont obligatoires.
+      </span>
       <div class="form-field col-md-4">
         <label for="firstName" class="form-field__label">
           <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> Prénom :
         </label>
-        {{#if (v-get form 'firstName' 'isInvalid')}}
+        {{#if (v-get this.form 'firstName' 'isInvalid')}}
           <div class="form-field__error" aria-label="Message d'erreur du champ prénom">
-            {{v-get form 'firstName' 'message'}}
+            {{v-get this.form 'firstName' 'message'}}
           </div>
         {{/if}}
         <Input id="firstName"
-               type="text"
-               class={{if (v-get form 'firstName' 'isInvalid') "user-edit-form__first-name form-control is-invalid"
+               @type="text"
+               class={{if (v-get this.form 'firstName' 'isInvalid') "user-edit-form__first-name form-control is-invalid"
                           "user-edit-form__first-name form-control"}}
-               @value={{this.form.firstName}}/>
+               @value={{this.form.firstName}} />
       </div>
       <div class="form-field col-md-4">
         <label for="lastName" class="form-field__label">
           <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> Nom :
         </label>
-        {{#if (v-get form 'lastName' 'isInvalid')}}
+        {{#if (v-get this.form 'lastName' 'isInvalid')}}
           <div class="form-field__error" aria-label="Message d'erreur du champ nom">
-            {{v-get form 'lastName' 'message'}}
+            {{v-get this.form 'lastName' 'message'}}
           </div>
         {{/if}}
         <Input id="lastName"
-               type="text"
-               class={{if (v-get form 'lastName' 'isInvalid') "user-edit-form__last-name form-control is-invalid"
+               @type="text"
+               class={{if (v-get this.form 'lastName' 'isInvalid') "user-edit-form__last-name form-control is-invalid"
                           "user-edit-form__last-name form-control"}}
-               @value={{this.form.lastName}}/>
+               @value={{this.form.lastName}} />
       </div>
       <div class="form-field col-md-4">
         <label for="email" class="form-field__label">
           <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> E-mail :
         </label>
-        {{#if (v-get form 'email' 'isInvalid')}}
+        {{#if (v-get this.form 'email' 'isInvalid')}}
           <div class="form-field__error" aria-label="Message d'erreur du champ email">
-            {{v-get form 'email' 'message'}}
+            {{v-get this.form 'email' 'message'}}
           </div>
         {{/if}}
         <Input id="email"
-               type="email"
-               class={{if (v-get form 'email' 'isInvalid') "user-edit-form__email  form-control is-invalid"
-                          "user-edit-form__email  form-control"}}
-               @value={{this.form.email}}/>
+               @type="email"
+               class={{if (v-get this.form 'email' 'isInvalid') "user-edit-form__email form-control is-invalid"
+                          "user-edit-form__email form-control"}}
+               @value={{this.form.email}} />
       </div>
 
       <div class="col-md-4">
-        <button class="btn btn-outline-default" aria-label="Annuler" {{on "click" this.cancelEdit}}>Annuler</button>
-        <button class="btn btn-success" aria-label="Editer">Editer</button>
+        <button type="button" class="btn btn-outline-default" aria-label="Annuler" {{on "click" this.cancelEdit}}>Annuler</button>
+        <button type="submit" class="btn btn-success" aria-label="Editer">Editer</button>
       </div>
     </form>
   {{else}}
@@ -101,15 +101,15 @@
             </div>
           </div>
           <div class="user-detail-personal-information-section__item">
-            <a class="btn btn-outline-default" aria-label="Tableau de bord" href="{{this.externalURL}}" target="_blank">Tableau de bord</a>
+            <a class="btn btn-outline-default" aria-label="Tableau de bord" href="{{this.externalURL}}" target="_blank" rel="noopener noreferrer">Tableau de bord</a>
           </div>
         </div>
       </section>
       <div class="col-md-4">
         {{#if this.canAdministratorModifyUserDetails}}
-        <button class="btn btn-outline-default" aria-label="Modifier" {{on "click" this.changeEditionMode}}>Modifier
+        <button type="button" class="btn btn-outline-default" aria-label="Modifier" {{on "click" this.changeEditionMode}}>Modifier
         </button>
-        <button class="btn btn-outline-default btn-outline-default--danger" aria-label="Anonymiser" {{on "click" this.toggleDisplayConfirm}}>Anonymiser cet utilisateur
+        <button type="button" class="btn btn-outline-default btn-outline-default--danger" aria-label="Anonymiser" {{on "click" this.toggleDisplayConfirm}}>Anonymiser cet utilisateur
         </button>
         {{/if}}
       </div>
@@ -120,4 +120,4 @@
 <ConfirmPopup @message="Etes-vous sûr de vouloir anonymiser cet utilisateur? Ceci n’est pas réversible"
               @confirm={{this.anonymizeUser}}
               @cancel={{this.toggleDisplayConfirm}}
-              @show={{displayConfirm}} />
+              @show={{this.displayConfirm}} />
