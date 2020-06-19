@@ -79,7 +79,8 @@ module('Integration | Component | routes/authenticated/students | list-items', f
       // then
       const call = triggerFiltering.getCall(0);
       assert.equal(call.args[0], 'lastName');
-      assert.equal(call.args[1].target.value, 'bob');
+      assert.equal(call.args[1], true);
+      assert.equal(call.args[2].target.value, 'bob');
     });
     
     test('it should trigger filtering with firstname', async function(assert) {
@@ -95,7 +96,26 @@ module('Integration | Component | routes/authenticated/students | list-items', f
       // then
       const call = triggerFiltering.getCall(0);
       assert.equal(call.args[0], 'firstName');
-      assert.equal(call.args[1].target.value, 'bob');
+      assert.equal(call.args[1], true);
+      assert.equal(call.args[2].target.value, 'bob');
+    });
+
+    test('it should trigger filtering with connexionType', async function(assert) {
+      const triggerFiltering = sinon.spy();
+      this.set('triggerFiltering', triggerFiltering);
+      this.set('students', []);
+      this.set('connexionTypesOptions', [{ value: '', label: 'Tous' }, { value: 'email', label: 'email' }]);
+      
+      // when
+      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}} @connexionTypesOptions={{connexionTypesOptions}} />`);
+      
+      await fillIn('select', 'email');
+      
+      // then
+      const call = triggerFiltering.getCall(0);
+      assert.equal(call.args[0], 'connexionType');
+      assert.equal(call.args[1], false);
+      assert.equal(call.args[2].target.value, 'email');
     });
   });
 

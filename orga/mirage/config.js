@@ -163,6 +163,17 @@ export default function() {
       return schema.students.where(({ firstName }) => firstName.includes(firstNameFilter));
     }
 
+    const connexionTypeFilter = request.queryParams['filter[connexionType]'];
+    if (connexionTypeFilter) {
+      return schema.students.where((student) => {
+        if (connexionTypeFilter === '') return true;
+        if (connexionTypeFilter === 'identifiant' && student.hasUsername) return true;
+        if (connexionTypeFilter === 'email' && student.hasEmail) return true;
+        if (connexionTypeFilter === 'mediacentre' && student.isAuthenticatedFromGar) return true;
+        return false;
+      });
+    }
+
     return schema.students.where({ organizationId });
   });
 
