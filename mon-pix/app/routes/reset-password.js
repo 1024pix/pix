@@ -1,10 +1,9 @@
 import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
-import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
 import Route from '@ember/routing/route';
 
 @classic
-export default class ResetPasswordRoute extends Route.extend(UnauthenticatedRouteMixin) {
+export default class ResetPasswordRoute extends Route {
   @service session;
 
   async model(params) {
