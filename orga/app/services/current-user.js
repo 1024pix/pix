@@ -13,6 +13,10 @@ export default class CurrentUserService extends Service {
         const userMemberships = await prescriber.get('memberships');
         const userOrgaSettings = await prescriber.get('userOrgaSettings');
 
+        if (!userMemberships || userMemberships.length === 0) {
+          return this.session.invalidate();
+        }
+
         this.set('prescriber', prescriber);
         this.set('memberships', userMemberships);
 

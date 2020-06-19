@@ -130,16 +130,19 @@ export default function() {
   this.post('/organization-invitations/:id/response', (schema, request) => {
     const organizationInvitationId = request.params.id;
     const requestBody = JSON.parse(request.requestBody);
-    const { code, status, email } = requestBody.data.attributes;
+    const { code, status } = requestBody.data.attributes;
 
     const organizationInvitation = schema.organizationInvitations.findBy({ id: organizationInvitationId, code });
-    const user = schema.users.findBy({ email });
+    const prescriber = schema.prescribers.first();
 
-    schema.memberships.create({
-      userId: user.id,
+    const membership = schema.memberships.create({
+      userId: prescriber.id,
       organizationId: organizationInvitation.organizationId,
       organizationRole: 'MEMBER'
     });
+
+    prescriber.memberships = [membership];
+    prescriber.save();
 
     organizationInvitation.update({ status });
     schema.organizationInvitationResponses.create();
@@ -149,7 +152,7 @@ export default function() {
 
   this.get('/organizations/:id/students', (schema, request) => {
     const organizationId = request.params.id;
-    
+
     const lastNameFilter = request.queryParams['filter[lastName]'];
     if (lastNameFilter) {
       return schema.students.where(({ lastName }) => lastName.includes(lastNameFilter));
