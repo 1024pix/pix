@@ -3,10 +3,13 @@ const Bookshelf = require('../bookshelf');
 require('./badge');
 require('./target-profile-skill');
 
-module.exports = Bookshelf.model('TargetProfile', {
+const modelName = 'TargetProfile';
+
+module.exports = Bookshelf.model(modelName, {
 
   tableName: 'target-profiles',
   hasTimestamps: ['createdAt', null],
+  requireFetch: false,
 
   skillIds() {
     return this.hasMany('TargetProfileSkill', 'targetProfileId');
@@ -14,5 +17,8 @@ module.exports = Bookshelf.model('TargetProfile', {
 
   badge() {
     return this.belongsTo('Badge', 'targetProfileId');
-  }
+  },
+
+}, {
+  modelName
 });
