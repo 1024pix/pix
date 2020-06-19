@@ -28,6 +28,8 @@ describe('Acceptance | Campaigns | Resume Campaigns with type Profiles Collecti
 
     beforeEach(async function() {
       await invalidateSession();
+      // Reset state, invalidateSession() is not doing it...
+      this.owner.lookup('route:campaigns.start-or-resume')._resetState();
       await visit(`/campagnes/${campaign.code}`);
       await click(contains('C’est parti !'));
     });
@@ -72,7 +74,7 @@ describe('Acceptance | Campaigns | Resume Campaigns with type Profiles Collecti
 
         // when
         await visit(`/campagnes/${campaign.code}`);
-             
+
         // then
         expect(currentURL()).to.contains('/deja-envoye');
       });
@@ -83,7 +85,7 @@ describe('Acceptance | Campaigns | Resume Campaigns with type Profiles Collecti
 
         // when
         await visit(`/campagnes/${campaign.code}`);
-             
+
         // then
         expect(contains('156')).to.exist;
         expect(contains('Area_1_title')).to.exist;

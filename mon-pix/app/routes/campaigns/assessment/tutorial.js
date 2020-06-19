@@ -18,7 +18,7 @@ export default Route.extend(SecuredRouteMixin, {
   },
 
   model() {
-    this.set('campaignCode', this.paramsFor('assessment-campaigns').campaign_code);
+    this.campaignCode = this.paramsFor('campaigns').code;
     const maxTutorialPageId = this.tutorial.length - 1;
     return {
       title: this.tutorial[this.tutorialPageId].title,
@@ -33,11 +33,10 @@ export default Route.extend(SecuredRouteMixin, {
     async submit() {
       await this.currentUser.user.save({ adapterOptions: { rememberUserHasSeenAssessmentInstructions: true } });
 
-      this.set('tutorialPageId', 0);
-      return this.transitionTo('campaigns.start-or-resume', this.campaignCode, {
+      this.tutorialPageId = 0;
+      return this.transitionTo('campaigns.assessment.start-or-resume', this.campaignCode, {
         queryParams: {
-          hasSeenLanding: true,
-          hasJustConsultedTutorial: true
+          hasConsultedTutorial: true
         }
       });
     },
@@ -45,7 +44,7 @@ export default Route.extend(SecuredRouteMixin, {
     next() {
       const nextTutorialPageId = this.tutorialPageId + 1;
       if (nextTutorialPageId < this.tutorial.length) {
-        this.set('tutorialPageId', nextTutorialPageId);
+        this.tutorialPageId = nextTutorialPageId;
         this.refresh();
       }
     }
