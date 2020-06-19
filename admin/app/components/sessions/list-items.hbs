@@ -86,5 +86,5 @@
 </div>
 
 {{#if @sessions}}
-  {{pagination-control pagination=@sessions.meta}}
+  <PaginationControl @pagination={{@sessions.meta}} />
 {{/if}}
