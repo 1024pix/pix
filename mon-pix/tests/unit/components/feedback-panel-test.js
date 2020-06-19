@@ -25,7 +25,7 @@ describe('Unit | Component | feedback-panel', function() {
       // given
       const component = this.owner.lookup('component:feedback-panel');
       component.set('isFormOpened', true);
-      component.set('_error', '10, 9, 8, ...');
+      component.set('emptyTextBoxMessageError', '10, 9, 8, ...');
       component.set('_isSubmitted', true);
 
       // when
@@ -34,7 +34,7 @@ describe('Unit | Component | feedback-panel', function() {
       // then
       expect(component.isFormOpened).to.be.false;
       expect(component._isSubmitted).to.be.false;
-      expect(component._error).to.be.null;
+      expect(component.emptyTextBoxMessageError).to.be.null;
     });
   });
 
