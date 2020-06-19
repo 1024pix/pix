@@ -2,18 +2,13 @@ import { classNames } from '@ember-decorators/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
+import buttonStatusTypes from 'mon-pix/utils/button-status-types';
 import $ from 'jquery';
 import config from 'mon-pix/config/environment';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 
 import { topLevelLabels, questions } from 'mon-pix/static-data/feedback-panel-issue-labels';
-
-const buttonStatusTypes = {
-  unrecorded: 'unrecorded',
-  pending: 'pending',
-  recorded: 'recorded',
-};
 
 @classic
 @classNames('feedback-panel')
