@@ -75,4 +75,23 @@ describe('Integration | Component | password reset demand form', function() {
     expect(find('.password-reset-demand-form__body')).to.exist;
   });
 
+  it('should show error coming from errors service', async function() {
+    // given
+    const expectedError = 'expected error';
+    const errorsServiceStub = Service.extend({
+      hasErrors() {
+        return true;
+      },
+      shift() {
+        return expectedError;
+      }
+    });
+    this.owner.register('service:errors', errorsServiceStub);
+
+    // when
+    await render(hbs`<PasswordResetDemandForm />`);
+
+    // then
+    expect(find('.sign-form__notification-message--error').textContent).to.include(expectedError);
+  });
 });
