@@ -19,12 +19,23 @@ function _toUserWithSchoolingRegistrationDTO(BookshelfSchoolingRegistration) {
   });
 }
 
-function _setSchoolingRegistrationFilters(qb, { lastName, firstName } = {}) {
+function _setSchoolingRegistrationFilters(qb, { lastName, firstName, connexionType } = {}) {
   if (lastName) {
     qb.whereRaw('LOWER("schooling-registrations"."lastName") LIKE ?', `%${lastName.toLowerCase()}%`);
   }
   if (firstName) {
     qb.whereRaw('LOWER("schooling-registrations"."firstName") LIKE ?', `%${firstName.toLowerCase()}%`);
+  }
+  if (connexionType === 'none') {
+    qb.whereRaw('"users"."username" IS NULL');
+    qb.whereRaw('"users"."email" IS NULL');
+    qb.whereRaw('"users"."samlId" IS NULL');
+  } else if (connexionType === 'identifiant') {
+    qb.whereRaw('"users"."username" IS NOT NULL');
+  } else if (connexionType === 'email') {
+    qb.whereRaw('"users"."email" IS NOT NULL');
+  } else if (connexionType === 'mediacentre') {
+    qb.whereRaw('"users"."samlId" IS NOT NULL');
   }
 }
 

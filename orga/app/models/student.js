@@ -2,21 +2,14 @@ import { notEmpty } from '@ember/object/computed';
 import { computed } from '@ember/object';
 import Model, { belongsTo, attr } from '@ember-data/model';
 
-const dash = '\u2013';
+const DASH = '\u2013';
+const SPACING_CHARACTER = '\n';
 
-const StudentAuthMethod = {
-  studentNotReconcilied: {
-    message: dash,
-  },
-  hasEmail: {
-    message: 'Adresse e-mail'
-  },
-  isAuthenticatedFromGar: {
-    message: 'Mediacentre'
-  },
-  hasUsername: {
-    message: 'Identifiant'
-  },
+export const CONNEXION_TYPES = {
+  none: 'Non connecté',
+  email: 'Adresse e-mail',
+  identifiant: 'Identifiant',
+  mediacentre: 'Mediacentre',
 };
 
 export default class Student extends Model {
@@ -31,19 +24,16 @@ export default class Student extends Model {
   @notEmpty('email') hasEmail;
 
   @computed('hasUsername', 'hasEmail', 'isAuthenticatedFromGar')
+  
   get authenticationMethods() {
-    const SPACING_CHARACTER = '\n';
-    let message = '';
-    const props = ['hasEmail', 'hasUsername', 'isAuthenticatedFromGar'];
+    const messages = [];
 
-    props.forEach((prop) => {
-      if (this[prop]) {
-        message = message.concat(StudentAuthMethod[prop].message, SPACING_CHARACTER);
-      }
-    });
+    if (!this.isStudentAssociated) messages.push(DASH);
+    if (this.hasEmail) messages.push(CONNEXION_TYPES['email']);
+    if (this.hasUsername) messages.push(CONNEXION_TYPES['identifiant']);
+    if (this.isAuthenticatedFromGar) messages.push(CONNEXION_TYPES['mediacentre']);
 
-    return message ?  message.trim() : StudentAuthMethod['studentNotReconcilied'].message;
-
+    return messages.length > 0 ? messages.join(SPACING_CHARACTER) : '';
   }
 
   @computed('hasUsername', 'hasEmail', 'isAuthenticatedFromGar')

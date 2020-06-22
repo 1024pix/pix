@@ -30,6 +30,7 @@ module.exports = {
   buildPixRole: require('./build-pix-role'),
   buildSession: require('./build-session'),
   buildSchoolingRegistration: require('./build-schooling-registration'),
+  buildSchoolingRegistrationWithUser: require('./build-schooling-registration-with-user'),
   buildTargetProfile: require('./build-target-profile'),
   buildTargetProfileSkill: require('./build-target-profile-skill'),
   buildTargetProfileShare: require('./build-target-profile-share'),

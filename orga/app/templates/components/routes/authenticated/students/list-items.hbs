@@ -23,24 +23,31 @@
         <tr>
             <th>
               <SearchInput
+                class="table__input"
                 @inputName="lastName"
-                @class="input table__input search-input"
                 @value={{@lastNameFilter}}
                 @placeholder="Rechercher par nom"
-                @filterFunction={{fn @triggerFiltering "lastName"}}
+                @filterFunction={{fn @triggerFiltering "lastName" true}}
               />
             </th>
             <th>
               <SearchInput
+                class="table__input"
                 @inputName="firstName"
-                @class="input table__input search-input"
                 @value={{@firstNameFilter}}
                 @placeholder="Rechercher par prénom"
-                @filterFunction={{fn @triggerFiltering "firstName"}}
+                @filterFunction={{fn @triggerFiltering "firstName" true}}
               />
             </th>
             <th></th>
-            <th></th>
+            <th>
+              <SelectInput
+                @class="table__input"
+                @onChange={{fn @triggerFiltering "connexionType" false}}
+                @options={{@connexionTypesOptions}}
+                @selectedOption={{@connexionTypeFilter}}
+              />
+            </th>
             <th></th>
           </tr>
       </thead>
@@ -79,7 +86,7 @@
     </table>
 
     {{#unless @students}}
-      <div class="table__empty content-text">En attente d'élèves</div>
+      <div class="table__empty content-text">Aucun élève.</div>
     {{/unless}}
   </div>
 
