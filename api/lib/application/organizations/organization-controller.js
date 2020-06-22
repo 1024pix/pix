@@ -91,10 +91,10 @@ module.exports = {
 
   async findPaginatedFilteredSchoolingRegistrations(request) {
     const organizationId = parseInt(request.params.id);
-    const { filter } = queryParamsUtils.extractParameters(request.query);
+    const { filter, page } = queryParamsUtils.extractParameters(request.query);
 
-    const students = await usecases.findPaginatedFilteredSchoolingRegistrations({ organizationId, filter });
-    return userWithSchoolingRegistrationSerializer.serialize(students);
+    const { data, pagination } = await usecases.findPaginatedFilteredSchoolingRegistrations({ organizationId, filter, page });
+    return userWithSchoolingRegistrationSerializer.serialize(data, pagination);
   },
 
   importSchoolingRegistrationsFromSIECLE(request) {

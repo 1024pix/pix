@@ -164,7 +164,7 @@ describe('Integration | Application | Organizations | organization-controller', 
 
       it('should return an HTTP response with status code 200', async () => {
         // given
-        usecases.findPaginatedFilteredSchoolingRegistrations.resolves([studentWithUserInfo]);
+        usecases.findPaginatedFilteredSchoolingRegistrations.resolves({ data: [studentWithUserInfo] });
 
         // when
         const response = await httpTestServer.request('GET', '/api/organizations/1234/students');
@@ -175,7 +175,7 @@ describe('Integration | Application | Organizations | organization-controller', 
 
       it('should return an HTTP response formatted as JSON:API', async () => {
         // given
-        usecases.findPaginatedFilteredSchoolingRegistrations.resolves([studentWithUserInfo]);
+        usecases.findPaginatedFilteredSchoolingRegistrations.resolves({ data: [studentWithUserInfo] });
 
         // when
         const response = await httpTestServer.request('GET', '/api/organizations/1234/students');

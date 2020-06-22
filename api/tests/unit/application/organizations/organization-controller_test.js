@@ -439,19 +439,19 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
     it('should call the usecase to find students with users infos related to the organization id', async () => {
       // given
-      usecases.findPaginatedFilteredSchoolingRegistrations.resolves();
+      usecases.findPaginatedFilteredSchoolingRegistrations.resolves({});
 
       // when
       await organizationController.findPaginatedFilteredSchoolingRegistrations(request, hFake);
 
       // then
-      expect(usecases.findPaginatedFilteredSchoolingRegistrations).to.have.been.calledWith({ organizationId, filter: {} });
+      expect(usecases.findPaginatedFilteredSchoolingRegistrations).to.have.been.calledWith({ organizationId, filter: {}, page: {} });
     });
 
     it('should call the usecase to find students with users infos related to filters', async () => {
       // given
       request = { ...request, query: { 'filter[lastName]': 'Bob', 'filter[firstName]': 'Tom', 'filter[connexionType]': 'email' } };
-      usecases.findPaginatedFilteredSchoolingRegistrations.resolves();
+      usecases.findPaginatedFilteredSchoolingRegistrations.resolves({});
 
       // when
       await organizationController.findPaginatedFilteredSchoolingRegistrations(request, hFake);
@@ -459,13 +459,26 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       // then
       expect(usecases.findPaginatedFilteredSchoolingRegistrations).to.have.been.calledWith({
         organizationId,
-        filter: { lastName: 'Bob', firstName: 'Tom', connexionType: 'email' }
+        filter: { lastName: 'Bob', firstName: 'Tom', connexionType: 'email' },
+        page: {}
       });
+    });
+
+    it('should call the usecase to find students with users infos related to pagination', async () => {
+      // given
+      request = { ...request, query: { 'page[size]': 10, 'page[number]': 1 } };
+      usecases.findPaginatedFilteredSchoolingRegistrations.resolves({});
+
+      // when
+      await organizationController.findPaginatedFilteredSchoolingRegistrations(request, hFake);
+
+      // then
+      expect(usecases.findPaginatedFilteredSchoolingRegistrations).to.have.been.calledWith({ organizationId, filter: {}, page: { size: 10, number: 1 } });
     });
 
     it('should return the serialized students belonging to the organization', async () => {
       // given
-      usecases.findPaginatedFilteredSchoolingRegistrations.resolves([studentWithUserInfo]);
+      usecases.findPaginatedFilteredSchoolingRegistrations.resolves({ data: [studentWithUserInfo] });
       userWithSchoolingRegistrationSerializer.serialize.returns(serializedStudentsWithUsersInfos);
 
       // when
