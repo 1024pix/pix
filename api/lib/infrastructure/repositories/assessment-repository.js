@@ -63,6 +63,13 @@ module.exports = {
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
+  getIdByCertificationCourseId(certificationCourseId) {
+    return BookshelfAssessment
+      .where({ certificationCourseId, type: 'CERTIFICATION' })
+      .fetch({ columns: 'id' })
+      .then((result) => result ? result.attributes.id : null);
+  },
+
   getByCampaignParticipationId(campaignParticipationId) {
     return BookshelfAssessment
       .where({ 'campaign-participations.id': campaignParticipationId, 'assessments.type': 'SMART_PLACEMENT' })
