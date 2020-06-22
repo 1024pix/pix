@@ -2,13 +2,14 @@
   position: relative;
 
   .link__return-to {
+    top: calc(-0.813rem - 20px);
     position: absolute;
     margin-left: -6px;
-    top: 28px;
     align-self: start;
     color: $white;
 
-    span {
+    .icon-button {
+      margin-right: 0;
       color: $white;
     }
   }
@@ -17,7 +18,10 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin-top: -205px;
+    max-width: 980px;
+    z-index: 1;
+    margin-top: 68px;
+    position: relative;
   }
 
   &--details-body {
@@ -40,7 +44,7 @@
       margin-top: 68px;
       position: relative;
     }
-  
+
     &--details-body {
       flex-wrap: wrap;
     }
@@ -49,17 +53,6 @@
 
 @include device-is('tablet') {
   .user-certifications-page-get {
-
-    .link__return-to {
-      top: calc(-0.813rem - 20px);
-    }
-
-    &--over-background-banner {
-      max-width: 980px;
-      z-index: 1;
-      margin-top: 68px;
-      position: relative;
-    }
 
     &--details-body {
       flex-wrap: wrap;
