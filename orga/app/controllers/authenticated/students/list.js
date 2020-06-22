@@ -1,10 +1,11 @@
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { debounce } from '@ember/runloop';
 import Controller from '@ember/controller';
 import { htmlSafe } from '@ember/template';
 import { tracked } from '@glimmer/tracking';
 import ENV from 'pix-orga/config/environment';
+import { CONNEXION_TYPES } from '../../../models/student';
+import debounce from 'lodash/debounce';
 
 export default class ListController extends Controller {
   @service session;
@@ -13,20 +14,34 @@ export default class ListController extends Controller {
 
   isLoading = false;
 
-  @tracked firstName = null;
   @tracked lastName = null;
-  filters = {};
+  @tracked firstName = null;
+  @tracked connexionType = null;
 
-  updateFilters() {
-    this.setProperties(this.filters);
+  updateFilters(filters) {
+    this.setProperties(filters);
   }
+
+  debouncedUpdateFilters = debounce(this.updateFilters, ENV.pagination.debounce);
 
   @action
-  triggerFiltering(fieldName, event) {
-    const value = event.target.value;
-    this.filters[fieldName] = value;
-    debounce(this, this.updateFilters, ENV.pagination.debounce);
+  triggerFiltering(fieldName, debounced, event) {
+    if (debounced) {
+      this.debouncedUpdateFilters({ [fieldName]: event.target.value });
+    } else {
+      this.updateFilters({ [fieldName]: event.target.value });
+    }
   }
+
+  get connexionTypesOptions() {
+    return [
+      { value: '', label: 'Tous' },
+      { value: 'none', label: CONNEXION_TYPES.none },
+      { value: 'email', label: CONNEXION_TYPES.email },
+      { value: 'identifiant', label: CONNEXION_TYPES.identifiant },
+      { value: 'mediacentre', label: CONNEXION_TYPES.mediacentre },
+    ];
+  } 
 
   @action
   async importStudents(file) {

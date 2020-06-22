@@ -70,8 +70,8 @@ module('Acceptance | Student List', function(hooks) {
 
         organizationId = user.memberships.models.firstObject.organizationId;
 
-        server.create('student', { organizationId, firstName: 'Chuck', lastName: 'Norris' });
-        server.create('student', { organizationId, firstName: 'John', lastName: 'Rambo' });
+        server.create('student', { organizationId, firstName: 'Chuck', lastName: 'Norris', hasEmail: false });
+        server.create('student', { organizationId, firstName: 'John', lastName: 'Rambo', hasEmail: true });
 
         await authenticateSession({
           user_id: user.id,
@@ -87,6 +87,7 @@ module('Acceptance | Student List', function(hooks) {
         await fillIn('[placeholder="Rechercher par nom"]', 'ambo');
       
         // then
+        assert.equal(currentURL(), '/eleves?lastName=ambo');
         assert.contains('Rambo');
         assert.notContains('Norris');
       });
@@ -97,6 +98,18 @@ module('Acceptance | Student List', function(hooks) {
         await fillIn('[placeholder="Rechercher par prénom"]', 'Jo');
       
         // then
+        assert.equal(currentURL(), '/eleves?firstName=Jo');
+        assert.contains('Rambo');
+        assert.notContains('Norris');
+      });
+
+      test('it should display the students list filtered by connexion type', async function(assert) {
+        // when
+        await visit('/eleves');
+        await fillIn('select', 'email');
+
+        // then
+        assert.equal(currentURL(), '/eleves?connexionType=email');
         assert.contains('Rambo');
         assert.notContains('Norris');
       });

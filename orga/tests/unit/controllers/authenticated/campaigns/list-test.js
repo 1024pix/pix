@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import ArrayProxy from '@ember/array/proxy';
+import ObjectProxy from '@ember/object/proxy';
 import sinon from 'sinon';
 
 module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
@@ -62,6 +63,41 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
         // then
         assert.equal(displayNoCampaignPanel, false);
       });
+    });
+  });
+
+  module('#get membersOptions', function() {
+    test('it should returns default option if no organization members', function(assert) {
+      // given
+      controller.currentUser = {
+        organization: {
+          memberships: [],
+        },
+      };
+
+      // then
+      assert.deepEqual(controller.membersOptions, [
+        { value: '', label: 'Tous' },
+      ]);
+    });
+
+    test('it should returns members options from organization members', function(assert) {
+      // given
+      controller.currentUser = {
+        organization: {
+          memberships: [{
+            user: ObjectProxy.create({
+              content: { id: '1', firstName: 'John', lastName: 'Rambo' }
+            })
+          }],
+        },
+      };
+
+      // then
+      assert.deepEqual(controller.membersOptions, [
+        { value: '', label: 'Tous' },
+        { value: '1', label: 'John Rambo' },
+      ]);
     });
   });
 
