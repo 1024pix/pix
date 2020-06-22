@@ -3,7 +3,7 @@ module.exports =  function findUserWithSchoolingRegistrations({
   filter,
   schoolingRegistrationRepository,
 }) {
-  return schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId({
+  return schoolingRegistrationRepository.findPaginatedFilteredSchoolingRegistrations({
     organizationId,
     filter,
   });
