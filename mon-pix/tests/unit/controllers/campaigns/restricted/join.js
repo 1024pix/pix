@@ -463,7 +463,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
 
       // then
       sinon.assert.calledOnce(studentUserAssociation.unloadRecord);
-      expect(controller.get('errorMessage')).to.equal('Vérifiez vos informations afin de continuer ou prévenez l’organisateur.');
+      expect(controller.get('errorMessage')).to.equal('Vous êtes enseignant ? L’accès à un parcours n’est pas disponible pour le moment. Vous êtes un élève ? Vérifiez vos informations afin de continuer ou prévenez l’organisateur de votre parcours.');
       sinon.assert.notCalled(controller.transitionToRoute);
       expect(controller.get('isLoading')).to.equal(false);
     });
@@ -477,7 +477,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
 
       // then
       sinon.assert.calledOnce(studentUserAssociation.unloadRecord);
-      expect(controller.get('errorMessage')).to.equal('Les informations saisies ont déjà été utilisées. Prévenez l’organisateur.');
+      expect(controller.get('errorMessage')).to.equal('Vous avez déjà rejoint votre établissement avec un autre compte. Retrouvez-le. En cas d’oubli, contactez votre enseignant.');
       sinon.assert.notCalled(controller.transitionToRoute);
       expect(controller.get('isLoading')).to.equal(false);
     });

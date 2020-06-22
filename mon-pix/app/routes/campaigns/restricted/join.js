@@ -8,14 +8,14 @@ export default class JoinRoute extends Route.extend(SecuredRouteMixin) {
   @service session;
 
   model() {
-    return this.paramsFor('campaigns').code;
+    return this.modelFor('campaigns');
   }
 
-  async redirect(campaignCode) {
-    const student = await this.store.queryRecord('student-user-association', { userId: this.currentUser.user.id, campaignCode });
+  async redirect(campaign) {
+    const student = await this.store.queryRecord('student-user-association', { userId: this.currentUser.user.id, campaignCode: campaign.code });
 
     if (!isEmpty(student)) {
-      return this.replaceWith('campaigns.start-or-resume', campaignCode, {
+      return this.replaceWith('campaigns.start-or-resume', campaign.code, {
         queryParams: { associationDone: true }
       });
     }
