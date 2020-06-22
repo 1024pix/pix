@@ -5,6 +5,7 @@ const AssessmentResult = require('../../../../../lib/domain/models/AssessmentRes
 const CompetenceMarks = require('../../../../../lib/domain/models/CompetenceMark');
 const CertificationCourse = require('../../../../../lib/domain/models/CertificationCourse');
 
+const assessmentRepository = require('../../../../../lib/infrastructure/repositories/assessment-repository');
 const assessmentResultRepository = require('../../../../../lib/infrastructure/repositories/assessment-result-repository');
 const certificationAssessmentRepository = require('../../../../../lib/infrastructure/repositories/certification-assessment-repository');
 const certificationCourseRepository = require('../../../../../lib/infrastructure/repositories/certification-course-repository');
@@ -65,6 +66,7 @@ describe('Unit | Service | Certification Service', function() {
 
     context('when certification is finished', () => {
       let certificationCourse;
+      const assessmentId = Symbol('assessmentId');
 
       beforeEach(() => {
         certificationCourse = new CertificationCourse({
@@ -85,6 +87,8 @@ describe('Unit | Service | Certification Service', function() {
         assessmentResult.competenceMarks = [_buildCompetenceMarks(3, 27, '2', '2.1', 'rec2.1')];
         sinon.stub(assessmentResultRepository, 'findLatestByCertificationCourseIdWithCompetenceMarks')
           .withArgs({ certificationCourseId }).resolves(assessmentResult);
+        sinon.stub(assessmentRepository, 'getIdByCertificationCourseId')
+          .withArgs(certificationCourseId).resolves(assessmentId);
       });
 
       it('should return certification results with pix score, date and certified competences levels', async () => {
@@ -92,6 +96,7 @@ describe('Unit | Service | Certification Service', function() {
         const certification = await certificationService.getCertificationResult(certificationCourseId);
 
         // then
+        expect(certification.assessmentId).to.equal(assessmentId);
         expect(certification.pixScore).to.deep.equal(20);
         expect(certification.createdAt).to.deep.equal(new Date('2017-12-23T15:23:12Z'));
         expect(certification.completedAt).to.deep.equal(new Date('2017-12-23T16:23:12Z'));

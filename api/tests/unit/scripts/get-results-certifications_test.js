@@ -118,7 +118,7 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
           attributes: {
             'competences-with-mark': [
               {
-                'competence-code': '1.1',
+                'competence_code': '1.1',
                 level: 9001
               }
             ]
@@ -140,11 +140,11 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
           attributes: {
             'competences-with-mark': [
               {
-                'competence-code': '1.1',
+                'competence_code': '1.1',
                 level: 4
               },
               {
-                'competence-code': '1.2',
+                'competence_code': '1.2',
                 level: 6
               }
             ]
@@ -180,7 +180,7 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
       // given
       const competenceCode = '1.1';
       const profile = [{
-        'competence-code': competenceCode,
+        'competence_code': competenceCode,
         level: 9
       }];
 

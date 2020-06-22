@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { expect, sinon, catchErr } = require('../../../test-helper');
+const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const { handleCertificationScoring } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const { CertificationComputeError } = require('../../../../lib/domain/errors');
@@ -135,10 +135,10 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
     });
 
     context('when scoring is successful', () => {
-      const competenceMarkData1 = { dummyAttr: 'cm1' };
-      const competenceMarkData2 = { dummyAttr: 'cm2' };
       const assessmentResult = Symbol('AssessmentResult');
-      const assessmentResultId = 'assessmentResultId';
+      const assessmentResultId = 99;
+      const competenceMarkData1 = domainBuilder.buildCompetenceMark({ assessmentResultId });
+      const competenceMarkData2 = domainBuilder.buildCompetenceMark({ assessmentResultId });
       const savedAssessmentResult = { id: assessmentResultId };
       const nbPix = Symbol('nbPix');
       const level = Symbol('level');

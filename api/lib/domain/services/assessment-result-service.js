@@ -1,21 +1,20 @@
 const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
 const competenceMarkRepository = require('../../infrastructure/repositories/competence-mark-repository');
+const CompetenceMark = require('../models/CompetenceMark');
+const bluebird = require('bluebird');
 
-function _validatedDataForAllCompetenceMark(marks) {
-  return Promise.all(marks.map((mark) => mark.validate()));
+async function _validatedDataForAllCompetenceMark(competenceMarks) {
+  for (const competenceMark of competenceMarks) {
+    competenceMark.validate();
+  }
 }
 
-function save(assessmentResult, competenceMarks) {
-
-  return _validatedDataForAllCompetenceMark(competenceMarks)
-    .then(() => assessmentResultRepository.save(assessmentResult))
-    .then((assessmentResult) => {
-      const competenceMarksSaved = competenceMarks.map((competenceMark) => {
-        competenceMark.assessmentResultId = assessmentResult.id;
-        return competenceMarkRepository.save(competenceMark);
-      });
-      return Promise.all(competenceMarksSaved);
-    });
+async function save(assessmentResult, competenceMarks) {
+  await _validatedDataForAllCompetenceMark(competenceMarks);
+  const { id }  = await assessmentResultRepository.save(assessmentResult);
+  return bluebird.mapSeries(competenceMarks,
+    (competenceMark) => competenceMarkRepository.save(new CompetenceMark({ ...competenceMark, assessmentResultId: id }))
+  );
 }
 
 module.exports = {

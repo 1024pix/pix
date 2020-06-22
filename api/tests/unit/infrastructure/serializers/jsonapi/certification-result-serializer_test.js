@@ -33,6 +33,7 @@ describe('Unit | Serializer | JSONAPI | certification-result-serializer', functi
         competencesWithMark: [],
         juryId: 21,
         sessionId: 22,
+        assessmentId: 99
       });
 
       // when
@@ -66,6 +67,7 @@ describe('Unit | Serializer | JSONAPI | certification-result-serializer', functi
             'pix-score': certificationResult.pixScore,
             'result-created-at': new Date('2017-02-20T01:02:03Z'),
             'session-id': certificationResult.sessionId,
+            'assessment-id': certificationResult.assessmentId,
             status: certificationResult.status,
           }
         }

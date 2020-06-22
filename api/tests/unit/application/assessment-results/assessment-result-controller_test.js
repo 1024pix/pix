@@ -27,18 +27,18 @@ describe('Unit | Controller | assessment-results', () => {
               {
                 level: 2,
                 score: 18,
-                'area-code': 2,
-                'competence-code': 2.1
+                'area_code': 2,
+                'competence_code': 2.1
               }, {
                 level: 3,
                 score: 27,
-                'area-code': 3,
-                'competence-code': 3.2
+                'area_code': 3,
+                'competence_code': 3.2
               }, {
                 level: 1,
                 score: 9,
-                'area-code': 1,
-                'competence-code': 1.3
+                'area_code': 1,
+                'competence_code': 1.3
               }
             ]
           },
@@ -95,7 +95,7 @@ describe('Unit | Controller | assessment-results', () => {
 
       // then
       expect(response).to.be.null;
-      expect(assessmentResultService.save).to.have.been.calledWith(expectedAssessmentResult, [competenceMark1, competenceMark2, competenceMark3]);
+      expect(assessmentResultService.save).to.have.been.calledWithMatch(expectedAssessmentResult, [competenceMark1, competenceMark2, competenceMark3]);
     });
   });
 });
