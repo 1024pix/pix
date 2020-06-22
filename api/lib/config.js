@@ -39,6 +39,13 @@ module.exports = (function() {
       domainOrg: process.env.DOMAIN_NAME_ORG || 'pix.org',
     },
 
+    domain: {
+      tldFr: process.env.TLD_FR || '.fr',
+      tldOrg: process.env.TLD_ORG || '.org',
+      pix: process.env.DOMAIN_PIX || 'https://pix',
+      pixOrga: process.env.DOMAIN_PIX_ORGA || 'https://orga.pix',
+    },
+
     logging: {
       enabled: isFeatureEnabled(process.env.LOG_ENABLED),
       colorEnabled: (process.env.NODE_ENV === 'development'),
@@ -117,8 +124,6 @@ module.exports = (function() {
       concurrencyForHeavyOperations: _getNumber(process.env.INFRA_CONCURRENCY_HEAVY_OPERATIONS, 2),
     },
 
-    pixOrgaUrl: process.env.PIXORGA_URL,
-
     sentry: {
       enabled: isFeatureEnabled(process.env.SENTRY_ENABLED),
       dsn: process.env.SENTRY_DSN,
@@ -136,6 +141,11 @@ module.exports = (function() {
 
     config.airtable.apiKey = 'test-api-key';
     config.airtable.base = 'test-base';
+
+    config.domain.tldFr = '.fr';
+    config.domain.tldOrg = '.org';
+    config.domain.pix = 'https://pix';
+    config.domain.pixOrga = 'https://orga.pix';
 
     config.mailing.enabled = false;
     config.mailing.provider = 'mailjet';
@@ -163,8 +173,6 @@ module.exports = (function() {
     config.caching.redisUrl = null;
     config.caching.redisCacheKeyLockTTL = 0;
     config.caching.redisCacheLockedWaitBeforeRetry = 0;
-
-    config.pixOrgaUrl = 'http://dev.pix-orga.fr';
 
     config.sentry.enabled = false;
   }
