@@ -25,7 +25,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
       targetSkills = [];
       lastAnswer = null;
 
-      answerRepository = { findLastByAssessment: sinon.stub().resolves(lastAnswer) };
+      answerRepository = { findByAssessment: sinon.stub().resolves([lastAnswer]) };
       challengeRepository = { findByCompetenceId: sinon.stub().resolves(challenges) };
       skillRepository = { findByCompetenceId: sinon.stub().resolves(targetSkills) };
       pickChallengeService = { pickChallenge: sinon.stub().resolves(challengeUrl22) };
@@ -82,7 +82,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
         });
       });
       it('should have fetched the answers', () => {
-        expect(answerRepository.findLastByAssessment).to.have.been.calledWithExactly(assessmentId);
+        expect(answerRepository.findByAssessment).to.have.been.calledWithExactly(assessmentId);
       });
 
       it('should have fetched the most recent knowledge elements', () => {
@@ -94,7 +94,9 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
       });
 
       it('should have fetched the next challenge with only most recent knowledge elements', () => {
+        const allAnswers = [lastAnswer];
         expect(smartRandom.getPossibleSkillsForNextChallenge).to.have.been.calledWithExactly({
+          allAnswers,
           lastAnswer,
           challenges,
           targetSkills,

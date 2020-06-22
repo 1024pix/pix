@@ -1,11 +1,12 @@
 const _ = require('lodash');
+const { pipe } = require('lodash/fp');
 const catAlgorithm = require('./cat-algorithm');
 const { getFilteredSkillsForNextChallenge, getFilteredSkillsForFirstChallenge } = require('./skills-filter');
 const { computeTubesFromSkills } = require('./../tube-service');
 
 module.exports = { getPossibleSkillsForNextChallenge };
 
-function getPossibleSkillsForNextChallenge({ knowledgeElements, challenges, targetSkills, lastAnswer } = {}) {
+function getPossibleSkillsForNextChallenge({ knowledgeElements, challenges, targetSkills, lastAnswer, allAnswers } = {}) {
 
   const isUserStartingTheTest = !lastAnswer;
   const isLastChallengeTimed = _wasLastChallengeTimed(lastAnswer);
@@ -13,7 +14,7 @@ function getPossibleSkillsForNextChallenge({ knowledgeElements, challenges, targ
   const knowledgeElementsOfTargetSkills = knowledgeElements.filter((ke) => {
     return targetSkills.find((skill) => skill.id === ke.skillId);
   });
-  const filteredChallenges = _removeUnpublishedChallenges(challenges);
+  const filteredChallenges = _filterChallenges({ challenges, allAnswers });
   targetSkills = _getSkillsWithAddedInformations({ targetSkills, filteredChallenges });
 
   // First challenge has specific rules
@@ -58,20 +59,29 @@ function _findFirstChallenge({ knowledgeElements, targetSkills, tubes }) {
 }
 
 function _getSkillsWithAddedInformations({ targetSkills, filteredChallenges }) {
-  const skillsWithInformation =  _.map(targetSkills, (skill) => {
+  return _.map(targetSkills, (skill) => {
     const challenges = _.filter(filteredChallenges, (challenge) => challenge.hasSkill(skill));
     const [ firstChallenge ] = challenges;
-    if (!firstChallenge) {
-      return null;
-    }
     const skillCopy = Object.create(skill);
     return Object.assign(skillCopy, {
       challenges,
-      linkedSkills: _.reject(firstChallenge.skills, { id: skill.id }),
-      timed: firstChallenge.isTimed(),
+      linkedSkills: firstChallenge ? _.reject(firstChallenge.skills, { id: skill.id }) : [],
+      timed: firstChallenge ? firstChallenge.isTimed() : false,
+      isPlayable: !!firstChallenge
     });
   });
-  return _.compact(skillsWithInformation);
+}
+
+function _filterChallenges({ challenges, allAnswers }) {
+  return pipe(
+    _removeChallengesWithAnswer,
+    _removeUnpublishedChallenges,
+  )({ challenges, allAnswers });
+}
+
+function _removeChallengesWithAnswer({ challenges, allAnswers }) {
+  const challengeIdsWithAnswer = allAnswers.map((answer) => answer.challengeId);
+  return challenges.filter((challenge) => !_.includes(challengeIdsWithAnswer, challenge.id));
 }
 
 function _removeUnpublishedChallenges(challenges) {
