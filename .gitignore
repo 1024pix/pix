@@ -24,6 +24,7 @@
 
 # IDE
 **/.idea
+!.idea/runConfigurations/*.xml
 *.iml
 
 # SQLite3 local dev file
