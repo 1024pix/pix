@@ -1,22 +1,29 @@
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 
 export default class PaginationControl extends Component {
 
   @service router;
 
-  pagination = null;
-  paginationLink = null;
-
-  @computed('pagination')
-  get nextPage() {
-    return Math.min(this.pagination.page + 1, this.pagination.pageCount);
+  get currentPage() {
+    return this.args.pagination ? this.args.pagination.page : 1;
   }
 
-  @computed('pagination')
+  get pageCount() {
+    return this.args.pagination ? this.args.pagination.pageCount : 0;
+  }
+
+  get pageSize() {
+    return this.args.pagination ? this.args.pagination.pageSize : 10;
+  }
+
+  get nextPage() {
+    return Math.min(this.currentPage + 1, this.pageCount);
+  }
+
   get previousPage() {
-    return Math.max(this.pagination.page - 1, 1);
+    return Math.max(this.currentPage - 1, 1);
   }
 
   @action
