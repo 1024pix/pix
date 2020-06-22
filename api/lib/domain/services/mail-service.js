@@ -63,19 +63,37 @@ function sendOrganizationInvitationEmail({
   organizationName,
   organizationInvitationId,
   code,
+  locale,
   tags
 }) {
-  const pixOrgaBaseUrl = settings.pixOrgaUrl;
+  locale = locale ? locale : 'fr-fr';
+
+  let variables = {
+    organizationName,
+    pixHomeName: `pix${settings.domain.tldFr}`,
+    pixHomeUrl: `${settings.domain.pix + settings.domain.tldFr}`,
+    pixOrgaHomeUrl: `${settings.domain.pixOrga + settings.domain.tldFr}`,
+    redirectionUrl: `${settings.domain.pixOrga + settings.domain.tldFr}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
+    locale
+  };
+  if (locale === 'fr') {
+    variables = {
+      organizationName,
+      pixHomeName: `pix${settings.domain.tldOrg}`,
+      pixHomeUrl: `${settings.domain.pix + settings.domain.tldOrg}`,
+      pixOrgaHomeUrl: `${settings.domain.pixOrga + settings.domain.tldOrg}`,
+      redirectionUrl: `${settings.domain.pixOrga + settings.domain.tldOrg}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
+      locale
+    };
+  }
+
   return mailer.sendEmail({
     from: EMAIL_ADDRESS_NO_RESPONSE,
     fromName: PIX_ORGA_NAME,
     to: email,
     subject: 'Invitation à rejoindre Pix Orga',
     template: mailer.organizationInvitationTemplateId,
-    variables: {
-      organizationName,
-      responseUrl: `${pixOrgaBaseUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
-    },
+    variables,
     tags: tags || null
   });
 }
