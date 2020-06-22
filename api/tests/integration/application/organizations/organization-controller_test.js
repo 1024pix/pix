@@ -18,7 +18,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'updateOrganizationInformation');
     sandbox.stub(usecases, 'findPaginatedFilteredOrganizationMemberships');
-    sandbox.stub(usecases, 'findUserWithSchoolingRegistrations');
+    sandbox.stub(usecases, 'findPaginatedFilteredSchoolingRegistrations');
     sandbox.stub(usecases, 'createOrganizationInvitations');
     sandbox.stub(usecases, 'answerToOrganizationInvitation');
     sandbox.stub(usecases, 'findPendingOrganizationInvitations');
@@ -164,7 +164,7 @@ describe('Integration | Application | Organizations | organization-controller', 
 
       it('should return an HTTP response with status code 200', async () => {
         // given
-        usecases.findUserWithSchoolingRegistrations.resolves([studentWithUserInfo]);
+        usecases.findPaginatedFilteredSchoolingRegistrations.resolves([studentWithUserInfo]);
 
         // when
         const response = await httpTestServer.request('GET', '/api/organizations/1234/students');
@@ -175,7 +175,7 @@ describe('Integration | Application | Organizations | organization-controller', 
 
       it('should return an HTTP response formatted as JSON:API', async () => {
         // given
-        usecases.findUserWithSchoolingRegistrations.resolves([studentWithUserInfo]);
+        usecases.findPaginatedFilteredSchoolingRegistrations.resolves([studentWithUserInfo]);
 
         // when
         const response = await httpTestServer.request('GET', '/api/organizations/1234/students');

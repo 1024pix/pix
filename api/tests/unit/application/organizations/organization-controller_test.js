@@ -411,7 +411,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
-  describe('#findUserWithSchoolingRegistrations', () => {
+  describe('#findPaginatedFilteredSchoolingRegistrations', () => {
 
     const connectedUserId = 1;
     const organizationId = 145;
@@ -425,7 +425,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
         params: { id: organizationId.toString() }
       };
 
-      sinon.stub(usecases, 'findUserWithSchoolingRegistrations');
+      sinon.stub(usecases, 'findPaginatedFilteredSchoolingRegistrations');
       sinon.stub(userWithSchoolingRegistrationSerializer, 'serialize');
 
       studentWithUserInfo = domainBuilder.buildUserWithSchoolingRegistration();
@@ -439,25 +439,25 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
     it('should call the usecase to find students with users infos related to the organization id', async () => {
       // given
-      usecases.findUserWithSchoolingRegistrations.resolves();
+      usecases.findPaginatedFilteredSchoolingRegistrations.resolves();
 
       // when
-      await organizationController.findUserWithSchoolingRegistrations(request, hFake);
+      await organizationController.findPaginatedFilteredSchoolingRegistrations(request, hFake);
 
       // then
-      expect(usecases.findUserWithSchoolingRegistrations).to.have.been.calledWith({ organizationId, filter: {} });
+      expect(usecases.findPaginatedFilteredSchoolingRegistrations).to.have.been.calledWith({ organizationId, filter: {} });
     });
 
     it('should call the usecase to find students with users infos related to filters', async () => {
       // given
       request = { ...request, query: { 'filter[lastName]': 'Bob', 'filter[firstName]': 'Tom', 'filter[connexionType]': 'email' } };
-      usecases.findUserWithSchoolingRegistrations.resolves();
+      usecases.findPaginatedFilteredSchoolingRegistrations.resolves();
 
       // when
-      await organizationController.findUserWithSchoolingRegistrations(request, hFake);
+      await organizationController.findPaginatedFilteredSchoolingRegistrations(request, hFake);
 
       // then
-      expect(usecases.findUserWithSchoolingRegistrations).to.have.been.calledWith({
+      expect(usecases.findPaginatedFilteredSchoolingRegistrations).to.have.been.calledWith({
         organizationId,
         filter: { lastName: 'Bob', firstName: 'Tom', connexionType: 'email' }
       });
@@ -465,11 +465,11 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
     it('should return the serialized students belonging to the organization', async () => {
       // given
-      usecases.findUserWithSchoolingRegistrations.resolves([studentWithUserInfo]);
+      usecases.findPaginatedFilteredSchoolingRegistrations.resolves([studentWithUserInfo]);
       userWithSchoolingRegistrationSerializer.serialize.returns(serializedStudentsWithUsersInfos);
 
       // when
-      const response = await organizationController.findUserWithSchoolingRegistrations(request, hFake);
+      const response = await organizationController.findPaginatedFilteredSchoolingRegistrations(request, hFake);
 
       // then
       expect(response).to.deep.equal(serializedStudentsWithUsersInfos);
