@@ -1,9 +1,9 @@
 <header class="page-header">
   <div class="page-title">Sessions de certification</div>
   <div class="page-actions">
-    <form class='form-inline' {{action "loadSession" on='submit'}}>
+    <form class="form-inline" {{on 'submit' this.loadSession}}>
       <Input placeholder="Identifiant" @type="text" @value={{this.inputId}} />
-      <button class='btn btn-primary btn-sm btn-thin' type='submit'>
+      <button class="btn btn-primary btn-sm btn-thin" type="submit">
         Charger
       </button>
     </form>

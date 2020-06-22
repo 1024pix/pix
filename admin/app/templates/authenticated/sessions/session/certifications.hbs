@@ -5,13 +5,13 @@
     <div class="btn-group certification-list-page__actions" role="group">
 
       {{#if this.model.isPublished}}
-        <button class="btn btn-primary" {{action "displayCertificationStatusUpdateConfirmationModal"}} type="button">
+        <button class="btn btn-primary" {{on 'click' this.displayCertificationStatusUpdateConfirmationModal}} type="button">
           Dépublier la session
         </button>
       {{else}}
 
         {{#if this.canPublish}}
-          <button class="btn btn-primary" {{action "displayCertificationStatusUpdateConfirmationModal"}} type="button">
+          <button class="btn btn-primary" {{on 'click' this.displayCertificationStatusUpdateConfirmationModal}} type="button">
             Publier la session
           </button>
         {{else}}
@@ -26,11 +26,11 @@
   </header>
 
   <div class="certification-list-page__body">
-    <CertificationList @certifications={{model.juryCertificationSummaries}} />
+    <CertificationList @certifications={{this.model.juryCertificationSummaries}} />
   </div>
 </div>
 
-<ConfirmPopup @message={{confirmMessage}}
-              @confirm={{action "toggleSessionPublication"}}
-              @cancel={{action "onCancelConfirm"}}
-              @show={{displayConfirm}} />
+<ConfirmPopup @message={{this.confirmMessage}}
+              @confirm={{this.toggleSessionPublication}}
+              @cancel={{this.onCancelConfirm}}
+              @show={{this.displayConfirm}} />
