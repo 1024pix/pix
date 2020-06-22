@@ -15,12 +15,12 @@ describe('Unit | UseCase | findUserWithSchoolingRegistrations', () => {
   const expectedReconciledSchoolingRegistrationFromGAR = { id: 5, userId , isAuthenticatedFromGAR };
   let foundOrganizationSchoolingRegistrations;
   const expectedSchoolingRegistrations = [expectedSchoolingRegistrationNotYetReconciled, expectedReconciledSchoolingRegistrationWithUsername, expectedReconciledSchoolingRegistrationWithEmail ,expectedReconciledSchoolingRegistrationFromGAR ];
-  const schoolingRegistrationRepository = { findUserWithSchoolingRegistrationsByOrganizationId: sinon.stub().returns(expectedSchoolingRegistrations) };
+  const schoolingRegistrationRepository = { findPaginatedFilteredSchoolingRegistrations: sinon.stub().returns(expectedSchoolingRegistrations) };
 
   it('should fetch students matching organization', async function() {
     foundOrganizationSchoolingRegistrations = await findUserWithSchoolingRegistrations({ organizationId, filter: { lastName: 'A' }, schoolingRegistrationRepository });
 
-    expect(schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId).to.have.been.calledWithExactly({ organizationId, filter: { lastName: 'A' } });
+    expect(schoolingRegistrationRepository.findPaginatedFilteredSchoolingRegistrations).to.have.been.calledWithExactly({ organizationId, filter: { lastName: 'A' } });
     expect(foundOrganizationSchoolingRegistrations).to.deep.equal(expectedSchoolingRegistrations);
   });
 });
