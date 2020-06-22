@@ -35,7 +35,7 @@
       {{#if @organizations}}
         <tbody>
         {{#each @organizations as |organization|}}
-          <tr {{on "click" (fn @goToOrganizationPage organization.id)}} class="tr--clickable">
+          <tr role="button" {{on "click" (fn @goToOrganizationPage organization.id)}} class="tr--clickable">
             <td>{{organization.name}}</td>
             <td>{{organization.type}}</td>
             <td>{{organization.externalId}}</td>
