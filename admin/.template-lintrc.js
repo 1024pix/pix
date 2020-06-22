@@ -4,7 +4,7 @@ module.exports = {
   extends: 'octane',
 
   ignore: [
-    'app/templates/**',
-    'pix-admin/templates/**',
+    'app/templates/components/**',
+    'pix-admin/templates/components/**',
   ]
 };
