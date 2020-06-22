@@ -21,6 +21,10 @@ const topLevelLabels = [
     value: 'download',
   },
   {
+    name: 'L\'accessibilité de l\'épreuve',
+    value: 'accessibility',
+  },
+  {
     name: 'La réponse',
     value: 'answer',
     displayOnlyOnComparisonWindow: true
@@ -79,26 +83,32 @@ const questions = {
     {
       name: 'Je n’arrive pas à ouvrir le fichier sur un ordinateur',
       type: 'tutorial',
-      content: `Pour réussir cette épreuve, vous pouvez utiliser la suite LibreOffice, gratuite et disponible pour PC et Mac. Elle contient Libre Office Writer (équivalent à Word) et Libre Office Calc (équivalent à Excel). 
+      content: `Pour réussir cette épreuve, vous pouvez utiliser la suite LibreOffice, gratuite et disponible pour PC et Mac. Elle contient Libre Office Writer (équivalent à Word) et Libre Office Calc (équivalent à Excel).
       <a href="https://fr.libreoffice.org/download/telecharger-libreoffice">Télécharger Libre Office</a>`
     },
     {
       name: 'Je ne retrouve pas le fichier téléchargé',
       type: 'tutorial',
-      content: `Par défaut, un fichier téléchargé est enregistré dans un dossier “Téléchargements” ou “Downloads”. 
+      content: `Par défaut, un fichier téléchargé est enregistré dans un dossier “Téléchargements” ou “Downloads”.
        Il se peut aussi qu’il soit téléchargé au même endroit que votre dernier téléchargement...`
     },
     {
       name: 'Je n’arrive pas à modifier le fichier',
       type: 'tutorial',
-      content: `Le fichier est probablement ouvert en “Lecture seule” ou “Mode protégé”. <br> 
-      Cliquez sur “Activer la modification” ou “Éditer le document” sur le bandeau en haut du fichier s’il s’affiche. <br> 
+      content: `Le fichier est probablement ouvert en “Lecture seule” ou “Mode protégé”. <br>
+      Cliquez sur “Activer la modification” ou “Éditer le document” sur le bandeau en haut du fichier s’il s’affiche. <br>
       Sinon enregistrez le fichier sous un autre nom et ouvrez ce nouveau fichier.`
     },
     {
       name: 'J’ai un autre problème avec le fichier',
       type: 'textbox',
     },
+  ],
+  'accessibility': [
+    {
+      name: 'link',
+      type: 'textbox',
+    }
   ],
   'answer': [
     {
