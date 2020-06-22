@@ -126,7 +126,7 @@ exports.register = async (server) => {
           method: securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents,
           assign: 'belongsToScoOrganizationAndManageStudents'
         }],
-        handler: organisationController.findUserWithSchoolingRegistrations,
+        handler: organisationController.findPaginatedFilteredSchoolingRegistrations,
         tags: ['api', 'students'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +

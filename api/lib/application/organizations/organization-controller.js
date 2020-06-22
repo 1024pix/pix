@@ -89,11 +89,11 @@ module.exports = {
     return h.response().code(204);
   },
 
-  async findUserWithSchoolingRegistrations(request) {
+  async findPaginatedFilteredSchoolingRegistrations(request) {
     const organizationId = parseInt(request.params.id);
     const { filter } = queryParamsUtils.extractParameters(request.query);
 
-    const students = await usecases.findUserWithSchoolingRegistrations({ organizationId, filter });
+    const students = await usecases.findPaginatedFilteredSchoolingRegistrations({ organizationId, filter });
     return userWithSchoolingRegistrationSerializer.serialize(students);
   },
 

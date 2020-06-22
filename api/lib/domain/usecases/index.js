@@ -123,7 +123,7 @@ module.exports = injectDependencies({
   findCampaignAssessments: require('./find-campaign-assessments'),
   findTutorials: require('./find-tutorials'),
   findUserTutorials: require('./find-user-tutorials'),
-  findUserWithSchoolingRegistrations: require('./find-user-with-schooling-registrations'),
+  findPaginatedFilteredSchoolingRegistrations: require('./find-paginated-filtered-schooling-registrations'),
   flagSessionResultsAsSentToPrescriber: require('./flag-session-results-as-sent-to-prescriber'),
   generateUsername: require('./generate-username'),
   getAnswer: require('./get-answer'),
