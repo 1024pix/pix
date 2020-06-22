@@ -16,11 +16,11 @@
         <p>Ex : apparition d’une régression sur la plateforme (Pix API, Pix Editor, etc.)</p>
         <div class="callout alert"><strong>Attention !</strong> Le rechargement du référentiel est une opération risquée. Il est recommandé de ne l’effectuer qu’en cas de force majeur, accompagné d’un développeur.</div>
         <div class="callout info">Durée de l’opération : <strong>≈1mn</strong>.</div>
-        {{#if isLoading}}
-          <button type="submit" class="btn btn-primary btn-refresh-cache"><span class="loader-in-button">&nbsp;</span>
+        {{#if this.isLoading}}
+          <button type="button" disabled class="btn btn-primary btn-refresh-cache"><span class="loader-in-button">&nbsp;</span>
           </button>
         {{else}}
-          <button class="btn btn-primary btn-refresh-cache" onclick={{action "refreshLearningContent"}}>
+          <button type="button" class="btn btn-primary btn-refresh-cache" {{on 'click' this.refreshLearningContent}}>
             <FaIcon @icon="sync"></FaIcon> Recharger le cache
           </button>
         {{/if}}
