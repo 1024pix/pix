@@ -83,6 +83,7 @@ describe('Unit | Controller | user-controller', () => {
           user: deserializedUser,
           reCaptchaToken,
           locale,
+          campaignCode: null,
         };
 
         // when

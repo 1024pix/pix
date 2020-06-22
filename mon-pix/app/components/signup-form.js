@@ -3,6 +3,7 @@ import Component from '@ember/component';
 import isEmailValid from 'mon-pix/utils/email-validator';
 import isPasswordValid from '../utils/password-validator';
 import ENV from 'mon-pix/config/environment';
+const _ = require('lodash');
 
 const ERROR_INPUT_MESSAGE_MAP = {
   firstName: 'signup-form.fields.firstname.error',
@@ -137,7 +138,9 @@ export default Component.extend({
 
       this._trimNamesAndEmailOfUser();
 
-      this.user.save().then(() => {
+      const campaignCode = _.get(this.session, 'attemptedTransition.from.parent.params.campaign_code');
+
+      this.user.save({ adapterOptions: { campaignCode } }).then(() => {
         const credentials = { login: this.user.email, password: this.user.password };
         this.authenticateUser(credentials);
         this.set('_tokenHasBeenUsed', true);

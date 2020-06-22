@@ -5,18 +5,18 @@ const EMAIL_ADDRESS_NO_RESPONSE = 'ne-pas-repondre@pix.fr';
 const PIX_NAME = 'PIX - Ne pas répondre';
 const PIX_ORGA_NAME = 'Pix Orga - Ne pas répondre';
 
-function sendAccountCreationEmail(email, locale) {
+function sendAccountCreationEmail(email, locale, redirectionUrl) {
   let variables = {
     homeName: `${settings.app.domainFr}`,
     homeUrl: `https://${settings.app.domainFr}`,
-    loginUrl: `https://app.${settings.app.domainFr}/connexion`,
+    redirectionUrl: redirectionUrl || `https://app.${settings.app.domainFr}/connexion`,
     locale
   };
   if (locale === 'fr') {
     variables = {
       homeName: `${settings.app.domainOrg}`,
       homeUrl: `https://${settings.app.domainOrg}`,
-      loginUrl: `https://app.${settings.app.domainOrg}/connexion`,
+      redirectionUrl: redirectionUrl || `https://app.${settings.app.domainOrg}/connexion`,
       locale
     };
   }

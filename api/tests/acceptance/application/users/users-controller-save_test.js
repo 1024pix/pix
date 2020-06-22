@@ -100,7 +100,7 @@ describe('Acceptance | Controller | users-controller', () => {
             homeName: 'pix.fr',
             homeUrl: 'https://pix.fr',
             locale: 'fr-fr',
-            loginUrl: 'https://app.pix.fr/connexion',
+            redirectionUrl: 'https://app.pix.fr/connexion',
           }
         };
 
