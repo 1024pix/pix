@@ -38,7 +38,7 @@ export default Factory.extend({
     }
   }),
 
-  forSmartPlacement: trait({
+  forCampaign: trait({
     afterCreate(challenge) {
       challenge.update({ id: `recSMARPLA_${faker.random.alphaNumeric(5)}` });
     }

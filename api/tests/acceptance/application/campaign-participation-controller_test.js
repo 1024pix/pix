@@ -35,7 +35,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       assessment = databaseBuilder.factory.buildAssessment({
         campaignParticipationId: campaignParticipation.id,
         userId: user.id,
-        type: Assessment.types.SMARTPLACEMENT,
+        type: Assessment.types.CAMPAIGN,
       });
 
       await databaseBuilder.commit();
@@ -106,7 +106,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       assessment = databaseBuilder.factory.buildAssessment({
         campaignParticipationId: campaignParticipation.id,
         userId: user.id,
-        type: Assessment.types.SMARTPLACEMENT,
+        type: Assessment.types.CAMPAIGN,
       });
 
       await databaseBuilder.commit();
@@ -261,7 +261,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       assessment = databaseBuilder.factory.buildAssessment({
         campaignParticipationId: campaignParticipation.id,
         userId: user.id,
-        type: Assessment.types.SMARTPLACEMENT,
+        type: Assessment.types.CAMPAIGN,
       });
 
       // And starts answering questions
@@ -524,7 +524,7 @@ describe('Acceptance | API | Campaign Participations', () => {
         assessment = databaseBuilder.factory.buildAssessment({
           campaignParticipationId: campaignParticipation.id,
           userId: user.id,
-          type: Assessment.types.SMARTPLACEMENT,
+          type: Assessment.types.CAMPAIGN,
         });
 
         _([
@@ -566,7 +566,7 @@ describe('Acceptance | API | Campaign Participations', () => {
         assessment = databaseBuilder.factory.buildAssessment({
           campaignParticipationId: campaignParticipation.id,
           userId: user.id,
-          type: Assessment.types.SMARTPLACEMENT,
+          type: Assessment.types.CAMPAIGN,
         });
 
         await databaseBuilder.commit();

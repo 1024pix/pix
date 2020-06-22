@@ -66,10 +66,10 @@ describe('Unit | Route | Assessments | Resume', function() {
         queryRecordStub.resolves(nextChallenge);
       });
 
-      context('when assessment is a SMART_PLACEMENT', function() {
+      context('when assessment is a CAMPAIGN', function() {
 
         beforeEach(function() {
-          assessment.isSmartPlacement = true;
+          assessment.isForCampaign = true;
           assessment.isDemo = false;
           assessment.hasCheckpoints = true;
         });
@@ -155,10 +155,10 @@ describe('Unit | Route | Assessments | Resume', function() {
         queryRecordStub.resolves(null);
       });
 
-      context('when assessment is a SMART_PLACEMENT', function() {
+      context('when assessment is a CAMPAIGN', function() {
 
         beforeEach(function() {
-          assessment.isSmartPlacement = true;
+          assessment.isForCampaign = true;
           assessment.isDemo = false;
           assessment.hasCheckpoints = true;
           assessment.codeCampaign = 'konami';

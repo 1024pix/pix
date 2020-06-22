@@ -24,7 +24,7 @@ describe('Unit | Service | ImprovementService', () => {
     context('when assessment is improving', () => {
       let assessment, oldKnowledgeElementsValidated, oldKnowledgeElementsInvalidated, recentKnowledgeElements;
       beforeEach(() => {
-        assessment = domainBuilder.buildAssessment.ofTypeSmartPlacement({ state: 'started', isImproving: true, createdAt: moment().format() });
+        assessment = domainBuilder.buildAssessment.ofTypeCampaign({ state: 'started', isImproving: true, createdAt: moment().format() });
         oldKnowledgeElementsValidated = [
           domainBuilder.buildKnowledgeElement({ status: 'validated', createdAt: moment().subtract(5, 'days').format() }),
           domainBuilder.buildKnowledgeElement({ status: 'validated', createdAt: moment().subtract(5, 'days').format() }),

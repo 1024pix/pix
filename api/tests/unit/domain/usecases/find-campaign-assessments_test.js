@@ -1,25 +1,25 @@
 const { expect, domainBuilder, sinon } = require('../../../test-helper');
-const findSmartPlacementAssessments = require('../../../../lib/domain/usecases/find-smart-placement-assessments');
+const findCampaignAssessments = require('../../../../lib/domain/usecases/find-campaign-assessments');
 
-describe('Unit | UseCase | find-smart-placement-assessments', () => {
+describe('Unit | UseCase | find-campaign-assessments', () => {
 
   const assessmentRepository = {
-    findLastSmartPlacementAssessmentByUserIdAndCampaignCode: () => {
+    findLastCampaignAssessmentByUserIdAndCampaignCode: () => {
     },
   };
 
   it('should resolve assessments that match userId and belong to the user but has no campaign participation', () => {
     // given
     const userId = 1234;
-    const filters = { type: 'SMART_PLACEMENT', codeCampaign: 'Code' };
-    domainBuilder.buildAssessment.ofTypeSmartPlacement({
+    const filters = { type: 'CAMPAIGN', codeCampaign: 'Code' };
+    domainBuilder.buildAssessment.ofTypeCampaign({
       userId,
       campaignParticipation: null,
     });
-    sinon.stub(assessmentRepository, 'findLastSmartPlacementAssessmentByUserIdAndCampaignCode').resolves(null);
+    sinon.stub(assessmentRepository, 'findLastCampaignAssessmentByUserIdAndCampaignCode').resolves(null);
 
     // when
-    const promise = findSmartPlacementAssessments({ userId, filters, assessmentRepository });
+    const promise = findCampaignAssessments({ userId, filters, assessmentRepository });
 
     // then
     return promise.then((result) => {
@@ -31,17 +31,17 @@ describe('Unit | UseCase | find-smart-placement-assessments', () => {
     // given
     const userId = 1234;
     const campaignCode = 'Code';
-    const filters = { type: 'SMART_PLACEMENT', codeCampaign: campaignCode };
+    const filters = { type: 'CAMPAIGN', codeCampaign: campaignCode };
     const campaign = domainBuilder.buildCampaign.ofTypeAssessment({ code: campaignCode });
     const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaign });
-    const assessment = domainBuilder.buildAssessment.ofTypeSmartPlacement({
+    const assessment = domainBuilder.buildAssessment.ofTypeCampaign({
       userId,
       campaignParticipation
     });
-    sinon.stub(assessmentRepository, 'findLastSmartPlacementAssessmentByUserIdAndCampaignCode').resolves(assessment);
+    sinon.stub(assessmentRepository, 'findLastCampaignAssessmentByUserIdAndCampaignCode').resolves(assessment);
 
     // when
-    const promise = findSmartPlacementAssessments({ userId, filters, assessmentRepository });
+    const promise = findCampaignAssessments({ userId, filters, assessmentRepository });
 
     // then
     return promise.then((result) => {

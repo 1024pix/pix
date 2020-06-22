@@ -33,7 +33,7 @@ module.exports = async function createAssessmentForCampaign(
   await campaignParticipationRepository.save(campaignParticipation);
 
   assessment.state = Assessment.states.STARTED;
-  assessment.courseId = Assessment.courseIdMessage.SMART_PLACEMENT;
+  assessment.courseId = Assessment.courseIdMessage.CAMPAIGN;
   assessment.campaignParticipationId = campaignParticipation.id;
 
   const assessmentCreated = await assessmentRepository.save({ assessment });

@@ -4,21 +4,23 @@ const {
 } = require('../../../test-helper');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const SmartPlacementAssessment = require('../../../../lib/domain/models/SmartPlacementAssessment');
-const smartPlacementAssessmentRepository =
-  require('../../../../lib/infrastructure/repositories/smart-placement-assessment-repository');
+const CampaignAssessment = require('../../../../lib/domain/models/CampaignAssessment');
+const campaignAssessmentRepository =
+  require('../../../../lib/infrastructure/repositories/campaign-assessment-repository');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 require('../../../../lib/infrastructure/repositories/target-profile-repository');
+const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
+
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Integration | Repository | SmartPlacementAssessmentRepository', () => {
+describe('Integration | Repository | CampaignAssessmentRepository', () => {
 
   describe('#get', () => {
 
     let assessmentId;
     let assessment;
-    let notSmartPlacementAssessmentId;
-    let notSmartPlacementAssessment;
+    let notCampaignAssessmentId;
+    let notCampaignAssessment;
     let notExistingAssessmentId;
     let firstAnswer;
     let secondAnswer;
@@ -33,7 +35,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
 
       const userId = databaseBuilder.factory.buildUser().id;
       assessmentId = 987654321;
-      notSmartPlacementAssessmentId = 32323;
+      notCampaignAssessmentId = 32323;
       notExistingAssessmentId = 88888;
 
       firstSkill = domainBuilder.buildSkill();
@@ -83,7 +85,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
         campaignId: campaign.id,
       });
 
-      assessment = domainBuilder.buildSmartPlacementAssessment({
+      assessment = domainBuilder.buildCampaignAssessment({
         id: assessmentId,
         answers: [firstAnswer, secondAnswer],
         knowledgeElements: [firstKnowledgeElement, secondKnowledgeElement],
@@ -97,14 +99,14 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
       databaseBuilder.factory.buildAssessment({
         id: assessment.id,
         userId,
-        type: Assessment.types.SMARTPLACEMENT,
+        type: Assessment.types.CAMPAIGN,
         state: Assessment.states.COMPLETED,
         createdAt: assessment.createdAt,
         campaignParticipationId: campaignParticipation.id,
       });
 
       databaseBuilder.factory.buildAssessment({
-        id: notSmartPlacementAssessment,
+        id: notCampaignAssessment,
         type: Assessment.types.DEMO,
       });
 
@@ -161,37 +163,41 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
       });
 
       airtableBuilder.mockList({ tableName: 'Acquis' })
-        .returns()
+        .returns([
+          airtableBuilder.factory.buildSkill(firstSkill),
+          airtableBuilder.factory.buildSkill(secondSkill),
+          airtableBuilder.factory.buildSkill(thirdSkill)
+        ])
         .activate();
 
       await databaseBuilder.commit();
     });
 
-    afterEach(() => {
+    afterEach(async () => {
+      await cache.flushAll();
+      await databaseBuilder.clean();
       return airtableBuilder.cleanAll();
     });
 
-    it('should get the smart placement assessment', () => {
+    it('should get the campaign assessment', async () => {
       // when
-      const promise = smartPlacementAssessmentRepository.get(assessmentId);
+      const assessmentFind = await campaignAssessmentRepository.get(assessmentId);
 
       // then
-      return promise.then((assessmentFind) => {
-        expect(assessmentFind).to.be.an.instanceOf(SmartPlacementAssessment);
-        expect(assessmentFind.id).to.equal(assessment.id);
-        expect(new Date(assessmentFind.createdAt)).to.deep.equal(assessment.createdAt);
-        expect(assessmentFind.state).to.equal(assessment.state);
-        expect(parseInt(assessmentFind.userId)).to.equal(assessment.userId);
-        expect(assessmentFind.answers.length).to.equal(assessment.answers.length);
-        expect(assessmentFind.knowledgeElements.length).to.equal(assessment.knowledgeElements.length);
-        expect(assessmentFind.targetProfile.id).to.equal(assessment.targetProfile.id);
-        expect(assessmentFind.campaignParticipation.isShared).to.be.ok;
-      });
+      expect(assessmentFind).to.be.an.instanceOf(CampaignAssessment);
+      expect(assessmentFind.id).to.equal(assessment.id);
+      expect(new Date(assessmentFind.createdAt)).to.deep.equal(assessment.createdAt);
+      expect(assessmentFind.state).to.equal(assessment.state);
+      expect(parseInt(assessmentFind.userId)).to.equal(assessment.userId);
+      expect(assessmentFind.answers.length).to.equal(assessment.answers.length);
+      expect(assessmentFind.knowledgeElements.length).to.equal(assessment.knowledgeElements.length);
+      expect(assessmentFind.targetProfile.id).to.equal(assessment.targetProfile.id);
+      expect(assessmentFind.campaignParticipation.isShared).to.be.ok;
     });
 
-    it('should return not found for non smart placement assessment', () => {
+    it('should return not found for non campaign assessment', () => {
       // when
-      const promise = smartPlacementAssessmentRepository.get(notSmartPlacementAssessmentId);
+      const promise = campaignAssessmentRepository.get(notCampaignAssessmentId);
 
       // then
       return expect(promise).to.be.rejectedWith(NotFoundError);
@@ -199,7 +205,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
 
     it('should return not found when no assessment exist in database for that id', () => {
       // when
-      const promise = smartPlacementAssessmentRepository.get(notExistingAssessmentId);
+      const promise = campaignAssessmentRepository.get(notExistingAssessmentId);
 
       // then
       return expect(promise).to.be.rejectedWith(NotFoundError);
@@ -216,7 +222,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
       user = databaseBuilder.factory.buildUser();
       assessment = databaseBuilder.factory.buildAssessment({
         userId: user.id,
-        type: Assessment.types.SMARTPLACEMENT
+        type: Assessment.types.CAMPAIGN
       });
       userWithNoAssessment = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();
@@ -224,7 +230,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
 
     it('should resolve if the given assessmentId belongs to the user', () => {
       // when
-      const promise = smartPlacementAssessmentRepository.doesAssessmentBelongToUser(assessment.id, user.id);
+      const promise = campaignAssessmentRepository.doesAssessmentBelongToUser(assessment.id, user.id);
 
       // then
       return promise.then((result) => {
@@ -234,7 +240,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
 
     it('should resolve false if the given assessmentId does not belong to the user', () => {
       // when
-      const promise = smartPlacementAssessmentRepository.doesAssessmentBelongToUser(assessment.id, userWithNoAssessment.id);
+      const promise = campaignAssessmentRepository.doesAssessmentBelongToUser(assessment.id, userWithNoAssessment.id);
 
       // then
       return promise.then((result) => {

@@ -1,12 +1,12 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 
-const getNextChallengeForSmartPlacement = require('../../../../lib/domain/usecases/get-next-challenge-for-smart-placement');
+const getNextChallengeForCampaignAssessment = require('../../../../lib/domain/usecases/get-next-challenge-for-campaign-assessment');
 const smartRandom = require('../../../../lib/domain/services/smart-random/smart-random');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
-describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', () => {
+describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment', () => {
 
-  describe('#getNextChallengeForSmartPlacement', () => {
+  describe('#getNextChallengeForCampaignAssessment', () => {
 
     let userId, assessmentId, targetProfileId, campaignParticipation,
       assessment, lastAnswer, answerRepository, challengeRepository, challenges,
@@ -53,7 +53,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
         possibleSkillsForNextChallenge,
       });
 
-      actualNextChallenge = await getNextChallengeForSmartPlacement({
+      actualNextChallenge = await getNextChallengeForCampaignAssessment({
         assessment,
         answerRepository,
         challengeRepository,

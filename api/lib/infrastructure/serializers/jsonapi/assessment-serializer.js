@@ -10,15 +10,15 @@ module.exports = {
         const assessment = Object.assign({}, currentAssessment);
 
         // TODO: We can't use currentAssessment.isCertification() because
-        // this serializer is also used by model SmartPlacementAssessment
+        // this serializer is also used by model CampaignAssessment
         assessment.certificationNumber = null;
         if (currentAssessment.type === Assessment.types.CERTIFICATION) {
           assessment.certificationNumber = currentAssessment.certificationCourseId;
           assessment.certificationCourse = { id: currentAssessment.certificationCourseId };
         }
 
-        // Same here for isSmartPlacement() and isCompetenceEvaluation()
-        if ([Assessment.types.SMARTPLACEMENT, Assessment.types.COMPETENCE_EVALUATION].includes(currentAssessment.type)) {
+        // Same here for isForCampaign() and isCompetenceEvaluation()
+        if ([Assessment.types.CAMPAIGN, Assessment.types.COMPETENCE_EVALUATION].includes(currentAssessment.type)) {
           assessment.progression = {
             id: Progression.generateIdFromAssessmentId(currentAssessment.id),
           };
@@ -85,7 +85,7 @@ module.exports = {
     const type = json.data.attributes.type;
 
     let courseId = null;
-    if (type !== Assessment.types.SMARTPLACEMENT && type !== Assessment.types.PREVIEW) {
+    if (type !== Assessment.types.CAMPAIGN && type !== Assessment.types.PREVIEW) {
       courseId = json.data.relationships.course.data.id;
     }
 

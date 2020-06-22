@@ -2,7 +2,7 @@ const { ObjectValidationError } = require('../errors');
 
 const courseIdMessage = {
   COMPETENCE_EVALUATION: '[NOT USED] CompetenceId is in Competence Evaluation.',
-  SMART_PLACEMENT: 'Smart Placement Tests CourseId Not Used',
+  CAMPAIGN: '[NOT USED] Campaign Assessment CourseId Not Used',
 };
 
 const states = {
@@ -16,13 +16,13 @@ const types = {
   COMPETENCE_EVALUATION: 'COMPETENCE_EVALUATION',
   DEMO: 'DEMO',
   PREVIEW: 'PREVIEW',
-  SMARTPLACEMENT: 'SMART_PLACEMENT',
+  CAMPAIGN: 'CAMPAIGN',
 };
 
 const TYPES_OF_ASSESSMENT_NEEDING_USER = [
   types.CERTIFICATION,
   types.COMPETENCE_EVALUATION,
-  types.SMARTPLACEMENT,
+  types.CAMPAIGN,
 ];
 
 class Assessment {
@@ -93,8 +93,8 @@ class Assessment {
     return this.type === types.DEMO;
   }
 
-  isSmartPlacement() {
-    return this.type === types.SMARTPLACEMENT;
+  isForCampaign() {
+    return this.type === types.CAMPAIGN;
   }
 
   isCertification() {
@@ -106,7 +106,7 @@ class Assessment {
   }
 
   hasKnowledgeElements() {
-    return this.isCompetenceEvaluation() || this.isSmartPlacement();
+    return this.isCompetenceEvaluation() || this.isForCampaign();
   }
 }
 

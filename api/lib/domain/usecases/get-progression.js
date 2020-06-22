@@ -6,7 +6,7 @@ module.exports = async function getProgression(
     userId,
     assessmentRepository,
     competenceEvaluationRepository,
-    smartPlacementAssessmentRepository,
+    campaignAssessmentRepository,
     knowledgeElementRepository,
     skillRepository,
     improvementService,
@@ -17,9 +17,9 @@ module.exports = async function getProgression(
   const assessment = await assessmentRepository.getByAssessmentIdAndUserId(assessmentId, userId);
   let progression;
 
-  if (assessment.isSmartPlacement()) {
-    const smartPlacementAssessment = await smartPlacementAssessmentRepository.get(assessmentId);
-    const knowledgeElementsBeforeSharedDate = await knowledgeElementRepository.findUniqByUserId({ userId, limitDate: smartPlacementAssessment.campaignParticipation.sharedAt });
+  if (assessment.isForCampaign()) {
+    const campaignAssessment = await campaignAssessmentRepository.get(assessmentId);
+    const knowledgeElementsBeforeSharedDate = await knowledgeElementRepository.findUniqByUserId({ userId, limitDate: campaignAssessment.campaignParticipation.sharedAt });
     const knowledgeElementsForProgression = await improvementService.filterKnowledgeElementsIfImproving({
       knowledgeElements: knowledgeElementsBeforeSharedDate,
       assessment
@@ -27,9 +27,9 @@ module.exports = async function getProgression(
 
     progression = new Progression({
       id: progressionId,
-      targetedSkills: smartPlacementAssessment.targetProfile.skills,
+      targetedSkills: campaignAssessment.targetProfile.skills,
       knowledgeElements: knowledgeElementsForProgression,
-      isProfileCompleted: smartPlacementAssessment.isCompleted
+      isProfileCompleted: campaignAssessment.isCompleted
     });
   }
 

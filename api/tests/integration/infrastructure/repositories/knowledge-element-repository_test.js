@@ -102,7 +102,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
     });
 
     context('when there is no limit date', () => {
-      it('should find the knowledge elements for smart placement assessment associated with a user id', async () => {
+      it('should find the knowledge elements for campaign assessment associated with a user id', async () => {
         // when
         const knowledgeElementsFound = await KnowledgeElementRepository.findUniqByUserId({ userId });
 
@@ -112,7 +112,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
     });
 
     context('when there is a limit date', () => {
-      it('should find the knowledge elements for smart placement assessment associated with a user id created before limit date', async () => {
+      it('should find the knowledge elements for campaign assessment associated with a user id created before limit date', async () => {
         // when
         const knowledgeElementsFound = await KnowledgeElementRepository.findUniqByUserId({ userId, limitDate: today });
 

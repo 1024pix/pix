@@ -31,7 +31,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
 
     it('fetches answers, targetsSkills challenges and knowledgeElements', async () => {
       // given
-      const assessment = domainBuilder.buildAssessment.ofTypeSmartPlacement({ state: 'started' });
+      const assessment = domainBuilder.buildAssessment.ofTypeCampaign({ state: 'started' });
       const answer = domainBuilder.buildAnswer();
       const challenges = [
         domainBuilder.buildChallenge(),
@@ -107,7 +107,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
       skills = [
         domainBuilder.buildSkill(),
       ];
-      const assessment = domainBuilder.buildAssessment.ofTypeSmartPlacement();
+      const assessment = domainBuilder.buildAssessment.ofTypeCampaign();
 
       answerRepository.findLastByAssessment.withArgs(assessment.id).resolves(answer);
       skillRepository.findByCompetenceId.withArgs(assessment.competenceId).resolves(skills);
