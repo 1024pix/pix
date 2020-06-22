@@ -10,6 +10,9 @@ describe('Unit | UseCase | create-user', () => {
     isEmailAvailable: () => undefined,
     create: () => undefined,
   };
+  const campaignRepository = {
+    getByCode: () => undefined
+  };
   const encryptionService = { hashPassword: () => undefined };
   const mailService = { sendAccountCreationEmail: () => undefined };
   const reCaptchaValidator = { verify: () => undefined };
@@ -25,6 +28,7 @@ describe('Unit | UseCase | create-user', () => {
   beforeEach(() => {
     sinon.stub(userRepository, 'isEmailAvailable');
     sinon.stub(userRepository, 'create');
+    sinon.stub(campaignRepository, 'getByCode');
     sinon.stub(userValidator, 'validate');
     sinon.stub(encryptionService, 'hashPassword');
     sinon.stub(mailService, 'sendAccountCreationEmail');
@@ -261,20 +265,78 @@ describe('Unit | UseCase | create-user', () => {
       it('should send the account creation email', async () => {
         // given
         const locale = 'fr-fr';
+        const campaignCode = 'AZERTY123';
+        campaignRepository.getByCode.resolves({ organizationId: 1 });
+        const expectedRedirectionUrl = `https://app.pix.fr/campagnes/${campaignCode}`;
 
         // when
         await createUser({
           user,
           reCaptchaToken,
           locale,
+          campaignCode,
           userRepository,
+          campaignRepository,
           reCaptchaValidator,
           encryptionService,
           mailService,
         });
 
         // then
-        expect(mailService.sendAccountCreationEmail).to.have.been.calledWith(userEmail, locale);
+        expect(mailService.sendAccountCreationEmail).to.have.been.calledWith(userEmail, locale, expectedRedirectionUrl);
+      });
+
+      describe('when campaignCode is null', () => {
+        const campaignCode = null;
+
+        it('should send the account creation email with null redirectionUrl', async () => {
+          // given
+          const locale = 'fr-fr';
+          const expectedRedirectionUrl = null;
+
+          // when
+          await createUser({
+            user,
+            reCaptchaToken,
+            locale,
+            campaignCode,
+            userRepository,
+            campaignRepository,
+            reCaptchaValidator,
+            encryptionService,
+            mailService,
+          });
+
+          // then
+          expect(mailService.sendAccountCreationEmail).to.have.been.calledWith(userEmail, locale, expectedRedirectionUrl);
+        });
+      });
+
+      describe('when campaignCode is not valid', () => {
+        const campaignCode = 'NOT-VALID';
+
+        it('should send the account creation email with null redirectionUrl', async () => {
+          // given
+          const locale = 'fr-fr';
+          const expectedRedirectionUrl = null;
+          campaignRepository.getByCode.resolves(null);
+
+          // when
+          await createUser({
+            user,
+            reCaptchaToken,
+            locale,
+            campaignCode,
+            userRepository,
+            campaignRepository,
+            reCaptchaValidator,
+            encryptionService,
+            mailService,
+          });
+
+          // then
+          expect(mailService.sendAccountCreationEmail).to.have.been.calledWith(userEmail, locale, expectedRedirectionUrl);
+        });
       });
     });
 

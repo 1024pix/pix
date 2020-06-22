@@ -2,6 +2,7 @@ const { AlreadyRegisteredEmailError, InvalidRecaptchaTokenError, EntityValidatio
 const User = require('../models/User');
 
 const userValidator = require('../validators/user-validator');
+const { getCampaignUrl } = require('../../infrastructure/utils/url-builder');
 
 function  _manageEmailAvailabilityError(error) {
   return _manageError(error, AlreadyRegisteredEmailError, 'email', 'Cette adresse e-mail est déjà enregistrée, connectez-vous.');
@@ -46,9 +47,11 @@ async function _validateData(user, reCaptchaToken, userRepository, userValidator
 
 module.exports = async function createUser({
   user,
+  campaignCode,
   reCaptchaToken,
   locale,
   userRepository,
+  campaignRepository,
   reCaptchaValidator,
   encryptionService,
   mailService,
@@ -61,7 +64,16 @@ module.exports = async function createUser({
     const userWithEncryptedPassword = new User({ ... user, password: encryptedPassword });
     const savedUser = await userRepository.create(userWithEncryptedPassword);
 
-    await mailService.sendAccountCreationEmail(savedUser.email, locale);
+    let redirectionUrl = null;
+
+    if (campaignCode) {
+      const campaign = await campaignRepository.getByCode(campaignCode);
+      if (campaign && campaign.organizationId) {
+        redirectionUrl = getCampaignUrl(locale, campaignCode);
+      }
+    }
+
+    await mailService.sendAccountCreationEmail(savedUser.email, locale, redirectionUrl);
     return savedUser;
   }
 };

@@ -89,7 +89,7 @@ describe('Unit | UseCase | create-and-associate-user-to-schooling-registration',
     context('When creation is with email', () => {
 
       beforeEach(() => {
-        userAttributes.email = 'joe.doe@example.net';
+        userAttributes.email = createdUser.email;
         userAttributes.withUsername = false;
         sinon.stub(userRepository, 'isEmailAvailable');
         sinon.stub(mailService, 'sendAccountCreationEmail');
@@ -157,6 +157,22 @@ describe('Unit | UseCase | create-and-associate-user-to-schooling-registration',
 
           // then
           expect(result).to.deep.equal(createdUser);
+        });
+
+        it('should call mailService', async () => {
+          // given
+          const locale = 'fr-fr';
+          const expectedRedirectionUrl = `https://app.pix.fr/campagnes/${campaignCode}`;
+
+          // when
+          await usecases.createAndAssociateUserToSchoolingRegistration({
+            userAttributes,
+            campaignCode,
+            locale,
+          });
+
+          // then
+          expect(mailService.sendAccountCreationEmail).to.have.been.calledWith(userAttributes.email, locale, expectedRedirectionUrl);
         });
 
         context('But association is already done', () => {

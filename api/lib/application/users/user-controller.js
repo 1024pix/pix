@@ -18,10 +18,12 @@ module.exports = {
   save(request, h) {
 
     const reCaptchaToken = request.payload.data.attributes['recaptcha-token'];
+    const campaignCode = request.payload.meta ? request.payload.meta['campaign-code'] : null;
     const user = userSerializer.deserialize(request.payload);
     const locale = extractLocaleFromRequest(request);
     return usecases.createUser({
       user,
+      campaignCode,
       reCaptchaToken,
       locale,
     })
