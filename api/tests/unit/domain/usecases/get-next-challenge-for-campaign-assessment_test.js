@@ -22,7 +22,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessmen
       assessmentId = 21;
       lastAnswer = null;
 
-      answerRepository = { findLastByAssessment: sinon.stub().resolves(lastAnswer) };
+      answerRepository = { findByAssessment: sinon.stub().resolves([lastAnswer]) };
       challenges = [];
       challengeRepository = { findBySkills: sinon.stub().resolves(challenges) };
       campaignParticipation = { getTargetProfileId: sinon.stub().returns(targetProfileId) };
@@ -67,7 +67,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessmen
     });
 
     it('should have fetched the answers', () => {
-      expect(answerRepository.findLastByAssessment).to.have.been.calledWithExactly(assessmentId);
+      expect(answerRepository.findByAssessment).to.have.been.calledWithExactly(assessmentId);
     });
 
     it('should have filter the knowledge elements with an assessment improving', () => {
@@ -94,7 +94,9 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessmen
     });
 
     it('should have fetched the next challenge with only most recent knowledge elements', () => {
+      const allAnswers = [lastAnswer];
       expect(smartRandom.getPossibleSkillsForNextChallenge).to.have.been.calledWithExactly({
+        allAnswers,
         lastAnswer,
         challenges,
         targetSkills: targetProfile.skills,

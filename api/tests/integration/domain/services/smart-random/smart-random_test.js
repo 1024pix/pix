@@ -23,22 +23,18 @@ function duplicateChallengeOfSameDifficulty(challenge) {
   return _.assign(_.cloneDeep(challenge), { id: 'rec' + challengeId });
 }
 
-function _expectSkillsToBeDeepEquals(skills, expectedSkills) {
-  return expect(_.map(skills, (skill) => skill.__proto__)).to.be.deep.equal(expectedSkills);
-
-}
-
 describe('Integration | Domain | Stategies | SmartRandom', () => {
-  let challenges, targetSkills, knowledgeElements, lastAnswer, web1, web2, web3, web4, web5,
-    web6, web7, url2, url3, url4, url5, url6, rechInfo5, rechInfo7, info2, cnil2, challengeWeb_1,
+  let challenges, targetSkills, knowledgeElements, lastAnswer, allAnswers, web1, web2, web3, web4, web5,
+    web6, web7, url2, url3, url4, url5, url6, rechInfo5, rechInfo7, info2, cnil1, cnil2, challengeWeb_1,
     challengeWeb_2, challengeWeb_2_3, challengeWeb_3, challengeWeb_4, challengeWeb_5, challengeWeb_6, challengeWeb_7,
     challengeUrl_2, challengeUrl_3, challengeUrl_4, challengeUrl_5, challengeUrl_6, challengeRechInfo_5,
-    challengeRechInfo_7, challengeInfo_2, challengeCnil_2;
+    challengeRechInfo_7, challengeInfo_2, challengeCnil_1, challengeCnil_2;
 
   beforeEach(() => {
     targetSkills = null;
     knowledgeElements = null;
     lastAnswer = null;
+    allAnswers = [];
 
     // Acquis (skills)
     web1 = domainBuilder.buildSkill({ name: '@web1' });
@@ -56,6 +52,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
     rechInfo5 = domainBuilder.buildSkill({ name: '@rechInfo5' });
     rechInfo7 = domainBuilder.buildSkill({ name: '@rechInfo7' });
     info2 = domainBuilder.buildSkill({ name: '@info2' });
+    cnil1 = domainBuilder.buildSkill({ name: '@cnil1' });
     cnil2 = domainBuilder.buildSkill({ name: '@cnil2' });
 
     // Challenges
@@ -74,6 +71,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
     challengeUrl_6 = domainBuilder.buildChallenge({ id: 'recurl6', skills: [url6] });
     challengeRechInfo_5 = domainBuilder.buildChallenge({ id: 'recinfo5', skills: [rechInfo5] });
     challengeRechInfo_7 = domainBuilder.buildChallenge({ id: 'recinfo7', skills: [rechInfo7] });
+    challengeCnil_1 = domainBuilder.buildChallenge({ id: 'reccnil1', skills: [cnil1] });
     challengeCnil_2 = domainBuilder.buildChallenge({ id: 'reccnil2', skills: [cnil2] });
     challengeInfo_2 = domainBuilder.buildChallenge({ id: 'recinfo2', skills: [info2] });
   });
@@ -95,30 +93,36 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         targetSkills: [skill1],
         challenges,
         knowledgeElements: [],
-        lastAnswer
+        lastAnswer,
+        allAnswers
       });
 
       // then
-      _expectSkillsToBeDeepEquals(possibleSkillsForNextChallenge,[]);
+      expect(possibleSkillsForNextChallenge).to.be.deep.equal([]);
     });
 
     context('when it is the first question only', () => {
 
       it('should ideally start with an untimed, default starting level skill', function() {
         // given
-        targetSkills = [web1, url3, cnil2];
-        challenges = [challengeWeb_1, challengeWeb_3, challengeCnil_2];
+        targetSkills = [web1, url3, cnil1, cnil2];
+        challenges = [challengeWeb_1, challengeWeb_3, challengeCnil_1, challengeCnil_2];
 
         // when
         const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
           knowledgeElements: [],
-          lastAnswer
+          lastAnswer,
+          allAnswers,
         });
 
         // then
-        _expectSkillsToBeDeepEquals(possibleSkillsForNextChallenge,[cnil2]);
+        expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(cnil2.id);
+        expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeCnil_2.id);
+        expect(possibleSkillsForNextChallenge[0].timed).to.be.equal(false);
       });
 
       it('should prioritize and find an untimed skill if the last challenge is timed, to avoid starting with a timed one', function() {
@@ -134,11 +138,16 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           targetSkills,
           challenges,
           knowledgeElements: [],
-          lastAnswer
+          lastAnswer,
+          allAnswers,
         });
 
         // then
-        _expectSkillsToBeDeepEquals(possibleSkillsForNextChallenge,[web1]);
+        expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web1.id);
+        expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_1.id);
+        expect(possibleSkillsForNextChallenge[0].timed).to.be.equal(false);
       });
 
       it('should start with an untimed skill 1 challenge when no default level challenge exists', function() {
@@ -151,11 +160,16 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           targetSkills,
           challenges,
           knowledgeElements: [],
-          lastAnswer
+          lastAnswer,
+          allAnswers,
         });
 
         // then
-        _expectSkillsToBeDeepEquals(possibleSkillsForNextChallenge,[web1]);
+        expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web1.id);
+        expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_1.id);
+        expect(possibleSkillsForNextChallenge[0].timed).to.be.equal(false);
       });
 
       it('should start with a not timed level 4 challenge when level 1, 2 and 3 dont exist', function() {
@@ -168,11 +182,16 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           targetSkills,
           challenges,
           knowledgeElements: [],
-          lastAnswer
+          lastAnswer,
+          allAnswers,
         });
 
         // then
-        _expectSkillsToBeDeepEquals(possibleSkillsForNextChallenge,[web4]);
+        expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web4.id);
+        expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_4.id);
+        expect(possibleSkillsForNextChallenge[0].timed).to.be.equal(false);
       });
 
       it('should start with a timed challenge anyway when no untimed challenges were found', function() {
@@ -186,17 +205,22 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           targetSkills,
           challenges,
           knowledgeElements: [],
-          lastAnswer
+          lastAnswer,
+          allAnswers,
         });
 
         // then
-        _expectSkillsToBeDeepEquals(possibleSkillsForNextChallenge,[web3]);
+        expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web3.id);
+        expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_3.id);
+        expect(possibleSkillsForNextChallenge[0].timed).to.be.equal(true);
       });
 
     });
 
-    // Some challenges can be archived. Such challenges may be ruled out whn they haven't been answered yet, but at the same time
-    // must be taken into account when the user has already answered them, since they give useful information to the adaptive algorithlm.
+    // Some challenges can be archived. Such challenges may be ruled out when they haven't been answered yet, but at the same time
+    // must be taken into account when the user has already answered them, since they give useful information to the adaptive algorithm.
     context('when one challenge has been archived', () => {
       let challengeWeb_3_Archived, challengeWeb_4_Archived;
 
@@ -210,6 +234,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         // given
         targetSkills = [web1, web2, web3, web4, web5, web6];
         lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK });
+        allAnswers = [lastAnswer];
         knowledgeElements = [
           domainBuilder.buildKnowledgeElement({
             skillId: web1.id,
@@ -230,11 +255,15 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           targetSkills,
           challenges,
           knowledgeElements,
-          lastAnswer
+          lastAnswer,
+          allAnswers,
         });
 
         // then
-        _expectSkillsToBeDeepEquals(possibleSkillsForNextChallenge,[web4]);
+        expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web4.id);
+        expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_4.id);
 
       });
 
@@ -242,6 +271,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         // given
         targetSkills = [web1, web2, web3, web4, web5, web6];
         lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK });
+        allAnswers = [lastAnswer];
         knowledgeElements = [
           domainBuilder.buildKnowledgeElement({
             skillId: web1.id,
@@ -262,17 +292,22 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           targetSkills,
           challenges,
           knowledgeElements,
-          lastAnswer
+          lastAnswer,
+          allAnswers,
         });
 
         // then
-        _expectSkillsToBeDeepEquals(possibleSkillsForNextChallenge,[web3]);
+        expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web3.id);
+        expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_3.id);
       });
 
       it('should return a challenge of level 4 if user got levels 1, 2, 3 and 3 was archived afterwards', function() {
         // given
         targetSkills = [web1, web2, web3, web4, web5, web6];
         lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_3.id, result: AnswerStatus.OK });
+        allAnswers = [lastAnswer];
         knowledgeElements = [
           domainBuilder.buildKnowledgeElement({
             skillId: web1.id,
@@ -298,17 +333,22 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           targetSkills,
           challenges,
           knowledgeElements,
-          lastAnswer
+          lastAnswer,
+          allAnswers,
         });
 
         // then
-        _expectSkillsToBeDeepEquals(possibleSkillsForNextChallenge,[web4]);
+        expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web4.id);
+        expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_4.id);
       });
 
-      it('should return a challenge of level 3 if user got levels 1, 2, but failed 4, and 4 was archived afterwards', function() {
+      it('should return a challenge of level 3 if user got levels 1, 2, but failed 5, and 4 was archived afterwards', function() {
         // given
         targetSkills = [web1, web2, web3, web4, web5, web6];
         lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_4.id, result: AnswerStatus.KO });
+        allAnswers = [lastAnswer];
         knowledgeElements = [
           domainBuilder.buildKnowledgeElement({
             skillId: web1.id,
@@ -334,16 +374,20 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           targetSkills,
           challenges,
           knowledgeElements,
-          lastAnswer
+          lastAnswer,
+          allAnswers,
         });
 
         // then
-        _expectSkillsToBeDeepEquals(possibleSkillsForNextChallenge,[web3]);
+        expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web3.id);
+        expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_3.id);
       });
 
     });
 
-    // These tests verify the adaptive behavior of the algorithm : that it can increase/decrease the difficulty accordingly, can reach
+    // These tests verify the adaptive behavior of the algorithm: that it can increase/decrease the difficulty accordingly, can reach
     // the maximum level, can end when no challenges are available etc.
     context('when the difficulty must be adapted based on the answer to the previous question', () => {
 
@@ -353,6 +397,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         challenges = [challengeUrl_2, challengeUrl_3, challengeRechInfo_5, challengeWeb_7];
 
         lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeRechInfo_5.id, result: AnswerStatus.KO });
+        allAnswers = [lastAnswer];
         knowledgeElements = [
           domainBuilder.buildKnowledgeElement({
             skillId: url2.id,
@@ -372,20 +417,24 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         ];
 
         // when
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({ targetSkills, challenges, knowledgeElements, lastAnswer });
+        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+          targetSkills,
+          challenges,
+          knowledgeElements,
+          lastAnswer,
+          allAnswers,
+        });
 
         // then
-        _expectSkillsToBeDeepEquals(possibleSkillsForNextChallenge,[]);
-
+        expect(possibleSkillsForNextChallenge.length).to.be.equal(0);
       });
 
       it('should consider skipping a challenge equivalent to not knowing and decrease difficulty when it happens', function() {
         // given
         targetSkills =  [web1, web2, web3];
         challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_2, challengeWeb_3];
-        lastAnswer = [
-          domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.SKIPPED })
-        ];
+        lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.SKIPPED });
+        allAnswers = [lastAnswer];
         knowledgeElements = [
           domainBuilder.buildKnowledgeElement({
             skillId: web2.id,
@@ -404,7 +453,8 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           targetSkills,
           challenges,
           knowledgeElements,
-          lastAnswer
+          lastAnswer,
+          allAnswers,
         });
 
         // then
@@ -445,10 +495,11 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           })
         ];
 
-        lastAnswer = [
+        lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeUrl_6.id, result: AnswerStatus.KO });
+        allAnswers = [
+          lastAnswer,
           domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK }),
           domainBuilder.buildAnswer({ challengeId: challengeUrl_4.id, result: AnswerStatus.OK }),
-          domainBuilder.buildAnswer({ challengeId: challengeUrl_6.id, result: AnswerStatus.KO })
         ];
 
         // when
@@ -456,11 +507,15 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           targetSkills,
           challenges,
           knowledgeElements,
-          lastAnswer
+          lastAnswer,
+          allAnswers,
         });
 
         // then
-        _expectSkillsToBeDeepEquals(possibleSkillsForNextChallenge,[rechInfo5]);
+        expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(rechInfo5.id);
+        expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeRechInfo_5.id);
       });
 
       it('should ask a challenge of maximum difficulty when maximum difficulty (minus 1) was correctly answered (edge case test)', function() {
@@ -469,10 +524,12 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
 
         challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_4, challengeWeb_6, challengeWeb_7];
 
-        lastAnswer = [
-          domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK }),
-          domainBuilder.buildAnswer({ challengeId: challengeWeb_6.id, result: AnswerStatus.OK })
+        lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_6.id, result: AnswerStatus.OK });
+        allAnswers = [
+          lastAnswer,
+          domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK })
         ];
+
         knowledgeElements = [
           domainBuilder.buildKnowledgeElement({
             skillId: web1.id,
@@ -501,20 +558,23 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           targetSkills,
           challenges,
           knowledgeElements,
-          lastAnswer
+          lastAnswer,
+          allAnswers,
         });
 
         // then
-        _expectSkillsToBeDeepEquals(possibleSkillsForNextChallenge,[web7]);
+        expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web7.id);
+        expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_7.id);
       });
 
       it('should end the test if the only available challenges are too hard (above maximum gap allowed)', function() {
         // given
         targetSkills = [web1, web2, web4, web6];
         challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_4, challengeWeb_6];
-        lastAnswer = [
-          domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK })
-        ];
+        lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK });
+        allAnswers = [lastAnswer];
         knowledgeElements = [
           domainBuilder.buildKnowledgeElement({
             skillId: web1.id,
@@ -533,18 +593,20 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           targetSkills,
           challenges,
           knowledgeElements,
-          lastAnswer
+          lastAnswer,
+          allAnswers,
         });
 
         // then
         expect(possibleSkillsForNextChallenge[0].difficulty).not.to.be.deep.equal(6);
       });
 
-      it('should prioritze a challenge from an easy tube if given the possibility', function() {
+      it('should prioritize a challenge from an easy tube if given the possibility', function() {
         // given
         targetSkills = [url4, url5, web3, info2];
         challenges = [challengeUrl_4, challengeUrl_5, challengeInfo_2, challengeWeb_3];
         lastAnswer = [domainBuilder.buildAnswer({ challengeId: challengeInfo_2.id, result: AnswerStatus.OK })];
+        allAnswers = [lastAnswer];
         knowledgeElements = [
           domainBuilder.buildKnowledgeElement({
             skillId: info2.id,
@@ -558,18 +620,23 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           targetSkills,
           challenges,
           knowledgeElements,
-          lastAnswer
+          lastAnswer,
+          allAnswers,
         });
 
         // then
-        _expectSkillsToBeDeepEquals(possibleSkillsForNextChallenge,[web3]);
+        expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web3.id);
+        expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_3.id);
       });
 
       it('should nevertheless target a challenge from any tubes when there is no easy tube', function() {
         // given
         targetSkills = [url4, url6, info2];
         challenges = [challengeUrl_4, challengeUrl_6, challengeInfo_2];
-        lastAnswer = [domainBuilder.buildAnswer({ challengeId: challengeInfo_2.id, result: AnswerStatus.OK })];
+        lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeInfo_2.id, result: AnswerStatus.OK });
+        allAnswers = [lastAnswer];
         knowledgeElements = [
           domainBuilder.buildKnowledgeElement({
             skillId: info2.id,
@@ -583,11 +650,16 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           targetSkills,
           challenges,
           knowledgeElements,
-          lastAnswer
+          lastAnswer,
+          allAnswers,
         });
 
         // then
-        _expectSkillsToBeDeepEquals(possibleSkillsForNextChallenge,[url4]);
+        expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(url4.id);
+        expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeUrl_4.id);
+
       });
 
     });
@@ -600,9 +672,8 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         // given
         targetSkills = [web1, web2];
         challenges = [challengeWeb_1, challengeWeb_2, duplicateChallengeOfSameDifficulty(challengeWeb_2)];
-        lastAnswer = [
-          domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK })
-        ];
+        lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK });
+        allAnswers = [lastAnswer];
         knowledgeElements = [
           domainBuilder.buildKnowledgeElement({
             skillId: web1.id,
@@ -621,20 +692,21 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           targetSkills,
           challenges,
           knowledgeElements,
-          lastAnswer
+          lastAnswer,
+          allAnswers,
         });
 
         // then
-        _expectSkillsToBeDeepEquals(possibleSkillsForNextChallenge,[]);
+        expect(possibleSkillsForNextChallenge.length).to.be.equal(0);
+
       });
 
       it('should do a deterministic selection of a challenge among challenges of equal reward', function() {
         // given
         targetSkills = [web1, web2, web3, url3];
         challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_3];
-        lastAnswer = [
-          domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK })
-        ];
+        lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK });
+        allAnswers = [lastAnswer];
         knowledgeElements = [
           domainBuilder.buildKnowledgeElement({
             skillId: web1.id,
@@ -653,11 +725,15 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           targetSkills,
           challenges,
           knowledgeElements,
-          lastAnswer
+          lastAnswer,
+          allAnswers,
         });
 
         // then
-        _expectSkillsToBeDeepEquals(possibleSkillsForNextChallenge,[web3]);
+        expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web3.id);
+        expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_3.id);
       });
     });
 
@@ -666,9 +742,8 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         // given
         targetSkills = [web1, web2, web3, url3];
         challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_3];
-        lastAnswer = [
-          domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK })
-        ];
+        lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK });
+        allAnswers = [lastAnswer];
         knowledgeElements = [
           domainBuilder.buildKnowledgeElement({
             skillId: web1.id,
@@ -697,11 +772,15 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           targetSkills,
           challenges,
           knowledgeElements,
-          lastAnswer
+          lastAnswer,
+          allAnswers,
         });
 
         // then
-        _expectSkillsToBeDeepEquals(possibleSkillsForNextChallenge,[web3]);
+        expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web3.id);
+        expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_3.id);
 
         // This is where we assert the randomness behavior to have deterministic test
       });
@@ -712,9 +791,8 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         // given
         targetSkills = [url2, web2, web3];
         challenges = [challengeWeb_2_3, challengeUrl_2];
-        lastAnswer = [
-          domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.KO })
-        ];
+        lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.KO });
+        allAnswers = [lastAnswer];
         knowledgeElements = [
           domainBuilder.buildKnowledgeElement({
             skillId: web1.id,
@@ -728,13 +806,69 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           targetSkills,
           challenges,
           knowledgeElements,
-          lastAnswer
+          lastAnswer,
+          allAnswers
         });
 
         // then
-        _expectSkillsToBeDeepEquals(possibleSkillsForNextChallenge,[web2, web3]);
+        expect(possibleSkillsForNextChallenge.length).to.be.equal(2);
+        expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[1].challenges.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web2.id);
+        expect(possibleSkillsForNextChallenge[1].id).to.be.equal(web3.id);
+        expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_2_3.id);
+        expect(possibleSkillsForNextChallenge[1].challenges[0].id).to.be.equal(challengeWeb_2_3.id);
       });
     });
 
+    context('when one challenge has already been answered but its learning content has been updated', function() {
+      it('should not be asked again and ask another challenge from same skill', function() {
+        // given
+        targetSkills = [web2];
+        challenges = [challengeWeb_2_3, challengeWeb_2];
+        lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_2_3.id, result: AnswerStatus.KO });
+        allAnswers = [lastAnswer];
+        knowledgeElements = [];
+
+        // when
+        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+          targetSkills,
+          challenges,
+          knowledgeElements,
+          allAnswers,
+          lastAnswer,
+        });
+
+        // then
+        expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web2.id);
+        expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_2.id);
+      });
+
+      it('should not be asked again and ask another challenge from another skill', function() {
+        // given
+        targetSkills = [web1, web2]; //web1, web2: une question possible mais déjà répondu => web1
+        challenges = [challengeWeb_1, challengeWeb_2];
+        lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.KO });
+        allAnswers = [lastAnswer];
+        knowledgeElements = [];
+
+        // when
+        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+          targetSkills,
+          challenges,
+          knowledgeElements,
+          allAnswers,
+          lastAnswer,
+        });
+
+        // then
+        expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web1.id);
+        expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_1.id);
+      });
+    });
   });
 });
