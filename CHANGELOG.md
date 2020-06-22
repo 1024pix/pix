@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v2.165.0 (22/06/2020)
+
+- [#1547](https://github.com/1024pix/pix/pull/1547) [FEATURE] Ajout d'un retour utilisateur lors de la dissociation d'un élève (PIX-865)
+- [#1516](https://github.com/1024pix/pix/pull/1516) [FEATURE] Permettre à l'utilisateur de rejoindre son parcours grâce à l'e-mail de création de compte (PIX-429).
+- [#1546](https://github.com/1024pix/pix/pull/1546) [FEATURE] Amélioration des formulations lors de la réconciliation (PIX-816).
+- [#1525](https://github.com/1024pix/pix/pull/1525) [FEATURE] Dissocier les comptes utilisateurs des élèves depuis Pix ORGA (Pix-718).
+- [#1544](https://github.com/1024pix/pix/pull/1544) [BUGFIX] Permettre à un utilisateur connecté d'aller sur la page de changement de mot de passe (PIX-516).
+- [#1539](https://github.com/1024pix/pix/pull/1539) [BUGFIX] Erreur lorsqu'on tente de modifier une certification sur PixAdmin (PIX-866)
+- [#1543](https://github.com/1024pix/pix/pull/1543) [BUGFIX] Déconnecter un utilisateur qui n'a plus de membership dans Pix Orga (PIX-837).
+- [#1540](https://github.com/1024pix/pix/pull/1540) [BUGFIX] Empêcher l'édition des informations d'un utilisateur connecté via le GAR depuis Pix Admin(PIX-861)
+- [#1508](https://github.com/1024pix/pix/pull/1508) [TECH] Amélioration de la configuration de Bookshelf
+- [#1531](https://github.com/1024pix/pix/pull/1531) [TECH] Montée de la BDD en version 12
+- [#1541](https://github.com/1024pix/pix/pull/1541) [CLEANUP] Corriger les erreurs signalées dans Pix Admin, par le ember template linter (PIX-828).
+- [#1519](https://github.com/1024pix/pix/pull/1519) [CLEANUP] Simplification et amélioration de l'accès aux campagnes (PIX-847)
+
 ## v2.164.0 (18/06/2020)
 
 - [#1526](https://github.com/1024pix/pix/pull/1526) [FEATURE] Ajouter lien sur le tableau de bord d'un utilisateur (PIX-606).
