@@ -2,9 +2,9 @@
   font-family: $font-open-sans;
   display: flex;
   flex-direction: row;
-  padding: 32px 16px;
+  padding: 32px 0px;
 
-  .user-certifications-detail-header__info-certificate {
+  &__info-certificate {
 
     color: $grey-80;
     align-self: center;
@@ -35,27 +35,18 @@
       }
     }
   }
-}
 
-@include device-is('mobile') {
-  .user-certifications-detail-header {
-    flex-wrap: wrap;
-    justify-content: center;
+  @include device-is('mobile') {
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 16px;
   }
 
-  .user-certifications-detail-header__info-certificate {
-    padding: 14px 24px;
+  @include device-is('tablet') {
+      flex-wrap: wrap;
   }
-}
 
-@include device-is('tablet') {
-  .user-certifications-detail-header {
-    flex-wrap: wrap;
-  }
-}
-
-@include device-is('desktop') {
-  .user-certifications-detail-header {
-    flex-wrap: nowrap;
+  @include device-is('desktop') {
+      flex-wrap: nowrap;
   }
 }
