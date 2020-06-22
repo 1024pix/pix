@@ -5,22 +5,6 @@
     <AssessmentBanner @title={{this.model.assessment.title}} @displayHomeLink={{false}} />
   </div>
   <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner skill-review__result-container">
-    {{#if this.showBadges}}
-      <div>
-        <h2>Badges obtenus</h2>
-        <div class="skill-review-result__badges-container">
-          {{#each this.model.campaignParticipation.campaignParticipationResult.campaignParticipationBadges as |badge|}}
-            {{#if badge.isAcquired}}
-              <div class="skill-review-result__badge">
-                <img src="{{badge.imageUrl}}"
-                     alt="{{badge.altMessage}}">
-                <p class="skill-review-result__badge-information">{{badge.message}}</p>
-              </div>
-            {{/if}}
-          {{/each}}
-        </div>
-      </div>
-    {{/if}}
     {{#if (not this.model.campaignParticipation.campaign.isArchived )}}
       <h3 class="rounded-panel-title skill-review-result__abstract">
         Vous maîtrisez
@@ -80,8 +64,18 @@
     {{/if}}
     <div class="skill-review-result__dash-line"></div>
 
+    {{#if this.showBadges}}
+      <div class="badge-acquired-container">
+        {{#each this.acquiredBadges as |badge|}}
+          <BadgeAcquiredCard @title="{{badge.title}}" @message="{{badge.message}}" @imageUrl="{{badge.imageUrl}}"
+                             @altMessage="{{badge.altMessage}}"/>
+        {{/each}}
+      </div>
+      <div class="skill-review-result__dash-line"></div>
+    {{/if}}
+
     <div class="skill-review-result__table-header">
-      <h2 class="rounded-panel-subtitle">Vos résultats détaillés</h2>
+      <h2 class="skill-review-result__subtitle">Vos résultats détaillés</h2>
       <CircleChart @value={{this.model.campaignParticipation.campaignParticipationResult.masteryPercentage}}>
         <span aria-label="Résultat global" class="skill-review-table-header__circle-chart-value">
           {{@model.campaignParticipation.campaignParticipationResult.masteryPercentage}}%

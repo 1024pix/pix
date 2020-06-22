@@ -107,20 +107,6 @@
     margin: 16px 0;
   }
 
-  &__badge {
-    text-align: center;
-    display: inline-block;
-    padding: 16px 16px;
-
-    &-information {
-      font-family: $font-roboto;
-      font-weight: $font-light;
-      font-size: 1.25rem;
-      line-height: 2rem;
-      margin: auto;
-    }
-  }
-
   &__dash-line {
     height: 1px;
     top: 0;
@@ -159,16 +145,6 @@
       flex-direction: row;
     }
   }
-}
-
-.skill-review-result__badges-container {
-  margin-top: 16px;
-  box-shadow: -2px 5px 6px 3px rgba(0, 0, 0, 0.11);
-  border-radius: 15px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: wrap;
 }
 
 .skill-review-result-abstract {

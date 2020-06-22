@@ -14,9 +14,12 @@ export default class SkillReviewController extends Controller {
   }
 
   get showBadges() {
+    return this.acquiredBadges.length > 0;
+  }
+
+  get acquiredBadges() {
     const badges = this.model.campaignParticipation.campaignParticipationResult.get('campaignParticipationBadges');
-    const acquiredBadges = badges.filter((badge) => badge.isAcquired);
-    return acquiredBadges.length > 0;
+    return badges.filter((badge) => badge.isAcquired);
   }
 
   @action
