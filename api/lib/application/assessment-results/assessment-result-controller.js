@@ -19,8 +19,8 @@ function _deserializeResultsAdd(json) {
     return new CompetenceMark({
       level: competenceMark.level,
       score: competenceMark.score,
-      area_code: competenceMark['area-code'],
-      competence_code: competenceMark['competence-code'],
+      area_code: competenceMark.area_code,
+      competence_code: competenceMark.competence_code,
       competenceId: competenceMark['competence-id'],
     });
   });
@@ -29,13 +29,12 @@ function _deserializeResultsAdd(json) {
 
 module.exports = {
 
-  save(request) {
+  async save(request) {
     const jsonResult = request.payload.data.attributes;
-
     const { assessmentResult, competenceMarks } = _deserializeResultsAdd(jsonResult);
-    assessmentResult.juryId = request.auth.credentials.userId;
-    // FIXME (re)calculate partner certification acquisitions
-    return assessmentResultService.save(assessmentResult, competenceMarks)
-      .then(() => null);
+    const juryId = request.auth.credentials.userId;
+    // FIXME (re)calculate partner certifications which may be invalidated/validated
+    await assessmentResultService.save({ ...assessmentResult, juryId }, competenceMarks);
+    return null;
   },
 };

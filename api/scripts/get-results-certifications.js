@@ -42,7 +42,7 @@ function buildCertificationRequest(baseUrl, authToken, certificationId) {
 }
 
 function findCompetence(profile, competenceName) {
-  const result = profile.find((competence) => competence['competence-code'] === competenceName);
+  const result = profile.find((competence) => competence.competence_code === competenceName);
   return (result || { level: '' }).level;
 }
 

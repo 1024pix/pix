@@ -39,18 +39,21 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
                 {
                   level: 2,
                   score: 18,
-                  'area-code': 2,
-                  'competence-code': 2.1
+                  'area_code': 2,
+                  'competence_code': 2.1,
+                  'competence-id': '2.1',
                 },{
                   level: 3,
                   score: 27,
-                  'area-code': 3,
-                  'competence-code': 3.2
+                  'area_code': 3,
+                  'competence_code': 3.2,
+                  'competence-id': '3.2',
                 },{
                   level: 1,
                   score: 9,
-                  'area-code': 1,
-                  'competence-code': 1.3
+                  'area_code': 1,
+                  'competence_code': 1.3,
+                  'competence-id': '1.3',
                 }
               ]
             }
@@ -66,90 +69,79 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
       await knex('assessment-results').delete();
       await knex('assessments').delete();
       await knex('certification-courses').delete();
+      await knex('users_pix_roles').delete();
+      await knex('users').delete();
     });
 
-    it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
+    it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async () => {
       // given
       const nonPixMAsterUserId = 9999;
       options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(403);
-      });
+      expect(response.statusCode).to.equal(403);
     });
 
-    it('should return a 204 after saving in database', () => {
+    it('should return a 204 after saving in database', async () => {
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise
-        .then((response) => {
-          expect(response.statusCode).to.equal(204);
-        });
+      expect(response.statusCode).to.equal(204);
     });
 
-    it('should save a assessment-results and 3 marks', () => {
+    it('should save a assessment-results and 3 marks', async () => {
       // when
-      const promise = server.inject(options);
+      await server.inject(options);
 
       // then
-      return promise
-        .then(() => knex('assessment-results').select())
-        .then((result) => {
-          expect(result).to.have.lengthOf(1);
-        })
-        .then(() => knex('competence-marks').select())
-        .then((marks) => {
-          expect(marks).to.have.lengthOf(3);
-        });
+      const assessmentResults = await knex('assessment-results').select();
+      const marks = await knex('competence-marks').select();
+
+      expect(assessmentResults).to.have.lengthOf(1);
+      expect(marks).to.have.lengthOf(3);
     });
 
     context('when assessment has already the assessment-result compute', () => {
-      before(() => {
-        return knex('assessment-results')
+      before(async () => {
+        const results = await knex('assessment-results')
           .insert({
             level: -1,
             pixScore: 0,
             status: 'rejected',
             emitter: 'PIX-ALGO',
             commentForJury: 'Computed'
-          }, 'id').then((result) => {
-            const resultId = result[0];
-            return knex('competence-marks')
-              .insert({
-                assessmentResultId: resultId,
-                level: -1,
-                score: 0,
-                area_code: 2,
-                competence_code: 2.1
-              });
+          }, 'id');
+
+        const resultId = results[0];
+        await knex('competence-marks')
+          .insert({
+            assessmentResultId: resultId,
+            level: -1,
+            score: 0,
+            area_code: 2,
+            competence_code: 2.1
           });
       });
 
-      it('should save a assessment-results and 3 marks', () => {
+      it('should save a assessment-results and 3 marks', async () => {
         // when
-        const promise = server.inject(options);
+        await server.inject(options);
 
         // then
-        return promise
-          .then(() => knex('assessment-results').select())
-          .then((result) => {
-            expect(result).to.have.lengthOf(2);
-          })
-          .then(() => knex('competence-marks').select())
-          .then((marks) => {
-            expect(marks).to.have.lengthOf(4);
-          });
+        const assessmentResults = await knex('assessment-results').select();
+        const marks = await knex('competence-marks').select();
+
+        expect(assessmentResults).to.have.lengthOf(2);
+        expect(marks).to.have.lengthOf(4);
       });
     });
 
     context('when the correction to be applied has a mistake', () => {
-      it('should return a 422 error', () => {
+      it('should return a 422 error', async () => {
         const wrongScore = 9999999999;
 
         const options = {
@@ -172,18 +164,18 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
                   {
                     level: 2,
                     score: 18,
-                    'area-code': 2,
-                    'competence-code': 2.1
+                    'area_code': 2,
+                    'competence_code': 2.1
                   },{
                     level: 3,
                     score: wrongScore,
-                    'area-code': 3,
-                    'competence-code': 3.2
+                    'area_code': 3,
+                    'competence_code': 3.2
                   },{
                     level: 1,
                     score: 218158186,
-                    'area-code': 1,
-                    'competence-code': 1.3
+                    'area_code': 1,
+                    'competence_code': 1.3
                   }
                 ]
               }
@@ -192,18 +184,15 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
         };
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise
-          .then((response) => {
-            expect(response.statusCode).to.equal(422);
-            expect(response.result.errors[0]).to.deep.equal({
-              'title': 'Unprocessable entity',
-              'detail': 'ValidationError: "score" must be less than or equal to 64',
-              'status': '422'
-            });
-          });
+        expect(response.statusCode).to.equal(422);
+        expect(response.result.errors[0]).to.deep.equal({
+          'title': 'Unprocessable entity',
+          'detail': 'ValidationError: "score" must be less than or equal to 64',
+          'status': '422'
+        });
       });
     });
   });

@@ -5,6 +5,7 @@ module.exports = {
   serialize(certificationResult) {
     return new Serializer('results', {
       attributes: [
+        'assessmentId',
         'level',
         'pixScore',
         'createdAt',
