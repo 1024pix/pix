@@ -4,6 +4,7 @@ import {
   findPaginatedCampaignProfilesCollectionParticipationSummaries,
 } from './handlers/find-paginated-campaign-participation-summaries';
 import { findPaginatedOrganizationMemberships } from './handlers/find-paginated-organization-memberships';
+import { findFilteredPaginatedStudents } from './handlers/find-filtered-paginated-students';
 
 function parseQueryString(queryString) {
   const result = Object.create(null);
@@ -150,32 +151,7 @@ export default function() {
     return new Response(204);
   });
 
-  this.get('/organizations/:id/students', (schema, request) => {
-    const organizationId = request.params.id;
-
-    const lastNameFilter = request.queryParams['filter[lastName]'];
-    if (lastNameFilter) {
-      return schema.students.where(({ lastName }) => lastName.includes(lastNameFilter));
-    }
-
-    const firstNameFilter = request.queryParams['filter[firstName]'];
-    if (firstNameFilter) {
-      return schema.students.where(({ firstName }) => firstName.includes(firstNameFilter));
-    }
-
-    const connexionTypeFilter = request.queryParams['filter[connexionType]'];
-    if (connexionTypeFilter) {
-      return schema.students.where((student) => {
-        if (connexionTypeFilter === '') return true;
-        if (connexionTypeFilter === 'identifiant' && student.hasUsername) return true;
-        if (connexionTypeFilter === 'email' && student.hasEmail) return true;
-        if (connexionTypeFilter === 'mediacentre' && student.isAuthenticatedFromGar) return true;
-        return false;
-      });
-    }
-
-    return schema.students.where({ organizationId });
-  });
+  this.get('/organizations/:id/students', findFilteredPaginatedStudents);
 
   this.post('/organizations/:id/import-students', (schema, request) => {
     const type = request.requestBody.type;

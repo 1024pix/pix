@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { getPaginationFromQueryParams, applyPagination } from './pagination-utils';
 
 export function findPaginatedOrganizationMemberships(schema, request) {
   const organizationId = request.params.id;
@@ -6,8 +6,8 @@ export function findPaginatedOrganizationMemberships(schema, request) {
   const memberships = schema.memberships.where({ organizationId }).models;
   const rowCount = memberships.length;
 
-  const pagination = _getPaginationFromQueryParams(queryParams);
-  const paginatedMemberships = _applyPagination(memberships, pagination);
+  const pagination = getPaginationFromQueryParams(queryParams);
+  const paginatedMemberships = applyPagination(memberships, pagination);
 
   const json = this.serialize({ modelName: 'membership', models: paginatedMemberships }, 'membership');
   json.meta = {
@@ -17,18 +17,4 @@ export function findPaginatedOrganizationMemberships(schema, request) {
     pageCount: Math.ceil(rowCount / pagination.pageSize),
   };
   return json;
-}
-
-function _getPaginationFromQueryParams(queryParams) {
-  return {
-    pageSize: parseInt(_.get(queryParams, 'page[size]',  10)),
-    page: parseInt(_.get(queryParams, 'page[number]',  1))
-  };
-}
-
-function _applyPagination(summaries, { page, pageSize }) {
-  const start = (page - 1) * pageSize;
-  const end = start + pageSize;
-
-  return _.slice(summaries, start, end);
 }

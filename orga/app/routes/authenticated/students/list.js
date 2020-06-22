@@ -9,6 +9,8 @@ export default class ListRoute extends Route {
     lastName: { refreshModel: true },
     firstName: { refreshModel: true },
     connexionType: { refreshModel: true },
+    pageNumber: { refreshModel: true },
+    pageSize: { refreshModel: true },
   };
 
   @service currentUser;
@@ -21,6 +23,10 @@ export default class ListRoute extends Route {
         firstName: params.firstName,
         connexionType: params.connexionType,
       },
+      page: {
+        number: params.pageNumber,
+        size: params.pageSize,
+      },
     });
   }
 
@@ -29,6 +35,8 @@ export default class ListRoute extends Route {
       controller.lastName = null;
       controller.firstName = null;
       controller.connexionType = null;
+      controller.pageNumber = null;
+      controller.pageSize = null;
     }
   }
 
