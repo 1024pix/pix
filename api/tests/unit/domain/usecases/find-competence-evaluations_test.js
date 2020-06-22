@@ -8,7 +8,7 @@ describe('Unit | UseCase | find-competence-evaluations', () => {
   const assessmentId = 2;
 
   let options;
-  let competenceEvaluationRepository, smartPlacementAssessmentRepository;
+  let competenceEvaluationRepository, campaignAssessmentRepository;
 
   beforeEach(() => {
     options = {
@@ -18,14 +18,14 @@ describe('Unit | UseCase | find-competence-evaluations', () => {
     competenceEvaluationRepository = {
       find: sinon.stub(),
     };
-    smartPlacementAssessmentRepository = {
+    campaignAssessmentRepository = {
       doesAssessmentBelongToUser: sinon.stub()
     };
   });
 
   it('should find the competence-evaluations', async () => {
     // given
-    smartPlacementAssessmentRepository.doesAssessmentBelongToUser.withArgs(assessmentId, userId).resolves(true);
+    campaignAssessmentRepository.doesAssessmentBelongToUser.withArgs(assessmentId, userId).resolves(true);
     competenceEvaluationRepository.find.withArgs(options).resolves('ok');
 
     // when
@@ -33,7 +33,7 @@ describe('Unit | UseCase | find-competence-evaluations', () => {
       userId,
       options,
       competenceEvaluationRepository,
-      smartPlacementAssessmentRepository
+      campaignAssessmentRepository
     });
 
     // then
@@ -42,14 +42,14 @@ describe('Unit | UseCase | find-competence-evaluations', () => {
 
   it('should throw an UserNotAuthorizedToAccessEntity error', async () => {
     // given
-    smartPlacementAssessmentRepository.doesAssessmentBelongToUser.resolves(false);
+    campaignAssessmentRepository.doesAssessmentBelongToUser.resolves(false);
 
     // when
     const error = await catchErr(findCompetenceEvaluations)({
       userId,
       options,
       competenceEvaluationRepository,
-      smartPlacementAssessmentRepository
+      campaignAssessmentRepository
     });
 
     // then

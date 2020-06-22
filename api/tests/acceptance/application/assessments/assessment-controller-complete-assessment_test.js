@@ -101,7 +101,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: campaignUser.id });
         const campaignAssessment = databaseBuilder.factory.buildAssessment({
           id: 5,
-          type: 'SMART_PLACEMENT',
+          type: 'CAMPAIGN',
           state: Assessment.states.STARTED,
           userId: campaignUser.id,
           campaignParticipationId: campaignParticipation.id

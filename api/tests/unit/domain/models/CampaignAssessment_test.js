@@ -1,13 +1,13 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const SmartPlacementAssessment = require('../../../../lib/domain/models/SmartPlacementAssessment');
+const CampaignAssessment = require('../../../../lib/domain/models/CampaignAssessment');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 
-function generateSmartPlacementAssessmentWithNoKnowledgeElement() {
+function generateCampaignAssessmentWithNoKnowledgeElement() {
   const skills = domainBuilder.buildSkillCollection();
   const targetProfile = domainBuilder.buildTargetProfile({ skills });
 
-  return domainBuilder.buildSmartPlacementAssessment({
+  return domainBuilder.buildCampaignAssessment({
     skills,
     answers: [],
     knowledgeElements: [],
@@ -15,7 +15,7 @@ function generateSmartPlacementAssessmentWithNoKnowledgeElement() {
   });
 }
 
-function generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
+function generateCampaignAssessmentDataWithThreeKnowledgeElements({
   knowledgeElement1Status,
   knowledgeElement2Status,
   knowledgeElement3Status,
@@ -63,7 +63,7 @@ function generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
   });
 
   return {
-    assessment: domainBuilder.buildSmartPlacementAssessment({
+    assessment: domainBuilder.buildCampaignAssessment({
       skills,
       answers: [answer1, answer2, answer3],
       knowledgeElements: [knowledgeElement1, knowledgeElement2, knowledgeElement3],
@@ -75,14 +75,14 @@ function generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
   };
 }
 
-describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
+describe('Unit | Domain | Models | CampaignAssessment', () => {
 
   describe('#isCompleted', () => {
 
     it('should be true if state is completed', () => {
       // given
-      const assessment = domainBuilder.buildSmartPlacementAssessment({
-        state: SmartPlacementAssessment.State.COMPLETED,
+      const assessment = domainBuilder.buildCampaignAssessment({
+        state: CampaignAssessment.State.COMPLETED,
       });
 
       // when
@@ -94,8 +94,8 @@ describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
 
     it('should be false if state not completed', () => {
       // given
-      const assessment = domainBuilder.buildSmartPlacementAssessment({
-        state: SmartPlacementAssessment.State.STARTED,
+      const assessment = domainBuilder.buildCampaignAssessment({
+        state: CampaignAssessment.State.STARTED,
       });
 
       // when
@@ -110,8 +110,8 @@ describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
 
     it('should be true if state is started', () => {
       // given
-      const assessment = domainBuilder.buildSmartPlacementAssessment({
-        state: SmartPlacementAssessment.State.STARTED,
+      const assessment = domainBuilder.buildCampaignAssessment({
+        state: CampaignAssessment.State.STARTED,
       });
 
       // when
@@ -123,8 +123,8 @@ describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
 
     it('should be false if state not started', () => {
       // given
-      const assessment = domainBuilder.buildSmartPlacementAssessment({
-        state: SmartPlacementAssessment.State.COMPLETED,
+      const assessment = domainBuilder.buildCampaignAssessment({
+        state: CampaignAssessment.State.COMPLETED,
       });
 
       // when
@@ -139,7 +139,7 @@ describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
 
     it('should return no skill if no knowledge elements', () => {
       // given
-      const assessment = generateSmartPlacementAssessmentWithNoKnowledgeElement();
+      const assessment = generateCampaignAssessmentWithNoKnowledgeElement();
 
       const expectedValidatedSkills = [];
 
@@ -153,7 +153,7 @@ describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
     it('should sum all skills validated in knowledge elements', () => {
       // given
       const { assessment, knowledgeElement1Skill, knowledgeElement2Skill } =
-        generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
+        generateCampaignAssessmentDataWithThreeKnowledgeElements({
           knowledgeElement1Status: KnowledgeElement.StatusType.VALIDATED,
           knowledgeElement2Status: KnowledgeElement.StatusType.VALIDATED,
           knowledgeElement3Status: KnowledgeElement.StatusType.INVALIDATED,
@@ -173,7 +173,7 @@ describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
 
     it('should return no skill if no knowledge elements', () => {
       // given
-      const assessment = generateSmartPlacementAssessmentWithNoKnowledgeElement();
+      const assessment = generateCampaignAssessmentWithNoKnowledgeElement();
 
       const expectedFailedSkills = [];
 
@@ -187,7 +187,7 @@ describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
     it('should sum all skills failed in knowledge elements', () => {
       // given
       const { assessment, knowledgeElement1Skill, knowledgeElement2Skill } =
-        generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
+        generateCampaignAssessmentDataWithThreeKnowledgeElements({
           knowledgeElement1Status: KnowledgeElement.StatusType.INVALIDATED,
           knowledgeElement2Status: KnowledgeElement.StatusType.INVALIDATED,
           knowledgeElement3Status: KnowledgeElement.StatusType.VALIDATED,

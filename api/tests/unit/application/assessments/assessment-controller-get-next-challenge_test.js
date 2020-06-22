@@ -41,7 +41,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       sinon.stub(usecases, 'getAssessment').resolves(scoredAsssessment);
       sinon.stub(usecases, 'getNextChallengeForCertification').resolves();
       sinon.stub(usecases, 'getNextChallengeForDemo').resolves();
-      sinon.stub(usecases, 'getNextChallengeForSmartPlacement').resolves();
+      sinon.stub(usecases, 'getNextChallengeForCampaignAssessment').resolves();
       sinon.stub(usecases, 'getNextChallengeForCompetenceEvaluation').resolves();
       sinon.stub(certificationChallengeRepository, 'getNonAnsweredChallengeByCourseId').resolves();
     });
@@ -145,45 +145,45 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       });
     });
 
-    describe('when the assessment is a smart placement assessment', () => {
+    describe('when the assessment is a campaign assessment', () => {
 
       const defaultLocale = FRENCH_FRANCE;
       const assessment = new Assessment({
         id: 1,
         courseId: 'courseId',
         userId: 5,
-        type: 'SMART_PLACEMENT',
+        type: 'CAMPAIGN',
       });
 
       beforeEach(() => {
         assessmentRepository.get.resolves(assessment);
       });
 
-      it('should call the usecase getNextChallengeForSmartPlacement with tryImproving at false when the query not exists', async () => {
+      it('should call the usecase getNextChallengeForCampaignAssessment with tryImproving at false when the query not exists', async () => {
         // when
         await assessmentController.getNextChallenge({ params: { id: 1 }, query: {} });
 
         // then
-        expect(usecases.getNextChallengeForSmartPlacement).to.have.been.calledWith({
+        expect(usecases.getNextChallengeForCampaignAssessment).to.have.been.calledWith({
           assessment,
           tryImproving: false,
           locale: defaultLocale,
         });
       });
 
-      it('should call the usecase getNextChallengeForSmartPlacement with the query tryImproving', async () => {
+      it('should call the usecase getNextChallengeForCampaignAssessment with the query tryImproving', async () => {
         // when
         await assessmentController.getNextChallenge({ params: { id: 1 }, query: { tryImproving: true } });
 
         // then
-        expect(usecases.getNextChallengeForSmartPlacement).to.have.been.calledWith({
+        expect(usecases.getNextChallengeForCampaignAssessment).to.have.been.calledWith({
           assessment,
           tryImproving: true,
           locale: defaultLocale,
         });
       });
 
-      it('should call the usecase getNextChallengeForSmartPlacement with the locale', async () => {
+      it('should call the usecase getNextChallengeForCampaignAssessment with the locale', async () => {
         // given
         const locale = FRENCH_SPOKEN;
 
@@ -196,7 +196,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         });
 
         // then
-        expect(usecases.getNextChallengeForSmartPlacement).to.have.been.calledWith({
+        expect(usecases.getNextChallengeForCampaignAssessment).to.have.been.calledWith({
           assessment,
           tryImproving: true,
           locale,

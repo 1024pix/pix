@@ -8,8 +8,8 @@ module.exports = {
 
   async getCourse({ courseId }) {
 
-    // TODO: delete when smart placement assessment does not have courses anymore
-    if (_.startsWith(courseId, 'Smart')) {
+    // TODO: delete when campaign assessment does not have courses anymore
+    if (_.startsWith(courseId, '[NOT USED] Campaign')) {
       return Promise.resolve(new Course({ id: courseId }));
     }
 

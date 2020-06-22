@@ -41,14 +41,14 @@ async function resetScorecard({
   if (shouldResetCompetenceEvaluation) {
     return Promise.all([
       newKnowledgeElements,
-      _resetSmartPlacementAssessments({ userId, resetSkills, assessmentRepository, campaignParticipationRepository }),
+      _resetCampaignAssessments({ userId, resetSkills, assessmentRepository, campaignParticipationRepository }),
       _resetCompetenceEvaluation({ userId, competenceId, competenceEvaluationRepository }),
     ]);
   }
 
   return Promise.all([
     newKnowledgeElements,
-    _resetSmartPlacementAssessments({
+    _resetCampaignAssessments({
       userId,
       resetSkills,
       assessmentRepository,
@@ -82,25 +82,25 @@ function _resetCompetenceEvaluation({ userId, competenceId, competenceEvaluation
   });
 }
 
-async function _resetSmartPlacementAssessments({ userId, resetSkills, assessmentRepository, campaignParticipationRepository }) {
-  const notAbortedSmartPlacementAssessments = await assessmentRepository.findNotAbortedSmartPlacementAssessmentsByUserId(userId);
+async function _resetCampaignAssessments({ userId, resetSkills, assessmentRepository, campaignParticipationRepository }) {
+  const notAbortedCampaignAssessments = await assessmentRepository.findNotAbortedCampaignAssessmentsByUserId(userId);
 
-  if (!notAbortedSmartPlacementAssessments) {
+  if (!notAbortedCampaignAssessments) {
     return null;
   }
 
-  const resetSmartPlacementAssessmentsPromises = _.map(notAbortedSmartPlacementAssessments,
-    (smartPlacementAssessment) => _resetSmartPlacementAssessment({
-      assessment: smartPlacementAssessment,
+  const resetCampaignAssessmentsPromises = _.map(notAbortedCampaignAssessments,
+    (campaignAssessment) => _resetCampaignAssessment({
+      assessment: campaignAssessment,
       resetSkills,
       assessmentRepository,
       campaignParticipationRepository
     })
   );
-  return Promise.all(resetSmartPlacementAssessmentsPromises);
+  return Promise.all(resetCampaignAssessmentsPromises);
 }
 
-async function _resetSmartPlacementAssessment({ assessment, resetSkills, assessmentRepository, campaignParticipationRepository }) {
+async function _resetCampaignAssessment({ assessment, resetSkills, assessmentRepository, campaignParticipationRepository }) {
   const campaignParticipation = await campaignParticipationRepository.findOneByAssessmentIdWithSkillIds(assessment.id);
 
   const resetSkillsNotIncludedInTargetProfile = _computeResetSkillsNotIncludedInTargetProfile({
@@ -115,9 +115,9 @@ async function _resetSmartPlacementAssessment({ assessment, resetSkills, assessm
   const newAssessment = new Assessment({
     userId: assessment.userId,
     state: Assessment.states.STARTED,
-    type: Assessment.types.SMARTPLACEMENT,
+    type: Assessment.types.CAMPAIGN,
     campaignParticipationId: assessment.campaignParticipationId,
-    courseId: 'Smart Placement Tests CourseId Not Used'
+    courseId: '[NOT USED] Campaign Assessment CourseId Not Used'
   });
 
   await assessmentRepository.abortByAssessmentId(assessment.id);

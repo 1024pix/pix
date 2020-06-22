@@ -24,19 +24,19 @@ describe('Integration | Repository | Campaign Participation', () => {
       }).id;
 
       databaseBuilder.factory.buildAssessment({
-        type: 'SMART_PLACEMENT',
+        type: 'CAMPAIGN',
         campaignParticipationId,
         createdAt: new Date('2000-01-01T10:00:00Z')
       });
 
       recentAssessmentId = databaseBuilder.factory.buildAssessment({
-        type: 'SMART_PLACEMENT',
+        type: 'CAMPAIGN',
         campaignParticipationId,
         createdAt: new Date('2000-03-01T10:00:00Z')
       }).id;
 
       databaseBuilder.factory.buildAssessment({
-        type: 'SMART_PLACEMENT',
+        type: 'CAMPAIGN',
         campaignParticipationId: campaignParticipationNotSharedId,
         createdAt: new Date('2000-02-01T10:00:00Z')
       });

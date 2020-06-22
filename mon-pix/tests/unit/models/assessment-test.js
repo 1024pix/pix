@@ -90,18 +90,18 @@ describe('Unit | Model | Assessment', function() {
     });
   });
 
-  describe('#isSmartPlacement', function() {
-    it('should return true when the assessment type is a smart placement', function() {
+  describe('#isForCampaign', function() {
+    it('should return true when the assessment type is a campaign assessment', function() {
       // given
       const model = store.createRecord('assessment');
 
       // when
-      model.set('type', 'SMART_PLACEMENT');
+      model.set('type', 'CAMPAIGN');
 
       //then
-      expect(model.isSmartPlacement).to.be.true;
+      expect(model.isForCampaign).to.be.true;
     });
-    it('should return false when the assessment type is not a smart placement', function() {
+    it('should return false when the assessment type is not a campaign assessment', function() {
       // given
       const model = store.createRecord('assessment');
 
@@ -109,7 +109,7 @@ describe('Unit | Model | Assessment', function() {
       model.set('type', '_');
 
       //then
-      expect(model.isSmartPlacement).to.be.false;
+      expect(model.isForCampaign).to.be.false;
     });
   });
 

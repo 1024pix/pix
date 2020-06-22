@@ -19,7 +19,7 @@ module.exports = {
 
     return Promise.resolve()
       .then(() => {
-        if (assessment.isSmartPlacement()) {
+        if (assessment.isForCampaign()) {
           const codeCampaign = request.payload.data.attributes['code-campaign'];
           const participantExternalId = request.payload.data.attributes['participant-external-id'];
           return usecases.createAssessmentForCampaign({
@@ -53,7 +53,7 @@ module.exports = {
       const filters = extractParameters(request.query).filter;
 
       if (filters.codeCampaign) {
-        assessments = await usecases.findSmartPlacementAssessments({ userId, filters });
+        assessments = await usecases.findCampaignAssessments({ userId, filters });
       }
     }
 
@@ -115,9 +115,9 @@ async function _getChallenge(assessment, request) {
     return usecases.getNextChallengeForDemo({ assessment });
   }
 
-  if (assessment.isSmartPlacement()) {
+  if (assessment.isForCampaign()) {
     const tryImproving = Boolean(request.query.tryImproving);
-    return usecases.getNextChallengeForSmartPlacement({ assessment, tryImproving, locale });
+    return usecases.getNextChallengeForCampaignAssessment({ assessment, tryImproving, locale });
   }
 
   if (assessment.isCompetenceEvaluation()) {

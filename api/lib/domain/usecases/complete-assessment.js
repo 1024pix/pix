@@ -20,8 +20,8 @@ module.exports = async function completeAssessment({
   return new AssessmentCompleted(
     assessmentId,
     assessment.userId,
-    assessment.isSmartPlacement() ? assessment.campaignParticipation.campaign.targetProfileId : null,
-    assessment.isSmartPlacement() ? assessment.campaignParticipation.id : null,
+    assessment.isForCampaign() ? assessment.campaignParticipation.campaign.targetProfileId : null,
+    assessment.isForCampaign() ? assessment.campaignParticipation.id : null,
     assessment.isCertification()
   );
 };

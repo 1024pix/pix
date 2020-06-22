@@ -11,7 +11,7 @@ const CampaignParticipation = require('../../../../lib/domain/models/CampaignPar
 
 describe('Integration | Infrastructure | Repositories | assessment-repository', () => {
 
-  // TODO: rajouter la verif de l'ajout du profile dans le cas du SMART_PLACEMENT
+  // TODO: rajouter la verif de l'ajout du profile dans le cas d'une CAMPAIGN
   describe('#get', () => {
 
     let assessmentId;
@@ -365,9 +365,9 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     before(async () => {
 
       campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({}).id;
-      databaseBuilder.factory.buildAssessment({ type: Assessment.types.SMARTPLACEMENT, campaignParticipationId }).id;
+      databaseBuilder.factory.buildAssessment({ type: Assessment.types.CAMPAIGN, campaignParticipationId }).id;
       const otherAssessmentId = databaseBuilder.factory.buildAssessment({
-        type: Assessment.types.SMARTPLACEMENT
+        type: Assessment.types.CAMPAIGN
       }).id;
 
       databaseBuilder.factory.buildCampaignParticipation({ assessmentId: otherAssessmentId });
@@ -387,7 +387,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
   });
 
-  describe('#findNotAbortedSmartPlacementAssessmentsByUserId', () => {
+  describe('#findNotAbortedCampaignAssessmentsByUserId', () => {
     let assessmentId;
     let userId;
 
@@ -395,13 +395,13 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildAssessment({
         userId,
-        type: Assessment.types.SMARTPLACEMENT,
+        type: Assessment.types.CAMPAIGN,
         state: Assessment.states.ABORTED
       });
 
       assessmentId = databaseBuilder.factory.buildAssessment({
         userId,
-        type: Assessment.types.SMARTPLACEMENT,
+        type: Assessment.types.CAMPAIGN,
       }).id;
 
       await databaseBuilder.commit();
@@ -418,7 +418,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
     it('should return the assessment with campaign when it matches with userId and ignore aborted assessments', async () => {
       // when
-      const assessmentsReturned = await assessmentRepository.findNotAbortedSmartPlacementAssessmentsByUserId(userId);
+      const assessmentsReturned = await assessmentRepository.findNotAbortedCampaignAssessmentsByUserId(userId);
 
       // then
       expect(assessmentsReturned.length).to.equal(1);
@@ -427,7 +427,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
-  describe('#findLastSmartPlacementAssessmentByUserIdAndCampaignCode', () => {
+  describe('#findLastCampaignAssessmentByUserIdAndCampaignCode', () => {
     let assessmentId;
     let userId;
     let campaign;
@@ -451,7 +451,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         });
         assessmentId = databaseBuilder.factory.buildAssessment({
           userId,
-          type: Assessment.types.SMARTPLACEMENT,
+          type: Assessment.types.CAMPAIGN,
           campaignParticipationId: campaignParticipation.id
         }).id;
 
@@ -460,7 +460,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       it('should return the assessment with campaign when asked', async () => {
         // when
-        const assessmentReturned = await assessmentRepository.findLastSmartPlacementAssessmentByUserIdAndCampaignCode({
+        const assessmentReturned = await assessmentRepository.findLastCampaignAssessmentByUserIdAndCampaignCode({
           userId,
           campaignCode: campaign.code,
           includeCampaign: true
@@ -474,7 +474,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       it('should return the assessment without campaign', async () => {
         // when
-        const assessmentReturned = await assessmentRepository.findLastSmartPlacementAssessmentByUserIdAndCampaignCode({
+        const assessmentReturned = await assessmentRepository.findLastCampaignAssessmentByUserIdAndCampaignCode({
           userId,
           campaignCode: campaign.code,
           includeCampaign: false
@@ -488,7 +488,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       it('should return null', async () => {
         // when
-        const assessmentReturned = await assessmentRepository.findLastSmartPlacementAssessmentByUserIdAndCampaignCode({
+        const assessmentReturned = await assessmentRepository.findLastCampaignAssessmentByUserIdAndCampaignCode({
           userId,
           campaignCode: 'fakeCampaignCode',
           includeCampaign: false

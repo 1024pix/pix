@@ -72,7 +72,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         });
 
         const assessmentStartedOfCompetence2 = domainBuilder.buildAssessment({
-          type: 'SMART_PLACEMENT',
+          type: 'CAMPAIGN',
           state: 'started'
         });
         const competenceEvaluationOfCompetence1 = domainBuilder.buildCompetenceEvaluation({

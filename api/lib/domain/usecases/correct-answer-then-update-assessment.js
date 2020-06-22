@@ -100,7 +100,7 @@ async function _getKnowledgeElements({ assessment, answer, challenge, skillRepos
   if (assessment.isCompetenceEvaluation()) {
     targetSkills = await skillRepository.findByCompetenceId(assessment.competenceId);
   }
-  if (assessment.isSmartPlacement()) {
+  if (assessment.isForCampaign()) {
     const targetProfile = await targetProfileRepository.getByCampaignId(assessment.campaignParticipation.campaignId);
     targetSkills = targetProfile.skills;
   }

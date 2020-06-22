@@ -42,7 +42,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
     assessment = databaseBuilder.factory.buildAssessment({
       campaignParticipationId: campaignParticipation.id,
       userId: user.id,
-      type: 'SMART_PLACEMENT',
+      type: 'CAMPAIGN',
       state: 'completed',
     });
 

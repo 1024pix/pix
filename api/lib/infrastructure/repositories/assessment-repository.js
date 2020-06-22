@@ -72,7 +72,7 @@ module.exports = {
 
   getByCampaignParticipationId(campaignParticipationId) {
     return BookshelfAssessment
-      .where({ 'campaign-participations.id': campaignParticipationId, 'assessments.type': 'SMART_PLACEMENT' })
+      .where({ 'campaign-participations.id': campaignParticipationId, 'assessments.type': 'CAMPAIGN' })
       .query((qb) => {
         qb.innerJoin('campaign-participations', 'campaign-participations.id', 'assessments.campaignParticipationId');
       })
@@ -80,17 +80,17 @@ module.exports = {
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
-  findNotAbortedSmartPlacementAssessmentsByUserId(userId) {
+  findNotAbortedCampaignAssessmentsByUserId(userId) {
     return BookshelfAssessment
-      .where({ userId, type: 'SMART_PLACEMENT' })
+      .where({ userId, type: 'CAMPAIGN' })
       .where('state', '!=', 'aborted')
       .fetchAll()
       .then((assessments) => bookshelfToDomainConverter.buildDomainObjects(BookshelfAssessment, assessments));
   },
 
-  findLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode, includeCampaign = false }) {
+  findLastCampaignAssessmentByUserIdAndCampaignCode({ userId, campaignCode, includeCampaign = false }) {
     return BookshelfAssessment
-      .where({ 'assessments.userId': userId, 'assessments.type': 'SMART_PLACEMENT', 'campaigns.code': campaignCode })
+      .where({ 'assessments.userId': userId, 'assessments.type': 'CAMPAIGN', 'campaigns.code': campaignCode })
       .query((qb) => {
         qb.innerJoin('campaign-participations', 'campaign-participations.id', 'assessments.campaignParticipationId');
         qb.innerJoin('campaigns', 'campaign-participations.campaignId', 'campaigns.id');

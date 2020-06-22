@@ -18,11 +18,11 @@ export default class EvaluationStartOrResumeRoute extends Route.extend(SecuredRo
   }
 
   async redirect(campaign) {
-    const smartPlacementAssessments = await this.store.query(
+    const campaignAssessment = await this.store.query(
       'assessment',
-      { filter: { type: 'SMART_PLACEMENT', codeCampaign: campaign.code } },
+      { filter: { type: 'CAMPAIGN', codeCampaign: campaign.code } },
     );
-    const assessment = await smartPlacementAssessments.get('firstObject');
+    const assessment = await campaignAssessment.get('firstObject');
 
     if (this._shouldShowTutorial(assessment)) {
       return this.replaceWith('campaigns.assessment.tutorial', campaign.code);

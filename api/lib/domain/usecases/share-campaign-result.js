@@ -9,7 +9,7 @@ module.exports = async function shareCampaignResult({
   answerRepository,
   campaignParticipationRepository,
   challengeRepository,
-  smartPlacementAssessmentRepository,
+  campaignAssessmentRepository,
   knowledgeElementRepository,
   targetProfileRepository,
   improvementService,
@@ -26,7 +26,7 @@ module.exports = async function shareCampaignResult({
   if (campaign.isAssessment()) {
     const assessment = await assessmentRepository.getByCampaignParticipationId(campaignParticipation.id);
 
-    const belongsToUser = await smartPlacementAssessmentRepository.doesAssessmentBelongToUser(assessment.id, userId);
+    const belongsToUser = await campaignAssessmentRepository.doesAssessmentBelongToUser(assessment.id, userId);
     if (!belongsToUser) {
       throw new UserNotAuthorizedToAccessEntity('User does not have an access to this campaign participation');
     }

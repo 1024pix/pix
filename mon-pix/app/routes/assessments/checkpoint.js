@@ -9,11 +9,11 @@ export default class CheckpointRoute extends Route {
 
   async afterModel(assessment) {
 
-    if (assessment.isCompetenceEvaluation || assessment.isSmartPlacement) {
+    if (assessment.isCompetenceEvaluation || assessment.isForCampaign) {
       await assessment.belongsTo('progression').reload();
     }
 
-    if (assessment.isSmartPlacement) {
+    if (assessment.isForCampaign) {
       const campaigns = await this.store.query('campaign', { filter: { code: assessment.codeCampaign } });
 
       assessment.set('campaign', campaigns.get('firstObject'));

@@ -164,7 +164,7 @@ describe('Acceptance | API | Campaign Controller', () => {
 
       const assessment = databaseBuilder.factory.buildAssessment({
         userId,
-        type: 'SMART_PLACEMENT',
+        type: 'CAMPAIGN',
         createdAt: new Date(assessmentStartDate),
         campaignParticipationId: campaignParticipation.id
       });

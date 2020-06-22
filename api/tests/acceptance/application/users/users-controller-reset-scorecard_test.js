@@ -17,7 +17,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
       .where({ userId, competenceId });
   }
 
-  function inspectSmartPlacementAssessmentsInDb({ userId, state }) {
+  function inspectCampaignAssessmentsInDb({ userId, state }) {
     return knex.select('*')
       .from('assessments')
       .where({ userId, state });
@@ -159,7 +159,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
             ]
           },
           {
-            assessment: { userId, type: 'SMART_PLACEMENT' },
+            assessment: { userId, type: 'CAMPAIGN' },
             campaignParticipation: { campaignId: campaign.id, isShared: false },
             knowledgeElements: [
               { skillId: 'url1', status: 'validated', source: 'direct', competenceId, earnedPix: 2, createdAt, },
@@ -255,8 +255,8 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
         response = await server.inject(options);
 
         // then
-        const smartPlacementAssessments = await inspectSmartPlacementAssessmentsInDb({ userId, state });
-        expect(smartPlacementAssessments).to.have.lengthOf(1);
+        const campaignAssessments = await inspectCampaignAssessmentsInDb({ userId, state });
+        expect(campaignAssessments).to.have.lengthOf(1);
       });
 
       it('should have reset the knowledge elements created from both competence evaluations and campaign', async () => {

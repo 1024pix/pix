@@ -81,9 +81,9 @@ describe('Unit | Domain | Models | Assessment', () => {
       return expect(promise).to.be.rejected;
     });
 
-    it('should return rejected promise when Smart Placement assessment has no userId', () => {
+    it('should return rejected promise when Campaign assessment has no userId', () => {
       //given
-      assessment = new Assessment({ type: 'SMART_PLACEMENT' });
+      assessment = new Assessment({ type: 'CAMPAIGN' });
 
       // when
       const promise = assessment.validate();
@@ -93,27 +93,27 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
   });
 
-  describe('#isSmartPlacement', () => {
-    it('should return true when the assessment is a SMART_PLACEMENT', () => {
+  describe('#isForCampaign', () => {
+    it('should return true when the assessment is for a CAMPAIGN', () => {
       // given
-      const assessment = new Assessment({ type: 'SMART_PLACEMENT' });
+      const assessment = new Assessment({ type: 'CAMPAIGN' });
 
       // when
-      const isSmartPlacementAssessment = assessment.isSmartPlacement();
+      const isForCampaign = assessment.isForCampaign();
 
       // then
-      expect(isSmartPlacementAssessment).to.be.true;
+      expect(isForCampaign).to.be.true;
     });
 
-    it('should return false when the assessment is not a SMART_PLACEMENT', () => {
+    it('should return false when the assessment is not a CAMPAIGN type', () => {
       // given
       const assessment = new Assessment({ type: 'PLACEMENT' });
 
       // when
-      const isSmartPlacementAssessment = assessment.isSmartPlacement();
+      const isForCampaign = assessment.isForCampaign();
 
       // then
-      expect(isSmartPlacementAssessment).to.be.false;
+      expect(isForCampaign).to.be.false;
     });
 
     it('should return false when the assessment has no type', () => {
@@ -121,10 +121,10 @@ describe('Unit | Domain | Models | Assessment', () => {
       const assessment = new Assessment({});
 
       // when
-      const isSmartPlacementAssessment = assessment.isSmartPlacement();
+      const isForCampaign = assessment.isForCampaign();
 
       // then
-      expect(isSmartPlacementAssessment).to.be.false;
+      expect(isForCampaign).to.be.false;
     });
   });
 
@@ -213,7 +213,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return false when the assessment is not a CompetenceEvaluation', () => {
       // given
-      const assessment = domainBuilder.buildAssessment({ type: Assessment.types.SMARTPLACEMENT });
+      const assessment = domainBuilder.buildAssessment({ type: Assessment.types.CAMPAIGN });
 
       // when/then
       expect(assessment.isCompetenceEvaluation()).to.be.false;
@@ -238,15 +238,15 @@ describe('Unit | Domain | Models | Assessment', () => {
       expect(assessment.hasKnowledgeElements()).to.be.true;
     });
 
-    it('should return true when the assessment is a Smart Placement', () => {
+    it('should return true when the assessment is a Campaign assessment', () => {
       // given
-      const assessment = domainBuilder.buildAssessment({ type: Assessment.types.SMARTPLACEMENT });
+      const assessment = domainBuilder.buildAssessment({ type: Assessment.types.CAMPAIGN });
 
       // when/then
       expect(assessment.hasKnowledgeElements()).to.be.true;
     });
 
-    it('should return false when the assessment is not a CompetenceEvaluation nor SmartPlacement', () => {
+    it('should return false when the assessment is not a CompetenceEvaluation nor Campaign', () => {
       // given
       const assessment = domainBuilder.buildAssessment({ type: Assessment.types.CERTIFICATION });
 

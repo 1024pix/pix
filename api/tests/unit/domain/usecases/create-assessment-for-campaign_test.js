@@ -64,7 +64,7 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
 
       assessment = domainBuilder.buildAssessment({
         id: 'assessmentId',
-        type: 'SMART_PLACEMENT',
+        type: 'CAMPAIGN',
         userId,
         campaignParticipationId: campaignParticipation.id
       });

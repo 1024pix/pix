@@ -69,7 +69,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
       campaignRepository.get.resolves(domainBuilder.buildCampaign.ofTypeAssessment());
     });
 
-    it('should create a smart placement assessment', async () => {
+    it('should create a campaign assessment', async () => {
       // given
       assessmentRepository.save.resolves({});
       campaignParticipationRepository.save.resolves({ id: 1 });
@@ -80,10 +80,10 @@ describe('Unit | UseCase | start-campaign-participation', () => {
       // then
       expect(assessmentRepository.save).to.have.been.called;
       const assessmentToSave = assessmentRepository.save.firstCall.args[0].assessment;
-      expect(assessmentToSave.type).to.equal(Assessment.types.SMARTPLACEMENT);
+      expect(assessmentToSave.type).to.equal(Assessment.types.CAMPAIGN);
       expect(assessmentToSave.state).to.equal(Assessment.states.STARTED);
       expect(assessmentToSave.userId).to.equal(userId);
-      expect(assessmentToSave.courseId).to.equal('Smart Placement Tests CourseId Not Used');
+      expect(assessmentToSave.courseId).to.equal('[NOT USED] Campaign Assessment CourseId Not Used');
       expect(assessmentToSave.campaignParticipationId).to.equal(campaignParticipation.id);
     });
   });
@@ -94,7 +94,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
       campaignRepository.get.resolves(domainBuilder.buildCampaign.ofTypeProfilesCollection());
     });
 
-    it('should not create a smart placement assessment', async () => {
+    it('should not create a campaign assessment', async () => {
       // given
       campaignParticipationRepository.save.resolves({ id: 1 });
 
