@@ -8,6 +8,7 @@ const organizationInvitationSerializer = require('../../infrastructure/serialize
 const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
 const userWithSchoolingRegistrationSerializer = require('../../infrastructure/serializers/jsonapi/user-with-schooling-registration-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
+const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
 module.exports = {
 
@@ -108,8 +109,9 @@ module.exports = {
   async sendInvitations(request, h) {
     const organizationId = request.params.id;
     const emails = request.payload.data.attributes.email.split(',');
+    const locale = extractLocaleFromRequest(request);
 
-    const organizationInvitations = await usecases.createOrganizationInvitations({ organizationId, emails });
+    const organizationInvitations = await usecases.createOrganizationInvitations({ organizationId, emails, locale });
     return h.response(organizationInvitationSerializer.serialize(organizationInvitations)).created();
   },
 
