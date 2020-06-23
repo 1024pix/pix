@@ -12,7 +12,6 @@ export default class MemberItem extends Component {
   @tracked organizationRoles = null;
   @tracked isEditionMode = false;
   @tracked selectedNewRole = null;
-  @tracked currentRole = null;
 
   constructor() {
     super(...arguments);
@@ -26,27 +25,23 @@ export default class MemberItem extends Component {
   }
 
   @action
-  updateRoleOfMember(membership) {
+  updateRoleOfMember() {
     this.isEditionMode = false;
     if (!this.selectedNewRole) return false;
 
-    membership.displayRole = this.selectedNewRole.label;
-    membership.organizationRole = this.selectedNewRole.value;
-
-    return membership.save();
+    this.args.membership.organizationRole = this.selectedNewRole.value;
+    return this.args.updateMembership(this.args.membership);
   }
 
   @action
   cancelUpdateRoleOfMember() {
     this.isEditionMode = false;
     this.selectedNewRole = null;
-    this.currentRole = null;
   }
 
   @action
-  editRoleOfMember(membership) {
-    this.selectedNewRole = null;
-    this.currentRole = membership.displayedOrganizationRole;
+  editRoleOfMember() {
     this.isEditionMode = true;
+    this.selectedNewRole = null;
   }
 }

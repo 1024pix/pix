@@ -51,7 +51,7 @@ export default function() {
   this.patch('/memberships/:id', (schema, request) => {
     const membershipId = request.params.id;
     const params = JSON.parse(request.requestBody);
-    const organizationRole = params.data.attributes.organizationRole;
+    const organizationRole = params.data.attributes['organization-role'];
 
     const membership = schema.memberships.findBy({ id: membershipId });
     return membership.update({ organizationRole });

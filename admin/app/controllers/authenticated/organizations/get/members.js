@@ -84,6 +84,16 @@ export default class GetMembersController extends Controller {
   }
 
   @action
+  async updateMembership(membership) {
+    try {
+      await membership.save();
+      this.notifications.success('Le membre a été mis à jour avec succès.');
+    } catch (e) {
+      this.notifications.error('Une erreur est survenue lors de la mise à jour du membre.');
+    }
+  }
+
+  @action
   async createOrganizationInvitation() {
     this.isLoading = true;
     const email = this.userEmailToInvite ? this.userEmailToInvite.trim() : null;
