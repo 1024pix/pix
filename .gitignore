@@ -24,6 +24,7 @@
 
 # IDE
 **/.idea
+!.idea/runConfigurations/*.xml
 *.iml
 
 # SQLite3 local dev file
@@ -42,12 +43,12 @@
 **/bower.json.ember-try
 **/package.json.ember-try
 
-.vscode/launch.json
 api/.vscode/*
 api/.vscode
 api/.nvmrc
 .nvmrc
 .vscode/*
+!.vscode/launch.json
 .history
 
 # ember-try
