@@ -1,14 +1,10 @@
-import { computed } from '@ember/object';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 
 export default class CompetenceCardDefault extends Component {
-  scorecard = null;
-
-  @computed('scorecard.{level,isNotStarted}')
   get displayedLevel() {
-    if (this.scorecard.isNotStarted) {
+    if (this.args.scorecard.isNotStarted) {
       return null;
     }
-    return this.scorecard.level;
+    return this.args.scorecard.level;
   }
 }
