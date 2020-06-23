@@ -34,7 +34,13 @@
     </footer>
   {{else}}
     <footer class="competence-card__footer">
-      {{#unless this.args.scorecard.isFinished}}
+      {{#if this.args.scorecard.isFinished}}
+        {{#if this.displayImproveButton}}
+          <span class="competence-card__retry">
+            Retenter
+          </span>
+        {{/if}}
+      {{else}}
         <LinkTo @route="competences.resume" @model={{this.args.scorecard.competenceId}} class="button button--extra-thin button--round button--link button--green competence-card__button">
           <span class="competence-card-button__label">
             {{#if this.args.scorecard.isStarted}}
@@ -47,7 +53,7 @@
             {{fa-icon 'long-arrow-alt-right'}}
           </span>
         </LinkTo>
-      {{/unless}}
+      {{/if}}
     </footer>
   {{/if}}
 </article>
