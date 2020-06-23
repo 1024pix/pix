@@ -36,9 +36,13 @@
     <footer class="competence-card__footer">
       {{#if this.args.scorecard.isFinished}}
         {{#if this.displayImproveButton}}
-          <span class="competence-card__retry">
+          <button class="button button--extra-thin button--round button--link button--green competence-card__button" {{action "improveCompetenceEvaluation"}}>
             Retenter
-          </span>
+            <div class="sr-only">la compétence "{{this.args.scorecard.name}}"</div>
+            <span class="competence-card-button__arrow">
+              {{fa-icon 'long-arrow-alt-right'}}
+            </span>
+          </button>
         {{/if}}
       {{else}}
         <LinkTo @route="competences.resume" @model={{this.args.scorecard.competenceId}} class="button button--extra-thin button--round button--link button--green competence-card__button">
