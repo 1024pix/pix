@@ -687,7 +687,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         // given
         const organization = databaseBuilder.factory.buildOrganization();
 
-        databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, lastName: 'Rambo' });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, firstName: 'John', lastName: 'Rambo' });
         databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, firstName: 'Jane', lastName: 'Rambo' });
         databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, firstName: 'Chuck', lastName: 'Norris' });
         await databaseBuilder.commit();
