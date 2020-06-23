@@ -144,6 +144,33 @@ describe('Integration | Application | Organizations | Routes', () => {
       expect(response.statusCode).to.equal(200);
       expect(organizationController.findPaginatedFilteredSchoolingRegistrations).to.have.been.calledOnce;
     });
+
+    describe('When page parameters are not valid', () => {
+
+      it('should throw an error when page size is invalid', async () => {
+        // given
+        const method = 'GET';
+        const url = '/api/organizations/:id/students?page[size]=blabla';
+  
+        // when
+        const response = await httpTestServer.request(method, url);
+  
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+      it('should throw an error when page number is invalid', async () => {
+        // given
+        const method = 'GET';
+        const url = '/api/organizations/:id/students?page[number]=blabla';
+  
+        // when
+        const response = await httpTestServer.request(method, url);
+  
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
   });
 
   describe('POST /api/organizations/:id/target-profiles', () => {

@@ -126,6 +126,12 @@ exports.register = async (server) => {
           method: securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents,
           assign: 'belongsToScoOrganizationAndManageStudents'
         }],
+        validate: {
+          query: Joi.object({
+            'page[size]': Joi.number().integer().empty(''),
+            'page[number]': Joi.number().integer().empty(''),
+          }).options({ allowUnknown: true }),
+        },
         handler: organizationController.findPaginatedFilteredSchoolingRegistrations,
         tags: ['api', 'students'],
         notes: [
