@@ -16,7 +16,6 @@ class CertificationResult {
       cleaCertificationStatus,
       pixScore,
       status,
-      level,
       emitter,
       commentForCandidate,
       commentForJury,
@@ -44,7 +43,6 @@ class CertificationResult {
     this.cleaCertificationStatus = cleaCertificationStatus;
     this.pixScore = pixScore;
     this.status = status;
-    this.level = level;
     this.emitter = emitter;
     this.commentForCandidate = commentForCandidate;
     this.commentForJury = commentForJury;
