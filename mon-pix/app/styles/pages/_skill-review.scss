@@ -139,11 +139,20 @@
     justify-content: space-between;
     align-items: center;
     text-align: center;
-    padding: 20px;
+    padding: 0;
 
     @include device-is('tablet') {
       flex-direction: row;
+      padding: 20px 0;
     }
+  }
+
+  &__subtitle {
+    color: $grey-100;
+    font-family: $font-open-sans;
+    font-size: 1.5rem;
+    font-weight: $font-normal;
+    margin: 28px 0 24px;
   }
 }
 
