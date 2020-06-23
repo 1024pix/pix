@@ -8,7 +8,7 @@ const _generateCode = () => {
 };
 
 const createOrganizationInvitation = async ({
-  organizationRepository, organizationInvitationRepository, organizationId, email, tags
+  organizationRepository, organizationInvitationRepository, organizationId, email, locale, tags
 }) => {
   let organizationInvitation = await organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail({ organizationId, email });
 
@@ -24,6 +24,7 @@ const createOrganizationInvitation = async ({
     organizationName,
     organizationInvitationId: organizationInvitation.id,
     code: organizationInvitation.code,
+    locale,
     tags
   });
 

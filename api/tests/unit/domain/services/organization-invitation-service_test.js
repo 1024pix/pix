@@ -37,17 +37,18 @@ describe('Unit | Service | Organization-Invitation Service', () => {
         }).resolves({ id: organizationInvitationId, code });
       });
 
-      it('should create a new organization-invitation and send an email with organizationId, email and code', async () => {
+      it('should create a new organization-invitation and send an email with organizationId, email, code and locale', async () => {
         // given
         const tags = undefined;
+        const locale = 'fr-fr';
 
         const expectedParameters = {
-          email: userEmailAddress, organizationName, organizationInvitationId, code, tags
+          email: userEmailAddress, organizationName, organizationInvitationId, code, locale, tags
         };
 
         // when
         await createOrganizationInvitation({
-          organizationRepository, organizationInvitationRepository, organizationId, email: userEmailAddress
+          organizationRepository, organizationInvitationRepository, organizationId, email: userEmailAddress, locale
         });
 
         // then
@@ -57,14 +58,15 @@ describe('Unit | Service | Organization-Invitation Service', () => {
       it('should send an email with organizationId, email, code and tags', async () => {
         // given
         const tags = ['JOIN_ORGA'];
+        const locale = 'fr-fr';
 
         const expectedParameters = {
-          email: userEmailAddress, organizationName, organizationInvitationId, code, tags
+          email: userEmailAddress, organizationName, organizationInvitationId, code, locale, tags
         };
 
         // when
         await createOrganizationInvitation({
-          organizationRepository, organizationInvitationRepository, organizationId, email: userEmailAddress, tags
+          organizationRepository, organizationInvitationRepository, organizationId, email: userEmailAddress, locale, tags
         });
 
         // then
@@ -76,6 +78,7 @@ describe('Unit | Service | Organization-Invitation Service', () => {
 
       const isPending = true;
       const tags = undefined;
+      const locale = 'fr-fr';
 
       beforeEach(async () => {
         // given
@@ -85,14 +88,14 @@ describe('Unit | Service | Organization-Invitation Service', () => {
 
         // when
         await createOrganizationInvitation({
-          organizationRepository, organizationInvitationRepository, organizationId, email: userEmailAddress
+          organizationRepository, organizationInvitationRepository, organizationId, email: userEmailAddress, locale
         });
       });
 
       it('should re-send an email with same code', async () => {
         // then
         const expectedParameters = {
-          email: userEmailAddress, organizationName, organizationInvitationId, code, tags
+          email: userEmailAddress, organizationName, organizationInvitationId, code, locale, tags
         };
 
         expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWith(expectedParameters);

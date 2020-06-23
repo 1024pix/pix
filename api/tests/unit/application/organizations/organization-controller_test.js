@@ -525,6 +525,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
     const organizationId = invitation.organizationId;
     const emails = [invitation.email];
+    const locale = 'fr-fr';
 
     beforeEach(() => {
       request = {
@@ -543,12 +544,12 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       sinon.stub(usecases, 'createOrganizationInvitations').resolves([{ id: 1 }]);
     });
 
-    it('should call the usecase to create invitation with organizationId and email', async () => {
+    it('should call the usecase to create invitation with organizationId, email and locale', async () => {
       // when
       await organizationController.sendInvitations(request, hFake);
 
       // then
-      expect(usecases.createOrganizationInvitations).to.have.been.calledWith({ organizationId, emails });
+      expect(usecases.createOrganizationInvitations).to.have.been.calledWith({ organizationId, emails, locale });
     });
   });
 
