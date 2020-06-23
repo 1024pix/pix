@@ -69,6 +69,14 @@
     left: 50%;
     transform: translate(-50%, -50%);
   }
+
+  &__improving-text {
+    margin-top: 4px;
+    color: $blue-zodiac;
+    font-family: $font-roboto;
+    font-size: 0.8rem;
+    letter-spacing: 0.0075rem;
+  }
 }
 
 .scorecard-details-content {
