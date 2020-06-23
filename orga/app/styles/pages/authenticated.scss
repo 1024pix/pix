@@ -24,7 +24,11 @@
   }
 
   &--item-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-right: 8px;
+    width: 8%;
   }
 }
 
