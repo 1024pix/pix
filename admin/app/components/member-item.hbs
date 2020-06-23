@@ -20,24 +20,24 @@
 <td>
   {{#if this.isEditionMode}}
     <div class="zone-save-cancel-role">
-      <button id='save-organization-role'
-              type="button"
+      <button type="button"
               class="btn btn-primary btn-sm"
-        {{on 'click' (fn this.updateRoleOfMember @membership)}}>
+              aria-label="Enregistrer"
+        {{on 'click' this.updateRoleOfMember}}>
         Enregistrer
       </button>
-      <button id='cancel-update-organization-role'
-              type="button"
+      <button type="button"
               class="btn btn-outline-default btn-sm"
               aria-label="Annuler"
-        {{on 'click' (fn this.cancelUpdateRoleOfMember)}}>
+        {{on 'click' this.cancelUpdateRoleOfMember}}>
         <FaIcon @icon='times'></FaIcon>
       </button>
     </div>
   {{else}}
     <div class="zone-edit-role">
-      <button id='edit-organization-role' class="btn btn-primary btn-sm"
-              type="button" {{on 'click' (fn this.editRoleOfMember @membership)}}>
+      <button class="btn btn-primary btn-sm"
+              aria-label="Modifier le rôle"
+              type="button" {{on 'click' this.editRoleOfMember}}>
         <FaIcon @icon="edit"></FaIcon>
         Modifier le rôle
       </button>

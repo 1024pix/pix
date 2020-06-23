@@ -101,7 +101,7 @@
           <tbody>
           {{#each @memberships as |membership|}}
             <tr aria-label="Membre">
-              <MemberItem @membership={{membership}}/>
+              <MemberItem @membership={{membership}} @updateMembership={{@updateMembership}} />
             </tr>
           {{/each}}
           </tbody>
