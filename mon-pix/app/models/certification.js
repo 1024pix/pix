@@ -1,5 +1,6 @@
 import Model, { belongsTo, attr } from '@ember-data/model';
 import { computed } from '@ember/object';
+import capitalize from 'lodash/capitalize';
 
 export const ACQUIRED = 'acquired';
 
@@ -18,6 +19,7 @@ export default class Certification extends Model {
   @attr('number') pixScore;
   @attr('string') status;
   @attr() cleaCertificationStatus;
+  @attr() deliveredAt;
 
   // includes
   @belongsTo('resultCompetenceTree') resultCompetenceTree;
@@ -26,5 +28,10 @@ export default class Certification extends Model {
   @computed('cleaCertificationStatus')
   get hasCleaCertif() {
     return this.cleaCertificationStatus === ACQUIRED;
+  }
+
+  @computed('firstName', 'lastName')
+  get fullName() {
+    return capitalize(this.firstName) + ' ' + capitalize(this.lastName);
   }
 }
