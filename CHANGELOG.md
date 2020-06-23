@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v2.166.0 (23/06/2020)
+
+- [#1509](https://github.com/1024pix/pix/pull/1509) [FEATURE] PART-1 : Nouveau visuel certificat (PIX-597)
+- [#1545](https://github.com/1024pix/pix/pull/1545) [FEATURE] Ajouter un nouveau type de signalement (PIX-836).
+- [#1537](https://github.com/1024pix/pix/pull/1537) [FEATURE] Filtrer les élèves par type de connexion dans pix-orga (PIX-722)
+- [#1530](https://github.com/1024pix/pix/pull/1530) [BUGFIX] Éviter de reposer un challenge auquel on a déjà répondu (PIX-210).
+- [#1549](https://github.com/1024pix/pix/pull/1549) [BUGFIX] Gérer les erreurs sur la page de changement de mot de passe (PIX-434).
+- [#1554](https://github.com/1024pix/pix/pull/1554) [BUGFIX] Correction d'un test aléatoire sur les filtres des élèves
+- [#1506](https://github.com/1024pix/pix/pull/1506) [TECH] Ajouter les configurations d'IDE pour faciliter le déboggage.
+- [#1529](https://github.com/1024pix/pix/pull/1529) [CLEANUP] Retrait de l'attribut level (déprécié) du modèle AssessmentResult (PIX-863)
+- [#1503](https://github.com/1024pix/pix/pull/1503) [CLEANUP] Renommer SmartPlacement en Campaign (PIX-830).
+
 ## v2.165.0 (22/06/2020)
 
 - [#1547](https://github.com/1024pix/pix/pull/1547) [FEATURE] Ajout d'un retour utilisateur lors de la dissociation d'un élève (PIX-865)
