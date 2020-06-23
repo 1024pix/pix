@@ -10,7 +10,21 @@ describe('Acceptance | Reset Password Form', function() {
   setupApplicationTest();
   setupMirage();
 
-  it('can visit /changer-mot-de-passe', async function() {
+  it('can visit /changer-mot-de-passe when temporaryKey exists', async function() {
+    // given
+    server.create('user', {
+      id: 1000,
+      firstName: 'Brandone',
+      lastName: 'Martins',
+      email: 'brandone.martins@pix.com',
+      password: '1024pix!'
+    });
+
+    server.create('password-reset-demand', {
+      temporaryKey: 'temporaryKey',
+      email: 'brandone.martins@pix.com',
+    });
+
     // when
     await visit('/changer-mot-de-passe/temporaryKey');
 

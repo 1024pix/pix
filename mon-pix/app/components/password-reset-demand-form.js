@@ -4,6 +4,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
 export default class PasswordResetDemandForm extends Component {
+  @service errors;
   @service store;
   @service url;
 
@@ -15,6 +16,14 @@ export default class PasswordResetDemandForm extends Component {
 
   get homeUrl() {
     return this.url.homeUrl;
+  }
+
+  get error() {
+    return this.errors.shift();
+  }
+
+  get hasErrors() {
+    return this.hasFailed ? false : this.errors.hasErrors();
   }
 
   @action
