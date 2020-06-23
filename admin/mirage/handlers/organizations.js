@@ -3,7 +3,7 @@ import _ from 'lodash';
 export function findPaginatedOrganizationMemberships(schema, request) {
   const organizationId = request.params.id;
   const queryParams = request.queryParams;
-  const memberships = schema.memberships.where({ organizationId }).models;
+  const memberships = schema.memberships.where({ organizationId, disabledAt: undefined }).models;
   const rowCount = memberships.length;
 
   const pagination = _getPaginationFromQueryParams(queryParams);

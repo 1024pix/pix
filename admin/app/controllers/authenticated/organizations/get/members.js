@@ -87,9 +87,20 @@ export default class GetMembersController extends Controller {
   async updateMembership(membership) {
     try {
       await membership.save();
-      this.notifications.success('Le membre a été mis à jour avec succès.');
+      this.notifications.success('Le rôle du membre a été mis à jour avec succès.');
     } catch (e) {
-      this.notifications.error('Une erreur est survenue lors de la mise à jour du membre.');
+      this.notifications.error('Une erreur est survenue lors de la mise à jour du rôle du membre.');
+    }
+  }
+
+  @action
+  async disableMembership(membership) {
+    try {
+      await membership.save({ adapterOptions: { disable: true } });
+      await this.model.memberships.reload();
+      this.notifications.success('Le membre a été désactivé avec succès.');
+    } catch (e) {
+      this.notifications.error('Une erreur est survenue lors de la désactivation du membre.');
     }
   }
 

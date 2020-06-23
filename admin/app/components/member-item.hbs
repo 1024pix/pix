@@ -18,29 +18,49 @@
   {{/if}}
 </td>
 <td>
-  {{#if this.isEditionMode}}
-    <div class="zone-save-cancel-role">
-      <button type="button"
-              class="btn btn-primary btn-sm"
-              aria-label="Enregistrer"
-        {{on 'click' this.updateRoleOfMember}}>
-        Enregistrer
-      </button>
-      <button type="button"
-              class="btn btn-outline-default btn-sm"
-              aria-label="Annuler"
-        {{on 'click' this.cancelUpdateRoleOfMember}}>
-        <FaIcon @icon='times'></FaIcon>
-      </button>
+  <div class="member-item-actions">
+    <div>
+      {{#if this.isEditionMode}}
+        <div>
+          <button type="button"
+                  class="btn btn-primary btn-sm"
+                  aria-label="Enregistrer"
+            {{on 'click' this.updateRoleOfMember}}>
+            Enregistrer
+          </button>
+          <button type="button"
+                  class="btn btn-outline-default btn-sm"
+                  aria-label="Annuler"
+            {{on 'click' this.cancelUpdateRoleOfMember}}>
+            <FaIcon @icon='times'></FaIcon>
+          </button>
+        </div>
+      {{else}}
+        <div>
+          <button type="button"
+                  class="btn btn-primary btn-sm"
+                  aria-label="Modifier le rôle"
+                  {{on 'click' this.editRoleOfMember}}>
+            <FaIcon @icon="edit"></FaIcon>
+            Modifier le rôle
+          </button>
+        </div>
+      {{/if}}
     </div>
-  {{else}}
-    <div class="zone-edit-role">
-      <button class="btn btn-primary btn-sm"
-              aria-label="Modifier le rôle"
-              type="button" {{on 'click' this.editRoleOfMember}}>
-        <FaIcon @icon="edit"></FaIcon>
-        Modifier le rôle
-      </button>
-    </div>
-  {{/if}}
+    <button type="button"
+            class="btn btn-danger btn-sm disable-membership-button"
+            aria-label="Désactiver"
+            {{on 'click' this.toggleDisplayConfirm}}>
+      <FaIcon @icon="trash"></FaIcon>
+      Désactiver
+    </button>
+  </div>
 </td>
+
+<ConfirmPopup @message="Etes-vous sûr de vouloir désactiver ce membre de cette équipe ?"
+              @title="Désactivation d'un membre"
+              @submitTitle="Désactiver"
+              @confirm={{this.disableMembership}}
+              @cancel={{this.toggleDisplayConfirm}}
+              @show={{this.displayConfirm}}
+/>
