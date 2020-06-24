@@ -38,6 +38,7 @@ describe('Acceptance | Controller | membership-controller', () => {
       url: `/api/memberships/${membershipId}`,
       payload: {
         data: {
+          id: membershipId.toString(),
           type: 'memberships',
           attributes: {
             'organization-role': newOrganizationRole,
@@ -126,13 +127,16 @@ describe('Acceptance | Controller | membership-controller', () => {
 
       it('should respond with a 400 if membership does not exist', async () => {
         // given
-        options.url = '/api/memberships/99999999';
+        options.url = '/api/memberships/NOT_NUMERIC';
 
         // when
         const response = await server.inject(options);
 
         // then
         expect(response.statusCode).to.equal(400);
+        const firstError = response.result.errors[0];
+        expect(firstError.detail).to.equal('"id" must be a number');
+
       });
     });
   });
