@@ -17,9 +17,12 @@ export default class ListController extends Controller {
   @tracked lastName = null;
   @tracked firstName = null;
   @tracked connexionType = null;
+  @tracked pageNumber = null;
+  @tracked pageSize = null;
 
   updateFilters(filters) {
     this.setProperties(filters);
+    this.pageNumber = null;
   }
 
   debouncedUpdateFilters = debounce(this.updateFilters, ENV.pagination.debounce);

@@ -1,7 +1,7 @@
 const Joi = require('@hapi/joi');
 
 const securityPreHandlers = require('../security-pre-handlers');
-const organisationController = require('./organization-controller');
+const organizationController = require('./organization-controller');
 
 exports.register = async (server) => {
   server.route([
@@ -13,7 +13,7 @@ exports.register = async (server) => {
           method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
-        handler: organisationController.create,
+        handler: organizationController.create,
         tags: ['api', 'organizations']
       }
     },
@@ -25,7 +25,7 @@ exports.register = async (server) => {
           method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
-        handler: organisationController.findPaginatedFilteredOrganizations,
+        handler: organizationController.findPaginatedFilteredOrganizations,
         tags: ['api', 'organizations'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
@@ -42,7 +42,7 @@ exports.register = async (server) => {
           method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
-        handler: organisationController.getOrganizationDetails,
+        handler: organizationController.getOrganizationDetails,
         tags: ['api', 'organizations'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
@@ -58,7 +58,7 @@ exports.register = async (server) => {
           method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
-        handler: organisationController.updateOrganizationInformation,
+        handler: organizationController.updateOrganizationInformation,
         tags: ['api', 'organizations'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
@@ -70,7 +70,7 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/organizations/{id}/campaigns',
       config: {
-        handler: organisationController.findPaginatedFilteredCampaigns,
+        handler: organizationController.findPaginatedFilteredCampaigns,
         tags: ['api', 'organizations'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
@@ -86,7 +86,7 @@ exports.register = async (server) => {
           method: securityPreHandlers.checkUserBelongsToOrganizationOrHasRolePixMaster,
           assign: 'belongsToOrganization'
         }],
-        handler: organisationController.findPaginatedFilteredMemberships,
+        handler: organizationController.findPaginatedFilteredMemberships,
         tags: ['api', 'organizations'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
@@ -98,7 +98,7 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/organizations/{id}/target-profiles',
       config: {
-        handler: organisationController.findTargetProfiles,
+        handler: organizationController.findTargetProfiles,
         tags: ['api', 'target-profile'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -114,7 +114,7 @@ exports.register = async (server) => {
           method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
-        handler: organisationController.attachTargetProfiles,
+        handler: organizationController.attachTargetProfiles,
         tags: ['api', 'organizations']
       }
     },
@@ -126,7 +126,13 @@ exports.register = async (server) => {
           method: securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents,
           assign: 'belongsToScoOrganizationAndManageStudents'
         }],
-        handler: organisationController.findUserWithSchoolingRegistrations,
+        validate: {
+          query: Joi.object({
+            'page[size]': Joi.number().integer().empty(''),
+            'page[number]': Joi.number().integer().empty(''),
+          }).options({ allowUnknown: true }),
+        },
+        handler: organizationController.findPaginatedFilteredSchoolingRegistrations,
         tags: ['api', 'students'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -146,7 +152,7 @@ exports.register = async (server) => {
           maxBytes: 1048576 * 10, // 10MB
           parse: 'gunzip',
         },
-        handler: organisationController.importSchoolingRegistrationsFromSIECLE,
+        handler: organizationController.importSchoolingRegistrationsFromSIECLE,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés et responsables de l\'organisation**\n' +
           '- Elle permet d\'importer des inscriptions d\'élèves, en masse, depuis un fichier au format SIECLE\n' +
@@ -163,7 +169,7 @@ exports.register = async (server) => {
           method: securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster,
           assign: 'isAdminInOrganizationOrHasRolePixMaster'
         }],
-        handler: organisationController.sendInvitations,
+        handler: organizationController.sendInvitations,
         validate: {
           options: {
             allowUnknown: true
@@ -191,7 +197,7 @@ exports.register = async (server) => {
           method: securityPreHandlers.checkUserIsAdminInOrganization,
           assign: 'isAdminInOrganization'
         }],
-        handler: organisationController.findPendingInvitations,
+        handler: organizationController.findPendingInvitations,
         tags: ['api', 'invitations'],
         notes: [
           '- Cette route est restreinte aux utilisateurs authentifiés responsables de l\'organisation',

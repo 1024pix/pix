@@ -21,7 +21,7 @@ describe('Integration | Application | Organizations | Routes', () => {
     sinon.stub(organizationController, 'importSchoolingRegistrationsFromSIECLE').callsFake((request, h) => h.response('ok').code(201));
     sinon.stub(organizationController, 'sendInvitations').callsFake((request, h) => h.response().created());
     sinon.stub(organizationController, 'findPendingInvitations').returns('ok');
-    sinon.stub(organizationController, 'findUserWithSchoolingRegistrations').callsFake((request, h) => h.response('ok').code(200));
+    sinon.stub(organizationController, 'findPaginatedFilteredSchoolingRegistrations').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(organizationController, 'attachTargetProfiles').callsFake((request, h) => h.response('ok').code(204));
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
@@ -142,7 +142,34 @@ describe('Integration | Application | Organizations | Routes', () => {
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(organizationController.findUserWithSchoolingRegistrations).to.have.been.calledOnce;
+      expect(organizationController.findPaginatedFilteredSchoolingRegistrations).to.have.been.calledOnce;
+    });
+
+    describe('When page parameters are not valid', () => {
+
+      it('should throw an error when page size is invalid', async () => {
+        // given
+        const method = 'GET';
+        const url = '/api/organizations/:id/students?page[size]=blabla';
+  
+        // when
+        const response = await httpTestServer.request(method, url);
+  
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+      it('should throw an error when page number is invalid', async () => {
+        // given
+        const method = 'GET';
+        const url = '/api/organizations/:id/students?page[number]=blabla';
+  
+        // when
+        const response = await httpTestServer.request(method, url);
+  
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
     });
   });
 
