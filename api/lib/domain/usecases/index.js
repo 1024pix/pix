@@ -100,6 +100,7 @@ module.exports = injectDependencies({
   createSession: require('./create-session'),
   createUser: require('./create-user'),
   deleteUnlinkedCertificationCandidate: require('./delete-unlinked-certification-candidate'),
+  disableMembership: require('./disable-membership'),
   dissociateUserFromSchoolingRegistration: require('./dissociate-user-from-schooling-registration'),
   finalizeSession: require('./finalize-session'),
   findAnswerByChallengeAndAssessment: require('./find-answer-by-challenge-and-assessment'),

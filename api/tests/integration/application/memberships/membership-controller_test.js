@@ -11,6 +11,7 @@ describe('Integration | Application | Memberships | membership-controller', () =
   beforeEach(() => {
     sinon.stub(usecases, 'createMembership');
     sinon.stub(usecases, 'updateMembership');
+    sinon.stub(usecases, 'disableMembership');
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
     sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganizationOrHasRolePixMaster');
     httpTestServer = new HttpTestServer(moduleUnderTest);
@@ -122,6 +123,48 @@ describe('Integration | Application | Memberships | membership-controller', () =
         it('should resolve a 403 HTTP response', async () => {
           // when
           const response = await httpTestServer.request('PATCH', '/api/memberships/1');
+
+          // then
+          expect(response.statusCode).to.equal(403);
+        });
+      });
+    });
+  });
+
+  describe('#disable', () => {
+
+    let membershipId;
+
+    context('Success cases', () => {
+
+      beforeEach(() => {
+        membershipId = domainBuilder.buildMembership().id;
+        usecases.disableMembership.resolves();
+        securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
+      });
+
+      it('should return a 200 HTTP response', async () => {
+        // when
+        const response = await httpTestServer.request('POST', `/api/memberships/${membershipId}/disable`);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+      });
+    });
+
+    context('Error cases', () => {
+
+      context('when user has not pix master role', () => {
+
+        beforeEach(() => {
+          securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => {
+            return Promise.resolve(h.response().code(403).takeover());
+          });
+        });
+
+        it('should resolve a 403 HTTP response', async () => {
+          // when
+          const response = await httpTestServer.request('POST', `/api/memberships/${membershipId}/disable`);
 
           // then
           expect(response.statusCode).to.equal(403);
