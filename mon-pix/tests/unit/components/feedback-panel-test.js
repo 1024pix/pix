@@ -38,6 +38,46 @@ describe('Unit | Component | feedback-panel', function() {
     });
   });
 
+  describe('#isSendButtonDisabled', function() {
+
+    it('should return false when the feedback has not already been sent', function() {
+      // given
+      const component = this.owner.lookup('component:feedback-panel');
+      component.set('sendButtonStatus', 'unrecorded');
+
+      // when
+      const result = component.isSendButtonDisabled;
+
+      // then
+      expect(result).to.equal(false);
+    });
+
+    it('should return false when the feedback has already been sent', function() {
+      // given
+      const component = this.owner.lookup('component:feedback-panel');
+      component.set('sendButtonStatus', 'recorded');
+
+      // when
+      const result = component.isSendButtonDisabled;
+
+      // then
+      expect(result).to.equal(false);
+    });
+
+    it('should return true when the send operation is in progress', function() {
+      // given
+      const component = this.owner.lookup('component:feedback-panel');
+      component.set('sendButtonStatus', 'pending');
+
+      // when
+      const result = component.isSendButtonDisabled;
+
+      // then
+      expect(result).to.equal(true);
+    });
+
+  });
+
   describe('#sendFeedback', function() {
     let feedback;
     let store;

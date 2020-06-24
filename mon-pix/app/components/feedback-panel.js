@@ -35,7 +35,7 @@ export default class FeedbackPanel extends Component {
     return topLevelLabels.filter((label) => !label[context]);
   }
 
-  get isSaveButtonDisabled() {
+  get isSendButtonDisabled() {
     return this.sendButtonStatus === buttonStatusTypes.pending;
   }
 
@@ -81,7 +81,7 @@ export default class FeedbackPanel extends Component {
 
   @action
   async sendFeedback() {
-    if (this.isSaveButtonDisabled) {
+    if (this.isSendButtonDisabled) {
       return;
     }
     this.set('sendButtonStatus', buttonStatusTypes.pending);
