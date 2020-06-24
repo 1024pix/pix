@@ -18,7 +18,8 @@ async function _getCertificationChallenges(certificationCourseId) {
 
 async function _getCertificationAnswers(certificationAssessmentId) {
   const answerRows = await knex('answers')
-    .where({ assessmentId: certificationAssessmentId });
+    .where({ assessmentId: certificationAssessmentId })
+    .orderBy('createdAt');
 
   return _.map(answerRows, (answerRow) => new Answer({
     ...answerRow,
@@ -74,7 +75,7 @@ module.exports = {
     }
     const certificationChallenges = await _getCertificationChallenges(certificationAssessmentRows[0].certificationCourseId);
     const certificationAnswers = await _getCertificationAnswers(certificationAssessmentRows[0].id);
-    
+
     return new CertificationAssessment({
       ...certificationAssessmentRows[0],
       certificationChallenges,

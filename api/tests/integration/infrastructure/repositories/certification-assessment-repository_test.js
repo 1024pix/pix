@@ -2,6 +2,7 @@ const { expect, databaseBuilder, catchErr } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const certificationAssessmentRepository = require('../../../../lib/infrastructure/repositories/certification-assessment-repository');
 const CertificationAssessment = require('../../../../lib/domain/models/CertificationAssessment');
+const _ = require('lodash');
 
 describe('Integration | Infrastructure | Repositories | certification-assessment-repository', () => {
 
@@ -19,8 +20,17 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
       beforeEach(() => {
         const dbf = databaseBuilder.factory;
         expectedUserId = dbf.buildUser().id;
-        expectedCertificationCourseId = dbf.buildCertificationCourse({ userId: expectedUserId, createdAt: expectedCreatedAt, completedAt: expectedCompletedAt, isV2Certification: true }).id;
-        certificationAssessmentId = dbf.buildAssessment({ userId: expectedUserId, certificationCourseId: expectedCertificationCourseId, state: expectedState }).id;
+        expectedCertificationCourseId = dbf.buildCertificationCourse({
+          userId: expectedUserId,
+          createdAt: expectedCreatedAt,
+          completedAt: expectedCompletedAt,
+          isV2Certification: true
+        }).id;
+        certificationAssessmentId = dbf.buildAssessment({
+          userId: expectedUserId,
+          certificationCourseId: expectedCertificationCourseId,
+          state: expectedState
+        }).id;
         dbf.buildAnswer({ assessmentId: certificationAssessmentId });
         dbf.buildAnswer({ assessmentId: certificationAssessmentId });
         dbf.buildCertificationChallenge({ courseId: expectedCertificationCourseId });
@@ -67,14 +77,35 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
     const expectedCompletedAt = new Date('2020-01-02T00:00:00Z');
 
     context('when the certification assessment exists', () => {
+      let firstAnswerInTime;
+      let secondAnswerInTime;
 
       beforeEach(() => {
         const dbf = databaseBuilder.factory;
         expectedUserId = dbf.buildUser().id;
-        certificationCourseId = dbf.buildCertificationCourse({ userId: expectedUserId, createdAt: expectedCreatedAt, completedAt: expectedCompletedAt, isV2Certification: true }).id;
-        expectedCertificationAssessmentId = dbf.buildAssessment({ userId: expectedUserId, certificationCourseId: certificationCourseId, state: expectedState }).id;
-        dbf.buildAnswer({ assessmentId: expectedCertificationAssessmentId });
-        dbf.buildAnswer({ assessmentId: expectedCertificationAssessmentId });
+        certificationCourseId = dbf.buildCertificationCourse({
+          userId: expectedUserId,
+          createdAt: expectedCreatedAt,
+          completedAt: expectedCompletedAt,
+          isV2Certification: true
+        }).id;
+        expectedCertificationAssessmentId = dbf.buildAssessment({
+          userId: expectedUserId,
+          certificationCourseId: certificationCourseId,
+          state: expectedState
+        }).id;
+
+        // secondAnswerInTime must be inserted in DB before firstAnswerInTime so we can ensure that ordering is based on createdAt
+        secondAnswerInTime = dbf.buildAnswer({
+          assessmentId: expectedCertificationAssessmentId,
+          createdAt: new Date('2020-06-24T00:00:01Z')
+        }).id;
+
+        firstAnswerInTime = dbf.buildAnswer({
+          assessmentId: expectedCertificationAssessmentId,
+          createdAt: new Date('2020-06-24T00:00:00Z')
+        }).id;
+
         dbf.buildCertificationChallenge({ courseId: certificationCourseId });
         dbf.buildCertificationChallenge({ courseId: certificationCourseId });
 
@@ -95,6 +126,14 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
 
         expect(certificationAssessment.certificationAnswers).to.have.length(2);
         expect(certificationAssessment.certificationChallenges).to.have.length(2);
+      });
+
+      it('should return the certification answers ordered by date', async () => {
+        // when
+        const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId(certificationCourseId);
+
+        // then
+        expect(_.map(certificationAssessment.certificationAnswers, 'id')).to.deep.equal([firstAnswerInTime, secondAnswerInTime]);
       });
     });
 
