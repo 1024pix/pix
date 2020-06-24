@@ -51,7 +51,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         expect(certificationAssessment.state).to.equal(expectedState);
         expect(certificationAssessment.isV2Certification).to.be.true;
 
-        expect(certificationAssessment.certificationAnswers).to.have.length(2);
+        expect(certificationAssessment.certificationAnswersByDate).to.have.length(2);
         expect(certificationAssessment.certificationChallenges).to.have.length(2);
       });
     });
@@ -124,7 +124,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         expect(certificationAssessment.state).to.equal(expectedState);
         expect(certificationAssessment.isV2Certification).to.be.true;
 
-        expect(certificationAssessment.certificationAnswers).to.have.length(2);
+        expect(certificationAssessment.certificationAnswersByDate).to.have.length(2);
         expect(certificationAssessment.certificationChallenges).to.have.length(2);
       });
 
@@ -133,7 +133,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId(certificationCourseId);
 
         // then
-        expect(_.map(certificationAssessment.certificationAnswers, 'id')).to.deep.equal([firstAnswerInTime, secondAnswerInTime]);
+        expect(_.map(certificationAssessment.certificationAnswersByDate, 'id')).to.deep.equal([firstAnswerInTime, secondAnswerInTime]);
       });
     });
 
