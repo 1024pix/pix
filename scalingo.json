@@ -5,9 +5,9 @@
       "description": "Indicates that the application is a review app",
       "value": "true"
     },
-    "PIXORGA_URL": {
+    "DOMAIN_PIX_ORGA": {
       "generator": "template",
-      "template": "https://orga-pr%PR_NUMBER%.review.pix.fr"
+      "template": "https://orga-pr%PR_NUMBER%.review"
     }
   },
   "scripts": {

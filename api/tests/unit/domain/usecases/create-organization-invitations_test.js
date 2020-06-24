@@ -19,15 +19,16 @@ describe('Unit | UseCase | create-organization-invitations', () => {
       // given
       const organizationId = 1;
       const emails = ['member@organization.org'];
+      const locale = 'fr-fr';
 
       // when
-      await createOrganizationInvitations({ organizationRepository, organizationInvitationRepository, organizationId, emails });
+      await createOrganizationInvitations({ organizationRepository, organizationInvitationRepository, organizationId, emails, locale });
 
       // then
       expect(organizationInvitationService.createOrganizationInvitation).to.has.been.calledOnce;
       expect(organizationInvitationService.createOrganizationInvitation).to.has.been.calledWith({
         organizationRepository, organizationInvitationRepository,
-        organizationId, email: emails[0]
+        organizationId, email: emails[0], locale
       });
     });
 
