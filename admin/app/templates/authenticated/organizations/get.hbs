@@ -1,15 +1,15 @@
 <header class="page-header">
   <div class="page-title">
     <LinkTo @route="authenticated.organizations.list">Toutes les organisations</LinkTo>
-    <span style="color: #DDDDDD;">&nbsp;>&nbsp;</span>
+    <span class="wire">&nbsp;>&nbsp;</span>
     {{@model.name}}
   </div>
   <div class="page-actions">
-    <button class="btn btn-outline-default btn-thin hidden">
-      <FaIcon @icon="edit"></FaIcon> Modifier
+    <button type="button" class="btn btn-outline-default btn-thin hidden">
+      <FaIcon @icon="edit" /> Modifier
     </button>
-    <button class="btn btn-outline-default btn-thin hidden">
-      <FaIcon @icon="trash"></FaIcon> Supprimer
+    <button type="button" class="btn btn-outline-default btn-thin hidden">
+      <FaIcon @icon="trash" /> Supprimer
     </button>
   </div>
 </header>
