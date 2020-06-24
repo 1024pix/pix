@@ -92,9 +92,9 @@ module.exports = {
       .catch(() => false);
   },
 
-  updateRoleById({ id, organizationRole }) {
+  updateById({ id, membershipAttributes }) {
     return new BookshelfMembership({ id })
-      .save({ organizationRole }, { patch: true, method: 'update', require: true })
+      .save(membershipAttributes, { patch: true, method: 'update', require: true })
       .then((updatedMembership) => updatedMembership.refresh({
         withRelated: ['user', 'organization']
       }))
