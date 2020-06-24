@@ -180,7 +180,7 @@ module.exports = injectDependencies({
   unarchiveCampaign: require('./unarchive-campaign'),
   updateCampaign: require('./update-campaign'),
   updateExpiredPassword: require('./update-expired-password'),
-  updateMembershipRole: require('./update-membership-role'),
+  updateMembership: require('./update-membership'),
   updateOrganizationInformation: require('./update-organization-information'),
   updatePublicationSession: require('./update-publication-session'),
   updateSchoolingRegistrationDependentUserPassword: require('./update-schooling-registration-dependent-user-password'),
