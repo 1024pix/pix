@@ -65,7 +65,7 @@ describe('Unit | Component | signup-form', function() {
       component.set('user', userWithSpaces);
 
       const campaignCode = 'AZERTY123';
-      component.session.attemptedTransition.from.parent.params.campaign_code = campaignCode;
+      component.session.attemptedTransition.from.parent.params.code = campaignCode;
 
       // when
       component.send('signup');

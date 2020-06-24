@@ -76,6 +76,48 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
               // then
               expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code}/presentation`.toLowerCase());
             });
+
+            context('When user create its account', function() {
+
+              it('should send campaignCode to API', async function() {
+
+                let sentCampaignCode;
+
+                const prescritUser = {
+                  firstName: 'firstName',
+                  lastName: 'lastName',
+                  email: 'firstName.lastName@email.com',
+                  password: 'Pix12345',
+                };
+
+                this.server.post('/users', (schema, request) => {
+                  sentCampaignCode = (JSON.parse(request.requestBody)).meta['campaign-code'];
+                  return schema.users.create({});
+                }, 201);
+
+                // given
+                const campaign = server.create('campaign', { isRestricted: false, type: ASSESSMENT });
+                await visit('/campagnes');
+                await fillIn('#campaign-code', campaign.code);
+                await click('.fill-in-campaign-code__start-button');
+                expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code}/presentation`.toLowerCase());
+                await click('.campaign-landing-page__start-button');
+                expect(currentURL().toLowerCase()).to.equal('/inscription'.toLowerCase());
+                await fillIn('#firstName', prescritUser.firstName);
+                await fillIn('#lastName', prescritUser.lastName);
+                await fillIn('#email', prescritUser.email);
+                await fillIn('#password', prescritUser.password);
+                await click('#pix-cgu');
+
+                // when
+                await click('.button');
+
+                // then
+                expect(sentCampaignCode).to.equal(campaign.code);
+
+              });
+            });
+
           });
 
           context('When campaign is restricted', function() {

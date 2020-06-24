@@ -138,7 +138,7 @@ export default Component.extend({
 
       this._trimNamesAndEmailOfUser();
 
-      const campaignCode = _.get(this.session, 'attemptedTransition.from.parent.params.campaign_code');
+      const campaignCode = _.get(this.session, 'attemptedTransition.from.parent.params.code');
 
       this.user.save({ adapterOptions: { campaignCode } }).then(() => {
         const credentials = { login: this.user.email, password: this.user.password };
