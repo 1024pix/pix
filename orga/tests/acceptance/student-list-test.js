@@ -85,7 +85,6 @@ module('Acceptance | Student List', function(hooks) {
         // when
         await visit('/eleves');
         await fillIn('[placeholder="Rechercher par nom"]', 'ambo');
-      
         // then
         assert.equal(currentURL(), '/eleves?lastName=ambo');
         assert.contains('Rambo');
@@ -112,6 +111,15 @@ module('Acceptance | Student List', function(hooks) {
         assert.equal(currentURL(), '/eleves?connexionType=email');
         assert.contains('Rambo');
         assert.notContains('Norris');
+      });
+
+      test('it should paginate the students list', async function(assert) {
+        // when
+        await visit('/eleves?pageSize=1&pageNumber=1');
+      
+        // then
+        assert.contains('Norris');
+        assert.notContains('Rambo');
       });
     });
 

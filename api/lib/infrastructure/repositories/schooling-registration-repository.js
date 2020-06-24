@@ -130,26 +130,34 @@ module.exports = {
       });
   },
 
-  async findUserWithSchoolingRegistrationsByOrganizationId({ organizationId, filter }) {
-    const schoolingRegistrations = await BookshelfSchoolingRegistration
+  async findPaginatedFilteredSchoolingRegistrations({ organizationId, filter, page = {} }) {
+    const { models, pagination }  = await BookshelfSchoolingRegistration
       .where({ organizationId })
       .query((qb) => {
+        qb.select(
+          'schooling-registrations.id',
+          'schooling-registrations.firstName',
+          'schooling-registrations.lastName',
+          'schooling-registrations.birthdate',
+          'schooling-registrations.userId',
+          'schooling-registrations.organizationId',
+          'users.username',
+          'users.email',
+          'users.samlId'
+        );
         qb.orderByRaw('LOWER("schooling-registrations"."lastName") ASC, LOWER("schooling-registrations"."firstName") ASC');
         qb.leftJoin('users', 'schooling-registrations.userId', 'users.id');
         qb.modify(_setSchoolingRegistrationFilters, filter);
       })
-      .fetchAll({ columns: [
-        'schooling-registrations.id',
-        'schooling-registrations.firstName',
-        'schooling-registrations.lastName',
-        'schooling-registrations.birthdate',
-        'schooling-registrations.userId',
-        'schooling-registrations.organizationId',
-        'users.username',
-        'users.email',
-        'users.samlId',
-      ] });
+      .fetchPage({
+        page: page.number,
+        pageSize: page.size,
+        withRelated: ['user']
+      });
 
-    return schoolingRegistrations.models.map(_toUserWithSchoolingRegistrationDTO);
+    return {
+      data: models.map(_toUserWithSchoolingRegistrationDTO),
+      pagination,
+    };
   },
 };

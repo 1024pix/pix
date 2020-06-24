@@ -573,7 +573,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
     });
   });
 
-  describe('#findUserWithSchoolingRegistrationsByOrganizationId', () => {
+  describe('#findPaginatedFilteredSchoolingRegistrations', () => {
 
     it('should return instances of UserWithSchoolingRegistration', async () => {
       // given
@@ -585,11 +585,10 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       await databaseBuilder.commit();
 
       // when
-      const studentWithUserInfos = await schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId({ organizationId: organization.id });
+      const { data } = await schoolingRegistrationRepository.findPaginatedFilteredSchoolingRegistrations({ organizationId: organization.id });
 
       // then
-      const studentWithUserInfo = studentWithUserInfos[0];
-      expect(studentWithUserInfo).to.be.an.instanceOf(UserWithSchoolingRegistration);
+      expect(data[0]).to.be.an.instanceOf(UserWithSchoolingRegistration);
     });
 
     it('should return all the UserWithSchoolingRegistration for a given organization ID', async () => {
@@ -606,10 +605,10 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       await databaseBuilder.commit();
 
       // when
-      const studentWithUserInfos = await schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId({ organizationId: organization_1.id });
+      const { data } = await schoolingRegistrationRepository.findPaginatedFilteredSchoolingRegistrations({ organizationId: organization_1.id });
 
       // then
-      expect(_.map(studentWithUserInfos, 'id')).to.have.members([schoolingRegistration_1.id, schoolingRegistration_2.id]);
+      expect(_.map(data, 'id')).to.have.members([schoolingRegistration_1.id, schoolingRegistration_2.id]);
     });
 
     it('should order schoolingRegistrations by lastName and then by firstName with no sensitive case', async () => {
@@ -636,12 +635,12 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       await databaseBuilder.commit();
 
       // when
-      const schoolingRegistrations = await schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId({
+      const { data } = await schoolingRegistrationRepository.findPaginatedFilteredSchoolingRegistrations({
         organizationId: organization.id
       });
 
       // then
-      expect(_.map(schoolingRegistrations, 'id')).to.deep.include.ordered.members([schoolingRegistration_3.id, schoolingRegistration_4.id, schoolingRegistration_2.id, schoolingRegistration_1.id]);
+      expect(_.map(data, 'id')).to.deep.include.ordered.members([schoolingRegistration_3.id, schoolingRegistration_4.id, schoolingRegistration_2.id, schoolingRegistration_1.id]);
     });
 
     describe('When schoolingRegistration is filtered' , () => {
@@ -655,13 +654,13 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         await databaseBuilder.commit();
 
         // when
-        const schoolingRegistrations = await schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId({
+        const { data } = await schoolingRegistrationRepository.findPaginatedFilteredSchoolingRegistrations({
           organizationId: organization.id,
           filter: { lastName: 'Vat' },
         });
 
         // then
-        expect(_.map(schoolingRegistrations, 'lastName')).to.deep.equal(['Avatar', 'UvAtur']);
+        expect(_.map(data, 'lastName')).to.deep.equal(['Avatar', 'UvAtur']);
       });
 
       it('should return school registrations filtered by firstname', async () => {
@@ -674,13 +673,13 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         await databaseBuilder.commit();
 
         // when
-        const schoolingRegistrations = await schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId({
+        const { data } = await schoolingRegistrationRepository.findPaginatedFilteredSchoolingRegistrations({
           organizationId: organization.id,
           filter: { firstName: 'ba' },
         });
 
         // then
-        expect(_.map(schoolingRegistrations, 'firstName')).to.deep.equal(['Bar', 'Baz']);
+        expect(_.map(data, 'firstName')).to.deep.equal(['Bar', 'Baz']);
       });
 
       it('should return school registrations filtered by firstname AND lastname', async () => {
@@ -693,13 +692,13 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         await databaseBuilder.commit();
 
         // when
-        const schoolingRegistrations = await schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId({
+        const { data } = await schoolingRegistrationRepository.findPaginatedFilteredSchoolingRegistrations({
           organizationId: organization.id,
           filter: { firstName: 'ja', lastName: 'ram' },
         });
 
         // then
-        expect(_.map(schoolingRegistrations, 'firstName')).to.deep.equal(['Jane']);
+        expect(_.map(data, 'firstName')).to.deep.equal(['Jane']);
       });
 
       describe('When schoolingRegistration is filtered by user connexion type' , () => {
@@ -718,47 +717,65 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
         it('should return school registrations filtered by "none" user connexion', async () => {
           // when
-          const schoolingRegistrations = await schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId({
+          const { data } = await schoolingRegistrationRepository.findPaginatedFilteredSchoolingRegistrations({
             organizationId,
             filter: { connexionType: 'none' },
           });
   
           // then
-          expect(_.map(schoolingRegistrations, 'lastName')).to.deep.equal(['Lee']);
+          expect(_.map(data, 'lastName')).to.deep.equal(['Lee']);
         });
 
         it('should return school registrations filtered by "identifiant" user connexion', async () => {
           // when
-          const schoolingRegistrations = await schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId({
+          const { data } = await schoolingRegistrationRepository.findPaginatedFilteredSchoolingRegistrations({
             organizationId,
             filter: { connexionType: 'identifiant' },
           });
   
           // then
-          expect(_.map(schoolingRegistrations, 'lastName')).to.deep.equal(['Willis']);
+          expect(_.map(data, 'lastName')).to.deep.equal(['Willis']);
         });
       
         it('should return school registrations filtered by "email" user connexion', async () => {
           // when
-          const schoolingRegistrations = await schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId({
+          const { data } = await schoolingRegistrationRepository.findPaginatedFilteredSchoolingRegistrations({
             organizationId,
             filter: { connexionType: 'email' },
           });
   
           // then
-          expect(_.map(schoolingRegistrations, 'lastName')).to.deep.equal(['Rambo']);
+          expect(_.map(data, 'lastName')).to.deep.equal(['Rambo']);
         });
 
         it('should return school registrations filtered by "mediacentre" user connexion', async () => {
           // when
-          const schoolingRegistrations = await schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId({
+          const { data } = await schoolingRegistrationRepository.findPaginatedFilteredSchoolingRegistrations({
             organizationId,
             filter: { connexionType: 'mediacentre' },
           });
   
           // then
-          expect(_.map(schoolingRegistrations, 'lastName')).to.deep.equal(['Norris']);
+          expect(_.map(data, 'lastName')).to.deep.equal(['Norris']);
         });
+      });
+
+      it('should return school registrations paginated', async () => {
+        // given
+        const organization = databaseBuilder.factory.buildOrganization();
+
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, firstName: 'Foo', lastName: '1' });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, firstName: 'Bar', lastName: '2' });
+        await databaseBuilder.commit();
+
+        // when
+        const { data } = await schoolingRegistrationRepository.findPaginatedFilteredSchoolingRegistrations({
+          organizationId: organization.id,
+          page: { number: 2, size: 1 }
+        });
+
+        // then
+        expect(_.map(data, 'firstName')).to.deep.equal(['Bar']);
       });
     });
 
@@ -789,11 +806,10 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         await databaseBuilder.commit();
 
         // when
-        const schoolingRegistrationsWithUserInfo = await schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId({ organizationId: organization.id });
-        const schoolingRegistrationWithUserInfo = schoolingRegistrationsWithUserInfo[0];
+        const { data } = await schoolingRegistrationRepository.findPaginatedFilteredSchoolingRegistrations({ organizationId: organization.id });
 
         // then
-        expect(schoolingRegistrationWithUserInfo).to.deep.equal(expectedUserWithSchoolingRegistration);
+        expect(data[0]).to.deep.equal(expectedUserWithSchoolingRegistration);
 
       });
 
@@ -829,11 +845,10 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         await databaseBuilder.commit();
 
         // when
-        const schoolingRegistrationsWithUserInfo = await schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId({ organizationId: organization.id });
-        const schoolingRegistrationWithUserInfo = schoolingRegistrationsWithUserInfo[0];
+        const { data } = await schoolingRegistrationRepository.findPaginatedFilteredSchoolingRegistrations({ organizationId: organization.id });
 
         // then
-        expect(schoolingRegistrationWithUserInfo).to.deep.equal(expectedUserWithSchoolingRegistration);
+        expect(data[0]).to.deep.equal(expectedUserWithSchoolingRegistration);
 
       });
 
@@ -864,11 +879,10 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         await databaseBuilder.commit();
 
         // when
-        const schoolingRegistrationsWithUserInfo = await schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId({ organizationId: organization.id });
-        const schoolingRegistrationWithUserInfo = schoolingRegistrationsWithUserInfo[0];
+        const { data }  = await schoolingRegistrationRepository.findPaginatedFilteredSchoolingRegistrations({ organizationId: organization.id });
 
         // then
-        expect(schoolingRegistrationWithUserInfo).to.deep.equal(expectedUserWithSchoolingRegistration);
+        expect(data[0]).to.deep.equal(expectedUserWithSchoolingRegistration);
 
       });
 
