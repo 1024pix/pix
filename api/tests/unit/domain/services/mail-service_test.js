@@ -134,7 +134,9 @@ describe('Unit | Service | MailService', () => {
     const template = 'test-organization-invitation-demand-template-id';
 
     const organizationName = 'Organization Name';
-    const pixOrgaBaseUrl = 'http://dev.pix-orga.fr';
+    const pixHomeName = 'pix.fr';
+    const pixHomeUrl = 'https://pix.fr';
+    const pixOrgaUrl = 'https://orga.pix.fr';
     const organizationInvitationId = 1;
     const code = 'ABCDEFGH01';
 
@@ -149,7 +151,11 @@ describe('Unit | Service | MailService', () => {
           subject, template,
           variables: {
             organizationName,
-            responseUrl: `${pixOrgaBaseUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`
+            pixHomeName,
+            pixHomeUrl,
+            pixOrgaHomeUrl: pixOrgaUrl,
+            locale: 'fr-fr',
+            redirectionUrl: `${pixOrgaUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`
           },
           tags: null
         };
@@ -157,6 +163,37 @@ describe('Unit | Service | MailService', () => {
         // when
         await mailService.sendOrganizationInvitationEmail({
           email: userEmailAddress, organizationName, organizationInvitationId, code
+        });
+
+        // then
+        expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
+      });
+
+      it('should use locale pass in paramaters to construct url', async () => {
+        // given
+        const locale = 'fr';
+        const pixHomeName = 'pix.org';
+        const pixHomeUrl = 'https://pix.org';
+        const pixOrgaUrl = 'https://orga.pix.org';
+        const expectedOptions = {
+          from: senderEmailAddress,
+          fromName,
+          to: userEmailAddress,
+          subject, template,
+          variables: {
+            organizationName,
+            pixHomeName,
+            pixHomeUrl,
+            pixOrgaHomeUrl: pixOrgaUrl,
+            locale: 'fr',
+            redirectionUrl: `${pixOrgaUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`
+          },
+          tags: null
+        };
+
+        // when
+        await mailService.sendOrganizationInvitationEmail({
+          email: userEmailAddress, organizationName, organizationInvitationId, code, locale
         });
 
         // then
@@ -177,7 +214,11 @@ describe('Unit | Service | MailService', () => {
           subject, template,
           variables: {
             organizationName,
-            responseUrl: `${pixOrgaBaseUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`
+            pixHomeName,
+            pixHomeUrl,
+            pixOrgaHomeUrl: pixOrgaUrl,
+            locale: 'fr-fr',
+            redirectionUrl: `${pixOrgaUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`
           },
           tags
         };
