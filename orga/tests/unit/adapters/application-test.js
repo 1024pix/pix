@@ -37,6 +37,28 @@ module('Unit | Adapters | ApplicationAdapter', function(hooks) {
       // Then
       assert.notOk(applicationAdapter.headers['Authorization']);
     });
+
+    test('should add Accept-Language header set to fr-fr when the current domain contains pix.fr', function(assert) {
+      // Given
+      const applicationAdapter = this.owner.lookup('adapter:application');
+
+      // When
+      applicationAdapter.set('currentDomain', { getExtension() { return 'fr'; } });
+
+      // Then
+      assert.equal(applicationAdapter.headers['Accept-Language'], 'fr-fr');
+    });
+
+    test('should add Accept-Language header set to fr-fr when the current domain contains pix.org', function(assert) {
+      // Given
+      const applicationAdapter = this.owner.lookup('adapter:application');
+
+      // When
+      applicationAdapter.set('currentDomain', { getExtension() { return 'org'; } });
+
+      // Then
+      assert.equal(applicationAdapter.headers['Accept-Language'], 'fr');
+    });
   });
 
   module('ajax()', function() {
