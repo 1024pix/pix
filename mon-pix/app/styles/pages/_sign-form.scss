@@ -10,7 +10,6 @@
   abbr {
     text-decoration: none;
   }
-
 }
 
 .sign-form {
@@ -23,18 +22,14 @@
     width: 95%;
     max-width: 609px;
     border-radius: 10px;
-    padding-top: 10px;
     background-color: $white;
-    margin: 10px auto;
+    margin: 0 auto;
+    padding: 20px 10px;
 
     @include device-is('tablet') {
       width: 609px;
       margin: 20px 0;
       padding: 40px 80px;
-    }
-
-    @include device-is('mobile'){
-      padding: 20px 0;
     }
   }
 
@@ -46,6 +41,7 @@
   }
 
   &__body {
+    align-items: center;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -78,7 +74,7 @@
 
   &__subtitle {
     display: flex;
-    padding: 5px 20px;
+    padding: 5px 20px 24px 20px;
     flex-direction: column;
     text-align: center;
     font-family: $font-open-sans;
