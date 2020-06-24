@@ -1,5 +1,5 @@
 <div class="card-body">
-  <div class="card-title">{{competence.index}} {{competence.name}}</div>
+  <div class="card-title">{{this.competence.index}} {{this.competence.name}}</div>
   <div class="card-text">
     <div class="container">
       <div class="row">
@@ -7,39 +7,39 @@
         <div class="col">
           <div class="progress">
             <div class="progress-bar competence-level" role="progressbar"
-                 aria-valuenow="{{ competence.positionedLevel }}" aria-valuemin="0" aria-valuemax="8"
-                 style= {{positionedWidth}}>{{ competence.positionedLevel }}</div>
+                 aria-valuenow="{{this.competence.positionedLevel}}" aria-valuemin="0" aria-valuemax="8"
+                 style={{this.positionedWidth}}>{{this.competence.positionedLevel}}</div>
           </div>
         </div>
-        <div class="col-2 competence-score">{{competence.positionedScore}} Pix</div>
+        <div class="col-2 competence-score">{{this.competence.positionedScore}} Pix</div>
       </div>
       <div class="row">
         <div class="col-3">Certifié :</div>
         <div class="col">
           <div class="progress">
             <div class="progress-bar competence-level certificate" role="progressbar"
-                 aria-valuenow="{{ competence.obtainedLevel }}" aria-valuemin="0" aria-valuemax="8"
-                 style= {{certifiedWidth}}>{{ competence.obtainedLevel }}</div>
+                 aria-valuenow="{{this.competence.obtainedLevel}}" aria-valuemin="0" aria-valuemax="8"
+                 style={{this.certifiedWidth}}>{{this.competence.obtainedLeve }}</div>
           </div>
         </div>
-        <div class="col-2 certificate">{{competence.obtainedScore}} Pix</div>
+        <div class="col-2 certificate">{{this.competence.obtainedScore}} Pix</div>
       </div>
-      {{#if competenceJury}}
+      {{#if this.competenceJury}}
         <div class="row jury">
           <div class="col-3">Corrigé :</div>
           <div class="col">
             <div class="progress">
               <div class="progress-bar jury competence-level" role="progressbar"
-                   aria-valuenow="{{ competenceJury.level }}" aria-valuemin="0" aria-valuemax="8"
-                   style= {{competenceJury.width}}>{{competenceJury.level}}</div>
+                   aria-valuenow="{{this.competenceJury.level}}" aria-valuemin="0" aria-valuemax="8"
+                   style={{this.competenceJury.width}}>{{this.competenceJury.level}}</div>
             </div>
           </div>
-          <div class="col-2 jury competence-score">{{competenceJury.score}} Pix</div>
+          <div class="col-2 jury competence-score">{{this.competenceJury.score}} Pix</div>
         </div>
       {{/if}}
       <div class="card-deck">
-        {{#each answers as |answer|}}
-          {{certification-details-answer answer=answer onUpdateRate=(action onUpdateRate)}}
+        {{#each this.answers as |answer|}}
+          <CertificationDetailsAnswer @answer={{answer}} @onUpdateRate={{@onUpdateRate}} />
         {{/each}}
       </div>
     </div>

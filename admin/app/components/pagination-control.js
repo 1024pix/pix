@@ -15,7 +15,8 @@ export default class PaginationControl extends Component {
   }
 
   @action
-  changePageSize(pageSize) {
+  changePageSize(event) {
+    const pageSize = event.target.value;
     this.router.transitionTo({ queryParams: { pageSize, pageNumber: 1 } });
   }
 }

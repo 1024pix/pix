@@ -1,23 +1,11 @@
 import Component from '@ember/component';
-import { computed } from '@ember/object';
+import { action, computed } from '@ember/object';
 
-export default class CertificationInfoCompetence extends Component {
+export default class CertificationInfoCompetences extends Component {
 
-  // Elements
   classNames = ['certification-info-competences'];
-  //Actions
-  actions = {
-    onScoreChange(index, event) {
-      const list = this.competenceList;
-      this.onUpdateScore(list[index], event.target.value);
-    },
-    onLevelChange(index, event) {
-      const list = this.competenceList;
-      this.onUpdateLevel(list[index], event.target.value);
-    }
-  }
+  competenceList = ['1.1', '1.2', '1.3', '2.1', '2.2', '2.3', '2.4', '3.1', '3.2', '3.3', '3.4', '4.1', '4.2', '4.3', '5.1', '5.2'];
 
-  // Computed properties
   @computed('competences')
   get indexedValues() {
     const competences = this.competences;
@@ -40,9 +28,15 @@ export default class CertificationInfoCompetence extends Component {
     };
   }
 
-  // Properties
-  init() {
-    super.init();
-    this.set('competenceList', ['1.1', '1.2', '1.3', '2.1', '2.2', '2.3', '2.4', '3.1', '3.2', '3.3', '3.4', '4.1', '4.2', '4.3', '5.1', '5.2']);
+  @action
+  onScoreChange(index, event) {
+    const list = this.competenceList;
+    this.onUpdateScore(list[index], event.target.value);
+  }
+
+  @action
+  onLevelChange(index, event) {
+    const list = this.competenceList;
+    this.onUpdateLevel(list[index], event.target.value);
   }
 }

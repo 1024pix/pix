@@ -4,15 +4,12 @@ import { htmlSafe } from '@ember/string';
 
 export default class CertificationDetailsCompetence extends Component {
 
-  // Elements
   classNames = ['card', 'border-primary', 'certification-details-competence'];
 
-  // Properties
   competence = null;
   rate = 0;
   juryRate = false;
 
-  // Computed properties
   @computed('competence')
   get certifiedWidth() {
     const obtainedLevel = this.competence.obtainedLevel;
@@ -57,7 +54,6 @@ export default class CertificationDetailsCompetence extends Component {
     }
   }
 
-  // Private methods
   _computeScore(rate) {
     if (rate < 50) {
       return { score: 0, level: -1 };
