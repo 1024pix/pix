@@ -5,59 +5,59 @@
   </div>
 
   <div class="session-info__details">
-    <div class='row'>
-      <div class='col'>Centre :</div>
-      <div class='col'>{{this.session.certificationCenterName}}</div>
+    <div class="row">
+      <div class="col">Centre :</div>
+      <div class="col">{{this.session.certificationCenterName}}</div>
     </div>
-    <div class='row'>
-      <div class='col'>Adresse :</div>
-      <div class='col'>{{this.session.address}}</div>
+    <div class="row">
+      <div class="col">Adresse :</div>
+      <div class="col">{{this.session.address}}</div>
     </div>
-    <div class='row'>
-      <div class='col'>Pièce :</div>
-       <div class='col'>{{this.session.room}}</div>
+    <div class="row">
+      <div class="col">Pièce :</div>
+       <div class="col">{{this.session.room}}</div>
     </div>
-    <div class='row'>
-      <div class='col'>Surveillant :</div>
-      <div class='col'>{{this.session.examiner}}</div>
+    <div class="row">
+      <div class="col">Surveillant :</div>
+      <div class="col">{{this.session.examiner}}</div>
     </div>
-    <div class='row'>
-      <div class='col'>Date :</div>
-      <div class='col'>{{this.session.displayDate}}</div>
+    <div class="row">
+      <div class="col">Date :</div>
+      <div class="col">{{this.session.displayDate}}</div>
     </div>
-    <div class='row'>
-      <div class='col'>Heure :</div>
-      <div class='col'>{{this.session.time}}</div>
+    <div class="row">
+      <div class="col">Heure :</div>
+      <div class="col">{{this.session.time}}</div>
     </div>
-    <div class='row'>
-      <div class='col'>Description :</div>
-      <div class='col'>{{this.session.description}}</div>
+    <div class="row">
+      <div class="col">Description :</div>
+      <div class="col">{{this.session.description}}</div>
     </div>
-    <div class='row'>
-      <div class='col'>Code d'accès :</div>
-      <div class='col'>{{this.session.accessCode}}</div>
+    <div class="row">
+      <div class="col">Code d'accès :</div>
+      <div class="col">{{this.session.accessCode}}</div>
     </div>
-    <div class='row'>
-      <div class='col'>Statut :</div>
-      <div class='col'>{{this.session.displayStatus}}</div>
+    <div class="row">
+      <div class="col">Statut :</div>
+      <div class="col">{{this.session.displayStatus}}</div>
     </div>
 
     {{#if this.session.finalizedAt}}
-      <div class='row'>
-        <div class='col'>Date de finalisation :</div>
-        <div class='col' data-test-id="session-info__finalized-at">{{this.session.displayFinalizationDate}}</div>
+      <div class="row">
+        <div class="col">Date de finalisation :</div>
+        <div class="col" data-test-id="session-info__finalized-at">{{this.session.displayFinalizationDate}}</div>
       </div>
     {{/if}}
     {{#if this.session.publishedAt}}
-      <div class='row'>
-        <div class='col'>Date de publication :</div>
-        <div class='col' data-test-id="session-info__published-at">{{this.session.displayPublishedAtDate}}</div>
+      <div class="row">
+        <div class="col">Date de publication :</div>
+        <div class="col" data-test-id="session-info__published-at">{{this.session.displayPublishedAtDate}}</div>
       </div>
     {{/if}}
     {{#if this.session.resultsSentToPrescriberAt}}
-      <div class='row'>
-        <div class='col'>Date d'envoi des résultats au prescripteur :</div>
-        <div class='col' data-test-id="session-info__sent-to-prescriber-at">{{this.session.displayResultsSentToPrescriberDate}}</div>
+      <div class="row">
+        <div class="col">Date d'envoi des résultats au prescripteur :</div>
+        <div class="col" data-test-id="session-info__sent-to-prescriber-at">{{this.session.displayResultsSentToPrescriberDate}}</div>
       </div>
     {{/if}}
   </div>
@@ -65,53 +65,52 @@
 
   {{#if this.session.finalizedAt}}
   <div class="session-info__stats">
-    <div class='row'>
-      <div class='col'>Nombre de signalements :</div>
-      <div class='col' data-test-id="session-info__number-of-report">{{this.session.countExaminerComment}}</div>
+    <div class="row">
+      <div class="col">Nombre de signalements :</div>
+      <div class="col" data-test-id="session-info__number-of-report">{{this.session.countExaminerComment}}</div>
     </div>
-    <div class='row'>
-      <div class='col'>Nombre d'écrans de fin de test non renseignés :</div>
-      <div class='col' data-test-id="session-info__number-of-not-checked-end-screen">{{this.session.countNotCheckedEndScreen}}</div>
+    <div class="row">
+      <div class="col">Nombre d'écrans de fin de test non renseignés :</div>
+      <div class="col" data-test-id="session-info__number-of-not-checked-end-screen">{{this.session.countNotCheckedEndScreen}}</div>
     </div>
-    <div class='row'>
-      <div class='col'>Nombre de certifications non terminées :</div>
-      <div class='col' data-test-id="session-info__number-of-not-ended-certifications">{{this.session.countNonValidatedCertifications}}</div>
+    <div class="row">
+      <div class="col">Nombre de certifications non terminées :</div>
+      <div class="col" data-test-id="session-info__number-of-not-ended-certifications">{{this.session.countNonValidatedCertifications}}</div>
     </div>
     {{#if this.session.hasExaminerGlobalComment}}
-    <div class='row'>
-      <div class='col'>Commentaire global :</div>
-      <div class='col' data-test-id="session-info__examiner-global-comment">{{this.session.examinerGlobalComment}}</div>
+    <div class="row">
+      <div class="col">Commentaire global :</div>
+      <div class="col" data-test-id="session-info__examiner-global-comment">{{this.session.examinerGlobalComment}}</div>
     </div>
     {{/if}}
   </div>
   {{/if}}
 
   <div class="session-info__actions">
-    <div class='row row--btn'>
+    <div class="row row--btn">
 
       {{#if this.session.finalizedAt}}
         {{#if this.isCurrentUserAssignedToSession}}
-          <button class="btn btn-primary btn-disabled">
+          <button type="button" class="btn btn-primary btn-disabled">
             Vous êtes assigné à cette session
           </button>
         {{else}}
-          <button class="btn btn-primary" {{on 'click' this.checkForAssignment}}>
+          <button type="button" class="btn btn-primary" {{on 'click' this.checkForAssignment}}>
             M'assigner la session
           </button>
         {{/if}}
       {{/if}}
 
-
-      <button class="btn btn-primary" {{on 'click' this.downloadBeforeJuryFile}}>
+      <button type="button" class="btn btn-primary" {{on 'click' this.downloadBeforeJuryFile}}>
         Récupérer le fichier avant jury
       </button>
 
-      <button class="btn btn-primary btn--right" {{on 'click' this.downloadSessionResultFile}}>
+      <button type="button" class="btn btn-primary btn--right" {{on 'click' this.downloadSessionResultFile}}>
         Exporter les résultats
       </button>
 
       {{#if this.session.areResultsToBeSentToPrescriber}}
-        <button class="btn btn-primary" {{on 'click' this.tagSessionAsSentToPrescriber}}>
+        <button type="button" class="btn btn-primary" {{on 'click' this.tagSessionAsSentToPrescriber}}>
           Résultats transmis au prescripteur
         </button>
       {{/if}}
@@ -119,23 +118,24 @@
   </div>
 </div>
 
-{{#if isShowingAssignmentModal}}
-    {{#modal-dialog
-            onClose=(action "cancelAssignment")
-            targetAttachment="center"
-            translucentOverlay=true }}
-        <div class='ember-modal-dialog--title'>
-          <h2>Assignation de la session</h2>
-          <span {{on 'click' this.cancelAssignment}}>×</span>
-        </div>
-        <p>
-          L'utilisateur {{this.session.assignedCertificationOfficer.fullName}} s'est déjà assigné cette session.
-          <br>
-          Voulez-vous vous quand même vous assigner cette session ?
-        </p>
-        <div class='ember-modal-dialog--actions'>
-          <button class='btn btn-secondary' {{on 'click' this.cancelAssignment}}>Annuler</button>
-          <button class='btn btn-primary' {{on 'click' this.confirmAssignment}}>Confirmer</button>
-        </div>
-    {{/modal-dialog}}
+{{#if this.isShowingAssignmentModal}}
+  <ModalDialog
+    @targetAttachment="center"
+    @translucentOverlay={{true}}
+    @onClose={{this.cancelAssignment}}
+  >
+    <div class="ember-modal-dialog--title">
+      <h2>Assignation de la session</h2>
+      <span role="button" {{on 'click' this.cancelAssignment}}>×</span>
+    </div>
+    <p>
+      L'utilisateur {{this.session.assignedCertificationOfficer.fullName}} s'est déjà assigné cette session.
+      <br>
+      Voulez-vous vous quand même vous assigner cette session ?
+    </p>
+    <div class="ember-modal-dialog--actions">
+      <button type="button" class="btn btn-secondary" {{on 'click' this.cancelAssignment}}>Annuler</button>
+      <button type="button" class="btn btn-primary" {{on 'click' this.confirmAssignment}}>Confirmer</button>
+    </div>
+  </ModalDialog>
 {{/if}}
