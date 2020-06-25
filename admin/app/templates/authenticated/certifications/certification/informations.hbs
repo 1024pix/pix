@@ -1,3 +1,4 @@
+{{!-- template-lint-disable no-action --}}
 <div class="certification-informations">
   <div class="row">
     <div class="col">
@@ -93,7 +94,7 @@
   <ConfirmPopup
           @message={{this.confirmMessage}}
           @error={{this.confirmErrorMessage}}
-          @confirm={{this.confirmAction}}
-          @cancel={{this.onCancelConfirm}}
+          @confirm={{action this.confirmAction}}
+          @cancel={{action this.onCancelConfirm}}
           @show={{this.displayConfirm}} />
 </div>

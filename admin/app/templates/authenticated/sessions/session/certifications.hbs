@@ -1,3 +1,4 @@
+{{!-- template-lint-disable no-action --}}
 <div class="certification-list-page">
 
   <header class="certification-list-page__header">
@@ -31,6 +32,6 @@
 </div>
 
 <ConfirmPopup @message={{this.confirmMessage}}
-              @confirm={{this.toggleSessionPublication}}
-              @cancel={{this.onCancelConfirm}}
+              @confirm={{action this.toggleSessionPublication}}
+              @cancel={{action this.onCancelConfirm}}
               @show={{this.displayConfirm}} />
