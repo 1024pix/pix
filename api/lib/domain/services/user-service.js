@@ -4,13 +4,13 @@ const bluebird = require('bluebird');
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 const UserCompetence = require('../../../lib/domain/models/UserCompetence');
 const Challenge = require('../models/Challenge');
-const Scorecard = require('../models/Scorecard');
 const CertificationProfile = require('../models/CertificationProfile');
 const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
 const assessmentResultRepository = require('../../../lib/infrastructure/repositories/assessment-result-repository');
 const challengeRepository = require('../../../lib/infrastructure/repositories/challenge-repository');
 const answerRepository = require('../../../lib/infrastructure/repositories/answer-repository');
 const knowledgeElementRepository = require('../../../lib/infrastructure/repositories/knowledge-element-repository');
+const scoringService = require('../../../lib/domain/services/scoring/scoring-service');
 
 async function getCertificationProfile({ userId, limitDate, competences, isV2Certification = true, allowExcessPixAndLevels = true }) {
   const certificationProfile = new CertificationProfile({
@@ -87,17 +87,22 @@ function _skillHasAtLeastOneChallengeInTheReferentiel(skill, challenges) {
 
 async function _createUserCompetencesV1({ allCompetences, userLastAssessments, limitDate }) {
   return bluebird.mapSeries(allCompetences, async (competence) => {
-    const userCompetence = new UserCompetence(competence);
-    const assessment = _.find(userLastAssessments, { competenceId: userCompetence.id });
+    const assessment = _.find(userLastAssessments, { competenceId: competence.id });
+    let estimatedLevel = 0;
+    let pixScore = 0;
     if (assessment) {
-      const { level, pixScore } = await assessmentResultRepository.findLatestLevelAndPixScoreByAssessmentId({ assessmentId: assessment.id, limitDate });
-      userCompetence.pixScore = pixScore;
-      userCompetence.estimatedLevel = level;
-    } else {
-      userCompetence.pixScore = 0;
-      userCompetence.estimatedLevel = 0;
+      const assessmentResultLevelAndPixScore = await assessmentResultRepository.findLatestLevelAndPixScoreByAssessmentId({ assessmentId: assessment.id, limitDate });
+      estimatedLevel = assessmentResultLevelAndPixScore.level;
+      pixScore = assessmentResultLevelAndPixScore.pixScore;
     }
-    return userCompetence;
+    return new UserCompetence({
+      id: competence.id,
+      area: competence.area,
+      index: competence.index,
+      name: competence.name,
+      estimatedLevel,
+      pixScore,
+    });
   });
 }
 
@@ -110,22 +115,25 @@ async function _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredC
   return certificationProfileToFill;
 }
 
-function _createUserCompetencesV2({ userId, knowledgeElementsByCompetence, allCompetences, allowExcessPixAndLevels = true }) {
+function _createUserCompetencesV2({ knowledgeElementsByCompetence, allCompetences, allowExcessPixAndLevels = true }) {
   return allCompetences.map((competence) => {
-    const userCompetence = new UserCompetence(competence);
-
-    const scorecard = Scorecard.buildFrom({
-      userId,
+    const {
+      pixScoreForCompetence,
+      currentLevel,
+    } = scoringService.calculateScoringInformationForCompetence({
       knowledgeElements: knowledgeElementsByCompetence[competence.id],
-      competence,
       allowExcessPix: allowExcessPixAndLevels,
-      allowExcessLevel: allowExcessPixAndLevels,
+      allowExcessLevel: allowExcessPixAndLevels
     });
 
-    userCompetence.estimatedLevel = scorecard.level;
-    userCompetence.pixScore = scorecard.earnedPix;
-
-    return userCompetence;
+    return new UserCompetence({
+      id: competence.id,
+      area: competence.area,
+      index: competence.index,
+      name: competence.name,
+      estimatedLevel: currentLevel,
+      pixScore: pixScoreForCompetence,
+    });
   });
 }
 
