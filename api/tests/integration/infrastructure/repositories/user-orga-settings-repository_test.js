@@ -13,7 +13,7 @@ describe('Integration | Repository | UserOrgaSettings', function() {
   const USER_PICKED_PROPERTIES = ['id', 'firstName', 'lastName', 'email', 'username', 'password', 'cgu',
     'pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted'];
 
-  const ORGANIZATION_OMITTED_PROPERTIES = ['memberships', 'organizationInvitations', 'students', 'targetProfileShares',
+  const ORGANIZATION_OMITTED_PROPERTIES = ['memberships', 'organizationInvitations', 'students', 'targetProfileShares', 'email',
     'createdAt', 'updatedAt'];
 
   let user;

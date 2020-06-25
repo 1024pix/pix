@@ -13,6 +13,7 @@ const buildOrganization = function buildOrganization({
   canCollectProfiles = false,
   createdAt = faker.date.recent(),
   updatedAt = faker.date.recent(),
+  email
 } = {}) {
 
   const values = {
@@ -25,6 +26,7 @@ const buildOrganization = function buildOrganization({
     isManagingStudents,
     credit,
     canCollectProfiles,
+    email,
     createdAt,
     updatedAt,
   };
