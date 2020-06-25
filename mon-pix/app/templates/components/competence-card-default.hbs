@@ -1,13 +1,13 @@
-<article class="competence-card {{if this.args.interactive "competence-card--interactive"}}">
-  <LinkTo @route="competences.details" @model={{this.args.scorecard.competenceId}}>
+<article class="competence-card {{if @interactive "competence-card--interactive"}}">
+  <LinkTo @route="competences.details" @model={{@scorecard.competenceId}}>
     <header class="competence-card__header">
-      <span class="competence-card__color competence-card__color--{{this.args.scorecard.area.color}}"></span>
-      <span class="competence-card__area-name">{{this.args.scorecard.area.title}}</span>
-      <span class="competence-card__competence-name">{{this.args.scorecard.name}}</span>
+      <span class="competence-card__color competence-card__color--{{@scorecard.area.color}}"></span>
+      <span class="competence-card__area-name">{{@scorecard.area.title}}</span>
+      <span class="competence-card__competence-name">{{@scorecard.name}}</span>
     </header>
 
     <div class="competence-card__body">
-      {{#if this.args.scorecard.isFinishedWithMaxLevel}}
+      {{#if @scorecard.isFinishedWithMaxLevel}}
         <div class="competence-card__congrats competence-card__congrats--with-magnification">
           <div class="competence-card__level competence-card__level--congrats">
             <span class="score-label competence-card__score-label--congrats">Niveau</span>
@@ -16,7 +16,7 @@
         </div>
       {{else}}
         <div class="competence-card__link">
-          <CircleChart @value={{this.args.scorecard.percentageAheadOfNextLevel}} @sliceColor={{this.args.scorecard.area.color}} @chartClass="circle-chart__content--big" @thicknessClass="circle--thick">
+          <CircleChart @value={{@scorecard.percentageAheadOfNextLevel}} @sliceColor={{@scorecard.area.color}} @chartClass="circle-chart__content--big" @thicknessClass="circle--thick">
             <div class="competence-card__level">
               <span class="score-label">Niveau</span>
               <span class="score-value competence-card__score-value">{{replace-zero-by-dash this.displayedLevel}}</span>
@@ -28,16 +28,16 @@
     </div>
   </LinkTo>
 
-  {{#if this.args.scorecard.isFinishedWithMaxLevel}}
+  {{#if @scorecard.isFinishedWithMaxLevel}}
     <footer class="competence-card__congrats-message">
       Bravo !
     </footer>
   {{else}}
     <footer class="competence-card__footer">
-      {{#if this.args.scorecard.isFinished}}
+      {{#if @scorecard.isFinished}}
         {{#if this.displayImproveButton}}
           <button class="button button--extra-thin button--round button--link button--green competence-card__button" {{action "improveCompetenceEvaluation"}}>
-            <span class="competence-card-button__label">Retenter <span class="sr-only">la compétence "{{this.args.scorecard.name}}"</span>
+            <span class="competence-card-button__label">Retenter <span class="sr-only">la compétence "{{@scorecard.name}}"</span>
             </span>
             <span class="competence-card-button__arrow">
               {{fa-icon 'long-arrow-alt-right'}}
@@ -45,9 +45,9 @@
           </button>
         {{/if}}
       {{else}}
-        <LinkTo @route="competences.resume" @model={{this.args.scorecard.competenceId}} class="button button--extra-thin button--round button--link button--green competence-card__button">
+        <LinkTo @route="competences.resume" @model={{@scorecard.competenceId}} class="button button--extra-thin button--round button--link button--green competence-card__button">
           <span class="competence-card-button__label">
-            {{#if this.args.scorecard.isStarted}}
+            {{#if @scorecard.isStarted}}
               Reprendre
             {{else}}
               Commencer
