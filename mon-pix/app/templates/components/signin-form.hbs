@@ -14,7 +14,7 @@
 
   {{#if this.hasFailed}}
     <div class="sign-form__notification-message sign-form__notification-message--error" aria-live="polite">
-      {{t 'signin-form.error.message'}}
+      {{this.errorMessage}}
     </div>
   {{/if}}
 
@@ -24,14 +24,18 @@
       <FormTextfield @label="{{t 'signin-form.fields.login.label'}}"
                      @textfieldName="login"
                      @validationStatus="default"
-                     @inputBindingValue={{this.username}} @autocomplete="username" />
+                     @inputBindingValue={{this.username}}
+                     @autocomplete="username"
+                     @require=true />
     </div>
 
     <div class="sign-form-body__input">
       <FormTextfield @label="{{t 'signin-form.fields.password.label'}}"
                      @textfieldName="password"
                      @validationStatus="default"
-                     @inputBindingValue={{this.password}} @autocomplete="current-password" />
+                     @inputBindingValue={{this.password}}
+                     @autocomplete="current-password"
+                     @require=true />
     </div>
 
     <LinkTo @route="password-reset-demand" class="link link--grey sign-form-link sign-form-body__forgotten-password-link">

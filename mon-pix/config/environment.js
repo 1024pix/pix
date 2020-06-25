@@ -11,6 +11,7 @@ function _getEnvironmentVariableAsNumber({ environmentVariableName, defaultValue
 
 /* eslint max-statements: off */
 module.exports = function(environment) {
+
   const ENV = {
     modulePrefix: 'mon-pix',
     environment: environment,
@@ -46,6 +47,29 @@ module.exports = function(environment) {
       BANNER_TYPE: process.env.BANNER_TYPE || '',
       LOCALE: process.env.LOCALE || 'fr-fr',
       FT_IMPROVE_COMPETENCE_EVALUATION: process.env.FT_IMPROVE_COMPETENCE_EVALUATION || false,
+
+      API_ERROR_MESSAGES: {
+        BAD_REQUEST: {
+          CODE: '400',
+          MESSAGE: 'api-error-messages.bad-request-error'
+        },
+        LOGIN_UNAUTHORIZED: {
+          CODE: '401',
+          MESSAGE: 'api-error-messages.login-unauthorized-error'
+        },
+        INTERNAL_SERVER_ERROR: {
+          CODE: '500',
+          MESSAGE: 'api-error-messages.internal-server-error',
+        },
+        BAD_GATEWAY: {
+          CODE: '502',
+          MESSAGE: 'api-error-messages.internal-server-error'
+        },
+        GATEWAY_TIMEOUT: {
+          CODE: '504',
+          MESSAGE: 'api-error-messages.internal-server-error'
+        },
+      },
     },
 
     googleFonts: [

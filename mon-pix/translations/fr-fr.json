@@ -19,6 +19,12 @@
     "suffix": "Pix"
   },
 
+  "api-error-messages": {
+    "login-unauthorized-error": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects.",
+    "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
+    "internal-server-error": "Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement."
+  },
+
   "signin-form": {
     "actions": {
       "submit": "Je me connecte"
