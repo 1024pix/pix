@@ -175,11 +175,14 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
         assessmentId,
         userId,
       });
+      const competenceSkills = [domainBuilder.buildSkill()];
 
       beforeEach(() => {
         sandbox.stub(assessmentRepository, 'getByAssessmentIdAndUserId').resolves(competenceEvaluationAssessment);
         sandbox.stub(competenceEvaluationRepository, 'getByAssessmentId').resolves(competenceEvaluation);
-        sandbox.stub(skillRepository, 'findByCompetenceId').resolves([]);
+        sandbox.stub(skillRepository, 'findByCompetenceId').resolves(competenceSkills);
+        sandbox.stub(improvementService, 'filterKnowledgeElementsIfImproving')
+          .withArgs({ knowledgeElements: [], assessment: competenceEvaluationAssessment }).returns([]);
       });
 
       it('should load the right assessment', () => {
@@ -205,7 +208,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
         // given
         const expectedProgression = domainBuilder.buildProgression({
           id: progressionId,
-          targetedSkills: [],
+          targetedSkills: competenceSkills,
           knowledgeElements: [],
           isProfileCompleted: competenceEvaluationAssessment.isCompleted()
         });
@@ -224,6 +227,68 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
 
         // then
         return promise.then((progression) => {
+          expect(progression).to.deep.equal(expectedProgression);
+        });
+      });
+
+      context('when the assessment is improving', () => {
+
+        let knowledgeElements, knowledgeElementsFiltered;
+
+        beforeEach(() => {
+          competenceEvaluationAssessment.state = 'improving';
+          knowledgeElements = [
+            domainBuilder.buildKnowledgeElement(),
+            domainBuilder.buildKnowledgeElement()
+          ];
+          knowledgeElementsFiltered = [knowledgeElements[0]];
+          knowledgeElementRepository.findUniqByUserId.resolves(knowledgeElements);
+
+          improvementService.filterKnowledgeElementsIfImproving
+            .withArgs({ knowledgeElements, assessment: competenceEvaluationAssessment }).returns(knowledgeElementsFiltered);
+        });
+
+        it('should filter the knowledge elements', async () => {
+          // when
+          await getProgression({
+            userId,
+            progressionId,
+            assessmentRepository,
+            competenceEvaluationRepository,
+            campaignAssessmentRepository,
+            knowledgeElementRepository,
+            skillRepository,
+            improvementService,
+          });
+
+          // then
+          expect(improvementService.filterKnowledgeElementsIfImproving)
+            .to.have.been.calledWith({ knowledgeElements, assessment: competenceEvaluationAssessment });
+
+        });
+
+        it('should return the progression associated to the assessment', async () => {
+          // given
+          const expectedProgression = domainBuilder.buildProgression({
+            id: progressionId,
+            targetedSkills: competenceSkills,
+            knowledgeElements: knowledgeElementsFiltered,
+            isProfileCompleted: competenceEvaluationAssessment.isCompleted()
+          });
+
+          // when
+          const progression = await getProgression({
+            userId,
+            progressionId,
+            assessmentRepository,
+            competenceEvaluationRepository,
+            campaignAssessmentRepository,
+            knowledgeElementRepository,
+            skillRepository,
+            improvementService,
+          });
+
+          // then
           expect(progression).to.deep.equal(expectedProgression);
         });
       });

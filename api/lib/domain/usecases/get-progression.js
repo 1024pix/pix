@@ -39,11 +39,15 @@ module.exports = async function getProgression(
       skillRepository.findByCompetenceId(competenceEvaluation.competenceId),
       knowledgeElementRepository.findUniqByUserId({ userId })]
     );
+    const knowledgeElementsForProgression = await improvementService.filterKnowledgeElementsIfImproving({
+      knowledgeElements,
+      assessment
+    });
 
     progression = new Progression({
       id: progressionId,
       targetedSkills,
-      knowledgeElements,
+      knowledgeElements: knowledgeElementsForProgression,
       isProfileCompleted: assessment.isCompleted()
     });
   }
