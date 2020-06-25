@@ -87,17 +87,22 @@ function _skillHasAtLeastOneChallengeInTheReferentiel(skill, challenges) {
 
 async function _createUserCompetencesV1({ allCompetences, userLastAssessments, limitDate }) {
   return bluebird.mapSeries(allCompetences, async (competence) => {
-    const userCompetence = new UserCompetence(competence);
-    const assessment = _.find(userLastAssessments, { competenceId: userCompetence.id });
+    const assessment = _.find(userLastAssessments, { competenceId: competence.id });
+    let estimatedLevel = 0;
+    let pixScore = 0;
     if (assessment) {
-      const { level, pixScore } = await assessmentResultRepository.findLatestLevelAndPixScoreByAssessmentId({ assessmentId: assessment.id, limitDate });
-      userCompetence.pixScore = pixScore;
-      userCompetence.estimatedLevel = level;
-    } else {
-      userCompetence.pixScore = 0;
-      userCompetence.estimatedLevel = 0;
+      const assessmentResultLevelAndPixScore = await assessmentResultRepository.findLatestLevelAndPixScoreByAssessmentId({ assessmentId: assessment.id, limitDate });
+      estimatedLevel = assessmentResultLevelAndPixScore.level;
+      pixScore = assessmentResultLevelAndPixScore.pixScore;
     }
-    return userCompetence;
+    return new UserCompetence({
+      id: competence.id,
+      area: competence.area,
+      index: competence.index,
+      name: competence.name,
+      estimatedLevel,
+      pixScore,
+    });
   });
 }
 
@@ -112,8 +117,6 @@ async function _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredC
 
 function _createUserCompetencesV2({ knowledgeElementsByCompetence, allCompetences, allowExcessPixAndLevels = true }) {
   return allCompetences.map((competence) => {
-    const userCompetence = new UserCompetence(competence);
-
     const {
       pixScoreForCompetence,
       currentLevel,
@@ -123,10 +126,14 @@ function _createUserCompetencesV2({ knowledgeElementsByCompetence, allCompetence
       allowExcessLevel: allowExcessPixAndLevels
     });
 
-    userCompetence.estimatedLevel = currentLevel;
-    userCompetence.pixScore = pixScoreForCompetence;
-
-    return userCompetence;
+    return new UserCompetence({
+      id: competence.id,
+      area: competence.area,
+      index: competence.index,
+      name: competence.name,
+      estimatedLevel: currentLevel,
+      pixScore: pixScoreForCompetence,
+    });
   });
 }
 
