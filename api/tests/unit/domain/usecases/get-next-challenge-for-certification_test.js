@@ -11,7 +11,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', ()
     let challengeRepository;
 
     beforeEach(() => {
-      certificationChallengeRepository = { getNonAnsweredChallengeByCourseId: sinon.stub().resolves() };
+      certificationChallengeRepository = { getNextNonAnsweredChallengeByCourseId: sinon.stub().resolves() };
       challengeRepository = { get: sinon.stub().resolves() };
     });
 
@@ -20,13 +20,13 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', ()
       const nextChallenge = Symbol('nextChallenge');
       const assessment = new Assessment({ id: 156, certificationCourseId: 54516 });
 
-      certificationChallengeRepository.getNonAnsweredChallengeByCourseId.resolves(nextChallenge);
+      certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId.resolves(nextChallenge);
 
       // when
       await getNextChallengeForCertification({ assessment, certificationChallengeRepository, challengeRepository });
 
       // then
-      expect(certificationChallengeRepository.getNonAnsweredChallengeByCourseId).to.have.been.calledWith(156, 54516);
+      expect(certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId).to.have.been.calledWith(156, 54516);
     });
 
     it('should return the next Challenge', async () => {
@@ -36,7 +36,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', ()
       const nextCertificationChallenge = { challengeId };
       const assessment = new Assessment({ id: 156, courseId: 54516 });
 
-      certificationChallengeRepository.getNonAnsweredChallengeByCourseId.resolves(nextCertificationChallenge);
+      certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId.resolves(nextCertificationChallenge);
       challengeRepository.get.resolves(nextChallengeToAnswer);
 
       // when
