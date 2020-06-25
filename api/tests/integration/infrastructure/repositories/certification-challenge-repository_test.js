@@ -32,7 +32,7 @@ describe('Integration | Repository | Certification Challenge', function() {
     });
   });
 
-  describe('#getNonAnsweredChallengeByCourseId', () => {
+  describe('#getNextNonAnsweredChallengeByCourseId', () => {
 
     context('no non answered certification challenge', () => {
 
@@ -61,7 +61,7 @@ describe('Integration | Repository | Certification Challenge', function() {
 
       it('should reject the promise if no non answered challenge is found', function() {
         // when
-        const promise = certificationChallengeRepository.getNonAnsweredChallengeByCourseId(
+        const promise = certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId(
           assessmentId, certificationCourseId,
         );
 
@@ -74,7 +74,8 @@ describe('Integration | Repository | Certification Challenge', function() {
     context('there is some non answered certification challenge(s)', () => {
 
       let certificationCourseId, assessmentId;
-      let unansweredChallenge;
+      const firstUnansweredChallengeId = 1;
+
       before(async () => {
         // given
         const userId = databaseBuilder.factory.buildUser({}).id;
@@ -87,14 +88,28 @@ describe('Integration | Repository | Certification Challenge', function() {
             associatedSkill: '@brm7',
             competenceId: 'recCompetenceId1',
           });
-        unansweredChallenge =
+        const firstUnansweredChallengeById =
           {
+            id: firstUnansweredChallengeId,
             challengeId: 'recChallenge2',
             courseId: certificationCourseId,
             associatedSkill: '@brm24',
             competenceId: 'recCompetenceId2',
+            createdAt: '2020-06-20T00:00:00Z',
           };
-        databaseBuilder.factory.buildCertificationChallenge(unansweredChallenge);
+        const secondUnansweredChallengeById =
+          {
+            id: firstUnansweredChallengeId + 1,
+            challengeId: 'recChallenge2',
+            courseId: certificationCourseId,
+            associatedSkill: '@brm24',
+            competenceId: 'recCompetenceId2',
+            createdAt: '2020-06-21T00:00:00Z',
+          };
+
+        // "Second" is inserted first as we check the order is chosen on the specified id
+        databaseBuilder.factory.buildCertificationChallenge(secondUnansweredChallengeById);
+        databaseBuilder.factory.buildCertificationChallenge(firstUnansweredChallengeById);
         databaseBuilder.factory.buildAnswer(
           {
             challengeId: answeredChallenge.challengeId,
@@ -105,14 +120,15 @@ describe('Integration | Repository | Certification Challenge', function() {
         await databaseBuilder.commit();
       });
 
-      it('should return one challenge which has no answer associated', async () => {
+      it('should get challenges in the creation order', async () => {
         // when
-        const nonAnsweredChallenge = await certificationChallengeRepository.getNonAnsweredChallengeByCourseId(
+        const nextCertificationChallenge = await certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId(
           assessmentId, certificationCourseId,
         );
 
         // then
-        expect(nonAnsweredChallenge).to.be.instanceOf(CertificationChallenge);
+        expect(nextCertificationChallenge).to.be.instanceOf(CertificationChallenge);
+        expect(nextCertificationChallenge.id).to.equal(firstUnansweredChallengeId);
       });
 
     });
