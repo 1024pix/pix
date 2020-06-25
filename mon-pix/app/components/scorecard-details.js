@@ -20,6 +20,10 @@ export default class ScorecardDetails extends Component {
     return !(this.args.scorecard.isFinished || this.args.scorecard.isMaxLevel || this.args.scorecard.isNotStarted);
   }
 
+  get canImprove() {
+    return !this.args.scorecard.isFinishedWithMaxLevel;
+  }
+
   get displayWaitSentence() {
     return this.args.scorecard.remainingDaysBeforeReset > 0;
   }
