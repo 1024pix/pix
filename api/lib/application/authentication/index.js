@@ -19,12 +19,12 @@ exports.register = async (server) => {
             password: Joi.string().required(),
             scope: Joi.string(),
           }),
-          failAction: (request, h) => {
+          failAction: (request, h, err) => {
             const errorHttpStatusCode = 400;
             const jsonApiError = new JSONAPIError({
-              code: errorHttpStatusCode.toString(),
+              status: errorHttpStatusCode.toString(),
               title: 'Bad request',
-              detail: 'Les données envoyées ne sont pas au bon format.',
+              detail: err.details[0].message,
             });
             return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
           }
