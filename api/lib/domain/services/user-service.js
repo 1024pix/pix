@@ -4,13 +4,13 @@ const bluebird = require('bluebird');
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 const UserCompetence = require('../../../lib/domain/models/UserCompetence');
 const Challenge = require('../models/Challenge');
-const Scorecard = require('../models/Scorecard');
 const CertificationProfile = require('../models/CertificationProfile');
 const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
 const assessmentResultRepository = require('../../../lib/infrastructure/repositories/assessment-result-repository');
 const challengeRepository = require('../../../lib/infrastructure/repositories/challenge-repository');
 const answerRepository = require('../../../lib/infrastructure/repositories/answer-repository');
 const knowledgeElementRepository = require('../../../lib/infrastructure/repositories/knowledge-element-repository');
+const scoringService = require('../../../lib/domain/services/scoring/scoring-service');
 
 async function getCertificationProfile({ userId, limitDate, competences, isV2Certification = true, allowExcessPixAndLevels = true }) {
   const certificationProfile = new CertificationProfile({
@@ -110,20 +110,21 @@ async function _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredC
   return certificationProfileToFill;
 }
 
-function _createUserCompetencesV2({ userId, knowledgeElementsByCompetence, allCompetences, allowExcessPixAndLevels = true }) {
+function _createUserCompetencesV2({ knowledgeElementsByCompetence, allCompetences, allowExcessPixAndLevels = true }) {
   return allCompetences.map((competence) => {
     const userCompetence = new UserCompetence(competence);
 
-    const scorecard = Scorecard.buildFrom({
-      userId,
+    const {
+      pixScoreForCompetence,
+      currentLevel,
+    } = scoringService.calculateScoringInformationForCompetence({
       knowledgeElements: knowledgeElementsByCompetence[competence.id],
-      competence,
       allowExcessPix: allowExcessPixAndLevels,
-      allowExcessLevel: allowExcessPixAndLevels,
+      allowExcessLevel: allowExcessPixAndLevels
     });
 
-    userCompetence.estimatedLevel = scorecard.level;
-    userCompetence.pixScore = scorecard.earnedPix;
+    userCompetence.estimatedLevel = currentLevel;
+    userCompetence.pixScore = pixScoreForCompetence;
 
     return userCompetence;
   });
