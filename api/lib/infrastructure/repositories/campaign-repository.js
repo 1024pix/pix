@@ -180,18 +180,19 @@ module.exports = {
     return { models: campaignsWithReports, meta: { ...pagination, hasCampaigns } };
   },
 
-  checkIfUserOrganizationHasAccessToCampaign(campaignId, userId) {
-    return BookshelfCampaign
-      .query((qb) => {
-        qb.where({ 'campaigns.id': campaignId, 'memberships.userId': userId });
-        qb.innerJoin('memberships', 'memberships.organizationId', 'campaigns.organizationId');
-        qb.innerJoin('organizations', 'organizations.id', 'campaigns.organizationId');
-      })
-      .fetch({
-        require: true,
-      })
-      .then(() => true)
-      .catch(() => false);
+  async checkIfUserOrganizationHasAccessToCampaign(campaignId, userId) {
+    try {
+      await BookshelfCampaign
+        .query((qb) => {
+          qb.where({ 'campaigns.id': campaignId, 'memberships.userId': userId, 'memberships.disabledAt': null });
+          qb.innerJoin('memberships', 'memberships.organizationId', 'campaigns.organizationId');
+          qb.innerJoin('organizations', 'organizations.id', 'campaigns.organizationId');
+        })
+        .fetch({ require: true });
+    } catch (e) {
+      return false;
+    }
+    return true;
   },
 
   async checkIfCampaignIsArchived(campaignId) {

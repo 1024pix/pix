@@ -532,7 +532,7 @@ describe('Integration | Repository | Campaign', () => {
   });
 
   describe('#checkIfUserOrganizationHasAccessToCampaign', () => {
-    let userId, ownerId, organizationId, forbiddenUserId, forbiddenOrganizationId, campaignId;
+    let userId, ownerId, organizationId, userWithDisabledMembershipId, forbiddenUserId, forbiddenOrganizationId, campaignId;
     beforeEach(async () => {
 
       // given
@@ -544,6 +544,9 @@ describe('Integration | Repository | Campaign', () => {
       forbiddenUserId = databaseBuilder.factory.buildUser().id;
       forbiddenOrganizationId = databaseBuilder.factory.buildOrganization().id;
       databaseBuilder.factory.buildMembership({ userId: forbiddenUserId, organizationId: forbiddenOrganizationId });
+
+      userWithDisabledMembershipId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildMembership({ userId: userWithDisabledMembershipId, organizationId, disabledAt: new Date('2020-01-01') });
 
       campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
 
@@ -561,6 +564,14 @@ describe('Integration | Repository | Campaign', () => {
     it('should return false when the user is not a member of an organization that owns campaign', async () => {
       //when
       const access = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, forbiddenUserId);
+
+      //then
+      expect(access).to.be.false;
+    });
+
+    it('should return false when the user is a disabled membership of the organization that owns campaign', async () => {
+      //when
+      const access = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, userWithDisabledMembershipId);
 
       //then
       expect(access).to.be.false;
