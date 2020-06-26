@@ -4,14 +4,14 @@
 
   <div class="rounded-panel user-certifications-page-get--over-background-banner">
     <LinkTo @route="user-certifications" class="link__return-to">
-      <span class="icon-button"> {{fa-icon 'arrow-left'}} </span>
+      <span aria-hidden="true" class="icon-button"> {{fa-icon 'arrow-left'}} </span>
       Retour à mes certifications
     </LinkTo>
     <UserCertificationsDetailHeader @certification={{@model}} />
   </div>
 
-  <div class="user-certifications-page-get--details-body">
-    <UserCertificationsDetailProfile @resultCompetenceTree={{@model.resultCompetenceTree}} />
+  <div class="user-certifications-page-get__details-body">
+    <UserCertificationsDetailCompetencesList @resultCompetenceTree={{@model.resultCompetenceTree}} />
     <UserCertificationsDetailResult @certification={{@model}} />
   </div>
 </div>
