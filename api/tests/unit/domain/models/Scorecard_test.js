@@ -236,10 +236,19 @@ describe('Unit | Domain | Models | Scorecard', () => {
   describe('#computeRemainingDaysBeforeReset', () => {
 
     let testCurrentDate;
+    const originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET;
 
     beforeEach(() => {
       testCurrentDate = new Date('2018-01-10T05:00:00Z');
       sinon.useFakeTimers(testCurrentDate.getTime());
+    });
+
+    before(() => {
+      constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET = 7;
+    });
+
+    after(() => {
+      constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET = originalConstantValue;
     });
 
     [
@@ -272,10 +281,19 @@ describe('Unit | Domain | Models | Scorecard', () => {
   describe('#computeRemainingDaysBeforeImproving', () => {
 
     let testCurrentDate;
+    const originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING;
 
     beforeEach(() => {
       testCurrentDate = new Date('2018-01-10T05:00:00Z');
       sinon.useFakeTimers(testCurrentDate.getTime());
+    });
+
+    before(() => {
+      constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING = 4;
+    });
+
+    after(() => {
+      constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING = originalConstantValue;
     });
 
     [
