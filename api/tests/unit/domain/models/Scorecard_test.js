@@ -75,6 +75,9 @@ describe('Unit | Domain | Models | Scorecard', () => {
       it('should have set the scorecard remainingDaysBeforeReset based on last knowledge element date', () => {
         expect(actualScorecard.remainingDaysBeforeReset).to.equal(7);
       });
+      it('should have set the scorecard remainingDaysBeforeImproving based on last knowledge element date', () => {
+        expect(actualScorecard.remainingDaysBeforeImproving).to.equal(4);
+      });
     });
 
     context('when the competence evaluation has never been started', () => {
@@ -157,6 +160,10 @@ describe('Unit | Domain | Models | Scorecard', () => {
       it('should have a dayBeforeReset at null', () => {
         expect(actualScorecard.remainingDaysBeforeReset).to.be.null;
       });
+
+      it('should have a dayBeforeImproving at null', () => {
+        expect(actualScorecard.remainingDaysBeforeImproving).to.be.null;
+      });
     });
 
     context('when the user level is beyond the upper limit allowed', () => {
@@ -221,7 +228,7 @@ describe('Unit | Domain | Models | Scorecard', () => {
     });
 
     context('when there is no knowledge elements', () => {
-      it('should return null', () => {
+      it('should return null when looking for remainingDaysBeforeReset', () => {
         const knowledgeElements = [];
 
         // when
@@ -230,6 +237,17 @@ describe('Unit | Domain | Models | Scorecard', () => {
         // then
         expect(actualScorecard.remainingDaysBeforeReset).to.equal(null);
       });
+
+      it('should return null when looking for remainingDaysBeforeImproving', () => {
+        const knowledgeElements = [];
+
+        // when
+        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
+
+        // then
+        expect(actualScorecard.remainingDaysBeforeImproving).to.equal(null);
+      });
+
     });
   });
 

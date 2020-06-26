@@ -200,6 +200,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
               'pix-score-ahead-of-next-level': 0,
               status: 'NOT_STARTED',
               'remaining-days-before-reset': null,
+              'remaining-days-before-improving': null,
             },
             relationships: {
               area: {
