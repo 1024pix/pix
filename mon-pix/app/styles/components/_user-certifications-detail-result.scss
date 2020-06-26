@@ -24,6 +24,7 @@
   @include device-is('desktop') {
     min-width: 30%;
     margin-left: 20px;
+    margin-top: calc(25px + 8px);
   }
 
   &__pix-score{
