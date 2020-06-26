@@ -1,3 +1,5 @@
+const Joi = require('@hapi/joi');
+const JSONAPIError = require('jsonapi-serializer').Error;
 const securityPreHandlers = require('../security-pre-handlers');
 const membershipController = require('./membership-controller');
 
@@ -33,6 +35,20 @@ exports.register = async function(server) {
           method: securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster,
           assign: 'isAdminInOrganizationOrHasRolePixMaster'
         }],
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required()
+          }),
+          failAction: (request, h, err) => {
+            const errorHttpStatusCode = 400;
+            const jsonApiError = new JSONAPIError({
+              code: errorHttpStatusCode.toString(),
+              title: 'Bad request',
+              detail: err.details[0].message,
+            });
+            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
+          },
+        },
         handler: membershipController.update,
         description: 'Update organization role by admin for a organization members',
         notes: [

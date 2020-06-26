@@ -10,7 +10,7 @@ describe('Integration | Application | Memberships | membership-controller', () =
 
   beforeEach(() => {
     sinon.stub(usecases, 'createMembership');
-    sinon.stub(usecases, 'updateMembershipRole');
+    sinon.stub(usecases, 'updateMembership');
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
     sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganizationOrHasRolePixMaster');
     httpTestServer = new HttpTestServer(moduleUnderTest);
@@ -96,7 +96,7 @@ describe('Integration | Application | Memberships | membership-controller', () =
         const membership = domainBuilder.buildMembership({
           organizationRole: Membership.roles.MEMBER
         });
-        usecases.updateMembershipRole.resolves(membership);
+        usecases.updateMembership.resolves(membership);
         securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.callsFake((request, h) => h.response(true));
       });
 
