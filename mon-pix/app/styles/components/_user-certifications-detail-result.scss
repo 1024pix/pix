@@ -1,6 +1,4 @@
 .user-certifications-detail-result {
-  background-color: $white;
-  padding: 20px;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -13,6 +11,27 @@
   line-height: 1.625rem;
   margin-bottom: 40px;
 
+  h2 {
+    color: $grey-60;
+    font-family: $font-open-sans;
+    font-size: 1.125rem;
+    margin-bottom: 8px;
+    font-weight: normal;
+  }
+
+  &__badge-clea {
+    margin: 24px;
+    text-align: center;
+  }
+
+  &__comment-jury {
+    margin: 24px 16px;
+    font-family: $font-open-sans;
+    font-size: 1rem;
+    font-weight: $font-medium;
+    line-height: 1.625rem;
+  }
+
   @include device-is('mobile') {
     min-width: 100%;
   }
@@ -24,34 +43,5 @@
   @include device-is('desktop') {
     min-width: 30%;
     margin-left: 20px;
-    margin-top: calc(25px + 8px);
-  }
-
-  &__text-pix-certified {
-    padding-left: 0.781rem;
-
-    border-left-style: solid;
-    border-left-color: $grey-80;
-    border-left-width: 3px;
-  }
-
-  &__badge-clea {
-    align-self: center;
-  }
-
-  &__title-comment-jury {
-    color: $grey-40;
-    font-family: $font-open-sans;
-    font-size: 1rem;
-    font-weight: $font-medium;
-    line-height: 1.625rem;
-  }
-
-  hr {
-    margin-top: 40px;
-    border: 0;
-    width: 100%;
-    background-color: $grey-15;
-    height: 3px;
   }
 }
