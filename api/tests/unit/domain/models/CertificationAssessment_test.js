@@ -23,59 +23,76 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
 
     it('should successfully instantiate object when passing all valid arguments', () => {
       // when
-      expect(() => new CertificationAssessment(validArguments)).not.to.throw(ObjectValidationError);
+      expect(() => new CertificationAssessment(validArguments))
+        .not.to.throw(ObjectValidationError);
     });
 
     it('should throw an ObjectValidationError when id is not valid', () => {
       // when
-      expect(() => new CertificationAssessment({ ...validArguments, id: 'coucou' })).to.throw(ObjectValidationError);
+      expect(() => new CertificationAssessment({ ...validArguments, id: 'coucou' }))
+        .to.throw(ObjectValidationError);
     });
 
     it('should throw an ObjectValidationError when userId is not valid', () => {
       // when
-      expect(() => new CertificationAssessment({ ...validArguments, userId: 'les zouzous' })).to.throw(ObjectValidationError);
+      expect(() => new CertificationAssessment({ ...validArguments, userId: 'les zouzous' }))
+        .to.throw(ObjectValidationError);
     });
 
     it('should throw an ObjectValidationError when certificationCourseId is not valid', () => {
       // when
-      expect(() => new CertificationAssessment({ ...validArguments, certificationCourseId: 'ça gaze ?' })).to.throw(ObjectValidationError);
+      expect(() => new CertificationAssessment({ ...validArguments, certificationCourseId: 'ça gaze ?' }))
+        .to.throw(ObjectValidationError);
     });
 
     it('should throw an ObjectValidationError when createdAt is not valid', () => {
       // when
-      expect(() => new CertificationAssessment({ ...validArguments, createdAt: 'coucou' })).to.throw(ObjectValidationError);
+      expect(() => new CertificationAssessment({ ...validArguments, createdAt: 'coucou' }))
+        .to.throw(ObjectValidationError);
     });
 
     it('should throw an ObjectValidationError when completed is not valid', () => {
       // when
-      expect(() => new CertificationAssessment({ ...validArguments, completedAt: 'ça pétille !' })).to.throw(ObjectValidationError);
+      expect(() => new CertificationAssessment({ ...validArguments, completedAt: 'ça pétille !' }))
+        .to.throw(ObjectValidationError);
     });
 
     _.forIn(CertificationAssessment.states, (value) => {
       it(`should not throw an ObjectValidationError when state is ${value}`, () => {
         // when
-        expect(() => new CertificationAssessment({ ...validArguments, state: value })).not.to.throw(ObjectValidationError);
+        expect(() => new CertificationAssessment({ ...validArguments, state: value }))
+          .not.to.throw(ObjectValidationError);
       });
     });
 
     it('should throw an ObjectValidationError when status is of unknown value', () => {
       // when
-      expect(() => new CertificationAssessment({ ...validArguments, state: 'aaa' })).to.throw(ObjectValidationError);
+      expect(() => new CertificationAssessment({ ...validArguments, state: 'aaa' }))
+        .to.throw(ObjectValidationError);
     });
 
     it('should throw an ObjectValidationError when isV2Certification is not valid', () => {
       // when
-      expect(() => new CertificationAssessment({ ...validArguments, isV2Certification: 'glouglou' })).to.throw(ObjectValidationError);
+      expect(() => new CertificationAssessment({ ...validArguments, isV2Certification: 'glouglou' }))
+        .to.throw(ObjectValidationError);
     });
 
     it('should throw an ObjectValidationError when certificationChallenges is not valid', () => {
       // when
-      expect(() => new CertificationAssessment({ ...validArguments, certificationChallenges: 'glouglou' })).to.throw(ObjectValidationError);
+      expect(() => new CertificationAssessment({ ...validArguments, certificationChallenges: [] }))
+        .to.throw(ObjectValidationError);
     });
 
     it('should throw an ObjectValidationError when certificationAnswers is not valid', () => {
       // when
-      expect(() => new CertificationAssessment({ ...validArguments, certificationAnswers: 'glouglou' })).to.throw(ObjectValidationError);
+      expect(() => new CertificationAssessment({ ...validArguments, certificationAnswers: 'glouglou' }))
+        .to.throw(ObjectValidationError);
+    });
+
+    it('should be valid when certificationAnswers has no answer', () => {
+      // when
+      expect(() => new CertificationAssessment({ ...validArguments, certificationAnswers: [] }))
+        .not.to.throw(ObjectValidationError);
     });
   });
 });

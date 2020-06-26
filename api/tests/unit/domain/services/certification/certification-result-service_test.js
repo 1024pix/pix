@@ -1,6 +1,8 @@
 const _ = require('lodash');
 const { expect, sinon, domainBuilder } = require('../../../../test-helper');
 const certificationResultService = require('../../../../../lib/domain/services/certification-result-service');
+const CertificationAssessment = require('../../../../../lib/domain/models/CertificationAssessment');
+const { states } = require('../../../../../lib/domain/models/CertificationAssessment');
 const Answer = require('../../../../../lib/domain/models/Answer');
 const challengeRepository = require('../../../../../lib/infrastructure/repositories/challenge-repository');
 const competenceRepository = require('../../../../../lib/infrastructure/repositories/competence-repository');
@@ -127,22 +129,27 @@ const userCompetences = [
 describe('Unit | Service | Certification Result Service', function() {
 
   describe('#getCertificationResult', () => {
-    const certificationAssessment = {
-      id: 'id',
-      userId: 'userId',
-      certificationCourseId: 'certificationCourseId',
-      createdAt: 'createdAt',
-      completedAt: 'completedAt',
-      state: 'state',
-      isV2Certification: 'isV2Certification',
+    let certificationAssessment;
+    const certificationAssessmentData = {
+      id: 1,
+      userId: 11,
+      certificationCourseId: 111,
+      createdAt: '2020-02-01T00:00:00Z',
+      completedAt: '2020-02-01T00:00:00Z',
+      state: states.COMPLETED,
+      isV2Certification: true,
     };
 
     describe('Compute certification result for jury (continue on error)', () => {
       const continueOnError = true;
 
       beforeEach(() => {
-        certificationAssessment.certificationAnswers = wrongAnswersForAllChallenges();
-        certificationAssessment.certificationChallenges = challenges;
+        certificationAssessment = new CertificationAssessment({
+          ...certificationAssessmentData,
+          certificationAnswers: wrongAnswersForAllChallenges(),
+          certificationChallenges: challenges,
+        });
+
         sinon.stub(competenceRepository, 'list').resolves(competencesFromAirtable);
         sinon.stub(challengeRepository, 'list').resolves(challengesFromAirTable);
         sinon.stub(userService, 'getCertificationProfile').withArgs({
@@ -175,6 +182,80 @@ describe('Unit | Service | Certification Result Service', function() {
 
         // then
         sinon.assert.calledOnce(competenceRepository.list);
+      });
+
+      context('when assessment is just started', () => {
+        let startedCertificationAssessment;
+
+        beforeEach(() => {
+          startedCertificationAssessment =  new CertificationAssessment({
+            ...certificationAssessment,
+            certificationAnswers: [],
+            completedAt: null,
+            state: states.STARTED
+          });
+        });
+
+        it('should return totalScore = 0', async () => {
+          // when
+          const result = await certificationResultService.getCertificationResult({
+            certificationAssessment: startedCertificationAssessment,
+            continueOnError
+          });
+
+          // then
+          expect(result.totalScore).to.equal(0);
+
+        });
+
+        it('should return list of competences with all certifiedLevel at -1', async () => {
+          const expectedCertifiedCompetences = [{
+            index: '1.1',
+            area_code: '1',
+            id: 'competence_1',
+            name: 'Mener une recherche',
+            obtainedLevel: UNCERTIFIED_LEVEL,
+            positionedLevel: 1,
+            positionedScore: 10,
+            obtainedScore: 0,
+          }, {
+            index: '2.2',
+            area_code: '2',
+            id: 'competence_2',
+            name: 'Partager',
+            obtainedLevel: UNCERTIFIED_LEVEL,
+            positionedLevel: 2,
+            positionedScore: 20,
+            obtainedScore: 0,
+          }, {
+            index: '3.3',
+            area_code: '3',
+            id: 'competence_3',
+            name: 'Adapter',
+            obtainedLevel: UNCERTIFIED_LEVEL,
+            positionedLevel: 3,
+            positionedScore: 30,
+            obtainedScore: 0,
+          }, {
+            index: '4.4',
+            area_code: '4',
+            id: 'competence_4',
+            name: 'Résoudre',
+            obtainedLevel: UNCERTIFIED_LEVEL,
+            positionedLevel: 4,
+            positionedScore: 40,
+            obtainedScore: 0,
+          }];
+
+          // when
+          const result = await certificationResultService.getCertificationResult({
+            certificationAssessment: startedCertificationAssessment,
+            continueOnError
+          });
+
+          // then
+          expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
+        });
       });
 
       context('when reproducibility rate is < 50%', () => {
@@ -1086,20 +1167,6 @@ describe('Unit | Service | Certification Result Service', function() {
 
   describe('#computeAnswersSuccessRate', () => {
 
-    context('when no answers is given', () => {
-
-      it('should have a success rate of 0%', () => {
-        // given
-        const answers = [];
-
-        // when
-        const successRate = certificationResultService._computeAnswersSuccessRate(answers);
-
-        // then
-        expect(successRate).to.equal(0);
-      });
-    });
-
     context('when all answers are OK', () => {
 
       it('should have a success rate of 100%', () => {
@@ -1107,10 +1174,10 @@ describe('Unit | Service | Certification Result Service', function() {
         const answers = [new Answer({ result: 'ok' }), new Answer({ result: 'ok' })];
 
         // when
-        const successRate = certificationResultService._computeAnswersSuccessRate(answers);
+        const reproducibilityRate = certificationResultService._computeAnswersSuccessRate(answers);
 
         // then
-        expect(successRate).to.equal(100);
+        expect(reproducibilityRate).to.equal(100);
       });
     });
 
@@ -1121,10 +1188,10 @@ describe('Unit | Service | Certification Result Service', function() {
         const answers = [new Answer({ result: 'ko' }), new Answer({ result: 'ko' })];
 
         // when
-        const successRate = certificationResultService._computeAnswersSuccessRate(answers);
+        const reproducibilityRate = certificationResultService._computeAnswersSuccessRate(answers);
 
         // then
-        expect(successRate).to.equal(0);
+        expect(reproducibilityRate).to.equal(0);
       });
     });
 
@@ -1135,10 +1202,10 @@ describe('Unit | Service | Certification Result Service', function() {
         const answers = [new Answer({ result: 'ok' }), new Answer({ result: 'ko' })];
 
         // when
-        const successRate = certificationResultService._computeAnswersSuccessRate(answers);
+        const reproducibilityRate = certificationResultService._computeAnswersSuccessRate(answers);
 
         // then
-        expect(successRate).to.equal(50);
+        expect(reproducibilityRate).to.equal(50);
       });
 
       it('should have a success rate of 33.3% with 2W and 1R', () => {
@@ -1146,10 +1213,10 @@ describe('Unit | Service | Certification Result Service', function() {
         const answers = [new Answer({ result: 'ok' }), new Answer({ result: 'aband' }), new Answer({ result: 'ko' })];
 
         // when
-        const successRate = certificationResultService._computeAnswersSuccessRate(answers);
+        const reproducibilityRate = certificationResultService._computeAnswersSuccessRate(answers);
 
         // then
-        expect(successRate).to.be.within(33.333333, 33.333334);
+        expect(reproducibilityRate).to.be.within(33.333333, 33.333334);
       });
 
     });
