@@ -5,6 +5,7 @@ import { setupRenderingTest } from 'ember-mocha';
 import EmberObject from '@ember/object';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import config from '../../../config/environment';
 
 describe('Integration | Component | scorecard-details', function() {
   setupRenderingTest();
@@ -98,6 +99,11 @@ describe('Integration | Component | scorecard-details', function() {
     });
 
     context('When the user has finished a competence', async function() {
+      const configurationForImprovingCompetence = config.APP.FT_IMPROVE_COMPETENCE_EVALUATION;
+      afterEach(function() {
+        config.APP.FT_IMPROVE_COMPETENCE_EVALUATION = configurationForImprovingCompetence;
+      });
+
       beforeEach(async function() {
         // given
         const scorecard = {
@@ -109,6 +115,7 @@ describe('Integration | Component | scorecard-details', function() {
         this.set('scorecard', scorecard);
 
         // when
+        config.APP.FT_IMPROVE_COMPETENCE_EVALUATION = true;
         await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
       });
 
@@ -120,6 +127,11 @@ describe('Integration | Component | scorecard-details', function() {
       it('should not display a button', async function() {
         // then
         expect(find('.scorecard-details__resume-or-start-button')).to.not.exist;
+      });
+
+      it('should show the improving button', function() {
+        // then
+        expect(find('.scorecard-details__improve-button')).to.exist;
       });
 
       context('and the user has reached the max level', async function() {
@@ -146,6 +158,11 @@ describe('Integration | Component | scorecard-details', function() {
         it('should show congrats design', function() {
           // then
           expect(find('.competence-card__congrats')).to.exist;
+        });
+
+        it('should not show the improving button', function() {
+          // then
+          expect(find('.scorecard-details__improve-button')).to.not.exist;
         });
       });
     });
