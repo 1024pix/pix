@@ -5,9 +5,13 @@
       "description": "Indicates that the application is a review app",
       "value": "true"
     },
+    "DOMAIN_PIX_APP": {
+      "generator": "template",
+      "template": "https://app-pr%PR_NUMBER%.review.pix"
+    },
     "DOMAIN_PIX_ORGA": {
       "generator": "template",
-      "template": "https://orga-pr%PR_NUMBER%.review"
+      "template": "https://orga-pr%PR_NUMBER%.review.pix"
     }
   },
   "scripts": {
