@@ -15,6 +15,7 @@ module.exports = {
         'pixScoreAheadOfNextLevel',
         'status',
         'remainingDaysBeforeReset',
+        'remainingDaysBeforeImproving',
         'tutorials',
       ],
 
