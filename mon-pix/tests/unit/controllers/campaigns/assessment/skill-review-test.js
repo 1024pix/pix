@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
-import  EmberObject  from '@ember/object';
+import EmberObject from '@ember/object';
 
 describe('Unit | Controller | Campaigns | Evaluation | Skill Review', function() {
 
@@ -73,8 +73,8 @@ describe('Unit | Controller | Campaigns | Evaluation | Skill Review', function()
 
     it('should showCleaCompetences when campaignParticipationResult has a clea badge', function() {
       // given
-      const cleaBadge = { id : 111 };
-      controller.model.campaignParticipation.campaignParticipationResult.cleaBadge = cleaBadge ;
+      const cleaBadge = { id: 111 };
+      controller.model.campaignParticipation.campaignParticipationResult.cleaBadge = cleaBadge;
 
       // when
       const shouldShowCleaCompetences = controller.showCleaCompetences;
@@ -99,8 +99,8 @@ describe('Unit | Controller | Campaigns | Evaluation | Skill Review', function()
 
     it('should show badges when acquired', function() {
       // given
-      const badges = [{ id : 33, isAcquired: true }];
-      controller.model.campaignParticipation.campaignParticipationResult.campaignParticipationBadges = badges ;
+      const badges = [{ id: 33, isAcquired: true }];
+      controller.model.campaignParticipation.campaignParticipationResult.campaignParticipationBadges = badges;
 
       // when
       const shouldShowBadges = controller.showBadges;
@@ -111,8 +111,8 @@ describe('Unit | Controller | Campaigns | Evaluation | Skill Review', function()
 
     it('should not show badges when not acquired', function() {
       // given
-      const badges = [{ id : 33, isAcquired: false }];
-      controller.model.campaignParticipation.campaignParticipationResult.campaignParticipationBadges = badges ;
+      const badges = [{ id: 33, isAcquired: false }];
+      controller.model.campaignParticipation.campaignParticipationResult.campaignParticipationBadges = badges;
 
       // when
       const shouldShowBadges = controller.showBadges;
@@ -124,7 +124,7 @@ describe('Unit | Controller | Campaigns | Evaluation | Skill Review', function()
     it('should not show badges when none', function() {
       // given
       const badges = [];
-      controller.model.campaignParticipation.campaignParticipationResult.campaignParticipationBadges = badges ;
+      controller.model.campaignParticipation.campaignParticipationResult.campaignParticipationBadges = badges;
 
       // when
       const shouldShowBadges = controller.showBadges;
@@ -133,4 +133,21 @@ describe('Unit | Controller | Campaigns | Evaluation | Skill Review', function()
       expect(shouldShowBadges).to.equal(false);
     });
   });
+
+  describe('#acquiredBadges', function() {
+
+    it('should only display acquired badges', function() {
+      // given
+      const badges = [{ id: 33, isAcquired: true }, { id: 34, isAcquired: false }];
+      controller.model.campaignParticipation.campaignParticipationResult.campaignParticipationBadges = badges;
+
+      // when
+      const acquiredBadges = controller.acquiredBadges;
+
+      // then
+      expect(acquiredBadges).to.deep.equal([{ id: 33, isAcquired: true }]);
+    });
+
+  });
+
 });

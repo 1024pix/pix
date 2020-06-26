@@ -133,7 +133,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
 
         // then
-        expect(find('.skill-review-result__badge')).to.exist;
+        expect(find('.badge-acquired-card')).to.exist;
       });
 
       it('should not display the Pix emploi badge when badge is not acquired', async function() {
@@ -164,7 +164,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
 
         // then
-        expect(findAll('.skill-review-result__badge').length).to.equal(1);
+        expect(findAll('.badge-acquired-card').length).to.equal(1);
       });
 
       it('should share the results', async function() {
