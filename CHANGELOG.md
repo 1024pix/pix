@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v2.167.0 (26/06/2020)
+
+- [#1568](https://github.com/1024pix/pix/pull/1568) [FEATURE] Cacher le bouton Retenter quand l'utilisateur a terminé une compétence avec le niveau max (PIX-759).
+- [#1565](https://github.com/1024pix/pix/pull/1565) [FEATURE] Ajout d'un email de récupération pour les organisations (PIX-843).
+- [#1538](https://github.com/1024pix/pix/pull/1538) [FEATURE] Modification dans le design des badges sur la page de résultat (PIX-778).
+- [#1559](https://github.com/1024pix/pix/pull/1559) [FEATURE] Afficher le bouton retenter sur la carte de la competence (PIX-757).
+- [#1556](https://github.com/1024pix/pix/pull/1556) [FEATURE] Permettre à un prescripteur d'obtenir un e-mail d'invitation en fonction de sa région (PIX-810).
+- [#1551](https://github.com/1024pix/pix/pull/1551) [FEATURE] Ajout de la pagination sur le tableau des élèves (PIX-723)
+- [#1566](https://github.com/1024pix/pix/pull/1566) [BUGFIX] Corriger le pourcentage de la barre de progression lorsque la compétence est retentée (PIX-841).
+- [#1563](https://github.com/1024pix/pix/pull/1563) [BUGFIX] Rollback Ember lint compatibilité (PIX-890)
+- [#1564](https://github.com/1024pix/pix/pull/1564) [BUGFIX] Vérifier qu'un membre désactivé n'accede pas aux routes de campagnes (PIX-857).
+- [#1558](https://github.com/1024pix/pix/pull/1558) [BUGFIX] Rediriger le prescrit vers son parcours après inscription (PIX-886).
+- [#1548](https://github.com/1024pix/pix/pull/1548) [BUGFIX] Bloquer les double-clics sur l'envoi de signalements (PIX-704).
+- [#1528](https://github.com/1024pix/pix/pull/1528) [CLEANUP] Suppression du modèle CampaignAssessment et de son repository (PIX-897)
+- [#1569](https://github.com/1024pix/pix/pull/1569) [CLEANUP] Accélère la manière de construire un CertificationProfile (PIX-896)
+- [#1553](https://github.com/1024pix/pix/pull/1553) [ORGA] Remonter l'item documentation dans le menu. (PIX-461)
+- [#1536](https://github.com/1024pix/pix/pull/1536)  [FEATURE] Afficher un message d'erreur approprié lors de la connexion à Pix App (PIX-367).
+- [#1552](https://github.com/1024pix/pix/pull/1552) [CLEANUP] Corriger les erreurs signalées dans Pix Admin, par le linter dans app/templates/authenticated (PIX-878).
+
 ## v2.166.0 (23/06/2020)
 
 - [#1509](https://github.com/1024pix/pix/pull/1509) [FEATURE] PART-1 : Nouveau visuel certificat (PIX-597)
