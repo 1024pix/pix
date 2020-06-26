@@ -1,0 +1,65 @@
+.badge-acquired-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-column-gap: 32px;
+  grid-row-gap: 24px;
+  padding: 48px 14px;
+
+  @include device-is('tablet') {
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 32px;
+    padding: 48px 0;
+  }
+}
+
+.badge-acquired-card {
+  display: flex;
+  flex-direction: row;
+  box-shadow: $box-shadow-competence-cards;
+  min-height: 150px;
+  justify-content: space-between;
+  border-radius: 10px;
+  overflow: hidden;
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    padding-right: 16px;
+  }
+
+  &-text {
+    &__title {
+      margin: 0;
+      color: $grey-100;
+      font-family: $font-roboto;
+      font-size: 1.12rem;
+      font-weight: $font-medium;
+      letter-spacing: 0.028rem;
+    }
+
+    &__message {
+      margin-bottom: 0;
+      color: $grey-45;
+      font-family: $font-roboto;
+      font-size: 0.75rem;
+      font-weight: $font-normal;
+      letter-spacing: 0.0093rem;
+      line-height: 1.2rem;
+    }
+  }
+
+  &__image {
+    min-width: 120px;
+    max-width: 120px;
+    padding: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $grey-10;
+
+    img {
+      width: 90px;
+    }
+  }
+}
