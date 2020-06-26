@@ -1,17 +1,17 @@
-<div class="user-certifications-detail-competence__box-name">
-  <span class="user-certifications-detail-competence__box-name-label">{{competence.name}}</span>
-  {{#if (gte competence.level 1)}}
-    <div class="user-certifications-detail-competence__box-level">{{competence.level}}</div>
-  {{/if}}
+<div class="rounded-panel user-certifications-detail-competence user-certifications-detail-competence--{{@area.color}}">
+  <h3 class="user-certifications-detail-competence__title">
+    {{@area.title}} 
+    <span class="user-certifications-detail-competence__title--level">niveau</span>
+  </h3>
 
-</div>
-
-<div class="user-certifications-detail-competence__levels-bar-block">
-  {{#each levels as |level index|}}
-    {{#if (gte competence.level level)}}
-      <div class="user-certifications-detail-competence__validate-level user-certifications-detail-competence__level-bar"></div>
-    {{else}}
-      <div class="user-certifications-detail-competence__not-validate-level user-certifications-detail-competence__level-bar"></div>
-    {{/if}}
+  {{#each sortedCompetences as |competence index|}}
+    <p class="user-certifications-detail-competence__competence {{if (lt competence.level 0) "user-certifications-detail-competence__competence--disabled"}}">
+      {{competence.name}}
+      {{#if (eq competence.level 0)}}
+        <span class="user-certifications-detail-competence__competence--level">-</span>
+      {{else}}
+        <span class="user-certifications-detail-competence__competence--level">{{competence.level}}</span>
+      {{/if}}
+    </p>
   {{/each}}
 </div>

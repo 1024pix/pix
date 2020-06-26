@@ -1,152 +1,98 @@
-import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
+import { hbs } from 'ember-cli-htmlbars';
+import EmberObject from '@ember/object';
 import { find, findAll, render } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
+import { A as EmberArray } from '@ember/array';
 
-describe('Integration | Component | user certifications detail competence', function() {
+describe('Integration | Component | user-certifications-detail-competence', function() {
   setupRenderingTest();
 
-  let competence;
+  let area;
+  const PARENT_SELECTOR = '.user-certifications-detail-competence';
+  const TITLE_SELECTOR = `${PARENT_SELECTOR}__title`;
+  const COMPETENCE_SELECTOR = `${PARENT_SELECTOR}__competence`;
+  const DISABLED_CLASS = 'user-certifications-detail-competence__competence--disabled';
 
-  beforeEach(function() {
-    competence = EmberObject.create({
-      'index': 1.2,
-      'level': -1,
-      'name': 'Mener une recherche et une veille d’information',
-      'score': 0,
+  beforeEach(async function() {
+    area = EmberObject.create({
+      code: 3,
+      id: 'recs7Gpf90ln8NCv7',
+      name: '3. Création de contenu',
+      title: 'Création de contenu',
+      resultCompetences: EmberArray([
+        {
+          'index': 1.1,
+          'level': 5,
+          'name': 'Programmer',
+          'score': 41,
+        },
+        {
+          'index': 1.2,
+          'level': -1,
+          'name': 'Adapter les docs à leur finalité',
+          'score': 0,
+        },
+        {
+          'index': 1.3,
+          'level': 0,
+          'name': 'Développer des docs multimédia',
+          'score': 0,
+        },
+        {
+          'index': 1.4,
+          'level': 3,
+          'name': 'Développer des docs textuels',
+          'score': 20,
+        },
+      ]),
     });
+    this.set('area', area);
+
+    // when
+    await render(hbs`{{user-certifications-detail-competence area=area}}`);
   });
 
-  it('renders', async function() {
-    this.set('competence', competence);
-
-    await render(hbs`{{user-certifications-detail-competence competence=competence}}`);
-    expect(find('.user-certifications-detail-competence')).to.exist;
+  it('renders', function() {
+    //then
+    expect(find(`${PARENT_SELECTOR}`)).to.exist;
   });
 
-  context('when competence has level -1', function() {
-
-    beforeEach(async function() {
-      // given
-      this.set('competence', competence);
-
-      // when
-      await render(hbs`{{user-certifications-detail-competence competence=competence}}`);
-    });
-
+  it('should show the title of area', function() {
     // then
-    it('should show the name of competence', function() {
-      // given
-      const divOfName = '.user-certifications-detail-competence__box-name';
-
-      // then
-      expect(find(divOfName).textContent).to.include(competence.name);
-    });
-
-    it('should not show the level of competence', function() {
-      // given
-      const divOfLevel = '.user-certifications-detail-competence__box-level';
-
-      // then
-      expect(find(divOfLevel)).to.not.exist;
-    });
-
-    it('should show all level bar in grey', function() {
-      // given
-      const divOfBarUnvalidatedLevel = '.user-certifications-detail-competence__not-validate-level';
-
-      // then
-      expect(findAll(divOfBarUnvalidatedLevel)).to.have.lengthOf(8);
-    });
+    expect(find(TITLE_SELECTOR).textContent).to.include(area.title);
   });
 
-  context('when competence has level 0', function() {
+  it('should include one competences line per competence', function() {
+    // then
+    expect(findAll(COMPETENCE_SELECTOR)).to.have.lengthOf(area.resultCompetences.length);
+  });
 
-    beforeEach(async function() {
-      // given
-      competence = EmberObject.create({
-        'index': 1.2,
-        'level': 0,
-        'name': 'Mener une recherche et une veille d’information',
-        'score': 0,
+  context('on a specific line of competence', function() {
+
+    context('when competence level is -1', function() {
+
+      it('should be grayed out (almost transparent) and not show the level', function() {
+        expect(find(`${COMPETENCE_SELECTOR}:nth-child(3) span`).textContent).to.equal(area.resultCompetences[1].level.toString());
+        expect(find(`${COMPETENCE_SELECTOR}:nth-child(3)`).classList.toString()).to.include(DISABLED_CLASS);
       });
-      this.set('competence', competence);
-
-      // when
-      await render(hbs`{{user-certifications-detail-competence competence=competence}}`);
     });
 
-    // then
-    it('should show the name of competence', function() {
-      // given
-      const divOfName = '.user-certifications-detail-competence__box-name';
+    context('when competence level is 0', function() {
 
-      // then
-      expect(find(divOfName).textContent).to.include(competence.name);
-    });
-
-    it('should not show the level of competence', function() {
-      // given
-      const divOfLevel = '.user-certifications-detail-competence__box-level';
-
-      // then
-      expect(find(divOfLevel)).to.not.exist;
-    });
-
-    it('should show all level bar in grey', function() {
-      // given
-      const divOfBarUnvalidatedLevel = '.user-certifications-detail-competence__not-validate-level';
-
-      // then
-      expect(findAll(divOfBarUnvalidatedLevel)).to.have.lengthOf(8);
-    });
-  });
-
-  context('when competence has level 5', function() {
-
-    beforeEach(async function() {
-      // given
-      competence = EmberObject.create({
-        'index': 1.2,
-        'level': 5,
-        'name': 'Mener une recherche et une veille d’information',
-        'score': 41,
+      it('should show "-" for the level (not 0)', function() {
+        expect(find(`${COMPETENCE_SELECTOR}:nth-child(4) span`).textContent).to.equal('-');
+        expect(find(`${COMPETENCE_SELECTOR}:nth-child(4)`).classList.toString()).to.not.include(DISABLED_CLASS);
       });
-      this.set('competence', competence);
-
-      // when
-      await render(hbs`{{user-certifications-detail-competence competence=competence}}`);
     });
 
-    // then
-    it('should show the name of competence', function() {
-      // given
-      const divOfName = '.user-certifications-detail-competence__box-name';
+    context('when competence level is greater or equal than 1', function() {
 
-      // then
-      expect(find(divOfName).textContent).to.include(competence.name);
-    });
-
-    it('should show the level of competence', function() {
-      // given
-      const divOfLevel = '.user-certifications-detail-competence__box-level';
-
-      // then
-      expect(find(divOfLevel)).to.exist;
-      expect(find(divOfLevel).textContent).to.include(competence.level);
-
-    });
-
-    it('should show 5 level bar in yellow and 3 in grey', function() {
-      // given
-      const divOfBarValidatedLevel = '.user-certifications-detail-competence__validate-level';
-      const divOfBarUnvalidatedLevel = '.user-certifications-detail-competence__not-validate-level';
-
-      // then
-      expect(findAll(divOfBarValidatedLevel)).to.have.lengthOf(5);
-      expect(findAll(divOfBarUnvalidatedLevel)).to.have.lengthOf(3);
+      it('should show the level', function() {
+        expect(find(`${COMPETENCE_SELECTOR}:nth-child(5) span`).textContent).to.equal('3');
+        expect(find(`${COMPETENCE_SELECTOR}:nth-child(5)`).classList.toString()).to.not.include(DISABLED_CLASS);
+      });
     });
   });
 });
