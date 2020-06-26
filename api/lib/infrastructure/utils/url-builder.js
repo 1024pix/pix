@@ -6,6 +6,6 @@ function getCampaignUrl(locale, campaignCode) {
   if (!campaignCode) {
     return null;
   }
-  const domain = locale === 'fr' ? settings.app.domainOrg : settings.app.domainFr;
-  return `https://app.${domain}/campagnes/${campaignCode}`;
+  const tld = locale === 'fr' ? settings.domain.tldOrg : settings.domain.tldFr;
+  return `${settings.domain.pixApp + tld}/campagnes/${campaignCode}`;
 }
