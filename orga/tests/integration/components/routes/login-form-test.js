@@ -153,6 +153,10 @@ module('Integration | Component | routes/login-form', function(hooks) {
     assert.dom('#login-form-error-message').hasText(errorMessages.NOT_LINKED_ORGANIZATION_MSG);
   });
 
+  test('it should not display context message', async function(assert) {
+    assert.dom('login-form__information').doesNotExist();
+  });
+
   module('when password is hidden', function(hooks) {
 
     hooks.beforeEach(async function() {
