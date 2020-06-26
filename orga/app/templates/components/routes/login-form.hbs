@@ -1,7 +1,9 @@
 <div class="login-form">
-  <div class="login-form__information">
-    L'accès à Pix Orga est limité aux membres invités. Contactez l’administrateur Pix Orga de votre organisation pour qu'il vous invite.
-  </div>
+  {{#unless this.isWithInvitation }}
+    <div class="login-form__information">
+      L'accès à Pix Orga est limité aux membres invités. Contactez l’administrateur Pix Orga de votre organisation pour qu'il vous invite.
+    </div>
+  {{/unless}}
 
   {{#if @hasInvitationError}}
       <div class="login-form__invitation-error">
