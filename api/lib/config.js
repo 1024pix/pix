@@ -43,6 +43,7 @@ module.exports = (function() {
       tldFr: process.env.TLD_FR || '.fr',
       tldOrg: process.env.TLD_ORG || '.org',
       pix: process.env.DOMAIN_PIX || 'https://pix',
+      pixApp: process.env.DOMAIN_PIX_APP || 'https://app.pix',
       pixOrga: process.env.DOMAIN_PIX_ORGA || 'https://orga.pix',
     },
 

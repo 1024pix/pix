@@ -7,16 +7,16 @@ const PIX_ORGA_NAME = 'Pix Orga - Ne pas répondre';
 
 function sendAccountCreationEmail(email, locale, redirectionUrl) {
   let variables = {
-    homeName: `${settings.app.domainFr}`,
-    homeUrl: `https://${settings.app.domainFr}`,
-    redirectionUrl: redirectionUrl || `https://app.${settings.app.domainFr}/connexion`,
+    homeName: `pix${settings.domain.tldFr}`,
+    homeUrl: `${settings.domain.pix + settings.domain.tldFr}`,
+    redirectionUrl: redirectionUrl || `${settings.domain.pixApp + settings.domain.tldFr}/connexion`,
     locale
   };
   if (locale === 'fr') {
     variables = {
-      homeName: `${settings.app.domainOrg}`,
-      homeUrl: `https://${settings.app.domainOrg}`,
-      redirectionUrl: redirectionUrl || `https://app.${settings.app.domainOrg}/connexion`,
+      homeName: `pix${settings.domain.tldOrg}`,
+      homeUrl: `${settings.domain.pix + settings.domain.tldOrg}`,
+      redirectionUrl: redirectionUrl || `${settings.domain.pixApp + settings.domain.tldOrg}/connexion`,
       locale
     };
   }
@@ -33,17 +33,17 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
 
 function sendResetPasswordDemandEmail(email, locale, temporaryKey) {
   let variables = {
-    homeName: `${settings.app.domainFr}`,
-    homeUrl: `https://${settings.app.domainFr}`,
-    resetUrl: `https://app.${settings.app.domainFr}/changer-mot-de-passe/${temporaryKey}`,
+    homeName: `pix${settings.domain.tldFr}`,
+    homeUrl: `${settings.domain.pix + settings.domain.tldFr}`,
+    resetUrl: `${settings.domain.pixApp + settings.domain.tldFr}/changer-mot-de-passe/${temporaryKey}`,
     locale
   };
 
   if (locale === 'fr') {
     variables = {
-      homeName: `${settings.app.domainOrg}`,
-      homeUrl: `https://${settings.app.domainOrg}`,
-      resetUrl: `https://app.${settings.app.domainOrg}/changer-mot-de-passe/${temporaryKey}`,
+      homeName: `pix${settings.domain.tldOrg}`,
+      homeUrl: `${settings.domain.pix + settings.domain.tldOrg}`,
+      resetUrl: `${settings.domain.pixApp + settings.domain.tldOrg}/changer-mot-de-passe/${temporaryKey}`,
       locale
     };
   }
