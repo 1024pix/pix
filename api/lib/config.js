@@ -34,11 +34,6 @@ module.exports = (function() {
       base: process.env.CYPRESS_AIRTABLE_BASE || process.env.AIRTABLE_BASE,
     },
 
-    app: {
-      domainFr: process.env.DOMAIN_NAME_FR || 'pix.fr',
-      domainOrg: process.env.DOMAIN_NAME_ORG || 'pix.org',
-    },
-
     domain: {
       tldFr: process.env.TLD_FR || '.fr',
       tldOrg: process.env.TLD_ORG || '.org',
@@ -136,9 +131,6 @@ module.exports = (function() {
 
   if (process.env.NODE_ENV === 'test') {
     config.port = 0;
-
-    config.app.domainFr = 'pix.fr';
-    config.app.domainOrg = 'pix.org';
 
     config.airtable.apiKey = 'test-api-key';
     config.airtable.base = 'test-base';
