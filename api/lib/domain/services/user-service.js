@@ -141,7 +141,7 @@ async function _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredC
   const certificationProfileToFill = _.clone(certificationProfile);
 
   const knowledgeElementsByCompetence = await knowledgeElementRepository
-    .findUniqByUserIdGroupedByCompetenceId({ userId: certificationProfile.userId, limitDate: certificationProfile.profileDate });
+    .findUniqByUserIdGroupedByCompetenceIdWithSnapshot({ userId: certificationProfile.userId, limitDate: certificationProfile.profileDate });
 
   certificationProfileToFill.userCompetences = _createUserCompetencesV2({
     knowledgeElementsByCompetence,

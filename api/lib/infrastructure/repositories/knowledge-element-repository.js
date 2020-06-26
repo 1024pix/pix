@@ -5,6 +5,7 @@ const { knex } = require('../bookshelf');
 const KnowledgeElement = require('../../domain/models/KnowledgeElement');
 const BookshelfKnowledgeElement = require('../data/knowledge-element');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot-repository');
 
 function _getUniqMostRecents(knowledgeElements) {
   return _(knowledgeElements)
@@ -90,6 +91,20 @@ module.exports = {
 
   async findUniqByUserIdGroupedByCompetenceId({ userId, limitDate }) {
     const knowledgeElements = await this.findUniqByUserId({ userId, limitDate });
+    return _.groupBy(knowledgeElements, 'competenceId');
+  },
+
+  async findUniqByUserIdGroupedByCompetenceIdWithSnapshot({ userId, limitDate }) {
+    console.time(`getSnapshot ${userId}`);
+    let knowledgeElements = await knowledgeElementSnapshotRepository.find({ userId, date: limitDate });
+    console.timeEnd(`getSnapshot ${userId}`);
+
+    if (!knowledgeElements) {
+      knowledgeElements = await this.findUniqByUserId({ userId, limitDate });
+      if (limitDate) {
+        knowledgeElementSnapshotRepository.save({ userId, date: limitDate, knowledgeElements });
+      }
+    }
     return _.groupBy(knowledgeElements, 'competenceId');
   },
 
