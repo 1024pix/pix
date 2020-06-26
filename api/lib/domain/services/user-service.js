@@ -144,7 +144,6 @@ async function _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredC
     .findUniqByUserIdGroupedByCompetenceId({ userId: certificationProfile.userId, limitDate: certificationProfile.profileDate });
 
   certificationProfileToFill.userCompetences = _createUserCompetencesV2({
-    userId: certificationProfile.userId,
     knowledgeElementsByCompetence,
     allCompetences: competences,
     allowExcessPixAndLevels,
