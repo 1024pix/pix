@@ -25,6 +25,7 @@ class Scorecard {
     exactlyEarnedPix,
     status,
     remainingDaysBeforeReset,
+    remainingDaysBeforeImproving,
     tutorials,
   } = {}) {
 
@@ -41,6 +42,7 @@ class Scorecard {
     this.pixScoreAheadOfNextLevel = pixScoreAheadOfNextLevel;
     this.status = status;
     this.remainingDaysBeforeReset = remainingDaysBeforeReset;
+    this.remainingDaysBeforeImproving = remainingDaysBeforeImproving;
     this.tutorials = tutorials;
   }
 
@@ -57,6 +59,7 @@ class Scorecard {
       pixAheadForNextLevel
     } = scoringService.calculateScoringInformationForCompetence({ knowledgeElements, allowExcessPix, allowExcessLevel });
     const remainingDaysBeforeReset = _.isEmpty(knowledgeElements) ? null : Scorecard.computeRemainingDaysBeforeReset(knowledgeElements);
+    const remainingDaysBeforeImproving = _.isEmpty(knowledgeElements) ? null : Scorecard.computeRemainingDaysBeforeImproving(knowledgeElements);
 
     return new Scorecard({
       id: `${userId}_${competence.id}`,
@@ -71,12 +74,20 @@ class Scorecard {
       pixScoreAheadOfNextLevel: pixAheadForNextLevel,
       status: _getScorecardStatus(competenceEvaluation, knowledgeElements),
       remainingDaysBeforeReset,
+      remainingDaysBeforeImproving,
     });
   }
 
   static computeRemainingDaysBeforeReset(knowledgeElements) {
     const daysSinceLastKnowledgeElement = KnowledgeElement.computeDaysSinceLastKnowledgeElement(knowledgeElements);
     const remainingDaysToWait = Math.ceil(constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET - daysSinceLastKnowledgeElement);
+
+    return remainingDaysToWait > 0 ? remainingDaysToWait : 0;
+  }
+
+  static computeRemainingDaysBeforeImproving(knowledgeElements) {
+    const daysSinceLastKnowledgeElement = KnowledgeElement.computeDaysSinceLastKnowledgeElement(knowledgeElements);
+    const remainingDaysToWait = Math.ceil(constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING - daysSinceLastKnowledgeElement);
 
     return remainingDaysToWait > 0 ? remainingDaysToWait : 0;
   }

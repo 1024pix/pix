@@ -233,7 +233,7 @@ describe('Unit | Domain | Models | Scorecard', () => {
     });
   });
 
-  describe('#computeDaysSinceLastKnowledgeElement', () => {
+  describe('#computeRemainingDaysBeforeReset', () => {
 
     let testCurrentDate;
 
@@ -265,6 +265,40 @@ describe('Unit | Domain | Models | Scorecard', () => {
 
         // then
         expect(remainingDaysBeforeReset).to.equal(expectedDaysBeforeReset);
+      });
+    });
+  });
+
+  describe('#computeRemainingDaysBeforeImproving', () => {
+
+    let testCurrentDate;
+
+    beforeEach(() => {
+      testCurrentDate = new Date('2018-01-10T05:00:00Z');
+      sinon.useFakeTimers(testCurrentDate.getTime());
+    });
+
+    [
+      { daysSinceLastKnowledgeElement: 0.0833, expectedDaysBeforeImproving: 4 },
+      { daysSinceLastKnowledgeElement: 0, expectedDaysBeforeImproving: 4 },
+      { daysSinceLastKnowledgeElement: 1, expectedDaysBeforeImproving: 3 },
+      { daysSinceLastKnowledgeElement: 1.5, expectedDaysBeforeImproving: 3 },
+      { daysSinceLastKnowledgeElement: 2.4583, expectedDaysBeforeImproving: 2 },
+      { daysSinceLastKnowledgeElement: 4, expectedDaysBeforeImproving: 0 },
+      { daysSinceLastKnowledgeElement: 7, expectedDaysBeforeImproving: 0 },
+      { daysSinceLastKnowledgeElement: 10, expectedDaysBeforeImproving: 0 },
+    ].forEach(({ daysSinceLastKnowledgeElement, expectedDaysBeforeImproving }) => {
+      it(`should return ${expectedDaysBeforeImproving} days when ${daysSinceLastKnowledgeElement} days passed since last knowledge element`, () => {
+        const date = moment(testCurrentDate).toDate();
+        const knowledgeElements = [{ createdAt: date }];
+
+        computeDaysSinceLastKnowledgeElementStub.returns(daysSinceLastKnowledgeElement);
+
+        // when
+        const remainingDaysBeforeImproving = Scorecard.computeRemainingDaysBeforeImproving(knowledgeElements);
+
+        // then
+        expect(remainingDaysBeforeImproving).to.equal(expectedDaysBeforeImproving);
       });
     });
   });
