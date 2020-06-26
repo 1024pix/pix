@@ -5,6 +5,7 @@ const { knex } = require('../bookshelf');
 const KnowledgeElement = require('../../domain/models/KnowledgeElement');
 const BookshelfKnowledgeElement = require('../data/knowledge-element');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot-repository');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 function _getUniqMostRecents(knowledgeElements) {
@@ -92,6 +93,20 @@ module.exports = {
   async findUniqByUserIdGroupedByCompetenceId({ userId, limitDate }) {
     const knowledgeElements = await this.findUniqByUserId({ userId, limitDate });
     return _.groupBy(knowledgeElements, 'competenceId');
+  },
+
+  async findUniqByUserIdGroupedByCompetenceIdWithSnapshot({ userId, limitDate }) {
+    if (limitDate) {
+      let knowledgeElements = await knowledgeElementSnapshotRepository.findOneByUserIdAndDate({ userId, date: limitDate });
+      if (!knowledgeElements) {
+        knowledgeElements = await this.findUniqByUserId({ userId, limitDate });
+        knowledgeElementSnapshotRepository.save({ userId, date: limitDate, knowledgeElements });
+      }
+      return _.groupBy(knowledgeElements, 'competenceId');
+    } else {
+      const knowledgeElements = await this.findUniqByUserId({ userId, limitDate });
+      return _.groupBy(knowledgeElements, 'competenceId');
+    }
   },
 
   async findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId }) {

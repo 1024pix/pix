@@ -125,5 +125,11 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', () => 
       expect(knowledgeElements.length).to.equal(1);
       expect(knowledgeElements[0].id).to.equal(1);
     });
+
+    it('should return null if no snapshot found for the user and date', async () => {
+      const knowledgeElements = await knowledgeElementSnapshotRepository.find({ userId: 1, date: new Date('2020-01-01') });
+
+      expect(knowledgeElements).to.equal(null);
+    });
   });
 });

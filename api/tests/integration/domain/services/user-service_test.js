@@ -157,7 +157,7 @@ describe('Integration | Service | User Service', function() {
 
       it('should assign 0 pixScore and level of 0 to user competence when not assessed', async () => {
         // given
-        sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceId')
+        sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceIdWithSnapshot')
           .withArgs({ userId, limitDate: sinon.match.any }).resolves({});
 
         // when
@@ -214,7 +214,7 @@ describe('Integration | Service | User Service', function() {
             earnedPix: 23
           });
 
-          sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceId')
+          sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceIdWithSnapshot')
             .withArgs({ userId, limitDate: sinon.match.any }).resolves({ competenceRecordIdTwo: [ke] });
 
           // when
@@ -258,7 +258,7 @@ describe('Integration | Service | User Service', function() {
             source: KnowledgeElement.SourceType.DIRECT
           });
 
-          sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceId')
+          sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceIdWithSnapshot')
             .withArgs({
               userId,
               limitDate: sinon.match.any
@@ -283,7 +283,7 @@ describe('Integration | Service | User Service', function() {
               earnedPix: 64
             });
 
-            sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceId')
+            sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceIdWithSnapshot')
               .withArgs({ userId, limitDate: sinon.match.any }).resolves({ competenceRecordIdOne: [ke] });
 
             // when
@@ -312,7 +312,7 @@ describe('Integration | Service | User Service', function() {
               earnedPix: 64
             });
 
-            sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceId')
+            sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceIdWithSnapshot')
               .withArgs({ userId, limitDate: sinon.match.any }).resolves({ competenceRecordIdOne: [ke] });
 
             // when

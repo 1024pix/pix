@@ -1,5 +1,6 @@
 const BookshelfKnowledgeElementSnapshot = require('../data/knowledge-element-snapshot'); 
 const KnowledgeElement = require('../../domain/models/KnowledgeElement');
+const { knex } = require('../bookshelf');
 
 module.exports = {
   save({ userId, date, knowledgeElements }) {
@@ -11,9 +12,17 @@ module.exports = {
   },
 
   async find({ userId, date }) {
-    const result = await new BookshelfKnowledgeElementSnapshot().where({ userId, createdAt: date }).fetch();
-    const { snapshot } = result.toJSON();
-    return snapshot.map((data) => new KnowledgeElement({
+    const result = await knex
+      .select('snapshot')
+      .from('knowledge-element-snapshots')
+      .where({ userId, createdAt: date })
+      .first();
+
+    if (!result) {
+      return null;
+    }
+
+    return result.snapshot.map((data) => new KnowledgeElement({
       ...data,
       createdAt: new Date(data.createdAt)
     }));
