@@ -9,6 +9,7 @@ class Membership {
     id,
     // attributes
     organizationRole = roles.MEMBER,
+    updatedByUserId,
     // includes
     organization,
     user,
@@ -17,6 +18,7 @@ class Membership {
     this.id = id;
     // attributes
     this.organizationRole = organizationRole;
+    this.updatedByUserId = updatedByUserId;
     // includes
     this.organization = organization;
     this.user = user;

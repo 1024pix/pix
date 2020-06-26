@@ -445,55 +445,84 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
 
   });
 
-  describe('#updateRoleById', () => {
+  describe('#updateById', () => {
 
     let existingMembershipId;
+    let updatedByUserId = null;
 
     beforeEach(async () => {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
+      updatedByUserId = databaseBuilder.factory.buildUser().id;
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       existingMembershipId = databaseBuilder.factory.buildMembership({ organizationId, userId }).id;
 
       await databaseBuilder.commit();
     });
 
-    context('Update when membership is exist', () => {
+    context('When membership exist', () => {
 
-      it('should update organization role with admin role', async () => {
+      it('should update membership attributes', async () => {
         // given
-        const organizationRole = Membership.roles.ADMIN;
+        const membershipAttributes = { organizationRole: Membership.roles.ADMIN, updatedByUserId };
 
         // when
-        const membership = await membershipRepository.updateRoleById({ id: existingMembershipId, organizationRole });
+        const membership = await membershipRepository.updateById({ id: existingMembershipId, membershipAttributes });
 
         // then
         expect(membership).to.be.an.instanceOf(Membership);
-        expect(membership.organizationRole).to.equal(organizationRole);
+        expect(membership.organizationRole).to.equal(membershipAttributes.organizationRole);
+        expect(membership.updatedByUserId).to.equal(membershipAttributes.updatedByUserId);
+      });
+
+      it('should update organization role with admin role', async () => {
+        // given
+        const membershipAttributes = { organizationRole: Membership.roles.ADMIN };
+
+        // when
+        const membership = await membershipRepository.updateById({ id: existingMembershipId, membershipAttributes });
+
+        // then
+        expect(membership).to.be.an.instanceOf(Membership);
+        expect(membership.organizationRole).to.equal(membershipAttributes.organizationRole);
       });
 
       it('should update organization role with member role', async () => {
         // given
         const organizationRole = Membership.roles.MEMBER;
+        const membershipAttributes = { organizationRole };
 
         // when
-        const membership = await membershipRepository.updateRoleById({ id: existingMembershipId, organizationRole });
-
+        const membership = await membershipRepository.updateById({ id: existingMembershipId, membershipAttributes });
         // then
         expect(membership.organizationRole).to.equal(organizationRole);
       });
+
+      it('should save the user identifier who changes the organization role ', async () => {
+        // given
+        const membershipAttributes = { organizationRole: Membership.roles.ADMIN , updatedByUserId };
+
+        // when
+        const membership = await membershipRepository.updateById({ id: existingMembershipId, membershipAttributes });
+
+        // then
+        expect(membership).to.be.an.instanceOf(Membership);
+        expect(membership.organizationRole).to.equal(membershipAttributes.organizationRole);
+        expect(membership.updatedByUserId).to.equal(membershipAttributes.updatedByUserId);
+      });
     });
 
-    context('Update when membership not exist', () => {
+    context('When membership does not exist', () => {
 
-      it('should throw MembershipUpdateError when id membership not exist', async () => {
+      it('should throw MembershipUpdateError', async () => {
         // given
         const organizationRole = Membership.roles.ADMIN;
         const messageNotRowUpdated = 'No Rows Updated';
         const notExistingMembershipId = 9898977;
+        const membershipAttributes = { organizationRole , updatedByUserId };
 
         // when
-        const error = await catchErr(membershipRepository.updateRoleById)({ id: notExistingMembershipId, organizationRole });
+        const error = await catchErr(membershipRepository.updateById)({ id: notExistingMembershipId, membershipAttributes });
 
         // then
         expect(error).to.be.an.instanceOf(MembershipUpdateError);

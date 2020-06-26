@@ -1,4 +1,5 @@
 const { Serializer } = require('jsonapi-serializer');
+const Membership = require('../../../domain/models/Membership');
 
 module.exports = {
 
@@ -80,5 +81,12 @@ module.exports = {
       },
       meta
     }).serialize(membership);
+  },
+
+  deserialize(json) {
+    return new Membership({
+      id: json.data.id,
+      organizationRole: json.data.attributes['organization-role'],
+    });
   }
 };
