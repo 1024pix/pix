@@ -51,7 +51,7 @@ describe('Integration | Component | signup form', function() {
     });
 
     [
-      { locale: 'fr-fr', expectedFormTitle: 'Inscrivez-vous' },
+      { locale: 'fr', expectedFormTitle: 'Inscrivez-vous' },
       { locale: 'en-us', expectedFormTitle: 'Sign up' },
     ].forEach(function(testCase) {
       it(`${testCase.locale}`, async function() {

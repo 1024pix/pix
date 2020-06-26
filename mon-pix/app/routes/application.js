@@ -25,7 +25,7 @@ export default Route.extend(ApplicationRouteMixin, {
   },
 
   async beforeModel(transition) {
-    const defaultLocale = 'fr-fr';
+    const defaultLocale = 'fr';
     this.intl.setLocale([ENV.APP.LOCALE, defaultLocale]);
     await this._checkForURLAuthentication(transition);
     return this._loadCurrentUser();
