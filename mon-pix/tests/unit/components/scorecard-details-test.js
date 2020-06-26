@@ -62,6 +62,24 @@ describe('Unit | Component | scorecard-details ', function() {
     });
   });
 
+  describe('#canImprove', function() {
+    it('returns true if maxlevel not reached', function() {
+      // when
+      const component = createGlimmerComponent('component:scorecard-details', { scorecard: { isFinishedWithMaxLevel: false } });
+
+      // then
+      expect(component.canImprove).to.equal(true);
+    });
+
+    it('returns false if maxlevel reached', function() {
+    // when
+      const component = createGlimmerComponent('component:scorecard-details', { scorecard: { isFinishedWithMaxLevel: true } });
+
+      // then
+      expect(component.canImprove).to.equal(false);
+    });
+  });
+
   describe('#tutorialsGroupedByTubeName', function() {
     it('returns an array of tubes with related tutorials', function() {
       // given
