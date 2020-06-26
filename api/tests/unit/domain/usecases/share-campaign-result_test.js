@@ -17,9 +17,6 @@ describe('Unit | UseCase | share-campaign-result', () => {
     share() {},
     get() {},
   };
-  const campaignAssessmentRepository = {
-    doesAssessmentBelongToUser() {},
-  };
   const assessmentRepository = {
     getByCampaignParticipationId() {},
   };
@@ -44,22 +41,17 @@ describe('Unit | UseCase | share-campaign-result', () => {
         campaignId: campaign.id
       });
       campaignParticipationId = campaignParticipation.id;
-      assessment = domainBuilder.buildCampaignAssessment({ userId });
+      assessment = domainBuilder.buildAssessment.ofTypeCampaign({ userId });
       assessmentId = assessment.id;
 
       sinon.stub(campaignRepository, 'get').resolves(campaign);
       sinon.stub(campaignParticipationRepository, 'get').resolves(campaignParticipation);
-      sinon.stub(campaignAssessmentRepository, 'doesAssessmentBelongToUser');
       sinon.stub(assessmentRepository, 'getByCampaignParticipationId').resolves();
       sinon.stub(dataFetcher, 'fetchForCampaigns').resolves();
       sinon.stub(smartRandom, 'getPossibleSkillsForNextChallenge').returns({ hasAssessmentEnded: true });
     });
 
     context('when the share request comes from the owner of the assessment', () => {
-
-      beforeEach(() => {
-        campaignAssessmentRepository.doesAssessmentBelongToUser.resolves(true);
-      });
 
       context('when the assessmentId is in the database', () => {
 
@@ -81,7 +73,6 @@ describe('Unit | UseCase | share-campaign-result', () => {
             challengeRepository,
             campaignParticipationRepository,
             knowledgeElementRepository,
-            campaignAssessmentRepository,
             campaignRepository,
             targetProfileRepository,
             improvementService,
@@ -115,7 +106,6 @@ describe('Unit | UseCase | share-campaign-result', () => {
             campaignParticipationRepository,
             knowledgeElementRepository,
             challengeRepository,
-            campaignAssessmentRepository,
             campaignRepository,
             targetProfileRepository,
             improvementService,
@@ -141,7 +131,6 @@ describe('Unit | UseCase | share-campaign-result', () => {
             challengeRepository,
             campaignParticipationRepository,
             knowledgeElementRepository,
-            campaignAssessmentRepository,
             campaignRepository,
             targetProfileRepository,
             improvementService,
@@ -173,7 +162,6 @@ describe('Unit | UseCase | share-campaign-result', () => {
             challengeRepository,
             campaignParticipationRepository,
             knowledgeElementRepository,
-            campaignAssessmentRepository,
             campaignRepository,
             targetProfileRepository,
             improvementService,
@@ -189,7 +177,6 @@ describe('Unit | UseCase | share-campaign-result', () => {
 
       beforeEach(() => {
         assessmentRepository.getByCampaignParticipationId.resolves(assessment);
-        campaignAssessmentRepository.doesAssessmentBelongToUser.resolves(false);
       });
 
       it('should reject an UserNotAuthorizedToAccessEntity error', () => {
@@ -206,7 +193,6 @@ describe('Unit | UseCase | share-campaign-result', () => {
           challengeRepository,
           campaignParticipationRepository,
           knowledgeElementRepository,
-          campaignAssessmentRepository,
           campaignRepository,
           targetProfileRepository,
           improvementService,

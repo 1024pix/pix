@@ -3,10 +3,10 @@ const { UserNotAuthorizedToAccessEntity } = require('../errors');
 module.exports = async function findCompetenceEvaluations({
   userId,
   options,
+  assessmentRepository,
   competenceEvaluationRepository,
-  campaignAssessmentRepository,
 }) {
-  if (!(await campaignAssessmentRepository.doesAssessmentBelongToUser(options.filter.assessmentId, userId))) {
+  if (!(await assessmentRepository.belongsToUser(options.filter.assessmentId, userId))) {
     throw new UserNotAuthorizedToAccessEntity('User does not have an access to this competence evaluation');
   }
 

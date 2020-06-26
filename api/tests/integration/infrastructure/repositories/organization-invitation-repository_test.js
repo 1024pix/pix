@@ -246,6 +246,7 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
       organizationInvitation = databaseBuilder.factory.buildOrganizationInvitation({
         organizationId,
         status: OrganizationInvitation.StatusType.PENDING,
+        updatedAt: new Date('2020-01-01T00:00:00Z'),
       });
       await databaseBuilder.commit();
     });

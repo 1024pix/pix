@@ -108,6 +108,14 @@ module.exports = {
     return this._updateStateById({ id: assessmentId, state: Assessment.states.COMPLETED }, domainTransaction.knexTransaction);
   },
 
+  async belongsToUser(id, userId) {
+    const assessment = await BookshelfAssessment
+      .where({ id, userId })
+      .fetch({ columns: 'id' });
+
+    return Boolean(assessment);
+  },
+
   async _updateStateById({ id, state }, knexTransaction) {
     const assessment = await BookshelfAssessment
       .where({ id })
