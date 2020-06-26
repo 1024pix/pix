@@ -15,11 +15,12 @@
 .congratulations-banner__icon {
   color: $white;
   position: absolute;
-  top: 8px;
-  right: 10px;
+  top: 12px;
+  right: 12px;
+  display: flex;
   left: auto;
   bottom: auto;
-  font-size: 0.625rem;
+  font-size: 1.25rem;
   cursor: pointer;
   opacity: .5;
   &:hover, &:active {
@@ -31,7 +32,7 @@
   color: $grey-10;
   font-weight: $font-normal;
   font-family: $font-open-sans;
-  line-height: 0.875em;
-  font-size: 1.5em;
+  font-size: 1.5rem;
+  line-height: 2rem;
   text-align: center;
 }
