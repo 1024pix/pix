@@ -12,7 +12,7 @@ const certificationAssessmentSchema = Joi.object({
   state: Joi.string().valid(states.COMPLETED, states.STARTED, states.ABORTED).required(),
   isV2Certification: Joi.boolean().required(),
   certificationChallenges: Joi.array().min(1).required(),
-  certificationAnswers: Joi.array().min(1).required(),
+  certificationAnswers: Joi.array().min(0).required(),
 });
 
 class CertificationAssessment {
