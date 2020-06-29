@@ -222,4 +222,28 @@
       transition: all 0.1s linear;
     }
   }
+
+  .competence-card-interactions {
+    &__improvement-countdown {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: default;
+    }
+  }
+
+  .competence-card-improvement-countdown {
+    &__label {
+      font-size: 0.6875rem;
+      letter-spacing: 0.0075rem;
+      color: $grey-60;
+    }
+
+    &__count {
+      font-size: 1rem;
+      letter-spacing: 0.010rem;
+      color: $grey-90;
+      margin-top: 6px;
+    }
+  }
 }
