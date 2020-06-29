@@ -524,7 +524,7 @@ describe('Acceptance | Application | organization-controller', () => {
           provinceCode: '45',
           isManagingStudents: true,
           credit: 666,
-          email: 'generic.account@sco.net'
+          email: 'sco.generic.account@example.net'
         });
 
         await databaseBuilder.commit();
