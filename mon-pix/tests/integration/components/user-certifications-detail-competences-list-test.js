@@ -43,7 +43,7 @@ describe('Integration | Component | user-certifications-detail-competences-list'
     this.set('resultCompetenceTree', resultCompetenceTree);
 
     // when
-    await render(hbs`{{user-certifications-detail-competences-list resultCompetenceTree=resultCompetenceTree}}`);
+    await render(hbs`<UserCertificationsDetailCompetencesList @resultCompetenceTree={{this.resultCompetenceTree}} />`);
   });
 
   it('renders', async function() {
@@ -56,7 +56,7 @@ describe('Integration | Component | user-certifications-detail-competences-list'
     expect(find(`${PARENT_SELECTOR} h2`).textContent).to.equal('Compétences certifiées (niveaux sur 5)');
   });
 
-  context('when are has a list of competences', function() {
+  context('when area has a list of competences', function() {
     it('should include one area detail per area', function() {
       // then
       expect(findAll(CONTENT_SELECTOR)).to.have.lengthOf(resultCompetenceTree.areas.length);

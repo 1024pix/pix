@@ -51,7 +51,7 @@ describe('Integration | Component | user-certifications-detail-competence', func
     this.set('area', area);
 
     // when
-    await render(hbs`{{user-certifications-detail-competence area=area}}`);
+    await render(hbs`<UserCertificationsDetailCompetence @area={{this.area}} />`);
   });
 
   it('renders', function() {
