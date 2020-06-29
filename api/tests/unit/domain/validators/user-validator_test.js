@@ -167,7 +167,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           // given
           const expectedError = {
             attribute: 'email',
-            message: 'Votre adresse e-mail n’est pas correcte.'
+            message: 'Le format de l\'adresse e-mail est incorrect.'
           };
           user.email = 'invalid_email';
 

@@ -24,7 +24,7 @@ const userValidationJoiSchema = Joi.object({
     .email()
     .messages({
       'string.empty': 'Votre adresse e-mail n’est pas renseignée.',
-      'string.email': 'Votre adresse e-mail n’est pas correcte.',
+      'string.email': 'Le format de l\'adresse e-mail est incorrect.',
     }),
 
   username: Joi.string()
