@@ -19,6 +19,7 @@ function _toDomain(bookshelfOrganization) {
     isManagingStudents: Boolean(rawOrganization.isManagingStudents),
     credit: rawOrganization.credit,
     canCollectProfiles: Boolean(rawOrganization.canCollectProfiles),
+    email: rawOrganization.email
   });
 
   let members = [];

@@ -11,13 +11,13 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     organizationId: 2,
     organizationRole: Membership.roles.ADMIN,
   });
-
   databaseBuilder.factory.buildOrganization({
     id: 3,
     type: 'SCO',
     name: 'The Night Watch',
     isManagingStudents: true,
     canCollectProfiles: true,
+    email: 'sco.generic.account@example.net'
   });
   databaseBuilder.factory.buildMembership({
     userId: 4,

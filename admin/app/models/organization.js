@@ -12,6 +12,7 @@ export default class Organization extends Model {
   @attr() isManagingStudents;
   @attr() canCollectProfiles;
   @attr() credit;
+  @attr() email;
 
   @equal('type', 'SCO') isOrganizationSCO;
 
