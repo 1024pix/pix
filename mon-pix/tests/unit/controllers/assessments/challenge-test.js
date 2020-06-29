@@ -20,8 +20,8 @@ describe('Unit | Controller | Assessments | Challenge', function() {
         answer: null,
       };
       controller.model = model;
-      controller.progressInEvaluation = {
-        getCurrentStepIndex: sinon.stub().returns(1),
+      controller.progressInAssessment = {
+        getCurrentStepNumber: sinon.stub().returns(2),
         getMaxStepsNumber: sinon.stub().returns(5)
       };
 

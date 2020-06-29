@@ -11,13 +11,18 @@ export default class ChallengeController extends Controller {
   queryParams = ['newLevel', 'competenceLeveled'];
   newLevel = null;
   competenceLeveled = null;
-  @service progressInEvaluation;
+  @service progressInAssessment;
 
   @and('model.assessment.showLevelup', 'newLevel')
   showLevelup;
 
   @computed('model.{assessment,answer}')
   get pageTitle() {
-    return `Épreuve ${this.progressInEvaluation.getCurrentStepIndex(this.model.assessment, _.get(this.model, 'answer.id')) + 1} sur ${this.progressInEvaluation.getMaxStepsNumber(this.model.assessment)}`;
+    const challengeText = 'Épreuve';
+    const outOfText = 'sur';
+    const stepNumber = this.progressInAssessment.getCurrentStepNumber(this.model.assessment, _.get(this.model, 'answer.id'));
+    const totalChallengeNumber = this.progressInAssessment.getMaxStepsNumber(this.model.assessment);
+
+    return `${challengeText} ${stepNumber} ${outOfText} ${totalChallengeNumber}`;
   }
 }
