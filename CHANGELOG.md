@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v2.168.0 (29/06/2020)
+
+- [#1567](https://github.com/1024pix/pix/pull/1567) [FEATURE] Alimenter les adresses e-mail des organisations (PIX-874).
+- [#1571](https://github.com/1024pix/pix/pull/1571) [FEATURE] Afficher l'email de l'organisation dans Pix Admin (PIX-844).
+- [#1557](https://github.com/1024pix/pix/pull/1557) [FEATURE] Sauvegarder l'identifiant de l'administrateur qui a modifié le lien d'un utilisateur avec une organisation (PIX-859).
+- [#1576](https://github.com/1024pix/pix/pull/1576) [BUGFIX] Afficher un message d'erreur dans Pix Orga lorsque l'e-mail d'invitation est incorrect (PIX-471).
+- [#1570](https://github.com/1024pix/pix/pull/1570) [BUGFIX] Fix admin certification detail page
+- [#1574](https://github.com/1024pix/pix/pull/1574) [BUGFIX] Retirer le message de contexte sur la double mire de Pix Orga (PIX-912).
+- [#1562](https://github.com/1024pix/pix/pull/1562) [CLEANUP] Corriger les erreurs signalées dans Pix Admin par le linter (PIX-889).
+- [#1575](https://github.com/1024pix/pix/pull/1575) [A11Y] Supprimer target='blank" des fichiers téléchargeables depuis les épreuves (PIX-835).
+- [#1573](https://github.com/1024pix/pix/pull/1573) [INFRA] Permettre que les e-mails renvoient vers le bon environnement (PIX-888).
+
 ## v2.167.0 (26/06/2020)
 
 - [#1568](https://github.com/1024pix/pix/pull/1568) [FEATURE] Cacher le bouton Retenter quand l'utilisateur a terminé une compétence avec le niveau max (PIX-759).
