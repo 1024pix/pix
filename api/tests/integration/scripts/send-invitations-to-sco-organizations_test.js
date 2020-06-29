@@ -23,7 +23,7 @@ describe('Integration | Scripts | send-invitations-to-sco-organizations.js', () 
       const result = await getOrganizationByExternalId(externalId);
 
       // then
-      expect(_.omit(result, ['memberships', 'organizationInvitations', 'students', 'targetProfileShares']))
+      expect(_.omit(result, ['email', 'memberships', 'organizationInvitations', 'students', 'targetProfileShares']))
         .to.deep.equal(expectedOrganization);
     });
   });

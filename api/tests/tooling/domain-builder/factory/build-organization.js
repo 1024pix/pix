@@ -37,11 +37,12 @@ function buildOrganization(
     isManagingStudents = false,
     credit = 500,
     canCollectProfiles = false,
+    email,
     createdAt = new Date('2018-01-12T01:02:03Z'),
     memberships = [],
     targetProfileShares = []
   } = {}) {
-  return new Organization({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, credit, canCollectProfiles, createdAt, memberships, targetProfileShares });
+  return new Organization({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, credit, email, canCollectProfiles, createdAt, memberships, targetProfileShares });
 }
 
 buildOrganization.withMembers = function(

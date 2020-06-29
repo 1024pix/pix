@@ -7,7 +7,7 @@ describe('Unit | UseCase | get-organization-details', () => {
   it('should return the Organization matching the given organization ID', () => {
     // given
     const organizationId = 1234;
-    const foundOrganization = domainBuilder.buildOrganization({ id: organizationId });
+    const foundOrganization = domainBuilder.buildOrganization({ id: organizationId, email: 'sco.generic.account@example.net' });
     const organizationRepository = {
       get: sinon.stub().resolves(foundOrganization)
     };

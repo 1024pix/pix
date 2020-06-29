@@ -7,7 +7,7 @@ describe('Unit | Serializer | organization-serializer', () => {
 
     it('should return a JSON API serialized organization', () => {
       // given
-      const organization = domainBuilder.buildOrganization();
+      const organization = domainBuilder.buildOrganization({ email: 'sco.generic.account@example.net' });
       const meta = { some: 'meta' };
       // when
       const serializedOrganization = serializer.serialize(organization, meta);
@@ -25,7 +25,8 @@ describe('Unit | Serializer | organization-serializer', () => {
             'province-code': organization.provinceCode,
             'is-managing-students': organization.isManagingStudents,
             'credit': organization.credit,
-            'can-collect-profiles': organization.canCollectProfiles
+            'can-collect-profiles': organization.canCollectProfiles,
+            'email': organization.email
           },
           relationships: {
             memberships: {
