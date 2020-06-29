@@ -29,11 +29,11 @@
   </LinkTo>
 
   {{#if @scorecard.isFinishedWithMaxLevel}}
-    <footer class="competence-card__congrats-message">
+    <div class="competence-card__congrats-message">
       Bravo !
-    </footer>
+    </div>
   {{else}}
-    <footer class="competence-card__footer">
+    <div class="competence-card__interactions">
       {{#if @scorecard.isFinished}}
         {{#if this.displayImproveButton}}
           <button class="button button--extra-thin button--round button--link button--green competence-card__button" {{action "improveCompetenceEvaluation"}}>
@@ -58,6 +58,6 @@
           </span>
         </LinkTo>
       {{/if}}
-    </footer>
+    </div>
   {{/if}}
 </article>
