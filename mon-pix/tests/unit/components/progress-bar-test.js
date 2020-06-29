@@ -1,24 +1,29 @@
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import { htmlSafe } from '@ember/string';
 import sinon from 'sinon';
+import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
 describe('Unit | Component | progress-bar', function() {
 
   setupTest();
+  let component;
+
+  beforeEach(function() {
+    component = createGlimmerComponent('component:progress-bar');
+  });
 
   describe('@currentStepIndex', function() {
     it('should return the current step index from service', function() {
       // given
       const expectedCurrentStepIndex = 2;
-      const component = this.owner.lookup('component:progress-bar');
       component.progressInAssessment = {
         getCurrentStepIndex: sinon.stub().returns(expectedCurrentStepIndex),
       };
 
       // when
-      const currentStepNumber = component.get('currentStepIndex');
+      const currentStepNumber = component.currentStepIndex;
 
       // then
       expect(currentStepNumber).to.deep.equal(expectedCurrentStepIndex);
@@ -30,13 +35,12 @@ describe('Unit | Component | progress-bar', function() {
     it('should return the maxStepsNumber from service', function() {
       // given
       const expectedMaxStepsNumber = 5;
-      const component = this.owner.lookup('component:progress-bar');
       component.progressInAssessment = {
         getMaxStepsNumber: sinon.stub().returns(expectedMaxStepsNumber),
       };
 
       // when
-      const maxStepsNumber = component.get('maxStepsNumber');
+      const maxStepsNumber = component.maxStepsNumber;
 
       // then
       expect(maxStepsNumber).to.deep.equal(expectedMaxStepsNumber);
@@ -48,13 +52,12 @@ describe('Unit | Component | progress-bar', function() {
     it('should return the currentStepNumber from service', function() {
       // given
       const expectedCurrentStepNumber = 3;
-      const component = this.owner.lookup('component:progress-bar');
       component.progressInAssessment = {
         getCurrentStepNumber: sinon.stub().returns(expectedCurrentStepNumber),
       };
 
       // when
-      const currentStepNumber = component.get('currentStepNumber');
+      const currentStepNumber = component.currentStepNumber;
 
       // then
       expect(currentStepNumber).to.deep.equal(expectedCurrentStepNumber);
@@ -65,12 +68,13 @@ describe('Unit | Component | progress-bar', function() {
 
     it('should return the steps specifics', function() {
       // given
-      const component = this.owner.lookup('component:progress-bar');
-      component.set('currentStepIndex', 2);
-      component.set('maxStepsNumber', 4);
+      component.progressInAssessment = {
+        getCurrentStepIndex: sinon.stub().returns(2),
+        getMaxStepsNumber: sinon.stub().returns(4),
+      };
 
       // when
-      const steps = component.get('steps');
+      const steps = component.steps;
 
       // then
       expect(steps).to.deep.equal([
@@ -86,12 +90,13 @@ describe('Unit | Component | progress-bar', function() {
 
     it('should return the progressionWidth', function() {
       // given
-      const component = this.owner.lookup('component:progress-bar');
-      component.set('currentStepIndex', 2);
-      component.set('maxStepsNumber', 5);
+      component.progressInAssessment = {
+        getCurrentStepIndex: sinon.stub().returns(2),
+        getMaxStepsNumber: sinon.stub().returns(5),
+      };
 
       // when
-      const progressionWidth = component.get('progressionWidth');
+      const progressionWidth = component.progressionWidth;
 
       // then
       expect(progressionWidth).to.deep.equal(htmlSafe('width: 50.85%;'));
@@ -99,12 +104,13 @@ describe('Unit | Component | progress-bar', function() {
 
     it('should return the initial progressionWidth', function() {
       // given
-      const component = this.owner.lookup('component:progress-bar');
-      component.set('currentStepIndex', 0);
-      component.set('maxStepsNumber', 5);
+      component.progressInAssessment = {
+        getCurrentStepIndex: sinon.stub().returns(0),
+        getMaxStepsNumber: sinon.stub().returns(5),
+      };
 
       // when
-      const progressionWidth = component.get('progressionWidth');
+      const progressionWidth = component.progressionWidth;
 
       // then
       expect(progressionWidth).to.deep.equal(htmlSafe('width: 16px;'));

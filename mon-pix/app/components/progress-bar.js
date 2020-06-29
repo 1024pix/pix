@@ -1,41 +1,31 @@
-import { computed } from '@ember/object';
+import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { htmlSafe } from '@ember/string';
 import colorGradient from 'mon-pix/utils/color-gradient';
-import Component from '@ember/component';
-import classic from 'ember-classic-decorator';
 
-const { and } = computed;
-
-const minWidthPercent = 1.7;
-const minWidthPixel = 16;
-
-@classic
 export default class ProgressBar extends Component {
   @service media;
   @service progressInAssessment;
 
-  @and('media.isDesktop', 'assessment.showProgressBar')
-  showProgressBar;
+  minWidthPercent = 1.7;
+  minWidthPixel = 16;
 
-  @computed('answerId', 'assessment.answers.[]')
+  get showProgressBar() {
+    return this.args.assessment.showProgressBar && this.media.isDesktop;
+  }
+
   get currentStepIndex() {
-    return this.progressInAssessment.getCurrentStepIndex(this.assessment, this.answerId);
+    return this.progressInAssessment.getCurrentStepIndex(this.args.assessment, this.args.answerId);
   }
 
-  @computed(
-    'assessment.{hasCheckpoints,certificationCourse.nbChallenges,course.nbChallenges}'
-  )
   get maxStepsNumber() {
-    return this.progressInAssessment.getMaxStepsNumber(this.assessment);
+    return this.progressInAssessment.getMaxStepsNumber(this.args.assessment);
   }
 
-  @computed('answerId', 'assessment.answers.[]')
   get currentStepNumber() {
-    return this.progressInAssessment.getCurrentStepNumber(this.assessment, this.answerId);
+    return this.progressInAssessment.getCurrentStepNumber(this.args.assessment, this.args.answerId);
   }
 
-  @computed('currentStepIndex', 'maxStepsNumber')
   get steps() {
     const steps = [];
 
@@ -52,11 +42,10 @@ export default class ProgressBar extends Component {
     return steps;
   }
 
-  @computed('currentStepIndex', 'maxStepsNumber')
   get progressionWidth() {
-    const widthPercent = minWidthPercent + (100 - minWidthPercent) * this.currentStepIndex  / (this.maxStepsNumber - 1);
+    const widthPercent = this.minWidthPercent + (100 - this.minWidthPercent) * this.currentStepIndex  / (this.maxStepsNumber - 1);
 
-    const width = this.currentStepIndex === 0 ? `${minWidthPixel}px` : `${widthPercent}%`;
+    const width = this.currentStepIndex === 0 ? `${this.minWidthPixel}px` : `${widthPercent}%`;
 
     return htmlSafe(`width: ${width};`);
   }
