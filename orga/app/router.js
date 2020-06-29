@@ -17,6 +17,7 @@ Router.map(function() {
   this.route('login', { path: 'connexion' });
 
   this.route('join', { path: 'rejoindre' });
+  this.route('join-request', { path: '/demande-administration-sco' });
   this.route('join-when-authenticated');
 
   this.route('terms-of-service', { path: '/cgu' });
