@@ -12,13 +12,13 @@ const answerRepository = require('../../../lib/infrastructure/repositories/answe
 const knowledgeElementRepository = require('../../../lib/infrastructure/repositories/knowledge-element-repository');
 const scoringService = require('../../../lib/domain/services/scoring/scoring-service');
 
-async function getCertificationProfile({ userId, limitDate, competences, isV2Certification = true, allowExcessPixAndLevels = true }) {
+async function getCertificationProfile({ userId, limitDate, competences, knowledgeElements, isV2Certification = true, allowExcessPixAndLevels = true }) {
   const certificationProfile = new CertificationProfile({
     userId,
     profileDate: limitDate,
   });
   if (isV2Certification) {
-    return _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV2({ certificationProfile, competences, allowExcessPixAndLevels });
+    return _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV2({ certificationProfile, competences, knowledgeElements, allowExcessPixAndLevels });
   }
   return _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV1({ certificationProfile, competences });
 }
@@ -137,11 +137,13 @@ function _createUserCompetencesV2({ knowledgeElementsByCompetence, allCompetence
   });
 }
 
-async function _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV2({ certificationProfile, competences, allowExcessPixAndLevels }) {
+async function _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV2({ certificationProfile, competences, knowledgeElements, allowExcessPixAndLevels }) {
   const certificationProfileToFill = _.clone(certificationProfile);
 
-  const knowledgeElementsByCompetence = await knowledgeElementRepository
-    .findUniqByUserIdGroupedByCompetenceIdWithSnapshot({ userId: certificationProfile.userId, limitDate: certificationProfile.profileDate });
+  let knowledgeElementsByCompetence = _.groupBy(knowledgeElements, 'competenceId');
+  if (!knowledgeElements) {
+    knowledgeElementsByCompetence = await knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceIdWithSnapshot({ userId: certificationProfile.userId, limitDate: certificationProfile.profileDate });
+  }
 
   certificationProfileToFill.userCompetences = _createUserCompetencesV2({
     knowledgeElementsByCompetence,

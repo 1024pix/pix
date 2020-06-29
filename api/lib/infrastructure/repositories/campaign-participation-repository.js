@@ -10,6 +10,7 @@ const Bookshelf = require('../bookshelf');
 
 const fp = require('lodash/fp');
 const _ = require('lodash');
+const KnowledgeElement = require('../../domain/models/KnowledgeElement');
 
 function _toDomain(bookshelfCampaignParticipation) {
   return new CampaignParticipation({
@@ -74,9 +75,14 @@ module.exports = {
           'campaign-participations.*',
           'users.firstName',
           'users.lastName',
+          'knowledge-element-snapshots.snapshot',
         ])
           .from('campaign-participations')
           .leftJoin('users', 'campaign-participations.userId', 'users.id')
+          .leftJoin('knowledge-element-snapshots', function() {
+            this.on('campaign-participations.userId', 'knowledge-element-snapshots.userId');
+            this.on('campaign-participations.sharedAt', 'knowledge-element-snapshots.createdAt');
+          })
           .where({ campaignId });
       })
       .from('campaignParticipationWithUser');
@@ -238,5 +244,9 @@ function _rowToResult(row) {
     isCompleted: row.state === 'completed',
     participantFirstName: row.firstName,
     participantLastName: row.lastName,
+    knowledgeElements: row.snapshot && row.snapshot.map((data) => new KnowledgeElement({
+      ...data,
+      createdAt: new Date(data.createdAt)
+    })),
   };
 }
