@@ -191,4 +191,69 @@ describe('Unit | Component | scorecard-details ', function() {
     });
 
   });
+
+  describe('#computeRemainingDaysBeforeImproving', function() {
+    let component, scorecard;
+
+    beforeEach(() => {
+      const competenceId = 'recCompetenceId';
+      scorecard = EmberObject.create({ competenceId });
+      component = createGlimmerComponent('component:scorecard-details', { scorecard });
+    });
+
+    it('should return a singular sentence when remaining days before improving are equal to 1', () => {
+      // given
+      scorecard.remainingDaysBeforeImproving = 1;
+
+      // when
+      const result = component.computeRemainingDaysBeforeImproving;
+
+      // then
+      expect(result).to.be.equal('1 jour');
+    });
+
+    it('should return a plural sentence when remaining days before improving are different than 1', () => {
+      // given
+      scorecard.remainingDaysBeforeImproving = 3;
+
+      // when
+      const result = component.computeRemainingDaysBeforeImproving;
+
+      // then
+      expect(result).to.be.equal('3 jours');
+    });
+  });
+
+  describe('#shouldWaitBeforeImproving', function() {
+    let component, scorecard;
+
+    beforeEach(() => {
+      const competenceId = 'recCompetenceId';
+      scorecard = EmberObject.create({ competenceId });
+      component = createGlimmerComponent('component:competence-card-default', { scorecard });
+    });
+
+    it('should return true when remaining days before improving are different than 0', () => {
+      // given
+      scorecard.remainingDaysBeforeImproving = 3;
+
+      // when
+      const result = component.shouldWaitBeforeImproving;
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return false when remaining days before improving are equal to 0', () => {
+      // given
+      scorecard.remainingDaysBeforeImproving = 0;
+
+      // when
+      const result = component.shouldWaitBeforeImproving;
+
+      // then
+      expect(result).to.be.false;
+    });
+  });
+
 });
