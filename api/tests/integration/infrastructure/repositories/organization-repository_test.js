@@ -118,7 +118,7 @@ describe('Integration | Repository | Organization', function() {
         provinceCode: '75',
         isManagingStudents: 'true',
         canCollectProfiles: 'true',
-        email: 'generic.account@sco.net'
+        email: 'sco.generic.account@example.net'
       };
 
       let expectedAttributes;
@@ -135,7 +135,7 @@ describe('Integration | Repository | Organization', function() {
           provinceCode: '75',
           isManagingStudents: true,
           canCollectProfiles: true,
-          email: 'generic.account@sco.net',
+          email: 'sco.generic.account@example.net',
           members: [],
           memberships: [],
           students: [],

@@ -17,7 +17,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     name: 'The Night Watch',
     isManagingStudents: true,
     canCollectProfiles: true,
-    email: 'generic.account@sco.net'
+    email: 'sco.generic.account@example.net'
   });
   databaseBuilder.factory.buildMembership({
     userId: 4,
