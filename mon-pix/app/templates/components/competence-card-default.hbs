@@ -36,13 +36,20 @@
     <div class="competence-card__interactions">
       {{#if @scorecard.isFinished}}
         {{#if this.displayImproveButton}}
-          <button class="button button--extra-thin button--round button--link button--green competence-card__button" {{action "improveCompetenceEvaluation"}}>
-            <span class="competence-card-button__label">Retenter <span class="sr-only">la compétence "{{@scorecard.name}}"</span>
-            </span>
-            <span class="competence-card-button__arrow">
-            <FaIcon @icon='long-arrow-alt-right'></FaIcon>
-            </span>
-          </button>
+          {{#if this.shouldWaitBeforeImproving}}
+            <div class="competence-card-interactions__improvement-countdown">
+              <span class="competence-card-improvement-countdown__label">Tenter le niveau supérieur dans</span>
+              <span class="competence-card-improvement-countdown__count">{{this.computeRemainingDaysBeforeImproving}}</span>
+            </div>
+          {{else}}
+            <button class="button button--extra-thin button--round button--link button--green competence-card__button" {{action "improveCompetenceEvaluation"}}>
+              <span class="competence-card-button__label">Retenter <span class="sr-only">la compétence "{{@scorecard.name}}"</span>
+              </span>
+              <span class="competence-card-button__arrow">
+              <FaIcon @icon='long-arrow-alt-right'></FaIcon>
+              </span>
+            </button>
+          {{/if}}
         {{/if}}
       {{else}}
         <LinkTo @route="competences.resume" @model={{@scorecard.competenceId}} class="button button--extra-thin button--round button--link button--green competence-card__button">
