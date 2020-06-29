@@ -33,7 +33,7 @@ describe('Acceptance | Tutorial | Actions', function() {
     it('should display tutorial item in competence page with actions', async function() {
       // when
       await visit('/profil');
-      await click(`.rounded-panel-body__areas:nth-child(${firstScorecard.area.code}) .rounded-panel-body__competence-card:nth-child(${competenceNumber}) .competence-card__header`);
+      await click(`.rounded-panel-body__areas:nth-child(${firstScorecard.area.code}) .rounded-panel-body__competence-card:nth-child(${competenceNumber}) .competence-card__title`);
 
       // then
       expect(find('.tutorial__content')).to.exist;
@@ -44,7 +44,7 @@ describe('Acceptance | Tutorial | Actions', function() {
     it('should disable evaluate action on click', async function() {
       // when
       await visit('/profil');
-      await click(`.rounded-panel-body__areas:nth-child(${firstScorecard.area.code}) .rounded-panel-body__competence-card:nth-child(${competenceNumber}) .competence-card__header`);
+      await click(`.rounded-panel-body__areas:nth-child(${firstScorecard.area.code}) .rounded-panel-body__competence-card:nth-child(${competenceNumber}) .competence-card__title`);
       await click('.tutorial-content-actions__evaluate');
 
       // then
