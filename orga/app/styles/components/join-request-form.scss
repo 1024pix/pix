@@ -1,0 +1,56 @@
+.join-request-form {
+
+  &__information {
+    font-family: $roboto;
+    font-size: 0.875rem;
+    line-height: 1.375rem;
+    margin: 0 0 24px;
+  }
+
+  &__error-message {
+    margin-bottom: 10px;
+    font-size: 0.875rem;
+    text-align: center;
+  }
+
+  &__back {
+    font-size: 1rem;
+    text-align: left;
+
+    a {
+      color: $communication-dark;
+      text-decoration: none;
+
+      svg {
+        margin-right: 4px;
+        transition: all .2s ease-in-out;
+      }
+
+      &:hover {
+        text-decoration: underline;
+
+        svg {
+          transform: scale(1.2);
+        }
+      }
+    }
+  }
+
+  &__button {
+    font-weight: 600;
+    margin-top: 8px;
+  }
+
+  .input-container {
+    margin-bottom: 16px;
+  }
+
+  form {
+    margin: auto;
+    width: 300px;
+
+    @include device-is('tablet') {
+      width: 450px;
+    }
+  }
+}
