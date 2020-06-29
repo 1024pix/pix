@@ -1,22 +1,18 @@
 import _ from 'lodash';
-import classic from 'ember-classic-decorator';
-import { computed } from '@ember/object';
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 
-const { and } = computed;
-
-@classic
 export default class ChallengeController extends Controller {
   queryParams = ['newLevel', 'competenceLeveled'];
-  newLevel = null;
-  competenceLeveled = null;
+  @tracked newLevel = null;
+  @tracked competenceLeveled = null;
   @service progressInAssessment;
 
-  @and('model.assessment.showLevelup', 'newLevel')
-  showLevelup;
+  get showLevelup() {
+    return this.model.assessment.showLevelup && this.newLevel;
+  }
 
-  @computed('model.{assessment,answer}')
   get pageTitle() {
     const challengeText = 'Épreuve';
     const outOfText = 'sur';
