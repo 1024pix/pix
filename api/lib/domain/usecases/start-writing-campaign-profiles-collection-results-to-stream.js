@@ -1,10 +1,10 @@
 const _ = require('lodash');
 const moment = require('moment');
-const bluebird = require('bluebird');
 
-const constants = require('../../infrastructure/constants');
 const { UserNotAuthorizedToGetCampaignResultsError, CampaignWithoutOrganizationError } = require('../errors');
 const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
+const KnowledgeElement = require('../models/KnowledgeElement');
+const { Transform } = require('stream');
 
 async function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
   if (_.isNil(organizationId)) {
@@ -141,10 +141,9 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
 
   await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
 
-  const [allCompetences, organization, campaignParticipationResultDatas] = await Promise.all([
+  const [allCompetences, organization] = await Promise.all([
     competenceRepository.listPixCompetencesOnly(),
     organizationRepository.get(campaign.organizationId),
-    campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId(campaign.id, campaign.type),
   ]);
   const headers = _createHeaderOfCSV(allCompetences, campaign.idPixLabel);
 
@@ -152,42 +151,63 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
   // - https://en.wikipedia.org/wiki/Byte_order_mark
   // - https://stackoverflow.com/a/38192870
   const headerLine = '\uFEFF' + csvSerializer.serializeLine(_.map(headers, 'title'));
-
   writableStream.write(headerLine);
 
-  // No return/await here, we need the writing to continue in the background
-  // after this function's returned promise resolves. If we await the map
-  // function, node will keep all the data in memory until the end of the
-  // complete operation.
-  bluebird.map(campaignParticipationResultDatas, async (campaignParticipationResultData) => {
+  const transformLine = new Transform({
+    readableObjectMode: true,
+    writableObjectMode: true,
+    async transform(chunk, encoding, callback) {
+      const campaignParticipationResultData = _rowToResult(chunk);
 
-    const certificationProfile = await userService.getCertificationProfile({
-      userId: campaignParticipationResultData.userId,
-      limitDate: campaignParticipationResultData.sharedAt,
-      competences: allCompetences,
-      allowExcessPixAndLevels: false,
-      knowledgeElements: campaignParticipationResultData.knowledgeElements,
-    });
+      const certificationProfile = await userService.getCertificationProfile({
+        userId: campaignParticipationResultData.userId,
+        limitDate: campaignParticipationResultData.sharedAt,
+        competences: allCompetences,
+        allowExcessPixAndLevels: false,
+        knowledgeElements: campaignParticipationResultData.knowledgeElements,
+      });
 
-    const csvLine = _createOneLineOfCSV({
-      headers,
-      organization,
-      campaign,
-      campaignParticipationResultData,
-      certificationProfile,
+      const csvLine = _createOneLineOfCSV({
+        headers,
+        organization,
+        campaign,
+        campaignParticipationResultData,
+        certificationProfile,
+        participantFirstName: campaignParticipationResultData.participantFirstName,
+        participantLastName: campaignParticipationResultData.participantLastName,
+      });
 
-      participantFirstName: campaignParticipationResultData.participantFirstName,
-      participantLastName: campaignParticipationResultData.participantLastName,
-    });
-
-    writableStream.write(csvLine);
-  }, { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }).then(() => {
-    writableStream.end();
-  }).catch((error) => {
-    writableStream.emit('error', error);
-    throw error;
+      this.push(csvLine);
+      callback();
+    }
   });
 
+  const stream = campaignParticipationRepository
+    .findProfilesCollectionResultDataByCampaignId(campaign.id, campaign.type)
+    .stream({ highWaterMark: 20 }); // nb row streamed
+  
+  stream
+    .pipe(transformLine)
+    .pipe(writableStream);
+    
   const fileName = `Resultats-${campaign.name}-${campaign.id}-${moment.utc().format('YYYY-MM-DD-hhmm')}.csv`;
-  return { fileName };
+  return { fileName, stream };
 };
+
+function _rowToResult(row) {
+  return {
+    id: row.id,
+    createdAt: new Date(row.createdAt),
+    isShared: Boolean(row.isShared),
+    sharedAt: row.sharedAt ? new Date(row.sharedAt) : null,
+    participantExternalId: row.participantExternalId,
+    userId: row.userId,
+    isCompleted: row.state === 'completed',
+    participantFirstName: row.firstName,
+    participantLastName: row.lastName,
+    knowledgeElements: row.snapshot && row.snapshot.map((data) => new KnowledgeElement({
+      ...data,
+      createdAt: new Date(data.createdAt)
+    })),
+  };
+}

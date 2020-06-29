@@ -75,7 +75,7 @@ module.exports = {
 
     const writableStream = new PassThrough();
 
-    const { fileName } = await usecases.startWritingCampaignProfilesCollectionResultsToStream({ userId, campaignId, writableStream });
+    const { fileName, stream } = await usecases.startWritingCampaignProfilesCollectionResultsToStream({ userId, campaignId, writableStream });
     const escapedFileName = requestResponseUtils.escapeFileName(fileName);
 
     writableStream.headers = {
@@ -86,6 +86,11 @@ module.exports = {
       // for too long causing a response timeout.
       'content-encoding': 'identity',
     };
+
+    // https://github.com/knex/knex/wiki/Manually-Closing-Streams
+    request.raw.req.on('close', () => {
+      stream.end.bind(stream);
+    });
 
     return writableStream;
   },

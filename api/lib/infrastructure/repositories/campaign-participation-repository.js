@@ -68,8 +68,8 @@ module.exports = {
     return results.map(_rowToResult);
   },
 
-  async findProfilesCollectionResultDataByCampaignId(campaignId) {
-    const results = await Bookshelf.knex.with('campaignParticipationWithUser',
+  findProfilesCollectionResultDataByCampaignId(campaignId) {
+    return Bookshelf.knex.with('campaignParticipationWithUser',
       (qb) => {
         qb.select([
           'campaign-participations.*',
@@ -86,8 +86,6 @@ module.exports = {
           .where({ campaignId });
       })
       .from('campaignParticipationWithUser');
-
-    return results.map(_rowToResult);
   },
 
   findLatestOngoingByUserId(userId) {
