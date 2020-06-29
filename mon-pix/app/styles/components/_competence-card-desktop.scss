@@ -82,7 +82,7 @@
     opacity: 1;
   }
 
-  .competence-card:hover .competence-card__footer {
+  .competence-card:hover .competence-card__interactions {
     bottom: 0px;
     height: 70px;
   }
@@ -178,7 +178,7 @@
     letter-spacing: 0.5px;
   }
 
-  .competence-card__footer {
+  .competence-card__interactions {
     position: absolute;
     bottom: -34px;
     display: flex;
