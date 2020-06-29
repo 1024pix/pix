@@ -11,6 +11,7 @@ export default ApplicationSerializer.extend({
     'pixScoreAheadOfNextLevel',
     'status',
     'remainingDaysBeforeReset',
+    'remainingDaysBeforeImproving',
   ],
   include: ['area'],
   links(record) {
