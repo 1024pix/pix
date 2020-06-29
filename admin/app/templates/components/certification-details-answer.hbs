@@ -1,23 +1,25 @@
+{{!-- template-lint-disable no-action --}}
+
 <div class="card-body">
   <div class="certification-details-answer-skill">
-    {{answer.skill}}
+    {{this.answer.skill}}
   </div>
   <div class="certification-details-answer-id">
-    {{answer.challengeId}}
+    {{this.answer.challengeId}}
   </div>
   <div class="certification-details-answer-order">
-    (numéro : {{answer.order}})
+    (numéro : {{this.answer.order}})
   </div>
 </div>
 <div class="card-footer">
-  <div class={{resultClass}}>
-    {{#x-select value=answer.result onChange=(action "onSetResult") as |xs|}}
-      {{#xs.option value="ok"}}Ok{{/xs.option}}
-      {{#xs.option value="ko"}}Ko{{/xs.option}}
-      {{#xs.option value="partially"}}Partially{{/xs.option}}
-      {{#xs.option value="timedout"}}Timed out{{/xs.option}}
-      {{#xs.option value="aband"}}Abandon{{/xs.option}}
-      {{#xs.option value="skip"}}Neutralisée{{/xs.option}}
-    {{/x-select}}
+  <div class={{this.resultClass}}>
+    <XSelect @value={{this.answer.result}} @onChange={{action 'onSetResult'}} as |xs|>
+      <xs.option @value="ok">Ok</xs.option>
+      <xs.option @value="ko">Ko</xs.option>
+      <xs.option @value="partially">Partially</xs.option>
+      <xs.option @value="timedout">Timed out</xs.option>
+      <xs.option @value="aband">Abandon</xs.option>
+      <xs.option @value="skip">Neutralisée</xs.option>
+    </XSelect>
   </div>
 </div>
