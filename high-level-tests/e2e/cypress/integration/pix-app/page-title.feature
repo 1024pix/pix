@@ -18,3 +18,11 @@ Fonctionnalité: Titre des pages
     Et je suis connecté à Pix en tant que "Daenerys Targaryen"
     Lorsque je vais sur la compétence "recH9MjIzN54zXlwr"
     Alors je vois le titre de la page "Compétence | Mathématiques | Pix"
+
+  Scénario: j'accède à une épreuve
+    Étant donné que tous les comptes sont créés
+    Et je vais sur Pix
+    Et je suis connecté à Pix en tant que "Daenerys Targaryen"
+    Lorsque je vais sur la compétence "recH9MjIzN54zXlwr"
+    Lorsque je clique sur "Commencer"
+    Alors je vois le titre de la page "Épreuve 1 sur 5 | Mathématiques | Pix"
