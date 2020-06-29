@@ -12,6 +12,16 @@ export default class ScorecardDetails extends Component {
 
   @tracked showResetModal = false;
 
+  get computeRemainingDaysBeforeImproving() {
+    const _remainingDaysBeforeImproving = this.args.scorecard.remainingDaysBeforeImproving;
+
+    if (_remainingDaysBeforeImproving > 1) {
+      return _remainingDaysBeforeImproving + ' jours';
+    } else {
+      return _remainingDaysBeforeImproving + ' jour';
+    }
+  }
+
   get level() {
     return this.args.scorecard.isNotStarted ? null : this.args.scorecard.level;
   }
@@ -34,6 +44,10 @@ export default class ScorecardDetails extends Component {
 
   get displayImproveButton() {
     return config.APP.FT_IMPROVE_COMPETENCE_EVALUATION;
+  }
+
+  get shouldWaitBeforeImproving() {
+    return this.args.scorecard.remainingDaysBeforeImproving > 0;
   }
 
   get remainingDaysText() {

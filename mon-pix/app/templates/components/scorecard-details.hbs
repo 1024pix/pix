@@ -60,11 +60,18 @@
       {{#if @scorecard.isFinished}}
         {{#if this.displayImproveButton}}
           {{#if this.canImprove}}
-            <button class="button button--big button--thin button--round button--link button--green scorecard-details__improve-button" {{action "improveCompetenceEvaluation"}}>
-              Retenter
-              <div class="sr-only">la compétence "{{@scorecard.name}}"</div>
-            </button>
-            <span class="scorecard-details__improving-text">Tentez d'obtenir le niveau supérieur !</span>
+            {{#if this.shouldWaitBeforeImproving}}
+              <div class="scorecard-details__improvement-countdown">
+                <span class="scorecard-details-improvement-countdown__label">Tenter le niveau supérieur dans</span>
+                <span class="scorecard-details-improvement-countdown__count">{{this.computeRemainingDaysBeforeImproving}}</span>
+              </div>
+            {{else}}
+              <button class="button button--big button--thin button--round button--link button--green scorecard-details__improve-button" {{action "improveCompetenceEvaluation"}}>
+                Retenter
+                <div class="sr-only">la compétence "{{@scorecard.name}}"</div>
+              </button>
+              <span class="scorecard-details__improving-text">Tentez d'obtenir le niveau supérieur !</span>
+            {{/if}}
           {{/if}}
         {{/if}}
       {{else}}
