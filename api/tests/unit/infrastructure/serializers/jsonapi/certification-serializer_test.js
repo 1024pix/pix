@@ -20,6 +20,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
             'birthplace': 'Namek',
             'birthdate': '1989-10-24',
             'external-id': 'xenoverse2',
+            'examiner-comment': 'Un signalement surveillant',
           },
         },
       };
@@ -31,7 +32,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
         birthplace: 'Namek',
         birthdate: '1989-10-24',
         externalId: 'xenoverse2',
-        examinerComment: null,
+        examinerComment: 'Un signalement surveillant',
       };
     });
 
@@ -67,6 +68,17 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
         // then
         expect(result.examinerComment).to.equal(NO_EXAMINER_COMMENT);
       });
+    });
+
+    it('should return undefined if no examiner comment', async function() {
+      // given
+      jsonCertificationCourse.data.attributes['examiner-comment'] = undefined;
+
+      // when
+      const result = await serializer.deserialize(jsonCertificationCourse);
+
+      // then
+      expect(result.examinerComment).to.equal(undefined);
     });
   });
 
