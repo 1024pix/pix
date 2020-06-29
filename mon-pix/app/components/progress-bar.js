@@ -2,7 +2,6 @@ import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { htmlSafe } from '@ember/string';
 import colorGradient from 'mon-pix/utils/color-gradient';
-import ENV from 'mon-pix/config/environment';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 
@@ -14,42 +13,26 @@ const minWidthPixel = 16;
 @classic
 export default class ProgressBar extends Component {
   @service media;
+  @service progressInAssessment;
 
   @and('media.isDesktop', 'assessment.showProgressBar')
   showProgressBar;
 
-  @computed('answerId', 'assessment.answers.[]', 'challengeId', 'maxStepsNumber')
+  @computed('answerId', 'assessment.answers.[]')
   get currentStepIndex() {
-    const persistedAnswersIds = this.assessment.hasMany('answers').ids().filter((id) => id != null);
-    const currentAnswerId = this.answerId;
-
-    let index = persistedAnswersIds.indexOf(currentAnswerId);
-
-    if (index === -1) {
-      index = persistedAnswersIds.length;
-    }
-
-    return index % this.maxStepsNumber;
+    return this.progressInAssessment.getCurrentStepIndex(this.assessment, this.answerId);
   }
 
   @computed(
     'assessment.{hasCheckpoints,certificationCourse.nbChallenges,course.nbChallenges}'
   )
   get maxStepsNumber() {
-    if (this.assessment.hasCheckpoints) {
-      return ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS;
-    }
-
-    if (this.assessment.isCertification) {
-      return this.assessment.get('certificationCourse.nbChallenges');
-    }
-
-    return this.assessment.get('course.nbChallenges');
+    return this.progressInAssessment.getMaxStepsNumber(this.assessment);
   }
 
-  @computed('currentStepIndex')
+  @computed('answerId', 'assessment.answers.[]')
   get currentStepNumber() {
-    return this.currentStepIndex + 1;
+    return this.progressInAssessment.getCurrentStepNumber(this.assessment, this.answerId);
   }
 
   @computed('currentStepIndex', 'maxStepsNumber')
