@@ -1,36 +1,38 @@
-{{#if edition}}
-  <div class='row form-group certification-info-field'>
-    <label class='{{leftWidth}} col-form-label' for={{id}}>{{label}}</label>
-    <div class='{{rightWidth}} certificate'>
-      {{#if isDate}}
-        {{ember-flatpickr id=fieldId
-                          altFormat='d/m/Y'
-                          altInput=true
-                          onChange=(action onUpdateCertificationBirthdate)
-                          dateFormat='Y-m-d'
-                          locale='fr'
-                          date=value
-                          name=fieldId
-                          class='form-control'
-        }}
+{{!-- template-lint-disable no-action --}}
+
+{{#if @edition}}
+  <div class="row form-group certification-info-field">
+    <label class="{{this.leftWidth}} col-form-label" for={{@id}}>{{@label}}</label>
+    <div class="{{this.rightWidth}} certificate">
+      {{#if @isDate}}
+        <EmberFlatpickr
+          @id={{@fieldId}}
+          @altFormat="d/m/Y"
+          @altInput={{true}}
+          @onChange={{action @onUpdateCertificationBirthdate}}
+          @dateFormat="Y-m-d"
+          @locale="fr"
+          @date={{@value}}
+          @name={{@fieldId}}
+          @class="form-control" />
       {{else}}
-        {{input type="text" class="form-control" value=value id=fieldId}}
+        <Input id={{@fieldId}} @type="text" @value={{@value}} class="form-control" />
       {{/if}}
     </div>
   </div>
 {{else}}
-  <div class='row certification-info-field'>
-    <div class='{{leftWidth}} certification-info-label'>{{label}}</div>
-    <div class='{{rightWidth}} certification-info-value'>
-      {{#if linkRoute}}
-        {{#link-to linkRoute value}}
-          {{value}} {{suffix}}
-        {{/link-to}}
+  <div class="row certification-info-field">
+    <div class="{{this.leftWidth}} certification-info-label">{{@label}}</div>
+    <div class="{{this.rightWidth}} certification-info-value">
+      {{#if @linkRoute}}
+        <LinkTo @route={{@linkRoute}} @model={{@value}}>
+          {{@value}} {{@suffix}}
+        </LinkTo>
       {{else}}
-        {{#if isDate}}
-          {{moment-format value 'DD/MM/YYYY' allow-empty=true}}
+        {{#if @isDate}}
+          {{moment-format @value 'DD/MM/YYYY' allow-empty=true}}
         {{else}}
-          {{value}} {{suffix}}
+          {{@value}} {{@suffix}}
         {{/if}}
       {{/if}}
     </div>
