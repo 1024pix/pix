@@ -200,6 +200,30 @@ module('Acceptance | Team Creation', function(hooks) {
         assert.dom('[data-test-notification-message="error"]').exists();
         assert.dom('[data-test-notification-message="error"]').hasText('Cet email n\'appartient à aucun utilisateur.');
       });
+
+      test('it should display error on global form when error 400 is returned from backend', async function(assert) {
+        // given
+        await visit('/equipe/creation');
+        server.post(`/organizations/${organizationId}/invitations`,
+          {
+            errors: [
+              {
+                detail: '',
+                status: '400',
+                title: 'Bad Request',
+              }
+            ]
+          }, 400);
+        await fillIn('#email', 'fake@email');
+
+        // when
+        await click('button[type="submit"]');
+
+        // then
+        assert.equal(currentURL(), '/equipe/creation');
+        assert.dom('[data-test-notification-message="error"]').exists();
+        assert.dom('[data-test-notification-message="error"]').hasText('Le format de l\'adresse e-mail est incorrect.');
+      });
     });
   });
 });
