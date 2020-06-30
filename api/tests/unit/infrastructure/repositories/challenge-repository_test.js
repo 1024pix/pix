@@ -330,6 +330,115 @@ describe('Unit | Repository | challenge-repository', () => {
       });
     });
 
+    describe('#findOperative', () => {
+
+      beforeEach(() => {
+        sinon.stub(challengeDatasource, 'findOperative');
+        sinon.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
+      });
+
+      context('when query happens with no error', () => {
+
+        let promise;
+
+        beforeEach(() => {
+          // given
+          challengeDatasource.findOperative.resolves([
+            domainBuilder.buildChallengeAirtableDataObject({
+              id: 'rec_challenge_1',
+              skillIds: [skillWeb1.id],
+            }),
+            domainBuilder.buildChallengeAirtableDataObject({
+              id: 'rec_challenge_2',
+              skillIds: [skillURL2.id, skillURL3.id, 'not_existing_skill_id'],
+            }),
+          ]);
+
+          solutionAdapter.fromChallengeAirtableDataObject.returns(domainBuilder.buildSolution());
+
+          // when
+          promise = challengeRepository.findOperative();
+        });
+
+        it('should succeed', () => {
+          // then
+          return expect(promise).to.be.fulfilled;
+        });
+
+        it('should call challengeDataObjects with competence', () => {
+          // then
+          return promise.then(() => {
+            expect(challengeDatasource.findOperative).to.have.been.calledWithExactly();
+          });
+        });
+
+        it('should resolve an array of 2 Challenge domain objects', () => {
+          // then
+          return promise.then((challenges) => {
+            expect(challenges).to.be.an('array');
+            expect(challenges).to.have.lengthOf(2);
+            challenges.map((challenge) => expect(challenge).to.be.an.instanceOf(Challenge));
+          });
+        });
+
+        it('should load skills in the challenges', () => {
+          // then
+          return promise.then((challenges) => {
+            expect(challenges[0].skills).to.deep.equal([
+              {
+                'id': 'recSkillWeb1',
+                'name': '@web1',
+                'pixValue': 2,
+                'competenceId': 'rec1',
+                'tutorialIds': [DEFAULT_TUTORIAL_ID],
+                'tubeId': 'recTube1',
+              }
+            ]);
+            expect(challenges[1].skills).to.deep.equal([
+              {
+                'id': 'recSkillURL2',
+                'name': '@url2',
+                'pixValue': 3,
+                'competenceId': 'rec1',
+                'tutorialIds': [DEFAULT_TUTORIAL_ID],
+                'tubeId': 'recTube2',
+              },
+              {
+                'id': 'recSkillURL3',
+                'name': '@url3',
+                'pixValue': 3,
+                'competenceId': 'rec1',
+                'tutorialIds': [DEFAULT_TUTORIAL_ID],
+                'tubeId': 'recTube3',
+              },
+            ]);
+          });
+        });
+
+        it('should not retrieve skills individually', () => {
+          // then
+          return promise.then(() => {
+            expect(skillDatasource.get).not.to.have.been.called;
+          });
+        });
+      });
+
+      context('when the datasource is on error', () => {
+
+        it('should transfer the error', () => {
+          // given
+          const error = new Error();
+          challengeDatasource.findOperative.rejects(error);
+
+          // when
+          const promise = challengeRepository.findOperative();
+
+          // then
+          return expect(promise).to.have.been.rejectedWith(error);
+        });
+      });
+    });
+
     describe('#findValidatedByCompetenceId', () => {
 
       let competence;
