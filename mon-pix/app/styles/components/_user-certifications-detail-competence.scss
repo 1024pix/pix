@@ -22,7 +22,7 @@
     padding-left: 16px;
     line-height: 1rem;
     font-weight: normal;
-    
+
     &--level {
       @include rightElement;
       color: $grey-60;
@@ -50,6 +50,7 @@
       width: 3px;
       height: calc(100% - 20px);
       border-radius: 1.5px;
+      top: 10px;
     }
 
     &--disabled {
@@ -63,6 +64,7 @@
 
   > * {
     border-bottom: 1.5px $grey-10 solid;
+    height: 75px;
     min-height: 60px;
   }
   > :last-child {
