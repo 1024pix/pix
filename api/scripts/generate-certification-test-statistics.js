@@ -9,7 +9,7 @@ const USER_COUNT = ~~process.env.USER_COUNT || 100;
 let currentCount = 0;
 
 function makeRefDataFaster() {
-  challengeRepository.list = _.memoize(challengeRepository.list);
+  challengeRepository.list = _.memoize(challengeRepository.findValidated);
   competenceRepository.list = _.memoize(competenceRepository.list);
   competenceRepository.listPixCompetencesOnly = _.memoize(competenceRepository.listPixCompetencesOnly);
 }

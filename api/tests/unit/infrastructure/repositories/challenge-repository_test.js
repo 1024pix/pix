@@ -229,10 +229,10 @@ describe('Unit | Repository | challenge-repository', () => {
       skillDatasource.findOperativeSkills.resolves(operativeSkills);
     });
 
-    describe('#list', () => {
+    describe('#findValidated', () => {
 
       beforeEach(() => {
-        sinon.stub(challengeDatasource, 'list');
+        sinon.stub(challengeDatasource, 'findValidated');
         sinon.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
       });
 
@@ -242,7 +242,7 @@ describe('Unit | Repository | challenge-repository', () => {
 
         beforeEach(() => {
           // given
-          challengeDatasource.list.resolves([
+          challengeDatasource.findValidated.resolves([
             domainBuilder.buildChallengeAirtableDataObject({
               id: 'rec_challenge_1',
               skillIds: [skillWeb1.id],
@@ -256,7 +256,7 @@ describe('Unit | Repository | challenge-repository', () => {
           solutionAdapter.fromChallengeAirtableDataObject.returns(domainBuilder.buildSolution());
 
           // when
-          promise = challengeRepository.list();
+          promise = challengeRepository.findValidated();
         });
 
         it('should succeed', () => {
@@ -267,7 +267,7 @@ describe('Unit | Repository | challenge-repository', () => {
         it('should call challengeDataObjects with competence', () => {
           // then
           return promise.then(() => {
-            expect(challengeDatasource.list).to.have.been.calledWithExactly();
+            expect(challengeDatasource.findValidated).to.have.been.calledWithExactly();
           });
         });
 
@@ -319,10 +319,10 @@ describe('Unit | Repository | challenge-repository', () => {
         it('should transfer the error', () => {
           // given
           const error = new Error();
-          challengeDatasource.list.rejects(error);
+          challengeDatasource.findValidated.rejects(error);
 
           // when
-          const promise = challengeRepository.list();
+          const promise = challengeRepository.findValidated();
 
           // then
           return expect(promise).to.have.been.rejectedWith(error);

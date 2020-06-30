@@ -151,7 +151,7 @@ describe('Unit | Service | Certification Result Service', function() {
         });
 
         sinon.stub(competenceRepository, 'list').resolves(competencesFromAirtable);
-        sinon.stub(challengeRepository, 'list').resolves(challengesFromAirTable);
+        sinon.stub(challengeRepository, 'findValidated').resolves(challengesFromAirTable);
         sinon.stub(userService, 'getCertificationProfile').withArgs({
           userId: certificationAssessment.userId,
           limitDate: certificationAssessment.createdAt,
@@ -168,12 +168,12 @@ describe('Unit | Service | Certification Result Service', function() {
         sinon.assert.calledOnce(userService.getCertificationProfile);
       });
 
-      it('should retrieve challenges list', async () => {
+      it('should retrieve validated challenges', async () => {
         // when
         await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
 
         // then
-        sinon.assert.calledOnce(challengeRepository.list);
+        sinon.assert.calledOnce(challengeRepository.findValidated);
       });
 
       it('should retrieve competences list', async () => {
@@ -718,7 +718,7 @@ describe('Unit | Service | Certification Result Service', function() {
         certificationAssessment.certificationAnswersByDate = wrongAnswersForAllChallenges();
         certificationAssessment.certificationChallenges = challenges;
         sinon.stub(competenceRepository, 'list').resolves(competencesFromAirtable);
-        sinon.stub(challengeRepository, 'list').resolves(challengesFromAirTable);
+        sinon.stub(challengeRepository, 'findValidated').resolves(challengesFromAirTable);
         sinon.stub(userService, 'getCertificationProfile').withArgs({
           userId: certificationAssessment.userId,
           limitDate: certificationAssessment.createdAt,
@@ -732,7 +732,7 @@ describe('Unit | Service | Certification Result Service', function() {
         await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
 
         // then
-        sinon.assert.calledOnce(challengeRepository.list);
+        sinon.assert.calledOnce(challengeRepository.findValidated);
       });
 
       it('should retrieve competences list', async () => {
@@ -1032,9 +1032,9 @@ describe('Unit | Service | Certification Result Service', function() {
           ], domainBuilder.buildCertificationChallenge);
           certificationAssessment.certificationChallenges = challenges;
 
-          challengeRepository.list.restore();
+          challengeRepository.findValidated.restore();
           userService.getCertificationProfile.restore();
-          sinon.stub(challengeRepository, 'list').resolves(listChallengeComp5WithOneQROCMDEPChallengeAndAnother);
+          sinon.stub(challengeRepository, 'findValidated').resolves(listChallengeComp5WithOneQROCMDEPChallengeAndAnother);
           sinon.stub(userService, 'getCertificationProfile').withArgs({
             userId: certificationAssessment.userId,
             limitDate: certificationAssessment.createdAt,
