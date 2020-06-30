@@ -68,7 +68,7 @@ async function fetchForCompetenceEvaluations({
   ] = await Promise.all([
     answerRepository.findByAssessment(assessment.id),
     skillRepository.findActiveByCompetenceId(assessment.competenceId),
-    challengeRepository.findByCompetenceId(assessment.competenceId),
+    challengeRepository.findValidatedByCompetenceId(assessment.competenceId),
     _fetchKnowledgeElements({ assessment, knowledgeElementRepository, improvementService })
   ]);
 

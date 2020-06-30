@@ -86,7 +86,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
         findByAssessment: sinon.stub(),
       };
       challengeRepository = {
-        findByCompetenceId: sinon.stub(),
+        findValidatedByCompetenceId: sinon.stub(),
       };
       knowledgeElementRepository = {
         findUniqByUserId: sinon.stub(),
@@ -112,7 +112,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
 
       answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
       skillRepository.findActiveByCompetenceId.withArgs(assessment.competenceId).resolves(skills);
-      challengeRepository.findByCompetenceId.withArgs(assessment.competenceId).resolves(challenges);
+      challengeRepository.findValidatedByCompetenceId.withArgs(assessment.competenceId).resolves(challenges);
       knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves(knowledgeElements);
       improvementService.filterKnowledgeElementsIfImproving.resolves(knowledgeElements);
 
