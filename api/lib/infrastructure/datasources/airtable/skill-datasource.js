@@ -44,6 +44,11 @@ module.exports = datasource.extend({
     return _.filter(skills, { status: ACTIVE_STATUS });
   },
 
+  async findOperativeSkills() {
+    const skills = await this.list();
+    return _.filter(skills, (skill) => _.includes(OPERATIVE_STATUSES, skill.status));
+  },
+
   async findOperativeByRecordIds(skillIds) {
     const skills = await this.list();
     return skills.filter((skillData) =>

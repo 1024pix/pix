@@ -1,4 +1,3 @@
-const AirtableRecord = require('airtable').Record;
 const _ = require('lodash');
 const { expect, sinon } = require('../../../../test-helper');
 const airtable = require('../../../../../lib/infrastructure/airtable');
@@ -96,41 +95,59 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
     });
   });
 
+  describe('#findOperativeSkills', () => {
+
+    it('should query Airtable skills with empty query', async () => {
+      // given
+      sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake([]));
+
+      // when
+      await skillDatasource.findOperativeSkills();
+
+      // then
+      expect(airtable.findRecords).to.have.been.calledWith('Acquis', skillDatasource.usedFields);
+
+    });
+
+    it('should resolve an array of Skills from airTable', async () => {
+      // given
+      const
+        rawSkill1 = skillRawAirTableFixture(),
+        rawSkill2 = skillRawAirTableFixture();
+      sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake([rawSkill1, rawSkill2]));
+
+      // when
+      const foundSkills = await skillDatasource.findOperativeSkills();
+
+      // then
+      expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.id, rawSkill2.id]);
+
+    });
+
+    it('should resolve an array of Skills with only activated Skillfrom airTable', async () => {
+      // given
+      const
+        rawSkill1 = skillRawAirTableFixture().withActiveStatus(),
+        rawSkill2 = skillRawAirTableFixture().withArchivedStatus(),
+        rawSkill3 = skillRawAirTableFixture().withInactiveStatus();
+      sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake([rawSkill1, rawSkill2, rawSkill3]));
+
+      // when
+      const foundSkills = await skillDatasource.findOperativeSkills();
+
+      // then
+      expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.id, rawSkill2.id]);
+
+    });
+  });
+
   describe('#findActiveByCompetenceId', function() {
 
     beforeEach(() => {
-      const acquix1 = new AirtableRecord('Acquis', 'recAcquix1', {
-        fields: {
-          'id persistant': 'recAcquix1',
-          'Nom': '@acquix1',
-          'Status': 'actif',
-          'Compétence (via Tube) (id persistant)': ['recCompetence']
-        }
-      });
-      const acquix2 = new AirtableRecord('Acquis', 'recAcquix2', {
-        fields: {
-          'id persistant': 'recAcquix2',
-          'Nom': '@acquix2',
-          'Status': 'actif',
-          'Compétence (via Tube) (id persistant)': ['recCompetence']
-        }
-      });
-      const acquix3 = new AirtableRecord('Acquis', 'recAcquix3', {
-        fields: {
-          'id persistant': 'recAcquix3',
-          'Nom': '@acquix3',
-          'Status': 'en construction',
-          'Compétence (via Tube) (id persistant)': ['recCompetence']
-        }
-      });
-      const acquix4 = new AirtableRecord('Acquis', 'recAcquix4', {
-        fields: {
-          'id persistant': 'recAcquix4',
-          'Nom': '@acquix4',
-          'Status': 'actif',
-          'Compétence (via Tube) (id persistant)': ['recOtherCompetence']
-        }
-      });
+      const acquix1 = skillRawAirTableFixture({ id: 'recAcquix1' }).withActiveStatus().withCompetenceId('recCompetence');
+      const acquix2 = skillRawAirTableFixture({ id: 'recAcquix2' }).withActiveStatus().withCompetenceId('recCompetence');
+      const acquix3 = skillRawAirTableFixture({ id: 'recAcquix3' }).withInactiveStatus().withCompetenceId('recCompetence');
+      const acquix4 = skillRawAirTableFixture({ id: 'recAcquix4' }).withActiveStatus().withCompetenceId('recOtherCompetence');
       sinon.stub(airtable, 'findRecords')
         .withArgs('Acquis')
         .callsFake(makeAirtableFake([acquix1, acquix2, acquix3, acquix4]));
@@ -148,38 +165,10 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
   describe('#findOperativeByCompetenceId', function() {
 
     beforeEach(() => {
-      const acquix1 = new AirtableRecord('Acquis', 'recAcquix1', {
-        fields: {
-          'id persistant': 'recAcquix1',
-          'Nom': '@acquix1',
-          'Status': 'actif',
-          'Compétence (via Tube) (id persistant)': ['recCompetence']
-        }
-      });
-      const acquix2 = new AirtableRecord('Acquis', 'recAcquix2', {
-        fields: {
-          'id persistant': 'recAcquix2',
-          'Nom': '@acquix2',
-          'Status': 'archivé',
-          'Compétence (via Tube) (id persistant)': ['recCompetence']
-        }
-      });
-      const acquix3 = new AirtableRecord('Acquis', 'recAcquix3', {
-        fields: {
-          'id persistant': 'recAcquix3',
-          'Nom': '@acquix3',
-          'Status': 'en construction',
-          'Compétence (via Tube) (id persistant)': ['recCompetence']
-        }
-      });
-      const acquix4 = new AirtableRecord('Acquis', 'recAcquix4', {
-        fields: {
-          'id persistant': 'recAcquix4',
-          'Nom': '@acquix4',
-          'Status': 'actif',
-          'Compétence (via Tube) (id persistant)': ['recOtherCompetence']
-        }
-      });
+      const acquix1 = skillRawAirTableFixture({ id: 'recAcquix1' }).withActiveStatus().withCompetenceId('recCompetence');
+      const acquix2 = skillRawAirTableFixture({ id: 'recAcquix2' }).withArchivedStatus().withCompetenceId('recCompetence');
+      const acquix3 = skillRawAirTableFixture({ id: 'recAcquix3' }).withInactiveStatus().withCompetenceId('recCompetence');
+      const acquix4 = skillRawAirTableFixture({ id: 'recAcquix4' }).withActiveStatus().withCompetenceId('recOtherCompetence');
       sinon.stub(airtable, 'findRecords')
         .withArgs('Acquis')
         .callsFake(makeAirtableFake([acquix1, acquix2, acquix3, acquix4]));
