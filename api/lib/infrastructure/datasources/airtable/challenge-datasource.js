@@ -94,7 +94,7 @@ module.exports = datasource.extend({
     );
   },
 
-  async findByCompetenceId(competenceId) {
+  async findValidatedByCompetenceId(competenceId) {
     const challenges = await this.list();
     return challenges.filter((challengeData) =>
       _.includes(VALIDATED_CHALLENGES, challengeData.status)

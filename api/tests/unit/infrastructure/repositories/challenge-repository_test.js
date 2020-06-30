@@ -334,14 +334,14 @@ describe('Unit | Repository | challenge-repository', () => {
       });
     });
 
-    describe('#findByCompetenceId', () => {
+    describe('#findValidatedByCompetenceId', () => {
 
       let competence;
 
       beforeEach(() => {
         competence = domainBuilder.buildCompetence();
 
-        sinon.stub(challengeDatasource, 'findByCompetenceId');
+        sinon.stub(challengeDatasource, 'findValidatedByCompetenceId');
         sinon.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
       });
 
@@ -365,13 +365,13 @@ describe('Unit | Repository | challenge-repository', () => {
             skillIds: [skillURL2.id, skillURL3.id],
           });
           solution = domainBuilder.buildSolution();
-          challengeDatasource.findByCompetenceId
+          challengeDatasource.findValidatedByCompetenceId
             .withArgs(competence.id)
             .resolves([challengeDataObject1, challengeDataObject2]);
           solutionAdapter.fromChallengeAirtableDataObject.returns(solution);
 
           // when
-          promise = challengeRepository.findByCompetenceId(competence.id);
+          promise = challengeRepository.findValidatedByCompetenceId(competence.id);
         });
 
         it('should succeed', () => {
@@ -381,7 +381,7 @@ describe('Unit | Repository | challenge-repository', () => {
         it('should call challengeDataObjects with competence', () => {
           // then
           return promise.then(() => {
-            expect(challengeDatasource.findByCompetenceId).to.have.been.calledWith(competence.id);
+            expect(challengeDatasource.findValidatedByCompetenceId).to.have.been.calledWith(competence.id);
           });
         });
         it('should resolve an array of 2 Challenge domain objects', () => {
@@ -400,10 +400,10 @@ describe('Unit | Repository | challenge-repository', () => {
         it('should transfer the error', () => {
           // given
           const error = new Error();
-          challengeDatasource.findByCompetenceId.rejects(error);
+          challengeDatasource.findValidatedByCompetenceId.rejects(error);
 
           // when
-          const promise = challengeRepository.findByCompetenceId(competence.id);
+          const promise = challengeRepository.findValidatedByCompetenceId(competence.id);
 
           // then
           return expect(promise).to.have.been.rejectedWith(error);
