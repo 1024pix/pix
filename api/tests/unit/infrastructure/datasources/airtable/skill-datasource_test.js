@@ -28,12 +28,12 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
     });
   });
 
-  describe('#findByRecordIds', () => {
+  describe('#findOperativeByRecordIds', () => {
 
     it('should return an array of airtable skill data objects -- PARTS II -- ', async function() {
       // given
       const rawSkill1 = skillRawAirTableFixture({ id: 'FAKE_REC_ID_RAW_SKILL_1' }).withActiveStatus();
-      const rawSkill2 = skillRawAirTableFixture({ id: 'FAKE_REC_ID_RAW_SKILL_2' }).withActiveStatus();
+      const rawSkill2 = skillRawAirTableFixture({ id: 'FAKE_REC_ID_RAW_SKILL_2' }).withArchivedStatus();
       const rawSkill3 = skillRawAirTableFixture({ id: 'FAKE_REC_ID_RAW_SKILL_3' }).withActiveStatus();
       const rawSkill4 = skillRawAirTableFixture({ id: 'FAKE_REC_ID_RAW_SKILL_4' }).withInactiveStatus();
 
@@ -41,7 +41,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake(records));
 
       // when
-      const foundSkills = await skillDatasource.findByRecordIds([rawSkill1.id, rawSkill2.id, rawSkill4.id]);
+      const foundSkills = await skillDatasource.findOperativeByRecordIds([rawSkill1.id, rawSkill2.id, rawSkill4.id]);
 
       // then
       expect(foundSkills).to.be.an('array');

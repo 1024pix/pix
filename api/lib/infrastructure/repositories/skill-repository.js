@@ -24,8 +24,8 @@ module.exports = {
       .then((skillDatas) => skillDatas.map(_toDomain));
   },
 
-  findByIds(skillIds) {
-    return skillDatasource.findByRecordIds(skillIds)
+  findOperativeByIds(skillIds) {
+    return skillDatasource.findOperativeByRecordIds(skillIds)
       .then((skillDatas) => skillDatas.map(_toDomain));
   },
 };

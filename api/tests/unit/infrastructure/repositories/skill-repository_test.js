@@ -9,7 +9,7 @@ describe('Unit | Repository | skill-repository', function() {
     sinon.stub(skillDatasource, 'findActiveByCompetenceId');
     sinon.stub(skillDatasource, 'findOperativeByCompetenceId');
     sinon.stub(skillDatasource, 'findActiveSkills');
-    sinon.stub(skillDatasource, 'findByRecordIds');
+    sinon.stub(skillDatasource, 'findOperativeByRecordIds');
   });
 
   describe('#findActiveByCompetenceId', function() {
@@ -90,12 +90,12 @@ describe('Unit | Repository | skill-repository', function() {
     });
   });
 
-  describe('#findByIds', function() {
+  describe('#findOperativeByIds', function() {
 
     const competenceIDs = ['recAcquix1', 'recAcquix2'];
 
     beforeEach(() => {
-      skillDatasource.findByRecordIds
+      skillDatasource.findOperativeByRecordIds
         .withArgs(competenceIDs)
         .resolves([{
           id: 'recAcquix1',
@@ -118,7 +118,7 @@ describe('Unit | Repository | skill-repository', function() {
       //given
 
       // when
-      const skills = await skillRepository.findByIds(competenceIDs);
+      const skills = await skillRepository.findOperativeByIds(competenceIDs);
 
       // then
       expect(skills).to.have.lengthOf(2);
