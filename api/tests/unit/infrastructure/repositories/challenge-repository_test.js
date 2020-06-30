@@ -407,7 +407,7 @@ describe('Unit | Repository | challenge-repository', () => {
       });
     });
 
-    describe('#findBySkills', () => {
+    describe('#findOperativeBySkills', () => {
 
       beforeEach(() => {
 
@@ -444,7 +444,7 @@ describe('Unit | Repository | challenge-repository', () => {
           solutionAdapter.fromChallengeAirtableDataObject.returns(solution);
 
           // when
-          promise = challengeRepository.findBySkills(skills);
+          promise = challengeRepository.findOperativeBySkills(skills);
         });
 
         it('should succeed', () => {
@@ -476,7 +476,7 @@ describe('Unit | Repository | challenge-repository', () => {
           challengeDatasource.findOperativeBySkillIds.rejects(error);
 
           // when
-          const promise = challengeRepository.findBySkills(skills);
+          const promise = challengeRepository.findOperativeBySkills(skills);
 
           // then
           return expect(promise).to.have.been.rejectedWith(error);
