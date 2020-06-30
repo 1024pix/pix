@@ -1,19 +1,19 @@
-<div class="user-certifications-detail-result__text-pix-certified">
+<p class="user-certifications-detail-result__text-pix-certified">
   Votre score certifié a été calculé en fonction de vos réponses lors du passage de la certification.
   Il peut donc différer de votre nombre de Pix affiché dans votre profil.
-</div>
+</p>
 
 {{#if certification.hasCleaCertif}}
   <hr>
   <img src="https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges/CleA_Num_certif.svg" alt="Badge cléA numérique" class="user-certifications-detail-result__badge-clea">
 {{/if}}
 
+<hr>
 <div>
   {{#if certification.commentForCandidate}}
-    <hr>
-    <div class="user-certifications-detail-result__title-comment-jury">Intervention du jury</div>
-    <div class="user-certifications-detail-result__comment-jury">
+    <p class="user-certifications-detail-result__title-comment-jury">Intervention du jury</p>
+    <p class="user-certifications-detail-result__comment-jury">
       {{certification.commentForCandidate}}
-    </div>
+    </p>
   {{/if}}
 </div>
