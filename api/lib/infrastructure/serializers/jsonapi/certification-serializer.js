@@ -73,10 +73,19 @@ module.exports = {
             return Promise.reject(new WrongDateFormatError());
           }
         }
-        if (_.isEmpty(_.trim(certifications.examinerComment))) {
+
+        if (!_isOmitted(certifications.examinerComment) && _hasNoExaminerComment(certifications.examinerComment)) {
           certifications.examinerComment = NO_EXAMINER_COMMENT;
         }
         return certifications;
       }));
   },
 };
+
+function _isOmitted(aString) {
+  return _.isUndefined(aString);
+}
+
+function _hasNoExaminerComment(aString) {
+  return _.isEmpty(_.trim(aString));
+}
