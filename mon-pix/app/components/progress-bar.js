@@ -7,8 +7,8 @@ export default class ProgressBar extends Component {
   @service media;
   @service progressInAssessment;
 
-  minWidthPercent = 1.7;
-  minWidthPixel = 16;
+  MINIMUM_WIDTH_STEP_IN_PERCENT = 1.7;
+  MINIMUM_WIDTH_STEP_IN_PIXEL = 16;
 
   get showProgressBar() {
     return this.args.assessment.showProgressBar && this.media.isDesktop;
@@ -43,9 +43,9 @@ export default class ProgressBar extends Component {
   }
 
   get progressionWidth() {
-    const widthPercent = this.minWidthPercent + (100 - this.minWidthPercent) * this.currentStepIndex  / (this.maxStepsNumber - 1);
+    const widthPercent = this.MINIMUM_WIDTH_STEP_IN_PERCENT + (100 - this.MINIMUM_WIDTH_STEP_IN_PERCENT) * this.currentStepIndex  / (this.maxStepsNumber - 1);
 
-    const width = this.currentStepIndex === 0 ? `${this.minWidthPixel}px` : `${widthPercent}%`;
+    const width = this.currentStepIndex === 0 ? `${this.MINIMUM_WIDTH_STEP_IN_PIXEL}px` : `${widthPercent}%`;
 
     return htmlSafe(`width: ${width};`);
   }

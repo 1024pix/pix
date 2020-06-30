@@ -1,6 +1,20 @@
 import Service  from '@ember/service';
 import ENV from '../config/environment';
 
+export default class ProgressInEvaluation extends Service {
+  getCurrentStepIndex(assessment, answerId) {
+    return _getCurrentStepIndex(assessment, answerId);
+  }
+
+  getMaxStepsNumber(assessment) {
+    return _getMaxStepsNumber(assessment);
+  }
+
+  getCurrentStepNumber(assessment, answerId) {
+    return _getCurrentStepIndex(assessment, answerId) + 1;
+  }
+}
+
 function _getMaxStepsNumber(assessment) {
   if (assessment.hasCheckpoints) {
     return ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS;
@@ -23,19 +37,4 @@ function _getCurrentStepIndex(assessment, answerId) {
   }
 
   return index % _getMaxStepsNumber(assessment);
-}
-
-export default class ProgressInEvaluation extends Service {
-  getCurrentStepIndex(assessment, answerId) {
-    return _getCurrentStepIndex(assessment, answerId);
-  }
-
-  getMaxStepsNumber(assessment) {
-    return _getMaxStepsNumber(assessment);
-  }
-
-  getCurrentStepNumber(assessment, answerId) {
-    return _getCurrentStepIndex(assessment, answerId) + 1;
-  }
-
 }

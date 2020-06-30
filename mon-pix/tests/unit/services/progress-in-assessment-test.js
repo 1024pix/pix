@@ -44,7 +44,7 @@ describe('Unit | Service | progress-in-assessment', function() {
   });
 
   describe('#getMaxStepsNumber', function() {
-    it('when assessment has checkpoint, should return the number of challenge in checkpoint', async function() {
+    it('when assessment has checkpoint, should return the number of challenges in checkpoint', async function() {
       // given
       const assessment = EmberObject.create({ hasCheckpoints: true });
       const progressInAssessment = this.owner.lookup('service:progressInAssessment');
@@ -56,7 +56,7 @@ describe('Unit | Service | progress-in-assessment', function() {
       expect(maxStepNumber).to.equal(ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS);
     });
 
-    it('when assessment is certification, should return the number of challenge in certification', async function() {
+    it('when assessment is certification, should return the number of challenges in certification', async function() {
       // given
       const nbChallenges = 23;
       const assessment = EmberObject.create({ isCertification: true, certificationCourse : EmberObject.create({ nbChallenges }) });
