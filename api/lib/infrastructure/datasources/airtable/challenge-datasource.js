@@ -88,21 +88,31 @@ module.exports = datasource.extend({
 
   async findOperativeBySkillIds(skillIds) {
     const foundInSkillIds = (skillId) => _.includes(skillIds, skillId);
-    const challenges = await this.list();
+    const challenges = await this.findOperative();
     return challenges.filter((challengeData) =>
-      _.includes(OPERATIVE_CHALLENGES, challengeData.status) &&
       _.some(challengeData.skillIds, foundInSkillIds)
     );
   },
 
   async findValidatedByCompetenceId(competenceId) {
-    const challenges = await this.list();
+    const challenges = await this.findValidated();
     return challenges.filter((challengeData) =>
-      _.includes(VALIDATED_CHALLENGES, challengeData.status)
-      && !_.isEmpty(challengeData.skillIds)
+      !_.isEmpty(challengeData.skillIds)
       && _.includes(challengeData.competenceId, competenceId)
     );
   },
+
+  async findOperative() {
+    const challenges = await this.list();
+    return challenges.filter((challengeData) =>
+      _.includes(OPERATIVE_CHALLENGES, challengeData.status));
+  },
+
+  async findValidated() {
+    const challenges = await this.list();
+    return challenges.filter((challengeData) =>
+      _.includes(VALIDATED_CHALLENGES, challengeData.status));
+  }
 });
 
 function _convertLanguagesToLocales(languages) {

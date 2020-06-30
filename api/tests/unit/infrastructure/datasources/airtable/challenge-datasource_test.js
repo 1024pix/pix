@@ -52,6 +52,10 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
     challenge_web3 = challengeRawAirTableFixture({
       id: 'challenge-web3',
       fields: { 'Acquix (id persistant)': [web3.id] }
+    }),
+    challenge_web3_archived = challengeRawAirTableFixture({
+      id: 'challenge-web3-archived',
+      fields: { 'Acquix (id persistant)': [web3.id], Statut: 'archivé' }
     });
 
   beforeEach(() => {
@@ -69,29 +73,27 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       ]);
     });
 
-    it('should resolve an array of matching Challenges from airTable', () => {
+    it('should resolve an array of matching Challenges from airTable', async () => {
       // given
       const skillIds = ['skill-web1', 'skill-web2'];
 
       // when
-      const promise = challengeDatasource.findOperativeBySkillIds(skillIds);
+      const result = await challengeDatasource.findOperativeBySkillIds(skillIds);
 
       // then
-      return promise.then((result) => {
-        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', challengeDatasource.usedFields);
-        expect(_.map(result, 'id')).to.deep.equal([
-          'challenge-web1',
-          'challenge-web2',
-        ]);
-      });
+      expect(airtable.findRecords).to.have.been.calledWith('Epreuves', challengeDatasource.usedFields);
+      expect(_.map(result, 'id')).to.deep.equal([
+        'challenge-web1',
+        'challenge-web2',
+      ]);
     });
   });
 
   describe('#findValidatedByCompetenceId', () => {
 
-    let promise;
+    let result;
 
-    beforeEach(() => {
+    beforeEach(async () => {
       // given
       sinon.stub(airtable, 'findRecords').resolves([
         challenge_competence1,
@@ -101,15 +103,62 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       ]);
 
       // when
-      promise = challengeDatasource.findValidatedByCompetenceId(competence1.id);
+      result = await challengeDatasource.findValidatedByCompetenceId(competence1.id);
     });
 
     it('should resolve to an array of matching Challenges from airTable', () => {
       // then
-      return promise.then((result) => {
-        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', challengeDatasource.usedFields);
-        expect(_.map(result, 'id')).to.deep.equal(['challenge-competence1']);
-      });
+      expect(airtable.findRecords).to.have.been.calledWith('Epreuves', challengeDatasource.usedFields);
+      expect(_.map(result, 'id')).to.deep.equal(['challenge-competence1']);
+    });
+  });
+
+  describe('#findOperative', () => {
+
+    beforeEach(() => {
+      sinon.stub(airtable, 'findRecords').resolves([
+        challenge_web1,
+        challenge_web1_notValidated,
+        challenge_web2,
+        challenge_web3_archived,
+      ]);
+    });
+
+    it('should resolve an array of matching Challenges from airTable', async () => {
+      // when
+      const result = await challengeDatasource.findOperative();
+
+      // then
+      expect(airtable.findRecords).to.have.been.calledWith('Epreuves', challengeDatasource.usedFields);
+      expect(_.map(result, 'id')).to.deep.equal([
+        'challenge-web1',
+        'challenge-web2',
+        'challenge-web3-archived',
+      ]);
+    });
+  });
+
+  describe('#findValidated', () => {
+
+    beforeEach(() => {
+      sinon.stub(airtable, 'findRecords').resolves([
+        challenge_web1,
+        challenge_web1_notValidated,
+        challenge_web2,
+        challenge_web3_archived,
+      ]);
+    });
+
+    it('should resolve an array of matching Challenges from airTable', async () => {
+      // when
+      const result = await challengeDatasource.findValidated();
+
+      // then
+      expect(airtable.findRecords).to.have.been.calledWith('Epreuves', challengeDatasource.usedFields);
+      expect(_.map(result, 'id')).to.deep.equal([
+        'challenge-web1',
+        'challenge-web2',
+      ]);
     });
   });
 
