@@ -1,7 +1,8 @@
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { beforeEach, afterEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
+import progressInAssessment from 'mon-pix/utils/progress-in-assessment';
 
 describe('Unit | Controller | Assessments | Challenge', function() {
 
@@ -13,6 +14,10 @@ describe('Unit | Controller | Assessments | Challenge', function() {
     controller = this.owner.lookup('controller:assessments/challenge');
   });
 
+  afterEach(function() {
+    sinon.restore();
+  });
+
   describe('#pageTitle', () => {
     it('should return Épreuve 2 sur 5', function() {
       const model = {
@@ -20,10 +25,8 @@ describe('Unit | Controller | Assessments | Challenge', function() {
         answer: null,
       };
       controller.model = model;
-      controller.progressInAssessment = {
-        getCurrentStepNumber: sinon.stub().returns(2),
-        getMaxStepsNumber: sinon.stub().returns(5)
-      };
+      sinon.stub(progressInAssessment, 'getCurrentStepNumber').returns(2);
+      sinon.stub(progressInAssessment, 'getMaxStepsNumber').returns(5);
 
       // then
       expect(controller.pageTitle).to.equal('Épreuve 2 sur 5');

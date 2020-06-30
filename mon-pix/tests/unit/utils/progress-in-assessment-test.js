@@ -1,14 +1,14 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
 import EmberObject from '@ember/object';
 import ENV from 'mon-pix/config/environment';
+import progressInAssessment from 'mon-pix/utils/progress-in-assessment';
 
-describe('Unit | Service | progress-in-assessment', function() {
-  setupTest();
+describe('Unit | Utility | progress-in-assessment', function() {
 
   describe('#getCurrentStepIndex', function() {
     let assessment;
+
     beforeEach(function() {
       ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS = 5;
       assessment = EmberObject.create({
@@ -19,21 +19,20 @@ describe('Unit | Service | progress-in-assessment', function() {
         },
       });
     });
+
     it('should return the current step index modulus maxStepsNumber', async function() {
       // given
       const answerId = null;
-      const progressInAssessment = this.owner.lookup('service:progressInAssessment');
-
       // when
       const currentStepIndex = progressInAssessment.getCurrentStepIndex(assessment, answerId);
 
       // then
       expect(currentStepIndex).to.equal(1);
     });
+
     it('should return the current step index for already answered challenge', async function() {
       // given
       const answerId = 3;
-      const progressInAssessment = this.owner.lookup('service:progressInAssessment');
 
       // when
       const currentStepIndex = progressInAssessment.getCurrentStepIndex(assessment, answerId);
@@ -44,10 +43,10 @@ describe('Unit | Service | progress-in-assessment', function() {
   });
 
   describe('#getMaxStepsNumber', function() {
+
     it('when assessment has checkpoint, should return the number of challenges in checkpoint', async function() {
       // given
       const assessment = EmberObject.create({ hasCheckpoints: true });
-      const progressInAssessment = this.owner.lookup('service:progressInAssessment');
 
       // when
       const maxStepNumber = progressInAssessment.getMaxStepsNumber(assessment);
@@ -60,7 +59,6 @@ describe('Unit | Service | progress-in-assessment', function() {
       // given
       const nbChallenges = 23;
       const assessment = EmberObject.create({ isCertification: true, certificationCourse : EmberObject.create({ nbChallenges }) });
-      const progressInAssessment = this.owner.lookup('service:progressInAssessment');
 
       // when
       const maxStepNumber = progressInAssessment.getMaxStepsNumber(assessment);
@@ -73,7 +71,6 @@ describe('Unit | Service | progress-in-assessment', function() {
       // given
       const nbChallenges = 21;
       const assessment = EmberObject.create({ course : EmberObject.create({ nbChallenges }) });
-      const progressInAssessment = this.owner.lookup('service:progressInAssessment');
 
       // when
       const maxStepNumber = progressInAssessment.getMaxStepsNumber(assessment);
@@ -85,6 +82,7 @@ describe('Unit | Service | progress-in-assessment', function() {
   });
 
   describe('#getCurrentStepNumber', function() {
+
     let assessment;
     beforeEach(function() {
       ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS = 5;
@@ -96,10 +94,10 @@ describe('Unit | Service | progress-in-assessment', function() {
         },
       });
     });
+
     it('should return the current step number modulus maxStepsNumber', async function() {
       // given
       const answerId = null;
-      const progressInAssessment = this.owner.lookup('service:progressInAssessment');
 
       // when
       const currentStepIndex = progressInAssessment.getCurrentStepNumber(assessment, answerId);
@@ -107,16 +105,16 @@ describe('Unit | Service | progress-in-assessment', function() {
       // then
       expect(currentStepIndex).to.equal(2);
     });
+
     it('should return the current step number for already answered challenge', async function() {
       // given
       const answerId = 3;
-      const progressInAssessment = this.owner.lookup('service:progressInAssessment');
 
       // when
       const currentStepIndex = progressInAssessment.getCurrentStepNumber(assessment, answerId);
 
       // then
       expect(currentStepIndex).to.equal(3);
-    });  });
-
+    });
+  });
 });
