@@ -179,6 +179,7 @@ describe('Acceptance | Application | organization-controller', () => {
           attributes: {
             'external-id': '0446758F',
             'province-code': '044',
+            'email': 'sco.generic.newaccount@example.net',
           }
         }
       };
