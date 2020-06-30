@@ -191,7 +191,7 @@ module.exports = {
 
   async getCertificationResult({ certificationAssessment, continueOnError }) {
     const allCompetences = await competenceRepository.list();
-    const allChallenges = await challengeRepository.findValidated();
+    const allChallenges = await challengeRepository.findOperative();
 
     const testedCompetences = await _getTestedCompetences({
       userId: certificationAssessment.userId,
