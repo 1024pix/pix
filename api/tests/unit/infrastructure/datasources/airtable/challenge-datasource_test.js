@@ -58,7 +58,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
     sinon.stub(cache, 'get').callsFake((key, generator) => generator());
   });
 
-  describe('#findBySkillIds', () => {
+  describe('#findOperativeBySkillIds', () => {
 
     beforeEach(() => {
       sinon.stub(airtable, 'findRecords').resolves([
@@ -74,7 +74,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       const skillIds = ['skill-web1', 'skill-web2'];
 
       // when
-      const promise = challengeDatasource.findBySkillIds(skillIds);
+      const promise = challengeDatasource.findOperativeBySkillIds(skillIds);
 
       // then
       return promise.then((result) => {
