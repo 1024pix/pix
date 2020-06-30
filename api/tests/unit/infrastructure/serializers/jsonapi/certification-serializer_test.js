@@ -230,6 +230,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
               'code': '1',
               'name': '1. Information et données',
               'title': 'Information et données',
+              'color': 'jaffa',
             },
             'id': 'recvoGdo7z2z7pXWa',
             'relationships': {

@@ -24,11 +24,12 @@
     position: relative;
   }
 
-  &--details-body {
+  &__details-body {
     display: flex;
     width: 100%;
     max-width: 980px;
     margin: 0 10px;
+    // background-color: salmon;
   }
 }
 
@@ -45,7 +46,7 @@
       position: relative;
     }
 
-    &--details-body {
+    &__details-body {
       flex-wrap: wrap;
     }
   }
@@ -54,7 +55,7 @@
 @include device-is('tablet') {
   .user-certifications-page-get {
 
-    &--details-body {
+    &__details-body {
       flex-wrap: wrap;
     }
   }
@@ -63,7 +64,7 @@
 @include device-is('desktop') {
   .user-certifications-page-get {
 
-    &--details-body {
+    &__details-body {
       flex-wrap: nowrap;
     }
   }

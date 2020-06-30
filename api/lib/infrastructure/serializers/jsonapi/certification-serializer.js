@@ -43,7 +43,7 @@ module.exports = {
         areas: {
           included: true,
           ref: 'id',
-          attributes: ['code', 'name', 'title', 'resultCompetences'],
+          attributes: ['code', 'name', 'title', 'color', 'resultCompetences'],
 
           resultCompetences: {
             included: true,
