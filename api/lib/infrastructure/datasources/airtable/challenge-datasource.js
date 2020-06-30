@@ -3,6 +3,7 @@ const datasource = require('./datasource');
 const { FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../../domain/constants').LOCALE;
 
 const VALIDATED_CHALLENGES = ['validé', 'validé sans test', 'pré-validé'];
+const OPERATIVE_CHALLENGES = [...VALIDATED_CHALLENGES, 'archivé'];
 
 module.exports = datasource.extend({
 
@@ -85,11 +86,11 @@ module.exports = datasource.extend({
     };
   },
 
-  async findBySkillIds(skillIds) {
+  async findOperativeBySkillIds(skillIds) {
     const foundInSkillIds = (skillId) => _.includes(skillIds, skillId);
     const challenges = await this.list();
     return challenges.filter((challengeData) =>
-      _.includes(VALIDATED_CHALLENGES, challengeData.status) &&
+      _.includes(OPERATIVE_CHALLENGES, challengeData.status) &&
       _.some(challengeData.skillIds, foundInSkillIds)
     );
   },

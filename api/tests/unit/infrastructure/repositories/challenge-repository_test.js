@@ -195,6 +195,7 @@ describe('Unit | Repository | challenge-repository', () => {
     let skillURL2;
     let skillURL3;
     let skills;
+    let operativeSkills;
 
     beforeEach(() => {
 
@@ -219,10 +220,13 @@ describe('Unit | Repository | challenge-repository', () => {
         competenceId: 'rec1',
         tubeId: 'recTube3',
       });
-      skills = [skillWeb1, skillURL2, skillURL3];
+      skills = [skillWeb1, skillURL2];
+      operativeSkills = [skillWeb1, skillURL2, skillURL3];
       sinon.stub(skillDatasource, 'get');
       sinon.stub(skillDatasource, 'findActiveSkills');
+      sinon.stub(skillDatasource, 'findOperativeSkills');
       skillDatasource.findActiveSkills.resolves(skills);
+      skillDatasource.findOperativeSkills.resolves(operativeSkills);
     });
 
     describe('#list', () => {
@@ -298,14 +302,6 @@ describe('Unit | Repository | challenge-repository', () => {
                 'tutorialIds': [DEFAULT_TUTORIAL_ID],
                 'tubeId': 'recTube2',
               },
-              {
-                'id': 'recSkillURL3',
-                'name': '@url3',
-                'pixValue': 3,
-                'competenceId': 'rec1',
-                'tutorialIds': [DEFAULT_TUTORIAL_ID],
-                'tubeId': 'recTube3',
-              }
             ]);
           });
         });
@@ -415,7 +411,7 @@ describe('Unit | Repository | challenge-repository', () => {
 
       beforeEach(() => {
 
-        sinon.stub(challengeDatasource, 'findBySkillIds');
+        sinon.stub(challengeDatasource, 'findOperativeBySkillIds');
         sinon.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
       });
 
@@ -440,7 +436,7 @@ describe('Unit | Repository | challenge-repository', () => {
           });
           solution = domainBuilder.buildSolution();
 
-          challengeDatasource.findBySkillIds.resolves([
+          challengeDatasource.findOperativeBySkillIds.resolves([
             challengeDataObject1,
             challengeDataObject2,
           ]);
@@ -458,7 +454,7 @@ describe('Unit | Repository | challenge-repository', () => {
         it('should call challengeDataObjects with competence', () => {
           // then
           return promise.then(() => {
-            expect(challengeDatasource.findBySkillIds).to.have.been.calledWith(skills.map((skill) => skill.id));
+            expect(challengeDatasource.findOperativeBySkillIds).to.have.been.calledWith(skills.map((skill) => skill.id));
           });
         });
         it('should resolve an array of 2 Challenge domain objects', () => {
@@ -477,7 +473,7 @@ describe('Unit | Repository | challenge-repository', () => {
         it('should transfer the error', () => {
           // given
           const error = new Error();
-          challengeDatasource.findBySkillIds.rejects(error);
+          challengeDatasource.findOperativeBySkillIds.rejects(error);
 
           // when
           const promise = challengeRepository.findBySkills(skills);

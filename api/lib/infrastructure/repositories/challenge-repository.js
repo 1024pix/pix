@@ -23,39 +23,39 @@ module.exports = {
       });
   },
 
-  list() {
-
-    return challengeDatasource.list()
-      .then(_generateChallengeDomainModels);
+  async list() {
+    const challengeDataObjects = await challengeDatasource.list();
+    const activeSkills = await skillDatasource.findActiveSkills();
+    return _generateChallengeDomainModels({ challengeDataObjects, skills: activeSkills });
   },
 
-  findValidatedByCompetenceId(competenceId) {
-
-    return challengeDatasource.findValidatedByCompetenceId(competenceId)
-      .then(_generateChallengeDomainModels);
+  async findValidatedByCompetenceId(competenceId) {
+    const challengeDataObjects = await challengeDatasource.findValidatedByCompetenceId(competenceId);
+    const activeSkills = await skillDatasource.findActiveSkills();
+    return _generateChallengeDomainModels({ challengeDataObjects, skills: activeSkills });
   },
 
-  findBySkills(skills) {
+  async findBySkills(skills) {
     const skillIds = skills.map((skill) => skill.id);
-    return challengeDatasource.findBySkillIds(skillIds)
-      .then(_generateChallengeDomainModels);
+    const challengeDataObjects = await challengeDatasource.findOperativeBySkillIds(skillIds);
+    const operativeSkills = await skillDatasource.findOperativeSkills();
+    return _generateChallengeDomainModels({ challengeDataObjects, skills: operativeSkills });
   },
 };
 
-function _generateChallengeDomainModels(challengeDataObjects) {
-  return skillDatasource.findActiveSkills().then((allSkills) => {
-    const lookupSkill = (id) => _.find(allSkills, { id });
+function _generateChallengeDomainModels({ challengeDataObjects, skills }) {
+  const lookupSkill = (id) => _.find(skills, { id });
+  const challenges = challengeDataObjects.map((challengeDataObject) => {
+    const lookedUpSkillDataObjects = challengeDataObject.skillIds.map(lookupSkill);
+    const foundSkillDataObjects = _.compact(lookedUpSkillDataObjects);
 
-    return challengeDataObjects.map((challengeDataObject) => {
-      const lookedUpSkillDataObjects = challengeDataObject.skillIds.map(lookupSkill);
-      const foundSkillDataObjects = _.compact(lookedUpSkillDataObjects);
-
-      return _adaptChallengeFromDataObjects({
-        challengeDataObject,
-        skillDataObjects: foundSkillDataObjects
-      });
+    return _adaptChallengeFromDataObjects({
+      challengeDataObject,
+      skillDataObjects: foundSkillDataObjects
     });
   });
+
+  return challenges;
 }
 
 function _generateChallengeDomainModel(challengeDataObject) {
