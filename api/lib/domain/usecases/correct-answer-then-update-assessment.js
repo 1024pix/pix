@@ -98,7 +98,7 @@ async function _getKnowledgeElements({ assessment, answer, challenge, skillRepos
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndAssessmentId({ userId: assessment.userId, assessmentId: assessment.id });
   let targetSkills;
   if (assessment.isCompetenceEvaluation()) {
-    targetSkills = await skillRepository.findByCompetenceId(assessment.competenceId);
+    targetSkills = await skillRepository.findActiveByCompetenceId(assessment.competenceId);
   }
   if (assessment.isForCampaign()) {
     const targetProfile = await targetProfileRepository.getByCampaignId(assessment.campaignParticipation.campaignId);

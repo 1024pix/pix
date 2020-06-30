@@ -92,7 +92,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
         findUniqByUserId: sinon.stub(),
       };
       skillRepository = {
-        findByCompetenceId: sinon.stub(),
+        findActiveByCompetenceId: sinon.stub(),
       };
       improvementService = {
         filterKnowledgeElementsIfImproving: sinon.stub(),
@@ -111,7 +111,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
       const assessment = domainBuilder.buildAssessment.ofTypeCampaign();
 
       answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
-      skillRepository.findByCompetenceId.withArgs(assessment.competenceId).resolves(skills);
+      skillRepository.findActiveByCompetenceId.withArgs(assessment.competenceId).resolves(skills);
       challengeRepository.findByCompetenceId.withArgs(assessment.competenceId).resolves(challenges);
       knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves(knowledgeElements);
       improvementService.filterKnowledgeElementsIfImproving.resolves(knowledgeElements);

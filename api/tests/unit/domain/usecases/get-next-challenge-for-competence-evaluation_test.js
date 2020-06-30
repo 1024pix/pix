@@ -27,7 +27,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
 
       answerRepository = { findByAssessment: sinon.stub().resolves([lastAnswer]) };
       challengeRepository = { findByCompetenceId: sinon.stub().resolves(challenges) };
-      skillRepository = { findByCompetenceId: sinon.stub().resolves(targetSkills) };
+      skillRepository = { findActiveByCompetenceId: sinon.stub().resolves(targetSkills) };
       pickChallengeService = { pickChallenge: sinon.stub().resolves(challengeUrl22) };
 
       recentKnowledgeElements = [{ createdAt: 4, skillId: 'url2' }, { createdAt: 2, skillId: 'web1' }];

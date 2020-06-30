@@ -28,7 +28,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
   const challengeRepository = { get: () => undefined };
   const competenceEvaluationRepository = {  };
   const targetProfileRepository = { getByCampaignId: () => undefined };
-  const skillRepository = { findByCompetenceId: () => undefined };
+  const skillRepository = { findActiveByCompetenceId: () => undefined };
   const scorecardService = { computeScorecard: () => undefined };
   const knowledgeElementRepository = {
     findUniqByUserIdAndAssessmentId: () => undefined,
@@ -39,7 +39,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     sinon.stub(answerRepository, 'saveWithKnowledgeElements');
     sinon.stub(assessmentRepository, 'get');
     sinon.stub(challengeRepository, 'get');
-    sinon.stub(skillRepository, 'findByCompetenceId');
+    sinon.stub(skillRepository, 'findActiveByCompetenceId');
     sinon.stub(targetProfileRepository, 'getByCampaignId');
     sinon.stub(scorecardService, 'computeScorecard');
     sinon.stub(knowledgeElementRepository, 'findUniqByUserIdAndAssessmentId');
@@ -116,7 +116,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         skills = domainBuilder.buildSkillCollection();
 
         scorecard = domainBuilder.buildUserScorecard({ level: 2, earnedPix: 22, exactlyEarnedPix: 22 });
-        skillRepository.findByCompetenceId.withArgs(assessment.competenceId).resolves(skills);
+        skillRepository.findActiveByCompetenceId.withArgs(assessment.competenceId).resolves(skills);
         knowledgeElementRepository.findUniqByUserIdAndAssessmentId.withArgs({ userId: assessment.userId, assessmentId: assessment.id }).resolves([knowledgeElement]);
         KnowledgeElement.createKnowledgeElementsForAnswer.returns([
           firstCreatedKnowledgeElement, secondCreatedKnowledgeElement,
@@ -160,7 +160,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         });
 
         // then
-        expect(skillRepository.findByCompetenceId).to.have.been.calledWith(assessment.competenceId);
+        expect(skillRepository.findActiveByCompetenceId).to.have.been.calledWith(assessment.competenceId);
         expect(knowledgeElementRepository.findUniqByUserIdAndAssessmentId).to.have.been.calledWith({ userId: assessment.userId, assessmentId: assessment.id });
       });
 
