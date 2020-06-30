@@ -17,7 +17,7 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
         state: CertificationAssessment.states.STARTED,
         isV2Certification: true,
         certificationChallenges: ['challenge'],
-        certificationAnswers: ['answer'],
+        certificationAnswersByDate: ['answer'],
       };
     });
 
@@ -83,15 +83,15 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
         .to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when certificationAnswers is not valid', () => {
+    it('should throw an ObjectValidationError when certificationAnswersByDate is not valid', () => {
       // when
-      expect(() => new CertificationAssessment({ ...validArguments, certificationAnswers: 'glouglou' }))
+      expect(() => new CertificationAssessment({ ...validArguments, certificationAnswersByDate: 'glouglou' }))
         .to.throw(ObjectValidationError);
     });
 
-    it('should be valid when certificationAnswers has no answer', () => {
+    it('should be valid when certificationAnswersByDate has no answer', () => {
       // when
-      expect(() => new CertificationAssessment({ ...validArguments, certificationAnswers: [] }))
+      expect(() => new CertificationAssessment({ ...validArguments, certificationAnswersByDate: [] }))
         .not.to.throw(ObjectValidationError);
     });
   });

@@ -12,7 +12,7 @@ const certificationAssessmentSchema = Joi.object({
   state: Joi.string().valid(states.COMPLETED, states.STARTED, states.ABORTED).required(),
   isV2Certification: Joi.boolean().required(),
   certificationChallenges: Joi.array().min(1).required(),
-  certificationAnswers: Joi.array().min(0).required(),
+  certificationAnswersByDate: Joi.array().min(0).required(),
 });
 
 class CertificationAssessment {
@@ -25,7 +25,7 @@ class CertificationAssessment {
     state,
     isV2Certification,
     certificationChallenges,
-    certificationAnswers,
+    certificationAnswersByDate,
   } = {}) {
     this.id = id;
     this.userId = userId;
@@ -35,7 +35,7 @@ class CertificationAssessment {
     this.state = state;
     this.isV2Certification = isV2Certification;
     this.certificationChallenges = certificationChallenges;
-    this.certificationAnswers = certificationAnswers;
+    this.certificationAnswersByDate = certificationAnswersByDate;
 
     validateEntity(certificationAssessmentSchema, this);
   }

@@ -7,7 +7,7 @@ const logger = require('../../infrastructure/logger');
 const { AssessmentEndedError } = require('../../domain/errors');
 
 const logContext = {
-  zone: 'certificationChallengeRepository.getNonAnsweredChallengeByCourseId',
+  zone: 'certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId',
   type: 'repository',
 };
 
@@ -25,7 +25,7 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(CertificationChallengeBookshelf, savedCertificationChallenge);
   },
 
-  async getNonAnsweredChallengeByCourseId(assessmentId, courseId) {
+  async getNextNonAnsweredChallengeByCourseId(assessmentId, courseId) {
     const answeredChallengeIds = Bookshelf.knex('answers')
       .select('challengeId')
       .where({ assessmentId });
@@ -33,6 +33,7 @@ module.exports = {
     const certificationChallenge = await CertificationChallengeBookshelf
       .where({ courseId })
       .query((knex) => knex.whereNotIn('challengeId', answeredChallengeIds))
+      .orderBy('id', 'asc')
       .fetch();
 
     if (certificationChallenge === null) {

@@ -43,7 +43,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       sinon.stub(usecases, 'getNextChallengeForDemo').resolves();
       sinon.stub(usecases, 'getNextChallengeForCampaignAssessment').resolves();
       sinon.stub(usecases, 'getNextChallengeForCompetenceEvaluation').resolves();
-      sinon.stub(certificationChallengeRepository, 'getNonAnsweredChallengeByCourseId').resolves();
+      sinon.stub(certificationChallengeRepository, 'getNextNonAnsweredChallengeByCourseId').resolves();
     });
 
     // TODO: Que faire si l'assessment n'existe pas pas ?
