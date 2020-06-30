@@ -1,0 +1,22 @@
+.user-certifications-detail-competences-list {
+  flex-grow: 1;
+
+  h2 {
+    color: $grey-60;
+    font-family: $font-open-sans;
+    font-size: 1.125rem;
+    margin-bottom: 8px;
+    font-weight: normal;
+
+    span {
+      font-size: 0.75rem;
+    }
+  }
+
+  &__note {
+    color: $grey-60;
+    font-size: 0.875rem;
+    letter-spacing: 0.15px;
+    line-height: 22px;
+  }
+}

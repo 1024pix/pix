@@ -1,10 +1,7 @@
-import { classNames } from '@ember-decorators/component';
-import Component from '@ember/component';
-import classic from 'ember-classic-decorator';
+import Component from '@glimmer/component';
 
-@classic
-@classNames('user-certifications-detail-competence')
 export default class UserCertificationsDetailCompetence extends Component {
-  competence = null;
-  levels = [1,2,3,4,5,6,7,8];
+  get sortedCompetences() {
+    return this.args.area.resultCompetences.sortBy('index');
+  }
 }
