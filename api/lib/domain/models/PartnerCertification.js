@@ -1,6 +1,7 @@
 const Joi = require('@hapi/joi')
   .extend(require('@hapi/joi-date'));
 const { validateEntity } = require('../validators/entity-validator');
+const { NotImplementedError } = require('../errors');
 
 class PartnerCertification {
   constructor(
@@ -17,9 +18,13 @@ class PartnerCertification {
     validateEntity(schema, this);
   }
 
-  isEligible() {}
+  isEligible() {
+    throw new NotImplementedError();
+  }
 
-  isAcquired() {}
+  isAcquired() {
+    throw new NotImplementedError();
+  }
 }
 
 module.exports = PartnerCertification;

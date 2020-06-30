@@ -466,6 +466,12 @@ class WrongDateFormatError extends DomainError {
   }
 }
 
+class NotImplementedError extends Error {
+  constructor(message = 'Not implemented error.') {
+    super(message);
+  }
+}
+
 module.exports = {
   DomainError,
   AlreadyExistingCampaignParticipationError,
@@ -532,4 +538,5 @@ module.exports = {
   UserOrgaSettingsCreationError,
   UserShouldChangePasswordError,
   WrongDateFormatError,
+  NotImplementedError,
 };
