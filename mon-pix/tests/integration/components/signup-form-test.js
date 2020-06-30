@@ -51,8 +51,8 @@ describe('Integration | Component | signup form', function() {
     });
 
     [
-      { locale: 'fr-fr', expectedFormTitle: 'Inscrivez-vous' },
-      { locale: 'en-us', expectedFormTitle: 'Sign up' },
+      { locale: 'fr', expectedFormTitle: 'Inscrivez-vous' },
+      { locale: 'en', expectedFormTitle: 'Sign up' },
     ].forEach(function(testCase) {
       it(`${testCase.locale}`, async function() {
         const expectedTitle = testCase.expectedFormTitle;
@@ -72,6 +72,7 @@ describe('Integration | Component | signup form', function() {
 
     beforeEach(async function() {
       this.set('user', userEmpty);
+      this.intl.setLocale(['en', 'fr']);
       await render(hbs`{{signup-form user=user}}`);
     });
 
