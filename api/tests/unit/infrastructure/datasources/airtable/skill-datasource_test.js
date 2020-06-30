@@ -145,4 +145,53 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
     });
   });
 
+  describe('#findOperativeByCompetenceId', function() {
+
+    beforeEach(() => {
+      const acquix1 = new AirtableRecord('Acquis', 'recAcquix1', {
+        fields: {
+          'id persistant': 'recAcquix1',
+          'Nom': '@acquix1',
+          'Status': 'actif',
+          'Compétence (via Tube) (id persistant)': ['recCompetence']
+        }
+      });
+      const acquix2 = new AirtableRecord('Acquis', 'recAcquix2', {
+        fields: {
+          'id persistant': 'recAcquix2',
+          'Nom': '@acquix2',
+          'Status': 'archivé',
+          'Compétence (via Tube) (id persistant)': ['recCompetence']
+        }
+      });
+      const acquix3 = new AirtableRecord('Acquis', 'recAcquix3', {
+        fields: {
+          'id persistant': 'recAcquix3',
+          'Nom': '@acquix3',
+          'Status': 'en construction',
+          'Compétence (via Tube) (id persistant)': ['recCompetence']
+        }
+      });
+      const acquix4 = new AirtableRecord('Acquis', 'recAcquix4', {
+        fields: {
+          'id persistant': 'recAcquix4',
+          'Nom': '@acquix4',
+          'Status': 'actif',
+          'Compétence (via Tube) (id persistant)': ['recOtherCompetence']
+        }
+      });
+      sinon.stub(airtable, 'findRecords')
+        .withArgs('Acquis')
+        .callsFake(makeAirtableFake([acquix1, acquix2, acquix3, acquix4]));
+    });
+
+    it('should retrieve all skills from Airtable for one competence', async function() {
+      // when
+      const skills = await skillDatasource.findOperativeByCompetenceId('recCompetence');
+
+      // then
+      expect(_.map(skills, 'id')).to.have.members(['recAcquix1', 'recAcquix2']);
+    });
+  });
+
 });
