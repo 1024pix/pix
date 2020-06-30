@@ -96,7 +96,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
     });
   });
 
-  describe('#findByCompetenceId', function() {
+  describe('#findActiveByCompetenceId', function() {
 
     beforeEach(() => {
       const acquix1 = new AirtableRecord('Acquis', 'recAcquix1', {
@@ -138,7 +138,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
 
     it('should retrieve all skills from Airtable for one competence', async function() {
       // when
-      const skills = await skillDatasource.findByCompetenceId('recCompetence');
+      const skills = await skillDatasource.findActiveByCompetenceId('recCompetence');
 
       // then
       expect(_.map(skills, 'id')).to.have.members(['recAcquix1', 'recAcquix2']);

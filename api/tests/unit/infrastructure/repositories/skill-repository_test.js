@@ -6,7 +6,7 @@ const skillRepository = require('../../../../lib/infrastructure/repositories/ski
 describe('Unit | Repository | skill-repository', function() {
 
   beforeEach(() => {
-    sinon.stub(skillDatasource, 'findByCompetenceId');
+    sinon.stub(skillDatasource, 'findActiveByCompetenceId');
     sinon.stub(skillDatasource, 'findActiveSkills');
     sinon.stub(skillDatasource, 'findByRecordIds');
   });
@@ -16,7 +16,7 @@ describe('Unit | Repository | skill-repository', function() {
     const competenceID = 'competence_id';
 
     beforeEach(() => {
-      skillDatasource.findByCompetenceId
+      skillDatasource.findActiveByCompetenceId
         .withArgs('competence_id')
         .resolves([{
           id: 'recAcquix1',
