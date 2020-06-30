@@ -28,7 +28,7 @@ module.exports = {
     return new CleaCertification({
       certificationCourseId,
       hasAcquiredBadge,
-      competenceMarks: cleaCompetenceMarks,
+      cleaCompetenceMarks,
       maxReachablePixByCompetenceForClea,
       reproducibilityRate
     });
