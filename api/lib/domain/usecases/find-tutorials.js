@@ -24,7 +24,7 @@ module.exports = async function findTutorials({
   if (invalidatedDirectKnowledgeElements.length === 0) {
     return [];
   }
-  const skills = await skillRepository.findByCompetenceId(competenceId);
+  const skills = await skillRepository.findActiveByCompetenceId(competenceId);
   const failedSkills = _getFailedSkills(skills, invalidatedDirectKnowledgeElements);
 
   const skillsGroupedByTube = _getSkillsGroupedByTube(failedSkills);

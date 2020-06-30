@@ -14,7 +14,7 @@ function _toDomain(skillData) {
 
 module.exports = {
 
-  findByCompetenceId(competenceId) {
+  findActiveByCompetenceId(competenceId) {
     return skillDatasource.findActiveByCompetenceId(competenceId)
       .then((skillDatas) => skillDatas.map(_toDomain));
   },

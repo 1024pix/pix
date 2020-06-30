@@ -12,7 +12,7 @@ describe('Unit | Repository | skill-repository', function() {
     sinon.stub(skillDatasource, 'findByRecordIds');
   });
 
-  describe('#findByCompetenceId', function() {
+  describe('#findActiveByCompetenceId', function() {
 
     const competenceID = 'competence_id';
 
@@ -40,7 +40,7 @@ describe('Unit | Repository | skill-repository', function() {
       //given
 
       // when
-      const skills = await skillRepository.findByCompetenceId(competenceID);
+      const skills = await skillRepository.findActiveByCompetenceId(competenceID);
 
       // then
       expect(skills).to.have.lengthOf(2);
