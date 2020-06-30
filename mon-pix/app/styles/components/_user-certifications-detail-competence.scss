@@ -1,5 +1,5 @@
 .user-certifications-detail-competence {
-  
+  margin-bottom: 32px;
   @mixin leftElement {
     position: relative;
     display: flex;
@@ -22,7 +22,7 @@
     padding-left: 16px;
     line-height: 1rem;
     font-weight: normal;
-    
+
     &--level {
       @include rightElement;
       color: $grey-60;
@@ -32,6 +32,7 @@
   &__competence {
     @include leftElement;
     color: $grey-80;
+    height: 100%;
     font-family: $font-open-sans;
     font-size: 1rem;
     padding: 20px 0 20px 36px;
@@ -50,6 +51,7 @@
       width: 3px;
       height: calc(100% - 20px);
       border-radius: 1.5px;
+      top: 10px;
     }
 
     &--disabled {
@@ -63,6 +65,7 @@
 
   > * {
     border-bottom: 1.5px $grey-10 solid;
+    height: 75px;
     min-height: 60px;
   }
   > :last-child {
