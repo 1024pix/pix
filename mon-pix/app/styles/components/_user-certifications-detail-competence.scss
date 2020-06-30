@@ -1,5 +1,5 @@
 .user-certifications-detail-competence {
-  
+  margin-bottom: 32px;
   @mixin leftElement {
     position: relative;
     display: flex;
@@ -32,6 +32,7 @@
   &__competence {
     @include leftElement;
     color: $grey-80;
+    height: 100%;
     font-family: $font-open-sans;
     font-size: 1rem;
     padding: 20px 0 20px 36px;
