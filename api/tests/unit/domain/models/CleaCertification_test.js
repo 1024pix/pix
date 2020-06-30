@@ -14,7 +14,7 @@ describe('Unit | Domain | Models | CleaCertification', () => {
         partnerKey: 'partnerKey',
         hasAcquiredBadge: true,
         reproducibilityRate: 80,
-        competenceMarks: [1],
+        cleaCompetenceMarks: [1],
         maxReachablePixByCompetenceForClea: { competence1:1 },
       };
     });
@@ -40,9 +40,9 @@ describe('Unit | Domain | Models | CleaCertification', () => {
       })).to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when competenceMarks is not valid', () => {
+    it('should throw an ObjectValidationError when cleaCompetenceMarks is not valid', () => {
       // when
-      expect(() => new CleaCertification({ ...validArguments, competenceMarks: [] })).to.throw(ObjectValidationError);
+      expect(() => new CleaCertification({ ...validArguments, cleaCompetenceMarks: null })).to.throw(ObjectValidationError);
     });
 
     it('should throw an ObjectValidationError when maxReachablePixByCompetenceForClea is not valid', () => {
@@ -173,7 +173,7 @@ function _buildCleaCertificationInGreyZoneAndCertifiableCompetences() {
     ['competenceId4']: 30,
   };
 
-  const competenceMarks = [
+  const cleaCompetenceMarks = [
     domainBuilder.buildCompetenceMark(
       {
         competenceId: competenceId1,
@@ -191,7 +191,7 @@ function _buildCleaCertificationInGreyZoneAndCertifiableCompetences() {
     {
       withBadge: true,
       reproducibilityRate: 70,
-      competenceMarks,
+      cleaCompetenceMarks,
       maxReachablePixByCompetenceForClea
     });
 }
@@ -205,7 +205,7 @@ function _buildCleaCertificationInGreyZoneAndNonCertifiableCompetences() {
     ['competenceId4']: 30,
   };
 
-  const competenceMarks = [
+  const cleaCompetenceMarks = [
     domainBuilder.buildCompetenceMark(
       {
         competenceId: competenceId1,
@@ -222,7 +222,7 @@ function _buildCleaCertificationInGreyZoneAndNonCertifiableCompetences() {
   return _buildCleaCertification({
     withBadge: true,
     reproducibilityRate: 70,
-    competenceMarks,
+    cleaCompetenceMarks,
     maxReachablePixByCompetenceForClea
   });
 }
@@ -230,7 +230,7 @@ function _buildCleaCertificationInGreyZoneAndNonCertifiableCompetences() {
 function _buildCleaCertification({
   withBadge = false,
   reproducibilityRate = 0,
-  competenceMarks = [domainBuilder.buildCompetenceMark()],
+  cleaCompetenceMarks = [domainBuilder.buildCompetenceMark()],
   maxReachablePixByCompetenceForClea = { competence1:1 }
 }) {
   const certificationCourseId = 42;
@@ -239,7 +239,7 @@ function _buildCleaCertification({
     certificationCourseId,
     hasAcquiredBadge: withBadge,
     reproducibilityRate,
-    competenceMarks,
+    cleaCompetenceMarks,
     maxReachablePixByCompetenceForClea,
   });
 }

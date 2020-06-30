@@ -14,11 +14,11 @@ function _isOverPercentage(value = 0, total, percentage = MIN_PERCENTAGE) {
   return value >= (total * percentage / 100);
 }
 
-function _hasRequiredPixValue({ maxReachablePixByCompetenceForClea, competenceMarks }) {
-  const certifiableCompetenceIds = _.map(competenceMarks, 'competenceId');
+function _hasRequiredPixValue({ maxReachablePixByCompetenceForClea, cleaCompetenceMarks }) {
+  const certifiableCompetenceIds = _.map(cleaCompetenceMarks, 'competenceId');
   return !_.isEmpty(certifiableCompetenceIds)
     && _.every(certifiableCompetenceIds, (competenceId) => _isOverPercentage(
-      _.find(competenceMarks, { competenceId }).score,
+      _.find(cleaCompetenceMarks, { competenceId }).score,
       maxReachablePixByCompetenceForClea[competenceId]
     ));
 }
@@ -37,7 +37,7 @@ class CleaCertification extends PartnerCertification {
     certificationCourseId,
     hasAcquiredBadge,
     reproducibilityRate,
-    competenceMarks,
+    cleaCompetenceMarks,
     maxReachablePixByCompetenceForClea,
   } = {}) {
     super({
@@ -47,13 +47,13 @@ class CleaCertification extends PartnerCertification {
 
     this.hasAcquiredBadge = hasAcquiredBadge;
     this.reproducibilityRate = reproducibilityRate;
-    this.competenceMarks = competenceMarks;
+    this.cleaCompetenceMarks = cleaCompetenceMarks;
     this.maxReachablePixByCompetenceForClea = maxReachablePixByCompetenceForClea;
 
     const schema = Joi.object({
       hasAcquiredBadge: Joi.boolean().required(),
       reproducibilityRate: Joi.number().required(),
-      competenceMarks: Joi.array().min(1).required(),
+      cleaCompetenceMarks: Joi.array().required(),
       maxReachablePixByCompetenceForClea: Joi.object().min(1).required(),
     }).unknown();
 
@@ -72,7 +72,7 @@ class CleaCertification extends PartnerCertification {
     if (_hasSufficientReproducibilityRateToBeTrusted(this.reproducibilityRate)) return true;
 
     return _hasRequiredPixValue({
-      competenceMarks: this.competenceMarks,
+      cleaCompetenceMarks: this.cleaCompetenceMarks,
       maxReachablePixByCompetenceForClea: this.maxReachablePixByCompetenceForClea
     });
   }

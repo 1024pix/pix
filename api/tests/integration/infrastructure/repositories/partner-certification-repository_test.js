@@ -64,7 +64,29 @@ describe('Integration | Repository | Partner Certification', function() {
       return cache.flushAll();
     });
 
-    it('should successfully build a cleaCertification with badge', async () => {
+    it('should successfully build a CleaCertification with no clea competenceMarks', async () => {
+      // given
+      const { userId } = await _setUpCleaCertificationWithBadge({ certificationCourseId, competenceId: 'otherCompetenceId', skill });
+
+      const expectedCleaCertification = new CleaCertification({
+        certificationCourseId,
+        hasAcquiredBadge: true,
+        reproducibilityRate,
+        cleaCompetenceMarks: [],
+        maxReachablePixByCompetenceForClea: { [competenceId]: pixValue },
+      });
+
+      // when
+      const cleaCertification = await partnerCertificationRepository.buildCleaCertification({
+        certificationCourseId, userId, reproducibilityRate, skillRepository
+      });
+
+      // then
+      expect(cleaCertification).to.be.instanceOf(CleaCertification);
+      expect(cleaCertification).to.deep.equal(expectedCleaCertification);
+    });
+
+    it('should successfully build a CleaCertification with badge', async () => {
       // given
 
       const { userId, competenceMark } = await _setUpCleaCertificationWithBadge({ certificationCourseId, competenceId, skill });
@@ -73,7 +95,7 @@ describe('Integration | Repository | Partner Certification', function() {
         certificationCourseId,
         hasAcquiredBadge: true,
         reproducibilityRate,
-        competenceMarks: [_.omit(competenceMark, 'createdAt')],
+        cleaCompetenceMarks: [_.omit(competenceMark, 'createdAt')],
         maxReachablePixByCompetenceForClea: { [competenceId]: pixValue },
       });
 
@@ -95,7 +117,7 @@ describe('Integration | Repository | Partner Certification', function() {
         certificationCourseId,
         hasAcquiredBadge: false,
         reproducibilityRate,
-        competenceMarks: [_.omit(competenceMark, 'createdAt')],
+        cleaCompetenceMarks: [_.omit(competenceMark, 'createdAt')],
         maxReachablePixByCompetenceForClea: { [competenceId]: pixValue },
       });
 
