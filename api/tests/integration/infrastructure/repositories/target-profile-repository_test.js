@@ -22,7 +22,7 @@ describe('Integration | Repository | Target-profile', () => {
       await databaseBuilder.commit();
 
       skillAssociatedToTargetProfile = { id: targetProfileFirstSkill.skillId, name: '@Acquis2' };
-      sinon.stub(skillDatasource, 'findByRecordIds').resolves([skillAssociatedToTargetProfile]);
+      sinon.stub(skillDatasource, 'findOperativeByRecordIds').resolves([skillAssociatedToTargetProfile]);
     });
 
     it('should return the target profile with its associated skills and the list of organizations which could access it', () => {
@@ -31,7 +31,7 @@ describe('Integration | Repository | Target-profile', () => {
 
       // then
       return promise.then((foundTargetProfile) => {
-        expect(skillDatasource.findByRecordIds).to.have.been.calledWith([targetProfileFirstSkill.skillId]);
+        expect(skillDatasource.findOperativeByRecordIds).to.have.been.calledWith([targetProfileFirstSkill.skillId]);
 
         expect(foundTargetProfile).to.be.an.instanceOf(TargetProfile);
 
@@ -69,7 +69,7 @@ describe('Integration | Repository | Target-profile', () => {
       await databaseBuilder.commit();
 
       targetProfileSkill = { id: targetProfileSkillAssociation.skillId, name: '@Acquis2' };
-      sinon.stub(skillDatasource, 'findByRecordIds').resolves([targetProfileSkill]);
+      sinon.stub(skillDatasource, 'findOperativeByRecordIds').resolves([targetProfileSkill]);
     });
 
     it('should return an Array', async () => {
@@ -121,7 +121,7 @@ describe('Integration | Repository | Target-profile', () => {
       const skillAssociatedToTargetProfile = { id: skillId, name: '@Acquis2' };
       databaseBuilder.factory.buildTargetProfile();
       databaseBuilder.factory.buildCampaign();
-      sinon.stub(skillDatasource, 'findByRecordIds').resolves([skillAssociatedToTargetProfile]);
+      sinon.stub(skillDatasource, 'findOperativeByRecordIds').resolves([skillAssociatedToTargetProfile]);
 
       await databaseBuilder.commit();
     });
