@@ -48,7 +48,7 @@ module('Integration | Component | organization-information-section', function(ho
     let organization;
 
     hooks.beforeEach(function() {
-      organization = EmberObject.create({ id: 1, name: 'Organization SCO', externalId: 'VELIT', provinceCode: 'h50' });
+      organization = EmberObject.create({ id: 1, name: 'Organization SCO', externalId: 'VELIT', provinceCode: 'h50', email: 'sco.generic.account@example.net' });
       this.set('organization', organization);
     });
 
@@ -82,6 +82,7 @@ module('Integration | Component | organization-information-section', function(ho
       assert.dom('input#name').hasValue(organization.name);
       assert.dom('input#externalId').hasValue(organization.externalId);
       assert.dom('input#provinceCode').hasValue(organization.provinceCode);
+      assert.dom('input#email').hasValue(organization.email);
     });
 
     test('it should show error message if organization\'s name is empty', async function(assert) {
