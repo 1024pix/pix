@@ -29,6 +29,12 @@ module.exports = {
     return _generateChallengeDomainModels({ challengeDataObjects, skills: activeSkills });
   },
 
+  async findOperative() {
+    const challengeDataObjects = await challengeDatasource.findOperative();
+    const operativeSkills = await skillDatasource.findOperativeSkills();
+    return _generateChallengeDomainModels({ challengeDataObjects, skills: operativeSkills });
+  },
+
   async findValidatedByCompetenceId(competenceId) {
     const challengeDataObjects = await challengeDatasource.findValidatedByCompetenceId(competenceId);
     const activeSkills = await skillDatasource.findActiveSkills();
