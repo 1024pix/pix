@@ -23,8 +23,8 @@ module.exports = {
       });
   },
 
-  async list() {
-    const challengeDataObjects = await challengeDatasource.list();
+  async findValidated() {
+    const challengeDataObjects = await challengeDatasource.findValidated();
     const activeSkills = await skillDatasource.findActiveSkills();
     return _generateChallengeDomainModels({ challengeDataObjects, skills: activeSkills });
   },

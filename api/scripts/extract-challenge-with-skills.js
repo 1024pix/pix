@@ -33,7 +33,7 @@ async function findChallengesWithSkills() {
 async function _getReferentialData() {
 
   // Récupération des challenges qui ont des acquis
-  let challenges = await challengeRepository.list();
+  let challenges = await challengeRepository.findValidated();
   challenges = _.filter(challenges,(c) => {
     return c.skills.length > 0;
   });
