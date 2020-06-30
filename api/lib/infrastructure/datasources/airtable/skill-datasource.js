@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const datasource = require('./datasource');
 
-const ACTIVATED_STATUS = 'actif';
+const ACTIVE_STATUS = 'actif';
 
 module.exports = datasource.extend({
 
@@ -40,19 +40,19 @@ module.exports = datasource.extend({
 
   async findActiveSkills() {
     const skills = await this.list();
-    return _.filter(skills, { status: ACTIVATED_STATUS });
+    return _.filter(skills, { status: ACTIVE_STATUS });
   },
 
   async findByRecordIds(skillIds) {
     const skills = await this.list();
     return skills.filter((skillData) =>
-      skillData.status === ACTIVATED_STATUS &&
+      skillData.status === ACTIVE_STATUS &&
       _.includes(skillIds, skillData.id));
   },
 
-  async findByCompetenceId(competenceId) {
+  async findActiveByCompetenceId(competenceId) {
     const skills = await this.list();
-    return _.filter(skills, { status: ACTIVATED_STATUS, competenceId });
+    return _.filter(skills, { status: ACTIVE_STATUS, competenceId });
   },
 
 });
