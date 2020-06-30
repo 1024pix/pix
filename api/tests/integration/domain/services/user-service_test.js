@@ -79,7 +79,7 @@ describe('Integration | Service | User Service', function() {
   const challengeForSkillRequin8 = _createChallenge('challengeRecordIdTen', competenceRequin.id, [skillRequin8], '@requin8');
 
   beforeEach(() => {
-    sinon.stub(challengeRepository, 'findValidated').resolves([
+    sinon.stub(challengeRepository, 'findOperative').resolves([
       challengeForSkillCitation4,
       archivedChallengeForSkillCitation4,
       challengeForSkillCitation4AndMoteur3,
@@ -382,7 +382,7 @@ describe('Integration | Service | User Service', function() {
       await userService.fillCertificationProfileWithChallenges(certificationProfile);
 
       // then
-      sinon.assert.calledOnce(challengeRepository.findValidated);
+      sinon.assert.calledOnce(challengeRepository.findOperative);
     });
 
     it('should assign skill to related competence', async () => {
@@ -691,7 +691,7 @@ describe('Integration | Service | User Service', function() {
         // given
         certificationProfile.userCompetences = [userCompetence1, userCompetence2];
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFour', 'challengeRecordIdTwo', 'challenge_url1']);
-        challengeRepository.findValidated.resolves([
+        challengeRepository.findOperative.resolves([
           challengeForSkillRecherche4,
           challengeForSkillCitation4AndMoteur3,
           challengeForSkillCollaborer4,

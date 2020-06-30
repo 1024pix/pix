@@ -33,7 +33,7 @@ async function fillCertificationProfileWithChallenges(certificationProfile) {
 
   const challengeIdsCorrectlyAnswered = await answerRepository.findChallengeIdsFromAnswerIds(answerIds);
 
-  const allChallenges = await challengeRepository.findValidated();
+  const allChallenges = await challengeRepository.findOperative();
   const challengesAlreadyAnswered = challengeIdsCorrectlyAnswered.map((challengeId) => Challenge.findById(allChallenges, challengeId));
 
   challengesAlreadyAnswered.forEach((challenge) => {
