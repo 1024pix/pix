@@ -24,7 +24,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessmen
 
       answerRepository = { findByAssessment: sinon.stub().resolves([lastAnswer]) };
       challenges = [];
-      challengeRepository = { findBySkills: sinon.stub().resolves(challenges) };
+      challengeRepository = { findOperativeBySkills: sinon.stub().resolves(challenges) };
       campaignParticipation = { getTargetProfileId: sinon.stub().returns(targetProfileId) };
       assessment = { id: assessmentId, userId, campaignParticipation, isImproving: false };
       skills = [];
@@ -90,7 +90,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessmen
     });
 
     it('should have fetched the challenges', () => {
-      expect(challengeRepository.findBySkills).to.have.been.calledWithExactly(skills);
+      expect(challengeRepository.findOperativeBySkills).to.have.been.calledWithExactly(skills);
     });
 
     it('should have fetched the next challenge with only most recent knowledge elements', () => {

@@ -47,7 +47,7 @@ async function _fetchSkillsAndChallenges({
   challengeRepository,
 }) {
   const targetProfile = await targetProfileRepository.get(targetProfileId);
-  const challenges = await challengeRepository.findBySkills(targetProfile.skills);
+  const challenges = await challengeRepository.findOperativeBySkills(targetProfile.skills);
   return [ targetProfile.skills, challenges ];
 }
 

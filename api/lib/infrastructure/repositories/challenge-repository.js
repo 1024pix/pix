@@ -35,7 +35,7 @@ module.exports = {
     return _generateChallengeDomainModels({ challengeDataObjects, skills: activeSkills });
   },
 
-  async findBySkills(skills) {
+  async findOperativeBySkills(skills) {
     const skillIds = skills.map((skill) => skill.id);
     const challengeDataObjects = await challengeDatasource.findOperativeBySkillIds(skillIds);
     const operativeSkills = await skillDatasource.findOperativeSkills();
