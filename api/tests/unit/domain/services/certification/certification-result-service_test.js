@@ -146,7 +146,7 @@ describe('Unit | Service | Certification Result Service', function() {
       beforeEach(() => {
         certificationAssessment = new CertificationAssessment({
           ...certificationAssessmentData,
-          certificationAnswers: wrongAnswersForAllChallenges(),
+          certificationAnswersByDate: wrongAnswersForAllChallenges(),
           certificationChallenges: challenges,
         });
 
@@ -318,7 +318,7 @@ describe('Unit | Service | Certification Result Service', function() {
       context('when reproducibility rate is between 80% and 100%', () => {
 
         beforeEach(() => {
-          certificationAssessment.certificationAnswers = correctAnswersForAllChallenges();
+          certificationAssessment.certificationAnswersByDate = correctAnswersForAllChallenges();
         });
 
         it('should ignore answers with no matching challenge', async () => {
@@ -389,7 +389,7 @@ describe('Unit | Service | Certification Result Service', function() {
 
         it('should return totalScore = (all pix - one competence pix) when one competence is totally false', async () => {
           // given
-          certificationAssessment.certificationAnswers = answersToHaveOnlyTheLastCompetenceFailed();
+          certificationAssessment.certificationAnswersByDate = answersToHaveOnlyTheLastCompetenceFailed();
 
           // when
           const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
@@ -400,7 +400,7 @@ describe('Unit | Service | Certification Result Service', function() {
 
         it('should return list of competences with certifiedLevel = estimatedLevel except for failed competence', async () => {
           // given
-          certificationAssessment.certificationAnswers = answersToHaveOnlyTheLastCompetenceFailed();
+          certificationAssessment.certificationAnswersByDate = answersToHaveOnlyTheLastCompetenceFailed();
           const expectedCertifiedCompetences = [{
             index: '1.1',
             area_code: '1',
@@ -450,7 +450,7 @@ describe('Unit | Service | Certification Result Service', function() {
 
       context('when reproducibility rate is between 50% and 80%', () => {
         beforeEach(() => {
-          certificationAssessment.certificationAnswers = answersWithReproducibilityRateLessThan80();
+          certificationAssessment.certificationAnswersByDate = answersWithReproducibilityRateLessThan80();
         });
 
         it('should return totalScore = all pix minus 8 for one competence with 1 error and minus all pix for others false competences', async () => {
@@ -686,7 +686,7 @@ describe('Unit | Service | Certification Result Service', function() {
                 _buildUserCompetence(competence_1, positionedScore, positionedLevel),
               ];
 
-              certificationAssessment.certificationAnswers = answers;
+              certificationAssessment.certificationAnswersByDate = answers;
               certificationAssessment.certificationChallenges = challenges;
               userService.getCertificationProfile.restore();
               sinon.stub(userService, 'getCertificationProfile').withArgs({
@@ -715,7 +715,7 @@ describe('Unit | Service | Certification Result Service', function() {
       const continueOnError = false;
 
       beforeEach(() => {
-        certificationAssessment.certificationAnswers = wrongAnswersForAllChallenges();
+        certificationAssessment.certificationAnswersByDate = wrongAnswersForAllChallenges();
         certificationAssessment.certificationChallenges = challenges;
         sinon.stub(competenceRepository, 'list').resolves(competencesFromAirtable);
         sinon.stub(challengeRepository, 'list').resolves(challengesFromAirTable);
@@ -808,7 +808,7 @@ describe('Unit | Service | Certification Result Service', function() {
       context('when reproducibility rate is between 80% and 100%', () => {
 
         beforeEach(() => {
-          certificationAssessment.certificationAnswers = correctAnswersForAllChallenges();
+          certificationAssessment.certificationAnswersByDate = correctAnswersForAllChallenges();
         });
 
         it('should return totalScore = all pix', async () => {
@@ -822,7 +822,7 @@ describe('Unit | Service | Certification Result Service', function() {
         it('should ignore answers with no matching challenge', async () => {
           // given
           const answerNoMatchingChallenge = domainBuilder.buildAnswer({ challengeId: 'non_existing_challenge', result: 'ok' });
-          certificationAssessment.certificationAnswers = [...correctAnswersForAllChallenges(), answerNoMatchingChallenge ];
+          certificationAssessment.certificationAnswersByDate = [...correctAnswersForAllChallenges(), answerNoMatchingChallenge ];
 
           // when
           const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
@@ -882,7 +882,7 @@ describe('Unit | Service | Certification Result Service', function() {
 
         it('should return totalScore = (all pix - one competence pix) when one competence is totally false', async () => {
           // given
-          certificationAssessment.certificationAnswers = answersToHaveOnlyTheLastCompetenceFailed();
+          certificationAssessment.certificationAnswersByDate = answersToHaveOnlyTheLastCompetenceFailed();
 
           // when
           const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
@@ -893,7 +893,7 @@ describe('Unit | Service | Certification Result Service', function() {
 
         it('should return list of competences with certifiedLevel = estimatedLevel except for failed competence', async () => {
           // given
-          certificationAssessment.certificationAnswers = answersToHaveOnlyTheLastCompetenceFailed();
+          certificationAssessment.certificationAnswersByDate = answersToHaveOnlyTheLastCompetenceFailed();
           const expectedCertifiedCompetences = [{
             index: '1.1',
             area_code: '1',
@@ -943,7 +943,7 @@ describe('Unit | Service | Certification Result Service', function() {
       context('when reproducibility rate is between 50% and 80%', () => {
 
         beforeEach(() => {
-          certificationAssessment.certificationAnswers = answersWithReproducibilityRateLessThan80();
+          certificationAssessment.certificationAnswersByDate = answersWithReproducibilityRateLessThan80();
         });
 
         it('should return totalScore = all pix minus 8 for one competence with 1 error and minus all pix for others false competences', async () => {
@@ -1053,7 +1053,7 @@ describe('Unit | Service | Certification Result Service', function() {
             ({ challengeId: 'challenge_B_for_competence_6', result: 'ok' }),
             ({ challengeId: 'challenge_C_for_competence_6', result: 'ko' }),
           ], domainBuilder.buildAnswer);
-          certificationAssessment.certificationAnswers = answers;
+          certificationAssessment.certificationAnswersByDate = answers;
 
           const expectedCertifiedCompetences = [{
             index: '5.5',
@@ -1091,7 +1091,7 @@ describe('Unit | Service | Certification Result Service', function() {
             { challengeId: 'challenge_B_for_competence_6', result: 'ok' },
             { challengeId: 'challenge_C_for_competence_6', result: 'ok' },
           ], domainBuilder.buildAnswer);
-          certificationAssessment.certificationAnswers = answers;
+          certificationAssessment.certificationAnswersByDate = answers;
 
           const expectedCertifiedCompetences = [{
             index: '5.5',
@@ -1139,7 +1139,7 @@ describe('Unit | Service | Certification Result Service', function() {
             { challengeId: 'challenge_M_for_competence_5', result: 'ok' },
             { challengeId: 'challenge_N_for_competence_6', result: 'ok' },
           ], domainBuilder.buildAnswer);
-          certificationAssessment.certificationAnswers = answers;
+          certificationAssessment.certificationAnswersByDate = answers;
         });
 
         it('should not include the extra challenges when computing reproducibility', async () => {

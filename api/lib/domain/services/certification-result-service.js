@@ -207,7 +207,7 @@ module.exports = {
       certifChallenge.type = challenge ? challenge.type : 'EmptyType';
     });
 
-    const matchingAnswers = _selectAnswersMatchingCertificationChallenges(certificationAssessment.certificationAnswers, matchingCertificationChallenges);
+    const matchingAnswers = _selectAnswersMatchingCertificationChallenges(certificationAssessment.certificationAnswersByDate, matchingCertificationChallenges);
 
     const result = _getResult(matchingAnswers, matchingCertificationChallenges, testedCompetences, continueOnError);
 
