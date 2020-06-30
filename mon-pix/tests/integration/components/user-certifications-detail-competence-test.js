@@ -12,7 +12,7 @@ describe('Integration | Component | user-certifications-detail-competence', func
   let area;
   const PARENT_SELECTOR = '.user-certifications-detail-competence';
   const TITLE_SELECTOR = `${PARENT_SELECTOR}__title`;
-  const COMPETENCE_SELECTOR = `${PARENT_SELECTOR}__competence`;
+  const COMPETENCE_SELECTOR = `${PARENT_SELECTOR} div`;
   const DISABLED_CLASS = 'user-certifications-detail-competence__competence--disabled';
 
   beforeEach(async function() {
@@ -75,7 +75,7 @@ describe('Integration | Component | user-certifications-detail-competence', func
 
       it('should be grayed out (almost transparent) and not show the level', function() {
         expect(find(`${COMPETENCE_SELECTOR}:nth-child(3) span`).textContent).to.equal(area.resultCompetences[1].level.toString());
-        expect(find(`${COMPETENCE_SELECTOR}:nth-child(3)`).classList.toString()).to.include(DISABLED_CLASS);
+        expect(find(`${COMPETENCE_SELECTOR}:nth-child(3) p`).classList.toString()).to.include(DISABLED_CLASS);
       });
     });
 
@@ -83,7 +83,7 @@ describe('Integration | Component | user-certifications-detail-competence', func
 
       it('should show "-" for the level (not 0)', function() {
         expect(find(`${COMPETENCE_SELECTOR}:nth-child(4) span`).textContent).to.equal('-');
-        expect(find(`${COMPETENCE_SELECTOR}:nth-child(4)`).classList.toString()).to.not.include(DISABLED_CLASS);
+        expect(find(`${COMPETENCE_SELECTOR}:nth-child(4) p`).classList.toString()).to.not.include(DISABLED_CLASS);
       });
     });
 
@@ -91,7 +91,7 @@ describe('Integration | Component | user-certifications-detail-competence', func
 
       it('should show the level', function() {
         expect(find(`${COMPETENCE_SELECTOR}:nth-child(5) span`).textContent).to.equal('3');
-        expect(find(`${COMPETENCE_SELECTOR}:nth-child(5)`).classList.toString()).to.not.include(DISABLED_CLASS);
+        expect(find(`${COMPETENCE_SELECTOR}:nth-child(5) p`).classList.toString()).to.not.include(DISABLED_CLASS);
       });
     });
   });
