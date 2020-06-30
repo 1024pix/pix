@@ -2,10 +2,10 @@ import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { htmlSafe } from '@ember/string';
 import colorGradient from 'mon-pix/utils/color-gradient';
+import progressInAssessment from 'mon-pix/utils/progress-in-assessment';
 
 export default class ProgressBar extends Component {
   @service media;
-  @service progressInAssessment;
 
   MINIMUM_WIDTH_STEP_IN_PERCENT = 1.7;
   MINIMUM_WIDTH_STEP_IN_PIXEL = 16;
@@ -15,15 +15,15 @@ export default class ProgressBar extends Component {
   }
 
   get currentStepIndex() {
-    return this.progressInAssessment.getCurrentStepIndex(this.args.assessment, this.args.answerId);
+    return progressInAssessment.getCurrentStepIndex(this.args.assessment, this.args.answerId);
   }
 
   get maxStepsNumber() {
-    return this.progressInAssessment.getMaxStepsNumber(this.args.assessment);
+    return progressInAssessment.getMaxStepsNumber(this.args.assessment);
   }
 
   get currentStepNumber() {
-    return this.progressInAssessment.getCurrentStepNumber(this.args.assessment, this.args.answerId);
+    return progressInAssessment.getCurrentStepNumber(this.args.assessment, this.args.answerId);
   }
 
   get steps() {
