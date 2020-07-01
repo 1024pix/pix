@@ -1,7 +1,15 @@
 const Assessment = require('../models/Assessment');
 
-module.exports = async function improveCompetenceEvaluation({ competenceEvaluationRepository, assessmentRepository, userId, competenceId, domainTransaction }) {
-  const competenceEvaluation = await competenceEvaluationRepository.getByCompetenceIdAndUserId({ competenceId, userId });
+module.exports = async function improveCompetenceEvaluation({
+  competenceEvaluationRepository,
+  getCompetenceLevel,
+  assessmentRepository,
+  userId,
+  competenceId,
+  domainTransaction
+}) {
+  const competenceEvaluation = await competenceEvaluationRepository.getByCompetenceIdAndUserId({ userId, competenceId });
+  await getCompetenceLevel({ userId, competenceId });
   const assessment = new Assessment({
     userId,
     competenceId,
