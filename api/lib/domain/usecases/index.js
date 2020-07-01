@@ -33,6 +33,7 @@ const dependencies = {
   correctionRepository: require('../../infrastructure/repositories/correction-repository'),
   courseRepository: require('../../infrastructure/repositories/course-repository'),
   encryptionService: require('../../domain/services/encryption-service'),
+  getCompetenceLevel: require('../../domain/services/get-competence-level'),
   improvementService: require('../../domain/services/improvement-service'),
   juryCertificationSummaryRepository: require('../../infrastructure/repositories/jury-certification-summary-repository'),
   jurySessionRepository: require('../../infrastructure/repositories/jury-session-repository'),
