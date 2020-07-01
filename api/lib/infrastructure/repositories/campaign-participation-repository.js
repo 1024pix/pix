@@ -10,7 +10,6 @@ const Bookshelf = require('../bookshelf');
 
 const fp = require('lodash/fp');
 const _ = require('lodash');
-const KnowledgeElement = require('../../domain/models/KnowledgeElement');
 
 function _toDomain(bookshelfCampaignParticipation) {
   return new CampaignParticipation({
@@ -47,8 +46,8 @@ module.exports = {
       .then(_toDomain);
   },
 
-  async findAssessmentResultDataByCampaignId(campaignId) {
-    const results = await Bookshelf.knex.with('campaignParticipationWithUserAndRankedAssessment',
+  findAssessmentResultDataByCampaignId(campaignId) {
+    return Bookshelf.knex.with('campaignParticipationWithUserAndRankedAssessment',
       (qb) => {
         qb.select([
           'campaign-participations.*',
@@ -56,16 +55,19 @@ module.exports = {
           _assessmentRankByCreationDate(),
           'users.firstName',
           'users.lastName',
+          'knowledge-element-snapshots.snapshot',
         ])
           .from('campaign-participations')
           .leftJoin('users', 'campaign-participations.userId', 'users.id')
           .leftJoin('assessments', 'campaign-participations.id', 'assessments.campaignParticipationId')
+          .leftJoin('knowledge-element-snapshots', function() {
+            this.on('campaign-participations.userId', 'knowledge-element-snapshots.userId');
+            this.on('campaign-participations.sharedAt', 'knowledge-element-snapshots.createdAt');
+          })
           .where({ campaignId: campaignId });
       })
       .from('campaignParticipationWithUserAndRankedAssessment')
       .where({ rank: 1 });
-
-    return results.map(_rowToResult);
   },
 
   findProfilesCollectionResultDataByCampaignId(campaignId) {
@@ -229,22 +231,4 @@ function _getLastAssessmentIdForCampaignParticipation(bookshelfCampaignParticipa
 
 function _assessmentRankByCreationDate() {
   return Bookshelf.knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS rank', ['assessments.campaignParticipationId', 'assessments.createdAt']);
-}
-
-function _rowToResult(row) {
-  return {
-    id: row.id,
-    createdAt: new Date(row.createdAt),
-    isShared: Boolean(row.isShared),
-    sharedAt: row.sharedAt ? new Date(row.sharedAt) : null,
-    participantExternalId: row.participantExternalId,
-    userId: row.userId,
-    isCompleted: row.state === 'completed',
-    participantFirstName: row.firstName,
-    participantLastName: row.lastName,
-    knowledgeElements: row.snapshot && row.snapshot.map((data) => new KnowledgeElement({
-      ...data,
-      createdAt: new Date(data.createdAt)
-    })),
-  };
 }

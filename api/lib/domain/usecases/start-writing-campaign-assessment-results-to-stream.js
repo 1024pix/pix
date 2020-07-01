@@ -1,10 +1,10 @@
 const _ = require('lodash');
 const moment = require('moment');
-const bluebird = require('bluebird');
+const { Transform } = require('stream');
 
-const constants = require('../../infrastructure/constants');
 const { UserNotAuthorizedToGetCampaignResultsError, CampaignWithoutOrganizationError } = require('../errors');
 const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
+const KnowledgeElement = require('../models/KnowledgeElement');
 
 module.exports = async function startWritingCampaignAssessmentResultsToStream(
   {
@@ -18,6 +18,7 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
     campaignParticipationRepository,
     organizationRepository,
     knowledgeElementRepository,
+    knowledgeElementSnapshotRepository,
     campaignCsvExportService,
   }) {
 
@@ -25,11 +26,10 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
 
   await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
 
-  const [targetProfile, allCompetences, organization, campaignParticipationResultDatas] = await Promise.all([
+  const [targetProfile, allCompetences, organization] = await Promise.all([
     targetProfileRepository.get(campaign.targetProfileId),
     competenceRepository.list(),
     organizationRepository.get(campaign.organizationId),
-    campaignParticipationRepository.findAssessmentResultDataByCampaignId(campaign.id),
   ]);
 
   const competences = _extractCompetences(allCompetences, targetProfile.skills);
@@ -44,35 +44,44 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
 
   writableStream.write(headerLine);
 
-  // No return/await here, we need the writing to continue in the background
-  // after this function's returned promise resolves. If we await the map
-  // function, node will keep all the data in memory until the end of the
-  // complete operation.
-  bluebird.map(campaignParticipationResultDatas, async (campaignParticipationResultData) => {
-    const participantKnowledgeElements = await knowledgeElementRepository.findUniqByUserId({
-      userId: campaignParticipationResultData.userId,
-      limitDate: campaignParticipationResultData.sharedAt,
-    });
+  const transformLine = new Transform({
+    readableObjectMode: true,
+    writableObjectMode: true,
+    async transform(chunk, encoding, callback) {
+      const campaignParticipationResultData = _rowToResult(chunk);
 
-    const csvLine = campaignCsvExportService.createOneCsvLine({
-      organization,
-      campaign,
-      competences,
-      campaignParticipationResultData,
-      targetProfile,
-      participantKnowledgeElements,
-    });
+      // lazy mode for KE snapshots
+      const { userId, sharedAt } = campaignParticipationResultData;
+      let { knowledgeElements } = campaignParticipationResultData;
+      if (!knowledgeElements && sharedAt) {
+        knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId, limitDate: sharedAt });
+        knowledgeElementSnapshotRepository.save({ userId, date: sharedAt, knowledgeElements });
+      }
 
-    writableStream.write(csvLine);
-  }, { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }).then(() => {
-    writableStream.end();
-  }).catch((error) => {
-    writableStream.emit('error', error);
-    throw error;
+      const csvLine = campaignCsvExportService.createOneCsvLine({
+        organization,
+        campaign,
+        competences,
+        campaignParticipationResultData,
+        targetProfile,
+        participantKnowledgeElements: knowledgeElements || [],
+      });
+
+      this.push(csvLine);
+      callback();
+    }
   });
 
+  const stream = campaignParticipationRepository
+    .findAssessmentResultDataByCampaignId(campaign.id)
+    .stream({ highWaterMark: 10 }); // nb row streamed
+  
+  stream
+    .pipe(transformLine)
+    .pipe(writableStream);
+
   const fileName = `Resultats-${campaign.name}-${campaign.id}-${moment.utc().format('YYYY-MM-DD-hhmm')}.csv`;
-  return { fileName };
+  return { fileName, stream };
 };
 
 async function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
@@ -142,3 +151,20 @@ function _extractAreas(competences) {
   return _.uniqBy(competences.map((competence) => competence.area), 'code');
 }
 
+function _rowToResult(row) {
+  return {
+    id: row.id,
+    createdAt: new Date(row.createdAt),
+    isShared: Boolean(row.isShared),
+    sharedAt: row.sharedAt ? new Date(row.sharedAt) : null,
+    participantExternalId: row.participantExternalId,
+    userId: row.userId,
+    isCompleted: row.state === 'completed',
+    participantFirstName: row.firstName,
+    participantLastName: row.lastName,
+    knowledgeElements: row.snapshot && row.snapshot.map((data) => new KnowledgeElement({
+      ...data,
+      createdAt: new Date(data.createdAt)
+    })),
+  };
+}
