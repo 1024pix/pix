@@ -3,6 +3,7 @@ const improveCompetenceEvaluation = require('../../../../lib/domain/usecases/imp
 
 const competenceEvaluationRepository = require('../../../../lib/infrastructure/repositories/competence-evaluation-repository');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
+const getCompetenceLevel = require('../../../../lib/domain/services/get-competence-level');
 
 describe('Integration | UseCase | Improve Competence Evaluation', () => {
   const competenceId = 'recCompetenceId';
@@ -16,7 +17,7 @@ describe('Integration | UseCase | Improve Competence Evaluation', () => {
 
   it('should create an improving assessment', async () => {
     // when
-    await improveCompetenceEvaluation({ competenceEvaluationRepository, assessmentRepository, userId, competenceId });
+    await improveCompetenceEvaluation({ competenceEvaluationRepository, assessmentRepository, getCompetenceLevel, userId, competenceId });
 
     // then
     const [updatedCompetenceEvaluation] = await knex('competence-evaluations').where({ id: competenceEvaluation.id });

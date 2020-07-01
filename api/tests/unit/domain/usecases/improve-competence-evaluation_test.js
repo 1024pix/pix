@@ -4,6 +4,7 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Unit | UseCase | Improve Competence Evaluation', () => {
   let competenceEvaluation, userId, competenceEvaluationRepository, assessmentRepository;
+  let getCompetenceLevel;
   let competenceId;
   let expectedAssessment;
   let createdAssessment;
@@ -29,11 +30,12 @@ describe('Unit | UseCase | Improve Competence Evaluation', () => {
       updateAssessmentId: sinon.stub().resolves({ ...competenceEvaluation, assessmentId })
     };
     assessmentRepository = { save: sinon.stub().resolves(createdAssessment) };
+    getCompetenceLevel = sinon.stub().resolves(3);
   });
 
   it('should retrieve competence evaluation from id', async () => {
     // when
-    await improveCompetenceEvaluation({ assessmentRepository, competenceEvaluationRepository, userId, competenceId, domainTransaction });
+    await improveCompetenceEvaluation({ assessmentRepository, competenceEvaluationRepository, getCompetenceLevel, userId, competenceId, domainTransaction });
 
     // then
     expect(competenceEvaluationRepository.getByCompetenceIdAndUserId).to.be.calledWith({ competenceId, userId });
@@ -41,7 +43,7 @@ describe('Unit | UseCase | Improve Competence Evaluation', () => {
 
   it('should create an improving assessment', async () => {
     // when
-    await improveCompetenceEvaluation({ assessmentRepository, competenceEvaluationRepository, userId, competenceId, domainTransaction });
+    await improveCompetenceEvaluation({ assessmentRepository, competenceEvaluationRepository, getCompetenceLevel, userId, competenceId, domainTransaction });
 
     // then
     expect(assessmentRepository.save).to.be.calledWith({ assessment: expectedAssessment, domainTransaction });
@@ -49,7 +51,7 @@ describe('Unit | UseCase | Improve Competence Evaluation', () => {
 
   it('should update competence evaluation with newly created assessment', async () => {
     // when
-    await improveCompetenceEvaluation({ assessmentRepository, competenceEvaluationRepository, userId, competenceId, domainTransaction });
+    await improveCompetenceEvaluation({ assessmentRepository, competenceEvaluationRepository, getCompetenceLevel, userId, competenceId, domainTransaction });
 
     // then
     expect(competenceEvaluationRepository.updateAssessmentId).to.be.calledWith({
@@ -65,7 +67,7 @@ describe('Unit | UseCase | Improve Competence Evaluation', () => {
     expectedCompetenceEvaluation.assessmentId = createdAssessment.id;
 
     // when
-    const result = await improveCompetenceEvaluation({ assessmentRepository, competenceEvaluationRepository, userId, competenceId, domainTransaction });
+    const result = await improveCompetenceEvaluation({ assessmentRepository, competenceEvaluationRepository, getCompetenceLevel, userId, competenceId, domainTransaction });
 
     // then
     expect(result).to.deep.equal(expectedCompetenceEvaluation);
