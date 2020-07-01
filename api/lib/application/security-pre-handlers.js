@@ -2,10 +2,12 @@ const tokenService = require('../domain/services/token-service');
 const checkUserIsAuthenticatedUseCase = require('./usecases/checkUserIsAuthenticated');
 const checkUserHasRolePixMasterUseCase = require('./usecases/checkUserHasRolePixMaster');
 const checkUserIsAdminInOrganizationUseCase = require('./usecases/checkUserIsAdminInOrganization');
+const checkUserBelongsToOrganizationManagingStudentsUseCase  = require('./usecases/checkUserBelongsToOrganizationManagingStudents');
 const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase  = require('./usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
 const checkUserBelongsToOrganizationUseCase  = require('./usecases/checkUserBelongsToOrganization');
 
 const JSONAPIError = require('jsonapi-serializer').Error;
+const _ = require('lodash');
 
 function _replyWithAuthenticationError(h) {
   return Promise.resolve().then(() => {
@@ -145,6 +147,24 @@ async function checkUserIsAdminInOrganizationOrHasRolePixMaster(request, h) {
   return _replyWithAuthorizationError(h);
 }
 
+async function checkUserBelongsToOrganizationManagingStudents(request, h) {
+  if (!_.has(request, 'auth.credentials.userId')) {
+    return _replyWithAuthorizationError(h);
+  }
+
+  const userId = request.auth.credentials.userId;
+  const organizationId = parseInt(request.params.id);
+
+  try {
+    if (await checkUserBelongsToOrganizationManagingStudentsUseCase.execute(userId, organizationId)) {
+      return h.response(true);
+    }
+  } catch (err) {
+    return _replyWithAuthorizationError(h);
+  }
+  return _replyWithAuthorizationError(h);
+}
+
 async function checkUserBelongsToScoOrganizationAndManagesStudents(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyWithAuthorizationError(h);
@@ -167,7 +187,7 @@ async function checkUserBelongsToScoOrganizationAndManagesStudents(request, h) {
   return _replyWithAuthorizationError(h);
 }
 
-async function checkUserIsAdminInScoOrganizationAndManagesStudents(request, h) {
+async function checkUserIsAdminInOrganizationManagingStudents(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyWithAuthorizationError(h);
   }
@@ -175,7 +195,7 @@ async function checkUserIsAdminInScoOrganizationAndManagesStudents(request, h) {
   const userId = request.auth.credentials.userId;
   const organizationId = parseInt(request.params.id);
 
-  const belongsToScoOrganizationAndManageStudents = await checkUserBelongsToScoOrganizationAndManagesStudentsUseCase.execute(userId, organizationId);
+  const belongsToScoOrganizationAndManageStudents = await checkUserBelongsToOrganizationManagingStudentsUseCase.execute(userId, organizationId);
   if (belongsToScoOrganizationAndManageStudents) {
 
     const isAdminInOrganization = await checkUserIsAdminInOrganizationUseCase.execute(userId, organizationId);
@@ -190,10 +210,11 @@ async function checkUserIsAdminInScoOrganizationAndManagesStudents(request, h) {
 module.exports = {
   checkRequestedUserIsAuthenticatedUser,
   checkUserBelongsToOrganizationOrHasRolePixMaster,
+  checkUserBelongsToOrganizationManagingStudents,
   checkUserBelongsToScoOrganizationAndManagesStudents,
   checkUserHasRolePixMaster,
   checkUserIsAuthenticated,
   checkUserIsAdminInOrganization,
   checkUserIsAdminInOrganizationOrHasRolePixMaster,
-  checkUserIsAdminInScoOrganizationAndManagesStudents,
+  checkUserIsAdminInOrganizationManagingStudents,
 };

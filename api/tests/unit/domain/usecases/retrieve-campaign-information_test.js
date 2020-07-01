@@ -11,7 +11,7 @@ describe('Unit | UseCase | retrieve-campaign-information', () => {
   let campaignRepoStub;
   let orgaRepoStub;
   const organizationId = 'organizationId';
-  const organization = { id: organizationId, logoUrl: 'a logo url', type: 'SCO', name: 'College Victor Hugo' };
+  const organization = { id: organizationId, logoUrl: 'a logo url', name: 'College Victor Hugo' };
   const campaignCode = 'QWERTY123';
   const user = { id: 1, firstName: 'John', lastName: 'Snow' };
 
@@ -41,12 +41,13 @@ describe('Unit | UseCase | retrieve-campaign-information', () => {
       campaignRepoStub.resolves(campaign);
     });
 
-    it('should return the campaign ', async () => {
+    it('should return the campaign', async () => {
       // when
       const result = await usecases.retrieveCampaignInformation({ code: campaignCode });
 
       // then
       expect(campaignRepository.getByCode).to.have.been.calledWithExactly(campaignCode);
+      expect(result).to.be.instanceof(Campaign);
       expect(result).to.deep.equal(campaign);
     });
 
@@ -64,38 +65,35 @@ describe('Unit | UseCase | retrieve-campaign-information', () => {
         expect(foundCampaign).to.deep.equal(augmentedCampaign);
       });
 
-      context('Organization of the campaign is managing student', () => {
+      context('Organization of the campaign is managing students', () => {
 
         beforeEach(() => {
           orgaRepoStub.resolves(Object.assign(organization, { isManagingStudents: true }));
         });
 
-        it('return a campaign with isRestricted equal true', async () => {
+        it('should return a campaign with isRestricted to true', async () => {
           // when
           const result = await usecases.retrieveCampaignInformation({ code: campaignCode });
 
           // then
-          expect(result).to.be.instanceof(Campaign);
           expect(result.isRestricted).to.be.true;
         });
       });
 
-      context('Organization of the campaign is not managing student', () => {
+      context('Organization of the campaign is not managing students', () => {
 
         beforeEach(() => {
           orgaRepoStub.resolves(Object.assign(organization, { isManagingStudents: false }));
         });
 
-        it('should resolve and return a campaign', async () => {
+        it('should return a campaign with isRestricted to false', async () => {
           // when
           const result = await usecases.retrieveCampaignInformation({ code: campaignCode });
 
           // then
-          expect(result).to.be.instanceof(Campaign);
           expect(result.isRestricted).to.be.false;
         });
       });
     });
   });
-
 });

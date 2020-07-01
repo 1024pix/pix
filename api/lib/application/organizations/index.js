@@ -123,8 +123,8 @@ exports.register = async (server) => {
       path: '/api/organizations/{id}/students',
       config: {
         pre: [{
-          method: securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents,
-          assign: 'belongsToScoOrganizationAndManageStudents'
+          method: securityPreHandlers.checkUserBelongsToOrganizationManagingStudents,
+          assign: 'belongsToOrganizationManagingStudents'
         }],
         validate: {
           query: Joi.object({
@@ -145,8 +145,8 @@ exports.register = async (server) => {
       path: '/api/organizations/{id}/import-students',
       config: {
         pre: [{
-          method: securityPreHandlers.checkUserIsAdminInScoOrganizationAndManagesStudents,
-          assign: 'isAdminInScoOrganizationAndManagesStudents'
+          method: securityPreHandlers.checkUserIsAdminInOrganizationManagingStudents,
+          assign: 'isAdminInOrganizationManagingStudents'
         }],
         payload: {
           maxBytes: 1048576 * 10, // 10MB

@@ -27,6 +27,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
     sandbox.stub(securityPreHandlers, 'checkUserIsAdminInOrganization');
     sandbox.stub(securityPreHandlers, 'checkUserIsAdminInOrganizationOrHasRolePixMaster');
+    sandbox.stub(securityPreHandlers, 'checkUserBelongsToOrganizationManagingStudents');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToOrganizationOrHasRolePixMaster');
     httpTestServer = new HttpTestServer(moduleUnderTest);
@@ -156,7 +157,7 @@ describe('Integration | Application | Organizations | organization-controller', 
   describe('#findOrganizationsStudentsWithUserInfo', () => {
 
     beforeEach(() => {
-      securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents.returns(true);
+      securityPreHandlers.checkUserBelongsToOrganizationManagingStudents.returns(true);
     });
 
     context('Success cases', () => {
@@ -191,7 +192,7 @@ describe('Integration | Application | Organizations | organization-controller', 
       context('when user is not allowed to access resource', () => {
 
         beforeEach(() => {
-          securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents.callsFake((request, h) => {
+          securityPreHandlers.checkUserBelongsToOrganizationManagingStudents.callsFake((request, h) => {
             return Promise.resolve(h.response().code(403).takeover());
           });
         });
