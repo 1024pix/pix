@@ -8,6 +8,16 @@ export default class CompetenceCardDefault extends Component {
   @service store;
   @service router;
 
+  get computeRemainingDaysBeforeImproving() {
+    const _remainingDaysBeforeImproving = this.args.scorecard.remainingDaysBeforeImproving;
+
+    if (_remainingDaysBeforeImproving > 1) {
+      return _remainingDaysBeforeImproving + ' jours';
+    } else {
+      return _remainingDaysBeforeImproving + ' jour';
+    }
+  }
+
   get displayImproveButton() {
     return config.APP.FT_IMPROVE_COMPETENCE_EVALUATION;
   }
@@ -17,6 +27,10 @@ export default class CompetenceCardDefault extends Component {
       return null;
     }
     return this.args.scorecard.level;
+  }
+
+  get shouldWaitBeforeImproving() {
+    return this.args.scorecard.remainingDaysBeforeImproving > 0;
   }
 
   @action

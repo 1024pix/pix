@@ -5,6 +5,7 @@ import { authenticateByEmail } from '../helpers/authentication';
 import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import config from 'mon-pix/config/environment';
 
 describe('Acceptance | Competence details | Afficher la page de détails d\'une compétence', () => {
   setupApplicationTest();
@@ -22,6 +23,8 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
     let scorecardWithRemainingDaysBeforeReset;
     let scorecardWithoutPoints;
     let scorecardWithMaxLevel;
+    let scorecardWithRemainingDaysBeforeImproving;
+    let scorecardWithoutRemainingDaysBeforeImproving;
 
     beforeEach(async () => {
       await authenticateByEmail(user);
@@ -29,6 +32,8 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
       scorecardWithRemainingDaysBeforeReset = user.scorecards.models[1];
       scorecardWithoutPoints = user.scorecards.models[2];
       scorecardWithMaxLevel = user.scorecards.models[3];
+      scorecardWithRemainingDaysBeforeImproving = user.scorecards.models[4];
+      scorecardWithoutRemainingDaysBeforeImproving = user.scorecards.models[5];
     });
 
     it('should be able to visit URL of competence details page', async () => {
@@ -115,7 +120,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
         expect(findAll('.tutorial-item')).to.have.lengthOf(nbTutos);
       });
 
-      context('when it is remaining some days before reset', () => {
+      context('when it has remaining some days before reset', () => {
 
         it('should display remaining days before reset', async () => {
           // when
@@ -175,6 +180,55 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
           expect(findAll('.competence-card__level .score-value')).to.have.lengthOf(0);
           expect(findAll('.scorecard-details-content-right-score-container__pix-earned .score-value')).to.have.lengthOf(0);
           expect(findAll('.scorecard-details-content-right__level-info')).to.have.lengthOf(0);
+        });
+
+      });
+
+      context('when it has remaining some days before improving', () => {
+        let configurationForImprovingCompetence;
+
+        before(() => {
+          configurationForImprovingCompetence = config.APP.FT_IMPROVE_COMPETENCE_EVALUATION;
+        });
+
+        after(function() {
+          config.APP.FT_IMPROVE_COMPETENCE_EVALUATION = configurationForImprovingCompetence;
+        });
+
+        it('should display remaining days before improving', async () => {
+          // given
+          config.APP.FT_IMPROVE_COMPETENCE_EVALUATION = true;
+
+          // when
+          await visit(`/competences/${scorecardWithRemainingDaysBeforeImproving.competenceId}/details`);
+
+          // then
+          expect(find('.scorecard-details__improvement-countdown').textContent)
+            .to.contain(`${scorecardWithRemainingDaysBeforeImproving.remainingDaysBeforeImproving} jours`);
+          expect(find('.scorecard-details__improve-button')).to.not.exist;
+        });
+      });
+
+      context('when it has no remaining days before improving', () => {
+        let configurationForImprovingCompetence;
+
+        before(() => {
+          configurationForImprovingCompetence = config.APP.FT_IMPROVE_COMPETENCE_EVALUATION;
+        });
+
+        after(function() {
+          config.APP.FT_IMPROVE_COMPETENCE_EVALUATION = configurationForImprovingCompetence;
+        });
+
+        it('should display improving button', async () => {
+          // given
+          config.APP.FT_IMPROVE_COMPETENCE_EVALUATION = true;
+
+          // when
+          await visit(`/competences/${scorecardWithoutRemainingDaysBeforeImproving.competenceId}/details`);
+
+          // then
+          expect(findAll('.scorecard-details__improve-button')).to.exist;
         });
 
       });

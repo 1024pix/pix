@@ -13,6 +13,7 @@ export default function(schema, request) {
     earnedPix: 0,
     pixScoreAheadOfNextLevel: 0,
     remainingDaysBeforeReset: null,
+    remainingDaysBeforeImproving: null,
   });
 
   return scorecard;
