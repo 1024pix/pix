@@ -10,9 +10,10 @@ describe('Integration | Application | Organizations | Routes', () => {
 
   beforeEach(() => {
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
-    sinon.stub(securityPreHandlers, 'checkUserIsAdminInScoOrganizationAndManagesStudents').callsFake((request, h) => h.response(true));
+    sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganizationManagingStudents').callsFake((request, h) => h.response(true));
     sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganizationOrHasRolePixMaster').callsFake((request, h) => h.response(true));
     sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response(true));
+    sinon.stub(securityPreHandlers, 'checkUserBelongsToOrganizationManagingStudents').callsFake((request, h) => h.response(true));
     sinon.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents').callsFake((request, h) => h.response(true));
 
     sinon.stub(organizationController, 'create').returns('ok');
@@ -151,10 +152,10 @@ describe('Integration | Application | Organizations | Routes', () => {
         // given
         const method = 'GET';
         const url = '/api/organizations/:id/students?page[size]=blabla';
-  
+
         // when
         const response = await httpTestServer.request(method, url);
-  
+
         // then
         expect(response.statusCode).to.equal(400);
       });
@@ -163,10 +164,10 @@ describe('Integration | Application | Organizations | Routes', () => {
         // given
         const method = 'GET';
         const url = '/api/organizations/:id/students?page[number]=blabla';
-  
+
         // when
         const response = await httpTestServer.request(method, url);
-  
+
         // then
         expect(response.statusCode).to.equal(400);
       });
