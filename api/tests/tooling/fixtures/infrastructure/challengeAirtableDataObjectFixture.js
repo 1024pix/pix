@@ -24,6 +24,7 @@ module.exports = function ChallengeAirtableDataObjectFixture({
   embedHeight = 500,
   format = 'petit',
   locales = ['fr'],
+  autoReply = false,
 } = {}) {
   return {
     id,
@@ -48,5 +49,6 @@ module.exports = function ChallengeAirtableDataObjectFixture({
     embedHeight,
     format,
     locales,
+    autoReply
   };
 };
