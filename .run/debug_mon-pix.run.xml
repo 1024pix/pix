@@ -5,13 +5,6 @@
     <mapping url="http://localhost:4200/assets/mon-pix" local-file="$PROJECT_DIR$/mon-pix/app" />
     <mapping url="http://localhost:4200/assets/vendor.js" local-file="$PROJECT_DIR$/mon-pix/dist/assets/vendor.js" />
     <mapping url="http://localhost:4200" local-file="$PROJECT_DIR$/mon-pix/dist" />
-    <method v="2">
-      <option name="NpmBeforeRunTask" enabled="true">
-        <package-json value="$PROJECT_DIR$/mon-pix/package.json" />
-        <command value="start" />
-        <node-interpreter value="project" />
-        <envs />
-      </option>
-    </method>
+    <method v="2" />
   </configuration>
 </component>
