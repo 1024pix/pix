@@ -54,7 +54,7 @@ class CleaCertification extends PartnerCertification {
       hasAcquiredBadge: Joi.boolean().required(),
       reproducibilityRate: Joi.number().required(),
       cleaCompetenceMarks: Joi.array().required(),
-      maxReachablePixByCompetenceForClea: Joi.object().min(1).required(),
+      maxReachablePixByCompetenceForClea: Joi.object().required(),
     }).unknown();
 
     validateEntity(schema, this);

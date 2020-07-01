@@ -49,7 +49,7 @@ describe('Unit | Domain | Models | CleaCertification', () => {
       // when
       expect(() => new CleaCertification({
         ...validArguments,
-        maxReachablePixByCompetenceForClea: []
+        maxReachablePixByCompetenceForClea: null
       })).to.throw(ObjectValidationError);
     });
   });
