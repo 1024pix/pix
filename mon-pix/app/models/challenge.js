@@ -18,6 +18,7 @@ export default class Challenge extends Model {
   @attr('string') proposals;
   @attr('number') timer;
   @attr('string') type;
+  @attr('boolean') autoReply;
 
   // includes
   @belongsTo('answer') answer;
