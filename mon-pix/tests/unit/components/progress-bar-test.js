@@ -1,121 +1,65 @@
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import EmberObject from '@ember/object';
+import { beforeEach, afterEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import { htmlSafe } from '@ember/string';
+import sinon from 'sinon';
+import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
+import progressInAssessment from 'mon-pix/utils/progress-in-assessment';
 
 describe('Unit | Component | progress-bar', function() {
 
   setupTest();
+  let component;
+
+  beforeEach(function() {
+    component = createGlimmerComponent('component:progress-bar');
+  });
+
+  afterEach(function() {
+    sinon.restore();
+  });
 
   describe('@currentStepIndex', function() {
-    let component, assessment;
-
-    beforeEach(function() {
-      assessment = EmberObject.create({
-        answers: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }, { id: 6 }],
-        hasMany(relationship) {
-          return { ids: () => { return this[relationship].mapBy('id'); } };
-        },
-      });
-      component = this.owner.lookup('component:progress-bar');
-      component.set('assessment', assessment);
-      component.set('maxStepsNumber', 5);
-    });
-
-    it('should return the current step index modulus maxStepsNumber', function() {
-      // when
-      const currentStepIndex = component.get('currentStepIndex');
-
-      // then
-      expect(currentStepIndex).to.deep.equal(1);
-    });
-
-    it('should return the current step index for already answered challenge', function() {
+    it('should return the current step index from service', function() {
       // given
-      component.set('answerId', 3);
+      const expectedCurrentStepIndex = 2;
+      sinon.stub(progressInAssessment, 'getCurrentStepIndex').returns(expectedCurrentStepIndex);
 
       // when
-      const currentStepIndex = component.get('currentStepIndex');
+      const currentStepNumber = component.currentStepIndex;
 
       // then
-      expect(currentStepIndex).to.deep.equal(2);
-    });
-
-    it('should recompute when challenge changes but not when answer is persisted', function() {
-      // given
-      const newAnswer = EmberObject.create({ id: null });
-      assessment.get('answers').push(newAnswer);
-
-      // when
-      let currentStepIndex = component.get('currentStepIndex');
-
-      // then
-      expect(currentStepIndex).to.deep.equal(1);
-
-      //when
-      newAnswer.set('id', 7);
-      newAnswer.set('isNew', false);
-      currentStepIndex = component.get('currentStepIndex');
-
-      // then
-      expect(currentStepIndex).to.deep.equal(1);
-
-      //when
-      component.set('challengeId', 'newId');
-      currentStepIndex = component.get('currentStepIndex');
-
-      //then
-      expect(currentStepIndex).to.deep.equal(2);
+      expect(currentStepNumber).to.deep.equal(expectedCurrentStepIndex);
     });
   });
 
   describe('@maxStepsNumber', function() {
 
-    it('should return 5 if assessment has checkpoint', function() {
+    it('should return the maxStepsNumber from service', function() {
       // given
-      const assessment = EmberObject.create({
-        hasCheckpoints: true,
-      });
-      const component = this.owner.lookup('component:progress-bar');
-      component.set('assessment', assessment);
+      const expectedMaxStepsNumber = 5;
+      sinon.stub(progressInAssessment, 'getMaxStepsNumber').returns(expectedMaxStepsNumber);
 
       // when
-      const maxStepsNumber = component.get('maxStepsNumber');
+      const maxStepsNumber = component.maxStepsNumber;
 
       // then
-      expect(maxStepsNumber).to.deep.equal(5);
-    });
-
-    it('should return challenges number otherwise', function() {
-      // given
-      const assessment = EmberObject.create({
-        hasCheckpoints: false,
-        course: { nbChallenges: 7 },
-      });
-      const component = this.owner.lookup('component:progress-bar');
-      component.set('assessment', assessment);
-
-      // when
-      const maxStepsNumber = component.get('maxStepsNumber');
-
-      // then
-      expect(maxStepsNumber).to.deep.equal(7);
+      expect(maxStepsNumber).to.deep.equal(expectedMaxStepsNumber);
     });
   });
 
   describe('@currentStepNumber', function() {
 
-    it('should return the current step number', function() {
+    it('should return the currentStepNumber from service', function() {
       // given
-      const component = this.owner.lookup('component:progress-bar');
-      component.set('currentStepIndex', 2);
+      const expectedCurrentStepNumber = 3;
+      sinon.stub(progressInAssessment, 'getCurrentStepNumber').returns(expectedCurrentStepNumber);
 
       // when
-      const currentStepNumber = component.get('currentStepNumber');
+      const currentStepNumber = component.currentStepNumber;
 
       // then
-      expect(currentStepNumber).to.deep.equal(3);
+      expect(currentStepNumber).to.deep.equal(expectedCurrentStepNumber);
     });
   });
 
@@ -123,12 +67,11 @@ describe('Unit | Component | progress-bar', function() {
 
     it('should return the steps specifics', function() {
       // given
-      const component = this.owner.lookup('component:progress-bar');
-      component.set('currentStepIndex', 2);
-      component.set('maxStepsNumber', 4);
+      sinon.stub(progressInAssessment, 'getCurrentStepIndex').returns(2);
+      sinon.stub(progressInAssessment, 'getMaxStepsNumber').returns(4);
 
       // when
-      const steps = component.get('steps');
+      const steps = component.steps;
 
       // then
       expect(steps).to.deep.equal([
@@ -144,12 +87,10 @@ describe('Unit | Component | progress-bar', function() {
 
     it('should return the progressionWidth', function() {
       // given
-      const component = this.owner.lookup('component:progress-bar');
-      component.set('currentStepIndex', 2);
-      component.set('maxStepsNumber', 5);
-
+      sinon.stub(progressInAssessment, 'getCurrentStepIndex').returns(2);
+      sinon.stub(progressInAssessment, 'getMaxStepsNumber').returns(5);
       // when
-      const progressionWidth = component.get('progressionWidth');
+      const progressionWidth = component.progressionWidth;
 
       // then
       expect(progressionWidth).to.deep.equal(htmlSafe('width: 50.85%;'));
@@ -157,12 +98,11 @@ describe('Unit | Component | progress-bar', function() {
 
     it('should return the initial progressionWidth', function() {
       // given
-      const component = this.owner.lookup('component:progress-bar');
-      component.set('currentStepIndex', 0);
-      component.set('maxStepsNumber', 5);
+      sinon.stub(progressInAssessment, 'getCurrentStepIndex').returns(0);
+      sinon.stub(progressInAssessment, 'getMaxStepsNumber').returns(5);
 
       // when
-      const progressionWidth = component.get('progressionWidth');
+      const progressionWidth = component.progressionWidth;
 
       // then
       expect(progressionWidth).to.deep.equal(htmlSafe('width: 16px;'));

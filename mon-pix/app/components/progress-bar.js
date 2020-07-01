@@ -1,58 +1,31 @@
-import { computed } from '@ember/object';
+import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { htmlSafe } from '@ember/string';
 import colorGradient from 'mon-pix/utils/color-gradient';
-import ENV from 'mon-pix/config/environment';
-import Component from '@ember/component';
-import classic from 'ember-classic-decorator';
+import progressInAssessment from 'mon-pix/utils/progress-in-assessment';
 
-const { and } = computed;
-
-const minWidthPercent = 1.7;
-const minWidthPixel = 16;
-
-@classic
 export default class ProgressBar extends Component {
   @service media;
 
-  @and('media.isDesktop', 'assessment.showProgressBar')
-  showProgressBar;
+  MINIMUM_WIDTH_STEP_IN_PERCENT = 1.7;
+  MINIMUM_WIDTH_STEP_IN_PIXEL = 16;
 
-  @computed('answerId', 'assessment.answers.[]', 'challengeId', 'maxStepsNumber')
+  get showProgressBar() {
+    return this.args.assessment.showProgressBar && this.media.isDesktop;
+  }
+
   get currentStepIndex() {
-    const persistedAnswersIds = this.assessment.hasMany('answers').ids().filter((id) => id != null);
-    const currentAnswerId = this.answerId;
-
-    let index = persistedAnswersIds.indexOf(currentAnswerId);
-
-    if (index === -1) {
-      index = persistedAnswersIds.length;
-    }
-
-    return index % this.maxStepsNumber;
+    return progressInAssessment.getCurrentStepIndex(this.args.assessment, this.args.answerId);
   }
 
-  @computed(
-    'assessment.{hasCheckpoints,certificationCourse.nbChallenges,course.nbChallenges}'
-  )
   get maxStepsNumber() {
-    if (this.assessment.hasCheckpoints) {
-      return ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS;
-    }
-
-    if (this.assessment.isCertification) {
-      return this.assessment.get('certificationCourse.nbChallenges');
-    }
-
-    return this.assessment.get('course.nbChallenges');
+    return progressInAssessment.getMaxStepsNumber(this.args.assessment);
   }
 
-  @computed('currentStepIndex')
   get currentStepNumber() {
-    return this.currentStepIndex + 1;
+    return progressInAssessment.getCurrentStepNumber(this.args.assessment, this.args.answerId);
   }
 
-  @computed('currentStepIndex', 'maxStepsNumber')
   get steps() {
     const steps = [];
 
@@ -69,11 +42,10 @@ export default class ProgressBar extends Component {
     return steps;
   }
 
-  @computed('currentStepIndex', 'maxStepsNumber')
   get progressionWidth() {
-    const widthPercent = minWidthPercent + (100 - minWidthPercent) * this.currentStepIndex  / (this.maxStepsNumber - 1);
+    const widthPercent = this.MINIMUM_WIDTH_STEP_IN_PERCENT + (100 - this.MINIMUM_WIDTH_STEP_IN_PERCENT) * this.currentStepIndex  / (this.maxStepsNumber - 1);
 
-    const width = this.currentStepIndex === 0 ? `${minWidthPixel}px` : `${widthPercent}%`;
+    const width = this.currentStepIndex === 0 ? `${this.MINIMUM_WIDTH_STEP_IN_PIXEL}px` : `${widthPercent}%`;
 
     return htmlSafe(`width: ${width};`);
   }
