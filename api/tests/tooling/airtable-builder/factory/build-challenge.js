@@ -106,6 +106,7 @@ const buildChallenge = function buildChallenge({
   langues = [
     'Francophone'
   ],
+  autoReply = false,
 } = {}) {
 
   return rawBuildChallenge({
@@ -142,6 +143,7 @@ const buildChallenge = function buildChallenge({
     illustrationAlt,
     format,
     langues,
+    autoReply,
   });
 };
 

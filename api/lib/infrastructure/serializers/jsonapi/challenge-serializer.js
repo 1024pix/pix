@@ -19,6 +19,7 @@ module.exports = {
         'embedHeight',
         'illustrationAlt',
         'format',
+        'autoReply',
       ],
       transform: (record) => {
         const challenge = _.pickBy(record, (value) => !_.isUndefined(value));

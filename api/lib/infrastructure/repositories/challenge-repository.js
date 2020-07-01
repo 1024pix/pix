@@ -93,5 +93,6 @@ function _adaptChallengeFromDataObjects({ challengeDataObject, skillDataObjects 
     illustrationAlt: challengeDataObject.illustrationAlt,
     format: challengeDataObject.format,
     locales: challengeDataObject.locales,
+    autoReply: challengeDataObject.autoReply,
   });
 }
