@@ -5,7 +5,7 @@
     height: 310px;
   }
 
-  .competence-card__header {
+  .competence-card__title {
     height: 110px;
     overflow: hidden;
     text-align: center;
@@ -82,7 +82,7 @@
     opacity: 1;
   }
 
-  .competence-card:hover .competence-card__footer {
+  .competence-card:hover .competence-card__interactions {
     bottom: 0px;
     height: 70px;
   }
@@ -106,7 +106,7 @@
     box-shadow: $box-shadow-competence-cards-hover;
   }
 
-  .competence-card:hover .competence-card__header {
+  .competence-card:hover .competence-card__title {
     height: 179px;
     transition: height 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
@@ -178,7 +178,7 @@
     letter-spacing: 0.5px;
   }
 
-  .competence-card__footer {
+  .competence-card__interactions {
     position: absolute;
     bottom: -34px;
     display: flex;
@@ -220,6 +220,30 @@
       opacity: 0;
       margin-left: 8px;
       transition: all 0.1s linear;
+    }
+  }
+
+  .competence-card-interactions {
+    &__improvement-countdown {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: default;
+    }
+  }
+
+  .competence-card-improvement-countdown {
+    &__label {
+      font-size: 0.6875rem;
+      letter-spacing: 0.0075rem;
+      color: $grey-60;
+    }
+
+    &__count {
+      font-size: 1rem;
+      letter-spacing: 0.010rem;
+      color: $grey-90;
+      margin-top: 6px;
     }
   }
 }

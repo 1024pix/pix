@@ -14,6 +14,7 @@ export default class Scorecard extends Model {
   @attr('string') name;
   @attr('number') pixScoreAheadOfNextLevel;
   @attr('number') remainingDaysBeforeReset;
+  @attr('number') remainingDaysBeforeImproving;
   @attr('string') status;
 
   // references

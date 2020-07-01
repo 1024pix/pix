@@ -1,10 +1,10 @@
 <article class="competence-card {{if @interactive "competence-card--interactive"}}">
   <LinkTo @route="competences.details" @model={{@scorecard.competenceId}}>
-    <header class="competence-card__header">
+    <div class="competence-card__title">
       <span class="competence-card__color competence-card__color--{{@scorecard.area.color}}"></span>
       <span class="competence-card__area-name">{{@scorecard.area.title}}</span>
       <span class="competence-card__competence-name">{{@scorecard.name}}</span>
-    </header>
+    </div>
 
     <div class="competence-card__body">
       {{#if @scorecard.isFinishedWithMaxLevel}}
@@ -29,20 +29,27 @@
   </LinkTo>
 
   {{#if @scorecard.isFinishedWithMaxLevel}}
-    <footer class="competence-card__congrats-message">
+    <div class="competence-card__congrats-message">
       Bravo !
-    </footer>
+    </div>
   {{else}}
-    <footer class="competence-card__footer">
+    <div class="competence-card__interactions">
       {{#if @scorecard.isFinished}}
         {{#if this.displayImproveButton}}
-          <button class="button button--extra-thin button--round button--link button--green competence-card__button" {{action "improveCompetenceEvaluation"}}>
-            <span class="competence-card-button__label">Retenter <span class="sr-only">la compétence "{{@scorecard.name}}"</span>
-            </span>
-            <span class="competence-card-button__arrow">
-              {{fa-icon 'long-arrow-alt-right'}}
-            </span>
-          </button>
+          {{#if this.shouldWaitBeforeImproving}}
+            <div class="competence-card-interactions__improvement-countdown">
+              <span class="competence-card-improvement-countdown__label">Tenter le niveau supérieur dans</span>
+              <span class="competence-card-improvement-countdown__count">{{this.computeRemainingDaysBeforeImproving}}</span>
+            </div>
+          {{else}}
+            <button class="button button--extra-thin button--round button--link button--green competence-card__button" {{action "improveCompetenceEvaluation"}}>
+              <span class="competence-card-button__label">Retenter <span class="sr-only">la compétence "{{@scorecard.name}}"</span>
+              </span>
+              <span class="competence-card-button__arrow">
+              <FaIcon @icon='long-arrow-alt-right'></FaIcon>
+              </span>
+            </button>
+          {{/if}}
         {{/if}}
       {{else}}
         <LinkTo @route="competences.resume" @model={{@scorecard.competenceId}} class="button button--extra-thin button--round button--link button--green competence-card__button">
@@ -54,10 +61,10 @@
             {{/if}}
           </span>
           <span class="competence-card-button__arrow">
-            {{fa-icon 'long-arrow-alt-right'}}
+            <FaIcon @icon='long-arrow-alt-right'></FaIcon>
           </span>
         </LinkTo>
       {{/if}}
-    </footer>
+    </div>
   {{/if}}
 </article>

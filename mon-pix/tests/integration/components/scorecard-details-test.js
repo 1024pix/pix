@@ -99,39 +99,64 @@ describe('Integration | Component | scorecard-details', function() {
     });
 
     context('When the user has finished a competence', async function() {
+      let scorecard;
       const configurationForImprovingCompetence = config.APP.FT_IMPROVE_COMPETENCE_EVALUATION;
+
       afterEach(function() {
         config.APP.FT_IMPROVE_COMPETENCE_EVALUATION = configurationForImprovingCompetence;
       });
 
-      beforeEach(async function() {
+      beforeEach(function() {
         // given
-        const scorecard = {
+        config.APP.FT_IMPROVE_COMPETENCE_EVALUATION = true;
+        scorecard = {
           remainingPixToNextLevel: 1,
           isFinished: true,
           tutorials: [],
         };
-
-        this.set('scorecard', scorecard);
-
-        // when
-        config.APP.FT_IMPROVE_COMPETENCE_EVALUATION = true;
-        await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
       });
 
       it('should not display remainingPixToNextLevel', async function() {
+        // when
+        this.set('scorecard', scorecard);
+        await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+
         // then
         expect(find('.scorecard-details-content-right__level-info')).to.not.exist;
       });
 
       it('should not display a button', async function() {
+        // when
+        this.set('scorecard', scorecard);
+        await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+
         // then
         expect(find('.scorecard-details__resume-or-start-button')).to.not.exist;
       });
 
-      it('should show the improving button', function() {
+      it('should show the improving button if the remaining days before improving are equal to 0', async function() {
+        // given
+        scorecard.remainingDaysBeforeImproving = 0;
+
+        // when
+        this.set('scorecard', scorecard);
+        await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+
         // then
         expect(find('.scorecard-details__improve-button')).to.exist;
+      });
+
+      it('should show the improving countdown if the remaining days before improving are different than 0', async function() {
+        // given
+        scorecard.remainingDaysBeforeImproving = 3;
+
+        // when
+        this.set('scorecard', scorecard);
+        await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+
+        // then
+        expect(find('.scorecard-details__improvement-countdown')).to.exist;
+        expect(find('.scorecard-details__improvement-countdown').textContent).to.contains('3 jours');
       });
 
       context('and the user has reached the max level', async function() {

@@ -75,6 +75,9 @@ describe('Unit | Domain | Models | Scorecard', () => {
       it('should have set the scorecard remainingDaysBeforeReset based on last knowledge element date', () => {
         expect(actualScorecard.remainingDaysBeforeReset).to.equal(7);
       });
+      it('should have set the scorecard remainingDaysBeforeImproving based on last knowledge element date', () => {
+        expect(actualScorecard.remainingDaysBeforeImproving).to.equal(4);
+      });
     });
 
     context('when the competence evaluation has never been started', () => {
@@ -157,6 +160,10 @@ describe('Unit | Domain | Models | Scorecard', () => {
       it('should have a dayBeforeReset at null', () => {
         expect(actualScorecard.remainingDaysBeforeReset).to.be.null;
       });
+
+      it('should have a dayBeforeImproving at null', () => {
+        expect(actualScorecard.remainingDaysBeforeImproving).to.be.null;
+      });
     });
 
     context('when the user level is beyond the upper limit allowed', () => {
@@ -221,7 +228,7 @@ describe('Unit | Domain | Models | Scorecard', () => {
     });
 
     context('when there is no knowledge elements', () => {
-      it('should return null', () => {
+      it('should return null when looking for remainingDaysBeforeReset', () => {
         const knowledgeElements = [];
 
         // when
@@ -230,16 +237,36 @@ describe('Unit | Domain | Models | Scorecard', () => {
         // then
         expect(actualScorecard.remainingDaysBeforeReset).to.equal(null);
       });
+
+      it('should return null when looking for remainingDaysBeforeImproving', () => {
+        const knowledgeElements = [];
+
+        // when
+        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
+
+        // then
+        expect(actualScorecard.remainingDaysBeforeImproving).to.equal(null);
+      });
+
     });
   });
 
-  describe('#computeDaysSinceLastKnowledgeElement', () => {
+  describe('#computeRemainingDaysBeforeReset', () => {
 
     let testCurrentDate;
+    const originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET;
 
     beforeEach(() => {
       testCurrentDate = new Date('2018-01-10T05:00:00Z');
       sinon.useFakeTimers(testCurrentDate.getTime());
+    });
+
+    before(() => {
+      constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET = 7;
+    });
+
+    after(() => {
+      constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET = originalConstantValue;
     });
 
     [
@@ -265,6 +292,49 @@ describe('Unit | Domain | Models | Scorecard', () => {
 
         // then
         expect(remainingDaysBeforeReset).to.equal(expectedDaysBeforeReset);
+      });
+    });
+  });
+
+  describe('#computeRemainingDaysBeforeImproving', () => {
+
+    let testCurrentDate;
+    const originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING;
+
+    beforeEach(() => {
+      testCurrentDate = new Date('2018-01-10T05:00:00Z');
+      sinon.useFakeTimers(testCurrentDate.getTime());
+    });
+
+    before(() => {
+      constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING = 4;
+    });
+
+    after(() => {
+      constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING = originalConstantValue;
+    });
+
+    [
+      { daysSinceLastKnowledgeElement: 0.0833, expectedDaysBeforeImproving: 4 },
+      { daysSinceLastKnowledgeElement: 0, expectedDaysBeforeImproving: 4 },
+      { daysSinceLastKnowledgeElement: 1, expectedDaysBeforeImproving: 3 },
+      { daysSinceLastKnowledgeElement: 1.5, expectedDaysBeforeImproving: 3 },
+      { daysSinceLastKnowledgeElement: 2.4583, expectedDaysBeforeImproving: 2 },
+      { daysSinceLastKnowledgeElement: 4, expectedDaysBeforeImproving: 0 },
+      { daysSinceLastKnowledgeElement: 7, expectedDaysBeforeImproving: 0 },
+      { daysSinceLastKnowledgeElement: 10, expectedDaysBeforeImproving: 0 },
+    ].forEach(({ daysSinceLastKnowledgeElement, expectedDaysBeforeImproving }) => {
+      it(`should return ${expectedDaysBeforeImproving} days when ${daysSinceLastKnowledgeElement} days passed since last knowledge element`, () => {
+        const date = moment(testCurrentDate).toDate();
+        const knowledgeElements = [{ createdAt: date }];
+
+        computeDaysSinceLastKnowledgeElementStub.returns(daysSinceLastKnowledgeElement);
+
+        // when
+        const remainingDaysBeforeImproving = Scorecard.computeRemainingDaysBeforeImproving(knowledgeElements);
+
+        // then
+        expect(remainingDaysBeforeImproving).to.equal(expectedDaysBeforeImproving);
       });
     });
   });

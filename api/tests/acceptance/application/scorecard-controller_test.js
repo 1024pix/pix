@@ -138,6 +138,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
               'pix-score-ahead-of-next-level': knowledgeElement.earnedPix,
               status: 'STARTED',
               'remaining-days-before-reset': 7,
+              'remaining-days-before-improving': 4,
             },
             relationships: {
               area: {

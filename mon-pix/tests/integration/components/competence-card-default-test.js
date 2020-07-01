@@ -26,7 +26,7 @@ describe('Integration | Component | competence-card-default', function() {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card-default scorecard=scorecard}}`);
+      await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
 
       // then
       expect(find('.competence-card')).to.exist;
@@ -38,7 +38,7 @@ describe('Integration | Component | competence-card-default', function() {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card-default scorecard=scorecard}}`);
+      await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
 
       // then
       expect(find('.competence-card__color').getAttribute('class'))
@@ -51,7 +51,7 @@ describe('Integration | Component | competence-card-default', function() {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card-default scorecard=scorecard}}`);
+      await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
 
       // then
       expect(find('.competence-card__area-name').textContent).to.equal(scorecard.area.title);
@@ -63,7 +63,7 @@ describe('Integration | Component | competence-card-default', function() {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card-default scorecard=scorecard}}`);
+      await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
 
       // then
       expect(find('.competence-card__competence-name').textContent).to.equal(scorecard.name);
@@ -75,7 +75,7 @@ describe('Integration | Component | competence-card-default', function() {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card-default scorecard=scorecard}}`);
+      await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
 
       // then
       expect(find('.score-label').textContent).to.equal('Niveau');
@@ -90,7 +90,7 @@ describe('Integration | Component | competence-card-default', function() {
         this.set('scorecard', scorecard);
 
         // when
-        await render(hbs`{{competence-card-default scorecard=scorecard}}`);
+        await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
 
         // then
         expect(find('.competence-card__button').textContent).to.contains('Commencer');
@@ -105,7 +105,7 @@ describe('Integration | Component | competence-card-default', function() {
         this.set('scorecard', scorecard);
 
         // when
-        await render(hbs`{{competence-card-default scorecard=scorecard}}`);
+        await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
 
         // then
         expect(find('.competence-card__button').textContent).to.contains('Reprendre');
@@ -118,7 +118,7 @@ describe('Integration | Component | competence-card-default', function() {
           this.set('scorecard', scorecard);
 
           // when
-          await render(hbs`{{competence-card-default scorecard=scorecard}}`);
+          await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
         });
 
         it('should not show congrats design', function() {
@@ -145,24 +145,38 @@ describe('Integration | Component | competence-card-default', function() {
         this.set('scorecard', scorecard);
 
         // when
-        await render(hbs`{{competence-card-default scorecard=scorecard}}`);
+        await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
 
         // then
         expect(find('.competence-card-button__label')).to.be.null;
       });
 
-      it('should show the improving button', async function() {
+      it('should show the improving button when there is no remaining days before improving', async function() {
         // given
-        const scorecard = { area, level: 3, isFinished: true, isStarted: false };
+        const scorecard = { area, level: 3, isFinished: true, isStarted: false, remainingDaysBeforeImproving: 0 };
         this.set('scorecard', scorecard);
         config.APP.FT_IMPROVE_COMPETENCE_EVALUATION = true;
 
         // when
-        await render(hbs`{{competence-card-default scorecard=scorecard}}`);
+        await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
 
         // then
         expect(find('.competence-card__button')).to.exist;
         expect(find('.competence-card__button').textContent).to.contains('Retenter');
+      });
+
+      it('should show the improving countdown when there is some remaining days before improving', async function() {
+        // given
+        const scorecard = { area, level: 3, isFinished: true, isStarted: false, remainingDaysBeforeImproving: 3 };
+        this.set('scorecard', scorecard);
+        config.APP.FT_IMPROVE_COMPETENCE_EVALUATION = true;
+
+        // when
+        await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
+
+        // then
+        expect(find('.competence-card-interactions__improvement-countdown')).to.exist;
+        expect(find('.competence-card-interactions__improvement-countdown').textContent).to.contains('3 jours');
       });
 
       context('and the user has reached the maximum level', function() {
@@ -172,7 +186,7 @@ describe('Integration | Component | competence-card-default', function() {
           this.set('scorecard', scorecard);
 
           // when
-          await render(hbs`{{competence-card-default scorecard=scorecard}}`);
+          await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
         });
 
         it('should show congrats design', function() {
