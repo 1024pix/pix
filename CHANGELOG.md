@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v2.169.0 (01/07/2020)
+
+- [#1555](https://github.com/1024pix/pix/pull/1555) [FEATURE] Permettre la désactivation d'un membre depuis Pix Admin (PIX-394).
+- [#1580](https://github.com/1024pix/pix/pull/1580) [FEATURE] Savoir à quelle question on se trouve dans le titre de la page (PIX-906).
+- [#1582](https://github.com/1024pix/pix/pull/1582) [FEATURE] Permettre l'envoi d'une invitation par une nouvelle page (1ère partie)(PIX-881).
+- [#1581](https://github.com/1024pix/pix/pull/1581) [FEATURE] Retenter des acquis de compétence échoués au bout de 4 jours (PIX-758).
+- [#1584](https://github.com/1024pix/pix/pull/1584) [FEATURE] Paramétrer l'attribut lang de Pix App (PIX-833).
+- [#1577](https://github.com/1024pix/pix/pull/1577) [FEATURE] PART 3 - Nouveau design certificat (PIX-839)
+- [#1561](https://github.com/1024pix/pix/pull/1561) [FEATURE] PART 2 - Nouveau design certificat (PIX-838)
+- [#1560](https://github.com/1024pix/pix/pull/1560) [BUGFIX] Corrige la numérotation des épreuves de certif dans Pix Admin (PIX-869)
+- [#1572](https://github.com/1024pix/pix/pull/1572) [BUGFIX] Correction de l'affichage du macaron Cléa sur la certif (PIX-879)
+- [#1583](https://github.com/1024pix/pix/pull/1583) [BUGFIX] Le signalement surveillant était supprimé en enregistrant une certif (PIX-916)
+
 ## v2.168.0 (29/06/2020)
 
 - [#1567](https://github.com/1024pix/pix/pull/1567) [FEATURE] Alimenter les adresses e-mail des organisations (PIX-874).
