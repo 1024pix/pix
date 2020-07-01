@@ -23,6 +23,7 @@
 @import "components/current-organization";
 @import "components/dissociate-user-modal";
 @import "components/dropdown";
+@import "components/join-request-form";
 @import "components/pagination-control";
 @import "components/previous-page-button";
 @import "components/pix-score-tag";
@@ -38,6 +39,7 @@
 @import "components/modal";
 @import "pages/login";
 @import "pages/join";
+@import "pages/join-request";
 @import "pages/authenticated";
 @import "pages/authenticated/campaigns";
 @import "pages/authenticated/campaigns/details";

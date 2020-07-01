@@ -1,0 +1,72 @@
+<div class="join-request-form">
+  {{#if this.hasErrorMessage}}
+    <div id="join-request-form-error-message" class="join-request-form__error-message error-message">{{this.errorMessage}}</div>
+  {{/if}}
+
+  <p class="join-request-form__information">Tous les champs sont obligatoires.</p>
+
+  <form>
+
+    <div class="input-container">
+      <label for="uai" class="label">UAI/RNE de l'établissement</label>
+      {{#if this.validation.uai.hasError}}
+        <div class="alert-input alert-input--error" role="alert">{{this.validation.uai.message}}</div>
+      {{/if}}
+      <Input
+        @id="uai"
+        @name="uai"
+        @type="text"
+        class="input {{if this.validation.uai.hasError 'input--error'}}"
+        @value={{this.uai}}
+        @required='true'
+        {{on "focusout" (fn this.validateInput "uai" this.uai)}}
+      />
+    </div>
+
+    <div class="input-container">
+      <label for="firstName" class="label">Votre prénom</label>
+      {{#if this.validation.firstName.hasError}}
+        <div class="alert-input alert-input--error" role="alert">{{this.validation.firstName.message}}</div>
+      {{/if}}
+      <Input
+        @id="firstName"
+        @name="firstName"
+        @type="text"
+        class="input {{if this.validation.firstName.hasError 'input--error'}}"
+        @value={{this.firstName}}
+        @autocomplete="given-name"
+        @required='true'
+        {{on "focusout" (fn this.validateInput "firstName" this.firstName)}}
+      />
+    </div>
+
+    <div class="input-container">
+      <label for="lastName" class="label">Votre nom</label>
+      {{#if this.validation.lastName.hasError}}
+        <div class="alert-input alert-input--error" role="alert">{{this.validation.lastName.message}}</div>
+      {{/if}}
+      <Input
+        @id="lastName"
+        @name="lastName"
+        @type="text"
+        class="input {{if this.validation.lastName.hasError 'input--error'}}"
+        @value={{this.lastName}}
+        @autocomplete="family-name"
+        @required='true'
+        {{on "focusout" (fn this.validateInput "lastName" this.lastName)}}
+      />
+    </div>
+
+    <div class="input-container">
+      {{#if this.isLoading}}
+        <button type="button" class="button"><span class="loader-in-button">&nbsp;</span></button>
+      {{else}}
+        <button type="submit" class="button join-request-form__button">Envoyer</button>
+      {{/if}}
+    </div>
+
+    <div class="join-request-form__back">
+      <LinkTo @route="login"><FaIcon @icon="arrow-left" />Revenir à la page de connexion</LinkTo>
+    </div>
+  </form>
+</div>
