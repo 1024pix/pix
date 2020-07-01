@@ -18,29 +18,71 @@
   {{/if}}
 </td>
 <td>
-  {{#if this.isEditionMode}}
-    <div class="zone-save-cancel-role">
-      <button id='save-organization-role'
-              type="button"
-              class="btn btn-primary btn-sm"
-        {{on 'click' (fn this.updateRoleOfMember @membership)}}>
-        Enregistrer
-      </button>
-      <button id='cancel-update-organization-role'
-              type="button"
-              class="btn btn-outline-default btn-sm"
-              aria-label="Annuler"
-        {{on 'click' (fn this.cancelUpdateRoleOfMember)}}>
-        <FaIcon @icon='times'></FaIcon>
-      </button>
+  <div class="member-item-actions">
+    <div>
+      {{#if this.isEditionMode}}
+        <div>
+          <button type="button"
+                  class="btn btn-primary btn-sm"
+                  aria-label="Enregistrer"
+                  {{on 'click' this.updateRoleOfMember}}>
+            Enregistrer
+          </button>
+          <button type="button"
+                  class="btn btn-outline-default btn-sm"
+                  aria-label="Annuler"
+                  {{on 'click' this.cancelUpdateRoleOfMember}}>
+            <FaIcon @icon='times' />
+          </button>
+        </div>
+      {{else}}
+        <div>
+          {{#if @membership.isSaving}}
+            <button type="button"
+                    class="btn btn-primary btn-sm"
+                    aria-label="Modifier le rôle"
+                    disabled>
+              <FaIcon @icon="edit" />
+              Modifier le rôle
+            </button>
+          {{else}}
+            <button type="button"
+                    class="btn btn-primary btn-sm"
+                    aria-label="Modifier le rôle"
+                    {{on 'click' this.editRoleOfMember}}>
+              <FaIcon @icon="edit" />
+              Modifier le rôle
+            </button>
+          {{/if}}
+        </div>
+      {{/if}}
     </div>
-  {{else}}
-    <div class="zone-edit-role">
-      <button id='edit-organization-role' class="btn btn-primary btn-sm"
-              type="button" {{on 'click' (fn this.editRoleOfMember @membership)}}>
-        <FaIcon @icon="edit"></FaIcon>
-        Modifier le rôle
-      </button>
+    <div>
+      {{#if @membership.isSaving}}
+        <button type="button"
+                class="btn btn-danger btn-sm disable-membership-button"
+                aria-label="Désactiver"
+                disabled>
+          <FaIcon @icon="trash" />
+          Désactiver
+        </button>
+      {{else}}
+        <button type="button"
+                class="btn btn-danger btn-sm disable-membership-button"
+                aria-label="Désactiver"
+                {{on 'click' this.toggleDisplayConfirm}}>
+          <FaIcon @icon="trash" />
+          Désactiver
+        </button>
+      {{/if }}
     </div>
-  {{/if}}
+  </div>
 </td>
+
+<ConfirmPopup @message="Etes-vous sûr de vouloir désactiver ce membre de cette équipe ?"
+              @title="Désactivation d'un membre"
+              @submitTitle="Désactiver"
+              @confirm={{this.disableMembership}}
+              @cancel={{this.toggleDisplayConfirm}}
+              @show={{this.displayConfirm}}
+/>

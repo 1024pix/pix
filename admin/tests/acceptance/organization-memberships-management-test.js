@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
+import { selectChoose } from 'ember-power-select/test-support/helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Acceptance | organization memberships management', function(hooks) {
@@ -140,6 +141,47 @@ module('Acceptance | organization memberships management', function(hooks) {
 
       // then
       assert.contains('Une erreur s’est produite, veuillez réessayer.');
+    });
+  });
+
+  module('editing a member\'s role', function(hooks) {
+
+    let membership;
+
+    hooks.beforeEach(async function() {
+      const user = this.server.create('user', { firstName: 'John', lastName: 'Doe', email: 'user@example.com' });
+      membership = this.server.create('membership', { organizationRole: 'ADMIN', user, organization });
+    });
+
+    test('should update member\'s role', async function(assert) {
+      await visit(`/organizations/${organization.id}/members`);
+      await click('button[aria-label="Modifier le rôle"]');
+
+      await selectChoose('.editable-cell', 'Membre');
+      await click('button[aria-label="Enregistrer"]');
+
+      // then
+      assert.equal(membership.organizationRole, 'MEMBER');
+      assert.contains('Le rôle du membre a été mis à jour avec succès.');
+    });
+  });
+
+  module('deactivating a member', function(hooks) {
+
+    hooks.beforeEach(async function() {
+      const user = this.server.create('user', { firstName: 'John', lastName: 'Doe', email: 'user@example.com' });
+      this.server.create('membership', { organizationRole: 'ADMIN', user, organization });
+    });
+
+    test('should deactivate a member', async function(assert) {
+      await visit(`/organizations/${organization.id}/members`);
+      await click('button[aria-label="Désactiver"]');
+
+      await click('.modal-footer > button.btn-primary');
+
+      // then
+      assert.contains('Le membre a été désactivé avec succès.');
+      assert.contains('Aucun résultat');
     });
   });
 });

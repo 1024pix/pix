@@ -51,18 +51,28 @@ export default function() {
   this.patch('/memberships/:id', (schema, request) => {
     const membershipId = request.params.id;
     const params = JSON.parse(request.requestBody);
-    const organizationRole = params.data.attributes.organizationRole;
+    const organizationRole = params.data.attributes['organization-role'];
 
     const membership = schema.memberships.findBy({ id: membershipId });
     return membership.update({ organizationRole });
   });
 
+  this.post('/memberships/:id/disable', (schema, request) => {
+    const membershipId = request.params.id;
+
+    const membership = schema.memberships.findBy({ id: membershipId });
+    return membership.update({ disabledAt: new Date() });
+  });
+
   this.patch('/organizations/:id', (schema, request) => {
     const organizationId = request.params.id;
     const params = JSON.parse(request.requestBody);
+    const name = params.data.attributes.name;
+    const externalId = params.data.attributes['external-id'];
+    const provinceCode = params.data.attributes['province-code'];
 
     const organization = schema.organizations.findBy({ id: organizationId });
-    return organization.update({ params });
+    return organization.update({ name, externalId, provinceCode });
   });
 
   this.patch('/admin/users/:id', (schema, request) => {
