@@ -25,6 +25,14 @@ module.exports = {
       .then((membership) => {
         return h.response(membershipSerializer.serialize(membership));
       });
+  },
+
+  async disable(request, h) {
+    const membershipId = request.params.id;
+    const userId = requestResponseUtils.extractUserIdFromRequest(request);
+
+    await usecases.disableMembership({ membershipId, userId });
+    return h.response().code(204);
   }
 
 };

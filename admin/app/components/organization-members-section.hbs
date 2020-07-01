@@ -61,7 +61,7 @@
             <th class="table__column table__column--wide">Nom</th>
             <th class="table__column table__column--wide">Adresse email</th>
             <th class="table__column">Rôle</th>
-            <th class="table__column">Action</th>
+            <th class="table__column">Actions</th>
           </tr>
           <tr>
             <th class="table__column"></th>
@@ -101,7 +101,7 @@
           <tbody>
           {{#each @memberships as |membership|}}
             <tr aria-label="Membre">
-              <MemberItem @membership={{membership}}/>
+              <MemberItem @membership={{membership}} @updateMembership={{@updateMembership}} @disableMembership={{@disableMembership}} />
             </tr>
           {{/each}}
           </tbody>

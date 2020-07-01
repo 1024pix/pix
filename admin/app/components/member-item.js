@@ -1,6 +1,7 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import { inject as service } from '@ember/service';
 
 const options = [
   { value: 'ADMIN', label: 'Administrateur' },
@@ -9,10 +10,12 @@ const options = [
 
 export default class MemberItem extends Component {
 
+  @service notifications;
+
   @tracked organizationRoles = null;
   @tracked isEditionMode = false;
   @tracked selectedNewRole = null;
-  @tracked currentRole = null;
+  @tracked displayConfirm = false;
 
   constructor() {
     super(...arguments);
@@ -26,27 +29,34 @@ export default class MemberItem extends Component {
   }
 
   @action
-  updateRoleOfMember(membership) {
+  updateRoleOfMember() {
     this.isEditionMode = false;
     if (!this.selectedNewRole) return false;
 
-    membership.displayRole = this.selectedNewRole.label;
-    membership.organizationRole = this.selectedNewRole.value;
-
-    return membership.save();
+    this.args.membership.organizationRole = this.selectedNewRole.value;
+    return this.args.updateMembership(this.args.membership);
   }
 
   @action
   cancelUpdateRoleOfMember() {
     this.isEditionMode = false;
     this.selectedNewRole = null;
-    this.currentRole = null;
   }
 
   @action
-  editRoleOfMember(membership) {
-    this.selectedNewRole = null;
-    this.currentRole = membership.displayedOrganizationRole;
+  editRoleOfMember() {
     this.isEditionMode = true;
+    this.selectedNewRole = null;
+  }
+
+  @action
+  toggleDisplayConfirm() {
+    this.displayConfirm = !this.displayConfirm;
+  }
+
+  @action
+  disableMembership() {
+    this.toggleDisplayConfirm();
+    return this.args.disableMembership(this.args.membership);
   }
 }
