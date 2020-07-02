@@ -33,6 +33,7 @@ module.exports = datasource.extend({
     'Texte alternatif illustration',
     'Format',
     'Langues',
+    'Réponse automatique',
   ],
 
   fromAirTableObject(airtableRecord) {
@@ -79,6 +80,7 @@ module.exports = datasource.extend({
       competenceId,
       illustrationAlt: airtableRecord.get('Texte alternatif illustration'),
       format: airtableRecord.get('Format') || 'mots',
+      autoReply: Boolean(airtableRecord.get('Réponse automatique')) || false,
       locales: _convertLanguagesToLocales(airtableRecord.get('Langues') || [])
     };
   },

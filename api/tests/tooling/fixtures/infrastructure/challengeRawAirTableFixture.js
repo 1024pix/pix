@@ -124,6 +124,7 @@ module.exports = function challengeRawAirTableFixture({ id, fields } = { id: 're
         'recsvLz0W2ShyfD63',
       ],
       'Format': 'petit',
+      'Réponse automatique': false,
       'Langues': [
         'Francophone'
       ]

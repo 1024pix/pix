@@ -30,6 +30,7 @@ describe('Unit | Domain | Models | Challenge', () => {
         illustrationAlt: 'Texte alternatif à l\'image',
         format: 'phrase',
         locales: ['fr'],
+        autoReply: true,
       };
 
       // when
