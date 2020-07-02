@@ -1,6 +1,7 @@
 const createServer = require('../../../server');
 const { expect, generateValidRequestAuthorizationHeader, airtableBuilder, databaseBuilder, knex } = require('../../test-helper');
 const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
+const { MAX_REACHABLE_PIX_BY_COMPETENCE } = require('../../../lib/domain/constants');
 
 describe('Acceptance | API | Improve Competence Evaluation', () => {
 
@@ -40,6 +41,8 @@ describe('Acceptance | API | Improve Competence Evaluation', () => {
       afterEach(async () => {
         airtableBuilder.cleanAll();
         await knex('competence-evaluations').delete();
+        await knex('knowledge-elements').delete();
+        await knex('answers').delete();
         await knex('assessments').delete();
         return cache.flushAll();
       });
@@ -79,6 +82,21 @@ describe('Acceptance | API | Improve Competence Evaluation', () => {
           });
         });
 
+        context('and user has reached maximum level of given competence', () => {
+
+          beforeEach(async () => {
+            databaseBuilder.factory.buildKnowledgeElement({ earnedPix: MAX_REACHABLE_PIX_BY_COMPETENCE, competenceId, userId });
+            await databaseBuilder.commit();
+          });
+
+          it('should return 403 error', async () => {
+            // when
+            response = await server.inject(options);
+
+            // then
+            expect(response.statusCode).to.equal(403);
+          });
+        });
       });
 
       context('and competence evaluation does not exists', () => {
