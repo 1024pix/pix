@@ -1,11 +1,8 @@
 <div class="join-request-form">
-  {{#if this.hasErrorMessage}}
-    <div id="join-request-form-error-message" class="join-request-form__error-message error-message">{{this.errorMessage}}</div>
-  {{/if}}
 
   <p class="join-request-form__information">Tous les champs sont obligatoires.</p>
 
-  <form>
+  <form {{on "submit" this.submit}}>
 
     <div class="input-container">
       <label for="uai" class="label">UAI/RNE de l'établissement</label>
@@ -65,8 +62,5 @@
       {{/if}}
     </div>
 
-    <div class="join-request-form__back">
-      <LinkTo @route="login"><FaIcon @icon="arrow-left" />Revenir à la page de connexion</LinkTo>
-    </div>
   </form>
 </div>
