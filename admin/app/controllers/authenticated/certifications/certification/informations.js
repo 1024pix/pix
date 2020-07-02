@@ -95,7 +95,7 @@ export default class CertificationInformationsController extends Controller {
   @action
   onUpdateScore(code, value) {
     // TODO refacto this please
-    this._saveCompetences();
+    this._copyCompetences();
     const existingCompetences = this.certification.competencesWithMark;
     const competence = _.find(existingCompetences, { competence_code: code });
     if (competence) {
@@ -118,29 +118,24 @@ export default class CertificationInformationsController extends Controller {
   @action
   onUpdateLevel(code, value) {
     // TODO refacto this please
-    this._saveCompetences();
+    this._copyCompetences();
     const existingCompetences = this.certification.competencesWithMark;
-    const newCompetences = existingCompetences.map((value) => {
-      return value;
-    });
-    const competence = newCompetences.filter((value) => {
-      return (value.competence_code === code);
-    })[0];
+    const competence = _.find(existingCompetences, { competence_code: code });
     if (competence) {
       if (value.trim().length === 0) {
         if (competence.score) {
           competence.level = null;
         } else {
-          const index = newCompetences.indexOf(competence);
-          newCompetences.splice(index, 1);
+          const index = existingCompetences.indexOf(competence);
+          existingCompetences.splice(index, 1);
         }
       } else {
         competence.level = parseInt(value);
       }
     } else if (value.trim().length > 0) {
-      newCompetences.addObject({ competence_code: code, 'level': parseInt(value), area_code: code.substr(0, 1) });
+      existingCompetences.addObject({ competence_code: code, 'level': parseInt(value), area_code: code.substr(0, 1) });
     }
-    this.certification.competencesWithMark = newCompetences;
+    this.certification.competencesWithMark = [...existingCompetences];
   }
 
   @action
@@ -186,7 +181,7 @@ export default class CertificationInformationsController extends Controller {
   }
 
   // Private methods
-  _saveCompetences() {
+  _copyCompetences() {
     if (!this._competencesCopy) {
       const current = this.certification.competencesWithMark;
       this._competencesCopy = cloneDeep(current);
