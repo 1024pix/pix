@@ -7,6 +7,8 @@ import _ from 'lodash';
 export default class CertificationsController extends Controller {
   @service router;
 
+  @tracked inputId;
+
   @action
   loadCertification(event) {
     event.preventDefault();
