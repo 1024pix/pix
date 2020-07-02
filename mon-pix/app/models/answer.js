@@ -1,3 +1,5 @@
+/* eslint ember/no-classic-classes: 0 */
+
 import Model, { belongsTo, attr } from '@ember-data/model';
 import { equal, not } from '@ember/object/computed';
 import ValueAsArrayOfString from './answer/value-as-array-of-string-mixin';

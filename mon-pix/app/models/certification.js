@@ -1,3 +1,5 @@
+/* eslint ember/no-computed-properties-in-native-classes: 0 */
+
 import Model, { belongsTo, attr } from '@ember-data/model';
 import { computed } from '@ember/object';
 import capitalize from 'lodash/capitalize';
