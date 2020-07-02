@@ -1,4 +1,5 @@
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 import { setupTest } from 'ember-qunit';
 import EmberObject from '@ember/object';
 
@@ -148,24 +149,21 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   test('it saves competences info when save is sent', async function(assert) {
     // Given
     const controller = this.owner.lookup('controller:authenticated/certifications/certification/informations');
-    const that = this;
-    controller.set('model', EmberObject.create({
+    const save = sinon.stub().resolves();
+    const store = this.owner.lookup('service:store');
+
+    const certification = store.createRecord('certification', {
       competencesWithMark:[competence('1.1', 24, 3), competence('3.1',40, 5), competence('5.2',33, 4)],
-      save() {
-        that.set('competenceSaved', true);
-        return Promise.resolve(true);
-      },
-      changedAttributes() {
-        return {};
-      },
-    }));
-    this.set('competenceSaved', false);
+    });
+    certification.save = save;
+    controller.certification = certification;
 
     // When
     await controller.send('onSave');
 
     // Then
-    assert.equal(this.get('competenceSaved'), true);
+    assert.ok(save.calledWith({ adapterOptions: { updateMarks: false } }));
+    assert.ok(save.calledWith({ adapterOptions: { updateMarks: true } }));
   });
 
   test('marks are not updated when no change has been made and save is sent', async function(assert) {
