@@ -14,7 +14,7 @@ class ChallengeItemQroc extends ChallengeItemGeneric {
   }
 
   _getErrorMessage() {
-    return 'Pour valider, saisir une réponse. Sinon, passer.';
+    return 'Jouer l\'épreuve pour valider. Sinon, passer.';
   }
 
   get showProposal() {

@@ -56,8 +56,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
         // then
         expect(find('.alert')).to.exist;
-        // TODO: Change this message
-        expect(find('.alert').textContent.trim()).to.equal('Pour valider, saisir une réponse. Sinon, passer.');
+        expect(find('.alert').textContent.trim()).to.equal('Jouer l\'épreuve pour valider. Sinon, passer.');
       });
 
       it('should hide the alert error after the user interact with input text', async () => {
@@ -232,7 +231,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
         // then
         expect(find('.alert')).to.exist;
-        expect(find('.alert').textContent.trim()).to.equal('Pour valider, saisir une réponse. Sinon, passer.');
+        expect(find('.alert').textContent.trim()).to.equal('Jouer l\'épreuve pour valider. Sinon, passer.');
       });
 
       it('should hide the alert error after the user interact with input text', async () => {
