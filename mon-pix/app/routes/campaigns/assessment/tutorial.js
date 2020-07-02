@@ -1,3 +1,6 @@
+/* eslint ember/no-actions-hash: 0 */
+/* eslint ember/no-classic-classes: 0 */
+
 import Route from '@ember/routing/route';
 import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 import campaignTutorial from 'mon-pix/static-data/campaign-tutorial';

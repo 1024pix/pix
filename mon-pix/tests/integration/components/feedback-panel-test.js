@@ -1,3 +1,6 @@
+/* eslint ember/no-classic-classes: 0 */
+/* eslint ember/require-tagless-components: 0 */
+
 import EmberObject from '@ember/object';
 import { resolve } from 'rsvp';
 import Service from '@ember/service';
@@ -52,21 +55,21 @@ describe('Integration | Component | feedback-panel', function() {
       beforeEach(async function() {
         await render(hbs`{{feedback-panel isFormOpened=false}}`);
       });
-  
+
       it('should display the feedback panel', function() {
         expect(find('.feedback-panel__view--link')).to.exist;
       });
-  
+
       it('should toggle the form view when clicking on the toggle link', async function() {
         // when
         await click(TOGGLE_LINK);
-  
+
         // then
         expectFormViewToBeVisible();
-  
+
         // then when
         await click(TOGGLE_LINK);
-  
+
         // then
         expectFormViewToNotBeVisible();
       });

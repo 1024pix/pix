@@ -1,3 +1,5 @@
+/* eslint ember/no-classic-classes: 0 */
+
 import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';

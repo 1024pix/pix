@@ -1,3 +1,5 @@
+/* eslint ember/classic-decorator-no-classic-methods: 0 */
+
 import { action } from '@ember/object';
 import ChallengeItemGeneric from './challenge-item-generic';
 

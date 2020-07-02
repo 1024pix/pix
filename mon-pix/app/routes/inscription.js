@@ -1,3 +1,6 @@
+/* eslint ember/no-actions-hash: 0 */
+/* eslint ember/no-classic-classes: 0 */
+
 import { inject as service } from '@ember/service';
 import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
 import Route from '@ember/routing/route';

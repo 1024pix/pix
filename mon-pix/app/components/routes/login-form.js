@@ -1,3 +1,6 @@
+/* eslint ember/no-classic-components: 0 */
+/* eslint ember/require-tagless-components: 0 */
+
 import { action, computed } from '@ember/object';
 import { inject } from '@ember/service';
 import Component from '@ember/component';

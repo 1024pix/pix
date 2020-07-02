@@ -1,3 +1,6 @@
+/* eslint ember/no-actions-hash: 0 */
+/* eslint ember/no-classic-classes: 0 */
+
 import Controller from '@ember/controller';
 
 export default Controller.extend({
