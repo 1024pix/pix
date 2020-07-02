@@ -23,12 +23,13 @@ module.exports = {
     const {
       name,
       type,
+      email,
       'external-id': externalId,
       'province-code': provinceCode,
       'logo-url': logoUrl,
     } = request.payload.data.attributes;
 
-    return usecases.createOrganization({ name, type, externalId, provinceCode, logoUrl })
+    return usecases.createOrganization({ name, type, externalId, provinceCode, logoUrl, email })
       .then(organizationSerializer.serialize);
   },
 
@@ -37,13 +38,14 @@ module.exports = {
     const {
       name,
       type,
+      email,
       'logo-url': logoUrl,
       'external-id': externalId,
       'province-code': provinceCode,
       'is-managing-students': isManagingStudents,
     } = request.payload.data.attributes;
 
-    return usecases.updateOrganizationInformation({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents })
+    return usecases.updateOrganizationInformation({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, email })
       .then(organizationSerializer.serialize);
   },
 
