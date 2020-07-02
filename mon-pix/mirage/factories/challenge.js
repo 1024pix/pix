@@ -72,6 +72,10 @@ export default Factory.extend({
     proposals: 'Entrez le prénom de B. Gates : ${firstname#prénom} (en toutes lettres)\nSVP'
   }),
 
+  withAutoReply: trait({
+    autoReply: true,
+  }),
+
   withTextArea: trait({
     format: 'paragraphe',
   }),

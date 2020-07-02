@@ -17,6 +17,10 @@ class ChallengeItemQroc extends ChallengeItemGeneric {
     return 'Pour valider, saisir une réponse. Sinon, passer.';
   }
 
+  get showProposal() {
+    return !this.challenge.autoReply;
+  }
+
   @action
   answerChanged() {
     this.set('errorMessage', null);
