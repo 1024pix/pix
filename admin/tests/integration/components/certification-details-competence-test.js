@@ -62,7 +62,6 @@ module('Integration | Component | certification-details-competence', function(ho
     this.set('externalAction', () => {
       return resolve();
     });
-    assert.expect(4);
 
     // when
     await render(hbs`{{certification-details-competence competence=competenceData rate=60 juryRate=70 onUpdateRate=(action externalAction)}}`);
@@ -72,6 +71,7 @@ module('Integration | Component | certification-details-competence', function(ho
     assert.dom('.jury.competence-score').exists();
     assert.dom('.jury.competence-level').hasText('2');
     assert.dom('.jury.competence-score').hasText('18 Pix');
+    assert.dom('.progress-bar.competence-level.certificate').hasText('-1');
   });
 
 });
