@@ -8,29 +8,31 @@
   <form {{action "validateAnswer" on="submit"}} class="rounded-panel">
     <ChallengeStatement @challenge={{@challenge}} @assessment={{@assessment}} />
 
-    <div class="rounded-panel__row challenge-response {{if @answer 'challenge-response--locked'}}">
-      <div class="challenge-proposals">
-        <QrocProposal @answer={{@answer}}
-                      @format={{@challenge.format}}
-                      @proposals={{@challenge.proposals}}
-                      @answerValue={{@answer.value}}
-                      @answerChanged={{action "answerChanged"}} />
-      </div>
-
-      {{#if @answer}}
-        <div class="challenge-response__locked-overlay">
-          <FaIcon @icon='lock' class='challenge-response-locked__icon' />
+    {{#if this.showProposal}}
+      <div class="rounded-panel__row challenge-response {{if @answer 'challenge-response--locked'}}">
+        <div class="challenge-proposals">
+          <QrocProposal @answer={{@answer}}
+                        @format={{@challenge.format}}
+                        @proposals={{@challenge.proposals}}
+                        @answerValue={{@answer.value}}
+                        @answerChanged={{action "answerChanged"}} />
         </div>
-      {{/if}}
 
-      {{#if @challenge.timer}}
-        {{#if this.hasUserConfirmWarning}}
-          <div class="timeout-jauge-wrapper">
-            <TimeoutJauge @allotedTime={{@challenge.timer}} />
+        {{#if @answer}}
+          <div class="challenge-response__locked-overlay">
+            <FaIcon @icon='lock' class='challenge-response-locked__icon' />
           </div>
         {{/if}}
-      {{/if}}
-    </div>
+
+        {{#if @challenge.timer}}
+          {{#if this.hasUserConfirmWarning}}
+            <div class="timeout-jauge-wrapper">
+              <TimeoutJauge @allotedTime={{@challenge.timer}} />
+            </div>
+          {{/if}}
+        {{/if}}
+      </div>
+    {{/if}}
 
     {{#if this.errorMessage}}
       <div class="alert alert-danger" role="alert">

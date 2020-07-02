@@ -17,6 +17,20 @@ describe('Acceptance | Displaying a QROC challenge', () => {
       qrocChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROC');
     });
 
+    describe('When challenge is an auto validated embed (autoReply=true)', () => {
+      beforeEach(async () => {
+        const qrocChallengeWithAutoReply = server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withAutoReply');
+        // when
+        await visit(`/assessments/${assessment.id}/challenges/${qrocChallengeWithAutoReply.id}`);
+      });
+
+      it('should render challenge information and question', () => {
+        // then
+        expect(find('.challenge-response__proposal')).to.not.exist;
+      });
+
+    });
+
     describe('When challenge is not already answered', () => {
       beforeEach(async () => {
         // when
@@ -42,6 +56,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
         // then
         expect(find('.alert')).to.exist;
+        // TODO: Change this message
         expect(find('.alert').textContent.trim()).to.equal('Pour valider, saisir une réponse. Sinon, passer.');
       });
 
