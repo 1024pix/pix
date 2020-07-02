@@ -40,6 +40,7 @@ class Challenge {
    * @param competenceId
    * @param format
    * @param locales
+   * @param autoReply
    */
   constructor(
     {
@@ -58,6 +59,7 @@ class Challenge {
       timer,
       type,
       locales,
+      autoReply,
       // includes
       answer,
       skills = [],
@@ -81,6 +83,7 @@ class Challenge {
     this.status = status;
     this.type = type;
     this.locales = locales;
+    this.autoReply = autoReply;
     // includes
     this.skills = skills;
     this.validator = validator;
