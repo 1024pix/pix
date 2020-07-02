@@ -101,6 +101,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessmen
         challenges,
         targetSkills: targetProfile.skills,
         knowledgeElements: recentKnowledgeElements,
+        validatedOnly: false,
       });
     });
 
