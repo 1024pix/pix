@@ -16,7 +16,7 @@ module.exports = {
   ],
   extends: [
     ...(fs.existsSync('../.eslintrc.yaml') ? ['../.eslintrc.yaml'] : []),
-    'plugin:ember/recommended'
+    'plugin:ember/octane'
   ],
   env: {
     browser: true
@@ -39,10 +39,6 @@ module.exports = {
     /* Recommended rules */
     'ember/no-mixins': 'off',
     'ember/no-jquery': 'off',
-    'ember/require-computed-property-dependencies': 'off',
-    'ember/no-private-routing-service': 'off',
-    'ember/require-computed-macros': 'off',
-
   },
   overrides: [
     // node files
