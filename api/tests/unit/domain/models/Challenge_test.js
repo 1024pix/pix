@@ -86,22 +86,48 @@ describe('Unit | Domain | Models | Challenge', () => {
   });
 
   describe('#isPublished', () => {
-    [
-      { status: 'validé', expectedResult: true },
-      { status: 'validé sans test', expectedResult: true },
-      { status: 'proposé', expectedResult: false },
-      { status: 'pré-validé', expectedResult: true },
-      { status: 'archive', expectedResult: false },
-    ].forEach((testCase) => {
-      it(`should return ${testCase.expectedResult} when the status is "${testCase.status}"`, () => {
-        // given
-        const challenge = new Challenge({ status: testCase.status });
 
-        // when
-        const result = challenge.isPublished();
+    context('when validatedOnly is true', () => {
+      [
+        { status: 'validé', expectedResult: true },
+        { status: 'validé sans test', expectedResult: true },
+        { status: 'proposé', expectedResult: false },
+        { status: 'pré-validé', expectedResult: true },
+        { status: 'archivé', expectedResult: false },
+        { status: 'périmé', expectedResult: false },
+      ].forEach((testCase) => {
+        it(`should return ${testCase.expectedResult} when the status is "${testCase.status}"`, () => {
+          // given
+          const challenge = new Challenge({ status: testCase.status });
 
-        // then
-        expect(result).to.equal(testCase.expectedResult);
+          // when
+          const result = challenge.isPublished({ validatedOnly: true });
+
+          // then
+          expect(result).to.equal(testCase.expectedResult);
+        });
+      });
+    });
+
+    context('when validatedOnly is false', () => {
+      [
+        { status: 'validé', expectedResult: true },
+        { status: 'validé sans test', expectedResult: true },
+        { status: 'proposé', expectedResult: false },
+        { status: 'pré-validé', expectedResult: true },
+        { status: 'archivé', expectedResult: true },
+        { status: 'périmé', expectedResult: false },
+      ].forEach((testCase) => {
+        it(`should return ${testCase.expectedResult} when the status is "${testCase.status}"`, () => {
+          // given
+          const challenge = new Challenge({ status: testCase.status });
+
+          // when
+          const result = challenge.isPublished({ validatedOnly: false });
+
+          // then
+          expect(result).to.equal(testCase.expectedResult);
+        });
       });
     });
   });

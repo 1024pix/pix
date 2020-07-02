@@ -6,7 +6,7 @@ const { computeTubesFromSkills } = require('./../tube-service');
 
 module.exports = { getPossibleSkillsForNextChallenge };
 
-function getPossibleSkillsForNextChallenge({ knowledgeElements, challenges, targetSkills, lastAnswer, allAnswers } = {}) {
+function getPossibleSkillsForNextChallenge({ knowledgeElements, challenges, targetSkills, lastAnswer, allAnswers, validatedOnly = true } = {}) {
 
   const isUserStartingTheTest = !lastAnswer;
   const isLastChallengeTimed = _wasLastChallengeTimed(lastAnswer);
@@ -14,7 +14,7 @@ function getPossibleSkillsForNextChallenge({ knowledgeElements, challenges, targ
   const knowledgeElementsOfTargetSkills = knowledgeElements.filter((ke) => {
     return targetSkills.find((skill) => skill.id === ke.skillId);
   });
-  const filteredChallenges = _filterChallenges({ challenges, allAnswers });
+  const filteredChallenges = _filterChallenges({ challenges, allAnswers, validatedOnly });
   targetSkills = _getSkillsWithAddedInformations({ targetSkills, filteredChallenges });
 
   // First challenge has specific rules
@@ -72,18 +72,18 @@ function _getSkillsWithAddedInformations({ targetSkills, filteredChallenges }) {
   });
 }
 
-function _filterChallenges({ challenges, allAnswers }) {
+function _filterChallenges({ challenges, allAnswers, validatedOnly }) {
   return pipe(
     _removeChallengesWithAnswer,
     _removeUnpublishedChallenges,
-  )({ challenges, allAnswers });
+  )({ challenges, allAnswers, validatedOnly });
 }
 
-function _removeChallengesWithAnswer({ challenges, allAnswers }) {
+function _removeChallengesWithAnswer({ challenges, allAnswers, validatedOnly }) {
   const challengeIdsWithAnswer = allAnswers.map((answer) => answer.challengeId);
-  return challenges.filter((challenge) => !_.includes(challengeIdsWithAnswer, challenge.id));
+  return { challenges: challenges.filter((challenge) => !_.includes(challengeIdsWithAnswer, challenge.id)), validatedOnly };
 }
 
-function _removeUnpublishedChallenges(challenges) {
-  return _.filter(challenges, (challenge) => challenge.isPublished());
+function _removeUnpublishedChallenges({ challenges, validatedOnly }) {
+  return _.filter(challenges, (challenge) => challenge.isPublished({ validatedOnly }));
 }

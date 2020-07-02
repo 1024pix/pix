@@ -48,7 +48,7 @@ async function fillCertificationProfileWithChallenges(certificationProfile) {
     }
 
     challenge.skills
-      .filter((skill) => _skillHasAtLeastOneChallengeInTheReferentiel(skill, allChallenges))
+      .filter((skill) => _skillHasAtLeastOneChallenge(skill, allChallenges))
       .forEach((publishedSkill) => userCompetence.addSkill(publishedSkill));
   });
 
@@ -58,7 +58,7 @@ async function fillCertificationProfileWithChallenges(certificationProfile) {
     const testedSkills = [];
     userCompetence.skills.forEach((skill) => {
       if (!userCompetence.hasEnoughChallenges()) {
-        const challengesToValidateCurrentSkill = Challenge.findPublishedBySkill(allChallenges, skill);
+        const challengesToValidateCurrentSkill = Challenge.findPublishedBySkill({ challenges: allChallenges, skill, validatedOnly: false });
         const challengesLeftToAnswer = _.difference(challengesToValidateCurrentSkill, challengesAlreadyAnswered);
 
         const challengesPoolToPickChallengeFrom = (_.isEmpty(challengesLeftToAnswer)) ? challengesToValidateCurrentSkill : challengesLeftToAnswer;
@@ -80,8 +80,8 @@ function _getUserCompetenceByChallengeCompetenceId(userCompetences, challenge) {
   return challenge ? userCompetences.find((userCompetence) => userCompetence.id === challenge.competenceId) : null;
 }
 
-function _skillHasAtLeastOneChallengeInTheReferentiel(skill, challenges) {
-  const challengesBySkill = Challenge.findPublishedBySkill(challenges, skill);
+function _skillHasAtLeastOneChallenge(skill, challenges) {
+  const challengesBySkill = Challenge.findPublishedBySkill({ challenges, skill, validatedOnly: false });
   return challengesBySkill.length > 0;
 }
 

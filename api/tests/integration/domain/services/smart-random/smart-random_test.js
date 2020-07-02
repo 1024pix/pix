@@ -14,8 +14,12 @@ function turnIntoTimedChallenge(challenge) {
   return _.assign(_.cloneDeep(challenge), { timer: ONE_MINUTE });
 }
 
+function turnIntoOutOfDateChallenge(challenge) {
+  return _.assign(_.cloneDeep(challenge), { status: 'périmé' });
+}
+
 function turnIntoArchivedChallenge(challenge) {
-  return _.assign(_.cloneDeep(challenge), { status: 'archived' });
+  return _.assign(_.cloneDeep(challenge), { status: 'archivé' });
 }
 
 function duplicateChallengeOfSameDifficulty(challenge) {
@@ -94,7 +98,8 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         challenges,
         knowledgeElements: [],
         lastAnswer,
-        allAnswers
+        allAnswers,
+        validatedOnly: true,
       });
 
       // then
@@ -219,18 +224,134 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
 
     });
 
-    // Some challenges can be archived. Such challenges may be ruled out when they haven't been answered yet, but at the same time
-    // must be taken into account when the user has already answered them, since they give useful information to the adaptive algorithm.
-    context('when one challenge has been archived', () => {
-      let challengeWeb_3_Archived, challengeWeb_4_Archived;
+    context('when we are in competenceEvaluation : validatedOnly is true', () => {
+      context('when one challenge has been archived : status "archivé"', () => {
+        let challengeWeb_1_Archived;
+
+        beforeEach(() => {
+          targetSkills = [web1];
+          challengeWeb_1_Archived = turnIntoArchivedChallenge(challengeWeb_1);
+        });
+
+        it('should return empty array', () => {
+          // given
+          const challenges = [challengeWeb_1_Archived];
+
+          // when
+          const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+            targetSkills,
+            challenges,
+            knowledgeElements: [],
+            lastAnswer,
+            allAnswers,
+            validatedOnly: true,
+          });
+
+          // then
+          expect(possibleSkillsForNextChallenge).to.be.deep.equal([]);
+        });
+      });
+
+      context('when one challenge is out of date : status "périmé"', () => {
+        let challengeWeb_1_OutOfDate;
+
+        beforeEach(() => {
+          targetSkills = [web1];
+          challengeWeb_1_OutOfDate = turnIntoOutOfDateChallenge(challengeWeb_1);
+        });
+
+        it('should return empty array', () => {
+          // given
+          const challenges = [challengeWeb_1_OutOfDate];
+
+          // when
+          const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+            targetSkills,
+            challenges,
+            knowledgeElements: [],
+            lastAnswer,
+            allAnswers,
+            validatedOnly: true,
+          });
+
+          // then
+          expect(possibleSkillsForNextChallenge).to.be.deep.equal([]);
+        });
+      });
+    });
+
+    context('when we are in campaign : validatedOnly is false', () => {
+      context('when one challenge has been archived : status "archivé"', () => {
+        let challengeWeb_1_Archived;
+
+        beforeEach(() => {
+          targetSkills = [web1];
+          challengeWeb_1_Archived = turnIntoArchivedChallenge(challengeWeb_1);
+        });
+
+        it('should return a result', () => {
+          // given
+          const challenges = [challengeWeb_1_Archived];
+
+          // when
+          const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+            targetSkills,
+            challenges,
+            knowledgeElements: [],
+            lastAnswer,
+            allAnswers,
+            validatedOnly: false,
+          });
+
+          // then
+          expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
+          expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
+          expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web1.id);
+          expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_1.id);
+        });
+      });
+
+      context('when one challenge is out of date : status "périmé"', () => {
+        let challengeWeb_1_OutOfDate;
+
+        beforeEach(() => {
+          targetSkills = [web1];
+          challengeWeb_1_OutOfDate = turnIntoOutOfDateChallenge(challengeWeb_1);
+        });
+
+        it('should return empty array', () => {
+          // given
+          const challenges = [challengeWeb_1_OutOfDate];
+
+          // when
+          const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+            targetSkills,
+            challenges,
+            knowledgeElements: [],
+            lastAnswer,
+            allAnswers,
+            validatedOnly: false,
+          });
+
+          // then
+          expect(possibleSkillsForNextChallenge).to.be.deep.equal([]);
+        });
+      });
+    });
+
+    // Some challenges can be out of date. Such challenges may be ruled out in competenceEvaluation when they haven't been answered yet,
+    // but at the same time must be taken into account when the user has already answered them, since they give useful information
+    // to the adaptive algorithm.
+    context('when one challenge is out of date', () => {
+      let challengeWeb_3_OutOfDate, challengeWeb_4_OutOfDate;
 
       beforeEach(() => {
         targetSkills = [web1, web2, web3, web4, web5];
-        challengeWeb_3_Archived = turnIntoArchivedChallenge(challengeWeb_3);
-        challengeWeb_4_Archived = turnIntoArchivedChallenge(challengeWeb_4);
+        challengeWeb_3_OutOfDate = turnIntoOutOfDateChallenge(challengeWeb_3);
+        challengeWeb_4_OutOfDate = turnIntoOutOfDateChallenge(challengeWeb_4);
       });
 
-      it('should return a challenge of level 4 if user got levels 1, 2 and the only possible level is 3 archived', function() {
+      it('should return a challenge of level 4 if user got levels 1, 2 and the only possible level is 3 out if date', function() {
         // given
         targetSkills = [web1, web2, web3, web4, web5, web6];
         lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK });
@@ -248,7 +369,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           }),
         ];
 
-        challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_3_Archived, challengeWeb_4];
+        challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_3_OutOfDate, challengeWeb_4];
 
         // when
         const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
@@ -257,6 +378,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           knowledgeElements,
           lastAnswer,
           allAnswers,
+          validatedOnly: true,
         });
 
         // then
@@ -267,7 +389,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
 
       });
 
-      it('should return a challenge of level 3 if user got levels 1, 2 and another possible level 3 is archived', function() {
+      it('should return a challenge of level 3 if user got levels 1, 2 and another possible level 3 is out of date', function() {
         // given
         targetSkills = [web1, web2, web3, web4, web5, web6];
         lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK });
@@ -285,7 +407,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           }),
         ];
 
-        challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_3, challengeWeb_3_Archived];
+        challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_3, challengeWeb_3_OutOfDate];
 
         // when
         const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
@@ -294,6 +416,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           knowledgeElements,
           lastAnswer,
           allAnswers,
+          validatedOnly: true,
         });
 
         // then
@@ -303,7 +426,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_3.id);
       });
 
-      it('should return a challenge of level 4 if user got levels 1, 2, 3 and 3 was archived afterwards', function() {
+      it('should return a challenge of level 4 if user got levels 1, 2, 3 and 3 was out of date afterwards', function() {
         // given
         targetSkills = [web1, web2, web3, web4, web5, web6];
         lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_3.id, result: AnswerStatus.OK });
@@ -326,7 +449,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           }),
         ];
 
-        challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_3, challengeWeb_3_Archived, challengeWeb_4];
+        challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_3, challengeWeb_3_OutOfDate, challengeWeb_4];
 
         // when
         const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
@@ -335,6 +458,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           knowledgeElements,
           lastAnswer,
           allAnswers,
+          validatedOnly: true,
         });
 
         // then
@@ -344,7 +468,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_4.id);
       });
 
-      it('should return a challenge of level 3 if user got levels 1, 2, but failed 5, and 4 was archived afterwards', function() {
+      it('should return a challenge of level 3 if user got levels 1, 2, but failed 5, and 4 was out of date afterwards', function() {
         // given
         targetSkills = [web1, web2, web3, web4, web5, web6];
         lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_4.id, result: AnswerStatus.KO });
@@ -367,7 +491,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           }),
         ];
 
-        challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_3, challengeWeb_4_Archived, challengeWeb_5];
+        challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_3, challengeWeb_4_OutOfDate, challengeWeb_5];
 
         // when
         const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
@@ -376,6 +500,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           knowledgeElements,
           lastAnswer,
           allAnswers,
+          validatedOnly: true,
         });
 
         // then

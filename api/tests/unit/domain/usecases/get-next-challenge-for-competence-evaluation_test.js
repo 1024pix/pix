@@ -101,6 +101,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
           challenges,
           targetSkills,
           knowledgeElements: recentKnowledgeElements,
+          validatedOnly: true,
         });
       });
 
