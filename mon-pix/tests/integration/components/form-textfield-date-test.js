@@ -40,10 +40,18 @@ describe('Integration | Component | form textfield date', function() {
       this.set('yearValidationMessage', 'year message');
 
       // When
-      await render(hbs`{{form-textfield-date label=label 
-        dayValidationStatus=dayValidationStatus monthValidationStatus=monthValidationStatus yearValidationStatus=yearValidationStatus
-        dayValidationMessage=dayValidationMessage monthValidationMessage=monthValidationMessage yearValidationMessage=yearValidationMessage
-        dayTextfieldName=dayTextfieldName monthTextfieldName=monthTextfieldName yearTextfieldName=yearTextfieldName}}`);
+      await render(hbs`<FormTextfieldDate
+        @label={{this.label}}
+        @dayValidationStatus={{this.dayValidationStatus}}
+        @monthValidationStatus={{this.monthValidationStatus}}
+        @yearValidationStatus={{this.yearValidationStatus}}
+        @dayValidationMessage={{this.dayValidationMessage}}
+        @monthValidationMessage={{this.monthValidationMessage}}
+        @yearValidationMessage={{this.yearValidationMessage}}
+        @dayTextfieldName={{this.dayTextfieldName}}
+        @monthTextfieldName={{this.monthTextfieldName}}
+        @yearTextfieldName={{this.yearTextfieldName}}
+      />`);
     });
 
     [
@@ -95,10 +103,22 @@ describe('Integration | Component | form textfield date', function() {
       this.set('monthTextfieldName', 'month');
       this.set('yearTextfieldName', 'year');
 
-      await render(hbs`{{form-textfield-date label=label 
-        dayValidationStatus=dayValidationStatus monthValidationStatus=monthValidationStatus yearValidationStatus=yearValidationStatus
-        dayTextfieldName=dayTextfieldName monthTextfieldName=monthTextfieldName yearTextfieldName=yearTextfieldName
-        onValidateDay=(action validate) onValidateMonth=(action validate) onValidateYear=(action validate)}}`);
+      await render(hbs`<FormTextfieldDate
+        @label={{this.label}}
+        @dayValidationStatus={{this.dayValidationStatus}}
+        @monthValidationStatus={{this.monthValidationStatus}}
+        @yearValidationStatus={{this.yearValidationStatus}}
+        @dayValidationMessage={{this.dayValidationMessage}}
+        @monthValidationMessage={{this.monthValidationMessage}}
+        @yearValidationMessage={{this.yearValidationMessage}}
+        @dayTextfieldName={{this.dayTextfieldName}}
+        @monthTextfieldName={{this.monthTextfieldName}}
+        @yearTextfieldName={{this.yearTextfieldName}}
+        @onValidateDay={{action this.validate}}
+        @onValidateMonth={{action this.validate}}
+        @onValidateYear={{action this.validate}}
+      />`);
+
       // when
       await fillIn('#day', '10');
       await fillIn('#month', '12');
@@ -125,10 +145,18 @@ describe('Integration | Component | form textfield date', function() {
         this.set('yearValidationMessage', '');
 
         // When
-        await render(hbs`{{form-textfield-date label=label 
-          dayValidationStatus=dayValidationStatus monthValidationStatus=monthValidationStatus yearValidationStatus=yearValidationStatus
-          dayValidationMessage=dayValidationMessage monthValidationMessage=monthValidationMessage yearValidationMessage=yearValidationMessage
-          dayTextfieldName=dayTextfieldName monthTextfieldName=monthTextfieldName yearTextfieldName=yearTextfieldName}}`);
+        await render(hbs`<FormTextfieldDate
+          @label={{this.label}}
+          @dayValidationStatus={{this.dayValidationStatus}}
+          @monthValidationStatus={{this.monthValidationStatus}}
+          @yearValidationStatus={{this.yearValidationStatus}}
+          @dayValidationMessage={{this.dayValidationMessage}}
+          @monthValidationMessage={{this.monthValidationMessage}}
+          @yearValidationMessage={{this.yearValidationMessage}}
+          @dayTextfieldName={{this.dayTextfieldName}}
+          @monthTextfieldName={{this.monthTextfieldName}}
+          @yearTextfieldName={{this.yearTextfieldName}}
+        />`);
       });
 
       it('return true if any svg doesn\'t exist', function() {
@@ -164,10 +192,18 @@ describe('Integration | Component | form textfield date', function() {
         this.set('yearValidationMessage', 'year message');
 
         // When
-        await render(hbs`{{form-textfield-date label=label 
-        dayValidationStatus=dayValidationStatus monthValidationStatus=monthValidationStatus yearValidationStatus=yearValidationStatus
-        dayValidationMessage=dayValidationMessage monthValidationMessage=monthValidationMessage yearValidationMessage=yearValidationMessage
-        dayTextfieldName=dayTextfieldName monthTextfieldName=monthTextfieldName yearTextfieldName=yearTextfieldName}}`);
+        await render(hbs`<FormTextfieldDate
+          @label={{this.label}}
+          @dayValidationStatus={{this.dayValidationStatus}}
+          @monthValidationStatus={{this.monthValidationStatus}}
+          @yearValidationStatus={{this.yearValidationStatus}}
+          @dayValidationMessage={{this.dayValidationMessage}}
+          @monthValidationMessage={{this.monthValidationMessage}}
+          @yearValidationMessage={{this.yearValidationMessage}}
+          @dayTextfieldName={{this.dayTextfieldName}}
+          @monthTextfieldName={{this.monthTextfieldName}}
+          @yearTextfieldName={{this.yearTextfieldName}}
+        />`);
       });
 
       it('return true if any img does exist', function() {
@@ -204,10 +240,18 @@ describe('Integration | Component | form textfield date', function() {
         this.set('yearValidationMessage', 'year message');
 
         // When
-        await render(hbs`{{form-textfield-date label=label 
-        dayValidationStatus=dayValidationStatus monthValidationStatus=monthValidationStatus yearValidationStatus=yearValidationStatus
-        dayValidationMessage=dayValidationMessage monthValidationMessage=monthValidationMessage yearValidationMessage=yearValidationMessage
-        dayTextfieldName=dayTextfieldName monthTextfieldName=monthTextfieldName yearTextfieldName=yearTextfieldName}}`);
+        await render(hbs`<FormTextfieldDate
+          @label={{this.label}}
+          @dayValidationStatus={{this.dayValidationStatus}}
+          @monthValidationStatus={{this.monthValidationStatus}}
+          @yearValidationStatus={{this.yearValidationStatus}}
+          @dayValidationMessage={{this.dayValidationMessage}}
+          @monthValidationMessage={{this.monthValidationMessage}}
+          @yearValidationMessage={{this.yearValidationMessage}}
+          @dayTextfieldName={{this.dayTextfieldName}}
+          @monthTextfieldName={{this.monthTextfieldName}}
+          @yearTextfieldName={{this.yearTextfieldName}}
+        />`);
       });
 
       it('return true if any img does exist', function() {
