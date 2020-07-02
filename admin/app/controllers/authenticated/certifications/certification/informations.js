@@ -66,7 +66,7 @@ export default class CertificationInformationsController extends Controller {
 
   @action
   onSave() {
-    const markUpdatedRequired = this._isMarksUpdatedRequired();
+    const markUpdatedRequired = this.certification.hasDirtyAttributes;
     this.displayConfirm = false;
     return this.certification.save({ adapterOptions: { updateMarks: false } })
       .then(() => {
@@ -112,7 +112,7 @@ export default class CertificationInformationsController extends Controller {
     } else if (value.trim().length > 0) {
       existingCompetences.addObject({ competence_code: code, 'score': parseInt(value), area_code: code.substr(0, 1) });
     }
-    this.certification.competencesWithMark = existingCompetences;
+    this.certification.competencesWithMark = [...existingCompetences];
   }
 
   @action
@@ -191,18 +191,6 @@ export default class CertificationInformationsController extends Controller {
       const current = this.certification.competencesWithMark;
       this._competencesCopy = cloneDeep(current);
     }
-  }
-
-  _isMarksUpdatedRequired() {
-    const attributesChangedAndLinkedToMarks = _.pick(
-      this.certification.changedAttributes(),
-      ['status', 'pixScore', 'competencesWithMark', 'commentForCandidate', 'commentForOrganization', 'commentForJury']
-    );
-    return _.some(attributesChangedAndLinkedToMarks);
-  }
-
-  _getCertificationErrorsAfterJuryUpdateIfAny() {
-    return this._getCertificationErrorsAfterJuryUpdate(this.certification.competencesWithMark);
   }
 
   _getCertificationErrorsAfterJuryUpdate(competencesWithMark) {
