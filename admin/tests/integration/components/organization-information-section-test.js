@@ -48,7 +48,7 @@ module('Integration | Component | organization-information-section', function(ho
     let organization;
 
     hooks.beforeEach(function() {
-      organization = EmberObject.create({ id: 1, name: 'Organization SCO', externalId: 'VELIT', provinceCode: 'h50' });
+      organization = EmberObject.create({ id: 1, name: 'Organization SCO', externalId: 'VELIT', provinceCode: 'h50', email: 'sco.generic.account@example.net' });
       this.set('organization', organization);
     });
 
@@ -82,6 +82,7 @@ module('Integration | Component | organization-information-section', function(ho
       assert.dom('input#name').hasValue(organization.name);
       assert.dom('input#externalId').hasValue(organization.externalId);
       assert.dom('input#provinceCode').hasValue(organization.provinceCode);
+      assert.dom('input#email').hasValue(organization.email);
     });
 
     test('it should show error message if organization\'s name is empty', async function(assert) {
@@ -130,6 +131,30 @@ module('Integration | Component | organization-information-section', function(ho
 
       // then
       assert.dom('div[aria-label="Message d\'erreur du champ département"]').hasText('La longueur du département ne doit pas excéder 255 caractères');
+    });
+
+    test('it should show error message if organization\'s email is longer than 255 characters', async function(assert) {
+      // given
+      await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+
+      // when
+      await click('button[aria-label=\'Editer\'');
+      await fillIn('#email', 'a'.repeat(256));
+
+      // then
+      assert.dom('div[aria-label="Message d\'erreur du champ adresse email"]').hasText('La longueur de l\'email ne doit pas excéder 255 caractères.');
+    });
+
+    test('it should show error message if organization\'s email is not valid', async function(assert) {
+      // given
+      await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+
+      // when
+      await click('button[aria-label=\'Editer\'');
+      await fillIn('#email', 'not-valid-email-format');
+
+      // then
+      assert.dom('div[aria-label="Message d\'erreur du champ adresse email"]').hasText('L\'e-mail n\'a pas le bon format.');
     });
 
     test('it should toggle display mode on click to cancel button', async function(assert) {

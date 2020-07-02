@@ -37,7 +37,7 @@ function buildOrganization(
     isManagingStudents = false,
     credit = 500,
     canCollectProfiles = false,
-    email,
+    email = faker.internet.exampleEmail(),
     createdAt = new Date('2018-01-12T01:02:03Z'),
     memberships = [],
     targetProfileShares = []

@@ -121,10 +121,11 @@ describe('Unit | Application | Organizations | organization-controller', () => {
             id: organization.id,
             attributes: {
               name: 'Acme',
-              type: 'PRO',
+              type: 'SCO',
               'logo-url': 'logo',
               'external-id': '02A2145V',
-              'province-code': '02A'
+              'province-code': '02A',
+              email: 'sco.generic.newaccount@example.net'
             }
           }
         }
@@ -148,7 +149,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
         // then
         expect(usecases.updateOrganizationInformation).to.have.been.calledOnce;
-        expect(usecases.updateOrganizationInformation).to.have.been.calledWithMatch({ id: organization.id, name: 'Acme', type: 'PRO', logoUrl: 'logo', externalId: '02A2145V', provinceCode: '02A' });
+        expect(usecases.updateOrganizationInformation).to.have.been.calledWithMatch({ id: organization.id, name: 'Acme', type: 'SCO', logoUrl: 'logo', externalId: '02A2145V', provinceCode: '02A', email: 'sco.generic.newaccount@example.net' });
       });
 
       it('should serialized organization into JSON:API', async () => {

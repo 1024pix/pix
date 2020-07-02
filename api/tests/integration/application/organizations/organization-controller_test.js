@@ -49,6 +49,7 @@ describe('Integration | Application | Organizations | organization-controller', 
           'logo-url': 'http://log.url',
           'external-id': '02A2145V',
           'province-code': '02A',
+          'email': 'sco.generic.newaccount@example.net'
         }
       }
     };
@@ -84,7 +85,7 @@ describe('Integration | Application | Organizations | organization-controller', 
 
     context('Error cases', () => {
 
-      context('when user is allowed to access resource', () => {
+      context('when user is not allowed to access resource', () => {
 
         beforeEach(() => {
           securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => {

@@ -59,6 +59,18 @@
                  class={{if (v-get this.form 'provinceCode' 'isInvalid') "form-control is-invalid" "form-control"}}
                  @value={{this.form.provinceCode}} />
         </div>
+        <div class="form-field">
+          <label for="email" class="form-field__label">Adresse e-mail (SCO)</label>
+          {{#if (v-get this.form 'email' 'isInvalid')}}
+            <div class="form-field__error" aria-label="Message d'erreur du champ adresse email">
+              {{v-get this.form 'email' 'message'}}
+            </div>
+          {{/if}}
+          <Input id="email"
+                 @type="text"
+                 class={{if (v-get this.form 'email' 'isInvalid') "form-control is-invalid" "form-control"}}
+                 @value={{this.form.email}} />
+        </div>
         <div class="form-actions">
           <button class="btn btn-outline-default" aria-label="Annuler" type="button" {{on "click" this.cancel}}>Annuler</button>
           <button class="btn btn-success" aria-label="Enregistrer" type="submit">Enregistrer</button>

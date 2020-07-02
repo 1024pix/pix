@@ -38,12 +38,26 @@ const Validations = buildValidations({
       })
     ]
   },
+  email: {
+    validators: [
+      validator('length', {
+        max: 255,
+        message: 'La longueur de l\'email ne doit pas excéder 255 caractères.'
+      }),
+      validator('format', {
+        allowBlank: true,
+        type: 'email',
+        message: 'L\'e-mail n\'a pas le bon format.'
+      })
+    ]
+  },
 });
 
 class Form extends Object.extend(Validations) {
   @tracked name;
   @tracked externalId;
   @tracked provinceCode;
+  @tracked email;
 }
 
 export default class OrganizationInformationSection extends Component {
@@ -99,6 +113,7 @@ export default class OrganizationInformationSection extends Component {
     this.args.organization.set('name', this.form.name.trim());
     this.args.organization.set('externalId', !this.form.externalId ? null : this.form.externalId.trim());
     this.args.organization.set('provinceCode', !this.form.provinceCode ? null : this.form.provinceCode.trim());
+    this.args.organization.set('email', !this.form.email ? null : this.form.email.trim());
 
     this.isEditMode = false;
     return this.args.onSubmit();
@@ -108,5 +123,7 @@ export default class OrganizationInformationSection extends Component {
     this.form.name = this.args.organization.name;
     this.form.externalId = this.args.organization.externalId;
     this.form.provinceCode = this.args.organization.provinceCode;
+    this.form.email = this.args.organization.email;
+
   }
 }
