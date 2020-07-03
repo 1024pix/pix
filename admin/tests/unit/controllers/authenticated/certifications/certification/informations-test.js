@@ -1,6 +1,8 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { setupTest } from 'ember-qunit';
+import { getSettledState, settled } from '@ember/test-helpers';
+
 import EmberObject from '@ember/object';
 
 module('Unit | Controller | authenticated/certifications/certification/informations', function(hooks) {
@@ -9,23 +11,38 @@ module('Unit | Controller | authenticated/certifications/certification/informati
 
   setupTest(hooks);
 
-  const competence = (code, score, level) => {
+  const createCompetence = (code, score, level) => {
     return {
       competence_code: code,
       score: score,
       level: level
     };
   };
-  const aNewCompetenceId = '4.2';
+
+  const createMark = ({
+    competence_code,
+    score,
+    level
+  }) => {
+    return {
+      competence_code,
+      level,
+      score,
+      area_code: competence_code.substr(0, 1),
+      'competence-id': undefined,
+    };
+  };
+
+  const aNewCompetenceCode = '4.2';
   const anExistingCompetenceCode = '1.1';
   const anExistingCompetenceWithNoScoreCode = '1.2';
   const anExistingCompetenceWithNoLevelCode = '1.3';
   const anotherExistingCompetenceCode = '5.2';
   const competencesWithMark = [
-    competence(anExistingCompetenceCode, 24, 3),
-    competence(anExistingCompetenceWithNoScoreCode, null, 5),
-    competence(anExistingCompetenceWithNoLevelCode, 40, null),
-    competence(anotherExistingCompetenceCode, 33, 4)
+    createCompetence(anExistingCompetenceCode, 24, 3),
+    createCompetence(anExistingCompetenceWithNoScoreCode, null, 5),
+    createCompetence(anExistingCompetenceWithNoLevelCode, 40, null),
+    createCompetence(anotherExistingCompetenceCode, 33, 4)
   ];
 
   hooks.beforeEach(function() {
@@ -76,11 +93,11 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         }));
 
         // When
-        await controller.onUpdateScore(aNewCompetenceId, '55');
+        await controller.onUpdateScore(aNewCompetenceCode, '55');
 
         // Then
         const competences = controller.certification.competencesWithMark;
-        const aCompetence = competences.find((value) => value.competence_code === aNewCompetenceId);
+        const aCompetence = competences.find((value) => value.competence_code === aNewCompetenceCode);
         assert.equal(aCompetence.score, 55);
       });
     });
@@ -130,11 +147,11 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         }));
 
         // When
-        await controller.onUpdateLevel(aNewCompetenceId, '8');
+        await controller.onUpdateLevel(aNewCompetenceCode, '8');
 
         // Then
         const competences = controller.certification.competencesWithMark;
-        const aCompetence = competences.find((value) => value.competence_code === aNewCompetenceId);
+        const aCompetence = competences.find((value) => value.competence_code === aNewCompetenceCode);
         assert.equal(aCompetence.level, 8);
       });
     });
@@ -179,6 +196,64 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       sinon.assert.calledWith(save, { adapterOptions: { updateMarks: false } });
       sinon.assert.neverCalledWith(save, { adapterOptions: { updateMarks: true } });
       assert.ok(true);
+    });
+  });
+
+  module('#onCheckMarks', () => {
+    module('when there is no marks', () => {
+      test('should not set competencesWithMark', async (assert) => {
+        // given
+        //const store = this.owner.lookup('service:mark-store');
+        controller.certification =  EmberObject.create({ competencesWithMark });
+
+        // when
+        await controller.onCheckMarks();
+        // then
+        assert.deepEqual(controller.certification.competencesWithMark, competencesWithMark);
+      });
+    });
+
+    module('when there are marks', () => {
+      test('should set competencesWithMark', async function(assert) {
+
+        // given
+        const score = 100;
+        const anExistingCompetence =  competencesWithMark.find((value) => value.competence_code === anExistingCompetenceCode);
+        const anotherExistingCompetence = competencesWithMark.find((value) => value.competence_code === anotherExistingCompetenceCode);
+
+        const expectedCompetencesWithMark = [
+          createMark(anExistingCompetence),
+          createMark(anotherExistingCompetence),
+        ];
+
+        const store = this.owner.lookup('service:mark-store');
+        store.storeState({
+          score,
+          marks: {
+            [anExistingCompetenceCode]: {
+              level: anExistingCompetence.level,
+              score: anExistingCompetence.score,
+            },
+            [anotherExistingCompetenceCode]: {
+              level: anotherExistingCompetence.level,
+              score: anotherExistingCompetence.score,
+            },
+          },
+        });
+        controller.certification =  EmberObject.create({ });
+
+        // when
+        await controller.onCheckMarks();
+        const state = await getSettledState();
+
+        // then
+        assert.equal(controller.certification.pixScore, score);
+        assert.deepEqual(controller.certification.competencesWithMark, expectedCompetencesWithMark);
+        assert.ok(state.hasPendingTimers);
+
+        await settled();
+        assert.ok(controller.edition);
+      });
     });
   });
 
