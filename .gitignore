@@ -48,7 +48,8 @@ api/.vscode
 api/.nvmrc
 .nvmrc
 .vscode/*
-!.vscode/launch.json
+!.vscode/sample.launch.json
+!.vscode/sample.settings.json
 .history
 
 # ember-try
