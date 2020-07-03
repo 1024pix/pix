@@ -22,10 +22,10 @@ describe('Integration | Infrastructure | Models | BookshelfAssessmentResult', ()
         it('should be saved when organisation type is ${organizationType}', () => {
           // given
           rawData.status = status;
-          const certification = new BookshelfAssessmentResults(rawData);
+          const assessmentResult = new BookshelfAssessmentResults(rawData);
 
           // when
-          const promise = certification.save();
+          const promise = assessmentResult.save();
 
           // then
           return promise.catch((_) => {
