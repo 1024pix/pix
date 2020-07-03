@@ -31,12 +31,14 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
       let manyAsrCertification;
       let latestAssessmentResult;
       let startedCertification;
+      let otherStartedCertification;
 
       beforeEach(() => {
         const dbf = databaseBuilder.factory;
         sessionId = dbf.buildSession().id;
         manyAsrCertification = dbf.buildCertificationCourse({ sessionId, lastName: 'AAA' });
         startedCertification = dbf.buildCertificationCourse({ sessionId, lastName: 'CCC' });
+        otherStartedCertification = dbf.buildCertificationCourse({ sessionId, lastName: 'DDD' });
 
         const manyAsrAssessmentId = dbf.buildAssessment({ certificationCourseId: manyAsrCertification.id }).id;
         dbf.buildAssessment({ certificationCourseId: startedCertification.id });
@@ -53,7 +55,7 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
         const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
 
         // then
-        expect(juryCertificationSummaries).to.have.length(2);
+        expect(juryCertificationSummaries).to.have.length(3);
         expect(juryCertificationSummaries[0]).to.be.instanceOf(JuryCertificationSummary);
         expect(juryCertificationSummaries[0].id).to.equal(manyAsrCertification.id);
         expect(juryCertificationSummaries[1].id).to.equal(startedCertification.id);
@@ -80,20 +82,16 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
 
       context('when the certification has no assessment-result', () => {
 
-        it('should return JuryCertificationSummary with status started', async () => {
+        it('should return all juryCertificationSummaries with status started', async () => {
           // when
           const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
 
           // then
+          expect(juryCertificationSummaries[1].id).to.equal(startedCertification.id);
           expect(juryCertificationSummaries[1].status).to.equal(JuryCertificationSummary.statuses.STARTED);
-          expect(juryCertificationSummaries[1].pixScore).to.be.null;
-          expect(juryCertificationSummaries[1].firstName).to.equal(startedCertification.firstName);
-          expect(juryCertificationSummaries[1].lastName).to.equal(startedCertification.lastName);
-          expect(juryCertificationSummaries[1].createdAt).to.deep.equal(startedCertification.createdAt);
-          expect(juryCertificationSummaries[1].completedAt).to.deep.equal(startedCertification.completedAt);
-          expect(juryCertificationSummaries[1].isPublished).to.equal(startedCertification.isPublished);
-          expect(juryCertificationSummaries[1].examinerComment).to.equal(startedCertification.examinerComment);
-          expect(juryCertificationSummaries[1].hasSeendEndTestScreen).to.equal(startedCertification.hasSeendEndTestScreen);
+
+          expect(juryCertificationSummaries[2].id).to.equal(otherStartedCertification.id);
+          expect(juryCertificationSummaries[2].status).to.equal(JuryCertificationSummary.statuses.STARTED);
         });
       });
 
