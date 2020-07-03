@@ -7,15 +7,17 @@ export default class MarkStoreService extends Service {
 
   getState() {
     if (this.available) {
-      this.set('available', false);
-      return this.state;
+      this.available = false;
+      const state = this.state;
+      this.state = null;
+      return state;
     }
     return false;
   }
 
   storeState(state) {
-    this.set('state', state);
-    this.set('available', true);
+    this.state = state;
+    this.available = true;
   }
 
   hasState() {
