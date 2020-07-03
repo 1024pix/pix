@@ -10,13 +10,13 @@ export default class CertificationDetailsCompetence extends Component {
   rate = 0;
   juryRate = false;
 
-  @computed('competence')
+  @computed('competence.obtainedLevel')
   get certifiedWidth() {
     const obtainedLevel = this.competence.obtainedLevel;
     return htmlSafe('width:' + Math.round((obtainedLevel / 8) * 100) + '%');
   }
 
-  @computed('competence')
+  @computed('competence.positionedLevel')
   get positionedWidth() {
     const positionedLevel = this.competence.positionedLevel;
     return htmlSafe('width:' + Math.round((positionedLevel / 8) * 100) + '%');
@@ -28,7 +28,7 @@ export default class CertificationDetailsCompetence extends Component {
     return competence.answers;
   }
 
-  @computed('juryRate')
+  @computed('juryRate', 'competence')
   get competenceJury() {
     const juryRate = this.juryRate;
     const competence = this.competence;
