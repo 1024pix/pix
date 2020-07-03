@@ -1,9 +1,9 @@
 .congratulations-banner {
+  text-rendering: optimizeLegibility;
   background: $green-gradient;
   position: relative;
   color: $grey-10;
   border-radius: 6px;
-  margin: 12px 12px 0 12px;
   box-sizing: border-box;
   height: 194px;
   display: flex;
@@ -35,4 +35,10 @@
   font-size: 1.5rem;
   line-height: 2rem;
   text-align: center;
+}
+
+@include device-is('mobile') {
+  .congratulations-banner__message {
+    padding: 0 8px;
+  }
 }
