@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn } from '@ember/test-helpers';
+import { render, fillIn, click } from '@ember/test-helpers';
 import Service from '@ember/service';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
@@ -232,36 +232,55 @@ module('Integration | Component | routes/authenticated/students | list-items', f
     });
   });
 
-  module('when user is admin in organization', (hooks) => {
-
+  module('user rights', (hooks) => {
     hooks.beforeEach(function() {
-      this.set('importStudentsSpy', () => {});
-      this.owner.register('service:current-user', Service.extend({ isAdminInOrganization: true }));
-      this.set('students', []);
+      const store = this.owner.lookup('service:store');
+      this.set('students', [
+        store.createRecord('student', {
+          lastName: 'La Terreur',
+          firstName: 'Gigi',
+          birthdate: '2010-01-01',
+          email: 'firstname.lastname@example.net',
+          isAuthenticatedFromGar: false,
+        })
+      ]);
     });
 
-    test('it should display import button', async function(assert) {
-      // when
-      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+    module('when user is admin in organization', (hooks) => {
+      hooks.beforeEach(function() {
+        this.set('importStudentsSpy', () => {});
+        this.owner.register('service:current-user', Service.extend({ isAdminInOrganization: true }));
+        return render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+      });
 
-      // then
-      assert.contains('Importer (.xml)');
+      test('it should display import button', async function(assert) {
+        assert.contains('Importer (.xml)');
+      });
+
+      test('it should display the dissociate action', async function(assert) {
+        await click('[aria-label="Afficher les actions"]');
+
+        // then
+        assert.contains('Dissocier le compte');
+      });
     });
-  });
 
-  module('when user is not admin in organization', () => {
+    module('when user is not admin in organization', (hooks) => {
+      hooks.beforeEach(function() {
+        this.owner.register('service:current-user', Service.extend({ isAdminInOrganization: false }));
+        return render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+      });
 
-    test('it should not display import button', async function(assert) {
-      // given
-      this.owner.register('service:current-user', Service.extend({ isAdminInOrganization: false }));
+      test('it should not display import button', async function(assert) {
+        assert.notContains('Importer (.xml)');
+      });
 
-      this.set('students', []);
+      test('it should not display the dissociate action', async function(assert) {
+        await click('[aria-label="Afficher les actions"]');
 
-      // when
-      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
-
-      // then
-      assert.notContains('Importer (.xml)');
+        // then
+        assert.notContains('Dissocier le compte');
+      });
     });
   });
 
