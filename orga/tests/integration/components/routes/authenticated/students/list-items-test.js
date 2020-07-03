@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn } from '@ember/test-helpers';
+import { render, fillIn, click } from '@ember/test-helpers';
 import Service from '@ember/service';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
@@ -70,7 +70,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
       const triggerFiltering = sinon.spy();
       this.set('triggerFiltering', triggerFiltering);
       this.set('students', []);
-  
+
       // when
       await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}}/>`);
 
@@ -82,17 +82,17 @@ module('Integration | Component | routes/authenticated/students | list-items', f
       assert.equal(call.args[1], true);
       assert.equal(call.args[2].target.value, 'bob');
     });
-    
+
     test('it should trigger filtering with firstname', async function(assert) {
       const triggerFiltering = sinon.spy();
       this.set('triggerFiltering', triggerFiltering);
       this.set('students', []);
-      
+
       // when
       await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}}/>`);
-      
+
       await fillIn('[placeholder="Rechercher par prénom"]', 'bob');
-      
+
       // then
       const call = triggerFiltering.getCall(0);
       assert.equal(call.args[0], 'firstName');
@@ -105,12 +105,12 @@ module('Integration | Component | routes/authenticated/students | list-items', f
       this.set('triggerFiltering', triggerFiltering);
       this.set('students', []);
       this.set('connexionTypesOptions', [{ value: '', label: 'Tous' }, { value: 'email', label: 'email' }]);
-      
+
       // when
       await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}} @connexionTypesOptions={{connexionTypesOptions}} />`);
-      
+
       await fillIn('select', 'email');
-      
+
       // then
       const call = triggerFiltering.getCall(0);
       assert.equal(call.args[0], 'connexionType');
@@ -120,149 +120,126 @@ module('Integration | Component | routes/authenticated/students | list-items', f
   });
 
   module('when user is not reconciled', function({ beforeEach }) {
-    const storedStudents = [];
-
     beforeEach(function() {
       const store = this.owner.lookup('service:store');
-      [{
-        lastName: 'La Terreur',
-        firstName: 'Gigi',
-        birthdate: '2010-01-01',
-      }].forEach((student) => {
-        storedStudents.push(store.createRecord('student', student));
-      });
+      this.set('students', [
+        store.createRecord('student', {
+          lastName: 'La Terreur',
+          firstName: 'Gigi',
+          birthdate: '2010-01-01',
+        })
+      ]);
+      return render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
     });
 
     test('it should display dash for authentication method', async function(assert) {
-      // given
       const dash = '\u2013';
-      this.set('students', storedStudents);
 
-      // when
-      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
-
-      // then
       assert.dom('[aria-label="Élève"]').containsText(dash);
     });
 
     test('it should not display actions menu for username', async function(assert) {
-      this.set('students', storedStudents);
-
-      // when
-      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
-
-      // then
       assert.dom('[aria-label="Afficher les actions"]').doesNotExist();
     });
   });
 
   module('when user is reconciled with username', function({ beforeEach }) {
-    const storedStudents = [];
-
     beforeEach(function() {
       const store = this.owner.lookup('service:store');
-      [{
-        lastName: 'La Terreur',
-        firstName: 'Gigi',
-        birthdate: '2010-01-01',
-        username: 'blueivy.carter0701',
-        isAuthenticatedFromGar: false,
-      }].forEach((student) => {
-        storedStudents.push(store.createRecord('student', student));
-      });
+      this.set('students', [
+        store.createRecord('student', {
+          lastName: 'La Terreur',
+          firstName: 'Gigi',
+          birthdate: '2010-01-01',
+          username: 'blueivy.carter0701',
+          isAuthenticatedFromGar: false,
+        })
+      ]);
+      return render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
     });
 
     test('it should display "Identifiant" as authentication method', async function(assert) {
-      // given
-      this.set('students', storedStudents);
-
-      // when
-      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
-
-      // then
       assert.dom('[aria-label="Élève"]').containsText('Identifiant');
     });
 
     test('it should display actions menu', async function(assert) {
-      this.set('students', storedStudents);
-
-      // when
-      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
-
-      // then
       assert.dom('[aria-label="Afficher les actions"]').exists();
     });
   });
 
   module('when user is reconciled with email', function({ beforeEach }) {
-    const storedStudents = [];
-
     beforeEach(function() {
       const store = this.owner.lookup('service:store');
-      [{
-        lastName: 'La Terreur',
-        firstName: 'Gigi',
-        birthdate: '2010-01-01',
-        email: 'firstname.lastname@example.net',
-        isAuthenticatedFromGar: false,
-      }].forEach((student) => {
-        storedStudents.push(store.createRecord('student', student));
-      });
+      this.set('students', [
+        store.createRecord('student', {
+          lastName: 'La Terreur',
+          firstName: 'Gigi',
+          birthdate: '2010-01-01',
+          email: 'firstname.lastname@example.net',
+          isAuthenticatedFromGar: false,
+        })
+      ]);
+      return render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
     });
 
     test('it should display "Adresse email" as authentication method', async function(assert) {
-      // given
-      this.set('students', storedStudents);
-
-      // when
-      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
-
-      // then
       assert.dom('[aria-label="Élève"]').containsText('Adresse e-mail');
     });
 
     test('it should display actions menu for email', async function(assert) {
-      this.set('students', storedStudents);
-
-      // when
-      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
-
-      // then
       assert.dom('[aria-label="Afficher les actions"]').exists();
     });
   });
 
-  module('when user is admin in organization', (hooks) => {
-
+  module('user rights', (hooks) => {
     hooks.beforeEach(function() {
-      this.set('importStudentsSpy', () => {});
-      this.owner.register('service:current-user', Service.extend({ isAdminInOrganization: true }));
-      this.set('students', []);
+      const store = this.owner.lookup('service:store');
+      this.set('students', [
+        store.createRecord('student', {
+          lastName: 'La Terreur',
+          firstName: 'Gigi',
+          birthdate: '2010-01-01',
+          email: 'firstname.lastname@example.net',
+          isAuthenticatedFromGar: false,
+        })
+      ]);
     });
 
-    test('it should display import button', async function(assert) {
-      // when
-      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+    module('when user is admin in organization', (hooks) => {
+      hooks.beforeEach(function() {
+        this.set('importStudentsSpy', () => {});
+        this.owner.register('service:current-user', Service.extend({ isAdminInOrganization: true }));
+        return render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+      });
 
-      // then
-      assert.contains('Importer (.xml)');
+      test('it should display import button', async function(assert) {
+        assert.contains('Importer (.xml)');
+      });
+
+      test('it should display the dissociate action', async function(assert) {
+        await click('[aria-label="Afficher les actions"]');
+
+        // then
+        assert.contains('Dissocier le compte');
+      });
+    });
+
+    module('when user is not admin in organization', (hooks) => {
+      hooks.beforeEach(function() {
+        this.owner.register('service:current-user', Service.extend({ isAdminInOrganization: false }));
+        return render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+      });
+
+      test('it should not display import button', async function(assert) {
+        assert.notContains('Importer (.xml)');
+      });
+
+      test('it should not display the dissociate action', async function(assert) {
+        await click('[aria-label="Afficher les actions"]');
+
+        // then
+        assert.notContains('Dissocier le compte');
+      });
     });
   });
-
-  module('when user is not admin in organization', () => {
-
-    test('it should not display import button', async function(assert) {
-      // given
-      this.owner.register('service:current-user', Service.extend({ isAdminInOrganization: false }));
-
-      this.set('students', []);
-
-      // when
-      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
-
-      // then
-      assert.notContains('Importer (.xml)');
-    });
-  });
-
 });
