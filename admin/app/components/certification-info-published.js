@@ -1,12 +1,14 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 
-export default Component.extend({
-  classNames: ['certification-informations__published'],
-  classNameBindings: ['float:certification-informations__published-float'],
+export default class CertificationInfoPublished extends Component {
 
-  color: computed('record.isPublished', function() {
-    const value = this.get('record.isPublished');
+  classNames = ['certification-informations__published'];
+  classNameBindings = ['float:certification-informations__published-float'];
+
+  @computed('record.isPublished')
+  get color() {
+    const value = this.record.isPublished;
     return value ? '#39B97A' : '#8090A5';
-  })
-});
+  }
+}
