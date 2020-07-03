@@ -10,7 +10,7 @@ import {
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 async function createAuthenticatedSession() {
-  const user = createUserManagingStudents();
+  const user = createUserManagingStudents('ADMIN');
   createPrescriberByUser(user);
 
   await authenticateSession({
