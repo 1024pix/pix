@@ -16,12 +16,13 @@
 
       {{#if @challenge.hasSingleAttachment}}
         <div class="challenge-statement__action">
-          <a class="challenge-statement__action-link"
-             href="{{@challenge.attachments.firstObject}}"
-             rel="noopener noreferrer"
-             download>
+          <button class="button button--thin button--round challenge-statement__action-button"
+                  type="button"
+                  name="Télécharger le fichier de l'exercice"
+                  value={{@challenge.attachments.firstObject}}
+                  {{on "click" (fn this.openAttachmentToDownload @challenge.attachments.firstObject)}}>
             <span class="challenge-statement__action-label">Télécharger</span>
-          </a>
+          </button>
         </div>
       {{/if}}
 
@@ -56,12 +57,13 @@
           {{/each}}
         </ul>
         <div class="challenge-statement__action">
-          <a class="challenge-statement__action-link"
-             href="{{this.selectedAttachmentUrl}}"
-             rel="noopener noreferrer"
-             download>
+          <button class="button button--thin button--round challenge-statement__action-button"
+                  type="button"
+                  name="Télécharger le fichier de l'exercice"
+                  value={{this.selectedAttachmentUrl}}
+                  {{on "click" (fn this.openAttachmentToDownload this.selectedAttachmentUrl)}}>
             <span class="challenge-statement__action-label">Télécharger</span>
-          </a>
+          </button>
         </div>
       {{/if}}
     </div>

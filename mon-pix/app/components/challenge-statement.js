@@ -3,6 +3,7 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import config from 'mon-pix/config/environment';
 import Component from '@glimmer/component';
+import FileSaver from 'file-saver';
 import _ from 'lodash';
 
 export default class ChallengeStatement extends Component {
@@ -41,6 +42,13 @@ export default class ChallengeStatement extends Component {
   @action
   chooseAttachmentUrl(attachementUrl) {
     this.selectedAttachmentUrl = attachementUrl;
+  }
+
+  @action
+  openAttachmentToDownload(attachment) {
+    const splittedUrl = attachment.split('/');
+    const name = splittedUrl[splittedUrl.length - 1];
+    FileSaver.saveAs(attachment, name);
   }
 
   _initialiseDefaultAttachment() {

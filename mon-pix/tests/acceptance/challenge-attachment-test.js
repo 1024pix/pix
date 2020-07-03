@@ -25,17 +25,17 @@ describe('Acceptance | Download an attachment from a challenge', function() {
     });
 
     it('should have a way to download the attachment', function() {
-      expect(find('.challenge-statement__action-link')).to.exist;
+      expect(find('.challenge-statement__action-button')).to.exist;
     });
 
     it('should expose the correct attachment link', function() {
-      expect(find('.challenge-statement__action-link').textContent).to.contain('Télécharger');
+      expect(find('.challenge-statement__action-button').textContent).to.contain('Télécharger');
       expect(challengeWithAttachment.attachments.length).to.equal(1);
-      expect(find('.challenge-statement__action-link').getAttribute('href')).to.equal(challengeWithAttachment.attachments[0]);
+      expect(find('.challenge-statement__action-button').value).to.equal(challengeWithAttachment.attachments[0]);
     });
 
     it('should only have one file downloadable', function() {
-      expect(find('.challenge-statement__action-link')).to.exist;
+      expect(find('.challenge-statement__action-button')).to.exist;
     });
   });
 
@@ -50,7 +50,7 @@ describe('Acceptance | Download an attachment from a challenge', function() {
       expect(find('.challenge-item')).to.exist;
 
       // ... but attachment is hidden
-      expect(find('.challenge-statement__action-link')).not.to.exist;
+      expect(find('.challenge-statement__action-button')).not.to.exist;
     });
   });
 

@@ -159,19 +159,11 @@
   justify-content: center;
 }
 
-.challenge-statement__action-link {
+.challenge-statement__action-button {
   width: 156px;
   height: 46px;
-  border-radius: 23px;
-  background-color: $blue;
-  color: $white;
-  cursor: pointer;
-  text-align: center;
-}
-
-.challenge-statement__action-link:hover,
-.challenge-statement__action-link:focus {
-  color: $white;
+  display: flex;
+  align-items: center;
 }
 
 .challenge-statement__action-label {

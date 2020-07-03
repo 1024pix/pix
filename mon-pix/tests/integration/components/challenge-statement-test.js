@@ -163,8 +163,8 @@ describe('Integration | Component | ChallengeStatement', function() {
         await renderChallengeStatement();
 
         // then
-        expect(find('.challenge-statement__action-link')).to.exist;
-        expect(find('.challenge-statement__action-link').href).to.equal('http://challenge.file.url/');
+        expect(find('.challenge-statement__action-button')).to.exist;
+        expect(find('.challenge-statement__action-button').value).to.equal('http://challenge.file.url');
       });
 
     });
