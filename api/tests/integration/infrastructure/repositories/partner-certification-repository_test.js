@@ -64,7 +64,51 @@ describe('Integration | Repository | Partner Certification', function() {
       return cache.flushAll();
     });
 
-    it('should successfully build a cleaCertification with badge', async () => {
+    it('should successfully build a CleaCertification with no clea competenceMarks', async () => {
+      // given
+      const { userId } = await _setUpCleaCertificationWithBadge({ certificationCourseId, competenceId: 'otherCompetenceId', skill });
+
+      const expectedCleaCertification = new CleaCertification({
+        certificationCourseId,
+        hasAcquiredBadge: true,
+        reproducibilityRate,
+        cleaCompetenceMarks: [],
+        maxReachablePixByCompetenceForClea: { [competenceId]: pixValue },
+      });
+
+      // when
+      const cleaCertification = await partnerCertificationRepository.buildCleaCertification({
+        certificationCourseId, userId, reproducibilityRate, skillRepository
+      });
+
+      // then
+      expect(cleaCertification).to.be.instanceOf(CleaCertification);
+      expect(cleaCertification).to.deep.equal(expectedCleaCertification);
+    });
+
+    it('should successfully build a CleaCertification with no competences for CleA', async () => {
+      // given
+      const { userId } = await _setUpNotExistingCleaCertification({ certificationCourseId, competenceId: 'otherCompetenceId' });
+
+      const expectedCleaCertification = new CleaCertification({
+        certificationCourseId,
+        hasAcquiredBadge: false,
+        reproducibilityRate,
+        cleaCompetenceMarks: [],
+        maxReachablePixByCompetenceForClea: { },
+      });
+
+      // when
+      const cleaCertification = await partnerCertificationRepository.buildCleaCertification({
+        certificationCourseId, userId, reproducibilityRate, skillRepository
+      });
+
+      // then
+      expect(cleaCertification).to.be.instanceOf(CleaCertification);
+      expect(cleaCertification).to.deep.equal(expectedCleaCertification);
+    });
+
+    it('should successfully build a CleaCertification with badge', async () => {
       // given
 
       const { userId, competenceMark } = await _setUpCleaCertificationWithBadge({ certificationCourseId, competenceId, skill });
@@ -73,7 +117,7 @@ describe('Integration | Repository | Partner Certification', function() {
         certificationCourseId,
         hasAcquiredBadge: true,
         reproducibilityRate,
-        competenceMarks: [_.omit(competenceMark, 'createdAt')],
+        cleaCompetenceMarks: [_.omit(competenceMark, 'createdAt')],
         maxReachablePixByCompetenceForClea: { [competenceId]: pixValue },
       });
 
@@ -95,7 +139,7 @@ describe('Integration | Repository | Partner Certification', function() {
         certificationCourseId,
         hasAcquiredBadge: false,
         reproducibilityRate,
-        competenceMarks: [_.omit(competenceMark, 'createdAt')],
+        cleaCompetenceMarks: [_.omit(competenceMark, 'createdAt')],
         maxReachablePixByCompetenceForClea: { [competenceId]: pixValue },
       });
 
@@ -113,14 +157,18 @@ describe('Integration | Repository | Partner Certification', function() {
 });
 
 async function _setUpCleaCertificationWithoutBadge({ certificationCourseId, competenceId, skill }) {
-  return _setUpCleaCertification({ certificationCourseId, competenceId, skill, withBadge: false });
+  return _setUpCleaCertification({ certificationCourseId, competenceId, skill, withBadge: true, badgeAcquired: false });
 }
 
 async function _setUpCleaCertificationWithBadge({ certificationCourseId, competenceId, skill }) {
-  return _setUpCleaCertification({ certificationCourseId, competenceId, skill, withBadge: true });
+  return _setUpCleaCertification({ certificationCourseId, competenceId, skill, withBadge: true, badgeAcquired: true });
 }
 
-async function _setUpCleaCertification({ certificationCourseId, competenceId, skill, withBadge }) {
+async function _setUpNotExistingCleaCertification({ certificationCourseId, competenceId }) {
+  return _setUpCleaCertification({ certificationCourseId, competenceId, skill: null, withBadge: false });
+}
+
+async function _setUpCleaCertification({ certificationCourseId, competenceId, skill, withBadge, badgeAcquired }) {
 
   const badgeCompetenceName = 'badgeCompetenceName';
   const userId = databaseBuilder.factory.buildUser().id;
@@ -136,10 +184,13 @@ async function _setUpCleaCertification({ certificationCourseId, competenceId, sk
       competenceId
     }
   );
-  const badgeId = databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA }).id;
-  databaseBuilder.factory.buildBadgePartnerCompetence({ badgeId, skillIds: [skill.id], name: badgeCompetenceName });
+
   if (withBadge) {
-    databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId });
+    const badgeId = databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA }).id;
+    databaseBuilder.factory.buildBadgePartnerCompetence({ badgeId, skillIds: [skill.id], name: badgeCompetenceName });
+    if (badgeAcquired) {
+      databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId });
+    }
   }
   await databaseBuilder.commit();
   return {

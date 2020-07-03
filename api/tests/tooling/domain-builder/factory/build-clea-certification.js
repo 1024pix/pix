@@ -5,7 +5,7 @@ module.exports = function buildCompetence({
   certificationCourseId = 42,
   hasAcquiredBadge = true,
   reproducibilityRate = 50,
-  competenceMarks = [buildCompetenceMark()],
+  cleaCompetenceMarks = [buildCompetenceMark()],
   maxReachablePixByCompetenceForClea = { competence1: 51 }
 } = {}) {
 
@@ -13,7 +13,7 @@ module.exports = function buildCompetence({
     certificationCourseId,
     hasAcquiredBadge,
     reproducibilityRate,
-    competenceMarks,
+    cleaCompetenceMarks,
     maxReachablePixByCompetenceForClea
   });
 };
