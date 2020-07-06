@@ -1,3 +1,10 @@
+/* eslint ember/no-classic-classes: 0 */
+/* eslint ember/no-classic-components: 0 */
+/* eslint ember/no-component-lifecycle-hooks: 0 */
+/* eslint ember/require-computed-macros: 0 */
+/* eslint ember/require-computed-property-dependencies: 0 */
+/* eslint ember/require-tagless-components: 0 */
+
 import { htmlSafe } from '@ember/string';
 import Component from '@ember/component';
 import { run } from '@ember/runloop';

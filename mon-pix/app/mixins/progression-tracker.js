@@ -1,3 +1,5 @@
+/* eslint ember/require-computed-property-dependencies: 0 */
+
 import EmberObject, { computed } from '@ember/object';
 import Mixin from '@ember/object/mixin';
 

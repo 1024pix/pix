@@ -1,3 +1,7 @@
+/* eslint ember/no-classic-components: 0 */
+/* eslint ember/no-component-lifecycle-hooks: 0 */
+/* eslint ember/require-tagless-components: 0 */
+
 import { classNames } from '@ember-decorators/component';
 import { action, computed } from '@ember/object';
 import Component from '@ember/component';

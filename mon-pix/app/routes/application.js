@@ -1,3 +1,5 @@
+/* eslint ember/no-classic-classes: 0 */
+
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 import ENV from 'mon-pix/config/environment';
 

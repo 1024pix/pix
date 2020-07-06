@@ -1,3 +1,5 @@
+/* eslint ember/no-classic-classes: 0 */
+
 import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';

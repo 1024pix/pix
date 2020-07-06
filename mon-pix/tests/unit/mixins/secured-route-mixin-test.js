@@ -1,3 +1,5 @@
+/* eslint ember/no-classic-classes: 0 */
+
 import Mixin from '@ember/object/mixin';
 import { setOwner } from '@ember/application';
 import RSVP from 'rsvp';

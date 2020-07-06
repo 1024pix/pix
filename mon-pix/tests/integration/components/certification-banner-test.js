@@ -1,3 +1,6 @@
+/* eslint ember/no-classic-classes: 0 */
+/* eslint ember/require-tagless-components: 0 */
+
 import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
