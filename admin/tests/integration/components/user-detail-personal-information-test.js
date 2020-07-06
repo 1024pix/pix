@@ -295,7 +295,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       await click('button[aria-label=\'Anonymiser\']');
 
       assert.dom('.modal-dialog').exists();
-      assert.contains('Etes-vous sûr de vouloir anonymiser cet utilisateur? Ceci n’est pas réversible');
+      assert.contains('Êtes-vous sûr de vouloir anonymiser cet utilisateur ? Ceci n’est pas réversible.');
     });
 
     test('should close the modal to cancel action', async function(assert) {
