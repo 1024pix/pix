@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v2.170.0 (06/07/2020)
+
+- [#1596](https://github.com/1024pix/pix/pull/1596) [FEATURE] Mettre à jour les conditions d'utilisation de Pix Orga en incluant le pix.org ( PIX-871 )
+- [#1588](https://github.com/1024pix/pix/pull/1588) [FEATURE] Permettre l'édition de l'e-mail d'une organisation dans Pix Admin (PIX-880).
+- [#1589](https://github.com/1024pix/pix/pull/1589) [FEATURE] Ajout de la colonne Réponse Automatique (PIX-899).
+- [#1598](https://github.com/1024pix/pix/pull/1598) [BUGFIX] Modification des scores dans pixAdmin (PIX-917)
+- [#1599](https://github.com/1024pix/pix/pull/1599) [BUGFIX] Il manque des certifs dans le détails d'une session (PIX-877)
+- [#1602](https://github.com/1024pix/pix/pull/1602) [BUGFIX] Cache l'action dissocier le compte pour les membres d'une organisation (PIX-941).
+- [#1586](https://github.com/1024pix/pix/pull/1586) [BUGFIX] Les certification sans cleaCompetenceMarks ne passent pas en completed (PIX-915)
+- [#1594](https://github.com/1024pix/pix/pull/1594) [BUGFIX] Niveau certifié non affiché dans le détail d'une certification (PIX-930)
+- [#1593](https://github.com/1024pix/pix/pull/1593) [BUGFIX] Recherche par certification id mort (PIX-922)
+- [#1601](https://github.com/1024pix/pix/pull/1601) [TECH] Ajouter le linter pour assurer la glimmerization (PIX-927).
+- [#1592](https://github.com/1024pix/pix/pull/1592) [TECH] Mettre à disposition des configurations d'IDE
+- [#1595](https://github.com/1024pix/pix/pull/1595) [TECH] Empêcher la création d'appartenance à une organisation si le rôle n'est pas connu.
+
 ## v2.169.0 (01/07/2020)
 
 - [#1555](https://github.com/1024pix/pix/pull/1555) [FEATURE] Permettre la désactivation d'un membre depuis Pix Admin (PIX-394).
