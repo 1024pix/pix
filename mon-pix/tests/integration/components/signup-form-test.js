@@ -1,3 +1,7 @@
+/* eslint ember/no-classic-classes: 0 */
+/* eslint ember/no-classic-components: 0 */
+/* eslint ember/require-tagless-components: 0 */
+
 import ArrayProxy from '@ember/array/proxy';
 import { resolve, reject } from 'rsvp';
 import Component from '@ember/component';

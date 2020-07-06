@@ -1,3 +1,5 @@
+/* eslint ember/no-computed-properties-in-native-classes: 0 */
+
 import { inject as service } from '@ember/service';
 import { alias } from '@ember/object/computed';
 import Component from '@glimmer/component';

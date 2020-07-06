@@ -13,7 +13,7 @@ describe('Unit | Adapters | ApplicationAdapter', function() {
     // Then
     expect(applicationAdapter.namespace).to.equal('api');
   });
-  
+
   describe('get headers()', function() {
 
     it('should add header with authentication token when the session is authenticated', function() {

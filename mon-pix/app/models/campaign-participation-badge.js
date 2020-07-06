@@ -1,3 +1,5 @@
+/* eslint ember/no-computed-properties-in-native-classes: 0 */
+
 import { attr, belongsTo, hasMany } from '@ember-data/model';
 import { mapBy, max } from '@ember/object/computed';
 import Badge from 'mon-pix/models/badge';

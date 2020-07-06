@@ -1,3 +1,8 @@
+/* eslint ember/no-classic-components: 0 */
+/* eslint ember/require-tagless-components: 0 */
+/* eslint ember/no-private-routing-service: 0 */
+/* eslint ember/require-computed-property-dependencies: 0 */
+
 import { classNames } from '@ember-decorators/component';
 import { action, computed } from '@ember/object';
 import { on } from '@ember-decorators/object';

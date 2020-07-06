@@ -1,3 +1,6 @@
+/* eslint ember/no-classic-classes: 0 */
+/* eslint ember/require-tagless-components: 0 */
+
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import sinon from 'sinon';
