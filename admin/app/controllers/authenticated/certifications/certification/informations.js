@@ -35,6 +35,7 @@ export default class CertificationInformationsController extends Controller {
   @action
   onEdit() {
     this.edition = true;
+    this._competencesCopy = this._copyCompetences();
   }
 
   @action
@@ -65,82 +66,47 @@ export default class CertificationInformationsController extends Controller {
   }
 
   @action
-  onSave() {
-    const markUpdatedRequired = this._isMarksUpdatedRequired();
+  async onSave() {
+    const markUpdatedRequired = this.certification.hasDirtyAttributes;
     this.displayConfirm = false;
-    return this.certification.save({ adapterOptions: { updateMarks: false } })
-      .then(() => {
-        if (markUpdatedRequired) {
-          return this.certification.save({ adapterOptions: { updateMarks: true } });
-        } else {
-          return Promise.resolve(true);
-        }
-      })
-      .then(() => {
-        this.notifications.success('Modifications enregistrées');
-        this.edition = false;
-        this._competencesCopy = null;
-      })
-      .catch((e) => {
-        if (e.errors && e.errors.length > 0) {
-          e.errors.forEach((error) => {
-            this.notifications.error(error.detail);
-          });
-        } else {
-          this.notifications.error(e);
-        }
-      });
+    try {
+      await this.saveWithoutUpdatingCompetenceMarks();
+
+      if (markUpdatedRequired) {
+        await this.saveWithUpdatingCompetenceMarks();
+      }
+
+      this.notifications.success('Modifications enregistrées');
+      this.edition = false;
+      this._competencesCopy = null;
+
+    } catch (e) {
+      if (e.errors && e.errors.length > 0) {
+        e.errors.forEach((error) => {
+          this.notifications.error(error.detail);
+        });
+      } else {
+        this.notifications.error(e);
+      }
+    }
+  }
+
+  saveWithUpdatingCompetenceMarks() {
+    return this.certification.save({ adapterOptions: { updateMarks: true } });
+  }
+
+  saveWithoutUpdatingCompetenceMarks() {
+    return this.certification.save({ adapterOptions: { updateMarks: false } });
   }
 
   @action
   onUpdateScore(code, value) {
-    // TODO refacto this please
-    this._saveCompetences();
-    const existingCompetences = this.certification.competencesWithMark;
-    const competence = _.find(existingCompetences, { competence_code: code });
-    if (competence) {
-      if (value.trim().length === 0) {
-        if (competence.level) {
-          competence.score = null;
-        } else {
-          const index = existingCompetences.indexOf(competence);
-          existingCompetences.splice(index, 1);
-        }
-      } else {
-        competence.score = parseInt(value);
-      }
-    } else if (value.trim().length > 0) {
-      existingCompetences.addObject({ competence_code: code, 'score': parseInt(value), area_code: code.substr(0, 1) });
-    }
-    this.certification.competencesWithMark = existingCompetences;
+    this._updatePropForCompetence(code, value, 'score', 'level');
   }
 
   @action
   onUpdateLevel(code, value) {
-    // TODO refacto this please
-    this._saveCompetences();
-    const existingCompetences = this.certification.competencesWithMark;
-    const newCompetences = existingCompetences.map((value) => {
-      return value;
-    });
-    const competence = newCompetences.filter((value) => {
-      return (value.competence_code === code);
-    })[0];
-    if (competence) {
-      if (value.trim().length === 0) {
-        if (competence.score) {
-          competence.level = null;
-        } else {
-          const index = newCompetences.indexOf(competence);
-          newCompetences.splice(index, 1);
-        }
-      } else {
-        competence.level = parseInt(value);
-      }
-    } else if (value.trim().length > 0) {
-      newCompetences.addObject({ competence_code: code, 'level': parseInt(value), area_code: code.substr(0, 1) });
-    }
-    this.certification.competencesWithMark = newCompetences;
+    this._updatePropForCompetence(code, value, 'level', 'score');
   }
 
   @action
@@ -186,19 +152,8 @@ export default class CertificationInformationsController extends Controller {
   }
 
   // Private methods
-  _saveCompetences() {
-    if (!this._competencesCopy) {
-      const current = this.certification.competencesWithMark;
-      this._competencesCopy = cloneDeep(current);
-    }
-  }
-
-  _isMarksUpdatedRequired() {
-    const attributesChangedAndLinkedToMarks = _.pick(
-      this.certification.changedAttributes(),
-      ['status', 'pixScore', 'competencesWithMark', 'commentForCandidate', 'commentForOrganization', 'commentForJury']
-    );
-    return _.some(attributesChangedAndLinkedToMarks);
+  _copyCompetences() {
+    return cloneDeep(this.certification.competencesWithMark);
   }
 
   _getCertificationErrorsAfterJuryUpdateIfAny() {
@@ -227,5 +182,33 @@ export default class CertificationInformationsController extends Controller {
 
   _formatErrorsToHtmlString(errors) {
     return errors && errors.map((err) => `${err.message}\n`).join('');
+  }
+
+  _removeFromArray(array, element) {
+    const index = array.indexOf(element);
+    array.splice(index, 1);
+  }
+
+  _updatePropForCompetence(competenceCode, value, propName, linkedPropName) {
+    const competences = this._copyCompetences();
+    const competence = _.find(competences, { competence_code: competenceCode });
+    if (competence) {
+      if (value.trim().length === 0) {
+        if (competence[linkedPropName]) {
+          competence[propName] = null;
+        } else {
+          this._removeFromArray(competences, competence);
+        }
+      } else {
+        competence[propName] = parseInt(value);
+      }
+    } else if (value.trim().length > 0) {
+      competences.addObject({
+        competence_code: competenceCode,
+        [propName]: parseInt(value),
+        area_code: competenceCode.substr(0, 1)
+      });
+    }
+    this.certification.competencesWithMark = competences;
   }
 }
