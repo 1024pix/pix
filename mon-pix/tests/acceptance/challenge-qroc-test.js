@@ -29,6 +29,16 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         expect(find('.challenge-response__proposal')).to.not.exist;
       });
 
+      it('should display the alert box when user validates', async () => {
+        // when
+        expect(find('.alert')).to.not.exist;
+        await click(find('.challenge-actions__action-validate'));
+
+        // then
+        expect(find('.alert')).to.exist;
+        expect(find('.alert').textContent.trim()).to.equal('Jouer l\'épreuve pour valider. Sinon, passer.');
+      });
+
     });
 
     describe('When challenge is not already answered', () => {
@@ -124,7 +134,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
           value: 'Banane',
           result: 'ko',
           assessmentId: assessment.id,
-          challengeId :qrocChallenge.id,
+          challengeId: qrocChallenge.id,
           correction
         });
 
@@ -299,7 +309,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
           value: 'Banane',
           result: 'ko',
           assessmentId: assessment.id,
-          challengeId :qrocChallenge.id,
+          challengeId: qrocChallenge.id,
           correction
         });
 
