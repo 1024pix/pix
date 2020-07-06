@@ -17,6 +17,7 @@ describe('Unit | UseCase | answer-to-organization-invitation', () => {
     membershipRepository = {
       create: sinon.stub(),
       findByOrganizationId: sinon.stub(),
+      updateById: sinon.stub()
     };
     organizationInvitationRepository = {
       getByIdAndCode: sinon.stub(),
@@ -125,7 +126,39 @@ describe('Unit | UseCase | answer-to-organization-invitation', () => {
       });
     });
 
+    context('when the role is already defined in the invitation', () => {
+
+      it('should create a membership according to the invitation role', async () => {
+        // given
+        const email = 'random@email.com';
+        const organizationInvitationPending = domainBuilder.buildOrganizationInvitation({
+          status: OrganizationInvitation.StatusType.PENDING,
+          role: Membership.roles.ADMIN,
+        });
+        const { id: organizationInvitationId, organizationId, code, role } = organizationInvitationPending;
+        organizationInvitationRepository.getByIdAndCode.resolves(organizationInvitationPending);
+
+        const userToInvite = domainBuilder.buildUser({ email });
+        userRepository.findByEmail.resolves(userToInvite);
+        membershipRepository.findByOrganizationId.resolves([]);
+
+        // when
+        await answerToOrganizationInvitation({
+          organizationInvitationId, code, email,
+          userRepository, membershipRepository, organizationInvitationRepository
+        });
+
+        // then
+        expect(userRepository.findByEmail).to.have.been.calledWith(email);
+        expect(membershipRepository.findByOrganizationId).to.have.been.calledWith({ organizationId });
+        expect(membershipRepository.create).to.have.been.calledWith(userToInvite.id, organizationId, role);
+        expect(organizationInvitationRepository.markAsAccepted).to.have.been.calledWith(organizationInvitationId);
+      });
+
+    });
+
     context('when user already belongs to organization', () => {
+
       it('should throw an AlreadyExistingMembershipError', async () => {
 
         // given
@@ -148,6 +181,39 @@ describe('Unit | UseCase | answer-to-organization-invitation', () => {
 
         // then
         expect(err).to.be.instanceOf(AlreadyExistingMembershipError);
+      });
+
+      context('when the role is already defined in the invitation', () => {
+
+        it('should update a membership according to the invitation role', async () => {
+          // given
+          const email = 'random@example.net';
+          const userToInvite = domainBuilder.buildUser({ email });
+          userRepository.findByEmail.resolves(userToInvite);
+          const membership = domainBuilder.buildMembership({ user : userToInvite, organizationRole: Membership.roles.MEMBER });
+          membershipRepository.findByOrganizationId.resolves([ membership ]);
+
+          const organizationInvitationPending = domainBuilder.buildOrganizationInvitation({
+            status: OrganizationInvitation.StatusType.PENDING,
+            role: Membership.roles.ADMIN,
+          });
+          const { id: organizationInvitationId, organizationId, code } = organizationInvitationPending;
+          organizationInvitationRepository.getByIdAndCode.resolves(organizationInvitationPending);
+          membershipRepository.updateById.resolves({ organizationRole: organizationInvitationPending.role, ...membership });
+
+          // when
+          await answerToOrganizationInvitation({
+            organizationInvitationId, code, email,
+            userRepository, membershipRepository, organizationInvitationRepository
+          });
+
+          // then
+          expect(userRepository.findByEmail).to.have.been.calledWith(email);
+          expect(membershipRepository.findByOrganizationId).to.have.been.calledWith({ organizationId });
+          expect(membershipRepository.updateById).to.have.been.calledWith({ id: membership.id, membershipAttributes: { organizationRole: organizationInvitationPending.role } });
+          expect(organizationInvitationRepository.markAsAccepted).to.have.been.calledWith(organizationInvitationId);
+        });
+
       });
     });
   });
