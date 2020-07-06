@@ -1,6 +1,6 @@
 require('dotenv').config({ path: `${__dirname}/../.env` });
 
-function localPostgresEnv(databaseUrl) {
+function localPostgresEnv(databaseUrl, knexAsyncStacktraceEnabled) {
   return {
     client: 'postgresql',
     connection: databaseUrl,
@@ -15,14 +15,21 @@ function localPostgresEnv(databaseUrl) {
     seeds: {
       directory: './seeds',
     },
+    asyncStackTraces: (knexAsyncStacktraceEnabled !== 'false'),
   };
 }
 
 module.exports = {
 
-  development: localPostgresEnv(process.env.DATABASE_URL),
+  development: localPostgresEnv(
+    process.env.DATABASE_URL,
+    process.env.KNEX_ASYNC_STACKTRACE_ENABLED
+  ),
 
-  test: localPostgresEnv(process.env.TEST_DATABASE_URL),
+  test: localPostgresEnv(
+    process.env.TEST_DATABASE_URL,
+    process.env.KNEX_ASYNC_STACKTRACE_ENABLED
+  ),
 
   staging: {
     client: 'postgresql',
@@ -38,6 +45,7 @@ module.exports = {
     seeds: {
       directory: './seeds',
     },
+    asyncStackTraces: (process.env.KNEX_ASYNC_STACKTRACE_ENABLED !== 'false'),
   },
 
   production: {
@@ -55,5 +63,6 @@ module.exports = {
       directory: './seeds',
     },
     ssl: ('true' === process.env.DATABASE_SSL_ENABLED),
+    asyncStackTraces: (process.env.KNEX_ASYNC_STACKTRACE_ENABLED !== 'false'),
   },
 };
