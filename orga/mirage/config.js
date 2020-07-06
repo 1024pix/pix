@@ -131,7 +131,7 @@ export default function() {
   this.post('/organization-invitations/:id/response', (schema, request) => {
     const organizationInvitationId = request.params.id;
     const requestBody = JSON.parse(request.requestBody);
-    const { code, status } = requestBody.data.attributes;
+    const { code } = requestBody.data.attributes;
 
     const organizationInvitation = schema.organizationInvitations.findBy({ id: organizationInvitationId, code });
     const prescriber = schema.prescribers.first();
@@ -145,7 +145,7 @@ export default function() {
     prescriber.memberships = [membership];
     prescriber.save();
 
-    organizationInvitation.update({ status });
+    organizationInvitation.update({ status: 'accepted' });
     schema.organizationInvitationResponses.create();
 
     return new Response(204);
