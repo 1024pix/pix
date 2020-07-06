@@ -7,19 +7,32 @@ const {
 describe('Unit | Service | user-reconciliation-service', () => {
 
   let schoolingRegistrations;
-  let user;
+
+  beforeEach(() => {
+    schoolingRegistrations = [
+      domainBuilder.buildSchoolingRegistration({
+        firstName: 'firstName',
+        middleName: 'middleName',
+        thirdName: 'thirdName',
+        lastName: 'lastName',
+        preferredLastName: 'preferredLastName',
+      }),
+      domainBuilder.buildSchoolingRegistration({
+        firstName: 'secondRegistration_firstName',
+        middleName: 'secondRegistration_middleName',
+        thirdName: 'secondRegistration_thirdName',
+        lastName: 'secondRegistration_lastName',
+        preferredLastName: 'secondRegistration_preferredLastName',
+      }),
+    ];
+  });
 
   describe('#findMatchingCandidateIdForGivenUser', () => {
-    beforeEach(() => {
-      schoolingRegistrations = [
-        domainBuilder.buildSchoolingRegistration(),
-        domainBuilder.buildSchoolingRegistration(),
-      ];
-      user = {
-        firstName: 'Joe',
-        lastName: 'Poe',
-      };
-    });
+
+    const user = {
+      firstName: 'Joe',
+      lastName: 'Poe',
+    };
 
     context('When schoolingRegistration list is not empty', () => {
 
@@ -256,14 +269,12 @@ describe('Unit | Service | user-reconciliation-service', () => {
   });
 
   describe('#findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser', () => {
+
+    let user;
     let organizationId;
     let schoolingRegistrationRepositoryStub;
 
     beforeEach(() => {
-      schoolingRegistrations = [
-        domainBuilder.buildSchoolingRegistration(),
-        domainBuilder.buildSchoolingRegistration(),
-      ];
       organizationId = domainBuilder.buildOrganization().id;
       schoolingRegistrationRepositoryStub = { findByOrganizationIdAndUserBirthdate: sinon.stub() };
     });
@@ -397,17 +408,16 @@ describe('Unit | Service | user-reconciliation-service', () => {
 
   describe('#createUsernameByUserAndStudentId', () => {
 
+    const user = {
+      firstName: 'fakeFirst-Name',
+      lastName: 'fake LastName',
+      birthdate: '2008-03-01'
+    };
+    const originaldUsername = 'fakefirstname.fakelastname0103';
+
     let userRepository;
-    let originaldUsername;
 
     beforeEach(() => {
-      user = {
-        firstName: 'fakeFirst-Name',
-        lastName: 'fake LastName',
-        birthdate: '2008-03-01'
-      };
-      originaldUsername = 'fakefirstname.fakelastname0103';
-
       userRepository = {
         isUsernameAvailable: sinon.stub()
       };
