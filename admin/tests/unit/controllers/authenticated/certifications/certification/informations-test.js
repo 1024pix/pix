@@ -47,16 +47,14 @@ module('Unit | Controller | authenticated/certifications/certification/informati
 
   hooks.beforeEach(function() {
     controller = this.owner.lookup('controller:authenticated/certifications/certification/informations');
+    controller.certification =  EmberObject.create({
+      competencesWithMark
+    });
   });
 
   module('#onUpdateScore', () => {
     module('when there is a given score', function() {
       test('it replaces competence score correctly', async function(assert) {
-      // Given
-        controller.set('model', EmberObject.create({
-          competencesWithMark
-        }));
-
         // When
         await controller.onUpdateScore(anExistingCompetenceCode, '55');
 
@@ -69,11 +67,6 @@ module('Unit | Controller | authenticated/certifications/certification/informati
 
     module('when there is no given score and competence has no level', function() {
       test('it removes competence correctly (score)', async function(assert) {
-        // Given
-        controller.set('model', EmberObject.create({
-          competencesWithMark
-        }));
-
         // When
         await controller.onUpdateScore(anExistingCompetenceWithNoLevelCode, '');
 
@@ -87,11 +80,6 @@ module('Unit | Controller | authenticated/certifications/certification/informati
 
     module('when the competence is not present', function() {
       test('it creates competence score correctly', async function(assert) {
-      // Given
-        controller.set('model', EmberObject.create({
-          competencesWithMark
-        }));
-
         // When
         await controller.onUpdateScore(aNewCompetenceCode, '55');
 
@@ -106,11 +94,6 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   module('#onUpdateLevel', () => {
     module('when there is a given level', function() {
       test('it replaces competence level correctly', async function(assert) {
-      // Given
-        controller.set('model', EmberObject.create({
-          competencesWithMark
-        }));
-
         // When
         await controller.onUpdateLevel(anExistingCompetenceCode, '5');
 
@@ -123,11 +106,6 @@ module('Unit | Controller | authenticated/certifications/certification/informati
 
     module('when there is no given level and competence has no score', function() {
       test('it removes competence correctly (level)', async function(assert) {
-      // Given
-        controller.set('model', EmberObject.create({
-          competencesWithMark
-        }));
-
         // When
         await controller.onUpdateLevel(anExistingCompetenceWithNoScoreCode, '');
 
@@ -141,11 +119,6 @@ module('Unit | Controller | authenticated/certifications/certification/informati
 
     module('when the competence is not present', function() {
       test('it creates competence level correctly', async function(assert) {
-      // Given
-        controller.set('model', EmberObject.create({
-          competencesWithMark
-        }));
-
         // When
         await controller.onUpdateLevel(aNewCompetenceCode, '8');
 
@@ -199,13 +172,53 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     });
   });
 
+  module('#onSaveConfirm', () => {
+    module('when there are no error', () => {
+      test('should get no error and enable confirm dialog', async (assert) => {
+        // when
+        await controller.onSaveConfirm();
+        // then
+        assert.equal(controller.confirmAction, 'onSave');
+        assert.ok(controller.displayConfirm);
+        assert.ok(controller.confirmMessage);
+        assert.notOk(controller.confirmErrorMessage);
+
+      });
+    });
+
+    module('when there are errors', () => {
+      test('should get errors and enable confirm dialog', async (assert) => {
+        // given
+        controller.certification.competencesWithMark.addObject(
+          {
+            competence_code: anExistingCompetenceCode,
+            level: controller.MAX_REACHABLE_LEVEL + 1,
+            score: controller.MAX_REACHABLE_PIX_BY_COMPETENCE
+          });
+        controller.certification.competencesWithMark.addObject(
+          {
+            competence_code: anotherExistingCompetenceCode,
+            level: controller.MAX_REACHABLE_LEVEL,
+            score: controller.MAX_REACHABLE_PIX_BY_COMPETENCE + 1
+          },
+        );
+
+        // when
+        await controller.onSaveConfirm();
+
+        // then
+        assert.equal(controller.confirmAction, 'onSave');
+        assert.ok(controller.displayConfirm);
+        assert.ok(controller.confirmMessage);
+        assert.ok(controller.confirmErrorMessage.match(new RegExp(`.*niveau.*${anExistingCompetenceCode}.*${controller.MAX_REACHABLE_LEVEL}`)));
+        assert.ok(controller.confirmErrorMessage.match(new RegExp(`.*nombre de pix.*${anotherExistingCompetenceCode}.*${controller.MAX_REACHABLE_PIX_BY_COMPETENCE}`)));
+      });
+    });
+  });
+
   module('#onCheckMarks', () => {
     module('when there is no marks', () => {
       test('should not set competencesWithMark', async (assert) => {
-        // given
-        //const store = this.owner.lookup('service:mark-store');
-        controller.certification =  EmberObject.create({ competencesWithMark });
-
         // when
         await controller.onCheckMarks();
         // then
@@ -215,7 +228,6 @@ module('Unit | Controller | authenticated/certifications/certification/informati
 
     module('when there are marks', () => {
       test('should set competencesWithMark', async function(assert) {
-
         // given
         const score = 100;
         const anExistingCompetence =  competencesWithMark.find((value) => value.competence_code === anExistingCompetenceCode);
@@ -260,10 +272,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   test('it restores competences when cancel is sent', async function(assert) {
     // Given
     const rollbackAttributes = sinon.stub().resolves();
-    controller.set('model', EmberObject.create({
-      competencesWithMark,
-      rollbackAttributes
-    }));
+    controller.certification.rollbackAttributes = rollbackAttributes;
 
     await controller.onEdit();
     await controller.onUpdateLevel(anExistingCompetenceCode, '5');
