@@ -9,6 +9,7 @@ export default class ScorecardDetails extends Component {
   @service currentUser;
   @service store;
   @service router;
+  @service competenceEvaluation;
 
   @tracked showResetModal = false;
 
@@ -97,11 +98,11 @@ export default class ScorecardDetails extends Component {
 
   @action
   async improveCompetenceEvaluation() {
-    await this.store.queryRecord('competence-evaluation', {
-      improve: true,
-      userId:this.currentUser.user.id,
-      competenceId: this.args.scorecard.competenceId
-    });
-    this.router.transitionTo('competences.resume', this.args.scorecard.competenceId);
+    const userId = this.currentUser.user.id;
+    const competenceId = this.args.scorecard.competenceId;
+    const scorecardId = this.args.scorecard.id;
+
+    this.competenceEvaluation.improve({ userId, competenceId, scorecardId });
   }
+
 }
