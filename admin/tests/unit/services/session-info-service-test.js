@@ -9,22 +9,23 @@ module('Unit | Service | session-info-service', function(hooks) {
 
   setupTest(hooks);
 
+  class FileSaverStub extends Service {
+    content = '';
+    saveAs(content) {
+      this.content = content;
+    }
+    getContent() {
+      return this.content;
+    }
+  }
+
   let fileSaverStub;
   let service;
 
   hooks.beforeEach(function() {
-    const FileSaverStub = Service.extend({
-      content: '',
-      saveAs(content) {
-        this.set('content', content);
-      },
-      getContent() {
-        return this.content;
-      }
-    });
     this.owner.register('service:file-saver', FileSaverStub);
-    fileSaverStub = this.owner.lookup('service:file-saver');
 
+    fileSaverStub = this.owner.lookup('service:file-saver');
     service = this.owner.lookup('service:session-info-service');
   });
 

@@ -5,8 +5,6 @@ import EmberObject from '@ember/object';
 
 module('Unit | Controller | authenticated/certifications/certification/informations', function(hooks) {
 
-  let controller;
-
   setupTest(hooks);
 
   const competence = (code, score, level) => {
@@ -16,11 +14,13 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       level: level
     };
   };
+
   const aNewCompetenceId = '4.2';
   const anExistingCompetenceCode = '1.1';
   const anExistingCompetenceWithNoScoreCode = '1.2';
   const anExistingCompetenceWithNoLevelCode = '1.3';
   const anotherExistingCompetenceCode = '5.2';
+
   const competencesWithMark = [
     competence(anExistingCompetenceCode, 24, 3),
     competence(anExistingCompetenceWithNoScoreCode, null, 5),
@@ -28,22 +28,26 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     competence(anotherExistingCompetenceCode, 33, 4)
   ];
 
+  let controller;
+
   hooks.beforeEach(function() {
     controller = this.owner.lookup('controller:authenticated/certifications/certification/informations');
   });
 
   module('#onUpdateScore', () => {
+
     module('when there is a given score', function() {
+
       test('it replaces competence score correctly', async function(assert) {
-      // Given
+        // given
         controller.set('model', EmberObject.create({
           competencesWithMark
         }));
 
-        // When
+        // when
         await controller.onUpdateScore(anExistingCompetenceCode, '55');
 
-        // Then
+        // then
         const competences = controller.certification.competencesWithMark;
         const aCompetence = competences.find((value) => value.competence_code === anExistingCompetenceCode);
         assert.equal(aCompetence.score, 55);
@@ -51,16 +55,17 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     });
 
     module('when there is no given score and competence has no level', function() {
+
       test('it removes competence correctly (score)', async function(assert) {
-        // Given
+        // given
         controller.set('model', EmberObject.create({
           competencesWithMark
         }));
 
-        // When
+        // when
         await controller.onUpdateScore(anExistingCompetenceWithNoLevelCode, '');
 
-        // Then
+        // then
         const competences = controller.certification.competencesWithMark;
         const aCompetence = competences.find((value) => value.competence_code === anExistingCompetenceWithNoLevelCode);
 
@@ -69,16 +74,17 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     });
 
     module('when the competence is not present', function() {
+
       test('it creates competence score correctly', async function(assert) {
-      // Given
+        // given
         controller.set('model', EmberObject.create({
           competencesWithMark
         }));
 
-        // When
+        // when
         await controller.onUpdateScore(aNewCompetenceId, '55');
 
-        // Then
+        // then
         const competences = controller.certification.competencesWithMark;
         const aCompetence = competences.find((value) => value.competence_code === aNewCompetenceId);
         assert.equal(aCompetence.score, 55);
@@ -87,17 +93,19 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   });
 
   module('#onUpdateLevel', () => {
+
     module('when there is a given level', function() {
+
       test('it replaces competence level correctly', async function(assert) {
-      // Given
+        // given
         controller.set('model', EmberObject.create({
           competencesWithMark
         }));
 
-        // When
+        // when
         await controller.onUpdateLevel(anExistingCompetenceCode, '5');
 
-        // Then
+        // then
         const competences = controller.certification.competencesWithMark;
         const aCompetence = competences.find((value) => value.competence_code === anExistingCompetenceCode);
         assert.equal(aCompetence.level, 5);
@@ -105,16 +113,17 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     });
 
     module('when there is no given level and competence has no score', function() {
+
       test('it removes competence correctly (level)', async function(assert) {
-      // Given
+        // given
         controller.set('model', EmberObject.create({
           competencesWithMark
         }));
 
-        // When
+        // when
         await controller.onUpdateLevel(anExistingCompetenceWithNoScoreCode, '');
 
-        // Then
+        // then
         const competences = controller.certification.competencesWithMark;
         const aCompetence = competences.find((value) => value.competence_code === anExistingCompetenceWithNoScoreCode);
 
@@ -123,16 +132,17 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     });
 
     module('when the competence is not present', function() {
+
       test('it creates competence level correctly', async function(assert) {
-      // Given
+        // given
         controller.set('model', EmberObject.create({
           competencesWithMark
         }));
 
-        // When
+        // when
         await controller.onUpdateLevel(aNewCompetenceId, '8');
 
-        // Then
+        // then
         const competences = controller.certification.competencesWithMark;
         const aCompetence = competences.find((value) => value.competence_code === aNewCompetenceId);
         assert.equal(aCompetence.level, 8);
@@ -143,7 +153,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   module('#onSave', () => {
 
     test('it saves competences info when save is sent', async function(assert) {
-      // Given
+      // given
       const save = sinon.stub().resolves();
       const store = this.owner.lookup('service:store');
 
@@ -153,17 +163,17 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       certification.save = save;
       controller.certification = certification;
 
-      // When
+      // when
       await controller.onSave();
 
-      // Then
+      // then
       sinon.assert.calledWith(save, { adapterOptions: { updateMarks: false } });
       sinon.assert.calledWith(save, { adapterOptions: { updateMarks: true } });
       assert.ok(true);
     });
 
     test('marks are not updated when no change has been made and save is sent', async function(assert) {
-      // Given
+      // given
       const save = sinon.stub().resolves();
       const store = this.owner.lookup('service:store');
 
@@ -172,10 +182,10 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       certification.hasDirtyAttributes = false;
       controller.certification = certification;
 
-      // When
+      // when
       await controller.onSave();
 
-      // Then
+      // then
       sinon.assert.calledWith(save, { adapterOptions: { updateMarks: false } });
       sinon.assert.neverCalledWith(save, { adapterOptions: { updateMarks: true } });
       assert.ok(true);
@@ -183,7 +193,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   });
 
   test('it restores competences when cancel is sent', async function(assert) {
-    // Given
+    // given
     const rollbackAttributes = sinon.stub().resolves();
     controller.set('model', EmberObject.create({
       competencesWithMark,
@@ -196,10 +206,10 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     await controller.onUpdateLevel(anotherExistingCompetenceCode, '');
     await controller.onUpdateScore(anotherExistingCompetenceCode, '');
 
-    // When
+    // when
     await controller.onCancel();
 
-    // Then
+    // then
     const competences = controller.certification.competencesWithMark;
 
     let aCompetence = competences.find((value) => value.competence_code === anotherExistingCompetenceCode);
@@ -213,7 +223,6 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     assert.equal(aCompetence.level, aCompetenceRef.level);
 
     sinon.assert.calledOnce(rollbackAttributes);
-
   });
 
 });

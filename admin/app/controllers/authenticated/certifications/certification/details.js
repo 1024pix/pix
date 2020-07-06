@@ -17,7 +17,7 @@ export default class CertificationDetailsController extends Controller {
 
   @action
   onUpdateRate() {
-    const competences = this.get('details.competences');
+    const competences = this.details.competences;
     const { good, count, jury } = _getCertificationResultsAfterJuryUpdate(competences);
 
     if (jury) {
@@ -28,7 +28,7 @@ export default class CertificationDetailsController extends Controller {
     // TODO: find a better way
     schedule('afterRender', this, () => {
       const score = this.score;
-      const competences = this.get('details.competences');
+      const competences = this.details.competences;
       const newScore = competences.reduce((value, competence) => {
         const isJuryScoreCorrect = (typeof competence.juryScore !== 'undefined' && competence.juryScore !== false);
         value +=  isJuryScoreCorrect
@@ -48,7 +48,7 @@ export default class CertificationDetailsController extends Controller {
   onStoreMarks() {
     this._markStore.storeState({
       score: (this.juryScore === false) ? this.score : this.juryScore,
-      marks: this.get('details.competences').reduce((marks, competence) => {
+      marks: this.details.competences.reduce((marks, competence) => {
         marks[competence.index] = {
           level: (competence.juryLevel === false) ? competence.obtainedLevel : competence.juryLevel,
           score: (competence.juryScore === false) ? competence.obtainedScore : competence.juryScore,
@@ -57,7 +57,7 @@ export default class CertificationDetailsController extends Controller {
         return marks;
       }, {})
     });
-    this.transitionToRoute('authenticated.certifications.certification.informations', this.get('details.id'));
+    this.transitionToRoute('authenticated.certifications.certification.informations', this.details.id);
   }
 }
 

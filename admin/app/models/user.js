@@ -14,7 +14,7 @@ export default class User extends Model {
 
   @hasMany('membership') memberships;
 
-  @computed('firstName,lastName')
+  @computed('firstName', 'lastName')
   get fullName() {
     return `${this.firstName} ${this.lastName}`;
   }
