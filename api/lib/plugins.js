@@ -76,6 +76,7 @@ const plugins = [
           release: `v${Pack.version}`,
           maxBreadcrumbs: settings.sentry.maxBreadcrumbs,
           debug: settings.sentry.debug,
+          maxValueLength: settings.sentry.maxValueLength
         },
         scope: {
           tags: [
