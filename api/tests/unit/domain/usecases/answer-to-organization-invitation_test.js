@@ -2,7 +2,7 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 const answerToOrganizationInvitation = require('../../../../lib/domain/usecases/answer-to-organization-invitation');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const Membership = require('../../../../lib/domain/models/Membership');
-const { NotFoundError, AlreadyExistingOrganizationInvitationError } = require('../../../../lib/domain/errors');
+const { NotFoundError, AlreadyExistingOrganizationInvitationError, AlreadyExistingMembershipError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | answer-to-organization-invitation', () => {
 
@@ -67,7 +67,7 @@ describe('Unit | UseCase | answer-to-organization-invitation', () => {
       // given
       const email = 'random@email.com';
       const organizationInvitationPending = domainBuilder.buildOrganizationInvitation({
-        status:  OrganizationInvitation.StatusType.PENDING
+        status: OrganizationInvitation.StatusType.PENDING
       });
       const { id: organizationInvitationId, organizationId, code } = organizationInvitationPending;
       organizationInvitationRepository.getByIdAndCode.resolves(organizationInvitationPending);
@@ -76,12 +76,11 @@ describe('Unit | UseCase | answer-to-organization-invitation', () => {
       userRepository.findByEmail.resolves(userToInvite);
       membershipRepository.findByOrganizationId.resolves([{ user: { id: 2 } }]);
 
-      const status = OrganizationInvitation.StatusType.ACCEPTED;
       const organizationRole = Membership.roles.MEMBER;
 
       // when
       await answerToOrganizationInvitation({
-        organizationInvitationId, code, status, email,
+        organizationInvitationId, code, email,
         userRepository, membershipRepository, organizationInvitationRepository
       });
 
@@ -90,6 +89,32 @@ describe('Unit | UseCase | answer-to-organization-invitation', () => {
       expect(membershipRepository.findByOrganizationId).to.have.been.calledWith({ organizationId });
       expect(membershipRepository.create).to.have.been.calledWith(userToInvite.id, organizationId, organizationRole);
       expect(organizationInvitationRepository.markAsAccepted).to.have.been.calledWith(organizationInvitationId);
+    });
+
+    context('when user already belongs to organization', () => {
+      it('should throw an AlreadyExistingMembershipError', async () => {
+
+        // given
+        const email = 'random@email.com';
+        const organizationInvitationPending = domainBuilder.buildOrganizationInvitation({
+          status: OrganizationInvitation.StatusType.PENDING
+        });
+        const { id: organizationInvitationId, code } = organizationInvitationPending;
+        organizationInvitationRepository.getByIdAndCode.resolves(organizationInvitationPending);
+
+        const userToInvite = domainBuilder.buildUser({ email });
+        userRepository.findByEmail.resolves(userToInvite);
+        membershipRepository.findByOrganizationId.resolves([{ user: { id: userToInvite.id } }]);
+
+        // when
+        const err = await catchErr(answerToOrganizationInvitation)({
+          organizationInvitationId, code, email,
+          userRepository, membershipRepository, organizationInvitationRepository
+        });
+
+        // then
+        expect(err).to.be.instanceOf(AlreadyExistingMembershipError);
+      });
     });
   });
 

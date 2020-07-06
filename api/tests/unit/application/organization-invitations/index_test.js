@@ -12,7 +12,7 @@ function startServer() {
 describe('Unit | Router | organization-invitation-router', () => {
 
   beforeEach(() => {
-    sinon.stub(organizationInvitationController, 'answerToOrganizationInvitation').callsFake((request, h) => h.response().code(204));
+    sinon.stub(organizationInvitationController, 'acceptOrganizationInvitation').callsFake((request, h) => h.response().code(204));
     sinon.stub(organizationInvitationController, 'getOrganizationInvitation').callsFake((request, h) => h.response().code(200));
 
     startServer();

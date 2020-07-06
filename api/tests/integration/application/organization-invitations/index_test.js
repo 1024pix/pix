@@ -14,7 +14,7 @@ describe('Integration | Application | Organization-invitations | Routes', () => 
   describe('POST /api/organization-invitations/:id/response', () => {
 
     beforeEach(async () => {
-      sinon.stub(organisationInvitationController, 'answerToOrganizationInvitation').callsFake((request, h) => h.response().code(204));
+      sinon.stub(organisationInvitationController, 'acceptOrganizationInvitation').callsFake((request, h) => h.response().code(204));
       await server.register(route);
     });
 
