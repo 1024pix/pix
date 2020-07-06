@@ -49,18 +49,17 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
     });
   });
 
-  describe('#findActiveSkills', () => {
+  describe('#findActive', () => {
 
     it('should query Airtable skills with empty query', async () => {
       // given
       sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake([]));
 
       // when
-      await skillDatasource.findActiveSkills();
+      await skillDatasource.findActive();
 
       // then
       expect(airtable.findRecords).to.have.been.calledWith('Acquis', skillDatasource.usedFields);
-
     });
 
     it('should resolve an array of Skills from airTable', async () => {
@@ -71,11 +70,10 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake([rawSkill1, rawSkill2]));
 
       // when
-      const foundSkills = await skillDatasource.findActiveSkills();
+      const foundSkills = await skillDatasource.findActive();
 
       // then
       expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.id, rawSkill2.id]);
-
     });
 
     it('should resolve an array of Skills with only activated Skillfrom airTable', async () => {
@@ -87,22 +85,21 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake([rawSkill1, rawSkill2, rawSkill3]));
 
       // when
-      const foundSkills = await skillDatasource.findActiveSkills();
+      const foundSkills = await skillDatasource.findActive();
 
       // then
       expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.id, rawSkill2.id]);
-
     });
   });
 
-  describe('#findOperativeSkills', () => {
+  describe('#findOperative', () => {
 
     it('should query Airtable skills with empty query', async () => {
       // given
       sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake([]));
 
       // when
-      await skillDatasource.findOperativeSkills();
+      await skillDatasource.findOperative();
 
       // then
       expect(airtable.findRecords).to.have.been.calledWith('Acquis', skillDatasource.usedFields);
@@ -117,11 +114,10 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake([rawSkill1, rawSkill2]));
 
       // when
-      const foundSkills = await skillDatasource.findOperativeSkills();
+      const foundSkills = await skillDatasource.findOperative();
 
       // then
       expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.id, rawSkill2.id]);
-
     });
 
     it('should resolve an array of Skills with only activated Skillfrom airTable', async () => {
@@ -133,7 +129,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake([rawSkill1, rawSkill2, rawSkill3]));
 
       // when
-      const foundSkills = await skillDatasource.findOperativeSkills();
+      const foundSkills = await skillDatasource.findOperative();
 
       // then
       expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.id, rawSkill2.id]);
