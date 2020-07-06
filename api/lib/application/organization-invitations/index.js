@@ -7,9 +7,9 @@ exports.register = async (server) => {
       path: '/api/organization-invitations/{id}/response',
       config: {
         auth: false,
-        handler: organizationInvitationController.answerToOrganizationInvitation,
+        handler: organizationInvitationController.acceptOrganizationInvitation,
         notes: [
-          '- Cette route permet de répondre à l\'invitation de rejoindre une organisation, via un **code**, un **status** et un **email**'
+          '- Cette route permet d\'accepter l\'invitation à rejoindre une organisation, via un **code** et un **email**'
         ],
         tags: ['api', 'invitations']
       }
