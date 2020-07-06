@@ -67,11 +67,9 @@ export default class LoginForm extends Component {
   }
 
   _acceptOrganizationInvitation(organizationInvitationId, organizationInvitationCode, email) {
-    const status = 'accepted';
     return this.store.createRecord('organization-invitation-response', {
       id: organizationInvitationId + '_' + organizationInvitationCode,
       code: organizationInvitationCode,
-      status,
       email,
     }).save({ adapterOptions: { organizationInvitationId } });
   }
