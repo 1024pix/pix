@@ -109,7 +109,7 @@
         {{#if this.canAdministratorModifyUserDetails}}
         <button type="button" class="btn btn-outline-default" aria-label="Modifier" {{on "click" this.changeEditionMode}}>Modifier
         </button>
-        <button type="button" class="btn btn-outline-default btn-outline-default--danger" aria-label="Anonymiser" {{on "click" this.toggleDisplayConfirm}}>Anonymiser cet utilisateur
+        <button type="button" class="btn btn-danger" aria-label="Anonymiser" {{on "click" this.toggleDisplayConfirm}}>Anonymiser cet utilisateur
         </button>
         {{/if}}
       </div>
@@ -117,7 +117,7 @@
   {{/if}}
 </section>
 
-<ConfirmPopup @message="Etes-vous sûr de vouloir anonymiser cet utilisateur? Ceci n’est pas réversible"
+<ConfirmPopup @message="Êtes-vous sûr de vouloir anonymiser cet utilisateur ? Ceci n’est pas réversible."
               @confirm={{this.anonymizeUser}}
               @cancel={{this.toggleDisplayConfirm}}
               @show={{this.displayConfirm}} />
