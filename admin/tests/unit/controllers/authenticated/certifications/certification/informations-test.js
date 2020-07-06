@@ -48,6 +48,9 @@ module('Unit | Controller | authenticated/certifications/certification/informati
 
   hooks.beforeEach(function() {
     controller = this.owner.lookup('controller:authenticated/certifications/certification/informations');
+    controller.certification =  EmberObject.create({
+      competencesWithMark
+    });
   });
 
   module('#onUpdateScore', () => {
@@ -55,17 +58,12 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     module('when there is a given score', function() {
 
       test('it replaces competence score correctly', async function(assert) {
-        // given
-        controller.set('model', EmberObject.create({
-          competencesWithMark
-        }));
-
-        // when
+        // When
         await controller.onUpdateScore(anExistingCompetenceCode, '55');
 
         // then
         const competences = controller.certification.competencesWithMark;
-        const aCompetence = competences.find((value) => value.competence_code === anExistingCompetenceCode);
+        const aCompetence = _getCompetenceWithMark(anExistingCompetenceCode, competences);
         assert.equal(aCompetence.score, 55);
       });
     });
@@ -73,17 +71,12 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     module('when there is no given score and competence has no level', function() {
 
       test('it removes competence correctly (score)', async function(assert) {
-        // given
-        controller.set('model', EmberObject.create({
-          competencesWithMark
-        }));
-
-        // when
+        // When
         await controller.onUpdateScore(anExistingCompetenceWithNoLevelCode, '');
 
         // then
         const competences = controller.certification.competencesWithMark;
-        const aCompetence = competences.find((value) => value.competence_code === anExistingCompetenceWithNoLevelCode);
+        const aCompetence = _getCompetenceWithMark(anExistingCompetenceWithNoLevelCode, competences);
 
         assert.notOk(aCompetence);
       });
@@ -92,17 +85,12 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     module('when the competence is not present', function() {
 
       test('it creates competence score correctly', async function(assert) {
-        // given
-        controller.set('model', EmberObject.create({
-          competencesWithMark
-        }));
-
-        // when
+        // When
         await controller.onUpdateScore(aNewCompetenceCode, '55');
 
         // then
         const competences = controller.certification.competencesWithMark;
-        const aCompetence = competences.find((value) => value.competence_code === aNewCompetenceCode);
+        const aCompetence = _getCompetenceWithMark(aNewCompetenceCode, competences);
         assert.equal(aCompetence.score, 55);
       });
     });
@@ -113,17 +101,12 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     module('when there is a given level', function() {
 
       test('it replaces competence level correctly', async function(assert) {
-        // given
-        controller.set('model', EmberObject.create({
-          competencesWithMark
-        }));
-
-        // when
+        // When
         await controller.onUpdateLevel(anExistingCompetenceCode, '5');
 
         // then
         const competences = controller.certification.competencesWithMark;
-        const aCompetence = competences.find((value) => value.competence_code === anExistingCompetenceCode);
+        const aCompetence = _getCompetenceWithMark(anExistingCompetenceCode, competences);
         assert.equal(aCompetence.level, 5);
       });
     });
@@ -131,17 +114,12 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     module('when there is no given level and competence has no score', function() {
 
       test('it removes competence correctly (level)', async function(assert) {
-        // given
-        controller.set('model', EmberObject.create({
-          competencesWithMark
-        }));
-
-        // when
+        // When
         await controller.onUpdateLevel(anExistingCompetenceWithNoScoreCode, '');
 
         // then
         const competences = controller.certification.competencesWithMark;
-        const aCompetence = competences.find((value) => value.competence_code === anExistingCompetenceWithNoScoreCode);
+        const aCompetence = _getCompetenceWithMark(anExistingCompetenceWithNoScoreCode, competences);
 
         assert.notOk(aCompetence);
       });
@@ -150,17 +128,12 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     module('when the competence is not present', function() {
 
       test('it creates competence level correctly', async function(assert) {
-        // given
-        controller.set('model', EmberObject.create({
-          competencesWithMark
-        }));
-
-        // when
+        // When
         await controller.onUpdateLevel(aNewCompetenceCode, '8');
 
         // then
         const competences = controller.certification.competencesWithMark;
-        const aCompetence = competences.find((value) => value.competence_code === aNewCompetenceCode);
+        const aCompetence = _getCompetenceWithMark(aNewCompetenceCode, competences);
         assert.equal(aCompetence.level, 8);
       });
     });
@@ -208,13 +181,55 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     });
   });
 
+  module('#onSaveConfirm', () => {
+    module('when there are no error', () => {
+      test('should get no error and enable confirm dialog', async (assert) => {
+        // when
+        await controller.onSaveConfirm();
+        // then
+        assert.equal(controller.confirmAction, 'onSave');
+        assert.ok(controller.displayConfirm);
+        assert.ok(controller.confirmMessage);
+        assert.notOk(controller.confirmErrorMessage);
+
+      });
+    });
+
+    module('when there are errors', () => {
+      test('should get errors and enable confirm dialog', async (assert) => {
+        // given
+        controller.certification.competencesWithMark.addObject(
+          {
+            competence_code: anExistingCompetenceCode,
+            level: controller.MAX_REACHABLE_LEVEL + 1,
+            score: controller.MAX_REACHABLE_PIX_BY_COMPETENCE
+          });
+        controller.certification.competencesWithMark.addObject(
+          {
+            competence_code: anotherExistingCompetenceCode,
+            level: controller.MAX_REACHABLE_LEVEL,
+            score: controller.MAX_REACHABLE_PIX_BY_COMPETENCE + 1
+          },
+        );
+
+        // when
+        await controller.onSaveConfirm();
+
+        // then
+        const levelErrorRegexp = `.*niveau.*${anExistingCompetenceCode}.*${controller.MAX_REACHABLE_LEVEL}`;
+        const scoreErrorRegexp = `.*nombre de pix.*${anotherExistingCompetenceCode}.*${controller.MAX_REACHABLE_PIX_BY_COMPETENCE}`;
+        assert.equal(controller.confirmAction, 'onSave');
+        assert.ok(controller.displayConfirm);
+        assert.ok(controller.confirmMessage);
+        assert.ok(controller.confirmErrorMessage.match(new RegExp(levelErrorRegexp)));
+        assert.ok(controller.confirmErrorMessage.match(new RegExp(scoreErrorRegexp)));
+      });
+    });
+  });
+
   module('#onCheckMarks', () => {
     module('when there is no mark', () => {
       test('should not set competencesWithMark', async (assert) => {
-        // given
-        //const store = this.owner.lookup('service:mark-store');
-        controller.certification =  EmberObject.create({ competencesWithMark });
-
         // when
         await controller.onCheckMarks();
         // then
@@ -224,10 +239,9 @@ module('Unit | Controller | authenticated/certifications/certification/informati
 
     module('when there are marks', () => {
       test('should set competencesWithMark', async function(assert) {
-
         // given
         const score = 100;
-        const anExistingCompetence =  competencesWithMark.find((value) => value.competence_code === anExistingCompetenceCode);
+        const anExistingCompetence =  _getCompetenceWithMark(anExistingCompetenceCode);
 
         const expectedCompetencesWithMark = [
           createMark({
@@ -275,10 +289,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   test('it restores competences when cancel is sent', async function(assert) {
     // given
     const rollbackAttributes = sinon.stub().resolves();
-    controller.set('model', EmberObject.create({
-      competencesWithMark,
-      rollbackAttributes
-    }));
+    controller.certification.rollbackAttributes = rollbackAttributes;
 
     await controller.onEdit();
     await controller.onUpdateLevel(anExistingCompetenceCode, '5');
@@ -292,17 +303,20 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     // then
     const competences = controller.certification.competencesWithMark;
 
-    let aCompetence = competences.find((value) => value.competence_code === anotherExistingCompetenceCode);
-    let aCompetenceRef = competencesWithMark.find((value) => value.competence_code === anotherExistingCompetenceCode);
+    let aCompetence = _getCompetenceWithMark(anotherExistingCompetenceCode);
+    let aCompetenceRef = _getCompetenceWithMark(anotherExistingCompetenceCode);
     assert.equal(aCompetence.score, aCompetenceRef.score);
     assert.equal(aCompetence.level, aCompetenceRef.level);
 
-    aCompetence = competences.find((value) => value.competence_code === anExistingCompetenceCode);
-    aCompetenceRef = competencesWithMark.find((value) => value.competence_code === anExistingCompetenceCode);
+    aCompetence = _getCompetenceWithMark(anExistingCompetenceCode, competences);
+    aCompetenceRef = _getCompetenceWithMark(anExistingCompetenceCode);
     assert.equal(aCompetence.score, aCompetenceRef.score);
     assert.equal(aCompetence.level, aCompetenceRef.level);
 
     sinon.assert.calledOnce(rollbackAttributes);
   });
 
+  function _getCompetenceWithMark(code, competences = competencesWithMark) {
+    return competences.find((value) => value.competence_code === code);
+  }
 });
