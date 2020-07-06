@@ -7,7 +7,7 @@ module.exports = {
   async findBySessionId(sessionId) {
     const results = await knex.with('certifications_every_assess_results', (qb) => {
       qb.select('certification-courses.*', 'assessment-results.pixScore', 'assessment-results.status')
-        .select(knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS asr_rank',
+        .select(knex.raw('RANK() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS asr_rank',
           ['assessmentId', 'assessment-results.createdAt']))
         .from('certification-courses')
         .leftJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
