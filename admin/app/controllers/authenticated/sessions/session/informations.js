@@ -21,7 +21,7 @@ export default class IndexController extends Controller {
     return statusToDisplayName[this.session.status];
   }
 
-  @computed('session.assignedCertificationOfficer.id')
+  @computed('currentUser.user', 'session.assignedCertificationOfficer.id')
   get isCurrentUserAssignedToSession() {
     const currentUserId = this.currentUser.user.get('id');
     const assignedCertificationOfficerId = this.session.assignedCertificationOfficer.get('id');

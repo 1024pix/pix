@@ -23,6 +23,7 @@ module.exports = {
     browser: true
   },
   rules: {
+    'ember/no-mixins': 'off'
   },
   overrides: [
     // node files

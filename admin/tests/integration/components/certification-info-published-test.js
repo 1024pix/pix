@@ -4,14 +4,17 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | certification-info-published', function(hooks) {
+
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.set('myAction', function(val) { ... });
+    // given
+    this.set('certification', { isPublished: true });
 
-    await render(hbs`{{certification-info-published}}`);
+    // when
+    await render(hbs`<CertificationInfoPublished @record={{this.certification}} />`);
 
+    // then
     assert.dom('svg').exists();
   });
 });
