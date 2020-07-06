@@ -8,7 +8,7 @@ describe('Unit | Repository | skill-repository', function() {
   beforeEach(() => {
     sinon.stub(skillDatasource, 'findActiveByCompetenceId');
     sinon.stub(skillDatasource, 'findOperativeByCompetenceId');
-    sinon.stub(skillDatasource, 'findActiveSkills');
+    sinon.stub(skillDatasource, 'findActive');
     sinon.stub(skillDatasource, 'findOperativeByRecordIds');
   });
 

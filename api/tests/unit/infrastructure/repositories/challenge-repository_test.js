@@ -223,10 +223,10 @@ describe('Unit | Repository | challenge-repository', () => {
       skills = [skillWeb1, skillURL2];
       operativeSkills = [skillWeb1, skillURL2, skillURL3];
       sinon.stub(skillDatasource, 'get');
-      sinon.stub(skillDatasource, 'findActiveSkills');
-      sinon.stub(skillDatasource, 'findOperativeSkills');
-      skillDatasource.findActiveSkills.resolves(skills);
-      skillDatasource.findOperativeSkills.resolves(operativeSkills);
+      sinon.stub(skillDatasource, 'findActive');
+      sinon.stub(skillDatasource, 'findOperative');
+      skillDatasource.findActive.resolves(skills);
+      skillDatasource.findOperative.resolves(operativeSkills);
     });
 
     describe('#findValidated', () => {

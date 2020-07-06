@@ -25,26 +25,26 @@ module.exports = {
 
   async findValidated() {
     const challengeDataObjects = await challengeDatasource.findValidated();
-    const activeSkills = await skillDatasource.findActiveSkills();
+    const activeSkills = await skillDatasource.findActive();
     return _generateChallengeDomainModels({ challengeDataObjects, skills: activeSkills });
   },
 
   async findOperative() {
     const challengeDataObjects = await challengeDatasource.findOperative();
-    const operativeSkills = await skillDatasource.findOperativeSkills();
+    const operativeSkills = await skillDatasource.findOperative();
     return _generateChallengeDomainModels({ challengeDataObjects, skills: operativeSkills });
   },
 
   async findValidatedByCompetenceId(competenceId) {
     const challengeDataObjects = await challengeDatasource.findValidatedByCompetenceId(competenceId);
-    const activeSkills = await skillDatasource.findActiveSkills();
+    const activeSkills = await skillDatasource.findActive();
     return _generateChallengeDomainModels({ challengeDataObjects, skills: activeSkills });
   },
 
   async findOperativeBySkills(skills) {
     const skillIds = skills.map((skill) => skill.id);
     const challengeDataObjects = await challengeDatasource.findOperativeBySkillIds(skillIds);
-    const operativeSkills = await skillDatasource.findOperativeSkills();
+    const operativeSkills = await skillDatasource.findOperative();
     return _generateChallengeDomainModels({ challengeDataObjects, skills: operativeSkills });
   },
 };

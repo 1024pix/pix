@@ -39,12 +39,12 @@ module.exports = datasource.extend({
     };
   },
 
-  async findActiveSkills() {
+  async findActive() {
     const skills = await this.list();
     return _.filter(skills, { status: ACTIVE_STATUS });
   },
 
-  async findOperativeSkills() {
+  async findOperative() {
     const skills = await this.list();
     return _.filter(skills, (skill) => _.includes(OPERATIVE_STATUSES, skill.status));
   },
