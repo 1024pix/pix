@@ -39,7 +39,7 @@ describe('Integration | Component | comparison-window', function() {
 
     it('renders', async function() {
       // when
-      await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+      await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
 
       // then
       expect(find('.pix-modal-overlay')).to.exist;
@@ -51,7 +51,7 @@ describe('Integration | Component | comparison-window', function() {
       challenge.set('illustrationAlt', 'texte alternatif');
 
       // when
-      await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+      await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
 
       // then
       expect(find('.challenge-illustration__loaded-image').src).to.contains(challenge.illustrationUrl);
@@ -60,7 +60,7 @@ describe('Integration | Component | comparison-window', function() {
 
     it('should render challenge result in the header', async function() {
       // when
-      await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+      await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
 
       // then
       expect(find('.comparison-window-header')).to.exist;
@@ -69,7 +69,7 @@ describe('Integration | Component | comparison-window', function() {
 
     it('should render challenge instruction', async function() {
       // when
-      await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+      await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
 
       // then
       expect(find('.comparison-window__instruction')).to.exist;
@@ -77,7 +77,7 @@ describe('Integration | Component | comparison-window', function() {
 
     it('should not render corrected answers when challenge has no type', async function() {
       // when
-      await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+      await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
       // then
       expect(find('.comparison-window__corrected-answers--qroc')).to.not.exist;
     });
@@ -88,7 +88,7 @@ describe('Integration | Component | comparison-window', function() {
       answer.set('challenge', challenge);
 
       // when
-      await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+      await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
 
       // then
       expect(find('.comparison-window__corrected-answers--qroc')).to.exist;
@@ -99,7 +99,7 @@ describe('Integration | Component | comparison-window', function() {
       challenge = EmberObject.create({ type: 'QROC', autoReply: true });
       answer.set('challenge', challenge);
       // when
-      await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+      await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
       // then
       expect(find('.qcm-solution-panel')).to.not.exist;
     });
@@ -110,7 +110,7 @@ describe('Integration | Component | comparison-window', function() {
       correction.set('solution',  '');
       answer.set('challenge', challenge);
       // when
-      await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+      await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
       // then
       expect(find('.comparison-window__corrected-answers--qrocm')).to.exist;
     });
@@ -120,14 +120,14 @@ describe('Integration | Component | comparison-window', function() {
       challenge = EmberObject.create({ type: 'QCM' });
       answer.set('challenge', challenge);
       // when
-      await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+      await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
       // then
       expect(find('.qcm-solution-panel')).to.exist;
     });
 
     it('should render a feedback panel already opened',async  function() {
       //when
-      await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+      await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
 
       //then
       expect(find('.comparison-window__feedback-panel')).to.exist;
@@ -151,7 +151,7 @@ describe('Integration | Component | comparison-window', function() {
         });
 
         // when
-        await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+        await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
 
         // then
         expect(find(`.comparison-window__result-icon--${data.status}`)).to.exist;
@@ -165,7 +165,7 @@ describe('Integration | Component | comparison-window', function() {
       correction.set('hint', 'Conseil : mangez des épinards.');
 
       // when
-      await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+      await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
 
       // then
       expect(find('.tutorial-panel')).to.contain.text('Conseil : mangez des épinards.');
@@ -178,7 +178,7 @@ describe('Integration | Component | comparison-window', function() {
       });
 
       // when
-      await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+      await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
 
       // then
       expect(find('.learning-more-panel__container')).to.exist;
@@ -193,7 +193,7 @@ describe('Integration | Component | comparison-window', function() {
         });
 
         // when
-        await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+        await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
 
         // then
         expect(find('.tutorial-panel')).to.not.exist;
@@ -211,7 +211,7 @@ describe('Integration | Component | comparison-window', function() {
         });
 
         // when
-        await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+        await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
 
         // then
         expect(find('.comparison-windows__default-message-container')).to.exist;
@@ -229,7 +229,7 @@ describe('Integration | Component | comparison-window', function() {
         });
 
         // when
-        await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+        await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
 
         // then
         expect(find('.tutorial-panel')).to.exist;

@@ -2,6 +2,7 @@ import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
+import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
 function _assertResultItemTitle(resultItem, expected) {
   expect(resultItem.title).to.equal(expected);
@@ -19,16 +20,15 @@ describe('Unit | Component | comparison-window', function() {
   let answer;
   let resultItem;
 
-  const challengeQroc = { type: 'QROC', autoReply: false };
-  const challengeQrocWithAutoReply = { type: 'QROC', autoReply: true };
-  const challengeQcm = { type: 'QCM' };
-  const challengeQrocmInd = { type: 'QROCM-ind' };
-  const challengeQrocmDep = { type: 'QROCM-dep' };
+  const challengeQroc = EmberObject.create({ type: 'QROC', autoReply: false });
+  const challengeQrocWithAutoReply = EmberObject.create({ type: 'QROC', autoReply: true });
+  const challengeQcm = EmberObject.create({ type: 'QCM' });
+  const challengeQrocmInd = EmberObject.create({ type: 'QROCM-ind' });
+  const challengeQrocmDep = EmberObject.create({ type: 'QROCM-dep' });
 
   beforeEach(function() {
-    component = this.owner.lookup('component:comparison-window');
     answer = EmberObject.create();
-    component.set('answer', answer);
+    component = createGlimmerComponent('component:comparison-window', { answer });
   });
 
   describe('#isAssessmentChallengeTypeQroc', function() {
@@ -37,7 +37,7 @@ describe('Unit | Component | comparison-window', function() {
       // given
       answer.set('challenge', challengeQroc);
       // when
-      const isAssessmentChallengeTypeQroc = component.get('isAssessmentChallengeTypeQroc');
+      const isAssessmentChallengeTypeQroc = component.isAssessmentChallengeTypeQroc;
       // then
       expect(isAssessmentChallengeTypeQroc).to.be.true;
     });
@@ -46,7 +46,7 @@ describe('Unit | Component | comparison-window', function() {
       // given
       answer.set('challenge', challengeQrocmInd);
       // when
-      const isAssessmentChallengeTypeQroc = component.get('isAssessmentChallengeTypeQroc');
+      const isAssessmentChallengeTypeQroc = component.isAssessmentChallengeTypeQroc;
       // then
       expect(isAssessmentChallengeTypeQroc).to.be.false;
     });
@@ -58,7 +58,7 @@ describe('Unit | Component | comparison-window', function() {
       // given
       answer.set('challenge', challengeQcm);
       // when
-      const isAssessmentChallengeTypeQcm = component.get('isAssessmentChallengeTypeQcm');
+      const isAssessmentChallengeTypeQcm = component.isAssessmentChallengeTypeQcm;
       // then
       expect(isAssessmentChallengeTypeQcm).to.be.true;
     });
@@ -67,7 +67,7 @@ describe('Unit | Component | comparison-window', function() {
       // given
       answer.set('challenge', challengeQroc);
       // when
-      const isAssessmentChallengeTypeQcm = component.get('isAssessmentChallengeTypeQcm');
+      const isAssessmentChallengeTypeQcm = component.isAssessmentChallengeTypeQcm;
       // then
       expect(isAssessmentChallengeTypeQcm).to.be.false;
     });
@@ -79,7 +79,7 @@ describe('Unit | Component | comparison-window', function() {
       // given
       answer.set('challenge', challengeQrocmInd);
       // when
-      const isAssessmentChallengeTypeQrocmInd = component.get('isAssessmentChallengeTypeQrocmInd');
+      const isAssessmentChallengeTypeQrocmInd = component.isAssessmentChallengeTypeQrocmInd;
       // then
       expect(isAssessmentChallengeTypeQrocmInd).to.be.true;
     });
@@ -88,7 +88,7 @@ describe('Unit | Component | comparison-window', function() {
       // given
       answer.set('challenge', challengeQroc);
       // when
-      const isAssessmentChallengeTypeQrocmInd = component.get('isAssessmentChallengeTypeQrocmInd');
+      const isAssessmentChallengeTypeQrocmInd = component.isAssessmentChallengeTypeQrocmInd;
       // then
       expect(isAssessmentChallengeTypeQrocmInd).to.be.false;
     });
@@ -100,7 +100,7 @@ describe('Unit | Component | comparison-window', function() {
       // given
       answer.set('challenge', challengeQrocmDep);
       // when
-      const isAssessmentChallengeTypeQrocmDep = component.get('isAssessmentChallengeTypeQrocmDep');
+      const isAssessmentChallengeTypeQrocmDep = component.isAssessmentChallengeTypeQrocmDep;
       // then
       expect(isAssessmentChallengeTypeQrocmDep).to.be.true;
     });
@@ -109,7 +109,7 @@ describe('Unit | Component | comparison-window', function() {
       // given
       answer.set('challenge', challengeQroc);
       // when
-      const isAssessmentChallengeTypeQrocmDep = component.get('isAssessmentChallengeTypeQrocmDep');
+      const isAssessmentChallengeTypeQrocmDep = component.isAssessmentChallengeTypeQrocmDep;
       // then
       expect(isAssessmentChallengeTypeQrocmDep).to.be.false;
     });
@@ -117,13 +117,16 @@ describe('Unit | Component | comparison-window', function() {
   });
 
   describe('#resultItem', function() {
+    beforeEach(function() {
+      answer.set('challenge', challengeQcm);
+    });
 
     it('should return adapted title and tooltip when validation is unavailable (i.e. empty)', function() {
       // given
       answer.set('result', '');
 
       // when
-      resultItem = component.get('resultItem');
+      resultItem = component.resultItem;
 
       // then
       _assertResultItemTitle(resultItem, '');
@@ -135,7 +138,7 @@ describe('Unit | Component | comparison-window', function() {
       answer.set('result', 'xxx');
 
       // when
-      resultItem = component.get('resultItem');
+      resultItem = component.resultItem;
 
       // then
       _assertResultItemTitle(resultItem, '');
@@ -148,7 +151,7 @@ describe('Unit | Component | comparison-window', function() {
       answer.set('result', undefined);
 
       // when
-      resultItem = component.get('resultItem');
+      resultItem = component.resultItem;
 
       // then
       _assertResultItemTitle(resultItem, '');
@@ -160,7 +163,7 @@ describe('Unit | Component | comparison-window', function() {
       answer.set('result', 'ok');
 
       // when
-      resultItem = component.get('resultItem');
+      resultItem = component.resultItem;
 
       // then
       _assertResultItemTitle(resultItem, 'Vous avez la bonne réponse !');
@@ -172,7 +175,7 @@ describe('Unit | Component | comparison-window', function() {
       answer.set('result', 'ko');
 
       // when
-      resultItem = component.get('resultItem');
+      resultItem = component.resultItem;
 
       // then
       _assertResultItemTitle(resultItem, 'Vous n’avez pas la bonne réponse');
@@ -184,7 +187,7 @@ describe('Unit | Component | comparison-window', function() {
       answer.set('result', 'aband');
 
       // when
-      resultItem = component.get('resultItem');
+      resultItem = component.resultItem;
 
       // then
       _assertResultItemTitle(resultItem, 'Vous n’avez pas donné de réponse');
@@ -196,7 +199,7 @@ describe('Unit | Component | comparison-window', function() {
       answer.set('result', 'partially');
 
       // when
-      resultItem = component.get('resultItem');
+      resultItem = component.resultItem;
 
       // then
       _assertResultItemTitle(resultItem, 'Vous avez donné une réponse partielle');
@@ -208,7 +211,7 @@ describe('Unit | Component | comparison-window', function() {
       answer.set('result', 'timedout');
 
       // when
-      resultItem = component.get('resultItem');
+      resultItem = component.resultItem;
 
       // then
       _assertResultItemTitle(resultItem, 'Vous avez dépassé le temps imparti');
@@ -221,7 +224,7 @@ describe('Unit | Component | comparison-window', function() {
       answer.set('challenge', challengeQrocWithAutoReply);
 
       // when
-      resultItem = component.get('resultItem');
+      resultItem = component.resultItem;
 
       // then
       _assertResultItemTitle(resultItem, 'Vous n’avez pas réussi l’épreuve');
@@ -234,7 +237,7 @@ describe('Unit | Component | comparison-window', function() {
       answer.set('challenge', challengeQrocWithAutoReply);
 
       // when
-      resultItem = component.get('resultItem');
+      resultItem = component.resultItem;
 
       // then
       _assertResultItemTitle(resultItem, 'Vous avez réussi l’épreuve');
