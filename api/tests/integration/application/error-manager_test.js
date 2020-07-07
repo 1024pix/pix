@@ -13,6 +13,11 @@ describe('Integration | API | Controller Error', () => {
     return payload.errors[0].detail;
   }
 
+  function responseTitle(response) {
+    const payload = JSON.parse(response.payload);
+    return payload.errors[0].title;
+  }
+
   beforeEach(async () => {
     server = await createServer();
     server.route({ method: 'GET', path: '/test_route', handler: routeHandler, config: { auth: false } });
@@ -183,7 +188,6 @@ describe('Integration | API | Controller Error', () => {
 
       expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
       expect(responseDetail(response)).to.equal('Utilisateur non autorisé à créer une campagne');
-
     });
 
     it('responds Forbidden when a UserNotAuthorizedToGetCertificationCoursesError error occurs', async () => {
@@ -264,6 +268,7 @@ describe('Integration | API | Controller Error', () => {
 
       expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
       expect(responseDetail(response)).to.equal('Le niveau maximum est déjà atteint pour cette compétence.');
+      expect(responseTitle(response)).to.equal('ImproveCompetenceEvaluationForbidden');
     });
   });
 
