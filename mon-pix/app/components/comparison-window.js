@@ -44,6 +44,12 @@ const TEXT_FOR_RESULT = {
     tooltip: 'Épreuve non réussie'
   },
 
+  abandAutoReply: {
+    status: 'aband',
+    title: 'Vous avez passé l’épreuve',
+    tooltip: 'Épreuve passée'
+  },
+
   default: {
     status: 'default',
     title: '',
