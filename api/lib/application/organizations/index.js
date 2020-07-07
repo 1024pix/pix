@@ -127,6 +127,9 @@ exports.register = async (server) => {
           assign: 'belongsToOrganizationManagingStudents'
         }],
         validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required()
+          }),
           query: Joi.object({
             'page[size]': Joi.number().integer().empty(''),
             'page[number]': Joi.number().integer().empty(''),
@@ -148,6 +151,11 @@ exports.register = async (server) => {
           method: securityPreHandlers.checkUserIsAdminInOrganizationManagingStudents,
           assign: 'isAdminInOrganizationManagingStudents'
         }],
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required()
+          }),
+        },
         payload: {
           maxBytes: 1048576 * 10, // 10MB
           parse: 'gunzip',
