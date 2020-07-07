@@ -112,7 +112,6 @@ describe('Unit | Component | comparison-window', function() {
       const isAssessmentChallengeTypeQrocmDep = component.get('isAssessmentChallengeTypeQrocmDep');
       // then
       expect(isAssessmentChallengeTypeQrocmDep).to.be.false;
-
     });
 
   });
@@ -176,7 +175,7 @@ describe('Unit | Component | comparison-window', function() {
       resultItem = component.get('resultItem');
 
       // then
-      _assertResultItemTitle(resultItem, 'Vous n\'avez pas la bonne réponse');
+      _assertResultItemTitle(resultItem, 'Vous n’avez pas la bonne réponse');
       _assertResultItemTooltip(resultItem, 'Réponse incorrecte');
     });
 
@@ -188,7 +187,7 @@ describe('Unit | Component | comparison-window', function() {
       resultItem = component.get('resultItem');
 
       // then
-      _assertResultItemTitle(resultItem, 'Vous n\'avez pas donné de réponse');
+      _assertResultItemTitle(resultItem, 'Vous n’avez pas donné de réponse');
       _assertResultItemTooltip(resultItem, 'Sans réponse');
     });
 

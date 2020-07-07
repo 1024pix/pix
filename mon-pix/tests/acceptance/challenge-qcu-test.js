@@ -134,7 +134,7 @@ describe('Acceptance | Displaying a QCU challenge', () => {
       await click('.result-item__correction-button');
 
       // then
-      expect(find('.comparison-window__title-text').textContent.trim()).to.equal('Vous n\'avez pas la bonne réponse');
+      expect(find('.comparison-window__title-text').textContent.trim()).to.equal('Vous n’avez pas la bonne réponse');
       expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qcuChallenge.instruction);
 
       const goodAnswer = findAll('.qcu-proposal-label__oracle')[0];
