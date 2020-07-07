@@ -126,6 +126,7 @@ module.exports = (function() {
       environment: (process.env.SENTRY_ENVIRONMENT || 'development'),
       maxBreadcrumbs: _getNumber(process.env.SENTRY_MAX_BREADCRUMBS, 100),
       debug: isFeatureEnabled(process.env.SENTRY_DEBUG),
+      maxValueLength: 1000,
     },
   };
 
