@@ -7,9 +7,6 @@ const ValidatorQROC = require('./ValidatorQROC');
 const ValidatorQROCMDep = require('./ValidatorQROCMDep');
 const ValidatorQROCMInd = require('./ValidatorQROCMInd');
 
-const VALIDATED_CHALLENGES = ['validé', 'validé sans test', 'pré-validé'];
-const OPERATIVE_CHALLENGES = ['validé', 'validé sans test', 'pré-validé', 'archivé'];
-
 const ChallengeType = Object.freeze({
   QCU: 'QCU',
   QCM: 'QCM',
@@ -106,11 +103,6 @@ class Challenge {
     return this.skills.filter((skill) => skill.name === searchedSkill.name).length > 0;
   }
 
-  // Same than isActive for algo
-  isPublished({ validatedOnly }) {
-    return validatedOnly ? VALIDATED_CHALLENGES.includes(this.status) : OPERATIVE_CHALLENGES.includes(this.status);
-  }
-
   get hardestSkill() {
     return this.skills.reduce((s1, s2) => (s1.difficulty > s2.difficulty) ? s1 : s2);
   }
@@ -158,8 +150,8 @@ class Challenge {
     return _(challenges).find({ id });
   }
 
-  static findPublishedBySkill({ challenges, skill, validatedOnly }) {
-    return _.filter(challenges, (challenge) => challenge.hasSkill(skill) && challenge.isPublished({ validatedOnly }));
+  static findBySkill({ challenges, skill }) {
+    return _.filter(challenges, (challenge) => challenge.hasSkill(skill));
   }
 }
 

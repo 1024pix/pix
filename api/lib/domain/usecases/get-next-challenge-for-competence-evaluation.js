@@ -22,7 +22,7 @@ module.exports = async function getNextChallengeForCompetenceEvaluation({
   const {
     possibleSkillsForNextChallenge,
     hasAssessmentEnded,
-  } = smartRandom.getPossibleSkillsForNextChallenge({ ...inputValues, validatedOnly: true });
+  } = smartRandom.getPossibleSkillsForNextChallenge(inputValues);
 
   if (hasAssessmentEnded) {
     throw new AssessmentEndedError();

@@ -58,7 +58,7 @@ async function fillCertificationProfileWithChallenges(certificationProfile) {
     const testedSkills = [];
     userCompetence.skills.forEach((skill) => {
       if (!userCompetence.hasEnoughChallenges()) {
-        const challengesToValidateCurrentSkill = Challenge.findPublishedBySkill({ challenges: allChallenges, skill, validatedOnly: false });
+        const challengesToValidateCurrentSkill = Challenge.findBySkill({ challenges: allChallenges, skill });
         const challengesLeftToAnswer = _.difference(challengesToValidateCurrentSkill, challengesAlreadyAnswered);
 
         const challengesPoolToPickChallengeFrom = (_.isEmpty(challengesLeftToAnswer)) ? challengesToValidateCurrentSkill : challengesLeftToAnswer;
@@ -81,7 +81,7 @@ function _getUserCompetenceByChallengeCompetenceId(userCompetences, challenge) {
 }
 
 function _skillHasAtLeastOneChallenge(skill, challenges) {
-  const challengesBySkill = Challenge.findPublishedBySkill({ challenges, skill, validatedOnly: false });
+  const challengesBySkill = Challenge.findBySkill({ challenges, skill });
   return challengesBySkill.length > 0;
 }
 

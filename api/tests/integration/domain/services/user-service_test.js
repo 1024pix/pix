@@ -1,4 +1,5 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const _ = require('lodash');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
@@ -51,7 +52,6 @@ describe('Integration | Service | User Service', function() {
   const skillUrl3 = new Skill({ id: 70, name: '@url3' });
   const skillWeb1 = new Skill({ id: 80, name: '@web1' });
   const skillSearch1 = new Skill({ id: 90, name: '@url1' });
-  const skillWithoutChallenge = new Skill({ id: 100, name: '@oldSKill8' });
   const skillRequin5 = new Skill({ id: 110, name: '@requin5' });
   const skillRequin8 = new Skill({ id: 120, name: '@requin8' });
 
@@ -65,8 +65,7 @@ describe('Integration | Service | User Service', function() {
   const challengeForSkillCitation4AndMoteur3 = _createChallenge('challengeRecordIdTwo', competenceFlipper.id, [skillCitation4, skillMoteur3], '@citation4');
   const challengeForSkillRecherche4 = _createChallenge('challengeRecordIdFour', competenceFlipper.id, [skillRecherche4], '@recherche4');
   const challengeRecordWithoutSkills = _createChallenge('challengeRecordIdNine', competenceFlipper.id, [], null);
-  const archivedChallengeForSkillCitation4 = _createChallenge('challengeRecordIdTen', competenceFlipper.id, [skillCitation4], '@citation4', 'archive');
-  const oldChallengeWithAlreadyValidatedSkill = _createChallenge('challengeRecordIdEleven', competenceFlipper.id, [skillWithoutChallenge], '@oldSkill8', 'proposé');
+  const anotherChallengeForSkillCitation4 = _createChallenge('challengeRecordIdTen', competenceFlipper.id, [skillCitation4], '@citation4');
   const challengeForSkillSearch1 = _createChallenge('challenge_url1', competenceFlipper.id, [skillSearch1], '@search1');
   const challenge2ForSkillSearch1 = _createChallenge('challenge_bis_url1', competenceFlipper.id, [skillSearch1], '@search1');
 
@@ -81,7 +80,7 @@ describe('Integration | Service | User Service', function() {
   beforeEach(() => {
     sinon.stub(challengeRepository, 'findOperative').resolves([
       challengeForSkillCitation4,
-      archivedChallengeForSkillCitation4,
+      anotherChallengeForSkillCitation4,
       challengeForSkillCitation4AndMoteur3,
       challengeForSkillCollaborer4,
       challengeForSkillRecherche4,
@@ -90,7 +89,6 @@ describe('Integration | Service | User Service', function() {
       challengeForSkillUrl3,
       challengeForSkillWeb1,
       challengeRecordWithoutSkills,
-      oldChallengeWithAlreadyValidatedSkill,
       challengeForSkillRequin5,
       challengeForSkillRequin8,
     ]);
@@ -446,7 +444,7 @@ describe('Integration | Service | User Service', function() {
 
     context('when three challenges validate the same skill', () => {
 
-      it('should select the unanswered challenge which is published', async () => {
+      it('should select an unanswered challenge', async () => {
         // given
         certificationProfile.userCompetences = [userCompetence1];
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdOne']);
@@ -461,6 +459,12 @@ describe('Integration | Service | User Service', function() {
             skills: [skillCitation4],
             challenges: [challengeForSkillCitation4AndMoteur3],
           }]);
+        const selectedChallenges = actualCertificationProfile.userCompetences[0].challenges;
+        const challengeForSkill = _.find(selectedChallenges, (selectedChallenge) => {
+          return _.includes(selectedChallenge.skills, skillCitation4);
+        });
+        expect(challengeForSkill).to.exist;
+        expect(challengeForSkill.name).to.not.equal('challengeRecordIdOne');
       });
 
       it('should select a challenge for every skill', async () => {
@@ -476,9 +480,15 @@ describe('Integration | Service | User Service', function() {
           {
             ...certificationProfile.userCompetences[0],
             skills: [skillCitation4, skillRecherche4, skillMoteur3],
-            challenges: [challengeForSkillCitation4, challengeForSkillRecherche4, challengeForSkillCitation4AndMoteur3]
           },
         ]);
+        const selectedChallenges = actualCertificationProfile.userCompetences[0].challenges;
+        for (const skill of [skillCitation4, skillRecherche4, skillMoteur3]) {
+          const challengeForSkill = _.find(selectedChallenges, (selectedChallenge) => {
+            return _.includes(selectedChallenge.skills, skill);
+          });
+          expect(challengeForSkill).to.exist;
+        }
       });
     });
 
