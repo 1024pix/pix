@@ -3,9 +3,10 @@ const scoringService = require('./scoring/scoring-service');
 
 module.exports = async function getCompetenceLevel({
   userId,
-  competenceId
+  competenceId,
+  domainTransaction
 }) {
-  const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({ userId, competenceId });
+  const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({ userId, competenceId, domainTransaction });
   const { currentLevel } = scoringService.calculateScoringInformationForCompetence({ knowledgeElements });
   return currentLevel;
 };
