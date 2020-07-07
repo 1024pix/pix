@@ -12,7 +12,7 @@ module.exports = {
     const organizationInvitationId = request.params.id;
     const { code, email } = request.payload.data.attributes;
 
-    await usecases.answerToOrganizationInvitation({ organizationInvitationId, code, email });
+    await usecases.acceptOrganizationInvitation({ organizationInvitationId, code, email });
     return null;
   },
 

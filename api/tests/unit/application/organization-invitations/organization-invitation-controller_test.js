@@ -26,18 +26,18 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
         }
       };
 
-      sinon.stub(usecases, 'answerToOrganizationInvitation');
+      sinon.stub(usecases, 'acceptOrganizationInvitation');
     });
 
     it('should call the usecase to accept invitation with organizationInvitationId and code', async () => {
       // given
-      usecases.answerToOrganizationInvitation.resolves();
+      usecases.acceptOrganizationInvitation.resolves();
 
       // when
       await organizationInvitationController.acceptOrganizationInvitation(request);
 
       // then
-      expect(usecases.answerToOrganizationInvitation).to.have.been.calledWith({
+      expect(usecases.acceptOrganizationInvitation).to.have.been.calledWith({
         organizationInvitationId, code, email });
     });
   });

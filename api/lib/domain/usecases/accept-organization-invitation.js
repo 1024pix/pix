@@ -5,7 +5,7 @@ function getOrganizationRole({ hasMembers, invitationRole }) {
   return invitationRole || (hasMembers ? roles.MEMBER : roles.ADMIN);
 }
 
-module.exports = async function answerToOrganizationInvitation({
+module.exports = async function acceptOrganizationInvitation({
   organizationInvitationId, code, email,
   userRepository, membershipRepository, organizationInvitationRepository
 }) {
