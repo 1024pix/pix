@@ -68,9 +68,11 @@ export default class CurrentUserService extends Service {
     const organization = await membership.organization;
     const isAdminInOrganization = membership.isAdmin;
     const isSCOManagingStudents = organization.isSco && organization.isManagingStudents;
+    const isSUPManagingStudents = organization.isSup && organization.isManagingStudents;
 
     this.set('organization', organization);
     this.set('isAdminInOrganization', isAdminInOrganization);
     this.set('isSCOManagingStudents', isSCOManagingStudents);
+    this.set('isSUPManagingStudents', isSUPManagingStudents);
   }
 }
