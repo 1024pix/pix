@@ -1,12 +1,5 @@
-/* eslint ember/no-classic-components: 0 */
-/* eslint ember/require-computed-property-dependencies: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
-import { computed } from '@ember/object';
-import { equal } from '@ember/object/computed';
 import resultIconUrl from 'mon-pix/utils/result-icon-url';
-import Component from '@ember/component';
-import classic from 'ember-classic-decorator';
+import Component from '@glimmer/component';
 
 const TEXT_FOR_RESULT = {
   ok: {
@@ -58,41 +51,42 @@ const TEXT_FOR_RESULT = {
   }
 };
 
-@classic
 export default class ComparisonWindow extends Component {
-  answer = null;
-  index = null;
+  get isAssessmentChallengeTypeQroc() {
+    return this.args.answer.challenge.get('type') === 'QROC';
+  }
 
-  @equal('answer.challenge.type', 'QROC')
-  isAssessmentChallengeTypeQroc;
+  get isAssessmentChallengeTypeQcm() {
+    return this.args.answer.challenge.get('type') === 'QCM';
+  }
 
-  @equal('answer.challenge.type', 'QCM')
-  isAssessmentChallengeTypeQcm;
+  get isAssessmentChallengeTypeQcu() {
+    return this.args.answer.challenge.get('type') === 'QCU';
+  }
 
-  @equal('answer.challenge.type', 'QCU')
-  isAssessmentChallengeTypeQcu;
+  get isAssessmentChallengeTypeQrocm() {
+    return this.args.answer.challenge.get('type') === 'QROCM';
+  }
 
-  @equal('answer.challenge.type', 'QROCM')
-  isAssessmentChallengeTypeQrocm;
+  get isAssessmentChallengeTypeQrocmInd() {
+    return this.args.answer.challenge.get('type') === 'QROCM-ind';
+  }
 
-  @equal('answer.challenge.type', 'QROCM-ind')
-  isAssessmentChallengeTypeQrocmInd;
+  get isAssessmentChallengeTypeQrocmDep() {
+    return this.args.answer.challenge.get('type') === 'QROCM-dep';
+  }
 
-  @equal('answer.challenge.type', 'QROCM-dep')
-  isAssessmentChallengeTypeQrocmDep;
+  get isAutoReply() {
+    return this.args.answer.challenge.get('autoReply');
+  }
 
-  @equal('answer.challenge.autoReply', true)
-  isAutoReply;
-
-  @computed('answer.challenge.autoReply')
   get answerSuffix() {
     return this.isAutoReply ? 'AutoReply' : '';
   }
 
-  @computed('answer.result')
   get resultItem() {
     let resultItem = TEXT_FOR_RESULT['default'];
-    const answerStatus = `${this.answer.result}${this.answerSuffix}`;
+    const answerStatus = `${this.args.answer.result}${this.answerSuffix}`;
 
     if (answerStatus && (answerStatus in TEXT_FOR_RESULT)) {
       resultItem = TEXT_FOR_RESULT[answerStatus];
@@ -100,7 +94,6 @@ export default class ComparisonWindow extends Component {
     return resultItem;
   }
 
-  @computed('resultItem')
   get resultItemIcon() {
     return resultIconUrl(this.resultItem.status);
   }
