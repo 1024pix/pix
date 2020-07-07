@@ -4,17 +4,24 @@ import classic from 'ember-classic-decorator';
 
 @classic
 class ChallengeItemQroc extends ChallengeItemGeneric {
+
+  autoReplyAnswer = '';
+
   _hasError() {
     return this._getAnswerValue().length < 1;
   }
 
   // FIXME refactor that
   _getAnswerValue() {
-    return (this.$('[data-uid="qroc-proposal-uid"]')).val();
+    return this.showProposal ? (document.querySelector('[data-uid="qroc-proposal-uid"]')).value : this.autoReplyAnswer;
   }
 
   _getErrorMessage() {
-    return 'Pour valider, saisir une réponse. Sinon, passer.';
+    return 'Jouer l\'épreuve pour valider. Sinon, passer.';
+  }
+
+  get showProposal() {
+    return !this.challenge.autoReply;
   }
 
   @action

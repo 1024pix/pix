@@ -17,6 +17,30 @@ describe('Acceptance | Displaying a QROC challenge', () => {
       qrocChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROC');
     });
 
+    describe('When challenge is an auto validated embed (autoReply=true)', () => {
+      beforeEach(async () => {
+        const qrocChallengeWithAutoReply = server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withAutoReply');
+        // when
+        await visit(`/assessments/${assessment.id}/challenges/${qrocChallengeWithAutoReply.id}`);
+      });
+
+      it('should render challenge information and question', () => {
+        // then
+        expect(find('.challenge-response__proposal')).to.not.exist;
+      });
+
+      it('should display the alert box when user validates', async () => {
+        // when
+        expect(find('.alert')).to.not.exist;
+        await click(find('.challenge-actions__action-validate'));
+
+        // then
+        expect(find('.alert')).to.exist;
+        expect(find('.alert').textContent.trim()).to.equal('Jouer l\'épreuve pour valider. Sinon, passer.');
+      });
+
+    });
+
     describe('When challenge is not already answered', () => {
       beforeEach(async () => {
         // when
@@ -42,7 +66,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
         // then
         expect(find('.alert')).to.exist;
-        expect(find('.alert').textContent.trim()).to.equal('Pour valider, saisir une réponse. Sinon, passer.');
+        expect(find('.alert').textContent.trim()).to.equal('Jouer l\'épreuve pour valider. Sinon, passer.');
       });
 
       it('should hide the alert error after the user interact with input text', async () => {
@@ -110,7 +134,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
           value: 'Banane',
           result: 'ko',
           assessmentId: assessment.id,
-          challengeId :qrocChallenge.id,
+          challengeId: qrocChallenge.id,
           correction
         });
 
@@ -217,7 +241,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
         // then
         expect(find('.alert')).to.exist;
-        expect(find('.alert').textContent.trim()).to.equal('Pour valider, saisir une réponse. Sinon, passer.');
+        expect(find('.alert').textContent.trim()).to.equal('Jouer l\'épreuve pour valider. Sinon, passer.');
       });
 
       it('should hide the alert error after the user interact with input text', async () => {
@@ -285,7 +309,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
           value: 'Banane',
           result: 'ko',
           assessmentId: assessment.id,
-          challengeId :qrocChallenge.id,
+          challengeId: qrocChallenge.id,
           correction
         });
 
