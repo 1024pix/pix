@@ -82,9 +82,9 @@ describe('Integration | Component | comparison-window', function() {
       expect(find('.comparison-window__corrected-answers--qroc')).to.not.exist;
     });
 
-    it('should render corrected answers when challenge type is QROC', async function() {
+    it('should render corrected answers when challenge type is QROC and challenge is not autoReply', async function() {
       // given
-      challenge = EmberObject.create({ type: 'QROC' });
+      challenge = EmberObject.create({ type: 'QROC', autoReply: false });
       answer.set('challenge', challenge);
 
       // when
@@ -92,6 +92,16 @@ describe('Integration | Component | comparison-window', function() {
 
       // then
       expect(find('.comparison-window__corrected-answers--qroc')).to.exist;
+    });
+
+    it('should not render corrected answers when challenge type is QROC and challenge is autoReply', async function() {
+      // given
+      challenge = EmberObject.create({ type: 'QROC', autoReply: true });
+      answer.set('challenge', challenge);
+      // when
+      await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+      // then
+      expect(find('.qcm-solution-panel')).to.not.exist;
     });
 
     it('should render corrected answers when challenge type is QROCM-ind', async function() {

@@ -41,7 +41,7 @@
             <QcuSolutionPanel @challenge={{answer.challenge}} @answer={{answer}} @solution={{answer.correction.solution}} />
           {{/if}}
 
-          {{#if isAssessmentChallengeTypeQroc}}
+          {{#if (and isAssessmentChallengeTypeQroc (not isAutoReply))}}
             <div class="comparison-window__corrected-answers--qroc">
               <QrocSolutionPanel @answer={{answer}} @solution={{answer.correction.solution}} />
             </div>
