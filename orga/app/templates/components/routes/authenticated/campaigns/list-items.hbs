@@ -12,11 +12,11 @@
           </tr>
           <tr>
             <th>
-              <SearchInput 
-                class="table__input" 
-                @inputName="campaignName" 
-                @value={{@campaignName}} 
-                @placeholder="Rechercher une campagne" 
+              <SearchInput
+                class="table__input"
+                @inputName="campaignName"
+                @value={{@campaignName}}
+                @placeholder="Rechercher une campagne"
                 @filterFunction={{fn @triggerFiltering "name"}}
               />
             </th>
@@ -53,4 +53,4 @@
   </div>
 </div>
 
-<PaginationControl @pagination={{@campaigns.meta}} @paginationLink="authenticated.campaigns" />
+<PaginationControl @pagination={{@campaigns.meta}}/>
