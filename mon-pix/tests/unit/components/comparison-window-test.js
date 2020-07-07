@@ -243,5 +243,18 @@ describe('Unit | Component | comparison-window', function() {
       _assertResultItemTitle(resultItem, 'Vous avez réussi l’épreuve');
       _assertResultItemTooltip(resultItem, 'Épreuve réussie');
     });
+
+    it('should return adapted title and tooltip when result is "aband" and challenge is auto validated', function() {
+      // given
+      answer.set('result', 'aband');
+      answer.set('challenge', challengeQrocWithAutoReply);
+
+      // when
+      resultItem = component.resultItem;
+
+      // then
+      _assertResultItemTitle(resultItem, 'Vous avez passé l’épreuve');
+      _assertResultItemTooltip(resultItem, 'Épreuve passée');
+    });
   });
 });
