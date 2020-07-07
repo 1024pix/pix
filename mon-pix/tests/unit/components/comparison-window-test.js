@@ -19,7 +19,8 @@ describe('Unit | Component | comparison-window', function() {
   let answer;
   let resultItem;
 
-  const challengeQroc = { type: 'QROC' };
+  const challengeQroc = { type: 'QROC', autoReply: false };
+  const challengeQrocWithAutoReply = { type: 'QROC', autoReply: true };
   const challengeQcm = { type: 'QCM' };
   const challengeQrocmInd = { type: 'QROCM-ind' };
   const challengeQrocmDep = { type: 'QROCM-dep' };
@@ -213,6 +214,32 @@ describe('Unit | Component | comparison-window', function() {
       // then
       _assertResultItemTitle(resultItem, 'Vous avez dépassé le temps imparti');
       _assertResultItemTooltip(resultItem, 'Temps dépassé');
+    });
+
+    it('should return adapted title and tooltip when result is "ko" and challenge is auto validated', function() {
+      // given
+      answer.set('result', 'ko');
+      answer.set('challenge', challengeQrocWithAutoReply);
+
+      // when
+      resultItem = component.get('resultItem');
+
+      // then
+      _assertResultItemTitle(resultItem, 'Vous n’avez pas réussi l’épreuve');
+      _assertResultItemTooltip(resultItem, 'Épreuve non réussie');
+    });
+
+    it('should return adapted title and tooltip when result is "ok" and challenge is auto validated', function() {
+      // given
+      answer.set('result', 'ok');
+      answer.set('challenge', challengeQrocWithAutoReply);
+
+      // when
+      resultItem = component.get('resultItem');
+
+      // then
+      _assertResultItemTitle(resultItem, 'Vous avez réussi l’épreuve');
+      _assertResultItemTooltip(resultItem, 'Épreuve réussie');
     });
   });
 });
