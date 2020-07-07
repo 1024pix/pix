@@ -123,23 +123,20 @@ export default class CertificationInformationsController extends Controller {
 
   @action
   onCheckMarks() {
-    const markStore = this._markStore;
-    if (markStore.hasState()) {
-      const state = markStore.getState();
-      const certification = this.certification;
-      certification.pixScore = state.score;
-      const newCompetences = Object.keys(state.marks).reduce((competences, code) => {
-        const mark = state.marks[code];
-        competences.addObject({
-          competence_code: code,
-          level: mark.level,
-          score: mark.score,
-          area_code: code.substr(0, 1),
-          'competence-id': mark.competenceId,
+    if (this._markStore.hasState()) {
+      const state = this._markStore.getState();
+      this.certification.pixScore = state.score ;
+      const newCompetences = Object.entries(state.marks)
+        .map(([code, mark]) => {
+          return {
+            'competence-id': mark.competenceId,
+            competence_code: code,
+            area_code: code.substr(0, 1),
+            level: mark.level,
+            score: mark.score,
+          };
         });
-        return competences;
-      }, A());
-      certification.competencesWithMark = newCompetences;
+      this.certification.competencesWithMark = A(newCompetences);
       schedule('afterRender', this, () => {
         this.edition = true;
       });
