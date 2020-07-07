@@ -39,6 +39,18 @@ const TEXT_FOR_RESULT = {
     tooltip: 'Temps dépassé'
   },
 
+  okAutoReply: {
+    status: 'ok',
+    title: 'Vous avez réussi l’épreuve',
+    tooltip: 'Épreuve réussie'
+  },
+
+  koAutoReply: {
+    status: 'ko',
+    title: 'Vous n’avez pas réussi l’épreuve',
+    tooltip: 'Épreuve non réussie'
+  },
+
   default: {
     status: 'default',
     title: '',
@@ -69,10 +81,18 @@ export default class ComparisonWindow extends Component {
   @equal('answer.challenge.type', 'QROCM-dep')
   isAssessmentChallengeTypeQrocmDep;
 
+  @equal('answer.challenge.autoReply', true)
+  isAutoReply;
+
+  @computed('answer.challenge.autoReply')
+  get answerSuffix() {
+    return this.isAutoReply ? 'AutoReply' : '';
+  }
+
   @computed('answer.result')
   get resultItem() {
     let resultItem = TEXT_FOR_RESULT['default'];
-    const answerStatus = this.answer.result;
+    const answerStatus = `${this.answer.result}${this.answerSuffix}`;
 
     if (answerStatus && (answerStatus in TEXT_FOR_RESULT)) {
       resultItem = TEXT_FOR_RESULT[answerStatus];
