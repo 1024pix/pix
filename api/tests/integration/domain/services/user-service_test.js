@@ -33,13 +33,12 @@ describe('Integration | Service | User Service', function() {
     return competence;
   }
 
-  function _createChallenge(id, competence, skills, testedSkill, status = 'validé') {
+  function _createChallenge(id, competence, skills, testedSkill) {
     const challenge = new Challenge();
     challenge.id = id;
     challenge.skills = skills;
     challenge.competenceId = competence;
     challenge.testedSkill = testedSkill;
-    challenge.status = status;
     return challenge;
   }
 
@@ -451,20 +450,16 @@ describe('Integration | Service | User Service', function() {
 
         // when
         const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
+        const expectedSkills = [skillCitation4];
 
         // then
         expect(actualCertificationProfile.userCompetences).to.deep.equal([
           {
             ...certificationProfile.userCompetences[0],
-            skills: [skillCitation4],
-            challenges: [challengeForSkillCitation4AndMoteur3],
+            skills: expectedSkills,
           }]);
-        const selectedChallenges = actualCertificationProfile.userCompetences[0].challenges;
-        const challengeForSkill = _.find(selectedChallenges, (selectedChallenge) => {
-          return _.includes(selectedChallenge.skills, skillCitation4);
-        });
-        expect(challengeForSkill).to.exist;
-        expect(challengeForSkill.name).to.not.equal('challengeRecordIdOne');
+        const skillsForChallenges = _.uniq(_.flatMap(actualCertificationProfile.userCompetences[0].challenges, 'skills'));
+        expect(skillsForChallenges).to.deep.include.members(expectedSkills);
       });
 
       it('should select a challenge for every skill', async () => {
@@ -474,21 +469,39 @@ describe('Integration | Service | User Service', function() {
 
         // when
         const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
+        const expectedSkills = [skillCitation4, skillRecherche4, skillMoteur3];
 
         // then
         expect(actualCertificationProfile.userCompetences).to.deep.equal([
           {
             ...certificationProfile.userCompetences[0],
-            skills: [skillCitation4, skillRecherche4, skillMoteur3],
+            skills: expectedSkills,
           },
         ]);
-        const selectedChallenges = actualCertificationProfile.userCompetences[0].challenges;
-        for (const skill of [skillCitation4, skillRecherche4, skillMoteur3]) {
-          const challengeForSkill = _.find(selectedChallenges, (selectedChallenge) => {
-            return _.includes(selectedChallenge.skills, skill);
-          });
-          expect(challengeForSkill).to.exist;
-        }
+
+        const skillsForChallenges = _.uniq(_.flatMap(actualCertificationProfile.userCompetences[0].challenges, 'skills'));
+        expect(skillsForChallenges).to.deep.include.members(expectedSkills);
+      });
+
+      it('should return at most one challenge per skill', async () => {
+        // given
+        certificationProfile.userCompetences = [userCompetence1];
+        answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFour', 'challengeRecordIdTwo']);
+
+        // when
+        const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
+        const expectedSkills = [skillCitation4, skillRecherche4, skillMoteur3];
+
+        // then
+        expect(actualCertificationProfile.userCompetences).to.deep.equal([
+          {
+            ...certificationProfile.userCompetences[0],
+            skills: expectedSkills,
+          },
+        ]);
+
+        const skillsForChallenges = _.uniq(_.flatMap(actualCertificationProfile.userCompetences[0].challenges, 'skills'));
+        expect(skillsForChallenges.length).to.equal(expectedSkills.length);
       });
     });
 
