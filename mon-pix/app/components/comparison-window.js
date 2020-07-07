@@ -17,13 +17,13 @@ const TEXT_FOR_RESULT = {
 
   ko: {
     status: 'ko',
-    title: 'Vous n\'avez pas la bonne réponse',
+    title: 'Vous n’avez pas la bonne réponse',
     tooltip: 'Réponse incorrecte'
   },
 
   aband: {
     status: 'aband',
-    title: 'Vous n\'avez pas donné de réponse',
+    title: 'Vous n’avez pas donné de réponse',
     tooltip: 'Sans réponse'
   },
 
@@ -105,3 +105,4 @@ export default class ComparisonWindow extends Component {
     return resultIconUrl(this.resultItem.status);
   }
 }
+

@@ -136,7 +136,7 @@ describe('Acceptance | Displaying a QCM challenge', () => {
       await click('.result-item__correction-button');
 
       // then
-      expect(find('.comparison-window__title-text').textContent.trim()).to.equal('Vous n\'avez pas la bonne réponse');
+      expect(find('.comparison-window__title-text').textContent.trim()).to.equal('Vous n’avez pas la bonne réponse');
       expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qcmChallenge.instruction);
 
       const goodAnswer = findAll('.qcm-proposal-label__oracle')[0];
