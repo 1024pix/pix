@@ -20,7 +20,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(usecases, 'findPaginatedFilteredOrganizationMemberships');
     sandbox.stub(usecases, 'findPaginatedFilteredSchoolingRegistrations');
     sandbox.stub(usecases, 'createOrganizationInvitations');
-    sandbox.stub(usecases, 'answerToOrganizationInvitation');
+    sandbox.stub(usecases, 'acceptOrganizationInvitation');
     sandbox.stub(usecases, 'findPendingOrganizationInvitations');
     sandbox.stub(usecases, 'attachTargetProfilesToOrganization');
 

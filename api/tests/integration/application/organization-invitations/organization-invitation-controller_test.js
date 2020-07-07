@@ -16,7 +16,7 @@ describe('Integration | Application | Organization-invitations | organization-in
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    sandbox.stub(usecases, 'answerToOrganizationInvitation');
+    sandbox.stub(usecases, 'acceptOrganizationInvitation');
     sandbox.stub(usecases, 'sendScoInvitation');
     sandbox.stub(scoOrganizationInvitationSerializer, 'serialize');
 
@@ -27,7 +27,7 @@ describe('Integration | Application | Organization-invitations | organization-in
     sandbox.restore();
   });
 
-  describe('#answerToOrganizationInvitation', () => {
+  describe('#acceptOrganizationInvitation', () => {
 
     const status = OrganizationInvitation.StatusType.ACCEPTED;
     const temporaryKey = 'temporaryKey';
@@ -46,7 +46,7 @@ describe('Integration | Application | Organization-invitations | organization-in
 
       it('should return an HTTP response with status code 204', async () => {
         // given
-        usecases.answerToOrganizationInvitation.resolves();
+        usecases.acceptOrganizationInvitation.resolves();
 
         // when
         const response = await httpTestServer.request('POST', '/api/organization-invitations/1/response', payload);
@@ -60,7 +60,7 @@ describe('Integration | Application | Organization-invitations | organization-in
 
       it('should respond an HTTP response with status code 412 when AlreadyExistingOrganizationInvitationError', async () => {
         // given
-        usecases.answerToOrganizationInvitation.rejects(new AlreadyExistingOrganizationInvitationError());
+        usecases.acceptOrganizationInvitation.rejects(new AlreadyExistingOrganizationInvitationError());
 
         // when
         const response = await httpTestServer.request('POST', '/api/organization-invitations/1/response', payload);
@@ -71,7 +71,7 @@ describe('Integration | Application | Organization-invitations | organization-in
 
       it('should respond an HTTP response with status code 404 when NotFoundError', async () => {
         // given
-        usecases.answerToOrganizationInvitation.rejects(new NotFoundError());
+        usecases.acceptOrganizationInvitation.rejects(new NotFoundError());
 
         // when
         const response = await httpTestServer.request('POST', '/api/organization-invitations/1/response', payload);
@@ -82,7 +82,7 @@ describe('Integration | Application | Organization-invitations | organization-in
 
       it('should respond an HTTP response with status code 404 when UserNotFoundError', async () => {
         // given
-        usecases.answerToOrganizationInvitation.rejects(new UserNotFoundError());
+        usecases.acceptOrganizationInvitation.rejects(new UserNotFoundError());
 
         // when
         const response = await httpTestServer.request('POST', '/api/organization-invitations/1/response', payload);

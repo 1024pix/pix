@@ -1,10 +1,10 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const answerToOrganizationInvitation = require('../../../../lib/domain/usecases/answer-to-organization-invitation');
+const acceptOrganizationInvitation = require('../../../../lib/domain/usecases/accept-organization-invitation');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const Membership = require('../../../../lib/domain/models/Membership');
 const { NotFoundError, AlreadyExistingOrganizationInvitationError, AlreadyExistingMembershipError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | answer-to-organization-invitation', () => {
+describe('Unit | UseCase | accept-organization-invitation', () => {
 
   let userRepository;
   let membershipRepository;
@@ -32,7 +32,7 @@ describe('Unit | UseCase | answer-to-organization-invitation', () => {
       organizationInvitationRepository.getByIdAndCode.rejects(new NotFoundError());
 
       // when
-      const error = await catchErr(answerToOrganizationInvitation)({
+      const error = await catchErr(acceptOrganizationInvitation)({
         organizationInvitationId: 1,
         code: 'codeNotExist',
         organizationInvitationRepository
@@ -52,7 +52,7 @@ describe('Unit | UseCase | answer-to-organization-invitation', () => {
       organizationInvitationRepository.getByIdAndCode.resolves(organizationInvitation);
 
       // when
-      const err = await catchErr(answerToOrganizationInvitation)({
+      const err = await catchErr(acceptOrganizationInvitation)({
         organizationInvitationId: organizationInvitation.id,
         organizationInvitationRepository
       });
@@ -64,25 +64,30 @@ describe('Unit | UseCase | answer-to-organization-invitation', () => {
 
   context('when invitation is not accepted yet', () => {
 
-    context('when the user is the first to join the organization', () => {
+    const email = 'random@email.com';
+    let pendingOrganizationInvitation;
+    let userToInvite;
+
+    beforeEach(() => {
+      pendingOrganizationInvitation = domainBuilder.buildOrganizationInvitation({
+        status: OrganizationInvitation.StatusType.PENDING
+      });
+      organizationInvitationRepository.getByIdAndCode.resolves(pendingOrganizationInvitation);
+
+      userToInvite = domainBuilder.buildUser({ email });
+      userRepository.findByEmail.resolves(userToInvite);
+    });
+
+    context('when the user is the first one to join the organization', () => {
 
       it('should create a membership with ADMIN role', async () => {
         // given
-        const email = 'random@email.com';
-        const organizationInvitationPending = domainBuilder.buildOrganizationInvitation({
-          status: OrganizationInvitation.StatusType.PENDING
-        });
-        const { id: organizationInvitationId, organizationId, code } = organizationInvitationPending;
-        organizationInvitationRepository.getByIdAndCode.resolves(organizationInvitationPending);
-
-        const userToInvite = domainBuilder.buildUser({ email });
-        userRepository.findByEmail.resolves(userToInvite);
+        const { id: organizationInvitationId, organizationId, code } = pendingOrganizationInvitation;
         membershipRepository.findByOrganizationId.resolves([]);
 
-        const organizationRole = Membership.roles.ADMIN;
-
         // when
-        await answerToOrganizationInvitation({
+        // when
+        await acceptOrganizationInvitation({
           organizationInvitationId, code, email,
           userRepository, membershipRepository, organizationInvitationRepository
         });
@@ -90,30 +95,20 @@ describe('Unit | UseCase | answer-to-organization-invitation', () => {
         // then
         expect(userRepository.findByEmail).to.have.been.calledWith(email);
         expect(membershipRepository.findByOrganizationId).to.have.been.calledWith({ organizationId });
-        expect(membershipRepository.create).to.have.been.calledWith(userToInvite.id, organizationId, organizationRole);
+        expect(membershipRepository.create).to.have.been.calledWith(userToInvite.id, organizationId, Membership.roles.ADMIN);
         expect(organizationInvitationRepository.markAsAccepted).to.have.been.calledWith(organizationInvitationId);
       });
     });
 
-    context('when the user is not the first to join the organization', () => {
+    context('when the user is not the first one to join the organization', () => {
 
       it('should create a membership with MEMBER role', async () => {
         // given
-        const email = 'random@email.com';
-        const organizationInvitationPending = domainBuilder.buildOrganizationInvitation({
-          status: OrganizationInvitation.StatusType.PENDING
-        });
-        const { id: organizationInvitationId, organizationId, code } = organizationInvitationPending;
-        organizationInvitationRepository.getByIdAndCode.resolves(organizationInvitationPending);
-
-        const userToInvite = domainBuilder.buildUser({ email });
-        userRepository.findByEmail.resolves(userToInvite);
+        const { id: organizationInvitationId, organizationId, code } = pendingOrganizationInvitation;
         membershipRepository.findByOrganizationId.resolves([{ user: { id: 2 } }]);
 
-        const organizationRole = Membership.roles.MEMBER;
-
         // when
-        await answerToOrganizationInvitation({
+        await acceptOrganizationInvitation({
           organizationInvitationId, code, email,
           userRepository, membershipRepository, organizationInvitationRepository
         });
@@ -121,7 +116,7 @@ describe('Unit | UseCase | answer-to-organization-invitation', () => {
         // then
         expect(userRepository.findByEmail).to.have.been.calledWith(email);
         expect(membershipRepository.findByOrganizationId).to.have.been.calledWith({ organizationId });
-        expect(membershipRepository.create).to.have.been.calledWith(userToInvite.id, organizationId, organizationRole);
+        expect(membershipRepository.create).to.have.been.calledWith(userToInvite.id, organizationId, Membership.roles.MEMBER);
         expect(organizationInvitationRepository.markAsAccepted).to.have.been.calledWith(organizationInvitationId);
       });
     });
@@ -130,20 +125,12 @@ describe('Unit | UseCase | answer-to-organization-invitation', () => {
 
       it('should create a membership according to the invitation role', async () => {
         // given
-        const email = 'random@email.com';
-        const organizationInvitationPending = domainBuilder.buildOrganizationInvitation({
-          status: OrganizationInvitation.StatusType.PENDING,
-          role: Membership.roles.ADMIN,
-        });
-        const { id: organizationInvitationId, organizationId, code, role } = organizationInvitationPending;
-        organizationInvitationRepository.getByIdAndCode.resolves(organizationInvitationPending);
-
-        const userToInvite = domainBuilder.buildUser({ email });
-        userRepository.findByEmail.resolves(userToInvite);
-        membershipRepository.findByOrganizationId.resolves([]);
+        pendingOrganizationInvitation.role = Membership.roles.ADMIN;
+        const { id: organizationInvitationId, organizationId, code, role } = pendingOrganizationInvitation;
+        membershipRepository.findByOrganizationId.resolves([{ user: { id: 3 } }]);
 
         // when
-        await answerToOrganizationInvitation({
+        await acceptOrganizationInvitation({
           organizationInvitationId, code, email,
           userRepository, membershipRepository, organizationInvitationRepository
         });
@@ -159,22 +146,19 @@ describe('Unit | UseCase | answer-to-organization-invitation', () => {
 
     context('when user already belongs to organization', () => {
 
+      let membership;
+
+      beforeEach(() => {
+        membership = domainBuilder.buildMembership({ user : userToInvite, organizationRole: Membership.roles.MEMBER });
+        membershipRepository.findByOrganizationId.resolves([ membership ]);
+      });
+
       it('should throw an AlreadyExistingMembershipError', async () => {
-
         // given
-        const email = 'random@email.com';
-        const organizationInvitationPending = domainBuilder.buildOrganizationInvitation({
-          status: OrganizationInvitation.StatusType.PENDING
-        });
-        const { id: organizationInvitationId, code } = organizationInvitationPending;
-        organizationInvitationRepository.getByIdAndCode.resolves(organizationInvitationPending);
-
-        const userToInvite = domainBuilder.buildUser({ email });
-        userRepository.findByEmail.resolves(userToInvite);
-        membershipRepository.findByOrganizationId.resolves([{ user: { id: userToInvite.id } }]);
+        const { id: organizationInvitationId, code } = pendingOrganizationInvitation;
 
         // when
-        const err = await catchErr(answerToOrganizationInvitation)({
+        const err = await catchErr(acceptOrganizationInvitation)({
           organizationInvitationId, code, email,
           userRepository, membershipRepository, organizationInvitationRepository
         });
@@ -187,22 +171,12 @@ describe('Unit | UseCase | answer-to-organization-invitation', () => {
 
         it('should update a membership according to the invitation role', async () => {
           // given
-          const email = 'random@example.net';
-          const userToInvite = domainBuilder.buildUser({ email });
-          userRepository.findByEmail.resolves(userToInvite);
-          const membership = domainBuilder.buildMembership({ user : userToInvite, organizationRole: Membership.roles.MEMBER });
-          membershipRepository.findByOrganizationId.resolves([ membership ]);
-
-          const organizationInvitationPending = domainBuilder.buildOrganizationInvitation({
-            status: OrganizationInvitation.StatusType.PENDING,
-            role: Membership.roles.ADMIN,
-          });
-          const { id: organizationInvitationId, organizationId, code } = organizationInvitationPending;
-          organizationInvitationRepository.getByIdAndCode.resolves(organizationInvitationPending);
-          membershipRepository.updateById.resolves({ organizationRole: organizationInvitationPending.role, ...membership });
+          pendingOrganizationInvitation.role = Membership.roles.ADMIN;
+          const { id: organizationInvitationId, organizationId, code } = pendingOrganizationInvitation;
+          membershipRepository.updateById.resolves({ organizationRole: pendingOrganizationInvitation.role, ...membership });
 
           // when
-          await answerToOrganizationInvitation({
+          await acceptOrganizationInvitation({
             organizationInvitationId, code, email,
             userRepository, membershipRepository, organizationInvitationRepository
           });
@@ -210,12 +184,10 @@ describe('Unit | UseCase | answer-to-organization-invitation', () => {
           // then
           expect(userRepository.findByEmail).to.have.been.calledWith(email);
           expect(membershipRepository.findByOrganizationId).to.have.been.calledWith({ organizationId });
-          expect(membershipRepository.updateById).to.have.been.calledWith({ id: membership.id, membershipAttributes: { organizationRole: organizationInvitationPending.role } });
+          expect(membershipRepository.updateById).to.have.been.calledWith({ id: membership.id, membershipAttributes: { organizationRole: pendingOrganizationInvitation.role } });
           expect(organizationInvitationRepository.markAsAccepted).to.have.been.calledWith(organizationInvitationId);
         });
-
       });
     });
   });
-
 });
