@@ -234,5 +234,53 @@ describe('Unit | Service | MailService', () => {
     });
   });
 
+  describe('#sendOrganizationInvitationScoEmail', () => {
+
+    const fromName = 'Pix Orga - Ne pas répondre';
+
+    const subject = 'Accès à votre espace Pix Orga';
+    const template = 'test-organization-invitation-sco-demand-template-id';
+
+    const organizationName = 'Organization SCO';
+    const firstName = 'FirstName';
+    const lastName = 'LastName';
+    const pixHomeName = 'pix.fr';
+    const pixHomeUrl = 'https://pix.fr';
+    const pixOrgaUrl = 'https://orga.pix.fr';
+    const organizationInvitationId = 1;
+    const code = 'ABCDEFGH01';
+
+    it('should call mail provider with pix-orga url, organization-invitation id, code and null tags', async () => {
+      // given
+      const expectedOptions = {
+        from: senderEmailAddress,
+        fromName,
+        to: userEmailAddress,
+        subject, template,
+        variables: {
+          organizationName,
+          firstName, lastName,
+          pixHomeName,
+          pixHomeUrl,
+          pixOrgaHomeUrl: pixOrgaUrl,
+          locale: 'fr-fr',
+          redirectionUrl: `${pixOrgaUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`
+        },
+        tags: null
+      };
+
+      // when
+      await mailService.sendOrganizationInvitationScoEmail({
+        email: userEmailAddress,
+        organizationName,
+        firstName, lastName,
+        organizationInvitationId, code
+      });
+
+      // then
+      expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
+    });
+  });
+
 });
 
