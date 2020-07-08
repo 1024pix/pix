@@ -4,9 +4,11 @@ import { setupRenderingTest } from 'ember-mocha';
 import { click, find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
+import setupIntl from '../../helpers/setup-intl';
 
 describe('Integration | Component | certifications list item', function() {
   setupRenderingTest();
+  setupIntl();
 
   let certification;
 
@@ -119,7 +121,7 @@ describe('Integration | Component | certifications list item', function() {
 
       it('should show Détail in last column', function() {
         expect(find('.certifications-list-item__cell-detail-button')).to.exist;
-        expect(find('.certifications-list-item__cell-detail-button').textContent).to.include('DÉTAIL');
+        expect(find('.certifications-list-item__cell-detail-button').textContent).to.include('détail');
       });
 
       it('should show comment for candidate panel when clicked on row', async function() {
@@ -167,7 +169,7 @@ describe('Integration | Component | certifications list item', function() {
 
     it('should show link to certification page in last column', function() {
       expect(find('.certifications-list-item__cell-detail-link')).to.exist;
-      expect(find('.certifications-list-item__cell-detail-link').textContent).to.include('RÉSULTATS');
+      expect(find('.certifications-list-item__cell-detail-link').textContent).to.include('résultats');
     });
   });
 });
