@@ -27,6 +27,29 @@
     "internal-server-error": "The service is temporarily unavailable. Please try again later."
   },
 
+  "certifications-list": {
+    "title": "Lorem ipsum",
+    "header": {
+      "date": "Lorem ipsum",
+      "status": "Lorem ipsum",
+      "score": "Lorem ipsum",
+      "certification-center": "Lorem ipsum"
+    },
+    "statuses": {
+      "success": {
+        "title": "Lorem ipsum",
+        "action": "Lorem ipsum"
+      },
+      "fail": {
+        "title": "Lorem ipsum",
+        "action": "Lorem ipsum"
+      },
+      "not-published": {
+        "title": "Lorem ipsum"
+      }
+    }
+  },
+
   "signin-form": {
     "actions": {
       "submit": "Sign in"
