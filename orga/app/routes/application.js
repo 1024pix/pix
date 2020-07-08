@@ -7,6 +7,7 @@ export default class ApplicationRoute extends Route.extend(ApplicationRouteMixin
   routeAfterAuthentication = 'authenticated';
 
   @service currentUser;
+  @service url;
 
   beforeModel() {
     return this._loadCurrentUser();
@@ -18,14 +19,20 @@ export default class ApplicationRoute extends Route.extend(ApplicationRouteMixin
   }
 
   sessionInvalidated() {
-    const alternativeRootURL = this.session.alternativeRootURL;
+    const redirectionUrl = this._redirectionUrl();
+    this._clearStateAndRedirect(redirectionUrl);
+  }
 
-    if (alternativeRootURL) {
-      this.session.alternativeRootURL = null;
-      window.location.replace(alternativeRootURL);
-    } else {
-      this.transitionTo('login');
-    }
+  _redirectionUrl() {
+
+    const alternativeRootURL = this.session.alternativeRootURL;
+    this.session.alternativeRootURL = null;
+
+    return alternativeRootURL ? alternativeRootURL : this.url.homeUrl;
+  }
+
+  _clearStateAndRedirect(url) {
+    return window.location.replace(url);
   }
 
   _loadCurrentUser() {
