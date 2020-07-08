@@ -1,12 +1,14 @@
 const _ = require('lodash');
 const { expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
-
 const { NotFoundError } = require('../../../../lib/domain/errors');
+const Membership = require('../../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const organizationInvitationRepository = require('../../../../lib/infrastructure/repositories/organization-invitation-repository');
 const BookshelfOrganizationInvitation = require('../../../../lib/infrastructure/data/organization-invitation');
 
 describe('Integration | Repository | OrganizationInvitationRepository', () => {
+
+  const role = Membership.roles.ADMIN;
 
   describe('#create', () => {
 
@@ -26,9 +28,8 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
       const email = 'member@organization.org';
       const status = OrganizationInvitation.StatusType.PENDING;
       const code = 'ABCDEFGH01';
-
       // when
-      const savedInvitation = await organizationInvitationRepository.create({ organizationId, email, code });
+      const savedInvitation = await organizationInvitationRepository.create({ organizationId, email, code, role });
 
       // then
       expect(savedInvitation).to.be.instanceof(OrganizationInvitation);
@@ -36,6 +37,8 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
       expect(savedInvitation.email).equal(email);
       expect(savedInvitation.status).equal(status);
       expect(savedInvitation.code).equal(code);
+      expect(savedInvitation.role).equal(role);
+
     });
   });
 
@@ -58,6 +61,7 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
       expect(foundOrganizationInvitation.email).to.equal(insertedOrganizationInvitation.email);
       expect(foundOrganizationInvitation.status).to.equal(insertedOrganizationInvitation.status);
       expect(foundOrganizationInvitation.code).to.equal(insertedOrganizationInvitation.code);
+
     });
 
     it('should return a rejection when organization-invitation id is not found', async () => {
@@ -94,6 +98,7 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
       expect(foundOrganizationInvitation.email).to.equal(insertedOrganizationInvitation.email);
       expect(foundOrganizationInvitation.status).to.equal(insertedOrganizationInvitation.status);
       expect(foundOrganizationInvitation.code).to.equal(insertedOrganizationInvitation.code);
+
     });
 
     it('should return a rejection when organization-invitation id and code are not found', async () => {
@@ -154,6 +159,7 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
       expect(organizationInvitationSaved.email).to.equal(organizationInvitation.email);
       expect(organizationInvitationSaved.status).to.equal(statusAccepted);
       expect(organizationInvitationSaved.code).to.equal(organizationInvitation.code);
+
     });
   });
 
@@ -173,10 +179,13 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
     });
 
     it('should retrieve one pending organization-invitation with given organizationId and email', async () => {
+
       const { organizationId, email } = organizationInvitation;
 
       // when
       const foundOrganizationInvitation = await organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail({ organizationId, email });
+      console.log(foundOrganizationInvitation);
+      console.log(organizationInvitation);
 
       // then
       expect(_.omit(foundOrganizationInvitation, 'organizationName')).to.deep.equal(organizationInvitation);
