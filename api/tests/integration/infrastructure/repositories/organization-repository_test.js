@@ -273,6 +273,38 @@ describe('Integration | Repository | Organization', function() {
     });
   });
 
+  describe('#findScoOrganizationByUai', () => {
+    let organizations;
+
+    beforeEach(async () => {
+      organizations = _.map([
+        { type: 'PRO', name: 'organization 1', externalId: '1234567', email: null },
+        { type: 'SCO', name: 'organization 2', externalId: '1234568', email: 'sco.generic.account@example.net' },
+        { type: 'SUP', name: 'organization 3', externalId: '1234569', email: null },
+      ], (organization) => {
+        return databaseBuilder.factory.buildOrganization(organization);
+      });
+
+      await databaseBuilder.commit();
+    });
+
+    it('should return external identifier and email for SCO organizations matching given UAI', async () => {
+      // given
+      const uai = '1234568';
+      const organizationSCO = organizations[1];
+
+      // when
+      const foundOrganization = await organizationRepository.findScoOrganizationByUai(uai);
+
+      // then
+      expect(foundOrganization).to.have.lengthOf(1);
+      expect(foundOrganization[0]).to.be.an.instanceof(Organization);
+      expect(foundOrganization[0].externalId).to.equal(organizationSCO.externalId);
+      expect(foundOrganization[0].type).to.equal(organizationSCO.type);
+      expect(foundOrganization[0].email).to.equal(organizationSCO.email);
+    });
+  });
+
   describe('#findPaginatedFiltered', () => {
 
     context('when there are Organizations in the database', () => {
