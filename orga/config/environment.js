@@ -29,8 +29,9 @@ module.exports = function(environment) {
     APP: {
       API_HOST: process.env.API_HOST || '',
       CAMPAIGNS_ROOT_URL: process.env.CAMPAIGNS_ROOT_URL,
-      PIX_APP_URL_WITHOUT_EXTENSION: process.env.PIX_APP_URL_WITHOUT_EXTENSION || 'https://app.pix.',
+      HOME_URL: process.env.HOME_URL,
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
+      PIX_APP_URL_WITHOUT_EXTENSION: process.env.PIX_APP_URL_WITHOUT_EXTENSION || 'https://app.pix.'
     },
 
     googleFonts: [
@@ -74,6 +75,7 @@ module.exports = function(environment) {
 
   if (environment === 'development') {
     ENV.APP.CAMPAIGNS_ROOT_URL = 'http://localhost:4200/campagnes/';
+    ENV.APP.HOME_URL = process.env.HOME_URL || '/';
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
     // ENV.APP.LOG_TRANSITIONS = true;
@@ -93,6 +95,8 @@ module.exports = function(environment) {
     // keep test console output quieter
     ENV.APP.LOG_ACTIVE_GENERATION = false;
     ENV.APP.LOG_VIEW_LOOKUPS = false;
+
+    ENV.APP.HOME_URL = '/';
 
     ENV.APP.rootElement = '#ember-testing';
     ENV.APP.autoboot = false;
