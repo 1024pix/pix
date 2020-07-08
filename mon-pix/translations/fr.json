@@ -71,6 +71,10 @@
     }
   },
 
+  "certification-banner": {
+    "certification-number": "N° de certification"
+  },
+
   "certification-joiner": {
     "congratulation-banner": {
       "message": "Bravo {fullName},'<br>'votre profil est certifiable."
