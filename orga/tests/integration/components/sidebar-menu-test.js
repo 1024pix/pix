@@ -34,7 +34,7 @@ module('Integration | Component | sidebar-menu', function(hooks) {
     await render(hbs`<SidebarMenu />`);
 
     // then
-    assert.dom('a[href="https://bit.ly/ressourcespixorga"]').exists();
+    assert.dom('a[href="https://cloud.pix.fr/s/rWcNFSgdnnNSdqF"]').exists();
   });
 
   test('it should not display documentation for a sco organization that does not managed students', async function(assert) {
