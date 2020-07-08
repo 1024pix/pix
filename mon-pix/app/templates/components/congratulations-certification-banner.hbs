@@ -2,5 +2,5 @@
   <button aria-label="Fermer" class="icon-button congratulations-banner__icon" {{on 'click' @closeBanner}}>
     {{fa-icon 'times'}}
   </button>
-  <p class="congratulations-banner__message">Bravo {{@fullName}},<br>votre profil est certifiable.</p>
+  <p class="congratulations-banner__message">{{t "certification-joiner.congratulation-banner.message" fullName=@fullName htmlSafe=true}}</p>
 </div>
