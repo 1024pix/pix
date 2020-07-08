@@ -1,4 +1,6 @@
 const Assessment = require('../models/Assessment');
+const { MAX_REACHABLE_LEVEL } = require('../constants');
+const { ImproveCompetenceEvaluationForbiddenError } = require('../errors');
 
 module.exports = async function improveCompetenceEvaluation({
   competenceEvaluationRepository,
@@ -9,7 +11,12 @@ module.exports = async function improveCompetenceEvaluation({
   domainTransaction
 }) {
   const competenceEvaluation = await competenceEvaluationRepository.getByCompetenceIdAndUserId({ userId, competenceId });
-  await getCompetenceLevel({ userId, competenceId });
+  const competenceLevel = await getCompetenceLevel({ userId, competenceId });
+
+  if (competenceLevel === MAX_REACHABLE_LEVEL) {
+    throw new ImproveCompetenceEvaluationForbiddenError();
+  }
+
   const assessment = new Assessment({
     userId,
     competenceId,

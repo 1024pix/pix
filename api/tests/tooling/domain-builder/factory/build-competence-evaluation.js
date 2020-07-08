@@ -20,7 +20,7 @@ module.exports = function buildCompetenceEvaluation(
     assessmentId = assessment.id;
   }
   if (assessmentId && !assessment) {
-    assessmentId = buildAssessment({ id: assessmentId });
+    assessment = buildAssessment({ id: assessmentId });
   }
   if (!assessmentId && !assessment) {
     assessment = buildAssessment();
