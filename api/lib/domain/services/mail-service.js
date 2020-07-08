@@ -100,7 +100,7 @@ function sendOrganizationInvitationEmail({
   });
 }
 
-function sendOrganizationInvitationScoEmail({
+function sendScoOrganizationInvitationEmail({
   email,
   organizationName,
   firstName, lastName,
@@ -147,6 +147,6 @@ function sendOrganizationInvitationScoEmail({
 module.exports = {
   sendAccountCreationEmail,
   sendOrganizationInvitationEmail,
-  sendOrganizationInvitationScoEmail,
+  sendScoOrganizationInvitationEmail,
   sendResetPasswordDemandEmail,
 };
