@@ -47,6 +47,13 @@ location /api/ {
   proxy_redirect default;
 }
 
+location /dl/ {
+  proxy_pass https://dl.airtable.com;
+  proxy_redirect default;
+
+  proxy_set_header Content-Disposition "attachment;";
+}
+
 <% end %>
 
 add_header X-Content-Type-Options "nosniff";
