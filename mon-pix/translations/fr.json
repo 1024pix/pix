@@ -37,7 +37,15 @@
     "exam-date": "Date de passage : ",
     "hexagon-score": {
       "certified": "certifiés"
-    }
+    },
+    "competences": {
+      "title": "Compétences certifiées ",
+      "sub-title": "(niveaux sur 5)",
+      "level": "niveau",
+      "informations": "Votre score certifié a été calculé en fonction de vos réponses lors du passage de la certification. Il peut donc différer du nombre de Pix affiché dans votre profil. Le jour de votre certification il était possible d’atteindre le niveau 5 des compétences et 640 pix au maximum."
+    },
+    "jury-title": "Observations du jury",
+    "clea-title": "Certifié Cléa"
   },
 
   "certifications-list": {
