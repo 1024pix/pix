@@ -19,7 +19,9 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
     describe('When challenge is an auto validated embed (autoReply=true)', () => {
       beforeEach(async () => {
-        const qrocChallengeWithAutoReply = server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withAutoReply');
+        // given
+        const qrocChallengeWithAutoReply = server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withAutoReply', 'withEmbed');
+
         // when
         await visit(`/assessments/${assessment.id}/challenges/${qrocChallengeWithAutoReply.id}`);
       });
@@ -29,7 +31,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         expect(find('.challenge-response__proposal')).to.not.exist;
       });
 
-      it('should display the alert box when user validates', async () => {
+      it('should display the alert box when user validates without successfully finishing the embed', async () => {
         // when
         expect(find('.alert')).to.not.exist;
         await click(find('.challenge-actions__action-validate'));
@@ -39,6 +41,39 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         expect(find('.alert').textContent.trim()).to.equal('Jouer l\'épreuve pour valider. Sinon, passer.');
       });
 
+      it('should go to the next challenge when user validates after finishing successfully the embed', async () => {
+        // when
+        const event = document.createEvent('Event');
+        event.initEvent('message', true, true);
+        event.data = 'custom answer from embed';
+        find('.embed__iframe').dispatchEvent(event);
+
+        // then
+        await click('.challenge-actions__action-validate');
+        expect(currentURL()).to.contains(`/assessments/${assessment.id}/challenges/${qrocChallenge.id}`);
+      });
+    });
+
+    describe('When challenge is an embed (without autoreply)', () => {
+      beforeEach(async () => {
+        // given
+        const qrocChallengeWithAutoReply = server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withEmbed');
+
+        // when
+        await visit(`/assessments/${assessment.id}/challenges/${qrocChallengeWithAutoReply.id}`);
+      });
+
+      it('should display the alert box when user validates without successfully answering', async () => {
+        // when
+        const event = document.createEvent('Event');
+        event.initEvent('message', true, true);
+        event.data = 'custom answer from embed';
+        find('.embed__iframe').dispatchEvent(event);
+
+        // then
+        await click('.challenge-actions__action-validate');
+        expect(find('.alert').textContent.trim()).to.equal('Jouer l\'épreuve pour valider. Sinon, passer.');
+      });
     });
 
     describe('When challenge is not already answered', () => {
