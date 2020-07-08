@@ -23,10 +23,6 @@ describe('Integration | Component | signin form', function() {
 
   describe('Rendering', async function() {
 
-    beforeEach(function() {
-      this.intl.setLocale('fr-fr');
-    });
-
     it('should display an input for identifiant field', async function() {
       // when
       await render(hbs`<SigninForm />`);

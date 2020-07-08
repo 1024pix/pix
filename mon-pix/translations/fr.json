@@ -71,6 +71,19 @@
     }
   },
 
+  "certification-joiner": {
+    "title": "Rejoindre une session",
+    "form": {
+      "action": {
+        "submit": "Continuer"
+      },
+      "session-number": "Numéro de session",
+      "first-name": "Prénom",
+      "birth-name": "Nom de naissance",
+      "birth-date": "Date de naissance"
+    }
+  },
+
   "signin-form": {
     "actions": {
       "submit": "Je me connecte"
