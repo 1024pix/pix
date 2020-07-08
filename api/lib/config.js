@@ -65,6 +65,7 @@ module.exports = (function() {
         templates: {
           accountCreationTemplateId: process.env.SENDINBLUE_ACCOUNT_CREATION_TEMPLATE_ID,
           organizationInvitationTemplateId: process.env.SENDINBLUE_ORGANIZATION_INVITATION_TEMPLATE_ID,
+          organizationInvitationScoTemplateId: process.env.SENDINBLUE_ORGANIZATION_INVITATION_SCO_TEMPLATE_ID,
           passwordResetTemplateId: process.env.SENDINBLUE_PASSWORD_RESET_TEMPLATE_ID
         },
       },
@@ -142,7 +143,7 @@ module.exports = (function() {
     config.domain.pixOrga = 'https://orga.pix';
 
     config.mailing.enabled = false;
-    config.mailing.provider = 'mailjet';
+    config.mailing.provider = 'sendinblue';
     config.mailing.mailjet.apiKey = 'test-api-key';
     config.mailing.mailjet.apiSecret = 'test-api-secret';
     config.mailing.mailjet.templates.accountCreationTemplateId = 'test-account-creation-template-id';
@@ -152,6 +153,7 @@ module.exports = (function() {
     config.mailing.sendinblue.apiKey = 'test-api-key';
     config.mailing.sendinblue.templates.accountCreationTemplateId = 'test-account-creation-template-id';
     config.mailing.sendinblue.templates.organizationInvitationTemplateId = 'test-organization-invitation-demand-template-id';
+    config.mailing.sendinblue.templates.organizationInvitationScoTemplateId = 'test-organization-invitation-sco-demand-template-id';
     config.mailing.sendinblue.templates.passwordResetTemplateId = 'test-password-reset-template-id';
 
     config.captcha.enabled = false;
