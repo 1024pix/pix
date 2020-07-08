@@ -16,6 +16,7 @@ describe('Unit | Domain | Models | OrganizationInvitation', () => {
         email: 'member@team.org',
         status: 'pending',
         code: 'ABCDEFGH01',
+        role: null,
         createdAt: today,
         updatedAt: today,
       };

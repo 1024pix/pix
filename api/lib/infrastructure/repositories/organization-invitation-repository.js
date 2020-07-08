@@ -26,9 +26,9 @@ function _checkNotFoundErrorWithCode({ error, id, code }) {
 
 module.exports = {
 
-  create({ organizationId, email, code }) {
+  create({ organizationId, email, code, role }) {
     const status = OrganizationInvitation.StatusType.PENDING;
-    return new BookshelfOrganizationInvitation({ organizationId, email, status, code })
+    return new BookshelfOrganizationInvitation({ organizationId, email, status, code, role })
       .save()
       .then(_toDomain);
   },

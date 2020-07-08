@@ -11,11 +11,13 @@ module.exports = function buildOrganizationInvitation(
     email,
     status = OrganizationInvitation.StatusType.PENDING,
     code = faker.random.alphaNumeric(10).toUpperCase(),
+    role,
     updatedAt = new Date(),
   } = {}) {
 
   organizationId = _.isUndefined(organizationId) ? buildOrganization().id : organizationId;
   email = _.isUndefined(email) ? faker.internet.exampleEmail().toLowerCase() : email.toLowerCase();
+  role = null;
 
   const values = {
     id,
@@ -23,6 +25,7 @@ module.exports = function buildOrganizationInvitation(
     email,
     status,
     code,
+    role,
     createdAt: new Date(),
     updatedAt,
   };
