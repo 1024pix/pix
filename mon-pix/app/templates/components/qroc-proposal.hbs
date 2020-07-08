@@ -1,50 +1,53 @@
-{{#each _blocks as |block|}}
+<div class="qroc-proposal">
+  {{#each this._blocks as |block|}}
 
-  {{#if block.text}}
-    <label for="qroc_input">{{block.text}}</label>
-  {{/if}}
-
-  {{#if block.input}}
-    {{#if (eq format 'paragraphe')}}
-      <textarea class="challenge-response__proposal challenge-response__proposal--paragraph"
-                rows="5"
-                id="qroc_input"
-                onkeydown={{action 'onInputChange'}}
-                name={{block.input}}
-                placeholder={{block.placeholder}}
-                autocomplete="off"
-                value="{{userAnswer}}"
-                data-uid="qroc-proposal-uid"
-                disabled={{if answer true}}>
-      </textarea>
-    {{else if (eq format 'phrase')}}
-      <input class="challenge-response__proposal challenge-response__proposal--sentence"
-             type="text"
-             id="qroc_input"
-             onkeydown={{action 'onInputChange'}}
-             name={{block.input}}
-             placeholder={{block.placeholder}}
-             autocomplete="off"
-             value="{{userAnswer}}"
-             data-uid="qroc-proposal-uid"
-             disabled={{if answer true}}>
-    {{else}}
-      <input class="challenge-response__proposal"
-             size="{{get-qroc-input-size format}}"
-             type="text"
-             id="qroc_input"
-             onkeydown={{action 'onInputChange'}}
-             name={{block.input}}
-             placeholder={{block.placeholder}}
-             autocomplete="off"
-             value="{{userAnswer}}"
-             data-uid="qroc-proposal-uid"
-             disabled={{if answer true}}>
+    {{#if block.text}}
+      <label for="qroc_input">{{block.text}}</label>
     {{/if}}
-  {{/if}}
 
-  {{#if block.breakline}}
-    <br>
-  {{/if}}
+    {{#if block.input}}
+      {{#if (eq @format 'paragraphe')}}
+        <textarea class="challenge-response__proposal challenge-response__proposal--paragraph"
+                  rows="5"
+                  id="qroc_input"
+                  {{on 'keydown' this.onInputChange}}
+                  name={{block.input}}
+                  placeholder={{block.placeholder}}
+                  autocomplete="off"
+                  value="{{this.userAnswer}}"
+                  data-uid="qroc-proposal-uid"
+                  disabled={{if @answer true}}>
+        </textarea>
+      {{else if (eq @format 'phrase')}}
+        <input class="challenge-response__proposal challenge-response__proposal--sentence"
+               type="text"
+               id="qroc_input"
+               {{on 'keydown' this.onInputChange}}
+               name={{block.input}}
+               placeholder={{block.placeholder}}
+               autocomplete="off"
+               value="{{this.userAnswer}}"
+               data-uid="qroc-proposal-uid"
+               disabled={{if @answer true}}>
+      {{else}}
+        <input class="challenge-response__proposal"
+               size="{{get-qroc-input-size @format}}"
+               type="text"
+               id="qroc_input"
+               {{on 'keydown' this.onInputChange}}
+               name={{block.input}}
+               placeholder={{block.placeholder}}
+               autocomplete="off"
+               value="{{this.userAnswer}}"
+               data-uid="qroc-proposal-uid"
+               disabled={{if @answer true}}>
+      {{/if}}
+    {{/if}}
 
-{{/each}}
+    {{#if block.breakline}}
+      <br>
+    {{/if}}
+
+  {{/each}}
+</div>
+
