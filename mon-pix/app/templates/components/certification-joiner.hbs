@@ -3,22 +3,22 @@
 {{/if}}
 
 <section class="certification-joiner">
-  <h1 class="certification-joiner__title">Rejoindre une session</h1>
+  <h1 class="certification-joiner__title">{{t "certification-joiner.title"}}</h1>
     <form autocomplete="off">
         <div class="certification-joiner__row">
-          <label class="certification-joiner__label" for="certificationJoinerSessionId">Numéro de session</label>
+          <label class="certification-joiner__label" for="certificationJoinerSessionId">{{t "certification-joiner.form.session-number"}}</label>
           <Input {{autofocus}} @type="text" @size="6" @value={{this.sessionId}} @id="certificationJoinerSessionId" />
         </div>
         <div class="certification-joiner__row">
-          <label class="certification-joiner__label" for="certificationJoinerFirstName">Prénom</label>
+          <label class="certification-joiner__label" for="certificationJoinerFirstName">{{t "certification-joiner.form.first-name"}}</label>
           <Input @type="text" @value={{this.firstName}} @id="certificationJoinerFirstName" />
         </div>
         <div class="certification-joiner__row">
-          <label class="certification-joiner__label" for="certificationJoinerLastName">Nom de naissance</label>
+          <label class="certification-joiner__label" for="certificationJoinerLastName">{{t "certification-joiner.form.birth-name"}}</label>
           <Input @type="text" @value={{this.lastName}} @id="certificationJoinerLastName" />
         </div>
         <div class="certification-joiner__row">
-          <label class="certification-joiner__label" for="certificationJoinerDayOfBirth">Date de naissance</label>
+          <label class="certification-joiner__label" for="certificationJoinerDayOfBirth">{{t "certification-joiner.form.birth-date"}}</label>
           <div class="certification-joiner__birthdate" id="certificationJoinerBirthDate">
             <Input @min="1"
                     @max="31"
@@ -55,7 +55,7 @@
           </button>
       {{else}}
           <button type="submit" class="button button--big button--thin certification-joiner__attempt-next-btn" {{ action "attemptNext" }}>
-              Continuer
+              {{t "certification-joiner.form.action.submit"}}
           </button>
       {{/if}}
     </form>

@@ -70,6 +70,19 @@
         "title": "Lorem ipsum"
       }
     }
+  }, 
+
+  "certification-joiner": {
+    "title": "Join a session",
+    "form": {
+      "action": {
+        "submit": "Continue"
+      },
+      "session-number": "Session number",
+      "first-name": "Firstname",
+      "birth-name": "Birth name",
+      "birth-date": "Birth date"
+    }
   },
 
   "signin-form": {
