@@ -1,5 +1,23 @@
 # Pix Changelog
 
+## v2.171.0 (08/07/2020)
+
+- [#1621](https://github.com/1024pix/pix/pull/1621) [FEATURE] Ne pas afficher le champ "Réponse" sur la page de résultat pour les challenges QROC sans réponse(PIX-902).
+- [#1597](https://github.com/1024pix/pix/pull/1597) [FEATURE] Cacher le champ de réponse si l’épreuve est un embed auto-validé (PIX-900)
+- [#1612](https://github.com/1024pix/pix/pull/1612) [BUGFIX] Retour en arrière sur le correctif des liens téléchargeables (`target=_blank`)(PIX-835).
+- [#1606](https://github.com/1024pix/pix/pull/1606) [BUGFIX] Fermer la bannière de félicitation pour rejoindre une session (PIX-488)
+- [#1608](https://github.com/1024pix/pix/pull/1608) [BUGFIX] Corriger le formulaire d'anonymisation d'utilisateur de Pix Admin (PIX-944).
+- [#1623](https://github.com/1024pix/pix/pull/1623) [TECH] Utiliser un token pix-service dédié à la Github Action Auto-merge
+- [#1622](https://github.com/1024pix/pix/pull/1622) [TECH] Suppression du déclencheur status pour le workflow automerge
+- [#1600](https://github.com/1024pix/pix/pull/1600) [TECH] Ajouter les colonnes SUP à la table schooling-registrations (PIX-925).
+- [#1456](https://github.com/1024pix/pix/pull/1456) [TECH] Merge automatique grâce aux Github Actions
+- [#1613](https://github.com/1024pix/pix/pull/1613) [TECH] Inclure toute la stack trace asynchrone dans les erreurs Knex
+- [#1615](https://github.com/1024pix/pix/pull/1615) [TECH] Augmenter la taille des messages d'erreur dans Sentry
+- [#1620](https://github.com/1024pix/pix/pull/1620) [ORGA] Mettre à jour le lien de la documentation pour les organisation de type SCO. (Pix-817)
+- [#1611](https://github.com/1024pix/pix/pull/1611) [CLEANUP] Refacto admin save certification (PIX-946)
+- [#1604](https://github.com/1024pix/pix/pull/1604) [CLEANUP] Montée de version des linters dans Pix Admin (PIX-926).
+- [#1614](https://github.com/1024pix/pix/pull/1614) [CLEANUP] Requête SQL plus cohérente pour les détails d'une session (PIX-877)
+
 ## v2.170.0 (06/07/2020)
 
 - [#1596](https://github.com/1024pix/pix/pull/1596) [FEATURE] Mettre à jour les conditions d'utilisation de Pix Orga en incluant le pix.org ( PIX-871 )
