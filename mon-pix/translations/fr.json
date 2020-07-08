@@ -26,6 +26,20 @@
     "internal-server-error": "Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement."
   },
 
+  "certificate": {
+    "back-link": "Retour à mes certifications",
+    "title": "Certificat Pix",
+    "issued-on": "Délivré le ",
+    "validity": "Certificat valable 3 ans",
+    "candidate-birth": "Né(e) le ",
+    "candidate-birth-at": " à ",
+    "certification-center": "Centre de certification : ",
+    "exam-date": "Date de passage : ",
+    "hexagon-score": {
+      "certified": "certifiés"
+    }
+  },
+
   "certifications-list": {
     "title": "Mes Certifications",
     "header": {
