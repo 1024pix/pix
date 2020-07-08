@@ -60,6 +60,19 @@ module.exports = function(/* environment */) {
     errorOnMissingTranslations: true,
 
     /**
+     * Filter missing translations to ignore expected missing translations.
+     *
+     * See https://ember-intl.github.io/ember-intl/docs/guide/missing-translations#requiring-translations
+     *
+     * @property requiresTranslation
+     * @type {Function}
+     * @default "function(key,locale){return true}"
+     */
+    requiresTranslation(/* key, locale */) {
+      return true;
+    },
+
+    /**
      * removes empty translations from the build output.
      *
      * @property stripEmptyTranslations
@@ -75,19 +88,6 @@ module.exports = function(/* environment */) {
      * @type {Boolean}
      * @default false
      */
-    wrapTranslationsWithNamespace: false,
-
-    /**
-     * Filter missing translations to ignore expected missing translations.
-     *
-     * See https://ember-intl.github.io/ember-intl/docs/guide/missing-translations#requiring-translations
-     *
-     * @property requiresTranslation
-     * @type {Function}
-     * @default "function(key,locale){return true}"
-     */
-    requiresTranslation(/* key, locale */) {
-      return true;
-    }
+    wrapTranslationsWithNamespace: false
   };
 };
