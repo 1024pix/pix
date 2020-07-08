@@ -7,6 +7,7 @@ export default class CompetenceCardDefault extends Component {
   @service currentUser;
   @service store;
   @service router;
+  @service competenceEvaluation;
 
   get computeRemainingDaysBeforeImproving() {
     const _remainingDaysBeforeImproving = this.args.scorecard.remainingDaysBeforeImproving;
@@ -35,13 +36,11 @@ export default class CompetenceCardDefault extends Component {
 
   @action
   async improveCompetenceEvaluation() {
-    await this.store.queryRecord('competence-evaluation', {
-      improve: true,
-      userId: this.currentUser.user.id,
-      competenceId: this.args.scorecard.competenceId
-    });
+    const userId = this.currentUser.user.id;
+    const competenceId = this.args.scorecard.competenceId;
+    const scorecardId = this.args.scorecard.id;
 
-    this.router.transitionTo('competences.resume', this.args.scorecard.competenceId);
+    this.competenceEvaluation.improve({ userId, competenceId, scorecardId });
   }
 
 }

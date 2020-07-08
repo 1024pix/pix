@@ -71,6 +71,14 @@ class ForbiddenError extends BaseHttpError {
   }
 }
 
+class ImproveCompetenceEvaluationForbiddenError extends BaseHttpError {
+  constructor(message) {
+    super(message);
+    this.title = 'ImproveCompetenceEvaluationForbidden';
+    this.status = 403;
+  }
+}
+
 class BadRequestError extends BaseHttpError {
   constructor(message) {
     super(message);
@@ -84,6 +92,7 @@ module.exports = {
   BaseHttpError,
   ConflictError,
   ForbiddenError,
+  ImproveCompetenceEvaluationForbiddenError,
   MissingQueryParamError,
   NotFoundError,
   PasswordShouldChangeError,

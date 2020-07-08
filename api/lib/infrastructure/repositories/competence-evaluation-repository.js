@@ -47,10 +47,10 @@ module.exports = {
       });
   },
 
-  getByCompetenceIdAndUserId({ competenceId, userId }) {
+  getByCompetenceIdAndUserId({ competenceId, userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
     return BookshelfCompetenceEvaluation
       .where({ competenceId, userId })
-      .fetch({ require: true, withRelated: ['assessment'] })
+      .fetch({ require: true, withRelated: ['assessment'], transacting: domainTransaction.knexTransaction })
       .then((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result))
       .catch((bookshelfError) => {
         if (bookshelfError instanceof BookshelfCompetenceEvaluation.NotFoundError) {

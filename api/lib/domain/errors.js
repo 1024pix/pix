@@ -270,6 +270,12 @@ class ForbiddenAccess extends DomainError {
   }
 }
 
+class ImproveCompetenceEvaluationForbiddenError extends DomainError {
+  constructor(message = 'Le niveau maximum est déjà atteint pour cette compétence.') {
+    super(message);
+  }
+}
+
 class InvalidCertificationCandidate extends DomainError {
   constructor(message = 'Candidat de certification invalide.') {
     super(message);
@@ -505,6 +511,7 @@ module.exports = {
   EntityValidationError,
   FileValidationError,
   ForbiddenAccess,
+  ImproveCompetenceEvaluationForbiddenError,
   InvalidCertificationCandidate,
   InvalidCertificationReportForFinalization,
   InvalidParametersForSessionPublication,
