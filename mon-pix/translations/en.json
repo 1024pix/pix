@@ -73,6 +73,9 @@
   }, 
 
   "certification-joiner": {
+    "congratulation-banner": {
+      "message": "Congratulations {fullName},'<br>'your profile is certifiable."
+    },
     "title": "Join a session",
     "form": {
       "action": {

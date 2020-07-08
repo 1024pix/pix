@@ -72,6 +72,9 @@
   },
 
   "certification-joiner": {
+    "congratulation-banner": {
+      "message": "Bravo {fullName},'<br>'votre profil est certifiable."
+    },
     "title": "Rejoindre une session",
     "form": {
       "action": {
