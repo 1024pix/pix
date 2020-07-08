@@ -1,18 +1,19 @@
 {
   "common": {
+    "cancel": "cancel",
     "form": {
       "mandatory-fields": "Fields marked with '<abbr title=\"mandatory\" class=\"mandatory-mark\">'*'</abbr>' are mandatory"
     },
+    "level": "level",
     "mandatory": "mandatory",
-    "or": "or"
+    "or": "or",
+    "pix": "pix"
   },
-
   "navigation": {
     "homepage": {
       "link": "Homepage"
     }
   },
-
   "page-title": {
     "signin": "Sign in",
     "signup": "Sign up",
@@ -47,7 +48,6 @@
     },
     "title": "Sign in"
   },
-
   "signup-form": {
     "actions": {
       "submit": "I sign up"
@@ -82,5 +82,37 @@
       "link": "sign in"
     },
     "title": "Sign up"
+  },
+  "scorecard": {
+    "global": {
+      "back": "Retour Profil",
+      "startover": "reprendre",
+      "reset": "remettre à zéro",
+      "start": "Commencer"
+    },
+    "details": {
+      "levelInfo": "{ remainingPixToNextLevel } pix left before level { level }"
+    },
+    "improve": {
+      "label": "You will be able to start over in",
+      "count": "{ daysBeforeImproving, plural, =0 {0 jour.} =1 {1 jour.} other {# jours.} }",
+      "startover": "Start over",
+      "startOverCompetence": "la compétence {competence}",
+      "improvingText": "Tentez d'obtenir le niveau supérieur !"
+    },
+    "reset": {
+      "button": "Remettre à zéro",
+      "label": "{ daysBeforeReset, plural, =0 {0 day} =1 {1 day} other {# days} } left before reset.",
+      "modal": {
+        "title": "Remise à zéro de la compétence",
+        "importantMessage": "Vos { earnedPix } Pix vont être supprimés.",
+        "importantMessageAboveLevelOne": "Votre niveau { level } et vos { earnedPix } Pix vont être supprimés.",
+        "warning": "Attention : si vous avez un parcours d’évaluation en cours, certaines questions pourront vous être reposées."
+      }
+    },
+    "tutorials": {
+      "title": "Cultivez vos compétences",
+      "description": "Voici une sélection de tutos qui pourront vous aider à gagner des Pix."
+    }
   }
 }
