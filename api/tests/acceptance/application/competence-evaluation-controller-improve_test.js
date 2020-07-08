@@ -52,24 +52,31 @@ describe('Acceptance | API | Improve Competence Evaluation', () => {
           options.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };
           databaseBuilder.factory.buildCompetenceEvaluation({ competenceId, userId });
           await databaseBuilder.commit();
-
-          // when
-          response = await server.inject(options);
-          assessment = response.result.data.relationships.assessment.data;
         });
 
-        it('should return 200 and the competence evaluation', async () => {
-          // then
-          expect(response.statusCode).to.equal(200);
-          expect(response.result.data.id).to.exist;
-          expect(assessment.id).to.be.not.null;
-          expect(assessment).to.be.not.undefined;
-        });
+        context('and user has not reached maximum level of given competence', () => {
 
-        it('should create an improving assessment', async () => {
-          // then
-          const [createdAssessment] = await knex('assessments').select().where({ id: assessment.id });
-          expect(createdAssessment.isImproving).to.equal(true);
+          beforeEach(async () => {
+            await databaseBuilder.commit();
+
+            // when
+            response = await server.inject(options);
+            assessment = response.result.data.relationships.assessment.data;
+          });
+
+          it('should return 200 and the competence evaluation', async () => {
+            // then
+            expect(response.statusCode).to.equal(200);
+            expect(response.result.data.id).to.exist;
+            expect(assessment.id).to.be.not.null;
+            expect(assessment).to.exist;
+          });
+
+          it('should create an improving assessment', async () => {
+            // then
+            const [createdAssessment] = await knex('assessments').select().where({ id: assessment.id });
+            expect(createdAssessment.isImproving).to.equal(true);
+          });
         });
 
       });

@@ -257,6 +257,14 @@ describe('Integration | API | Controller Error', () => {
       expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
       expect(responseDetail(response)).to.equal('Cet utilisateur n\'est pas autorisé à créer la ressource.');
     });
+
+    it('responds Forbidden when a ImproveCompetenceEvaluationForbiddenError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.ImproveCompetenceEvaluationForbiddenError());
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
+      expect(responseDetail(response)).to.equal('Le niveau maximum est déjà atteint pour cette compétence.');
+    });
   });
 
   context('400 Bad Request', () => {

@@ -1,6 +1,8 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const improveCompetenceEvaluation = require('../../../../lib/domain/usecases/improve-competence-evaluation');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const { MAX_REACHABLE_LEVEL } = require('../../../../lib/domain/constants');
+const { ImproveCompetenceEvaluationForbiddenError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | Improve Competence Evaluation', () => {
   let competenceEvaluation, userId, competenceEvaluationRepository, assessmentRepository;
@@ -71,6 +73,27 @@ describe('Unit | UseCase | Improve Competence Evaluation', () => {
 
     // then
     expect(result).to.deep.equal(expectedCompetenceEvaluation);
+  });
+
+  context('when user has reached maximum level for given competence', () => {
+    beforeEach(() => {
+      getCompetenceLevel.resolves(MAX_REACHABLE_LEVEL);
+    });
+
+    it('should throw a Forbidden error', async () => {
+      // when
+      const error = await catchErr(improveCompetenceEvaluation)({
+        assessmentRepository,
+        competenceEvaluationRepository,
+        getCompetenceLevel,
+        userId,
+        competenceId,
+        domainTransaction
+      });
+
+      // then
+      expect(error).to.be.instanceOf(ImproveCompetenceEvaluationForbiddenError);
+    });
   });
 
 });
