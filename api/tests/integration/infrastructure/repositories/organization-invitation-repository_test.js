@@ -184,8 +184,6 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
 
       // when
       const foundOrganizationInvitation = await organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail({ organizationId, email });
-      console.log(foundOrganizationInvitation);
-      console.log(organizationInvitation);
 
       // then
       expect(_.omit(foundOrganizationInvitation, 'organizationName')).to.deep.equal(organizationInvitation);
