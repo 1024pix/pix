@@ -3,7 +3,6 @@ import { inject as service } from '@ember/service';
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import ENV from 'pix-orga/config/environment';
-import { CONNEXION_TYPES } from '../../../models/student';
 import debounce from 'lodash/debounce';
 
 export default class ListController extends Controller {
@@ -15,7 +14,6 @@ export default class ListController extends Controller {
 
   @tracked lastName = null;
   @tracked firstName = null;
-  @tracked connexionType = null;
   @tracked pageNumber = null;
   @tracked pageSize = null;
 
@@ -33,15 +31,5 @@ export default class ListController extends Controller {
     } else {
       this.updateFilters({ [fieldName]: event.target.value });
     }
-  }
-
-  get connexionTypesOptions() {
-    return [
-      { value: '', label: 'Tous' },
-      { value: 'none', label: CONNEXION_TYPES.none },
-      { value: 'email', label: CONNEXION_TYPES.email },
-      { value: 'identifiant', label: CONNEXION_TYPES.identifiant },
-      { value: 'mediacentre', label: CONNEXION_TYPES.mediacentre },
-    ];
   }
 }

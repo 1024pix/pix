@@ -1,11 +1,9 @@
 <div class="list-students-page">
-  <Routes::Authenticated::Students::ListItems
+  <Routes::Authenticated::SupStudents::ListItems
     @students={{this.model}}
     @isLoading={{this.isLoading}}
-    @connexionTypesOptions={{this.connexionTypesOptions}}
     @triggerFiltering={{this.triggerFiltering}}
     @lastNameFilter={{this.lastName}}
     @firstNameFilter={{this.firstName}}
-    @connexionTypeFilter={{this.connexionType}}
   />
 </div>
