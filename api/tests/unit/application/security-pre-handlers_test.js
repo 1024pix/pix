@@ -5,6 +5,7 @@ const tokenService = require('../../../lib/domain/services/token-service');
 const checkUserIsAuthenticatedUseCase = require('../../../lib/application/usecases/checkUserIsAuthenticated');
 const checkUserHasRolePixMasterUseCase = require('../../../lib/application/usecases/checkUserHasRolePixMaster');
 const checkUserIsAdminInOrganizationUseCase = require('../../../lib/application/usecases/checkUserIsAdminInOrganization');
+const checkUserBelongsToOrganizationManagingStudentsUseCase = require('../../../lib/application/usecases/checkUserBelongsToOrganizationManagingStudents');
 const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('../../../lib/application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
 const checkUserBelongsToOrganizationUseCase = require('../../../lib/application/usecases/checkUserBelongsToOrganization');
 
@@ -380,6 +381,86 @@ describe('Unit | Application | SecurityPreHandlers', () => {
     });
   });
 
+  describe('#checkUserBelongsToOrganizationManagingStudents', () => {
+
+    let belongToOrganizationManagingStudentsStub;
+
+    beforeEach(() => {
+      belongToOrganizationManagingStudentsStub = sinon.stub(checkUserBelongsToOrganizationManagingStudentsUseCase, 'execute');
+    });
+
+    context('Successful case', () => {
+      const request = {
+        auth: {
+          credentials: {
+            accessToken: 'valid.access.token',
+            userId: 1234
+          }
+        },
+        params: { id: 5678 }
+      };
+
+      it('should authorize access to resource when the user is authenticated, belongs to an Organization and manages students', async () => {
+        // given
+        belongToOrganizationManagingStudentsStub.resolves(true);
+
+        // when
+        const response = await securityPreHandlers.checkUserBelongsToOrganizationManagingStudents(request, hFake);
+
+        // then
+        expect(response.source).to.equal(true);
+      });
+    });
+
+    context('Error cases', () => {
+      const request = {
+        auth: {
+          credentials: {
+            accessToken: 'valid.access.token',
+            userId: 1234
+          }
+        },
+        params: { id: 5678 }
+      };
+
+      it('should forbid resource access when user was not previously authenticated', async () => {
+        // given
+        delete request.auth.credentials;
+
+        // when
+        const response = await securityPreHandlers.checkUserBelongsToOrganizationManagingStudents(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when user does not belong to an Organization or manage students', async () => {
+        // given
+        belongToOrganizationManagingStudentsStub.resolves(false);
+
+        // when
+        const response = await securityPreHandlers.checkUserBelongsToOrganizationManagingStudents(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when an error is thrown by use case', async () => {
+        // given
+        belongToOrganizationManagingStudentsStub.rejects(new Error('Some error'));
+
+        // when
+        const response = await securityPreHandlers.checkUserBelongsToOrganizationManagingStudents(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+    });
+  });
+
   describe('#checkUserBelongsToScoOrganizationAndManagesStudents', () => {
 
     let belongToScoOrganizationAndManageStudentsStub;
@@ -485,14 +566,14 @@ describe('Unit | Application | SecurityPreHandlers', () => {
     });
   });
 
-  describe('#checkUserIsAdminInScoOrganizationAndManagesStudents', () => {
+  describe('#checkUserIsAdminInOrganizationManagingStudents', () => {
     let isAdminInOrganizationStub;
-    let belongsToScoOrganizationAndManagesStudentsStub;
+    let belongsToOrganizationManagingStudentsStub;
 
     beforeEach(() => {
       sinon.stub(tokenService, 'extractTokenFromAuthChain');
       isAdminInOrganizationStub = sinon.stub(checkUserIsAdminInOrganizationUseCase, 'execute');
-      belongsToScoOrganizationAndManagesStudentsStub = sinon.stub(checkUserBelongsToScoOrganizationAndManagesStudentsUseCase, 'execute');
+      belongsToOrganizationManagingStudentsStub = sinon.stub(checkUserBelongsToOrganizationManagingStudentsUseCase, 'execute');
     });
 
     context('Successful case', () => {
@@ -500,14 +581,12 @@ describe('Unit | Application | SecurityPreHandlers', () => {
 
       beforeEach(() => {
         isAdminInOrganizationStub.resolves(true);
-        belongsToScoOrganizationAndManagesStudentsStub.resolves(true);
+        belongsToOrganizationManagingStudentsStub.resolves(true);
       });
 
-      it('should authorize access to resource when the user is authenticated and is ADMIN in Organization and belongs to a SCO Organization that manages students', async () => {
-        // given
-
+      it('should authorize access to resource when the user is authenticated and is ADMIN in Organization and belongs to an Organization that manages students', async () => {
         // when
-        const response = await securityPreHandlers.checkUserIsAdminInScoOrganizationAndManagesStudents(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAdminInOrganizationManagingStudents(request, hFake);
 
         // then
         expect(response.source).to.equal(true);
@@ -523,7 +602,7 @@ describe('Unit | Application | SecurityPreHandlers', () => {
         delete request.auth.credentials;
 
         // when
-        const response = await securityPreHandlers.checkUserIsAdminInScoOrganizationAndManagesStudents(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAdminInOrganizationManagingStudents(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -533,23 +612,23 @@ describe('Unit | Application | SecurityPreHandlers', () => {
       it('should forbid resource access when user is not ADMIN in Organization', async () => {
         // given
         checkUserIsAdminInOrganizationUseCase.execute.resolves(false);
-        checkUserBelongsToScoOrganizationAndManagesStudentsUseCase.execute.resolves(true);
+        checkUserBelongsToOrganizationManagingStudentsUseCase.execute.resolves(true);
 
         // when
-        const response = await securityPreHandlers.checkUserIsAdminInScoOrganizationAndManagesStudents(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAdminInOrganizationManagingStudents(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
         expect(response.isTakeOver).to.be.true;
       });
 
-      it('should forbid resource access when user does not belong to a SCO Organization or does not manage students', async () => {
+      it('should forbid resource access when user does not belong to an Organization or does not manage students', async () => {
         // given
         checkUserIsAdminInOrganizationUseCase.execute.resolves(true);
-        checkUserBelongsToScoOrganizationAndManagesStudentsUseCase.execute.resolves(false);
+        checkUserBelongsToOrganizationManagingStudentsUseCase.execute.resolves(false);
 
         // when
-        const response = await securityPreHandlers.checkUserIsAdminInScoOrganizationAndManagesStudents(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAdminInOrganizationManagingStudents(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -561,7 +640,7 @@ describe('Unit | Application | SecurityPreHandlers', () => {
         checkUserIsAdminInOrganizationUseCase.execute.rejects(new Error('Some error'));
 
         // when
-        const response = await securityPreHandlers.checkUserIsAdminInScoOrganizationAndManagesStudents(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAdminInOrganizationManagingStudents(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);

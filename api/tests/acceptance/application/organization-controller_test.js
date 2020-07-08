@@ -835,22 +835,6 @@ describe('Acceptance | Application | organization-controller', () => {
         expect(response.statusCode).to.equal(403);
       });
 
-      it('should respond with a 403 - Forbidden access - if Organization type is not SCO', async () => {
-        // given
-        const organizationId = databaseBuilder.factory.buildOrganization({ type: 'PRO', isManagingStudents: true }).id;
-        const userId = databaseBuilder.factory.buildUser.withMembership({ organizationId }).id;
-        await databaseBuilder.commit();
-
-        options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
-        options.url = `/api/organizations/${organizationId}/students`;
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(403);
-      });
-
       it('should respond with a 403 - Forbidden access - if Organization does not manage schoolingRegistrations', async () => {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: false }).id;

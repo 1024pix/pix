@@ -769,30 +769,6 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when Organization type is not SCO', () => {
-        beforeEach(async () => {
-          // given
-          const organizationId = databaseBuilder.factory.buildOrganization({ type: 'PRO', isManagingStudents: true }).id;
-          const userId = databaseBuilder.factory.buildUser.withMembership({
-            organizationId,
-            organizationRole: Membership.roles.ADMIN
-          }).id;
-          await databaseBuilder.commit();
-
-          options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
-          options.url = `/api/organizations/${organizationId}/import-students`;
-        });
-
-        it('should respond with a 403 - Forbidden access', async () => {
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(403);
-        });
-
-      });
-
       context('when Organization does not manage schoolingRegistrations', () => {
         beforeEach(async () => {
           // given

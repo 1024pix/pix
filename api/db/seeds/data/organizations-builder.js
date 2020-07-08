@@ -5,6 +5,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     id: 2,
     type: 'SUP',
     name: 'Tyrion SUP',
+    isManagingStudents: true,
   });
   databaseBuilder.factory.buildMembership({
     userId: 3,

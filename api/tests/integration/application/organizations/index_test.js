@@ -10,9 +10,10 @@ describe('Integration | Application | Organizations | Routes', () => {
 
   beforeEach(() => {
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
-    sinon.stub(securityPreHandlers, 'checkUserIsAdminInScoOrganizationAndManagesStudents').callsFake((request, h) => h.response(true));
+    sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganizationManagingStudents').callsFake((request, h) => h.response(true));
     sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganizationOrHasRolePixMaster').callsFake((request, h) => h.response(true));
     sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response(true));
+    sinon.stub(securityPreHandlers, 'checkUserBelongsToOrganizationManagingStudents').callsFake((request, h) => h.response(true));
     sinon.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents').callsFake((request, h) => h.response(true));
 
     sinon.stub(organizationController, 'create').returns('ok');
@@ -78,7 +79,7 @@ describe('Integration | Application | Organizations | Routes', () => {
     it('should call the organization controller to import schoolingRegistrations', async () => {
       // given
       const method = 'POST';
-      const url = '/api/organizations/:id/import-students';
+      const url = '/api/organizations/1/import-students';
       const payload = {};
 
       // when
@@ -87,6 +88,19 @@ describe('Integration | Application | Organizations | Routes', () => {
       // then
       expect(response.statusCode).to.equal(201);
       expect(organizationController.importSchoolingRegistrationsFromSIECLE).to.have.been.calledOnce;
+    });
+
+    it('should throw an error when id is invalid', async () => {
+      // given
+      const method = 'POST';
+      const url = '/api/organizations/wrongId/import-students';
+      const payload = {};
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
     });
   });
 
@@ -135,7 +149,7 @@ describe('Integration | Application | Organizations | Routes', () => {
     it('should call the organization controller to return students', async () => {
       // given
       const method = 'GET';
-      const url = '/api/organizations/:id/students';
+      const url = '/api/organizations/1/students';
 
       // when
       const response = await httpTestServer.request(method, url);
@@ -145,16 +159,16 @@ describe('Integration | Application | Organizations | Routes', () => {
       expect(organizationController.findPaginatedFilteredSchoolingRegistrations).to.have.been.calledOnce;
     });
 
-    describe('When page parameters are not valid', () => {
+    describe('When parameters are not valid', () => {
 
       it('should throw an error when page size is invalid', async () => {
         // given
         const method = 'GET';
-        const url = '/api/organizations/:id/students?page[size]=blabla';
-  
+        const url = '/api/organizations/1/students?page[size]=blabla';
+
         // when
         const response = await httpTestServer.request(method, url);
-  
+
         // then
         expect(response.statusCode).to.equal(400);
       });
@@ -162,11 +176,23 @@ describe('Integration | Application | Organizations | Routes', () => {
       it('should throw an error when page number is invalid', async () => {
         // given
         const method = 'GET';
-        const url = '/api/organizations/:id/students?page[number]=blabla';
-  
+        const url = '/api/organizations/1/students?page[number]=blabla';
+
         // when
         const response = await httpTestServer.request(method, url);
-  
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+      it('should throw an error when id is invalid', async () => {
+        // given
+        const method = 'GET';
+        const url = '/api/organizations/wrongId/students';
+
+        // when
+        const response = await httpTestServer.request(method, url);
+
         // then
         expect(response.statusCode).to.equal(400);
       });
