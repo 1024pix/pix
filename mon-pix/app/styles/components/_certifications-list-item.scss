@@ -142,12 +142,13 @@
   flex-flow: row-reverse nowrap;
   justify-content: left;
 
-  div {
+  & :first-child {
     text-transform: uppercase;
     font-size: 0.813rem;
     color: $blue;
     border: none;
     background: none;
+    cursor: pointer;
   }
 }
 

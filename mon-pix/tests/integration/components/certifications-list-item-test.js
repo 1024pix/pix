@@ -11,6 +11,15 @@ describe('Integration | Component | certifications list item', function() {
   setupIntl();
 
   let certification;
+  const PUBLISH_CLASS = '.certifications-list-item__published-item';
+  const CERTIFICATION_CELL_SELECTOR = '.certifications-list-item__cell';
+  const STATUS_SELECTOR = '.certifications-list-item__cell-double-width';
+  const IMG_FOR_STATUS_SELECTOR = 'img.certifications-list-item__cross-img';
+  const PIX_SCORE_CELL_SELECTOR = '.certifications-list-item__pix-score';
+  const DETAIL_SELECTOR = '.certifications-list-item__cell-detail';
+  const REJECTED_DETAIL_SELECTOR = `${DETAIL_SELECTOR} button`;
+  const VALIDATED_DETAIL_SELECTOR = `${DETAIL_SELECTOR} a`;
+  const COMMENT_CELL_SELECTOR = '.certifications-list-item__row-comment-cell';
 
   it('renders', async function() {
     await render(hbs`{{certifications-list-item certification=certification}}`);
@@ -42,7 +51,7 @@ describe('Integration | Component | certifications list item', function() {
 
     it('should show en attente de résultat', function() {
       expect(find('img.certifications-list-item__hourglass-img')).to.exist;
-      expect(find('.certifications-list-item').textContent).to.include('En attente du résultat');
+      expect(find(STATUS_SELECTOR).textContent).to.include('En attente du résultat');
     });
   });
 
@@ -68,23 +77,24 @@ describe('Integration | Component | certifications list item', function() {
 
       // then
       it('should render a certifications-list-item__published-item div', function() {
-        expect(find('.certifications-list-item__published-item')).to.exist;
+        expect(find(PUBLISH_CLASS)).to.exist;
       });
 
       it('should show Certification non obtenue', function() {
-        expect(find('img.certifications-list-item__cross-img')).to.exist;
-        expect(find('.certifications-list-item').textContent).to.include('Certification non obtenue');
+        expect(find(IMG_FOR_STATUS_SELECTOR)).to.exist;
+        expect(find(STATUS_SELECTOR).textContent).to.include('Certification non obtenue');
       });
 
       it('should not show Détail in last column', function() {
-        expect(find('.certifications-list-item__cell-detail-button')).to.not.exist;
+        expect(find(REJECTED_DETAIL_SELECTOR)).to.not.exist;
       });
 
       it('should not show comment for candidate panel when clicked on row', async function() {
+        // when
+        await click(CERTIFICATION_CELL_SELECTOR);
 
-        await click('.certifications-list-item__cell');
-
-        expect(find('.certifications-list-item__row-comment-cell')).to.not.exist;
+        // then
+        expect(find(COMMENT_CELL_SELECTOR)).to.not.exist;
       });
     });
 
@@ -111,25 +121,25 @@ describe('Integration | Component | certifications list item', function() {
 
       // then
       it('should render a certifications-list-item__published-item div', function() {
-        expect(find('.certifications-list-item__published-item')).to.exist;
+        expect(find(PUBLISH_CLASS)).to.exist;
       });
 
       it('should show Certification non obtenue', function() {
-        expect(find('img.certifications-list-item__cross-img')).to.exist;
-        expect(find('.certifications-list-item').textContent).to.include('Certification non obtenue');
+        expect(find(IMG_FOR_STATUS_SELECTOR)).to.exist;
+        expect(find(STATUS_SELECTOR).textContent).to.include('Certification non obtenue');
       });
 
       it('should show Détail in last column', function() {
-        expect(find('.certifications-list-item__cell-detail-button')).to.exist;
-        expect(find('.certifications-list-item__cell-detail-button').textContent).to.include('détail');
+        expect(find(REJECTED_DETAIL_SELECTOR)).to.exist;
+        expect(find(REJECTED_DETAIL_SELECTOR).textContent).to.include('détail');
       });
 
       it('should show comment for candidate panel when clicked on row', async function() {
 
-        await click('.certifications-list-item__cell');
+        await click(CERTIFICATION_CELL_SELECTOR);
 
-        expect(find('.certifications-list-item__row-comment-cell')).to.exist;
-        expect(find('.certifications-list-item__row-comment-cell').textContent).to.include(commentForCandidate);
+        expect(find(COMMENT_CELL_SELECTOR)).to.exist;
+        expect(find(COMMENT_CELL_SELECTOR).textContent).to.include(commentForCandidate);
       });
     });
   });
@@ -154,22 +164,22 @@ describe('Integration | Component | certifications list item', function() {
 
     // then
     it('should render certifications-list-item__published-item with a link inside', function() {
-      expect(find('.certifications-list-item__published-item a')).to.exist;
+      expect(find(`${PUBLISH_CLASS} a`)).to.exist;
     });
 
     it('should show Certification obtenue', function() {
       expect(find('img.certifications-list-item__green-check-img')).to.exist;
-      expect(find('.certifications-list-item').textContent).to.include('Certification obtenue');
+      expect(find(STATUS_SELECTOR).textContent).to.include('Certification obtenue');
     });
 
     it('should show the Pix Score', function() {
-      expect(find('.certifications-list-item__pix-score')).to.exist;
-      expect(find('.certifications-list-item__pix-score').textContent).to.include('231');
+      expect(find(PIX_SCORE_CELL_SELECTOR)).to.exist;
+      expect(find(PIX_SCORE_CELL_SELECTOR).textContent).to.include('231');
     });
 
     it('should show link to certification page in last column', function() {
-      expect(find('.certifications-list-item__cell-detail-link')).to.exist;
-      expect(find('.certifications-list-item__cell-detail-link').textContent).to.include('résultats');
+      expect(find(VALIDATED_DETAIL_SELECTOR)).to.exist;
+      expect(find(VALIDATED_DETAIL_SELECTOR).textContent).to.include('résultats');
     });
   });
 });
