@@ -3,21 +3,25 @@
     <UserCertificationsHexagonScore @score={{@certification.pixScore}} />
     <div class="user-certifications-detail-header__info-certificate">
 
-      <h1>Certificat Pix</h1>
+      <h1>{{t "certificate.title"}}</h1>
 
       <p class="user-certifications-detail-header__info-certificate--grey">
-        Délivré le {{moment-format @certification.deliveredAt 'LL' locale='fr' allow-empty=true}}
+        {{t "certificate.issued-on"}}{{moment-format @certification.deliveredAt 'LL' locale='fr' allow-empty=true}}
       </p>
       <p class="user-certifications-detail-header__info-certificate--grey">
-        Certificat valable 3 ans
+        {{t "certificate.validity"}}
       </p>
 
       <p>{{@certification.fullName}}</p>
-      <p>Né(e) le {{moment-format @certification.birthdate 'LL' locale='fr' allow-empty=true}} à {{@certification.birthplace}}</p>
+      <p>
+        {{t "certificate.candidate-birth"}}{{moment-format @certification.birthdate 'LL' locale='fr' allow-empty=true}}{{t "certificate.candidate-birth-at"}}{{@certification.birthplace}}
+      </p>
+
       {{#if @certification.certificationCenter}}
-      <p>Centre de certification : {{@certification.certificationCenter}}</p>
+        <p>{{t "certificate.certification-center"}}{{@certification.certificationCenter}}</p>
       {{/if}}
-      <p>Date de passage : {{moment-format @certification.date 'LL' locale='fr' allow-empty=true}}</p>
+
+      <p>{{t "certificate.exam-date"}}{{moment-format @certification.date 'LL' locale='fr' allow-empty=true}}</p>
 
     </div>
   </div>

@@ -27,6 +27,20 @@
     "internal-server-error": "The service is temporarily unavailable. Please try again later."
   },
 
+  "certificate": {
+    "back-link": "Lorem ipsum",
+    "title": "Lorem ipsum",
+    "issued-on": "Lorem ipsum",
+    "validity": "Lorem ipsum",
+    "candidate-birth": "Lorem ipsum",
+    "candidate-birth-at": "at",
+    "certification-center": "Lorem ipsum",
+    "exam-date": "Lorem ipsum",
+    "hexagon-score": {
+      "certified": "Lorem ipsum"
+    }
+  },
+
   "certifications-list": {
     "title": "Lorem ipsum",
     "header": {

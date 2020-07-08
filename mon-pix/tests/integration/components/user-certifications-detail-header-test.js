@@ -4,9 +4,11 @@ import { setupRenderingTest } from 'ember-mocha';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
+import setupIntl from '../../helpers/setup-intl';
 
 describe('Integration | Component | user certifications detail header', function() {
   setupRenderingTest();
+  setupIntl();
 
   let certification;
   const PARENT_SELECTOR = '.user-certifications-detail-header';
