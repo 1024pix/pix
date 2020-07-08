@@ -15,7 +15,7 @@ module.exports = async function retrieveCampaignInformation({
   foundCampaign.organizationLogoUrl = foundOrganization.logoUrl;
   foundCampaign.organizationName = foundOrganization.name;
 
-  if (foundOrganization.isManagingStudents && foundOrganization.type === 'SCO') {
+  if (foundOrganization.isManagingStudents) {
     foundCampaign.isRestricted = true;
   }
 
