@@ -50,6 +50,9 @@ function _mapToHttpError(error) {
     return error;
   }
 
+  if (error instanceof DomainErrors.ImproveCompetenceEvaluationForbiddenError) {
+    return new HttpErrors.ImproveCompetenceEvaluationForbiddenError(error.message);
+  }
   if (error instanceof DomainErrors.CampaignAlreadyArchivedError) {
     return new HttpErrors.PreconditionFailedError(error.message);
   }

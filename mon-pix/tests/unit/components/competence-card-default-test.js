@@ -10,38 +10,25 @@ describe('Unit | Component | competence-card-default ', function() {
   setupTest();
 
   describe('#improveCompetenceEvaluation', function() {
-    let store, userId, competenceId, router;
+    const competenceId = 'recCompetenceId';
+    const userId = 'userId';
+    const scorecardId = 'scorecardId';
+    const scorecard = EmberObject.create({ competenceId, id: scorecardId });
+    let competenceEvaluation, component;
 
-    beforeEach(async function() {
+    it('calls competenceEvaluation service for improving', async function() {
       // given
-      competenceId = 'recCompetenceId';
-      const scorecard = EmberObject.create({ competenceId });
-      const component = createGlimmerComponent('component:competence-card-default', { scorecard, interactive: true });
-      store = Service.create({ queryRecord: sinon.stub().resolves() });
-      component.store = store;
-      userId = 'userId';
+      component = createGlimmerComponent('component:competence-card-default', { scorecard });
+      competenceEvaluation = Service.create({ improve: sinon.stub() });
       component.currentUser = EmberObject.create({ user: { id: userId } });
-      router = EmberObject.create({ transitionTo: sinon.stub() });
-      component.router = router;
+      component.competenceEvaluation = competenceEvaluation;
 
       // when
       await component.improveCompetenceEvaluation();
-    });
 
-    it('creates a competence-evaluation for improving', async function() {
       // then
-      sinon.assert.calledWith(store.queryRecord, 'competence-evaluation', {
-        improve: true,
-        userId,
-        competenceId
-      });
+      sinon.assert.calledWith(competenceEvaluation.improve, { userId, competenceId, scorecardId });
     });
-
-    it('redirects to competences.resume route', async function() {
-      // then
-      sinon.assert.calledWith(router.transitionTo, 'competences.resume', competenceId);
-    });
-
   });
 
   describe('#computeRemainingDaysBeforeImproving', function() {

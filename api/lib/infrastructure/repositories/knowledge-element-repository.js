@@ -5,6 +5,7 @@ const { knex } = require('../bookshelf');
 const KnowledgeElement = require('../../domain/models/KnowledgeElement');
 const BookshelfKnowledgeElement = require('../data/knowledge-element');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 function _getUniqMostRecents(knowledgeElements) {
   return _(knowledgeElements)
@@ -80,9 +81,9 @@ module.exports = {
     return _applyFilters(knowledgeElements);
   },
 
-  async findUniqByUserIdAndCompetenceId({ userId, competenceId }) {
+  async findUniqByUserIdAndCompetenceId({ userId, competenceId, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const query = _findByUserIdAndLimitDateQuery({ userId });
-    const knowledgeElementRows = await query.where({ competenceId });
+    const knowledgeElementRows = await query.where({ competenceId }, { transacting: domainTransaction });
 
     const knowledgeElements = _.map(knowledgeElementRows, (knowledgeElementRow) => new KnowledgeElement(knowledgeElementRow));
     return _applyFilters(knowledgeElements);
