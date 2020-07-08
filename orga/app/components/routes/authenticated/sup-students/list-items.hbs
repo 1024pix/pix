@@ -1,0 +1,60 @@
+<div class="list-students-page__header">
+  <div class="page__title page-title">Étudiants</div>
+</div>
+
+<div class="panel">
+  <div class="table content-text content-text--small">
+    <table>
+      <thead>
+        <tr>
+          <th class="table__column table__column--small">Numéro étudiant</th>
+          <th class="table__column">Nom</th>
+          <th class="table__column">Prénom</th>
+          <th class="table__column table__column--small">Date de naissance</th>
+        </tr>
+        <tr>
+          <th></th>
+          <th>
+            <SearchInput
+              class="table__input"
+              @inputName="lastName"
+              @value={{@lastNameFilter}}
+              @placeholder="Rechercher par nom"
+              @filterFunction={{fn @triggerFiltering "lastName" true}}
+            />
+          </th>
+          <th>
+            <SearchInput
+              class="table__input"
+              @inputName="firstName"
+              @value={{@firstNameFilter}}
+              @placeholder="Rechercher par prénom"
+              @filterFunction={{fn @triggerFiltering "firstName" true}}
+            />
+          </th>
+          <th></th>
+          </tr>
+      </thead>
+
+      {{#if @students}}
+        <tbody>
+        {{#each @students as |student|}}
+          <tr aria-label="Étudiant">
+            <td>{{student.studentNumber}}</td>
+            <td>{{student.lastName}}</td>
+            <td>{{student.firstName}}</td>
+            <td>{{moment-format student.birthdate 'DD/MM/YYYY' allow-empty=true}}</td>
+          </tr>
+        {{/each}}
+
+        </tbody>
+      {{/if}}
+    </table>
+
+    {{#unless @students}}
+      <div class="table__empty content-text">Aucun étudiant.</div>
+    {{/unless}}
+  </div>
+</div>
+
+<PaginationControl @pagination={{@students.meta}}/>
