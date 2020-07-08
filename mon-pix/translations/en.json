@@ -18,11 +18,13 @@
     "signup": "Sign up",
     "suffix": "Pix"
   },
+
   "api-error-messages": {
     "login-unauthorized-error": "Wrong email address, username and/or password.",
     "bad-request-error": "The information input is not in the correct format.",
     "internal-server-error": "The service is temporarily unavailable. Please try again later."
   },
+
   "signin-form": {
     "actions": {
       "submit": "Sign in"
