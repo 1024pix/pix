@@ -12,6 +12,7 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
     redirectionUrl: redirectionUrl || `${settings.domain.pixApp + settings.domain.tldFr}/connexion`,
     locale
   };
+
   if (locale === 'fr') {
     variables = {
       homeName: `pix${settings.domain.tldOrg}`,
@@ -76,6 +77,7 @@ function sendOrganizationInvitationEmail({
     redirectionUrl: `${settings.domain.pixOrga + settings.domain.tldFr}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
     locale
   };
+
   if (locale === 'fr') {
     variables = {
       organizationName,
@@ -98,8 +100,53 @@ function sendOrganizationInvitationEmail({
   });
 }
 
+function sendOrganizationInvitationScoEmail({
+  email,
+  organizationName,
+  firstName, lastName,
+  organizationInvitationId,
+  code,
+  locale,
+  tags
+}) {
+  locale = locale ? locale : 'fr-fr';
+
+  let variables = {
+    organizationName,
+    firstName, lastName,
+    pixHomeName: `pix${settings.domain.tldFr}`,
+    pixHomeUrl: `${settings.domain.pix + settings.domain.tldFr}`,
+    pixOrgaHomeUrl: `${settings.domain.pixOrga + settings.domain.tldFr}`,
+    redirectionUrl: `${settings.domain.pixOrga + settings.domain.tldFr}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
+    locale
+  };
+
+  if (locale === 'fr') {
+    variables = {
+      organizationName,
+      firstName, lastName,
+      pixHomeName: `pix${settings.domain.tldOrg}`,
+      pixHomeUrl: `${settings.domain.pix + settings.domain.tldOrg}`,
+      pixOrgaHomeUrl: `${settings.domain.pixOrga + settings.domain.tldOrg}`,
+      redirectionUrl: `${settings.domain.pixOrga + settings.domain.tldOrg}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
+      locale
+    };
+  }
+
+  return mailer.sendEmail({
+    from: EMAIL_ADDRESS_NO_RESPONSE,
+    fromName: PIX_ORGA_NAME,
+    to: email,
+    subject: 'Accès à votre espace Pix Orga',
+    template: mailer.organizationInvitationScoTemplateId,
+    variables,
+    tags: tags || null
+  });
+}
+
 module.exports = {
   sendAccountCreationEmail,
   sendOrganizationInvitationEmail,
+  sendOrganizationInvitationScoEmail,
   sendResetPasswordDemandEmail,
 };
