@@ -25,6 +25,30 @@
     "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
     "internal-server-error": "Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement."
   },
+
+  "certifications-list": {
+    "title": "Mes Certifications",
+    "header": {
+      "date": "date",
+      "status": "statut",
+      "score": "score pix",
+      "certification-center": "centre de certification"
+    },
+    "statuses": {
+      "success": {
+        "title": "Certification obtenue",
+        "action": "voir les résultats"
+      },
+      "fail": {
+        "title": "Certification non obtenue",
+        "action": "détail"
+      },
+      "not-published": {
+        "title": "En attente du résultat"
+      }
+    }
+  },
+
   "signin-form": {
     "actions": {
       "submit": "Je me connecte"
