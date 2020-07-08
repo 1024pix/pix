@@ -4,7 +4,7 @@
     <span class="icon-button">
       {{fa-icon 'arrow-left'}}
     </span>
-      Retour Profil
+      {{t 'scorecard.global.back'}}
     </LinkTo>
   </div>
 
@@ -28,7 +28,7 @@
           {{#if @scorecard.isFinishedWithMaxLevel}}
             <div class="competence-card__congrats">
               <div class="competence-card__level competence-card__level--congrats">
-                <span class="score-label competence-card__score-label--congrats">Niveau</span>
+                <span class="score-label competence-card__score-label--congrats">{{t 'common.level'}}</span>
                 <span class="score-value competence-card__score-value competence-card__score-value--congrats">{{level}}</span>
               </div>
             </div>
@@ -38,14 +38,14 @@
                          @chartClass="circle-chart__content--big"
                          @thicknessClass="circle--thick">
               <div class="competence-card__level">
-                <span class="score-label">Niveau</span>
+                <span class="score-label">{{t 'common.level'}}</span>
                 <span class="score-value">{{replace-zero-by-dash level}}</span>
               </div>
             </CircleChart>
           {{/if}}
 
           <div class="scorecard-details-content-right-score-container__pix-earned">
-            <div class="score-label">pix</div>
+            <div class="score-label">{{t 'common.pix'}}</div>
             <div class="score-value">{{replace-zero-by-dash @scorecard.earnedPix}}</div>
           </div>
         </div>
@@ -53,7 +53,8 @@
 
       {{#if this.isProgressable}}
         <div class="scorecard-details-content-right__level-info">
-          {{@scorecard.remainingPixToNextLevel}} pix avant le niveau {{inc @scorecard.level}}
+          {{t 'scorecard.details.levelInfo' remainingPixToNextLevel=@scorecard.remainingPixToNextLevel
+              level=@scorecard.level}}
         </div>
       {{/if}}
 
@@ -62,15 +63,17 @@
           {{#if this.canImprove}}
             {{#if this.shouldWaitBeforeImproving}}
               <div class="scorecard-details__improvement-countdown">
-                <span class="scorecard-details-improvement-countdown__label">Tenter le niveau supérieur dans</span>
-                <span class="scorecard-details-improvement-countdown__count">{{this.computeRemainingDaysBeforeImproving}}</span>
+                <span class="scorecard-details-improvement-countdown__label">{{t 'scorecard.improve.label'}}</span>
+                <span class="scorecard-details-improvement-countdown__count">{{t 'scorecard.improve.count'
+                                                                                 daysBeforeImproving=@scorecard.remainingDaysBeforeImproving}}</span>
               </div>
             {{else}}
-              <button class="button button--big button--thin button--round button--link button--green scorecard-details__improve-button" {{action "improveCompetenceEvaluation"}}>
-                Retenter
-                <div class="sr-only">la compétence "{{@scorecard.name}}"</div>
+              <button class="button button--big button--thin button--round button--link button--green scorecard-details__improve-button" {{action
+                      "improveCompetenceEvaluation"}}>
+                {{t 'scorecard.improve.startover'}}
+                <div class="sr-only">{{t 'scorecard.improve.startoverCompetence' competence=@scorecard.name }}"</div>
               </button>
-              <span class="scorecard-details__improving-text">Tentez d'obtenir le niveau supérieur !</span>
+              <span class="scorecard-details__improving-text">{{t 'scorecard.improve.improvingText' }}</span>
             {{/if}}
           {{/if}}
         {{/if}}
@@ -80,21 +83,22 @@
                 class={{concat "button button--big button--thin button--round button--link button--green "
                                (if @scorecard.isNotStarted "" "scorecard-details__resume-or-start-button")}}>
           {{#if @scorecard.isStarted}}
-            Reprendre
-            <div class="sr-only">la compétence "{{@scorecard.name}}"</div>
+            {{t 'scorecard.global.startover'}}
+            <div class="sr-only">{{t 'scorecard.improve.startOverCompetence' competence=@scorecard.name}}</div>
           {{else}}
-            Commencer
-            <div class="sr-only">la compétence "{{@scorecard.name}}"</div>
+            {{t 'scorecard.global.start'}}
+            <div class="sr-only">{{t 'scorecard.improve.startOverCompetence' competence=@scorecard.name}}</div>
           {{/if}}
         </LinkTo>
       {{/if}}
       {{#if this.displayResetButton}}
         <button class="link link--underline scorecard-details__reset-button" {{action "openModal"}}>
-          Remettre à zéro
-          <div class="sr-only">la compétence "{{@scorecard.name}}"</div>
+          {{t 'scorecard.reset.button'}}
+          <div class="sr-only">{{t 'scorecard.improve.startOverCompetence' competence=@scorecard.name}}</div>
         </button>
       {{else if this.displayWaitSentence}}
-        <p class="scorecard-details-content-right__reset-message">{{remainingDaysText}}</p>
+        <p class="scorecard-details-content-right__reset-message">{{t 'scorecard.reset.label'
+                                                                      daysBeforeReset=@scorecard.remainingDaysBeforeReset}}</p>
       {{/if}}
     </div>
   </div>
@@ -102,9 +106,8 @@
     <div class="scorecard-details__content">
       <div class="tutorials">
         <div class="tutorials__header">
-          <h3 class="tutorials-header__title">Cultivez vos compétences</h3>
-          <p class="tutorials-header__description">Voici une sélection de tutos qui pourront vous aider à gagner des
-            Pix.</p>
+          <h3 class="tutorials-header__title">{{t 'scorecard.tutorials.title'}}</h3>
+          <p class="tutorials-header__description">{{t 'scorecard.tutorials.description'}}</p>
         </div>
         <div class="tutorial__list">
           {{#each this.tutorialsGroupedByTubeName as |tube|}}
@@ -132,27 +135,26 @@
 
     <div class="pix-modal__container pix-modal__container--white pix-modal__container--with-padding">
       <div class="pix-modal-header">
-        <h1 class="pix-modal-header__title pix-modal-header__title--thin">Remise à zéro de la compétence</h1>
+        <h1 class="pix-modal-header__title pix-modal-header__title--thin">{{t 'scorecard.reset.modal.title'}}</h1>
         <h2 class="pix-modal-header__subtitle">{{@scorecard.name}}</h2>
       </div>
 
       <div class="pix-modal-body pix-modal-body--with-padding">
         <div class="scorecard-details-reset-modal__important-message">
           {{#if @scorecard.hasNotReachLevelOne}}
-            Vos {{@scorecard.earnedPix}} Pix vont être supprimés.
+            {{t 'scorecard.reset.modal.importantMessage' earnedPix=@scorecard.earnedPix}}
           {{else if @scorecard.hasReachAtLeastLevelOne}}
-            Votre niveau {{@scorecard.level}} et vos {{@scorecard.earnedPix}} Pix vont être supprimés.
+            {{t 'scorecard.reset.modal.importantMessage' level=@scorecard.level earnedPix=@scorecard.earnedPix}}
           {{/if}}
         </div>
         <div class="scorecard-details-reset-modal__warning">
-          <p> Attention : si vous avez un parcours d’évaluation en cours, certaines questions pourront vous être
-            reposées.</p>
+          <p>{{t 'scorecard.reset.modal.warning'}}</p>
         </div>
       </div>
 
       <div class="pix-modal-footer pix-modal-footer--with-centered-buttons">
-        <button class="button button--big button--extra-thin button--red" {{action "reset"}}>Remettre à zéro</button>
-        <button class="button button--regular button--extra-thin button--grey" {{action "closeModal"}}>Annuler</button>
+        <button class="button button--big button--extra-thin button--red" {{action "reset"}}>{{t 'scorecard.global.reset'}}</button>
+        <button class="button button--regular button--extra-thin button--grey" {{action "closeModal"}}>{{t 'common.cancel'}}</button>
       </div>
     </div>
   </PixModal>
