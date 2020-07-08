@@ -31,38 +31,6 @@ describe('Unit | Component | competence-card-default ', function() {
     });
   });
 
-  describe('#computeRemainingDaysBeforeImproving', function() {
-    let component, scorecard;
-
-    beforeEach(() => {
-      const competenceId = 'recCompetenceId';
-      scorecard = EmberObject.create({ competenceId });
-      component = createGlimmerComponent('component:competence-card-default', { scorecard, interactive: true });
-    });
-
-    it('should return a singular sentence when remaining days before improving are equal to 1', () => {
-      // given
-      scorecard.remainingDaysBeforeImproving = 1;
-
-      // when
-      const result = component.computeRemainingDaysBeforeImproving;
-
-      // then
-      expect(result).to.be.equal('1 jour');
-    });
-
-    it('should return a plural sentence when remaining days before improving are different than 1', () => {
-      // given
-      scorecard.remainingDaysBeforeImproving = 3;
-
-      // when
-      const result = component.computeRemainingDaysBeforeImproving;
-
-      // then
-      expect(result).to.be.equal('3 jours');
-    });
-  });
-
   describe('#shouldWaitBeforeImproving', function() {
     let component, scorecard;
 
