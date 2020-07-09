@@ -79,6 +79,10 @@ when(`je me déconnecte de Pix Certif`, () => {
   cy.contains('Se déconnecter').click();
 });
 
+when(`je me déconnecte de Pix Admin`, () => {
+  cy.get('[aria-label="Se déconnecter"]').click();
+});
+
 then(`je suis redirigé vers la page {string}`, (pathname) => {
   cy.url().should('include', pathname);
 });

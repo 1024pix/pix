@@ -22,6 +22,7 @@ given('les données de test sont chargées', () => {
 
 given('tous les comptes sont créés', () => {
   cy.task('db:fixture', 'users');
+  cy.task('db:fixture', 'users_pix_roles');
 });
 
 given('je vais sur Pix', () => {
@@ -34,6 +35,10 @@ given('je vais sur Pix Orga', () => {
 
 given('je vais sur Pix Certif', () => {
   cy.visitCertif('/');
+});
+
+given('je vais sur Pix Admin', () => {
+  cy.visitAdmin('/');
 });
 
 given('j\'accède à mon profil', () => {

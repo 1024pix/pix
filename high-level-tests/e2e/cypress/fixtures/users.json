@@ -74,5 +74,13 @@
     "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
     "cgu": true,
     "mustValidateTermsOfService": true
+  },
+  {
+    "id": 10,
+    "firstName": "Pix",
+    "lastName": "Master",
+    "email": "pixmaster@example.net",
+    "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
+    "cgu": true
   }
 ]

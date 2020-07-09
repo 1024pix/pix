@@ -102,16 +102,25 @@ Cypress.Commands.add('visitCertif', (url) => {
   return cy.visit(url, { app: 'certif' });
 });
 
-Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
-  const ORGA_URL = Cypress.env('ORGA_URL');
-  const CERTIF_URL = Cypress.env('CERTIF_URL');
+Cypress.Commands.add('visitAdmin', (url) => {
+  return cy.visit(url, { app: 'admin' });
+});
 
-  if (options.app === 'orga') {
-    url = ORGA_URL + url;
+Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
+  const ADMIN_URL = Cypress.env('ADMIN_URL');
+  const CERTIF_URL = Cypress.env('CERTIF_URL');
+  const ORGA_URL = Cypress.env('ORGA_URL');
+
+  if (options.app === 'admin') {
+    url = ADMIN_URL + url;
   }
 
   if (options.app === 'certif') {
     url = CERTIF_URL + url;
+  }
+
+  if (options.app === 'orga') {
+    url = ORGA_URL + url;
   }
 
   return originalFn(url, options);

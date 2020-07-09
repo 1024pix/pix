@@ -3,5 +3,10 @@
     "id": 1,
     "user_id": 2,
     "pix_role_id": 1
+  },
+  {
+    "id": 2,
+    "user_id": 10,
+    "pix_role_id": 1
   }
 ]
