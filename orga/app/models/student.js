@@ -18,13 +18,13 @@ export default class Student extends Model {
   @attr('date-only') birthdate;
   @attr('string') username;
   @attr('string') email;
+  @attr('string') studentNumber;
   @attr('boolean') isAuthenticatedFromGar;
   @belongsTo('organization') organization;
   @notEmpty('username') hasUsername;
   @notEmpty('email') hasEmail;
 
   @computed('hasUsername', 'hasEmail', 'isAuthenticatedFromGar')
-  
   get authenticationMethods() {
     const messages = [];
 
