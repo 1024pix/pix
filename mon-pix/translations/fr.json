@@ -31,8 +31,7 @@
     "title": "Certificat Pix",
     "issued-on": "Délivré le ",
     "validity": "Certificat valable 3 ans",
-    "candidate-birth": "Né(e) le ",
-    "candidate-birth-at": " à ",
+    "candidate-birth-complete": "Né(e) le {birthdate} à {birthplace}",
     "certification-center": "Centre de certification : ",
     "exam-date": "Date de passage : ",
     "hexagon-score": {
