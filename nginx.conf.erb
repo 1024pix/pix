@@ -1,11 +1,13 @@
 # Disable compression that is performed by the Scalingo router anyway
 gzip off;
 
-location /dl/ {
-  proxy_pass https://dl.airtable.com;
-  proxy_redirect default;
-
+location ^~ /app/dl/ {
+  proxy_ssl_server_name on;
   proxy_set_header Content-Disposition "attachment;";
+  add_header Content-Disposition "attachment;";
+  
+  proxy_pass https://dl.airtable.com/;
+  proxy_redirect default;
 }
 
 location ~ ^/(?<app>[^/]+)/.*$ {
