@@ -8,6 +8,8 @@ const DEFAULT_PAGE_NUMBER = 1;
 
 export default class ListController extends Controller {
 
+  pageTitle = 'Organisations';
+
   queryParams = ['pageNumber', 'pageSize', 'name', 'type', 'externalId'];
   DEBOUNCE_MS = config.pagination.debounce;
 
