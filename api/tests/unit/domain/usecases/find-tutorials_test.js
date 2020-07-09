@@ -22,7 +22,7 @@ describe('Unit | UseCase | find-tutorials', () => {
     authenticatedUserId = 1;
     parseIdStub = sinon.stub(Scorecard, 'parseId');
     knowledgeElementRepository = { findUniqByUserIdAndCompetenceId: sinon.stub() };
-    skillRepository = { findByCompetenceId: sinon.stub() };
+    skillRepository = { findActiveByCompetenceId: sinon.stub() };
     tubeRepository = { findByNames: sinon.stub() };
     tutorialRepository = { findByRecordIdsForCurrentUser: sinon.stub() };
   });
@@ -144,7 +144,7 @@ describe('Unit | UseCase | find-tutorials', () => {
 
           knowledgeElementRepository.findUniqByUserIdAndCompetenceId.resolves(knowledgeElementList);
 
-          skillRepository.findByCompetenceId.withArgs(competenceId).returns([skill_1, skill_2, skill_3, skill_4, skill_5, skill_6, skill_7, skill_8]);
+          skillRepository.findActiveByCompetenceId.withArgs(competenceId).returns([skill_1, skill_2, skill_3, skill_4, skill_5, skill_6, skill_7, skill_8]);
 
           const tubeNames = ['@wikipédia', '@recherche'];
           const tubeList = [
@@ -193,7 +193,7 @@ describe('Unit | UseCase | find-tutorials', () => {
           ];
 
           knowledgeElementRepository.findUniqByUserIdAndCompetenceId.resolves(knowledgeElementList);
-          skillRepository.findByCompetenceId.withArgs(competenceId).returns([skill_1, skill_2]);
+          skillRepository.findActiveByCompetenceId.withArgs(competenceId).returns([skill_1, skill_2]);
 
           // when
           const result = await findTutorials({
@@ -207,7 +207,7 @@ describe('Unit | UseCase | find-tutorials', () => {
           });
 
           //then
-          expect(skillRepository.findByCompetenceId).to.not.have.been.called;
+          expect(skillRepository.findActiveByCompetenceId).to.not.have.been.called;
           expect(result).to.deep.equal([]);
         });
       });

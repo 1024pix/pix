@@ -195,6 +195,7 @@ describe('Unit | Repository | challenge-repository', () => {
     let skillURL2;
     let skillURL3;
     let skills;
+    let operativeSkills;
 
     beforeEach(() => {
 
@@ -219,16 +220,19 @@ describe('Unit | Repository | challenge-repository', () => {
         competenceId: 'rec1',
         tubeId: 'recTube3',
       });
-      skills = [skillWeb1, skillURL2, skillURL3];
+      skills = [skillWeb1, skillURL2];
+      operativeSkills = [skillWeb1, skillURL2, skillURL3];
       sinon.stub(skillDatasource, 'get');
-      sinon.stub(skillDatasource, 'findActiveSkills');
-      skillDatasource.findActiveSkills.resolves(skills);
+      sinon.stub(skillDatasource, 'findActive');
+      sinon.stub(skillDatasource, 'findOperative');
+      skillDatasource.findActive.resolves(skills);
+      skillDatasource.findOperative.resolves(operativeSkills);
     });
 
-    describe('#list', () => {
+    describe('#findValidated', () => {
 
       beforeEach(() => {
-        sinon.stub(challengeDatasource, 'list');
+        sinon.stub(challengeDatasource, 'findValidated');
         sinon.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
       });
 
@@ -238,7 +242,7 @@ describe('Unit | Repository | challenge-repository', () => {
 
         beforeEach(() => {
           // given
-          challengeDatasource.list.resolves([
+          challengeDatasource.findValidated.resolves([
             domainBuilder.buildChallengeAirtableDataObject({
               id: 'rec_challenge_1',
               skillIds: [skillWeb1.id],
@@ -252,7 +256,7 @@ describe('Unit | Repository | challenge-repository', () => {
           solutionAdapter.fromChallengeAirtableDataObject.returns(domainBuilder.buildSolution());
 
           // when
-          promise = challengeRepository.list();
+          promise = challengeRepository.findValidated();
         });
 
         it('should succeed', () => {
@@ -263,7 +267,108 @@ describe('Unit | Repository | challenge-repository', () => {
         it('should call challengeDataObjects with competence', () => {
           // then
           return promise.then(() => {
-            expect(challengeDatasource.list).to.have.been.calledWithExactly();
+            expect(challengeDatasource.findValidated).to.have.been.calledWithExactly();
+          });
+        });
+
+        it('should resolve an array of 2 Challenge domain objects', () => {
+          // then
+          return promise.then((challenges) => {
+            expect(challenges).to.be.an('array');
+            expect(challenges).to.have.lengthOf(2);
+            challenges.map((challenge) => expect(challenge).to.be.an.instanceOf(Challenge));
+          });
+        });
+
+        it('should load skills in the challenges', () => {
+          // then
+          return promise.then((challenges) => {
+            expect(challenges[0].skills).to.deep.equal([
+              {
+                'id': 'recSkillWeb1',
+                'name': '@web1',
+                'pixValue': 2,
+                'competenceId': 'rec1',
+                'tutorialIds': [DEFAULT_TUTORIAL_ID],
+                'tubeId': 'recTube1',
+              }
+            ]);
+            expect(challenges[1].skills).to.deep.equal([
+              {
+                'id': 'recSkillURL2',
+                'name': '@url2',
+                'pixValue': 3,
+                'competenceId': 'rec1',
+                'tutorialIds': [DEFAULT_TUTORIAL_ID],
+                'tubeId': 'recTube2',
+              },
+            ]);
+          });
+        });
+
+        it('should not retrieve skills individually', () => {
+          // then
+          return promise.then(() => {
+            expect(skillDatasource.get).not.to.have.been.called;
+          });
+        });
+      });
+
+      context('when the datasource is on error', () => {
+
+        it('should transfer the error', () => {
+          // given
+          const error = new Error();
+          challengeDatasource.findValidated.rejects(error);
+
+          // when
+          const promise = challengeRepository.findValidated();
+
+          // then
+          return expect(promise).to.have.been.rejectedWith(error);
+        });
+      });
+    });
+
+    describe('#findOperative', () => {
+
+      beforeEach(() => {
+        sinon.stub(challengeDatasource, 'findOperative');
+        sinon.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
+      });
+
+      context('when query happens with no error', () => {
+
+        let promise;
+
+        beforeEach(() => {
+          // given
+          challengeDatasource.findOperative.resolves([
+            domainBuilder.buildChallengeAirtableDataObject({
+              id: 'rec_challenge_1',
+              skillIds: [skillWeb1.id],
+            }),
+            domainBuilder.buildChallengeAirtableDataObject({
+              id: 'rec_challenge_2',
+              skillIds: [skillURL2.id, skillURL3.id, 'not_existing_skill_id'],
+            }),
+          ]);
+
+          solutionAdapter.fromChallengeAirtableDataObject.returns(domainBuilder.buildSolution());
+
+          // when
+          promise = challengeRepository.findOperative();
+        });
+
+        it('should succeed', () => {
+          // then
+          return expect(promise).to.be.fulfilled;
+        });
+
+        it('should call challengeDataObjects with competence', () => {
+          // then
+          return promise.then(() => {
+            expect(challengeDatasource.findOperative).to.have.been.calledWithExactly();
           });
         });
 
@@ -305,7 +410,7 @@ describe('Unit | Repository | challenge-repository', () => {
                 'competenceId': 'rec1',
                 'tutorialIds': [DEFAULT_TUTORIAL_ID],
                 'tubeId': 'recTube3',
-              }
+              },
             ]);
           });
         });
@@ -323,10 +428,10 @@ describe('Unit | Repository | challenge-repository', () => {
         it('should transfer the error', () => {
           // given
           const error = new Error();
-          challengeDatasource.list.rejects(error);
+          challengeDatasource.findOperative.rejects(error);
 
           // when
-          const promise = challengeRepository.list();
+          const promise = challengeRepository.findOperative();
 
           // then
           return expect(promise).to.have.been.rejectedWith(error);
@@ -334,14 +439,14 @@ describe('Unit | Repository | challenge-repository', () => {
       });
     });
 
-    describe('#findByCompetenceId', () => {
+    describe('#findValidatedByCompetenceId', () => {
 
       let competence;
 
       beforeEach(() => {
         competence = domainBuilder.buildCompetence();
 
-        sinon.stub(challengeDatasource, 'findByCompetenceId');
+        sinon.stub(challengeDatasource, 'findValidatedByCompetenceId');
         sinon.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
       });
 
@@ -365,13 +470,13 @@ describe('Unit | Repository | challenge-repository', () => {
             skillIds: [skillURL2.id, skillURL3.id],
           });
           solution = domainBuilder.buildSolution();
-          challengeDatasource.findByCompetenceId
+          challengeDatasource.findValidatedByCompetenceId
             .withArgs(competence.id)
             .resolves([challengeDataObject1, challengeDataObject2]);
           solutionAdapter.fromChallengeAirtableDataObject.returns(solution);
 
           // when
-          promise = challengeRepository.findByCompetenceId(competence.id);
+          promise = challengeRepository.findValidatedByCompetenceId(competence.id);
         });
 
         it('should succeed', () => {
@@ -381,7 +486,7 @@ describe('Unit | Repository | challenge-repository', () => {
         it('should call challengeDataObjects with competence', () => {
           // then
           return promise.then(() => {
-            expect(challengeDatasource.findByCompetenceId).to.have.been.calledWith(competence.id);
+            expect(challengeDatasource.findValidatedByCompetenceId).to.have.been.calledWith(competence.id);
           });
         });
         it('should resolve an array of 2 Challenge domain objects', () => {
@@ -400,10 +505,10 @@ describe('Unit | Repository | challenge-repository', () => {
         it('should transfer the error', () => {
           // given
           const error = new Error();
-          challengeDatasource.findByCompetenceId.rejects(error);
+          challengeDatasource.findValidatedByCompetenceId.rejects(error);
 
           // when
-          const promise = challengeRepository.findByCompetenceId(competence.id);
+          const promise = challengeRepository.findValidatedByCompetenceId(competence.id);
 
           // then
           return expect(promise).to.have.been.rejectedWith(error);
@@ -411,11 +516,11 @@ describe('Unit | Repository | challenge-repository', () => {
       });
     });
 
-    describe('#findBySkills', () => {
+    describe('#findOperativeBySkills', () => {
 
       beforeEach(() => {
 
-        sinon.stub(challengeDatasource, 'findBySkillIds');
+        sinon.stub(challengeDatasource, 'findOperativeBySkillIds');
         sinon.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
       });
 
@@ -440,7 +545,7 @@ describe('Unit | Repository | challenge-repository', () => {
           });
           solution = domainBuilder.buildSolution();
 
-          challengeDatasource.findBySkillIds.resolves([
+          challengeDatasource.findOperativeBySkillIds.resolves([
             challengeDataObject1,
             challengeDataObject2,
           ]);
@@ -448,7 +553,7 @@ describe('Unit | Repository | challenge-repository', () => {
           solutionAdapter.fromChallengeAirtableDataObject.returns(solution);
 
           // when
-          promise = challengeRepository.findBySkills(skills);
+          promise = challengeRepository.findOperativeBySkills(skills);
         });
 
         it('should succeed', () => {
@@ -458,7 +563,7 @@ describe('Unit | Repository | challenge-repository', () => {
         it('should call challengeDataObjects with competence', () => {
           // then
           return promise.then(() => {
-            expect(challengeDatasource.findBySkillIds).to.have.been.calledWith(skills.map((skill) => skill.id));
+            expect(challengeDatasource.findOperativeBySkillIds).to.have.been.calledWith(skills.map((skill) => skill.id));
           });
         });
         it('should resolve an array of 2 Challenge domain objects', () => {
@@ -477,10 +582,10 @@ describe('Unit | Repository | challenge-repository', () => {
         it('should transfer the error', () => {
           // given
           const error = new Error();
-          challengeDatasource.findBySkillIds.rejects(error);
+          challengeDatasource.findOperativeBySkillIds.rejects(error);
 
           // when
-          const promise = challengeRepository.findBySkills(skills);
+          const promise = challengeRepository.findOperativeBySkills(skills);
 
           // then
           return expect(promise).to.have.been.rejectedWith(error);

@@ -1,4 +1,5 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const _ = require('lodash');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
@@ -32,13 +33,12 @@ describe('Integration | Service | User Service', function() {
     return competence;
   }
 
-  function _createChallenge(id, competence, skills, testedSkill, status = 'validé') {
+  function _createChallenge(id, competence, skills, testedSkill) {
     const challenge = new Challenge();
     challenge.id = id;
     challenge.skills = skills;
     challenge.competenceId = competence;
     challenge.testedSkill = testedSkill;
-    challenge.status = status;
     return challenge;
   }
 
@@ -51,7 +51,6 @@ describe('Integration | Service | User Service', function() {
   const skillUrl3 = new Skill({ id: 70, name: '@url3' });
   const skillWeb1 = new Skill({ id: 80, name: '@web1' });
   const skillSearch1 = new Skill({ id: 90, name: '@url1' });
-  const skillWithoutChallenge = new Skill({ id: 100, name: '@oldSKill8' });
   const skillRequin5 = new Skill({ id: 110, name: '@requin5' });
   const skillRequin8 = new Skill({ id: 120, name: '@requin8' });
 
@@ -65,8 +64,7 @@ describe('Integration | Service | User Service', function() {
   const challengeForSkillCitation4AndMoteur3 = _createChallenge('challengeRecordIdTwo', competenceFlipper.id, [skillCitation4, skillMoteur3], '@citation4');
   const challengeForSkillRecherche4 = _createChallenge('challengeRecordIdFour', competenceFlipper.id, [skillRecherche4], '@recherche4');
   const challengeRecordWithoutSkills = _createChallenge('challengeRecordIdNine', competenceFlipper.id, [], null);
-  const archivedChallengeForSkillCitation4 = _createChallenge('challengeRecordIdTen', competenceFlipper.id, [skillCitation4], '@citation4', 'archive');
-  const oldChallengeWithAlreadyValidatedSkill = _createChallenge('challengeRecordIdEleven', competenceFlipper.id, [skillWithoutChallenge], '@oldSkill8', 'proposé');
+  const anotherChallengeForSkillCitation4 = _createChallenge('challengeRecordIdTen', competenceFlipper.id, [skillCitation4], '@citation4');
   const challengeForSkillSearch1 = _createChallenge('challenge_url1', competenceFlipper.id, [skillSearch1], '@search1');
   const challenge2ForSkillSearch1 = _createChallenge('challenge_bis_url1', competenceFlipper.id, [skillSearch1], '@search1');
 
@@ -79,9 +77,9 @@ describe('Integration | Service | User Service', function() {
   const challengeForSkillRequin8 = _createChallenge('challengeRecordIdTen', competenceRequin.id, [skillRequin8], '@requin8');
 
   beforeEach(() => {
-    sinon.stub(challengeRepository, 'list').resolves([
+    sinon.stub(challengeRepository, 'findOperative').resolves([
       challengeForSkillCitation4,
-      archivedChallengeForSkillCitation4,
+      anotherChallengeForSkillCitation4,
       challengeForSkillCitation4AndMoteur3,
       challengeForSkillCollaborer4,
       challengeForSkillRecherche4,
@@ -90,7 +88,6 @@ describe('Integration | Service | User Service', function() {
       challengeForSkillUrl3,
       challengeForSkillWeb1,
       challengeRecordWithoutSkills,
-      oldChallengeWithAlreadyValidatedSkill,
       challengeForSkillRequin5,
       challengeForSkillRequin8,
     ]);
@@ -375,14 +372,14 @@ describe('Integration | Service | User Service', function() {
       // when
     });
 
-    it('should list available challenges', async () => {
+    it('should find validated challenges', async () => {
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFive']);
 
       // when
       await userService.fillCertificationProfileWithChallenges(certificationProfile);
 
       // then
-      sinon.assert.calledOnce(challengeRepository.list);
+      sinon.assert.calledOnce(challengeRepository.findOperative);
     });
 
     it('should assign skill to related competence', async () => {
@@ -446,21 +443,23 @@ describe('Integration | Service | User Service', function() {
 
     context('when three challenges validate the same skill', () => {
 
-      it('should select the unanswered challenge which is published', async () => {
+      it('should select an unanswered challenge', async () => {
         // given
         certificationProfile.userCompetences = [userCompetence1];
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdOne']);
 
         // when
         const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
+        const expectedSkills = [skillCitation4];
 
         // then
         expect(actualCertificationProfile.userCompetences).to.deep.equal([
           {
             ...certificationProfile.userCompetences[0],
-            skills: [skillCitation4],
-            challenges: [challengeForSkillCitation4AndMoteur3],
+            skills: expectedSkills,
           }]);
+        const skillsForChallenges = _.uniq(_.flatMap(actualCertificationProfile.userCompetences[0].challenges, 'skills'));
+        expect(skillsForChallenges).to.deep.include.members(expectedSkills);
       });
 
       it('should select a challenge for every skill', async () => {
@@ -470,15 +469,39 @@ describe('Integration | Service | User Service', function() {
 
         // when
         const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
+        const expectedSkills = [skillCitation4, skillRecherche4, skillMoteur3];
 
         // then
         expect(actualCertificationProfile.userCompetences).to.deep.equal([
           {
             ...certificationProfile.userCompetences[0],
-            skills: [skillCitation4, skillRecherche4, skillMoteur3],
-            challenges: [challengeForSkillCitation4, challengeForSkillRecherche4, challengeForSkillCitation4AndMoteur3]
+            skills: expectedSkills,
           },
         ]);
+
+        const skillsForChallenges = _.uniq(_.flatMap(actualCertificationProfile.userCompetences[0].challenges, 'skills'));
+        expect(skillsForChallenges).to.deep.include.members(expectedSkills);
+      });
+
+      it('should return at most one challenge per skill', async () => {
+        // given
+        certificationProfile.userCompetences = [userCompetence1];
+        answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFour', 'challengeRecordIdTwo']);
+
+        // when
+        const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
+        const expectedSkills = [skillCitation4, skillRecherche4, skillMoteur3];
+
+        // then
+        expect(actualCertificationProfile.userCompetences).to.deep.equal([
+          {
+            ...certificationProfile.userCompetences[0],
+            skills: expectedSkills,
+          },
+        ]);
+
+        const skillsForChallenges = _.uniq(_.flatMap(actualCertificationProfile.userCompetences[0].challenges, 'skills'));
+        expect(skillsForChallenges.length).to.equal(expectedSkills.length);
       });
     });
 
@@ -691,7 +714,7 @@ describe('Integration | Service | User Service', function() {
         // given
         certificationProfile.userCompetences = [userCompetence1, userCompetence2];
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFour', 'challengeRecordIdTwo', 'challenge_url1']);
-        challengeRepository.list.resolves([
+        challengeRepository.findOperative.resolves([
           challengeForSkillRecherche4,
           challengeForSkillCitation4AndMoteur3,
           challengeForSkillCollaborer4,

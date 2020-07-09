@@ -47,7 +47,7 @@ async function _fetchSkillsAndChallenges({
   challengeRepository,
 }) {
   const targetProfile = await targetProfileRepository.get(targetProfileId);
-  const challenges = await challengeRepository.findBySkills(targetProfile.skills);
+  const challenges = await challengeRepository.findOperativeBySkills(targetProfile.skills);
   return [ targetProfile.skills, challenges ];
 }
 
@@ -67,8 +67,8 @@ async function fetchForCompetenceEvaluations({
     knowledgeElements
   ] = await Promise.all([
     answerRepository.findByAssessment(assessment.id),
-    skillRepository.findByCompetenceId(assessment.competenceId),
-    challengeRepository.findByCompetenceId(assessment.competenceId),
+    skillRepository.findActiveByCompetenceId(assessment.competenceId),
+    challengeRepository.findValidatedByCompetenceId(assessment.competenceId),
     _fetchKnowledgeElements({ assessment, knowledgeElementRepository, improvementService })
   ]);
 

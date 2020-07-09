@@ -31,7 +31,7 @@ async function _fetchData(campaignId) {
   ]);
 
   const targetedSkillIds = campaign.related('targetProfile').related('skillIds').map((targetProfileSkill) => targetProfileSkill.get('skillId'));
-  const targetedSkills = await skillDatasource.findByRecordIds(targetedSkillIds);
+  const targetedSkills = await skillDatasource.findOperativeByRecordIds(targetedSkillIds);
 
   return { targetedSkillIds, targetedSkills, participantCount };
 }

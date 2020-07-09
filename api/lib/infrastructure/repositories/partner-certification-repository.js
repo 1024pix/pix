@@ -94,7 +94,7 @@ async function _getCleaSkills(skillRepository) {
   if (_.isEmpty(skillIds)) {
     return [];
   }
-  return skillRepository.findByIds(skillIds[0].skillIds);
+  return skillRepository.findOperativeByIds(skillIds[0].skillIds);
 }
 
 function _getMaxReachablePixByCompetenceForClea(cleaSkills) {

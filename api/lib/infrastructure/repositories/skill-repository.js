@@ -14,13 +14,18 @@ function _toDomain(skillData) {
 
 module.exports = {
 
-  findByCompetenceId(competenceId) {
-    return skillDatasource.findByCompetenceId(competenceId)
+  findActiveByCompetenceId(competenceId) {
+    return skillDatasource.findActiveByCompetenceId(competenceId)
       .then((skillDatas) => skillDatas.map(_toDomain));
   },
 
-  findByIds(skillIds) {
-    return skillDatasource.findByRecordIds(skillIds)
+  findOperativeByCompetenceId(competenceId) {
+    return skillDatasource.findOperativeByCompetenceId(competenceId)
+      .then((skillDatas) => skillDatas.map(_toDomain));
+  },
+
+  findOperativeByIds(skillIds) {
+    return skillDatasource.findOperativeByRecordIds(skillIds)
       .then((skillDatas) => skillDatas.map(_toDomain));
   },
 };
