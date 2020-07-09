@@ -14,42 +14,34 @@
     <table>
       <thead>
         <tr>
-          <th>Nom</th>
-          <th>Prénom</th>
-          <th>Date de naissance</th>
-          <th>Connecté avec</th>
-          <th></th>
+          <Table::Header>Nom</Table::Header>
+          <Table::Header>Prénom</Table::Header>
+          <Table::Header>Date de naissance</Table::Header>
+          <Table::Header>Connecté avec</Table::Header>
+          <Table::Header @size="small"/>
         </tr>
         <tr>
-            <th>
-              <SearchInput
-                class="table__input"
-                @inputName="lastName"
-                @value={{@lastNameFilter}}
-                @placeholder="Rechercher par nom"
-                @filterFunction={{fn @triggerFiltering "lastName" true}}
-              />
-            </th>
-            <th>
-              <SearchInput
-                class="table__input"
-                @inputName="firstName"
-                @value={{@firstNameFilter}}
-                @placeholder="Rechercher par prénom"
-                @filterFunction={{fn @triggerFiltering "firstName" true}}
-              />
-            </th>
-            <th></th>
-            <th>
-              <SelectInput
-                @class="table__input"
-                @onChange={{fn @triggerFiltering "connexionType" false}}
-                @options={{@connexionTypesOptions}}
-                @selectedOption={{@connexionTypeFilter}}
-              />
-            </th>
-            <th></th>
-          </tr>
+          <Table::HeaderFilterInput
+            @field="lastName"
+            @value={{@lastNameFilter}}
+            @placeholder="Rechercher par nom"
+            @triggerFiltering={{@triggerFiltering}}
+          />
+          <Table::HeaderFilterInput
+            @field="firstName"
+            @value={{@firstNameFilter}}
+            @placeholder="Rechercher par prénom"
+            @triggerFiltering={{@triggerFiltering}}
+          />
+          <Table::Header/>
+          <Table::HeaderFilterSelect
+            @field="connexionType"
+            @options={{@connexionTypesOptions}}
+            @selectedOption={{@connexionTypeFilter}}
+            @triggerFiltering={{@triggerFiltering}}
+          />
+          <Table::Header/>
+        </tr>
       </thead>
 
       {{#if @students}}
