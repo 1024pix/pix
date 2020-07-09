@@ -1,6 +1,7 @@
 {
   "common": {
-    "cancel": "annuler",
+    "cancel": "Annuler",
+    "close": "Fermer",
     "form": {
       "mandatory-fields": "Les champs marqués de '<abbr title=\"obligatoire\" class=\"mandatory-mark\">'*'</abbr>' sont obligatoires"
     },
@@ -82,35 +83,39 @@
     "title": "Inscrivez-vous"
   },
   "scorecard": {
-    "global": {
-      "back": "Retour Profil",
-      "startover": "reprendre",
-      "reset": "remettre à zéro",
-      "start": "Commencer"
-    },
-    "details": {
-      "levelInfo": "{ remainingPixToNextLevel } pix avant le niveau { level }"
-    },
-    "improve": {
-      "label": "Tenter le niveau supérieur dans",
-      "count": "{ daysBeforeImproving, plural, =0 {0 jour.} =1 {1 jour.} other {# jours.} }",
-      "startover": "Retenter",
-      "startOverCompetence": "la compétence {competence}",
-      "improvingText": "Tentez d'obtenir le niveau supérieur !"
-    },
-    "reset": {
-      "button": "Remettre à zéro",
-      "label": "Remise à zéro disponible dans { daysBeforeReset, plural, =0 {0 jour.} =1 {1 jour.} other {# jours.} }",
-      "modal": {
-        "title": "Remise à zéro de la compétence",
-        "importantMessage": "Vos { earnedPix } Pix vont être supprimés.",
-        "importantMessageAboveLevelOne": "Votre niveau { level } et vos { earnedPix } Pix vont être supprimés.",
-        "warning": "Attention : si vous avez un parcours d’évaluation en cours, certaines questions pourront vous être reposées."
+    "actions": {
+      "continue": {
+        "label": "Reprendre"
+      },
+      "improve": {
+        "label": "Retenter",
+        "description": {
+          "waitingText": "Tenter le niveau supérieur dans",
+          "dayBefore": "{ daysBeforeImproving, plural, =0 {0 jour.} =1 {1 jour.} other {# jours.} }"
+        },
+        "improvingText": "Tentez d'obtenir le niveau supérieur !"
+      },
+      "reset": {
+        "label": "Remettre à zéro",
+        "description": "Remise à zéro disponible dans { daysBeforeReset, plural, =0 {0 jour.} =1 {1 jour.} other {# jours.} }",
+        "modal": {
+          "title": "Remise à zéro de la compétence",
+          "importantMessage": "Vos { earnedPix } Pix vont être supprimés.",
+          "importantMessageAboveLevelOne": "Votre niveau { level } et vos { earnedPix } Pix vont être supprimés.",
+          "warning": "Attention : si vous avez un parcours d’évaluation en cours, certaines questions pourront vous être reposées."
+        }
+      },
+      "start": {
+        "label": "Commencer"
       }
     },
+    "forCompetence": "la compétence {competence}",
+    "linkToProfile": "Retour Profil",
+    "nextLevelInfo": "{ remainingPixToNextLevel } pix avant le niveau { level }",
     "tutorials": {
       "title": "Cultivez vos compétences",
       "description": "Voici une sélection de tutos qui pourront vous aider à gagner des Pix."
     }
   }
+
 }
