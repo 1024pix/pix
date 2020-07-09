@@ -7,24 +7,23 @@ describe('Acceptance | users-controller-find-users', () => {
   let options;
 
   beforeEach(async () => {
-    // create server
     server = await createServer();
 
-    // Insert 1 user with role PixMaster
-    const userPixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+    const userPixMasterId = databaseBuilder.factory.buildUser.withPixRolePixMaster({
+      firstName: 'PixMaster_firstName',
+      lastName: 'PixMaster_lastName'
+    }).id;
 
-    // Insert 2 more users
     databaseBuilder.factory.buildUser({ firstName: 'Jean-Paul', lastName: 'Grand', email: 'jean-paul.grand@example.net' });
     databaseBuilder.factory.buildUser({ firstName: 'Jean', lastName: 'Coula', email: 'jean.coula@example.org' });
 
     options = {
       method: 'GET',
       url: '/api/users',
-      payload: { },
-      headers: { authorization: generateValidRequestAuthorizationHeader(userPixMaster.id) },
+      headers: { authorization: generateValidRequestAuthorizationHeader(userPixMasterId) },
     };
 
-    return databaseBuilder.commit();
+    await databaseBuilder.commit();
   });
 
   describe('GET /users', () => {
