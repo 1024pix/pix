@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const { pipe } = require('lodash/fp');
 const catAlgorithm = require('./cat-algorithm');
 const { getFilteredSkillsForNextChallenge, getFilteredSkillsForFirstChallenge } = require('./skills-filter');
 const { computeTubesFromSkills } = require('./../tube-service');
@@ -14,7 +13,7 @@ function getPossibleSkillsForNextChallenge({ knowledgeElements, challenges, targ
   const knowledgeElementsOfTargetSkills = knowledgeElements.filter((ke) => {
     return targetSkills.find((skill) => skill.id === ke.skillId);
   });
-  const filteredChallenges = _filterChallenges({ challenges, allAnswers });
+  const filteredChallenges = _removeChallengesWithAnswer({ challenges, allAnswers });
   targetSkills = _getSkillsWithAddedInformations({ targetSkills, filteredChallenges });
 
   // First challenge has specific rules
@@ -72,18 +71,7 @@ function _getSkillsWithAddedInformations({ targetSkills, filteredChallenges }) {
   });
 }
 
-function _filterChallenges({ challenges, allAnswers }) {
-  return pipe(
-    _removeChallengesWithAnswer,
-    _removeUnpublishedChallenges,
-  )({ challenges, allAnswers });
-}
-
 function _removeChallengesWithAnswer({ challenges, allAnswers }) {
   const challengeIdsWithAnswer = allAnswers.map((answer) => answer.challengeId);
   return challenges.filter((challenge) => !_.includes(challengeIdsWithAnswer, challenge.id));
-}
-
-function _removeUnpublishedChallenges(challenges) {
-  return _.filter(challenges, (challenge) => challenge.isPublished());
 }

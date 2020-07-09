@@ -9,11 +9,11 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
   describe('#findPaginatedByCampaignId', () => {
 
     beforeEach(() => {
-      sinon.stub(skillDatasource, 'findByRecordIds').resolves([]);
+      sinon.stub(skillDatasource, 'findOperativeByRecordIds').resolves([]);
     });
 
     afterEach(() => {
-      skillDatasource.findByRecordIds.restore();
+      skillDatasource.findOperativeByRecordIds.restore();
     });
 
     let campaign;
@@ -103,8 +103,8 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
           { id: 'skill1', name: '@Acquis1' },
           { id: 'skill1', name: '@Acqui2' }
         ];
-        skillDatasource.findByRecordIds.restore();
-        sinon.stub(skillDatasource, 'findByRecordIds').resolves(skills);
+        skillDatasource.findOperativeByRecordIds.restore();
+        sinon.stub(skillDatasource, 'findOperativeByRecordIds').resolves(skills);
 
         campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, skills);
         const participation = { campaignId: campaign.id };
@@ -131,8 +131,8 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
           { id: 'skill2', name: '@Acquis2' },
           { id: 'skill3', name: '@Acquis3' }
         ];
-        skillDatasource.findByRecordIds.restore();
-        sinon.stub(skillDatasource, 'findByRecordIds').resolves(skills);
+        skillDatasource.findOperativeByRecordIds.restore();
+        sinon.stub(skillDatasource, 'findOperativeByRecordIds').resolves(skills);
 
         campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, skills);
 
@@ -183,8 +183,8 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
           { id: 'skill2', name: '@Acquis2' },
           { id: 'skill3', name: '@Acquis3' }
         ];
-        skillDatasource.findByRecordIds.restore();
-        sinon.stub(skillDatasource, 'findByRecordIds').resolves(skills);
+        skillDatasource.findOperativeByRecordIds.restore();
+        sinon.stub(skillDatasource, 'findOperativeByRecordIds').resolves(skills);
 
         campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, skills);
 

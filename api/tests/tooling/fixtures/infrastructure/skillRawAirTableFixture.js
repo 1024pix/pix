@@ -58,6 +58,11 @@ class SkillRawAirTableFixture extends AirtableRecord {
     return this;
   }
 
+  withArchivedStatus() {
+    this.fields[STATUS] = 'archivé';
+    return this;
+  }
+
   withInactiveStatus() {
     this.fields[STATUS] = 'périmé';
     return this;

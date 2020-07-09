@@ -16,7 +16,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
   const knowledgeElementRepository = { findUniqByUserId: () => undefined };
   const assessmentRepository = { getByAssessmentIdAndUserId: () => undefined };
   const competenceEvaluationRepository = { getByAssessmentId: () => undefined };
-  const skillRepository = { findByCompetenceId: () => undefined };
+  const skillRepository = { findActiveByCompetenceId: () => undefined };
   const improvementService = { filterKnowledgeElementsIfImproving: () => undefined };
 
   let sandbox;
@@ -166,7 +166,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
       beforeEach(() => {
         sandbox.stub(assessmentRepository, 'getByAssessmentIdAndUserId').resolves(competenceEvaluationAssessment);
         sandbox.stub(competenceEvaluationRepository, 'getByAssessmentId').resolves(competenceEvaluation);
-        sandbox.stub(skillRepository, 'findByCompetenceId').resolves(competenceSkills);
+        sandbox.stub(skillRepository, 'findActiveByCompetenceId').resolves(competenceSkills);
         sandbox.stub(improvementService, 'filterKnowledgeElementsIfImproving')
           .withArgs({ knowledgeElements: [], assessment: competenceEvaluationAssessment }).returns([]);
       });

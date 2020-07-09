@@ -26,8 +26,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
       lastAnswer = null;
 
       answerRepository = { findByAssessment: sinon.stub().resolves([lastAnswer]) };
-      challengeRepository = { findByCompetenceId: sinon.stub().resolves(challenges) };
-      skillRepository = { findByCompetenceId: sinon.stub().resolves(targetSkills) };
+      challengeRepository = { findValidatedByCompetenceId: sinon.stub().resolves(challenges) };
+      skillRepository = { findActiveByCompetenceId: sinon.stub().resolves(targetSkills) };
       pickChallengeService = { pickChallenge: sinon.stub().resolves(challengeUrl22) };
 
       recentKnowledgeElements = [{ createdAt: 4, skillId: 'url2' }, { createdAt: 2, skillId: 'web1' }];
@@ -90,7 +90,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
       });
 
       it('should have fetched the challenges', () => {
-        expect(challengeRepository.findByCompetenceId).to.have.been.calledWithExactly(competenceId);
+        expect(challengeRepository.findValidatedByCompetenceId).to.have.been.calledWithExactly(competenceId);
       });
 
       it('should have fetched the next challenge with only most recent knowledge elements', () => {

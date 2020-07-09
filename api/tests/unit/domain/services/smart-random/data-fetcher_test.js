@@ -19,7 +19,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
         get: sinon.stub(),
       };
       challengeRepository = {
-        findBySkills: sinon.stub(),answerRepository
+        findOperativeBySkills: sinon.stub(),answerRepository
       };
       knowledgeElementRepository = {
         findUniqByUserId: sinon.stub(),
@@ -44,7 +44,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
       assessment.campaignParticipation.getTargetProfileId = () => 1;
       answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
       targetProfileRepository.get.withArgs(1).resolves(targetProfile);
-      challengeRepository.findBySkills.withArgs(targetProfile.skills).resolves(challenges);
+      challengeRepository.findOperativeBySkills.withArgs(targetProfile.skills).resolves(challenges);
       knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves(knowledgeElements);
       improvementService.filterKnowledgeElementsIfImproving.resolves(knowledgeElements);
 
@@ -86,13 +86,13 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
         findByAssessment: sinon.stub(),
       };
       challengeRepository = {
-        findByCompetenceId: sinon.stub(),
+        findValidatedByCompetenceId: sinon.stub(),
       };
       knowledgeElementRepository = {
         findUniqByUserId: sinon.stub(),
       };
       skillRepository = {
-        findByCompetenceId: sinon.stub(),
+        findActiveByCompetenceId: sinon.stub(),
       };
       improvementService = {
         filterKnowledgeElementsIfImproving: sinon.stub(),
@@ -111,8 +111,8 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
       const assessment = domainBuilder.buildAssessment.ofTypeCampaign();
 
       answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
-      skillRepository.findByCompetenceId.withArgs(assessment.competenceId).resolves(skills);
-      challengeRepository.findByCompetenceId.withArgs(assessment.competenceId).resolves(challenges);
+      skillRepository.findActiveByCompetenceId.withArgs(assessment.competenceId).resolves(skills);
+      challengeRepository.findValidatedByCompetenceId.withArgs(assessment.competenceId).resolves(challenges);
       knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves(knowledgeElements);
       improvementService.filterKnowledgeElementsIfImproving.resolves(knowledgeElements);
 

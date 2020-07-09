@@ -1,5 +1,5 @@
 const _ = require('lodash');
-
+const bluebird = require('bluebird');
 const Challenge = require('../../domain/models/Challenge');
 
 const challengeDatasource = require('../datasources/airtable/challenge-datasource');
@@ -11,61 +11,63 @@ const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {
 
-  get(id) {
-
-    return challengeDatasource.get(id)
-      .then(_generateChallengeDomainModel)
-      .catch((error) => {
-        if (error instanceof AirtableResourceNotFound) {
-          throw new NotFoundError();
-        }
-        throw error;
+  async get(id) {
+    try {
+      const challenge = await challengeDatasource.get(id);
+      const skillDataObjects = await bluebird.mapSeries(challenge.skillIds, (skillId) => {
+        return skillDatasource.get(skillId);
       });
+      return _toDomain({ challengeDataObject: challenge, skillDataObjects });
+    } catch (error) {
+      if (error instanceof AirtableResourceNotFound) {
+        throw new NotFoundError();
+      }
+      throw error;
+    }
   },
 
-  list() {
-
-    return challengeDatasource.list()
-      .then(_generateChallengeDomainModels);
+  async findValidated() {
+    const challengeDataObjects = await challengeDatasource.findValidated();
+    const activeSkills = await skillDatasource.findActive();
+    return _toDomainCollection({ challengeDataObjects, skills: activeSkills });
   },
 
-  findByCompetenceId(competenceId) {
-
-    return challengeDatasource.findByCompetenceId(competenceId)
-      .then(_generateChallengeDomainModels);
+  async findOperative() {
+    const challengeDataObjects = await challengeDatasource.findOperative();
+    const operativeSkills = await skillDatasource.findOperative();
+    return _toDomainCollection({ challengeDataObjects, skills: operativeSkills });
   },
 
-  findBySkills(skills) {
+  async findValidatedByCompetenceId(competenceId) {
+    const challengeDataObjects = await challengeDatasource.findValidatedByCompetenceId(competenceId);
+    const activeSkills = await skillDatasource.findActive();
+    return _toDomainCollection({ challengeDataObjects, skills: activeSkills });
+  },
+
+  async findOperativeBySkills(skills) {
     const skillIds = skills.map((skill) => skill.id);
-    return challengeDatasource.findBySkillIds(skillIds)
-      .then(_generateChallengeDomainModels);
+    const challengeDataObjects = await challengeDatasource.findOperativeBySkillIds(skillIds);
+    const operativeSkills = await skillDatasource.findOperative();
+    return _toDomainCollection({ challengeDataObjects, skills: operativeSkills });
   },
 };
 
-function _generateChallengeDomainModels(challengeDataObjects) {
-  return skillDatasource.findActiveSkills().then((allSkills) => {
-    const lookupSkill = (id) => _.find(allSkills, { id });
+function _toDomainCollection({ challengeDataObjects, skills }) {
+  const lookupSkill = (id) => _.find(skills, { id });
+  const challenges = challengeDataObjects.map((challengeDataObject) => {
+    const lookedUpSkillDataObjects = challengeDataObject.skillIds.map(lookupSkill);
+    const skillDataObjects = _.compact(lookedUpSkillDataObjects);
 
-    return challengeDataObjects.map((challengeDataObject) => {
-      const lookedUpSkillDataObjects = challengeDataObject.skillIds.map(lookupSkill);
-      const foundSkillDataObjects = _.compact(lookedUpSkillDataObjects);
-
-      return _adaptChallengeFromDataObjects({
-        challengeDataObject,
-        skillDataObjects: foundSkillDataObjects
-      });
+    return _toDomain({
+      challengeDataObject,
+      skillDataObjects,
     });
   });
+
+  return challenges;
 }
 
-function _generateChallengeDomainModel(challengeDataObject) {
-  return Promise.all(challengeDataObject.skillIds.map(skillDatasource.get))
-    .then((skillDataObjects) => {
-      return _adaptChallengeFromDataObjects({ challengeDataObject, skillDataObjects });
-    });
-}
-
-function _adaptChallengeFromDataObjects({ challengeDataObject, skillDataObjects }) {
+function _toDomain({ challengeDataObject, skillDataObjects }) {
   const skills = skillDataObjects.map((skillDataObject) => skillAdapter.fromAirtableDataObject(skillDataObject));
 
   const solution = solutionAdapter.fromChallengeAirtableDataObject(challengeDataObject);

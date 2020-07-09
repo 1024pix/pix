@@ -39,7 +39,7 @@ module.exports = async function getProgression(
   if (assessment.isCompetenceEvaluation()) {
     const competenceEvaluation = await competenceEvaluationRepository.getByAssessmentId(assessmentId);
     const [targetedSkills, knowledgeElements] = await Promise.all([
-      skillRepository.findByCompetenceId(competenceEvaluation.competenceId),
+      skillRepository.findActiveByCompetenceId(competenceEvaluation.competenceId),
       knowledgeElementRepository.findUniqByUserId({ userId })]
     );
     const knowledgeElementsForProgression = await improvementService.filterKnowledgeElementsIfImproving({
