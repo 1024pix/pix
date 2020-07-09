@@ -8,21 +8,24 @@
 
   <div class="login-form__control">
     <Input id="identification"
-           @class="login-form__field login-form__field--identification"
-           @placeholder="Enter Login"
-           @required="true"
+           @type="text"
            @value={{this.email}}
-           @autocomplete={{true}} />
+           name="login"
+           class="login-form__field login-form__field--identification"
+           placeholder="Enter Login"
+           required={{true}}
+           autocomplete={{true}} />
   </div>
 
   <div class="login-form__control">
     <Input id="password"
-           @class="login-form__field login-form__field--password"
-           @placeholder="Enter Password"
-           @required="true"
            @type="password"
            @value={{this.password}}
-           @autocomplete={{true}} />
+           name="password"
+           class="login-form__field login-form__field--password"
+           placeholder="Enter Password"
+           required={{true}}
+           autocomplete={{true}} />
   </div>
 
   <div class="login-form__control">
