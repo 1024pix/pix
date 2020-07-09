@@ -9,7 +9,7 @@ describe('Integration | Component | QROC proposal', function() {
   setupRenderingTest();
 
   it('renders', async function() {
-    await render(hbs`{{qroc-proposal}}`);
+    await render(hbs`<QrocProposal />`);
     expect(find('.qroc-proposal')).to.exist;
   });
 
@@ -21,7 +21,7 @@ describe('Integration | Component | QROC proposal', function() {
       this.set('format', 'paragraphe');
 
       // when
-      await render(hbs`{{qroc-proposal proposals=proposals format=format}}`);
+      await render(hbs`<QrocProposal @format={{this.format}} @proposals={{this.proposals}} />`);
 
       // then
       expect(find('.challenge-response__proposal--paragraph').tagName).to.equal('TEXTAREA');
@@ -36,7 +36,7 @@ describe('Integration | Component | QROC proposal', function() {
       this.set('format', 'phrase');
 
       // when
-      await render(hbs`{{qroc-proposal proposals=proposals format=format}}`);
+      await render(hbs`<QrocProposal @format={{this.format}} @proposals={{this.proposals}} />`);
 
       // then
       expect(find('.challenge-response__proposal--sentence').tagName).to.equal('INPUT');
@@ -56,7 +56,7 @@ describe('Integration | Component | QROC proposal', function() {
         this.set('format', data.format);
 
         // when
-        await render(hbs`{{qroc-proposal proposals=proposals format=format}}`);
+        await render(hbs`<QrocProposal @format={{this.format}} @proposals={{this.proposals}} />`);
 
         // then
         expect(find('.challenge-response__proposal--paragraph')).to.not.exist;
@@ -84,7 +84,8 @@ describe('Integration | Component | QROC proposal', function() {
           this.set('format', `${data.format}`);
 
           // when
-          await render(hbs`{{qroc-proposal proposals=proposals format=format answerValue=answerValue}}`);
+          await render(hbs`<QrocProposal @format={{this.format}} @proposals={{this.proposals}} @answerValue={{this.answerValue}} />`);
+
           // then
           expect(find(`${data.cssClass}`).getAttribute('autocomplete')).to.equal('off');
         });
@@ -100,7 +101,8 @@ describe('Integration | Component | QROC proposal', function() {
           this.set('format', `${data.format}`);
 
           // when
-          await render(hbs`{{qroc-proposal proposals=proposals format=format answerValue=answerValue}}`);
+          await render(hbs`<QrocProposal @format={{this.format}} @proposals={{this.proposals}} @answerValue={{this.answerValue}} />`);
+
           // then
           expect(find(`${data.cssClass}`).value).to.equal('myValue');
         });
@@ -126,7 +128,8 @@ describe('Integration | Component | QROC proposal', function() {
             this.set('format', `${data.format}`);
 
             // when
-            await render(hbs`{{qroc-proposal proposals=proposals format=format answerValue=answerValue}}`);
+            await render(hbs`<QrocProposal @format={{this.format}} @proposals={{this.proposals}} @answerValue={{this.answerValue}} />`);
+
             // then
             expect(find(`${data.cssClass}`).value).to.be.equal(output);
           });

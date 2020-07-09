@@ -122,4 +122,10 @@ export default Factory.extend({
     attachments: [faker.internet.url()],
   }),
 
+  withEmbed: trait({
+    embedUrl: 'https://example.biz',
+    embedTitle: faker.random.words(),
+    embedHeight: '100'
+  }),
+
 });
