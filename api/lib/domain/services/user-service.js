@@ -18,9 +18,9 @@ async function getCertificationProfile({ userId, limitDate, competences, isV2Cer
     profileDate: limitDate,
   });
   if (isV2Certification) {
-    return _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV2({ certificationProfile, competences, allowExcessPixAndLevels });
+    return _fillCertificationProfileWithUserCompetencesV2({ certificationProfile, competences, allowExcessPixAndLevels });
   }
-  return _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV1({ certificationProfile, competences });
+  return _fillCertificationProfileWithUserCompetencesV1({ certificationProfile, competences });
 }
 
 async function fillCertificationProfileWithChallenges(certificationProfile) {
@@ -106,7 +106,7 @@ async function _createUserCompetencesV1({ allCompetences, userLastAssessments, l
   });
 }
 
-async function _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV1({ certificationProfile, competences }) {
+async function _fillCertificationProfileWithUserCompetencesV1({ certificationProfile, competences }) {
   const certificationProfileToFill = _.clone(certificationProfile);
   const userLastAssessments = await assessmentRepository
     .findLastCompletedAssessmentsForEachCompetenceByUser(certificationProfile.userId, certificationProfile.profileDate);
@@ -137,7 +137,7 @@ function _createUserCompetencesV2({ knowledgeElementsByCompetence, allCompetence
   });
 }
 
-async function _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV2({ certificationProfile, competences, allowExcessPixAndLevels }) {
+async function _fillCertificationProfileWithUserCompetencesV2({ certificationProfile, competences, allowExcessPixAndLevels }) {
   const certificationProfileToFill = _.clone(certificationProfile);
 
   const knowledgeElementsByCompetence = await knowledgeElementRepository
