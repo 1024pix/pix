@@ -2,11 +2,10 @@
   <div class="user-certifications-detail-header">
     <UserCertificationsHexagonScore @score={{@certification.pixScore}} />
     <div class="user-certifications-detail-header__info-certificate">
-
       <h1>{{t "certificate.title"}}</h1>
 
       <p class="user-certifications-detail-header__info-certificate--grey">
-        {{t "certificate.issued-on"}}{{moment-format @certification.deliveredAt 'LL' locale='fr' allow-empty=true}}
+        {{t "certificate.issued-on"}}{{format-date @certification.deliveredAt format="LL"}}
       </p>
       <p class="user-certifications-detail-header__info-certificate--grey">
         {{t "certificate.validity"}}
@@ -14,14 +13,14 @@
 
       <p>{{@certification.fullName}}</p>
       <p>
-        {{t "certificate.candidate-birth"}}{{moment-format @certification.birthdate 'LL' locale='fr' allow-empty=true}}{{t "certificate.candidate-birth-at"}}{{@certification.birthplace}}
+        {{t "certificate.candidate-birth-complete" birthdate=birthdate birthplace=@certification.birthplace}}
       </p>
 
       {{#if @certification.certificationCenter}}
         <p>{{t "certificate.certification-center"}}{{@certification.certificationCenter}}</p>
       {{/if}}
 
-      <p>{{t "certificate.exam-date"}}{{moment-format @certification.date 'LL' locale='fr' allow-empty=true}}</p>
+      <p>{{t "certificate.exam-date"}}{{format-date @certification.date format="LL"}}</p>
 
     </div>
   </div>

@@ -11,6 +11,11 @@ export default {
       hour: 'numeric',
       minute: 'numeric',
       second: 'numeric'
+    },
+    LL: {
+      day:'numeric',
+      month:'long',
+      year:'numeric'
     }
   },
   number: {

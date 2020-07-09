@@ -32,8 +32,7 @@
     "title": "Lorem ipsum",
     "issued-on": "Lorem ipsum",
     "validity": "Lorem ipsum",
-    "candidate-birth": "Lorem ipsum",
-    "candidate-birth-at": "at",
+    "candidate-birth-complete": "Lorem ipsum",
     "certification-center": "Lorem ipsum",
     "exam-date": "Lorem ipsum",
     "hexagon-score": {
