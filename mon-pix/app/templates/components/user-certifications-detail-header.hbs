@@ -5,7 +5,7 @@
       <h1>{{t "certificate.title"}}</h1>
 
       <p class="user-certifications-detail-header__info-certificate--grey">
-        {{t "certificate.issued-on"}}{{format-date @certification.deliveredAt format="LL"}}
+        {{t "certificate.issued-on"}} {{format-date @certification.deliveredAt format="LL"}}
       </p>
       <p class="user-certifications-detail-header__info-certificate--grey">
         {{t "certificate.validity"}}
@@ -17,10 +17,10 @@
       </p>
 
       {{#if @certification.certificationCenter}}
-        <p>{{t "certificate.certification-center"}}{{@certification.certificationCenter}}</p>
+        <p>{{t "certificate.certification-center"}} {{@certification.certificationCenter}}</p>
       {{/if}}
 
-      <p>{{t "certificate.exam-date"}}{{format-date @certification.date format="LL"}}</p>
+      <p>{{t "certificate.exam-date"}} {{format-date @certification.date format="LL"}}</p>
 
     </div>
   </div>
