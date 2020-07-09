@@ -175,6 +175,7 @@ module.exports = injectDependencies({
   retrieveLastOrCreateCertificationCourse: require('./retrieve-last-or-create-certification-course'),
   saveCertificationCenter: require('./save-certification-center'),
   shareCampaignResult: require('./share-campaign-result'),
+  sendScoInvitation: require('./send-sco-invitation'),
   startCampaignParticipation: require('./start-campaign-participation'),
   startOrResumeCompetenceEvaluation: require('./start-or-resume-competence-evaluation'),
   startWritingCampaignAssessmentResultsToStream: require('./start-writing-campaign-assessment-results-to-stream'),

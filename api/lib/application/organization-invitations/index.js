@@ -15,6 +15,18 @@ exports.register = async (server) => {
       }
     },
     {
+      method: 'POST',
+      path: '/api/organization-invitations/sco',
+      config: {
+        auth: false,
+        handler: organizationInvitationController.sendScoInvitation,
+        notes: [
+          '- Cette route permet d\'envoyer une invitation pour rejoindre une organisation de type SCO en tant que ADMIN, en renseignant un **UAI**, un **NOM** et un **PRENOM**'
+        ],
+        tags: ['api', 'invitations', 'SCO']
+      }
+    },
+    {
       method: 'GET',
       path: '/api/organization-invitations/{id}',
       config: {
