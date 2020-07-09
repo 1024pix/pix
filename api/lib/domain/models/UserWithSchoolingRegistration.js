@@ -10,7 +10,7 @@ class UserWithSchoolingRegistration {
     username,
     email,
     isAuthenticatedFromGAR,
-
+    studentNumber,
   } = {}) {
     this.id = id;
     this.lastName = lastName;
@@ -21,6 +21,7 @@ class UserWithSchoolingRegistration {
     this.username = username;
     this.email = email;
     this.isAuthenticatedFromGAR = isAuthenticatedFromGAR;
+    this.studentNumber = studentNumber;
   }
 }
 
