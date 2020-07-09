@@ -7,32 +7,26 @@
     <table>
       <thead>
         <tr>
-          <th class="table__column table__column--small">Numéro étudiant</th>
-          <th class="table__column">Nom</th>
-          <th class="table__column">Prénom</th>
-          <th class="table__column table__column--small">Date de naissance</th>
+          <Table::Header>Numéro étudiant</Table::Header>
+          <Table::Header>Nom</Table::Header>
+          <Table::Header>Prénom</Table::Header>
+          <Table::Header>Date de naissance</Table::Header>
         </tr>
         <tr>
-          <th></th>
-          <th>
-            <SearchInput
-              class="table__input"
-              @inputName="lastName"
-              @value={{@lastNameFilter}}
-              @placeholder="Rechercher par nom"
-              @filterFunction={{fn @triggerFiltering "lastName" true}}
-            />
-          </th>
-          <th>
-            <SearchInput
-              class="table__input"
-              @inputName="firstName"
-              @value={{@firstNameFilter}}
-              @placeholder="Rechercher par prénom"
-              @filterFunction={{fn @triggerFiltering "firstName" true}}
-            />
-          </th>
-          <th></th>
+          <Table::Header/>
+          <Table::HeaderFilterInput
+            @field="lastName"
+            @value={{@lastNameFilter}}
+            @placeholder="Rechercher par nom"
+            @triggerFiltering={{@triggerFiltering}}
+          />
+          <Table::HeaderFilterInput
+            @field="firstName"
+            @value={{@firstNameFilter}}
+            @placeholder="Rechercher par prénom"
+            @triggerFiltering={{@triggerFiltering}}
+          />
+          <Table::Header/>
           </tr>
       </thead>
 

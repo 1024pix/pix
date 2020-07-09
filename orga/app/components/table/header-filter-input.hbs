@@ -1,0 +1,9 @@
+<Table::Header ...attributes>
+  <SearchInput
+          class="table__input"
+          @inputName={{@field}}
+          @value={{@value}}
+          @placeholder={{@placeholder}}
+          @filterFunction={{fn @triggerFiltering @field true}}
+  />
+</Table::Header>
