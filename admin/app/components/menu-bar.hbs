@@ -4,49 +4,49 @@
     <li class="menu-bar__entry">
       <PixTooltip @text='Organisation' @position='right'>
         <LinkTo @route="authenticated.organizations" class="menu-bar__link menu-bar__link--organizations">
-          <FaIcon @icon="building"></FaIcon>
+          <FaIcon @icon="building" />
         </LinkTo>
       </PixTooltip>
     </li>
     <li class="menu-bar__entry">
       <PixTooltip @text='Utilisateurs' @position='right'>
         <LinkTo @route="authenticated.users.list" class="menu-bar__link menu-bar__link--users">
-          <FaIcon @icon="users"></FaIcon>
+          <FaIcon @icon="users" />
         </LinkTo>
       </PixTooltip>
     </li>
     <li class="menu-bar__entry">
       <PixTooltip @text='Centres de certification' @position='right' @inline={{true}}>
         <LinkTo @route="authenticated.certification-centers.list" class="menu-bar__link menu-bar__link--certification-centers">
-          <FaIcon @icon="map-pin"></FaIcon>
+          <FaIcon @icon="map-pin" />
         </LinkTo>
       </PixTooltip>
     </li>
     <li class="menu-bar__entry">
       <PixTooltip @text='Sessions de certifications' @position='right' @inline={{true}}>
         <LinkTo @route="authenticated.sessions.list" class="menu-bar__link menu-bar__link--sessions">
-          <FaIcon @icon="chalkboard-teacher"></FaIcon>
+          <FaIcon @icon="chalkboard-teacher" />
         </LinkTo>
       </PixTooltip>
     </li>
     <li class="menu-bar__entry">
       <PixTooltip @text='Certifications' @position='right' @inline={{true}}>
         <LinkTo @route="authenticated.certifications" class="menu-bar__link menu-bar__link--certifications">
-          <FaIcon @icon="graduation-cap"></FaIcon>
+          <FaIcon @icon="graduation-cap" />
         </LinkTo>
       </PixTooltip>
     </li>
     <li class="menu-bar__entry">
       <PixTooltip @text='Outils' @position='right'>
         <LinkTo @route="authenticated.tools" class="menu-bar__link menu-bar__link--tools">
-          <FaIcon @icon="tools"></FaIcon>
+          <FaIcon @icon="tools" />
         </LinkTo>
       </PixTooltip>
     </li>
     <li class="menu-bar__entry">
-      <PixTooltip @text='Se déconnecter' @position='right' @inline={{true}}>
-        <LinkTo @route="logout" class="menu-bar__link menu-bar__link--logout">
-          <FaIcon @icon="power-off"></FaIcon>
+      <PixTooltip @text="Se déconnecter" @position="right" @inline={{true}}>
+        <LinkTo @route="logout" aria-label="Se déconnecter" class="menu-bar__link menu-bar__link--logout">
+          <FaIcon @icon="power-off" />
         </LinkTo>
       </PixTooltip>
     </li>
