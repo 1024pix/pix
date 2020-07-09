@@ -110,10 +110,10 @@ module.exports = {
   },
 
   async findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId }) {
-    const [sharedCampaignParticipation] = await knex('campaign-participations')
+    const sharedCampaignParticipation = await knex('campaign-participations')
       .select('sharedAt')
       .where({ campaignId, isShared: 'true', userId })
-      .limit(1);
+      .first();
 
     if (!sharedCampaignParticipation) {
       return [];
