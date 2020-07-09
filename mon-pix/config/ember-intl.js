@@ -2,20 +2,6 @@
 
 module.exports = function(/* environment */) {
   return {
-    /**
-     * The locales that the application needs to support.
-     *
-     * NOTE: this is optional and is automatically set *if* you store translations
-     * within the `inputPath` defined below.
-     *
-     * If you side load translations, you must then explicitly
-     * list out the locales. i.e: ['en-us', 'en-gb', 'fr-fr']
-     *
-     * @property locales
-     * @type {Array?}
-     * @default "null"
-     */
-    locales: null,
 
     /**
      * Merges the fallback locale's translations into all other locales as a
@@ -39,24 +25,6 @@ module.exports = function(/* environment */) {
      * @default "'translations'"
      */
     inputPath: 'translations',
-
-    /**
-     * Automatically inject the Intl.JS polyfill into index.html
-     *
-     * @property autoPolyfill
-     * @type {Boolean}
-     * @default "false"
-     */
-    autoPolyfill: false,
-
-    /**
-     * Prevents the polyfill from being bundled in the asset folder of the build
-     *
-     * @property disablePolyfill
-     * @type {Boolean}
-     * @default "false"
-     */
-    disablePolyfill: false,
 
     /**
      * Prevents the translations from being bundled with the application code.
@@ -92,6 +60,19 @@ module.exports = function(/* environment */) {
     errorOnMissingTranslations: true,
 
     /**
+     * Filter missing translations to ignore expected missing translations.
+     *
+     * See https://ember-intl.github.io/ember-intl/docs/guide/missing-translations#requiring-translations
+     *
+     * @property requiresTranslation
+     * @type {Function}
+     * @default "function(key,locale){return true}"
+     */
+    requiresTranslation(/* key, locale */) {
+      return true;
+    },
+
+    /**
      * removes empty translations from the build output.
      *
      * @property stripEmptyTranslations
@@ -107,19 +88,6 @@ module.exports = function(/* environment */) {
      * @type {Boolean}
      * @default false
      */
-    wrapTranslationsWithNamespace: false,
-
-    /**
-     * Filter missing translations to ignore expected missing translations.
-     *
-     * See https://ember-intl.github.io/ember-intl/docs/guide/missing-translations#requiring-translations
-     *
-     * @property requiresTranslation
-     * @type {Function}
-     * @default "function(key,locale){return true}"
-     */
-    requiresTranslation(/* key, locale */) {
-      return true;
-    }
+    wrapTranslationsWithNamespace: false
   };
 };
