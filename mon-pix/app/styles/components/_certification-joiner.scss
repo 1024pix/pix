@@ -1,5 +1,6 @@
 .certification-joiner {
   margin-top: 32px;
+  text-rendering: optimizeLegibility;
 
   &__label {
     color: rgb(88, 95, 117);
@@ -62,6 +63,7 @@
 
   button {
     margin-top: 8px;
+    margin-bottom: 34px;
     width: 100%;
   }
 

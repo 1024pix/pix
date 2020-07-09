@@ -1,14 +1,12 @@
-<div class="user-certifications-page-get certification-background-banner-wrapper">
+<PixBackgroundHeader class="user-certifications-page-get">
 
-  <div class="certification-background-banner"></div>
-
-  <div class="rounded-panel user-certifications-page-get--over-background-banner">
+  <PixBlock>
     <LinkTo @route="user-certifications" class="link__return-to">
       <span aria-hidden="true" class="icon-button"> {{fa-icon 'arrow-left'}} </span>
       Retour à mes certifications
     </LinkTo>
     <UserCertificationsDetailHeader @certification={{@model}} />
-  </div>
+  </PixBlock>
 
   <div class="user-certifications-page-get__details-body">
     <UserCertificationsDetailCompetencesList @resultCompetenceTree={{@model.resultCompetenceTree}} />
@@ -16,4 +14,5 @@
       <UserCertificationsDetailResult @certification={{@model}} />
     {{/if}}
   </div>
-</div>
+
+</PixBackgroundHeader>
