@@ -13,12 +13,12 @@ function extractParameters(query) {
 }
 
 function _extractFilter(query) {
-  const regex = /filter\[([a-zA-Z]*)]/;
+  const regex = /filter\[([a-zA-Z]*)\]/;
   return _extractObjectParameter(query, regex);
 }
 
 function _extractPage(query) {
-  const regex = /page\[([a-zA-Z]*)]/;
+  const regex = /page\[([a-zA-Z]*)\]/;
   const params = _extractObjectParameter(query, regex);
 
   return _convertObjectValueToInt(params);
