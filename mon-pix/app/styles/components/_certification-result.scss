@@ -71,9 +71,7 @@
 .result-content__button {
   border: none;
   display: block;
-  font-size: 0.813rem;
-  text-transform: uppercase;
-  font-weight: $font-bold;
+  font-size: 1rem;
   text-align: center;
   color: $white;
   padding: 6px 15px;
@@ -83,6 +81,7 @@
   width: 170px;
   height: 40px;
   text-decoration: none;
+  cursor: pointer;
 
   &:hover {
     color: $white;
@@ -95,7 +94,8 @@
 
 }
 .result-content__button-blocked {
-  background: lighten($blue, 50%);
+  opacity: 0;
+  pointer-events: none;
 }
 
 .result-content__logout-button,
