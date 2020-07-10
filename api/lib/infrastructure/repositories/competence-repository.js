@@ -7,44 +7,53 @@ const competenceDatasource = require('../datasources/airtable/competence-datasou
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const scoringService = require('../../domain/services/scoring/scoring-service');
 const { NotFoundError } = require('../../domain/errors');
+const { FRENCH_FRANCE, ENGLISH_SPOKEN } = require('../../domain/constants').LOCALE;
 
 const PixOriginName = 'Pix';
 
-function _toDomain(competenceData, areaDatas) {
+function _toDomain(competenceData, areaDatas, locale) {
   const areaData = competenceData.areaId && _.find(areaDatas, { id: competenceData.areaId });
   return new Competence({
     id: competenceData.id,
-    name: competenceData.name,
+    name: _getTranslatedText(locale, competenceData.nameFrFr, competenceData.nameEnUs),
     index: competenceData.index,
-    description: competenceData.description,
+    description: _getTranslatedText(locale, competenceData.descriptionFrFr, competenceData.descriptionEnUs),
     origin: competenceData.origin,
     skillIds: competenceData.skillIds,
     area: areaData && new Area({
       id: areaData.id,
       code: areaData.code,
-      title: areaData.titleFrFr,
+      title: _getTranslatedText(locale, areaData.titleFrFr, areaData.titleEnUs),
       color: areaData.color,
     }),
   });
 }
 
+function _getTranslatedText(locale, frenchText, englishText) {
+  if (locale === ENGLISH_SPOKEN) {
+    return englishText;
+  }
+
+  return frenchText;
+}
+
 module.exports = {
 
-  list() {
-    return _list();
+  list(locale) {
+    return _list({ locale: locale || FRENCH_FRANCE });
   },
 
-  listPixCompetencesOnly() {
+  listPixCompetencesOnly({ locale } = { locale: FRENCH_FRANCE }) {
 
-    return _list().then((competences) =>
+    return _list({ locale }).then((competences) =>
       competences.filter((competence) => competence.origin === PixOriginName)
     );
   },
 
-  async get(id) {
+  async get(id, locale) {
     try {
       const [competenceData, areaDatas] = await Promise.all([competenceDatasource.get(id), areaDatasource.list()]);
-      return _toDomain(competenceData, areaDatas);
+      return _toDomain(competenceData, areaDatas, locale);
     } catch (err) {
       if (err instanceof AirtableNotFoundError) {
         throw new NotFoundError('La compétence demandée n’existe pas');
@@ -79,7 +88,7 @@ module.exports = {
 
 };
 
-function _list() {
+function _list({ locale }) {
   return Promise.all([competenceDatasource.list(), areaDatasource.list()])
     .then(([competenceDatas, areaDatas]) => {
       return _.sortBy(

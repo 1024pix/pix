@@ -19,6 +19,8 @@ module.exports = function competenceRawAirTableFixture() {
       ],
       'Sous-domaine': '1.1',
       'Titre': 'Mener une recherche et une veille d’information',
+      'Titre fr-fr': 'Mener une recherche et une veille d’information',
+      'Titre en-us': 'Browsing, searching and filtering data, information and digital content',
       'Acquis (via Tubes) (id persistant)': [
         'recV11ibSCXvaUzZd',
         'recD01ptfJy7c4Sex',
@@ -48,7 +50,9 @@ module.exports = function competenceRawAirTableFixture() {
       'Domaine Code': [
         '1',
       ],
-      'Description': 'Some description',
+      'Description': 'Une description',
+      'Description fr-fr': 'Une description',
+      'Description en-us': 'Some description',
       'Acquis Of Level 1': 4,
       'Acquis Of Level 2': 4,
       'Acquis Of Level 3': 5,
