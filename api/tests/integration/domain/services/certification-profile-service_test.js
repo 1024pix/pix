@@ -7,7 +7,6 @@ const answerRepository = require('../../../../lib/infrastructure/repositories/an
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const certificationProfileService = require('../../../../lib/domain/services/certification-profile-service');
 
-const Answer = require('../../../../lib/domain/models/Answer');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const CertificationProfile = require('../../../../lib/domain/models/CertificationProfile');
@@ -148,13 +147,6 @@ describe('Integration | Service | Certification Profile Service', function() {
   context('V2 Profile', () => {
     describe('#getCertificationProfile', () => {
 
-      let answerRepositoryFindChallengeIds;
-
-      beforeEach(() => {
-        answerRepositoryFindChallengeIds = sinon.stub(answerRepository, 'findChallengeIdsFromAnswerIds');
-        answerRepositoryFindChallengeIds.resolves([]);
-      });
-
       it('should assign 0 pixScore and level of 0 to user competence when not assessed', async () => {
         // given
         sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceIdWithSnapshot')
@@ -205,10 +197,7 @@ describe('Integration | Service | Certification Profile Service', function() {
 
         it('should assign pixScore and level to user competence based on knowledge elements', async () => {
           // given
-          const answer = new Answer({ id: 1, challengeId: challengeForSkillRemplir2.id, result: 'ok' });
-
           const ke = domainBuilder.buildKnowledgeElement({
-            answerId: answer.id,
             competenceId: 'competenceRecordIdTwo',
             skillId: skillRemplir2.id,
             earnedPix: 23
@@ -239,11 +228,7 @@ describe('Integration | Service | Certification Profile Service', function() {
 
         it('should include both inferred and direct KnowlegdeElements to compute PixScore', async () => {
           // given
-          const answer = new Answer({ id: 1, challengeId: challengeForSkillRemplir4.id, result: 'ok' });
-          answerRepositoryFindChallengeIds.withArgs([1]).resolves([answer.challengeId]);
-
           const inferredKe = domainBuilder.buildKnowledgeElement({
-            answerId: answer.id,
             competenceId: 'competenceRecordIdTwo',
             skillId: skillRemplir2.id,
             earnedPix: 8,
@@ -251,7 +236,6 @@ describe('Integration | Service | Certification Profile Service', function() {
           });
 
           const directKe = domainBuilder.buildKnowledgeElement({
-            answerId: answer.id,
             competenceId: 'competenceRecordIdTwo',
             skillId: skillRemplir4.id,
             earnedPix: 9,
@@ -329,8 +313,178 @@ describe('Integration | Service | Certification Profile Service', function() {
               pixScore: 40,
               estimatedLevel: 5
             });
+
+          });
+
+        });
+
+      });
+
+    });
+
+    describe('#getCertificationProfiles', () => {
+
+      it('should assign 0 pixScore and level of 0 to user competence when not assessed', async () => {
+        // given
+        sinon.stub(knowledgeElementRepository, 'findUniqByUserIdsAndDatesGroupedByCompetenceIdWithSnapshot')
+          .withArgs({ [userId]: sinon.match.any }).resolves({ [userId]: {} });
+
+        // when
+        const actualCertificationProfiles = await certificationProfileService.getCertificationProfiles({
+          userIdsAndDates: { [userId]: 'someLimitDate' },
+          competences
+        });
+
+        // then
+        expect(actualCertificationProfiles[0].userCompetences).to.deep.equal([
+          {
+            id: 'competenceRecordIdOne',
+            index: '1.1',
+            area: { code: '1' },
+            name: '1.1 Construire un flipper',
+            skills: [],
+            pixScore: 0,
+            estimatedLevel: 0,
+            challenges: []
+          },
+          {
+            id: 'competenceRecordIdTwo',
+            index: '1.2',
+            area: { code: '1' },
+            name: '1.2 Adopter un dauphin',
+            skills: [],
+            pixScore: 0,
+            estimatedLevel: 0,
+            challenges: []
+          },
+          {
+            id: 'competenceRecordIdThree',
+            index: '1.3',
+            area: { code: '1' },
+            name: '1.3 Se faire manger par un requin',
+            skills: [],
+            pixScore: 0,
+            estimatedLevel: 0,
+            challenges: []
+          }]);
+      });
+
+      describe('PixScore by competences', () => {
+
+        it('should assign pixScore and level to user competence based on knowledge elements', async () => {
+          // given
+          const ke = domainBuilder.buildKnowledgeElement({
+            competenceId: 'competenceRecordIdTwo',
+            skillId: skillRemplir2.id,
+            earnedPix: 23
+          });
+
+          sinon.stub(knowledgeElementRepository, 'findUniqByUserIdsAndDatesGroupedByCompetenceIdWithSnapshot')
+            .withArgs({ [userId]: sinon.match.any }).resolves({ [userId]: { competenceRecordIdTwo: [ke] } });
+
+          // when
+          const actualCertificationProfiles = await certificationProfileService.getCertificationProfiles({
+            userIdsAndDates: { [userId]: 'someLimitDate' },
+            competences
+          });
+
+          // then
+          expect(actualCertificationProfiles[0].userCompetences[0]).to.include({
+            id: 'competenceRecordIdOne',
+            pixScore: 0,
+            estimatedLevel: 0
+          });
+          expect(actualCertificationProfiles[0].userCompetences[1]).to.include({
+            id: 'competenceRecordIdTwo',
+            pixScore: 23,
+            estimatedLevel: 2,
           });
         });
+
+        it('should include both inferred and direct KnowlegdeElements to compute PixScore', async () => {
+          // given
+          const inferredKe = domainBuilder.buildKnowledgeElement({
+            competenceId: 'competenceRecordIdTwo',
+            skillId: skillRemplir2.id,
+            earnedPix: 8,
+            source: KnowledgeElement.SourceType.INFERRED
+          });
+
+          const directKe = domainBuilder.buildKnowledgeElement({
+            competenceId: 'competenceRecordIdTwo',
+            skillId: skillRemplir4.id,
+            earnedPix: 9,
+            source: KnowledgeElement.SourceType.DIRECT
+          });
+
+          sinon.stub(knowledgeElementRepository, 'findUniqByUserIdsAndDatesGroupedByCompetenceIdWithSnapshot')
+            .withArgs({ [userId]: sinon.match.any }).resolves({ [userId]: { 'competenceRecordIdTwo': [inferredKe, directKe] } });
+
+          // when
+          const actualCertificationProfiles = await certificationProfileService.getCertificationProfiles({
+            userIdsAndDates: { [userId]: 'someLimitDate' },
+            competences
+          });
+
+          // then
+          expect(actualCertificationProfiles[0].userCompetences[1].pixScore).to.equal(17);
+        });
+
+        context('when we dont want to limit pix score', () => {
+          it('should not limit pixScore and level to the max reachable for user competence based on knowledge elements', async () => {
+            const ke = domainBuilder.buildKnowledgeElement({
+              competenceId: 'competenceRecordIdOne',
+              earnedPix: 64
+            });
+
+            sinon.stub(knowledgeElementRepository, 'findUniqByUserIdsAndDatesGroupedByCompetenceIdWithSnapshot')
+              .withArgs({ [userId]: sinon.match.any }).resolves({ [userId]: { competenceRecordIdOne: [ke] } });
+
+            // when
+            const actualCertificationProfiles = await certificationProfileService.getCertificationProfiles({
+              userIdsAndDates: { [userId]: 'someLimitDate' },
+              competences,
+              allowExcessPixAndLevels: true
+            });
+
+            // then
+            expect(actualCertificationProfiles[0].userCompetences[0]).to.include({
+              id: 'competenceRecordIdOne',
+              pixScore: 64,
+              estimatedLevel: 8
+            });
+          });
+
+        });
+
+        context('when we want to limit pix score', () => {
+          it('should limit pixScore to 40 and level to 5', async () => {
+            const ke = domainBuilder.buildKnowledgeElement({
+              competenceId: 'competenceRecordIdOne',
+              earnedPix: 64
+            });
+
+            sinon.stub(knowledgeElementRepository, 'findUniqByUserIdsAndDatesGroupedByCompetenceIdWithSnapshot')
+              .withArgs({ [userId]: sinon.match.any }).resolves({ [userId]: { competenceRecordIdOne: [ke] } });
+
+            // when
+            const actualCertificationProfiles = await certificationProfileService.getCertificationProfiles({
+              userIdsAndDates: { [userId]: 'someLimitDate' },
+              competences,
+              allowExcessPixAndLevels: false
+            });
+
+            // then
+            expect(actualCertificationProfiles[0].userCompetences[0]).to.include({
+              id: 'competenceRecordIdOne',
+              pixScore: 40,
+              estimatedLevel: 5
+            });
+
+          });
+
+        });
+
       });
 
     });

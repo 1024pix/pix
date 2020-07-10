@@ -154,7 +154,31 @@ async function _generateCertificationProfileV2({ userId, profileDate, competence
   return certificationProfile;
 }
 
+async function getCertificationProfiles({ userIdsAndDates, competences, allowExcessPixAndLevels = true }) {
+  const knowledgeElementsByUserByCompetence = await knowledgeElementRepository
+    .findUniqByUserIdsAndDatesGroupedByCompetenceIdWithSnapshot(userIdsAndDates);
+
+  const certificationProfiles = [];
+  for (const [strUserId, knowledgeElementsByCompetence] of Object.entries(knowledgeElementsByUserByCompetence)) {
+    const userId = parseInt(strUserId);
+    const certificationProfile = new CertificationProfile({
+      userId,
+      profileDate: userIdsAndDates[userId],
+    });
+
+    certificationProfile.userCompetences = _createUserCompetencesV2({
+      knowledgeElementsByCompetence,
+      allCompetences: competences,
+      allowExcessPixAndLevels,
+    });
+    certificationProfiles.push(certificationProfile);
+  }
+
+  return certificationProfiles;
+}
+
 module.exports = {
   getCertificationProfile,
+  getCertificationProfiles,
   fillCertificationProfileWithChallenges,
 };
