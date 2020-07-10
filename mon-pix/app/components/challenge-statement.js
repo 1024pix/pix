@@ -24,7 +24,7 @@ export default class ChallengeStatement extends Component {
   }
 
   get challengeEmbedDocument() {
-    if (this.args.challenge.hasValidEmbedDocument) {
+    if (this.args.challenge && this.args.challenge.hasValidEmbedDocument) {
       return {
         url: this.args.challenge.embedUrl,
         title: this.args.challenge.embedTitle,
