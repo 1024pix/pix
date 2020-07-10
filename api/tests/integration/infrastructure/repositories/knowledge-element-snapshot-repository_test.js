@@ -59,13 +59,13 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', () => 
 
       await knowledgeElementSnapshotRepository.save({ userId, date, knowledgeElements });
 
-      const result = await knowledgeElementSnapshotRepository.find({ userId, date });
+      const result = await knowledgeElementSnapshotRepository.findOneByUserIdAndDate({ userId, date });
 
       expect(result).to.deep.equal(knowledgeElements);
     });
   });
 
-  describe('#find', () => {
+  describe('#findOneByUserIdAndDate', () => {
     let userId;
     let expectedKnowledgeElements;
     const date = new Date('2020-01-02');
@@ -84,16 +84,59 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', () => 
 
     it('should find knowledge elements snapshoted for a userId and a date', async () => {
       // when
-      const result = await knowledgeElementSnapshotRepository.find({ userId, date });
+      const knowledgeElements = await knowledgeElementSnapshotRepository.findOneByUserIdAndDate({ userId, date });
 
       // then
-      expect(result).to.deep.equal(expectedKnowledgeElements);
+      expect(knowledgeElements).to.deep.equal(expectedKnowledgeElements);
     });
 
     it('should return null if no snapshot found for the user and date', async () => {
-      const knowledgeElements = await knowledgeElementSnapshotRepository.find({ userId: 1, date: new Date('2020-01-01') });
+      const knowledgeElements = await knowledgeElementSnapshotRepository.findOneByUserIdAndDate({ userId: 1, date: new Date('2020-01-01') });
 
       expect(knowledgeElements).to.equal(null);
+    });
+  });
+
+  describe('#findByUserIdsAndDatesGroupedByUserId', () => {
+    let userId1;
+    let userId2;
+    let expectedKnowledgeElements1;
+    let expectedKnowledgeElements2;
+    const date1 = new Date('2020-01-02');
+    const date2 = new Date('2020-03-02');
+
+    beforeEach(() => {
+      userId1 = databaseBuilder.factory.buildUser().id;
+      const knowledgeElement1_1 = databaseBuilder.factory.buildKnowledgeElement({ userId: userId1 });
+      const knowledgeElement1_2 = databaseBuilder.factory.buildKnowledgeElement({ userId: userId1 });
+      databaseBuilder.factory.buildKnowledgeElement({ userId: userId1 });
+      databaseBuilder.factory.buildKnowledgeElement();
+      expectedKnowledgeElements1 = [ knowledgeElement1_1, knowledgeElement1_2 ];
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({ userId: userId1, createdAt: date1, snapshot: JSON.stringify(expectedKnowledgeElements1) });
+      userId2 = databaseBuilder.factory.buildUser().id;
+      const knowledgeElement2_1 = databaseBuilder.factory.buildKnowledgeElement({ userId: userId2 });
+      const knowledgeElement2_2 = databaseBuilder.factory.buildKnowledgeElement({ userId: userId2 });
+      databaseBuilder.factory.buildKnowledgeElement({ userId: userId2 });
+      databaseBuilder.factory.buildKnowledgeElement();
+      expectedKnowledgeElements2 = [ knowledgeElement2_1, knowledgeElement2_2 ];
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({ userId: userId2, createdAt: date2, snapshot: JSON.stringify(expectedKnowledgeElements2) });
+
+      return databaseBuilder.commit();
+    });
+
+    it('should find knowledge elements snapshoted grouped by userId for userIds and their respective dates', async () => {
+      // when
+      const knowledgeElementsGroupedByUser = await knowledgeElementSnapshotRepository.findByUserIdsAndDatesGroupedByUserId({ [userId1]: date1, [userId2]: date2 });
+
+      // then
+      expect(knowledgeElementsGroupedByUser[userId1]).to.deep.equal(expectedKnowledgeElements1);
+      expect(knowledgeElementsGroupedByUser[userId2]).to.deep.equal(expectedKnowledgeElements2);
+    });
+
+    it('should return a result with empty knowledge elements result if no snapshot found for any of the users', async () => {
+      const knowledgeElementsGroupedByUser = await knowledgeElementSnapshotRepository.findByUserIdsAndDatesGroupedByUserId({ 1: date1, 2: date2 });
+
+      expect(knowledgeElementsGroupedByUser).to.deep.equal({ '1': null, '2': null });
     });
   });
 });
