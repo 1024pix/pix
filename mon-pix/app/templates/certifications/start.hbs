@@ -6,7 +6,7 @@
     <PixBackgroundHeader>
 
       {{#if model.isCertifiable}}
-        <PixBlock @shadow="heavy">
+        <PixBlock @shadow="heavy" class="certification-start-page__block">
           <Stepper @steps={{array "certification-stepper-join" "certification-stepper-start"}}/>
         </PixBlock>
       {{else}}
