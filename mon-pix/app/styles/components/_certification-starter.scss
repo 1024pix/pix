@@ -4,6 +4,19 @@
   }
 }
 
+.certification-start-page__block {
+  padding: 12px;
+}
+
+.certification-start-page__title {
+  color: $grey-100;
+  font-family: $font-open-sans;
+  font-size: 2.625rem;
+  font-weight: $font-light;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
 .certification-course-page__order {
   color: $grey-80;
   font-family: $font-open-sans;

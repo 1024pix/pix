@@ -26,7 +26,7 @@
       </div>
 
       {{#if this.validSupervisor}}
-        <button class="result-content__button result-content__validation-button" {{action "validateBySupervisor"}}>Je confirme</button>
+        <button class="result-content__button result-content__validation-button button button--big button--thin" {{on "click" this.validateBySupervisor}}>Je confirme</button>
       {{else}}
         <button class="result-content__button result-content__button-blocked">Je confirme</button>
       {{/if}}
@@ -44,7 +44,7 @@
         Si cet ordinateur n’est pas le vôtre, pensez à vous déconnecter.
       </div>
 
-      <LinkTo @route="logout" class="result-content__logout-button result-content__button">Se déconnecter</LinkTo>
+      <LinkTo @route="logout" class="result-content__logout-button result-content__button button button--big button--thin">Se déconnecter</LinkTo>
 
     </div>
   {{/if}}
