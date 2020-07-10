@@ -3,7 +3,7 @@
     <panel.toggle @class="certifications-list-item__row-presentation" @role="tab">
 
       <div class="certifications-list-item__cell">
-        {{moment-format this.certification.date 'DD/MM/YYYY' allow-empty=true}}
+        {{format-date this.certification.date format='L'}}
       </div>
 
       <div class="certifications-list-item__cell-double-width">
@@ -37,7 +37,7 @@
 {{#if this.isPublishedAndValidated}}
   <LinkTo @route="user-certifications.get" @model={{this.certification.id}} class="certifications-list-item__row-presentation">
     <div class="certifications-list-item__cell">
-      {{moment-format this.certification.date 'DD/MM/YYYY' allow-empty=true}}
+      {{format-date this.certification.date format='L'}}
     </div>
 
     <div class="certifications-list-item__cell-double-width">
@@ -63,7 +63,7 @@
 {{#if this.isNotPublished}}
   <div class="certifications-list-item__row-presentation">
     <div class="certifications-list-item__cell">
-      {{moment-format this.certification.date 'DD/MM/YYYY' allow-empty=true}}
+      {{format-date this.certification.date format='L'}}
     </div>
 
     <div class="certifications-list-item__cell-double-width">
