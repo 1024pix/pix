@@ -12,6 +12,11 @@ export default {
       minute: 'numeric',
       second: 'numeric'
     },
+    L: {
+      day:'2-digit',
+      month:'2-digit',
+      year:'numeric'
+    },
     LL: {
       day:'numeric',
       month:'long',
