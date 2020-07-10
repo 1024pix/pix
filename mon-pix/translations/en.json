@@ -18,7 +18,8 @@
   "page-title": {
     "signin": "Sign in",
     "signup": "Sign up",
-    "suffix": "Pix"
+    "suffix": "Pix",
+    "my-certifications": "Lorem Ipsum"
   },
 
   "api-error-messages": {

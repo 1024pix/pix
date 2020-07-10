@@ -18,7 +18,8 @@
   "page-title": {
     "signin": "Connexion",
     "signup": "Inscription",
-    "suffix": "Pix"
+    "suffix": "Pix",
+    "my-certifications": "Mes certifications"
   },
   "api-error-messages": {
     "login-unauthorized-error": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects.",
