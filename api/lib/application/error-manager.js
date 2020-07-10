@@ -134,6 +134,15 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.ObjectValidationError) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }
+  if (error instanceof DomainErrors.OrganizationNotFoundError) {
+    return new HttpErrors.NotFoundError(error.message);
+  }
+  if (error instanceof DomainErrors.OrganizationWithoutEmailError) {
+    return new HttpErrors.PreconditionFailedError(error.message);
+  }
+  if (error instanceof DomainErrors.ManyOrganizationsFoundError) {
+    return new HttpErrors.ConflictError(error.message);
+  }
   if (error instanceof DomainErrors.FileValidationError) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }
