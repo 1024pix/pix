@@ -5,11 +5,12 @@ const BookshelfKnowledgeElementSnapshot = require('../../../../lib/infrastructur
 
 describe('Integration | Repository | KnowledgeElementSnapshotRepository', () => {
 
-  afterEach(() => {
-    return knex('knowledge-element-snapshots').delete();
-  });
-
   describe('#save', () => {
+
+    afterEach(() => {
+      return knex('knowledge-element-snapshots').delete();
+    });
+
     it('should save an empty knowledge element snapshot for a userId and a date', async () => {
       const userId = 1;
       const date = new Date('2020-01-01');

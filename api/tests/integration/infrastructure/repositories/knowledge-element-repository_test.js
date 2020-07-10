@@ -206,13 +206,14 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       expectedKnowledgeElementsFirstCompetence.push(databaseBuilder.factory.buildKnowledgeElement({ competenceId: 'rec1', userId, createdAt: beforeDate }));
       expectedKnowledgeElementsSecondCompetence = [];
       expectedKnowledgeElementsSecondCompetence.push(databaseBuilder.factory.buildKnowledgeElement({ competenceId: 'rec2', userId, createdAt: beforeDate }));
-      outOfLimitDateKnowledgeElement= databaseBuilder.factory.buildKnowledgeElement({ competenceId: 'rec2', userId, createdAt: afterDate });
+      outOfLimitDateKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ competenceId: 'rec2', userId, createdAt: afterDate });
 
       return databaseBuilder.commit();
     });
 
     afterEach(() => {
       sandbox.restore();
+      return knex('knowledge-element-snapshots').delete();
     });
 
     context('when a limitDate is provided', () => {
@@ -302,6 +303,107 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       });
     });
 
+  });
+
+  describe('#findUniqByUserIdsAndDatesGroupedByCompetenceIdWithSnapshot', () => {
+    const sandbox = sinon.createSandbox();
+    let userIdWithSnapshot;
+    let expectedKnowledgeElementsFirstCompetenceUserWithSnapshot;
+    let expectedKnowledgeElementsSecondCompetenceUserWithSnapshot;
+    const beforeDateUserWithSnapshot = new Date('2020-01-01');
+    const limitDateUserWithSnapshot = new Date('2020-01-02');
+    let userIdWithoutSnapshot;
+    let expectedKnowledgeElementsFirstCompetenceUserWithoutSnapshot;
+    let expectedKnowledgeElementsThirdCompetenceUserWithoutSnapshot;
+    const beforeDateUserWithoutSnapshot = new Date('2020-02-01');
+    const afterDateUserWithoutSnapshot = new Date('2020-02-03');
+    const limitDateUserWithoutSnapshot = new Date('2020-02-02');
+    let userIdWithoutDate;
+    let expectedKnowledgeElementsFirstCompetenceUserWithoutDate;
+    let args;
+
+    beforeEach(() => {
+      sandbox.spy(knowledgeElementRepository);
+      sandbox.spy(knowledgeElementSnapshotRepository);
+
+      userIdWithSnapshot = databaseBuilder.factory.buildUser().id;
+      expectedKnowledgeElementsFirstCompetenceUserWithSnapshot = [];
+      expectedKnowledgeElementsFirstCompetenceUserWithSnapshot.push(databaseBuilder.factory.buildKnowledgeElement({ competenceId: 'rec1', userId: userIdWithSnapshot, createdAt: beforeDateUserWithSnapshot }));
+      expectedKnowledgeElementsFirstCompetenceUserWithSnapshot.push(databaseBuilder.factory.buildKnowledgeElement({ competenceId: 'rec1', userId: userIdWithSnapshot, createdAt: beforeDateUserWithSnapshot }));
+      expectedKnowledgeElementsSecondCompetenceUserWithSnapshot = [];
+      expectedKnowledgeElementsSecondCompetenceUserWithSnapshot.push(databaseBuilder.factory.buildKnowledgeElement({ competenceId: 'rec2', userId: userIdWithSnapshot, createdAt: beforeDateUserWithSnapshot }));
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({
+        userId: userIdWithSnapshot,
+        createdAt: limitDateUserWithSnapshot,
+        snapshot: JSON.stringify([...expectedKnowledgeElementsFirstCompetenceUserWithSnapshot, ...expectedKnowledgeElementsSecondCompetenceUserWithSnapshot]),
+      });
+
+      userIdWithoutSnapshot = databaseBuilder.factory.buildUser().id;
+      expectedKnowledgeElementsFirstCompetenceUserWithoutSnapshot = [];
+      expectedKnowledgeElementsFirstCompetenceUserWithoutSnapshot.push(databaseBuilder.factory.buildKnowledgeElement({ competenceId: 'rec1', userId: userIdWithoutSnapshot, createdAt: beforeDateUserWithoutSnapshot }));
+      expectedKnowledgeElementsFirstCompetenceUserWithoutSnapshot.push(databaseBuilder.factory.buildKnowledgeElement({ competenceId: 'rec1', userId: userIdWithoutSnapshot, createdAt: beforeDateUserWithoutSnapshot }));
+      expectedKnowledgeElementsThirdCompetenceUserWithoutSnapshot = [];
+      expectedKnowledgeElementsThirdCompetenceUserWithoutSnapshot.push(databaseBuilder.factory.buildKnowledgeElement({ competenceId: 'rec3', userId: userIdWithoutSnapshot, createdAt: beforeDateUserWithoutSnapshot }));
+      expectedKnowledgeElementsThirdCompetenceUserWithoutSnapshot.push(databaseBuilder.factory.buildKnowledgeElement({ competenceId: 'rec3', userId: userIdWithoutSnapshot, createdAt: beforeDateUserWithoutSnapshot }));
+      databaseBuilder.factory.buildKnowledgeElement({ competenceId: 'rec2', userId: userIdWithoutSnapshot, createdAt: afterDateUserWithoutSnapshot });
+
+      userIdWithoutDate = databaseBuilder.factory.buildUser().id;
+      expectedKnowledgeElementsFirstCompetenceUserWithoutDate = [];
+      expectedKnowledgeElementsFirstCompetenceUserWithoutDate.push(databaseBuilder.factory.buildKnowledgeElement({ competenceId: 'rec1', userId: userIdWithoutDate, createdAt: new Date('2019-01-01') }));
+      expectedKnowledgeElementsFirstCompetenceUserWithoutDate.push(databaseBuilder.factory.buildKnowledgeElement({ competenceId: 'rec1', userId: userIdWithoutDate, createdAt: new Date('2019-01-01') }));
+
+      args = {
+        [userIdWithSnapshot]: limitDateUserWithSnapshot,
+        [userIdWithoutSnapshot]: limitDateUserWithoutSnapshot,
+        [userIdWithoutDate]: null,
+      };
+      return databaseBuilder.commit();
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+      return knex('knowledge-element-snapshots').delete();
+    });
+
+    it('should return the expected knowledge elements grouped by competence by user', async () => {
+      // when
+      const actualKnowledgeElementsGroupedByCompetenceIdByUser =
+          await knowledgeElementRepository.findUniqByUserIdsAndDatesGroupedByCompetenceIdWithSnapshot(args);
+
+      // then
+      expect(actualKnowledgeElementsGroupedByCompetenceIdByUser[userIdWithSnapshot]['rec1'][0]).to.be.instanceOf(KnowledgeElement);
+      expect(actualKnowledgeElementsGroupedByCompetenceIdByUser).to.deep.equal({
+        [userIdWithSnapshot]: {
+          'rec1': expectedKnowledgeElementsFirstCompetenceUserWithSnapshot,
+          'rec2': expectedKnowledgeElementsSecondCompetenceUserWithSnapshot,
+        },
+        [userIdWithoutSnapshot]: {
+          'rec1': expectedKnowledgeElementsFirstCompetenceUserWithoutSnapshot,
+          'rec3': expectedKnowledgeElementsThirdCompetenceUserWithoutSnapshot,
+        },
+        [userIdWithoutDate]: {
+          'rec1': expectedKnowledgeElementsFirstCompetenceUserWithoutDate,
+        },
+      });
+    });
+
+    it('should have save a snapshot when the user does not have one but have provided a date', async () => {
+      // when
+      await knowledgeElementRepository.findUniqByUserIdsAndDatesGroupedByCompetenceIdWithSnapshot(args);
+
+      // then
+      // TODO vérifier les arguments du save
+      expect(knowledgeElementSnapshotRepository.save.calledOnce).to.be.true;
+      expect(knowledgeElementRepository.findUniqByUserId).to.have.been.calledWith({ userId: userIdWithoutSnapshot, limitDate: limitDateUserWithoutSnapshot });
+    });
+
+    it('should not save a snapshot when the user neither have one and provided date', async () => {
+      // when
+      await knowledgeElementRepository.findUniqByUserIdsAndDatesGroupedByCompetenceIdWithSnapshot(args);
+
+      // then
+      expect(knowledgeElementRepository.findUniqByUserId).to.have.been.calledWith({ userId: userIdWithoutDate, limitDate: null });
+    });
   });
 
   describe('findUniqByUserIdAndCompetenceId', () => {

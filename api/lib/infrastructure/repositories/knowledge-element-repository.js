@@ -109,6 +109,25 @@ module.exports = {
     }
   },
 
+  async findUniqByUserIdsAndDatesGroupedByCompetenceIdWithSnapshot(userIdsAndDates) {
+    const knowledgeElementsGroupedByUser = await knowledgeElementSnapshotRepository.findByUserIdsAndDatesGroupedByUserId(userIdsAndDates);
+
+    const knowledgeElementsGroupedByUserIdAndByCompetence = {};
+    for (const [strUserId, knowledgeElementsFromSnapshot] of Object.entries(knowledgeElementsGroupedByUser)) {
+      const userId = parseInt(strUserId);
+      let knowledgeElements = knowledgeElementsFromSnapshot;
+      if (!knowledgeElements) {
+        const limitDate = userIdsAndDates[userId];
+        knowledgeElements = await this.findUniqByUserId({ userId, limitDate });
+        if (limitDate) {
+          await knowledgeElementSnapshotRepository.save({ userId, date: limitDate, knowledgeElements });
+        }
+      }
+      knowledgeElementsGroupedByUserIdAndByCompetence[userId] = _.groupBy(knowledgeElements, 'competenceId');
+    }
+    return knowledgeElementsGroupedByUserIdAndByCompetence;
+  },
+
   async findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId }) {
     const sharedCampaignParticipation = await knex('campaign-participations')
       .select('sharedAt')
