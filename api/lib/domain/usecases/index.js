@@ -21,6 +21,7 @@ const dependencies = {
   certificationCenterRepository: require('../../infrastructure/repositories/certification-center-repository'),
   certificationCenterMembershipRepository: require('../../infrastructure/repositories/certification-center-membership-repository'),
   certificationChallengeRepository: require('../../infrastructure/repositories/certification-challenge-repository'),
+  certificationProfileService: require('../../domain/services/certification-profile-service'),
   partnerCertificationRepository: require('../../infrastructure/repositories/partner-certification-repository'),
   certificationCourseRepository: require('../../infrastructure/repositories/certification-course-repository'),
   certificationRepository: require('../../infrastructure/repositories/certification-repository'),
@@ -65,7 +66,6 @@ const dependencies = {
   userOrgaSettingsRepository: require('../../infrastructure/repositories/user-orga-settings-repository'),
   userReconciliationService: require('../services/user-reconciliation-service'),
   userRepository: require('../../infrastructure/repositories/user-repository'),
-  userService: require('../../domain/services/user-service'),
   userTutorialRepository: require('../../infrastructure/repositories/user-tutorial-repository'),
 };
 

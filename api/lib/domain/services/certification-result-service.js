@@ -11,7 +11,7 @@ const scoringService = require('./scoring/scoring-service');
 const { CertificationComputeError } = require('../../../lib/domain/errors');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
-const userService = require('./user-service');
+const certificationProfileService = require('./certification-profile-service');
 const qrocmDepChallenge = 'QROCM-dep';
 
 function _selectAnswersMatchingCertificationChallenges(answers, certificationChallenges) {
@@ -168,7 +168,7 @@ function _getChallengeInformation(listAnswers, certificationChallenges, competen
 }
 
 async function _getTestedCompetences({ userId, limitDate, isV2Certification, competences }) {
-  const certificationProfile = await userService.getCertificationProfile({ userId, limitDate, isV2Certification, competences });
+  const certificationProfile = await certificationProfileService.getCertificationProfile({ userId, limitDate, isV2Certification, competences });
   return _(certificationProfile.userCompetences)
     .filter((uc) => uc.estimatedLevel > 0)
     .map((uc) => _.pick(uc, ['id', 'area', 'index', 'name', 'estimatedLevel', 'pixScore']))

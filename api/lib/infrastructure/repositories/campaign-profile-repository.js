@@ -1,6 +1,6 @@
 const CampaignProfile = require('../../../lib/domain/read-models/CampaignProfile');
 const CompetenceRepository = require('./competence-repository');
-const userService = require('../../../lib/domain/services/user-service');
+const certificationProfileService = require('../../../lib/domain/services/certification-profile-service');
 const { NotFoundError } = require('../../../lib/domain/errors');
 const Bookshelf = require('../bookshelf');
 
@@ -13,7 +13,7 @@ module.exports = {
     ]);
 
     const { sharedAt, userId } = profile;
-    const certificationProfile = await userService.getCertificationProfile({ userId, competences, limitDate: sharedAt, allowExcessPixAndLevels: false });
+    const certificationProfile = await certificationProfileService.getCertificationProfile({ userId, competences, limitDate: sharedAt, allowExcessPixAndLevels: false });
 
     return new CampaignProfile({ ...profile, certificationProfile });
   }
