@@ -134,7 +134,7 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
     competenceRepository,
     campaignParticipationRepository,
     organizationRepository,
-    userService,
+    certificationProfileService,
   }) {
 
   const campaign = await campaignRepository.get(campaignId);
@@ -161,7 +161,7 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
   // complete operation.
   bluebird.map(campaignParticipationResultDatas, async (campaignParticipationResultData) => {
 
-    const certificationProfile = await userService.getCertificationProfile({
+    const certificationProfile = await certificationProfileService.getCertificationProfile({
       userId: campaignParticipationResultData.userId,
       limitDate: campaignParticipationResultData.sharedAt,
       competences: allCompetences,
