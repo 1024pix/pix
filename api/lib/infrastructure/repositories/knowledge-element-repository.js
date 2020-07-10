@@ -97,10 +97,10 @@ module.exports = {
 
   async findUniqByUserIdGroupedByCompetenceIdWithSnapshot({ userId, limitDate }) {
     if (limitDate) {
-      let knowledgeElements = await knowledgeElementSnapshotRepository.findOneByUserIdAndDate({ userId, date: limitDate });
+      let knowledgeElements = await knowledgeElementSnapshotRepository.findOneByUserIdAndDate({ userId, snappedAt: limitDate });
       if (!knowledgeElements) {
         knowledgeElements = await this.findUniqByUserId({ userId, limitDate });
-        knowledgeElementSnapshotRepository.save({ userId, date: limitDate, knowledgeElements });
+        knowledgeElementSnapshotRepository.save({ userId, snappedAt: limitDate, knowledgeElements });
       }
       return _.groupBy(knowledgeElements, 'competenceId');
     } else {
@@ -120,7 +120,7 @@ module.exports = {
         const limitDate = userIdsAndDates[userId];
         knowledgeElements = await this.findUniqByUserId({ userId, limitDate });
         if (limitDate) {
-          await knowledgeElementSnapshotRepository.save({ userId, date: limitDate, knowledgeElements });
+          await knowledgeElementSnapshotRepository.save({ userId, snappedAt: limitDate, knowledgeElements });
         }
       }
       knowledgeElementsGroupedByUserIdAndByCompetence[userId] = _.groupBy(knowledgeElements, 'competenceId');

@@ -225,7 +225,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
         // then
         expect(knowledgeElementSnapshotRepository.findOneByUserIdAndDate.calledOnce).to.be.true;
-        expect(knowledgeElementSnapshotRepository.findOneByUserIdAndDate).to.have.been.calledWith({ userId, date: limitDate });
+        expect(knowledgeElementSnapshotRepository.findOneByUserIdAndDate).to.have.been.calledWith({ userId, snappedAt: limitDate });
       });
 
       context('when a snapshot exists', () => {
@@ -233,7 +233,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         beforeEach(() => {
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
             userId,
-            createdAt: limitDate,
+            snappedAt: limitDate,
             snapshot: JSON.stringify([...expectedKnowledgeElementsFirstCompetence, ...expectedKnowledgeElementsSecondCompetence]),
           });
           return databaseBuilder.commit();
@@ -334,7 +334,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       expectedKnowledgeElementsSecondCompetenceUserWithSnapshot.push(databaseBuilder.factory.buildKnowledgeElement({ competenceId: 'rec2', userId: userIdWithSnapshot, createdAt: beforeDateUserWithSnapshot }));
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
         userId: userIdWithSnapshot,
-        createdAt: limitDateUserWithSnapshot,
+        snappedAt: limitDateUserWithSnapshot,
         snapshot: JSON.stringify([...expectedKnowledgeElementsFirstCompetenceUserWithSnapshot, ...expectedKnowledgeElementsSecondCompetenceUserWithSnapshot]),
       });
 

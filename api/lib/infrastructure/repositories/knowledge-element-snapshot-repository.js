@@ -15,19 +15,19 @@ function _toKnowledgeElementCollection(result) {
 }
 
 module.exports = {
-  save({ userId, date, knowledgeElements }) {
+  save({ userId, snappedAt, knowledgeElements }) {
     return new BookshelfKnowledgeElementSnapshot({
       userId,
-      createdAt: date,
+      snappedAt,
       snapshot: JSON.stringify(knowledgeElements),
     }).save();
   },
 
-  async findOneByUserIdAndDate({ userId, date }) {
+  async findOneByUserIdAndDate({ userId, snappedAt }) {
     const result = await knex
       .select('snapshot')
       .from('knowledge-element-snapshots')
-      .where({ userId, createdAt: date })
+      .where({ userId, snappedAt })
       .first();
 
     return _toKnowledgeElementCollection(result);
@@ -38,7 +38,7 @@ module.exports = {
     const results = await knex
       .select('userId', 'snapshot')
       .from('knowledge-element-snapshots')
-      .whereIn(['userId', 'createdAt'], params);
+      .whereIn(['userId', 'snappedAt'], params);
 
     return mapValues(userIdsAndDates, (_date, strUserId) => {
       const userId = parseInt(strUserId);

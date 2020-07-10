@@ -5,9 +5,9 @@ exports.up = function(knex) {
     .createTable(TABLE_NAME, (table) => {
       table.increments('id').primary();
       table.integer('userId').notNullable();
-      table.dateTime('createdAt').notNullable();
+      table.dateTime('snappedAt').notNullable();
       table.jsonb('snapshot').notNullable();
-      table.index('userId', 'createdAt');
+      table.index('userId', 'snappedAt');
     });
 };
 
