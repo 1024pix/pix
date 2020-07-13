@@ -4,10 +4,19 @@ const KnowledgeElement = require('../models/KnowledgeElement');
 const Scorecard = require('../models/Scorecard');
 const _ = require('lodash');
 
-async function computeScorecard({ userId, competenceId, competenceRepository, competenceEvaluationRepository, knowledgeElementRepository, allowExcessPix = false, allowExcessLevel = false }) {
+async function computeScorecard({
+  userId,
+  competenceId,
+  competenceRepository,
+  competenceEvaluationRepository,
+  knowledgeElementRepository,
+  allowExcessPix = false,
+  allowExcessLevel = false,
+  locale,
+}) {
   const [knowledgeElements, competence, competenceEvaluations] = await Promise.all([
     knowledgeElementRepository.findUniqByUserIdAndCompetenceId({ userId, competenceId }),
-    competenceRepository.get(competenceId),
+    competenceRepository.get(competenceId, locale),
     competenceEvaluationRepository.findByUserId(userId),
   ]);
 
