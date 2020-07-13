@@ -14,6 +14,7 @@ describe('Integration | Application | Organizations | Routes', () => {
     sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response(true));
     sinon.stub(securityPreHandlers, 'checkUserBelongsToOrganizationManagingStudents').callsFake((request, h) => h.response(true));
     sinon.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents').callsFake((request, h) => h.response(true));
+    sinon.stub(securityPreHandlers, 'checkUserIsAdminInSCOOrganizationManagingStudents').callsFake((request, h) => h.response(true));
 
     sinon.stub(organizationController, 'create').returns('ok');
     sinon.stub(organizationController, 'findPaginatedFilteredOrganizations').returns('ok');
@@ -73,12 +74,12 @@ describe('Integration | Application | Organizations | Routes', () => {
     });
   });
 
-  describe('POST /api/organizations/:id/import-students', () => {
+  describe('POST /api/organizations/:id/schooling-registrations/import-siecle', () => {
 
     it('should call the organization controller to import schoolingRegistrations', async () => {
       // given
       const method = 'POST';
-      const url = '/api/organizations/1/import-students';
+      const url = '/api/organizations/1/schooling-registrations/import-siecle';
       const payload = {};
 
       // when

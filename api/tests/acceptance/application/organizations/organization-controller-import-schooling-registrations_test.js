@@ -17,7 +17,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
     server = await createServer();
   });
 
-  describe('POST /api/organizations/{id}/import-students', () => {
+  describe('POST /api/organizations/{id}/schooling-registrations/import-siecle', () => {
 
     let organizationId;
     let options;
@@ -34,7 +34,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
 
       options = {
         method: 'POST',
-        url: `/api/organizations/${organizationId}/import-students`,
+        url: `/api/organizations/${organizationId}/schooling-registrations/import-siecle`,
         headers: {
           authorization: generateValidRequestAuthorizationHeader(connectedUser.id),
         },
@@ -780,7 +780,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           await databaseBuilder.commit();
 
           options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
-          options.url = `/api/organizations/${organizationId}/import-students`;
+          options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle`;
         });
 
         it('should respond with a 403 - Forbidden access', async () => {
@@ -803,7 +803,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           await databaseBuilder.commit();
 
           options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
-          options.url = `/api/organizations/${organizationId}/SCO/import-students`;
+          options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle`;
         });
 
         it('should respond with a 403 - Forbidden access', async () => {
@@ -826,7 +826,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           await databaseBuilder.commit();
 
           options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
-          options.url = `/api/organizations/${organizationId}/import-students`;
+          options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle`;
         });
 
         it('should respond with a 403 - Forbidden access', async () => {
