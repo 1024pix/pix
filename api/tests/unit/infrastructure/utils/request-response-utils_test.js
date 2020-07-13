@@ -58,56 +58,27 @@ describe('Unit | Utils | Request Utils', function() {
       expect(locale).to.equal(FRENCH_FRANCE);
     });
 
-    it('should return fr-fr locale when header is fr-FR', function() {
-      // given
-      const request = {
-        headers: { 'accept-language': 'fr-FR' }
-      };
+    [
+      { header: 'fr-FR', expectedLocale: 'fr-fr' },
+      { header: 'fr', expectedLocale: 'fr' },
+      { header: 'en', expectedLocale: 'en' },
+      { header: 'de', expectedLocale: 'fr-fr' },
+      { header: 'fr-BE', expectedLocale: 'fr-fr' },
+    ].forEach(function(data) {
 
-      // when
-      const locale = extractLocaleFromRequest(request);
+      it(`should return ${data.expectedLocale} locale when header is ${data.header}`, function() {
+        // given
+        const request = {
+          headers: { 'accept-language': data.header }
+        };
 
-      // then
-      expect(locale).to.equal(FRENCH_FRANCE);
+        // when
+        const locale = extractLocaleFromRequest(request);
+
+        // then
+        expect(locale).to.equal(data.expectedLocale);
+      });
     });
 
-    it('should return fr locale when header is fr', function() {
-      // given
-      const request = {
-        headers: { 'accept-language': 'fr' }
-      };
-
-      // when
-      const locale = extractLocaleFromRequest(request);
-
-      // then
-      expect(locale).to.equal(FRENCH_SPOKEN);
-    });
-
-    it('should return fr-fr locale when header is de (to ensure retro-compat)', function() {
-      // given
-      const request = {
-        headers: { 'accept-language': 'de' }
-      };
-
-      // when
-      const locale = extractLocaleFromRequest(request);
-
-      // then
-      expect(locale).to.equal(FRENCH_FRANCE);
-    });
-
-    it('should return fr-fr locale when header is fr-BE (to ensure retro-compat)', function() {
-      // given
-      const request = {
-        headers: { 'accept-language': 'fr-BE' }
-      };
-
-      // when
-      const locale = extractLocaleFromRequest(request);
-
-      // then
-      expect(locale).to.equal(FRENCH_FRANCE);
-    });
   });
 });
