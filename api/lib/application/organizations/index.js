@@ -171,6 +171,32 @@ exports.register = async (server) => {
     },
     {
       method: 'POST',
+      path: '/api/organizations/{id}/schooling-registrations/import-csv',
+      config: {
+        pre: [{
+          method: securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents,
+          assign: 'isAdminInOrganizationManagingStudents'
+        }],
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required()
+          }),
+        },
+        payload: {
+          maxBytes: 1048576 * 10, // 10MB
+          parse: 'gunzip',
+        },
+        handler: organizationController.importHigherEducationRegistrations,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés et responsables de l\'organisation**\n' +
+          '- Elle permet d\'importer des inscriptions d\'étudiants, en masse, depuis un fichier au format csv\n' +
+          '- Elle ne retourne aucune valeur de retour'
+        ],
+        tags: ['api', 'schooling-registrations']
+      }
+    },
+    {
+      method: 'POST',
       path: '/api/organizations/{id}/invitations',
       config: {
         pre: [{

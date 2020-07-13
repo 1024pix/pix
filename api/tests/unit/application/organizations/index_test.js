@@ -113,4 +113,19 @@ describe('Unit | Router | organization-router', () => {
     });
   });
 
+  describe('POST /api/organizations/{id}/schooling-registrations/import-csv', () => {
+    context('when the id not an integer', () => {
+      it('responds 400', async () => {
+        // given
+        const method = 'POST';
+        const url = '/api/organizations/qsdqsd/schooling-registrations/import-csv';
+
+        // when
+        const response = await httpTestServer.request(method, url);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+  });
 });

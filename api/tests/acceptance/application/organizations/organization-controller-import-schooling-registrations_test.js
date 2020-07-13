@@ -792,6 +792,29 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
+      context('when Organization is not a SCO organization', () => {
+        beforeEach(async () => {
+          // given
+          const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true }).id;
+          const userId = databaseBuilder.factory.buildUser.withMembership({
+            organizationId,
+            organizationRole: Membership.roles.ADMIN
+          }).id;
+          await databaseBuilder.commit();
+
+          options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
+          options.url = `/api/organizations/${organizationId}/SCO/import-students`;
+        });
+
+        it('should respond with a 403 - Forbidden access', async () => {
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(403);
+        });
+      });
+
       context('when user is not ADMIN', () => {
         beforeEach(async () => {
           // given

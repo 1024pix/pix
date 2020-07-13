@@ -10,7 +10,6 @@ describe('Integration | Application | Organizations | Routes', () => {
 
   beforeEach(() => {
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
-    sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganizationManagingStudents').callsFake((request, h) => h.response(true));
     sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganizationOrHasRolePixMaster').callsFake((request, h) => h.response(true));
     sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response(true));
     sinon.stub(securityPreHandlers, 'checkUserBelongsToOrganizationManagingStudents').callsFake((request, h) => h.response(true));
