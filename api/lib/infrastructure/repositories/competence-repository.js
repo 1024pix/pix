@@ -92,7 +92,7 @@ function _list({ locale }) {
   return Promise.all([competenceDatasource.list(), areaDatasource.list()])
     .then(([competenceDatas, areaDatas]) => {
       return _.sortBy(
-        competenceDatas.map((competenceData) => _toDomain(competenceData, areaDatas)),
+        competenceDatas.map((competenceData) => _toDomain(competenceData, areaDatas, locale)),
         'index'
       );
     });
