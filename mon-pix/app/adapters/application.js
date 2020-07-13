@@ -16,6 +16,7 @@ export default class Application extends JSONAPIAdapter.extend(DataAdapterMixin)
   ajaxQueue;
 
   host = ENV.APP.API_HOST;
+  locale = ENV.APP.LOCALE;
   namespace = 'api';
 
   get headers() {
@@ -23,13 +24,20 @@ export default class Application extends JSONAPIAdapter.extend(DataAdapterMixin)
     if (this.session.isAuthenticated) {
       headers['Authorization'] = `Bearer ${this.session.data.authenticated.access_token}`;
     }
-    headers['Accept-Language'] = this.currentDomain.getExtension() === FRENCH_DOMAIN_EXTENSION ?
-      FRENCH_LOCALE
-      : FRENCHSPOKEN_LOCALE;
+    headers['Accept-Language'] = this._locale;
     return headers;
   }
 
   ajax() {
     return this.ajaxQueue.add(() => super.ajax(...arguments));
+  }
+
+  get _locale() {
+    if (this.locale === 'fr') {
+      return this.currentDomain.getExtension() === FRENCH_DOMAIN_EXTENSION ?
+        FRENCH_LOCALE
+        : FRENCHSPOKEN_LOCALE;
+    }
+    return this.locale;
   }
 }
