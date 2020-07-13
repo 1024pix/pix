@@ -154,8 +154,9 @@ module.exports = {
 
   getScorecards(request) {
     const authenticatedUserId = request.auth.credentials.userId;
+    const locale = extractLocaleFromRequest(request);
 
-    return usecases.getUserScorecards({ userId: authenticatedUserId })
+    return usecases.getUserScorecards({ userId: authenticatedUserId, locale })
       .then(scorecardSerializer.serialize);
   },
 
