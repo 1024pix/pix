@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v2.172.0 (15/07/2020)
+
+- [#1587](https://github.com/1024pix/pix/pull/1587) [FEATURE] Remonter les acquis/épreuves archivés lors d'une campagne ou certification (PIX-820)
+- [#1628](https://github.com/1024pix/pix/pull/1628) [FEATURE] Ajout de la validation sans saisie de mot réponse pour les épreuves de type QROC autovalidées (PIX-958).
+- [#1585](https://github.com/1024pix/pix/pull/1585) [FEATURE] Ne pas autoriser un utilisateur à retenter une compétence quand le niveau maximum de la compétence est atteint (PIX-898).
+- [#1617](https://github.com/1024pix/pix/pull/1617) [FEATURE] Utilisation d'un nouveau template e-mail pour rejoindre une Organisation SCO (PIX-883).
+- [#1607](https://github.com/1024pix/pix/pull/1607) [BUGFIX] Supprimer les données lors de la déconnexion de Pix-Orga (PIX-954).
+- [#1632](https://github.com/1024pix/pix/pull/1632) [BUGFIX] Bannière "Votre profil n'est pas encore certifiable." KO (PIX-963)
+- [#1616](https://github.com/1024pix/pix/pull/1616) [BUGFIX] Rendre des tests plus déterministes dans l'API (PIX-959). 
+- [#1626](https://github.com/1024pix/pix/pull/1626) [TECH] Montée de version de la librarie ember-intl 4.3.1 -> 5.3.1
+- [#1590](https://github.com/1024pix/pix/pull/1590) [TECH] Décorréler l'utilisation de isManagingStudents du type d'organisation SCO (PIX-924).
+- [#1591](https://github.com/1024pix/pix/pull/1591) [DESIGN SYSTEM] Ajouter PixBlock et PixBackgroundHeader dans Mon-Pix (PIX-921)
+
 ## v2.171.0 (08/07/2020)
 
 - [#1621](https://github.com/1024pix/pix/pull/1621) [FEATURE] Ne pas afficher le champ "Réponse" sur la page de résultat pour les challenges QROC sans réponse(PIX-902).
