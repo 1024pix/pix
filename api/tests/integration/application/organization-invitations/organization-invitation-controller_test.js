@@ -1,7 +1,6 @@
 const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 
 const usecases = require('../../../../lib/domain/usecases');
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const scoOrganizationInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/sco-organization-invitation-serializer');
 const moduleUnderTest = require('../../../../lib/application/organization-invitations');
 
@@ -29,16 +28,14 @@ describe('Integration | Application | Organization-invitations | organization-in
 
   describe('#acceptOrganizationInvitation', () => {
 
-    const status = OrganizationInvitation.StatusType.ACCEPTED;
-    const temporaryKey = 'temporaryKey';
-
     const payload = {
       data: {
-        type: 'organization-invitations',
+        id: '100047_DZWMP7L5UM',
+        type: 'organization-invitation-responses',
         attributes: {
-          temporaryKey,
-          status
-        },
+          code: 'DZWMP7L5UM',
+          email: 'user@example.net'
+        }
       }
     };
 

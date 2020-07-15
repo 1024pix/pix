@@ -1,3 +1,5 @@
+const Joi = require('@hapi/joi');
+const JSONAPIError = require('jsonapi-serializer').Error;
 const organizationInvitationController = require('./organization-invitation-controller');
 
 exports.register = async (server) => {
@@ -8,6 +10,27 @@ exports.register = async (server) => {
       config: {
         auth: false,
         handler: organizationInvitationController.acceptOrganizationInvitation,
+        validate: {
+          payload: Joi.object({
+            data: {
+              id: Joi.string().required(),
+              type: Joi.string().required(),
+              attributes: {
+                code: Joi.string().required(),
+                email: Joi.string().email().required()
+              }
+            }
+          }),
+          failAction: (request, h, err) => {
+            const errorHttpStatusCode = 400;
+            const jsonApiError = new JSONAPIError({
+              code: errorHttpStatusCode.toString(),
+              title: 'Bad request',
+              detail: err.details[0].message,
+            });
+            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
+          },
+        },
         notes: [
           '- Cette route permet d\'accepter l\'invitation à rejoindre une organisation, via un **code** et un **email**'
         ],
@@ -32,6 +55,20 @@ exports.register = async (server) => {
       config: {
         auth: false,
         handler: organizationInvitationController.getOrganizationInvitation,
+        validate: {
+          query: Joi.object({
+            code: Joi.string().required(),
+          }),
+          failAction: (request, h, err) => {
+            const errorHttpStatusCode = 400;
+            const jsonApiError = new JSONAPIError({
+              code: errorHttpStatusCode.toString(),
+              title: 'Bad request',
+              detail: err.details[0].message,
+            });
+            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
+          },
+        },
         notes: [
           '- Cette route permet de récupérer les détails d\'une invitation selon un **id d\'invitation** et un **code**\n',
         ],
