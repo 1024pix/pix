@@ -86,7 +86,6 @@ describe('Unit | UseCase | accept-organization-invitation', () => {
         membershipRepository.findByOrganizationId.resolves([]);
 
         // when
-        // when
         await acceptOrganizationInvitation({
           organizationInvitationId, code, email,
           userRepository, membershipRepository, organizationInvitationRepository
