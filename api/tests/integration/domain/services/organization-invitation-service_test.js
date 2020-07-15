@@ -30,6 +30,7 @@ describe('Integration | Service | Organization-Invitation Service', () => {
         organizationId,
         email,
         status: OrganizationInvitation.StatusType.PENDING,
+        role: null,
       };
 
       // when

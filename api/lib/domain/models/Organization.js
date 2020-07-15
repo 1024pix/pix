@@ -1,3 +1,9 @@
+const types = {
+  SCO : 'SCO',
+  SUP: 'SUP',
+  PRO: 'PRO',
+};
+
 class Organization {
 
   constructor({
@@ -39,4 +45,5 @@ class Organization {
   }
 }
 
+Organization.types = types;
 module.exports = Organization;

@@ -10,6 +10,24 @@ class AlreadyExistingMembershipError extends DomainError {
   }
 }
 
+class OrganizationNotFoundError extends DomainError {
+  constructor(message = 'Organisation non trouvée.') {
+    super(message);
+  }
+}
+
+class OrganizationWithoutEmailError extends DomainError {
+  constructor(message = 'Organisation sans email renseigné.') {
+    super(message);
+  }
+}
+
+class ManyOrganizationsFoundError extends DomainError {
+  constructor(message = 'Plusieurs organisations ont été retrouvées.') {
+    super(message);
+  }
+}
+
 class AlreadyExistingOrganizationInvitationError extends DomainError {
   constructor(message = 'L\'invitation de l\'organisation existe déjà.') {
     super(message);
@@ -523,6 +541,9 @@ module.exports = {
   NotEligibleCandidateError,
   NotFoundError,
   ObjectValidationError,
+  OrganizationNotFoundError,
+  OrganizationWithoutEmailError,
+  ManyOrganizationsFoundError,
   PasswordNotMatching,
   PasswordResetDemandNotFoundError,
   SameNationalStudentIdInFileError,
