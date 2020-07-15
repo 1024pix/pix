@@ -3,6 +3,7 @@ const bluebird = require('bluebird');
 const { NotFoundError, SameNationalStudentIdInOrganizationError, SchoolingRegistrationsCouldNotBeSavedError } = require('../../domain/errors');
 const UserWithSchoolingRegistration = require('../../domain/models/UserWithSchoolingRegistration');
 const SchoolingRegistration = require('../../domain/models/SchoolingRegistration');
+const studentRepository = require('./student-repository');
 
 const Bookshelf = require('../bookshelf');
 const BookshelfSchoolingRegistration = require('../data/schooling-registration');
@@ -39,6 +40,10 @@ function _setSchoolingRegistrationFilters(qb, { lastName, firstName, connexionTy
   }
 }
 
+function _isReconciled(schoolingRegistration) {
+  return schoolingRegistration.userId;
+}
+
 module.exports = {
 
   findByOrganizationId({ organizationId }) {
@@ -52,26 +57,37 @@ module.exports = {
   },
 
   async addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrationDatas, organizationId) {
+
+    const nationalStudentIdsFromFile = schoolingRegistrationDatas.map((schoolingRegistrationData) => schoolingRegistrationData.nationalStudentId);
+    const students = await studentRepository.findReconciledStudentsByNationalStudentId(nationalStudentIdsFromFile);
+
+    const schoolingRegistrationsFromFile = schoolingRegistrationDatas.map((schoolingRegistrationData) => new SchoolingRegistration({ ...schoolingRegistrationData, organizationId }));
+    const currentSchoolingRegistrations = await this.findByOrganizationId({ organizationId });
+
+    const [ schoolingRegistrationsToUpdate, schoolingRegistrationsToCreate ] = _.partition(schoolingRegistrationsFromFile, (schoolingRegistration) => {
+      const currentSchoolingRegistration   = currentSchoolingRegistrations.find((currentSchoolingRegistration) => currentSchoolingRegistration.nationalStudentId === schoolingRegistration.nationalStudentId);
+      if (!currentSchoolingRegistration || !_isReconciled(currentSchoolingRegistration)) {
+        const student = students.find((student) => student.nationalStudentId === schoolingRegistration.nationalStudentId);
+        if (student) {
+          schoolingRegistration.userId = student.account.userId;
+        }
+      }
+      return !!currentSchoolingRegistration;
+    });
+
     const trx = await Bookshelf.knex.transaction();
-
     try {
-
-      const schoolingRegistrations = _.map(schoolingRegistrationDatas, (schoolingRegistrationData) => new SchoolingRegistration({ ...schoolingRegistrationData, organizationId }));
-      const schoolingRegistrationsFromOrganization = await this.findByOrganizationId({ organizationId });
-      const nationalStudentIdsFromOrganization = _.map(schoolingRegistrationsFromOrganization, 'nationalStudentId');
-      const [ schoolingRegistrationsToUpdate, schoolingRegistrationsToCreate ] = _.partition(schoolingRegistrations, (schoolingRegistration) => _.includes(nationalStudentIdsFromOrganization, schoolingRegistration.nationalStudentId));
-
-      await bluebird.mapSeries(schoolingRegistrationsToUpdate, async (schoolingRegistrationToUpdate) => {
-        await trx('schooling-registrations')
-          .where({
-            'organizationId': organizationId,
-            'nationalStudentId': schoolingRegistrationToUpdate.nationalStudentId,
-          })
-          .update(_.omit(schoolingRegistrationToUpdate, ['id', 'createdAt']));
-      });
-
-      await Bookshelf.knex.batchInsert('schooling-registrations', schoolingRegistrationsToCreate);
-
+      await Promise.all([
+        bluebird.mapSeries(schoolingRegistrationsToUpdate, async (schoolingRegistrationToUpdate) => {
+          await trx('schooling-registrations')
+            .where({
+              'organizationId': organizationId,
+              'nationalStudentId': schoolingRegistrationToUpdate.nationalStudentId,
+            })
+            .update(_.omit(schoolingRegistrationToUpdate, ['id', 'createdAt']));
+        }),
+        Bookshelf.knex.batchInsert('schooling-registrations', schoolingRegistrationsToCreate)
+      ]);
       await trx.commit();
     } catch (err) {
       await trx.rollback();
