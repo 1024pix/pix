@@ -28,7 +28,7 @@ module.exports = {
     const temporaryKey = request.params.temporaryKey;
     await tokenService.verifyValidity(temporaryKey);
     const passwordResetDemand = await resetPasswordService.verifyDemand(temporaryKey);
-    const user = await userRepository.findByEmail(passwordResetDemand.email);
+    const user = await userRepository.getByEmail(passwordResetDemand.email);
 
     return userSerializer.serialize(user);
   },

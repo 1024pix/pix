@@ -132,7 +132,7 @@ function _adaptModelToDb(user) {
 module.exports = {
 
   // TODO use _toDomain()
-  findByEmail(email) {
+  getByEmail(email) {
     return BookshelfUser
       .where({ email: email.toLowerCase() })
       .fetch({ require: true })

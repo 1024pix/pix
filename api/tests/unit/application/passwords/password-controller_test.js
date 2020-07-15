@@ -94,7 +94,7 @@ describe('Unit | Controller | PasswordController', () => {
       sinon.stub(resetPasswordService, 'verifyDemand');
       sinon.stub(tokenService, 'verifyValidity').resolves({});
       sinon.stub(errorSerializer, 'serialize');
-      sinon.stub(userRepository, 'findByEmail').resolves(fetchedUser);
+      sinon.stub(userRepository, 'getByEmail').resolves(fetchedUser);
       sinon.stub(userSerializer, 'serialize');
     });
 
@@ -133,15 +133,15 @@ describe('Unit | Controller | PasswordController', () => {
         await passwordController.checkResetDemand(request, hFake);
 
         // then
-        sinon.assert.calledOnce(userRepository.findByEmail);
-        sinon.assert.calledWith(userRepository.findByEmail, fetchedPasswordResetDemand.email);
+        sinon.assert.calledOnce(userRepository.getByEmail);
+        sinon.assert.calledWith(userRepository.getByEmail, fetchedPasswordResetDemand.email);
       });
 
       it('should reply with a serialized user with some fields', async () => {
         // given
         const serializedUser = {};
         resetPasswordService.verifyDemand.resolves(fetchedPasswordResetDemand);
-        userRepository.findByEmail.resolves(fetchedUser);
+        userRepository.getByEmail.resolves(fetchedUser);
         userSerializer.serialize.returns(serializedUser);
 
         // when

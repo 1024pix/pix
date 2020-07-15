@@ -12,7 +12,7 @@ describe('Unit | UseCase | accept-organization-invitation', () => {
 
   beforeEach(() => {
     userRepository = {
-      findByEmail: sinon.stub(),
+      getByEmail: sinon.stub(),
     };
     membershipRepository = {
       create: sinon.stub(),
@@ -75,7 +75,7 @@ describe('Unit | UseCase | accept-organization-invitation', () => {
       organizationInvitationRepository.getByIdAndCode.resolves(pendingOrganizationInvitation);
 
       userToInvite = domainBuilder.buildUser({ email });
-      userRepository.findByEmail.resolves(userToInvite);
+      userRepository.getByEmail.resolves(userToInvite);
     });
 
     context('when the user is the first one to join the organization', () => {
@@ -93,7 +93,7 @@ describe('Unit | UseCase | accept-organization-invitation', () => {
         });
 
         // then
-        expect(userRepository.findByEmail).to.have.been.calledWith(email);
+        expect(userRepository.getByEmail).to.have.been.calledWith(email);
         expect(membershipRepository.findByOrganizationId).to.have.been.calledWith({ organizationId });
         expect(membershipRepository.create).to.have.been.calledWith(userToInvite.id, organizationId, Membership.roles.ADMIN);
         expect(organizationInvitationRepository.markAsAccepted).to.have.been.calledWith(organizationInvitationId);
@@ -114,7 +114,7 @@ describe('Unit | UseCase | accept-organization-invitation', () => {
         });
 
         // then
-        expect(userRepository.findByEmail).to.have.been.calledWith(email);
+        expect(userRepository.getByEmail).to.have.been.calledWith(email);
         expect(membershipRepository.findByOrganizationId).to.have.been.calledWith({ organizationId });
         expect(membershipRepository.create).to.have.been.calledWith(userToInvite.id, organizationId, Membership.roles.MEMBER);
         expect(organizationInvitationRepository.markAsAccepted).to.have.been.calledWith(organizationInvitationId);
@@ -136,7 +136,7 @@ describe('Unit | UseCase | accept-organization-invitation', () => {
         });
 
         // then
-        expect(userRepository.findByEmail).to.have.been.calledWith(email);
+        expect(userRepository.getByEmail).to.have.been.calledWith(email);
         expect(membershipRepository.findByOrganizationId).to.have.been.calledWith({ organizationId });
         expect(membershipRepository.create).to.have.been.calledWith(userToInvite.id, organizationId, role);
         expect(organizationInvitationRepository.markAsAccepted).to.have.been.calledWith(organizationInvitationId);
@@ -182,7 +182,7 @@ describe('Unit | UseCase | accept-organization-invitation', () => {
           });
 
           // then
-          expect(userRepository.findByEmail).to.have.been.calledWith(email);
+          expect(userRepository.getByEmail).to.have.been.calledWith(email);
           expect(membershipRepository.findByOrganizationId).to.have.been.calledWith({ organizationId });
           expect(membershipRepository.updateById).to.have.been.calledWith({ id: membership.id, membershipAttributes: { organizationRole: pendingOrganizationInvitation.role } });
           expect(organizationInvitationRepository.markAsAccepted).to.have.been.calledWith(organizationInvitationId);
