@@ -18,7 +18,7 @@ module.exports = async function acceptOrganizationInvitation({
     throw new AlreadyExistingOrganizationInvitationError(`Invitation already accepted with the id ${organizationInvitationId}`);
   } else {
 
-    const userFound = await userRepository.findByEmail(email);
+    const userFound = await userRepository.getByEmail(email);
 
     const { organizationId, role: invitationRole } = foundOrganizationInvitation;
     const memberships = await membershipRepository.findByOrganizationId({ organizationId });
