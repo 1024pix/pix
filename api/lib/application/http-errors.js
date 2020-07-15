@@ -15,9 +15,9 @@ class UnprocessableEntityError extends BaseHttpError {
 }
 
 class PreconditionFailedError extends BaseHttpError {
-  constructor(message) {
+  constructor(message, title) {
     super(message);
-    this.title = 'Precondition Failed';
+    this.title = title || 'Precondition Failed';
     this.status = 412;
   }
 }
@@ -40,9 +40,9 @@ class MissingQueryParamError extends BaseHttpError {
 }
 
 class NotFoundError extends BaseHttpError {
-  constructor(message) {
+  constructor(message, title) {
     super(message);
-    this.title = 'Not Found';
+    this.title = title || 'Not Found';
     this.status = 404;
   }
 }

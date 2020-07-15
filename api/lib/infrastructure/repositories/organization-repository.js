@@ -101,6 +101,13 @@ module.exports = {
       .then((organizations) => organizations.models.map(_toDomain));
   },
 
+  findScoOrganizationByUai(uai) {
+    return BookshelfOrganization
+      .where({ externalId: uai, type: Organization.types.SCO })
+      .fetchAll({ columns: ['id', 'type', 'externalId', 'email'] })
+      .then((organizations) => organizations.models.map(_toDomain));
+  },
+
   findPaginatedFiltered({ filter, page }) {
     return BookshelfOrganization
       .query((qb) => _setSearchFiltersForQueryBuilder(filter, qb))

@@ -10,7 +10,7 @@ module('Integration | Component | routes/join-request-form', function(hooks) {
 
     const EMPTY_FIRSTNAME_ERROR_MESSAGE = 'Votre prénom n’est pas renseigné.';
     const EMPTY_LASTNAME_ERROR_MESSAGE = 'Votre nom n’est pas renseigné.';
-    const INCORRECT_UAI_FORMAT_ERROR_MESSAGE = 'L\'UAI n\'est pas correct.';
+    const INCORRECT_UAI_FORMAT_ERROR_MESSAGE = 'L\'UAI n\'est pas au bon format.';
 
     [{ stringFilledIn: ' ' },
       { stringFilledIn: '123456Z' },

@@ -151,6 +151,23 @@ export default function() {
     return new Response(204);
   });
 
+  this.post('/organization-invitations/sco', (schema, request) => {
+    const requestBody = JSON.parse(request.requestBody);
+    const { uai, firstName, lastName } = requestBody.data.attributes;
+
+    const organization = schema.organizations.findBy({ externalId: uai });
+
+    if (!organization || organization.type !== 'SCO') {
+      return new Response(404, {}, { errors: [ { status: '404', title: 'OrganizationNotFoundError', detail: 'L\'UAI/RNE de l\'établissement ne correspond à aucun établissement dans la base de données Pix. Merci de contacter le support.' } ] });
+    }
+
+    if (!organization.email) {
+      return new Response(412, {}, { errors: [ { status: '412', title: 'OrganizationWithoutEmailError', detail: 'Nous n\'avons pas d\'adresse e-mail de contact associé à votre établissement, merci de contacter le support pour récupérer votre accès.' } ] });
+    }
+
+    return schema.scoOrganizationInvitations.create({ uai, firstName, lastName });
+  });
+
   this.get('/organizations/:id/students', findFilteredPaginatedStudents);
 
   this.post('/organizations/:id/import-students', (schema, request) => {

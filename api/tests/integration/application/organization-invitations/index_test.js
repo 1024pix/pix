@@ -27,6 +27,22 @@ describe('Integration | Application | Organization-invitations | Routes', () => 
     });
   });
 
+  describe('POST /api/organization-invitations/sco', () => {
+
+    beforeEach(async () => {
+      sinon.stub(organisationInvitationController, 'sendScoInvitation').callsFake((request, h) => h.response().code(201));
+      await server.register(route);
+    });
+
+    it('should exists', async () => {
+      // when
+      const response = await server.inject({ method: 'POST', url: '/api/organization-invitations/sco' });
+
+      // then
+      expect(response.statusCode).to.equal(201);
+    });
+  });
+
   describe('GET /api/organization-invitations/:id', () => {
 
     beforeEach(async () => {

@@ -8,6 +8,14 @@
   justify-content: center;
   min-height: 800px;
 
+  a {
+    color: $communication-dark;
+
+    &:visited {
+      color: $communication-dark;
+    }
+  }
+
   &__panel {
     border-radius: 10px;
     display: flex;
@@ -38,5 +46,20 @@
     font-weight: 400;
     line-height: 1.375rem;
     margin: 0 0 48px;
+  }
+
+  &__error-message {
+    max-width: 497px;
+    margin-bottom: 24px;
+    font-size: 0.875rem;
+    text-align: center;
+  }
+
+  &__success {
+    text-align: center;
+    color: $grey-90;
+    letter-spacing: .15px;
+    margin-top: 54px;
+    margin-bottom: 24px;
   }
 }

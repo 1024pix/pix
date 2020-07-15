@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 
 const mailService = require('../../../../lib/domain/services/mail-service');
-const { createOrganizationInvitation } = require('../../../../lib/domain/services/organization-invitation-service');
+const { createOrganizationInvitation, createScoOrganizationInvitation } = require('../../../../lib/domain/services/organization-invitation-service');
 
 describe('Unit | Service | Organization-Invitation Service', () => {
 
@@ -25,6 +25,7 @@ describe('Unit | Service | Organization-Invitation Service', () => {
       get: sinon.stub().resolves({ name: organizationName })
     };
     sinon.stub(mailService, 'sendOrganizationInvitationEmail').resolves();
+    sinon.stub(mailService, 'sendScoOrganizationInvitationEmail').resolves();
   });
 
   describe('#createOrganizationInvitation', () => {
@@ -99,6 +100,90 @@ describe('Unit | Service | Organization-Invitation Service', () => {
         };
 
         expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWith(expectedParameters);
+      });
+
+      it('should update organization-invitation modification date', () => {
+        // then
+        expect(organizationInvitationRepository.updateModificationDate).to.have.been.calledWith(organizationInvitationId);
+      });
+    });
+  });
+
+  describe('#createScoOrganizationInvitation', () => {
+    const firstName = 'john';
+    const lastName = 'harry';
+    const role = 'ADMIN';
+
+    context('when organization-invitation does not exist', () => {
+
+      beforeEach(() => {
+        organizationInvitationRepository.create.withArgs({
+          organizationId, email: userEmailAddress, code: sinon.match.string, role
+        }).resolves({ id: organizationInvitationId, code });
+      });
+
+      it('should create a new organization-invitation and send an email with organizationId, email, firstName, lastName, code and locale', async () => {
+        // given
+        const tags = undefined;
+        const locale = 'fr-fr';
+
+        const expectedParameters = {
+          email: userEmailAddress, organizationName, organizationInvitationId, firstName, lastName, code, locale, tags
+        };
+
+        // when
+        await createScoOrganizationInvitation({
+          organizationRepository, organizationInvitationRepository, organizationId, firstName, lastName, email: userEmailAddress, locale
+        });
+
+        // then
+        expect(mailService.sendScoOrganizationInvitationEmail).to.has.been.calledWith(expectedParameters);
+      });
+
+      it('should send an email with organizationId, email, code and tags', async () => {
+        // given
+        const tags = ['JOIN_ORGA'];
+        const locale = 'fr-fr';
+
+        const expectedParameters = {
+          email: userEmailAddress, organizationName, organizationInvitationId, firstName, lastName, code, locale, tags
+        };
+
+        // when
+        await createScoOrganizationInvitation({
+          organizationRepository, organizationInvitationRepository, organizationId, firstName, lastName, email: userEmailAddress, locale, tags
+        });
+
+        // then
+        expect(mailService.sendScoOrganizationInvitationEmail).to.has.been.calledWith(expectedParameters);
+      });
+    });
+
+    context('when an organization-invitation with pending status already exists', () => {
+
+      const isPending = true;
+      const tags = undefined;
+      const locale = 'fr-fr';
+
+      beforeEach(async () => {
+        // given
+        organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves({
+          id: organizationInvitationId, isPending, code
+        });
+
+        // when
+        await createScoOrganizationInvitation({
+          organizationRepository, organizationInvitationRepository, organizationId, firstName, lastName, email: userEmailAddress, locale
+        });
+      });
+
+      it('should re-send an email with same code', async () => {
+        // then
+        const expectedParameters = {
+          email: userEmailAddress, organizationName, organizationInvitationId, firstName, lastName, code, locale, tags
+        };
+
+        expect(mailService.sendScoOrganizationInvitationEmail).to.has.been.calledWith(expectedParameters);
       });
 
       it('should update organization-invitation modification date', () => {

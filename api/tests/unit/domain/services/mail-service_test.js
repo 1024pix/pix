@@ -234,7 +234,7 @@ describe('Unit | Service | MailService', () => {
     });
   });
 
-  describe('#sendOrganizationInvitationScoEmail', () => {
+  describe('#sendScoOrganizationInvitationEmail', () => {
 
     const fromName = 'Pix Orga - Ne pas répondre';
 
@@ -270,7 +270,7 @@ describe('Unit | Service | MailService', () => {
       };
 
       // when
-      await mailService.sendOrganizationInvitationScoEmail({
+      await mailService.sendScoOrganizationInvitationEmail({
         email: userEmailAddress,
         organizationName,
         firstName, lastName,
