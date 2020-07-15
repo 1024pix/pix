@@ -251,6 +251,84 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
     });
 
+    context('when there are schoolingRegistrations in another organization', () => {
+      let schoolingRegistrationInOtherOrganization, schoolingRegistrations;
+      let organizationId;
+      let schoolingRegistrationFromFile;
+      let userId;
+      let nationalStudentId;
+
+      beforeEach(async () => {
+        userId = databaseBuilder.factory.buildUser().id;
+        organizationId = databaseBuilder.factory.buildOrganization().id;
+        const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+        schoolingRegistrationInOtherOrganization = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: otherOrganizationId });
+        nationalStudentId = schoolingRegistrationInOtherOrganization.nationalStudentId;
+        await databaseBuilder.commit();
+
+        schoolingRegistrationFromFile = new SchoolingRegistration({
+          firstName: 'Lucy',
+          lastName: 'Handmade',
+          birthdate: '1990-12-31',
+          nationalStudentId,
+          organizationId,
+        });
+
+        schoolingRegistrations = [schoolingRegistrationFromFile];
+      });
+
+      afterEach(() => {
+        return knex('schooling-registrations').delete();
+      });
+
+      it('should create schoolingRegistration and reconcile it thanks to another schoolingRegistration', async () => {
+        // given
+        databaseBuilder.factory.buildSchoolingRegistration({ nationalStudentId, userId });
+        databaseBuilder.factory.buildCertificationCourse({ userId });
+        await databaseBuilder.commit();
+
+        // when
+        await schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrations, organizationId);
+
+        // then
+        const newSchoolingRegistration = await knex('schooling-registrations').where({ organizationId, nationalStudentId });
+        expect(newSchoolingRegistration[0].userId).to.equal(userId);
+      });
+
+      it('should update and reconcile schoolingRegistration thanks to another schoolingRegistration', async () => {
+        // given
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, nationalStudentId, userId: null });
+        databaseBuilder.factory.buildSchoolingRegistration({ nationalStudentId, userId });
+        databaseBuilder.factory.buildCertificationCourse({ userId });
+        await databaseBuilder.commit();
+
+        // when
+        await schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrations, organizationId);
+
+        // then
+        const newSchoolingRegistration = await knex('schooling-registrations').where({ organizationId, nationalStudentId }).first();
+        expect(newSchoolingRegistration.userId).to.equal(userId);
+        expect(newSchoolingRegistration.firstName).to.equal(schoolingRegistrationFromFile.firstName);
+      });
+
+      context('when userId is already defined for a schoolingRegistration', () => {
+
+        it('should update schoolingRegistration but not override userId', async () => {
+          // given
+          const expectedUserId = databaseBuilder.factory.buildSchoolingRegistration({ organizationId, nationalStudentId }).userId;
+          await databaseBuilder.commit();
+
+          // when
+          await schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrations, organizationId);
+
+          // then
+          const alreadyReconciledSchoolingRegistrations = await knex('schooling-registrations').where({ 'nationalStudentId': schoolingRegistrationFromFile.nationalStudentId, 'organizationId': organizationId }).first();
+          expect(alreadyReconciledSchoolingRegistrations.userId).to.equal(expectedUserId);
+          expect(alreadyReconciledSchoolingRegistrations.firstName).to.equal(schoolingRegistrationFromFile.firstName);
+        });
+      });
+    });
+
     context('when there are schoolingRegistrations to create and schoolingRegistrations to update', () => {
 
       let schoolingRegistrations;
