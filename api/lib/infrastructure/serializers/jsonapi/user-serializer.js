@@ -7,10 +7,7 @@ module.exports = {
     return new Serializer('user', {
       transform: (untouchedUser) => {
         const user = Object.assign({}, untouchedUser);
-        user.certificationProfile = undefined;
-        if (!user.userOrgaSettings) {
-          delete user.userOrgaSettings;
-        }
+        user.isCertifiable = undefined;
         return user;
       },
       attributes: [
@@ -19,8 +16,7 @@ module.exports = {
         'pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted',
         'memberships', 'certificationCenterMemberships',
         'pixScore', 'scorecards',
-        'campaignParticipations', 'hasSeenAssessmentInstructions', 'certificationProfile',
-        'userOrgaSettings'
+        'campaignParticipations', 'hasSeenAssessmentInstructions', 'isCertifiable',
       ],
       memberships: {
         ref: 'id',
@@ -67,21 +63,12 @@ module.exports = {
           }
         }
       },
-      certificationProfile: {
+      isCertifiable: {
         ref: 'id',
         ignoreRelationshipData: true,
         relationshipLinks: {
           related: function(record, current, parent) {
-            return `/api/users/${parent.id}/certification-profile`;
-          }
-        }
-      },
-      userOrgaSettings: {
-        ref: 'id',
-        ignoreRelationshipData: true,
-        relationshipLinks: {
-          related(record, current, parent) {
-            return `/api/users/${parent.id}/user-orga-settings`;
+            return `/api/users/${parent.id}/is-certifiable`;
           }
         }
       },

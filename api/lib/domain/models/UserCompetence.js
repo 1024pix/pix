@@ -1,5 +1,4 @@
 const {
-  MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION,
   MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY,
 } = require('../constants');
 
@@ -28,7 +27,6 @@ class UserCompetence {
     this.estimatedLevel = estimatedLevel;
     // includes
     this.skills = [];
-    this.challenges = [];
     // references
   }
 
@@ -38,18 +36,6 @@ class UserCompetence {
     if (!hasAlreadySkill) {
       this.skills.push(newSkill);
     }
-  }
-
-  addChallenge(newChallenge) {
-    const hasAlreadyChallenge = _(this.challenges).filter((challenge) => challenge.id === newChallenge.id).size();
-
-    if (!hasAlreadyChallenge) {
-      this.challenges.push(newChallenge);
-    }
-  }
-
-  hasEnoughChallenges() {
-    return this.challenges.length >= MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION;
   }
 
   isCertifiable() {

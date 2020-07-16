@@ -6,8 +6,8 @@ const tutorialDatasource = require('../datasources/airtable/tutorial-datasource'
 const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {
-  async findByRecordIdsForCurrentUser({ ids, userId }) {
-    const tutorials = await _findByRecordIds(ids);
+  async findByRecordIdsForCurrentUser({ ids, userId, locale }) {
+    const tutorials = await _findByRecordIds({ ids, locale });
     const userTutorials = await userTutorialRepository.find({ userId });
     const tutorialEvaluations = await tutorialEvaluationRepository.find({ userId });
     _.forEach(tutorials, _assignUserInformation(userTutorials, tutorialEvaluations));
@@ -15,7 +15,7 @@ module.exports = {
   },
 
   async findByRecordIds(ids) {
-    return _findByRecordIds(ids);
+    return _findByRecordIds({ ids });
   },
 
   async get(id) {
@@ -45,9 +45,17 @@ function _toDomain(tutorialData) {
   });
 }
 
-async function _findByRecordIds(ids) {
-  const tutorialDatas = await tutorialDatasource.findByRecordIds(ids);
-  return _.map(tutorialDatas, (tutorialData) => _toDomain(tutorialData));
+async function _findByRecordIds({ ids, locale }) {
+  let tutorialData = await tutorialDatasource.findByRecordIds(ids);
+  if (locale) {
+    const lang = _extractLangFromLocale(locale);
+    tutorialData = tutorialData.filter((tutorial) => _extractLangFromLocale(tutorial.locale) === lang);
+  }
+  return _.map(tutorialData, (tutorialData) => _toDomain(tutorialData));
+}
+
+function _extractLangFromLocale(locale) {
+  return locale.split('-')[0];
 }
 
 function _getUserTutorial(userTutorials, tutorial) {

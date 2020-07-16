@@ -7,7 +7,10 @@
 /* "Link" view
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
-.feedback-panel__open-link {
+.feedback-panel__open-button {
+  border: none;
+  background-color: transparent;
+  padding: 0;
   cursor: pointer;
   color: $grey-30;
   font-family: $font-roboto;
@@ -16,9 +19,9 @@
   line-height: 20px;
 }
 
-.feedback-panel__open-link:hover,
-.feedback-panel__open-link:focus,
-.feedback-panel__open-link:active {
+.feedback-panel__open-button:hover,
+.feedback-panel__open-button:focus,
+.feedback-panel__open-button:active {
   color: $grey-80;
 }
 

@@ -78,14 +78,12 @@
   display:flex;
   justify-content: flex-end;
   position:relative;
-  bottom: 6px;
+  top: 26px;
 }
 
 .embed-reboot__content {
   display:flex;
-  justify-content: space-between;
   align-items: center;
-  width: 100px;
 
   &:active, &:hover {
     cursor: pointer;
@@ -95,4 +93,8 @@
 .embed-reboot-content__text {
   font-family: $font-roboto;
   font-size: 0.938rem;
+}
+
+.embed-reboot-content__icon {
+  margin-right: 10px;
 }

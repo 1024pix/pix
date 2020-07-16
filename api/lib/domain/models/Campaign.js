@@ -15,6 +15,7 @@ class Campaign {
     createdAt,
     organizationLogoUrl,
     organizationName,
+    organizationType,
     customLandingPageText,
     isRestricted = false,
     archivedAt,
@@ -39,6 +40,7 @@ class Campaign {
     this.createdAt = createdAt;
     this.organizationLogoUrl = organizationLogoUrl;
     this.organizationName = organizationName;
+    this.organizationType = organizationType;
     this.customLandingPageText = customLandingPageText;
     this.isRestricted = isRestricted;
     this.archivedAt = archivedAt;

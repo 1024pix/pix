@@ -1,7 +1,8 @@
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import Component from '@ember/component';
-import _ from 'lodash';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import get from 'lodash/get';
 
 export default class LoginForm extends Component {
 
@@ -10,27 +11,26 @@ export default class LoginForm extends Component {
 
   email = null;
   password = null;
-  isLoading = false;
-  isPasswordVisible = false;
+  @tracked isLoading = false;
+  @tracked isPasswordVisible = false;
   errorMessage = null;
+  @tracked isErrorMessagePresent = false;
 
   @computed('isPasswordVisible')
   get passwordInputType() {
     return this.isPasswordVisible ? 'text' : 'password';
   }
 
-  isErrorMessagePresent = false;
-
   @action
   async authenticate(event) {
     event.preventDefault();
-    this.set('isLoading', true);
+    this.isLoading = true;
     const email = this.email ? this.email.trim() : '';
     const password = this.password;
 
-    if (this.isWithInvitation) {
+    if (this.args.isWithInvitation) {
       try {
-        await this._acceptOrganizationInvitation(this.organizationInvitationId, this.organizationInvitationCode, email);
+        await this._acceptOrganizationInvitation(this.args.organizationInvitationId, this.args.organizationInvitationCode, email);
       } catch (errorResponse) {
         errorResponse.errors.forEach((error) => {
           if (error.status === '412') {
@@ -45,33 +45,31 @@ export default class LoginForm extends Component {
 
   @action
   togglePasswordVisibility() {
-    this.toggleProperty('isPasswordVisible');
+    this.isPasswordVisible = !this.isPasswordVisible;
   }
 
   _authenticate(password, email) {
     const scope = 'pix-orga';
     return this.session.authenticate('authenticator:oauth2', email, password, scope)
       .catch((response) => {
-        this.set('isErrorMessagePresent', true);
+        this.isErrorMessagePresent = true;
 
-        const nbErrors = _.get(response, 'errors.length', 0);
+        const nbErrors = get(response, 'errors.length', 0);
         if (nbErrors > 0) {
-          this.set('errorMessage', response.errors[0].detail);
+          this.errorMessage = response.errors[0].detail;
         } else {
-          this.set('errorMessage','Le service est momentanément indisponible. Veuillez réessayer ultérieurement.');
+          this.errorMessage = 'Le service est momentanément indisponible. Veuillez réessayer ultérieurement.';
         }
       })
       .finally(() => {
-        this.set('isLoading', false);
+        this.isLoading = false;
       });
   }
 
   _acceptOrganizationInvitation(organizationInvitationId, organizationInvitationCode, email) {
-    const status = 'accepted';
     return this.store.createRecord('organization-invitation-response', {
       id: organizationInvitationId + '_' + organizationInvitationCode,
       code: organizationInvitationCode,
-      status,
       email,
     }).save({ adapterOptions: { organizationInvitationId } });
   }

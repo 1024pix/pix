@@ -1,12 +1,13 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 export default class SendProfileController extends Controller {
+  @service intl;
 
   @tracked isLoading = false;
   @tracked errorMessage = null;
-  pageTitle = 'Envoyer mon profil';
 
   @action
   async sendProfile() {
@@ -29,7 +30,7 @@ export default class SendProfileController extends Controller {
     if (errors && errors.length > 0) {
       errors.forEach((error) => {
         if (error.status === '412') {
-          this.errorMessage = 'L’envoi de votre profil n’est plus possible car l’organisateur a archivé la collecte de profils.';
+          this.errorMessage = this.intl.t('pages.send-profile.errors.archived');
         }
       });
     }

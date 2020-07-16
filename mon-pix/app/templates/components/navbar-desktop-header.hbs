@@ -7,7 +7,7 @@
       </div>
       {{#if @shouldShowTheMarianneLogo}}
         <div class="navbar-desktop-header-logo__marianne">
-          <img src="{{rootURL}}/images/logo-de-la-republique-francaise.svg" alt="République française">
+          <img src="{{rootURL}}/images/logo-de-la-republique-francaise.svg" alt="{{t 'common.french-republic'}}">
         </div>
       {{/if}}
     </div>
@@ -16,13 +16,13 @@
       {{#if this.isUserLogged}}
         <div class="navbar-desktop-header-container__menu">
           <LinkTo @route="profile" class="navbar-desktop-header-menu__item">
-            Profil
+             {{t 'navigation.main.profile'}}
           </LinkTo>
           <LinkTo @route="certifications" class="navbar-desktop-header-menu__item">
-            Certification
+            {{t 'navigation.main.start-certification'}}
           </LinkTo>
-          <a href="https://pix.fr/aide" target="_blank" class="navbar-desktop-header-menu__item">
-            Aide
+          <a href="{{t 'navigation.main.link-help'}}" target="_blank" class="navbar-desktop-header-menu__item">
+            {{t 'navigation.main.help'}}
           </a>
         </div>
       {{/if}}
@@ -30,7 +30,7 @@
 
     {{#if isUserLogged}}
       <LinkTo @route="fill-in-campaign-code" class="button button--extra-thin button--link">
-        J'ai un code
+        {{t 'navigation.main.code'}}
       </LinkTo>
     {{/if}}
 

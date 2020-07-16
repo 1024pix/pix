@@ -1,5 +1,13 @@
 class DomainError extends Error {
-  constructor(message) {
+  constructor(message, code, meta) {
+    super(message);
+    this.code = code ;
+    this.meta = meta ;
+  }
+}
+
+class AlreadyExistingEntity extends DomainError {
+  constructor(message = 'L’entité existe déjà.') {
     super(message);
   }
 }
@@ -131,6 +139,12 @@ class UserNotAuthorizedToGetCertificationCoursesError extends DomainError {
   }
 }
 
+class UserNotAuthorizedToGenerateUsernamePasswordError extends DomainError {
+  constructor(message = 'Cet utilisateur n\'est pas autorisé à générer un identifiant et un mot de passe.') {
+    super(message);
+  }
+}
+
 class CertificationCourseUpdateError extends DomainError {
   constructor(message = 'Echec lors la création ou de la mise à jour du test de certification.') {
     super(message);
@@ -184,6 +198,12 @@ class AssessmentEndedError extends DomainError {
 class CampaignCodeError extends DomainError {
   constructor(message = 'Le code campagne n\'existe pas.') {
     super(message);
+  }
+}
+
+class CertificateVerificationCodeGenerationTooManyTrials extends DomainError {
+  constructor(numberOfTrials) {
+    super(`Could not find an available certificate verification code after ${numberOfTrials} trials`);
   }
 }
 
@@ -362,6 +382,12 @@ class ObjectValidationError extends DomainError {
   }
 }
 
+class UserCouldNotBeReconciledError extends DomainError {
+  constructor(message = 'Cet utilisateur n\'a pas pu être rattaché à une organization.') {
+    super(message);
+  }
+}
+
 class UserShouldChangePasswordError extends DomainError {
   constructor(message = 'Erreur, vous devez changer votre mot de passe.') {
     super(message);
@@ -369,8 +395,10 @@ class UserShouldChangePasswordError extends DomainError {
 }
 
 class SchoolingRegistrationAlreadyLinkedToUserError extends DomainError {
-  constructor(message = 'L\'élève est déjà rattaché à un compte utilisateur.') {
+  constructor(message = 'L\'élève est déjà rattaché à un compte utilisateur.', code, meta) {
     super(message);
+    this.code = code;
+    this.meta = meta;
   }
 }
 
@@ -498,6 +526,7 @@ class NotImplementedError extends Error {
 
 module.exports = {
   DomainError,
+  AlreadyExistingEntity,
   AlreadyExistingCampaignParticipationError,
   AlreadyExistingMembershipError,
   AlreadyExistingOrganizationInvitationError,
@@ -511,6 +540,7 @@ module.exports = {
   CampaignAlreadyArchivedError,
   CampaignCodeError,
   CampaignWithoutOrganizationError,
+  CertificateVerificationCodeGenerationTooManyTrials,
   CertificationCandidateForbiddenDeletionError,
   CertificationCandidateAlreadyLinkedToUserError,
   CertificationCandidateByPersonalInfoNotFoundError,
@@ -552,11 +582,13 @@ module.exports = {
   SchoolingRegistrationsCouldNotBeSavedError,
   SessionAlreadyFinalizedError,
   UserAlreadyLinkedToCandidateInSessionError,
+  UserCouldNotBeReconciledError,
   UserNotAuthorizedToAccessEntity,
   UserNotAuthorizedToCertifyError,
   UserNotAuthorizedToCreateCampaignError,
   UserNotAuthorizedToCreateResourceError,
   UserNotAuthorizedToGetCampaignResultsError,
+  UserNotAuthorizedToGenerateUsernamePasswordError,
   UserNotAuthorizedToGetCertificationCoursesError,
   UserNotAuthorizedToUpdateCampaignError,
   UserNotAuthorizedToUpdatePasswordError,

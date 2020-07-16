@@ -10,7 +10,7 @@ module('Integration | Component | progression-gauge', function(hooks) {
 
     test('should render component', async function(assert) {
       // when
-      await render(hbs`{{progression-gauge}}`);
+      await render(hbs`<ProgressionGauge/>`);
 
       // then
       assert.dom('.progression-gauge').exists();
@@ -22,7 +22,7 @@ module('Integration | Component | progression-gauge', function(hooks) {
       this.set('total', total);
 
       // when
-      await render(hbs`{{progression-gauge total=total}}`);
+      await render(hbs`<ProgressionGauge @total={{total}}/>`);
 
       // then
       assert.dom('.progression-gauge').hasAttribute('style', `width: ${total}%`);
@@ -34,7 +34,7 @@ module('Integration | Component | progression-gauge', function(hooks) {
       this.set('value', value);
 
       // when
-      await render(hbs`{{progression-gauge value=value total=70}}`);
+      await render(hbs`<ProgressionGauge @value={{value}} @total=70/>`);
 
       // then
       assert.dom('.progression-gauge__marker').hasAttribute('style', `width: ${value}%`);

@@ -3,8 +3,10 @@ module.exports = function TubeAirtableDataObjectFixture({
   name = '@Moteur',
   title = 'Moteur de recherche',
   description = 'Connaître le fonctionnement d\'un moteur de recherche',
-  practicalTitle = 'Outils d\'accès au web',
-  practicalDescription = 'Identifier un navigateur web et un moteur de recherche, connaître le fonctionnement du moteur de recherche',
+  practicalTitleFrFr = 'Outils d\'accès au web',
+  practicalTitleEnUs = 'Tools for web',
+  practicalDescriptionFrFr = 'Identifier un navigateur web et un moteur de recherche, connaître le fonctionnement du moteur de recherche',
+  practicalDescriptionEnUs = 'Identify a web browser and a search engine, know how the search engine works',
   competenceId = 'recsvLz0W2ShyfD63',
 } = {}) {
   return {
@@ -12,8 +14,10 @@ module.exports = function TubeAirtableDataObjectFixture({
     name,
     title,
     description,
-    practicalTitle,
-    practicalDescription,
+    practicalTitleFrFr,
+    practicalTitleEnUs,
+    practicalDescriptionFrFr,
+    practicalDescriptionEnUs,
     competenceId,
   };
 };

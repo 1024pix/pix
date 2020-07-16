@@ -566,89 +566,6 @@ describe('Unit | Application | SecurityPreHandlers', () => {
     });
   });
 
-  describe('#checkUserIsAdminInOrganizationManagingStudents', () => {
-    let isAdminInOrganizationStub;
-    let belongsToOrganizationManagingStudentsStub;
-
-    beforeEach(() => {
-      sinon.stub(tokenService, 'extractTokenFromAuthChain');
-      isAdminInOrganizationStub = sinon.stub(checkUserIsAdminInOrganizationUseCase, 'execute');
-      belongsToOrganizationManagingStudentsStub = sinon.stub(checkUserBelongsToOrganizationManagingStudentsUseCase, 'execute');
-    });
-
-    context('Successful case', () => {
-      const request = { auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } }, params: { id: 5678 } };
-
-      beforeEach(() => {
-        isAdminInOrganizationStub.resolves(true);
-        belongsToOrganizationManagingStudentsStub.resolves(true);
-      });
-
-      it('should authorize access to resource when the user is authenticated and is ADMIN in Organization and belongs to an Organization that manages students', async () => {
-        // when
-        const response = await securityPreHandlers.checkUserIsAdminInOrganizationManagingStudents(request, hFake);
-
-        // then
-        expect(response.source).to.equal(true);
-      });
-    });
-
-    context('Error cases', () => {
-
-      const request = { auth: { credentials: { accessToken: 'valid.access.token' } }, params: { id: 5678 } };
-
-      it('should forbid resource access when user was not previously authenticated', async () => {
-        // given
-        delete request.auth.credentials;
-
-        // when
-        const response = await securityPreHandlers.checkUserIsAdminInOrganizationManagingStudents(request, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(403);
-        expect(response.isTakeOver).to.be.true;
-      });
-
-      it('should forbid resource access when user is not ADMIN in Organization', async () => {
-        // given
-        checkUserIsAdminInOrganizationUseCase.execute.resolves(false);
-        checkUserBelongsToOrganizationManagingStudentsUseCase.execute.resolves(true);
-
-        // when
-        const response = await securityPreHandlers.checkUserIsAdminInOrganizationManagingStudents(request, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(403);
-        expect(response.isTakeOver).to.be.true;
-      });
-
-      it('should forbid resource access when user does not belong to an Organization or does not manage students', async () => {
-        // given
-        checkUserIsAdminInOrganizationUseCase.execute.resolves(true);
-        checkUserBelongsToOrganizationManagingStudentsUseCase.execute.resolves(false);
-
-        // when
-        const response = await securityPreHandlers.checkUserIsAdminInOrganizationManagingStudents(request, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(403);
-        expect(response.isTakeOver).to.be.true;
-      });
-
-      it('should forbid resource access when an error is thrown by use case', async () => {
-        // given
-        checkUserIsAdminInOrganizationUseCase.execute.rejects(new Error('Some error'));
-
-        // when
-        const response = await securityPreHandlers.checkUserIsAdminInOrganizationManagingStudents(request, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(403);
-        expect(response.isTakeOver).to.be.true;
-      });
-    });
-  });
-
   describe('#checkUserBelongsToOrganizationOrHasRolePixMaster', () => {
 
     let belongsToOrganizationStub;
@@ -754,5 +671,4 @@ describe('Unit | Application | SecurityPreHandlers', () => {
       });
     });
   });
-
 });

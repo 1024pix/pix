@@ -121,11 +121,13 @@ module('Unit | Service | current-user', function(hooks) {
         // then
         assert.equal(currentUserService.isAdminInOrganization, true);
       });
+    });
 
-      test('should set isSCOManagingStudents to true when type is SCO', async function(assert) {
+    module('When member is part of SCO organization which is managing students', function() {
+      test('should set isSCOManagingStudents to true', async function(assert) {
         // given
         const organization = Object.create({ id: 9, type: 'SCO', isManagingStudents: true, isSco: true });
-        const membership = Object.create({ organization, organizationRole: 'ADMIN', isAdmin: true });
+        const membership = Object.create({ organization });
         connectedUser.memberships = [membership];
         connectedUser.userOrgaSettings = Object.create({ organization });
 
@@ -136,10 +138,26 @@ module('Unit | Service | current-user', function(hooks) {
         assert.equal(currentUserService.isSCOManagingStudents, true);
       });
 
-      test('should set isSCOManagingStudents to false when type is PRO', async function(assert) {
+      test('should set isSUPManagingStudents to false', async function(assert) {
         // given
-        const organization = Object.create({ id: 9, type: 'PRO', isManagingStudents: true, isSco: false });
-        const membership = Object.create({ organization, organizationRole: 'ADMIN', isAdmin: true });
+        const organization = Object.create({ id: 9, type: 'SCO', isManagingStudents: true, isSup: false, isSco: true });
+        const membership = Object.create({ organization });
+        connectedUser.memberships = [membership];
+        connectedUser.userOrgaSettings = Object.create({ organization });
+
+        // when
+        await currentUserService.load();
+
+        // then
+        assert.equal(currentUserService.isSUPManagingStudents, false);
+      });
+    });
+
+    module('When member is part of SUP organization which is managing students', function() {
+      test('should set isSCOManagingStudents to false', async function(assert) {
+        // given
+        const organization = Object.create({ id: 9, type: 'SUP', isManagingStudents: true, isSco: false, isSup: true });
+        const membership = Object.create({ organization });
         connectedUser.memberships = [membership];
         connectedUser.userOrgaSettings = Object.create({ organization });
 
@@ -150,10 +168,56 @@ module('Unit | Service | current-user', function(hooks) {
         assert.equal(currentUserService.isSCOManagingStudents, false);
       });
 
-      test('should set isSCOManagingStudents to false when isManagingStudents is false', async function(assert) {
+      test('should set isSUPManagingStudents to true', async function(assert) {
+        // given
+        const organization = Object.create({ id: 9, type: 'SUP', isManagingStudents: true, isSup: true });
+        const membership = Object.create({ organization });
+        connectedUser.memberships = [membership];
+        connectedUser.userOrgaSettings = Object.create({ organization });
+
+        // when
+        await currentUserService.load();
+
+        // then
+        assert.equal(currentUserService.isSUPManagingStudents, true);
+      });
+    });
+
+    module('When member is part of PRO organization which is managing students', function() {
+      test('should set isSCOManagingStudents to false with PRO organization', async function(assert) {
+        // given
+        const organization = Object.create({ id: 9, type: 'PRO', isManagingStudents: true, isPro: true, isSco: false });
+        const membership = Object.create({ organization });
+        connectedUser.memberships = [membership];
+        connectedUser.userOrgaSettings = Object.create({ organization });
+
+        // when
+        await currentUserService.load();
+
+        // then
+        assert.equal(currentUserService.isSCOManagingStudents, false);
+      });
+
+      test('should set isSUPManagingStudents to false with PRO organization', async function(assert) {
+        // given
+        const organization = Object.create({ id: 9, type: 'PRO', isManagingStudents: true, isPro: true, isSup: false });
+        const membership = Object.create({ organization });
+        connectedUser.memberships = [membership];
+        connectedUser.userOrgaSettings = Object.create({ organization });
+
+        // when
+        await currentUserService.load();
+
+        // then
+        assert.equal(currentUserService.isSUPManagingStudents, false);
+      });
+    });
+
+    module('When organization does not manage students', function() {
+      test('should set isSCOManagingStudents to false when organization is SCO', async function(assert) {
         // given
         const organization = Object.create({ id: 9, type: 'SCO', isManagingStudents: false, isSco: true });
-        const membership = Object.create({ organization, organizationRole: 'ADMIN', isAdmin: true });
+        const membership = Object.create({ organization });
         connectedUser.memberships = [membership];
         connectedUser.userOrgaSettings = Object.create({ organization });
 
@@ -164,12 +228,28 @@ module('Unit | Service | current-user', function(hooks) {
         assert.equal(currentUserService.isSCOManagingStudents, false);
       });
 
+      test('should set isSUPManagingStudents to false when organization is SUP', async function(assert) {
+        // given
+        const organization = Object.create({ id: 9, type: 'SUP', isManagingStudents: false, isSup: true });
+        const membership = Object.create({ organization });
+        connectedUser.memberships = [membership];
+        connectedUser.userOrgaSettings = Object.create({ organization });
+
+        // when
+        await currentUserService.load();
+
+        // then
+        assert.equal(currentUserService.isSUPManagingStudents, false);
+      });
+    });
+
+    module('when user has userOrgaSettings', function() {
       test('should prefer organization from userOrgaSettings rather than first membership', async function(assert) {
         // given
-        const organization1 = Object.create({ id: 9, type: 'SCO', isManagingStudents: false, isSco: true });
-        const organization2 = Object.create({ id: 10, type: 'SCO', isManagingStudents: false, isSco: true });
-        const membership1 = Object.create({ organization: organization1, organizationRole: 'ADMIN', isAdmin: true });
-        const membership2 = Object.create({ organization: organization2, organizationRole: 'ADMIN', isAdmin: true });
+        const organization1 = Object.create({ id: 9 });
+        const organization2 = Object.create({ id: 10 });
+        const membership1 = Object.create({ organization: organization1 });
+        const membership2 = Object.create({ organization: organization2 });
         const userOrgaSettings = Object.create({ organization: organization2 });
         connectedUser.memberships = [membership1, membership2];
         connectedUser.userOrgaSettings = userOrgaSettings;
@@ -180,60 +260,44 @@ module('Unit | Service | current-user', function(hooks) {
         // then
         assert.equal(currentUserService.organization.id, organization2.id);
       });
+    });
 
-      module('when user has no userOrgaSettings', function(hooks) {
+    module('when user has no userOrgaSettings', function(hooks) {
 
-        let firstOrganization;
+      let firstOrganization;
 
-        hooks.beforeEach(function() {
-          const user = Object.create({ id: 1 });
-          firstOrganization = Object.create({ id: 9, type: 'SCO', isManagingStudents: false, isSco: true });
-          const secondOrganization = Object.create({ id: 10, type: 'SCO', isManagingStudents: false, isSco: true });
-          const membership1 = Object.create({ user, organization: firstOrganization, organizationRole: 'ADMIN', isAdmin: true });
-          const membership2 = Object.create({ user, organization: secondOrganization, organizationRole: 'ADMIN', isAdmin: true });
-          connectedUser.memberships = [membership1, membership2];
+      hooks.beforeEach(function() {
+        const user = Object.create({ id: 1 });
+        firstOrganization = Object.create({ id: 9 });
+        const secondOrganization = Object.create({ id: 10 });
+        const membership1 = Object.create({ user, organization: firstOrganization });
+        const membership2 = Object.create({ user, organization: secondOrganization });
+        connectedUser.memberships = [membership1, membership2];
 
-          storeStub.createRecord = sinon.stub().returns({
-            save: sinon.stub()
-          });
+        storeStub.createRecord = sinon.stub().returns({
+          save: sinon.stub()
         });
+      });
 
-        test('should create it', async function(assert) {
-          // given
-          const createRecordSpy = sinon.spy();
-          storeStub.createRecord = createRecordSpy;
+      test('should create it', async function(assert) {
+        // given
+        const createRecordSpy = sinon.spy();
+        storeStub.createRecord = createRecordSpy;
 
-          // when
-          await currentUserService.load();
+        // when
+        await currentUserService.load();
 
-          // then
-          assert.equal(createRecordSpy.callCount, 1);
-          assert.ok(createRecordSpy.calledWith('user-orga-setting', { organization: firstOrganization }));
-        });
+        // then
+        assert.equal(createRecordSpy.callCount, 1);
+        assert.ok(createRecordSpy.calledWith('user-orga-setting', { organization: firstOrganization }));
+      });
 
-        test('should set the first membership\'s organization as current organization', async function(assert) {
-          // when
-          await currentUserService.load();
+      test('should set the first membership\'s organization as current organization', async function(assert) {
+        // when
+        await currentUserService.load();
 
-          // then
-          assert.equal(currentUserService.organization, firstOrganization);
-        });
-
-        test('should set isAdminInOrganization', async function(assert) {
-          // when
-          await currentUserService.load();
-
-          // then
-          assert.equal(currentUserService.isAdminInOrganization, true);
-        });
-
-        test('should set isSCOManagingStudents', async function(assert) {
-          // when
-          await currentUserService.load();
-
-          // then
-          assert.equal(currentUserService.isSCOManagingStudents, false);
-        });
+        // then
+        assert.equal(currentUserService.organization, firstOrganization);
       });
     });
 

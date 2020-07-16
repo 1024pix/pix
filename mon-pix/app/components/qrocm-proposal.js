@@ -1,23 +1,11 @@
-/* eslint ember/no-classic-components: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
-import { classNames } from '@ember-decorators/component';
-import { action, computed } from '@ember/object';
-import Component from '@ember/component';
-import classic from 'ember-classic-decorator';
+import { action } from '@ember/object';
+import Component from '@glimmer/component';
 import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
 
-@classic
-@classNames('qrocm-proposal')
 export default class QrocmProposal extends Component {
-  proposals = null;
-  answersValue = null;
-  answerChanged = null; // action
-  format = null;
 
-  @computed('proposals')
-  get _blocks() {
-    return proposalsAsBlocks(this.proposals)
+  get proposalBlocks() {
+    return proposalsAsBlocks(this.args.proposals)
       .map((block) => {
         block.showText = block.text && !block.ariaLabel && !block.input;
         return block;
@@ -26,6 +14,6 @@ export default class QrocmProposal extends Component {
 
   @action
   onInputChange() {
-    this.answerChanged();
+    this.args.answerChanged();
   }
 }

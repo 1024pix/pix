@@ -2,18 +2,22 @@ import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
+import Service from '@ember/service';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
 describe('Unit | Component | tutorial item', function() {
   setupTest();
 
   let component;
+  const intl = Service.create({ t: sinon.spy() });
   const tutorial = {
     format: 'son',
     id: 'tutorialId'
   };
+
   beforeEach(function() {
     component = createGlimmerComponent('component:tutorial-item', { tutorial });
+    component.intl = intl;
   });
 
   describe('#formatImageName', function() {
@@ -103,14 +107,14 @@ describe('Unit | Component | tutorial item', function() {
 
   });
 
-  describe('#buttonText', function() {
+  describe('#buttonLabel', function() {
 
     it('should return "Enregistré" when the tutorial is not saved', function() {
       // when
-      const result = component.buttonText;
+      component.buttonLabel;
 
       // then
-      expect(result).to.equal('Enregistrer');
+      sinon.assert.calledWith(intl.t, 'pages.user-tutorials.list.tutorial.actions.save.label');
     });
 
     it('should return "Enregistrer" when the tutorial is succesfully saved', function() {
@@ -118,22 +122,22 @@ describe('Unit | Component | tutorial item', function() {
       component.savingStatus = 'recorded';
 
       // when
-      const result = component.buttonText;
+      component.buttonLabel;
 
       // then
-      expect(result).to.equal('Retirer');
+      sinon.assert.calledWith(intl.t, 'pages.user-tutorials.list.tutorial.actions.remove.label');
     });
 
   });
 
-  describe('#buttonTitle', function() {
+  describe('#buttonExtraInformation', function() {
 
     it('should return "Enregistrer dans ma liste de tutos" when the tutorial has not already been saved', function() {
       // when
-      const result = component.buttonTitle;
+      component.buttonExtraInformation;
 
       // then
-      expect(result).to.equal('Enregistrer dans ma liste de tutos');
+      sinon.assert.calledWith(intl.t, 'pages.user-tutorials.list.tutorial.actions.save.extra-information');
     });
 
     it('should return "Retirer" when the tutorial has been saved', function() {
@@ -141,10 +145,10 @@ describe('Unit | Component | tutorial item', function() {
       component.savingStatus = 'recorded';
 
       // when
-      const result = component.buttonTitle;
+      component.buttonExtraInformation;
 
       // then
-      expect(result).to.equal('Retirer');
+      sinon.assert.calledWith(intl.t, 'pages.user-tutorials.list.tutorial.actions.remove.extra-information');
     });
 
   });

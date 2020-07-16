@@ -12,8 +12,10 @@ describe('Unit | Repository | tube-repository', () => {
       'Nom': '@Moteur',
       'Titre': 'Moteur de recherche',
       'Description': 'Connaître le fonctionnement d\'un moteur de recherche',
-      'Titre pratique': 'Outils d\'accès au web',
-      'Description pratique': 'Identifier un navigateur web et un moteur de recherche, connaître le fonctionnement du moteur de recherche',
+      'Titre pratique fr-fr': 'Outils d\'accès au web FR',
+      'Titre pratique en-us': 'Outils d\'accès au web EN',
+      'Description pratique fr-fr': 'Identifier un navigateur web et un moteur de recherche, connaître le fonctionnement du moteur de recherche FR',
+      'Description pratique en-us': 'Identifier un navigateur web et un moteur de recherche, connaître le fonctionnement du moteur de recherche EN',
       'Competences (id persistant)': [ 'recCompetence1' ],
     },
     'createdTime': '2018-01-31T12:41:07.000Z'
@@ -25,8 +27,10 @@ describe('Unit | Repository | tube-repository', () => {
       'Nom': '@enregistrer',
       'Titre': 'Enregistrement',
       'Description': 'Enregistrer un document',
-      'Titre pratique': 'Enregistrement',
-      'Description pratique': 'Enregistrer un document',
+      'Titre pratique fr-fr': 'Enregistrement FR',
+      'Titre pratique en-us': 'Enregistrement EN',
+      'Description pratique fr-fr': 'Enregistrer un document FR',
+      'Description pratique en-us': 'Enregistrer un document EN',
       'Competences (id persistant)': [ 'recCompetence2' ],
     },
     'createdTime': '2018-01-31T12:48:07.000Z'
@@ -37,8 +41,10 @@ describe('Unit | Repository | tube-repository', () => {
     name: '@Moteur',
     title: 'Titre',
     description: 'Description',
-    practicalTitle: 'Titre vulgarisé',
-    practicalDescription: 'Description vulgarisée',
+    practicalTitleFrFr: 'Titre vulgarisé FR',
+    practicalTitleEnUs: 'Titre vulgarisé EN',
+    practicalDescriptionFrFr: 'Description vulgarisée 1 FR',
+    practicalDescriptionEnUs: 'Description vulgarisée 1 EN',
     competenceId: 'recCompetence1',
   };
 
@@ -47,8 +53,10 @@ describe('Unit | Repository | tube-repository', () => {
     name: '@enregistrer',
     title: 'Titre',
     description: 'Description',
-    practicalTitle: 'Titre vulgarisé',
-    practicalDescription: 'Description vulgarisée',
+    practicalTitleFrFr: 'Titre vulgarisé FR',
+    practicalTitleEnUs: 'Titre vulgarisé EN',
+    practicalDescriptionFrFr: 'Description vulgarisée 2 FR',
+    practicalDescriptionEnUs: 'Description vulgarisée 2 EN',
     competenceId: 'recCompetence2',
   };
 
@@ -60,36 +68,41 @@ describe('Unit | Repository | tube-repository', () => {
 
   describe('#findByNames', function() {
 
-    const names = ['name1', 'name2'];
+    const tubeNames = ['name1', 'name2'];
 
     beforeEach(() => {
       const tube1 = {
         id: 'recTube1',
-        name: names[0],
+        name: tubeNames[0],
         title: 'Title 1',
         description: 'Description 1',
-        practicalTitle: 'Practical Title 1',
-        practicalDescription: 'Practical Description 1',
+        practicalTitleFrFr: 'Practical Title 1 FR',
+        practicalTitleEnUs: 'Practical Title 1 EN',
+        practicalDescriptionFrFr: 'Description vulgarisée 1 FR',
+        practicalDescriptionEnUs: 'Description vulgarisée 1 EN',
         competenceId: 'recCompetence1',
       };
       const tube2 = {
         id: 'recTube2',
-        name: names[1],
+        name: tubeNames[1],
         title: 'Title 2',
         description: 'Description 2',
-        practicalTitle: 'Practical Title 2',
-        practicalDescription: 'Practical Description 2',
+        practicalTitleFrFr: 'Practical Title 2 FR',
+        practicalTitleEnUs: 'Practical Title 2 EN',
+        practicalDescriptionFrFr: 'Description vulgarisée 2 FR',
+        practicalDescriptionEnUs: 'Description vulgarisée 2 EN',
         competenceId: 'recCompetence2',
       };
 
-      tubeDatasource.findByNames.withArgs(names).resolves([tube1, tube2]);
+      tubeDatasource.findByNames.withArgs(tubeNames).resolves([tube1, tube2]);
     });
 
-    it('should resolve tubes with matching names', async function() {
+    it('should resolve tubes with matching tubeNames', async function() {
       //given
+      const locale = 'fr';
 
       // when
-      const foundTubes = await tubeRepository.findByNames(names);
+      const foundTubes = await tubeRepository.findByNames({ tubeNames, locale });
 
       // then
       expect(foundTubes).to.have.lengthOf(2);
@@ -99,8 +112,8 @@ describe('Unit | Repository | tube-repository', () => {
           'description': 'Description 1',
           'id': 'recTube1',
           'name': 'name1',
-          'practicalDescription': 'Practical Description 1',
-          'practicalTitle': 'Practical Title 1',
+          'practicalDescription': 'Description vulgarisée 1 FR',
+          'practicalTitle': 'Practical Title 1 FR',
           'skills': [],
           'title': 'Title 1',
           'competenceId': 'recCompetence1',
@@ -109,8 +122,8 @@ describe('Unit | Repository | tube-repository', () => {
           'description': 'Description 2',
           'id': 'recTube2',
           'name': 'name2',
-          'practicalDescription': 'Practical Description 2',
-          'practicalTitle': 'Practical Title 2',
+          'practicalDescription': 'Description vulgarisée 2 FR',
+          'practicalTitle': 'Practical Title 2 FR',
           'skills': [],
           'title': 'Title 2',
           'competenceId': 'recCompetence2',
@@ -134,8 +147,8 @@ describe('Unit | Repository | tube-repository', () => {
         name: '@Moteur',
         title: 'Titre',
         description: 'Description',
-        practicalTitle: 'Titre vulgarisé',
-        practicalDescription: 'Description vulgarisée',
+        practicalTitle: 'Titre vulgarisé FR',
+        practicalDescription: 'Description vulgarisée 1 FR',
         competenceId: 'recCompetence1',
       });
 

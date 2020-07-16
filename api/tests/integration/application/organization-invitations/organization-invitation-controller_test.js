@@ -1,7 +1,6 @@
 const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 
 const usecases = require('../../../../lib/domain/usecases');
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const scoOrganizationInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/sco-organization-invitation-serializer');
 const moduleUnderTest = require('../../../../lib/application/organization-invitations');
 
@@ -16,7 +15,7 @@ describe('Integration | Application | Organization-invitations | organization-in
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    sandbox.stub(usecases, 'answerToOrganizationInvitation');
+    sandbox.stub(usecases, 'acceptOrganizationInvitation');
     sandbox.stub(usecases, 'sendScoInvitation');
     sandbox.stub(scoOrganizationInvitationSerializer, 'serialize');
 
@@ -27,18 +26,16 @@ describe('Integration | Application | Organization-invitations | organization-in
     sandbox.restore();
   });
 
-  describe('#answerToOrganizationInvitation', () => {
-
-    const status = OrganizationInvitation.StatusType.ACCEPTED;
-    const temporaryKey = 'temporaryKey';
+  describe('#acceptOrganizationInvitation', () => {
 
     const payload = {
       data: {
-        type: 'organization-invitations',
+        id: '100047_DZWMP7L5UM',
+        type: 'organization-invitation-responses',
         attributes: {
-          temporaryKey,
-          status
-        },
+          code: 'DZWMP7L5UM',
+          email: 'user@example.net'
+        }
       }
     };
 
@@ -46,7 +43,7 @@ describe('Integration | Application | Organization-invitations | organization-in
 
       it('should return an HTTP response with status code 204', async () => {
         // given
-        usecases.answerToOrganizationInvitation.resolves();
+        usecases.acceptOrganizationInvitation.resolves();
 
         // when
         const response = await httpTestServer.request('POST', '/api/organization-invitations/1/response', payload);
@@ -60,7 +57,7 @@ describe('Integration | Application | Organization-invitations | organization-in
 
       it('should respond an HTTP response with status code 412 when AlreadyExistingOrganizationInvitationError', async () => {
         // given
-        usecases.answerToOrganizationInvitation.rejects(new AlreadyExistingOrganizationInvitationError());
+        usecases.acceptOrganizationInvitation.rejects(new AlreadyExistingOrganizationInvitationError());
 
         // when
         const response = await httpTestServer.request('POST', '/api/organization-invitations/1/response', payload);
@@ -71,7 +68,7 @@ describe('Integration | Application | Organization-invitations | organization-in
 
       it('should respond an HTTP response with status code 404 when NotFoundError', async () => {
         // given
-        usecases.answerToOrganizationInvitation.rejects(new NotFoundError());
+        usecases.acceptOrganizationInvitation.rejects(new NotFoundError());
 
         // when
         const response = await httpTestServer.request('POST', '/api/organization-invitations/1/response', payload);
@@ -82,7 +79,7 @@ describe('Integration | Application | Organization-invitations | organization-in
 
       it('should respond an HTTP response with status code 404 when UserNotFoundError', async () => {
         // given
-        usecases.answerToOrganizationInvitation.rejects(new UserNotFoundError());
+        usecases.acceptOrganizationInvitation.rejects(new UserNotFoundError());
 
         // when
         const response = await httpTestServer.request('POST', '/api/organization-invitations/1/response', payload);

@@ -23,18 +23,17 @@ module('Unit | Route | authenticated/certifications/certification', function(hoo
   test('#error', function(assert) {
     // given
     const route = this.owner.lookup('route:authenticated/certifications/certification');
-    const notificationsStub = {
-      anError: 'an Error',
-      error: sinon.stub().resolves(),
+    const errorNotifierStub = {
+      notify: sinon.stub().resolves(),
     };
-    route.notifications = notificationsStub;
+    route.errorNotifier = errorNotifierStub;
     route.transitionTo = () => {};
 
     // when
     route.send('error');
 
     // then
-    sinon.assert.called(notificationsStub.error);
+    sinon.assert.called(errorNotifierStub.notify);
     assert.ok(route);
   });
 });

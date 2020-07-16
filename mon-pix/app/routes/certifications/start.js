@@ -9,6 +9,6 @@ export default class StartRoute extends Route.extend(SecuredRouteMixin) {
 
   model() {
     const user = this.currentUser.user;
-    return user.belongsTo('certificationProfile').reload();
+    return user.belongsTo('isCertifiable').reload();
   }
 }

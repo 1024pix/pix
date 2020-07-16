@@ -1,16 +1,14 @@
-import _ from './lodash-custom';
-
 export default function getChallengeType(challengeTypeFromAirtable) {
   let result = 'qcu'; // qcu by default, no error thrown
   const challengeType = challengeTypeFromAirtable.toUpperCase();
 
-  if (_(challengeType).isAmongst(['QCUIMG', 'QCU'])) {
+  if (['QCUIMG', 'QCU'].includes(challengeType)) {
     result = 'qcu';
-  } else if (_(challengeType).isAmongst(['QCMIMG', 'QCM'])) {
+  } else if (['QCMIMG', 'QCM'].includes(challengeType)) {
     result = 'qcm';
-  } else if (_(challengeType).isAmongst(['QROC'])) {
+  } else if (['QROC'].includes(challengeType)) {
     result = 'qroc';
-  } else if (_(challengeType).isAmongst(['QROCM', 'QROCM-IND', 'QROCM-DEP'])) {
+  } else if (['QROCM', 'QROCM-IND', 'QROCM-DEP'].includes(challengeType)) {
     result = 'qrocm';
   }
 

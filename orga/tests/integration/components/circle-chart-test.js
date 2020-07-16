@@ -10,7 +10,7 @@ module('Integration | Component | circle-chart', function(hooks) {
 
     test('should render component', async function(assert) {
       // when
-      await render(hbs`{{circle-chart}}`);
+      await render(hbs`<CircleChart/>`);
 
       // then
       assert.dom('.circle-chart').exists();
@@ -22,7 +22,7 @@ module('Integration | Component | circle-chart', function(hooks) {
       this.set('value', value);
 
       // when
-      await render(hbs`{{circle-chart value=value}}`);
+      await render(hbs`<CircleChart @value={{value}}/>`);
 
       // then
       assert.dom('.circle--slice').hasAttribute('stroke-dasharray',`${value}, 100`);
@@ -34,7 +34,7 @@ module('Integration | Component | circle-chart', function(hooks) {
       this.set('value', value);
 
       // when
-      await render(hbs`{{circle-chart value=value isDisabled=true}}`);
+      await render(hbs`<CircleChart @value={{value}} @isDisabled=true/>`);
 
       // then
       assert.dom('.circle--slice').doesNotExist();

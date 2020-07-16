@@ -33,6 +33,10 @@
     @include device-is('tablet') {
       font-weight: $font-medium;
     }
+
+    &::after {
+      @include external-link;
+    }
   }
 
   &__description {

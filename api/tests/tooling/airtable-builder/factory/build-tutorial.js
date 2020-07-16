@@ -6,6 +6,7 @@ module.exports = function buildTutorial({
   source = 'Source Example, Example',
   lien = 'http://www.example.com/this-is-an-example.html',
   createdTime = '2018-03-15T14:38:03.000Z',
+  langue = 'en-us',
 } = {}) {
 
   return {
@@ -17,6 +18,7 @@ module.exports = function buildTutorial({
       'Durée': duree,
       'Source': source,
       'Lien': lien,
+      'Langue': langue,
     },
     'createdTime': createdTime,
   };

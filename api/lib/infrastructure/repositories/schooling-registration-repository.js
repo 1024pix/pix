@@ -1,13 +1,14 @@
 const _ = require('lodash');
 const bluebird = require('bluebird');
-const { NotFoundError, SameNationalStudentIdInOrganizationError, SchoolingRegistrationsCouldNotBeSavedError } = require('../../domain/errors');
+const { NotFoundError, SameNationalStudentIdInOrganizationError, SchoolingRegistrationsCouldNotBeSavedError, UserCouldNotBeReconciledError } = require('../../domain/errors');
 const UserWithSchoolingRegistration = require('../../domain/models/UserWithSchoolingRegistration');
 const SchoolingRegistration = require('../../domain/models/SchoolingRegistration');
+const studentRepository = require('./student-repository');
 
 const Bookshelf = require('../bookshelf');
 const BookshelfSchoolingRegistration = require('../data/schooling-registration');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const bookshelfUtils = require('../utils/bookshelf-utils');
+const bookshelfUtils = require('../utils/knex-utils');
 
 function _toUserWithSchoolingRegistrationDTO(BookshelfSchoolingRegistration) {
 
@@ -39,6 +40,10 @@ function _setSchoolingRegistrationFilters(qb, { lastName, firstName, connexionTy
   }
 }
 
+function _isReconciled(schoolingRegistration) {
+  return schoolingRegistration.userId;
+}
+
 module.exports = {
 
   findByOrganizationId({ organizationId }) {
@@ -51,27 +56,47 @@ module.exports = {
       .then((schoolingRegistrations) => bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations));
   },
 
+  async findByUserId({ userId }) {
+    const schoolingRegistrations = await BookshelfSchoolingRegistration
+      .where({ userId })
+      .orderBy('id')
+      .fetchAll();
+
+    return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
+  },
+
   async addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrationDatas, organizationId) {
+
+    const nationalStudentIdsFromFile = schoolingRegistrationDatas.map((schoolingRegistrationData) => schoolingRegistrationData.nationalStudentId);
+    const students = await studentRepository.findReconciledStudentsByNationalStudentId(nationalStudentIdsFromFile);
+
+    const schoolingRegistrationsFromFile = schoolingRegistrationDatas.map((schoolingRegistrationData) => new SchoolingRegistration({ ...schoolingRegistrationData, organizationId }));
+    const currentSchoolingRegistrations = await this.findByOrganizationId({ organizationId });
+
+    const [ schoolingRegistrationsToUpdate, schoolingRegistrationsToCreate ] = _.partition(schoolingRegistrationsFromFile, (schoolingRegistration) => {
+      const currentSchoolingRegistration   = currentSchoolingRegistrations.find((currentSchoolingRegistration) => currentSchoolingRegistration.nationalStudentId === schoolingRegistration.nationalStudentId);
+      if (!currentSchoolingRegistration || !_isReconciled(currentSchoolingRegistration)) {
+        const student = students.find((student) => student.nationalStudentId === schoolingRegistration.nationalStudentId);
+        if (student) {
+          schoolingRegistration.userId = student.account.userId;
+        }
+      }
+      return !!currentSchoolingRegistration;
+    });
+
     const trx = await Bookshelf.knex.transaction();
-
     try {
-
-      const schoolingRegistrations = _.map(schoolingRegistrationDatas, (schoolingRegistrationData) => new SchoolingRegistration({ ...schoolingRegistrationData, organizationId }));
-      const schoolingRegistrationsFromOrganization = await this.findByOrganizationId({ organizationId });
-      const nationalStudentIdsFromOrganization = _.map(schoolingRegistrationsFromOrganization, 'nationalStudentId');
-      const [ schoolingRegistrationsToUpdate, schoolingRegistrationsToCreate ] = _.partition(schoolingRegistrations, (schoolingRegistration) => _.includes(nationalStudentIdsFromOrganization, schoolingRegistration.nationalStudentId));
-
-      await bluebird.mapSeries(schoolingRegistrationsToUpdate, async (schoolingRegistrationToUpdate) => {
-        await trx('schooling-registrations')
-          .where({
-            'organizationId': organizationId,
-            'nationalStudentId': schoolingRegistrationToUpdate.nationalStudentId,
-          })
-          .update(_.omit(schoolingRegistrationToUpdate, ['id', 'createdAt']));
-      });
-
-      await Bookshelf.knex.batchInsert('schooling-registrations', schoolingRegistrationsToCreate);
-
+      await Promise.all([
+        bluebird.mapSeries(schoolingRegistrationsToUpdate, async (schoolingRegistrationToUpdate) => {
+          await trx('schooling-registrations')
+            .where({
+              'organizationId': organizationId,
+              'nationalStudentId': schoolingRegistrationToUpdate.nationalStudentId,
+            })
+            .update(_.omit(schoolingRegistrationToUpdate, ['id', 'createdAt']));
+        }),
+        trx.batchInsert('schooling-registrations', schoolingRegistrationsToCreate)
+      ]);
       await trx.commit();
     } catch (err) {
       await trx.rollback();
@@ -82,17 +107,19 @@ module.exports = {
     }
   },
 
-  findByOrganizationIdAndUserBirthdate({ organizationId, birthdate }) {
-    return BookshelfSchoolingRegistration
+  async findByOrganizationIdAndUserData({ organizationId, reconciliationInfo: { birthdate, studentNumber } = {} }) {
+    const schoolingRegistrations = await BookshelfSchoolingRegistration
       .query((qb) => {
         qb.where('organizationId', organizationId);
-        qb.where('birthdate', birthdate);
+        if (birthdate) qb.where('birthdate', birthdate);
+        if (studentNumber) qb.where('studentNumber', studentNumber);
       })
-      .fetchAll()
-      .then((schoolingRegistrations) => bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations));
+      .fetchAll();
+  
+    return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
   },
 
-  async associateUserAndSchoolingRegistration({ userId, schoolingRegistrationId }) {
+  async reconcileUserToSchoolingRegistration({ userId, schoolingRegistrationId }) {
     const schoolingRegistration = await BookshelfSchoolingRegistration
       .where({ id: schoolingRegistrationId })
       .save({ userId }, {
@@ -100,6 +127,17 @@ module.exports = {
       });
 
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
+  },
+
+  async reconcileUserByNationalStudentIdAndOrganizationId({ nationalStudentId, userId, organizationId }) {
+    try {
+      const schoolingRegistration = await BookshelfSchoolingRegistration
+        .where({ organizationId, nationalStudentId })
+        .save({ userId }, { patch: true });
+      return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
+    } catch (error) {
+      throw new UserCouldNotBeReconciledError();
+    }
   },
 
   async dissociateUserFromSchoolingRegistration(schoolingRegistrationId) {
@@ -139,6 +177,7 @@ module.exports = {
           'schooling-registrations.firstName',
           'schooling-registrations.lastName',
           'schooling-registrations.birthdate',
+          'schooling-registrations.studentNumber',
           'schooling-registrations.userId',
           'schooling-registrations.organizationId',
           'users.username',

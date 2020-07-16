@@ -48,7 +48,7 @@
     </div>
 
     {{#if this.errorMessage}}
-      <div class="register-form__error" aria-live="polite">{{this.errorMessage}}</div>
+      <div class="register-form__error" aria-live="polite">{{{this.errorMessage}}}</div>
     {{/if}}
 
     {{#unless this.matchingStudentFound}}

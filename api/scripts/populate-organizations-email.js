@@ -1,7 +1,5 @@
 const bluebird = require('bluebird');
 
-const { NotFoundError } = require('../lib/domain/errors');
-
 const { parseCsvWithHeader } = require('../scripts/helpers/csvHelpers');
 
 const BookshelfOrganization = require('../lib/infrastructure/data/organization');
@@ -11,8 +9,9 @@ async function updateOrganizationEmailByExternalId(externalId, email) {
     .where({ externalId })
     .save({ email }, { patch: true })
     .catch((err) => {
-      if (err instanceof BookshelfOrganization.NotFoundError) {
-        throw new NotFoundError(`Organization not found for External ID ${externalId}`);
+      if (err instanceof BookshelfOrganization.NoRowsUpdatedError) {
+        console.error(`Organization not found for External ID ${externalId}`);
+        return;
       }
       throw err;
     });

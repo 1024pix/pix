@@ -66,17 +66,6 @@ module('Acceptance | terms-of-service', function(hooks) {
       assert.equal(currentURL(), '/sessions/liste');
     });
 
-    test('it should logout when user clicks on cancel button', async function(assert) {
-      // given
-      await visit('/cgu');
-
-      // when
-      await click('#terms-of-service-cancel-button');
-
-      // then
-      assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still authenticated');
-    });
-
     test('it should not be possible to visit another page if cgu are not accepted', async function(assert) {
       // given
       await visit('/cgu');

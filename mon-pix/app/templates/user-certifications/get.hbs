@@ -1,10 +1,9 @@
 <PixBackgroundHeader class="user-certifications-page-get">
 
   <PixBlock>
-    <LinkTo @route="user-certifications" class="link__return-to">
-      <span aria-hidden="true" class="icon-button"> {{fa-icon 'arrow-left'}} </span>
-      Retour à mes certifications
-    </LinkTo>
+    <PixReturnTo @route="user-certifications" @shade="white" class="user-certifications-page-get__return-to">
+      {{t "pages.certificate.back-link"}}
+    </PixReturnTo>
     <UserCertificationsDetailHeader @certification={{@model}} />
   </PixBlock>
 

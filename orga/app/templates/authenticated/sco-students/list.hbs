@@ -1,0 +1,13 @@
+<div class="list-students-page">
+  <Routes::Authenticated::ScoStudents::ListItems
+    @students={{@model}}
+    @isLoading={{this.isLoading}}
+    @importStudents={{this.importStudents}}
+    @connexionTypesOptions={{this.connexionTypesOptions}}
+    @triggerFiltering={{this.triggerFiltering}}
+    @lastNameFilter={{this.lastName}}
+    @firstNameFilter={{this.firstName}}
+    @connexionTypeFilter={{this.connexionType}}
+    @refreshModel={{this.refresh}}
+  />
+</div>

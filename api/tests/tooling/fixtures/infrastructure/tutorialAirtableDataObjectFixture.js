@@ -5,6 +5,7 @@ module.exports = function tutorialAirtableDataObjectFixture({
   link = 'https://youtube.fr',
   source = 'Youtube',
   title = 'Comment dresser un panda',
+  locale = 'fr-fr'
 } = {}) {
   return {
     id,
@@ -13,5 +14,6 @@ module.exports = function tutorialAirtableDataObjectFixture({
     link,
     source,
     title,
+    locale,
   };
 };

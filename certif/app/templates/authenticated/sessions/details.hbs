@@ -1,9 +1,7 @@
 <div class="session-details-page">
   <div class="page__title session-details__header">
     <div class="session-details-header__title">
-      <LinkTo @route="authenticated.sessions.list" class="icon-button session-details-content__return-button">
-        {{fa-icon 'arrow-left'}}
-      </LinkTo>
+      <PixReturnTo @route="authenticated.sessions.list" class="session-details-content__return-button" />
       <h1 class="page-title">Session {{this.session.id}}</h1>
     </div>
 

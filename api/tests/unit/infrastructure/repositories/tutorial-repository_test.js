@@ -25,15 +25,17 @@ describe('Unit | Repository | tutorial-repository', () => {
       link: 'https://youtube.fr',
       source: 'Youtube',
       title: 'Comment dresser un panda',
+      locale: 'fr-fr',
     };
 
     tutorialData2 = {
       id: 'recTutorial2',
       duration: '00:04:30',
       format: 'page',
-      link: 'https://youtube.fr',
+      link: 'https://youtube.com',
       source: 'Youtube',
-      title: 'Comment dresser un lama',
+      title: 'How to raise a lama',
+      locale: 'en-us',
     };
 
     expectedTutorial = new Tutorial({
@@ -49,9 +51,9 @@ describe('Unit | Repository | tutorial-repository', () => {
       id: 'recTutorial2',
       duration: '00:04:30',
       format: 'page',
-      link: 'https://youtube.fr',
+      link: 'https://youtube.com',
       source: 'Youtube',
-      title: 'Comment dresser un lama',
+      title: 'How to raise a lama',
     });
 
     userId = 'userId';
@@ -99,23 +101,46 @@ describe('Unit | Repository | tutorial-repository', () => {
         .resolves([userTutorial]);
     });
 
-    it('should return a list of Domain Tutorial objects', async () => {
-      // given
-      const tutorialIds = ['recTutorial1', 'recTutorial2'];
-      expectedTutorial.tutorialEvaluation = tutorialEvaluation;
-      expectedTutorial.userTutorial = userTutorial;
-      const expectedTutorialList = [
-        expectedTutorial,
-        expectedTutorial2
-      ];
+    context('locale is defined', () => {
+      it('should return a list of Domain Tutorial objects restricted to given locale', async () => {
+        // given
+        const locale = 'en';
+        const tutorialIds = ['recTutorial1', 'recTutorial2'];
+        expectedTutorial.tutorialEvaluation = tutorialEvaluation;
+        expectedTutorial.userTutorial = userTutorial;
+        const expectedTutorialList = [
+          expectedTutorial2
+        ];
 
-      // when
-      const fetchedTutorialList = await tutorialRepository.findByRecordIdsForCurrentUser({ ids: tutorialIds, userId });
+        // when
+        const fetchedTutorialList = await tutorialRepository.findByRecordIdsForCurrentUser({ ids: tutorialIds, userId, locale });
 
-      // then
-      expect(fetchedTutorialList[0]).to.be.an.instanceOf(Tutorial);
-      expect(fetchedTutorialList[1]).to.be.an.instanceOf(Tutorial);
-      expect(fetchedTutorialList).to.deep.equal(expectedTutorialList);
+        // then
+        expect(fetchedTutorialList[0]).to.be.an.instanceOf(Tutorial);
+        expect(fetchedTutorialList).to.deep.equal(expectedTutorialList);
+      });
+    });
+
+    context('locale is not defined', () => {
+      it('should return a list of Domain Tutorial objects', async () => {
+        // given
+        const locale = undefined;
+        const tutorialIds = ['recTutorial1', 'recTutorial2'];
+        expectedTutorial.tutorialEvaluation = tutorialEvaluation;
+        expectedTutorial.userTutorial = userTutorial;
+        const expectedTutorialList = [
+          expectedTutorial,
+          expectedTutorial2
+        ];
+
+        // when
+        const fetchedTutorialList = await tutorialRepository.findByRecordIdsForCurrentUser({ ids: tutorialIds, userId, locale });
+
+        // then
+        expect(fetchedTutorialList[0]).to.be.an.instanceOf(Tutorial);
+        expect(fetchedTutorialList[1]).to.be.an.instanceOf(Tutorial);
+        expect(fetchedTutorialList).to.deep.equal(expectedTutorialList);
+      });
     });
   });
 

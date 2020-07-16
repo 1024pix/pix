@@ -6,9 +6,14 @@
 
 .tutorial-panel__hint-container-body {
   display: flex;
+  flex-direction: column;
   align-items: center;
   margin-bottom: 10px;
   padding: 20px 0 40px;
+
+  @include device-is('tablet') {
+    flex-direction: row;
+  }
 }
 
 .tutorial-panel__hint-container {
@@ -36,36 +41,8 @@
 }
 
 .tutorial-panel__hint-title {
-  font-family: $font-open-sans;
-  font-size: 1.375rem;
-  text-align: center;
-  color: $grey-80;
-  font-weight: $font-semi-bold;
-  margin-bottom: 20px;
+  @include tutorial-panel-title($grey-10);
 
-  // XXX Inspired from https://codepen.io/ericrasch/pen/Irlpm
-  position: relative;
-  z-index: 1;
-
-  &:before {
-    border-top: 2px solid #dfdfdf;
-    content:"";
-    margin: 0 auto;
-    position: absolute;
-    top: 50%; left: 0; right: 0; bottom: 0;
-    width: 100%;
-    z-index: -1;
-  }
-
-  span {
-    background: $grey-10;
-    padding: 0 15px;
-  }
-
-  @include device-is('desktop') {
-    font-size: 1.375rem;
-    line-height: 26px;
-  }
 }
 
 .tutorial-panel__hint-content {
@@ -73,7 +50,7 @@
   font-family: $font-open-sans;
 
   & p {
-    padding-top: 12px;
+    padding: 12px 12px 0px 12px;
   }
 }
 
@@ -83,4 +60,5 @@
 
 .tutorial-panel__hint-picto {
   padding: 0 20px;
+  min-width: 100px;
 }

@@ -14,8 +14,7 @@ describe('Unit | Domain | Models | UserCompetence', () => {
         area: 'area',
         pixScore: 10,
         estimatedLevel: 5,
-        skills: ['some skills'],
-        challenges: ['some challenges'],
+        skills: ['some skills']
       };
 
       // when
@@ -30,7 +29,6 @@ describe('Unit | Domain | Models | UserCompetence', () => {
       expect(actualUserCompetence.pixScore).to.deep.equal(userCompetenceRawData.pixScore);
       expect(actualUserCompetence.estimatedLevel).to.deep.equal(userCompetenceRawData.estimatedLevel);
       expect(actualUserCompetence.skills).to.be.empty;
-      expect(actualUserCompetence.challenges).to.be.empty;
     });
   });
 

@@ -1,8 +1,7 @@
 import { module, test } from 'qunit';
-import { currentURL, visit, click } from '@ember/test-helpers';
+import { currentURL, visit, click, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
-import { selectChoose } from 'ember-power-select/test-support';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 import {
@@ -147,13 +146,10 @@ module('Acceptance | Team List | Items', function(hooks) {
         assert.dom('#table-members tbody tr:first-child td:nth-child(3)').hasText('Administrateur');
         assert.dom('#table-members tbody tr:first-child td:nth-child(4)').hasText('');
 
-        assert.dom('#table-members tbody tr:last-child td:nth-child(3)').hasText('Selectionner le rôle');
+        assert.dom('#table-members tbody tr:last-child option:checked').hasText('Membre');
         assert.dom('#table-members tbody tr:last-child td:nth-child(4)').hasText('Enregistrer');
 
-        await selectChoose('#selectOrganizationRole', 'Membre');
-
-        assert.dom('#table-members tbody tr:last-child td:nth-child(3)').hasText('Membre');
-
+        await fillIn('select', 'MEMBER');
         await click('#save-organization-role');
 
         assert.dom('#table-members tbody tr td').exists({ count: 8 });
@@ -182,13 +178,10 @@ module('Acceptance | Team List | Items', function(hooks) {
         assert.dom('#table-members tbody tr:first-child td:nth-child(3)').hasText('Administrateur');
         assert.dom('#table-members tbody tr:first-child td:nth-child(4)').hasText('');
 
-        assert.dom('#table-members tbody tr:last-child td:nth-child(3)').hasText('Selectionner le rôle');
+        assert.dom('#table-members tbody tr:last-child option:checked').hasText('Membre');
         assert.dom('#table-members tbody tr:last-child td:nth-child(4)').hasText('Enregistrer');
 
-        await selectChoose('#selectOrganizationRole', 'Administrateur');
-
-        assert.dom('#table-members tbody tr:last-child td:nth-child(3)').hasText('Administrateur');
-
+        await fillIn('select', 'ADMIN');
         await click('#save-organization-role');
 
         assert.dom('#table-members tbody tr td').exists({ count: 8 });
@@ -217,15 +210,14 @@ module('Acceptance | Team List | Items', function(hooks) {
         assert.dom('#table-members tbody tr:first-child td:nth-child(3)').hasText('Administrateur');
         assert.dom('#table-members tbody tr:first-child td:nth-child(4)').hasText('');
 
-        assert.dom('#table-members tbody tr:last-child td:nth-child(3)').hasText('Selectionner le rôle');
+        assert.dom('#table-members tbody tr:last-child option:checked').hasText('Membre');
         assert.dom('#table-members tbody tr:last-child td:nth-child(4)').hasText('Enregistrer');
 
-        await selectChoose('#selectOrganizationRole', 'Administrateur');
+        await fillIn('select', 'ADMIN');
         await click('#save-organization-role');
 
         await click('#edit-organization-role');
-        await selectChoose('#selectOrganizationRole', 'Membre');
-
+        await fillIn('select', 'MEMBER');
         await click('#cancel-update-organization-role');
 
         assert.dom('#table-members tbody tr:last-child td:nth-child(3)').hasText('Administrateur');

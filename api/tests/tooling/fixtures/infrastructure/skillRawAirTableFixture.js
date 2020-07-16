@@ -5,7 +5,8 @@ const COMPETENCE_TUBE_ID = 'Compétence (via Tube) (id persistant)';
 const STATUS = 'Status';
 
 const DEFAULT_ID = 'recSK0X22abcdefgh',
-  DEFAULT_HINT = 'Peut-on géo-localiser un lapin sur la banquise ?',
+  DEFAULT_HINT_FR_FR = 'Peut-on géo-localiser un lapin sur la banquise ?',
+  DEFAULT_HINT_EN_US = 'Can we geo-locate a rabbit on the ice floe?',
   DEFAULT_HINT_STATUS = 'Validé',
   DEFAULT_NAME = '@accesDonnées1',
   DEFAULT_TUTORIAL_ID = 'recCO0X22abcdefgh',
@@ -23,7 +24,8 @@ class SkillRawAirTableFixture extends AirtableRecord {
       'fields': {
         'id persistant': id,
         'Nom': DEFAULT_NAME,
-        'Indice': DEFAULT_HINT,
+        'Indice fr-fr': DEFAULT_HINT_FR_FR,
+        'Indice en-us': DEFAULT_HINT_EN_US,
         'Statut de l\'indice': DEFAULT_HINT_STATUS,
         [STATUS]: DEFAULT_STATUS,
         'Epreuves': [],
@@ -76,7 +78,8 @@ function skillRawAirTableFixture({ id } = { id: DEFAULT_ID }) {
 module.exports = {
   skillRawAirTableFixture,
   DEFAULT_ID,
-  DEFAULT_HINT,
+  DEFAULT_HINT_FR_FR,
+  DEFAULT_HINT_EN_US,
   DEFAULT_HINT_STATUS,
   DEFAULT_NAME,
   DEFAULT_TUTORIAL_ID,

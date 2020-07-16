@@ -17,8 +17,8 @@ import loadCampaignParticipations from './routes/campaign-participations/index';
 import loadCertificationCourseRoutes from './routes/certification-courses/index';
 import loadCourseRoutes from './routes/courses/index';
 import loadPasswordResetDemandRoutes from './routes/password-reset-demands/index';
-import loadStudentDependentUserRoutes from './routes/student-dependent-users/index';
-import loadStudentUserAssociationRoutes from './routes/student-user-associations/index';
+import loadSchoolingRegistrationUserAssociationRoutes from './routes/schooling-registration-user-associations/index';
+import loadSchoolingRegistrationDependentUserRoutes from './routes/schooling-registration-dependent-users/index';
 import loadUserRoutes from './routes/users/index';
 import putTutorialEvaluation from './routes/put-tutorial-evaluation';
 
@@ -36,8 +36,8 @@ export default function() {
   loadCertificationCourseRoutes(this);
   loadCourseRoutes(this);
   loadPasswordResetDemandRoutes(this);
-  loadStudentDependentUserRoutes(this);
-  loadStudentUserAssociationRoutes(this);
+  loadSchoolingRegistrationUserAssociationRoutes(this);
+  loadSchoolingRegistrationDependentUserRoutes(this);
   loadUserRoutes(this);
 
   this.get('/campaigns', getCampaigns);

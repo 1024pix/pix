@@ -1,11 +1,12 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const pickChallengeService = require('../../../../lib/domain/services/pick-challenge-service');
-const { FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
+const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 const _ = require('lodash');
 
 describe('Unit | Service | PickChallengeService', () => {
 
   describe('#pickChallenge', () => {
+    const englishSpokenChallenge = domainBuilder.buildChallenge({ locales: [ENGLISH_SPOKEN] });
     const frenchSpokenChallenge = domainBuilder.buildChallenge({ locales: [FRENCH_SPOKEN] });
     const otherFrenchSpokenChallenge = domainBuilder.buildChallenge({ locales: [FRENCH_SPOKEN] });
     const frenchChallenge = domainBuilder.buildChallenge({ locales: [FRENCH_FRANCE] });
@@ -15,17 +16,17 @@ describe('Unit | Service | PickChallengeService', () => {
 
       it('should return challenge in selected locale', async () => {
         // given
-        const skills = [{ challenges: [frenchChallenge, frenchSpokenChallenge] }];
+        const skills = [{ challenges: [frenchChallenge, frenchSpokenChallenge, englishSpokenChallenge] }];
 
         // when
         const challenge = await pickChallengeService.pickChallenge({
           skills,
           randomSeed,
-          locale: FRENCH_SPOKEN
+          locale: ENGLISH_SPOKEN
         });
 
         // then
-        expect(challenge).to.equal(frenchSpokenChallenge);
+        expect(challenge).to.equal(englishSpokenChallenge);
       });
 
       it('should always return the same challenge in selected locale', async () => {
@@ -44,6 +45,40 @@ describe('Unit | Service | PickChallengeService', () => {
         expect(challenges).to.contains(frenchSpokenChallenge);
         expect(challenges).to.not.contains(otherFrenchSpokenChallenge);
         expect(challenges).to.not.contains(frenchChallenge);
+      });
+
+      context('when no challenge in selected locale', () => {
+        it('should return FR challenge', async () => {
+          // given
+          const skills = [{ challenges: [frenchChallenge, frenchSpokenChallenge] }];
+
+          // when
+          const challenge = await pickChallengeService.pickChallenge({
+            skills,
+            randomSeed,
+            locale: ENGLISH_SPOKEN
+          });
+
+          // then
+          expect(challenge).to.equal(frenchSpokenChallenge);
+        });
+
+        context('and no FR challenge', () => {
+          it('should return FR-FR challenge', async () => {
+            // given
+            const skills = [{ challenges: [frenchChallenge] }];
+
+            // when
+            const challenge = await pickChallengeService.pickChallenge({
+              skills,
+              randomSeed,
+              locale: ENGLISH_SPOKEN
+            });
+
+            // then
+            expect(challenge).to.equal(frenchChallenge);
+          });
+        });
       });
     });
 

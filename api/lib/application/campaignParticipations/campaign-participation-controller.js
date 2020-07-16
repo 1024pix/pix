@@ -1,4 +1,3 @@
-const { BadRequestError } = require('../http-errors');
 const usecases = require('../../domain/usecases');
 
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
@@ -31,20 +30,8 @@ module.exports = {
   async find(request) {
     const userId = request.auth.credentials.userId;
     const options = queryParamsUtils.extractParameters(request.query);
-
-    if (!options.filter.assessmentId && !options.filter.campaignId) {
-      throw new BadRequestError('Campaign participations must be fetched by assessmentId and/or campaignId');
-    }
-
-    if (options.filter.campaignId && options.include.includes('campaign-participation-result')) {
-      const { models: campaignParticipations, pagination } = await usecases.findCampaignParticipationsWithResults({ userId, options });
-      return serializer.serialize(campaignParticipations, pagination, { ignoreCampaignParticipationResultsRelationshipData: false });
-
-    } else {
-      const campaignParticipations = await usecases.findCampaignParticipationsRelatedToAssessment({ userId, assessmentId: options.filter.assessmentId });
-      return serializer.serialize(campaignParticipations);
-    }
-
+    const campaignParticipations = await usecases.findCampaignParticipationsRelatedToAssessment({ userId, assessmentId: options.filter.assessmentId });
+    return serializer.serialize(campaignParticipations);
   },
 
   shareCampaignResult(request) {

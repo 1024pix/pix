@@ -1,6 +1,7 @@
 const { expect, generateValidRequestAuthorizationHeader, airtableBuilder, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
+const { FRENCH_FRANCE } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Acceptance | Controller | answer-controller-get-correction', () => {
 
@@ -15,6 +16,8 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
     let assessment = null;
     let answer = null;
     let userId;
+    let englishTutorial;
+    let frenchTutorial;
 
     before(() => {
       const challenge = airtableBuilder.factory.buildChallenge({
@@ -27,17 +30,21 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
       });
       airtableBuilder.mockList({ tableName: 'Epreuves' }).returns([challenge]).activate();
 
+      englishTutorial = airtableBuilder.factory.buildTutorial({ id: 'english-tutorial-id', langue: 'en-us' });
+      frenchTutorial = airtableBuilder.factory.buildTutorial({ id: 'french-tutorial-id', langue: 'fr-fr' });
+      airtableBuilder.mockList({ tableName: 'Tutoriels' }).returns([englishTutorial, frenchTutorial]).activate();
+
       const skill = airtableBuilder.factory.buildSkill({
         id: 'q_first_acquis',
         nom: '@web3',
-        indice: 'Indice web3',
+        indiceFr: 'Geolocaliser ?',
+        indiceEn: 'Geolocate ?',
         statutDeLIndice: 'Validé',
-        compétenceViaTube: 'recABCD'
+        compétenceViaTube: 'recABCD',
+        comprendre: [englishTutorial.id, frenchTutorial.id],
+        enSavoirPlus: [],
       });
       airtableBuilder.mockList({ tableName: 'Acquis' }).returns([skill]).activate();
-
-      const tutorial = airtableBuilder.factory.buildTutorial();
-      airtableBuilder.mockList({ tableName: 'Tutoriels' }).returns([tutorial]).activate();
     });
 
     after(() => {
@@ -63,42 +70,62 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return the answer correction', async () => {
-      // given
-      const options = {
-        method: 'GET',
-        url: `/api/answers/${answer.id}/correction`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-      };
-
-      const expectedBody = {
-        data: {
-          id: 'q_first_challenge',
-          type: 'corrections',
-          attributes: {
-            solution: 'fromage',
-            hint: 'Indice web3',
+    context('when Accept-Language header is specified', () => {
+      it('should return the answer correction with tutorials restricted to given language', async () => {
+        // given
+        const options = {
+          method: 'GET',
+          url: `/api/answers/${answer.id}/correction`,
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(userId),
+            'accept-language': FRENCH_FRANCE
           },
-          relationships: {
-            tutorials: {
-              'data': [],
+        };
+
+        const expectedBody = {
+          data: {
+            id: 'q_first_challenge',
+            type: 'corrections',
+            attributes: {
+              solution: 'fromage',
+              hint: 'Geolocaliser ?',
             },
-            'learning-more-tutorials': {
-              'data': [],
-            }
+            relationships: {
+              tutorials: {
+                data: [{
+                  id: frenchTutorial.id,
+                  type: 'tutorials',
+                }],
+              },
+              'learning-more-tutorials': {
+                data: [],
+              }
+            },
           },
-        }
-      };
+          included: [{
+            attributes: {
+              duration: '00:03:31',
+              format: 'vidéo',
+              id: 'french-tutorial-id',
+              link: 'http://www.example.com/this-is-an-example.html',
+              source: 'Source Example, Example',
+              title: 'Communiquer',
+            },
+            id: 'french-tutorial-id',
+            type: 'tutorials',
+          }]
+        };
 
-      // when
-      const response = await server.inject(options);
+        // when
+        const response = await server.inject(options);
 
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(response.result).to.deep.equal(expectedBody);
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result).to.deep.equal(expectedBody);
+      });
     });
 
-    it('should return 404 when user does not has access to this answer', async () => {
+    it('should return 404 when user does not have access to this answer', async () => {
       // given
       const options = {
         method: 'GET',
@@ -129,3 +156,4 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
     });
   });
 });
+

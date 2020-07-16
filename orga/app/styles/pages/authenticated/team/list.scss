@@ -9,35 +9,8 @@
     display: flex;
     margin: 1em;
   }
-
-  &__cancel-update-role {
-    margin-left: 12px;
-    font-size: 1.6rem;
-    padding-top: 9px;
-    padding-bottom: 9px;
-    padding-left: 14px;
-    padding-right: 14px;
-    }
-
-  &__edit-role {
-      padding-right: 25px;
-  }
 }
 
-.ember-power-select-trigger {
-  width: 150px;
-  line-height: 3;
-}
-
-.ember-power-select-option[aria-current="true"] {
-  background-color: $grey-10;
-  color: $grey-60;
-}
-
-.ember-power-select-option {
-  color: $grey-60;
-  font-size: 13px;
-}
 .list-team-page-header {
 
   &__add-member-button {
@@ -51,18 +24,11 @@
 }
 
 .zone-edit-role {
-    box-sizing: border-box;
-    display: flex;
-    height: inherit;
-    justify-content: flex-end;
-    padding-right: 25px;
-
-}
-
-.button-edit-role {
-  &>svg {
-    padding-right: 14.5px;
-  }
+  box-sizing: border-box;
+  display: flex;
+  height: inherit;
+  justify-content: flex-end;
+  padding-right: 25px;
 }
 
 .zone-save-cancel-role {
@@ -73,4 +39,8 @@
   width: 100%;
   justify-content: flex-end;
   align-items: center;
+
+  & > :last-child {
+    margin-left: 10px;
+  }
 }

@@ -39,8 +39,9 @@ module.exports = {
 
   async get(request) {
     const assessmentId = parseInt(request.params.id);
+    const locale = extractLocaleFromRequest(request);
 
-    const assessment = await usecases.getAssessment({ assessmentId });
+    const assessment = await usecases.getAssessment({ assessmentId, locale });
 
     return assessmentSerializer.serialize(assessment);
   },

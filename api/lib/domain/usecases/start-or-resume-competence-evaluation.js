@@ -17,7 +17,7 @@ module.exports = async function startOrResumeCompetenceEvaluation({ competenceId
 };
 
 function _checkCompetenceExists(competenceId, competenceRepository) {
-  return competenceRepository.get(competenceId);
+  return competenceRepository.get({ id: competenceId });
 }
 
 async function _resumeCompetenceEvaluation({ userId, competenceId, assessmentRepository, competenceEvaluationRepository }) {

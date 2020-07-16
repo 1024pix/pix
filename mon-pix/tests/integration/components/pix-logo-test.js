@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | pix logo', function() {
 
-  setupRenderingTest();
+  setupIntlRenderingTest();
 
   beforeEach(async function() {
     await render(hbs`{{pix-logo}}`);
@@ -21,11 +21,11 @@ describe('Integration | Component | pix logo', function() {
   });
 
   it('should have a textual alternative', function() {
-    expect(find('.pix-logo__image').getAttribute('alt')).to.equal('Pix');
+    expect(find('.pix-logo__image').getAttribute('alt')).to.equal('pix');
   });
 
   it('should have a title in the link', function() {
-    expect(find('.pix-logo__link').getAttribute('title')).to.equal('Lien vers la page d\'accueil de Pix');
+    expect(find('.pix-logo__link').getAttribute('title')).to.equal('Page d\'accueil');
   });
 
 });

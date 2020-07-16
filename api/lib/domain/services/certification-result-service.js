@@ -11,7 +11,7 @@ const scoringService = require('./scoring/scoring-service');
 const { CertificationComputeError } = require('../../../lib/domain/errors');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
-const userService = require('./user-service');
+const placementProfileService = require('./placement-profile-service');
 const qrocmDepChallenge = 'QROCM-dep';
 
 function _selectAnswersMatchingCertificationChallenges(answers, certificationChallenges) {
@@ -167,10 +167,10 @@ function _getChallengeInformation(listAnswers, certificationChallenges, competen
   });
 }
 
-async function _getTestedCompetences({ userId, limitDate, isV2Certification, competences }) {
-  const certificationProfile = await userService.getCertificationProfile({ userId, limitDate, isV2Certification, competences });
-  return _(certificationProfile.userCompetences)
-    .filter((uc) => uc.estimatedLevel > 0)
+async function _getTestedCompetences({ userId, limitDate, isV2Certification }) {
+  const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate, isV2Certification });
+  return _(placementProfile.userCompetences)
+    .filter((uc) => uc.isCertifiable())
     .map((uc) => _.pick(uc, ['id', 'area', 'index', 'name', 'estimatedLevel', 'pixScore']))
     .value();
 }
@@ -188,25 +188,27 @@ function _computeAnswersSuccessRate(answers = []) {
 }
 
 module.exports = {
-
   async getCertificationResult({ certificationAssessment, continueOnError }) {
-    const allCompetences = await competenceRepository.list();
+    const allPixCompetences = await competenceRepository.listPixCompetencesOnly();
     const allChallenges = await challengeRepository.findOperative();
 
+    // userService.getPlacementProfile() + filter level > 0 => avec allCompetence (bug)
     const testedCompetences = await _getTestedCompetences({
       userId: certificationAssessment.userId,
       limitDate: certificationAssessment.createdAt,
       isV2Certification: certificationAssessment.isV2Certification,
-      competences: allCompetences,
     });
 
+    // map sur challenges filtre sur competence Id - S'assurer qu'on ne travaille que sur les compétences certifiables
     const matchingCertificationChallenges = _selectChallengesMatchingCompetences(certificationAssessment.certificationChallenges, testedCompetences);
 
+    // decoration des challenges en ajoutant le type
     matchingCertificationChallenges.forEach((certifChallenge) => {
       const challenge = _.find(allChallenges, { id: certifChallenge.challengeId });
       certifChallenge.type = challenge ? challenge.type : 'EmptyType';
     });
 
+    // map sur challenges filtre sur challenge Id
     const matchingAnswers = _selectAnswersMatchingCertificationChallenges(certificationAssessment.certificationAnswersByDate, matchingCertificationChallenges);
 
     const result = _getResult(matchingAnswers, matchingCertificationChallenges, testedCompetences, continueOnError);
@@ -216,7 +218,7 @@ module.exports = {
     result.status = certificationAssessment.state;
     result.completedAt = certificationAssessment.completedAt;
 
-    result.listChallengesAndAnswers = _getChallengeInformation(matchingAnswers, certificationAssessment.certificationChallenges, allCompetences);
+    result.listChallengesAndAnswers = _getChallengeInformation(matchingAnswers, certificationAssessment.certificationChallenges, allPixCompetences);
     return result;
   },
 

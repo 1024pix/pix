@@ -50,7 +50,6 @@ module('Integration | Component | routes/authenticated/campaigns/details/analysi
 
     test('it should display tube details', async function(assert) {
       const firstTube = '[aria-label="Sujet"]:first-child';
-      assert.dom(firstTube).containsText('•');
       assert.dom(firstTube).containsText('Tube A');
       assert.dom(firstTube).containsText('Competence A');
     });

@@ -25,10 +25,30 @@
 }
 
 .label-text {
-  color: $grey-30;
+  color: $grey-40;
   font-family: $roboto;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: 400;
+
+  &--dark {
+    color: $grey-60;
+  }
+
+  &--small {
+    font-size: 0.75rem;
+  }
+}
+
+.value-text {
+  color: $grey-80;
+  font-family: $roboto;
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  &--highlight {
+    color: $grey-90;
+    font-size: 1.125rem;
+  }
 }
 
 .content-text {
@@ -36,6 +56,7 @@
   font-family: $roboto;
   font-size: 1rem;
   word-break: break-word;
+  -ms-word-break: break-all;
 
   &--bold {
     color: $grey-100;

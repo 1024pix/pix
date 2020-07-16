@@ -4,13 +4,13 @@
 import Service from '@ember/service';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | navbar-burger-menu', function() {
 
-  setupRenderingTest();
+  setupIntlRenderingTest();
 
   beforeEach(async function() {
     this.owner.register('service:currentUser', Service.extend({

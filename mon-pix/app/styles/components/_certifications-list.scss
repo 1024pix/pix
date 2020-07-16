@@ -36,6 +36,10 @@
   @extend .certifications-list__table-row;
 
   font-weight: $font-bold;
+
+  div {
+    text-transform: uppercase;
+  }
 }
 
 .certifications-list__table-header-cell {

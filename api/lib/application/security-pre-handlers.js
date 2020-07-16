@@ -5,6 +5,8 @@ const checkUserIsAdminInOrganizationUseCase = require('./usecases/checkUserIsAdm
 const checkUserBelongsToOrganizationManagingStudentsUseCase  = require('./usecases/checkUserBelongsToOrganizationManagingStudents');
 const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase  = require('./usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
 const checkUserBelongsToOrganizationUseCase  = require('./usecases/checkUserBelongsToOrganization');
+const checkUserIsAdminAndManagingStudentsForOrganization  = require('./usecases/checkUserIsAdminAndManagingStudentsForOrganization');
+const Organization = require('../../lib/domain/models/Organization');
 
 const JSONAPIError = require('jsonapi-serializer').Error;
 const _ = require('lodash');
@@ -187,21 +189,22 @@ async function checkUserBelongsToScoOrganizationAndManagesStudents(request, h) {
   return _replyWithAuthorizationError(h);
 }
 
-async function checkUserIsAdminInOrganizationManagingStudents(request, h) {
-  if (!request.auth.credentials || !request.auth.credentials.userId) {
-    return _replyWithAuthorizationError(h);
-  }
-
+async function checkUserIsAdminInSCOOrganizationManagingStudents(request, h) {
   const userId = request.auth.credentials.userId;
   const organizationId = parseInt(request.params.id);
 
-  const belongsToScoOrganizationAndManageStudents = await checkUserBelongsToOrganizationManagingStudentsUseCase.execute(userId, organizationId);
-  if (belongsToScoOrganizationAndManageStudents) {
+  if (await checkUserIsAdminAndManagingStudentsForOrganization.execute(userId,organizationId, Organization.types.SCO)) {
+    return h.response(true);
+  }
+  return _replyWithAuthorizationError(h);
+}
 
-    const isAdminInOrganization = await checkUserIsAdminInOrganizationUseCase.execute(userId, organizationId);
-    if (isAdminInOrganization) {
-      return h.response(true);
-    }
+async function checkUserIsAdminInSUPOrganizationManagingStudents(request, h) {
+  const userId = request.auth.credentials.userId;
+  const organizationId = parseInt(request.params.id);
+
+  if (await checkUserIsAdminAndManagingStudentsForOrganization.execute(userId, organizationId, Organization.types.SUP)) {
+    return h.response(true);
   }
 
   return _replyWithAuthorizationError(h);
@@ -216,5 +219,6 @@ module.exports = {
   checkUserIsAuthenticated,
   checkUserIsAdminInOrganization,
   checkUserIsAdminInOrganizationOrHasRolePixMaster,
-  checkUserIsAdminInOrganizationManagingStudents,
+  checkUserIsAdminInSCOOrganizationManagingStudents,
+  checkUserIsAdminInSUPOrganizationManagingStudents
 };

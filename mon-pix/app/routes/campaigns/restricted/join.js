@@ -12,9 +12,13 @@ export default class JoinRoute extends Route.extend(SecuredRouteMixin) {
   }
 
   async redirect(campaign) {
-    const student = await this.store.queryRecord('student-user-association', { userId: this.currentUser.user.id, campaignCode: campaign.code });
+    let schoolingRegistration = await this.store.queryRecord('schooling-registration-user-association', { userId: this.currentUser.user.id, campaignCode: campaign.code });
 
-    if (!isEmpty(student)) {
+    if (isEmpty(schoolingRegistration) && campaign.organizationType === 'SCO') {
+      schoolingRegistration = await this.store.createRecord('schooling-registration-user-association', { userId: this.currentUser.user.id, campaignCode: campaign.code }).save({ adapterOptions: { tryReconciliation: true } });
+    }
+
+    if (!isEmpty(schoolingRegistration)) {
       return this.replaceWith('campaigns.start-or-resume', campaign.code, {
         queryParams: { associationDone: true }
       });

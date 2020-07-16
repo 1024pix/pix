@@ -1,0 +1,70 @@
+<div class="login-form">
+  {{#unless @isWithInvitation }}
+    <div class="login-form__information">
+      L'accès à Pix Orga est limité aux membres invités. Contactez l’administrateur Pix Orga de votre organisation pour qu'il vous invite.
+    </div>
+  {{/unless}}
+
+  {{#if @hasInvitationError}}
+      <div class="login-form__invitation-error">
+        Cette invitation a déjà été acceptée. Connectez-vous ou contactez l’administrateur de votre espace Pix Orga.
+      </div>
+  {{/if}}
+
+  {{#if this.isErrorMessagePresent}}
+    <div id="login-form-error-message" class="login-form__error-message error-message">{{this.errorMessage}}
+    </div>
+  {{/if}}
+
+  <form {{on 'submit' this.authenticate}}>
+
+    <div class="input-container">
+      <label for="login-email" class="label">Adresse e-mail</label>
+      <Input
+        @id="login-email"
+        @name="login"
+        @type="email"
+        @class="input"
+        @value={{this.email}}
+        @autocomplete="username"
+        @required='true'
+      />
+    </div>
+
+    <div class="input-container">
+      <label for="login-password" class="label">Mot de passe</label>
+      <div class="input-password">
+        <Input
+          @id="login-password"
+          @name="password"
+          @type={{this.passwordInputType}}
+          @class="input"
+          @value={{this.password}}
+          @autocomplete="current-password"
+          @required='true'
+        />
+        <button type="button" aria-label="rendre le mot de passe lisible" class="input-password__icon" {{on 'click' this.togglePasswordVisibility}} >
+           {{#if this.isPasswordVisible}}
+             <div tabindex="-1" {{on 'mousedown' this.togglePasswordVisibility}}><FaIcon @icon='eye' @class="fa-fw input-password-icon__eye"></FaIcon></div>
+           {{else}}
+             <div tabindex="-1" {{on 'mousedown' this.togglePasswordVisibility}}><FaIcon @icon='eye-slash' @class="fa-fw input-password-icon__eye"></FaIcon></div>
+          {{/if}}
+        </button>
+      </div>
+    </div>
+
+    <div class="input-container">
+      {{#if this.isLoading}}
+        <button type="button" class="button"><span class="loader-in-button">&nbsp;</span></button>
+      {{else}}
+        <button type="submit" class="button login-form__button">Je me connecte</button>
+      {{/if}}
+    </div>
+
+    <div class="login-form__forgotten-password help-text">
+      <a href="https://app.pix.fr/mot-de-passe-oublie" target="_blank" rel="noopener noreferrer" class="link">Mot de passe oublié ?</a>
+    </div>
+  </form>
+
+
+</div>

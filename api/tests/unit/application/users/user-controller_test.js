@@ -1,6 +1,6 @@
 const { sinon, expect, hFake } = require('../../../test-helper');
 
-const CertificationProfile = require('../../../../lib/domain/models/CertificationProfile');
+const PlacementProfile = require('../../../../lib/domain/models/PlacementProfile');
 const User = require('../../../../lib/domain/models/User');
 
 const userController = require('../../../../lib/application/users/user-controller');
@@ -16,7 +16,6 @@ const usecases = require('../../../../lib/domain/usecases');
 const campaignParticipationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const certificationCenterMembershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-center-membership-serializer');
 const membershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/membership-serializer');
-const userOrgaSettingsSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-orga-settings-serializer');
 const scorecardSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 const userDetailsForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-details-for-admin-serializer');
@@ -401,38 +400,6 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#getUserOrgaSettings', () => {
-    const userId = '1';
-
-    const request = {
-      auth: {
-        credentials: {
-          userId: userId
-        }
-      },
-      params: {
-        id: userId
-      }
-    };
-
-    beforeEach(() => {
-      sinon.stub(userOrgaSettingsSerializer, 'serialize');
-      sinon.stub(usecases, 'getUserWithOrgaSettings');
-    });
-
-    it('should return serialized UserOrgaSettings', async function() {
-      // given
-      usecases.getUserWithOrgaSettings.withArgs({ userId }).resolves({ userOrgaSettings: {}  });
-      userOrgaSettingsSerializer.serialize.withArgs({}).returns({});
-
-      // when
-      const response = await userController.getUserOrgaSettings(request, hFake);
-
-      // then
-      expect(response).to.deep.equal({});
-    });
-  });
-
   describe('#getCertificationCenterMemberships', () => {
     const userId = '1';
 
@@ -592,16 +559,15 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#getCertificationProfile', () => {
+  describe('#isCertifiable', () => {
 
     beforeEach(() => {
-      sinon.stub(usecases, 'getUserCurrentCertificationProfile').resolves(new CertificationProfile());
+      sinon.stub(usecases, 'isUserCertifiable').resolves(new PlacementProfile());
     });
 
-    it('should return the user certification profile', async () => {
+    it('should return wether the user is certifiable', async () => {
       // given
       const userId = '76';
-
       const request = {
         auth: {
           credentials: {
@@ -614,10 +580,10 @@ describe('Unit | Controller | user-controller', () => {
       };
 
       // when
-      await userController.getCertificationProfile(request);
+      await userController.isCertifiable(request);
 
       // then
-      expect(usecases.getUserCurrentCertificationProfile).to.have.been.calledWith({ userId });
+      expect(usecases.isUserCertifiable).to.have.been.calledWith({ userId });
     });
   });
 
@@ -662,6 +628,7 @@ describe('Unit | Controller | user-controller', () => {
     it('should call the expected usecase', async () => {
       // given
       const userId = '12';
+      const locale = 'fr';
 
       const request = {
         auth: {
@@ -671,14 +638,15 @@ describe('Unit | Controller | user-controller', () => {
         },
         params: {
           id: userId
-        }
+        },
+        headers: { 'accept-language': locale }
       };
 
       // when
       await userController.getScorecards(request);
 
       // then
-      expect(usecases.getUserScorecards).to.have.been.calledWith({ userId });
+      expect(usecases.getUserScorecards).to.have.been.calledWith({ userId, locale });
     });
   });
 

@@ -9,7 +9,7 @@ export default class UpdateRoute extends Route {
   setupController() {
     super.setupController(...arguments);
     const [controller, model] = arguments;
-    controller.set('campaignName', model.name);
+    controller.campaignName = model.name;
   }
 
   deactivate() {

@@ -20,10 +20,11 @@ describe('Unit | Repository | correction-repository', function() {
 
     const recordId = 'rec-challengeId';
     const userId = 'userId';
+    const locale = 'en';
 
     const expectedHints = [
-      domainBuilder.buildHint({ skillName: '@web2', value: 'Peut-on géo-localiser un lapin sur la banquise ?' }),
-      domainBuilder.buildHint({ skillName: '@web3', value: 'Peut-on géo-localiser un lapin sur la banquise ?' }),
+      domainBuilder.buildHint({ skillName: '@web2', value: 'Can we geo-locate a rabbit on the ice floe?' }),
+      domainBuilder.buildHint({ skillName: '@web3', value: 'Can we geo-locate a rabbit on the ice floe?' }),
     ];
 
     const userTutorial = { id: 'userTutorialId', userId, tutorialId: 'recTuto1' };
@@ -82,11 +83,11 @@ describe('Unit | Repository | correction-repository', function() {
 
         challengeDatasource.get.resolves(challengeDataObject);
         skillDatas.forEach((skillData, index) => skillDatasource.get.onCall(index).resolves(skillData));
-        tutorialRepository.findByRecordIdsForCurrentUser.withArgs({ ids: ['recTuto1', 'recTuto2'], userId }).resolves(expectedTutorials);
-        tutorialRepository.findByRecordIdsForCurrentUser.withArgs({ ids: ['recTuto3', 'recTuto4'], userId }).resolves(expectedLearningMoreTutorials);
+        tutorialRepository.findByRecordIdsForCurrentUser.withArgs({ ids: ['recTuto1', 'recTuto2'], userId, locale }).resolves(expectedTutorials);
+        tutorialRepository.findByRecordIdsForCurrentUser.withArgs({ ids: ['recTuto3', 'recTuto4'], userId, locale }).resolves(expectedLearningMoreTutorials);
 
         // when
-        promise = correctionRepository.getByChallengeId({ challengeId: recordId, userId });
+        promise = correctionRepository.getByChallengeId({ challengeId: recordId, userId, locale });
       });
 
       it('should return a correction with the solution', function() {
@@ -145,11 +146,11 @@ describe('Unit | Repository | correction-repository', function() {
 
         challengeDatasource.get.resolves(challengeDataObject);
         skillDatas.forEach((skillData, index) => skillDatasource.get.onCall(index).resolves(skillData));
-        tutorialRepository.findByRecordIdsForCurrentUser.withArgs({ ids: ['recTuto1'], userId }).resolves([expectedTutorials[0]]);
-        tutorialRepository.findByRecordIdsForCurrentUser.withArgs({ ids: ['recTuto3'], userId }).resolves([expectedLearningMoreTutorials[0]]);
+        tutorialRepository.findByRecordIdsForCurrentUser.withArgs({ ids: ['recTuto1'], userId, locale }).resolves([expectedTutorials[0]]);
+        tutorialRepository.findByRecordIdsForCurrentUser.withArgs({ ids: ['recTuto3'], userId, locale }).resolves([expectedLearningMoreTutorials[0]]);
 
         // when
-        promise = correctionRepository.getByChallengeId({ challengeId: recordId, userId });
+        promise = correctionRepository.getByChallengeId({ challengeId: recordId, userId, locale });
       });
 
       it('should return a correction with deduplicated tutorials', function() {

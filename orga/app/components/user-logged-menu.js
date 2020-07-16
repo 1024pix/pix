@@ -1,6 +1,7 @@
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 
 export default class UserLoggedMenu extends Component {
 
@@ -8,7 +9,7 @@ export default class UserLoggedMenu extends Component {
   @service router;
   @service store;
 
-  isMenuOpen = false;
+  @tracked isMenuOpen = false;
 
   @computed('currentUser.organization.name')
   get organizationNameAndExternalId() {
@@ -33,12 +34,12 @@ export default class UserLoggedMenu extends Component {
 
   @action
   toggleUserMenu() {
-    this.toggleProperty('isMenuOpen');
+    this.isMenuOpen = !this.isMenuOpen;
   }
 
   @action
   closeMenu() {
-    this.set('isMenuOpen', false);
+    this.isMenuOpen = false;
   }
 
   @action
@@ -49,7 +50,7 @@ export default class UserLoggedMenu extends Component {
     const userOrgaSettings = await this.store.peekRecord('user-orga-setting', userOrgaSettingsId);
     const selectedOrganization = await this.store.peekRecord('organization', organization.get('id'));
 
-    userOrgaSettings.set('organization', selectedOrganization);
+    userOrgaSettings.organization = selectedOrganization;
     await userOrgaSettings.save({ adapterOptions: { userId: prescriber.id } });
 
     await this.currentUser.load();

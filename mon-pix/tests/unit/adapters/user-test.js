@@ -74,12 +74,12 @@ describe('Unit | Adapters | user', function() {
 
   describe('#createRecord', () => {
 
-    context('when isStudentDependentUser is true', () => {
+    context('when isSchoolingRegistrationDependentUser is true', () => {
 
       let expectedUrl, expectedMethod, expectedData, snapshot;
 
       beforeEach(() => {
-        expectedUrl = 'http://localhost:3000/api/student-dependent-users';
+        expectedUrl = 'http://localhost:3000/api/schooling-registration-dependent-users';
         expectedMethod = 'POST';
         expectedData = {
           data: {
@@ -95,7 +95,7 @@ describe('Unit | Adapters | user', function() {
         snapshot = {
           record: { },
           adapterOptions: {
-            isStudentDependentUser: true,
+            isSchoolingRegistrationDependentUser: true,
             campaignCode: 'AZERTY123',
             birthdate: '2020-06-15',
             withUsername: true

@@ -1,6 +1,6 @@
 import ApplicationAdapter from './application';
 
-export default class Campaign extends ApplicationAdapter {
+export default class CampaignAdapter extends ApplicationAdapter {
   urlForQuery(query) {
     if (query.filter.organizationId) {
       const { organizationId } = query.filter;

@@ -19,7 +19,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
     areas,
     competences;
 
-  let server, badge, badgePartnerCompetence;
+  let server, badge, badgePartnerCompetence, stage;
 
   beforeEach(async () => {
     server = await createServer();
@@ -75,6 +75,22 @@ describe('Acceptance | API | Campaign Participation Result', () => {
       name: 'Pix Emploi',
       color: 'emerald',
       skillIds
+    });
+
+    stage = databaseBuilder.factory.buildStage({
+      id: 1,
+      message: 'Tu as le palier 1',
+      title: 'palier 1',
+      threshold: 20,
+      targetProfileId: targetProfile.id
+    });
+
+    databaseBuilder.factory.buildStage({
+      id: 2,
+      message: 'Tu as le palier 2',
+      title: 'palier 2',
+      threshold: 50,
+      targetProfileId: targetProfile.id
     });
 
     targetProfileSkills.slice(2).forEach((targetProfileSkill, index) => {
@@ -177,6 +193,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
             'tested-skills-count': 5,
             'validated-skills-count': 3,
             'is-completed': true,
+            'stage-count': 2,
           },
           relationships: {
             'campaign-participation-badges': {
@@ -197,6 +214,12 @@ describe('Acceptance | API | Campaign Participation Result', () => {
                 type: 'competenceResults',
               }]
             },
+            'reached-stage': {
+              data: {
+                id: `${stage.id}`,
+                type: 'reached-stages',
+              }
+            }
           },
         },
         included: [{
@@ -268,6 +291,15 @@ describe('Acceptance | API | Campaign Participation Result', () => {
             'validated-skills-count': 1,
             'area-color': EMERALD_COLOR,
           },
+        }, {
+          attributes: {
+            'message': 'Tu as le palier 1',
+            'title': 'palier 1',
+            'threshold': 20,
+            'star-count': 1,
+          },
+          id: stage.id.toString(),
+          type: 'reached-stages'
         }],
       };
 

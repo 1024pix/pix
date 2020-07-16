@@ -6,7 +6,9 @@ const User = require('../../domain/models/User');
 const { NotFoundError } = require('../../domain/errors');
 const queryBuilder = require('../utils/query-builder');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const Bookshelf = require('../bookshelf');
+const { knex } = require('../bookshelf');
+const knowledgeElementRepository = require('./knowledge-element-repository');
+const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot-repository');
 
 const fp = require('lodash/fp');
 const _ = require('lodash');
@@ -47,7 +49,7 @@ module.exports = {
   },
 
   async findAssessmentResultDataByCampaignId(campaignId) {
-    const results = await Bookshelf.knex.with('campaignParticipationWithUserAndRankedAssessment',
+    const results = await knex.with('campaignParticipationWithUserAndRankedAssessment',
       (qb) => {
         qb.select([
           'campaign-participations.*',
@@ -68,15 +70,23 @@ module.exports = {
   },
 
   async findProfilesCollectionResultDataByCampaignId(campaignId) {
-    const results = await Bookshelf.knex.with('campaignParticipationWithUser',
+    const results = await knex.with('campaignParticipationWithUser',
       (qb) => {
         qb.select([
           'campaign-participations.*',
           'users.firstName',
           'users.lastName',
+          knex.raw('COALESCE ("schooling-registrations"."firstName", "users"."firstName") AS "firstName"'),
+          knex.raw('COALESCE ("schooling-registrations"."lastName", "users"."lastName") AS "lastName"'),
+
         ])
           .from('campaign-participations')
           .leftJoin('users', 'campaign-participations.userId', 'users.id')
+          .leftJoin('schooling-registrations', 'campaign-participations.userId', 'schooling-registrations.userId')
+          .leftJoin('campaigns', function() {
+            this.on({ 'campaign-participations.campaignId': 'campaigns.id' })
+              .andOn({ 'campaigns.organizationId': 'schooling-registrations.organizationId' });
+          })
           .where({ campaignId });
       })
       .from('campaignParticipationWithUser');
@@ -133,35 +143,21 @@ module.exports = {
       .then(fp.map(_toDomain));
   },
 
-  findPaginatedCampaignParticipations(options) {
-    return BookshelfCampaignParticipation
-      .where(options.filter)
-      .query((qb) => {
-        qb.innerJoin('users', 'campaign-participations.userId', 'users.id');
-        qb.orderByRaw('LOWER(users."lastName") ASC, LOWER(users."firstName") ASC');
+  async share(campaignParticipation) {
+    let savedBookshelfCampaignParticipation = null;
+    try {
+      savedBookshelfCampaignParticipation = await new BookshelfCampaignParticipation(campaignParticipation)
+        .save({ isShared: true, sharedAt: new Date() }, { patch: true, require: true });
+    } catch (err) {
+      _checkNotFoundError(err);
+    }
 
-      })
-      .fetchPage({
-        page: options.page.number,
-        pageSize: options.page.size,
-        withRelated: ['user', 'assessments', 'user.knowledgeElements']
-      })
-      .then(({ models, pagination }) => {
-        _.map(models, (campaignParticipation) => {
-          campaignParticipation.attributes.assessmentId = _getLastAssessmentIdForCampaignParticipation(campaignParticipation);
-        });
+    const savedCampaignParticipation = _toDomain(savedBookshelfCampaignParticipation);
 
-        const campaignParticipations = bookshelfToDomainConverter.buildDomainObjects(BookshelfCampaignParticipation, models);
-        const campaignParticipationsWithUniqKnowledgeElements = _sortUniqKnowledgeElements(campaignParticipations);
-        return { models: campaignParticipationsWithUniqKnowledgeElements, pagination };
-      });
-  },
+    const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId: savedCampaignParticipation.userId, limitDate: savedCampaignParticipation.sharedAt });
+    knowledgeElementSnapshotRepository.save({ userId: savedCampaignParticipation.userId, snappedAt: savedCampaignParticipation.sharedAt, knowledgeElements });
 
-  share(campaignParticipation) {
-    return new BookshelfCampaignParticipation(campaignParticipation)
-      .save({ isShared: true, sharedAt: new Date() }, { patch: true, require: true })
-      .then(_toDomain)
-      .catch(_checkNotFoundError);
+    return savedCampaignParticipation;
   },
 
   count(filters = {}) {
@@ -204,16 +200,6 @@ function _convertToDomainWithSkills(bookshelfCampaignParticipation) {
   return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaignParticipation, bookshelfCampaignParticipation);
 }
 
-function _sortUniqKnowledgeElements(campaignParticipations) {
-  return _.each(campaignParticipations, (campaignParticipation) => {
-    campaignParticipation.user.knowledgeElements = _(campaignParticipation.user.knowledgeElements)
-      .filter((ke) => ke.createdAt < campaignParticipation.sharedAt)
-      .orderBy('createdAt', 'desc')
-      .uniqBy('skillId')
-      .value();
-  });
-}
-
 function _getLastAssessmentIdForCampaignParticipation(bookshelfCampaignParticipation) {
   const assessmentModels = bookshelfCampaignParticipation.related('assessments').models;
   if (assessmentModels.length) {
@@ -224,7 +210,7 @@ function _getLastAssessmentIdForCampaignParticipation(bookshelfCampaignParticipa
 }
 
 function _assessmentRankByCreationDate() {
-  return Bookshelf.knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS rank', ['assessments.campaignParticipationId', 'assessments.createdAt']);
+  return knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS rank', ['assessments.campaignParticipationId', 'assessments.createdAt']);
 }
 
 function _rowToResult(row) {

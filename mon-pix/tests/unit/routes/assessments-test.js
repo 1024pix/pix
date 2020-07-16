@@ -2,9 +2,11 @@ import EmberObject from '@ember/object';
 import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
 import { setupTest } from 'ember-mocha';
+import setupIntl from '../../helpers/setup-intl';
 
 describe('Unit | Route | Assessments', function() {
   setupTest();
+  setupIntl();
 
   let route;
 

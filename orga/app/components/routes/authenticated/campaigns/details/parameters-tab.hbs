@@ -1,0 +1,79 @@
+<div class="panel panel--strong-shadow campaign-details-container" aria-label="Détails de la campagne">
+  <div class="campaign-details-row">
+    {{#if @campaign.isTypeAssessment}}
+      <div class="campaign-details-content">
+        <h4 class="label-text campaign-details-content__label">Profil cible</h4>
+        <p class="content-text campaign-details-content__text">{{@campaign.targetProfile.name}}</p>
+      </div>
+    {{/if}}
+    {{#if @campaign.idPixLabel}}
+      <div class="campaign-details-content">
+        <h4 class="label-text campaign-details-content__label">Libellé de l'identifiant</h4>
+        <p class="content-text campaign-details-content__text">{{@campaign.idPixLabel}}</p>
+      </div>
+    {{/if}}
+    <div class="campaign-details-content">
+      <h4 class="label-text campaign-details-content__label">Lien direct</h4>
+      <div class="campaign-details-content__clipboard">
+        <p class="content-text campaign-details-content__text">{{this.campaignsRootUrl}}</p>
+        {{#if (is-clipboard-supported)}}
+          <div class="tooltip content-text content-text--small">
+            <span class="tooltip-text campaign-details-content__tooltip-text">{{this.tooltipText}}</span>
+            <CopyButton
+              @clipboardText={{this.campaignsRootUrl}}
+              @success={{this.clipboardSuccess}}
+              {{on 'mouseLeave' this.clipboardOut}}
+              @classNames="icon-button campaign-details-content__clipboard-button"
+            >
+              <FaIcon @icon='copy' @prefix='far'></FaIcon>
+            </CopyButton>
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+
+  {{#if @campaign.isTypeAssessment}}
+    <div class="campaign-details-row">
+      <div class="campaign-details-content campaign-details-content--single">
+        <h4 class="label-text campaign-details-content__label">Titre du parcours</h4>
+        <p class="content-text campaign-details-content__text">{{@campaign.title}}</p>
+      </div>
+    </div>
+  {{/if}}
+
+  <div class="campaign-details-row">
+    <div class="campaign-details-content campaign-details-content--single">
+      <h4 class="label-text campaign-details-content__label">Texte de la page d'accueil</h4>
+      <p class="content-text campaign-details-content__text">
+        <MarkdownToHtml @markdown={{@campaign.customLandingPageText}} />
+      </p>
+    </div>
+  </div>
+  <div class="campaign-details-row">
+    {{#unless @campaign.isArchived}}
+      <div class="campaign-details-row">
+        <div class="campaign-details-content campaign-details-content--button campaign-details--button">
+          <LinkTo
+            @route="authenticated.campaigns.update"
+            @model={{@campaign.id}}
+            class="button button--grey button--regular button--link campaign-details-content__update-button"
+            aria-label="Modifier"
+          >
+            Modifier
+          </LinkTo>
+        </div>
+        <div class="campaign-details-content campaign-details-content--button campaign-details--button campaign-details-content--left">
+          <button
+            type="button"
+            {{on 'click' (fn this.archiveCampaign @campaign.id)}}
+            class="button button--grey button--regular button--link"
+            aria-label="Archiver"
+          >
+            Archiver
+          </button>
+        </div>
+      </div>
+    {{/unless}}
+  </div>
+</div>

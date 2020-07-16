@@ -2,7 +2,7 @@ const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
   serialize(results) {
-    return new Serializer('campaign-participation-result', {
+    return new Serializer('campaign-participation-results', {
       attributes: [
         'masteryPercentage',
         'totalSkillsCount',
@@ -11,7 +11,9 @@ module.exports = {
         'isCompleted',
         'campaignParticipationBadges',
         'competenceResults',
-        'progress'
+        'progress',
+        'reachedStage',
+        'stageCount',
       ],
       campaignParticipationBadges: {
         ref: 'id',
@@ -52,6 +54,18 @@ module.exports = {
           'validatedSkillsCount'
         ],
       },
+      reachedStage: {
+        ref: 'id',
+        attributes: [
+          'title',
+          'message',
+          'threshold',
+          'starCount',
+        ],
+      },
+      typeForAttribute(attribute) {
+        return attribute === 'reachedStage' ? 'reached-stages' : attribute;
+      }
     }).serialize(results);
   },
 };

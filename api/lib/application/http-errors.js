@@ -23,8 +23,10 @@ class PreconditionFailedError extends BaseHttpError {
 }
 
 class ConflictError extends BaseHttpError {
-  constructor(message = 'Conflict between request and server state.') {
+  constructor(message = 'Conflict between request and server state.', code, meta) {
     super(message);
+    this.code = code;
+    this.meta = meta;
     this.title = 'Conflict';
     this.status = 409;
   }

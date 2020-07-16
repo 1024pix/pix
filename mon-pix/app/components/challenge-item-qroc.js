@@ -1,11 +1,20 @@
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 import ChallengeItemGeneric from './challenge-item-generic';
-import classic from 'ember-classic-decorator';
+import { inject as service } from '@ember/service';
 
-@classic
-class ChallengeItemQroc extends ChallengeItemGeneric {
+export default class ChallengeItemQroc extends ChallengeItemGeneric {
+  @service intl;
 
-  autoReplyAnswer = '';
+  @tracked autoReplyAnswer = '';
+  postMessageHandler = null;
+
+  constructor() {
+    super(...arguments);
+    if (this.args.challenge.autoReply) {
+      this._addEventListener();
+    }
+  }
 
   _hasError() {
     return this._getAnswerValue().length < 1;
@@ -16,7 +25,8 @@ class ChallengeItemQroc extends ChallengeItemGeneric {
   }
 
   _getErrorMessage() {
-    return 'Jouer l\'épreuve pour valider. Sinon, passer.';
+    const errorMessage = this.args.challenge.autoReply ? 'pages.challenge.skip-error-message.qroc-auto-reply' : 'pages.challenge.skip-error-message.qroc';
+    return this.intl.t(errorMessage);
   }
 
   _addEventListener() {
@@ -31,26 +41,18 @@ class ChallengeItemQroc extends ChallengeItemGeneric {
   }
 
   get showProposal() {
-    return !this.challenge.autoReply;
+    return !this.args.challenge.autoReply;
   }
 
   @action
   answerChanged() {
-    this.set('errorMessage', null);
+    this.errorMessage =  null;
   }
 
-  didInsertElement() {
-    if (this.challenge.autoReply) {
-      this._addEventListener();
-    }
-  }
-
-  didDestroyElement() {
-    if (this.challenge.autoReply) {
-      window.removeEventListener('message', this.postMessageHandler);
-    }
+  removeEventListener() {
+    this.cancelTimer();
+    window.removeEventListener('message', this.postMessageHandler);
   }
 
 }
 
-export default ChallengeItemQroc;

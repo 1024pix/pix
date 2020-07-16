@@ -1,29 +1,30 @@
 import { action } from '@ember/object';
 import ChallengeItemGeneric from './challenge-item-generic';
-import classic from 'ember-classic-decorator';
+import { inject as service } from '@ember/service';
 
-@classic
-class ChallengeItemQcu extends ChallengeItemGeneric {
+export default class ChallengeItemQcu extends ChallengeItemGeneric {
+  @service intl;
+
   _hasError() {
     return this._getAnswerValue().length < 1;
   }
 
-  // FIXME refactor this
   _getAnswerValue() {
-
-    return this.$('.challenge-proposals input:radio:checked').map(function() {
-      return this.getAttribute('data-value');
-    }).get().join('');
+    const checkedInputValues = [];
+    const radioInputElements = document.querySelectorAll('input[type="radio"]:checked');
+    Array.prototype.forEach.call(radioInputElements, function(element) {
+      checkedInputValues.push(element.getAttribute('data-value'));
+    });
+    return checkedInputValues.join('');
   }
 
   _getErrorMessage() {
-    return 'Pour valider, sélectionner une réponse. Sinon, passer.';
+    return this.intl.t('pages.challenge.skip-error-message.qcu');
   }
 
   @action
   answerChanged() {
-    this.set('errorMessage', null);
+    this.errorMessage = null;
   }
 }
 
-export default ChallengeItemQcu;

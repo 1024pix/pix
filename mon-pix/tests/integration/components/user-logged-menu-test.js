@@ -4,7 +4,7 @@
 import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import {
   click,
   find,
@@ -17,7 +17,7 @@ import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | user logged menu', function() {
 
-  setupRenderingTest();
+  setupIntlRenderingTest();
 
   describe('when rendering for logged user', function() {
 
@@ -78,7 +78,7 @@ describe('Integration | Component | user logged menu', function() {
 
       return settled().then(() => {
         // then
-        expect(findAll('.logged-user-menu__link')[0].textContent.trim()).to.equal('Mes tutos');
+        expect(findAll('.logged-user-menu__link')[0].textContent.trim()).to.equal(this.intl.t('navigation.user.tutorials'));
       });
     });
 

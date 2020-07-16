@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
 import {
   click,
   fillIn,
@@ -11,21 +10,16 @@ import {
 } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-import setupIntl from '../../helpers/setup-intl';
 import ENV from '../../../config/environment';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 
 describe('Integration | Component | signin form', function() {
 
-  setupRenderingTest();
-  setupIntl();
+  setupIntlRenderingTest();
 
   describe('Rendering', async function() {
-
-    beforeEach(function() {
-      this.intl.setLocale('fr-fr');
-    });
 
     it('should display an input for identifiant field', async function() {
       // when

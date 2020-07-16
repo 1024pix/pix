@@ -15,6 +15,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
   let knowledgeElementRepository;
   let competenceEvaluationRepository;
   const scorecard = { id: 'foo' };
+  const locale = 'fr';
 
   beforeEach(() => {
     competenceRepository = { listPixCompetencesOnly: sinon.stub() };
@@ -35,7 +36,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
 
       it('should resolve', () => {
         // given
-        competenceRepository.listPixCompetencesOnly.resolves([]);
+        competenceRepository.listPixCompetencesOnly.withArgs({ locale: 'fr' }).resolves([]);
         knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.resolves({});
         competenceEvaluationRepository.findByUserId.resolves([]);
 
@@ -155,6 +156,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
           knowledgeElementRepository,
           competenceRepository,
           competenceEvaluationRepository,
+          locale
         });
 
         //then

@@ -44,7 +44,7 @@ module('Acceptance | Campaign Details Participants', function(hooks) {
     test('it could return on list of participants', async function(assert) {
       // when
       await visit('/campagnes/1/participants/1');
-      await click('.campaign-details-content__return-button');
+      await click('[aria-label="Retourner au détail de la campagne"]');
 
       // then
       assert.equal(currentURL(), '/campagnes/1/participants');

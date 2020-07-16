@@ -14,6 +14,7 @@ module.exports = datasource.extend({
     'Lien',
     'Source',
     'Titre',
+    'Langue'
   ],
 
   fromAirTableObject(airtableRecord) {
@@ -24,6 +25,7 @@ module.exports = datasource.extend({
       link: airtableRecord.get('Lien'),
       source: airtableRecord.get('Source'),
       title: airtableRecord.get('Titre'),
+      locale: airtableRecord.get('Langue'),
     };
   },
 
