@@ -26,7 +26,7 @@ const userRepository = ...
 const userName = ...
 ```
 
-Une entité du domaine ne contient pas de préfix.
+Une entité du domaine ne contient pas de préfixe.
 
 ```javascript
 const User = require('../../User');
@@ -248,7 +248,7 @@ réflexe. On ne le fait que quand on n'a pas trouvé de meilleure solution.
 ### 📖 Informations supplémentaires
 
 Pour tester en évitant une combinatoire ingérable pendant les tests (telle
-fonctionnallité activée avec telle autre désactivée, ...), Martin Fowler
+fonctionnalité activée avec telle autre désactivée, ...), Martin Fowler
 propose de ne tester que deux cas :
 
 1. Tester avec toutes les bascules qui seront effectivement activées lors de la
@@ -262,8 +262,8 @@ Par exemple, si :
 
 Alors :
 
-1. Je teste avec `FT_ACTIVATE_CERTIFICATION_V2=false` (et l'état des autres FT telles qu'en prod)
-1. Je teste avec `FT_ACTIVATE_CERTIFICATION_V2=true` (et toutes les autres FT activées aussi)
+1. Je teste avec `FT_ACTIVATE_CERTIFICATION_V2=false` (et l'état des autres FT tel qu'en production)
+1. Je teste avec `FT_ACTIVATE_CERTIFICATION_V2=true` (et toutes les autres FT activées également)
 
 ### Références
 
