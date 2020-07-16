@@ -19,6 +19,7 @@
 
   "page-title": {
     "certifications-start": "Rejoindre une session de certification",
+    "certification-number": "Certification {certificationNumber}",
     "signin": "Connexion",
     "signup": "Inscription",
     "suffix": "Pix",
