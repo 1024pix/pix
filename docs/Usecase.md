@@ -1,8 +1,8 @@
-# Usecase
+# Use-case
 
 ## Définition
 
-Un usecase:
+Un use-case:
  - est une fonction
  - [utilise le pattern RORO](https://medium.freecodecamp.org/elegant-patterns-in-modern-javascript-roro-be01e7669cbd)
  - require seulement des éléments venant du domaine
@@ -22,5 +22,5 @@ module.exports = function myUseCase({ param1, param2, param3, repo1, repo2 }) {
 
 ## Controllers
 
-Un controlleur ne peux __pas__ appeler __2__ usecases séquentiellement.
+Un controller ne peux __pas__ appeler __2__ use-case séquentiellement.
 
