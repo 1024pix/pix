@@ -6,9 +6,15 @@ import EmberObject from '@ember/object';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import config from '../../../config/environment';
+import setupIntl from '../../helpers/setup-intl';
 
 describe('Integration | Component | scorecard-details', function() {
   setupRenderingTest();
+  setupIntl();
+  
+  beforeEach(function() {
+    this.intl.setLocale('fr');
+  });
 
   describe('Component rendering', function() {
 

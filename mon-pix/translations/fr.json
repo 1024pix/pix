@@ -1,30 +1,30 @@
 {
   "common": {
+    "cancel": "Annuler",
+    "close": "Fermer",
     "form": {
       "mandatory-fields": "Les champs marqués de '<abbr title=\"obligatoire\" class=\"mandatory-mark\">'*'</abbr>' sont obligatoires"
     },
+    "level": "niveau",
     "mandatory": "obligatoire",
-    "or": "ou"
+    "or": "ou",
+    "pix": "pix"
   },
-
   "navigation": {
     "homepage": {
       "link": "Page d'accueil"
     }
   },
-
   "page-title": {
     "signin": "Connexion",
     "signup": "Inscription",
     "suffix": "Pix"
   },
-
   "api-error-messages": {
     "login-unauthorized-error": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects.",
     "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
     "internal-server-error": "Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement."
   },
-
   "signin-form": {
     "actions": {
       "submit": "Je me connecte"
@@ -47,7 +47,6 @@
     },
     "title": "Connectez-vous"
   },
-
   "signup-form": {
     "actions": {
       "submit": "Je m'inscris"
@@ -82,5 +81,41 @@
       "link": "connectez-vous à votre compte"
     },
     "title": "Inscrivez-vous"
+  },
+  "scorecard": {
+    "actions": {
+      "continue": {
+        "label": "Reprendre"
+      },
+      "improve": {
+        "label": "Retenter",
+        "description": {
+          "waiting-text": "Tenter le niveau supérieur dans",
+          "countdown": "{ daysBeforeImproving, plural, =0 {0 jour.} =1 {1 jour.} other {# jours.} }"
+        },
+        "improvingText": "Tentez d'obtenir le niveau supérieur !"
+      },
+      "reset": {
+        "label": "Remettre à zéro",
+        "description": "Remise à zéro disponible dans { daysBeforeReset, plural, =0 {0 jour.} =1 {1 jour.} other {# jours.} }",
+        "modal": {
+          "title": "Remise à zéro de la compétence",
+          "important-message": "Vos { earnedPix } Pix vont être supprimés.",
+          "important-message-above-level-one": "Votre niveau { level } et vos { earnedPix } Pix vont être supprimés.",
+          "warning": "Attention : si vous avez un parcours d’évaluation en cours, certaines questions pourront vous être reposées."
+        }
+      },
+      "start": {
+        "label": "Commencer"
+      }
+    },
+    "for-competence": "la compétence {competence}",
+    "link-to-profile": "Retour Profil",
+    "next-level-info": "{ remainingPixToNextLevel } pix avant le niveau { level }",
+    "tutorials": {
+      "title": "Cultivez vos compétences",
+      "description": "Voici une sélection de tutos qui pourront vous aider à gagner des Pix."
+    }
   }
+
 }
