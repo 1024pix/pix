@@ -39,10 +39,10 @@
       "certified": "certifiés"
     },
     "competences": {
-      "title": "Compétences certifiées",
-      "sub-title": "(niveaux sur 5)",
+      "informations": "Votre score certifié a été calculé en fonction de vos réponses lors du passage de la certification. Il peut donc différer du nombre de Pix affiché dans votre profil. Le jour de votre certification il était possible d’atteindre le niveau 5 des compétences et 640 pix au maximum.",
       "level": "niveau",
-      "informations": "Votre score certifié a été calculé en fonction de vos réponses lors du passage de la certification. Il peut donc différer du nombre de Pix affiché dans votre profil. Le jour de votre certification il était possible d’atteindre le niveau 5 des compétences et 640 pix au maximum."
+      "sub-title": "(niveaux sur 5)",
+      "title": "Compétences certifiées"
     },
     "jury-title": "Observations du jury",
     "clea-title": "Certifié Cléa"
