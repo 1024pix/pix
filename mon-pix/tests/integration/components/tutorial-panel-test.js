@@ -1,15 +1,12 @@
-/* eslint ember/no-classic-classes: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
 import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | tutorial panel', function() {
-  setupRenderingTest();
+  setupIntlRenderingTest();
 
   context('when the result is not ok', function() {
     context('and a hint is present', function() {
@@ -45,14 +42,16 @@ describe('Integration | Component | tutorial panel', function() {
       });
 
       context('when the user is logged in', function() {
+        class StoreStub extends Service {
+          user = {
+            firstName: 'Banana',
+            email: 'banana.split@example.net',
+            fullName: 'Banana Split',
+          }
+        }
+
         beforeEach(function() {
-          this.owner.register('service:currentUser', Service.extend({
-            user: {
-              firstName: 'Banana',
-              email: 'banana.split@example.net',
-              fullName: 'Banana Split',
-            }
-          }));
+          this.owner.register('service:currentUser', StoreStub);
         });
 
         it('should render the tutorial with actions', async function() {

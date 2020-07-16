@@ -64,9 +64,9 @@ function _getCommonColumns({
 
 function _getSharedColumns({
   campaignParticipationResultData,
-  certificationProfile,
+  placementProfile,
 }) {
-  const competenceStats = _.map(certificationProfile.userCompetences, (userCompetence) => {
+  const competenceStats = _.map(placementProfile.userCompetences, (userCompetence) => {
 
     return {
       id: userCompetence.id,
@@ -78,16 +78,18 @@ function _getSharedColumns({
   const lineMap = {
     sharedAt: moment.utc(campaignParticipationResultData.sharedAt).format('YYYY-MM-DD'),
     totalEarnedPix: _.sumBy(competenceStats, 'earnedPix'),
-    isCertifiable: certificationProfile.isCertifiable() ? 'Oui' : 'Non',
-    certifiableCompetencesCount: certificationProfile.getCertifiableCompetencesCount(),
+    isCertifiable: placementProfile.isCertifiable() ? 'Oui' : 'Non',
+    certifiableCompetencesCount: placementProfile.getCertifiableCompetencesCount(),
   };
 
-  const addStatsColumns = (prefix) => ({ id, earnedPix, level }) => {
-    lineMap[`${prefix}_${id}_level`] = level;
-    lineMap[`${prefix}_${id}_earnedPix`] = earnedPix;
-  };
+  let totalEarnedPix = 0;
+  placementProfile.userCompetences.forEach(({ id, pixScore, estimatedLevel }) => {
+    lineMap[`competence_${id}_level`] = estimatedLevel;
+    lineMap[`competence_${id}_earnedPix`] = pixScore;
+    totalEarnedPix += pixScore;
+  });
 
-  _.forEach(competenceStats, addStatsColumns('competence'));
+  lineMap['totalEarnedPix'] = totalEarnedPix;
 
   return lineMap;
 }
@@ -97,7 +99,7 @@ function _createOneLineOfCSV({
   organization,
   campaign,
   campaignParticipationResultData,
-  certificationProfile,
+  placementProfile,
 
   participantFirstName,
   participantLastName,
@@ -113,7 +115,7 @@ function _createOneLineOfCSV({
   if (campaignParticipationResultData.isShared) {
     _.assign(lineMap, _getSharedColumns({
       campaignParticipationResultData,
-      certificationProfile,
+      placementProfile,
     }));
   }
 
@@ -134,24 +136,24 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
     competenceRepository,
     campaignParticipationRepository,
     organizationRepository,
-    userService,
+    placementProfileService,
   }) {
 
   const campaign = await campaignRepository.get(campaignId);
 
   await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
 
-  const [allCompetences, organization, campaignParticipationResultDatas] = await Promise.all([
+  const [allPixCompetences, organization, campaignParticipationResultDatas] = await Promise.all([
     competenceRepository.listPixCompetencesOnly(),
     organizationRepository.get(campaign.organizationId),
     campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId(campaign.id, campaign.type),
   ]);
-  const headers = _createHeaderOfCSV(allCompetences, campaign.idPixLabel);
+  const headers = _createHeaderOfCSV(allPixCompetences, campaign.idPixLabel);
 
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
   // - https://stackoverflow.com/a/38192870
-  const headerLine = '\uFEFF' + csvSerializer.serializeLine(_.map(headers, 'title'));
+  const headerLine = '\uFEFF' + csvSerializer.serializeLine(headers.map((header) => header.title));
 
   writableStream.write(headerLine);
 
@@ -159,27 +161,38 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
   // after this function's returned promise resolves. If we await the map
   // function, node will keep all the data in memory until the end of the
   // complete operation.
-  bluebird.map(campaignParticipationResultDatas, async (campaignParticipationResultData) => {
+  const campaignParticipationResultDataChunks = _.chunk(campaignParticipationResultDatas, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
+  bluebird.map(campaignParticipationResultDataChunks, async (campaignParticipationResultDataChunk) => {
+    const userIdsAndDates = Object.fromEntries(campaignParticipationResultDataChunk.map((campaignParticipationResultData) => {
+      return [
+        campaignParticipationResultData.userId,
+        campaignParticipationResultData.sharedAt,
+      ];
+    }));
 
-    const certificationProfile = await userService.getCertificationProfile({
-      userId: campaignParticipationResultData.userId,
-      limitDate: campaignParticipationResultData.sharedAt,
-      competences: allCompetences,
+    const placementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
+      userIdsAndDates,
+      competences: allPixCompetences,
       allowExcessPixAndLevels: false
     });
 
-    const csvLine = _createOneLineOfCSV({
-      headers,
-      organization,
-      campaign,
-      campaignParticipationResultData,
-      certificationProfile,
+    let csvLines = '';
+    for (const placementProfile of placementProfiles) {
+      const campaignParticipationResultData = campaignParticipationResultDataChunk.find(({ userId }) =>  userId === placementProfile.userId);
+      const csvLine = _createOneLineOfCSV({
+        headers,
+        organization,
+        campaign,
+        campaignParticipationResultData,
+        placementProfile,
 
-      participantFirstName: campaignParticipationResultData.participantFirstName,
-      participantLastName: campaignParticipationResultData.participantLastName,
-    });
+        participantFirstName: campaignParticipationResultData.participantFirstName,
+        participantLastName: campaignParticipationResultData.participantLastName,
+      });
+      csvLines = csvLines.concat(csvLine);
+    }
 
-    writableStream.write(csvLine);
+    writableStream.write(csvLines);
   }, { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }).then(() => {
     writableStream.end();
   }).catch((error) => {

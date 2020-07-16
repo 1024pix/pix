@@ -11,7 +11,6 @@ const userRepository = require('../../../../lib/infrastructure/repositories/user
 const User = require('../../../../lib/domain/models/User');
 const UserDetailsForAdmin = require('../../../../lib/domain/models/UserDetailsForAdmin');
 const Membership = require('../../../../lib/domain/models/Membership');
-const UserOrgaSettings = require('../../../../lib/domain/models/UserOrgaSettings');
 const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
 const CertificationCenterMembership = require('../../../../lib/domain/models/CertificationCenterMembership');
 const Organization = require('../../../../lib/domain/models/Organization');
@@ -31,7 +30,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
   let userInDB;
   let organizationInDB, organizationRoleInDB;
   let membershipInDB;
-  let userOrgaSettingsInDB;
   let certificationCenterInDB, certificationCenterMembershipInDB;
 
   function _insertUserWithOrganizationsAndCertificationCenterAccesses() {
@@ -50,11 +48,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       organizationId: organizationInDB.id
     });
 
-    userOrgaSettingsInDB = databaseBuilder.factory.buildUserOrgaSettings({
-      userId: userInDB.id,
-      currentOrganizationId: organizationInDB.id
-    });
-
     certificationCenterInDB = databaseBuilder.factory.buildCertificationCenter();
 
     certificationCenterMembershipInDB = databaseBuilder.factory.buildCertificationCenterMembership({
@@ -67,7 +60,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   describe('find user', () => {
 
-    describe('#findByEmail', () => {
+    describe('#getByEmail', () => {
 
       let userInDb;
 
@@ -78,7 +71,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       it('should be a function', () => {
         // then
-        expect(userRepository.findByEmail).to.be.a('function');
+        expect(userRepository.getByEmail).to.be.a('function');
       });
 
       it('should handle a rejection, when user id is not found', async () => {
@@ -86,7 +79,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         const emailThatDoesNotExist = '10093';
 
         // when
-        const result = await catchErr(userRepository.findByEmail)(emailThatDoesNotExist);
+        const result = await catchErr(userRepository.getByEmail)(emailThatDoesNotExist);
 
         // then
         expect(result).to.be.instanceOf(NotFoundError);
@@ -94,7 +87,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       it('should return a domain user when found', async () => {
         // when
-        const user = await userRepository.findByEmail(userInDb.email);
+        const user = await userRepository.getByEmail(userInDb.email);
 
         // then
         expect(user.email).to.equal(userInDb.email);
@@ -105,7 +98,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         const uppercaseEmailAlreadyInDb = userInDb.email.toUpperCase();
 
         // when
-        const user = await userRepository.findByEmail(uppercaseEmailAlreadyInDb);
+        const user = await userRepository.getByEmail(uppercaseEmailAlreadyInDb);
 
         // then
         expect(user.email).to.equal(userInDb.email);
@@ -141,6 +134,39 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         return expect(user).to.be.null;
       });
     });
+  });
+
+  describe('#getUserAuthenticationMethods', () => {
+
+    let userInDb;
+
+    beforeEach(async () => {
+      userInDb = databaseBuilder.factory.buildUser(userToInsert);
+      await databaseBuilder.commit();
+    });
+
+    it('should return a domain user with authentication methods only when found', async () => {
+      // when
+      const user = await userRepository.getUserAuthenticationMethods(userInDb.id);
+
+      // then
+      expect(user.samlId).to.equal(userInDb.samlId);
+      expect(user.username).to.equal(userInDb.username);
+      expect(user.email).to.equal(userInDb.email);
+
+    });
+
+    it('should throw an error when user not found', async () => {
+      // given
+      const userIdThatDoesNotExist = '99999';
+
+      // when
+      const result = await catchErr(userRepository.getUserAuthenticationMethods)(userIdThatDoesNotExist);
+
+      // then
+      expect(result).to.be.instanceOf(UserNotFoundError);
+    });
+
   });
 
   describe('get user', () => {
@@ -446,61 +472,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
     });
 
-    describe('#getWithOrgaSettings', () => {
-
-      beforeEach(async () => {
-        await _insertUserWithOrganizationsAndCertificationCenterAccesses();
-      });
-
-      it('should return user for the given id', async () => {
-        // given
-        const expectedUser = new User(userInDB);
-
-        // when
-        const user = await userRepository.getWithOrgaSettings(userInDB.id);
-
-        // then
-        expect(user).to.be.an.instanceof(User);
-        expect(user.id).to.equal(expectedUser.id);
-        expect(user.firstName).to.equal(expectedUser.firstName);
-        expect(user.lastName).to.equal(expectedUser.lastName);
-        expect(user.email).to.equal(expectedUser.email);
-        expect(user.password).to.equal(expectedUser.password);
-        expect(user.cgu).to.equal(expectedUser.cgu);
-      });
-
-      it('should return user-orga-settings associated to the user', async () => {
-        // when
-        const user = await userRepository.getWithOrgaSettings(userInDB.id);
-
-        // then
-        expect(user.userOrgaSettings).to.be.an('Object');
-
-        const userOrgaSettings = user.userOrgaSettings;
-        expect(userOrgaSettings).to.be.an.instanceof(UserOrgaSettings);
-        expect(userOrgaSettings.id).to.equal(userOrgaSettingsInDB.id);
-
-        const associatedOrganization = userOrgaSettings.currentOrganization;
-        expect(associatedOrganization).to.be.an.instanceof(Organization);
-        expect(associatedOrganization.id).to.equal(organizationInDB.id);
-        expect(associatedOrganization.code).to.equal(organizationInDB.code);
-        expect(associatedOrganization.name).to.equal(organizationInDB.name);
-        expect(associatedOrganization.type).to.equal(organizationInDB.type);
-
-        expect(userOrgaSettings.organizationRole).to.equal(userOrgaSettings.organizationRole);
-      });
-
-      it('should reject with a UserNotFound error when no user was found with the given id', async () => {
-        // given
-        const unknownUserId = 666;
-
-        // when
-        const result = await catchErr(userRepository.getWithOrgaSettings)(unknownUserId);
-
-        // then
-        expect(result).to.be.instanceOf(UserNotFoundError);
-      });
-    });
   });
 
   describe('get user details for administration usage', () => {
@@ -851,6 +822,44 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   });
 
+  describe('#updateUsernameAndPassword', () => {
+
+    let userInDb;
+
+    beforeEach(async () => {
+      userInDb = databaseBuilder.factory.buildUser(userToInsert);
+      await databaseBuilder.commit();
+    });
+
+    it('should update the username and password', async () => {
+      // given
+      const username = 'blue.carter0701';
+      const generatedPassword = '1235Pix!';
+
+      // when
+      const updatedUser = await userRepository.updateUsernameAndPassword(userInDb.id, username, generatedPassword);
+
+      // then
+      expect(updatedUser).to.be.an.instanceOf(User);
+      expect(updatedUser.username).to.equal(username);
+      expect(updatedUser.password).to.equal(generatedPassword);
+      expect(updatedUser.shouldChangePassword).to.be.true;
+    });
+
+    it('should throw UserNotFoundError when user id not found', async () => {
+      // given
+      const wrongUserId = 0;
+      const username = 'blue.carter0701';
+      const generatedPassword = '1235Pix!';
+
+      // when
+      const error = await catchErr(userRepository.updateUsernameAndPassword)(wrongUserId, username, generatedPassword);
+
+      // then
+      expect(error).to.be.instanceOf(UserNotFoundError);
+    });
+  });
+
   describe('#isUserExistingByEmail', () => {
     const email = 'shi@fu.fr';
 
@@ -1197,7 +1206,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   });
 
-  describe('#createAndAssociateUserToSchoolingRegistration', () => {
+  describe('#createAndReconcileUserToSchoolingRegistration', () => {
     const email = 'jojo.lapointe@example.net';
     let schoolingRegistrationId;
     let organizationId;
@@ -1221,7 +1230,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       it('should create user', async () => {
         // when
-        const result = await userRepository.createAndAssociateUserToSchoolingRegistration({ domainUser, schoolingRegistrationId });
+        const result = await userRepository.createAndReconcileUserToSchoolingRegistration({ domainUser, schoolingRegistrationId });
 
         // then
         const foundUser = await knex('users').where({ email });
@@ -1231,7 +1240,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       it('should associate user to student', async () => {
         // when
-        await userRepository.createAndAssociateUserToSchoolingRegistration({ domainUser, schoolingRegistrationId });
+        await userRepository.createAndReconcileUserToSchoolingRegistration({ domainUser, schoolingRegistrationId });
 
         // then
         const foundSchoolingRegistrations = await knex('schooling-registrations').where('id', schoolingRegistrationId);
@@ -1248,7 +1257,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         await databaseBuilder.commit();
 
         // when
-        const error = await catchErr(userRepository.createAndAssociateUserToSchoolingRegistration)({ domainUser, schoolingRegistrationId });
+        const error = await catchErr(userRepository.createAndReconcileUserToSchoolingRegistration)({ domainUser, schoolingRegistrationId });
 
         // then
         expect(error).to.be.instanceOf(SchoolingRegistrationAlreadyLinkedToUserError);

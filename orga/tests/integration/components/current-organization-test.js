@@ -12,7 +12,7 @@ module('Integration | Component | current-organization', function(hooks) {
     this.set('orga', organization);
 
     // when
-    await render(hbs`{{current-organization organization=orga}}`);
+    await render(hbs`<CurrentOrganization @organization={{orga}}/>`);
 
     // then
     assert.dom('.current-organization-panel__label').hasText('MON ORGANISATION');

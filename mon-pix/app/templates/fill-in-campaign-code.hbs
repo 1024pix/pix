@@ -1,3 +1,4 @@
+{{page-title (t 'pages.fill-in-campaign-code.title')}}
 <BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
   <burger.outlet>
     <NavbarHeader @burger={{burger}} />
@@ -5,28 +6,36 @@
     <div class="background-banner-wrapper">
       <div class="background-banner"></div>
 
-      <div class="fill-in-campaign-code__container rounded-panel rounded-panel--strong rounded-panel--over-background-banner">
+      <div
+        class="fill-in-campaign-code__container rounded-panel rounded-panel--strong rounded-panel--over-background-banner">
         <h3 class="fill-in-campaign-code__title rounded-panel-title">
-          Saisissez votre code
+          {{t 'pages.fill-in-campaign-code.first-title'}}
         </h3>
 
-        <label for="campaign-code" class="fill-in-campaign-code__instruction">Ce code permet de démarrer un parcours<br>ou d’envoyer votre profil à une organisation</label>
+        <label for="campaign-code"
+          class="fill-in-campaign-code__instruction">{{{t 'pages.fill-in-campaign-code.description'}}}</label>
         <form class="fill-in-campaign-code__form" autocomplete="off">
 
           <div class="fill-in-campaign-code__form-field">
-            <Input required @type="text" @id="campaign-code" @value={{this.campaignCode}} @maxlength="9" @key-down={{this.clearErrorMessage}} />
+            <Input required 
+              @type="text" @id="campaign-code" 
+              @value={{this.campaignCode}} 
+              @maxlength="9"
+              @key-down={{this.clearErrorMessage}} />
           </div>
 
           {{#if this.errorMessage}}
-            <div class="fill-in-campaign-code__error" aria-live="polite">
-              {{ this.errorMessage }}
-            </div>
+          <div class="fill-in-campaign-code__error" aria-live="polite">
+            {{this.errorMessage}}
+          </div>
           {{/if}}
 
           <div class="fill-in-campaign-code__actions">
-            <button type="submit" class="button button--extra-big fill-in-campaign-code__start-button" {{action
-              'startCampaign'}}>
-              Commencer
+            <button 
+              type="submit"
+              class="button button--extra-big fill-in-campaign-code__start-button" 
+              {{action 'startCampaign'}}>
+              {{t 'pages.fill-in-campaign-code.start'}}
             </button>
           </div>
         </form>

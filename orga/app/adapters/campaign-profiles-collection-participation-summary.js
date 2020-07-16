@@ -1,6 +1,6 @@
 import ApplicationAdapter from './application';
 
-export default class CampaignProfilesCollectionParticipationSummary extends ApplicationAdapter {
+export default class CampaignProfilesCollectionParticipationSummaryAdapter extends ApplicationAdapter {
 
   urlForQuery(query) {
     if (query.filter.campaignId) {

@@ -5,37 +5,35 @@
 
 import Component from '@ember/component';
 import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 const contentReference = {
   ok: {
     icon: 'check-circle',
     color: 'green',
-    title: 'Réponse correcte'
   },
   ko: {
     icon: 'times-circle',
     color: 'red',
-    title: 'Réponse incorrecte'
   },
   aband: {
     icon: 'times-circle',
     color: 'grey',
-    title: 'Sans réponse'
   },
   partially: {
     icon: 'check-circle',
     color: 'orange',
-    title: 'Réponse partielle'
   },
   timedout: {
     icon: 'times-circle',
     color: 'red',
-    title: 'Temps dépassé'
   }
 };
 
 export default Component.extend({
   classNames: ['result-item'],
+
+  intl: service(),
 
   openComparison: null,
 
@@ -45,7 +43,7 @@ export default Component.extend({
   }),
 
   resultTooltip: computed('resultItem', function() {
-    return this.resultItem ? this.resultItem.title : null;
+    return this.resultItem ? this.intl.t(`pages.result-item.${this.answer.result}`) : null;
   }),
 
   validationImplementedForChallengeType: computed('answer.challenge.type', function() {

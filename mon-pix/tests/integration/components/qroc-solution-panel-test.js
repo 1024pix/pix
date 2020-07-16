@@ -1,13 +1,13 @@
 import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | QROC solution panel', function() {
 
-  setupRenderingTest();
+  setupIntlRenderingTest();
 
   describe('When format is paragraph', function() {
     it('should display disabled textarea', async function() {

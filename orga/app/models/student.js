@@ -6,7 +6,7 @@ const DASH = '\u2013';
 const SPACING_CHARACTER = '\n';
 
 export const CONNEXION_TYPES = {
-  none: 'Non connecté',
+  none: 'Aucune',
   email: 'Adresse e-mail',
   identifiant: 'Identifiant',
   mediacentre: 'Mediacentre',
@@ -18,13 +18,13 @@ export default class Student extends Model {
   @attr('date-only') birthdate;
   @attr('string') username;
   @attr('string') email;
+  @attr('string') studentNumber;
   @attr('boolean') isAuthenticatedFromGar;
   @belongsTo('organization') organization;
   @notEmpty('username') hasUsername;
   @notEmpty('email') hasEmail;
 
   @computed('hasUsername', 'hasEmail', 'isAuthenticatedFromGar')
-  
   get authenticationMethods() {
     const messages = [];
 
@@ -38,6 +38,17 @@ export default class Student extends Model {
 
   @computed('hasUsername', 'hasEmail', 'isAuthenticatedFromGar')
   get isStudentAssociated() {
-    return Boolean(this.email || this.username || this.isAuthenticatedFromGar);
+    return Boolean(this.hasEmail || this.hasUsername || this.isAuthenticatedFromGar);
   }
+
+  @computed('hasUsername', 'hasEmail', 'isAuthenticatedFromGar')
+  get isAuthenticatedWithGarOnly() {
+    return Boolean(!this.hasEmail && !this.hasUsername && this.isAuthenticatedFromGar);
+  }
+
+  @computed('hasUsername', 'hasEmail', 'isAuthenticatedFromGar')
+  get isAuthenticatedWithEmailOrUsernameOnly() {
+    return Boolean((this.hasEmail || this.hasUsername) && !this.isAuthenticatedFromGar);
+  }
+
 }

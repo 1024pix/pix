@@ -1,9 +1,12 @@
-import { click, find } from '@ember/test-helpers';
+import { blur, click, fillIn, find } from '@ember/test-helpers';
 import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
 import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+
+const TEXTAREA = 'textarea.feedback-panel__field--content';
+const DROPDOWN = '.feedback-panel__dropdown';
 
 describe('Acceptance | Giving feedback about a challenge', function() {
   setupApplicationTest();
@@ -29,28 +32,55 @@ describe('Acceptance | Giving feedback about a challenge', function() {
     expect(find('.feedback-panel__form')).to.exist;
   }
 
-  describe('From a challenge', function() {
+  context('From a challenge', function() {
 
-    beforeEach(function() {
+    beforeEach(async function() {
+      await visit(`/assessments/${assessment.id}/challenges/${firstChallenge.id}`);
     });
 
     it('should be able to directly send a feedback', async () => {
-      await visit(`/assessments/${assessment.id}/challenges/${firstChallenge.id}`);
       assertThatFeedbackPanelExist();
     });
 
-    it('should always reset the feedback form between two consecutive challenges', async function() {
-      await visit(`/assessments/${assessment.id}/challenges/${firstChallenge.id}`);
-      assertThatFeedbackFormIsClosed();
-      await click('.feedback-panel__open-link');
-      assertThatFeedbackFormIsOpen();
+    context('when the feedback-panel button is clicked', function() {
+      beforeEach(async function() {
+        assertThatFeedbackFormIsClosed();
+        await click('.feedback-panel__open-button');
+      });
 
-      await click('.challenge-actions__action-skip');
-      assertThatFeedbackFormIsClosed();
+      it('should open the feedback form', function() {
+        assertThatFeedbackFormIsOpen();
+      });
+
+      context('and the form is filled but not sent', function() {
+        beforeEach(async function() {
+          await fillIn(DROPDOWN, 'link');
+          await fillIn(TEXTAREA, 'TEST_CONTENT');
+          await blur(TEXTAREA);
+        });
+
+        context('and the challenge is skipped', function() {
+
+          beforeEach(async function() {
+            await click('.challenge-actions__action-skip');
+          });
+
+          it('should not display the feedback form', function() {
+            assertThatFeedbackFormIsClosed();
+          });
+
+          it('should always reset the feedback form between two consecutive challenges', async function() {
+            await click('.feedback-panel__open-button');
+            await fillIn(DROPDOWN, 'link');
+            expect(find(TEXTAREA).value).to.equal('');
+          });
+        });
+
+      });
     });
   });
 
-  describe('From the comparison modal at the end of the test', function() {
+  context('From the comparison modal at the end of the test', function() {
 
     it('should be able to give feedback', async () => {
       // given

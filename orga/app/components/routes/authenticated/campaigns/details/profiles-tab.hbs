@@ -1,0 +1,64 @@
+<div class="panel">
+  <div class="table content-text content-text--small">
+    <table>
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Prénom</th>
+          {{#if @campaign.idPixLabel}}
+            <th>{{@campaign.idPixLabel}}</th>
+          {{/if}}
+          <th class="table__column--center">date d’envoi</th>
+          <th class="table__column--center">Score Pix</th>
+          <th class="table__column--center">Certifiable</th>
+          <th class="table__column--center">Comp. certifiables</th>
+        </tr>
+      </thead>
+
+      {{#if @profiles}}
+        <tbody>
+        {{#each @profiles as |profile|}}
+          <tr aria-label="Profil" role="button" {{on 'click' (fn @goToProfilePage @campaign.id profile.id)}} class="tr--clickable">
+            <td>{{profile.lastName}}</td>
+            <td>{{profile.firstName}}</td>
+            {{#if @campaign.idPixLabel}}
+              <td>{{profile.participantExternalId}}</td>
+            {{/if}}
+            <td class="table__column--center">
+              {{#if profile.sharedAt }}
+                {{moment-format profile.sharedAt 'DD/MM/YYYY'}}
+              {{else}}
+                <span class="table__column--highlight">En attente</span>
+              {{/if}}
+            </td>
+            <td class="table__column--center">
+              {{#if profile.sharedAt }}
+                <PixTag @color="purple" class="pix-score-tag">
+                  {{profile.pixScore}}
+                </PixTag>
+              {{/if}}
+            </td>
+            <td class="table__column--center">
+              {{#if profile.certifiable }}
+                <PixTag @color="green-light">Certifiable</PixTag>
+              {{/if}}
+            </td>
+            <td class="table__column--center">
+              {{profile.certifiableCompetencesCount}}
+            </td>
+          </tr>
+        {{/each}}
+        </tbody>
+      {{/if}}
+    </table>
+
+    {{#unless @profiles}}
+      <div class="table__empty content-text">En attente de profiles</div>
+    {{/unless}}
+  </div>
+</div>
+
+{{#if @profiles}}
+  <PaginationControl @pagination={{@profiles.meta}}/>
+{{/if}}
+

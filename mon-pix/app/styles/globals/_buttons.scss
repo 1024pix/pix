@@ -1,6 +1,5 @@
 .button {
   font-family: $font-roboto;
-  padding: 14px 20px;
   font-size: 1rem;
   font-weight: 500;
   letter-spacing: 0.012rem;
@@ -137,6 +136,10 @@
       background-color: $grey-20;
     }
   }
+
+  @include device-is('tablet') {
+    padding: 14px 20px;
+  }
 }
 
 .icon-button {
@@ -186,27 +189,5 @@
 
   &--grey {
     color: $grey-60;
-  }
-
-  &__return-to {
-    color: $grey-200;
-    font-size: 0.813rem;
-    font-weight: $font-semi-bold;
-    letter-spacing: 0.019rem;
-    display: inline-flex;
-    align-items: center;
-
-    .icon-button {
-      margin-right: 8px;
-    }
-
-    &:hover {
-      text-decoration: none;
-      color: $grey-200;
-
-      .icon-button {
-        background-color: $grey-20;
-      }
-    }
   }
 }

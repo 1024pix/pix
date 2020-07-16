@@ -9,7 +9,7 @@ const Membership = require('../../../../lib/domain/models/Membership');
 const UserOrgaSettings = require('../../../../lib/domain/models/UserOrgaSettings');
 const Organization = require('../../../../lib/domain/models/Organization');
 
-describe('Integration | Infrastructure | Repository | UserRepository', () => {
+describe('Integration | Infrastructure | Repository | Prescriber', () => {
 
   const userToInsert = {
     firstName: faker.name.firstName(),

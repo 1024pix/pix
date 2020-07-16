@@ -4,7 +4,7 @@
 import { computed } from '@ember/object';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import _ from 'mon-pix/utils/lodash-custom';
+import _ from 'lodash';
 
 function _pluralize(word, count) {
   if (!count) {
@@ -23,7 +23,7 @@ function _getSeconds(time) {
 
 function _formatTimeForText(time) {
 
-  if (_.isNotInteger(time)) {
+  if (!_.isInteger(time)) {
     return '';
   }
 
@@ -39,7 +39,7 @@ function _formatTimeForText(time) {
 
 function _formatTimeForButton(time) {
 
-  if (_.isNotInteger(time) || !time) {
+  if (!_.isInteger(time) || !time) {
     return 0;
   }
 

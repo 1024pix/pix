@@ -1,22 +1,16 @@
-/* eslint ember/no-classic-components: 0 */
-/* eslint ember/no-component-lifecycle-hooks: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
+import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import Component from '@ember/component';
-import classic from 'ember-classic-decorator';
+import Component from '@glimmer/component';
 
-@classic
 export default class LevelupNotif extends Component {
-  closeLevelup = false;
+  @tracked closeLevelup = false;
 
-  didUpdateAttrs() {
-    super.didUpdateAttrs(...arguments);
-    this.set('closeLevelup', false);
+  resetLevelUp() {
+    this.closeLevelup = false;
   }
 
   @action
   close() {
-    this.set('closeLevelup', true);
+    this.closeLevelup = true;
   }
 }

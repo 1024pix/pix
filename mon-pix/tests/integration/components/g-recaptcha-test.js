@@ -4,7 +4,7 @@
 import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import RSVP from 'rsvp';
@@ -32,7 +32,7 @@ const stubGoogleRecaptchaService = Service.extend({
 
 describe('Integration | Component | g recaptcha', function() {
 
-  setupRenderingTest();
+  setupIntlRenderingTest();
 
   beforeEach(function() {
     this.owner.register('service:google-recaptcha', stubGoogleRecaptchaService);

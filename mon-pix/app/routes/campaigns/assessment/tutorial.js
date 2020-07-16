@@ -3,16 +3,16 @@
 
 import Route from '@ember/routing/route';
 import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
-import campaignTutorial from 'mon-pix/static-data/campaign-tutorial';
 import { inject as service } from '@ember/service';
 
 export default Route.extend(SecuredRouteMixin, {
 
   currentUser: service(),
+  intl: service(),
 
   campaignCode: null,
   tutorialPageId: 0,
-  tutorial: campaignTutorial.tutorial,
+  tutorialPageCount: 4,
 
   _setupPaging(numberOfPages, currentTutorialPageId) {
     const classOfTutorialPages = new Array(numberOfPages);
@@ -22,13 +22,12 @@ export default Route.extend(SecuredRouteMixin, {
 
   model() {
     this.campaignCode = this.paramsFor('campaigns').code;
-    const maxTutorialPageId = this.tutorial.length - 1;
     return {
-      title: this.tutorial[this.tutorialPageId].title,
-      icon: this.tutorial[this.tutorialPageId].icon,
-      explanation: this.tutorial[this.tutorialPageId].explanation,
-      showNextButton: this.tutorialPageId < maxTutorialPageId,
-      paging: this._setupPaging(this.tutorial.length, this.tutorialPageId)
+      title: this.intl.t(`pages.tutorial.pages.page${this.tutorialPageId}.title`),
+      icon: this.intl.t(`pages.tutorial.pages.page${this.tutorialPageId}.icon`),
+      explanation: this.intl.t(`pages.tutorial.pages.page${this.tutorialPageId}.explanation`),
+      showNextButton: this.tutorialPageId < this.tutorialPageCount - 1,
+      paging: this._setupPaging(this.tutorialPageCount, this.tutorialPageId)
     };
   },
 
@@ -46,7 +45,7 @@ export default Route.extend(SecuredRouteMixin, {
 
     next() {
       const nextTutorialPageId = this.tutorialPageId + 1;
-      if (nextTutorialPageId < this.tutorial.length) {
+      if (nextTutorialPageId < this.tutorialPageCount) {
         this.tutorialPageId = nextTutorialPageId;
         this.refresh();
       }

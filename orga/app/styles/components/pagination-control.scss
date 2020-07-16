@@ -26,15 +26,20 @@
       border: none;
       border-radius: 5px;
       padding-left: 8px;
-      -webkit-appearance:none;
-      -moz-appearance:none;
-      appearance:none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+    }
+
+    select::-ms-expand {
+      display: none;
     }
 
     &--icon {
       right: 8px;
-      position:absolute;
-      pointer-events:none;
+      position: absolute;
+      pointer-events: none;
+      top: calc(50% - 6px);
     }
   }
 }

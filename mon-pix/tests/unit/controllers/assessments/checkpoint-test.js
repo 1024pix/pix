@@ -1,16 +1,36 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
+import setupIntl from '../../../helpers/setup-intl';
 import EmberObject from '@ember/object';
 
 describe('Unit | Controller | Assessments | Checkpoint', function() {
 
   setupTest();
+  setupIntl();
 
   let controller;
 
   beforeEach(function() {
     controller = this.owner.lookup('controller:assessments/checkpoint');
+  });
+
+  describe('#nextPageButtonText', () => {
+    it('should propose to continue the assessment if it is not the final checkpoint', function() {
+      // when
+      controller.set('finalCheckpoint', false);
+
+      // then
+      expect(controller.nextPageButtonText).to.equal('Continuer mon parcours');
+    });
+
+    it('should propose to see the results of the assessment if it is the final checkpoint', function() {
+      // when
+      controller.set('finalCheckpoint', true);
+
+      // then
+      expect(controller.nextPageButtonText).to.equal('Voir mes résultats');
+    });
   });
 
   describe('#finalCheckpoint', () => {

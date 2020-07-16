@@ -1,0 +1,38 @@
+<div class="panel panel--light-shadow participant-results__details content-text content-text--small">
+  <table>
+    <thead>
+    <tr>
+      <th class="table__column--wide">Compétences ({{if @campaignParticipation.isShared
+                                                            @campaignParticipation.campaignParticipationResult.competenceResults.length '-' }})</th>
+      <th class="table__column--wide">Résultats</th>
+      <th class="table__column--small">Acquis validés</th>
+      <th class="table__column--small">Acquis évalués</th>
+    </tr>
+    </thead>
+
+    {{#if @campaignParticipation.isShared }}
+      <tbody>
+      {{#each @campaignParticipation.campaignParticipationResult.competenceResults as |competence|}}
+        <tr aria-label="Résultats par compétence">
+          <td class="competences-col__name">
+            <span class="competences-col__border competences-col__border--{{competence.areaColor}}"></span>
+            <span>
+              {{competence.name}}
+            </span>
+          </td>
+          <td>
+            <ProgressionGauge @total={{competence.totalSkillsCountPercentage}} @value={{competence.validatedSkillsPercentage}}>
+              <p class="sr-only">Ce participant a validé </p>{{competence.validatedSkillsPercentage}}%<p class="sr-only"> de la compétence {{competence.name}}.</p>
+            </ProgressionGauge>
+          </td>
+          <td>{{competence.validatedSkillsCount}}</td>
+          <td>{{competence.totalSkillsCount}}</td>
+        </tr>
+      {{/each}}
+      </tbody>
+    {{/if}}
+  </table>
+  {{#unless @campaignParticipation.isShared }}
+    <div class="table__empty content-text">En attente de résultats</div>
+  {{/unless}}
+</div>

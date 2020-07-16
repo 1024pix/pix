@@ -14,6 +14,7 @@ class CertificationCourse {
       completedAt,
       isPublished = false,
       isV2Certification = false,
+      verificationCode,
       // includes
       assessment,
       challenges,
@@ -34,12 +35,28 @@ class CertificationCourse {
     this.completedAt = completedAt;
     this.isPublished = isPublished;
     this.isV2Certification = isV2Certification;
+    this.verificationCode = verificationCode;
     // includes
     this.assessment = assessment;
     this.challenges = challenges;
     // references
     this.userId = userId;
     this.sessionId = sessionId;
+  }
+
+  static from({ certificationCandidate, challenges, verificationCode }) {
+    return new CertificationCourse({
+      userId: certificationCandidate.userId,
+      sessionId: certificationCandidate.sessionId,
+      firstName:certificationCandidate.firstName,
+      lastName: certificationCandidate.lastName,
+      birthdate:certificationCandidate.birthdate,
+      birthplace:certificationCandidate.birthCity,
+      externalId:certificationCandidate.externalId,
+      isV2Certification: true,
+      challenges,
+      verificationCode,
+    });
   }
 }
 

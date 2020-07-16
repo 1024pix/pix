@@ -1,6 +1,6 @@
 import ApplicationAdapter from './application';
 
-export default class User extends ApplicationAdapter {
+export default class PrescriberAdapter extends ApplicationAdapter {
   urlForQueryRecord(id) {
     return `${this.host}/${this.namespace}/prescription/prescribers/${id}`;
   }

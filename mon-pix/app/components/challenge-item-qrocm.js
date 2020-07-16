@@ -1,14 +1,40 @@
 import { action } from '@ember/object';
 import _ from 'lodash';
-import classic from 'ember-classic-decorator';
+import { inject as service } from '@ember/service';
 
 import ChallengeItemGeneric from './challenge-item-generic';
 import jsyaml from 'js-yaml';
+import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
 
-@classic
-class ChallengeItemQrocm extends ChallengeItemGeneric {
+export default class ChallengeItemQrocm extends ChallengeItemGeneric {
+  @service intl;
+
+  answersValue = {};
+
+  constructor() {
+    super(...arguments);
+    this.answersValue = this._extractProposals();
+
+    if (this.args.answer) {
+      this.answersValue = this.args.answer._valuesAsMap;
+    }
+  }
+
+  _extractProposals() {
+    const proposals = proposalsAsBlocks(this.args.challenge.proposals);
+    const inputFieldsNames = {};
+
+    proposals.forEach(({ input }) => {
+      if (input) {
+        inputFieldsNames[input] = '';
+      }
+    });
+
+    return inputFieldsNames;
+  }
+
   _hasError() {
-    const allAnswers = this._getRawAnswerValue(); // ex. {"logiciel1":"word", "logiciel2":"excel", "logiciel3":""}
+    const allAnswers = this.answersValue;
     return this._hasEmptyAnswerFields(allAnswers);
   }
 
@@ -17,29 +43,16 @@ class ChallengeItemQrocm extends ChallengeItemGeneric {
   }
 
   _getAnswerValue() {
-    return jsyaml.safeDump(this._getRawAnswerValue());
-  }
-
-  // XXX : data is extracted from DOM of child component, breaking child encapsulation.
-  // This is not "the Ember way", however it makes code easier to read,
-  // and moreover, is a much more robust solution when you need to test it properly.
-  _getRawAnswerValue() {
-    const result = {};
-    // XXX : forEach on NodeList returned by document.querySelectorAll is not supported by IE
-    _.forEach(document.querySelectorAll('.challenge-proposals input'), (element) => {
-      result[element.getAttribute('name')] = element.value;
-    });
-    return result;
+    return jsyaml.safeDump(this.answersValue);
   }
 
   _getErrorMessage() {
-    return 'Pour valider, veuillez remplir tous les champs réponse. Sinon, passer.';
+    return this.intl.t('pages.challenge.skip-error-message.qrocm');
   }
 
   @action
   answerChanged() {
-    this.set('errorMessage', null);
+    this.errorMessage = null;
   }
 }
 
-export default ChallengeItemQrocm;

@@ -1,6 +1,6 @@
 const accept = require('@hapi/accept');
 const tokenService = require('../../domain/services/token-service');
-const { FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../domain/constants').LOCALE;
+const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../domain/constants').LOCALE;
 
 module.exports = { escapeFileName, extractUserIdFromRequest, extractLocaleFromRequest };
 
@@ -22,5 +22,6 @@ function extractLocaleFromRequest(request) {
   if (!languageHeader) {
     return defaultLocale;
   }
-  return accept.language(languageHeader, [FRENCH_SPOKEN, FRENCH_FRANCE]) || defaultLocale;
+  const acceptedLanguages = [ENGLISH_SPOKEN, FRENCH_SPOKEN, FRENCH_FRANCE];
+  return accept.language(languageHeader, acceptedLanguages) || defaultLocale;
 }

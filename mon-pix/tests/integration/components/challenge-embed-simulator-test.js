@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { click, find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | Challenge Embed Simulator', function() {
 
-  setupRenderingTest();
+  setupIntlRenderingTest();
 
   describe('Acknowledgment overlay', function() {
 
@@ -29,7 +29,7 @@ describe('Integration | Component | Challenge Embed Simulator', function() {
 
   describe('Launch simulator button', () => {
 
-    it('should have text "Je lance le simulateur"', async function() {
+    it('should have text "Je lance l\'application"', async function() {
       // when
       await render(hbs`<ChallengeEmbedSimulator />`);
 

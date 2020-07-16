@@ -83,6 +83,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.UserNotAuthorizedToGetCertificationCoursesError) {
     return new HttpErrors.ForbiddenError(error.message);
   }
+  if (error instanceof DomainErrors.UserNotAuthorizedToGenerateUsernamePasswordError) {
+    return new HttpErrors.ForbiddenError(error.message);
+  }
   if (error instanceof DomainErrors.CertificationCandidateAlreadyLinkedToUserError) {
     return new HttpErrors.ForbiddenError('Le candidat de certification est déjà lié à un utilisateur.');
   }
@@ -109,6 +112,9 @@ function _mapToHttpError(error) {
   }
   if (error instanceof DomainErrors.InvalidParametersForSessionPublication) {
     return new HttpErrors.BadRequestError(error.message);
+  }
+  if (error instanceof DomainErrors.AlreadyExistingEntity) {
+    return new HttpErrors.PreconditionFailedError(error.message);
   }
   if (error instanceof DomainErrors.AlreadyExistingMembershipError) {
     return new HttpErrors.PreconditionFailedError(error.message);
@@ -195,7 +201,7 @@ function _mapToHttpError(error) {
     return new HttpErrors.BadRequestError(error.message);
   }
   if (error instanceof DomainErrors.SchoolingRegistrationAlreadyLinkedToUserError) {
-    return new HttpErrors.ConflictError(error.message);
+    return new HttpErrors.ConflictError(error.message, error.code, error.meta);
   }
   if (error instanceof DomainErrors.UserNotAuthorizedToUpdatePasswordError) {
     return new HttpErrors.ForbiddenError(error.message);
@@ -207,6 +213,9 @@ function _mapToHttpError(error) {
     return new HttpErrors.BadRequestError(error.message);
   }
   if (error instanceof DomainErrors.UserNotMemberOfOrganizationError) {
+    return new HttpErrors.UnprocessableEntityError(error.message);
+  }
+  if (error instanceof DomainErrors.UserCouldNotBeReconciledError) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }
 

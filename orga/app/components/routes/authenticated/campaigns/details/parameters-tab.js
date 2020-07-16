@@ -1,6 +1,7 @@
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 
 export default class ParametersTab extends Component {
 
@@ -8,20 +9,20 @@ export default class ParametersTab extends Component {
   @service notifications;
   @service url;
 
-  tooltipText = 'Copier le lien direct';
+  @tracked tooltipText = 'Copier le lien direct';
 
   get campaignsRootUrl() {
-    return `${this.url.campaignsRootUrl}${this.campaign.code}`;
+    return `${this.url.campaignsRootUrl}${this.args.campaign.code}`;
   }
 
   @action
   clipboardSuccess() {
-    this.set('tooltipText', 'Copié !');
+    this.tooltipText = 'Copié !';
   }
 
   @action
   clipboardOut() {
-    this.set('tooltipText', 'Copier le lien direct');
+    this.tooltipText = 'Copier le lien direct';
   }
 
   @action

@@ -40,8 +40,8 @@ describe('Acceptance | competences results', function() {
       await visit(`/competences/${competenceId}/resultats/${assessmentId}`);
 
       // then
-      expect(find('.link__return-to')).to.exist;
-      expect(find('.link__return-to').getAttribute('href')).to.equal('/profil');
+      expect(find('.pix-return-to')).to.exist;
+      expect(find('.pix-return-to').getAttribute('href')).to.equal('/profil');
     });
 
     context('When user obtained 0 pix', async function() {
@@ -120,7 +120,7 @@ describe('Acceptance | competences results', function() {
         expect(find('.competence-results-panel-header__banner--congrats')).to.exist;
         expect(find(
           '.competence-results-banner-text__results:first-child .competence-results-banner-text-results__value'
-        ).textContent).to.equal('Niveau 2');
+        ).textContent).to.equal('niveau 2');
         expect(find(
           '.competence-results-banner-text__results:last-child .competence-results-banner-text-results__value'
         ).textContent).to.equal('17 pix');

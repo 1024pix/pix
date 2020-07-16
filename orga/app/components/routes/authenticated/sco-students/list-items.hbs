@@ -1,0 +1,115 @@
+<div class="list-students-page__header">
+  <div class="page__title page-title">Élèves</div>
+  {{#if this.currentUser.isAdminInOrganization}}
+    <div class="list-students-page__import-students-button">
+      <FileUpload @name="file-upload" @for="students-file-upload" @accept=".xml" @multiple={{false}} @onfileadd={{@importStudents}}>
+        <span class="button" role="button" tabindex="0">Importer (.xml)</span>
+      </FileUpload>
+    </div>
+  {{/if}}
+</div>
+
+<div class="panel">
+  <div class="table content-text content-text--small">
+    <table>
+      <thead>
+        <tr>
+          <Table::Header>Nom</Table::Header>
+          <Table::Header>Prénom</Table::Header>
+          <Table::Header>Date de naissance</Table::Header>
+          <Table::Header>Méthode(s) de connexion</Table::Header>
+          <Table::Header @size="small"/>
+        </tr>
+        <tr>
+          <Table::HeaderFilterInput
+            @field="lastName"
+            @value={{@lastNameFilter}}
+            @placeholder="Rechercher par nom"
+            @triggerFiltering={{@triggerFiltering}}
+          />
+          <Table::HeaderFilterInput
+            @field="firstName"
+            @value={{@firstNameFilter}}
+            @placeholder="Rechercher par prénom"
+            @triggerFiltering={{@triggerFiltering}}
+          />
+          <Table::Header/>
+          <Table::HeaderFilterSelect
+            @field="connexionType"
+            @options={{@connexionTypesOptions}}
+            @selectedOption={{@connexionTypeFilter}}
+            @triggerFiltering={{@triggerFiltering}}
+            @emptyOptionLabel="Tous"
+          />
+          <Table::Header/>
+        </tr>
+      </thead>
+
+      {{#if @students}}
+        <tbody>
+        {{#each @students as |student|}}
+          <tr aria-label="Élève">
+            <td>{{student.lastName}}</td>
+            <td>{{student.firstName}}</td>
+            <td>{{moment-format student.birthdate 'DD/MM/YYYY' allow-empty=true}}</td>
+            <td class="list-students-page__authentication-methods">{{student.authenticationMethods}}</td>
+            <td class="list-students-page__actions">
+              {{#if student.isStudentAssociated}}
+                <Dropdown::IconTrigger
+                  @icon="ellipsis-v"
+                  @dropdownButtonClass="list-students-page__dropdown-button"
+                  @dropdownContentClass="list-students-page__dropdown-content"
+                >
+                  {{#if student.isAuthenticatedWithEmailOrUsernameOnly}}
+                    <Dropdown::Item @onClick={{fn this.openPasswordReset student}}>
+                      Gérer le compte
+                    </Dropdown::Item>
+                  {{/if}}
+                  {{#if this.isGenerateUsernameFeatureIsEnabled}}
+                    {{#if student.isAuthenticatedFromGar}}
+                      <Dropdown::Item @onClick={{fn this.openPasswordReset student}}>
+                        Gérer le compte
+                      </Dropdown::Item>
+                    {{/if}}
+                  {{/if}}
+                  {{#if this.currentUser.isAdminInOrganization}}
+                    <Dropdown::Item @onClick={{fn this.openDissociateModal student}}>
+                      Dissocier le compte
+                    </Dropdown::Item>
+                  {{/if}}
+                </Dropdown::IconTrigger>
+              {{/if}}
+            </td>
+          </tr>
+        {{/each}}
+
+        </tbody>
+      {{/if}}
+    </table>
+
+    {{#unless @students}}
+      <div class="table__empty content-text">Aucun élève.</div>
+    {{/unless}}
+  </div>
+
+  <PasswordResetModal
+    @organizationId={{this.currentUser.organization.id}}
+    @student={{this.student}}
+    @display={{this.isShowingModal}}
+    @close={{this.closePasswordReset}}
+  />
+  <DissociateUserModal
+    @student={{this.student}}
+    @display={{this.isShowingDissociateModal}}
+    @close={{this.closeDissociateModal}}
+    @refreshModel={{@refreshModel}}
+  />
+</div>
+
+{{#if @isLoading}}
+  <ModalDialog @translucentOverlay={{true}} @containerClass="modal__translucent">
+    <PixLoader />
+  </ModalDialog>
+{{/if}}
+
+<PaginationControl @pagination={{@students.meta}}/>

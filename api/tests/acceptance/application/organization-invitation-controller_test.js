@@ -39,15 +39,17 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
           code: code
         }).id;
 
-        const status = OrganizationInvitation.StatusType.ACCEPTED;
-
         options = {
           method: 'POST',
           url: `/api/organization-invitations/${organizationInvitationId}/response`,
           payload: {
             data: {
-              type: 'organization-invitations',
-              attributes: { code, status, email: userToInviteEmail },
+              id: '100047_DZWMP7L5UM',
+              type: 'organization-invitation-responses',
+              attributes: {
+                code,
+                email: userToInviteEmail
+              },
             }
           }
         };
@@ -84,11 +86,12 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
           url: `/api/organization-invitations/${organizationInvitationId}/response`,
           payload: {
             data: {
-              type: 'organization-invitations',
+              id: '100047_DZWMP7L5UM',
+              type: 'organization-invitation-responses',
               attributes: {
                 code: 'notExistCode',
-                status: OrganizationInvitation.StatusType.ACCEPTED,
-              }
+                email: 'user@example.net'
+              },
             }
           }
         };

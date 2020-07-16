@@ -76,10 +76,7 @@ export default function() {
     return schema.memberships.where({ userId });
   });
 
-  this.patch('/memberships/:id', (schema, request) => {
-    const id = request.params.id;
-    return schema.memberships.find(id);
-  });
+  this.patch('/memberships/:id');
 
   this.get('/organizations/:id/campaigns', (schema, request) => {
     const results = schema.campaigns.all();
@@ -131,7 +128,7 @@ export default function() {
   this.post('/organization-invitations/:id/response', (schema, request) => {
     const organizationInvitationId = request.params.id;
     const requestBody = JSON.parse(request.requestBody);
-    const { code, status } = requestBody.data.attributes;
+    const { code } = requestBody.data.attributes;
 
     const organizationInvitation = schema.organizationInvitations.findBy({ id: organizationInvitationId, code });
     const prescriber = schema.prescribers.first();
@@ -145,7 +142,7 @@ export default function() {
     prescriber.memberships = [membership];
     prescriber.save();
 
-    organizationInvitation.update({ status });
+    organizationInvitation.update({ status: 'accepted' });
     schema.organizationInvitationResponses.create();
 
     return new Response(204);
@@ -170,7 +167,7 @@ export default function() {
 
   this.get('/organizations/:id/students', findFilteredPaginatedStudents);
 
-  this.post('/organizations/:id/import-students', (schema, request) => {
+  this.post('/organizations/:id/schooling-registrations/import-siecle', (schema, request) => {
     const type = request.requestBody.type;
 
     if (type === 'invalid-file') {
@@ -245,6 +242,12 @@ export default function() {
 
   this.get('/campaign-participations/:id');
 
+  this.get('/campaign-participations/:id/campaign-participation-result', (schema, request) => {
+    const campaignParticipationId = request.params.id;
+    const campaignParticipation = schema.campaignParticipations.find(campaignParticipationId);
+    return campaignParticipation.campaignParticipationResult;
+  });
+
   this.get('/campaign-participations/:id/analyses', (schema, request) => {
     const campaignParticipationId = request.params.id;
     const campaignParticipation = schema.campaignParticipations.find(campaignParticipationId);
@@ -254,9 +257,16 @@ export default function() {
   this.get('/campaign-participation-results/:id');
 
   this.post('/schooling-registration-dependent-users/password-update', (schema) => {
-    const schoolingRegistrationDependentUser = schema.schoolingRegistrationDependentUsers.create();
-    schoolingRegistrationDependentUser.generatedPassword = 'Passw0rd';
-    return schoolingRegistrationDependentUser;
+    return schema.schoolingRegistrationDependentUsers.create({
+      generatedPassword: 'Passw0rd'
+    });
+  });
+
+  this.post('/schooling-registration-dependent-users/generate-username-password', (schema) => {
+    return schema.schoolingRegistrationDependentUsers.create({
+      username: 'user.gar3112',
+      generatedPassword: 'Passw0rd'
+    });
   });
 
   this.post('/user-orga-settings', (schema, request) => {

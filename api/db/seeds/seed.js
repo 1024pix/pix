@@ -25,6 +25,7 @@ const { pixEmploiTargetProfileBuilder } = require('./data/pix-emploi-target-prof
 const targetProfilesBuilder = require('./data/target-profiles-builder');
 const { usersBuilder } = require('./data/users-builder');
 const usersPixRolesBuilder = require('./data/users_pix_roles-builder');
+const stagesBuilder = require('./data/stages-builder');
 
 const SEQUENCE_RESTART_AT_NUMBER = 10000000;
 const SEED_NUMBER = 20110228;
@@ -64,6 +65,7 @@ exports.seed = (knex) => {
   campaignParticipationsBuilder({ databaseBuilder });
   assessmentsBuilder({ databaseBuilder });
   answersBuilder({ databaseBuilder });
+  stagesBuilder({ databaseBuilder });
 
   // Éléments de parcours pour l'utilisateur Pix Aile
   buildPixAileProfile({ databaseBuilder });

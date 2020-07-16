@@ -1,29 +1,34 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
-import _ from 'lodash';
+import maxBy from 'lodash/maxBy';
+import sum from 'lodash/sum';
+import sumBy from 'lodash/sumBy';
+const { Model, hasMany } = DS;
 
-export default DS.Model.extend({
+export default class CampaignCollectiveResult extends Model {
 
-  campaignCompetenceCollectiveResults: DS.hasMany('campaignCompetenceCollectiveResult'),
+  @hasMany('campaignCompetenceCollectiveResult') campaignCompetenceCollectiveResults;
 
-  // -- Computed properties --
+  @computed('campaignCompetenceCollectiveResults.@each.totalSkillsCount')
+  get maxTotalSkillsCountInCompetences() {
+    return maxBy(this.campaignCompetenceCollectiveResults.toArray(), 'totalSkillsCount').totalSkillsCount;
+  }
 
-  maxTotalSkillsCountInCompetences: computed('campaignCompetenceCollectiveResults.@each.totalSkillsCount', function() {
-    return _.maxBy(this.campaignCompetenceCollectiveResults.toArray(), 'totalSkillsCount').totalSkillsCount;
-  }),
-
-  averageValidatedSkillsSum: computed('campaignCompetenceCollectiveResults.@each.averageValidatedSkills', function() {
+  @computed('campaignCompetenceCollectiveResults.@each.averageValidatedSkills')
+  get averageValidatedSkillsSum() {
     const roundedAverageResults = this.campaignCompetenceCollectiveResults.map((campaignCompetenceCollectiveResult) => {
       return Math.round(campaignCompetenceCollectiveResult.averageValidatedSkills * 10) / 10;
     });
-    return Math.round(_.sum(roundedAverageResults) * 10) / 10;
-  }),
+    return Math.round(sum(roundedAverageResults) * 10) / 10;
+  }
 
-  totalSkills: computed('campaignCompetenceCollectiveResults.@each.totalSkillsCount', function() {
-    return _.sumBy(this.campaignCompetenceCollectiveResults.toArray(), 'totalSkillsCount');
-  }),
+  @computed('campaignCompetenceCollectiveResults.@each.totalSkillsCount')
+  get totalSkills() {
+    return sumBy(this.campaignCompetenceCollectiveResults.toArray(), 'totalSkillsCount');
+  }
 
-  averageResult: computed('averageValidatedSkillsSum', 'totalSkills', function() {
+  @computed('averageValidatedSkillsSum', 'totalSkills')
+  get averageResult() {
     return Math.round(this.averageValidatedSkillsSum * 100 / this.totalSkills);
-  }),
-});
+  }
+}

@@ -6,7 +6,6 @@ export default class SkillReviewController extends Controller {
   @tracked displayLoadingButton = false;
   @tracked displayErrorMessage = false;
   @tracked displayImprovementButton = false;
-  pageTitle = 'Résultat';
 
   get showCleaCompetences() {
     const cleaBadge = this.model.campaignParticipation.campaignParticipationResult.get('cleaBadge');
@@ -20,6 +19,14 @@ export default class SkillReviewController extends Controller {
   get acquiredBadges() {
     const badges = this.model.campaignParticipation.campaignParticipationResult.get('campaignParticipationBadges');
     return badges.filter((badge) => badge.isAcquired);
+  }
+
+  get reachedStage() {
+    return this.model.campaignParticipation.campaignParticipationResult.get('reachedStage');
+  }
+
+  get stageCount() {
+    return this.model.campaignParticipation.campaignParticipationResult.get('stageCount');
   }
 
   @action

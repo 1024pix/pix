@@ -9,7 +9,7 @@ import classic from 'ember-classic-decorator';
 import labeledCheckboxes from 'mon-pix/utils/labeled-checkboxes';
 import valueAsArrayOfBoolean from 'mon-pix/utils/value-as-array-of-boolean';
 import proposalsAsArray from 'mon-pix/utils/proposals-as-array';
-import _ from 'mon-pix/utils/lodash-custom';
+import _ from 'lodash';
 
 @classic
 @classNames('qcu-solution-panel')
@@ -21,14 +21,14 @@ export default class QcuSolutionPanel extends Component {
   @computed('solution')
   get solutionArray() {
     const solution = this.solution;
-    return _.isNonEmptyString(solution) ? valueAsArrayOfBoolean(solution) : [];
+    return !_.isEmpty(solution) ? valueAsArrayOfBoolean(solution) : [];
   }
 
   @computed('answer')
   get labeledRadios() {
     const answer = this.answer.value;
     let radiosArray = [];
-    if (_.isNonEmptyString(answer)) {
+    if (!_.isEmpty(answer)) {
       const proposals = this.challenge.get('proposals');
       const proposalsArray = proposalsAsArray(proposals);
       const answerArray = valueAsArrayOfBoolean(answer);

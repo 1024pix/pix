@@ -6,14 +6,14 @@ const organizationController = require('../../../../lib/application/organization
 
 const usecases = require('../../../../lib/domain/usecases');
 const organizationService = require('../../../../lib/domain/services/organization-service');
+const tokenService = require('../../../../lib/domain/services/token-service');
 
-const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
-const targetProfileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-serializer');
-const studentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-serializer');
-const userWithSchoolingRegistrationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-with-schooling-registration-serializer');
-
 const organizationInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-invitation-serializer');
+const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
+const studentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-serializer');
+const targetProfileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-serializer');
+const userWithSchoolingRegistrationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-with-schooling-registration-serializer');
 
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 
@@ -586,4 +586,30 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
+  describe('#getSchoolingRegistrationsCsvTemplate', () => {
+    const userId = 1;
+    const organizationId = 2;
+    const request = {
+      query: {
+        accessToken: 'token'
+      },
+      params: {
+        id: organizationId
+      }
+    };
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'getSchoolingRegistrationsCsvTemplate').resolves('template');
+      sinon.stub(tokenService, 'extractUserId').returns(userId);
+    });
+
+    it('should return a response with correct headers', async () => {
+      // when
+      const response = await organizationController.getSchoolingRegistrationsCsvTemplate(request, hFake);
+
+      // then
+      expect(response.headers['Content-Type']).to.equal('text/csv;charset=utf-8');
+      expect(response.headers['Content-Disposition']).to.equal('attachment; filename=modele-import.csv');
+    });
+  });
 });

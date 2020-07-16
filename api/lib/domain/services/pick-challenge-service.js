@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const hashInt = require('hash-int');
+const { FRENCH_FRANCE, FRENCH_SPOKEN } = require('../constants').LOCALE;
 const UNEXISTING_ITEM = null;
 
 module.exports = {
@@ -9,13 +10,18 @@ module.exports = {
     }
     const key = Math.abs(hashInt(randomSeed));
     const chosenSkill = skills[key % skills.length];
-    const localeChallenges = _.filter(chosenSkill.challenges, ((challenge) => _.includes(challenge.locales, locale)));
-    if (_.isEmpty(localeChallenges)) {
-      return _pickChallengeAtIndex(chosenSkill.challenges, key);
-    }
-    return _pickChallengeAtIndex(localeChallenges, key);
+
+    return _pickLocaleChallengeAtIndex(chosenSkill.challenges, locale, key)
+        || _pickLocaleChallengeAtIndex(chosenSkill.challenges, FRENCH_SPOKEN, key)
+        || _pickLocaleChallengeAtIndex(chosenSkill.challenges, FRENCH_FRANCE, key);
   }
 };
+
+function _pickLocaleChallengeAtIndex(challenges, locale, index) {
+  const localeChallenges = _.filter(challenges, ((challenge) => _.includes(challenge.locales, locale)));
+  const challenge = _.isEmpty(localeChallenges) ? null : _pickChallengeAtIndex(localeChallenges, index);
+  return challenge;
+}
 
 function _pickChallengeAtIndex(challenges, index) {
   return challenges[index % challenges.length];

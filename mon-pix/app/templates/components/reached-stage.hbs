@@ -1,0 +1,29 @@
+<div class="reached-stage">
+  <div class="reached-stage__left-container">
+    <div class="reached-stage__stars">
+      {{#each this.acquiredStars as |star|}}
+        <img
+          id="acquired-star-{{star}}"
+          src="{{this.rootURL}}/images/stage-plain-star.svg"
+          alt={{t 'pages.skill-review.stage.alt.acquiredStar' index=star}}/>
+      {{/each}}
+      {{#each this.unacquiredStars as |star|}}
+        <img
+          id="unacquired-star-{{star}}"
+          src="{{this.rootURL}}/images/stage-clear-star.svg"
+          alt={{t 'pages.skill-review.stage.alt.unacquiredStar' index=star}}/>
+      {{/each}}
+    </div>
+    <div class="reached-stage__percentage-text">
+      {{t 'pages.skill-review.stage.masteryPercentage' percentage=@percentage}}
+    </div>
+ </div>
+ <div class="reached-stage__right-container">
+   <div class="reached-stage__title">
+     {{@title}}
+   </div>
+   <div class="reached-stage__message">
+     {{@message}}
+   </div>
+ </div>
+</div>

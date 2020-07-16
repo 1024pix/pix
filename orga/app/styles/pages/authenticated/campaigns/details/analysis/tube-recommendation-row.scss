@@ -5,6 +5,7 @@
   font-size: 0.875rem;
 
   &--open {
+    margin-left: 16px;
     color: $grey-100;
     font-weight: 700;
   }
@@ -22,7 +23,15 @@
 }
 
 .tube-recommendation-tutorial {
+  height: 0;
+  border-top: none;
+
+  &--open {
+    height: 100%;
+  }
+
   &__column {
+    position: relative;
     padding-left: 52px;
     padding-right: 52px;
   }
@@ -31,6 +40,18 @@
     font-weight: 400;
     font-family: $open-sans;
     font-size: 1rem;
+  }
+}
+
+.tube-recommendation-tutorial-wrapper {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0s ease;
+
+  &--open {
+    height: auto;
+    max-height: 1000px;
+    transition: max-height 1s ease-out;
   }
 }
 
@@ -43,5 +64,16 @@
     a {
       font-weight: 500;
     }
+  }
+
+  &__details {
+    color: $grey-80;
+    font-family: $roboto;
+    font-size: .75rem;
+    font-weight: normal;
+  }
+
+  &__format {
+    text-transform: capitalize;
   }
 }

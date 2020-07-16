@@ -146,19 +146,6 @@
   font-size: 0.75rem;
 }
 
-.select {
-  font-size: 1rem;
-  border: 2px $grey-20 solid;
-  height: 46px;
-  background-color: $white;
-  border-radius: 3px;
-  outline: none;
-
-  &:focus {
-    border: 2px solid $blue;
-  }
-}
-
 .radio-button {
   -ms-transform: scale(0.0);
   -webkit-transform: scale(0.0);

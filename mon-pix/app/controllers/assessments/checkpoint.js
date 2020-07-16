@@ -1,52 +1,48 @@
-/* eslint ember/require-computed-property-dependencies: 0 */
-
-import classic from 'ember-classic-decorator';
-import { action, computed } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import Controller from '@ember/controller';
 
-const { and } = computed;
-
-@classic
 export default class CheckpointController extends Controller {
   queryParams = ['finalCheckpoint', 'newLevel', 'competenceLeveled'];
-  finalCheckpoint = false;
-  newLevel = null;
-  competenceLeveled = null;
-  isShowingModal = false;
-  answer = null;
-  challenge = null;
 
-  @and('model.showLevelup', 'newLevel')
-  showLevelup;
+  @service intl;
 
-  @computed('finalCheckpoint')
-  get nextPageButtonText() {
-    return this.finalCheckpoint ? 'Voir mes résultats' : 'Continuer mon parcours';
+  @tracked answer = null;
+  @tracked challenge = null;
+  @tracked competenceLeveled = null;
+  @tracked finalCheckpoint = false;
+  @tracked isShowingModal = false;
+  @tracked newLevel = null;
+
+  get showLevelup() {
+    return this.model.showLevelup && this.newLevel;
   }
 
-  @computed('finalCheckpoint', 'model.progression.completionPercentage')
+  get nextPageButtonText() {
+    return this.finalCheckpoint ? this.intl.t('pages.checkpoint.actions.next-page.results') : this.intl.t('pages.checkpoint.actions.next-page.continue');
+  }
+
   get completionPercentage() {
     return this.finalCheckpoint ? 100 : this.model.get('progression.completionPercentage');
   }
 
-  @computed('model.answersSinceLastCheckpoints')
   get shouldDisplayAnswers() {
     return !!this.model.answersSinceLastCheckpoints.length;
   }
 
-  @computed('finalCheckpoint')
   get pageTitle() {
-    return this.finalCheckpoint ? 'Fin de votre évaluation' : 'Avancement de l\'évaluation';
+    return this.finalCheckpoint ? this.intl.t('pages.checkpoint.title.end-of-assessment') : this.intl.t('pages.checkpoint.title.assessment-progress');
   }
 
   @action
   openComparisonWindow(answer) {
-    this.set('answer', answer);
-    this.set('isShowingModal', true);
+    this.answer = answer;
+    this.isShowingModal = true;
   }
 
   @action
   closeComparisonWindow() {
-    this.set('isShowingModal', false);
+    this.isShowingModal = false;
   }
 }

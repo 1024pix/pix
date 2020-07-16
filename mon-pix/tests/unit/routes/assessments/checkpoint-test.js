@@ -33,26 +33,22 @@ describe('Unit | Route | Assessments | Checkpoint', function() {
       route.set('store', storeStub);
     });
 
-    it('should force the progression reload (that has certainly changed since last time)', function() {
+    it('should force the progression reload (that has certainly changed since last time)', async function() {
       // when
-      const promise = route.afterModel(assessment);
+      await route.afterModel(assessment);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledWith(assessment.belongsTo, 'progression');
-        sinon.assert.calledOnce(reloadStub);
-      });
+      sinon.assert.calledWith(assessment.belongsTo, 'progression');
+      sinon.assert.calledOnce(reloadStub);
     });
 
-    it('should retrieve campaign with campaign code in assessment', function() {
+    it('should retrieve campaign with campaign code in assessment', async function() {
       // when
-      const promise = route.afterModel(assessment);
+      await route.afterModel(assessment);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledWith(storeStub.query, 'campaign', { filter: { code: assessment.codeCampaign } });
-        sinon.assert.calledOnce(getCampaignStub);
-      });
+      sinon.assert.calledWith(storeStub.query, 'campaign', { filter: { code: assessment.codeCampaign } });
+      sinon.assert.calledOnce(getCampaignStub);
     });
   });
 

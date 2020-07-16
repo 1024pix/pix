@@ -1,67 +1,148 @@
-/* eslint ember/no-classic-components: 0 */
-/* eslint ember/no-component-lifecycle-hooks: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
-import { classNames } from '@ember-decorators/component';
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
-import buttonStatusTypes from 'mon-pix/utils/button-status-types';
-import Component from '@ember/component';
-import classic from 'ember-classic-decorator';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import _ from 'lodash';
 
+import buttonStatusTypes from 'mon-pix/utils/button-status-types';
 import { topLevelLabels, questions } from 'mon-pix/static-data/feedback-panel-issue-labels';
 
-@classic
-@classNames('feedback-panel')
 export default class FeedbackPanel extends Component {
   @service store;
+  @service intl;
 
-  assessment = null;
-  challenge = null;
-
-  displayQuestionDropdown = false;
-  displayTextBox = null;
-  emptyTextBoxMessageError = null;
-  nextCategory = null;
-  isFormOpened = false;
-  quickHelpInstructions = null;
-  sendButtonStatus = buttonStatusTypes.unrecorded;
+  @tracked content = null;
+  @tracked displayQuestionDropdown = false;
+  @tracked displayTextBox = false;
+  @tracked emptyTextBoxMessageError = null;
+  @tracked isFormOpened = false;
+  @tracked isFormSubmitted = false;
+  @tracked nextCategory = null;
+  @tracked quickHelpInstructions = null;
 
   _category = null;
-  _content = null;
-  _isSubmitted = false;
   _questions = questions;
+  _sendButtonStatus = buttonStatusTypes.unrecorded;
 
-  @computed('context')
+  constructor(owner, args) {
+    super(owner, args);
+    this._resetPanel();
+  }
+
   get categories() {
-    const context = this.context === 'comparison-window' ? 'displayOnlyOnChallengePage' : 'displayOnlyOnComparisonWindow';
+    const context = this._isComparisonWindowContext ? 'displayOnlyOnChallengePage' : 'displayOnlyOnComparisonWindow';
     return topLevelLabels.filter((label) => !label[context]);
   }
 
   get isSendButtonDisabled() {
-    return this.sendButtonStatus === buttonStatusTypes.pending;
+    return this._sendButtonStatus === buttonStatusTypes.pending;
+  }
+
+  get isToggleFeedbackFormDisabled() {
+    return this.args.alwaysOpenForm;
+  }
+
+  @action
+  toggleFeedbackForm() {
+    if (this.isFormOpened) {
+      this.isFormOpened = false;
+      this._resetPanel();
+    } else {
+      this.isFormOpened = true;
+      this._scrollIntoFeedbackPanel();
+    }
+  }
+
+  @action
+  async sendFeedback(event) {
+    event && event.preventDefault();
+    if (this.isSendButtonDisabled) {
+      return;
+    }
+    this._sendButtonStatus = buttonStatusTypes.pending;
+    const content = this.content;
+
+    if (isEmpty(content) || isEmpty(content.trim())) {
+      this._sendButtonStatus = buttonStatusTypes.unrecorded;
+      this.emptyTextBoxMessageError = this.intl.t('pages.challenge.feedback-panel.form.status.error.empty-message');
+      return;
+    }
+
+    const feedback = this.store.createRecord('feedback', {
+      content: this.content,
+      category: this._category,
+      assessment: this.args.assessment,
+      challenge: this.args.challenge,
+      answer: _.get(this.args, 'answer.value', null),
+    });
+
+    try {
+      await feedback.save();
+      this.isFormSubmitted = true;
+      this._sendButtonStatus = buttonStatusTypes.recorded;
+      this._resetForm();
+    } catch (error) {
+      this._sendButtonStatus = buttonStatusTypes.unrecorded;
+    }
+  }
+
+  @action
+  displayCategoryOptions() {
+    this.displayTextBox = false;
+    this.quickHelpInstructions = null;
+    this.emptyTextBoxMessageError = null;
+    this.displayQuestionDropdown = false;
+
+    this.nextCategory = this._questions[event.target.value];
+    this._category = event.target.value;
+
+    if (this.nextCategory.length > 1) {
+      this.displayQuestionDropdown = true;
+    } else {
+      this._showFeedbackActionBasedOnCategoryType(this.nextCategory[0]);
+    }
+  }
+
+  @action
+  showFeedback() {
+    if (event.target.value === 'default') {
+      this.displayTextBox = false;
+      this.quickHelpInstructions = null;
+      this.emptyTextBoxMessageError = null;
+    }
+
+    this.emptyTextBoxMessageError = null;
+    this._category = this.nextCategory[event.target.value].name;
+    this._showFeedbackActionBasedOnCategoryType(this.nextCategory[event.target.value]);
   }
 
   _resetPanel() {
-    this.set('_isSubmitted', false);
-    this.set('emptyTextBoxMessageError', null);
+    this.isFormSubmitted = false;
+    this.emptyTextBoxMessageError = null;
+    this._resetForm();
+    if (this.args.alwaysOpenForm) {
+      this.isFormOpened = true;
+    }
   }
 
-  didReceiveAttrs() {
-    super.didReceiveAttrs();
-    this._resetPanel();
-    this.set('_content', null);
+  _resetForm() {
+    this.content = null;
+    this._category = null;
+    this.nextCategory = null;
+    this.displayTextBox = false;
+    this.tutorialContent = null;
+    this.displayQuestionDropdown = false;
   }
 
   _showFeedbackActionBasedOnCategoryType(category) {
-    this.set('displayTextBox', false);
-    this.set('quickHelpInstructions', null);
+    this.displayTextBox = false;
+    this.quickHelpInstructions = null;
 
     if (category.type === 'tutorial') {
-      this.set('quickHelpInstructions', category.content);
+      this.quickHelpInstructions = category.content;
     } else if (category.type === 'textbox') {
-      this.set('displayTextBox', true);
+      this.displayTextBox = true;
     }
   }
 
@@ -72,82 +153,8 @@ export default class FeedbackPanel extends Component {
     }
   }
 
-  @action
-  toggleFeedbackForm() {
-    if (this.isFormOpened) {
-      this.set('isFormOpened', false);
-      this._resetPanel();
-    } else {
-      this.set('isFormOpened', true);
-      this._scrollIntoFeedbackPanel();
-    }
+  get _isComparisonWindowContext() {
+    return this.args.context && this.args.context === 'comparison-window';
   }
 
-  @action
-  async sendFeedback() {
-    if (this.isSendButtonDisabled) {
-      return;
-    }
-    this.set('sendButtonStatus', buttonStatusTypes.pending);
-    const content = this._content;
-    const category = this._category;
-    const answer = this.answer ? this.answer.value : null;
-
-    if (isEmpty(content) || isEmpty(content.trim())) {
-      this.set('emptyTextBoxMessageError', 'Vous devez saisir un message.');
-      return;
-    }
-
-    const feedback = this.store.createRecord('feedback', {
-      content,
-      category,
-      assessment: this.assessment,
-      challenge: this.challenge,
-      answer,
-    });
-
-    try {
-      await feedback.save();
-      this.set('_isSubmitted', true);
-      this.set('_content', null);
-      this.set('_category', null);
-      this.set('nextCategory', null);
-      this.set('displayTextBox', false);
-      this.set('tutorialContent', null);
-      this.set('displayQuestionDropdown', false);
-      this.set('sendButtonStatus', buttonStatusTypes.recorded);
-    } catch (error) {
-      this.set('sendButtonStatus', buttonStatusTypes.unrecorded);
-    }
-  }
-
-  @action
-  displayCategoryOptions() {
-    this.set('displayTextBox', false);
-    this.set('quickHelpInstructions', null);
-    this.set('emptyTextBoxMessageError', null);
-    this.set('displayQuestionDropdown', false);
-
-    this.set('nextCategory', this._questions[event.target.value]);
-    this.set('_category', event.target.value);
-
-    if (this.nextCategory.length > 1) {
-      this.set('displayQuestionDropdown', true);
-    } else {
-      this._showFeedbackActionBasedOnCategoryType(this.nextCategory[0]);
-    }
-  }
-
-  @action
-  showFeedback() {
-    if (event.target.value === 'default') {
-      this.set('displayTextBox', false);
-      this.set('quickHelpInstructions', null);
-      this.set('emptyTextBoxMessageError', null);
-    }
-
-    this.set('emptyTextBoxMessageError', null);
-    this.set('_category', this.nextCategory[event.target.value].name);
-    this._showFeedbackActionBasedOnCategoryType(this.nextCategory[event.target.value]);
-  }
 }

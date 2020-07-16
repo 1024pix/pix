@@ -1,6 +1,6 @@
 import ApplicationAdapter from './application';
 
-export default class Student extends ApplicationAdapter {
+export default class StudentAdapter extends ApplicationAdapter {
   urlForQuery(query) {
     const { organizationId } = query.filter;
     delete query.filter.organizationId;

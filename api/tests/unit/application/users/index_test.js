@@ -190,9 +190,9 @@ describe('Unit | Router | user-router', () => {
     });
   });
 
-  describe('GET /api/users/{id}/certification-profile', function() {
+  describe('GET /api/users/{id}/is-certifiable', function() {
     beforeEach(() => {
-      sinon.stub(userController, 'getCertificationProfile').returns('ok');
+      sinon.stub(userController, 'isCertifiable').returns('ok');
       sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
       startServer();
     });
@@ -201,13 +201,13 @@ describe('Unit | Router | user-router', () => {
       // given
       const options = {
         method: 'GET',
-        url: '/api/users/42/certification-profile',
+        url: '/api/users/42/is-certifiable',
       };
 
       // when
       return server.inject(options).then(() => {
         // then
-        sinon.assert.calledOnce(userController.getCertificationProfile);
+        sinon.assert.calledOnce(userController.isCertifiable);
       });
     });
   });
@@ -252,28 +252,6 @@ describe('Unit | Router | user-router', () => {
       return server.inject(options).then(() => {
         // then
         sinon.assert.calledOnce(userController.getScorecards);
-      });
-    });
-  });
-
-  describe('GET /api/users/{id}/user-orga-settings', function() {
-    beforeEach(() => {
-      sinon.stub(userController, 'getUserOrgaSettings').returns('ok');
-      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
-      startServer();
-    });
-
-    it('should exist', () => {
-      // given
-      const options = {
-        method: 'GET',
-        url: '/api/users/12/user-orga-settings',
-      };
-
-      // when
-      return server.inject(options).then(() => {
-        // then
-        sinon.assert.calledOnce(userController.getUserOrgaSettings);
       });
     });
   });

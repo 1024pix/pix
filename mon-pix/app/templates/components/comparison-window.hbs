@@ -1,7 +1,7 @@
 <PixModal @class="comparison-window-modal" @onClose={{@closeComparisonWindow}}>
 
-  <div class="pix-modal__close-link" aria-label="Fermer" {{action (action @closeComparisonWindow)}}>
-    <span>Fermer</span>
+  <div class="pix-modal__close-link" aria-label={{t "common.actions.close"}} {{action (action @closeComparisonWindow)}}>
+    <span>{{t "common.actions.close"}}</span>
     <FaIcon @icon="times-circle" class="logged-user-menu__icon"></FaIcon>
   </div>
 
@@ -9,12 +9,13 @@
 
     <div class="pix-modal-header comparison-window-header">
       <div class="comparison-window__title">
-        <div title="{{this.resultItem.tooltip}}">
+        <div title="{{t this.resultItem.tooltip}}">
           <img class="comparison-window__result-icon comparison-window__result-icon--{{this.resultItem.status}}"
-               src={{this.resultItemIcon}} alt={{this.resultItem.tooltip}}>
+               src={{this.resultItemIcon}}
+               alt={{t this.resultItem.tooltip}}>
         </div>
       </div>
-      <div class="comparison-window__title-text">{{this.resultItem.title}}</div>
+      <div class="comparison-window__title-text">{{t this.resultItem.title}}</div>
     </div>
 
     <div class="comparison-window--content">
@@ -68,9 +69,7 @@
                     alt=""
                     class="comparison-windows__default-message-picto">
               </div>
-              <div class="comparison-windows__default-message-title">Bientôt ici des tutoriels pour vous aider à réussir ce type
-                d'épreuves !!
-              </div>
+              <div class="comparison-windows__default-message-title">{{t "pages.comparison-window.upcoming-tutorials"}}</div>
             </div>
           {{else}}
             <TutorialPanel @hint={{@answer.correction.hint}} @tutorials={{@answer.correction.tutorials}} />
@@ -81,7 +80,12 @@
 
       <div class="pix-modal-footer">
         <div class="comparison-window__feedback-panel">
-          <FeedbackPanel @assessment={{@answer.assessment}} @challenge={{@answer.challenge}} @context="comparison-window" @answer={{@answer}} @isFormOpened={{true}} />
+          <FeedbackPanel @assessment={{@answer.assessment}}
+                         @challenge={{@answer.challenge}}
+                         @context="comparison-window"
+                         @answer={{@answer}}
+                         @alwaysOpenForm={{true}}
+          />
         </div>
       </div>
     </div>

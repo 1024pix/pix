@@ -42,7 +42,7 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
       await click(find('.challenge-actions__action-validate'));
 
       expect(find('.alert')).to.exist;
-      expect(find('.alert').textContent.trim()).to.equal('Pour valider, veuillez remplir tous les champs réponse. Sinon, passer.');
+      expect(find('.alert').textContent.trim()).to.equal('Pour valider, veuillez remplir tous les champs réponse. Sinon, passez.');
     });
 
     it('should hide the alert error after the user interact with input text', async () => {

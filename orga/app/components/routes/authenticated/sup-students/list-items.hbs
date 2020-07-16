@@ -1,0 +1,65 @@
+<div class="list-students-page__header">
+  <div class="page__title page-title">Étudiants</div>
+  {{#if this.currentUser.isAdminInOrganization}}
+    <div class="list-students-page__import-students-button">
+      <a class="button button--link button--no-color"
+         href="{{this.urlToDownloadCsvTemplate}}" target="_blank" rel="noopener noreferrer" download>
+        Télécharger le modèle
+      </a>
+      <FileUpload @name="file-upload" @for="students-file-upload" @accept=".csv" @multiple={{false}} @onfileadd={{@importStudents}}>
+        <span class="button" role="button" tabindex="0">Importer (.csv)</span>
+      </FileUpload>
+    </div>
+  {{/if}}
+</div>
+
+<div class="panel">
+  <div class="table content-text content-text--small">
+    <table>
+      <thead>
+        <tr>
+          <Table::Header>Numéro étudiant</Table::Header>
+          <Table::Header>Nom</Table::Header>
+          <Table::Header>Prénom</Table::Header>
+          <Table::Header>Date de naissance</Table::Header>
+        </tr>
+        <tr>
+          <Table::Header/>
+          <Table::HeaderFilterInput
+            @field="lastName"
+            @value={{@lastNameFilter}}
+            @placeholder="Rechercher par nom"
+            @triggerFiltering={{@triggerFiltering}}
+          />
+          <Table::HeaderFilterInput
+            @field="firstName"
+            @value={{@firstNameFilter}}
+            @placeholder="Rechercher par prénom"
+            @triggerFiltering={{@triggerFiltering}}
+          />
+          <Table::Header/>
+          </tr>
+      </thead>
+
+      {{#if @students}}
+        <tbody>
+        {{#each @students as |student|}}
+          <tr aria-label="Étudiant">
+            <td>{{student.studentNumber}}</td>
+            <td>{{student.lastName}}</td>
+            <td>{{student.firstName}}</td>
+            <td>{{moment-format student.birthdate 'DD/MM/YYYY' allow-empty=true}}</td>
+          </tr>
+        {{/each}}
+
+        </tbody>
+      {{/if}}
+    </table>
+
+    {{#unless @students}}
+      <div class="table__empty content-text">Aucun étudiant.</div>
+    {{/unless}}
+  </div>
+</div>
+
+<PaginationControl @pagination={{@students.meta}}/>

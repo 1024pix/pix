@@ -4,14 +4,14 @@
 import Service from '@ember/service';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { setBreakpoint } from 'ember-responsive/test-support';
 
 describe('Integration | Component | navbar-mobile-header', function() {
 
-  setupRenderingTest();
+  setupIntlRenderingTest();
 
   context('when user is not logged', function() {
     beforeEach(async function() {

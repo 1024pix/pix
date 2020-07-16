@@ -23,19 +23,7 @@
     padding: 30px 0;
   }
 
-  &__progress-bar {
-    position: relative;
-  }
-
   &__label-text {
     margin-bottom: 10px;
-  }
-
-  &__check-shared {
-    margin-right: 3px;
-
-    &--green {
-      color: $success;
-    }
   }
 }

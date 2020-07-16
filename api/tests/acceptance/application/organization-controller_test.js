@@ -793,6 +793,7 @@ describe('Acceptance | Application | organization-controller', () => {
                 'username': user.username,
                 'email': user.email,
                 'is-authenticated-from-gar': true,
+                'student-number': schoolingRegistration.studentNumber,
               },
               'id': schoolingRegistration.id.toString(),
               'type': 'students'
@@ -1175,6 +1176,39 @@ describe('Acceptance | Application | organization-controller', () => {
       expect(response.statusCode).to.equal(404);
       const targetProfileShares = await knex('target-profile-shares').where({ organizationId });
       expect(targetProfileShares).to.have.lengthOf(0);
+    });
+  });
+
+  describe('GET /api/organizations/{id}/schooling-registrations/csv-template', function() {
+
+    let organization, accessToken;
+
+    beforeEach(async () => {
+      const userId = databaseBuilder.factory.buildUser().id;
+      organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
+      databaseBuilder.factory.buildMembership({
+        userId,
+        organizationId: organization.id,
+        organizationRole: Membership.roles.ADMIN,
+      });
+      await databaseBuilder.commit();
+
+      const authHeader = generateValidRequestAuthorizationHeader(userId);
+      accessToken = authHeader.replace('Bearer ', '');
+    });
+
+    it('should return csv file with statusCode 200', async () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: `/api/organizations/${organization.id}/schooling-registrations/csv-template?accessToken=${accessToken}`
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200, response.payload);
     });
   });
 });

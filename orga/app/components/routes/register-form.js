@@ -1,6 +1,7 @@
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import InputValidator from '../../utils/input-validator';
 
 import isEmailValid from '../../utils/email-validator';
@@ -22,8 +23,8 @@ export default class RegisterForm extends Component {
   };
 
   user = null;
-  isLoading = false;
-  isPasswordVisible = false;
+  @tracked isLoading = false;
+  @tracked isPasswordVisible = false;
 
   @computed('isPasswordVisible')
   get passwordInputType() {
@@ -47,24 +48,24 @@ export default class RegisterForm extends Component {
     if (this._isFormInvalid()) {
       return;
     }
-    this.set('isLoading', true);
+    this.isLoading = true;
     try {
       await this.user.save();
     } catch (e) {
-      this.set('isLoading', false);
+      this.isLoading = false;
       return this._updateInputsStatus();
     }
 
-    await this._acceptOrganizationInvitation(this.organizationInvitationId, this.organizationInvitationCode, this.get('user.email'));
-    await this._authenticate(this.get('user.email'), this.get('user.password'));
+    await this._acceptOrganizationInvitation(this.args.organizationInvitationId, this.args.organizationInvitationCode, this.user.email);
+    await this._authenticate(this.user.email, this.user.password);
 
-    this.set('user.password', null);
-    this.set('isLoading', false);
+    this.user.password = null;
+    this.isLoading = false;
   }
 
   @action
   togglePasswordVisibility() {
-    this.toggleProperty('isPasswordVisible');
+    this.isPasswordVisible = !this.isPasswordVisible;
   }
 
   @action
@@ -73,7 +74,7 @@ export default class RegisterForm extends Component {
   }
 
   _updateInputsStatus() {
-    const errors = this.get('user.errors');
+    const errors = this.user.errors;
     errors.forEach(({ attribute, message }) => this._setError(attribute, message));
   }
 
@@ -93,11 +94,9 @@ export default class RegisterForm extends Component {
   }
 
   _acceptOrganizationInvitation(organizationInvitationId, organizationInvitationCode, createdUserEmail) {
-    const status = 'accepted';
     return this.store.createRecord('organization-invitation-response', {
       id: organizationInvitationId + '_' + organizationInvitationCode,
       code: organizationInvitationCode,
-      status,
       email: createdUserEmail,
     }).save({ adapterOptions: { organizationInvitationId } });
   }
@@ -105,5 +104,10 @@ export default class RegisterForm extends Component {
   _authenticate(email, password) {
     const scope = 'pix-orga';
     return this.session.authenticate('authenticator:oauth2', email, password, scope);
+  }
+
+  willDestroy() {
+    this.user.unloadRecord();
+    super.willDestroy(...arguments);
   }
 }

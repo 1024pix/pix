@@ -15,6 +15,7 @@ describe('Unit | UseCase | find-tutorials', () => {
   let tubeRepository;
   let tutorialRepository;
   let userTutorialRepository;
+  let locale;
 
   beforeEach(() => {
     scorecardId = '1_recabC123';
@@ -25,6 +26,7 @@ describe('Unit | UseCase | find-tutorials', () => {
     skillRepository = { findActiveByCompetenceId: sinon.stub() };
     tubeRepository = { findByNames: sinon.stub() };
     tutorialRepository = { findByRecordIdsForCurrentUser: sinon.stub() };
+    locale = 'lang-country';
   });
 
   afterEach(() => {
@@ -51,6 +53,7 @@ describe('Unit | UseCase | find-tutorials', () => {
           skillRepository,
           tubeRepository,
           tutorialRepository,
+          locale,
         });
 
         // then
@@ -103,8 +106,8 @@ describe('Unit | UseCase | find-tutorials', () => {
 
           const inferredTutorialIdList = [inferredTutorial.id];
 
-          tutorialRepository.findByRecordIdsForCurrentUser.withArgs({ ids: tutorialIdList1, userId: authenticatedUserId }).returns([tutorial1, tutorial2]);
-          tutorialRepository.findByRecordIdsForCurrentUser.withArgs({ ids: tutorialIdList2, userId: authenticatedUserId }).returns([tutorial3]);
+          tutorialRepository.findByRecordIdsForCurrentUser.withArgs({ ids: tutorialIdList1, userId: authenticatedUserId, locale }).returns([tutorial1, tutorial2]);
+          tutorialRepository.findByRecordIdsForCurrentUser.withArgs({ ids: tutorialIdList2, userId: authenticatedUserId, locale }).returns([tutorial3]);
 
           tutorialRepository.findByRecordIdsForCurrentUser.withArgs({ ids: inferredTutorialIdList, userId: authenticatedUserId }).returns([inferredTutorial]);
 
@@ -160,7 +163,7 @@ describe('Unit | UseCase | find-tutorials', () => {
             }),
           ];
 
-          tubeRepository.findByNames.withArgs(tubeNames).returns(tubeList);
+          tubeRepository.findByNames.withArgs({ tubeNames, locale }).returns(tubeList);
         });
 
         it('should return the tutorials related to the scorecard', async () => {
@@ -172,6 +175,7 @@ describe('Unit | UseCase | find-tutorials', () => {
             skillRepository,
             tubeRepository,
             tutorialRepository,
+            locale,
           });
 
           //then

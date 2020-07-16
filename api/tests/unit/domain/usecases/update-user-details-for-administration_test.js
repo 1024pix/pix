@@ -9,6 +9,7 @@ describe('Unit | UseCase | update-user-details-for-administration', () => {
 
   beforeEach(() => {
     sinon.stub(userRepository, 'updateUserDetailsForAdministration');
+    sinon.stub(userRepository, 'isEmailAllowedToUseForCurrentUser');
   });
 
   it('should update user email,firstName,lastName', async () => {
@@ -19,7 +20,8 @@ describe('Unit | UseCase | update-user-details-for-administration', () => {
       firstName: 'firstName',
       lastName: 'lastName',
     };
-    userRepository.updateUserDetailsForAdministration.withArgs(userId,userToUpdate).resolves();
+
+    userRepository.isEmailAllowedToUseForCurrentUser.withArgs(userId,userToUpdate.email).resolves();
 
     // when
     await updateUserDetailsForAdministration_test({
@@ -40,7 +42,7 @@ describe('Unit | UseCase | update-user-details-for-administration', () => {
       email: 'partial@update.net',
     };
 
-    userRepository.updateUserDetailsForAdministration.withArgs(userId,userToUpdate).resolves();
+    userRepository.isEmailAllowedToUseForCurrentUser.withArgs(userId,userToUpdate.email).resolves();
 
     // when
     await updateUserDetailsForAdministration_test({

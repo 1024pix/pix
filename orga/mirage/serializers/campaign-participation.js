@@ -6,6 +6,9 @@ export default JSONAPISerializer.extend({
     return {
       'campaignAnalysis': {
         related: `/api/campaign-participations/${campaignParticipation.id}/analyses`
+      },
+      'campaignParticipationResult': {
+        related: `/api/campaign-participations/${campaignParticipation.id}/campaign-participation-result`
       }
     };
   }

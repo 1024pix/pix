@@ -1,18 +1,17 @@
 import { helper } from '@ember/component/helper';
-import _ from 'mon-pix/utils/lodash-custom';
 
 export function getChallengeComponentClass(params) {
   let result;
   const challenge = params[0];
   const challengeType = challenge.get('type').toUpperCase();
 
-  if (_(challengeType).isAmongst(['QCUIMG', 'QCU'])) {
+  if (['QCUIMG', 'QCU'].includes(challengeType)) {
     result = 'qcu';
-  } else if (_(challengeType).isAmongst(['QCMIMG', 'QCM'])) {
+  } else if (['QCMIMG', 'QCM'].includes(challengeType)) {
     result = 'qcm';
-  } else if (_(challengeType).isAmongst(['QROC'])) {
+  } else if (['QROC'].includes(challengeType)) {
     result = 'qroc';
-  } else if (_(challengeType).isAmongst(['QROCM', 'QROCM-IND', 'QROCM-DEP'])) {
+  } else if (['QROCM', 'QROCM-IND', 'QROCM-DEP'].includes(challengeType)) {
     result = 'qrocm';
   }
 

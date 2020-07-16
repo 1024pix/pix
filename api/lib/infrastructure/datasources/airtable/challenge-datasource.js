@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const datasource = require('./datasource');
-const { FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../../domain/constants').LOCALE;
+const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../../domain/constants').LOCALE;
 
 const VALIDATED_CHALLENGES = ['validé', 'validé sans test', 'pré-validé'];
 const OPERATIVE_CHALLENGES = [...VALIDATED_CHALLENGES, 'archivé'];
@@ -108,6 +108,15 @@ module.exports = datasource.extend({
       _.includes(OPERATIVE_CHALLENGES, challengeData.status));
   },
 
+  async _findOperativeHavingLocale(locale) {
+    const operativeChallenges = await this.findOperative();
+    return operativeChallenges.filter((challenge) => _.includes(challenge.locales, locale));
+  },
+
+  async findFrenchFranceOperative() {
+    return this._findOperativeHavingLocale(FRENCH_FRANCE);
+  },
+
   async findValidated() {
     const challenges = await this.list();
     return challenges.filter((challengeData) =>
@@ -121,6 +130,8 @@ function _convertLanguagesToLocales(languages) {
 
 function _convertLanguageToLocale(language) {
   switch (language) {
+    case 'Anglais':
+      return ENGLISH_SPOKEN;
     case 'Francophone':
       return FRENCH_SPOKEN;
     case 'Franco Français':

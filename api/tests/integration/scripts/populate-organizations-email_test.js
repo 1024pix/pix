@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, knex } = require('../../test-helper');
+const { expect, databaseBuilder, knex, sinon } = require('../../test-helper');
 
 const populateOrganizations = require('../../../scripts/populate-organizations-email');
 
@@ -12,6 +12,7 @@ describe('Integration | Scripts | populate-organizations-email.js', () => {
     beforeEach(async () => {
       databaseBuilder.factory.buildOrganization({ externalId: externalId1, email: 'first.last@example.net' });
       databaseBuilder.factory.buildOrganization({ externalId: externalId2 });
+      sinon.stub(console, 'error');
 
       await databaseBuilder.commit();
     });
@@ -21,6 +22,7 @@ describe('Integration | Scripts | populate-organizations-email.js', () => {
       const csvData = [
         { uai: 'uai1', email: 'uai1@example.net' },
         { uai: 'uai2', email: 'uai2@example.net' },
+        { uai: 'unknown', email: 'unknown@example.net' }
       ];
 
       // when
@@ -28,8 +30,10 @@ describe('Integration | Scripts | populate-organizations-email.js', () => {
 
       // then
       const organizations = await knex('organizations').select('externalId as uai', 'email');
-      expect(organizations).to.have.deep.members(csvData);
+      expect(organizations).to.deep.include(csvData[0]);
+      expect(organizations).to.deep.include(csvData[1]);
+      expect(organizations).to.not.deep.include(csvData[2]);
+      expect(console.error).to.have.been.calledWith('Organization not found for External ID unknown');
     });
-
   });
 });

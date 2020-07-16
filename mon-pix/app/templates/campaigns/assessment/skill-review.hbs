@@ -1,30 +1,30 @@
-{{title this.pageTitle}}
+{{page-title (t 'pages.skill-review.title')}}
 
-<div class="background-banner-wrapper">
+<PixBackgroundHeader>
   <div class="skill-review__banner">
     <AssessmentBanner @title={{this.model.assessment.title}} @displayHomeLink={{false}} />
   </div>
-  <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner skill-review__result-container">
+  <PixBlock @shadow="heavy" class="skill-review__result-container">
     {{#if (not this.model.campaignParticipation.campaign.isArchived )}}
       <h3 class="rounded-panel-title skill-review-result__abstract">
-        Vous maîtrisez
-        <span class="skill-review-result-abstract__percentage">
-          {{this.model.campaignParticipation.campaignParticipationResult.masteryPercentage}}%
-        </span>
-        <br> des compétences testées.
+        {{t 'pages.skill-review.abstract' percentage=this.model.campaignParticipation.campaignParticipationResult.masteryPercentage htmlSafe=true}}
       </h3>
       <div class="skill-review-result__share-container">
         {{#if this.model.campaignParticipation.isShared}}
-          <p class="skill-review-share__thanks">Merci, vos résultats ont bien été envoyés !</p>
-          <LinkTo @route="index" class="skill-review-share__back-to-home link">Continuez votre expérience Pix</LinkTo>
+          <p class="skill-review-share__thanks">
+            {{t 'pages.skill-review.already-shared'}}
+          </p>
+          <LinkTo @route="index" class="skill-review-share__back-to-home link">
+            {{t 'pages.skill-review.actions.continue'}}
+          </LinkTo>
         {{else}}
           <p class="skill-review-share__legal">
-            Envoyez vos résultats à l'organisateur du parcours pour qu'il puisse vous accompagner.
+            {{t 'pages.skill-review.send-results'}}
           </p>
 
           {{#if this.displayErrorMessage}}
             <div class="skill-review-share__error" aria-live="polite">
-              Vous ne pouvez pas encore envoyer vos résultats, nous avons encore quelques questions à vous poser.
+              {{t 'pages.skill-review.not-finished'}}
             </div>
           {{/if}}
 
@@ -33,23 +33,51 @@
               <span class="loader-in-button">&nbsp;</span>
             </button>
           {{else}}
-            <button class="button button--extra-big skill-review-share__button" {{on "click"
-                                                                                     this.shareCampaignParticipation}}>
-              J'envoie mes résultats
+            <button class="button button--extra-big skill-review-share__button" {{on "click" this.shareCampaignParticipation}} type="button">
+              {{t 'pages.skill-review.actions.send'}}
             </button>
           {{/if}}
         {{/if}}
       </div>
+
+      {{#if this.reachedStage}}
+        <ReachedStage
+          @stageCount={{this.stageCount}}
+          @title={{this.reachedStage.title}}
+          @message={{this.reachedStage.message}}
+          @starCount={{this.reachedStage.starCount}}
+          @percentage={{model.campaignParticipation.campaignParticipationResult.masteryPercentage}}
+        />
+      {{/if}}
+
+      {{#if this.showBadges}}
+        <div class="badge-acquired-container">
+          {{#each this.acquiredBadges as |badge|}}
+            <BadgeAcquiredCard
+              @title={{badge.title}}
+              @message={{badge.message}}
+              @imageUrl={{badge.imageUrl}}
+              @altMessage={{badge.altMessage}}
+            />
+          {{/each}}
+        </div>
+        <div class="skill-review-result__dash-line"></div>
+      {{/if}}
+
       {{#if this.displayImprovementButton}}
         {{#unless model.campaignParticipation.isShared}}
           <div class="skill-review-result__dash-line"></div>
           <div class="skill-review__begin-improvement">
-            <div><h2 class="skill-review__subtitle">Envie d'améliorer vos résultats ?</h2>
-              <p class="skill-review__explain-text">Vous pouvez retenter certaines questions</p>
+            <div>
+              <h2 class="skill-review__subtitle">
+                {{t 'pages.skill-review.try-again.title'}}
+              </h2>
+              <p class="skill-review__explain-text">
+                {{t 'pages.skill-review.try-again.description'}}
+              </p>
             </div>
-            <button class="button button--dark-grey button--big skill-review__improvement-button" {{on "click"
-                                                                                                       this.improvementCampaignParticipation}}>
-              Je retente
+            <button class="button button--dark-grey button--big skill-review__improvement-button" {{on "click" this.improvementCampaignParticipation}} type="button">
+              {{t 'pages.skill-review.actions.try-again'}}
             </button>
           </div>
         {{/unless}}
@@ -57,27 +85,22 @@
     {{else}}
       <div class="skill-review__campaign-archived">
         <img class="skill-reviw__campaign-archived-image " src="{{this.rootURL}}/images/bees/fat-bee.svg">
-        <p class="skill-review__campaign-archived-text">Ce parcours a été archivé par l'organisateur.
-          <br> L'envoi des résultats n'est plus possible mais ils sont bien pris en compte dans votre parcours.</p>
-        <LinkTo @route="index" class="skill-review-share__back-to-home link">Continuez votre expérience Pix</LinkTo>
+        <p class="skill-review__campaign-archived-text">
+          {{t 'pages.skill-review.archived' htmlSafe=true}}
+        </p>
+        <LinkTo @route="index" class="skill-review-share__back-to-home link">
+          {{t 'pages.skill-review.actions.continue'}}
+        </LinkTo>
       </div>
     {{/if}}
     <div class="skill-review-result__dash-line"></div>
 
-    {{#if this.showBadges}}
-      <div class="badge-acquired-container">
-        {{#each this.acquiredBadges as |badge|}}
-          <BadgeAcquiredCard @title="{{badge.title}}" @message="{{badge.message}}" @imageUrl="{{badge.imageUrl}}"
-                             @altMessage="{{badge.altMessage}}"/>
-        {{/each}}
-      </div>
-      <div class="skill-review-result__dash-line"></div>
-    {{/if}}
-
-    <div class="skill-review-result__table-header">
-      <h2 class="skill-review-result__subtitle">Vos résultats détaillés</h2>
+   <div class="skill-review-result__table-header">
+      <h2 class="skill-review-result__subtitle">
+        {{t 'pages.skill-review.details.title'}}
+      </h2>
       <CircleChart @value={{this.model.campaignParticipation.campaignParticipationResult.masteryPercentage}}>
-        <span aria-label="Résultat global" class="skill-review-table-header__circle-chart-value">
+        <span aria-label="{{t "pages.skill-review.details.result"}}" class="skill-review-table-header__circle-chart-value">
           {{@model.campaignParticipation.campaignParticipationResult.masteryPercentage}}%
         </span>
       </CircleChart>
@@ -86,15 +109,15 @@
     <table class="default-table">
       <thead>
       <tr>
-        <th>Compétences testées</th>
-        <th>Résultats</th>
+        <th>{{t 'pages.skill-review.details.header-skill'}}</th>
+        <th>{{t 'pages.skill-review.details.header-result'}}</th>
       </tr>
       </thead>
 
       <tbody>
       {{#if this.showCleaCompetences}}
         {{#each this.model.campaignParticipation.campaignParticipationResult.cleaBadge.partnerCompetenceResults as |partnerCompetence|}}
-          <tr aria-label="Résultats par compétence">
+          <tr aria-label="{{t "pages.skill-review.details.result-by-skill"}}">
             <td>
               <span class="skill-review-competence__bullet skill-review-competence__bullet--{{partnerCompetence.areaColor}}">&#8226;</span>
               <span>{{partnerCompetence.name}}</span>
@@ -102,16 +125,14 @@
             <td>
               <ProgressionGauge @total={{partnerCompetence.totalSkillsCountPercentage}}
                                 @value={{partnerCompetence.masteryPercentage}}>
-                <p class="sr-only">Vous avez validé </p>{{partnerCompetence.masteryPercentage}}%<p class="sr-only"> de
-                la
-                compétence {{partnerCompetence.name}}.</p>
+                {{t 'pages.skill-review.details.skill-progress' percentage=partnerCompetence.masteryPercentage skill=partnerCompetence.name htmlSafe=true}}
               </ProgressionGauge>
             </td>
           </tr>
         {{/each}}
       {{else}}
         {{#each this.model.campaignParticipation.campaignParticipationResult.competenceResults as |competence|}}
-          <tr aria-label="Résultats par compétence">
+          <tr aria-label="{{t "pages.skill-review.details.result-by-skill"}}">
             <td>
               <span class="skill-review-competence__bullet skill-review-competence__bullet--{{competence.areaColor}}">&#8226;</span>
               <span>{{competence.name}}</span>
@@ -119,8 +140,7 @@
             <td>
               <ProgressionGauge @total={{competence.totalSkillsCountPercentage}}
                                 @value={{competence.masteryPercentage}}>
-                <p class="sr-only">Vous avez validé </p>{{competence.masteryPercentage}}%<p class="sr-only"> de la
-                compétence {{competence.name}}.</p>
+                {{t 'pages.skill-review.details.skill-progress' percentage=competence.masteryPercentage skill=competence.name htmlSafe=true}}
               </ProgressionGauge>
             </td>
           </tr>
@@ -133,10 +153,9 @@
     <div class="skill-review-result__information">
       {{fa-icon 'info-circle' class='skill-review-information__info-icon'}}
       <div class="skill-review-information__text">
-        Si vous avez déjà effectué des parcours sur Pix, les questions auxquelles vous aviez répondu ne vous ont pas été
-        posées de nouveau. En revanche, le résultat affiché ici tient compte de l’ensemble de vos réponses.
+        {{t 'pages.skill-review.information'}}
       </div>
     </div>
 
-  </div>
-</div>
+  </PixBlock>
+</PixBackgroundHeader>

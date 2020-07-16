@@ -1,6 +1,6 @@
 import ApplicationAdapter from './application';
 
-export default class User extends ApplicationAdapter {
+export default class UserAdapter extends ApplicationAdapter {
   urlForQueryRecord(query) {
     if (query.me) {
       delete query.me;

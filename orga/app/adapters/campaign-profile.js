@@ -1,6 +1,6 @@
 import ApplicationAdapter from './application';
 
-export default class CampaignProfile extends ApplicationAdapter {
+export default class CampaignProfileAdapter extends ApplicationAdapter {
   urlForQueryRecord(query) {
     const { campaignId, campaignParticipationId } = query;
     delete query.campaignId;

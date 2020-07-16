@@ -6,6 +6,7 @@ const CampaignParticipation = require('../../../../lib/domain/models/CampaignPar
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const Skill = require('../../../../lib/domain/models/Skill');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
+const knowledgeElementSnapshotRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
 
 describe('Integration | Repository | Campaign Participation', () => {
 
@@ -361,7 +362,7 @@ describe('Integration | Repository | Campaign Participation', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return the campaign-participation links to the given campaign', async () => {
+    it('should return the campaign-participation linked to the given campaign', async () => {
       // given
       const campaignId = campaign1.id;
 
@@ -370,7 +371,7 @@ describe('Integration | Repository | Campaign Participation', () => {
 
       // then
       const attributes = participationResultDatas.map((participationResultData) =>
-        _.pick(participationResultData, ['id', 'isShared', 'sharedAt', 'participantExternalId', 'userId', 'participantFirstName', 'participantLastName']));
+        _.pick(participationResultData, ['id', 'isShared', 'sharedAt', 'participantExternalId', 'userId']));
       expect(attributes).to.deep.equal([
         {
           id: campaignParticipation1.id,
@@ -378,10 +379,49 @@ describe('Integration | Repository | Campaign Participation', () => {
           sharedAt: campaignParticipation1.sharedAt,
           participantExternalId: campaignParticipation1.participantExternalId,
           userId: campaignParticipation1.userId,
-          participantFirstName: 'First',
-          participantLastName: 'Last',
         }
       ]);
+    });
+
+    context('when the participant is not linked to a schooling registration', () => {
+      it('should return the campaign participation with firstName and lastName from the user', async () => {
+        // given
+        const campaignId = campaign1.id;
+
+        // when
+        const participationResultDatas = await campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId(campaignId);
+
+        // then
+        const attributes = participationResultDatas.map((participationResultData) =>
+          _.pick(participationResultData, ['participantFirstName', 'participantLastName']));
+        expect(attributes).to.deep.equal([{
+          participantFirstName: 'First',
+          participantLastName: 'Last',
+        }]);
+      });
+    });
+
+    context('when the participant is linked to a schooling registration', () => {
+      beforeEach(async () => {
+        databaseBuilder.factory.buildSchoolingRegistration({ firstName: 'Hubert', lastName: 'Parterre', userId, organizationId: campaign1.organizationId });
+        await databaseBuilder.commit();
+      });
+
+      it('should return the campaign participation with firstName and lastName from the schooling registration', async () => {
+        // given
+        const campaignId = campaign1.id;
+
+        // when
+        const participationResultDatas = await campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId(campaignId);
+
+        // then
+        const attributes = participationResultDatas.map((participationResultData) =>
+          _.pick(participationResultData, ['participantFirstName', 'participantLastName']));
+        expect(attributes).to.deep.equal([{
+          participantFirstName: 'Hubert',
+          participantLastName: 'Parterre',
+        }]);
+      });
     });
 
     context('When sharedAt is null', () => {
@@ -572,115 +612,11 @@ describe('Integration | Repository | Campaign Participation', () => {
 
   });
 
-  describe('#findPaginatedCampaignParticipations', () => {
-
-    const assessmentId1 = 1;
-    const assessmentId2 = 2;
-    let campaignId;
-
-    const oldDate = new Date('2018-02-03');
-    const recentDate = new Date('2018-05-06');
-    const futurDate = new Date('2018-07-10');
-
-    beforeEach(async () => {
-
-      const pixMembers = [
-        {
-          firstName: 'Mélanie',
-          lastName: 'Darboo',
-          assessmentId: assessmentId2,
-          knowledgeElements: [
-            { skillId: '@web3', createdAt: oldDate },
-            { skillId: '@web3', createdAt: oldDate },
-            { skillId: '@web4', createdAt: oldDate },
-            { skillId: '@web5', createdAt: futurDate },
-          ]
-        },
-        { firstName: 'Matteo', lastName: 'Lorenzio', knowledgeElements: [] },
-        {
-          firstName: 'Jérémy',
-          lastName: 'Bugietta',
-          assessmentId: assessmentId1,
-          knowledgeElements: [
-            { skillId: '@web2', createdAt: oldDate },
-            { skillId: '@web1', createdAt: oldDate },
-          ]
-        },
-        { firstName: 'Léo', lastName: 'Subzéro', knowledgeElements: [] },
-      ];
-
-      campaignId = databaseBuilder.factory.buildCampaign().id;
-      const insertPixMember = (member) => {
-        const { id: userId } = databaseBuilder.factory.buildUser(member);
-        const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId, sharedAt: recentDate });
-        databaseBuilder.factory.buildAssessment({ userId, campaignParticipationId, id: member.assessmentId });
-        for (const ke of member.knowledgeElements) {
-          databaseBuilder.factory.buildKnowledgeElement({ ...ke, userId, });
-        }
-      };
-
-      pixMembers.forEach(insertPixMember);
-
-      await databaseBuilder.commit();
-    });
-
-    it('should return paginated campaign participations including users sorted by name, lastname, their assessment and uniq knowledge elements', async () => {
-      // given
-      const options = { filter: { campaignId }, sort: [], include: ['user'], page: { number: 1, size: 2 } };
-      // when
-      const foundCampaignParticipation = await campaignParticipationRepository.findPaginatedCampaignParticipations(options);
-      const foundUserLastNames = _(foundCampaignParticipation.models).map('user').map('lastName').value();
-      const foundAssessmentIds = _.map(foundCampaignParticipation.models, 'assessmentId');
-      const foundKnowledgeElementsSkillsIds = _(foundCampaignParticipation.models).map('user').map('knowledgeElements').flatten().map('skillId').value();
-      // then
-      expect(foundUserLastNames).to.deep.equal(['Bugietta', 'Darboo']);
-      expect(foundAssessmentIds).to.deep.equal([assessmentId1, assessmentId2]);
-      expect(foundKnowledgeElementsSkillsIds).to.have.members(['@web1', '@web2', '@web3', '@web4']);
-      expect(foundCampaignParticipation.models[0].assessmentId).to.equal(assessmentId1);
-      expect(foundCampaignParticipation.models[0].user.knowledgeElements[0]).to.be.instanceOf(KnowledgeElement);
-    });
-
-    it('should return paginated campaign participations sorted by lastname and firstname', async () => {
-      // given
-      const options = { filter: { campaignId }, sort: [], include: ['user'], page: {} };
-      const { id: userId } = databaseBuilder.factory.buildUser({ lastName: 'Bugietta', firstName: 'Anna' });
-
-      const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId, sharedAt: recentDate, createdAt: recentDate });
-      databaseBuilder.factory.buildAssessment({ userId, campaignParticipationId });
-      await databaseBuilder.commit();
-
-      // when
-      const foundCampaignParticipation = await campaignParticipationRepository.findPaginatedCampaignParticipations(options);
-      const foundUserLastNames = _(foundCampaignParticipation.models).map('user').map('lastName').value();
-      const foundUserFirstNames = _(foundCampaignParticipation.models).map('user').map('firstName').value();
-
-      // then
-      expect(foundUserLastNames).to.deep.equal(['Bugietta', 'Bugietta', 'Darboo', 'Lorenzio', 'Subzéro']);
-      expect(foundUserFirstNames).to.deep.equal(['Anna', 'Jérémy', 'Mélanie', 'Matteo', 'Léo']);
-    });
-
-    it('should return paginated campaign participations sorted with no case sensitive', async () => {
-      // given
-      const options = { filter: { campaignId }, sort: [], include: ['user'], page: {} };
-      const { id: userId } = databaseBuilder.factory.buildUser({ lastName: 'BUGIETTA', firstName: 'Anna' });
-      const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId, sharedAt: recentDate, createdAt: recentDate });
-      databaseBuilder.factory.buildAssessment({ userId, campaignParticipationId });
-
-      await databaseBuilder.commit();
-
-      // when
-      const foundCampaignParticipation = await campaignParticipationRepository.findPaginatedCampaignParticipations(options);
-      const foundUserLastNames = _(foundCampaignParticipation.models).map('user').map('lastName').value();
-
-      // then
-      expect(foundUserLastNames).to.deep.equal(['BUGIETTA', 'Bugietta', 'Darboo', 'Lorenzio', 'Subzéro']);
-    });
-  });
-
   describe('#share', () => {
 
     let campaignParticipation;
     const frozenTime = new Date('1987-09-01T00:00:00Z');
+    let knowledgeElement;
 
     beforeEach(async () => {
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
@@ -688,19 +624,36 @@ describe('Integration | Repository | Campaign Participation', () => {
         sharedAt: null,
       });
 
+      knowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId: campaignParticipation.userId, createdAt: new Date('1985-09-01T00:00:00Z') });
+
       sinon.useFakeTimers(frozenTime);
 
       await databaseBuilder.commit();
+      sinon.stub(knowledgeElementSnapshotRepository, 'save');
     });
 
-    it('should return the shared campaign-participation', () => {
+    afterEach(() => {
+      knowledgeElementSnapshotRepository.save.restore();
+    });
+
+    it('should return the shared campaign-participation', async () => {
       // when
-      const promise = campaignParticipationRepository.share(campaignParticipation);
+      const updatedCampaignParticipation = await campaignParticipationRepository.share(campaignParticipation);
 
       // then
-      return promise.then((updatedCampaignParticipation) => {
-        expect(updatedCampaignParticipation.isShared).to.be.true;
-        expect(updatedCampaignParticipation.sharedAt).to.deep.equal(frozenTime);
+      expect(updatedCampaignParticipation.isShared).to.be.true;
+      expect(updatedCampaignParticipation.sharedAt).to.deep.equal(frozenTime);
+    });
+
+    it('should save a snapshot', async () => {
+      // when
+      await campaignParticipationRepository.share(campaignParticipation);
+
+      // then
+      sinon.assert.calledWith(knowledgeElementSnapshotRepository.save, {
+        userId: campaignParticipation.userId,
+        snappedAt: frozenTime,
+        knowledgeElements: [new KnowledgeElement(knowledgeElement)],
       });
     });
   });

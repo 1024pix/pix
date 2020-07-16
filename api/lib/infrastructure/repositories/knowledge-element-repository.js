@@ -5,6 +5,7 @@ const { knex } = require('../bookshelf');
 const KnowledgeElement = require('../../domain/models/KnowledgeElement');
 const BookshelfKnowledgeElement = require('../data/knowledge-element');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot-repository');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 function _getUniqMostRecents(knowledgeElements) {
@@ -57,6 +58,14 @@ async function _filterValidatedKnowledgeElementsByCampaignId(knowledgeElements, 
   });
 }
 
+async function _findByUserIdAndLimitDateThenSaveSnapshot({ userId, limitDate }) {
+  const knowledgeElements = await _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate });
+  if (limitDate) {
+    await knowledgeElementSnapshotRepository.save({ userId, snappedAt: limitDate, knowledgeElements });
+  }
+  return knowledgeElements;
+}
+
 module.exports = {
 
   async save(knowledgeElement) {
@@ -67,10 +76,7 @@ module.exports = {
   },
 
   async findUniqByUserId({ userId, limitDate }) {
-    const knowledgeElementRows = await _findByUserIdAndLimitDateQuery({ userId, limitDate });
-
-    const knowledgeElements = _.map(knowledgeElementRows, (knowledgeElementRow) => new KnowledgeElement(knowledgeElementRow));
-    return _applyFilters(knowledgeElements);
+    return _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate });
   },
 
   async findUniqByUserIdAndAssessmentId({ userId, assessmentId }) {
@@ -123,7 +129,33 @@ module.exports = {
     ));
 
     return _filterValidatedKnowledgeElementsByCampaignId(knowledgeElements, campaignId);
+  },
 
+  async findSnapshotGroupedByCompetencesForUsers(userIdsAndDates) {
+    const knowledgeElementsGroupedByUser = await this.findSnapshotForUsers(userIdsAndDates);
+
+    for (const [userId, knowledgeElements] of Object.entries(knowledgeElementsGroupedByUser)) {
+      knowledgeElementsGroupedByUser[userId] = _.groupBy(knowledgeElements, 'competenceId');
+    }
+    return knowledgeElementsGroupedByUser;
+  },
+
+  async findSnapshotForUsers(sharedAtDatesByUsers) {
+    const knowledgeElementsGroupedByUser = await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(sharedAtDatesByUsers);
+
+    for (const [userIdStr, knowledgeElementsFromSnapshot] of Object.entries(knowledgeElementsGroupedByUser)) {
+      const userId = parseInt(userIdStr);
+      let knowledgeElements = knowledgeElementsFromSnapshot;
+      if (!knowledgeElements) {
+        knowledgeElements = await _findByUserIdAndLimitDateThenSaveSnapshot({
+          userId,
+          limitDate: sharedAtDatesByUsers[userId],
+        });
+      }
+      knowledgeElementsGroupedByUser[userId] = knowledgeElements;
+    }
+    return knowledgeElementsGroupedByUser;
   }
+
 };
 

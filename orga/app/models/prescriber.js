@@ -1,14 +1,16 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
+const { belongsTo, Model, attr, hasMany } = DS;
 
-export default DS.Model.extend({
-  firstName: DS.attr('string'),
-  lastName: DS.attr('string'),
-  pixOrgaTermsOfServiceAccepted: DS.attr('boolean'),
-  memberships: DS.hasMany('membership'),
-  userOrgaSettings: DS.belongsTo('user-orga-setting'),
+export default class Prescriber extends Model {
+  @attr('string') firstName;
+  @attr('string') lastName;
+  @attr('boolean') pixOrgaTermsOfServiceAccepted;
+  @hasMany('membership') memberships;
+  @belongsTo('user-orga-setting') userOrgaSettings;
 
-  fullName: computed('firstName', 'lastName', function() {
-    return `${this.get('firstName')} ${this.get('lastName')}`;
-  })
-});
+  @computed('firstName', 'lastName')
+  get fullName() {
+    return `${this.firstName} ${this.lastName}`;
+  }
+}

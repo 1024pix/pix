@@ -17,7 +17,7 @@ export default class User extends Model {
   @attr('string') recaptchaToken;
 
   // includes
-  @belongsTo('certification-profile') certificationProfile;
+  @belongsTo('is-certifiable') isCertifiable;
   @belongsTo('pix-score') pixScore;
   @hasMany('campaign-participation') campaignParticipations;
   @hasMany('certification') certifications;

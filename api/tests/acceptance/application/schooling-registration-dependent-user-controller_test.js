@@ -80,7 +80,7 @@ describe('Acceptance | Controller | Schooling-registration-dependent-user', () =
 
           // then
           expect(response.statusCode).to.equal(409);
-          expect(response.result.errors[0].detail).to.equal('L\'élève est déjà rattaché à un compte utilisateur.');
+          expect(response.result.errors[0].detail).to.equal('Un compte existe déjà pour l‘élève dans le même établissement.');
         });
       });
 
@@ -134,6 +134,105 @@ describe('Acceptance | Controller | Schooling-registration-dependent-user', () =
           expect(response.result.errors[0].detail).to.equal('Cet identifiant n’est plus disponible, merci de recharger la page.');
         });
       });
+    });
+  });
+
+  describe('POST /api/schooling-registration-dependent-users/generate-username-password', () => {
+
+    let organizationId;
+    let schoolingRegistrationId;
+    let options;
+
+    beforeEach(async () => {
+      organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
+      const user = databaseBuilder.factory.buildUser();
+      user.username = null;
+      const userId = user.id;
+      databaseBuilder.factory.buildMembership({ organizationId, userId });
+      schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId, userId
+      }).id;
+      await databaseBuilder.commit();
+
+      options = {
+        method: 'POST',
+        url: '/api/schooling-registration-dependent-users/generate-username-password',
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        payload: {
+          data: {
+            attributes: {
+              'organization-id': organizationId,
+              'schooling-registration-id': schoolingRegistrationId,
+            }
+          }
+        }
+      };
+    });
+
+    it('should return a 200 status after having successfully generated username and temporary password', async () => {
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+
+    });
+
+    it('should return a 404 status when schoolingRegistration does not exist', async () => {
+      // given
+      options.payload.data.attributes['schooling-registration-id'] = 0;
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(404);
+    });
+
+    it('should return a 404 status when schoolingRegistration\'s userId does not exist', async () => {
+      // given
+      const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId, userId: null
+      }).id;
+      options.payload.data.attributes['schooling-registration-id'] = schoolingRegistrationId;
+
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(404);
+    });
+
+    it('should return a 403 status when student does not belong to the same organization as schoolingRegistration', async () => {
+      // given
+      options.payload.data.attributes['organization-id'] = 0;
+      options.payload.data.attributes['schooling-registration-id'] = schoolingRegistrationId;
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+
+    it('should return a 403 status when user does not belong to the same organization as schoolingRegistration', async () => {
+      // given
+      const wrongOrganization = databaseBuilder.factory.buildOrganization();
+      const schoolingRegistrationWithWrongOrganization = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: wrongOrganization.id,
+      });
+      await databaseBuilder.commit();
+
+      options.payload.data.attributes['schooling-registration-id'] = schoolingRegistrationWithWrongOrganization.id;
+      options.payload.data.attributes['organization-id'] = wrongOrganization.id;
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(403);
     });
   });
 

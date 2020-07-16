@@ -3,7 +3,7 @@
 
 import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { resolve, reject } from 'rsvp';
 import {
   click,
@@ -25,7 +25,7 @@ const EMPTY_EMAIL_ERROR_MESSAGE = 'Votre email n’est pas valide.';
 const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.';
 
 describe('Integration | Component | routes/register-form', function() {
-  setupRenderingTest();
+  setupIntlRenderingTest();
 
   let sessionStub;
   let storeStub;
@@ -236,8 +236,8 @@ describe('Integration | Component | routes/register-form', function() {
       it(`should display an error message on email field, when '${stringFilledIn}' is typed and focused out`, async function() {
         // given
         this.set('matchingStudentFound', true);
-        this.set('studentDependentUser', EmberObject.create({ email : stringFilledIn , unloadRecord() {return resolve();}  }));
-        await render(hbs`{{routes/register-form matchingStudentFound=true studentDependentUser=studentDependentUser}}`);
+        this.set('schoolingRegistrationDependentUser', EmberObject.create({ email : stringFilledIn , unloadRecord() {return resolve();}  }));
+        await render(hbs`{{routes/register-form matchingStudentFound=true schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
 
         // when
         await click('.pix-toggle__off');
@@ -259,8 +259,8 @@ describe('Integration | Component | routes/register-form', function() {
       it(`should display an error message on password field, when '${stringFilledIn}' is typed and focused out`, async function() {
         // given
         this.set('matchingStudentFound', true);
-        this.set('studentDependentUser', EmberObject.create({ password : stringFilledIn , unloadRecord() {return resolve();}  }));
-        await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound studentDependentUser=studentDependentUser}}`);
+        this.set('schoolingRegistrationDependentUser', EmberObject.create({ password : stringFilledIn , unloadRecord() {return resolve();}  }));
+        await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
 
         // when
         await fillIn('#password', stringFilledIn);
@@ -273,7 +273,7 @@ describe('Integration | Component | routes/register-form', function() {
     });
 
     [
-      { status: '404', errorMessage: 'Vous êtes enseignant ? L’accès à un parcours n’est pas disponible pour le moment. Vous êtes un élève ? Vérifiez vos informations afin de continuer ou prévenez l’organisateur de votre parcours.' },
+      { status: '404', errorMessage: 'Vous êtes un élève ? <br> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant. <br><br> Vous êtes un enseignant ? <br> L’accès à un parcours n’est pas disponible pour le moment.' },
       { status: '409', errorMessage: 'Vous possédez déjà un compte Pix. Veuillez vous connecter.' },
     ].forEach(({ status, errorMessage }) => {
       it(`should display an error message if user saves with an error response status ${status}`, async function() {
@@ -299,7 +299,7 @@ describe('Integration | Component | routes/register-form', function() {
           return resolve();
         };
 
-        await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound studentDependentUser=studentDependentUser}}`);
+        await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
 
         await fillIn('#firstName', 'pix');
         await fillIn('#lastName', 'pix');
@@ -309,7 +309,7 @@ describe('Integration | Component | routes/register-form', function() {
 
         await click('#submit-search');
 
-        expect(find('.register-form__error').textContent).to.equal(errorMessage);
+        expect(find('.register-form__error').innerHTML).to.equal(errorMessage);
       });
     });
   });

@@ -14,16 +14,39 @@ describe('Integration | Application | Organization-invitations | Routes', () => 
   describe('POST /api/organization-invitations/:id/response', () => {
 
     beforeEach(async () => {
-      sinon.stub(organisationInvitationController, 'answerToOrganizationInvitation').callsFake((request, h) => h.response().code(204));
+      sinon.stub(organisationInvitationController, 'acceptOrganizationInvitation').callsFake((request, h) => h.response().code(204));
       await server.register(route);
     });
 
-    it('should exist', async () => {
+    it('should return 200 when payload is valid', async () => {
+
+      const options = {
+        method: 'POST',
+        url: '/api/organization-invitations/1/response',
+        payload: {
+          data: {
+            id: '100047_DZWMP7L5UM',
+            type: 'organization-invitation-responses',
+            attributes: {
+              code: 'DZWMP7L5UM',
+              email: 'user@example.net'
+            },
+          }
+        }
+      };
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+
+    it('should return 400 when payload is missing', async () => {
       // when
       const response = await server.inject({ method: 'POST', url: '/api/organization-invitations/1/response' });
 
       // then
-      expect(response.statusCode).to.equal(204);
+      expect(response.statusCode).to.equal(400);
     });
   });
 
@@ -50,12 +73,20 @@ describe('Integration | Application | Organization-invitations | Routes', () => 
       await server.register(route);
     });
 
-    it('should exist', async () => {
+    it('should return 200 when query is valid', async () => {
+      // when
+      const response = await server.inject({ method: 'GET', url: '/api/organization-invitations/1?code=DZWMP7L5UM' });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should return 400 when query is invalid', async () => {
       // when
       const response = await server.inject({ method: 'GET', url: '/api/organization-invitations/1' });
 
       // then
-      expect(response.statusCode).to.equal(200);
+      expect(response.statusCode).to.equal(400);
     });
   });
 

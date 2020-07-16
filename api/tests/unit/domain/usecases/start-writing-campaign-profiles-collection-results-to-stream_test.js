@@ -2,7 +2,7 @@ const { PassThrough } = require('stream');
 const { expect, sinon, domainBuilder, streamToPromise } = require('../../../test-helper');
 
 const startWritingCampaignProfilesCollectionResultsToStream = require('../../../../lib/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream');
-const CertificationProfile = require('../../../../lib/domain/models/CertificationProfile');
+const PlacementProfile = require('../../../../lib/domain/models/PlacementProfile');
 
 describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collection-results-to-stream', () => {
 
@@ -33,7 +33,8 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
       idPixLabel: 'Mail Perso',
     });
 
-    const certificationProfile = new CertificationProfile({
+    const placementProfile = new PlacementProfile({
+      userId: 123,
       userCompetences: [{
         id: 'recCompetence1',
         pixScore: 9,
@@ -50,7 +51,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
     const competenceRepository = { listPixCompetencesOnly: () => undefined };
     const organizationRepository = { get: () => undefined };
     const campaignParticipationRepository = { findProfilesCollectionResultDataByCampaignId: () => undefined };
-    const userService = { getCertificationProfile: () => undefined };
+    const placementProfileService = { getPlacementProfilesWithSnapshotting: () => undefined };
     let findProfilesCollectionResultDataByCampaignIdStub;
 
     let writableStream;
@@ -62,7 +63,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
       sinon.stub(organizationRepository, 'get').resolves(organization);
       findProfilesCollectionResultDataByCampaignIdStub = sinon.stub(campaignParticipationRepository, 'findProfilesCollectionResultDataByCampaignId');
       sinon.stub(campaignRepository, 'get').resolves(campaign);
-      sinon.stub(userService, 'getCertificationProfile').resolves(certificationProfile);
+      sinon.stub(placementProfileService, 'getPlacementProfilesWithSnapshotting').resolves([placementProfile]);
 
       writableStream = new PassThrough();
       csvPromise = streamToPromise(writableStream);
@@ -97,7 +98,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
         competenceRepository,
         organizationRepository,
         campaignParticipationRepository,
-        userService,
+        placementProfileService,
       });
 
       const csv = await csvPromise;
@@ -110,8 +111,8 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
 
       it('should return the complete line with 1 certifiable competence', async () => {
         // given
-        sinon.stub(CertificationProfile.prototype, 'isCertifiable').returns(false);
-        sinon.stub(CertificationProfile.prototype, 'getCertifiableCompetencesCount').returns(1);
+        sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(false);
+        sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(1);
 
         const campaignParticipationResultData = {
           id: 1,
@@ -152,7 +153,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
           competenceRepository,
           organizationRepository,
           campaignParticipationRepository,
-          userService,
+          placementProfileService,
         });
 
         const csv = await csvPromise;
@@ -164,8 +165,8 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
 
       it('should return the complete line with 5 certifiable competence', async () => {
         // given
-        sinon.stub(CertificationProfile.prototype, 'isCertifiable').returns(true);
-        sinon.stub(CertificationProfile.prototype, 'getCertifiableCompetencesCount').returns(5);
+        sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(true);
+        sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(5);
 
         const campaignParticipationResultData = {
           id: 1,
@@ -206,7 +207,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
           competenceRepository,
           organizationRepository,
           campaignParticipationRepository,
-          userService,
+          placementProfileService,
         });
 
         const csv = await csvPromise;
@@ -263,7 +264,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
           competenceRepository,
           organizationRepository,
           campaignParticipationRepository,
-          userService,
+          placementProfileService,
         });
 
         const csv = await csvPromise;
@@ -324,7 +325,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
           competenceRepository,
           organizationRepository,
           campaignParticipationRepository,
-          userService,
+          placementProfileService,
         });
 
         const csv = await csvPromise;

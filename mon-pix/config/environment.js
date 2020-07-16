@@ -45,7 +45,6 @@ module.exports = function(environment) {
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
       BANNER_CONTENT: process.env.BANNER_CONTENT || '',
       BANNER_TYPE: process.env.BANNER_TYPE || '',
-      LOCALE: process.env.LOCALE || 'fr',
       FT_IMPROVE_COMPETENCE_EVALUATION: process.env.FT_IMPROVE_COMPETENCE_EVALUATION || false,
 
       API_ERROR_MESSAGES: {
@@ -105,6 +104,8 @@ module.exports = function(environment) {
     },
 
     moment: {
+      // Locale supported by moment.js
+      // English is bundled automatically, not need to add en in includeLocales
       includeLocales: ['fr'],
     },
 

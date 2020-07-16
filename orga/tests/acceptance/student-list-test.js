@@ -17,8 +17,6 @@ module('Acceptance | Student List', function(hooks) {
   setupMirage(hooks);
 
   let organizationId;
-  let username;
-  let email;
 
   module('When prescriber is not logged in', function() {
 
@@ -42,7 +40,7 @@ module('Acceptance | Student List', function(hooks) {
 
     module('When organization is not managing students or is not SCO', function(hooks) {
 
-      hooks.beforeEach(async () => {
+      hooks.beforeEach(async function() {
         user = createUserWithMembershipAndTermsOfServiceAccepted();
         createPrescriberByUser(user);
 
@@ -64,7 +62,8 @@ module('Acceptance | Student List', function(hooks) {
     });
 
     module('When prescriber is looking for students', function(hooks) {
-      hooks.beforeEach(async () => {
+
+      hooks.beforeEach(async function() {
         user = createUserManagingStudents();
         createPrescriberByUser(user);
 
@@ -95,7 +94,7 @@ module('Acceptance | Student List', function(hooks) {
         // when
         await visit('/eleves');
         await fillIn('[placeholder="Rechercher par prénom"]', 'Jo');
-      
+
         // then
         assert.equal(currentURL(), '/eleves?firstName=Jo');
         assert.contains('Rambo');
@@ -116,7 +115,7 @@ module('Acceptance | Student List', function(hooks) {
       test('it should paginate the students list', async function(assert) {
         // when
         await visit('/eleves?pageSize=1&pageNumber=1');
-      
+
         // then
         assert.contains('Norris');
         assert.notContains('Rambo');
@@ -125,23 +124,13 @@ module('Acceptance | Student List', function(hooks) {
 
     module('When organization is managing students', function(hooks) {
 
-      hooks.beforeEach(async () => {
+      hooks.beforeEach(async function() {
         user = createUserManagingStudents();
         createPrescriberByUser(user);
 
         organizationId = user.memberships.models.firstObject.organizationId;
 
         server.createList('student', 5, { organizationId });
-
-        username = 'firstname.lastname0112';
-        email = 'firstname.lastname0112@example.net';
-        server.create('student', {
-          organizationId,
-          firstName: 'FirstName',
-          lastName: 'LastName',
-          username,
-          email,
-        });
 
         await authenticateSession({
           user_id: user.id,
@@ -159,7 +148,20 @@ module('Acceptance | Student List', function(hooks) {
         assert.equal(currentURL(), '/eleves');
       });
 
-      module('when student authenticated by username and email', async function() {
+      module('when student authenticated by username and email', async function(hooks) {
+
+        const username = 'firstname.lastname0112';
+        const email = 'firstname.lastname0112@example.net';
+
+        hooks.beforeEach(function() {
+          server.create('student', {
+            organizationId,
+            firstName: 'FirstName',
+            lastName: 'LastName',
+            username,
+            email,
+          });
+        });
 
         test('it should open modal and display password reset button', async function(assert) {
           // given
@@ -188,7 +190,6 @@ module('Acceptance | Student List', function(hooks) {
         });
 
         test('it should open password modal window with email and username value', async function(assert) {
-
           // given
           await visit('/eleves');
 
@@ -202,25 +203,57 @@ module('Acceptance | Student List', function(hooks) {
         });
       });
 
-      module('when student authenticated by username', async function() {
+      module('when student authenticated by GAR', async function(hooks) {
 
-        test('it should open password modal window with username value', async function(assert) {
-          // given
-          await visit('/eleves');
-
-          // when
-          await click('[aria-label="Afficher les actions"]');
-          await click('li');
-
-          // then
-          assert.dom('#username').hasValue(username);
+        hooks.beforeEach(function() {
+          server.create('student', {
+            organizationId,
+            isAuthenticatedFromGar: true
+          });
         });
 
+        test('it should open password modal window with GAR connexion method', async function(assert) {
+          // given
+          await visit('/eleves');
+
+          // when
+          await click('[aria-label="Afficher les actions"]');
+          await click('li');
+
+          // then
+          assert.contains('Connecté avec Médiacentre');
+          assert.contains('Ajouter une connexion avec un identifiant');
+        });
+
+        test('it should display username and unique password when add username button is clicked', async function(assert) {
+          // given
+          await visit('/eleves');
+          await click('[aria-label="Afficher les actions"]');
+          await click('li');
+
+          // when
+          await click('[aria-label="Ajouter un identifiant"]');
+
+          // then
+          assert.contains('Connecté avec Médiacentre');
+          assert.contains('Connecté avec un identifiant');
+          assert.contains('Mot de passe à usage unique');
+          assert.dom('#username').exist;
+          assert.dom('#generated-password').exist;
+        });
       });
 
-      module('when student authenticated by email', async function() {
+      module('when student authenticated by GAR and username', async function(hooks) {
 
-        test('it should open password modal window with email value', async function(assert) {
+        hooks.beforeEach(function() {
+          server.create('student', {
+            organizationId,
+            isAuthenticatedFromGar: true,
+            username: 'user.gar3011'
+          });
+        });
+
+        test('it should open password modal window with GAR and username connexion method', async function(assert) {
 
           // given
           await visit('/eleves');
@@ -230,14 +263,41 @@ module('Acceptance | Student List', function(hooks) {
           await click('li');
 
           // then
-          assert.dom('#email').hasValue(email);
+          assert.contains('Connecté avec Médiacentre');
+          assert.contains('Connecté avec un identifiant');
+        });
+
+        test('it should open pasword modal and display password reset button', async function(assert) {
+          // given
+          await visit('/eleves');
+
+          // when
+          await click('[aria-label="Afficher les actions"]');
+          await click('li');
+
+          // then
+          assert.contains('Réinitialiser le mot de passe');
+        });
+
+        test('it should open password modal and display unique password when reset button is clicked', async function(assert) {
+          // given
+          await visit('/eleves');
+          await click('[aria-label="Afficher les actions"]');
+          await click('li');
+
+          // when
+          await click('#generate-password');
+
+          // then
+          assert.dom('#generate-password').doesNotExist();
+          assert.dom('#generated-password').exists();
         });
       });
     });
 
     module('When admin uploads a file', function(hooks) {
 
-      hooks.beforeEach(async () => {
+      hooks.beforeEach(async function() {
         user = createUserManagingStudents('ADMIN');
         createPrescriberByUser(user);
 

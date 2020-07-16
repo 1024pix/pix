@@ -10,7 +10,7 @@ describe('Unit | UseCase | generate-username', () => {
 
   let campaignCode;
   let findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUserStub;
-  let createUsernameByUserServiceStub;
+  let createUsernameByUser;
   let getCampaignStub;
   let user;
 
@@ -29,7 +29,7 @@ describe('Unit | UseCase | generate-username', () => {
       .resolves({ organizationId });
 
     findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUserStub = sinon.stub(userReconciliationService,'findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser');
-    createUsernameByUserServiceStub = sinon.stub(userReconciliationService,'createUsernameByUser');
+    createUsernameByUser = sinon.stub(userReconciliationService,'createUsernameByUser');
   });
 
   context('When there is no campaign with the given code', () => {
@@ -79,7 +79,7 @@ describe('Unit | UseCase | generate-username', () => {
       const username = user.firstName + '.' + user.lastName + '0112';
 
       findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUserStub.resolves();
-      createUsernameByUserServiceStub.resolves(username);
+      createUsernameByUser.resolves(username);
 
       // when
       const result = await usecases.generateUsername({

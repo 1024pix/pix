@@ -23,7 +23,10 @@ Router.map(function() {
   this.route('terms-of-service', { path: '/cgu' });
 
   this.route('authenticated', { path: '' }, function() {
-    this.route('students', { path: 'eleves' }, function() {
+    this.route('sco-students', { path: 'eleves' }, function() {
+      this.route('list', { path: '/' });
+    });
+    this.route('sup-students', { path: 'etudiants' }, function() {
       this.route('list', { path: '/' });
     });
     this.route('team', { path: '/equipe' }, function() {
@@ -50,10 +53,6 @@ Router.map(function() {
   });
 
   this.route('logout');
-
-  if (config.environment !== 'production') {
-    this.route('style-guide', { path: 'guide-de-style' });
-  }
 
   this.route('not-found', { path: '/*path' });
 });

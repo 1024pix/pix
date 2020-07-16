@@ -12,13 +12,37 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     organizationId: 2,
     organizationRole: Membership.roles.ADMIN,
   });
+  databaseBuilder.factory.buildSchoolingRegistration({
+    firstName: 'Joffrey',
+    lastName: 'Baratheon',
+    birthdate: '2000-02-28',
+    organizationId: 2,
+    userId: null,
+    studentNumber: 'JAIMELESFRUITS123',
+  });
+  const sansaStark = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+    firstName: 'Sansa',
+    lastName: 'Stark',
+    email: 'sansa.stark@example.net',
+    rawPassword: 'Pix123',
+    cgu: false
+  });
+  databaseBuilder.factory.buildSchoolingRegistration({
+    firstName: sansaStark.firstName,
+    lastName: sansaStark.lastName,
+    birthdate: '2000-05-28',
+    organizationId: 2,
+    userId: sansaStark.id,
+  });
+
   databaseBuilder.factory.buildOrganization({
     id: 3,
     type: 'SCO',
     name: 'The Night Watch',
     isManagingStudents: true,
     canCollectProfiles: true,
-    email: 'sco.generic.account@example.net'
+    email: 'sco.generic.account@example.net',
+    externalId: '1237457A'
   });
   databaseBuilder.factory.buildMembership({
     userId: 4,
@@ -36,7 +60,8 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     lastName: 'Last',
     birthdate: '2010-10-10',
     organizationId: 3,
-    userId: null
+    userId: null,
+    nationalStudentId: 'TOTO'
   });
   const disabledUserId = databaseBuilder.factory.buildUser.withUnencryptedPassword({
     firstName: 'Mance',
@@ -98,4 +123,38 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     organizationId: 3,
   });
 
+  const userAuthentificationMethodIsEmailOnly  = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+    firstName: 'user',
+    lastName: 'pix',
+    email: 'user.pix@example.net',
+    username: null,
+    rawPassword: 'Pix123',
+    cgu: false
+  });
+  databaseBuilder.factory.buildSchoolingRegistration({
+    userId: userAuthentificationMethodIsEmailOnly.id,
+    firstName: userAuthentificationMethodIsEmailOnly.firstName,
+    lastName: userAuthentificationMethodIsEmailOnly.lastName,
+    birthdate: '2010-09-30',
+    samlId: userAuthentificationMethodIsEmailOnly.samlId,
+    organizationId: 3,
+  });
+
+  const userAuthentificationMethodIsSamlIdOnly = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+    firstName: 'user',
+    lastName: 'gar',
+    email: null,
+    username: null,
+    samlId: '1234567',
+    rawPassword: 'Pix123',
+    cgu: false
+  });
+  databaseBuilder.factory.buildSchoolingRegistration({
+    userId: userAuthentificationMethodIsSamlIdOnly.id,
+    firstName: userAuthentificationMethodIsSamlIdOnly.firstName,
+    lastName: userAuthentificationMethodIsSamlIdOnly.lastName,
+    birthdate: '2010-09-30',
+    samlId: userAuthentificationMethodIsSamlIdOnly.samlId,
+    organizationId: 3,
+  });
 };

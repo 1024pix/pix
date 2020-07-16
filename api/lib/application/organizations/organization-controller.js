@@ -1,4 +1,5 @@
 const organizationService = require('../../domain/services/organization-service');
+const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
 
 const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
@@ -7,6 +8,7 @@ const organizationSerializer = require('../../infrastructure/serializers/jsonapi
 const organizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/organization-invitation-serializer');
 const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
 const userWithSchoolingRegistrationSerializer = require('../../infrastructure/serializers/jsonapi/user-with-schooling-registration-serializer');
+const HigherEducationRegistrationParser = require('../../infrastructure/serializers/csv/higher-education-registration-parser');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
@@ -108,6 +110,14 @@ module.exports = {
       .then(() => null);
   },
 
+  async importHigherEducationRegistrations(request, h) {
+    const organizationId = parseInt(request.params.id);
+    const buffer = request.payload;
+    const higherEducationRegistrationParser = new HigherEducationRegistrationParser(buffer);
+    await usecases.importHigherEducationRegistrations({ organizationId, higherEducationRegistrationParser });
+    return h.response(null).code(204);
+  },
+
   async sendInvitations(request, h) {
     const organizationId = request.params.id;
     const emails = request.payload.data.attributes.email.split(',');
@@ -122,5 +132,16 @@ module.exports = {
 
     return usecases.findPendingOrganizationInvitations({ organizationId })
       .then((invitations) => organizationInvitationSerializer.serialize(invitations));
+  },
+
+  async getSchoolingRegistrationsCsvTemplate(request, h) {
+    const organizationId = parseInt(request.params.id);
+    const token = request.query.accessToken;
+    const userId = tokenService.extractUserId(token);
+    const template = await usecases.getSchoolingRegistrationsCsvTemplate({ userId, organizationId });
+
+    return h.response(template)
+      .header('Content-Type', 'text/csv;charset=utf-8')
+      .header('Content-Disposition', 'attachment; filename=modele-import.csv');
   }
 };

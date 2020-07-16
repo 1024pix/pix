@@ -8,7 +8,6 @@ import Component from '@ember/component';
 import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
 import {
   click,
   fillIn,
@@ -20,8 +19,8 @@ import {
 } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
-import setupIntl from '../../helpers/setup-intl';
 import ENV from '../../../config/environment';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 const FORM_CONTAINER = '.sign-form__container';
 const FORM_HEADER_CONTAINER = '.sign-form__header';
@@ -44,8 +43,7 @@ const CAPTCHA_CONTAINER = '.signup-form__captcha-container';
 
 describe('Integration | Component | signup form', function() {
 
-  setupRenderingTest();
-  setupIntl();
+  setupIntlRenderingTest();
 
   describe('Localization', function() {
     const originalLocale = ENV.APP.LOCALE;
@@ -85,7 +83,7 @@ describe('Integration | Component | signup form', function() {
     });
 
     it('should return correct form title', function() {
-      const formTitle = this.intl.t('signup-form.title');
+      const formTitle = this.intl.t('pages.sign-up.first-title');
       expect(find(FORM_TITLE).textContent).to.equal(formTitle);
     });
 
@@ -107,7 +105,7 @@ describe('Integration | Component | signup form', function() {
     });
 
     it('should have link to Pix\'s CGU', function() {
-      const cguText = this.intl.t('signup-form.fields.cgu.label', { cguUrl: 'https://pix.localhost/conditions-generales-d-utilisation' });
+      const cguText = this.intl.t('pages.sign-up.fields.cgu.label', { cguUrl: 'https://pix.localhost/conditions-generales-d-utilisation' });
 
       expect(find('.signup-form__cgu').innerHTML).to.contains(cguText);
       expect(findAll(CGU_LINK)).to.have.length(1);
@@ -115,7 +113,7 @@ describe('Integration | Component | signup form', function() {
 
     it('should render a submit button', function() {
       expect(findAll(SUBMIT_BUTTON)).to.have.length(1);
-      expect(find(SUBMIT_BUTTON).textContent.trim()).to.equal(this.intl.t('signup-form.actions.submit'));
+      expect(find(SUBMIT_BUTTON).textContent.trim()).to.equal(this.intl.t('pages.sign-up.actions.submit'));
       expect(find(SUBMIT_BUTTON).nodeName).to.equal('button'.toUpperCase());
     });
 
@@ -194,7 +192,7 @@ describe('Integration | Component | signup form', function() {
 
       it('should display an error message on first name field, when field is empty and focus-out', async function() {
         // given
-        const emptyFirstnameErrorMessage = this.intl.t('signup-form.fields.firstname.error');
+        const emptyFirstnameErrorMessage = this.intl.t('pages.sign-up.fields.firstname.error');
         this.set('user', userEmpty);
         await render(hbs`{{signup-form user=user}}`);
 
@@ -215,7 +213,7 @@ describe('Integration | Component | signup form', function() {
 
       it('should display an error message on last name field, when field is empty and focus-out', async function() {
         // given
-        const emptyLastnameErrorMessage = this.intl.t('signup-form.fields.lastname.error');
+        const emptyLastnameErrorMessage = this.intl.t('pages.sign-up.fields.lastname.error');
         this.set('user', userEmpty);
         await render(hbs`{{signup-form user=user}}`);
 
@@ -236,7 +234,7 @@ describe('Integration | Component | signup form', function() {
 
       it('should display an error message on email field, when field is empty and focus-out', async function() {
         // given
-        const emptyEmailErrorMessage = this.intl.t('signup-form.fields.email.error');
+        const emptyEmailErrorMessage = this.intl.t('pages.sign-up.fields.email.error');
         this.set('user', userEmpty);
         await render(hbs`{{signup-form user=user}}`);
 
@@ -257,7 +255,7 @@ describe('Integration | Component | signup form', function() {
 
       it('should display an error message on password field, when field is empty and focus-out', async function() {
         // given
-        const incorrectPasswordErrorMessage = this.intl.t('signup-form.fields.password.error');
+        const incorrectPasswordErrorMessage = this.intl.t('pages.sign-up.fields.password.error');
         this.set('user', userEmpty);
         await render(hbs`{{signup-form user=user}}`);
 
@@ -279,7 +277,7 @@ describe('Integration | Component | signup form', function() {
       it('should display an error message on cgu field, when cgu isn\'t accepted and form is submitted',
         async function() {
           // given
-          const uncheckedCheckboxCguErrorMessage = this.intl.t('signup-form.fields.cgu.error');
+          const uncheckedCheckboxCguErrorMessage = this.intl.t('pages.sign-up.fields.cgu.error');
           const userWithCguNotAccepted = EmberObject.create({
             cgu: false,
             errors: ArrayProxy.create({

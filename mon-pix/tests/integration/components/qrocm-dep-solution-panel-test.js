@@ -1,7 +1,7 @@
 import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -21,7 +21,7 @@ const classByResultKey = {
 
 describe('Integration | Component | QROCm dep solution panel', function() {
 
-  setupRenderingTest();
+  setupIntlRenderingTest();
 
   const assessment = EmberObject.create({ id: 'assessment_id' });
   const challenge = EmberObject.create({
