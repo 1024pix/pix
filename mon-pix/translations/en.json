@@ -92,8 +92,8 @@
       "improve": {
         "label": "Retry",
         "description": {
-          "waitingText": "You will be able to start over in",
-          "dayBefore": "{ daysBeforeImproving, plural, =0 {0 day.} =1 {1 day.} other {# days.} }"
+          "waiting-text": "You will be able to start over in",
+          "countdown": "{ daysBeforeImproving, plural, =0 {0 day.} =1 {1 day.} other {# days.} }"
         },
         "improvingText": "Try to have a better level !"
       },
@@ -102,8 +102,8 @@
         "description": "{ daysBeforeReset, plural, =0 {0 day} =1 {1 day} other {# days} } left before reset.",
         "modal": {
           "title": "Reset competence",
-          "importantMessage": "Vos { earnedPix } Pix vont être supprimés.",
-          "importantMessageAboveLevelOne": "Votre niveau { level } et vos { earnedPix } Pix vont être supprimés.",
+          "important-message": "Vos { earnedPix } Pix vont être supprimés.",
+          "important-message-above-level-one": "Votre niveau { level } et vos { earnedPix } Pix vont être supprimés.",
           "warning": "Attention : si vous avez un parcours d’évaluation en cours, certaines questions pourront vous être reposées."
         }
       },
@@ -111,9 +111,9 @@
         "label": "Start"
       }
     },
-    "forCompetence": "the competence {competence}",
-    "linkToProfile": "Back to Profile",
-    "nextLevelInfo": "{ remainingPixToNextLevel } pix left before level { level }",
+    "for-competence": "the competence {competence}",
+    "link-to-profile": "Back to Profile",
+    "next-level-info": "{ remainingPixToNextLevel } pix left before level { level }",
     "tutorials": {
       "title": "Cultivez vos compétences",
       "description": "Voici une sélection de tutos qui pourront vous aider à gagner des Pix."
