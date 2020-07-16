@@ -93,6 +93,21 @@
     }
   },
 
+  "certification-start-page": {
+    "title": "Vous allez commencer votre test de certification",
+    "access-code": "Saisissez le code d'accès communiqué par le surveillant",
+    "action": {
+      "submit": "Commencer mon test"
+    },
+    "cgu":  {
+      "info": "En cliquant sur \"Commencer mon test\", j’accepte que mes données d’identité, le numéro de certification et les circonstances de la passation telles que renseignées par le surveillant soient communiquées à Pix. Pix les utilisera lors de la délibération du jury pour produire et archiver mes résultats et pour éditer mon certificat. Si cette certification m’a été prescrite par une organisation, j’accepte que Pix lui communique mes résultats.",
+      "contact": {
+        "info": "Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en envoyant un mail à",
+        "email": "dpo@pix.fr"
+      }
+    }
+  },
+
   "signin-form": {
     "actions": {
       "submit": "Sign in"
