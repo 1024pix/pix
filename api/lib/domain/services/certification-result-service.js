@@ -188,11 +188,11 @@ function _computeAnswersSuccessRate(answers = []) {
 }
 
 module.exports = {
-
   async getCertificationResult({ certificationAssessment, continueOnError }) {
     const allCompetences = await competenceRepository.list();
     const allChallenges = await challengeRepository.findOperative();
 
+    // userService.getCertificationProfile() + filter level > 0 => avec allCompetence (bug)
     const testedCompetences = await _getTestedCompetences({
       userId: certificationAssessment.userId,
       limitDate: certificationAssessment.createdAt,
@@ -200,13 +200,16 @@ module.exports = {
       competences: allCompetences,
     });
 
+    // map sur challenges filtre sur competence Id - S'assurer qu'on ne travaille que sur les compétences certifiables
     const matchingCertificationChallenges = _selectChallengesMatchingCompetences(certificationAssessment.certificationChallenges, testedCompetences);
 
+    // decoration des challenges en ajoutant le type
     matchingCertificationChallenges.forEach((certifChallenge) => {
       const challenge = _.find(allChallenges, { id: certifChallenge.challengeId });
       certifChallenge.type = challenge ? challenge.type : 'EmptyType';
     });
 
+    // map sur challenges filtre sur challenge Id
     const matchingAnswers = _selectAnswersMatchingCertificationChallenges(certificationAssessment.certificationAnswersByDate, matchingCertificationChallenges);
 
     const result = _getResult(matchingAnswers, matchingCertificationChallenges, testedCompetences, continueOnError);
