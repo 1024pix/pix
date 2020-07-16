@@ -4,7 +4,7 @@ module.exports = {
   serialize(students, meta) {
     return new Serializer('students', {
       attributes: [
-        'lastName', 'firstName', 'birthdate', 'username', 'userId', 'email', 'isAuthenticatedFromGAR',
+        'lastName', 'firstName', 'birthdate', 'username', 'userId', 'email', 'isAuthenticatedFromGAR', 'studentNumber'
       ],
       meta,
     }).serialize(students);

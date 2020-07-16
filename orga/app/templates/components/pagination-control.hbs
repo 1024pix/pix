@@ -12,8 +12,8 @@
   </div>
   <div class="page-navigation">
     <div class="page-navigation__arrow page-navigation__arrow--previous {{if (eq this.currentPage 1) "page-navigation__arrow--disabled"}}">
-      <LinkTo 
-        @route={{@paginationLink}}
+      <LinkTo
+        aria-label="Aller à la page précédente"
         @query={{hash pageNumber=this.previousPage}}
         @disabledWhen={{eq this.currentPage 1}}
         @replace={{true}}
@@ -26,8 +26,8 @@
       Page {{this.currentPage}} / {{this.pageCount}}
     </div>
     <div class="page-navigation__arrow page-navigation__arrow--next {{if (eq this.currentPage this.pageCount) "page-navigation__arrow--disabled"}}">
-      <LinkTo 
-        @route={{@paginationLink}}
+      <LinkTo
+        aria-label="Aller à la page suivante"
         @query={{hash pageNumber=this.nextPage}}
         @disabledWhen={{eq this.currentPage this.pageCount}}
         @replace={{true}}

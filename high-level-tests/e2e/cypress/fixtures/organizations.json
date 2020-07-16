@@ -10,5 +10,11 @@
     "type": "SCO",
     "name": "The Night Watch",
     "isManagingStudents": true
+  },
+  {
+    "id": 3,
+    "type": "SUP",
+    "name": "The Order of Maesters",
+    "isManagingStudents": true
   }
 ]
