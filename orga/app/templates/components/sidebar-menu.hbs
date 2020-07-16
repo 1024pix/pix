@@ -6,11 +6,19 @@
     Campagnes
   </LinkTo>
   {{#if this.currentUser.isSCOManagingStudents}}
-    <LinkTo @route="authenticated.students" class="sidebar-menu__item sidebar--padding-left sidebar--padding-right">
+    <LinkTo @route="authenticated.sco-students" class="sidebar-menu__item sidebar--padding-left sidebar--padding-right">
       <span class="sidebar--padding-right sidebar--item-icon">
         <img src="{{this.rootURL}}/icons/address-book-light.svg" alt="Liste des élèves">
       </span>
       Élèves
+    </LinkTo>
+  {{/if}}
+  {{#if this.currentUser.isSUPManagingStudents}}
+    <LinkTo @route="authenticated.sup-students" class="sidebar-menu__item sidebar--padding-left sidebar--padding-right">
+      <span class="sidebar--padding-right sidebar--item-icon">
+        <img src="{{this.rootURL}}/icons/address-book-light.svg" alt="Liste des étudiants">
+      </span>
+      Étudiants
     </LinkTo>
   {{/if}}
   {{#if this.currentUser.isAdminInOrganization}}

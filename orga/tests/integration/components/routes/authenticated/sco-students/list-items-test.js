@@ -5,7 +5,7 @@ import Service from '@ember/service';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/students | list-items', function(hooks) {
+module('Integration | Component | routes/authenticated/sco-students | list-items', function(hooks) {
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function() {
@@ -14,7 +14,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
 
   test('it should show title of team page', async function(assert) {
     // when
-    await render(hbs`<Routes::Authenticated::Students::ListItems @triggerFiltering={{noop}}/>`);
+    await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @triggerFiltering={{noop}}/>`);
 
     // then
     assert.contains('Élèves');
@@ -25,7 +25,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
     this.set('students', []);
 
     // when
-    await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+    await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
 
     // then
     assert.contains('Nom');
@@ -44,7 +44,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
     this.set('students', students);
 
     // when
-    await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+    await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
 
     // then
     assert.dom('[aria-label="Élève"]').exists({ count: 2 });
@@ -57,7 +57,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
     this.set('students', students);
 
     // when
-    await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+    await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
 
     // then
     assert.contains('La Terreur');
@@ -72,7 +72,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
       this.set('students', []);
 
       // when
-      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}}/>`);
+      await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}}/>`);
 
       await fillIn('[placeholder="Rechercher par nom"]', 'bob');
 
@@ -89,7 +89,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
       this.set('students', []);
 
       // when
-      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}}/>`);
+      await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}}/>`);
 
       await fillIn('[placeholder="Rechercher par prénom"]', 'bob');
 
@@ -107,7 +107,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
       this.set('connexionTypesOptions', [{ value: '', label: 'Tous' }, { value: 'email', label: 'email' }]);
 
       // when
-      await render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}} @connexionTypesOptions={{connexionTypesOptions}} />`);
+      await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}} @connexionTypesOptions={{connexionTypesOptions}} />`);
 
       await fillIn('select', 'email');
 
@@ -129,7 +129,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
           birthdate: '2010-01-01',
         })
       ]);
-      return render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+      return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
     });
 
     test('it should display dash for authentication method', async function(assert) {
@@ -155,7 +155,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
           isAuthenticatedFromGar: false,
         })
       ]);
-      return render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+      return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
     });
 
     test('it should display "Identifiant" as authentication method', async function(assert) {
@@ -179,7 +179,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
           isAuthenticatedFromGar: false,
         })
       ]);
-      return render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+      return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
     });
 
     test('it should display "Adresse email" as authentication method', async function(assert) {
@@ -209,7 +209,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
       hooks.beforeEach(function() {
         this.set('importStudentsSpy', () => {});
         this.owner.register('service:current-user', Service.extend({ isAdminInOrganization: true }));
-        return render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+        return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
       });
 
       test('it should display import button', async function(assert) {
@@ -227,7 +227,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
     module('when user is not admin in organization', (hooks) => {
       hooks.beforeEach(function() {
         this.owner.register('service:current-user', Service.extend({ isAdminInOrganization: false }));
-        return render(hbs`<Routes::Authenticated::Students::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+        return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
       });
 
       test('it should not display import button', async function(assert) {

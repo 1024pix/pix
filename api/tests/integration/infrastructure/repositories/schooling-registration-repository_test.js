@@ -703,11 +703,11 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
       describe('When schoolingRegistration is filtered by user connexion type' , () => {
         let organizationId;
-      
+
         beforeEach(async () => {
           // given
           organizationId = databaseBuilder.factory.buildOrganization().id;
-  
+
           databaseBuilder.factory.buildSchoolingRegistrationWithUser({ organizationId, lastName: 'Rambo', user: { email: 'john@rambo.com',  username: null } });
           databaseBuilder.factory.buildSchoolingRegistrationWithUser({ organizationId, lastName: 'Willis', user: { email: null, username: 'willy' } });
           databaseBuilder.factory.buildSchoolingRegistrationWithUser({ organizationId, lastName: 'Norris', user: { email: null, username: null, samlId: 'chucky' } });
@@ -721,7 +721,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
             organizationId,
             filter: { connexionType: 'none' },
           });
-  
+
           // then
           expect(_.map(data, 'lastName')).to.deep.equal(['Lee']);
         });
@@ -732,18 +732,18 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
             organizationId,
             filter: { connexionType: 'identifiant' },
           });
-  
+
           // then
           expect(_.map(data, 'lastName')).to.deep.equal(['Willis']);
         });
-      
+
         it('should return school registrations filtered by "email" user connexion', async () => {
           // when
           const { data } = await schoolingRegistrationRepository.findPaginatedFilteredSchoolingRegistrations({
             organizationId,
             filter: { connexionType: 'email' },
           });
-  
+
           // then
           expect(_.map(data, 'lastName')).to.deep.equal(['Rambo']);
         });
@@ -754,7 +754,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
             organizationId,
             filter: { connexionType: 'mediacentre' },
           });
-  
+
           // then
           expect(_.map(data, 'lastName')).to.deep.equal(['Norris']);
         });
@@ -793,15 +793,16 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           userId: user.id,
         });
         const expectedUserWithSchoolingRegistration = new UserWithSchoolingRegistration({
-          id : schoolingRegistration.id,
-          firstName : schoolingRegistration.firstName,
-          lastName : schoolingRegistration.lastName,
-          birthdate : schoolingRegistration.birthdate,
-          organizationId : schoolingRegistration.organizationId,
-          username : user.username,
+          id: schoolingRegistration.id,
+          firstName: schoolingRegistration.firstName,
+          lastName: schoolingRegistration.lastName,
+          birthdate: schoolingRegistration.birthdate,
+          organizationId: schoolingRegistration.organizationId,
+          username: user.username,
           userId: schoolingRegistration.userId,
-          email : user.email,
-          isAuthenticatedFromGAR : false,
+          email: user.email,
+          isAuthenticatedFromGAR: false,
+          studentNumber: schoolingRegistration.studentNumber,
         });
         await databaseBuilder.commit();
 
@@ -832,15 +833,16 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           userId: user.id,
         });
         const expectedUserWithSchoolingRegistration = new UserWithSchoolingRegistration({
-          id : schoolingRegistration.id,
-          firstName : schoolingRegistration.firstName,
-          lastName : schoolingRegistration.lastName,
-          birthdate : schoolingRegistration.birthdate,
-          organizationId : schoolingRegistration.organizationId,
-          username : null,
-          email : null,
+          id: schoolingRegistration.id,
+          firstName: schoolingRegistration.firstName,
+          lastName: schoolingRegistration.lastName,
+          birthdate: schoolingRegistration.birthdate,
+          organizationId: schoolingRegistration.organizationId,
+          username: null,
+          email: null,
           userId: schoolingRegistration.userId,
-          isAuthenticatedFromGAR : true,
+          isAuthenticatedFromGAR: true,
+          studentNumber: schoolingRegistration.studentNumber,
         });
         await databaseBuilder.commit();
 
@@ -875,6 +877,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           email : null,
           userId: schoolingRegistration.userId,
           isAuthenticatedFromGAR : false,
+          studentNumber: schoolingRegistration.studentNumber,
         });
         await databaseBuilder.commit();
 
