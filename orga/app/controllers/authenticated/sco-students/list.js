@@ -44,7 +44,7 @@ export default class ListController extends Controller {
       { value: 'identifiant', label: CONNEXION_TYPES.identifiant },
       { value: 'mediacentre', label: CONNEXION_TYPES.mediacentre },
     ];
-  } 
+  }
 
   @action
   async importStudents(file) {
@@ -53,7 +53,7 @@ export default class ListController extends Controller {
     const { access_token } = this.get('session.data.authenticated');
 
     try {
-      await file.uploadBinary(`${ENV.APP.API_HOST}/api/organizations/${this.get('currentUser.organization.id')}/import-students`, {
+      await file.uploadBinary(`${ENV.APP.API_HOST}/api/organizations/${this.get('currentUser.organization.id')}/schooling-registrations/import-siecle`, {
         headers: {
           Authorization: `Bearer ${access_token}`,
         }
@@ -64,12 +64,12 @@ export default class ListController extends Controller {
 
     } catch (errorResponse) {
       this.set('isLoading', false);
-      
-      this.handleError(errorResponse);
+
+      this._handleError(errorResponse);
     }
   }
 
-  handleError(errorResponse) {
+  _handleError(errorResponse) {
     const globalErrorMessage = 'Quelque chose s\'est mal passé. Veuillez réessayer.';
     if (!errorResponse.body.errors) {
       return this.get('notifications').sendError(globalErrorMessage);
