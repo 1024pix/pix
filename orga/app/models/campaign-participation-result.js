@@ -1,27 +1,30 @@
 import DS from 'ember-data';
+const { Model, attr, hasMany } = DS;
 import { computed } from '@ember/object';
+import { mapBy, max } from '@ember/object/computed';
 
-export default DS.Model.extend({
+export default class CampaignParticipationResult extends Model {
 
-  totalSkillsCount: DS.attr('number'),
-  testedSkillsCount: DS.attr('number'),
-  validatedSkillsCount: DS.attr('number'),
-  isCompleted: DS.attr('boolean'),
-  competenceResults: DS.hasMany('competenceResult'),
-  progress: DS.attr('number'),
+  @attr() totalSkillsCount;
+  @attr() testedSkillsCount;
+  @attr() validatedSkillsCount;
+  @attr() isCompleted;
+  @attr() progress;
+  @hasMany('competenceResult') competenceResults;
 
-  totalSkillsCounts: computed.mapBy('competenceResults', 'totalSkillsCount'),
-  maxTotalSkillsCountInCompetences: computed.max('totalSkillsCounts'),
+  @mapBy('competenceResults', 'totalSkillsCount') totalSkillsCounts;
+  @max('totalSkillsCounts') maxTotalSkillsCountInCompetences;
 
-  masteryPercentage: computed('totalSkillsCount', 'validatedSkillsCount', function() {
+  @computed('totalSkillsCount', 'validatedSkillsCount')
+  get masteryPercentage() {
     return Math.round(this.validatedSkillsCount * 100 / this.totalSkillsCount);
-  }),
-
-  percentageProgression: computed('progress', 'isCompleted', function() {
+  }
+  @computed('progress', 'isCompleted')
+  get percentageProgression() {
     if (this.isCompleted) {
       return 100;
     }
 
     return Math.round(this.progress * 100);
-  }),
-});
+  }
+}
