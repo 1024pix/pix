@@ -40,7 +40,8 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     name: 'The Night Watch',
     isManagingStudents: true,
     canCollectProfiles: true,
-    email: 'sco.generic.account@example.net'
+    email: 'sco.generic.account@example.net',
+    externalId: '1237457A'
   });
   databaseBuilder.factory.buildMembership({
     userId: 4,

@@ -24,6 +24,7 @@ class OrganizationInvitation {
     this.status = status;
     this.code = code;
     this.organizationName = organizationName;
+    this.role = role;
     this.createdAt = createdAt;
     this.role = role;
     this.updatedAt = updatedAt;

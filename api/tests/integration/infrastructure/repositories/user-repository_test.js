@@ -67,7 +67,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   describe('find user', () => {
 
-    describe('#findByEmail', () => {
+    describe('#getByEmail', () => {
 
       let userInDb;
 
@@ -78,7 +78,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       it('should be a function', () => {
         // then
-        expect(userRepository.findByEmail).to.be.a('function');
+        expect(userRepository.getByEmail).to.be.a('function');
       });
 
       it('should handle a rejection, when user id is not found', async () => {
@@ -86,7 +86,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         const emailThatDoesNotExist = '10093';
 
         // when
-        const result = await catchErr(userRepository.findByEmail)(emailThatDoesNotExist);
+        const result = await catchErr(userRepository.getByEmail)(emailThatDoesNotExist);
 
         // then
         expect(result).to.be.instanceOf(NotFoundError);
@@ -94,7 +94,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       it('should return a domain user when found', async () => {
         // when
-        const user = await userRepository.findByEmail(userInDb.email);
+        const user = await userRepository.getByEmail(userInDb.email);
 
         // then
         expect(user.email).to.equal(userInDb.email);
@@ -105,7 +105,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         const uppercaseEmailAlreadyInDb = userInDb.email.toUpperCase();
 
         // when
-        const user = await userRepository.findByEmail(uppercaseEmailAlreadyInDb);
+        const user = await userRepository.getByEmail(uppercaseEmailAlreadyInDb);
 
         // then
         expect(user.email).to.equal(userInDb.email);
