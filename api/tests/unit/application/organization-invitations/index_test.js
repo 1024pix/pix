@@ -12,7 +12,7 @@ function startServer() {
 describe('Unit | Router | organization-invitation-router', () => {
 
   beforeEach(() => {
-    sinon.stub(organizationInvitationController, 'answerToOrganizationInvitation').callsFake((request, h) => h.response().code(204));
+    sinon.stub(organizationInvitationController, 'acceptOrganizationInvitation').callsFake((request, h) => h.response().code(204));
     sinon.stub(organizationInvitationController, 'getOrganizationInvitation').callsFake((request, h) => h.response().code(200));
 
     startServer();
@@ -20,11 +20,22 @@ describe('Unit | Router | organization-invitation-router', () => {
 
   describe('POST /api/organization-invitations/{id}/response', () => {
 
-    it('should exist', async () => {
+    it('should exists', async () => {
       // given
       const options = {
         method: 'POST',
-        url: '/api/organization-invitations/1/response'
+        url: '/api/organization-invitations/1/response',
+        payload: {
+          data: {
+            id: '100047_DZWMP7L5UM',
+            type: 'organization-invitation-responses',
+            attributes: {
+              code: 'DZWMP7L5UM',
+              email: 'user@example.net'
+            },
+
+          }
+        }
       };
 
       // when
@@ -37,11 +48,11 @@ describe('Unit | Router | organization-invitation-router', () => {
 
   describe('GET /api/organization-invitations/{id}', () => {
 
-    it('should exist', async () => {
+    it('should exists', async () => {
       // given
       const options = {
         method: 'GET',
-        url: '/api/organization-invitations/1'
+        url: '/api/organization-invitations/1?code=DZWMP7L5UM'
       };
 
       // when

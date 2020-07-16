@@ -3,18 +3,16 @@ const { expect, sinon, catchErr } = require('../../../test-helper');
 const { MissingQueryParamError } = require('../../../../lib/application/http-errors');
 const organizationInvitationController = require('../../../../lib/application/organization-invitations/organization-invitation-controller');
 const usecases = require('../../../../lib/domain/usecases');
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const organizationInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-invitation-serializer');
 
 describe('Unit | Application | Organization-Invitations | organization-invitation-controller', () => {
 
   let request;
 
-  describe('#answerToOrganizationInvitation', () => {
+  describe('#acceptOrganizationInvitation', () => {
 
     const organizationInvitationId = 1;
     const code = 'ABCDEFGH01';
-    const status = OrganizationInvitation.StatusType.ACCEPTED;
     const email = 'random@email.com';
 
     beforeEach(() => {
@@ -23,24 +21,24 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
         payload: {
           data: {
             type: 'organization-invitations',
-            attributes: { code, status, email },
+            attributes: { code, email },
           }
         }
       };
 
-      sinon.stub(usecases, 'answerToOrganizationInvitation');
+      sinon.stub(usecases, 'acceptOrganizationInvitation');
     });
 
-    it('should call the usecase to update invitation with organizationInvitationId, code and status', async () => {
+    it('should call the usecase to accept invitation with organizationInvitationId and code', async () => {
       // given
-      usecases.answerToOrganizationInvitation.resolves();
+      usecases.acceptOrganizationInvitation.resolves();
 
       // when
-      await organizationInvitationController.answerToOrganizationInvitation(request);
+      await organizationInvitationController.acceptOrganizationInvitation(request);
 
       // then
-      expect(usecases.answerToOrganizationInvitation).to.have.been.calledWith({
-        organizationInvitationId, code, status, email });
+      expect(usecases.acceptOrganizationInvitation).to.have.been.calledWith({
+        organizationInvitationId, code, email });
     });
   });
 

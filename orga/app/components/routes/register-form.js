@@ -93,11 +93,9 @@ export default class RegisterForm extends Component {
   }
 
   _acceptOrganizationInvitation(organizationInvitationId, organizationInvitationCode, createdUserEmail) {
-    const status = 'accepted';
     return this.store.createRecord('organization-invitation-response', {
       id: organizationInvitationId + '_' + organizationInvitationCode,
       code: organizationInvitationCode,
-      status,
       email: createdUserEmail,
     }).save({ adapterOptions: { organizationInvitationId } });
   }

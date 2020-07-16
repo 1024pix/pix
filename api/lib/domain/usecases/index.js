@@ -72,6 +72,7 @@ const dependencies = {
 const { injectDependencies } = require('../../infrastructure/utils/dependency-injection');
 
 module.exports = injectDependencies({
+  acceptOrganizationInvitation: require('./accept-organization-invitation'),
   acceptPixLastTermsOfService: require('./accept-pix-last-terms-of-service'),
   acceptPixCertifTermsOfService: require('./accept-pix-certif-terms-of-service'),
   acceptPixOrgaTermsOfService: require('./accept-pix-orga-terms-of-service'),
@@ -79,7 +80,6 @@ module.exports = injectDependencies({
   addTutorialEvaluation: require('./add-tutorial-evaluation'),
   addTutorialToUser: require('./add-tutorial-to-user'),
   anonymizeUser: require('./anonymize-user'),
-  answerToOrganizationInvitation: require('./answer-to-organization-invitation'),
   attachTargetProfilesToOrganization: require('./attach-target-profiles-to-organization'),
   archiveCampaign: require('./archive-campaign'),
   assignCertificationOfficerToJurySession: require('./assign-certification-officer-to-jury-session'),
