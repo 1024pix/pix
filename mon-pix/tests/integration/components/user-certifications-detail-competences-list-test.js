@@ -5,9 +5,11 @@ import { describe, it } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import setupIntl from '../../helpers/setup-intl';
 
 describe('Integration | Component | user-certifications-detail-competences-list', function() {
   setupRenderingTest();
+  setupIntl();
 
   let resultCompetenceTree;
   const PARENT_SELECTOR = '.user-certifications-detail-competences-list';

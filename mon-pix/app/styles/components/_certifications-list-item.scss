@@ -142,18 +142,13 @@
   flex-flow: row-reverse nowrap;
   justify-content: left;
 
-  .certifications-list-item__cell-detail-button {
+  & :first-child {
+    text-transform: uppercase;
     font-size: 0.813rem;
     color: $blue;
     border: none;
     background: none;
-  }
-
-  .certifications-list-item__cell-detail-link {
-    font-size: 0.813rem;
-    color: $blue;
-    border: none;
-    background: none;
+    cursor: pointer;
   }
 }
 

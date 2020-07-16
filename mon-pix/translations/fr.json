@@ -18,13 +18,59 @@
   "page-title": {
     "signin": "Connexion",
     "signup": "Inscription",
-    "suffix": "Pix"
+    "suffix": "Pix",
+    "my-certifications": "Mes certifications"
   },
   "api-error-messages": {
     "login-unauthorized-error": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects.",
     "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
     "internal-server-error": "Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement."
   },
+
+  "certificate": {
+    "back-link": "Retour à mes certifications",
+    "title": "Certificat Pix",
+    "issued-on": "Délivré le",
+    "validity": "Certificat valable 3 ans",
+    "candidate-birth-complete": "Né(e) le {birthdate} à {birthplace}",
+    "certification-center": "Centre de certification :",
+    "exam-date": "Date de passage :",
+    "hexagon-score": {
+      "certified": "certifiés"
+    },
+    "competences": {
+      "informations": "Votre score certifié a été calculé en fonction de vos réponses lors du passage de la certification. Il peut donc différer du nombre de Pix affiché dans votre profil. Le jour de votre certification il était possible d’atteindre le niveau 5 des compétences et 640 pix au maximum.",
+      "level": "niveau",
+      "subtitle": "(niveaux sur 5)",
+      "title": "Compétences certifiées"
+    },
+    "jury-title": "Observations du jury",
+    "clea-title": "Certifié Cléa"
+  },
+
+  "certifications-list": {
+    "title": "Mes Certifications",
+    "header": {
+      "date": "date",
+      "status": "statut",
+      "score": "score pix",
+      "certification-center": "centre de certification"
+    },
+    "statuses": {
+      "success": {
+        "title": "Certification obtenue",
+        "action": "voir les résultats"
+      },
+      "fail": {
+        "title": "Certification non obtenue",
+        "action": "détail"
+      },
+      "not-published": {
+        "title": "En attente du résultat"
+      }
+    }
+  },
+
   "signin-form": {
     "actions": {
       "submit": "Je me connecte"
