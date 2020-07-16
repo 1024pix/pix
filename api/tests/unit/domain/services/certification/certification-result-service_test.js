@@ -7,9 +7,10 @@ const Answer = require('../../../../../lib/domain/models/Answer');
 const challengeRepository = require('../../../../../lib/infrastructure/repositories/challenge-repository');
 const competenceRepository = require('../../../../../lib/infrastructure/repositories/competence-repository');
 const certificationProfileService = require('../../../../../lib/domain/services/certification-profile-service');
+const UserCompetence = require('../../../../../lib/domain/models/UserCompetence');
 
 function _buildUserCompetence(competence, pixScore, estimatedLevel) {
-  return { ...competence, estimatedLevel, pixScore, };
+  return new UserCompetence({ ...competence, estimatedLevel, pixScore, });
 }
 
 const pixForCompetence1 = 10;

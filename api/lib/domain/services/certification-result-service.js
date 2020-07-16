@@ -170,7 +170,7 @@ function _getChallengeInformation(listAnswers, certificationChallenges, competen
 async function _getTestedCompetences({ userId, limitDate, isV2Certification, competences }) {
   const certificationProfile = await certificationProfileService.getCertificationProfile({ userId, limitDate, isV2Certification, competences });
   return _(certificationProfile.userCompetences)
-    .filter((uc) => uc.estimatedLevel > 0)
+    .filter((uc) => uc.isCertifiable())
     .map((uc) => _.pick(uc, ['id', 'area', 'index', 'name', 'estimatedLevel', 'pixScore']))
     .value();
 }
