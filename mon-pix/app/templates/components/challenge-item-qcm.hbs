@@ -21,13 +21,11 @@
           <FaIcon @icon='lock' class='challenge-response-locked__icon' />
         </div>
       {{/if}}
-      
-      {{#if @challenge.timer}}
-        {{#if this.hasUserConfirmWarning}}
-          <div class="timeout-jauge-wrapper">
-            <TimeoutJauge @allotedTime={{@challenge.timer}} />
-          </div>
-        {{/if}}
+
+      {{#if this.displayTimer}}
+        <div class="timeout-jauge-wrapper">
+          <TimeoutJauge @allotedTime={{@challenge.timer}} />
+        </div>
       {{/if}}
     </div>
 

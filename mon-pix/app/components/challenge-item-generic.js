@@ -56,6 +56,16 @@ const ChallengeItemGeneric = Component.extend({
     return !this.hasTimerDefined() || (this.hasTimerDefined() && this._isUserAwareThatChallengeIsTimed);
   }),
 
+  displayTimer: computed('answer', 'hasUserConfirmWarning', function() {
+    if (!this.answer
+      && this.hasTimerDefined()
+      && this.hasUserConfirmWarning) {
+
+      return true;
+    }
+    return false;
+  }),
+
   hasTimerDefined() {
     return _.isInteger(this.challenge.timer);
   },
