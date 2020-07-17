@@ -16,7 +16,7 @@ async function computeScorecard({
 }) {
   const [knowledgeElements, competence, competenceEvaluations] = await Promise.all([
     knowledgeElementRepository.findUniqByUserIdAndCompetenceId({ userId, competenceId }),
-    competenceRepository.get(competenceId, locale),
+    competenceRepository.get({ id: competenceId, locale }),
     competenceEvaluationRepository.findByUserId(userId),
   ]);
 

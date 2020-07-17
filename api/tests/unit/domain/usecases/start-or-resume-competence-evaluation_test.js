@@ -36,7 +36,7 @@ describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
     it('should bubble the domain NotFoundError', async () => {
       // given
       const notFoundError = new NotFoundError('La compétence demandée n’existe pas');
-      competenceRepository.get.withArgs(competenceId).rejects(notFoundError);
+      competenceRepository.get.withArgs({ id: competenceId }).rejects(notFoundError);
 
       // when
       const err = await catchErr(usecases.startOrResumeCompetenceEvaluation)({
@@ -51,7 +51,7 @@ describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
   context('When the competence could not be retrieved', () => {
 
     beforeEach(() => {
-      competenceRepository.get.withArgs(competenceId).resolves();
+      competenceRepository.get.withArgs({ id: competenceId }).resolves();
       competenceEvaluationRepository.getByCompetenceIdAndUserId.rejects(new Error);
     });
 
@@ -66,7 +66,7 @@ describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
   });
   context('When the competence exists', () => {
     beforeEach(() => {
-      competenceRepository.get.withArgs(competenceId).resolves();
+      competenceRepository.get.withArgs({ id: competenceId }).resolves();
     });
     context('When the user starts a new competence evaluation', () => {
       beforeEach(() => {
