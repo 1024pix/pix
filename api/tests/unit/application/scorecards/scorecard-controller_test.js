@@ -22,6 +22,7 @@ describe('Unit | Controller | user-controller', () => {
       // given
       const authenticatedUserId = '12';
       const scorecardId = 'foo';
+      const locale = 'fr';
 
       const request = {
         auth: {
@@ -32,13 +33,14 @@ describe('Unit | Controller | user-controller', () => {
         params: {
           id: scorecardId,
         },
+        headers: { 'accept-language': locale }
       };
 
       // when
       const result = await scorecardController.getScorecard(request, hFake);
 
       // then
-      expect(usecases.getScorecard).to.have.been.calledWith({ authenticatedUserId, scorecardId });
+      expect(usecases.getScorecard).to.have.been.calledWith({ authenticatedUserId, scorecardId, locale });
       expect(result).to.be.equal(scorecard);
     });
   });

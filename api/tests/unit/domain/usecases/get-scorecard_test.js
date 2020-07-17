@@ -6,10 +6,14 @@ const getScorecard = require('../../../../lib/domain/usecases/get-scorecard');
 describe('Unit | UseCase | get-scorecard', () => {
 
   let scorecardService;
+  let competenceRepository;
+  let competenceEvaluationRepository;
+  let knowledgeElementRepository;
   let scorecardId;
   let competenceId;
   let authenticatedUserId;
   let parseIdStub;
+  const locale = 'fr';
 
   beforeEach(() => {
     scorecardId = '1_1';
@@ -17,6 +21,9 @@ describe('Unit | UseCase | get-scorecard', () => {
     authenticatedUserId = 1;
     scorecardService = { computeScorecard: sinon.stub() };
     parseIdStub = sinon.stub(Scorecard, 'parseId');
+    competenceRepository = {};
+    competenceEvaluationRepository = {};
+    knowledgeElementRepository = {};
   });
 
   afterEach(() => {
@@ -33,13 +40,23 @@ describe('Unit | UseCase | get-scorecard', () => {
 
       it('should resolve', () => {
         // given
-        scorecardService.computeScorecard.resolves({});
+        scorecardService.computeScorecard.withArgs({
+          userId: authenticatedUserId,
+          competenceRepository,
+          competenceEvaluationRepository,
+          knowledgeElementRepository,
+          locale,
+        }).resolves({});
 
         // when
         const promise = getScorecard({
           authenticatedUserId,
           scorecardId,
           scorecardService,
+          competenceRepository,
+          competenceEvaluationRepository,
+          knowledgeElementRepository,
+          locale,
         });
 
         // then
