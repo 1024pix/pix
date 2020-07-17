@@ -95,18 +95,3 @@
     }
   }
 }
-
-.progress-bar {
-  width: 100px;
-  height: 3px;
-  border-radius: 10px;
-  background-color: $grey-20;
-
-  &--completion {
-    background-color: $blue;
-  }
-
-  &--completed {
-    background-color: $success;
-  }
-}
