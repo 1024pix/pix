@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntegration from '../../helpers/setup-integration';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 import { contains, containsAll } from '../../helpers/contains';
 
 describe('Unit | Helpers | contains', function() {
-  setupRenderingTest();
+  setupIntegration();
 
   describe('contains', function() {
     it('should contains Hello', async function() {

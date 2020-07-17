@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntegration from '../../helpers/setup-integration';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | campaign-start-block template', function() {
 
-  setupRenderingTest();
+  setupIntegration();
 
   it('should display all text arguments correctly', async function() {
     // given
@@ -26,7 +26,7 @@ describe('Integration | Component | campaign-start-block template', function() {
         @startCampaignParticipation={{this.startCampaignParticipation}}
         @titleText={{this.titleText}}
         @announcementText={{this.announcementText}}
-        @buttonText={{this.buttonText}} 
+        @buttonText={{this.buttonText}}
         @legalText={{this.legalText}}
       />`);
 
@@ -59,7 +59,7 @@ describe('Integration | Component | campaign-start-block template', function() {
         @startCampaignParticipation={{this.startCampaignParticipation}}
         @titleText={{this.titleText}}
         @announcementText={{this.announcementText}}
-        @buttonText={{this.buttonText}} 
+        @buttonText={{this.buttonText}}
         @legalText={{this.legalText}}
       />`);
 
@@ -87,7 +87,7 @@ describe('Integration | Component | campaign-start-block template', function() {
         @startCampaignParticipation={{this.startCampaignParticipation}}
         @titleText={{this.titleText}}
         @announcementText={{this.announcementText}}
-        @buttonText={{this.buttonText}} 
+        @buttonText={{this.buttonText}}
         @legalText={{this.legalText}}
       />`);
 

@@ -1,20 +1,14 @@
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { A } from '@ember/array';
-import { setupRenderingTest } from 'ember-mocha';
 import EmberObject from '@ember/object';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import config from '../../../config/environment';
-import setupIntl from '../../helpers/setup-intl';
+import setupIntegration from '../../helpers/setup-integration';
 
 describe('Integration | Component | scorecard-details', function() {
-  setupRenderingTest();
-  setupIntl();
-  
-  beforeEach(function() {
-    this.intl.setLocale('fr');
-  });
+  setupIntegration();
 
   describe('Component rendering', function() {
 

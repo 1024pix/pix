@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntegration from '../../helpers/setup-integration';
 import { resolve, reject } from 'rsvp';
 import {
   click,
@@ -15,7 +15,7 @@ import hbs from 'htmlbars-inline-precompile';
 const PASSWORD_INPUT_CLASS = '.form-textfield__input';
 
 describe('Integration | Component | update-expired-password-form', function() {
-  setupRenderingTest();
+  setupIntegration();
 
   let isSaveMethodCalled, saveMethodOptions;
 

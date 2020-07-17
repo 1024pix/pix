@@ -1,13 +1,13 @@
 import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntegration from '../../helpers/setup-integration';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | comparison-window', function() {
 
-  setupRenderingTest();
+  setupIntegration();
 
   describe('rendering', function() {
 

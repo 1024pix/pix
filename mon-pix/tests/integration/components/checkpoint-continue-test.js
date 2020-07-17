@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntegration from '../../helpers/setup-integration';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | checkpoint-continue', function() {
-  setupRenderingTest();
+  setupIntegration();
 
   it('renders', async function() {
     await render(hbs`{{checkpoint-continue}}`);

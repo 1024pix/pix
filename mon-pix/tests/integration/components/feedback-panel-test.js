@@ -6,7 +6,7 @@ import { resolve } from 'rsvp';
 import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntegration from '../../helpers/setup-integration';
 import {
   blur,
   click,
@@ -48,7 +48,7 @@ async function setContent(content) {
 
 describe('Integration | Component | feedback-panel', function() {
 
-  setupRenderingTest();
+  setupIntegration();
 
   describe('Default rendering', function() {
     context('when assessment is not of type certification', function() {

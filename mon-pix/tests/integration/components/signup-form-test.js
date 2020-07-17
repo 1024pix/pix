@@ -8,7 +8,6 @@ import Component from '@ember/component';
 import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
 import {
   click,
   fillIn,
@@ -20,8 +19,8 @@ import {
 } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
-import setupIntl from '../../helpers/setup-intl';
 import ENV from '../../../config/environment';
+import setupIntegration from '../../helpers/setup-integration';
 
 const FORM_CONTAINER = '.sign-form__container';
 const FORM_HEADER_CONTAINER = '.sign-form__header';
@@ -44,8 +43,7 @@ const CAPTCHA_CONTAINER = '.signup-form__captcha-container';
 
 describe('Integration | Component | signup form', function() {
 
-  setupRenderingTest();
-  setupIntl();
+  setupIntegration();
 
   describe('Localization', function() {
     const originalLocale = ENV.APP.LOCALE;

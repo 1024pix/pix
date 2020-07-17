@@ -1,7 +1,7 @@
 import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntegration from '../../helpers/setup-integration';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import _ from 'mon-pix/utils/lodash-custom';
@@ -12,7 +12,7 @@ let answer = null;
 let solution = null;
 
 describe('Integration | Component | qcu-solution-panel.js', function() {
-  setupRenderingTest();
+  setupIntegration();
 
   const correctAnswer = {
     id: 'answer_id', assessment, challenge, value: '2'

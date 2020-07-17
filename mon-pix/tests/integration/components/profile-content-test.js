@@ -3,14 +3,14 @@
 
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntegration from '../../helpers/setup-integration';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import { setBreakpoint } from 'ember-responsive/test-support';
 
 describe('Integration | Component | Profile-content', function() {
-  setupRenderingTest();
+  setupIntegration();
 
   context('On component rendering', function() {
     let model;

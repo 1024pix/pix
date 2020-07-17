@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntegration from '../../helpers/setup-integration';
 import { click, find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | Challenge Embed Simulator', function() {
 
-  setupRenderingTest();
+  setupIntegration();
 
   describe('Acknowledgment overlay', function() {
 
