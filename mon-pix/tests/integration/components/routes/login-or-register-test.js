@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntegration from '../../../helpers/setup-integration';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Unit | Component | routes/login-or-register', () => {
+describe('Integration | Routes | routes/login-or-register', () => {
 
-  setupRenderingTest();
+  setupIntegration();
 
   it('should render', async () => {
     // when
