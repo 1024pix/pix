@@ -1,7 +1,6 @@
 const sumBy = require('lodash/sumBy');
 const { knex } = require('../bookshelf');
 const certificationProfileService = require('../../domain/services/certification-profile-service');
-const competenceRepository = require('./competence-repository');
 const CampaignProfilesCollectionParticipationSummary = require('../../domain/read-models/CampaignProfilesCollectionParticipationSummary');
 const { fetchPage } = require('../utils/knex-utils');
 
@@ -25,8 +24,6 @@ const CampaignProfilesCollectionParticipationSummaryRepository = {
 
     const { results, pagination } = await fetchPage(query, page);
 
-    const competences = await competenceRepository.listPixCompetencesOnly();
-
     const data = await Promise.all(results.map(
       async (result) => {
         if (!result.sharedAt) {
@@ -36,7 +33,6 @@ const CampaignProfilesCollectionParticipationSummaryRepository = {
         const certificationProfile = await certificationProfileService.getCertificationProfile({
           userId: result.userId,
           limitDate: result.sharedAt,
-          competences: competences,
           allowExcessPixAndLevels: false
         });
 

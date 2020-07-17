@@ -48,15 +48,13 @@ async function _startNewCertification({
   sessionId,
   userId,
   assessmentRepository,
-  competenceRepository,
   certificationCandidateRepository,
   certificationChallengeRepository,
   certificationCourseRepository,
   certificationChallengesService,
   certificationProfileService,
 }) {
-  const competences = await competenceRepository.listPixCompetencesOnly();
-  let certificationProfile = await certificationProfileService.getCertificationProfile({ userId, limitDate: new Date(), competences });
+  let certificationProfile = await certificationProfileService.getCertificationProfile({ userId, limitDate: new Date() });
 
   if (!certificationProfile.isCertifiable()) {
     throw new UserNotAuthorizedToCertifyError();

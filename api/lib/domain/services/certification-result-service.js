@@ -167,8 +167,8 @@ function _getChallengeInformation(listAnswers, certificationChallenges, competen
   });
 }
 
-async function _getTestedCompetences({ userId, limitDate, isV2Certification, competences }) {
-  const certificationProfile = await certificationProfileService.getCertificationProfile({ userId, limitDate, isV2Certification, competences });
+async function _getTestedCompetences({ userId, limitDate, isV2Certification }) {
+  const certificationProfile = await certificationProfileService.getCertificationProfile({ userId, limitDate, isV2Certification });
   return _(certificationProfile.userCompetences)
     .filter((uc) => uc.isCertifiable())
     .map((uc) => _.pick(uc, ['id', 'area', 'index', 'name', 'estimatedLevel', 'pixScore']))
@@ -197,7 +197,6 @@ module.exports = {
       userId: certificationAssessment.userId,
       limitDate: certificationAssessment.createdAt,
       isV2Certification: certificationAssessment.isV2Certification,
-      competences: allCompetences,
     });
 
     // map sur challenges filtre sur competence Id - S'assurer qu'on ne travaille que sur les compétences certifiables

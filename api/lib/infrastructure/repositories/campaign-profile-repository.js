@@ -1,5 +1,4 @@
 const CampaignProfile = require('../../../lib/domain/read-models/CampaignProfile');
-const CompetenceRepository = require('./competence-repository');
 const certificationProfileService = require('../../../lib/domain/services/certification-profile-service');
 const { NotFoundError } = require('../../../lib/domain/errors');
 const Bookshelf = require('../bookshelf');
@@ -7,13 +6,10 @@ const Bookshelf = require('../bookshelf');
 module.exports = {
   async findProfile(campaignId, campaignParticipationId) {
 
-    const [profile, competences] = await Promise.all([
-      await _fetchCampaignProfileAttributesFromCampaignParticipation(campaignId, campaignParticipationId),
-      await CompetenceRepository.listPixCompetencesOnly()
-    ]);
+    const profile = await _fetchCampaignProfileAttributesFromCampaignParticipation(campaignId, campaignParticipationId);
 
     const { sharedAt, userId } = profile;
-    const certificationProfile = await certificationProfileService.getCertificationProfile({ userId, competences, limitDate: sharedAt, allowExcessPixAndLevels: false });
+    const certificationProfile = await certificationProfileService.getCertificationProfile({ userId, limitDate: sharedAt, allowExcessPixAndLevels: false });
 
     return new CampaignProfile({ ...profile, certificationProfile });
   }

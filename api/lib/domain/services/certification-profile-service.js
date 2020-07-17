@@ -10,9 +10,11 @@ const assessmentResultRepository = require('../../../lib/infrastructure/reposito
 const challengeRepository = require('../../../lib/infrastructure/repositories/challenge-repository');
 const answerRepository = require('../../../lib/infrastructure/repositories/answer-repository');
 const knowledgeElementRepository = require('../../../lib/infrastructure/repositories/knowledge-element-repository');
+const competenceRepository = require('../../../lib/infrastructure/repositories/competence-repository');
 const scoringService = require('../../../lib/domain/services/scoring/scoring-service');
 
-async function getCertificationProfile({ userId, limitDate, competences, isV2Certification = true, allowExcessPixAndLevels = true }) {
+async function getCertificationProfile({ userId, limitDate, isV2Certification = true, allowExcessPixAndLevels = true }) {
+  const competences = await competenceRepository.listPixCompetencesOnly();
   if (isV2Certification) {
     return _generateCertificationProfileV2({ userId, profileDate: limitDate, competences, allowExcessPixAndLevels });
   }
@@ -171,7 +173,7 @@ async function getCertificationProfilesWithSnapshotting({ userIdsAndDates, compe
       allCompetences: competences,
       allowExcessPixAndLevels,
     });
-    
+
     certificationProfilesList.push(certificationProfile);
   }
 

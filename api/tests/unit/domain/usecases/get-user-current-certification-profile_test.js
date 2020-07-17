@@ -24,7 +24,7 @@ describe('Unit | UseCase | get-user-current-certification-profile', () => {
     // given
     const userId = 2;
 
-    certificationProfileService.getCertificationProfile.withArgs({ userId, limitDate: now, competences }).resolves('certificationProfile');
+    certificationProfileService.getCertificationProfile.withArgs({ userId, limitDate: now }).resolves('certificationProfile');
 
     // when
     const actualCertificationProfile = await getUserCurrentCertificationProfile({
