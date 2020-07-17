@@ -10,17 +10,22 @@
     "or": "ou",
     "pix": "pix"
   },
+
   "navigation": {
     "homepage": {
       "link": "Page d'accueil"
     }
   },
+
   "page-title": {
+    "certifications-start": "Rejoindre une session de certification",
+    "certification-number": "Certification {certificationNumber}",
     "signin": "Connexion",
     "signup": "Inscription",
     "suffix": "Pix",
     "my-certifications": "Mes certifications"
   },
+
   "api-error-messages": {
     "login-unauthorized-error": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects.",
     "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
@@ -71,6 +76,41 @@
     }
   },
 
+  "certification-banner": {
+    "certification-number": "N° de certification"
+  },
+
+  "certification-joiner": {
+    "congratulation-banner": {
+      "message": "Bravo {fullName},'<br>'votre profil est certifiable."
+    },
+    "title": "Rejoindre une session",
+    "form": {
+      "action": {
+        "submit": "Continuer"
+      },
+      "session-number": "Numéro de session",
+      "first-name": "Prénom",
+      "birth-name": "Nom de naissance",
+      "birth-date": "Date de naissance"
+    }
+  },
+
+  "certification-start-page": {
+    "title": "Vous allez commencer votre test de certification",
+    "access-code": "Saisissez le code d'accès communiqué par le surveillant",
+    "action": {
+      "submit": "Commencer mon test"
+    },
+    "cgu":  {
+      "info": "En cliquant sur \"Commencer mon test\", j’accepte que mes données d’identité, le numéro de certification et les circonstances de la passation telles que renseignées par le surveillant soient communiquées à Pix. Pix les utilisera lors de la délibération du jury pour produire et archiver mes résultats et pour éditer mon certificat. Si cette certification m’a été prescrite par une organisation, j’accepte que Pix lui communique mes résultats.",
+      "contact": {
+        "info": "Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en envoyant un mail à ",
+        "email": "dpo@pix.fr"
+      }
+    }
+  },
+
   "signin-form": {
     "actions": {
       "submit": "Je me connecte"
@@ -93,6 +133,7 @@
     },
     "title": "Connectez-vous"
   },
+
   "signup-form": {
     "actions": {
       "submit": "Je m'inscris"
@@ -128,6 +169,7 @@
     },
     "title": "Inscrivez-vous"
   },
+
   "scorecard": {
     "actions": {
       "continue": {
@@ -163,5 +205,4 @@
       "description": "Voici une sélection de tutos qui pourront vous aider à gagner des Pix."
     }
   }
-
 }
