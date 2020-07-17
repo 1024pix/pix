@@ -2,7 +2,7 @@ import EmberObject from '@ember/object';
 import { resolve, reject } from 'rsvp';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntegration from '../../helpers/setup-integration';
 import {
   click,
   find,
@@ -15,7 +15,7 @@ import hbs from 'htmlbars-inline-precompile';
 const PASSWORD_INPUT_CLASS = '.form-textfield__input';
 
 describe('Integration | Component | reset password form', function() {
-  setupRenderingTest();
+  setupIntegration();
 
   describe('Component rendering', function() {
 

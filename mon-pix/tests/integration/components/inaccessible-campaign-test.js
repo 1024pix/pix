@@ -3,13 +3,13 @@
 
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntegration from '../../helpers/setup-integration';
 import Service from '@ember/service';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | inaccessible-campaign', function() {
-  setupRenderingTest();
+  setupIntegration();
 
   it('should not display marianne logo when url does not have frenchDomainExtension', async function() {
     // given

@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import  EmberObject  from '@ember/object';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntegration from '../../helpers/setup-integration';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | competence-card-mobile', function() {
-  setupRenderingTest();
+  setupIntegration();
 
   describe('Component rendering', function() {
 

@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntegration from '../../helpers/setup-integration';
 import hbs from 'htmlbars-inline-precompile';
 import { find, render, triggerEvent } from '@ember/test-helpers';
 
 describe('Integration | Component | challenge-illustration', function() {
-  setupRenderingTest();
+  setupIntegration();
 
   const IMG_SRC = 'http://www.example.com/this-is-an-example.png';
   const IMG_ALT = 'texte alternatif à l\'image';

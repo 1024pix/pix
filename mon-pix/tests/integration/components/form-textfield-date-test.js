@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntegration from '../../helpers/setup-integration';
 import {
   fillIn,
   find,
@@ -12,7 +12,7 @@ import {
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | form textfield date', function() {
-  setupRenderingTest();
+  setupIntegration();
 
   const LABEL = '.form-textfield__label';
   const LABEL_TEXT = 'date';

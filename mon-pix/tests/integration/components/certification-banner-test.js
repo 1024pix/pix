@@ -4,13 +4,13 @@
 import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntegration from '../../helpers/setup-integration';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | Certification Banner', function() {
 
-  setupRenderingTest();
+  setupIntegration();
 
   context('On component rendering', function() {
     const fullName = 'shi fu';

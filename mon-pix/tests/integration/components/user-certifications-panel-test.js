@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntegration from '../../helpers/setup-integration';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
 describe('Integration | Component | user certifications panel', function() {
-  setupRenderingTest();
+  setupIntegration();
 
   it('renders', async function() {
     await render(hbs`{{user-certifications-panel}}`);

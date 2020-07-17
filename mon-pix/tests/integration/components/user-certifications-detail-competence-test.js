@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntegration from '../../helpers/setup-integration';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 import { find, findAll, render } from '@ember/test-helpers';
 import { A as EmberArray } from '@ember/array';
 
 describe('Integration | Component | user-certifications-detail-competence', function() {
-  setupRenderingTest();
+  setupIntegration();
 
   let area;
   const PARENT_SELECTOR = '.user-certifications-detail-competence';

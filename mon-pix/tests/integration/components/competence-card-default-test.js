@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import  EmberObject  from '@ember/object';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntegration from '../../helpers/setup-integration';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import config from 'mon-pix/config/environment';
 
 describe('Integration | Component | competence-card-default', function() {
-  setupRenderingTest();
+  setupIntegration();
 
   describe('Component rendering', function() {
 
