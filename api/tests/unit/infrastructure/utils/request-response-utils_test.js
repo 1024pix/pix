@@ -1,6 +1,6 @@
 const { expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const { escapeFileName, extractUserIdFromRequest, extractLocaleFromRequest } = require('../../../../lib/infrastructure/utils/request-response-utils');
-const { FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
+const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Unit | Utils | Request Utils', function() {
 
@@ -59,11 +59,11 @@ describe('Unit | Utils | Request Utils', function() {
     });
 
     [
-      { header: 'fr-FR', expectedLocale: 'fr-fr' },
-      { header: 'fr', expectedLocale: 'fr' },
-      { header: 'en', expectedLocale: 'en' },
-      { header: 'de', expectedLocale: 'fr-fr' },
-      { header: 'fr-BE', expectedLocale: 'fr-fr' },
+      { header: 'fr-FR', expectedLocale: FRENCH_FRANCE },
+      { header: 'fr', expectedLocale: FRENCH_SPOKEN },
+      { header: 'en', expectedLocale: ENGLISH_SPOKEN },
+      { header: 'de', expectedLocale: FRENCH_FRANCE },
+      { header: 'fr-BE', expectedLocale: FRENCH_FRANCE },
     ].forEach(function(data) {
 
       it(`should return ${data.expectedLocale} locale when header is ${data.header}`, function() {
