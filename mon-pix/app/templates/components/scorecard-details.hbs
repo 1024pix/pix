@@ -4,7 +4,7 @@
     <span class="icon-button">
       {{fa-icon 'arrow-left'}}
     </span>
-      {{t 'scorecard.link-to-profile'}}
+      {{t 'navigation.back-to-profile'}}
     </LinkTo>
   </div>
 
@@ -53,7 +53,7 @@
 
       {{#if this.isProgressable}}
         <div class="scorecard-details-content-right__level-info">
-          {{t 'scorecard.next-level-info' remainingPixToNextLevel=@scorecard.remainingPixToNextLevel
+          {{t 'pages.competence-details.next-level-info' remainingPixToNextLevel=@scorecard.remainingPixToNextLevel
               level=(inc @scorecard.level)}}
         </div>
       {{/if}}
@@ -63,17 +63,17 @@
           {{#if this.canImprove}}
             {{#if this.shouldWaitBeforeImproving}}
               <div class="scorecard-details__improvement-countdown">
-                <span class="scorecard-details-improvement-countdown__label">{{t 'scorecard.actions.improve.description.waiting-text'}}</span>
-                <span class="scorecard-details-improvement-countdown__count">{{t 'scorecard.actions.improve.description.countdown'
+                <span class="scorecard-details-improvement-countdown__label">{{t 'pages.competence-details.actions.improve.description.waiting-text'}}</span>
+                <span class="scorecard-details-improvement-countdown__count">{{t 'pages.competence-details.actions.improve.description.countdown'
                                                                                  daysBeforeImproving=@scorecard.remainingDaysBeforeImproving}}</span>
               </div>
             {{else}}
               <button class="button button--big button--thin button--round button--link button--green scorecard-details__improve-button" {{action
                       "improveCompetenceEvaluation"}}>
-                {{t 'scorecard.actions.improve.label'}}
-                <div class="sr-only">{{t 'scorecard.for-competence' competence=@scorecard.name }}"</div>
+                {{t 'pages.competence-details.actions.improve.label'}}
+                <div class="sr-only">{{t 'pages.competence-details.for-competence' competence=@scorecard.name }}"</div>
               </button>
-              <span class="scorecard-details__improving-text">{{t 'scorecard.actions.improve.improvingText' }}</span>
+              <span class="scorecard-details__improving-text">{{t 'pages.competence-details.actions.improve.improvingText' }}</span>
             {{/if}}
           {{/if}}
         {{/if}}
@@ -83,21 +83,21 @@
                 class={{concat "button button--big button--thin button--round button--link button--green "
                                (if @scorecard.isNotStarted "" "scorecard-details__resume-or-start-button")}}>
           {{#if @scorecard.isStarted}}
-            {{t 'scorecard.actions.continue.label'}}
-            <div class="sr-only">{{t 'scorecard.for-competence' competence=@scorecard.name}}</div>
+            {{t 'pages.competence-details.actions.continue.label'}}
+            <div class="sr-only">{{t 'pages.competence-details.for-competence' competence=@scorecard.name}}</div>
           {{else}}
-            {{t 'scorecard.actions.start.label'}}
-            <div class="sr-only">{{t 'scorecard.for-competence' competence=@scorecard.name}}</div>
+            {{t 'pages.competence-details.actions.start.label'}}
+            <div class="sr-only">{{t 'pages.competence-details.for-competence' competence=@scorecard.name}}</div>
           {{/if}}
         </LinkTo>
       {{/if}}
       {{#if this.displayResetButton}}
         <button class="link link--underline scorecard-details__reset-button" {{action "openModal"}}>
-          {{t 'scorecard.actions.reset.label'}}
-          <div class="sr-only">{{t 'scorecard.for-competence' competence=@scorecard.name}}</div>
+          {{t 'pages.competence-details.actions.reset.label'}}
+          <div class="sr-only">{{t 'pages.competence-details.for-competence' competence=@scorecard.name}}</div>
         </button>
       {{else if this.displayWaitSentence}}
-        <p class="scorecard-details-content-right__reset-message">{{t 'scorecard.actions.reset.description'
+        <p class="scorecard-details-content-right__reset-message">{{t 'pages.competence-details.actions.reset.description'
                                                                       daysBeforeReset=@scorecard.remainingDaysBeforeReset}}</p>
       {{/if}}
     </div>
@@ -106,8 +106,8 @@
     <div class="scorecard-details__content">
       <div class="tutorials">
         <div class="tutorials__header">
-          <h3 class="tutorials-header__title">{{t 'scorecard.tutorials.title'}}</h3>
-          <p class="tutorials-header__description">{{t 'scorecard.tutorials.description'}}</p>
+          <h3 class="tutorials-header__title">{{t 'pages.competence-details.tutorials.title'}}</h3>
+          <p class="tutorials-header__description">{{t 'pages.competence-details.tutorials.description'}}</p>
         </div>
         <div class="tutorial__list">
           {{#each this.tutorialsGroupedByTubeName as |tube|}}
@@ -127,34 +127,34 @@
 </div>
 {{#if this.showResetModal}}
   <PixModal @containerClass="scorecard-details__reset-modal pix-modal-dialog--wide" @onClose={{action "closeModal"}}>
-    <div class="pix-modal__close-link" aria-label="{{t 'common.close'}}" {{action "closeModal"}}>
-      <span>{{t 'common.close'}}</span>
+    <div class="pix-modal__close-link" aria-label="{{t 'common.actions.close'}}" {{action "closeModal"}}>
+      <span>{{t 'common.actions.close'}}</span>
       <FaIcon @icon="times-circle" class="logged-user-menu__icon"></FaIcon>
     </div>
 
 
     <div class="pix-modal__container pix-modal__container--white pix-modal__container--with-padding">
       <div class="pix-modal-header">
-        <h1 class="pix-modal-header__title pix-modal-header__title--thin">{{t 'scorecard.actions.reset.modal.title'}}</h1>
+        <h1 class="pix-modal-header__title pix-modal-header__title--thin">{{t 'pages.competence-details.actions.reset.modal.title'}}</h1>
         <h2 class="pix-modal-header__subtitle">{{@scorecard.name}}</h2>
       </div>
 
       <div class="pix-modal-body pix-modal-body--with-padding">
         <div class="scorecard-details-reset-modal__important-message">
           {{#if @scorecard.hasNotReachLevelOne}}
-            {{t 'scorecard.actions.reset.modal.important-message' earnedPix=@scorecard.earnedPix}}
+            {{t 'pages.competence-details.actions.reset.modal.important-message' earnedPix=@scorecard.earnedPix}}
           {{else if @scorecard.hasReachAtLeastLevelOne}}
-            {{t 'scorecard.actions.reset.modal.important-message-above-level-one' level=@scorecard.level earnedPix=@scorecard.earnedPix}}
+            {{t 'pages.competence-details.actions.reset.modal.important-message-above-level-one' level=@scorecard.level earnedPix=@scorecard.earnedPix}}
           {{/if}}
         </div>
         <div class="scorecard-details-reset-modal__warning">
-          <p>{{t 'scorecard.actions.reset.modal.warning'}}</p>
+          <p>{{t 'pages.competence-details.actions.reset.modal.warning'}}</p>
         </div>
       </div>
 
       <div class="pix-modal-footer pix-modal-footer--with-centered-buttons">
-        <button class="button button--big button--extra-thin button--red" {{action "reset"}}>{{t 'scorecard.actions.reset.label'}}</button>
-        <button class="button button--regular button--extra-thin button--grey" {{action "closeModal"}}>{{t 'common.cancel'}}</button>
+        <button class="button button--big button--extra-thin button--red" {{action "reset"}}>{{t 'pages.competence-details.actions.reset.label'}}</button>
+        <button class="button button--regular button--extra-thin button--grey" {{action "closeModal"}}>{{t 'common.actions.cancel'}}</button>
       </div>
     </div>
   </PixModal>

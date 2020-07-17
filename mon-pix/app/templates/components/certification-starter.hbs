@@ -1,8 +1,8 @@
 <section class="certification-starter">
-    <h2 class="certification-start-page__title">{{t "certification-start-page.title"}}</h2>
+    <h2 class="certification-start-page__title">{{t "pages.certification-start.first-title"}}</h2>
 
     <p class="certification-course-page__order">
-        {{t "certification-start-page.access-code"}}
+        {{t "pages.certification-start.access-code"}}
     </p>
     <form autocomplete="off">
         <div class="certification-course-page__session-code-input">
@@ -19,17 +19,17 @@
               <span class="loader-in-button">&nbsp;</span>
             </button>
           {{else}}
-              <button type="submit" class="button button--thin certification-course-page__submit_button" {{ action "submit" }}>{{t "certification-start-page.action.submit"}}</button>
+              <button type="submit" class="button button--thin certification-course-page__submit_button" {{ action "submit" }}>{{t "pages.certification-start.actions.submit"}}</button>
           {{/if}}
         </div>
     </form>
 
     <div class="certification-course-page__cgu">
         <p>
-          {{t "certification-start-page.cgu.info"}}
+          {{t "pages.certification-start.cgu.info"}}
         </p>
         <p>
-          {{t "certification-start-page.cgu.contact.info"}} <a href="mailto:dpo@pix.fr">{{t "certification-start-page.cgu.contact.email"}}</a>.
+          {{t "pages.certification-start.cgu.contact.info"}} <a href="mailto:{{t "pages.certification-start.cgu.contact.email"}}">{{t "pages.certification-start.cgu.contact.email"}}</a>.
         </p>
     </div>
 </section>

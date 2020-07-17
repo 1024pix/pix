@@ -4,5 +4,5 @@ import Controller from '@ember/controller';
 export default class InscriptionController extends Controller {
   @service intl;
 
-  pageTitle = this.intl.t('page-title.signup');
+  pageTitle = this.intl.t('pages.sign-up.title');
 }

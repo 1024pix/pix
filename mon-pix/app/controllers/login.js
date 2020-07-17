@@ -4,5 +4,5 @@ import Controller from '@ember/controller';
 export default class LoginController extends Controller {
   @service intl;
 
-  pageTitle = this.intl.t('page-title.signin');
+  pageTitle = this.intl.t('pages.sign-in.title');
 }

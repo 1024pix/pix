@@ -1,7 +1,8 @@
-import classic from 'ember-classic-decorator';
 import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
 
-@classic
 export default class DetailsController extends Controller {
-  pageTitle = 'Compétence';
+  @service intl;
+
+  pageTitle = this.intl.t('pages.competence-details.title');
 }
