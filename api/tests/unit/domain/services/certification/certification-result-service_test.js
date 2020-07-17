@@ -118,8 +118,7 @@ const competence_3 = domainBuilder.buildCompetence({ id: 'competence_3', index: 
 const competence_4 = domainBuilder.buildCompetence({ id: 'competence_4', index: '4.4', area: { code: '4' }, name: 'Résoudre' });
 const competence_5 = domainBuilder.buildCompetence({ id: 'competence_5', index: '5.5', area: { code: '5' }, name: 'Chercher' });
 const competence_6 = domainBuilder.buildCompetence({ id: 'competence_6', index: '6.6', area: { code: '6' }, name: 'Trouver' });
-const nonPixCompetence = domainBuilder.buildCompetence({ id: 'non-pix-competence', index: '7.7', area: { code: '7' }, name: 'Vendre', origin: 'non-pix' });
-const allCompetencesFromAirtable = [ competence_1, competence_2, competence_3, competence_4, competence_5, competence_6, nonPixCompetence ];
+const allPixCompetencesFromAirtable = [ competence_1, competence_2, competence_3, competence_4, competence_5, competence_6 ];
 
 const userCompetences = [
   _buildUserCompetence(competence_1, pixForCompetence1, 1),
@@ -203,7 +202,7 @@ describe('Unit | Service | Certification Result Service', function() {
           certificationChallenges: challenges,
         });
 
-        sinon.stub(competenceRepository, 'list').resolves(allCompetencesFromAirtable);
+        sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves(allPixCompetencesFromAirtable);
         sinon.stub(challengeRepository, 'findOperative').resolves(challengesFromAirTable);
         sinon.stub(certificationProfileService, 'getCertificationProfile').withArgs({
           userId: certificationAssessment.userId,
@@ -233,7 +232,7 @@ describe('Unit | Service | Certification Result Service', function() {
         await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
 
         // then
-        sinon.assert.calledOnce(competenceRepository.list);
+        sinon.assert.calledOnce(competenceRepository.listPixCompetencesOnly);
       });
 
       context('when assessment is just started', () => {
@@ -648,7 +647,7 @@ describe('Unit | Service | Certification Result Service', function() {
       beforeEach(() => {
         certificationAssessment.certificationAnswersByDate = wrongAnswersForAllChallenges();
         certificationAssessment.certificationChallenges = challenges;
-        sinon.stub(competenceRepository, 'list').resolves(allCompetencesFromAirtable);
+        sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves(allPixCompetencesFromAirtable);
         sinon.stub(challengeRepository, 'findOperative').resolves(challengesFromAirTable);
         sinon.stub(certificationProfileService, 'getCertificationProfile').withArgs({
           userId: certificationAssessment.userId,
@@ -670,7 +669,7 @@ describe('Unit | Service | Certification Result Service', function() {
         await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
 
         // then
-        sinon.assert.calledOnce(competenceRepository.list);
+        sinon.assert.calledOnce(competenceRepository.listPixCompetencesOnly);
       });
 
       context('when reproducibility rate is < 50%', () => {
