@@ -662,6 +662,7 @@ describe('Unit | Controller | user-controller', () => {
     it('should call the expected usecase', async () => {
       // given
       const userId = '12';
+      const locale = 'fr';
 
       const request = {
         auth: {
@@ -671,14 +672,15 @@ describe('Unit | Controller | user-controller', () => {
         },
         params: {
           id: userId
-        }
+        },
+        headers: { 'accept-language': locale }
       };
 
       // when
       await userController.getScorecards(request);
 
       // then
-      expect(usecases.getUserScorecards).to.have.been.calledWith({ userId });
+      expect(usecases.getUserScorecards).to.have.been.calledWith({ userId, locale });
     });
   });
 

@@ -39,7 +39,7 @@ describe('Unit | Adapters | ApplicationAdapter', function() {
       expect(applicationAdapter.headers['Authorization']).to.be.undefined;
     });
 
-    it('should add Accept-Language header set to fr-fr when the current domain contains pix.fr', function() {
+    it('should add Accept-Language header set to fr-fr when the current domain contains pix.fr and locale is "fr"', function() {
       // Given
       const applicationAdapter = this.owner.lookup('adapter:application');
 
@@ -50,7 +50,7 @@ describe('Unit | Adapters | ApplicationAdapter', function() {
       expect(applicationAdapter.headers['Accept-Language']).to.equal('fr-fr');
     });
 
-    it('should add Accept-Language header set to fr-fr when the current domain contains pix.digital', function() {
+    it('should add Accept-Language header set to fr when the current domain contains pix.digital and locale is "fr"', function() {
       // Given
       const applicationAdapter = this.owner.lookup('adapter:application');
 
@@ -60,6 +60,18 @@ describe('Unit | Adapters | ApplicationAdapter', function() {
       // Then
       expect(applicationAdapter.headers['Accept-Language']).to.equal('fr');
     });
+
+    it('should add Accept-Language header set to en when locale is "en"', function() {
+      // Given
+      const applicationAdapter = this.owner.lookup('adapter:application');
+
+      // When
+      applicationAdapter.locale = 'en';
+
+      // Then
+      expect(applicationAdapter.headers['Accept-Language']).to.equal('en');
+    });
+
   });
 
   describe('ajax()', function() {

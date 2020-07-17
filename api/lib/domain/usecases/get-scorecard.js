@@ -1,7 +1,15 @@
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 const Scorecard = require('../models/Scorecard');
 
-module.exports = async function getScorecard({ authenticatedUserId, scorecardId, scorecardService, competenceRepository, competenceEvaluationRepository, knowledgeElementRepository }) {
+module.exports = async function getScorecard({
+  authenticatedUserId,
+  scorecardId,
+  scorecardService,
+  competenceRepository,
+  competenceEvaluationRepository,
+  knowledgeElementRepository,
+  locale,
+}) {
 
   const { userId, competenceId } = Scorecard.parseId(scorecardId);
 
@@ -15,6 +23,7 @@ module.exports = async function getScorecard({ authenticatedUserId, scorecardId,
     competenceRepository,
     competenceEvaluationRepository,
     knowledgeElementRepository,
+    locale,
   });
 };
 
