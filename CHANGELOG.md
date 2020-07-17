@@ -1,5 +1,31 @@
 # Pix Changelog
 
+## v2.173.0 (17/07/2020)
+
+- [#1618](https://github.com/1024pix/pix/pull/1618) [FEATURE] Internationalisation de "mes certifications" (PIX-797)
+- [#1609](https://github.com/1024pix/pix/pull/1609) [FEATURE] Assurer à l'utilisateur auto-invité un rôle d'administrateur (PIX-845).
+- [#1627](https://github.com/1024pix/pix/pull/1627) [FEATURE] Traduire la page détails de compétence (PIX-366).
+- [#1633](https://github.com/1024pix/pix/pull/1633) [FEATURE] Afficher la liste des étudiants dans l'enseignement supérieur (PIX-933).
+- [#1636](https://github.com/1024pix/pix/pull/1636) [FEATURE] Afficher une icone pour les liens dans les consignes des épreuves (PIX-932).
+- [#1630](https://github.com/1024pix/pix/pull/1630) [FEATURE] Permettre d'envoyer une invitation pour rejoindre une organisation SCO en tant qu'administrateur (Pix-882)
+- [#1587](https://github.com/1024pix/pix/pull/1587) [FEATURE] Remonter les acquis/épreuves archivés lors d'une campagne ou certification (PIX-820)
+- [#1628](https://github.com/1024pix/pix/pull/1628) [FEATURE] Ajout de la validation sans saisie de mot réponse pour les épreuves de type QROC autovalidées (PIX-958).
+- [#1585](https://github.com/1024pix/pix/pull/1585) [FEATURE] Ne pas autoriser un utilisateur à retenter une compétence quand le niveau maximum de la compétence est atteint (PIX-898).
+- [#1617](https://github.com/1024pix/pix/pull/1617) [FEATURE] Utilisation d'un nouveau template e-mail pour rejoindre une Organisation SCO (PIX-883).
+- [#1635](https://github.com/1024pix/pix/pull/1635) [BUGFIX] Corriger l'erreur undefined lorsque l'on finit une épreuve contenant un embed
+- [#1634](https://github.com/1024pix/pix/pull/1634) [BUGFIX] Corriger le titre et la barre de progression des previews (PIX-943).
+- [#1607](https://github.com/1024pix/pix/pull/1607) [BUGFIX] Supprimer les données lors de la déconnexion de Pix-Orga (PIX-954).
+- [#1632](https://github.com/1024pix/pix/pull/1632) [BUGFIX] Bannière "Votre profil n'est pas encore certifiable." KO (PIX-963)
+- [#1616](https://github.com/1024pix/pix/pull/1616) [BUGFIX] Rendre des tests plus déterministes dans l'API (PIX-959). 
+- [#1637](https://github.com/1024pix/pix/pull/1637) [TECH] Création d'un script pour générer facilement et massivement des campagnes avec des participations pour test/dév (PIX-965)
+- [#1603](https://github.com/1024pix/pix/pull/1603) [TECH] Configurer les fichiers robots.txt des applications Ember pour éviter l'indexation et le crawling par les moteurs de recherches.
+- [#1626](https://github.com/1024pix/pix/pull/1626) [TECH] Montée de version de la librarie ember-intl 4.3.1 -> 5.3.1
+- [#1590](https://github.com/1024pix/pix/pull/1590) [TECH] Décorréler l'utilisation de isManagingStudents du type d'organisation SCO (PIX-924).
+- [#1645](https://github.com/1024pix/pix/pull/1645) [CLEANUP] Mettre des valeurs de base aux variables de reset/retry pour les tests.
+- [#1641](https://github.com/1024pix/pix/pull/1641) [DOC] Ajout d'un retro-ADR pour expliquer le choix d'Ember
+- [#1644](https://github.com/1024pix/pix/pull/1644) [DOC] Suppression de fautes d'orthographe.
+- [#1591](https://github.com/1024pix/pix/pull/1591) [DESIGN SYSTEM] Ajouter PixBlock et PixBackgroundHeader dans Mon-Pix (PIX-921)
+
 ## v2.172.0 (15/07/2020)
 
 - [#1587](https://github.com/1024pix/pix/pull/1587) [FEATURE] Remonter les acquis/épreuves archivés lors d'une campagne ou certification (PIX-820)
