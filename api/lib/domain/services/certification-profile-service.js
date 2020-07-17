@@ -138,22 +138,19 @@ function _createUserCompetencesV2({ knowledgeElementsByCompetence, allCompetence
   });
 }
 
-async function _generateCertificationProfileV2({ userId, profileDate, competences, allowExcessPixAndLevels }) {
-  const certificationProfile = new CertificationProfile({
-    userId,
-    profileDate,
-  });
+async function _generateCertificationProfileV2({ certificationProfile, competences, allowExcessPixAndLevels }) {
+  const certificationProfileToFill = _.clone(certificationProfile);
 
   const knowledgeElementsByCompetence = await knowledgeElementRepository
     .findUniqByUserIdGroupedByCompetenceId({ userId: certificationProfile.userId, limitDate: certificationProfile.profileDate });
 
-  certificationProfile.userCompetences = _createUserCompetencesV2({
+  certificationProfileToFill.userCompetences = _createUserCompetencesV2({
     knowledgeElementsByCompetence,
     allCompetences: competences,
     allowExcessPixAndLevels,
   });
 
-  return certificationProfile;
+  return certificationProfileToFill;
 }
 
 async function getCertificationProfilesWithSnapshotting({ userIdsAndDates, competences, allowExcessPixAndLevels = true }) {
