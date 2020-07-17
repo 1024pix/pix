@@ -44,7 +44,7 @@ describe('Unit | Repository | CompetenceRepository', function() {
       const locale = 'fr';
 
       // when
-      const competence = await competenceRepository.get(id, locale);
+      const competence = await competenceRepository.get({ id, locale });
 
       // then
       expect(competence.name).to.equal('Gérer des données fr');

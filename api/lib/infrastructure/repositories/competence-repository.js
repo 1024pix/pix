@@ -11,49 +11,52 @@ const { FRENCH_FRANCE, ENGLISH_SPOKEN } = require('../../domain/constants').LOCA
 
 const PixOriginName = 'Pix';
 
-function _toDomain(competenceData, areaDatas, locale) {
+function _toDomain({ competenceData, areaDatas, locale }) {
   const areaData = competenceData.areaId && _.find(areaDatas, { id: competenceData.areaId });
+  const translatedCompetenceName = _getTranslatedText(locale, { frenchText: competenceData.nameFrFr, englishText: competenceData.nameEnUs });
+  const translatedCompetenceDescription = _getTranslatedText(locale, { frenchText: competenceData.descriptionFrFr, englishText: competenceData.descriptionEnUs });
+  const translatedAreaTitle = areaData ? _getTranslatedText(locale, { frenchText: areaData.titleFrFr, englishText: areaData.titleEnUs }) : '';
+
   return new Competence({
     id: competenceData.id,
-    name: _getTranslatedText(locale, competenceData.nameFrFr, competenceData.nameEnUs),
+    name: translatedCompetenceName,
     index: competenceData.index,
-    description: _getTranslatedText(locale, competenceData.descriptionFrFr, competenceData.descriptionEnUs),
+    description: translatedCompetenceDescription,
     origin: competenceData.origin,
     skillIds: competenceData.skillIds,
     area: areaData && new Area({
       id: areaData.id,
       code: areaData.code,
-      title: _getTranslatedText(locale, areaData.titleFrFr, areaData.titleEnUs),
+      title: translatedAreaTitle,
       color: areaData.color,
     }),
   });
 }
 
-function _getTranslatedText(locale, frenchText, englishText) {
+function _getTranslatedText(locale, translations = { frenchText: '', englishText: '' }) {
   if (locale === ENGLISH_SPOKEN) {
-    return englishText;
+    return translations.englishText;
   }
 
-  return frenchText;
+  return translations.frenchText;
 }
 
 module.exports = {
 
-  list(locale) {
+  list({ locale } = { locale: FRENCH_FRANCE }) {
     return _list({ locale: locale || FRENCH_FRANCE });
   },
 
   listPixCompetencesOnly({ locale } = { locale: FRENCH_FRANCE }) {
-
     return _list({ locale }).then((competences) =>
       competences.filter((competence) => competence.origin === PixOriginName)
     );
   },
 
-  async get(id, locale) {
+  async get({ id, locale }) {
     try {
       const [competenceData, areaDatas] = await Promise.all([competenceDatasource.get(id), areaDatasource.list()]);
-      return _toDomain(competenceData, areaDatas, locale);
+      return _toDomain({ competenceData, areaDatas, locale });
     } catch (err) {
       if (err instanceof AirtableNotFoundError) {
         throw new NotFoundError('La compétence demandée n’existe pas');
@@ -92,7 +95,7 @@ function _list({ locale }) {
   return Promise.all([competenceDatasource.list(), areaDatasource.list()])
     .then(([competenceDatas, areaDatas]) => {
       return _.sortBy(
-        competenceDatas.map((competenceData) => _toDomain(competenceData, areaDatas, locale)),
+        competenceDatas.map((competenceData) => _toDomain({ competenceData, areaDatas, locale })),
         'index'
       );
     });
