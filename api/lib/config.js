@@ -142,6 +142,9 @@ module.exports = (function() {
     config.domain.pix = 'https://pix';
     config.domain.pixOrga = 'https://orga.pix';
 
+    config.features.dayBeforeImproving = 4;
+    config.features.dayBeforeCompetenceResetV2 = 7;
+
     config.mailing.enabled = false;
     config.mailing.provider = 'sendinblue';
     config.mailing.mailjet.apiKey = 'test-api-key';
