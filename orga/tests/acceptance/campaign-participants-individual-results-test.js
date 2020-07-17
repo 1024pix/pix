@@ -14,15 +14,15 @@ module('Acceptance | Campaign Participants Individual Results', function(hooks) 
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
+  let participant, campaignParticipationResult;
+
   hooks.beforeEach(async () => {
     const user = createUserWithMembershipAndTermsOfServiceAccepted();
     createPrescriberByUser(user);
 
-    const campaignCollectiveResult = server.create('campaign-collective-result', 'withCompetenceCollectiveResults');
-    server.create('campaign', { id: 1, campaignCollectiveResult });
-
-    const participant = server.create('user', { firstName: 'Jack', lastName: 'Doe' });
-    server.create('campaign-participation', { campaignId: 1, userId: participant.id });
+    server.create('campaign', { id: 1 });
+    participant = server.create('user', { firstName: 'Jack', lastName: 'Doe' });
+    campaignParticipationResult = server.create('campaign-participation-result', 'withCompetenceResults');
 
     await authenticateSession({
       user_id: user.id,
@@ -32,11 +32,25 @@ module('Acceptance | Campaign Participants Individual Results', function(hooks) 
     });
   });
 
-  test('it should display user details', async function(assert) {
+  test('it should display individual results when participation is shared', async function(assert) {
+    // given
+    server.create('campaign-participation', { campaignId: 1, userId: participant.id, campaignParticipationResult, isShared: true });
+
     // when
     await visit('/campagnes/1/participants/1');
 
     // then
-    assert.dom('.page__title').hasText('Jack Doe');
+    assert.contains('Compétences (2)');
+  });
+
+  test('it should not display individual results when participation is not shared', async function(assert) {
+    // given
+    server.create('campaign-participation', { campaignId: 1, userId: participant.id, campaignParticipationResult, isShared: false });
+
+    // when
+    await visit('/campagnes/1/participants/1');
+
+    // then
+    assert.contains('Compétences (-)');
   });
 });
