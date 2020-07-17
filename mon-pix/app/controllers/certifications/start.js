@@ -5,6 +5,7 @@ import Controller from '@ember/controller';
 @classic
 export default class StartController extends Controller {
   @service currentUser;
+  @service intl;
 
-  pageTitle = 'Rejoindre une session de certification';
+  pageTitle = this.intl.t('page-title.certifications-start');
 }

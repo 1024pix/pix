@@ -1,8 +1,8 @@
 <section class="certification-starter">
-    <h2 class="certification-start-page__title">Vous allez commencer votre test de certification</h2>
+    <h2 class="certification-start-page__title">{{t "certification-start-page.title"}}</h2>
 
     <p class="certification-course-page__order">
-        Saisissez le code d'accès communiqué par le surveillant
+        {{t "certification-start-page.access-code"}}
     </p>
     <form autocomplete="off">
         <div class="certification-course-page__session-code-input">
@@ -19,21 +19,17 @@
               <span class="loader-in-button">&nbsp;</span>
             </button>
           {{else}}
-              <button type="submit" class="button button--thin certification-course-page__submit_button" {{ action "submit" }}>Commencer mon test</button>
+              <button type="submit" class="button button--thin certification-course-page__submit_button" {{ action "submit" }}>{{t "certification-start-page.action.submit"}}</button>
           {{/if}}
         </div>
     </form>
 
     <div class="certification-course-page__cgu">
         <p>
-            En cliquant sur "Commencer mon test", j’accepte que mes données d’identité, le numéro de certification et les
-            circonstances de la passation telles que renseignées par le surveillant soient communiquées à Pix. Pix les utilisera
-            lors de la délibération du jury pour produire et archiver mes résultats et pour éditer mon certificat. Si cette
-            certification m’a été prescrite par une organisation, j’accepte que Pix lui communique mes résultats.
+          {{t "certification-start-page.cgu.info"}}
         </p>
         <p>
-            Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous
-            concernant et les faire rectifier en envoyant un mail à <a href="mailto:dpo@pix.fr">dpo@pix.fr</a>.
+          {{t "certification-start-page.cgu.contact.info"}} <a href="mailto:dpo@pix.fr">{{t "certification-start-page.cgu.contact.email"}}</a>.
         </p>
     </div>
 </section>
