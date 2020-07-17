@@ -120,7 +120,6 @@ const competence_5 = domainBuilder.buildCompetence({ id: 'competence_5', index: 
 const competence_6 = domainBuilder.buildCompetence({ id: 'competence_6', index: '6.6', area: { code: '6' }, name: 'Trouver' });
 const nonPixCompetence = domainBuilder.buildCompetence({ id: 'non-pix-competence', index: '7.7', area: { code: '7' }, name: 'Vendre', origin: 'non-pix' });
 const allCompetencesFromAirtable = [ competence_1, competence_2, competence_3, competence_4, competence_5, competence_6, nonPixCompetence ];
-const pixCompetencesOnlyFromAirtable = [ competence_1, competence_2, competence_3, competence_4, competence_5, competence_6 ];
 
 const userCompetences = [
   _buildUserCompetence(competence_1, pixForCompetence1, 1),
@@ -205,13 +204,11 @@ describe('Unit | Service | Certification Result Service', function() {
         });
 
         sinon.stub(competenceRepository, 'list').resolves(allCompetencesFromAirtable);
-        sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves(pixCompetencesOnlyFromAirtable);
         sinon.stub(challengeRepository, 'findOperative').resolves(challengesFromAirTable);
         sinon.stub(certificationProfileService, 'getCertificationProfile').withArgs({
           userId: certificationAssessment.userId,
           limitDate: certificationAssessment.createdAt,
           isV2Certification: certificationAssessment.isV2Certification,
-          competences: allCompetencesFromAirtable,
         }).resolves({ userCompetences });
       });
 
@@ -628,7 +625,6 @@ describe('Unit | Service | Certification Result Service', function() {
                 userId: certificationAssessment.userId,
                 limitDate: certificationAssessment.createdAt,
                 isV2Certification: certificationAssessment.isV2Certification,
-                competences: allCompetencesFromAirtable,
               }).resolves({ userCompetences });
 
               // When
@@ -658,7 +654,6 @@ describe('Unit | Service | Certification Result Service', function() {
           userId: certificationAssessment.userId,
           limitDate: certificationAssessment.createdAt,
           isV2Certification: certificationAssessment.isV2Certification,
-          competences: allCompetencesFromAirtable,
         }).resolves({ userCompetences });
       });
 
@@ -974,7 +969,6 @@ describe('Unit | Service | Certification Result Service', function() {
             userId: certificationAssessment.userId,
             limitDate: certificationAssessment.createdAt,
             isV2Certification: certificationAssessment.isV2Certification,
-            competences: allCompetencesFromAirtable,
           }).resolves({ userCompetences });
 
         });

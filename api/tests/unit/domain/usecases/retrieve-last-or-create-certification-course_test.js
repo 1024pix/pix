@@ -117,7 +117,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
         beforeEach(() => {
           certificationProfile = { isCertifiable: sinon.stub().returns(false) };
-          certificationProfileService.getCertificationProfile.withArgs({ userId, limitDate: now, competences }).resolves(certificationProfile);
+          certificationProfileService.getCertificationProfile.withArgs({ userId, limitDate: now }).resolves(certificationProfile);
         });
 
         it('should throw a UserNotAuthorizedToCertifyError', async function() {
@@ -153,7 +153,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
         beforeEach(() => {
           certificationProfile = { isCertifiable: sinon.stub().returns(true), userCompetences: 'someUserCompetences' };
-          certificationProfileService.getCertificationProfile.withArgs({ userId, limitDate: now, competences }).resolves(certificationProfile);
+          certificationProfileService.getCertificationProfile.withArgs({ userId, limitDate: now }).resolves(certificationProfile);
           certificationProfileService.fillCertificationProfileWithChallenges.withArgs(certificationProfile).resolves(certificationProfile);
         });
 
@@ -241,7 +241,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           beforeEach(() => {
             certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
               .withArgs({ userId, sessionId, domainTransaction }).onCall(1).resolves(null);
-            certificationProfileService.getCertificationProfile.withArgs({ userId, limitDate: now, competences }).resolves(certificationProfile);
+            certificationProfileService.getCertificationProfile.withArgs({ userId, limitDate: now }).resolves(certificationProfile);
             certificationCandidateRepository.getBySessionIdAndUserId.withArgs({ sessionId, userId }).resolves(foundCertificationCandidate);
             certificationCourseRepository.save.resolves(savedCertificationCourse);
             assessmentRepository.save.resolves(savedAssessment);

@@ -3,6 +3,7 @@ const _ = require('lodash');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
+const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const certificationProfileService = require('../../../../lib/domain/services/certification-profile-service');
@@ -73,6 +74,12 @@ describe('Integration | Service | Certification Profile Service', function() {
   const challengeForSkillRequin5 = _createChallenge('challengeRecordIdNine', competenceRequin.id, [skillRequin5], '@requin5');
   const challengeForSkillRequin8 = _createChallenge('challengeRecordIdTen', competenceRequin.id, [skillRequin8], '@requin8');
 
+  const competences = [
+    competenceFlipper,
+    competenceDauphin,
+    competenceRequin,
+  ];
+
   beforeEach(() => {
     sinon.stub(challengeRepository, 'findOperative').resolves([
       challengeForSkillCitation4,
@@ -88,13 +95,8 @@ describe('Integration | Service | Certification Profile Service', function() {
       challengeForSkillRequin5,
       challengeForSkillRequin8,
     ]);
+    sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves(competences);
   });
-
-  const competences = [
-    competenceFlipper,
-    competenceDauphin,
-    competenceRequin,
-  ];
 
   context('V1 Profile', () => {
     describe('#getCertificationProfile', () => {
@@ -132,7 +134,7 @@ describe('Integration | Service | Certification Profile Service', function() {
         const limitDate = '2020-10-27 08:44:25';
 
         // when
-        await certificationProfileService.getCertificationProfile({ userId, limitDate, isV2Certification: false, competences });
+        await certificationProfileService.getCertificationProfile({ userId, limitDate, isV2Certification: false });
 
         // then
         sinon.assert.calledOnce(assessmentRepository.findLastCompletedAssessmentsForEachCompetenceByUser);
@@ -153,7 +155,6 @@ describe('Integration | Service | Certification Profile Service', function() {
         const actualCertificationProfile = await certificationProfileService.getCertificationProfile({
           userId,
           limitDate: 'salut',
-          competences
         });
 
         // then
@@ -208,7 +209,6 @@ describe('Integration | Service | Certification Profile Service', function() {
           const actualCertificationProfile = await certificationProfileService.getCertificationProfile({
             userId,
             limitDate: 'salut',
-            competences
           });
 
           // then
@@ -250,7 +250,6 @@ describe('Integration | Service | Certification Profile Service', function() {
           const actualCertificationProfile = await certificationProfileService.getCertificationProfile({
             userId,
             limitDate: 'salut',
-            competences
           });
 
           // then
@@ -272,7 +271,6 @@ describe('Integration | Service | Certification Profile Service', function() {
             const actualCertificationProfile = await certificationProfileService.getCertificationProfile({
               userId,
               limitDate: 'salut',
-              competences,
               allowExcessPixAndLevels: true
             });
 
@@ -301,7 +299,6 @@ describe('Integration | Service | Certification Profile Service', function() {
             const actualCertificationProfile = await certificationProfileService.getCertificationProfile({
               userId,
               limitDate: 'salut',
-              competences,
               allowExcessPixAndLevels: false
             });
 
