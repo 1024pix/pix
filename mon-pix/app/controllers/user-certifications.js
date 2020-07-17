@@ -6,5 +6,5 @@ import { inject as service } from '@ember/service';
 export default class UserCertificationsController extends Controller {
   @service intl;
 
-  pageTitle = this.intl.t('page-title.my-certifications');
+  pageTitle = this.intl.t('pages.certifications-list.title');
 }
