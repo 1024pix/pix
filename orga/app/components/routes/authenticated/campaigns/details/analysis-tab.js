@@ -13,7 +13,9 @@ export default class AnalysisTab extends Component {
 
   @action
   sortRecommendationOrder(order) {
-    if (order === 'desc') {
+    if (!this.sortedRecommendations) {
+      return null;
+    } else if (order === 'desc') {
       this.sortedRecommendations = this.sortedRecommendations.sortBy('averageScore');
     } else {
       this.sortedRecommendations = this.sortedRecommendations.sortBy('averageScore').reverse();
