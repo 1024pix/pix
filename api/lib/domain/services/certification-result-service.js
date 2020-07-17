@@ -189,7 +189,7 @@ function _computeAnswersSuccessRate(answers = []) {
 
 module.exports = {
   async getCertificationResult({ certificationAssessment, continueOnError }) {
-    const allCompetences = await competenceRepository.list();
+    const allPixCompetences = await competenceRepository.listPixCompetencesOnly();
     const allChallenges = await challengeRepository.findOperative();
 
     // userService.getCertificationProfile() + filter level > 0 => avec allCompetence (bug)
@@ -218,7 +218,7 @@ module.exports = {
     result.status = certificationAssessment.state;
     result.completedAt = certificationAssessment.completedAt;
 
-    result.listChallengesAndAnswers = _getChallengeInformation(matchingAnswers, certificationAssessment.certificationChallenges, allCompetences);
+    result.listChallengesAndAnswers = _getChallengeInformation(matchingAnswers, certificationAssessment.certificationChallenges, allPixCompetences);
     return result;
   },
 
