@@ -85,5 +85,5 @@ then(`la page {string} est correctement affichée`, (pageName) => {
 });
 
 then(`je vois {string} comme {string}`, (value, label) => {
-  cy.contains(label).parent().within(() => cy.get('p').contains(value));
+  cy.contains(label).parent().within(() => cy.contains(value));
 });

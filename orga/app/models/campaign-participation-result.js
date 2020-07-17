@@ -16,4 +16,12 @@ export default DS.Model.extend({
   masteryPercentage: computed('totalSkillsCount', 'validatedSkillsCount', function() {
     return Math.round(this.validatedSkillsCount * 100 / this.totalSkillsCount);
   }),
+
+  percentageProgression: computed('progress', 'isCompleted', function() {
+    if (this.isCompleted) {
+      return 100;
+    }
+
+    return Math.round(this.progress * 100);
+  }),
 });
