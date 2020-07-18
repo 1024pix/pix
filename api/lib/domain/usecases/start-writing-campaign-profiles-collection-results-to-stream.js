@@ -159,27 +159,36 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
   // after this function's returned promise resolves. If we await the map
   // function, node will keep all the data in memory until the end of the
   // complete operation.
-  bluebird.map(campaignParticipationResultDatas, async (campaignParticipationResultData) => {
+  const campaignParticipationResultDataChunks = _.chunk(campaignParticipationResultDatas, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
+  bluebird.map(campaignParticipationResultDataChunks, async (campaignParticipationResultDataChunk) => {
+    const userIdsAndDates = _.fromPairs(_.map(campaignParticipationResultDataChunk, (campaignParticipationResultData) => {
+      return [
+        campaignParticipationResultData.userId,
+        campaignParticipationResultData.sharedAt,
+      ];
+    }));
 
-    const certificationProfile = await certificationProfileService.getCertificationProfile({
-      userId: campaignParticipationResultData.userId,
-      limitDate: campaignParticipationResultData.sharedAt,
+    const certificationProfiles = await certificationProfileService.getCertificationProfilesWithSnapshotting({
+      userIdsAndDates,
       competences: allCompetences,
       allowExcessPixAndLevels: false
     });
 
-    const csvLine = _createOneLineOfCSV({
-      headers,
-      organization,
-      campaign,
-      campaignParticipationResultData,
-      certificationProfile,
+    for (const certificationProfile of certificationProfiles) {
+      const campaignParticipationResultData = _.find(campaignParticipationResultDataChunk, { userId: certificationProfile.userId });
+      const csvLine = _createOneLineOfCSV({
+        headers,
+        organization,
+        campaign,
+        campaignParticipationResultData,
+        certificationProfile,
 
-      participantFirstName: campaignParticipationResultData.participantFirstName,
-      participantLastName: campaignParticipationResultData.participantLastName,
-    });
+        participantFirstName: campaignParticipationResultData.participantFirstName,
+        participantLastName: campaignParticipationResultData.participantLastName,
+      });
 
-    writableStream.write(csvLine);
+      writableStream.write(csvLine);
+    }
   }, { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }).then(() => {
     writableStream.end();
   }).catch((error) => {
