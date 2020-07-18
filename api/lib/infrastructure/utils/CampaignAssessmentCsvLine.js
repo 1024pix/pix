@@ -9,6 +9,7 @@ class CampaignAssessmentCsvLine {
     organization,
     campaign,
     competences,
+    areas,
     campaignParticipationResultData,
     targetProfile,
     participantKnowledgeElementsByCompetenceId,
@@ -18,6 +19,7 @@ class CampaignAssessmentCsvLine {
     this.organization = organization;
     this.campaign = campaign;
     this.competences = competences;
+    this.areas = areas;
     this.campaignParticipationResultData = campaignParticipationResultData;
     this.targetProfile = targetProfile;
     this.isShared = campaignParticipationResultData.isShared;
@@ -70,14 +72,12 @@ class CampaignAssessmentCsvLine {
 
   _makeCompetenceColumns() {
     return this.competences.map((competence) => this._makeSharedStatsColumns({
-      id: competence.id,
       ...this._getStatsForCompetence(competence),
     })).flat();
   }
 
   _makeAreaColumns() {
-    const areas = this._extractAreas();
-    return areas.map(({ id }) => {
+    return this.areas.map(({ id }) => {
       const areaCompetenceStats = this.competences.filter((competence) => competence.area.id === id)
         .map(this._getStatsForCompetence);
 
@@ -85,7 +85,6 @@ class CampaignAssessmentCsvLine {
       const validatedSkillCount = _.sumBy(areaCompetenceStats, 'validatedSkillCount');
 
       return this._makeSharedStatsColumns({
-        id,
         skillCount,
         validatedSkillCount,
       });
@@ -119,10 +118,9 @@ class CampaignAssessmentCsvLine {
   }
 
   _makeNotSharedColumns() {
-    const areas = this._extractAreas(this.competences);
     return [
       ...this._makeNotSharedStatsColumns(this.competences.length * STATS_COLUMNS_COUNT),
-      ...this._makeNotSharedStatsColumns(areas.length * STATS_COLUMNS_COUNT),
+      ...this._makeNotSharedStatsColumns(this.areas.length * STATS_COLUMNS_COUNT),
       ...this._makeNotSharedStatsColumns(this.targetProfile.skills.length)
     ];
   }
@@ -146,10 +144,6 @@ class CampaignAssessmentCsvLine {
     return knowledgeElementsForCompetence
       .filter((knowledgeElement) => knowledgeElement.isValidated)
       .length;
-  }
-
-  _extractAreas() {
-    return _.uniqBy(this.competences.map((competence) => competence.area), 'code');
   }
 
   _countValidatedKnowledgeElements() {
