@@ -24,15 +24,18 @@ class CampaignAssessmentCsvLine {
     this.campaignParticipationService = campaignParticipationService;
 
     const competenceIds = _.map(competences, 'id');
-    const competenceIdsKnowledgeElements = _.keys(participantKnowledgeElementsByCompetenceId);
+    const competenceIdsKnowledgeElements = Object.keys(participantKnowledgeElementsByCompetenceId);
     const competenceIdsNotInTargetProfile = _.difference(competenceIdsKnowledgeElements, competenceIds);
     const participantKnowledgeElementsByCompetenceIdClone = _.clone(participantKnowledgeElementsByCompetenceId);
     for (const competenceIdNotInTargetProfile of competenceIdsNotInTargetProfile) {
       delete participantKnowledgeElementsByCompetenceIdClone[competenceIdNotInTargetProfile];
     }
-    this.knowledgeElementsByCompetenceId = _.mapValues(participantKnowledgeElementsByCompetenceIdClone, (knowledgeElementsInCompetence) => {
-      return knowledgeElementsInCompetence.filter((ke) => _.find(targetProfile.skills, { id: ke.skillId }));
-    });
+
+    this.knowledgeElementsByCompetenceId = {};
+    for (const [competenceId, knowledgeElementsInCompetence ] of Object.entries(participantKnowledgeElementsByCompetenceIdClone)) {
+      this.knowledgeElementsByCompetenceId[competenceId] = knowledgeElementsInCompetence
+        .filter((ke) => targetProfile.skills.find((skill) => skill.id === ke.skillId));
+    }
 
     // To have the good `this` in _getStatsForCompetence, it is necessary to bind it
     this._getStatsForCompetence = this._getStatsForCompetence.bind(this);
@@ -54,7 +57,7 @@ class CampaignAssessmentCsvLine {
   }
 
   _makeNotSharedStatsColumns(times) {
-    return _.times(times, () => EMPTY_CONTENT);
+    return Array(times).fill(EMPTY_CONTENT);
   }
 
   _getStatsForCompetence(competence) {
@@ -66,16 +69,16 @@ class CampaignAssessmentCsvLine {
   }
 
   _makeCompetenceColumns() {
-    return _.flatMap(this.competences, (competence) => this._makeSharedStatsColumns({
+    return this.competences.map((competence) => this._makeSharedStatsColumns({
       id: competence.id,
       ...this._getStatsForCompetence(competence),
-    }));
+    })).flat();
   }
 
   _makeAreaColumns() {
     const areas = this._extractAreas();
-    return _.flatMap(areas, ({ id }) => {
-      const areaCompetenceStats = _.filter(this.competences, (competence) => competence.area.id === id)
+    return areas.map(({ id }) => {
+      const areaCompetenceStats = this.competences.filter((competence) => competence.area.id === id)
         .map(this._getStatsForCompetence);
 
       const skillCount = _.sumBy(areaCompetenceStats, 'skillCount');
@@ -86,7 +89,7 @@ class CampaignAssessmentCsvLine {
         skillCount,
         validatedSkillCount,
       });
-    });
+    }).flat();
   }
 
   _makeCommonColumns() {
@@ -111,7 +114,7 @@ class CampaignAssessmentCsvLine {
     return [
       ...this._makeCompetenceColumns(),
       ...this._makeAreaColumns(),
-      ..._.map(this.targetProfile.skills, ({ id, competenceId }) => this._stateOfSkill(competenceId, id))
+      ...this.targetProfile.skills.map(({ id, competenceId }) => this._stateOfSkill(competenceId, id))
     ];
   }
 
@@ -127,7 +130,7 @@ class CampaignAssessmentCsvLine {
   _stateOfSkill(competenceId, skillId) {
     const knowledgeElementsForCompetence = _.get(this.knowledgeElementsByCompetenceId, competenceId);
     if (knowledgeElementsForCompetence) {
-      const knowledgeElementForSkill = _.find(knowledgeElementsForCompetence, { skillId });
+      const knowledgeElementForSkill = knowledgeElementsForCompetence.find((knowledgeElement) => knowledgeElement.skillId === skillId);
       if (knowledgeElementForSkill) {
         return knowledgeElementForSkill.isValidated ? 'OK' : 'KO';
       }
@@ -150,7 +153,7 @@ class CampaignAssessmentCsvLine {
   }
 
   _countValidatedKnowledgeElements() {
-    return _.sumBy(_.values(this.knowledgeElementsByCompetenceId), (knowledgeElements) => {
+    return _.sumBy(Object.values(this.knowledgeElementsByCompetenceId), (knowledgeElements) => {
       return knowledgeElements.filter((knowledgeElement) => knowledgeElement.isValidated).length;
     });
   }

@@ -50,7 +50,7 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
   // complete operation.
   const campaignParticipationResultDataChunks = _.chunk(campaignParticipationResultDatas, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
   bluebird.map(campaignParticipationResultDataChunks, async (campaignParticipationResultDataChunk) => {
-    const userIdsAndDates = _.fromPairs(_.map(campaignParticipationResultDataChunk, (campaignParticipationResultData) => {
+    const userIdsAndDates = Object.fromEntries(campaignParticipationResultDataChunk.map((campaignParticipationResultData) => {
       return [
         campaignParticipationResultData.userId,
         campaignParticipationResultData.sharedAt,
@@ -60,9 +60,9 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
       await knowledgeElementRepository.findSnapshotGroupedByCompetencesForUsers(userIdsAndDates);
 
     let csvLines = '';
-    _.each(knowledgeElementsByUserIdAndCompetenceId, (participantKnowledgeElementsByCompetenceId, strParticipantId) => {
+    for (const [strParticipantId, participantKnowledgeElementsByCompetenceId] of Object.entries(knowledgeElementsByUserIdAndCompetenceId)) {
       const participantId = parseInt(strParticipantId);
-      const campaignParticipationResultData = _.find(campaignParticipationResultDataChunk, { userId: participantId });
+      const campaignParticipationResultData = campaignParticipationResultDataChunk.find((campaignParticipationResultData) => campaignParticipationResultData.userId === participantId);
       const csvLine = campaignCsvExportService.createOneCsvLine({
         organization,
         campaign,
@@ -72,7 +72,7 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
         participantKnowledgeElementsByCompetenceId,
       });
       csvLines = csvLines.concat(csvLine);
-    });
+    }
 
     writableStream.write(csvLines);
   }, { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }).then(() => {
