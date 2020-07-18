@@ -7,7 +7,6 @@ const answerRepository = require('../../../../lib/infrastructure/repositories/an
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const certificationProfileService = require('../../../../lib/domain/services/certification-profile-service');
 
-const Answer = require('../../../../lib/domain/models/Answer');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const CertificationProfile = require('../../../../lib/domain/models/CertificationProfile');
@@ -20,8 +19,6 @@ const UserCompetence = require('../../../../lib/domain/models/UserCompetence');
 describe('Integration | Service | Certification Profile Service', function() {
 
   const userId = 63731;
-
-  const answerCollectionWithEmptyData = [];
 
   function _createCompetence(id, index, name, areaCode) {
     const competence = new Competence();
@@ -128,7 +125,6 @@ describe('Integration | Service | Certification Profile Service', function() {
         sinon.stub(assessmentRepository, 'findLastCompletedAssessmentsForEachCompetenceByUser').resolves([
           assessment1, assessment2, assessment3
         ]);
-        sinon.stub(answerRepository, 'findCorrectAnswersByAssessmentId').resolves(answerCollectionWithEmptyData);
       });
 
       it('should load achieved assessments', async () => {
@@ -147,13 +143,6 @@ describe('Integration | Service | Certification Profile Service', function() {
 
   context('V2 Profile', () => {
     describe('#getCertificationProfile', () => {
-
-      let answerRepositoryFindChallengeIds;
-
-      beforeEach(() => {
-        answerRepositoryFindChallengeIds = sinon.stub(answerRepository, 'findChallengeIdsFromAnswerIds');
-        answerRepositoryFindChallengeIds.resolves([]);
-      });
 
       it('should assign 0 pixScore and level of 0 to user competence when not assessed', async () => {
         // given
@@ -205,10 +194,8 @@ describe('Integration | Service | Certification Profile Service', function() {
 
         it('should assign pixScore and level to user competence based on knowledge elements', async () => {
           // given
-          const answer = new Answer({ id: 1, challengeId: challengeForSkillRemplir2.id, result: 'ok' });
 
           const ke = domainBuilder.buildKnowledgeElement({
-            answerId: answer.id,
             competenceId: 'competenceRecordIdTwo',
             skillId: skillRemplir2.id,
             earnedPix: 23
@@ -239,11 +226,7 @@ describe('Integration | Service | Certification Profile Service', function() {
 
         it('should include both inferred and direct KnowlegdeElements to compute PixScore', async () => {
           // given
-          const answer = new Answer({ id: 1, challengeId: challengeForSkillRemplir4.id, result: 'ok' });
-          answerRepositoryFindChallengeIds.withArgs([1]).resolves([answer.challengeId]);
-
           const inferredKe = domainBuilder.buildKnowledgeElement({
-            answerId: answer.id,
             competenceId: 'competenceRecordIdTwo',
             skillId: skillRemplir2.id,
             earnedPix: 8,
@@ -251,7 +234,6 @@ describe('Integration | Service | Certification Profile Service', function() {
           });
 
           const directKe = domainBuilder.buildKnowledgeElement({
-            answerId: answer.id,
             competenceId: 'competenceRecordIdTwo',
             skillId: skillRemplir4.id,
             earnedPix: 9,
