@@ -5,9 +5,7 @@ const bluebird = require('bluebird');
 const constants = require('../../infrastructure/constants');
 const { UserNotAuthorizedToGetCampaignResultsError, CampaignWithoutOrganizationError } = require('../errors');
 const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
-setInterval(() => {
-  console.log(`mem;${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}`);
-}, 200);
+
 module.exports = async function startWritingCampaignAssessmentResultsToStream(
   {
     userId,
@@ -58,19 +56,20 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
         campaignParticipationResultData.sharedAt,
       ];
     }));
-    const knowledgeElementsByUserId = await knowledgeElementRepository.findByUserIdsAndDatesGroupedByUserIdWithSnapshotting(userIdsAndDates);
+    const knowledgeElementsByUserIdAndCompetenceId =
+      await knowledgeElementRepository.findSnapshotGroupedByCompetencesForUsers(userIdsAndDates);
 
     let csvLines = '';
-    _.each(knowledgeElementsByUserId, (participantKnowledgeElements, strUserId) => {
-      const userId = parseInt(strUserId);
-      const campaignParticipationResultData = _.find(campaignParticipationResultDataChunk, { userId });
+    _.each(knowledgeElementsByUserIdAndCompetenceId, (participantKnowledgeElementsByCompetenceId, strParticipantId) => {
+      const participantId = parseInt(strParticipantId);
+      const campaignParticipationResultData = _.find(campaignParticipationResultDataChunk, { userId: participantId });
       const csvLine = campaignCsvExportService.createOneCsvLine({
         organization,
         campaign,
         competences,
         campaignParticipationResultData,
         targetProfile,
-        participantKnowledgeElements,
+        participantKnowledgeElementsByCompetenceId,
       });
       csvLines = csvLines.concat(csvLine);
     });
@@ -153,4 +152,3 @@ function _extractCompetences(allCompetences, skills) {
 function _extractAreas(competences) {
   return _.uniqBy(competences.map((competence) => competence.area), 'code');
 }
-

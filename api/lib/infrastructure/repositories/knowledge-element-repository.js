@@ -145,20 +145,5 @@ module.exports = {
     }
     return knowledgeElementsGroupedByUserIdAndCompetenceId;
   },
-
-  async findByUserIdsAndDatesGroupedByUserIdWithSnapshotting(userIdsAndDates) {
-    const knowledgeElementsGroupedByUser = await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(userIdsAndDates);
-
-    const knowledgeElementsGroupedByUserId = {};
-    for (const [strUserId, knowledgeElementsFromSnapshot] of Object.entries(knowledgeElementsGroupedByUser)) {
-      const userId = parseInt(strUserId);
-      let knowledgeElements = knowledgeElementsFromSnapshot;
-      if (!knowledgeElements) {
-        knowledgeElements = await _findByUserIdAndLimitDateThenSaveSnapshot({ userId, limitDate: userIdsAndDates[userId] });
-      }
-      knowledgeElementsGroupedByUserId[userId] = knowledgeElements;
-    }
-    return knowledgeElementsGroupedByUserId;
-  }
 };
 

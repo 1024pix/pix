@@ -12,7 +12,7 @@ function createOneCsvLine({
   competences,
   campaignParticipationResultData,
   targetProfile,
-  participantKnowledgeElements,
+  participantKnowledgeElementsByCompetenceId,
 }) {
   const line = new CampaignAssessmentCsvLine({
     organization,
@@ -20,7 +20,7 @@ function createOneCsvLine({
     competences,
     campaignParticipationResultData,
     targetProfile,
-    participantKnowledgeElements,
+    participantKnowledgeElementsByCompetenceId,
     campaignParticipationService,
   });
 

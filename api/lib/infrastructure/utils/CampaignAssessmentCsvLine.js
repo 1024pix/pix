@@ -11,7 +11,7 @@ class CampaignAssessmentCsvLine {
     competences,
     campaignParticipationResultData,
     targetProfile,
-    participantKnowledgeElements,
+    participantKnowledgeElementsByCompetenceId,
     campaignParticipationService,
   }) {
 
@@ -21,9 +21,18 @@ class CampaignAssessmentCsvLine {
     this.campaignParticipationResultData = campaignParticipationResultData;
     this.targetProfile = targetProfile;
     this.isShared = campaignParticipationResultData.isShared;
-    this.knowledgeElements = participantKnowledgeElements
-      .filter((ke) => _.find(targetProfile.skills, { id: ke.skillId }));
     this.campaignParticipationService = campaignParticipationService;
+
+    const competenceIds = _.map(competences, 'id');
+    const competenceIdsKnowledgeElements = _.keys(participantKnowledgeElementsByCompetenceId);
+    const competenceIdsNotInTargetProfile = _.difference(competenceIdsKnowledgeElements, competenceIds);
+    const participantKnowledgeElementsByCompetenceIdClone = _.clone(participantKnowledgeElementsByCompetenceId);
+    for (const competenceIdNotInTargetProfile of competenceIdsNotInTargetProfile) {
+      delete participantKnowledgeElementsByCompetenceIdClone[competenceIdNotInTargetProfile];
+    }
+    this.knowledgeElementsByCompetenceId = _.mapValues(participantKnowledgeElementsByCompetenceIdClone, (knowledgeElementsInCompetence) => {
+      return knowledgeElementsInCompetence.filter((ke) => _.find(targetProfile.skills, { id: ke.skillId }));
+    });
 
     // To have the good `this` in _getStatsForCompetence, it is necessary to bind it
     this._getStatsForCompetence = this._getStatsForCompetence.bind(this);
@@ -52,7 +61,7 @@ class CampaignAssessmentCsvLine {
     const skillsForThisCompetence = this._getSkillsOfCompetenceByTargetProfile(competence);
     return {
       skillCount: skillsForThisCompetence.length,
-      validatedSkillCount: this._countValidatedKnowledgeElementsForSkills(skillsForThisCompetence)
+      validatedSkillCount: this._countValidatedKnowledgeElementsForCompetence(competence)
     };
   }
 
@@ -90,7 +99,7 @@ class CampaignAssessmentCsvLine {
       participantLastName,
       participantFirstName,
       ...(this.campaign.idPixLabel ? [this.campaignParticipationResultData.participantExternalId] : []),
-      this.campaignParticipationService.progress(this.campaignParticipationResultData.isCompleted, this.knowledgeElements.length, this.targetProfile.skills.length),
+      this.campaignParticipationService.progress(this.campaignParticipationResultData.isCompleted, _.sumBy(_.values(this.knowledgeElementsByCompetenceId), 'length'), this.targetProfile.skills.length),
       moment.utc(this.campaignParticipationResultData.createdAt).format('YYYY-MM-DD'),
       this.isShared ? 'Oui' : 'Non',
       this.isShared ? moment.utc(this.campaignParticipationResultData.sharedAt).format('YYYY-MM-DD') : EMPTY_CONTENT,
@@ -102,7 +111,7 @@ class CampaignAssessmentCsvLine {
     return [
       ...this._makeCompetenceColumns(),
       ...this._makeAreaColumns(),
-      ..._.map(this.targetProfile.skills, ({ id }) => this._stateOfSkill(id))
+      ..._.map(this.targetProfile.skills, ({ id, competenceId }) => this._stateOfSkill(competenceId, id))
     ];
   }
 
@@ -115,14 +124,15 @@ class CampaignAssessmentCsvLine {
     ];
   }
 
-  _stateOfSkill(skillId) {
-    const knowledgeElementForSkill = _.findLast(this.knowledgeElements,
-      (knowledgeElement) => knowledgeElement.skillId === skillId);
-    if (knowledgeElementForSkill) {
-      return knowledgeElementForSkill.isValidated ? 'OK' : 'KO';
-    } else {
-      return 'Non testé';
+  _stateOfSkill(competenceId, skillId) {
+    const knowledgeElementsForCompetence = _.get(this.knowledgeElementsByCompetenceId, competenceId);
+    if (knowledgeElementsForCompetence) {
+      const knowledgeElementForSkill = _.find(knowledgeElementsForCompetence, { skillId });
+      if (knowledgeElementForSkill) {
+        return knowledgeElementForSkill.isValidated ? 'OK' : 'KO';
+      }
     }
+    return 'Non testé';
   }
 
   _getSkillsOfCompetenceByTargetProfile(competence) {
@@ -132,10 +142,13 @@ class CampaignAssessmentCsvLine {
       .filter((skillOfProfile) => skillsOfCompetences.includes(skillOfProfile.id));
   }
 
-  _countValidatedKnowledgeElementsForSkills(skills) {
-    return this.knowledgeElements
-      .filter((knowledgeElement) => knowledgeElement.isValidated &&
-        skills.some((skill) => skill.id === knowledgeElement.skillId))
+  _countValidatedKnowledgeElementsForCompetence(competence) {
+    const knowledgeElementsForCompetence = _.get(this.knowledgeElementsByCompetenceId, competence.id);
+    if (!knowledgeElementsForCompetence) {
+      return 0;
+    }
+    return knowledgeElementsForCompetence
+      .filter((knowledgeElement) => knowledgeElement.isValidated)
       .length;
   }
 
@@ -144,9 +157,9 @@ class CampaignAssessmentCsvLine {
   }
 
   _countValidatedKnowledgeElements() {
-    return this.knowledgeElements
-      .filter((knowledgeElement) => knowledgeElement.isValidated)
-      .length;
+    return _.sumBy(_.values(this.knowledgeElementsByCompetenceId), (knowledgeElements) => {
+      return knowledgeElements.filter((knowledgeElement) => knowledgeElement.isValidated).length;
+    });
   }
 
   _percentageSkillsValidated() {

@@ -11,6 +11,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
 
   describe('#startWritingCampaignAssessmentResultsToStream', () => {
 
+    const participantId = 123;
     const user = domainBuilder.buildUser({ firstName: '@Jean', lastName: '=Bono' });
     const organization = user.memberships[0].organization;
     const listSkills = domainBuilder.buildSkillCollection({ name: '@web', minLevel: 1, maxLevel: 5 });
@@ -103,7 +104,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     const competenceRepository = { list: () => undefined };
     const organizationRepository = { get: () => undefined };
     const campaignParticipationRepository = { findAssessmentResultDataByCampaignId: () => undefined };
-    const knowledgeElementRepository = { findUniqByUserId: () => undefined };
+    const knowledgeElementRepository = { findSnapshotGroupedByCompetencesForUsers: () => undefined };
 
     let findAssessmentResultDataByCampaignIdStub;
     let targetProfileRepositoryStub;
@@ -119,7 +120,8 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       targetProfileRepositoryStub = sinon.stub(targetProfileRepository, 'get').resolves(targetProfile);
       sinon.stub(userRepository, 'getWithMemberships').resolves(user);
       sinon.stub(organizationRepository, 'get').resolves(organization);
-      knowledgeElementRepositoryStub = sinon.stub(knowledgeElementRepository, 'findUniqByUserId').resolves(knowledgeElements);
+      knowledgeElementRepositoryStub = sinon.stub(knowledgeElementRepository, 'findSnapshotGroupedByCompetencesForUsers')
+        .resolves({ [participantId]: { 'recCompetence1': knowledgeElements } });
       findAssessmentResultDataByCampaignIdStub = sinon.stub(campaignParticipationRepository, 'findAssessmentResultDataByCampaignId');
 
       writableStream = new PassThrough();
@@ -185,7 +187,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           createdAt: new Date('2019-02-25T10:00:00Z'),
           sharedAt: new Date('2019-03-01T23:04:05Z'),
           participantExternalId: '+Mon mail pro',
-          userId: 123,
+          userId: participantId,
           participantFirstName: user.firstName,
           participantLastName: user.lastName,
         };
@@ -250,7 +252,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           createdAt: new Date('2019-02-25T10:00:00Z'),
           sharedAt: new Date('2019-03-01T23:04:05Z'),
           participantExternalId: '-Mon mail pro',
-          userId: 123,
+          userId: participantId,
           participantFirstName: user.firstName,
           participantLastName: user.lastName,
         };
@@ -316,13 +318,13 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           sharedAt: new Date('2019-03-01T23:04:05Z'),
           participantExternalId: '-Mon mail pro',
           isCompleted: true,
-          userId: 123,
+          userId: participantId,
           participantFirstName: user.firstName,
           participantLastName: user.lastName,
         };
 
         findAssessmentResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
-        knowledgeElementRepositoryStub.resolves([]);
+        knowledgeElementRepositoryStub.resolves({ 123: {} });
 
         const csvSecondLine =
           `"${organization.name}";` +
@@ -388,7 +390,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
 
       beforeEach(() => {
         targetProfileRepositoryStub.resolves(targetProfile);
-        knowledgeElementRepositoryStub.resolves(knowledgeElements);
+        knowledgeElementRepositoryStub.resolves({ [participantId]: { 'recCompetence1': knowledgeElements } });
       });
 
       it('should return a percentage of knowledge element evaluated divided by the number of skill in the target profile', async () => {
@@ -400,7 +402,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           createdAt: new Date('2019-02-25T10:00:00Z'),
           sharedAt: new Date('2019-03-01T23:04:05Z'),
           participantExternalId: '-Mon mail pro',
-          userId: 123,
+          userId: participantId,
           isCompleted: false,
           participantFirstName: user.firstName,
           participantLastName: user.lastName,
@@ -461,7 +463,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           id: 1,
           isShared: false,
           createdAt: new Date('2019-02-25T10:00:00Z'),
-          userId: 123,
+          userId: participantId,
           participantFirstName: user.firstName,
           participantLastName: user.lastName,
           isCompleted: true,
