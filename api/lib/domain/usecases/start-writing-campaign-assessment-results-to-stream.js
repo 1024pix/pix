@@ -5,7 +5,9 @@ const bluebird = require('bluebird');
 const constants = require('../../infrastructure/constants');
 const { UserNotAuthorizedToGetCampaignResultsError, CampaignWithoutOrganizationError } = require('../errors');
 const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
-
+setInterval(() => {
+  console.log(`mem;${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}`);
+}, 200);
 module.exports = async function startWritingCampaignAssessmentResultsToStream(
   {
     userId,
@@ -58,6 +60,7 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
     }));
     const knowledgeElementsByUserId = await knowledgeElementRepository.findByUserIdsAndDatesGroupedByUserIdWithSnapshotting(userIdsAndDates);
 
+    let csvLines = '';
     _.each(knowledgeElementsByUserId, (participantKnowledgeElements, strUserId) => {
       const userId = parseInt(strUserId);
       const campaignParticipationResultData = _.find(campaignParticipationResultDataChunk, { userId });
@@ -69,9 +72,10 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
         targetProfile,
         participantKnowledgeElements,
       });
-
-      writableStream.write(csvLine);
+      csvLines = csvLines.concat(csvLine);
     });
+
+    writableStream.write(csvLines);
   }, { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }).then(() => {
     writableStream.end();
   }).catch((error) => {
