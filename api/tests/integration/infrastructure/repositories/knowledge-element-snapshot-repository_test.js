@@ -36,4 +36,45 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', () => 
       expect(actualKnowledgeElements).to.deep.equal(knowledgeElements);
     });
   });
+
+  describe('#findByUserIdsAndSnappedAtDates', () => {
+    let userId1;
+    let userId2;
+
+    beforeEach(() => {
+      userId1 = databaseBuilder.factory.buildUser().id;
+      userId2 = databaseBuilder.factory.buildUser().id;
+      return databaseBuilder.commit();
+    });
+
+    it('should find knowledge elements snapshoted grouped by userId for userIds and their respective dates', async () => {
+      // given
+      const snappedAt1 = new Date('2020-01-02');
+      const knowledgeElement1 = databaseBuilder.factory.buildKnowledgeElement({ userId: userId1 });
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({ userId: userId1, snappedAt: snappedAt1, snapshot: JSON.stringify([knowledgeElement1]) });
+      const snappedAt2 = new Date('2020-02-02');
+      const knowledgeElement2 = databaseBuilder.factory.buildKnowledgeElement({ userId: userId2 });
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({ userId: userId2, snappedAt: snappedAt2, snapshot: JSON.stringify([knowledgeElement2]) });
+      await databaseBuilder.commit();
+
+      // when
+      const knowledgeElementsByUserId = await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates({
+        [userId1]: snappedAt1,
+        [userId2]: snappedAt2
+      });
+
+      // then
+      expect(knowledgeElementsByUserId[userId1]).to.deep.equal([knowledgeElement1]);
+      expect(knowledgeElementsByUserId[userId2]).to.deep.equal([knowledgeElement2]);
+    });
+
+    it('should return null associated to userId when user does not have a snapshot', async () => {
+      // when
+      const knowledgeElementsByUserId = await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates({
+        [userId1]: new Date('2020-04-01T00:00:00Z'),
+      });
+
+      expect(knowledgeElementsByUserId[userId1]).to.be.null;
+    });
+  });
 });
