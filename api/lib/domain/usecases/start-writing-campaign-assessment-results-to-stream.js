@@ -48,22 +48,30 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
   // after this function's returned promise resolves. If we await the map
   // function, node will keep all the data in memory until the end of the
   // complete operation.
-  bluebird.map(campaignParticipationResultDatas, async (campaignParticipationResultData) => {
-    const participantKnowledgeElements = await knowledgeElementRepository.findUniqByUserId({
-      userId: campaignParticipationResultData.userId,
-      limitDate: campaignParticipationResultData.sharedAt,
-    });
+  const campaignParticipationResultDataChunks = _.chunk(campaignParticipationResultDatas, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
+  bluebird.map(campaignParticipationResultDataChunks, async (campaignParticipationResultDataChunk) => {
+    const userIdsAndDates = _.fromPairs(_.map(campaignParticipationResultDataChunk, (campaignParticipationResultData) => {
+      return [
+        campaignParticipationResultData.userId,
+        campaignParticipationResultData.sharedAt,
+      ];
+    }));
+    const knowledgeElementsByUserId = await knowledgeElementRepository.findByUserIdsAndDatesGroupedByUserIdWithSnapshotting(userIdsAndDates);
 
-    const csvLine = campaignCsvExportService.createOneCsvLine({
-      organization,
-      campaign,
-      competences,
-      campaignParticipationResultData,
-      targetProfile,
-      participantKnowledgeElements,
-    });
+    _.each(knowledgeElementsByUserId, (participantKnowledgeElements, strUserId) => {
+      const userId = parseInt(strUserId);
+      const campaignParticipationResultData = _.find(campaignParticipationResultDataChunk, { userId });
+      const csvLine = campaignCsvExportService.createOneCsvLine({
+        organization,
+        campaign,
+        competences,
+        campaignParticipationResultData,
+        targetProfile,
+        participantKnowledgeElements,
+      });
 
-    writableStream.write(csvLine);
+      writableStream.write(csvLine);
+    });
   }, { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }).then(() => {
     writableStream.end();
   }).catch((error) => {
