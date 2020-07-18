@@ -174,6 +174,7 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
       allowExcessPixAndLevels: false
     });
 
+    let csvLines = '';
     for (const certificationProfile of certificationProfiles) {
       const campaignParticipationResultData = _.find(campaignParticipationResultDataChunk, { userId: certificationProfile.userId });
       const csvLine = _createOneLineOfCSV({
@@ -186,9 +187,10 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
         participantFirstName: campaignParticipationResultData.participantFirstName,
         participantLastName: campaignParticipationResultData.participantLastName,
       });
-
-      writableStream.write(csvLine);
+      csvLines = csvLines.concat(csvLine);
     }
+
+    writableStream.write(csvLines);
   }, { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }).then(() => {
     writableStream.end();
   }).catch((error) => {
