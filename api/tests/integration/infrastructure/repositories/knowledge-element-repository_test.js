@@ -1,10 +1,11 @@
-const { expect, knex, domainBuilder, databaseBuilder } = require('../../../test-helper');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const KnowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const _ = require('lodash');
 const moment = require('moment');
+const { expect, knex, domainBuilder, databaseBuilder, sinon } = require('../../../test-helper');
+const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
+const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
+const knowledgeElementSnapshotRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
 
-describe('Integration | Repository | KnowledgeElementRepository', () => {
+describe('Integration | Repository | knowledgeElementRepository', () => {
 
   afterEach(() => {
     return knex('knowledge-elements').delete();
@@ -32,7 +33,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       knowledgeElement.id = undefined;
 
       // when
-      promise = KnowledgeElementRepository.save(knowledgeElement);
+      promise = knowledgeElementRepository.save(knowledgeElement);
     });
 
     it('should save the knowledgeElement in db', async () => {
@@ -104,7 +105,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
     context('when there is no limit date', () => {
       it('should find the knowledge elements for campaign assessment associated with a user id', async () => {
         // when
-        const knowledgeElementsFound = await KnowledgeElementRepository.findUniqByUserId({ userId });
+        const knowledgeElementsFound = await knowledgeElementRepository.findUniqByUserId({ userId });
 
         expect(knowledgeElementsFound).have.lengthOf(3);
         expect(knowledgeElementsFound).to.have.deep.members(knowledgeElementsWanted);
@@ -114,7 +115,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
     context('when there is a limit date', () => {
       it('should find the knowledge elements for campaign assessment associated with a user id created before limit date', async () => {
         // when
-        const knowledgeElementsFound = await KnowledgeElementRepository.findUniqByUserId({ userId, limitDate: today });
+        const knowledgeElementsFound = await knowledgeElementRepository.findUniqByUserId({ userId, limitDate: today });
 
         expect(knowledgeElementsFound).to.have.deep.members(knowledgeElementsWantedWithLimitDate);
         expect(knowledgeElementsFound).have.lengthOf(2);
@@ -147,7 +148,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
 
     it('should find the knowledge elements for assessment associated with a user id', async () => {
       // when
-      const knowledgeElementsFound = await KnowledgeElementRepository.findUniqByUserIdAndAssessmentId({ userId, assessmentId });
+      const knowledgeElementsFound = await knowledgeElementRepository.findUniqByUserIdAndAssessmentId({ userId, assessmentId });
 
       // then
       expect(knowledgeElementsFound).to.have.deep.members(knowledgeElementsWanted);
@@ -176,7 +177,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
 
     it('should find the knowledge elements grouped by competence id', async () => {
       // when
-      const actualKnowledgeElementsGroupedByCompetenceId = await KnowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({ userId });
+      const actualKnowledgeElementsGroupedByCompetenceId = await knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({ userId });
 
       // then
       expect(actualKnowledgeElementsGroupedByCompetenceId[1]).to.have.length(2);
@@ -218,7 +219,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
 
     it('should find only the knowledge elements matching both userId and competenceId', async () => {
       // when
-      const actualKnowledgeElements = await KnowledgeElementRepository.findUniqByUserIdAndCompetenceId({ userId, competenceId });
+      const actualKnowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({ userId, competenceId });
 
       expect(actualKnowledgeElements).to.have.deep.members(wantedKnowledgeElements);
 
@@ -255,7 +256,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
 
       // then
       expect(actualKnowledgeElements[0].skillId).to.equal('12');
@@ -279,7 +280,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
 
       // then
       expect(actualKnowledgeElements).to.be.empty;
@@ -326,7 +327,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
 
       // then
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1,2]);
@@ -360,7 +361,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
 
       // then
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
@@ -392,7 +393,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
 
       // then
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
@@ -424,7 +425,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
 
       // then
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
@@ -456,7 +457,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
 
       // then
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
@@ -501,7 +502,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
 
       // then
       expect(actualKnowledgeElements).to.have.length(3);
@@ -547,7 +548,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
 
       // then
       expect(actualKnowledgeElements).to.have.length(1);
@@ -606,7 +607,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId });
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId });
 
       // then
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1,2]);
@@ -638,7 +639,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId });
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId });
 
       // then
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
@@ -677,7 +678,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId });
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId });
 
       // then
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
@@ -709,10 +710,142 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId });
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId });
 
       // then
       expect(actualKnowledgeElements).to.have.length(0);
+    });
+  });
+
+  describe('#findUniqByUserIdsAndDatesGroupedByCompetenceIdWithSnapshot', () => {
+    const sandbox = sinon.createSandbox();
+    let userId1;
+    let userId2;
+
+    beforeEach(() => {
+      userId1 = databaseBuilder.factory.buildUser().id;
+      userId2 = databaseBuilder.factory.buildUser().id;
+      return databaseBuilder.commit();
+    });
+
+    afterEach(() => {
+      return knex('knowledge-element-snapshots').delete();
+    });
+
+    it('should return knowledge elements within respective dates grouped by userId the competenceId', async () => {
+      // given
+      const competence1 = 'competenceId1';
+      const competence2 = 'competenceId2';
+      const dateUserId1 = new Date('2020-01-03');
+      const dateUserId2 = new Date('2019-01-03');
+      const knowledgeElement1_1 = databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence1, userId: userId1, createdAt: new Date('2020-01-01') });
+      const knowledgeElement1_2 = databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence1, userId: userId1, createdAt: new Date('2020-01-02') });
+      databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence1, userId: userId1, createdAt: new Date('2021-01-02') });
+      const knowledgeElement2_1 = databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence1, userId: userId2, createdAt: new Date('2019-01-01') });
+      const knowledgeElement2_2 = databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence2, userId: userId2, createdAt: new Date('2019-01-02') });
+      databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence1, userId: userId2, createdAt: new Date('2020-01-02') });
+      await databaseBuilder.commit();
+
+      // when
+      const knowledgeElementsByUserIdAndCompetenceId =
+        await knowledgeElementRepository.findSnapshotGroupedByCompetencesForUsers({ [userId1]: dateUserId1, [userId2]: dateUserId2 });
+
+      // then
+      expect(knowledgeElementsByUserIdAndCompetenceId[userId1][competence1][0]).to.be.instanceOf(KnowledgeElement);
+      expect(knowledgeElementsByUserIdAndCompetenceId[userId1][competence1].length).to.equal(2);
+      expect(knowledgeElementsByUserIdAndCompetenceId[userId1][competence1]).to.deep.include.members([knowledgeElement1_1, knowledgeElement1_2]);
+      expect(knowledgeElementsByUserIdAndCompetenceId[userId2]).to.deep.equal({
+        [competence1]: [knowledgeElement2_1],
+        [competence2]: [knowledgeElement2_2],
+      });
+    });
+
+    context('when user has a snapshot for this date', () => {
+
+      afterEach(() => {
+        sandbox.restore();
+      });
+
+      it('should return the knowledge elements in the snapshot', async () => {
+        // given
+        sandbox.spy(knowledgeElementSnapshotRepository);
+        const dateUserId1 = new Date('2020-01-03');
+        const knowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId: userId1 });
+        databaseBuilder.factory.buildKnowledgeElementSnapshot({ userId: userId1, snappedAt: dateUserId1, snapshot: JSON.stringify([knowledgeElement]) });
+        await databaseBuilder.commit();
+
+        // when
+        const knowledgeElementsByUserIdAndCompetenceId =
+          await knowledgeElementRepository.findSnapshotGroupedByCompetencesForUsers({ [userId1]: dateUserId1 });
+
+        // then
+        expect(knowledgeElementsByUserIdAndCompetenceId[userId1][knowledgeElement.competenceId][0]).to.deep.equal(knowledgeElement);
+        expect(knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates).to.have.been.calledWith({ [userId1]: dateUserId1 });
+        await expect(knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates.firstCall.returnValue).to.eventually.deep.equal({
+          [userId1]: [knowledgeElement],
+        });
+      });
+    });
+
+    context('when user does not have a snapshot for this date', () => {
+
+      context('when no date is provided along with the user', () => {
+        let expectedKnowledgeElement;
+
+        beforeEach(() => {
+          expectedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId: userId1, createdAt: new Date('2018-01-01') });
+          return databaseBuilder.commit();
+        });
+
+        it('should return the knowledge elements with limit date as now', async () => {
+          // when
+          const knowledgeElementsByUserIdAndCompetenceId =
+            await knowledgeElementRepository.findSnapshotGroupedByCompetencesForUsers({ [userId1]: null });
+
+          // then
+          expect(knowledgeElementsByUserIdAndCompetenceId[userId1]).to.deep.equal({
+            [expectedKnowledgeElement.competenceId]: [expectedKnowledgeElement],
+          });
+        });
+
+        it('should not trigger snapshotting', async () => {
+          // when
+          await knowledgeElementRepository.findSnapshotGroupedByCompetencesForUsers({ [userId1]: null });
+
+          // then
+          const actualUserSnapshots = await knex.select('*').from('knowledge-element-snapshots').where({ userId: userId1 });
+          expect(actualUserSnapshots.length).to.equal(0);
+        });
+      });
+
+      context('when a date is provided along with the user', () => {
+        let expectedKnowledgeElement;
+
+        beforeEach(() => {
+          expectedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId: userId1, createdAt: new Date('2018-01-01') });
+          return databaseBuilder.commit();
+        });
+
+        it('should return the knowledge elements at date', async () => {
+          // when
+          const knowledgeElementsByUserIdAndCompetenceId =
+            await knowledgeElementRepository.findSnapshotGroupedByCompetencesForUsers({ [userId1]: new Date('2018-02-01') });
+
+          // then
+          expect(knowledgeElementsByUserIdAndCompetenceId[userId1]).to.deep.equal({
+            [expectedKnowledgeElement.competenceId]: [expectedKnowledgeElement],
+          });
+        });
+
+        it('should save a snasphot', async () => {
+          // when
+          await knowledgeElementRepository.findSnapshotGroupedByCompetencesForUsers({ [userId1]: new Date('2018-02-01') });
+
+          // then
+          const actualUserSnapshots = await knex.select('*').from('knowledge-element-snapshots').where({ userId: userId1 });
+          expect(actualUserSnapshots.length).to.equal(1);
+        });
+      });
     });
   });
 });
