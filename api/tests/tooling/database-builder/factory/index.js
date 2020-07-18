@@ -24,6 +24,7 @@ module.exports = {
   buildCompetenceEvaluation: require('./build-competence-evaluation'),
   buildCompetenceMark: require('./build-competence-mark'),
   buildKnowledgeElement: require('./build-knowledge-element'),
+  buildKnowledgeElementSnapshot: require('./build-knowledge-element-snapshot'),
   buildOrganization: require('./build-organization'),
   buildOrganizationInvitation: require('./build-organization-invitation'),
   buildMembership: require('./build-membership'),
