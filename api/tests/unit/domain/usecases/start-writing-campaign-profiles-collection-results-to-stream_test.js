@@ -34,6 +34,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
     });
 
     const certificationProfile = new CertificationProfile({
+      userId: 123,
       userCompetences: [{
         id: 'recCompetence1',
         pixScore: 9,
@@ -50,7 +51,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
     const competenceRepository = { listPixCompetencesOnly: () => undefined };
     const organizationRepository = { get: () => undefined };
     const campaignParticipationRepository = { findProfilesCollectionResultDataByCampaignId: () => undefined };
-    const certificationProfileService = { getCertificationProfile: () => undefined };
+    const certificationProfileService = { getCertificationProfilesWithSnapshotting: () => undefined };
     let findProfilesCollectionResultDataByCampaignIdStub;
 
     let writableStream;
@@ -62,7 +63,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
       sinon.stub(organizationRepository, 'get').resolves(organization);
       findProfilesCollectionResultDataByCampaignIdStub = sinon.stub(campaignParticipationRepository, 'findProfilesCollectionResultDataByCampaignId');
       sinon.stub(campaignRepository, 'get').resolves(campaign);
-      sinon.stub(certificationProfileService, 'getCertificationProfile').resolves(certificationProfile);
+      sinon.stub(certificationProfileService, 'getCertificationProfilesWithSnapshotting').resolves([certificationProfile]);
 
       writableStream = new PassThrough();
       csvPromise = streamToPromise(writableStream);
