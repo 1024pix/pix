@@ -33,7 +33,7 @@ class CampaignAnalysisV2 {
 
   updateCampaignTubeRecommendations(validatedKnowledgeElementsByParticipant) {
     _.each(this.campaignTubeRecommendations, (campaignTubeRecommendation) => {
-      const tubeSkillIds = _.map(campaignTubeRecommendation.skills, ({ id }) => id);
+      const tubeSkillIds = campaignTubeRecommendation.skillIds;
       const validatedKnowledgeElementsOfTubeByParticipant = _.mapValues(validatedKnowledgeElementsByParticipant, (validatedKnowledgeElements) => {
         return _.filter(validatedKnowledgeElements, (knowledgeElement) => tubeSkillIds.includes(knowledgeElement.skillId));
       });

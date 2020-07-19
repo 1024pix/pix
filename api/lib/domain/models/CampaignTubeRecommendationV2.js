@@ -18,6 +18,7 @@ class CampaignTubeRecommendationV2 {
     this.tubePracticalTitle = tube.practicalTitle;
     this.tutorials = tutorials;
     this.skills = skills;
+    this.skillIds = _.map(this.skills, 'id');
     this.maxSkillLevelInTargetProfile = maxSkillLevelInTargetProfile;
     this.averageScore = null;
     this.participantCountSoFar = 0;
