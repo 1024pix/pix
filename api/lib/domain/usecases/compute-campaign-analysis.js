@@ -1,6 +1,8 @@
 const _ = require('lodash');
+const bluebird = require('bluebird');
 const CampaignAnalysisV2 = require('../models/CampaignAnalysisV2');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
+const constants = require('../../infrastructure/constants');
 
 module.exports = async function computeCampaignAnalysis(
   {
@@ -38,11 +40,23 @@ module.exports = async function computeCampaignAnalysis(
     tutorials,
   });
 
-  for (const sharedParticipation of sharedParticipations) {
-    const knowledgeElementsForParticipant = await knowledgeElementRepository.findUniqByUserId({ userId: sharedParticipation.userId , limitDate: sharedParticipation.sharedAt });
-    const validatedKnowledgeElementsForParticipant = _.filter(knowledgeElementsForParticipant, (knowledgeElement) => knowledgeElement.isValidated);
-    campaignAnalysis.updateCampaignTubeRecommendations({ [sharedParticipation.userId]: validatedKnowledgeElementsForParticipant });
-  }
+  const sharedParticipationsChunks = _.chunk(sharedParticipations, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
+  await bluebird.mapSeries(sharedParticipationsChunks, async (sharedParticipationsChunk) => {
+    const userIdsAndDates = Object.fromEntries(sharedParticipationsChunk.map((sharedParticipation) => {
+      return [
+        sharedParticipation.userId,
+        sharedParticipation.sharedAt,
+      ];
+    }));
+
+    const knowledgeElementsByUserId =
+      await knowledgeElementRepository.findByUserIdsAndDatesGroupedByUserIdWithSnapshotting(userIdsAndDates);
+
+    const validatedKnowledgeElementsByParticipant = _.mapValues(knowledgeElementsByUserId, (knowledgeElements) => {
+      return _.filter(knowledgeElements, (knowledgeElement) => knowledgeElement.isValidated);
+    });
+    campaignAnalysis.updateCampaignTubeRecommendations(validatedKnowledgeElementsByParticipant);
+  });
 
   return campaignAnalysis;
 };

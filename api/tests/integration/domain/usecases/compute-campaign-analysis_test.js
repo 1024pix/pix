@@ -20,7 +20,7 @@ describe('Integration | UseCase | compute-campaign-analysis', () => {
     competenceRepository = { list: sinon.stub() };
     targetProfileRepository = { getByCampaignId: sinon.stub() };
     tubeRepository = { list: sinon.stub() };
-    knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
+    knowledgeElementRepository = { findByUserIdsAndDatesGroupedByUserIdWithSnapshotting: sinon.stub() };
     campaignParticipationRepository = { findSharedParticipationOfCampaign: sinon.stub() };
     tutorialRepository = { list: sinon.stub() };
   });
@@ -41,9 +41,9 @@ describe('Integration | UseCase | compute-campaign-analysis', () => {
       const otherTube = domainBuilder.buildTube({ id: 'otherTubeId', competenceId: competence.id, skills: [skill2] });
       targetProfileRepository.getByCampaignId.withArgs(campaignId).resolves(targetProfile);
       competenceRepository.list.resolves([competence]);
-      knowledgeElementRepository.findUniqByUserId
-        .withArgs({ userId: 1, limitDate: 'someDate' })
-        .resolves([knowledgeElementSkill1,knowledgeElementSkill2, knowledgeElementSkill3]);
+      knowledgeElementRepository.findByUserIdsAndDatesGroupedByUserIdWithSnapshotting
+        .withArgs({ 1: 'someDate' })
+        .resolves({ 1: [knowledgeElementSkill1,knowledgeElementSkill2, knowledgeElementSkill3] });
       campaignParticipationRepository.findSharedParticipationOfCampaign.resolves([{ userId: 1, sharedAt: 'someDate' }]);
       tubeRepository.list.resolves([tube, otherTube]);
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
