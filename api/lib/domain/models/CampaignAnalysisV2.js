@@ -31,11 +31,15 @@ class CampaignAnalysisV2 {
     });
   }
 
-  updateCampaignTubeRecommendations(validatedKnowledgeElementsByParticipant) {
+  updateCampaignTubeRecommendations(validatedKnowledgeElementsByParticipantByCompetenceId) {
     _.each(this.campaignTubeRecommendations, (campaignTubeRecommendation) => {
       const tubeSkillIds = campaignTubeRecommendation.skillIds;
-      const validatedKnowledgeElementsOfTubeByParticipant = _.mapValues(validatedKnowledgeElementsByParticipant, (validatedKnowledgeElements) => {
-        return _.filter(validatedKnowledgeElements, (knowledgeElement) => tubeSkillIds.includes(knowledgeElement.skillId));
+      const validatedKnowledgeElementsOfTubeByParticipant = _.mapValues(validatedKnowledgeElementsByParticipantByCompetenceId, (validatedKnowledgeElementsByCompetenceId) => {
+        const validatedKnowledgeElementsForCompetence = _.get(validatedKnowledgeElementsByCompetenceId, campaignTubeRecommendation.competenceId);
+        if (!validatedKnowledgeElementsForCompetence) {
+          return [];
+        }
+        return _.filter(validatedKnowledgeElementsForCompetence, (knowledgeElement) => tubeSkillIds.includes(knowledgeElement.skillId));
       });
       campaignTubeRecommendation.updateAverageScore(validatedKnowledgeElementsOfTubeByParticipant);
     });

@@ -49,11 +49,13 @@ module.exports = async function computeCampaignAnalysis(
       ];
     }));
 
-    const knowledgeElementsByUserId =
-      await knowledgeElementRepository.findByUserIdsAndDatesGroupedByUserIdWithSnapshotting(userIdsAndDates);
+    const knowledgeElementsByUserIdByCompetenceId =
+      await knowledgeElementRepository.findByUserIdsAndDatesGroupedByUserIdAndCompetenceIdWithSnapshotting(userIdsAndDates);
 
-    const validatedKnowledgeElementsByParticipant = _.mapValues(knowledgeElementsByUserId, (knowledgeElements) => {
-      return _.filter(knowledgeElements, (knowledgeElement) => knowledgeElement.isValidated);
+    const validatedKnowledgeElementsByParticipant = _.mapValues(knowledgeElementsByUserIdByCompetenceId, (knowledgeElementsByCompetenceId) => {
+      return _.mapValues(knowledgeElementsByCompetenceId, (knowledgeElements) => {
+        return _.filter(knowledgeElements, (knowledgeElement) => knowledgeElement.isValidated);
+      });
     });
     campaignAnalysis.updateCampaignTubeRecommendations(validatedKnowledgeElementsByParticipant);
   });
