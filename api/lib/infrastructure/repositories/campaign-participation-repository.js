@@ -170,7 +170,14 @@ module.exports = {
 
   countSharedParticipationOfCampaign(campaignId) {
     return this.count({ campaignId, isShared: true });
-  }
+  },
+
+  findSharedParticipationOfCampaign(campaignId) {
+    return Bookshelf.knex
+      .select('userId', 'sharedAt')
+      .from('campaign-participations')
+      .where({ isShared: true, campaignId });
+  },
 };
 
 function _adaptModelToDb(campaignParticipation) {

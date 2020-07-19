@@ -717,9 +717,34 @@ describe('Integration | Repository | Campaign Participation', () => {
 
       await databaseBuilder.commit();
 
-      const  numberOfCampaignShared = await campaignParticipationRepository.countSharedParticipationOfCampaign(campaignId);
+      const numberOfCampaignShared = await campaignParticipationRepository.countSharedParticipationOfCampaign(campaignId);
 
       expect(numberOfCampaignShared).to.equal(1);
+    });
+  });
+
+  describe('#findSharedParticipationOfCampaign', () => {
+
+    it('return the data for shared participations in campaign', async () => {
+      // given
+      const campaignId = databaseBuilder.factory.buildCampaign({}).id;
+      const otherCampaignId = databaseBuilder.factory.buildCampaign({}).id;
+
+      const participation1 = databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true, });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: false, });
+      databaseBuilder.factory.buildCampaignParticipation({ otherCampaignId, isShared: true, });
+      await databaseBuilder.commit();
+
+      // when
+      const sharedCampaignParticipations = await campaignParticipationRepository.findSharedParticipationOfCampaign(campaignId);
+
+      // then
+      expect(sharedCampaignParticipations).to.deep.equal([
+        {
+          userId: participation1.userId,
+          sharedAt: participation1.sharedAt,
+        },
+      ]);
     });
   });
 
