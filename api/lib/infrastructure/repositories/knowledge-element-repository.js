@@ -116,21 +116,6 @@ module.exports = {
     return _filterValidatedKnowledgeElementsByCampaignId(knowledgeElements, campaignId);
   },
 
-  async findByCampaignIdForSharedCampaignParticipation(campaignId) {
-    const sharedCampaignParticipations = await knex('campaign-participations')
-      .select('userId', 'sharedAt')
-      .where({ campaignId, isShared: 'true' });
-
-    const knowledgeElements = _.flatMap(await bluebird.map(sharedCampaignParticipations,
-      async ({ userId, sharedAt }) => {
-        return _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate: sharedAt });
-      },
-      { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }
-    ));
-
-    return _filterValidatedKnowledgeElementsByCampaignId(knowledgeElements, campaignId);
-  },
-
   async findSnapshotGroupedByCompetencesForUsers(userIdsAndDates) {
     const knowledgeElementsGroupedByUser = await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(userIdsAndDates);
 

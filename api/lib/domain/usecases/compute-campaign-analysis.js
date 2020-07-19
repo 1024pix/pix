@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const CampaignAnalysis = require('../models/CampaignAnalysis');
+const CampaignAnalysisV2 = require('../models/CampaignAnalysisV2');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 
 module.exports = async function computeCampaignAnalysis(
@@ -21,25 +21,28 @@ module.exports = async function computeCampaignAnalysis(
     throw new UserNotAuthorizedToAccessEntity('User does not have access to this campaign');
   }
 
-  const [competences, tubes, tutorials, targetProfile, validatedKnowledgeElements, participantsCount] = await Promise.all([
+  const [competences, tubes, tutorials, targetProfile, sharedParticipations] = await Promise.all([
     competenceRepository.list(),
     tubeRepository.list(),
     tutorialRepository.list(),
     targetProfileRepository.getByCampaignId(campaignId),
-    knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId),
-    campaignParticipationRepository.countSharedParticipationOfCampaign(campaignId),
+    campaignParticipationRepository.findSharedParticipationOfCampaign(campaignId),
   ]);
-
   const targetedTubeIds = _.map(targetProfile.skills, ({ tubeId }) => ({ id: tubeId }));
   const targetedTubes = _.intersectionBy(tubes, targetedTubeIds, 'id');
-
-  return new CampaignAnalysis({
+  const campaignAnalysis = new CampaignAnalysisV2({
     campaignId,
     tubes: targetedTubes,
     competences,
     skills: targetProfile.skills,
-    validatedKnowledgeElements,
-    participantsCount,
     tutorials,
   });
+
+  for (const sharedParticipation of sharedParticipations) {
+    const knowledgeElementsForParticipant = await knowledgeElementRepository.findUniqByUserId({ userId: sharedParticipation.userId , limitDate: sharedParticipation.sharedAt });
+    const validatedKnowledgeElementsForParticipant = _.filter(knowledgeElementsForParticipant, (knowledgeElement) => knowledgeElement.isValidated);
+    campaignAnalysis.updateCampaignTubeRecommendations({ [sharedParticipation.userId]: validatedKnowledgeElementsForParticipant });
+  }
+
+  return campaignAnalysis;
 };

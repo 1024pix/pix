@@ -20,60 +20,35 @@ describe('Integration | UseCase | compute-campaign-analysis', () => {
     competenceRepository = { list: sinon.stub() };
     targetProfileRepository = { getByCampaignId: sinon.stub() };
     tubeRepository = { list: sinon.stub() };
-    knowledgeElementRepository = { findByCampaignIdForSharedCampaignParticipation: sinon.stub() };
-    campaignParticipationRepository = { countSharedParticipationOfCampaign: sinon.stub() };
+    knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
+    campaignParticipationRepository = { findSharedParticipationOfCampaign: sinon.stub() };
     tutorialRepository = { list: sinon.stub() };
   });
 
   context('User has access to this result', () => {
-    it('should returns two CampaignTubeRecommendations but with two skills in the same tube', async () => {
+    it('should returns two CampaignTubeRecommendations with computed average score', async () => {
       // given
       const area = domainBuilder.buildArea();
       const competence = domainBuilder.buildCompetence({ area });
-      const knowledgeElementSkill1 = { skillId: 'skillId', userId: 1 };
-      const knowledgeElementSkill2 = { skillId: 'skillId2', userId: 1 };
+      const knowledgeElementSkill1 = { skillId: 'skillId', userId: 1, isValidated: true };
+      const knowledgeElementSkill2 = { skillId: 'skillId2', userId: 1, isValidated: true };
+      const knowledgeElementSkill3 = { skillId: 'skillId3', userId: 1, isValidated: false };
       const tutorial = domainBuilder.buildTutorial({ id: 'recTuto1' });
       const skill = domainBuilder.buildSkill({ id: 'skillId', name: '@url1', competenceId: competence.id, tubeId: 'tubeId', tutorialIds: [tutorial.id] });
       const skill2 = domainBuilder.buildSkill({ id: 'skillId2', name: '@url2', competenceId: competence.id, tubeId: 'otherTubeId' });
       const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill, skill2] });
       const tube = domainBuilder.buildTube({ id: 'tubeId', competenceId: competence.id, skills: [skill] });
       const otherTube = domainBuilder.buildTube({ id: 'otherTubeId', competenceId: competence.id, skills: [skill2] });
-
-      const campaignTubeRecommendation = domainBuilder.buildCampaignTubeRecommendation({
-        campaignId,
-        tube,
-        competence,
-        validatedKnowledgeElements: [knowledgeElementSkill1],
-        skills: [skill],
-        maxSkillLevelInTargetProfile: 2,
-        participantsCount: 1,
-        tutorials: [tutorial],
-      });
-
-      const campaignOtherTubeRecommendation = domainBuilder.buildCampaignTubeRecommendation({
-        campaignId,
-        tube: otherTube,
-        competence,
-        validatedKnowledgeElements: [knowledgeElementSkill2],
-        skills: [skill2],
-        maxSkillLevelInTargetProfile: 2,
-        participantsCount: 1,
-        tutorials: [],
-      });
-
       targetProfileRepository.getByCampaignId.withArgs(campaignId).resolves(targetProfile);
       competenceRepository.list.resolves([competence]);
-      knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation.resolves([knowledgeElementSkill1,knowledgeElementSkill2]);
-      campaignParticipationRepository.countSharedParticipationOfCampaign.resolves(1);
+      knowledgeElementRepository.findUniqByUserId
+        .withArgs({ userId: 1, limitDate: 'someDate' })
+        .resolves([knowledgeElementSkill1,knowledgeElementSkill2, knowledgeElementSkill3]);
+      campaignParticipationRepository.findSharedParticipationOfCampaign.resolves([{ userId: 1, sharedAt: 'someDate' }]);
       tubeRepository.list.resolves([tube, otherTube]);
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
       targetProfileRepository.getByCampaignId.withArgs(campaignId).resolves(targetProfile);
       tutorialRepository.list.resolves([tutorial]);
-
-      const expectedResult = {
-        id: campaignId,
-        campaignTubeRecommendations: [campaignTubeRecommendation, campaignOtherTubeRecommendation],
-      };
 
       // when
       const actualCampaignAnalysis = await computeCampaignAnalysis({
@@ -89,7 +64,11 @@ describe('Integration | UseCase | compute-campaign-analysis', () => {
       });
 
       // then
-      expect(actualCampaignAnalysis).to.deep.equal(expectedResult);
+      const campaignTubeRecommendations = actualCampaignAnalysis.campaignTubeRecommendations;
+      const tube1Recommendation = campaignTubeRecommendations.find(({ tubeId }) => tubeId === 'tubeId');
+      const tube2Recommendation = campaignTubeRecommendations.find(({ tubeId }) => tubeId === 'otherTubeId');
+      expect(tube1Recommendation.averageScore).to.deep.equal(85);
+      expect(tube2Recommendation.averageScore).to.deep.equal(100);
     });
   });
 
