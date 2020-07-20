@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import setupIntegration from '../../helpers/setup-integration';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
 describe('Integration | Component | ChallengeStatement', function() {
 
-  setupIntegration();
+  setupIntlRenderingTest();
 
   function addChallengeToContext(component, challenge) {
     component.set('challenge', challenge);

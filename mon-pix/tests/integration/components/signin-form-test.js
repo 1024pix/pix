@@ -11,13 +11,13 @@ import {
 import hbs from 'htmlbars-inline-precompile';
 
 import ENV from '../../../config/environment';
-import setupIntegration from '../../helpers/setup-integration';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 
 describe('Integration | Component | signin form', function() {
 
-  setupIntegration();
+  setupIntlRenderingTest();
 
   describe('Rendering', async function() {
 

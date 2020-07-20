@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
-import setupIntegration from '../../helpers/setup-integration';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, click, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | certification results template', function() {
-  setupIntegration();
+  setupIntlRenderingTest();
 
   context('When component is rendered', function() {
     const certificationNumber = 'certification-number';

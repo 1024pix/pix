@@ -3,10 +3,10 @@ import { describe, it } from 'mocha';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
-import setupIntegration from '../../helpers/setup-integration';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 describe('Integration | Component | user certifications detail header', function() {
-  setupIntegration();
+  setupIntlRenderingTest();
 
   let certification;
   const PARENT_SELECTOR = '.user-certifications-detail-header';

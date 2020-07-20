@@ -4,10 +4,10 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import setupIntegration from '../../helpers/setup-integration';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 describe('Integration | Component | user-certifications-detail-competences-list', function() {
-  setupIntegration();
+  setupIntlRenderingTest();
 
   let resultCompetenceTree;
   const PARENT_SELECTOR = '.user-certifications-detail-competences-list';

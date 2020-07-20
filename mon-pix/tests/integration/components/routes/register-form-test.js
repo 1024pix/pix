@@ -3,7 +3,7 @@
 
 import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
-import setupIntegration from '../../../helpers/setup-integration';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { resolve, reject } from 'rsvp';
 import {
   click,
@@ -25,7 +25,7 @@ const EMPTY_EMAIL_ERROR_MESSAGE = 'Votre email n’est pas valide.';
 const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.';
 
 describe('Integration | Component | routes/register-form', function() {
-  setupIntegration();
+  setupIntlRenderingTest();
 
   let sessionStub;
   let storeStub;

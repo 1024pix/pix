@@ -1,7 +1,7 @@
 import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
-import setupIntegration from '../../helpers/setup-integration';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -18,7 +18,7 @@ const CORRECT_ANSWER_POSITION = 2;
 
 describe('Integration | Component | QROCm ind solution panel', function() {
 
-  setupIntegration();
+  setupIntlRenderingTest();
 
   const assessment = EmberObject.create({ id: 'assessment_id' });
   const challenge = EmberObject.create({

@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import setupIntegration from '../../helpers/setup-integration';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
 describe('Integration | Component | resume-campaign-banner', function() {
 
-  setupIntegration();
+  setupIntlRenderingTest();
 
   describe('Banner display', function() {
     const campaignToResume = EmberObject.create({

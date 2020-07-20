@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
-import setupIntegration from '../../helpers/setup-integration';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import {
   click,
   fillIn,
@@ -13,7 +13,7 @@ import {
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | form textfield', function() {
-  setupIntegration();
+  setupIntlRenderingTest();
 
   const LABEL = '.form-textfield__label';
   const LABEL_TEXT = 'NOM';
