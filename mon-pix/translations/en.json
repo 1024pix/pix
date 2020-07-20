@@ -56,10 +56,10 @@
           "submit": "Continue"
         },
         "fields": {
-          "session-number": "Session number",
-          "first-name": "First name",
+          "birth-date": "Birth Date",
           "birth-name": "Birth Name",
-          "birth-date": "Birth Date"
+          "first-name": "First name",
+          "session-number": "Session number"
         }
       }
     },
@@ -71,11 +71,11 @@
         "submit": "Start your test"
       },
       "cgu":  {
-        "info": "By clicking on \" Start my test \", I accept that my identity data, the certification number and the circumstances of the test as informed by the supervisor are communicated to Pix. Pix will use them during the jury's deliberation to produce and archive my results and to edit my certificate. If this certification has been prescribed by an organization, I accept that Pix will communicate my results to it.",
         "contact": {
           "email": "dpo@pix.org",
           "info": "In accordance with the  IT and freedom law, you can exercise your right of access to data concerning you and have them rectified by sending an email to"
-        }
+        },
+        "info": "By clicking on \" Start my test \", I accept that my identity data, the certification number and the circumstances of the test as informed by the supervisor are communicated to Pix. Pix will use them during the jury's deliberation to produce and archive my results and to edit my certificate. If this certification has been prescribed by an organization, I accept that Pix will communicate my results to it."
       },
       "first-title": "You will start your certification test"
     },
@@ -83,19 +83,19 @@
     "certifications-list": {
       "title": "My",
       "header": {
+        "certification-center": "center of certification",
         "date": "date",
-        "status": "status",
         "score": "score pix",
-        "certification-center": "center of certification"
+        "status": "status"
       },
       "statuses": {
         "success": {
-          "title": "Certification obtained",
-          "action": "see results"
+          "action": "see results",
+          "title": "Certification obtained"
         },
         "fail": {
-          "title": "Certification not obtained",
-          "action": "details"
+          "action": "details",
+          "title": "Certification not obtained"
         },
         "not-published": {
           "title": "Waiting for the result"
@@ -119,20 +119,20 @@
           "label": "Continue"
         },
         "improve": {
-          "label": "Retry",
           "description": {
             "waiting-text": "Attempt the next level in\n",
             "countdown": "{ daysBeforeImproving, plural, =0 {0 day.} =1 {1 day.} other {# days.} }"
           },
-          "improvingText": "Try to get to the next level!"
+          "improvingText": "Try to get to the next level!",
+          "label": "Retry"
         },
         "reset": {
-          "label": "Reset",
           "description": "Reset available in\n { daysBeforeReset, plural, =0 {0 day.} =1 {1 day.} other {# days.} }",
+          "label": "Reset",
           "modal": {
-            "title": "Reset competence",
             "important-message": "Your { earnedPix } Pix are going to be deleted.",
             "important-message-above-level-one": "Your {level} level and {earnedPix} Pix will be deleted.",
+            "title": "Reset competence",
             "warning": "Please note: if you have an evaluation course in progress, some questions may be asked."
           }
         },

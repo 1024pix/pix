@@ -56,10 +56,10 @@
           "submit": "Continuer"
         },
         "fields": {
-          "session-number": "Numéro de session",
-          "first-name": "Prénom",
+          "birth-date": "Date de naissance",
           "birth-name": "Nom de naissance",
-          "birth-date": "Date de naissance"
+          "first-name": "Prénom",
+          "session-number": "Numéro de session"
         }
       }
     },
@@ -71,11 +71,11 @@
         "submit": "Commencer mon test"
       },
       "cgu":  {
-        "info": "En cliquant sur \"Commencer mon test\", j’accepte que mes données d’identité, le numéro de certification et les circonstances de la passation telles que renseignées par le surveillant soient communiquées à Pix. Pix les utilisera lors de la délibération du jury pour produire et archiver mes résultats et pour éditer mon certificat. Si cette certification m’a été prescrite par une organisation, j’accepte que Pix lui communique mes résultats.",
         "contact": {
           "email": "dpo@pix.fr",
           "info": "Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en envoyant un mail à "
-        }
+        },
+        "info": "En cliquant sur \"Commencer mon test\", j’accepte que mes données d’identité, le numéro de certification et les circonstances de la passation telles que renseignées par le surveillant soient communiquées à Pix. Pix les utilisera lors de la délibération du jury pour produire et archiver mes résultats et pour éditer mon certificat. Si cette certification m’a été prescrite par une organisation, j’accepte que Pix lui communique mes résultats."
       },
       "first-title": "Vous allez commencer votre test de certification"
     },
@@ -83,19 +83,19 @@
     "certifications-list": {
       "title": "Mes Certifications",
       "header": {
+        "certification-center": "centre de certification",
         "date": "date",
-        "status": "statut",
         "score": "score pix",
-        "certification-center": "centre de certification"
+        "status": "statut"
       },
       "statuses": {
         "success": {
-          "title": "Certification obtenue",
-          "action": "voir les résultats"
+          "action": "voir les résultats",
+          "title": "Certification obtenue"
         },
         "fail": {
-          "title": "Certification non obtenue",
-          "action": "détail"
+          "action": "détail",
+          "title": "Certification non obtenue"
         },
         "not-published": {
           "title": "En attente du résultat"
@@ -119,20 +119,20 @@
           "label": "Reprendre"
         },
         "improve": {
-          "label": "Retenter",
           "description": {
             "waiting-text": "Tenter le niveau supérieur dans",
             "countdown": "{ daysBeforeImproving, plural, =0 {0 jour.} =1 {1 jour.} other {# jours.} }"
           },
-          "improvingText": "Tentez d'obtenir le niveau supérieur !"
+          "improvingText": "Tentez d'obtenir le niveau supérieur !",
+          "label": "Retenter"
         },
         "reset": {
-          "label": "Remettre à zéro",
           "description": "Remise à zéro disponible dans { daysBeforeReset, plural, =0 {0 jour.} =1 {1 jour.} other {# jours.} }",
+          "label": "Remettre à zéro",
           "modal": {
-            "title": "Remise à zéro de la compétence",
             "important-message": "Vos { earnedPix } Pix vont être supprimés.",
             "important-message-above-level-one": "Votre niveau { level } et vos { earnedPix } Pix vont être supprimés.",
+            "title": "Remise à zéro de la compétence",
             "warning": "Attention : si vous avez un parcours d’évaluation en cours, certaines questions pourront vous être reposées."
           }
         },
