@@ -52,7 +52,7 @@ const ChallengeItemGeneric = Component.extend({
     return this.hasTimerDefined();
   }),
 
-  canDisplayFeedbackPanel: computed('_isUserAwareThatChallengeIsTimed', function() {
+  displayFeedbackPanel: computed('_isUserAwareThatChallengeIsTimed', function() {
     return !this.hasTimerDefined() || (this.hasTimerDefined() && this._isUserAwareThatChallengeIsTimed);
   }),
 
