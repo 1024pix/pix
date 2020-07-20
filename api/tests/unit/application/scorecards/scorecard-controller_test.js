@@ -7,7 +7,7 @@ const usecases = require('../../../../lib/domain/usecases');
 const scorecardSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
 const tutorialSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/tutorial-serializer');
 
-describe('Unit | Controller | user-controller', () => {
+describe('Unit | Controller | scorecard-controller', () => {
 
   describe('#getScorecard', () => {
 
