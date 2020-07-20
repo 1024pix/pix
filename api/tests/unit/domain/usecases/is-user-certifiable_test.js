@@ -1,15 +1,18 @@
 const { sinon, expect } = require('../../../test-helper');
-const getUserCurrentCertificationProfile = require('../../../../lib/domain/usecases/get-user-current-certification-profile');
+const isUserCertifiable = require('../../../../lib/domain/usecases/is-user-certifiable');
+const CertificationProfile = require('../../../../lib/domain/models/CertificationProfile');
 
-describe('Unit | UseCase | get-user-current-certification-profile', () => {
+describe('Unit | UseCase | is-user-certifiable', () => {
 
   let certificationProfileService;
   let clock;
   const now = new Date(2020, 1, 1);
+  const certificationProfile = new CertificationProfile();
+  const userId = 2;
 
   beforeEach(() => {
     clock = sinon.useFakeTimers(now);
-    certificationProfileService = { getCertificationProfile: sinon.stub() };
+    certificationProfileService = { getCertificationProfile: sinon.stub().withArgs({ userId, limitDate: now }).resolves(certificationProfile) };
   });
 
   afterEach(() => {
@@ -24,12 +27,12 @@ describe('Unit | UseCase | get-user-current-certification-profile', () => {
     certificationProfileService.getCertificationProfile.withArgs({ userId, limitDate: now }).resolves('certificationProfile');
 
     // when
-    const actualCertificationProfile = await getUserCurrentCertificationProfile({
+    const result = await isUserCertifiable({
       userId,
       certificationProfileService,
     });
 
     //then
-    expect(actualCertificationProfile).to.deep.equal('certificationProfile');
+    expect(result).to.be.false;
   });
 });

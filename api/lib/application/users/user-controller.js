@@ -141,7 +141,7 @@ module.exports = {
   getCertificationProfile(request) {
     const authenticatedUserId = request.auth.credentials.userId;
 
-    return usecases.getUserCurrentCertificationProfile({ userId: authenticatedUserId })
+    return usecases.isUserCertifiable({ userId: authenticatedUserId })
       .then(certificationProfileSerializer.serialize);
   },
 

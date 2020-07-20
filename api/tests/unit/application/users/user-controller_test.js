@@ -595,13 +595,12 @@ describe('Unit | Controller | user-controller', () => {
   describe('#getCertificationProfile', () => {
 
     beforeEach(() => {
-      sinon.stub(usecases, 'getUserCurrentCertificationProfile').resolves(new CertificationProfile());
+      sinon.stub(usecases, 'isUserCertifiable').resolves(new CertificationProfile());
     });
 
     it('should return the user certification profile', async () => {
       // given
       const userId = '76';
-
       const request = {
         auth: {
           credentials: {
@@ -614,10 +613,10 @@ describe('Unit | Controller | user-controller', () => {
       };
 
       // when
-      await userController.getCertificationProfile(request);
+      const result = await userController.getCertificationProfile(request);
 
       // then
-      expect(usecases.getUserCurrentCertificationProfile).to.have.been.calledWith({ userId });
+      expect(usecases.isUserCertifiable).to.have.been.calledWith({ userId });
     });
   });
 
