@@ -18,6 +18,7 @@ const ChallengeItemGeneric = Component.extend({
 
   isValidateButtonEnabled: true,
   isSkipButtonEnabled: true,
+  hasUserConfirmWarning: false,
 
   _elapsedTime: null,
   _timer: null,
@@ -34,7 +35,6 @@ const ChallengeItemGeneric = Component.extend({
     this._super(...arguments);
     if (!this._isUserAwareThatChallengeIsTimed) {
       this.set('hasUserConfirmWarning', false);
-      this.set('hasChallengeTimer', this.hasTimerDefined());
     }
   },
 
@@ -44,21 +44,17 @@ const ChallengeItemGeneric = Component.extend({
     cancel(timer);
   },
 
-  hasUserConfirmWarning: computed('challenge', function() {
-    return false;
+  hasChallengeTimer: computed('challenge.timer', function() {
+    return _.isInteger(this.challenge.timer);
   }),
 
-  hasChallengeTimer: computed('challenge', function() {
-    return this.hasTimerDefined();
+  displayFeedbackPanel: computed('_isUserAwareThatChallengeIsTimed', 'hasChallengeTimer', function() {
+    return !this.hasChallengeTimer || (this.hasChallengeTimer && this._isUserAwareThatChallengeIsTimed);
   }),
 
-  displayFeedbackPanel: computed('_isUserAwareThatChallengeIsTimed', function() {
-    return !this.hasTimerDefined() || (this.hasTimerDefined() && this._isUserAwareThatChallengeIsTimed);
-  }),
-
-  displayTimer: computed('answer', 'hasUserConfirmWarning', function() {
+  displayTimer: computed('answer', 'hasUserConfirmWarning', 'hasChallengeTimer', function() {
     if (!this.answer
-      && this.hasTimerDefined()
+      && this.hasChallengeTimer
       && this.hasUserConfirmWarning) {
 
       return true;
@@ -66,9 +62,10 @@ const ChallengeItemGeneric = Component.extend({
     return false;
   }),
 
-  hasTimerDefined() {
-    return _.isInteger(this.challenge.timer);
-  },
+  displayChallenge: computed('hasUserConfirmWarning', 'hasChallengeTimer', function() {
+    return !this.hasChallengeTimer
+        || (this.hasUserConfirmWarning && this.hasChallengeTimer);
+  }),
 
   _getTimeout() {
     return this.$('.timeout-jauge-remaining').attr('data-spent');
@@ -134,8 +131,7 @@ const ChallengeItemGeneric = Component.extend({
 
     setUserConfirmation() {
       this._start();
-      this.toggleProperty('hasUserConfirmWarning');
-      this.toggleProperty('hasChallengeTimer');
+      this.set('hasUserConfirmWarning', true);
       this.set('_isUserAwareThatChallengeIsTimed', true);
     },
   },

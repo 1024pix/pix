@@ -4,7 +4,7 @@
   {{/unless}}
 {{/if}}
 
-{{#unless this.hasChallengeTimer}}
+{{#if this.displayChallenge}}
   <form {{action "validateAnswer" on="submit"}} class="rounded-panel">
     <ChallengeStatement @challenge={{@challenge}} @assessment={{@assessment}} />
 
@@ -46,7 +46,7 @@
                         @class="rounded-panel__row" />
     {{/if}}
   </form>
-{{/unless}}
+{{/if}}
 
 {{#if this.displayFeedbackPanel}}
   <div class="challenge-item__feedback">
