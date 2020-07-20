@@ -1,11 +1,11 @@
 module.exports = async function getUserCurrentCertificationProfile(
   {
     userId,
-    userService,
+    certificationProfileService,
     competenceRepository
   }) {
   const now = new Date();
   const competences = await competenceRepository.listPixCompetencesOnly();
 
-  return userService.getCertificationProfile({ userId, limitDate: now, competences });
+  return certificationProfileService.getCertificationProfile({ userId, limitDate: now, competences });
 };

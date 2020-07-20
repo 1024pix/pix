@@ -23,7 +23,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
   };
   const sessionRepository = { get: sinon.stub() };
   const certificationChallengesService = { generateCertificationChallenges: sinon.stub() };
-  const userService = {
+  const certificationProfileService = {
     fillCertificationProfileWithChallenges: sinon.stub(),
     getCertificationProfile: sinon.stub(),
   };
@@ -36,7 +36,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
     certificationCourseRepository,
     sessionRepository,
     certificationChallengesService,
-    userService,
+    certificationProfileService,
   };
 
   beforeEach(() => {
@@ -117,7 +117,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
         beforeEach(() => {
           certificationProfile = { isCertifiable: sinon.stub().returns(false) };
-          userService.getCertificationProfile.withArgs({ userId, limitDate: now, competences }).resolves(certificationProfile);
+          certificationProfileService.getCertificationProfile.withArgs({ userId, limitDate: now, competences }).resolves(certificationProfile);
         });
 
         it('should throw a UserNotAuthorizedToCertifyError', async function() {
@@ -153,8 +153,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
         beforeEach(() => {
           certificationProfile = { isCertifiable: sinon.stub().returns(true), userCompetences: 'someUserCompetences' };
-          userService.getCertificationProfile.withArgs({ userId, limitDate: now, competences }).resolves(certificationProfile);
-          userService.fillCertificationProfileWithChallenges.withArgs(certificationProfile).resolves(certificationProfile);
+          certificationProfileService.getCertificationProfile.withArgs({ userId, limitDate: now, competences }).resolves(certificationProfile);
+          certificationProfileService.fillCertificationProfileWithChallenges.withArgs(certificationProfile).resolves(certificationProfile);
         });
 
         context('when a certification course has been created meanwhile', () => {
@@ -192,7 +192,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             });
 
             // then
-            expect(userService.fillCertificationProfileWithChallenges).to.have.been.calledWith(certificationProfile);
+            expect(certificationProfileService.fillCertificationProfileWithChallenges).to.have.been.calledWith(certificationProfile);
           });
 
         });
@@ -241,7 +241,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           beforeEach(() => {
             certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
               .withArgs({ userId, sessionId, domainTransaction }).onCall(1).resolves(null);
-            userService.getCertificationProfile.withArgs({ userId, limitDate: now, competences }).resolves(certificationProfile);
+            certificationProfileService.getCertificationProfile.withArgs({ userId, limitDate: now, competences }).resolves(certificationProfile);
             certificationCandidateRepository.getBySessionIdAndUserId.withArgs({ sessionId, userId }).resolves(foundCertificationCandidate);
             certificationCourseRepository.save.resolves(savedCertificationCourse);
             assessmentRepository.save.resolves(savedAssessment);
