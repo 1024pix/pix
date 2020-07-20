@@ -3,7 +3,7 @@ const getUserCurrentCertificationProfile = require('../../../../lib/domain/useca
 
 describe('Unit | UseCase | get-user-current-certification-profile', () => {
 
-  let userService;
+  let certificationProfileService;
   let competenceRepository;
   let clock;
   const now = new Date(2020, 1, 1);
@@ -11,7 +11,7 @@ describe('Unit | UseCase | get-user-current-certification-profile', () => {
 
   beforeEach(() => {
     clock = sinon.useFakeTimers(now);
-    userService = { getCertificationProfile: sinon.stub() };
+    certificationProfileService = { getCertificationProfile: sinon.stub() };
     competenceRepository = { listPixCompetencesOnly: sinon.stub().resolves(competences) };
   });
 
@@ -24,12 +24,12 @@ describe('Unit | UseCase | get-user-current-certification-profile', () => {
     // given
     const userId = 2;
 
-    userService.getCertificationProfile.withArgs({ userId, limitDate: now, competences }).resolves('certificationProfile');
+    certificationProfileService.getCertificationProfile.withArgs({ userId, limitDate: now, competences }).resolves('certificationProfile');
 
     // when
     const actualCertificationProfile = await getUserCurrentCertificationProfile({
       userId,
-      userService,
+      certificationProfileService,
       competenceRepository
     });
 

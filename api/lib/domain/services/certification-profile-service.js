@@ -13,14 +13,10 @@ const knowledgeElementRepository = require('../../../lib/infrastructure/reposito
 const scoringService = require('../../../lib/domain/services/scoring/scoring-service');
 
 async function getCertificationProfile({ userId, limitDate, competences, isV2Certification = true, allowExcessPixAndLevels = true }) {
-  const certificationProfile = new CertificationProfile({
-    userId,
-    profileDate: limitDate,
-  });
   if (isV2Certification) {
-    return _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV2({ certificationProfile, competences, allowExcessPixAndLevels });
+    return _generateCertificationProfileV2({ userId, profileDate: limitDate, competences, allowExcessPixAndLevels });
   }
-  return _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV1({ certificationProfile, competences });
+  return _generateCertificationProfileV1({ userId, profileDate: limitDate, competences });
 }
 
 async function fillCertificationProfileWithChallenges(certificationProfile) {
@@ -106,13 +102,16 @@ async function _createUserCompetencesV1({ allCompetences, userLastAssessments, l
   });
 }
 
-async function _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV1({ certificationProfile, competences }) {
-  const certificationProfileToFill = _.clone(certificationProfile);
+async function _generateCertificationProfileV1({ userId, profileDate, competences }) {
+  const certificationProfile = new CertificationProfile({
+    userId,
+    profileDate,
+  });
   const userLastAssessments = await assessmentRepository
     .findLastCompletedAssessmentsForEachCompetenceByUser(certificationProfile.userId, certificationProfile.profileDate);
-  certificationProfileToFill.userCompetences = await _createUserCompetencesV1({ allCompetences: competences, userLastAssessments, limitDate: certificationProfile.profileDate });
+  certificationProfile.userCompetences = await _createUserCompetencesV1({ allCompetences: competences, userLastAssessments, limitDate: certificationProfile.profileDate });
 
-  return certificationProfileToFill;
+  return certificationProfile;
 }
 
 function _createUserCompetencesV2({ knowledgeElementsByCompetence, allCompetences, allowExcessPixAndLevels = true }) {
@@ -137,19 +136,22 @@ function _createUserCompetencesV2({ knowledgeElementsByCompetence, allCompetence
   });
 }
 
-async function _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV2({ certificationProfile, competences, allowExcessPixAndLevels }) {
-  const certificationProfileToFill = _.clone(certificationProfile);
+async function _generateCertificationProfileV2({ userId, profileDate, competences, allowExcessPixAndLevels }) {
+  const certificationProfile = new CertificationProfile({
+    userId,
+    profileDate,
+  });
 
   const knowledgeElementsByCompetence = await knowledgeElementRepository
     .findUniqByUserIdGroupedByCompetenceId({ userId: certificationProfile.userId, limitDate: certificationProfile.profileDate });
 
-  certificationProfileToFill.userCompetences = _createUserCompetencesV2({
+  certificationProfile.userCompetences = _createUserCompetencesV2({
     knowledgeElementsByCompetence,
     allCompetences: competences,
     allowExcessPixAndLevels,
   });
 
-  return certificationProfileToFill;
+  return certificationProfile;
 }
 
 module.exports = {

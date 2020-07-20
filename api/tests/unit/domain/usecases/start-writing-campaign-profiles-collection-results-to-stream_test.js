@@ -50,7 +50,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
     const competenceRepository = { listPixCompetencesOnly: () => undefined };
     const organizationRepository = { get: () => undefined };
     const campaignParticipationRepository = { findProfilesCollectionResultDataByCampaignId: () => undefined };
-    const userService = { getCertificationProfile: () => undefined };
+    const certificationProfileService = { getCertificationProfile: () => undefined };
     let findProfilesCollectionResultDataByCampaignIdStub;
 
     let writableStream;
@@ -62,7 +62,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
       sinon.stub(organizationRepository, 'get').resolves(organization);
       findProfilesCollectionResultDataByCampaignIdStub = sinon.stub(campaignParticipationRepository, 'findProfilesCollectionResultDataByCampaignId');
       sinon.stub(campaignRepository, 'get').resolves(campaign);
-      sinon.stub(userService, 'getCertificationProfile').resolves(certificationProfile);
+      sinon.stub(certificationProfileService, 'getCertificationProfile').resolves(certificationProfile);
 
       writableStream = new PassThrough();
       csvPromise = streamToPromise(writableStream);
@@ -97,7 +97,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
         competenceRepository,
         organizationRepository,
         campaignParticipationRepository,
-        userService,
+        certificationProfileService,
       });
 
       const csv = await csvPromise;
@@ -152,7 +152,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
           competenceRepository,
           organizationRepository,
           campaignParticipationRepository,
-          userService,
+          certificationProfileService,
         });
 
         const csv = await csvPromise;
@@ -206,7 +206,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
           competenceRepository,
           organizationRepository,
           campaignParticipationRepository,
-          userService,
+          certificationProfileService,
         });
 
         const csv = await csvPromise;
@@ -263,7 +263,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
           competenceRepository,
           organizationRepository,
           campaignParticipationRepository,
-          userService,
+          certificationProfileService,
         });
 
         const csv = await csvPromise;
@@ -324,7 +324,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
           competenceRepository,
           organizationRepository,
           campaignParticipationRepository,
-          userService,
+          certificationProfileService,
         });
 
         const csv = await csvPromise;

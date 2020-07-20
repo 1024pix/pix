@@ -5,9 +5,8 @@ const assessmentRepository = require('../../../../lib/infrastructure/repositorie
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
-const userService = require('../../../../lib/domain/services/user-service');
+const certificationProfileService = require('../../../../lib/domain/services/certification-profile-service');
 
-const Answer = require('../../../../lib/domain/models/Answer');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const CertificationProfile = require('../../../../lib/domain/models/CertificationProfile');
@@ -17,11 +16,9 @@ const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement
 const Skill = require('../../../../lib/domain/models/Skill');
 const UserCompetence = require('../../../../lib/domain/models/UserCompetence');
 
-describe('Integration | Service | User Service', function() {
+describe('Integration | Service | Certification Profile Service', function() {
 
   const userId = 63731;
-
-  const answerCollectionWithEmptyData = [];
 
   function _createCompetence(id, index, name, areaCode) {
     const competence = new Competence();
@@ -128,7 +125,6 @@ describe('Integration | Service | User Service', function() {
         sinon.stub(assessmentRepository, 'findLastCompletedAssessmentsForEachCompetenceByUser').resolves([
           assessment1, assessment2, assessment3
         ]);
-        sinon.stub(answerRepository, 'findCorrectAnswersByAssessmentId').resolves(answerCollectionWithEmptyData);
       });
 
       it('should load achieved assessments', async () => {
@@ -136,7 +132,7 @@ describe('Integration | Service | User Service', function() {
         const limitDate = '2020-10-27 08:44:25';
 
         // when
-        await userService.getCertificationProfile({ userId, limitDate, isV2Certification: false, competences });
+        await certificationProfileService.getCertificationProfile({ userId, limitDate, isV2Certification: false, competences });
 
         // then
         sinon.assert.calledOnce(assessmentRepository.findLastCompletedAssessmentsForEachCompetenceByUser);
@@ -148,20 +144,13 @@ describe('Integration | Service | User Service', function() {
   context('V2 Profile', () => {
     describe('#getCertificationProfile', () => {
 
-      let answerRepositoryFindChallengeIds;
-
-      beforeEach(() => {
-        answerRepositoryFindChallengeIds = sinon.stub(answerRepository, 'findChallengeIdsFromAnswerIds');
-        answerRepositoryFindChallengeIds.resolves([]);
-      });
-
       it('should assign 0 pixScore and level of 0 to user competence when not assessed', async () => {
         // given
         sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceId')
           .withArgs({ userId, limitDate: sinon.match.any }).resolves({});
 
         // when
-        const actualCertificationProfile = await userService.getCertificationProfile({
+        const actualCertificationProfile = await certificationProfileService.getCertificationProfile({
           userId,
           limitDate: 'salut',
           competences
@@ -205,10 +194,8 @@ describe('Integration | Service | User Service', function() {
 
         it('should assign pixScore and level to user competence based on knowledge elements', async () => {
           // given
-          const answer = new Answer({ id: 1, challengeId: challengeForSkillRemplir2.id, result: 'ok' });
 
           const ke = domainBuilder.buildKnowledgeElement({
-            answerId: answer.id,
             competenceId: 'competenceRecordIdTwo',
             skillId: skillRemplir2.id,
             earnedPix: 23
@@ -218,7 +205,7 @@ describe('Integration | Service | User Service', function() {
             .withArgs({ userId, limitDate: sinon.match.any }).resolves({ competenceRecordIdTwo: [ke] });
 
           // when
-          const actualCertificationProfile = await userService.getCertificationProfile({
+          const actualCertificationProfile = await certificationProfileService.getCertificationProfile({
             userId,
             limitDate: 'salut',
             competences
@@ -239,11 +226,7 @@ describe('Integration | Service | User Service', function() {
 
         it('should include both inferred and direct KnowlegdeElements to compute PixScore', async () => {
           // given
-          const answer = new Answer({ id: 1, challengeId: challengeForSkillRemplir4.id, result: 'ok' });
-          answerRepositoryFindChallengeIds.withArgs([1]).resolves([answer.challengeId]);
-
           const inferredKe = domainBuilder.buildKnowledgeElement({
-            answerId: answer.id,
             competenceId: 'competenceRecordIdTwo',
             skillId: skillRemplir2.id,
             earnedPix: 8,
@@ -251,7 +234,6 @@ describe('Integration | Service | User Service', function() {
           });
 
           const directKe = domainBuilder.buildKnowledgeElement({
-            answerId: answer.id,
             competenceId: 'competenceRecordIdTwo',
             skillId: skillRemplir4.id,
             earnedPix: 9,
@@ -265,7 +247,7 @@ describe('Integration | Service | User Service', function() {
             }).resolves({ 'competenceRecordIdTwo': [inferredKe, directKe] });
 
           // when
-          const actualCertificationProfile = await userService.getCertificationProfile({
+          const actualCertificationProfile = await certificationProfileService.getCertificationProfile({
             userId,
             limitDate: 'salut',
             competences
@@ -287,7 +269,7 @@ describe('Integration | Service | User Service', function() {
               .withArgs({ userId, limitDate: sinon.match.any }).resolves({ competenceRecordIdOne: [ke] });
 
             // when
-            const actualCertificationProfile = await userService.getCertificationProfile({
+            const actualCertificationProfile = await certificationProfileService.getCertificationProfile({
               userId,
               limitDate: 'salut',
               competences,
@@ -316,7 +298,7 @@ describe('Integration | Service | User Service', function() {
               .withArgs({ userId, limitDate: sinon.match.any }).resolves({ competenceRecordIdOne: [ke] });
 
             // when
-            const actualCertificationProfile = await userService.getCertificationProfile({
+            const actualCertificationProfile = await certificationProfileService.getCertificationProfile({
               userId,
               limitDate: 'salut',
               competences,
@@ -376,7 +358,7 @@ describe('Integration | Service | User Service', function() {
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFive']);
 
       // when
-      await userService.fillCertificationProfileWithChallenges(certificationProfile);
+      await certificationProfileService.fillCertificationProfileWithChallenges(certificationProfile);
 
       // then
       sinon.assert.calledOnce(challengeRepository.findOperative);
@@ -388,7 +370,7 @@ describe('Integration | Service | User Service', function() {
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFive']);
 
       // when
-      const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
+      const actualCertificationProfile = await certificationProfileService.fillCertificationProfileWithChallenges(certificationProfile);
 
       // then
       expect(actualCertificationProfile.userCompetences).to.deep.equal([
@@ -409,7 +391,7 @@ describe('Integration | Service | User Service', function() {
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves([]);
 
         // when
-        const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
+        const actualCertificationProfile = await certificationProfileService.fillCertificationProfileWithChallenges(certificationProfile);
 
         // then
         expect(actualCertificationProfile.userCompetences).to.deep.equal([
@@ -429,7 +411,7 @@ describe('Integration | Service | User Service', function() {
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdEleven']);
 
         // when
-        const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
+        const actualCertificationProfile = await certificationProfileService.fillCertificationProfileWithChallenges(certificationProfile);
 
         // then
         expect(actualCertificationProfile.userCompetences).to.deep.equal([
@@ -449,7 +431,7 @@ describe('Integration | Service | User Service', function() {
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdOne']);
 
         // when
-        const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
+        const actualCertificationProfile = await certificationProfileService.fillCertificationProfileWithChallenges(certificationProfile);
         const expectedSkills = [skillCitation4];
 
         // then
@@ -468,7 +450,7 @@ describe('Integration | Service | User Service', function() {
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFour', 'challengeRecordIdTwo']);
 
         // when
-        const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
+        const actualCertificationProfile = await certificationProfileService.fillCertificationProfileWithChallenges(certificationProfile);
         const expectedSkills = [skillCitation4, skillRecherche4, skillMoteur3];
 
         // then
@@ -489,7 +471,7 @@ describe('Integration | Service | User Service', function() {
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFour', 'challengeRecordIdTwo']);
 
         // when
-        const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
+        const actualCertificationProfile = await certificationProfileService.fillCertificationProfileWithChallenges(certificationProfile);
         const expectedSkills = [skillCitation4, skillRecherche4, skillMoteur3];
 
         // then
@@ -510,7 +492,7 @@ describe('Integration | Service | User Service', function() {
       certificationProfile.userCompetences = [userCompetence1, userCompetence2];
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFour', 'challengeRecordIdFive', 'challengeRecordIdSeven']);
       // when
-      const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
+      const actualCertificationProfile = await certificationProfileService.fillCertificationProfileWithChallenges(certificationProfile);
 
       // then
       expect(actualCertificationProfile.userCompetences).to.deep.equal([
@@ -541,7 +523,7 @@ describe('Integration | Service | User Service', function() {
       certificationProfile.userCompetences = [userCompetence1, userCompetence2];
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdSix', 'challengeRecordIdFive', 'challengeRecordIdSeven']);
       // when
-      const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
+      const actualCertificationProfile = await certificationProfileService.fillCertificationProfileWithChallenges(certificationProfile);
 
       // then
       expect(actualCertificationProfile.userCompetences).to.deep.equal([
@@ -572,7 +554,7 @@ describe('Integration | Service | User Service', function() {
       certificationProfile.userCompetences = [userCompetence1, userCompetence2];
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdSix', 'challengeRecordIdFive', 'challengeRecordIdSeven', 'challengeRecordIdEight']);
       // when
-      const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
+      const actualCertificationProfile = await certificationProfileService.fillCertificationProfileWithChallenges(certificationProfile);
 
       // then
       expect(actualCertificationProfile.userCompetences).to.deep.equal([
@@ -603,7 +585,7 @@ describe('Integration | Service | User Service', function() {
       certificationProfile.userCompetences = [userCompetence1, userCompetence2];
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFive', 'challengeRecordIdFive']);
       // when
-      const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
+      const actualCertificationProfile = await certificationProfileService.fillCertificationProfileWithChallenges(certificationProfile);
 
       // then
       expect(actualCertificationProfile.userCompetences).to.deep.equal([
@@ -634,7 +616,7 @@ describe('Integration | Service | User Service', function() {
       certificationProfile.userCompetences = [userCompetence1, userCompetence2];
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['nonExistentchallengeRecordId']);
       // when
-      const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
+      const actualCertificationProfile = await certificationProfileService.fillCertificationProfileWithChallenges(certificationProfile);
 
       // then
       expect(actualCertificationProfile.userCompetences).to.deep.equal([
@@ -665,7 +647,7 @@ describe('Integration | Service | User Service', function() {
       certificationProfile.userCompetences = [userCompetence1, userCompetence2];
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdThree']);
       // when
-      const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
+      const actualCertificationProfile = await certificationProfileService.fillCertificationProfileWithChallenges(certificationProfile);
 
       // then
       expect(actualCertificationProfile.userCompetences).to.deep.equal([
@@ -698,7 +680,7 @@ describe('Integration | Service | User Service', function() {
         certificationProfile.userCompetences = [userCompetence1, userCompetence2];
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdSix', 'challengeRecordIdFive', 'challengeRecordIdSeven', 'challengeRecordIdEight']);
         // when
-        const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
+        const actualCertificationProfile = await certificationProfileService.fillCertificationProfileWithChallenges(certificationProfile);
 
         // then
         expect(actualCertificationProfile.userCompetences[1].skills)
@@ -722,7 +704,7 @@ describe('Integration | Service | User Service', function() {
           challenge2ForSkillSearch1,
         ]);
         // when
-        const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
+        const actualCertificationProfile = await certificationProfileService.fillCertificationProfileWithChallenges(certificationProfile);
 
         // then
         expect(actualCertificationProfile.userCompetences[0].skills)
