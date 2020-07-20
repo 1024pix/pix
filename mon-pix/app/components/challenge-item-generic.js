@@ -18,7 +18,7 @@ const ChallengeItemGeneric = Component.extend({
 
   isValidateButtonEnabled: true,
   isSkipButtonEnabled: true,
-  hasUserConfirmWarning: false,
+  hasUserConfirmedWarning: false,
 
   _elapsedTime: null,
   _timer: null,
@@ -34,7 +34,7 @@ const ChallengeItemGeneric = Component.extend({
   didUpdateAttrs() {
     this._super(...arguments);
     if (!this._isUserAwareThatChallengeIsTimed) {
-      this.set('hasUserConfirmWarning', false);
+      this.set('hasUserConfirmedWarning', false);
     }
   },
 
@@ -52,19 +52,19 @@ const ChallengeItemGeneric = Component.extend({
     return !this.hasChallengeTimer || (this.hasChallengeTimer && this._isUserAwareThatChallengeIsTimed);
   }),
 
-  displayTimer: computed('answer', 'hasUserConfirmWarning', 'hasChallengeTimer', function() {
+  displayTimer: computed('answer', 'hasUserConfirmedWarning', 'hasChallengeTimer', function() {
     if (!this.answer
       && this.hasChallengeTimer
-      && this.hasUserConfirmWarning) {
+      && this.hasUserConfirmedWarning) {
 
       return true;
     }
     return false;
   }),
 
-  displayChallenge: computed('hasUserConfirmWarning', 'hasChallengeTimer', function() {
+  displayChallenge: computed('hasUserConfirmedWarning', 'hasChallengeTimer', function() {
     return !this.hasChallengeTimer
-        || (this.hasUserConfirmWarning && this.hasChallengeTimer);
+        || (this.hasUserConfirmedWarning && this.hasChallengeTimer);
   }),
 
   _getTimeout() {
@@ -131,7 +131,7 @@ const ChallengeItemGeneric = Component.extend({
 
     setUserConfirmation() {
       this._start();
-      this.set('hasUserConfirmWarning', true);
+      this.set('hasUserConfirmedWarning', true);
       this.set('_isUserAwareThatChallengeIsTimed', true);
     },
   },

@@ -1,6 +1,6 @@
 {{#if this.hasChallengeTimer}}
-  {{#unless this.hasUserConfirmWarning}}
-    <WarningPage @hasUserConfirmWarning={{action "setUserConfirmation"}} @time={{@challenge.timer}} />
+  {{#unless this.hasUserConfirmedWarning}}
+    <WarningPage @hasUserConfirmedWarning={{action "setUserConfirmation"}} @time={{@challenge.timer}} />
   {{/unless}}
 {{/if}}
 
