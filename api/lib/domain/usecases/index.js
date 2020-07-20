@@ -173,6 +173,7 @@ module.exports = injectDependencies({
   improveCompetenceEvaluation: require('./improve-competence-evaluation'),
   linkUserToSchoolingRegistrationData: require('./link-user-to-schooling-registration-data'),
   linkUserToSessionCertificationCandidate: require('./link-user-to-session-certification-candidate'),
+  reconcileUserToOrganization: require('./reconcile-user-to-organization'),
   rememberUserHasSeenAssessmentInstructions: require('./remember-user-has-seen-assessment-instructions'),
   resetScorecard: require('./reset-scorecard'),
   retrieveCampaignInformation: require('./retrieve-campaign-information'),

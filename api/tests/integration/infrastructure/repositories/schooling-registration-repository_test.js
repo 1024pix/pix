@@ -4,7 +4,7 @@ const schoolingRegistrationRepository = require('../../../../lib/infrastructure/
 const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
 const UserWithSchoolingRegistration = require('../../../../lib/domain/models/UserWithSchoolingRegistration');
 
-const { NotFoundError, SameNationalStudentIdInOrganizationError } = require('../../../../lib/domain/errors');
+const { NotFoundError, SameNationalStudentIdInOrganizationError, UserCouldNotBeReconciledError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Infrastructure | Repository | schooling-registration-repository', () => {
 
@@ -80,6 +80,65 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
       // then
       expect(_.map(schoolingRegistrations, 'id')).to.deep.include.ordered.members([schoolingRegistration_3.id, schoolingRegistration_4.id, schoolingRegistration_2.id, schoolingRegistration_1.id]);
+    });
+  });
+
+  describe('#findByUserId', () => {
+
+    it('should return instances of SchoolingRegistration', async () => {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+      const userId = databaseBuilder.factory.buildUser().id;
+      const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        userId,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const schoolingRegistrations = await schoolingRegistrationRepository.findByUserId({ userId });
+
+      // then
+      const anySchoolingRegistration = schoolingRegistrations[0];
+      expect(anySchoolingRegistration).to.be.an.instanceOf(SchoolingRegistration);
+
+      expect(anySchoolingRegistration.firstName).to.equal(schoolingRegistration.firstName);
+      expect(anySchoolingRegistration.lastName).to.equal(schoolingRegistration.lastName);
+      expect(anySchoolingRegistration.birthdate).to.deep.equal(schoolingRegistration.birthdate);
+    });
+
+    it('should return all the schoolingRegistrations for a given user ID', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+
+      const schoolingRegistration_1 = databaseBuilder.factory.buildSchoolingRegistration({ userId });
+      const schoolingRegistration_2 = databaseBuilder.factory.buildSchoolingRegistration({ userId });
+
+      await databaseBuilder.commit();
+
+      // when
+      const schoolingRegistrations = await schoolingRegistrationRepository.findByUserId({ userId });
+
+      // then
+      expect(_.map(schoolingRegistrations, 'id')).to.have.members([schoolingRegistration_1.id, schoolingRegistration_2.id]);
+    });
+
+    it('should order schoolingRegistrations by id', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const schoolingRegistration_1 = databaseBuilder.factory.buildSchoolingRegistration({ userId });
+      const schoolingRegistration_2 = databaseBuilder.factory.buildSchoolingRegistration({ userId });
+      const schoolingRegistration_3 = databaseBuilder.factory.buildSchoolingRegistration({ userId });
+      const schoolingRegistration_4 = databaseBuilder.factory.buildSchoolingRegistration({ userId });
+
+      await databaseBuilder.commit();
+
+      // when
+      const schoolingRegistrations = await schoolingRegistrationRepository.findByUserId({ userId });
+
+      // then
+      expect(_.map(schoolingRegistrations, 'id')).to.deep.include.ordered.members([schoolingRegistration_1.id, schoolingRegistration_2.id, schoolingRegistration_3.id, schoolingRegistration_4.id]);
     });
   });
 
@@ -572,6 +631,87 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
       // then
       expect(error.detail).to.be.equal(`Key (userId)=(${fakeUserId}) is not present in table "users".`);
+    });
+  });
+
+  describe('#associateUserAndOrganization', () => {
+
+    afterEach(() => {
+      return knex('schooling-registrations').delete();
+    });
+
+    let organization;
+    let schoolingRegistration;
+    let user;
+
+    beforeEach(async () => {
+      organization = databaseBuilder.factory.buildOrganization();
+      schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        userId: null,
+        firstName: 'Steeve',
+        lastName: 'Roger'
+      });
+      user = databaseBuilder.factory.buildUser({ firstName: 'Steeve', lastName: 'Roger' });
+      await databaseBuilder.commit();
+    });
+
+    it('should save association between user and organization', async () => {
+      // when
+      const schoolingRegistrationPatched = await schoolingRegistrationRepository.associateUserByNationalStudentIdAndOrganizationId({
+        userId: user.id,
+        nationalStudentId: schoolingRegistration.nationalStudentId,
+        organizationId: organization.id
+      });
+
+      // then
+      expect(schoolingRegistrationPatched).to.be.instanceof(SchoolingRegistration);
+      expect(schoolingRegistrationPatched.userId).to.equal(user.id);
+    });
+
+    it('should return an error when we don’t find the schoolingRegistration for this organization to update', async () => {
+      // given
+      const fakeOrganizationId = 1;
+
+      // when
+      const error = await catchErr(schoolingRegistrationRepository.associateUserByNationalStudentIdAndOrganizationId)({
+        userId: user.id,
+        nationalStudentId: schoolingRegistration.nationalStudentId,
+        organizationId: fakeOrganizationId
+      });
+
+      // then
+      expect(error).to.be.instanceof(UserCouldNotBeReconciledError);
+    });
+
+    it('should return an error when we don’t find the schoolingRegistration for this nationalStudentId to update', async () => {
+      // given
+      const fakeNationalStudentId = 1;
+
+      // when
+      const error = await catchErr(schoolingRegistrationRepository.associateUserByNationalStudentIdAndOrganizationId)({
+        userId: user.id,
+        nationalStudentId: fakeNationalStudentId,
+        organizationId: organization.id
+      });
+
+      // then
+      expect(error).to.be.instanceof(UserCouldNotBeReconciledError);
+    });
+
+    it('should return an error when the userId to link don’t match a user', async () => {
+      // given
+      const fakeUserId = 1;
+
+      // when
+      const error = await catchErr(schoolingRegistrationRepository.associateUserByNationalStudentIdAndOrganizationId)({
+        userId: fakeUserId,
+        nationalStudentId: schoolingRegistration.nationalStudentId,
+        organizationId: organization.id
+      });
+
+      // then
+      expect(error).to.be.instanceof(UserCouldNotBeReconciledError);
     });
   });
 
