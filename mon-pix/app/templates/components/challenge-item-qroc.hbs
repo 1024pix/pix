@@ -1,10 +1,10 @@
 {{#if this.hasChallengeTimer}}
-  {{#unless this.hasUserConfirmWarning}}
-    <WarningPage @hasUserConfirmWarning={{action "setUserConfirmation"}} @time={{@challenge.timer}} />
+  {{#unless this.hasUserConfirmedWarning}}
+    <WarningPage @hasUserConfirmedWarning={{action "setUserConfirmation"}} @time={{@challenge.timer}} />
   {{/unless}}
 {{/if}}
 
-{{#unless this.hasChallengeTimer}}
+{{#if this.displayChallenge}}
   <form {{action "validateAnswer" on="submit"}} class="rounded-panel">
     <ChallengeStatement @challenge={{@challenge}} @assessment={{@assessment}} />
 
@@ -24,12 +24,10 @@
           </div>
         {{/if}}
 
-        {{#if @challenge.timer}}
-          {{#if this.hasUserConfirmWarning}}
-            <div class="timeout-jauge-wrapper">
-              <TimeoutJauge @allotedTime={{@challenge.timer}} />
-            </div>
-          {{/if}}
+        {{#if this.displayTimer}}
+          <div class="timeout-jauge-wrapper">
+            <TimeoutJauge @allotedTime={{@challenge.timer}} />
+          </div>
         {{/if}}
       </div>
     {{/if}}
@@ -51,9 +49,9 @@
                         @class="rounded-panel__row" />
     {{/if}}
   </form>
-{{/unless}}
+{{/if}}
 
-{{#if this.canDisplayFeedbackPanel}}
+{{#if this.displayFeedbackPanel}}
   <div class="challenge-item__feedback">
     <FeedbackPanel @assessment={{@assessment}} @challenge={{@challenge}} @isFormOpened={{false}} />
   </div>
