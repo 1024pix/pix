@@ -160,7 +160,7 @@ module.exports = injectDependencies({
   getUserProfileSharedForCampaign: require('./get-user-profile-shared-for-campaign'),
   getUserCertificationCenterMemberships: require('./get-user-certification-center-memberships'),
   getUserCertificationWithResultTree: require('./get-user-certification-with-result-tree'),
-  getUserCurrentCertificationProfile: require('./get-user-current-certification-profile'),
+  isUserCertifiable: require('./is-user-certifiable'),
   getUserDetailsForAdmin: require('./get-user-details-for-admin'),
   getUserPixScore: require('./get-user-pix-score'),
   getUserScorecards: require('./get-user-scorecards'),
