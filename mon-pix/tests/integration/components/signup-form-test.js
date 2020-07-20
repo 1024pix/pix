@@ -20,7 +20,7 @@ import {
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 import ENV from '../../../config/environment';
-import setupIntegration from '../../helpers/setup-integration';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 const FORM_CONTAINER = '.sign-form__container';
 const FORM_HEADER_CONTAINER = '.sign-form__header';
@@ -43,7 +43,7 @@ const CAPTCHA_CONTAINER = '.signup-form__captcha-container';
 
 describe('Integration | Component | signup form', function() {
 
-  setupIntegration();
+  setupIntlRenderingTest();
 
   describe('Localization', function() {
     const originalLocale = ENV.APP.LOCALE;

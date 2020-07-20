@@ -4,12 +4,12 @@
 import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import setupIntegration from '../../helpers/setup-integration';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | tutorial panel', function() {
-  setupIntegration();
+  setupIntlRenderingTest();
 
   context('when the result is not ok', function() {
     context('and a hint is present', function() {

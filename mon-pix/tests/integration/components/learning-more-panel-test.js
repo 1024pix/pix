@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import setupIntegration from '../../helpers/setup-integration';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | learning-more-panel', function() {
-  setupIntegration();
+  setupIntlRenderingTest();
 
   it('renders a list item when there is at least one learningMore item', async function() {
     // given

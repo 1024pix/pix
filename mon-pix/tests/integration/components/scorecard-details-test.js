@@ -5,10 +5,10 @@ import EmberObject from '@ember/object';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import config from '../../../config/environment';
-import setupIntegration from '../../helpers/setup-integration';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 describe('Integration | Component | scorecard-details', function() {
-  setupIntegration();
+  setupIntlRenderingTest();
 
   describe('Component rendering', function() {
 

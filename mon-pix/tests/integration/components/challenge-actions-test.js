@@ -1,7 +1,7 @@
 import RSVP from 'rsvp';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import setupIntegration from '../../helpers/setup-integration';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { click, find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -10,7 +10,7 @@ const SKIP_BUTTON = '.challenge-actions__action-skip';
 
 describe('Integration | Component | challenge actions', function() {
 
-  setupIntegration();
+  setupIntlRenderingTest();
 
   it('renders', async function() {
     await render(hbs`{{challenge-actions}}`);

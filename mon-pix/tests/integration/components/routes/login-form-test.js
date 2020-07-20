@@ -3,7 +3,7 @@
 
 import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
-import setupIntegration from '../../../helpers/setup-integration';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import EmberObject from '@ember/object';
 import { click, fillIn, render, find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
@@ -12,7 +12,7 @@ import { reject, resolve } from 'rsvp';
 import sinon from 'sinon';
 
 describe('Integration | Component | routes/login-form', function() {
-  setupIntegration();
+  setupIntlRenderingTest();
 
   let sessionStub;
   let storeStub;

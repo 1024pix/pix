@@ -4,7 +4,7 @@
 import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import setupIntegration from '../../helpers/setup-integration';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import {
   click,
   find,
@@ -17,7 +17,7 @@ import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | user logged menu', function() {
 
-  setupIntegration();
+  setupIntlRenderingTest();
 
   describe('when rendering for logged user', function() {
 

@@ -3,10 +3,10 @@ import { describe, it, beforeEach } from 'mocha';
 import { click, find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
-import setupIntegration from '../../helpers/setup-integration';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 describe('Integration | Component | certifications list item', function() {
-  setupIntegration();
+  setupIntlRenderingTest();
 
   let certification;
   const PUBLISH_CLASS = '.certifications-list-item__published-item';
