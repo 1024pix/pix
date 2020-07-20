@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const bluebird = require('bluebird');
-const { NotFoundError, SameNationalStudentIdInOrganizationError, SchoolingRegistrationsCouldNotBeSavedError } = require('../../domain/errors');
+const { NotFoundError, SameNationalStudentIdInOrganizationError, SchoolingRegistrationsCouldNotBeSavedError, UserCouldNotBeReconciledError } = require('../../domain/errors');
 const UserWithSchoolingRegistration = require('../../domain/models/UserWithSchoolingRegistration');
 const SchoolingRegistration = require('../../domain/models/SchoolingRegistration');
 const studentRepository = require('./student-repository');
@@ -54,6 +54,15 @@ module.exports = {
       })
       .fetchAll()
       .then((schoolingRegistrations) => bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations));
+  },
+
+  async findByUserId({ userId }) {
+    const schoolingRegistrations = await BookshelfSchoolingRegistration
+      .where({ userId })
+      .orderBy('id')
+      .fetchAll();
+
+    return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
   },
 
   async addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrationDatas, organizationId) {
@@ -116,6 +125,17 @@ module.exports = {
       });
 
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
+  },
+
+  async associateUserByNationalStudentIdAndOrganizationId({ nationalStudentId, userId, organizationId }) {
+    try {
+      const schoolingRegistration = await BookshelfSchoolingRegistration
+        .where({ organizationId, nationalStudentId })
+        .save({ userId }, { patch: true });
+      return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
+    } catch (error) {
+      throw new UserCouldNotBeReconciledError();
+    }
   },
 
   async dissociateUserFromSchoolingRegistration(schoolingRegistrationId) {
