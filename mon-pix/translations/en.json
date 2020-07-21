@@ -178,6 +178,10 @@
       "first-title": "Oups, an error has occured!"
     },
 
+    "profile": {
+      "title": "Your profile"
+    },
+
     "sign-in" : {
       "title" : "Sign in",
       "actions": {
