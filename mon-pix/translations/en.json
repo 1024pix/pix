@@ -16,6 +16,7 @@
       "mandatory-fields": "Fields marked with '<abbr title=\"mandatory\" class=\"mandatory-mark\">'*'</abbr>' are mandatory"
     },
     "level": "level",
+    "loading": "Loading",
     "or": "or",
     "pix": "pix"
   },
