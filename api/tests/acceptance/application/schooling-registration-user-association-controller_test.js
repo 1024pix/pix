@@ -11,65 +11,40 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
   });
 
   describe('POST /api/schooling-registration-user-associations/', () => {
-    let organization;
-    let campaign;
-    let options;
-    let schoolingRegistration;
-    let user;
 
-    beforeEach(async () => {
-      // given
-      options = {
-        method: 'POST',
-        url: '/api/schooling-registration-user-associations/',
-        headers: {},
-        payload: {}
-      };
+    context('when user details are provided in payload', () => {
+      let organization;
+      let campaign;
+      let options;
+      let schoolingRegistration;
+      let user;
 
-      user = databaseBuilder.factory.buildUser();
-      organization = databaseBuilder.factory.buildOrganization();
-      schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null });
-      campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
-
-      await databaseBuilder.commit();
-    });
-
-    it('should return an 204 status after having successfully associated user to schoolingRegistration', async () => {
-      // given
-      options.headers.authorization = generateValidRequestAuthorizationHeader(user.id);
-      options.payload.data = {
-        attributes: {
-          'campaign-code': campaign.code,
-          'first-name': schoolingRegistration.firstName,
-          'last-name': schoolingRegistration.lastName,
-          'birthdate': schoolingRegistration.birthdate
-        }
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(204);
-    });
-
-    context('when no schoolingRegistration found to associate because birthdate does not match', () => {
-
-      it('should return an 404 NotFoundError error', async () => {
+      beforeEach(async () => {
         // given
-        const options = {
+        options = {
           method: 'POST',
           url: '/api/schooling-registration-user-associations/',
-          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-          payload: {
-            data: {
-              attributes: {
-                'campaign-code': campaign.code,
-                'first-name': schoolingRegistration.firstName,
-                'last-name': schoolingRegistration.lastName,
-                'birthdate': '1990-03-01'
-              }
-            }
+          headers: {},
+          payload: {}
+        };
+
+        user = databaseBuilder.factory.buildUser();
+        organization = databaseBuilder.factory.buildOrganization();
+        schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null });
+        campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
+
+        await databaseBuilder.commit();
+      });
+
+      it('should return an 200 status after having successfully associated user to schoolingRegistration', async () => {
+        // given
+        options.headers.authorization = generateValidRequestAuthorizationHeader(user.id);
+        options.payload.data = {
+          attributes: {
+            'campaign-code': campaign.code,
+            'first-name': schoolingRegistration.firstName,
+            'last-name': schoolingRegistration.lastName,
+            'birthdate': schoolingRegistration.birthdate
           }
         };
 
@@ -77,79 +52,185 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
         const response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(404);
-        expect(response.result.errors[0].detail).to.equal('There were no schoolingRegistrations matching with organization and birthdate');
+        expect(response.statusCode).to.equal(200);
+      });
+
+      context('when no schoolingRegistration can be associated because birthdate does not match', () => {
+
+        it('should return an 404 NotFoundError error', async () => {
+          // given
+          const options = {
+            method: 'POST',
+            url: '/api/schooling-registration-user-associations/',
+            headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+            payload: {
+              data: {
+                attributes: {
+                  'campaign-code': campaign.code,
+                  'first-name': schoolingRegistration.firstName,
+                  'last-name': schoolingRegistration.lastName,
+                  'birthdate': '1990-03-01'
+                }
+              }
+            }
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(404);
+          expect(response.result.errors[0].detail).to.equal('There were no schoolingRegistrations matching with organization and birthdate');
+        });
+      });
+
+      context('when no schoolingRegistration found to associate because names does not match', () => {
+
+        it('should return an 404 NotFoundError error', async () => {
+          // given
+          const options = {
+            method: 'POST',
+            url: '/api/schooling-registration-user-associations/',
+            headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+            payload: {
+              data: {
+                attributes: {
+                  'campaign-code': campaign.code,
+                  'first-name': 'wrong firstName',
+                  'last-name': 'wrong lastName',
+                  'birthdate': schoolingRegistration.birthdate
+                }
+              }
+            }
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(404);
+          expect(response.result.errors[0].detail).to.equal('There were no schoolingRegistrations matching with names');
+        });
+      });
+
+      context('when user is not authenticated', () => {
+
+        it('should respond with a 401 - unauthorized access', async () => {
+          // given
+          options.headers.authorization = 'invalid.access.token';
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(401);
+        });
+      });
+
+      context('when a field is not valid', () => {
+
+        it('should respond with a 422 - Unprocessable Entity', async () => {
+          // given
+          const options = {
+            method: 'POST',
+            url: '/api/schooling-registration-user-associations/',
+            headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+            payload: {
+              data: {
+                attributes: {
+                  'campaign-code': campaign.code,
+                  'first-name': ' ',
+                  'last-name': schoolingRegistration.lastName,
+                  'birthdate': schoolingRegistration.birthdate
+                }
+              }
+            }
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(422);
+        });
       });
     });
 
-    context('when no schoolingRegistration found to associate because names does not match', () => {
+    context('when only campaign-code is provided in payload', () => {
+      const nationalStudentId = '12345678AZ';
+      let organization;
+      let campaign;
+      let options;
+      let user;
 
-      it('should return an 404 NotFoundError error', async () => {
+      beforeEach(async () => {
         // given
-        const options = {
+        options = {
           method: 'POST',
           url: '/api/schooling-registration-user-associations/',
-          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-          payload: {
-            data: {
-              attributes: {
-                'campaign-code': campaign.code,
-                'first-name': 'wrong firstName',
-                'last-name': 'wrong lastName',
-                'birthdate': schoolingRegistration.birthdate
-              }
-            }
-          }
+          headers: {},
+          payload: {}
+        };
+
+        user = databaseBuilder.factory.buildUser();
+        organization = databaseBuilder.factory.buildOrganization();
+        campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null, nationalStudentId });
+
+        await databaseBuilder.commit();
+      });
+
+      it('should return an 200 status after having successfully associated user to schoolingRegistration', async () => {
+        // given
+        databaseBuilder.factory.buildSchoolingRegistration({ userId: user.id, nationalStudentId });
+        await databaseBuilder.commit();
+
+        options.headers.authorization = generateValidRequestAuthorizationHeader(user.id);
+        options.payload.data = {
+          attributes: {
+            'campaign-code': campaign.code,
+          },
+          type: 'schooling-registration-user-associations'
         };
 
         // when
         const response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(404);
-        expect(response.result.errors[0].detail).to.equal('There were no schoolingRegistrations matching with names');
+        expect(response.statusCode).to.equal(200);
       });
-    });
 
-    context('when user is not authenticated', () => {
+      context('when user is not authenticated', () => {
 
-      it('should respond with a 401 - unauthorized access', async () => {
-        // given
-        options.headers.authorization = 'invalid.access.token';
+        it('should respond with a 401 - unauthorized access', async () => {
+          // given
+          options.headers.authorization = 'invalid.access.token';
 
-        // when
-        const response = await server.inject(options);
+          // when
+          const response = await server.inject(options);
 
-        // then
-        expect(response.statusCode).to.equal(401);
+          // then
+          expect(response.statusCode).to.equal(401);
+        });
       });
-    });
 
-    context('when a field is not valid', () => {
+      context('when user could not be reconciled', () => {
 
-      it('should respond with a 422 - Unprocessable Entity', async () => {
-        // given
-        const options = {
-          method: 'POST',
-          url: '/api/schooling-registration-user-associations/',
-          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-          payload: {
-            data: {
-              attributes: {
-                'campaign-code': campaign.code,
-                'first-name': ' ',
-                'last-name': schoolingRegistration.lastName,
-                'birthdate': schoolingRegistration.birthdate
-              }
+        it('should respond with a 422 - unprocessable entity', async () => {
+          // given
+          options.headers.authorization = generateValidRequestAuthorizationHeader(user.id);
+          options.payload.data = {
+            attributes: {
+              'campaign-code': campaign.code,
             }
-          }
-        };
+          };
 
-        // when
-        const response = await server.inject(options);
+          // when
+          const response = await server.inject(options);
 
-        // then
-        expect(response.statusCode).to.equal(422);
+          // then
+          expect(response.statusCode).to.equal(422);
+        });
       });
     });
   });
@@ -305,7 +386,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
 
     describe('Error cases', () => {
 
-      context('when no schoolingRegistration found to associate because birthdate does not match', () => {
+      context('when no schoolingRegistration can be associated because birthdate does not match', () => {
 
         it('should respond with a 404 - Not Found', async () => {
           // given
