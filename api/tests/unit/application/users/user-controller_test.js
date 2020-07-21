@@ -1,6 +1,6 @@
 const { sinon, expect, hFake } = require('../../../test-helper');
 
-const CertificationProfile = require('../../../../lib/domain/models/CertificationProfile');
+const PlacementProfile = require('../../../../lib/domain/models/PlacementProfile');
 const User = require('../../../../lib/domain/models/User');
 
 const userController = require('../../../../lib/application/users/user-controller');
@@ -595,7 +595,7 @@ describe('Unit | Controller | user-controller', () => {
   describe('#isCertifiable', () => {
 
     beforeEach(() => {
-      sinon.stub(usecases, 'isUserCertifiable').resolves(new CertificationProfile());
+      sinon.stub(usecases, 'isUserCertifiable').resolves(new PlacementProfile());
     });
 
     it('should return wether the user is certifiable', async () => {

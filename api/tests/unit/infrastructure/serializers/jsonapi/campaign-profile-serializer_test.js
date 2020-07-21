@@ -1,7 +1,7 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-profile-serializer');
 const CampaignProfile = require('../../../../../lib/domain/read-models/CampaignProfile');
-const CertificationProfile = require('../../../../../lib/domain/models/CertificationProfile');
+const PlacementProfile = require('../../../../../lib/domain/models/PlacementProfile');
 const UserCompetence = require('../../../../../lib/domain/models/UserCompetence');
 const Area = require('../../../../../lib/domain/models/Area');
 
@@ -18,7 +18,7 @@ describe('Unit | Serializer | JSONAPI | campaign-profile-serializer', function()
       participantExternalId: 'anExternalId',
       createdAt: '2020-01-01',
       sharedAt: '2020-01-02',
-      certificationProfile: new CertificationProfile({
+      placementProfile: new PlacementProfile({
         userCompetences: [
           new UserCompetence({
             id: 1,

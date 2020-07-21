@@ -3,7 +3,7 @@ const {
 } = require('../constants');
 const _ = require('lodash');
 
-class CertificationProfile {
+class PlacementProfile {
   constructor(
     {
       // attributes
@@ -36,4 +36,4 @@ class CertificationProfile {
   }
 }
 
-module.exports = CertificationProfile;
+module.exports = PlacementProfile;
