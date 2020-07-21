@@ -592,13 +592,13 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#getCertificationProfile', () => {
+  describe('#isCertifiable', () => {
 
     beforeEach(() => {
       sinon.stub(usecases, 'isUserCertifiable').resolves(new CertificationProfile());
     });
 
-    it('should return the user certification profile', async () => {
+    it('should return wether the user is certifiable', async () => {
       // given
       const userId = '76';
       const request = {
@@ -613,7 +613,7 @@ describe('Unit | Controller | user-controller', () => {
       };
 
       // when
-      const result = await userController.getCertificationProfile(request);
+      await userController.isCertifiable(request);
 
       // then
       expect(usecases.isUserCertifiable).to.have.been.calledWith({ userId });
