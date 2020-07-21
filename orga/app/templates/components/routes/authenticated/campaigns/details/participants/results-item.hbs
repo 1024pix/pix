@@ -1,34 +1,3 @@
-<div class="panel participant-row participant-row__result">
-  <div class="participant-results-content__summary">
-    <div class="participant-content participant-content--large participant-content--wide">
-      <div class="label-text participant-content__label-text">Acquis validés</div>
-      <div class="content-text content-text--big">
-        {{if @campaignParticipation.isShared
-             @campaignParticipation.campaignParticipationResult.validatedSkillsCount '-' }}
-      </div>
-    </div>
-    <div class="participant-content participant-content--large participant-content--wide">
-      <div class="label-text participant-content__label-text">Acquis évalués</div>
-      <div class="content-text content-text--big">
-        {{if @campaignParticipation.isShared
-             @campaignParticipation.campaignParticipationResult.totalSkillsCount '-' }}
-      </div>
-    </div>
-  </div>
-
-  <div class="participant-content participant-results-content">
-    <div class=" participant-results-content__score">
-      <div class="content-text content-text--big content-text--bold">Résultat</div>
-      <div class=" participant-results-content__circle-chart">
-        <CircleChart @value={{@campaignParticipation.campaignParticipationResult.masteryPercentage}} @isDisabled={{not @campaignParticipation.isShared}}>
-          <span class=" participant-results-content__circle-chart-value">
-            {{@campaignParticipation.campaignParticipationResult.masteryPercentage}}%
-          </span>
-        </CircleChart>
-      </div>
-    </div>
-  </div>
-</div>
 <div class="panel panel--light-shadow participant-results__details content-text content-text--small">
   <table>
     <thead>

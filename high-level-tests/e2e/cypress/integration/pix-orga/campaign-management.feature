@@ -15,7 +15,7 @@ Fonctionnalité: Gestion des Campagnes
     Lorsque je clique sur "Participants (3)"
     Alors je vois 3 participants
     Lorsque je clique sur "Cersei"
-    Alors je vois un avancement de 50%
+    Alors je vois "50%" comme "Avancement"
     Lorsque je reviens en arrière
     Et je clique sur "Tyrion"
     Alors je vois 2 résultats par compétence

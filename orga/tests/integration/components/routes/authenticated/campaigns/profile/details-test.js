@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/campaign/profile | profile', function(hooks) {
+module('Integration | Component | routes/authenticated/campaign/profile | details', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it displays user information', async function(assert) {
@@ -17,7 +17,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | profil
     this.campaignProfile = campaignProfile;
     this.campaign = campaign;
 
-    await render(hbs`<Routes::Authenticated::Campaigns::Profile::Profile @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+    await render(hbs`<Routes::Authenticated::Campaigns::Profile::Details @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
 
     assert.contains('Godefroy de Montmirail');
   });
@@ -32,7 +32,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | profil
     this.campaignProfile = campaignProfile;
     this.campaign = campaign;
 
-    await render(hbs`<Routes::Authenticated::Campaigns::Profile::Profile @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+    await render(hbs`<Routes::Authenticated::Campaigns::Profile::Details @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
 
     assert.contains('01 janv. 2020');
   });
@@ -49,7 +49,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | profil
         this.campaignProfile = campaignProfile;
         this.campaign = campaign;
 
-        await render(hbs`<Routes::Authenticated::Campaigns::Profile::Profile @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+        await render(hbs`<Routes::Authenticated::Campaigns::Profile::Details @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
 
         assert.contains('02 janv. 2020');
       });
@@ -64,7 +64,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | profil
         this.campaignProfile = campaignProfile;
         this.campaign = campaign;
 
-        await render(hbs`<Routes::Authenticated::Campaigns::Profile::Profile @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+        await render(hbs`<Routes::Authenticated::Campaigns::Profile::Details @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
 
         assert.contains('Non disponible');
       });
@@ -83,7 +83,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | profil
         this.campaignProfile = campaignProfile;
         this.campaign = campaign;
 
-        await render(hbs`<Routes::Authenticated::Campaigns::Profile::Profile @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+        await render(hbs`<Routes::Authenticated::Campaigns::Profile::Details @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
 
         assert.contains('i12345');
       });
@@ -99,7 +99,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | profil
         this.campaignProfile = campaignProfile;
         this.campaign = campaign;
 
-        await render(hbs`<Routes::Authenticated::Campaigns::Profile::Profile @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+        await render(hbs`<Routes::Authenticated::Campaigns::Profile::Details @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
 
         assert.notContains('Identifiant');
       });
@@ -119,7 +119,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | profil
         this.campaignProfile = campaignProfile;
         this.campaign = campaign;
 
-        await render(hbs`<Routes::Authenticated::Campaigns::Profile::Profile @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+        await render(hbs`<Routes::Authenticated::Campaigns::Profile::Details @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
 
         assert.contains('1024');
       });
@@ -135,7 +135,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | profil
         this.campaignProfile = campaignProfile;
         this.campaign = campaign;
 
-        await render(hbs`<Routes::Authenticated::Campaigns::Profile::Profile @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+        await render(hbs`<Routes::Authenticated::Campaigns::Profile::Details @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
         assert.contains('/\u00a012');
       });
 
@@ -150,7 +150,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | profil
         this.campaignProfile = campaignProfile;
         this.campaign = campaign;
 
-        await render(hbs`<Routes::Authenticated::Campaigns::Profile::Profile @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+        await render(hbs`<Routes::Authenticated::Campaigns::Profile::Details @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
 
         assert.contains('2');
       });
@@ -168,7 +168,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | profil
             this.campaignProfile = campaignProfile;
             this.campaign = campaign;
 
-            await render(hbs`<Routes::Authenticated::Campaigns::Profile::Profile @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+            await render(hbs`<Routes::Authenticated::Campaigns::Profile::Details @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
 
             assert.contains('Certifiable');
           });
@@ -186,7 +186,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | profil
             this.campaignProfile = campaignProfile;
             this.campaign = campaign;
 
-            await render(hbs`<Routes::Authenticated::Campaigns::Profile::Profile @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+            await render(hbs`<Routes::Authenticated::Campaigns::Profile::Details @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
 
             assert.notContains('Certifiable');
           });
@@ -205,7 +205,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | profil
         this.campaignProfile = campaignProfile;
         this.campaign = campaign;
 
-        await render(hbs`<Routes::Authenticated::Campaigns::Profile::Profile @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+        await render(hbs`<Routes::Authenticated::Campaigns::Profile::Details @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
 
         assert.notContains('PIX');
       });
@@ -221,7 +221,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | profil
         this.campaignProfile = campaignProfile;
         this.campaign = campaign;
 
-        await render(hbs`<Routes::Authenticated::Campaigns::Profile::Profile @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+        await render(hbs`<Routes::Authenticated::Campaigns::Profile::Details @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
 
         assert.notContains('12');
         assert.notContains('COMP. CERTIFIABLE');
@@ -238,7 +238,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | profil
         this.campaignProfile = campaignProfile;
         this.campaign = campaign;
 
-        await render(hbs`<Routes::Authenticated::Campaigns::Profile::Profile @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+        await render(hbs`<Routes::Authenticated::Campaigns::Profile::Details @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
 
         assert.notContains('30');
       });
@@ -254,7 +254,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | profil
         this.campaignProfile = campaignProfile;
         this.campaign = campaign;
 
-        await render(hbs`<Routes::Authenticated::Campaigns::Profile::Profile @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
+        await render(hbs`<Routes::Authenticated::Campaigns::Profile::Details @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
 
         assert.notContains('Certifiable');
       });

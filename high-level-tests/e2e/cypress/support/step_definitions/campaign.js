@@ -50,10 +50,6 @@ then(`je vois {int} profils`, (numberOfProfiles) => {
   cy.get('[aria-label="Profil"]').should('have.lengthOf', numberOfProfiles);
 });
 
-then(`je vois un avancement de {int}%`, (progression) => {
-  cy.get('[aria-label="Avancement"]').contains(`${progression}%`);
-});
-
 when(`je vois {int} résultats par compétence`, (numberOfResultsByCompetence) => {
   cy.get('[aria-label="Résultats par compétence"]').should('have.lengthOf', numberOfResultsByCompetence);
 });
