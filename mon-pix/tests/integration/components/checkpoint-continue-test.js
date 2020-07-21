@@ -8,7 +8,7 @@ describe('Integration | Component | checkpoint-continue', function() {
   setupIntlRenderingTest();
 
   it('renders', async function() {
-    await render(hbs`{{checkpoint-continue}}`);
+    await render(hbs`<CheckpointContinue />`);
     expect(find('.checkpoint__continue')).to.exist;
   });
 });

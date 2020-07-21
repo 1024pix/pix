@@ -1,4 +1,9 @@
-<LinkTo @route="assessments.resume" @model={{assessmentId}} @query={{hash hasSeenCheckpoint=true}} class="button button--link button--yellow checkpoint__continue-button">
-  {{nextPageButtonText}}
-  {{fa-icon 'long-arrow-alt-right'}}
-</LinkTo>
+<div class="checkpoint__continue">
+  <LinkTo @route="assessments.resume"
+          @model={{@assessmentId}}
+          @query={{hash hasSeenCheckpoint=true}}
+          class="button button--link button--yellow checkpoint__continue-button">
+    {{@nextPageButtonText}}
+    <FaIcon @icon='long-arrow-alt-right'></FaIcon>
+  </LinkTo>
+</div>
