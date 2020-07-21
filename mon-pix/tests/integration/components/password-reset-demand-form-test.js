@@ -3,14 +3,14 @@
 
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { fillIn, find, render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { resolve, reject } from 'rsvp';
 import Service from '@ember/service';
 
 describe('Integration | Component | password reset demand form', function() {
-  setupRenderingTest();
+  setupIntlRenderingTest();
 
   it('renders', async function() {
     await render(hbs`<PasswordResetDemandForm />`);

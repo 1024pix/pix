@@ -1,14 +1,12 @@
 import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
 import { click, find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
-import setupIntl from '../../helpers/setup-intl';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 describe('Integration | Component | certifications list item', function() {
-  setupRenderingTest();
-  setupIntl();
+  setupIntlRenderingTest();
 
   let certification;
   const PUBLISH_CLASS = '.certifications-list-item__published-item';

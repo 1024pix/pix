@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import ENV from 'mon-pix/config/environment';
 
 describe('Integration | Component | communication-banner', function() {
-  setupRenderingTest();
+  setupIntlRenderingTest();
 
   const originalBannerContent = ENV.APP.BANNER_CONTENT;
   const originalBannerType = ENV.APP.BANNER_TYPE;
