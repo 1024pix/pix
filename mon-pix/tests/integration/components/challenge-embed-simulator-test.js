@@ -29,7 +29,7 @@ describe('Integration | Component | Challenge Embed Simulator', function() {
 
   describe('Launch simulator button', () => {
 
-    it('should have text "Je lance le simulateur"', async function() {
+    it('should have text "Je lance l\'application"', async function() {
       // when
       await render(hbs`<ChallengeEmbedSimulator />`);
 
