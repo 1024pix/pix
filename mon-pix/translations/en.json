@@ -177,6 +177,10 @@
       "first-title": "Oups, an error has occured!"
     },
 
+    "user-tutorials": {
+      "title": "My tutorials"
+    },
+
     "sign-in" : {
       "title" : "Sign in",
       "actions": {
