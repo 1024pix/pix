@@ -180,7 +180,21 @@
     },
 
     "profile": {
-      "title": "Your profile"
+      "title": "Your profile",
+      "resume-campaign-banner": {
+        "actions": {
+          "continue": "Continue",
+          "resume": "Resume"
+        },
+        "reminder-continue-campaign": "You have not finished the campaign",
+        "reminder-continue-campaign-with-title": "You have not finished the campaign \"{title}\"",
+        "reminder-send-campaign": "You have not send the result of the campaign",
+        "reminder-send-campaign-with-title": "You have not send the result of \"{title}\""
+      },
+      "total-score-helper": {
+        "title": "Why 1024 pix?",
+        "explanation": "This is the maximum number of pix that we can reach when the 8 levels of the Pix repository are available.'<br>'Today, '<span class=\"hexagon-score-information__text--strong\">'the maximum is 640 pix'</span>', corresponding to level 5."
+      }
     },
 
     "sign-in" : {
