@@ -178,6 +178,10 @@
       "first-title": "Oups, une erreur est survenue !"
     },
 
+    "profile": {
+      "title": "Votre profil"
+    },
+
     "sign-in" : {
       "title" : "Connexion",
       "actions": {
