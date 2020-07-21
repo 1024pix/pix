@@ -181,6 +181,11 @@
 
     "profile": {
       "title": "Your profile",
+      "competence-card": {
+        "congrats": "Congrats!",
+        "details": "details"
+      },
+      "first-title": "You have 16 competences. '<br>'Be focus and go!",
       "resume-campaign-banner": {
         "actions": {
           "continue": "Continue",
