@@ -1,8 +1,8 @@
 module.exports = async function isUserCertifiable({
   userId,
-  certificationProfileService,
+  placementProfileService,
 }) {
   const now = new Date();
-  const certificationProfile = await certificationProfileService.getCertificationProfile({ userId, limitDate: now });
-  return certificationProfile.isCertifiable();
+  const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate: now });
+  return placementProfile.isCertifiable();
 };

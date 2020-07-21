@@ -9,7 +9,7 @@ const campaignParticipationRepository = require('../../../../lib/infrastructure/
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const certificationProfileService = require('../../../../lib/domain/services/certification-profile-service');
+const placementProfileService = require('../../../../lib/domain/services/placement-profile-service');
 
 describe('Integration | Domain | Use Cases | start-writing-profiles-collection-campaign-results-to-stream', () => {
 
@@ -171,7 +171,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-
         competenceRepository,
         organizationRepository,
         campaignParticipationRepository,
-        certificationProfileService,
+        placementProfileService,
       });
 
       const csv = await csvPromise;

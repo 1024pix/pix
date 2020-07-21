@@ -32,7 +32,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       courseId: certificationCourseId,
     });
 
-    const certificationProfileWithTwoCompetence = [
+    const severalUserCompetences = [
       {
         challenges: [challenge1]
       }, {
@@ -42,7 +42,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
 
     it('should return certification challenges objects generated from the provided userCompetences and certificationCourseId', async () => {
       // when
-      const actualCertificationChallenges = await certificationChallengesService.generateCertificationChallenges(certificationProfileWithTwoCompetence, certificationCourseId);
+      const actualCertificationChallenges = await certificationChallengesService.generateCertificationChallenges(severalUserCompetences, certificationCourseId);
 
       // then
       expect(actualCertificationChallenges).to.have.deep.members([ certificationChallenge1, certificationChallenge2 ]);

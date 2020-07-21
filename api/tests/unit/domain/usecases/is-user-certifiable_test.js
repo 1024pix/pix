@@ -1,18 +1,18 @@
 const { sinon, expect } = require('../../../test-helper');
 const isUserCertifiable = require('../../../../lib/domain/usecases/is-user-certifiable');
-const CertificationProfile = require('../../../../lib/domain/models/CertificationProfile');
+const PlacementProfile = require('../../../../lib/domain/models/PlacementProfile');
 
 describe('Unit | UseCase | is-user-certifiable', () => {
 
-  let certificationProfileService;
+  let placementProfileService;
   let clock;
   const now = new Date(2020, 1, 1);
-  const certificationProfile = new CertificationProfile();
+  const placementProfile = new PlacementProfile();
   const userId = 2;
 
   beforeEach(() => {
     clock = sinon.useFakeTimers(now);
-    certificationProfileService = { getCertificationProfile: sinon.stub().withArgs({ userId, limitDate: now }).resolves(certificationProfile) };
+    placementProfileService = { getPlacementProfile: sinon.stub().withArgs({ userId, limitDate: now }).resolves(placementProfile) };
   });
 
   afterEach(() => {
@@ -24,7 +24,7 @@ describe('Unit | UseCase | is-user-certifiable', () => {
     // when
     const result = await isUserCertifiable({
       userId,
-      certificationProfileService,
+      placementProfileService,
     });
 
     //then
