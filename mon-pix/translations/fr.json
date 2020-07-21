@@ -178,7 +178,15 @@
     },
 
     "user-tutorials": {
-      "title": "Mes tutos"
+      "title": "Mes tutos",
+      "description": "Progresser grâce aux tutos suggérés par la communauté des utilisateurs de Pix.",
+      "empty-list-info": {
+        "description": {
+          "part1": "Au fil de vos tests, des tutos vous sont recommandés : cliquez sur l'icône marque page",
+          "part2": "pour enregistrer ceux que vous souhaitez retrouver ici !"
+        },
+        "title": "Vous n'avez encore rien enregistré"
+      }
     },
 
     "sign-in" : {
