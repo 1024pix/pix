@@ -47,11 +47,11 @@
       <tbody>
       {{#each @campaignCollectiveResult.campaignCompetenceCollectiveResults as |competenceResult|}}
         <tr>
-          <td class="campaign-details-table__line-wrapper">
-            <span class="campaign-details-table__bullet campaign-details-table__bullet--{{competenceResult.areaColor}}">
-              &#8226;
+          <td class="competences-col__name">
+            <span class="competences-col__border competences-col__border--{{competenceResult.areaColor}}"></span>
+            <span>
+              {{competenceResult.competenceName}}
             </span>
-            <span>{{competenceResult.competenceName}}</span>
           </td>
           <td>
             <ProgressionGauge @total={{competenceResult.totalSkillsCountPercentage}} @value={{competenceResult.validatedSkillsPercentage}}>
