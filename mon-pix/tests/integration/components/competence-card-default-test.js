@@ -78,7 +78,7 @@ describe('Integration | Component | competence-card-default', function() {
       await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
 
       // then
-      expect(find('.score-label').textContent).to.equal('Niveau');
+      expect(find('.score-label').textContent).to.equal('niveau');
       expect(find('.score-value').textContent).to.equal(scorecard.level.toString());
     });
 
