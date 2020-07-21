@@ -7,5 +7,5 @@ export default class StartController extends Controller {
   @service currentUser;
   @service intl;
 
-  pageTitle = this.intl.t('page-title.certifications-start');
+  pageTitle = this.intl.t('pages.certification-start.title');
 }

@@ -1,204 +1,218 @@
 {
+  "api-error-messages": {
+    "bad-request-error": "The information input is not in the correct format.",
+    "internal-server-error": "The service is temporarily unavailable. Please try again later.",
+    "login-unauthorized-error": "Wrong email address, username and/or password."
+  },
+
   "common": {
-    "cancel": "Cancel",
-    "close": "Close",
+    "actions" : {
+      "cancel": "Cancel",
+      "close": "Close"
+    },
     "form": {
+      "mandatory": "mandatory",
       "mandatory-fields": "Fields marked with '<abbr title=\"mandatory\" class=\"mandatory-mark\">'*'</abbr>' are mandatory"
     },
     "level": "level",
-    "mandatory": "mandatory",
     "or": "or",
     "pix": "pix"
   },
-  "navigation": {
-    "homepage": {
-      "link": "Homepage"
-    }
-  },
-  "page-title": {
-    "certifications-start": "Rejoindre une session de certification",
-    "certification-number": "Certification {certificationNumber}",
-    "signin": "Sign in",
-    "signup": "Sign up",
-    "suffix": "Pix",
-    "my-certifications": "Lorem Ipsum"
-  },
 
-  "api-error-messages": {
-    "login-unauthorized-error": "Wrong email address, username and/or password.",
-    "bad-request-error": "The information input is not in the correct format.",
-    "internal-server-error": "The service is temporarily unavailable. Please try again later."
-  },
+  "pages" : {
 
-  "certificate": {
-    "back-link": "Lorem ipsum",
-    "title": "Lorem ipsum",
-    "issued-on": "Lorem ipsum",
-    "validity": "Lorem ipsum",
-    "candidate-birth-complete": "Lorem ipsum",
-    "certification-center": "Lorem ipsum",
-    "exam-date": "Lorem ipsum",
-    "hexagon-score": {
-      "certified": "Lorem ipsum"
-    },
-    "competences": {
-      "title": "Lorem ipsum",
-      "subtitle": "Lorem ipsum",
-      "level": "Lorem ipsum",
-      "informations": "Lorem ipsum"
-    },
-    "jury-title": "Lorem ipsum",
-    "clea-title": "Lorem ipsum"
-  },
+    "certificate": {
+      "title": "Pix certificate",
+      "back-link": "Back to my certifications",
+      "candidate-birth-complete": "Born on {birthdate} at {birthplace}",
+      "certification-center": "Certification center:",
+      "clea": {
+        "title": "Certified Cléa",
+        "alternative": "Certified cléA numérique"
+      },
+      "competences": {
+        "informations": "Your certified score was calculated based on your answers during the certification process. It can therefore differ from the number of Pix displayed in your profile. On the day of your certification it was possible to reach level 5 skills and 640 pix maximum. ",
+        "subtitle": "(level on 5)",
+        "title": "Certified skills"
+      },
+      "exam-date": "Exam date :",
+      "hexagon-score": {
+        "certified": "certified"
+      },
+      "issued-on": "Issued on",
+      "jury-title": "Jury observations",
 
-  "certifications-list": {
-    "title": "Lorem ipsum",
-    "header": {
-      "date": "Lorem ipsum",
-      "status": "Lorem ipsum",
-      "score": "Lorem ipsum",
-      "certification-center": "Lorem ipsum"
+      "validity": "Certificate valid for 3 years"
     },
-    "statuses": {
-      "success": {
-        "title": "Lorem ipsum",
-        "action": "Lorem ipsum"
-      },
-      "fail": {
-        "title": "Lorem ipsum",
-        "action": "Lorem ipsum"
-      },
-      "not-published": {
-        "title": "Lorem ipsum"
-      }
-    }
-  }, 
 
-  "certification-banner": {
-    "certification-number": "Certification N°"
-  },
-
-  "certification-joiner": {
-    "congratulation-banner": {
-      "message": "Congratulations {fullName},'<br>'your profile is certifiable."
-    },
-    "title": "Join a session",
-    "form": {
-      "action": {
-        "submit": "Continue"
+    "certification-joiner": {
+      "title" : "Join a certification session",
+      "congratulation-banner": {
+        "message": "Well done {fullName},'<br>'your profile is certifiable."
       },
-      "session-number": "Session number",
-      "first-name": "Firstname",
-      "birth-name": "Birth name",
-      "birth-date": "Birth date"
-    }
-  },
-
-  "certification-start-page": {
-    "title": "Vous allez commencer votre test de certification",
-    "access-code": "Saisissez le code d'accès communiqué par le surveillant",
-    "action": {
-      "submit": "Commencer mon test"
-    },
-    "cgu":  {
-      "info": "En cliquant sur \"Commencer mon test\", j’accepte que mes données d’identité, le numéro de certification et les circonstances de la passation telles que renseignées par le surveillant soient communiquées à Pix. Pix les utilisera lors de la délibération du jury pour produire et archiver mes résultats et pour éditer mon certificat. Si cette certification m’a été prescrite par une organisation, j’accepte que Pix lui communique mes résultats.",
-      "contact": {
-        "info": "Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en envoyant un mail à",
-        "email": "dpo@pix.fr"
-      }
-    }
-  },
-
-  "signin-form": {
-    "actions": {
-      "submit": "Sign in"
-    },
-    "error": {
-      "message": "Wrong email, identifier and/or password"
-    },
-    "fields": {
-      "login": {
-        "label": "Email or identifier"
-      },
-      "password": {
-        "label": "Password"
-      }
-    },
-    "link": "Forgot password?",
-    "subtitle": {
-      "text": "Don't have a Pix account yet?",
-      "link": "Sign up"
-    },
-    "title": "Sign in"
-  },
-  "signup-form": {
-    "actions": {
-      "submit": "I sign up"
-    },
-    "fields": {
-      "cgu": {
-        "error": "Please accept terms of service before you sign up",
-        "label": "'<abbr title=\"mandatory\">'*'</abbr>' I accept '<a href=\"{cguUrl}\" class=\"link\" target=\"_blank\">'Pix's CGU'</a>'"
-      },
-      "email": {
-        "error": "Your email is invalid",
-        "help": "(ex: name@example.com)",
-        "label": "Email"
-      },
-      "firstname": {
-        "error": "Your firstname is empty.",
-        "label": "Firstname"
-      },
-      "lastname": {
-        "error": "Your lastname is empty.",
-        "label": "Last name"
-      },
-      "password": {
-        "error": "Password should have 8 characters, one uppercase and lowercase letter and one number at least.",
-        "help": "(8 char min, with uppercase, lowercase and a number)",
-        "label": "Password"
-      }
-    },
-    "instructions": "Fields marked with '<abbr title=\"mandatory\" class=\"mandatory-mark\">'*'</abbr>' are mandatory",
-    "legal-information": "By signing in, you allow Pix to store your data. They will be kept for a maximum of 5 years, starting with your last sign in date, and will then be archived according to statutory limitation periods (5 years). They are only used by Pix and Pix's service providers. In accordance to the law « informatique et libertés », you can exercise your right of access to data and correct them by sending an email to dpd@pix.fr.",
-    "subtitle": {
-      "link": "sign in"
-    },
-    "title": "Sign up"
-  },
-  "scorecard": {
-    "actions": {
-      "continue": {
-        "label": "Continue"
-      },
-      "improve": {
-        "label": "Retry",
-        "description": {
-          "waiting-text": "You will be able to start over in",
-          "countdown": "{ daysBeforeImproving, plural, =0 {0 day.} =1 {1 day.} other {# days.} }"
+      "first-title" : "Join a certification session",
+      "form": {
+        "actions": {
+          "submit": "Continue"
         },
-        "improvingText": "Try to have a better level !"
+        "fields": {
+          "birth-date": "Birth Date",
+          "birth-name": "Birth Name",
+          "first-name": "First name",
+          "session-number": "Session number"
+        }
+      }
+    },
+
+    "certification-start": {
+      "title" : "Join a certification session",
+      "access-code": "Enter the access code communicated by the supervisor",
+      "actions": {
+        "submit": "Start your test"
       },
-      "reset": {
-        "label": "Reset",
-        "description": "{ daysBeforeReset, plural, =0 {0 day} =1 {1 day} other {# days} } left before reset.",
-        "modal": {
-          "title": "Reset competence",
-          "important-message": "Vos { earnedPix } Pix vont être supprimés.",
-          "important-message-above-level-one": "Votre niveau { level } et vos { earnedPix } Pix vont être supprimés.",
-          "warning": "Attention : si vous avez un parcours d’évaluation en cours, certaines questions pourront vous être reposées."
+      "cgu":  {
+        "contact": {
+          "email": "dpo@pix.org",
+          "info": "In accordance with the  IT and freedom law, you can exercise your right of access to data concerning you and have them rectified by sending an email to"
+        },
+        "info": "By clicking on \" Start my test \", I accept that my identity data, the certification number and the circumstances of the test as informed by the supervisor are communicated to Pix. Pix will use them during the jury's deliberation to produce and archive my results and to edit my certificate. If this certification has been prescribed by an organization, I accept that Pix will communicate my results to it."
+      },
+      "first-title": "You will start your certification test"
+    },
+
+    "certifications-list": {
+      "title": "My",
+      "header": {
+        "certification-center": "center of certification",
+        "date": "date",
+        "score": "score pix",
+        "status": "status"
+      },
+      "statuses": {
+        "success": {
+          "action": "see results",
+          "title": "Certification obtained"
+        },
+        "fail": {
+          "action": "details",
+          "title": "Certification not obtained"
+        },
+        "not-published": {
+          "title": "Waiting for the result"
+        }
+      }
+    },
+
+    "challenge" : {
+      "certification" : {
+        "title": "Certification {certificationNumber}",
+        "banner": {
+          "certification-number": "N° of certification"
+        }
+      }
+    },
+
+    "competence-details" : {
+      "title" : "Competence",
+      "actions": {
+        "continue": {
+          "label": "Continue"
+        },
+        "improve": {
+          "description": {
+            "waiting-text": "Attempt the next level in\n",
+            "countdown": "{ daysBeforeImproving, plural, =0 {0 day.} =1 {1 day.} other {# days.} }"
+          },
+          "improvingText": "Try to get to the next level!",
+          "label": "Retry"
+        },
+        "reset": {
+          "description": "Reset available in\n { daysBeforeReset, plural, =0 {0 day.} =1 {1 day.} other {# days.} }",
+          "label": "Reset",
+          "modal": {
+            "important-message": "Your { earnedPix } Pix are going to be deleted.",
+            "important-message-above-level-one": "Your {level} level and {earnedPix} Pix will be deleted.",
+            "title": "Reset competence",
+            "warning": "Please note: if you have an evaluation course in progress, some questions may be asked."
+          }
+        },
+        "start": {
+          "label": "Start"
         }
       },
-      "start": {
-        "label": "Start"
+      "for-competence": "for the competence {competence}",
+      "next-level-info": "{ remainingPixToNextLevel } pix before level { level }",
+      "tutorials": {
+        "title": "Cultivate your skills",
+        "description": "Here is a selection of tutorials that can help you earn Pix"
       }
     },
-    "for-competence": "the competence {competence}",
-    "link-to-profile": "Back to Profile",
-    "next-level-info": "{ remainingPixToNextLevel } pix left before level { level }",
-    "tutorials": {
-      "title": "Cultivez vos compétences",
-      "description": "Voici une sélection de tutos qui pourront vous aider à gagner des Pix."
+
+    "sign-in" : {
+      "title" : "Sign in",
+      "actions": {
+        "submit": "Sign in"
+      },
+      "error": {
+        "message": "Wrong email, identifier and/or password"
+      },
+      "fields": {
+        "login": {
+          "label": "Email or identifier"
+        },
+        "password": {
+          "label": "Password"
+        }
+      },
+      "first-title": "Log in",
+      "forgotten-password": "Forgot password?",
+      "subtitle": {
+        "text": "Don't have a Pix account yet?",
+        "link": "Sign up"
+      }
+    },
+
+    "sign-up" : {
+      "title" : "Sign up",
+      "actions": {
+        "submit": "I sign up"
+      },
+      "fields": {
+        "cgu": {
+          "error": "Please accept terms of service before you sign up",
+          "label": "'<abbr title=\"mandatory\">'*'</abbr>' I accept '<a href=\"{cguUrl}\" class=\"link\" target=\"_blank\">'Pix's CGU'</a>'"
+        },
+        "email": {
+          "error": "Your email is invalid",
+          "help": "(ex: name@example.com)",
+          "label": "Email"
+        },
+        "firstname": {
+          "error": "Your firstname is empty.",
+          "label": "Firstname"
+        },
+        "lastname": {
+          "error": "Your lastname is empty.",
+          "label": "Last name"
+        },
+        "password": {
+          "error": "Password should have 8 characters, one uppercase and lowercase letter and one number at least.",
+          "help": "(8 char min, with uppercase, lowercase and a number)",
+          "label": "Password"
+        }
+      },
+      "first-title": "Sign up",
+      "instructions": "Fields marked with '<abbr title=\"mandatory\" class=\"mandatory-mark\">'*'</abbr>' are mandatory",
+      "legal-information": "By signing in, you allow Pix to store your data. They will be kept for a maximum of 5 years, starting with your last sign in date, and will then be archived according to statutory limitation periods (5 years). They are only used by Pix and Pix's service providers. In accordance to the law « informatique et libertés », you can exercise your right of access to data and correct them by sending an email to dpd@pix.fr.",
+      "subtitle": {
+        "link": "sign in"
+      }
     }
+  },
+
+  "navigation": {
+    "homepage": "Home page",
+    "back-to-profile": "Back to profile",
+    "pix": "Pix"
   }
 }
