@@ -3,7 +3,7 @@
     <a target="_blank" rel="noopener noreferrer" href="{{tutorial.link}}"
        class="tutorial-content__title">{{tutorial.title}}</a>
     <div class="tutorial-content__description">
-      <span class="tutorial-content__source">Par {{tutorial.source}}</span>
+      <span class="tutorial-content__source">{{t 'pages.user-tutorials.tutorial.source'}} {{tutorial.source}}</span>
       • <span class="tutorial-content__format">{{tutorial.format}}</span>
       • <span class="tutorial-content__duration">{{moment-duration tutorial.duration}}</span>
     </div>
@@ -15,11 +15,11 @@
           <FaIcon @prefix={{if this.isSaved 'fas' 'far'}} @icon='bookmark'/>
           {{buttonText}}
         </button>
-        <button class="tutorial-content-actions__evaluate" title="Donner mon avis sur ce tuto"
+        <button class="tutorial-content-actions__evaluate" title={{t 'pages.user-tutorials.tutorial.actions.evaluate.description'}}
           {{on 'click' this.evaluateTutorial}}
           disabled={{this.isEvaluateButtonDisabled}}>
           <FaIcon @prefix={{if this.isEvaluated 'fas' 'far'}} @icon='thumbs-up'/>
-          Tuto utile
+          {{t 'pages.user-tutorials.tutorial.actions.evaluate.title'}}
         </button>
       </div>
     {{/if}}

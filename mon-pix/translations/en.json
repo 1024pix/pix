@@ -186,6 +186,22 @@
           "part2": "to save a tuto"
         },
         "title": "No tuto saved"
+      },
+      "tutorial": {
+        "actions": {
+          "evaluate": {
+            "description": "Evaluate this tutorial",
+            "title": "Useful tutorial"
+          },
+          "remove": {
+            "title": "Remove"
+          },
+          "save": {
+            "description": "Save in my tutorials",
+            "title": "Save"
+          }
+        },
+        "source": "By"
       }
     },
 
