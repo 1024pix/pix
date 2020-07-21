@@ -8,6 +8,14 @@
     margin: 4px;
     border-radius: 5px;
 
+    &-result-comment {
+      margin: 0;
+      color: $white;
+      font-size: 3rem;
+      font-family: $font-open-sans;
+      font-weight: $font-bold;
+    }
+
     @include device-is('tablet') {
       height: 240px;
       margin: 12px;

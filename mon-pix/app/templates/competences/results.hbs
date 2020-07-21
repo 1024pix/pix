@@ -11,7 +11,7 @@
         <div class="competence-results-panel__header">
           {{#if model.scorecard.hasNotEarnAnything}}
             <div class="competence-results-panel-header__banner competence-results-panel-header__banner--too-bad">
-              <img src="/images/banners/too-bad-text.svg" alt="Tant pix !"
+              <p class="competence-results-panel-header__banner-result-comment">Tant pix !</p>
                    class="competence-results-banner__title">
               <div class="competence-results-banner__subtitle competence-results-banner__subtitle--small">
                 Manifestement, ce n’est pas votre jour mais vous ferez mieux la prochaine fois.
@@ -19,10 +19,7 @@
             </div>
           {{else if model.scorecard.hasNotReachLevelOne}}
             <div class="competence-results-panel-header__banner competence-results-panel-header__banner--not-bad">
-              <img src="/images/banners/not-bad-text.svg" alt="Pas mal, mais pas max !"
-                   class="competence-results-banner__title competence-results-banner__title--tablet">
-              <img src="/images/banners/not-bad-text-mobile.svg" alt="Pas mal, mais pas max !"
-                   class="competence-results-banner__title competence-results-banner__title--mobile">
+              <p class="competence-results-panel-header__banner-result-comment">Pas mal, mais pas max !</p>
               <div class="competence-results-banner__subtitle competence-results-banner__subtitle--left">
                 Encore quelques petits efforts et vous décrocherez le premier niveau.
               </div>
@@ -35,8 +32,7 @@
             </div>
           {{else if model.scorecard.hasReachAtLeastLevelOne}}
             <div class="competence-results-panel-header__banner competence-results-panel-header__banner--congrats">
-              <img src="/images/banners/congrats-text.svg" alt="Félicitations !"
-                   class="competence-results-banner__title">
+              <p class="competence-results-panel-header__banner-result-comment">Félicitations !</p>
               <div class="competence-results-banner__text competence-results-banner__text--spaced">
                 <div class="competence-results-banner-text__results competence-results-banner-text__results--spaced">
                   <div class="competence-results-banner-text-results__label">Vous avez atteint</div>
