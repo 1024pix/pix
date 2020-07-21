@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v2.174.0 (21/07/2020)
+
+- [#1655](https://github.com/1024pix/pix/pull/1655) [FEATURE] Mise en place de la création et sauvegarde de Snapshot de knowledge-elements pour l'amélioration des performances de l'export CSV des collectes de profil (PIX-988)
+- [#1640](https://github.com/1024pix/pix/pull/1640) [FEATURE] Récupérer les scorecards dans la bonne langue (PIX-665).
+- [#1624](https://github.com/1024pix/pix/pull/1624) [FEATURE] Internationalisation du démarrage d'une certification (PIX-799) 
+- [#1651](https://github.com/1024pix/pix/pull/1651) [BUGFIX] Affichage du tableau vide sur l'analyse individuelle et non levée d'une erreur (PIX-984).
+- [#1653](https://github.com/1024pix/pix/pull/1653) [BUGFIX] Ne pas afficher le timer lorsque l'utilisateur revient sur une question timée (PIX-931)
+- [#1648](https://github.com/1024pix/pix/pull/1648) [BUGFIX] Correction du changelog de la v2.173.0.
+- [#1654](https://github.com/1024pix/pix/pull/1654) [TECH] Renommage du user-service en certification-profile-service
+- [#1650](https://github.com/1024pix/pix/pull/1650) [CLEANUP] Intégrer le setup de l'i18n dans les tests d'integration (PIX-972).
+- [#1647](https://github.com/1024pix/pix/pull/1647) [CLEANUP] Uniformisation des fichiers de traduction (PIX-971).
+
 ## v2.173.0 (17/07/2020)
 
 - [#1618](https://github.com/1024pix/pix/pull/1618) [FEATURE] Internationalisation de "mes certifications" (PIX-797)
