@@ -178,7 +178,15 @@
     },
 
     "user-tutorials": {
-      "title": "My tutorials"
+      "title": "My tutorials",
+      "description": "Improve with tutorials",
+      "empty-list-info": {
+        "description": {
+          "part1": "Use a bookmark",
+          "part2": "to save a tuto"
+        },
+        "title": "No tuto saved"
+      }
     },
 
     "sign-in" : {
