@@ -14,11 +14,11 @@
       <tbody>
       {{#each @campaignParticipation.campaignParticipationResult.competenceResults as |competence|}}
         <tr aria-label="Résultats par compétence">
-          <td class="campaign-details-table__line-wrapper">
-            <span class="campaign-details-table__bullet campaign-details-table__bullet--{{competence.areaColor}}">
-              &#8226;
+          <td class="competences-col__name">
+            <span class="competences-col__border competences-col__border--{{competence.areaColor}}"></span>
+            <span>
+              {{competence.name}}
             </span>
-            <span>{{competence.name}}</span>
           </td>
           <td>
             <ProgressionGauge @total={{competence.totalSkillsCountPercentage}} @value={{competence.validatedSkillsPercentage}}>

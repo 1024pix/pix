@@ -1,8 +1,6 @@
 <tr aria-label="Sujet">
-  <td class="campaign-details-table__line-wrapper">
-    <span class="campaign-details-table__bullet campaign-details-table__bullet--{{@tubeRecommendation.areaColor}}">
-      &#8226;
-    </span>
+  <td class="competences-col__name">
+    <span class="competences-col__border competences-col__border--{{@tubeRecommendation.areaColor}}"></span>
     <span class={{concat "tube-recommendation-title " (if this.isOpen "tube-recommendation-title--open")}}>
       {{@tubeRecommendation.tubePracticalTitle}}<br />
       <sub class={{concat "tube-recommendation-subtitle " (if this.isOpen "tube-recommendation-subtitle--open")}}>
