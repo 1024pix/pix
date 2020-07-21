@@ -154,7 +154,32 @@ async function _generateCertificationProfileV2({ userId, profileDate, competence
   return certificationProfile;
 }
 
+async function getCertificationProfilesWithSnapshotting({ userIdsAndDates, competences, allowExcessPixAndLevels = true }) {
+  const knowledgeElementsByUserIdAndCompetenceId = await knowledgeElementRepository
+    .findSnapshotGroupedByCompetencesForUsers(userIdsAndDates);
+
+  const certificationProfilesList = [];
+  for (const [strUserId, knowledgeElementsByCompetence] of Object.entries(knowledgeElementsByUserIdAndCompetenceId)) {
+    const userId = parseInt(strUserId);
+    const certificationProfile = new CertificationProfile({
+      userId,
+      profileDate: userIdsAndDates[userId],
+    });
+
+    certificationProfile.userCompetences = _createUserCompetencesV2({
+      knowledgeElementsByCompetence,
+      allCompetences: competences,
+      allowExcessPixAndLevels,
+    });
+    
+    certificationProfilesList.push(certificationProfile);
+  }
+
+  return certificationProfilesList;
+}
+
 module.exports = {
   getCertificationProfile,
+  getCertificationProfilesWithSnapshotting,
   fillCertificationProfileWithChallenges,
 };
