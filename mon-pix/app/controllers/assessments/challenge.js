@@ -1,10 +1,12 @@
 import _ from 'lodash';
 import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import progressInAssessment from 'mon-pix/utils/progress-in-assessment';
 
 export default class ChallengeController extends Controller {
   queryParams = ['newLevel', 'competenceLeveled'];
+  @service intl;
   @tracked newLevel = null;
   @tracked competenceLeveled = null;
 
@@ -13,11 +15,9 @@ export default class ChallengeController extends Controller {
   }
 
   get pageTitle() {
-    const challengeText = 'Épreuve';
-    const outOfText = 'sur';
     const stepNumber = progressInAssessment.getCurrentStepNumber(this.model.assessment, _.get(this.model, 'answer.id'));
     const totalChallengeNumber = progressInAssessment.getMaxStepsNumber(this.model.assessment);
 
-    return `${challengeText} ${stepNumber} ${outOfText} ${totalChallengeNumber}`;
+    return this.intl.t('pages.challenge.title', { stepNumber, totalChallengeNumber });
   }
 }

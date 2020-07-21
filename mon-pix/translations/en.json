@@ -105,6 +105,7 @@
     },
 
     "challenge" : {
+      "title": "Challenge {stepNumber} out of {totalChallengeNumber}",
       "actions": {
         "continue": "Continue",
         "validate": "Validate",
