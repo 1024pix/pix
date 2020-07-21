@@ -116,6 +116,13 @@
         "banner": {
           "certification-number": "N° of certification"
         }
+      },
+      "embed-simulator": {
+        "actions": {
+          "launch": "Launch application",
+          "reset": "Reset"
+        },
+        "placeholder": "Loading application"
       }
     },
 

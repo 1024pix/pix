@@ -1,6 +1,6 @@
 <div class="challenge-embed-simulator" style="{{this.embedDocumentHeightStyle}}">
   {{#if this.isLoadingEmbed}}
-    <div class="embed placeholder blurred" aria-label="Chargement de l'application en cours">
+    <div class="embed placeholder blurred" aria-label="{{t "pages.challenge.embed-simulator.placeholder"}}">
       <FaIcon @icon="image"></FaIcon>
     </div>
   {{/if}}
@@ -8,7 +8,7 @@
   <div class="embed rounded-panel {{if this.isLoadingEmbed 'hidden-visibility' ''}}">
     {{#unless this.isSimulatorLaunched}}
       <div class="embed__acknowledgment-overlay">
-        <button class="embed__launch-simulator-button" type="button" {{on 'click' this.launchSimulator}}>Je lance l’application</button>
+        <button class="embed__launch-simulator-button" type="button" {{on 'click' this.launchSimulator}}>{{t "pages.challenge.embed-simulator.actions.launch"}}</button>
       </div>
     {{/unless}}
 
@@ -25,7 +25,7 @@
   <div class="embed__reboot">
     <div class="link link--grey embed-reboot__content" role="button" {{on 'click' this.rebootSimulator}}>
       <FaIcon @icon="redo-alt"></FaIcon>
-      <div class="embed-reboot-content__text"> Réinitialiser </div>
+      <div class="embed-reboot-content__text">{{t "pages.challenge.embed-simulator.actions.reset"}} </div>
     </div>
   </div>
 </div>
