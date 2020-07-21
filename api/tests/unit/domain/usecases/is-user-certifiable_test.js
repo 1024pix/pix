@@ -21,11 +21,6 @@ describe('Unit | UseCase | is-user-certifiable', () => {
   });
 
   it('should return the user certification profile', async () => {
-    // given
-    const userId = 2;
-
-    certificationProfileService.getCertificationProfile.withArgs({ userId, limitDate: now }).resolves('certificationProfile');
-
     // when
     const result = await isUserCertifiable({
       userId,
