@@ -7,10 +7,10 @@ import { alias } from '@ember/object/computed';
 export default class NavbarDesktopHeader extends Component {
   @service router;
   @service session;
-
+  @service intl;
   _menuItems = [
-    { name: 'Se connecter', link: 'login', class: 'navbar-menu-signin-link' },
-    { name: 'S’inscrire', link: 'inscription', class: 'navbar-menu-signup-link' }
+    { name: this.intl.get('navigation.not-logged.sign-in'), link: 'login', class: 'navbar-menu-signin-link' },
+    { name: this.intl.get('navigation.not-logged.sign-up'), link: 'inscription', class: 'navbar-menu-signup-link' }
   ];
 
   @alias('session.isAuthenticated') isUserLogged;

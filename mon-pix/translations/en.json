@@ -15,6 +15,7 @@
       "mandatory": "mandatory",
       "mandatory-fields": "Fields marked with '<abbr title=\"mandatory\" class=\"mandatory-mark\">'*'</abbr>' are mandatory"
     },
+    "french-republic": "French Republic",
     "level": "level",
     "loading": "Loading",
     "or": "or",
@@ -282,9 +283,22 @@
     "homepage": "Home page",
     "back-to-homepage": "Back to homepage",
     "back-to-profile": "Back to profile",
+    "main": {
+      "code": "I have a code",
+      "help": "Help",
+      "link-help": "https://pix.fr/aide",
+      "profile": "Profile",
+      "start-certification": "Certification"
+    },
+    "not-logged": {
+      "sign-in": "Login",
+      "sign-up": "Sign up"
+    },
     "pix": "Pix",
     "user": {
-      "tutorials": "My tutorials"
+      "certifications": "Mes certifications",
+      "sign-out": "Se déconnecter",
+      "tutorials": "Mes tutos"
     }
   }
 }
