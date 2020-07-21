@@ -1,12 +1,12 @@
 {{#if @answer}}
-  <span class="challenge-actions__already-answered">Vous avez déjà répondu à cette question</span>
+  <span class="challenge-actions__already-answered">{{t "pages.challenge.already-answered"}}</span>
   <button class="button challenge-actions__action challenge-actions__action-continue" {{action resumeAssessment @assessment}}>
-    <span class="challenge-actions__action-continue-text">Poursuivre</span>
+    <span class="challenge-actions__action-continue-text">{{t "pages.challenge.actions.continue"}}</span>
   </button>
 {{else}}
   {{#if this.isValidateButtonEnabled}}
     <button class="button challenge-actions__action challenge-actions__action-validate" type="submit" {{action validateAnswer}}>
-      <span class="challenge-actions__action-validate-text">Je valide</span>
+      <span class="challenge-actions__action-validate-text">{{t "pages.challenge.actions.validate"}}</span>
     </button>
   {{else}}
     <div class="challenge-actions__action challenge-actions__action-validate__loader">
@@ -15,7 +15,7 @@
   {{/if}}
   {{#if this.isSkipButtonEnabled}}
     <button class="button challenge-actions__action challenge-actions__action-skip" {{action skipChallenge}}>
-      <span class="challenge-actions__action-skip-text">Je passe</span>
+      <span class="challenge-actions__action-skip-text">{{t "pages.challenge.actions.skip"}}</span>
     </button>
   {{else}}
     <div class="challenge-actions__action challenge-actions__action-skip__loader">
