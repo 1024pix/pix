@@ -244,6 +244,9 @@
     "homepage": "Page d'accueil",
     "back-to-homepage": "Revenir à la page d’accueil",
     "back-to-profile": "Retour Profil",
-    "pix": "Pix"
+    "pix": "Pix",
+    "user": {
+      "tutorials": "Mes tutos"
+    }
   }
 }
