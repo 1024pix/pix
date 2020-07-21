@@ -1,6 +1,7 @@
 const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../test-helper');
 const createServer = require('../../../server');
 const Membership = require('../../../lib/domain/models/Membership');
+const securityPreHandlers = require('../../../lib/application/security-pre-handlers');
 
 describe('Acceptance | Application | SecurityPreHandlers', () => {
 
@@ -265,79 +266,115 @@ describe('Acceptance | Application | SecurityPreHandlers', () => {
     });
   });
 
-  describe('#checkUserIsAdminInScoOrganizationAndManagesStudents', () => {
-
-    let userId;
-    let organizationId;
-    let options;
+  describe('#checkUserIsAdminInSCOOrganizationAndManagesStudents', () => {
 
     beforeEach(async () => {
-      userId = databaseBuilder.factory.buildUser().id;
+      server.route({
+        method: 'GET',
+        path: '/test_route/{id}',
+        handler: (r, h) => h.response({}).code(200),
+        config: {
+          pre: [{
+            method: securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents,
+          }]
+        }
+      });
+    });
 
-      options = {
+    it('respond 403 when the user is not member of the SCO organization managing students', async () => {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const  organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/test_route/${organizationId}`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-        method: 'POST',
       };
 
-      await databaseBuilder.commit();
-    });
-
-    it('should return a well formed JSON API error when user is not in sco managing students orga', async () => {
-      // given
-      organizationId = databaseBuilder.factory.buildOrganization({ type: 'SUP' }).id;
-      databaseBuilder.factory.buildMembership({
-        userId, organizationId, organizationRole: Membership.roles.ADMIN,
-      });
-
-      options.url = `/api/organizations/${organizationId}/import-students`;
-
-      await databaseBuilder.commit();
-
-      // when
       const response = await server.inject(options);
 
-      // then
       expect(response.statusCode).to.equal(403);
       expect(response.result).to.deep.equal(jsonApiError403);
     });
 
-    it('should return a well formed JSON API error when user is in sco managing students orga but not admin', async () => {
-      // given
-      organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
+    it('respond 200 when the user is admin in the orga and it is SCO orga managing students', async () => {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const  organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
       databaseBuilder.factory.buildMembership({
-        userId, organizationId, organizationRole: Membership.roles.MEMBER,
+        userId,
+        organizationId,
+        organizationRole: Membership.roles.ADMIN,
       });
-
-      options.url = `/api/organizations/${organizationId}/import-students`;
 
       await databaseBuilder.commit();
 
-      // when
+      const options = {
+        method: 'GET',
+        url: `/test_route/${organizationId}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
       const response = await server.inject(options);
 
-      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
+
+  describe('#checkUserIsAdminInSUPOrganizationAndManagesStudents', () => {
+
+    beforeEach(async () => {
+      server.route({
+        method: 'GET',
+        path: '/test_route/{id}',
+        handler: (r, h) => h.response({}).code(200),
+        config: {
+          pre: [{
+            method: securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents,
+          }]
+        }
+      });
+    });
+
+    it('respond 403 when the user is not member of the SUP organization managing students', async () => {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const  organizationId = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true }).id;
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/test_route/${organizationId}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      const response = await server.inject(options);
+
       expect(response.statusCode).to.equal(403);
       expect(response.result).to.deep.equal(jsonApiError403);
     });
 
-    it('should return a well formed JSON API error when user is in sco managing students orga and admin, but membership is disabled', async () => {
-      // given
-      organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
+    it('respond 200 when the user is admin in the organization and which id not a SUP organization managing students', async () => {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const  organizationId = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true }).id;
       databaseBuilder.factory.buildMembership({
-        userId, organizationId, organizationRole: Membership.roles.ADMIN,
-        disabledAt: new Date()
+        userId,
+        organizationId,
+        organizationRole: Membership.roles.ADMIN,
       });
-
-      options.url = `/api/organizations/${organizationId}/import-students`;
 
       await databaseBuilder.commit();
 
-      // when
+      const options = {
+        method: 'GET',
+        url: `/test_route/${organizationId}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
       const response = await server.inject(options);
 
-      // then
-      expect(response.statusCode).to.equal(403);
-      expect(response.result).to.deep.equal(jsonApiError403);
+      expect(response.statusCode).to.equal(200);
     });
   });
 
@@ -382,5 +419,4 @@ describe('Acceptance | Application | SecurityPreHandlers', () => {
       expect(response.result).to.deep.equal(jsonApiError403);
     });
   });
-
 });
