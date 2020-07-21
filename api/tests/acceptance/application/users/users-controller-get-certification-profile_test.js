@@ -86,7 +86,7 @@ describe('Acceptance | users-controller-get-certification-profile', () => {
               'is-certifiable': false,
             },
             id: `${user.id}`,
-            type: 'certificationProfiles'
+            type: 'isCertifiables'
           }
         };
 
