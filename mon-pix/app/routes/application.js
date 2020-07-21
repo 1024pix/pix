@@ -13,6 +13,7 @@ export default Route.extend(ApplicationRouteMixin, {
   currentUser: service(),
   session: service(),
   intl: service(),
+  moment: service(),
 
   activate() {
     this.splash.hide();
@@ -27,8 +28,7 @@ export default Route.extend(ApplicationRouteMixin, {
   },
 
   async beforeModel(transition) {
-    const defaultLocale = 'fr';
-    this.intl.setLocale([ENV.APP.LOCALE, defaultLocale]);
+    this._setLocale();
     await this._checkForURLAuthentication(transition);
     return this._loadCurrentUser();
   },
@@ -44,6 +44,12 @@ export default Route.extend(ApplicationRouteMixin, {
   // when coming from the GAR authentication
   // https://github.com/simplabs/ember-simple-auth/blob/a3d51d65b7d8e3a2e069c0af24aca2e12c7c3a95/addon/mixins/application-route-mixin.js#L132
   sessionInvalidated() {},
+
+  _setLocale() {
+    const defaultLocale = 'fr';
+    this.intl.setLocale([ENV.APP.LOCALE, defaultLocale]);
+    this.moment.setLocale(ENV.APP.LOCALE || defaultLocale);
+  },
 
   _loadCurrentUser() {
     return this.currentUser.load().catch(() => this.session.invalidate());
