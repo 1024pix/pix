@@ -8,7 +8,8 @@
   "common": {
     "actions" : {
       "cancel": "Annuler",
-      "close": "Fermer"
+      "close": "Fermer",
+      "quit": "Quitter"
     },
     "form": {
       "mandatory": "obligatoire",
