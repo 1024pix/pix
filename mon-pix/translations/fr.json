@@ -155,6 +155,31 @@
       }
     },
 
+    "checkpoint": {
+      "title" : {
+        "assessment-progress": "Avancement de l'évaluation",
+        "end-of-the-assessment" : "Fin de votre évaluation"
+      },
+      "actions": {
+        "next-page": {
+          "continue": "Continuer mon parcours",
+          "results": "Voir mes résultats"
+        }
+      },
+      "answers": {
+        "already-finished": {
+          "explanation": "Vous avez déjà répondu aux questions, lors de vos parcours précédents. Vous pouvez directement accéder à vos résultats.",
+          "info": "C’est déjà fini, ne soyez pas surpris !"
+        },
+        "header": "vos réponses"
+      },
+      "completion-percentage": {
+        "label-1": "Vous avez effectué ",
+        "label-2": " de votre parcours.",
+        "legend": "avancement du parcours"
+      }
+    },
+
     "competence-details": {
       "title": "Compétence",
       "actions": {

@@ -11,11 +11,11 @@
       {{#if this.shouldDisplayAnswers}}
         <div class="checkpoint-progression-gauge-wrapper">
           <ProgressionGauge @total={{100}} @value={{this.completionPercentage}} @progressionClass="progression-gauge--white progression-gauge--tooltip-left">
-            <p class="sr-only">Vous avez effectué</p>{{this.completionPercentage}}%
-            <p class="sr-only"> de votre parcours.</p>
+            <p class="sr-only">{{t 'pages.checkpoint.completion-percentage.label-1'}}</p>{{this.completionPercentage}}%
+            <p class="sr-only">{{t 'pages.checkpoint.completion-percentage.label-2'}}</p>
           </ProgressionGauge>
 
-          <p class="checkpoint-legend">avancement du parcours</p>
+          <p class="checkpoint-legend">{{t 'pages.checkpoint.completion-percentage.legend'}}</p>
 
         </div>
         <div class="checkpoint__continue-wrapper">
@@ -29,7 +29,7 @@
       {{#if this.shouldDisplayAnswers}}
         <div class="rounded-panel-one-line-header">
           <h1 class="rounded-panel-header-text__content rounded-panel-title rounded-panel-title--all-small-caps">
-            vos réponses
+            {{t 'pages.checkpoint.answers.header'}}
           </h1>
         </div>
 
@@ -42,10 +42,10 @@
       {{else}}
         <div class="checkpoint-no-answer">
           <div class="checkpoint-no-answer__header">
-            C’est déjà fini, ne soyez pas surpris !
+            {{t 'pages.checkpoint.answers.already-finished.info'}}
           </div>
           <div class="checkpoint-no-answer__info">
-            Vous avez déjà répondu aux questions, lors de vos parcours précédents. Vous pouvez directement accéder à vos résultats.
+            {{t 'pages.checkpoint.answers.already-finished.explanation'}}
           </div>
           <CheckpointContinue @assessmentId={{@model.id}} @nextPageButtonText={{this.nextPageButtonText}} />
         </div>
