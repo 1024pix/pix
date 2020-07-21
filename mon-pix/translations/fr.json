@@ -186,6 +186,22 @@
           "part2": "pour enregistrer ceux que vous souhaitez retrouver ici !"
         },
         "title": "Vous n'avez encore rien enregistré"
+      },
+      "tutorial": {
+        "actions": {
+          "evaluate": {
+            "description": "Donner mon avis sur ce tuto",
+            "title": "Tuto utile"
+          },
+          "remove": {
+            "title": "Retirer"
+          },
+          "save": {
+            "description": "Enregistrer dans ma liste de tutos",
+            "title": "Enregistrer"
+          }
+        },
+        "source": "Par"
       }
     },
 

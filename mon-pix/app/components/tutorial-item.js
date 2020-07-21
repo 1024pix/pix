@@ -7,6 +7,7 @@ import buttonStatusTypes from 'mon-pix/utils/button-status-types';
 export default class TutorialItemComponent extends Component {
   @service store;
   @service currentUser;
+  @service intl;
 
   imageForFormat = {
     'vidéo': 'video',
@@ -43,11 +44,15 @@ export default class TutorialItemComponent extends Component {
   }
 
   get buttonText() {
-    return this.savingStatus === buttonStatusTypes.recorded ? 'Retirer' : 'Enregistrer';
+    return this.savingStatus === buttonStatusTypes.recorded ?
+      this.intl.t('pages.user-tutorials.tutorial.actions.remove.title') :
+      this.intl.t('pages.user-tutorials.tutorial.actions.save.title');
   }
 
   get buttonTitle() {
-    return this.savingStatus === buttonStatusTypes.recorded ? 'Retirer' : 'Enregistrer dans ma liste de tutos';
+    return this.savingStatus === buttonStatusTypes.recorded ?
+      this.intl.t('pages.user-tutorials.tutorial.actions.remove.title') :
+      this.intl.t('pages.user-tutorials.tutorial.actions.save.description');
   }
 
   get isSaveButtonDisabled() {
