@@ -11,10 +11,10 @@ import ENV from 'mon-pix/config/environment';
 const _ = require('lodash');
 
 const ERROR_INPUT_MESSAGE_MAP = {
-  firstName: 'signup-form.fields.firstname.error',
-  lastName: 'signup-form.fields.lastname.error',
-  email: 'signup-form.fields.email.error',
-  password: 'signup-form.fields.password.error'
+  firstName: 'pages.sign-up.fields.firstname.error',
+  lastName: 'pages.sign-up.fields.lastname.error',
+  email: 'pages.sign-up.fields.email.error',
+  password: 'pages.sign-up.fields.password.error'
 };
 
 export default Component.extend({

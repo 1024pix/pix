@@ -10,7 +10,7 @@ export default class AssessmentsRoute extends Route {
 
   afterModel(model) {
     if (model.isCertification) {
-      model.title = this.intl.t('page-title.certification-number', { certificationNumber: model.title });
+      model.title = this.intl.t('pages.challenge.certification.title', { certificationNumber: model.title });
     }
     return model;
   }
