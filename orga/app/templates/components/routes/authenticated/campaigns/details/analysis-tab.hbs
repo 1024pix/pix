@@ -17,7 +17,7 @@
         <Table::Header @size="wide">
           Sujets ({{if @displayAnalysis this.sortedRecommendations.length '-' }})
         </Table::Header>
-        <Table::HeaderSort @size="small" @align="center" @onSort={{this.sortRecommendationOrder}}>
+        <Table::HeaderSort @size="small" @align="center" @onSort={{this.sortRecommendationOrder}} @isDisabled={{not @displayAnalysis}}>
           Pertinence
         </Table::HeaderSort>
         <Table::Header @size="small" />
