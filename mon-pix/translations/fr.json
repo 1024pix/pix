@@ -105,6 +105,7 @@
     },
 
     "challenge" : {
+      "title": "Épreuve {stepNumber} sur {totalChallengeNumber}",
       "actions": {
         "continue": "Poursuivre",
         "validate": "Je valide",
