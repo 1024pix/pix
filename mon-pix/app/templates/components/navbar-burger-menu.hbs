@@ -10,35 +10,35 @@
     </div>
   {{/if}}
   <LinkTo @route="user-tutorials" class="navbar-burger-menu-user-info__item">
-    Mes tutos
+    {{t 'navigation.user.tutorials'}}
   </LinkTo>
   <LinkTo @route="user-certifications" class="navbar-burger-menu-user-info__item">
-    Mes certifications
+    {{t 'navigation.user.certifications'}}
   </LinkTo>
 
   <LinkTo @route="logout" class="navbar-burger-menu-user-info__item navbar-burger-menu-user-info-item__logout">
-    Se déconnecter
+    {{t 'navigation.user.sign-out'}}
   </LinkTo>
 </div>
 
 {{#unless isInRouteWithoutLinksInHeader}}
   <div class="navbar-burger-menu navbar-burger-menu__navigation">
     <LinkTo @route="profile" class="navbar-burger-menu-navigation__item">
-      Profil
+       {{t 'navigation.main.profile'}}
     </LinkTo>
 
     <LinkTo @route="certifications" class="navbar-burger-menu-navigation__item">
-      Certification
+       {{t 'navigation.main.start-certification'}}
     </LinkTo>
 
-    <a href="https://pix.fr/aide" target="_blank" class="navbar-burger-menu-navigation__item">
-      Aide
+    <a href="{{t 'navigation.main.link-help'}}" target="_blank" class="navbar-burger-menu-navigation__item">
+       {{t 'navigation.main.help'}}
     </a>
 
   </div>
   <div class="navbar-burger-menu-navigation__item  navbar-burger-menu-navigation__bottom-item">
    <LinkTo @route="fill-in-campaign-code" class="button button--thin">
-     J'ai un code
+       {{t 'navigation.main.code'}}
     </LinkTo>
   </div>
 {{/unless}}
