@@ -172,6 +172,11 @@
       }
     },
 
+    "error": {
+      "content-text": "'<p>'You can reload the current page or '<LinkTo @route=\"login\">'go back to the homepage'</LinkTo>'.'</p><p>'You can also contact us with '<a href=\"https://support.pix.fr/support/tickets/new\">'the help center form'</a>' specifying the above error code in the description.'</p><p>'We apologize for the inconvenience.'</p><p>'The Pix Team.'</p>'",
+      "first-title": "Oups, an error has occured!"
+    },
+
     "sign-in" : {
       "title" : "Sign in",
       "actions": {
@@ -236,6 +241,7 @@
 
   "navigation": {
     "homepage": "Home page",
+    "back-to-homepage": "Back to homepage",
     "back-to-profile": "Back to profile",
     "pix": "Pix"
   }
