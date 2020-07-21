@@ -181,6 +181,7 @@
 
     "profile": {
       "title": "Votre profil",
+      "first-title": "Vous avez 16 compétences à tester. '<br>'On se concentre et c'est partix&nbsp;!",
       "resume-campaign-banner": {
         "actions": {
           "continue": "Continuer",

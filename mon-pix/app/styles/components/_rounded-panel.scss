@@ -112,6 +112,19 @@
   &__content {
     margin: 10px 0;
   }
+
+  &__content--first-title {
+    font-size: 1.625rem;
+    color: $grey-90;
+    font-family: $font-open-sans;
+    font-weight: $font-light;
+    letter-spacing: 0.009rem;
+    line-height: 2.75rem;
+    @include device-is('tablet') {
+      font-size: 2rem;
+      line-height: 3.375rem;
+    }
+  }
 }
 
 .rounded-panel__link {
