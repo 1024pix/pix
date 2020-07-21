@@ -71,9 +71,9 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
                   related: `/api/users/${userModelObject.id}/campaign-participations`
                 }
               },
-              'certification-profile': {
+              'is-certifiable': {
                 links: {
-                  related: `/api/users/${userModelObject.id}/certification-profile`
+                  related: `/api/users/${userModelObject.id}/is-certifiable`
                 }
               }
             }
@@ -136,9 +136,9 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
                   related: `/api/users/${userModelObject.id}/campaign-participations`
                 }
               },
-              'certification-profile': {
+              'is-certifiable': {
                 links: {
-                  related: `/api/users/${userModelObject.id}/certification-profile`
+                  related: `/api/users/${userModelObject.id}/is-certifiable`
                 }
               },
               'user-orga-settings': {
