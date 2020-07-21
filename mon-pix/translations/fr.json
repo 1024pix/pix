@@ -105,6 +105,12 @@
     },
 
     "challenge" : {
+      "actions": {
+        "continue": "Poursuivre",
+        "validate": "Je valide",
+        "skip": "Je passe"
+      },
+      "already-answered": "Vous avez déjà répondu à cette question",
       "certification" : {
         "title": "Certification {certificationNumber}",
         "banner": {
