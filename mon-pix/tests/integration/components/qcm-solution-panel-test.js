@@ -1,7 +1,7 @@
 import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it, before } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import _ from 'mon-pix/utils/lodash-custom';
@@ -13,7 +13,7 @@ let solution = null;
 
 describe('Integration | Component | qcm-solution-panel.js', function() {
 
-  setupRenderingTest();
+  setupIntlRenderingTest();
 
   describe('#Component should renders: ', function() {
 

@@ -1,14 +1,12 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
-import setupIntl from '../../helpers/setup-intl';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 describe('Integration | Component | user certifications detail header', function() {
-  setupRenderingTest();
-  setupIntl();
+  setupIntlRenderingTest();
 
   let certification;
   const PARENT_SELECTOR = '.user-certifications-detail-header';

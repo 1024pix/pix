@@ -2,14 +2,12 @@ import EmberObject from '@ember/object';
 import { A } from '@ember/array';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import setupIntl from '../../helpers/setup-intl';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 describe('Integration | Component | user-certifications-detail-competences-list', function() {
-  setupRenderingTest();
-  setupIntl();
+  setupIntlRenderingTest();
 
   let resultCompetenceTree;
   const PARENT_SELECTOR = '.user-certifications-detail-competences-list';
