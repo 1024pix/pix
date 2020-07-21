@@ -245,6 +245,12 @@ export default function() {
 
   this.get('/campaign-participations/:id');
 
+  this.get('/campaign-participations/:id/campaign-participation-result', (schema, request) => {
+    const campaignParticipationId = request.params.id;
+    const campaignParticipation = schema.campaignParticipations.find(campaignParticipationId);
+    return campaignParticipation.campaignParticipationResult;
+  });
+
   this.get('/campaign-participations/:id/analyses', (schema, request) => {
     const campaignParticipationId = request.params.id;
     const campaignParticipation = schema.campaignParticipations.find(campaignParticipationId);

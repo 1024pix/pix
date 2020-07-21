@@ -62,7 +62,7 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     type: 'PROFILES_COLLECTION',
     organizationId: 1,
     creatorId: 2,
-    idPixLabel: null,
+    idPixLabel: 'identifiant élève',
     title: null,
   });
 
@@ -73,7 +73,6 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     type: 'PROFILES_COLLECTION',
     organizationId: 3,
     creatorId: 4,
-    idPixLabel: 'identifiant élève',
     title: null,
   });
 

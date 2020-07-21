@@ -28,8 +28,7 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
     await render(hbs`<Routes::Authenticated::Campaigns::Details::Participants::ResultsItem @campaignParticipation={{campaignParticipation}} />`);
 
     // then
-    assert.dom('.participant-results-content__summary .content-text--big').hasText('-');
-    assert.dom('.table__empty').hasText('En attente de résultats');
+    assert.contains('En attente de résultats');
   });
 
   test('it should display a sentence when participant results have not been shared yet', async function(assert) {
@@ -57,8 +56,7 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
     await render(hbs`<Routes::Authenticated::Campaigns::Details::Participants::ResultsItem @campaignParticipation={{campaignParticipation}} />`);
 
     // then
-    assert.dom('.participant-results-content__summary .content-text--big').hasText('-');
-    assert.dom('.table__empty').hasText('En attente de résultats');
+    assert.contains('En attente de résultats');
   });
 
   test('it should display participant results', async function(assert) {
@@ -90,16 +88,11 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
     await render(hbs`<Routes::Authenticated::Campaigns::Details::Participants::ResultsItem @campaignParticipation={{campaignParticipation}} />`);
 
     // then
-    assert.dom('.participant-results-content__summary .participant-content:nth-child(1) .content-text--big').hasText('15');
-    assert.dom('.participant-results-content__summary .participant-content:nth-child(2) .content-text--big').hasText('30');
-    assert.dom('.participant-results-content__circle-chart-value').hasText('50%');
-
-    assert.dom('table tbody tr').exists({ count: 1 });
-    assert.dom('table tbody tr td span:first-child').hasClass('campaign-details-table__bullet--jaffa');
-    assert.dom('table tbody tr td span:nth-child(2)').hasText('Compétence 1');
-    assert.dom('table tbody tr td:nth-child(2)').containsText('50%');
-    assert.dom('table tbody tr td:nth-child(3)').hasText('5');
-    assert.dom('table tbody tr td:nth-child(4)').hasText('10');
+    assert.dom('[aria-label="Résultats par compétence"]').exists({ count: 1 });
+    assert.dom('[aria-label="Résultats par compétence"]').containsText('•');
+    assert.dom('[aria-label="Résultats par compétence"]').containsText('Compétence 1');
+    assert.dom('[aria-label="Résultats par compétence"]').containsText('50%');
+    assert.dom('[aria-label="Résultats par compétence"]').containsText('5');
+    assert.dom('[aria-label="Résultats par compétence"]').containsText('10');
   });
 });
-
