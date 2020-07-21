@@ -244,6 +244,9 @@
     "homepage": "Home page",
     "back-to-homepage": "Back to homepage",
     "back-to-profile": "Back to profile",
-    "pix": "Pix"
+    "pix": "Pix",
+    "user": {
+      "tutorials": "My tutorials"
+    }
   }
 }
