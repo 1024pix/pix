@@ -155,6 +155,31 @@
       }
     },
 
+    "checkpoint": {
+      "title" : {
+        "assessment-progress": "Assessment progress",
+        "end-of-the-assessment" : "End of the assessment"
+      },
+      "actions": {
+        "next-page": {
+          "continue": "Continue my course",
+          "results": "See my results"
+        }
+      },
+      "answers": {
+        "already-finished": {
+          "explanation": "You already answered all the questions during your previous courses. You can directly access your results.",
+          "info": "It's already finished but don't be confused!"
+        },
+        "header": "Your answers"
+      },
+      "completion-percentage": {
+        "label-1": "You completed ",
+        "label-2": " of your course.",
+        "legend": "course progress"
+      }
+    },
+
     "competence-details": {
       "title": "Competence",
       "actions": {
