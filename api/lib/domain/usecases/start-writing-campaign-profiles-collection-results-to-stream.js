@@ -66,28 +66,20 @@ function _getSharedColumns({
   campaignParticipationResultData,
   certificationProfile,
 }) {
-  const competenceStats = _.map(certificationProfile.userCompetences, (userCompetence) => {
-
-    return {
-      id: userCompetence.id,
-      earnedPix: userCompetence.pixScore,
-      level: userCompetence.estimatedLevel,
-    };
-  });
-
   const lineMap = {
     sharedAt: moment.utc(campaignParticipationResultData.sharedAt).format('YYYY-MM-DD'),
-    totalEarnedPix: _.sumBy(competenceStats, 'earnedPix'),
     isCertifiable: certificationProfile.isCertifiable() ? 'Oui' : 'Non',
     certifiableCompetencesCount: certificationProfile.getCertifiableCompetencesCount(),
   };
 
-  const addStatsColumns = (prefix) => ({ id, earnedPix, level }) => {
-    lineMap[`${prefix}_${id}_level`] = level;
-    lineMap[`${prefix}_${id}_earnedPix`] = earnedPix;
-  };
+  let totalEarnedPix = 0;
+  certificationProfile.userCompetences.forEach(({ id, pixScore, estimatedLevel }) => {
+    lineMap[`competence_${id}_level`] = estimatedLevel;
+    lineMap[`competence_${id}_earnedPix`] = pixScore;
+    totalEarnedPix += pixScore;
+  });
 
-  _.forEach(competenceStats, addStatsColumns('competence'));
+  lineMap['totalEarnedPix'] = totalEarnedPix;
 
   return lineMap;
 }
@@ -151,7 +143,7 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
   // - https://stackoverflow.com/a/38192870
-  const headerLine = '\uFEFF' + csvSerializer.serializeLine(_.map(headers, 'title'));
+  const headerLine = '\uFEFF' + csvSerializer.serializeLine(headers.map((header) => header.title));
 
   writableStream.write(headerLine);
 
@@ -159,27 +151,38 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
   // after this function's returned promise resolves. If we await the map
   // function, node will keep all the data in memory until the end of the
   // complete operation.
-  bluebird.map(campaignParticipationResultDatas, async (campaignParticipationResultData) => {
+  const campaignParticipationResultDataChunks = _.chunk(campaignParticipationResultDatas, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
+  bluebird.map(campaignParticipationResultDataChunks, async (campaignParticipationResultDataChunk) => {
+    const userIdsAndDates = Object.fromEntries(campaignParticipationResultDataChunk.map((campaignParticipationResultData) => {
+      return [
+        campaignParticipationResultData.userId,
+        campaignParticipationResultData.sharedAt,
+      ];
+    }));
 
-    const certificationProfile = await certificationProfileService.getCertificationProfile({
-      userId: campaignParticipationResultData.userId,
-      limitDate: campaignParticipationResultData.sharedAt,
+    const certificationProfiles = await certificationProfileService.getCertificationProfilesWithSnapshotting({
+      userIdsAndDates,
       competences: allCompetences,
       allowExcessPixAndLevels: false
     });
 
-    const csvLine = _createOneLineOfCSV({
-      headers,
-      organization,
-      campaign,
-      campaignParticipationResultData,
-      certificationProfile,
+    let csvLines = '';
+    for (const certificationProfile of certificationProfiles) {
+      const campaignParticipationResultData = campaignParticipationResultDataChunk.find(({ userId }) =>  userId === certificationProfile.userId);
+      const csvLine = _createOneLineOfCSV({
+        headers,
+        organization,
+        campaign,
+        campaignParticipationResultData,
+        certificationProfile,
 
-      participantFirstName: campaignParticipationResultData.participantFirstName,
-      participantLastName: campaignParticipationResultData.participantLastName,
-    });
+        participantFirstName: campaignParticipationResultData.participantFirstName,
+        participantLastName: campaignParticipationResultData.participantLastName,
+      });
+      csvLines = csvLines.concat(csvLine);
+    }
 
-    writableStream.write(csvLine);
+    writableStream.write(csvLines);
   }, { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }).then(() => {
     writableStream.end();
   }).catch((error) => {
