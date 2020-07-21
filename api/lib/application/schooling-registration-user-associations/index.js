@@ -11,18 +11,29 @@ exports.register = async function(server) {
         handler: schoolingRegistrationUserAssociationController.associate,
         validate: {
           options: {
-            allowUnknown: true
+            allowUnknown: false
           },
-          payload: Joi.object({
-            data: {
-              attributes: {
-                'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                'birthdate': Joi.date().format('YYYY-MM-DD').required(),
-                'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+          payload: Joi.alternatives().try(
+            Joi.object({
+              data: {
+                attributes: {
+                  'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                  'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                  'birthdate': Joi.date().format('YYYY-MM-DD').required(),
+                  'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                },
+                type: 'schooling-registration-user-associations'
               },
-            },
-          }),
+            }),
+            Joi.object({
+              data: {
+                attributes: {
+                  'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                },
+                type: 'schooling-registration-user-associations'
+              }
+            })
+          ),
           failAction: (request, h) => {
             const errorHttpStatusCode = 422;
             const jsonApiError = new JSONAPIError({
