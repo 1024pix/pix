@@ -177,6 +177,10 @@
       "first-title": "Oups, une erreur est survenue !"
     },
 
+    "user-tutorials": {
+      "title": "Mes tutos"
+    },
+
     "sign-in" : {
       "title" : "Connexion",
       "actions": {
