@@ -40,8 +40,8 @@ describe('Acceptance | competences results', function() {
       await visit(`/competences/${competenceId}/resultats/${assessmentId}`);
 
       // then
-      expect(find('.link__return-to')).to.exist;
-      expect(find('.link__return-to').getAttribute('href')).to.equal('/profil');
+      expect(find('.pix-return-to')).to.exist;
+      expect(find('.pix-return-to').getAttribute('href')).to.equal('/profil');
     });
 
     context('When user obtained 0 pix', async function() {

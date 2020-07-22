@@ -60,7 +60,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
       await visit(`/competences/${scorecardWithPoints.description}/details`);
 
       // when
-      await click('.link__return-to');
+      await click('.pix-return-to');
 
       // then
       expect(currentURL()).to.equal('/profil');
