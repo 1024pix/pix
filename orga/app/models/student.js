@@ -40,4 +40,9 @@ export default class Student extends Model {
   get isStudentAssociated() {
     return Boolean(this.email || this.username || this.isAuthenticatedFromGar);
   }
+
+  @computed('hasUsername', 'hasEmail', 'isAuthenticatedFromGar')
+  get isAuthenticatedFromGarOnly() {
+    return Boolean(!this.email && !this.username && this.isAuthenticatedFromGar);
+  }
 }

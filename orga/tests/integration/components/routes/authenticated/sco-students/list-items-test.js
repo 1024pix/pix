@@ -143,7 +143,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
     });
   });
 
-  module('when user is reconciled with username', function({ beforeEach }) {
+  module('when user authentification method is username', function({ beforeEach }) {
     beforeEach(function() {
       const store = this.owner.lookup('service:store');
       this.set('students', [
@@ -167,7 +167,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
     });
   });
 
-  module('when user is reconciled with email', function({ beforeEach }) {
+  module('when user authentification method is email', function({ beforeEach }) {
     beforeEach(function() {
       const store = this.owner.lookup('service:store');
       this.set('students', [
@@ -188,6 +188,38 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
 
     test('it should display actions menu for email', async function(assert) {
       assert.dom('[aria-label="Afficher les actions"]').exists();
+    });
+  });
+
+  module('when user authentification method is samlId', function({ beforeEach }) {
+    beforeEach(function() {
+      const store = this.owner.lookup('service:store');
+      this.set('students', [
+        store.createRecord('student', {
+          lastName: 'La Terreur',
+          firstName: 'Gigi',
+          birthdate: '2010-01-01',
+          email: null,
+          username: null,
+          isAuthenticatedFromGar: true,
+        })
+      ]);
+      return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+    });
+
+    test('it should display "Mediacentre" as authentication method', async function(assert) {
+      assert.dom('[aria-label="Élève"]').containsText('Mediacentre');
+    });
+
+    test('it should display the action menu', async function(assert) {
+      assert.dom('[aria-label="Afficher les actions"]').exists();
+    });
+
+    test('it should display the button generate username in the menu', async function(assert) {
+      await click('[aria-label="Afficher les actions"]');
+
+      // then
+      assert.contains('Générer identifiant');
     });
   });
 
