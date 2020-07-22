@@ -22,7 +22,18 @@
     "pix": "pix"
   },
 
-  "pages": {
+  "pages" : {
+
+    "assessment-results": {
+      "title": "Fin de test de démo",
+      "actions": {
+        "continue-pix-experience" : "Continuer mon expérience Pix",
+        "return-to-homepage" : "Revenir à l'accueil"
+      },
+      "answers": {
+        "header": "Vos réponses"
+      }
+    },
     "certificate": {
       "title": "Certificat Pix",
       "back-link": "Retour à mes certifications",
