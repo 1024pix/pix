@@ -1,4 +1,5 @@
 const organizationService = require('../../domain/services/organization-service');
+const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
 
 const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
@@ -131,5 +132,16 @@ module.exports = {
 
     return usecases.findPendingOrganizationInvitations({ organizationId })
       .then((invitations) => organizationInvitationSerializer.serialize(invitations));
+  },
+
+  async getSchoolingRegistrationsCsvTemplate(request, h) {
+    const organizationId = parseInt(request.params.id);
+    const token = request.query.accessToken;
+    const userId = tokenService.extractUserId(token);
+    const template = await usecases.getSchoolingRegistrationsCsvTemplate({ userId, organizationId });
+
+    return h.response(template)
+      .header('Content-Type', 'text/csv;charset=utf-8')
+      .header('Content-Disposition', 'attachment; filename=modele-import.csv');
   }
 };
