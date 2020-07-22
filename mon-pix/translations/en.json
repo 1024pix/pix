@@ -190,15 +190,16 @@
       "tutorial": {
         "actions": {
           "evaluate": {
-            "description": "Evaluate this tutorial",
-            "title": "Useful tutorial"
+            "extra-information": "Evaluate this tutorial",
+            "label": "Useful tutorial"
           },
           "remove": {
-            "title": "Remove"
+            "extra-information": "Remove from my tutorials",
+            "label": "Remove"
           },
           "save": {
-            "description": "Save in my tutorials",
-            "title": "Save"
+            "extra-information": "Save in my tutorials",
+            "label": "Save"
           }
         },
         "source": "By"

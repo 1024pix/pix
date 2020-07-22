@@ -107,14 +107,14 @@ describe('Unit | Component | tutorial item', function() {
 
   });
 
-  describe('#buttonText', function() {
+  describe('#buttonLabel', function() {
 
     it('should return "Enregistré" when the tutorial is not saved', function() {
       // when
-      component.buttonText;
+      component.buttonLabel;
 
       // then
-      sinon.assert.calledWith(intl.t, 'pages.user-tutorials.tutorial.actions.save.title');
+      sinon.assert.calledWith(intl.t, 'pages.user-tutorials.tutorial.actions.save.label');
     });
 
     it('should return "Enregistrer" when the tutorial is succesfully saved', function() {
@@ -122,22 +122,22 @@ describe('Unit | Component | tutorial item', function() {
       component.savingStatus = 'recorded';
 
       // when
-      component.buttonText;
+      component.buttonLabel;
 
       // then
-      sinon.assert.calledWith(intl.t, 'pages.user-tutorials.tutorial.actions.remove.title');
+      sinon.assert.calledWith(intl.t, 'pages.user-tutorials.tutorial.actions.remove.label');
     });
 
   });
 
-  describe('#buttonTitle', function() {
+  describe('#buttonExtraInformation', function() {
 
     it('should return "Enregistrer dans ma liste de tutos" when the tutorial has not already been saved', function() {
       // when
-      component.buttonTitle;
+      component.buttonExtraInformation;
 
       // then
-      sinon.assert.calledWith(intl.t, 'pages.user-tutorials.tutorial.actions.save.description');
+      sinon.assert.calledWith(intl.t, 'pages.user-tutorials.tutorial.actions.save.extra-information');
     });
 
     it('should return "Retirer" when the tutorial has been saved', function() {
@@ -145,10 +145,10 @@ describe('Unit | Component | tutorial item', function() {
       component.savingStatus = 'recorded';
 
       // when
-      component.buttonTitle;
+      component.buttonExtraInformation;
 
       // then
-      sinon.assert.calledWith(intl.t, 'pages.user-tutorials.tutorial.actions.remove.title');
+      sinon.assert.calledWith(intl.t, 'pages.user-tutorials.tutorial.actions.remove.extra-information');
     });
 
   });

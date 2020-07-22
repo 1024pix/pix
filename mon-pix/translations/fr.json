@@ -190,15 +190,16 @@
       "tutorial": {
         "actions": {
           "evaluate": {
-            "description": "Donner mon avis sur ce tuto",
-            "title": "Tuto utile"
+            "extra-information": "Donner mon avis sur ce tuto",
+            "label": "Tuto utile"
           },
           "remove": {
-            "title": "Retirer"
+            "extra-information": "Retirer de ma liste de tutos",
+            "label": "Retirer"
           },
           "save": {
-            "description": "Enregistrer dans ma liste de tutos",
-            "title": "Enregistrer"
+            "extra-information": "Enregistrer dans ma liste de tutos",
+            "label": "Enregistrer"
           }
         },
         "source": "Par"
