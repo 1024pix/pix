@@ -43,16 +43,16 @@ export default class TutorialItemComponent extends Component {
     return this.evaluationStatus === buttonStatusTypes.recorded;
   }
 
-  get buttonText() {
+  get buttonLabel() {
     return this.savingStatus === buttonStatusTypes.recorded ?
-      this.intl.t('pages.user-tutorials.tutorial.actions.remove.title') :
-      this.intl.t('pages.user-tutorials.tutorial.actions.save.title');
+      this.intl.t('pages.user-tutorials.tutorial.actions.remove.label') :
+      this.intl.t('pages.user-tutorials.tutorial.actions.save.label');
   }
 
-  get buttonTitle() {
+  get buttonExtraInformation() {
     return this.savingStatus === buttonStatusTypes.recorded ?
-      this.intl.t('pages.user-tutorials.tutorial.actions.remove.title') :
-      this.intl.t('pages.user-tutorials.tutorial.actions.save.description');
+      this.intl.t('pages.user-tutorials.tutorial.actions.remove.extra-information') :
+      this.intl.t('pages.user-tutorials.tutorial.actions.save.extra-information');
   }
 
   get isSaveButtonDisabled() {
