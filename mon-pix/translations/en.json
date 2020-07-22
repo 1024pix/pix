@@ -240,6 +240,7 @@
   },
 
   "navigation": {
+    "error": "Error",
     "homepage": "Home page",
     "back-to-homepage": "Back to homepage",
     "back-to-profile": "Back to profile",
