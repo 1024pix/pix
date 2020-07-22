@@ -8,7 +8,8 @@
   "common": {
     "actions" : {
       "cancel": "Cancel",
-      "close": "Close"
+      "close": "Close",
+      "quit": "Quit"
     },
     "form": {
       "mandatory": "mandatory",
@@ -104,11 +105,34 @@
     },
 
     "challenge" : {
+      "title": "Challenge {stepNumber} out of {totalChallengeNumber}",
+      "actions": {
+        "continue": "Continue",
+        "validate": "Validate",
+        "skip": "Skip"
+      },
+      "already-answered": "You already answerd this question",
       "certification" : {
         "title": "Certification {certificationNumber}",
         "banner": {
           "certification-number": "N° of certification"
         }
+      },
+      "embed-simulator": {
+        "actions": {
+          "launch": "Launch application",
+          "reset": "Reset"
+        },
+        "placeholder": "Loading application"
+      },
+      "progress-bar": {
+        "label": "Challenge"
+      },
+      "skip-error-message": {
+        "qcm": "Choose at least one answer to validate. Skip otherwise.",
+        "qcu": "Choose an answer to validate. Skip otherwise.",
+        "qroc": "Play the challenge to validate. Skip otherwise.",
+        "qrocm":  "Fill in all the answer fields to validate. Skip otherwise."
       }
     },
 

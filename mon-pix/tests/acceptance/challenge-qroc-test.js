@@ -38,7 +38,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
         // then
         expect(find('.alert')).to.exist;
-        expect(find('.alert').textContent.trim()).to.equal('Jouer l\'épreuve pour valider. Sinon, passer.');
+        expect(find('.alert').textContent.trim()).to.equal('Jouer l’épreuve pour valider. Sinon, passer.');
       });
 
       it('should go to the next challenge when user validates after finishing successfully the embed', async () => {
@@ -72,7 +72,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
         // then
         await click('.challenge-actions__action-validate');
-        expect(find('.alert').textContent.trim()).to.equal('Jouer l\'épreuve pour valider. Sinon, passer.');
+        expect(find('.alert').textContent.trim()).to.equal('Jouer l’épreuve pour valider. Sinon, passer.');
       });
     });
 
@@ -101,7 +101,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
         // then
         expect(find('.alert')).to.exist;
-        expect(find('.alert').textContent.trim()).to.equal('Jouer l\'épreuve pour valider. Sinon, passer.');
+        expect(find('.alert').textContent.trim()).to.equal('Jouer l’épreuve pour valider. Sinon, passer.');
       });
 
       it('should hide the alert error after the user interact with input text', async () => {
@@ -276,7 +276,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
         // then
         expect(find('.alert')).to.exist;
-        expect(find('.alert').textContent.trim()).to.equal('Jouer l\'épreuve pour valider. Sinon, passer.');
+        expect(find('.alert').textContent.trim()).to.equal('Jouer l’épreuve pour valider. Sinon, passer.');
       });
 
       it('should hide the alert error after the user interact with input text', async () => {

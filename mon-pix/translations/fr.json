@@ -8,7 +8,8 @@
   "common": {
     "actions" : {
       "cancel": "Annuler",
-      "close": "Fermer"
+      "close": "Fermer",
+      "quit": "Quitter"
     },
     "form": {
       "mandatory": "obligatoire",
@@ -104,11 +105,34 @@
     },
 
     "challenge" : {
+      "title": "Épreuve {stepNumber} sur {totalChallengeNumber}",
+      "actions": {
+        "continue": "Poursuivre",
+        "validate": "Je valide",
+        "skip": "Je passe"
+      },
+      "already-answered": "Vous avez déjà répondu à cette question",
       "certification" : {
         "title": "Certification {certificationNumber}",
         "banner": {
           "certification-number": "N° de certification"
         }
+      },
+      "embed-simulator": {
+        "actions": {
+          "launch": "Je lance l’application",
+          "reset": "Réinitialiser"
+        },
+        "placeholder": "Chargement de l'application en cours"
+      },
+      "progress-bar": {
+        "label": "Question"
+      },
+      "skip-error-message": {
+        "qcm": "Pour valider, sélectionner au moins une réponse. Sinon, passer.",
+        "qcu": "Pour valider, sélectionner une réponse. Sinon, passer.",
+        "qroc": "Jouer l’épreuve pour valider. Sinon, passer.",
+        "qrocm": "Pour valider, veuillez remplir tous les champs réponse. Sinon, passer."
       }
     },
 
