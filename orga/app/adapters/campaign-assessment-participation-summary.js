@@ -1,6 +1,6 @@
 import ApplicationAdapter from './application';
 
-export default class CampaignAssessmentParticipationSummary extends ApplicationAdapter {
+export default class CampaignAssessmentParticipationSummaryAdapter extends ApplicationAdapter {
 
   urlForQuery(query) {
     const { campaignId } = query;

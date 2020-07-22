@@ -1,6 +1,6 @@
 import ApplicationAdapter from './application';
 
-export default class OrganizationInvitationResponse extends ApplicationAdapter {
+export default class OrganizationInvitationResponseAdapter extends ApplicationAdapter {
   urlForCreateRecord(modelName, { adapterOptions }) {
     const { organizationInvitationId } = adapterOptions;
 
