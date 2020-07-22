@@ -1,9 +1,11 @@
 import { action } from '@ember/object';
 import ChallengeItemGeneric from './challenge-item-generic';
+import { inject as service } from '@ember/service';
 import classic from 'ember-classic-decorator';
 
 @classic
 class ChallengeItemQroc extends ChallengeItemGeneric {
+  @service intl;
 
   autoReplyAnswer = '';
 
@@ -16,7 +18,7 @@ class ChallengeItemQroc extends ChallengeItemGeneric {
   }
 
   _getErrorMessage() {
-    return 'Jouer l\'épreuve pour valider. Sinon, passer.';
+    return this.intl.t('pages.challenge.skip-error-message.qroc');
   }
 
   _addEventListener() {

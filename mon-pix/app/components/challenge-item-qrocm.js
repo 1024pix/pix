@@ -1,5 +1,6 @@
 import { action } from '@ember/object';
 import _ from 'lodash';
+import { inject as service } from '@ember/service';
 import classic from 'ember-classic-decorator';
 
 import ChallengeItemGeneric from './challenge-item-generic';
@@ -7,6 +8,8 @@ import jsyaml from 'js-yaml';
 
 @classic
 class ChallengeItemQrocm extends ChallengeItemGeneric {
+  @service intl;
+
   _hasError() {
     const allAnswers = this._getRawAnswerValue(); // ex. {"logiciel1":"word", "logiciel2":"excel", "logiciel3":""}
     return this._hasEmptyAnswerFields(allAnswers);
@@ -33,7 +36,7 @@ class ChallengeItemQrocm extends ChallengeItemGeneric {
   }
 
   _getErrorMessage() {
-    return 'Pour valider, veuillez remplir tous les champs réponse. Sinon, passer.';
+    return this.intl.t('pages.challenge.skip-error-message.qrocm');
   }
 
   @action

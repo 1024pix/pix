@@ -124,6 +124,12 @@
           "reset": "Réinitialiser"
         },
         "placeholder": "Chargement de l'application en cours"
+      },
+      "skip-error-message": {
+        "qcm": "Pour valider, sélectionner au moins une réponse. Sinon, passer.",
+        "qcu": "Pour valider, sélectionner une réponse. Sinon, passer.",
+        "qroc": "Jouer l’épreuve pour valider. Sinon, passer.",
+        "qrocm": "Pour valider, veuillez remplir tous les champs réponse. Sinon, passer."
       }
     },
 
