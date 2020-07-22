@@ -1,9 +1,12 @@
 import { action } from '@ember/object';
 import ChallengeItemGeneric from './challenge-item-generic';
+import { inject as service } from '@ember/service';
 import classic from 'ember-classic-decorator';
 
 @classic
 class ChallengeItemQcu extends ChallengeItemGeneric {
+  @service intl;
+
   _hasError() {
     return this._getAnswerValue().length < 1;
   }
@@ -17,7 +20,7 @@ class ChallengeItemQcu extends ChallengeItemGeneric {
   }
 
   _getErrorMessage() {
-    return 'Pour valider, sélectionner une réponse. Sinon, passer.';
+    return this.intl.t('pages.challenge.skip-error-message.qcu');
   }
 
   @action
