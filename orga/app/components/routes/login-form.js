@@ -1,7 +1,7 @@
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
-import _ from 'lodash';
+import get from 'lodash/get';
 
 export default class LoginForm extends Component {
 
@@ -54,7 +54,7 @@ export default class LoginForm extends Component {
       .catch((response) => {
         this.set('isErrorMessagePresent', true);
 
-        const nbErrors = _.get(response, 'errors.length', 0);
+        const nbErrors = get(response, 'errors.length', 0);
         if (nbErrors > 0) {
           this.set('errorMessage', response.errors[0].detail);
         } else {
