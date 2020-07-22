@@ -26,7 +26,7 @@ module('Integration | Component | routes/authenticated/campaign/details | collec
     this.set('campaignCollectiveResult', campaignCollectiveResult);
 
     // when
-    await render(hbs`{{routes/authenticated/campaigns/details/collective-results-tab campaignCollectiveResult=campaignCollectiveResult}}`);
+    await render(hbs`<Routes::Authenticated::Campaigns::Details::CollectiveResultsTab @campaignCollectiveResult={{campaignCollectiveResult}}/>`);
 
     // then
     assert.dom('table tbody').doesNotExist();
@@ -66,9 +66,9 @@ module('Integration | Component | routes/authenticated/campaign/details | collec
     this.set('sharedParticipationsCount', campaignReport.sharedParticipationsCount);
 
     // when
-    await render(hbs`{{routes/authenticated/campaigns/details/collective-results-tab 
-      campaignCollectiveResult=campaignCollectiveResult 
-      sharedParticipationsCount=sharedParticipationsCount}}`
+    await render(hbs`<Routes::Authenticated::Campaigns::Details::CollectiveResultsTab
+      @campaignCollectiveResult={{campaignCollectiveResult}}
+      @sharedParticipationsCount={{sharedParticipationsCount}}/>`
     );
 
     // then

@@ -22,7 +22,7 @@ module('Integration | Component | pagination-control', function(hooks) {
     this.set('meta', getMetaForPage(1));
 
     // when
-    await render(hbs`{{pagination-control pagination=meta}}`);
+    await render(hbs`<PaginationControl @pagination={{meta}}/>`);
 
     // then
     assert.dom('.page-navigation__arrow--previous').hasClass('page-navigation__arrow--disabled');
@@ -34,7 +34,7 @@ module('Integration | Component | pagination-control', function(hooks) {
     this.set('meta', getMetaForPage(2));
 
     // when
-    await render(hbs`{{pagination-control pagination=meta}}`);
+    await render(hbs`<PaginationControl @pagination={{meta}}/>`);
 
     // then
     assert.dom('.page-navigation__arrow--next').hasClass('page-navigation__arrow--disabled');
@@ -46,7 +46,7 @@ module('Integration | Component | pagination-control', function(hooks) {
     this.set('meta', getMetaForPage(2));
 
     // when
-    await render(hbs`{{pagination-control pagination=meta}}`);
+    await render(hbs`<PaginationControl @pagination={{meta}}/>`);
 
     // then
     assert.dom('.page-navigation__arrow--previous').hasNoClass('page-navigation__arrow--disabled');
