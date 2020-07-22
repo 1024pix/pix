@@ -851,6 +851,44 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   });
 
+  describe('#updateUsernameAndPassword', () => {
+
+    let userInDb;
+
+    beforeEach(async () => {
+      userInDb = databaseBuilder.factory.buildUser(userToInsert);
+      await databaseBuilder.commit();
+    });
+
+    it('should update the username and password', async () => {
+      // given
+      const username = 'blue.carter0701';
+      const generatedPassword = '1235Pix!';
+
+      // when
+      const updatedUser = await userRepository.updateUsernameAndPassword(userInDb.id, username, generatedPassword);
+
+      // then
+      expect(updatedUser).to.be.an.instanceOf(User);
+      expect(updatedUser.username).to.equal(username);
+      expect(updatedUser.password).to.equal(generatedPassword);
+      expect(updatedUser.shouldChangePassword).to.be.true;
+    });
+
+    it('should throw UserNotFoundError when user id not found', async () => {
+      // given
+      const wrongUserId = 0;
+      const username = 'blue.carter0701';
+      const generatedPassword = '1235Pix!';
+
+      // when
+      const error = await catchErr(userRepository.updateUsernameAndPassword)(wrongUserId, username, generatedPassword);
+
+      // then
+      expect(error).to.be.instanceOf(UserNotFoundError);
+    });
+  });
+
   describe('#isUserExistingByEmail', () => {
     const email = 'shi@fu.fr';
 
