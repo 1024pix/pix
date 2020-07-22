@@ -128,6 +128,7 @@ module.exports = injectDependencies({
   findPaginatedFilteredSchoolingRegistrations: require('./find-paginated-filtered-schooling-registrations'),
   flagSessionResultsAsSentToPrescriber: require('./flag-session-results-as-sent-to-prescriber'),
   generateUsername: require('./generate-username'),
+  generateUsernameWithTemporaryPassword: require('./generate-username-with-temporary-password'),
   getAnswer: require('./get-answer'),
   getAssessment: require('./get-assessment'),
   getAttendanceSheet: require('./get-attendance-sheet'),

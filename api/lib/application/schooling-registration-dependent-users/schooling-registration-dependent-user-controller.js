@@ -45,4 +45,27 @@ module.exports = {
 
     return h.response(schoolingRegistrationWithGeneratedPasswordResponse).code(200);
   },
+
+  async generateUsernameWithTemporaryPassword(request, h) {
+    const payload = request.payload.data.attributes;
+    const organizationId = parseInt(payload['organization-id']);
+    const schoolingRegistrationId = parseInt(payload['schooling-registration-id']);
+
+    const result = await usecases.generateUsernameWithTemporaryPassword({
+      schoolingRegistrationId,
+      organizationId,
+    });
+
+    const schoolingRegistrationWithGeneratedUsernamePasswordResponse = {
+      data: {
+        attributes: {
+          'generated-password': result.generatedPassword,
+          'username': result.username,
+        },
+        type: 'schooling-registration-dependent-user'
+      }
+    };
+
+    return h.response(schoolingRegistrationWithGeneratedUsernamePasswordResponse).code(200);
+  },
 };
