@@ -125,6 +125,9 @@
         },
         "placeholder": "Chargement de l'application en cours"
       },
+      "progress-bar": {
+        "label": "Question"
+      },
       "skip-error-message": {
         "qcm": "Pour valider, sélectionner au moins une réponse. Sinon, passer.",
         "qcu": "Pour valider, sélectionner une réponse. Sinon, passer.",
