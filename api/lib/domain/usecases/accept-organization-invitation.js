@@ -1,8 +1,9 @@
 const { roles } = require('../models/Membership');
 const { AlreadyExistingOrganizationInvitationError, AlreadyExistingMembershipError } = require('../../domain/errors');
+const _ = require('lodash');
 
-function getOrganizationRole({ hasMembers, invitationRole }) {
-  return invitationRole || (hasMembers ? roles.MEMBER : roles.ADMIN);
+function _pickDefaultRole(existingMemberships) {
+  return _.isEmpty(existingMemberships) ? roles.ADMIN : roles.MEMBER;
 }
 
 module.exports = async function acceptOrganizationInvitation({
@@ -31,7 +32,7 @@ module.exports = async function acceptOrganizationInvitation({
     if (existingMembership) {
       await membershipRepository.updateById({ id: existingMembership.id, membershipAttributes: { organizationRole: invitationRole } });
     } else {
-      const organizationRole = getOrganizationRole({ hasMembers: memberships.length, invitationRole });
+      const organizationRole = invitationRole || _pickDefaultRole(memberships);
       await membershipRepository.create(userFound.id, organizationId, organizationRole);
     }
 
