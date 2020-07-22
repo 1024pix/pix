@@ -1,6 +1,6 @@
 import ApplicationAdapter from './application';
 
-export default class StudentDependentUser extends ApplicationAdapter {
+export default class StudentDependentUserAdapter extends ApplicationAdapter {
   urlForCreateRecord() {
     return `${this.host}/${this.namespace}/student-dependent-users/password-update`;
   }

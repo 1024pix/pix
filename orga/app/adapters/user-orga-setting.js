@@ -1,6 +1,6 @@
 import ApplicationAdapter from './application';
 
-export default class UserOrgaSetting extends ApplicationAdapter {
+export default class UserOrgaSettingAdapter extends ApplicationAdapter {
   urlForCreateRecord(modelName, { adapterOptions }) {
     const { userId } = adapterOptions;
     return `${this.host}/${this.namespace}/user-orga-settings/${userId}`;
