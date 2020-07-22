@@ -75,6 +75,44 @@ exports.register = async function(server) {
         tags: ['api', 'schoolingRegistrationDependentUser'],
       }
     },
+    {
+      method: 'POST',
+      path: '/api/schooling-registration-dependent-users/generate-username-password',
+      config: {
+        pre: [{
+          method: securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents,
+          assign: 'belongsToScoOrganizationAndManageStudents'
+        }],
+        handler: schoolingRegistrationDependentUserController.generateUsernameWithTemporaryPassword,
+        validate: {
+          options: {
+            allowUnknown: true
+          },
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'organization-id': Joi.number().required(),
+                'schooling-registration-id': Joi.number().required()
+              }
+            }
+          }),
+          failAction: (request, h, err) => {
+            const errorHttpStatusCode = 400;
+            const jsonApiError = new JSONAPIError({
+              code: errorHttpStatusCode.toString(),
+              title: 'Bad request',
+              detail: err.details[0].message,
+            });
+            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
+          }
+        },
+        notes : [
+          '- Génère un identifiant pour l\'élève avec un mot de passe temporaire \n' +
+          '- La demande de génération d\'identifiant doit être effectuée par un membre de l\'organisation à laquelle appartient l\'élève.'
+        ],
+        tags: ['api', 'schoolingRegistrationDependentUser', 'username'],
+      }
+    }
   ]);
 };
 
