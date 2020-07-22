@@ -221,5 +221,4 @@ describe('Integration | Application | Organizations | Routes', () => {
       expect(response.statusCode).to.equal(204);
     });
   });
-
 });

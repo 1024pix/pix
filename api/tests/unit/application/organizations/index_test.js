@@ -19,6 +19,7 @@ describe('Unit | Router | organization-router', () => {
 
     sinon.stub(organizationController, 'findPaginatedFilteredOrganizations').returns('ok');
     sinon.stub(organizationController, 'sendInvitations').callsFake((request, h) => h.response().created());
+    sinon.stub(organizationController, 'getSchoolingRegistrationsCsvTemplate').callsFake((request, h) => h.response('ok').code(200));
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
@@ -119,6 +120,73 @@ describe('Unit | Router | organization-router', () => {
         // given
         const method = 'POST';
         const url = '/api/organizations/qsdqsd/schooling-registrations/import-csv';
+
+        // when
+        const response = await httpTestServer.request(method, url);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+  });
+
+  describe('GET /api/organizations/{id}/schooling-registrations/csv-template', () => {
+
+    it('should call the organization controller to csv template', async () => {
+      // given
+      const method = 'GET';
+      const url = '/api/organizations/1/schooling-registrations/csv-template?accessToken=token';
+
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(organizationController.getSchoolingRegistrationsCsvTemplate).to.have.been.calledOnce;
+    });
+
+    describe('When parameters are not valid', () => {
+
+      it('should throw an error when id is not a number', async () => {
+        // given
+        const method = 'GET';
+        const url = '/api/organizations/ABC/schooling-registrations/csv-template?accessToken=token';
+
+        // when
+        const response = await httpTestServer.request(method, url);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+      it('should throw an error when id is null', async () => {
+        // given
+        const method = 'GET';
+        const url = '/api/organizations/null/schooling-registrations/csv-template?accessToken=token';
+
+        // when
+        const response = await httpTestServer.request(method, url);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+      it('should throw an error when access token is not specified', async () => {
+        // given
+        const method = 'GET';
+        const url = '/api/organizations/ABC/schooling-registrations/csv-template';
+
+        // when
+        const response = await httpTestServer.request(method, url);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+      it('should throw an error when access token is null', async () => {
+        // given
+        const method = 'GET';
+        const url = '/api/organizations/null/schooling-registrations/csv-template?accessToken=null';
 
         // when
         const response = await httpTestServer.request(method, url);
