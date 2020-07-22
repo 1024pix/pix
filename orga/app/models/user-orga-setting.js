@@ -1,6 +1,7 @@
 import DS from 'ember-data';
+const { belongsTo, Model } = DS;
 
-export default DS.Model.extend({
-  user: DS.belongsTo('user'),
-  organization: DS.belongsTo('organization')
-});
+export default class UserOrgaSetting extends Model {
+  @belongsTo('user') user;
+  @belongsTo('organization') organization;
+}
