@@ -1,16 +1,11 @@
 'use strict';
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
-const environment = process.env.environment;
-const pluginsToBlacklist = environment === 'production' ? ['ember-freestyle'] : [];
 
 module.exports = function(defaults) {
   const app = new EmberApp(defaults, {
     babel: {
       sourceMaps: EmberApp.env() === 'development' ? 'inline' : false
-    },
-    addons: {
-      blacklist: pluginsToBlacklist
     },
 
     'ember-cli-template-lint': {
