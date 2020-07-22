@@ -266,6 +266,28 @@ exports.register = async (server) => {
         ],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/organizations/{id}/schooling-registrations/csv-template',
+      config: {
+        auth: false,
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required(),
+          }),
+          query: Joi.object({
+            accessToken: Joi.string().required(),
+          }).options({ allowUnknown: true }),
+        },
+        handler: organizationController.getSchoolingRegistrationsCsvTemplate,
+        notes: [
+          '- **Cette route est restreinte via un token dédié passé en paramètre avec l\'id de l\'utilisateur.**\n' +
+          '- Récupération d\'un template CSV qui servira à téléverser les inscriptions d’étudiants\n' +
+          '- L‘utilisateur doit avoir les droits d‘accès ADMIN à l‘organisation',
+        ],
+        tags: ['api', 'schooling-registrations']
+      }
+    },
   ]);
 };
 
