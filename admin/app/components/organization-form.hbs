@@ -16,7 +16,7 @@
 
     <div class="form-field form-group">
       <label class="form-field__label" for="organizationType">Type : </label>
-      <div id="organizationTypeSelector" class="form-field__select {{if @organization.errors.type 'is-invalid' ''}}">
+      <div id="organizationTypeSelector" class="form-field__select {{if @organization.errors.type 'is-invalid' ''}} organization-form__select-type">
         <PowerSelect
                 @options={{this.organizationTypes}}
                 @searchEnabled={{false}}
