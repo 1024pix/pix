@@ -125,6 +125,9 @@
         },
         "placeholder": "Loading application"
       },
+      "progress-bar": {
+        "label": "Challenge"
+      },
       "skip-error-message": {
         "qcm": "Choose at least one answer to validate. Skip otherwise.",
         "qcu": "Choose an answer to validate. Skip otherwise.",
