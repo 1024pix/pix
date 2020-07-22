@@ -59,14 +59,16 @@ describe('Unit | Service | Certification Service', function() {
   describe('#getCertificationResult', () => {
     const certificationCourseId = 1;
     const cleaCertificationStatus = 'someStatus';
+    const assessmentId = Symbol('assessmentId');
 
     beforeEach(() => {
       sinon.stub(cleaCertificationStatusRepository, 'getCleaCertificationStatus').resolves(cleaCertificationStatus);
+      sinon.stub(assessmentRepository, 'getIdByCertificationCourseId')
+        .withArgs(certificationCourseId).resolves(assessmentId);
     });
 
     context('when certification is finished', () => {
       let certificationCourse;
-      const assessmentId = Symbol('assessmentId');
 
       beforeEach(() => {
         certificationCourse = new CertificationCourse({
@@ -87,8 +89,6 @@ describe('Unit | Service | Certification Service', function() {
         assessmentResult.competenceMarks = [_buildCompetenceMarks(3, 27, '2', '2.1', 'rec2.1')];
         sinon.stub(assessmentResultRepository, 'findLatestByCertificationCourseIdWithCompetenceMarks')
           .withArgs({ certificationCourseId }).resolves(assessmentResult);
-        sinon.stub(assessmentRepository, 'getIdByCertificationCourseId')
-          .withArgs(certificationCourseId).resolves(assessmentId);
       });
 
       it('should return certification results with pix score, date and certified competences levels', async () => {
