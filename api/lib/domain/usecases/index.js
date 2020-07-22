@@ -151,6 +151,7 @@ module.exports = injectDependencies({
   getOrganizationInvitation: require('./get-organization-invitation'),
   getPrescriber: require('./get-prescriber'),
   getProgression: require('./get-progression'),
+  getSchoolingRegistrationsCsvTemplate: require('./get-schooling-registrations-csv-template'),
   getScorecard: require('./get-scorecard'),
   getSession: require('./get-session'),
   getSessionCertificationCandidates: require('./get-session-certification-candidates'),
