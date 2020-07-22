@@ -12,7 +12,7 @@ module('Unit | Utils | password validator', function(hooks) {
       assert.equal(isPasswordValid('A1'), false);
     });
 
-    test('should contain at least one digtest', function(assert) {
+    test('should contain at least one digit', function(assert) {
       assert.equal(isPasswordValid('Ab123456'), true);
       assert.equal(isPasswordValid('ABCDEFGH'), false);
     });

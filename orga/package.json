@@ -73,7 +73,6 @@
     "ember-sinon": "^4.1.1",
     "ember-source": "~3.18.1",
     "ember-truth-helpers": "^2.1.0",
-    "ember-xregexp": "^1.0.2",
     "eslint": "^6.4.0",
     "eslint-plugin-ember": "^7.7.1",
     "eslint-plugin-mocha": "^6.1.1",
