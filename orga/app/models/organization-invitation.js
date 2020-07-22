@@ -1,14 +1,15 @@
 import DS from 'ember-data';
 import { equal } from '@ember/object/computed';
+const { belongsTo, Model, attr } = DS;
 
-export default DS.Model.extend({
-  email: DS.attr('string'),
-  status: DS.attr('string'),
-  updatedAt: DS.attr('date'),
-  organizationName: DS.attr('string'),
+export default class OrganizationInvitation extends Model {
+  @attr('string') email;
+  @attr('string') status;
+  @attr('date') updatedAt;
+  @attr('string') organizationName;
 
-  organization: DS.belongsTo('organization'),
+  @belongsTo('organization') organization;
 
-  isPending: equal('status', 'pending'),
-  isAccepted: equal('status', 'accepted'),
-});
+  @equal('status', 'pending') isPending;
+  @equal('status', 'accepted') isAccepted;
+}

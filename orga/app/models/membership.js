@@ -1,19 +1,22 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
+import { equal } from '@ember/object/computed';
+const { belongsTo, Model, attr } = DS;
 
 const organizationRoleToDisplayRole = {
   ADMIN: 'Administrateur',
   MEMBER: 'Membre',
 };
 
-export default DS.Model.extend({
-  user: DS.belongsTo('user'),
-  organization: DS.belongsTo('organization'),
-  organizationRole: DS.attr('string'),
+export default class Membership extends Model {
+  @belongsTo('user') user;
+  @belongsTo('organization') organization;
+  @attr('string') organizationRole;
 
-  isAdmin: computed.equal('organizationRole', 'ADMIN'),
+  @equal('organizationRole', 'ADMIN') isAdmin;
 
-  displayRole: computed('organizationRole', function() {
+  @computed('organizationRole')
+  get displayRole() {
     return organizationRoleToDisplayRole[this.organizationRole];
-  }),
-});
+  }
+}

@@ -1,6 +1,7 @@
 import DS from 'ember-data';
+const { Model, attr } = DS;
 
-export default DS.Model.extend({
-  participationsCount: DS.attr('number'),
-  sharedParticipationsCount: DS.attr('number'),
-});
+export default class CampaignReport extends Model {
+  @attr('number') participationsCount;
+  @attr('number') sharedParticipationsCount;
+}
