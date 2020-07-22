@@ -1,80 +1,93 @@
-<div class="feedback-panel__view feedback-panel__view--link">
-  <a class="feedback-panel__open-link" {{action "toggleFeedbackForm"}} href="#">Signaler un problème</a>
-</div>
+<div class="feedback-panel">
+  <div class="feedback-panel__view feedback-panel__view--link">
+    <button class="feedback-panel__open-link"
+      {{on "click" this.toggleFeedbackForm}}
+      disabled={{this.isToggleFeedbackFormDisabled}}>
+      Signaler un problème
+    </button>
+  </div>
 
-{{#if isFormOpened}}
-  {{#if _isSubmitted}}
-    <div class="feedback-panel__view feedback-panel__view--mercix">
-      <p>Votre commentaire a bien été transmis à l’équipe du projet Pix.</p>
-      <p>Mercix !</p>
-    </div>
-  {{else}}
-    <div class="feedback-panel__view feedback-panel__view--form">
-      <div class="feedback-panel__form-description">
+  {{#if this.isFormOpened}}
+    {{#if this.isFormSubmitted}}
+      <div class="feedback-panel__view feedback-panel__view--mercix">
+        <p>Votre commentaire a bien été transmis à l’équipe du projet Pix.</p>
+        <p>Mercix !</p>
       </div>
-      {{#if @assessment.isCertification}}
-        <FeedbackCertificationSection/>
-      {{else}}
-        <p>Pix est à l’écoute de vos remarques pour améliorer les épreuves proposées !*</p>
-        <div class="feedback-panel__form-wrapper">
-          <form class="feedback-panel__form">
-            <div class="feedback-panel__group">
-              <div class="feedback-panel__category-selection">
-                <select class="feedback-panel__dropdown" {{action "displayCategoryOptions" on="change"}}>
-                  <option value="" disabled selected>J’ai un problème avec</option>
-                  {{#each categories as |category|}}
-                    <option value={{category.value}}>{{category.name}}</option>
-                  {{/each}}
-                </select>
-                {{#if displayQuestionDropdown}}
-                  <select class="feedback-panel__dropdown" {{action "showFeedback" on="change"}}>
-                    <option value="default" selected>Précisez</option>
-                    {{#each nextCategory as |question index|}}
-                      <option value={{index}}>{{question.name}}</option>
+    {{else}}
+      <div class="feedback-panel__view feedback-panel__view--form">
+        <div class="feedback-panel__form-description">
+        </div>
+        {{#if @assessment.isCertification}}
+          <FeedbackCertificationSection/>
+        {{else}}
+          <p>Pix est à l’écoute de vos remarques pour améliorer les épreuves proposées !*</p>
+          <div class="feedback-panel__form-wrapper">
+            <form class="feedback-panel__form" {{on "submit" this.sendFeedback}}>
+              <div class="feedback-panel__group">
+                <div class="feedback-panel__category-selection">
+                  <select class="feedback-panel__dropdown" {{on "change" this.displayCategoryOptions}}>
+                    <option value="" disabled selected>J’ai un problème avec</option>
+                    {{#each this.categories as |category|}}
+                      <option value={{category.value}}>{{category.name}}</option>
                     {{/each}}
                   </select>
-                {{/if}}
-                {{#if quickHelpInstructions}}
-                  <div class="feedback-panel__quick-help">
-                    {{fa-icon 'exclamation-circle' class="tuto-icon__warning"}}
-                    <p>{{{quickHelpInstructions}}}</p>
+                  {{#if this.displayQuestionDropdown}}
+                    <select class="feedback-panel__dropdown" {{on "change" this.showFeedback}}>
+                      <option value="default" selected>Précisez</option>
+                      {{#each this.nextCategory as |question index|}}
+                        <option value={{index}}>{{question.name}}</option>
+                      {{/each}}
+                    </select>
+                  {{/if}}
+                  {{#if this.quickHelpInstructions}}
+                    <div class="feedback-panel__quick-help">
+                      <FaIcon @icon='exclamation-circle' class="tuto-icon__warning"></FaIcon>
+                      <p>{{{this.quickHelpInstructions}}}</p>
+                    </div>
+                  {{/if}}
+                </div>
+              </div>
+              {{#if this.displayTextBox}}
+                <div class="feedback-panel__group">
+                  <p>Votre message est limité à 10 000 caractères.</p>
+                  <Textarea class="feedback-panel__field feedback-panel__field--content" @value={{this.content}}
+                            placeholder="Précisez" @maxlength="10000" @rows={{5}} />
+                </div>
+                {{#if this.emptyTextBoxMessageError}}
+                  <div class="alert alert-danger" role="alert">
+                    {{this.emptyTextBoxMessageError}}
                   </div>
                 {{/if}}
-              </div>
-            </div>
-            {{#if displayTextBox}}
-              <div class="feedback-panel__group">
-                <p>Votre message est limité à 10 000 caractères.</p>
-                <Textarea class="feedback-panel__field feedback-panel__field--content" @value={{_content}} placeholder="Précisez" @maxlength="10000" @rows={{5}} />
-              </div>
-              {{#if emptyTextBoxMessageError}}
-                <div class="alert alert-danger" role="alert">
-                  {{emptyTextBoxMessageError}}
-                </div>
-              {{/if}}
-              <button
-                class="feedback-panel__button feedback-panel__button--send"
-                {{action "sendFeedback"}}
-                disabled={{this.isSendButtonDisabled}}>
+                <button
+                        type="submit"
+                        class="feedback-panel__button feedback-panel__button--send"
+                        disabled={{this.isSendButtonDisabled}}>
                   Envoyer
-              </button>
-            {{/if}}
-          </form>
-        </div>
-
-        <div class="feedback-panel__form-legal-notice">
-          <div class="feedback-panel__form-description">
-            <p>* Soyez attentifs à ce que vous écrivez dans cette zone : restez objectif et factuel pour votre intérêt et celui des autres.</p>
-            <p>Notamment, ne saisissez aucune information, vous concernant ou concernant des tiers, sur la santé, la religion, les opinions politiques, syndicales et philosophiques, les origines ethniques, ainsi que sur les sanctions et condamnations.</p>
+                </button>
+              {{/if}}
+            </form>
           </div>
 
-          <div class="feedback-panel__form-description">
-            <p>Pix traite les données de cette zone pour gérer et analyser la difficulté rencontrée et bénéficier de votre retour d'expérience. Vous disposez de droits sur vos données qui peuvent être exercés auprès de <a href="mailto:dpo@pix.fr" class="link">dpo@pix.fr</a>.</p>
-            <p><a href="https://pix.fr/dp-formulaire-signalement-epreuve" target="_blank" class="link">Pour en savoir plus sur la protection de vos données et sur vos droits.</a></p>
-          </div>
-        </div>
-      {{/if}}
+          <div class="feedback-panel__form-legal-notice">
+            <div class="feedback-panel__form-description">
+              <p>* Soyez attentifs à ce que vous écrivez dans cette zone : restez objectif et factuel pour votre intérêt
+                et celui des autres.</p>
+              <p>Notamment, ne saisissez aucune information, vous concernant ou concernant des tiers, sur la santé, la
+                religion, les opinions politiques, syndicales et philosophiques, les origines ethniques, ainsi que sur
+                les sanctions et condamnations.</p>
+            </div>
 
-    </div>
+            <div class="feedback-panel__form-description">
+              <p>Pix traite les données de cette zone pour gérer et analyser la difficulté rencontrée et bénéficier de
+                votre retour d'expérience. Vous disposez de droits sur vos données qui peuvent être exercés auprès de <a
+                        href="mailto:dpo@pix.fr" class="link">dpo@pix.fr</a>.</p>
+              <p><a href="https://pix.fr/dp-formulaire-signalement-epreuve" target="_blank" class="link">Pour en savoir
+                plus sur la protection de vos données et sur vos droits.</a></p>
+            </div>
+          </div>
+        {{/if}}
+
+      </div>
+    {{/if}}
   {{/if}}
-{{/if}}
+</div>
