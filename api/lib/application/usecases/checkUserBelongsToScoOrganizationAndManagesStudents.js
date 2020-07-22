@@ -1,5 +1,5 @@
 const membershipRepository = require('../../infrastructure/repositories/membership-repository');
-const Organisation = require('../../domain/models/Organization')
+const Organisation = require('../../domain/models/Organization');
 
 module.exports = {
 
