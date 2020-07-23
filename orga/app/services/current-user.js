@@ -1,5 +1,5 @@
 import Service, { inject as service } from '@ember/service';
-import _ from 'lodash';
+import get from 'lodash/get';
 
 export default class CurrentUserService extends Service {
 
@@ -37,7 +37,7 @@ export default class CurrentUserService extends Service {
         await this._setOrganizationProperties(membership);
 
       } catch (error) {
-        if (_.get(error, 'errors[0].code') === 401) {
+        if (get(error, 'errors[0].code') === 401) {
           return this.session.invalidate();
         }
       }
