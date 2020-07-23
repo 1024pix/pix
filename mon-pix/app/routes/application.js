@@ -27,7 +27,7 @@ export default Route.extend(ApplicationRouteMixin, {
   },
 
   async beforeModel(transition) {
-    this._setLocale();
+    this._setLocale(transition.to.queryParams);
     await this._checkForURLAuthentication(transition);
     return this._loadCurrentUser();
   },
@@ -44,9 +44,9 @@ export default Route.extend(ApplicationRouteMixin, {
   // https://github.com/simplabs/ember-simple-auth/blob/a3d51d65b7d8e3a2e069c0af24aca2e12c7c3a95/addon/mixins/application-route-mixin.js#L132
   sessionInvalidated() {},
 
-  _setLocale() {
+  _setLocale(queryParams) {
     const defaultLocale = 'fr';
-    const locale = transition.to.queryParams.lang || defaultLocale;
+    const locale = queryParams.lang || defaultLocale;
     this.intl.setLocale([locale, defaultLocale]);
     this.moment.setLocale(locale);
   },
