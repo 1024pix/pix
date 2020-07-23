@@ -246,6 +246,7 @@
           "part1": "Use a bookmark",
           "part2": "to save a tuto"
         },
+        "image-link": "images/user-tutorials/illustration.svg",
         "title": "No tuto saved"
       },
       "tutorial": {
