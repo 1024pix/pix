@@ -249,22 +249,25 @@
         "image-link": "images/user-tutorials/illustration.svg",
         "title": "Vous n'avez encore rien enregistré"
       },
-      "tutorial": {
-        "actions": {
-          "evaluate": {
-            "extra-information": "Donner mon avis sur ce tuto",
-            "label": "Tuto utile"
+      "list": {
+        "title": "Ma liste",
+        "tutorial": {
+          "actions": {
+            "evaluate": {
+              "extra-information": "Donner mon avis sur ce tuto",
+              "label": "Tuto utile"
+            },
+            "remove": {
+              "extra-information": "Retirer de ma liste de tutos",
+              "label": "Retirer"
+            },
+            "save": {
+              "extra-information": "Enregistrer dans ma liste de tutos",
+              "label": "Enregistrer"
+            }
           },
-          "remove": {
-            "extra-information": "Retirer de ma liste de tutos",
-            "label": "Retirer"
-          },
-          "save": {
-            "extra-information": "Enregistrer dans ma liste de tutos",
-            "label": "Enregistrer"
-          }
-        },
-        "source": "Par"
+          "source": "Par"
+        }
       }
     }
   },
