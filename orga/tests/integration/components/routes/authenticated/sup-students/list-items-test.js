@@ -3,6 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, fillIn } from '@ember/test-helpers';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
+import Service from '@ember/service';
 
 module('Integration | Component | routes/authenticated/sup-students | list-items', function(hooks) {
   setupRenderingTest(hooks);
@@ -99,4 +100,38 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
       assert.equal(call.args[2].target.value, 'bob');
     });
   });
+
+  module('import button', function() {
+    module('whe user is not admin in the organization', function() {
+      test('it does not display the import button', async function(assert) {
+        this.owner.register('service:current-user', Service.extend({ isAdminInOrganization: false }));
+
+        const importStudents = sinon.spy();
+        this.set('importStudents', importStudents);
+        this.set('students', []);
+
+        // when
+        await render(hbs`<Routes::Authenticated::SupStudents::ListItems @students={{students}} @importStudents={{importStudents}} @triggerFiltering={{noop}}/>`);
+
+        // then
+        assert.notContains('Importer (.csv)');
+      });
+    });
+    module('whe user is admin in the organization', function() {
+      test('it displays the import button', async function(assert) {
+        this.owner.register('service:current-user', Service.extend({ isAdminInOrganization: true }));
+
+        const importStudents = sinon.spy();
+        this.set('importStudents', importStudents);
+        this.set('students', []);
+
+        // when
+        await render(hbs`<Routes::Authenticated::SupStudents::ListItems @students={{students}} @importStudents={{importStudents}} @triggerFiltering={{noop}}/>`);
+
+        // then
+        assert.contains('Importer (.csv)');
+      });
+    });
+  });
+
 });

@@ -148,7 +148,34 @@ exports.register = async (server) => {
       path: '/api/organizations/{id}/import-students',
       config: {
         pre: [{
-          method: securityPreHandlers.checkUserIsAdminInOrganizationManagingStudents,
+          method: securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents,
+          assign: 'isAdminInOrganizationManagingStudents'
+        }],
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required()
+          }),
+        },
+        payload: {
+          maxBytes: 1048576 * 10, // 10MB
+          parse: 'gunzip',
+        },
+        handler: organizationController.importSchoolingRegistrationsFromSIECLE,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés et responsables de l\'organisation**\n' +
+          '- Elle permet d\'importer des inscriptions d\'élèves, en masse, depuis un fichier au format SIECLE\n' +
+          '- Elle ne retourne aucune valeur de retour' +
+          '- L\'utilisation de cette route est dépréciée. Utiliser \'/api/organizations/{id}/schooling-registrations/import-siecle\''
+        ],
+        tags: ['api', 'students']
+      }
+    },
+    {
+      method: 'POST',
+      path: '/api/organizations/{id}/schooling-registrations/import-siecle',
+      config: {
+        pre: [{
+          method: securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents ,
           assign: 'isAdminInOrganizationManagingStudents'
         }],
         validate: {
@@ -166,7 +193,33 @@ exports.register = async (server) => {
           '- Elle permet d\'importer des inscriptions d\'élèves, en masse, depuis un fichier au format SIECLE\n' +
           '- Elle ne retourne aucune valeur de retour'
         ],
-        tags: ['api', 'students']
+        tags: ['api', 'schooling-registrations']
+      }
+    },
+    {
+      method: 'POST',
+      path: '/api/organizations/{id}/schooling-registrations/import-csv',
+      config: {
+        pre: [{
+          method: securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents,
+          assign: 'isAdminInOrganizationManagingStudents'
+        }],
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required()
+          }),
+        },
+        payload: {
+          maxBytes: 1048576 * 10, // 10MB
+          parse: 'gunzip',
+        },
+        handler: organizationController.importHigherEducationRegistrations,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés et responsables de l\'organisation**\n' +
+          '- Elle permet d\'importer des inscriptions d\'étudiants, en masse, depuis un fichier au format csv\n' +
+          '- Elle ne retourne aucune valeur de retour'
+        ],
+        tags: ['api', 'schooling-registrations']
       }
     },
     {
