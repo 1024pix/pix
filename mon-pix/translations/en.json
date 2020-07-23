@@ -177,35 +177,6 @@
       "first-title": "Oups, an error has occured!"
     },
 
-    "user-tutorials": {
-      "title": "My tutorials",
-      "description": "Improve with tutorials",
-      "empty-list-info": {
-        "description": {
-          "part1": "Use a bookmark",
-          "part2": "to save a tuto"
-        },
-        "title": "No tuto saved"
-      },
-      "tutorial": {
-        "actions": {
-          "evaluate": {
-            "extra-information": "Evaluate this tutorial",
-            "label": "Useful tutorial"
-          },
-          "remove": {
-            "extra-information": "Remove from my tutorials",
-            "label": "Remove"
-          },
-          "save": {
-            "extra-information": "Save in my tutorials",
-            "label": "Save"
-          }
-        },
-        "source": "By"
-      }
-    },
-
     "sign-in" : {
       "title" : "Sign in",
       "actions": {
@@ -264,6 +235,35 @@
       "legal-information": "By signing in, you allow Pix to store your data. They will be kept for a maximum of 5 years, starting with your last sign in date, and will then be archived according to statutory limitation periods (5 years). They are only used by Pix and Pix's service providers. In accordance to the law « informatique et libertés », you can exercise your right of access to data and correct them by sending an email to dpd@pix.fr.",
       "subtitle": {
         "link": "sign in"
+      }
+    },
+
+    "user-tutorials": {
+      "title": "My tutorials",
+      "description": "Improve with tutorials",
+      "empty-list-info": {
+        "description": {
+          "part1": "Use a bookmark",
+          "part2": "to save a tuto"
+        },
+        "title": "No tuto saved"
+      },
+      "tutorial": {
+        "actions": {
+          "evaluate": {
+            "extra-information": "Evaluate this tutorial",
+            "label": "Useful tutorial"
+          },
+          "remove": {
+            "extra-information": "Remove from my tutorials",
+            "label": "Remove"
+          },
+          "save": {
+            "extra-information": "Save in my tutorials",
+            "label": "Save"
+          }
+        },
+        "source": "By"
       }
     }
   },
