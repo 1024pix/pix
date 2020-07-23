@@ -14,9 +14,9 @@ export default class Application extends JSONAPIAdapter.extend(DataAdapterMixin)
   currentDomain;
   @service
   ajaxQueue;
+  @service intl;
 
   host = ENV.APP.API_HOST;
-  locale = ENV.APP.LOCALE;
   namespace = 'api';
 
   get headers() {
@@ -33,11 +33,11 @@ export default class Application extends JSONAPIAdapter.extend(DataAdapterMixin)
   }
 
   get _locale() {
-    if (this.locale === 'fr') {
+    if (this.intl.get('locale') === 'fr') {
       return this.currentDomain.getExtension() === FRENCH_DOMAIN_EXTENSION ?
         FRENCH_LOCALE
         : FRENCHSPOKEN_LOCALE;
     }
-    return this.locale;
+    return this.intl.get('locale');
   }
 }
