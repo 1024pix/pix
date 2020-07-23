@@ -1,7 +1,6 @@
 const getCorrectionForAnswer = require('../../../../lib/domain/usecases/get-correction-for-answer');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Answer = require('../../../../lib/domain/models/Answer');
-const Correction = require('../../../../lib/domain/models/Correction');
 const { AssessmentNotCompletedError, NotFoundError } = require('../../../../lib/domain/errors');
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 
@@ -10,105 +9,94 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
   const assessmentRepository = { get: () => undefined };
   const answerRepository = { get: () => undefined };
   const correctionRepository = { getByChallengeId: () => undefined };
+  const assessmentId = 1;
+  const answerId = 2;
+  const challengeId = 12;
+  let answer;
 
   beforeEach(() => {
     sinon.stub(assessmentRepository, 'get');
     sinon.stub(answerRepository, 'get');
     sinon.stub(correctionRepository, 'getByChallengeId');
+
+    answer = new Answer({ assessmentId, challengeId: 12 });
+    answerRepository.get.withArgs(answerId).resolves(answer);
   });
 
   context('when assessment is not completed', () => {
 
-    context('and when the assessment is not a CAMPAIGN', () => {
+    context('and when the assessment is of type CERTIFICATION', () => {
       it('should reject with a assessment not completed error', async () => {
         // given
-        const userId = 'userId';
-        const assessment = new Assessment({ state: 'started', userId });
-        const answer = new Answer({ assessmentId: 1, challengeId: 12 });
-        assessmentRepository.get.resolves(assessment);
-        answerRepository.get.resolves(answer);
+        const assessment = domainBuilder.buildAssessment({
+          state: 'started',
+          type: Assessment.types.CERTIFICATION,
+        });
+        assessmentRepository.get.withArgs(assessmentId).resolves(assessment);
 
         // when
         const error = await catchErr(getCorrectionForAnswer)({
           assessmentRepository,
           answerRepository,
           correctionRepository,
-          answerId: 2,
-          userId
+          answerId,
+          userId: assessment.userId,
         });
 
         // then
         expect(error).to.be.instanceOf(AssessmentNotCompletedError);
-        expect(assessmentRepository.get).to.have.been.calledWith(1);
-        expect(answerRepository.get).to.have.been.calledWith(2);
-        expect(correctionRepository.getByChallengeId).to.not.have.been.called;
       });
     });
 
-    context('and when the assessment is CAMPAIGN', () => {
+    context('and when the assessment is of type CAMPAIGN', () => {
       it('should return the content', async () => {
         // given
-        const assessmentId = 1;
-        const challengeId = 12;
-        const userId = 'userId';
-        const unsavedTutorial = domainBuilder.buildTutorial({ id: 'unsaved-tutorial-id' });
-        const savedTutorial = domainBuilder.buildTutorial({ id: 'saved-tutorial-id' });
-        const assessment = new Assessment({ state: 'started', type: Assessment.types.CAMPAIGN, userId });
-        const answer = new Answer({ assessmentId, challengeId });
-        const correction = new Correction({ id: 123, tutorials: [unsavedTutorial], learningMoreTutorials: [savedTutorial] });
-        assessmentRepository.get.resolves(assessment);
-        answerRepository.get.resolves(answer);
-        correctionRepository.getByChallengeId.resolves(correction);
-        const expectedCorrection = new Correction({
-          id: 123,
-          tutorials: [{ ...unsavedTutorial }],
-          learningMoreTutorials: [{ ...savedTutorial }]
+        const assessment = domainBuilder.buildAssessment({
+          state: 'started',
+          type: Assessment.types.CAMPAIGN
         });
+        assessmentRepository.get.withArgs(assessmentId).resolves(assessment);
+
+        const correction = Symbol('A correction');
+        correctionRepository.getByChallengeId.withArgs({ challengeId, userId: assessment.userId }).resolves(correction);
 
         // when
         const responseSolution = await getCorrectionForAnswer({
           assessmentRepository,
           answerRepository,
           correctionRepository,
-          answerId: 2,
-          userId
+          answerId,
+          userId: assessment.userId,
         });
 
         // then
-        expect(assessmentRepository.get).to.have.been.calledWith(assessmentId);
-        expect(answerRepository.get).to.have.been.calledWith(2);
-        expect(correctionRepository.getByChallengeId).to.have.been.calledWith({ challengeId, userId });
-        expect(responseSolution).to.deep.equal(expectedCorrection);
+        expect(responseSolution).to.equal(correction);
       });
     });
 
     context('and when the assessment is COMPETENCE_EVALUATION', () => {
       it('should return the content', async () => {
         // given
-        const assessmentId = 1;
-        const challengeId = 12;
-        const userId = 'userId';
-        const assessment = new Assessment({ state: 'started', type: Assessment.types.COMPETENCE_EVALUATION, userId });
-        const answer = new Answer({ assessmentId, challengeId });
-        const correction = new Correction({ id: 123 });
-        assessmentRepository.get.resolves(assessment);
-        answerRepository.get.resolves(answer);
-        correctionRepository.getByChallengeId.resolves(correction);
+        const assessment = domainBuilder.buildAssessment({
+          state: 'started',
+          type: Assessment.types.COMPETENCE_EVALUATION
+        });
+        assessmentRepository.get.withArgs(assessmentId).resolves(assessment);
+
+        const correction = Symbol('A correction');
+        correctionRepository.getByChallengeId.withArgs({ challengeId, userId: assessment.userId }).resolves(correction);
 
         // when
         const responseSolution = await getCorrectionForAnswer({
           assessmentRepository,
           answerRepository,
           correctionRepository,
-          answerId: 2,
-          userId,
+          answerId,
+          userId: assessment.userId,
         });
 
         // then
-        expect(assessmentRepository.get).to.have.been.calledWith(assessmentId);
-        expect(answerRepository.get).to.have.been.calledWith(2);
-        expect(correctionRepository.getByChallengeId).to.have.been.calledWith({ challengeId, userId });
-        expect(responseSolution).to.deep.equal(new Correction({ id: 123 }));
+        expect(responseSolution).to.equal(correction);
       });
     });
   });
@@ -117,30 +105,23 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
 
     it('should return with the correction', async () => {
       // given
-      const assessmentId = 1;
-      const challengeId = 12;
-      const userId = 'userId';
-      const assessment = new Assessment({ state: 'completed', userId });
-      const answer = new Answer({ assessmentId, challengeId });
-      const correction = new Correction({ id: 123 });
-      assessmentRepository.get.resolves(assessment);
-      answerRepository.get.resolves(answer);
-      correctionRepository.getByChallengeId.resolves(correction);
+      const assessment = domainBuilder.buildAssessment({ state: 'completed' });
+      assessmentRepository.get.withArgs(assessmentId).resolves(assessment);
+
+      const correction = Symbol('A correction');
+      correctionRepository.getByChallengeId.withArgs({ challengeId, userId: assessment.userId }).resolves(correction);
 
       // when
-      const responseSolution = await getCorrectionForAnswer({
+      const result = await getCorrectionForAnswer({
         assessmentRepository,
         answerRepository,
         correctionRepository,
-        answerId: 2,
-        userId
+        answerId,
+        userId: assessment.userId,
       });
 
       // then
-      expect(assessmentRepository.get).to.have.been.calledWith(assessmentId);
-      expect(answerRepository.get).to.have.been.calledWith(2);
-      expect(correctionRepository.getByChallengeId).to.have.been.calledWith({ challengeId, userId });
-      expect(responseSolution).to.deep.equal(new Correction({ id: 123 }));
+      expect(result).to.equal(correction);
     });
   });
 
@@ -148,22 +129,16 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
 
     it('should throw a NotFound error', async () => {
       // given
-      const assessmentId = 1;
-      const challengeId = 12;
-      const userId = 'userId';
-      const assessment = new Assessment({ state: 'completed', userId });
-      const answer = new Answer({ assessmentId, challengeId });
-      assessmentRepository.get.resolves(assessment);
-      answerRepository.get.resolves(answer);
-      correctionRepository.getByChallengeId.resolves({});
+      const assessment = domainBuilder.buildAssessment({ state: 'completed' });
+      assessmentRepository.get.withArgs(assessmentId).resolves(assessment);
 
       // when
       const error = await catchErr(getCorrectionForAnswer)({
         assessmentRepository,
         answerRepository,
         correctionRepository,
-        answerId: 2,
-        userId: userId + 2
+        answerId,
+        userId: 'wrong user id'
       });
 
       // then
@@ -175,22 +150,16 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
 
     it('should throw a NotFound error', async () => {
       // given
-      const assessmentId = 1;
-      const challengeId = 12;
-      const userId = 'userId';
-      const assessment = new Assessment({ state: 'completed', userId });
-      const answer = new Answer({ assessmentId, challengeId });
-      assessmentRepository.get.resolves(assessment);
-      answerRepository.get.resolves(answer);
-      correctionRepository.getByChallengeId.resolves({});
+      const assessment = domainBuilder.buildAssessment({ state: 'completed' });
+      assessmentRepository.get.withArgs(assessmentId).resolves(assessment);
 
       // when
       const error = await catchErr(getCorrectionForAnswer)({
         assessmentRepository,
         answerRepository,
         correctionRepository,
-        answerId: 'salut',
-        userId: userId,
+        answerId: 'not an integer id',
+        userId: assessment.userId,
       });
 
       // then
