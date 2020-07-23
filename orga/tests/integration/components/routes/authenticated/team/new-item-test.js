@@ -14,7 +14,7 @@ module('Integration | Component | routes/authenticated/team/new-item', function(
 
   test('it should contain email input and validation button', async function(assert) {
     // when
-    await render(hbs`{{routes/authenticated/team/new-item createOrganizationInvitation=(action createOrganizationInvitationSpy) cancel=(action cancelSpy)}}`);
+    await render(hbs`<Routes::Authenticated::Team::NewItem @createOrganizationInvitation={{createOrganizationInvitationSpy}} @cancel={{cancelSpy}}/>`);
 
     // then
     assert.dom('#email').exists();
@@ -25,7 +25,7 @@ module('Integration | Component | routes/authenticated/team/new-item', function(
   test('it should bind organizationInvitation properties with email form input', async function(assert) {
     // given
     this.set('organizationInvitation', EmberObject.create({ organizationInvitation: { email: 'toto@org.fr' } }));
-    await render(hbs`{{routes/authenticated/team/new-item organizationInvitation=organizationInvitation createOrganizationInvitation=(action createOrganizationInvitationSpy) cancel=(action cancelSpy)}}`);
+    await render(hbs`<Routes::Authenticated::Team::NewItem @organizationInvitation={{organizationInvitation}} @createOrganizationInvitation={{createOrganizationInvitationSpy}} @cancel={{cancelSpy}}/>`);
 
     // when
     await fillIn('#email', 'dev@example.net');

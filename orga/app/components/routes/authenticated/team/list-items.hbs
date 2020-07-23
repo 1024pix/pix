@@ -39,7 +39,7 @@
       {{#if @memberships}}
         <tbody>
           {{#each @memberships as |membership|}}
-            <Routes::Authenticated::Team::Items @membership={{membership}} @tagName="tr" aria-label="Membre"/>
+            <Routes::Authenticated::Team::Items @membership={{membership}}/>
           {{/each}}
         </tbody>
       {{/if}}

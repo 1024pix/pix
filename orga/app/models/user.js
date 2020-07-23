@@ -1,18 +1,19 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
+const { belongsTo, Model, attr, hasMany } = DS;
 
-export default DS.Model.extend({
+export default class User extends Model {
+  @attr('string') email;
+  @attr('string') firstName;
+  @attr('string') lastName;
+  @attr('string') password;
+  @attr('boolean') cgu;
+  @attr('boolean') pixOrgaTermsOfServiceAccepted;
+  @hasMany('membership') memberships;
+  @belongsTo('user-orga-setting') userOrgaSettings;
 
-  email: DS.attr('string'),
-  firstName: DS.attr('string'),
-  lastName: DS.attr('string'),
-  password: DS.attr('string'),
-  cgu: DS.attr('boolean'),
-  pixOrgaTermsOfServiceAccepted: DS.attr('boolean'),
-  memberships: DS.hasMany('membership'),
-  userOrgaSettings: DS.belongsTo('user-orga-setting'),
-
-  fullName: computed('firstName', 'lastName', function() {
-    return `${this.get('firstName')} ${this.get('lastName')}`;
-  })
-});
+  @computed('firstName', 'lastName')
+  get fullName() {
+    return `${this.firstName} ${this.lastName}`;
+  }
+}

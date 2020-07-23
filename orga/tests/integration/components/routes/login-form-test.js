@@ -27,7 +27,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
 
   test('it should ask for email and password', async function(assert) {
     // when
-    await render(hbs`{{routes/login-form}}`);
+    await render(hbs`<Routes::LoginForm/>`);
 
     // then
     assert.dom('#login-email').exists();
@@ -36,7 +36,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
 
   test('it should not display error message', async function(assert) {
     // when
-    await render(hbs`{{routes/login-form}}`);
+    await render(hbs`<Routes::LoginForm/>`);
 
     // then
     assert.dom('#login-form-error-message').doesNotExist();
@@ -57,7 +57,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
     test('it should call authentication service with appropriate parameters', async function(assert) {
       // given
       const sessionServiceObserver = this.owner.lookup('service:session');
-      await render(hbs`{{routes/login-form organizationInvitationId=1 organizationInvitationCode='C0D3'}}`);
+      await render(hbs`<Routes::LoginForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
       await fillIn('#login-email', 'pix@example.net');
       await fillIn('#login-password', 'JeMeLoggue1024');
 
@@ -95,7 +95,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
     test('it should be ok and call authentication service with appropriate parameters', async function(assert) {
       // given
       const sessionServiceObserver = this.owner.lookup('service:session');
-      await render(hbs`{{routes/login-form isWithInvitation=true organizationInvitationId=1 organizationInvitationCode='C0D3'}}`);
+      await render(hbs`<Routes::LoginForm @isWithInvitation=true @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
       await fillIn('#login-email', 'pix@example.net');
       await fillIn('#login-password', 'JeMeLoggue1024');
 
@@ -120,7 +120,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
 
     sessionStub.prototype.authenticate = () => reject(msgErrorInvalidCredentiel);
 
-    await render(hbs`{{routes/login-form}}`);
+    await render(hbs`<Routes::LoginForm/>`);
     await fillIn('#login-email', 'pix@example.net');
     await fillIn('#login-password', 'Mauvais mot de passe');
 
@@ -141,7 +141,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
 
     sessionStub.prototype.authenticate = () => reject(msgErrorNotLinkedOrganization);
 
-    await render(hbs`{{routes/login-form}}`);
+    await render(hbs`<Routes::LoginForm/>`);
     await fillIn('#login-email', 'pix@example.net');
     await fillIn('#login-password', 'pix123');
 
@@ -161,7 +161,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
 
     hooks.beforeEach(async function() {
       // given
-      await render(hbs`{{routes/login-form}});`);
+      await render(hbs`<Routes::LoginForm/>);`);
     });
 
     test('it should display password when user click', async function(assert) {

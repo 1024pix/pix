@@ -1,7 +1,8 @@
 import DS from 'ember-data';
+const { Model, attr } = DS;
 
-export default DS.Model.extend({
-  organizationId: DS.attr('number'),
-  studentId: DS.attr('number'),
-  password: DS.attr('string'),
-});
+export default class StudentDependantUser extends Model {
+  @attr('number') organizationId;
+  @attr('number') studentId;
+  @attr('string') password;
+}

@@ -12,7 +12,7 @@ export default class ListController extends Controller {
   @service currentUser;
   @service notifications;
 
-  isLoading = false;
+  @tracked isLoading = false;
 
   @tracked lastName = null;
   @tracked firstName = null;
@@ -48,22 +48,22 @@ export default class ListController extends Controller {
 
   @action
   async importStudents(file) {
-    this.set('isLoading', true);
-    this.get('notifications').clearAll();
-    const { access_token } = this.get('session.data.authenticated');
+    this.isLoading = true;
+    this.notifications.clearAll();
+    const { access_token } = this.session.data.authenticated;
 
     try {
-      await file.uploadBinary(`${ENV.APP.API_HOST}/api/organizations/${this.get('currentUser.organization.id')}/schooling-registrations/import-siecle`, {
+      await file.uploadBinary(`${ENV.APP.API_HOST}/api/organizations/${this.currentUser.organization.id}/schooling-registrations/import-siecle`, {
         headers: {
           Authorization: `Bearer ${access_token}`,
         }
       });
       this.refresh();
-      this.set('isLoading', false);
-      this.get('notifications').sendSuccess('La liste a été importée avec succès.');
+      this.isLoading = false;
+      this.notifications.sendSuccess('La liste a été importée avec succès.');
 
     } catch (errorResponse) {
-      this.set('isLoading', false);
+      this.isLoading = false;
 
       this._handleError(errorResponse);
     }
@@ -72,18 +72,18 @@ export default class ListController extends Controller {
   _handleError(errorResponse) {
     const globalErrorMessage = 'Quelque chose s\'est mal passé. Veuillez réessayer.';
     if (!errorResponse.body.errors) {
-      return this.get('notifications').sendError(globalErrorMessage);
+      return this.notifications.sendError(globalErrorMessage);
     }
 
     errorResponse.body.errors.forEach((error) => {
       if (error.status === '409' || error.status === '422') {
-        return this.get('notifications').sendError(error.detail);
+        return this.notifications.sendError(error.detail);
       }
       if (error.status === '400') {
         const errorDetail = htmlSafe(`<div>${error.detail} Veuillez réessayer ou nous contacter via <a id="support-link" href="https://support.pix.fr/support/tickets/new">le formulaire du centre d'aide</a>.</div>`);
-        return this.get('notifications').error(errorDetail, { autoClear: false, cssClasses: 'notification notification--error', onClick: function() { window.open('https://support.pix.fr/support/tickets/new', '_blank'); } });
+        return this.notifications.error(errorDetail, { autoClear: false, cssClasses: 'notification notification--error', onClick: function() { window.open('https://support.pix.fr/support/tickets/new', '_blank'); } });
       }
-      return this.get('notifications').sendError(globalErrorMessage);
+      return this.notifications.sendError(globalErrorMessage);
     });
   }
 
