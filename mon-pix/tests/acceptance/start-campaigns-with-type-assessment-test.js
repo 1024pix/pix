@@ -199,7 +199,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
             it('should not alter inputs(username,password,email) when email already exists ', async function() {
 
               //given
-              this.server.put('student-user-associations/possibilities', () => {
+              this.server.put('schooling-registration-user-associations/possibilities', () => {
 
                 const studentFoundWithUsernameGenerated = {
                   'data': {
@@ -209,7 +209,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
                       'birthdate': '2010-10-10',
                       'campaign-code': 'RESTRICTD',
                       'username': 'first.last1010'
-                    }, 'type': 'student-user-associations'
+                    }, 'type': 'schooling-registration-user-associations'
                   }
                 };
 
@@ -616,8 +616,8 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
         context('When association is already done', function() {
 
           beforeEach(async function() {
-            server.create('student', {
-              userId: prescritUser.id,
+            server.create('schooling-registration-user-association', {
+              campaignCode: campaign.code
             });
           });
 
@@ -789,8 +789,8 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
         context('When association is already done', function() {
 
           beforeEach(async function() {
-            server.create('student', {
-              userId: garUser.id,
+            server.create('schooling-registration-user-association', {
+              campaignCode: campaign.code
             });
           });
 

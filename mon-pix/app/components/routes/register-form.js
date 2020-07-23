@@ -36,7 +36,7 @@ export default class RegisterForm extends Component {
   store;
 
   studentDependentUser = null;
-  studentUserAssociation = null;
+  schoolingRegistrationUserAssociation = null;
   isLoading = false;
   errorMessage = null;
   matchingStudentFound = false;
@@ -123,7 +123,7 @@ export default class RegisterForm extends Component {
   }
 
   willDestroyElement() {
-    if (this.studentUserAssociation) this.studentUserAssociation.unloadRecord();
+    if (this.schoolingRegistrationUserAssociation) this.schoolingRegistrationUserAssociation.unloadRecord();
     if (this.studentDependentUser) this.studentDependentUser.unloadRecord();
     super.willDestroyElement(...arguments);
   }
@@ -141,7 +141,7 @@ export default class RegisterForm extends Component {
       return this.set('isLoading', false);
     }
 
-    this.studentUserAssociation = this.store.createRecord('student-user-association', {
+    this.schoolingRegistrationUserAssociation = this.store.createRecord('schooling-registration-user-association', {
       id: this.campaignCode + '_' + this.lastName,
       firstName: this.firstName,
       lastName: this.lastName,
@@ -149,7 +149,7 @@ export default class RegisterForm extends Component {
       campaignCode: this.campaignCode,
     });
 
-    return this.studentUserAssociation.save({ adapterOptions: { searchForMatchingStudent: true } })
+    return this.schoolingRegistrationUserAssociation.save({ adapterOptions: { searchForMatchingStudent: true } })
       .then((response) => {
         this.set('matchingStudentFound', true);
         this.set('isLoading', false);
@@ -162,7 +162,7 @@ export default class RegisterForm extends Component {
           password: '',
         });
       }, (errorResponse) => {
-        this.studentUserAssociation.unloadRecord();
+        this.schoolingRegistrationUserAssociation.unloadRecord();
         this.set('isLoading', false);
         errorResponse.errors.forEach((error) => {
           if (error.status === '404') {

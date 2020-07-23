@@ -12,7 +12,7 @@ export default class JoinRoute extends Route.extend(SecuredRouteMixin) {
   }
 
   async redirect(campaign) {
-    const student = await this.store.queryRecord('student-user-association', { userId: this.currentUser.user.id, campaignCode: campaign.code });
+    const student = await this.store.queryRecord('schooling-registration-user-association', { userId: this.currentUser.user.id, campaignCode: campaign.code });
 
     if (!isEmpty(student)) {
       return this.replaceWith('campaigns.start-or-resume', campaign.code, {
