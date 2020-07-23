@@ -27,7 +27,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
 
   test('it renders', async function(assert) {
     // when
-    await render(hbs`{{routes/register-form}}`);
+    await render(hbs`<Routes::RegisterForm/>`);
 
     //then
     assert.dom('.register-form').exists();
@@ -57,7 +57,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
     test('it should call authentication service with appropriate parameters, when all things are ok and form is submitted', async function(assert) {
       // given
       const sessionServiceObserver = this.owner.lookup('service:session');
-      await render(hbs`{{routes/register-form  organizationInvitationId=1 organizationInvitationCode='C0D3'}}`);
+      await render(hbs`<Routes::RegisterForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
       await fillIn('#register-firstName', 'pix');
       await fillIn('#register-lastName', 'pix');
       await fillIn('#register-email', 'shi@fu.me');
@@ -85,7 +85,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
       ].forEach(function({ stringFilledIn }) {
         test(`it should display an error message on firstName field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
           // given
-          await render(hbs`{{routes/register-form}}`);
+          await render(hbs`<Routes::RegisterForm/>`);
 
           // when
           await fillIn('#register-firstName', stringFilledIn);
@@ -102,7 +102,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
       ].forEach(function({ stringFilledIn }) {
         test(`it should display an error message on lastName field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
           // given
-          await render(hbs`{{routes/register-form}}`);
+          await render(hbs`<Routes::RegisterForm/>`);
 
           // when
           await fillIn('#register-lastName', stringFilledIn);
@@ -121,7 +121,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
 
         test(`it should display an error message on email field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
           // given
-          await render(hbs`{{routes/register-form}}`);
+          await render(hbs`<Routes::RegisterForm/>`);
 
           // when
           await fillIn('#register-email', stringFilledIn);
@@ -141,7 +141,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
 
         test(`it should display an error message on password field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
           // given
-          await render(hbs`{{routes/register-form}}`);
+          await render(hbs`<Routes::RegisterForm/>`);
 
           // when
           await fillIn('#register-password', stringFilledIn);
@@ -185,7 +185,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
           save: spy
         });
 
-        await render(hbs`{{routes/register-form organizationInvitationId=1 organizationInvitationCode='C0D3'}}`);
+        await render(hbs`<Routes::RegisterForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
       });
 
       test('it should prevent submission when firstName is not valid', async function(assert) {

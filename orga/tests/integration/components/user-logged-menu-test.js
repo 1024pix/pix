@@ -9,7 +9,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
 
   setupRenderingTest(hooks);
 
-  let prescriber, organization;
+  let prescriber, organization, organization2, organization3;
 
   hooks.beforeEach(function() {
     organization = Object.create({ id: 1, name: 'Main organization', externalId: 'EXT' });
@@ -17,7 +17,14 @@ module('Integration | Component | user-logged-menu', function(hooks) {
       firstName: 'givenFirstName',
       lastName: 'givenLastName',
     });
-    this.owner.register('service:current-user', Service.extend({ prescriber, organization }));
+    organization2 = Object.create({ id: 2, name: 'Organization 2', externalId: 'EXT2' });
+    organization3 = Object.create({ id: 3, name: 'Organization 3', externalId: 'EXT3' });
+    const memberships = [
+      Object.create({ organization }),
+      Object.create({ organization: organization2 }),
+      Object.create({ organization: organization3 }),
+    ];
+    this.owner.register('service:current-user', Service.extend({ prescriber, organization, memberships }));
   });
 
   test('should display user\'s firstName and lastName', async function(assert) {
@@ -66,16 +73,13 @@ module('Integration | Component | user-logged-menu', function(hooks) {
 
   test('should display the organizations name and externalId when menu is open', async function(assert) {
     // when
-    const organization1 = { id: 2, name: 'Organization 2', externalId: 'EXT2' };
-    const organization2 = { id: 3, name: 'Organization 3', externalId: 'EXT3' };
-    this.set('organizations', [organization1, organization2]);
-    await render(hbs`<UserLoggedMenu @eligibleOrganizations={{organizations}} />`);
+    await render(hbs`<UserLoggedMenu />`);
     await click('.logged-user-summary__link');
 
     // then
-    assert.contains(organization1.name);
-    assert.contains(`(${organization1.externalId})`);
     assert.contains(organization2.name);
     assert.contains(`(${organization2.externalId})`);
+    assert.contains(organization3.name);
+    assert.contains(`(${organization3.externalId})`);
   });
 });

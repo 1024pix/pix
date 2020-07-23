@@ -13,8 +13,8 @@ export default class ListController extends Controller {
   queryParams = ['pageNumber', 'pageSize', 'name', 'status', 'creatorId'];
   DEBOUNCE_MS = config.pagination.debounce;
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
-  pageSize = 25;
-  name = null;
+  @tracked pageSize = 25;
+  @tracked name = null;
   @tracked creatorId = null;
   @tracked status = null;
   pendingFilters = {};

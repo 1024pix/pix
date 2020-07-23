@@ -1,6 +1,7 @@
 import DS from 'ember-data';
+const { Model, attr } = DS;
 
-export default DS.Model.extend({
-  code: DS.attr('string'),
-  email: DS.attr('string'),
-});
+export default class CampaignAssessmentParticipationSummary extends Model {
+  @attr('string') code;
+  @attr('string') email;
+}
