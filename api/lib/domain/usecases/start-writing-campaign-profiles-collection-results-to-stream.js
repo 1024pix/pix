@@ -133,12 +133,12 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
 
   await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
 
-  const [allCompetences, organization, campaignParticipationResultDatas] = await Promise.all([
+  const [allPixCompetences, organization, campaignParticipationResultDatas] = await Promise.all([
     competenceRepository.listPixCompetencesOnly(),
     organizationRepository.get(campaign.organizationId),
     campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId(campaign.id, campaign.type),
   ]);
-  const headers = _createHeaderOfCSV(allCompetences, campaign.idPixLabel);
+  const headers = _createHeaderOfCSV(allPixCompetences, campaign.idPixLabel);
 
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
@@ -162,7 +162,7 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
 
     const certificationProfiles = await certificationProfileService.getCertificationProfilesWithSnapshotting({
       userIdsAndDates,
-      competences: allCompetences,
+      competences: allPixCompetences,
       allowExcessPixAndLevels: false
     });
 
