@@ -1,11 +1,6 @@
 <div>
   <div class="scorecard-details__header">
-    <LinkTo @route="profile" class="link__return-to">
-    <span class="icon-button">
-      {{fa-icon 'arrow-left'}}
-    </span>
-      {{t 'navigation.back-to-profile'}}
-    </LinkTo>
+    <PixReturnTo @route="profile">{{t 'navigation.back-to-profile'}}</PixReturnTo>
   </div>
 
   <div class="scorecard-details__content">
