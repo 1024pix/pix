@@ -2,6 +2,7 @@ import sinon from 'sinon';
 
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
 module('Unit | Component | Routes | login-form', (hooks) => {
 
@@ -10,7 +11,7 @@ module('Unit | Component | Routes | login-form', (hooks) => {
   let component;
 
   hooks.beforeEach(function() {
-    component = this.owner.lookup('component:routes/login-form');
+    component = createGlimmerComponent('component:routes/login-form');
   });
 
   module('#authenticate', () => {
@@ -18,15 +19,15 @@ module('Unit | Component | Routes | login-form', (hooks) => {
     test('should save email without spaces', (assert) => {
       // given
       const emailWithSpaces = '    user@example.net  ';
-      component.set('email', emailWithSpaces);
+      component.email = emailWithSpaces;
 
       const _authenticateStub = sinon.stub().resolves();
-      component.set('_authenticate', _authenticateStub);
+      component._authenticate = _authenticateStub;
 
       const expectedEmail = emailWithSpaces.trim();
 
       // when
-      component.send('authenticate', new Event('stub'));
+      component.authenticate(new Event('stub'));
 
       // then
       assert.ok(_authenticateStub.calledWith(sinon.match.any, expectedEmail));

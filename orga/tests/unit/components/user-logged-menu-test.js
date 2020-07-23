@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
 module('Unit | Component | user-logged-menu', (hooks) => {
 
@@ -8,28 +9,28 @@ module('Unit | Component | user-logged-menu', (hooks) => {
   let component;
 
   hooks.beforeEach(function() {
-    component = this.owner.factoryFor('component:user-logged-menu').create();
+    component = createGlimmerComponent('component:user-logged-menu');
   });
 
   module('action#toggleUserMenu', () => {
     test('should return false as default value', function(assert) {
       // then
-      assert.equal(component.get('isMenuOpen'), false);
+      assert.equal(component.isMenuOpen, false);
     });
 
-    test('should return true, when user details is clicked', function(assert) {
+    test('should return true, when user details is clicked', async function(assert) {
       // when
-      component.send('toggleUserMenu');
+      await component.toggleUserMenu();
       // then
-      assert.equal(component.get('isMenuOpen'), true);
+      assert.equal(component.isMenuOpen, true);
     });
 
-    test('should return false, when isMenuOpen was previously true', function(assert) {
+    test('should return false, when isMenuOpen was previously true', async function(assert) {
       // when
-      component.send('toggleUserMenu');
-      component.send('toggleUserMenu');
+      await component.toggleUserMenu();
+      await component.toggleUserMenu();
       // then
-      assert.equal(component.get('isMenuOpen'), false);
+      assert.equal(component.isMenuOpen, false);
     });
   });
 
@@ -39,10 +40,10 @@ module('Unit | Component | user-logged-menu', (hooks) => {
       // given
       const expectedOrganizationName = 'expectedOrganizationName';
       const currentUser = { organization: { name: expectedOrganizationName } };
-      component.set('currentUser', currentUser);
+      component.currentUser = currentUser;
 
       // when
-      const computedOrganizationName = component.get('organizationNameAndExternalId');
+      const computedOrganizationName = component.organizationNameAndExternalId;
       // then
       assert.equal(computedOrganizationName, expectedOrganizationName);
     });
@@ -52,10 +53,10 @@ module('Unit | Component | user-logged-menu', (hooks) => {
       const expectedOrganizationName = 'expectedOrganizationName';
       const expectedExternalId = 'expectedExternalId';
       const currentUser = { organization: { name: expectedOrganizationName, externalId: expectedExternalId } };
-      component.set('currentUser', currentUser);
+      component.currentUser = currentUser;
 
       // when
-      const computedOrganizationName = component.get('organizationNameAndExternalId');
+      const computedOrganizationName = component.organizationNameAndExternalId;
       // then
       assert.equal(computedOrganizationName, `${expectedOrganizationName} (${expectedExternalId})`);
     });
