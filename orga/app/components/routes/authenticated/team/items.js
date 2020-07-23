@@ -1,6 +1,7 @@
 import { inject as service } from '@ember/service';
-import Component from '@ember/component';
 import { action } from '@ember/object';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 
 const adminOption = { value: 'ADMIN', label: 'Administrateur', disabled: false };
 
@@ -10,10 +11,10 @@ export default class Items extends Component {
 
   @service currentUser;
 
-  organizationRoles = null;
-  isEditionMode = false;
-  selectedNewRole = null;
-  currentRole = null;
+  @tracked organizationRoles = null;
+  @tracked isEditionMode = false;
+  @tracked selectedNewRole = null;
+  @tracked currentRole = null;
 
   constructor() {
     super(...arguments);
@@ -22,38 +23,37 @@ export default class Items extends Component {
 
   @action
   setRoleSelection(selected) {
-    this.set('selectedNewRole', selected);
-    this.set('isEditionMode', true);
+    this.selectedNewRole = selected;
+    this.isEditionMode = true;
   }
 
   @action
   editRoleOfMember(membership) {
-    this.set('selectedNewRole', null);
-    this.set('currentRole', membership.displayRole);
-    this.set('isEditionMode', true);
-
+    this.selectedNewRole = null;
+    this.currentRole = membership.displayRole;
+    this.isEditionMode = true;
   }
 
   @action
   updateRoleOfMember(membership) {
-    this.set('isEditionMode', false);
+    this.isEditionMode = false;
 
-    if (null === this.get('selectedNewRole')) return false;
+    if (!this.selectedNewRole) return false;
 
-    membership.set('displayRole', this.get('selectedNewRole.label'));
-    membership.set('organizationRole', this.get('selectedNewRole.value'));
+    membership.displayRole = this.selectedNewRole.label;
+    membership.organizationRole = this.selectedNewRole.value;
 
     return membership.save();
   }
 
   @action
   cancelUpdateRoleOfMember() {
-    this.set('isEditionMode', false);
+    this.isEditionMode = false;
     this._clearState();
   }
 
   _clearState() {
-    this.set('selectedNewRole', null);
-    this.set('currentRole', null);
+    this.selectedNewRole = null;
+    this.currentRole = null;
   }
 }

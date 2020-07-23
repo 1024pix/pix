@@ -1,12 +1,13 @@
 import { action } from '@ember/object';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 
 export default class LoginOrRegister extends Component {
 
-  displayRegisterForm = true;
+  @tracked displayRegisterForm = true;
 
   @action
   toggleFormsVisibility() {
-    this.toggleProperty('displayRegisterForm');
+    this.displayRegisterForm = !this.displayRegisterForm;
   }
 }

@@ -1,19 +1,20 @@
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Controller from '@ember/controller';
+import { tracked } from '@glimmer/tracking';
 
 export default class NewController extends Controller {
 
   @service store;
   @service notifications;
 
-  isLoading = false;
+  @tracked isLoading = false;
 
   @action
   createOrganizationInvitation(event) {
     event.preventDefault();
-    this.set('isLoading', true);
-    this.get('notifications').clearAll();
+    this.isLoading = true;
+    this.notifications.clearAll();
 
     return this.model.organizationInvitation.save({ adapterOptions: { organizationId: this.model.organizationInvitation.organizationId } })
       .then(() => {
@@ -24,23 +25,23 @@ export default class NewController extends Controller {
         if (errorResponse.errors && errorResponse.errors.length > 0) {
           errorResponse.errors.forEach((error) => {
             if (error.status === '400') {
-              return this.get('notifications').sendError('Le format de l\'adresse e-mail est incorrect.');
+              return this.notifications.sendError('Le format de l\'adresse e-mail est incorrect.');
             }
             if (error.status === '412') {
-              return this.get('notifications').sendError('Ce membre a déjà été ajouté.');
+              return this.notifications.sendError('Ce membre a déjà été ajouté.');
             }
             if (error.status === '404') {
-              return this.get('notifications').sendError('Cet email n\'appartient à aucun utilisateur.');
+              return this.notifications.sendError('Cet email n\'appartient à aucun utilisateur.');
             }
             if (error.status === '500') {
-              return this.get('notifications').sendError('Quelque chose s\'est mal passé. Veuillez réessayer.');
+              return this.notifications.sendError('Quelque chose s\'est mal passé. Veuillez réessayer.');
             }
           });
         } else {
-          return this.get('notifications').sendError('Le service est momentanément indisponible. Veuillez réessayer ultérieurement.');
+          return this.notifications.sendError('Le service est momentanément indisponible. Veuillez réessayer ultérieurement.');
         }
       })
-      .finally(() => this.set('isLoading', false));
+      .finally(() => this.isLoading = false);
   }
 
   @action

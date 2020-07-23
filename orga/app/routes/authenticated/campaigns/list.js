@@ -40,10 +40,10 @@ export default class ListRoute extends Route {
 
   resetController(controller, isExiting) {
     if (isExiting) {
-      controller.set('pageNumber', 1);
-      controller.set('pageSize', 25);
-      controller.set('name', null);
-      controller.set('creatorId', null);
+      controller.pageNumber = 1;
+      controller.pageSize = 25;
+      controller.name = null;
+      controller.creatorId = null;
     }
   }
 }

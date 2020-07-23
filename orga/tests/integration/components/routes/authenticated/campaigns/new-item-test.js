@@ -5,12 +5,6 @@ import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 
-class CurrentUserStub extends Service {
-  organization = {
-    canCollectProfiles: false
-  }
-}
-
 module('Integration | Component | routes/authenticated/campaign | new-item', function(hooks) {
   setupRenderingTest(hooks);
   let receivedCampaign;
@@ -18,15 +12,19 @@ module('Integration | Component | routes/authenticated/campaign | new-item', fun
   hooks.beforeEach(function() {
     this.set('createCampaignSpy', (event) => {
       event.preventDefault();
-      receivedCampaign = this.model;
+      receivedCampaign = this.campaign;
     });
     this.set('cancelSpy', () => {});
-    this.owner.register('service:current-user', CurrentUserStub);
+    const organization = EmberObject.create({ canCollectProfiles: false });
+    this.owner.register('service:current-user', Service.extend({ organization }));
   });
 
   test('it should contain inputs, attributes and validation button', async function(assert) {
+    // given
+    this.campaign = EmberObject.create({});
+
     // when
-    await render(hbs`<Routes::Authenticated::Campaigns::NewItem @createCampaign={{action createCampaignSpy}} @cancel={{action cancelSpy}}/>`);
+    await render(hbs`<Routes::Authenticated::Campaigns::NewItem @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
 
     // then
     assert.dom('#campaign-name').exists();
@@ -39,11 +37,10 @@ module('Integration | Component | routes/authenticated/campaign | new-item', fun
 
     test('it should display fields for campaign title and target profile by default', async function(assert) {
       // given
-      this.currentUser = this.owner.lookup('service:current-user');
-      this.set('currentUser.organization.canCollectProfiles', false);
+      this.campaign = EmberObject.create({});
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaigns::NewItem @createCampaign={{action createCampaignSpy}} @cancel={{action cancelSpy}}/>`);
+      await render(hbs`<Routes::Authenticated::Campaigns::NewItem @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
 
       // then
       assert.dom('#campaign-title').exists();
@@ -52,11 +49,10 @@ module('Integration | Component | routes/authenticated/campaign | new-item', fun
 
     test('it should not contain field to select campaign type', async function(assert) {
       // given
-      this.currentUser = this.owner.lookup('service:current-user');
-      this.set('currentUser.organization.canCollectProfiles', false);
+      this.campaign = EmberObject.create({});
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaigns::NewItem @createCampaign={{action createCampaignSpy}} @cancel={{action cancelSpy}}/>`);
+      await render(hbs`<Routes::Authenticated::Campaigns::NewItem @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
 
       // then
       assert.dom('#assess-participants').doesNotExist();
@@ -68,11 +64,12 @@ module('Integration | Component | routes/authenticated/campaign | new-item', fun
 
     test('it should display fields for campaign title and target profile', async function(assert) {
       // given
-      this.currentUser = this.owner.lookup('service:current-user');
-      this.set('currentUser.organization.canCollectProfiles', true);
+      const organization = EmberObject.create({ canCollectProfiles: true });
+      this.owner.register('service:current-user', Service.extend({ organization }));
+      this.campaign = EmberObject.create({});
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaigns::NewItem @createCampaign={{action createCampaignSpy}} @cancel={{action cancelSpy}}/>`);
+      await render(hbs`<Routes::Authenticated::Campaigns::NewItem @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
       await click('#assess-participants');
 
       // then
@@ -85,11 +82,12 @@ module('Integration | Component | routes/authenticated/campaign | new-item', fun
 
     test('it should not display fields for campaign title and target profile', async function(assert) {
       // given
-      this.currentUser = this.owner.lookup('service:current-user');
-      this.set('currentUser.organization.canCollectProfiles', true);
+      const organization = EmberObject.create({ canCollectProfiles: true });
+      this.owner.register('service:current-user', Service.extend({ organization }));
+      this.campaign = EmberObject.create({});
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaigns::NewItem @createCampaign={{action createCampaignSpy}} @cancel={{action cancelSpy}}/>`);
+      await render(hbs`<Routes::Authenticated::Campaigns::NewItem @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
       await click('#collect-participants-profile');
 
       // then
@@ -102,11 +100,12 @@ module('Integration | Component | routes/authenticated/campaign | new-item', fun
 
     test('it should display comment for target profile selection', async function(assert) {
       // given
-      this.currentUser = this.owner.lookup('service:current-user');
-      this.set('currentUser.isSCOManagingStudents', true);
+      const organization = EmberObject.create({ canCollectProfiles: false });
+      this.owner.register('service:current-user', Service.extend({ organization, isSCOManagingStudents: true }));
+      this.campaign = EmberObject.create({});
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaigns::NewItem @createCampaign={{action createCampaignSpy}} @cancel={{action cancelSpy}}/>`);
+      await render(hbs`<Routes::Authenticated::Campaigns::NewItem @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
 
       // then
       assert.dom('#campaign-target-profile-comment-label').exists();
@@ -117,11 +116,12 @@ module('Integration | Component | routes/authenticated/campaign | new-item', fun
 
     test('it should not display comment for target profile selection', async function(assert) {
       // given
-      this.currentUser = this.owner.lookup('service:current-user');
-      this.set('currentUser.isSCOManagingStudents', false);
+      const organization = EmberObject.create({ canCollectProfiles: false });
+      this.owner.register('service:current-user', Service.extend({ organization, isSCOManagingStudents: false }));
+      this.campaign = EmberObject.create({});
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaigns::NewItem @createCampaign={{action createCampaignSpy}} @cancel={{action cancelSpy}}/>`);
+      await render(hbs`<Routes::Authenticated::Campaigns::NewItem @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
 
       // then
       assert.dom('#campaign-target-profile-comment-label').doesNotExist();
@@ -130,8 +130,8 @@ module('Integration | Component | routes/authenticated/campaign | new-item', fun
 
   test('it should send campaign creation action when submitted', async function(assert) {
     // given
-    this.set('model', EmberObject.create({}));
-    await render(hbs`<Routes::Authenticated::Campaigns::NewItem @campaign={{model}} @createCampaign={{action createCampaignSpy}} @cancel={{action cancelSpy}}/>`);
+    this.campaign = EmberObject.create({});
+    await render(hbs`<Routes::Authenticated::Campaigns::NewItem @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
     await fillIn('#campaign-name', 'Ma campagne');
 
     // when
@@ -143,7 +143,7 @@ module('Integration | Component | routes/authenticated/campaign | new-item', fun
 
   test('it should display error message when error occurred on registration of one field', async function(assert) {
     // given
-    this.set('model', EmberObject.create({
+    this.set('campaign', EmberObject.create({
       errors: {
         name: [
           {
@@ -154,7 +154,7 @@ module('Integration | Component | routes/authenticated/campaign | new-item', fun
     }));
 
     // when
-    await render(hbs`<Routes::Authenticated::Campaigns::NewItem @campaign={{model}} @createCampaign={{action createCampaignSpy}} @cancel={{action cancelSpy}}/>`);
+    await render(hbs`<Routes::Authenticated::Campaigns::NewItem @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
 
     // then
     assert.dom('.form__error').exists();
