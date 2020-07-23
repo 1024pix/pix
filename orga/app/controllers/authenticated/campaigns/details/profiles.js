@@ -1,10 +1,11 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
 export default class ProfilesController extends Controller {
   queryParams = ['pageNumber', 'pageSize'];
-  pageNumber = 1;
-  pageSize = 10;
+  @tracked pageNumber = 1;
+  @tracked pageSize = 10;
 
   @action
   goToProfilePage(campaignId, campaignParticipationId) {

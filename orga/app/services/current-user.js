@@ -1,24 +1,31 @@
 import Service, { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
 
 export default class CurrentUserService extends Service {
 
   @service session;
   @service store;
+  @tracked prescriber;
+  @tracked memberships;
+  @tracked organization;
+  @tracked isAdminInOrganization;
+  @tracked isSCOManagingStudents;
+  @tracked isSUPManagingStudents;
 
   async load() {
-    if (this.get('session.isAuthenticated')) {
+    if (this.session.isAuthenticated) {
       try {
         const prescriber = await this.store.queryRecord('prescriber', this.session.data.authenticated.user_id);
-        const userMemberships = await prescriber.get('memberships');
-        const userOrgaSettings = await prescriber.get('userOrgaSettings');
+        const userMemberships = await prescriber.memberships;
+        const userOrgaSettings = await prescriber.userOrgaSettings;
 
         if (!userMemberships || userMemberships.length === 0) {
           return this.session.invalidate();
         }
 
-        this.set('prescriber', prescriber);
-        this.set('memberships', userMemberships);
+        this.prescriber = prescriber;
+        this.memberships = userMemberships;
 
         let membership;
         if (userOrgaSettings) {
@@ -45,9 +52,9 @@ export default class CurrentUserService extends Service {
   }
 
   async _getMembershipByUserOrgaSettings(memberships, userOrgaSettings) {
-    const organization = await userOrgaSettings.get('organization');
+    const organization = await userOrgaSettings.organization;
     for (let i = 0; i < memberships.length; i++) {
-      const membershipOrganization = await memberships[i].get('organization');
+      const membershipOrganization = await memberships[i].organization;
       if (membershipOrganization.id === organization.id) {
         return memberships[i];
       }
@@ -70,9 +77,9 @@ export default class CurrentUserService extends Service {
     const isSCOManagingStudents = organization.isSco && organization.isManagingStudents;
     const isSUPManagingStudents = organization.isSup && organization.isManagingStudents;
 
-    this.set('organization', organization);
-    this.set('isAdminInOrganization', isAdminInOrganization);
-    this.set('isSCOManagingStudents', isSCOManagingStudents);
-    this.set('isSUPManagingStudents', isSUPManagingStudents);
+    this.organization = organization;
+    this.isAdminInOrganization = isAdminInOrganization;
+    this.isSCOManagingStudents = isSCOManagingStudents;
+    this.isSUPManagingStudents = isSUPManagingStudents;
   }
 }
