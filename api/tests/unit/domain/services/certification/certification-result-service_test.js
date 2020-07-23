@@ -7,9 +7,10 @@ const Answer = require('../../../../../lib/domain/models/Answer');
 const challengeRepository = require('../../../../../lib/infrastructure/repositories/challenge-repository');
 const competenceRepository = require('../../../../../lib/infrastructure/repositories/competence-repository');
 const certificationProfileService = require('../../../../../lib/domain/services/certification-profile-service');
+const UserCompetence = require('../../../../../lib/domain/models/UserCompetence');
 
 function _buildUserCompetence(competence, pixScore, estimatedLevel) {
-  return { ...competence, estimatedLevel, pixScore, };
+  return new UserCompetence({ ...competence, estimatedLevel, pixScore, });
 }
 
 const pixForCompetence1 = 10;
@@ -117,7 +118,7 @@ const competence_3 = domainBuilder.buildCompetence({ id: 'competence_3', index: 
 const competence_4 = domainBuilder.buildCompetence({ id: 'competence_4', index: '4.4', area: { code: '4' }, name: 'Résoudre' });
 const competence_5 = domainBuilder.buildCompetence({ id: 'competence_5', index: '5.5', area: { code: '5' }, name: 'Chercher' });
 const competence_6 = domainBuilder.buildCompetence({ id: 'competence_6', index: '6.6', area: { code: '6' }, name: 'Trouver' });
-const competencesFromAirtable = [ competence_1, competence_2, competence_3, competence_4, competence_5, competence_6 ];
+const allPixCompetencesFromAirtable = [ competence_1, competence_2, competence_3, competence_4, competence_5, competence_6 ];
 
 const userCompetences = [
   _buildUserCompetence(competence_1, pixForCompetence1, 1),
@@ -140,6 +141,57 @@ describe('Unit | Service | Certification Result Service', function() {
       isV2Certification: true,
     };
 
+    const competenceWithMarks_1_1 = {
+      index: '1.1',
+      area_code: '1',
+      id: 'competence_1',
+      name: 'Mener une recherche',
+      obtainedLevel: UNCERTIFIED_LEVEL,
+      positionedLevel: 1,
+      positionedScore: 10,
+      obtainedScore: 0,
+    };
+
+    const competenceWithMarks_2_2 = {
+      index: '2.2',
+      area_code: '2',
+      id: 'competence_2',
+      name: 'Partager',
+      obtainedLevel: UNCERTIFIED_LEVEL,
+      positionedLevel: 2,
+      positionedScore: 20,
+      obtainedScore: 0,
+    };
+
+    const competenceWithMarks_3_3 = {
+      index: '3.3',
+      area_code: '3',
+      id: 'competence_3',
+      name: 'Adapter',
+      obtainedLevel: UNCERTIFIED_LEVEL,
+      positionedLevel: 3,
+      positionedScore: 30,
+      obtainedScore: 0,
+    };
+
+    const competenceWithMarks_4_4 = {
+      index: '4.4',
+      area_code: '4',
+      id: 'competence_4',
+      name: 'Résoudre',
+      obtainedLevel: UNCERTIFIED_LEVEL,
+      positionedLevel: 4,
+      positionedScore: 40,
+      obtainedScore: 0,
+    };
+
+    const expectedCertifiedCompetences = [
+      competenceWithMarks_1_1,
+      competenceWithMarks_2_2,
+      competenceWithMarks_3_3,
+      competenceWithMarks_4_4,
+    ];
+
     describe('Compute certification result for jury (continue on error)', () => {
       const continueOnError = true;
 
@@ -150,13 +202,12 @@ describe('Unit | Service | Certification Result Service', function() {
           certificationChallenges: challenges,
         });
 
-        sinon.stub(competenceRepository, 'list').resolves(competencesFromAirtable);
+        sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves(allPixCompetencesFromAirtable);
         sinon.stub(challengeRepository, 'findOperative').resolves(challengesFromAirTable);
         sinon.stub(certificationProfileService, 'getCertificationProfile').withArgs({
           userId: certificationAssessment.userId,
           limitDate: certificationAssessment.createdAt,
           isV2Certification: certificationAssessment.isV2Certification,
-          competences: competencesFromAirtable,
         }).resolves({ userCompetences });
       });
 
@@ -181,7 +232,7 @@ describe('Unit | Service | Certification Result Service', function() {
         await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
 
         // then
-        sinon.assert.calledOnce(competenceRepository.list);
+        sinon.assert.calledOnce(competenceRepository.listPixCompetencesOnly);
       });
 
       context('when assessment is just started', () => {
@@ -190,7 +241,6 @@ describe('Unit | Service | Certification Result Service', function() {
         beforeEach(() => {
           startedCertificationAssessment =  new CertificationAssessment({
             ...certificationAssessment,
-            certificationAnswers: [],
             completedAt: null,
             state: states.STARTED
           });
@@ -209,44 +259,6 @@ describe('Unit | Service | Certification Result Service', function() {
         });
 
         it('should return list of competences with all certifiedLevel at -1', async () => {
-          const expectedCertifiedCompetences = [{
-            index: '1.1',
-            area_code: '1',
-            id: 'competence_1',
-            name: 'Mener une recherche',
-            obtainedLevel: UNCERTIFIED_LEVEL,
-            positionedLevel: 1,
-            positionedScore: 10,
-            obtainedScore: 0,
-          }, {
-            index: '2.2',
-            area_code: '2',
-            id: 'competence_2',
-            name: 'Partager',
-            obtainedLevel: UNCERTIFIED_LEVEL,
-            positionedLevel: 2,
-            positionedScore: 20,
-            obtainedScore: 0,
-          }, {
-            index: '3.3',
-            area_code: '3',
-            id: 'competence_3',
-            name: 'Adapter',
-            obtainedLevel: UNCERTIFIED_LEVEL,
-            positionedLevel: 3,
-            positionedScore: 30,
-            obtainedScore: 0,
-          }, {
-            index: '4.4',
-            area_code: '4',
-            id: 'competence_4',
-            name: 'Résoudre',
-            obtainedLevel: UNCERTIFIED_LEVEL,
-            positionedLevel: 4,
-            positionedScore: 40,
-            obtainedScore: 0,
-          }];
-
           // when
           const result = await certificationResultService.getCertificationResult({
             certificationAssessment: startedCertificationAssessment,
@@ -269,44 +281,6 @@ describe('Unit | Service | Certification Result Service', function() {
         });
 
         it('should return list of competences with all certifiedLevel at -1', async () => {
-          const expectedCertifiedCompetences = [{
-            index: '1.1',
-            area_code: '1',
-            id: 'competence_1',
-            name: 'Mener une recherche',
-            obtainedLevel: UNCERTIFIED_LEVEL,
-            positionedLevel: 1,
-            positionedScore: 10,
-            obtainedScore: 0,
-          }, {
-            index: '2.2',
-            area_code: '2',
-            id: 'competence_2',
-            name: 'Partager',
-            obtainedLevel: UNCERTIFIED_LEVEL,
-            positionedLevel: 2,
-            positionedScore: 20,
-            obtainedScore: 0,
-          }, {
-            index: '3.3',
-            area_code: '3',
-            id: 'competence_3',
-            name: 'Adapter',
-            obtainedLevel: UNCERTIFIED_LEVEL,
-            positionedLevel: 3,
-            positionedScore: 30,
-            obtainedScore: 0,
-          }, {
-            index: '4.4',
-            area_code: '4',
-            id: 'competence_4',
-            name: 'Résoudre',
-            obtainedLevel: UNCERTIFIED_LEVEL,
-            positionedLevel: 4,
-            positionedScore: 40,
-            obtainedScore: 0,
-          }];
-
           // when
           const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
 
@@ -342,40 +316,20 @@ describe('Unit | Service | Certification Result Service', function() {
           // given
           const expectedCertifiedCompetences = [
             {
-              index: '1.1',
-              area_code: '1',
-              id: 'competence_1',
-              name: 'Mener une recherche',
+              ...competenceWithMarks_1_1,
               obtainedLevel: 1,
-              positionedLevel: 1,
-              positionedScore: 10,
               obtainedScore: pixForCompetence1,
             }, {
-              index: '2.2',
-              area_code: '2',
-              id: 'competence_2',
-              name: 'Partager',
+              ...competenceWithMarks_2_2,
               obtainedLevel: 2,
-              positionedLevel: 2,
-              positionedScore: 20,
               obtainedScore: pixForCompetence2,
             }, {
-              index: '3.3',
-              area_code: '3',
-              id: 'competence_3',
-              name: 'Adapter',
+              ...competenceWithMarks_3_3,
               obtainedLevel: 3,
-              positionedLevel: 3,
-              positionedScore: 30,
               obtainedScore: pixForCompetence3,
             }, {
-              index: '4.4',
-              area_code: '4',
-              id: 'competence_4',
-              name: 'Résoudre',
+              ...competenceWithMarks_4_4,
               obtainedLevel: 4,
-              positionedLevel: 4,
-              positionedScore: 40,
               obtainedScore: pixForCompetence4,
             },
           ];
@@ -402,42 +356,19 @@ describe('Unit | Service | Certification Result Service', function() {
           // given
           certificationAssessment.certificationAnswersByDate = answersToHaveOnlyTheLastCompetenceFailed();
           const expectedCertifiedCompetences = [{
-            index: '1.1',
-            area_code: '1',
-            id: 'competence_1',
-            name: 'Mener une recherche',
+            ...competenceWithMarks_1_1,
             obtainedLevel: 1,
-            positionedLevel: 1,
-            positionedScore: 10,
             obtainedScore: pixForCompetence1,
           }, {
-            index: '2.2',
-            area_code: '2',
-            id: 'competence_2',
-            name: 'Partager',
+            ...competenceWithMarks_2_2,
             obtainedLevel: 2,
-            positionedLevel: 2,
-            positionedScore: 20,
             obtainedScore: pixForCompetence2,
           }, {
-            index: '3.3',
-            area_code: '3',
-            id: 'competence_3',
-            name: 'Adapter',
+            ...competenceWithMarks_3_3,
             obtainedLevel: 3,
-            positionedLevel: 3,
-            positionedScore: 30,
             obtainedScore: pixForCompetence3,
           }, {
-            index: '4.4',
-            area_code: '4',
-            id: 'competence_4',
-            name: 'Résoudre',
-            obtainedLevel: UNCERTIFIED_LEVEL,
-
-            positionedLevel: 4,
-            positionedScore: 40,
-            obtainedScore: 0,
+            ...competenceWithMarks_4_4,
           }];
 
           // when
@@ -693,7 +624,6 @@ describe('Unit | Service | Certification Result Service', function() {
                 userId: certificationAssessment.userId,
                 limitDate: certificationAssessment.createdAt,
                 isV2Certification: certificationAssessment.isV2Certification,
-                competences: competencesFromAirtable,
               }).resolves({ userCompetences });
 
               // When
@@ -717,13 +647,12 @@ describe('Unit | Service | Certification Result Service', function() {
       beforeEach(() => {
         certificationAssessment.certificationAnswersByDate = wrongAnswersForAllChallenges();
         certificationAssessment.certificationChallenges = challenges;
-        sinon.stub(competenceRepository, 'list').resolves(competencesFromAirtable);
+        sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves(allPixCompetencesFromAirtable);
         sinon.stub(challengeRepository, 'findOperative').resolves(challengesFromAirTable);
         sinon.stub(certificationProfileService, 'getCertificationProfile').withArgs({
           userId: certificationAssessment.userId,
           limitDate: certificationAssessment.createdAt,
           isV2Certification: certificationAssessment.isV2Certification,
-          competences: competencesFromAirtable,
         }).resolves({ userCompetences });
       });
 
@@ -740,7 +669,7 @@ describe('Unit | Service | Certification Result Service', function() {
         await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
 
         // then
-        sinon.assert.calledOnce(competenceRepository.list);
+        sinon.assert.calledOnce(competenceRepository.listPixCompetencesOnly);
       });
 
       context('when reproducibility rate is < 50%', () => {
@@ -1039,7 +968,6 @@ describe('Unit | Service | Certification Result Service', function() {
             userId: certificationAssessment.userId,
             limitDate: certificationAssessment.createdAt,
             isV2Certification: certificationAssessment.isV2Certification,
-            competences: competencesFromAirtable,
           }).resolves({ userCompetences });
 
         });
