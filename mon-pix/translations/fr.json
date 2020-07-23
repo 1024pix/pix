@@ -177,35 +177,6 @@
       "first-title": "Oups, une erreur est survenue !"
     },
 
-    "user-tutorials": {
-      "title": "Mes tutos",
-      "description": "Progresser grâce aux tutos suggérés par la communauté des utilisateurs de Pix.",
-      "empty-list-info": {
-        "description": {
-          "part1": "Au fil de vos tests, des tutos vous sont recommandés : cliquez sur l'icône marque page",
-          "part2": "pour enregistrer ceux que vous souhaitez retrouver ici !"
-        },
-        "title": "Vous n'avez encore rien enregistré"
-      },
-      "tutorial": {
-        "actions": {
-          "evaluate": {
-            "extra-information": "Donner mon avis sur ce tuto",
-            "label": "Tuto utile"
-          },
-          "remove": {
-            "extra-information": "Retirer de ma liste de tutos",
-            "label": "Retirer"
-          },
-          "save": {
-            "extra-information": "Enregistrer dans ma liste de tutos",
-            "label": "Enregistrer"
-          }
-        },
-        "source": "Par"
-      }
-    },
-
     "sign-in" : {
       "title" : "Connexion",
       "actions": {
@@ -264,6 +235,35 @@
       "legal-information": "Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par Pix pour permettre l'accès au service offert par Pix. Elles sont conservées pendant une durée de 5 ans maximum à compter du dernier accès au compte utilisateur, et archivées selon les délais de prescription légale (5 ans). Elles sont destinées à Pix et à ses prestataires techniques exclusivement. Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en envoyant un mail à dpd@pix.fr.",
       "subtitle": {
         "link": "connectez-vous à votre compte"
+      }
+    },
+
+    "user-tutorials": {
+      "title": "Mes tutos",
+      "description": "Progresser grâce aux tutos suggérés par la communauté des utilisateurs de Pix.",
+      "empty-list-info": {
+        "description": {
+          "part1": "Au fil de vos tests, des tutos vous sont recommandés : cliquez sur l'icône marque page",
+          "part2": "pour enregistrer ceux que vous souhaitez retrouver ici !"
+        },
+        "title": "Vous n'avez encore rien enregistré"
+      },
+      "tutorial": {
+        "actions": {
+          "evaluate": {
+            "extra-information": "Donner mon avis sur ce tuto",
+            "label": "Tuto utile"
+          },
+          "remove": {
+            "extra-information": "Retirer de ma liste de tutos",
+            "label": "Retirer"
+          },
+          "save": {
+            "extra-information": "Enregistrer dans ma liste de tutos",
+            "label": "Enregistrer"
+          }
+        },
+        "source": "Par"
       }
     }
   },
