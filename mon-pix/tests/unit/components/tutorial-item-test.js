@@ -114,7 +114,7 @@ describe('Unit | Component | tutorial item', function() {
       component.buttonLabel;
 
       // then
-      sinon.assert.calledWith(intl.t, 'pages.user-tutorials.tutorial.actions.save.label');
+      sinon.assert.calledWith(intl.t, 'pages.user-tutorials.list.tutorial.actions.save.label');
     });
 
     it('should return "Enregistrer" when the tutorial is succesfully saved', function() {
@@ -125,7 +125,7 @@ describe('Unit | Component | tutorial item', function() {
       component.buttonLabel;
 
       // then
-      sinon.assert.calledWith(intl.t, 'pages.user-tutorials.tutorial.actions.remove.label');
+      sinon.assert.calledWith(intl.t, 'pages.user-tutorials.list.tutorial.actions.remove.label');
     });
 
   });
@@ -137,7 +137,7 @@ describe('Unit | Component | tutorial item', function() {
       component.buttonExtraInformation;
 
       // then
-      sinon.assert.calledWith(intl.t, 'pages.user-tutorials.tutorial.actions.save.extra-information');
+      sinon.assert.calledWith(intl.t, 'pages.user-tutorials.list.tutorial.actions.save.extra-information');
     });
 
     it('should return "Retirer" when the tutorial has been saved', function() {
@@ -148,7 +148,7 @@ describe('Unit | Component | tutorial item', function() {
       component.buttonExtraInformation;
 
       // then
-      sinon.assert.calledWith(intl.t, 'pages.user-tutorials.tutorial.actions.remove.extra-information');
+      sinon.assert.calledWith(intl.t, 'pages.user-tutorials.list.tutorial.actions.remove.extra-information');
     });
 
   });
