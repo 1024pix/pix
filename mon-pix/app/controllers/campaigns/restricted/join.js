@@ -90,7 +90,7 @@ export default class JoinRestrictedCampaignController extends Controller {
     }
 
     const campaignCode = this.model.code;
-    const studentUserAssociation = this.store.createRecord('student-user-association', {
+    const schoolingRegistration = this.store.createRecord('schooling-registration-user-association', {
       id: campaignCode + '_' + this.lastName,
       firstName: this.firstName,
       lastName: this.lastName,
@@ -98,13 +98,13 @@ export default class JoinRestrictedCampaignController extends Controller {
       campaignCode,
     });
 
-    return studentUserAssociation.save().then(() => {
+    return schoolingRegistration.save().then(() => {
       this.set('isLoading', false);
       this.transitionToRoute('campaigns.start-or-resume', this.model.code, {
         queryParams: { associationDone: true, participantExternalId: this.participantExternalId }
       });
     }, (errorResponse) => {
-      studentUserAssociation.unloadRecord();
+      schoolingRegistration.unloadRecord();
       this._setErrorMessageForAttemptNextAction(errorResponse);
       this.set('isLoading', false);
     });
