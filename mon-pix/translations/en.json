@@ -315,9 +315,9 @@
     },
     "pix": "Pix",
     "user": {
-      "certifications": "Mes certifications",
-      "sign-out": "Se déconnecter",
-      "tutorials": "Mes tutos"
+      "certifications": "My certifications",
+      "sign-out": "Sign out",
+      "tutorials": "My tutorials"
     }
   }
 }
