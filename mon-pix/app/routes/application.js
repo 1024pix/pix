@@ -1,7 +1,6 @@
 /* eslint ember/no-classic-classes: 0 */
 
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
-import ENV from 'mon-pix/config/environment';
 
 import Route from '@ember/routing/route';
 
@@ -47,8 +46,9 @@ export default Route.extend(ApplicationRouteMixin, {
 
   _setLocale() {
     const defaultLocale = 'fr';
-    this.intl.setLocale([ENV.APP.LOCALE, defaultLocale]);
-    this.moment.setLocale(ENV.APP.LOCALE || defaultLocale);
+    const locale = transition.to.queryParams.lang || defaultLocale;
+    this.intl.setLocale([locale, defaultLocale]);
+    this.moment.setLocale(locale);
   },
 
   _loadCurrentUser() {
