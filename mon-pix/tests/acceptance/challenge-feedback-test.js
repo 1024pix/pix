@@ -42,7 +42,7 @@ describe('Acceptance | Giving feedback about a challenge', function() {
     it('should always reset the feedback form between two consecutive challenges', async function() {
       await visit(`/assessments/${assessment.id}/challenges/${firstChallenge.id}`);
       assertThatFeedbackFormIsClosed();
-      await click('.feedback-panel__open-link');
+      await click('.feedback-panel__open-button');
       assertThatFeedbackFormIsOpen();
 
       await click('.challenge-actions__action-skip');
