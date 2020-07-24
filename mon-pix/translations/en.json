@@ -377,6 +377,11 @@
       }
     },
 
+    "tutorial-panel": {
+      "title": "To succeed next time",
+      "info": "These links were recommended by Pix users."
+    },
+
     "user-tutorials": {
       "title": "My tutorials",
       "description": "Improve with tutorials",

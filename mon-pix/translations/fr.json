@@ -377,6 +377,11 @@
       }
     },
 
+    "tutorial-panel": {
+      "title": "Pour réussir la prochaine fois",
+      "info": "Ces liens ont été proposés par des utilisateurs de Pix."
+    },
+
     "user-tutorials": {
       "title": "Mes tutos",
       "description": "Progresser grâce aux tutos suggérés par la communauté des utilisateurs de Pix.",
