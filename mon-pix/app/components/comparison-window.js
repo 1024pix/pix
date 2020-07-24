@@ -4,56 +4,56 @@ import Component from '@glimmer/component';
 const TEXT_FOR_RESULT = {
   ok: {
     status: 'ok',
-    title: 'Vous avez la bonne réponse !',
-    tooltip: 'Réponse correcte'
+    title: 'pages.comparison-window.results.ok.title',
+    tooltip: 'pages.comparison-window.results.ok.tooltip'
   },
 
   ko: {
     status: 'ko',
-    title: 'Vous n’avez pas la bonne réponse',
-    tooltip: 'Réponse incorrecte'
+    title: 'pages.comparison-window.results.ko.title',
+    tooltip: 'pages.comparison-window.results.ko.tooltip'
   },
 
   aband: {
     status: 'aband',
-    title: 'Vous n’avez pas donné de réponse',
-    tooltip: 'Sans réponse'
+    title: 'pages.comparison-window.results.aband.title',
+    tooltip: 'pages.comparison-window.results.aband.tooltip'
   },
 
   partially: {
     status: 'partially',
-    title: 'Vous avez donné une réponse partielle',
-    tooltip: 'Réponse partielle'
+    title: 'pages.comparison-window.results.partially.title',
+    tooltip: 'pages.comparison-window.results.partially.tooltip'
   },
 
   timedout: {
     status: 'timedout',
-    title: 'Vous avez dépassé le temps imparti',
-    tooltip: 'Temps dépassé'
+    title: 'pages.comparison-window.results.timedout.title',
+    tooltip: 'pages.comparison-window.results.timedout.tooltip'
   },
 
   okAutoReply: {
     status: 'ok',
-    title: 'Vous avez réussi l’épreuve',
-    tooltip: 'Épreuve réussie'
+    title: 'pages.comparison-window.results.okAutoReply.title',
+    tooltip: 'pages.comparison-window.results.okAutoReply.tooltip'
   },
 
   koAutoReply: {
     status: 'ko',
-    title: 'Vous n’avez pas réussi l’épreuve',
-    tooltip: 'Épreuve non réussie'
+    title: 'pages.comparison-window.results.koAutoReply.title',
+    tooltip: 'pages.comparison-window.results.koAutoReply.tooltip'
   },
 
   abandAutoReply: {
     status: 'aband',
-    title: 'Vous avez passé l’épreuve',
-    tooltip: 'Épreuve passée'
+    title: 'pages.comparison-window.results.abandAutoReply.title',
+    tooltip: 'pages.comparison-window.results.abandAutoReply.tooltip'
   },
 
   default: {
     status: 'default',
-    title: '',
-    tooltip: 'Correction automatique en cours de développement ;)'
+    title: 'pages.comparison-window.results.default.title',
+    tooltip: 'pages.comparison-window.results.default.tooltip'
   }
 };
 
