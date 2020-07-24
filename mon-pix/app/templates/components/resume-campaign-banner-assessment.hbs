@@ -1,15 +1,15 @@
 {{#if @isCompleted}}
   {{#if @title}}
-    <span class="resume-campaign-banner__title">Parcours "{{@title}}" terminé. N'oubliez pas de finaliser votre envoi !</span>
+    <span class="resume-campaign-banner__title">{{t 'pages.profile.resume-campaign-banner.reminder-send-campaign-with-title' title=@title }}</span>
   {{else}}
-    <span class="resume-campaign-banner__title">N'oubliez pas de finaliser votre envoi !</span>
+    <span class="resume-campaign-banner__title">{{t 'pages.profile.resume-campaign-banner.reminder-send-campaign'}}</span>
   {{/if}}
-  <LinkTo @route="campaigns.start-or-resume" @model={{@code}} class="resume-campaign-banner__button button button--big button--link">Continuer</LinkTo>
+  <LinkTo @route="campaigns.start-or-resume" @model={{@code}} class="resume-campaign-banner__button button button--big button--link">{{t 'pages.profile.resume-campaign-banner.actions.continue'}}</LinkTo>
 {{else}}
   {{#if @title}}
-    <span class="resume-campaign-banner__title">Vous n'avez pas terminé le parcours "{{@title}}"</span>
+    <span class="resume-campaign-banner__title">{{t 'pages.profile.resume-campaign-banner.reminder-continue-campaign-with-title' title=@title}}</span>
   {{else}}
-    <span class="resume-campaign-banner__title">Vous n'avez pas terminé votre parcours</span>
+    <span class="resume-campaign-banner__title">{{t 'pages.profile.resume-campaign-banner.reminder-continue-campaign'}}</span>
   {{/if}}
-  <LinkTo @route="campaigns.start-or-resume" @model={{@code}} class="resume-campaign-banner__button button button--big button--link">Reprendre</LinkTo>
+  <LinkTo @route="campaigns.start-or-resume" @model={{@code}} class="resume-campaign-banner__button button button--big button--link">{{t 'pages.profile.resume-campaign-banner.actions.resume'}}</LinkTo>
 {{/if}}
