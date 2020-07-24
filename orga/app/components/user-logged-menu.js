@@ -29,7 +29,7 @@ export default class UserLoggedMenu extends Component {
     return memberships.toArray()
       .map((membership) => membership.organization)
       .filter((organization) => organization.get('id') !== this.currentUser.organization.id)
-      .sort((a, b) => a.name.localeCompare(b.name));
+      .sort((a, b) => a.get('name').localeCompare(b.get('name')));
   }
 
   @action
