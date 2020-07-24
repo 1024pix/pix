@@ -1,6 +1,5 @@
 .button {
   font-family: $font-roboto;
-  padding: 14px 20px;
   font-size: 1rem;
   font-weight: 500;
   letter-spacing: 0.012rem;
@@ -136,6 +135,10 @@
     &:hover, &:active, &:focus {
       background-color: $grey-20;
     }
+  }
+
+  @include device-is('tablet') {
+    padding: 14px 20px;
   }
 }
 
