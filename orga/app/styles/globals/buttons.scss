@@ -1,4 +1,6 @@
 .button {
+  box-sizing: border-box;
+  font-family: $roboto;
   padding: 13px 20px;
   font-size: 0.875rem;
   font-weight: 500;
