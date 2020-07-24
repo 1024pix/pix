@@ -105,4 +105,9 @@ export default class RegisterForm extends Component {
     const scope = 'pix-orga';
     return this.session.authenticate('authenticator:oauth2', email, password, scope);
   }
+
+  willDestroy() {
+    this.user.unloadRecord();
+    super.willDestroy(...arguments);
+  }
 }

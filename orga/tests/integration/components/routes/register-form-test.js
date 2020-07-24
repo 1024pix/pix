@@ -42,6 +42,9 @@ module('Integration | Component | routes/register-form', function(hooks) {
         return EmberObject.create({
           save() {
             return resolve();
+          },
+          unloadRecord() {
+            return resolve();
           }
         });
       };
@@ -182,7 +185,10 @@ module('Integration | Component | routes/register-form', function(hooks) {
         this.owner.unregister('service:store');
         this.owner.register('service:store', storeStub);
         storeStub.prototype.createRecord = sinon.stub().returns({
-          save: spy
+          save: spy,
+          unloadRecord: () => {
+            return resolve();
+          }
         });
 
         await render(hbs`<Routes::RegisterForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
