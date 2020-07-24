@@ -12,7 +12,7 @@ describe('Integration | Component | learning-more-panel', function() {
     this.set('learningMoreTutorials', [{ titre: 'Ceci est un tuto', duration: '20:00:00', type: 'video' }]);
 
     // when
-    await render(hbs`{{learning-more-panel learningMoreTutorials=learningMoreTutorials}}`);
+    await render(hbs`<LearningMorePanel @learningMoreTutorials={{this.learningMoreTutorials}}/>`);
 
     // then
     expect(findAll('.learning-more-panel__container')).to.have.length(1);
@@ -25,7 +25,7 @@ describe('Integration | Component | learning-more-panel', function() {
     this.set('learningMoreTutorials', null);
 
     // when
-    await render(hbs`{{learning-more-panel learningMoreTutorials=learningMoreTutorials}}`);
+    await render(hbs`<LearningMorePanel @learningMoreTutorials={{this.learningMoreTutorials}}/>`);
 
     // then
     expect(findAll('.learning-more-panel__container')).to.have.lengthOf(0);
