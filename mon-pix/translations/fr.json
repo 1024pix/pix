@@ -127,6 +127,7 @@
         },
         "placeholder": "Chargement de l'application en cours"
       },
+      "first-title": "'<span class=\"sr-only\">'Épreuve pour l'évaluation :'</span>'{title}",
       "progress-bar": {
         "label": "Question"
       },

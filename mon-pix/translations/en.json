@@ -127,6 +127,7 @@
         },
         "placeholder": "Loading application"
       },
+      "first-title": "'<span class=\"sr-only\">'Challenge for: '</span>'{title}",
       "progress-bar": {
         "label": "Challenge"
       },

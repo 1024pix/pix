@@ -5,7 +5,7 @@
     </div>
     {{#if @title}}
       <div class="assessment-banner__splitter"></div>
-      <h1 class="assessment-banner__title">{{@title}}</h1>
+      <h1 class="assessment-banner__title">{{t 'pages.challenge.first-title' title=@title htmlSafe=true}}</h1>
     {{/if}}
     {{#if @displayHomeLink}}
       <LinkTo @route="index" class="assessment-banner__home-link">
