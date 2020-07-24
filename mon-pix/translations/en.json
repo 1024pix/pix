@@ -191,6 +191,48 @@
       }
     },
 
+    "comparison-window": {
+      "upcoming-tutorials": "Right here, you will soon be able to find tutorials to do well this kind of assessments!!",
+      "results": {
+        "ok": {
+          "title": "You have the correct answer",
+          "tooltip": "Correct answer"
+        },
+        "ko": {
+          "title": "You do not have the correct answer",
+          "tooltip": "Incorrect answer"
+        },
+        "aband": {
+          "title": "You did not give an answer",
+          "tooltip": "No answer"
+        },
+        "partially": {
+          "title": "You gave an incomplete answer",
+          "tooltip": "Incomplete answer"
+        },
+        "timedout": {
+          "title": "You exceeded the given time",
+          "tooltip": "Exceeded time"
+        },
+        "okAutoReply": {
+          "title": "You succeeded the challenge",
+          "tooltip": "Succeeded challenge"
+        },
+        "koAutoReply": {
+          "title": "You did not succeed the challenge",
+          "tooltip": "Unsuccessful challenge"
+        },
+        "abandAutoReply": {
+          "title": "You skipped the challenge",
+          "tooltip": "Skipped challenge"
+        },
+        "default": {
+          "title": "",
+          "tooltip": "Automatic correction in development ;)"
+        }
+      }
+    },
+
     "competence-details": {
       "title": "Competence",
       "actions": {
