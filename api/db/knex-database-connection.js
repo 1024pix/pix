@@ -49,6 +49,7 @@ async function listAllPixTableNames() {
   return _.without(tableNames,
     'knex_migrations',
     'knex_migrations_lock',
+    'stats_table_size_probes'
   );
 }
 
