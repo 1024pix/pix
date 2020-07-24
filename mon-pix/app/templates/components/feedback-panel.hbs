@@ -21,8 +21,8 @@
           <form class="feedback-panel__form">
             <div class="feedback-panel__group">
               <div class="feedback-panel__category-selection">
-                <select class="feedback-panel__dropdown" {{action "displayCategoryOptions" on="change"}}>
-                  <option value="" disabled selected>J’ai un problème avec</option>
+                <label for="feedback">Vous avez un problème avec : </label>
+                <select class="feedback-panel__dropdown" id="feedback" {{action "displayCategoryOptions" on="change"}}>
                   {{#each categories as |category|}}
                     <option value={{category.value}}>{{category.name}}</option>
                   {{/each}}
