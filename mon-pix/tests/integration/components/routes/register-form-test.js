@@ -273,7 +273,7 @@ describe('Integration | Component | routes/register-form', function() {
     });
 
     [
-      { status: '404', errorMessage: 'Vous êtes enseignant ? L’accès à un parcours n’est pas disponible pour le moment. Vous êtes un élève ? Vérifiez vos informations afin de continuer ou prévenez l’organisateur de votre parcours.' },
+      { status: '404', errorMessage: 'Vous êtes enseignant ? <br> L’accès à un parcours n’est pas disponible pour le moment. <br> <br> Vous êtes un élève ? <br> Vérifiez vos informations afin de continuer ou prévenez l’organisateur de votre parcours.' },
       { status: '409', errorMessage: 'Vous possédez déjà un compte Pix. Veuillez vous connecter.' },
     ].forEach(({ status, errorMessage }) => {
       it(`should display an error message if user saves with an error response status ${status}`, async function() {
@@ -309,7 +309,7 @@ describe('Integration | Component | routes/register-form', function() {
 
         await click('#submit-search');
 
-        expect(find('.register-form__error').textContent).to.equal(errorMessage);
+        expect(find('.register-form__error').innerHTML).to.equal(errorMessage);
       });
     });
   });
