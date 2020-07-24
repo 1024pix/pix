@@ -1,4 +1,4 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
+const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 
 const { UserNotAuthorizedToCertifyError, NotFoundError } = require('../../../../lib/domain/errors');
 const retrieveLastOrCreateCertificationCourse = require('../../../../lib/domain/usecases/retrieve-last-or-create-certification-course');
@@ -223,15 +223,16 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           };
           const mockAssessment = {
             userId,
-            certificationCourseId: savedCertificationCourse.id,
+            courseId: savedCertificationCourse.id,
             state: Assessment.states.STARTED,
             type: Assessment.types.CERTIFICATION,
           };
           const savedAssessment = {
             id: 'savedAssessment',
           };
-          const challenge1 = 'challenge1';
-          const challenge2 = 'challenge2';
+
+          const challenge1 = domainBuilder.buildCertificationChallenge();
+          const challenge2 = domainBuilder.buildCertificationChallenge();
           const generatedCertificationChallenges = [challenge1, challenge2];
           const savedCertificationChallenge1 = {
             id: 'savedCertificationChallenge1',
@@ -248,9 +249,9 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             certificationCourseRepository.save.resolves(savedCertificationCourse);
             assessmentRepository.save.resolves(savedAssessment);
             certificationChallengesService.generateCertificationChallenges
-              .withArgs(placementProfile.userCompetences, savedCertificationCourse.id).returns(generatedCertificationChallenges);
-            certificationChallengeRepository.save.withArgs({ certificationChallenge: challenge1, domainTransaction }).resolves(savedCertificationChallenge1);
-            certificationChallengeRepository.save.withArgs({ certificationChallenge: challenge2, domainTransaction }).resolves(savedCertificationChallenge2);
+              .withArgs(placementProfile.userCompetences).returns(generatedCertificationChallenges);
+            certificationChallengeRepository.save.withArgs({ certificationChallenge: { ...challenge1, courseId: savedCertificationCourse.id }, domainTransaction }).resolves(savedCertificationChallenge1);
+            certificationChallengeRepository.save.withArgs({ certificationChallenge: { ...challenge2, courseId: savedCertificationCourse.id }, domainTransaction }).resolves(savedCertificationChallenge2);
           });
 
           it('should return it with flag created marked as true with related ressources', async function() {

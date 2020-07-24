@@ -6,7 +6,6 @@ describe('Unit | Service | Certification Challenge Service', () => {
 
   describe('#generateCertificationChallenges', () => {
 
-    const certificationCourseId = 'certification-course-id';
     const challenge1 = {
       id: 'challengeId11',
       competenceId: 'competenceId1',
@@ -17,7 +16,6 @@ describe('Unit | Service | Certification Challenge Service', () => {
       competenceId: challenge1.competenceId,
       associatedSkillName: challenge1.testedSkill.name,
       associatedSkillId: challenge1.testedSkill.id,
-      courseId: certificationCourseId,
     });
     const challenge2 = {
       id: 'challengeId2',
@@ -29,7 +27,6 @@ describe('Unit | Service | Certification Challenge Service', () => {
       competenceId: challenge2.competenceId,
       associatedSkillName: challenge2.testedSkill.name,
       associatedSkillId: challenge2.testedSkill.id,
-      courseId: certificationCourseId,
     });
 
     const  severalUserCompetences = [
@@ -39,7 +36,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
 
     it('should return certification challenges objects generated from the provided userCompetences and certificationCourseId', async () => {
       // when
-      const actualCertificationChallenges = await certificationChallengesService.generateCertificationChallenges(severalUserCompetences, certificationCourseId);
+      const actualCertificationChallenges = await certificationChallengesService.generateCertificationChallenges(severalUserCompetences);
 
       // then
       expect(actualCertificationChallenges).to.deep.equal([ certificationChallenge1, certificationChallenge2 ]);

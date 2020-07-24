@@ -42,7 +42,7 @@ class CertificationCourse {
     this.sessionId = sessionId;
   }
 
-  static from({ certificationCandidate }) {
+  static from({ certificationCandidate, challenges }) {
     return new CertificationCourse({
       userId: certificationCandidate.userId,
       sessionId: certificationCandidate.sessionId,
@@ -52,6 +52,7 @@ class CertificationCourse {
       birthplace:certificationCandidate.birthCity,
       externalId:certificationCandidate.externalId,
       isV2Certification: true,
+      challenges,
     });
   }
 }
