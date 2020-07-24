@@ -205,6 +205,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             birthdate: Symbol('birthdate'),
             birthCity: Symbol('birthCity'),
             externalId: Symbol('externalId'),
+            userId,
+            sessionId
           };
           const mockCertificationCourse = {
             userId,
