@@ -1,4 +1,4 @@
-const { expect } = require('../../../test-helper');
+const { expect, domainBuilder } = require('../../../test-helper');
 const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
 const certificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
 
@@ -32,12 +32,9 @@ describe('Unit | Service | Certification Challenge Service', () => {
       courseId: certificationCourseId,
     });
 
-    const severalUserCompetences = [
-      {
-        challenges: [challenge1]
-      }, {
-        challenges: [challenge2]
-      }
+    const  severalUserCompetences = [
+      domainBuilder.buildUserCompetence({ challenges: [challenge1] }),
+      domainBuilder.buildUserCompetence({ challenges: [challenge2] })
     ];
 
     it('should return certification challenges objects generated from the provided userCompetences and certificationCourseId', async () => {
@@ -45,7 +42,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       const actualCertificationChallenges = await certificationChallengesService.generateCertificationChallenges(severalUserCompetences, certificationCourseId);
 
       // then
-      expect(actualCertificationChallenges).to.have.deep.members([ certificationChallenge1, certificationChallenge2 ]);
+      expect(actualCertificationChallenges).to.deep.equal([ certificationChallenge1, certificationChallenge2 ]);
     });
   });
 });
