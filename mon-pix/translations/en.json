@@ -232,6 +232,10 @@
       "first-title": "Oups, an error has occured!"
     },
 
+    "levelup-notif": {
+      "obtained-level": "Level { level } obtained!"
+    },
+
     "profile": {
       "title": "Your profile",
       "competence-card": {

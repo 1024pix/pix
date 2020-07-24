@@ -255,6 +255,10 @@
       }
     },
 
+    "levelup-notif": {
+      "obtained-level": "Niveau { level } gagné !"
+    },
+
     "result-item": {
       "aband": "Sans réponse",
       "actions": {
