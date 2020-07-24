@@ -236,6 +236,39 @@
       "subtitle": {
         "link": "connectez-vous à votre compte"
       }
+    },
+
+    "user-tutorials": {
+      "title": "Mes tutos",
+      "description": "Progresser grâce aux tutos suggérés par la communauté des utilisateurs de Pix.",
+      "empty-list-info": {
+        "description": {
+          "part1": "Au fil de vos tests, des tutos vous sont recommandés : cliquez sur l'icône marque page",
+          "part2": "pour enregistrer ceux que vous souhaitez retrouver ici !"
+        },
+        "image-link": "images/user-tutorials/illustration.svg",
+        "title": "Vous n'avez encore rien enregistré"
+      },
+      "list": {
+        "title": "Ma liste",
+        "tutorial": {
+          "actions": {
+            "evaluate": {
+              "extra-information": "Donner mon avis sur ce tuto",
+              "label": "Tuto utile"
+            },
+            "remove": {
+              "extra-information": "Retirer de ma liste de tutos",
+              "label": "Retirer"
+            },
+            "save": {
+              "extra-information": "Enregistrer dans ma liste de tutos",
+              "label": "Enregistrer"
+            }
+          },
+          "source": "Par"
+        }
+      }
     }
   },
 
@@ -244,6 +277,9 @@
     "homepage": "Page d'accueil",
     "back-to-homepage": "Revenir à la page d’accueil",
     "back-to-profile": "Retour Profil",
-    "pix": "Pix"
+    "pix": "Pix",
+    "user": {
+      "tutorials": "Mes tutos"
+    }
   }
 }
