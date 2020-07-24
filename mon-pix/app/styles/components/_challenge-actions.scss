@@ -30,8 +30,8 @@
   @include button-background-transition();
   border-radius: 23px;
   background-color: transparent;
-  color: $grey-60;
-  border: 1px solid $grey-50;
+  color: $grey-80;
+  border: 1px solid $grey-80;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -80,7 +80,7 @@
   height: 46px;
   border-radius: 23px;
   background-color: $green;
-  color: $white;
+  color: $grey-80;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -94,7 +94,7 @@
     text-decoration: none;
   }
   &:focus {
-    background: $green-pressed;
+    background: $green;
     text-decoration: none;
     border: 3px solid $green-dark;
   }
@@ -108,7 +108,7 @@
   font-weight: $font-semi-bold;
   text-transform: uppercase;
   letter-spacing: 0.094rem;
-  color: white;
+  color: $grey-80;
   text-decoration: none;
 }
 .challenge-actions__action-validate__loader {
