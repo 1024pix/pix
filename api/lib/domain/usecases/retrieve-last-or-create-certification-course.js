@@ -58,7 +58,7 @@ async function _startNewCertification({
   certificationChallengesService,
   placementProfileService,
 }) {
-  let placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate: new Date() });
+  const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate: new Date() });
 
   if (!placementProfile.isCertifiable()) {
     throw new UserNotAuthorizedToCertifyError();
@@ -67,7 +67,7 @@ async function _startNewCertification({
   // certficationProfile = CertificationProfile.from(placementProfile);
 
   // FIXME : Ce n'est pas la responsabilité du placementProfile que d'avoir les challenges
-  placementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
+  const placementProfileWithChallenges = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
   // certificationCourseChallenges = identifierLesChallenges(certificationProfile); // $$$
 
   const existingCertificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
@@ -83,8 +83,9 @@ async function _startNewCertification({
   }
 
   const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({ userId, sessionId });
+  const newCertificationChallenges = certificationChallengesService.generateCertificationChallenges(placementProfileWithChallenges.userCompetences);
 
-  const newCertificationCourse = CertificationCourse.from({ certificationCandidate });
+  const newCertificationCourse = CertificationCourse.from({ certificationCandidate, challenges:newCertificationChallenges });
   // const certificationCourse = CertificationCourse.from(certificationProfile, certificationCourseChallenges, certificationCandidate);
   // certificationCourseRepository.save(certificationCourse);
 
@@ -92,11 +93,13 @@ async function _startNewCertification({
     certificationCourse: newCertificationCourse,
     domainTransaction
   });
-  const newCertificationChallenges = certificationChallengesService.generateCertificationChallenges(placementProfile.userCompetences, savedCertificationCourse.id);
-  const savedChallenges = await Promise.all(newCertificationChallenges.map((certificationChallenge) => certificationChallengeRepository.save({ certificationChallenge, domainTransaction })));
+  const savedChallenges = await Promise.all(newCertificationChallenges.map((certificationChallenge) => {
+    const certificationChallengeWithCourseId = { ...certificationChallenge, courseId: savedCertificationCourse.id };
+    return certificationChallengeRepository.save({ certificationChallenge: certificationChallengeWithCourseId, domainTransaction });
+  }));
   savedCertificationCourse.challenges = savedChallenges;
 
-  const newAssessment = _generateAssessmentForCertificationCourse({ userId, certificationCourseId: savedCertificationCourse.id });
+  const newAssessment = _generateAssessmentForCertificationCourse({ userId, courseId: savedCertificationCourse.id });
   const savedAssessment = await assessmentRepository.save({ assessment: newAssessment, domainTransaction });
   savedCertificationCourse.assessment = savedAssessment;
 
@@ -106,10 +109,10 @@ async function _startNewCertification({
   };
 }
 
-function _generateAssessmentForCertificationCourse({ userId, certificationCourseId }) {
+function _generateAssessmentForCertificationCourse({ userId, courseId }) {
   return new Assessment({
     userId,
-    certificationCourseId,
+    courseId,
     state: Assessment.states.STARTED,
     type: Assessment.types.CERTIFICATION,
   });
