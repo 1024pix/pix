@@ -96,5 +96,6 @@ function _toDomain({ challengeDataObject, skillDataObjects }) {
     format: challengeDataObject.format,
     locales: challengeDataObject.locales,
     autoReply: challengeDataObject.autoReply,
+    alternativeInstructionFr: challengeDataObject.alternativeInstructionFr,
   });
 }

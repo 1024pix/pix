@@ -54,6 +54,7 @@ class Challenge {
       illustrationAlt,
       illustrationUrl,
       instruction,
+      alternativeInstructionFr,
       proposals,
       status,
       timer,
@@ -78,6 +79,7 @@ class Challenge {
     this.illustrationAlt = illustrationAlt;
     this.illustrationUrl = illustrationUrl;
     this.instruction = instruction;
+    this.alternativeInstructionFr = alternativeInstructionFr;
     this.proposals = proposals;
     this.timer = timer;
     this.status = status;

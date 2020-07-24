@@ -12,6 +12,7 @@ describe('Unit | Domain | Models | Challenge', () => {
         id: 'recwWzTquPlvIl4So',
         type: 'QCM',
         instruction: 'Les moteurs de recherche affichent certains liens en raison d\'un accord commercial.\n\nDans quels encadrés se trouvent ces liens ?',
+        alternativeInstructionFr: 'Pour aider les personnes ne pouvant voir ou afficher les instructions',
         proposals: '- 1\n- 2\n- 3\n- 4\n- 5',
         timer: 1234,
         illustrationUrl: 'https://dl.airtable.com/2MGErxGTQl2g2KiqlYgV_venise4.png',

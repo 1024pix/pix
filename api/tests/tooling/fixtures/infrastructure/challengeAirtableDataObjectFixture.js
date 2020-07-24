@@ -1,6 +1,7 @@
 module.exports = function ChallengeAirtableDataObjectFixture({
   id = 'recwWzTquPlvIl4So',
   instruction = 'Les moteurs de recherche affichent certains liens en raison d\'un accord commercial.\n\nDans quels encadrés se trouvent ces liens ?',
+  alternativeInstructionFr = '',
   proposals = '- 1\n- 2\n- 3\n- 4\n- 5',
   type = 'QCM',
   solution = '1, 5',
@@ -29,6 +30,7 @@ module.exports = function ChallengeAirtableDataObjectFixture({
   return {
     id,
     instruction,
+    alternativeInstructionFr,
     proposals,
     type,
     solution,

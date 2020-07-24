@@ -8,6 +8,7 @@ module.exports = {
       attributes: [
         'type',
         'instruction',
+        'alternativeInstructionFr',
         'competence',
         'proposals',
         'timer',
