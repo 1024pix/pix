@@ -17,7 +17,7 @@ describe('Integration | Component | learning-more-panel', function() {
     // then
     expect(findAll('.learning-more-panel__container')).to.have.length(1);
     expect(findAll('.learning-more-panel__list-container')).to.have.length(1);
-    expect(find('.learning-more-panel__container').textContent).to.contains('Pour en apprendre davantage');
+    expect(find('.learning-more-panel__container').textContent).to.contains(this.intl.t('pages.learning-more.title'));
   });
 
   it('should not render a list when there is no LearningMore elements', async function() {

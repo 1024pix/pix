@@ -274,6 +274,11 @@
       "first-title": "Oups, une erreur est survenue !"
     },
 
+    "learning-more": {
+      "title": "Pour en apprendre davantage",
+      "info": "Ces liens ont été proposés par des utilisateurs de Pix."
+    },
+
     "profile": {
       "title": "Votre profil",
       "competence-card": {
