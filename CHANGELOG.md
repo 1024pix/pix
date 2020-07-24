@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.175.1 (24/07/2020)
+
+- [#1677](https://github.com/1024pix/pix/pull/1677) [BUGFIX] Fix une erreur d'utilisation du service `intl`
+
 ## v2.175.0 (24/07/2020)
 
 - [#1663](https://github.com/1024pix/pix/pull/1663) [FEATURE] Traduction de la page Profil (PIX-800).
