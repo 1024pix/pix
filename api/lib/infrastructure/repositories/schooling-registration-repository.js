@@ -86,7 +86,7 @@ module.exports = {
             })
             .update(_.omit(schoolingRegistrationToUpdate, ['id', 'createdAt']));
         }),
-        Bookshelf.knex.batchInsert('schooling-registrations', schoolingRegistrationsToCreate)
+        trx.batchInsert('schooling-registrations', schoolingRegistrationsToCreate)
       ]);
       await trx.commit();
     } catch (err) {
