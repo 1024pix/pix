@@ -274,6 +274,11 @@
       "first-title": "Oups, an error has occured!"
     },
 
+    "learning-more": {
+      "title": "To learn more",
+      "info": "These links were recommended by Pix users."
+    },
+
     "levelup-notif": {
       "obtained-level": "Level { level } obtained!"
     },
