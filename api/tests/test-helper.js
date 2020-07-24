@@ -17,7 +17,7 @@ afterEach(function() {
 });
 
 // Knex
-const { knex, listAllTableNames } = require('../db/knex-database-connection');
+const { knex } = require('../db/knex-database-connection');
 
 // DatabaseBuilder
 const DatabaseBuilder = require('./tooling/database-builder/database-builder');

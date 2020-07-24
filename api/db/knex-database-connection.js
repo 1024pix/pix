@@ -44,11 +44,17 @@ async function listAllTableNames() {
   return _.map(rows, 'table_name');
 }
 
-async function emptyAllTables() {
+async function listAllPixTableNames() {
   const tableNames = await listAllTableNames();
-  const tablesToDelete = _.without(tableNames,
+  return _.without(tableNames,
     'knex_migrations',
     'knex_migrations_lock',
+  );
+}
+
+async function emptyAllTables() {
+  const tableNames = await listAllPixTableNames();
+  const tablesToDelete = _.without(tableNames,
     'pix_roles'
   );
 
@@ -103,6 +109,7 @@ module.exports = {
   knex,
   disconnect,
   listAllTableNames,
+  listAllPixTableNames,
   emptyAllTables,
   listTablesByDependencyOrderDesc,
 };

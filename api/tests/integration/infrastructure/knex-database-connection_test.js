@@ -21,6 +21,14 @@ describe('Integration | Infrastructure | knex-database-connection', () => {
     expect(tableNames).to.include('users');
   });
 
+  it('should list all tables related to pix activity by excluding unrelated tables, like "knex_migrations" table', async () => {
+    // when
+    const tableNames = await knexDatabaseConnection.listAllPixTableNames();
+    // then
+    expect(tableNames).to.include('users');
+    expect(tableNames).to.not.include('knex_migrations');
+  });
+
   it('should empty all tables', async () => {
     // given
     const { id } = databaseBuilder.factory.buildUser();
