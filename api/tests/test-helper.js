@@ -45,20 +45,6 @@ function generateValidRequestAuthorizationHeader(userId = 1234) {
   return `Bearer ${accessToken}`;
 }
 
-async function getCountOfAllRowsInDatabase()
-{
-  const results = [];
-  const tableNames = await listAllTableNames();
-  const promises = _.map(tableNames, (tableName) => {
-    return knex.raw('SELECT COUNT(*) FROM public."' + tableName + '"').then((result) => {
-      results.push({ table : tableName, countRows: _.toInteger(result.rows[0].count) });
-    });
-  });
-  await Promise.all(promises);
-
-  return _.sortBy(results, 'table');
-}
-
 async function insertUserWithRolePixMaster() {
 
   const user = databaseBuilder.factory.buildUser.withPixRolePixMaster({
@@ -173,7 +159,6 @@ module.exports = {
   domainBuilder: require('./tooling/domain-builder/factory'),
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
-  getCountOfAllRowsInDatabase,
   hFake,
   HttpTestServer: require('./tooling/server/http-test-server'),
   insertUserWithRolePixMaster,
