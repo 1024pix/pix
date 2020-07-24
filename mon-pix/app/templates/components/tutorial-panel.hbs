@@ -3,7 +3,7 @@
   {{#if this.shouldDisplayHintOrTuto}}
     <div class="tutorial-panel__hint-container">
       <header class="tutorial-panel__hint-container-header">
-        <h3 class="tutorial-panel__hint-title"><span>Pour réussir la prochaine fois</span></h3>
+        <h3 class="tutorial-panel__hint-title"><span>{{t "pages.tutorial-panel.title"}}</span></h3>
       </header>
 
       {{#if this.shouldDisplayHint}}
@@ -23,9 +23,7 @@
             <TutorialItem @tutorial={{tutorial}} />
           {{/each}}
         </div>
-        <div class="tutorial-panel__tutorial-info">
-          Ces liens ont été proposés par des utilisateurs de Pix.
-        </div>
+        <div class="tutorial-panel__tutorial-info">{{t "pages.tutorial-panel.info"}}</div>
       {{/if}}
 
     </div>
