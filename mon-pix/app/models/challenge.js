@@ -17,6 +17,7 @@ export default class Challenge extends Model {
   }) illustrationAlt;
   @attr('string') illustrationUrl;
   @attr('string') instruction;
+  @attr('string') alternativeInstructionFr;
   @attr('string') proposals;
   @attr('number') timer;
   @attr('string') type;
