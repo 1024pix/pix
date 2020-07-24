@@ -130,6 +130,16 @@ module.exports = (function() {
       debug: isFeatureEnabled(process.env.SENTRY_DEBUG),
       maxValueLength: 1000,
     },
+
+    scheduledJobs: {
+      redisUrl: process.env.REDIS_URL,
+      databaseStatisticsCollection: {
+        enabled: isFeatureEnabled(process.env.DATABASE_STATISTICS_COLLECTION_ENABLED),
+        version: 'v0.1',
+        cron: process.env.DATABASE_STATISTICS_COLLECTION_CRON,
+      },
+    },
+
   };
 
   if (process.env.NODE_ENV === 'test') {
