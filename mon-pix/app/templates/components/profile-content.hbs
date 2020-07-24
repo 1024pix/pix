@@ -5,9 +5,9 @@
 
     <div class="rounded-panel-header-with-components">
       <div class="rounded-panel-header__left-wrapper">
-        <h3 class="rounded-panel-header-text__content rounded-panel-title">
-          Vous avez 16 compétences à tester.<br>On se concentre et c'est partix&nbsp;!
-        </h3>
+        <h1 class="rounded-panel-header-text__content rounded-panel-title rounded-panel-header-text__content--first-title">
+        {{t 'pages.profile.first-title' htmlSafe=true}}
+        </h1>
       </div>
       <div class="rounded-panel-header__right-wrapper">
         <HexagonScore @pixScore={{@model.pixScore.value}} />

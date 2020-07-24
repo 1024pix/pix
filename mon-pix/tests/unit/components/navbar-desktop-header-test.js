@@ -52,12 +52,14 @@ describe('Unit | Component | Navbar Desktop Header Component', function() {
       it('should set with default values (including connexion link)', function() {
         // given
         const expectedUnloggedUserMenu = [
-          { name: 'Se connecter', link: 'login', class: 'navbar-menu-signin-link' },
-          { name: 'S’inscrire', link: 'inscription', class: 'navbar-menu-signup-link' }
+          { link: 'login' },
+          { link: 'inscription' }
         ];
 
         // then
-        expect(component.menu).to.deep.equal(expectedUnloggedUserMenu);
+        expect(component.menu).to.have.lengthOf(expectedUnloggedUserMenu.length);
+        expect(component.menu[0].link).to.equal(expectedUnloggedUserMenu[0].link);
+        expect(component.menu[1].link).to.equal(expectedUnloggedUserMenu[1].link);
       });
     });
   });
