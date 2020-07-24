@@ -33,7 +33,7 @@ describe('Integration | Component | assessment-banner', function() {
 
     it('should render the banner with a title', function() {
       expect(find('.assessment-banner__title')).to.exist;
-      expect(find('.assessment-banner__title').textContent).to.equal('My assessment');
+      expect(find('.assessment-banner__title').textContent).to.equal('Épreuve pour l\'évaluation : My assessment');
     });
 
     it('should render the banner with a splitter', function() {

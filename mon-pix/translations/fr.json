@@ -127,7 +127,14 @@
         },
         "placeholder": "Chargement de l'application en cours"
       },
-      "first-title": "'<span class=\"sr-only\">'Épreuve pour l'évaluation :'</span>'{title}",
+      "first-title": "'<span class=\"sr-only\">'Épreuve pour l'évaluation : '</span>'{title}",
+      "parts": {
+        "answer": "Votre réponse",
+        "instruction": "Consigne de l'épreuve",
+        "feedback": "Signaler une épreuve",
+        "progress": "Votre progression au sein de l'évaluation",
+        "validation": "Valider ou passer votre épreuve"
+      },
       "progress-bar": {
         "label": "Question"
       },

@@ -128,6 +128,13 @@
         "placeholder": "Loading application"
       },
       "first-title": "'<span class=\"sr-only\">'Challenge for: '</span>'{title}",
+      "parts": {
+        "answer": "Your answer",
+        "instruction": "Instruction for challenge",
+        "feedback": "Feedback about challenge",
+        "progress": "Your progression",
+        "validation": "Skip of validate your answer"
+      },
       "progress-bar": {
         "label": "Challenge"
       },

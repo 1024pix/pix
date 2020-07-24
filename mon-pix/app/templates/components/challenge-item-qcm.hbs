@@ -9,6 +9,7 @@
     <ChallengeStatement @challenge={{@challenge}} @assessment={{@assessment}} />
 
     <div class="rounded-panel__row challenge-response {{if @answer 'challenge-response--locked'}}">
+      <h2 class="sr-only">{{t 'pages.challenge.parts.answer'}}</h2>
       <div class="challenge-proposals">
         <QcmProposals @answer={{@answer}}
                       @answerValue={{@answer.value}}

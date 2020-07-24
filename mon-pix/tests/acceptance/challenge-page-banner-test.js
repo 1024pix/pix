@@ -40,7 +40,7 @@ describe('Acceptance | Challenge page banner', function() {
       await click('.campaign-tutorial__ignore-button');
 
       // then
-      expect(find('.assessment-banner__title').textContent).to.equal(campaign.title);
+      expect(find('.assessment-banner__title').textContent).to.equal('Épreuve pour l\'évaluation : ' + campaign.title);
     });
   });
 });
