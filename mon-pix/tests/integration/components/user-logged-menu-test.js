@@ -78,7 +78,7 @@ describe('Integration | Component | user logged menu', function() {
 
       return settled().then(() => {
         // then
-        expect(findAll('.logged-user-menu__link')[0].textContent.trim()).to.equal('Mes tutos');
+        expect(findAll('.logged-user-menu__link')[0].textContent.trim()).to.equal(this.intl.t('navigation.user.tutorials'));
       });
     });
 

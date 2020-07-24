@@ -236,6 +236,39 @@
       "subtitle": {
         "link": "sign in"
       }
+    },
+
+    "user-tutorials": {
+      "title": "My tutorials",
+      "description": "Improve with tutorials",
+      "empty-list-info": {
+        "description": {
+          "part1": "Use a bookmark",
+          "part2": "to save a tuto"
+        },
+        "image-link": "images/user-tutorials/illustration.svg",
+        "title": "No tuto saved"
+      },
+      "list": {
+        "title": "My list",
+        "tutorial": {
+          "actions": {
+            "evaluate": {
+              "extra-information": "Evaluate this tutorial",
+              "label": "Useful tutorial"
+            },
+            "remove": {
+              "extra-information": "Remove from my tutorials",
+              "label": "Remove"
+            },
+            "save": {
+              "extra-information": "Save in my tutorials",
+              "label": "Save"
+            }
+          },
+          "source": "By"
+        }
+      }
     }
   },
 
@@ -244,6 +277,9 @@
     "homepage": "Home page",
     "back-to-homepage": "Back to homepage",
     "back-to-profile": "Back to profile",
-    "pix": "Pix"
+    "pix": "Pix",
+    "user": {
+      "tutorials": "My tutorials"
+    }
   }
 }

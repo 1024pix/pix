@@ -105,6 +105,8 @@ module.exports = function(environment) {
     },
 
     moment: {
+      // Locale supported by moment.js
+      // English is bundled automatically, not need to add en in includeLocales
       includeLocales: ['fr'],
     },
 
