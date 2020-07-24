@@ -187,4 +187,14 @@
   &--grey {
     color: $grey-60;
   }
+
+  &--darker {
+    color: $blue-hover;
+    &:hover,
+    &:focus,
+    &:active {
+      color: $dark-blue-pro;
+    }
+
+  }
 }
