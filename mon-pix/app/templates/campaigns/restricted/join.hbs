@@ -62,7 +62,7 @@
         </div>
 
         {{#if errorMessage}}
-          <div class="join-restricted-campaign__error" aria-live="polite">{{errorMessage}}</div>
+          <div class="join-restricted-campaign__error" aria-live="polite">{{{errorMessage}}}</div>
         {{/if}}
         {{#if isLoading}}
           <button type="button" disabled class="button button--big"><span class="loader-in-button">&nbsp;</span></button>
