@@ -42,7 +42,7 @@ class CertificationCourse {
     this.sessionId = sessionId;
   }
 
-  static from({ certificationProfile, certificationCandidate, certificationChallenges }) {
+  static from({ certificationCandidate }) {
     return new CertificationCourse({
       userId: certificationCandidate.userId,
       sessionId: certificationCandidate.sessionId,
