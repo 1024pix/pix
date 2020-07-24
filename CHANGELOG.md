@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v2.175.0 (24/07/2020)
+
+- [#1663](https://github.com/1024pix/pix/pull/1663) [FEATURE] Traduction de la page Profil (PIX-800).
+- [#1660](https://github.com/1024pix/pix/pull/1660) [FEATURE] Traduire la page des tutos (PIX-796).
+- [#1638](https://github.com/1024pix/pix/pull/1638) [FEATURE] Permettre d'importer des inscriptions d'étudiants à une organisation SUP en utilisant un CSV (Pix-923).
+- [#1646](https://github.com/1024pix/pix/pull/1646) [FEATURE] Réconcilier les élèves automatiquement lors de l'import du fichier SIECLE (PIX-920).
+- [#1652](https://github.com/1024pix/pix/pull/1652) [FEATURE] certification avec des competences pix+ (PIX-964)
+- [#1643](https://github.com/1024pix/pix/pull/1643) [FEATURE] Migration du lien "retour" sur Pix UI (PIX-960)
+- [#1661](https://github.com/1024pix/pix/pull/1661) [FEATURE] Traduire la page "Oups" (PIX-791).
+- [#1659](https://github.com/1024pix/pix/pull/1659) [FEATURE] Traduire la page d'une épreuve (PIX-782).
+- [#1649](https://github.com/1024pix/pix/pull/1649) [FEATURE] Modification du style du détail des résultats d'un participant à une campagne d'évaluation (PIX-894).
+- [#1667](https://github.com/1024pix/pix/pull/1667) [BUGFIX] Problème de taille du champ de sélection du type d'organisation (PIX-914).
+- [#1671](https://github.com/1024pix/pix/pull/1671) [TECH] Octanification et Glimmerisation de Pix Orga (PIX-1011).
+- [#1669](https://github.com/1024pix/pix/pull/1669) [TECH] Réduction de la taille du bundle de pix-orga
+- [#1578](https://github.com/1024pix/pix/pull/1578) [TECH] Manage errors from api (JSONAPI)
+- [#1670](https://github.com/1024pix/pix/pull/1670) [CLEANUP] Rétablit des assertions sur le résultat dans quelques tests
+- [#1665](https://github.com/1024pix/pix/pull/1665) [INFRA] Ajoute une cible test:api:bail pour avoir du feedback plus rapidement
+- [#1668](https://github.com/1024pix/pix/pull/1668) [CLEANUP] Corrige des tests unitaires qui appellent la base de données
+
 ## v2.174.0 (21/07/2020)
 
 - [#1655](https://github.com/1024pix/pix/pull/1655) [FEATURE] Mise en place de la création et sauvegarde de Snapshot de knowledge-elements pour l'amélioration des performances de l'export CSV des collectes de profil (PIX-988)
