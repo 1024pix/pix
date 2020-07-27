@@ -22,7 +22,7 @@ async function getPlacementProfile({ userId, limitDate, isV2Certification = true
 }
 
 //TODO: Refacto ce n'est pas la responsabilité du placementProfile d'avoir les questions de certifications
-async function fillPlacementProfileWithChallenges(placementProfile) {
+async function pickCertificationChallenges(placementProfile) {
   const placementClone = _.clone(placementProfile);
   const knowledgeElementsByCompetence = await knowledgeElementRepository
     .findUniqByUserIdGroupedByCompetenceId({ userId: placementProfile.userId, limitDate: placementProfile.profileDate });
@@ -51,9 +51,9 @@ async function fillPlacementProfileWithChallenges(placementProfile) {
       .forEach((publishedSkill) => userCompetence.addSkill(publishedSkill));
   });
 
-  placementClone.userCompetences = UserCompetence.orderSkillsOfCompetenceByDifficulty(placementClone.userCompetences);
+  const userCompetences = UserCompetence.orderSkillsOfCompetenceByDifficulty(placementClone.userCompetences);
 
-  placementClone.userCompetences.forEach((userCompetence) => {
+  userCompetences.forEach((userCompetence) => {
     const testedSkills = [];
     userCompetence.skills.forEach((skill) => {
       if (!userCompetence.hasEnoughChallenges()) {
@@ -72,7 +72,7 @@ async function fillPlacementProfileWithChallenges(placementProfile) {
     userCompetence.skills = testedSkills;
   });
 
-  return placementClone;
+  return userCompetences;
 }
 
 function _getUserCompetenceByChallengeCompetenceId(userCompetences, challenge) {
@@ -184,5 +184,5 @@ async function getPlacementProfilesWithSnapshotting({ userIdsAndDates, competenc
 module.exports = {
   getPlacementProfile,
   getPlacementProfilesWithSnapshotting,
-  fillPlacementProfileWithChallenges,
+  pickCertificationChallenges,
 };

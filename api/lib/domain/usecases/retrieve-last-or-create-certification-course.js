@@ -67,7 +67,9 @@ async function _startNewCertification({
   // certficationProfile = CertificationProfile.from(placementProfile);
 
   // FIXME : Ce n'est pas la responsabilité du placementProfile que d'avoir les challenges
-  const placementProfileWithChallenges = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
+  const userCompetences = await placementProfileService.pickCertificationChallenges(placementProfile);
+  // FIXME: userCompetences, est-ce les mêmes partout ? sachant que celles qu'on a fabriqué ci-dessus prennent en compte les modifications de jury
+  const newCertificationChallenges = certificationChallengesService.generateCertificationChallenges(userCompetences);
   // certificationCourseChallenges = identifierLesChallenges(certificationProfile); // $$$
 
   const existingCertificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
@@ -83,12 +85,10 @@ async function _startNewCertification({
   }
 
   const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({ userId, sessionId });
-  const newCertificationChallenges = certificationChallengesService.generateCertificationChallenges(placementProfileWithChallenges.userCompetences);
 
-  const newCertificationCourse = CertificationCourse.from({ certificationCandidate, challenges:newCertificationChallenges });
-  // const certificationCourse = CertificationCourse.from(certificationProfile, certificationCourseChallenges, certificationCandidate);
+  const newCertificationCourse = CertificationCourse.from({ certificationCandidate, challenges: newCertificationChallenges });
+
   // certificationCourseRepository.save(certificationCourse);
-
   const savedCertificationCourse = await _saveCertificationCourse(certificationCourseRepository, newCertificationCourse, domainTransaction, certificationChallengeRepository);
 
   const newAssessment = _generateAssessmentForCertificationCourse({ userId, courseId: savedCertificationCourse.id });

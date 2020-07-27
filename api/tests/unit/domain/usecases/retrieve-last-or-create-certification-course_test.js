@@ -24,7 +24,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
   const sessionRepository = { get: sinon.stub() };
   const certificationChallengesService = { generateCertificationChallenges: sinon.stub() };
   const placementProfileService = {
-    fillPlacementProfileWithChallenges: sinon.stub(),
+    pickCertificationChallenges: sinon.stub(),
     getPlacementProfile: sinon.stub(),
   };
   const parameters = {
@@ -154,7 +154,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
         beforeEach(() => {
           placementProfile = { isCertifiable: sinon.stub().returns(true), userCompetences: 'someUserCompetences' };
           placementProfileService.getPlacementProfile.withArgs({ userId, limitDate: now }).resolves(placementProfile);
-          placementProfileService.fillPlacementProfileWithChallenges.withArgs(placementProfile).resolves(placementProfile);
+          placementProfileService.pickCertificationChallenges.withArgs(placementProfile).resolves(placementProfile);
         });
 
         context('when a certification course has been created meanwhile', () => {
@@ -192,7 +192,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             });
 
             // then
-            expect(placementProfileService.fillPlacementProfileWithChallenges).to.have.been.calledWith(placementProfile);
+            expect(placementProfileService.pickCertificationChallenges).to.have.been.calledWith(placementProfile);
           });
 
         });

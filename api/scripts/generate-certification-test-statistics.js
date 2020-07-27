@@ -34,13 +34,16 @@ async function _generateCertificationTest(userId, competences) {
     throw new Error('pas certifiable');
   }
 
-  const placementProfileWithChallenges = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
+  const userCompetences = await placementProfileService.pickCertificationChallenges(placementProfile);
 
-  return _.fromPairs(_.map(placementProfileWithChallenges.userCompetences, (userCompetence) => {
+  const certificationChallenges = _.flatMap(userCompetences, 'challenges');
+  const certificationChallengesCountByCompetenceId = _.countBy(certificationChallenges, 'competenceId');
+
+  return _.fromPairs(_.map(placementProfile.userCompetences, (userCompetence) => {
     if (userCompetence.isCertifiable()) {
       return [
         userCompetence.id,
-        userCompetence.challenges.length,
+        certificationChallengesCountByCompetenceId[userCompetence.id],
       ];
     }
     return [
