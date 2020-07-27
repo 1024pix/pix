@@ -252,7 +252,8 @@
       "fields": {
         "cgu": {
           "error": "Please accept terms of service before you sign up",
-          "label": "'<abbr title=\"mandatory\">'*'</abbr>' I accept '<a href=\"{cguUrl}\" class=\"link\" target=\"_blank\">'Pix's CGU'</a>'"
+          "label": "'<abbr title=\"mandatory\">'*'</abbr>' I accept ",
+          "cgu": "Pix's CGU"
         },
         "email": {
           "error": "Your email is invalid",
