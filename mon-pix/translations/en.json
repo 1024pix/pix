@@ -255,6 +255,20 @@
       }
     },
 
+    "result-item": {
+      "aband": "No answer",
+      "actions": {
+        "see-answers-and-tutorials": {
+          "extra-information": "See my answers and related tutorials",
+          "label": "Answers and tutorials"
+        }
+      },
+      "ko": "Incorrect answer",
+      "ok": "Correct answer",
+      "partially": "Incomplete answer",
+      "timedout": "Timed out"
+    },
+
     "sign-in": {
       "title": "Sign in",
       "actions": {

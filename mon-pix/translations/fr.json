@@ -255,6 +255,20 @@
       }
     },
 
+    "result-item": {
+      "aband": "Sans réponse",
+      "actions": {
+        "see-answers-and-tutorials": {
+          "extra-information": "Voir mes réponses et les tutoriels associés",
+          "label": "Réponses et tutos"
+        }
+      },
+      "ko": "Réponse incorrecte",
+      "ok": "Réponse correcte",
+      "partially": "Réponse partielle",
+      "timedout": "Temps dépassé"
+    },
+
     "sign-in": {
       "title": "Connexion",
       "actions": {
