@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v2.176.0 (27/07/2020)
+
+- [#1672](https://github.com/1024pix/pix/pull/1672) [FEATURE]  Traduction de la page de fin de certification (Pix-798)
+- [#1666](https://github.com/1024pix/pix/pull/1666) [FEATURE] Permettre le téléchargement du modèle d'import des étudiants inscrits dans Pix Orga (PIX-935).
+- [#1687](https://github.com/1024pix/pix/pull/1687) [BUGFIX] Problème d'affichage du lien des CGU lors de l'inscription (PIX-1028).
+- [#1681](https://github.com/1024pix/pix/pull/1681) [BUGFIX] Corriger l'affichage du texte de bouton de validation des épreuves au format mobile (PIX-604)
+- [#1678](https://github.com/1024pix/pix/pull/1678) [BUGFIX] Améliorer l'affichage du message d'erreur lors de la réconciliation d'un élève que l'on ne retrouve pas (PIX-1017)
+- [#1680](https://github.com/1024pix/pix/pull/1680) [BUGFIX] Résoudre le flaky test de schooling-registrations
+- [#1676](https://github.com/1024pix/pix/pull/1676) [BUGFIX] Harmonisation des boutons d'archivage et de modification d'une campagne (PIX-1016)
+- [#1675](https://github.com/1024pix/pix/pull/1675) [TECH] Faire apparaître la notion de profil de positionnement (!= profil de certification)
+
 ## v2.175.1 (24/07/2020)
 
 - [#1677](https://github.com/1024pix/pix/pull/1677) [BUGFIX] Fix une erreur d'utilisation du service `intl`
