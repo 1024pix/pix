@@ -477,7 +477,7 @@ describe('Integration | Service | Placement Profile Service', function() {
     });
   });
 
-  describe('#fillPlacementProfileWithChallenges', () => {
+  describe('#pickCertificationChallenges', () => {
     let placementProfile;
     let userCompetence1;
     let userCompetence2;
@@ -517,7 +517,7 @@ describe('Integration | Service | Placement Profile Service', function() {
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFive']);
 
       // when
-      await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
+      await placementProfileService.pickCertificationChallenges(placementProfile);
 
       // then
       sinon.assert.calledOnce(challengeRepository.findOperative);
@@ -529,10 +529,10 @@ describe('Integration | Service | Placement Profile Service', function() {
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFive']);
 
       // when
-      const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
+      const userCompetences = await placementProfileService.pickCertificationChallenges(placementProfile);
 
       // then
-      expect(actualPlacementProfile.userCompetences).to.deep.equal([
+      expect(userCompetences).to.deep.equal([
         {
           ...placementProfile.userCompetences[0],
           skills: [skillRemplir2],
@@ -550,10 +550,10 @@ describe('Integration | Service | Placement Profile Service', function() {
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves([]);
 
         // when
-        const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
+        const userCompetences = await placementProfileService.pickCertificationChallenges(placementProfile);
 
         // then
-        expect(actualPlacementProfile.userCompetences).to.deep.equal([
+        expect(userCompetences).to.deep.equal([
           {
             ...placementProfile.userCompetences[0],
             skills: [],
@@ -570,10 +570,10 @@ describe('Integration | Service | Placement Profile Service', function() {
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdEleven']);
 
         // when
-        const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
+        const userCompetences = await placementProfileService.pickCertificationChallenges(placementProfile);
 
         // then
-        expect(actualPlacementProfile.userCompetences).to.deep.equal([
+        expect(userCompetences).to.deep.equal([
           {
             ...placementProfile.userCompetences[0],
             skills: [],
@@ -590,16 +590,16 @@ describe('Integration | Service | Placement Profile Service', function() {
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdOne']);
 
         // when
-        const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
+        const userCompetences = await placementProfileService.pickCertificationChallenges(placementProfile);
         const expectedSkills = [skillCitation4];
 
         // then
-        expect(actualPlacementProfile.userCompetences).to.deep.equal([
+        expect(userCompetences).to.deep.equal([
           {
             ...placementProfile.userCompetences[0],
             skills: expectedSkills,
           }]);
-        const skillsForChallenges = _.uniq(_.flatMap(actualPlacementProfile.userCompetences[0].challenges, 'skills'));
+        const skillsForChallenges = _.uniq(_.flatMap(userCompetences[0].challenges, 'skills'));
         expect(skillsForChallenges).to.deep.include.members(expectedSkills);
       });
 
@@ -609,18 +609,18 @@ describe('Integration | Service | Placement Profile Service', function() {
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFour', 'challengeRecordIdTwo']);
 
         // when
-        const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
+        const userCompetences = await placementProfileService.pickCertificationChallenges(placementProfile);
         const expectedSkills = [skillCitation4, skillRecherche4, skillMoteur3];
 
         // then
-        expect(actualPlacementProfile.userCompetences).to.deep.equal([
+        expect(userCompetences).to.deep.equal([
           {
             ...placementProfile.userCompetences[0],
             skills: expectedSkills,
           },
         ]);
 
-        const skillsForChallenges = _.uniq(_.flatMap(actualPlacementProfile.userCompetences[0].challenges, 'skills'));
+        const skillsForChallenges = _.uniq(_.flatMap(userCompetences[0].challenges, 'skills'));
         expect(skillsForChallenges).to.deep.include.members(expectedSkills);
       });
 
@@ -630,18 +630,18 @@ describe('Integration | Service | Placement Profile Service', function() {
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFour', 'challengeRecordIdTwo']);
 
         // when
-        const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
+        const userCompetences = await placementProfileService.pickCertificationChallenges(placementProfile);
         const expectedSkills = [skillCitation4, skillRecherche4, skillMoteur3];
 
         // then
-        expect(actualPlacementProfile.userCompetences).to.deep.equal([
+        expect(userCompetences).to.deep.equal([
           {
-            ...placementProfile.userCompetences[0],
+            ...userCompetences[0],
             skills: expectedSkills,
           },
         ]);
 
-        const skillsForChallenges = _.uniq(_.flatMap(actualPlacementProfile.userCompetences[0].challenges, 'skills'));
+        const skillsForChallenges = _.uniq(_.flatMap(userCompetences[0].challenges, 'skills'));
         expect(skillsForChallenges.length).to.equal(expectedSkills.length);
       });
     });
@@ -651,10 +651,10 @@ describe('Integration | Service | Placement Profile Service', function() {
       placementProfile.userCompetences = [userCompetence1, userCompetence2];
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFour', 'challengeRecordIdFive', 'challengeRecordIdSeven']);
       // when
-      const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
+      const userCompetences = await placementProfileService.pickCertificationChallenges(placementProfile);
 
       // then
-      expect(actualPlacementProfile.userCompetences).to.deep.equal([
+      expect(userCompetences).to.deep.equal([
         {
           id: 'competenceRecordIdOne',
           index: '1.1',
@@ -682,10 +682,10 @@ describe('Integration | Service | Placement Profile Service', function() {
       placementProfile.userCompetences = [userCompetence1, userCompetence2];
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdSix', 'challengeRecordIdFive', 'challengeRecordIdSeven']);
       // when
-      const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
+      const userCompetences = await placementProfileService.pickCertificationChallenges(placementProfile);
 
       // then
-      expect(actualPlacementProfile.userCompetences).to.deep.equal([
+      expect(userCompetences).to.deep.equal([
         {
           id: 'competenceRecordIdOne',
           index: '1.1',
@@ -713,10 +713,10 @@ describe('Integration | Service | Placement Profile Service', function() {
       placementProfile.userCompetences = [userCompetence1, userCompetence2];
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdSix', 'challengeRecordIdFive', 'challengeRecordIdSeven', 'challengeRecordIdEight']);
       // when
-      const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
+      const userCompetences = await placementProfileService.pickCertificationChallenges(placementProfile);
 
       // then
-      expect(actualPlacementProfile.userCompetences).to.deep.equal([
+      expect(userCompetences).to.deep.equal([
         {
           id: 'competenceRecordIdOne',
           index: '1.1',
@@ -744,10 +744,10 @@ describe('Integration | Service | Placement Profile Service', function() {
       placementProfile.userCompetences = [userCompetence1, userCompetence2];
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFive', 'challengeRecordIdFive']);
       // when
-      const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
+      const userCompetences = await placementProfileService.pickCertificationChallenges(placementProfile);
 
       // then
-      expect(actualPlacementProfile.userCompetences).to.deep.equal([
+      expect(userCompetences).to.deep.equal([
         {
           id: 'competenceRecordIdOne',
           index: '1.1',
@@ -775,10 +775,10 @@ describe('Integration | Service | Placement Profile Service', function() {
       placementProfile.userCompetences = [userCompetence1, userCompetence2];
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['nonExistentchallengeRecordId']);
       // when
-      const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
+      const userCompetences = await placementProfileService.pickCertificationChallenges(placementProfile);
 
       // then
-      expect(actualPlacementProfile.userCompetences).to.deep.equal([
+      expect(userCompetences).to.deep.equal([
         {
           id: 'competenceRecordIdOne',
           index: '1.1',
@@ -806,10 +806,10 @@ describe('Integration | Service | Placement Profile Service', function() {
       placementProfile.userCompetences = [userCompetence1, userCompetence2];
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdThree']);
       // when
-      const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
+      const userCompetences = await placementProfileService.pickCertificationChallenges(placementProfile);
 
       // then
-      expect(actualPlacementProfile.userCompetences).to.deep.equal([
+      expect(userCompetences).to.deep.equal([
         {
           id: 'competenceRecordIdOne',
           index: '1.1',
@@ -839,12 +839,12 @@ describe('Integration | Service | Placement Profile Service', function() {
         placementProfile.userCompetences = [userCompetence1, userCompetence2];
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdSix', 'challengeRecordIdFive', 'challengeRecordIdSeven', 'challengeRecordIdEight']);
         // when
-        const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
+        const userCompetences = await placementProfileService.pickCertificationChallenges(placementProfile);
 
         // then
-        expect(actualPlacementProfile.userCompetences[1].skills)
+        expect(userCompetences[1].skills)
           .to.have.members([skillRemplir4, skillUrl3, skillRemplir2]);
-        expect(actualPlacementProfile.userCompetences[1].challenges)
+        expect(userCompetences[1].challenges)
           .to.have.members([challengeForSkillRemplir4, challengeForSkillUrl3, challengeForSkillRemplir2]);
       });
     });
@@ -863,12 +863,12 @@ describe('Integration | Service | Placement Profile Service', function() {
           challenge2ForSkillSearch1,
         ]);
         // when
-        const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
+        const userCompetences = await placementProfileService.pickCertificationChallenges(placementProfile);
 
         // then
-        expect(actualPlacementProfile.userCompetences[0].skills)
+        expect(userCompetences[0].skills)
           .to.have.members([skillCitation4, skillRecherche4, skillMoteur3, skillSearch1]);
-        expect(actualPlacementProfile.userCompetences[0].challenges)
+        expect(userCompetences[0].challenges)
           .to.have.members([challengeForSkillCitation4AndMoteur3, challengeForSkillRecherche4, challenge2ForSkillSearch1]);
       });
     });
