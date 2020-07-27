@@ -218,9 +218,18 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             externalId: foundCertificationCandidate.externalId,
             isV2Certification: true,
           };
+          const challenge1 = domainBuilder.buildCertificationChallenge();
+          const challenge2 = domainBuilder.buildCertificationChallenge();
+          const generatedCertificationChallenges = [challenge1, challenge2];
+
+          const savedCertificationChallenge1 = { id: 'savedCertificationChallenge1', };
+          const savedCertificationChallenge2 = { id: 'savedCertificationChallenge2', };
+
           const savedCertificationCourse = {
             id: 'savedCertificationCourse',
+            challenges: [challenge1, challenge2]
           };
+
           const mockAssessment = {
             userId,
             courseId: savedCertificationCourse.id,
@@ -229,16 +238,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           };
           const savedAssessment = {
             id: 'savedAssessment',
-          };
-
-          const challenge1 = domainBuilder.buildCertificationChallenge();
-          const challenge2 = domainBuilder.buildCertificationChallenge();
-          const generatedCertificationChallenges = [challenge1, challenge2];
-          const savedCertificationChallenge1 = {
-            id: 'savedCertificationChallenge1',
-          };
-          const savedCertificationChallenge2 = {
-            id: 'savedCertificationChallenge2',
           };
 
           beforeEach(() => {
