@@ -6,9 +6,6 @@ import { tracked } from '@glimmer/tracking';
 
 @classic
 export default class TermsOfServiceController extends Controller {
-
-  pageTitle = 'Conditions d\'utilisation';
-  
   @service session;
   @service currentUser;
   @service url;
