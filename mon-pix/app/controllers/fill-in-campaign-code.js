@@ -6,8 +6,7 @@ import Controller from '@ember/controller';
 export default class FillInCampaignCodeController extends Controller {
   @service store;
   @service intl;
-  
-  pageTitle = this.intl.t('pages.fill-in-campaign-code.title');
+
   campaignCode = null;
 
   @tracked
