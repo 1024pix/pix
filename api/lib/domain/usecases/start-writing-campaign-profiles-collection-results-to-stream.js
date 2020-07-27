@@ -64,16 +64,26 @@ function _getCommonColumns({
 
 function _getSharedColumns({
   campaignParticipationResultData,
-  certificationProfile,
+  placementProfile,
 }) {
+  const competenceStats = _.map(placementProfile.userCompetences, (userCompetence) => {
+
+    return {
+      id: userCompetence.id,
+      earnedPix: userCompetence.pixScore,
+      level: userCompetence.estimatedLevel,
+    };
+  });
+
   const lineMap = {
     sharedAt: moment.utc(campaignParticipationResultData.sharedAt).format('YYYY-MM-DD'),
-    isCertifiable: certificationProfile.isCertifiable() ? 'Oui' : 'Non',
-    certifiableCompetencesCount: certificationProfile.getCertifiableCompetencesCount(),
+    totalEarnedPix: _.sumBy(competenceStats, 'earnedPix'),
+    isCertifiable: placementProfile.isCertifiable() ? 'Oui' : 'Non',
+    certifiableCompetencesCount: placementProfile.getCertifiableCompetencesCount(),
   };
 
   let totalEarnedPix = 0;
-  certificationProfile.userCompetences.forEach(({ id, pixScore, estimatedLevel }) => {
+  placementProfile.userCompetences.forEach(({ id, pixScore, estimatedLevel }) => {
     lineMap[`competence_${id}_level`] = estimatedLevel;
     lineMap[`competence_${id}_earnedPix`] = pixScore;
     totalEarnedPix += pixScore;
@@ -89,7 +99,7 @@ function _createOneLineOfCSV({
   organization,
   campaign,
   campaignParticipationResultData,
-  certificationProfile,
+  placementProfile,
 
   participantFirstName,
   participantLastName,
@@ -105,7 +115,7 @@ function _createOneLineOfCSV({
   if (campaignParticipationResultData.isShared) {
     _.assign(lineMap, _getSharedColumns({
       campaignParticipationResultData,
-      certificationProfile,
+      placementProfile,
     }));
   }
 
@@ -126,7 +136,7 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
     competenceRepository,
     campaignParticipationRepository,
     organizationRepository,
-    certificationProfileService,
+    placementProfileService,
   }) {
 
   const campaign = await campaignRepository.get(campaignId);
@@ -160,21 +170,21 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
       ];
     }));
 
-    const certificationProfiles = await certificationProfileService.getCertificationProfilesWithSnapshotting({
+    const placementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
       userIdsAndDates,
       competences: allPixCompetences,
       allowExcessPixAndLevels: false
     });
 
     let csvLines = '';
-    for (const certificationProfile of certificationProfiles) {
-      const campaignParticipationResultData = campaignParticipationResultDataChunk.find(({ userId }) =>  userId === certificationProfile.userId);
+    for (const placementProfile of placementProfiles) {
+      const campaignParticipationResultData = campaignParticipationResultDataChunk.find(({ userId }) =>  userId === placementProfile.userId);
       const csvLine = _createOneLineOfCSV({
         headers,
         organization,
         campaign,
         campaignParticipationResultData,
-        certificationProfile,
+        placementProfile,
 
         participantFirstName: campaignParticipationResultData.participantFirstName,
         participantLastName: campaignParticipationResultData.participantLastName,

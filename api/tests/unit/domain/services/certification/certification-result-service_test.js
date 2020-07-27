@@ -6,7 +6,7 @@ const { states } = require('../../../../../lib/domain/models/CertificationAssess
 const Answer = require('../../../../../lib/domain/models/Answer');
 const challengeRepository = require('../../../../../lib/infrastructure/repositories/challenge-repository');
 const competenceRepository = require('../../../../../lib/infrastructure/repositories/competence-repository');
-const certificationProfileService = require('../../../../../lib/domain/services/certification-profile-service');
+const placementProfileService = require('../../../../../lib/domain/services/placement-profile-service');
 const UserCompetence = require('../../../../../lib/domain/models/UserCompetence');
 
 function _buildUserCompetence(competence, pixScore, estimatedLevel) {
@@ -204,7 +204,7 @@ describe('Unit | Service | Certification Result Service', function() {
 
         sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves(allPixCompetencesFromAirtable);
         sinon.stub(challengeRepository, 'findOperative').resolves(challengesFromAirTable);
-        sinon.stub(certificationProfileService, 'getCertificationProfile').withArgs({
+        sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
           userId: certificationAssessment.userId,
           limitDate: certificationAssessment.createdAt,
           isV2Certification: certificationAssessment.isV2Certification,
@@ -216,7 +216,7 @@ describe('Unit | Service | Certification Result Service', function() {
         await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
 
         // then
-        sinon.assert.calledOnce(certificationProfileService.getCertificationProfile);
+        sinon.assert.calledOnce(placementProfileService.getPlacementProfile);
       });
 
       it('should retrieve validated challenges', async () => {
@@ -619,8 +619,8 @@ describe('Unit | Service | Certification Result Service', function() {
 
               certificationAssessment.certificationAnswersByDate = answers;
               certificationAssessment.certificationChallenges = challenges;
-              certificationProfileService.getCertificationProfile.restore();
-              sinon.stub(certificationProfileService, 'getCertificationProfile').withArgs({
+              placementProfileService.getPlacementProfile.restore();
+              sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
                 userId: certificationAssessment.userId,
                 limitDate: certificationAssessment.createdAt,
                 isV2Certification: certificationAssessment.isV2Certification,
@@ -649,7 +649,7 @@ describe('Unit | Service | Certification Result Service', function() {
         certificationAssessment.certificationChallenges = challenges;
         sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves(allPixCompetencesFromAirtable);
         sinon.stub(challengeRepository, 'findOperative').resolves(challengesFromAirTable);
-        sinon.stub(certificationProfileService, 'getCertificationProfile').withArgs({
+        sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
           userId: certificationAssessment.userId,
           limitDate: certificationAssessment.createdAt,
           isV2Certification: certificationAssessment.isV2Certification,
@@ -962,9 +962,9 @@ describe('Unit | Service | Certification Result Service', function() {
           certificationAssessment.certificationChallenges = challenges;
 
           challengeRepository.findOperative.restore();
-          certificationProfileService.getCertificationProfile.restore();
+          placementProfileService.getPlacementProfile.restore();
           sinon.stub(challengeRepository, 'findOperative').resolves(listChallengeComp5WithOneQROCMDEPChallengeAndAnother);
-          sinon.stub(certificationProfileService, 'getCertificationProfile').withArgs({
+          sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
             userId: certificationAssessment.userId,
             limitDate: certificationAssessment.createdAt,
             isV2Certification: certificationAssessment.isV2Certification,

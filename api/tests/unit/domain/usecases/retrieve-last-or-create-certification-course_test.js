@@ -23,9 +23,9 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
   };
   const sessionRepository = { get: sinon.stub() };
   const certificationChallengesService = { generateCertificationChallenges: sinon.stub() };
-  const certificationProfileService = {
-    fillCertificationProfileWithChallenges: sinon.stub(),
-    getCertificationProfile: sinon.stub(),
+  const placementProfileService = {
+    fillPlacementProfileWithChallenges: sinon.stub(),
+    getPlacementProfile: sinon.stub(),
   };
   const parameters = {
     domainTransaction,
@@ -36,7 +36,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
     certificationCourseRepository,
     sessionRepository,
     certificationChallengesService,
-    certificationProfileService,
+    placementProfileService,
   };
 
   beforeEach(() => {
@@ -103,7 +103,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
     });
 
     context('when no certification course exists for this userId and sessionId', () => {
-      let certificationProfile;
+      let placementProfile;
       let competences;
 
       beforeEach(() => {
@@ -116,8 +116,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
       context('when the user is not certifiable', () => {
 
         beforeEach(() => {
-          certificationProfile = { isCertifiable: sinon.stub().returns(false) };
-          certificationProfileService.getCertificationProfile.withArgs({ userId, limitDate: now }).resolves(certificationProfile);
+          placementProfile = { isCertifiable: sinon.stub().returns(false) };
+          placementProfileService.getPlacementProfile.withArgs({ userId, limitDate: now }).resolves(placementProfile);
         });
 
         it('should throw a UserNotAuthorizedToCertifyError', async function() {
@@ -152,9 +152,9 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
       context('when user is certifiable', () => {
 
         beforeEach(() => {
-          certificationProfile = { isCertifiable: sinon.stub().returns(true), userCompetences: 'someUserCompetences' };
-          certificationProfileService.getCertificationProfile.withArgs({ userId, limitDate: now }).resolves(certificationProfile);
-          certificationProfileService.fillCertificationProfileWithChallenges.withArgs(certificationProfile).resolves(certificationProfile);
+          placementProfile = { isCertifiable: sinon.stub().returns(true), userCompetences: 'someUserCompetences' };
+          placementProfileService.getPlacementProfile.withArgs({ userId, limitDate: now }).resolves(placementProfile);
+          placementProfileService.fillPlacementProfileWithChallenges.withArgs(placementProfile).resolves(placementProfile);
         });
 
         context('when a certification course has been created meanwhile', () => {
@@ -192,7 +192,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             });
 
             // then
-            expect(certificationProfileService.fillCertificationProfileWithChallenges).to.have.been.calledWith(certificationProfile);
+            expect(placementProfileService.fillPlacementProfileWithChallenges).to.have.been.calledWith(placementProfile);
           });
 
         });
@@ -241,12 +241,12 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           beforeEach(() => {
             certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
               .withArgs({ userId, sessionId, domainTransaction }).onCall(1).resolves(null);
-            certificationProfileService.getCertificationProfile.withArgs({ userId, limitDate: now }).resolves(certificationProfile);
+            placementProfileService.getPlacementProfile.withArgs({ userId, limitDate: now }).resolves(placementProfile);
             certificationCandidateRepository.getBySessionIdAndUserId.withArgs({ sessionId, userId }).resolves(foundCertificationCandidate);
             certificationCourseRepository.save.resolves(savedCertificationCourse);
             assessmentRepository.save.resolves(savedAssessment);
             certificationChallengesService.generateCertificationChallenges
-              .withArgs(certificationProfile.userCompetences, savedCertificationCourse.id).returns(generatedCertificationChallenges);
+              .withArgs(placementProfile.userCompetences, savedCertificationCourse.id).returns(generatedCertificationChallenges);
             certificationChallengeRepository.save.withArgs({ certificationChallenge: challenge1, domainTransaction }).resolves(savedCertificationChallenge1);
             certificationChallengeRepository.save.withArgs({ certificationChallenge: challenge2, domainTransaction }).resolves(savedCertificationChallenge2);
           });

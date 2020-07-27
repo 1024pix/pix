@@ -1,6 +1,6 @@
 const { sinon, expect, hFake } = require('../../../test-helper');
 
-const CertificationProfile = require('../../../../lib/domain/models/CertificationProfile');
+const PlacementProfile = require('../../../../lib/domain/models/PlacementProfile');
 const User = require('../../../../lib/domain/models/User');
 
 const userController = require('../../../../lib/application/users/user-controller');
@@ -592,16 +592,15 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#getCertificationProfile', () => {
+  describe('#isCertifiable', () => {
 
     beforeEach(() => {
-      sinon.stub(usecases, 'getUserCurrentCertificationProfile').resolves(new CertificationProfile());
+      sinon.stub(usecases, 'isUserCertifiable').resolves(new PlacementProfile());
     });
 
-    it('should return the user certification profile', async () => {
+    it('should return wether the user is certifiable', async () => {
       // given
       const userId = '76';
-
       const request = {
         auth: {
           credentials: {
@@ -614,10 +613,10 @@ describe('Unit | Controller | user-controller', () => {
       };
 
       // when
-      await userController.getCertificationProfile(request);
+      await userController.isCertifiable(request);
 
       // then
-      expect(usecases.getUserCurrentCertificationProfile).to.have.been.calledWith({ userId });
+      expect(usecases.isUserCertifiable).to.have.been.calledWith({ userId });
     });
   });
 

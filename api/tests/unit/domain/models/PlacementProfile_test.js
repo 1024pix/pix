@@ -1,14 +1,14 @@
 const { expect } = require('../../../test-helper');
-const CertificationProfile = require('../../../../lib/domain/models/CertificationProfile');
+const PlacementProfile = require('../../../../lib/domain/models/PlacementProfile');
 const UserCompetence = require('../../../../lib/domain/models/UserCompetence');
 
-describe('Unit | Domain | Models | CertificationProfile', () => {
+describe('Unit | Domain | Models | PlacementProfile', () => {
 
   describe('#constructor', () => {
 
-    it('should construct a model CertificationProfile from attributes', () => {
+    it('should construct a model PlacementProfile from attributes', () => {
       // given
-      const certificationProfileRawData = {
+      const placementProfileRawData = {
         profileDate: new Date('2018-01-01T00:00:00Z'),
         userId: 1,
         userCompetences: [ new UserCompetence({
@@ -22,11 +22,11 @@ describe('Unit | Domain | Models | CertificationProfile', () => {
       };
 
       // when
-      const actualCertificationProfile = new CertificationProfile(certificationProfileRawData);
+      const actualPlacementProfile = new PlacementProfile(placementProfileRawData);
 
       // then
-      expect(actualCertificationProfile).to.be.an.instanceof(CertificationProfile);
-      expect(actualCertificationProfile).to.deep.equal(certificationProfileRawData);
+      expect(actualPlacementProfile).to.be.an.instanceof(PlacementProfile);
+      expect(actualPlacementProfile).to.deep.equal(placementProfileRawData);
     });
   });
 
@@ -35,10 +35,10 @@ describe('Unit | Domain | Models | CertificationProfile', () => {
     it('should return false when the certification profile is not certifiable', () => {
       // given
       const userCompetence = new UserCompetence({ estimatedLevel: 5 });
-      const certificationProfile = new CertificationProfile({ userCompetences: [userCompetence] });
+      const placementProfile = new PlacementProfile({ userCompetences: [userCompetence] });
 
       // when
-      const result = certificationProfile.isCertifiable();
+      const result = placementProfile.isCertifiable();
 
       // then
       expect(result).to.be.false;
@@ -51,12 +51,12 @@ describe('Unit | Domain | Models | CertificationProfile', () => {
       const userCompetence3 = new UserCompetence({ estimatedLevel: 2 });
       const userCompetence4 = new UserCompetence({ estimatedLevel: 3 });
       const userCompetence5 = new UserCompetence({ estimatedLevel: 1 });
-      const certificationProfile = new CertificationProfile({
+      const placementProfile = new PlacementProfile({
         userCompetences: [userCompetence1, userCompetence2, userCompetence3, userCompetence4, userCompetence5],
       });
 
       // when
-      const result = certificationProfile.isCertifiable();
+      const result = placementProfile.isCertifiable();
 
       // then
       expect(result).to.be.true;
@@ -73,12 +73,12 @@ describe('Unit | Domain | Models | CertificationProfile', () => {
       const userCompetence3 = new UserCompetence({ estimatedLevel: 2 });
       const userCompetence4 = new UserCompetence({ estimatedLevel: 3 });
       const userCompetence5 = new UserCompetence({ estimatedLevel: 1 });
-      const certificationProfile = new CertificationProfile({
+      const placementProfile = new PlacementProfile({
         userCompetences: [userCompetence1, userCompetence2, userCompetence3, userCompetence4, userCompetence5],
       });
 
       // when
-      const certifiableCompetencesCount = certificationProfile.getCertifiableCompetencesCount();
+      const certifiableCompetencesCount = placementProfile.getCertifiableCompetencesCount();
 
       // then
       expect(certifiableCompetencesCount).to.equal(5);
@@ -88,12 +88,12 @@ describe('Unit | Domain | Models | CertificationProfile', () => {
       // given
       const userCompetence1 = new UserCompetence({ estimatedLevel: 2 });
       const userCompetence2 = new UserCompetence({ estimatedLevel: 0 });
-      const certificationProfile = new CertificationProfile({
+      const placementProfile = new PlacementProfile({
         userCompetences: [userCompetence1, userCompetence2 ],
       });
 
       // when
-      const certifiableCompetencesCount = certificationProfile.getCertifiableCompetencesCount();
+      const certifiableCompetencesCount = placementProfile.getCertifiableCompetencesCount();
 
       // then
       expect(certifiableCompetencesCount).to.equal(1);
@@ -105,11 +105,11 @@ describe('Unit | Domain | Models | CertificationProfile', () => {
     it('returns the number of competence', () => {
       const userCompetence1 = new UserCompetence();
       const userCompetence2 = new UserCompetence();
-      const certificationProfile = new CertificationProfile({
+      const placementProfile = new PlacementProfile({
         userCompetences: [userCompetence1, userCompetence2],
       });
 
-      const competencesCount = certificationProfile.getCompetencesCount();
+      const competencesCount = placementProfile.getCompetencesCount();
 
       expect(competencesCount).to.equal(2);
     });
@@ -120,11 +120,11 @@ describe('Unit | Domain | Models | CertificationProfile', () => {
     it('returns the pixScore', () => {
       const userCompetence1 = new UserCompetence({ pixScore: 12 });
       const userCompetence2 = new UserCompetence({ pixScore: 8 });
-      const certificationProfile = new CertificationProfile({
+      const placementProfile = new PlacementProfile({
         userCompetences: [userCompetence1, userCompetence2],
       });
 
-      const pixScore = certificationProfile.getPixScore();
+      const pixScore = placementProfile.getPixScore();
 
       expect(pixScore).to.equal(20);
     });

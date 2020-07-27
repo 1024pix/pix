@@ -11,9 +11,9 @@ function _addDefaultPixscore(user, server) {
   }
 }
 
-function _addDefaultCertificationProfile(user, server) {
-  if (!user.certificationProfile) {
-    user.update({ certificationProfile: server.create('certification-profile', { 'is-certifiable': false }) });
+function _addDefaultIsCertifiable(user, server) {
+  if (!user.isCertifiable) {
+    user.update({ isCertifiable: server.create('is-certifiable', { 'is-certifiable': false }) });
   }
 }
 
@@ -167,12 +167,12 @@ export default Factory.extend({
   }),
   certifiable: trait({
     afterCreate(user, server) {
-      user.update({ certificationProfile: server.create('certification-profile', { 'is-certifiable': true }) });
+      user.update({ isCertifiable: server.create('is-certifiable', { 'is-certifiable': true }) });
     }
   }),
   notCertifiable: trait({
     afterCreate(user, server) {
-      user.update({ certificationProfile: server.create('certification-profile', { 'is-certifiable': false }) });
+      user.update({ isCertifiable: server.create('is-certifiable', { 'is-certifiable': false }) });
     }
   }),
   withSomeCertificates: trait({
@@ -206,7 +206,7 @@ export default Factory.extend({
     }
   }),
   afterCreate(user, server) {
-    _addDefaultCertificationProfile(user, server);
+    _addDefaultIsCertifiable(user, server);
     _addDefaultScorecards(user, server);
     _addDefaultPixscore(user, server);
   },
