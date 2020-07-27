@@ -6,7 +6,7 @@
   },
 
   "common": {
-    "actions" : {
+    "actions": {
       "cancel": "Cancel",
       "close": "Close",
       "quit": "Quit"
@@ -22,8 +22,7 @@
     "pix": "pix"
   },
 
-  "pages" : {
-
+  "pages": {
     "certificate": {
       "title": "Pix certificate",
       "back-link": "Back to my certifications",
@@ -49,11 +48,11 @@
     },
 
     "certification-joiner": {
-      "title" : "Join a certification session",
+      "title": "Join a certification session",
       "congratulation-banner": {
         "message": "Well done {fullName},'<br>'your profile is certifiable."
       },
-      "first-title" : "Join a certification session",
+      "first-title": "Join a certification session",
       "form": {
         "actions": {
           "submit": "Continue"
@@ -86,12 +85,12 @@
     },
 
     "certification-start": {
-      "title" : "Join a certification session",
+      "title": "Join a certification session",
       "access-code": "Enter the access code communicated by the supervisor",
       "actions": {
         "submit": "Start your test"
       },
-      "cgu":  {
+      "cgu": {
         "contact": {
           "email": "dpo@pix.org",
           "info": "In accordance with the  IT and freedom law, you can exercise your right of access to data concerning you and have them rectified by sending an email to"
@@ -124,7 +123,7 @@
       }
     },
 
-    "challenge" : {
+    "challenge": {
       "title": "Challenge {stepNumber} out of {totalChallengeNumber}",
       "actions": {
         "continue": "Continue",
@@ -132,7 +131,7 @@
         "skip": "Skip"
       },
       "already-answered": "You already answerd this question",
-      "certification" : {
+      "certification": {
         "title": "Certification {certificationNumber}",
         "banner": {
           "certification-number": "N° of certification"
@@ -152,12 +151,12 @@
         "qcm": "Choose at least one answer to validate. Skip otherwise.",
         "qcu": "Choose an answer to validate. Skip otherwise.",
         "qroc": "Play the challenge to validate. Skip otherwise.",
-        "qrocm":  "Fill in all the answer fields to validate. Skip otherwise."
+        "qrocm": "Fill in all the answer fields to validate. Skip otherwise."
       }
     },
 
-    "competence-details" : {
-      "title" : "Competence",
+    "competence-details": {
+      "title": "Competence",
       "actions": {
         "continue": {
           "label": "Continue"
@@ -220,8 +219,8 @@
       }
     },
 
-    "sign-in" : {
-      "title" : "Sign in",
+    "sign-in": {
+      "title": "Sign in",
       "actions": {
         "submit": "Sign in"
       },
@@ -244,8 +243,8 @@
       }
     },
 
-    "sign-up" : {
-      "title" : "Sign up",
+    "sign-up": {
+      "title": "Sign up",
       "actions": {
         "submit": "I sign up"
       },
@@ -312,6 +311,18 @@
           },
           "source": "By"
         }
+      }
+    },
+
+    "fill-in-campaign-code": {
+      "title": "J'ai un code",
+      "first-title": "Enter your code",
+      "description": "This code allows you to start a course'<br>'or to send your profile to an organization.",
+      "start": "Start",
+      "errors": {
+        "forbidden": "Oops! We can't find you. Check your information to continue or notify the organizer.",
+        "not-found": "Your code is wrong, please check or contact the organizer.",
+        "code-missing": "Please enter a code."
       }
     }
   },
