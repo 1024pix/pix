@@ -2,7 +2,7 @@ const { airtableBuilder, expect, generateValidRequestAuthorizationHeader, databa
 const createServer = require('../../../../server');
 const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 
-describe('Acceptance | users-controller-get-certification-profile', () => {
+describe('Acceptance | users-controller-is-certifiable', () => {
 
   let server;
   let options;
@@ -32,7 +32,7 @@ describe('Acceptance | users-controller-get-certification-profile', () => {
 
     options = {
       method: 'GET',
-      url: `/api/users/${user.id}/certification-profile`,
+      url: `/api/users/${user.id}/is-certifiable`,
       payload: {},
       headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
     };
@@ -48,7 +48,7 @@ describe('Acceptance | users-controller-get-certification-profile', () => {
     return cache.flushAll();
   });
 
-  describe('GET /users/:id/certification-profile', () => {
+  describe('GET /users/:id/is-certifiable', () => {
 
     describe('Resource access management', () => {
 
@@ -78,15 +78,15 @@ describe('Acceptance | users-controller-get-certification-profile', () => {
 
     describe('Success case', () => {
 
-      it('should return a 200 status code response with JSON API serialized CertificationProfile', () => {
+      it('should return a 200 status code response with JSON API serialized isCertifiable', () => {
         // given
-        const certificationProfileExpected = {
+        const expectedResponse = {
           data: {
             attributes: {
               'is-certifiable': false,
             },
             id: `${user.id}`,
-            type: 'certificationProfiles'
+            type: 'isCertifiables'
           }
         };
 
@@ -96,7 +96,7 @@ describe('Acceptance | users-controller-get-certification-profile', () => {
         // then
         return promise.then((response) => {
           expect(response.statusCode).to.equal(200);
-          expect(response.result).to.deep.equal(certificationProfileExpected);
+          expect(response.result).to.deep.equal(expectedResponse);
         });
       });
     });

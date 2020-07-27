@@ -3,7 +3,7 @@ const bluebird = require('bluebird');
 const { knex } = require('../db/knex-database-connection');
 const competenceRepository = require('../lib/infrastructure/repositories/competence-repository');
 const challengeRepository = require('../lib/infrastructure/repositories/challenge-repository');
-const certificationProfileService = require('../lib/domain/services/certification-profile-service');
+const placementProfileService = require('../lib/domain/services/placement-profile-service');
 
 const USER_COUNT = ~~process.env.USER_COUNT || 100;
 let currentCount = 0;
@@ -29,14 +29,14 @@ async function _retrieveUserIds() {
 }
 
 async function _generateCertificationTest(userId, competences) {
-  const certificationProfile = await certificationProfileService.getCertificationProfile({ userId, competences });
-  if (!certificationProfile.isCertifiable()) {
+  const placementProfile = await placementProfileService.getPlacementProfile({ userId, competences });
+  if (!placementProfile.isCertifiable()) {
     throw new Error('pas certifiable');
   }
 
-  const certificationProfileWithChallenges = await certificationProfileService.fillCertificationProfileWithChallenges(certificationProfile);
+  const placementProfileWithChallenges = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
 
-  return _.fromPairs(_.map(certificationProfileWithChallenges.userCompetences, (userCompetence) => {
+  return _.fromPairs(_.map(placementProfileWithChallenges.userCompetences, (userCompetence) => {
     if (userCompetence.isCertifiable()) {
       return [
         userCompetence.id,

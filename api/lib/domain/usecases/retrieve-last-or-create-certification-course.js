@@ -14,7 +14,7 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   certificationCourseRepository,
   sessionRepository,
   certificationChallengesService,
-  certificationProfileService,
+  placementProfileService,
 }) {
   const session = await sessionRepository.get(sessionId);
   if (session.accessCode !== accessCode) {
@@ -39,7 +39,7 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     certificationChallengeRepository,
     certificationCourseRepository,
     certificationChallengesService,
-    certificationProfileService,
+    placementProfileService,
   });
 };
 
@@ -52,15 +52,16 @@ async function _startNewCertification({
   certificationChallengeRepository,
   certificationCourseRepository,
   certificationChallengesService,
-  certificationProfileService,
+  placementProfileService,
 }) {
-  let certificationProfile = await certificationProfileService.getCertificationProfile({ userId, limitDate: new Date() });
+  let placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate: new Date() });
 
-  if (!certificationProfile.isCertifiable()) {
+  if (!placementProfile.isCertifiable()) {
     throw new UserNotAuthorizedToCertifyError();
   }
 
-  certificationProfile = await certificationProfileService.fillCertificationProfileWithChallenges(certificationProfile);
+  // FIXME : Ce n'est pas la responsabilité du placementProfile que d'avoir les challenges
+  placementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
 
   const existingCertificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({ userId, sessionId, domainTransaction });
   if (existingCertificationCourse) {
@@ -74,7 +75,7 @@ async function _startNewCertification({
   const savedCertificationCourse = await certificationCourseRepository.save({ certificationCourse: newCertificationCourse, domainTransaction });
   const newAssessment = _generateAssessmentForCertificationCourse({ userId, certificationCourseId: savedCertificationCourse.id });
   const savedAssessment = await assessmentRepository.save({ assessment: newAssessment, domainTransaction });
-  const newCertificationChallenges = certificationChallengesService.generateCertificationChallenges(certificationProfile.userCompetences, savedCertificationCourse.id);
+  const newCertificationChallenges = certificationChallengesService.generateCertificationChallenges(placementProfile.userCompetences, savedCertificationCourse.id);
   const savedChallenges = await Promise.all(newCertificationChallenges.map((certificationChallenge) => certificationChallengeRepository.save({ certificationChallenge, domainTransaction })));
 
   savedCertificationCourse.assessment = savedAssessment;

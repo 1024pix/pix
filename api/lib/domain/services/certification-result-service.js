@@ -11,7 +11,7 @@ const scoringService = require('./scoring/scoring-service');
 const { CertificationComputeError } = require('../../../lib/domain/errors');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
-const certificationProfileService = require('./certification-profile-service');
+const placementProfileService = require('./placement-profile-service');
 const qrocmDepChallenge = 'QROCM-dep';
 
 function _selectAnswersMatchingCertificationChallenges(answers, certificationChallenges) {
@@ -168,8 +168,8 @@ function _getChallengeInformation(listAnswers, certificationChallenges, competen
 }
 
 async function _getTestedCompetences({ userId, limitDate, isV2Certification }) {
-  const certificationProfile = await certificationProfileService.getCertificationProfile({ userId, limitDate, isV2Certification });
-  return _(certificationProfile.userCompetences)
+  const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate, isV2Certification });
+  return _(placementProfile.userCompetences)
     .filter((uc) => uc.isCertifiable())
     .map((uc) => _.pick(uc, ['id', 'area', 'index', 'name', 'estimatedLevel', 'pixScore']))
     .value();
@@ -192,7 +192,7 @@ module.exports = {
     const allPixCompetences = await competenceRepository.listPixCompetencesOnly();
     const allChallenges = await challengeRepository.findOperative();
 
-    // userService.getCertificationProfile() + filter level > 0 => avec allCompetence (bug)
+    // userService.getPlacementProfile() + filter level > 0 => avec allCompetence (bug)
     const testedCompetences = await _getTestedCompetences({
       userId: certificationAssessment.userId,
       limitDate: certificationAssessment.createdAt,

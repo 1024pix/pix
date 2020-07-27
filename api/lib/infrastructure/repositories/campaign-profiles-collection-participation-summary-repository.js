@@ -1,6 +1,6 @@
 const sumBy = require('lodash/sumBy');
 const { knex } = require('../bookshelf');
-const certificationProfileService = require('../../domain/services/certification-profile-service');
+const placementProfileService = require('../../domain/services/placement-profile-service');
 const CampaignProfilesCollectionParticipationSummary = require('../../domain/read-models/CampaignProfilesCollectionParticipationSummary');
 const { fetchPage } = require('../utils/knex-utils');
 
@@ -30,7 +30,7 @@ const CampaignProfilesCollectionParticipationSummaryRepository = {
           return new CampaignProfilesCollectionParticipationSummary(result);
         }
 
-        const certificationProfile = await certificationProfileService.getCertificationProfile({
+        const placementProfile = await placementProfileService.getPlacementProfile({
           userId: result.userId,
           limitDate: result.sharedAt,
           allowExcessPixAndLevels: false
@@ -38,9 +38,9 @@ const CampaignProfilesCollectionParticipationSummaryRepository = {
 
         return new CampaignProfilesCollectionParticipationSummary({
           ...result,
-          pixScore: sumBy(certificationProfile.userCompetences, 'pixScore'),
-          certifiable: certificationProfile.isCertifiable(),
-          certifiableCompetencesCount: certificationProfile.getCertifiableCompetencesCount(),
+          pixScore: sumBy(placementProfile.userCompetences, 'pixScore'),
+          certifiable: placementProfile.isCertifiable(),
+          certifiableCompetencesCount: placementProfile.getCertifiableCompetencesCount(),
         });
       }
     ));

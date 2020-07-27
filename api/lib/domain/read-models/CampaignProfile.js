@@ -5,7 +5,7 @@ class CampaignProfile {
   constructor({
     firstName,
     lastName,
-    certificationProfile,
+    placementProfile,
     campaignParticipationId,
     campaignId,
     participantExternalId,
@@ -21,40 +21,40 @@ class CampaignProfile {
     this.sharedAt = sharedAt;
     this.isShared = isShared;
     this.createdAt = createdAt;
-    this.certificationProfile  = certificationProfile;
+    this.placementProfile  = placementProfile;
   }
 
   get pixScore() {
     if (this.isShared) {
-      return this.certificationProfile.getPixScore();
+      return this.placementProfile.getPixScore();
     }
     return null;
   }
 
   get isCertifiable() {
     if (this.isShared) {
-      return this.certificationProfile.isCertifiable();
+      return this.placementProfile.isCertifiable();
     }
     return null;
   }
 
   get certifiableCompetencesCount() {
     if (this.isShared) {
-      return this.certificationProfile.getCertifiableCompetencesCount();
+      return this.placementProfile.getCertifiableCompetencesCount();
     }
     return null;
   }
 
   get competencesCount() {
     if (this.isShared) {
-      return this.certificationProfile.getCompetencesCount();
+      return this.placementProfile.getCompetencesCount();
     }
     return null;
   }
 
   get competences() {
     if (this.isShared) {
-      return this.certificationProfile.userCompetences.map((competence) => {
+      return this.placementProfile.userCompetences.map((competence) => {
         return new CampaignProfileCompetence(competence);
       });
     }

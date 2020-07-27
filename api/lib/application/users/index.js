@@ -295,13 +295,13 @@ exports.register = async function(server) {
     },
     {
       method: 'GET',
-      path: '/api/users/{id}/certification-profile',
+      path: '/api/users/{id}/is-certifiable',
       config: {
         pre: [{
           method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser'
         }],
-        handler: userController.getCertificationProfile,
+        handler: userController.isCertifiable,
         notes : [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Récupération du nombre total de Pix de l\'utilisateur\n' +
