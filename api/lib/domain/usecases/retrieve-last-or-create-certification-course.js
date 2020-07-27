@@ -89,15 +89,7 @@ async function _startNewCertification({
   // const certificationCourse = CertificationCourse.from(certificationProfile, certificationCourseChallenges, certificationCandidate);
   // certificationCourseRepository.save(certificationCourse);
 
-  const savedCertificationCourse = await certificationCourseRepository.save({
-    certificationCourse: newCertificationCourse,
-    domainTransaction
-  });
-  const savedChallenges = await Promise.all(newCertificationChallenges.map((certificationChallenge) => {
-    const certificationChallengeWithCourseId = { ...certificationChallenge, courseId: savedCertificationCourse.id };
-    return certificationChallengeRepository.save({ certificationChallenge: certificationChallengeWithCourseId, domainTransaction });
-  }));
-  savedCertificationCourse.challenges = savedChallenges;
+  const savedCertificationCourse = await _saveCertificationCourse(certificationCourseRepository, newCertificationCourse, domainTransaction, certificationChallengeRepository);
 
   const newAssessment = _generateAssessmentForCertificationCourse({ userId, courseId: savedCertificationCourse.id });
   const savedAssessment = await assessmentRepository.save({ assessment: newAssessment, domainTransaction });
@@ -107,6 +99,19 @@ async function _startNewCertification({
     created: true,
     certificationCourse: savedCertificationCourse,
   };
+}
+
+async function _saveCertificationCourse(certificationCourseRepository, newCertificationCourse, domainTransaction, certificationChallengeRepository) {
+  const savedCertificationCourse = await certificationCourseRepository.save({
+    certificationCourse: newCertificationCourse,
+    domainTransaction
+  });
+  const savedChallenges = await Promise.all(savedCertificationCourse.challenges.map((certificationChallenge) => {
+    const certificationChallengeWithCourseId = { ...certificationChallenge, courseId: savedCertificationCourse.id };
+    return certificationChallengeRepository.save({ certificationChallenge: certificationChallengeWithCourseId, domainTransaction });
+  }));
+  savedCertificationCourse.challenges = savedChallenges;
+  return savedCertificationCourse;
 }
 
 function _generateAssessmentForCertificationCourse({ userId, courseId }) {
