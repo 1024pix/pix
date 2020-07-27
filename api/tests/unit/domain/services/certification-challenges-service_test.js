@@ -29,14 +29,9 @@ describe('Unit | Service | Certification Challenge Service', () => {
       associatedSkillId: challenge2.testedSkill.id,
     });
 
-    const  severalUserCompetences = [
-      domainBuilder.buildUserCompetence({ challenges: [challenge1] }),
-      domainBuilder.buildUserCompetence({ challenges: [challenge2] })
-    ];
-
     it('should return certification challenges objects generated from the provided userCompetences and certificationCourseId', async () => {
       // when
-      const actualCertificationChallenges = await certificationChallengesService.generateCertificationChallenges(severalUserCompetences);
+      const actualCertificationChallenges = await certificationChallengesService.generateCertificationChallenges([challenge1, challenge2]);
 
       // then
       expect(actualCertificationChallenges).to.deep.equal([ certificationChallenge1, certificationChallenge2 ]);
