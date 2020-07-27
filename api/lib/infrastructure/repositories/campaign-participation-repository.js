@@ -7,6 +7,8 @@ const { NotFoundError } = require('../../domain/errors');
 const queryBuilder = require('../utils/query-builder');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const Bookshelf = require('../bookshelf');
+const knowledgeElementRepository = require('./knowledge-element-repository');
+const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot-repository');
 
 const fp = require('lodash/fp');
 const _ = require('lodash');
@@ -157,11 +159,21 @@ module.exports = {
       });
   },
 
-  share(campaignParticipation) {
-    return new BookshelfCampaignParticipation(campaignParticipation)
-      .save({ isShared: true, sharedAt: new Date() }, { patch: true, require: true })
-      .then(_toDomain)
-      .catch(_checkNotFoundError);
+  async share(campaignParticipation) {
+    let savedBookshelfCampaignParticipation = null;
+    try {
+      savedBookshelfCampaignParticipation = await new BookshelfCampaignParticipation(campaignParticipation)
+        .save({ isShared: true, sharedAt: new Date() }, { patch: true, require: true });
+    } catch (err) {
+      _checkNotFoundError(err);
+    }
+
+    const savedCampaignParticipation = _toDomain(savedBookshelfCampaignParticipation);
+
+    const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId: savedCampaignParticipation.userId, limitDate: savedCampaignParticipation.sharedAt });
+    knowledgeElementSnapshotRepository.save({ userId: savedCampaignParticipation.userId, snappedAt: savedCampaignParticipation.sharedAt, knowledgeElements });
+
+    return savedCampaignParticipation;
   },
 
   count(filters = {}) {

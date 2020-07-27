@@ -6,6 +6,7 @@ const CampaignParticipation = require('../../../../lib/domain/models/CampaignPar
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const Skill = require('../../../../lib/domain/models/Skill');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
+const knowledgeElementSnapshotRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
 
 describe('Integration | Repository | Campaign Participation', () => {
 
@@ -681,6 +682,7 @@ describe('Integration | Repository | Campaign Participation', () => {
 
     let campaignParticipation;
     const frozenTime = new Date('1987-09-01T00:00:00Z');
+    let knowledgeElement;
 
     beforeEach(async () => {
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
@@ -688,19 +690,36 @@ describe('Integration | Repository | Campaign Participation', () => {
         sharedAt: null,
       });
 
+      knowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId: campaignParticipation.userId, createdAt: new Date('1985-09-01T00:00:00Z') });
+
       sinon.useFakeTimers(frozenTime);
 
       await databaseBuilder.commit();
+      sinon.stub(knowledgeElementSnapshotRepository, 'save');
     });
 
-    it('should return the shared campaign-participation', () => {
+    afterEach(() => {
+      knowledgeElementSnapshotRepository.save.restore();
+    });
+
+    it('should return the shared campaign-participation', async () => {
       // when
-      const promise = campaignParticipationRepository.share(campaignParticipation);
+      const updatedCampaignParticipation = await campaignParticipationRepository.share(campaignParticipation);
 
       // then
-      return promise.then((updatedCampaignParticipation) => {
-        expect(updatedCampaignParticipation.isShared).to.be.true;
-        expect(updatedCampaignParticipation.sharedAt).to.deep.equal(frozenTime);
+      expect(updatedCampaignParticipation.isShared).to.be.true;
+      expect(updatedCampaignParticipation.sharedAt).to.deep.equal(frozenTime);
+    });
+
+    it('should save a snapshot', async () => {
+      // when
+      await campaignParticipationRepository.share(campaignParticipation);
+
+      // then
+      sinon.assert.calledWith(knowledgeElementSnapshotRepository.save, {
+        userId: campaignParticipation.userId,
+        snappedAt: frozenTime,
+        knowledgeElements: [new KnowledgeElement(knowledgeElement)],
       });
     });
   });
