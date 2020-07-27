@@ -67,6 +67,24 @@
       }
     },
 
+    "certification-results": {
+      "action": {
+        "confirm": "Je confirme",
+        "logout": "Se déconnecter"
+      },
+      "finished": {
+        "title": "Bravo, c'est fini !",
+        "description": "Vos résultats seront prochainement disponibles depuis votre compte.",
+        "warning-text": "Si cet ordinateur n’est pas le vôtre, pensez à vous déconnecter."
+      },
+      "flag-alt": "Drapeau",
+      "not-finished": {
+        "title": "Vous avez presque terminé",
+        "supervisor": "Appelez le surveillant : '<br>'Il doit impérativement voir cet écran pour finaliser votre certification.",
+        "warning-text": "Le surveillant a bien vu cet écran."
+      }
+    },
+
     "certification-start": {
       "title" : "Rejoindre une session de certification",
       "access-code": "Saisissez le code d'accès communiqué par le surveillant",
