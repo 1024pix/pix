@@ -3,6 +3,8 @@ const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper
 const { UserNotAuthorizedToCertifyError, NotFoundError } = require('../../../../lib/domain/errors');
 const retrieveLastOrCreateCertificationCourse = require('../../../../lib/domain/usecases/retrieve-last-or-create-certification-course');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const certificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
+const _ = require('lodash');
 
 describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => {
 
@@ -22,7 +24,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
     save: sinon.stub(),
   };
   const sessionRepository = { get: sinon.stub() };
-  const certificationChallengesService = { generateCertificationChallenges: sinon.stub() };
   const placementProfileService = {
     pickCertificationChallenges: sinon.stub(),
     getPlacementProfile: sinon.stub(),
@@ -151,10 +152,21 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
       context('when user is certifiable', () => {
 
+        const skill1 = domainBuilder.buildSkill();
+        const skill2 = domainBuilder.buildSkill();
+        const challenge1 = domainBuilder.buildChallenge();
+        const challenge2 = domainBuilder.buildChallenge();
+
         beforeEach(() => {
-          placementProfile = { isCertifiable: sinon.stub().returns(true), userCompetences: 'someUserCompetences' };
+          // TODO : use the domainBuilder to instanciate userCompetences
+          placementProfile = { isCertifiable: sinon.stub().returns(true), userCompetences: [{ challenges:[challenge1] }, { challenges:[challenge2] }] };
           placementProfileService.getPlacementProfile.withArgs({ userId, limitDate: now }).resolves(placementProfile);
-          placementProfileService.pickCertificationChallenges.withArgs(placementProfile).resolves(placementProfile);
+          const userCompetencesWithChallenges = _.clone(placementProfile.userCompetences);
+          userCompetencesWithChallenges[0].challenges[0].testedSkill = skill1;
+          userCompetencesWithChallenges[1].challenges[0].testedSkill = skill2;
+          placementProfileService.pickCertificationChallenges.withArgs(placementProfile).resolves(
+            userCompetencesWithChallenges
+          );
         });
 
         context('when a certification course has been created meanwhile', () => {
@@ -218,9 +230,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             externalId: foundCertificationCandidate.externalId,
             isV2Certification: true,
           };
-          const challenge1 = domainBuilder.buildCertificationChallenge();
-          const challenge2 = domainBuilder.buildCertificationChallenge();
-          const generatedCertificationChallenges = [challenge1, challenge2];
 
           const savedCertificationChallenge1 = { id: 'savedCertificationChallenge1', };
           const savedCertificationChallenge2 = { id: 'savedCertificationChallenge2', };
@@ -247,8 +256,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             certificationCandidateRepository.getBySessionIdAndUserId.withArgs({ sessionId, userId }).resolves(foundCertificationCandidate);
             certificationCourseRepository.save.resolves(savedCertificationCourse);
             assessmentRepository.save.resolves(savedAssessment);
-            certificationChallengesService.generateCertificationChallenges
-              .withArgs(placementProfile.userCompetences).returns(generatedCertificationChallenges);
             certificationChallengeRepository.save.withArgs({ certificationChallenge: { ...challenge1, courseId: savedCertificationCourse.id }, domainTransaction }).resolves(savedCertificationChallenge1);
             certificationChallengeRepository.save.withArgs({ certificationChallenge: { ...challenge2, courseId: savedCertificationCourse.id }, domainTransaction }).resolves(savedCertificationChallenge2);
           });

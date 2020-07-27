@@ -3,10 +3,7 @@ const CertificationChallenge = require('../models/CertificationChallenge');
 
 module.exports = {
 
-  generateCertificationChallenges(userCompetences) {
-    const challenges = _.flatMap(userCompetences, (userCompetence) => {
-      return userCompetence.challenges;
-    });
+  generateCertificationChallenges(challenges) {
     const certificationChallenges = _.map(challenges, (challenge) => {
       return new CertificationChallenge({
         challengeId: challenge.id,

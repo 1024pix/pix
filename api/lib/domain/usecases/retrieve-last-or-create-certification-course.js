@@ -1,6 +1,7 @@
 const CertificationCourse = require('../models/CertificationCourse');
 const Assessment = require('../models/Assessment');
 const { UserNotAuthorizedToCertifyError, NotFoundError } = require('../errors');
+const _ = require('lodash');
 
 module.exports = async function retrieveLastOrCreateCertificationCourse({
   domainTransaction,
@@ -68,8 +69,9 @@ async function _startNewCertification({
 
   // FIXME : Ce n'est pas la responsabilité du placementProfile que d'avoir les challenges
   const userCompetences = await placementProfileService.pickCertificationChallenges(placementProfile);
+  const challenges = _.flatMap(userCompetences, (userCompetence) => userCompetence.challenges);
   // FIXME: userCompetences, est-ce les mêmes partout ? sachant que celles qu'on a fabriqué ci-dessus prennent en compte les modifications de jury
-  const newCertificationChallenges = certificationChallengesService.generateCertificationChallenges(userCompetences);
+  const newCertificationChallenges = certificationChallengesService.generateCertificationChallenges(challenges);
   // certificationCourseChallenges = identifierLesChallenges(certificationProfile); // $$$
 
   const existingCertificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
