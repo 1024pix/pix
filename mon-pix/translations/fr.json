@@ -6,7 +6,7 @@
   },
 
   "common": {
-    "actions" : {
+    "actions": {
       "cancel": "Annuler",
       "close": "Fermer",
       "quit": "Quitter"
@@ -22,8 +22,7 @@
     "pix": "pix"
   },
 
-  "pages" : {
-
+  "pages": {
     "certificate": {
       "title": "Certificat Pix",
       "back-link": "Retour à mes certifications",
@@ -49,11 +48,11 @@
     },
 
     "certification-joiner": {
-      "title" : "Rejoindre une session de certification",
+      "title": "Rejoindre une session de certification",
       "congratulation-banner": {
         "message": "Bravo {fullName},'<br>'votre profil est certifiable."
       },
-      "first-title" : "Rejoindre une session",
+      "first-title": "Rejoindre une session",
       "form": {
         "actions": {
           "submit": "Continuer"
@@ -86,12 +85,12 @@
     },
 
     "certification-start": {
-      "title" : "Rejoindre une session de certification",
+      "title": "Rejoindre une session de certification",
       "access-code": "Saisissez le code d'accès communiqué par le surveillant",
       "actions": {
         "submit": "Commencer mon test"
       },
-      "cgu":  {
+      "cgu": {
         "contact": {
           "email": "dpo@pix.fr",
           "info": "Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en envoyant un mail à "
@@ -124,7 +123,7 @@
       }
     },
 
-    "challenge" : {
+    "challenge": {
       "title": "Épreuve {stepNumber} sur {totalChallengeNumber}",
       "actions": {
         "continue": "Poursuivre",
@@ -132,7 +131,7 @@
         "skip": "Je passe"
       },
       "already-answered": "Vous avez déjà répondu à cette question",
-      "certification" : {
+      "certification": {
         "title": "Certification {certificationNumber}",
         "banner": {
           "certification-number": "N° de certification"
@@ -156,8 +155,8 @@
       }
     },
 
-    "competence-details" : {
-      "title" : "Compétence",
+    "competence-details": {
+      "title": "Compétence",
       "actions": {
         "continue": {
           "label": "Reprendre"
@@ -218,11 +217,10 @@
         "title": "Why 1024 pix ?",
         "explanation": "C’est le nombre maximum de pix qu’on pourra atteindre lorsque les 8 niveaux du référentiel Pix seront disponibles.'<br>'Aujourd’hui, '<span class=\"hexagon-score-information__text--strong\">'le maximum est de 640 pix'</span>', correspondant au niveau 5."
       }
-
     },
 
-    "sign-in" : {
-      "title" : "Connexion",
+    "sign-in": {
+      "title": "Connexion",
       "actions": {
         "submit": "Je me connecte"
       },
@@ -245,8 +243,8 @@
       }
     },
 
-    "sign-up" : {
-      "title" : "Inscription",
+    "sign-up": {
+      "title": "Inscription",
       "actions": {
         "submit": "Je m'inscris"
       },
@@ -313,6 +311,18 @@
           },
           "source": "Par"
         }
+      }
+    },
+
+    "fill-in-campaign-code": {
+      "title": "J'ai un code",
+      "first-title": "Saisissez votre code",
+      "description": "Ce code permet de démarrer un parcours'<br>'ou d’envoyer votre profil à une organisation",
+      "start": "Commencer",
+      "errors": {
+        "forbidden": "Oups ! nous ne parvenons pas à vous trouver. Vérifiez vos informations afin de continuer ou prévenez l’organisateur.",
+        "not-found": "Votre code est erroné, veuillez vérifier ou contacter l’organisateur.",
+        "code-missing": "Veuillez saisir un code."
       }
     }
   },

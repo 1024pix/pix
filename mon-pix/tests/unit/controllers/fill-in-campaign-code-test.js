@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 describe('Unit | Controller | Fill in Campaign Code', function() {
 
-  setupTest();
+  setupIntlRenderingTest();
 
   let controller;
   let storeStub;
