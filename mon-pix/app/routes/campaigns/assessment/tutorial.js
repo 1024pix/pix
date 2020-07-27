@@ -9,6 +9,7 @@ import { inject as service } from '@ember/service';
 export default Route.extend(SecuredRouteMixin, {
 
   currentUser: service(),
+  intl: service(),
 
   campaignCode: null,
   tutorialPageId: 0,
@@ -24,9 +25,9 @@ export default Route.extend(SecuredRouteMixin, {
     this.campaignCode = this.paramsFor('campaigns').code;
     const maxTutorialPageId = this.tutorial.length - 1;
     return {
-      title: this.tutorial[this.tutorialPageId].title,
-      icon: this.tutorial[this.tutorialPageId].icon,
-      explanation: this.tutorial[this.tutorialPageId].explanation,
+      title: this.intl.t(`pages.tutorial.pages.page${this.tutorialPageId}.title`),
+      icon: this.intl.t(`pages.tutorial.pages.page${this.tutorialPageId}.icon`),
+      explanation: this.intl.t(`pages.tutorial.pages.page${this.tutorialPageId}.explanation`),
       showNextButton: this.tutorialPageId < maxTutorialPageId,
       paging: this._setupPaging(this.tutorial.length, this.tutorialPageId)
     };

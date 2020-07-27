@@ -470,6 +470,34 @@
       }
     },
 
+    "tutorial": {
+      "next":"Next",
+      "pass": "Ignore",
+      "start": "Start my test",
+      "pages": {
+        "page0" : {
+          "title": "You can look for information on the Internet",
+          "icon": "icn-recherche.svg",
+          "explanation": "If you're stuck,\nthe answer must be on the Internet"
+        },
+        "page1": {
+          "title": "No duration in time !",
+          "icon": "icn-temps.svg",
+          "explanation": "Take the time you need to complete your test. \nIf a question has a time limit, you will be notified."
+        },
+        "page2": {
+          "title": "Tutorials to learn",
+          "icon": "icn-temps.svg",
+          "explanation": "Go through tutorials to learn more \nabout each and every question and get better."
+        },
+        "page3" : {
+          "title": "An adaptative level of difficulty",
+          "icon": "icn-temps.svg",
+          "explanation": "According to your answers, \nPix will adapt the level of difficulty of upcoming questions. "
+        }
+      } 
+    },
+
     "tutorial-panel": {
       "title": "To succeed next time",
       "info": "These links were recommended by Pix users."
