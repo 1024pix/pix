@@ -21,9 +21,8 @@ async function getPlacementProfile({ userId, limitDate, isV2Certification = true
   return _generatePlacementProfileV1({ userId, profileDate: limitDate, competences });
 }
 
-//TODO: Refacto ce n'est pas la responsabilité du placementProfile d'avoir les questions de certifications
+//TODO: Est-ce une méthode du placement profile ? (ou de CertificationChallengeService ?)
 async function pickCertificationChallenges(placementProfile) {
-  const placementClone = _.clone(placementProfile);
   const knowledgeElementsByCompetence = await knowledgeElementRepository
     .findUniqByUserIdGroupedByCompetenceId({ userId: placementProfile.userId, limitDate: placementProfile.profileDate });
 
@@ -40,7 +39,7 @@ async function pickCertificationChallenges(placementProfile) {
       return;
     }
 
-    const userCompetence = _getUserCompetenceByChallengeCompetenceId(placementClone.userCompetences, challenge);
+    const userCompetence = _getUserCompetenceByChallengeCompetenceId(placementProfile.userCompetences, challenge);
 
     if (!userCompetence || !userCompetence.isCertifiable()) {
       return;
@@ -51,7 +50,7 @@ async function pickCertificationChallenges(placementProfile) {
       .forEach((publishedSkill) => userCompetence.addSkill(publishedSkill));
   });
 
-  const userCompetences = UserCompetence.orderSkillsOfCompetenceByDifficulty(placementClone.userCompetences);
+  const userCompetences = UserCompetence.orderSkillsOfCompetenceByDifficulty(placementProfile.userCompetences);
 
   userCompetences.forEach((userCompetence) => {
     const testedSkills = [];
@@ -72,7 +71,7 @@ async function pickCertificationChallenges(placementProfile) {
     userCompetence.skills = testedSkills;
   });
 
-  return userCompetences;
+  return _.flatMap(userCompetences, (userCompetence) => userCompetence.challenges);
 }
 
 function _getUserCompetenceByChallengeCompetenceId(userCompetences, challenge) {

@@ -165,7 +165,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           userCompetencesWithChallenges[0].challenges[0].testedSkill = skill1;
           userCompetencesWithChallenges[1].challenges[0].testedSkill = skill2;
           placementProfileService.pickCertificationChallenges.withArgs(placementProfile).resolves(
-            userCompetencesWithChallenges
+            _.flatMap(userCompetencesWithChallenges, 'challenges')
           );
         });
 
