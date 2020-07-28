@@ -186,7 +186,7 @@
       },
       "completion-percentage": {
         "label": "'<p class=\"sr-only\">'Vous avez effectué '</p>'{completionPercentage} %'<p class=\"sr-only\">' de votre parcours.'</p>'",
-        "legend": "avancement du parcours"
+        "caption": "avancement du parcours"
       }
     },
 
