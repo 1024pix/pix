@@ -1,7 +1,6 @@
 const { checkValidation } = require('../validators/higher-education-registration-validator');
 
 class HigherEducationRegistration {
-
   constructor({
     firstName,
     middleName,
