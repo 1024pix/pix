@@ -71,8 +71,7 @@ async function _startNewCertification({
   // - CampaignProfile (contient un placementProfile)
   // certficationProfile = CertificationProfile.from(placementProfile);
 
-  // FIXME : Est-ce que pickCertificationChallenges est une fonction de placementProfileService ?
-  const challenges = await placementProfileService.pickCertificationChallenges(placementProfile);
+  const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
   const newCertificationChallenges = certificationChallengesService.generateCertificationChallenges(challenges);
 
   const existingCertificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({

@@ -11,7 +11,6 @@ const Skill = require('../../../../lib/domain/models/Skill');
 const UserCompetence = require('../../../../lib/domain/models/UserCompetence');
 
 const certificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
-const placementProfileService = require('../../../../lib/domain/services/placement-profile-service');
 
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
@@ -141,17 +140,17 @@ describe('Unit | Service | Certification Challenge Service', () => {
         index: '1.1',
         area: { code: '1' },
         name: '1.1 Construire un flipper',
+        pixScore: 12,
+        estimatedLevel: 1
       });
-      userCompetence1.pixScore = 12;
-      userCompetence1.estimatedLevel = 1;
       userCompetence2 = new UserCompetence({
         id: 'competenceRecordIdTwo',
         index: '1.2',
         area: { code: '1' },
         name: '1.2 Adopter un dauphin',
+        pixScore: 23,
+        estimatedLevel: 2
       });
-      userCompetence2.pixScore = 23;
-      userCompetence2.estimatedLevel = 2;
       placementProfile = new PlacementProfile({
         userId,
         userCompetences: [],
@@ -170,7 +169,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFive']);
 
       // when
-      await placementProfileService.pickCertificationChallenges(placementProfile);
+      await certificationChallengesService.pickCertificationChallenges(placementProfile);
 
       // then
       sinon.assert.calledOnce(challengeRepository.findOperative);
@@ -182,7 +181,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFive']);
 
       // when
-      const challenges = await placementProfileService.pickCertificationChallenges(placementProfile);
+      const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
 
       // then
       expect(challenges).to.deep.equal([challengeForSkillRemplir2]);
@@ -198,7 +197,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves([]);
 
         // when
-        const challenges = await placementProfileService.pickCertificationChallenges(placementProfile);
+        const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
 
         // then
         expect(challenges).to.deep.equal([]);
@@ -213,7 +212,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdEleven']);
 
         // when
-        const challenges = await placementProfileService.pickCertificationChallenges(placementProfile);
+        const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
 
         // then
         expect(challenges).to.deep.equal([]);
@@ -228,7 +227,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdOne']);
 
         // when
-        const challenges = await placementProfileService.pickCertificationChallenges(placementProfile);
+        const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
         const expectedSkills = [skillCitation4];
 
         // then
@@ -242,7 +241,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFour', 'challengeRecordIdTwo']);
 
         // when
-        const challenges = await placementProfileService.pickCertificationChallenges(placementProfile);
+        const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
         const expectedSkills = [skillCitation4, skillRecherche4, skillMoteur3];
 
         // then
@@ -256,7 +255,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFour', 'challengeRecordIdTwo']);
 
         // when
-        const challenges = await placementProfileService.pickCertificationChallenges(placementProfile);
+        const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
         const expectedSkills = [skillCitation4, skillRecherche4, skillMoteur3];
 
         // then
@@ -270,7 +269,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       placementProfile.userCompetences = [userCompetence1, userCompetence2];
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFour', 'challengeRecordIdFive', 'challengeRecordIdSeven']);
       // when
-      const challenges = await placementProfileService.pickCertificationChallenges(placementProfile);
+      const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
 
       // then
       expect(challenges).to.deep.equal([challengeForSkillRecherche4, challengeForSkillUrl3, challengeForSkillRemplir2]);
@@ -281,7 +280,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       placementProfile.userCompetences = [userCompetence1, userCompetence2];
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdSix', 'challengeRecordIdFive', 'challengeRecordIdSeven']);
       // when
-      const challenges = await placementProfileService.pickCertificationChallenges(placementProfile);
+      const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
 
       // then
       expect(challenges).to.deep.equal([challengeForSkillRemplir4, challengeForSkillUrl3, challengeForSkillRemplir2]);
@@ -292,7 +291,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       placementProfile.userCompetences = [userCompetence1, userCompetence2];
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdSix', 'challengeRecordIdFive', 'challengeRecordIdSeven', 'challengeRecordIdEight']);
       // when
-      const challenges = await placementProfileService.pickCertificationChallenges(placementProfile);
+      const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
 
       // then
       expect(challenges).to.deep.equal([challengeForSkillRemplir4, challengeForSkillUrl3, challengeForSkillRemplir2]);
@@ -303,7 +302,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       placementProfile.userCompetences = [userCompetence1, userCompetence2];
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFive', 'challengeRecordIdFive']);
       // when
-      const challenges = await placementProfileService.pickCertificationChallenges(placementProfile);
+      const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
 
       // then
       expect(challenges).to.deep.equal([challengeForSkillRemplir2]);
@@ -314,7 +313,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       placementProfile.userCompetences = [userCompetence1, userCompetence2];
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['nonExistentchallengeRecordId']);
       // when
-      const challenges = await placementProfileService.pickCertificationChallenges(placementProfile);
+      const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
 
       // then
       expect(challenges).to.deep.equal([]);
@@ -325,7 +324,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       placementProfile.userCompetences = [userCompetence1, userCompetence2];
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdThree']);
       // when
-      const challenges = await placementProfileService.pickCertificationChallenges(placementProfile);
+      const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
 
       // then
       expect(challenges).to.deep.equal([]);
