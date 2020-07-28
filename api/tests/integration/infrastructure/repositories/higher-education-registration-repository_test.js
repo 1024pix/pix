@@ -1,7 +1,6 @@
-const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
+const { expect, databaseBuilder, knex } = require('../../../test-helper');
 const higherEducationRegistrationRepository = require('../../../../lib/infrastructure/repositories/higher-education-registration-repository');
 const HigherEducationRegistrationSet = require('../../../../lib/domain/models/HigherEducationRegistrationSet');
-const { SchoolingRegistrationsCouldNotBeSavedError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Infrastructure | Repository | higher-education-registration-repository', () => {
 
@@ -115,12 +114,11 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
 
         higherEducationRegistrationSet.addRegistration(registration);
 
-        const error = await catchErr(higherEducationRegistrationRepository.saveSet)(higherEducationRegistrationSet, organization.id);
+        await higherEducationRegistrationRepository.saveSet(higherEducationRegistrationSet, organization.id);
         const higherEducationRegistrations = await knex('schooling-registrations').where({ organizationId: organization.id });
 
-        expect(error).to.be.instanceOf(SchoolingRegistrationsCouldNotBeSavedError);
-        expect(error.message).to.equal(`{ organizationId: ${organization.id}, studentNumber: 12 }`);
         expect(higherEducationRegistrations).to.have.lengthOf(1);
+        expect(higherEducationRegistrations[0].preferredLastName).to.equal(registration.preferredLastName);
       });
     });
 
