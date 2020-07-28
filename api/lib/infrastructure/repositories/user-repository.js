@@ -407,6 +407,19 @@ module.exports = {
     return username;
   },
 
+  updateUsernameAndPassword(id, username, hashedPassword) {
+    return BookshelfUser
+      .where({ id })
+      .save({ username, password: hashedPassword, shouldChangePassword: true }, { patch: true, method: 'update' })
+      .then((bookshelfUser) => bookshelfUser.toDomainEntity())
+      .catch((err) => {
+        if (err instanceof BookshelfUser.NoRowsUpdatedError) {
+          throw new UserNotFoundError(`User not found for ID ${id}`);
+        }
+        throw err;
+      });
+  },
+
   updatePasswordThatShouldBeChanged(id, hashedPassword) {
     return BookshelfUser
       .where({ id })

@@ -120,4 +120,39 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     birthdate: '2003-09-30',
     organizationId: 3,
   });
+
+  const userAuthentificationMethodIsEmailOnly  = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+    firstName: 'user',
+    lastName: 'pix',
+    email: 'user.pix@example.net',
+    username: null,
+    rawPassword: 'Pix123',
+    cgu: false
+  });
+  databaseBuilder.factory.buildSchoolingRegistration({
+    userId: userAuthentificationMethodIsEmailOnly.id,
+    firstName: userAuthentificationMethodIsEmailOnly.firstName,
+    lastName: userAuthentificationMethodIsEmailOnly.lastName,
+    birthdate: '2010-09-30',
+    samlId: userAuthentificationMethodIsEmailOnly.samlId,
+    organizationId: 3,
+  });
+
+  const userAuthentificationMethodIsSamlIdOnly = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+    firstName: 'user',
+    lastName: 'gar',
+    email: null,
+    username: null,
+    samlId: '1234567',
+    rawPassword: 'Pix123',
+    cgu: false
+  });
+  databaseBuilder.factory.buildSchoolingRegistration({
+    userId: userAuthentificationMethodIsSamlIdOnly.id,
+    firstName: userAuthentificationMethodIsSamlIdOnly.firstName,
+    lastName: userAuthentificationMethodIsSamlIdOnly.lastName,
+    birthdate: '2010-09-30',
+    samlId: userAuthentificationMethodIsSamlIdOnly.samlId,
+    organizationId: 3,
+  });
 };

@@ -4,7 +4,7 @@ const moduleUnderTest = require('../../../../lib/application/schooling-registrat
 
 const usecases = require('../../../../lib/domain/usecases');
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const { NotFoundError, UserNotAuthorizedToUpdatePasswordError } = require('../../../../lib/domain/errors');
+const { NotFoundError, UserNotAuthorizedToUpdatePasswordError, UserNotAuthorizedToGenerateUsernamePasswordError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Application | Schooling-registration-dependent-users | schooling-registration-dependent-user-controller', () => {
 
@@ -15,6 +15,7 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'createAndAssociateUserToSchoolingRegistration').rejects(new Error('not expected error'));
     sandbox.stub(usecases, 'updateSchoolingRegistrationDependentUserPassword').rejects(new Error('not expected error'));
+    sandbox.stub(usecases, 'generateUsernameWithTemporaryPassword').resolves();
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents');
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
@@ -92,6 +93,56 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
 
           // then
           expect(response.statusCode).to.equal(404);
+        });
+      });
+    });
+  });
+
+  describe('#generateUsernameWithTemporaryPassword', () => {
+
+    const payload = { data: { attributes: {} } };
+    const auth = { credentials: {}, strategy: {} };
+    const generatedPassword = 'Passw0rd';
+    const username = 'john.harry0207';
+
+    beforeEach(() => {
+      securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents.callsFake((request, h) => h.response(true));
+      payload.data.attributes = {
+        'schooling-registration-id': 1,
+        'organization-id': 3
+      };
+      auth.credentials.userId = domainBuilder.buildUser().id;
+    });
+
+    context('Success cases', () => {
+
+      it('should return an HTTP response with status code 200', async () => {
+        // given
+        usecases.generateUsernameWithTemporaryPassword.resolves({ username, generatedPassword });
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users/generate-username-password', payload, auth);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data.attributes['username']).to.equal(username);
+        expect(response.result.data.attributes['generated-password']).to.equal(generatedPassword);
+      });
+    });
+
+    context('Error cases', () => {
+
+      context('when the student has not access to the organization an error is thrown', () => {
+
+        it('should resolve a 403 HTTP response', async () => {
+          // given
+          usecases.generateUsernameWithTemporaryPassword.rejects(new UserNotAuthorizedToGenerateUsernamePasswordError());
+
+          // when
+          const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users/generate-username-password', payload, auth);
+
+          // then
+          expect(response.statusCode).to.equal(403);
         });
       });
     });

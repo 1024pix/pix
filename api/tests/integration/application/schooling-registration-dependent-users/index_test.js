@@ -11,6 +11,7 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
   beforeEach(() => {
     sinon.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents').callsFake((request, h) => h.response(true));
     sinon.stub(schoolingRegistrationDependentUserController, 'createAndAssociateUserToSchoolingRegistration').callsFake((request, h) => h.response('ok').code(201));
+    sinon.stub(schoolingRegistrationDependentUserController, 'generateUsernameWithTemporaryPassword').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(schoolingRegistrationDependentUserController, 'updatePassword').callsFake((request, h) => h.response('ok').code(200));
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
@@ -122,6 +123,29 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
       // given
       const method = 'POST';
       const url = '/api/schooling-registration-dependent-users/password-update';
+      const payload = {
+        data: {
+          attributes: {
+            'schooling-registration-id': 1,
+            'organization-id': 3
+          }
+        }
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
+
+  describe('POST /api/schooling-registration-dependent-users/generate-username-password', () => {
+
+    it('should succeed', async () => {
+      // given
+      const method = 'POST';
+      const url = '/api/schooling-registration-dependent-users/generate-username-password';
       const payload = {
         data: {
           attributes: {
