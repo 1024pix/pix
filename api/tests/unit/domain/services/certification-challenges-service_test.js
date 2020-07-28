@@ -40,20 +40,29 @@ describe('Unit | Service | Certification Challenge Service', () => {
     return challenge;
   }
 
-  const skillCitation4 = new Skill({ id: 10, name: '@citation4' });
-  const skillCollaborer4 = new Skill({ id: 20, name: '@collaborer4' });
-  const skillMoteur3 = new Skill({ id: 30, name: '@moteur3' });
-  const skillRecherche4 = new Skill({ id: 40, name: '@recherche4' });
-  const skillRemplir2 = new Skill({ id: 50, name: '@remplir2' });
-  const skillRemplir4 = new Skill({ id: 60, name: '@remplir4' });
-  const skillUrl3 = new Skill({ id: 70, name: '@url3' });
-  const skillWeb1 = new Skill({ id: 80, name: '@web1' });
-  const skillRequin5 = new Skill({ id: 110, name: '@requin5' });
-  const skillRequin8 = new Skill({ id: 120, name: '@requin8' });
+  function _createCertificationChallenge(challengeId, skill) {
+    return new CertificationChallenge({
+      challengeId,
+      associatedSkillName: skill.name,
+      associatedSkillId: skill.id,
+      competenceId: skill.competenceId,
+    });
+  }
 
   const competenceFlipper = _createCompetence('competenceRecordIdOne', '1.1', '1.1 Construire un flipper', '1');
-  const competenceDauphin = _createCompetence('competenceRecordIdTwo', '1.2', '1.2 Adopter un dauphin', '1');
+  const competenceRemplir = _createCompetence('competenceRecordIdTwo', '1.2', '1.2 Adopter un dauphin', '1');
   const competenceRequin = _createCompetence('competenceRecordIdThree', '1.3', '1.3 Se faire manger par un requin', '1');
+
+  const skillCitation4 = new Skill({ id: 10, name: '@citation4', competenceId: competenceFlipper.id });
+  const skillCollaborer4 = new Skill({ id: 20, name: '@collaborer4', competenceId: competenceFlipper.id });
+  const skillMoteur3 = new Skill({ id: 30, name: '@moteur3', competenceId: competenceFlipper.id });
+  const skillRecherche4 = new Skill({ id: 40, name: '@recherche4', competenceId: competenceFlipper.id });
+  const skillRemplir2 = new Skill({ id: 50, name: '@remplir2', competenceId: competenceRemplir.id });
+  const skillRemplir4 = new Skill({ id: 60, name: '@remplir4', competenceId: competenceRemplir.id });
+  const skillUrl3 = new Skill({ id: 70, name: '@url3', competenceId: competenceRemplir.id });
+  const skillWeb1 = new Skill({ id: 80, name: '@web1', competenceId: competenceRemplir.id });
+  const skillRequin5 = new Skill({ id: 110, name: '@requin5', competenceId: competenceRequin.id });
+  const skillRequin8 = new Skill({ id: 120, name: '@requin8', competenceId: competenceRequin.id });
 
   const challengeForSkillCollaborer4 = _createChallenge('challengeRecordIdThree', 'competenceRecordIdThatDoesNotExistAnymore', [skillCollaborer4], '@collaborer4');
 
@@ -63,17 +72,17 @@ describe('Unit | Service | Certification Challenge Service', () => {
   const challengeRecordWithoutSkills = _createChallenge('challengeRecordIdNine', competenceFlipper.id, [], null);
   const anotherChallengeForSkillCitation4 = _createChallenge('challengeRecordIdTen', competenceFlipper.id, [skillCitation4], '@citation4');
 
-  const challengeForSkillRemplir2 = _createChallenge('challengeRecordIdFive', competenceDauphin.id, [skillRemplir2], '@remplir2');
-  const challengeForSkillRemplir4 = _createChallenge('challengeRecordIdSix', competenceDauphin.id, [skillRemplir4], '@remplir4');
-  const challengeForSkillUrl3 = _createChallenge('challengeRecordIdSeven', competenceDauphin.id, [skillUrl3], '@url3');
-  const challengeForSkillWeb1 = _createChallenge('challengeRecordIdEight', competenceDauphin.id, [skillWeb1], '@web1');
+  const challengeForSkillRemplir2 = _createChallenge('challengeRecordIdFive', competenceRemplir.id, [skillRemplir2], '@remplir2');
+  const challengeForSkillRemplir4 = _createChallenge('challengeRecordIdSix', competenceRemplir.id, [skillRemplir4], '@remplir4');
+  const challengeForSkillUrl3 = _createChallenge('challengeRecordIdSeven', competenceRemplir.id, [skillUrl3], '@url3');
+  const challengeForSkillWeb1 = _createChallenge('challengeRecordIdEight', competenceRemplir.id, [skillWeb1], '@web1');
 
   const challengeForSkillRequin5 = _createChallenge('challengeRecordIdNine', competenceRequin.id, [skillRequin5], '@requin5');
   const challengeForSkillRequin8 = _createChallenge('challengeRecordIdTen', competenceRequin.id, [skillRequin8], '@requin8');
 
   const competences = [
     competenceFlipper,
-    competenceDauphin,
+    competenceRemplir,
     competenceRequin,
   ];
 
@@ -93,40 +102,6 @@ describe('Unit | Service | Certification Challenge Service', () => {
       challengeForSkillRequin8,
     ]);
     sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves(competences);
-  });
-
-  describe('#generateCertificationChallenges', () => {
-
-    const challenge1 = {
-      id: 'challengeId11',
-      competenceId: 'competenceId1',
-      testedSkill: { id: 'skill1Id', name: 'skill1Name' },
-    };
-    const certificationChallenge1 = new CertificationChallenge({
-      challengeId: challenge1.id,
-      competenceId: challenge1.competenceId,
-      associatedSkillName: challenge1.testedSkill.name,
-      associatedSkillId: challenge1.testedSkill.id,
-    });
-    const challenge2 = {
-      id: 'challengeId2',
-      competence: 'competenceId2',
-      testedSkill: { id: 'skill2Id', name: 'skill2Name' },
-    };
-    const certificationChallenge2 = new CertificationChallenge({
-      challengeId: challenge2.id,
-      competenceId: challenge2.competenceId,
-      associatedSkillName: challenge2.testedSkill.name,
-      associatedSkillId: challenge2.testedSkill.id,
-    });
-
-    it('should return certification challenges objects generated from the provided userCompetences and certificationCourseId', async () => {
-      // when
-      const actualCertificationChallenges = await certificationChallengesService.generateCertificationChallenges([challenge1, challenge2]);
-
-      // then
-      expect(actualCertificationChallenges).to.deep.equal([ certificationChallenge1, certificationChallenge2 ]);
-    });
   });
 
   describe('#pickCertificationChallenges', () => {
@@ -179,12 +154,13 @@ describe('Unit | Service | Certification Challenge Service', () => {
       // given
       placementProfile.userCompetences = [userCompetence2];
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFive']);
+      const expectedCertificationChallenge = _createCertificationChallenge(challengeForSkillRemplir2.id, skillRemplir2);
 
       // when
-      const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
 
       // then
-      expect(challenges).to.deep.equal([challengeForSkillRemplir2]);
+      expect(certificationChallenges).to.deep.equal([expectedCertificationChallenge]);
     });
 
     context('when competence level is less than 1', () => {
@@ -197,10 +173,10 @@ describe('Unit | Service | Certification Challenge Service', () => {
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves([]);
 
         // when
-        const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+        const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
 
         // then
-        expect(challenges).to.deep.equal([]);
+        expect(certificationChallenges).to.deep.equal([]);
       });
     });
 
@@ -212,10 +188,10 @@ describe('Unit | Service | Certification Challenge Service', () => {
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdEleven']);
 
         // when
-        const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+        const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
 
         // then
-        expect(challenges).to.deep.equal([]);
+        expect(certificationChallenges).to.deep.equal([]);
       });
     });
 
@@ -225,13 +201,13 @@ describe('Unit | Service | Certification Challenge Service', () => {
         // given
         placementProfile.userCompetences = [userCompetence1];
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdOne']);
+        const expectedSkills = [skillCitation4.name];
 
         // when
-        const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
-        const expectedSkills = [skillCitation4];
+        const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
 
         // then
-        const skillsForChallenges = _.uniq(_.flatMap(challenges, 'skills'));
+        const skillsForChallenges = _.uniq(_.map(certificationChallenges, 'associatedSkillName'));
         expect(skillsForChallenges).to.deep.include.members(expectedSkills);
       });
 
@@ -239,13 +215,13 @@ describe('Unit | Service | Certification Challenge Service', () => {
         // given
         placementProfile.userCompetences = [userCompetence1];
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFour', 'challengeRecordIdTwo']);
+        const expectedSkills = [skillCitation4.name, skillRecherche4.name, skillMoteur3.name];
 
         // when
-        const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
-        const expectedSkills = [skillCitation4, skillRecherche4, skillMoteur3];
+        const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
 
         // then
-        const skillsForChallenges = _.uniq(_.flatMap(challenges, 'skills'));
+        const skillsForChallenges = _.uniq(_.map(certificationChallenges, 'associatedSkillName'));
         expect(skillsForChallenges).to.deep.include.members(expectedSkills);
       });
 
@@ -253,13 +229,13 @@ describe('Unit | Service | Certification Challenge Service', () => {
         // given
         placementProfile.userCompetences = [userCompetence1];
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFour', 'challengeRecordIdTwo']);
-
-        // when
-        const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
         const expectedSkills = [skillCitation4, skillRecherche4, skillMoteur3];
 
+        // when
+        const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+
         // then
-        const skillsForChallenges = _.uniq(_.flatMap(challenges, 'skills'));
+        const skillsForChallenges = _.uniq(_.map(certificationChallenges, 'associatedSkillName'));
         expect(skillsForChallenges.length).to.equal(expectedSkills.length);
       });
     });
@@ -268,33 +244,51 @@ describe('Unit | Service | Certification Challenge Service', () => {
       // given
       placementProfile.userCompetences = [userCompetence1, userCompetence2];
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFour', 'challengeRecordIdFive', 'challengeRecordIdSeven']);
+      const expectedCertificationChallenges = [
+        _createCertificationChallenge(challengeForSkillRecherche4.id, skillRecherche4),
+        _createCertificationChallenge(challengeForSkillUrl3.id, skillUrl3),
+        _createCertificationChallenge(challengeForSkillRemplir2.id, skillRemplir2),
+      ];
+
       // when
-      const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
 
       // then
-      expect(challenges).to.deep.equal([challengeForSkillRecherche4, challengeForSkillUrl3, challengeForSkillRemplir2]);
+      expect(certificationChallenges).to.deep.equal(expectedCertificationChallenges);
     });
 
     it('should sort in desc grouped skills by competence', async () => {
       // given
       placementProfile.userCompetences = [userCompetence1, userCompetence2];
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdSix', 'challengeRecordIdFive', 'challengeRecordIdSeven']);
+      const expectedCertificationChallenges = [
+        _createCertificationChallenge(challengeForSkillRemplir4.id, skillRemplir4),
+        _createCertificationChallenge(challengeForSkillUrl3.id, skillUrl3),
+        _createCertificationChallenge(challengeForSkillRemplir2.id, skillRemplir2),
+      ];
+
       // when
-      const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
 
       // then
-      expect(challenges).to.deep.equal([challengeForSkillRemplir4, challengeForSkillUrl3, challengeForSkillRemplir2]);
+      expect(certificationChallenges).to.deep.equal(expectedCertificationChallenges);
     });
 
     it('should return the three most difficult skills sorted in desc grouped by competence', async () => {
       // given
       placementProfile.userCompetences = [userCompetence1, userCompetence2];
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdSix', 'challengeRecordIdFive', 'challengeRecordIdSeven', 'challengeRecordIdEight']);
+      const expectedCertificationChallenges = [
+        _createCertificationChallenge(challengeForSkillRemplir4.id, skillRemplir4),
+        _createCertificationChallenge(challengeForSkillUrl3.id, skillUrl3),
+        _createCertificationChallenge(challengeForSkillRemplir2.id, skillRemplir2),
+      ];
+
       // when
-      const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
 
       // then
-      expect(challenges).to.deep.equal([challengeForSkillRemplir4, challengeForSkillUrl3, challengeForSkillRemplir2]);
+      expect(certificationChallenges).to.deep.equal(expectedCertificationChallenges);
     });
 
     it('should not add a skill twice', async () => {
@@ -302,10 +296,10 @@ describe('Unit | Service | Certification Challenge Service', () => {
       placementProfile.userCompetences = [userCompetence1, userCompetence2];
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFive', 'challengeRecordIdFive']);
       // when
-      const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
 
       // then
-      expect(challenges).to.deep.equal([challengeForSkillRemplir2]);
+      expect(certificationChallenges).to.deep.equal([_createCertificationChallenge(challengeForSkillRemplir2.id, skillRemplir2)]);
     });
 
     it('should not assign skill, when the challenge id is not found', async () => {
@@ -313,10 +307,10 @@ describe('Unit | Service | Certification Challenge Service', () => {
       placementProfile.userCompetences = [userCompetence1, userCompetence2];
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['nonExistentchallengeRecordId']);
       // when
-      const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
 
       // then
-      expect(challenges).to.deep.equal([]);
+      expect(certificationChallenges).to.deep.equal([]);
     });
 
     it('should not assign skill, when the competence is not found', async () => {
@@ -324,10 +318,10 @@ describe('Unit | Service | Certification Challenge Service', () => {
       placementProfile.userCompetences = [userCompetence1, userCompetence2];
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdThree']);
       // when
-      const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
 
       // then
-      expect(challenges).to.deep.equal([]);
+      expect(certificationChallenges).to.deep.equal([]);
     });
   });
 });
