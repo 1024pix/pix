@@ -45,7 +45,7 @@ describe('Acceptance | Giving feedback about a challenge', function() {
     context('when the feedback-panel button is clicked', function() {
       beforeEach(async function() {
         assertThatFeedbackFormIsClosed();
-        await click('.feedback-panel__open-link');
+        await click('.feedback-panel__open-button');
       });
 
       it('should open the feedback form', function() {
@@ -70,7 +70,7 @@ describe('Acceptance | Giving feedback about a challenge', function() {
           });
 
           it('should always reset the feedback form between two consecutive challenges', async function() {
-            await click('.feedback-panel__open-link');
+            await click('.feedback-panel__open-button');
             await fillIn(DROPDOWN, 'link');
             expect(find(TEXTAREA).value).to.equal('');
           });
