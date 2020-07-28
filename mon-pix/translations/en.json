@@ -155,6 +155,77 @@
         },
         "placeholder": "Loading application"
       },
+      "feedback-panel": {
+        "actions": {
+          "open-close": "Notify a problem"
+        },
+        "description": "Pix is listening to your advices !*",
+        "form": {
+          "actions": {
+            "submit": "Submit"
+          },
+          "fields": {
+            "category-selection": {
+              "label": "I have difficulty with",
+              "options": {
+                "accessibility": "The challenge's accessibility",
+                "answer": "The answer",
+                "embed": "The embed",
+                "download": "The file to download",
+                "link": "The link",
+                "other": "Other",
+                "picture": "The picture",
+                "question": "The question",
+                "tutorial": "The tutorial"
+              }
+            },
+            "detail-selection": {
+              "label": "Add more details",
+              "options": {
+                "answer-not-accepted": "Ma answer is right but has not been accepted",
+                "answer-not-agreed": "I disagree with the answer",
+                "download": {
+                  "lost": {
+                    "label": "I can't find the downloaded file",
+                    "solution": "The file is save under “Téléchargements” ou “Downloads” by default. It could also be saved at the same place than your last download..."
+                  },
+                  "edit-failure": {
+                    "label": "I can't edit the file",
+                    "solution": "The file may be in “read only”"
+                  },
+                  "open-failure": {
+                    "label": "I can't open the file",
+                    "solution": "Use LibreOffice"
+                  },
+                  "other": "I have another problem"
+                },
+                "embed-not-displayed": {
+                  "label": "The embed is not displayed",
+                  "solution": "Maybe a problem with internet connection"
+                },
+                "embed-other": "Another problem with the embed",
+                "other-challenge-proposal": "I ahev a great challenge to propose",
+                "other-site-improvement": "I a a inprovement to propose",
+                "other-difficulty": "I a-have another problem",
+                "question-improvement": "I have a question improvement to propose",
+                "question-not-understood": "I don't understand the question",
+                "picture-not-displayed": "Maybe a problem with internet connection",
+                "tutorial-link-error": "Wrong tutorial link",
+                "tutorial-not-accepted": "Tutoriel is not adapted",
+                "tutorial-proposal": "I have a tutorial suggestion"
+              }
+            }
+          },
+          "status": {
+            "error": "Message limited to 10 000 characters.",
+            "success": "'<p>'Feedback has been sent.'</p><p>'Thank you !'</p>'"
+          }
+        },
+        "information": {
+          "data-usage": "'<p>'Collected date are used to monitor challenges difficulty. You can modify any information by contacting '<a href=\"mailto:dpo@pix.fr\" class=\"link\">'dpo@pix.fr'</a>'.'</p><p><a href=\"https://pix.fr/dp-formulaire-signalement-epreuve\" target=\"_blank\" class=\"link\">'Click here for more informations'</a></p>'",
+          "guidance": "'<p>'* Be careful and stay objective.'</p><p>'Don't include any personnal information.'</p>'"
+        }
+      },
       "progress-bar": {
         "label": "Challenge"
       },
