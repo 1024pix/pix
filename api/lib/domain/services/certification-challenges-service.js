@@ -39,9 +39,9 @@ module.exports = {
     });
 
     const userCompetences = UserCompetence.orderSkillsOfCompetenceByDifficulty(placementProfile.userCompetences);
+    const certificationChallenges = [];
 
     userCompetences.forEach((userCompetence) => {
-      const testedSkills = [];
       userCompetence.skills.forEach((skill) => {
         if (!userCompetence.hasEnoughChallenges()) {
           const challengesToValidateCurrentSkill = Challenge.findBySkill({ challenges: allChallenges, skill });
@@ -50,32 +50,22 @@ module.exports = {
           const challengesPoolToPickChallengeFrom = (_.isEmpty(challengesLeftToAnswer)) ? challengesToValidateCurrentSkill : challengesLeftToAnswer;
           const challenge = _.sample(challengesPoolToPickChallengeFrom);
 
-          challenge.testedSkill = skill;
-          testedSkills.push(skill);
-
           userCompetence.addChallenge(challenge);
+          const certificationChallenge = new CertificationChallenge({
+            challengeId: challenge.id,
+            competenceId: skill.competenceId,
+            associatedSkillName: skill.name,
+            associatedSkillId: skill.id
+          });
+
+          certificationChallenges.push(certificationChallenge);
         }
       });
-      userCompetence.skills = testedSkills;
     });
 
-    const challenges = _.flatMap(userCompetences, (userCompetence) => userCompetence.challenges);
-    return _generateCertificationChallenges(challenges);
+    return certificationChallenges;
   },
 };
-
-function _generateCertificationChallenges(challenges) {
-  const certificationChallenges = _.map(challenges, (challenge) => {
-    return new CertificationChallenge({
-      challengeId: challenge.id,
-      competenceId: challenge.competenceId,
-      associatedSkillName: challenge.testedSkill.name,
-      associatedSkillId: challenge.testedSkill.id
-    });
-  });
-
-  return certificationChallenges;
-}
 
 function _getUserCompetenceByChallengeCompetenceId(userCompetences, challenge) {
   return challenge ? userCompetences.find((userCompetence) => userCompetence.id === challenge.competenceId) : null;
