@@ -1,61 +1,26 @@
 import resultIconUrl from 'mon-pix/utils/result-icon-url';
 import Component from '@glimmer/component';
 
+const TRANSLATION_PREFIX = 'pages.comparison-window.results.';
 const TEXT_FOR_RESULT = {
-  ok: {
-    status: 'ok',
-    title: 'pages.comparison-window.results.ok.title',
-    tooltip: 'pages.comparison-window.results.ok.tooltip'
-  },
-
-  ko: {
-    status: 'ko',
-    title: 'pages.comparison-window.results.ko.title',
-    tooltip: 'pages.comparison-window.results.ko.tooltip'
-  },
-
-  aband: {
-    status: 'aband',
-    title: 'pages.comparison-window.results.aband.title',
-    tooltip: 'pages.comparison-window.results.aband.tooltip'
-  },
-
-  partially: {
-    status: 'partially',
-    title: 'pages.comparison-window.results.partially.title',
-    tooltip: 'pages.comparison-window.results.partially.tooltip'
-  },
-
-  timedout: {
-    status: 'timedout',
-    title: 'pages.comparison-window.results.timedout.title',
-    tooltip: 'pages.comparison-window.results.timedout.tooltip'
-  },
-
-  okAutoReply: {
-    status: 'ok',
-    title: 'pages.comparison-window.results.okAutoReply.title',
-    tooltip: 'pages.comparison-window.results.okAutoReply.tooltip'
-  },
-
-  koAutoReply: {
-    status: 'ko',
-    title: 'pages.comparison-window.results.koAutoReply.title',
-    tooltip: 'pages.comparison-window.results.koAutoReply.tooltip'
-  },
-
-  abandAutoReply: {
-    status: 'aband',
-    title: 'pages.comparison-window.results.abandAutoReply.title',
-    tooltip: 'pages.comparison-window.results.abandAutoReply.tooltip'
-  },
-
-  default: {
-    status: 'default',
-    title: 'pages.comparison-window.results.default.title',
-    tooltip: 'pages.comparison-window.results.default.tooltip'
-  }
+  ok: { status: 'ok' },
+  ko: { status: 'ko' },
+  aband: { status: 'aband' },
+  partially: { status: 'partially' },
+  timedout: { status: 'timedout' },
+  okAutoReply: { status: 'ok' },
+  koAutoReply: { status: 'ko' },
+  abandAutoReply: { status: 'aband' },
+  default: { status: 'default' }
 };
+
+function _getTextForResult(result) {
+  return {
+    status: TEXT_FOR_RESULT[result].status,
+    title: `${TRANSLATION_PREFIX}${result}.title`,
+    tooltip: `${TRANSLATION_PREFIX}${result}.tooltip`,
+  };
+}
 
 export default class ComparisonWindow extends Component {
   get isAssessmentChallengeTypeQroc() {
@@ -91,11 +56,11 @@ export default class ComparisonWindow extends Component {
   }
 
   get resultItem() {
-    let resultItem = TEXT_FOR_RESULT['default'];
+    let resultItem = _getTextForResult('default');
     const answerStatus = `${this.args.answer.result}${this.answerSuffix}`;
 
     if (answerStatus && (answerStatus in TEXT_FOR_RESULT)) {
-      resultItem = TEXT_FOR_RESULT[answerStatus];
+      resultItem = _getTextForResult(answerStatus);
     }
     return resultItem;
   }
