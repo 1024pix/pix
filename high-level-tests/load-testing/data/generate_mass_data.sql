@@ -1,6 +1,18 @@
 BEGIN;
 
 -----------------------------------------------------------------------------------------------------
+--				Création d'une table temporaire contenant le référentiel   --------------------------
+-----------------------------------------------------------------------------------------------------
+CREATE TEMPORARY TABLE referentiel (
+  skill_id 		VARCHAR,
+  competence_id VARCHAR,
+  pix_value 	NUMERIC(6,5)
+) ON COMMIT DROP;
+INSERT INTO referentiel(skill_id, competence_id, pix_value)
+VALUES
+-- Ajouter les données du référentiel ici !
+
+-----------------------------------------------------------------------------------------------------
 --				Empêcher la journalisation des tables   ---------------------------------------------
 -----------------------------------------------------------------------------------------------------
 ALTER TABLE "knowledge-elements" SET UNLOGGED;
