@@ -6,8 +6,18 @@ export default function index(config) {
     const schooolingRegistration = schema.schoolingRegistrationUserAssociations.findBy({ campaignCode });
     return schooolingRegistration ? schooolingRegistration : { data: null };
   });
-  config.post('/schooling-registration-user-associations', () => {
-    return new Response(204);
+
+  config.post('/schooling-registration-user-associations', (schema, request) => {
+    const params = JSON.parse(request.requestBody);
+    const campaignCode = params.data.attributes['campaign-code'];
+    const birthdate = params.data.attributes.birthdate;
+
+    if (birthdate) {
+      return schema.schoolingRegistrationUserAssociations.create({ campaignCode, birthdate });
+    }
+
+    const schoolingRegistration = schema.schoolingRegistrationUserAssociations.findBy({ campaignCode });
+    return schoolingRegistration ? schoolingRegistration : new Response(422);
   });
 
   config.put('/schooling-registration-user-associations/possibilities', () => {

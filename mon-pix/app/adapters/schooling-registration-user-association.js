@@ -22,6 +22,12 @@ export default class SchoolingRegistrationUserAssociation extends ApplicationAda
       return this.ajax(url, 'PUT', { data });
     }
 
+    if (snapshot.adapterOptions && snapshot.adapterOptions.tryReconciliation) {
+      delete snapshot.adapterOptions.tryReconciliation;
+      delete data.data.attributes['first-name'];
+      delete data.data.attributes['last-name'];
+    }
+
     delete data.data.attributes.username;
 
     return this.ajax(url, 'POST', { data });
