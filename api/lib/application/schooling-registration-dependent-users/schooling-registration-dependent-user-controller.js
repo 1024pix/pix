@@ -1,5 +1,6 @@
 const usecases = require('../../domain/usecases');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
+const schoolingRegistrationDependentUser = require('../../infrastructure/serializers/jsonapi/schooling-registration-dependent-user-serializer');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
 module.exports = {
@@ -56,15 +57,7 @@ module.exports = {
       organizationId,
     });
 
-    const schoolingRegistrationWithGeneratedUsernamePasswordResponse = {
-      data: {
-        attributes: {
-          'generated-password': result.generatedPassword,
-          'username': result.username,
-        },
-        type: 'schooling-registration-dependent-user'
-      }
-    };
+    const schoolingRegistrationWithGeneratedUsernamePasswordResponse = schoolingRegistrationDependentUser.serialize(result);
 
     return h.response(schoolingRegistrationWithGeneratedUsernamePasswordResponse).code(200);
   },
