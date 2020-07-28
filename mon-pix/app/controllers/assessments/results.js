@@ -6,7 +6,6 @@ import Controller from '@ember/controller';
 export default class ResultsController extends Controller {
   isShowingModal = false;
   answer = null;
-  pageTitle = 'Fin de test de démo';
 
   @action
   openComparisonWindow(answer) {

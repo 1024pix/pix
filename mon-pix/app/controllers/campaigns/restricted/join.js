@@ -48,7 +48,6 @@ export default class JoinRestrictedCampaignController extends Controller {
   dayOfBirth = '';
   monthOfBirth = '';
   yearOfBirth = '';
-  pageTitle = 'Rejoindre';
 
   @computed('yearOfBirth', 'monthOfBirth', 'dayOfBirth')
   get birthdate() {

@@ -6,7 +6,6 @@ export default class SendProfileController extends Controller {
 
   @tracked isLoading = false;
   @tracked errorMessage = null;
-  pageTitle = 'Envoyer mon profil';
 
   @action
   async sendProfile() {

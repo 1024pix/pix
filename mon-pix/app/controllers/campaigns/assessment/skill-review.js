@@ -6,7 +6,6 @@ export default class SkillReviewController extends Controller {
   @tracked displayLoadingButton = false;
   @tracked displayErrorMessage = false;
   @tracked displayImprovementButton = false;
-  pageTitle = 'Résultat';
 
   get showCleaCompetences() {
     const cleaBadge = this.model.campaignParticipation.campaignParticipationResult.get('cleaBadge');
