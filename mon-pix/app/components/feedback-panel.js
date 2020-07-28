@@ -10,6 +10,7 @@ import { topLevelLabels, questions } from 'mon-pix/static-data/feedback-panel-is
 
 export default class FeedbackPanel extends Component {
   @service store;
+  @service intl;
 
   @tracked content = null;
   @tracked displayQuestionDropdown = false;
@@ -64,7 +65,7 @@ export default class FeedbackPanel extends Component {
 
     if (isEmpty(content) || isEmpty(content.trim())) {
       this._sendButtonStatus = buttonStatusTypes.unrecorded;
-      this.emptyTextBoxMessageError = 'Vous devez saisir un message.';
+      this.emptyTextBoxMessageError = this.intl.t('pages.challenge.feedback-panel.form.status.error.empty-message');
       return;
     }
 

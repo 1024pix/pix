@@ -217,7 +217,10 @@
             }
           },
           "status": {
-            "error": "Votre message est limité à 10 000 caractères.",
+            "error": {
+              "empty-message": "Vous devez saisir un message.",
+              "max-characters": "Votre message est limité à 10 000 caractères."
+            },
             "success": "'<p>'Votre commentaire a bien été transmis à l’équipe du projet Pix.'</p><p>'Mercix !'</p>'"
           }
         },

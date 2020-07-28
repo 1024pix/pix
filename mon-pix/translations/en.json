@@ -159,7 +159,7 @@
         "actions": {
           "open-close": "Notify a problem"
         },
-        "description": "Pix is listening to your advices !*",
+        "description": "Pix is listening to your advices!*",
         "form": {
           "actions": {
             "submit": "Submit"
@@ -182,12 +182,12 @@
             "detail-selection": {
               "label": "Add more details",
               "options": {
-                "answer-not-accepted": "Ma answer is right but has not been accepted",
+                "answer-not-accepted": "My answer is correct but has not been accepted",
                 "answer-not-agreed": "I disagree with the answer",
                 "download": {
                   "lost": {
                     "label": "I can't find the downloaded file",
-                    "solution": "The file is save under “Téléchargements” ou “Downloads” by default. It could also be saved at the same place than your last download..."
+                    "solution": "The file is saved under “Téléchargements” or “Downloads” by default. It could also be saved at the same place than your last download..."
                   },
                   "edit-failure": {
                     "label": "I can't edit the file",
@@ -204,25 +204,28 @@
                   "solution": "Maybe a problem with internet connection"
                 },
                 "embed-other": "Another problem with the embed",
-                "other-challenge-proposal": "I ahev a great challenge to propose",
-                "other-site-improvement": "I a a inprovement to propose",
-                "other-difficulty": "I a-have another problem",
+                "other-challenge-proposal": "I have a great challenge to propose",
+                "other-site-improvement": "I have a inprovement to propose",
+                "other-difficulty": "I have another problem",
                 "question-improvement": "I have a question improvement to propose",
                 "question-not-understood": "I don't understand the question",
                 "picture-not-displayed": "Maybe a problem with internet connection",
                 "tutorial-link-error": "Wrong tutorial link",
-                "tutorial-not-accepted": "Tutoriel is not adapted",
+                "tutorial-not-accepted": "Tutorial is not adapted",
                 "tutorial-proposal": "I have a tutorial suggestion"
               }
             }
           },
           "status": {
-            "error": "Message limited to 10 000 characters.",
+            "error": {
+              "empty-message": "Message has to be filled.",
+              "max-characters": "Messages are limited to 10 000 characters."
+            },
             "success": "'<p>'Feedback has been sent.'</p><p>'Thank you !'</p>'"
           }
         },
         "information": {
-          "data-usage": "'<p>'Collected date are used to monitor challenges difficulty. You can modify any information by contacting '<a href=\"mailto:dpo@pix.fr\" class=\"link\">'dpo@pix.fr'</a>'.'</p><p><a href=\"https://pix.fr/dp-formulaire-signalement-epreuve\" target=\"_blank\" class=\"link\">'Click here for more informations'</a></p>'",
+          "data-usage": "'<p>'Collected data are used to monitor challenge difficulty. You can modify any information by contacting '<a href=\"mailto:dpo@pix.fr\" class=\"link\">'dpo@pix.fr'</a>'.'</p><p><a href=\"https://pix.fr/dp-formulaire-signalement-epreuve\" target=\"_blank\" class=\"link\">'Click here for more informations'</a></p>'",
           "guidance": "'<p>'* Be careful and stay objective.'</p><p>'Don't include any personnal information.'</p>'"
         }
       },
