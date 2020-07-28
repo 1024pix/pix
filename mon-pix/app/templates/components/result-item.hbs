@@ -1,4 +1,4 @@
-<div class="result-item__icon" title="{{resultItem.title}}">
+<div class="result-item__icon" title="{{resultTooltip}}">
   {{fa-icon resultItem.icon class=(concat 'result-item__icon--' resultItem.color)}}
 </div>
 
@@ -8,6 +8,8 @@
 
 <div class="result-item__correction">
   {{#if validationImplementedForChallengeType}}
-    <button {{action openAnswerDetails answer}} class="result-item__correction-button link js-correct-answer">Réponses et tutos</button>
+    <button {{action openAnswerDetails answer}} class="result-item__correction-button link js-correct-answer">
+      {{t 'pages.result-item.actions.see-answers-and-tutorials.label'}}
+    </button>
   {{/if}}
 </div>

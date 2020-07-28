@@ -1,61 +1,26 @@
 import resultIconUrl from 'mon-pix/utils/result-icon-url';
 import Component from '@glimmer/component';
 
+const TRANSLATION_PREFIX = 'pages.comparison-window.results.';
 const TEXT_FOR_RESULT = {
-  ok: {
-    status: 'ok',
-    title: 'Vous avez la bonne réponse !',
-    tooltip: 'Réponse correcte'
-  },
-
-  ko: {
-    status: 'ko',
-    title: 'Vous n’avez pas la bonne réponse',
-    tooltip: 'Réponse incorrecte'
-  },
-
-  aband: {
-    status: 'aband',
-    title: 'Vous n’avez pas donné de réponse',
-    tooltip: 'Sans réponse'
-  },
-
-  partially: {
-    status: 'partially',
-    title: 'Vous avez donné une réponse partielle',
-    tooltip: 'Réponse partielle'
-  },
-
-  timedout: {
-    status: 'timedout',
-    title: 'Vous avez dépassé le temps imparti',
-    tooltip: 'Temps dépassé'
-  },
-
-  okAutoReply: {
-    status: 'ok',
-    title: 'Vous avez réussi l’épreuve',
-    tooltip: 'Épreuve réussie'
-  },
-
-  koAutoReply: {
-    status: 'ko',
-    title: 'Vous n’avez pas réussi l’épreuve',
-    tooltip: 'Épreuve non réussie'
-  },
-
-  abandAutoReply: {
-    status: 'aband',
-    title: 'Vous avez passé l’épreuve',
-    tooltip: 'Épreuve passée'
-  },
-
-  default: {
-    status: 'default',
-    title: '',
-    tooltip: 'Correction automatique en cours de développement ;)'
-  }
+  ok: { status: 'ok' },
+  ko: { status: 'ko' },
+  aband: { status: 'aband' },
+  partially: { status: 'partially' },
+  timedout: { status: 'timedout' },
+  okAutoReply: { status: 'ok' },
+  koAutoReply: { status: 'ko' },
+  abandAutoReply: { status: 'aband' },
+  default: { status: 'default' }
 };
+
+function _getTextForResult(result) {
+  return {
+    status: TEXT_FOR_RESULT[result].status,
+    title: `${TRANSLATION_PREFIX}${result}.title`,
+    tooltip: `${TRANSLATION_PREFIX}${result}.tooltip`,
+  };
+}
 
 export default class ComparisonWindow extends Component {
   get isAssessmentChallengeTypeQroc() {
@@ -91,11 +56,11 @@ export default class ComparisonWindow extends Component {
   }
 
   get resultItem() {
-    let resultItem = TEXT_FOR_RESULT['default'];
+    let resultItem = _getTextForResult('default');
     const answerStatus = `${this.args.answer.result}${this.answerSuffix}`;
 
     if (answerStatus && (answerStatus in TEXT_FOR_RESULT)) {
-      resultItem = TEXT_FOR_RESULT[answerStatus];
+      resultItem = _getTextForResult(answerStatus);
     }
     return resultItem;
   }

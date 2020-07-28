@@ -22,7 +22,18 @@
     "pix": "pix"
   },
 
-  "pages": {
+  "pages" : {
+
+    "assessment-results": {
+      "title": "Fin du test",
+      "actions": {
+        "continue-pix-experience" : "Continuer mon expérience Pix",
+        "return-to-homepage" : "Revenir à l'accueil"
+      },
+      "answers": {
+        "header": "Vos réponses"
+      }
+    },
     "certificate": {
       "title": "Certificat Pix",
       "back-link": "Retour à mes certifications",
@@ -155,6 +166,72 @@
       }
     },
 
+    "checkpoint": {
+      "title" : {
+        "assessment-progress": "Avancement du parcours",
+        "end-of-assessment" : "Fin de votre évaluation"
+      },
+      "actions": {
+        "next-page": {
+          "continue": "Continuer mon parcours",
+          "results": "Voir mes résultats"
+        }
+      },
+      "answers": {
+        "already-finished": {
+          "explanation": "Vous avez déjà répondu aux questions, lors de vos parcours précédents. Vous pouvez directement accéder à vos résultats.",
+          "info": "C’est déjà fini, ne soyez pas surpris !"
+        },
+        "header": "vos réponses"
+      },
+      "completion-percentage": {
+        "label": "'<p class=\"sr-only\">'Vous avez effectué '</p>'{completionPercentage} %'<p class=\"sr-only\">' de votre parcours.'</p>'",
+        "caption": "avancement du parcours"
+      }
+    },
+
+    "comparison-window": {
+      "upcoming-tutorials": "Bientôt ici des tutoriels pour vous aider à réussir ce type d'épreuves !!",
+      "results": {
+        "ok": {
+          "title": "Vous avez la bonne réponse !",
+          "tooltip": "Réponse correcte"
+        },
+        "ko": {
+          "title": "Vous n’avez pas la bonne réponse",
+          "tooltip": "Réponse incorrecte"
+        },
+        "aband": {
+          "title": "Vous n’avez pas donné de réponse",
+          "tooltip": "Sans réponse"
+        },
+        "partially": {
+          "title": "Vous avez donné une réponse partielle",
+          "tooltip": "Réponse partielle"
+        },
+        "timedout": {
+          "title": "Vous avez dépassé le temps imparti",
+          "tooltip": "Temps dépassé"
+        },
+        "okAutoReply": {
+          "title": "Vous avez réussi l’épreuve",
+          "tooltip": "Épreuve réussie"
+        },
+        "koAutoReply": {
+          "title": "Vous n’avez pas réussi l’épreuve",
+          "tooltip": "Épreuve non réussie"
+        },
+        "abandAutoReply": {
+          "title": "Vous avez passé l’épreuve",
+          "tooltip": "Épreuve passée"
+        },
+        "default": {
+          "title": "",
+          "tooltip": "Correction automatique en cours de développement ;)"
+        }
+      }
+    },
+
     "competence-details": {
       "title": "Compétence",
       "actions": {
@@ -196,6 +273,11 @@
       "first-title": "Oups, une erreur est survenue !"
     },
 
+    "learning-more": {
+      "title": "Pour en apprendre davantage",
+      "info": "Ces liens vers les tutos ont été proposés par des utilisateurs de Pix."
+    },
+
     "profile": {
       "title": "Votre profil",
       "competence-card": {
@@ -217,6 +299,23 @@
         "title": "Why 1024 pix ?",
         "explanation": "C’est le nombre maximum de pix qu’on pourra atteindre lorsque les 8 niveaux du référentiel Pix seront disponibles.'<br>'Aujourd’hui, '<span class=\"hexagon-score-information__text--strong\">'le maximum est de 640 pix'</span>', correspondant au niveau 5."
       }
+    },
+
+    "levelup-notif": {
+      "obtained-level": "Niveau { level } gagné !"
+    },
+
+    "result-item": {
+      "aband": "Sans réponse",
+      "actions": {
+        "see-answers-and-tutorials": {
+          "label": "Réponses et tutos"
+        }
+      },
+      "ko": "Réponse incorrecte",
+      "ok": "Réponse correcte",
+      "partially": "Réponse partielle",
+      "timedout": "Temps dépassé"
     },
 
     "sign-in": {
@@ -279,6 +378,11 @@
       "subtitle": {
         "link": "connectez-vous à votre compte"
       }
+    },
+
+    "tutorial-panel": {
+      "title": "Pour réussir la prochaine fois",
+      "info": "Ces liens vers les tutos ont été proposés par des utilisateurs de Pix."
     },
 
     "user-tutorials": {
