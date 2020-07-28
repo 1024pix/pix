@@ -59,21 +59,23 @@ module.exports = {
       userCompetence.skills = testedSkills;
     });
 
-    return _.flatMap(userCompetences, (userCompetence) => userCompetence.challenges);
-  },
-
-  generateCertificationChallenges(challenges) {
-    const certificationChallenges = _.map(challenges, (challenge) => {
-      return new CertificationChallenge({
-        challengeId: challenge.id,
-        competenceId: challenge.competenceId,
-        associatedSkillName: challenge.testedSkill.name,
-        associatedSkillId: challenge.testedSkill.id
-      });
-    });
-    return certificationChallenges;
+    const challenges = _.flatMap(userCompetences, (userCompetence) => userCompetence.challenges);
+    return _generateCertificationChallenges(challenges);
   },
 };
+
+function _generateCertificationChallenges(challenges) {
+  const certificationChallenges = _.map(challenges, (challenge) => {
+    return new CertificationChallenge({
+      challengeId: challenge.id,
+      competenceId: challenge.competenceId,
+      associatedSkillName: challenge.testedSkill.name,
+      associatedSkillId: challenge.testedSkill.id
+    });
+  });
+
+  return certificationChallenges;
+}
 
 function _getUserCompetenceByChallengeCompetenceId(userCompetences, challenge) {
   return challenge ? userCompetences.find((userCompetence) => userCompetence.id === challenge.competenceId) : null;

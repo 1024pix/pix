@@ -64,15 +64,7 @@ async function _startNewCertification({
     throw new UserNotAuthorizedToCertifyError();
   }
 
-  // Le mot Profile = ???? >
-  // - PlacementProfile (AssResult),
-  // - Scorecards (pas calculé pareil ? KEs),
-  // - TargetProfile,
-  // - CampaignProfile (contient un placementProfile)
-  // certficationProfile = CertificationProfile.from(placementProfile);
-
-  const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
-  const newCertificationChallenges = certificationChallengesService.generateCertificationChallenges(challenges);
+  const newCertificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
 
   const existingCertificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
     userId,
