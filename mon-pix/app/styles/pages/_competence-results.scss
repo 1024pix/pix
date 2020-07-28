@@ -4,7 +4,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 360px;
     margin: 4px;
     border-radius: 5px;
 
@@ -17,39 +16,51 @@
     }
 
     @include device-is('tablet') {
-      height: 240px;
+      padding: 30px;
       margin: 12px;
     }
 
     &--congrats {
-      background: url('/images/banners/congrats.svg');
-      justify-content: flex-end;
+      background: url('/images/banners/congrats-mobile.png') center -240px no-repeat, linear-gradient(0deg, rgb(18, 163, 255) 0%, rgb(61, 104, 255) 100%);
+      text-align: center;
+      padding: 1rem;
+      padding-top: 18rem;
       padding-bottom: 30px;
 
       @include device-is('tablet') {
+        background: url('/images/banners/congrats.png') top center no-repeat, linear-gradient(0deg, rgb(18, 163, 255) 0%, rgb(61, 104, 255) 100%);
         justify-content: center;
-        padding-bottom: 0;
+        align-items: flex-start;
+        background-position: left -70px center;
+        padding: 3rem;
+        padding-left: 22rem;
+      }
+      @include device-is('desktop') {
+        padding-left: 27rem;
       }
     }
 
     &--not-bad {
-      background: url('/images/banners/not-bad.svg') top right;
-      justify-content: flex-end;
-      align-items: center;
+      background: url('/images/banners/not-bad.png') top center no-repeat, linear-gradient(0deg, rgb(18, 163, 255) 0%, rgb(61, 104, 255) 100%);
+      text-align: center;
+      padding: 1rem;
+      padding-top: 18rem;
 
       @include device-is('tablet') {
         justify-content: center;
         align-items: flex-start;
-        padding-left: 30px;
+        background-position: right -70px center;
+        padding-top: 1rem;
       }
 
       @include device-is('desktop') {
-        padding-left: 80px;
+        background-position: right center;
       }
     }
 
     &--too-bad {
-      background: url('/images/banners/too-bad.svg') center;
+      padding: 40px;
+      background: url('/images/banners/too-bad.png') center no-repeat, linear-gradient(0deg, rgb(18, 163, 255) 0%, rgb(61, 104, 255) 100%);
     }
   }
 }
@@ -122,9 +133,12 @@
   &__results {
     display: flex;
     align-items: center;
+    flex-direction: column;
+    padding-top: 16px;
 
     @include device-is('tablet') {
       flex-direction: column;
+      padding-top: 0;
     }
 
     &--spaced {
@@ -150,5 +164,6 @@
     font-family: $font-open-sans;
     font-size: 1.5rem;
     padding: 0 10px;
+    text-transform: capitalize;
   }
 }
