@@ -34,7 +34,11 @@
         "header": "Vos réponses"
       }
     },
-
+  
+    "campaign": {
+      "title": "Parcours"
+    },
+  
     "campaign-landing": {
       "title": "Présentation",
       "assessment": {
@@ -68,7 +72,7 @@
         "legal": "Les informations relatives à votre profil PIX seront transmises à l'organisateur pour lui permettre de vous accompagner. Elle ne seront transmises qu'avec votre consentement."
       }
     },
-  
+
     "certificate": {
       "title": "Certificat Pix",
       "back-link": "Retour à mes certifications",
@@ -519,6 +523,33 @@
       "legal-information": "Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par Pix pour permettre l'accès au service offert par Pix. Elles sont conservées pendant une durée de 5 ans maximum à compter du dernier accès au compte utilisateur, et archivées selon les délais de prescription légale (5 ans). Elles sont destinées à Pix et à ses prestataires techniques exclusivement. Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en envoyant un mail à dpd@pix.fr.",
       "subtitle": {
         "link": "connectez-vous à votre compte"
+      }
+    },
+
+    "skill-review": {
+      "title": "Résultat",
+      "abstract": "Vous maîtrisez '<strong>'{percentage}%'</strong>'<br/> des compétences testées.",
+      "actions": {
+        "continue": "Continuez votre expérience Pix",
+        "send": "J'envoie mes résultats",
+        "try-again": "Je retente"
+      },
+      "already-shared": "Merci, vos résultats ont bien été envoyés !",
+      "archived": "Ce parcours a été archivé par l'organisateur.<br/> L'envoi des résultats n'est plus possible mais ils sont bien pris en compte dans votre parcours.",
+      "details": {
+        "title": "Vos résultats détaillés",
+        "header-skill": "Compétences testées",
+        "header-result": "Résultats",
+        "result": "Résultat global",
+        "result-by-skill": "Résultats par compétence",
+        "skill-progress": "'<p class=\"sr-only\">'Vous avez validé '</p>'{percentage}%'<p class=\"sr-only\">' de la compétence {skill}.'</p>'"
+      },
+      "information": "Si vous avez déjà effectué des parcours sur Pix, les questions auxquelles vous aviez répondu ne vous ont pas été posées de nouveau. En revanche, le résultat affiché ici tient compte de l’ensemble de vos réponses.",
+      "not-finished": "Vous ne pouvez pas encore envoyer vos résultats, nous avons encore quelques questions à vous poser.",
+      "send-results": "Envoyez vos résultats à l'organisateur du parcours pour qu'il puisse vous accompagner.",
+      "try-again": {
+        "title": "Envie d'améliorer vos résultats ?",
+        "description": "Vous pouvez retenter certaines questions"
       }
     },
 
