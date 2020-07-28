@@ -44,7 +44,6 @@ module('Integration | Component | routes/authenticated/campaigns/details/analysi
 
     // then
     const firstTube = '[aria-label="Sujet"]';
-    assert.dom(firstTube).containsText('•');
     assert.dom(firstTube).containsText('Tube A');
     assert.dom(firstTube).containsText('Competence A');
   });
@@ -61,7 +60,7 @@ module('Integration | Component | routes/authenticated/campaigns/details/analysi
     await click('[data-icon="chevron-down"]');
 
     // then
-    assert.dom('h3').containsText('1 tuto recommandé par la communauté Pix');
+    assert.dom('[aria-hidden="false"]').containsText('1 tuto recommandé par la communauté Pix');
     assert.dom('[aria-label="Tutoriel"]:first-child').containsText('tutorial1');
     assert.dom('[aria-expanded="true"]').exists();
   });
@@ -78,7 +77,7 @@ module('Integration | Component | routes/authenticated/campaigns/details/analysi
     await click('[data-icon="chevron-down"]');
 
     // then
-    assert.dom('h3').containsText('2 tutos recommandés par la communauté Pix');
+    assert.dom('[aria-hidden="false"]').containsText('2 tutos recommandés par la communauté Pix');
   });
 
   test('it should collapse and hide tube tutorials list', async function(assert) {
@@ -94,7 +93,7 @@ module('Integration | Component | routes/authenticated/campaigns/details/analysi
     await click('[data-icon="chevron-up"]');
 
     // then
-    assert.dom('h3').doesNotExist();
+    assert.dom('[aria-hidden="false"]').doesNotExist();
     assert.dom('[aria-expanded="false"]').exists();
   });
 
@@ -110,6 +109,6 @@ module('Integration | Component | routes/authenticated/campaigns/details/analysi
     await click('[data-icon="chevron-down"]');
 
     // then
-    assert.dom('h3').containsText('Aucun tuto recommandé pour ce sujet.');
+    assert.dom('[aria-hidden="false"]').containsText('Aucun tuto recommandé pour ce sujet.');
   });
 });
