@@ -51,6 +51,23 @@ ALTER TABLE "organizations" SET UNLOGGED;
 
 
 -----------------------------------------------------------------------------------------------------
+--				Supprimer les contraintes   ---------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
+ALTER TABLE "users" DROP CONSTRAINT "users_email_unique";
+ALTER TABLE "users" DROP CONSTRAINT "users_samlid_unique";
+ALTER TABLE "users" DROP CONSTRAINT "users_username_unique";
+
+
+
+-----------------------------------------------------------------------------------------------------
+--				Rétablir les contraintes   ----------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
+ALTER TABLE "users" ADD CONSTRAINT "users_email_unique" UNIQUE ("email");
+ALTER TABLE "users" ADD CONSTRAINT "users_samlid_unique" UNIQUE ("samlId");
+ALTER TABLE "users" ADD CONSTRAINT "users_username_unique" UNIQUE ("username");
+
+
+-----------------------------------------------------------------------------------------------------
 --				Rétablir la journalisation des tables   ---------------------------------------------
 -----------------------------------------------------------------------------------------------------
 ALTER TABLE "organizations" SET LOGGED;
