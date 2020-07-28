@@ -32,8 +32,10 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     lastName: sansaStark.lastName,
     birthdate: '2000-05-28',
     organizationId: 2,
+    nationalStudentId: 'TOTO',
     userId: sansaStark.id,
   });
+
   databaseBuilder.factory.buildOrganization({
     id: 3,
     type: 'SCO',
@@ -59,7 +61,8 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     lastName: 'Last',
     birthdate: '2010-10-10',
     organizationId: 3,
-    userId: null
+    userId: null,
+    nationalStudentId: 'TOTO'
   });
   const disabledUserId = databaseBuilder.factory.buildUser.withUnencryptedPassword({
     firstName: 'Mance',
