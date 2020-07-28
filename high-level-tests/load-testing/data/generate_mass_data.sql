@@ -1,6 +1,12 @@
 BEGIN;
 
 -----------------------------------------------------------------------------------------------------
+--				Déclaration de constantes   ---------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
+SET LOCAL constants.string_count=20000;
+
+
+-----------------------------------------------------------------------------------------------------
 --				Création d'une table temporaire contenant le référentiel   --------------------------
 -----------------------------------------------------------------------------------------------------
 CREATE TEMPORARY TABLE referentiel (
@@ -58,6 +64,26 @@ ALTER TABLE "users" DROP CONSTRAINT "users_samlid_unique";
 ALTER TABLE "users" DROP CONSTRAINT "users_username_unique";
 
 
+-----------------------------------------------------------------------------------------------------
+--				Création et remplissage d'une table de chaînes aléatoires composées de 3 syllabes   -------
+-----------------------------------------------------------------------------------------------------
+CREATE TEMPORARY TABLE random_string (
+  id SERIAL PRIMARY KEY,
+  rand_str VARCHAR
+) ON COMMIT DROP;
+INSERT INTO random_string(id, rand_str)
+SELECT
+  generator AS id,
+	(
+	  SELECT string_agg(x,'')
+		FROM (
+		  SELECT start_arr[ 1 + ( (random() * 25)::int) % 33 ]
+			FROM (
+			  SELECT '{cu,bal,ro,re,pi,co,jho,bo,ba,ja,mi,pe,da,an,en,sy,vir,nath,so,mo,al,che,cha,dia,n,ph,hn,b,t,gh,ri,hen,ng}'::text[] as start_arr
+			) AS syllables_array, generate_series(1, 3 + (generator*0))
+			) AS the_string(x)
+	)
+FROM generate_series(1,current_setting('constants.string_count')::int) as generator;
 
 -----------------------------------------------------------------------------------------------------
 --				Rétablir les contraintes   ----------------------------------------------------------
