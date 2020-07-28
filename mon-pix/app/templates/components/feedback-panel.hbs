@@ -2,7 +2,7 @@
   <div class="feedback-panel__view feedback-panel__view--link">
     <button class="feedback-panel__open-link"
       {{on "click" this.toggleFeedbackForm}}
-            disabled={{this.isToggleFeedbackFormDisabled}}>
+      disabled={{this.isToggleFeedbackFormDisabled}}>
       {{t 'pages.challenge.feedback-panel.actions.open-close'}}
     </button>
   </div>
@@ -48,7 +48,7 @@
               </div>
               {{#if this.displayTextBox}}
                 <div class="feedback-panel__group">
-                  <p>{{t 'pages.challenge.feedback-panel.form.status.error'}}</p>
+                  <p>{{t 'pages.challenge.feedback-panel.form.status.error.max-characters'}}</p>
                   <Textarea class="feedback-panel__field feedback-panel__field--content" @value={{this.content}} placeholder={{t 'pages.challenge.feedback-panel.form.fields.detail-selection.label'}} @maxlength="10000" @rows={{5}} />
                 </div>
                 {{#if this.emptyTextBoxMessageError}}
@@ -57,9 +57,9 @@
                   </div>
                 {{/if}}
                 <button
-                        type="submit"
-                        class="feedback-panel__button feedback-panel__button--send"
-                        disabled={{this.isSendButtonDisabled}}>
+                  type="submit"
+                  class="feedback-panel__button feedback-panel__button--send"
+                  disabled={{this.isSendButtonDisabled}}>
                   {{t 'pages.challenge.feedback-panel.form.actions.submit'}}
                 </button>
               {{/if}}
