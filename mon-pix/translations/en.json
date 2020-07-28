@@ -620,14 +620,27 @@
     },
 
     "fill-in-campaign-code": {
-      "title": "J'ai un code",
+      "title": "I have a code",
       "first-title": "Enter your code",
       "description": "This code allows you to start a course'<br>'or to send your profile to an organization.",
-      "start": "Start",
       "errors": {
         "forbidden": "Oops! We can't find you. Check your information to continue or notify the organizer.",
-        "not-found": "Your code is wrong, please check or contact the organizer.",
-        "code-missing": "Please enter a code."
+        "missing-code": "Please enter a code.",
+        "not-found": "Your code is wrong, please check or contact the organizer."
+      },
+      "start": "Start"
+    },
+
+    "fill-in-id-pix": {
+      "title": "Enter my username",
+      "first-title": "Before starting",
+      "announcement": "The organizer needs the following information to be able to accompany you :",
+      "buttons": {
+        "continue": "Continue",
+        "cancel": "Cancel"
+      },
+      "errors": {
+        "missing-id-pix-label": "Please fill in your { idPixLabel }."
       }
     }
   },
