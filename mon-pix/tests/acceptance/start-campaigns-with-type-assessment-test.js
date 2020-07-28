@@ -741,7 +741,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
         it('should show an error message', async function() {
           // then
           expect(currentURL()).to.equal('/campagnes/codefaux');
-          expect(find('.title').textContent).to.contains('La campagne demandée n’est pas accessible.');
+          expect(find('.title').textContent).to.contains('Oups, la page demandée n’est pas accessible.');
         });
       });
 
