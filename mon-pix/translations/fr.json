@@ -155,6 +155,77 @@
         },
         "placeholder": "Chargement de l'application en cours"
       },
+      "feedback-panel": {
+        "actions": {
+          "open-close": "Signaler un problème"
+        },
+        "description": "Pix est à l’écoute de vos remarques pour améliorer les épreuves proposées !*",
+        "form": {
+          "actions": {
+            "submit": "Envoyer"
+          },
+          "fields": {
+            "category-selection": {
+              "label": "J'ai un problème avec",
+              "options": {
+                "accessibility": "L'accessibilité de l'épreuve",
+                "answer": "La réponse",
+                "embed": "Le simulateur / l'application",
+                "download": "Le fichier à télécharger",
+                "link": "Le lien indiqué dans la question",
+                "other": "Autre",
+                "picture": "L'image",
+                "question": "La question",
+                "tutorial": "Le tutoriel"
+              }
+            },
+            "detail-selection": {
+              "label": "Précisez",
+              "options": {
+                "answer-not-accepted": "Ma réponse est correcte mais n’a pas été validée",
+                "answer-not-agreed": "Je ne suis pas d’accord avec la réponse",
+                "download": {
+                  "lost": {
+                    "label": "Je ne retrouve pas le fichier téléchargé",
+                    "solution": "Par défaut, un fichier téléchargé est enregistré dans un dossier “Téléchargements” ou “Downloads”. Il se peut aussi qu’il soit téléchargé au même endroit que votre dernier téléchargement..."
+                  },
+                  "edit-failure": {
+                    "label": "Je n’arrive pas à modifier le fichier",
+                    "solution": "Le fichier est probablement ouvert en “Lecture seule” ou “Mode protégé”. '<br>'Cliquez sur “Activer la modification” ou “Éditer le document” sur le bandeau en haut du fichier s’il s’affiche. '<br>'Sinon enregistrez le fichier sous un autre nom et ouvrez ce nouveau fichier."
+                  },
+                  "open-failure": {
+                    "label": "Je n’arrive pas à ouvrir le fichier sur un ordinateur",
+                    "solution": "Pour réussir cette épreuve, vous pouvez utiliser la suite LibreOffice, gratuite et disponible pour PC et Mac. Elle contient Libre Office Writer (équivalent à Word) et Libre Office Calc (équivalent à Excel).'<a href=\"https://fr.libreoffice.org/download/telecharger-libreoffice\">'Télécharger Libre Office'</a>'"
+                  },
+                  "other": "J’ai un autre problème avec le fichier"
+                },
+                "embed-not-displayed": {
+                  "label": "Le simulateur / l’application ne s’affiche pas",
+                  "solution": "Votre connexion internet est peut-être trop faible.'<br>'Rechargez la page en appuyant sur le bouton actualiser '<object type=\"image/svg+xml\" class=\"tuto-icon\" data=\"/images/icons/icon-reload.svg\"></object>' à côté de la barre d’adresse. Attendez un peu, le simulateur va peut-être s’afficher. '<br><br>'Si ce n’est pas le cas, pouvez-vous retenter à un autre moment ou depuis un autre endroit avec une meilleure connexion ?"
+                },
+                "embed-other": "Le simulateur / l’application a un autre problème",
+                "other-challenge-proposal": "J’ai une idée (géniale) d’épreuve à proposer",
+                "other-site-improvement": "J’ai une suggestion d’amélioration de la plateforme",
+                "other-difficulty": "J’ai un autre problème",
+                "question-improvement": "Je souhaite proposer une amélioration de la question",
+                "question-not-understood": "Je ne comprends pas la question",
+                "picture-not-displayed": "Votre connexion internet est peut-être trop faible.'<br>'Rechargez la page en appuyant sur le bouton actualiser '<object type=\"image/svg+xml\" class=\"tuto-icon\" data=\"/images/icons/icon-reload.svg\"></object>' à côté de la barre d’adresse. Attendez un peu, le simulateur va peut-être s’afficher. '<br><br>'Si ce n’est pas le cas, pouvez-vous retenter à un autre moment ou depuis un autre endroit avec une meilleure connexion ?",
+                "tutorial-link-error": "Le lien vers le tutoriel mène vers une autre page ou une page d’erreur",
+                "tutorial-not-accepted": "Le tutoriel n’est pas adapté",
+                "tutorial-proposal": "J’ai un tutoriel à vous proposer"
+              }
+            }
+          },
+          "status": {
+            "error": "Votre message est limité à 10 000 caractères.",
+            "success": "'<p>'Votre commentaire a bien été transmis à l’équipe du projet Pix.'</p><p>'Mercix !'</p>'"
+          }
+        },
+        "information": {
+          "data-usage": "'<p>'Pix traite les données de cette zone pour gérer et analyser la difficulté rencontrée et bénéficier de votre retour d'expérience. Vous disposez de droits sur vos données qui peuvent être exercés auprès de '<a href=\"mailto:dpo@pix.fr\" class=\"link\">'dpo@pix.fr'</a>'.'</p><p><a href=\"https://pix.fr/dp-formulaire-signalement-epreuve\" target=\"_blank\" class=\"link\">'Pour en savoir plus sur la protection de vos données et sur vos droits.'</a></p>'",
+          "guidance": "'<p>'* Soyez attentifs à ce que vous écrivez dans cette zone : restez objectif et factuel pour votre intérêt et celui des autres.'</p><p>'Notamment, ne saisissez aucune information, vous concernant ou concernant des tiers, sur la santé, la religion, les opinions politiques, syndicales et philosophiques, les origines ethniques, ainsi que sur les sanctions et condamnations.'</p>'"
+        }
+      },
       "progress-bar": {
         "label": "Question"
       },

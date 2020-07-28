@@ -2,16 +2,15 @@
   <div class="feedback-panel__view feedback-panel__view--link">
     <button class="feedback-panel__open-link"
       {{on "click" this.toggleFeedbackForm}}
-      disabled={{this.isToggleFeedbackFormDisabled}}>
-      Signaler un problème
+            disabled={{this.isToggleFeedbackFormDisabled}}>
+      {{t 'pages.challenge.feedback-panel.actions.open-close'}}
     </button>
   </div>
 
   {{#if this.isFormOpened}}
     {{#if this.isFormSubmitted}}
       <div class="feedback-panel__view feedback-panel__view--mercix">
-        <p>Votre commentaire a bien été transmis à l’équipe du projet Pix.</p>
-        <p>Mercix !</p>
+        {{t 'pages.challenge.feedback-panel.form.status.success' htmlSafe=true}}
       </div>
     {{else}}
       <div class="feedback-panel__view feedback-panel__view--form">
@@ -20,38 +19,37 @@
         {{#if @assessment.isCertification}}
           <FeedbackCertificationSection/>
         {{else}}
-          <p>Pix est à l’écoute de vos remarques pour améliorer les épreuves proposées !*</p>
+          <p>{{t 'pages.challenge.feedback-panel.description'}}</p>
           <div class="feedback-panel__form-wrapper">
             <form class="feedback-panel__form" {{on "submit" this.sendFeedback}}>
               <div class="feedback-panel__group">
                 <div class="feedback-panel__category-selection">
                   <select class="feedback-panel__dropdown" {{on "change" this.displayCategoryOptions}}>
-                    <option value="" disabled selected>J’ai un problème avec</option>
+                    <option value="" disabled selected>{{t 'pages.challenge.feedback-panel.form.fields.category-selection.label'}}</option>
                     {{#each this.categories as |category|}}
-                      <option value={{category.value}}>{{category.name}}</option>
+                      <option value={{category.value}}>{{t category.name}}</option>
                     {{/each}}
                   </select>
                   {{#if this.displayQuestionDropdown}}
                     <select class="feedback-panel__dropdown" {{on "change" this.showFeedback}}>
-                      <option value="default" selected>Précisez</option>
-                      {{#each this.nextCategory as |question index|}}
-                        <option value={{index}}>{{question.name}}</option>
-                      {{/each}}
+                      <option value="default" selected>{{t 'pages.challenge.feedback-panel.form.fields.detail-selection.label'}}</option>
+                        {{#each this.nextCategory as |question index|}}
+                          <option value={{index}}>{{t question.name}}</option>
+                        {{/each}}
                     </select>
                   {{/if}}
                   {{#if this.quickHelpInstructions}}
                     <div class="feedback-panel__quick-help">
                       <FaIcon @icon='exclamation-circle' class="tuto-icon__warning"></FaIcon>
-                      <p>{{{this.quickHelpInstructions}}}</p>
+                      <p>{{t this.quickHelpInstructions htmlSafe=true}}</p>
                     </div>
                   {{/if}}
                 </div>
               </div>
               {{#if this.displayTextBox}}
                 <div class="feedback-panel__group">
-                  <p>Votre message est limité à 10 000 caractères.</p>
-                  <Textarea class="feedback-panel__field feedback-panel__field--content" @value={{this.content}}
-                            placeholder="Précisez" @maxlength="10000" @rows={{5}} />
+                  <p>{{t 'pages.challenge.feedback-panel.form.status.error'}}</p>
+                  <Textarea class="feedback-panel__field feedback-panel__field--content" @value={{this.content}} placeholder={{t 'pages.challenge.feedback-panel.form.fields.detail-selection.label'}} @maxlength="10000" @rows={{5}} />
                 </div>
                 {{#if this.emptyTextBoxMessageError}}
                   <div class="alert alert-danger" role="alert">
@@ -62,7 +60,7 @@
                         type="submit"
                         class="feedback-panel__button feedback-panel__button--send"
                         disabled={{this.isSendButtonDisabled}}>
-                  Envoyer
+                  {{t 'pages.challenge.feedback-panel.form.actions.submit'}}
                 </button>
               {{/if}}
             </form>
@@ -70,19 +68,11 @@
 
           <div class="feedback-panel__form-legal-notice">
             <div class="feedback-panel__form-description">
-              <p>* Soyez attentifs à ce que vous écrivez dans cette zone : restez objectif et factuel pour votre intérêt
-                et celui des autres.</p>
-              <p>Notamment, ne saisissez aucune information, vous concernant ou concernant des tiers, sur la santé, la
-                religion, les opinions politiques, syndicales et philosophiques, les origines ethniques, ainsi que sur
-                les sanctions et condamnations.</p>
+              {{t 'pages.challenge.feedback-panel.information.guidance' htmlSafe=true}}
             </div>
 
             <div class="feedback-panel__form-description">
-              <p>Pix traite les données de cette zone pour gérer et analyser la difficulté rencontrée et bénéficier de
-                votre retour d'expérience. Vous disposez de droits sur vos données qui peuvent être exercés auprès de <a
-                        href="mailto:dpo@pix.fr" class="link">dpo@pix.fr</a>.</p>
-              <p><a href="https://pix.fr/dp-formulaire-signalement-epreuve" target="_blank" class="link">Pour en savoir
-                plus sur la protection de vos données et sur vos droits.</a></p>
+              {{t 'pages.challenge.feedback-panel.information.data-usage' htmlSafe=true}}
             </div>
           </div>
         {{/if}}
