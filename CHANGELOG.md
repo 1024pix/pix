@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v2.177.0 (28/07/2020)
+
+- [#1664](https://github.com/1024pix/pix/pull/1664) [FEATURE] Générer un identifiant avec mot de passe temporaire pour l'utilisateur qui se connecte uniquement avec le GAR (PIX-953).
+- [#1686](https://github.com/1024pix/pix/pull/1686) [FEATURE]Ajout d'une traduction pour la page "j'ai un code" (PIX-803)
+- [#1685](https://github.com/1024pix/pix/pull/1685) [BUGFIX] Réparer le dropdown de sélections des organisations (PIX-1022).
+- [#1684](https://github.com/1024pix/pix/pull/1684) [BUGFIX] Ajouter un peu d'espace entre le nombre d'acquis et la barre d'évaluation dans Pix Orga (PIX-1018)
+- [#1689](https://github.com/1024pix/pix/pull/1689) [TECH] Unifier l'affichage des compétences sur les différents tableau de pix-orga (pix-462)
+- [#1619](https://github.com/1024pix/pix/pull/1619) [TECH] Formater les logs NGINX avec key=value
+- [#1673](https://github.com/1024pix/pix/pull/1673) [CLEANUP] Faciliter le changement de langue.
+
 ## v2.176.0 (27/07/2020)
 
 - [#1672](https://github.com/1024pix/pix/pull/1672) [FEATURE]  Traduction de la page de fin de certification (Pix-798)
