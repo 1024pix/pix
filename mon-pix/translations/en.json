@@ -472,30 +472,30 @@
 
     "tutorial": {
       "next":"Next",
-      "pass": "Ignore",
-      "start": "Start my test",
       "pages": {
         "page0" : {
-          "title": "You can look for information on the Internet",
+          "title": "You can look up the Internet for information",
           "icon": "icn-recherche.svg",
-          "explanation": "If you're stuck,\nthe answer must be on the Internet"
+          "explanation": "If you don't know the answer to a question,\nit must be somewhere on the Internet."
         },
         "page1": {
-          "title": "No duration in time !",
+          "title": "No time limit !",
           "icon": "icn-temps.svg",
           "explanation": "Take the time you need to complete your test. \nIf a question has a time limit, you will be notified."
         },
         "page2": {
-          "title": "Tutorials to learn",
+          "title": "Tutorials to help you learn",
           "icon": "icn-temps.svg",
-          "explanation": "Go through tutorials to learn more \nabout each and every question and get better."
+          "explanation": "Go through tutorials to learn more \nabout each question and improve."
         },
         "page3" : {
           "title": "An adaptative level of difficulty",
           "icon": "icn-temps.svg",
           "explanation": "According to your answers, \nPix will adapt the level of difficulty of upcoming questions. "
         }
-      } 
+      },
+      "pass": "Ignore",
+      "start": "Start my test"
     },
 
     "tutorial-panel": {

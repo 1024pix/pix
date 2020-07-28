@@ -472,8 +472,6 @@
 
     "tutorial": {
       "next":"Suivant",
-      "pass": "Ignorer",
-      "start": "Démarrer mon parcours",
       "pages": {
         "page0" : {
           "title": "Vous pouvez rechercher sur internet",
@@ -493,9 +491,11 @@
         "page3" : {
           "title": "Un niveau de difficulté adapté",
           "icon": "icn-algo.svg",
-          "explanation": "En fonction de vos réponses,\nPix adapte la difficulté des questions. "
+          "explanation": "En fonction de vos réponses,\nPix adapte la difficulté des questions."
         }
-      }
+      },
+      "pass": "Ignorer",
+      "start": "Démarrer mon parcours"
     },
 
     "tutorial-panel": {
