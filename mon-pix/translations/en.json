@@ -35,6 +35,10 @@
       }
     },
   
+    "campaign": {
+      "title": "Path"
+    },
+  
     "campaign-landing": {
       "title": "Presentation",
       "assessment": {
@@ -68,7 +72,7 @@
         "legal": "Information relating to your PIX profile will be sent to the organizer to enable him to accompany you. "
       }
     },
-  
+
     "certificate": {
       "title": "Pix certificate",
       "back-link": "Back to my certifications",
@@ -522,6 +526,33 @@
       }
     },
 
+    "skill-review": {
+      "title": "Result",
+      "abstract": "You control '<strong>'{percentage}%'</strong>'<br/> of tested skills.",
+      "actions": {
+        "continue": "Continue your Pix experience",
+        "send": "I send my results",
+        "try-again": "I retry"
+      },
+      "already-shared": "Thank you, your results have been sent!",
+      "archived": "This route has been archived by the organizer. <br/> Sending results is no longer possible but they are taken into account in your route.",
+      "details": {
+        "title": "Your detailed results",
+        "header-skill": "Skills tested",
+        "header-result": "Results",
+        "result": "Overall result",
+        "result-by-skill": "Results by skill",
+        "skill-progress": "'<p class=\"sr-only\">'You have validated '</p>'{percentage}%'<p class=\"sr-only\">' of the skill {skill}.'</p>'"
+      },
+      "information": "If you've ridden on Pix before, the questions you answered weren't asked again. However, the result displayed here takes into account all of your answers.",
+      "not-finished": "You cannot send your results yet, we still have a few questions for you.",
+      "send-results": "Send your results to the course organizer so that he can accompany you.",
+      "try-again": {
+        "title": "Want to improve your results?",
+        "description": "You can retry some questions"
+      }
+    },
+
     "tutorial": {
       "next":"Next",
       "pages": {
@@ -554,7 +585,7 @@
       "title": "To succeed next time",
       "info": "These links were recommended by Pix users."
     },
-
+  
     "user-tutorials": {
       "title": "My tutorials",
       "description": "Improve with tutorials",
