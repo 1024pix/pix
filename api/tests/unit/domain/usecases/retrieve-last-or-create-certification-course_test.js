@@ -25,9 +25,9 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
   };
   const sessionRepository = { get: sinon.stub() };
   const placementProfileService = {
-    pickCertificationChallenges: sinon.stub(),
     getPlacementProfile: sinon.stub(),
   };
+
   const parameters = {
     domainTransaction,
     assessmentRepository,
@@ -42,6 +42,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
   beforeEach(() => {
     clock = sinon.useFakeTimers(now);
+    sinon.stub(certificationChallengesService, 'pickCertificationChallenges');
   });
 
   afterEach(() => {
@@ -164,7 +165,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           const userCompetencesWithChallenges = _.clone(placementProfile.userCompetences);
           userCompetencesWithChallenges[0].challenges[0].testedSkill = skill1;
           userCompetencesWithChallenges[1].challenges[0].testedSkill = skill2;
-          placementProfileService.pickCertificationChallenges.withArgs(placementProfile).resolves(
+          certificationChallengesService.pickCertificationChallenges.withArgs(placementProfile).resolves(
             _.flatMap(userCompetencesWithChallenges, 'challenges')
           );
         });
@@ -204,7 +205,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             });
 
             // then
-            expect(placementProfileService.pickCertificationChallenges).to.have.been.calledWith(placementProfile);
+            expect(certificationChallengesService.pickCertificationChallenges).to.have.been.calledWith(placementProfile);
           });
 
         });

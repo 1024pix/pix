@@ -4,6 +4,7 @@ const { knex } = require('../db/knex-database-connection');
 const competenceRepository = require('../lib/infrastructure/repositories/competence-repository');
 const challengeRepository = require('../lib/infrastructure/repositories/challenge-repository');
 const placementProfileService = require('../lib/domain/services/placement-profile-service');
+const certificationChallengeService = require('../lib/domain/services/certification-challenges-service');
 
 const USER_COUNT = ~~process.env.USER_COUNT || 100;
 let currentCount = 0;
@@ -34,9 +35,8 @@ async function _generateCertificationTest(userId, competences) {
     throw new Error('pas certifiable');
   }
 
-  const userCompetences = await placementProfileService.pickCertificationChallenges(placementProfile);
+  const certificationChallenges = await certificationChallengeService.pickCertificationChallenges(placementProfile);
 
-  const certificationChallenges = _.flatMap(userCompetences, 'challenges');
   const certificationChallengesCountByCompetenceId = _.countBy(certificationChallenges, 'competenceId');
 
   return _.fromPairs(_.map(placementProfile.userCompetences, (userCompetence) => {
@@ -55,8 +55,7 @@ async function _generateCertificationTest(userId, competences) {
 
 function updateProgress() {
   ++currentCount;
-  process.stdout.cursorTo(0);
-  process.stdout.write(`Génération des tests de certification : ${currentCount * 100 / USER_COUNT} %  (${currentCount} / ${USER_COUNT})`);
+  process.stdout.write('.');
 }
 
 async function main() {
@@ -67,6 +66,7 @@ async function main() {
     const competences = await competenceRepository.listPixCompetencesOnly();
     let nonCertifiableUserCount = 0;
 
+    console.log('Génération des tests de certification : ');
     const certificationTestsByUser = _.compact(await bluebird.map(userIds, async (userId) => {
       try {
         const challengeCountByCompetence = await _generateCertificationTest(userId, competences);
@@ -83,7 +83,7 @@ async function main() {
       }
     }, { concurrency: ~~process.env.CONCURRENCY || 10 }));
 
-    console.log('Génération des tests de certification OK');
+    console.log('\nGénération des tests de certification OK');
 
     console.log('Génération des statistiques...');
     const competenceIds = _.map(competences, 'id');
