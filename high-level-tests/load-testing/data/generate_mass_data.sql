@@ -1,8 +1,14 @@
 BEGIN;
 
 -----------------------------------------------------------------------------------------------------
+--				Recalage des séquences       --------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
+SELECT setval(pg_get_serial_sequence('users','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "users";
+
+-----------------------------------------------------------------------------------------------------
 --				Déclaration de constantes   ---------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
+SET LOCAL constants.user_count=1000;
 SET LOCAL constants.string_count=20000;
 
 
@@ -84,6 +90,39 @@ SELECT
 			) AS the_string(x)
 	)
 FROM generate_series(1,current_setting('constants.string_count')::int) as generator;
+
+
+-----------------------------------------------------------------------------------------------------
+--				Ajout des utilisateurs   ------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
+CREATE TEMPORARY TABLE inserted_user_ids (
+  user_id INTEGER
+) ON COMMIT DROP;
+WITH inserted_user_ids_cte AS (
+  INSERT INTO users("firstName", "lastName", "email", "password")
+  SELECT
+    r_s_a.rand_str,
+    r_s_b.rand_str,
+    r_s_a.rand_str || '.' || r_s_b.rand_str || (currval(pg_get_serial_sequence('users','id'))+1) || '@example.net',
+    'default_password'
+  FROM (
+    SELECT (
+      SELECT (random() * current_setting('constants.string_count')::int)::int + (generator*0) as first_name_id
+    ),
+    (
+      SELECT (random() * current_setting('constants.string_count')::int)::int + (generator*0) as last_name_id
+    ),
+      generator as id
+    FROM generate_series(1,current_setting('constants.user_count')::int) as generator
+  ) id_picker
+  INNER JOIN random_string as r_s_a ON r_s_a.id = id_picker.first_name_id
+  INNER JOIN random_string as r_s_b ON r_s_b.id = id_picker.last_name_id
+  RETURNING id AS user_id
+)
+INSERT INTO inserted_user_ids(user_id)
+SELECT * FROM inserted_user_ids_cte;
+CREATE INDEX ON inserted_user_ids(user_id);
+
 
 -----------------------------------------------------------------------------------------------------
 --				Rétablir les contraintes   ----------------------------------------------------------
