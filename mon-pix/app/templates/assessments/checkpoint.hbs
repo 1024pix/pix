@@ -11,8 +11,7 @@
       {{#if this.shouldDisplayAnswers}}
         <div class="checkpoint-progression-gauge-wrapper">
           <ProgressionGauge @total={{100}} @value={{this.completionPercentage}} @progressionClass="progression-gauge--white progression-gauge--tooltip-left">
-            <p class="sr-only">{{t 'pages.checkpoint.completion-percentage.label-1'}}</p>{{this.completionPercentage}}%
-            <p class="sr-only">{{t 'pages.checkpoint.completion-percentage.label-2'}}</p>
+            {{t 'pages.checkpoint.completion-percentage.label' completionPercentage=this.completionPercentage htmlSafe=true}}
           </ProgressionGauge>
 
           <p class="checkpoint-legend">{{t 'pages.checkpoint.completion-percentage.legend'}}</p>

@@ -169,7 +169,7 @@
     "checkpoint": {
       "title" : {
         "assessment-progress": "Avancement de l'évaluation",
-        "end-of-the-assessment" : "Fin de votre évaluation"
+        "end-of-assessment" : "Fin de votre évaluation"
       },
       "actions": {
         "next-page": {
@@ -185,8 +185,7 @@
         "header": "vos réponses"
       },
       "completion-percentage": {
-        "label-1": "Vous avez effectué ",
-        "label-2": " de votre parcours.",
+        "label": "'<p class=\"sr-only\">'Vous avez effectué '</p>'{completionPercentage} %'<p class=\"sr-only\">' de votre parcours.'</p>'",
         "legend": "avancement du parcours"
       }
     },

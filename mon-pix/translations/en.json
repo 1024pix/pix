@@ -169,7 +169,7 @@
     "checkpoint": {
       "title" : {
         "assessment-progress": "Assessment progress",
-        "end-of-the-assessment" : "End of the assessment"
+        "end-of-assessment" : "End of the assessment"
       },
       "actions": {
         "next-page": {
@@ -185,8 +185,7 @@
         "header": "Your answers"
       },
       "completion-percentage": {
-        "label-1": "You completed ",
-        "label-2": " of your course.",
+        "label": "'<p class=\"sr-only\">'You completed '</p>'{completionPercentage} %'<p class=\"sr-only\">' of your course'</p>'",
         "legend": "course progress"
       }
     },
@@ -203,7 +202,7 @@
           "tooltip": "Incorrect answer"
         },
         "aband": {
-          "title": "You did not give an answer",
+          "title": "You did not give any answer",
           "tooltip": "No answer"
         },
         "partially": {

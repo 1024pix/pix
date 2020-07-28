@@ -32,7 +32,7 @@ export default class CheckpointController extends Controller {
   }
 
   get pageTitle() {
-    return this.finalCheckpoint ? this.intl.t('pages.checkpoint.title.end-of-the-assessment') : this.intl.t('pages.checkpoint.title.assessment-progress');
+    return this.finalCheckpoint ? this.intl.t('pages.checkpoint.title.end-of-assessment') : this.intl.t('pages.checkpoint.title.assessment-progress');
   }
 
   @action
