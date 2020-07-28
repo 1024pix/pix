@@ -310,7 +310,6 @@
       "aband": "Sans réponse",
       "actions": {
         "see-answers-and-tutorials": {
-          "extra-information": "Voir mes réponses et les tutoriels associés",
           "label": "Réponses et tutos"
         }
       },

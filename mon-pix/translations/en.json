@@ -310,7 +310,6 @@
       "aband": "No answer",
       "actions": {
         "see-answers-and-tutorials": {
-          "extra-information": "See my answers and related tutorials",
           "label": "Answers and tutorials"
         }
       },
