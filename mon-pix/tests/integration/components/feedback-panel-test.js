@@ -13,7 +13,7 @@ import {
 } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-const TOGGLE_LINK = '.feedback-panel__open-link';
+const TOGGLE_LINK = '.feedback-panel__open-button';
 const BUTTON_SEND = '.feedback-panel__button--send';
 
 const TEXTAREA = 'textarea.feedback-panel__field--content';
