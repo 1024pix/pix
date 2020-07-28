@@ -34,6 +34,41 @@
         "header": "Your answers"
       }
     },
+  
+    "campaign-landing": {
+      "title": "Presentation",
+      "assessment": {
+        "title": "Start your journey",
+        "action": "I begin",
+        "announcement": "Start your personalized assessment path. <br /> Register or log into the Pix platform and start your test.",
+        "details": "During this course, you will have the opportunity to:",
+        "legal": "Information relating to your progress will be sent to the course organizer to enable him to accompany you. ",
+        "evaluate": {
+          "title": "Measure your digital skills with fun tests on different topics such as:",
+          "complement": "The public digital skills assessment and certification service Pix allows you to assess your level in 5 major skill areas, which cover all current digital uses.",
+          "list": "'<ul><li>'search the internet for information,'</li><li>'write documents,'</li><li>'communicate and collaborate online,'</li><li>'secure your working environment,'</li><li>'etc.'</li></ul>'",
+          "more-info": {
+            "link": "https://pix.org/competences",
+            "label": "Find out more."
+          }
+        },
+        "certify": {
+          "title": "Prepare for certification recognized by the State and the professional world",
+          "description": "The Pix certification allows you to promote your digital skills to employers."
+        },
+        "develop": {
+          "title": "Discover your results during the test and consult clues to progress.",
+          "description": "After 5 tests, you can view your answers and follow tutorials to develop your skills."
+        }
+      },
+      "profiles-collection": {
+        "title": "Submit your profile",
+        "action": "Let's go !",
+        "announcement": "Register or log in to the Pix platform and send your profile to the recipient organization.",
+        "legal": "Information relating to your PIX profile will be sent to the organizer to enable him to accompany you. "
+      }
+    },
+  
     "certificate": {
       "title": "Pix certificate",
       "back-link": "Back to my certifications",
