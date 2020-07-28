@@ -25,7 +25,7 @@
   "pages" : {
 
     "assessment-results": {
-      "title": "End of assessment demo",
+      "title": "End of assessment",
       "actions": {
         "continue-pix-experience" : "Continue my Pix experience",
         "return-to-homepage" : "Return to homepage"
