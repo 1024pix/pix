@@ -1,6 +1,7 @@
 import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
+import setupIntl from '../../helpers/setup-intl';
 import { setupTest } from 'ember-mocha';
 
 const undefinedAnswer = 'undefined';
@@ -23,6 +24,7 @@ const answerWithNullResult = {
 describe('Unit | Component | result-item-component', function() {
 
   setupTest();
+  setupIntl();
 
   let component;
 
@@ -49,69 +51,46 @@ describe('Unit | Component | result-item-component', function() {
   });
 
   describe('#resultItem Computed property - defined case', function() {
-    it('should return the green check-circle icon with "Réponse correcte" when answer provided has a valid result', function() {
-      // given
-      const answerWithOkResult = { result: 'ok' };
+    [
+      { result: 'ok', expectedColor: 'green', expectedIcon: 'check-circle' },
+      { result: 'ko', expectedColor: 'red', expectedIcon: 'times-circle' },
+      { result: 'timedout', expectedColor: 'red', expectedIcon: 'times-circle' },
+      { result: 'partially', expectedColor: 'orange', expectedIcon: 'check-circle' },
+      { result: 'aband', expectedColor: 'grey', expectedIcon: 'times-circle' }
+    ].forEach((data) => {
+      it(`should return a ${data.expectedColor} ${data.expectedIcon} icon when answer provided has a ${data.result} result`, function() {
+        // given
+        const answerWithOkResult = { result: `${data.result}` };
 
-      // when
-      component.set('answer', answerWithOkResult);
+        // when
+        component.set('answer', answerWithOkResult);
 
-      // then
-      expect(component.get('resultItem.title')).to.equal('Réponse correcte');
-      expect(component.get('resultItem.color')).to.equal('green');
-      expect(component.get('resultItem.icon')).to.equal('check-circle');
+        // then
+        expect(component.get('resultItem.color')).to.equal(`${data.expectedColor}`);
+        expect(component.get('resultItem.icon')).to.equal(`${data.expectedIcon}`);
+      });
     });
+  });
 
-    it('should return the red times-circle icon with "Réponse incorrecte" when answer provided has an invalid result', function() {
-      // given
-      const answerWithKoResult = { result: 'ko' };
+  describe('#resultTooltip', function() {
+    [
+      { result: 'ok', expectedTooltip: 'Réponse correcte' },
+      { result: 'ko', expectedTooltip: 'Réponse incorrecte' },
+      { result: 'timedout', expectedTooltip: 'Temps dépassé' },
+      { result: 'partially', expectedTooltip: 'Réponse partielle' },
+      { result: 'aband', expectedTooltip: 'Sans réponse' },
+    ].forEach((data) => {
+      it(`should return a tooltip text equal to ${data.expectedTooltip}`, function() {
+        // given
+        const answerWithOkResult = { result: `${data.result}` };
 
-      // when
-      component.set('answer', answerWithKoResult);
+        // when
+        component.set('answer', answerWithOkResult);
+        const tooltipText = component.get('resultTooltip');
 
-      // then
-      expect(component.get('resultItem.title')).to.equal('Réponse incorrecte');
-      expect(component.get('resultItem.color')).to.equal('red');
-      expect(component.get('resultItem.icon')).to.equal('times-circle');
-    });
-
-    it('should return the red times-circle icon with "Temps dépassé" when answer provided has a timed out result', function() {
-      // given
-      const answerWithTimedoutResult = { result: 'timedout' };
-
-      // when
-      component.set('answer', answerWithTimedoutResult);
-
-      // then
-      expect(component.get('resultItem.title')).to.equal('Temps dépassé');
-      expect(component.get('resultItem.color')).to.equal('red');
-      expect(component.get('resultItem.icon')).to.equal('times-circle');
-    });
-
-    it('should return the orange check-circle icon with "Réponse partielle" when answer provided has partially valid result', function() {
-      // given
-      const answerWithPartiallyResult = { result: 'partially' };
-
-      // when
-      component.set('answer', answerWithPartiallyResult);
-
-      // then
-      expect(component.get('resultItem.title')).to.equal('Réponse partielle');
-      expect(component.get('resultItem.color')).to.equal('orange');
-      expect(component.get('resultItem.icon')).to.equal('check-circle');
-    });
-
-    it('should return the grey times-circle icon with "Sans réponse" when answer provided has skipped result', function() {
-      // given
-      const answerWithAbandResult = { result: 'aband' };
-
-      // when
-      component.set('answer', answerWithAbandResult);
-
-      // then
-      expect(component.get('resultItem.title')).to.equal('Sans réponse');
-      expect(component.get('resultItem.color')).to.equal('grey');
-      expect(component.get('resultItem.icon')).to.equal('times-circle');
+        // then
+        expect(tooltipText).to.equal(`${data.expectedTooltip}`);
+      });
     });
   });
 

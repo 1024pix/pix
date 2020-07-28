@@ -2,19 +2,13 @@ import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
+import setupIntl from '../../helpers/setup-intl';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
-
-function _assertResultItemTitle(resultItem, expected) {
-  expect(resultItem.title).to.equal(expected);
-}
-
-function _assertResultItemTooltip(resultItem, expected) {
-  expect(resultItem.tooltip).to.equal(expected);
-}
 
 describe('Unit | Component | comparison-window', function() {
 
   setupTest();
+  setupIntl();
 
   let component;
   let answer;
@@ -121,140 +115,46 @@ describe('Unit | Component | comparison-window', function() {
       answer.set('challenge', challengeQcm);
     });
 
-    it('should return adapted title and tooltip when validation is unavailable (i.e. empty)', function() {
-      // given
-      answer.set('result', '');
+    [
+      { validationStatus: 'unavailable (i.e. empty)', result: '', expectedTitle: '', expectedTooltip: 'Correction automatique en cours de développement ;)' },
+      { validationStatus: 'unknown', result: 'xxx', expectedTitle: '', expectedTooltip: 'Correction automatique en cours de développement ;)' },
+      { validationStatus: 'undefined', result: undefined, expectedTitle: '', expectedTooltip: 'Correction automatique en cours de développement ;)' },
+      { validationStatus: 'ok', result: 'ok', expectedTitle: 'Vous avez la bonne réponse !', expectedTooltip: 'Réponse correcte' },
+      { validationStatus: 'ko', result: 'ko', expectedTitle: 'Vous n’avez pas la bonne réponse', expectedTooltip: 'Réponse incorrecte' },
+      { validationStatus: 'aband', result: 'aband', expectedTitle: 'Vous n’avez pas donné de réponse', expectedTooltip: 'Sans réponse' },
+      { validationStatus: 'partially', result: 'partially', expectedTitle: 'Vous avez donné une réponse partielle', expectedTooltip: 'Réponse partielle' },
+      { validationStatus: 'timedout', result: 'timedout', expectedTitle: 'Vous avez dépassé le temps imparti', expectedTooltip: 'Temps dépassé' },
+    ].forEach((data) => {
+      it(`should return adapted title and tooltip when validation is ${data.validationStatus}`, function() {
+        // given
+        answer.set('result', `${data.result}`);
 
-      // when
-      resultItem = component.resultItem;
+        // when
+        resultItem = component.resultItem;
 
-      // then
-      _assertResultItemTitle(resultItem, '');
-      _assertResultItemTooltip(resultItem, 'Correction automatique en cours de développement ;)');
+        // then
+        expect(this.intl.t(resultItem.title)).to.equal(`${data.expectedTitle}`);
+        expect(this.intl.t(resultItem.tooltip)).to.equal(`${data.expectedTooltip}`);
+      });
     });
 
-    it('should return adapted title and tooltip when validation status is unknown', function() {
-      // given
-      answer.set('result', 'xxx');
+    [
+      { result: 'ko', expectedTitle: 'Vous n’avez pas réussi l’épreuve', expectedTooltip: 'Épreuve non réussie' },
+      { result: 'ok', expectedTitle: 'Vous avez réussi l’épreuve', expectedTooltip: 'Épreuve réussie' },
+      { result: 'aband', expectedTitle: 'Vous avez passé l’épreuve', expectedTooltip: 'Épreuve passée' },
+    ].forEach((data) => {
+      it(`should return adapted title and tooltip when challenge is auto validated and validation is ${data.result}`, function() {
+        // given
+        answer.set('result', `${data.result}`);
+        answer.set('challenge', challengeQrocWithAutoReply);
 
-      // when
-      resultItem = component.resultItem;
+        // when
+        resultItem = component.resultItem;
 
-      // then
-      _assertResultItemTitle(resultItem, '');
-      _assertResultItemTooltip(resultItem, 'Correction automatique en cours de développement ;)');
-    });
-
-    it('should return adapted title and tooltip when validation status is undefined', function() {
-      // given
-      let undefined;
-      answer.set('result', undefined);
-
-      // when
-      resultItem = component.resultItem;
-
-      // then
-      _assertResultItemTitle(resultItem, '');
-      _assertResultItemTooltip(resultItem, 'Correction automatique en cours de développement ;)');
-    });
-
-    it('should return adapted title and tooltip when result is "ok"', function() {
-      // given
-      answer.set('result', 'ok');
-
-      // when
-      resultItem = component.resultItem;
-
-      // then
-      _assertResultItemTitle(resultItem, 'Vous avez la bonne réponse !');
-      _assertResultItemTooltip(resultItem, 'Réponse correcte');
-    });
-
-    it('should return adapted title and tooltip when result is "ko"', function() {
-      // given
-      answer.set('result', 'ko');
-
-      // when
-      resultItem = component.resultItem;
-
-      // then
-      _assertResultItemTitle(resultItem, 'Vous n’avez pas la bonne réponse');
-      _assertResultItemTooltip(resultItem, 'Réponse incorrecte');
-    });
-
-    it('should return adapted title and tooltip when result is "aband"', function() {
-      // given
-      answer.set('result', 'aband');
-
-      // when
-      resultItem = component.resultItem;
-
-      // then
-      _assertResultItemTitle(resultItem, 'Vous n’avez pas donné de réponse');
-      _assertResultItemTooltip(resultItem, 'Sans réponse');
-    });
-
-    it('should return adapted title and tooltip when result is "partially"', function() {
-      // given
-      answer.set('result', 'partially');
-
-      // when
-      resultItem = component.resultItem;
-
-      // then
-      _assertResultItemTitle(resultItem, 'Vous avez donné une réponse partielle');
-      _assertResultItemTooltip(resultItem, 'Réponse partielle');
-    });
-
-    it('should return adapted title and tooltip when result is "timedout"', function() {
-      // given
-      answer.set('result', 'timedout');
-
-      // when
-      resultItem = component.resultItem;
-
-      // then
-      _assertResultItemTitle(resultItem, 'Vous avez dépassé le temps imparti');
-      _assertResultItemTooltip(resultItem, 'Temps dépassé');
-    });
-
-    it('should return adapted title and tooltip when result is "ko" and challenge is auto validated', function() {
-      // given
-      answer.set('result', 'ko');
-      answer.set('challenge', challengeQrocWithAutoReply);
-
-      // when
-      resultItem = component.resultItem;
-
-      // then
-      _assertResultItemTitle(resultItem, 'Vous n’avez pas réussi l’épreuve');
-      _assertResultItemTooltip(resultItem, 'Épreuve non réussie');
-    });
-
-    it('should return adapted title and tooltip when result is "ok" and challenge is auto validated', function() {
-      // given
-      answer.set('result', 'ok');
-      answer.set('challenge', challengeQrocWithAutoReply);
-
-      // when
-      resultItem = component.resultItem;
-
-      // then
-      _assertResultItemTitle(resultItem, 'Vous avez réussi l’épreuve');
-      _assertResultItemTooltip(resultItem, 'Épreuve réussie');
-    });
-
-    it('should return adapted title and tooltip when result is "aband" and challenge is auto validated', function() {
-      // given
-      answer.set('result', 'aband');
-      answer.set('challenge', challengeQrocWithAutoReply);
-
-      // when
-      resultItem = component.resultItem;
-
-      // then
-      _assertResultItemTitle(resultItem, 'Vous avez passé l’épreuve');
-      _assertResultItemTooltip(resultItem, 'Épreuve passée');
+        // then
+        expect(this.intl.t(resultItem.title)).to.equal(`${data.expectedTitle}`);
+        expect(this.intl.t(resultItem.tooltip)).to.equal(`${data.expectedTooltip}`);
+      });
     });
   });
 });

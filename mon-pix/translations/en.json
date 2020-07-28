@@ -22,7 +22,18 @@
     "pix": "pix"
   },
 
-  "pages": {
+  "pages" : {
+
+    "assessment-results": {
+      "title": "End of assessment",
+      "actions": {
+        "continue-pix-experience" : "Continue my Pix experience",
+        "return-to-homepage" : "Return to homepage"
+      },
+      "answers": {
+        "header": "Your answers"
+      }
+    },
     "certificate": {
       "title": "Pix certificate",
       "back-link": "Back to my certifications",
@@ -155,6 +166,72 @@
       }
     },
 
+    "checkpoint": {
+      "title" : {
+        "assessment-progress": "Assessment progress",
+        "end-of-assessment" : "End of the assessment"
+      },
+      "actions": {
+        "next-page": {
+          "continue": "Continue my course",
+          "results": "See my results"
+        }
+      },
+      "answers": {
+        "already-finished": {
+          "explanation": "You already answered all the questions during your previous courses. You can directly access your results.",
+          "info": "It's already finished but don't be confused!"
+        },
+        "header": "Your answers"
+      },
+      "completion-percentage": {
+        "label": "'<p class=\"sr-only\">'You completed '</p>'{completionPercentage} %'<p class=\"sr-only\">' of your course'</p>'",
+        "caption": "assessment progress"
+      }
+    },
+
+    "comparison-window": {
+      "upcoming-tutorials": "Right here, you will soon be able to find tutorials to do well this kind of assessments!!",
+      "results": {
+        "ok": {
+          "title": "You have the correct answer",
+          "tooltip": "Correct answer"
+        },
+        "ko": {
+          "title": "You do not have the correct answer",
+          "tooltip": "Incorrect answer"
+        },
+        "aband": {
+          "title": "You did not give any answer",
+          "tooltip": "No answer"
+        },
+        "partially": {
+          "title": "You gave an incomplete answer",
+          "tooltip": "Incomplete answer"
+        },
+        "timedout": {
+          "title": "You exceeded the given time",
+          "tooltip": "Exceeded time"
+        },
+        "okAutoReply": {
+          "title": "You succeeded the challenge",
+          "tooltip": "Succeeded challenge"
+        },
+        "koAutoReply": {
+          "title": "You did not succeed the challenge",
+          "tooltip": "Unsuccessful challenge"
+        },
+        "abandAutoReply": {
+          "title": "You skipped the challenge",
+          "tooltip": "Skipped challenge"
+        },
+        "default": {
+          "title": "",
+          "tooltip": "Automatic correction in development ;)"
+        }
+      }
+    },
+
     "competence-details": {
       "title": "Competence",
       "actions": {
@@ -196,6 +273,15 @@
       "first-title": "Oups, an error has occured!"
     },
 
+    "learning-more": {
+      "title": "To learn more",
+      "info": "These links were recommended by Pix users."
+    },
+
+    "levelup-notif": {
+      "obtained-level": "Level { level } obtained!"
+    },
+
     "profile": {
       "title": "Your profile",
       "competence-card": {
@@ -217,6 +303,19 @@
         "title": "Why 1024 pix?",
         "explanation": "This is the maximum number of pix that we can reach when the 8 levels of the Pix repository are available.'<br>'Today, '<span class=\"hexagon-score-information__text--strong\">'the maximum is 640 pix'</span>', corresponding to level 5."
       }
+    },
+
+    "result-item": {
+      "aband": "No answer",
+      "actions": {
+        "see-answers-and-tutorials": {
+          "label": "Answers and tutorials"
+        }
+      },
+      "ko": "Incorrect answer",
+      "ok": "Correct answer",
+      "partially": "Incomplete answer",
+      "timedout": "Timed out"
     },
 
     "sign-in": {
@@ -279,6 +378,11 @@
       "subtitle": {
         "link": "sign in"
       }
+    },
+
+    "tutorial-panel": {
+      "title": "To succeed next time",
+      "info": "These links were recommended by Pix users."
     },
 
     "user-tutorials": {

@@ -1,7 +1,5 @@
-import classic from 'ember-classic-decorator';
 import Route from '@ember/routing/route';
 
-@classic
 export default class CheckpointRoute extends Route {
   model() {
     return this.modelFor('assessments');
@@ -16,7 +14,7 @@ export default class CheckpointRoute extends Route {
     if (assessment.isForCampaign) {
       const campaigns = await this.store.query('campaign', { filter: { code: assessment.codeCampaign } });
 
-      assessment.set('campaign', campaigns.get('firstObject'));
+      assessment.campaign = campaigns.get('firstObject');
     }
   }
 }
