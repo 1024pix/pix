@@ -168,7 +168,7 @@
 
     "checkpoint": {
       "title" : {
-        "assessment-progress": "Avancement de l'évaluation",
+        "assessment-progress": "Avancement du parcours",
         "end-of-assessment" : "Fin de votre évaluation"
       },
       "actions": {
