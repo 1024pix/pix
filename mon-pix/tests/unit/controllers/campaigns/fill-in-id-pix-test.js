@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import setupRenderingTest from '../../../helpers/setup-intl-rendering';
 import sinon from 'sinon';
 
 describe('Unit | Controller | Campaigns | Fill in ParticipantExternalId', function() {
 
-  setupTest();
-
+  setupRenderingTest();
+  
   const model = {
     id: 1243,
     code: 'CODECAMPAIGN',
