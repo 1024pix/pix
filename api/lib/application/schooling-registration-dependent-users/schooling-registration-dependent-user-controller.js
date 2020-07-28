@@ -1,5 +1,6 @@
 const usecases = require('../../domain/usecases');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
+const schoolingRegistrationDependentUser = require('../../infrastructure/serializers/jsonapi/schooling-registration-dependent-user-serializer');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
 module.exports = {
@@ -44,5 +45,20 @@ module.exports = {
     };
 
     return h.response(schoolingRegistrationWithGeneratedPasswordResponse).code(200);
+  },
+
+  async generateUsernameWithTemporaryPassword(request, h) {
+    const payload = request.payload.data.attributes;
+    const organizationId = parseInt(payload['organization-id']);
+    const schoolingRegistrationId = parseInt(payload['schooling-registration-id']);
+
+    const result = await usecases.generateUsernameWithTemporaryPassword({
+      schoolingRegistrationId,
+      organizationId,
+    });
+
+    const schoolingRegistrationWithGeneratedUsernamePasswordResponse = schoolingRegistrationDependentUser.serialize(result);
+
+    return h.response(schoolingRegistrationWithGeneratedUsernamePasswordResponse).code(200);
   },
 };

@@ -131,6 +131,12 @@ class UserNotAuthorizedToGetCertificationCoursesError extends DomainError {
   }
 }
 
+class UserNotAuthorizedToGenerateUsernamePasswordError extends DomainError {
+  constructor(message = 'Cet utilisateur n\'est pas autorisé à générer un identifiant et un mot de passe.') {
+    super(message);
+  }
+}
+
 class CertificationCourseUpdateError extends DomainError {
   constructor(message = 'Echec lors la création ou de la mise à jour du test de certification.') {
     super(message);
@@ -557,6 +563,7 @@ module.exports = {
   UserNotAuthorizedToCreateCampaignError,
   UserNotAuthorizedToCreateResourceError,
   UserNotAuthorizedToGetCampaignResultsError,
+  UserNotAuthorizedToGenerateUsernamePasswordError,
   UserNotAuthorizedToGetCertificationCoursesError,
   UserNotAuthorizedToUpdateCampaignError,
   UserNotAuthorizedToUpdatePasswordError,

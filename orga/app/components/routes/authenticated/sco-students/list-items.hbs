@@ -69,6 +69,13 @@
                       Dissocier le compte
                     </Dropdown::Item>
                   {{/if}}
+                {{#if this.isGenerateUsernameFeatureIsEnabled}}
+                  {{#if student.isAuthenticatedFromGarOnly}}
+                    <Dropdown::Item @onClick={{fn this.generateUsernameWithTemporaryPassword student}}>
+                      Générer identifiant
+                    </Dropdown::Item>
+                  {{/if}}
+                {{/if}}
                 </Dropdown::IconTrigger>
               {{/if}}
             </td>
