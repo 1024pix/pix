@@ -186,7 +186,7 @@
       },
       "completion-percentage": {
         "label": "'<p class=\"sr-only\">'You completed '</p>'{completionPercentage} %'<p class=\"sr-only\">' of your course'</p>'",
-        "legend": "course progress"
+        "caption": "course progress"
       }
     },
 
