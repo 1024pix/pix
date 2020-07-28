@@ -3,29 +3,39 @@
 import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
+import setupIntl from '../../../../helpers/setup-intl';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
 describe('Unit | Route | campaigns/evaluation/tutorial', function() {
 
   setupTest();
+  setupIntl();
 
   let route;
   const tutorialPages = {
-    tutorial: [
-      {
-        id: 0,
+    tutorial: {
+      page0 : {
         title: 'Vous pouvez rechercher sur internet',
         icon: 'icn-recherche.svg',
-        explanation: 'Si vous ignorez une réponse, elle se trouve sûrement sur internet.'
+        explanation: 'Si vous ignorez une réponse, \nelle se trouve sûrement sur internet.'
       },
-      {
-        id: 1,
+      page1: {
         title: 'Pas de limite de temps !',
         icon: 'icn-temps.svg',
-        explanation: 'Prenez le temps nécessaire pour terminer votre parcours. Si une question est chronométrée, cela vous sera indiqué.'
+        explanation: 'Prenez le temps nécessaire pour terminer votre parcours. \nSi une question est chronométrée, cela vous sera indiqué.'
+      },
+      page2: {
+        title: 'Des tutos pour apprendre',
+        icon: 'icn-tutos.svg',
+        explanation: 'Accédez à des tutos pour apprendre davantage \nsur chaque question et progresser.'
+      },
+      page3: {
+        title: 'Un niveau de difficulté adapté',
+        icon: 'icn-algo.svg',
+        explanation: 'En fonction de vos réponses,\nPix adapte la difficulté des questions.'
       }
-    ],
+    }
   };
 
   beforeEach(function() {
@@ -44,7 +54,7 @@ describe('Unit | Route | campaigns/evaluation/tutorial', function() {
       const tutorialPage = route.model();
 
       // then
-      expect(tutorialPage.title).to.equal(tutorialPages.tutorial[0].title);
+      expect(tutorialPage.title).to.equal(tutorialPages.tutorial['page0'].title);
       expect(tutorialPage.showNextButton).to.equal(true);
       expect(tutorialPage.paging[0]).to.equal('dot__active');
     });
@@ -69,13 +79,13 @@ describe('Unit | Route | campaigns/evaluation/tutorial', function() {
     it('should stay on the same tutorial page since it is the last page', function() {
       // given
       route.refresh = sinon.stub();
-      route.set('tutorialPageId', 1);
+      route.set('tutorialPageId', 3);
 
       // when
       route.send('next');
 
       // then
-      expect(route.get('tutorialPageId')).to.equal(1);
+      expect(route.get('tutorialPageId')).to.equal(3);
       sinon.assert.notCalled(route.refresh);
 
     });

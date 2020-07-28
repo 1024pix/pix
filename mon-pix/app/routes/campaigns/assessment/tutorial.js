@@ -22,12 +22,11 @@ export default Route.extend(SecuredRouteMixin, {
 
   model() {
     this.campaignCode = this.paramsFor('campaigns').code;
-    const maxTutorialPageId = this.tutorialPageCount - 1;
     return {
       title: this.intl.t(`pages.tutorial.pages.page${this.tutorialPageId}.title`),
       icon: this.intl.t(`pages.tutorial.pages.page${this.tutorialPageId}.icon`),
       explanation: this.intl.t(`pages.tutorial.pages.page${this.tutorialPageId}.explanation`),
-      showNextButton: this.tutorialPageId < maxTutorialPageId,
+      showNextButton: this.tutorialPageId < this.tutorialPageCount - 1,
       paging: this._setupPaging(this.tutorialPageCount, this.tutorialPageId)
     };
   },
