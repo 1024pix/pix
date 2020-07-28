@@ -7,7 +7,6 @@ const placementProfileService = require('../lib/domain/services/placement-profil
 const certificationChallengeService = require('../lib/domain/services/certification-challenges-service');
 
 const USER_COUNT = ~~process.env.USER_COUNT || 100;
-let currentCount = 0;
 
 function makeRefDataFaster() {
   challengeRepository.list = _.memoize(challengeRepository.findOperative);
@@ -54,7 +53,6 @@ async function _generateCertificationTest(userId, competences) {
 }
 
 function updateProgress() {
-  ++currentCount;
   process.stdout.write('.');
 }
 
