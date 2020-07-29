@@ -42,7 +42,7 @@ describe('Acceptance | Displaying a QCU challenge', () => {
 
       // then
       expect(find('.alert')).to.exist;
-      expect(find('.alert').textContent.trim()).to.equal('Pour valider, sélectionner une réponse. Sinon, passer.');
+      expect(find('.alert').textContent.trim()).to.equal('Pour valider, sélectionner une réponse. Sinon, passez.');
     });
 
     it('should hide the alert error after the user interact with radio button', async () => {
