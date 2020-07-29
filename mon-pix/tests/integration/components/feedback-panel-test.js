@@ -1,7 +1,3 @@
-/* eslint ember/no-classic-classes: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
-import EmberObject from '@ember/object';
 import { resolve } from 'rsvp';
 import Service from '@ember/service';
 import { expect } from 'chai';
@@ -17,7 +13,7 @@ import {
 } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-const TOGGLE_LINK = '.feedback-panel__open-link';
+const TOGGLE_LINK = '.feedback-panel__open-button';
 const BUTTON_SEND = '.feedback-panel__button--send';
 
 const TEXTAREA = 'textarea.feedback-panel__field--content';
@@ -53,7 +49,7 @@ describe('Integration | Component | feedback-panel', function() {
   describe('Default rendering', function() {
     context('when assessment is not of type certification', function() {
       beforeEach(async function() {
-        await render(hbs`{{feedback-panel isFormOpened=false}}`);
+        await render(hbs`<FeedbackPanel />`);
       });
 
       it('should display the feedback panel', function() {
@@ -77,28 +73,54 @@ describe('Integration | Component | feedback-panel', function() {
 
     context('when assessment is of type certification', function() {
       beforeEach(async function() {
-        const assessment = EmberObject.create({
+        const assessment = {
           isCertification: true
-        });
+        };
         this.set('assessment', assessment);
-        this.set('isFormOpened', true);
 
-        await render(hbs`<FeedbackPanel @assessment={{this.assessment}} @isFormOpened={{this.isFormOpened}} />`);
+        await render(hbs`<FeedbackPanel @assessment={{this.assessment}} @context={{this.context}} />`);
       });
 
       it('should display the feedback certification section', async function() {
-        expect(find('.feedback-certification-section__div')).to.exist;
-
+        // when
         await click(TOGGLE_LINK);
 
-        expect(find('.feedback-certification-section__div')).not.to.exist;
+        // then
+        expect(find('.feedback-certification-section__div')).to.exist;
       });
     });
   });
 
-  describe('Form view', function() {
+  context('FeedbackPanel is set to always open the form', function() {
 
-    const storeStub = Service.extend({
+    beforeEach(async function() {
+      const assessment = { id: 'assessment_id' };
+      const challenge = { id: 'challenge_id' };
+
+      this.set('assessment', assessment);
+      this.set('challenge', challenge);
+      this.set('alwaysOpenForm', true);
+
+      await render(hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} @alwaysOpenForm={{this.alwaysOpenForm}} />`);
+    });
+
+    it('should display the "form" view', async function() {
+      expectFormViewToBeVisible();
+      expect(findAll(DROPDOWN).length).to.equal(1);
+    });
+
+    it('should not be able to hide the form view', async function() {
+      // when
+      await click(TOGGLE_LINK);
+
+      // then
+      expect(find('.feedback-panel__form')).to.exist;
+    });
+  });
+
+  context('FeedbackPanel is not set to always open the form', function() {
+
+    class StoreStub extends Service {
       createRecord() {
         return Object.create({
           save() {
@@ -106,24 +128,34 @@ describe('Integration | Component | feedback-panel', function() {
           }
         });
       }
-    });
+    }
 
     beforeEach(async function() {
-      const assessment = EmberObject.extend({ id: 'assessment_id' }).create();
-      const challenge = EmberObject.extend({ id: 'challenge_id' }).create();
+      const assessment = { id: 'assessment_id' };
+      const challenge = { id: 'challenge_id' };
 
       this.set('assessment', assessment);
       this.set('challenge', challenge);
 
       this.owner.unregister('service:store');
-      this.owner.register('service:store', storeStub);
+      this.owner.register('service:store', StoreStub);
 
-      await render(hbs`{{feedback-panel assessment=assessment challenge=challenge isFormOpened=true}}`);
+      await render(hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`);
+      expect(find('.feedback-panel__form')).not.to.exist;
+      await click(TOGGLE_LINK);
     });
 
-    it('should display the "form" view', function() {
+    it('should display the "form" view', async function() {
       expectFormViewToBeVisible();
       expect(findAll(DROPDOWN).length).to.equal(1);
+    });
+
+    it('should be able to hide the form view', async function() {
+      // when
+      await click(TOGGLE_LINK);
+
+      // then
+      expect(find('.feedback-panel__form')).not.to.exist;
     });
 
     it('clicking on "send" button should display the "mercix" view', async function() {
@@ -198,9 +230,13 @@ describe('Integration | Component | feedback-panel', function() {
 
   describe('Error management', function() {
 
+    beforeEach(async function() {
+      await render(hbs`<FeedbackPanel />`);
+      await click(TOGGLE_LINK);
+    });
+
     it('should display error if "content" is empty', async function() {
       // given
-      await render(hbs`{{feedback-panel isFormOpened=true}}`);
       await fillIn('.feedback-panel__dropdown', PICK_CATEGORY_WITH_TEXTAREA);
 
       // when
@@ -212,7 +248,6 @@ describe('Integration | Component | feedback-panel', function() {
 
     it('should display error if "content" is blank', async function() {
       // given
-      await render(hbs`{{feedback-panel isFormOpened=true}}`);
       await setContent('');
 
       // when
@@ -224,7 +259,6 @@ describe('Integration | Component | feedback-panel', function() {
 
     it('should not display error if "form" view (with error) was closed and re-opened', async function() {
       // given
-      await render(hbs`{{feedback-panel isFormOpened=true}}`);
       await setContent('   ');
       await click(BUTTON_SEND);
 
@@ -237,23 +271,4 @@ describe('Integration | Component | feedback-panel', function() {
     });
   });
 
-  it('should be reseted when challenge is changed', async function() {
-    // given
-    this.set('challenge', 1);
-    await render(hbs`{{feedback-panel challenge=challenge isFormOpened=false}}`);
-    await click(TOGGLE_LINK);
-    await setContent('TEST_CONTENT');
-
-    // when
-    this.set('challenge', 2);
-
-    // then
-    expect(find(TEXTAREA)).to.not.exist;
-
-    // when
-    await click(TOGGLE_LINK);
-
-    // then
-    expect(find(TEXTAREA).value).to.equal('');
-  });
 });

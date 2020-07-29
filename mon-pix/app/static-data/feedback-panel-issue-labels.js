@@ -1,41 +1,41 @@
 const topLevelLabels = [
   {
-    name: 'La question',
+    name: 'pages.challenge.feedback-panel.form.fields.category-selection.options.question',
     value: 'instructions',
   },
   {
-    name: 'L’image',
+    name: 'pages.challenge.feedback-panel.form.fields.category-selection.options.picture',
     value: 'picture',
     displayOnlyOnChallengePage: true,
   },
   {
-    name: 'Le lien indiqué dans la question',
+    name: 'pages.challenge.feedback-panel.form.fields.category-selection.options.link',
     value: 'link',
   },
   {
-    name: 'Le simulateur / l\'application',
+    name: 'pages.challenge.feedback-panel.form.fields.category-selection.options.embed',
     value: 'simulator',
   },
   {
-    name: 'Le fichier à télécharger',
+    name: 'pages.challenge.feedback-panel.form.fields.category-selection.options.download',
     value: 'download',
   },
   {
-    name: 'L\'accessibilité de l\'épreuve',
+    name: 'pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility',
     value: 'accessibility',
   },
   {
-    name: 'La réponse',
+    name: 'pages.challenge.feedback-panel.form.fields.category-selection.options.answer',
     value: 'answer',
     displayOnlyOnComparisonWindow: true
   },
   {
-    name: 'Le tutoriel',
+    name: 'pages.challenge.feedback-panel.form.fields.category-selection.options.tutorial',
     value: 'tutorial',
     displayOnlyOnComparisonWindow: true
   },
   {
-    name: 'Autre',
+    name: 'pages.challenge.feedback-panel.form.fields.category-selection.options.other',
     value: 'other',
   },
 ];
@@ -43,11 +43,11 @@ const topLevelLabels = [
 const questions = {
   'instructions': [
     {
-      name: 'Je ne comprends pas la question',
+      name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.question-not-understood',
       type: 'textbox',
     },
     {
-      name: 'Je souhaite proposer une amélioration de la question',
+      name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.question-improvement',
       type: 'textbox',
     },
   ],
@@ -55,9 +55,7 @@ const questions = {
     {
       name: 'image',
       type: 'tutorial',
-      content: `Votre connexion internet est peut-être trop faible. <br>
-        Rechargez la page en appuyant sur le bouton actualiser <object type="image/svg+xml" class="tuto-icon" data="/images/icons/icon-reload.svg"></object> à côté de la barre d’adresse. Attendez un peu, le simulateur va peut-être s’afficher. <br><br>
-        Si ce n’est pas le cas, pouvez-vous retenter à un autre moment ou depuis un autre endroit avec une meilleure connexion&nbsp;?`
+      content: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.picture-not-displayed'
     }
   ],
   'link': [
@@ -68,39 +66,33 @@ const questions = {
   ],
   'simulator': [
     {
-      name: 'Le simulateur / l’application ne s’affiche pas',
+      name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.embed-not-displayed.label',
       type: 'tutorial',
-      content: `Votre connexion internet est peut-être trop faible. <br>
-        Rechargez la page en appuyant sur le bouton actualiser <object type="image/svg+xml" class="tuto-icon" data="/images/icons/icon-reload.svg"></object> à côté de la barre d’adresse. Attendez un peu, le simulateur va peut-être s’afficher. <br><br>
-        Si ce n’est pas le cas, pouvez-vous retenter à un autre moment ou depuis un autre endroit avec une meilleure connexion&nbsp;?`
+      content: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.embed-not-displayed.solution'
     },
     {
-      name: 'Le simulateur / l’application a un autre problème',
+      name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.embed-other',
       type: 'textbox',
     },
   ],
   'download': [
     {
-      name: 'Je n’arrive pas à ouvrir le fichier sur un ordinateur',
+      name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.download.open-failure.label',
       type: 'tutorial',
-      content: `Pour réussir cette épreuve, vous pouvez utiliser la suite LibreOffice, gratuite et disponible pour PC et Mac. Elle contient Libre Office Writer (équivalent à Word) et Libre Office Calc (équivalent à Excel).
-      <a href="https://fr.libreoffice.org/download/telecharger-libreoffice">Télécharger Libre Office</a>`
+      content: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.download.open-failure.solution'
     },
     {
-      name: 'Je ne retrouve pas le fichier téléchargé',
+      name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.download.lost.label',
       type: 'tutorial',
-      content: `Par défaut, un fichier téléchargé est enregistré dans un dossier “Téléchargements” ou “Downloads”.
-       Il se peut aussi qu’il soit téléchargé au même endroit que votre dernier téléchargement...`
+      content: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.download.lost.solution'
     },
     {
-      name: 'Je n’arrive pas à modifier le fichier',
+      name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.download.edit-failure.label',
       type: 'tutorial',
-      content: `Le fichier est probablement ouvert en “Lecture seule” ou “Mode protégé”. <br>
-      Cliquez sur “Activer la modification” ou “Éditer le document” sur le bandeau en haut du fichier s’il s’affiche. <br>
-      Sinon enregistrez le fichier sous un autre nom et ouvrez ce nouveau fichier.`
+      content: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.download.edit-failure.solution'
     },
     {
-      name: 'J’ai un autre problème avec le fichier',
+      name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.download.other',
       type: 'textbox',
     },
   ],
@@ -112,39 +104,39 @@ const questions = {
   ],
   'answer': [
     {
-      name: 'Je ne suis pas d’accord avec la réponse',
+      name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.answer-not-accepted',
       type: 'textbox',
     },
     {
-      name: 'Ma réponse est correcte mais n’a pas été validée',
+      name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.answer-not-agreed',
       type: 'textbox',
     },
   ],
   'tutorial': [
     {
-      name: 'Le tutoriel n’est pas adapté',
+      name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.tutorial-not-accepted',
       type: 'textbox',
     },
     {
-      name: 'Le lien vers le tutoriel mène vers une autre page ou une page d’erreur',
+      name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.tutorial-link-error',
       type: 'textbox',
     },
     {
-      name: 'J’ai un tutoriel à vous proposer',
+      name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.tutorial-proposal',
       type: 'textbox',
     },
   ],
   'other': [
     {
-      name: 'J’ai une idée (géniale) d’épreuve à proposer',
+      name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.other-challenge-proposal',
       type: 'textbox',
     },
     {
-      name: 'J’ai une suggestion d’amélioration de la plateforme',
+      name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.other-site-improvement',
       type: 'textbox',
     },
     {
-      name: 'J’ai un autre problème',
+      name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.other-difficulty',
       type: 'textbox',
     },
   ]
