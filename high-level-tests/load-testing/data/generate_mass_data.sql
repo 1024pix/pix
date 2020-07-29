@@ -154,9 +154,8 @@ WITH inserted_users_cte AS (
   INNER JOIN random_string as r_s_b ON r_s_b.rownum = id_picker.last_name_rownum
   RETURNING id AS user_id, email AS user_email
 )
-INSERT INTO inserted_users(rownum, user_id, user_email)
+INSERT INTO inserted_users(user_id, user_email)
 SELECT
-  row_number() OVER (),
   user_id,
   user_email
 FROM inserted_users_cte;
@@ -170,7 +169,8 @@ CREATE TEMPORARY TABLE inserted_assessments (
   assessment_id INTEGER,
   user_id INTEGER,
   created_at TIMESTAMPTZ,
-  type VARCHAR
+  type VARCHAR,
+  campaign_participation_id INTEGER
 ) ON COMMIT DROP;
 WITH inserted_assessments_cte AS (
   INSERT INTO assessments("userId", "state", "type", "createdAt")
@@ -189,13 +189,13 @@ WITH inserted_assessments_cte AS (
   INNER JOIN inserted_users ON inserted_users.rownum = id_picker.picked_rownum
   RETURNING id AS assessment_id, "userId" AS user_id, "createdAt" AS created_at, type
 )
-INSERT INTO inserted_assessments(rownum, assessment_id, user_id, created_at, type)
+INSERT INTO inserted_assessments(assessment_id, user_id, created_at, type, campaign_participation_id)
 SELECT
-  row_number() OVER (),
   assessment_id,
   user_id,
   created_at,
-  type
+  type,
+  NULL
 FROM inserted_assessments_cte;
 
 
@@ -229,10 +229,9 @@ WITH inserted_administrators_cte AS (
   INNER JOIN random_string as r_s_b ON r_s_b.rownum = id_picker.last_name_rownum
   RETURNING id AS administrator_id
 )
-INSERT INTO inserted_administrators(rownum, administrator_id)
+INSERT INTO inserted_administrators(administrator_id)
 SELECT
-  row_number() OVER (),
-  *
+  administrator_id
 FROM inserted_administrators_cte;
 
 --   Organisations
@@ -258,10 +257,9 @@ WITH inserted_organizations_cte AS (
   INNER JOIN random_string ON random_string.rownum = id_picker.name_rownum
   RETURNING id AS organization_id
 )
-INSERT INTO inserted_organizations(rownum, organization_id)
+INSERT INTO inserted_organizations(organization_id)
 SELECT
-  row_number() OVER (),
-  *
+  organization_id
 FROM inserted_organizations_cte;
 
 --   Memberships
@@ -280,9 +278,8 @@ WITH inserted_memberships_cte AS (
   JOIN inserted_administrators ON inserted_organizations.rownum = inserted_administrators.rownum
   RETURNING "organizationId" AS organization_id, "userId" AS administrator_id
 )
-INSERT INTO inserted_memberships(rownum, organization_id, administrator_id)
+INSERT INTO inserted_memberships(organization_id, administrator_id)
 SELECT
-  row_number() OVER (),
   organization_id,
   administrator_id
 FROM inserted_memberships_cte;
@@ -300,9 +297,8 @@ WITH inserted_target_profiles_cte AS (
   VALUES('Profil petit',true), ('Profil moyen',true), ('Profil complet',true)
   RETURNING id as target_profile_id, name
 )
-INSERT INTO inserted_target_profiles(rownum, name, target_profile_id)
+INSERT INTO inserted_target_profiles(name, target_profile_id)
 SELECT
-  row_number() OVER (),
   name,
   target_profile_id
 FROM inserted_target_profiles_cte;
@@ -383,9 +379,8 @@ WITH inserted_campaigns_cte AS (
   INNER JOIN inserted_target_profiles ON inserted_target_profiles.rownum = id_picker.picked_target_profile_rownum
   RETURNING id AS campaign_id, "organizationId" AS organization_id
 )
-INSERT INTO inserted_campaigns(rownum, campaign_id, organization_id)
+INSERT INTO inserted_campaigns(campaign_id, organization_id)
 SELECT
-  row_number() OVER (),
   campaign_id,
   organization_id
 FROM inserted_campaigns_cte;
@@ -420,14 +415,38 @@ WITH inserted_campaign_participations_cte AS (
   ) id_picker
   INNER JOIN inserted_users ON inserted_users.rownum = id_picker.picked_user_rownum
   INNER JOIN inserted_campaigns ON inserted_campaigns.rownum = id_picker.picked_campaign_rownum
+  ON CONFLICT DO nothing
   RETURNING id AS campaign_participation_id, "userId" AS user_id
 )
-INSERT INTO inserted_campaign_participations(rownum, campaign_participation_id, user_id)
+INSERT INTO inserted_campaign_participations(campaign_participation_id, user_id)
 SELECT
-  row_number() OVER (),
   campaign_participation_id,
   user_id
 FROM inserted_campaign_participations_cte;
+
+
+-----------------------------------------------------------------------------------------------------
+--				Ajout des assessments CAMPAIGN   ----------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
+WITH inserted_assessments_cte AS (
+  INSERT INTO assessments("userId", "state", "type", "createdAt", "campaignParticipationId")
+  SELECT
+    inserted_campaign_participations.user_id,
+    'completed',
+    'CAMPAIGN',
+    NOW() - interval '365 days' + (random() * (interval '365 days')),
+    inserted_campaign_participations.campaign_participation_id
+  FROM inserted_campaign_participations
+  RETURNING id AS assessment_id, "userId" AS user_id, "createdAt" AS created_at, type, "campaignParticipationId" AS campaign_participation_id
+)
+INSERT INTO inserted_assessments(assessment_id, user_id, created_at, type, campaign_participation_id)
+SELECT
+  assessment_id,
+  user_id,
+  created_at,
+  type,
+  campaign_participation_id
+FROM inserted_assessments_cte;
 
 
 -----------------------------------------------------------------------------------------------------
