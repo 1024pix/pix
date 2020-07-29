@@ -36,7 +36,11 @@
     },
   
     "campaign": {
-      "title": "Parcours"
+      "title": "Parcours",
+      "errors": {
+        "not-accessible": "Oups, la page demandée n’est pas accessible.",
+        "no-longer-accessible": "Oups, la page demandée n’est plus accessible."
+      }
     },
   
     "campaign-landing": {
@@ -402,10 +406,6 @@
     "learning-more": {
       "title": "Pour en apprendre davantage",
       "info": "Ces liens vers les tutos ont été proposés par des utilisateurs de Pix."
-    },
-
-    "not-accessible-campaign": {
-      "message": "Oups, la page demandée n’est pas accessible."
     },
 
     "profile": {

@@ -36,7 +36,11 @@
     },
   
     "campaign": {
-      "title": "Path"
+      "title": "Parcours",
+      "errors": {
+        "not-accessible": "Oups, the requested page is not accessible.",
+        "no-longer-accessible": "Oups, the requested page is no longer accessible."
+      }
     },
   
     "campaign-landing": {
@@ -406,10 +410,6 @@
 
     "levelup-notif": {
       "obtained-level": "Level { level } obtained!"
-    },
-
-    "not-accessible-campaign": {
-      "message": "Oups, the requested page is not accessible."
     },
 
     "profile": {
