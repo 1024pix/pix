@@ -356,6 +356,10 @@
       "obtained-level": "Level { level } obtained!"
     },
 
+    "not-accessible-campaign": {
+      "message": "Oups, the requested page is not accessible."
+    },
+
     "profile": {
       "title": "Your profile",
       "competence-card": {
