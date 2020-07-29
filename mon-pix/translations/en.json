@@ -392,6 +392,22 @@
       "timedout": "Timed out"
     },
 
+    "send-profile": {
+      "title": "Send my profile",
+      "first-title": "Send your Pix profile",
+      "errors": {
+        "archived": "Sending your profile is no longer possible because the organizer has archived the collection of profiles."
+      },
+      "form": {
+        "info": "This sending is only possible once",
+        "continue": "Continue your Pix experience",
+        "recipient": "Recipient: {recipient}",
+        "send": "I send my profile",
+        "shared": "Thank you, your profile has been sent!"
+      },
+      "instructions": "You will transmit the score and skill levels present on your Pix profile. <br/> Any changes to your profile after this submission will not be transmitted. <br/> Remember to check it before sending it!"
+    },
+
     "sign-in": {
       "title": "Sign in",
       "actions": {

@@ -392,6 +392,22 @@
       "timedout": "Temps dépassé"
     },
 
+    "send-profile": {
+      "title": "Envoyer mon profil",
+      "first-title": "Envoi de votre profil Pix",
+      "errors": {
+        "archived": "L’envoi de votre profil n’est plus possible car l’organisateur a archivé la collecte de profils."
+      },
+      "form": {
+        "info": "Cet envoi n’est possible qu’une seule fois",
+        "continue": "Continuez votre expérience Pix",
+        "recipient": "Destinataire : {recipient}",
+        "send": "J'envoie mon profil",
+        "shared": "Merci, votre profil a bien été envoyé !"
+      },
+      "instructions": "Vous allez transmettre le score et les niveaux de compétence présents sur votre profil Pix. <br/> Toute évolution de votre profil après cet envoi ne sera pas transmise. <br/> Pensez à le vérifier avant de l'envoyer !"
+    },
+
     "sign-in": {
       "title": "Connexion",
       "actions": {

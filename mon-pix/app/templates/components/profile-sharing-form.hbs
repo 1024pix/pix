@@ -1,24 +1,34 @@
 <form {{action @sendProfile on="submit"}} class="send-profile-header__form">
-  <p class="send-profile-header__recipient">Destinataire : {{@campaign.organizationName}}</p>
+  <p class="send-profile-header__recipient">
+    {{t "pages.send-profile.form.recipient" recipient=@campaign.organizationName}}
+  </p>
 
   {{#if @campaignParticipation.isShared}}
-    <p class="skill-review-share__thanks">Merci, votre profil a bien été envoyé !</p>
-    <LinkTo @route="index" class="skill-review-share__back-to-home link">Continuez votre expérience Pix</LinkTo>
+    <p class="skill-review-share__thanks">
+      {{t "pages.send-profile.form.shared"}}
+    </p>
+    <LinkTo @route="index" class="skill-review-share__back-to-home link">
+      {{t "pages.send-profile.form.continue"}}
+    </LinkTo>
   {{else if @errorMessage}}
     <p class="skill-review-share__thanks">{{@errorMessage}}</p>
-    <LinkTo @route="index" class="skill-review-share__back-to-home link">Continuez votre expérience Pix</LinkTo>
+    <LinkTo @route="index" class="skill-review-share__back-to-home link">
+      {{t "pages.send-profile.form.continue"}}
+    </LinkTo>
   {{else}}
     {{#if @isLoading}}
       <button type="button" disabled class="button button--big">
         <span class="loader-in-button">&nbsp;</span>
       </button>
     {{else}}
-      <button type="submit" class="button button--big">J'envoie mon profil</button>
+      <button type="submit" class="button button--big">
+        {{t "pages.send-profile.form.send"}}
+      </button>
     {{/if}}
 
     <p class="send-profile-header__warning">
       <FaIcon @icon="exclamation-circle"></FaIcon>
-      Cet envoi n’est possible qu’une seule fois
+      {{t "pages.send-profile.form.info"}}
     </p>
   {{/if}}
 
