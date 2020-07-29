@@ -34,7 +34,7 @@
         "header": "Vos réponses"
       }
     },
-  
+
     "campaign": {
       "title": "Parcours",
       "errors": {
@@ -42,7 +42,7 @@
         "no-longer-accessible": "Oups, la page demandée n’est plus accessible."
       }
     },
-  
+
     "campaign-landing": {
       "title": "Présentation",
       "assessment": {
@@ -289,10 +289,11 @@
         "label": "Question"
       },
       "skip-error-message": {
-        "qcm": "Pour valider, sélectionner au moins une réponse. Sinon, passer.",
-        "qcu": "Pour valider, sélectionner une réponse. Sinon, passer.",
-        "qroc": "Jouer l’épreuve pour valider. Sinon, passer.",
-        "qrocm": "Pour valider, veuillez remplir tous les champs réponse. Sinon, passer."
+        "qcm": "Pour valider, sélectionner au moins une réponse. Sinon, passez.",
+        "qcu": "Pour valider, sélectionner une réponse. Sinon, passez.",
+        "qroc": "Pour valider, veuillez remplir le champ texte. Sinon, passez.",
+        "qroc-auto-reply": "L'épreuve n'est pas réussie. Essayez encore ou passez.",
+        "qrocm": "Pour valider, veuillez remplir tous les champs réponse. Sinon, passez."
       }
     },
 
@@ -426,7 +427,7 @@
         "reminder-send-campaign-with-title": "Parcours \"{title}\" terminé. N'oubliez pas de finaliser votre envoi !"
       },
       "total-score-helper": {
-        "title": "Why 1024 pix ?",
+        "title": "Pourquoi 1024 pix ?",
         "explanation": "C’est le nombre maximum de pix qu’on pourra atteindre lorsque les 8 niveaux du référentiel Pix seront disponibles.'<br>'Aujourd’hui, '<span class=\"hexagon-score-information__text--strong\">'le maximum est de 640 pix'</span>', correspondant au niveau 5."
       }
     },
