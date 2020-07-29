@@ -291,7 +291,8 @@
       "skip-error-message": {
         "qcm": "Pour valider, sélectionner au moins une réponse. Sinon, passer.",
         "qcu": "Pour valider, sélectionner une réponse. Sinon, passer.",
-        "qroc": "Jouer l’épreuve pour valider. Sinon, passer.",
+        "qroc": "Pour valider, veuillez remplir le champ texte. Sinon, passer.",
+        "qroc-auto-reply": "L'épreuve n'est pas réussie. Essayez encore ou passez.",
         "qrocm": "Pour valider, veuillez remplir tous les champs réponse. Sinon, passer."
       }
     },
