@@ -623,11 +623,24 @@
       "title": "J'ai un code",
       "first-title": "Saisissez votre code",
       "description": "Ce code permet de démarrer un parcours'<br>'ou d’envoyer votre profil à une organisation",
-      "start": "Commencer",
       "errors": {
         "forbidden": "Oups ! nous ne parvenons pas à vous trouver. Vérifiez vos informations afin de continuer ou prévenez l’organisateur.",
-        "not-found": "Votre code est erroné, veuillez vérifier ou contacter l’organisateur.",
-        "code-missing": "Veuillez saisir un code."
+        "missing-code": "Veuillez saisir un code.",
+        "not-found": "Votre code est erroné, veuillez vérifier ou contacter l’organisateur."
+      },
+      "start": "Commencer"
+    },
+
+    "fill-in-id-pix": {
+      "title": "Saisir mon identifiant",
+      "first-title": "Avant de commencer",
+      "announcement": "L'organisateur a besoin de l'information ci-dessous pour pouvoir vous accompagner :",
+      "buttons": {
+        "continue": "Continuer",
+        "cancel": "Annuler"
+      },
+      "errors": {
+        "missing-id-pix-label": "Merci de renseigner votre { idPixLabel }."
       }
     }
   },

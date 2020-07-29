@@ -18,7 +18,7 @@ export default class FillInCampaignCodeController extends Controller {
 
     if (!this.campaignCode) {
       this.errorMessage = this.intl.t(
-        'pages.fill-in-campaign-code.errors.code-missing'
+        'pages.fill-in-campaign-code.errors.missing-code'
       );
       return;
     }
