@@ -9,6 +9,7 @@ SELECT setval(pg_get_serial_sequence('organizations','id'), coalesce(max("id"), 
 SELECT setval(pg_get_serial_sequence('memberships','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "memberships";
 SELECT setval(pg_get_serial_sequence('target-profiles','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "target-profiles";
 SELECT setval(pg_get_serial_sequence('target-profiles_skills','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "target-profiles_skills";
+SELECT setval(pg_get_serial_sequence('campaigns','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "campaigns";
 
 
 -----------------------------------------------------------------------------------------------------
@@ -18,6 +19,7 @@ SET LOCAL constants.user_count=1000;
 SET LOCAL constants.string_count=20000;
 SET LOCAL constants.competence_evaluation_count=3000;
 SET LOCAL constants.organization_count=5;
+SET LOCAL constants.campaign_per_organization_count=3;
 
 
 -----------------------------------------------------------------------------------------------------
@@ -281,6 +283,7 @@ FROM inserted_memberships_cte;
 --				Ajout des target-profiles   ---------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
 CREATE TEMPORARY TABLE inserted_target_profiles (
+  rownum SERIAL PRIMARY KEY,
   name VARCHAR,
   target_profile_id INTEGER
 ) ON COMMIT DROP;
@@ -289,8 +292,9 @@ WITH inserted_target_profiles_cte AS (
   VALUES('Profil petit',true), ('Profil moyen',true), ('Profil complet',true)
   RETURNING id as target_profile_id, name
 )
-INSERT INTO inserted_target_profiles(name, target_profile_id)
+INSERT INTO inserted_target_profiles(rownum, name, target_profile_id)
 SELECT
+  row_number() OVER (),
   name,
   target_profile_id
 FROM inserted_target_profiles_cte;
@@ -339,6 +343,42 @@ FROM (
   FROM generate_series(1,1500) AS generator LIMIT 655
 ) id_picker
 INNER JOIN referentiel ON referentiel.rownum = id_picker.picked_skill_rownum;
+
+-----------------------------------------------------------------------------------------------------
+--				Ajout des campagnes   ---------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
+CREATE TEMPORARY TABLE inserted_campaigns (
+  rownum SERIAL PRIMARY KEY,
+  campaign_id INTEGER
+) ON COMMIT DROP;
+WITH inserted_campaigns_cte AS (
+  INSERT INTO campaigns("name", "code", "organizationId", "creatorId", "createdAt", "targetProfileId", "type")
+  SELECT
+    'Campagne_' || (currval(pg_get_serial_sequence('campaigns','id'))+1),
+    'Code_' || (currval(pg_get_serial_sequence('campaigns','id'))+1),
+    inserted_memberships.organization_id,
+    inserted_memberships.administrator_id,
+    NOW() - interval '800 days' + (random() * (interval '365 days')),
+    inserted_target_profiles.target_profile_id,
+    'ASSESSMENT'
+  FROM (
+    SELECT (
+      SELECT (random() * current_setting('constants.organization_count')::int)::int + (generator*0) as picked_membership_rownum
+    ),(
+      SELECT (random() * 3)::int + (generator*0) as picked_target_profile_rownum
+    ),
+      generator as id
+    FROM generate_series(1,current_setting('constants.campaign_per_organization_count')::int*current_setting('constants.organization_count')::int) as generator
+  ) id_picker
+  INNER JOIN inserted_memberships ON inserted_memberships.rownum = id_picker.picked_membership_rownum
+  INNER JOIN inserted_target_profiles ON inserted_target_profiles.rownum = id_picker.picked_target_profile_rownum
+  RETURNING id AS campaign_id
+)
+INSERT INTO inserted_campaigns(rownum, campaign_id)
+SELECT
+  row_number() OVER (),
+  campaign_id
+FROM inserted_campaigns_cte;
 
 
 -----------------------------------------------------------------------------------------------------
