@@ -11,6 +11,7 @@ SELECT setval(pg_get_serial_sequence('target-profiles','id'), coalesce(max("id")
 SELECT setval(pg_get_serial_sequence('target-profiles_skills','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "target-profiles_skills";
 SELECT setval(pg_get_serial_sequence('campaigns','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "campaigns";
 SELECT setval(pg_get_serial_sequence('campaign-participations','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "campaign-participations";
+SELECT setval(pg_get_serial_sequence('answers','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "answers";
 
 
 -----------------------------------------------------------------------------------------------------
@@ -23,6 +24,7 @@ SET LOCAL constants.organization_count=5;
 SET LOCAL constants.campaign_per_organization_count=3;
 SET LOCAL constants.participation_per_campaign_count=150;
 SET LOCAL constants.shared_participation_percentage=65;
+SET LOCAL constants.answer_per_competence_evaluation_assessment_count=25;
 
 
 -----------------------------------------------------------------------------------------------------
@@ -88,6 +90,7 @@ ALTER TABLE "assessments" DROP CONSTRAINT "assessments_userid_foreign";
 ALTER TABLE "assessments" DROP CONSTRAINT "assessments_campaignparticipationid_foreign";
 ALTER TABLE "campaign-participations" DROP CONSTRAINT "campaign_participations_campaignid_foreign";
 ALTER TABLE "campaign-participations" DROP CONSTRAINT "campaign_participations_userid_foreign";
+ALTER TABLE "answers" DROP CONSTRAINT "answers_assessmentid_foreign";
 
 
 -----------------------------------------------------------------------------------------------------
@@ -101,6 +104,7 @@ DROP INDEX "assessments_state_index";
 DROP INDEX "assessments_type_index";
 DROP INDEX "assessments_userid_index";
 DROP INDEX "campaign_participations_userid_index";
+DROP INDEX "answers_assessmentid_index";
 
 
 -----------------------------------------------------------------------------------------------------
@@ -450,6 +454,44 @@ FROM inserted_assessments_cte;
 
 
 -----------------------------------------------------------------------------------------------------
+--				Ajout des réponses pour les assessments COMPETENCE_EVALUATION   ---------------------------
+-----------------------------------------------------------------------------------------------------
+CREATE TEMPORARY TABLE inserted_answers (
+  rownum SERIAL PRIMARY KEY,
+  answer_id INTEGER,
+  user_id INTEGER,
+  assessment_id INTEGER,
+  campaign_participation_id INTEGER,
+  created_at TIMESTAMPTZ
+) ON COMMIT DROP;
+WITH inserted_answers_cte AS (
+  INSERT INTO answers("assessmentId", "challengeId", "createdAt")
+  SELECT
+    inserted_assessments.assessment_id,
+    'recSomeChallenge',
+    NOW() - interval '365 days' + (random() * (interval '365 days'))
+  FROM (
+      SELECT (
+        SELECT (random() * current_setting('constants.competence_evaluation_count')::int)::int + (generator*0) as picked_assessment_rownum
+      ),
+        generator as id
+      FROM generate_series(1,current_setting('constants.answer_per_competence_evaluation_assessment_count')::int*current_setting('constants.competence_evaluation_count')::int) as generator
+    ) id_picker
+  INNER JOIN inserted_assessments ON inserted_assessments.rownum = id_picker.picked_assessment_rownum
+  WHERE inserted_assessments.type = 'COMPETENCE_EVALUATION'
+  RETURNING id AS answer_id, "assessmentId" AS assessment_id, "createdAt" AS created_at
+)
+INSERT INTO inserted_answers(answer_id, user_id, assessment_id, campaign_participation_id, created_at)
+SELECT
+  inserted_answers_cte.answer_id,
+  inserted_assessments.user_id,
+  inserted_answers_cte.assessment_id,
+  inserted_assessments.campaign_participation_id,
+  inserted_answers_cte.created_at
+FROM inserted_answers_cte
+JOIN inserted_assessments ON inserted_assessments.assessment_id = inserted_answers_cte.assessment_id;
+
+-----------------------------------------------------------------------------------------------------
 --				Rétablir les contraintes   ----------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
 ALTER TABLE "users" ADD CONSTRAINT "users_email_unique" UNIQUE ("email");
@@ -461,7 +503,7 @@ ALTER TABLE "assessments" ADD CONSTRAINT "assessments_userid_foreign" FOREIGN KE
 ALTER TABLE "assessments" ADD CONSTRAINT "assessments_campaignparticipationid_foreign" FOREIGN KEY ("campaignParticipationId") REFERENCES "campaign-participations"("id");
 ALTER TABLE "campaign-participations" ADD CONSTRAINT "campaign_participations_campaignid_foreign" FOREIGN KEY ("campaignId") REFERENCES "campaigns" ("id");
 ALTER TABLE "campaign-participations" ADD CONSTRAINT "campaign_participations_userid_foreign" FOREIGN KEY ("userId") REFERENCES "users" ("id");;
-
+ALTER TABLE "answers" ADD CONSTRAINT "answers_assessmentid_foreign" FOREIGN KEY ("assessmentId") REFERENCES "assessments" ("id");;
 
 -----------------------------------------------------------------------------------------------------
 --				Rétablir les index   ---------------------------------------------------------
@@ -474,6 +516,7 @@ CREATE INDEX "assessments_state_index" ON "assessments"("state");
 CREATE INDEX "assessments_type_index" ON "assessments"("type");
 CREATE INDEX "assessments_userid_index" ON "assessments"("userId");
 CREATE INDEX "campaign_participations_userid_index" ON "campaign-participations"("userId");
+CREATE INDEX "answers_assessmentid_index" ON "answers"("assessmentId");
 
 
 -----------------------------------------------------------------------------------------------------
