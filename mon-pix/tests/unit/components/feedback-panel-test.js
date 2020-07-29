@@ -2,20 +2,23 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
+import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
 describe('Unit | Component | feedback-panel', function() {
+  let component;
 
   setupTest();
+
+  beforeEach(function() {
+    // given
+    component = createGlimmerComponent('component:feedback-panel');
+  });
 
   describe('#toggleFeedbackForm', function() {
 
     it('should open form', function() {
-      // given
-      const component = this.owner.lookup('component:feedback-panel');
-      component.set('_scrollIntoFeedbackPanel', () => {});
-
       // when
-      component.send('toggleFeedbackForm');
+      component.toggleFeedbackForm();
 
       // then
       expect(component.isFormOpened).to.be.true;
@@ -23,17 +26,16 @@ describe('Unit | Component | feedback-panel', function() {
 
     it('should close and reset form', function() {
       // given
-      const component = this.owner.lookup('component:feedback-panel');
-      component.set('isFormOpened', true);
-      component.set('emptyTextBoxMessageError', '10, 9, 8, ...');
-      component.set('_isSubmitted', true);
+      component.isFormOpened = true;
+      component.emptyTextBoxMessageError = '10, 9, 8, ...';
+      component.isFormSubmitted = true;
 
       // when
-      component.send('toggleFeedbackForm');
+      component.toggleFeedbackForm();
 
       // then
       expect(component.isFormOpened).to.be.false;
-      expect(component._isSubmitted).to.be.false;
+      expect(component.isFormSubmitted).to.be.false;
       expect(component.emptyTextBoxMessageError).to.be.null;
     });
   });
@@ -42,8 +44,7 @@ describe('Unit | Component | feedback-panel', function() {
 
     it('should return false when the feedback has not already been sent', function() {
       // given
-      const component = this.owner.lookup('component:feedback-panel');
-      component.set('sendButtonStatus', 'unrecorded');
+      component._sendButtonStatus =  'unrecorded';
 
       // when
       const result = component.isSendButtonDisabled;
@@ -54,8 +55,7 @@ describe('Unit | Component | feedback-panel', function() {
 
     it('should return false when the feedback has already been sent', function() {
       // given
-      const component = this.owner.lookup('component:feedback-panel');
-      component.set('sendButtonStatus', 'recorded');
+      component._sendButtonStatus = 'recorded';
 
       // when
       const result = component.isSendButtonDisabled;
@@ -66,8 +66,7 @@ describe('Unit | Component | feedback-panel', function() {
 
     it('should return true when the send operation is in progress', function() {
       // given
-      const component = this.owner.lookup('component:feedback-panel');
-      component.set('sendButtonStatus', 'pending');
+      component._sendButtonStatus = 'pending';
 
       // when
       const result = component.isSendButtonDisabled;
@@ -93,17 +92,16 @@ describe('Unit | Component | feedback-panel', function() {
 
     it('should re-initialise the form correctly', async function() {
       // given
-      const component = this.owner.lookup('component:feedback-panel');
-      component.set('_category', 'CATEGORY');
-      component.set('_content', 'TEXT');
-      component.set('store', store);
+      component._category = 'CATEGORY';
+      component.content = 'TEXT';
+      component.store = store;
 
       // when
-      await component.send('sendFeedback');
+      await component.sendFeedback();
 
       // then
       expect(component._category).to.be.null;
-      expect(component._content).to.be.null;
+      expect(component.content).to.be.null;
       expect(component.nextCategory).to.be.null;
     });
 
