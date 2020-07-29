@@ -352,6 +352,10 @@
       "info": "Ces liens vers les tutos ont été proposés par des utilisateurs de Pix."
     },
 
+    "not-accessible-campaign": {
+      "message": "Oups, la page demandée n’est pas accessible."
+    },
+
     "profile": {
       "title": "Votre profil",
       "competence-card": {
@@ -553,7 +557,7 @@
     "error": "Erreur",
     "homepage": "Page d'accueil",
     "back-to-homepage": "Revenir à la page d’accueil",
-    "back-to-profile": "Retour Profil",
+    "back-to-profile": "Revenir au profil",
     "main": {
       "code": "J'ai un code",
       "help": "Aide",
