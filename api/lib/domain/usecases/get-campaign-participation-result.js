@@ -2,6 +2,7 @@ const { UserNotAuthorizedToAccessEntity } = require('../errors');
 
 module.exports = async function getCampaignParticipationResult({
   userId,
+  locale,
   campaignParticipationId,
   badgeRepository,
   badgeAcquisitionRepository,
@@ -10,6 +11,7 @@ module.exports = async function getCampaignParticipationResult({
   campaignRepository,
   targetProfileRepository,
 }) {
+
   const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
   await _checkIfUserHasAccessToThisCampaignParticipation(userId, campaignParticipation, campaignRepository);
 
@@ -19,7 +21,7 @@ module.exports = async function getCampaignParticipationResult({
 
   const acquiredBadgeIds = await badgeAcquisitionRepository.getAcquiredBadgeIds({ userId, badgeIds: campaignBadgeIds });
 
-  return campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, campaignBadges, acquiredBadgeIds);
+  return campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, campaignBadges, acquiredBadgeIds, locale);
 };
 
 async function _checkIfUserHasAccessToThisCampaignParticipation(userId, campaignParticipation, campaignRepository) {
