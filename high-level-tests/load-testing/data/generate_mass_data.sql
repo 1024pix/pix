@@ -10,6 +10,7 @@ SELECT setval(pg_get_serial_sequence('memberships','id'), coalesce(max("id"), 1)
 SELECT setval(pg_get_serial_sequence('target-profiles','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "target-profiles";
 SELECT setval(pg_get_serial_sequence('target-profiles_skills','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "target-profiles_skills";
 SELECT setval(pg_get_serial_sequence('campaigns','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "campaigns";
+SELECT setval(pg_get_serial_sequence('campaign-participations','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "campaign-participations";
 
 
 -----------------------------------------------------------------------------------------------------
@@ -20,6 +21,8 @@ SET LOCAL constants.string_count=20000;
 SET LOCAL constants.competence_evaluation_count=3000;
 SET LOCAL constants.organization_count=5;
 SET LOCAL constants.campaign_per_organization_count=3;
+SET LOCAL constants.participation_per_campaign_count=150;
+SET LOCAL constants.shared_participation_percentage=65;
 
 
 -----------------------------------------------------------------------------------------------------
@@ -32,7 +35,7 @@ CREATE TEMPORARY TABLE referentiel (
   pix_value 	NUMERIC(6,5)
 ) ON COMMIT DROP;
 INSERT INTO referentiel(skill_id, competence_id, pix_value)
-VALUES
+VALUES(...);
 -- Ajouter les données du référentiel ici !
 
 -----------------------------------------------------------------------------------------------------
@@ -83,6 +86,8 @@ ALTER TABLE "assessments" DROP CONSTRAINT "assessments_userid_certificationcours
 ALTER TABLE "assessments" DROP CONSTRAINT "assessments_certificationcourseid_foreign";
 ALTER TABLE "assessments" DROP CONSTRAINT "assessments_userid_foreign";
 ALTER TABLE "assessments" DROP CONSTRAINT "assessments_campaignparticipationid_foreign";
+ALTER TABLE "campaign-participations" DROP CONSTRAINT "campaign_participations_campaignid_foreign";
+ALTER TABLE "campaign-participations" DROP CONSTRAINT "campaign_participations_userid_foreign";
 
 
 -----------------------------------------------------------------------------------------------------
@@ -95,6 +100,7 @@ DROP INDEX "assessments_competenceid_index";
 DROP INDEX "assessments_state_index";
 DROP INDEX "assessments_type_index";
 DROP INDEX "assessments_userid_index";
+DROP INDEX "campaign_participations_userid_index";
 
 
 -----------------------------------------------------------------------------------------------------
@@ -124,7 +130,8 @@ FROM generate_series(1,current_setting('constants.string_count')::int) as genera
 -----------------------------------------------------------------------------------------------------
 CREATE TEMPORARY TABLE inserted_users (
   rownum SERIAL PRIMARY KEY,
-  user_id INTEGER
+  user_id INTEGER,
+  user_email VARCHAR
 ) ON COMMIT DROP;
 WITH inserted_users_cte AS (
   INSERT INTO users("firstName", "lastName", "email", "password")
@@ -145,12 +152,13 @@ WITH inserted_users_cte AS (
   ) id_picker
   INNER JOIN random_string as r_s_a ON r_s_a.rownum = id_picker.first_name_rownum
   INNER JOIN random_string as r_s_b ON r_s_b.rownum = id_picker.last_name_rownum
-  RETURNING id AS user_id
+  RETURNING id AS user_id, email AS user_email
 )
-INSERT INTO inserted_users(rownum, user_id)
+INSERT INTO inserted_users(rownum, user_id, user_email)
 SELECT
   row_number() OVER (),
-  *
+  user_id,
+  user_email
 FROM inserted_users_cte;
 
 
@@ -349,7 +357,8 @@ INNER JOIN referentiel ON referentiel.rownum = id_picker.picked_skill_rownum;
 -----------------------------------------------------------------------------------------------------
 CREATE TEMPORARY TABLE inserted_campaigns (
   rownum SERIAL PRIMARY KEY,
-  campaign_id INTEGER
+  campaign_id INTEGER,
+  organization_id INTEGER
 ) ON COMMIT DROP;
 WITH inserted_campaigns_cte AS (
   INSERT INTO campaigns("name", "code", "organizationId", "creatorId", "createdAt", "targetProfileId", "type")
@@ -372,13 +381,53 @@ WITH inserted_campaigns_cte AS (
   ) id_picker
   INNER JOIN inserted_memberships ON inserted_memberships.rownum = id_picker.picked_membership_rownum
   INNER JOIN inserted_target_profiles ON inserted_target_profiles.rownum = id_picker.picked_target_profile_rownum
-  RETURNING id AS campaign_id
+  RETURNING id AS campaign_id, "organizationId" AS organization_id
 )
-INSERT INTO inserted_campaigns(rownum, campaign_id)
+INSERT INTO inserted_campaigns(rownum, campaign_id, organization_id)
 SELECT
   row_number() OVER (),
-  campaign_id
+  campaign_id,
+  organization_id
 FROM inserted_campaigns_cte;
+
+-----------------------------------------------------------------------------------------------------
+--				Ajout des participations   ----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
+CREATE TEMPORARY TABLE inserted_campaign_participations (
+  rownum SERIAL PRIMARY KEY,
+  campaign_participation_id INTEGER,
+  user_id INTEGER
+) ON COMMIT DROP;
+WITH inserted_campaign_participations_cte AS (
+  INSERT INTO "campaign-participations"("campaignId", "createdAt", "isShared", "sharedAt", "userId", "participantExternalId")
+  SELECT
+    inserted_campaigns.campaign_id,
+    NOW() - interval '800 days' + (random() * (interval '365 days')),
+    id_picker.is_shared,
+    CASE WHEN (is_shared=true) THEN NOW() - interval '800 days' + (random() * (interval '365 days')) ELSE NULL END,
+    inserted_users.user_id,
+    inserted_users.user_email
+  FROM (
+    SELECT (
+      SELECT (random() * current_setting('constants.campaign_per_organization_count')::int*current_setting('constants.organization_count')::int)::int + (generator*0) as picked_campaign_rownum
+    ),(
+      SELECT (random() * current_setting('constants.user_count')::int)::int + (generator*0) as picked_user_rownum
+    ),(
+      SELECT ((random() * 100 + (generator*0)) > (100-current_setting('constants.shared_participation_percentage')::int))::boolean as is_shared
+    ),
+      generator as id
+    FROM generate_series(1,current_setting('constants.campaign_per_organization_count')::int*current_setting('constants.organization_count')::int*current_setting('constants.participation_per_campaign_count')::int) as generator
+  ) id_picker
+  INNER JOIN inserted_users ON inserted_users.rownum = id_picker.picked_user_rownum
+  INNER JOIN inserted_campaigns ON inserted_campaigns.rownum = id_picker.picked_campaign_rownum
+  RETURNING id AS campaign_participation_id, "userId" AS user_id
+)
+INSERT INTO inserted_campaign_participations(rownum, campaign_participation_id, user_id)
+SELECT
+  row_number() OVER (),
+  campaign_participation_id,
+  user_id
+FROM inserted_campaign_participations_cte;
 
 
 -----------------------------------------------------------------------------------------------------
@@ -391,6 +440,8 @@ ALTER TABLE "assessments" ADD CONSTRAINT "assessments_userid_certificationcourse
 ALTER TABLE "assessments" ADD CONSTRAINT "assessments_certificationcourseid_foreign" FOREIGN KEY ("certificationCourseId") REFERENCES "certification-courses"("id");
 ALTER TABLE "assessments" ADD CONSTRAINT "assessments_userid_foreign" FOREIGN KEY ("userId") REFERENCES "users"("id");
 ALTER TABLE "assessments" ADD CONSTRAINT "assessments_campaignparticipationid_foreign" FOREIGN KEY ("campaignParticipationId") REFERENCES "campaign-participations"("id");
+ALTER TABLE "campaign-participations" ADD CONSTRAINT "campaign_participations_campaignid_foreign" FOREIGN KEY ("campaignId") REFERENCES "campaigns" ("id");
+ALTER TABLE "campaign-participations" ADD CONSTRAINT "campaign_participations_userid_foreign" FOREIGN KEY ("userId") REFERENCES "users" ("id");;
 
 
 -----------------------------------------------------------------------------------------------------
@@ -403,6 +454,7 @@ CREATE INDEX "assessments_competenceid_index" ON "assessments"("competenceId");
 CREATE INDEX "assessments_state_index" ON "assessments"("state");
 CREATE INDEX "assessments_type_index" ON "assessments"("type");
 CREATE INDEX "assessments_userid_index" ON "assessments"("userId");
+CREATE INDEX "campaign_participations_userid_index" ON "campaign-participations"("userId");
 
 
 -----------------------------------------------------------------------------------------------------
