@@ -25,6 +25,7 @@ SET LOCAL constants.campaign_per_organization_count=3;
 SET LOCAL constants.participation_per_campaign_count=150;
 SET LOCAL constants.shared_participation_percentage=65;
 SET LOCAL constants.answer_per_competence_evaluation_assessment_count=25;
+SET LOCAL constants.answer_per_campaign_assessment_count=25;
 
 
 -----------------------------------------------------------------------------------------------------
@@ -174,7 +175,7 @@ CREATE TEMPORARY TABLE inserted_assessments (
   user_id INTEGER,
   created_at TIMESTAMPTZ,
   type VARCHAR,
-  campaign_participation_id INTEGER
+  campaign_participation_id INTEGER DEFAULT NULL
 ) ON COMMIT DROP;
 WITH inserted_assessments_cte AS (
   INSERT INTO assessments("userId", "state", "type", "createdAt")
@@ -479,6 +480,37 @@ WITH inserted_answers_cte AS (
     ) id_picker
   INNER JOIN inserted_assessments ON inserted_assessments.rownum = id_picker.picked_assessment_rownum
   WHERE inserted_assessments.type = 'COMPETENCE_EVALUATION'
+  RETURNING id AS answer_id, "assessmentId" AS assessment_id, "createdAt" AS created_at
+)
+INSERT INTO inserted_answers(answer_id, user_id, assessment_id, campaign_participation_id, created_at)
+SELECT
+  inserted_answers_cte.answer_id,
+  inserted_assessments.user_id,
+  inserted_answers_cte.assessment_id,
+  inserted_assessments.campaign_participation_id,
+  inserted_answers_cte.created_at
+FROM inserted_answers_cte
+JOIN inserted_assessments ON inserted_assessments.assessment_id = inserted_answers_cte.assessment_id;
+
+
+-----------------------------------------------------------------------------------------------------
+--				Ajout des réponses pour les assessments CAMPAIGN   ----------------------------------------
+-----------------------------------------------------------------------------------------------------
+WITH inserted_answers_cte AS (
+  INSERT INTO answers("assessmentId", "challengeId", "createdAt")
+  SELECT
+    inserted_assessments.assessment_id,
+    'recSomeChallenge',
+    NOW() - interval '365 days' + (random() * (interval '365 days'))
+  FROM (
+      SELECT (
+        SELECT (current_setting('constants.competence_evaluation_count')::int + random() * current_setting('constants.campaign_per_organization_count')::int*current_setting('constants.organization_count')::int*current_setting('constants.participation_per_campaign_count')::int)::int + (generator*0) as picked_assessment_rownum
+      ),
+        generator as id
+      FROM generate_series(1,current_setting('constants.campaign_per_organization_count')::int*current_setting('constants.organization_count')::int*current_setting('constants.participation_per_campaign_count')::int*current_setting('constants.answer_per_campaign_assessment_count')::int) as generator
+    ) id_picker
+  INNER JOIN inserted_assessments ON inserted_assessments.rownum = id_picker.picked_assessment_rownum
+  WHERE inserted_assessments.type = 'CAMPAIGN'
   RETURNING id AS answer_id, "assessmentId" AS assessment_id, "createdAt" AS created_at
 )
 INSERT INTO inserted_answers(answer_id, user_id, assessment_id, campaign_participation_id, created_at)
