@@ -93,6 +93,19 @@
       "validity": "Certificat valable 3 ans"
     },
 
+    "competence-result": {
+      "title": "Résultats de votre compétence",
+      "header": {
+        "congratulations": "Félicitations !",
+        "not-bad": "Pas mal, mais pas max !",
+        "not-bad-subtitle": "Encore quelques petits efforts et vous décrocherez le premier niveau.",
+        "too-bad": "Tant pix !",
+        "too-bad-subtitle": "Manifestement, ce n’est pas votre jour mais vous ferez mieux la prochaine fois.",
+        "you-have-earned": "Vous avez",
+        "you-have-reached-level": "Vous avez atteint"
+      }
+    },
+
     "certification-joiner": {
       "title": "Rejoindre une session de certification",
       "congratulation-banner": {
