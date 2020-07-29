@@ -18,7 +18,8 @@ class ChallengeItemQroc extends ChallengeItemGeneric {
   }
 
   _getErrorMessage() {
-    return this.intl.t('pages.challenge.skip-error-message.qroc');
+    const errorMessage = this.challenge.autoReply ? 'pages.challenge.skip-error-message.qroc-auto-reply' : 'pages.challenge.skip-error-message.qroc';
+    return this.intl.t(errorMessage);
   }
 
   _addEventListener() {
