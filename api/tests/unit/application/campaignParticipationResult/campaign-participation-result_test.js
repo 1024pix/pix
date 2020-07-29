@@ -8,6 +8,7 @@ describe('Unit | Controller | campaign-participation-result-controller', () => {
 
     const campaignParticipationId = 1;
     const userId = 1;
+    const locale = 'fr';
 
     beforeEach(() => {
       sinon.stub(usecases, 'getCampaignParticipationResult');
@@ -18,7 +19,8 @@ describe('Unit | Controller | campaign-participation-result-controller', () => {
       // given
       usecases.getCampaignParticipationResult.withArgs({
         campaignParticipationId,
-        userId
+        userId,
+        locale,
       }).resolves({});
       campaignParticipationResultSerializer.serialize.withArgs({}).returns('ok');
 
@@ -27,7 +29,8 @@ describe('Unit | Controller | campaign-participation-result-controller', () => {
         params: { id: campaignParticipationId },
         auth: {
           credentials: { userId }
-        }
+        },
+        headers: { 'accept-language': locale },
       });
 
       // then

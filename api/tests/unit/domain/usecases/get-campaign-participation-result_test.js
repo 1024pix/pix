@@ -7,6 +7,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
   const campaignParticipationId = 1;
   const targetProfileId = 1;
   const userId = 2;
+  const locale = 'someLocale';
   const campaignId = 'campaignId';
   const otherUserId = 3;
   const campaignParticipation = {
@@ -37,6 +38,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
 
     usecaseDependencies = {
       userId,
+      locale,
       campaignParticipationId,
       campaignParticipationRepository,
       campaignRepository,
@@ -101,6 +103,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
             campaignParticipationId,
             campaignBadges,
             acquiredBadgeIds,
+            locale,
           ).resolves(campaignParticipationResult);
 
           // when
@@ -130,6 +133,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
             campaignParticipationId,
             campaignBadges,
             acquiredBadgeIds,
+            locale,
           ).resolves(campaignParticipationResult);
 
           // when
