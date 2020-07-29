@@ -1,5 +1,21 @@
 # Pix Changelog
 
+## v2.178.0 (29/07/2020)
+
+- [#1702](https://github.com/1024pix/pix/pull/1702) [FEATURE] Traduire la page de profil déjà envoyé (PIX-1043)
+- [#1700](https://github.com/1024pix/pix/pull/1700) [FEATURE] Préciser le message d'erreur quand l'épreuve est un QROC avec validation auto (PIX-1034).
+- [#1701](https://github.com/1024pix/pix/pull/1701) [FEATURE] Traduire la page de campagne archivée (PIX-1000).
+- [#1699](https://github.com/1024pix/pix/pull/1699) [FEATURE] Traduction de la page où l'on demande l'identifiant externe d'une campagne (PIX-806)
+- [#1695](https://github.com/1024pix/pix/pull/1695) [FEATURE] Traduire la landing page des campagnes (pix-807)
+- [#1692](https://github.com/1024pix/pix/pull/1692) [FEATURE] Traduction de la page de résultat de campagne (pix-805)
+- [#1662](https://github.com/1024pix/pix/pull/1662) [FEATURE] Traduire la page de résultat d'une compétence (PIX-801).
+- [#1697](https://github.com/1024pix/pix/pull/1697) [FEATURE] Traduire la page de campagne non existante (PIX-1001)
+- [#1690](https://github.com/1024pix/pix/pull/1690) [FEATURE] Traduction de la page didacticiel (PIX-802)
+- [#1696](https://github.com/1024pix/pix/pull/1696) [FEATURE] Traduction de la page d'envoi de profil (pix-808)
+- [#1674](https://github.com/1024pix/pix/pull/1674) [FEATURE] Traduction des signalements (PIX-966)
+- [#1658](https://github.com/1024pix/pix/pull/1658) [FEATURE] Traduire la page de checkpoint / résultat d'une épreuve (PIX-783).
+- [#1693](https://github.com/1024pix/pix/pull/1693) [CLEANUP] Remettre les titres de page dans les templates (PIX-1032)
+
 ## v2.177.0 (28/07/2020)
 
 - [#1664](https://github.com/1024pix/pix/pull/1664) [FEATURE] Générer un identifiant avec mot de passe temporaire pour l'utilisateur qui se connecte uniquement avec le GAR (PIX-953).
