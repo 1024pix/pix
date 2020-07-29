@@ -1,5 +1,4 @@
 const usecases = require('../../domain/usecases');
-const studentSerializer = require('../../infrastructure/serializers/jsonapi/student-serializer');
 const schoolingRegistrationSerializer = require('../../infrastructure/serializers/jsonapi/schooling-registration-user-association-serializer');
 const _ = require('lodash');
 
@@ -37,7 +36,7 @@ module.exports = {
     const campaignCode = request.query.campaignCode;
 
     return usecases.findAssociationBetweenUserAndSchoolingRegistration({ authenticatedUserId, requestedUserId, campaignCode })
-      .then(studentSerializer.serialize);
+      .then(schoolingRegistrationSerializer.serialize);
   },
 
   async generateUsername(request, h) {
@@ -62,7 +61,7 @@ module.exports = {
           'campaign-code': campaignCode,
           username
         },
-        type: 'student-user-associations'
+        type: 'schooling-registration-user-associations'
       }
     };
     return h.response(schoolingRegistrationWithUsernameResponse).code(200);
