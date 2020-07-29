@@ -5,6 +5,8 @@ BEGIN;
 -----------------------------------------------------------------------------------------------------
 SELECT setval(pg_get_serial_sequence('users','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "users";
 SELECT setval(pg_get_serial_sequence('assessments','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "assessments";
+SELECT setval(pg_get_serial_sequence('organizations','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "organizations";
+SELECT setval(pg_get_serial_sequence('memberships','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "memberships";
 
 
 -----------------------------------------------------------------------------------------------------
@@ -13,6 +15,7 @@ SELECT setval(pg_get_serial_sequence('assessments','id'), coalesce(max("id"), 1)
 SET LOCAL constants.user_count=1000;
 SET LOCAL constants.string_count=20000;
 SET LOCAL constants.competence_evaluation_count=3000;
+SET LOCAL constants.organization_count=5;
 
 
 -----------------------------------------------------------------------------------------------------
@@ -181,6 +184,95 @@ SELECT
   created_at,
   type
 FROM inserted_assessments_cte;
+
+
+-----------------------------------------------------------------------------------------------------
+--				Ajout des organisations et de leur administrateur   ---------------------------------------
+-----------------------------------------------------------------------------------------------------
+
+--   Administrateurs
+CREATE TEMPORARY TABLE inserted_administrators (
+  rownum SERIAL PRIMARY KEY,
+  administrator_id INTEGER
+) ON COMMIT DROP;
+WITH inserted_administrators_cte AS (
+  INSERT INTO users("firstName", "lastName", "email", "password")
+  SELECT
+    r_s_a.rand_str,
+    r_s_b.rand_str,
+    r_s_a.rand_str || '.' || r_s_b.rand_str || (currval(pg_get_serial_sequence('users','id'))+1) || '@example.net',
+    'default_password'
+  FROM (
+    SELECT (
+      SELECT (random() * current_setting('constants.string_count')::int)::int + (generator*0) as first_name_rownum
+    ),
+    (
+      SELECT (random() * current_setting('constants.string_count')::int)::int + (generator*0) as last_name_rownum
+    ),
+      generator as id
+    FROM generate_series(1,current_setting('constants.organization_count')::int) as generator
+  ) id_picker
+  INNER JOIN random_string as r_s_a ON r_s_a.rownum = id_picker.first_name_rownum
+  INNER JOIN random_string as r_s_b ON r_s_b.rownum = id_picker.last_name_rownum
+  RETURNING id AS administrator_id
+)
+INSERT INTO inserted_administrators(rownum, administrator_id)
+SELECT
+  row_number() OVER (),
+  *
+FROM inserted_administrators_cte;
+
+--   Organisations
+CREATE TEMPORARY TABLE inserted_organizations (
+  rownum SERIAL PRIMARY KEY,
+  organization_id INTEGER
+) ON COMMIT DROP;
+WITH inserted_organizations_cte AS (
+  INSERT INTO organizations("type", "name", "createdAt", "isManagingStudents", "canCollectProfiles")
+  SELECT
+    'SCO',
+    random_string.rand_str,
+    NOW() - interval '800 days' + (random() * (interval '365 days')),
+    true,
+    true
+  FROM (
+    SELECT (
+      SELECT (random() * current_setting('constants.string_count')::int)::int + (generator*0) as name_rownum
+    ),
+      generator as id
+    FROM generate_series(1,current_setting('constants.organization_count')::int) as generator
+  ) id_picker
+  INNER JOIN random_string ON random_string.rownum = id_picker.name_rownum
+  RETURNING id AS organization_id
+)
+INSERT INTO inserted_organizations(rownum, organization_id)
+SELECT
+  row_number() OVER (),
+  *
+FROM inserted_organizations_cte;
+
+--   Memberships
+CREATE TEMPORARY TABLE inserted_memberships (
+  rownum SERIAL PRIMARY KEY,
+  organization_id INTEGER,
+  administrator_id INTEGER
+) ON COMMIT DROP;
+WITH inserted_memberships_cte AS (
+  INSERT INTO memberships("organizationId", "userId", "organizationRole")
+  SELECT
+    inserted_organizations.organization_id,
+    inserted_administrators.administrator_id,
+    'ADMIN'
+  FROM inserted_organizations
+  JOIN inserted_administrators ON inserted_organizations.rownum = inserted_administrators.rownum
+  RETURNING "organizationId" AS organization_id, "userId" AS administrator_id
+)
+INSERT INTO inserted_memberships(rownum, organization_id, administrator_id)
+SELECT
+  row_number() OVER (),
+  organization_id,
+  administrator_id
+FROM inserted_memberships_cte;
 
 
 -----------------------------------------------------------------------------------------------------
