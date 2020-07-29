@@ -4,12 +4,15 @@ BEGIN;
 --				Recalage des séquences       --------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
 SELECT setval(pg_get_serial_sequence('users','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "users";
+SELECT setval(pg_get_serial_sequence('assessments','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "assessments";
+
 
 -----------------------------------------------------------------------------------------------------
 --				Déclaration de constantes   ---------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
 SET LOCAL constants.user_count=1000;
 SET LOCAL constants.string_count=20000;
+SET LOCAL constants.competence_evaluation_count=3000;
 
 
 -----------------------------------------------------------------------------------------------------
@@ -68,18 +71,34 @@ ALTER TABLE "organizations" SET UNLOGGED;
 ALTER TABLE "users" DROP CONSTRAINT "users_email_unique";
 ALTER TABLE "users" DROP CONSTRAINT "users_samlid_unique";
 ALTER TABLE "users" DROP CONSTRAINT "users_username_unique";
+ALTER TABLE "assessments" DROP CONSTRAINT "assessments_userid_certificationcourseid_unique";
+ALTER TABLE "assessments" DROP CONSTRAINT "assessments_certificationcourseid_foreign";
+ALTER TABLE "assessments" DROP CONSTRAINT "assessments_userid_foreign";
+ALTER TABLE "assessments" DROP CONSTRAINT "assessments_campaignparticipationid_foreign";
+
+
+-----------------------------------------------------------------------------------------------------
+--				Supprimer les index   ---------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
+DROP INDEX "assessment_courseid_index";
+DROP INDEX "assessments_campaignparticipationid_index";
+DROP INDEX "assessments_certificationcourseid_index";
+DROP INDEX "assessments_competenceid_index";
+DROP INDEX "assessments_state_index";
+DROP INDEX "assessments_type_index";
+DROP INDEX "assessments_userid_index";
 
 
 -----------------------------------------------------------------------------------------------------
 --				Création et remplissage d'une table de chaînes aléatoires composées de 3 syllabes   -------
 -----------------------------------------------------------------------------------------------------
 CREATE TEMPORARY TABLE random_string (
-  id SERIAL PRIMARY KEY,
+  rownum SERIAL PRIMARY KEY,
   rand_str VARCHAR
 ) ON COMMIT DROP;
-INSERT INTO random_string(id, rand_str)
+INSERT INTO random_string(rownum, rand_str)
 SELECT
-  generator AS id,
+  generator,
 	(
 	  SELECT string_agg(x,'')
 		FROM (
@@ -95,10 +114,11 @@ FROM generate_series(1,current_setting('constants.string_count')::int) as genera
 -----------------------------------------------------------------------------------------------------
 --				Ajout des utilisateurs   ------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
-CREATE TEMPORARY TABLE inserted_user_ids (
+CREATE TEMPORARY TABLE inserted_users (
+  rownum SERIAL PRIMARY KEY,
   user_id INTEGER
 ) ON COMMIT DROP;
-WITH inserted_user_ids_cte AS (
+WITH inserted_users_cte AS (
   INSERT INTO users("firstName", "lastName", "email", "password")
   SELECT
     r_s_a.rand_str,
@@ -107,21 +127,60 @@ WITH inserted_user_ids_cte AS (
     'default_password'
   FROM (
     SELECT (
-      SELECT (random() * current_setting('constants.string_count')::int)::int + (generator*0) as first_name_id
+      SELECT (random() * current_setting('constants.string_count')::int)::int + (generator*0) as first_name_rownum
     ),
     (
-      SELECT (random() * current_setting('constants.string_count')::int)::int + (generator*0) as last_name_id
+      SELECT (random() * current_setting('constants.string_count')::int)::int + (generator*0) as last_name_rownum
     ),
       generator as id
     FROM generate_series(1,current_setting('constants.user_count')::int) as generator
   ) id_picker
-  INNER JOIN random_string as r_s_a ON r_s_a.id = id_picker.first_name_id
-  INNER JOIN random_string as r_s_b ON r_s_b.id = id_picker.last_name_id
+  INNER JOIN random_string as r_s_a ON r_s_a.rownum = id_picker.first_name_rownum
+  INNER JOIN random_string as r_s_b ON r_s_b.rownum = id_picker.last_name_rownum
   RETURNING id AS user_id
 )
-INSERT INTO inserted_user_ids(user_id)
-SELECT * FROM inserted_user_ids_cte;
-CREATE INDEX ON inserted_user_ids(user_id);
+INSERT INTO inserted_users(rownum, user_id)
+SELECT
+  row_number() OVER (),
+  *
+FROM inserted_users_cte;
+
+
+-----------------------------------------------------------------------------------------------------
+--				Ajout des assessments COMPETENCE_EVALUATION   ---------------------------------------------
+-----------------------------------------------------------------------------------------------------
+CREATE TEMPORARY TABLE inserted_assessments (
+  rownum SERIAL PRIMARY KEY,
+  assessment_id INTEGER,
+  user_id INTEGER,
+  created_at TIMESTAMPTZ,
+  type VARCHAR
+) ON COMMIT DROP;
+WITH inserted_assessments_cte AS (
+  INSERT INTO assessments("userId", "state", "type", "createdAt")
+  SELECT
+    inserted_users.user_id,
+    'completed',
+    'COMPETENCE_EVALUATION',
+    NOW() - interval '365 days' + (random() * (interval '365 days'))
+  FROM (
+    SELECT (
+      SELECT (random() * current_setting('constants.user_count')::int)::int + (generator*0) as picked_rownum
+    ),
+      generator as id
+    FROM generate_series(1,current_setting('constants.competence_evaluation_count')::int) as generator
+  ) id_picker
+  INNER JOIN inserted_users ON inserted_users.rownum = id_picker.picked_rownum
+  RETURNING id AS assessment_id, "userId" AS user_id, "createdAt" AS created_at, type
+)
+INSERT INTO inserted_assessments(rownum, assessment_id, user_id, created_at, type)
+SELECT
+  row_number() OVER (),
+  assessment_id,
+  user_id,
+  created_at,
+  type
+FROM inserted_assessments_cte;
 
 
 -----------------------------------------------------------------------------------------------------
@@ -130,6 +189,22 @@ CREATE INDEX ON inserted_user_ids(user_id);
 ALTER TABLE "users" ADD CONSTRAINT "users_email_unique" UNIQUE ("email");
 ALTER TABLE "users" ADD CONSTRAINT "users_samlid_unique" UNIQUE ("samlId");
 ALTER TABLE "users" ADD CONSTRAINT "users_username_unique" UNIQUE ("username");
+ALTER TABLE "assessments" ADD CONSTRAINT "assessments_userid_certificationcourseid_unique" UNIQUE ("userId", "certificationCourseId");
+ALTER TABLE "assessments" ADD CONSTRAINT "assessments_certificationcourseid_foreign" FOREIGN KEY ("certificationCourseId") REFERENCES "certification-courses"("id");
+ALTER TABLE "assessments" ADD CONSTRAINT "assessments_userid_foreign" FOREIGN KEY ("userId") REFERENCES "users"("id");
+ALTER TABLE "assessments" ADD CONSTRAINT "assessments_campaignparticipationid_foreign" FOREIGN KEY ("campaignParticipationId") REFERENCES "campaign-participations"("id");
+
+
+-----------------------------------------------------------------------------------------------------
+--				Rétablir les index   ---------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
+CREATE INDEX "assessment_courseid_index" ON "assessments"("courseId");
+CREATE INDEX "assessments_campaignparticipationid_index" ON "assessments"("campaignParticipationId");
+CREATE INDEX "assessments_certificationcourseid_index" ON "assessments"("certificationCourseId");
+CREATE INDEX "assessments_competenceid_index" ON "assessments"("competenceId");
+CREATE INDEX "assessments_state_index" ON "assessments"("state");
+CREATE INDEX "assessments_type_index" ON "assessments"("type");
+CREATE INDEX "assessments_userid_index" ON "assessments"("userId");
 
 
 -----------------------------------------------------------------------------------------------------
