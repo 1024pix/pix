@@ -7,6 +7,8 @@ SELECT setval(pg_get_serial_sequence('users','id'), coalesce(max("id"), 1), max(
 SELECT setval(pg_get_serial_sequence('assessments','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "assessments";
 SELECT setval(pg_get_serial_sequence('organizations','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "organizations";
 SELECT setval(pg_get_serial_sequence('memberships','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "memberships";
+SELECT setval(pg_get_serial_sequence('target-profiles','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "target-profiles";
+SELECT setval(pg_get_serial_sequence('target-profiles_skills','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "target-profiles_skills";
 
 
 -----------------------------------------------------------------------------------------------------
@@ -22,6 +24,7 @@ SET LOCAL constants.organization_count=5;
 --				Création d'une table temporaire contenant le référentiel   --------------------------
 -----------------------------------------------------------------------------------------------------
 CREATE TEMPORARY TABLE referentiel (
+  rownum SERIAL PRIMARY KEY,
   skill_id 		VARCHAR,
   competence_id VARCHAR,
   pix_value 	NUMERIC(6,5)
@@ -273,6 +276,69 @@ SELECT
   organization_id,
   administrator_id
 FROM inserted_memberships_cte;
+
+-----------------------------------------------------------------------------------------------------
+--				Ajout des target-profiles   ---------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
+CREATE TEMPORARY TABLE inserted_target_profiles (
+  name VARCHAR,
+  target_profile_id INTEGER
+) ON COMMIT DROP;
+WITH inserted_target_profiles_cte AS (
+  INSERT INTO "target-profiles"("name", "isPublic")
+  VALUES('Profil petit',true), ('Profil moyen',true), ('Profil complet',true)
+  RETURNING id as target_profile_id, name
+)
+INSERT INTO inserted_target_profiles(name, target_profile_id)
+SELECT
+  name,
+  target_profile_id
+FROM inserted_target_profiles_cte;
+
+-- Profil petit
+INSERT INTO "target-profiles_skills"("targetProfileId", "skillId")
+SELECT
+  ( SELECT inserted_target_profiles.target_profile_id FROM inserted_target_profiles WHERE inserted_target_profiles.name = 'Profil petit' ),
+  referentiel.skill_id
+FROM (
+  SELECT
+    DISTINCT (
+      SELECT (random() * 655)::int + (generator*0) AS picked_skill_rownum
+    ),
+    generator AS id
+  FROM generate_series(1,1500) AS generator LIMIT 100
+) id_picker
+INNER JOIN referentiel ON referentiel.rownum = id_picker.picked_skill_rownum;
+
+-- Profil moyen
+INSERT INTO "target-profiles_skills"("targetProfileId", "skillId")
+SELECT
+  ( SELECT inserted_target_profiles.target_profile_id FROM inserted_target_profiles WHERE inserted_target_profiles.name = 'Profil moyen' ),
+  referentiel.skill_id
+FROM (
+  SELECT
+    DISTINCT (
+      SELECT (random() * 655)::int + (generator*0) AS picked_skill_rownum
+    ),
+    generator AS id
+  FROM generate_series(1,1500) AS generator LIMIT 300
+) id_picker
+INNER JOIN referentiel ON referentiel.rownum = id_picker.picked_skill_rownum;
+
+-- Profil complet
+INSERT INTO "target-profiles_skills"("targetProfileId", "skillId")
+SELECT
+  ( SELECT inserted_target_profiles.target_profile_id FROM inserted_target_profiles WHERE inserted_target_profiles.name = 'Profil complet' ),
+  referentiel.skill_id
+FROM (
+  SELECT
+    DISTINCT (
+      SELECT (random() * 655)::int + (generator*0) AS picked_skill_rownum
+    ),
+    generator AS id
+  FROM generate_series(1,1500) AS generator LIMIT 655
+) id_picker
+INNER JOIN referentiel ON referentiel.rownum = id_picker.picked_skill_rownum;
 
 
 -----------------------------------------------------------------------------------------------------
