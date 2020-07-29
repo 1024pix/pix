@@ -436,6 +436,15 @@
       }
     },
 
+    "profile-already-shared": {
+      "title": "Profile already sent",
+      "first-title": "Everything does not go as planned",
+      "actions": {
+        "continue": "Continue your Pix experience"
+      },
+      "explanation": "You have already sent the profile below to the organization {organization} '<br>' on {date,date,LL} at {hour,time,hhmm}"
+    },
+
     "result-item": {
       "aband": "No answer",
       "actions": {

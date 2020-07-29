@@ -432,6 +432,15 @@
       }
     },
 
+    "profile-already-shared": {
+      "title": "Profil déjà envoyé",
+      "first-title": "Tout ne se passe pas comme prévu",
+      "actions": {
+        "continue": "Continuez votre expérience Pix"
+      },
+      "explanation": "Vous avez déjà envoyé le profil ci-dessous à l'organisation {organization}'<br>'le {date,date,LL} à {hour,time,hhmm}"
+    },
+
     "levelup-notif": {
       "obtained-level": "Niveau { level } gagné !"
     },
