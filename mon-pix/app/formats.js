@@ -1,5 +1,9 @@
 export default {
   time: {
+    hhmm: {
+      hour: 'numeric',
+      minute: 'numeric',
+    },
     hhmmss: {
       hour: 'numeric',
       minute: 'numeric',
