@@ -1,6 +1,8 @@
 class DomainError extends Error {
-  constructor(message) {
+  constructor(message, code, meta) {
     super(message);
+    this.code = code ;
+    this.meta = meta ;
   }
 }
 
@@ -387,8 +389,10 @@ class UserShouldChangePasswordError extends DomainError {
 }
 
 class SchoolingRegistrationAlreadyLinkedToUserError extends DomainError {
-  constructor(message = 'L\'élève est déjà rattaché à un compte utilisateur.') {
+  constructor(message = 'L\'élève est déjà rattaché à un compte utilisateur.', code, meta) {
     super(message);
+    this.code = code;
+    this.meta = meta;
   }
 }
 
