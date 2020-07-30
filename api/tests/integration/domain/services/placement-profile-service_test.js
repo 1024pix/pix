@@ -159,8 +159,7 @@ describe('Integration | Service | Placement Profile Service', function() {
             name: '1.1 Construire un flipper',
             skills: [],
             pixScore: 0,
-            estimatedLevel: 0,
-            challenges: []
+            estimatedLevel: 0
           },
           {
             id: 'competenceRecordIdTwo',
@@ -169,8 +168,7 @@ describe('Integration | Service | Placement Profile Service', function() {
             name: '1.2 Adopter un dauphin',
             skills: [],
             pixScore: 0,
-            estimatedLevel: 0,
-            challenges: []
+            estimatedLevel: 0
           },
           {
             id: 'competenceRecordIdThree',
@@ -179,8 +177,7 @@ describe('Integration | Service | Placement Profile Service', function() {
             name: '1.3 Se faire manger par un requin',
             skills: [],
             pixScore: 0,
-            estimatedLevel: 0,
-            challenges: []
+            estimatedLevel: 0
           }]);
       });
 
@@ -329,8 +326,7 @@ describe('Integration | Service | Placement Profile Service', function() {
           name: '1.1 Construire un flipper',
           skills: [],
           pixScore: 0,
-          estimatedLevel: 0,
-          challenges: []
+          estimatedLevel: 0
         },
         {
           id: 'competenceRecordIdTwo',
@@ -339,8 +335,7 @@ describe('Integration | Service | Placement Profile Service', function() {
           name: '1.2 Adopter un dauphin',
           skills: [],
           pixScore: 0,
-          estimatedLevel: 0,
-          challenges: []
+          estimatedLevel: 0
         },
         {
           id: 'competenceRecordIdThree',
@@ -349,8 +344,7 @@ describe('Integration | Service | Placement Profile Service', function() {
           name: '1.3 Se faire manger par un requin',
           skills: [],
           pixScore: 0,
-          estimatedLevel: 0,
-          challenges: []
+          estimatedLevel: 0
         }]);
     });
 

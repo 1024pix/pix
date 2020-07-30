@@ -240,7 +240,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       });
     });
 
-    it('should group skills by competence ', async () => {
+    it('should group skills by competence', async () => {
       // given
       placementProfile.userCompetences = [userCompetence1, userCompetence2];
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFour', 'challengeRecordIdFive', 'challengeRecordIdSeven']);
@@ -300,6 +300,30 @@ describe('Unit | Service | Certification Challenge Service', () => {
 
       // then
       expect(certificationChallenges).to.deep.equal([_createCertificationChallenge(challengeForSkillRemplir2.id, skillRemplir2)]);
+    });
+
+    it('should not add a challenge twice', async () => {
+      // given
+      const onlyOneChallengeForCitation4AndMoteur3 = [
+        challengeForSkillCitation4AndMoteur3,
+        challengeForSkillCollaborer4,
+        challengeForSkillRecherche4,
+        challengeForSkillRemplir2,
+        challengeForSkillRemplir4,
+        challengeForSkillUrl3,
+        challengeForSkillWeb1,
+        challengeRecordWithoutSkills,
+        challengeForSkillRequin5,
+        challengeForSkillRequin8,
+      ];
+      challengeRepository.findOperative.resolves(onlyOneChallengeForCitation4AndMoteur3);
+      placementProfile.userCompetences = [userCompetence1];
+      answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdTwo']);
+      // when
+      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+
+      // then
+      expect(_.map(certificationChallenges, 'challengeId')).to.deep.equal(['challengeRecordIdTwo']);
     });
 
     it('should not assign skill, when the challenge id is not found', async () => {

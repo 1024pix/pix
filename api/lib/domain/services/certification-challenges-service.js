@@ -1,5 +1,8 @@
 const _ = require('lodash');
 const CertificationChallenge = require('../models/CertificationChallenge');
+const {
+  MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION,
+} = require('../constants');
 
 const KnowledgeElement = require('../models/KnowledgeElement');
 const UserCompetence = require('../models/UserCompetence');
@@ -39,33 +42,46 @@ module.exports = {
     });
 
     const userCompetences = UserCompetence.orderSkillsOfCompetenceByDifficulty(placementProfile.userCompetences);
-    const certificationChallenges = [];
+    let certificationChallengesByCompetence = {};
 
     userCompetences.forEach((userCompetence) => {
       userCompetence.skills.forEach((skill) => {
-        if (!userCompetence.hasEnoughChallenges()) {
+        if (!_hasCompetenceEnoughCertificationChallenges(userCompetence.id, certificationChallengesByCompetence)) {
           const challengesToValidateCurrentSkill = Challenge.findBySkill({ challenges: allChallenges, skill });
           const challengesLeftToAnswer = _.difference(challengesToValidateCurrentSkill, challengesAlreadyAnswered);
 
           const challengesPoolToPickChallengeFrom = (_.isEmpty(challengesLeftToAnswer)) ? challengesToValidateCurrentSkill : challengesLeftToAnswer;
           const challenge = _.sample(challengesPoolToPickChallengeFrom);
 
-          userCompetence.addChallenge(challenge);
           const certificationChallenge = new CertificationChallenge({
             challengeId: challenge.id,
             competenceId: skill.competenceId,
             associatedSkillName: skill.name,
             associatedSkillId: skill.id
           });
-
-          certificationChallenges.push(certificationChallenge);
+          certificationChallengesByCompetence = _addUniqueCertificationChallengeForCompetence(certificationChallengesByCompetence, certificationChallenge);
         }
       });
     });
 
-    return certificationChallenges;
+    return _.flatten(Object.values(certificationChallengesByCompetence));
   },
 };
+
+function _hasCompetenceEnoughCertificationChallenges(competenceId, certificationChallengesByCompetence) {
+  const certificationChallengesForGivenCompetence = certificationChallengesByCompetence[competenceId] || [];
+  return certificationChallengesForGivenCompetence.length >= MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION;
+}
+
+function _addUniqueCertificationChallengeForCompetence(certificationChallengesByCompetence, certificationChallenge) {
+  const mutatedCertificationChallengesByCompetence = _.cloneDeep(certificationChallengesByCompetence);
+  const certificationChallengesForGivenCompetence = mutatedCertificationChallengesByCompetence[certificationChallenge.competenceId] || [];
+  if (!_.some(certificationChallengesForGivenCompetence, { challengeId: certificationChallenge.challengeId })) {
+    certificationChallengesForGivenCompetence.push(certificationChallenge);
+  }
+  mutatedCertificationChallengesByCompetence[certificationChallenge.competenceId] = certificationChallengesForGivenCompetence;
+  return mutatedCertificationChallengesByCompetence;
+}
 
 function _getUserCompetenceByChallengeCompetenceId(userCompetences, challenge) {
   return challenge ? userCompetences.find((userCompetence) => userCompetence.id === challenge.competenceId) : null;
