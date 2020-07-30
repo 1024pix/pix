@@ -2,8 +2,6 @@ const faker = require('faker');
 
 const UserCompetence = require('../../../../lib/domain/models/UserCompetence');
 const buildArea = require('./build-area');
-const buildChallenge = require('./build-challenge');
-const _ = require('lodash');
 
 module.exports = function buildUserCompetence({
   id = faker.random.uuid(),
@@ -11,11 +9,7 @@ module.exports = function buildUserCompetence({
   name = faker.random.word(),
   area = buildArea(),
   pixScore = 42,
-  estimatedLevel = 1,
-  challenges = [
-    buildChallenge(),
-    buildChallenge()
-  ]
+  estimatedLevel = 1
 } = {}) {
 
   const userCompetence = new UserCompetence({
@@ -25,9 +19,6 @@ module.exports = function buildUserCompetence({
     area,
     pixScore,
     estimatedLevel,
-  });
-  _.forEach(challenges, (challenge) => {
-    userCompetence.addChallenge(challenge);
   });
   return userCompetence;
 };
