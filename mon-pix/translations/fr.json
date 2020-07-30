@@ -413,6 +413,10 @@
       "info": "Ces liens vers les tutos ont été proposés par des utilisateurs de Pix."
     },
 
+    "levelup-notif": {
+      "obtained-level": "Niveau { level } gagné !"
+    },
+
     "profile": {
       "title": "Votre profil",
       "competence-card": {
@@ -443,10 +447,6 @@
         "continue": "Continuez votre expérience Pix"
       },
       "explanation": "Vous avez déjà envoyé le profil ci-dessous à l'organisation {organization}'<br>'le {date,date,LL} à {hour,time,hhmm}"
-    },
-
-    "levelup-notif": {
-      "obtained-level": "Niveau { level } gagné !"
     },
 
     "result-item": {
