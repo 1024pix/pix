@@ -64,7 +64,7 @@
               </div>
             {{else}}
               <button class="button button--big button--thin button--round button--link button--green scorecard-details__improve-button" {{action
-                      "improveCompetenceEvaluation"}}>
+                      "improveCompetenceEvaluation"}} type="button">
                 {{t 'pages.competence-details.actions.improve.label'}}
                 <div class="sr-only">{{t 'pages.competence-details.for-competence' competence=@scorecard.name }}"</div>
               </button>
@@ -87,7 +87,7 @@
         </LinkTo>
       {{/if}}
       {{#if this.displayResetButton}}
-        <button class="link link--underline scorecard-details__reset-button" {{action "openModal"}}>
+        <button class="link link--underline scorecard-details__reset-button" {{action "openModal"}} type="button">
           {{t 'pages.competence-details.actions.reset.label'}}
           <div class="sr-only">{{t 'pages.competence-details.for-competence' competence=@scorecard.name}}</div>
         </button>
@@ -148,8 +148,8 @@
       </div>
 
       <div class="pix-modal-footer pix-modal-footer--with-centered-buttons">
-        <button class="button button--big button--extra-thin button--red" {{action "reset"}}>{{t 'pages.competence-details.actions.reset.label'}}</button>
-        <button class="button button--regular button--extra-thin button--grey" {{action "closeModal"}}>{{t 'common.actions.cancel'}}</button>
+        <button class="button button--big button--extra-thin button--red" {{action "reset"}} type="button">{{t 'pages.competence-details.actions.reset.label'}}</button>
+        <button class="button button--regular button--extra-thin button--grey" {{action "closeModal"}} type="button">{{t 'common.actions.cancel'}}</button>
       </div>
     </div>
   </PixModal>

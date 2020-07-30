@@ -11,13 +11,13 @@
       <div class="tutorial-content__actions">
         <button class="tutorial-content-actions__save" title={{this.buttonExtraInformation}}
           {{on 'click' (if this.isSaved this.removeTutorial this.saveTutorial)}}
-          disabled={{this.isSaveButtonDisabled}}>
+          disabled={{this.isSaveButtonDisabled}} type="button">
           <FaIcon @prefix={{if this.isSaved 'fas' 'far'}} @icon='bookmark'/>
           {{buttonLabel}}
         </button>
         <button class="tutorial-content-actions__evaluate" title={{t 'pages.user-tutorials.list.tutorial.actions.evaluate.extra-information'}}
           {{on 'click' this.evaluateTutorial}}
-          disabled={{this.isEvaluateButtonDisabled}}>
+          disabled={{this.isEvaluateButtonDisabled}} type="button">
           <FaIcon @prefix={{if this.isEvaluated 'fas' 'far'}} @icon='thumbs-up'/>
           {{t 'pages.user-tutorials.list.tutorial.actions.evaluate.label'}}
         </button>
