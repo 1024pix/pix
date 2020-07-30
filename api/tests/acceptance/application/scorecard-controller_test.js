@@ -1,6 +1,7 @@
 const { airtableBuilder, databaseBuilder, expect, knex, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
+const { FRENCH_SPOKEN } = require('../../../lib/domain/constants').LOCALE;
 
 const createServer = require('../../../server');
 
@@ -206,23 +207,28 @@ describe('Acceptance | Controller | scorecard-controller', () => {
       const tubeWebId = 'recTubeWeb1';
       const tutorialWebId = 'recTutorial1';
       const tutorialWebId2 = 'recTutorial2';
+      const tutorialWebId3 = 'recTutorial3';
 
       beforeEach(async () => {
         databaseBuilder.factory.buildUserTutorial({ id: 10500, userId, tutorialId: tutorialWebId });
         await databaseBuilder.commit();
 
-        options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
+        options.headers = {
+          authorization: generateValidRequestAuthorizationHeader(userId),
+          'accept-language': FRENCH_SPOKEN,
+        };
 
         const tutorials = [
-          airtableBuilder.factory.buildTutorial({ id: tutorialWebId }),
-          airtableBuilder.factory.buildTutorial({ id: tutorialWebId2 }),
+          airtableBuilder.factory.buildTutorial({ id: tutorialWebId, langue: 'fr-fr' }),
+          airtableBuilder.factory.buildTutorial({ id: tutorialWebId2, langue: 'fr-fr' }),
+          airtableBuilder.factory.buildTutorial({ id: tutorialWebId3, langue: 'en-us' }),
         ];
 
         const skills = [
           airtableBuilder.factory.buildSkill({
             id: skillWeb1Id,
             nom: skillWeb1Name,
-            'comprendre': [tutorials[0].id, tutorials[1].id],
+            'comprendre': [tutorials[0].id, tutorials[1].id, tutorials[2].id],
             'compétenceViaTube': [competenceId],
           }),
         ];
