@@ -2,6 +2,8 @@ const _ = require('lodash');
 const { knex } = require('../bookshelf');
 const BookshelfKnowledgeElementSnapshot = require('../data/knowledge-element-snapshot');
 const KnowledgeElement = require('../../domain/models/KnowledgeElement');
+const { AlreadyExistingEntity } = require('../../domain/errors');
+const bookshelfUtils = require('../utils/bookshelf-utils');
 
 function _toKnowledgeElementCollection({ snapshot } = {}) {
   if (!snapshot) return null;
@@ -12,12 +14,18 @@ function _toKnowledgeElementCollection({ snapshot } = {}) {
 }
 
 module.exports = {
-  save({ userId, snappedAt, knowledgeElements }) {
-    return new BookshelfKnowledgeElementSnapshot({
-      userId,
-      snappedAt,
-      snapshot: JSON.stringify(knowledgeElements),
-    }).save();
+  async save({ userId, snappedAt, knowledgeElements }) {
+    try {
+      await new BookshelfKnowledgeElementSnapshot({
+        userId,
+        snappedAt,
+        snapshot: JSON.stringify(knowledgeElements),
+      }).save();
+    } catch (error) {
+      if (bookshelfUtils.isUniqConstraintViolated(error)) {
+        throw new AlreadyExistingEntity(`A snapshot already exists for the user ${userId} at the datetime ${snappedAt}.`);
+      }
+    }
   },
 
   async findByUserIdsAndSnappedAtDates(userIdsAndSnappedAtDates = {}) {
