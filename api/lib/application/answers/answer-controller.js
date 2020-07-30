@@ -47,11 +47,13 @@ module.exports = {
 
   async getCorrection(request) {
     const userId = requestResponseUtils.extractUserIdFromRequest(request);
+    const locale = requestResponseUtils.extractLocaleFromRequest(request);
     const answerId = request.params.id;
 
     const correction = await usecases.getCorrectionForAnswer({
       answerId,
-      userId
+      userId,
+      locale,
     });
 
     return correctionSerializer.serialize(correction);
