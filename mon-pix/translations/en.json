@@ -81,6 +81,13 @@
       }
     },
 
+    "challenge-statement": {
+      "default-type": "Pix vous laisse le choix du format de fichier à télécharger. Si vous ne savez pas quelle option retenir, conservez le choix par défaut. Il correspond au format de fichier pris en charge par le plus grand nombre de logiciels.",
+      "download": "download",
+      "file": ".{fileExtension} file",
+      "file-type": "Select the type of file you want to use"
+    },
+
     "certificate": {
       "title": "Pix certificate",
       "back-link": "Back to my certifications",
