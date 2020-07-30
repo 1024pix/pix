@@ -8,19 +8,22 @@ const scorecardSerializer = require('../../../../lib/infrastructure/serializers/
 const tutorialSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/tutorial-serializer');
 
 describe('Unit | Controller | scorecard-controller', () => {
+  const authenticatedUserId = '12';
+  const scorecardId = 'foo';
+  const locale = 'fr';
 
   describe('#getScorecard', () => {
+    const authenticatedUserId = '12';
 
     const scorecard = { name: 'Competence1' };
 
     beforeEach(() => {
-      sinon.stub(usecases, 'getScorecard').resolves(scorecard);
+      sinon.stub(usecases, 'getScorecard').withArgs({ authenticatedUserId, scorecardId, locale }).resolves(scorecard);
       sinon.stub(scorecardSerializer, 'serialize').resolvesArg(0);
     });
 
     it('should call the expected usecase', async () => {
       // given
-      const authenticatedUserId = '12';
       const scorecardId = 'foo';
       const locale = 'fr';
 
@@ -40,19 +43,15 @@ describe('Unit | Controller | scorecard-controller', () => {
       const result = await scorecardController.getScorecard(request, hFake);
 
       // then
-      expect(usecases.getScorecard).to.have.been.calledWith({ authenticatedUserId, scorecardId, locale });
       expect(result).to.be.equal(scorecard);
     });
   });
 
   describe('#findTutorials', () => {
-    const authenticatedUserId = '12';
-    const scorecardId = 'foo';
-
     const tutorials = [];
 
     beforeEach(() => {
-      sinon.stub(usecases, 'findTutorials').withArgs({ authenticatedUserId, scorecardId }).resolves(tutorials);
+      sinon.stub(usecases, 'findTutorials').withArgs({ authenticatedUserId, scorecardId, locale }).resolves(tutorials);
       sinon.stub(tutorialSerializer, 'serialize').withArgs(tutorials).resolves('ok');
     });
 
@@ -67,13 +66,13 @@ describe('Unit | Controller | scorecard-controller', () => {
         params: {
           id: scorecardId,
         },
+        headers: { 'accept-language': locale }
       };
 
       // when
       const result = await scorecardController.findTutorials(request, hFake);
 
       // then
-      expect(usecases.findTutorials).to.have.been.calledWith({ authenticatedUserId, scorecardId });
       expect(result).to.be.equal('ok');
     });
   });
