@@ -81,13 +81,6 @@
       }
     },
 
-    "challenge-statement": {
-      "default-type": "Pix vous laisse le choix du format de fichier à télécharger. Si vous ne savez pas quelle option retenir, conservez le choix par défaut. Il correspond au format de fichier pris en charge par le plus grand nombre de logiciels.",
-      "download": "download",
-      "file": ".{fileExtension} file",
-      "file-type": "Select the type of file you want to use"
-    },
-
     "certificate": {
       "title": "Pix certificate",
       "back-link": "Back to my certifications",
@@ -299,6 +292,12 @@
       "progress-bar": {
         "label": "Challenge"
       },
+      "statement": {
+        "default-type": "Pix lets you chose the file format to download. If you don't know which option to chose, just keep the default choice. It corresponds to format that is compatible with most pieces of software.",
+        "download": "download",
+        "file": ".{fileExtension} file",
+        "file-type": "Select the type of file you want to use"
+      },
       "skip-error-message": {
         "qcm": "Choose at least one answer to validate. Skip otherwise.",
         "qcu": "Choose an answer to validate. Skip otherwise.",
@@ -484,6 +483,10 @@
       "error": "Nous sommes désolés, mais votre demande de réinitialisation de mot de passe a déjà été utilisée ou est expirée. Merci de recommencer.",
       "instruction": "Saisissez votre nouveau mot de passe",
       "succeed": "Votre mot de passe a été modifié avec succès."
+    },
+    
+    "qcu-proposals": {
+      "answer": "The answer to the question is : "
     },
 
     "result-item": {
