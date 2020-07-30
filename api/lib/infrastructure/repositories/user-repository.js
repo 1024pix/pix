@@ -32,6 +32,16 @@ function _toUserDetailsForAdminDomain(BookshelfUser) {
   });
 }
 
+function _toUserAuthenticationMethods(BookshelfUser) {
+  const rawUser = BookshelfUser.toJSON();
+  return new User({
+    id: rawUser.id,
+    email: rawUser.email,
+    username: rawUser.username,
+    samlId: rawUser.samlId,
+  });
+}
+
 function _toCertificationCenterMembershipsDomain(certificationCenterMembershipBookshelf) {
   return certificationCenterMembershipBookshelf.map((bookshelf) => {
     return new CertificationCenterMembership({
@@ -171,6 +181,19 @@ module.exports = {
       .where({ id: userId })
       .fetch({ require: true, withRelated: ['userOrgaSettings'] })
       .then((user) => bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user))
+      .catch((err) => {
+        if (err instanceof BookshelfUser.NotFoundError) {
+          throw new UserNotFoundError(`User not found for ID ${userId}`);
+        }
+        throw err;
+      });
+  },
+
+  getUserAuthenticationMethods(userId) {
+    return BookshelfUser
+      .where({ id: userId })
+      .fetch({ require: true, columns: ['id','email','username','samlId', ] })
+      .then((userAuthenticationMethods) => _toUserAuthenticationMethods(userAuthenticationMethods))
       .catch((err) => {
         if (err instanceof BookshelfUser.NotFoundError) {
           throw new UserNotFoundError(`User not found for ID ${userId}`);
