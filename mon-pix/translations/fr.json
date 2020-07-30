@@ -417,6 +417,25 @@
       "obtained-level": "Niveau { level } gagné !"
     },
 
+    "password-reset-demand": {
+      "title": "Mot de passe oublié ?",
+      "actions": {
+        "back-home": "Retour à l'accueil",
+        "back-sign-in": "Retour à la page de connexion",
+        "reset": "Réinitialiser mon mot de passe"
+      },
+      "error": {
+        "message": "Cette adresse e-mail ne correspond à aucun compte"
+      },
+      "page-title": "Oubli de mot de passe",
+      "subtitle": "Entrez votre adresse e-mail ci-dessous, et c'est repartix",
+      "succeed": {
+        "help": "Si vous ne recevez pas cet e-mail, vérifiez vos courriers indésirables.",
+        "instructions": "Un e-mail contenant la démarche à suivre afin de réinitialiser votre mot de passe\n vous a été envoyé à l’adresse e-mail {email}.",
+        "subtitle": "Demande de réinitialisation de mot de passe"
+      }
+    },
+
     "profile": {
       "title": "Votre profil",
       "competence-card": {
