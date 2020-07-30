@@ -9,13 +9,13 @@ const VALIDATED_HINT_STATUSES = ['Validé', 'pré-validé'];
 
 module.exports = {
 
-  async getByChallengeId({ challengeId, userId }) {
+  async getByChallengeId({ challengeId, userId, locale }) {
     const challenge = await challengeDatasource.get(challengeId);
     const skills = await _getSkills(challenge);
     const hints = await _getHints(skills);
 
-    const tutorials = await _getTutorials(userId, skills, 'tutorialIds');
-    const learningMoreTutorials = await _getTutorials(userId, skills, 'learningMoreTutorialIds');
+    const tutorials = await _getTutorials({ userId, skills, tutorialIdsProperty: 'tutorialIds', locale });
+    const learningMoreTutorials = await _getTutorials({ userId, skills, tutorialIdsProperty: 'learningMoreTutorialIds', locale });
 
     return new Correction({
       id: challenge.id,
@@ -50,13 +50,13 @@ function _convertSkillsToHints(skillDataObjects) {
   });
 }
 
-async function _getTutorials(userId, skills, tutorialIdsProperty) {
+async function _getTutorials({ userId, skills, tutorialIdsProperty, locale }) {
   const tutorialsIds = _(skills)
     .map((skill) => skill[tutorialIdsProperty])
     .filter((tutorialId) => !_.isEmpty(tutorialId))
     .flatten()
     .uniq()
     .value();
-  return tutorialRepository.findByRecordIdsForCurrentUser({ ids: tutorialsIds, userId });
+  return tutorialRepository.findByRecordIdsForCurrentUser({ ids: tutorialsIds, userId, locale });
 }
 
