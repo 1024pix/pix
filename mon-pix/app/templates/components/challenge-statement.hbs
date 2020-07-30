@@ -21,18 +21,18 @@
              target="_blank"
              rel="noopener noreferrer"
              download>
-            <span class="challenge-statement__action-label">{{t 'pages.challenge-statement.download'}}</span>
+            <span class="challenge-statement__action-label">{{t 'pages.challenge.statement.download'}}</span>
           </a>
         </div>
       {{/if}}
 
       {{#if @challenge.hasMultipleAttachments}}
         <p class="challenge-statement__text">
-          <span class="challenge-statement__text-content">{{t 'pages.challenge-statement.file-type'}}</span>
+          <span class="challenge-statement__text-content">{{t 'pages.challenge.statement.file-type'}}</span>
         <div class="challenge-statement__help-icon">
           <FaIcon @icon="info-circle" />
           <div class="challenge-statement__help-tooltip">
-            <span class="challenge-statement__help-text">{{t 'pages.challenge-statement.default-type'}}</span>
+            <span class="challenge-statement__help-text">{{t 'pages.challenge.statement.default-type'}}</span>
           </div>
         </div>
         </p>
@@ -50,7 +50,7 @@
                      checked="{{if (eq attachmentUrl this.selectedAttachmentUrl) "checked"}}">
 
               <label class="label-checkbox-downloadable" for="attachment{{index}}">
-                <span class="challenge-statement__file-option-label">{{t 'pages.challenge-statement.file' fileExtension=(extract-extension attachmentUrl)}}</span>
+                <span class="challenge-statement__file-option-label">{{t 'pages.challenge.statement.file' fileExtension=(extract-extension attachmentUrl)}}</span>
               </label>
 
             </li>
@@ -62,7 +62,7 @@
              target="_blank"
              rel="noopener noreferrer"
              download>
-            <span class="challenge-statement__action-label">{{t 'pages.challenge-statement.download'}}</span>
+            <span class="challenge-statement__action-label">{{t 'pages.challenge.statement.download'}}</span>
           </a>
         </div>
       {{/if}}

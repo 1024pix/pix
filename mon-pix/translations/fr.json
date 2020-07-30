@@ -81,13 +81,6 @@
       }
     },
 
-    "challenge-statement": {
-      "default-type": "Pix vous laisse le choix du format de fichier à télécharger. Si vous ne savez pas quelle option retenir, conservez le choix par défaut. Il correspond au format de fichier pris en charge par le plus grand nombre de logiciels.",
-      "download": "Télécharger",
-      "file": "fichier .{fileExtension}",
-      "file-type": "Choisissez le type de fichier que vous voulez utiliser"
-    },
-
     "certificate": {
       "title": "Certificat Pix",
       "back-link": "Retour à mes certifications",
@@ -299,6 +292,12 @@
       "progress-bar": {
         "label": "Question"
       },
+      "statement": {
+        "default-type": "Pix vous laisse le choix du format de fichier à télécharger. Si vous ne savez pas quelle option retenir, conservez le choix par défaut. Il correspond au format de fichier pris en charge par le plus grand nombre de logiciels.",
+        "download": "Télécharger",
+        "file": "fichier .{fileExtension}",
+        "file-type": "Choisissez le type de fichier que vous voulez utiliser"
+      },
       "skip-error-message": {
         "qcm": "Pour valider, sélectionnez au moins une réponse. Sinon, passez.",
         "qcu": "Pour valider, sélectionnez une réponse. Sinon, passez.",
@@ -484,6 +483,10 @@
       "error": "Nous sommes désolés, mais votre demande de réinitialisation de mot de passe a déjà été utilisée ou est expirée. Merci de recommencer.",
       "instruction": "Saisissez votre nouveau mot de passe",
       "succeed": "Votre mot de passe a été modifié avec succès."
+    },
+
+    "qcu-proposals": {
+      "answer": "La réponse à la question est : "
     },
 
     "result-item": {
