@@ -468,6 +468,17 @@
       "explanation": "You have already sent the profile below to the organization {organization} '<br>' on {date,date,LL} at {hour,time,hhmm}"
     },
 
+    "reset-password": {
+      "title": "Changer mon mot de passe",
+      "actions": {
+        "submit": "Envoyer",
+        "sign-in": "Connectez-vous"
+      },
+      "error": "Nous sommes désolés, mais votre demande de réinitialisation de mot de passe a déjà été utilisée ou est expirée. Merci de recommencer.",
+      "instruction": "Saisissez votre nouveau mot de passe",
+      "succeed": "Votre mot de passe a été modifié avec succès."
+    },
+
     "result-item": {
       "aband": "No answer",
       "actions": {
