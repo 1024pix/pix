@@ -56,6 +56,7 @@ const dependencies = {
   sessionAuthorizationService: require('../../domain/services/session-authorization-service'),
   sessionRepository: require('../../infrastructure/repositories/session-repository'),
   schoolingRegistrationRepository: require('../../infrastructure/repositories/schooling-registration-repository'),
+  studentRepository: require('../../infrastructure/repositories/student-repository'),
   schoolingRegistrationsXmlService: require('../../domain/services/schooling-registrations-xml-service'),
   higherEducationRegistrationRepository: require('../../infrastructure/repositories/higher-education-registration-repository'),
   targetProfileRepository: require('../../infrastructure/repositories/target-profile-repository'),
