@@ -1,6 +1,7 @@
-const { knex, expect, databaseBuilder } = require('../../../test-helper');
+const { knex, expect, databaseBuilder, catchErr } = require('../../../test-helper');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const knowledgeElementSnapshotRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
+const { AlreadyExistingEntity } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | KnowledgeElementSnapshotRepository', () => {
 
@@ -34,6 +35,20 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', () => 
         }));
       }
       expect(actualKnowledgeElements).to.deep.equal(knowledgeElements);
+    });
+
+    it('should throw an error if knowledge elements snapshot already exist for userId and a date', async () => {
+      // given
+      const snappedAt = new Date('2019-04-01');
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({ userId, snappedAt });
+      await databaseBuilder.commit();
+
+      // when
+      const error = await catchErr(knowledgeElementSnapshotRepository.save)({ userId, snappedAt, knowledgeElements: [] });
+
+      // then
+      expect(error).to.be.instanceOf(AlreadyExistingEntity);
     });
   });
 
