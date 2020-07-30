@@ -6,6 +6,7 @@ module.exports = async function getCorrectionForAnswer({
   correctionRepository,
   answerId,
   userId,
+  locale,
 } = {}) {
   const integerAnswerId = parseInt(answerId);
   if (!Number.isFinite(integerAnswerId)) {
@@ -20,8 +21,7 @@ module.exports = async function getCorrectionForAnswer({
 
   _validateCorrectionIsAccessible(assessment, userId, integerAnswerId);
 
-  return correctionRepository.getByChallengeId({ challengeId: answer.challengeId, userId });
-
+  return correctionRepository.getByChallengeId({ challengeId: answer.challengeId, userId, locale });
 };
 
 function _validateCorrectionIsAccessible(assessment) {
