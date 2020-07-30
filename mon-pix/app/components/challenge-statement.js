@@ -7,6 +7,7 @@ import _ from 'lodash';
 
 export default class ChallengeStatement extends Component {
   @service mailGenerator;
+  @service intl;
 
   @tracked selectedAttachmentUrl;
 
