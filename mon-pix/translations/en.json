@@ -17,7 +17,11 @@
     },
     "french-republic": "French Republic",
     "level": "level",
-    "loading": "Loading",
+    "loading": {
+      "default": "Loading",
+      "results": "Preparing your results",
+      "test": "Your test is loading"
+    },
     "or": "or",
     "pix": "pix"
   },

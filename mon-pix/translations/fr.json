@@ -17,7 +17,11 @@
     },
     "french-republic": "République française",
     "level": "niveau",
-    "loading": "Chargement en cours",
+    "loading": {
+      "default": "Chargement en cours",
+      "results": "Préparation de vos résultats",
+      "test": "Votre test est en cours de chargement"
+    },
     "or": "ou",
     "pix": "pix"
   },
