@@ -711,5 +711,14 @@
       "sign-out": "Sign out",
       "tutorials": "My tutorials"
     }
+  },
+
+  "warning": {
+    "instructions": {
+      "part1": "You will have ",
+      "part2": " to answer the next question"
+    },
+    "start": "Start",
+    "secondary": "You can continue answering afterwards but the answer will not be considered as correct."
   }
 }

@@ -711,5 +711,14 @@
       "sign-out": "Se déconnecter",
       "tutorials": "Mes tutos"
     }
+  },
+
+  "warning": {
+    "instructions": {
+      "part1": "Vous disposerez de ",
+      "part2": " pour réussir la question suivante."
+    },
+    "start": "Commencer",
+    "secondary": "Vous pourrez continuer à répondre ensuite, mais la question ne sera pas considérée comme réussie."
   }
 }
