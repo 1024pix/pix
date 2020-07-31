@@ -671,6 +671,25 @@ SELECT
   inserted_knowledge_elements_cte.created_at
 FROM inserted_knowledge_elements_cte;
 
+
+-----------------------------------------------------------------------------------------------------
+--				Ajout des knowledge elements dépendants   -------------------------------------------------
+-----------------------------------------------------------------------------------------------------
+INSERT INTO "knowledge-elements"("source", "status", "assessmentId", "userId", "answerId", "skillId", "earnedPix", "competenceId", "createdAt")
+SELECT
+  'inferred',
+  'validated',
+  inserted_knowledge_elements.assessment_id,
+  inserted_knowledge_elements.user_id,
+  inserted_knowledge_elements.answer_id,
+  skills_dependency.sub_skill_id,
+  skills_dependency.sub_skill_pix_value,
+  inserted_knowledge_elements.competence_id,
+  inserted_knowledge_elements.created_at
+FROM inserted_knowledge_elements
+JOIN skills_dependency ON skills_dependency.skill_id = inserted_knowledge_elements.skill_id
+WHERE inserted_knowledge_elements.status = 'validated';
+
 -----------------------------------------------------------------------------------------------------
 --				Rétablir les contraintes   ----------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
