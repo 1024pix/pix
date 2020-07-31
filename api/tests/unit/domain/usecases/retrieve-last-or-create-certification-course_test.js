@@ -242,7 +242,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
           const mockAssessment = {
             userId,
-            courseId: savedCertificationCourse.id,
+            certificationCourseId: savedCertificationCourse.id,
             state: Assessment.states.STARTED,
             type: Assessment.types.CERTIFICATION,
           };
