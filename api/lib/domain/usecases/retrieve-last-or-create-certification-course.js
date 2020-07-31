@@ -47,6 +47,14 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   });
 };
 
+async function _getCertificationCourseIfCreatedMeanwhile(certificationCourseRepository, userId, sessionId, domainTransaction) {
+  return await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
+    userId,
+    sessionId,
+    domainTransaction
+  });
+}
+
 async function _startNewCertification({
   domainTransaction,
   sessionId,
@@ -66,15 +74,13 @@ async function _startNewCertification({
 
   const newCertificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
 
-  const existingCertificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
-    userId,
-    sessionId,
-    domainTransaction
-  });
-  if (existingCertificationCourse) {
+  // Above operations are potentially slow so that two simultaneous calls of this function might overlap 😿
+  // In case the simultaneous call finished earlier than the current one, we want to return its result
+  const certificationCourseCreatedMeanwhile = await _getCertificationCourseIfCreatedMeanwhile(certificationCourseRepository, userId, sessionId, domainTransaction);
+  if (certificationCourseCreatedMeanwhile) {
     return {
       created: false,
-      certificationCourse: existingCertificationCourse,
+      certificationCourse: certificationCourseCreatedMeanwhile,
     };
   }
 
