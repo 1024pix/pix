@@ -618,6 +618,59 @@ SELECT
   inserted_knowledge_elements_cte.created_at
 FROM inserted_knowledge_elements_cte;
 
+
+-----------------------------------------------------------------------------------------------------
+--				Ajout des knowledge elements pour les assessments CAMPAIGN   ------------------------------
+-----------------------------------------------------------------------------------------------------
+WITH inserted_knowledge_elements_cte AS (
+  INSERT INTO "knowledge-elements"("source", "status", "assessmentId", "userId", "answerId", "skillId", "earnedPix", "competenceId", "createdAt")
+  SELECT
+    'direct',
+    CASE
+      WHEN id_picker.status_score > (100-current_setting('constants.validated_knowledge_element_percentage')::int) THEN 'validated'
+      WHEN id_picker.status_score > (100-current_setting('constants.invalidated_knowledge_element_percentage')::int) THEN 'invalidated'
+      ELSE 'reset'
+    END,
+    inserted_answers.assessment_id,
+    inserted_answers.user_id,
+    inserted_answers.answer_id,
+    referentiel.skill_id,
+    CASE
+      WHEN id_picker.status_score > (100-current_setting('constants.validated_knowledge_element_percentage')::int) THEN referentiel.pix_value
+      ELSE 0
+    END,
+    referentiel.competence_id,
+    inserted_answers.created_at
+  FROM (
+      SELECT (
+        SELECT (current_setting('constants.answer_per_competence_evaluation_assessment_count')::int*current_setting('constants.competence_evaluation_count')::int + random() * current_setting('constants.campaign_per_organization_count')::int*current_setting('constants.organization_count')::int*current_setting('constants.participation_per_campaign_count')::int*current_setting('constants.answer_per_campaign_assessment_count')::int)::int + (generator*0) AS picked_answer_rownum
+      ),
+      (
+        SELECT (random() * 675)::int + (generator*0) AS picked_referentiel_rownum
+      ),
+      (
+        SELECT (random() * 100 + (generator*0))::int AS status_score
+      ),
+        generator AS id
+      FROM generate_series(1,current_setting('constants.campaign_per_organization_count')::int*current_setting('constants.organization_count')::int*current_setting('constants.participation_per_campaign_count')::int*current_setting('constants.answer_per_campaign_assessment_count')::int*current_setting('constants.knowledge_element_per_answer_count')::int) as generator
+    ) id_picker
+  INNER JOIN inserted_answers ON inserted_answers.rownum = id_picker.picked_answer_rownum
+  INNER JOIN referentiel ON referentiel.rownum = id_picker.picked_referentiel_rownum
+  WHERE inserted_answers.assessment_type = 'CAMPAIGN'
+  RETURNING source, status, "assessmentId" AS assessment_id, "answerId" AS answer_id, "userId" AS user_id, "skillId" AS skill_id, "competenceId" AS competence_id, "createdAt" AS created_at
+)
+INSERT INTO inserted_knowledge_elements(source, status, assessment_id, answer_id, user_id, skill_id, competence_id, created_at)
+SELECT
+  inserted_knowledge_elements_cte.source,
+  inserted_knowledge_elements_cte.status,
+  inserted_knowledge_elements_cte.assessment_id,
+  inserted_knowledge_elements_cte.answer_id,
+  inserted_knowledge_elements_cte.user_id,
+  inserted_knowledge_elements_cte.skill_id,
+  inserted_knowledge_elements_cte.competence_id,
+  inserted_knowledge_elements_cte.created_at
+FROM inserted_knowledge_elements_cte;
+
 -----------------------------------------------------------------------------------------------------
 --				Rétablir les contraintes   ----------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
