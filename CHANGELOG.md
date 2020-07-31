@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v2.179.0 (31/07/2020)
+
+- [#1706](https://github.com/1024pix/pix/pull/1706) [FEATURE] Traduction des pages concernant la réinitialisation de mot de passe (PIX-790).
+- [#1691](https://github.com/1024pix/pix/pull/1691) [FEATURE] Mise à jour des inscrits existants lors d'un ré-import (PIX-936)
+- [#1679](https://github.com/1024pix/pix/pull/1679) [FEATURE] Créer un knowledge-elements snapshot quand l'utilisateur partage une campagne participation
+- [#1703](https://github.com/1024pix/pix/pull/1703) [FEATURE] Traduction des pages et composants de loading (PIX-1042)
+- [#1716](https://github.com/1024pix/pix/pull/1716) [BUGFIX] Envoyer les e-mails correspondant à la locale à laquelle ils ont été initié (PIX-1069).
+- [#1713](https://github.com/1024pix/pix/pull/1713) [BUGFIX] Corriger l'affichage du 100% en page de résultat (PIX-1056).
+- [#1710](https://github.com/1024pix/pix/pull/1710) [BUGFIX] La barre de progression dans Pix Orga n'a pas la bonne proportion (PIX-1033)
+- [#1708](https://github.com/1024pix/pix/pull/1708) [BUGFIX] Réduire la taille des noms des compétences dans pix orga à 14px (PIX-1041)
+- [#1712](https://github.com/1024pix/pix/pull/1712) [A11Y] Ajouter l'icône "Lien extérieur" sur les tutoriaux (PIX-1035)
+- [#1707](https://github.com/1024pix/pix/pull/1707) [CLEANUP] Suppression de deux components non utilisés.
+- [#1709](https://github.com/1024pix/pix/pull/1709) [CLEANUP] Résoudre le test non déterministe de `improvement-service`.
+
 ## v2.178.0 (29/07/2020)
 
 - [#1702](https://github.com/1024pix/pix/pull/1702) [FEATURE] Traduire la page de profil déjà envoyé (PIX-1043)
