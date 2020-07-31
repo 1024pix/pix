@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  font-size: 1rem;
+  box-sizing: border-box;
 
   svg {
     color: $grey-30;
@@ -15,7 +17,7 @@
     padding: 0 10px;
     border-radius: 3px;
     font-family: $roboto;
-    font-size: 0.8125rem;
+    font-size: 1em;
     background: transparent;
 
     &:focus {

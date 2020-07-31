@@ -1,8 +1,9 @@
 <Table::Header ...attributes>
   <SelectInput
-          @class="table__input"
-          @onChange={{fn @triggerFiltering @field false}}
-          @options={{@options}}
-          @selectedOption={{@selectedOption}}
+    class="table__input"
+    @onChange={{fn @triggerFiltering @field false}}
+    @options={{@options}}
+    @selectedOption={{@selectedOption}}
+    @emptyOptionLabel={{@emptyOptionLabel}}
   />
 </Table::Header>

@@ -1,25 +1,24 @@
 import { action, computed } from '@ember/object';
 import { equal } from '@ember/object/computed';
 import Controller from '@ember/controller';
-import { debounce } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import config from 'pix-orga/config/environment';
+import ENV from 'pix-orga/config/environment';
 import get from 'lodash/get';
+import debounce from 'lodash/debounce';
 
 const DEFAULT_PAGE_NUMBER = 1;
 
 export default class ListController extends Controller {
-  queryParams = ['pageNumber', 'pageSize', 'name', 'status', 'creatorId'];
-  DEBOUNCE_MS = config.pagination.debounce;
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
   @tracked pageSize = 25;
-  @tracked name = null;
-  @tracked creatorId = null;
+  @tracked name = '';
+  @tracked creatorId = '';
   @tracked status = null;
-  pendingFilters = {};
 
   @service currentUser;
+
+  @equal('status', 'archived') isArchived;
 
   @computed('model')
   get displayNoCampaignPanel() {
@@ -29,36 +28,31 @@ export default class ListController extends Controller {
   @computed('currentUser.organization.memberships')
   get membersOptions() {
     const members = get(this.currentUser,'organization.memberships', []);
-    const options = members.map(({ user }) => ({
+    return members.map(({ user }) => ({
       value: user.get('id'),
       label: `${user.get('firstName')} ${user.get('lastName')}`,
     }));
-    return [{ value: '', label: 'Tous' }, ...options];
   }
 
-  @equal('status', 'archived') isArchived;
-
-  updateFilters() {
-    this.setProperties(this.pendingFilters);
-    this.pendingFilters = {};
-    this.pageNumber = DEFAULT_PAGE_NUMBER;
+  updateFilters(filters) {
+    this.setProperties(filters);
+    this.pageNumber = null;
   }
+
+  debouncedUpdateFilters = debounce(this.updateFilters, ENV.pagination.debounce);
 
   @action
-  triggerFiltering(fieldName, event) {
-    const value = event.target.value;
-    this.pendingFilters[fieldName] = value;
-    debounce(this, this.updateFilters, this.DEBOUNCE_MS);
+  triggerFiltering(fieldName, debounced, event) {
+    if (debounced) {
+      this.debouncedUpdateFilters({ [fieldName]: event.target.value });
+    } else {
+      this.updateFilters({ [fieldName]: event.target.value });
+    }
   }
 
   @action
   updateCampaignStatus(newStatus) {
     this.status = newStatus;
-  }
-
-  @action
-  updateCampaignCreator(creatorId) {
-    this.creatorId = creatorId;
   }
 
   @action

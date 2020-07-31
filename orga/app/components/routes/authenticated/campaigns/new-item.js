@@ -21,6 +21,13 @@ export default class NewItem extends Component {
     return !this.wantIdPix;
   }
 
+  get targetProfilesOptions() {
+    if (!this.args.targetProfiles) return [];
+    return this.args.targetProfiles.map((targetProfile) => {
+      return { value: targetProfile.id, label: targetProfile.name };
+    });
+  }
+
   @action
   askLabelIdPix() {
     this.wantIdPix = true;

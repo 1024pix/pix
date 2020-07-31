@@ -4,6 +4,17 @@ table {
   border-spacing: 0;
   table-layout: fixed;
   box-sizing: border-box;
+
+  .table__input {
+    width: 85%;
+    border: 1px solid $grey-20;
+    font-size: 0.8rem;
+    height: 36px;
+
+    &:focus-within {
+      border: 1px solid $blue;
+    }
+  }
 }
 
 thead {
@@ -120,16 +131,4 @@ th::first-letter {
   height: 180px;
   text-align: center;
   border-top: 2px solid $grey-10;
-}
-
-.table__input {
-  border: 1px solid $grey-20;
-  width: 85%;
-  font-size: 0.8rem;
-  height: 36px;
-  box-sizing: border-box;
-
-  &:focus-within {
-    border: 1px solid $blue;
-  }
 }
