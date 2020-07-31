@@ -1,4 +1,4 @@
-{{#if this.hasChallengeTimer}}
+{{#if this.displayWarningPage}}
   {{#unless this.hasUserConfirmedWarning}}
     <WarningPage @hasUserConfirmedWarning={{action "setUserConfirmation"}} @time={{@challenge.timer}} />
   {{/unless}}
