@@ -1,10 +1,10 @@
 <div class="challenge-item-warning">
   <div class="challenge-item-warning__instruction-primary">
-    {{t 'pages.warning.instructions.part1'}}<span class="challenge-item-warning__instruction-time">{{allocatedHumanTime}}</span>{{t 'pages.warning.instructions.part2'}}
+    {{t 'pages.warning.instructions' time=allocatedHumanTime htmlSafe=true}}
   </div>
 
   <div class="challenge-item-warning__intruction-secondary">
-    {{t 'pages.warning.secondary'}}
+    {{t 'pages.warning.further-instructions'}}
   </div>
   <div class="challenge-item-warning__allocated-time">
     <div class="challenge__allocated-time__jauge">
@@ -13,6 +13,6 @@
     </div>
   </div>
   <div class="challenge-item-warning__action">
-    <button {{action hasUserConfirmedWarning}} class="challenge-item-warning__confirm-btn">{{t 'pages.warning.start'}}</button>
+    <button {{action hasUserConfirmedWarning}} class="challenge-item-warning__confirm-btn" type="button">{{t 'pages.warning.action'}}</button>
   </div>
 </div>
