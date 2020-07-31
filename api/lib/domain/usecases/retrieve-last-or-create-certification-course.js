@@ -10,7 +10,6 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   assessmentRepository,
   competenceRepository,
   certificationCandidateRepository,
-  certificationChallengeRepository,
   certificationCourseRepository,
   sessionRepository,
   certificationChallengesService,
@@ -40,7 +39,6 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     assessmentRepository,
     competenceRepository,
     certificationCandidateRepository,
-    certificationChallengeRepository,
     certificationCourseRepository,
     certificationChallengesService,
     placementProfileService,
@@ -61,7 +59,6 @@ async function _startNewCertification({
   userId,
   assessmentRepository,
   certificationCandidateRepository,
-  certificationChallengeRepository,
   certificationCourseRepository,
   certificationChallengesService,
   placementProfileService,
@@ -88,8 +85,10 @@ async function _startNewCertification({
 
   const newCertificationCourse = CertificationCourse.from({ certificationCandidate, challenges: newCertificationChallenges });
 
-  // certificationCourseRepository.save(certificationCourse);
-  const savedCertificationCourse = await _saveCertificationCourse(certificationCourseRepository, newCertificationCourse, domainTransaction, certificationChallengeRepository);
+  const savedCertificationCourse = await certificationCourseRepository.save({
+    certificationCourse: newCertificationCourse,
+    domainTransaction
+  });
 
   const newAssessment = _generateAssessmentForCertificationCourse({ userId, courseId: savedCertificationCourse.id });
   const savedAssessment = await assessmentRepository.save({ assessment: newAssessment, domainTransaction });
@@ -99,19 +98,6 @@ async function _startNewCertification({
     created: true,
     certificationCourse: savedCertificationCourse,
   };
-}
-
-async function _saveCertificationCourse(certificationCourseRepository, newCertificationCourse, domainTransaction, certificationChallengeRepository) {
-  const savedCertificationCourse = await certificationCourseRepository.save({
-    certificationCourse: newCertificationCourse,
-    domainTransaction
-  });
-  const savedChallenges = await Promise.all(savedCertificationCourse.challenges.map((certificationChallenge) => {
-    const certificationChallengeWithCourseId = { ...certificationChallenge, courseId: savedCertificationCourse.id };
-    return certificationChallengeRepository.save({ certificationChallenge: certificationChallengeWithCourseId, domainTransaction });
-  }));
-  savedCertificationCourse.challenges = savedChallenges;
-  return savedCertificationCourse;
 }
 
 function _generateAssessmentForCertificationCourse({ userId, courseId }) {

@@ -237,7 +237,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
           const savedCertificationCourse = {
             id: 'savedCertificationCourse',
-            challenges: [challenge1, challenge2]
+            challenges: [savedCertificationChallenge1, savedCertificationChallenge2]
           };
 
           const mockAssessment = {
@@ -257,8 +257,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             certificationCandidateRepository.getBySessionIdAndUserId.withArgs({ sessionId, userId }).resolves(foundCertificationCandidate);
             certificationCourseRepository.save.resolves(savedCertificationCourse);
             assessmentRepository.save.resolves(savedAssessment);
-            certificationChallengeRepository.save.withArgs({ certificationChallenge: { ...challenge1, courseId: savedCertificationCourse.id }, domainTransaction }).resolves(savedCertificationChallenge1);
-            certificationChallengeRepository.save.withArgs({ certificationChallenge: { ...challenge2, courseId: savedCertificationCourse.id }, domainTransaction }).resolves(savedCertificationChallenge2);
           });
 
           it('should return it with flag created marked as true with related ressources', async function() {
