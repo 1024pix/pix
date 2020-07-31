@@ -18,7 +18,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     birthdate: '2000-02-28',
     organizationId: 2,
     userId: null,
-    studentNumber: null,
+    studentNumber: 'JAIMELESFRUITS123',
   });
   const sansaStark = databaseBuilder.factory.buildUser.withUnencryptedPassword({
     firstName: 'Sansa',

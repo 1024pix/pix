@@ -3,7 +3,7 @@ const { knex } = require('../bookshelf');
 const BookshelfKnowledgeElementSnapshot = require('../data/knowledge-element-snapshot');
 const KnowledgeElement = require('../../domain/models/KnowledgeElement');
 const { AlreadyExistingEntity } = require('../../domain/errors');
-const bookshelfUtils = require('../utils/bookshelf-utils');
+const bookshelfUtils = require('../utils/knex-utils');
 
 function _toKnowledgeElementCollection({ snapshot } = {}) {
   if (!snapshot) return null;
