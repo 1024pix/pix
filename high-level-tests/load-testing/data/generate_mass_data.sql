@@ -574,8 +574,8 @@ WITH inserted_knowledge_elements_cte AS (
   SELECT
     'direct',
     CASE
-      WHEN id_picker.status_score > (100-current_setting('constants.validated_knowledge_element_percentage')::int) THEN 'validated'
       WHEN id_picker.status_score > (100-current_setting('constants.invalidated_knowledge_element_percentage')::int) THEN 'invalidated'
+      WHEN id_picker.status_score > (100-current_setting('constants.validated_knowledge_element_percentage')::int) THEN 'validated'
       ELSE 'reset'
     END,
     inserted_answers.assessment_id,
@@ -627,8 +627,8 @@ WITH inserted_knowledge_elements_cte AS (
   SELECT
     'direct',
     CASE
-      WHEN id_picker.status_score > (100-current_setting('constants.validated_knowledge_element_percentage')::int) THEN 'validated'
       WHEN id_picker.status_score > (100-current_setting('constants.invalidated_knowledge_element_percentage')::int) THEN 'invalidated'
+      WHEN id_picker.status_score > (100-current_setting('constants.validated_knowledge_element_percentage')::int) THEN 'validated'
       ELSE 'reset'
     END,
     inserted_answers.assessment_id,
