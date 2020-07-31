@@ -289,6 +289,9 @@
           "guidance": "'<p>'* Be careful and stay objective.'</p><p>'Don't include any personnal information.'</p>'"
         }
       },
+      "illustration": {
+        "placeholder": "Image loading"
+      },
       "progress-bar": {
         "label": "Challenge"
       },
