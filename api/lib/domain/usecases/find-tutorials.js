@@ -10,6 +10,7 @@ module.exports = async function findTutorials({
   skillRepository,
   tubeRepository,
   tutorialRepository,
+  locale,
 }) {
 
   const { userId, competenceId } = Scorecard.parseId(scorecardId);
@@ -33,14 +34,14 @@ module.exports = async function findTutorials({
   const tubeNamesForTutorials = _.keys(skillsGroupedByTube);
   const tubes = await tubeRepository.findByNames(tubeNamesForTutorials);
 
-  const tutorialsWithTubesList = await _getTutorialsWithTubesList(easiestSkills, tubes, tutorialRepository, userId);
+  const tutorialsWithTubesList = await _getTutorialsWithTubesList(easiestSkills, tubes, tutorialRepository, userId, locale);
   return _.orderBy(_.flatten(tutorialsWithTubesList), 'tubeName');
 };
 
-async function _getTutorialsWithTubesList(easiestSkills, tubes, tutorialRepository, userId) {
+async function _getTutorialsWithTubesList(easiestSkills, tubes, tutorialRepository, userId, locale) {
   return await Promise.all(_.map(easiestSkills, async (skill) => {
     const tube = _.find(tubes, { name: skill.tubeName });
-    const tutorials = await tutorialRepository.findByRecordIdsForCurrentUser({ ids: skill.tutorialIds, userId });
+    const tutorials = await tutorialRepository.findByRecordIdsForCurrentUser({ ids: skill.tutorialIds, userId, locale });
     return _.map(tutorials, (tutorial) => {
       tutorial.tubeName = tube.name;
       tutorial.tubePracticalTitle = tube.practicalTitle;
