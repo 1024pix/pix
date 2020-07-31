@@ -42,7 +42,7 @@ describe('Unit | Adapters | ApplicationAdapter', function() {
     it('should add Accept-Language header set to fr-fr when the current domain contains pix.fr and locale is "fr"', function() {
       // Given
       const applicationAdapter = this.owner.lookup('adapter:application');
-      applicationAdapter.intl = { get: () => 'fr' };
+      applicationAdapter.intl = { get: () => ['fr'] };
 
       // When
       applicationAdapter.set('currentDomain', { getExtension() { return 'fr'; } });
@@ -54,7 +54,7 @@ describe('Unit | Adapters | ApplicationAdapter', function() {
     it('should add Accept-Language header set to fr when the current domain contains pix.digital and locale is "fr"', function() {
       // Given
       const applicationAdapter = this.owner.lookup('adapter:application');
-      applicationAdapter.intl = { get: () => 'fr' };
+      applicationAdapter.intl = { get: () => ['fr'] };
 
       // When
       applicationAdapter.set('currentDomain', { getExtension() { return 'digital'; } });
@@ -68,7 +68,7 @@ describe('Unit | Adapters | ApplicationAdapter', function() {
       const applicationAdapter = this.owner.lookup('adapter:application');
 
       // When
-      applicationAdapter.intl = { get: () => 'en' };
+      applicationAdapter.intl = { get: () => ['en'] };
 
       // Then
       expect(applicationAdapter.headers['Accept-Language']).to.equal('en');
