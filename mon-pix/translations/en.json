@@ -38,7 +38,7 @@
         "header": "Your answers"
       }
     },
-  
+
     "campaign": {
       "title": "Parcours",
       "errors": {
@@ -46,7 +46,7 @@
         "no-longer-accessible": "Oups, the requested page is no longer accessible."
       }
     },
-  
+
     "campaign-landing": {
       "title": "Presentation",
       "assessment": {
@@ -320,7 +320,7 @@
         "header": "Your answers"
       },
       "completion-percentage": {
-        "label": "'<p class=\"sr-only\">'You completed '</p>'{completionPercentage} %'<p class=\"sr-only\">' of your course'</p>'",
+        "label": "'<p class=\"sr-only\">'You completed '</p>'{completionPercentage}%'<p class=\"sr-only\">' of your course'</p>'",
         "caption": "assessment progress"
       }
     },
@@ -599,7 +599,7 @@
       "title": "To succeed next time",
       "info": "These links were recommended by Pix users."
     },
-  
+
     "user-tutorials": {
       "title": "My tutorials",
       "description": "Improve with tutorials",

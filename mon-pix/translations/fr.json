@@ -320,7 +320,7 @@
         "header": "vos réponses"
       },
       "completion-percentage": {
-        "label": "'<p class=\"sr-only\">'Vous avez effectué '</p>'{completionPercentage} %'<p class=\"sr-only\">' de votre parcours.'</p>'",
+        "label": "'<p class=\"sr-only\">'Vous avez effectué '</p>'{completionPercentage}%'<p class=\"sr-only\">' de votre parcours.'</p>'",
         "caption": "avancement du parcours"
       }
     },
