@@ -296,10 +296,14 @@
         "label": "Question"
       },
       "statement": {
-        "default-type": "Pix vous laisse le choix du format de fichier à télécharger. Si vous ne savez pas quelle option retenir, conservez le choix par défaut. Il correspond au format de fichier pris en charge par le plus grand nombre de logiciels.",
-        "download": "Télécharger",
-        "file": "fichier .{fileExtension}",
-        "file-type": "Choisissez le type de fichier que vous voulez utiliser"
+        "file-download": {
+          "actions": {
+            "choose-type": "Choisissez le type de fichier que vous voulez utiliser",
+            "download": "Télécharger"
+          },
+          "description": "Pix vous laisse le choix du format de fichier à télécharger. Si vous ne savez pas quelle option retenir, conservez le choix par défaut. Il correspond au format de fichier pris en charge par le plus grand nombre de logiciels.",
+           "file-type": "fichier .{fileExtension}"
+        }
       },
       "skip-error-message": {
         "qcm": "Pour valider, sélectionnez au moins une réponse. Sinon, passez.",
@@ -488,8 +492,10 @@
       "succeed": "Votre mot de passe a été modifié avec succès."
     },
 
-    "qcu-proposals": {
-      "answer": "La réponse à la question est : "
+    "proposals": {
+      "answer": {
+        "qcu": "La réponse à la question est : "
+      }
     },
 
     "result-item": {
@@ -610,6 +616,11 @@
       }
     },
 
+    "time-gauge": {
+      "timeout-placeholder": "Le temps alloué est dépassé",
+      "remaining-time-placeholder": "Il reste du temps pour accomplir l'épreuve"
+    },
+
     "tutorial": {
       "next":"Suivant",
       "pages": {
@@ -699,6 +710,12 @@
       "errors": {
         "missing-id-pix-label": "Merci de renseigner votre { idPixLabel }."
       }
+    },
+
+    "warning": {
+      "action": "Commencer",
+      "instructions": "Vous disposerez de '<span class=\"challenge-item-warning__instruction-time\">'{time}'</span>' pour réussir la question suivante.",
+      "further-instructions": "Vous pourrez continuer à répondre ensuite, mais la question ne sera pas considérée comme réussie."
     }
   },
 
@@ -724,14 +741,5 @@
       "sign-out": "Se déconnecter",
       "tutorials": "Mes tutos"
     }
-  },
-
-  "warning": {
-    "instructions": {
-      "part1": "Vous disposerez de ",
-      "part2": " pour réussir la question suivante."
-    },
-    "start": "Commencer",
-    "secondary": "Vous pourrez continuer à répondre ensuite, mais la question ne sera pas considérée comme réussie."
   }
 }

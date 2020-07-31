@@ -296,10 +296,14 @@
         "label": "Challenge"
       },
       "statement": {
-        "default-type": "Pix lets you chose the file format to download. If you don't know which option to chose, just keep the default choice. It corresponds to format that is compatible with most pieces of software.",
-        "download": "download",
-        "file": ".{fileExtension} file",
-        "file-type": "Select the type of file you want to use"
+        "file-download": {
+          "actions": {
+            "choose-type": "Select the type of file you want to use",
+            "download": "Download"
+          },
+          "description": "Pix lets you chose the file format to download. If you don't know which option to chose, just keep the default choice. It corresponds to format that is compatible with most pieces of software.",
+           "file-type": ".{fileExtension} file"
+        }
       },
       "skip-error-message": {
         "qcm": "Choose at least one answer to validate. Skip otherwise.",
@@ -487,9 +491,11 @@
       "instruction": "Saisissez votre nouveau mot de passe",
       "succeed": "Votre mot de passe a été modifié avec succès."
     },
-    
-    "qcu-proposals": {
-      "answer": "The answer to the question is : "
+
+    "proposals": {
+      "answer": {
+        "qcu": "The answer to the question is : "
+      }
     },
 
     "result-item": {
@@ -610,6 +616,11 @@
       }
     },
 
+    "time-gauge": {
+      "timeout-placeholder": "Time is over",
+      "remaining-time-placeholder": "There is still time left to complete the test"
+    },
+
     "tutorial": {
       "next":"Next",
       "pages": {
@@ -699,6 +710,12 @@
       "errors": {
         "missing-id-pix-label": "Please fill in your { idPixLabel }."
       }
+    },
+
+    "warning": {
+      "action": "Start",
+      "instructions": "You will have '<span class=\"challenge-item-warning__instruction-time\">'{time}'</span>' to answer the next question.",
+      "further-instructions": "You can continue answering afterwards but the answer will not be considered as correct."
     }
   },
 
@@ -724,14 +741,5 @@
       "sign-out": "Sign out",
       "tutorials": "My tutorials"
     }
-  },
-
-  "warning": {
-    "instructions": {
-      "part1": "You will have ",
-      "part2": " to answer the next question"
-    },
-    "start": "Start",
-    "secondary": "You can continue answering afterwards but the answer will not be considered as correct."
   }
 }
