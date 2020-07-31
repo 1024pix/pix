@@ -12,6 +12,7 @@ SELECT setval(pg_get_serial_sequence('target-profiles_skills','id'), coalesce(ma
 SELECT setval(pg_get_serial_sequence('campaigns','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "campaigns";
 SELECT setval(pg_get_serial_sequence('campaign-participations','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "campaign-participations";
 SELECT setval(pg_get_serial_sequence('answers','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "answers";
+SELECT setval(pg_get_serial_sequence('knowledge-elements','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "knowledge-elements";
 
 
 -----------------------------------------------------------------------------------------------------
@@ -26,6 +27,9 @@ SET LOCAL constants.participation_per_campaign_count=150;
 SET LOCAL constants.shared_participation_percentage=65;
 SET LOCAL constants.answer_per_competence_evaluation_assessment_count=25;
 SET LOCAL constants.answer_per_campaign_assessment_count=25;
+SET LOCAL constants.knowledge_element_per_answer_count=2;
+SET LOCAL constants.validated_knowledge_element_percentage=60; -- Détermine la répartition des statuts des knowledge-elements
+SET LOCAL constants.invalidated_knowledge_element_percentage=30; -- Le reste du pourcentage va constituer les knowledge-elements 'reset'
 
 
 -----------------------------------------------------------------------------------------------------
@@ -112,6 +116,9 @@ ALTER TABLE "assessments" DROP CONSTRAINT "assessments_campaignparticipationid_f
 ALTER TABLE "campaign-participations" DROP CONSTRAINT "campaign_participations_campaignid_foreign";
 ALTER TABLE "campaign-participations" DROP CONSTRAINT "campaign_participations_userid_foreign";
 ALTER TABLE "answers" DROP CONSTRAINT "answers_assessmentid_foreign";
+ALTER TABLE "knowledge-elements" DROP CONSTRAINT "knowledge_elements_answerid_foreign";
+ALTER TABLE "knowledge-elements" DROP CONSTRAINT "knowledge_elements_assessmentid_foreign";
+ALTER TABLE "knowledge-elements" DROP CONSTRAINT "knowledge_elements_userid_foreign";
 
 
 -----------------------------------------------------------------------------------------------------
@@ -126,6 +133,7 @@ DROP INDEX "assessments_type_index";
 DROP INDEX "assessments_userid_index";
 DROP INDEX "campaign_participations_userid_index";
 DROP INDEX "answers_assessmentid_index";
+DROP INDEX "knowledge_elements_userid_index";
 
 
 -----------------------------------------------------------------------------------------------------
@@ -483,7 +491,8 @@ CREATE TEMPORARY TABLE inserted_answers (
   user_id INTEGER,
   assessment_id INTEGER,
   campaign_participation_id INTEGER,
-  created_at TIMESTAMPTZ
+  created_at TIMESTAMPTZ,
+  assessment_type VARCHAR
 ) ON COMMIT DROP;
 WITH inserted_answers_cte AS (
   INSERT INTO answers("assessmentId", "challengeId", "createdAt")
@@ -502,13 +511,14 @@ WITH inserted_answers_cte AS (
   WHERE inserted_assessments.type = 'COMPETENCE_EVALUATION'
   RETURNING id AS answer_id, "assessmentId" AS assessment_id, "createdAt" AS created_at
 )
-INSERT INTO inserted_answers(answer_id, user_id, assessment_id, campaign_participation_id, created_at)
+INSERT INTO inserted_answers(answer_id, user_id, assessment_id, campaign_participation_id, created_at, assessment_type)
 SELECT
   inserted_answers_cte.answer_id,
   inserted_assessments.user_id,
   inserted_answers_cte.assessment_id,
   inserted_assessments.campaign_participation_id,
-  inserted_answers_cte.created_at
+  inserted_answers_cte.created_at,
+  inserted_assessments.type
 FROM inserted_answers_cte
 JOIN inserted_assessments ON inserted_assessments.assessment_id = inserted_answers_cte.assessment_id;
 
@@ -533,15 +543,80 @@ WITH inserted_answers_cte AS (
   WHERE inserted_assessments.type = 'CAMPAIGN'
   RETURNING id AS answer_id, "assessmentId" AS assessment_id, "createdAt" AS created_at
 )
-INSERT INTO inserted_answers(answer_id, user_id, assessment_id, campaign_participation_id, created_at)
+INSERT INTO inserted_answers(answer_id, user_id, assessment_id, campaign_participation_id, created_at, assessment_type)
 SELECT
   inserted_answers_cte.answer_id,
   inserted_assessments.user_id,
   inserted_answers_cte.assessment_id,
   inserted_assessments.campaign_participation_id,
-  inserted_answers_cte.created_at
+  inserted_answers_cte.created_at,
+  inserted_assessments.type
 FROM inserted_answers_cte
 JOIN inserted_assessments ON inserted_assessments.assessment_id = inserted_answers_cte.assessment_id;
+
+
+-----------------------------------------------------------------------------------------------------
+--				Ajout des knowledge elements pour les assessments COMPETENCE_EVALUATION   -----------------
+-----------------------------------------------------------------------------------------------------
+CREATE TEMPORARY TABLE inserted_knowledge_elements (
+  rownum SERIAL PRIMARY KEY,
+  source VARCHAR,
+  status VARCHAR,
+  assessment_id INTEGER,
+  answer_id INTEGER,
+  user_id INTEGER,
+  skill_id VARCHAR,
+  competence_id VARCHAR,
+  created_at TIMESTAMPTZ
+) ON COMMIT DROP;
+WITH inserted_knowledge_elements_cte AS (
+  INSERT INTO "knowledge-elements"("source", "status", "assessmentId", "userId", "answerId", "skillId", "earnedPix", "competenceId", "createdAt")
+  SELECT
+    'direct',
+    CASE
+      WHEN id_picker.status_score > (100-current_setting('constants.validated_knowledge_element_percentage')::int) THEN 'validated'
+      WHEN id_picker.status_score > (100-current_setting('constants.invalidated_knowledge_element_percentage')::int) THEN 'invalidated'
+      ELSE 'reset'
+    END,
+    inserted_answers.assessment_id,
+    inserted_answers.user_id,
+    inserted_answers.answer_id,
+    referentiel.skill_id,
+    CASE
+      WHEN id_picker.status_score > (100-current_setting('constants.validated_knowledge_element_percentage')::int) THEN referentiel.pix_value
+      ELSE 0
+    END,
+    referentiel.competence_id,
+    inserted_answers.created_at
+  FROM (
+      SELECT (
+        SELECT (random() * current_setting('constants.answer_per_competence_evaluation_assessment_count')::int*current_setting('constants.competence_evaluation_count')::int)::int + (generator*0) AS picked_answer_rownum
+      ),
+      (
+        SELECT (random() * 675)::int + (generator*0) AS picked_referentiel_rownum
+      ),
+      (
+        SELECT (random() * 100 + (generator*0))::int AS status_score
+      ),
+        generator AS id
+      FROM generate_series(1,current_setting('constants.answer_per_competence_evaluation_assessment_count')::int*current_setting('constants.competence_evaluation_count')::int*current_setting('constants.knowledge_element_per_answer_count')::int) as generator
+    ) id_picker
+  INNER JOIN inserted_answers ON inserted_answers.rownum = id_picker.picked_answer_rownum
+  INNER JOIN referentiel ON referentiel.rownum = id_picker.picked_referentiel_rownum
+  WHERE inserted_answers.assessment_type = 'COMPETENCE_EVALUATION'
+  RETURNING source, status, "assessmentId" AS assessment_id, "answerId" AS answer_id, "userId" AS user_id, "skillId" AS skill_id, "competenceId" AS competence_id, "createdAt" AS created_at
+)
+INSERT INTO inserted_knowledge_elements(source, status, assessment_id, answer_id, user_id, skill_id, competence_id, created_at)
+SELECT
+  inserted_knowledge_elements_cte.source,
+  inserted_knowledge_elements_cte.status,
+  inserted_knowledge_elements_cte.assessment_id,
+  inserted_knowledge_elements_cte.answer_id,
+  inserted_knowledge_elements_cte.user_id,
+  inserted_knowledge_elements_cte.skill_id,
+  inserted_knowledge_elements_cte.competence_id,
+  inserted_knowledge_elements_cte.created_at
+FROM inserted_knowledge_elements_cte;
 
 -----------------------------------------------------------------------------------------------------
 --				Rétablir les contraintes   ----------------------------------------------------------
@@ -554,8 +629,11 @@ ALTER TABLE "assessments" ADD CONSTRAINT "assessments_certificationcourseid_fore
 ALTER TABLE "assessments" ADD CONSTRAINT "assessments_userid_foreign" FOREIGN KEY ("userId") REFERENCES "users"("id");
 ALTER TABLE "assessments" ADD CONSTRAINT "assessments_campaignparticipationid_foreign" FOREIGN KEY ("campaignParticipationId") REFERENCES "campaign-participations"("id");
 ALTER TABLE "campaign-participations" ADD CONSTRAINT "campaign_participations_campaignid_foreign" FOREIGN KEY ("campaignId") REFERENCES "campaigns" ("id");
-ALTER TABLE "campaign-participations" ADD CONSTRAINT "campaign_participations_userid_foreign" FOREIGN KEY ("userId") REFERENCES "users" ("id");;
-ALTER TABLE "answers" ADD CONSTRAINT "answers_assessmentid_foreign" FOREIGN KEY ("assessmentId") REFERENCES "assessments" ("id");;
+ALTER TABLE "campaign-participations" ADD CONSTRAINT "campaign_participations_userid_foreign" FOREIGN KEY ("userId") REFERENCES "users" ("id");
+ALTER TABLE "answers" ADD CONSTRAINT "answers_assessmentid_foreign" FOREIGN KEY ("assessmentId") REFERENCES "assessments" ("id");
+ALTER TABLE "knowledge-elements" ADD CONSTRAINT "knowledge_elements_answerid_foreign" FOREIGN KEY ("answerId") REFERENCES "answers" ("id");
+ALTER TABLE "knowledge-elements" ADD CONSTRAINT "knowledge_elements_assessmentid_foreign" FOREIGN KEY ("assessmentId") REFERENCES "assessments" ("id");
+ALTER TABLE "knowledge-elements" ADD CONSTRAINT "knowledge_elements_userid_foreign" FOREIGN KEY ("userId") REFERENCES "users" ("id");
 
 -----------------------------------------------------------------------------------------------------
 --				Rétablir les index   ---------------------------------------------------------
@@ -569,6 +647,7 @@ CREATE INDEX "assessments_type_index" ON "assessments"("type");
 CREATE INDEX "assessments_userid_index" ON "assessments"("userId");
 CREATE INDEX "campaign_participations_userid_index" ON "campaign-participations"("userId");
 CREATE INDEX "answers_assessmentid_index" ON "answers"("assessmentId");
+CREATE INDEX "knowledge_elements_userid_index" ON "knowledge-elements"("userId");
 
 
 -----------------------------------------------------------------------------------------------------
@@ -611,6 +690,3 @@ ALTER TABLE "knowledge-elements" SET LOGGED;
 
 
 ROLLBACK;
-
-
-
