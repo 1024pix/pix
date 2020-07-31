@@ -417,6 +417,25 @@
       "obtained-level": "Level { level } obtained!"
     },
 
+    "password-reset-demand": {
+      "title": "Mot de passe oublié ?",
+      "actions": {
+        "back-home": "Retour à l'accueil",
+        "back-sign-in": "Retour à la page de connexion",
+        "reset": "Réinitialiser mon mot de passe"
+      },
+      "error": {
+        "message": "Cette adresse e-mail ne correspond à aucun compte"
+      },
+      "page-title": "Oubli de mot de passe",
+      "subtitle": "Entrez votre adresse e-mail ci-dessous, et c'est repartix",
+      "succeed": {
+        "help": "Si vous ne recevez pas cet e-mail, vérifiez vos courriers indésirables.",
+        "instructions": "Un e-mail contenant la démarche à suivre afin de réinitialiser votre mot de passe\n vous a été envoyé à l’adresse e-mail {email}.",
+        "subtitle": "Demande de réinitialisation de mot de passe"
+      }
+    },
+
     "profile": {
       "title": "Your profile",
       "competence-card": {
@@ -447,6 +466,17 @@
         "continue": "Continue your Pix experience"
       },
       "explanation": "You have already sent the profile below to the organization {organization} '<br>' on {date,date,LL} at {hour,time,hhmm}"
+    },
+
+    "reset-password": {
+      "title": "Changer mon mot de passe",
+      "actions": {
+        "submit": "Envoyer",
+        "sign-in": "Connectez-vous"
+      },
+      "error": "Nous sommes désolés, mais votre demande de réinitialisation de mot de passe a déjà été utilisée ou est expirée. Merci de recommencer.",
+      "instruction": "Saisissez votre nouveau mot de passe",
+      "succeed": "Votre mot de passe a été modifié avec succès."
     },
 
     "result-item": {
