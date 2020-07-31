@@ -37,11 +37,18 @@ describe('Integration | Repository | Certification Course', function() {
 
     it('should persist the certif course in db', async () => {
       // when
-      await certificationCourseRepository.save({ certificationCourse });
+      const savedCertificationCourseId = (await certificationCourseRepository.save({ certificationCourse })).id;
 
       // then
-      const certificationCourseSaved = await knex('certification-courses').select();
-      expect(certificationCourseSaved).to.have.lengthOf(1);
+      const retrievedCertificationCourse = await certificationCourseRepository.get(savedCertificationCourseId);
+      const fieldsToOmit = [
+        'id',
+        'assessment',
+        'challenges',
+        'completedAt',
+        'createdAt',
+      ];
+      expect(_.omit(retrievedCertificationCourse, fieldsToOmit)).to.deep.equal(_.omit(certificationCourse, fieldsToOmit));
     });
 
     it('should return the saved certification course', async () => {
