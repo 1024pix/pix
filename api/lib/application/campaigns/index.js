@@ -144,27 +144,6 @@ exports.register = async function(server) {
       }
     },
     {
-      /**
-       * @deprecated in favor of '/api/campaigns/{id}/profiles-collection-participations',
-       */
-      method: 'GET',
-      path: '/api/campaigns/{id}/profiles-collection/participations',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: Joi.number().integer().required()
-          }),
-        },
-        handler: campaignController.findProfilesCollectionParticipations,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des profils collectés d\'une campagne par son id',
-          '- Route dépréciée en faveur de "/api/campaigns/{id}/profiles-collection-participations"',
-        ],
-        tags: ['api', 'campaign']
-      }
-    },
-    {
       method: 'GET',
       path: '/api/campaigns/{id}/profiles-collection-participations',
       config: {
