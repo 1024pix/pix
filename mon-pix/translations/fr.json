@@ -289,6 +289,9 @@
           "guidance": "'<p>'* Soyez attentifs à ce que vous écrivez dans cette zone : restez objectif et factuel pour votre intérêt et celui des autres.'</p><p>'Notamment, ne saisissez aucune information, vous concernant ou concernant des tiers, sur la santé, la religion, les opinions politiques, syndicales et philosophiques, les origines ethniques, ainsi que sur les sanctions et condamnations.'</p>'"
         }
       },
+      "illustration": {
+        "placeholder": "Chargement de l'image en cours"
+      },
       "progress-bar": {
         "label": "Question"
       },
