@@ -5,7 +5,7 @@ module.exports = {
     const lines = parse(input, {
       columns: true,
       relax_column_count: true,
-      delimiter: ';',
+      delimiter: [';', ','],
       trim: true,
       bom: true,
     });
