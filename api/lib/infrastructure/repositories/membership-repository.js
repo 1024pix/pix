@@ -2,7 +2,7 @@ const BookshelfMembership = require('../data/membership');
 const { MembershipCreationError, MembershipUpdateError } = require('../../domain/errors');
 const Membership = require('../../domain/models/Membership');
 const User = require('../../domain/models/User');
-const bookshelfUtils = require('../utils/bookshelf-utils');
+const bookshelfUtils = require('../utils/knex-utils');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 
 const DEFAULT_PAGE_SIZE = 10;

@@ -1,6 +1,6 @@
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const BookshelfUserOrgaSettings = require('../data/user-orga-settings');
-const bookshelfUtils = require('../utils/bookshelf-utils');
+const bookshelfUtils = require('../utils/knex-utils');
 const { UserOrgaSettingsCreationError } = require('../../domain/errors');
 
 module.exports = {
