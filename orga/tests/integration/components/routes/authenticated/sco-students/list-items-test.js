@@ -104,7 +104,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
       const triggerFiltering = sinon.spy();
       this.set('triggerFiltering', triggerFiltering);
       this.set('students', []);
-      this.set('connexionTypesOptions', [{ value: '', label: 'Tous' }, { value: 'email', label: 'email' }]);
+      this.set('connexionTypesOptions', [{ value: 'email', label: 'email' }]);
 
       // when
       await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}} @connexionTypesOptions={{connexionTypesOptions}} />`);
