@@ -34,12 +34,32 @@ SET LOCAL constants.answer_per_campaign_assessment_count=25;
 CREATE TEMPORARY TABLE referentiel (
   rownum SERIAL PRIMARY KEY,
   skill_id 		VARCHAR,
+  tube_id 		VARCHAR,
   competence_id VARCHAR,
-  pix_value 	NUMERIC(6,5)
+  pix_value 	NUMERIC(6,5),
+  level			INTEGER
 ) ON COMMIT DROP;
-INSERT INTO referentiel(skill_id, competence_id, pix_value)
-VALUES(...);
+INSERT INTO referentiel(skill_id, competence_id, tube_id, pix_value, level)
+VALUES (...);
 -- Ajouter les données du référentiel ici !
+
+
+-----------------------------------------------------------------------------------------------------
+--				Création d'une table temporaire contenant des données de dépendances entre les acquis   ---
+-----------------------------------------------------------------------------------------------------
+CREATE TEMPORARY TABLE skills_dependency (
+  skill_id 		VARCHAR,
+  sub_skill_id 		VARCHAR,
+  sub_skill_pix_value NUMERIC(6,5)
+) ON COMMIT DROP;
+INSERT INTO skills_dependency(skill_id, sub_skill_id, sub_skill_pix_value)
+SELECT
+  referentiel_a.skill_id,
+  referentiel_b.skill_id,
+  referentiel_b.pix_value
+FROM referentiel AS referentiel_a
+JOIN referentiel AS referentiel_b ON referentiel_a.tube_id=referentiel_b.tube_id
+WHERE referentiel_a.level > referentiel_b.level;
 
 -----------------------------------------------------------------------------------------------------
 --				Empêcher la journalisation des tables   ---------------------------------------------
