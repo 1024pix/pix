@@ -94,31 +94,6 @@
 .campaign-details-table {
   margin-bottom: 20px;
 
-  &__bullet {
-    font-size: 1.8rem;
-    margin-right: 12px;
-
-    &--jaffa {
-      color: $information-light;
-    }
-
-    &--emerald {
-      color: $content-light;
-    }
-
-    &--cerulean {
-      color: $communication-light;
-    }
-
-    &--wild-strawberry {
-      color: $security-light;
-    }
-
-    &--butterfly-bush {
-      color: $environment-light;
-    }
-  }
-
   &__line-wrapper {
     display: flex;
     align-items: center;
