@@ -48,8 +48,17 @@ const ChallengeItemGeneric = Component.extend({
     return _.isInteger(this.challenge.timer);
   }),
 
-  displayFeedbackPanel: computed('_isUserAwareThatChallengeIsTimed', 'hasChallengeTimer', function() {
-    return !this.hasChallengeTimer || (this.hasChallengeTimer && this._isUserAwareThatChallengeIsTimed);
+  displayFeedbackPanel: computed('_isUserAwareThatChallengeIsTimed', 'hasChallengeTimer', 'displayWarningPage', function() {
+    return !this.hasChallengeTimer
+      || (this.hasChallengeTimer && this._isUserAwareThatChallengeIsTimed)
+      || !this.displayWarningPage;
+  }),
+
+  displayWarningPage: computed('answer', 'hasChallengeTimer', function() {
+    if (!this.answer && this.hasChallengeTimer) {
+      return true;
+    }
+    return false;
   }),
 
   displayTimer: computed('answer', 'hasUserConfirmedWarning', 'hasChallengeTimer', function() {
@@ -62,9 +71,10 @@ const ChallengeItemGeneric = Component.extend({
     return false;
   }),
 
-  displayChallenge: computed('hasUserConfirmedWarning', 'hasChallengeTimer', function() {
+  displayChallenge: computed('hasUserConfirmedWarning', 'hasChallengeTimer', 'displayWarningPage', function() {
     return !this.hasChallengeTimer
-        || (this.hasUserConfirmedWarning && this.hasChallengeTimer);
+      || (this.hasUserConfirmedWarning && this.hasChallengeTimer)
+      || !this.displayWarningPage;
   }),
 
   _getTimeout() {

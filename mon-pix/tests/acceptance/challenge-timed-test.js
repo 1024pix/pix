@@ -80,7 +80,6 @@ describe('Acceptance | Timed challenge', () => {
 
           // when
           await visit(`/assessments/${assessment.id}/challenges/${timedChallenge.id}`);
-          await click('.challenge-item-warning button');
         });
 
         it('should hide the warning button', () => {
