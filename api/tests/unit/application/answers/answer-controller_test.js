@@ -15,6 +15,7 @@ describe('Unit | Controller | answer-controller', () => {
     sinon.stub(answerRepository, 'findByChallengeAndAssessment');
     sinon.stub(usecases, 'correctAnswerThenUpdateAssessment');
     sinon.stub(requestResponseUtils, 'extractUserIdFromRequest');
+    sinon.stub(requestResponseUtils, 'extractLocaleFromRequest');
   });
 
   describe('#save', () => {
@@ -140,6 +141,7 @@ describe('Unit | Controller | answer-controller', () => {
 
     const answerId = 1;
     const userId = 'userId';
+    const locale = 'lang-country';
 
     beforeEach(() => {
       sinon.stub(usecases, 'getCorrectionForAnswer');
@@ -149,7 +151,8 @@ describe('Unit | Controller | answer-controller', () => {
     it('should return ok', async () => {
       // given
       requestResponseUtils.extractUserIdFromRequest.returns(userId);
-      usecases.getCorrectionForAnswer.withArgs({ answerId, userId }).resolves({});
+      requestResponseUtils.extractLocaleFromRequest.returns(locale);
+      usecases.getCorrectionForAnswer.withArgs({ answerId, userId, locale }).resolves({});
       correctionSerializer.serialize.withArgs({}).returns('ok');
 
       // when

@@ -12,6 +12,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
   const assessmentId = 1;
   const answerId = 2;
   const challengeId = 12;
+  const locale = 'lang-country';
   let answer;
 
   beforeEach(() => {
@@ -41,6 +42,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
           correctionRepository,
           answerId,
           userId: assessment.userId,
+          locale,
         });
 
         // then
@@ -58,7 +60,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
         assessmentRepository.get.withArgs(assessmentId).resolves(assessment);
 
         const correction = Symbol('A correction');
-        correctionRepository.getByChallengeId.withArgs({ challengeId, userId: assessment.userId }).resolves(correction);
+        correctionRepository.getByChallengeId.withArgs({ challengeId, userId: assessment.userId, locale }).resolves(correction);
 
         // when
         const responseSolution = await getCorrectionForAnswer({
@@ -67,6 +69,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
           correctionRepository,
           answerId,
           userId: assessment.userId,
+          locale,
         });
 
         // then
@@ -84,7 +87,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
         assessmentRepository.get.withArgs(assessmentId).resolves(assessment);
 
         const correction = Symbol('A correction');
-        correctionRepository.getByChallengeId.withArgs({ challengeId, userId: assessment.userId }).resolves(correction);
+        correctionRepository.getByChallengeId.withArgs({ challengeId, userId: assessment.userId, locale }).resolves(correction);
 
         // when
         const responseSolution = await getCorrectionForAnswer({
@@ -93,6 +96,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
           correctionRepository,
           answerId,
           userId: assessment.userId,
+          locale,
         });
 
         // then
@@ -109,7 +113,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
       assessmentRepository.get.withArgs(assessmentId).resolves(assessment);
 
       const correction = Symbol('A correction');
-      correctionRepository.getByChallengeId.withArgs({ challengeId, userId: assessment.userId }).resolves(correction);
+      correctionRepository.getByChallengeId.withArgs({ challengeId, userId: assessment.userId, locale }).resolves(correction);
 
       // when
       const result = await getCorrectionForAnswer({
@@ -118,6 +122,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
         correctionRepository,
         answerId,
         userId: assessment.userId,
+        locale,
       });
 
       // then

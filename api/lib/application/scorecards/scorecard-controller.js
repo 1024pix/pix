@@ -15,10 +15,11 @@ module.exports = {
   },
 
   findTutorials(request) {
+    const locale = extractLocaleFromRequest(request);
     const authenticatedUserId = request.auth.credentials.userId;
     const scorecardId = request.params.id;
 
-    return usecases.findTutorials({ authenticatedUserId, scorecardId })
+    return usecases.findTutorials({ authenticatedUserId, scorecardId, locale })
       .then(tutorialSerializer.serialize);
   },
 };
