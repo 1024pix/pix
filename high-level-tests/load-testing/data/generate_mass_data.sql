@@ -593,7 +593,7 @@ WITH inserted_knowledge_elements_cte AS (
         SELECT (random() * current_setting('constants.answer_per_competence_evaluation_assessment_count')::int*current_setting('constants.competence_evaluation_count')::int)::int + (generator*0) AS picked_answer_rownum
       ),
       (
-        SELECT (random() * 675)::int + (generator*0) AS picked_referentiel_rownum
+        SELECT (random() * 657)::int + (generator*0) AS picked_referentiel_rownum
       ),
       (
         SELECT (random() * 100 + (generator*0))::int AS status_score
@@ -646,7 +646,7 @@ WITH inserted_knowledge_elements_cte AS (
         SELECT (current_setting('constants.answer_per_competence_evaluation_assessment_count')::int*current_setting('constants.competence_evaluation_count')::int + random() * current_setting('constants.campaign_per_organization_count')::int*current_setting('constants.organization_count')::int*current_setting('constants.participation_per_campaign_count')::int*current_setting('constants.answer_per_campaign_assessment_count')::int)::int + (generator*0) AS picked_answer_rownum
       ),
       (
-        SELECT (random() * 675)::int + (generator*0) AS picked_referentiel_rownum
+        SELECT (random() * 657)::int + (generator*0) AS picked_referentiel_rownum
       ),
       (
         SELECT (random() * 100 + (generator*0))::int AS status_score
