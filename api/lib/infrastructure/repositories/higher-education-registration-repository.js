@@ -1,6 +1,7 @@
 const _ = require('lodash');
+const { SchoolingRegistrationsCouldNotBeSavedError } = require('../../domain/errors');
 const { knex } = require('../bookshelf');
-const { getChunkSizeForParameterBinding } = require('../utils/knex-bookshelf-utils');
+const { getChunkSizeForParameterBinding } = require('../utils/knex-utils');
 
 const ATTRIBUTES_TO_SAVE = [
   'firstName',
@@ -33,25 +34,30 @@ module.exports = {
 };
 
 async function upsert(registrationDataToSave) {
-  const chunkSize = getChunkSizeForParameterBinding(_.head(registrationDataToSave), ATTRIBUTES_TO_SAVE.length * 2 + 2);
-  const registrationDataChunks = _.chunk(registrationDataToSave, chunkSize);
-  for (const registrationDataChunk of registrationDataChunks) {
-    await knex.raw('? ON CONFLICT (??, ??) DO UPDATE SET ?? = EXCLUDED.??, ?? = EXCLUDED.??, ?? = EXCLUDED.??, ?? = EXCLUDED.??, ?? = EXCLUDED.??, ?? = EXCLUDED.??, ?? = EXCLUDED.??, ?? = EXCLUDED.??, ?? = EXCLUDED.??, ?? = EXCLUDED.??, ?? = EXCLUDED.??, ?? = EXCLUDED.??, ?? = EXCLUDED.??', [
-      knex('schooling-registrations').insert(registrationDataChunk),
-      'organizationId', 'studentNumber',
-      ATTRIBUTES_TO_SAVE[0], ATTRIBUTES_TO_SAVE[0],
-      ATTRIBUTES_TO_SAVE[1], ATTRIBUTES_TO_SAVE[1],
-      ATTRIBUTES_TO_SAVE[2], ATTRIBUTES_TO_SAVE[2],
-      ATTRIBUTES_TO_SAVE[3], ATTRIBUTES_TO_SAVE[3],
-      ATTRIBUTES_TO_SAVE[4], ATTRIBUTES_TO_SAVE[4],
-      ATTRIBUTES_TO_SAVE[5], ATTRIBUTES_TO_SAVE[5],
-      ATTRIBUTES_TO_SAVE[6], ATTRIBUTES_TO_SAVE[6],
-      ATTRIBUTES_TO_SAVE[7], ATTRIBUTES_TO_SAVE[7],
-      ATTRIBUTES_TO_SAVE[8], ATTRIBUTES_TO_SAVE[8],
-      ATTRIBUTES_TO_SAVE[9], ATTRIBUTES_TO_SAVE[9],
-      ATTRIBUTES_TO_SAVE[10], ATTRIBUTES_TO_SAVE[10],
-      ATTRIBUTES_TO_SAVE[11], ATTRIBUTES_TO_SAVE[11],
-      ATTRIBUTES_TO_SAVE[12], ATTRIBUTES_TO_SAVE[12],
-    ]);
+  const baseQuery = _getBaseQueryForUpsert();
+  const registrationDataChunks = _chunkRegistrations(registrationDataToSave);
+  const trx = await knex.transaction();
+  try {
+    for (const registrationDataChunk of registrationDataChunks) {
+      await trx.raw(baseQuery, [
+        knex('schooling-registrations').insert(registrationDataChunk),
+      ]);
+    }
+    await trx.commit();
+  } catch (err) {
+    await trx.rollback();
+    throw new SchoolingRegistrationsCouldNotBeSavedError();
   }
+}
+
+function _chunkRegistrations(registrations) {
+  const chunkSize = getChunkSizeForParameterBinding(_.head(registrations));
+  return _.chunk(registrations, chunkSize);
+}
+
+function _getBaseQueryForUpsert() {
+  const update = ATTRIBUTES_TO_SAVE
+    .map((key) => `"${key}" = EXCLUDED."${key}"`)
+    .join(', ');
+  return `? ON CONFLICT ("organizationId", "studentNumber") DO UPDATE SET ${update}`;
 }
