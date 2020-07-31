@@ -90,21 +90,14 @@ async function _startNewCertification({
     domainTransaction
   });
 
-  const newAssessment = _generateAssessmentForCertificationCourse({ userId, courseId: savedCertificationCourse.id });
+  const newAssessment = Assessment.createForCertificationCourse({ userId, certificationCourseId: savedCertificationCourse.id });
   const savedAssessment = await assessmentRepository.save({ assessment: newAssessment, domainTransaction });
+
   savedCertificationCourse.assessment = savedAssessment;
 
+  // FIXME : return CertificationCourseCreated or CertificationCourseRetrieved with only needed fields
   return {
     created: true,
     certificationCourse: savedCertificationCourse,
   };
-}
-
-function _generateAssessmentForCertificationCourse({ userId, courseId }) {
-  return new Assessment({
-    userId,
-    courseId,
-    state: Assessment.states.STARTED,
-    type: Assessment.types.CERTIFICATION,
-  });
 }

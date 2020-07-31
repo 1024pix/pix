@@ -108,6 +108,15 @@ class Assessment {
   hasKnowledgeElements() {
     return this.isCompetenceEvaluation() || this.isForCampaign();
   }
+
+  static createForCertificationCourse({ userId, certificationCourseId }) {
+    return new Assessment({
+      userId,
+      certificationCourseId,
+      state: Assessment.states.STARTED,
+      type: Assessment.types.CERTIFICATION,
+    });
+  }
 }
 
 Assessment.courseIdMessage = courseIdMessage;
