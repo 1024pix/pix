@@ -25,9 +25,9 @@
       </div>
 
       {{#if this.validSupervisor}}
-        <button class="result-content__button result-content__validation-button button button--big button--thin" {{on "click" this.validateBySupervisor}}>{{t "pages.certification-results.action.confirm"}}</button>
+        <button class="result-content__button result-content__validation-button button button--big button--thin" {{on "click" this.validateBySupervisor}} type="button">{{t "pages.certification-results.action.confirm"}}</button>
       {{else}}
-        <button class="result-content__button result-content__button-blocked">{{t "pages.certification-results.action.confirm"}}</button>
+        <button class="result-content__button result-content__button-blocked" type="button">{{t "pages.certification-results.action.confirm"}}</button>
       {{/if}}
     </div>
 

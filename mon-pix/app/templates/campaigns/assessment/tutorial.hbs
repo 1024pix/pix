@@ -24,7 +24,7 @@
     {{#if model.showNextButton}}
       <button type="submit" class="button button--big campaign-tutorial__next-page-tutorial" {{action "next"}}>{{t 'pages.tutorial.next'}}</button>
 
-      <button {{action "submit"}} class="button button--big button--no-color campaign-tutorial__ignore-button">{{t 'pages.tutorial.pass'}}</button>
+      <button {{action "submit"}} class="button button--big button--no-color campaign-tutorial__ignore-button" type="button">{{t 'pages.tutorial.pass'}}</button>
     {{else}}
       <button type="submit" class="button button--extra-big campaign-tutorial__start-campaign-button" {{action "submit"}}>{{t 'pages.tutorial.start'}}</button>
     {{/if}}
