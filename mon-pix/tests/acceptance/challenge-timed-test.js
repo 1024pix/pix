@@ -32,10 +32,6 @@ describe('Acceptance | Timed challenge', () => {
       it('should ensure the challenge does not automatically start', async () => {
         expect(find('.timeout-jauge')).to.not.exist;
       });
-
-      it('should ensure the feedback form is not displayed until the user has started the challenge', async () => {
-        expect(find('.feedback-panel')).to.not.exist;
-      });
     });
 
     context('when the confirmation button is clicked', () => {

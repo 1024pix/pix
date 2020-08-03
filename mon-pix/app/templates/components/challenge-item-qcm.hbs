@@ -48,8 +48,6 @@
   </form>
 {{/if}}
 
-{{#if this.displayFeedbackPanel}}
-  <div class="challenge-item__feedback">
-    <FeedbackPanel @assessment={{@assessment}} @challenge={{@challenge}}/>
-  </div>
-{{/if}}
+<div class="challenge-item__feedback">
+  <FeedbackPanel @assessment={{@assessment}} @challenge={{@challenge}}/>
+</div>
