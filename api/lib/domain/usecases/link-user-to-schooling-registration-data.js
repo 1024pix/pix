@@ -5,6 +5,8 @@ module.exports = async function linkUserToSchoolingRegistrationData({
   user,
   campaignRepository,
   schoolingRegistrationRepository,
+  studentRepository,
+  userRepository,
   userReconciliationService,
 }) {
   const campaign = await campaignRepository.getByCode(campaignCode);
@@ -12,7 +14,11 @@ module.exports = async function linkUserToSchoolingRegistrationData({
     throw new CampaignCodeError();
   }
 
-  const schoolingRegistrationId = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId: campaign.organizationId, user, schoolingRegistrationRepository });
+  const matchedSchoolingRegistration = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId: campaign.organizationId, user, schoolingRegistrationRepository, studentRepository, userRepository });
 
-  return schoolingRegistrationRepository.associateUserAndSchoolingRegistration({ userId: user.id, schoolingRegistrationId });
+  const student = await studentRepository.getReconciledStudentByNationalStudentId(matchedSchoolingRegistration.nationalStudentId);
+
+  await userReconciliationService.checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(student, userRepository);
+
+  return schoolingRegistrationRepository.associateUserAndSchoolingRegistration({ userId: user.id, schoolingRegistrationId: matchedSchoolingRegistration.id });
 };
