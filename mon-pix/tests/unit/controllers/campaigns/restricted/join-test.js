@@ -468,20 +468,6 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
       expect(controller.get('isLoading')).to.equal(false);
     });
 
-    it('should display a conflict error', async function() {
-      // given
-      studentUserAssociation.save.rejects({ errors: [{ status: '409' }] });
-
-      // when
-      await controller.actions.attemptNext.call(controller);
-
-      // then
-      sinon.assert.calledOnce(studentUserAssociation.unloadRecord);
-      expect(controller.get('errorMessage')).to.equal('Vous avez déjà rejoint votre établissement avec un autre compte. Retrouvez-le. En cas d’oubli, contactez votre enseignant.');
-      sinon.assert.notCalled(controller.transitionToRoute);
-      expect(controller.get('isLoading')).to.equal(false);
-    });
-
     it('should associate user with student and redirect to campaigns.start-or-resume after failing', async function() {
       // given
       studentUserAssociation.save
@@ -501,5 +487,379 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
       sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.start-or-resume');
       expect(controller.get('errorMessage')).to.equal(null);
     });
+
+    describe('When student is already reconciled in the same organization', async function() {
+
+      describe('When student account is authenticated by email only', async function() {
+
+        it('should return a conflict error and display the error message related to the short code R31)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l\'élève dans le même établissement.',
+            meta: { displayShortCode: 'R31', value: 'j***@example.net' }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix utilisé dans votre établissement scolaire, avec l\'adresse mail j***@example.net.' +
+            '<br> Connectez-vous à ce compte sinon demandez de l\'aide à un enseignant. (Code R31)';
+          studentUserAssociation.save.rejects({ errors: [error] });
+
+          // when
+          await controller.actions.attemptNext.call(controller);
+
+          // then
+          sinon.assert.calledOnce(studentUserAssociation.unloadRecord);
+          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          sinon.assert.notCalled(controller.transitionToRoute);
+          expect(controller.get('isLoading')).to.equal(false);
+        });
+
+      });
+
+      describe('When student account is authenticated by username only', async function() {
+
+        it('should return a conflict error and display the error message related to the short code R32)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l\'élève dans le même établissement.',
+            meta: { displayShortCode: 'R32', value: 'j***.h***2' }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix utilisé dans votre établissement scolaire, avec un identifiant sous la forme j***.h***2.<br> Connectez-vous à ce compte sinon demandez de l\'aide à un enseignant. (Code R32)';
+          studentUserAssociation.save.rejects({ errors: [error] });
+
+          // when
+          await controller.actions.attemptNext.call(controller);
+
+          // then
+          sinon.assert.calledOnce(studentUserAssociation.unloadRecord);
+          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          sinon.assert.notCalled(controller.transitionToRoute);
+          expect(controller.get('isLoading')).to.equal(false);
+        });
+
+      });
+
+      describe('When student account is authenticated by SamlId only', async function() {
+
+        it('should return a conflict error and display the error message related to the short code R33)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l\'élève dans le même établissement.',
+            meta: { displayShortCode: 'R33', value: undefined }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l\'ENT dans votre établissement scolaire.<br> Connectez-vous à ce compte sinon demandez de l\'aide à un enseignant. (Code R33)';
+          studentUserAssociation.save.rejects({ errors: [error] });
+
+          // when
+          await controller.actions.attemptNext.call(controller);
+
+          // then
+          sinon.assert.calledOnce(studentUserAssociation.unloadRecord);
+          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          sinon.assert.notCalled(controller.transitionToRoute);
+          expect(controller.get('isLoading')).to.equal(false);
+        });
+
+      });
+
+      describe('When student account is authenticated by SamlId and username', async function() {
+
+        it('should return a conflict error and display the error message related to the short code R33)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l\'élève dans le même établissement.',
+            meta: { displayShortCode: 'R33', value: undefined }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l\'ENT dans votre établissement scolaire.<br> Connectez-vous à ce compte sinon demandez de l\'aide à un enseignant. (Code R33)';
+          studentUserAssociation.save.rejects({ errors: [error] });
+
+          // when
+          await controller.actions.attemptNext.call(controller);
+
+          // then
+          sinon.assert.calledOnce(studentUserAssociation.unloadRecord);
+          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          sinon.assert.notCalled(controller.transitionToRoute);
+          expect(controller.get('isLoading')).to.equal(false);
+        });
+
+      });
+
+      describe('When student account is authenticated by SamlId and email', async function() {
+
+        it('should return a conflict error and display the error message related to the short code R33)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l\'élève dans le même établissement.',
+            meta: { displayShortCode: 'R33', value: undefined }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l\'ENT dans votre établissement scolaire.<br> Connectez-vous à ce compte sinon demandez de l\'aide à un enseignant. (Code R33)';
+          studentUserAssociation.save.rejects({ errors: [error] });
+
+          // when
+          await controller.actions.attemptNext.call(controller);
+
+          // then
+          sinon.assert.calledOnce(studentUserAssociation.unloadRecord);
+          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          sinon.assert.notCalled(controller.transitionToRoute);
+          expect(controller.get('isLoading')).to.equal(false);
+        });
+
+      });
+
+      describe('When student account is authenticated by SamlId, email and username', async function() {
+
+        it('should return a conflict error and display the error message related to the short code R33)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l\'élève dans le même établissement.',
+            meta: { displayShortCode: 'R33', value: undefined }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l\'ENT dans votre établissement scolaire.<br> Connectez-vous à ce compte sinon demandez de l\'aide à un enseignant. (Code R33)';
+          studentUserAssociation.save.rejects({ errors: [error] });
+
+          // when
+          await controller.actions.attemptNext.call(controller);
+
+          // then
+          sinon.assert.calledOnce(studentUserAssociation.unloadRecord);
+          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          sinon.assert.notCalled(controller.transitionToRoute);
+          expect(controller.get('isLoading')).to.equal(false);
+        });
+
+      });
+
+      describe('When student account is authenticated by email and username', async function() {
+
+        it('should return a conflict error and display the error message related to the short code R32)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l\'élève dans le même établissement.',
+            meta: { displayShortCode: 'R32', value: 'j***.h***2' }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix utilisé dans votre établissement scolaire, avec un identifiant sous la forme j***.h***2.<br> Connectez-vous à ce compte sinon demandez de l\'aide à un enseignant. (Code R32)';
+          studentUserAssociation.save.rejects({ errors: [error] });
+
+          // when
+          await controller.actions.attemptNext.call(controller);
+
+          // then
+          sinon.assert.calledOnce(studentUserAssociation.unloadRecord);
+          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          sinon.assert.notCalled(controller.transitionToRoute);
+          expect(controller.get('isLoading')).to.equal(false);
+        });
+
+      });
+
+    });
+
+    describe('When student is already reconciled in others organization', async function() {
+
+      describe('When student account is authenticated by email only', async function() {
+
+        it('should return a conflict error and display the error message related to the short code R11)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l\'élève dans un autre établissement.',
+            meta: { displayShortCode: 'R11', value: 'j***@example.net' }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix avec l’adresse e-mail j***@example.net<br> Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code R11)';
+          studentUserAssociation.save.rejects({ errors: [error] });
+
+          // when
+          await controller.actions.attemptNext.call(controller);
+
+          // then
+          sinon.assert.calledOnce(studentUserAssociation.unloadRecord);
+          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          sinon.assert.notCalled(controller.transitionToRoute);
+          expect(controller.get('isLoading')).to.equal(false);
+        });
+
+      });
+
+      describe('When student account is authenticated by username only', async function() {
+
+        it('should return a conflict error and display the error message related to the short code R12)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l\'élève dans un autre établissement.',
+            meta: { displayShortCode: 'R12', value: 'j***.h***2' }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix utilisé avec l’identifiant j***.h***2<br> Pour continuer, connectez-vous à ce compte ou demandez de l\'aide à un enseignant.<br>(Code R12)';
+          studentUserAssociation.save.rejects({ errors: [error] });
+
+          // when
+          await controller.actions.attemptNext.call(controller);
+
+          // then
+          sinon.assert.calledOnce(studentUserAssociation.unloadRecord);
+          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          sinon.assert.notCalled(controller.transitionToRoute);
+          expect(controller.get('isLoading')).to.equal(false);
+        });
+
+      });
+
+      describe('When student account is authenticated by SamlId only', async function() {
+
+        it('should return a conflict error and display the error message related to the short code R13)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l\'élève dans un autre établissement.',
+            meta: { displayShortCode: 'R13', value: undefined }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l\'ENT dans un autre établissement scolaire.<br> Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l\'aide de Pix Orga.';
+          studentUserAssociation.save.rejects({ errors: [error] });
+
+          // when
+          await controller.actions.attemptNext.call(controller);
+
+          // then
+          sinon.assert.calledOnce(studentUserAssociation.unloadRecord);
+          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          sinon.assert.notCalled(controller.transitionToRoute);
+          expect(controller.get('isLoading')).to.equal(false);
+        });
+
+      });
+
+      describe('When student account is authenticated by SamlId and username', async function() {
+
+        it('should return a conflict error and display the error message related to the short code R13)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l\'élève dans un autre établissement.',
+            meta: { displayShortCode: 'R13', value: undefined }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l\'ENT dans un autre établissement scolaire.<br> Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l\'aide de Pix Orga.';
+          studentUserAssociation.save.rejects({ errors: [error] });
+
+          // when
+          await controller.actions.attemptNext.call(controller);
+
+          // then
+          sinon.assert.calledOnce(studentUserAssociation.unloadRecord);
+          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          sinon.assert.notCalled(controller.transitionToRoute);
+          expect(controller.get('isLoading')).to.equal(false);
+        });
+
+      });
+
+      describe('When student account is authenticated by SamlId and email', async function() {
+
+        it('should return a conflict error and display the error message related to the short code R13)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l\'élève dans un autre établissement.',
+            meta: { displayShortCode: 'R13', value: undefined }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l\'ENT dans un autre établissement scolaire.<br> Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l\'aide de Pix Orga.';
+          studentUserAssociation.save.rejects({ errors: [error] });
+
+          // when
+          await controller.actions.attemptNext.call(controller);
+
+          // then
+          sinon.assert.calledOnce(studentUserAssociation.unloadRecord);
+          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          sinon.assert.notCalled(controller.transitionToRoute);
+          expect(controller.get('isLoading')).to.equal(false);
+        });
+
+      });
+
+      describe('When student account is authenticated by SamlId, username and email', async function() {
+
+        it('should return a conflict error and display the error message related to the short code R13)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l\'élève dans un autre établissement.',
+            meta: { displayShortCode: 'R13', value: undefined }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l\'ENT dans un autre établissement scolaire.<br> Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l\'aide de Pix Orga.';
+          studentUserAssociation.save.rejects({ errors: [error] });
+
+          // when
+          await controller.actions.attemptNext.call(controller);
+
+          // then
+          sinon.assert.calledOnce(studentUserAssociation.unloadRecord);
+          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          sinon.assert.notCalled(controller.transitionToRoute);
+          expect(controller.get('isLoading')).to.equal(false);
+        });
+
+      });
+
+      describe('When student account is authenticated by username and email', async function() {
+
+        it('should return a conflict error and display the error message related to the short code R12)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l\'élève dans un autre établissement.',
+            meta: { displayShortCode: 'R12', value: 'j***.h***2' }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix utilisé avec l’identifiant j***.h***2<br> Pour continuer, connectez-vous à ce compte ou demandez de l\'aide à un enseignant.<br>(Code R12)';
+          studentUserAssociation.save.rejects({ errors: [error] });
+
+          // when
+          await controller.actions.attemptNext.call(controller);
+
+          // then
+          sinon.assert.calledOnce(studentUserAssociation.unloadRecord);
+          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          sinon.assert.notCalled(controller.transitionToRoute);
+          expect(controller.get('isLoading')).to.equal(false);
+        });
+
+      });
+
+    });
+
   });
 });
