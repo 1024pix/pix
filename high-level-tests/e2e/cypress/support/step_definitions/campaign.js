@@ -35,7 +35,7 @@ then(`je vois {int} tutoriel\(s\)`, (tutorialsCount) => {
 });
 
 when(`je recherche une campagne avec le nom {string}`, (campaignSearchName) => {
-  cy.get('input#campaignName').type(campaignSearchName);
+  cy.get('input#name').type(campaignSearchName);
 });
 
 then(`je vois le détail de la campagne {string}`, (campaignName) => {

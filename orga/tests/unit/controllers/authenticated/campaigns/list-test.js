@@ -67,20 +67,6 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
   });
 
   module('#get membersOptions', function() {
-    test('it should returns default option if no organization members', function(assert) {
-      // given
-      controller.currentUser = {
-        organization: {
-          memberships: [],
-        },
-      };
-
-      // then
-      assert.deepEqual(controller.membersOptions, [
-        { value: '', label: 'Tous' },
-      ]);
-    });
-
     test('it should returns members options from organization members', function(assert) {
       // given
       controller.currentUser = {
@@ -95,7 +81,6 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
 
       // then
       assert.deepEqual(controller.membersOptions, [
-        { value: '', label: 'Tous' },
         { value: '1', label: 'John Rambo' },
       ]);
     });
@@ -132,25 +117,6 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
     });
   });
 
-  module('#updateFilters', function() {
-
-    test('it should put value from pendingFilters into appropriate controller properties', function(assert) {
-      // given
-      controller.prop1 = 'someValue1';
-      controller.prop2 = 'someValue2';
-      controller.prop3 = 'someValue3';
-      controller.pendingFilters = { prop1: 'someOtherValue1', prop2: 'someOtherValue2' };
-
-      // when
-      controller.updateFilters();
-
-      // then
-      assert.equal(controller.prop1, 'someOtherValue1');
-      assert.equal(controller.prop2, 'someOtherValue2');
-      assert.equal(controller.prop3, 'someValue3');
-    });
-  });
-
   module('#action updateCampaignStatus', function() {
 
     test('it should update controller status field', function(assert) {
@@ -162,20 +128,6 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
 
       // then
       assert.equal(controller.status, 'someOtherStatus');
-    });
-  });
-
-  module('#action updateCampaignCreator', function() {
-
-    test('it should update controller creatorId field', function(assert) {
-      // given
-      controller.creatorId = 'someCreatorId';
-
-      // when
-      controller.send('updateCampaignCreator', 'someOtherCreatorId');
-
-      // then
-      assert.equal(controller.creatorId, 'someOtherCreatorId');
     });
   });
 

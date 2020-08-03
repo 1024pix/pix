@@ -29,6 +29,10 @@
     align-items: center;
     margin-right: 8px;
     width: 8%;
+
+    > img {
+      width: 100%; //useful for IE
+    }
   }
 }
 

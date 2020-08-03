@@ -1,22 +1,49 @@
 .select-input {
-  &__select {
-    padding-left: 10px;
-    -webkit-appearance:none;
-    -moz-appearance:none;
-    appearance:none;
+  position: relative;
+  border: 2px $grey-20 solid;
+  height: 46px;
+  width: 100%;
+  background-color: $white;
+  border-radius: 3px;
+  outline: none;
+  padding-left: 10px;
+  box-sizing: border-box;
+  font-size: 1rem;
+
+  &:focus-within {
+    border: 2px solid $blue;
   }
 
-  &__wrapper {
-    position:relative
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: inherit;
+    border: none;
+    outline: none;
+    padding: 0 10px;
+    border-radius: 3px;
+    font-size: 1em;
+    font-family: $roboto;
+    background: transparent;
+
+    &:focus {
+      outline: none;
+    }
   }
 
-  &__chevron {
+  select::-ms-expand {
+    display: none;
+  }
+
+  &__icon {
     font-size: 11px;
     color: $grey-30;
-    right:8px;
-    top:2px;
-    padding:0 0 2px;
-    position:absolute;
-    pointer-events:none;
+    right: 8px;
+    top: calc(50% - 6px);
+    padding: 0 0 2px;
+    position: absolute;
+    pointer-events: none;
   }
 }
