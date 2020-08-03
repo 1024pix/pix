@@ -38,7 +38,6 @@ export default class ListController extends Controller {
 
   get connexionTypesOptions() {
     return [
-      { value: '', label: 'Tous' },
       { value: 'none', label: CONNEXION_TYPES.none },
       { value: 'email', label: CONNEXION_TYPES.email },
       { value: 'identifiant', label: CONNEXION_TYPES.identifiant },

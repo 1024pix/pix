@@ -22,8 +22,8 @@ export default class Items extends Component {
   }
 
   @action
-  setRoleSelection(selected) {
-    this.selectedNewRole = selected;
+  setRoleSelection(event) {
+    this.selectedNewRole = event.target.value;
     this.isEditionMode = true;
   }
 
@@ -40,8 +40,7 @@ export default class Items extends Component {
 
     if (!this.selectedNewRole) return false;
 
-    membership.displayRole = this.selectedNewRole.label;
-    membership.organizationRole = this.selectedNewRole.value;
+    membership.organizationRole = this.selectedNewRole;
 
     return membership.save();
   }

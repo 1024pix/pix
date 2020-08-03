@@ -11,11 +11,10 @@
     </div>
     <Routes::Authenticated::Campaigns::ListItems
       @campaigns={{@model}}
-      @campaignName={{this.name}}
+      @nameFilter={{this.name}}
       @organizationMembers={{this.membersOptions}}
       @campaignCreatorId={{this.creatorId}}
       @triggerFiltering={{this.triggerFiltering}}
-      @updateCampaignCreator={{this.updateCampaignCreator}}
       @goToCampaignPage={{this.goToCampaignPage}}
     />
   {{/if}}
