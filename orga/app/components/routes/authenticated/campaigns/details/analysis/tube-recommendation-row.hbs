@@ -45,6 +45,14 @@
                   <a href={{tutorial.link}} class="link" target="_blank" rel="noopener noreferrer">
                     {{tutorial.title}}
                   </a>
+                  <span class="tube-recommendation-tutorial-table__details">
+                    <strong>·</strong>
+                    Par {{tutorial.source}}
+                    <strong>·</strong>
+                    <span class="tube-recommendation-tutorial-table__format">{{tutorial.format}}</span>
+                    <strong>·</strong>
+                    {{moment-duration tutorial.duration 'minutes'}}
+                  </span>
                 </td>
               </tr>
             {{/each}}
