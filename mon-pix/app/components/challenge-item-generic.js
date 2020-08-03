@@ -48,12 +48,6 @@ const ChallengeItemGeneric = Component.extend({
     return _.isInteger(this.challenge.timer);
   }),
 
-  displayFeedbackPanel: computed('_isUserAwareThatChallengeIsTimed', 'hasChallengeTimer', 'displayWarningPage', function() {
-    return !this.hasChallengeTimer
-      || (this.hasChallengeTimer && this._isUserAwareThatChallengeIsTimed)
-      || !this.displayWarningPage;
-  }),
-
   displayWarningPage: computed('answer', 'hasChallengeTimer', function() {
     if (!this.answer && this.hasChallengeTimer) {
       return true;
