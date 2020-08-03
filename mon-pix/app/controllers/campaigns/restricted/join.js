@@ -3,6 +3,7 @@ import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Controller from '@ember/controller';
 import { standardizeNumberInTwoDigitFormat } from 'mon-pix/utils/standardize-number';
+import ENV from 'mon-pix/config/environment';
 
 const ERROR_INPUT_MESSAGE_MAP = {
   firstName: 'Votre prénom n’est pas renseigné.',
@@ -42,6 +43,7 @@ export default class JoinRestrictedCampaignController extends Controller {
 
   @service session;
   @service store;
+  @service intl;
 
   firstName = '';
   lastName = '';
@@ -139,13 +141,35 @@ export default class JoinRestrictedCampaignController extends Controller {
   _setErrorMessageForAttemptNextAction(errorResponse) {
     errorResponse.errors.forEach((error) => {
       if (error.status === '409') {
-        return this.set('errorMessage', 'Vous avez déjà rejoint votre établissement avec un autre compte. Retrouvez-le. En cas d’oubli, contactez votre enseignant.');
+        const message = this._showErrorMessageByCode(error.meta);
+        this.set('messageTryReconciliation', 'Se déconnecter');
+        return this.set('errorMessage', message);
       }
       if (error.status === '404') {
         return this.set('errorMessage', 'Vous êtes un élève ? <br/> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.<br/> <br/> Vous êtes un enseignant ? <br/> L‘accès à un parcours n‘est pas disponible pour le moment.');
       }
       return this.set('errorMessage', error.detail);
     });
+  }
+
+  _showErrorMessageByCode(meta) {
+    const ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION = `Vous possédez déjà un compte Pix avec l’adresse e-mail ${meta.value}<br> Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code R11)`;
+    const ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION = `Vous possédez déjà un compte Pix utilisé avec l’identifiant ${meta.value}<br> Pour continuer, connectez-vous à ce compte ou demandez de l'aide à un enseignant.<br>(Code R12)`;
+    const ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION = 'Vous possédez déjà un compte Pix via l\'ENT dans un autre établissement scolaire.<br> Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l\'aide de Pix Orga.';
+    const ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_SAME_ORGANIZATION = `Vous possédez déjà un compte Pix utilisé dans votre établissement scolaire, avec l'adresse mail ${meta.value}.<br> Connectez-vous à ce compte sinon demandez de l'aide à un enseignant. (Code R31)`;
+    const ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION = `Vous possédez déjà un compte Pix utilisé dans votre établissement scolaire, avec un identifiant sous la forme ${meta.value}.<br> Connectez-vous à ce compte sinon demandez de l'aide à un enseignant. (Code R32)`;
+    const ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION = 'Vous possédez déjà un compte Pix via l\'ENT dans votre établissement scolaire.<br> Connectez-vous à ce compte sinon demandez de l\'aide à un enseignant. (Code R33)';
+
+    const errorsMessagesByCodes = {
+      'R11': ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION,
+      'R12': ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION,
+      'R13': ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION,
+      'R31': ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_SAME_ORGANIZATION,
+      'R32': ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION,
+      'R33': ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION,
+      'default': this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE),
+    };
+    return (errorsMessagesByCodes[meta.displayShortCode] || errorsMessagesByCodes['default']);
   }
 
   _executeFieldValidation(key, value, isValid) {
