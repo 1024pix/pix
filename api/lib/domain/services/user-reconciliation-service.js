@@ -6,9 +6,24 @@ const {
   NotFoundError, SchoolingRegistrationAlreadyLinkedToUserError, AlreadyRegisteredUsernameError
 } = require('../errors');
 const { areTwoStringsCloseEnough, isOneStringCloseEnoughFromMultipleStrings } = require('./string-comparison-service');
+const { getUserAuthenticationMethodWithObfuscation } = require('./obfuscation-service');
 const { normalizeAndRemoveAccents, removeSpecialCharacters } = require('./validation-treatments');
 
 const MAX_ACCEPTABLE_RATIO = 0.25;
+
+const STUDENT_RECONCILIATION_ERRORS = {
+  IN_OTHER_ORGANIZATION: {
+    samlId: { displayShortCode: 'R13', code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION' },
+    username: { displayShortCode: 'R12', code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION' },
+    email: { displayShortCode: 'R11', code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION' },
+  }
+  ,
+  IN_SAME_ORGANIZATION: {
+    samlId: { displayShortCode: 'R33', code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION' },
+    username: { displayShortCode: 'R32', code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION' },
+    email: { displayShortCode: 'R31', code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION' },
+  }
+};
 
 function findMatchingCandidateIdForGivenUser(matchingUserCandidates, user) {
   const standardizedUser = _standardizeUser(user);
@@ -22,7 +37,7 @@ function findMatchingCandidateIdForGivenUser(matchingUserCandidates, user) {
     .first() || null;
 }
 
-async function findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId, user: { firstName, lastName, birthdate }, schoolingRegistrationRepository }) {
+async function findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId, user: { firstName, lastName, birthdate }, schoolingRegistrationRepository, userRepository }) {
   const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdAndUserBirthdate({
     organizationId,
     birthdate,
@@ -38,12 +53,36 @@ async function findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser(
     throw new NotFoundError('There were no schoolingRegistrations matching with names');
   }
 
-  const matchingSchoolingRegistration = _.find(schoolingRegistrations, { 'id': schoolingRegistrationId });
-  if (!_.isNil(matchingSchoolingRegistration.userId)) {
-    throw new SchoolingRegistrationAlreadyLinkedToUserError();
-  }
+  const matchedSchoolingRegistration = _.find(schoolingRegistrations, { 'id': schoolingRegistrationId });
+  await checkIfStudentIsAlreadyReconciledOnTheSameOrganization(matchedSchoolingRegistration, userRepository);
 
-  return schoolingRegistrationId;
+  return matchedSchoolingRegistration;
+}
+
+async function checkIfStudentIsAlreadyReconciledOnTheSameOrganization(matchingSchoolingRegistration, userRepository) {
+  if (!_.isNil(matchingSchoolingRegistration.userId))  {
+    const userId = matchingSchoolingRegistration.userId ;
+    const user = await userRepository.getUserAuthenticationMethods(userId);
+    const authentificationMethod = getUserAuthenticationMethodWithObfuscation(user);
+
+    const detail = 'Un compte existe déjà pour l\'élève dans le même établissement.';
+    const error = STUDENT_RECONCILIATION_ERRORS.IN_SAME_ORGANIZATION[authentificationMethod.authenticatedBy];
+    const meta = { displayShortCode: error.displayShortCode, value: authentificationMethod.value };
+    throw new SchoolingRegistrationAlreadyLinkedToUserError(detail, error.code, meta);
+  }
+}
+
+async function checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(student, userRepository) {
+  if (!_.isEmpty(student) && !_.isEmpty(student.account)) {
+    const userId = student.account.userId;
+    const user = await userRepository.getUserAuthenticationMethods(userId);
+    const authentificationMethod = getUserAuthenticationMethodWithObfuscation(user);
+
+    const detail = 'Un compte existe déjà pour l\'élève dans un autre établissement.';
+    const error = STUDENT_RECONCILIATION_ERRORS.IN_OTHER_ORGANIZATION[authentificationMethod.authenticatedBy];
+    const meta = { displayShortCode: error.displayShortCode, value: authentificationMethod.value };
+    throw new SchoolingRegistrationAlreadyLinkedToUserError(detail, error.code, meta);
+  }
 }
 
 function _containsOneElement(arr) {
@@ -136,4 +175,5 @@ module.exports = {
   createUsernameByUser,
   findMatchingCandidateIdForGivenUser,
   findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser,
+  checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations
 };
