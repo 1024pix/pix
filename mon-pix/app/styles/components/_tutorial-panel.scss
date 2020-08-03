@@ -36,36 +36,8 @@
 }
 
 .tutorial-panel__hint-title {
-  font-family: $font-open-sans;
-  font-size: 1.375rem;
-  text-align: center;
-  color: $grey-80;
-  font-weight: $font-semi-bold;
-  margin-bottom: 20px;
+  @include tutorial-panel-title($grey-10);
 
-  // XXX Inspired from https://codepen.io/ericrasch/pen/Irlpm
-  position: relative;
-  z-index: 1;
-
-  &:before {
-    border-top: 2px solid #dfdfdf;
-    content:"";
-    margin: 0 auto;
-    position: absolute;
-    top: 50%; left: 0; right: 0; bottom: 0;
-    width: 100%;
-    z-index: -1;
-  }
-
-  span {
-    background: $grey-10;
-    padding: 0 15px;
-  }
-
-  @include device-is('desktop') {
-    font-size: 1.375rem;
-    line-height: 26px;
-  }
 }
 
 .tutorial-panel__hint-content {

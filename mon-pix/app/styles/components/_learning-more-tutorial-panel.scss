@@ -10,13 +10,7 @@
 }
 
 .learning-more-panel__hint-title {
-  // XXX Inspired from https://codepen.io/ericrasch/pen/Irlpm
-  position: relative;
-  z-index: 1;
-
-  span {
-    background: white;
-  }
+  @include tutorial-panel-title(white);
 }
 
 .learning-more-panel__tutorial-info {
