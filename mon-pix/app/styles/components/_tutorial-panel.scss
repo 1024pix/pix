@@ -6,9 +6,14 @@
 
 .tutorial-panel__hint-container-body {
   display: flex;
+  flex-direction: column;
   align-items: center;
   margin-bottom: 10px;
   padding: 20px 0 40px;
+
+  @include device-is('tablet') {
+    flex-direction: row;
+  }
 }
 
 .tutorial-panel__hint-container {
@@ -45,7 +50,7 @@
   font-family: $font-open-sans;
 
   & p {
-    padding-top: 12px;
+    padding: 12px 12px 0px 12px;
   }
 }
 
@@ -55,4 +60,5 @@
 
 .tutorial-panel__hint-picto {
   padding: 0 20px;
+  min-width: 100px;
 }
