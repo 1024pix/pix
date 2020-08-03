@@ -29,6 +29,14 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
       { id: 3, name: 'Démocratie liquide', index: '8.6', skillIds: [5, 6], area: wildStrawberryArea },
     ];
 
+    const stages = [
+      { title: 'palier 1', message: 'Tu as le palier 1', threshold: 0 },
+      { title: 'palier 2', message: 'Tu as le palier 2', threshold: 20 },
+      { title: 'palier 3', message: 'Tu as le palier 3', threshold: 40 },
+      { title: 'palier 4', message: 'Tu as le palier 4', threshold: 60 },
+      { title: 'palier 5', message: 'Tu as le palier 5', threshold: 80 },
+    ];
+
     const targetProfile = {
       id: 1,
       skills,
@@ -41,6 +49,113 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
         return false;
       },
     };
+
+    context('when no stage', function() {
+      it('should add pix competences to the campaign participation results', () => {
+        // when
+        const campaignBadges = [];
+        const acquiredBadgeIds = [];
+        const result = CampaignParticipationResult.buildFrom({
+          campaignParticipationId,
+          assessment,
+          competences,
+          targetProfile,
+          knowledgeElements,
+          campaignBadges,
+          acquiredBadgeIds,
+        });
+
+        // then
+        expect(result).to.be.an.instanceOf(CampaignParticipationResult);
+        expect(result).to.deep.equal({
+          id: campaignParticipationId,
+          isCompleted: false,
+          totalSkillsCount: 4,
+          testedSkillsCount: 2,
+          validatedSkillsCount: 1,
+          knowledgeElementsCount: 2,
+          campaignParticipationBadges: [],
+          reachedStage: null,
+          competenceResults: [{
+            id: 1,
+            name: 'Economie symbiotique',
+            index: '5.1',
+            areaColor: 'jaffa',
+            totalSkillsCount: 1,
+            testedSkillsCount: 1,
+            validatedSkillsCount: 1,
+          }, {
+            id: 2,
+            name: 'Désobéissance civile',
+            index: '6.9',
+            areaColor: 'wild-strawberry',
+            totalSkillsCount: 3,
+            testedSkillsCount: 1,
+            validatedSkillsCount: 0,
+          }],
+        });
+      });
+
+    });
+
+    context('when stages', function() {
+      beforeEach(() => {
+        targetProfile.stages = stages;
+      });
+      afterEach(() => {
+        targetProfile.stages = null;
+      });
+
+      it('when user has reached a stage', () => {
+        // when
+        const campaignBadges = [];
+        const acquiredBadgeIds = [];
+
+        const result = CampaignParticipationResult.buildFrom({
+          campaignParticipationId,
+          assessment,
+          competences,
+          targetProfile,
+          knowledgeElements,
+          campaignBadges,
+          acquiredBadgeIds,
+        });
+
+        // then
+        expect(result).to.deep.equal({
+          id: campaignParticipationId,
+          isCompleted: false,
+          totalSkillsCount: 4,
+          testedSkillsCount: 2,
+          validatedSkillsCount: 1,
+          knowledgeElementsCount: 2,
+          campaignParticipationBadges: [],
+          reachedStage: {
+            title: 'palier 2',
+            message: 'Tu as le palier 2',
+            threshold: 20,
+            starCount: 2
+          },
+          competenceResults: [{
+            id: 1,
+            name: 'Economie symbiotique',
+            index: '5.1',
+            areaColor: 'jaffa',
+            totalSkillsCount: 1,
+            testedSkillsCount: 1,
+            validatedSkillsCount: 1,
+          }, {
+            id: 2,
+            name: 'Désobéissance civile',
+            index: '6.9',
+            areaColor: 'wild-strawberry',
+            totalSkillsCount: 3,
+            testedSkillsCount: 1,
+            validatedSkillsCount: 0,
+          }],
+        });
+      });
+    });
 
     context('when no badge', function() {
 
@@ -69,6 +184,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           validatedSkillsCount: 1,
           knowledgeElementsCount: 2,
           campaignParticipationBadges: [],
+          reachedStage: null,
           competenceResults: [{
             id: 1,
             name: 'Economie symbiotique',
@@ -174,6 +290,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               validatedSkillsCount: 1,
             }],
           }],
+          reachedStage: null,
           competenceResults: [{
             id: 1,
             name: 'Economie symbiotique',
@@ -313,6 +430,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             partnerCompetenceResults: [],
             targetProfileId: 1,
           }],
+          reachedStage: null,
           competenceResults: [{
             id: 1,
             name: 'Economie symbiotique',
@@ -409,6 +527,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           testedSkillsCount: 2,
           validatedSkillsCount: 1,
           knowledgeElementsCount: 2,
+          reachedStage: null,
           campaignParticipationBadges: [{
             id: 1,
             isAcquired: true,
@@ -552,6 +671,8 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           testedSkillsCount: 2,
           validatedSkillsCount: 1,
           knowledgeElementsCount: 2,
+          reachedStage: null,
+
           campaignParticipationBadges: [{
             id: 1,
             isAcquired: true,
