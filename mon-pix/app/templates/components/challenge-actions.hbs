@@ -1,6 +1,6 @@
 {{#if @answer}}
   <span class="challenge-actions__already-answered">{{t "pages.challenge.already-answered"}}</span>
-  <button class="button challenge-actions__action challenge-actions__action-continue" {{action resumeAssessment @assessment}}>
+  <button class="button challenge-actions__action challenge-actions__action-continue" {{action resumeAssessment @assessment}} type="button">
     <span class="challenge-actions__action-continue-text">{{t "pages.challenge.actions.continue"}}</span>
   </button>
 {{else}}
@@ -14,7 +14,7 @@
     </div>
   {{/if}}
   {{#if this.isSkipButtonEnabled}}
-    <button class="button challenge-actions__action challenge-actions__action-skip" {{action skipChallenge}}>
+    <button class="button challenge-actions__action challenge-actions__action-skip" {{action skipChallenge}} type="button">
       <span class="challenge-actions__action-skip-text">{{t "pages.challenge.actions.skip"}}</span>
     </button>
   {{else}}
