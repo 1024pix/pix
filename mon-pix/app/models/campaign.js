@@ -14,6 +14,7 @@ export default class Campaign extends Model {
   @attr('date') archivedAt;
   @attr('string') organizationLogoUrl;
   @attr('string') organizationName;
+  @attr('string') organizationType;
   @attr('string') customLandingPageText;
   @attr('boolean') isRestricted;
 

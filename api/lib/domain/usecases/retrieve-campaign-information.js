@@ -14,6 +14,7 @@ module.exports = async function retrieveCampaignInformation({
   const foundOrganization = await organizationRepository.get(organizationId);
   foundCampaign.organizationLogoUrl = foundOrganization.logoUrl;
   foundCampaign.organizationName = foundOrganization.name;
+  foundCampaign.organizationType = foundOrganization.type;
 
   if (foundOrganization.isManagingStudents) {
     foundCampaign.isRestricted = true;
