@@ -13,7 +13,7 @@ module.exports = async function generateUsername({
     throw new CampaignCodeError(`Le code campagne ${campaignCode} n'existe pas.`);
   }
 
-  await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId: campaign.organizationId, user, schoolingRegistrationRepository });
+  await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId: campaign.organizationId, user, schoolingRegistrationRepository, userRepository });
 
   return userReconciliationService.createUsernameByUser({ user , userRepository });
 

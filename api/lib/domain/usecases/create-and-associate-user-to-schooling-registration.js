@@ -91,7 +91,7 @@ module.exports = async function createAndAssociateUserToSchoolingRegistration({
     throw new CampaignCodeError();
   }
 
-  const schoolingRegistrationId = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId: campaign.organizationId, user: userAttributes, schoolingRegistrationRepository });
+  const matchedSchoolingRegistration = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId: campaign.organizationId, user: userAttributes, schoolingRegistrationRepository, userRepository });
 
   const isUsernameMode = userAttributes.withUsername;
   const cleanedUserAttributes = _emptyOtherMode(isUsernameMode, userAttributes);
@@ -100,7 +100,7 @@ module.exports = async function createAndAssociateUserToSchoolingRegistration({
   const encryptedPassword = await _encryptPassword(cleanedUserAttributes.password, encryptionService);
   const domainUser = _createDomainUser(cleanedUserAttributes, encryptedPassword);
 
-  const userId = await userRepository.createAndAssociateUserToSchoolingRegistration({ domainUser, schoolingRegistrationId });
+  const userId = await userRepository.createAndAssociateUserToSchoolingRegistration({ domainUser, schoolingRegistrationId: matchedSchoolingRegistration.id });
 
   const createdUser = await userRepository.get(userId);
   if (!isUsernameMode) {

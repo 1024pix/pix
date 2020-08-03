@@ -4,13 +4,15 @@ const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRe
 const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
-const { CampaignCodeError, NotFoundError } = require('../../../../lib/domain/errors');
+
+const { CampaignCodeError, NotFoundError, SchoolingRegistrationAlreadyLinkedToUserError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | link-user-to-schooling-registration-data', () => {
 
   let associateUserAndSchoolingRegistrationStub;
   let campaignCode;
   let findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUserStub;
+
   let getCampaignStub;
   let schoolingRegistration;
   let user;
@@ -32,7 +34,6 @@ describe('Unit | UseCase | link-user-to-schooling-registration-data', () => {
       .resolves({ organizationId });
 
     associateUserAndSchoolingRegistrationStub = sinon.stub(schoolingRegistrationRepository, 'associateUserAndSchoolingRegistration');
-    findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUserStub = sinon.stub(userReconciliationService,'findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser');
   });
 
   context('When there is no campaign with the given code', () => {
@@ -91,4 +92,27 @@ describe('Unit | UseCase | link-user-to-schooling-registration-data', () => {
       expect(result.userId).to.be.equal(user.id);
     });
   });
+
+  context('When student is already reconciled in the same organization', () => {
+
+    it('should return a SchoolingRegistrationAlreadyLinkedToUser error', async () => {
+      // given
+      schoolingRegistration.userId = user.id;
+      schoolingRegistration.firstName = user.firstName;
+      schoolingRegistration.lastName = user.lastName;
+      const exceptedErrorMEssage = 'Un compte existe déjà pour l\'élève dans le même établissement.';
+      findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUserStub.throws(new SchoolingRegistrationAlreadyLinkedToUserError(exceptedErrorMEssage));
+
+      // when
+      const result = await catchErr(usecases.linkUserToSchoolingRegistrationData)({
+        user,
+        campaignCode,
+      });
+
+      // then
+      expect(result).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToUserError);
+      expect(result.message).to.equal(exceptedErrorMEssage);
+    });
+  });
+
 });
