@@ -43,7 +43,7 @@ describe('Acceptance | Displaying a QCM challenge', () => {
 
       // then
       expect(find('.alert')).to.exist;
-      expect(find('.alert').textContent.trim()).to.equal('Pour valider, sélectionner au moins une réponse. Sinon, passez.');
+      expect(find('.alert').textContent.trim()).to.equal('Pour valider, sélectionnez au moins une réponse. Sinon, passez.');
     });
 
     it('should hide the alert error after the user interact with checkboxes', async () => {
