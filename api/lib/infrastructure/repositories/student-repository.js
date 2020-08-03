@@ -31,4 +31,10 @@ module.exports = {
 
     return this._toStudents(results);
   },
+  async getReconciledStudentByNationalStudentId(nationalStudentId) {
+
+    const result = await this.findReconciledStudentsByNationalStudentId([nationalStudentId]);
+
+    return _.isEmpty(result) ? null : result[0];
+  },
 };
