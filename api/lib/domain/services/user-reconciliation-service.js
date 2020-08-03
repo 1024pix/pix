@@ -73,7 +73,7 @@ async function checkIfStudentIsAlreadyReconciledOnTheSameOrganization(matchingSc
 }
 
 async function checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(student, userRepository) {
-  if (!_.isEmpty(student) && !_.isEmpty(student.account)) {
+  if (_.get(student, 'account')) {
     const userId = student.account.userId;
     const user = await userRepository.getUserAuthenticationMethods(userId);
     const authentificationMethod = getUserAuthenticationMethodWithObfuscation(user);

@@ -328,7 +328,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
 
         context('When schoolingRegistration is not already linked', () => {
 
-          it('should return matchedschoolingRegistration', async () => {
+          it('should return matchedSchoolingRegistration', async () => {
             // when
             const result = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId, user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
