@@ -24,19 +24,9 @@ function _generateSessionCode() {
 
 module.exports = {
 
-  getNewSessionCode() {
-
-    return Promise.resolve(_generateSessionCode())
-
-      .then((newSessionCode) => {
-
-        return sessionRepository.isSessionCodeAvailable(newSessionCode).then((codeAvailable) => {
-          if (codeAvailable) {
-            return newSessionCode;
-          } else {
-            return this.getNewSessionCode();
-          }
-        });
-      });
-  },
+  async getNewSessionCode() {
+    const newSessionCode =  _generateSessionCode();
+    const codeAvailable = await sessionRepository.isSessionCodeAvailable(newSessionCode);
+    return codeAvailable ? newSessionCode : this.getNewSessionCode();
+  }
 };
