@@ -1,3 +1,4 @@
+const yargs = require('yargs');
 const bluebird = require('bluebird');
 const { knex } = require('../../db/knex-database-connection');
 const knowledgeElementRepository = require('../../lib/infrastructure/repositories/knowledge-element-repository');
@@ -6,45 +7,21 @@ const knowledgeElementSnapshotRepository = require('../../lib/infrastructure/rep
 const DEFAULT_MAX_SNAPSHOT_COUNT = 5000;
 const DEFAULT_CONCURRENCY = 3;
 
-function _printUsage() {
-  console.log(`
-  node generate-knowledge-element-snapshots-for-active-campaigns.js [OPTIONS]
-    --maxSnapshotCount <count>  : Nombre de snapshots max. à générer (doit être supérieur à 0, défaut: ${DEFAULT_MAX_SNAPSHOT_COUNT})
-    --concurrency <count>       : Concurrence (doit être supérieur à 0, limite 10, défaut: ${DEFAULT_CONCURRENCY})
-    --help ou -h                : Affiche l'aide`);
-}
-
-function _validateAndNormalizeArgs(commandLineArgs) {
-  if (commandLineArgs.find((commandLineArg) => (commandLineArg === '--help' || commandLineArg === '-h'))) {
-    _printUsage();
-    process.exit(0);
-  }
-  const commandLineArgsLength = commandLineArgs.length;
-  const maxSnapshotCountIndicatorIndex = commandLineArgs.findIndex((commandLineArg) => commandLineArg === '--maxSnapshotCount');
-  let maxSnapshotCount;
-  if (maxSnapshotCountIndicatorIndex === -1 || maxSnapshotCountIndicatorIndex + 1 >= commandLineArgsLength) {
+function _validateAndNormalizeArgs({
+  concurrency,
+  maxSnapshotCount,
+}) {
+  if (isNaN(maxSnapshotCount)) {
     maxSnapshotCount = DEFAULT_MAX_SNAPSHOT_COUNT;
-  } else {
-    maxSnapshotCount = parseInt(commandLineArgs[maxSnapshotCountIndicatorIndex + 1]);
-    if (isNaN(maxSnapshotCount)) {
-      maxSnapshotCount = DEFAULT_MAX_SNAPSHOT_COUNT;
-    }
-    if (maxSnapshotCount <= 0) {
-      throw new Error(`Nombre max de snapshots ${commandLineArgs[maxSnapshotCountIndicatorIndex + 1]} ne peut pas être inférieur à 1.`);
-    }
   }
-  const concurrencyIndicatorIndex = commandLineArgs.findIndex((commandLineArg) => commandLineArg === '--concurrency');
-  let concurrency;
-  if (concurrencyIndicatorIndex === -1 || concurrencyIndicatorIndex + 1 >= commandLineArgsLength) {
+  if (maxSnapshotCount <= 0) {
+    throw new Error(`Nombre max de snapshots ${maxSnapshotCount} ne peut pas être inférieur à 1.`);
+  }
+  if (isNaN(concurrency)) {
     concurrency = DEFAULT_CONCURRENCY;
-  } else {
-    concurrency = parseInt(commandLineArgs[concurrencyIndicatorIndex + 1]);
-    if (isNaN(concurrency)) {
-      concurrency = DEFAULT_CONCURRENCY;
-    }
-    if (concurrency <= 0 || concurrency > 10) {
-      throw new Error(`Concurrent ${commandLineArgs[concurrencyIndicatorIndex + 1]} ne peut pas être inférieur à 1 ni supérieur à 10.`);
-    }
+  }
+  if (concurrency <= 0 || concurrency > 10) {
+    throw new Error(`Concurrent ${concurrency} ne peut pas être inférieur à 1 ni supérieur à 10.`);
   }
 
   return {
@@ -77,7 +54,20 @@ async function generateKnowledgeElementSnapshots(campaignParticipationData, conc
 
 async function main() {
   try {
-    const commandLineArgs = process.argv.slice(2);
+    const commandLineArgs = yargs
+      .option('maxSnapshotCount', {
+        description: 'Nombre de snapshots max. à générer.',
+        type: 'number',
+        default: DEFAULT_MAX_SNAPSHOT_COUNT,
+      })
+      .option('concurrency', {
+        description: 'Concurrence',
+        type: 'number',
+        default: DEFAULT_CONCURRENCY,
+      })
+      .help()
+      .argv;
+
     console.log('Validation des arguments...');
     const {
       maxSnapshotCount,
@@ -91,8 +81,8 @@ async function main() {
     await generateKnowledgeElementSnapshots(campaignParticipationData, concurrency);
     console.log('FIN');
   } catch (error) {
-    console.error(error);
-    _printUsage();
+    console.error('\x1b[31mErreur : %s\x1b[0m', error.message);
+    yargs.showHelp();
     process.exit(1);
   }
 }
