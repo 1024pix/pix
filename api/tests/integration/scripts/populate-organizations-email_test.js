@@ -21,6 +21,7 @@ describe('Integration | Scripts | populate-organizations-email.js', () => {
       const csvData = [
         { uai: 'uai1', email: 'uai1@example.net' },
         { uai: 'uai2', email: 'uai2@example.net' },
+        { uai: 'unknown', email: 'unknown@example.net' }
       ];
 
       // when
@@ -28,8 +29,9 @@ describe('Integration | Scripts | populate-organizations-email.js', () => {
 
       // then
       const organizations = await knex('organizations').select('externalId as uai', 'email');
-      expect(organizations).to.have.deep.members(csvData);
+      expect(organizations).to.deep.include(csvData[0]);
+      expect(organizations).to.deep.include(csvData[1]);
+      expect(organizations).to.not.deep.include(csvData[2]);
     });
-
   });
 });
