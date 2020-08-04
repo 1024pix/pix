@@ -120,10 +120,10 @@ describe('Acceptance | Campaigns| Start Campaigns with type Assessment', functio
 
           });
 
-          context('When campaign is restricted', function() {
+          context('When campaign is restricted and SCO', function() {
 
             beforeEach(function() {
-              campaign = server.create('campaign', { isRestricted: true, type: ASSESSMENT });
+              campaign = server.create('campaign', { isRestricted: true, type: ASSESSMENT, organizationType: 'SCO' });
             });
 
             context('When the student has an account but is not reconcilied', function() {
@@ -461,9 +461,9 @@ describe('Acceptance | Campaigns| Start Campaigns with type Assessment', functio
             });
           });
 
-          context('When campaign is restricted', function() {
+          context('When campaign is restricted and is SCO', function() {
             beforeEach(async function() {
-              campaign = server.create('campaign', 'ofTypeAssessment', 'restricted', { idPixLabel: 'toto' });
+              campaign = server.create('campaign', 'ofTypeAssessment', 'restricted', { idPixLabel: 'toto', organizationType: 'SCO' });
               await visit(`/campagnes/${campaign.code}?participantExternalId=a73at01r3`);
 
               expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification`);
@@ -545,10 +545,10 @@ describe('Acceptance | Campaigns| Start Campaigns with type Assessment', functio
         });
       });
 
-      context('When campaign is restricted', function() {
+      context('When campaign is restricted and SCO', function() {
 
         beforeEach(function() {
-          campaign = server.create('campaign', { isRestricted: true, idPixLabel: 'nom de naissance de maman', type: ASSESSMENT });
+          campaign = server.create('campaign', { isRestricted: true, idPixLabel: 'nom de naissance de maman', type: ASSESSMENT, organizationType: 'SCO' });
         });
 
         context('When association is not already done', function() {
@@ -796,9 +796,9 @@ describe('Acceptance | Campaigns| Start Campaigns with type Assessment', functio
         await authenticateByGAR(garUser);
       });
 
-      context('When campaign is restricted', function() {
+      context('When campaign is restricted  and SCO', function() {
         beforeEach(function() {
-          campaign = server.create('campaign', { isRestricted: true, type: ASSESSMENT });
+          campaign = server.create('campaign', { isRestricted: true, type: ASSESSMENT, organizationType: 'SCO' });
         });
 
         context('When association is not already done', function() {

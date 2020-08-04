@@ -59,10 +59,10 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
             });
           });
 
-          context('When campaign is restricted', function() {
+          context('When campaign is restricted and SCO', function() {
 
             beforeEach(function() {
-              campaign = server.create('campaign', { type: PROFILES_COLLECTION, isRestricted: true });
+              campaign = server.create('campaign', { type: PROFILES_COLLECTION, isRestricted: true, organizationType: 'SCO' });
             });
 
             context('When the student has an account but is not reconcilied', function() {
@@ -254,9 +254,9 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
             });
           });
 
-          context('When campaign is restricted', function() {
+          context('When campaign is restricted and SCO', function() {
             beforeEach(async function() {
-              campaign = server.create('campaign', { type: PROFILES_COLLECTION, isRestricted: true, idPixLabel: 'toto' });
+              campaign = server.create('campaign', { type: PROFILES_COLLECTION, isRestricted: true, idPixLabel: 'toto', organizationType: 'SCO' });
               await visit(`/campagnes/${campaign.code}?participantExternalId=a73at01r3`);
 
               expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification`);
@@ -337,10 +337,10 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
         });
       });
 
-      context('When campaign is restricted', function() {
+      context('When campaign is restricted and SCO', function() {
 
         beforeEach(function() {
-          campaign = server.create('campaign', { type: PROFILES_COLLECTION, isRestricted: true, idPixLabel: 'nom de naissance de maman' });
+          campaign = server.create('campaign', { type: PROFILES_COLLECTION, isRestricted: true, idPixLabel: 'nom de naissance de maman', organizationType: 'SCO' });
         });
 
         context('When association is not already done', function() {
@@ -535,9 +535,9 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
         await authenticateByGAR(garUser);
       });
 
-      context('When campaign is restricted', function() {
+      context('When campaign is restricted and SCO', function() {
         beforeEach(function() {
-          campaign = server.create('campaign', { type: PROFILES_COLLECTION, isRestricted: true });
+          campaign = server.create('campaign', { type: PROFILES_COLLECTION, isRestricted: true, organizationType: 'SCO' });
         });
 
         context('When association is not already done', function() {
