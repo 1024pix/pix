@@ -6,46 +6,40 @@ describe('Unit | Service | CodeSession', () => {
 
   describe('#isSessionCodeAvailable', () => {
 
-    it('should return a session code with 4 random capital letters and 2 random numbers', () => {
+    it('should return a session code with 4 random capital letters and 2 random numbers', async () => {
       // given
       sinon.stub(sessionRepository, 'isSessionCodeAvailable').resolves(true);
 
       // when
-      const promise = sessionCodeService.getNewSessionCode();
+      const result = await sessionCodeService.getNewSessionCode();
 
       // then
-      return promise.then((result) => {
-        expect(result).to.match(/[A-Z]{4}[0-9]{2}/);
-      });
+      expect(result).to.match(/[A-Z]{4}[0-9]{2}/);
     });
 
-    it('should call Repository isSessionCodeAvailable to validate code unicity', () => {
+    it('should call Repository isSessionCodeAvailable to validate code unicity', async () => {
       // given
       sinon.stub(sessionRepository, 'isSessionCodeAvailable').resolves(true);
 
       // when
-      const promise = sessionCodeService.getNewSessionCode();
+      const result = await sessionCodeService.getNewSessionCode();
 
       // then
-      return promise.then((result) => {
-        sinon.assert.calledOnce(sessionRepository.isSessionCodeAvailable);
-        sinon.assert.calledWith(sessionRepository.isSessionCodeAvailable, result);
-      });
+      sinon.assert.calledOnce(sessionRepository.isSessionCodeAvailable);
+      sinon.assert.calledWith(sessionRepository.isSessionCodeAvailable, result);
     });
 
-    it('should call Repository isSessionCodeAvailable twice if first code was not unique', () => {
+    it('should call Repository isSessionCodeAvailable twice if first code was not unique', async () => {
       // given
       sinon.stub(sessionRepository, 'isSessionCodeAvailable')
         .onCall(0).resolves(false)
         .onCall(1).resolves(true);
 
       // when
-      const promise = sessionCodeService.getNewSessionCode();
+      await sessionCodeService.getNewSessionCode();
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledTwice(sessionRepository.isSessionCodeAvailable);
-      });
+      sinon.assert.calledTwice(sessionRepository.isSessionCodeAvailable);
     });
   });
 
