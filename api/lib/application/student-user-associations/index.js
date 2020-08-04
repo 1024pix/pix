@@ -8,7 +8,7 @@ exports.register = async function(server) {
       method: 'POST',
       path: '/api/student-user-associations',
       config: {
-        handler: schoolingRegistrationUserAssociationController.associate,
+        handler: schoolingRegistrationUserAssociationController.associateManually,
         validate: {
           options: {
             allowUnknown: true
