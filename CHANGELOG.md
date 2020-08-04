@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v2.180.0 (04/08/2020)
+
+- [#1719](https://github.com/1024pix/pix/pull/1719) [FEATURE] Réconcilier automatiquement un élève s'il a déjà été réconcilié dans une autre organisation (PIX-962).
+- [#1729](https://github.com/1024pix/pix/pull/1729) [FEATURE] Ajouter le texte légale sur le formulaire de demande d'administration d'organisation SCO (PIX-910).
+- [#1724](https://github.com/1024pix/pix/pull/1724) [FEATURE] Afficher plus d'informations sur les tutoriels de l'analyse d'une campagne (PIX-1065).
+- [#1705](https://github.com/1024pix/pix/pull/1705) [FEATURE] Filtrer les tutoriaux en fonction de la langue sélectionnée (PIX-792).
+- [#1714](https://github.com/1024pix/pix/pull/1714) [BUGFIX] Correction d'affichage de PIX-ORGA sous IE11 (PIX-1029).
+- [#1723](https://github.com/1024pix/pix/pull/1723) [BUGFIX] Conjuguer correctement le message d'erreur d'absence de saisie (PIX-1031).
+- [#1720](https://github.com/1024pix/pix/pull/1720) [BUGFIX] Des lettres s'effacent toutes seules lorsqu'on écrit dans les champs de recherche sur PixAdmin (PIX-1070)
+- [#1718](https://github.com/1024pix/pix/pull/1718) [BUGFIX] Correction du style de titre sur la page Panel (PIX-1037).
+- [#1704](https://github.com/1024pix/pix/pull/1704) [TECH] Ajouter le linter de templates Ember sur Pix APP (PIX-1044).
+- [#1717](https://github.com/1024pix/pix/pull/1717) [CLEANUP] Retrait de la route dépréciée pour récupérer la liste des participants à une campagne
+
 ## v2.179.0 (31/07/2020)
 
 - [#1706](https://github.com/1024pix/pix/pull/1706) [FEATURE] Traduction des pages concernant la réinitialisation de mot de passe (PIX-790).
