@@ -142,7 +142,7 @@ export default class JoinRestrictedCampaignController extends Controller {
         return this.set('errorMessage', 'Vous avez déjà rejoint votre établissement avec un autre compte. Retrouvez-le. En cas d’oubli, contactez votre enseignant.');
       }
       if (error.status === '404') {
-        return this.set('errorMessage', 'Vous êtes enseignant ? <br> L’accès à un parcours n’est pas disponible pour le moment. <br> <br> Vous êtes un élève ? <br> Vérifiez vos informations afin de continuer ou prévenez l’organisateur de votre parcours.');
+        return this.set('errorMessage', 'Vous êtes un élève ? <br/> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.<br/> <br/> Vous êtes un enseignant ? <br/> L‘accès à un parcours n‘est pas disponible pour le moment.');
       }
       return this.set('errorMessage', error.detail);
     });
