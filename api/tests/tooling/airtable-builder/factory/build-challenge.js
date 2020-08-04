@@ -251,7 +251,9 @@ buildChallenge.untimed = function buildUntimedChallenge({
   createdTime = '2016-08-24T11:59:02.000Z',
   format = 'petit',
   illustrationAlt = 'texte alternatif à l\'image',
-  langue = 'Francophone',
+  langues = [
+    'Francophone'
+  ],
 } = {}) {
 
   return rawBuildChallenge({
@@ -286,7 +288,7 @@ buildChallenge.untimed = function buildUntimedChallenge({
     createdTime,
     illustrationAlt,
     format,
-    langue,
+    langues,
   });
 };
 
@@ -360,7 +362,7 @@ function rawBuildChallenge({
       'domaines': domaines,
       'Texte alternatif illustration': illustrationAlt,
       'format': format,
-      'Langue': langues,
+      'Langues': langues,
     },
     'createdTime': createdTime,
   };
