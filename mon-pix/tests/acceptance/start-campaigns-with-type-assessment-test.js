@@ -143,6 +143,31 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
                 // then
                 expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`.toLowerCase());
               });
+
+              context('When student is reconciled in another organization', function() {
+
+                it('should reconcile and redirect to landing-page', async function() {
+                  // given
+                  server.get('schooling-registration-user-associations', () => {
+                    return { data: null };
+                  });
+                  server.create('schooling-registration-user-association', {
+                    campaignCode: campaign.code
+                  });
+                  await visit('/campagnes');
+
+                  // when
+                  await fillIn('#campaign-code', campaign.code);
+                  await click('.fill-in-campaign-code__start-button');
+                  await click('#login-button');
+                  await fillIn('#login', prescritUser.email);
+                  await fillIn('#password', prescritUser.password);
+                  await click('#submit-connexion');
+
+                  // then
+                  expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code}/presentation`.toLowerCase());
+                });
+              });
             });
 
             context('When user must accept Pix last terms of service', async function() {
@@ -199,7 +224,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
             it('should not alter inputs(username,password,email) when email already exists ', async function() {
 
               //given
-              this.server.put('student-user-associations/possibilities', () => {
+              this.server.put('schooling-registration-user-associations/possibilities', () => {
 
                 const studentFoundWithUsernameGenerated = {
                   'data': {
@@ -209,7 +234,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
                       'birthdate': '2010-10-10',
                       'campaign-code': 'RESTRICTD',
                       'username': 'first.last1010'
-                    }, 'type': 'student-user-associations'
+                    }, 'type': 'schooling-registration-user-associations'
                   }
                 };
 
@@ -528,6 +553,22 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
 
         context('When association is not already done', function() {
 
+          it('should try to reconcile automatically before redirect to join restricted campaign page', async function() {
+            // given
+            server.get('schooling-registration-user-associations', () => {
+              return { data: null };
+            });
+            server.create('schooling-registration-user-association', {
+              campaignCode: campaign.code
+            });
+
+            // when
+            await visit(`/campagnes/${campaign.code}`);
+
+            // then
+            expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code}/presentation`.toLowerCase());
+          });
+
           it('should redirect to join restricted campaign page when campaign code is in url', async function() {
             // when
             await visit(`/campagnes/${campaign.code}`);
@@ -616,8 +657,8 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
         context('When association is already done', function() {
 
           beforeEach(async function() {
-            server.create('student', {
-              userId: prescritUser.id,
+            server.create('schooling-registration-user-association', {
+              campaignCode: campaign.code
             });
           });
 
@@ -784,13 +825,34 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
             //then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
           });
+
+          context('When user is already reconciled in another organization', async function() {
+
+            it('should reconcile and redirect to landing-page', async function() {
+              // given
+              server.get('schooling-registration-user-associations', () => {
+                return { data: null };
+              });
+              server.create('schooling-registration-user-association', {
+                campaignCode: campaign.code
+              });
+              await visit('/campagnes');
+
+              // when
+              await fillIn('#campaign-code', campaign.code);
+              await click('.fill-in-campaign-code__start-button');
+
+              // then
+              expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code}/presentation`.toLowerCase());
+            });
+          });
         });
 
         context('When association is already done', function() {
 
           beforeEach(async function() {
-            server.create('student', {
-              userId: garUser.id,
+            server.create('schooling-registration-user-association', {
+              campaignCode: campaign.code
             });
           });
 

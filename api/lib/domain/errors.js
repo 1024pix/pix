@@ -374,6 +374,12 @@ class ObjectValidationError extends DomainError {
   }
 }
 
+class UserCouldNotBeReconciledError extends DomainError {
+  constructor(message = 'Cet utilisateur n\'a pas pu être rattaché à une organization.') {
+    super(message);
+  }
+}
+
 class UserShouldChangePasswordError extends DomainError {
   constructor(message = 'Erreur, vous devez changer votre mot de passe.') {
     super(message);
@@ -565,6 +571,7 @@ module.exports = {
   SchoolingRegistrationsCouldNotBeSavedError,
   SessionAlreadyFinalizedError,
   UserAlreadyLinkedToCandidateInSessionError,
+  UserCouldNotBeReconciledError,
   UserNotAuthorizedToAccessEntity,
   UserNotAuthorizedToCertifyError,
   UserNotAuthorizedToCreateCampaignError,
