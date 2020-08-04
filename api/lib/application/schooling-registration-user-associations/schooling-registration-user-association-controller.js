@@ -7,8 +7,15 @@ function _isReconciliationWithUserDetails(payload) {
 }
 
 module.exports = {
+  async associateAutomatically(request) {
+    const authenticatedUserId = request.auth.credentials.userId;
+    const payload = request.payload.data.attributes;
+    const campaignCode = payload['campaign-code'];
+    const schoolingRegistration = await usecases.reconcileUserToOrganization({ userId: authenticatedUserId, campaignCode });
+    return schoolingRegistrationSerializer.serialize(schoolingRegistration);
+  },
 
-  async associate(request) {
+  async associateManually(request) {
     const authenticatedUserId = request.auth.credentials.userId;
     const payload = request.payload.data.attributes;
     const campaignCode = payload['campaign-code'];
@@ -22,9 +29,10 @@ module.exports = {
         birthdate: payload['birthdate'],
       };
 
-      schoolingRegistration =  await usecases.linkUserToSchoolingRegistrationData({ campaignCode, user });
+      schoolingRegistration = await usecases.linkUserToSchoolingRegistrationData({ campaignCode, user });
     } else {
-      schoolingRegistration  = await usecases.reconcileUserToOrganization({ userId: authenticatedUserId, campaignCode });
+      // deprecated in favor of associateAutomatically function
+      schoolingRegistration = await usecases.reconcileUserToOrganization({ userId: authenticatedUserId, campaignCode });
     }
 
     return schoolingRegistrationSerializer.serialize(schoolingRegistration);
