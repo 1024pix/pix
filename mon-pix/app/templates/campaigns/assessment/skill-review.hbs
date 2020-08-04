@@ -70,6 +70,12 @@
     {{/if}}
     <div class="skill-review-result__dash-line"></div>
 
+    {{#if this.model.campaignParticipation.campaignParticipationResult.reachedStage}}
+      <div class="skill-review__reached-stage">
+        {{this.model.campaignParticipation.campaignParticipationResult.reachedStage.title}}
+      </div>
+    {{/if}}
+
     {{#if this.showBadges}}
       <div class="badge-acquired-container">
         {{#each this.acquiredBadges as |badge|}}
