@@ -20,7 +20,6 @@
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    align-items: center;
     padding: 32px 10px 40px;
 
     @include device-is('tablet') {
