@@ -17,6 +17,9 @@ module('Integration | Component | routes/authenticated/campaigns/details/analysi
     tutorial1 = store.createRecord('tutorial', {
       title: 'tutorial1',
       link: 'http://link.to.tuto.1',
+      format: 'Vidéo',
+      source: 'Youtube',
+      duration: '00:10:00',
     });
 
     tutorial2 = store.createRecord('tutorial', {
@@ -62,6 +65,9 @@ module('Integration | Component | routes/authenticated/campaigns/details/analysi
     // then
     assert.dom('[aria-hidden="false"]').containsText('1 tuto recommandé par la communauté Pix');
     assert.dom('[aria-label="Tutoriel"]:first-child').containsText('tutorial1');
+    assert.dom('[aria-label="Tutoriel"]:first-child').containsText('Vidéo');
+    assert.dom('[aria-label="Tutoriel"]:first-child').containsText('10 minutes');
+    assert.dom('[aria-label="Tutoriel"]:first-child').containsText('Par Youtube');
     assert.dom('[aria-expanded="true"]').exists();
   });
 
