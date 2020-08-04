@@ -27,6 +27,7 @@ function buildSchoolingRegistration(
     department = faker.name.jobArea(),
     group = faker.random.alphaNumeric(3),
     diploma = faker.name.jobType(),
+    updatedAt = moment(faker.date.past()).format('YYYY-MM-DD'),
   } = {}) {
 
   return new SchoolingRegistration({
@@ -51,6 +52,7 @@ function buildSchoolingRegistration(
     department,
     group,
     diploma,
+    updatedAt,
     organizationId: organization.id,
   });
 }

@@ -1,20 +1,33 @@
 const usecases = require('../../domain/usecases');
-const studentSerializer = require('../../infrastructure/serializers/jsonapi/student-serializer');
+const schoolingRegistrationSerializer = require('../../infrastructure/serializers/jsonapi/schooling-registration-user-association-serializer');
+const _ = require('lodash');
+
+function _isReconciliationWithUserDetails(payload) {
+  return _.every(['first-name', 'last-name', 'birthdate'], _.partial(_.has, payload));
+}
 
 module.exports = {
 
-  async associate(request, h) {
-    const payload = request.payload.data.attributes;
+  async associate(request) {
     const authenticatedUserId = request.auth.credentials.userId;
-    const user = {
-      id: authenticatedUserId,
-      firstName: payload['first-name'],
-      lastName: payload['last-name'],
-      birthdate: payload['birthdate'],
-    };
+    const payload = request.payload.data.attributes;
+    const campaignCode = payload['campaign-code'];
+    let schoolingRegistration;
 
-    await usecases.linkUserToSchoolingRegistrationData({ campaignCode: payload['campaign-code'], user });
-    return h.response().code(204);
+    if (_isReconciliationWithUserDetails(payload)) {
+      const user = {
+        id: authenticatedUserId,
+        firstName: payload['first-name'],
+        lastName: payload['last-name'],
+        birthdate: payload['birthdate'],
+      };
+
+      schoolingRegistration =  await usecases.linkUserToSchoolingRegistrationData({ campaignCode, user });
+    } else {
+      schoolingRegistration  = await usecases.reconcileUserToOrganization({ userId: authenticatedUserId, campaignCode });
+    }
+
+    return schoolingRegistrationSerializer.serialize(schoolingRegistration);
   },
 
   findAssociation(request) {
@@ -23,7 +36,7 @@ module.exports = {
     const campaignCode = request.query.campaignCode;
 
     return usecases.findAssociationBetweenUserAndSchoolingRegistration({ authenticatedUserId, requestedUserId, campaignCode })
-      .then(studentSerializer.serialize);
+      .then(schoolingRegistrationSerializer.serialize);
   },
 
   async generateUsername(request, h) {
@@ -48,7 +61,7 @@ module.exports = {
           'campaign-code': campaignCode,
           username
         },
-        type: 'student-user-associations'
+        type: 'schooling-registration-user-associations'
       }
     };
     return h.response(schoolingRegistrationWithUsernameResponse).code(200);

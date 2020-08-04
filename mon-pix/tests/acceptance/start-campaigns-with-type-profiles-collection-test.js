@@ -433,8 +433,8 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
         context('When association is already done', function() {
 
           beforeEach(async function() {
-            server.create('student', {
-              userId: campaignParticipant.id,
+            server.create('schooling-registration-user-association', {
+              campaignCode: campaign.code
             });
           });
 
@@ -569,8 +569,8 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
         context('When association is already done', function() {
 
           beforeEach(async function() {
-            server.create('student', {
-              userId: garUser.id,
+            server.create('schooling-registration-user-association', {
+              campaignCode: campaign.code
             });
           });
 

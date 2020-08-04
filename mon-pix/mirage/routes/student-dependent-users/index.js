@@ -17,6 +17,7 @@ export default function index(config) {
     const student = schema.students.findBy({ firstName, lastName });
     const user = schema.users.create(newUser);
     student.update({ userId: user.id, organizationId });
+    schema.schoolingRegistrationUserAssociations.create({ campaignCode });
     return user;
   });
 }

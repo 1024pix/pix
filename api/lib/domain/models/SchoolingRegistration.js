@@ -17,6 +17,7 @@ class SchoolingRegistration {
     status,
     nationalStudentId,
     division,
+    updatedAt,
     // references
     userId,
     organizationId,
@@ -37,6 +38,7 @@ class SchoolingRegistration {
     this.status = status;
     this.nationalStudentId = nationalStudentId;
     this.division = division;
+    this.updatedAt = updatedAt;
     // references
     this.userId = userId;
     this.organizationId = organizationId;
