@@ -121,6 +121,8 @@ describe('Integration | Repository | Target-profile', () => {
       const skillAssociatedToTargetProfile = { id: skillId, name: '@Acquis2' };
       databaseBuilder.factory.buildTargetProfile();
       databaseBuilder.factory.buildCampaign();
+      databaseBuilder.factory.buildStage({ targetProfileId, threshold: 40 });
+      databaseBuilder.factory.buildStage({ targetProfileId, threshold: 20 });
       sinon.stub(skillDatasource, 'findOperativeByRecordIds').resolves([skillAssociatedToTargetProfile]);
 
       await databaseBuilder.commit();
@@ -129,8 +131,20 @@ describe('Integration | Repository | Target-profile', () => {
     it('should return the target profile matching the campaign id', async () => {
       // when
       const targetProfile = await targetProfileRepository.getByCampaignId(campaignId);
+
       // then
       expect(targetProfile.id).to.equal(targetProfileId);
+    });
+
+    it('should return the target profile with the stages ordered by threshold ASC', async () => {
+      // when
+      const targetProfile = await targetProfileRepository.getByCampaignId(campaignId);
+
+      // then
+      expect(targetProfile.stages).to.exist;
+      expect(targetProfile.stages).to.have.lengthOf(2);
+      expect(targetProfile.stages[0].threshold).to.equal(20);
+      expect(targetProfile.stages[1].threshold).to.equal(40);
     });
   });
 
