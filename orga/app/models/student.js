@@ -6,7 +6,7 @@ const DASH = '\u2013';
 const SPACING_CHARACTER = '\n';
 
 export const CONNEXION_TYPES = {
-  none: 'Non connecté',
+  none: 'Aucune',
   email: 'Adresse e-mail',
   identifiant: 'Identifiant',
   mediacentre: 'Mediacentre',
