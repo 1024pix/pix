@@ -1,4 +1,5 @@
 const TargetProfile = require('../../domain/models/TargetProfile');
+const Stage = require('../../domain/models/Stage');
 const skillAdapter = require('./skill-adapter');
 
 module.exports = {
@@ -6,6 +7,9 @@ module.exports = {
   fromDatasourceObjects({ bookshelfTargetProfile, associatedSkillAirtableDataObjects }) {
 
     const skills = associatedSkillAirtableDataObjects.map(skillAdapter.fromAirtableDataObject);
+    const targetProfileStages = bookshelfTargetProfile.related('stages');
+    const hasStages = targetProfileStages && targetProfileStages.models;
+    const stages = hasStages ? targetProfileStages.models.map((stage) => new Stage(stage.attributes)) : [];
 
     return new TargetProfile({
       id: bookshelfTargetProfile.get('id'),
@@ -14,6 +18,7 @@ module.exports = {
       organizationId: bookshelfTargetProfile.get('organizationId'),
       outdated: bookshelfTargetProfile.get('outdated'),
       skills,
+      stages,
     });
   },
 };

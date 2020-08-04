@@ -7,6 +7,7 @@ class TargetProfile {
     outdated,
     // includes
     skills = [],
+    stages,
     // references
     organizationId,
   } = {}) {
@@ -17,6 +18,7 @@ class TargetProfile {
     this.outdated = outdated;
     // includes
     this.skills = skills;
+    this.stages = stages;
     // references
     this.organizationId = organizationId;
   }

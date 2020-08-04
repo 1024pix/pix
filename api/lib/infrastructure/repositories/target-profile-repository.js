@@ -20,7 +20,13 @@ module.exports = {
       .query((qb) => qb.innerJoin('campaigns', 'campaigns.targetProfileId', 'target-profiles.id'))
       .query((qb) => qb.innerJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id'))
       .where({ 'campaigns.id': campaignId })
-      .fetch({ require: true, withRelated: ['skillIds'] });
+      .fetch({ require: true, withRelated: [
+        'skillIds', {
+          stages: function(query) {
+            query.orderBy('threshold', 'ASC');
+          }
+        }]
+      });
 
     return _getWithAirtableSkills(targetProfileBookshelf);
   },
