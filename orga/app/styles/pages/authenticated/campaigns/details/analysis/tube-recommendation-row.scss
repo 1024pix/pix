@@ -65,4 +65,15 @@
       font-weight: 500;
     }
   }
+
+  &__details {
+    color: $grey-80;
+    font-family: $roboto;
+    font-size: .75rem;
+    font-weight: normal;
+  }
+
+  &__format {
+    text-transform: capitalize;
+  }
 }
