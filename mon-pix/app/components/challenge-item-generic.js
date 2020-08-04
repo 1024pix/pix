@@ -5,6 +5,7 @@
 /* eslint ember/require-tagless-components: 0 */
 
 import { computed } from '@ember/object';
+import { and } from '@ember/object/computed';
 import { cancel, later } from '@ember/runloop';
 import Component from '@ember/component';
 import _ from 'mon-pix/utils/lodash-custom';
@@ -48,24 +49,19 @@ const ChallengeItemGeneric = Component.extend({
     return _.isInteger(this.challenge.timer);
   }),
 
-  displayWarningPage: computed('answer', 'isTimedChallenge', function() {
+  displayTimer: and('isTimedChallengeWithoutAnswer', 'hasUserConfirmedWarning'),
+
+  displayChallenge: computed('isTimedChallenge', '_hasSeenWarningPage', 'isTimedChallengeWithoutAnswer', function() {
+    return !this.isTimedChallenge || this._hasSeenWarningPage || !this.isTimedChallengeWithoutAnswer;
+  }),
+
+  _hasSeenWarningPage: and('hasUserConfirmedWarning', 'isTimedChallenge'),
+
+  isTimedChallengeWithoutAnswer: computed('answer', 'isTimedChallenge', function() {
     if (this.isTimedChallenge && !this.answer) {
       return true;
     }
     return false;
-  }),
-
-  displayTimer: computed('answer', 'hasUserConfirmedWarning', 'isTimedChallenge', function() {
-    if (this.isTimedChallenge && this.hasUserConfirmedWarning && !this.answer) {
-      return true;
-    }
-    return false;
-  }),
-
-  displayChallenge: computed('hasUserConfirmedWarning', 'isTimedChallenge', 'displayWarningPage', function() {
-    return !this.isTimedChallenge
-      || (this.hasUserConfirmedWarning && this.isTimedChallenge)
-      || !this.displayWarningPage;
   }),
 
   _getTimeout() {
