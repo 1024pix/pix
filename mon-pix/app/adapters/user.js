@@ -9,8 +9,8 @@ export default class User extends ApplicationAdapter {
 
   urlForCreateRecord(query, { adapterOptions }) {
     const url = super.urlForCreateRecord(...arguments);
-    if (adapterOptions && adapterOptions.isStudentDependentUser) {
-      return `${this.host}/${this.namespace}/student-dependent-users`;
+    if (adapterOptions && adapterOptions.isSchoolingRegistrationDependentUser) {
+      return `${this.host}/${this.namespace}/schooling-registration-dependent-users`;
     }
 
     return url;
@@ -19,7 +19,7 @@ export default class User extends ApplicationAdapter {
   createRecord(store, type, snapshot) {
     const { adapterOptions } = snapshot;
 
-    if (adapterOptions && adapterOptions.isStudentDependentUser) {
+    if (adapterOptions && adapterOptions.isSchoolingRegistrationDependentUser) {
       const url = this.buildURL(type.modelName, null, snapshot, 'createRecord');
       const serializedUser = this.serialize(snapshot);
       serializedUser.data.attributes['campaign-code'] = adapterOptions.campaignCode;

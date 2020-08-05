@@ -35,7 +35,7 @@ export default class RegisterForm extends Component {
   @inject()
   store;
 
-  studentDependentUser = null;
+  schoolingRegistrationDependentUser = null;
   schoolingRegistrationUserAssociation = null;
   isLoading = false;
   errorMessage = null;
@@ -124,7 +124,7 @@ export default class RegisterForm extends Component {
 
   willDestroyElement() {
     if (this.schoolingRegistrationUserAssociation) this.schoolingRegistrationUserAssociation.unloadRecord();
-    if (this.studentDependentUser) this.studentDependentUser.unloadRecord();
+    if (this.schoolingRegistrationDependentUser) this.schoolingRegistrationDependentUser.unloadRecord();
     super.willDestroyElement(...arguments);
   }
 
@@ -154,7 +154,7 @@ export default class RegisterForm extends Component {
         this.set('matchingStudentFound', true);
         this.set('isLoading', false);
         this.set('username', response.username);
-        return this.studentDependentUser = this.store.createRecord('user', {
+        return this.schoolingRegistrationDependentUser = this.store.createRecord('user', {
           firstName: this.firstName,
           lastName: this.lastName,
           email: '',
@@ -180,17 +180,17 @@ export default class RegisterForm extends Component {
   async register() {
     this.set('isLoading', true);
     try {
-      this.set('studentDependentUser.password', this.password);
+      this.set('schoolingRegistrationDependentUser.password', this.password);
       if (this.loginWithUsername) {
-        this.set('studentDependentUser.username', this.username);
-        this.set('studentDependentUser.email', undefined);
+        this.set('schoolingRegistrationDependentUser.username', this.username);
+        this.set('schoolingRegistrationDependentUser.email', undefined);
       } else {
-        this.set('studentDependentUser.email', this.email);
-        this.set('studentDependentUser.username', undefined);
+        this.set('schoolingRegistrationDependentUser.email', this.email);
+        this.set('schoolingRegistrationDependentUser.username', undefined);
       }
-      await this.studentDependentUser.save({
+      await this.schoolingRegistrationDependentUser.save({
         adapterOptions: {
-          isStudentDependentUser: true,
+          isSchoolingRegistrationDependentUser: true,
           campaignCode: this.campaignCode,
           birthdate: this.birthdate,
           withUsername: this.loginWithUsername,
@@ -202,12 +202,12 @@ export default class RegisterForm extends Component {
     }
 
     if (this.loginWithUsername) {
-      await this._authenticate(this.studentDependentUser.username, this.studentDependentUser.password);
+      await this._authenticate(this.schoolingRegistrationDependentUser.username, this.schoolingRegistrationDependentUser.password);
     } else {
-      await this._authenticate(this.studentDependentUser.email, this.studentDependentUser.password);
+      await this._authenticate(this.schoolingRegistrationDependentUser.email, this.schoolingRegistrationDependentUser.password);
     }
 
-    this.set('studentDependentUser.password', null);
+    this.set('schoolingRegistrationDependentUser.password', null);
     this.set('isLoading', false);
   }
 
@@ -268,7 +268,7 @@ export default class RegisterForm extends Component {
   }
 
   _updateInputsStatus() {
-    const errors = this.studentDependentUser.errors;
+    const errors = this.schoolingRegistrationDependentUser.errors;
     errors.forEach(({ attribute, message }) => {
       const statusObject = 'validation.' + attribute + '.status';
       const messageObject = 'validation.' + attribute + '.message';

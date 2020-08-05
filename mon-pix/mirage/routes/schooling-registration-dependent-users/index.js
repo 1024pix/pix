@@ -1,5 +1,5 @@
 export default function index(config) {
-  config.post('/student-dependent-users', (schema, request) => {
+  config.post('/schooling-registration-dependent-users', (schema, request) => {
     const params = JSON.parse(request.requestBody);
 
     const campaignCode = params.data.attributes['campaign-code'];

@@ -236,8 +236,8 @@ describe('Integration | Component | routes/register-form', function() {
       it(`should display an error message on email field, when '${stringFilledIn}' is typed and focused out`, async function() {
         // given
         this.set('matchingStudentFound', true);
-        this.set('studentDependentUser', EmberObject.create({ email : stringFilledIn , unloadRecord() {return resolve();}  }));
-        await render(hbs`{{routes/register-form matchingStudentFound=true studentDependentUser=studentDependentUser}}`);
+        this.set('schoolingRegistrationDependentUser', EmberObject.create({ email : stringFilledIn , unloadRecord() {return resolve();}  }));
+        await render(hbs`{{routes/register-form matchingStudentFound=true schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
 
         // when
         await click('.pix-toggle__off');
@@ -259,8 +259,8 @@ describe('Integration | Component | routes/register-form', function() {
       it(`should display an error message on password field, when '${stringFilledIn}' is typed and focused out`, async function() {
         // given
         this.set('matchingStudentFound', true);
-        this.set('studentDependentUser', EmberObject.create({ password : stringFilledIn , unloadRecord() {return resolve();}  }));
-        await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound studentDependentUser=studentDependentUser}}`);
+        this.set('schoolingRegistrationDependentUser', EmberObject.create({ password : stringFilledIn , unloadRecord() {return resolve();}  }));
+        await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
 
         // when
         await fillIn('#password', stringFilledIn);
@@ -299,7 +299,7 @@ describe('Integration | Component | routes/register-form', function() {
           return resolve();
         };
 
-        await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound studentDependentUser=studentDependentUser}}`);
+        await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
 
         await fillIn('#firstName', 'pix');
         await fillIn('#lastName', 'pix');
