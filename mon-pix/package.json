@@ -23,10 +23,11 @@
   "scripts": {
     "clean": "rm -rf tmp dist node_modules",
     "dev": "ember server",
-    "lint": "eslint ./*.js app config mirage tests ; npm run lint:hbs",
+    "lint": "eslint ./*.js app config mirage tests ; npm run lint:hbs ; npm run lint:scss",
     "lint:fix": "npm run lint -- --fix",
     "lint:hbs": "ember-template-lint .",
     "lint:js": "eslint .",
+    "lint:scss": "stylelint app/styles/**/*.scss",
     "build": "ember build --environment $BUILD_ENVIRONMENT",
     "preinstall": "npx check-engine",
     "scalingo-post-ra-creation": "echo 'nothing to do'",
@@ -107,6 +108,8 @@
     "p-queue": "^6.3.0",
     "pix-ui": "git://github.com/1024pix/pix-ui.git#semver:^v0.8.1",
     "sass": "^1.23.7",
-    "showdown": "^1.9.1"
+    "showdown": "^1.9.1",
+    "stylelint": "^13.6.1",
+    "stylelint-config-standard": "^20.0.0"
   }
 }
