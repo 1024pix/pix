@@ -1,4 +1,4 @@
-{{#if this.hasChallengeTimer}}
+{{#if this.isTimedChallengeWithoutAnswer}}
   {{#unless this.hasUserConfirmedWarning}}
     <WarningPage @hasUserConfirmedWarning={{action "setUserConfirmation"}} @time={{@challenge.timer}} />
   {{/unless}}
@@ -51,8 +51,6 @@
   </form>
 {{/if}}
 
-{{#if this.displayFeedbackPanel}}
-  <div class="challenge-item__feedback">
-    <FeedbackPanel @assessment={{@assessment}} @challenge={{@challenge}}/>
-  </div>
-{{/if}}
+<div class="challenge-item__feedback">
+  <FeedbackPanel @assessment={{@assessment}} @challenge={{@challenge}}/>
+</div>
