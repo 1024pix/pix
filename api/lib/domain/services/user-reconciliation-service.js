@@ -13,15 +13,15 @@ const MAX_ACCEPTABLE_RATIO = 0.25;
 
 const STUDENT_RECONCILIATION_ERRORS = {
   IN_OTHER_ORGANIZATION: {
-    samlId: { displayShortCode: 'R13', code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION' },
-    username: { displayShortCode: 'R12', code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION' },
-    email: { displayShortCode: 'R11', code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION' },
+    samlId: { shortCode: 'R13', code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION' },
+    username: { shortCode: 'R12', code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION' },
+    email: { shortCode: 'R11', code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION' },
   }
   ,
   IN_SAME_ORGANIZATION: {
-    samlId: { displayShortCode: 'R33', code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION' },
-    username: { displayShortCode: 'R32', code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION' },
-    email: { displayShortCode: 'R31', code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION' },
+    samlId: { shortCode: 'R33', code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION' },
+    username: { shortCode: 'R32', code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION' },
+    email: { shortCode: 'R31', code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION' },
   }
 };
 
@@ -65,9 +65,9 @@ async function checkIfStudentIsAlreadyReconciledOnTheSameOrganization(matchingSc
     const user = await userRepository.getUserAuthenticationMethods(userId);
     const authentificationMethod = getUserAuthenticationMethodWithObfuscation(user);
 
-    const detail = 'Un compte existe déjà pour l\'élève dans le même établissement.';
+    const detail = 'Un compte existe déjà pour l‘élève dans le même établissement.';
     const error = STUDENT_RECONCILIATION_ERRORS.IN_SAME_ORGANIZATION[authentificationMethod.authenticatedBy];
-    const meta = { displayShortCode: error.displayShortCode, value: authentificationMethod.value };
+    const meta = { shortCode: error.shortCode, value: authentificationMethod.value };
     throw new SchoolingRegistrationAlreadyLinkedToUserError(detail, error.code, meta);
   }
 }
@@ -78,9 +78,9 @@ async function checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(st
     const user = await userRepository.getUserAuthenticationMethods(userId);
     const authentificationMethod = getUserAuthenticationMethodWithObfuscation(user);
 
-    const detail = 'Un compte existe déjà pour l\'élève dans un autre établissement.';
+    const detail = 'Un compte existe déjà pour l‘élève dans un autre établissement.';
     const error = STUDENT_RECONCILIATION_ERRORS.IN_OTHER_ORGANIZATION[authentificationMethod.authenticatedBy];
-    const meta = { displayShortCode: error.displayShortCode, value: authentificationMethod.value };
+    const meta = { shortCode: error.shortCode, value: authentificationMethod.value };
     throw new SchoolingRegistrationAlreadyLinkedToUserError(detail, error.code, meta);
   }
 }

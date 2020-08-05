@@ -81,7 +81,7 @@ describe('Acceptance | Controller | Student-dependent-user', () => {
 
           // then
           expect(response.statusCode).to.equal(409);
-          expect(response.result.errors[0].detail).to.equal('Un compte existe déjà pour l\'élève dans le même établissement.');
+          expect(response.result.errors[0].detail).to.equal('Un compte existe déjà pour l‘élève dans le même établissement.');
         });
       });
 

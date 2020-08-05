@@ -498,11 +498,11 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
             status: '409',
             code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
-            detail: 'Un compte existe déjà pour l\'élève dans le même établissement.',
-            meta: { displayShortCode: 'R31', value: 'j***@example.net' }
+            detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
+            meta: { shortCode: 'R31', value: 'j***@example.net' }
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix utilisé dans votre établissement scolaire, avec l\'adresse mail j***@example.net.' +
-            '<br> Connectez-vous à ce compte sinon demandez de l\'aide à un enseignant. (Code R31)';
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix utilisé dans votre établissement scolaire, avec l‘adresse mail <br>j***@example.net.<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br> (Code R31)';
+
           studentUserAssociation.save.rejects({ errors: [error] });
 
           // when
@@ -525,10 +525,10 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
             status: '409',
             code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
-            detail: 'Un compte existe déjà pour l\'élève dans le même établissement.',
-            meta: { displayShortCode: 'R32', value: 'j***.h***2' }
+            detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
+            meta: { shortCode: 'R32', value: 'j***.h***2' }
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix utilisé dans votre établissement scolaire, avec un identifiant sous la forme j***.h***2.<br> Connectez-vous à ce compte sinon demandez de l\'aide à un enseignant. (Code R32)';
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix utilisé dans votre établissement scolaire, avec l‘identifiant<br>j***.h***2.<br>Pour continuer, connectez-vous à ce compte ou demandez de l‘aide à un enseignant.<br> (Code R32)';
           studentUserAssociation.save.rejects({ errors: [error] });
 
           // when
@@ -551,10 +551,10 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
             status: '409',
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
-            detail: 'Un compte existe déjà pour l\'élève dans le même établissement.',
-            meta: { displayShortCode: 'R33', value: undefined }
+            detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
+            meta: { shortCode: 'R33', value: undefined }
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l\'ENT dans votre établissement scolaire.<br> Connectez-vous à ce compte sinon demandez de l\'aide à un enseignant. (Code R33)';
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.';
           studentUserAssociation.save.rejects({ errors: [error] });
 
           // when
@@ -577,10 +577,10 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
             status: '409',
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
-            detail: 'Un compte existe déjà pour l\'élève dans le même établissement.',
-            meta: { displayShortCode: 'R33', value: undefined }
+            detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
+            meta: { shortCode: 'R33', value: undefined }
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l\'ENT dans votre établissement scolaire.<br> Connectez-vous à ce compte sinon demandez de l\'aide à un enseignant. (Code R33)';
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.';
           studentUserAssociation.save.rejects({ errors: [error] });
 
           // when
@@ -603,10 +603,10 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
             status: '409',
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
-            detail: 'Un compte existe déjà pour l\'élève dans le même établissement.',
-            meta: { displayShortCode: 'R33', value: undefined }
+            detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
+            meta: { shortCode: 'R33', value: undefined }
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l\'ENT dans votre établissement scolaire.<br> Connectez-vous à ce compte sinon demandez de l\'aide à un enseignant. (Code R33)';
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.';
           studentUserAssociation.save.rejects({ errors: [error] });
 
           // when
@@ -629,10 +629,10 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
             status: '409',
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
-            detail: 'Un compte existe déjà pour l\'élève dans le même établissement.',
-            meta: { displayShortCode: 'R33', value: undefined }
+            detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
+            meta: { shortCode: 'R33', value: undefined }
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l\'ENT dans votre établissement scolaire.<br> Connectez-vous à ce compte sinon demandez de l\'aide à un enseignant. (Code R33)';
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.';
           studentUserAssociation.save.rejects({ errors: [error] });
 
           // when
@@ -655,10 +655,10 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
             status: '409',
             code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
-            detail: 'Un compte existe déjà pour l\'élève dans le même établissement.',
-            meta: { displayShortCode: 'R32', value: 'j***.h***2' }
+            detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
+            meta: { shortCode: 'R32', value: 'j***.h***2' }
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix utilisé dans votre établissement scolaire, avec un identifiant sous la forme j***.h***2.<br> Connectez-vous à ce compte sinon demandez de l\'aide à un enseignant. (Code R32)';
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix utilisé dans votre établissement scolaire, avec l‘identifiant<br>j***.h***2.<br>Pour continuer, connectez-vous à ce compte ou demandez de l‘aide à un enseignant.<br> (Code R32)';
           studentUserAssociation.save.rejects({ errors: [error] });
 
           // when
@@ -685,10 +685,10 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
             status: '409',
             code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
-            detail: 'Un compte existe déjà pour l\'élève dans un autre établissement.',
-            meta: { displayShortCode: 'R11', value: 'j***@example.net' }
+            detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
+            meta: { shortCode: 'R11', value: 'j***@example.net' }
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix avec l’adresse e-mail j***@example.net<br> Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code R11)';
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix avec l’adresse e-mail <br>j***@example.net<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code R11)';
           studentUserAssociation.save.rejects({ errors: [error] });
 
           // when
@@ -711,10 +711,10 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
             status: '409',
             code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
-            detail: 'Un compte existe déjà pour l\'élève dans un autre établissement.',
-            meta: { displayShortCode: 'R12', value: 'j***.h***2' }
+            detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
+            meta: { shortCode: 'R12', value: 'j***.h***2' }
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix utilisé avec l’identifiant j***.h***2<br> Pour continuer, connectez-vous à ce compte ou demandez de l\'aide à un enseignant.<br>(Code R12)';
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix utilisé avec l’identifiant <br>j***.h***2<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code R12)';
           studentUserAssociation.save.rejects({ errors: [error] });
 
           // when
@@ -737,10 +737,10 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
             status: '409',
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
-            detail: 'Un compte existe déjà pour l\'élève dans un autre établissement.',
-            meta: { displayShortCode: 'R13', value: undefined }
+            detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
+            meta: { shortCode: 'R13', value: undefined }
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l\'ENT dans un autre établissement scolaire.<br> Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l\'aide de Pix Orga.';
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l‘ENT dans un autre établissement scolaire.<br>Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l‘aide de Pix Orga.';
           studentUserAssociation.save.rejects({ errors: [error] });
 
           // when
@@ -763,10 +763,10 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
             status: '409',
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
-            detail: 'Un compte existe déjà pour l\'élève dans un autre établissement.',
-            meta: { displayShortCode: 'R13', value: undefined }
+            detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
+            meta: { shortCode: 'R13', value: undefined }
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l\'ENT dans un autre établissement scolaire.<br> Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l\'aide de Pix Orga.';
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l‘ENT dans un autre établissement scolaire.<br>Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l‘aide de Pix Orga.';
           studentUserAssociation.save.rejects({ errors: [error] });
 
           // when
@@ -789,10 +789,10 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
             status: '409',
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
-            detail: 'Un compte existe déjà pour l\'élève dans un autre établissement.',
-            meta: { displayShortCode: 'R13', value: undefined }
+            detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
+            meta: { shortCode: 'R13', value: undefined }
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l\'ENT dans un autre établissement scolaire.<br> Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l\'aide de Pix Orga.';
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l‘ENT dans un autre établissement scolaire.<br>Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l‘aide de Pix Orga.';
           studentUserAssociation.save.rejects({ errors: [error] });
 
           // when
@@ -815,10 +815,10 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
             status: '409',
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
-            detail: 'Un compte existe déjà pour l\'élève dans un autre établissement.',
-            meta: { displayShortCode: 'R13', value: undefined }
+            detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
+            meta: { shortCode: 'R13', value: undefined }
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l\'ENT dans un autre établissement scolaire.<br> Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l\'aide de Pix Orga.';
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l‘ENT dans un autre établissement scolaire.<br>Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l‘aide de Pix Orga.';
           studentUserAssociation.save.rejects({ errors: [error] });
 
           // when
@@ -841,10 +841,10 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
             status: '409',
             code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
-            detail: 'Un compte existe déjà pour l\'élève dans un autre établissement.',
-            meta: { displayShortCode: 'R12', value: 'j***.h***2' }
+            detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
+            meta: { shortCode: 'R12', value: 'j***.h***2' }
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix utilisé avec l’identifiant j***.h***2<br> Pour continuer, connectez-vous à ce compte ou demandez de l\'aide à un enseignant.<br>(Code R12)';
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix utilisé avec l’identifiant <br>j***.h***2<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code R12)';
           studentUserAssociation.save.rejects({ errors: [error] });
 
           // when
