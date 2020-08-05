@@ -1,0 +1,18 @@
+name: HTML Check
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+#      - name: Checks HTML in Pix App
+#        uses: Cyb3r-Jak3/html5validator-action@v0.4.1
+#        with:
+#          root: ./mon-pix/
+#          extra: -lll
+      - name: Checks HTML in Pix App
+        uses: chabad360/htmlproofer@v1.1
+        with:
+          directory: ./mon-pix/
