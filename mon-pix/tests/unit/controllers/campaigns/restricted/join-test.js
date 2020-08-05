@@ -463,7 +463,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
 
       // then
       sinon.assert.calledOnce(studentUserAssociation.unloadRecord);
-      expect(controller.get('errorMessage')).to.equal('Vous êtes enseignant ? <br> L’accès à un parcours n’est pas disponible pour le moment. <br> <br> Vous êtes un élève ? <br> Vérifiez vos informations afin de continuer ou prévenez l’organisateur de votre parcours.');
+      expect(controller.get('errorMessage')).to.equal('Vous êtes un élève ? <br/> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.<br/> <br/> Vous êtes un enseignant ? <br/> L‘accès à un parcours n‘est pas disponible pour le moment.');
       sinon.assert.notCalled(controller.transitionToRoute);
       expect(controller.get('isLoading')).to.equal(false);
     });
