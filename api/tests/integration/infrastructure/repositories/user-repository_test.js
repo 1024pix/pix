@@ -11,7 +11,6 @@ const userRepository = require('../../../../lib/infrastructure/repositories/user
 const User = require('../../../../lib/domain/models/User');
 const UserDetailsForAdmin = require('../../../../lib/domain/models/UserDetailsForAdmin');
 const Membership = require('../../../../lib/domain/models/Membership');
-const UserOrgaSettings = require('../../../../lib/domain/models/UserOrgaSettings');
 const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
 const CertificationCenterMembership = require('../../../../lib/domain/models/CertificationCenterMembership');
 const Organization = require('../../../../lib/domain/models/Organization');
@@ -31,7 +30,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
   let userInDB;
   let organizationInDB, organizationRoleInDB;
   let membershipInDB;
-  let userOrgaSettingsInDB;
   let certificationCenterInDB, certificationCenterMembershipInDB;
 
   function _insertUserWithOrganizationsAndCertificationCenterAccesses() {
@@ -48,11 +46,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       userId: userInDB.id,
       organizationRole: organizationRoleInDB,
       organizationId: organizationInDB.id
-    });
-
-    userOrgaSettingsInDB = databaseBuilder.factory.buildUserOrgaSettings({
-      userId: userInDB.id,
-      currentOrganizationId: organizationInDB.id
     });
 
     certificationCenterInDB = databaseBuilder.factory.buildCertificationCenter();
@@ -479,61 +472,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
     });
 
-    describe('#getWithOrgaSettings', () => {
-
-      beforeEach(async () => {
-        await _insertUserWithOrganizationsAndCertificationCenterAccesses();
-      });
-
-      it('should return user for the given id', async () => {
-        // given
-        const expectedUser = new User(userInDB);
-
-        // when
-        const user = await userRepository.getWithOrgaSettings(userInDB.id);
-
-        // then
-        expect(user).to.be.an.instanceof(User);
-        expect(user.id).to.equal(expectedUser.id);
-        expect(user.firstName).to.equal(expectedUser.firstName);
-        expect(user.lastName).to.equal(expectedUser.lastName);
-        expect(user.email).to.equal(expectedUser.email);
-        expect(user.password).to.equal(expectedUser.password);
-        expect(user.cgu).to.equal(expectedUser.cgu);
-      });
-
-      it('should return user-orga-settings associated to the user', async () => {
-        // when
-        const user = await userRepository.getWithOrgaSettings(userInDB.id);
-
-        // then
-        expect(user.userOrgaSettings).to.be.an('Object');
-
-        const userOrgaSettings = user.userOrgaSettings;
-        expect(userOrgaSettings).to.be.an.instanceof(UserOrgaSettings);
-        expect(userOrgaSettings.id).to.equal(userOrgaSettingsInDB.id);
-
-        const associatedOrganization = userOrgaSettings.currentOrganization;
-        expect(associatedOrganization).to.be.an.instanceof(Organization);
-        expect(associatedOrganization.id).to.equal(organizationInDB.id);
-        expect(associatedOrganization.code).to.equal(organizationInDB.code);
-        expect(associatedOrganization.name).to.equal(organizationInDB.name);
-        expect(associatedOrganization.type).to.equal(organizationInDB.type);
-
-        expect(userOrgaSettings.organizationRole).to.equal(userOrgaSettings.organizationRole);
-      });
-
-      it('should reject with a UserNotFound error when no user was found with the given id', async () => {
-        // given
-        const unknownUserId = 666;
-
-        // when
-        const result = await catchErr(userRepository.getWithOrgaSettings)(unknownUserId);
-
-        // then
-        expect(result).to.be.instanceOf(UserNotFoundError);
-      });
-    });
   });
 
   describe('get user details for administration usage', () => {
