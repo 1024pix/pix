@@ -1,6 +1,6 @@
 /* eslint ember/no-computed-properties-in-native-classes: 0 */
 
-import Model, { attr, hasMany } from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 import { mapBy, max } from '@ember/object/computed';
 import { computed } from '@ember/object';
 
@@ -15,6 +15,7 @@ export default class CampaignParticipationResult extends Model {
   // includes
   @hasMany('campaignParticipationBadges') campaignParticipationBadges;
   @hasMany('competenceResult') competenceResults;
+  @belongsTo('reachedStage') reachedStage;
 
   // methods
   @mapBy('competenceResults', 'totalSkillsCount') totalSkillsCounts;

@@ -16,6 +16,7 @@ class CampaignParticipationResult {
     // relationships
     campaignParticipationBadges,
     competenceResults = [],
+    reachedStage
   } = {}) {
     this.id = id;
     // attributes
@@ -27,6 +28,7 @@ class CampaignParticipationResult {
     // relationships
     this.campaignParticipationBadges = campaignParticipationBadges;
     this.competenceResults = competenceResults;
+    this.reachedStage = reachedStage;
   }
 
   static buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements, campaignBadges = [], acquiredBadgeIds = [] }) {
@@ -44,6 +46,8 @@ class CampaignParticipationResult {
     const totalSkillsCount = _.sumBy(targetedCompetenceResults, 'totalSkillsCount');
     const testedSkillsCount = _.sumBy(targetedCompetenceResults, 'testedSkillsCount');
 
+    const stages = targetProfile.stages;
+
     return new CampaignParticipationResult({
       id: campaignParticipationId,
       totalSkillsCount,
@@ -53,20 +57,41 @@ class CampaignParticipationResult {
       isCompleted: assessment.isCompleted(),
       competenceResults: targetedCompetenceResults,
       campaignParticipationBadges,
+      reachedStage: _computeReachedStage({ stages, totalSkillsCount, validatedSkillsCount }),
     });
   }
 
   get masteryPercentage() {
-    if (this.totalSkillsCount !== 0) {
-      return Math.round(this.validatedSkillsCount * 100 / this.totalSkillsCount);
-    } else {
-      return 0;
-    }
+    return _computeMasteryPercentage({
+      totalSkillsCount: this.totalSkillsCount,
+      validatedSkillsCount: this.validatedSkillsCount
+    });
   }
 
   get progress() {
     return campaignParticipationService.progress(this.isCompleted, this.knowledgeElementsCount, this.totalSkillsCount);
   }
+}
+
+function _computeReachedStage({ stages, totalSkillsCount, validatedSkillsCount }) {
+  if (!stages) {
+    return null;
+  }
+  const masteryPercentage = _computeMasteryPercentage({ totalSkillsCount, validatedSkillsCount });
+  const reachedStages = stages.filter((stage) => masteryPercentage >= stage.threshold);
+  return {
+    ... _.last(reachedStages),
+    starCount: reachedStages.length,
+  };
+}
+
+function _computeMasteryPercentage({ totalSkillsCount, validatedSkillsCount }) {
+  if (totalSkillsCount !== 0) {
+    return Math.round(validatedSkillsCount * 100 / totalSkillsCount);
+  } else {
+    return 0;
+  }
+
 }
 
 function _removeUntargetedKnowledgeElements(knowledgeElements, targetProfileSkillsIds) {

@@ -10,6 +10,7 @@ module.exports = function buildTargetProfile({
   organizationId = faker.random.number(),
   organizationsSharedId = [],
   outdated = false,
+  stages = [],
 } = {}) {
   return new TargetProfile({
     id,
@@ -19,5 +20,6 @@ module.exports = function buildTargetProfile({
     organizationId,
     organizationsSharedId,
     outdated,
+    stages,
   });
 };
