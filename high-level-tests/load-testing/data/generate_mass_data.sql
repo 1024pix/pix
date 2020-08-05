@@ -27,7 +27,6 @@ SET LOCAL constants.participation_per_campaign_count=150;
 SET LOCAL constants.shared_participation_percentage=65;
 SET LOCAL constants.answer_per_competence_evaluation_assessment_count=25;
 SET LOCAL constants.answer_per_campaign_assessment_count=25;
-SET LOCAL constants.knowledge_element_per_answer_count=2;
 SET LOCAL constants.validated_knowledge_element_percentage=60; -- Détermine la répartition des statuts des knowledge-elements
 SET LOCAL constants.invalidated_knowledge_element_percentage=30; -- Le reste du pourcentage va constituer les knowledge-elements 'reset'
 
@@ -599,7 +598,7 @@ WITH inserted_knowledge_elements_cte AS (
         SELECT (random() * 100 + (generator*0))::int AS status_score
       ),
         generator AS id
-      FROM generate_series(1,current_setting('constants.answer_per_competence_evaluation_assessment_count')::int*current_setting('constants.competence_evaluation_count')::int*current_setting('constants.knowledge_element_per_answer_count')::int) as generator
+      FROM generate_series(1,current_setting('constants.answer_per_competence_evaluation_assessment_count')::int*current_setting('constants.competence_evaluation_count')::int) as generator
     ) id_picker
   INNER JOIN inserted_answers ON inserted_answers.rownum = id_picker.picked_answer_rownum
   INNER JOIN referentiel ON referentiel.rownum = id_picker.picked_referentiel_rownum
@@ -652,7 +651,7 @@ WITH inserted_knowledge_elements_cte AS (
         SELECT (random() * 100 + (generator*0))::int AS status_score
       ),
         generator AS id
-      FROM generate_series(1,current_setting('constants.campaign_per_organization_count')::int*current_setting('constants.organization_count')::int*current_setting('constants.participation_per_campaign_count')::int*current_setting('constants.answer_per_campaign_assessment_count')::int*current_setting('constants.knowledge_element_per_answer_count')::int) as generator
+      FROM generate_series(1,current_setting('constants.campaign_per_organization_count')::int*current_setting('constants.organization_count')::int*current_setting('constants.participation_per_campaign_count')::int*current_setting('constants.answer_per_campaign_assessment_count')::int) as generator
     ) id_picker
   INNER JOIN inserted_answers ON inserted_answers.rownum = id_picker.picked_answer_rownum
   INNER JOIN referentiel ON referentiel.rownum = id_picker.picked_referentiel_rownum
