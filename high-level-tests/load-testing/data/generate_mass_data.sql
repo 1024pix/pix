@@ -19,7 +19,6 @@ SELECT setval(pg_get_serial_sequence('knowledge-elements','id'), coalesce(max("i
 --				Déclaration de constantes   ---------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
 SET LOCAL constants.user_count=1000;
-SET LOCAL constants.string_count=20000;
 SET LOCAL constants.competence_evaluation_count=3000;
 SET LOCAL constants.organization_count=5;
 SET LOCAL constants.campaign_per_organization_count=3;
@@ -45,6 +44,77 @@ CREATE TEMPORARY TABLE referentiel (
 INSERT INTO referentiel(skill_id, competence_id, tube_id, pix_value, level)
 VALUES (...);
 -- Ajouter les données du référentiel ici !
+
+
+-----------------------------------------------------------------------------------------------------
+--				Déclaration des fonctions   ---------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
+CREATE FUNCTION get_random_string_count() RETURNS integer
+  AS $$
+    SELECT 3 * current_setting('constants.user_count')::int;
+  $$
+  LANGUAGE SQL;
+
+CREATE FUNCTION get_user_count() RETURNS integer
+  AS $$
+    SELECT current_setting('constants.user_count')::int;
+  $$
+  LANGUAGE SQL;
+
+CREATE FUNCTION get_competence_evaluation_count() RETURNS integer
+  AS $$
+    SELECT current_setting('constants.competence_evaluation_count')::int;
+  $$
+  LANGUAGE SQL;
+
+CREATE FUNCTION get_organization_count() RETURNS integer
+  AS $$
+    SELECT current_setting('constants.organization_count')::int;
+  $$
+  LANGUAGE SQL;
+
+CREATE FUNCTION get_campaign_count() RETURNS integer
+  AS $$
+    SELECT get_organization_count() * current_setting('constants.campaign_per_organization_count')::int;
+  $$
+  LANGUAGE SQL;
+
+CREATE FUNCTION get_campaign_participations_count() RETURNS integer
+  AS $$
+    SELECT get_campaign_count() * current_setting('constants.participation_per_campaign_count')::int;
+  $$
+  LANGUAGE SQL;
+
+CREATE FUNCTION get_campaign_participations_sharing_proportion() RETURNS integer
+  AS $$
+    SELECT current_setting('constants.shared_participation_percentage')::int;
+  $$
+  LANGUAGE SQL;
+
+CREATE FUNCTION get_competence_evaluation_answer_count() RETURNS integer
+  AS $$
+    SELECT get_competence_evaluation_count() * current_setting('constants.answer_per_competence_evaluation_assessment_count')::int;
+  $$
+  LANGUAGE SQL;
+
+CREATE FUNCTION get_campaign_answer_count() RETURNS integer
+  AS $$
+    SELECT get_campaign_participations_count() * current_setting('constants.answer_per_campaign_assessment_count')::int;
+  $$
+  LANGUAGE SQL;
+
+CREATE FUNCTION get_referentiel_size() RETURNS integer
+  AS $$
+    SELECT COUNT(*)::int FROM referentiel;
+  $$
+  LANGUAGE SQL;
+
+-- offset exclus, max inclus
+CREATE FUNCTION pick_random_number(max_number integer, offset_number integer, generator integer) RETURNS integer
+  AS $$
+    SELECT (offset_number + ceil(random() * max_number))::int + (generator*0);
+  $$
+  LANGUAGE SQL;
 
 
 -----------------------------------------------------------------------------------------------------
@@ -150,11 +220,11 @@ SELECT
 		FROM (
 		  SELECT start_arr[ 1 + ( (random() * 25)::int) % 33 ]
 			FROM (
-			  SELECT '{cu,bal,ro,re,pi,co,jho,bo,ba,ja,mi,pe,da,an,en,sy,vir,nath,so,mo,al,che,cha,dia,n,ph,hn,b,t,gh,ri,hen,ng}'::text[] as start_arr
+			  SELECT '{cu,bal,ro,re,pi,co,jho,bo,ba,ja,mi,pe,da,an,en,sy,vir,nath,so,mo,al,che,cha,dia,n,ph,hn,b,t,gh,ri,hen,ng}'::text[] AS start_arr
 			) AS syllables_array, generate_series(1, 3 + (generator*0))
 			) AS the_string(x)
 	)
-FROM generate_series(1,current_setting('constants.string_count')::int) as generator;
+FROM generate_series(1,get_random_string_count()) AS generator;
 
 
 -----------------------------------------------------------------------------------------------------
@@ -174,16 +244,16 @@ WITH inserted_users_cte AS (
     'default_password'
   FROM (
     SELECT (
-      SELECT (random() * current_setting('constants.string_count')::int)::int + (generator*0) as first_name_rownum
+      SELECT pick_random_number(get_random_string_count(), 0, generator) AS first_name_rownum
     ),
     (
-      SELECT (random() * current_setting('constants.string_count')::int)::int + (generator*0) as last_name_rownum
+      SELECT pick_random_number(get_random_string_count(), 0, generator) AS last_name_rownum
     ),
-      generator as id
-    FROM generate_series(1,current_setting('constants.user_count')::int) as generator
+      generator AS id
+    FROM generate_series(1,get_user_count()) AS generator
   ) id_picker
-  INNER JOIN random_string as r_s_a ON r_s_a.rownum = id_picker.first_name_rownum
-  INNER JOIN random_string as r_s_b ON r_s_b.rownum = id_picker.last_name_rownum
+  INNER JOIN random_string AS r_s_a ON r_s_a.rownum = id_picker.first_name_rownum
+  INNER JOIN random_string AS r_s_b ON r_s_b.rownum = id_picker.last_name_rownum
   RETURNING id AS user_id, email AS user_email
 )
 INSERT INTO inserted_users(user_id, user_email)
@@ -213,10 +283,10 @@ WITH inserted_assessments_cte AS (
     NOW() - interval '365 days' + (random() * (interval '365 days'))
   FROM (
     SELECT (
-      SELECT (random() * current_setting('constants.user_count')::int)::int + (generator*0) as picked_rownum
+      SELECT pick_random_number(get_user_count(), 0, generator) AS picked_rownum
     ),
-      generator as id
-    FROM generate_series(1,current_setting('constants.competence_evaluation_count')::int) as generator
+      generator AS id
+    FROM generate_series(1,get_competence_evaluation_count()) AS generator
   ) id_picker
   INNER JOIN inserted_users ON inserted_users.rownum = id_picker.picked_rownum
   RETURNING id AS assessment_id, "userId" AS user_id, "createdAt" AS created_at, type
@@ -249,16 +319,16 @@ WITH inserted_administrators_cte AS (
     'default_password'
   FROM (
     SELECT (
-      SELECT (random() * current_setting('constants.string_count')::int)::int + (generator*0) as first_name_rownum
+      SELECT pick_random_number(get_random_string_count(), 0, generator) AS first_name_rownum
     ),
     (
-      SELECT (random() * current_setting('constants.string_count')::int)::int + (generator*0) as last_name_rownum
+      SELECT pick_random_number(get_random_string_count(), 0, generator) AS last_name_rownum
     ),
-      generator as id
-    FROM generate_series(1,current_setting('constants.organization_count')::int) as generator
+      generator AS id
+    FROM generate_series(1,get_organization_count()) AS generator
   ) id_picker
-  INNER JOIN random_string as r_s_a ON r_s_a.rownum = id_picker.first_name_rownum
-  INNER JOIN random_string as r_s_b ON r_s_b.rownum = id_picker.last_name_rownum
+  INNER JOIN random_string AS r_s_a ON r_s_a.rownum = id_picker.first_name_rownum
+  INNER JOIN random_string AS r_s_b ON r_s_b.rownum = id_picker.last_name_rownum
   RETURNING id AS administrator_id
 )
 INSERT INTO inserted_administrators(administrator_id)
@@ -281,10 +351,10 @@ WITH inserted_organizations_cte AS (
     true
   FROM (
     SELECT (
-      SELECT (random() * current_setting('constants.string_count')::int)::int + (generator*0) as name_rownum
+      SELECT pick_random_number(get_random_string_count(), 0, generator) AS name_rownum
     ),
-      generator as id
-    FROM generate_series(1,current_setting('constants.organization_count')::int) as generator
+      generator AS id
+    FROM generate_series(1,get_organization_count()) AS generator
   ) id_picker
   INNER JOIN random_string ON random_string.rownum = id_picker.name_rownum
   RETURNING id AS organization_id
@@ -327,7 +397,7 @@ CREATE TEMPORARY TABLE inserted_target_profiles (
 WITH inserted_target_profiles_cte AS (
   INSERT INTO "target-profiles"("name", "isPublic")
   VALUES('Profil petit',true), ('Profil moyen',true), ('Profil complet',true)
-  RETURNING id as target_profile_id, name
+  RETURNING id AS target_profile_id, name
 )
 INSERT INTO inserted_target_profiles(name, target_profile_id)
 SELECT
@@ -343,7 +413,7 @@ SELECT
 FROM (
   SELECT
     DISTINCT (
-      SELECT (random() * 655)::int + (generator*0) AS picked_skill_rownum
+      SELECT pick_random_number(get_referentiel_size(), 0, generator) AS picked_skill_rownum
     ),
     generator AS id
   FROM generate_series(1,1500) AS generator LIMIT 100
@@ -358,7 +428,7 @@ SELECT
 FROM (
   SELECT
     DISTINCT (
-      SELECT (random() * 655)::int + (generator*0) AS picked_skill_rownum
+      SELECT pick_random_number(get_referentiel_size(), 0, generator) AS picked_skill_rownum
     ),
     generator AS id
   FROM generate_series(1,1500) AS generator LIMIT 300
@@ -373,7 +443,7 @@ SELECT
 FROM (
   SELECT
     DISTINCT (
-      SELECT (random() * 655)::int + (generator*0) AS picked_skill_rownum
+      SELECT pick_random_number(get_referentiel_size(), 0, generator) AS picked_skill_rownum
     ),
     generator AS id
   FROM generate_series(1,1500) AS generator LIMIT 655
@@ -400,12 +470,12 @@ WITH inserted_campaigns_cte AS (
     'ASSESSMENT'
   FROM (
     SELECT (
-      SELECT (random() * current_setting('constants.organization_count')::int)::int + (generator*0) as picked_membership_rownum
+      SELECT pick_random_number(get_organization_count(), 0, generator) AS picked_membership_rownum
     ),(
-      SELECT (random() * 3)::int + (generator*0) as picked_target_profile_rownum
+      SELECT pick_random_number(3, 0, generator) AS picked_target_profile_rownum
     ),
-      generator as id
-    FROM generate_series(1,current_setting('constants.campaign_per_organization_count')::int*current_setting('constants.organization_count')::int) as generator
+      generator AS id
+    FROM generate_series(1,get_campaign_count()) AS generator
   ) id_picker
   INNER JOIN inserted_memberships ON inserted_memberships.rownum = id_picker.picked_membership_rownum
   INNER JOIN inserted_target_profiles ON inserted_target_profiles.rownum = id_picker.picked_target_profile_rownum
@@ -436,14 +506,14 @@ WITH inserted_campaign_participations_cte AS (
     inserted_users.user_email
   FROM (
     SELECT (
-      SELECT (random() * current_setting('constants.campaign_per_organization_count')::int*current_setting('constants.organization_count')::int)::int + (generator*0) as picked_campaign_rownum
+      SELECT pick_random_number(get_campaign_count(), 0, generator) AS picked_campaign_rownum
     ),(
-      SELECT (random() * current_setting('constants.user_count')::int)::int + (generator*0) as picked_user_rownum
+      SELECT pick_random_number(get_user_count(), 0, generator) AS picked_user_rownum
     ),(
-      SELECT ((random() * 100 + (generator*0)) > (100-current_setting('constants.shared_participation_percentage')::int))::boolean as is_shared
+      SELECT ((random() * 100 + (generator*0)) > (100-get_campaign_participations_sharing_proportion()))::boolean AS is_shared
     ),
-      generator as id
-    FROM generate_series(1,current_setting('constants.campaign_per_organization_count')::int*current_setting('constants.organization_count')::int*current_setting('constants.participation_per_campaign_count')::int) as generator
+      generator AS id
+    FROM generate_series(1,get_campaign_participations_count()) AS generator
   ) id_picker
   INNER JOIN inserted_users ON inserted_users.rownum = id_picker.picked_user_rownum
   INNER JOIN inserted_campaigns ON inserted_campaigns.rownum = id_picker.picked_campaign_rownum
@@ -501,10 +571,10 @@ WITH inserted_answers_cte AS (
     NOW() - interval '365 days' + (random() * (interval '365 days'))
   FROM (
       SELECT (
-        SELECT (random() * current_setting('constants.competence_evaluation_count')::int)::int + (generator*0) as picked_assessment_rownum
+        SELECT pick_random_number(get_competence_evaluation_count(), 0, generator) AS picked_assessment_rownum
       ),
-        generator as id
-      FROM generate_series(1,current_setting('constants.answer_per_competence_evaluation_assessment_count')::int*current_setting('constants.competence_evaluation_count')::int) as generator
+        generator AS id
+      FROM generate_series(1,get_competence_evaluation_answer_count()) AS generator
     ) id_picker
   INNER JOIN inserted_assessments ON inserted_assessments.rownum = id_picker.picked_assessment_rownum
   WHERE inserted_assessments.type = 'COMPETENCE_EVALUATION'
@@ -533,10 +603,10 @@ WITH inserted_answers_cte AS (
     NOW() - interval '365 days' + (random() * (interval '365 days'))
   FROM (
       SELECT (
-        SELECT (current_setting('constants.competence_evaluation_count')::int + random() * current_setting('constants.campaign_per_organization_count')::int*current_setting('constants.organization_count')::int*current_setting('constants.participation_per_campaign_count')::int)::int + (generator*0) as picked_assessment_rownum
+        SELECT pick_random_number(get_campaign_participations_count(), get_competence_evaluation_count(), generator) AS picked_assessment_rownum
       ),
-        generator as id
-      FROM generate_series(1,current_setting('constants.campaign_per_organization_count')::int*current_setting('constants.organization_count')::int*current_setting('constants.participation_per_campaign_count')::int*current_setting('constants.answer_per_campaign_assessment_count')::int) as generator
+        generator AS id
+      FROM generate_series(1,get_campaign_answer_count()) AS generator
     ) id_picker
   INNER JOIN inserted_assessments ON inserted_assessments.rownum = id_picker.picked_assessment_rownum
   WHERE inserted_assessments.type = 'CAMPAIGN'
@@ -589,16 +659,16 @@ WITH inserted_knowledge_elements_cte AS (
     inserted_answers.created_at
   FROM (
       SELECT (
-        SELECT (random() * current_setting('constants.answer_per_competence_evaluation_assessment_count')::int*current_setting('constants.competence_evaluation_count')::int)::int + (generator*0) AS picked_answer_rownum
+        SELECT pick_random_number(get_competence_evaluation_answer_count(), 0, generator) AS picked_answer_rownum
       ),
       (
-        SELECT (random() * 657)::int + (generator*0) AS picked_referentiel_rownum
+        SELECT pick_random_number(get_referentiel_size(), 0, generator) AS picked_referentiel_rownum
       ),
       (
-        SELECT (random() * 100 + (generator*0))::int AS status_score
+        SELECT pick_random_number(100, -1, generator) AS status_score
       ),
         generator AS id
-      FROM generate_series(1,current_setting('constants.answer_per_competence_evaluation_assessment_count')::int*current_setting('constants.competence_evaluation_count')::int) as generator
+      FROM generate_series(1,get_competence_evaluation_answer_count()) AS generator
     ) id_picker
   INNER JOIN inserted_answers ON inserted_answers.rownum = id_picker.picked_answer_rownum
   INNER JOIN referentiel ON referentiel.rownum = id_picker.picked_referentiel_rownum
@@ -642,16 +712,16 @@ WITH inserted_knowledge_elements_cte AS (
     inserted_answers.created_at
   FROM (
       SELECT (
-        SELECT (current_setting('constants.answer_per_competence_evaluation_assessment_count')::int*current_setting('constants.competence_evaluation_count')::int + random() * current_setting('constants.campaign_per_organization_count')::int*current_setting('constants.organization_count')::int*current_setting('constants.participation_per_campaign_count')::int*current_setting('constants.answer_per_campaign_assessment_count')::int)::int + (generator*0) AS picked_answer_rownum
+        SELECT pick_random_number(get_campaign_answer_count(), get_competence_evaluation_answer_count(), generator) AS picked_answer_rownum
       ),
       (
-        SELECT (random() * 657)::int + (generator*0) AS picked_referentiel_rownum
+        SELECT pick_random_number(get_referentiel_size(), 0, generator) AS picked_referentiel_rownum
       ),
       (
-        SELECT (random() * 100 + (generator*0))::int AS status_score
+        SELECT pick_random_number(100, -1, generator) AS status_score
       ),
         generator AS id
-      FROM generate_series(1,current_setting('constants.campaign_per_organization_count')::int*current_setting('constants.organization_count')::int*current_setting('constants.participation_per_campaign_count')::int*current_setting('constants.answer_per_campaign_assessment_count')::int) as generator
+      FROM generate_series(1,get_campaign_answer_count()) AS generator
     ) id_picker
   INNER JOIN inserted_answers ON inserted_answers.rownum = id_picker.picked_answer_rownum
   INNER JOIN referentiel ON referentiel.rownum = id_picker.picked_referentiel_rownum
@@ -706,6 +776,7 @@ ALTER TABLE "knowledge-elements" ADD CONSTRAINT "knowledge_elements_answerid_for
 ALTER TABLE "knowledge-elements" ADD CONSTRAINT "knowledge_elements_assessmentid_foreign" FOREIGN KEY ("assessmentId") REFERENCES "assessments" ("id");
 ALTER TABLE "knowledge-elements" ADD CONSTRAINT "knowledge_elements_userid_foreign" FOREIGN KEY ("userId") REFERENCES "users" ("id");
 
+
 -----------------------------------------------------------------------------------------------------
 --				Rétablir les index   ---------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
@@ -719,6 +790,22 @@ CREATE INDEX "assessments_userid_index" ON "assessments"("userId");
 CREATE INDEX "campaign_participations_userid_index" ON "campaign-participations"("userId");
 CREATE INDEX "answers_assessmentid_index" ON "answers"("assessmentId");
 CREATE INDEX "knowledge_elements_userid_index" ON "knowledge-elements"("userId");
+
+
+-----------------------------------------------------------------------------------------------------
+--				Suppression des fonctions   ---------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
+DROP FUNCTION IF EXISTS get_random_string_count();
+DROP FUNCTION IF EXISTS get_user_count();
+DROP FUNCTION IF EXISTS get_competence_evaluation_count();
+DROP FUNCTION IF EXISTS get_organization_count();
+DROP FUNCTION IF EXISTS get_campaign_count();
+DROP FUNCTION IF EXISTS get_campaign_participations_count();
+DROP FUNCTION IF EXISTS get_campaign_participations_sharing_proportion();
+DROP FUNCTION IF EXISTS get_competence_evaluation_answer_count();
+DROP FUNCTION IF EXISTS get_campaign_answer_count();
+DROP FUNCTION IF EXISTS get_referentiel_size();
+DROP FUNCTION IF EXISTS pick_random_number(max_number integer, offset_number integer, generator integer);
 
 
 -----------------------------------------------------------------------------------------------------
