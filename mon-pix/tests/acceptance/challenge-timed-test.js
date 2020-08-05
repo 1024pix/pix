@@ -32,10 +32,6 @@ describe('Acceptance | Timed challenge', () => {
       it('should ensure the challenge does not automatically start', async () => {
         expect(find('.timeout-jauge')).to.not.exist;
       });
-
-      it('should ensure the feedback form is not displayed until the user has started the challenge', async () => {
-        expect(find('.feedback-panel')).to.not.exist;
-      });
     });
 
     context('when the confirmation button is clicked', () => {
@@ -80,7 +76,6 @@ describe('Acceptance | Timed challenge', () => {
 
           // when
           await visit(`/assessments/${assessment.id}/challenges/${timedChallenge.id}`);
-          await click('.challenge-item-warning button');
         });
 
         it('should hide the warning button', () => {
