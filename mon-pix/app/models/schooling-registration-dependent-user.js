@@ -1,6 +1,6 @@
 import Model, { attr } from '@ember-data/model';
 
-export default class StudentDependentUser extends Model {
+export default class SchoolingRegistrationDependentUser extends Model {
 
   // attributes
   @attr('date-only') birthdate;

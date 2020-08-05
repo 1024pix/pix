@@ -16,7 +16,7 @@ import { Response } from 'ember-cli-mirage';
 
 const ASSESSMENT = 'ASSESSMENT';
 
-describe('Acceptance | Campaigns | Start Campaigns with type Assessment', function() {
+describe('Acceptance | Campaigns| Start Campaigns with type Assessment', function() {
   setupApplicationTest();
   setupMirage();
   let campaign;
@@ -241,7 +241,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
                 return new Response(200, {}, studentFoundWithUsernameGenerated);
               });
 
-              this.server.post('student-dependent-users', () => {
+              this.server.post('schooling-registration-dependent-users', () => {
 
                 const emailAlreadyExistResponse = {
                   'errors': [{
