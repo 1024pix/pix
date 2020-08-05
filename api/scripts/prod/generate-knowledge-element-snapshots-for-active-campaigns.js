@@ -59,13 +59,13 @@ async function getEligibleCampaignParticipations(maxSnapshotCount) {
 
 async function generateKnowledgeElementSnapshots(campaignParticipationData, concurrency) {
   return bluebird.map(campaignParticipationData, async (campaignParticipation) => {
-    const { userId, sharedAt: snappedAt } = campaignParticipation;
-    const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId, limitDate: snappedAt });
+    const { userId, sharedAt } = campaignParticipation;
+    const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId, limitDate: sharedAt });
     try {
-      await knowledgeElementSnapshotRepository.save({ userId, snappedAt, knowledgeElements });
+      await knowledgeElementSnapshotRepository.save({ userId, snappedAt: sharedAt, knowledgeElements });
     } catch (err) {
       if (err instanceof AlreadyExistingEntity) {
-        console.log(`Un snapshot existe déjà pour l'utilisateur ${userId} à la date ${snappedAt}. Ignoré.`);
+        console.log(`Un snapshot existe déjà pour l'utilisateur ${userId} à la date ${sharedAt}. Ignoré.`);
       } else {
         throw err;
       }
