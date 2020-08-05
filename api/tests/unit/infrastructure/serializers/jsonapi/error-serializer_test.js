@@ -25,13 +25,13 @@ describe('Unit | Serializer | JSONAPI | error-serializer', () => {
 
     it('should convert a conflict error object into JSONAPIError', () => {
       // given
-      const error = new ConflictError('error detail', 'code', { displayShortCode: 'displayShortCode', value: 'value' });
+      const error = new ConflictError('error detail', 'code', { shortCode: 'shortCode', value: 'value' });
       const expectedJSONAPIError = JSONAPIError({
         status: '409',
         title: 'Conflict',
         detail: 'error detail',
         code: 'code',
-        meta: { displayShortCode: 'displayShortCode', value: 'value' },
+        meta: { shortCode: 'shortCode', value: 'value' },
       });
 
       // when
