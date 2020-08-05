@@ -38,6 +38,13 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
         id: 19,
         partnerCompetenceResults,
       });
+      const reachedStage = {
+        id: 56,
+        title: 'Palier 1',
+        message: 'Vous avez obtenu le palier 1',
+        threshold: 50,
+        starCount: 2
+      };
       const campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
         isCompleted: true,
         testedSkillsCount,
@@ -45,6 +52,7 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
         validatedSkillsCount,
         competenceResults,
         campaignParticipationBadges: [campaignParticipationBadge],
+        reachedStage
       });
 
       const expectedSerializedCampaignParticipationResult = {
@@ -76,6 +84,12 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
                   type: 'competenceResults'
                 }
               ]
+            },
+            'reached-stage': {
+              data: {
+                id: reachedStage.id.toString(),
+                type: 'reached-stages'
+              }
             }
           },
           type: 'campaign-participation-results'
@@ -141,6 +155,16 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
             },
             id: competenceResults[1].id.toString(),
             type: 'competenceResults'
+          },
+          {
+            attributes: {
+              title: reachedStage.title,
+              message: reachedStage.message,
+              threshold: reachedStage.threshold,
+              'star-count': reachedStage.starCount,
+            },
+            id: reachedStage.id.toString(),
+            type: 'reached-stages'
           },
         ]
       };

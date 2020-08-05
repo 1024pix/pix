@@ -32,6 +32,7 @@ module.exports = {
   buildSession: require('./build-session'),
   buildSchoolingRegistration: require('./build-schooling-registration'),
   buildSchoolingRegistrationWithUser: require('./build-schooling-registration-with-user'),
+  buildStage: require('./build-stage'),
   buildTargetProfile: require('./build-target-profile'),
   buildTargetProfileSkill: require('./build-target-profile-skill'),
   buildTargetProfileShare: require('./build-target-profile-share'),
