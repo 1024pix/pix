@@ -31,7 +31,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
     assert.contains('Nom');
     assert.contains('Prénom');
     assert.contains('Date de naissance');
-    assert.contains('Connecté avec');
+    assert.contains('Méthode(s) de connexion');
   });
 
   test('it should display a list of students', async function(assert) {
