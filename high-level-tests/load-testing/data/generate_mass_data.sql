@@ -116,6 +116,18 @@ CREATE FUNCTION pick_random_number(max_number integer, offset_number integer, ge
   $$
   LANGUAGE SQL;
 
+CREATE FUNCTION pick_random_date(max_interval interval, limit_date timestamptz) RETURNS timestamptz
+  AS $$
+    SELECT least(NOW() - max_interval + (random() * max_interval), limit_date);
+  $$
+  LANGUAGE SQL;
+
+CREATE FUNCTION pick_random_date(start_date timestamptz, limit_date timestamptz) RETURNS timestamptz
+  AS $$
+    SELECT least(start_date + (random() * (limit_date - start_date)), limit_date);
+  $$
+  LANGUAGE SQL;
+
 
 -----------------------------------------------------------------------------------------------------
 --				Création d'une table temporaire contenant des données de dépendances entre les acquis   ---
@@ -280,7 +292,7 @@ WITH inserted_assessments_cte AS (
     inserted_users.user_id,
     'completed',
     'COMPETENCE_EVALUATION',
-    NOW() - interval '365 days' + (random() * (interval '365 days'))
+    pick_random_date(interval '365 days', CURRENT_TIMESTAMP)
   FROM (
     SELECT (
       SELECT pick_random_number(get_user_count(), 0, generator) AS picked_rownum
@@ -339,6 +351,7 @@ FROM inserted_administrators_cte;
 --   Organisations
 CREATE TEMPORARY TABLE inserted_organizations (
   rownum SERIAL PRIMARY KEY,
+  created_at TIMESTAMPTZ,
   organization_id INTEGER
 ) ON COMMIT DROP;
 WITH inserted_organizations_cte AS (
@@ -346,7 +359,7 @@ WITH inserted_organizations_cte AS (
   SELECT
     'SCO',
     random_string.rand_str,
-    NOW() - interval '800 days' + (random() * (interval '365 days')),
+    pick_random_date(interval '3 years', NOW() - interval '6 months'),
     true,
     true
   FROM (
@@ -357,11 +370,12 @@ WITH inserted_organizations_cte AS (
     FROM generate_series(1,get_organization_count()) AS generator
   ) id_picker
   INNER JOIN random_string ON random_string.rownum = id_picker.name_rownum
-  RETURNING id AS organization_id
+  RETURNING id AS organization_id, "createdAt" AS created_at
 )
-INSERT INTO inserted_organizations(organization_id)
+INSERT INTO inserted_organizations(organization_id, created_at)
 SELECT
-  organization_id
+  organization_id,
+  created_at
 FROM inserted_organizations_cte;
 
 --   Memberships
@@ -455,6 +469,7 @@ INNER JOIN referentiel ON referentiel.rownum = id_picker.picked_skill_rownum;
 -----------------------------------------------------------------------------------------------------
 CREATE TEMPORARY TABLE inserted_campaigns (
   rownum SERIAL PRIMARY KEY,
+  created_at TIMESTAMPTZ,
   campaign_id INTEGER,
   organization_id INTEGER
 ) ON COMMIT DROP;
@@ -465,7 +480,7 @@ WITH inserted_campaigns_cte AS (
     'Code_' || (currval(pg_get_serial_sequence('campaigns','id'))+1),
     inserted_memberships.organization_id,
     inserted_memberships.administrator_id,
-    NOW() - interval '800 days' + (random() * (interval '365 days')),
+    pick_random_date(inserted_organizations.created_at, CURRENT_TIMESTAMP),
     inserted_target_profiles.target_profile_id,
     'ASSESSMENT'
   FROM (
@@ -478,13 +493,15 @@ WITH inserted_campaigns_cte AS (
     FROM generate_series(1,get_campaign_count()) AS generator
   ) id_picker
   INNER JOIN inserted_memberships ON inserted_memberships.rownum = id_picker.picked_membership_rownum
+  INNER JOIN inserted_organizations ON inserted_organizations.organization_id = inserted_memberships.organization_id
   INNER JOIN inserted_target_profiles ON inserted_target_profiles.rownum = id_picker.picked_target_profile_rownum
-  RETURNING id AS campaign_id, "organizationId" AS organization_id
+  RETURNING id AS campaign_id, "organizationId" AS organization_id, "createdAt" AS created_at
 )
-INSERT INTO inserted_campaigns(campaign_id, organization_id)
+INSERT INTO inserted_campaigns(campaign_id, organization_id, created_at)
 SELECT
   campaign_id,
-  organization_id
+  organization_id,
+  created_at
 FROM inserted_campaigns_cte;
 
 -----------------------------------------------------------------------------------------------------
@@ -492,6 +509,7 @@ FROM inserted_campaigns_cte;
 -----------------------------------------------------------------------------------------------------
 CREATE TEMPORARY TABLE inserted_campaign_participations (
   rownum SERIAL PRIMARY KEY,
+  created_at TIMESTAMPTZ,
   campaign_participation_id INTEGER,
   user_id INTEGER
 ) ON COMMIT DROP;
@@ -499,9 +517,9 @@ WITH inserted_campaign_participations_cte AS (
   INSERT INTO "campaign-participations"("campaignId", "createdAt", "isShared", "sharedAt", "userId", "participantExternalId")
   SELECT
     inserted_campaigns.campaign_id,
-    NOW() - interval '800 days' + (random() * (interval '365 days')),
+    pick_random_date(inserted_campaigns.created_at, CURRENT_TIMESTAMP),
     id_picker.is_shared,
-    CASE WHEN (is_shared=true) THEN NOW() - interval '800 days' + (random() * (interval '365 days')) ELSE NULL END,
+    CASE WHEN (is_shared=true) THEN CURRENT_TIMESTAMP ELSE NULL END,
     inserted_users.user_id,
     inserted_users.user_email
   FROM (
@@ -518,12 +536,13 @@ WITH inserted_campaign_participations_cte AS (
   INNER JOIN inserted_users ON inserted_users.rownum = id_picker.picked_user_rownum
   INNER JOIN inserted_campaigns ON inserted_campaigns.rownum = id_picker.picked_campaign_rownum
   ON CONFLICT DO nothing
-  RETURNING id AS campaign_participation_id, "userId" AS user_id
+  RETURNING id AS campaign_participation_id, "userId" AS user_id, "createdAt" AS created_at
 )
-INSERT INTO inserted_campaign_participations(campaign_participation_id, user_id)
+INSERT INTO inserted_campaign_participations(campaign_participation_id, user_id, created_at)
 SELECT
   campaign_participation_id,
-  user_id
+  user_id,
+  created_at
 FROM inserted_campaign_participations_cte;
 
 
@@ -536,7 +555,7 @@ WITH inserted_assessments_cte AS (
     inserted_campaign_participations.user_id,
     'completed',
     'CAMPAIGN',
-    NOW() - interval '365 days' + (random() * (interval '365 days')),
+    inserted_campaign_participations.created_at,
     inserted_campaign_participations.campaign_participation_id
   FROM inserted_campaign_participations
   RETURNING id AS assessment_id, "userId" AS user_id, "createdAt" AS created_at, type, "campaignParticipationId" AS campaign_participation_id
@@ -568,7 +587,7 @@ WITH inserted_answers_cte AS (
   SELECT
     inserted_assessments.assessment_id,
     'recSomeChallenge',
-    NOW() - interval '365 days' + (random() * (interval '365 days'))
+    pick_random_date(inserted_assessments.created_at, CURRENT_TIMESTAMP)
   FROM (
       SELECT (
         SELECT pick_random_number(get_competence_evaluation_count(), 0, generator) AS picked_assessment_rownum
@@ -600,7 +619,7 @@ WITH inserted_answers_cte AS (
   SELECT
     inserted_assessments.assessment_id,
     'recSomeChallenge',
-    NOW() - interval '365 days' + (random() * (interval '365 days'))
+    pick_random_date(inserted_assessments.created_at, CURRENT_TIMESTAMP)
   FROM (
       SELECT (
         SELECT pick_random_number(get_campaign_participations_count(), get_competence_evaluation_count(), generator) AS picked_assessment_rownum
@@ -806,6 +825,8 @@ DROP FUNCTION IF EXISTS get_competence_evaluation_answer_count();
 DROP FUNCTION IF EXISTS get_campaign_answer_count();
 DROP FUNCTION IF EXISTS get_referentiel_size();
 DROP FUNCTION IF EXISTS pick_random_number(max_number integer, offset_number integer, generator integer);
+DROP FUNCTION IF EXISTS pick_random_date(max_interval interval, limit_date timestamptz);
+DROP FUNCTION IF EXISTS pick_random_date(start_date timestamptz, limit_date timestamptz);
 
 
 -----------------------------------------------------------------------------------------------------
