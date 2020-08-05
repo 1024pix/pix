@@ -289,8 +289,21 @@
           "guidance": "'<p>'* Soyez attentifs à ce que vous écrivez dans cette zone : restez objectif et factuel pour votre intérêt et celui des autres.'</p><p>'Notamment, ne saisissez aucune information, vous concernant ou concernant des tiers, sur la santé, la religion, les opinions politiques, syndicales et philosophiques, les origines ethniques, ainsi que sur les sanctions et condamnations.'</p>'"
         }
       },
+      "illustration": {
+        "placeholder": "Chargement de l'image en cours"
+      },
       "progress-bar": {
         "label": "Question"
+      },
+      "statement": {
+        "file-download": {
+          "actions": {
+            "choose-type": "Choisissez le type de fichier que vous voulez utiliser",
+            "download": "Télécharger"
+          },
+          "description": "Pix vous laisse le choix du format de fichier à télécharger. Si vous ne savez pas quelle option retenir, conservez le choix par défaut. Il correspond au format de fichier pris en charge par le plus grand nombre de logiciels.",
+           "file-type": "fichier .{fileExtension}"
+        }
       },
       "skip-error-message": {
         "qcm": "Pour valider, sélectionnez au moins une réponse. Sinon, passez.",
@@ -479,6 +492,12 @@
       "succeed": "Votre mot de passe a été modifié avec succès."
     },
 
+    "proposals": {
+      "answer": {
+        "qcu": "La réponse à la question est : "
+      }
+    },
+
     "result-item": {
       "aband": "Sans réponse",
       "actions": {
@@ -597,6 +616,11 @@
       }
     },
 
+    "time-gauge": {
+      "timeout-placeholder": "Le temps alloué est dépassé",
+      "remaining-time-placeholder": "Il reste du temps pour accomplir l'épreuve"
+    },
+
     "tutorial": {
       "next":"Suivant",
       "pages": {
@@ -686,6 +710,12 @@
       "errors": {
         "missing-id-pix-label": "Merci de renseigner votre { idPixLabel }."
       }
+    },
+
+    "warning": {
+      "action": "Commencer",
+      "instructions": "Vous disposerez de '<span class=\"challenge-item-warning__instruction-time\">'{time}'</span>' pour réussir la question suivante.",
+      "further-instructions": "Vous pourrez continuer à répondre ensuite, mais la question ne sera pas considérée comme réussie."
     }
   },
 
