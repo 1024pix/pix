@@ -54,20 +54,32 @@ describe('Integration | Scripts | generate-knowledge-element-snapshots-for-activ
     it('should return shared campaign participations from active campaigns that does not have a corresponding snapshot', async () => {
       // given
       const campaignId = databaseBuilder.factory.buildCampaign({ archivedAt: null }).id;
-      const userId1 = databaseBuilder.factory.buildUser().id;
-      const userId2 = databaseBuilder.factory.buildUser().id;
-      const campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({ campaignId, sharedAt: new Date('2020-01-01'), userId: userId1 });
-      const campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipation({ campaignId, sharedAt: new Date('2020-02-01'), userId: userId2 });
-      databaseBuilder.factory.buildKnowledgeElementSnapshot({ snappedAt: new Date('2019-01-01'), userId: userId2 });
+      const userId = databaseBuilder.factory.buildUser().id;
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId, sharedAt: new Date('2020-01-01'), userId });
       await databaseBuilder.commit();
 
       // when
       const campaignParticipationData = await getEligibleCampaignParticipations(5);
 
       // then
-      expect(campaignParticipationData.length).to.equal(2);
-      expect(campaignParticipationData[0]).to.deep.equal({ userId: campaignParticipation1.userId, sharedAt: campaignParticipation1.sharedAt });
-      expect(campaignParticipationData[1]).to.deep.equal({ userId: campaignParticipation2.userId, sharedAt: campaignParticipation2.sharedAt });
+      expect(campaignParticipationData.length).to.equal(1);
+      expect(campaignParticipationData[0]).to.deep.equal({ userId: campaignParticipation.userId, sharedAt: campaignParticipation.sharedAt });
+    });
+
+    it('should return shared campaign participations from active campaigns even if there is a snapshot from an anterior date that already exists', async () => {
+      // given
+      const campaignId = databaseBuilder.factory.buildCampaign({ archivedAt: null }).id;
+      const userId = databaseBuilder.factory.buildUser().id;
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId, sharedAt: new Date('2020-02-01'), userId });
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({ snappedAt: new Date('2019-01-01'), userId });
+      await databaseBuilder.commit();
+
+      // when
+      const campaignParticipationData = await getEligibleCampaignParticipations(5);
+
+      // then
+      expect(campaignParticipationData.length).to.equal(1);
+      expect(campaignParticipationData[0]).to.deep.equal({ userId: campaignParticipation.userId, sharedAt: campaignParticipation.sharedAt });
     });
 
     it('should return maximum campaign participation as set in the parameter', async () => {
