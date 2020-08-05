@@ -9,46 +9,46 @@
       {{#if block.text}}
         <label for="{{block.text}}">{{block.text}}</label>
       {{/if}}
-      <textarea class="challenge-response__proposal challenge-response__proposal--paragraph"
+      <Textarea class="challenge-response__proposal challenge-response__proposal--paragraph"
                 rows="5"
                 name={{block.input}}
                 placeholder={{block.placeholder}}
                 autocomplete="off"
                 id="{{block.text}}"
-                value={{property-of answersValue block.input}}
+                @value={{mut (get @answersValue block.input)}}
                 disabled={{answer}}
                 aria-label={{block.ariaLabel}}
-                onkeydown={{action 'onInputChange'}}>
-      </textarea>
+                onkeydown={{action 'onInputChange'}} />
     {{else if (eq format 'phrase')}}
       {{#if block.text}}
         <label for="{{block.text}}">{{block.text}}</label>
       {{/if}}
-      <input class="challenge-response__proposal challenge-response__proposal--sentence"
-             type="text"
+
+      <Input class="challenge-response__proposal challenge-response__proposal--sentence"
+             @type="text"
              name={{block.input}}
              placeholder={{block.placeholder}}
              autocomplete="off"
              id="{{block.text}}"
-             value={{property-of answersValue block.input}}
+             @value={{mut (get @answersValue block.input)}}
              disabled={{answer}}
              aria-label={{block.ariaLabel}}
-             onkeydown={{action 'onInputChange'}}>
+             onkeydown={{action 'onInputChange'}} />
     {{else}}
       {{#if block.text}}
         <label for="{{block.text}}">{{block.text}}</label>
       {{/if}}
-      <input class="challenge-response__proposal"
+      <Input class="challenge-response__proposal"
              size="{{get-qroc-input-size format}}"
-             type="text"
+             @type="text"
              name={{block.input}}
              placeholder={{block.placeholder}}
              autocomplete="off"
              id="{{block.text}}"
-             value={{property-of answersValue block.input}}
+             @value={{mut (get @answersValue block.input)}}
              disabled={{answer}}
              aria-label={{block.ariaLabel}}
-             onkeydown={{action 'onInputChange'}}>
+             onkeydown={{action 'onInputChange'}} />
     {{/if}}
 
   {{/if}}
