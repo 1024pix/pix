@@ -3,20 +3,23 @@ const bluebird = require('bluebird');
 const { knex } = require('../../db/knex-database-connection');
 const knowledgeElementRepository = require('../../lib/infrastructure/repositories/knowledge-element-repository');
 const knowledgeElementSnapshotRepository = require('../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
+const { AlreadyExistingEntity } = require('../../lib/domain/errors');
 
 const DEFAULT_MAX_SNAPSHOT_COUNT = 5000;
 const DEFAULT_CONCURRENCY = 3;
 
-function _validateAndNormalizeArgs({
-  concurrency,
-  maxSnapshotCount,
-}) {
+function _validateAndNormalizeMaxSnapshotCount(maxSnapshotCount) {
   if (isNaN(maxSnapshotCount)) {
     maxSnapshotCount = DEFAULT_MAX_SNAPSHOT_COUNT;
   }
-  if (maxSnapshotCount <= 0) {
-    throw new Error(`Nombre max de snapshots ${maxSnapshotCount} ne peut pas être inférieur à 1.`);
+  if (maxSnapshotCount <= 0 || maxSnapshotCount > 50000) {
+    throw new Error(`Nombre max de snapshots ${maxSnapshotCount} ne peut pas être inférieur à 1 ni supérieur à 50000.`);
   }
+
+  return maxSnapshotCount;
+}
+
+function _validateAndNormalizeConcurrency(concurrency) {
   if (isNaN(concurrency)) {
     concurrency = DEFAULT_CONCURRENCY;
   }
@@ -24,9 +27,19 @@ function _validateAndNormalizeArgs({
     throw new Error(`Concurrent ${concurrency} ne peut pas être inférieur à 1 ni supérieur à 10.`);
   }
 
+  return concurrency;
+}
+
+function _validateAndNormalizeArgs({
+  concurrency,
+  maxSnapshotCount,
+}) {
+  const finalMaxSnapshotCount = _validateAndNormalizeMaxSnapshotCount(maxSnapshotCount);
+  const finalConcurrency = _validateAndNormalizeConcurrency(concurrency);
+
   return {
-    maxSnapshotCount,
-    concurrency,
+    maxSnapshotCount: finalMaxSnapshotCount,
+    concurrency: finalConcurrency,
   };
 }
 
@@ -48,7 +61,15 @@ async function generateKnowledgeElementSnapshots(campaignParticipationData, conc
   return bluebird.map(campaignParticipationData, async (campaignParticipation) => {
     const { userId, sharedAt: snappedAt } = campaignParticipation;
     const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId, limitDate: snappedAt });
-    return knowledgeElementSnapshotRepository.save({ userId, snappedAt, knowledgeElements });
+    try {
+      await knowledgeElementSnapshotRepository.save({ userId, snappedAt, knowledgeElements });
+    } catch (err) {
+      if (err instanceof AlreadyExistingEntity) {
+        console.log(`Un snapshot existe déjà pour l'utilisateur ${userId} à la date ${snappedAt}. Ignoré.`);
+      } else {
+        throw err;
+      }
+    }
   }, { concurrency });
 }
 
@@ -67,17 +88,16 @@ async function main() {
       })
       .help()
       .argv;
-
-    console.log('Validation des arguments...');
     const {
       maxSnapshotCount,
       concurrency,
     } = _validateAndNormalizeArgs(commandLineArgs);
 
     console.log(`Génération de ${maxSnapshotCount} snapshots avec une concurrence de ${concurrency}`);
-    const campaignParticipationData = await getEligibleCampaignParticipations(maxSnapshotCount);
 
+    const campaignParticipationData = await getEligibleCampaignParticipations(maxSnapshotCount);
     console.log(`${campaignParticipationData.length} participations récupérées...`);
+
     await generateKnowledgeElementSnapshots(campaignParticipationData, concurrency);
     console.log('FIN');
   } catch (error) {
