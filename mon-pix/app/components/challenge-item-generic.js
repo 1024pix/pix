@@ -1,137 +1,119 @@
-/* eslint ember/no-actions-hash: 0 */
-/* eslint ember/no-classic-classes: 0 */
-/* eslint ember/no-classic-components: 0 */
-/* eslint ember/no-component-lifecycle-hooks: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
-import { computed } from '@ember/object';
-import { and } from '@ember/object/computed';
+import { action } from '@ember/object';
 import { cancel, later } from '@ember/runloop';
-import Component from '@ember/component';
-import _ from 'mon-pix/utils/lodash-custom';
+import { tracked } from '@glimmer/tracking';
+import Component from '@glimmer/component';
+import isInteger from 'lodash/isInteger';
 import ENV from 'mon-pix/config/environment';
 
-const ChallengeItemGeneric = Component.extend({
+export default class ChallengeItemGeneric extends Component {
 
-  tagName: 'article',
-  classNames: ['challenge-item'],
-  attributeBindings: ['challenge.id:data-challenge-id'],
+  @tracked isValidateButtonEnabled = true;
+  @tracked isSkipButtonEnabled = true;
+  @tracked hasUserConfirmedWarning = false;
+  @tracked errorMessage = null;
+  @tracked _elapsedTime = null;
 
-  isValidateButtonEnabled: true,
-  isSkipButtonEnabled: true,
-  hasUserConfirmedWarning: false,
+  _timer = null;
 
-  _elapsedTime: null,
-  _timer: null,
-  _isUserAwareThatChallengeIsTimed: false,
-
-  init() {
-    this._super(...arguments);
-    if (!_.isInteger(this.challenge.timer)) {
+  constructor() {
+    super(...arguments);
+    if (!this.isTimedChallenge) {
       this._start();
     }
-  },
+  }
 
-  didUpdateAttrs() {
-    this._super(...arguments);
-    if (!this._isUserAwareThatChallengeIsTimed) {
-      this.set('hasUserConfirmedWarning', false);
-    }
-  },
+  cancelTimer() {
+    cancel(this._timer);
+  }
 
-  willDestroyElement() {
-    this._super(...arguments);
-    const timer = this._timer;
-    cancel(timer);
-  },
+  get isTimedChallenge() {
+    return isInteger(this.args.challenge.timer);
+  }
 
-  isTimedChallenge: computed('challenge.timer', function() {
-    return _.isInteger(this.challenge.timer);
-  }),
+  get displayTimer() {
+    return this.isTimedChallengeWithoutAnswer && this.hasUserConfirmedWarning;
+  }
 
-  displayTimer: and('isTimedChallengeWithoutAnswer', 'hasUserConfirmedWarning'),
-
-  displayChallenge: computed('isTimedChallenge', '_hasSeenWarningPage', 'isTimedChallengeWithoutAnswer', function() {
+  get displayChallenge() {
     return !this.isTimedChallenge || this._hasSeenWarningPage || !this.isTimedChallengeWithoutAnswer;
-  }),
+  }
 
-  _hasSeenWarningPage: and('hasUserConfirmedWarning', 'isTimedChallenge'),
-
-  isTimedChallengeWithoutAnswer: computed('answer', 'isTimedChallenge', function() {
-    if (this.isTimedChallenge && !this.answer) {
+  get isTimedChallengeWithoutAnswer() {
+    if (this.isTimedChallenge && !this.args.answer) {
       return true;
     }
     return false;
-  }),
+  }
+
+  get _hasSeenWarningPage() {
+    return this.hasUserConfirmedWarning && this.isTimedChallenge;
+  }
 
   _getTimeout() {
-    return this.$('.timeout-jauge-remaining').attr('data-spent');
-  },
+    const timeoutJauge = document.querySelector('timeout-jauge-remaining');
+    return timeoutJauge && timeoutJauge.attr('data-spent');
+  }
 
   _getElapsedTime() {
     return this._elapsedTime;
-  },
+  }
 
   _start() {
-    this.set('_elapsedTime', 0);
+    this._elapsedTime = 0;
     this._tick();
-  },
+  }
 
   _tick() {
     if (ENV.APP.isChallengeTimerEnable) {
       const timer = later(this, function() {
         const elapsedTime = this._elapsedTime;
-        this.set('_elapsedTime', elapsedTime + 1);
-        this.notifyPropertyChange('_elapsedTime');
+        this._elapsedTime = elapsedTime + 1;
         this._tick();
       }, 1000);
 
-      this.set('_timer', timer);
+      this._timer = timer;
     }
-  },
+  }
 
-  actions: {
-    validateAnswer() {
-      if (this.isValidateButtonEnabled && this.isSkipButtonEnabled) {
-        if (this._hasError()) {
+  @action
+  validateAnswer() {
+    if (this.isValidateButtonEnabled && this.isSkipButtonEnabled) {
 
-          const errorMessage = this._getErrorMessage();
-
-          this.set('errorMessage', errorMessage);
-
-          return;
-        }
-
-        this.set('errorMessage', null);
-        this.set('_isUserAwareThatChallengeIsTimed', false);
-        this.set('isValidateButtonEnabled', false);
-
-        return this.answerValidated(this.challenge, this.assessment, this._getAnswerValue(), this._getTimeout(), this._getElapsedTime())
-          .finally(() => this.set('isValidateButtonEnabled', true));
+      if (this._hasError()) {
+        const errorMessage = this._getErrorMessage();
+        this.errorMessage = errorMessage;
+        return;
       }
-    },
 
-    resumeAssessment() {
-      return this.resumeAssessment(this.assessment);
-    },
+      this.errorMessage = null;
+      this.hasUserConfirmedWarning = false;
+      this.isValidateButtonEnabled = false;
 
-    skipChallenge() {
-      if (this.isValidateButtonEnabled && this.isSkipButtonEnabled) {
-        this.set('errorMessage', null);
-        this.set('_isUserAwareThatChallengeIsTimed', false);
-        this.set('isSkipButtonEnabled', false);
+      return this.args.answerValidated(this.args.challenge, this.args.assessment, this._getAnswerValue(), this._getTimeout(), this._getElapsedTime())
+        .finally(() => this.isValidateButtonEnabled = true);
+    }
+  }
 
-        return this.answerValidated(this.challenge, this.assessment, '#ABAND#', this._getTimeout(), this._getElapsedTime())
-          .finally(() => this.set('isSkipButtonEnabled', true));
-      }
-    },
+  @action
+  resumeAssessment() {
+    return this.args.resumeAssessment(this.args.assessment);
+  }
 
-    setUserConfirmation() {
-      this._start();
-      this.set('hasUserConfirmedWarning', true);
-      this.set('_isUserAwareThatChallengeIsTimed', true);
-    },
-  },
-});
+  @action
+  skipChallenge() {
+    if (this.isValidateButtonEnabled && this.isSkipButtonEnabled) {
+      this.errorMessage = null;
+      this.hasUserConfirmedWarning = false;
+      this.isSkipButtonEnabled = false;
 
-export default ChallengeItemGeneric;
+      return this.args.answerValidated(this.args.challenge, this.args.assessment, '#ABAND#', this._getTimeout(), this._getElapsedTime())
+        .finally(() => this.isSkipButtonEnabled = true);
+    }
+  }
+
+  @action
+  setUserConfirmation() {
+    this._start();
+    this.hasUserConfirmedWarning = true;
+  }
+}
