@@ -1,28 +1,27 @@
 import { action } from '@ember/object';
 import _ from 'lodash';
 import { inject as service } from '@ember/service';
-import classic from 'ember-classic-decorator';
 
 import ChallengeItemGeneric from './challenge-item-generic';
 import jsyaml from 'js-yaml';
 import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
 
-@classic
-class ChallengeItemQrocm extends ChallengeItemGeneric {
+export default class ChallengeItemQrocm extends ChallengeItemGeneric {
   @service intl;
 
   answersValue = {};
 
-  didReceiveAttrs() {
+  constructor() {
+    super(...arguments);
     this.answersValue = this._extractProposals();
 
-    if (this.answer) {
-      this.answersValue = this.answer._valuesAsMap;
+    if (this.args.answer) {
+      this.answersValue = this.args.answer._valuesAsMap;
     }
   }
 
   _extractProposals() {
-    const proposals = proposalsAsBlocks(this.challenge.proposals);
+    const proposals = proposalsAsBlocks(this.args.challenge.proposals);
     const inputFieldsNames = {};
 
     proposals.forEach(({ input }) => {
@@ -53,8 +52,7 @@ class ChallengeItemQrocm extends ChallengeItemGeneric {
 
   @action
   answerChanged() {
-    this.set('errorMessage', null);
+    this.errorMessage = null;
   }
 }
 
-export default ChallengeItemQrocm;

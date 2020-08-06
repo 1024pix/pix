@@ -9,7 +9,7 @@ describe('Integration | Component | QROCm proposal', function() {
   setupIntlRenderingTest();
 
   it('renders', async function() {
-    await render(hbs`{{qrocm-proposal}}`);
+    await render(hbs`<QrocmProposal />`);
 
     expect(find('.qrocm-proposal')).to.exist;
   });
@@ -21,7 +21,7 @@ describe('Integration | Component | QROCm proposal', function() {
       this.set('format', 'paragraphe');
 
       // when
-      await render(hbs`{{qrocm-proposal proposals=proposals format=format}}`);
+      await render(hbs`<QrocmProposal @proposals={{this.proposals}} @format={{this.format}} />`);
 
       // then
       expect(find('.challenge-response__proposal--paragraph').tagName).to.equal('TEXTAREA');
@@ -35,7 +35,7 @@ describe('Integration | Component | QROCm proposal', function() {
       this.set('format', 'phrase');
 
       // when
-      await render(hbs`{{qrocm-proposal proposals=proposals format=format}}`);
+      await render(hbs`<QrocmProposal @proposals={{this.proposals}} @format={{this.format}} />`);
 
       // then
       expect(find('.challenge-response__proposal--sentence').tagName).to.equal('INPUT');
@@ -54,7 +54,7 @@ describe('Integration | Component | QROCm proposal', function() {
         this.set('format', data.format);
 
         // when
-        await render(hbs`{{qrocm-proposal proposals=proposals format=format}}`);
+        await render(hbs`<QrocmProposal @proposals={{this.proposals}} @format={{this.format}} />`);
 
         // then
         expect(find('.challenge-response__proposal--paragraph')).to.not.exist;
@@ -81,7 +81,7 @@ describe('Integration | Component | QROCm proposal', function() {
           this.set('format', `${data.format}`);
 
           // when
-          await render(hbs`{{qrocm-proposal proposals=proposals format=format answerValue=answerValue}}`);
+          await render(hbs`<QrocmProposal @proposals={{this.proposals}} @format={{this.format}} @answerValue={{this.answerValue}} />`);
 
           // then
           expect(find(`${data.cssClass}`).getAttribute('autocomplete')).to.equal('off');
@@ -108,7 +108,7 @@ describe('Integration | Component | QROCm proposal', function() {
           this.set('format', 'phrase');
 
           // when
-          await render(hbs`{{qrocm-proposal proposals=proposals format=format answerValue=answerValue}}`);
+          await render(hbs`<QrocmProposal @proposals={{this.proposals}} @format={{this.format}} @answerValue={{this.answerValue}} />`);
 
           //then
           allInputElements = findAll('.challenge-response__proposal');
@@ -143,7 +143,7 @@ describe('Integration | Component | QROCm proposal', function() {
           this.set('format', 'phrase');
 
           // when
-          await render(hbs`{{qrocm-proposal proposals=proposals format=format answerValue=answerValue}}`);
+          await render(hbs`<QrocmProposal @proposals={{this.proposals}} @format={{this.format}} @answerValue={{this.answerValue}} />`);
 
           //then
           allLabelElements = findAll('label');
