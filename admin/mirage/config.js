@@ -29,6 +29,14 @@ export default function() {
   this.get('/admin/users/:id');
   this.get('/certification-centers');
   this.get('/certification-centers/:id');
+  this.post('/certification-centers', (schema, request) => {
+    const params = JSON.parse(request.requestBody);
+    const name = params.data.attributes.name;
+    const type = params.data.attributes.type;
+    const externalId = params.data.attributes.externalId;
+
+    return schema.certificationCenters.create({ name, type, externalId });
+  });
 
   this.post('/memberships', createMembership);
   this.get('/organizations');
