@@ -237,8 +237,8 @@ describe('Acceptance | Controller | scorecard-controller', () => {
           airtableBuilder.factory.buildTube({
             id: tubeWebId,
             nom: tubeWeb,
-            titrePratique: 'Ceci est un titre pratique',
-            descriptionPratique: 'Ceci est une description pratique'
+            titrePratiqueFrFr: 'Ceci est un titre pratique',
+            descriptionPratiqueFrFr: 'Ceci est une description pratique'
           }),
         ];
 
