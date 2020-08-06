@@ -7,10 +7,14 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', functi
   let certificationCenterId;
   let certificationCenterName;
   let certificationCenterDate;
+  let certificationCenterType;
+  let certificationCenterExternalId;
 
   beforeEach(() => {
     certificationCenterId = 42;
     certificationCenterName = 'My certification center';
+    certificationCenterType = 'PRO';
+    certificationCenterExternalId = 'Identifiant externe';
     certificationCenterDate = 'Some date';
   });
 
@@ -58,6 +62,8 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', functi
           id: certificationCenterId.toString(),
           attributes: {
             name: certificationCenterName,
+            type: certificationCenterType,
+            'external-id': certificationCenterExternalId,
             'created-at': new Date('2018-02-01T01:02:03Z')
           },
           relationships: {}
@@ -71,9 +77,9 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', functi
       expect(deserializedCertificationCenter).to.be.instanceOf(CertificationCenter);
       expect(deserializedCertificationCenter.id).to.equal(certificationCenterId.toString());
       expect(deserializedCertificationCenter.name).to.equal(certificationCenterName);
+      expect(deserializedCertificationCenter.type).to.equal(certificationCenterType);
+      expect(deserializedCertificationCenter.externalId).to.equal(certificationCenterExternalId);
       expect(deserializedCertificationCenter.createdAt).to.be.undefined;
     });
-
   });
-
 });
