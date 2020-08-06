@@ -37,7 +37,8 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
       const skill = airtableBuilder.factory.buildSkill({
         id: 'q_first_acquis',
         nom: '@web3',
-        indice: 'Indice web3',
+        indiceFr: 'Geolocaliser ?',
+        indiceEn: 'Geolocate ?',
         statutDeLIndice: 'Validé',
         compétenceViaTube: 'recABCD',
         comprendre: [englishTutorial.id, frenchTutorial.id],
@@ -87,7 +88,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
             type: 'corrections',
             attributes: {
               solution: 'fromage',
-              hint: 'Indice web3',
+              hint: 'Geolocaliser ?',
             },
             relationships: {
               tutorials: {

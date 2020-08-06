@@ -20,11 +20,11 @@ describe('Unit | Repository | correction-repository', function() {
 
     const recordId = 'rec-challengeId';
     const userId = 'userId';
-    const locale = 'lang-country';
+    const locale = 'en';
 
     const expectedHints = [
-      domainBuilder.buildHint({ skillName: '@web2', value: 'Peut-on géo-localiser un lapin sur la banquise ?' }),
-      domainBuilder.buildHint({ skillName: '@web3', value: 'Peut-on géo-localiser un lapin sur la banquise ?' }),
+      domainBuilder.buildHint({ skillName: '@web2', value: 'Can we geo-locate a rabbit on the ice floe?' }),
+      domainBuilder.buildHint({ skillName: '@web3', value: 'Can we geo-locate a rabbit on the ice floe?' }),
     ];
 
     const userTutorial = { id: 'userTutorialId', userId, tutorialId: 'recTuto1' };
