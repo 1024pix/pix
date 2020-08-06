@@ -144,6 +144,20 @@ module.exports = {
       knowledgeElementsGroupedByUserIdAndCompetenceId[userId] = _.groupBy(knowledgeElements, 'competenceId');
     }
     return knowledgeElementsGroupedByUserIdAndCompetenceId;
+  },
+
+  async findSnapshotForUsers(userIdsAndDates) {
+    const knowledgeElementsGroupedByUser = await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(userIdsAndDates);
+
+    for (const [strUserId, knowledgeElementsFromSnapshot] of Object.entries(knowledgeElementsGroupedByUser)) {
+      const userId = parseInt(strUserId);
+      let knowledgeElements = knowledgeElementsFromSnapshot;
+      if (!knowledgeElements) {
+        knowledgeElements = await _findByUserIdAndLimitDateThenSaveSnapshot({ userId, limitDate: userIdsAndDates[userId] });
+      }
+      knowledgeElementsGroupedByUser[userId] = knowledgeElements;
+    }
+    return knowledgeElementsGroupedByUser;
   }
 };
 
