@@ -5,6 +5,10 @@
     "login-unauthorized-error": "Wrong email address, username and/or password."
   },
 
+  "application": {
+    "description": "Pix is an online platform for the assessment and certification of the digital skills of French-speaking citizens (pupils, students, dropouts, job seekers, seniors)"
+  },
+
   "common": {
     "actions": {
       "cancel": "Cancel",
