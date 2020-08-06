@@ -56,7 +56,7 @@ describe('Acceptance | Displaying a QCU challenge', () => {
       expect(find('.alert')).to.not.exist;
     });
 
-    it('should go to checkpoint when user validated', async () => {
+    it('should go to checkpoint when user selects an answer and validates', async () => {
       // when
       await click(findAll('.proposal-text')[1]);
       await click('.challenge-actions__action-validate');

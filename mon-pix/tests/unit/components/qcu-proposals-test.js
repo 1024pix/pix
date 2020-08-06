@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
+import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
 describe('Unit | Component | QCU proposals', function() {
 
@@ -20,9 +21,7 @@ describe('Unit | Component | QCU proposals', function() {
     });
 
     function initComponent() {
-      component = this.owner.lookup('component:qcu-proposals');
-      component.set('proposals', proposals);
-      component.set('answerValue', answerValue);
+      component = createGlimmerComponent('component:qcu-proposals', { proposals, answerValue });
     }
 
     it('should return an array of [<proposal_text>, <boolean_answer>]', function() {
@@ -36,7 +35,7 @@ describe('Unit | Component | QCU proposals', function() {
       initComponent.call(this);
 
       // When
-      const labeledRadios = component.get('labeledRadios');
+      const labeledRadios = component.labeledRadios;
 
       // Then
       expect(labeledRadios).to.deep.equal(expectedLabeledRadios);
@@ -48,7 +47,7 @@ describe('Unit | Component | QCU proposals', function() {
       initComponent.call(this);
 
       // when
-      const labeledRadios = component.get('labeledRadios');
+      const labeledRadios = component.labeledRadios;
 
       // then
       expect(labeledRadios).to.have.lengthOf(5);
@@ -65,7 +64,7 @@ describe('Unit | Component | QCU proposals', function() {
       initComponent.call(this);
 
       // when
-      const labeledRadios = component.get('labeledRadios');
+      const labeledRadios = component.labeledRadios;
 
       // then
       expect(labeledRadios).to.deep.equal(expectedLabeledRadios);
@@ -82,7 +81,7 @@ describe('Unit | Component | QCU proposals', function() {
       initComponent.call(this);
 
       // when
-      const labeledRadios = component.get('labeledRadios');
+      const labeledRadios = component.labeledRadios;
 
       // then
       expect(labeledRadios).to.deep.equal(expectedLabeledRadios);
