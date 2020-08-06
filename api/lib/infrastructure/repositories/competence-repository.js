@@ -7,15 +7,16 @@ const competenceDatasource = require('../datasources/airtable/competence-datasou
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const scoringService = require('../../domain/services/scoring/scoring-service');
 const { NotFoundError } = require('../../domain/errors');
-const { FRENCH_FRANCE, ENGLISH_SPOKEN } = require('../../domain/constants').LOCALE;
+const { FRENCH_FRANCE } = require('../../domain/constants').LOCALE;
+const { getTranslatedText } = require('../../domain/services/get-translated-text');
 
 const PixOriginName = 'Pix';
 
 function _toDomain({ competenceData, areaDatas, locale }) {
   const areaData = competenceData.areaId && _.find(areaDatas, { id: competenceData.areaId });
-  const translatedCompetenceName = _getTranslatedText(locale, { frenchText: competenceData.nameFrFr, englishText: competenceData.nameEnUs });
-  const translatedCompetenceDescription = _getTranslatedText(locale, { frenchText: competenceData.descriptionFrFr, englishText: competenceData.descriptionEnUs });
-  const translatedAreaTitle = areaData ? _getTranslatedText(locale, { frenchText: areaData.titleFrFr, englishText: areaData.titleEnUs }) : '';
+  const translatedCompetenceName = getTranslatedText(locale, { frenchText: competenceData.nameFrFr, englishText: competenceData.nameEnUs });
+  const translatedCompetenceDescription = getTranslatedText(locale, { frenchText: competenceData.descriptionFrFr, englishText: competenceData.descriptionEnUs });
+  const translatedAreaTitle = areaData ? getTranslatedText(locale, { frenchText: areaData.titleFrFr, englishText: areaData.titleEnUs }) : '';
 
   return new Competence({
     id: competenceData.id,
@@ -31,14 +32,6 @@ function _toDomain({ competenceData, areaDatas, locale }) {
       color: areaData.color,
     }),
   });
-}
-
-function _getTranslatedText(locale, translations = { frenchText: '', englishText: '' }) {
-  if (locale === ENGLISH_SPOKEN) {
-    return translations.englishText;
-  }
-
-  return translations.frenchText;
 }
 
 module.exports = {
