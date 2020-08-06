@@ -1,10 +1,10 @@
 const _ = require('lodash');
+const bluebird = require('bluebird');
 const { knex } = require('../bookshelf');
-const CampaignAssessmentParticipationSummary = require('../../domain/read-models/CampaignAssessmentParticipationSummary');
+const constants = require('../constants');
 const targetProfileRepository = require('./target-profile-repository');
 const knowledgeElementRepository = require('./knowledge-element-repository');
-const bluebird = require('bluebird');
-const constants = require('../constants');
+const CampaignAssessmentParticipationSummary = require('../../domain/read-models/CampaignAssessmentParticipationSummary');
 
 const DEFAULT_PAGE_SIZE = 10;
 const DEFAULT_PAGE_NUMBER = 1;
@@ -59,35 +59,52 @@ function _campaignParticipationByParticipantSortedByDate(qb, campaignId) {
     .where('campaign-participations.campaignId', '=', campaignId);
 }
 
-function _buildCampaignAssessmentParticipationSummaries(resultSet, targetedSkillIds) {
-  return bluebird.map(
-    resultSet,
-    (result) => _buildCampaignAssessmentParticipationSummary(result, targetedSkillIds),
-    { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }
+async function _buildCampaignAssessmentParticipationSummaries(resultSet, targetedSkillIds) {
+  const chunks = _.chunk(resultSet, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
+  const notFlat = await bluebird.mapSeries(
+    chunks,
+    (chunk) => _buildCampaignAssessmentParticipationSummary(chunk, targetedSkillIds),
   );
+
+  return notFlat.flat();
 }
 
-async function _buildCampaignAssessmentParticipationSummary(result, targetedSkillIds) {
+async function _buildCampaignAssessmentParticipationSummary(results, targetedSkillIds) {
+  const sharedResults = results
+    .filter((result) => result.isShared);
 
-  let validatedTargetedSkillIds = [];
-  if (result.isShared) {
-    validatedTargetedSkillIds = await _getValidatedTargetSkillIds(result.userId, result.sharedAt, targetedSkillIds);
-  }
+  const userIdsAndDates = Object.fromEntries(sharedResults.map((result) => {
+    return [
+      result.userId,
+      result.sharedAt,
+    ];
+  }));
 
-  return new CampaignAssessmentParticipationSummary({
-    ...result,
-    targetedSkillCount: targetedSkillIds.length,
-    validatedTargetedSkillCount: validatedTargetedSkillIds.length,
+  const validatedTargetedSkillIdsByUser = await _getValidatedTargetSkillIds(
+    userIdsAndDates,
+    targetedSkillIds,
+  );
+
+  return results.map((result) => {
+    const validatedTargetedSkillCount = validatedTargetedSkillIdsByUser[result.userId] ? validatedTargetedSkillIdsByUser[result.userId].length : 0;
+    return new CampaignAssessmentParticipationSummary({
+      ...result,
+      targetedSkillCount: targetedSkillIds.length,
+      validatedTargetedSkillCount,
+    });
   });
 }
 
-async function _getValidatedTargetSkillIds(userId, limitDate, targetedSkillIds) {
-  const knowledgeElementsByUser = await knowledgeElementRepository.findSnapshotForUsers({ [userId]: limitDate });
-  const knowledgeElements = knowledgeElementsByUser[userId];
+async function _getValidatedTargetSkillIds(userIdsAndDates, targetedSkillIds) {
+  const knowledgeElementsByUser = await knowledgeElementRepository.findSnapshotForUsers(userIdsAndDates);
 
-  const validatedKnowledgeElements = _.filter(knowledgeElements, 'isValidated');
-  const validatedSkillIds = _.map(validatedKnowledgeElements, 'skillId');
-  return _.intersection(validatedSkillIds, targetedSkillIds);
+  for (const userId of Object.keys(knowledgeElementsByUser)) {
+    const validatedKnowledgeElements = _.filter(knowledgeElementsByUser[userId], 'isValidated');
+    const validatedSkillIds = _.map(validatedKnowledgeElements, 'skillId');
+    knowledgeElementsByUser[userId] = _.intersection(validatedSkillIds, targetedSkillIds);
+  }
+
+  return knowledgeElementsByUser;
 }
 
 module.exports = campaignAssessmentParticipationRepository;
