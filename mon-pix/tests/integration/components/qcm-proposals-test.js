@@ -9,7 +9,7 @@ describe('Integration | Component | QCM proposals', function() {
   setupIntlRenderingTest();
 
   it('renders', async function() {
-    await render(hbs`{{qcm-proposals}}`);
+    await render(hbs`<QcmProposals />`);
     expect(find('.qcm-proposals')).to.exist;
   });
 
