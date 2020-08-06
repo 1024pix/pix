@@ -47,7 +47,7 @@ describe('Acceptance | API | Campaign Participations | Analyses', () => {
       airtableBuilder.mockList({ tableName: 'Acquis' }).returns([
         airtableBuilder.factory.buildSkill({ id: 'recSkillId1', 'compétenceViaTube': ['recCompetence1'], tube: ['recTube1'], comprendre: [tutorial.id] }),
       ]).activate();
-      const tube1 = airtableBuilder.factory.buildTube({ id: 'recTube1', titrePratique: 'Monter une étagère', competences: [ 'recCompetence1' ] });
+      const tube1 = airtableBuilder.factory.buildTube({ id: 'recTube1', titrePratiqueFrFr: 'Monter une étagère', competences: [ 'recCompetence1' ] });
       airtableBuilder.mockList({ tableName: 'Tubes' }).returns([ tube1 ]).activate();
       airtableBuilder.mockList({ tableName: 'Competences' }).returns([ competence1 ]).activate();
       airtableBuilder.mockList({ tableName: 'Domaines' }).returns([ area ]).activate();

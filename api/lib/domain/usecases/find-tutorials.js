@@ -32,7 +32,7 @@ module.exports = async function findTutorials({
   const easiestSkills = _getEasiestSkills(skillsGroupedByTube);
 
   const tubeNamesForTutorials = _.keys(skillsGroupedByTube);
-  const tubes = await tubeRepository.findByNames(tubeNamesForTutorials);
+  const tubes = await tubeRepository.findByNames({ tubeNames: tubeNamesForTutorials, locale });
 
   const tutorialsWithTubesList = await _getTutorialsWithTubesList(easiestSkills, tubes, tutorialRepository, userId, locale);
   return _.orderBy(_.flatten(tutorialsWithTubesList), 'tubeName');

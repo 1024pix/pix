@@ -408,7 +408,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       ]).activate();
       const tube1 = airtableBuilder.factory.buildTube({
         id: 'recTube1',
-        titrePratique: 'Monter une étagère',
+        titrePratiqueFrFr: 'Monter une étagère FR',
         competences: ['recCompetence1']
       });
       airtableBuilder.mockList({ tableName: 'Tubes' }).returns([tube1]).activate();
@@ -463,7 +463,7 @@ describe('Acceptance | API | Campaign Controller', () => {
             'tube-id': 'recTube1',
             'competence-id': 'recCompetence1',
             'competence-name': 'Fabriquer un meuble',
-            'tube-practical-title': 'Monter une étagère',
+            'tube-practical-title': 'Monter une étagère FR',
             'average-score': 30
           },
           relationships: {
