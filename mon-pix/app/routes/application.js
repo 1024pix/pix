@@ -13,6 +13,7 @@ export default Route.extend(ApplicationRouteMixin, {
   session: service(),
   intl: service(),
   moment: service(),
+  headData: service(),
 
   activate() {
     this.splash.hide();
@@ -28,6 +29,7 @@ export default Route.extend(ApplicationRouteMixin, {
 
   async beforeModel(transition) {
     this._setLocale(transition.to.queryParams);
+    this.headData.description = this.intl.t('application.description');
     await this._checkForURLAuthentication(transition);
     return this._loadCurrentUser();
   },

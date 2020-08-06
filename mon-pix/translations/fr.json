@@ -5,6 +5,10 @@
     "login-unauthorized-error": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects."
   },
 
+  "application": {
+    "description": "Pix est une plateforme en ligne d'évaluation et de certification des compétences numériques des citoyens francophones (élèves, étudiant•e•s, décrocheur•se•s, demandeur•se•s d'emploi, sénior•e•s)"
+  },
+
   "common": {
     "actions": {
       "cancel": "Annuler",
