@@ -10,18 +10,18 @@ describe('Unit | Controller | assessment-controller', function() {
 
   describe('#get', () => {
     const authenticatedUserId = '12';
+    const locale = 'fr';
+    const assessmentId = 104974;
 
-    const assessment = { id: 104974, title: 'Ordinary Wizarding Level assessment' };
+    const assessment = { id: assessmentId, title: 'Ordinary Wizarding Level assessment' };
 
     beforeEach(() => {
-      sinon.stub(usecases, 'getAssessment').withArgs({ assessmentId: assessment.id }).resolves(assessment);
+      sinon.stub(usecases, 'getAssessment').withArgs({ assessmentId, locale }).resolves(assessment);
       sinon.stub(assessmentSerializer, 'serialize').resolvesArg(0);
     });
 
     it('should call the expected usecase', async () => {
       // given
-      const assessementId = assessment.id;
-
       const request = {
         auth: {
           credentials: {
@@ -29,8 +29,9 @@ describe('Unit | Controller | assessment-controller', function() {
           },
         },
         params: {
-          id: assessementId,
+          id: assessmentId,
         },
+        headers: { 'accept-language': locale }
       };
 
       // when

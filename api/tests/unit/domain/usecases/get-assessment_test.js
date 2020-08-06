@@ -57,17 +57,19 @@ describe('Unit | UseCase | get-assessment', () => {
     assessment.type = Assessment.types.COMPETENCE_EVALUATION;
     assessmentRepository.get.resolves(assessment);
     competenceRepository.getCompetenceName.resolves(competence.name);
+    const locale = 'fr';
 
     // when
     const result = await getAssessment({
       assessmentId: assessment.id,
+      locale,
       assessmentRepository,
       competenceRepository,
     });
 
     // then
     expect(assessmentRepository.get).to.have.been.calledWithExactly(assessment.id);
-    expect(competenceRepository.getCompetenceName).to.have.been.calledWithExactly(assessment.competenceId);
+    expect(competenceRepository.getCompetenceName).to.have.been.calledWithExactly({ id: assessment.competenceId, locale });
 
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);
