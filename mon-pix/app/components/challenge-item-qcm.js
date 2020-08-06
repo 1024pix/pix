@@ -1,5 +1,3 @@
-/* eslint ember/classic-decorator-no-classic-methods: 0 */
-
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import ChallengeItemGeneric from './challenge-item-generic';
@@ -27,6 +25,6 @@ export default class ChallengeItemQcm extends ChallengeItemGeneric {
     } else {
       this.checkedValues.add(checkboxName);
     }
-    this.set('errorMessage', null);
+    this.errorMessage = null;
   }
 }
