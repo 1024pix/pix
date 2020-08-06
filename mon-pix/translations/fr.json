@@ -26,13 +26,12 @@
     "pix": "pix"
   },
 
-  "pages" : {
-
+  "pages": {
     "assessment-results": {
       "title": "Fin du test",
       "actions": {
-        "continue-pix-experience" : "Continuer mon expérience Pix",
-        "return-to-homepage" : "Revenir à l'accueil"
+        "continue-pix-experience": "Continuer mon expérience Pix",
+        "return-to-homepage": "Revenir à l'accueil"
       },
       "answers": {
         "header": "Vos réponses"
@@ -137,7 +136,16 @@
       }
     },
 
+    "certification-not-certifiable": {
+      "title": "Votre profil n'est pas encore certifiable.",
+      "text": "Pour faire certifier votre profil, vous devez avoir obtenu un niveau supérieur à 0 dans 5 compétences minimum.",
+      "action": {
+        "back": "Retour à l'accueil"
+      }
+    },
+
     "certification-results": {
+      "title": "Avancement de votre certification",
       "action": {
         "confirm": "Je confirme",
         "logout": "Se déconnecter"
@@ -179,6 +187,9 @@
         "score": "score pix",
         "status": "statut"
       },
+      "no-certification": {
+        "text": "Vous n'avez pas encore de certification."
+      },
       "statuses": {
         "success": {
           "action": "voir les résultats",
@@ -206,6 +217,12 @@
         "title": "Certification {certificationNumber}",
         "banner": {
           "certification-number": "N° de certification"
+        },
+        "feedback-panel": {
+          "description": "Pour signaler un problème, appelez votre surveillant et communiquez-lui les informations suivantes :",
+          "certification-number": "votre n° de certification (en haut à droite de l'écran)",
+          "question-number": "le numéro de la question (en haut à droite de l'écran)",
+          "problem": "le problème rencontré"
         }
       },
       "embed-simulator": {
@@ -315,9 +332,9 @@
     },
 
     "checkpoint": {
-      "title" : {
+      "title": {
         "assessment-progress": "Avancement du parcours",
-        "end-of-assessment" : "Fin de votre évaluation"
+        "end-of-assessment": "Fin de votre évaluation"
       },
       "actions": {
         "next-page": {
@@ -622,9 +639,9 @@
     },
 
     "tutorial": {
-      "next":"Suivant",
+      "next": "Suivant",
       "pages": {
-        "page0" : {
+        "page0": {
           "title": "Vous pouvez rechercher sur internet",
           "icon": "icn-recherche.svg",
           "explanation": "Si vous ignorez une réponse, \nelle se trouve sûrement sur internet."
@@ -639,7 +656,7 @@
           "icon": "icn-tutos.svg",
           "explanation": "Accédez à des tutos pour apprendre davantage \nsur chaque question et progresser."
         },
-        "page3" : {
+        "page3": {
           "title": "Un niveau de difficulté adapté",
           "icon": "icn-algo.svg",
           "explanation": "En fonction de vos réponses,\nPix adapte la difficulté des questions."
