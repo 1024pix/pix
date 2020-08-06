@@ -717,7 +717,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
     });
   });
 
-  describe('#findUniqByUserIdsAndDatesGroupedByCompetenceIdWithSnapshot', () => {
+  describe('#findSnapshotGroupedByCompetencesForUsers', () => {
     const sandbox = sinon.createSandbox();
     let userId1;
     let userId2;
@@ -844,6 +844,138 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
           // then
           const actualUserSnapshots = await knex.select('*').from('knowledge-element-snapshots').where({ userId: userId1 });
           expect(actualUserSnapshots.length).to.equal(1);
+        });
+      });
+    });
+  });
+
+  describe('#findSnapshotForUsers', () => {
+    const sandbox = sinon.createSandbox();
+    let userId1;
+    let userId2;
+
+    beforeEach(() => {
+      userId1 = databaseBuilder.factory.buildUser().id;
+      userId2 = databaseBuilder.factory.buildUser().id;
+      return databaseBuilder.commit();
+    });
+
+    afterEach(() => {
+      return knex('knowledge-element-snapshots').delete();
+    });
+
+    it('should return knowledge elements within respective dates grouped by userId the competenceId', async () => {
+      // given
+      const dateUserId1 = new Date('2020-01-03');
+      const dateUserId2 = new Date('2019-01-03');
+      const user1knowledgeElement1 = databaseBuilder.factory.buildKnowledgeElement({ userId: userId1, createdAt: new Date('2020-01-01') });
+      const user1knowledgeElement2 = databaseBuilder.factory.buildKnowledgeElement({ userId: userId1, createdAt: new Date('2020-01-02') });
+      databaseBuilder.factory.buildKnowledgeElement({ userId: userId1, createdAt: new Date('2021-01-02') });
+      const user2knowledgeElement1 = databaseBuilder.factory.buildKnowledgeElement({ userId: userId2, createdAt: new Date('2019-01-01') });
+      const user2knowledgeElement2 = databaseBuilder.factory.buildKnowledgeElement({ userId: userId2, createdAt: new Date('2019-01-02') });
+      databaseBuilder.factory.buildKnowledgeElement({ userId: userId2, createdAt: new Date('2020-01-02') });
+      await databaseBuilder.commit();
+
+      // when
+      const knowledgeElementsByUserIdAndCompetenceId =
+        await knowledgeElementRepository.findSnapshotForUsers({ [userId1]: dateUserId1, [userId2]: dateUserId2 });
+
+      // then
+      expect(knowledgeElementsByUserIdAndCompetenceId[userId1][0]).to.be.instanceOf(KnowledgeElement);
+      expect(knowledgeElementsByUserIdAndCompetenceId[userId1].length).to.equal(2);
+      expect(knowledgeElementsByUserIdAndCompetenceId[userId2].length).to.equal(2);
+      expect(knowledgeElementsByUserIdAndCompetenceId[userId1]).to.deep.include.members([user1knowledgeElement1, user1knowledgeElement2]);
+      expect(knowledgeElementsByUserIdAndCompetenceId[userId2]).to.deep.include.members([user2knowledgeElement1, user2knowledgeElement2 ]);
+    });
+
+    context('when user has a snapshot for this date', () => {
+
+      afterEach(() => {
+        sandbox.restore();
+      });
+
+      it('should return the knowledge elements in the snapshot', async () => {
+        // given
+        sandbox.spy(knowledgeElementSnapshotRepository);
+        const dateSharedAtUserId1 = new Date('2020-01-03');
+        const knowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId: userId1 });
+        databaseBuilder.factory.buildKnowledgeElementSnapshot({ userId: userId1, snappedAt: dateSharedAtUserId1, snapshot: JSON.stringify([knowledgeElement]) });
+        await databaseBuilder.commit();
+
+        // when
+        const knowledgeElementsByUserIdAndCompetenceId =
+          await knowledgeElementRepository.findSnapshotForUsers({ [userId1]: dateSharedAtUserId1 });
+
+        // then
+        expect(knowledgeElementsByUserIdAndCompetenceId[userId1][0]).to.deep.equal(knowledgeElement);
+        expect(knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates).to.have.been.calledWith({ [userId1]: dateSharedAtUserId1 });
+        await expect(knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates.firstCall.returnValue).to.eventually.deep.equal({
+          [userId1]: [knowledgeElement],
+        });
+      });
+    });
+
+    context('when user does not have a snapshot for this date', () => {
+
+      context('when no date is provided along with the user', () => {
+        let expectedKnowledgeElement;
+
+        beforeEach(() => {
+          expectedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId: userId1, createdAt: new Date('2018-01-01') });
+          return databaseBuilder.commit();
+        });
+
+        it('should return all knowledge elements', async () => {
+          // when
+          const knowledgeElementsByUserIdAndCompetenceId =
+            await knowledgeElementRepository.findSnapshotForUsers({ [userId1]: null });
+
+          // then
+          expect(knowledgeElementsByUserIdAndCompetenceId[userId1]).to.deep.include.members([expectedKnowledgeElement]);
+        });
+
+        it('should not trigger snapshotting', async () => {
+          // when
+          await knowledgeElementRepository.findSnapshotForUsers({ [userId1]: null });
+
+          // then
+          const actualUserSnapshots = await knex.select('*').from('knowledge-element-snapshots').where({ userId: userId1 });
+          expect(actualUserSnapshots.length).to.equal(0);
+        });
+      });
+
+      context('when a date is provided along with the user', () => {
+        let expectedKnowledgeElement;
+
+        beforeEach(() => {
+          expectedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId: userId1, createdAt: new Date('2018-01-01') });
+          return databaseBuilder.commit();
+        });
+
+        it('should return the knowledge elements at date', async () => {
+          // when
+          const knowledgeElementsByUserIdAndCompetenceId =
+            await knowledgeElementRepository.findSnapshotForUsers({ [userId1]: new Date('2018-02-01') });
+
+          // then
+          expect(knowledgeElementsByUserIdAndCompetenceId[userId1]).to.deep.include.members([expectedKnowledgeElement]);
+        });
+
+        it('should save a snasphot', async () => {
+          // when
+          await knowledgeElementRepository.findSnapshotForUsers({ [userId1]: new Date('2018-02-01') });
+
+          // then
+          const actualUserSnapshots = await knex.select('*').from('knowledge-element-snapshots').where({ userId: userId1 });
+          expect(actualUserSnapshots.length).to.equal(1);
+          const actualKnowledgeElements = [];
+          for (const knowledgeElementData of actualUserSnapshots[0].snapshot) {
+            actualKnowledgeElements.push(new KnowledgeElement({
+              ...knowledgeElementData,
+              createdAt: new Date(knowledgeElementData.createdAt),
+            }));
+          }
+          expect(actualKnowledgeElements).to.deep.equal([expectedKnowledgeElement]);
         });
       });
     });
