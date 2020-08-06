@@ -58,14 +58,16 @@ module.exports = {
     }
   },
 
-  getCompetenceName(id) {
-    return competenceDatasource.get(id)
-      .then((competence) => {
-        return competence.name;
-      })
-      .catch(() => {
+  async getCompetenceName({ id, locale }) {
+    try {
+      const competence = await competenceDatasource.get(id);
+      return getTranslatedText(locale, { frenchText: competence.nameFrFr, englishText: competence.nameEnUs });
+    } catch (err) {
+      if (err instanceof AirtableNotFoundError) {
         throw new NotFoundError('La compétence demandée n’existe pas');
-      });
+      }
+      throw err;
+    }
   },
 
   async getPixScoreByCompetence({ userId, limitDate }) {

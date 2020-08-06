@@ -5,6 +5,7 @@ module.exports = async function getAssessment(
   {
     // arguments
     assessmentId,
+    locale,
     // dependencies
     assessmentRepository,
     competenceRepository,
@@ -17,6 +18,7 @@ module.exports = async function getAssessment(
 
   assessment.title = await _fetchAssessmentTitle({
     assessment,
+    locale,
     competenceRepository,
     courseRepository
   });
@@ -26,6 +28,7 @@ module.exports = async function getAssessment(
 
 async function _fetchAssessmentTitle({
   assessment,
+  locale,
   competenceRepository,
   courseRepository
 }) {
@@ -35,7 +38,7 @@ async function _fetchAssessmentTitle({
     }
 
     case Assessment.types.COMPETENCE_EVALUATION : {
-      return await competenceRepository.getCompetenceName(assessment.competenceId);
+      return await competenceRepository.getCompetenceName({ id: assessment.competenceId, locale });
     }
 
     case Assessment.types.DEMO : {
