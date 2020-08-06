@@ -8,6 +8,39 @@ const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCom
 
 describe('Unit | Controller | assessment-controller', function() {
 
+  describe('#get', () => {
+    const authenticatedUserId = '12';
+
+    const assessment = { id: 104974, title: 'Ordinary Wizarding Level assessment' };
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'getAssessment').withArgs({ assessmentId: assessment.id }).resolves(assessment);
+      sinon.stub(assessmentSerializer, 'serialize').resolvesArg(0);
+    });
+
+    it('should call the expected usecase', async () => {
+      // given
+      const assessementId = assessment.id;
+
+      const request = {
+        auth: {
+          credentials: {
+            userId: authenticatedUserId,
+          },
+        },
+        params: {
+          id: assessementId,
+        },
+      };
+
+      // when
+      const result = await assessmentController.get(request, hFake);
+
+      // then
+      expect(result).to.be.equal(assessment);
+    });
+  });
+
   describe('#findByFilters', () => {
     const assessments = [{ id: 1 }, { id: 2 }];
     const assessmentsInJSONAPI = [{
