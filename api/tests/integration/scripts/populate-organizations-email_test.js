@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, knex } = require('../../test-helper');
+const { expect, databaseBuilder, knex, sinon } = require('../../test-helper');
 
 const populateOrganizations = require('../../../scripts/populate-organizations-email');
 
@@ -12,6 +12,7 @@ describe('Integration | Scripts | populate-organizations-email.js', () => {
     beforeEach(async () => {
       databaseBuilder.factory.buildOrganization({ externalId: externalId1, email: 'first.last@example.net' });
       databaseBuilder.factory.buildOrganization({ externalId: externalId2 });
+      sinon.stub(console, 'error');
 
       await databaseBuilder.commit();
     });
@@ -32,6 +33,7 @@ describe('Integration | Scripts | populate-organizations-email.js', () => {
       expect(organizations).to.deep.include(csvData[0]);
       expect(organizations).to.deep.include(csvData[1]);
       expect(organizations).to.not.deep.include(csvData[2]);
+      expect(console.error).to.have.been.calledWith('Organization not found for External ID unknown');
     });
   });
 });
