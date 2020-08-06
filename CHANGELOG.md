@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v2.181.0 (06/08/2020)
+
+- [#1715](https://github.com/1024pix/pix/pull/1715) [FEATURE] Traduction de la page Epreuve (PIX-1046).
+- [#1734](https://github.com/1024pix/pix/pull/1734) [FEATURE] Renommer la colonne 'Connecté avec' dans PixOrga > Elèves (PIX-1055).
+- [#1736](https://github.com/1024pix/pix/pull/1736) [FEATURE] Ajout des paliers dans les profils cibles d'une campagne (PIX-1048).
+- [#1733](https://github.com/1024pix/pix/pull/1733) [FEATURE] Rendre plus explicite le message d'erreur lors d'un échec de réconciliation (PIX-957).
+- [#1732](https://github.com/1024pix/pix/pull/1732) [FEATURE] Modifier le script de remplissage des adresses e-mails des établissements SCO afin qu'il n'échoue pas lorsqu'une organisation n'est pas trouvée (PIX-1081).
+- [#1722](https://github.com/1024pix/pix/pull/1722) [BUGFIX] Cacher la Warning Page quand la question est déjà répondue (PIX-1036).
+- [#1725](https://github.com/1024pix/pix/pull/1725) [BUGFIX] Correction d'affichage de l'ampoule sur la page "Réponses et tutos" (PIX-1074)
+- [#1742](https://github.com/1024pix/pix/pull/1742) [TECH] Réduction de la taille du bundle de pix-app
+- [#1726](https://github.com/1024pix/pix/pull/1726) [TECH] Ecriture d'un script pour générer les snapshots KE pour des participations partagées (PIX-855)
+- [#1711](https://github.com/1024pix/pix/pull/1711) [CLEANUP] Refacto la récupération des réponses sur les QROCM (PIX-650).
+- [#1735](https://github.com/1024pix/pix/pull/1735) [CLEANUP] Ajout des colonnes de traduction Airtable manquantes (PIX-1082).
+- [#1631](https://github.com/1024pix/pix/pull/1631) [DOC] ADR sur l'organisation des fichiers de traductions
+
 ## v2.180.0 (04/08/2020)
 
 - [#1719](https://github.com/1024pix/pix/pull/1719) [FEATURE] Réconcilier automatiquement un élève s'il a déjà été réconcilié dans une autre organisation (PIX-962).
