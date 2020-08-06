@@ -167,7 +167,6 @@ module.exports = injectDependencies({
   getUserPixScore: require('./get-user-pix-score'),
   getUserScorecards: require('./get-user-scorecards'),
   getUserWithMemberships: require('./get-user-with-memberships'),
-  getUserWithOrgaSettings: require('./get-user-with-orga-settings'),
   importCertificationCandidatesFromAttendanceSheet: require('./import-certification-candidates-from-attendance-sheet'),
   importSchoolingRegistrationsFromSIECLE: require('./import-schooling-registrations-from-siecle'),
   importHigherEducationRegistrations: require('./import-higher-education-registrations'),
