@@ -53,6 +53,37 @@ describe('Unit | Repository | CompetenceRepository', function() {
     });
   });
 
+  describe('#getCompetenceName', () => {
+    beforeEach(() => {
+      sinon.stub(competenceDatasource, 'get');
+
+      competenceDatasource.get.resolves(
+        domainBuilder.buildCompetenceAirtableDataObject({
+          id: 'recDomaine1',
+          code: '1',
+          nameFrFr: 'Gérer des données fr',
+          nameEnUs: 'Gérer des données en',
+          color: 'emerald',
+          descriptionFrFr: 'description fr-FR',
+          descriptionEnUs: 'description en-US',
+          areaId: 'recArea',
+        }),
+      );
+    });
+
+    it('should get competence name by id and locale', async () => {
+      // given
+      const id = 'id';
+      const locale = 'fr';
+
+      // when
+      const competenceName = await competenceRepository.getCompetenceName({ id, locale });
+
+      // then
+      expect(competenceName).to.equal('Gérer des données fr');
+    });
+  });
+
   describe('#listPixCompetencesOnly', () => {
     beforeEach(() => {
       sinon.stub(competenceDatasource, 'list');
