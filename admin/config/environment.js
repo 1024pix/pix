@@ -44,6 +44,7 @@ module.exports = function(environment) {
         FORBIDDEN: '403',
         NOT_FOUND: '404',
       },
+      HOME_URL: process.env.HOME_URL,
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
       ORGANIZATION_DASHBOARD_URL: process.env.ORGANIZATION_DASHBOARD_URL,
       USER_DASHBOARD_URL: process.env.USER_DASHBOARD_URL
@@ -85,6 +86,7 @@ module.exports = function(environment) {
   };
 
   if (environment === 'development') {
+    ENV.APP.HOME_URL = process.env.HOME_URL || '/';
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
     // ENV.APP.LOG_TRANSITIONS = true;
@@ -97,7 +99,10 @@ module.exports = function(environment) {
   if (environment === 'test') {
     // Testem prefers this...
     ENV.locationType = 'none';
+
     ENV.APP.API_HOST = 'http://localhost:3000';
+
+    ENV.APP.HOME_URL = '/';
 
     // keep test console output quieter
     ENV.APP.LOG_ACTIVE_GENERATION = false;
