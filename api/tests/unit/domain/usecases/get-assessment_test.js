@@ -54,10 +54,10 @@ describe('Unit | UseCase | get-assessment', () => {
 
   it('should resolve the Assessment domain object with COMPETENCE_EVALUATION title matching the given assessment ID', async () => {
     // given
-    assessment.type = Assessment.types.COMPETENCE_EVALUATION;
-    assessmentRepository.get.resolves(assessment);
-    competenceRepository.getCompetenceName.resolves(competence.name);
     const locale = 'fr';
+    assessment.type = Assessment.types.COMPETENCE_EVALUATION;
+    assessmentRepository.get.withArgs(assessment.id).resolves(assessment);
+    competenceRepository.getCompetenceName.withArgs({ id: assessment.competenceId, locale }).resolves(competence.name);
 
     // when
     const result = await getAssessment({
@@ -68,9 +68,6 @@ describe('Unit | UseCase | get-assessment', () => {
     });
 
     // then
-    expect(assessmentRepository.get).to.have.been.calledWithExactly(assessment.id);
-    expect(competenceRepository.getCompetenceName).to.have.been.calledWithExactly({ id: assessment.competenceId, locale });
-
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);
     expect(result.title).to.equal(expectedAssessmentTitle);
@@ -97,8 +94,8 @@ describe('Unit | UseCase | get-assessment', () => {
   it('should resolve the Assessment domain object with DEMO title matching the given assessment ID', async () => {
     // given
     assessment.type = Assessment.types.DEMO;
-    assessmentRepository.get.resolves(assessment);
-    courseRepository.getCourseName.resolves(course.name);
+    assessmentRepository.get.withArgs(assessment.id).resolves(assessment);
+    courseRepository.getCourseName.withArgs(assessment.courseId).resolves(course.name);
 
     // when
     const result = await getAssessment({
@@ -108,9 +105,6 @@ describe('Unit | UseCase | get-assessment', () => {
     });
 
     // then
-    expect(assessmentRepository.get).to.have.been.calledWithExactly(assessment.id);
-    expect(courseRepository.getCourseName).to.have.been.calledWithExactly(assessment.courseId);
-
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);
     expect(result.title).to.equal(course.name);
@@ -119,7 +113,7 @@ describe('Unit | UseCase | get-assessment', () => {
   it('should resolve the Assessment domain object with CAMPAIGN title matching the given assessment ID', async () => {
     // given
     assessment.type = Assessment.types.CAMPAIGN;
-    assessmentRepository.get.resolves(assessment);
+    assessmentRepository.get.withArgs(assessment.id).resolves(assessment);
 
     // when
     const result = await getAssessment({
@@ -129,8 +123,6 @@ describe('Unit | UseCase | get-assessment', () => {
     });
 
     // then
-    expect(assessmentRepository.get).to.have.been.calledWithExactly(assessment.id);
-
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);
     expect(result.title).to.equal(expectedCampaignName);
@@ -139,7 +131,7 @@ describe('Unit | UseCase | get-assessment', () => {
   it('should resolve the Assessment domain object without title matching the given assessment ID', async () => {
     // given
     assessment.type = 'NO TYPE';
-    assessmentRepository.get.resolves(assessment);
+    assessmentRepository.get.withArgs(assessment.id).resolves(assessment);
     competenceRepository.getCompetenceName.resolves(competence);
 
     // when
@@ -150,7 +142,6 @@ describe('Unit | UseCase | get-assessment', () => {
     });
 
     // then
-    expect(assessmentRepository.get).to.have.been.calledWithExactly(assessment.id);
     expect(competenceRepository.getCompetenceName).to.not.have.been.called;
 
     expect(result).to.be.an.instanceOf(Assessment);
@@ -161,7 +152,7 @@ describe('Unit | UseCase | get-assessment', () => {
   it('should resolve the Assessment domain object with Preview title matching the given assessment ID', async () => {
     // given
     assessment.type = Assessment.types.PREVIEW;
-    assessmentRepository.get.resolves(assessment);
+    assessmentRepository.get.withArgs(assessment.id).resolves(assessment);
 
     // when
     const result = await getAssessment({
@@ -171,8 +162,6 @@ describe('Unit | UseCase | get-assessment', () => {
     });
 
     // then
-    expect(assessmentRepository.get).to.have.been.calledWithExactly(assessment.id);
-
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);
     expect(result.title).to.equal('Preview');
