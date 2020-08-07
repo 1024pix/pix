@@ -7,9 +7,6 @@ _.mixin({
   isStrictlyPositiveInteger: function(str) {
     return /^\+?[1-9]\d*$/.test(str);
   },
-  // Just an alias, ignore test
-  /* istanbul ignore next */
-  checkPoint: _.thru,
 
   isNumeric: function isNumeric(value) {
     if (typeof value === 'number') return true;
