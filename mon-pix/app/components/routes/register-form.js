@@ -166,7 +166,7 @@ export default class RegisterForm extends Component {
         this.set('isLoading', false);
         errorResponse.errors.forEach((error) => {
           if (error.status === '404') {
-            return this.set('errorMessage', 'Vous êtes enseignant ? <br> L’accès à un parcours n’est pas disponible pour le moment. <br> <br> Vous êtes un élève ? <br> Vérifiez vos informations afin de continuer ou prévenez l’organisateur de votre parcours.');
+            return this.set('errorMessage', 'Vous êtes un élève ? <br> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant. <br><br> Vous êtes un enseignant ? <br> L’accès à un parcours n’est pas disponible pour le moment.');
           }
           if (error.status === '409') {
             return this.set('errorMessage', 'Vous possédez déjà un compte Pix. Veuillez vous connecter.');
