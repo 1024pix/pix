@@ -8,93 +8,9 @@
       <div class="join-restricted-campaign__title">Rejoignez l'organisation {{@model.organizationName}}</div>
       <div class="join-restricted-campaign__subtitle">Remplissez les informations manquantes</div>
       {{#if (eq @model.organizationType "SCO")}}
-        <form>
-          <div class="join-restricted-campaign__row">
-            <label class="join-restricted-campaign__label">Prénom</label>
-            <Input
-              @id="firstName"
-              @type="text"
-              @value={{this.firstName}}
-              placeholder="Prénom"
-              @readonly={{this.isDisabled}}
-              @disabled={{this.isDisabled}}
-              class={{if this.validation.firstName "input--error"}}
-              @focusOut={{action "triggerInputStringValidation" "firstName" this.firstName}}
-            />
-            <div class={{if this.validation.firstName "join-restricted-campaign__field-error"}} role="alert">
-              {{this.validation.firstName}}
-            </div>
-          </div>
-
-          <div class="join-restricted-campaign__row">
-            <label class="join-restricted-campaign__label">Nom</label>
-            <Input
-              @id="lastName"
-              @type="text"
-              @value={{this.lastName}}
-              placeholder="Nom"
-              @readonly={{this.isDisabled}}
-              @disabled={{this.isDisabled}}
-              class={{if this.validation.lastName "input--error"}}
-              @focusOut={{action "triggerInputStringValidation" "lastName" this.lastName}}
-            />
-            <div class={{if this.validation.lastName "join-restricted-campaign__field-error"}} role="alert">
-              {{this.validation.lastName}}
-            </div>
-          </div>
-
-          <div class="join-restricted-campaign__row">
-            <label class="join-restricted-campaign__label">Date de naissance</label>
-            <div class="join-restricted-campaign__birthdate">
-              <Input @id="dayOfBirth" @type="text" @value={{this.dayOfBirth}} placeholder="JJ" class={{if this.validation.dayOfBirth "input--error"}} @focusOut={{action "triggerInputDayValidation" "dayOfBirth" this.dayOfBirth}} />
-              <Input @id="monthOfBirth" @type="text" @value={{this.monthOfBirth}} placeholder="MM" class={{if this.validation.monthOfBirth "input--error"}} @focusOut={{action "triggerInputMonthValidation" "monthOfBirth" this.monthOfBirth}} />
-              <Input @id="yearOfBirth" @type="text" @value={{this.yearOfBirth}} placeholder="AAAA" class={{if this.validation.yearOfBirth "input--error"}} @focusOut={{action "triggerInputYearValidation" "yearOfBirth" this.yearOfBirth}} />
-            </div>
-            <div class={{if this.validation.dayOfBirth "join-restricted-campaign__field-error"}} role="alert">
-              {{this.validation.dayOfBirth}}
-            </div>
-            <div class={{if this.validation.monthOfBirth "join-restricted-campaign__field-error"}} role="alert">
-              {{this.validation.monthOfBirth}}
-            </div>
-            <div class={{if this.validation.yearOfBirth "join-restricted-campaign__field-error"}} role="alert">
-              {{this.validation.yearOfBirth}}
-            </div>
-          </div>
-
-          {{#if this.errorMessage}}
-            <div class="join-restricted-campaign__error" aria-live="polite">{{{this.errorMessage}}}</div>
-          {{/if}}
-          {{#if this.isLoading}}
-            <button type="button" disabled class="button button--big"><span class="loader-in-button">&nbsp;</span></button>
-          {{else}}
-            <button type="submit" class="button button--big" {{action "attemptNext"}}>
-              C'est parti !
-            </button>
-          {{/if}}
-        </form>
-
+        <Routes::Campaigns::Restricted::JoinSco @campaignCode={{@model.code}} @onSubmit={{this.attemptNext}} @isLoading={{this.isLoading}}  @errorMessage={{this.errorMessage}}/>
       {{else}}
-        <form>
-          <div class="join-restricted-campaign__row">
-            <label class="join-restricted-campaign__label">Numéro étudiant</label>
-            <Input
-              @id="studentNumber"
-              @type="text"
-              @name="studentNumber"
-              @value={{this.studentNumber}}
-              placeholder="Numéro étudiant"
-              @required="true"
-            />
-          </div>
-
-          {{#if this.isLoading}}
-            <button type="button" disabled class="button button--big"><span class="loader-in-button">&nbsp;</span></button>
-          {{else}}
-            <button type="submit" class="button button--big" {{action "attemptNext"}}>
-              C'est parti !
-            </button>
-          {{/if}}
-        </form>
+        <Routes::Campaigns::Restricted::JoinSup @campaignCode={{@model.code}} @onSubmit={{this.attemptNext}} @isLoading={{this.isLoading}}  @errorMessage={{this.errorMessage}}/>
       {{/if}}
     </div>
   </div>

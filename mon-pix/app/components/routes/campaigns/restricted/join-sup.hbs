@@ -1,0 +1,23 @@
+<form>
+  <div class="join-restricted-campaign__row">
+    <label class="join-restricted-campaign__label">Numéro étudiant</label>
+    <Input
+            @id="studentNumber"
+            @type="text"
+            @name="studentNumber"
+            @value={{this.studentNumber}}
+            placeholder="Numéro étudiant"
+            @required="true"
+    />
+  </div>
+  {{#if @errorMessage}}
+    <div class="join-restricted-campaign__error" aria-live="polite">{{{@errorMessage}}}</div>
+  {{/if}}
+  {{#if @isLoading}}
+    <button type="button" disabled class="button button--big"><span class="loader-in-button">&nbsp;</span></button>
+  {{else}}
+    <button type="submit" class="button button--big" {{action "attemptNext"}}>
+      C'est parti !
+    </button>
+  {{/if}}
+</form>
