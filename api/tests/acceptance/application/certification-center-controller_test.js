@@ -89,7 +89,8 @@ describe('Acceptance | API | Certification Center', () => {
           data: {
             type: 'certification-center',
             attributes: {
-              name: 'Nouveau Centre de Certif'
+              name: 'Nouveau Centre de Certif',
+              type: 'SCO',
             }
           }
         }
