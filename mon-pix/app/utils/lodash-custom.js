@@ -13,9 +13,6 @@ _.mixin({
   isArrayOfString: function(x) {
     return _.isArray(x) && _.every(x, _.isString);
   },
-  isNotString: function(x) {
-    return !_.isString(x);
-  },
   isNotArrayOfString: function(x) {
     return !_.isArrayOfString(x);
   },
