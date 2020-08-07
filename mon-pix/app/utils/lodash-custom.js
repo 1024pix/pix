@@ -43,13 +43,6 @@ _.mixin({
   isNonEmptyArray: function(x) {
     return _.isArray(x) && !_.isEmpty(x);
   },
-  hasSomeTruthyProps: function(x) {
-    if (!_.isObject(x)) return false;
-    if (_.isEmpty(x)) return false;
-    return _.some(x, function(value) {
-      return _.isTruthy(value);
-    });
-  },
 
   isNotInteger: function(x) {
     return !_.isInteger(x);
