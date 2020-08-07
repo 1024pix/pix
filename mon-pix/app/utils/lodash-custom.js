@@ -35,9 +35,6 @@ _.mixin({
       && !(_.isArray(x) && _.isEmpty(x))   // not an empty array
       && !(_.isObject(x) && _.isEmpty(x)); // not an empty object
   },
-  isNonEmptyArray: function(x) {
-    return _.isArray(x) && !_.isEmpty(x);
-  },
 
   isNumeric: function isNumeric(value) {
     if (typeof value === 'number') return true;
