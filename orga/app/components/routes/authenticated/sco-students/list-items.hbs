@@ -60,23 +60,23 @@
                   @dropdownButtonClass="list-students-page__dropdown-button"
                   @dropdownContentClass="list-students-page__dropdown-content"
                 >
-                  {{#if (or student.hasUsername student.hasEmail)}}
+                  {{#if student.isAuthenticatedWithEmailOrUsernameOnly}}
                     <Dropdown::Item @onClick={{fn this.openPasswordReset student}}>
                       Gérer le compte
                     </Dropdown::Item>
+                  {{/if}}
+                  {{#if this.isGenerateUsernameFeatureIsEnabled}}
+                    {{#if student.isAuthenticatedFromGar}}
+                      <Dropdown::Item @onClick={{fn this.openPasswordReset student}}>
+                        Gérer le compte
+                      </Dropdown::Item>
+                    {{/if}}
                   {{/if}}
                   {{#if this.currentUser.isAdminInOrganization}}
                     <Dropdown::Item @onClick={{fn this.openDissociateModal student}}>
                       Dissocier le compte
                     </Dropdown::Item>
                   {{/if}}
-                {{#if this.isGenerateUsernameFeatureIsEnabled}}
-                  {{#if student.isAuthenticatedFromGarOnly}}
-                    <Dropdown::Item @onClick={{fn this.generateUsernameWithTemporaryPassword student}}>
-                      Générer identifiant
-                    </Dropdown::Item>
-                  {{/if}}
-                {{/if}}
                 </Dropdown::IconTrigger>
               {{/if}}
             </td>
