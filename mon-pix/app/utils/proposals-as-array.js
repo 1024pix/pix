@@ -1,10 +1,10 @@
-import _ from 'mon-pix/utils/lodash-custom';
+import _ from 'lodash';
 
 function calculate(proposals) {
   return _.chain(proposals)
     .thru((e) => '\n' + e)
     .split(/\n\s*-\s*/)
-    .removeFirstElement()
+    .drop(1)
     .value();
 }
 
