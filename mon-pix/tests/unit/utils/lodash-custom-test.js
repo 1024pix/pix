@@ -4,32 +4,6 @@ import _ from 'mon-pix/utils/lodash-custom';
 
 describe('Unit | Utility | lodash custom', function() {
 
-  describe('#isTruthy', function() {
-
-    it('when no arg, returns false', function() {
-      expect(_.isTruthy()).to.equal(false);
-    });
-
-    [
-      { value: undefined, expected: false },
-      { value: null, expected: false },
-      { value: true, expected: true },
-      { value: false, expected: false },
-      { value: 0, expected: false },
-      { value: 1, expected: true },
-      { value: [], expected: false },
-      { value: [1, 2, 3], expected: true },
-      { value: { a: 42 }, expected: true },
-      { value: {}, expected: false },
-      { value: '', expected: false },
-      { value: 'foo', expected: true }
-    ].forEach((item) => {
-      it(`should return ${item.expected} when value is ${item.value}`, function() {
-        expect(_.isTruthy(item.value)).to.equal(item.expected);
-      });
-    });
-  });
-
   describe('#isNumeric', function() {
 
     [
