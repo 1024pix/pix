@@ -92,6 +92,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
   _resetState() {
     this.state = {
       isCampaignRestricted: false,
+      isCampaignForSCOOrganization: false,
       hasUserCompletedRestrictedCampaignAssociation: false,
       hasUserSeenLandingPage: false,
       isUserLogged: false,
@@ -106,6 +107,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     const hasUserSeenLandingPage = this._handleQueryParamBoolean(queryParams.hasUserSeenLandingPage, this.state.hasUserSeenLandingPage);
     this.state = {
       isCampaignRestricted: _.get(campaign, 'isRestricted', this.state.isCampaignRestricted),
+      isCampaignForSCOOrganization: _.get(campaign, 'organizationType') === 'SCO',
       hasUserCompletedRestrictedCampaignAssociation,
       hasUserSeenLandingPage,
       isUserLogged: this.session.isAuthenticated,
@@ -117,6 +119,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
 
   get _shouldLoginToAccessRestrictedCampaign() {
     return this.state.isCampaignRestricted
+      && this.state.isCampaignForSCOOrganization
       && !this.state.isUserLogged;
   }
 
@@ -128,6 +131,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
 
   get _shouldVisitLandingPageAsVisitor() {
     return !this.state.hasUserSeenLandingPage
+      && !this.state.isCampaignRestricted
       && !this.state.isUserLogged;
   }
 
