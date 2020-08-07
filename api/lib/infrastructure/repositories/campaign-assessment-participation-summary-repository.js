@@ -29,10 +29,8 @@ const campaignAssessmentParticipationRepository = {
       .orderByRaw('LOWER(??) ASC, LOWER(??) ASC', ['lastName', 'firstName'])
       .limit(pageSize).offset(offset);
 
-    let rowCount = 0;
-    if (results[0]) {
-      rowCount = results[0].rowCount;
-    }
+    const rowCount = _getRowCount(results);
+
     const campaignAssessmentParticipationSummaries = await _buildCampaignAssessmentParticipationSummaries(results, targetedSkillIds);
 
     return {
@@ -47,6 +45,11 @@ const campaignAssessmentParticipationRepository = {
   }
 };
 
+function _getRowCount(results) {
+  const firstRow = results[0];
+  return firstRow ? firstRow.rowCount : 0;
+}
+
 function _campaignParticipationByParticipantSortedByDate(qb, campaignId) {
   qb.select(knex.raw('"campaign-participations"."id" AS "campaignParticipationId"'), knex.raw('"users"."id" AS "userId"'))
     .select('users.firstName', 'users.lastName', 'campaign-participations.participantExternalId', 'campaign-participations.sharedAt',
@@ -59,44 +62,43 @@ function _campaignParticipationByParticipantSortedByDate(qb, campaignId) {
     .where('campaign-participations.campaignId', '=', campaignId);
 }
 
-async function _buildCampaignAssessmentParticipationSummaries(resultSet, targetedSkillIds) {
-  const chunks = _.chunk(resultSet, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
-  const notFlat = await bluebird.mapSeries(
-    chunks,
-    (chunk) => _buildCampaignAssessmentParticipationSummary(chunk, targetedSkillIds),
-  );
+async function _buildCampaignAssessmentParticipationSummaries(results, targetedSkillIds) {
+  const _getValidatedSkillCountInTargetProfil = await _makeMemoizedGetValidatedSkillCountInTargetProfil(results, targetedSkillIds);
 
-  return notFlat.flat();
+  return results.map((result) => new CampaignAssessmentParticipationSummary({
+    ...result,
+    targetedSkillCount: targetedSkillIds.length,
+    validatedTargetedSkillCount: _getValidatedSkillCountInTargetProfil(result.userId),
+  }));
 }
 
-async function _buildCampaignAssessmentParticipationSummary(results, targetedSkillIds) {
+async function _makeMemoizedGetValidatedSkillCountInTargetProfil(results, targetedSkillIds) {
   const sharedResults = results
     .filter((result) => result.isShared);
 
-  const userIdsAndDates = Object.fromEntries(sharedResults.map((result) => {
-    return [
-      result.userId,
-      result.sharedAt,
-    ];
-  }));
+  const sharedResultsChunks = await bluebird.mapSeries(
+    _.chunk(sharedResults, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING),
+    (sharedResultsChunk) => {
+      const sharedAtDatesByUsers = Object.fromEntries(sharedResultsChunk.map(({ userId, sharedAt }) => [userId, sharedAt]));
 
-  const validatedTargetedSkillIdsByUser = await _getValidatedTargetSkillIds(
-    userIdsAndDates,
-    targetedSkillIds,
-  );
-
-  return results.map((result) => {
-    const validatedTargetedSkillCount = validatedTargetedSkillIdsByUser[result.userId] ? validatedTargetedSkillIdsByUser[result.userId].length : 0;
-    return new CampaignAssessmentParticipationSummary({
-      ...result,
-      targetedSkillCount: targetedSkillIds.length,
-      validatedTargetedSkillCount,
+      return _getValidatedTargetSkillIds(
+        sharedAtDatesByUsers,
+        targetedSkillIds,
+      );
     });
-  });
+
+  let validatedTargetedSkillIdsByUser = {};
+  for (const sharedResultsChunk of sharedResultsChunks) {
+    validatedTargetedSkillIdsByUser = { ...validatedTargetedSkillIdsByUser, ...sharedResultsChunk };
+  }
+
+  return (userId) => {
+    return validatedTargetedSkillIdsByUser[userId] ? validatedTargetedSkillIdsByUser[userId].length : 0;
+  };
 }
 
-async function _getValidatedTargetSkillIds(userIdsAndDates, targetedSkillIds) {
-  const knowledgeElementsByUser = await knowledgeElementRepository.findSnapshotForUsers(userIdsAndDates);
+async function _getValidatedTargetSkillIds(sharedAtDatesByUsers, targetedSkillIds) {
+  const knowledgeElementsByUser = await knowledgeElementRepository.findSnapshotForUsers(sharedAtDatesByUsers);
 
   for (const userId of Object.keys(knowledgeElementsByUser)) {
     const validatedKnowledgeElements = _.filter(knowledgeElementsByUser[userId], 'isValidated');
