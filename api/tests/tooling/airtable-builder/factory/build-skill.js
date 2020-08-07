@@ -1,6 +1,7 @@
 module.exports = function buildSkill({
   id = 'recTIddrkopID28Ep',
-  indice = 'Peut-on géo-localiser un téléphone lorsqu’il est éteint ? Dans quelle condition une application peut-elle utiliser les données de géolocalisation du t...',
+  indiceFr = 'Peut-on géo-localiser un téléphone lorsqu’il est éteint ? Dans quelle condition une application peut-elle utiliser les données de géolocalisation du t...',
+  indiceEn = 'Can we gelocate ?',
   statutDeLIndice = 'Proposé',
   epreuves = [
     'recF2iWmZKIuOsKO1',
@@ -37,7 +38,8 @@ module.exports = function buildSkill({
     id,
     'fields': {
       'id persistant': id,
-      'Indice': indice,
+      'Indice fr-fr': indiceFr,
+      'Indice en-us': indiceEn,
       'Statut de l\'indice': statutDeLIndice,
       'Epreuves': epreuves,
       'Comprendre (id persistant)': comprendre,

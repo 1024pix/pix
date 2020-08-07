@@ -6,13 +6,14 @@ const challengeDatasource = require('../datasources/airtable/challenge-datasourc
 const skillDatasource = require('../datasources/airtable/skill-datasource');
 const tutorialRepository = require('./tutorial-repository');
 const VALIDATED_HINT_STATUSES = ['Validé', 'pré-validé'];
+const { getTranslatedText } = require('../../domain/services/get-translated-text');
 
 module.exports = {
 
   async getByChallengeId({ challengeId, userId, locale }) {
     const challenge = await challengeDatasource.get(challengeId);
     const skills = await _getSkills(challenge);
-    const hints = await _getHints(skills);
+    const hints = await _getHints({ skills, locale });
 
     const tutorials = await _getTutorials({ userId, skills, tutorialIdsProperty: 'tutorialIds', locale });
     const learningMoreTutorials = await _getTutorials({ userId, skills, tutorialIdsProperty: 'learningMoreTutorialIds', locale });
@@ -27,9 +28,9 @@ module.exports = {
   }
 };
 
-async function _getHints(skills) {
+async function _getHints({ skills, locale }) {
   const skillsWithHints = await _filterSkillsWithValidatedHint(skills);
-  return _convertSkillsToHints(skillsWithHints);
+  return _convertSkillsToHints({ skillsWithHints, locale });
 }
 
 function _getSkills(challengeDataObject) {
@@ -41,11 +42,11 @@ function _filterSkillsWithValidatedHint(skillDataObjects) {
   return skillDataObjects.filter((skillDataObject) => VALIDATED_HINT_STATUSES.includes(skillDataObject.hintStatus));
 }
 
-function _convertSkillsToHints(skillDataObjects) {
-  return skillDataObjects.map((skillDataObject) => {
+function _convertSkillsToHints({ skillsWithHints, locale }) {
+  return skillsWithHints.map((skillsWithHint) => {
     return new Hint({
-      skillName: skillDataObject.name,
-      value: skillDataObject.hint
+      skillName: skillsWithHint.name,
+      value: getTranslatedText(locale, { frenchText: skillsWithHint.hintFrFr, englishText: skillsWithHint.hintEnUs }),
     });
   });
 }
