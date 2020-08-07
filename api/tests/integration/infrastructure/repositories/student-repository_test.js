@@ -34,4 +34,38 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
       expect(students[1].account).to.deep.equal({ userId: thirdAccount.id, updatedAt: thirdAccount.updatedAt, certificationCount: 0 });
     });
   });
+
+  describe('#getReconciledStudentByNationalStudentId', () => {
+
+    it('should return instance of Student', async () => {
+      // given
+      const nationalStudentId = '123456789AB';
+      const account = databaseBuilder.factory.buildUser();
+      databaseBuilder.factory.buildCertificationCourse({ userId: account.id });
+      databaseBuilder.factory.buildCertificationCourse({ userId: account.id });
+      databaseBuilder.factory.buildSchoolingRegistration({ userId: account.id, nationalStudentId: nationalStudentId });
+
+      await databaseBuilder.commit();
+
+      // when
+      const student = await studentRepository.getReconciledStudentByNationalStudentId(nationalStudentId);
+
+      // then
+      expect(student.nationalStudentId).to.equal(nationalStudentId);
+      expect(student.account).to.deep.equal({ userId: account.id, updatedAt: account.updatedAt, certificationCount: 2 });
+    });
+
+    it('should return null when no student found', async () => {
+      // given
+      const nationalStudentId = '000000999B';
+
+      // when
+      const student = await studentRepository.getReconciledStudentByNationalStudentId(nationalStudentId);
+
+      // then
+      expect(student).to.be.null;
+
+    });
+  });
+
 });

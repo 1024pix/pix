@@ -201,7 +201,7 @@ function _mapToHttpError(error) {
     return new HttpErrors.BadRequestError(error.message);
   }
   if (error instanceof DomainErrors.SchoolingRegistrationAlreadyLinkedToUserError) {
-    return new HttpErrors.ConflictError(error.message);
+    return new HttpErrors.ConflictError(error.message, error.code, error.meta);
   }
   if (error instanceof DomainErrors.UserNotAuthorizedToUpdatePasswordError) {
     return new HttpErrors.ForbiddenError(error.message);
