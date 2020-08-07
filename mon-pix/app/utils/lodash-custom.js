@@ -10,9 +10,6 @@ _.mixin({
   // Just an alias, ignore test
   /* istanbul ignore next */
   checkPoint: _.thru,
-  removeFirstElement: function(x) {
-    return _.drop(x, 1);
-  },
   isArrayOfString: function(x) {
     return _.isArray(x) && _.every(x, _.isString);
   },
