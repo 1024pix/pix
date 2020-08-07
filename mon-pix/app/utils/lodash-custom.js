@@ -10,16 +10,6 @@ _.mixin({
   // Just an alias, ignore test
   /* istanbul ignore next */
   checkPoint: _.thru,
-  isTruthy: function(x) {
-    return x !== false                     // not the boolean false
-      && x !== 0                           // not the number 0
-      && x !== undefined                   // not an undefined value
-      && x !== null                        // not a null value
-      && x !== ''                          // not an empty string
-      && !(_.isNaN(x))                         // not a NaN
-      && !(_.isArray(x) && _.isEmpty(x))   // not an empty array
-      && !(_.isObject(x) && _.isEmpty(x)); // not an empty object
-  },
 
   isNumeric: function isNumeric(value) {
     if (typeof value === 'number') return true;
