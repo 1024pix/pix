@@ -4,25 +4,6 @@ import _ from 'mon-pix/utils/lodash-custom';
 
 describe('Unit | Utility | lodash custom', function() {
 
-  describe('#isNonEmptyString', function() {
-
-    it('when no arg, returns false', function() {
-      expect(_.isNonEmptyString()).to.equal(false);
-    });
-
-    [
-      { value: undefined, expected: false },
-      { value: null, expected: false },
-      { value: new Date(), expected: false },
-      { value: '', expected: false },
-      { value: 'abcd', expected: true }
-    ].forEach((item) => {
-      it(`should return ${item.expected} when value is ${item.value}`, function() {
-        expect(_.isNonEmptyString(item.value)).to.equal(item.expected);
-      });
-    });
-  });
-
   describe('#isNonEmptyArray', function() {
 
     it('when no arg, returns false', function() {

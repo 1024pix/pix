@@ -40,9 +40,6 @@ _.mixin({
   isFalsy: function(x) {
     return !_.isTruthy(x);
   },
-  isNonEmptyString: function(x) {
-    return _.isString(x) && !_.isEmpty(x);
-  },
   isNonEmptyArray: function(x) {
     return _.isArray(x) && !_.isEmpty(x);
   },
