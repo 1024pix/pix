@@ -132,32 +132,30 @@ module.exports = {
   },
 
   async findSnapshotGroupedByCompetencesForUsers(userIdsAndDates) {
-    const knowledgeElementsGroupedByUser = await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(userIdsAndDates);
+    const knowledgeElementsGroupedByUser = await this.findSnapshotForUsers(userIdsAndDates);
 
-    const knowledgeElementsGroupedByUserIdAndCompetenceId = {};
-    for (const [strUserId, knowledgeElementsFromSnapshot] of Object.entries(knowledgeElementsGroupedByUser)) {
-      const userId = parseInt(strUserId);
-      let knowledgeElements = knowledgeElementsFromSnapshot;
-      if (!knowledgeElements) {
-        knowledgeElements = await _findByUserIdAndLimitDateThenSaveSnapshot({ userId, limitDate: userIdsAndDates[userId] });
-      }
-      knowledgeElementsGroupedByUserIdAndCompetenceId[userId] = _.groupBy(knowledgeElements, 'competenceId');
+    for (const [userId, knowledgeElements] of Object.entries(knowledgeElementsGroupedByUser)) {
+      knowledgeElementsGroupedByUser[userId] = _.groupBy(knowledgeElements, 'competenceId');
     }
-    return knowledgeElementsGroupedByUserIdAndCompetenceId;
+    return knowledgeElementsGroupedByUser;
   },
 
-  async findSnapshotForUsers(userIdsAndDates) {
-    const knowledgeElementsGroupedByUser = await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(userIdsAndDates);
+  async findSnapshotForUsers(sharedAtDatesByUsers) {
+    const knowledgeElementsGroupedByUser = await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(sharedAtDatesByUsers);
 
-    for (const [strUserId, knowledgeElementsFromSnapshot] of Object.entries(knowledgeElementsGroupedByUser)) {
-      const userId = parseInt(strUserId);
+    for (const [userIdStr, knowledgeElementsFromSnapshot] of Object.entries(knowledgeElementsGroupedByUser)) {
+      const userId = parseInt(userIdStr);
       let knowledgeElements = knowledgeElementsFromSnapshot;
       if (!knowledgeElements) {
-        knowledgeElements = await _findByUserIdAndLimitDateThenSaveSnapshot({ userId, limitDate: userIdsAndDates[userId] });
+        knowledgeElements = await _findByUserIdAndLimitDateThenSaveSnapshot({
+          userId,
+          limitDate: sharedAtDatesByUsers[userId],
+        });
       }
       knowledgeElementsGroupedByUser[userId] = knowledgeElements;
     }
     return knowledgeElementsGroupedByUser;
   }
+
 };
 

@@ -768,7 +768,6 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
       it('should return the knowledge elements in the snapshot', async () => {
         // given
-        sandbox.spy(knowledgeElementSnapshotRepository);
         const dateUserId1 = new Date('2020-01-03');
         const knowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId: userId1 });
         databaseBuilder.factory.buildKnowledgeElementSnapshot({ userId: userId1, snappedAt: dateUserId1, snapshot: JSON.stringify([knowledgeElement]) });
@@ -780,10 +779,6 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
         // then
         expect(knowledgeElementsByUserIdAndCompetenceId[userId1][knowledgeElement.competenceId][0]).to.deep.equal(knowledgeElement);
-        expect(knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates).to.have.been.calledWith({ [userId1]: dateUserId1 });
-        await expect(knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates.firstCall.returnValue).to.eventually.deep.equal({
-          [userId1]: [knowledgeElement],
-        });
       });
     });
 
@@ -864,7 +859,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       return knex('knowledge-element-snapshots').delete();
     });
 
-    it('should return knowledge elements within respective dates grouped by userId the competenceId', async () => {
+    it('should return knowledge elements within respective dates and users', async () => {
       // given
       const dateUserId1 = new Date('2020-01-03');
       const dateUserId2 = new Date('2019-01-03');
