@@ -28,6 +28,15 @@ exports.register = async function(server) {
             Joi.object({
               data: {
                 attributes: {
+                  'student-number': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                  'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                },
+                type: 'schooling-registration-user-associations'
+              }
+            }),
+            Joi.object({
+              data: {
+                attributes: {
                   'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                 },
                 type: 'schooling-registration-user-associations'

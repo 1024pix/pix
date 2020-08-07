@@ -107,14 +107,16 @@ module.exports = {
     }
   },
 
-  findByOrganizationIdAndUserBirthdate({ organizationId, birthdate }) {
-    return BookshelfSchoolingRegistration
+  async findByOrganizationIdAndUserData({ organizationId, user: { birthdate, studentNumber } = {} }) {
+    const schoolingRegistrations = await BookshelfSchoolingRegistration
       .query((qb) => {
         qb.where('organizationId', organizationId);
-        qb.where('birthdate', birthdate);
+        if (birthdate) qb.where('birthdate', birthdate);
+        if (studentNumber) qb.where('studentNumber', studentNumber);
       })
-      .fetchAll()
-      .then((schoolingRegistrations) => bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations));
+      .fetchAll();
+  
+    return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
   },
 
   async associateUserAndSchoolingRegistration({ userId, schoolingRegistrationId }) {

@@ -484,11 +484,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
     });
   });
 
-  describe('#findByOrganizationIdAndUserBirthdate', () => {
-
-    afterEach(() => {
-      return knex('schooling-registrations').delete();
-    });
+  describe('#findByOrganizationIdAndUserData', () => {
 
     let organization;
 
@@ -503,6 +499,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         middleName: 'Martin',
         thirdName: 'Stan',
         birthdate: '2000-03-31',
+        studentNumber: '123A',
       });
       databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,
@@ -510,49 +507,77 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         lastName: 'See',
         firstName: 'Johnny',
         birthdate: '2000-03-31',
+        studentNumber: '456A',
       });
       await databaseBuilder.commit();
     });
 
-    it('should return found schoolingRegistrations', async () => {
-      // given
-      const user = { firstName: 'Sttan', lastName: 'Lee', birthdate: '2000-03-31' };
-
-      // when
-      const result = await schoolingRegistrationRepository.findByOrganizationIdAndUserBirthdate({
-        organizationId: organization.id, birthdate: user.birthdate
+    context('find with user birthdate', () => {
+      it('should return found schoolingRegistrations with birthdate', async () => {
+        // given
+        const user = { birthdate: '2000-03-31' };
+  
+        // when
+        const result = await schoolingRegistrationRepository.findByOrganizationIdAndUserData({
+          organizationId: organization.id, user
+        });
+  
+        // then
+        expect(result.length).to.be.equal(2);
       });
-
-      // then
-      expect(result).to.be.an('array');
-      expect(result.length).to.be.equal(2);
+  
+      it('should return empty array with wrong birthdate', async () => {
+        // given
+        const user = { birthdate: '2001-03-31' };
+  
+        // when
+        const result = await schoolingRegistrationRepository.findByOrganizationIdAndUserData({
+          organizationId: organization.id, user
+        });
+  
+        // then
+        expect(result.length).to.be.equal(0);
+      });
     });
 
-    it('should return empty array with wrong birthdate', async () => {
-      // given
-      const user = { firstName: 'Sttan', lastName: 'Lee', birthdate: '2001-03-31' };
-
-      // when
-      const result = await schoolingRegistrationRepository.findByOrganizationIdAndUserBirthdate({
-        organizationId: organization.id, birthdate: user.birthdate
+    context('find with user student number', () => {
+      it('should return found schoolingRegistrations with studentNumber', async () => {
+        // given
+        const user = { studentNumber: '123A' };
+  
+        // when
+        const result = await schoolingRegistrationRepository.findByOrganizationIdAndUserData({
+          organizationId: organization.id, user
+        });
+  
+        // then
+        expect(result.length).to.be.equal(1);
       });
-
-      // then
-      expect(result).to.be.an('array');
-      expect(result.length).to.be.equal(0);
+  
+      it('should return empty array with wrong studentNumber', async () => {
+        // given
+        const user = { studentNumber: '789B' };
+  
+        // when
+        const result = await schoolingRegistrationRepository.findByOrganizationIdAndUserData({
+          organizationId: organization.id, user
+        });
+  
+        // then
+        expect(result.length).to.be.equal(0);
+      });
     });
 
     it('should return empty array with fake organizationId', async () => {
       // given
-      const user = { firstName: 'Sttan', lastName: 'Lee', birthdate: '2000-03-31' };
+      const user = { birthdate: '2000-03-31' };
 
       // when
-      const result = await schoolingRegistrationRepository.findByOrganizationIdAndUserBirthdate({
-        organizationId: '999', birthdate: user.birthdate
+      const result = await schoolingRegistrationRepository.findByOrganizationIdAndUserData({
+        organizationId: '999', user
       });
 
       // then
-      expect(result).to.be.an('array');
       expect(result.length).to.be.equal(0);
     });
   });

@@ -57,7 +57,7 @@ describe('Integration | UseCases | create-and-associate-user-to-schooling-regist
 
       // then
       expect(error).to.be.instanceof(NotFoundError);
-      expect(error.message).to.equal('There were no schoolingRegistrations matching with organization and birthdate');
+      expect(error.message).to.equal('There are no schooling registrations found');
     });
   });
 

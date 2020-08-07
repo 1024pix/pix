@@ -37,26 +37,31 @@ function findMatchingCandidateIdForGivenUser(matchingUserCandidates, user) {
     .first() || null;
 }
 
-async function findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId, user: { firstName, lastName, birthdate }, schoolingRegistrationRepository, userRepository }) {
-  const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdAndUserBirthdate({
+async function findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId, user: { firstName, lastName, birthdate, studentNumber }, schoolingRegistrationRepository, userRepository }) {
+  const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdAndUserData({
     organizationId,
-    birthdate,
+    user: { birthdate, studentNumber },
   });
 
-  if (schoolingRegistrations.length === 0) {
-    throw new NotFoundError('There were no schoolingRegistrations matching with organization and birthdate');
+  if (_.isEmpty(schoolingRegistrations)) {
+    throw new NotFoundError('There are no schooling registrations found');
   }
 
-  const schoolingRegistrationId = findMatchingCandidateIdForGivenUser(schoolingRegistrations, { firstName, lastName });
+  let schoolingRegistration;
+  if (studentNumber) {
+    schoolingRegistration = schoolingRegistrations[0];
+  } else {
+    const schoolingRegistrationId = findMatchingCandidateIdForGivenUser(schoolingRegistrations, { firstName, lastName });
 
-  if (!schoolingRegistrationId) {
-    throw new NotFoundError('There were no schoolingRegistrations matching with names');
+    if (!schoolingRegistrationId) {
+      throw new NotFoundError('There were no schoolingRegistrations matching with names');
+    }
+    schoolingRegistration = _.find(schoolingRegistrations, { 'id': schoolingRegistrationId });
   }
 
-  const matchedSchoolingRegistration = _.find(schoolingRegistrations, { 'id': schoolingRegistrationId });
-  await checkIfStudentIsAlreadyReconciledOnTheSameOrganization(matchedSchoolingRegistration, userRepository);
+  await checkIfStudentIsAlreadyReconciledOnTheSameOrganization(schoolingRegistration, userRepository);
 
-  return matchedSchoolingRegistration;
+  return schoolingRegistration;
 }
 
 async function checkIfStudentIsAlreadyReconciledOnTheSameOrganization(matchingSchoolingRegistration, userRepository) {

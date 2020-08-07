@@ -3,7 +3,7 @@ const schoolingRegistrationSerializer = require('../../infrastructure/serializer
 const _ = require('lodash');
 
 function _isReconciliationWithUserDetails(payload) {
-  return _.every(['first-name', 'last-name', 'birthdate'], _.partial(_.has, payload));
+  return _.every(['first-name', 'last-name', 'birthdate'], _.partial(_.has, payload)) || payload['student-number'];
 }
 
 module.exports = {
@@ -27,6 +27,7 @@ module.exports = {
         firstName: payload['first-name'],
         lastName: payload['last-name'],
         birthdate: payload['birthdate'],
+        studentNumber: payload['student-number'],
       };
 
       schoolingRegistration = await usecases.linkUserToSchoolingRegistrationData({ campaignCode, user });
