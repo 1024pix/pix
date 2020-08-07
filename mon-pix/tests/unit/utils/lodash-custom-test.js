@@ -73,34 +73,6 @@ describe('Unit | Utility | lodash custom', function() {
     });
   });
 
-  describe('#hasSomeTruthyProps', function() {
-
-    it('when no arg, returns false', function() {
-      expect(_.hasSomeTruthyProps()).to.equal(false);
-    });
-
-    [
-      { value: undefined, expected: false },
-      { value: null, expected: false },
-      { value: 'azerty', expected: false },
-      { value: {}, expected: false },
-      { value: { a: '' }, expected: false },
-      { value: { a: false }, expected: false },
-      { value: { a: undefined }, expected: false },
-      { value: { a: null }, expected: false },
-      { value: { a: 0 }, expected: false },
-      { value: { a: false }, expected: false },
-      { value: { a: 42 }, expected: true },
-      { value: { a: 42, b: false }, expected: true },
-      { value: { a: '', b: false }, expected: false },
-      { value: { a: 42, b: true }, expected: true }
-    ].forEach((item) => {
-      it(`should return ${item.expected} when value is ${item.value}`, function() {
-        expect(_.hasSomeTruthyProps(item.value)).to.equal(item.expected);
-      });
-    });
-  });
-
   describe('#isNumeric', function() {
 
     [
