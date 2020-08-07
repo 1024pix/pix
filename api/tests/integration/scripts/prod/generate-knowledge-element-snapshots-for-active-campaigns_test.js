@@ -66,12 +66,14 @@ describe('Integration | Scripts | generate-knowledge-element-snapshots-for-activ
       expect(campaignParticipationData[0]).to.deep.equal({ userId: campaignParticipation.userId, sharedAt: campaignParticipation.sharedAt });
     });
 
-    it('should return shared campaign participations from active campaigns even if there is a snapshot from an anterior date that already exists', async () => {
+    it('should return shared campaign participations from active campaigns even if there is a snapshot from a different date that already exists', async () => {
       // given
-      const campaignId = databaseBuilder.factory.buildCampaign({ archivedAt: null }).id;
       const userId = databaseBuilder.factory.buildUser().id;
-      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId, sharedAt: new Date('2020-02-01'), userId });
-      databaseBuilder.factory.buildKnowledgeElementSnapshot({ snappedAt: new Date('2019-01-01'), userId });
+      const campaignParticipationWithoutSnapshot = databaseBuilder.factory.buildCampaignParticipation({ sharedAt: new Date('2020-01-01'), userId });
+      databaseBuilder.factory.buildCampaignParticipation({ sharedAt: new Date('2020-02-01'), userId });
+      databaseBuilder.factory.buildCampaignParticipation({ sharedAt: new Date('2020-03-01'), userId });
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({ snappedAt: new Date('2020-02-01'), userId });
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({ snappedAt: new Date('2020-03-01'), userId });
       await databaseBuilder.commit();
 
       // when
@@ -79,7 +81,7 @@ describe('Integration | Scripts | generate-knowledge-element-snapshots-for-activ
 
       // then
       expect(campaignParticipationData.length).to.equal(1);
-      expect(campaignParticipationData[0]).to.deep.equal({ userId: campaignParticipation.userId, sharedAt: campaignParticipation.sharedAt });
+      expect(campaignParticipationData[0]).to.deep.equal({ userId: campaignParticipationWithoutSnapshot.userId, sharedAt: campaignParticipationWithoutSnapshot.sharedAt });
     });
 
     it('should return maximum campaign participation as set in the parameter', async () => {

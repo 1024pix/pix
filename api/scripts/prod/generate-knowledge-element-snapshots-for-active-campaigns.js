@@ -45,7 +45,10 @@ function _validateAndNormalizeArgs({
 
 async function getEligibleCampaignParticipations(maxSnapshotCount) {
   return knex('campaign-participations').select('campaign-participations.userId', 'campaign-participations.sharedAt')
-    .leftJoin('knowledge-element-snapshots', 'knowledge-element-snapshots.userId', 'campaign-participations.userId')
+    .leftJoin('knowledge-element-snapshots', function() {
+      this.on('knowledge-element-snapshots.userId', 'campaign-participations.userId')
+        .andOn('knowledge-element-snapshots.snappedAt', 'campaign-participations.sharedAt');
+    })
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
     .whereNull('campaigns.archivedAt')
     .whereNotNull('campaign-participations.sharedAt')
