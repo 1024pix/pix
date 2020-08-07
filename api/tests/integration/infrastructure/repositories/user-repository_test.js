@@ -143,6 +143,39 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
   });
 
+  describe('#getUserAuthenticationMethods', () => {
+
+    let userInDb;
+
+    beforeEach(async () => {
+      userInDb = databaseBuilder.factory.buildUser(userToInsert);
+      await databaseBuilder.commit();
+    });
+
+    it('should return a domain user with authentication methods only when found', async () => {
+      // when
+      const user = await userRepository.getUserAuthenticationMethods(userInDb.id);
+
+      // then
+      expect(user.samlId).to.equal(userInDb.samlId);
+      expect(user.username).to.equal(userInDb.username);
+      expect(user.email).to.equal(userInDb.email);
+
+    });
+
+    it('should throw an error when user not found', async () => {
+      // given
+      const userIdThatDoesNotExist = '99999';
+
+      // when
+      const result = await catchErr(userRepository.getUserAuthenticationMethods)(userIdThatDoesNotExist);
+
+      // then
+      expect(result).to.be.instanceOf(UserNotFoundError);
+    });
+
+  });
+
   describe('get user', () => {
 
     describe('#get', () => {
