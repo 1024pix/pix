@@ -10,21 +10,6 @@ _.mixin({
   // Just an alias, ignore test
   /* istanbul ignore next */
   checkPoint: _.thru,
-  isArrayOfString: function(x) {
-    return _.isArray(x) && _.every(x, _.isString);
-  },
-  isNotArrayOfString: function(x) {
-    return !_.isArrayOfString(x);
-  },
-  isNotArray: function(x) {
-    return !_.isArray(x);
-  },
-  isArrayOfBoolean: function(x) {
-    return _.isArray(x) && _.every(x, _.isBoolean);
-  },
-  isNotArrayOfBoolean: function(x) {
-    return !_.isArrayOfBoolean(x);
-  },
   isTruthy: function(x) {
     return x !== false                     // not the boolean false
       && x !== 0                           // not the number 0
