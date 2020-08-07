@@ -8,13 +8,6 @@ _.mixin({
     return /^\+?[1-9]\d*$/.test(str);
   },
 
-  isNumeric: function isNumeric(value) {
-    if (typeof value === 'number') return true;
-    const str = (value || '').toString();
-    if (!str) return false;
-    return !isNaN(str);
-  },
-
 }, { chain: false });
 
 export default _;
