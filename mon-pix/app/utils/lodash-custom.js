@@ -44,10 +44,6 @@ _.mixin({
     return _.isArray(x) && !_.isEmpty(x);
   },
 
-  isNotInteger: function(x) {
-    return !_.isInteger(x);
-  },
-
   isNumeric: function isNumeric(value) {
     if (typeof value === 'number') return true;
     const str = (value || '').toString();
