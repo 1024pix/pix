@@ -15,13 +15,20 @@ import ENV from 'mon-pix/config/environment';
 // see http://stackoverflow.com/a/37770048/2595513
 function fmtMSS(s) {return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s;}
 
+function _isNumeric(value) {
+  if (typeof value === 'number') return true;
+  const str = (value || '').toString();
+  if (!str) return false;
+  return !isNaN(str);
+}
+
 export default Component.extend({
 
   allotedTime: null,
 
   _totalTime: computed('allotedTime', function() {
     const actualAllotedTime = this.allotedTime;
-    if (!_.isNumeric(actualAllotedTime)) {
+    if (!_isNumeric(actualAllotedTime)) {
       return 0;
     }
     return 1000 * actualAllotedTime;
@@ -44,7 +51,7 @@ export default Component.extend({
 
   percentageOfTimeout: computed('_elapsedTime', function() {
     const actualAllotedTime = this.allotedTime;
-    if (!_.isNumeric(actualAllotedTime) || !_.isStrictlyPositiveInteger(actualAllotedTime.toString())) {
+    if (!_isNumeric(actualAllotedTime) || !_.isStrictlyPositiveInteger(actualAllotedTime.toString())) {
       return 0;
     }
     return 100 - (this.remainingSeconds / actualAllotedTime) * 100;
