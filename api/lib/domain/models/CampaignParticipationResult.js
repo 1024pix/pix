@@ -16,7 +16,8 @@ class CampaignParticipationResult {
     // relationships
     campaignParticipationBadges,
     competenceResults = [],
-    reachedStage
+    reachedStage,
+    stageCount,
   } = {}) {
     this.id = id;
     // attributes
@@ -29,6 +30,7 @@ class CampaignParticipationResult {
     this.campaignParticipationBadges = campaignParticipationBadges;
     this.competenceResults = competenceResults;
     this.reachedStage = reachedStage;
+    this.stageCount = stageCount;
   }
 
   static buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements, campaignBadges = [], acquiredBadgeIds = [] }) {
