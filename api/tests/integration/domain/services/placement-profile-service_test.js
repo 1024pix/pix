@@ -1,21 +1,17 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const _ = require('lodash');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
-const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const placementProfileService = require('../../../../lib/domain/services/placement-profile-service');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const PlacementProfile = require('../../../../lib/domain/models/PlacementProfile');
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const Competence = require('../../../../lib/domain/models/Competence');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const Skill = require('../../../../lib/domain/models/Skill');
-const UserCompetence = require('../../../../lib/domain/models/UserCompetence');
 
 describe('Integration | Service | Placement Profile Service', function() {
 
@@ -48,7 +44,6 @@ describe('Integration | Service | Placement Profile Service', function() {
   const skillRemplir4 = new Skill({ id: 60, name: '@remplir4' });
   const skillUrl3 = new Skill({ id: 70, name: '@url3' });
   const skillWeb1 = new Skill({ id: 80, name: '@web1' });
-  const skillSearch1 = new Skill({ id: 90, name: '@url1' });
   const skillRequin5 = new Skill({ id: 110, name: '@requin5' });
   const skillRequin8 = new Skill({ id: 120, name: '@requin8' });
 
@@ -63,8 +58,6 @@ describe('Integration | Service | Placement Profile Service', function() {
   const challengeForSkillRecherche4 = _createChallenge('challengeRecordIdFour', competenceFlipper.id, [skillRecherche4], '@recherche4');
   const challengeRecordWithoutSkills = _createChallenge('challengeRecordIdNine', competenceFlipper.id, [], null);
   const anotherChallengeForSkillCitation4 = _createChallenge('challengeRecordIdTen', competenceFlipper.id, [skillCitation4], '@citation4');
-  const challengeForSkillSearch1 = _createChallenge('challenge_url1', competenceFlipper.id, [skillSearch1], '@search1');
-  const challenge2ForSkillSearch1 = _createChallenge('challenge_bis_url1', competenceFlipper.id, [skillSearch1], '@search1');
 
   const challengeForSkillRemplir2 = _createChallenge('challengeRecordIdFive', competenceDauphin.id, [skillRemplir2], '@remplir2');
   const challengeForSkillRemplir4 = _createChallenge('challengeRecordIdSix', competenceDauphin.id, [skillRemplir4], '@remplir4');
@@ -166,8 +159,7 @@ describe('Integration | Service | Placement Profile Service', function() {
             name: '1.1 Construire un flipper',
             skills: [],
             pixScore: 0,
-            estimatedLevel: 0,
-            challenges: []
+            estimatedLevel: 0
           },
           {
             id: 'competenceRecordIdTwo',
@@ -176,8 +168,7 @@ describe('Integration | Service | Placement Profile Service', function() {
             name: '1.2 Adopter un dauphin',
             skills: [],
             pixScore: 0,
-            estimatedLevel: 0,
-            challenges: []
+            estimatedLevel: 0
           },
           {
             id: 'competenceRecordIdThree',
@@ -186,8 +177,7 @@ describe('Integration | Service | Placement Profile Service', function() {
             name: '1.3 Se faire manger par un requin',
             skills: [],
             pixScore: 0,
-            estimatedLevel: 0,
-            challenges: []
+            estimatedLevel: 0
           }]);
       });
 
@@ -336,8 +326,7 @@ describe('Integration | Service | Placement Profile Service', function() {
           name: '1.1 Construire un flipper',
           skills: [],
           pixScore: 0,
-          estimatedLevel: 0,
-          challenges: []
+          estimatedLevel: 0
         },
         {
           id: 'competenceRecordIdTwo',
@@ -346,8 +335,7 @@ describe('Integration | Service | Placement Profile Service', function() {
           name: '1.2 Adopter un dauphin',
           skills: [],
           pixScore: 0,
-          estimatedLevel: 0,
-          challenges: []
+          estimatedLevel: 0
         },
         {
           id: 'competenceRecordIdThree',
@@ -356,8 +344,7 @@ describe('Integration | Service | Placement Profile Service', function() {
           name: '1.3 Se faire manger par un requin',
           skills: [],
           pixScore: 0,
-          estimatedLevel: 0,
-          challenges: []
+          estimatedLevel: 0
         }]);
     });
 
@@ -477,400 +464,4 @@ describe('Integration | Service | Placement Profile Service', function() {
     });
   });
 
-  describe('#fillPlacementProfileWithChallenges', () => {
-    let placementProfile;
-    let userCompetence1;
-    let userCompetence2;
-
-    beforeEach(() => {
-      userCompetence1 = new UserCompetence({
-        id: 'competenceRecordIdOne',
-        index: '1.1',
-        area: { code: '1' },
-        name: '1.1 Construire un flipper',
-      });
-      userCompetence1.pixScore = 12;
-      userCompetence1.estimatedLevel = 1;
-      userCompetence2 = new UserCompetence({
-        id: 'competenceRecordIdTwo',
-        index: '1.2',
-        area: { code: '1' },
-        name: '1.2 Adopter un dauphin',
-      });
-      userCompetence2.pixScore = 23;
-      userCompetence2.estimatedLevel = 2;
-      placementProfile = new PlacementProfile({
-        userId,
-        userCompetences: [],
-        profileDate: 'limitDate'
-      });
-
-      sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceId')
-        .withArgs({ userId, limitDate: 'limitDate' }).resolves('ke');
-
-      KnowledgeElement.findDirectlyValidatedFromGroups = sinon.stub().returns([{ answerId: 123 }, { answerId: 456 }, { answerId: 789 }]);
-      sinon.stub(answerRepository, 'findChallengeIdsFromAnswerIds');
-      // when
-    });
-
-    it('should find validated challenges', async () => {
-      answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFive']);
-
-      // when
-      await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
-
-      // then
-      sinon.assert.calledOnce(challengeRepository.findOperative);
-    });
-
-    it('should assign skill to related competence', async () => {
-      // given
-      placementProfile.userCompetences = [userCompetence2];
-      answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFive']);
-
-      // when
-      const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
-
-      // then
-      expect(actualPlacementProfile.userCompetences).to.deep.equal([
-        {
-          ...placementProfile.userCompetences[0],
-          skills: [skillRemplir2],
-          challenges: [challengeForSkillRemplir2]
-        }]);
-    });
-
-    context('when competence level is less than 1', () => {
-
-      it('should select no challenge', async () => {
-        // given
-        userCompetence1.estimatedLevel = 0;
-        placementProfile.userCompetences = [userCompetence1];
-
-        answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves([]);
-
-        // when
-        const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
-
-        // then
-        expect(actualPlacementProfile.userCompetences).to.deep.equal([
-          {
-            ...placementProfile.userCompetences[0],
-            skills: [],
-            challenges: []
-          }]);
-      });
-    });
-
-    context('when no challenge validate the skill', () => {
-
-      it('should not return the skill', async () => {
-        // given
-        placementProfile.userCompetences = [userCompetence2];
-        answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdEleven']);
-
-        // when
-        const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
-
-        // then
-        expect(actualPlacementProfile.userCompetences).to.deep.equal([
-          {
-            ...placementProfile.userCompetences[0],
-            skills: [],
-            challenges: []
-          }]);
-      });
-    });
-
-    context('when three challenges validate the same skill', () => {
-
-      it('should select an unanswered challenge', async () => {
-        // given
-        placementProfile.userCompetences = [userCompetence1];
-        answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdOne']);
-
-        // when
-        const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
-        const expectedSkills = [skillCitation4];
-
-        // then
-        expect(actualPlacementProfile.userCompetences).to.deep.equal([
-          {
-            ...placementProfile.userCompetences[0],
-            skills: expectedSkills,
-          }]);
-        const skillsForChallenges = _.uniq(_.flatMap(actualPlacementProfile.userCompetences[0].challenges, 'skills'));
-        expect(skillsForChallenges).to.deep.include.members(expectedSkills);
-      });
-
-      it('should select a challenge for every skill', async () => {
-        // given
-        placementProfile.userCompetences = [userCompetence1];
-        answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFour', 'challengeRecordIdTwo']);
-
-        // when
-        const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
-        const expectedSkills = [skillCitation4, skillRecherche4, skillMoteur3];
-
-        // then
-        expect(actualPlacementProfile.userCompetences).to.deep.equal([
-          {
-            ...placementProfile.userCompetences[0],
-            skills: expectedSkills,
-          },
-        ]);
-
-        const skillsForChallenges = _.uniq(_.flatMap(actualPlacementProfile.userCompetences[0].challenges, 'skills'));
-        expect(skillsForChallenges).to.deep.include.members(expectedSkills);
-      });
-
-      it('should return at most one challenge per skill', async () => {
-        // given
-        placementProfile.userCompetences = [userCompetence1];
-        answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFour', 'challengeRecordIdTwo']);
-
-        // when
-        const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
-        const expectedSkills = [skillCitation4, skillRecherche4, skillMoteur3];
-
-        // then
-        expect(actualPlacementProfile.userCompetences).to.deep.equal([
-          {
-            ...placementProfile.userCompetences[0],
-            skills: expectedSkills,
-          },
-        ]);
-
-        const skillsForChallenges = _.uniq(_.flatMap(actualPlacementProfile.userCompetences[0].challenges, 'skills'));
-        expect(skillsForChallenges.length).to.equal(expectedSkills.length);
-      });
-    });
-
-    it('should group skills by competence ', async () => {
-      // given
-      placementProfile.userCompetences = [userCompetence1, userCompetence2];
-      answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFour', 'challengeRecordIdFive', 'challengeRecordIdSeven']);
-      // when
-      const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
-
-      // then
-      expect(actualPlacementProfile.userCompetences).to.deep.equal([
-        {
-          id: 'competenceRecordIdOne',
-          index: '1.1',
-          area: { code: '1' },
-          name: '1.1 Construire un flipper',
-          skills: [skillRecherche4],
-          pixScore: 12,
-          estimatedLevel: 1,
-          challenges: [challengeForSkillRecherche4]
-        },
-        {
-          id: 'competenceRecordIdTwo',
-          index: '1.2',
-          area: { code: '1' },
-          name: '1.2 Adopter un dauphin',
-          skills: [skillUrl3, skillRemplir2],
-          pixScore: 23,
-          estimatedLevel: 2,
-          challenges: [challengeForSkillUrl3, challengeForSkillRemplir2]
-        }]);
-    });
-
-    it('should sort in desc grouped skills by competence', async () => {
-      // given
-      placementProfile.userCompetences = [userCompetence1, userCompetence2];
-      answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdSix', 'challengeRecordIdFive', 'challengeRecordIdSeven']);
-      // when
-      const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
-
-      // then
-      expect(actualPlacementProfile.userCompetences).to.deep.equal([
-        {
-          id: 'competenceRecordIdOne',
-          index: '1.1',
-          area: { code: '1' },
-          name: '1.1 Construire un flipper',
-          skills: [],
-          pixScore: 12,
-          estimatedLevel: 1,
-          challenges: [],
-        },
-        {
-          id: 'competenceRecordIdTwo',
-          index: '1.2',
-          area: { code: '1' },
-          name: '1.2 Adopter un dauphin',
-          skills: [skillRemplir4, skillUrl3, skillRemplir2],
-          pixScore: 23,
-          estimatedLevel: 2,
-          challenges: [challengeForSkillRemplir4, challengeForSkillUrl3, challengeForSkillRemplir2],
-        }]);
-    });
-
-    it('should return the three most difficult skills sorted in desc grouped by competence', async () => {
-      // given
-      placementProfile.userCompetences = [userCompetence1, userCompetence2];
-      answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdSix', 'challengeRecordIdFive', 'challengeRecordIdSeven', 'challengeRecordIdEight']);
-      // when
-      const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
-
-      // then
-      expect(actualPlacementProfile.userCompetences).to.deep.equal([
-        {
-          id: 'competenceRecordIdOne',
-          index: '1.1',
-          area: { code: '1' },
-          name: '1.1 Construire un flipper',
-          skills: [],
-          pixScore: 12,
-          estimatedLevel: 1,
-          challenges: [],
-        },
-        {
-          id: 'competenceRecordIdTwo',
-          index: '1.2',
-          area: { code: '1' },
-          name: '1.2 Adopter un dauphin',
-          skills: [skillRemplir4, skillUrl3, skillRemplir2],
-          pixScore: 23,
-          estimatedLevel: 2,
-          challenges: [challengeForSkillRemplir4, challengeForSkillUrl3, challengeForSkillRemplir2],
-        }]);
-    });
-
-    it('should not add a skill twice', async () => {
-      // given
-      placementProfile.userCompetences = [userCompetence1, userCompetence2];
-      answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFive', 'challengeRecordIdFive']);
-      // when
-      const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
-
-      // then
-      expect(actualPlacementProfile.userCompetences).to.deep.equal([
-        {
-          id: 'competenceRecordIdOne',
-          index: '1.1',
-          area: { code: '1' },
-          name: '1.1 Construire un flipper',
-          skills: [],
-          pixScore: 12,
-          estimatedLevel: 1,
-          challenges: [],
-        },
-        {
-          id: 'competenceRecordIdTwo',
-          index: '1.2',
-          area: { code: '1' },
-          name: '1.2 Adopter un dauphin',
-          skills: [skillRemplir2],
-          pixScore: 23,
-          estimatedLevel: 2,
-          challenges: [challengeForSkillRemplir2],
-        }]);
-    });
-
-    it('should not assign skill, when the challenge id is not found', async () => {
-      // given
-      placementProfile.userCompetences = [userCompetence1, userCompetence2];
-      answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['nonExistentchallengeRecordId']);
-      // when
-      const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
-
-      // then
-      expect(actualPlacementProfile.userCompetences).to.deep.equal([
-        {
-          id: 'competenceRecordIdOne',
-          index: '1.1',
-          area: { code: '1' },
-          name: '1.1 Construire un flipper',
-          skills: [],
-          pixScore: 12,
-          estimatedLevel: 1,
-          challenges: [],
-        },
-        {
-          id: 'competenceRecordIdTwo',
-          index: '1.2',
-          area: { code: '1' },
-          name: '1.2 Adopter un dauphin',
-          skills: [],
-          pixScore: 23,
-          estimatedLevel: 2,
-          challenges: [],
-        }]);
-    });
-
-    it('should not assign skill, when the competence is not found', async () => {
-      // given
-      placementProfile.userCompetences = [userCompetence1, userCompetence2];
-      answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdThree']);
-      // when
-      const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
-
-      // then
-      expect(actualPlacementProfile.userCompetences).to.deep.equal([
-        {
-          id: 'competenceRecordIdOne',
-          index: '1.1',
-          area: { code: '1' },
-          name: '1.1 Construire un flipper',
-          skills: [],
-          pixScore: 12,
-          estimatedLevel: 1,
-          challenges: [],
-        },
-        {
-          id: 'competenceRecordIdTwo',
-          index: '1.2',
-          area: { code: '1' },
-          name: '1.2 Adopter un dauphin',
-          skills: [],
-          pixScore: 23,
-          estimatedLevel: 2,
-          challenges: [],
-        }]);
-    });
-
-    context('when competence has no challenge which validated two skills', () => {
-
-      it('should return three challenges by competence', async () => {
-        // given
-        placementProfile.userCompetences = [userCompetence1, userCompetence2];
-        answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdSix', 'challengeRecordIdFive', 'challengeRecordIdSeven', 'challengeRecordIdEight']);
-        // when
-        const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
-
-        // then
-        expect(actualPlacementProfile.userCompetences[1].skills)
-          .to.have.members([skillRemplir4, skillUrl3, skillRemplir2]);
-        expect(actualPlacementProfile.userCompetences[1].challenges)
-          .to.have.members([challengeForSkillRemplir4, challengeForSkillUrl3, challengeForSkillRemplir2]);
-      });
-    });
-
-    context('when competence has challenge which validated two skills', () => {
-
-      it('should return three challenges by competence', async () => {
-        // given
-        placementProfile.userCompetences = [userCompetence1, userCompetence2];
-        answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdFour', 'challengeRecordIdTwo', 'challenge_url1']);
-        challengeRepository.findOperative.resolves([
-          challengeForSkillRecherche4,
-          challengeForSkillCitation4AndMoteur3,
-          challengeForSkillCollaborer4,
-          challengeForSkillSearch1,
-          challenge2ForSkillSearch1,
-        ]);
-        // when
-        const actualPlacementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
-
-        // then
-        expect(actualPlacementProfile.userCompetences[0].skills)
-          .to.have.members([skillCitation4, skillRecherche4, skillMoteur3, skillSearch1]);
-        expect(actualPlacementProfile.userCompetences[0].challenges)
-          .to.have.members([challengeForSkillCitation4AndMoteur3, challengeForSkillRecherche4, challenge2ForSkillSearch1]);
-      });
-    });
-  });
 });
