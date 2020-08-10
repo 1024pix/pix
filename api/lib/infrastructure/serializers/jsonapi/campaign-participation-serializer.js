@@ -5,7 +5,7 @@ const CampaignParticipation = require('../../../domain/models/CampaignParticipat
 
 module.exports = {
 
-  serialize(campaignParticipation, meta, { ignoreCampaignParticipationResultsRelationshipData = true } = {}) {
+  serialize(campaignParticipation) {
     return new Serializer('campaign-participation',
       {
         transform: (campaignParticipation) => {
@@ -44,45 +44,11 @@ module.exports = {
         },
         campaignParticipationResult: {
           ref: 'id',
-          ignoreRelationshipData: ignoreCampaignParticipationResultsRelationshipData,
+          ignoreRelationshipData: true,
           relationshipLinks: {
             related(record, current, parent) {
               return `/api/campaign-participations/${parent.id}/campaign-participation-result`;
             }
-          },
-          attributes: [
-            'id',
-            'isCompleted',
-            'areaColor',
-            'masteryPercentage',
-            'totalSkillsCount',
-            'testedSkillsCount',
-            'validatedSkillsCount',
-            'competenceResults',
-            'campaignParticipationBadges',
-            'progress',
-          ],
-          competenceResults: {
-            ref: 'id',
-            attributes: [
-              'name',
-              'index',
-              'areaColor',
-              'masteryPercentage',
-              'totalSkillsCount',
-              'testedSkillsCount',
-              'validatedSkillsCount'
-            ],
-          },
-          campaignParticipationBadges: {
-            ref: 'id',
-            attributes: [
-              'altMessage',
-              'message',
-              'imageUrl',
-              'key',
-              'isAcquired',
-            ],
           },
         },
         campaignAnalysis: {
@@ -94,7 +60,6 @@ module.exports = {
             }
           }
         },
-        meta
       }).serialize(campaignParticipation);
   },
 
