@@ -176,23 +176,6 @@ exports.register = async function(server) {
       }
     },
     {
-      method: 'GET',
-      path: '/api/users/{id}/user-orga-settings',
-      config: {
-        pre: [{
-          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser'
-        }],
-        handler: userController.getUserOrgaSettings,
-        notes : [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des paramètres utilisateurs relatives à Pix Orga\n' +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
-        ],
-        tags: ['api', 'user', 'user-orga-settings']
-      }
-    },
-    {
       method: 'PATCH',
       path: '/api/users/{id}/password-update',
       config: {
