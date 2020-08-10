@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import get from 'lodash/get';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -52,7 +52,7 @@ export default class ListItems extends Component {
       this.generatedPassword = schoolingRegistrationDependentUser.generatedPassword;
       this.args.refreshModel();
     } catch (response) {
-      const errorDetail = _.get(response, 'errors[0].detail', 'Une erreur est survenue, veuillez réessayer ultérieurement.');
+      const errorDetail = get(response, 'errors[0].detail', 'Une erreur est survenue, veuillez réessayer ultérieurement.');
       this.notifications.sendError(errorDetail);
     }
   }
