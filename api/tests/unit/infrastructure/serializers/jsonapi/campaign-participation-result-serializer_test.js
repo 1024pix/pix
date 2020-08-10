@@ -45,6 +45,7 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
         threshold: 50,
         starCount: 2
       };
+      const stageCount = 3;
       const campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
         isCompleted: true,
         testedSkillsCount,
@@ -52,7 +53,8 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
         validatedSkillsCount,
         competenceResults,
         campaignParticipationBadges: [campaignParticipationBadge],
-        reachedStage
+        reachedStage,
+        stageCount,
       });
 
       const expectedSerializedCampaignParticipationResult = {
@@ -64,6 +66,7 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
             'total-skills-count': totalSkillsCount,
             'validated-skills-count': validatedSkillsCount,
             'progress': 1,
+            'stage-count': stageCount,
           },
           id: '1',
           relationships: {
