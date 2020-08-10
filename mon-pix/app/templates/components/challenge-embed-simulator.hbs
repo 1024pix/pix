@@ -20,12 +20,12 @@
         {{did-update this.configureIframe @embedDocument.url this}}
        />
     </div>
-  </div>
 
-  <div class="embed__reboot">
-    <div class="link link--grey embed-reboot__content" role="button" {{on 'click' this.rebootSimulator}}>
-      <FaIcon @icon="redo-alt" class="embed-reboot-content__icon"></FaIcon>
-      <div class="embed-reboot-content__text">{{t "pages.challenge.embed-simulator.actions.reset"}} </div>
+    <div class="embed__reboot">
+      <div class="link link--grey embed-reboot__content" role="button" {{on 'click' this.rebootSimulator}}>
+        <FaIcon @icon="redo-alt" class="embed-reboot-content__icon"></FaIcon>
+        <div class="embed-reboot-content__text">{{t "pages.challenge.embed-simulator.actions.reset"}} </div>
+      </div>
     </div>
   </div>
 </div>
