@@ -1206,7 +1206,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   });
 
-  describe('#createAndAssociateUserToSchoolingRegistration', () => {
+  describe('#createAndReconcileUserToSchoolingRegistration', () => {
     const email = 'jojo.lapointe@example.net';
     let schoolingRegistrationId;
     let organizationId;
@@ -1230,7 +1230,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       it('should create user', async () => {
         // when
-        const result = await userRepository.createAndAssociateUserToSchoolingRegistration({ domainUser, schoolingRegistrationId });
+        const result = await userRepository.createAndReconcileUserToSchoolingRegistration({ domainUser, schoolingRegistrationId });
 
         // then
         const foundUser = await knex('users').where({ email });
@@ -1240,7 +1240,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       it('should associate user to student', async () => {
         // when
-        await userRepository.createAndAssociateUserToSchoolingRegistration({ domainUser, schoolingRegistrationId });
+        await userRepository.createAndReconcileUserToSchoolingRegistration({ domainUser, schoolingRegistrationId });
 
         // then
         const foundSchoolingRegistrations = await knex('schooling-registrations').where('id', schoolingRegistrationId);
@@ -1257,7 +1257,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         await databaseBuilder.commit();
 
         // when
-        const error = await catchErr(userRepository.createAndAssociateUserToSchoolingRegistration)({ domainUser, schoolingRegistrationId });
+        const error = await catchErr(userRepository.createAndReconcileUserToSchoolingRegistration)({ domainUser, schoolingRegistrationId });
 
         // then
         expect(error).to.be.instanceOf(SchoolingRegistrationAlreadyLinkedToUserError);

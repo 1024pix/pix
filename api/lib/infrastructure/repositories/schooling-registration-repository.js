@@ -107,7 +107,7 @@ module.exports = {
     }
   },
 
-  async findByOrganizationIdAndUserData({ organizationId, user: { birthdate, studentNumber } = {} }) {
+  async findByOrganizationIdAndUserData({ organizationId, reconciliationInfo: { birthdate, studentNumber } = {} }) {
     const schoolingRegistrations = await BookshelfSchoolingRegistration
       .query((qb) => {
         qb.where('organizationId', organizationId);
@@ -119,7 +119,7 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
   },
 
-  async associateUserAndSchoolingRegistration({ userId, schoolingRegistrationId }) {
+  async reconcileUserToSchoolingRegistration({ userId, schoolingRegistrationId }) {
     const schoolingRegistration = await BookshelfSchoolingRegistration
       .where({ id: schoolingRegistrationId })
       .save({ userId }, {
@@ -129,7 +129,7 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
   },
 
-  async associateUserByNationalStudentIdAndOrganizationId({ nationalStudentId, userId, organizationId }) {
+  async reconcileUserByNationalStudentIdAndOrganizationId({ nationalStudentId, userId, organizationId }) {
     try {
       const schoolingRegistration = await BookshelfSchoolingRegistration
         .where({ organizationId, nationalStudentId })

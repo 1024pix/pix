@@ -297,7 +297,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
           };
 
           // when
-          const result = await catchErr(userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+          const result = await catchErr(userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
           // then
           expect(result).to.be.instanceOf(NotFoundError);
@@ -325,7 +325,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
             schoolingRegistrationRepositoryStub.findByOrganizationIdAndUserData.resolves(schoolingRegistrations);
 
             // when
-            const result = await catchErr(userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+            const result = await catchErr(userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
             // then
             expect(result).to.be.instanceOf(SchoolingRegistrationAlreadyLinkedToUserError);
@@ -336,7 +336,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
 
           it('should return matchedSchoolingRegistration', async () => {
             // when
-            const result = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId, user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+            const result = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
             // then
             expect(result).to.equal(schoolingRegistrations[0]);
@@ -354,7 +354,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
         };
 
         // when
-        const result = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId, user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+        const result = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
         // then
         expect(result).to.equal(schoolingRegistrations[0].id);
@@ -368,7 +368,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
         };
 
         // when
-        const result = await catchErr(userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+        const result = await catchErr(userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
         // then
         expect(result).to.be.instanceOf(NotFoundError);
@@ -384,7 +384,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
         };
 
         // when
-        const result = await catchErr(userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+        const result = await catchErr(userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
         // then
         expect(result).to.be.instanceOf(SchoolingRegistrationAlreadyLinkedToUserError);
@@ -405,7 +405,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
         };
 
         // when
-        const result = await catchErr(userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+        const result = await catchErr(userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
         // then
         expect(result).to.be.instanceOf(NotFoundError, 'There were no schoolingRegistrations matching');

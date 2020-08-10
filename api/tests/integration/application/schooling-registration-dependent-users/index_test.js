@@ -10,7 +10,7 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
 
   beforeEach(() => {
     sinon.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents').callsFake((request, h) => h.response(true));
-    sinon.stub(schoolingRegistrationDependentUserController, 'createAndAssociateUserToSchoolingRegistration').callsFake((request, h) => h.response('ok').code(201));
+    sinon.stub(schoolingRegistrationDependentUserController, 'createAndReconcileUserToSchoolingRegistration').callsFake((request, h) => h.response('ok').code(201));
     sinon.stub(schoolingRegistrationDependentUserController, 'generateUsernameWithTemporaryPassword').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(schoolingRegistrationDependentUserController, 'updatePassword').callsFake((request, h) => h.response('ok').code(200));
     httpTestServer = new HttpTestServer(moduleUnderTest);

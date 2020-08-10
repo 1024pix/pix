@@ -75,7 +75,7 @@ async function _validateData(isUsernameMode, userAttributes, userRepository, use
   }
 }
 
-module.exports = async function createAndAssociateUserToSchoolingRegistration({
+module.exports = async function createAndReconcileUserToSchoolingRegistration({
   userAttributes,
   campaignCode,
   locale,
@@ -91,7 +91,7 @@ module.exports = async function createAndAssociateUserToSchoolingRegistration({
     throw new CampaignCodeError();
   }
 
-  const matchedSchoolingRegistration = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId: campaign.organizationId, user: userAttributes, schoolingRegistrationRepository, userRepository });
+  const matchedSchoolingRegistration = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId: campaign.organizationId, reconciliationInfo: userAttributes, schoolingRegistrationRepository });
 
   const isUsernameMode = userAttributes.withUsername;
   const cleanedUserAttributes = _emptyOtherMode(isUsernameMode, userAttributes);
@@ -100,7 +100,7 @@ module.exports = async function createAndAssociateUserToSchoolingRegistration({
   const encryptedPassword = await _encryptPassword(cleanedUserAttributes.password, encryptionService);
   const domainUser = _createDomainUser(cleanedUserAttributes, encryptedPassword);
 
-  const userId = await userRepository.createAndAssociateUserToSchoolingRegistration({ domainUser, schoolingRegistrationId: matchedSchoolingRegistration.id });
+  const userId = await userRepository.createAndReconcileUserToSchoolingRegistration({ domainUser, schoolingRegistrationId: matchedSchoolingRegistration.id });
 
   const createdUser = await userRepository.get(userId);
   if (!isUsernameMode) {

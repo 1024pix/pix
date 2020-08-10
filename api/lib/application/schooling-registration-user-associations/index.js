@@ -8,7 +8,7 @@ exports.register = async function(server) {
       method: 'POST',
       path: '/api/schooling-registration-user-associations',
       config: {
-        handler: schoolingRegistrationUserAssociationController.associateManually,
+        handler: schoolingRegistrationUserAssociationController.reconcileManually,
         validate: {
           options: {
             allowUnknown: false
@@ -65,7 +65,7 @@ exports.register = async function(server) {
       method: 'POST',
       path: '/api/schooling-registration-user-associations/auto',
       config: {
-        handler: schoolingRegistrationUserAssociationController.associateAutomatically,
+        handler: schoolingRegistrationUserAssociationController.reconcileAutomatically,
         validate: {
           options: {
             allowUnknown: false

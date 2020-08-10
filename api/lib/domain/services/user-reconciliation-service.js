@@ -37,10 +37,15 @@ function findMatchingCandidateIdForGivenUser(matchingUserCandidates, user) {
     .first() || null;
 }
 
-async function findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId, user: { firstName, lastName, birthdate, studentNumber }, schoolingRegistrationRepository, userRepository }) {
+async function findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({
+  organizationId,
+  reconciliationInfo: { firstName, lastName, birthdate, studentNumber },
+  schoolingRegistrationRepository,
+  userRepository
+}) {
   const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdAndUserData({
     organizationId,
-    user: { birthdate, studentNumber },
+    reconciliationInfo: { birthdate, studentNumber },
   });
 
   if (_.isEmpty(schoolingRegistrations)) {
@@ -94,8 +99,8 @@ function _containsOneElement(arr) {
   return _.size(arr) === 1;
 }
 
-function _standardizeUser(user) {
-  return _(user)
+function _standardizeUser(reconciliationInfo) {
+  return _(reconciliationInfo)
     .pick(['firstName', 'lastName'])
     .mapValues(_standardize)
     .value();
