@@ -9,7 +9,7 @@ import { htmlSafe } from '@ember/string';
 import Component from '@ember/component';
 import { run } from '@ember/runloop';
 import { set, computed } from '@ember/object';
-import _ from 'mon-pix/utils/lodash-custom';
+import _ from 'lodash';
 import ENV from 'mon-pix/config/environment';
 
 // see http://stackoverflow.com/a/37770048/2595513
@@ -51,7 +51,7 @@ export default Component.extend({
 
   percentageOfTimeout: computed('_elapsedTime', function() {
     const actualAllotedTime = this.allotedTime;
-    if (!_isNumeric(actualAllotedTime) || !_.isStrictlyPositiveInteger(actualAllotedTime.toString())) {
+    if (!(_isNumeric(actualAllotedTime) && parseInt(actualAllotedTime) >= 1)) {
       return 0;
     }
     return 100 - (this.remainingSeconds / actualAllotedTime) * 100;
