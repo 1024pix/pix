@@ -76,6 +76,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           knowledgeElementsCount: 2,
           campaignParticipationBadges: [],
           reachedStage: null,
+          stageCount: null,
           competenceResults: [{
             id: 1,
             name: 'Economie symbiotique',
@@ -136,6 +137,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             threshold: 20,
             starCount: 2
           },
+          stageCount: 5,
           competenceResults: [{
             id: 1,
             name: 'Economie symbiotique',
@@ -185,6 +187,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           knowledgeElementsCount: 2,
           campaignParticipationBadges: [],
           reachedStage: null,
+          stageCount: null,
           competenceResults: [{
             id: 1,
             name: 'Economie symbiotique',
@@ -291,6 +294,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             }],
           }],
           reachedStage: null,
+          stageCount: null,
           competenceResults: [{
             id: 1,
             name: 'Economie symbiotique',
@@ -431,6 +435,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             targetProfileId: 1,
           }],
           reachedStage: null,
+          stageCount: null,
           competenceResults: [{
             id: 1,
             name: 'Economie symbiotique',
@@ -528,6 +533,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           validatedSkillsCount: 1,
           knowledgeElementsCount: 2,
           reachedStage: null,
+          stageCount: null,
           campaignParticipationBadges: [{
             id: 1,
             isAcquired: true,
@@ -672,7 +678,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           validatedSkillsCount: 1,
           knowledgeElementsCount: 2,
           reachedStage: null,
-
+          stageCount: null,
           campaignParticipationBadges: [{
             id: 1,
             isAcquired: true,
