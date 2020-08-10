@@ -192,7 +192,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
           threshold: 50,
           starCount: 2,
         });
-        campaignParticipationResult.update({ reachedStage, stagesCount: 4 });
+        campaignParticipationResult.update({ reachedStage, stageCount: 4 });
 
         // when
         await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);

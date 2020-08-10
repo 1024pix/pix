@@ -7,7 +7,7 @@ export default ApplicationSerializer.extend({
     'validatedSkillsCount',
     'masteryPercentage',
     'isCompleted',
-    'stagesCount',
+    'stageCount',
   ],
   include: [
     'campaignParticipationBadges',
