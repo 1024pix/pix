@@ -7,11 +7,11 @@
     <div class="login-or-register-panel__forms-container">
       <div class="login-or-register-panel__form">
         <h1 class="form-title">Je m’inscris sur Pix</h1>
-        {{#unless this.displayRegisterForm}}
-          <button id="register-button" {{action "toggleFormsVisibility"}} class="button button--white button--bordered button--uppercase" type="button">S'inscrire</button>
+        {{#unless @displayRegisterForm}}
+          <button id="register-button" {{action @toggleFormsVisibility}} class="button button--white button--bordered button--uppercase" type="button">S'inscrire</button>
         {{/unless}}
-        <div class={{concat "login-or-register-panel-form__expandable" (if this.displayRegisterForm " login-or-register-panel-form__expandable--expanded")}}>
-          {{#if this.displayRegisterForm}}
+        <div class={{concat "login-or-register-panel-form__expandable" (if @displayRegisterForm " login-or-register-panel-form__expandable--expanded")}}>
+          {{#if @displayRegisterForm}}
             <Routes::RegisterForm @campaignCode={{@campaignCode}} />
           {{/if}}
         </div>
@@ -19,11 +19,11 @@
       <div class="login-or-register-panel__divider"></div>
       <div class="login-or-register-panel__form">
         <h1 class="form-title">J’ai déjà un compte Pix</h1>
-        {{#if this.displayRegisterForm}}
-          <button id="login-button" {{action "toggleFormsVisibility"}} class="button button--white button--bordered button--uppercase" type="button">Se connecter</button>
+        {{#if @displayRegisterForm}}
+          <button id="login-button" {{action @toggleFormsVisibility}} class="button button--white button--bordered button--uppercase" type="button">Se connecter</button>
         {{/if}}
-        <div class={{concat "login-or-register-panel-form__expandable" (if (not this.displayRegisterForm) " login-or-register-panel-form__expandable--expanded")}}>
-          {{#unless this.displayRegisterForm}}
+        <div class={{concat "login-or-register-panel-form__expandable" (if (not @displayRegisterForm) " login-or-register-panel-form__expandable--expanded")}}>
+          {{#unless @displayRegisterForm}}
             <Routes::LoginForm />
           {{/unless}}
         </div>

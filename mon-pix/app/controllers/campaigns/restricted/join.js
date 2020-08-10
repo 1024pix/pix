@@ -12,9 +12,13 @@ export default class JoinRestrictedCampaignController extends Controller {
   @service session;
   @service store;
   @service intl;
+  @service url;
+  @service router;
 
   @tracked isLoading = false;
+  @tracked displayModal = false;
   @tracked errorMessage = null;
+  @tracked modalErrorMessage = null;
 
   @action
   attemptNext(schoolingRegistration) {
@@ -34,11 +38,29 @@ export default class JoinRestrictedCampaignController extends Controller {
     });
   }
 
+  @action
+  closeModal() {
+    this.displayModal = false;
+  }
+
+  @action
+  async goToHome() {
+    await this.session.invalidate();
+    return window.location.replace(this.url.homeUrl);
+  }
+
+  @action
+  async goToCampaignConnectionForm() {
+    await this.session.invalidate();
+    return this.router.replaceWith('campaigns.restricted.login-or-register-to-access', { queryParams: { displayRegisterForm: false } });
+  }
+
   _setErrorMessageForAttemptNextAction(errorResponse) {
     errorResponse.errors.forEach((error) => {
       if (error.status === '409') {
         const message = this._showErrorMessageByShortCode(error.meta);
-        return this.errorMessage = message;
+        this.displayModal = true;
+        return this.modalErrorMessage = message;
       }
       if (error.status === '404') {
         return this.errorMessage = 'Vous êtes un élève ? <br/> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.<br/> <br/> Vous êtes un enseignant ? <br/> L‘accès à un parcours n‘est pas disponible pour le moment.';
