@@ -14,6 +14,7 @@ class CertificationCourse {
       completedAt,
       isPublished = false,
       isV2Certification = false,
+      verificationCode,
       // includes
       assessment,
       challenges,
@@ -34,6 +35,7 @@ class CertificationCourse {
     this.completedAt = completedAt;
     this.isPublished = isPublished;
     this.isV2Certification = isV2Certification;
+    this.verificationCode = verificationCode;
     // includes
     this.assessment = assessment;
     this.challenges = challenges;
@@ -42,7 +44,7 @@ class CertificationCourse {
     this.sessionId = sessionId;
   }
 
-  static from({ certificationCandidate, challenges }) {
+  static from({ certificationCandidate, challenges, verificationCode }) {
     return new CertificationCourse({
       userId: certificationCandidate.userId,
       sessionId: certificationCandidate.sessionId,
@@ -53,6 +55,7 @@ class CertificationCourse {
       externalId:certificationCandidate.externalId,
       isV2Certification: true,
       challenges,
+      verificationCode,
     });
   }
 }
