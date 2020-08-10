@@ -1,6 +1,6 @@
 import { helper } from '@ember/component/helper';
 import showdown from 'showdown';
-import _ from 'mon-pix/utils/lodash-custom';
+import _ from 'lodash';
 
 export function convertToHtml(params) {
   if (_.isArray(params) && params.length > 0) {
