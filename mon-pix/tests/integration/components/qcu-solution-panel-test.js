@@ -4,7 +4,7 @@ import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import _ from 'mon-pix/utils/lodash-custom';
+import _ from 'lodash';
 
 const assessment = {};
 let challenge = null;
