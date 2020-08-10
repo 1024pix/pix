@@ -18,11 +18,11 @@ const isYearValid = (value) => value > 999 && value <= 9999;
 const isStringValid = (value) => !!value.trim();
 
 class Validation {
-  @tracked firstName = null
-  @tracked lastName = null
-  @tracked dayOfBirth = null
-  @tracked monthOfBirth = null
-  @tracked yearOfBirth = null
+  @tracked firstName = null;
+  @tracked lastName = null;
+  @tracked dayOfBirth = null;
+  @tracked monthOfBirth = null;
+  @tracked yearOfBirth = null;
 }
 
 export default class JoinSco extends Component {
