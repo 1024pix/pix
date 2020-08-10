@@ -72,7 +72,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
-          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          expect(controller.get('modalErrorMessage')).to.equal(expectedErrorMessage);
           sinon.assert.notCalled(controller.transitionToRoute);
           expect(controller.get('isLoading')).to.equal(false);
         });
@@ -98,7 +98,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
-          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          expect(controller.get('modalErrorMessage')).to.equal(expectedErrorMessage);
           sinon.assert.notCalled(controller.transitionToRoute);
           expect(controller.get('isLoading')).to.equal(false);
         });
@@ -124,7 +124,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
-          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          expect(controller.get('modalErrorMessage')).to.equal(expectedErrorMessage);
           sinon.assert.notCalled(controller.transitionToRoute);
           expect(controller.get('isLoading')).to.equal(false);
         });
@@ -150,7 +150,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
-          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          expect(controller.get('modalErrorMessage')).to.equal(expectedErrorMessage);
           sinon.assert.notCalled(controller.transitionToRoute);
           expect(controller.get('isLoading')).to.equal(false);
         });
@@ -176,7 +176,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
-          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          expect(controller.get('modalErrorMessage')).to.equal(expectedErrorMessage);
           sinon.assert.notCalled(controller.transitionToRoute);
           expect(controller.get('isLoading')).to.equal(false);
         });
@@ -202,7 +202,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
-          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          expect(controller.get('modalErrorMessage')).to.equal(expectedErrorMessage);
           sinon.assert.notCalled(controller.transitionToRoute);
           expect(controller.get('isLoading')).to.equal(false);
         });
@@ -228,7 +228,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
-          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          expect(controller.get('modalErrorMessage')).to.equal(expectedErrorMessage);
           sinon.assert.notCalled(controller.transitionToRoute);
           expect(controller.get('isLoading')).to.equal(false);
         });
@@ -258,7 +258,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
-          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          expect(controller.get('modalErrorMessage')).to.equal(expectedErrorMessage);
           sinon.assert.notCalled(controller.transitionToRoute);
           expect(controller.get('isLoading')).to.equal(false);
         });
@@ -284,7 +284,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
-          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          expect(controller.get('modalErrorMessage')).to.equal(expectedErrorMessage);
           sinon.assert.notCalled(controller.transitionToRoute);
           expect(controller.get('isLoading')).to.equal(false);
         });
@@ -310,7 +310,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
-          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          expect(controller.get('modalErrorMessage')).to.equal(expectedErrorMessage);
           sinon.assert.notCalled(controller.transitionToRoute);
           expect(controller.get('isLoading')).to.equal(false);
         });
@@ -336,7 +336,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
-          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          expect(controller.get('modalErrorMessage')).to.equal(expectedErrorMessage);
           sinon.assert.notCalled(controller.transitionToRoute);
           expect(controller.get('isLoading')).to.equal(false);
         });
@@ -362,7 +362,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
-          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          expect(controller.get('modalErrorMessage')).to.equal(expectedErrorMessage);
           sinon.assert.notCalled(controller.transitionToRoute);
           expect(controller.get('isLoading')).to.equal(false);
         });
@@ -388,7 +388,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
-          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          expect(controller.get('modalErrorMessage')).to.equal(expectedErrorMessage);
           sinon.assert.notCalled(controller.transitionToRoute);
           expect(controller.get('isLoading')).to.equal(false);
         });
@@ -414,7 +414,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
-          expect(controller.get('errorMessage')).to.equal(expectedErrorMessage);
+          expect(controller.get('modalErrorMessage')).to.equal(expectedErrorMessage);
           sinon.assert.notCalled(controller.transitionToRoute);
           expect(controller.get('isLoading')).to.equal(false);
         });
