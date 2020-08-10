@@ -85,6 +85,14 @@ describe('Acceptance | API | Campaign Participation Result', () => {
       targetProfileId: targetProfile.id
     });
 
+    databaseBuilder.factory.buildStage({
+      id: 2,
+      message: 'Tu as le palier 2',
+      title: 'palier 2',
+      threshold: 50,
+      targetProfileId: targetProfile.id
+    });
+
     targetProfileSkills.slice(2).forEach((targetProfileSkill, index) => {
       databaseBuilder.factory.buildKnowledgeElement({
         userId: user.id,
@@ -185,6 +193,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
             'tested-skills-count': 5,
             'validated-skills-count': 3,
             'is-completed': true,
+            'stage-count': 2,
           },
           relationships: {
             'campaign-participation-badges': {
