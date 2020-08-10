@@ -2,12 +2,6 @@ import _ from 'lodash';
 
 _.mixin({
 
-  // Simple alias for includes, last arg fromIndex excluded.
-  // Therefore, no test on this function.
-  /* istanbul ignore next */
-  isAmongst: function(element, collection) {
-    return _.includes(collection, element);
-  },
   // See http://stackoverflow.com/a/10834843
   /* istanbul ignore next */
   isStrictlyPositiveInteger: function(str) {
