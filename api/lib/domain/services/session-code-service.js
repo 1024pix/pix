@@ -1,14 +1,14 @@
-const { sample } = require('lodash');
+const _ = require('lodash');
 const sessionRepository = require('../../infrastructure/repositories/session-repository');
 
 function _randomLetter() {
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXZ'.split('');
-  return sample(letters);
+  return _.sample(letters);
 }
 
 function _randomNumberCharacter() {
   const numberCharacter = '0123456789'.split('');
-  return sample(numberCharacter);
+  return _.sample(numberCharacter);
 }
 
 function _generateSessionCode() {
