@@ -8,9 +8,6 @@ module.exports = {
       transform: (untouchedUser) => {
         const user = Object.assign({}, untouchedUser);
         user.isCertifiable = undefined;
-        if (!user.userOrgaSettings) {
-          delete user.userOrgaSettings;
-        }
         return user;
       },
       attributes: [
@@ -20,7 +17,6 @@ module.exports = {
         'memberships', 'certificationCenterMemberships',
         'pixScore', 'scorecards',
         'campaignParticipations', 'hasSeenAssessmentInstructions', 'isCertifiable',
-        'userOrgaSettings'
       ],
       memberships: {
         ref: 'id',
@@ -73,15 +69,6 @@ module.exports = {
         relationshipLinks: {
           related: function(record, current, parent) {
             return `/api/users/${parent.id}/is-certifiable`;
-          }
-        }
-      },
-      userOrgaSettings: {
-        ref: 'id',
-        ignoreRelationshipData: true,
-        relationshipLinks: {
-          related(record, current, parent) {
-            return `/api/users/${parent.id}/user-orga-settings`;
           }
         }
       },
