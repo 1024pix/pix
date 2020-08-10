@@ -48,7 +48,7 @@ class CampaignParticipationResult {
     const totalSkillsCount = _.sumBy(targetedCompetenceResults, 'totalSkillsCount');
     const testedSkillsCount = _.sumBy(targetedCompetenceResults, 'testedSkillsCount');
 
-    const stages = targetProfile.stages;
+    const stages = targetProfile.stages || null;
 
     return new CampaignParticipationResult({
       id: campaignParticipationId,
@@ -60,6 +60,7 @@ class CampaignParticipationResult {
       competenceResults: targetedCompetenceResults,
       campaignParticipationBadges,
       reachedStage: _computeReachedStage({ stages, totalSkillsCount, validatedSkillsCount }),
+      stageCount: stages && stages.length,
     });
   }
 
