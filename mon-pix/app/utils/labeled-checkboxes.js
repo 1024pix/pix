@@ -1,4 +1,4 @@
-import _ from 'mon-pix/utils/lodash-custom';
+import _ from 'lodash';
 
 /*
  * Example :
@@ -22,10 +22,10 @@ export default function labeledCheckboxes(proposals, userAnswers) {
   const definedUserAnswers = _.isNil(userAnswers) ? [] : userAnswers;
 
   // check pre-conditions
-  if (_(proposals).isNotArrayOfString()) return [];
-  if (_(proposals).isEmpty()) return [];
-  if (_(definedUserAnswers).isNotArrayOfBoolean()) return [];
-  if (_(definedUserAnswers).size() > _(proposals).size()) return [];
+  if (isNotArrayOfString(proposals)) return [];
+  if (_.isEmpty(proposals)) return [];
+  if (_isNotArrayOfBoolean(definedUserAnswers)) return [];
+  if (_.size(definedUserAnswers) > _.size(proposals)) return [];
 
   const sizeDifference = _(proposals).size() - _(definedUserAnswers).size(); // 2
   const arrayOfFalse = _.times(sizeDifference, _.constant(false));              // [false, false]
@@ -36,4 +36,12 @@ export default function labeledCheckboxes(proposals, userAnswers) {
     .map(_.reverse)           // [['prop 1', false], ['prop 2', true], ['prop 3', false], ['prop 4', false]]
     .value();
 
+}
+
+function _isNotArrayOfBoolean(collection) {
+  return !_.isArray(collection) || !_.every(collection, _.isBoolean);
+}
+
+function isNotArrayOfString(collection) {
+  return !_.isArray(collection) || !_.every(collection, _.isString);
 }
