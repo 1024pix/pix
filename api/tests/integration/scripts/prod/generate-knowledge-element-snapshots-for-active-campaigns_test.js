@@ -9,6 +9,7 @@ const {
 describe('Integration | Scripts | generate-knowledge-element-snapshots-for-active-campaigns.js', () => {
 
   describe('#getEligibleCampaignParticipations', () => {
+    const maxParticipationCountToGet = 5;
 
     it('should avoid returning campaign participations that are not in active campaigns', async () => {
       // given
@@ -17,7 +18,7 @@ describe('Integration | Scripts | generate-knowledge-element-snapshots-for-activ
       await databaseBuilder.commit();
 
       // when
-      const campaignParticipationData = await getEligibleCampaignParticipations(5);
+      const campaignParticipationData = await getEligibleCampaignParticipations(maxParticipationCountToGet);
 
       // then
       expect(campaignParticipationData.length).to.equal(0);
@@ -30,7 +31,7 @@ describe('Integration | Scripts | generate-knowledge-element-snapshots-for-activ
       await databaseBuilder.commit();
 
       // when
-      const campaignParticipationData = await getEligibleCampaignParticipations(5);
+      const campaignParticipationData = await getEligibleCampaignParticipations(maxParticipationCountToGet);
 
       // then
       expect(campaignParticipationData.length).to.equal(0);
@@ -45,7 +46,7 @@ describe('Integration | Scripts | generate-knowledge-element-snapshots-for-activ
       await databaseBuilder.commit();
 
       // when
-      const campaignParticipationData = await getEligibleCampaignParticipations(5);
+      const campaignParticipationData = await getEligibleCampaignParticipations(maxParticipationCountToGet);
 
       // then
       expect(campaignParticipationData.length).to.equal(0);
@@ -59,7 +60,7 @@ describe('Integration | Scripts | generate-knowledge-element-snapshots-for-activ
       await databaseBuilder.commit();
 
       // when
-      const campaignParticipationData = await getEligibleCampaignParticipations(5);
+      const campaignParticipationData = await getEligibleCampaignParticipations(maxParticipationCountToGet);
 
       // then
       expect(campaignParticipationData.length).to.equal(1);
@@ -77,7 +78,7 @@ describe('Integration | Scripts | generate-knowledge-element-snapshots-for-activ
       await databaseBuilder.commit();
 
       // when
-      const campaignParticipationData = await getEligibleCampaignParticipations(5);
+      const campaignParticipationData = await getEligibleCampaignParticipations(maxParticipationCountToGet);
 
       // then
       expect(campaignParticipationData.length).to.equal(1);
