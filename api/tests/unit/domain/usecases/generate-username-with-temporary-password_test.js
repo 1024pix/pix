@@ -1,5 +1,5 @@
-const generateUsernameWithTemporaryPassword = require('../../../../lib/domain/usecases/generate-username-with-temporary-password.js');
 const { sinon, expect, catchErr, domainBuilder } = require('../../../test-helper');
+
 const passwordGenerator = require('../../../../lib/domain/services/password-generator');
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
@@ -7,65 +7,59 @@ const userRepository = require('../../../../lib/infrastructure/repositories/user
 const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
 const { UserNotAuthorizedToGenerateUsernamePasswordError } = require('../../../../lib/domain/errors');
 
+const generateUsernameWithTemporaryPassword = require('../../../../lib/domain/usecases/generate-username-with-temporary-password.js');
+
 describe('Unit | UseCase | generate-username-with-temporary-password', () => {
 
-  const connectedUser = domainBuilder.buildUser();
-  const userRelatedToStudent = domainBuilder.buildUser();
-  const schoolingRegistration = domainBuilder.buildSchoolingRegistration();
+  const userRelatedToStudent = domainBuilder.buildUser({ username: null });
+  const organization = userRelatedToStudent.memberships[0].organization;
+  const organizationId = userRelatedToStudent.memberships[0].organization.id;
+
   const expectedUsername = 'john.harry0207';
-  schoolingRegistration.lastName = 'harry';
-  schoolingRegistration.firstName = 'john';
-  schoolingRegistration.birthdate = '1989-07-02';
+  const expectedPassword = 'Pix12345';
+  const hashedPassword = 'ABC';
+
+  let schoolingRegistration;
 
   beforeEach(() => {
-    sinon.stub(userRepository, 'getWithMemberships').resolves(connectedUser);
-    sinon.stub(userRepository, 'get').resolves(connectedUser);
-    sinon.stub(userRepository, 'updateUsernameAndPassword').resolves(connectedUser);
+    schoolingRegistration = domainBuilder.buildSchoolingRegistration({
+      organization
+    });
+
+    sinon.stub(passwordGenerator, 'generate').returns(expectedPassword);
+    sinon.stub(encryptionService, 'hashPassword').resolves(hashedPassword);
+    sinon.stub(userReconciliationService, 'createUsernameByUser').resolves(expectedUsername);
+
+    sinon.stub(userRepository, 'get').resolves(userRelatedToStudent);
+    sinon.stub(userRepository, 'updateUsernameAndPassword').resolves();
+
     sinon.stub(schoolingRegistrationRepository, 'get').resolves(schoolingRegistration);
-    sinon.stub(encryptionService, 'hashPassword');
   });
 
   it('should generate username and temporary password', async () => {
-    // given
-    const organizationId = connectedUser.memberships[0].organization.id;
-    userRelatedToStudent.organizationId = organizationId;
-    schoolingRegistration.organizationId = organizationId;
-    connectedUser.username = null;
-
     // when
     const result = await generateUsernameWithTemporaryPassword({
-      connectedUserId: connectedUser.id,
       schoolingRegistrationId: schoolingRegistration.id,
       organizationId,
-      passwordGenerator,
-      encryptionService,
-      userReconciliationService,
-      userRepository,
-      schoolingRegistrationRepository
+      passwordGenerator, encryptionService, userReconciliationService,
+      userRepository, schoolingRegistrationRepository
     });
 
     // then
     expect(result.username).to.be.equal(expectedUsername);
-    expect(result.generatedPassword).to.be.not.empty;
-    expect(result.generatedPassword).to.have.lengthOf(8);
-
+    expect(result.generatedPassword).to.be.equal(expectedPassword);
   });
 
   it('should throw an error when student has not access to the organization', async () => {
     // given
-    const organizationId = connectedUser.memberships[0].organization.id;
     schoolingRegistration.organizationId = 99;
 
     // when
     const error = await catchErr(generateUsernameWithTemporaryPassword)({
-      connectedUserId: connectedUser.id,
       schoolingRegistrationId: schoolingRegistration.id,
       organizationId: organizationId,
-      passwordGenerator,
-      encryptionService,
-      userReconciliationService,
-      userRepository,
-      schoolingRegistrationRepository
+      passwordGenerator, encryptionService, userReconciliationService,
+      userRepository, schoolingRegistrationRepository
     });
 
     // then
@@ -75,26 +69,19 @@ describe('Unit | UseCase | generate-username-with-temporary-password', () => {
 
   it('should throw an error when student account has already a username', async () => {
     // given
-    const organizationId = connectedUser.memberships[0].organization.id;
-    userRelatedToStudent.organizationId = organizationId;
-    schoolingRegistration.organizationId = organizationId;
-    connectedUser.username = expectedUsername;
+    userRelatedToStudent.username = 'username';
+    userRepository.get.resolves(userRelatedToStudent);
 
     // when
     const error = await catchErr(generateUsernameWithTemporaryPassword)({
-      connectedUserId: connectedUser.id,
       schoolingRegistrationId: schoolingRegistration.id,
       organizationId,
-      passwordGenerator,
-      encryptionService,
-      userReconciliationService,
-      userRepository,
-      schoolingRegistrationRepository
+      passwordGenerator, encryptionService, userReconciliationService,
+      userRepository, schoolingRegistrationRepository
     });
 
     // then
     expect(error).to.be.instanceof(UserNotAuthorizedToGenerateUsernamePasswordError);
-    expect(error.message).to.be.equal(`Ce compte utilisateur dispose déjà d'un identifiant: ${connectedUser.username}.`);
+    expect(error.message).to.be.equal(`Ce compte utilisateur dispose déjà d'un identifiant: ${userRelatedToStudent.username}.`);
   });
-
 });
