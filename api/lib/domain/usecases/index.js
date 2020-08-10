@@ -70,6 +70,7 @@ const dependencies = {
   userReconciliationService: require('../services/user-reconciliation-service'),
   userRepository: require('../../infrastructure/repositories/user-repository'),
   userTutorialRepository: require('../../infrastructure/repositories/user-tutorial-repository'),
+  verifyCertificateCodeService: require('../../domain/services/verify-certificate-code-service')
 };
 
 const { injectDependencies } = require('../../infrastructure/utils/dependency-injection');

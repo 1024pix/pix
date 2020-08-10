@@ -19,6 +19,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
   const competenceRepository = { listPixCompetencesOnly: sinon.stub() };
   const certificationCandidateRepository = { getBySessionIdAndUserId: sinon.stub() };
   const certificationChallengeRepository = { save: sinon.stub() };
+  const verifyCertificateCodeService = { generateCertificateVerificationCode: sinon.stub() };
   const certificationCourseRepository = {
     findOneCertificationCourseByUserIdAndSessionId: sinon.stub(),
     save: sinon.stub(),
@@ -38,6 +39,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
     sessionRepository,
     certificationChallengesService,
     placementProfileService,
+    verifyCertificateCodeService,
   };
 
   beforeEach(() => {
@@ -211,6 +213,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
         });
 
         context('when a certification still has not been created meanwhile', () => {
+          const verificationCode = Symbol('P-555555');
 
           const foundCertificationCandidate = {
             firstName: Symbol('firstName'),
@@ -230,6 +233,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             birthplace: foundCertificationCandidate.birthCity,
             externalId: foundCertificationCandidate.externalId,
             isV2Certification: true,
+            verificationCode,
           };
 
           const savedCertificationChallenge1 = { id: 'savedCertificationChallenge1', };
@@ -280,6 +284,9 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           });
 
           it('should have save the certification course based on an appropriate argument', async function() {
+            // given
+            verifyCertificateCodeService.generateCertificateVerificationCode.resolves(verificationCode);
+
             // when
             await retrieveLastOrCreateCertificationCourse({
               sessionId,

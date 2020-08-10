@@ -4,7 +4,7 @@ const verifyCertificateCodeService = require('../../../../lib/domain/services/ve
 const certifCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const { CertificateVerificationCodeGenerationTooManyTrials } = require('../../../../lib/domain/errors');
 
-describe('Unit | Service | VerifyCertificationCode', () => {
+describe('Unit | Service | VerifyCertificateCode', () => {
 
   describe('#generateCertificateVerificationCode', () => {
 
