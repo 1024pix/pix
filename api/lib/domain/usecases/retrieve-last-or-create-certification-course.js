@@ -10,7 +10,6 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   assessmentRepository,
   competenceRepository,
   certificationCandidateRepository,
-  certificationChallengeRepository,
   certificationCourseRepository,
   sessionRepository,
   certificationChallengesService,
@@ -21,7 +20,11 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     throw new NotFoundError('Session not found');
   }
 
-  const existingCertificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({ userId, sessionId, domainTransaction });
+  const existingCertificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
+    userId,
+    sessionId,
+    domainTransaction
+  });
   if (existingCertificationCourse) {
     return {
       created: false,
@@ -36,12 +39,19 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     assessmentRepository,
     competenceRepository,
     certificationCandidateRepository,
-    certificationChallengeRepository,
     certificationCourseRepository,
     certificationChallengesService,
     placementProfileService,
   });
 };
+
+async function _getCertificationCourseIfCreatedMeanwhile(certificationCourseRepository, userId, sessionId, domainTransaction) {
+  return await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
+    userId,
+    sessionId,
+    domainTransaction
+  });
+}
 
 async function _startNewCertification({
   domainTransaction,
@@ -49,67 +59,45 @@ async function _startNewCertification({
   userId,
   assessmentRepository,
   certificationCandidateRepository,
-  certificationChallengeRepository,
   certificationCourseRepository,
   certificationChallengesService,
   placementProfileService,
 }) {
-  let placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate: new Date() });
+  const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate: new Date() });
 
   if (!placementProfile.isCertifiable()) {
     throw new UserNotAuthorizedToCertifyError();
   }
 
-  // FIXME : Ce n'est pas la responsabilité du placementProfile que d'avoir les challenges
-  placementProfile = await placementProfileService.fillPlacementProfileWithChallenges(placementProfile);
+  const newCertificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
 
-  const existingCertificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({ userId, sessionId, domainTransaction });
-  if (existingCertificationCourse) {
+  // Above operations are potentially slow so that two simultaneous calls of this function might overlap 😿
+  // In case the simultaneous call finished earlier than the current one, we want to return its result
+  const certificationCourseCreatedMeanwhile = await _getCertificationCourseIfCreatedMeanwhile(certificationCourseRepository, userId, sessionId, domainTransaction);
+  if (certificationCourseCreatedMeanwhile) {
     return {
       created: false,
-      certificationCourse: existingCertificationCourse,
+      certificationCourse: certificationCourseCreatedMeanwhile,
     };
   }
 
-  const newCertificationCourse = await _generateCertificationCourseFromCandidateParticipation({ userId, sessionId, certificationCandidateRepository });
-  const savedCertificationCourse = await certificationCourseRepository.save({ certificationCourse: newCertificationCourse, domainTransaction });
-  const newAssessment = _generateAssessmentForCertificationCourse({ userId, certificationCourseId: savedCertificationCourse.id });
+  const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({ userId, sessionId });
+
+  const newCertificationCourse = CertificationCourse.from({ certificationCandidate, challenges: newCertificationChallenges });
+
+  const savedCertificationCourse = await certificationCourseRepository.save({
+    certificationCourse: newCertificationCourse,
+    domainTransaction
+  });
+
+  const newAssessment = Assessment.createForCertificationCourse({ userId, certificationCourseId: savedCertificationCourse.id });
   const savedAssessment = await assessmentRepository.save({ assessment: newAssessment, domainTransaction });
-  const newCertificationChallenges = certificationChallengesService.generateCertificationChallenges(placementProfile.userCompetences, savedCertificationCourse.id);
-  const savedChallenges = await Promise.all(newCertificationChallenges.map((certificationChallenge) => certificationChallengeRepository.save({ certificationChallenge, domainTransaction })));
 
   savedCertificationCourse.assessment = savedAssessment;
-  savedCertificationCourse.challenges = savedChallenges;
 
+  // FIXME : return CertificationCourseCreated or CertificationCourseRetrieved with only needed fields
   return {
     created: true,
     certificationCourse: savedCertificationCourse,
   };
-}
-
-async function _generateCertificationCourseFromCandidateParticipation({ userId, sessionId, certificationCandidateRepository }) {
-  const personalInfo = { firstName: null, lastName: null, birthdate: null, birthplace: null, externalId: null };
-  const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({ sessionId, userId });
-
-  personalInfo.firstName = certificationCandidate.firstName;
-  personalInfo.lastName = certificationCandidate.lastName;
-  personalInfo.birthdate = certificationCandidate.birthdate;
-  personalInfo.birthplace = certificationCandidate.birthCity;
-  personalInfo.externalId = certificationCandidate.externalId;
-
-  return new CertificationCourse({
-    userId,
-    sessionId,
-    ...personalInfo,
-    isV2Certification: true,
-  });
-}
-
-function _generateAssessmentForCertificationCourse({ userId, certificationCourseId }) {
-  return new Assessment({
-    userId,
-    certificationCourseId,
-    state: Assessment.states.STARTED,
-    type: Assessment.types.CERTIFICATION,
-  });
 }

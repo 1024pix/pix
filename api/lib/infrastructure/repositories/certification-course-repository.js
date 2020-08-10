@@ -8,14 +8,24 @@ const DomainTransaction = require('../DomainTransaction');
 const CertificationCourse = require('../../domain/models/CertificationCourse');
 const Assessment = require('../../domain/models/Assessment');
 const { NotFoundError } = require('../../domain/errors');
+const certificationChallengeRepository = require('./certification-challenge-repository');
 
 module.exports = {
 
   async save({ certificationCourse, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    const certificationCourseToSave = _adaptModelToDb(certificationCourse);
+    const certificationCourseToSaveDTO = _adaptModelToDb(certificationCourse);
     const options = { transacting : domainTransaction.knexTransaction };
-    const savedCertificationCourse = await new CertificationCourseBookshelf(certificationCourseToSave).save(null, options);
-    return _toDomain(savedCertificationCourse);
+    const savedCertificationCourseDTO = await new CertificationCourseBookshelf(certificationCourseToSaveDTO).save(null, options);
+
+    // FIXME : Save all challenges in a single DB request
+    const savedChallenges = await Promise.all(certificationCourse.challenges.map((certificationChallenge) => {
+      const certificationChallengeWithCourseId = { ...certificationChallenge, courseId: savedCertificationCourseDTO.id };
+      return certificationChallengeRepository.save({ certificationChallenge: certificationChallengeWithCourseId, domainTransaction });
+    }));
+
+    const savedCertificationCourse = _toDomain(savedCertificationCourseDTO);
+    savedCertificationCourse.challenges = savedChallenges;
+    return savedCertificationCourse;
   },
 
   async changeCompletionDate(certificationCourseId, completedAt = null, domainTransaction = {}) {

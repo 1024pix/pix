@@ -41,6 +41,20 @@ class CertificationCourse {
     this.userId = userId;
     this.sessionId = sessionId;
   }
+
+  static from({ certificationCandidate, challenges }) {
+    return new CertificationCourse({
+      userId: certificationCandidate.userId,
+      sessionId: certificationCandidate.sessionId,
+      firstName:certificationCandidate.firstName,
+      lastName: certificationCandidate.lastName,
+      birthdate:certificationCandidate.birthdate,
+      birthplace:certificationCandidate.birthCity,
+      externalId:certificationCandidate.externalId,
+      isV2Certification: true,
+      challenges,
+    });
+  }
 }
 
 module.exports = CertificationCourse;

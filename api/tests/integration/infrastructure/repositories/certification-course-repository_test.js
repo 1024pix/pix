@@ -26,22 +26,49 @@ describe('Integration | Repository | Certification Course', function() {
         isV2Certification: false,
         sessionId,
         userId,
+        challenges : [
+          domainBuilder.buildCertificationChallenge(),
+          domainBuilder.buildCertificationChallenge(),
+          domainBuilder.buildCertificationChallenge(),
+        ]
       });
 
       return databaseBuilder.commit();
     });
 
-    afterEach(() => {
+    afterEach(async () => {
+      await knex('certification-challenges').delete();
       return knex('certification-courses').delete();
     });
 
     it('should persist the certif course in db', async () => {
       // when
-      await certificationCourseRepository.save({ certificationCourse });
+      const savedCertificationCourse = await certificationCourseRepository.save({ certificationCourse });
 
       // then
-      const certificationCourseSaved = await knex('certification-courses').select();
-      expect(certificationCourseSaved).to.have.lengthOf(1);
+      const retrievedCertificationCourse = await certificationCourseRepository.get(savedCertificationCourse.id);
+      const fieldsToOmitInCertificationCourse = [
+        'id',
+        'assessment',
+        'challenges',
+        'completedAt',
+        'createdAt',
+      ];
+      const fieldsToOmitInCertificationChallenge = [ 'id', 'courseId' ];
+
+      expect(
+        _.omit(retrievedCertificationCourse, fieldsToOmitInCertificationCourse)
+      ).to.deep.equal(
+        _.omit(certificationCourse, fieldsToOmitInCertificationCourse)
+      );
+
+      const certificationChallengeToBeSaved = _.map(certificationCourse.challenges, (c) => _.omit(c, fieldsToOmitInCertificationChallenge));
+      const savedCertificationChallenge = _.map(savedCertificationCourse.challenges, (c) => _.omit(c, fieldsToOmitInCertificationChallenge));
+      expect(savedCertificationChallenge).to.deep.equal(certificationChallengeToBeSaved);
+
+      expect(
+        _.every(savedCertificationCourse.challenges, (c) => c.courseId === savedCertificationCourse.id)
+      ).to.be.true;
     });
 
     it('should return the saved certification course', async () => {
@@ -132,9 +159,15 @@ describe('Integration | Repository | Certification Course', function() {
         databaseBuilder.factory.buildCertificationChallenge(certificationChallenge);
       });
       _.each([
-        { certificationCourseId: expectedCertificationCourse.id,  partnerKey: databaseBuilder.factory.buildBadge({}).key },
-        { certificationCourseId: expectedCertificationCourse.id,  partnerKey: databaseBuilder.factory.buildBadge({}).key },
-        { certificationCourseId: anotherCourseId,  partnerKey: databaseBuilder.factory.buildBadge({}).key },
+        {
+          certificationCourseId: expectedCertificationCourse.id,
+          partnerKey: databaseBuilder.factory.buildBadge({}).key
+        },
+        {
+          certificationCourseId: expectedCertificationCourse.id,
+          partnerKey: databaseBuilder.factory.buildBadge({}).key
+        },
+        { certificationCourseId: anotherCourseId, partnerKey: databaseBuilder.factory.buildBadge({}).key },
       ], (acquiredPartnerCertification) =>
         databaseBuilder.factory.buildPartnerCertification(acquiredPartnerCertification));
       return databaseBuilder.commit();
@@ -169,7 +202,11 @@ describe('Integration | Repository | Certification Course', function() {
         let assessmentId;
 
         beforeEach(() => {
-          assessmentId = databaseBuilder.factory.buildAssessment({ type: 'CERTIFICATION', certificationCourseId: expectedCertificationCourse.id, userId }).id;
+          assessmentId = databaseBuilder.factory.buildAssessment({
+            type: 'CERTIFICATION',
+            certificationCourseId: expectedCertificationCourse.id,
+            userId
+          }).id;
           return databaseBuilder.commit();
         });
 
@@ -219,7 +256,10 @@ describe('Integration | Repository | Certification Course', function() {
 
     it('should retrieve the most recently created certification course with given userId, sessionId', async () => {
       // when
-      const certificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({ userId, sessionId });
+      const certificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
+        userId,
+        sessionId
+      });
 
       // then
       expect(certificationCourse.createdAt).to.deep.equal(createdAtLater);
@@ -227,7 +267,10 @@ describe('Integration | Repository | Certification Course', function() {
 
     it('should return null when no certification course found', async () => {
       // when
-      const result = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({ userId: userId + 1, sessionId });
+      const result = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
+        userId: userId + 1,
+        sessionId
+      });
 
       // then
       expect(result).to.be.null;
