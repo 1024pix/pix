@@ -82,10 +82,8 @@ async function _buildCampaignAssessmentParticipationSummary(result, targetedSkil
 }
 
 async function _getValidatedTargetSkillIds(userId, limitDate, targetedSkillIds) {
-  const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({
-    userId,
-    limitDate,
-  });
+  const knowledgeElementsByUser = await knowledgeElementRepository.findSnapshotForUsers({ [userId]: limitDate });
+  const knowledgeElements = knowledgeElementsByUser[userId];
 
   const validatedKnowledgeElements = _.filter(knowledgeElements, 'isValidated');
   const validatedSkillIds = _.map(validatedKnowledgeElements, 'skillId');

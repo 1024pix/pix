@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, sinon } = require('../../../test-helper');
+const { expect, databaseBuilder, sinon, knex } = require('../../../test-helper');
 const campaignAssessmentParticipationSummaryRepository = require('../../../../lib/infrastructure/repositories/campaign-assessment-participation-summary-repository');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const CampaignAssessmentParticipationSummary = require('../../../../lib/domain/read-models/CampaignAssessmentParticipationSummary');
@@ -14,6 +14,7 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
 
     afterEach(() => {
       skillDatasource.findOperativeByRecordIds.restore();
+      return knex('knowledge-element-snapshots').delete();
     });
 
     let campaign;
