@@ -20,7 +20,7 @@ module.exports = async function reconcileUserToOrganization({
 
   const nationalStudentIdForReconcile = _.orderBy(studentSchoolingRegistrations, 'updatedAt', 'desc')[0].nationalStudentId;
 
-  return schoolingRegistrationRepository.associateUserByNationalStudentIdAndOrganizationId({
+  return schoolingRegistrationRepository.reconcileUserByNationalStudentIdAndOrganizationId({
     userId,
     nationalStudentId: nationalStudentIdForReconcile,
     organizationId: campaign.organizationId

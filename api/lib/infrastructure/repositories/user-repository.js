@@ -361,7 +361,7 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
   },
 
-  async createAndAssociateUserToSchoolingRegistration({ domainUser, schoolingRegistrationId }) {
+  async createAndReconcileUserToSchoolingRegistration({ domainUser, schoolingRegistrationId }) {
     const userToCreate = _adaptModelToDb(domainUser);
 
     const trx = await Bookshelf.knex.transaction();

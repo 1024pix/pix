@@ -8,7 +8,7 @@ const userRepository = require('../../../../lib/infrastructure/repositories/user
 const userValidator = require('../../../../lib/domain/validators/user-validator');
 const { AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError, CampaignCodeError, EntityValidationError, SchoolingRegistrationAlreadyLinkedToUserError, NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | create-and-associate-user-to-schooling-registration', () => {
+describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration', () => {
 
   let campaignCode;
   let findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUserStub;
@@ -40,7 +40,7 @@ describe('Unit | UseCase | create-and-associate-user-to-schooling-registration',
       getCampaignStub.withArgs(campaignCode).resolves(null);
 
       // when
-      const result = await catchErr(usecases.createAndAssociateUserToSchoolingRegistration)({
+      const result = await catchErr(usecases.createAndReconcileUserToSchoolingRegistration)({
         userAttributes,
         campaignCode
       });
@@ -57,7 +57,7 @@ describe('Unit | UseCase | create-and-associate-user-to-schooling-registration',
       findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUserStub.throws(new NotFoundError('Error message'));
 
       // when
-      const result = await catchErr(usecases.createAndAssociateUserToSchoolingRegistration)({
+      const result = await catchErr(usecases.createAndReconcileUserToSchoolingRegistration)({
         userAttributes,
         campaignCode,
       });
@@ -74,14 +74,14 @@ describe('Unit | UseCase | create-and-associate-user-to-schooling-registration',
 
     beforeEach(() => {
       createdUser = domainBuilder.buildUser({ studentId: schoolingRegistrationId });
-      sinon.stub(userRepository, 'createAndAssociateUserToSchoolingRegistration');
+      sinon.stub(userRepository, 'createAndReconcileUserToSchoolingRegistration');
       sinon.stub(userRepository, 'get');
       sinon.stub(userValidator, 'validate');
       sinon.stub(encryptionService, 'hashPassword');
 
       findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUserStub.resolves(schoolingRegistrationId);
       encryptionService.hashPassword.resolves(encryptedPassword);
-      userRepository.createAndAssociateUserToSchoolingRegistration.resolves(createdUser.id);
+      userRepository.createAndReconcileUserToSchoolingRegistration.resolves(createdUser.id);
       userRepository.get.withArgs(createdUser.id).resolves(createdUser);
       userValidator.validate.returns();
     });
@@ -116,7 +116,7 @@ describe('Unit | UseCase | create-and-associate-user-to-schooling-registration',
           userValidator.validate.throws(expectedValidationError);
 
           // when
-          const error = await catchErr(usecases.createAndAssociateUserToSchoolingRegistration)({
+          const error = await catchErr(usecases.createAndReconcileUserToSchoolingRegistration)({
             userAttributes,
             campaignCode,
           });
@@ -136,7 +136,7 @@ describe('Unit | UseCase | create-and-associate-user-to-schooling-registration',
 
         it('should throw EntityValidationError', async () => {
           // when
-          const error = await catchErr(usecases.createAndAssociateUserToSchoolingRegistration)({
+          const error = await catchErr(usecases.createAndReconcileUserToSchoolingRegistration)({
             userAttributes,
             campaignCode,
           });
@@ -150,7 +150,7 @@ describe('Unit | UseCase | create-and-associate-user-to-schooling-registration',
 
         it('should create user and associate schoolingRegistration', async () => {
           // when
-          const result = await usecases.createAndAssociateUserToSchoolingRegistration({
+          const result = await usecases.createAndReconcileUserToSchoolingRegistration({
             userAttributes,
             campaignCode,
           });
@@ -165,7 +165,7 @@ describe('Unit | UseCase | create-and-associate-user-to-schooling-registration',
           const expectedRedirectionUrl = `https://app.pix.fr/campagnes/${campaignCode}`;
 
           // when
-          await usecases.createAndAssociateUserToSchoolingRegistration({
+          await usecases.createAndReconcileUserToSchoolingRegistration({
             userAttributes,
             campaignCode,
             locale,
@@ -178,12 +178,12 @@ describe('Unit | UseCase | create-and-associate-user-to-schooling-registration',
         context('But association is already done', () => {
 
           beforeEach(() => {
-            userRepository.createAndAssociateUserToSchoolingRegistration.throws(new SchoolingRegistrationAlreadyLinkedToUserError('Error message'));
+            userRepository.createAndReconcileUserToSchoolingRegistration.throws(new SchoolingRegistrationAlreadyLinkedToUserError('Error message'));
           });
 
           it('should nor create nor associate schoolingRegistration', async () => {
             // when
-            const error = await catchErr(usecases.createAndAssociateUserToSchoolingRegistration)({
+            const error = await catchErr(usecases.createAndReconcileUserToSchoolingRegistration)({
               userAttributes,
               campaignCode,
             });
@@ -211,7 +211,7 @@ describe('Unit | UseCase | create-and-associate-user-to-schooling-registration',
 
         it('should throw EntityValidationError', async () => {
           // when
-          const error = await catchErr(usecases.createAndAssociateUserToSchoolingRegistration)({
+          const error = await catchErr(usecases.createAndReconcileUserToSchoolingRegistration)({
             userAttributes,
             campaignCode,
           });
@@ -229,7 +229,7 @@ describe('Unit | UseCase | create-and-associate-user-to-schooling-registration',
 
         it('should create user and associate schoolingRegistration', async () => {
           // when
-          const result = await usecases.createAndAssociateUserToSchoolingRegistration({
+          const result = await usecases.createAndReconcileUserToSchoolingRegistration({
             userAttributes,
             campaignCode,
           });
@@ -241,12 +241,12 @@ describe('Unit | UseCase | create-and-associate-user-to-schooling-registration',
         context('But association is already done', () => {
 
           beforeEach(() => {
-            userRepository.createAndAssociateUserToSchoolingRegistration.throws(new SchoolingRegistrationAlreadyLinkedToUserError('Error message'));
+            userRepository.createAndReconcileUserToSchoolingRegistration.throws(new SchoolingRegistrationAlreadyLinkedToUserError('Error message'));
           });
 
           it('should nor create nor associate schoolingRegistration', async () => {
             // when
-            const error = await catchErr(usecases.createAndAssociateUserToSchoolingRegistration)({
+            const error = await catchErr(usecases.createAndReconcileUserToSchoolingRegistration)({
               userAttributes,
               campaignCode,
             });

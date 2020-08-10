@@ -7,9 +7,9 @@ const schoolingRegistrationRepository = require('../../../../lib/infrastructure/
 
 const { CampaignCodeError, NotFoundError, SchoolingRegistrationAlreadyLinkedToUserError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | link-user-to-schooling-registration-data', () => {
+describe('Unit | UseCase | reconcile-user-to-schooling-registration-data', () => {
 
-  let associateUserAndSchoolingRegistrationStub;
+  let reconcileUserToSchoolingRegistrationStub;
   let campaignCode;
   let checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizationsStub;
   let findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUserStub;
@@ -34,6 +34,7 @@ describe('Unit | UseCase | link-user-to-schooling-registration-data', () => {
       .withArgs(campaignCode)
       .resolves({ organizationId });
 
+    reconcileUserToSchoolingRegistrationStub = sinon.stub(schoolingRegistrationRepository, 'reconcileUserToSchoolingRegistration');
     findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUserStub = sinon.stub(userReconciliationService,'findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser');
     checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizationsStub = sinon.stub(userReconciliationService,'checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations');
     associateUserAndSchoolingRegistrationStub = sinon.stub(schoolingRegistrationRepository, 'associateUserAndSchoolingRegistration');
@@ -46,8 +47,8 @@ describe('Unit | UseCase | link-user-to-schooling-registration-data', () => {
       getCampaignStub.withArgs(campaignCode).resolves(null);
 
       // when
-      const result = await catchErr(usecases.linkUserToSchoolingRegistrationData)({
-        user,
+      const result = await catchErr(usecases.reconcileUserToSchoolingRegistrationData)({
+        reconciliationInfo: user,
         campaignCode
       });
 
@@ -63,8 +64,8 @@ describe('Unit | UseCase | link-user-to-schooling-registration-data', () => {
       findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUserStub.throws(new NotFoundError('Error message'));
 
       // when
-      const result = await catchErr(usecases.linkUserToSchoolingRegistrationData)({
-        user,
+      const result = await catchErr(usecases.reconcileUserToSchoolingRegistrationData)({
+        reconciliationInfo: user,
         campaignCode,
       });
 
@@ -83,11 +84,11 @@ describe('Unit | UseCase | link-user-to-schooling-registration-data', () => {
       schoolingRegistration.lastName = user.lastName;
       findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUserStub.resolves(schoolingRegistration);
       checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizationsStub.resolves();
-      associateUserAndSchoolingRegistrationStub.withArgs({ userId: user.id, schoolingRegistrationId }).resolves(schoolingRegistration);
+      reconcileUserToSchoolingRegistrationStub.withArgs({ userId: user.id, schoolingRegistrationId }).resolves(schoolingRegistration);
 
       // when
-      const result = await usecases.linkUserToSchoolingRegistrationData({
-        user,
+      const result = await usecases.reconcileUserToSchoolingRegistrationData({
+        reconciliationInfo: user,
         campaignCode,
       });
 
@@ -108,8 +109,8 @@ describe('Unit | UseCase | link-user-to-schooling-registration-data', () => {
       findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUserStub.throws(new SchoolingRegistrationAlreadyLinkedToUserError(exceptedErrorMEssage));
 
       // when
-      const result = await catchErr(usecases.linkUserToSchoolingRegistrationData)({
-        user,
+      const result = await catchErr(usecases.reconcileUserToSchoolingRegistrationData)({
+        reconciliationInfo: user,
         campaignCode,
       });
 
@@ -132,8 +133,8 @@ describe('Unit | UseCase | link-user-to-schooling-registration-data', () => {
       associateUserAndSchoolingRegistrationStub.withArgs({ userId: user.id, schoolingRegistrationId }).resolves(schoolingRegistration);
 
       // when
-      const result = await catchErr(usecases.linkUserToSchoolingRegistrationData)({
-        user,
+      const result = await catchErr(usecases.reconcileUserToSchoolingRegistrationData)({
+        reconciliationInfo: user,
         campaignCode,
       });
 

@@ -7,7 +7,7 @@ const { CampaignCodeError, UserCouldNotBeReconciledError } = require('../../../.
 
 describe('Unit | UseCase | reconcile-user-to-organization', () => {
 
-  let associateByNationalStudentIdAndOrganizationIdStub;
+  let reconcileUserByNationalStudentIdAndOrganizationIdStub;
   let campaignCode;
   let findByUserIdStub;
   let getCampaignStub;
@@ -26,7 +26,7 @@ describe('Unit | UseCase | reconcile-user-to-organization', () => {
       .withArgs(campaignCode)
       .resolves({ organizationId });
 
-    associateByNationalStudentIdAndOrganizationIdStub = sinon.stub(schoolingRegistrationRepository, 'associateUserByNationalStudentIdAndOrganizationId');
+    reconcileUserByNationalStudentIdAndOrganizationIdStub = sinon.stub(schoolingRegistrationRepository, 'reconcileUserByNationalStudentIdAndOrganizationId');
     findByUserIdStub = sinon.stub(schoolingRegistrationRepository,'findByUserId');
   });
 
@@ -70,7 +70,7 @@ describe('Unit | UseCase | reconcile-user-to-organization', () => {
     it('should throw a UserCouldNotBeReconcile error', async () => {
       // given
       findByUserIdStub.resolves([schoolingRegistration]);
-      associateByNationalStudentIdAndOrganizationIdStub.throws(new UserCouldNotBeReconciledError());
+      reconcileUserByNationalStudentIdAndOrganizationIdStub.throws(new UserCouldNotBeReconciledError());
 
       // when
       const result = await catchErr(usecases.reconcileUserToOrganization)({
@@ -89,7 +89,7 @@ describe('Unit | UseCase | reconcile-user-to-organization', () => {
     it('should throw a UserCouldNotBeReconcile error', async () => {
       // given
       findByUserIdStub.resolves([schoolingRegistration]);
-      associateByNationalStudentIdAndOrganizationIdStub.throws(new UserCouldNotBeReconciledError());
+      reconcileUserByNationalStudentIdAndOrganizationIdStub.throws(new UserCouldNotBeReconciledError());
 
       // when
       const result = await catchErr(usecases.reconcileUserToOrganization)({
@@ -110,7 +110,7 @@ describe('Unit | UseCase | reconcile-user-to-organization', () => {
       const schoolingRegistrationInOtherOrganization = domainBuilder.buildSchoolingRegistration({ userId, updatedAt: '2020-07-10' });
       const mostRecentSchoolinRegistrationInOtherOrganization = domainBuilder.buildSchoolingRegistration({ userId, nationalStudentId, updatedAt: '2020-07-20' });
       findByUserIdStub.resolves([schoolingRegistrationInOtherOrganization, mostRecentSchoolinRegistrationInOtherOrganization]);
-      associateByNationalStudentIdAndOrganizationIdStub.withArgs({
+      reconcileUserByNationalStudentIdAndOrganizationIdStub.withArgs({
         userId,
         nationalStudentId,
         organizationId,

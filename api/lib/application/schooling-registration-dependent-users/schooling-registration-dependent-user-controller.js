@@ -5,7 +5,7 @@ const { extractLocaleFromRequest } = require('../../infrastructure/utils/request
 
 module.exports = {
 
-  async createAndAssociateUserToSchoolingRegistration(request, h) {
+  async createAndReconcileUserToSchoolingRegistration(request, h) {
     const payload = request.payload.data.attributes;
     const userAttributes = {
       firstName: payload['first-name'],
@@ -18,7 +18,7 @@ module.exports = {
     };
     const locale = extractLocaleFromRequest(request);
 
-    const createdUser = await usecases.createAndAssociateUserToSchoolingRegistration({ userAttributes, campaignCode: payload['campaign-code'], locale });
+    const createdUser = await usecases.createAndReconcileUserToSchoolingRegistration({ userAttributes, campaignCode: payload['campaign-code'], locale });
 
     return h.response(userSerializer.serialize(createdUser)).created();
   },

@@ -13,7 +13,7 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    sandbox.stub(usecases, 'createAndAssociateUserToSchoolingRegistration').rejects(new Error('not expected error'));
+    sandbox.stub(usecases, 'createAndReconcileUserToSchoolingRegistration').rejects(new Error('not expected error'));
     sandbox.stub(usecases, 'updateSchoolingRegistrationDependentUserPassword').rejects(new Error('not expected error'));
     sandbox.stub(usecases, 'generateUsernameWithTemporaryPassword').resolves();
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents');
@@ -24,7 +24,7 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
     sandbox.restore();
   });
 
-  describe('#createAndAssociateUserToSchoolingRegistration', () => {
+  describe('#createAndReconcileUserToSchoolingRegistration', () => {
 
     const payload = { data: { attributes: {} } };
 
@@ -50,7 +50,7 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
           // given
           payload.data.attributes.email = 'toto@example.net';
           payload.data.attributes['with-username'] = false;
-          usecases.createAndAssociateUserToSchoolingRegistration.resolves(createdUser);
+          usecases.createAndReconcileUserToSchoolingRegistration.resolves(createdUser);
 
           // when
           const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users', payload);
@@ -67,7 +67,7 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
           // given
           payload.data.attributes.username = 'robert.smith1212';
           payload.data.attributes['with-username'] = true;
-          usecases.createAndAssociateUserToSchoolingRegistration.resolves(createdUser);
+          usecases.createAndReconcileUserToSchoolingRegistration.resolves(createdUser);
 
           // when
           const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users', payload);
@@ -86,7 +86,7 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
 
         it('should resolve a 404 HTTP response', async () => {
           // given
-          usecases.createAndAssociateUserToSchoolingRegistration.rejects(new NotFoundError());
+          usecases.createAndReconcileUserToSchoolingRegistration.rejects(new NotFoundError());
 
           // when
           const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users', payload);
