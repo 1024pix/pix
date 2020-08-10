@@ -74,6 +74,9 @@
       <div class="skill-review__reached-stage">
         {{this.model.campaignParticipation.campaignParticipationResult.reachedStage.title}}
       </div>
+      <div class="skill-review__stage-count">
+        {{t 'pages.skill-review.stages' reachedStage=this.model.campaignParticipation.campaignParticipationResult.reachedStage.starCount stageCount=this.model.campaignParticipation.campaignParticipationResult.stageCount}}
+      </div>
     {{/if}}
 
     {{#if this.showBadges}}
