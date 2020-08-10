@@ -50,12 +50,10 @@ export default class ChallengeItemGeneric extends Component {
   }
 
   _getTimeout() {
-    const timeoutJauge = document.querySelector('timeout-jauge-remaining');
-    return timeoutJauge && timeoutJauge.attr('data-spent');
-  }
-
-  _getElapsedTime() {
-    return this._elapsedTime;
+    if (!this.isTimedChallenge) {
+      return null;
+    }
+    return this.args.challenge.timer - this._elapsedTime;
   }
 
   _start() {
@@ -89,7 +87,7 @@ export default class ChallengeItemGeneric extends Component {
       this.hasUserConfirmedWarning = false;
       this.isValidateButtonEnabled = false;
 
-      return this.args.answerValidated(this.args.challenge, this.args.assessment, this._getAnswerValue(), this._getTimeout(), this._getElapsedTime())
+      return this.args.answerValidated(this.args.challenge, this.args.assessment, this._getAnswerValue(), this._getTimeout(), this._elapsedTime)
         .finally(() => this.isValidateButtonEnabled = true);
     }
   }
@@ -106,7 +104,7 @@ export default class ChallengeItemGeneric extends Component {
       this.hasUserConfirmedWarning = false;
       this.isSkipButtonEnabled = false;
 
-      return this.args.answerValidated(this.args.challenge, this.args.assessment, '#ABAND#', this._getTimeout(), this._getElapsedTime())
+      return this.args.answerValidated(this.args.challenge, this.args.assessment, '#ABAND#', this._getTimeout(), this._elapsedTime)
         .finally(() => this.isSkipButtonEnabled = true);
     }
   }
