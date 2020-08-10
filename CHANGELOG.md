@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## v2.182.0 (10/08/2020)
+
+- [#1759](https://github.com/1024pix/pix/pull/1759) [FEATURE] Afficher le nombre de paliers atteints et le nombre de paliers maximum (PIX-1049).
+- [#1727](https://github.com/1024pix/pix/pull/1727) [FEATURE] Empêcher un élève de se réconcilier qu'il ait un compte utilisateur au sein du même établissement ou ailleurs (PIX-983).
+- [#1747](https://github.com/1024pix/pix/pull/1747) [FEATURE] Traduire la compétence dans l'évaluation (PIX-1075).
+- [#1738](https://github.com/1024pix/pix/pull/1738) [FEATURE] Rendre plus explicite le message d'erreur lors d'un échec de réconciliation dans la double mire (PIX-956).
+- [#1745](https://github.com/1024pix/pix/pull/1745) [FEATURE] Traduction des indices sur la page correction (PIX-795).
+- [#1744](https://github.com/1024pix/pix/pull/1744) [FEATURE] Traduction des informations de l'application (PIX-1098).
+- [#1737](https://github.com/1024pix/pix/pull/1737) [FEATURE] Filtrer les épreuves dans la langues sélectionnée (PIX-793)
+- [#1728](https://github.com/1024pix/pix/pull/1728) [FEATURE] Traduction restantes des pages de certifications (Pix-1047)
+- [#1758](https://github.com/1024pix/pix/pull/1758) [BUGFIX] Supprimer les données lors de la déconnexion de Pix Certif (PIX-993).
+- [#1753](https://github.com/1024pix/pix/pull/1753) [BUGFIX] Supprimer les données lors de la déconnexion de Pix Admin (PIX-994).
+- [#1757](https://github.com/1024pix/pix/pull/1757) [BUGFIX] Correction de l'affichage du texte de réinitialisation des embed (PIX-1094)
+- [#1756](https://github.com/1024pix/pix/pull/1756) [BUGFIX] Le script de Mimigration des snapshots KE essayait de générer des snapshots sur des participations ayant déjà un snapshot (PIX-1105)
+- [#1755](https://github.com/1024pix/pix/pull/1755) [TECH] Supprimer le fichier lodash-custom (PIX-1099)
+- [#1743](https://github.com/1024pix/pix/pull/1743) [TECH] Glimmerisation des épreuves (PIX-1021).
+- [#1741](https://github.com/1024pix/pix/pull/1741) [TECH] Renommage du model student-dependent-users en schooling-registration-dependent-users.
+- [#1760](https://github.com/1024pix/pix/pull/1760) [TECH] Ajout d'une règle de linter pour éviter d'importer Lodash complétement.
+- [#1746](https://github.com/1024pix/pix/pull/1746) [TECH] Ne pas voir apparaître un log dans la console lors du lancement d'un test d'intégration.
+
 ## v2.181.0 (06/08/2020)
 
 - [#1715](https://github.com/1024pix/pix/pull/1715) [FEATURE] Traduction de la page Epreuve (PIX-1046).
