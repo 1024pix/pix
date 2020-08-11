@@ -163,7 +163,7 @@ describe('Unit | UseCase | find-tutorials', () => {
             }),
           ];
 
-          tubeRepository.findByNames.withArgs(tubeNames).returns(tubeList);
+          tubeRepository.findByNames.withArgs({ tubeNames, locale }).returns(tubeList);
         });
 
         it('should return the tutorials related to the scorecard', async () => {
