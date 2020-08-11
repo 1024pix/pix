@@ -632,7 +632,11 @@
       "not-finished": "You cannot send your results yet, we still have a few questions for you.",
       "send-results": "Send your results to the course organizer so that he can accompany you.",
       "stage": {
-        "masteryPercentage": "{percentage} % success"
+        "masteryPercentage": "{percentage} % success",
+        "alt": {
+          "acquiredStar": "Stage #{index} reached",
+          "unacquiredStar": "Stage #{index} not reached"
+        }
       },
       "try-again": {
         "title": "Want to improve your results?",
