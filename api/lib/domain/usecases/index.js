@@ -41,6 +41,7 @@ const dependencies = {
   knowledgeElementRepository: require('../../infrastructure/repositories/knowledge-element-repository'),
   mailService: require('../../domain/services/mail-service'),
   membershipRepository: require('../../infrastructure/repositories/membership-repository'),
+  obfuscationService: require('../../domain/services/obfuscation-service'),
   organizationService: require('../../domain/services/organization-service'),
   organizationRepository: require('../../infrastructure/repositories/organization-repository'),
   organizationInvitationRepository: require('../../infrastructure/repositories/organization-invitation-repository'),

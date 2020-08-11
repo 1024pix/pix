@@ -1,12 +1,15 @@
 const { CampaignCodeError } = require('../errors');
+const Organization = require('../models/Organization');
 
 module.exports = async function reconcileUserToSchoolingRegistrationData({
   campaignCode,
   reconciliationInfo,
   campaignRepository,
+  organizationRepository,
   schoolingRegistrationRepository,
   studentRepository,
   userRepository,
+  obfuscationService,
   userReconciliationService,
 }) {
   const campaign = await campaignRepository.getByCode(campaignCode);
@@ -19,12 +22,14 @@ module.exports = async function reconcileUserToSchoolingRegistrationData({
     reconciliationInfo,
     schoolingRegistrationRepository,
     studentRepository,
-    userRepository
+    userRepository,
+    obfuscationService,
   });
+  const organization = await organizationRepository.get(campaign.organizationId);
+  if (organization.type === Organization.types.SCO) {
+    const student = await studentRepository.getReconciledStudentByNationalStudentId(matchedSchoolingRegistration.nationalStudentId);
+    await userReconciliationService.checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(student, userRepository, obfuscationService);
+  }
 
-  const student = await studentRepository.getReconciledStudentByNationalStudentId(matchedSchoolingRegistration.nationalStudentId);
-
-  await userReconciliationService.checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(student, userRepository);
-
-  return schoolingRegistrationRepository.reconcileUserToSchoolingRegistration({ userId: user.id, schoolingRegistrationId: matchedSchoolingRegistration.id });
+  return schoolingRegistrationRepository.reconcileUserToSchoolingRegistration({ userId: reconciliationInfo.id, schoolingRegistrationId: matchedSchoolingRegistration.id });
 };

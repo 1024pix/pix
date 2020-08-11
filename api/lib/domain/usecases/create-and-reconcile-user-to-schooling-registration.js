@@ -84,6 +84,7 @@ module.exports = async function createAndReconcileUserToSchoolingRegistration({
   userRepository,
   encryptionService,
   mailService,
+  obfuscationService,
   userReconciliationService,
 }) {
   const campaign = await campaignRepository.getByCode(campaignCode);
@@ -91,7 +92,7 @@ module.exports = async function createAndReconcileUserToSchoolingRegistration({
     throw new CampaignCodeError();
   }
 
-  const matchedSchoolingRegistration = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId: campaign.organizationId, reconciliationInfo: userAttributes, schoolingRegistrationRepository });
+  const matchedSchoolingRegistration = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId: campaign.organizationId, reconciliationInfo: userAttributes, schoolingRegistrationRepository, userRepository, obfuscationService });
 
   const isUsernameMode = userAttributes.withUsername;
   const cleanedUserAttributes = _emptyOtherMode(isUsernameMode, userAttributes);
