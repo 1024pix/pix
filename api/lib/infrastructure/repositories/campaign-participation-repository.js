@@ -6,7 +6,7 @@ const User = require('../../domain/models/User');
 const { NotFoundError } = require('../../domain/errors');
 const queryBuilder = require('../utils/query-builder');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const Bookshelf = require('../bookshelf');
+const { knex } = require('../bookshelf');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot-repository');
 
@@ -49,7 +49,7 @@ module.exports = {
   },
 
   async findAssessmentResultDataByCampaignId(campaignId) {
-    const results = await Bookshelf.knex.with('campaignParticipationWithUserAndRankedAssessment',
+    const results = await knex.with('campaignParticipationWithUserAndRankedAssessment',
       (qb) => {
         qb.select([
           'campaign-participations.*',
@@ -70,15 +70,23 @@ module.exports = {
   },
 
   async findProfilesCollectionResultDataByCampaignId(campaignId) {
-    const results = await Bookshelf.knex.with('campaignParticipationWithUser',
+    const results = await knex.with('campaignParticipationWithUser',
       (qb) => {
         qb.select([
           'campaign-participations.*',
           'users.firstName',
           'users.lastName',
+          knex.raw('COALESCE ("schooling-registrations"."firstName", "users"."firstName") AS "firstName"'),
+          knex.raw('COALESCE ("schooling-registrations"."lastName", "users"."lastName") AS "lastName"'),
+
         ])
           .from('campaign-participations')
           .leftJoin('users', 'campaign-participations.userId', 'users.id')
+          .leftJoin('schooling-registrations', 'campaign-participations.userId', 'schooling-registrations.userId')
+          .leftJoin('campaigns', function() {
+            this.on({ 'campaign-participations.campaignId': 'campaigns.id' })
+              .andOn({ 'campaigns.organizationId': 'schooling-registrations.organizationId' });
+          })
           .where({ campaignId });
       })
       .from('campaignParticipationWithUser');
@@ -236,7 +244,7 @@ function _getLastAssessmentIdForCampaignParticipation(bookshelfCampaignParticipa
 }
 
 function _assessmentRankByCreationDate() {
-  return Bookshelf.knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS rank', ['assessments.campaignParticipationId', 'assessments.createdAt']);
+  return knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS rank', ['assessments.campaignParticipationId', 'assessments.createdAt']);
 }
 
 function _rowToResult(row) {

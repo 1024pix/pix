@@ -362,7 +362,7 @@ describe('Integration | Repository | Campaign Participation', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return the campaign-participation links to the given campaign', async () => {
+    it('should return the campaign-participation linked to the given campaign', async () => {
       // given
       const campaignId = campaign1.id;
 
@@ -371,7 +371,7 @@ describe('Integration | Repository | Campaign Participation', () => {
 
       // then
       const attributes = participationResultDatas.map((participationResultData) =>
-        _.pick(participationResultData, ['id', 'isShared', 'sharedAt', 'participantExternalId', 'userId', 'participantFirstName', 'participantLastName']));
+        _.pick(participationResultData, ['id', 'isShared', 'sharedAt', 'participantExternalId', 'userId']));
       expect(attributes).to.deep.equal([
         {
           id: campaignParticipation1.id,
@@ -379,10 +379,49 @@ describe('Integration | Repository | Campaign Participation', () => {
           sharedAt: campaignParticipation1.sharedAt,
           participantExternalId: campaignParticipation1.participantExternalId,
           userId: campaignParticipation1.userId,
-          participantFirstName: 'First',
-          participantLastName: 'Last',
         }
       ]);
+    });
+
+    context('when the participant is not linked to a schooling registration', () => {
+      it('should return the campaign participation with firstName and lastName from the user', async () => {
+        // given
+        const campaignId = campaign1.id;
+
+        // when
+        const participationResultDatas = await campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId(campaignId);
+
+        // then
+        const attributes = participationResultDatas.map((participationResultData) =>
+          _.pick(participationResultData, ['participantFirstName', 'participantLastName']));
+        expect(attributes).to.deep.equal([{
+          participantFirstName: 'First',
+          participantLastName: 'Last',
+        }]);
+      });
+    });
+
+    context('when the participant is linked to a schooling registration', () => {
+      beforeEach(async () => {
+        databaseBuilder.factory.buildSchoolingRegistration({ firstName: 'Hubert', lastName: 'Parterre', userId, organizationId: campaign1.organizationId });
+        await databaseBuilder.commit();
+      });
+
+      it('should return the campaign participation with firstName and lastName from the schooling registration', async () => {
+        // given
+        const campaignId = campaign1.id;
+
+        // when
+        const participationResultDatas = await campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId(campaignId);
+
+        // then
+        const attributes = participationResultDatas.map((participationResultData) =>
+          _.pick(participationResultData, ['participantFirstName', 'participantLastName']));
+        expect(attributes).to.deep.equal([{
+          participantFirstName: 'Hubert',
+          participantLastName: 'Parterre',
+        }]);
+      });
     });
 
     context('When sharedAt is null', () => {
