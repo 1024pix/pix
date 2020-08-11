@@ -40,7 +40,7 @@
     "dezalgo": "^1.0.3",
     "dotenv": "^8.2.0",
     "faker": "^4.1.0",
-    "fast-levenshtein": "^2.0.6",
+    "fast-levenshtein": "^3.0.0",
     "good": "^8.1.2",
     "good-console": "^8.0.0",
     "good-squeeze": "^5.1.0",
