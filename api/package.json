@@ -45,7 +45,7 @@
     "good-console": "^8.0.0",
     "good-squeeze": "^5.1.0",
     "hapi-sentry": "^3.0.0",
-    "hapi-swagger": "^13.0.1",
+    "hapi-swagger": "^13.1.0",
     "hash-int": "^1.0.0",
     "heap-profile": "^0.4.0",
     "heapdump": "^0.3.15",
