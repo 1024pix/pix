@@ -21,7 +21,7 @@
   "homepage": "https://github.com/1024pix/pix#readme",
   "dependencies": {
     "@hapi/accept": "^5.0.1",
-    "@hapi/hapi": "^19.1.1",
+    "@hapi/hapi": "^19.2.0",
     "@hapi/inert": "^6.0.2",
     "@hapi/joi": "^17.1.1",
     "@hapi/joi-date": "^2.0.1",
