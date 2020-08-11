@@ -1,7 +1,6 @@
 import { action } from '@ember/object';
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
-import times from 'lodash/times';
 
 export default class SkillReviewController extends Controller {
   @tracked displayLoadingButton = false;
@@ -26,16 +25,8 @@ export default class SkillReviewController extends Controller {
     return this.model.campaignParticipation.campaignParticipationResult.get('reachedStage');
   }
 
-  get _stageCount() {
+  get stageCount() {
     return this.model.campaignParticipation.campaignParticipationResult.get('stageCount');
-  }
-
-  get plainStars() {
-    return times(this.reachedStage.get('starCount'), String);
-  }
-
-  get clearStars() {
-    return times(this._stageCount - this.plainStars.length, String);
   }
 
   @action

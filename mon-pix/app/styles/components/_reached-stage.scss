@@ -1,0 +1,49 @@
+.reached-stage {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 48px;
+
+  @include device-is('tablet') {
+    flex-direction: row;
+  }
+
+  &__left-container {
+    background: $white;
+    border: 1px solid rgb(231, 231, 231);
+    border-radius: 16px;
+    padding: 43px 26px;
+  }
+
+  &__percentage-text {
+    font-family: $font-roboto;
+    font-size: 0.875rem;
+    font-weight: $font-medium;
+    color: $grey-40;
+    text-align: center;
+  }
+
+  &__stars img {
+    margin: 4px;
+    padding-bottom: 16px;
+  }
+
+  &__right-container {
+    padding-left: 40px;
+  }
+
+  &__title {
+    font-family: $font-open-sans;
+    font-size: 1.875rem;
+    font-weight: $font-bold;
+    color: $grey-100;
+    padding-bottom: 10px;
+  }
+
+  &__message {
+    font-family: $font-open-sans;
+    font-size: 1.125rem;
+    font-weight: $font-normal;
+    color: $grey-45;
+  }
+}
+

@@ -632,7 +632,11 @@
       "not-finished": "Vous ne pouvez pas encore envoyer vos résultats, nous avons encore quelques questions à vous poser.",
       "send-results": "Envoyez vos résultats à l'organisateur du parcours pour qu'il puisse vous accompagner.",
       "stage": {
-        "masteryPercentage": "{percentage} % de réussite"
+        "masteryPercentage": "{percentage} % de réussite",
+        "alt": {
+          "acquiredStar": "Palier n°{index} atteint",
+          "unacquiredStar": "Palier n°{index} non atteint"
+        }
       },
       "try-again": {
         "title": "Envie d'améliorer vos résultats ?",
