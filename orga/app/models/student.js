@@ -38,11 +38,17 @@ export default class Student extends Model {
 
   @computed('hasUsername', 'hasEmail', 'isAuthenticatedFromGar')
   get isStudentAssociated() {
-    return Boolean(this.email || this.username || this.isAuthenticatedFromGar);
+    return Boolean(this.hasEmail || this.hasUsername || this.isAuthenticatedFromGar);
   }
 
   @computed('hasUsername', 'hasEmail', 'isAuthenticatedFromGar')
-  get isAuthenticatedFromGarOnly() {
-    return Boolean(!this.email && !this.username && this.isAuthenticatedFromGar);
+  get isAuthenticatedWithGarOnly() {
+    return Boolean(!this.hasEmail && !this.hasUsername && this.isAuthenticatedFromGar);
   }
+
+  @computed('hasUsername', 'hasEmail', 'isAuthenticatedFromGar')
+  get isAuthenticatedWithEmailOrUsernameOnly() {
+    return Boolean((this.hasEmail || this.hasUsername) && !this.isAuthenticatedFromGar);
+  }
+
 }

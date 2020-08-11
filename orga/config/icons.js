@@ -13,6 +13,7 @@ module.exports = function() {
       'eye-slash',
       'exclamation-triangle',
       'hourglass-half',
+      'link',
       'power-off',
       'search',
       'share-square',
@@ -20,6 +21,7 @@ module.exports = function() {
       'times',
     ],
     'free-regular-svg-icons': [
+      'check-circle',
       'copy',
     ],
   };

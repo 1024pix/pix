@@ -4,7 +4,7 @@ when(`je veux gérer le compte d'un élève`, () => {
 });
 
 then(`je vois la modale de gestion du compte de l'élève`, () => {
-  cy.contains('Gestion du compte de l\'élève');
+  cy.contains('Gestion du compte Pix de l\'élève');
 });
 
 then('je vois le mot de passe généré', () => {

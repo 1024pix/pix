@@ -257,9 +257,16 @@ export default function() {
   this.get('/campaign-participation-results/:id');
 
   this.post('/schooling-registration-dependent-users/password-update', (schema) => {
-    const schoolingRegistrationDependentUser = schema.schoolingRegistrationDependentUsers.create();
-    schoolingRegistrationDependentUser.generatedPassword = 'Passw0rd';
-    return schoolingRegistrationDependentUser;
+    return schema.schoolingRegistrationDependentUsers.create({
+      generatedPassword: 'Passw0rd'
+    });
+  });
+
+  this.post('/schooling-registration-dependent-users/generate-username-password', (schema) => {
+    return schema.schoolingRegistrationDependentUsers.create({
+      username: 'user.gar3112',
+      generatedPassword: 'Passw0rd'
+    });
   });
 
   this.post('/user-orga-settings', (schema, request) => {
