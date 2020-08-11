@@ -631,7 +631,9 @@
       "information": "Si vous avez déjà effectué des parcours sur Pix, les questions auxquelles vous aviez répondu ne vous ont pas été posées de nouveau. En revanche, le résultat affiché ici tient compte de l’ensemble de vos réponses.",
       "not-finished": "Vous ne pouvez pas encore envoyer vos résultats, nous avons encore quelques questions à vous poser.",
       "send-results": "Envoyez vos résultats à l'organisateur du parcours pour qu'il puisse vous accompagner.",
-      "stages": "Vous avez atteint le palier {reachedStage} sur un total de {stageCount}.",
+      "stage": {
+        "masteryPercentage": "{percentage} % de réussite"
+      },
       "try-again": {
         "title": "Envie d'améliorer vos résultats ?",
         "description": "Vous pouvez retenter certaines questions"
