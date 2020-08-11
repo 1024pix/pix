@@ -8,6 +8,7 @@ const userRepository = require('../../../../lib/infrastructure/repositories/user
 
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const mailService = require('../../../../lib/domain/services/mail-service');
+const obfuscationService = require('../../../../lib/domain/services/obfuscation-service');
 const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
 
 const {
@@ -92,7 +93,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
         const error = await catchErr(createAndReconcileUserToSchoolingRegistration)({
           campaignCode, userAttributes,
           campaignRepository, schoolingRegistrationRepository, userRepository,
-          userReconciliationService, encryptionService, mailService
+          userReconciliationService, encryptionService, mailService, obfuscationService,
         });
 
         // then

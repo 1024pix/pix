@@ -27,7 +27,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
       };
 
       user = databaseBuilder.factory.buildUser();
-      organization = databaseBuilder.factory.buildOrganization();
+      organization = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
       schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null, studentNumber: '123A' });
       campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
 
@@ -317,7 +317,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
 
           // then
           expect(response.statusCode).to.equal(404);
-          expect(response.result.errors[0].detail).to.equal('There were no schoolingRegistrations matching with organization and birthdate');
+          expect(response.result.errors[0].detail).to.equal('There are no schooling registrations found');
         });
       });
 

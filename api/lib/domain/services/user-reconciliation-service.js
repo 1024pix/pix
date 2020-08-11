@@ -6,7 +6,6 @@ const {
   NotFoundError, SchoolingRegistrationAlreadyLinkedToUserError, AlreadyRegisteredUsernameError
 } = require('../errors');
 const { areTwoStringsCloseEnough, isOneStringCloseEnoughFromMultipleStrings } = require('./string-comparison-service');
-const { getUserAuthenticationMethodWithObfuscation } = require('./obfuscation-service');
 const { normalizeAndRemoveAccents, removeSpecialCharacters } = require('./validation-treatments');
 
 const MAX_ACCEPTABLE_RATIO = 0.25;
@@ -41,7 +40,8 @@ async function findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser(
   organizationId,
   reconciliationInfo: { firstName, lastName, birthdate, studentNumber },
   schoolingRegistrationRepository,
-  userRepository
+  userRepository,
+  obfuscationService,
 }) {
   const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdAndUserData({
     organizationId,
@@ -64,16 +64,16 @@ async function findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser(
     schoolingRegistration = _.find(schoolingRegistrations, { 'id': schoolingRegistrationId });
   }
 
-  await checkIfStudentIsAlreadyReconciledOnTheSameOrganization(schoolingRegistration, userRepository);
+  await checkIfStudentIsAlreadyReconciledOnTheSameOrganization(schoolingRegistration, userRepository, obfuscationService);
 
   return schoolingRegistration;
 }
 
-async function checkIfStudentIsAlreadyReconciledOnTheSameOrganization(matchingSchoolingRegistration, userRepository) {
+async function checkIfStudentIsAlreadyReconciledOnTheSameOrganization(matchingSchoolingRegistration, userRepository, obfuscationService) {
   if (!_.isNil(matchingSchoolingRegistration.userId))  {
     const userId = matchingSchoolingRegistration.userId ;
     const user = await userRepository.getUserAuthenticationMethods(userId);
-    const authentificationMethod = getUserAuthenticationMethodWithObfuscation(user);
+    const authentificationMethod = obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
 
     const detail = 'Un compte existe déjà pour l‘élève dans le même établissement.';
     const error = STUDENT_RECONCILIATION_ERRORS.IN_SAME_ORGANIZATION[authentificationMethod.authenticatedBy];
@@ -82,11 +82,11 @@ async function checkIfStudentIsAlreadyReconciledOnTheSameOrganization(matchingSc
   }
 }
 
-async function checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(student, userRepository) {
+async function checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(student, userRepository, obfuscationService) {
   if (_.get(student, 'account')) {
     const userId = student.account.userId;
     const user = await userRepository.getUserAuthenticationMethods(userId);
-    const authentificationMethod = getUserAuthenticationMethodWithObfuscation(user);
+    const authentificationMethod = obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
 
     const detail = 'Un compte existe déjà pour l‘élève dans un autre établissement.';
     const error = STUDENT_RECONCILIATION_ERRORS.IN_OTHER_ORGANIZATION[authentificationMethod.authenticatedBy];

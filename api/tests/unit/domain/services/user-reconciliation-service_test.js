@@ -273,10 +273,12 @@ describe('Unit | Service | user-reconciliation-service', () => {
     let user;
     let organizationId;
     let schoolingRegistrationRepositoryStub;
+    let userRepositoryStub;
+    let obfuscationServiceStub;
 
     beforeEach(() => {
       organizationId = domainBuilder.buildOrganization().id;
-      schoolingRegistrationRepositoryStub = { 
+      schoolingRegistrationRepositoryStub = {
         findByOrganizationIdAndUserData: sinon.stub(),
       };
     });
@@ -318,6 +320,12 @@ describe('Unit | Service | user-reconciliation-service', () => {
         context('When schoolingRegistration is already linked', () => {
           beforeEach(() => {
             schoolingRegistrations[0].userId = '123';
+            userRepositoryStub = {
+              getUserAuthenticationMethods: sinon.stub().resolves(),
+            };
+            obfuscationServiceStub = {
+              getUserAuthenticationMethodWithObfuscation: sinon.stub().returns({ authenticatedBy: 'email' }),
+            };
           });
 
           it('should throw OrganizationStudentAlreadyLinkedToUserError', async () => {
@@ -325,7 +333,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
             schoolingRegistrationRepositoryStub.findByOrganizationIdAndUserData.resolves(schoolingRegistrations);
 
             // when
-            const result = await catchErr(userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+            const result = await catchErr(userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub, userRepository: userRepositoryStub, obfuscationService: obfuscationServiceStub });
 
             // then
             expect(result).to.be.instanceOf(SchoolingRegistrationAlreadyLinkedToUserError);
@@ -357,7 +365,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
         const result = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
         // then
-        expect(result).to.equal(schoolingRegistrations[0].id);
+        expect(result).to.equal(schoolingRegistrations[0]);
       });
 
       it('should return an error when no schooling registration found for the given student number', async () => {
@@ -378,13 +386,19 @@ describe('Unit | Service | user-reconciliation-service', () => {
       it('should return an error when the schooling registration was already associated with another user', async () => {
         // given
         schoolingRegistrations[0].userId = '123';
+        userRepositoryStub = {
+          getUserAuthenticationMethods: sinon.stub().resolves(),
+        };
+        obfuscationServiceStub = {
+          getUserAuthenticationMethodWithObfuscation: sinon.stub().returns({ authenticatedBy: 'email' }),
+        };
         schoolingRegistrationRepositoryStub.findByOrganizationIdAndUserData.resolves([schoolingRegistrations[0]]);
         user = {
           studentNumber: '123A',
         };
 
         // when
-        const result = await catchErr(userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+        const result = await catchErr(userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub, userRepository: userRepositoryStub, obfuscationService: obfuscationServiceStub });
 
         // then
         expect(result).to.be.instanceOf(SchoolingRegistrationAlreadyLinkedToUserError);
