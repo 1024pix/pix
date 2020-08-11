@@ -6,6 +6,7 @@ import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | routes/authenticated/sco-students | list-items', function(hooks) {
+
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function() {
@@ -52,8 +53,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
 
   test('it should display the firstName, lastName and birthdate of student', async function(assert) {
     // given
-    const students = [{ lastName: 'La Terreur', firstName: 'Gigi', birthdate: new Date('2010-02-01') },];
-
+    const students = [{ lastName: 'La Terreur', firstName: 'Gigi', birthdate: new Date('2010-02-01') }];
     this.set('students', students);
 
     // when
@@ -66,14 +66,16 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
   });
 
   module('when user is filtering some users', function() {
+
     test('it should trigger filtering with lastname', async function(assert) {
+      // given
       const triggerFiltering = sinon.spy();
       this.set('triggerFiltering', triggerFiltering);
       this.set('students', []);
 
-      // when
       await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}}/>`);
 
+      // when
       await fillIn('[placeholder="Rechercher par nom"]', 'bob');
 
       // then
@@ -84,13 +86,14 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
     });
 
     test('it should trigger filtering with firstname', async function(assert) {
+      // given
       const triggerFiltering = sinon.spy();
       this.set('triggerFiltering', triggerFiltering);
       this.set('students', []);
 
-      // when
       await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}}/>`);
 
+      // when
       await fillIn('[placeholder="Rechercher par prénom"]', 'bob');
 
       // then
@@ -101,14 +104,15 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
     });
 
     test('it should trigger filtering with connexionType', async function(assert) {
+      // given
       const triggerFiltering = sinon.spy();
       this.set('triggerFiltering', triggerFiltering);
       this.set('students', []);
       this.set('connexionTypesOptions', [{ value: 'email', label: 'email' }]);
 
-      // when
       await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}} @connexionTypesOptions={{connexionTypesOptions}} />`);
 
+      // when
       await fillIn('select', 'email');
 
       // then
@@ -120,6 +124,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
   });
 
   module('when user is not reconciled', function({ beforeEach }) {
+
     beforeEach(function() {
       const store = this.owner.lookup('service:store');
       this.set('students', [
@@ -144,6 +149,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
   });
 
   module('when user authentification method is username', function({ beforeEach }) {
+
     beforeEach(function() {
       const store = this.owner.lookup('service:store');
       this.set('students', [
@@ -168,6 +174,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
   });
 
   module('when user authentification method is email', function({ beforeEach }) {
+
     beforeEach(function() {
       const store = this.owner.lookup('service:store');
       this.set('students', [
@@ -192,6 +199,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
   });
 
   module('when user authentification method is samlId', function({ beforeEach }) {
+
     beforeEach(function() {
       const store = this.owner.lookup('service:store');
       this.set('students', [
@@ -204,26 +212,38 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
           isAuthenticatedFromGar: true,
         })
       ]);
-      return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
     });
 
     test('it should display "Mediacentre" as authentication method', async function(assert) {
+      // when
+      await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+
+      // then
       assert.dom('[aria-label="Élève"]').containsText('Mediacentre');
     });
 
     test('it should display the action menu', async function(assert) {
+      // when
+      await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+
+      // then
       assert.dom('[aria-label="Afficher les actions"]').exists();
     });
 
     test('it should display the button generate username in the menu', async function(assert) {
+      // given
+      await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+
+      // when
       await click('[aria-label="Afficher les actions"]');
 
       // then
-      assert.contains('Générer identifiant');
+      assert.contains('Gérer le compte');
     });
   });
 
   module('user rights', (hooks) => {
+
     hooks.beforeEach(function() {
       const store = this.owner.lookup('service:store');
       this.set('students', [
@@ -238,6 +258,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
     });
 
     module('when user is admin in organization', (hooks) => {
+
       hooks.beforeEach(function() {
         this.set('importStudentsSpy', () => {});
         this.owner.register('service:current-user', Service.extend({ isAdminInOrganization: true }));
@@ -249,6 +270,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
       });
 
       test('it should display the dissociate action', async function(assert) {
+        // when
         await click('[aria-label="Afficher les actions"]');
 
         // then
@@ -257,6 +279,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
     });
 
     module('when user is not admin in organization', (hooks) => {
+
       hooks.beforeEach(function() {
         this.owner.register('service:current-user', Service.extend({ isAdminInOrganization: false }));
         return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
@@ -267,6 +290,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
       });
 
       test('it should not display the dissociate action', async function(assert) {
+        // when
         await click('[aria-label="Afficher les actions"]');
 
         // then
