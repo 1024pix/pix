@@ -41,25 +41,27 @@
       </div>
 
       {{#if this.reachedStage}}
-      <div>
-        <PixBlock @shadow="heavy">
-          <div>
-            {{#each this.plainStars as |star|}}
-              <img src="{{this.rootURL}}/images/stage-plain-star.svg"/>
-            {{/each}}
-            {{#each this.clearStars as |star|}}
-              <img src="{{this.rootURL}}/images/stage-clear-star.svg"/>
-            {{/each}}
-          </div>
-          <div>
-            {{t 'pages.skill-review.stage.masteryPercentage' percentage=this.model.campaignParticipation.campaignParticipationResult.masteryPercentage}}
-          </div>
-        </PixBlock>
-         <div class="skill-review__reached-stage">
-           {{this.reachedStage.title}}
+        <div class="reached-stage">
+          <div class="reached-stage__left-container">
+            <div class="reached-stage__stars">
+              {{#each this.plainStars as |star|}}
+                <img src="{{this.rootURL}}/images/stage-plain-star.svg"/>
+              {{/each}}
+              {{#each this.clearStars as |star|}}
+                <img src="{{this.rootURL}}/images/stage-clear-star.svg"/>
+              {{/each}}
+            </div>
+            <div class="reached-stage__percentage-text">
+              {{t 'pages.skill-review.stage.masteryPercentage' percentage=this.model.campaignParticipation.campaignParticipationResult.masteryPercentage}}
+            </div>
          </div>
-         <div class="skill-review__reached-stage-message">
-           {{this.reachedStage.message}}
+         <div class="reached-stage__right-container">
+           <div class="reached-stage__title">
+             {{this.reachedStage.title}}
+           </div>
+           <div class="reached-stage__message">
+             {{this.reachedStage.message}}
+           </div>
          </div>
        </div>
       {{/if}}
