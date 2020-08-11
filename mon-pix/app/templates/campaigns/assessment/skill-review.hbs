@@ -1,10 +1,10 @@
 {{page-title (t 'pages.skill-review.title')}}
 
-<div class="background-banner-wrapper">
+<PixBackgroundHeader>
   <div class="skill-review__banner">
     <AssessmentBanner @title={{this.model.assessment.title}} @displayHomeLink={{false}} />
   </div>
-  <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner skill-review__result-container">
+  <PixBlock @shadow="heavy" class="skill-review__result-container">
     {{#if (not this.model.campaignParticipation.campaign.isArchived )}}
       <h3 class="rounded-panel-title skill-review-result__abstract">
         {{t 'pages.skill-review.abstract' percentage=this.model.campaignParticipation.campaignParticipationResult.masteryPercentage htmlSafe=true}}
@@ -39,6 +39,45 @@
           {{/if}}
         {{/if}}
       </div>
+
+      {{#if this.reachedStage}}
+      <div>
+        <PixBlock @shadow="heavy">
+          <div>
+            {{#each this.plainStars as |star|}}
+              <img src="{{this.rootURL}}/images/stage-plain-star.svg"/>
+            {{/each}}
+            {{#each this.clearStars as |star|}}
+              <img src="{{this.rootURL}}/images/stage-clear-star.svg"/>
+            {{/each}}
+          </div>
+          <div>
+            {{t 'pages.skill-review.stage.masteryPercentage' percentage=this.model.campaignParticipation.campaignParticipationResult.masteryPercentage}}
+          </div>
+        </PixBlock>
+         <div class="skill-review__reached-stage">
+           {{this.reachedStage.title}}
+         </div>
+         <div class="skill-review__reached-stage-message">
+           {{this.reachedStage.message}}
+         </div>
+       </div>
+      {{/if}}
+
+      {{#if this.showBadges}}
+        <div class="badge-acquired-container">
+          {{#each this.acquiredBadges as |badge|}}
+            <BadgeAcquiredCard
+              @title="{{badge.title}}"
+              @message="{{badge.message}}"
+              @imageUrl="{{badge.imageUrl}}"
+              @altMessage="{{badge.altMessage}}"
+            />
+          {{/each}}
+        </div>
+        <div class="skill-review-result__dash-line"></div>
+      {{/if}}
+
       {{#if this.displayImprovementButton}}
         {{#unless model.campaignParticipation.isShared}}
           <div class="skill-review-result__dash-line"></div>
@@ -70,33 +109,7 @@
     {{/if}}
     <div class="skill-review-result__dash-line"></div>
 
-    {{#if this.model.campaignParticipation.campaignParticipationResult.reachedStage}}
-      <div class="skill-review__reached-stage">
-        {{this.model.campaignParticipation.campaignParticipationResult.reachedStage.title}}
-      </div>
-      <div class="skill-review__reached-stage-message">
-        {{this.model.campaignParticipation.campaignParticipationResult.reachedStage.message}}
-      </div>
-      <div class="skill-review__stage-count">
-        {{t 'pages.skill-review.stages' reachedStage=this.model.campaignParticipation.campaignParticipationResult.reachedStage.starCount stageCount=this.model.campaignParticipation.campaignParticipationResult.stageCount}}
-      </div>
-    {{/if}}
-
-    {{#if this.showBadges}}
-      <div class="badge-acquired-container">
-        {{#each this.acquiredBadges as |badge|}}
-          <BadgeAcquiredCard
-            @title="{{badge.title}}"
-            @message="{{badge.message}}"
-            @imageUrl="{{badge.imageUrl}}"
-            @altMessage="{{badge.altMessage}}"
-          />
-        {{/each}}
-      </div>
-      <div class="skill-review-result__dash-line"></div>
-    {{/if}}
-
-    <div class="skill-review-result__table-header">
+   <div class="skill-review-result__table-header">
       <h2 class="skill-review-result__subtitle">
         {{t 'pages.skill-review.details.title'}}
       </h2>
@@ -158,5 +171,5 @@
       </div>
     </div>
 
-  </div>
-</div>
+  </PixBlock>
+</PixBackgroundHeader>
