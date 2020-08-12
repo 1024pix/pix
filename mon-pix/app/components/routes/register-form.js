@@ -11,6 +11,8 @@ import { standardizeNumberInTwoDigitFormat } from 'mon-pix/utils/standardize-num
 
 import isEmailValid from '../../utils/email-validator';
 import isPasswordValid from '../../utils/password-validator';
+import ENV from 'mon-pix/config/environment';
+import { find } from 'lodash';
 
 const ERROR_INPUT_MESSAGE_MAP = {
   firstName: 'Votre prénom n’est pas renseigné.',
@@ -34,6 +36,9 @@ export default class RegisterForm extends Component {
 
   @inject()
   store;
+
+  @inject()
+  intl;
 
   schoolingRegistrationDependentUser = null;
   schoolingRegistrationUserAssociation = null;
@@ -169,11 +174,28 @@ export default class RegisterForm extends Component {
             return this.set('errorMessage', 'Vous êtes un élève ? <br> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant. <br><br> Vous êtes un enseignant ? <br> L’accès à un parcours n’est pas disponible pour le moment.');
           }
           if (error.status === '409') {
-            return this.set('errorMessage', 'Vous possédez déjà un compte Pix. Veuillez vous connecter.');
+            const message = this._showErrorMessageByShortCode(error.meta);
+            return this.set('errorMessage', message);
           }
-          return this.set('errorMessage', error.detail);
+          const defaultMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE);
+          return this.set('errorMessage', (error.detail) ? error.detail : defaultMessage);
         });
       });
+  }
+
+  _showErrorMessageByShortCode(meta) {
+    const defaultMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE);
+
+    const errors = [
+      { code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION', shortCode:'S51', message: `Vous possédez déjà un compte Pix avec l’adresse e-mail<br>${meta.value}<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code S51)` },
+      { code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION', shortCode:'S52', message:`Vous possédez déjà un compte Pix utilisé avec l’identifiant<br>${meta.value}<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code S52)` },
+      { code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION', shortCode:'S53', message: 'Vous possédez déjà un compte Pix via l‘ENT. Utilisez-le pour rejoindre le parcours.' },
+      { code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_SAME_ORGANIZATION', shortCode:'S61', message:`Vous possédez déjà un compte Pix avec l‘adresse e-mail<br>${meta.value}<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code S61)` },
+      { code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION', shortCode:'S62', message:`Vous possédez déjà un compte Pix avec l‘identifiant<br>${meta.value}<br>Pour continuer, connectez-vous à ce compte ou demandez de l‘aide à un enseignant.<br>(Code S62)` },
+      { code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION', shortCode:'S63', message:'Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.' }
+    ];
+
+    return  find(errors, ['shortCode', meta.shortCode]).message || defaultMessage;
   }
 
   @action

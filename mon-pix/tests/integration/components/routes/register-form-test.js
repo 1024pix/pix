@@ -272,9 +272,11 @@ describe('Integration | Component | routes/register-form', function() {
       });
     });
 
+    const internalServerErrorMessage = 'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.';
+
     [
       { status: '404', errorMessage: 'Vous êtes un élève ? <br> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant. <br><br> Vous êtes un enseignant ? <br> L’accès à un parcours n’est pas disponible pour le moment.' },
-      { status: '409', errorMessage: 'Vous possédez déjà un compte Pix. Veuillez vous connecter.' },
+      { status: '500', errorMessage: internalServerErrorMessage },
     ].forEach(({ status, errorMessage }) => {
       it(`should display an error message if user saves with an error response status ${status}`, async function() {
         this.owner.unregister('service:store');
@@ -311,6 +313,701 @@ describe('Integration | Component | routes/register-form', function() {
 
         expect(find('.register-form__error').innerHTML).to.equal(errorMessage);
       });
+    });
+
+    describe('When student is already reconciled in the same organization', async function() {
+
+      describe('When student account is authenticated by email only', async function() {
+
+        it('should return a conflict error and display the error message related to the short code S61)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
+            meta: { shortCode: 'S61', value: 'j***@example.net' }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix avec l‘adresse e-mail<br>j***@example.net<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code S61)';
+
+          this.owner.unregister('service:store');
+          this.owner.register('service:store', storeStub);
+          storeStub.prototype.createRecord = () => {
+            return EmberObject.create({
+              username: 'pix.pix1010',
+
+              save() {
+                return reject({ errors: [error] });
+              },
+              unloadRecord() {
+                return resolve();
+              }
+            });
+          };
+          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
+            this.authenticator = authenticator;
+            this.login = login;
+            this.password = password;
+            this.scope = scope;
+            return resolve();
+          };
+
+          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+
+          await fillIn('#firstName', 'pix');
+          await fillIn('#lastName', 'pix');
+          await fillIn('#dayOfBirth', '10');
+          await fillIn('#monthOfBirth', '10');
+          await fillIn('#yearOfBirth', '2010');
+
+          await click('#submit-search');
+
+          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+        });
+
+      });
+
+      describe('When student account is authenticated by username only', async function() {
+
+        it('should return a conflict error and display the error message related to the short code S62)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
+            meta: { shortCode: 'S62', value: 'j***.h***2' }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix avec l‘identifiant<br>j***.h***2<br>Pour continuer, connectez-vous à ce compte ou demandez de l‘aide à un enseignant.<br>(Code S62)';
+          this.owner.unregister('service:store');
+          this.owner.register('service:store', storeStub);
+          storeStub.prototype.createRecord = () => {
+            return EmberObject.create({
+              username: 'pix.pix1010',
+
+              save() {
+                return reject({ errors: [error] });
+              },
+              unloadRecord() {
+                return resolve();
+              }
+            });
+          };
+          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
+            this.authenticator = authenticator;
+            this.login = login;
+            this.password = password;
+            this.scope = scope;
+            return resolve();
+          };
+
+          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+
+          await fillIn('#firstName', 'pix');
+          await fillIn('#lastName', 'pix');
+          await fillIn('#dayOfBirth', '10');
+          await fillIn('#monthOfBirth', '10');
+          await fillIn('#yearOfBirth', '2010');
+
+          await click('#submit-search');
+
+          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+        });
+
+      });
+
+      describe('When student account is authenticated by SamlId only', async function() {
+
+        it('should return a conflict error and display the error message related to the short code S63)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
+            meta: { shortCode: 'S63', value: undefined }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.';
+          this.owner.unregister('service:store');
+          this.owner.register('service:store', storeStub);
+          storeStub.prototype.createRecord = () => {
+            return EmberObject.create({
+              username: 'pix.pix1010',
+
+              save() {
+                return reject({ errors: [error] });
+              },
+              unloadRecord() {
+                return resolve();
+              }
+            });
+          };
+          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
+            this.authenticator = authenticator;
+            this.login = login;
+            this.password = password;
+            this.scope = scope;
+            return resolve();
+          };
+
+          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+
+          await fillIn('#firstName', 'pix');
+          await fillIn('#lastName', 'pix');
+          await fillIn('#dayOfBirth', '10');
+          await fillIn('#monthOfBirth', '10');
+          await fillIn('#yearOfBirth', '2010');
+
+          await click('#submit-search');
+
+          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+        });
+
+      });
+
+      describe('When student account is authenticated by SamlId and username', async function() {
+
+        it('should return a conflict error and display the error message related to the short code S63)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
+            meta: { shortCode: 'S63', value: undefined }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.';
+          this.owner.unregister('service:store');
+          this.owner.register('service:store', storeStub);
+          storeStub.prototype.createRecord = () => {
+            return EmberObject.create({
+              username: 'pix.pix1010',
+
+              save() {
+                return reject({ errors: [error] });
+              },
+              unloadRecord() {
+                return resolve();
+              }
+            });
+          };
+          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
+            this.authenticator = authenticator;
+            this.login = login;
+            this.password = password;
+            this.scope = scope;
+            return resolve();
+          };
+
+          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+
+          await fillIn('#firstName', 'pix');
+          await fillIn('#lastName', 'pix');
+          await fillIn('#dayOfBirth', '10');
+          await fillIn('#monthOfBirth', '10');
+          await fillIn('#yearOfBirth', '2010');
+
+          await click('#submit-search');
+
+          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+        });
+
+      });
+
+      describe('When student account is authenticated by SamlId and email', async function() {
+
+        it('should return a conflict error and display the error message related to the short code S63)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
+            meta: { shortCode: 'S63', value: undefined }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.';
+          this.owner.unregister('service:store');
+          this.owner.register('service:store', storeStub);
+          storeStub.prototype.createRecord = () => {
+            return EmberObject.create({
+              username: 'pix.pix1010',
+
+              save() {
+                return reject({ errors: [error] });
+              },
+              unloadRecord() {
+                return resolve();
+              }
+            });
+          };
+          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
+            this.authenticator = authenticator;
+            this.login = login;
+            this.password = password;
+            this.scope = scope;
+            return resolve();
+          };
+
+          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+
+          await fillIn('#firstName', 'pix');
+          await fillIn('#lastName', 'pix');
+          await fillIn('#dayOfBirth', '10');
+          await fillIn('#monthOfBirth', '10');
+          await fillIn('#yearOfBirth', '2010');
+
+          await click('#submit-search');
+
+          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+        });
+
+      });
+
+      describe('When student account is authenticated by SamlId, email and username', async function() {
+
+        it('should return a conflict error and display the error message related to the short code S63)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
+            meta: { shortCode: 'S63', value: undefined }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.';
+          this.owner.unregister('service:store');
+          this.owner.register('service:store', storeStub);
+          storeStub.prototype.createRecord = () => {
+            return EmberObject.create({
+              username: 'pix.pix1010',
+
+              save() {
+                return reject({ errors: [error] });
+              },
+              unloadRecord() {
+                return resolve();
+              }
+            });
+          };
+          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
+            this.authenticator = authenticator;
+            this.login = login;
+            this.password = password;
+            this.scope = scope;
+            return resolve();
+          };
+
+          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+
+          await fillIn('#firstName', 'pix');
+          await fillIn('#lastName', 'pix');
+          await fillIn('#dayOfBirth', '10');
+          await fillIn('#monthOfBirth', '10');
+          await fillIn('#yearOfBirth', '2010');
+
+          await click('#submit-search');
+
+          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+        });
+
+      });
+
+      describe('When student account is authenticated by email and username', async function() {
+
+        it('should return a conflict error and display the error message related to the short code S62)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
+            meta: { shortCode: 'S62', value: 'j***.h***2' }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix avec l‘identifiant<br>j***.h***2<br>Pour continuer, connectez-vous à ce compte ou demandez de l‘aide à un enseignant.<br>(Code S62)';
+          this.owner.unregister('service:store');
+          this.owner.register('service:store', storeStub);
+          storeStub.prototype.createRecord = () => {
+            return EmberObject.create({
+              username: 'pix.pix1010',
+
+              save() {
+                return reject({ errors: [error] });
+              },
+              unloadRecord() {
+                return resolve();
+              }
+            });
+          };
+          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
+            this.authenticator = authenticator;
+            this.login = login;
+            this.password = password;
+            this.scope = scope;
+            return resolve();
+          };
+
+          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+
+          await fillIn('#firstName', 'pix');
+          await fillIn('#lastName', 'pix');
+          await fillIn('#dayOfBirth', '10');
+          await fillIn('#monthOfBirth', '10');
+          await fillIn('#yearOfBirth', '2010');
+
+          await click('#submit-search');
+
+          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+        });
+
+      });
+
+    });
+
+    describe('When student is already reconciled in others organization', async function() {
+
+      describe('When student account is authenticated by email only', async function() {
+
+        it('should return a conflict error and display the error message related to the short code S51)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
+            meta: { shortCode: 'S51', value: 'j***@example.net' }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix avec l’adresse e-mail<br>j***@example.net<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code S51)';
+          this.owner.unregister('service:store');
+          this.owner.register('service:store', storeStub);
+          storeStub.prototype.createRecord = () => {
+            return EmberObject.create({
+              username: 'pix.pix1010',
+
+              save() {
+                return reject({ errors: [error] });
+              },
+              unloadRecord() {
+                return resolve();
+              }
+            });
+          };
+          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
+            this.authenticator = authenticator;
+            this.login = login;
+            this.password = password;
+            this.scope = scope;
+            return resolve();
+          };
+
+          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+
+          await fillIn('#firstName', 'pix');
+          await fillIn('#lastName', 'pix');
+          await fillIn('#dayOfBirth', '10');
+          await fillIn('#monthOfBirth', '10');
+          await fillIn('#yearOfBirth', '2010');
+
+          await click('#submit-search');
+
+          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+        });
+
+      });
+
+      describe('When student account is authenticated by username only', async function() {
+
+        it('should return a conflict error and display the error message related to the short code S52)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
+            meta: { shortCode: 'S52', value: 'j***.h***2' }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix utilisé avec l’identifiant<br>j***.h***2<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code S52)';
+          this.owner.unregister('service:store');
+          this.owner.register('service:store', storeStub);
+          storeStub.prototype.createRecord = () => {
+            return EmberObject.create({
+              username: 'pix.pix1010',
+
+              save() {
+                return reject({ errors: [error] });
+              },
+              unloadRecord() {
+                return resolve();
+              }
+            });
+          };
+          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
+            this.authenticator = authenticator;
+            this.login = login;
+            this.password = password;
+            this.scope = scope;
+            return resolve();
+          };
+
+          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+
+          await fillIn('#firstName', 'pix');
+          await fillIn('#lastName', 'pix');
+          await fillIn('#dayOfBirth', '10');
+          await fillIn('#monthOfBirth', '10');
+          await fillIn('#yearOfBirth', '2010');
+
+          await click('#submit-search');
+
+          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+        });
+
+      });
+
+      describe('When student account is authenticated by SamlId only', async function() {
+
+        it('should return a conflict error and display the error message related to the short code S53)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
+            meta: { shortCode: 'S53', value: undefined }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l‘ENT. Utilisez-le pour rejoindre le parcours.';
+          this.owner.unregister('service:store');
+          this.owner.register('service:store', storeStub);
+          storeStub.prototype.createRecord = () => {
+            return EmberObject.create({
+              username: 'pix.pix1010',
+
+              save() {
+                return reject({ errors: [error] });
+              },
+              unloadRecord() {
+                return resolve();
+              }
+            });
+          };
+          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
+            this.authenticator = authenticator;
+            this.login = login;
+            this.password = password;
+            this.scope = scope;
+            return resolve();
+          };
+
+          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+
+          await fillIn('#firstName', 'pix');
+          await fillIn('#lastName', 'pix');
+          await fillIn('#dayOfBirth', '10');
+          await fillIn('#monthOfBirth', '10');
+          await fillIn('#yearOfBirth', '2010');
+
+          await click('#submit-search');
+
+          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+        });
+
+      });
+
+      describe('When student account is authenticated by SamlId and username', async function() {
+
+        it('should return a conflict error and display the error message related to the short code S53)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
+            meta: { shortCode: 'S53', value: undefined }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l‘ENT. Utilisez-le pour rejoindre le parcours.';
+          this.owner.unregister('service:store');
+          this.owner.register('service:store', storeStub);
+          storeStub.prototype.createRecord = () => {
+            return EmberObject.create({
+              username: 'pix.pix1010',
+
+              save() {
+                return reject({ errors: [error] });
+              },
+              unloadRecord() {
+                return resolve();
+              }
+            });
+          };
+          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
+            this.authenticator = authenticator;
+            this.login = login;
+            this.password = password;
+            this.scope = scope;
+            return resolve();
+          };
+
+          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+
+          await fillIn('#firstName', 'pix');
+          await fillIn('#lastName', 'pix');
+          await fillIn('#dayOfBirth', '10');
+          await fillIn('#monthOfBirth', '10');
+          await fillIn('#yearOfBirth', '2010');
+
+          await click('#submit-search');
+
+          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+        });
+
+      });
+
+      describe('When student account is authenticated by SamlId and email', async function() {
+
+        it('should return a conflict error and display the error message related to the short code S53)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
+            meta: { shortCode: 'S53', value: undefined }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l‘ENT. Utilisez-le pour rejoindre le parcours.';
+          this.owner.unregister('service:store');
+          this.owner.register('service:store', storeStub);
+          storeStub.prototype.createRecord = () => {
+            return EmberObject.create({
+              username: 'pix.pix1010',
+
+              save() {
+                return reject({ errors: [error] });
+              },
+              unloadRecord() {
+                return resolve();
+              }
+            });
+          };
+          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
+            this.authenticator = authenticator;
+            this.login = login;
+            this.password = password;
+            this.scope = scope;
+            return resolve();
+          };
+
+          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+
+          await fillIn('#firstName', 'pix');
+          await fillIn('#lastName', 'pix');
+          await fillIn('#dayOfBirth', '10');
+          await fillIn('#monthOfBirth', '10');
+          await fillIn('#yearOfBirth', '2010');
+
+          await click('#submit-search');
+
+          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+        });
+
+      });
+
+      describe('When student account is authenticated by SamlId, username and email', async function() {
+
+        it('should return a conflict error and display the error message related to the short code S53)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
+            meta: { shortCode: 'S53', value: undefined }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l‘ENT. Utilisez-le pour rejoindre le parcours.';
+          this.owner.unregister('service:store');
+          this.owner.register('service:store', storeStub);
+          storeStub.prototype.createRecord = () => {
+            return EmberObject.create({
+              username: 'pix.pix1010',
+
+              save() {
+                return reject({ errors: [error] });
+              },
+              unloadRecord() {
+                return resolve();
+              }
+            });
+          };
+          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
+            this.authenticator = authenticator;
+            this.login = login;
+            this.password = password;
+            this.scope = scope;
+            return resolve();
+          };
+
+          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+
+          await fillIn('#firstName', 'pix');
+          await fillIn('#lastName', 'pix');
+          await fillIn('#dayOfBirth', '10');
+          await fillIn('#monthOfBirth', '10');
+          await fillIn('#yearOfBirth', '2010');
+
+          await click('#submit-search');
+
+          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+        });
+
+      });
+
+      describe('When student account is authenticated by username and email', async function() {
+
+        it('should return a conflict error and display the error message related to the short code S52)', async function() {
+          // given
+          const error = {
+            status: '409',
+            code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
+            meta: { shortCode: 'S52', value: 'j***.h***2' }
+          };
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix utilisé avec l’identifiant<br>j***.h***2<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code S52)';
+          this.owner.unregister('service:store');
+          this.owner.register('service:store', storeStub);
+          storeStub.prototype.createRecord = () => {
+            return EmberObject.create({
+              username: 'pix.pix1010',
+
+              save() {
+                return reject({ errors: [error] });
+              },
+              unloadRecord() {
+                return resolve();
+              }
+            });
+          };
+          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
+            this.authenticator = authenticator;
+            this.login = login;
+            this.password = password;
+            this.scope = scope;
+            return resolve();
+          };
+
+          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+
+          await fillIn('#firstName', 'pix');
+          await fillIn('#lastName', 'pix');
+          await fillIn('#dayOfBirth', '10');
+          await fillIn('#monthOfBirth', '10');
+          await fillIn('#yearOfBirth', '2010');
+
+          await click('#submit-search');
+
+          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+        });
+
+      });
+
     });
   });
 });
