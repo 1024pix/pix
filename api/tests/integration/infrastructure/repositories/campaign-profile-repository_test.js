@@ -92,6 +92,30 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
       });
     });
 
+    context('schooling registration infos', () => {
+      beforeEach(() => {
+        airtableBuilder.mockList({ tableName: 'Competences' }).returns([]).activate();
+        airtableBuilder.mockList({ tableName: 'Domaines' }).returns([]).activate();
+      });
+
+      afterEach(() => {
+        airtableBuilder.cleanAll();
+        return cache.flushAll();
+      });
+
+      it('return the first name and last name of the schooling registration', async () => {
+        const campaignId = databaseBuilder.factory.buildCampaign().id;
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ firstName: 'Greg', lastName: 'Duboire', organizationId }, { campaignId }).id;
+        await databaseBuilder.commit();
+
+        const campaignProfile = await CampaignProfileRepository.findProfile(campaignId, campaignParticipationId);
+
+        expect(campaignProfile.firstName).to.equal('Greg');
+        expect(campaignProfile.lastName).to.equal('Duboire');
+      });
+    });
+
     context('certification infos', () => {
       beforeEach(() => {
         const competences = [

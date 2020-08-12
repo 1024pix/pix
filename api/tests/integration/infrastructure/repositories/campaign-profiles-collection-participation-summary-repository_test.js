@@ -7,7 +7,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
 
   describe('#findPaginatedByCampaignId', () => {
 
-    let campaignId;
+    let campaignId, organizationId;
     let competences;
     let skills;
     const sharedAt = new Date('2018-05-06');
@@ -16,8 +16,9 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       const airtableData = buildAirtableData();
       competences = airtableData.competences;
       skills = airtableData.skills;
-    
-      campaignId = databaseBuilder.factory.buildCampaign().id;
+
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+      campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
       await databaseBuilder.commit();
     });
 
@@ -29,11 +30,11 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
     it('should return empty array if no participant', async () => {
       // when
       const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
-  
+
       // then
       expect(results.data.length).to.equal(0);
     });
-  
+
     it('should return participant data summary for a not shared campaign participation', async () => {
       // given
       const campaignParticipation = { id: 1, campaignId, isShared: false, sharedAt: null, participantExternalId: 'JeBu' };
@@ -42,7 +43,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
 
       // when
       const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
-  
+
       // then
       expect(results.data).to.deep.equal([
         new CampaignProfilesCollectionParticipationSummary({
@@ -72,14 +73,14 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       expect(names).exactlyContainInOrder(['Lise']);
     });
 
-    it('should return participants data summary ordered by last name then first name asc', async () => {
+    it('should return participants data summary ordered by last name then first name asc (including schooling registration data)', async () => {
       // given
       const campaignParticipation = { campaignId };
-      databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Lise', lastName: 'Quesnel' }, campaignParticipation);
-      databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Benjamin', lastName: 'Petetot' }, campaignParticipation);
-      databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Yvonnick', lastName: 'Frin' }, campaignParticipation);
-      databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Arthur', lastName: 'Frin' }, campaignParticipation);
-      databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Estelle', lastName: 'Landry' }, campaignParticipation);
+      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ firstName: 'Jaja', lastName: 'Le raplapla', organizationId }, campaignParticipation);
+      databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Jeje', lastName: 'Le neuneu', organizationId }, campaignParticipation);
+      databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Jiji', lastName: 'Le riquiqui', organizationId }, campaignParticipation);
+      databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Jojo', lastName: 'Le rococo', organizationId }, campaignParticipation);
+      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ firstName: 'Juju', lastName: 'Le riquiqui', organizationId }, campaignParticipation);
       await databaseBuilder.commit();
 
       // when
@@ -87,12 +88,12 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       const names = results.data.map((result) => result.firstName);
 
       // then
-      expect(names).exactlyContainInOrder(['Arthur', 'Yvonnick', 'Estelle', 'Benjamin', 'Lise']);
+      expect(names).exactlyContainInOrder(['Jeje', 'Jaja', 'Jiji', 'Juju', 'Jojo']);
     });
 
     describe('when a participant has shared the participation to the campaign', () => {
       let campaignParticipation;
-    
+
       beforeEach(async () => {
         const createdAt = new Date('2018-04-06T10:00:00Z');
         const userId = 999;
@@ -108,7 +109,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
           userId,
           createdAt,
         });
-      
+
         databaseBuilder.factory.buildKnowledgeElement({
           status: 'validated',
           competenceId: competences[1].id,
@@ -124,7 +125,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       it('should return the certification profile info and pix score', async () => {
         // when
         const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
-    
+
         // then
         expect(results.data[0].sharedAt).to.deep.equal(sharedAt);
         expect(results.data[0].pixScore).to.equal(46);

@@ -133,64 +133,6 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
             id: user.id.toString(),
             type: 'users'
           },
-          {
-            attributes: {
-              'mastery-percentage': 40,
-              'tested-skills-count': 5,
-              'total-skills-count': 10,
-              'validated-skills-count': 4,
-            },
-            id: '1',
-            type: 'competenceResults'
-          },
-          {
-            attributes: {
-              'mastery-percentage': 33,
-              'tested-skills-count': 5,
-              'total-skills-count': 6,
-              'validated-skills-count': 2,
-            },
-            id: '2',
-            type: 'competenceResults'
-          },
-          {
-            attributes: {},
-            id: campaignParticipationBadge.id.toString(),
-            type: 'campaignParticipationBadges'
-          },
-          {
-            attributes: {
-              id: 1,
-              'is-completed': true,
-              'mastery-percentage': 40,
-              'tested-skills-count': 5,
-              'total-skills-count': 10,
-              'validated-skills-count': 4,
-              'progress': 1
-            },
-            relationships: {
-              'campaign-participation-badges': {
-                data: [
-                  {
-                    id: '5',
-                    type: 'campaignParticipationBadges'
-                  }
-                ]
-              },
-              'competence-results': {
-                data: [{
-                  id: '1',
-                  type: 'competenceResults',
-                },
-                {
-                  id: '2',
-                  type: 'competenceResults',
-                }]
-              }
-            },
-            id: '1',
-            type: 'campaignParticipationResults'
-          }
         ]
       };
     });
@@ -201,22 +143,6 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
 
       // then
       expect(json).to.deep.equal(expectedSerializedCampaignParticipation);
-    });
-
-    it('should convert a CampaignParticipation model object into JSON API data with ignoreCampaignParticipationResultsRelationshipData false', function() {
-      // given
-      const meta = {};
-      expectedSerializedCampaignParticipation.data.relationships['campaign-participation-result'].data = {
-        type: 'campaignParticipationResults',
-        id: '1'
-      };
-      expectedSerializedCampaignParticipation = { ...expectedSerializedCampaignParticipation, meta };
-
-      // when
-      const result = serializer.serialize(campaignParticipation, meta, { ignoreCampaignParticipationResultsRelationshipData : false });
-
-      // then
-      expect(result).to.deep.equal(expectedSerializedCampaignParticipation);
     });
 
     it('should not serialize user if user is undefined', function() {

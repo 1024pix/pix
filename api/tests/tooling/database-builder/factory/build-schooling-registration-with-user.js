@@ -5,7 +5,7 @@ const buildUser = require('./build-user');
 const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
-module.exports = function buildSchoolingRegistration({
+module.exports = function buildSchoolingRegistrationWithUser({
   id,
   firstName = faker.name.firstName(),
   preferredLastName = faker.name.lastName(),

@@ -143,30 +143,6 @@ module.exports = {
       .then(fp.map(_toDomain));
   },
 
-  findPaginatedCampaignParticipations(options) {
-    return BookshelfCampaignParticipation
-      .where(options.filter)
-      .query((qb) => {
-        qb.innerJoin('users', 'campaign-participations.userId', 'users.id');
-        qb.orderByRaw('LOWER(users."lastName") ASC, LOWER(users."firstName") ASC');
-
-      })
-      .fetchPage({
-        page: options.page.number,
-        pageSize: options.page.size,
-        withRelated: ['user', 'assessments', 'user.knowledgeElements']
-      })
-      .then(({ models, pagination }) => {
-        _.map(models, (campaignParticipation) => {
-          campaignParticipation.attributes.assessmentId = _getLastAssessmentIdForCampaignParticipation(campaignParticipation);
-        });
-
-        const campaignParticipations = bookshelfToDomainConverter.buildDomainObjects(BookshelfCampaignParticipation, models);
-        const campaignParticipationsWithUniqKnowledgeElements = _sortUniqKnowledgeElements(campaignParticipations);
-        return { models: campaignParticipationsWithUniqKnowledgeElements, pagination };
-      });
-  },
-
   async share(campaignParticipation) {
     let savedBookshelfCampaignParticipation = null;
     try {
@@ -222,16 +198,6 @@ function _convertToDomainWithSkills(bookshelfCampaignParticipation) {
   bookshelfCampaignParticipation.related('campaign').related('targetProfile').set('skills', skillsObjects);
 
   return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaignParticipation, bookshelfCampaignParticipation);
-}
-
-function _sortUniqKnowledgeElements(campaignParticipations) {
-  return _.each(campaignParticipations, (campaignParticipation) => {
-    campaignParticipation.user.knowledgeElements = _(campaignParticipation.user.knowledgeElements)
-      .filter((ke) => ke.createdAt < campaignParticipation.sharedAt)
-      .orderBy('createdAt', 'desc')
-      .uniqBy('skillId')
-      .value();
-  });
 }
 
 function _getLastAssessmentIdForCampaignParticipation(bookshelfCampaignParticipation) {

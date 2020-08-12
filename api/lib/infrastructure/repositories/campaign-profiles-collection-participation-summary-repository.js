@@ -11,16 +11,22 @@ const CampaignProfilesCollectionParticipationSummaryRepository = {
       .select(
         'campaign-participations.id AS campaignParticipationId',
         'users.id as userId',
-        'users.firstName',
-        'users.lastName',
+        knex.raw('COALESCE (LOWER("schooling-registrations"."firstName"), LOWER("users"."firstName")) AS "lowerFirstName"'),
+        knex.raw('COALESCE (LOWER("schooling-registrations"."lastName"), LOWER("users"."lastName")) AS "lowerLastName"'),
+        knex.raw('COALESCE ("schooling-registrations"."firstName", "users"."firstName") AS "firstName"'),
+        knex.raw('COALESCE ("schooling-registrations"."lastName", "users"."lastName") AS "lastName"'),
         'campaign-participations.participantExternalId',
         'campaign-participations.sharedAt',
       )
       .from('campaign-participations')
       .join('users', 'users.id', 'campaign-participations.userId')
       .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
+      .leftJoin('schooling-registrations', function() {
+        this.on({ 'campaign-participations.userId': 'schooling-registrations.userId' })
+          .andOn({ 'campaigns.organizationId': 'schooling-registrations.organizationId' });
+      })
       .where('campaign-participations.campaignId', '=', campaignId)
-      .orderByRaw('LOWER(??) ASC, LOWER(??) ASC', ['lastName', 'firstName']);
+      .orderByRaw('?? ASC, ?? ASC', ['lowerLastName', 'lowerFirstName']);
 
     const { results, pagination } = await fetchPage(query, page);
 
