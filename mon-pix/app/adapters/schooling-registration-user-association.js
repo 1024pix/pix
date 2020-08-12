@@ -10,6 +10,10 @@ export default class SchoolingRegistrationUserAssociation extends ApplicationAda
       return url + '/possibilities';
     }
 
+    if (adapterOptions && adapterOptions.tryReconciliation) {
+      return url + '/auto';
+    }
+
     return url;
   }
 

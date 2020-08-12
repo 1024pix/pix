@@ -107,17 +107,19 @@ module.exports = {
     }
   },
 
-  findByOrganizationIdAndUserBirthdate({ organizationId, birthdate }) {
-    return BookshelfSchoolingRegistration
+  async findByOrganizationIdAndUserData({ organizationId, reconciliationInfo: { birthdate, studentNumber } = {} }) {
+    const schoolingRegistrations = await BookshelfSchoolingRegistration
       .query((qb) => {
         qb.where('organizationId', organizationId);
-        qb.where('birthdate', birthdate);
+        if (birthdate) qb.where('birthdate', birthdate);
+        if (studentNumber) qb.where('studentNumber', studentNumber);
       })
-      .fetchAll()
-      .then((schoolingRegistrations) => bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations));
+      .fetchAll();
+  
+    return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
   },
 
-  async associateUserAndSchoolingRegistration({ userId, schoolingRegistrationId }) {
+  async reconcileUserToSchoolingRegistration({ userId, schoolingRegistrationId }) {
     const schoolingRegistration = await BookshelfSchoolingRegistration
       .where({ id: schoolingRegistrationId })
       .save({ userId }, {
@@ -127,7 +129,7 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
   },
 
-  async associateUserByNationalStudentIdAndOrganizationId({ nationalStudentId, userId, organizationId }) {
+  async reconcileUserByNationalStudentIdAndOrganizationId({ nationalStudentId, userId, organizationId }) {
     try {
       const schoolingRegistration = await BookshelfSchoolingRegistration
         .where({ organizationId, nationalStudentId })

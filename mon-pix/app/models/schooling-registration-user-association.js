@@ -8,4 +8,5 @@ export default class SchoolingRegistrationUserAssociation extends Model {
   @attr('string') firstName;
   @attr('string') lastName;
   @attr('string') username;
+  @attr('string') studentNumber;
 }

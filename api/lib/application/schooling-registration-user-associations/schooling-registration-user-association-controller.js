@@ -3,28 +3,37 @@ const schoolingRegistrationSerializer = require('../../infrastructure/serializer
 const _ = require('lodash');
 
 function _isReconciliationWithUserDetails(payload) {
-  return _.every(['first-name', 'last-name', 'birthdate'], _.partial(_.has, payload));
+  return _.every(['first-name', 'last-name', 'birthdate'], _.partial(_.has, payload)) || payload['student-number'];
 }
 
 module.exports = {
+  async reconcileAutomatically(request) {
+    const authenticatedUserId = request.auth.credentials.userId;
+    const payload = request.payload.data.attributes;
+    const campaignCode = payload['campaign-code'];
+    const schoolingRegistration = await usecases.reconcileUserToOrganization({ userId: authenticatedUserId, campaignCode });
+    return schoolingRegistrationSerializer.serialize(schoolingRegistration);
+  },
 
-  async associate(request) {
+  async reconcileManually(request) {
     const authenticatedUserId = request.auth.credentials.userId;
     const payload = request.payload.data.attributes;
     const campaignCode = payload['campaign-code'];
     let schoolingRegistration;
 
     if (_isReconciliationWithUserDetails(payload)) {
-      const user = {
+      const reconciliationInfo = {
         id: authenticatedUserId,
         firstName: payload['first-name'],
         lastName: payload['last-name'],
         birthdate: payload['birthdate'],
+        studentNumber: payload['student-number'],
       };
 
-      schoolingRegistration =  await usecases.linkUserToSchoolingRegistrationData({ campaignCode, user });
+      schoolingRegistration = await usecases.reconcileUserToSchoolingRegistrationData({ campaignCode, reconciliationInfo });
     } else {
-      schoolingRegistration  = await usecases.reconcileUserToOrganization({ userId: authenticatedUserId, campaignCode });
+      // deprecated in favor of associateAutomatically function
+      schoolingRegistration = await usecases.reconcileUserToOrganization({ userId: authenticatedUserId, campaignCode });
     }
 
     return schoolingRegistrationSerializer.serialize(schoolingRegistration);

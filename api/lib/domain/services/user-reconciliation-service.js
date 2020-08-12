@@ -6,7 +6,6 @@ const {
   NotFoundError, SchoolingRegistrationAlreadyLinkedToUserError, AlreadyRegisteredUsernameError
 } = require('../errors');
 const { areTwoStringsCloseEnough, isOneStringCloseEnoughFromMultipleStrings } = require('./string-comparison-service');
-const { getUserAuthenticationMethodWithObfuscation } = require('./obfuscation-service');
 const { normalizeAndRemoveAccents, removeSpecialCharacters } = require('./validation-treatments');
 
 const MAX_ACCEPTABLE_RATIO = 0.25;
@@ -37,33 +36,44 @@ function findMatchingCandidateIdForGivenUser(matchingUserCandidates, user) {
     .first() || null;
 }
 
-async function findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId, user: { firstName, lastName, birthdate }, schoolingRegistrationRepository, userRepository }) {
-  const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdAndUserBirthdate({
+async function findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({
+  organizationId,
+  reconciliationInfo: { firstName, lastName, birthdate, studentNumber },
+  schoolingRegistrationRepository,
+  userRepository,
+  obfuscationService,
+}) {
+  const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdAndUserData({
     organizationId,
-    birthdate,
+    reconciliationInfo: { birthdate, studentNumber },
   });
 
-  if (schoolingRegistrations.length === 0) {
-    throw new NotFoundError('There were no schoolingRegistrations matching with organization and birthdate');
+  if (_.isEmpty(schoolingRegistrations)) {
+    throw new NotFoundError('There are no schooling registrations found');
   }
 
-  const schoolingRegistrationId = findMatchingCandidateIdForGivenUser(schoolingRegistrations, { firstName, lastName });
+  let schoolingRegistration;
+  if (studentNumber) {
+    schoolingRegistration = schoolingRegistrations[0];
+  } else {
+    const schoolingRegistrationId = findMatchingCandidateIdForGivenUser(schoolingRegistrations, { firstName, lastName });
 
-  if (!schoolingRegistrationId) {
-    throw new NotFoundError('There were no schoolingRegistrations matching with names');
+    if (!schoolingRegistrationId) {
+      throw new NotFoundError('There were no schoolingRegistrations matching with names');
+    }
+    schoolingRegistration = _.find(schoolingRegistrations, { 'id': schoolingRegistrationId });
   }
 
-  const matchedSchoolingRegistration = _.find(schoolingRegistrations, { 'id': schoolingRegistrationId });
-  await checkIfStudentIsAlreadyReconciledOnTheSameOrganization(matchedSchoolingRegistration, userRepository);
+  await checkIfStudentIsAlreadyReconciledOnTheSameOrganization(schoolingRegistration, userRepository, obfuscationService);
 
-  return matchedSchoolingRegistration;
+  return schoolingRegistration;
 }
 
-async function checkIfStudentIsAlreadyReconciledOnTheSameOrganization(matchingSchoolingRegistration, userRepository) {
+async function checkIfStudentIsAlreadyReconciledOnTheSameOrganization(matchingSchoolingRegistration, userRepository, obfuscationService) {
   if (!_.isNil(matchingSchoolingRegistration.userId))  {
     const userId = matchingSchoolingRegistration.userId ;
     const user = await userRepository.getUserAuthenticationMethods(userId);
-    const authentificationMethod = getUserAuthenticationMethodWithObfuscation(user);
+    const authentificationMethod = obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
 
     const detail = 'Un compte existe déjà pour l‘élève dans le même établissement.';
     const error = STUDENT_RECONCILIATION_ERRORS.IN_SAME_ORGANIZATION[authentificationMethod.authenticatedBy];
@@ -72,11 +82,11 @@ async function checkIfStudentIsAlreadyReconciledOnTheSameOrganization(matchingSc
   }
 }
 
-async function checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(student, userRepository) {
+async function checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(student, userRepository, obfuscationService) {
   if (_.get(student, 'account')) {
     const userId = student.account.userId;
     const user = await userRepository.getUserAuthenticationMethods(userId);
-    const authentificationMethod = getUserAuthenticationMethodWithObfuscation(user);
+    const authentificationMethod = obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
 
     const detail = 'Un compte existe déjà pour l‘élève dans un autre établissement.';
     const error = STUDENT_RECONCILIATION_ERRORS.IN_OTHER_ORGANIZATION[authentificationMethod.authenticatedBy];
@@ -89,8 +99,8 @@ function _containsOneElement(arr) {
   return _.size(arr) === 1;
 }
 
-function _standardizeUser(user) {
-  return _(user)
+function _standardizeUser(reconciliationInfo) {
+  return _(reconciliationInfo)
     .pick(['firstName', 'lastName'])
     .mapValues(_standardize)
     .value();
