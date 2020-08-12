@@ -1,6 +1,5 @@
-const { sinon, expect, domainBuilder, hFake, catchErr } = require('../../../test-helper');
+const { sinon, expect, domainBuilder, hFake } = require('../../../test-helper');
 
-const { BadRequestError } = require('../../../../lib/application/http-errors');
 const campaignParticipationController = require('../../../../lib/application/campaignParticipations/campaign-participation-controller');
 const serializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
@@ -30,7 +29,6 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     const serialized = {};
 
     const assessmentId = 1;
-    const campaignId = 1;
 
     beforeEach(() => {
       sinon.stub(usecases, 'findCampaignParticipationsRelatedToAssessment');
@@ -38,57 +36,21 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       sinon.stub(serializer, 'serialize')
         .withArgs(resultWithPagination.models, resultWithPagination.pagination).returns(serialized)
         .withArgs(result).returns(serialized);
-      sinon.stub(usecases, 'findCampaignParticipationsWithResults');
     });
 
-    context('when the request contains just assessmentId filter', () => {
-      it('should call the usecases to get the user campaign participation', async () => {
-        // given
-        options = { filter: { assessmentId } , include: [] };
+    it('should call the usecases to get the user campaign participation', async () => {
+      // given
+      options = { filter: { assessmentId } , include: [] };
 
-        queryParamsUtils.extractParameters.withArgs(query).returns(options);
-        usecases.findCampaignParticipationsRelatedToAssessment.withArgs({ userId, assessmentId }).resolves(result);
+      queryParamsUtils.extractParameters.withArgs(query).returns(options);
+      usecases.findCampaignParticipationsRelatedToAssessment.withArgs({ userId, assessmentId }).resolves(result);
 
-        // when
-        const response = await campaignParticipationController.find(request, hFake);
+      // when
+      const response = await campaignParticipationController.find(request, hFake);
 
-        // then
-        expect(response).to.deep.equal(serialized);
-      });
+      // then
+      expect(response).to.deep.equal(serialized);
     });
-
-    context('when the request does not contain any filter', () => {
-      it('should throw a bad request error', async () => {
-        // given
-        options = { filter: {}, include: [] };
-
-        queryParamsUtils.extractParameters.withArgs(query).returns(options);
-        usecases.findCampaignParticipationsRelatedToAssessment.withArgs({ userId, assessmentId }).resolves(resultWithPagination);
-
-        // when
-        const responseErr = await catchErr(campaignParticipationController.find)(request, hFake);
-
-        // then
-        expect(responseErr).to.be.instanceOf(BadRequestError);
-      });
-    });
-
-    context('when the request contains both a campaignId and an include campaigns-participation-result', () => {
-      it('should call the usecases to get the user campaign participation', async () => {
-        // given
-        options = { filter: { campaignId, assessmentId }, include: ['campaign-participation-result'] };
-
-        queryParamsUtils.extractParameters.withArgs(query).returns(options);
-        usecases.findCampaignParticipationsWithResults.withArgs({ userId, options }).resolves(resultWithPagination);
-
-        // when
-        const response = await campaignParticipationController.find(request, hFake);
-
-        // then
-        expect(response).to.deep.equal(serialized);
-      });
-    });
-
   });
 
   describe('#shareCampaignResult', () => {

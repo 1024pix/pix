@@ -10,8 +10,7 @@ exports.register = async function(server) {
         handler: campaignParticipationController.find,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des campaign-participation par assessment ou par campagne' +
-          '- L\'utilisation de cette route avec  le paramètre campaign-participation-result est dépréciée. Utiliser /api/campaigns/{id}/assessment-participations à la place',
+          '- Récupération des campaign-participation par assessment'
         ],
         tags: ['api', 'campaign-participation']
       }
