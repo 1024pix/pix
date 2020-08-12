@@ -38,7 +38,7 @@ describe('Integration | Component | routes/register-form', function() {
 
   it('renders', async function() {
     // when
-    await render(hbs`{{routes/register-form}}`);
+    await render(hbs`<Routes::RegisterForm/>`);
 
     //then
     expect(find('.register-form')).to.exist;
@@ -78,7 +78,7 @@ describe('Integration | Component | routes/register-form', function() {
       const sessionServiceObserver = this.owner.lookup('service:session');
       this.set('loginWithUsername', false);
 
-      await render(hbs`{{routes/register-form loginWithUsername=loginWithUsername}}`);
+      await render(hbs`<Routes::RegisterForm @loginWithUsername={{this.loginWithUsername}} />`);
 
       await fillIn('#firstName', 'pix');
       await fillIn('#lastName', 'pix');
@@ -108,7 +108,7 @@ describe('Integration | Component | routes/register-form', function() {
       const sessionServiceObserver = this.owner.lookup('service:session');
       this.set('loginWithUsername', true);
 
-      await render(hbs`{{routes/register-form loginWithUsername=loginWithUsername}}`);
+      await render(hbs`<Routes::RegisterForm @loginWithUsername={{this.loginWithUsername}} />`);
 
       await fillIn('#firstName', 'pix');
       await fillIn('#lastName', 'pix');
@@ -141,7 +141,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       it(`should display an error message on firstName field, when '${stringFilledIn}' is typed and focused out`, async function() {
         // given
-        await render(hbs`{{routes/register-form}}`);
+        await render(hbs`<Routes::RegisterForm />`);
 
         // when
         await fillIn('#firstName', stringFilledIn);
@@ -159,7 +159,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       it(`should display an error message on lastName field, when '${stringFilledIn}' is typed and focused out`, async function() {
         // given
-        await render(hbs`{{routes/register-form}}`);
+        await render(hbs`<Routes::RegisterForm />`);
 
         // when
         await fillIn('#lastName', stringFilledIn);
@@ -178,7 +178,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       it(`should display an error message on dayOfBirth field, when '${stringFilledIn}' is typed and focused out`, async function() {
         // given
-        await render(hbs`{{routes/register-form}}`);
+        await render(hbs`<Routes::RegisterForm />`);
 
         // when
         await fillIn('#dayOfBirth', stringFilledIn);
@@ -197,7 +197,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       it(`should display an error message on monthOfBirth field, when '${stringFilledIn}' is typed and focused out`, async function() {
         // given
-        await render(hbs`{{routes/register-form}}`);
+        await render(hbs`<Routes::RegisterForm />`);
 
         // when
         await fillIn('#monthOfBirth', stringFilledIn);
@@ -216,7 +216,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       it(`should display an error message on yearOfBirth field, when '${stringFilledIn}' is typed and focused out`, async function() {
         // given
-        await render(hbs`{{routes/register-form}}`);
+        await render(hbs`<Routes::RegisterForm />`);
 
         // when
         await fillIn('#yearOfBirth', stringFilledIn);
@@ -237,7 +237,7 @@ describe('Integration | Component | routes/register-form', function() {
         // given
         this.set('matchingStudentFound', true);
         this.set('schoolingRegistrationDependentUser', EmberObject.create({ email : stringFilledIn , unloadRecord() {return resolve();}  }));
-        await render(hbs`{{routes/register-form matchingStudentFound=true schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+        await render(hbs`<Routes::RegisterForm @matchingStudentFound=true @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} /> `);
 
         // when
         await click('.pix-toggle__off');
@@ -260,7 +260,7 @@ describe('Integration | Component | routes/register-form', function() {
         // given
         this.set('matchingStudentFound', true);
         this.set('schoolingRegistrationDependentUser', EmberObject.create({ password : stringFilledIn , unloadRecord() {return resolve();}  }));
-        await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+        await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
 
         // when
         await fillIn('#password', stringFilledIn);
@@ -301,7 +301,7 @@ describe('Integration | Component | routes/register-form', function() {
           return resolve();
         };
 
-        await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+        await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
 
         await fillIn('#firstName', 'pix');
         await fillIn('#lastName', 'pix');
@@ -309,8 +309,10 @@ describe('Integration | Component | routes/register-form', function() {
         await fillIn('#monthOfBirth', '10');
         await fillIn('#yearOfBirth', '2010');
 
+        // when
         await click('#submit-search');
 
+        // then
         expect(find('.register-form__error').innerHTML).to.equal(errorMessage);
       });
     });
@@ -319,7 +321,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       describe('When student account is authenticated by email only', async function() {
 
-        it('should return a conflict error and display the error message related to the short code S61)', async function() {
+        it('should display the error message related to the short code S61)', async function() {
           // given
           const error = {
             status: '409',
@@ -352,16 +354,13 @@ describe('Integration | Component | routes/register-form', function() {
             return resolve();
           };
 
-          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+          await fillInputReconciliationForm();
 
-          await fillIn('#firstName', 'pix');
-          await fillIn('#lastName', 'pix');
-          await fillIn('#dayOfBirth', '10');
-          await fillIn('#monthOfBirth', '10');
-          await fillIn('#yearOfBirth', '2010');
-
+          // when
           await click('#submit-search');
 
+          // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
         });
 
@@ -369,7 +368,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       describe('When student account is authenticated by username only', async function() {
 
-        it('should return a conflict error and display the error message related to the short code S62)', async function() {
+        it('should display the error message related to the short code S62)', async function() {
           // given
           const error = {
             status: '409',
@@ -401,16 +400,13 @@ describe('Integration | Component | routes/register-form', function() {
             return resolve();
           };
 
-          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+          await fillInputReconciliationForm();
 
-          await fillIn('#firstName', 'pix');
-          await fillIn('#lastName', 'pix');
-          await fillIn('#dayOfBirth', '10');
-          await fillIn('#monthOfBirth', '10');
-          await fillIn('#yearOfBirth', '2010');
-
+          // when
           await click('#submit-search');
 
+          // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
         });
 
@@ -418,7 +414,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       describe('When student account is authenticated by SamlId only', async function() {
 
-        it('should return a conflict error and display the error message related to the short code S63)', async function() {
+        it('should display the error message related to the short code S63)', async function() {
           // given
           const error = {
             status: '409',
@@ -427,7 +423,7 @@ describe('Integration | Component | routes/register-form', function() {
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
             meta: { shortCode: 'S63', value: undefined }
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.';
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.<br>Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l‘aide de Pix Orga.<br>(Code S63)';
           this.owner.unregister('service:store');
           this.owner.register('service:store', storeStub);
           storeStub.prototype.createRecord = () => {
@@ -450,16 +446,13 @@ describe('Integration | Component | routes/register-form', function() {
             return resolve();
           };
 
-          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+          await fillInputReconciliationForm();
 
-          await fillIn('#firstName', 'pix');
-          await fillIn('#lastName', 'pix');
-          await fillIn('#dayOfBirth', '10');
-          await fillIn('#monthOfBirth', '10');
-          await fillIn('#yearOfBirth', '2010');
-
+          // when
           await click('#submit-search');
 
+          // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
         });
 
@@ -467,7 +460,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       describe('When student account is authenticated by SamlId and username', async function() {
 
-        it('should return a conflict error and display the error message related to the short code S63)', async function() {
+        it('should display the error message related to the short code S63)', async function() {
           // given
           const error = {
             status: '409',
@@ -476,7 +469,7 @@ describe('Integration | Component | routes/register-form', function() {
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
             meta: { shortCode: 'S63', value: undefined }
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.';
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.<br>Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l‘aide de Pix Orga.<br>(Code S63)';
           this.owner.unregister('service:store');
           this.owner.register('service:store', storeStub);
           storeStub.prototype.createRecord = () => {
@@ -499,16 +492,13 @@ describe('Integration | Component | routes/register-form', function() {
             return resolve();
           };
 
-          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+          await fillInputReconciliationForm();
 
-          await fillIn('#firstName', 'pix');
-          await fillIn('#lastName', 'pix');
-          await fillIn('#dayOfBirth', '10');
-          await fillIn('#monthOfBirth', '10');
-          await fillIn('#yearOfBirth', '2010');
-
+          // when
           await click('#submit-search');
 
+          // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
         });
 
@@ -516,7 +506,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       describe('When student account is authenticated by SamlId and email', async function() {
 
-        it('should return a conflict error and display the error message related to the short code S63)', async function() {
+        it('should display the error message related to the short code S63)', async function() {
           // given
           const error = {
             status: '409',
@@ -525,7 +515,7 @@ describe('Integration | Component | routes/register-form', function() {
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
             meta: { shortCode: 'S63', value: undefined }
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.';
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.<br>Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l‘aide de Pix Orga.<br>(Code S63)';
           this.owner.unregister('service:store');
           this.owner.register('service:store', storeStub);
           storeStub.prototype.createRecord = () => {
@@ -548,16 +538,13 @@ describe('Integration | Component | routes/register-form', function() {
             return resolve();
           };
 
-          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+          await fillInputReconciliationForm();
 
-          await fillIn('#firstName', 'pix');
-          await fillIn('#lastName', 'pix');
-          await fillIn('#dayOfBirth', '10');
-          await fillIn('#monthOfBirth', '10');
-          await fillIn('#yearOfBirth', '2010');
-
+          // when
           await click('#submit-search');
 
+          // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
         });
 
@@ -565,7 +552,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       describe('When student account is authenticated by SamlId, email and username', async function() {
 
-        it('should return a conflict error and display the error message related to the short code S63)', async function() {
+        it('should display the error message related to the short code S63)', async function() {
           // given
           const error = {
             status: '409',
@@ -574,7 +561,7 @@ describe('Integration | Component | routes/register-form', function() {
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
             meta: { shortCode: 'S63', value: undefined }
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.';
+          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.<br>Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l‘aide de Pix Orga.<br>(Code S63)';
           this.owner.unregister('service:store');
           this.owner.register('service:store', storeStub);
           storeStub.prototype.createRecord = () => {
@@ -597,16 +584,13 @@ describe('Integration | Component | routes/register-form', function() {
             return resolve();
           };
 
-          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+          await fillInputReconciliationForm();
 
-          await fillIn('#firstName', 'pix');
-          await fillIn('#lastName', 'pix');
-          await fillIn('#dayOfBirth', '10');
-          await fillIn('#monthOfBirth', '10');
-          await fillIn('#yearOfBirth', '2010');
-
+          // when
           await click('#submit-search');
 
+          // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
         });
 
@@ -614,7 +598,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       describe('When student account is authenticated by email and username', async function() {
 
-        it('should return a conflict error and display the error message related to the short code S62)', async function() {
+        it('should display the error message related to the short code S62)', async function() {
           // given
           const error = {
             status: '409',
@@ -646,16 +630,13 @@ describe('Integration | Component | routes/register-form', function() {
             return resolve();
           };
 
-          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+          await fillInputReconciliationForm();
 
-          await fillIn('#firstName', 'pix');
-          await fillIn('#lastName', 'pix');
-          await fillIn('#dayOfBirth', '10');
-          await fillIn('#monthOfBirth', '10');
-          await fillIn('#yearOfBirth', '2010');
-
+          // when
           await click('#submit-search');
 
+          // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
         });
 
@@ -667,7 +648,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       describe('When student account is authenticated by email only', async function() {
 
-        it('should return a conflict error and display the error message related to the short code S51)', async function() {
+        it('should display the error message related to the short code S51)', async function() {
           // given
           const error = {
             status: '409',
@@ -699,16 +680,13 @@ describe('Integration | Component | routes/register-form', function() {
             return resolve();
           };
 
-          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+          await fillInputReconciliationForm();
 
-          await fillIn('#firstName', 'pix');
-          await fillIn('#lastName', 'pix');
-          await fillIn('#dayOfBirth', '10');
-          await fillIn('#monthOfBirth', '10');
-          await fillIn('#yearOfBirth', '2010');
-
+          // when
           await click('#submit-search');
 
+          // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
         });
 
@@ -716,7 +694,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       describe('When student account is authenticated by username only', async function() {
 
-        it('should return a conflict error and display the error message related to the short code S52)', async function() {
+        it('should display the error message related to the short code S52)', async function() {
           // given
           const error = {
             status: '409',
@@ -748,16 +726,13 @@ describe('Integration | Component | routes/register-form', function() {
             return resolve();
           };
 
-          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+          await fillInputReconciliationForm();
 
-          await fillIn('#firstName', 'pix');
-          await fillIn('#lastName', 'pix');
-          await fillIn('#dayOfBirth', '10');
-          await fillIn('#monthOfBirth', '10');
-          await fillIn('#yearOfBirth', '2010');
-
+          // when
           await click('#submit-search');
 
+          // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
         });
 
@@ -765,7 +740,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       describe('When student account is authenticated by SamlId only', async function() {
 
-        it('should return a conflict error and display the error message related to the short code S53)', async function() {
+        it('should display the error message related to the short code S53)', async function() {
           // given
           const error = {
             status: '409',
@@ -797,16 +772,13 @@ describe('Integration | Component | routes/register-form', function() {
             return resolve();
           };
 
-          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+          await fillInputReconciliationForm();
 
-          await fillIn('#firstName', 'pix');
-          await fillIn('#lastName', 'pix');
-          await fillIn('#dayOfBirth', '10');
-          await fillIn('#monthOfBirth', '10');
-          await fillIn('#yearOfBirth', '2010');
-
+          // when
           await click('#submit-search');
 
+          // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
         });
 
@@ -814,7 +786,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       describe('When student account is authenticated by SamlId and username', async function() {
 
-        it('should return a conflict error and display the error message related to the short code S53)', async function() {
+        it('should display the error message related to the short code S53)', async function() {
           // given
           const error = {
             status: '409',
@@ -846,16 +818,13 @@ describe('Integration | Component | routes/register-form', function() {
             return resolve();
           };
 
-          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+          await fillInputReconciliationForm();
 
-          await fillIn('#firstName', 'pix');
-          await fillIn('#lastName', 'pix');
-          await fillIn('#dayOfBirth', '10');
-          await fillIn('#monthOfBirth', '10');
-          await fillIn('#yearOfBirth', '2010');
-
+          // when
           await click('#submit-search');
 
+          // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
         });
 
@@ -863,7 +832,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       describe('When student account is authenticated by SamlId and email', async function() {
 
-        it('should return a conflict error and display the error message related to the short code S53)', async function() {
+        it('should display the error message related to the short code S53)', async function() {
           // given
           const error = {
             status: '409',
@@ -895,16 +864,13 @@ describe('Integration | Component | routes/register-form', function() {
             return resolve();
           };
 
-          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
 
-          await fillIn('#firstName', 'pix');
-          await fillIn('#lastName', 'pix');
-          await fillIn('#dayOfBirth', '10');
-          await fillIn('#monthOfBirth', '10');
-          await fillIn('#yearOfBirth', '2010');
-
+          await fillInputReconciliationForm();
+          // when
           await click('#submit-search');
 
+          // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
         });
 
@@ -912,7 +878,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       describe('When student account is authenticated by SamlId, username and email', async function() {
 
-        it('should return a conflict error and display the error message related to the short code S53)', async function() {
+        it('should display the error message related to the short code S53)', async function() {
           // given
           const error = {
             status: '409',
@@ -944,16 +910,13 @@ describe('Integration | Component | routes/register-form', function() {
             return resolve();
           };
 
-          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+          await fillInputReconciliationForm();
 
-          await fillIn('#firstName', 'pix');
-          await fillIn('#lastName', 'pix');
-          await fillIn('#dayOfBirth', '10');
-          await fillIn('#monthOfBirth', '10');
-          await fillIn('#yearOfBirth', '2010');
-
+          // when
           await click('#submit-search');
 
+          // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
         });
 
@@ -961,7 +924,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       describe('When student account is authenticated by username and email', async function() {
 
-        it('should return a conflict error and display the error message related to the short code S52)', async function() {
+        it('should display the error message related to the short code S52)', async function() {
           // given
           const error = {
             status: '409',
@@ -993,16 +956,12 @@ describe('Integration | Component | routes/register-form', function() {
             return resolve();
           };
 
-          await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound schoolingRegistrationDependentUser=schoolingRegistrationDependentUser}}`);
+          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+          await fillInputReconciliationForm();
 
-          await fillIn('#firstName', 'pix');
-          await fillIn('#lastName', 'pix');
-          await fillIn('#dayOfBirth', '10');
-          await fillIn('#monthOfBirth', '10');
-          await fillIn('#yearOfBirth', '2010');
-
+          // when
           await click('#submit-search');
-
+          // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
         });
 
@@ -1011,3 +970,11 @@ describe('Integration | Component | routes/register-form', function() {
     });
   });
 });
+
+async function fillInputReconciliationForm() {
+  await fillIn('#firstName', 'pix');
+  await fillIn('#lastName', 'pix');
+  await fillIn('#dayOfBirth', '10');
+  await fillIn('#monthOfBirth', '10');
+  await fillIn('#yearOfBirth', '2010');
+}

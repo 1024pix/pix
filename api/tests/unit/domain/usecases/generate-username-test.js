@@ -1,23 +1,37 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
+const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
+const { generateUsername } = require('../../../../lib/domain/usecases');
 const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
+const obfuscationService = require('../../../../lib/domain/services/obfuscation-service');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const { CampaignCodeError, NotFoundError } = require('../../../../lib/domain/errors');
+const schoolingRegistrationRepository = require ('../../../../lib/infrastructure/repositories/schooling-registration-repository');
+const studentRepository = require ('../../../../lib/infrastructure/repositories/student-repository');
+const userRepository = require ('../../../../lib/infrastructure/repositories/user-repository');
+
+const Student = require('../../../../lib/domain/models/Student');
+const { CampaignCodeError, SchoolingRegistrationNotFound, SchoolingRegistrationAlreadyLinkedToUserError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | generate-username', () => {
 
   const organizationId = 1;
 
   let campaignCode;
-  let findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUserStub;
   let createUsernameByUser;
+  let findByOrganizationIdAndUserDataStub;
+  let findMatchingCandidateIdForGivenUserStub;
   let getCampaignStub;
-  let user;
+  let getReconciledStudentByNationalStudentdStub;
+  let getUserAuthenticationMethodsStub;
+  let getUserAuthenticationMethodWithObfuscationStub;
+  let studentInformation;
+  let schoolingRegistration;
+
+  const schoolingRegistrationId = 1;
 
   beforeEach(() => {
     campaignCode = 'RESTRICTD';
 
-    user = {
+    schoolingRegistration = domainBuilder.buildSchoolingRegistration({ organizationId, id: schoolingRegistrationId });
+    studentInformation = {
       id: 1,
       firstName: 'Joe',
       lastName: 'Poe',
@@ -27,8 +41,11 @@ describe('Unit | UseCase | generate-username', () => {
     getCampaignStub = sinon.stub(campaignRepository, 'getByCode')
       .withArgs(campaignCode)
       .resolves({ organizationId });
-
-    findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUserStub = sinon.stub(userReconciliationService,'findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser');
+    getUserAuthenticationMethodsStub = sinon.stub(userRepository, 'getUserAuthenticationMethods');
+    findByOrganizationIdAndUserDataStub = sinon.stub(schoolingRegistrationRepository, 'findByOrganizationIdAndUserData');
+    getReconciledStudentByNationalStudentdStub = sinon.stub(studentRepository, 'getReconciledStudentByNationalStudentId');
+    getUserAuthenticationMethodWithObfuscationStub = sinon.stub(obfuscationService,'getUserAuthenticationMethodWithObfuscation');
+    findMatchingCandidateIdForGivenUserStub = sinon.stub(userReconciliationService,'findMatchingCandidateIdForGivenUser');
     createUsernameByUser = sinon.stub(userReconciliationService,'createUsernameByUser');
   });
 
@@ -39,8 +56,8 @@ describe('Unit | UseCase | generate-username', () => {
       getCampaignStub.withArgs(campaignCode).resolves(null);
 
       // when
-      const result = await catchErr(usecases.generateUsername)({
-        user,
+      const result = await catchErr(generateUsername)({
+        studentInformation,
         campaignCode
       });
 
@@ -49,41 +66,107 @@ describe('Unit | UseCase | generate-username', () => {
     });
   });
 
-  context('When no schoolingRegistration found', () => {
+  context('When no schoolingRegistration found matching organization and birthdate', () => {
 
-    it('should throw a Not Found error', async () => {
+    it('should throw a SchoolingRegistrationNotFound error', async () => {
       // given
-      findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUserStub.throws(new NotFoundError('Error message'));
+      findByOrganizationIdAndUserDataStub.resolves([]);
 
       // when
-      const result = await catchErr(usecases.generateUsername)({
-        user,
+      const result = await catchErr(generateUsername)({
+        studentInformation,
         campaignCode,
       });
 
       // then
-      expect(result).to.be.instanceof(NotFoundError);
-      expect(result.message).to.equal('Error message');
+      expect(result).to.be.instanceof(SchoolingRegistrationNotFound);
+      expect(result.message).to.equal('There were no schoolingRegistrations matching with organization and birthdate');
     });
   });
 
-  context('When one schoolingRegistration matched on names', () => {
+  context('When no schoolingRegistration found matching with firstname and lastname', () => {
 
-    it('should return schoolingRegistration ID found', async () => {
+    it('should throw a SchoolingRegistrationNotFound error', async () => {
       // given
-      const user = {
-        firstName: 'fist',
-        lastName: 'last',
-        birthdate: '2008-12-01'
-      };
-      const username = user.firstName + '.' + user.lastName + '0112';
+      findByOrganizationIdAndUserDataStub.resolves([schoolingRegistration]);
+      findMatchingCandidateIdForGivenUserStub.withArgs([schoolingRegistration], studentInformation).resolves();
 
-      findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUserStub.resolves();
+      // when
+      const result = await catchErr(generateUsername)({
+        studentInformation,
+        campaignCode,
+      });
+
+      // then
+      expect(result).to.be.instanceof(SchoolingRegistrationNotFound);
+      expect(result.message).to.equal('There were no schoolingRegistrations matching with names');
+    });
+  });
+
+  context('When student is already reconciled in the same organization', () => {
+
+    it('should return a SchoolingRegistrationAlreadyLinkedToUser error', async () => {
+      // given
+      schoolingRegistration.userId = studentInformation.id;
+      schoolingRegistration.firstName = studentInformation.firstName;
+      schoolingRegistration.lastName = studentInformation.lastName;
+      const exceptedErrorMEssage = 'Un compte existe déjà pour l‘élève dans le même établissement.';
+
+      findByOrganizationIdAndUserDataStub.resolves([schoolingRegistration]);
+      findMatchingCandidateIdForGivenUserStub.resolves(schoolingRegistration.id);
+      getUserAuthenticationMethodsStub.resolves();
+      getUserAuthenticationMethodWithObfuscationStub.resolves({  authenticatedBy: 'email', value: 'e***@example.net' });
+
+      // when
+      const result = await catchErr(generateUsername)({
+        studentInformation,
+        campaignCode,
+      });
+
+      // then
+      expect(result).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToUserError);
+      expect(result.message).to.equal(exceptedErrorMEssage);
+    });
+  });
+
+  context('When student is already reconciled in others organizations', () => {
+
+    it('should return a SchoolingRegistrationAlreadyLinkedToUser error', async () => {
+      // given
+      schoolingRegistration.firstName = studentInformation.firstName;
+      schoolingRegistration.lastName = studentInformation.lastName;
+      const exceptedErrorMEssage = 'Un compte existe déjà pour l‘élève dans un autre établissement.';
+      findByOrganizationIdAndUserDataStub.resolves([schoolingRegistration]);
+      findMatchingCandidateIdForGivenUserStub.resolves(schoolingRegistration.id);
+      const student = new Student({ account: { userId: studentInformation.id } });
+      getReconciledStudentByNationalStudentdStub.resolves(student);
+      getUserAuthenticationMethodsStub.resolves();
+      getUserAuthenticationMethodWithObfuscationStub.resolves({  authenticatedBy: 'email', value: 'e***@example.net' });
+
+      // when
+      const result = await catchErr(generateUsername)({
+        studentInformation,
+        campaignCode,
+      });
+
+      // then
+      expect(result).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToUserError);
+      expect(result.message).to.equal(exceptedErrorMEssage);
+    });
+  });
+
+  context('When schoolingRegistration matched and student is not already reconciled', () => {
+
+    it('should return username', async () => {
+      // given
+      const username = studentInformation.firstName + '.' + studentInformation.lastName + '0112';
+      findByOrganizationIdAndUserDataStub.resolves([schoolingRegistration]);
+      findMatchingCandidateIdForGivenUserStub.resolves(schoolingRegistration.id);
       createUsernameByUser.resolves(username);
 
       // when
-      const result = await usecases.generateUsername({
-        user,
+      const result = await generateUsername({
+        studentInformation,
         campaignCode,
       });
 
@@ -91,4 +174,5 @@ describe('Unit | UseCase | generate-username', () => {
       expect(result).to.be.equal(username);
     });
   });
+
 });
