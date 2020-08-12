@@ -2,11 +2,13 @@ const sumBy = require('lodash/sumBy');
 const { knex } = require('../bookshelf');
 const placementProfileService = require('../../domain/services/placement-profile-service');
 const CampaignProfilesCollectionParticipationSummary = require('../../domain/read-models/CampaignProfilesCollectionParticipationSummary');
+const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const { fetchPage } = require('../utils/knex-utils');
 
 const CampaignProfilesCollectionParticipationSummaryRepository = {
 
   async findPaginatedByCampaignId(campaignId, page) {
+    const competences = await competenceRepository.listPixCompetencesOnly();
     const query = knex
       .select(
         'campaign-participations.id AS campaignParticipationId',
@@ -36,10 +38,10 @@ const CampaignProfilesCollectionParticipationSummaryRepository = {
           return new CampaignProfilesCollectionParticipationSummary(result);
         }
 
-        const placementProfile = await placementProfileService.getPlacementProfile({
-          userId: result.userId,
-          limitDate: result.sharedAt,
-          allowExcessPixAndLevels: false
+        const [placementProfile] = await placementProfileService.getPlacementProfilesWithSnapshotting({
+          userIdsAndDates: { [result.userId]: result.sharedAt },
+          allowExcessPixAndLevels: false,
+          competences
         });
 
         return new CampaignProfilesCollectionParticipationSummary({
