@@ -32,7 +32,6 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     lastName: sansaStark.lastName,
     birthdate: '2000-05-28',
     organizationId: 2,
-    nationalStudentId: 'TOTO',
     userId: sansaStark.id,
   });
 
