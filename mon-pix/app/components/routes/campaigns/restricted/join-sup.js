@@ -12,7 +12,8 @@ export default class JoinSup extends Component {
   @tracked studentNumber;
 
   @action
-  attemptNext() {
+  attemptNext(event) {
+    event.preventDefault();
     this._validateInput('studentNumber', this.studentNumber);
     const schoolingRegistration = this.store.createRecord('schooling-registration-user-association', {
       id: this.args.campaignCode + '_' + this.studentNumber,

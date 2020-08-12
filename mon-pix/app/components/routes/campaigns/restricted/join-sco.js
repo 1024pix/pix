@@ -68,7 +68,8 @@ export default class JoinSco extends Component {
   }
 
   @action
-  attemptNext() {
+  attemptNext(event) {
+    event.preventDefault();
     this._validateInputName('firstName', this.firstName);
     this._validateInputName('lastName', this.lastName);
     this._validateInputDay('dayOfBirth', this.dayOfBirth);

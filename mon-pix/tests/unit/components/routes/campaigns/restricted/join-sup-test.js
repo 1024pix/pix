@@ -11,12 +11,15 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
   let storeStub;
   let onSubmitStub;
   let sessionStub;
+  let eventStub;
 
   beforeEach(function() {
     const createStudentUserAssociationStub = sinon.stub();
+
     storeStub = { createRecord: createStudentUserAssociationStub };
     sessionStub = { data: { authenticated: { source: 'pix' } } };
     onSubmitStub = sinon.stub();
+    eventStub = { preventDefault: sinon.stub() };
     component = createComponent('component:routes/campaigns/restricted/join-sup', { onSubmit: onSubmitStub, campaignCode: 123 });
     component.store = storeStub;
     component.session = sessionStub;
@@ -41,7 +44,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
       ).returns(schoolingRegistration);
 
       // when
-      await component.actions.attemptNext.call(component);
+      await component.actions.attemptNext.call(component, eventStub);
       // then
       sinon.assert.calledWith(onSubmitStub, schoolingRegistration);
     });
@@ -51,11 +54,20 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
       component.studentNumber = '';
 
       // when
-      await component.actions.attemptNext.call(component);
+      await component.actions.attemptNext.call(component, eventStub);
 
       // then
       sinon.assert.notCalled(onSubmitStub);
       expect(component.errorMessage).to.equal('Votre numéro étudiant n’est pas renseigné.');
+    });
+
+    it('should prevent default handling of event', async function() {
+      // given
+      // when
+      await component.actions.attemptNext.call(component, eventStub);
+
+      // then
+      sinon.assert.called(eventStub.preventDefault);
     });
   });
 });

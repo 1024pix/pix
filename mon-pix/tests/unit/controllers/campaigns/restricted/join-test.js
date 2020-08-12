@@ -68,7 +68,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
           schoolingRegistration.save.rejects({ errors: [error] });
 
           // when
-          await controller.actions.attemptNext.call(controller);
+          await controller.actions.attemptNext.call(controller, schoolingRegistration);
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
@@ -94,7 +94,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
           schoolingRegistration.save.rejects({ errors: [error] });
 
           // when
-          await controller.actions.attemptNext.call(controller);
+          await controller.actions.attemptNext.call(controller, schoolingRegistration);
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
@@ -120,7 +120,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
           schoolingRegistration.save.rejects({ errors: [error] });
 
           // when
-          await controller.actions.attemptNext.call(controller);
+          await controller.actions.attemptNext.call(controller, schoolingRegistration);
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
@@ -146,7 +146,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
           schoolingRegistration.save.rejects({ errors: [error] });
 
           // when
-          await controller.actions.attemptNext.call(controller);
+          await controller.actions.attemptNext.call(controller, schoolingRegistration);
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
@@ -172,7 +172,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
           schoolingRegistration.save.rejects({ errors: [error] });
 
           // when
-          await controller.actions.attemptNext.call(controller);
+          await controller.actions.attemptNext.call(controller, schoolingRegistration);
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
@@ -198,7 +198,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
           schoolingRegistration.save.rejects({ errors: [error] });
 
           // when
-          await controller.actions.attemptNext.call(controller);
+          await controller.actions.attemptNext.call(controller, schoolingRegistration);
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
@@ -224,7 +224,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
           schoolingRegistration.save.rejects({ errors: [error] });
 
           // when
-          await controller.actions.attemptNext.call(controller);
+          await controller.actions.attemptNext.call(controller, schoolingRegistration);
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
@@ -254,7 +254,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
           schoolingRegistration.save.rejects({ errors: [error] });
 
           // when
-          await controller.actions.attemptNext.call(controller);
+          await controller.actions.attemptNext.call(controller, schoolingRegistration);
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
@@ -280,7 +280,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
           schoolingRegistration.save.rejects({ errors: [error] });
 
           // when
-          await controller.actions.attemptNext.call(controller);
+          await controller.actions.attemptNext.call(controller, schoolingRegistration);
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
@@ -306,7 +306,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
           schoolingRegistration.save.rejects({ errors: [error] });
 
           // when
-          await controller.actions.attemptNext.call(controller);
+          await controller.actions.attemptNext.call(controller, schoolingRegistration);
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
@@ -332,7 +332,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
           schoolingRegistration.save.rejects({ errors: [error] });
 
           // when
-          await controller.actions.attemptNext.call(controller);
+          await controller.actions.attemptNext.call(controller, schoolingRegistration);
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
@@ -358,7 +358,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
           schoolingRegistration.save.rejects({ errors: [error] });
 
           // when
-          await controller.actions.attemptNext.call(controller);
+          await controller.actions.attemptNext.call(controller, schoolingRegistration);
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
@@ -384,7 +384,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
           schoolingRegistration.save.rejects({ errors: [error] });
 
           // when
-          await controller.actions.attemptNext.call(controller);
+          await controller.actions.attemptNext.call(controller, schoolingRegistration);
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
@@ -410,7 +410,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
           schoolingRegistration.save.rejects({ errors: [error] });
 
           // when
-          await controller.actions.attemptNext.call(controller);
+          await controller.actions.attemptNext.call(controller, schoolingRegistration);
 
           // then
           sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
