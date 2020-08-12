@@ -12,7 +12,7 @@ exports.register = async function(server) {
       path: '/api/schooling-registration-dependent-users',
       config: {
         auth: false,
-        handler: schoolingRegistrationDependentUserController.createAndAssociateUserToSchoolingRegistration,
+        handler: schoolingRegistrationDependentUserController.createAndReconcileUserToSchoolingRegistration,
         validate: {
           options: {
             allowUnknown: true

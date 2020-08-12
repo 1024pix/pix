@@ -8,15 +8,16 @@ const userRepository = require('../../../../lib/infrastructure/repositories/user
 
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const mailService = require('../../../../lib/domain/services/mail-service');
+const obfuscationService = require('../../../../lib/domain/services/obfuscation-service');
 const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
 
 const {
   CampaignCodeError, NotFoundError, EntityValidationError, SchoolingRegistrationAlreadyLinkedToUserError
 } = require('../../../../lib/domain/errors');
 
-const createAndAssociateUserToSchoolingRegistration = require('../../../../lib/domain/usecases/create-and-associate-user-to-schooling-registration');
+const createAndReconcileUserToSchoolingRegistration = require('../../../../lib/domain/usecases/create-and-reconcile-user-to-schooling-registration');
 
-describe('Integration | UseCases | create-and-associate-user-to-schooling-registration', () => {
+describe('Integration | UseCases | create-and-reconcile-user-to-schooling-registration', () => {
 
   let organizationId;
   let campaignCode;
@@ -27,7 +28,7 @@ describe('Integration | UseCases | create-and-associate-user-to-schooling-regist
 
     it('should throw a campaign code error', async () => {
       // when
-      const error = await catchErr(createAndAssociateUserToSchoolingRegistration)({ campaignCode: 'NOTEXIST', campaignRepository });
+      const error = await catchErr(createAndReconcileUserToSchoolingRegistration)({ campaignCode: 'NOTEXIST', campaignRepository });
 
       // then
       expect(error).to.be.instanceof(CampaignCodeError);
@@ -50,14 +51,14 @@ describe('Integration | UseCases | create-and-associate-user-to-schooling-regist
       };
 
       // when
-      const error = await catchErr(createAndAssociateUserToSchoolingRegistration)({
+      const error = await catchErr(createAndReconcileUserToSchoolingRegistration)({
         campaignCode, userAttributes,
         campaignRepository, userReconciliationService, schoolingRegistrationRepository
       });
 
       // then
       expect(error).to.be.instanceof(NotFoundError);
-      expect(error.message).to.equal('There were no schoolingRegistrations matching with organization and birthdate');
+      expect(error.message).to.equal('There are no schooling registrations found');
     });
   });
 
@@ -89,10 +90,10 @@ describe('Integration | UseCases | create-and-associate-user-to-schooling-regist
         await databaseBuilder.commit();
 
         // when
-        const error = await catchErr(createAndAssociateUserToSchoolingRegistration)({
+        const error = await catchErr(createAndReconcileUserToSchoolingRegistration)({
           campaignCode, userAttributes,
           campaignRepository, schoolingRegistrationRepository, userRepository,
-          userReconciliationService, encryptionService, mailService
+          userReconciliationService, encryptionService, mailService, obfuscationService,
         });
 
         // then
@@ -135,7 +136,7 @@ describe('Integration | UseCases | create-and-associate-user-to-schooling-regist
           });
 
           // when
-          const error = await catchErr(createAndAssociateUserToSchoolingRegistration)({
+          const error = await catchErr(createAndReconcileUserToSchoolingRegistration)({
             campaignCode, userAttributes,
             campaignRepository, schoolingRegistrationRepository, userRepository,
             userReconciliationService
@@ -168,7 +169,7 @@ describe('Integration | UseCases | create-and-associate-user-to-schooling-regist
           await databaseBuilder.commit();
 
           // when
-          const error = await catchErr(createAndAssociateUserToSchoolingRegistration)({
+          const error = await catchErr(createAndReconcileUserToSchoolingRegistration)({
             campaignCode, userAttributes,
             campaignRepository, schoolingRegistrationRepository, userRepository,
             userReconciliationService
@@ -199,7 +200,7 @@ describe('Integration | UseCases | create-and-associate-user-to-schooling-regist
           };
 
           // when
-          const result = await createAndAssociateUserToSchoolingRegistration({
+          const result = await createAndReconcileUserToSchoolingRegistration({
             campaignCode, userAttributes,
             campaignRepository, schoolingRegistrationRepository, userRepository,
             userReconciliationService, encryptionService, mailService
@@ -248,7 +249,7 @@ describe('Integration | UseCases | create-and-associate-user-to-schooling-regist
           await databaseBuilder.commit();
 
           // when
-          const error = await catchErr(createAndAssociateUserToSchoolingRegistration)({
+          const error = await catchErr(createAndReconcileUserToSchoolingRegistration)({
             campaignCode, userAttributes,
             campaignRepository, schoolingRegistrationRepository, userRepository,
             userReconciliationService
@@ -276,7 +277,7 @@ describe('Integration | UseCases | create-and-associate-user-to-schooling-regist
           };
 
           // when
-          const result = await createAndAssociateUserToSchoolingRegistration({
+          const result = await createAndReconcileUserToSchoolingRegistration({
             campaignCode, userAttributes,
             campaignRepository, schoolingRegistrationRepository, userRepository,
             userReconciliationService, encryptionService, mailService

@@ -7,13 +7,14 @@ module.exports = async function generateUsername({
   schoolingRegistrationRepository,
   userReconciliationService,
   userRepository,
+  obfuscationService,
 }) {
   const campaign = await campaignRepository.getByCode(campaignCode);
   if (!campaign || !campaign.organizationId) {
     throw new CampaignCodeError(`Le code campagne ${campaignCode} n'existe pas.`);
   }
 
-  await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId: campaign.organizationId, user, schoolingRegistrationRepository, userRepository });
+  await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId: campaign.organizationId, reconciliationInfo: user, schoolingRegistrationRepository, userRepository, obfuscationService });
 
   return userReconciliationService.createUsernameByUser({ user , userRepository });
 

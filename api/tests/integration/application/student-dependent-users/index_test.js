@@ -10,7 +10,7 @@ describe('Integration | Application | Route | student-dependent-users', () => {
 
   beforeEach(() => {
     sinon.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents').callsFake((request, h) => h.response(true));
-    sinon.stub(schoolingRegistrationDependentUserController, 'createAndAssociateUserToSchoolingRegistration').callsFake((request, h) => h.response('ok').code(201));
+    sinon.stub(schoolingRegistrationDependentUserController, 'createAndReconcileUserToSchoolingRegistration').callsFake((request, h) => h.response('ok').code(201));
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 

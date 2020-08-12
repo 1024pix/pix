@@ -8,7 +8,8 @@ describe('Integration | Application | Route | schooling-registration-user-associ
   let httpTestServer;
 
   beforeEach(() => {
-    sinon.stub(schoolingRegistrationUserAssociationController, 'associate').callsFake((request, h) => h.response('ok').code(204));
+    sinon.stub(schoolingRegistrationUserAssociationController, 'reconcileManually').callsFake((request, h) => h.response('ok').code(204));
+    sinon.stub(schoolingRegistrationUserAssociationController, 'reconcileAutomatically').callsFake((request, h) => h.response('ok').code(204));
     sinon.stub(schoolingRegistrationUserAssociationController, 'findAssociation').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(schoolingRegistrationUserAssociationController, 'generateUsername').callsFake((request, h) => h.response('ok').code(200));
 
@@ -20,7 +21,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
     const method = 'POST';
     const url = '/api/schooling-registration-user-associations';
 
-    context('when user details are provided in payload', () => {
+    context('User association with firstName, lastName, birthdate and campaignCode', () => {
       it('should succeed', async () => {
         // given
         const payload = {
@@ -199,12 +200,13 @@ describe('Integration | Application | Route | schooling-registration-user-associ
       });
     });
 
-    context('when only campaign-code is provided in payload', () => {
+    context('User association with studentNumber and campaignCode', () => {
       it('should succeed', async () => {
         // given
         const payload = {
           data: {
             attributes: {
+              'student-number': '123456789A',
               'campaign-code': 'RESTRICTD'
             }
           }
@@ -217,13 +219,13 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         expect(response.statusCode).to.equal(204);
       });
 
-      it('should return an error when there is an invalid campaign code attribute in the payload', async () => {
+      it('should failed if student number is an empty string', async () => {
         // given
-        const INVALID_CAMPAIGNCODE = '';
         const payload = {
           data: {
             attributes: {
-              'campaign-code': INVALID_CAMPAIGNCODE,
+              'student-number': ' ',
+              'campaign-code': 'RESTRICTD'
             }
           }
         };
@@ -234,6 +236,47 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         // then
         expect(response.statusCode).to.equal(422);
       });
+    });
+  });
+
+  describe('POST /api/schooling-registration-user-associations/auto', () => {
+
+    const method = 'POST';
+    const url = '/api/schooling-registration-user-associations/auto';
+
+    it('should succeed', async () => {
+      // given
+      const payload = {
+        data: {
+          attributes: {
+            'campaign-code': 'RESTRICTD'
+          }
+        }
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+
+    it('should return an error when there is an invalid campaign code attribute in the payload', async () => {
+      // given
+      const INVALID_CAMPAIGNCODE = '';
+      const payload = {
+        data: {
+          attributes: {
+            'campaign-code': INVALID_CAMPAIGNCODE,
+          }
+        }
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(422);
     });
   });
 

@@ -11,7 +11,7 @@ describe('Unit | UseCase | retrieve-campaign-information', () => {
   let campaignRepoStub;
   let orgaRepoStub;
   const organizationId = 'organizationId';
-  const organization = { id: organizationId, logoUrl: 'a logo url', name: 'College Victor Hugo' };
+  const organization = { id: organizationId, logoUrl: 'a logo url', name: 'College Victor Hugo', type: 'SCO' };
   const campaignCode = 'QWERTY123';
   const user = { id: 1, firstName: 'John', lastName: 'Snow' };
 
@@ -53,10 +53,10 @@ describe('Unit | UseCase | retrieve-campaign-information', () => {
 
     context('The related organization exist', () => {
 
-      it('should return the same campaign with adding the organization logo url and name', async () => {
+      it('should return the same campaign with adding the organization logo url, name and type', async () => {
         // given
-        const { logoUrl: organizationLogoUrl, name: organizationName } = organization;
-        const augmentedCampaign = { ...campaign, organizationLogoUrl, organizationName };
+        const { logoUrl: organizationLogoUrl, name: organizationName, type: organizationType } = organization;
+        const augmentedCampaign = { ...campaign, organizationLogoUrl, organizationName, organizationType };
 
         // when
         const foundCampaign = await usecases.retrieveCampaignInformation({ code: campaignCode });

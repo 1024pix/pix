@@ -11,10 +11,13 @@ export default function index(config) {
     const params = JSON.parse(request.requestBody);
     const campaignCode = params.data.attributes['campaign-code'];
     const birthdate = params.data.attributes.birthdate;
+    const studentNumber = params.data.attributes.studentNumber;
+    return schema.schoolingRegistrationUserAssociations.create({ campaignCode, birthdate, studentNumber });
+  });
 
-    if (birthdate) {
-      return schema.schoolingRegistrationUserAssociations.create({ campaignCode, birthdate });
-    }
+  config.post('/schooling-registration-user-associations/auto', (schema, request) => {
+    const params = JSON.parse(request.requestBody);
+    const campaignCode = params.data.attributes['campaign-code'];
 
     const schoolingRegistration = schema.schoolingRegistrationUserAssociations.findBy({ campaignCode });
     return schoolingRegistration ? schoolingRegistration : new Response(422);

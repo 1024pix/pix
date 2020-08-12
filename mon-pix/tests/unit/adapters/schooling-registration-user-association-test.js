@@ -79,7 +79,7 @@ describe('Unit | Adapters | schooling-registration-user-association', function()
       let expectedUrl, expectedMethod, expectedData, snapshot;
 
       beforeEach(() => {
-        expectedUrl = 'http://localhost:3000/api/schooling-registration-user-associations';
+        expectedUrl = 'http://localhost:3000/api/schooling-registration-user-associations/auto';
         expectedMethod = 'POST';
         expectedData = {
           data: {
