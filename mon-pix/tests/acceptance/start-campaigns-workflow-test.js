@@ -256,8 +256,8 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await visit(`/campagnes/${campaign.code}`);
 
             // when
-            await fillIn('#firstName', 'JeanPrescrit');
-            await fillIn('#lastName', 'Campagne');
+            await fillIn('#firstName', prescritUser.firstName);
+            await fillIn('#lastName', prescritUser.lastName);
             await fillIn('#dayOfBirth', '10');
             await fillIn('#monthOfBirth', '12');
             await fillIn('#yearOfBirth', '2000');
@@ -266,14 +266,13 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             //go to email-based authentication window
             await click('.pix-toggle__off');
 
-            await fillIn('#email', 'JeanPrescrit.Campagne@example.net');
+            await fillIn('#email', prescritUser.email);
             await fillIn('#password', 'pix123');
             await click('#submit-registration');
-
             // then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification`);
-            expect(find('#firstName').value).to.equal('JeanPrescrit');
-            expect(find('#email').value).to.equal('JeanPrescrit.Campagne@example.net');
+            expect(find('#firstName').value).to.equal(prescritUser.firstName);
+            expect(find('#email').value).to.equal(prescritUser.email);
             expect(find('#password').value).to.equal('pix123');
 
             //go to username-based authentication window
@@ -309,7 +308,6 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await click('#submit-connexion');
 
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`);
-
             // when
             await fillIn('#firstName', 'Jane');
             await fillIn('#lastName', 'Acme');

@@ -11,12 +11,14 @@ describe('Unit | Component | routes/campaigns/restricted/join', function() {
   let storeStub;
   let onSubmitStub;
   let sessionStub;
+  let eventStub;
 
   beforeEach(function() {
     const createStudentUserAssociationStub = sinon.stub();
     storeStub = { createRecord: createStudentUserAssociationStub };
     sessionStub = { data: { authenticated: { source: 'pix' } } };
     onSubmitStub = sinon.stub();
+    eventStub = { preventDefault: sinon.stub() };
     component = createComponent('component:routes/campaigns/restricted/join-sco', { onSubmit: onSubmitStub, campaignCode: 123 });
     component.store = storeStub;
     component.session = sessionStub;
@@ -319,7 +321,7 @@ describe('Unit | Component | routes/campaigns/restricted/join', function() {
       component.firstName = ' ';
 
       // when
-      await component.actions.attemptNext.call(component);
+      await component.actions.attemptNext.call(component, eventStub);
 
       // then
       sinon.assert.notCalled(onSubmitStub);
@@ -331,7 +333,7 @@ describe('Unit | Component | routes/campaigns/restricted/join', function() {
       component.lastName = '';
 
       // when
-      await component.actions.attemptNext.call(component);
+      await component.actions.attemptNext.call(component, eventStub);
 
       // then
       sinon.assert.notCalled(onSubmitStub);
@@ -343,7 +345,7 @@ describe('Unit | Component | routes/campaigns/restricted/join', function() {
       component.dayOfBirth = '99';
 
       // when
-      await component.actions.attemptNext.call(component);
+      await component.actions.attemptNext.call(component, eventStub);
 
       // then
       sinon.assert.notCalled(onSubmitStub);
@@ -355,7 +357,7 @@ describe('Unit | Component | routes/campaigns/restricted/join', function() {
       component.monthOfBirth = '99';
 
       // when
-      await component.actions.attemptNext.call(component);
+      await component.actions.attemptNext.call(component, eventStub);
 
       // then
       sinon.assert.notCalled(onSubmitStub);
@@ -367,7 +369,7 @@ describe('Unit | Component | routes/campaigns/restricted/join', function() {
       component.yearOfBirth = '99';
 
       // when
-      await component.actions.attemptNext.call(component);
+      await component.actions.attemptNext.call(component, eventStub);
 
       // then
       sinon.assert.notCalled(onSubmitStub);
@@ -389,10 +391,19 @@ describe('Unit | Component | routes/campaigns/restricted/join', function() {
       ).returns(schoolingRegistration);
 
       // when
-      await component.actions.attemptNext.call(component);
+      await component.actions.attemptNext.call(component, eventStub);
 
       // then
       sinon.assert.calledWith(onSubmitStub, schoolingRegistration);
     });
+  });
+
+  it('should prevent default handling of event', async function() {
+    // given
+    // when
+    await component.actions.attemptNext.call(component, eventStub);
+
+    // then
+    sinon.assert.called(eventStub.preventDefault);
   });
 });
