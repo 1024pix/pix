@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v2.183.0 (12/08/2020)
+
+- [#1731](https://github.com/1024pix/pix/pull/1731) [FEATURE] Réconcilier un étudiant avec son numéro étudiant pour les campagnes SUP (PIX-1061)
+- [#1764](https://github.com/1024pix/pix/pull/1764) [FEATURE] Afficher le nom et prénom des inscriptions à la place des noms et prénoms des utilisateurs dans les écrans campagne de collecte de profils de Pix Orga (PIX-1088).
+- [#1765](https://github.com/1024pix/pix/pull/1765) [FEATURE] Afficher le nom et prénom des inscriptions à la place des noms et prénoms des utilisateurs dans le CSV de collecte de profils (PIX-1089).
+- [#1751](https://github.com/1024pix/pix/pull/1751) [FEATURE] Dans Pix Orga, générer un identifiant avec mot de passe temporaire pour les utilisateurs qui se connectent uniquement avec le GAR (PIX-1005).
+- [#1763](https://github.com/1024pix/pix/pull/1763) [FEATURE] Afficher titres et descriptifs du palier atteint (PIX-1050).
+- [#1748](https://github.com/1024pix/pix/pull/1748) [FEATURE] Traduire les noms et descriptions des tubes (PIX-794).
+- [#1762](https://github.com/1024pix/pix/pull/1762) [BUGFIX] Renommage de `stagesCount` en `stageCount` sur l'application front.
+- [#1761](https://github.com/1024pix/pix/pull/1761) [BUGFIX] Stabiliser le bouton de reload des embeds (PIX-1107).
+- [#1749](https://github.com/1024pix/pix/pull/1749) [TECH] Utiliser les snapshots KE dans l'affichage de la liste des participants des campagnes d'évaluation (PIX-1066)
+- [#1754](https://github.com/1024pix/pix/pull/1754) [TECH] Découpler l'`user-orga-settings` du modèle User.
+- [#1694](https://github.com/1024pix/pix/pull/1694) [CLEANUP] Extraction sélection des épreuves de certification (PIX-992)
+
 ## v2.182.0 (10/08/2020)
 
 - [#1759](https://github.com/1024pix/pix/pull/1759) [FEATURE] Afficher le nombre de paliers atteints et le nombre de paliers maximum (PIX-1049).
