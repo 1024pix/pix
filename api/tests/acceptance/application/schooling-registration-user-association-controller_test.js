@@ -691,6 +691,118 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
 
       context('when schoolingRegistration is already associated in the same organization', () => {
 
+        it('should return a schooling registration already linked error (short code S61 when account with email)', async () => {
+          // given
+          const userWithEmailOnly = databaseBuilder.factory.buildUser();
+          userWithEmailOnly.username = null;
+          userWithEmailOnly.email = 'john.harry@example.net';
+          userWithEmailOnly.samlId = null;
+          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null });
+          schoolingRegistration.userId = userWithEmailOnly.id;
+          await databaseBuilder.commit();
+
+          const expectedResponse = {
+            status: '409',
+            code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
+            meta: { shortCode: 'S61', value: 'j***@example.net' }
+          };
+
+          options.headers.authorization = generateValidRequestAuthorizationHeader(userWithEmailOnly.id);
+          options.payload.data = {
+            attributes: {
+              'campaign-code': campaignCode,
+              'first-name': schoolingRegistration.firstName,
+              'last-name': schoolingRegistration.lastName,
+              'birthdate': schoolingRegistration.birthdate
+            }
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(409);
+          expect(response.result.errors[0]).to.deep.equal(expectedResponse);
+        });
+
+        it('should return a schooling registration already linked error (short code S62 when connected with username)', async () => {
+          // given
+          const userWithUsernameOnly = databaseBuilder.factory.buildUser();
+          userWithUsernameOnly.username = 'john.harry0702';
+          userWithUsernameOnly.email = null;
+          userWithUsernameOnly.samlId = null;
+          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null });
+          schoolingRegistration.userId = userWithUsernameOnly.id;
+          await databaseBuilder.commit();
+
+          const expectedResponse = {
+            status: '409',
+            code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
+            meta: { shortCode: 'S62', value: 'j***.h***2' }
+          };
+
+          options.headers.authorization = generateValidRequestAuthorizationHeader(userWithUsernameOnly.id);
+          options.payload.data = {
+            attributes: {
+              'campaign-code': campaignCode,
+              'first-name': schoolingRegistration.firstName,
+              'last-name': schoolingRegistration.lastName,
+              'birthdate': schoolingRegistration.birthdate
+            }
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(409);
+          expect(response.result.errors[0]).to.deep.equal(expectedResponse);
+        });
+
+        it('should return a schooling registration already linked error (short code S63 when account with samlId)', async () => {
+          // given
+          const userWithEmailOnly = databaseBuilder.factory.buildUser();
+          userWithEmailOnly.username = null;
+          userWithEmailOnly.email = null;
+          userWithEmailOnly.samlId = '12345689';
+          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null });
+          schoolingRegistration.userId = userWithEmailOnly.id;
+          await databaseBuilder.commit();
+
+          const expectedResponse = {
+            status: '409',
+            code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
+            meta: { shortCode: 'S63', value: null }
+          };
+
+          options.headers.authorization = generateValidRequestAuthorizationHeader(userWithEmailOnly.id);
+          options.payload.data = {
+            attributes: {
+              'campaign-code': campaignCode,
+              'first-name': schoolingRegistration.firstName,
+              'last-name': schoolingRegistration.lastName,
+              'birthdate': schoolingRegistration.birthdate
+            }
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(409);
+          expect(response.result.errors[0]).to.deep.equal(expectedResponse);
+        });
+
+      });
+
+      context('when schoolingRegistration is already associated in others organizations', () => {
+
         it('should respond with a 409 - Conflict', async () => {
           // given
           const schoolingRegistrationAlreadyMatched = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, firstName: user.firstName, lastName: user.lastName, userId: user.id });
@@ -706,6 +818,131 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           expect(response.statusCode).to.equal(409);
           expect(response.result.errors[0].detail).to.equal('Un compte existe déjà pour l‘élève dans le même établissement.');
         });
+
+        it('should return a schooling registration already linked error (short code S51 when account with email)', async () => {
+          // given
+          const userWithEmailOnly = databaseBuilder.factory.buildUser();
+          userWithEmailOnly.username = null;
+          userWithEmailOnly.email = 'john.harry@example.net';
+          userWithEmailOnly.samlId = null;
+
+          const otherSchoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration();
+          otherSchoolingRegistration.nationalStudentId = schoolingRegistration.nationalStudentId;
+          otherSchoolingRegistration.birthdate = schoolingRegistration.birthdate;
+          otherSchoolingRegistration.firstName = schoolingRegistration.firstName;
+          otherSchoolingRegistration.lastName = schoolingRegistration.lastName;
+          otherSchoolingRegistration.userId = userWithEmailOnly.id;
+
+          await databaseBuilder.commit();
+
+          const expectedResponse = {
+            status: '409',
+            code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
+            meta: { shortCode: 'S51', value: 'j***@example.net' }
+          };
+
+          options.headers.authorization = generateValidRequestAuthorizationHeader(userWithEmailOnly.id);
+          options.payload.data = {
+            attributes: {
+              'campaign-code': campaignCode,
+              'first-name': schoolingRegistration.firstName,
+              'last-name': schoolingRegistration.lastName,
+              'birthdate': schoolingRegistration.birthdate
+            }
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(409);
+          expect(response.result.errors[0]).to.deep.equal(expectedResponse);
+        });
+
+        it('should return a schooling registration already linked error (short code S52 when connected with username)', async () => {
+          // given
+          const userWithUsernameOnly = databaseBuilder.factory.buildUser();
+          userWithUsernameOnly.email = null;
+          userWithUsernameOnly.username = 'john.harry0702';
+          userWithUsernameOnly.samlId = null;
+
+          const otherSchoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration();
+          otherSchoolingRegistration.nationalStudentId = schoolingRegistration.nationalStudentId;
+          otherSchoolingRegistration.birthdate = schoolingRegistration.birthdate;
+          otherSchoolingRegistration.firstName = schoolingRegistration.firstName;
+          otherSchoolingRegistration.lastName = schoolingRegistration.lastName;
+          otherSchoolingRegistration.userId = userWithUsernameOnly.id;
+          await databaseBuilder.commit();
+
+          const expectedResponse = {
+            status: '409',
+            code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
+            meta: { shortCode: 'S52', value: 'j***.h***2' }
+          };
+
+          options.headers.authorization = generateValidRequestAuthorizationHeader(userWithUsernameOnly.id);
+          options.payload.data = {
+            attributes: {
+              'campaign-code': campaignCode,
+              'first-name': schoolingRegistration.firstName,
+              'last-name': schoolingRegistration.lastName,
+              'birthdate': schoolingRegistration.birthdate
+            }
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(409);
+          expect(response.result.errors[0]).to.deep.equal(expectedResponse);
+        });
+
+        it('should return a schooling registration already linked error (short code S53 when account with samlId)', async () => {
+          // given
+          const userWithSamlIdOnly = databaseBuilder.factory.buildUser();
+          userWithSamlIdOnly.email = null;
+          userWithSamlIdOnly.username = null;
+          userWithSamlIdOnly.samlId = '12345678';
+
+          const otherSchoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration();
+          otherSchoolingRegistration.nationalStudentId = schoolingRegistration.nationalStudentId;
+          otherSchoolingRegistration.birthdate = schoolingRegistration.birthdate;
+          otherSchoolingRegistration.firstName = schoolingRegistration.firstName;
+          otherSchoolingRegistration.lastName = schoolingRegistration.lastName;
+          otherSchoolingRegistration.userId = userWithSamlIdOnly.id;
+          await databaseBuilder.commit();
+
+          const expectedResponse = {
+            status: '409',
+            code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
+            meta: { shortCode: 'S53', value: null }
+          };
+
+          options.headers.authorization = generateValidRequestAuthorizationHeader(userWithSamlIdOnly.id);
+          options.payload.data = {
+            attributes: {
+              'campaign-code': campaignCode,
+              'first-name': schoolingRegistration.firstName,
+              'last-name': schoolingRegistration.lastName,
+              'birthdate': schoolingRegistration.birthdate
+            }
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(409);
+          expect(response.result.errors[0]).to.deep.equal(expectedResponse);
+        });
+
       });
 
       context('when a field is not valid', () => {
