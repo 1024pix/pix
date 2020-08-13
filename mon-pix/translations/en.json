@@ -631,7 +631,13 @@
       "information": "If you've ridden on Pix before, the questions you answered weren't asked again. However, the result displayed here takes into account all of your answers.",
       "not-finished": "You cannot send your results yet, we still have a few questions for you.",
       "send-results": "Send your results to the course organizer so that he can accompany you.",
-      "stages": "You reached stage # {reachedStage} out of {stageCount} stages.",
+      "stage": {
+        "masteryPercentage": "{percentage} % success",
+        "alt": {
+          "acquiredStar": "Stage #{index} reached",
+          "unacquiredStar": "Stage #{index} not reached"
+        }
+      },
       "try-again": {
         "title": "Want to improve your results?",
         "description": "You can retry some questions"
