@@ -80,6 +80,7 @@ module.exports = (function() {
       secret: process.env.AUTH_SECRET,
       tokenLifespan: (process.env.TOKEN_LIFE_SPAN || '7d'),
       tokenForCampaignResultLifespan: '1h',
+      tokenForStudentReconciliationLifespan: '1h',
     },
 
     saml: {
