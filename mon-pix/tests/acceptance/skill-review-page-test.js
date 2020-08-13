@@ -181,24 +181,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
 
         // then
-        expect(find('.skill-review__reached-stage')).to.exist;
-      });
-
-      it('should display stages count when campaign has stages', async function() {
-        // given
-        const reachedStage = server.create('reached-stage', {
-          title: 'You reached Stage 1',
-          message: 'You are almost a rock star',
-          threshold: 50,
-          starCount: 2,
-        });
-        campaignParticipationResult.update({ reachedStage, stageCount: 4 });
-
-        // when
-        await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
-
-        // then
-        expect(find('.skill-review__stage-count')).to.exist;
+        expect(find('.reached-stage')).to.exist;
       });
 
       it('should not display reached stage when campaign has no stages', async function() {
@@ -206,15 +189,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
 
         // then
-        expect(find('.skill-review__reached-stage')).to.not.exist;
-      });
-
-      it('should not display stages count when campaign has no stages', async function() {
-        // when
-        await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
-
-        // then
-        expect(find('.skill-review__stage-count')).to.not.exist;
+        expect(find('.reached-stage')).to.not.exist;
       });
 
       it('should share the results', async function() {

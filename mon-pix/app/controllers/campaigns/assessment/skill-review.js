@@ -21,6 +21,14 @@ export default class SkillReviewController extends Controller {
     return badges.filter((badge) => badge.isAcquired);
   }
 
+  get reachedStage() {
+    return this.model.campaignParticipation.campaignParticipationResult.get('reachedStage');
+  }
+
+  get stageCount() {
+    return this.model.campaignParticipation.campaignParticipationResult.get('stageCount');
+  }
+
   @action
   shareCampaignParticipation() {
     this.displayErrorMessage = false;
