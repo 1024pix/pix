@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.183.1 (13/08/2020)
+
+- [#1770](https://github.com/1024pix/pix/pull/1770) [BUGFIX] Pouvoir valider une épreuve QCU sous IE (PIX-1120).
+
 ## v2.183.0 (12/08/2020)
 
 - [#1731](https://github.com/1024pix/pix/pull/1731) [FEATURE] Réconcilier un étudiant avec son numéro étudiant pour les campagnes SUP (PIX-1061)
