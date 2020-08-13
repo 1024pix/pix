@@ -81,6 +81,15 @@ module.exports = {
       throw err;
     }
   },
+
+  async isVerificationCodeAvailable(verificationCode) {
+    const exist = await knex('certification-courses')
+      .select('id')
+      .whereRaw('UPPER(??)=?', ['verificationCode', verificationCode.toUpperCase()])
+      .first();
+
+    return !exist;
+  },
 };
 
 function _toDomain(bookshelfCertificationCourse) {
