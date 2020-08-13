@@ -1,12 +1,4 @@
 .reached-stage {
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 48px;
-
-  @include device-is('tablet') {
-    flex-direction: row;
-  }
-
   &__left-container {
     background: $white;
     border: 1px solid rgb(231, 231, 231);
@@ -22,13 +14,16 @@
     color: $grey-40;
     text-align: center;
   }
-
+  &__stars {
+    text-align: center;
+  }
   &__stars img {
-    margin: 4px;
+    margin: 3px;
     padding-bottom: 16px;
   }
 
   &__right-container {
+    padding-top: 20px;
     padding-left: 40px;
   }
 
@@ -45,6 +40,7 @@
     font-size: 1.125rem;
     font-weight: $font-normal;
     color: $grey-45;
+    line-height: 1.8rem;
   }
 }
 
