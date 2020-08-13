@@ -1,7 +1,11 @@
 const sumBy = require('lodash/sumBy');
+const chunk = require('lodash/chunk');
+const bluebird = require('bluebird');
 const { knex } = require('../bookshelf');
 const placementProfileService = require('../../domain/services/placement-profile-service');
 const CampaignProfilesCollectionParticipationSummary = require('../../domain/read-models/CampaignProfilesCollectionParticipationSummary');
+const competenceRepository = require('../../infrastructure/repositories/competence-repository');
+const constants = require('../constants');
 const { fetchPage } = require('../utils/knex-utils');
 
 const CampaignProfilesCollectionParticipationSummaryRepository = {
@@ -30,17 +34,15 @@ const CampaignProfilesCollectionParticipationSummaryRepository = {
 
     const { results, pagination } = await fetchPage(query, page);
 
-    const data = await Promise.all(results.map(
-      async (result) => {
+    const getPlacementProfileForUser = await _makeMemoizedGetPlacementProfileForUser(results);
+
+    const data = results.map(
+      (result) => {
         if (!result.sharedAt) {
           return new CampaignProfilesCollectionParticipationSummary(result);
         }
 
-        const placementProfile = await placementProfileService.getPlacementProfile({
-          userId: result.userId,
-          limitDate: result.sharedAt,
-          allowExcessPixAndLevels: false
-        });
+        const placementProfile = getPlacementProfileForUser(result.userId);
 
         return new CampaignProfilesCollectionParticipationSummary({
           ...result,
@@ -49,11 +51,32 @@ const CampaignProfilesCollectionParticipationSummaryRepository = {
           certifiableCompetencesCount: placementProfile.getCertifiableCompetencesCount(),
         });
       }
-    ));
+    );
 
     return { data, pagination };
   }
 
 };
+
+async function _makeMemoizedGetPlacementProfileForUser(results) {
+  const competences = await competenceRepository.listPixCompetencesOnly();
+
+  const sharedResults = results.filter(({ sharedAt }) => sharedAt);
+
+  const sharedResultsChunks = await bluebird.mapSeries(
+    chunk(sharedResults, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING),
+    (sharedResultsChunk) => {
+      const sharedAtDatesByUsers = Object.fromEntries(sharedResultsChunk.map(({ userId, sharedAt }) => [userId, sharedAt]));
+      return  placementProfileService.getPlacementProfilesWithSnapshotting({
+        userIdsAndDates: sharedAtDatesByUsers,
+        allowExcessPixAndLevels: false,
+        competences
+      });
+    });
+
+  const placementProfiles = sharedResultsChunks.flat();
+
+  return (userId) => placementProfiles.find((placementProfile) => placementProfile.userId === userId);
+}
 
 module.exports = CampaignProfilesCollectionParticipationSummaryRepository;

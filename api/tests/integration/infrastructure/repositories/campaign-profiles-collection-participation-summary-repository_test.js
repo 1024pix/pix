@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, airtableBuilder } = require('../../../test-helper');
+const { expect, databaseBuilder, airtableBuilder, knex } = require('../../../test-helper');
 const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 const CampaignProfilesCollectionParticipationSummary = require('../../../../lib/domain/read-models/CampaignProfilesCollectionParticipationSummary');
 const campaignProfilesCollectionParticipationSummaryRepository = require('../../../../lib/infrastructure/repositories/campaign-profiles-collection-participation-summary-repository');
@@ -22,7 +22,8 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       await databaseBuilder.commit();
     });
 
-    afterEach(() => {
+    afterEach(async () => {
+      await knex('knowledge-element-snapshots').delete();
       airtableBuilder.cleanAll();
       return cache.flushAll();
     });
