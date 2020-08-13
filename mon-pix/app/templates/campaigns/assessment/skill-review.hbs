@@ -6,49 +6,62 @@
   </div>
   <PixBlock @shadow="heavy" class="skill-review__result-container">
     {{#if (not this.model.campaignParticipation.campaign.isArchived )}}
-      <h3 class="rounded-panel-title skill-review-result__abstract">
-        {{t 'pages.skill-review.abstract' percentage=this.model.campaignParticipation.campaignParticipationResult.masteryPercentage htmlSafe=true}}
-      </h3>
-      <div class="skill-review-result__share-container">
-        {{#if this.model.campaignParticipation.isShared}}
-          <p class="skill-review-share__thanks">
-            {{t 'pages.skill-review.already-shared'}}
-          </p>
-          <LinkTo @route="index" class="skill-review-share__back-to-home link">
-            {{t 'pages.skill-review.actions.continue'}}
-          </LinkTo>
-        {{else}}
-          <p class="skill-review-share__legal">
-            {{t 'pages.skill-review.send-results'}}
-          </p>
 
-          {{#if this.displayErrorMessage}}
-            <div class="skill-review-share__error" aria-live="polite">
-              {{t 'pages.skill-review.not-finished'}}
-            </div>
-          {{/if}}
-
-          {{#if this.displayLoadingButton}}
-            <button type="button" disabled class="button button--extra-big skill-review-share__button">
-              <span class="loader-in-button">&nbsp;</span>
-            </button>
-          {{else}}
-            <button class="button button--extra-big skill-review-share__button" {{on "click" this.shareCampaignParticipation}} type="button">
-              {{t 'pages.skill-review.actions.send'}}
-            </button>
-          {{/if}}
-        {{/if}}
-      </div>
-
+    <div class="reached-stage">
       {{#if this.reachedStage}}
         <ReachedStage
           @stageCount={{this.stageCount}}
-          @title={{this.reachedStage.title}}
-          @message={{this.reachedStage.message}}
           @starCount={{this.reachedStage.starCount}}
           @percentage={{model.campaignParticipation.campaignParticipationResult.masteryPercentage}}
         />
       {{/if}}
+        <div class="skill-review__result-and-action">
+          {{#if this.reachedStage}}
+            <div class="reached-stage__right-container">
+              <div class="reached-stage__title">
+                {{this.reachedStage.title}}
+              </div>
+              <div class="reached-stage__message">
+                {{this.reachedStage.message}}
+              </div>
+            </div>
+          {{else}}
+            <h3 class="rounded-panel-title skill-review-result__abstract">
+              {{t 'pages.skill-review.abstract' percentage=this.model.campaignParticipation.campaignParticipationResult.masteryPercentage htmlSafe=true}}
+            </h3>
+          {{/if}}
+          <div class="skill-review-result__share-container">
+            {{#if this.model.campaignParticipation.isShared}}
+              <p class="skill-review-share__thanks">
+                {{t 'pages.skill-review.already-shared'}}
+              </p>
+              <LinkTo @route="index" class="skill-review-share__back-to-home link">
+                {{t 'pages.skill-review.actions.continue'}}
+              </LinkTo>
+            {{else}}
+              <p class="skill-review-share__legal">
+                {{t 'pages.skill-review.send-results'}}
+              </p>
+
+              {{#if this.displayErrorMessage}}
+                <div class="skill-review-share__error" aria-live="polite">
+                  {{t 'pages.skill-review.not-finished'}}
+                </div>
+              {{/if}}
+
+              {{#if this.displayLoadingButton}}
+                <button type="button" disabled class="button button--extra-big skill-review-share__button">
+                  <span class="loader-in-button">&nbsp;</span>
+                </button>
+              {{else}}
+                <button class="button button--extra-big skill-review-share__button" {{on "click" this.shareCampaignParticipation}} type="button">
+                  {{t 'pages.skill-review.actions.send'}}
+                </button>
+              {{/if}}
+            {{/if}}
+          </div>
+      </div>
+    </div>
 
       {{#if this.showBadges}}
         <div class="badge-acquired-container">
