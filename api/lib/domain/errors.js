@@ -201,6 +201,12 @@ class CampaignCodeError extends DomainError {
   }
 }
 
+class CertificateVerificationCodeGenerationTooManyTrials extends DomainError {
+  constructor(numberOfTrials) {
+    super(`Could not find an available certificate verification code after ${numberOfTrials} trials`);
+  }
+}
+
 class CertificationCandidateAlreadyLinkedToUserError extends DomainError {
   constructor(message = 'Ce candidat de certification a déjà été lié à un utilisateur.') {
     super(message);
@@ -534,6 +540,7 @@ module.exports = {
   CampaignAlreadyArchivedError,
   CampaignCodeError,
   CampaignWithoutOrganizationError,
+  CertificateVerificationCodeGenerationTooManyTrials,
   CertificationCandidateForbiddenDeletionError,
   CertificationCandidateAlreadyLinkedToUserError,
   CertificationCandidateByPersonalInfoNotFoundError,

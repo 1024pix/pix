@@ -336,4 +336,28 @@ describe('Integration | Repository | Certification Course', function() {
     });
   });
 
+  describe('#isVerificationCodeAvailable', () => {
+    const verificationCode = 'P-XBCDXF';
+
+    it('should return true if certification code does not exist', async () => {
+      // when
+      const result = await certificationCourseRepository.isVerificationCodeAvailable(verificationCode);
+
+      // then
+      expect(result).to.equal(true);
+    });
+
+    it('should return false if certification code already exists', async () => {
+      // given
+      databaseBuilder.factory.buildCertificationCourse({ verificationCode });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await certificationCourseRepository.isVerificationCodeAvailable(verificationCode);
+
+      // then
+      expect(result).to.equal(false);
+    });
+  });
+
 });
