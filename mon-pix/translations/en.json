@@ -613,6 +613,7 @@
     "skill-review": {
       "title": "Result",
       "abstract": "You control '<strong>'{percentage}%'</strong>'<br/> of tested skills.",
+      "abstract-title": "Your results",
       "actions": {
         "continue": "Continue your Pix experience",
         "send": "I send my results",
@@ -620,6 +621,7 @@
       },
       "already-shared": "Thank you, your results have been sent!",
       "archived": "This route has been archived by the organizer. <br/> Sending results is no longer possible but they are taken into account in your route.",
+      "badges-title": "Your success",
       "details": {
         "title": "Your detailed results",
         "header-skill": "Skills tested",
@@ -631,6 +633,7 @@
       "information": "If you've ridden on Pix before, the questions you answered weren't asked again. However, the result displayed here takes into account all of your answers.",
       "not-finished": "You cannot send your results yet, we still have a few questions for you.",
       "send-results": "Send your results to the course organizer so that he can accompany you.",
+      "send-title": "Send your results",
       "stage": {
         "masteryPercentage": "{percentage} % success",
         "alt": {
