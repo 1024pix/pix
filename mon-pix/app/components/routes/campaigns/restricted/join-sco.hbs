@@ -51,10 +51,10 @@
     </div>
   </div>
 
-  {{#if @errorMessage}}
-    <div class="join-restricted-campaign__error" aria-live="polite">{{{@errorMessage}}}</div>
+  {{#if this.errorMessage}}
+    <div class="join-restricted-campaign__error" aria-live="polite">{{{this.errorMessage}}}</div>
   {{/if}}
-  {{#if @isLoading}}
+  {{#if this.isLoading}}
     <button type="button" disabled class="button button--big"><span class="loader-in-button">&nbsp;</span></button>
   {{else}}
     <button type="submit" class="button button--big" {{on 'click' this.attemptNext}}>

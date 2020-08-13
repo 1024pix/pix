@@ -12,10 +12,12 @@ describe('Unit | Component | routes/campaigns/restricted/join', function() {
   let onSubmitStub;
   let sessionStub;
   let eventStub;
+  let schoolingRegistrationUserAssociation;
 
   beforeEach(function() {
-    const createStudentUserAssociationStub = sinon.stub();
-    storeStub = { createRecord: createStudentUserAssociationStub };
+    schoolingRegistrationUserAssociation = { unloadRecord: sinon.stub() };
+    const createSchoolingRegistrationUserAssociationStub = sinon.stub().returns(schoolingRegistrationUserAssociation);
+    storeStub = { createRecord: createSchoolingRegistrationUserAssociationStub };
     sessionStub = { data: { authenticated: { source: 'pix' } } };
     onSubmitStub = sinon.stub();
     eventStub = { preventDefault: sinon.stub() };
@@ -396,14 +398,213 @@ describe('Unit | Component | routes/campaigns/restricted/join', function() {
       // then
       sinon.assert.calledWith(onSubmitStub, schoolingRegistration);
     });
-  });
 
-  it('should prevent default handling of event', async function() {
-    // given
-    // when
-    await component.actions.attemptNext.call(component, eventStub);
+    it('should prevent default handling of event', async function() {
+      // given
+      // when
+      await component.actions.attemptNext.call(component, eventStub);
 
-    // then
-    sinon.assert.called(eventStub.preventDefault);
+      // then
+      sinon.assert.called(eventStub.preventDefault);
+    });
+
+    describe('Errors', function() {
+      beforeEach(function() {
+        component.firstName = 'pix';
+        component.lastName = 'aile';
+        component.dayOfBirth = '10';
+        component.monthOfBirth = '10';
+        component.yearOfBirth = '1010';
+      });
+
+      it('should display a not found error', async function() {
+        // given
+        onSubmitStub.rejects({ errors: [{ status: '404' }] });
+
+        // when
+        await component.actions.attemptNext.call(component, eventStub);
+
+        // then
+        sinon.assert.calledOnce(schoolingRegistrationUserAssociation.unloadRecord);
+        expect(component.errorMessage).to.equal('Vous êtes un élève ? <br/> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.<br/> <br/> Vous êtes un enseignant ? <br/> L‘accès à un parcours n‘est pas disponible pour le moment.');
+      });
+
+      describe('When student is already reconciled in others organization', async function() {
+
+        describe('When student account is authenticated by email only', async function() {
+
+          it('should return a conflict error and display the error message related to the short code R11)', async function() {
+            // given
+            const error = {
+              status: '409',
+              code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
+              title: 'Conflict',
+              detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
+              meta: { shortCode: 'R11', value: 'j***@example.net' }
+            };
+            const expectedErrorMessage = 'Vous possédez déjà un compte Pix avec l’adresse e-mail <br>j***@example.net<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code R11)';
+            onSubmitStub.rejects({ errors: [error] });
+
+            // when
+            await component.actions.attemptNext.call(component, eventStub);
+
+            // then
+            sinon.assert.calledOnce(schoolingRegistrationUserAssociation.unloadRecord);
+            expect(component.errorMessage).to.equal(expectedErrorMessage);
+            expect(component.isLoading).to.equal(false);
+          });
+
+        });
+
+        describe('When student account is authenticated by username only', async function() {
+
+          it('should return a conflict error and display the error message related to the short code R12)', async function() {
+            // given
+            const error = {
+              status: '409',
+              code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
+              title: 'Conflict',
+              detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
+              meta: { shortCode: 'R12', value: 'j***.h***2' }
+            };
+            const expectedErrorMessage = 'Vous possédez déjà un compte Pix utilisé avec l’identifiant <br>j***.h***2<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code R12)';
+            onSubmitStub.rejects({ errors: [error] });
+
+            // when
+            await component.actions.attemptNext.call(component, eventStub);
+
+            // then
+            sinon.assert.calledOnce(schoolingRegistrationUserAssociation.unloadRecord);
+            expect(component.errorMessage).to.equal(expectedErrorMessage);
+            expect(component.isLoading).to.equal(false);
+          });
+
+        });
+
+        describe('When student account is authenticated by SamlId only', async function() {
+
+          it('should return a conflict error and display the error message related to the short code R13)', async function() {
+            // given
+            const error = {
+              status: '409',
+              code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
+              title: 'Conflict',
+              detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
+              meta: { shortCode: 'R13', value: undefined }
+            };
+            const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l‘ENT dans un autre établissement scolaire.<br>Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l‘aide de Pix Orga.';
+            onSubmitStub.rejects({ errors: [error] });
+
+            // when
+            await component.actions.attemptNext.call(component, eventStub);
+
+            // then
+            sinon.assert.calledOnce(schoolingRegistrationUserAssociation.unloadRecord);
+            expect(component.errorMessage).to.equal(expectedErrorMessage);
+            expect(component.isLoading).to.equal(false);
+          });
+
+        });
+
+        describe('When student account is authenticated by SamlId and username', async function() {
+
+          it('should return a conflict error and display the error message related to the short code R13)', async function() {
+            // given
+            const error = {
+              status: '409',
+              code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
+              title: 'Conflict',
+              detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
+              meta: { shortCode: 'R13', value: undefined }
+            };
+            const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l‘ENT dans un autre établissement scolaire.<br>Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l‘aide de Pix Orga.';
+            onSubmitStub.rejects({ errors: [error] });
+
+            // when
+            await component.actions.attemptNext.call(component, eventStub);
+
+            // then
+            sinon.assert.calledOnce(schoolingRegistrationUserAssociation.unloadRecord);
+            expect(component.errorMessage).to.equal(expectedErrorMessage);
+            expect(component.isLoading).to.equal(false);
+          });
+
+        });
+
+        describe('When student account is authenticated by SamlId and email', async function() {
+
+          it('should return a conflict error and display the error message related to the short code R13)', async function() {
+            // given
+            const error = {
+              status: '409',
+              code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
+              title: 'Conflict',
+              detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
+              meta: { shortCode: 'R13', value: undefined }
+            };
+            const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l‘ENT dans un autre établissement scolaire.<br>Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l‘aide de Pix Orga.';
+            onSubmitStub.rejects({ errors: [error] });
+
+            // when
+            await component.actions.attemptNext.call(component, eventStub);
+
+            // then
+            sinon.assert.calledOnce(schoolingRegistrationUserAssociation.unloadRecord);
+            expect(component.errorMessage).to.equal(expectedErrorMessage);
+            expect(component.isLoading).to.equal(false);
+          });
+
+        });
+
+        describe('When student account is authenticated by SamlId, username and email', async function() {
+
+          it('should return a conflict error and display the error message related to the short code R13)', async function() {
+            // given
+            const error = {
+              status: '409',
+              code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
+              title: 'Conflict',
+              detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
+              meta: { shortCode: 'R13', value: undefined }
+            };
+            const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l‘ENT dans un autre établissement scolaire.<br>Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l‘aide de Pix Orga.';
+            onSubmitStub.rejects({ errors: [error] });
+
+            // when
+            await component.actions.attemptNext.call(component, eventStub);
+
+            // then
+            sinon.assert.calledOnce(schoolingRegistrationUserAssociation.unloadRecord);
+            expect(component.errorMessage).to.equal(expectedErrorMessage);
+            expect(component.isLoading).to.equal(false);
+          });
+
+        });
+
+        describe('When student account is authenticated by username and email', async function() {
+
+          it('should return a conflict error and display the error message related to the short code R12)', async function() {
+            // given
+            const error = {
+              status: '409',
+              code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
+              title: 'Conflict',
+              detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
+              meta: { shortCode: 'R12', value: 'j***.h***2' }
+            };
+            const expectedErrorMessage = 'Vous possédez déjà un compte Pix utilisé avec l’identifiant <br>j***.h***2<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code R12)';
+            onSubmitStub.rejects({ errors: [error] });
+
+            // when
+            await component.actions.attemptNext.call(component, eventStub);
+
+            // then
+            sinon.assert.calledOnce(schoolingRegistrationUserAssociation.unloadRecord);
+            expect(component.errorMessage).to.equal(expectedErrorMessage);
+            expect(component.isLoading).to.equal(false);
+          });
+        });
+      });
+    });
   });
 });

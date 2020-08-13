@@ -58,7 +58,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
 
       // then
       sinon.assert.notCalled(onSubmitStub);
-      expect(component.errorMessage).to.equal('Votre numéro étudiant n’est pas renseigné.');
+      expect(component.validation.studentNumber).to.equal('Votre numéro étudiant n’est pas renseigné.');
     });
 
     it('should prevent default handling of event', async function() {

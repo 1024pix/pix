@@ -8,9 +8,9 @@
       <div class="join-restricted-campaign__title">Rejoignez l'organisation {{@model.organizationName}}</div>
       <div class="join-restricted-campaign__subtitle">Remplissez les informations manquantes</div>
       {{#if (eq @model.organizationType "SCO")}}
-        <Routes::Campaigns::Restricted::JoinSco @campaignCode={{@model.code}} @onSubmit={{this.attemptNext}} @isLoading={{this.isLoading}}  @errorMessage={{this.errorMessage}}/>
+        <Routes::Campaigns::Restricted::JoinSco @campaignCode={{@model.code}} @onSubmit={{this.attemptNext}} />
       {{else}}
-        <Routes::Campaigns::Restricted::JoinSup @campaignCode={{@model.code}} @onSubmit={{this.attemptNext}} @isLoading={{this.isLoading}}  @errorMessage={{this.errorMessage}}/>
+        <Routes::Campaigns::Restricted::JoinSup @campaignCode={{@model.code}} @onSubmit={{this.attemptNext}} />
       {{/if}}
     </div>
   </div>
