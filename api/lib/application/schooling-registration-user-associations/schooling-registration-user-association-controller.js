@@ -39,6 +39,25 @@ module.exports = {
     return schoolingRegistrationSerializer.serialize(schoolingRegistration);
   },
 
+  async registerAdditionalHigherEducationRegistration(request, h) {
+    const userId = request.auth.credentials.userId;
+    const payload = request.payload.data.attributes;
+
+    const campaignCode = payload['campaign-code'];
+  
+    const userInfo = {
+      userId,
+      studentNumber: payload['student-number'],
+      firstName: payload['first-name'],
+      lastName: payload['last-name'],
+      birthdate: payload['birthdate'],
+    };
+
+    await usecases.registerAdditionalHigherEducationRegistration({ campaignCode, userInfo });
+
+    return h.response(null).code(204);
+  },
+
   findAssociation(request) {
     const authenticatedUserId = request.auth.credentials.userId;
     const requestedUserId = parseInt(request.query.userId);

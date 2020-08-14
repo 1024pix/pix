@@ -176,6 +176,7 @@ module.exports = injectDependencies({
   reconcileUserToSchoolingRegistrationData: require('./reconcile-user-to-schooling-registration-data'),
   linkUserToSessionCertificationCandidate: require('./link-user-to-session-certification-candidate'),
   reconcileUserToOrganization: require('./reconcile-user-to-organization'),
+  registerAdditionalHigherEducationRegistration: require('./register-additional-higher-education-registration'),
   rememberUserHasSeenAssessmentInstructions: require('./remember-user-has-seen-assessment-instructions'),
   resetScorecard: require('./reset-scorecard'),
   retrieveCampaignInformation: require('./retrieve-campaign-information'),

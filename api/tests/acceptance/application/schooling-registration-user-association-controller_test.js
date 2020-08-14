@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../test-helper');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../test-helper');
 const createServer = require('../../../server');
 const Membership = require('../../../lib/domain/models/Membership');
 
@@ -509,6 +509,54 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
         // then
         expect(response.statusCode).to.equal(422);
       });
+    });
+  });
+
+  describe('POST /api/schooling-registration-user-associations/register', () => {
+    let organization;
+    let campaign;
+    let options;
+    let user;
+
+    beforeEach(async () => {
+      // given
+      options = {
+        method: 'POST',
+        url: '/api/schooling-registration-user-associations/register',
+        headers: {},
+        payload: {}
+      };
+
+      user = databaseBuilder.factory.buildUser();
+      organization = databaseBuilder.factory.buildOrganization();
+      campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(() => {
+      return knex('schooling-registrations').delete();
+    });
+
+    it('should return an 204 status after creating higher education registration', async () => {
+      // given
+      options.headers.authorization = generateValidRequestAuthorizationHeader(user.id);
+      options.payload.data = {
+        attributes: {
+          'student-number': '12345',
+          'first-name': 'Jean',
+          'last-name': 'Michel',
+          'birthdate': '2010-01-01',
+          'campaign-code': campaign.code,
+        },
+        type: 'schooling-registration-user-associations'
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(204);
     });
   });
 
