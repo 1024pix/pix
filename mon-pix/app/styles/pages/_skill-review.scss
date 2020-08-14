@@ -156,10 +156,13 @@
   }
 
   &__share-container {
-    padding: 16px 0px 32px 40px;
+    padding: 16px 40px 32px 40px;
     text-align: center;
     &--left {
-      text-align: left;
+      text-align: center;
+      @include device-is('tablet') {
+        text-align: left;
+      }
     }
   }
 
@@ -204,9 +207,10 @@
 
   &__thanks {
     font-family: $font-open-sans;
-    font-weight: $font-light;
-    font-size: 1.5rem;
-    padding-top: 20px;
+    font-weight: $font-semi-bold;
+    font-size: 1rem;
+    line-height: 2rem;
+    padding: 16px 0;
   }
 
   &__error {
