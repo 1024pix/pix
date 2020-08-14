@@ -1,5 +1,5 @@
-const { UserNotAuthorizedToAccessEntity } = require('../errors');
 const ResultCompetenceTree = require('../models/ResultCompetenceTree');
+const { UserNotAuthorizedToAccessEntity } = require('../errors');
 
 async function _getsCompetenceMarksAndAssessmentResultId({ certificationId, assessmentResultRepository }) {
   const latestAssessmentResult = await assessmentResultRepository.findLatestByCertificationCourseIdWithCompetenceMarks({ certificationCourseId: certificationId });
@@ -38,16 +38,16 @@ async function getCertificationResult({
   return certification;
 }
 
-module.exports = async function getUserCertificationWithResultTree({
-  certificationId,
-  userId,
+module.exports = async function getCertificationByVerificationCode({
+  pixScore,
+  verificationCode,
   certificationRepository,
   cleaCertificationStatusRepository,
-  assessmentResultRepository,
   competenceTreeRepository,
+  assessmentResultRepository
 }) {
-  const getCertification = async () => certificationRepository.getByCertificationCourseId({ id: certificationId });
-  const isAuthorized = (certification) => certification.userId === userId;
+  const getCertification = async () => certificationRepository.getCertificationByVerificationCode({ verificationCode });
+  const isAuthorized = (certification) => certification.pixScore === pixScore;
 
   return getCertificationResult({
     getCertification,

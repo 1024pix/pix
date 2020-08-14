@@ -159,6 +159,7 @@ module.exports = injectDependencies({
   getSession: require('./get-session'),
   getSessionCertificationCandidates: require('./get-session-certification-candidates'),
   getSessionCertificationReports: require('./get-session-certification-reports'),
+  getCertificationByVerificationCode: require('./get-shared-certification'),
   getUserCampaignParticipationToCampaign: require('./get-user-campaign-participation-to-campaign'),
   getUserProfileSharedForCampaign: require('./get-user-profile-shared-for-campaign'),
   getUserCertificationCenterMemberships: require('./get-user-certification-center-memberships'),
