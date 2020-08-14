@@ -4,7 +4,7 @@ const AirtableResourceNotFound = require(
   '../../../../lib/infrastructure/datasources/airtable/AirtableResourceNotFound');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-const { DEFAULT_ID, DEFAULT_TUTORIAL_ID }  = require('../../../tooling/fixtures/infrastructure/skillRawAirTableFixture');
+const { DEFAULT_ID, DEFAULT_TUTORIAL_ID } = require('../../../tooling/fixtures/infrastructure/skillRawAirTableFixture');
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const Skill = require('../../../../lib/domain/models/Skill');
 const Solution = require('../../../../lib/domain/models/Solution');
@@ -338,88 +338,103 @@ describe('Unit | Repository | challenge-repository', () => {
       });
 
       context('when query happens with no error', () => {
-
-        let promise;
-
-        beforeEach(() => {
+        it('returns challenges', async () => {
           // given
+          const airtableChallenge1 = domainBuilder.buildChallengeAirtableDataObject({
+            id: 'rec_challenge_1',
+            skillIds: [skillWeb1.id],
+          });
+          const airtableChallenge2 = domainBuilder.buildChallengeAirtableDataObject({
+            id: 'rec_challenge_2',
+            skillIds: [skillURL2.id, skillURL3.id, 'not_existing_skill_id'],
+          });
           challengeDatasource.findOperative.resolves([
-            domainBuilder.buildChallengeAirtableDataObject({
-              id: 'rec_challenge_1',
-              skillIds: [skillWeb1.id],
-            }),
-            domainBuilder.buildChallengeAirtableDataObject({
-              id: 'rec_challenge_2',
-              skillIds: [skillURL2.id, skillURL3.id, 'not_existing_skill_id'],
-            }),
+            airtableChallenge1,
+            airtableChallenge2,
           ]);
 
-          solutionAdapter.fromChallengeAirtableDataObject.returns(domainBuilder.buildSolution());
+          const solution1 = domainBuilder.buildSolution();
+          solutionAdapter.fromChallengeAirtableDataObject.withArgs(airtableChallenge1).returns(solution1);
+
+          const solution2 = domainBuilder.buildSolution();
+          solutionAdapter.fromChallengeAirtableDataObject.withArgs(airtableChallenge2).returns(solution2);
 
           // when
-          promise = challengeRepository.findOperative();
-        });
+          const challenges = await challengeRepository.findOperative();
 
-        it('should succeed', () => {
           // then
-          return expect(promise).to.be.fulfilled;
-        });
-
-        it('should call challengeDataObjects with competence', () => {
-          // then
-          return promise.then(() => {
-            expect(challengeDatasource.findOperative).to.have.been.calledWithExactly();
-          });
-        });
-
-        it('should resolve an array of 2 Challenge domain objects', () => {
-          // then
-          return promise.then((challenges) => {
-            expect(challenges).to.be.an('array');
-            expect(challenges).to.have.lengthOf(2);
-            challenges.map((challenge) => expect(challenge).to.be.an.instanceOf(Challenge));
-          });
-        });
-
-        it('should load skills in the challenges', () => {
-          // then
-          return promise.then((challenges) => {
-            expect(challenges[0].skills).to.deep.equal([
-              {
-                'id': 'recSkillWeb1',
-                'name': '@web1',
-                'pixValue': 2,
-                'competenceId': 'rec1',
-                'tutorialIds': [DEFAULT_TUTORIAL_ID],
-                'tubeId': 'recTube1',
-              }
-            ]);
-            expect(challenges[1].skills).to.deep.equal([
-              {
-                'id': 'recSkillURL2',
-                'name': '@url2',
-                'pixValue': 3,
-                'competenceId': 'rec1',
-                'tutorialIds': [DEFAULT_TUTORIAL_ID],
-                'tubeId': 'recTube2',
-              },
-              {
-                'id': 'recSkillURL3',
-                'name': '@url3',
-                'pixValue': 3,
-                'competenceId': 'rec1',
-                'tutorialIds': [DEFAULT_TUTORIAL_ID],
-                'tubeId': 'recTube3',
-              },
-            ]);
-          });
-        });
-
-        it('should not retrieve skills individually', () => {
-          // then
-          return promise.then(() => {
-            expect(skillDatasource.get).not.to.have.been.called;
-          });
+          expect(challenges).to.deep.equal(
+            [
+              new Challenge({
+                answer: undefined,
+                attachments: airtableChallenge1.attachments,
+                autoReply: undefined,
+                competenceId: airtableChallenge1.competenceId,
+                embedHeight: airtableChallenge1.embedHeight,
+                embedTitle: airtableChallenge1.embedTitle,
+                embedUrl: airtableChallenge1.embedUrl,
+                format: airtableChallenge1.format,
+                id: airtableChallenge1.id,
+                illustrationAlt: airtableChallenge1.illustrationAlt,
+                illustrationUrl: airtableChallenge1.illustrationUrl,
+                instruction: airtableChallenge1.instruction,
+                locales: airtableChallenge1.locales,
+                proposals: airtableChallenge1.proposals,
+                skills: [
+                  new Skill({
+                    competenceId: skillWeb1.competenceId,
+                    id: skillWeb1.id,
+                    name: skillWeb1.name,
+                    pixValue: skillWeb1.pixValue,
+                    tubeId: skillWeb1.tubeId,
+                    tutorialIds: skillWeb1.tutorialIds
+                  })
+                ],
+                status: airtableChallenge1.status,
+                timer: airtableChallenge1.timer,
+                type: airtableChallenge1.type,
+                validator: new ValidatorQCM({ solution: solution1 })
+              }),
+              new Challenge({
+                answer: undefined,
+                attachments: airtableChallenge2.attachments,
+                autoReply: undefined,
+                competenceId: airtableChallenge2.competenceId,
+                embedHeight: airtableChallenge2.embedHeight,
+                embedTitle: airtableChallenge2.embedTitle,
+                embedUrl: airtableChallenge2.embedUrl,
+                format: airtableChallenge2.format,
+                id: airtableChallenge2.id,
+                illustrationAlt: airtableChallenge2.illustrationAlt,
+                illustrationUrl: airtableChallenge2.illustrationUrl,
+                instruction: airtableChallenge2.instruction,
+                locales: airtableChallenge2.locales,
+                proposals: airtableChallenge2.proposals,
+                skills: [
+                  new Skill({
+                    competenceId: skillURL2.competenceId,
+                    id: skillURL2.id,
+                    name: skillURL2.name,
+                    pixValue: skillURL2.pixValue,
+                    tubeId: skillURL2.tubeId,
+                    tutorialIds: skillURL2.tutorialIds
+                  }),
+                  new Skill({
+                    competenceId: skillURL3.competenceId,
+                    id: skillURL3.id,
+                    name: skillURL3.name,
+                    pixValue: skillURL3.pixValue,
+                    tubeId: skillURL3.tubeId,
+                    tutorialIds: skillURL3.tutorialIds
+                  })
+                ],
+                status: airtableChallenge2.status,
+                timer: airtableChallenge2.timer,
+                type: airtableChallenge2.type,
+                validator: new ValidatorQCM({ solution: solution2 })
+              })
+            ]
+          );
         });
       });
 
