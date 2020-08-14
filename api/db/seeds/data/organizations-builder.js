@@ -136,7 +136,6 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     firstName: userAuthentificationMethodIsEmailOnly.firstName,
     lastName: userAuthentificationMethodIsEmailOnly.lastName,
     birthdate: '2010-09-30',
-    samlId: userAuthentificationMethodIsEmailOnly.samlId,
     organizationId: 3,
   });
 
@@ -154,7 +153,6 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     firstName: userAuthentificationMethodIsSamlIdOnly.firstName,
     lastName: userAuthentificationMethodIsSamlIdOnly.lastName,
     birthdate: '2010-09-30',
-    samlId: userAuthentificationMethodIsSamlIdOnly.samlId,
     organizationId: 3,
   });
 };
