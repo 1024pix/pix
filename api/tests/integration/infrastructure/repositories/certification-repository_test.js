@@ -2,11 +2,14 @@ const { expect, domainBuilder, databaseBuilder, catchErr, knex } = require('../.
 const certificationRepository = require('../../../../lib/infrastructure/repositories/certification-repository');
 const { NotFoundError, CertificationCourseNotPublishableError } = require('../../../../lib/domain/errors');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const Certification = require('../../../../lib/domain/models/Certification');
 
 const CertificationCourseBookshelf = require('../../../../lib/infrastructure/data/certification-course');
 const PARTNER_CLEA_KEY = 'BANANA';
 
 describe('Integration | Repository | Certification ', () => {
+  const verificationCode = 'P-123498';
+  const pixScore = 400;
 
   let userId;
   let session;
@@ -27,13 +30,13 @@ describe('Integration | Repository | Certification ', () => {
       name: certificationCenter,
     } = databaseBuilder.factory.buildCertificationCenter({ name: 'Certif College' });
     session = databaseBuilder.factory.buildSession({ certificationCenterId, certificationCenter });
-    certificationCourse = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId: session.id, isPublished: true });
+    certificationCourse = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId: session.id, isPublished: true, verificationCode });
     const assessment = databaseBuilder.factory.buildAssessment({
       certificationCourseId: certificationCourse.id,
       userId,
       type,
     });
-    const assessmentResult = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment.id });
+    const assessmentResult = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment.id, pixScore });
     expectedCertification = _buildCertification(session.certificationCenter, certificationCourse, assessmentResult, session.publishedAt);
     databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: expectedCertification.id, partnerKey: PARTNER_CLEA_KEY, acquired: false });
 
@@ -141,6 +144,45 @@ describe('Integration | Repository | Certification ', () => {
       expect(result).to.be.instanceOf(CertificationCourseNotPublishableError);
 
       await Promise.all(sessionWithStartedAndErrorCertifCourseIds.map(async (id) => expect((await get(id)).isPublished).to.be.false));
+    });
+  });
+
+  describe('#getCertificationByVerificationCode', () => {
+
+    context('when verificationCode match', () => {
+      it('should return a certification when a correct verificationCode matches a correct pixScore', async () => {
+        // when
+        const certification = await certificationRepository.getCertificationByVerificationCode({ verificationCode });
+
+        // then
+        expect(certification).to.be.instanceOf(Certification);
+      });
+    });
+
+    context('when verificationCode does not match', () => {
+      it('should throw an error when the given pixScore is incorrect', async () => {
+        //given
+        const wrongVerificationCode = 'P-BBBCCC';
+
+        // when
+        const error = await catchErr(certificationRepository.getCertificationByVerificationCode)({ verificationCode: wrongVerificationCode });
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
+      });
+    });
+
+    context('when no certificationCourse is found', () => {
+      it('should throw an error', async () => {
+        //given
+        const verificationCode = 'P-123456';
+
+        // when
+        const error = await catchErr(certificationRepository.getCertificationByVerificationCode)({ verificationCode });
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
+      });
     });
   });
 

@@ -46,6 +46,7 @@ function _getBaseCertificationQuery() {
       isPublished: 'certification-courses.isPublished',
       userId: 'certification-courses.userId',
       date: 'certification-courses.createdAt',
+      verificationCode: 'certification-courses.verificationCode',
       deliveredAt: 'sessions.publishedAt',
       certificationCenter: 'sessions.certificationCenter',
     })
@@ -55,23 +56,29 @@ function _getBaseCertificationQuery() {
     .join('sessions', 'sessions.id', 'certification-courses.sessionId');
 }
 
+async function _addAssessmentResultInformationsToCertification(certification) {
+  const latestAssessmentResult = await _getLatestAssessmentResult(certification.id);
+
+  return new Certification({
+    ...certification,
+    pixScore: latestAssessmentResult && latestAssessmentResult.pixScore,
+    status: latestAssessmentResult && latestAssessmentResult.status,
+    commentForCandidate: latestAssessmentResult && latestAssessmentResult.commentForCandidate,
+  });
+}
+
 module.exports = {
 
   async getByCertificationCourseId({ id }) {
     const certification = await _getBaseCertificationQuery()
       .where('certification-courses.id', '=', id)
       .first();
+
     if (!certification) {
       throw new NotFoundError(`Not found certification for ID ${id}`);
     }
-    const latestAssessmentResult = await _getLatestAssessmentResult(id);
 
-    return new Certification({
-      ...certification,
-      pixScore: latestAssessmentResult && latestAssessmentResult.pixScore,
-      status: latestAssessmentResult && latestAssessmentResult.status,
-      commentForCandidate: latestAssessmentResult && latestAssessmentResult.commentForCandidate,
-    });
+    return _addAssessmentResultInformationsToCertification(certification);
   },
 
   async findByUserId(userId) {
@@ -99,5 +106,17 @@ module.exports = {
     await CertificationCourseBookshelf
       .where({ sessionId })
       .save({ isPublished: toPublish }, { method: 'update' });
-  }
+  },
+
+  async getCertificationByVerificationCode({ verificationCode }) {
+    const foundCertificationCourse = await _getBaseCertificationQuery()
+      .where({ verificationCode })
+      .first();
+
+    if (!foundCertificationCourse) {
+      throw new NotFoundError('There is certification with this verification code');
+    }
+
+    return _addAssessmentResultInformationsToCertification(foundCertificationCourse);
+  },
 };
