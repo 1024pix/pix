@@ -454,6 +454,130 @@ describe('Unit | Repository | challenge-repository', () => {
       });
     });
 
+    describe('#findFrenchFranceOperative', () => {
+
+      beforeEach(() => {
+        sinon.stub(challengeDatasource, 'findFrenchFranceOperative');
+        sinon.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
+      });
+
+      context('when query happens with no error', () => {
+        it('returns challenges', async () => {
+          // given
+          const airtableChallenge1 = domainBuilder.buildChallengeAirtableDataObject({
+            id: 'rec_challenge_1',
+            skillIds: [skillWeb1.id],
+          });
+          const airtableChallenge2 = domainBuilder.buildChallengeAirtableDataObject({
+            id: 'rec_challenge_2',
+            skillIds: [skillURL2.id, skillURL3.id, 'not_existing_skill_id'],
+          });
+          challengeDatasource.findFrenchFranceOperative.resolves([
+            airtableChallenge1,
+            airtableChallenge2,
+          ]);
+
+          const solution1 = domainBuilder.buildSolution();
+          solutionAdapter.fromChallengeAirtableDataObject.withArgs(airtableChallenge1).returns(solution1);
+
+          const solution2 = domainBuilder.buildSolution();
+          solutionAdapter.fromChallengeAirtableDataObject.withArgs(airtableChallenge2).returns(solution2);
+
+          // when
+          const challenges = await challengeRepository.findFrenchFranceOperative();
+
+          // then
+          expect(challenges).to.deep.equal(
+            [
+              new Challenge({
+                answer: undefined,
+                attachments: airtableChallenge1.attachments,
+                autoReply: undefined,
+                competenceId: airtableChallenge1.competenceId,
+                embedHeight: airtableChallenge1.embedHeight,
+                embedTitle: airtableChallenge1.embedTitle,
+                embedUrl: airtableChallenge1.embedUrl,
+                format: airtableChallenge1.format,
+                id: airtableChallenge1.id,
+                illustrationAlt: airtableChallenge1.illustrationAlt,
+                illustrationUrl: airtableChallenge1.illustrationUrl,
+                instruction: airtableChallenge1.instruction,
+                locales: airtableChallenge1.locales,
+                proposals: airtableChallenge1.proposals,
+                skills: [
+                  new Skill({
+                    competenceId: skillWeb1.competenceId,
+                    id: skillWeb1.id,
+                    name: skillWeb1.name,
+                    pixValue: skillWeb1.pixValue,
+                    tubeId: skillWeb1.tubeId,
+                    tutorialIds: skillWeb1.tutorialIds
+                  })
+                ],
+                status: airtableChallenge1.status,
+                timer: airtableChallenge1.timer,
+                type: airtableChallenge1.type,
+                validator: new ValidatorQCM({ solution: solution1 })
+              }),
+              new Challenge({
+                answer: undefined,
+                attachments: airtableChallenge2.attachments,
+                autoReply: undefined,
+                competenceId: airtableChallenge2.competenceId,
+                embedHeight: airtableChallenge2.embedHeight,
+                embedTitle: airtableChallenge2.embedTitle,
+                embedUrl: airtableChallenge2.embedUrl,
+                format: airtableChallenge2.format,
+                id: airtableChallenge2.id,
+                illustrationAlt: airtableChallenge2.illustrationAlt,
+                illustrationUrl: airtableChallenge2.illustrationUrl,
+                instruction: airtableChallenge2.instruction,
+                locales: airtableChallenge2.locales,
+                proposals: airtableChallenge2.proposals,
+                skills: [
+                  new Skill({
+                    competenceId: skillURL2.competenceId,
+                    id: skillURL2.id,
+                    name: skillURL2.name,
+                    pixValue: skillURL2.pixValue,
+                    tubeId: skillURL2.tubeId,
+                    tutorialIds: skillURL2.tutorialIds
+                  }),
+                  new Skill({
+                    competenceId: skillURL3.competenceId,
+                    id: skillURL3.id,
+                    name: skillURL3.name,
+                    pixValue: skillURL3.pixValue,
+                    tubeId: skillURL3.tubeId,
+                    tutorialIds: skillURL3.tutorialIds
+                  })
+                ],
+                status: airtableChallenge2.status,
+                timer: airtableChallenge2.timer,
+                type: airtableChallenge2.type,
+                validator: new ValidatorQCM({ solution: solution2 })
+              })
+            ]
+          );
+        });
+      });
+
+      context('when the datasource is on error', () => {
+
+        it('should transfer the error', () => {
+          // given
+          const error = new Error();
+          challengeDatasource.findFrenchFranceOperative.rejects(error);
+
+          // when
+          const promise = challengeRepository.findFrenchFranceOperative();
+
+          // then
+          return expect(promise).to.have.been.rejectedWith(error);
+        });
+      });
+    });
+
     describe('#findValidatedByCompetenceId', () => {
 
       let competence;
