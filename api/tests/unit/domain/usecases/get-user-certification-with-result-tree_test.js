@@ -37,7 +37,10 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
 
     beforeEach(() => {
       // given
-      certification = domainBuilder.buildCertification({ userId: randomOtherUserId });
+      certification = domainBuilder.buildCertification({
+        userId: randomOtherUserId,
+        id: certificationId
+      });
       certificationRepository.getByCertificationCourseId.resolves(certification);
 
       // when
@@ -73,7 +76,10 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
 
     beforeEach(() => {
       // given
-      certification = domainBuilder.buildCertification({ userId });
+      certification = domainBuilder.buildCertification({
+        userId,
+        id: certificationId
+      });
       certificationRepository.getByCertificationCourseId.resolves(certification);
 
       assessmentResult = domainBuilder.buildAssessmentResult();
