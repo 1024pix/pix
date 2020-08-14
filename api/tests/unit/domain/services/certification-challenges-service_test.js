@@ -87,7 +87,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
   ];
 
   beforeEach(() => {
-    sinon.stub(challengeRepository, 'findOperative').resolves([
+    sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves([
       challengeForSkillCitation4,
       anotherChallengeForSkillCitation4,
       challengeForSkillCitation4AndMoteur3,
@@ -147,7 +147,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       await certificationChallengesService.pickCertificationChallenges(placementProfile);
 
       // then
-      sinon.assert.calledOnce(challengeRepository.findOperative);
+      sinon.assert.calledOnce(challengeRepository.findFrenchFranceOperative);
     });
 
     it('should assign skill to related competence', async () => {
@@ -316,7 +316,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
         challengeForSkillRequin5,
         challengeForSkillRequin8,
       ];
-      challengeRepository.findOperative.resolves(onlyOneChallengeForCitation4AndMoteur3);
+      challengeRepository.findFrenchFranceOperative.resolves(onlyOneChallengeForCitation4AndMoteur3);
       placementProfile.userCompetences = [userCompetence1];
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 789]).resolves(['challengeRecordIdTwo']);
       // when

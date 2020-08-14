@@ -108,6 +108,15 @@ module.exports = datasource.extend({
       _.includes(OPERATIVE_CHALLENGES, challengeData.status));
   },
 
+  async _findOperativeHavingLocale(locale) {
+    const operativeChallenges = await this.findOperative();
+    return operativeChallenges.filter((challenge) => _.includes(challenge.locales, locale));
+  },
+
+  async findFrenchFranceOperative() {
+    return this._findOperativeHavingLocale(FRENCH_FRANCE);
+  },
+
   async findValidated() {
     const challenges = await this.list();
     return challenges.filter((challengeData) =>
