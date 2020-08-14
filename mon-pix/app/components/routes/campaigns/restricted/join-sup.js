@@ -80,6 +80,7 @@ export default class JoinSup extends Component {
     event.preventDefault();
     this.isLoading = true;
     let schoolingRegistration;
+    const adapterOptions = {};
     if (this.showFurtherInformationForm) {
       this._validateInputString('firstName', this.firstName);
       this._validateInputString('lastName', this.lastName);
@@ -98,6 +99,7 @@ export default class JoinSup extends Component {
         birthdate: this.birthdate,
         campaignCode: this.args.campaignCode,
       });
+      adapterOptions.registerAdditional = true;
     } else {
       this._validateInputString('studentNumber', this.studentNumber);
       if (this.validation.studentNumber) {
@@ -111,7 +113,7 @@ export default class JoinSup extends Component {
     }
 
     try {
-      await this.args.onSubmit(schoolingRegistration);
+      await this.args.onSubmit(schoolingRegistration, adapterOptions);
       this.isLoading = false;
     } catch (errorResponse) {
       schoolingRegistration.unloadRecord();
