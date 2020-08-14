@@ -19,4 +19,12 @@ module.exports = {
     })
       .then((certification) => certificationSerializer.serialize(certification));
   },
+
+  getCertificationByVerificationCode(request) {
+    const pixScore = request.payload.data.pixScore;
+    const verificationCode = request.payload.data.verificationCode;
+
+    return usecases.getCertificationByVerificationCode({ pixScore, verificationCode })
+      .then(certification => certificationSerializer.serializeForSharing(certification));
+  }
 };
