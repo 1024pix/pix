@@ -101,7 +101,7 @@ describe('Integration | Repository | Certification Course', function() {
     });
   });
 
-  describe('#getCreatedDate', () => {
+  describe('#getCreationDate', () => {
     let certificationCourse;
 
     afterEach(() => {
@@ -359,5 +359,4 @@ describe('Integration | Repository | Certification Course', function() {
       expect(result).to.equal(false);
     });
   });
-
 });
