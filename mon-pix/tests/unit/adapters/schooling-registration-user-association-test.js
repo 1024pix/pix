@@ -25,6 +25,26 @@ describe('Unit | Adapters | schooling-registration-user-association', function()
         expect(url.endsWith('/schooling-registration-user-associations/possibilities')).to.be.true;
       });
     });
+    context('when is for tryReconciliation', function() {
+      it('should redirect to /schooling-registrations-user-associations/auto ', async function() {
+        // when
+        const snapshot = { adapterOptions: { tryReconciliation: true } };
+        const url = await adapter.urlForCreateRecord('schooling-registration-user-association', snapshot);
+
+        // then
+        expect(url.endsWith('/schooling-registration-user-associations/auto')).to.be.true;
+      });
+    });
+    context('when is for registerAdditional', function() {
+      it('should redirect to /schooling-registrations-user-associations/register ', async function() {
+        // when
+        const snapshot = { adapterOptions: { registerAdditional: true } };
+        const url = await adapter.urlForCreateRecord('schooling-registration-user-association', snapshot);
+
+        // then
+        expect(url.endsWith('/schooling-registration-user-associations/register')).to.be.true;
+      });
+    });
   });
 
   describe('#createRecord', () => {
