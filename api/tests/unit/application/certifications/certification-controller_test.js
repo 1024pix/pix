@@ -67,4 +67,30 @@ describe('Unit | Controller | certifications-controller', () => {
       expect(response).to.deep.equal(serializedCertification);
     });
   });
+
+  describe('#getCertificationByVerificationCode', () => {
+    const certification = domainBuilder.buildCertificationWithCompetenceTree();
+    const serializedCertification = '{JSON}';
+
+    const pixScore = 500;
+    const verificationCode = 'P-123456';
+    const request = { payload: { data: { pixScore, verificationCode } } };
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'getCertificationByVerificationCode');
+      sinon.stub(certificationSerializer, 'serializeForSharing');
+    });
+
+    it('should return a serialized certification when use case returns a certification', async () => {
+      // given
+      usecases.getCertificationByVerificationCode.withArgs({ pixScore, verificationCode }).resolves(certification);
+      certificationSerializer.serializeForSharing.withArgs(certification).returns(serializedCertification);
+
+      // when
+      const response = await certificationController.getCertificationByVerificationCode(request, hFake);
+
+      // then
+      expect(response).to.deep.equal(serializedCertification);
+    });
+  });
 });
