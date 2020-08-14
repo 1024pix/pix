@@ -150,7 +150,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
     });
   });
 
-  describe('#findOperativeWithLocale', () => {
+  describe('#findFrenchFranceOperative', () => {
 
     it('should retrieve the operative Challenges of given locale only', async () => {
       // given
@@ -162,7 +162,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       ]);
 
       // when
-      const result = await challengeDatasource.findOperativeWithLocale(FRENCH_FRANCE);
+      const result = await challengeDatasource.findFrenchFranceOperative();
 
       // then
       expect(_.map(result, 'id')).to.deep.equal([
