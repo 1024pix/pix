@@ -108,6 +108,11 @@ module.exports = datasource.extend({
       _.includes(OPERATIVE_CHALLENGES, challengeData.status));
   },
 
+  async findOperativeWithLocale(locale) {
+    const operativeChallenges = await this.findOperative();
+    return operativeChallenges.filter((challenge) => _.includes(challenge.locales, locale));
+  },
+
   async findValidated() {
     const challenges = await this.list();
     return challenges.filter((challengeData) =>
