@@ -156,4 +156,34 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
       });
     });
   });
+
+  describe('#saveAdditional', () => {
+    afterEach(() => {
+      return knex('schooling-registrations').delete();
+    });
+
+    it('should create schooling registration with isAdditional to true', async function() {
+      //given
+      const organization = databaseBuilder.factory.buildOrganization();
+      const user = databaseBuilder.factory.buildUser();
+
+      await databaseBuilder.commit();
+
+      const expectedSchoolingRegistration = {
+        userId: user.id,
+        studentNumber: '123456',
+        firstName: 'firstName',
+        lastName: 'lastName',
+        birthdate: '2010-01-01'
+      };
+
+      //when
+      await higherEducationRegistrationRepository.saveAdditional(expectedSchoolingRegistration, organization.id);
+
+      //then
+      const [schoolingRegistration] = await knex('schooling-registrations').where({ organizationId: organization.id });
+      expect(schoolingRegistration).to.contain(expectedSchoolingRegistration);
+      expect(schoolingRegistration.isAdditional).to.be.true;
+    });
+  });
 });

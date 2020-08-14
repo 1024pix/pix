@@ -29,19 +29,14 @@ exports.register = async function(server) {
               data: {
                 attributes: {
                   'student-number': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                  'first-name': Joi.string().allow(null).empty(Joi.string().regex(/^\s*$/)),
+                  'last-name': Joi.string().allow(null).empty(Joi.string().regex(/^\s*$/)),
+                  'birthdate': Joi.date().format('YYYY-MM-DD'),
                   'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                 },
                 type: 'schooling-registration-user-associations'
               }
             }),
-            Joi.object({
-              data: {
-                attributes: {
-                  'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                },
-                type: 'schooling-registration-user-associations'
-              }
-            })
           ),
           failAction: (request, h) => {
             const errorHttpStatusCode = 422;
@@ -57,6 +52,45 @@ exports.register = async function(server) {
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Elle associe des données saisies par l’utilisateur à l’inscription de l’élève dans cette organisation\n' +
           '- L’utilisation de cette route avec uniquement le paramètre campaign-code est dépréciée en faveur de la route /auto'
+        ],
+        tags: ['api', 'schoolingRegistrationUserAssociation']
+      }
+    },
+    {
+      method: 'POST',
+      path: '/api/schooling-registration-user-associations/register',
+      config: {
+        handler: schoolingRegistrationUserAssociationController.registerAdditionalHigherEducationRegistration,
+        validate: {
+          options: {
+            allowUnknown: false
+          },
+          payload: 
+            Joi.object({
+              data: {
+                attributes: {
+                  'student-number': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                  'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                  'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                  'birthdate': Joi.date().format('YYYY-MM-DD').required(),
+                  'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                },
+                type: 'schooling-registration-user-associations'
+              }
+            }),
+          failAction: (request, h) => {
+            const errorHttpStatusCode = 422;
+            const jsonApiError = new JSONAPIError({
+              status: errorHttpStatusCode.toString(),
+              title: 'Unprocessable entity',
+              detail: 'Un des champs saisis n’est pas valide.',
+            });
+            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
+          }
+        },
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Elle créee une inscription surnuméraire pour l’utilisateur dans cette organisation\n'
         ],
         tags: ['api', 'schoolingRegistrationUserAssociation']
       }

@@ -21,6 +21,10 @@ const ATTRIBUTES_TO_SAVE = [
 
 module.exports = {
 
+  saveAdditional(schoolingRegistration, organizationId) {
+    return knex('schooling-registrations').insert({ ...schoolingRegistration, organizationId, isAdditional: true });
+  },
+
   saveSet(higherEducationRegistrationSet, organizationId) {
     const registrationDataToSave = higherEducationRegistrationSet.registrations.map((registration) => {
       const registrationToSave = _.pick(registration, ATTRIBUTES_TO_SAVE);
