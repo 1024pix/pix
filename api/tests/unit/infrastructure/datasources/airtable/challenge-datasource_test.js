@@ -39,15 +39,24 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
     }),
     challenge_web1 = challengeRawAirTableFixture({
       id: 'challenge-web1',
-      fields: { 'Acquix (id persistant)': [web1.id] }
+      fields: {
+        'Acquix (id persistant)': [web1.id],
+        'Langues' : ['Francophone', 'Franco Français']
+      }
     }),
     challenge_web1_notValidated = challengeRawAirTableFixture({
       id: 'challenge-web1',
-      fields: { 'Acquix (id persistant)': [web1.id], Statut: 'proposé' }
+      fields: {
+        'Acquix (id persistant)': [web1.id], Statut: 'proposé',
+        'Langues' : ['Francophone', 'Franco Français']
+      }
     }),
     challenge_web2 = challengeRawAirTableFixture({
       id: 'challenge-web2',
-      fields: { 'Acquix (id persistant)': [web2.id] }
+      fields: {
+        'Acquix (id persistant)': [web2.id],
+        'Langues' : ['Anglais']
+      }
     }),
     challenge_web3 = challengeRawAirTableFixture({
       id: 'challenge-web3',
@@ -55,7 +64,10 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
     }),
     challenge_web3_archived = challengeRawAirTableFixture({
       id: 'challenge-web3-archived',
-      fields: { 'Acquix (id persistant)': [web3.id], Statut: 'archivé' }
+      fields: {
+        'Acquix (id persistant)': [web3.id], Statut: 'archivé',
+        'Langues' : ['Franco Français']
+      }
     });
 
   beforeEach(() => {
@@ -133,6 +145,28 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       expect(_.map(result, 'id')).to.deep.equal([
         'challenge-web1',
         'challenge-web2',
+        'challenge-web3-archived',
+      ]);
+    });
+  });
+
+  describe('#findOperativeWithLocale', () => {
+
+    it('should retrieve the operative Challenges of given locale only', async () => {
+      // given
+      sinon.stub(airtable, 'findRecords').resolves([
+        challenge_web1,
+        challenge_web1_notValidated,
+        challenge_web2,
+        challenge_web3_archived,
+      ]);
+
+      // when
+      const result = await challengeDatasource.findOperativeWithLocale(FRENCH_FRANCE);
+
+      // then
+      expect(_.map(result, 'id')).to.deep.equal([
+        'challenge-web1',
         'challenge-web3-archived',
       ]);
     });
