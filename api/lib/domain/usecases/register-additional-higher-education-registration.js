@@ -1,4 +1,4 @@
-const { CampaignCodeError } = require('../errors');
+const { NotFoundError } = require('../errors');
 
 module.exports = async function registerAdditionalHigherEducationRegistration({
   campaignCode, 
@@ -13,8 +13,8 @@ module.exports = async function registerAdditionalHigherEducationRegistration({
   higherEducationRegistrationRepository,
 }) {
   const campaign = await campaignRepository.getByCode(campaignCode);
-  if (!campaign || !campaign.organizationId) {
-    throw new CampaignCodeError();
+  if (!campaign) {
+    throw new NotFoundError();
   }
 
   await higherEducationRegistrationRepository.saveAdditional({
