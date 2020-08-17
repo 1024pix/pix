@@ -25,7 +25,9 @@
     }
   }
 
-  &__title, &__description, &__conditions {
+  &__title,
+  &__description,
+  &__conditions {
     margin-bottom: 32px;
     text-align: center;
     color: $grey-80;
