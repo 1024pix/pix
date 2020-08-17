@@ -1,6 +1,6 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
-const getUserCertificationWithResultTree = require('../../../../lib/domain/usecases/get-user-certification-with-result-tree');
+const getUserCertificationWithResultTree = require('../../../../lib/domain/usecases/certificate/get-user-certification-with-result-tree');
 const ResultCompetenceTree = require('../../../../lib/domain/models/ResultCompetenceTree');
 
 describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
