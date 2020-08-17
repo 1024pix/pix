@@ -116,6 +116,7 @@ module.exports = (function() {
     features: {
       dayBeforeImproving: _getNumber(process.env.DAY_BEFORE_IMPROVING, 4),
       dayBeforeCompetenceResetV2: _getNumber(process.env.DAY_BEFORE_COMPETENCE_RESET_V2,7),
+      garAccessV2: isFeatureEnabled(process.env.GAR_ACCESS_V2),
     },
 
     infra: {
@@ -146,6 +147,7 @@ module.exports = (function() {
 
     config.features.dayBeforeImproving = 4;
     config.features.dayBeforeCompetenceResetV2 = 7;
+    config.features.garAccessV2 = false;
 
     config.mailing.enabled = false;
     config.mailing.provider = 'sendinblue';
