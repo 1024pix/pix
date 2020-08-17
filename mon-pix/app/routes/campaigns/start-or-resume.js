@@ -14,27 +14,11 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     this._resetState();
   }
 
-  beforeModel(transition) {
-    this.authenticationRoute = 'inscription';
-    const campaign = this.modelFor('campaigns');
-    this._updateStateFrom({ campaign, queryParams: transition.to.queryParams });
-
-    if (this._shouldLoginToAccessRestrictedCampaign) {
-      return this._redirectToLoginBeforeAccessingToCampaign(transition, campaign);
-    }
-
-    if (this._shouldJoinRestrictedCampaign) {
-      if (this.currentUser.user.mustValidateTermsOfService) {
-        return this._redirectToTermsOfServicesBeforeAccessingToCampaign(transition);
-      }
-      return this.replaceWith('campaigns.restricted.join', campaign);
-    }
-
-    if (this._shouldVisitLandingPageAsVisitor) {
-      return this.replaceWith('campaigns.campaign-landing-page', campaign, { queryParams: transition.to.queryParams });
-    }
-
-    super.beforeModel(...arguments);
+  get _shouldLoginToAccessRestrictedCampaign() {
+    return this.state.isCampaignRestricted
+      && this.state.isCampaignForSCOOrganization
+      && !this.state.isUserLogged
+      && !this.state.externalUser;
   }
 
   _redirectToTermsOfServicesBeforeAccessingToCampaign(transition) {
@@ -89,6 +73,35 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     }
   }
 
+  get _shouldJoinRestrictedCampaign() {
+    return this.state.isCampaignRestricted
+      && (this.state.isUserLogged || this.state.externalUser)
+      && !this.state.hasUserCompletedRestrictedCampaignAssociation;
+  }
+
+  beforeModel(transition) {
+    this.authenticationRoute = 'inscription';
+    const campaign = this.modelFor('campaigns');
+    this._updateStateFrom({ campaign, queryParams: transition.to.queryParams, session: this.session });
+
+    if (this._shouldLoginToAccessRestrictedCampaign) {
+      return this._redirectToLoginBeforeAccessingToCampaign(transition, campaign);
+    }
+
+    if (this._shouldJoinRestrictedCampaign) {
+      if (!this.state.externalUser && this.currentUser.user.mustValidateTermsOfService) {
+        return this._redirectToTermsOfServicesBeforeAccessingToCampaign(transition);
+      }
+      return this.replaceWith('campaigns.restricted.join', campaign);
+    }
+
+    if (this._shouldVisitLandingPageAsVisitor) {
+      return this.replaceWith('campaigns.campaign-landing-page', campaign, { queryParams: transition.to.queryParams });
+    }
+
+    super.beforeModel(...arguments);
+  }
+
   _resetState() {
     this.state = {
       isCampaignRestricted: false,
@@ -99,10 +112,11 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       doesUserHaveOngoingParticipation: false,
       doesCampaignAskForExternalId: false,
       participantExternalId: null,
+      externalUser: null,
     };
   }
 
-  _updateStateFrom({ campaign = {}, queryParams = {}, ongoingCampaignParticipation = null }) {
+  _updateStateFrom({ campaign = {}, queryParams = {}, ongoingCampaignParticipation = null, session }) {
     const hasUserCompletedRestrictedCampaignAssociation = this._handleQueryParamBoolean(queryParams.associationDone, this.state.hasUserCompletedRestrictedCampaignAssociation);
     const hasUserSeenLandingPage = this._handleQueryParamBoolean(queryParams.hasUserSeenLandingPage, this.state.hasUserSeenLandingPage);
     this.state = {
@@ -114,19 +128,8 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       doesUserHaveOngoingParticipation: Boolean(ongoingCampaignParticipation),
       doesCampaignAskForExternalId: _.get(campaign, 'idPixLabel', this.state.doesCampaignAskForExternalId),
       participantExternalId: _.get(queryParams, 'participantExternalId', this.state.participantExternalId),
+      externalUser: _.get(session, 'data.externalUser'),
     };
-  }
-
-  get _shouldLoginToAccessRestrictedCampaign() {
-    return this.state.isCampaignRestricted
-      && this.state.isCampaignForSCOOrganization
-      && !this.state.isUserLogged;
-  }
-
-  get _shouldJoinRestrictedCampaign() {
-    return this.state.isCampaignRestricted
-      && this.state.isUserLogged
-      && !this.state.hasUserCompletedRestrictedCampaignAssociation;
   }
 
   get _shouldVisitLandingPageAsVisitor() {
