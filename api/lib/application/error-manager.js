@@ -4,6 +4,8 @@ const HttpErrors = require('./http-errors');
 const DomainErrors = require('../domain/errors');
 const errorSerializer = require('../infrastructure/serializers/jsonapi/error-serializer');
 
+const NOT_VALID_RELATIONSHIPS = ['externalId'];
+
 function _formatAttribute({ attribute, message }) {
   return {
     status: '422',
@@ -39,7 +41,7 @@ function _formatInvalidAttribute({ attribute, message }) {
   if (!attribute) {
     return _formatUndefinedAttribute({ message });
   }
-  if (attribute.endsWith('Id')) {
+  if (attribute.endsWith('Id') && !NOT_VALID_RELATIONSHIPS.includes(attribute)) {
     return _formatRelationship({ attribute, message });
   }
   return _formatAttribute({ attribute, message });
