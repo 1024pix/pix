@@ -31,7 +31,7 @@ $pix-modal-border-radius: 5px;
       align-items: center;
       cursor: pointer;
 
-      &> span {
+      & > span {
         color: inherit;
         font-size: 0.875rem;
         margin-right: 5px;
@@ -43,7 +43,7 @@ $pix-modal-border-radius: 5px;
         }
       }
 
-      &> svg {
+      & > svg {
         font-size: 0.875rem;
       }
     }
