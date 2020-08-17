@@ -1,5 +1,5 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const getCertificationByVerificationCode = require('../../../../lib/domain/usecases/get-shared-certification');
+const getCertificationByVerificationCode = require('../../../../lib/domain/usecases/certificate/get-shared-certification');
 const { UserNotAuthorizedToAccessEntity, NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | get-shared-certification', () => {
