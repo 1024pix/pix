@@ -31,7 +31,7 @@
       border-radius: 3px;
       outline: none;
       height: 50px;
-      padding: 0 1px 1px .5ch;
+      padding: 0 1px 1px 0.5ch;
       text-transform: uppercase;
       width: 13.6ch;
       background: repeating-linear-gradient(90deg,
@@ -43,13 +43,13 @@
       color: $grey-70;
       font-size: 1.875rem;
       font-family: $font-roboto-mono;
-      letter-spacing: .5ch;
+      letter-spacing: 0.5ch;
 
       @media all and (-ms-high-contrast: none) {
         //display differently for IE because 1 character (ch) is equal to 1.162
         line-height: 0.7;
         width: 15.6ch;
-        letter-spacing: .4ch;
+        letter-spacing: 0.4ch;
         background: repeating-linear-gradient(90deg,
           $grey-22 0,
           $grey-22 1.33ch,
