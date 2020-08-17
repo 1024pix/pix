@@ -87,7 +87,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
     context('the entry data is an array of certifications', () => {
 
       const receivedCertifications = [
-        domainBuilder.buildCertification({
+        domainBuilder.buildPrivateCertificate({
           pixScore: 23,
           status: 'rejected',
           commentForCandidate: 'Vous auriez dû travailler plus.',
@@ -133,7 +133,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
 
     context('the entry data is one certification', () => {
 
-      const receivedCertification = domainBuilder.buildCertification({
+      const receivedCertificate = domainBuilder.buildPrivateCertificate({
         pixScore: 23,
         status: 'rejected',
         certifiedProfile: null,
@@ -170,7 +170,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
 
       it('should serialize user certifications to JSON', () => {
         // when
-        const serializedCertifications = serializer.serialize(receivedCertification);
+        const serializedCertifications = serializer.serialize(receivedCertificate);
 
         // then
         expect(serializedCertifications).to.deep.equal(JsonCertification);
@@ -287,21 +287,20 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
 
       it('should serialize to JSON with included relationships', () => {
         // given
-        const receivedCertification = domainBuilder.buildCertificationWithCompetenceTree({
+        const receivedCertificate = domainBuilder.buildPrivateCertificateWithCompetenceTree({
           pixScore: 23,
           status: 'rejected',
           commentForCandidate: 'Vous auriez dû travailler plus.',
         });
 
         // when
-        const serializedCertifications = serializer.serialize(receivedCertification);
+        const serializedCertifications = serializer.serialize(receivedCertificate);
 
         // then
         expect(serializedCertifications).to.deep.equal(JsonCertificationList);
       });
     });
   });
-
 
   describe('#serializeForSharing', () => {
 
@@ -412,14 +411,14 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
 
     it('should serialize certification into JSON data without examinerComment', () => {
       // given
-      const receivedCertification = domainBuilder.buildCertificationWithCompetenceTree({
+      const receivedCertificate = domainBuilder.buildPrivateCertificateWithCompetenceTree({
         pixScore: 23,
         status: 'rejected',
         commentForCandidate: 'Vous auriez dû travailler plus.',
       });
 
       // when
-      const serializedCertifications = serializer.serializeForSharing(receivedCertification);
+      const serializedCertifications = serializer.serializeForSharing(receivedCertificate);
 
       // then
       expect(serializedCertifications).to.deep.equal(JsonCertificationList);

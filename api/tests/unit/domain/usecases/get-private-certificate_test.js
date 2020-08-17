@@ -1,9 +1,9 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
-const getUserCertificationWithResultTree = require('../../../../lib/domain/usecases/certificate/get-user-certification-with-result-tree');
+const getPrivateCertificate = require('../../../../lib/domain/usecases/certificate/get-private-certificate');
 const ResultCompetenceTree = require('../../../../lib/domain/models/ResultCompetenceTree');
 
-describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
+describe('Unit | UseCase | getPrivateCertificate', () => {
 
   const userId = 2;
   const certificationId = '23';
@@ -23,7 +23,7 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
   };
 
   beforeEach(() => {
-    certificationRepository.getByCertificationCourseId = sinon.stub();
+    certificationRepository.getPrivateCertificateByCertificationCourseId = sinon.stub();
     assessmentResultRepository.findLatestByCertificationCourseIdWithCompetenceMarks = sinon.stub();
     competenceTreeRepository.get = sinon.stub();
     cleaCertificationStatusRepository.getCleaCertificationStatus = sinon.stub().resolves(cleaCertificationStatus);
@@ -32,19 +32,19 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
   context('when the user is not owner of the certification', () => {
 
     const randomOtherUserId = 666;
-    let certification;
+    let certificate;
     let promise;
 
     beforeEach(() => {
       // given
-      certification = domainBuilder.buildCertification({
+      certificate = domainBuilder.buildPrivateCertificate({
         userId: randomOtherUserId,
         id: certificationId
       });
-      certificationRepository.getByCertificationCourseId.resolves(certification);
+      certificationRepository.getPrivateCertificateByCertificationCourseId.resolves(certificate);
 
       // when
-      promise = getUserCertificationWithResultTree({
+      promise = getPrivateCertificate({
         certificationId,
         certificationRepository,
         cleaCertificationStatusRepository,
@@ -57,7 +57,7 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
     it('should get the certification from the repository', () => {
       // then
       return promise.catch(() => {
-        expect(certificationRepository.getByCertificationCourseId).to.have.been.calledWith({ id: certificationId });
+        expect(certificationRepository.getPrivateCertificateByCertificationCourseId).to.have.been.calledWith({ id: certificationId });
       });
     });
 
@@ -70,17 +70,17 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
   context('when the user is owner of the certification', () => {
 
     let assessmentResult;
-    let certification;
+    let certificate;
     let competenceTree;
     let promise;
 
     beforeEach(() => {
       // given
-      certification = domainBuilder.buildCertification({
+      certificate = domainBuilder.buildPrivateCertificate({
         userId,
         id: certificationId
       });
-      certificationRepository.getByCertificationCourseId.resolves(certification);
+      certificationRepository.getPrivateCertificateByCertificationCourseId.resolves(certificate);
 
       assessmentResult = domainBuilder.buildAssessmentResult();
       assessmentResult.competenceMarks = [domainBuilder.buildCompetenceMark()];
@@ -90,7 +90,7 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
       competenceTreeRepository.get.resolves(competenceTree);
 
       // when
-      promise = getUserCertificationWithResultTree({
+      promise = getPrivateCertificate({
         certificationId,
         certificationRepository,
         cleaCertificationStatusRepository,
@@ -103,7 +103,7 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
     it('should get the certification from the repository', () => {
       // then
       return promise.then(() => {
-        expect(certificationRepository.getByCertificationCourseId).to.have.been.calledWith({ id: certificationId });
+        expect(certificationRepository.getPrivateCertificateByCertificationCourseId).to.have.been.calledWith({ id: certificationId });
       });
     });
 

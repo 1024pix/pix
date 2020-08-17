@@ -1,8 +1,8 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const getCertificationByVerificationCode = require('../../../../lib/domain/usecases/certificate/get-shared-certification');
+const getCertificationByVerificationCode = require('../../../../lib/domain/usecases/certificate/get-shareable-certificate');
 const { UserNotAuthorizedToAccessEntity, NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | get-shared-certification', () => {
+describe('Unit | UseCase | get-shareable-certificate', () => {
 
   let certificationRepository;
   let assessmentResultRepository;
@@ -21,7 +21,7 @@ describe('Unit | UseCase | get-shared-certification', () => {
     const pixScore = 500;
     const verificationCode = 'P-123456';
     const certificationCourseId = 1;
-    const certificationWithoutCleaAndCompetenceTree = domainBuilder.buildCertification({
+    const certificateWithoutCleaAndCompetenceTree = domainBuilder.buildShareableCertificate({
       id: certificationCourseId,
       verificationCode,
       cleaCertificationStatus: null,
@@ -32,8 +32,8 @@ describe('Unit | UseCase | get-shared-certification', () => {
     const assessmentResultId = 1;
     const competenceTree = { areas: [] };
     const competenceMarks = [];
-    certificationRepository.getCertificationByVerificationCode = sinon.stub().withArgs({ verificationCode }).resolves(certificationWithoutCleaAndCompetenceTree);
-    cleaCertificationStatusRepository.getCleaCertificationStatus = sinon.stub().withArgs(certificationWithoutCleaAndCompetenceTree).resolves(cleaCertificationStatus);
+    certificationRepository.getShareableCertificateByVerificationCode = sinon.stub().withArgs({ verificationCode }).resolves(certificateWithoutCleaAndCompetenceTree);
+    cleaCertificationStatusRepository.getCleaCertificationStatus = sinon.stub().withArgs(certificateWithoutCleaAndCompetenceTree).resolves(cleaCertificationStatus);
     assessmentResultRepository.findLatestByCertificationCourseIdWithCompetenceMarks = sinon.stub().withArgs({ certificationCourseId }).resolves({ id: assessmentResultId, competenceMarks });
     competenceTreeRepository.get = sinon.stub().resolves(competenceTree);
 
@@ -49,7 +49,7 @@ describe('Unit | UseCase | get-shared-certification', () => {
 
     // then
     const expectedCertification = {
-      ...certificationWithoutCleaAndCompetenceTree,
+      ...certificateWithoutCleaAndCompetenceTree,
       cleaCertificationStatus,
       resultCompetenceTree: { areas: [], id: '1-1' }
     };
@@ -62,14 +62,14 @@ describe('Unit | UseCase | get-shared-certification', () => {
     const inputPixScore = 600;
     const verificationCode = 'P-123456';
     const certificationCourseId = 1;
-    const certificationWithoutCleaAndCompetenceTree = domainBuilder.buildCertification({
+    const certificateWithoutCleaAndCompetenceTree = domainBuilder.buildShareableCertificate({
       id: certificationCourseId,
       verificationCode,
       cleaCertificationStatus: null,
       resultCompetenceTree: null,
       pixScore: actualPixScore
     });
-    certificationRepository.getCertificationByVerificationCode = sinon.stub().withArgs({ verificationCode }).resolves(certificationWithoutCleaAndCompetenceTree);
+    certificationRepository.getShareableCertificateByVerificationCode = sinon.stub().withArgs({ verificationCode }).resolves(certificateWithoutCleaAndCompetenceTree);
 
     // when
     const error = await catchErr(getCertificationByVerificationCode)({
@@ -89,7 +89,7 @@ describe('Unit | UseCase | get-shared-certification', () => {
     // given
     const verificationCode = 'P-123456';
     const thrownError = new NotFoundError();
-    certificationRepository.getCertificationByVerificationCode = sinon.stub().withArgs({ verificationCode }).rejects(thrownError);
+    certificationRepository.getShareableCertificateByVerificationCode = sinon.stub().withArgs({ verificationCode }).rejects(thrownError);
 
     // when
     const error = await catchErr(getCertificationByVerificationCode)({

@@ -1,35 +1,34 @@
 const { UserNotAuthorizedToAccessEntity } = require('../../errors');
 const ResultCompetenceTree = require('../../models/ResultCompetenceTree');
 
-// TODO : get-certificate
 module.exports = {
-  getCertificationResult : async function getCertificationResult({
-    getCertification,
-    isAuthorized,
+  getCertificate : async function getCertificate({
+    getBaseCertificate,
+    isAccessToCertificateAuthorized,
     cleaCertificationStatusRepository,
     assessmentResultRepository,
     competenceTreeRepository
   }) {
-    const certification = await getCertification();
-    if (!isAuthorized(certification)) {
+    const certificate = await getBaseCertificate();
+    if (!isAccessToCertificateAuthorized(certificate)) {
       throw new UserNotAuthorizedToAccessEntity();
     }
 
-    const cleaCertificationStatus = await cleaCertificationStatusRepository.getCleaCertificationStatus(certification.id);
-    certification.cleaCertificationStatus = cleaCertificationStatus;
+    const cleaCertificationStatus = await cleaCertificationStatusRepository.getCleaCertificationStatus(certificate.id);
+    certificate.cleaCertificationStatus = cleaCertificationStatus;
 
     const competenceTree = await competenceTreeRepository.get();
-    const [assessmentResultId, competenceMarks] = await _getsCompetenceMarksAndAssessmentResultId({ certificationId: certification.id, assessmentResultRepository });
+    const [assessmentResultId, competenceMarks] = await _getsCompetenceMarksAndAssessmentResultId({ certificationId: certificate.id, assessmentResultRepository });
 
     const resultCompetenceTree = ResultCompetenceTree.generateTreeFromCompetenceMarks({
       competenceTree,
       competenceMarks,
     });
-    resultCompetenceTree.id = `${certification.id}-${assessmentResultId}`;
+    resultCompetenceTree.id = `${certificate.id}-${assessmentResultId}`;
 
-    certification.resultCompetenceTree = resultCompetenceTree;
+    certificate.resultCompetenceTree = resultCompetenceTree;
 
-    return certification;
+    return certificate;
   }
 };
 
