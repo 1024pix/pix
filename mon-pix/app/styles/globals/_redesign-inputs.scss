@@ -96,12 +96,12 @@ input[type=checkbox]:checked:after {
 
 input[type=checkbox]:focus:before,
 input[type=checkbox]:hover:before {
-  box-shadow: 0 0px 0px 8px rgba($blue, 0.1);
+  box-shadow: 0 0 0 8px rgba($blue, 0.1);
   border-color: $blue;
 }
 
 input[type=checkbox]:active:before {
-  box-shadow: 0 0px 0px 8px rgba($blue, 0.3);
+  box-shadow: 0 0 0 8px rgba($blue, 0.3);
 }
 
 /**
@@ -147,12 +147,12 @@ input[type=radio]:checked:before {
 
 input[type=radio]:focus:before,
 input[type=radio]:hover:before {
-  box-shadow: 0 0px 0px 8px rgba($blue, 0.1);
+  box-shadow: 0 0 0 8px rgba($blue, 0.1);
   border-color: $blue;
 }
 
 input[type=radio]:active:before {
-  box-shadow: 0 0px 0px 8px rgba($blue, 0.3);
+  box-shadow: 0 0 0 8px rgba($blue, 0.3);
 }
 
 /**
