@@ -794,5 +794,29 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
         });
       });
     });
+
+    context('When user is redirected to fill-in-campaign-code after an external platform request', function() {
+
+      const campaignCode = 'CAMPAIGN_CODE';
+      const studentReconciliationToken = 'studentReconciliationToken';
+
+      context('When campaign is restricted and SCO', function() {
+        beforeEach(function() {
+          campaign = server.create('campaign', { isRestricted: true, organizationType: 'SCO', code: campaignCode });
+        });
+
+        it('should redirect to reconciliation form', async function() {
+          // given
+          await visit(`/campagnes?externalUser=${studentReconciliationToken}`);
+
+          // when
+          await fillIn('#campaign-code', campaignCode);
+          await click('.fill-in-campaign-code__start-button');
+
+          // then
+          expect(currentURL()).to.equal(`/campagnes/${campaignCode}/privee/rejoindre`);
+        });
+      });
+    });
   });
 });
