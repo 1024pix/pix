@@ -35,6 +35,7 @@
         padding: 3rem;
         padding-left: 22rem;
       }
+
       @include device-is('desktop') {
         padding-left: 27rem;
       }
