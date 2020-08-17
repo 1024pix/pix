@@ -63,7 +63,7 @@
   transition: opacity 0.2s linear;
 }
 
-input[type=checkbox]:before {
+input[type=checkbox]::before {
   position: relative;
   height: 18px;
   width: 18px;
@@ -76,12 +76,12 @@ input[type=checkbox]:before {
   box-sizing: border-box;
 }
 
-input[type=checkbox]:checked:before {
+input[type=checkbox]:checked::before {
   border-color: $blue;
   background-color: $blue;
 }
 
-input[type=checkbox]:checked:after {
+input[type=checkbox]:checked::after {
   height: 18px;
   width: 18px;
   position: relative;
@@ -94,13 +94,13 @@ input[type=checkbox]:checked:after {
   text-align: center;
 }
 
-input[type=checkbox]:focus:before,
-input[type=checkbox]:hover:before {
+input[type=checkbox]:focus::before,
+input[type=checkbox]:hover::before {
   box-shadow: 0 0 0 8px rgba($blue, 0.1);
   border-color: $blue;
 }
 
-input[type=checkbox]:active:before {
+input[type=checkbox]:active::before {
   box-shadow: 0 0 0 8px rgba($blue, 0.3);
 }
 
@@ -115,15 +115,15 @@ input[type=checkbox]:active:before {
   top: 3px;
 }
 
-input[type=radio]:before,
-input[type=radio]:checked:after {
+input[type=radio]::before,
+input[type=radio]:checked::after {
   display: block;
   position: relative;
   content: '';
   border-radius: 100%;
 }
 
-input[type=radio]:before {
+input[type=radio]::before {
   height: 17px;
   width: 17px;
   top: -3px;
@@ -133,7 +133,7 @@ input[type=radio]:before {
   background-color: $white;
 }
 
-input[type=radio]:checked:after {
+input[type=radio]:checked::after {
   height: 9px;
   width: 9px;
   top: -18px;
@@ -141,17 +141,17 @@ input[type=radio]:checked:after {
   background-color: $blue;
 }
 
-input[type=radio]:checked:before {
+input[type=radio]:checked::before {
   border-color: $blue;
 }
 
-input[type=radio]:focus:before,
-input[type=radio]:hover:before {
+input[type=radio]:focus::before,
+input[type=radio]:hover::before {
   box-shadow: 0 0 0 8px rgba($blue, 0.1);
   border-color: $blue;
 }
 
-input[type=radio]:active:before {
+input[type=radio]:active::before {
   box-shadow: 0 0 0 8px rgba($blue, 0.3);
 }
 

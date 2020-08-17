@@ -1,5 +1,4 @@
 .certifications-list {
-
   background-color: transparent;
   justify-content: space-around;
   font-size: 0.625rem;
@@ -56,6 +55,7 @@
 
 .certifications-list__table-header-cell-certification-center {
   @extend .certifications-list__table-header-cell-double-width;
+
   justify-content: center;
 }
 

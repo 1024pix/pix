@@ -1,11 +1,13 @@
-.resume-campaign-banner{
+.resume-campaign-banner {
   width: 100%;
+
   @media (min-width: 768px) {
     position: -webkit-sticky; /* Safari */
     position: sticky;
     top: 0;
     z-index: 4;
   }
+
   .resume-campaign-banner__container {
     background: $warning;
     height: 80px;
@@ -25,6 +27,7 @@
 
     .resume-campaign-banner__button {
       margin-left: 5px;
+
       @media (min-width: 768px) {
         margin-left: 46px;
       }

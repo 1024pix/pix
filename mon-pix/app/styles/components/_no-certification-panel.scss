@@ -11,11 +11,9 @@
   @include device-is('tablet') {
     margin: 0 50px;
     font-size: 1.25rem;
-
   }
 
   @include device-is('desktop') {
     margin: 0 100px;
   }
-
 }

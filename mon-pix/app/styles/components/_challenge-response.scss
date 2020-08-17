@@ -65,13 +65,13 @@ form .challenge-response {
 form .challenge-response.challenge-response--locked {
   .challenge-proposals {
     opacity: 0.33;
-    transition: .3s ease;
+    transition: 0.3s ease;
   }
 
   &:hover {
     .challenge-response__locked-overlay {
       opacity: 1;
-      transition: .9s ease;
+      transition: 0.9s ease;
     }
   }
 }
@@ -83,7 +83,7 @@ form .challenge-response-locked {
 
     &:hover {
       opacity: 1;
-      transition: .3s ease;
+      transition: 0.3s ease;
     }
   }
 }

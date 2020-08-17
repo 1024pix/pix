@@ -22,8 +22,10 @@
   bottom: auto;
   font-size: 1.25rem;
   cursor: pointer;
-  opacity: .5;
-  &:hover, &:active {
+  opacity: 0.5;
+
+  &:hover,
+  &:active {
     color: $grey-60;
   }
 }

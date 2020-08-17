@@ -27,7 +27,7 @@
   color: $white;
   height: 100%;
   position: relative;
-  transition: height 0.2s cubic-bezier(0.265, 0.075, 0.025, 0.990);
+  transition: height 0.2s cubic-bezier(0.265, 0.075, 0.025, 0.99);
   overflow: visible;
   padding: 16px 12px;
   width: 100%;
@@ -134,7 +134,6 @@
   background: url('/images/scorecard-congrats.svg') no-repeat center center;
   background-size: contain;
   margin: -10px -5px;
-
   display: flex;
   justify-content: center;
   align-items: center;

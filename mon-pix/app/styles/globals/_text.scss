@@ -23,7 +23,7 @@
   position: relative;
   z-index: 1;
 
-  &:before {
+  &::before {
     border-top: 2px solid #DFDFDF;
     content: "";
     margin: 0 auto;

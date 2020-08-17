@@ -1,7 +1,7 @@
 @mixin button-background-transition() {
-  transition: background .25s ease-in-out;
-  -moz-transition: background .25s ease-in-out;
-  -webkit-transition: background .25s ease-in-out;
+  transition: background 0.25s ease-in-out;
+  -moz-transition: background 0.25s ease-in-out;
+  -webkit-transition: background 0.25s ease-in-out;
 }
 
 .challenge-actions {
@@ -27,7 +27,9 @@
   margin-right: 15px;
   width: 150px;
   height: 46px;
+
   @include button-background-transition();
+
   border-radius: 23px;
   background-color: transparent;
   border: 1px solid $grey-50;
@@ -39,6 +41,7 @@
     background-color: $grey-22;
     text-decoration: none;
   }
+
   &:focus {
     text-decoration: none;
   }
@@ -57,6 +60,7 @@
     font-size: 1rem;
   }
 }
+
 .challenge-actions__action-skip__loader {
   margin-right: 15px;
   width: 150px;
@@ -64,7 +68,6 @@
   border-radius: 23px;
   background-color: $grey-15;
 }
-
 
 .challenge-actions__action-skip__loader-bar {
   background: url('/images/loader-grey.svg');
@@ -85,7 +88,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
   @include button-background-transition();
+
   text-decoration: none;
 
   &:hover,
@@ -95,7 +100,6 @@
     background: $green-hover;
     text-decoration: none;
   }
-
 }
 
 .challenge-actions__action-validate-text {
@@ -112,6 +116,7 @@
     font-size: 1rem;
   }
 }
+
 .challenge-actions__action-validate__loader {
   order: 1;
   width: 150px;
@@ -151,10 +156,12 @@
   background-color: $blue;
   font-family: $font-roboto;
   color: $white;
+
   @include button-background-transition();
+
   text-decoration: none;
 
-  &:hover{
+  &:hover {
     background: $blue-hover;
     text-decoration: none;
   }

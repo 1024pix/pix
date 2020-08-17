@@ -94,7 +94,7 @@
 }
 
 /* XXX tooltip bottom arrow */
-.challenge-statement__help-tooltip:before {
+.challenge-statement__help-tooltip::before {
   content: '';
   position: absolute;
   top: 100%;
@@ -107,7 +107,7 @@
   border-left: 10px solid transparent;
 }
 
-.challenge-statement__help-tooltip:after {
+.challenge-statement__help-tooltip::after {
   content: '';
   position: absolute;
   top: 100%;
@@ -140,12 +140,12 @@
   display: inline-block;
   padding: 0 15px;
 
-  input[type=radio]:before {
+  input[type=radio]::before {
     top: -4px;
     left: -4px;
   }
 
-  input[type=radio]:checked:after {
+  input[type=radio]:checked::after {
     top: -19px;
     left: 2px;
   }
