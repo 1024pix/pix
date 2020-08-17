@@ -1,5 +1,6 @@
 {
   "extends": "stylelint-config-standard",
   "rules": {
+    "indentation": [2, { "indentInsideParens": "once-at-root-twice-in-block" }]
   }
 }

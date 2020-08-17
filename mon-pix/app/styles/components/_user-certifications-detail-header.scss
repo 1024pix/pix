@@ -47,11 +47,11 @@
   }
 
   @include device-is('tablet') {
-      flex-wrap: wrap;
+    flex-wrap: wrap;
   }
 
   @include device-is('desktop') {
-      flex-wrap: nowrap;
+    flex-wrap: nowrap;
   }
 }
 
