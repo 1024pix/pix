@@ -4,6 +4,7 @@ import EmberObject, { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { A as EmberArray } from '@ember/array';
 import config from 'mon-pix/config/environment';
+import buttonStatusTypes from 'mon-pix/utils/button-status-types';
 
 export default class ScorecardDetails extends Component {
   @service currentUser;
@@ -12,6 +13,7 @@ export default class ScorecardDetails extends Component {
   @service competenceEvaluation;
 
   @tracked showResetModal = false;
+  @tracked improveButtonStatus = buttonStatusTypes.unrecorded;
 
   get level() {
     return this.args.scorecard.isNotStarted ? null : this.args.scorecard.level;
@@ -39,6 +41,10 @@ export default class ScorecardDetails extends Component {
 
   get shouldWaitBeforeImproving() {
     return this.args.scorecard.remainingDaysBeforeImproving > 0;
+  }
+
+  get isImprovingButtonDisabled() {
+    return this.improveButtonStatus === buttonStatusTypes.pending;
   }
 
   get tutorialsGroupedByTubeName() {
@@ -83,11 +89,17 @@ export default class ScorecardDetails extends Component {
 
   @action
   async improveCompetenceEvaluation() {
+    this.improveButtonStatus = buttonStatusTypes.pending;
+
     const userId = this.currentUser.user.id;
     const competenceId = this.args.scorecard.competenceId;
     const scorecardId = this.args.scorecard.id;
+    try {
+      this.competenceEvaluation.improve({ userId, competenceId, scorecardId });
+    } catch {
+      this.improveButtonStatus = buttonStatusTypes.unrecorded;
+    }
 
-    this.competenceEvaluation.improve({ userId, competenceId, scorecardId });
   }
 
 }
