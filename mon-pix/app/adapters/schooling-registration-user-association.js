@@ -36,6 +36,10 @@ export default class SchoolingRegistrationUserAssociation extends ApplicationAda
       delete data.data.attributes['last-name'];
     }
 
+    if (data.data.attributes['student-number'] === null) {
+      delete data.data.attributes['student-number']
+    };
+
     delete data.data.attributes.username;
 
     return this.ajax(url, 'POST', { data });
