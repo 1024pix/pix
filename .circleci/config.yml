@@ -126,6 +126,8 @@ jobs:
             - ~/.npm
       - run:
           npm run lint:hbs
+      - run:
+          npm run lint:scss
       - run: |
           npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot
 
