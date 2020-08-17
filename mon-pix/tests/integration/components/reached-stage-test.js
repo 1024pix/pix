@@ -49,11 +49,11 @@ describe('Integration | Component | reached-stage', function() {
 });
 
 function _expectStars(starCount, stageCount) {
-  for (let index = 1 ; index <= starCount ; index ++) {
+  for (let index = 1 ; index < starCount ; index ++) {
     expect(find(`#acquired-star-${index}`)).to.exist;
     expect(find(`#unacquired-star-${index}`)).to.not.exist;
   }
-  for (let index = starCount + 1 ; index <= stageCount ; index ++) {
+  for (let index = starCount ; index < stageCount ; index ++) {
     expect(find(`#acquired-star-${index}`)).to.not.exist;
     expect(find(`#unacquired-star-${index}`)).to.exist;
   }
