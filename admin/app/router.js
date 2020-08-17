@@ -40,6 +40,7 @@ Router.map(function() {
     });
 
     this.route('certification-centers', function() {
+      this.route('new');
       this.route('list');
     });
 

@@ -1,0 +1,14 @@
+<header class="page-header">
+  <div class="page-title">
+    Nouveau centre de certification
+  </div>
+</header>
+
+<main class="page-body">
+  <section class="page-section">
+    <CertificationCenterForm
+            @certificationCenter={{@model}}
+            @onSubmit={{this.addCertificationCenter}}
+            @onCancel={{this.goBackToCertificationCentersList}} />
+  </section>
+</main>
