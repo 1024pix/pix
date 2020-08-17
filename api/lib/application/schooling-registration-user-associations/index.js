@@ -29,9 +29,6 @@ exports.register = async function(server) {
               data: {
                 attributes: {
                   'student-number': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                  'first-name': Joi.string().allow(null).empty(Joi.string().regex(/^\s*$/)),
-                  'last-name': Joi.string().allow(null).empty(Joi.string().regex(/^\s*$/)),
-                  'birthdate': Joi.date().format('YYYY-MM-DD'),
                   'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                 },
                 type: 'schooling-registration-user-associations'
@@ -90,7 +87,7 @@ exports.register = async function(server) {
         },
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Elle créee une inscription surnuméraire pour l’utilisateur dans cette organisation\n'
+          '- Elle crée une inscription surnuméraire pour l’utilisateur dans cette organisation\n'
         ],
         tags: ['api', 'schoolingRegistrationUserAssociation']
       }
