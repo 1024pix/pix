@@ -1,6 +1,7 @@
 {
   "extends": "stylelint-config-standard",
   "rules": {
+    "color-hex-case": "upper",
     "indentation": [2, { "indentInsideParens": "once-at-root-twice-in-block" }]
   }
 }
