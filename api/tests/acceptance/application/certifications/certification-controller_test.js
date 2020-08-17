@@ -274,7 +274,7 @@ describe('Acceptance | API | Certifications', () => {
       expect(response.result).to.deep.equal(expectedBody);
     });
 
-    it('should return unauthorized 403 HTTP status code when user is not owner of the certification', async () => {
+    it('should return notFound 404 HTTP status code when user is not owner of the certification', async () => {
       // given
       const unauthenticatedUserId = userId + 1;
       options = {
@@ -287,7 +287,7 @@ describe('Acceptance | API | Certifications', () => {
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(403);
+      expect(response.statusCode).to.equal(404);
     });
   });
 
@@ -349,7 +349,7 @@ describe('Acceptance | API | Certifications', () => {
         const verificationCode = certificationCourse.verificationCode;
         options = {
           method: 'POST',
-          url: `/api/shared-certifications`,
+          url: '/api/shared-certifications',
           payload: { data: { pixScore, verificationCode } }
         };
 
@@ -480,7 +480,7 @@ describe('Acceptance | API | Certifications', () => {
         const response = await server.inject(options);
   
         // then
-        expect(response.statusCode).to.equal(500);
+        expect(response.statusCode).to.equal(404);
       });
 
       it('should return notFound 404 HTTP status code when the verificationCode is incorrect', async () => {

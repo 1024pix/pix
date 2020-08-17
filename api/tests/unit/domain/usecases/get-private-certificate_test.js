@@ -1,5 +1,5 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 const getPrivateCertificate = require('../../../../lib/domain/usecases/certificate/get-private-certificate');
 const ResultCompetenceTree = require('../../../../lib/domain/models/ResultCompetenceTree');
 
@@ -61,9 +61,9 @@ describe('Unit | UseCase | getPrivateCertificate', () => {
       });
     });
 
-    it('should throw an unauthorized error', () => {
+    it('should throw an notFound error', () => {
       // then
-      return expect(promise).to.be.rejectedWith(UserNotAuthorizedToAccessEntity);
+      return expect(promise).to.be.rejectedWith(NotFoundError);
     });
   });
 

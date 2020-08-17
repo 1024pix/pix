@@ -1,6 +1,6 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const getCertificationByVerificationCode = require('../../../../lib/domain/usecases/certificate/get-shareable-certificate');
-const { UserNotAuthorizedToAccessEntity, NotFoundError } = require('../../../../lib/domain/errors');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | get-shareable-certificate', () => {
 
@@ -82,7 +82,7 @@ describe('Unit | UseCase | get-shareable-certificate', () => {
     });
 
     // then
-    expect(error).to.be.an.instanceOf(UserNotAuthorizedToAccessEntity);
+    expect(error).to.be.an.instanceOf(NotFoundError);
   });
 
   it('should fail if verificationCode does not belong to any certificate', async () => {
