@@ -19,22 +19,16 @@ module.exports = {
     const authenticatedUserId = request.auth.credentials.userId;
     const payload = request.payload.data.attributes;
     const campaignCode = payload['campaign-code'];
-    let schoolingRegistration;
 
-    if (_isReconciliationWithUserDetails(payload)) {
-      const reconciliationInfo = {
-        id: authenticatedUserId,
-        firstName: payload['first-name'],
-        lastName: payload['last-name'],
-        birthdate: payload['birthdate'],
-        studentNumber: payload['student-number'],
-      };
+    const reconciliationInfo = {
+      id: authenticatedUserId,
+      firstName: payload['first-name'],
+      lastName: payload['last-name'],
+      birthdate: payload['birthdate'],
+      studentNumber: payload['student-number'],
+    };
 
-      schoolingRegistration = await usecases.reconcileUserToSchoolingRegistrationData({ campaignCode, reconciliationInfo });
-    } else {
-      // deprecated in favor of associateAutomatically function
-      schoolingRegistration = await usecases.reconcileUserToOrganization({ userId: authenticatedUserId, campaignCode });
-    }
+    const schoolingRegistration = await usecases.reconcileUserToSchoolingRegistrationData({ campaignCode, reconciliationInfo });
 
     return schoolingRegistrationSerializer.serialize(schoolingRegistration);
   },
