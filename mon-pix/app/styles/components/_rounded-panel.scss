@@ -100,7 +100,6 @@
       margin: 16px 10px;
       width: auto;
     }
-
   }
 
   @include device-is('tablet') {
@@ -120,6 +119,7 @@
     font-weight: $font-light;
     letter-spacing: 0.009rem;
     line-height: 2.75rem;
+
     @include device-is('tablet') {
       font-size: 2rem;
       line-height: 3.375rem;

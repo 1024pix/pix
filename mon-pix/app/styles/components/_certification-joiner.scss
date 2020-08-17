@@ -50,7 +50,7 @@
     border: 2px solid $grey-20;
     padding-left: 10px;
     margin-bottom: 16px;
-    min-width: 0px;
+    min-width: 0;
 
     &:hover {
       border: 2px solid $light-blue;
@@ -75,5 +75,3 @@
     color: $grey-30;
   }
 }
-
-

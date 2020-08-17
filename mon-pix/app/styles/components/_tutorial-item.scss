@@ -7,7 +7,7 @@
   padding-left: 24px;
   position: relative;
 
-  &:after {
+  &::after {
     content: ' ';
     display: block;
     width: 4px;

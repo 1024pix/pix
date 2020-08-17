@@ -22,7 +22,7 @@
     }
 
     &--jaffa::after {
-      background: radial-gradient($information-dark 25%, $information-light 100%)
+      background: radial-gradient($information-dark 25%, $information-light 100%);
     }
 
     &--emerald::after {
@@ -83,7 +83,7 @@
   }
 
   .competence-card:hover .competence-card__interactions {
-    bottom: 0px;
+    bottom: 0;
     height: 70px;
   }
 
@@ -128,7 +128,6 @@
     background: url('/images/scorecard-congrats.svg') no-repeat center center;
     background-size: contain;
     margin: -10px -5px;
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -243,7 +242,7 @@
 
     &__count {
       font-size: 1rem;
-      letter-spacing: 0.010rem;
+      letter-spacing: 0.01rem;
       color: $grey-90;
       margin-top: 6px;
     }

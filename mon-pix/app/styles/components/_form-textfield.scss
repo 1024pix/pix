@@ -22,7 +22,8 @@
   justify-content: space-between;
   align-items: center;
 
-  & .form-textfield__input-field-container, input {
+  & .form-textfield__input-field-container,
+  input {
     text-align: center;
     width: 30%;
   }
@@ -79,7 +80,8 @@
     outline: none;
   }
 
-  &::-ms-clear, &::-ms-reveal {
+  &::-ms-clear,
+  &::-ms-reveal {
     display: none;
   }
 
@@ -87,7 +89,6 @@
     background-color: $grey-20;
   }
 }
-
 
 .form-textfield__message {
   font-size: 0.875rem;
@@ -150,7 +151,7 @@
 .form-textfield-icon-button {
   &__eye {
     color: $grey-60;
-    transition: .5s;
+    transition: 0.5s;
     font-size: 1.125rem;
     margin-top: 1px;
 
