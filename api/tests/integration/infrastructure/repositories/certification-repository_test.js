@@ -2,7 +2,7 @@ const { expect, domainBuilder, databaseBuilder, catchErr, knex } = require('../.
 const certificationRepository = require('../../../../lib/infrastructure/repositories/certification-repository');
 const { NotFoundError, CertificationCourseNotPublishableError } = require('../../../../lib/domain/errors');
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const Certification = require('../../../../lib/domain/models/Certification');
+const ShareableCertificate = require('../../../../lib/domain/models/ShareableCertificate');
 
 const CertificationCourseBookshelf = require('../../../../lib/infrastructure/data/certification-course');
 const PARTNER_CLEA_KEY = 'BANANA';
@@ -37,7 +37,7 @@ describe('Integration | Repository | Certification ', () => {
       type,
     });
     const assessmentResult = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment.id, pixScore });
-    expectedCertification = _buildCertification(session.certificationCenter, certificationCourse, assessmentResult, session.publishedAt);
+    expectedCertification = _buildPrivateCertificate(session.certificationCenter, certificationCourse, assessmentResult, session.publishedAt);
     databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: expectedCertification.id, partnerKey: PARTNER_CLEA_KEY, acquired: false });
 
     sessionLatestAssessmentRejectedCertifCourseIds = [];
@@ -68,15 +68,15 @@ describe('Integration | Repository | Certification ', () => {
 
     it('should return a certification with needed informations', async () => {
       // when
-      const actualCertification = await certificationRepository.getByCertificationCourseId({ id: certificationCourse.id });
+      const certificate = await certificationRepository.getPrivateCertificateByCertificationCourseId({ id: certificationCourse.id });
 
       // then
-      expect(actualCertification).to.deep.equal(expectedCertification);
+      expect(certificate).to.deep.equal(expectedCertification);
     });
 
     it('should return a not found error when certification does not exist', async () => {
       // when
-      const result = await catchErr(certificationRepository.getByCertificationCourseId)({ id: -1 });
+      const result = await catchErr(certificationRepository.getPrivateCertificateByCertificationCourseId)({ id: -1 });
 
       // then
       expect(result).to.be.instanceOf(NotFoundError);
@@ -110,8 +110,8 @@ describe('Integration | Repository | Certification ', () => {
       });
       const assessmentResult2 = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment2.id });
       expectedCertifications = [
-        _buildCertification(session.certificationCenter, certificationCourse1, assessmentResult1, session.publishedAt),
-        _buildCertification(session.certificationCenter, certificationCourse2, assessmentResult2, session.publishedAt),
+        _buildPrivateCertificate(session.certificationCenter, certificationCourse1, assessmentResult1, session.publishedAt),
+        _buildPrivateCertificate(session.certificationCenter, certificationCourse2, assessmentResult2, session.publishedAt),
         expectedCertification,
       ];
 
@@ -152,10 +152,10 @@ describe('Integration | Repository | Certification ', () => {
     context('when verificationCode match', () => {
       it('should return a certification when a correct verificationCode matches a correct pixScore', async () => {
         // when
-        const certification = await certificationRepository.getCertificationByVerificationCode({ verificationCode });
+        const certificate = await certificationRepository.getShareableCertificateByVerificationCode({ verificationCode });
 
         // then
-        expect(certification).to.be.instanceOf(Certification);
+        expect(certificate).to.be.instanceOf(ShareableCertificate);
       });
     });
 
@@ -165,7 +165,7 @@ describe('Integration | Repository | Certification ', () => {
         const wrongVerificationCode = 'P-BBBCCC';
 
         // when
-        const error = await catchErr(certificationRepository.getCertificationByVerificationCode)({ verificationCode: wrongVerificationCode });
+        const error = await catchErr(certificationRepository.getShareableCertificateByVerificationCode)({ verificationCode: wrongVerificationCode });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
@@ -178,7 +178,7 @@ describe('Integration | Repository | Certification ', () => {
         const verificationCode = 'P-123456';
 
         // when
-        const error = await catchErr(certificationRepository.getCertificationByVerificationCode)({ verificationCode });
+        const error = await catchErr(certificationRepository.getShareableCertificateByVerificationCode)({ verificationCode });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
@@ -210,8 +210,8 @@ describe('Integration | Repository | Certification ', () => {
 
 });
 
-function _buildCertification(certificationCenterName, certificationCourse, assessmentResult, deliveredAt) {
-  const certification = domainBuilder.buildCertification({
+function _buildPrivateCertificate(certificationCenterName, certificationCourse, assessmentResult, deliveredAt) {
+  const certificate = domainBuilder.buildPrivateCertificate({
     id: certificationCourse.id,
     birthdate: certificationCourse.birthdate,
     birthplace: certificationCourse.birthplace,
@@ -226,6 +226,6 @@ function _buildCertification(certificationCenterName, certificationCourse, asses
     commentForCandidate: assessmentResult.commentForCandidate,
     userId: certificationCourse.userId,
   });
-  certification.cleaCertificationStatus = undefined;
-  return certification;
+  certificate.cleaCertificationStatus = undefined;
+  return certificate;
 }

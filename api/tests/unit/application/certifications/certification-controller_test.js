@@ -37,7 +37,7 @@ describe('Unit | Controller | certifications-controller', () => {
 
   describe('#getCertification', () => {
 
-    const certification = domainBuilder.buildCertificationWithCompetenceTree();
+    const certification = domainBuilder.buildPrivateCertificateWithCompetenceTree();
     const serializedCertification = '{JSON}';
     const userId = 1;
 
@@ -47,19 +47,19 @@ describe('Unit | Controller | certifications-controller', () => {
     };
 
     beforeEach(() => {
-      sinon.stub(usecases, 'getUserCertificationWithResultTree');
+      sinon.stub(usecases, 'getPrivateCertificate');
       sinon.stub(certificationSerializer, 'serialize').returns(serializedCertification);
     });
 
     it('should return a serialized certification when use case returns a certification', async () => {
       // given
-      usecases.getUserCertificationWithResultTree.resolves(certification);
+      usecases.getPrivateCertificate.resolves(certification);
 
       // when
       const response = await certificationController.getCertification(request, hFake);
 
       // then
-      expect(usecases.getUserCertificationWithResultTree).to.have.been.calledWith({
+      expect(usecases.getPrivateCertificate).to.have.been.calledWith({
         userId,
         certificationId: certification.id,
       });
@@ -69,7 +69,7 @@ describe('Unit | Controller | certifications-controller', () => {
   });
 
   describe('#getCertificationByVerificationCode', () => {
-    const certification = domainBuilder.buildCertificationWithCompetenceTree();
+    const certification = domainBuilder.buildPrivateCertificateWithCompetenceTree();
     const serializedCertification = '{JSON}';
 
     const pixScore = 500;
@@ -77,13 +77,13 @@ describe('Unit | Controller | certifications-controller', () => {
     const request = { payload: { data: { pixScore, verificationCode } } };
 
     beforeEach(() => {
-      sinon.stub(usecases, 'getCertificationByVerificationCode');
+      sinon.stub(usecases, 'getShareableCertificate');
       sinon.stub(certificationSerializer, 'serializeForSharing');
     });
 
     it('should return a serialized certification when use case returns a certification', async () => {
       // given
-      usecases.getCertificationByVerificationCode.withArgs({ pixScore, verificationCode }).resolves(certification);
+      usecases.getShareableCertificate.withArgs({ pixScore, verificationCode }).resolves(certification);
       certificationSerializer.serializeForSharing.withArgs(certification).returns(serializedCertification);
 
       // when

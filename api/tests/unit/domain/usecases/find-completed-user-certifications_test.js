@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const Certification = require('../../../../lib/domain/models/Certification');
+const PrivateCertificate = require('../../../../lib/domain/models/PrivateCertificate');
 const findCompletedUserCertifications = require('../../../../lib/domain/usecases/find-completed-user-certifications');
 
 describe('Unit | UseCase | find-completed-user-certifications', () => {
@@ -21,7 +21,7 @@ describe('Unit | UseCase | find-completed-user-certifications', () => {
       pixScore: 23,
       status: 'rejected'
     });
-    const completedCertifications = new Certification({
+    const completedCertificates = new PrivateCertificate({
       id: 1000,
       certificationCenter: 'Université des chocolats',
       date: '2000-02-12',
@@ -29,7 +29,7 @@ describe('Unit | UseCase | find-completed-user-certifications', () => {
       assessmentState: 'completed',
       assessmentResults: [assessmentResult]
     });
-    certificationRepository.findByUserId.resolves([completedCertifications]);
+    certificationRepository.findByUserId.resolves([completedCertificates]);
 
     // when
     const promise = findCompletedUserCertifications({ userId, certificationRepository, cleaCertificationStatusRepository });

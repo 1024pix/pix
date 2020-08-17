@@ -13,7 +13,7 @@ module.exports = {
     const userId = request.auth.credentials.userId;
     const certificationId = parseInt(request.params.id);
 
-    return usecases.getUserCertificationWithResultTree({
+    return usecases.getPrivateCertificate({
       userId,
       certificationId,
     })
@@ -24,7 +24,7 @@ module.exports = {
     const pixScore = request.payload.data.pixScore;
     const verificationCode = request.payload.data.verificationCode;
 
-    return usecases.getCertificationByVerificationCode({ pixScore, verificationCode })
-      .then(certification => certificationSerializer.serializeForSharing(certification));
+    return usecases.getShareableCertificate({ pixScore, verificationCode })
+      .then((certificate) => certificationSerializer.serializeForSharing(certificate));
   }
 };

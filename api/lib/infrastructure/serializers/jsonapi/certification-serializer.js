@@ -52,20 +52,20 @@ const resultCompetenceTree = {
 
 module.exports = {
 
-  serialize(certification) {
+  serialize(certificate) {
     return new Serializer('certifications', {
       typeForAttribute,
       attributes: [ ...attributes, 'commentForCandidate'],
       resultCompetenceTree,
-    }).serialize(certification);
+    }).serialize(certificate);
   },
 
-  serializeForSharing(certification) {
+  serializeForSharing(certificate) {
     return new Serializer('certifications', {
       typeForAttribute,
       attributes,
       resultCompetenceTree,
-    }).serialize(certification);
+    }).serialize(certificate);
   },
 
   serializeFromCertificationCourse(certificationCourse) {
