@@ -47,14 +47,17 @@
   opacity: 0;
   transition: opacity .2s linear;
 }
+
 .input-checkbox-proposal:not(:checked) ~ label svg.checkbox-off {
   opacity: 1;
   transition: opacity .2s linear;
 }
+
 .input-checkbox-proposal:checked ~ label svg.checkbox-on {
   opacity: 1;
   transition: opacity .2s linear;
 }
+
 .input-checkbox-proposal:not(:checked) ~ label svg.checkbox-on {
   opacity: 0;
   transition: opacity .2s linear;

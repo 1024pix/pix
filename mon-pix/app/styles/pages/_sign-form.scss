@@ -7,13 +7,13 @@
   height: 100%;
   min-height: 100vh;
   align-items: center;
+
   abbr {
     text-decoration: none;
   }
 }
 
 .sign-form {
-
   &__container {
     display: flex;
     flex-direction: column;
@@ -71,7 +71,6 @@
 }
 
 .sign-form-header {
-
   &__subtitle {
     display: flex;
     padding: 5px 20px 24px 20px;
@@ -104,7 +103,6 @@
 }
 
 .sign-form-body{
-
   &__instruction {
     margin: 10px 0;
     font-size: 0.875rem;
