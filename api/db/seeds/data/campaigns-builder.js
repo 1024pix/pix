@@ -86,4 +86,15 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     targetProfileId: 984165,
     idPixLabel: 'identifiant entreprise',
   });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 9,
+    name: 'Campagne restreinte',
+    code: 'SCO2RES',
+    type: 'ASSESSMENT',
+    organizationId: 6,
+    creatorId: 4,
+    targetProfileId: 1,
+  });
+
 };
