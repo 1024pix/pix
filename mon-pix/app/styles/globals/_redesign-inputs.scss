@@ -16,7 +16,6 @@
   line-height: 21px;
   position: relative;
   cursor: pointer;
-
   font-weight: $font-normal;
 }
 
@@ -63,11 +62,9 @@
 
 input[type=checkbox]:before {
   position: relative;
-
   height: 18px;
   width: 18px;
   top: -3px;
-
   border: 2px solid $grey-40;
   content: ' ';
   display: block;
@@ -84,13 +81,10 @@ input[type=checkbox]:checked:before {
 input[type=checkbox]:checked:after {
   height: 18px;
   width: 18px;
-
   position: relative;
   top: -21px;
-
   font-size: 0.875rem;
   color: $white;
-
   font-weight: $font-bold;
   content: '✓';
   display: block;
@@ -131,7 +125,6 @@ input[type=radio]:before {
   width: 17px;
   top: -3px;
   left: -5px;
-
   border: solid 2px $grey-30;
   border-radius: 10px;
   background-color: $white;
@@ -142,7 +135,6 @@ input[type=radio]:checked:after {
   width: 9px;
   top: -18px;
   left: 1px;
-
   background-color: $blue;
 }
 
