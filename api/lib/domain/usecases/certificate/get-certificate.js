@@ -1,4 +1,4 @@
-const { UserNotAuthorizedToAccessEntity } = require('../../errors');
+const { NotFoundError } = require('../../errors');
 const ResultCompetenceTree = require('../../models/ResultCompetenceTree');
 
 module.exports = {
@@ -11,7 +11,7 @@ module.exports = {
   }) {
     const certificate = await getBaseCertificate();
     if (!isAccessToCertificateAuthorized(certificate)) {
-      throw new UserNotAuthorizedToAccessEntity();
+      throw new NotFoundError();
     }
 
     const cleaCertificationStatus = await cleaCertificationStatusRepository.getCleaCertificationStatus(certificate.id);
@@ -38,5 +38,4 @@ async function _getsCompetenceMarksAndAssessmentResultId({ certificationId, asse
     latestAssessmentResult.id,
     latestAssessmentResult.competenceMarks,
   ];
-};
-
+}
