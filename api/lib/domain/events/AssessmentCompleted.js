@@ -1,10 +1,17 @@
 class AssessmentCompleted {
-  constructor(assessmentId, userId, targetProfileId, campaignParticipationId, isCertification) {
+  constructor({ assessmentId, userId, campaignParticipationId, certificationCourseId } = {}) {
     this.assessmentId = assessmentId;
     this.userId = userId;
-    this.targetProfileId = targetProfileId;
     this.campaignParticipationId = campaignParticipationId;
-    this.isCertification = isCertification;
+    this.certificationCourseId = certificationCourseId;
+  }
+
+  get isCertificationType() {
+    return Boolean(this.certificationCourseId);
+  }
+
+  get isCampaignType() {
+    return Boolean(this.campaignParticipationId);
   }
 }
 

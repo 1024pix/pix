@@ -9,7 +9,7 @@ module.exports = async function completeAssessment({
   assessmentRepository,
   domainTransaction
 }) {
-  const assessment = await assessmentRepository.get(assessmentId);
+  const assessment = await assessmentRepository.realGet(assessmentId);
 
   if (assessment.isCompleted()) {
     throw new AlreadyRatedAssessmentError();
@@ -17,11 +17,10 @@ module.exports = async function completeAssessment({
 
   await assessmentRepository.completeByAssessmentId(assessmentId, domainTransaction);
 
-  return new AssessmentCompleted(
-    assessmentId,
-    assessment.userId,
-    assessment.isForCampaign() ? assessment.campaignParticipation.campaign.targetProfileId : null,
-    assessment.isForCampaign() ? assessment.campaignParticipation.id : null,
-    assessment.isCertification()
-  );
+  return new AssessmentCompleted({
+    assessmentId: assessment.id,
+    userId: assessment.userId,
+    campaignParticipationId: assessment.campaignParticipationId,
+    certificationCourseId: assessment.certificationCourseId,
+  });
 };
