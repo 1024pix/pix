@@ -545,7 +545,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
-  describe('#belongsToUser', () => {
+  describe('#ownedByUser', () => {
 
     let user;
     let userWithNoAssessment;
@@ -560,18 +560,38 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
     it('should resolve true if the given assessmentId belongs to the user', async () => {
       // when
-      const belongsToUser = await assessmentRepository.belongsToUser(assessment.id, user.id);
+      const ownedByUser = await assessmentRepository.ownedByUser({ id: assessment.id, userId: user.id  });
 
       // then
-      expect(belongsToUser).to.be.true;
+      expect(ownedByUser).to.be.true;
     });
 
     it('should resolve false if the given assessmentId does not belong to the user', async () => {
       // when
-      const belongsToUser = await assessmentRepository.belongsToUser(assessment.id, userWithNoAssessment.id);
+      const ownedByUser = await assessmentRepository.ownedByUser({ id: assessment.id, userId: userWithNoAssessment.id  });
 
       // then
-      expect(belongsToUser).to.be.false;
+      expect(ownedByUser).to.be.false;
+    });
+
+    it('should resolve true if the given assessmentId does not belong to any user and no user is specified', async () => {
+      // given
+      const assessmentWithoutUser = databaseBuilder.factory.buildAssessment({ userId: null });
+      await databaseBuilder.commit();
+
+      // when
+      const ownedByUser = await assessmentRepository.ownedByUser({ id: assessmentWithoutUser.id, userId: null });
+
+      // then
+      expect(ownedByUser).to.be.true;
+    });
+
+    it('should resolve false if no assessment exists for provided assessmentId', async () => {
+      // when
+      const ownedByUser = await assessmentRepository.ownedByUser({ id: 123456, userId: 123 });
+
+      // then
+      expect(ownedByUser).to.be.false;
     });
   });
 

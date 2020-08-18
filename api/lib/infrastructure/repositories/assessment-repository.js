@@ -4,6 +4,7 @@ const Assessment = require('../../domain/models/Assessment');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { groupBy, map, head, _ } = require('lodash');
 const { NotFoundError } = require('../../domain/errors');
+const { knex } = require('../bookshelf');
 
 module.exports = {
 
@@ -108,12 +109,17 @@ module.exports = {
     return this._updateStateById({ id: assessmentId, state: Assessment.states.COMPLETED }, domainTransaction.knexTransaction);
   },
 
-  async belongsToUser(id, userId) {
-    const assessment = await BookshelfAssessment
-      .where({ id, userId })
-      .fetch({ columns: 'id' });
+  async ownedByUser({ id, userId = null }) {
+    const assessment = await knex('assessments')
+      .select('userId')
+      .where({ id })
+      .first();
 
-    return Boolean(assessment);
+    if (!assessment) {
+      return false;
+    }
+
+    return assessment.userId === userId;
   },
 
   async _updateStateById({ id, state }, knexTransaction) {
