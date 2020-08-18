@@ -21,10 +21,9 @@ module.exports = {
   },
 
   getCertificationByVerificationCode(request) {
-    const pixScore = request.payload.data.pixScore;
-    const verificationCode = request.payload.data.verificationCode;
+    const verificationCode = request.headers['verification-code'];
 
-    return usecases.getShareableCertificate({ pixScore, verificationCode })
+    return usecases.getShareableCertificate({ verificationCode })
       .then((certificate) => certificationSerializer.serializeForSharing(certificate));
   }
 };

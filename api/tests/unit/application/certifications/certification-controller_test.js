@@ -72,9 +72,8 @@ describe('Unit | Controller | certifications-controller', () => {
     const certification = domainBuilder.buildPrivateCertificateWithCompetenceTree();
     const serializedCertification = '{JSON}';
 
-    const pixScore = 500;
-    const verificationCode = 'P-123456';
-    const request = { payload: { data: { pixScore, verificationCode } } };
+    const verificationCode = 'P-123456-500';
+    const request = { headers: { 'verification-code': verificationCode } };
 
     beforeEach(() => {
       sinon.stub(usecases, 'getShareableCertificate');
@@ -83,7 +82,7 @@ describe('Unit | Controller | certifications-controller', () => {
 
     it('should return a serialized certification when use case returns a certification', async () => {
       // given
-      usecases.getShareableCertificate.withArgs({ pixScore, verificationCode }).resolves(certification);
+      usecases.getShareableCertificate.withArgs({ verificationCode }).resolves(certification);
       certificationSerializer.serializeForSharing.withArgs(certification).returns(serializedCertification);
 
       // when

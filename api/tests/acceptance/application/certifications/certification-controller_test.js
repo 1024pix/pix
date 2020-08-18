@@ -341,16 +341,17 @@ describe('Acceptance | API | Certifications', () => {
       return databaseBuilder.commit();
     });
 
-    context('when the given parameters are corrects', () => {
+    context('when the given header is correct', () => {
 
       it('should return 200 HTTP status code and the certification', async () => {
         // given
         const pixScore = assessmentResult.pixScore;
-        const verificationCode = certificationCourse.verificationCode;
+        const certificationVerificationCode = certificationCourse.verificationCode;
+        const verificationCode = `${certificationVerificationCode}-${pixScore}`;
         options = {
-          method: 'POST',
+          method: 'GET',
           url: '/api/shared-certifications',
-          payload: { data: { pixScore, verificationCode } }
+          headers: { 'verification-code': verificationCode },
         };
 
         // when
@@ -466,31 +467,29 @@ describe('Acceptance | API | Certifications', () => {
       });
     });
 
-    context('when the given parameters are incorrects', () => {
+    context('when the given header is incorrect', () => {
 
-      it('should return 404 HTTP status code when the parameters are missing', async () => {
+      it('should return 500 HTTP status code when the header is missing', async () => {
         // given
         options = {
-          method: 'POST',
-          url: `/api/shared-certifications`,
-          payload: { }
+          method: 'GET',
+          url: '/api/shared-certifications',
         };
   
         // when
         const response = await server.inject(options);
   
         // then
-        expect(response.statusCode).to.equal(404);
+        expect(response.statusCode).to.equal(500);
       });
 
       it('should return notFound 404 HTTP status code when the verificationCode is incorrect', async () => {
         // given
-        const pixScore = '000';
         const verificationCode = `P-WRONG-CODE`;
         options = {
           method: 'GET',
           url: '/api/shared-certifications',
-          payload: { data: { pixScore, verificationCode } },
+          headers: { 'verification-code': verificationCode },
         };
   
         // when
