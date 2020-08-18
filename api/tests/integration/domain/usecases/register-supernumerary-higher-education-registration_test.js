@@ -1,7 +1,7 @@
 const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const higherEducationRegistrationRepository = require('../../../../lib/infrastructure/repositories/higher-education-registration-repository');
-const { CampaignCodeError } = require('../../../../lib/domain/errors');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 const registerSupernumeraryHigherEducationRegistration = require('../../../../lib/domain/usecases/register-supernumerary-higher-education-registration');
 
@@ -22,7 +22,7 @@ describe('Integration | UseCases | register-supernumerary-higher-education-regis
       });
 
       // then
-      expect(error).to.be.instanceof(CampaignCodeError);
+      expect(error).to.be.instanceof(NotFoundError);
     });
   });
 
