@@ -1,4 +1,4 @@
-const _ = require('lodash');
+  const _ = require('lodash');
 const { SchoolingRegistrationsCouldNotBeSavedError } = require('../../domain/errors');
 const { knex } = require('../bookshelf');
 const { getChunkSizeForParameterBinding } = require('../utils/knex-utils');
@@ -21,8 +21,8 @@ const ATTRIBUTES_TO_SAVE = [
 
 module.exports = {
 
-  saveAdditional(schoolingRegistration, organizationId) {
-    return knex('schooling-registrations').insert({ ...schoolingRegistration, organizationId, isAdditional: true });
+  save(schoolingRegistration, organizationId) {
+    return knex('schooling-registrations').insert({ ...schoolingRegistration, organizationId });
   },
 
   saveSet(higherEducationRegistrationSet, organizationId) {

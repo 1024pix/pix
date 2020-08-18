@@ -1,6 +1,7 @@
 const { expect, databaseBuilder, knex } = require('../../../test-helper');
 const higherEducationRegistrationRepository = require('../../../../lib/infrastructure/repositories/higher-education-registration-repository');
 const HigherEducationRegistrationSet = require('../../../../lib/domain/models/HigherEducationRegistrationSet');
+const HigherEducationRegistration = require('../../../../lib/domain/models/HigherEducationRegistration');
 
 describe('Integration | Infrastructure | Repository | higher-education-registration-repository', () => {
 
@@ -157,33 +158,35 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
     });
   });
 
-  describe('#saveAdditional', () => {
+  describe('#save', () => {
     afterEach(() => {
       return knex('schooling-registrations').delete();
     });
 
-    it('should create schooling registration with isAdditional to true', async function() {
+    it('should create higher education registration', async function() {
       //given
       const organization = databaseBuilder.factory.buildOrganization();
       const user = databaseBuilder.factory.buildUser();
 
       await databaseBuilder.commit();
 
-      const expectedSchoolingRegistration = {
+      const higherEducationRegistrationAttributes = {
         userId: user.id,
         studentNumber: '123456',
         firstName: 'firstName',
         lastName: 'lastName',
-        birthdate: '2010-01-01'
+        birthdate: '2010-01-01',
+        organizationId: organization.id
       };
 
+      const higherEducationRegistration = new HigherEducationRegistration(higherEducationRegistrationAttributes);
+
       //when
-      await higherEducationRegistrationRepository.saveAdditional(expectedSchoolingRegistration, organization.id);
+      await higherEducationRegistrationRepository.save(higherEducationRegistration);
 
       //then
-      const [schoolingRegistration] = await knex('schooling-registrations').where({ organizationId: organization.id });
-      expect(schoolingRegistration).to.contain(expectedSchoolingRegistration);
-      expect(schoolingRegistration.isAdditional).to.be.true;
+      const [createdHigherEducationRegistration] = await knex('schooling-registrations').where({ organizationId: organization.id });
+      expect(createdHigherEducationRegistration).to.contain(higherEducationRegistrationAttributes);
     });
   });
 });
