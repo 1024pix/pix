@@ -613,6 +613,7 @@
     "skill-review": {
       "title": "Résultat",
       "abstract": "Vous maîtrisez '<strong>'{percentage}%'</strong>'<br/> des compétences testées.",
+      "abstract-title": "Votre résultat pour ce parcours",
       "actions": {
         "continue": "Continuez votre expérience Pix",
         "send": "J'envoie mes résultats",
@@ -620,6 +621,7 @@
       },
       "already-shared": "Merci, vos résultats ont bien été envoyés !",
       "archived": "Ce parcours a été archivé par l'organisateur.<br/> L'envoi des résultats n'est plus possible mais ils sont bien pris en compte dans votre parcours.",
+      "badges-title": "Vos réussites",
       "details": {
         "title": "Vos résultats détaillés",
         "header-skill": "Compétences testées",
@@ -631,6 +633,7 @@
       "information": "Si vous avez déjà effectué des parcours sur Pix, les questions auxquelles vous aviez répondu ne vous ont pas été posées de nouveau. En revanche, le résultat affiché ici tient compte de l’ensemble de vos réponses.",
       "not-finished": "Vous ne pouvez pas encore envoyer vos résultats, nous avons encore quelques questions à vous poser.",
       "send-results": "Envoyez vos résultats à l'organisateur du parcours pour qu'il puisse vous accompagner.",
+      "send-title": "Envoyez vos résultats",
       "stage": {
         "masteryPercentage": "{percentage} % de réussite",
         "alt": {

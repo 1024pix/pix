@@ -8,12 +8,12 @@ describe('Unit | Component | reached-stage', function() {
   setupTest();
 
   [
-    { starCount: 0, stageCount: 1, acquiredStars: [], unacquiredStars: [1] },
-    { starCount: 5, stageCount: 5, acquiredStars: [1, 2, 3, 4, 5], unacquiredStars: [] },
-    { starCount: 5, stageCount: 6, acquiredStars: [1, 2, 3, 4, 5], unacquiredStars: [6] },
-    { starCount: 2, stageCount: 10, acquiredStars: [1, 2], unacquiredStars: [3, 4, 5, 6, 7, 8, 9, 10] },
-    { starCount: 2, stageCount: 3, acquiredStars: [1, 2], unacquiredStars: [3] },
-    { starCount: 4, stageCount: 5, acquiredStars: [1, 2, 3, 4], unacquiredStars: [5] },
+    { starCount: 1, stageCount: 1, acquiredStars: [], unacquiredStars: [] },
+    { starCount: 5, stageCount: 5, acquiredStars: [1, 2, 3, 4], unacquiredStars: [] },
+    { starCount: 5, stageCount: 6, acquiredStars: [1, 2, 3, 4], unacquiredStars: [5] },
+    { starCount: 2, stageCount: 10, acquiredStars: [1], unacquiredStars: [2, 3, 4, 5, 6, 7, 8, 9] },
+    { starCount: 2, stageCount: 3, acquiredStars: [1], unacquiredStars: [2] },
+    { starCount: 4, stageCount: 5, acquiredStars: [1, 2, 3], unacquiredStars: [4] },
   ].map(({ starCount, stageCount, acquiredStars, unacquiredStars }) => {
     context(`starCount=${starCount} and stageCount=${stageCount}`, () => {
       describe('#get acquiredStars', function() {

@@ -1,0 +1,43 @@
+<table class="default-table">
+  <thead>
+  <tr>
+    <th>{{t 'pages.skill-review.details.header-skill'}}</th>
+    <th>{{t 'pages.skill-review.details.header-result'}}</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  {{#if @showCleaCompetences}}
+    {{#each @partnerCompetenceResults as |partnerCompetence|}}
+      <tr aria-label="{{t "pages.skill-review.details.result-by-skill"}}">
+        <td>
+          <span class="skill-review-competence__bullet skill-review-competence__bullet--{{partnerCompetence.areaColor}}">&#8226;</span>
+          <span>{{partnerCompetence.name}}</span>
+        </td>
+        <td>
+          <ProgressionGauge @total={{partnerCompetence.totalSkillsCountPercentage}}
+                            @value={{partnerCompetence.masteryPercentage}}>
+            {{t 'pages.skill-review.details.skill-progress' percentage=partnerCompetence.masteryPercentage skill=partnerCompetence.name htmlSafe=true}}
+          </ProgressionGauge>
+        </td>
+      </tr>
+    {{/each}}
+    {{else}}
+    {{#each @competenceResults as |competence|}}
+      <tr aria-label="{{t "pages.skill-review.details.result-by-skill"}}">
+        <td>
+          <span class="skill-review-competence__bullet skill-review-competence__bullet--{{competence.areaColor}}">&#8226;</span>
+          <span>{{competence.name}}</span>
+        </td>
+        <td>
+          <ProgressionGauge @total={{competence.totalSkillsCountPercentage}}
+                            @value={{competence.masteryPercentage}}>
+            {{t 'pages.skill-review.details.skill-progress' percentage=competence.masteryPercentage skill=competence.name htmlSafe=true}}
+          </ProgressionGauge>
+        </td>
+      </tr>
+    {{/each}}
+  {{/if}}
+
+  </tbody>
+</table>

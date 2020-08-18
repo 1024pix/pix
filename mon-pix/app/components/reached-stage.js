@@ -4,11 +4,11 @@ import range from 'lodash/range';
 export default class ReachedStage extends Component {
 
   get acquiredStars() {
-    return range(1, this.args.starCount + 1);
+    return range(1, this.args.starCount);
   }
 
   get unacquiredStars() {
-    return range(this.args.starCount + 1, this.args.stageCount + 1);
+    return range(this.args.starCount, this.args.stageCount);
   }
 }
 

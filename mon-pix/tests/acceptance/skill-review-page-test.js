@@ -181,7 +181,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
 
         // then
-        expect(find('.reached-stage')).to.exist;
+        expect(find('.reached-stage__left-container')).to.exist;
       });
 
       it('should not display reached stage when campaign has no stages', async function() {
