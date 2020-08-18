@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v2.184.0 (18/08/2020)
+
+- [#1750](https://github.com/1024pix/pix/pull/1750) [FEATURE] Permettre la création de centre de certification depuis Pix Admin (PIX-501).
+- [#1721](https://github.com/1024pix/pix/pull/1721) [FEATURE] Générer le code de vérification du certificat (PIX-772)
+- [#1766](https://github.com/1024pix/pix/pull/1766) [FEATURE] Afficher le palier atteint avec des étoiles (PIX-1051).
+- [#1774](https://github.com/1024pix/pix/pull/1774) [BUGFIX] Restreindre le choix des épreuves de certifications aux épreuves franco-françaises (fr-fr) (Pix-1123)
+- [#1778](https://github.com/1024pix/pix/pull/1778) [TECH] Montée de version de la BDD en 12.3.
+- [#1768](https://github.com/1024pix/pix/pull/1768) [TECH] Utiliser les snapshots KE dans l'affichage de la liste des participants des campagnes de collecte de profiles (PIX-1068).
+
 ## v2.183.1 (13/08/2020)
 
 - [#1770](https://github.com/1024pix/pix/pull/1770) [BUGFIX] Pouvoir valider une épreuve QCU sous IE (PIX-1120).
