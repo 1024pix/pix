@@ -2,12 +2,12 @@ const TABLE_NAME = 'schooling-registrations';
 
 exports.up = function(knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
-    table.boolean('isAdditional');
+    table.boolean('isSupernumerary');
   });
 };
 
 exports.down = function(knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
-    table.dropColumn('isAdditional');
+    table.dropColumn('isSupernumerary');
   });
 };
