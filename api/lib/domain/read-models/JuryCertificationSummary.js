@@ -1,14 +1,6 @@
 const { status: assessmentResultStatuses } = require('../models/AssessmentResult');
 
-const VALIDATED = assessmentResultStatuses.VALIDATED;
-const REJECTED = assessmentResultStatuses.REJECTED;
 const STARTED = 'started';
-
-const statuses = {
-  VALIDATED,
-  REJECTED,
-  STARTED,
-};
 
 class JuryCertificationSummary {
   constructor({
@@ -27,8 +19,8 @@ class JuryCertificationSummary {
     this.firstName = firstName;
     this.lastName = lastName;
     this.status = status;
-    if (![statuses.VALIDATED, statuses.REJECTED].includes(this.status)) {
-      this.status = statuses.STARTED;
+    if (!Object.values(assessmentResultStatuses).includes(this.status)) {
+      this.status = STARTED;
     }
     this.pixScore = pixScore;
     this.createdAt = createdAt;
@@ -40,4 +32,4 @@ class JuryCertificationSummary {
 }
 
 module.exports = JuryCertificationSummary;
-module.exports.statuses = statuses;
+module.exports.statuses = { ...assessmentResultStatuses, STARTED };
