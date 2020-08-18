@@ -162,4 +162,77 @@ describe('Integration | Repository | Badge', () => {
       expect(badges.length).to.equal(0);
     });
   });
+
+  describe('#findByCampaignParticipationId', () => {
+
+    beforeEach(() => {
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      databaseBuilder.factory.buildBadge({ targetProfileId });
+      const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId });
+      return databaseBuilder.commit();
+    });
+
+    it('should return the badges linked to the target profile of the given campaign participation', async function() {
+      // given
+      const targetProfileId = targetProfileWithSeveralBadges.id;
+      const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const badges = await badgeRepository.findByCampaignParticipationId(campaignParticipationId);
+
+      expect(badges.length).to.equal(2);
+
+      const firstBadge = badges.find(({ id }) => id === badgeWithSameTargetProfile_1.id);
+      expect(firstBadge).deep.equal({
+        ...badgeWithSameTargetProfile_1,
+        badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_1],
+        badgePartnerCompetences: [],
+      });
+
+      const secondBadge = badges.find(({ id }) => id === badgeWithSameTargetProfile_2.id);
+      expect(secondBadge).deep.equal(
+        {
+          ...badgeWithSameTargetProfile_2,
+          badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_2],
+          badgePartnerCompetences: [],
+        });
+
+    });
+
+    it('should return the badge linked to the target profile of the given campaign participation with related badge criteria and badge partner competences', async () => {
+      // given
+      const targetProfileId = targetProfileWithPartnerCompetences.id;
+      const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const badges = await badgeRepository.findByCampaignParticipationId(campaignParticipationId);
+
+      // then
+      expect(badges.length).to.equal(1);
+      expect(badges[0]).to.be.an.instanceOf(Badge);
+      expect(badges[0].badgeCriteria[0]).to.be.an.instanceOf(BadgeCriterion);
+      expect(badges[0].badgePartnerCompetences[0]).to.be.an.instanceOf(BadgePartnerCompetence);
+      expect(badges[0]).to.deep.equal({
+        ...badgeWithBadgePartnerCompetences,
+        badgeCriteria: [ badgeCriterionForBadgeWithPartnerCompetences ],
+        badgePartnerCompetences: [ badgePartnerCompetence_1, badgePartnerCompetence_2 ],
+      });
+    });
+
+    it('should return an empty array when the given target profile has no badges', async function() {
+      // given
+      const targetProfileId = targetProfileWithoutBadge.id;
+
+      // when
+      const badges = await badgeRepository.findByTargetProfileId(targetProfileId);
+
+      // then
+      expect(badges.length).to.equal(0);
+    });
+  });
 });
