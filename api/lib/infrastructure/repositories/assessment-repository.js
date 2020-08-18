@@ -23,6 +23,21 @@ module.exports = {
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
+  async realGet(id) {
+    try {
+      const bookshelfAssessment = await BookshelfAssessment
+        .where({ id })
+        .fetch({ require: true });
+
+      return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, bookshelfAssessment);
+    } catch (err) {
+      if (err instanceof BookshelfAssessment.NotFoundError) {
+        throw new NotFoundError('L\'assessment n\'existe pas ou son accès est restreint');
+      }
+      throw err;
+    }
+  },
+
   findLastCompletedAssessmentsForEachCompetenceByUser(userId, limitDate) {
     return BookshelfAssessment
       .collection()
