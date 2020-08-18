@@ -122,6 +122,16 @@ export default class JoinSup extends Component {
     }
   }
 
+  @action
+  async hideFurtherInformationForm() {
+    this.showFurtherInformationForm = false;
+    this.firstName = '';
+    this.lastName = '';
+    this.dayOfBirth = '';
+    this.monthOfBirth = '';
+    this.yearOfBirth = '';
+  }
+
   _setErrorMessageForAttemptNextAction(errorResponse) {
     errorResponse.errors.forEach((error) => {
       if (error.status === '409') {
