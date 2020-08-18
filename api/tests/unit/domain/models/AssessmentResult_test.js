@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 const BookshelfAssessmentResults = require('../../../../lib/infrastructure/data/assessment-result');
 
-describe('Unit | Infrastructure | Models | BookshelfAssessmentResult', () => {
+describe('Unit | Domain | Models | BookshelfAssessmentResult', () => {
 
   describe('validation', () => {
 
