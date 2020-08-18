@@ -29,7 +29,7 @@ class HigherEducationRegistration {
     this.educationalTeam = educationalTeam;
     this.group = group;
     this.studyScheme = studyScheme;
-
+    this.isSupernumerary = false;
     this._validate();
   }
 
@@ -41,6 +41,10 @@ class HigherEducationRegistration {
       studentNumber: this.studentNumber,
       email: this.email
     });
+  }
+
+  setIsSupernumerary() {
+    this.isSupernumerary = true;
   }
 }
 

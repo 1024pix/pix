@@ -91,4 +91,32 @@ describe('Unit | Domain | Models | HigherEducationRegistration', () => {
       });
     });
   });
+
+  describe('#isSupernumerary', () => {
+
+    const attributes = {
+      studentNumber: 'A12345',
+      firstName: 'Oren',
+      lastName: 'Ishii',
+      birthdate: '2020-01-01'
+    };
+
+    context('when object constructed', () => {
+      it('return false', async () => {
+        const registration = new HigherEducationRegistration(attributes);
+
+        expect(registration.isSupernumerary).to.be.false;
+      });
+    });
+
+    context('when setAsSupernumerary is called', () => {
+      it('return true', async () => {
+        const registration = new HigherEducationRegistration(attributes);
+
+        registration.setIsSupernumerary();
+        expect(registration.isSupernumerary).to.be.true;
+      });
+    });
+  });
+
 });
