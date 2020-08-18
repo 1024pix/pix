@@ -28,7 +28,7 @@ exports.register = async function(server) {
       },
     },
     {
-      method: 'POST',
+      method: 'GET',
       path: '/api/shared-certifications',
       config: {
         auth: false,
