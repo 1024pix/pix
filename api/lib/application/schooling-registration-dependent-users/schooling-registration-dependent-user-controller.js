@@ -2,6 +2,7 @@ const usecases = require('../../domain/usecases');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const schoolingRegistrationDependentUser = require('../../infrastructure/serializers/jsonapi/schooling-registration-dependent-user-serializer');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
+const tokenService = require('../../domain/services/token-service');
 
 module.exports = {
 
@@ -21,6 +22,28 @@ module.exports = {
     const createdUser = await usecases.createAndReconcileUserToSchoolingRegistration({ userAttributes, campaignCode: payload['campaign-code'], locale });
 
     return h.response(userSerializer.serialize(createdUser)).created();
+  },
+
+  async createUserAndReconcileToSchoolingRegistrationFromExternalUser(request, h) {
+    const {
+      'campaign-code': campaignCode,
+      'external-user-token': token,
+      birthdate } = request.payload.data.attributes;
+
+    const createdUser = await usecases.createUserAndReconcileToSchoolingRegistrationFromExternalUser({ campaignCode, token, birthdate });
+
+    const accessToken = tokenService.createTokenFromUser(createdUser, 'external');
+
+    const response = {
+      data: {
+        attributes: {
+          'access-token': accessToken,
+        },
+        type: 'external-users',
+      }
+    };
+
+    return h.response(response).code(200);
   },
 
   async updatePassword(request, h) {
