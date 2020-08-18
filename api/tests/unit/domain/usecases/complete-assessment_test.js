@@ -8,7 +8,7 @@ const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCom
 describe('Unit | UseCase | complete-assessment', () => {
   const scoringCertificationService = { calculateCertificationAssessmentScore: _.noop };
   const assessmentRepository = {
-    get: _.noop,
+    realGet: _.noop,
     completeByAssessmentId: _.noop,
   };
   const domainTransaction = Symbol('domainTransaction');
@@ -34,7 +34,7 @@ describe('Unit | UseCase | complete-assessment', () => {
         id: assessmentId,
         state: 'completed',
       });
-      sinon.stub(assessmentRepository, 'get').withArgs(assessmentId).resolves(completedAssessment);
+      sinon.stub(assessmentRepository, 'realGet').withArgs(assessmentId).resolves(completedAssessment);
     });
 
     it('should return an AlreadyRatedAssessmentError', async () => {
@@ -65,7 +65,7 @@ describe('Unit | UseCase | complete-assessment', () => {
         context(`common behavior when assessment is of type ${assessment.type}`, () => {
 
           beforeEach(() => {
-            sinon.stub(assessmentRepository, 'get').withArgs(assessment.id).resolves(assessment);
+            sinon.stub(assessmentRepository, 'realGet').withArgs(assessment.id).resolves(assessment);
             sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
           });
 
@@ -109,7 +109,7 @@ describe('Unit | UseCase | complete-assessment', () => {
       it('should return a AssessmentCompleted event with a userId and targetProfileId', async () => {
         const assessment = _buildCampaignAssessment();
 
-        sinon.stub(assessmentRepository, 'get').withArgs(assessment.id).resolves(assessment);
+        sinon.stub(assessmentRepository, 'realGet').withArgs(assessment.id).resolves(assessment);
         sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
         // when
         const result = await completeAssessment({
@@ -123,10 +123,7 @@ describe('Unit | UseCase | complete-assessment', () => {
         });
 
         // then
-        expect(result.targetProfileId).to.equal(
-          assessment.campaignParticipation.campaign.targetProfileId
-        );
-        expect(result.campaignParticipationId).to.equal(assessment.campaignParticipation.id);
+        expect(result.campaignParticipationId).to.equal(assessment.campaignParticipationId);
       });
     });
 
@@ -134,7 +131,7 @@ describe('Unit | UseCase | complete-assessment', () => {
       it('should return a AssessmentCompleted event with certification flag', async () => {
         const assessment = _buildCertificationAssessment();
 
-        sinon.stub(assessmentRepository, 'get').withArgs(assessment.id).resolves(assessment);
+        sinon.stub(assessmentRepository, 'realGet').withArgs(assessment.id).resolves(assessment);
         sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
         // when
         const result = await completeAssessment({
@@ -148,7 +145,7 @@ describe('Unit | UseCase | complete-assessment', () => {
         });
 
         // then
-        expect(result.isCertification).to.equal(true);
+        expect(result.isCertificationType).to.equal(true);
       });
     });
   });
@@ -162,21 +159,15 @@ function _buildCompetenceEvaluationAssessment() {
 }
 
 function _buildCampaignAssessment() {
-  const assessment = domainBuilder.buildAssessment(
+  return domainBuilder.buildAssessment(
     {
       id: Symbol('assessmentId'),
       state: 'started',
       type: Assessment.types.CAMPAIGN,
       userId: Symbol('userId'),
-      campaignParticipation: {
-        id: Symbol('campaignParticipationId'),
-        campaign: {
-          targetProfileId: Symbol('targetProfileId')
-        }
-      }
+      campaignParticipationId: Symbol('campaignParticipationId'),
     }
   );
-  return assessment;
 }
 
 function _buildCertificationAssessment() {
