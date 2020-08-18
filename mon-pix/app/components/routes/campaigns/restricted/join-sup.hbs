@@ -10,14 +10,14 @@
             @disabled={{this.showFurtherInformationForm}}
             @readonly={{this.showFurtherInformationForm}}
             class={{if this.validation.studentNumber "input--error"}}
-            @focusOut={{ fn this.triggerInputStringValidation "studentNumber" this.studentNumber }}
+            @focusOut={{fn this.triggerInputStringValidation "studentNumber" this.studentNumber}}
     />
     <div class={{if this.validation.studentNumber "join-restricted-campaign__field-error"}} role="alert">
       {{this.validation.studentNumber}}
     </div>
   </div>
   {{#if this.showFurtherInformationForm}}
-    <button class="button button--extra-big" {{on 'click' this.hideFurtherInformationForm}}>
+    <button type="button" class="link no-margin" {{on 'click' this.hideFurtherInformationForm}}>
       Changer de numéro étudiant
     </button>
   {{/if}}

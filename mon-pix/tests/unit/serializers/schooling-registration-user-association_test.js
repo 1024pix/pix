@@ -12,6 +12,6 @@ describe('Unit | Serializer | schooling-registration-user-association', function
     const recordSerialized = record.serialize();
 
     expect(recordSerialized.data.attributes['student-number']).to.equal('2');
-    expect(recordSerialized.data.attributes['first-name']).to.equal(undefined);
+    expect(recordSerialized.data.attributes['first-name']).to.be.undefined;
   });
 });

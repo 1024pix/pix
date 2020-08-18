@@ -554,7 +554,6 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
 
       // when
       const response = await server.inject(options);
-
       // then
       expect(response.statusCode).to.equal(204);
     });

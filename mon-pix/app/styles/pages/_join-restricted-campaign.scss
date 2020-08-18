@@ -26,6 +26,10 @@
     width: 100%;
   }
 
+  .no-margin {
+    margin: 0;
+  }
+
   &__container {
     padding-bottom: 30px;
 
@@ -68,6 +72,7 @@
     color: $pure-orange;
     font-size: 0.938rem;
     padding: 4px 10px;
+    margin: 8px 0;
 
     @include device-is('tablet') {
       padding: 0;
