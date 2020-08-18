@@ -57,34 +57,7 @@ exports.register = async function(server) {
       method: 'POST',
       path: '/api/schooling-registration-user-associations/register',
       config: {
-        handler: schoolingRegistrationUserAssociationController.registerAdditionalHigherEducationRegistration,
-        validate: {
-          options: {
-            allowUnknown: false
-          },
-          payload: 
-            Joi.object({
-              data: {
-                attributes: {
-                  'student-number': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                  'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                  'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                  'birthdate': Joi.date().format('YYYY-MM-DD').required(),
-                  'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                },
-                type: 'schooling-registration-user-associations'
-              }
-            }),
-          failAction: (request, h) => {
-            const errorHttpStatusCode = 422;
-            const jsonApiError = new JSONAPIError({
-              status: errorHttpStatusCode.toString(),
-              title: 'Unprocessable entity',
-              detail: 'Un des champs saisis n’est pas valide.',
-            });
-            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
-          }
-        },
+        handler: schoolingRegistrationUserAssociationController.registerSupernumeraryHigherEducationRegistration,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Elle crée une inscription surnuméraire pour l’utilisateur dans cette organisation\n'
