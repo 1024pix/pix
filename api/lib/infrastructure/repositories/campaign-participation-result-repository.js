@@ -12,7 +12,7 @@ const campaignParticipationResultRepository = {
     const [targetProfile, competences, assessment, knowledgeElements] = await Promise.all([
       targetProfileRepository.getByCampaignId(campaignParticipation.campaignId),
       competenceRepository.list({ locale }),
-      assessmentRepository.realGet(campaignParticipation.assessmentId),
+      assessmentRepository.get(campaignParticipation.assessmentId),
       knowledgeElementRepository.findUniqByUserId({
         userId: campaignParticipation.userId,
         limitDate: campaignParticipation.sharedAt

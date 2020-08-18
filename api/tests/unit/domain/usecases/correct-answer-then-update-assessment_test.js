@@ -24,7 +24,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     findByChallengeAndAssessment: () => undefined,
     saveWithKnowledgeElements: () => undefined,
   };
-  const assessmentRepository = { realGet: () => undefined };
+  const assessmentRepository = { get: () => undefined };
   const challengeRepository = { get: () => undefined };
   const competenceEvaluationRepository = {  };
   const targetProfileRepository = { getByCampaignParticipationId: () => undefined };
@@ -37,7 +37,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
   beforeEach(() => {
     sinon.stub(answerRepository, 'findByChallengeAndAssessment');
     sinon.stub(answerRepository, 'saveWithKnowledgeElements');
-    sinon.stub(assessmentRepository, 'realGet');
+    sinon.stub(assessmentRepository, 'get');
     sinon.stub(challengeRepository, 'get');
     sinon.stub(skillRepository, 'findActiveByCompetenceId');
     sinon.stub(targetProfileRepository, 'getByCampaignParticipationId');
@@ -61,7 +61,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     beforeEach(() => {
       // given
       assessment.type = Assessment.types.CERTIFICATION;
-      assessmentRepository.realGet.resolves(assessment);
+      assessmentRepository.get.resolves(assessment);
       answerRepository.findByChallengeAndAssessment.withArgs({ assessmentId: assessment.id, challengeId: challenge.id }).resolves(true);
     });
 
@@ -109,7 +109,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         // given
         assessment.type = Assessment.types.COMPETENCE_EVALUATION;
         assessment.competenceId = 'recABCD';
-        assessmentRepository.realGet.resolves(assessment);
+        assessmentRepository.get.resolves(assessment);
         knowledgeElement = domainBuilder.buildKnowledgeElement();
         firstCreatedKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 2 });
         secondCreatedKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 1 });
@@ -280,7 +280,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         // given
         assessment.type = Assessment.types.CAMPAIGN;
         assessment.campaignParticipationId = 123;
-        assessmentRepository.realGet.resolves(assessment);
+        assessmentRepository.get.resolves(assessment);
         skills = domainBuilder.buildSkillCollection({ minLevel: 1, maxLevel: 4 });
         skillAlreadyValidated = skills[0];
         skillNotAlreadyValidated = skills[2];
@@ -533,7 +533,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
         assessment = domainBuilder.buildAssessment({ userId, type: Assessment.types.CERTIFICATION });
 
-        assessmentRepository.realGet.resolves(assessment);
+        assessmentRepository.get.resolves(assessment);
         challengeRepository.get.resolves(challenge);
         answerRepository.saveWithKnowledgeElements.resolves(savedAnswer);
       });
@@ -650,7 +650,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     beforeEach(() => {
       answer = domainBuilder.buildAnswer();
       assessment = domainBuilder.buildAssessment({ userId: (userId + 1) });
-      assessmentRepository.realGet.resolves(assessment);
+      assessmentRepository.get.resolves(assessment);
     });
 
     it('should throw an error if no userId is passed', () => {

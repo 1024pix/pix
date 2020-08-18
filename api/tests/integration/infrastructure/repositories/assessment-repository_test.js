@@ -12,8 +12,7 @@ const CampaignParticipation = require('../../../../lib/domain/models/CampaignPar
 
 describe('Integration | Infrastructure | Repositories | assessment-repository', () => {
 
-  // TODO: rajouter la verif de l'ajout du profile dans le cas d'une CAMPAIGN
-  describe('#get', () => {
+  describe('#getWithAnswersAndCampaignParticipation', () => {
 
     let assessmentId;
 
@@ -43,7 +42,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       it('should return the assessment with the answers sorted by creation date ', async () => {
         // when
-        const assessment = await assessmentRepository.get(assessmentId);
+        const assessment = await assessmentRepository.getWithAnswersAndCampaignParticipation(assessmentId);
 
         // then
         expect(assessment).to.be.an.instanceOf(Assessment);
@@ -61,7 +60,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     context('when the assessment does not exist', () => {
       it('should return null', async () => {
         // when
-        const assessment = await assessmentRepository.get(245);
+        const assessment = await assessmentRepository.getWithAnswersAndCampaignParticipation(245);
 
         // then
         expect(assessment).to.equal(null);
@@ -69,7 +68,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
-  describe('#realGet', () => {
+  describe('#get', () => {
 
     let assessmentId;
 
@@ -82,7 +81,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       it('should return the assessment', async () => {
         // when
-        const assessment = await assessmentRepository.realGet(assessmentId);
+        const assessment = await assessmentRepository.get(assessmentId);
 
         // then
         expect(assessment).to.be.an.instanceOf(Assessment);
@@ -94,7 +93,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     context('when the assessment does not exist', () => {
       it('should return null', async () => {
         // when
-        const error = await catchErr(assessmentRepository.realGet)(245);
+        const error = await catchErr(assessmentRepository.get)(245);
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
