@@ -7,6 +7,8 @@
             @name="studentNumber"
             @value={{this.studentNumber}}
             placeholder="Numéro étudiant"
+            @disabled={{this.showFurtherInformationForm}}
+            @readonly={{this.showFurtherInformationForm}}
             class={{if this.validation.studentNumber "input--error"}}
             @focusOut={{ fn this.triggerInputStringValidation "studentNumber" this.studentNumber }}
     />
@@ -14,6 +16,11 @@
       {{this.validation.studentNumber}}
     </div>
   </div>
+  {{#if this.showFurtherInformationForm}}
+    <button class="button button--extra-big" {{on 'click' this.hideFurtherInformationForm}}>
+      Changer de numéro étudiant
+    </button>
+  {{/if}}
   {{#if this.errorMessage}}
     <div class="join-restricted-campaign__error" aria-live="polite">{{{this.errorMessage}}}</div>
   {{/if}}
