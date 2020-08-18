@@ -2,6 +2,7 @@ const { expect, knex, databaseBuilder, domainBuilder, catchErr } = require('../.
 const _ = require('lodash');
 const moment = require('moment');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const Answer = require('../../../../lib/domain/models/Answer');
@@ -64,6 +65,39 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
         // then
         expect(assessment).to.equal(null);
+      });
+    });
+  });
+
+  describe('#realGet', () => {
+
+    let assessmentId;
+
+    context('when the assessment exists', () => {
+
+      beforeEach(async () => {
+        assessmentId = databaseBuilder.factory.buildAssessment({ courseId: 'course_A' }).id;
+        await databaseBuilder.commit();
+      });
+
+      it('should return the assessment', async () => {
+        // when
+        const assessment = await assessmentRepository.realGet(assessmentId);
+
+        // then
+        expect(assessment).to.be.an.instanceOf(Assessment);
+        expect(assessment.id).to.equal(assessmentId);
+        expect(assessment.courseId).to.equal('course_A');
+      });
+    });
+
+    context('when the assessment does not exist', () => {
+      it('should return null', async () => {
+        // when
+        const error = await catchErr(assessmentRepository.realGet)(245);
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
       });
     });
   });
