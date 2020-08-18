@@ -1,3 +1,5 @@
+/* stylelint-disable no-descending-specificity */
+
 @include device-is('tablet') {
   .competence-card {
     flex-direction: column;
