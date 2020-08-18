@@ -33,12 +33,12 @@ module.exports = {
     return schoolingRegistrationSerializer.serialize(schoolingRegistration);
   },
 
-  async registerAdditionalHigherEducationRegistration(request, h) {
+  async registerSupernumeraryHigherEducationRegistration(request, h) {
     const userId = request.auth.credentials.userId;
     const payload = request.payload.data.attributes;
 
     const campaignCode = payload['campaign-code'];
-  
+
     const userInfo = {
       userId,
       studentNumber: payload['student-number'],
@@ -47,7 +47,7 @@ module.exports = {
       birthdate: payload['birthdate'],
     };
 
-    await usecases.registerAdditionalHigherEducationRegistration({ campaignCode, userInfo });
+    await usecases.registerSupernumeraryHigherEducationRegistration({ campaignCode, userInfo });
 
     return h.response(null).code(204);
   },
