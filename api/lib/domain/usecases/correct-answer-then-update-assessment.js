@@ -20,7 +20,7 @@ module.exports = async function correctAnswerThenUpdateAssessment(
     targetProfileRepository,
     knowledgeElementRepository,
   } = {}) {
-  const assessment = await assessmentRepository.get(answer.assessmentId);
+  const assessment = await assessmentRepository.realGet(answer.assessmentId);
   if (assessment.userId !== userId) {
     throw new ForbiddenAccess('User is not allowed to add an answer for this assessment.');
   }
@@ -101,7 +101,7 @@ async function _getKnowledgeElements({ assessment, answer, challenge, skillRepos
     targetSkills = await skillRepository.findActiveByCompetenceId(assessment.competenceId);
   }
   if (assessment.isForCampaign()) {
-    const targetProfile = await targetProfileRepository.getByCampaignId(assessment.campaignParticipation.campaignId);
+    const targetProfile = await targetProfileRepository.getByCampaignParticipationId(assessment.campaignParticipationId);
     targetSkills = targetProfile.skills;
   }
   return KnowledgeElement.createKnowledgeElementsForAnswer({
