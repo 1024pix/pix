@@ -1,3 +1,5 @@
+/* stylelint-disable declaration-colon-newline-after */
+
 .certification-starter {
   @include device-is('desktop') {
     padding: 50px 70px 40px;
