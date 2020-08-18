@@ -24,11 +24,11 @@ describe('Unit | UseCase | get-answer', () => {
     };
 
     assessmentRepository = {
-      get: sinon.stub(),
+      ownedByUser: sinon.stub(),
     };
 
     answerRepository.get.withArgs(answerId).resolves(answer);
-    assessmentRepository.get.withArgs(answer.assessmentId).resolves(assessment);
+    assessmentRepository.ownedByUser.withArgs({ id: answer.assessmentId, userId }).resolves(assessment);
   });
 
   context('when user asked for answer is the user of the assessment', () => {
