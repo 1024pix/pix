@@ -22,17 +22,23 @@
             </div>
             {{/if}}
 
-            <div class="fill-in-certificate-verification-code__actions">
-              <button
-                type="submit"
-                class="button button--extra-big fill-in-certificate-verification-code__start-button"
-                {{action 'checkCertificate'}}>
-                Vérifer
-              </button>
-            </div>
-          </form>
+          <div class="fill-in-certificate-verification-code__actions">
+            <button
+              type="submit"
+              class="button button--extra-big fill-in-certificate-verification-code__start-button"
+              {{action 'checkCertificate'}}>
+              Vérifer
+            </button>
+          </div>
+        </form>
+        {{#if this.showNotFoundCertificationErrorMessage}}
+        <div class="fill-in-certificate-verification-code__not-found">
+          <FaIcon @icon="exclamation-triangle"/>
+          <span>Il n'y a pas de certificat Pix correspondant</span>
         </div>
-      </PixBlock>
+        {{/if}}
+      </div>
+    </PixBlock>
     </PixBackgroundHeader>
   </burger.outlet>
 </BurgerMenu>
