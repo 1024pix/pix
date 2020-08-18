@@ -1,0 +1,38 @@
+<BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
+  <burger.outlet>
+    <NavbarHeader @burger={{burger}} />
+    <PixBackgroundHeader>
+      <PixBlock>
+        <div class="fill-in-certificate-verification-code__container">
+          <h3 class="fill-in-certificate-verification-code__title">Page de vérification du code de certificat</h3>
+          <label for="certificate-verification-code" class="fill-in-certificate-verification-code__instruction">Code de vérification (P-XXXXXXXX)</label>
+          <form class="fill-in-certificate-verification-code__form" autocomplete="off">
+
+            <div class="fill-in-certificate-verification-code__form-field">
+              <Input required
+                @type="text" @id="certificate-verification-code"
+                @value={{this.certificateVerificationCode}}
+                @maxlength="10"
+                @key-down={{this.clearErrorMessage}} />
+            </div>
+
+            {{#if this.errorMessage}}
+            <div class="fill-in-certificate-verification-code__error" aria-live="polite">
+              {{this.errorMessage}}
+            </div>
+            {{/if}}
+
+            <div class="fill-in-certificate-verification-code__actions">
+              <button
+                type="submit"
+                class="button button--extra-big fill-in-certificate-verification-code__start-button"
+                {{action 'checkCertificate'}}>
+                Vérifer
+              </button>
+            </div>
+          </form>
+        </div>
+      </PixBlock>
+    </PixBackgroundHeader>
+  </burger.outlet>
+</BurgerMenu>
