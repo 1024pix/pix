@@ -11,7 +11,7 @@ module.exports = async function getAssessment(
     competenceRepository,
     courseRepository,
   }) {
-  const assessment = await assessmentRepository.get(assessmentId);
+  const assessment = await assessmentRepository.getWithAnswersAndCampaignParticipation(assessmentId);
   if (!assessment) {
     throw new NotFoundError(`Assessment not found for ID ${assessmentId}`);
   }

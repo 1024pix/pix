@@ -35,7 +35,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         assessmentPix: assessmentWithScore,
       };
 
-      sinon.stub(assessmentRepository, 'realGet');
+      sinon.stub(assessmentRepository, 'get');
       sinon.stub(challengeRepository, 'get').resolves({});
 
       sinon.stub(usecases, 'getAssessment').resolves(scoredAsssessment);
@@ -53,7 +53,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       const PREVIEW_ASSESSMENT_ID = 245;
 
       beforeEach(() => {
-        assessmentRepository.realGet.resolves(new Assessment({
+        assessmentRepository.get.resolves(new Assessment({
           id: 1,
           courseId: 'null2356871',
           userId: 5,
@@ -77,7 +77,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       beforeEach(() => {
         usecases.getNextChallengeForCertification.rejects(new AssessmentEndedError());
         usecases.getNextChallengeForDemo.rejects(new AssessmentEndedError());
-        assessmentRepository.realGet.resolves(assessmentWithoutScore);
+        assessmentRepository.get.resolves(assessmentWithoutScore);
         usecases.getAssessment.resolves(scoredAsssessment);
       });
 
@@ -95,7 +95,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
     describe('when the assessment is not over yet', () => {
 
       beforeEach(() => {
-        assessmentRepository.realGet.resolves(assessmentWithoutScore);
+        assessmentRepository.get.resolves(assessmentWithoutScore);
       });
 
       it('should not evaluate assessment score', async () => {
@@ -116,7 +116,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       });
 
       beforeEach(() => {
-        assessmentRepository.realGet.resolves(certificationAssessment);
+        assessmentRepository.get.resolves(certificationAssessment);
       });
 
       it('should call getNextChallengeForCertificationCourse in assessmentService', async function() {
@@ -156,7 +156,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       });
 
       beforeEach(() => {
-        assessmentRepository.realGet.resolves(assessment);
+        assessmentRepository.get.resolves(assessment);
       });
 
       it('should call the usecase getNextChallengeForCampaignAssessment with tryImproving at false when the query not exists', async () => {
@@ -215,7 +215,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       });
 
       beforeEach(() => {
-        assessmentRepository.realGet.resolves(assessment);
+        assessmentRepository.get.resolves(assessment);
       });
 
       it('should call the usecase getNextChallengeForCompetenceEvaluation', async () => {

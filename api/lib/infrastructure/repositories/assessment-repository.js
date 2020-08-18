@@ -8,7 +8,7 @@ const { knex } = require('../bookshelf');
 
 module.exports = {
 
-  get(id) {
+  getWithAnswersAndCampaignParticipation(id) {
     return BookshelfAssessment
       .where('id', id)
       .fetch({
@@ -23,7 +23,7 @@ module.exports = {
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
-  async realGet(id) {
+  async get(id) {
     try {
       const bookshelfAssessment = await BookshelfAssessment
         .where({ id })

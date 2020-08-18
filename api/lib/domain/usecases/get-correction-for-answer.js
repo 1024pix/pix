@@ -13,7 +13,7 @@ module.exports = async function getCorrectionForAnswer({
     throw new NotFoundError(`Not found correction for answer of ID ${answerId}`);
   }
   const answer = await answerRepository.get(integerAnswerId);
-  const assessment = await assessmentRepository.realGet(answer.assessmentId);
+  const assessment = await assessmentRepository.get(answer.assessmentId);
 
   if (assessment.userId !== userId) {
     throw new NotFoundError(`Not found correction for answer of ID ${answerId}`);

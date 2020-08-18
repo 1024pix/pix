@@ -8,7 +8,7 @@ const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCom
 describe('Unit | UseCase | complete-assessment', () => {
   const scoringCertificationService = { calculateCertificationAssessmentScore: _.noop };
   const assessmentRepository = {
-    realGet: _.noop,
+    get: _.noop,
     completeByAssessmentId: _.noop,
   };
   const domainTransaction = Symbol('domainTransaction');
@@ -34,7 +34,7 @@ describe('Unit | UseCase | complete-assessment', () => {
         id: assessmentId,
         state: 'completed',
       });
-      sinon.stub(assessmentRepository, 'realGet').withArgs(assessmentId).resolves(completedAssessment);
+      sinon.stub(assessmentRepository, 'get').withArgs(assessmentId).resolves(completedAssessment);
     });
 
     it('should return an AlreadyRatedAssessmentError', async () => {
@@ -65,7 +65,7 @@ describe('Unit | UseCase | complete-assessment', () => {
         context(`common behavior when assessment is of type ${assessment.type}`, () => {
 
           beforeEach(() => {
-            sinon.stub(assessmentRepository, 'realGet').withArgs(assessment.id).resolves(assessment);
+            sinon.stub(assessmentRepository, 'get').withArgs(assessment.id).resolves(assessment);
             sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
           });
 
@@ -109,7 +109,7 @@ describe('Unit | UseCase | complete-assessment', () => {
       it('should return a AssessmentCompleted event with a userId and targetProfileId', async () => {
         const assessment = _buildCampaignAssessment();
 
-        sinon.stub(assessmentRepository, 'realGet').withArgs(assessment.id).resolves(assessment);
+        sinon.stub(assessmentRepository, 'get').withArgs(assessment.id).resolves(assessment);
         sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
         // when
         const result = await completeAssessment({
@@ -131,7 +131,7 @@ describe('Unit | UseCase | complete-assessment', () => {
       it('should return a AssessmentCompleted event with certification flag', async () => {
         const assessment = _buildCertificationAssessment();
 
-        sinon.stub(assessmentRepository, 'realGet').withArgs(assessment.id).resolves(assessment);
+        sinon.stub(assessmentRepository, 'get').withArgs(assessment.id).resolves(assessment);
         sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
         // when
         const result = await completeAssessment({

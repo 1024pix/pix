@@ -34,7 +34,7 @@ describe('Unit | UseCase | get-assessment', () => {
       certificationCourseId,
     });
 
-    sinon.stub(assessmentRepository, 'get');
+    sinon.stub(assessmentRepository, 'getWithAnswersAndCampaignParticipation');
     sinon.stub(campaignRepository, 'get');
     sinon.stub(competenceRepository, 'getCompetenceName');
     sinon.stub(courseRepository, 'getCourseName');
@@ -42,7 +42,7 @@ describe('Unit | UseCase | get-assessment', () => {
 
   it('should resolve the Assessment domain object matching the given assessment ID', async () => {
     // given
-    assessmentRepository.get.resolves(assessment);
+    assessmentRepository.getWithAnswersAndCampaignParticipation.resolves(assessment);
 
     // when
     const result = await getAssessment({ assessmentRepository, assessmentId: assessment.id  });
@@ -56,7 +56,7 @@ describe('Unit | UseCase | get-assessment', () => {
     // given
     const locale = 'fr';
     assessment.type = Assessment.types.COMPETENCE_EVALUATION;
-    assessmentRepository.get.withArgs(assessment.id).resolves(assessment);
+    assessmentRepository.getWithAnswersAndCampaignParticipation.withArgs(assessment.id).resolves(assessment);
     competenceRepository.getCompetenceName.withArgs({ id: assessment.competenceId, locale }).resolves(competence.name);
 
     // when
@@ -76,7 +76,7 @@ describe('Unit | UseCase | get-assessment', () => {
   it('should resolve the Assessment domain object with CERTIFICATION title matching the given assessment ID', async () => {
     // given
     assessment.type = Assessment.types.CERTIFICATION;
-    assessmentRepository.get.resolves(assessment);
+    assessmentRepository.getWithAnswersAndCampaignParticipation.resolves(assessment);
 
     // when
     const result = await getAssessment({
@@ -94,7 +94,7 @@ describe('Unit | UseCase | get-assessment', () => {
   it('should resolve the Assessment domain object with DEMO title matching the given assessment ID', async () => {
     // given
     assessment.type = Assessment.types.DEMO;
-    assessmentRepository.get.withArgs(assessment.id).resolves(assessment);
+    assessmentRepository.getWithAnswersAndCampaignParticipation.withArgs(assessment.id).resolves(assessment);
     courseRepository.getCourseName.withArgs(assessment.courseId).resolves(course.name);
 
     // when
@@ -113,7 +113,7 @@ describe('Unit | UseCase | get-assessment', () => {
   it('should resolve the Assessment domain object with CAMPAIGN title matching the given assessment ID', async () => {
     // given
     assessment.type = Assessment.types.CAMPAIGN;
-    assessmentRepository.get.withArgs(assessment.id).resolves(assessment);
+    assessmentRepository.getWithAnswersAndCampaignParticipation.withArgs(assessment.id).resolves(assessment);
 
     // when
     const result = await getAssessment({
@@ -131,7 +131,7 @@ describe('Unit | UseCase | get-assessment', () => {
   it('should resolve the Assessment domain object without title matching the given assessment ID', async () => {
     // given
     assessment.type = 'NO TYPE';
-    assessmentRepository.get.withArgs(assessment.id).resolves(assessment);
+    assessmentRepository.getWithAnswersAndCampaignParticipation.withArgs(assessment.id).resolves(assessment);
     competenceRepository.getCompetenceName.resolves(competence);
 
     // when
@@ -152,7 +152,7 @@ describe('Unit | UseCase | get-assessment', () => {
   it('should resolve the Assessment domain object with Preview title matching the given assessment ID', async () => {
     // given
     assessment.type = Assessment.types.PREVIEW;
-    assessmentRepository.get.withArgs(assessment.id).resolves(assessment);
+    assessmentRepository.getWithAnswersAndCampaignParticipation.withArgs(assessment.id).resolves(assessment);
 
     // when
     const result = await getAssessment({
@@ -169,7 +169,7 @@ describe('Unit | UseCase | get-assessment', () => {
 
   it('should reject a domain NotFoundError when there is no assessment for given ID', () => {
     // given
-    assessmentRepository.get.resolves(null);
+    assessmentRepository.getWithAnswersAndCampaignParticipation.resolves(null);
 
     // when
     const promise = getAssessment({ assessmentRepository, assessmentId: assessment.id  });
