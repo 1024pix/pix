@@ -8,7 +8,7 @@ async function fetchForCampaigns({
   knowledgeElementRepository,
   improvementService,
 }) {
-  const targetProfileId = assessment.campaignParticipation.getTargetProfileId();
+  const targetProfile = await targetProfileRepository.getByCampaignParticipationId(assessment.campaignParticipationId);
 
   const [
     allAnswers,
@@ -20,7 +20,7 @@ async function fetchForCampaigns({
   ] = await Promise.all([
     answerRepository.findByAssessment(assessment.id),
     _fetchKnowledgeElements({ assessment, knowledgeElementRepository, improvementService }),
-    _fetchSkillsAndChallenges({ targetProfileId, targetProfileRepository, challengeRepository })
+    _fetchSkillsAndChallenges({ targetProfile, challengeRepository })
   ]);
 
   return {
@@ -42,11 +42,9 @@ async function _fetchKnowledgeElements({
 }
 
 async function _fetchSkillsAndChallenges({
-  targetProfileId,
-  targetProfileRepository,
+  targetProfile,
   challengeRepository,
 }) {
-  const targetProfile = await targetProfileRepository.get(targetProfileId);
   const challenges = await challengeRepository.findOperativeBySkills(targetProfile.skills);
   return [ targetProfile.skills, challenges ];
 }

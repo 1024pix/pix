@@ -71,7 +71,7 @@ module.exports = {
     logger.trace(logContext, 'tracing assessmentController.getNextChallenge()');
 
     try {
-      const assessment = await assessmentRepository.get(parseInt(request.params.id));
+      const assessment = await assessmentRepository.realGet(parseInt(request.params.id));
       logContext.assessmentType = assessment.type;
       logger.trace(logContext, 'assessment loaded');
 
