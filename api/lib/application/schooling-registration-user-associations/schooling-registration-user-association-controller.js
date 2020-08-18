@@ -2,10 +2,6 @@ const usecases = require('../../domain/usecases');
 const schoolingRegistrationSerializer = require('../../infrastructure/serializers/jsonapi/schooling-registration-user-association-serializer');
 const _ = require('lodash');
 
-function _isReconciliationWithUserDetails(payload) {
-  return _.every(['first-name', 'last-name', 'birthdate'], _.partial(_.has, payload)) || payload['student-number'];
-}
-
 module.exports = {
   async reconcileAutomatically(request) {
     const authenticatedUserId = request.auth.credentials.userId;
