@@ -31,10 +31,6 @@
   }
 }
 
-.form-textfield__message {
-  text-transform: none;
-}
-
 .form-textfield__input-field-container {
   display: flex;
   height: 46px;
@@ -93,6 +89,7 @@
 }
 
 .form-textfield__message {
+  text-transform: none;
   font-size: 0.875rem;
 }
 
