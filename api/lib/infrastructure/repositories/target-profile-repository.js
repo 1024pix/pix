@@ -31,6 +31,23 @@ module.exports = {
     return _getWithAirtableSkills(targetProfileBookshelf);
   },
 
+  async getByCampaignParticipationId(campaignParticipationId) {
+    const targetProfileBookshelf = await BookshelfTargetProfile
+      .query((qb) => qb.innerJoin('campaigns', 'campaigns.targetProfileId', 'target-profiles.id'))
+      .query((qb) => qb.innerJoin('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id'))
+      .query((qb) => qb.innerJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id'))
+      .where({ 'campaign-participations.id': campaignParticipationId })
+      .fetch({ require: true, withRelated: [
+        'skillIds', {
+          stages: function(query) {
+            query.orderBy('threshold', 'ASC');
+          }
+        }]
+      });
+
+    return _getWithAirtableSkills(targetProfileBookshelf);
+  },
+
   async findAllTargetProfilesOrganizationCanUse(organizationId) {
     const targetProfilesBookshelf = await BookshelfTargetProfile
       .query((qb) => {
