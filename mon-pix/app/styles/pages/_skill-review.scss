@@ -4,6 +4,16 @@
     margin-bottom: 30px;
   }
 
+  &__result-and-action {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 48px;
+    margin:auto;
+
+    @include device-is('tablet') {
+      flex-direction: row;
+    }
+  }
   &__result-container {
     padding: 40px 10px;
     margin-top: -160px;
@@ -105,6 +115,17 @@
     text-align: center;
     text-transform: none;
     margin: 16px 0;
+    font-size: 1.625rem;
+    color: $grey-90;
+    font-family: $font-open-sans;
+    font-weight: $font-light;
+    letter-spacing: 0.009rem;
+    line-height: 2.75rem;
+
+    @include device-is('tablet') {
+      font-size: 2rem;
+      line-height: 3.375rem;
+    }
 
     > strong {
       color: $blue;
@@ -135,8 +156,14 @@
   }
 
   &__share-container {
-    padding: 16px 60px 32px 60px;
+    padding: 16px 40px 32px 40px;
     text-align: center;
+    &--left {
+      text-align: center;
+      @include device-is('tablet') {
+        text-align: left;
+      }
+    }
   }
 
   &__table-header {
@@ -163,25 +190,27 @@
 }
 
 .skill-review-share {
+  flex: auto;
+  align-items: center;
+
   &__button {
-    text-transform: uppercase;
     letter-spacing: 0.031rem;
   }
 
   &__legal {
-    text-align: center;
-    font-size: 1.25rem;
-    color: $grey-60;
+    font-family: $font-roboto;
+    font-size: 0.85rem;
+    color: $grey-45;
     line-height: 2rem;
-    font-weight: $font-light;
-    margin: 0 20px 16px 20px;
+    font-weight: $font-normal;
   }
 
   &__thanks {
     font-family: $font-open-sans;
-    font-weight: $font-light;
-    font-size: 1.5rem;
-    padding-top: 20px;
+    font-weight: $font-semi-bold;
+    font-size: 1rem;
+    line-height: 2rem;
+    padding: 16px 0;
   }
 
   &__error {

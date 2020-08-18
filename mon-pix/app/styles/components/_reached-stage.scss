@@ -1,17 +1,10 @@
 .reached-stage {
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 48px;
-
-  @include device-is('tablet') {
-    flex-direction: row;
-  }
-
   &__left-container {
     background: $white;
     border: 1px solid rgb(231, 231, 231);
     border-radius: 16px;
     padding: 43px 26px;
+    min-width: 300px;
   }
 
   &__percentage-text {
@@ -21,14 +14,21 @@
     color: $grey-40;
     text-align: center;
   }
-
+  &__stars {
+    text-align: center;
+  }
   &__stars img {
-    margin: 4px;
+    margin: 3px;
     padding-bottom: 16px;
   }
 
   &__right-container {
-    padding-left: 40px;
+    padding: 20px 40px 0 40px;
+    text-align: center;
+
+    @include device-is('tablet') {
+      text-align: left;
+    }
   }
 
   &__title {
@@ -44,6 +44,7 @@
     font-size: 1.125rem;
     font-weight: $font-normal;
     color: $grey-45;
+    line-height: 1.8rem;
   }
 }
 
