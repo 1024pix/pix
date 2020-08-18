@@ -3,9 +3,9 @@ const campaignRepository = require('../../../../lib/infrastructure/repositories/
 const higherEducationRegistrationRepository = require('../../../../lib/infrastructure/repositories/higher-education-registration-repository');
 const { CampaignCodeError } = require('../../../../lib/domain/errors');
 
-const registerAdditionalHigherEducationRegistration = require('../../../../lib/domain/usecases/register-additional-higher-education-registration');
+const registerSupernumeraryHigherEducationRegistration = require('../../../../lib/domain/usecases/register-supernumerary-higher-education-registration');
 
-describe('Integration | UseCases | register-additional-higher-education-registration', () => {
+describe('Integration | UseCases | register-supernumerary-higher-education-registration', () => {
 
   let userId;
   let organizationId;
@@ -15,7 +15,7 @@ describe('Integration | UseCases | register-additional-higher-education-registra
 
     it('should throw a campaign code error', async () => {
       // when
-      const error = await catchErr(registerAdditionalHigherEducationRegistration)({
+      const error = await catchErr(registerSupernumeraryHigherEducationRegistration)({
         campaignCode: 'NOTEXIST',
         userInfo: {},
         campaignRepository
@@ -50,7 +50,7 @@ describe('Integration | UseCases | register-additional-higher-education-registra
       };
 
       // when
-      await registerAdditionalHigherEducationRegistration({
+      await registerSupernumeraryHigherEducationRegistration({
         campaignCode,
         userInfo,
         campaignRepository,
@@ -60,6 +60,7 @@ describe('Integration | UseCases | register-additional-higher-education-registra
       // then
       const [schoolingRegistration] = await knex('schooling-registrations');
       expect(schoolingRegistration.userId).to.equal(userId);
+      expect(schoolingRegistration.isSupernumerary).to.be.true;
     });
   });
 });
