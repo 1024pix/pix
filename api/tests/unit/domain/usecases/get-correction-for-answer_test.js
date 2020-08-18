@@ -6,7 +6,7 @@ const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper
 
 describe('Unit | UseCase | getCorrectionForAnswer', () => {
 
-  const assessmentRepository = { get: () => undefined };
+  const assessmentRepository = { realGet: () => undefined };
   const answerRepository = { get: () => undefined };
   const correctionRepository = { getByChallengeId: () => undefined };
   const assessmentId = 1;
@@ -16,7 +16,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
   let answer;
 
   beforeEach(() => {
-    sinon.stub(assessmentRepository, 'get');
+    sinon.stub(assessmentRepository, 'realGet');
     sinon.stub(answerRepository, 'get');
     sinon.stub(correctionRepository, 'getByChallengeId');
 
@@ -33,7 +33,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
           state: 'started',
           type: Assessment.types.CERTIFICATION,
         });
-        assessmentRepository.get.withArgs(assessmentId).resolves(assessment);
+        assessmentRepository.realGet.withArgs(assessmentId).resolves(assessment);
 
         // when
         const error = await catchErr(getCorrectionForAnswer)({
@@ -57,7 +57,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
           state: 'started',
           type: Assessment.types.CAMPAIGN
         });
-        assessmentRepository.get.withArgs(assessmentId).resolves(assessment);
+        assessmentRepository.realGet.withArgs(assessmentId).resolves(assessment);
 
         const correction = Symbol('A correction');
         correctionRepository.getByChallengeId.withArgs({ challengeId, userId: assessment.userId, locale }).resolves(correction);
@@ -84,7 +84,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
           state: 'started',
           type: Assessment.types.COMPETENCE_EVALUATION
         });
-        assessmentRepository.get.withArgs(assessmentId).resolves(assessment);
+        assessmentRepository.realGet.withArgs(assessmentId).resolves(assessment);
 
         const correction = Symbol('A correction');
         correctionRepository.getByChallengeId.withArgs({ challengeId, userId: assessment.userId, locale }).resolves(correction);
@@ -110,7 +110,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
     it('should return with the correction', async () => {
       // given
       const assessment = domainBuilder.buildAssessment({ state: 'completed' });
-      assessmentRepository.get.withArgs(assessmentId).resolves(assessment);
+      assessmentRepository.realGet.withArgs(assessmentId).resolves(assessment);
 
       const correction = Symbol('A correction');
       correctionRepository.getByChallengeId.withArgs({ challengeId, userId: assessment.userId, locale }).resolves(correction);
@@ -135,7 +135,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
     it('should throw a NotFound error', async () => {
       // given
       const assessment = domainBuilder.buildAssessment({ state: 'completed' });
-      assessmentRepository.get.withArgs(assessmentId).resolves(assessment);
+      assessmentRepository.realGet.withArgs(assessmentId).resolves(assessment);
 
       // when
       const error = await catchErr(getCorrectionForAnswer)({
@@ -156,7 +156,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
     it('should throw a NotFound error', async () => {
       // given
       const assessment = domainBuilder.buildAssessment({ state: 'completed' });
-      assessmentRepository.get.withArgs(assessmentId).resolves(assessment);
+      assessmentRepository.realGet.withArgs(assessmentId).resolves(assessment);
 
       // when
       const error = await catchErr(getCorrectionForAnswer)({
