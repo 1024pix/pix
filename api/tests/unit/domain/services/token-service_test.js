@@ -1,4 +1,4 @@
-const { expect } = require('../../../test-helper');
+const { catchErr, expect } = require('../../../test-helper');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const User = require('../../../../lib/domain/models/User');
 const { InvalidTemporaryKeyError } = require('../../../../lib/domain/errors');
@@ -30,6 +30,42 @@ describe('Unit | Domain | Service | Token Service', function() {
       const decodedToken = jsonwebtoken.verify(token, settings.authentication.secret);
       expect(_.omit(decodedToken, ['iat', 'exp'])).to.deep.equal(expectedTokenAttributes);
     });
+  });
+
+  describe('#extractExternalUserFromIdToken', () => {
+
+    it('should return external user if the id token is valid', async () => {
+      // given
+      const userAttributes = {
+        'PRE': 'Saml',
+        'NOM': 'Jackson',
+        'IDO': 'SamlId',
+      };
+
+      const expectedExternalUser = {
+        firstName: userAttributes['PRE'],
+        lastName: userAttributes['NOM'],
+        samlId: userAttributes['IDO'],
+      };
+
+      const token = tokenService.createTokenForStudentReconciliation({ userAttributes });
+
+      // when
+      const result = await tokenService.extractExternalUserFromIdToken(token);
+
+      // then
+      expect(result).to.deep.equal(expectedExternalUser);
+    });
+
+    it('should throw an InvalidTemporaryKeyError if the token is invalid', async () => {
+      // given
+      const token = 'eyJhbGciOiJIUzI1NiIsIgR5cCI6IkpXVCJ9.eyJ1c2VyX2lPIjoxMjMsImlhdCI6MTQ5OTA3Nzg2Mn0.FRAAoowTA8Bc6BOzD7wWh2viVN47VrPcGgLuHi_NmKw';
+
+      // when
+      const error = await catchErr(tokenService.extractExternalUserFromIdToken)(token);
+      expect(error).to.be.an.instanceof(InvalidTemporaryKeyError);
+    });
+
   });
 
   describe('#extractUserId', () => {
