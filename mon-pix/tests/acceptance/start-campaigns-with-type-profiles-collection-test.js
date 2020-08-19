@@ -9,6 +9,7 @@ import {
 import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { Response } from 'ember-cli-mirage';
 
 const PROFILES_COLLECTION = 'PROFILES_COLLECTION';
 
@@ -188,6 +189,50 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
 
             //then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
+          });
+
+          context('When user has already a reconciled account', function() {
+
+            beforeEach(function() {
+              server.post('/schooling-registration-user-associations', () => {
+                return new Response(409, {}, { errors: [{ status: '409', meta: { shortCode: 'R11' } }] });
+              });
+            });
+
+            it('should display error modal when fields are filled in', async function() {
+              // given
+              await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
+
+              // when
+              await fillIn('#firstName', 'Robert');
+              await fillIn('#lastName', 'Smith');
+              await fillIn('#dayOfBirth', '10');
+              await fillIn('#monthOfBirth', '12');
+              await fillIn('#yearOfBirth', '2000');
+
+              await click('.button');
+
+              //then
+              expect(find('.join-error-modal')).to.exist;
+            });
+
+            it('should redirect to connection form when continue button is clicked', async function() {
+              // given
+              await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
+
+              // when
+              await fillIn('#firstName', 'Robert');
+              await fillIn('#lastName', 'Smith');
+              await fillIn('#dayOfBirth', '10');
+              await fillIn('#monthOfBirth', '12');
+              await fillIn('#yearOfBirth', '2000');
+
+              await click('.button');
+              await click('button[aria-label="Continuer avec mon compte Pix"]');
+
+              //then
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification?displayRegisterForm=false`);
+            });
           });
         });
       });
