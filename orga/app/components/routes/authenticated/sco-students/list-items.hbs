@@ -65,12 +65,10 @@
                       Gérer le compte
                     </Dropdown::Item>
                   {{/if}}
-                  {{#if this.isGenerateUsernameFeatureIsEnabled}}
-                    {{#if student.isAuthenticatedFromGar}}
-                      <Dropdown::Item @onClick={{fn this.openPasswordReset student}}>
-                        Gérer le compte
-                      </Dropdown::Item>
-                    {{/if}}
+                  {{#if student.isAuthenticatedFromGar}}
+                    <Dropdown::Item @onClick={{fn this.openPasswordReset student}}>
+                      Gérer le compte
+                    </Dropdown::Item>
                   {{/if}}
                   {{#if this.currentUser.isAdminInOrganization}}
                     <Dropdown::Item @onClick={{fn this.openDissociateModal student}}>

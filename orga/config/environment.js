@@ -31,8 +31,7 @@ module.exports = function(environment) {
       CAMPAIGNS_ROOT_URL: process.env.CAMPAIGNS_ROOT_URL,
       HOME_URL: process.env.HOME_URL,
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
-      PIX_APP_URL_WITHOUT_EXTENSION: process.env.PIX_APP_URL_WITHOUT_EXTENSION || 'https://app.pix.',
-      IS_GENERATE_USERNAME_FEATURE_ENABLED: process.env.IS_GENERATE_USERNAME_FEATURE_ENABLED === 'true',
+      PIX_APP_URL_WITHOUT_EXTENSION: process.env.PIX_APP_URL_WITHOUT_EXTENSION || 'https://app.pix.'
     },
 
     googleFonts: [
@@ -89,7 +88,6 @@ module.exports = function(environment) {
   if (environment === 'test') {
     ENV.APP.API_HOST = 'http://localhost:3000';
     ENV.APP.CAMPAIGNS_ROOT_URL = 'http://localhost:4200/campagnes/';
-    ENV.APP.IS_GENERATE_USERNAME_FEATURE_ENABLED = true;
 
     // Testem prefers this...
     ENV.locationType = 'none';
