@@ -48,10 +48,11 @@ describe('HigherEducationRegistrationParser', () => {
           diploma: 'Master',
           department: 'Assassination Squad',
           educationalTeam: 'Hattori Hanzo',
-          isSupernumerary: false,
-          organizationId: undefined,
           group: 'Deadly Viper Assassination Squad',
           studyScheme: 'hello darkness my old friend',
+          userId: undefined,
+          organizationId: undefined,
+          isSupernumerary: false
         });
         expect(registrations[1]).to.deep.equal({
           firstName: 'O-Ren',
@@ -65,10 +66,11 @@ describe('HigherEducationRegistrationParser', () => {
           diploma: 'DUT',
           department: 'Assassination Squad',
           educationalTeam: 'Bill',
-          isSupernumerary: false,
-          organizationId: undefined,
           group: 'Deadly Viper Assassination Squad',
           studyScheme: undefined,
+          userId: undefined,
+          organizationId: undefined,
+          isSupernumerary: false
         });
       });
     });
