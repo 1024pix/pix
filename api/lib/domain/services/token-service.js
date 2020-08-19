@@ -61,10 +61,20 @@ function extractUserIdForCampaignResults(token) {
   return decoded.access_id || null;
 }
 
+async function extractExternalUserFromIdToken(token) {
+  const externalUser = await decodeIfValid(token);
+  return {
+    firstName: externalUser['first_name'],
+    lastName: externalUser['last_name'],
+    samlId: externalUser['saml_id'],
+  };
+}
+
 module.exports = {
   createAccessTokenFromUser,
   createTokenForCampaignResults,
   createTokenForStudentReconciliation,
+  extractExternalUserFromIdToken,
   extractUserIdForCampaignResults,
   extractUserId,
   extractTokenFromAuthChain,
