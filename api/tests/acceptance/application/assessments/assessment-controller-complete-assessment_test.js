@@ -11,26 +11,172 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
   let options;
   let server;
   let user, assessment;
-  let competencesAssociatedSkillsAndChallenges;
+  const learningContent = [
+    {
+      id: 'recArea0',
+      competences: [
+        {
+          id: 'recCompetence0',
+          tubes: [
+            {
+              id: 'recTube0_0',
+              skills: [
+                {
+                  id: 'recSkill0_0',
+                  nom: '@recSkill0_0',
+                  challenges: [
+                    { id: 'recChallenge0_0_0' }
+                  ]
+                },
+                {
+                  id: 'recSkill0_1',
+                  nom: '@recSkill0_1',
+                  challenges: [
+                    { id: 'recChallenge0_1_0' }
+                  ]
+                },
+                {
+                  id: 'recSkill0_2',
+                  nom: '@recSkill0_2',
+                  challenges: [
+                    { id: 'recChallenge0_2_0' }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: 'recCompetence1',
+          tubes: [
+            {
+              id: 'recTube1_0',
+              skills: [
+                {
+                  id: 'recSkill1_0',
+                  nom: '@recSkill1_0',
+                  challenges: [
+                    { id: 'recChallenge1_0_0' }
+                  ]
+                },
+                {
+                  id: 'recSkill1_1',
+                  nom: '@recSkill1_1',
+                  challenges: [
+                    { id: 'recChallenge1_1_0' }
+                  ]
+                },
+                {
+                  id: 'recSkill1_2',
+                  nom: '@recSkill1_2',
+                  challenges: [
+                    { id: 'recChallenge1_2_0' }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: 'recCompetence2',
+          tubes: [
+            {
+              id: 'recTube2_0',
+              skills: [
+                {
+                  id: 'recSkill2_0',
+                  nom: '@recSkill2_0',
+                  challenges: [
+                    { id: 'recChallenge2_0_0' }
+                  ]
+                },
+                {
+                  id: 'recSkill2_1',
+                  nom: '@recSkill2_1',
+                  challenges: [
+                    { id: 'recChallenge2_1_0' }
+                  ]
+                },
+                {
+                  id: 'recSkill2_2',
+                  nom: '@recSkill2_2',
+                  challenges: [
+                    { id: 'recChallenge2_2_0' }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: 'recCompetence3',
+          tubes: [
+            {
+              id: 'recTube3_0',
+              skills: [
+                {
+                  id: 'recSkill3_0',
+                  nom: '@recSkill3_0',
+                  challenges: [
+                    { id: 'recChallenge3_0_0' }
+                  ]
+                },
+                {
+                  id: 'recSkill3_1',
+                  nom: '@recSkill3_1',
+                  challenges: [
+                    { id: 'recChallenge3_1_0' }
+                  ]
+                },
+                {
+                  id: 'recSkill3_2',
+                  nom: '@recSkill3_2',
+                  challenges: [
+                    { id: 'recChallenge3_2_0' }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: 'recCompetence4',
+          tubes: [
+            {
+              id: 'recTube4_0',
+              skills: [
+                {
+                  id: 'recSkill4_0',
+                  nom: '@recSkill4_0',
+                  challenges: [
+                    { id: 'recChallenge4_0_0' }
+                  ]
+                },
+                {
+                  id: 'recSkill4_1',
+                  nom: '@recSkill4_1',
+                  challenges: [
+                    { id: 'recChallenge4_1_0' }
+                  ]
+                },
+                {
+                  id: 'recSkill4_2',
+                  nom: '@recSkill4_2',
+                  challenges: [
+                    { id: 'recChallenge4_2_0' }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ];
 
   before(() => {
-    const learningContentForCertification = airtableBuilder.factory.buildLearningContentForCertification();
-    airtableBuilder.mockList({ tableName: 'Domaines' })
-      .returns([learningContentForCertification.area])
-      .activate();
-    airtableBuilder.mockList({ tableName: 'Competences' })
-      .returns(learningContentForCertification.competences)
-      .activate();
-    airtableBuilder.mockList({ tableName: 'Tubes' })
-      .returns(learningContentForCertification.tubes)
-      .activate();
-    airtableBuilder.mockList({ tableName: 'Acquis' })
-      .returns(learningContentForCertification.skills)
-      .activate();
-    airtableBuilder.mockList({ tableName: 'Epreuves' })
-      .returns(learningContentForCertification.challenges)
-      .activate();
-    competencesAssociatedSkillsAndChallenges = learningContentForCertification.competencesAssociatedSkillsAndChallenges;
+    const airtableObjects = airtableBuilder.factory.buildLearningContent(learningContent);
+    airtableBuilder.mockLists(airtableObjects);
   });
 
   after(() => {
@@ -98,7 +244,10 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         campaignUser = databaseBuilder.factory.buildUser({});
         const targetProfile = databaseBuilder.factory.buildTargetProfile();
         const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
-        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: campaignUser.id });
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          userId: campaignUser.id
+        });
         const campaignAssessment = databaseBuilder.factory.buildAssessment({
           id: 5,
           type: 'CAMPAIGN',
@@ -109,12 +258,15 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         const targetProfileId = campaign.targetProfileId;
         const anyDateBeforeCampaignParticipation = new Date(campaignParticipation.sharedAt.getTime() - 60 * 1000);
         badge = databaseBuilder.factory.buildBadge({ targetProfileId });
-        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: competencesAssociatedSkillsAndChallenges[0].skillId });
+        databaseBuilder.factory.buildTargetProfileSkill({
+          targetProfileId,
+          skillId: 'recSkill0_0'
+        });
         databaseBuilder.factory.buildKnowledgeElement({
-          skillId: competencesAssociatedSkillsAndChallenges[0].skillId,
+          skillId: 'recSkill0_0',
           assessmentId: campaignAssessment.id,
           userId: campaignUser.id,
-          competenceId: competencesAssociatedSkillsAndChallenges[0].competenceId,
+          competenceId: 'recCompetence0',
           createdAt: anyDateBeforeCampaignParticipation
         });
         databaseBuilder.factory.buildBadgeCriterion({
@@ -161,14 +313,25 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
 
       beforeEach(() => {
         const limitDate = new Date('2020-01-01T00:00:00Z');
-        certifiableUserId = databaseBuilder.factory.buildCertifiableUser({ competencesAssociatedSkillsAndChallenges, limitDate }).id;
+        certifiableUserId = databaseBuilder.factory.buildUser().id;
+
+        const competenceIdSkillIdPairs = databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent({
+          learningContent,
+          userId: certifiableUserId,
+          placementDate: limitDate,
+          earnedPix: 8,
+        });
+
         certificationAssessmentId = databaseBuilder.factory.buildAnsweredNotCompletedCertificationAssessment({
           certifiableUserId,
-          competencesAssociatedSkillsAndChallenges,
+          competenceIdSkillIdPairs,
           limitDate: moment(limitDate).add(1, 'day').toDate(),
         }).id;
         const badgeId = databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA }).id;
-        databaseBuilder.factory.buildBadgePartnerCompetence({ badgeId, skillIds: [ competencesAssociatedSkillsAndChallenges[0].skillId ] });
+        databaseBuilder.factory.buildBadgePartnerCompetence({
+          badgeId,
+          skillIds: ['recSkill0_0']
+        });
 
         return databaseBuilder.commit();
       });

@@ -6,12 +6,12 @@ const buildAnswer = require('./build-answer');
 
 module.exports = function buildAnsweredNotCompletedCertificationAssessment({
   certifiableUserId,
-  competencesAssociatedSkillsAndChallenges,
+  competenceIdSkillIdPairs,
   limitDate,
 }) {
   const certificationCourseId = buildCertificationCourse({ userId: certifiableUserId, createdAt: limitDate, isV2Certification: true }).id;
   const certificationAssessment = buildAssessment({ certificationCourseId, userId: certifiableUserId, state: Assessment.states.STARTED, type: Assessment.types.CERTIFICATION, createdAt: limitDate });
-  competencesAssociatedSkillsAndChallenges.forEach((element) => {
+  competenceIdSkillIdPairs.forEach((element) => {
     const { challengeId, competenceId } = element;
     buildCertificationChallenge({ courseId: certificationCourseId, challengeId, competenceId });
     buildAnswer({ assessmentId: certificationAssessment.id, challengeId, result: 'ok' });
