@@ -1,19 +1,12 @@
-const { NotFoundError } = require('../../errors');
 const ResultCompetenceTree = require('../../models/ResultCompetenceTree');
 
 module.exports = {
   getCertificate : async function getCertificate({
-    getBaseCertificate,
-    isAccessToCertificateAuthorized,
+    certificate,
     cleaCertificationStatusRepository,
     assessmentResultRepository,
     competenceTreeRepository
   }) {
-    const certificate = await getBaseCertificate();
-    if (!isAccessToCertificateAuthorized(certificate)) {
-      throw new NotFoundError();
-    }
-
     const cleaCertificationStatus = await cleaCertificationStatusRepository.getCleaCertificationStatus(certificate.id);
     certificate.cleaCertificationStatus = cleaCertificationStatus;
 
