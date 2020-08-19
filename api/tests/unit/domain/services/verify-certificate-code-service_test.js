@@ -9,7 +9,7 @@ describe('Unit | Service | VerifyCertificateCode', () => {
   describe('#generateCertificateVerificationCode', () => {
 
     _.times(100, () =>
-      it('should return a certification code containing 6 digits/letters except 0, 1 and vowels', async () => {
+      it('should return a certification code containing 8 digits/letters except 0, 1 and vowels', async () => {
         // given
         sinon.stub(certifCourseRepository, 'isVerificationCodeAvailable').resolves(true);
 
@@ -17,7 +17,7 @@ describe('Unit | Service | VerifyCertificateCode', () => {
         const result = await verifyCertificateCodeService.generateCertificateVerificationCode();
 
         // then
-        expect(result).to.match(/^P-[2346789BCDFGHJKMPQRTVWXY]{6}$/);
+        expect(result).to.match(/^P-[2346789BCDFGHJKMPQRTVWXY]{8}$/);
       })
     );
 
