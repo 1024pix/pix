@@ -60,11 +60,11 @@ async function checkIfStudentIsAlreadyReconciledOnTheSameOrganization(matchingSc
   if (!_.isNil(matchingSchoolingRegistration.userId))  {
     const userId = matchingSchoolingRegistration.userId ;
     const user = await userRepository.getUserAuthenticationMethods(userId);
-    const authentificationMethod = obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
+    const authenticationMethod = obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
 
     const detail = 'Un compte existe déjà pour l‘élève dans le même établissement.';
-    const error = STUDENT_RECONCILIATION_ERRORS.RECONCILIATION.IN_SAME_ORGANIZATION[authentificationMethod.authenticatedBy];
-    const meta = { shortCode: error.shortCode, value: authentificationMethod.value };
+    const error = STUDENT_RECONCILIATION_ERRORS.RECONCILIATION.IN_SAME_ORGANIZATION[authenticationMethod.authenticatedBy];
+    const meta = { shortCode: error.shortCode, value: authenticationMethod.value };
     throw new SchoolingRegistrationAlreadyLinkedToUserError(detail, error.code, meta);
   }
 }
@@ -73,11 +73,11 @@ async function checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(st
   if (_.get(student, 'account')) {
     const userId = student.account.userId;
     const user = await userRepository.getUserAuthenticationMethods(userId);
-    const authentificationMethod = obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
+    const authenticationMethod = obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
 
     const detail = 'Un compte existe déjà pour l‘élève dans un autre établissement.';
-    const error = STUDENT_RECONCILIATION_ERRORS.RECONCILIATION.IN_OTHER_ORGANIZATION[authentificationMethod.authenticatedBy];
-    const meta = { shortCode: error.shortCode, value: authentificationMethod.value };
+    const error = STUDENT_RECONCILIATION_ERRORS.RECONCILIATION.IN_OTHER_ORGANIZATION[authenticationMethod.authenticatedBy];
+    const meta = { shortCode: error.shortCode, value: authenticationMethod.value };
     throw new SchoolingRegistrationAlreadyLinkedToUserError(detail, error.code, meta);
   }
 }
