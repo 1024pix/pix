@@ -7,12 +7,10 @@ module.exports = async function getShareableCertificate({
   competenceTreeRepository,
   assessmentResultRepository
 }) {
-  const getBaseCertificate = async () => certificationRepository.getShareableCertificateByVerificationCode({ verificationCode });
-  const isAccessToCertificateAuthorized = (certification) => true;
+  const certificate = await certificationRepository.getShareableCertificateByVerificationCode({ verificationCode });
 
   return getCertificate({
-    getBaseCertificate,
-    isAccessToCertificateAuthorized,
+    certificate,
     cleaCertificationStatusRepository,
     assessmentResultRepository,
     competenceTreeRepository

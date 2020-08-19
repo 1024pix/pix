@@ -1,4 +1,5 @@
 const { getCertificate } = require('./get-certificate');
+const { NotFoundError } = require('../../errors');
 
 module.exports = async function getPrivateCertificate({
   certificationId,
@@ -8,12 +9,13 @@ module.exports = async function getPrivateCertificate({
   assessmentResultRepository,
   competenceTreeRepository,
 }) {
-  const getBaseCertificate = async () => certificationRepository.getPrivateCertificateByCertificationCourseId({ id: certificationId });
-  const isAccessToCertificateAuthorized = (certification) => certification.userId === userId;
+  const certificate = await certificationRepository.getPrivateCertificateByCertificationCourseId({ id: certificationId });
+  if (certificate.userId !== userId) {
+    throw new NotFoundError();
+  }
 
   return getCertificate({
-    getBaseCertificate,
-    isAccessToCertificateAuthorized,
+    certificate,
     cleaCertificationStatusRepository,
     assessmentResultRepository,
     competenceTreeRepository
