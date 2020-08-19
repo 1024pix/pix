@@ -15,26 +15,3 @@
     </div>
   </div>
 </div>
-{{#if this.displayModal}}
-  <PixModal @containerClass="join-error-modal" @onClose={{action this.closeModal}}>
-    <div class="join-error-modal__header">
-      <div class="join-error-modal-header__title">
-        <FaIcon @icon="times-circle" class="join-error-modal-header-title__icon"></FaIcon>
-        <h1 class="join-error-modal-header-title__text">Information de connexion</h1>
-      </div>
-      <div class="join-error-modal-header__close" aria-label={{t "common.actions.close"}} {{action this.closeModal}}>
-        <img src="/images/icons/icon-croix.svg" alt="Close" class="join-error-modal-header-close__icon">
-      </div>
-    </div>
-
-    <div class="join-error-modal__body">
-      <div class="join-error-modal-body__message" aria-live="polite">{{{modalErrorMessage}}}</div>
-    </div>
-
-    <div class="join-error-modal__footer">
-      <button class="button button--grey" type="button" aria-label="Quitter" {{on 'click' this.goToHome}}>Quitter</button>
-      <button class="button" type="button" aria-label="Continuer avec mon compte Pix" {{on 'click' this.goToCampaignConnectionForm}}>Continuer avec mon compte Pix</button>
-    </div>
-  </PixModal>
-{{/if}}
-
