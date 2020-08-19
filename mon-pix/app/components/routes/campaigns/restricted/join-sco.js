@@ -32,11 +32,15 @@ export default class JoinSco extends Component {
   @service currentUser;
   @service store;
   @service intl;
+  @service url;
+  @service router;
 
   validation = new Validation();
 
   @tracked isLoading = false;
   @tracked errorMessage;
+  @tracked displayModal = false;
+  @tracked modalErrorMessage = null;
 
   @tracked firstName = '';
   @tracked lastName = '';
@@ -67,6 +71,23 @@ export default class JoinSco extends Component {
 
   get isDisabled() {
     return this.session.data.authenticated.source === 'external';
+  }
+
+  @action
+  closeModal() {
+    this.displayModal = false;
+  }
+
+  @action
+  async goToHome() {
+    await this.session.invalidate();
+    return window.location.replace(this.url.homeUrl);
+  }
+
+  @action
+  async goToCampaignConnectionForm() {
+    await this.session.invalidate();
+    return this.router.replaceWith('campaigns.restricted.login-or-register-to-access', { queryParams: { displayRegisterForm: false } });
   }
 
   @action
@@ -157,7 +178,9 @@ export default class JoinSco extends Component {
     errorResponse.errors.forEach((error) => {
       if (error.status === '409') {
         const message = this._showErrorMessageByShortCode(error.meta);
-        return this.errorMessage = message;
+        this.errorMessage = message;
+        this.displayModal = true;
+        return this.modalErrorMessage = message;
       }
       if (error.status === '404') {
         return this.errorMessage = 'Vous êtes un élève ? <br/> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.<br/> <br/> Vous êtes un enseignant ? <br/> L‘accès à un parcours n‘est pas disponible pour le moment.';

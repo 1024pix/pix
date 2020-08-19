@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
