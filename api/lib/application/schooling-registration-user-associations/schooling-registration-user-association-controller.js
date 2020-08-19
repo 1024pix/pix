@@ -1,6 +1,5 @@
 const usecases = require('../../domain/usecases');
 const schoolingRegistrationSerializer = require('../../infrastructure/serializers/jsonapi/schooling-registration-user-association-serializer');
-const _ = require('lodash');
 
 module.exports = {
   async reconcileAutomatically(request) {

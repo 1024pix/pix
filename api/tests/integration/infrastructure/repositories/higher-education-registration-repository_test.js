@@ -196,7 +196,7 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
         //given
         const organization = databaseBuilder.factory.buildOrganization();
         const user = databaseBuilder.factory.buildUser();
-        databaseBuilder.factory.buildSchoolingRegistration({ studentNumber: '123456', organizationId: organization.id});
+        databaseBuilder.factory.buildSchoolingRegistration({ studentNumber: '123456', organizationId: organization.id });
 
         await databaseBuilder.commit();
 
