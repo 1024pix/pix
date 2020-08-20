@@ -73,7 +73,7 @@ describe('Unit | Controller | certifications-controller', () => {
     const serializedCertification = '{JSON}';
 
     const verificationCode = 'P-123456-500';
-    const request = { headers: { 'verification-code': verificationCode } };
+    const request = { payload: { verificationCode } };
 
     beforeEach(() => {
       sinon.stub(usecases, 'getShareableCertificate');
