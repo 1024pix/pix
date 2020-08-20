@@ -9,7 +9,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
 
   let component;
   let storeStub;
-  let onSubmitStub;
+  let onSubmitToReconcileStub;
   let sessionStub;
   let eventStub;
 
@@ -18,14 +18,14 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
 
     storeStub = { createRecord: createStudentUserAssociationStub };
     sessionStub = { data: { authenticated: { source: 'pix' } } };
-    onSubmitStub = sinon.stub();
+    onSubmitToReconcileStub = sinon.stub();
     eventStub = { preventDefault: sinon.stub() };
-    component = createComponent('component:routes/campaigns/restricted/join-sup', { onSubmit: onSubmitStub, campaignCode: 123 });
+    component = createComponent('component:routes/campaigns/restricted/join-sup', { onSubmitToReconcile: onSubmitToReconcileStub, campaignCode: 123 });
     component.store = storeStub;
     component.session = sessionStub;
   });
 
-  describe('#attemptNext', function() {
+  describe('#submit', function() {
 
     context('when only student number is required', () => {
       beforeEach(function() {
@@ -45,10 +45,10 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
         ).returns(schoolingRegistration);
 
         // when
-        await component.actions.attemptNext.call(component, eventStub);
+        await component.actions.submit.call(component, eventStub);
 
         // then
-        sinon.assert.calledWith(onSubmitStub, schoolingRegistration, {});
+        sinon.assert.calledWith(onSubmitToReconcileStub, schoolingRegistration, {});
       });
     });
 
@@ -81,10 +81,10 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
         component.showSupernumeraryForm = true;
 
         // when
-        await component.actions.attemptNext.call(component, eventStub);
+        await component.actions.submit.call(component, eventStub);
 
         // then
-        sinon.assert.calledWith(onSubmitStub, schoolingRegistration, adapterOptions);
+        sinon.assert.calledWith(onSubmitToReconcileStub, schoolingRegistration, adapterOptions);
       });
     });
 
@@ -119,10 +119,10 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
         component.showSupernumeraryForm = true;
 
         // when
-        await component.actions.attemptNext.call(component, eventStub);
+        await component.actions.submit.call(component, eventStub);
 
         // then
-        sinon.assert.calledWith(onSubmitStub, schoolingRegistration, adapterOptions);
+        sinon.assert.calledWith(onSubmitToReconcileStub, schoolingRegistration, adapterOptions);
       });
     });
 
@@ -131,16 +131,16 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
       component.studentNumber = '';
 
       // when
-      await component.actions.attemptNext.call(component, eventStub);
+      await component.actions.submit.call(component, eventStub);
 
       // then
-      sinon.assert.notCalled(onSubmitStub);
+      sinon.assert.notCalled(onSubmitToReconcileStub);
       expect(component.validation.studentNumber).to.equal('Votre numéro étudiant n’est pas renseigné.');
     });
 
     it('should prevent default handling of event', async function() {
       // when
-      await component.actions.attemptNext.call(component, eventStub);
+      await component.actions.submit.call(component, eventStub);
 
       // then
       sinon.assert.called(eventStub.preventDefault);

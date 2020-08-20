@@ -15,7 +15,7 @@ describe('Integration | Component | routes/campaigns/restricted/join-sup', funct
 
   let sessionStub;
   let storeStub;
-  let onSubmitStub;
+  let onSubmitToReconcileStub;
 
   beforeEach(function() {
     sessionStub = Service.extend({});
@@ -28,11 +28,11 @@ describe('Integration | Component | routes/campaigns/restricted/join-sup', funct
     it('should show user data form', async function() {
       // when
       const error = { status: '404' };
-      onSubmitStub = sinon.stub().rejects({ errors: [error] });
-      this.set('onSubmitStub', onSubmitStub);
+      onSubmitToReconcileStub = sinon.stub().rejects({ errors: [error] });
+      this.set('onSubmitToReconcileStub', onSubmitToReconcileStub);
 
       // given
-      await render(hbs`<Routes::Campaigns::Restricted::JoinSup @campaignCode={{123}} @onSubmit={{this.onSubmitStub}}/>`);
+      await render(hbs`<Routes::Campaigns::Restricted::JoinSup @campaignCode={{123}} @onSubmitToReconcile={{this.onSubmitToReconcileStub}}/>`);
 
       await fillIn('#studentNumber', '1234');
       await click('[type="submit"]');
@@ -53,12 +53,12 @@ describe('Integration | Component | routes/campaigns/restricted/join-sup', funct
 
       const error = { status: '404' };
 
-      onSubmitStub = sinon.stub();
-      onSubmitStub.onCall(0).rejects({ errors: [error] });
-      onSubmitStub.onCall(1).resolves();
-      this.set('onSubmitStub', onSubmitStub);
+      onSubmitToReconcileStub = sinon.stub();
+      onSubmitToReconcileStub.onCall(0).rejects({ errors: [error] });
+      onSubmitToReconcileStub.onCall(1).resolves();
+      this.set('onSubmitToReconcileStub', onSubmitToReconcileStub);
 
-      await render(hbs`<Routes::Campaigns::Restricted::JoinSup @campaignCode={{123}} @onSubmit={{this.onSubmitStub}}/>`);
+      await render(hbs`<Routes::Campaigns::Restricted::JoinSup @campaignCode={{123}} @onSubmitToReconcile={{this.onSubmitToReconcileStub}}/>`);
 
       await fillIn('#studentNumber', schoolingRegistration.studentNumber);
       await click('[type="submit"]');
@@ -69,17 +69,17 @@ describe('Integration | Component | routes/campaigns/restricted/join-sup', funct
       await fillIn('#yearOfBirth', '2000');
       await click('[type="submit"]');
 
-      expect(onSubmitStub.getCall(1).args[0].toJSON()).to.deep.equal(schoolingRegistration);
+      expect(onSubmitToReconcileStub.getCall(1).args[0].toJSON()).to.deep.equal(schoolingRegistration);
     });
 
     it('should disable input student number', async function() {
       // when
       const error = { status: '404' };
-      onSubmitStub = sinon.stub().rejects({ errors: [error] });
-      this.set('onSubmitStub', onSubmitStub);
+      onSubmitToReconcileStub = sinon.stub().rejects({ errors: [error] });
+      this.set('onSubmitToReconcileStub', onSubmitToReconcileStub);
 
       // given
-      await render(hbs`<Routes::Campaigns::Restricted::JoinSup @campaignCode={{123}} @onSubmit={{this.onSubmitStub}}/>`);
+      await render(hbs`<Routes::Campaigns::Restricted::JoinSup @campaignCode={{123}} @onSubmitToReconcile={{this.onSubmitToReconcileStub}}/>`);
 
       await fillIn('#studentNumber', '1234');
       await click('[type="submit"]');
@@ -93,10 +93,10 @@ describe('Integration | Component | routes/campaigns/restricted/join-sup', funct
   context('when i want change the student number', () => {
     it('should be possible de edit student number', async function() {
       // when
-      this.set('onSubmitStub', onSubmitStub);
+      this.set('onSubmitToReconcileStub', onSubmitToReconcileStub);
 
       // given
-      await render(hbs`<Routes::Campaigns::Restricted::JoinSup @campaignCode={{123}} @onSubmit={{this.onSubmitStub}}/>`);
+      await render(hbs`<Routes::Campaigns::Restricted::JoinSup @campaignCode={{123}} @onSubmitToReconcile={{this.onSubmitToReconcileStub}}/>`);
 
       await fillIn('#studentNumber', '1234');
       await click('[type="submit"]');
@@ -110,10 +110,10 @@ describe('Integration | Component | routes/campaigns/restricted/join-sup', funct
   context('when i don’t have a student number', () => {
     it('should display user data form', async function() {
       // when
-      this.set('onSubmitStub', onSubmitStub);
+      this.set('onSubmitToReconcileStub', onSubmitToReconcileStub);
 
       // given
-      await render(hbs`<Routes::Campaigns::Restricted::JoinSup @campaignCode={{123}} @onSubmit={{this.onSubmitStub}}/>`);
+      await render(hbs`<Routes::Campaigns::Restricted::JoinSup @campaignCode={{123}} @onSubmitToReconcile={{this.onSubmitToReconcileStub}}/>`);
 
       await click('[type="checkbox"]');
 
