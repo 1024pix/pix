@@ -4,12 +4,12 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 import createComponent from '../../../../../helpers/create-glimmer-component';
 
-describe('Unit | Component | routes/campaigns/restricted/join', function() {
+describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
   setupTest();
 
   let component;
   let storeStub;
-  let onSubmitStub;
+  let onSubmitToReconcileStub;
   let sessionStub;
   let eventStub;
   let schoolingRegistrationUserAssociation;
@@ -19,9 +19,9 @@ describe('Unit | Component | routes/campaigns/restricted/join', function() {
     const createSchoolingRegistrationUserAssociationStub = sinon.stub().returns(schoolingRegistrationUserAssociation);
     storeStub = { createRecord: createSchoolingRegistrationUserAssociationStub };
     sessionStub = { data: { authenticated: { source: 'pix' } } };
-    onSubmitStub = sinon.stub();
+    onSubmitToReconcileStub = sinon.stub();
     eventStub = { preventDefault: sinon.stub() };
-    component = createComponent('component:routes/campaigns/restricted/join-sco', { onSubmit: onSubmitStub, campaignCode: 123 });
+    component = createComponent('component:routes/campaigns/restricted/join-sco', { onSubmitToReconcile: onSubmitToReconcileStub, campaignCode: 123 });
     component.store = storeStub;
     component.session = sessionStub;
   });
@@ -310,7 +310,7 @@ describe('Unit | Component | routes/campaigns/restricted/join', function() {
 
   });
 
-  describe('#attemptNext', function() {
+  describe('#submit', function() {
 
     beforeEach(function() {
       component.firstName = 'Robert';
@@ -325,10 +325,10 @@ describe('Unit | Component | routes/campaigns/restricted/join', function() {
       component.firstName = ' ';
 
       // when
-      await component.actions.attemptNext.call(component, eventStub);
+      await component.actions.submit.call(component, eventStub);
 
       // then
-      sinon.assert.notCalled(onSubmitStub);
+      sinon.assert.notCalled(onSubmitToReconcileStub);
       expect(component.validation.firstName).to.equal('Votre prénom n’est pas renseigné.');
     });
 
@@ -337,10 +337,10 @@ describe('Unit | Component | routes/campaigns/restricted/join', function() {
       component.lastName = '';
 
       // when
-      await component.actions.attemptNext.call(component, eventStub);
+      await component.actions.submit.call(component, eventStub);
 
       // then
-      sinon.assert.notCalled(onSubmitStub);
+      sinon.assert.notCalled(onSubmitToReconcileStub);
       expect(component.validation.lastName).to.equal('Votre nom n’est pas renseigné.');
     });
 
@@ -349,10 +349,10 @@ describe('Unit | Component | routes/campaigns/restricted/join', function() {
       component.dayOfBirth = '99';
 
       // when
-      await component.actions.attemptNext.call(component, eventStub);
+      await component.actions.submit.call(component, eventStub);
 
       // then
-      sinon.assert.notCalled(onSubmitStub);
+      sinon.assert.notCalled(onSubmitToReconcileStub);
       expect(component.validation.dayOfBirth).to.equal('Votre jour de naissance n’est pas valide.');
     });
 
@@ -361,10 +361,10 @@ describe('Unit | Component | routes/campaigns/restricted/join', function() {
       component.monthOfBirth = '99';
 
       // when
-      await component.actions.attemptNext.call(component, eventStub);
+      await component.actions.submit.call(component, eventStub);
 
       // then
-      sinon.assert.notCalled(onSubmitStub);
+      sinon.assert.notCalled(onSubmitToReconcileStub);
       expect(component.validation.monthOfBirth).to.equal('Votre mois de naissance n’est pas valide.');
     });
 
@@ -373,10 +373,10 @@ describe('Unit | Component | routes/campaigns/restricted/join', function() {
       component.yearOfBirth = '99';
 
       // when
-      await component.actions.attemptNext.call(component, eventStub);
+      await component.actions.submit.call(component, eventStub);
 
       // then
-      sinon.assert.notCalled(onSubmitStub);
+      sinon.assert.notCalled(onSubmitToReconcileStub);
       expect(component.validation.yearOfBirth).to.equal('Votre année de naissance n’est pas valide.');
     });
 
@@ -395,16 +395,16 @@ describe('Unit | Component | routes/campaigns/restricted/join', function() {
       ).returns(schoolingRegistration);
 
       // when
-      await component.actions.attemptNext.call(component, eventStub);
+      await component.actions.submit.call(component, eventStub);
 
       // then
-      sinon.assert.calledWith(onSubmitStub, schoolingRegistration);
+      sinon.assert.calledWith(onSubmitToReconcileStub, schoolingRegistration);
     });
 
     it('should prevent default handling of event', async function() {
       // given
       // when
-      await component.actions.attemptNext.call(component, eventStub);
+      await component.actions.submit.call(component, eventStub);
 
       // then
       sinon.assert.called(eventStub.preventDefault);
@@ -421,10 +421,10 @@ describe('Unit | Component | routes/campaigns/restricted/join', function() {
 
       it('should display a not found error', async function() {
         // given
-        onSubmitStub.rejects({ errors: [{ status: '404' }] });
+        onSubmitToReconcileStub.rejects({ errors: [{ status: '404' }] });
 
         // when
-        await component.actions.attemptNext.call(component, eventStub);
+        await component.actions.submit.call(component, eventStub);
 
         // then
         sinon.assert.calledOnce(schoolingRegistrationUserAssociation.unloadRecord);
@@ -445,10 +445,10 @@ describe('Unit | Component | routes/campaigns/restricted/join', function() {
               meta: { shortCode: 'R11', value: 'j***@example.net' }
             };
             const expectedErrorMessage = 'Vous possédez déjà un compte Pix avec l’adresse e-mail <br>j***@example.net<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code R11)';
-            onSubmitStub.rejects({ errors: [error] });
+            onSubmitToReconcileStub.rejects({ errors: [error] });
 
             // when
-            await component.actions.attemptNext.call(component, eventStub);
+            await component.actions.submit.call(component, eventStub);
 
             // then
             sinon.assert.calledOnce(schoolingRegistrationUserAssociation.unloadRecord);
@@ -470,10 +470,10 @@ describe('Unit | Component | routes/campaigns/restricted/join', function() {
               meta: { shortCode: 'R12', value: 'j***.h***2' }
             };
             const expectedErrorMessage = 'Vous possédez déjà un compte Pix utilisé avec l’identifiant <br>j***.h***2<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code R12)';
-            onSubmitStub.rejects({ errors: [error] });
+            onSubmitToReconcileStub.rejects({ errors: [error] });
 
             // when
-            await component.actions.attemptNext.call(component, eventStub);
+            await component.actions.submit.call(component, eventStub);
 
             // then
             sinon.assert.calledOnce(schoolingRegistrationUserAssociation.unloadRecord);
@@ -495,10 +495,10 @@ describe('Unit | Component | routes/campaigns/restricted/join', function() {
               meta: { shortCode: 'R13', value: undefined }
             };
             const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l‘ENT dans un autre établissement scolaire.<br>Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l‘aide de Pix Orga.';
-            onSubmitStub.rejects({ errors: [error] });
+            onSubmitToReconcileStub.rejects({ errors: [error] });
 
             // when
-            await component.actions.attemptNext.call(component, eventStub);
+            await component.actions.submit.call(component, eventStub);
 
             // then
             sinon.assert.calledOnce(schoolingRegistrationUserAssociation.unloadRecord);
@@ -520,10 +520,10 @@ describe('Unit | Component | routes/campaigns/restricted/join', function() {
               meta: { shortCode: 'R13', value: undefined }
             };
             const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l‘ENT dans un autre établissement scolaire.<br>Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l‘aide de Pix Orga.';
-            onSubmitStub.rejects({ errors: [error] });
+            onSubmitToReconcileStub.rejects({ errors: [error] });
 
             // when
-            await component.actions.attemptNext.call(component, eventStub);
+            await component.actions.submit.call(component, eventStub);
 
             // then
             sinon.assert.calledOnce(schoolingRegistrationUserAssociation.unloadRecord);
@@ -545,10 +545,10 @@ describe('Unit | Component | routes/campaigns/restricted/join', function() {
               meta: { shortCode: 'R13', value: undefined }
             };
             const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l‘ENT dans un autre établissement scolaire.<br>Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l‘aide de Pix Orga.';
-            onSubmitStub.rejects({ errors: [error] });
+            onSubmitToReconcileStub.rejects({ errors: [error] });
 
             // when
-            await component.actions.attemptNext.call(component, eventStub);
+            await component.actions.submit.call(component, eventStub);
 
             // then
             sinon.assert.calledOnce(schoolingRegistrationUserAssociation.unloadRecord);
@@ -570,10 +570,10 @@ describe('Unit | Component | routes/campaigns/restricted/join', function() {
               meta: { shortCode: 'R13', value: undefined }
             };
             const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l‘ENT dans un autre établissement scolaire.<br>Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l‘aide de Pix Orga.';
-            onSubmitStub.rejects({ errors: [error] });
+            onSubmitToReconcileStub.rejects({ errors: [error] });
 
             // when
-            await component.actions.attemptNext.call(component, eventStub);
+            await component.actions.submit.call(component, eventStub);
 
             // then
             sinon.assert.calledOnce(schoolingRegistrationUserAssociation.unloadRecord);
@@ -595,10 +595,10 @@ describe('Unit | Component | routes/campaigns/restricted/join', function() {
               meta: { shortCode: 'R12', value: 'j***.h***2' }
             };
             const expectedErrorMessage = 'Vous possédez déjà un compte Pix utilisé avec l’identifiant <br>j***.h***2<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code R12)';
-            onSubmitStub.rejects({ errors: [error] });
+            onSubmitToReconcileStub.rejects({ errors: [error] });
 
             // when
-            await component.actions.attemptNext.call(component, eventStub);
+            await component.actions.submit.call(component, eventStub);
 
             // then
             sinon.assert.calledOnce(schoolingRegistrationUserAssociation.unloadRecord);

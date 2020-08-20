@@ -11,7 +11,7 @@ export default class JoinRestrictedCampaignController extends Controller {
   @service intl;
 
   @action
-  attemptNext(schoolingRegistration, adapterOptions) {
+  reconcile(schoolingRegistration, adapterOptions) {
     return schoolingRegistration.save({ adapterOptions }).then(() => {
       this.transitionToRoute('campaigns.start-or-resume', this.model.code, {
         queryParams: { associationDone: true, participantExternalId: this.participantExternalId }

@@ -22,14 +22,14 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
     controller.set('model', 'AZERTY999');
   });
 
-  describe('#attemptNext', function() {
+  describe('#reconcile', function() {
 
     it('should associate user with student and redirect to campaigns.start-or-resume', async function() {
       // given
       schoolingRegistration.save.resolves();
 
       // when
-      await controller.actions.attemptNext.call(controller, schoolingRegistration);
+      await controller.actions.reconcile.call(controller, schoolingRegistration);
 
       // then
       sinon.assert.calledOnce(schoolingRegistration.save);

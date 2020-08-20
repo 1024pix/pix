@@ -94,7 +94,7 @@ export default class JoinSco extends Component {
   }
 
   @action
-  async attemptNext(event) {
+  async submit(event) {
     event.preventDefault();
     this.isLoading = true;
     this._validateInputName('firstName', this.firstName);
@@ -115,7 +115,7 @@ export default class JoinSco extends Component {
     }
 
     try {
-      await this.args.onSubmit(schoolingRegistration);
+      await this.args.onSubmitToReconcile(schoolingRegistration);
       this.isLoading = false;
     } catch (errorResponse) {
       schoolingRegistration.unloadRecord();
