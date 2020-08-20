@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const { pipe } = require('lodash/fp');
 const randomString = require('randomstring');
+const { STUDENT_RECONCILIATION_ERRORS } = require('../constants');
 
 const {
   NotFoundError, SchoolingRegistrationAlreadyLinkedToUserError, AlreadyRegisteredUsernameError
@@ -9,20 +10,6 @@ const { areTwoStringsCloseEnough, isOneStringCloseEnoughFromMultipleStrings } = 
 const { normalizeAndRemoveAccents, removeSpecialCharacters } = require('./validation-treatments');
 
 const MAX_ACCEPTABLE_RATIO = 0.25;
-
-const STUDENT_RECONCILIATION_ERRORS = {
-  IN_OTHER_ORGANIZATION: {
-    samlId: { shortCode: 'R13', code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION' },
-    username: { shortCode: 'R12', code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION' },
-    email: { shortCode: 'R11', code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION' },
-  }
-  ,
-  IN_SAME_ORGANIZATION: {
-    samlId: { shortCode: 'R33', code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION' },
-    username: { shortCode: 'R32', code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION' },
-    email: { shortCode: 'R31', code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION' },
-  }
-};
 
 function findMatchingCandidateIdForGivenUser(matchingUserCandidates, user) {
   const standardizedUser = _standardizeUser(user);
@@ -76,7 +63,7 @@ async function checkIfStudentIsAlreadyReconciledOnTheSameOrganization(matchingSc
     const authentificationMethod = obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
 
     const detail = 'Un compte existe déjà pour l‘élève dans le même établissement.';
-    const error = STUDENT_RECONCILIATION_ERRORS.IN_SAME_ORGANIZATION[authentificationMethod.authenticatedBy];
+    const error = STUDENT_RECONCILIATION_ERRORS.RECONCILIATION.IN_SAME_ORGANIZATION[authentificationMethod.authenticatedBy];
     const meta = { shortCode: error.shortCode, value: authentificationMethod.value };
     throw new SchoolingRegistrationAlreadyLinkedToUserError(detail, error.code, meta);
   }
@@ -89,7 +76,7 @@ async function checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(st
     const authentificationMethod = obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
 
     const detail = 'Un compte existe déjà pour l‘élève dans un autre établissement.';
-    const error = STUDENT_RECONCILIATION_ERRORS.IN_OTHER_ORGANIZATION[authentificationMethod.authenticatedBy];
+    const error = STUDENT_RECONCILIATION_ERRORS.RECONCILIATION.IN_OTHER_ORGANIZATION[authentificationMethod.authenticatedBy];
     const meta = { shortCode: error.shortCode, value: authentificationMethod.value };
     throw new SchoolingRegistrationAlreadyLinkedToUserError(detail, error.code, meta);
   }
