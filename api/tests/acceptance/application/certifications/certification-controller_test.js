@@ -341,7 +341,7 @@ describe('Acceptance | API | Certifications', () => {
       return databaseBuilder.commit();
     });
 
-    context('when the given header is correct', () => {
+    context('when the given verificationCode is correct', () => {
 
       it('should return 200 HTTP status code and the certification', async () => {
         // given
@@ -349,9 +349,9 @@ describe('Acceptance | API | Certifications', () => {
         const certificationVerificationCode = certificationCourse.verificationCode;
         const verificationCode = `${certificationVerificationCode}-${pixScore}`;
         options = {
-          method: 'GET',
+          method: 'POST',
           url: '/api/shared-certifications',
-          headers: { 'verification-code': verificationCode },
+          payload: { verificationCode },
         };
 
         // when
@@ -467,13 +467,14 @@ describe('Acceptance | API | Certifications', () => {
       });
     });
 
-    context('when the given header is incorrect', () => {
+    context('when the given verificationCode is incorrect', () => {
 
-      it('should return 500 HTTP status code when the header is missing', async () => {
+      it('should return 500 HTTP status code when param is missing', async () => {
         // given
         options = {
-          method: 'GET',
+          method: 'POST',
           url: '/api/shared-certifications',
+          payload: {},
         };
   
         // when
@@ -483,13 +484,13 @@ describe('Acceptance | API | Certifications', () => {
         expect(response.statusCode).to.equal(500);
       });
 
-      it('should return notFound 404 HTTP status code when the verificationCode is incorrect', async () => {
+      it('should return notFound 404 HTTP status code when param is incorrect', async () => {
         // given
-        const verificationCode = `P-WRONG-CODE`;
+        const verificationCode = 'P-WRONG-CODE';
         options = {
-          method: 'GET',
+          method: 'POST',
           url: '/api/shared-certifications',
-          headers: { 'verification-code': verificationCode },
+          payload: { verificationCode },
         };
   
         // when

@@ -21,7 +21,7 @@ module.exports = {
   },
 
   getCertificationByVerificationCode(request) {
-    const verificationCode = request.headers['verification-code'];
+    const verificationCode = request.payload.verificationCode;
 
     return usecases.getShareableCertificate({ verificationCode })
       .then((certificate) => certificationSerializer.serializeForSharing(certificate));
