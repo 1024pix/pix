@@ -20,6 +20,18 @@
   &__forgotten-password {
     font-size: 0.875rem;
     text-align: left;
+    margin-bottom: 8px;
+  }
+
+  &__recover-access-link {
+    font-size: 0.875rem;
+    text-align: left;
+    line-height: 1.375rem;
+  }
+
+  &__recover-access-message {
+    font-size: 0.875rem;
+    text-align: left;
   }
 
   &__button {
@@ -41,7 +53,7 @@
   }
 
   form {
-    width: 352px;
+    width: 430px;
     margin: auto;
 
     .input {
