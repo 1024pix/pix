@@ -4,6 +4,7 @@ const {
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
 } = require('../../../test-helper');
+const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 const createServer = require('../../../../server');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { map } = require('lodash');
@@ -138,6 +139,11 @@ describe('Acceptance | API | Certifications', () => {
       airtableBuilder.mockList({ tableName: 'Competences' })
         .returns(competences)
         .activate();
+    });
+
+    after(() => {
+      airtableBuilder.cleanAll();
+      return cache.flushAll();
     });
 
     beforeEach(() => {
