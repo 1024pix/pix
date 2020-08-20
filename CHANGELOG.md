@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v2.185.0 (20/08/2020)
+
+- [#1785](https://github.com/1024pix/pix/pull/1785) [FEATURE] Donner accès à la récupération d'une organisation (PIX-884).
+- [#1769](https://github.com/1024pix/pix/pull/1769) [FEATURE] Afficher les erreurs relatives aux comptes multiples dans une modal lors de la réconciliation (PIX-1023).
+- [#1772](https://github.com/1024pix/pix/pull/1772) [FEATURE] Afficher les paliers avec le design final (PIX-1052).
+- [#1783](https://github.com/1024pix/pix/pull/1783) [BUGFIX] Affichage de "started" au lieu d'"error" dans la liste de certifications sur Pix Admin
+- [#1781](https://github.com/1024pix/pix/pull/1781) [BUGFIX] Empêcher de cliquer plusieurs fois sur retenter (PIX-1125).
+- [#1775](https://github.com/1024pix/pix/pull/1775) [TECH] Suppression de divers index inutilisés et/ou redondants (PIX-1132)
+- [#1776](https://github.com/1024pix/pix/pull/1776) [TECH] Assurer l'intégrité des données de réconciliation.
+
 ## v2.184.0 (18/08/2020)
 
 - [#1750](https://github.com/1024pix/pix/pull/1750) [FEATURE] Permettre la création de centre de certification depuis Pix Admin (PIX-501).
