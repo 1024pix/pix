@@ -52,13 +52,13 @@ module.exports = {
     const payload = request.payload.data.attributes;
     const { 'campaign-code': campaignCode } = payload;
 
-    const user = {
+    const studentInformation = {
       firstName: payload['first-name'],
       lastName: payload['last-name'],
       birthdate: payload['birthdate'],
     };
 
-    const username = await usecases.generateUsername({ campaignCode, user });
+    const username = await usecases.generateUsername({ campaignCode, studentInformation });
 
     // we don't persist this ressource, we simulate response by adding the generated username
     const schoolingRegistrationWithUsernameResponse = {

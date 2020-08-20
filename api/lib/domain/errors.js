@@ -490,6 +490,11 @@ class UserNotAuthorizedToUpdatePasswordError extends DomainError {
   }
 }
 
+class SchoolingRegistrationNotFound extends NotFoundError {
+  constructor(message = 'Aucune inscription d‘élève n‘a été trouvée.') {
+    super(message);
+  }
+}
 class UserNotFoundError extends NotFoundError {
   constructor(message = 'Ce compte est introuvable.') {
     super(message);
@@ -580,6 +585,7 @@ module.exports = {
   SameNationalStudentIdInOrganizationError,
   SchoolingRegistrationAlreadyLinkedToUserError,
   SchoolingRegistrationsCouldNotBeSavedError,
+  SchoolingRegistrationNotFound,
   SessionAlreadyFinalizedError,
   UserAlreadyLinkedToCandidateInSessionError,
   UserCouldNotBeReconciledError,
