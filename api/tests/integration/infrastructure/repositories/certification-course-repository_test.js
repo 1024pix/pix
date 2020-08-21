@@ -337,7 +337,7 @@ describe('Integration | Repository | Certification Course', function() {
   });
 
   describe('#isVerificationCodeAvailable', () => {
-    const verificationCode = 'P-XBCDXF';
+    const verificationCode = 'P-XBCDXF11';
 
     it('should return true if certification code does not exist', async () => {
       // when
