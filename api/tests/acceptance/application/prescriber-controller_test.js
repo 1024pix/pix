@@ -23,7 +23,8 @@ describe('Acceptance | Controller | Prescriber-controller', () => {
         attributes: {
           'first-name': user.firstName,
           'last-name': user.lastName,
-          'pix-orga-terms-of-service-accepted': false
+          'pix-orga-terms-of-service-accepted': false,
+          'are-new-year-students-imported': false
         },
         relationships: {
           memberships: {

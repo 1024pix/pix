@@ -14,6 +14,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
           'first-name': prescriber.firstName,
           'last-name': prescriber.lastName,
           'pix-orga-terms-of-service-accepted': prescriber.pixOrgaTermsOfServiceAccepted,
+          'are-new-year-students-imported': prescriber.areNewYearStudentsImported
         },
         relationships: {
           memberships: {
@@ -125,7 +126,8 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
       const prescriber = domainBuilder.buildPrescriber({
         firstName: user.firstName,
         lastName: user.lastName,
-        pixOrgaTermsOfServiceAccepted:  user.pixOrgaTermsOfServiceAccepted,
+        areNewYearStudentsImported: false,
+        pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
         memberships: [membership],
         userOrgaSettings
       });
