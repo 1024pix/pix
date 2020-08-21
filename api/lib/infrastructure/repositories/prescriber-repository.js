@@ -56,7 +56,7 @@ module.exports = {
 
   async getPrescriber(userId) {
     try {
-      const prescriber = await BookshelfUser
+      const prescriberFromDB = await BookshelfUser
         .where({ id: userId })
         .fetch({ require: true,
           columns: ['id','firstName','lastName', 'pixOrgaTermsOfServiceAccepted'],
@@ -66,7 +66,21 @@ module.exports = {
             'userOrgaSettings',
             'userOrgaSettings.currentOrganization',
           ] });
-      return _toPrescriberDomain(prescriber);
+      const prescriber = _toPrescriberDomain(prescriberFromDB);
+
+      const currentOrganizationId = prescriber.userOrgaSettings.id ?
+        prescriber.userOrgaSettings.currentOrganization.id :
+        prescriber.memberships[0].organization.id;
+
+      const atLeastOneSchoolingRegistration = await knex('organizations')
+        .select('organizations.id')
+        .join('schooling-registrations', 'schooling-registrations.organizationId', 'organizations.id')
+        .where('organizations.id', currentOrganizationId)
+        .where('schooling-registrations.createdAt', '>=', new Date('2020-08-15T00:00:00Z'))
+        .first();
+      prescriber.areNewYearStudentsImported = Boolean(atLeastOneSchoolingRegistration);
+
+      return prescriber;
     } catch (err) {
       if (err instanceof BookshelfUser.NotFoundError) {
         throw new UserNotFoundError(`User not found for ID ${userId}`);
