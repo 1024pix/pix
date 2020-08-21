@@ -18,5 +18,7 @@
         {{t 'pages.skill-review.stage.masteryPercentage' percentage=@percentage}}
       </div>
     </div>
-    <img class="reached-stage__image" src={{ @imageUrl }}  alt=""/>
+    {{#if @imageUrl}}
+      <img class="reached-stage__image" src={{ @imageUrl }}  alt=""/>
+    {{/if}}
  </div>
