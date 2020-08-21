@@ -6,54 +6,66 @@ const { WrongDateFormatError } = require('../../../domain/errors');
 const { NO_EXAMINER_COMMENT } = require('../../../domain/models/CertificationReport');
 const { isValidDate } = require('../../utils/date-utils');
 
+const typeForAttribute = (attribute) => {
+  if (attribute === 'resultCompetenceTree') {
+    return 'result-competence-trees';
+  }
+  if (attribute === 'resultCompetences') {
+    return 'result-competences';
+  }
+};
+
+const attributes = [
+  'certificationCenter',
+  'birthdate',
+  'birthplace',
+  'date',
+  'firstName',
+  'deliveredAt',
+  'isPublished',
+  'lastName',
+  'status',
+  'pixScore',
+  'resultCompetenceTree',
+  'cleaCertificationStatus',
+];
+
+const resultCompetenceTree = {
+  included: true,
+  ref: 'id',
+  // XXX: the jsonapi-serializer lib needs at least one attribute outside relationships
+  attributes: ['id', 'areas'],
+
+  areas: {
+    included: true,
+    ref: 'id',
+    attributes: ['code', 'name', 'title', 'color', 'resultCompetences'],
+
+    resultCompetences: {
+      included: true,
+      ref: 'id',
+      type: 'result-competences',
+      attributes: ['index', 'level', 'name', 'score'],
+    }
+  }
+};
+
 module.exports = {
 
-  serialize(certification) {
-
+  serialize(certificate) {
     return new Serializer('certifications', {
-      typeForAttribute(attribute) {
-        if (attribute === 'resultCompetenceTree') {
-          return 'result-competence-trees';
-        }
-        if (attribute === 'resultCompetences') {
-          return 'result-competences';
-        }
-      },
-      attributes: [
-        'certificationCenter',
-        'birthdate',
-        'birthplace',
-        'date',
-        'firstName',
-        'deliveredAt',
-        'isPublished',
-        'lastName',
-        'status',
-        'pixScore',
-        'commentForCandidate',
-        'resultCompetenceTree',
-        'cleaCertificationStatus',
-      ],
-      resultCompetenceTree: {
-        included: true,
-        ref: 'id',
-        // XXX: the jsonapi-serializer lib needs at least one attribute outside relationships
-        attributes: ['id', 'areas'],
+      typeForAttribute,
+      attributes: [ ...attributes, 'commentForCandidate'],
+      resultCompetenceTree,
+    }).serialize(certificate);
+  },
 
-        areas: {
-          included: true,
-          ref: 'id',
-          attributes: ['code', 'name', 'title', 'color', 'resultCompetences'],
-
-          resultCompetences: {
-            included: true,
-            ref: 'id',
-            type: 'result-competences',
-            attributes: ['index', 'level', 'name', 'score'],
-          },
-        },
-      },
-    }).serialize(certification);
+  serializeForSharing(certificate) {
+    return new Serializer('certifications', {
+      typeForAttribute,
+      attributes,
+      resultCompetenceTree,
+    }).serialize(certificate);
   },
 
   serializeFromCertificationCourse(certificationCourse) {

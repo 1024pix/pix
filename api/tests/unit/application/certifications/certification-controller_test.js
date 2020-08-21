@@ -37,7 +37,7 @@ describe('Unit | Controller | certifications-controller', () => {
 
   describe('#getCertification', () => {
 
-    const certification = domainBuilder.buildCertificationWithCompetenceTree();
+    const certification = domainBuilder.buildPrivateCertificateWithCompetenceTree();
     const serializedCertification = '{JSON}';
     const userId = 1;
 
@@ -47,23 +47,48 @@ describe('Unit | Controller | certifications-controller', () => {
     };
 
     beforeEach(() => {
-      sinon.stub(usecases, 'getUserCertificationWithResultTree');
+      sinon.stub(usecases, 'getPrivateCertificate');
       sinon.stub(certificationSerializer, 'serialize').returns(serializedCertification);
     });
 
     it('should return a serialized certification when use case returns a certification', async () => {
       // given
-      usecases.getUserCertificationWithResultTree.resolves(certification);
+      usecases.getPrivateCertificate.resolves(certification);
 
       // when
       const response = await certificationController.getCertification(request, hFake);
 
       // then
-      expect(usecases.getUserCertificationWithResultTree).to.have.been.calledWith({
+      expect(usecases.getPrivateCertificate).to.have.been.calledWith({
         userId,
         certificationId: certification.id,
       });
       expect(certificationSerializer.serialize).to.have.been.calledWith(certification);
+      expect(response).to.deep.equal(serializedCertification);
+    });
+  });
+
+  describe('#getCertificationByVerificationCode', () => {
+    const certification = domainBuilder.buildPrivateCertificateWithCompetenceTree();
+    const serializedCertification = '{JSON}';
+
+    const verificationCode = 'P-123456-500';
+    const request = { payload: { verificationCode } };
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'getShareableCertificate');
+      sinon.stub(certificationSerializer, 'serializeForSharing');
+    });
+
+    it('should return a serialized certification when use case returns a certification', async () => {
+      // given
+      usecases.getShareableCertificate.withArgs({ verificationCode }).resolves(certification);
+      certificationSerializer.serializeForSharing.withArgs(certification).returns(serializedCertification);
+
+      // when
+      const response = await certificationController.getCertificationByVerificationCode(request, hFake);
+
+      // then
       expect(response).to.deep.equal(serializedCertification);
     });
   });
