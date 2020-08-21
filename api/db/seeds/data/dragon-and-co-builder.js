@@ -46,6 +46,7 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
   const privateTargetProfile = databaseBuilder.factory.buildTargetProfile({
     id: 2,
     name: 'Résoudre des problèmes techniques (compétence 5.1)',
+    imageUrl: 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/profil-cible/Illu_classe2.svg',
     isPublic: false,
     organizationId: dragonAndCoCompany.id,
   });
