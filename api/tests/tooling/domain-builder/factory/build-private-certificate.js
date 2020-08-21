@@ -17,6 +17,7 @@ module.exports = function buildCertification({
   status,
   cleaCertificationStatus = 'acquired',
   resultCompetenceTree = null,
+  verificationCode = 'P-BBBCCCDD',
 } = {}) {
   const assessmentResult = buildAssessmentResult();
   return new PrivateCertificate({
@@ -35,5 +36,6 @@ module.exports = function buildCertification({
     status: status || assessmentResult.status,
     resultCompetenceTree,
     cleaCertificationStatus,
+    verificationCode,
   });
 };
