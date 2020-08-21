@@ -15,6 +15,7 @@ class PrivateCertificate {
     commentForCandidate,
     cleaCertificationStatus,
     resultCompetenceTree = null,
+    verificationCode,
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -31,6 +32,7 @@ class PrivateCertificate {
     this.commentForCandidate = commentForCandidate;
     this.cleaCertificationStatus = cleaCertificationStatus;
     this.resultCompetenceTree = resultCompetenceTree;
+    this.verificationCode = verificationCode;
   }
 }
 
