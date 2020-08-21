@@ -1,0 +1,35 @@
+@startuml
+actor utilisateur #blue
+participant navigateur
+participant GAR
+
+box "PIX" #LightBlue
+participant MonPix
+participant PixAPI
+participant DB
+end box
+
+== Connexion au GAR ==
+utilisateur -> navigateur: saisit identifiant et mot de passe \net clique sur "Login"
+navigateur -> GAR : POST /auth/login \nQP: email=<EMAIL>&password=<PASSWORD>
+GAR -> navigateur: 302_FOUND Header Set-Cookie: oneSessionId="090967(..)khpt0TA="
+navigateur -> GAR : GET / \n Header Cookie: oneSessionId="090967(..)khpt0TA="
+GAR -> navigateur: 301_MOVED_PERMANENTLY \n Location: timeline/timeline
+navigateur -> utilisateur: affiche page d'accueil
+navigateur -> GAR: GET /auth/oauth2/userinfo \n _=1597323765653
+GAR -> navigateur: 200_OK \n { lastName, firstName, birthDate, \n level:'TERMINALE', type: ELEVE, uai, structuresNames: ['LYCEE Y'], \n authorizedActions, apps (..)}
+utilisateur -> navigateur :  clique sur applications, \n puis sur Mediacentre
+navigateur  -> GAR : /mediacentre
+navigateur -> utilisateur : affiche les applications disponibles
+== Connexion à Pix ==
+utilisateur -> navigateur : clique sur Pix
+navigateur -> GAR : GET /idp/profile/SAML2/Callback?\nentityId=https://app.pix.fr/api/saml/metadata.xml\n SAMLRequest=PD9(..)c3Q\n => SAMLRequest attributes= { IDO: f93(..)0d1, PRE: [Ana], NOM: [Adam], \nUAI: 0561607T, PRO: ['National_evl'] }
+GAR -> navigateur: redirection MonPix (formulaire)
+navigateur -> PixAPI : POST /saml/assert \nSAMLResponse=PD9(..)c3Q
+PixAPI -> DB: SELECT users.samlId='f93584(..)590d1' ?
+PixAPI -> DB: INSERT INTO users - samlId='f93584(..)590d1'
+PixAPI -> navigateur: 302_FOUND \n location: /?token=eyJhbGc(..)5AE&user-id=221184
+navigateur -> MonPix : GET / \nQP: token=eyJhbGc(..)5AE&user-id=221184
+MonPix -> navigateur : 200 <HTML_PAGE_ACCUEIL>
+navigateur -> MonPix : GET /users/me \n Header Authorization: Bearer eyJhbGc(..)5AE
+@enduml
