@@ -109,23 +109,6 @@ describe('Integration | Infrastructure | Repository | Prescriber', () => {
       expect(foundPrescriber.memberships[1].id).to.equal(3000001);
     });
 
-    context('when the membership associated to the prescriber has been disabled', () => {
-
-      it('should not return membership', async () => {
-        // given
-        const userId = databaseBuilder.factory.buildUser().id;
-        const organizationId = databaseBuilder.factory.buildOrganization().id;
-        databaseBuilder.factory.buildMembership({ userId, organizationId, disabledAt: new Date() });
-        await databaseBuilder.commit();
-
-        // when
-        const foundPrescriber = await prescriberRepository.getPrescriber(userId);
-
-        // then
-        expect(foundPrescriber.memberships).to.be.empty;
-      });
-    });
-
     it('should return user-orga-settings associated to the prescriber', async () => {
       // given
       expectedPrescriber.userOrgaSettings = userOrgaSettings;
@@ -152,6 +135,76 @@ describe('Integration | Infrastructure | Repository | Prescriber', () => {
 
       // then
       expect(foundPrescriber).to.be.an.instanceOf(Prescriber);
+    });
+
+    context('when prescriber has a user-orga-settings', () => {
+
+      it('should return areNewYearStudentsImported as true if there is at least one schooling-registrations created after 2020-08-15 for the organization of the user-orga-settings', async () => {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        databaseBuilder.factory.buildMembership({ userId, organizationId });
+        databaseBuilder.factory.buildUserOrgaSettings({ userId, currentOrganizationId: organizationId });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, createdAt: new Date('2020-08-17') });
+        await databaseBuilder.commit();
+
+        // when
+        const foundPrescriber = await prescriberRepository.getPrescriber(userId);
+
+        // then
+        expect(foundPrescriber.areNewYearStudentsImported).to.be.true;
+      });
+
+      it('should return areNewYearStudentsImported as false if there is no schooling-registrations created after 2020-08-15 for the organization of the user-orga-settings', async () => {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        databaseBuilder.factory.buildMembership({ userId, organizationId });
+        databaseBuilder.factory.buildUserOrgaSettings({ userId, currentOrganizationId: organizationId });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, createdAt: new Date('2020-07-17') });
+        await databaseBuilder.commit();
+
+        // when
+        const foundPrescriber = await prescriberRepository.getPrescriber(userId);
+
+        // then
+        expect(foundPrescriber.areNewYearStudentsImported).to.be.false;
+      });
+
+    });
+
+    context('when prescriber does not have a user-orga-settings', () => {
+
+      it('should return areNewYearStudentsImported as true if there is at least one schooling-registrations created after 2020-08-15 for the organization of the first membership', async () => {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        databaseBuilder.factory.buildMembership({ userId, organizationId });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, createdAt: new Date('2020-08-17') });
+        await databaseBuilder.commit();
+
+        // when
+        const foundPrescriber = await prescriberRepository.getPrescriber(userId);
+
+        // then
+        expect(foundPrescriber.areNewYearStudentsImported).to.be.true;
+      });
+
+      it('should return areNewYearStudentsImported as false if there is no schooling-registrations created after 2020-08-15 for the organization of the first membership', async () => {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        databaseBuilder.factory.buildMembership({ userId, organizationId });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, createdAt: new Date('2020-07-17') });
+        await databaseBuilder.commit();
+
+        // when
+        const foundPrescriber = await prescriberRepository.getPrescriber(userId);
+
+        // then
+        expect(foundPrescriber.areNewYearStudentsImported).to.be.false;
+      });
+
     });
   });
 
