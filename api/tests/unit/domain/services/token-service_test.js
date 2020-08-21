@@ -2,8 +2,35 @@ const { expect } = require('../../../test-helper');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const User = require('../../../../lib/domain/models/User');
 const { InvalidTemporaryKeyError } = require('../../../../lib/domain/errors');
+const settings = require('../../../../lib/config');
+const jsonwebtoken = require('jsonwebtoken');
+const _ = require('lodash');
 
 describe('Unit | Domain | Service | Token Service', function() {
+
+  describe('#createTokenForStudentReconciliation', () => {
+
+    it('should create token with firstName, lastName, samlId', () => {
+      // given
+      const userAttributes = {
+        IDO: 'IDO-for-adele',
+        NOM: 'Lopez',
+        PRE: 'Adèle',
+      };
+      const expectedTokenAttributes = {
+        'first_name': 'Adèle',
+        'last_name': 'Lopez',
+        'saml_id': 'IDO-for-adele'
+      };
+
+      // when
+      const token = tokenService.createTokenForStudentReconciliation({ userAttributes });
+
+      // then
+      const decodedToken = jsonwebtoken.verify(token, settings.authentication.secret);
+      expect(_.omit(decodedToken, ['iat', 'exp'])).to.deep.equal(expectedTokenAttributes);
+    });
+  });
 
   describe('#extractUserId', () => {
 

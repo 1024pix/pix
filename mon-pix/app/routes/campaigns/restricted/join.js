@@ -1,9 +1,8 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
-import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 import { isEmpty } from '@ember/utils';
 
-export default class JoinRoute extends Route.extend(SecuredRouteMixin) {
+export default class JoinRoute extends Route {
   @service currentUser;
   @service session;
 
@@ -12,16 +11,18 @@ export default class JoinRoute extends Route.extend(SecuredRouteMixin) {
   }
 
   async redirect(campaign) {
-    let schoolingRegistration = await this.store.queryRecord('schooling-registration-user-association', { userId: this.currentUser.user.id, campaignCode: campaign.code });
+    if (!this.session.get('data.externalUser')) {
+      let schoolingRegistration = await this.store.queryRecord('schooling-registration-user-association', { userId: this.currentUser.user.id, campaignCode: campaign.code });
 
-    if (isEmpty(schoolingRegistration) && campaign.organizationType === 'SCO') {
-      schoolingRegistration = await this.store.createRecord('schooling-registration-user-association', { userId: this.currentUser.user.id, campaignCode: campaign.code }).save({ adapterOptions: { tryReconciliation: true } });
-    }
+      if (isEmpty(schoolingRegistration) && campaign.organizationType === 'SCO') {
+        schoolingRegistration = await this.store.createRecord('schooling-registration-user-association', { userId: this.currentUser.user.id, campaignCode: campaign.code }).save({ adapterOptions: { tryReconciliation: true } });
+      }
 
-    if (!isEmpty(schoolingRegistration)) {
-      return this.replaceWith('campaigns.start-or-resume', campaign.code, {
-        queryParams: { associationDone: true }
-      });
+      if (!isEmpty(schoolingRegistration)) {
+        return this.replaceWith('campaigns.start-or-resume', campaign.code, {
+          queryParams: { associationDone: true }
+        });
+      }
     }
   }
 
