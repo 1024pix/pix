@@ -76,8 +76,8 @@ describe('Acceptance | API | Certifications', () => {
             'last-name': certificationCourse.lastName,
             'pix-score': assessmentResult.pixScore,
             'status': assessmentResult.status,
-            'clea-certification-status': 'not_passed'
-
+            'clea-certification-status': 'not_passed',
+            'verification-code': certificationCourse.verificationCode,
           },
           relationships: {
             'result-competence-tree': {
@@ -184,8 +184,8 @@ describe('Acceptance | API | Certifications', () => {
             'last-name': certificationCourse.lastName,
             'pix-score': assessmentResult.pixScore,
             'status': assessmentResult.status,
-            'clea-certification-status': 'not_passed'
-
+            'clea-certification-status': 'not_passed',
+            'verification-code': certificationCourse.verificationCode,
           },
           'id': `${certificationCourse.id}`,
           'relationships': {
