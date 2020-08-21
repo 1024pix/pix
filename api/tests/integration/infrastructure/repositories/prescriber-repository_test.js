@@ -34,6 +34,7 @@ describe('Integration | Infrastructure | Repository | Prescriber', () => {
       user = databaseBuilder.factory.buildUser(userToInsert);
       organization = databaseBuilder.factory.buildOrganization();
       membership = databaseBuilder.factory.buildMembership({
+        id: 3000001,
         userId: user.id,
         organizationId: organization.id,
       });
@@ -92,6 +93,20 @@ describe('Integration | Infrastructure | Repository | Prescriber', () => {
       expect(associatedOrganization.code).to.equal(organization.code);
       expect(associatedOrganization.name).to.equal(organization.name);
       expect(associatedOrganization.type).to.equal(organization.type);
+    });
+
+    it('should return memberships ordered by id', async () => {
+      // given
+      const anotherMembership = databaseBuilder.factory.buildMembership({ id: 3000000, userId: user.id });
+      expectedPrescriber.memberships = [membership, anotherMembership];
+      await databaseBuilder.commit();
+
+      // when
+      const foundPrescriber = await prescriberRepository.getPrescriber(user.id);
+
+      // then
+      expect(foundPrescriber.memberships[0].id).to.equal(3000000);
+      expect(foundPrescriber.memberships[1].id).to.equal(3000001);
     });
 
     context('when the membership associated to the prescriber has been disabled', () => {
