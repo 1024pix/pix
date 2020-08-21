@@ -412,7 +412,7 @@ describe('Acceptance | API | Certification Course', () => {
     let userId;
     let sessionId;
 
-    beforeEach(async() => {
+    beforeEach(async () => {
       userId = databaseBuilder.factory.buildUser().id;
       sessionId = databaseBuilder.factory.buildSession({ accessCode: '123' }).id;
       const payload = {
@@ -452,34 +452,180 @@ describe('Acceptance | API | Certification Course', () => {
 
     context('when the certification course does not exist', () => {
       let certificationCandidate;
+      const learningContent = [
+        {
+          id: 'recArea0',
+          competences: [
+            {
+              id: 'recCompetence0',
+              tubes: [
+                {
+                  id: 'recTube0_0',
+                  skills: [
+                    {
+                      id: 'recSkill0_0',
+                      nom: '@recSkill0_0',
+                      challenges: [
+                        { id: 'recChallenge0_0_0' }
+                      ]
+                    },
+                    {
+                      id: 'recSkill0_1',
+                      nom: '@recSkill0_1',
+                      challenges: [
+                        { id: 'recChallenge0_1_0' }
+                      ]
+                    },
+                    {
+                      id: 'recSkill0_2',
+                      nom: '@recSkill0_2',
+                      challenges: [
+                        { id: 'recChallenge0_2_0' }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'recCompetence1',
+              tubes: [
+                {
+                  id: 'recTube1_0',
+                  skills: [
+                    {
+                      id: 'recSkill1_0',
+                      nom: '@recSkill1_0',
+                      challenges: [
+                        { id: 'recChallenge1_0_0' }
+                      ]
+                    },
+                    {
+                      id: 'recSkill1_1',
+                      nom: '@recSkill1_1',
+                      challenges: [
+                        { id: 'recChallenge1_1_0' }
+                      ]
+                    },
+                    {
+                      id: 'recSkill1_2',
+                      nom: '@recSkill1_2',
+                      challenges: [
+                        { id: 'recChallenge1_2_0' }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'recCompetence2',
+              tubes: [
+                {
+                  id: 'recTube2_0',
+                  skills: [
+                    {
+                      id: 'recSkill2_0',
+                      nom: '@recSkill2_0',
+                      challenges: [
+                        { id: 'recChallenge2_0_0' }
+                      ]
+                    },
+                    {
+                      id: 'recSkill2_1',
+                      nom: '@recSkill2_1',
+                      challenges: [
+                        { id: 'recChallenge2_1_0' }
+                      ]
+                    },
+                    {
+                      id: 'recSkill2_2',
+                      nom: '@recSkill2_2',
+                      challenges: [
+                        { id: 'recChallenge2_2_0' }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'recCompetence3',
+              tubes: [
+                {
+                  id: 'recTube3_0',
+                  skills: [
+                    {
+                      id: 'recSkill3_0',
+                      nom: '@recSkill3_0',
+                      challenges: [
+                        { id: 'recChallenge3_0_0' }
+                      ]
+                    },
+                    {
+                      id: 'recSkill3_1',
+                      nom: '@recSkill3_1',
+                      challenges: [
+                        { id: 'recChallenge3_1_0' }
+                      ]
+                    },
+                    {
+                      id: 'recSkill3_2',
+                      nom: '@recSkill3_2',
+                      challenges: [
+                        { id: 'recChallenge3_2_0' }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'recCompetence4',
+              tubes: [
+                {
+                  id: 'recTube4_0',
+                  skills: [
+                    {
+                      id: 'recSkill4_0',
+                      nom: '@recSkill4_0',
+                      challenges: [
+                        { id: 'recChallenge4_0_0' }
+                      ]
+                    },
+                    {
+                      id: 'recSkill4_1',
+                      nom: '@recSkill4_1',
+                      challenges: [
+                        { id: 'recChallenge4_1_0' }
+                      ]
+                    },
+                    {
+                      id: 'recSkill4_2',
+                      nom: '@recSkill4_2',
+                      challenges: [
+                        { id: 'recChallenge4_2_0' }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ];
 
       beforeEach(async () => {
         // given
-        const { area, competences, tubes, skills, challenges, competencesAssociatedSkillsAndChallenges } = airtableBuilder.factory.buildLearningContentForCertification();
-        airtableBuilder.mockList({ tableName: 'Domaines' })
-          .returns([area])
-          .activate();
-        airtableBuilder.mockList({ tableName: 'Competences' })
-          .returns(competences)
-          .activate();
-        airtableBuilder.mockList({ tableName: 'Tubes' })
-          .returns(tubes)
-          .activate();
-        airtableBuilder.mockList({ tableName: 'Acquis' })
-          .returns(skills)
-          .activate();
-        airtableBuilder.mockList({ tableName: 'Epreuves' })
-          .returns(challenges)
-          .activate();
-
+        const airTableObjects = airtableBuilder.factory.buildLearningContent(learningContent);
+        airtableBuilder.mockLists(airTableObjects);
         certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
-        const assessmentId = databaseBuilder.factory.buildAssessment({ userId }).id;
-        const commonUserIdAssessmentIdAndEarnedPixForAllKEs = { userId, assessmentId, earnedPix: 4 };
-        competencesAssociatedSkillsAndChallenges.forEach((element) => {
-          const { challengeId, competenceId } = element;
-          const answerId = databaseBuilder.factory.buildAnswer({ assessmentId, challengeId }).id;
-          databaseBuilder.factory.buildKnowledgeElement({ ...commonUserIdAssessmentIdAndEarnedPixForAllKEs, competenceId, answerId });
+        databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent({
+          learningContent,
+          userId,
+          earnedPix: 4
         });
+
         await databaseBuilder.commit();
 
         // when
@@ -547,5 +693,5 @@ describe('Acceptance | API | Certification Course', () => {
     });
 
   });
-
 });
+
