@@ -25,7 +25,7 @@ module.exports = {
 
     try {
       if (features.garAccessV2) {
-        const externalUserToken = tokenService.createTokenForStudentReconciliation({ userAttributes });
+        const externalUserToken = tokenService.createIdTokenForUserReconciliation({ userAttributes });
 
         return h.redirect(`/campagnes?externalUser=${externalUserToken}`);
       }

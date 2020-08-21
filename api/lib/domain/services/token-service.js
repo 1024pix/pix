@@ -15,12 +15,11 @@ function createTokenForCampaignResults(userId) {
   }, settings.authentication.secret, { expiresIn: settings.authentication.tokenForCampaignResultLifespan });
 }
 
-function createTokenForStudentReconciliation({ userAttributes }) {
-  const { attributeMapping } = settings.saml;
+function createIdTokenForUserReconciliation(externalUser) {
   return jsonwebtoken.sign({
-    first_name: userAttributes[attributeMapping.firstName],
-    last_name: userAttributes[attributeMapping.lastName],
-    saml_id: userAttributes[attributeMapping.samlId]
+    first_name: externalUser.firstName,
+    last_name: externalUser.lastName,
+    saml_id: externalUser.samlId
   }, settings.authentication.secret, { expiresIn: settings.authentication.tokenForStudentReconciliationLifespan });
 }
 
@@ -73,7 +72,7 @@ async function extractExternalUserFromIdToken(token) {
 module.exports = {
   createAccessTokenFromUser,
   createTokenForCampaignResults,
-  createTokenForStudentReconciliation,
+  createIdTokenForUserReconciliation,
   extractExternalUserFromIdToken,
   extractUserIdForCampaignResults,
   extractUserId,
