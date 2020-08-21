@@ -8,7 +8,7 @@
       <div class="join-restricted-campaign__title">Rejoignez l'organisation {{@model.organizationName}}</div>
       <div class="join-restricted-campaign__subtitle">Remplissez les informations manquantes</div>
       {{#if (eq @model.organizationType "SCO")}}
-        <Routes::Campaigns::Restricted::JoinSco @campaignCode={{@model.code}} @onSubmitToReconcile={{this.reconcile}} />
+        <Routes::Campaigns::Restricted::JoinSco @campaignCode={{@model.code}} @onSubmitToCreateAndReconcile={{this.createAndReconcile}} @onSubmitToReconcile={{this.reconcile}} />
       {{else}}
         <Routes::Campaigns::Restricted::JoinSup @campaignCode={{@model.code}} @onSubmitToReconcile={{this.reconcile}} />
       {{/if}}

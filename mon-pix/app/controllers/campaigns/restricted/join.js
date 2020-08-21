@@ -9,6 +9,7 @@ export default class JoinRestrictedCampaignController extends Controller {
   @service session;
   @service store;
   @service intl;
+  @service currentUser;
 
   @action
   reconcile(schoolingRegistration, adapterOptions) {
@@ -16,6 +17,19 @@ export default class JoinRestrictedCampaignController extends Controller {
       this.transitionToRoute('campaigns.start-or-resume', this.model.code, {
         queryParams: { associationDone: true, participantExternalId: this.participantExternalId }
       });
+    });
+  }
+
+  @action
+  async createAndReconcile(externalUser) {
+    const response = await externalUser.save();
+
+    this.session.set('data.externalUser', null);
+    await this.session.authenticate('authenticator:oauth2', { token: response.accessToken });
+    await this.currentUser.load();
+
+    return this.transitionToRoute('campaigns.start-or-resume', this.model.code, {
+      queryParams: { associationDone: true, participantExternalId: this.participantExternalId }
     });
   }
 }
