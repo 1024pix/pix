@@ -6,6 +6,7 @@ const _ = require('lodash');
 module.exports = function buildTargetProfile({
   id,
   name = faker.name.jobTitle(),
+  imageUrl = null,
   isPublic = faker.random.boolean(),
   organizationId,
   createdAt = faker.date.recent(),
@@ -17,6 +18,7 @@ module.exports = function buildTargetProfile({
   const values = {
     id,
     name,
+    imageUrl,
     isPublic,
     organizationId,
     createdAt,

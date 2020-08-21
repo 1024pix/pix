@@ -27,7 +27,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
           organizationName: 'College Victor Hugo',
           organizationType: 'SCO',
           idPixLabel: 'company id',
-          targetProfile: domainBuilder.buildTargetProfile({ id: '123', name: 'TargetProfile1' }),
+          targetProfile: domainBuilder.buildTargetProfile({ id: '123', name: 'TargetProfile1', imageUrl: 'http://url.fr' }),
           type: 'ASSESSMENT'
         });
 
@@ -83,7 +83,8 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
           included: [
             {
               attributes: {
-                name: 'TargetProfile1'
+                name: 'TargetProfile1',
+                'image-url': 'http://url.fr',
               },
               id: '123',
               type: 'targetProfiles'
@@ -128,7 +129,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
           organizationName: 'College Victor Hugo',
           organizationType: 'SCO',
           idPixLabel: 'company id',
-          targetProfile: domainBuilder.buildTargetProfile({ id: '123', name: 'TargetProfile1' }),
+          targetProfile: domainBuilder.buildTargetProfile({ id: '123', name: 'TargetProfile1', imageUrl: 'http://url.fr' }),
           campaignReport,
           type: 'ASSESSMENT',
         });
@@ -189,7 +190,8 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
           included: [
             {
               attributes: {
-                name: 'TargetProfile1'
+                name: 'TargetProfile1',
+                'image-url': 'http://url.fr'
               },
               id: '123',
               type: 'targetProfiles'

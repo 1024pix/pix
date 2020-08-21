@@ -5,6 +5,7 @@ const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 module.exports = function buildTargetProfile({
   id = faker.random.number(),
   name = faker.name.jobTitle(),
+  imageUrl = faker.internet.url(),
   isPublic = faker.random.boolean(),
   skills = [buildSkill()],
   organizationId = faker.random.number(),
@@ -15,6 +16,7 @@ module.exports = function buildTargetProfile({
   return new TargetProfile({
     id,
     name,
+    imageUrl,
     isPublic,
     skills,
     organizationId,

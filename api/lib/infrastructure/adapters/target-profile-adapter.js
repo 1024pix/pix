@@ -14,6 +14,7 @@ module.exports = {
     return new TargetProfile({
       id: bookshelfTargetProfile.get('id'),
       name: bookshelfTargetProfile.get('name'),
+      imageUrl: bookshelfTargetProfile.get('imageUrl'),
       isPublic: Boolean(bookshelfTargetProfile.get('isPublic')),
       organizationId: bookshelfTargetProfile.get('organizationId'),
       outdated: bookshelfTargetProfile.get('outdated'),

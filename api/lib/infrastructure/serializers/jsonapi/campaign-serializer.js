@@ -23,7 +23,7 @@ module.exports = {
       targetProfile: {
         ref: 'id',
         included: true,
-        attributes: ['name']
+        attributes: ['name', 'imageUrl']
       },
       campaignReport: {
         ref: 'id',
