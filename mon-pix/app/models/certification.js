@@ -20,6 +20,7 @@ export default class Certification extends Model {
   @attr('string') lastName;
   @attr('number') pixScore;
   @attr('string') status;
+  @attr('string') verificationCode;
   @attr() cleaCertificationStatus;
   @attr() deliveredAt;
 
