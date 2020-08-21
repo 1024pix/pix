@@ -6,23 +6,20 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
   setupTest();
 
   let controller;
-  let storeStub;
-  let sessionStub;
-  let schoolingRegistration;
 
   beforeEach(function() {
     controller = this.owner.lookup('controller:campaigns.restricted.join');
     controller.transitionToRoute = sinon.stub();
-    schoolingRegistration = { save: sinon.stub(), unloadRecord: sinon.stub() };
-    const createschoolingRegistrationStub = sinon.stub().returns(schoolingRegistration);
-    storeStub = { createRecord: createschoolingRegistrationStub };
-    sessionStub = { data: { authenticated: { source: 'pix' } } };
-    controller.set('store', storeStub);
-    controller.set('session', sessionStub);
     controller.set('model', 'AZERTY999');
   });
 
   describe('#reconcile', function() {
+
+    let schoolingRegistration;
+
+    beforeEach(function() {
+      schoolingRegistration = { save: sinon.stub() };
+    });
 
     it('should associate user with student and redirect to campaigns.start-or-resume', async function() {
       // given
@@ -33,6 +30,42 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
 
       // then
       sinon.assert.calledOnce(schoolingRegistration.save);
+      sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.start-or-resume');
+    });
+  });
+
+  describe('#createAndReconcile', function() {
+
+    let externalUser;
+    let sessionStub;
+    let currentUserStub;
+
+    beforeEach(function() {
+      externalUser = { save: sinon.stub() };
+      sessionStub = {
+        set: sinon.stub(),
+        authenticate: sinon.stub(),
+      };
+      currentUserStub = { load: sinon.stub() };
+      controller.set('session', sessionStub);
+      controller.set('currentUser', currentUserStub);
+    });
+
+    it('should authenticate the user and redirect to campaigns.start-or-resume after save', async function() {
+      // given
+      const accessToken = 'access-token';
+      externalUser.save.resolves({ accessToken });
+      sessionStub.set.resolves();
+      sessionStub.authenticate.resolves();
+      currentUserStub.load.resolves();
+
+      // when
+      await controller.actions.createAndReconcile.call(controller, externalUser);
+
+      // then
+      sinon.assert.calledOnce(externalUser.save);
+      sinon.assert.calledWith(sessionStub.set, 'data.externalUser', null);
+      sinon.assert.calledWith(sessionStub.authenticate, 'authenticator:oauth2', { token: accessToken });
       sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.start-or-resume');
     });
   });

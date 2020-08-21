@@ -10,18 +10,23 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
   let component;
   let storeStub;
   let onSubmitToReconcileStub;
+  let onSubmitToCreateAndReconcileStub;
   let sessionStub;
   let eventStub;
-  let schoolingRegistrationUserAssociation;
+  let record;
 
   beforeEach(function() {
-    schoolingRegistrationUserAssociation = { unloadRecord: sinon.stub() };
-    const createSchoolingRegistrationUserAssociationStub = sinon.stub().returns(schoolingRegistrationUserAssociation);
-    storeStub = { createRecord: createSchoolingRegistrationUserAssociationStub };
-    sessionStub = { data: { authenticated: { source: 'pix' } } };
+    record = { unloadRecord: sinon.stub() };
+    storeStub = { createRecord: sinon.stub().returns(record) };
+    sessionStub = { data: { authenticated: { source: 'pix' } }, get: sinon.stub() };
     onSubmitToReconcileStub = sinon.stub();
+    onSubmitToCreateAndReconcileStub = sinon.stub();
     eventStub = { preventDefault: sinon.stub() };
-    component = createComponent('component:routes/campaigns/restricted/join-sco', { onSubmitToReconcile: onSubmitToReconcileStub, campaignCode: 123 });
+    component = createComponent('component:routes/campaigns/restricted/join-sco', {
+      onSubmitToReconcile: onSubmitToReconcileStub,
+      onSubmitToCreateAndReconcile: onSubmitToCreateAndReconcileStub,
+      campaignCode: 123
+    });
     component.store = storeStub;
     component.session = sessionStub;
   });
@@ -320,6 +325,15 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       component.yearOfBirth = '2000';
     });
 
+    it('should prevent default handling of event', async function() {
+      // given
+      // when
+      await component.actions.submit.call(component, eventStub);
+
+      // then
+      sinon.assert.called(eventStub.preventDefault);
+    });
+
     it('should display an error on firstName', async function() {
       // given
       component.firstName = ' ';
@@ -380,34 +394,50 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       expect(component.validation.yearOfBirth).to.equal('Votre année de naissance n’est pas valide.');
     });
 
-    it('should associate user with student and redirect to campaigns.start-or-resume', async function() {
-      // given
-      const schoolingRegistration = Symbol('registration');
-      storeStub.createRecord.withArgs(
-        'schooling-registration-user-association',
-        {
-          id: `${component.args.campaignCode}_${component.lastName}`,
-          firstName: component.firstName,
-          lastName: component.lastName,
-          birthdate: component.birthdate,
-          campaignCode: component.args.campaignCode,
-        }
-      ).returns(schoolingRegistration);
+    context('When user is logged', function() {
 
-      // when
-      await component.actions.submit.call(component, eventStub);
+      it('should associate user with student and redirect to campaigns.start-or-resume', async function() {
+        // given
+        const schoolingRegistration = Symbol('registration');
+        storeStub.createRecord.withArgs(
+          'schooling-registration-user-association',
+          {
+            id: `${component.args.campaignCode}_${component.lastName}`,
+            firstName: component.firstName,
+            lastName: component.lastName,
+            birthdate: component.birthdate,
+            campaignCode: component.args.campaignCode,
+          }
+        ).returns(schoolingRegistration);
 
-      // then
-      sinon.assert.calledWith(onSubmitToReconcileStub, schoolingRegistration);
+        // when
+        await component.actions.submit.call(component, eventStub);
+
+        // then
+        sinon.assert.calledWith(onSubmitToReconcileStub, schoolingRegistration);
+      });
     });
 
-    it('should prevent default handling of event', async function() {
-      // given
-      // when
-      await component.actions.submit.call(component, eventStub);
+    context('When user comes from external identity provider', function() {
 
-      // then
-      sinon.assert.called(eventStub.preventDefault);
+      it('should call createAndReconcile action', async function() {
+        // given
+        const externalUserToken = 'external-user-token';
+        sessionStub.get.withArgs('data.externalUser').returns(externalUserToken);
+
+        const externalUser = Symbol('external-user');
+        storeStub.createRecord.withArgs('external-user', {
+          birthdate: component.birthdate,
+          campaignCode: component.args.campaignCode,
+          externalUserToken
+        }).returns(externalUser);
+
+        // when
+        await component.actions.submit.call(component, eventStub);
+
+        // then
+        sinon.assert.calledWith(onSubmitToCreateAndReconcileStub, externalUser);
+      });
     });
 
     describe('Errors', function() {
@@ -427,7 +457,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
         await component.actions.submit.call(component, eventStub);
 
         // then
-        sinon.assert.calledOnce(schoolingRegistrationUserAssociation.unloadRecord);
+        sinon.assert.calledOnce(record.unloadRecord);
         expect(component.errorMessage).to.equal('Vous êtes un élève ? <br/> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.<br/> <br/> Vous êtes un enseignant ? <br/> L‘accès à un parcours n‘est pas disponible pour le moment.');
       });
 
@@ -451,8 +481,8 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
             await component.actions.submit.call(component, eventStub);
 
             // then
-            sinon.assert.calledOnce(schoolingRegistrationUserAssociation.unloadRecord);
-            expect(component.errorMessage).to.equal(expectedErrorMessage);
+            sinon.assert.calledOnce(record.unloadRecord);
+            expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
             expect(component.isLoading).to.equal(false);
           });
 
@@ -476,8 +506,8 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
             await component.actions.submit.call(component, eventStub);
 
             // then
-            sinon.assert.calledOnce(schoolingRegistrationUserAssociation.unloadRecord);
-            expect(component.errorMessage).to.equal(expectedErrorMessage);
+            sinon.assert.calledOnce(record.unloadRecord);
+            expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
             expect(component.isLoading).to.equal(false);
           });
 
@@ -501,8 +531,8 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
             await component.actions.submit.call(component, eventStub);
 
             // then
-            sinon.assert.calledOnce(schoolingRegistrationUserAssociation.unloadRecord);
-            expect(component.errorMessage).to.equal(expectedErrorMessage);
+            sinon.assert.calledOnce(record.unloadRecord);
+            expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
             expect(component.isLoading).to.equal(false);
           });
 
@@ -526,8 +556,8 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
             await component.actions.submit.call(component, eventStub);
 
             // then
-            sinon.assert.calledOnce(schoolingRegistrationUserAssociation.unloadRecord);
-            expect(component.errorMessage).to.equal(expectedErrorMessage);
+            sinon.assert.calledOnce(record.unloadRecord);
+            expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
             expect(component.isLoading).to.equal(false);
           });
 
@@ -551,8 +581,8 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
             await component.actions.submit.call(component, eventStub);
 
             // then
-            sinon.assert.calledOnce(schoolingRegistrationUserAssociation.unloadRecord);
-            expect(component.errorMessage).to.equal(expectedErrorMessage);
+            sinon.assert.calledOnce(record.unloadRecord);
+            expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
             expect(component.isLoading).to.equal(false);
           });
 
@@ -576,8 +606,8 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
             await component.actions.submit.call(component, eventStub);
 
             // then
-            sinon.assert.calledOnce(schoolingRegistrationUserAssociation.unloadRecord);
-            expect(component.errorMessage).to.equal(expectedErrorMessage);
+            sinon.assert.calledOnce(record.unloadRecord);
+            expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
             expect(component.isLoading).to.equal(false);
           });
 
@@ -601,8 +631,8 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
             await component.actions.submit.call(component, eventStub);
 
             // then
-            sinon.assert.calledOnce(schoolingRegistrationUserAssociation.unloadRecord);
-            expect(component.errorMessage).to.equal(expectedErrorMessage);
+            sinon.assert.calledOnce(record.unloadRecord);
+            expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
             expect(component.isLoading).to.equal(false);
           });
         });
