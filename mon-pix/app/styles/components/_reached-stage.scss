@@ -1,56 +1,12 @@
 .reached-stage {
-  &__left-container {
-    display: flex;
-    flex-direction: column;
-    background: $white;
-    border: 1px solid rgb(231, 231, 231);
-    border-radius: 16px;
-    min-width: 300px;
-    margin: 0 auto;
-  }
+  display: flex;
+  flex-direction: column;
+  background: $white;
+  border: 1px solid rgb(231, 231, 231);
+  border-radius: 16px;
+  min-width: 300px;
+  margin: 0 auto;
 
-  &__percentage-text {
-    font-family: $font-roboto;
-    font-size: 0.875rem;
-    font-weight: $font-medium;
-    color: $grey-40;
-    text-align: center;
-  }
-  &__stars {
-    text-align: center;
-  }
-  &__stars img {
-    margin: 3px;
-    padding-bottom: 16px;
-  }
-
-  &__right-container {
-    padding: 20px 40px 0 40px;
-    text-align: center;
-
-    @include device-is('tablet') {
-      text-align: left;
-    }
-  }
-
-  &__title {
-    font-family: $font-open-sans;
-    font-size: 1.875rem;
-    font-weight: $font-bold;
-    color: $grey-100;
-    padding-bottom: 10px;
-  }
-
-  &__message {
-    font-family: $font-open-sans;
-    font-size: 1.125rem;
-    font-weight: $font-normal;
-    color: $grey-45;
-    line-height: 1.8rem;
-  }
-}
-
-.reached-stage-left-container {
   &__score {
     padding: 43px 26px 20px;
   }
@@ -59,5 +15,22 @@
     width: 100%;
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
+  }
+}
+
+.reached-stage-score {
+  &__stars {
+    text-align: center;
+  }
+  &__stars img {
+    margin: 3px;
+    padding-bottom: 16px;
+  }
+  &__percentage-text {
+    font-family: $font-roboto;
+    font-size: 0.875rem;
+    font-weight: $font-medium;
+    color: $grey-40;
+    text-align: center;
   }
 }
