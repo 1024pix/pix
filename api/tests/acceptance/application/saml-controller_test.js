@@ -176,106 +176,62 @@ describe('Acceptance | Controller | saml-controller', () => {
       }
     }
 
-    context('When garAccessV2 is disabled', () => {
+    const firstName = 'Saml';
+    const lastName = 'Jackson';
+    const samlId = 'IDO-for-saml-jackson';
+    let validSamlResponse;
 
-      let goodSamlResponse, firstVisitResponse;
+    beforeEach(async () => {
+      await knex('users').delete();
 
-      beforeEach(async () => {
-        settings.features.garAccessV2 = false;
-
-        await knex('users').delete();
-
-        goodSamlResponse = await buildLoginResponse({
-          'IDO': 'IDO-for-adele',
-          'NOM': 'Lopez',
-          'PRE': 'Adèle',
-        });
-
-        // when
-        return firstVisitResponse = await server.inject({
-          method: 'POST',
-          url: '/api/saml/assert',
-          payload: {
-            SAMLResponse: goodSamlResponse.context
-          }
-        });
-      });
-
-      afterEach(() => {
-        return knex('users').delete();
-      });
-
-      it('should consume valid SAML assertion and create user', () => {
-        // then
-        expect(firstVisitResponse.statusCode).to.equal(302);
-        expect(firstVisitResponse.headers.location).to.match(/^\/\?token=[-_a-zA-Z0-9.]+&user-id=[0-9]+$/);
-      });
-
-      it('should retrieve the user on a second visit', async () => {
-        // when
-        const secondVisitResponse = await server.inject({
-          method: 'POST',
-          url: '/api/saml/assert',
-          payload: {
-            SAMLResponse: goodSamlResponse.context
-          }
-        });
-
-        // then
-        expect(secondVisitResponse.statusCode).to.equal(302);
-        expect(await knex('users').count('id as n')).to.deep.equal([{ n: 1 }]);
-      });
-
-      it('should create another user for a different SAML ID', async () => {
-        // when
-        const otherUserSamlResponse = await buildLoginResponse({
-          'IDO': 'IDO-for-victoria',
-          'NOM': 'Hubert',
-          'PRE': 'Victoria',
-        });
-
-        const otherUserResponse = await server.inject({
-          method: 'POST',
-          url: '/api/saml/assert',
-          payload: {
-            SAMLResponse: otherUserSamlResponse.context
-          }
-        });
-
-        // then
-        expect(otherUserResponse.statusCode).to.equal(302);
-        expect(await knex('users').count('id as n')).to.deep.equal([{ n: 2 }]);
+      validSamlResponse = await buildLoginResponse({
+        'IDO': samlId,
+        'NOM': lastName,
+        'PRE': firstName,
       });
     });
 
-    context('When garAccessV2 is enabled', () => {
+    afterEach(() => {
+      return knex('users').delete();
+    });
 
-      let goodSamlResponse, firstVisitResponse;
-
-      beforeEach(async () => {
-        settings.features.garAccessV2 = true;
-
-        goodSamlResponse = await buildLoginResponse({
-          'IDO': 'IDO-for-adele',
-          'NOM': 'Lopez',
-          'PRE': 'Adèle',
-        });
-
-        // when
-        return firstVisitResponse = await server.inject({
-          method: 'POST',
-          url: '/api/saml/assert',
-          payload: {
-            SAMLResponse: goodSamlResponse.context
-          }
-        });
+    it('should return externalUser idToken if the user does not a have an account yet', async () => {
+      // when
+      const firstVisitResponse = await server.inject({
+        method: 'POST',
+        url: '/api/saml/assert',
+        payload: {
+          SAMLResponse: validSamlResponse.context
+        }
       });
 
-      it('should consume valid SAML assertion create student reconciliation token', () => {
-        // then
-        expect(firstVisitResponse.statusCode).to.equal(302);
-        expect(firstVisitResponse.headers.location).to.match(/^\/campagnes\?externalUser=[-_a-zA-Z0-9.]+$/);
+      // then
+      expect(firstVisitResponse.statusCode).to.equal(302);
+      expect(firstVisitResponse.headers.location).to.match(/^\/campagnes\?externalUser=[-_a-zA-Z0-9.]+$/);
+    });
+
+    it('should return an accessToken if the user already exists', async () => {
+      // given
+      await knex('users').insert({
+        firstName,
+        lastName,
+        samlId,
+        password: '',
+        cgu: false
       });
+
+      // when
+      const response = await server.inject({
+        method: 'POST',
+        url: '/api/saml/assert',
+        payload: {
+          SAMLResponse: validSamlResponse.context
+        }
+      });
+
+      // then
+      expect(response.statusCode).to.equal(302);
+      expect(response.headers.location).to.match(/^\/\?token=[-_a-zA-Z0-9.]+&user-id=[0-9]+$/);
     });
   });
 });

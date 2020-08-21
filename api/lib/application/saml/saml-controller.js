@@ -2,7 +2,7 @@ const saml = require('../../infrastructure/saml');
 const usecases = require('../../domain/usecases');
 const logger = require('../../infrastructure/logger');
 const tokenService = require('../../domain/services/token-service');
-const { features } = require('../../config');
+const settings = require('../../config');
 
 module.exports = {
 
@@ -24,17 +24,9 @@ module.exports = {
     }
 
     try {
-      if (features.garAccessV2) {
-        const externalUserToken = tokenService.createIdTokenForUserReconciliation({ userAttributes });
+      const redirectionUrl = await usecases.getExternalAuthenticationRedirectionUrl({ userAttributes, tokenService, settings });
 
-        return h.redirect(`/campagnes?externalUser=${externalUserToken}`);
-      }
-
-      const user = await usecases.getOrCreateSamlUser({ userAttributes });
-
-      const token = tokenService.createAccessTokenFromUser(user, 'external');
-
-      return h.redirect(`/?token=${encodeURIComponent(token)}&user-id=${user.id}`);
+      return h.redirect(redirectionUrl);
     } catch (e) {
       logger.error(e);
       return h.response(e.toString()).code(500);
