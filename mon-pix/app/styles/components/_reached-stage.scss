@@ -1,10 +1,12 @@
 .reached-stage {
   &__left-container {
+    display: flex;
+    flex-direction: column;
     background: $white;
     border: 1px solid rgb(231, 231, 231);
     border-radius: 16px;
-    padding: 43px 26px;
     min-width: 300px;
+    margin: 0 auto;
   }
 
   &__percentage-text {
@@ -48,3 +50,14 @@
   }
 }
 
+.reached-stage-left-container {
+  &__score {
+    padding: 43px 26px 20px;
+  }
+
+  &__image {
+    width: 100%;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+  }
+}
