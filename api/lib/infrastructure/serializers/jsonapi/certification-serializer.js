@@ -55,7 +55,7 @@ module.exports = {
   serialize(certificate) {
     return new Serializer('certifications', {
       typeForAttribute,
-      attributes: [ ...attributes, 'commentForCandidate'],
+      attributes: [ ...attributes, 'commentForCandidate', 'verificationCode'],
       resultCompetenceTree,
     }).serialize(certificate);
   },
