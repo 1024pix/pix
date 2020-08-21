@@ -11,18 +11,18 @@ export default class ListItems extends Component {
   @service notifications;
 
   @tracked student = null;
-  @tracked isShowingModal = false;
+  @tracked isShowingAuthenticationMethodModal = false;
   @tracked isShowingDissociateModal = false;
 
   @action
-  openPasswordReset(student) {
+  openAuthenticationMethodModal(student) {
     this.student = student;
-    this.isShowingModal = true;
+    this.isShowingAuthenticationMethodModal = true;
   }
 
   @action
-  closePasswordReset() {
-    this.isShowingModal = false;
+  closeAuthenticationMethodModal() {
+    this.isShowingAuthenticationMethodModal = false;
   }
 
   @action

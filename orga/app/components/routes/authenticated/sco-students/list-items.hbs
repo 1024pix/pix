@@ -60,7 +60,7 @@
                   @dropdownButtonClass="list-students-page__dropdown-button"
                   @dropdownContentClass="list-students-page__dropdown-content"
                 >
-                  <Dropdown::Item @onClick={{fn this.openPasswordReset student}}>
+                  <Dropdown::Item @onClick={{fn this.openAuthenticationMethodModal student}}>
                     Gérer le compte
                   </Dropdown::Item>
                   {{#if this.currentUser.isAdminInOrganization}}
@@ -83,11 +83,11 @@
     {{/unless}}
   </div>
 
-  <PasswordResetModal
+  <ManageAuthenticationMethodModal
     @organizationId={{this.currentUser.organization.id}}
     @student={{this.student}}
-    @display={{this.isShowingModal}}
-    @close={{this.closePasswordReset}}
+    @display={{this.isShowingAuthenticationMethodModal}}
+    @close={{this.closeAuthenticationMethodModal}}
   />
   <DissociateUserModal
     @student={{this.student}}
