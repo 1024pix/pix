@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, airtableBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
@@ -46,6 +47,11 @@ describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profil
       };
 
       return databaseBuilder.commit();
+    });
+
+    afterEach(() => {
+      airtableBuilder.cleanAll();
+      return cache.flushAll();
     });
 
     describe('Success case', () => {

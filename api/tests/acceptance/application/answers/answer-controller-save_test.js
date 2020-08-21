@@ -1,4 +1,5 @@
 const { expect, knex, nock, databaseBuilder, airtableBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
+const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 const createServer = require('../../../../server');
 const BookshelfAnswer = require('../../../../lib/infrastructure/data/answer');
 
@@ -31,6 +32,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
     afterEach(() => {
       nock.cleanAll();
       airtableBuilder.cleanAll();
+      cache.flushAll();
 
       return knex('answers').delete();
     });

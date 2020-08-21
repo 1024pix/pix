@@ -1,4 +1,5 @@
 const { knex, airtableBuilder, databaseBuilder, expect, generateValidRequestAuthorizationHeader, sinon } = require('../../../test-helper');
+const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 const _ = require('lodash');
 
 const createServer = require('../../../../server');
@@ -182,6 +183,10 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
         await knex('assessments').delete();
         await knex('campaign-participations').delete();
         return airtableBuilder.cleanAll();
+      });
+
+      after(() => {
+        return cache.flushAll();
       });
 
       it('should return 200 and the updated scorecard', async () => {
