@@ -1,4 +1,4 @@
-class Certification {
+class ShareableCertificate {
   constructor({
     id,
     firstName,
@@ -12,7 +12,6 @@ class Certification {
     certificationCenter,
     pixScore,
     status,
-    commentForCandidate,
     cleaCertificationStatus,
     resultCompetenceTree = null,
   } = {}) {
@@ -28,10 +27,9 @@ class Certification {
     this.certificationCenter = certificationCenter;
     this.pixScore = pixScore;
     this.status = status;
-    this.commentForCandidate = commentForCandidate;
     this.cleaCertificationStatus = cleaCertificationStatus;
     this.resultCompetenceTree = resultCompetenceTree;
   }
 }
 
-module.exports = Certification;
+module.exports = ShareableCertificate;

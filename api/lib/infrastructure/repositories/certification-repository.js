@@ -3,7 +3,8 @@ const AssessmentResultBookshelf = require('../data/assessment-result');
 const CertificationCourseBookshelf = require('../../../lib/infrastructure/data/certification-course');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const Bookshelf = require('../bookshelf');
-const Certification = require('../../../lib/domain/models/Certification');
+const PrivateCertificate = require('../../domain/models/PrivateCertificate');
+const ShareableCertificate = require('../../domain/models/ShareableCertificate');
 const { NotFoundError, CertificationCourseNotPublishableError } = require('../../../lib/domain/errors');
 
 async function getAssessmentResultsStatusesBySessionId(id) {
@@ -46,6 +47,7 @@ function _getBaseCertificationQuery() {
       isPublished: 'certification-courses.isPublished',
       userId: 'certification-courses.userId',
       date: 'certification-courses.createdAt',
+      verificationCode: 'certification-courses.verificationCode',
       deliveredAt: 'sessions.publishedAt',
       certificationCenter: 'sessions.certificationCenter',
     })
@@ -57,17 +59,19 @@ function _getBaseCertificationQuery() {
 
 module.exports = {
 
-  async getByCertificationCourseId({ id }) {
-    const certification = await _getBaseCertificationQuery()
+  async getPrivateCertificateByCertificationCourseId({ id }) {
+    const certificationCourseDTO = await _getBaseCertificationQuery()
       .where('certification-courses.id', '=', id)
       .first();
-    if (!certification) {
+
+    if (!certificationCourseDTO) {
       throw new NotFoundError(`Not found certification for ID ${id}`);
     }
-    const latestAssessmentResult = await _getLatestAssessmentResult(id);
 
-    return new Certification({
-      ...certification,
+    const latestAssessmentResult = await _getLatestAssessmentResult(certificationCourseDTO.id);
+
+    return new PrivateCertificate({
+      ...certificationCourseDTO,
       pixScore: latestAssessmentResult && latestAssessmentResult.pixScore,
       status: latestAssessmentResult && latestAssessmentResult.status,
       commentForCandidate: latestAssessmentResult && latestAssessmentResult.commentForCandidate,
@@ -82,7 +86,7 @@ module.exports = {
     return bluebird.mapSeries(results, async (result) => {
       const latestAssessmentResult = await _getLatestAssessmentResult(result.id);
 
-      return new Certification({
+      return new PrivateCertificate({
         ...result,
         pixScore: latestAssessmentResult && latestAssessmentResult.pixScore,
         status: latestAssessmentResult && latestAssessmentResult.status,
@@ -99,5 +103,23 @@ module.exports = {
     await CertificationCourseBookshelf
       .where({ sessionId })
       .save({ isPublished: toPublish }, { method: 'update' });
-  }
+  },
+
+  async getShareableCertificateByVerificationCode({ verificationCode }) {
+    const certificationCourseDTO = await _getBaseCertificationQuery()
+      .where({ verificationCode })
+      .first();
+
+    if (!certificationCourseDTO) {
+      throw new NotFoundError('There is no certification course with this verification code');
+    }
+
+    const latestAssessmentResult = await _getLatestAssessmentResult(certificationCourseDTO.id);
+
+    return new ShareableCertificate({
+      ...certificationCourseDTO,
+      pixScore: latestAssessmentResult && latestAssessmentResult.pixScore,
+      status: latestAssessmentResult && latestAssessmentResult.status,
+    });
+  },
 };

@@ -274,7 +274,7 @@ describe('Acceptance | API | Certifications', () => {
       expect(response.result).to.deep.equal(expectedBody);
     });
 
-    it('should return unauthorized 403 HTTP status code when user is not owner of the certification', async () => {
+    it('should return notFound 404 HTTP status code when user is not owner of the certification', async () => {
       // given
       const unauthenticatedUserId = userId + 1;
       options = {
@@ -287,8 +287,219 @@ describe('Acceptance | API | Certifications', () => {
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(403);
+      expect(response.statusCode).to.equal(404);
     });
   });
 
+  describe('GET /api/shared-certifications', () => {
+    before(function() {
+      const area = airtableBuilder.factory.buildArea();
+      airtableBuilder.mockList({ tableName: 'Domaines' })
+        .returns([area])
+        .activate();
+
+      const epreuves = [
+        'rec02tVrimXNkgaLD',
+        'rec0gm0GFue3PQB3k',
+        'rec0hoSlSwCeNNLkq',
+        'rec2FcZ4jsPuY1QYt',
+        'rec39bDMnaVw3MyMR',
+        'rec3FMoD8h9USTktb',
+        'rec3P7fvPSpFkIFLV',
+      ];
+      const competences = map([{
+        id: 'recsvLz0W2ShyfD63',
+        epreuves,
+        sousDomaine: '1.1',
+        titre: 'Mener une recherche et une veille d’information',
+      }, {
+        id: 'recNv8qhaY887jQb2',
+        epreuves,
+        sousDomaine: '1.2',
+        titre: 'Gérer des données',
+      }, {
+        id: 'recIkYm646lrGvLNT',
+        epreuves,
+        sousDomaine: '1.3',
+        titre: 'Traiter des données',
+      }], (competence) => airtableBuilder.factory.buildCompetence(competence));
+
+      airtableBuilder.mockList({ tableName: 'Competences' })
+        .returns(competences)
+        .activate();
+    });
+
+    beforeEach(() => {
+      databaseBuilder.factory.buildCompetenceMark({
+        level: 3,
+        score: 23,
+        area_code: '1',
+        competence_code: '1.1',
+        assessmentResultId: assessmentResult.id,
+        acquiredPartnerCertifications: [badge.key]
+      });
+      return databaseBuilder.commit();
+    });
+
+    context('when the given verificationCode is correct', () => {
+
+      it('should return 200 HTTP status code and the certification', async () => {
+        // given
+        const pixScore = assessmentResult.pixScore;
+        const certificationVerificationCode = certificationCourse.verificationCode;
+        const verificationCode = `${certificationVerificationCode}-${pixScore}`;
+        options = {
+          method: 'POST',
+          url: '/api/shared-certifications',
+          payload: { verificationCode },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        const expectedBody = {
+          'data': {
+            'attributes': {
+              'birthdate': certificationCourse.birthdate,
+              'birthplace': certificationCourse.birthplace,
+              'certification-center': session.certificationCenter,
+              'date': certificationCourse.createdAt,
+              'first-name': certificationCourse.firstName,
+              'delivered-at': session.publishedAt,
+              'is-published': certificationCourse.isPublished,
+              'last-name': certificationCourse.lastName,
+              'pix-score': assessmentResult.pixScore,
+              'status': assessmentResult.status,
+              'clea-certification-status': 'not_passed'
+            },
+            'id': `${certificationCourse.id}`,
+            'relationships': {
+              'result-competence-tree': {
+                'data': {
+                  'id': `${certificationCourse.id}-${assessmentResult.id}`,
+                  'type': 'result-competence-trees',
+                },
+              },
+            },
+            'type': 'certifications',
+          },
+          'included': [
+            {
+              'attributes': {
+                'index': '1.1',
+                'level': 3,
+                'name': 'Mener une recherche et une veille d’information',
+                'score': 23,
+              },
+              'id': 'recsvLz0W2ShyfD63',
+              'type': 'result-competences',
+            },
+            {
+              'attributes': {
+                'index': '1.2',
+                'level': -1,
+                'name': 'Gérer des données',
+                'score': 0,
+              },
+              'id': 'recNv8qhaY887jQb2',
+              'type': 'result-competences',
+            },
+            {
+              'attributes': {
+                'index': '1.3',
+                'level': -1,
+                'name': 'Traiter des données',
+                'score': 0,
+              },
+              'id': 'recIkYm646lrGvLNT',
+              'type': 'result-competences',
+            },
+            {
+              'attributes': {
+                'code': '1',
+                'name': '1. Information et données',
+                'title': 'Information et données',
+                'color': 'jaffa',
+              },
+              'id': 'recvoGdo7z2z7pXWa',
+              'relationships': {
+                'result-competences': {
+                  'data': [
+                    {
+                      'id': 'recsvLz0W2ShyfD63',
+                      'type': 'result-competences',
+                    },
+                    {
+                      'id': 'recNv8qhaY887jQb2',
+                      'type': 'result-competences',
+                    },
+                    {
+                      'id': 'recIkYm646lrGvLNT',
+                      'type': 'result-competences',
+                    },
+                  ],
+                },
+              },
+              'type': 'areas',
+            },
+            {
+              'attributes': {
+                'id': `${certificationCourse.id}-${assessmentResult.id}`,
+              },
+              'id': `${certificationCourse.id}-${assessmentResult.id}`,
+              'relationships': {
+                'areas': {
+                  'data': [
+                    {
+                      'id': 'recvoGdo7z2z7pXWa',
+                      'type': 'areas',
+                    },
+                  ],
+                },
+              },
+              'type': 'result-competence-trees',
+            },
+          ],
+        };
+        expect(response.statusCode).to.equal(200);
+        expect(response.result).to.deep.equal(expectedBody);
+      });
+    });
+
+    context('when the given verificationCode is incorrect', () => {
+
+      it('should return 500 HTTP status code when param is missing', async () => {
+        // given
+        options = {
+          method: 'POST',
+          url: '/api/shared-certifications',
+          payload: {},
+        };
+  
+        // when
+        const response = await server.inject(options);
+  
+        // then
+        expect(response.statusCode).to.equal(500);
+      });
+
+      it('should return notFound 404 HTTP status code when param is incorrect', async () => {
+        // given
+        const verificationCode = 'P-WRONG-CODE';
+        options = {
+          method: 'POST',
+          url: '/api/shared-certifications',
+          payload: { verificationCode },
+        };
+  
+        // when
+        const response = await server.inject(options);
+  
+        // then
+        expect(response.statusCode).to.equal(404);
+      });
+    });
+
+  });
 });

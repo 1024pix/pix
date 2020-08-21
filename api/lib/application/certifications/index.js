@@ -27,6 +27,20 @@ exports.register = async function(server) {
         tags: ['api', 'certifications'],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/shared-certifications',
+      config: {
+        auth: false,
+        handler: certificationController.getCertificationByVerificationCode,
+        notes: [
+          '- **Route accessible par n\'importe qui**\n' +
+          '- Récupération des informations d’une certification d’un utilisateur' +
+          ' via un PixScore et un code de vérification',
+        ],
+        tags: ['api', 'certifications', 'shared-certifications'],
+      },
+    },
   ]);
 };
 

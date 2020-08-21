@@ -1,8 +1,8 @@
-const Certification = require('../../../../lib/domain/models/Certification');
+const PrivateCertificate = require('../../../../lib/domain/models/PrivateCertificate');
 const buildAssessmentResult = require('./build-assessment-result');
 const buildResultCompetenceTree = require('./build-result-competence-tree');
 
-module.exports = function buildCertification({
+module.exports = function buildPrivateCertificate({
   id = 1,
   assessmentResults = [buildAssessmentResult()],
   assessmentState = 'completed',
@@ -25,7 +25,7 @@ module.exports = function buildCertification({
   resultCompetenceTree = buildResultCompetenceTree({ id: `${id}-${assessmentResults[0].id}` }),
 } = {}) {
 
-  const certification = new Certification({
+  const certificate = new PrivateCertificate({
     id,
     assessmentState,
     assessmentResults,
@@ -43,17 +43,17 @@ module.exports = function buildCertification({
   });
 
   if (pixScore !== undefined) {
-    certification.pixScore = pixScore;
+    certificate.pixScore = pixScore;
   }
   if (status !== undefined) {
-    certification.status = status;
+    certificate.status = status;
   }
   if (commentForCandidate !== undefined) {
-    certification.commentForCandidate = commentForCandidate;
+    certificate.commentForCandidate = commentForCandidate;
   }
   if (commentForCandidate !== undefined) {
-    certification.commentForCandidate = commentForCandidate;
+    certificate.commentForCandidate = commentForCandidate;
   }
 
-  return certification;
+  return certificate;
 };
