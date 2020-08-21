@@ -8,11 +8,11 @@ import EmberObject from '@ember/object';
 import { triggerCopySuccess } from 'ember-cli-clipboard/test-support';
 import faker from 'faker';
 
-module('Integration | Component | password-reset-modal', function(hooks) {
+module('Integration | Component | manage-authentication-method-modal', function(hooks) {
 
   setupRenderingTest(hooks);
 
-  module('When Student is not connected with GAR method', function() {
+  module('When Student is not connected with GAR method', function(hooks) {
 
     const username = 'john.doe0112';
     const email = 'john.doe0112@example.net';
@@ -37,7 +37,7 @@ module('Integration | Component | password-reset-modal', function(hooks) {
 
       test('should render component with username field', async function(assert) {
         // when
-        await render(hbs`<PasswordResetModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
+        await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // then
         assert.dom('#username').hasValue(username);
@@ -45,7 +45,7 @@ module('Integration | Component | password-reset-modal', function(hooks) {
 
       test('should render clipboard to copy username', async function(assert) {
         // when
-        await render(hbs`<PasswordResetModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
+        await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // then
         assert.dom('button[aria-label="Copier l\'identifiant"]').hasAttribute('data-clipboard-text', username);
@@ -54,7 +54,7 @@ module('Integration | Component | password-reset-modal', function(hooks) {
 
       test('should display tooltip when username copy button is clicked', async function(assert) {
         // given
-        await render(hbs`<PasswordResetModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
+        await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // when
         await triggerCopySuccess('button[aria-label="Copier l\'identifiant"]');
@@ -68,7 +68,7 @@ module('Integration | Component | password-reset-modal', function(hooks) {
 
       test('should render component with email field', async function(assert) {
         // when
-        await render(hbs`<PasswordResetModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
+        await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // then
         assert.dom('#email').hasValue(email);
@@ -76,7 +76,7 @@ module('Integration | Component | password-reset-modal', function(hooks) {
 
       test('should render clipboard to copy email', async function(assert) {
         // when
-        await render(hbs`<PasswordResetModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
+        await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // then
         assert.dom('button[aria-label="Copier l\'adresse e-mail"]').hasAttribute('data-clipboard-text', email);
@@ -85,7 +85,7 @@ module('Integration | Component | password-reset-modal', function(hooks) {
 
       test('should display tooltip when email copy button is clicked', async function(assert) {
         // given
-        await render(hbs`<PasswordResetModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
+        await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // when
         await triggerCopySuccess('button[aria-label="Copier l\'adresse e-mail"]');
@@ -117,7 +117,7 @@ module('Integration | Component | password-reset-modal', function(hooks) {
 
       test('should display unique password input when reset password button is clicked', async function(assert) {
         // given
-        await render(hbs`<PasswordResetModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
+        await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // when
         await click('#generate-password');
@@ -128,7 +128,7 @@ module('Integration | Component | password-reset-modal', function(hooks) {
 
       test('should render clipboard to copy unique password', async function(assert) {
         // given
-        await render(hbs`<PasswordResetModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
+        await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // when
         await click('#generate-password');
@@ -140,7 +140,7 @@ module('Integration | Component | password-reset-modal', function(hooks) {
 
       test('should display tooltip when generated password copy button is clicked', async function(assert) {
         // given
-        await render(hbs`<PasswordResetModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
+        await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // when
         await click('#generate-password');
@@ -152,12 +152,12 @@ module('Integration | Component | password-reset-modal', function(hooks) {
 
       test('should generate unique password each time the modal is used', async function(assert) {
         // given
-        await render(hbs`<PasswordResetModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
+        await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
         await click('#generate-password');
         const firstGeneratedPassword = this.element.querySelector('#generated-password').value;
 
         // when
-        await render(hbs`<PasswordResetModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
+        await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
         await click('#generate-password');
         const secondGeneratedPassword = this.element.querySelector('#generated-password').value;
 
@@ -180,7 +180,7 @@ module('Integration | Component | password-reset-modal', function(hooks) {
 
     test('should render component with GAR connection method', async function(assert) {
       // when
-      await render(hbs`<PasswordResetModal @student={{this.studentGAR}} @display={{this.display}} />`);
+      await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentGAR}} @display={{this.display}} />`);
 
       // then
       assert.contains('Connecté avec Médiacentre');

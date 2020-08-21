@@ -208,6 +208,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
       assert.dom('[aria-label="Afficher les actions"]').exists();
     });
 
+    // eslint-disable-next-line mocha/no-identical-title
     test('it should display the manage account entry menu', async function(assert) {
       // given
       await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
@@ -252,6 +253,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
       assert.dom('[aria-label="Afficher les actions"]').exists();
     });
 
+    // eslint-disable-next-line mocha/no-identical-title
     test('it should display the manage account entry menu', async function(assert) {
       // given
       await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
