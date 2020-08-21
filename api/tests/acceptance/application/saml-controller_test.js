@@ -147,14 +147,6 @@ describe('Acceptance | Controller | saml-controller', () => {
 
   describe('POST /api/saml/assert', () => {
 
-    beforeEach(() => {
-      return knex('users').delete();
-    });
-
-    afterEach(() => {
-      return knex('users').delete();
-    });
-
     // Uses samlify to create a valid SAML response
     async function buildLoginResponse(attributes) {
       const identityProvider = samlify.IdentityProvider(idpConfig);
@@ -169,7 +161,7 @@ describe('Acceptance | Controller | saml-controller', () => {
         tempSandbox.stub(samlify.SamlLib.defaultLoginResponseTemplate, 'context').value(
           samlify.SamlLib.defaultLoginResponseTemplate.context.replace('{AttributeStatement}', `
           <saml2:AttributeStatement xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion">
-            ${_.map(attributes, (value, key)=>`<saml2:Attribute Name="${key}">
+            ${_.map(attributes, (value, key) => `<saml2:Attribute Name="${key}">
                                                  <saml2:AttributeValue>${value}</saml2:AttributeValue>
                                                </saml2:Attribute>`).join('\n')}
           </saml2:AttributeStatement>`));
@@ -184,10 +176,15 @@ describe('Acceptance | Controller | saml-controller', () => {
       }
     }
 
-    context('when a not-seen-before user comes', async () => {
+    context('When garAccessV2 is disabled', () => {
+
       let goodSamlResponse, firstVisitResponse;
 
       beforeEach(async () => {
+        settings.features.garAccessV2 = false;
+
+        await knex('users').delete();
+
         goodSamlResponse = await buildLoginResponse({
           'IDO': 'IDO-for-adele',
           'NOM': 'Lopez',
@@ -202,6 +199,10 @@ describe('Acceptance | Controller | saml-controller', () => {
             SAMLResponse: goodSamlResponse.context
           }
         });
+      });
+
+      afterEach(() => {
+        return knex('users').delete();
       });
 
       it('should consume valid SAML assertion and create user', () => {
@@ -244,6 +245,36 @@ describe('Acceptance | Controller | saml-controller', () => {
         // then
         expect(otherUserResponse.statusCode).to.equal(302);
         expect(await knex('users').count('id as n')).to.deep.equal([{ n: 2 }]);
+      });
+    });
+
+    context('When garAccessV2 is enabled', () => {
+
+      let goodSamlResponse, firstVisitResponse;
+
+      beforeEach(async () => {
+        settings.features.garAccessV2 = true;
+
+        goodSamlResponse = await buildLoginResponse({
+          'IDO': 'IDO-for-adele',
+          'NOM': 'Lopez',
+          'PRE': 'Adèle',
+        });
+
+        // when
+        return firstVisitResponse = await server.inject({
+          method: 'POST',
+          url: '/api/saml/assert',
+          payload: {
+            SAMLResponse: goodSamlResponse.context
+          }
+        });
+      });
+
+      it('should consume valid SAML assertion create student reconciliation token', () => {
+        // then
+        expect(firstVisitResponse.statusCode).to.equal(302);
+        expect(firstVisitResponse.headers.location).to.match(/^\/campagnes\?externalUser=[-_a-zA-Z0-9.]+$/);
       });
     });
   });
