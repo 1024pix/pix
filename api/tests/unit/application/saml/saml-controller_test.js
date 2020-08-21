@@ -60,13 +60,13 @@ describe('Unit | Application | Controller | Saml', () => {
         .withArgs('fake-request-payload')
         .resolves(userAttributes);
 
-      sinon.stub(tokenService, 'createTokenForStudentReconciliation').returns('dummy-student-reconciliation-token');
+      sinon.stub(tokenService, 'createIdTokenForUserReconciliation').returns('dummy-student-reconciliation-token');
 
       // when
       const response = await samlController.assert({ payload: 'fake-request-payload' }, hFake);
 
       // then
-      expect(tokenService.createTokenForStudentReconciliation).to.have.been.calledWith({ userAttributes });
+      expect(tokenService.createIdTokenForUserReconciliation).to.have.been.calledWith({ userAttributes });
       expect(response.location).to.equal('/campagnes?externalUser=dummy-student-reconciliation-token');
     });
   });

@@ -38,11 +38,12 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
 
       it('should throw an ObjectValidationError', async () => {
         // given
-        const userAttributes = {
-          NOM: 'Jackson',
-          IDO: 'SamlId'
+        const externalUser = {
+          lastName: 'Jackson',
+          samlId: 'samlId',
         };
-        const token = tokenService.createTokenForStudentReconciliation({ userAttributes });
+        const token = tokenService.createIdTokenForUserReconciliation(externalUser);
+
         // when
         const error = await catchErr(createUserAndReconcileToSchoolingRegistrationByExternalUser)({ campaignCode, token, tokenService, campaignRepository });
 
@@ -56,11 +57,12 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
 
       it('should throw an ObjectValidationError', async () => {
         // given
-        const userAttributes = {
-          PRE: 'Saml',
-          IDO: 'SamlId'
+        const externalUser = {
+          firstName: 'Saml',
+          samlId: 'samlId',
         };
-        const token = tokenService.createTokenForStudentReconciliation({ userAttributes });
+        const token = tokenService.createIdTokenForUserReconciliation(externalUser);
+
         // when
         const error = await catchErr(createUserAndReconcileToSchoolingRegistrationByExternalUser)({ campaignCode, token, tokenService, campaignRepository });
 
@@ -74,11 +76,12 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
 
       it('should throw an ObjectValidationError', async () => {
         // given
-        const userAttributes = {
-          PRE: 'Saml',
-          NOM: 'Jackson',
+        const externalUser = {
+          firstName: 'Saml',
+          lastName: 'Jackson',
         };
-        const token = tokenService.createTokenForStudentReconciliation({ userAttributes });
+        const token = tokenService.createIdTokenForUserReconciliation(externalUser);
+
         // when
         const error = await catchErr(createUserAndReconcileToSchoolingRegistrationByExternalUser)({ campaignCode, token, tokenService, campaignRepository });
 
@@ -98,12 +101,12 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
     beforeEach(async () => {
       campaignCode = databaseBuilder.factory.buildCampaign().code;
       await databaseBuilder.commit();
-      const userAttributes = {
-        PRE: 'Saml',
-        NOM: 'Jackson',
-        IDO: 'SamlId',
+      const externalUser = {
+        firstName: 'Saml',
+        lastName: 'Jackson',
+        samlId: 'samlId',
       };
-      token = tokenService.createTokenForStudentReconciliation({ userAttributes });
+      token = tokenService.createIdTokenForUserReconciliation(externalUser);
     });
 
     it('should throw a Not Found error', async () => {
@@ -137,8 +140,8 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
       campaignCode = databaseBuilder.factory.buildCampaign({ organizationId }).code;
       await databaseBuilder.commit();
 
-      const userAttributes = { PRE: firstName, NOM: lastName, IDO: samlId };
-      token = tokenService.createTokenForStudentReconciliation({ userAttributes });
+      const externalUser = { firstName, lastName, samlId };
+      token = tokenService.createIdTokenForUserReconciliation(externalUser);
     });
 
     it('should create and reconcile the external user', async () => {

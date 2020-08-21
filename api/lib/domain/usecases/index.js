@@ -145,6 +145,7 @@ module.exports = injectDependencies({
   getCertificationCourse: require('./get-certification-course'),
   getCorrectionForAnswer: require('./get-correction-for-answer'),
   getCurrentUser: require('./get-current-user'),
+  getExternalAuthenticationRedirectionUrl: require('./get-external-authentication-redirection-url'),
   getJurySession: require('./get-jury-session'),
   getNextChallengeForCampaignAssessment: require('./get-next-challenge-for-campaign-assessment'),
   getNextChallengeForCertification: require('./get-next-challenge-for-certification'),

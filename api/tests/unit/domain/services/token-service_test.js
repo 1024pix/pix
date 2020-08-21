@@ -8,14 +8,14 @@ const _ = require('lodash');
 
 describe('Unit | Domain | Service | Token Service', function() {
 
-  describe('#createTokenForStudentReconciliation', () => {
+  describe('#createIdTokenForUserReconciliation', () => {
 
-    it('should create token with firstName, lastName, samlId', () => {
+    it('should return a valid id token with firstName, lastName, samlId', () => {
       // given
-      const userAttributes = {
-        IDO: 'IDO-for-adele',
-        NOM: 'Lopez',
-        PRE: 'Adèle',
+      const externalUser = {
+        samlId: 'IDO-for-adele',
+        lastName: 'Lopez',
+        firstName: 'Adèle',
       };
       const expectedTokenAttributes = {
         'first_name': 'Adèle',
@@ -24,7 +24,7 @@ describe('Unit | Domain | Service | Token Service', function() {
       };
 
       // when
-      const token = tokenService.createTokenForStudentReconciliation({ userAttributes });
+      const token = tokenService.createIdTokenForUserReconciliation(externalUser);
 
       // then
       const decodedToken = jsonwebtoken.verify(token, settings.authentication.secret);
@@ -36,25 +36,19 @@ describe('Unit | Domain | Service | Token Service', function() {
 
     it('should return external user if the id token is valid', async () => {
       // given
-      const userAttributes = {
-        'PRE': 'Saml',
-        'NOM': 'Jackson',
-        'IDO': 'SamlId',
+      const externalUser = {
+        firstName: 'Saml',
+        lastName: 'Jackson',
+        samlId: 'SamlId',
       };
 
-      const expectedExternalUser = {
-        firstName: userAttributes['PRE'],
-        lastName: userAttributes['NOM'],
-        samlId: userAttributes['IDO'],
-      };
-
-      const token = tokenService.createTokenForStudentReconciliation({ userAttributes });
+      const token = tokenService.createIdTokenForUserReconciliation(externalUser);
 
       // when
       const result = await tokenService.extractExternalUserFromIdToken(token);
 
       // then
-      expect(result).to.deep.equal(expectedExternalUser);
+      expect(result).to.deep.equal(externalUser);
     });
 
     it('should throw an InvalidTemporaryKeyError if the token is invalid', async () => {
