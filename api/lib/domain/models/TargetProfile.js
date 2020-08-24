@@ -3,6 +3,7 @@ class TargetProfile {
     id,
     // attributes
     name,
+    imageUrl,
     isPublic,
     outdated,
     // includes
@@ -14,6 +15,7 @@ class TargetProfile {
     this.id = id;
     // attributes
     this.name = name;
+    this.imageUrl = imageUrl;
     this.isPublic = isPublic;
     this.outdated = outdated;
     // includes

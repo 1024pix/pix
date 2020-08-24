@@ -25,6 +25,7 @@ describe('Unit | Infrastructure | Adapter | targetSkillAdapter', () => {
     const expectedTargetProfile = domainBuilder.buildTargetProfile({
       id: bookshelfTargetProfile.get('id'),
       name: bookshelfTargetProfile.get('name'),
+      imageUrl: bookshelfTargetProfile.get('imageUrl'),
       isPublic: Boolean(bookshelfTargetProfile.get('isPublic')),
       organizationId: bookshelfTargetProfile.get('organizationId'),
       skills: [skill],
