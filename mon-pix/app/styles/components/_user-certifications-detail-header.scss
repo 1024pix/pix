@@ -1,3 +1,7 @@
+.user-certifications-page-get__header {
+  display: flex;
+}
+
 .user-certifications-detail-header {
   font-family: $font-open-sans;
   display: flex;
@@ -37,9 +41,9 @@
   }
 
   @include device-is('mobile') {
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 16px;
   }
 
   @include device-is('tablet') {
@@ -49,4 +53,65 @@
   @include device-is('desktop') {
       flex-wrap: nowrap;
   }
+}
+
+.attestation-and-verification-code {
+    background-color: $grey-10;
+    border-radius: 8px;
+    margin-left: auto;
+    padding: 24px 20px;
+
+    .verification-code {
+      font-family: $font-open-sans;
+      color: $grey-90;
+
+      &__title {
+        display: flex;
+        font-size: 0.875rem;
+        padding: 10px 0;
+        color: $grey-60;
+        font-weight: initial;
+
+        .verification-code__tooltip span {
+          width: 245px;
+        }
+
+        &--info {
+          margin-left: 6px;
+          color: $blue;
+        }
+      }
+
+      &__box {
+        width: 240px;
+        padding: 10px 20px;
+        border: 1.5px $grey-22 dashed;
+        border-radius: 4px;
+        background-color: $grey-5;
+
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
+
+        .verification-code__code {
+          padding: 0; margin: 0;
+          font-size: 1.25rem;
+          font-weight: bold;
+          letter-spacing: 0.3px;
+          margin-right: 6px;
+        }
+
+        .verification-code__copy-button {
+          border: none;
+          background: none;
+          cursor: pointer;
+          padding: 0;
+
+          color: $blue;
+          font-size: 1.25rem;
+
+          &:hover { color: darken($blue, 20%); }
+        }
+      }
+    }
 }
