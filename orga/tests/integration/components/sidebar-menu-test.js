@@ -7,17 +7,9 @@ import Service from '@ember/service';
 module('Integration | Component | sidebar-menu', function(hooks) {
   setupRenderingTest(hooks);
 
-  let user;
-  hooks.beforeEach(function() {
-    user = Object.create({
-      firstName: 'givenFirstName',
-      lastName: 'givenLastName',
-    });
-  });
-
   test('it should display documentation a pro organization', async function(assert) {
     const organization = Object.create({ id: 1, isPro: true });
-    this.owner.register('service:current-user', Service.extend({ user, organization }));
+    this.owner.register('service:current-user', Service.extend({ organization }));
 
     // when
     await render(hbs`<SidebarMenu />`);
@@ -28,7 +20,7 @@ module('Integration | Component | sidebar-menu', function(hooks) {
 
   test('it should display documentation a sco organization', async function(assert) {
     const organization = Object.create({ id: 1, type: 'SCO' });
-    this.owner.register('service:current-user', Service.extend({ user, organization, isSCOManagingStudents: true }));
+    this.owner.register('service:current-user', Service.extend({ organization, isSCOManagingStudents: true }));
 
     // when
     await render(hbs`<SidebarMenu />`);
@@ -39,7 +31,7 @@ module('Integration | Component | sidebar-menu', function(hooks) {
 
   test('it should not display documentation for a sco organization that does not managed students', async function(assert) {
     const organization = Object.create({ id: 1, type: 'SCO' });
-    this.owner.register('service:current-user', Service.extend({ user, organization, isSCOManagingStudents: false }));
+    this.owner.register('service:current-user', Service.extend({ organization, isSCOManagingStudents: false }));
 
     // when
     await render(hbs`<SidebarMenu />`);
