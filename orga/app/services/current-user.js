@@ -16,27 +16,20 @@ export default class CurrentUserService extends Service {
   async load() {
     if (this.session.isAuthenticated) {
       try {
-        const prescriber = await this.store.queryRecord('prescriber', this.session.data.authenticated.user_id);
-        const userMemberships = await prescriber.memberships;
-        const userOrgaSettings = await prescriber.userOrgaSettings;
-
-        if (!userMemberships || userMemberships.length === 0) {
-          return this.session.invalidate();
-        }
-
-        this.prescriber = prescriber;
-        this.memberships = userMemberships;
+        this.prescriber = await this.store.queryRecord('prescriber', this.session.data.authenticated.user_id);
+        this.memberships = await this.prescriber.memberships;
+        const userOrgaSettings = await this.prescriber.userOrgaSettings;
 
         let membership;
         if (userOrgaSettings) {
-          membership = await this._getMembershipByUserOrgaSettings(userMemberships.toArray(), userOrgaSettings);
+          membership = await this._getMembershipByUserOrgaSettings(this.memberships.toArray(), userOrgaSettings);
           if (!membership) {
-            membership = await userMemberships.firstObject;
-            await this._updateUserOrgaSettings(userOrgaSettings, membership, prescriber.id);
+            membership = await this.memberships.firstObject;
+            await this._updateUserOrgaSettings(userOrgaSettings, membership, this.prescriber.id);
           }
         } else {
-          const userId = prescriber.id;
-          membership = await userMemberships.firstObject;
+          const userId = this.prescriber.id;
+          membership = await this.memberships.firstObject;
           const organization = membership.organization;
           await this._createUserOrgaSettings({ userId, organization });
         }
@@ -44,7 +37,8 @@ export default class CurrentUserService extends Service {
         await this._setOrganizationProperties(membership);
 
       } catch (error) {
-        if (get(error, 'errors[0].code') === 401) {
+        const errorCode = get(error, 'errors[0].code');
+        if ([401, 403].includes(errorCode)) {
           return this.session.invalidate();
         }
       }

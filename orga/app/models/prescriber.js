@@ -6,6 +6,7 @@ export default class Prescriber extends Model {
   @attr('string') firstName;
   @attr('string') lastName;
   @attr('boolean') pixOrgaTermsOfServiceAccepted;
+  @attr('boolean') areNewYearSchoolingRegistrationsImported;
   @hasMany('membership') memberships;
   @belongsTo('user-orga-setting') userOrgaSettings;
 

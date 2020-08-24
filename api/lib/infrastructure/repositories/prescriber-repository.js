@@ -1,5 +1,8 @@
+const _ = require('lodash');
+const { knex } = require('../bookshelf');
+const settings = require('../../config');
 const BookshelfUser = require('../data/user');
-const { UserNotFoundError } = require('../../domain/errors');
+const { ForbiddenAccess, UserNotFoundError } = require('../../domain/errors');
 const Prescriber = require('../../domain/read-models/Prescriber');
 const Membership = require('../../domain/models/Membership');
 const UserOrgaSettings = require('../../domain/models/UserOrgaSettings');
@@ -52,21 +55,48 @@ function _toUserOrgaSettingsDomain(userOrgaSettingsBookshelf) {
   });
 }
 
+async function _areNewYearSchoolingRegistrationsImportedForPrescriber(prescriber) {
+  console.log(settings.features.newYearSchoolingRegistrationsImportDate);
+  const currentOrganizationId = prescriber.userOrgaSettings.id ?
+    prescriber.userOrgaSettings.currentOrganization.id :
+    prescriber.memberships[0].organization.id;
+  const atLeastOneSchoolingRegistration = await knex('organizations')
+    .select('organizations.id')
+    .join('schooling-registrations', 'schooling-registrations.organizationId', 'organizations.id')
+    .where((qb) => {
+      qb.where('organizations.id', currentOrganizationId);
+      if (settings.features.newYearSchoolingRegistrationsImportDate) {
+        qb.where('schooling-registrations.createdAt', '>=', settings.features.newYearSchoolingRegistrationsImportDate);
+      }
+    })
+    .first();
+
+  prescriber.areNewYearSchoolingRegistrationsImported = Boolean(atLeastOneSchoolingRegistration);
+}
+
 module.exports = {
 
   async getPrescriber(userId) {
     try {
-      const prescriber = await BookshelfUser
+      const prescriberFromDB = await BookshelfUser
         .where({ id: userId })
         .fetch({ require: true,
           columns: ['id','firstName','lastName', 'pixOrgaTermsOfServiceAccepted'],
           withRelated: [
-            { 'memberships': (qb) => qb.where({ disabledAt: null }) },
+            { 'memberships': (qb) => qb.where({ disabledAt: null }).orderBy('id') },
             'memberships.organization',
             'userOrgaSettings',
             'userOrgaSettings.currentOrganization',
           ] });
-      return _toPrescriberDomain(prescriber);
+      const prescriber = _toPrescriberDomain(prescriberFromDB);
+
+      if (_.isEmpty(prescriber.memberships)) {
+        throw new ForbiddenAccess(`User of ID ${userId} is not a prescriber`);
+      }
+
+      await _areNewYearSchoolingRegistrationsImportedForPrescriber(prescriber);
+
+      return prescriber;
     } catch (err) {
       if (err instanceof BookshelfUser.NotFoundError) {
         throw new UserNotFoundError(`User not found for ID ${userId}`);
