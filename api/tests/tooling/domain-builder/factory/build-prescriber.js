@@ -53,7 +53,7 @@ module.exports = function buildPrescriber(
     firstName = faker.name.firstName(),
     lastName = faker.name.lastName(),
     pixOrgaTermsOfServiceAccepted = false,
-    areNewYearStudentsImported = false,
+    areNewYearSchoolingRegistrationsImported = false,
     memberships = _buildMemberships(),
     userOrgaSettings = _buildUserOrgaSettings()
   } = {}) {
@@ -61,7 +61,7 @@ module.exports = function buildPrescriber(
   return new Prescriber({
     id, firstName, lastName,
     pixOrgaTermsOfServiceAccepted,
-    areNewYearStudentsImported,
+    areNewYearSchoolingRegistrationsImported,
     memberships, userOrgaSettings
   });
 };

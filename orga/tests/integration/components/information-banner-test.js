@@ -16,7 +16,7 @@ module('Integration | Component | information-banner', function(hooks) {
 
       test('should render the banner', async function(assert) {
         // given
-        prescriber = { areNewYearStudentsImported: false };
+        prescriber = { areNewYearSchoolingRegistrationsImported: false };
         this.owner.register('service:current-user', Service.extend({ prescriber, isSCOManagingStudents }));
 
         // when
@@ -33,7 +33,7 @@ module('Integration | Component | information-banner', function(hooks) {
 
       test('should not render the banner', async function(assert) {
         // given
-        prescriber = { areNewYearStudentsImported: true };
+        prescriber = { areNewYearSchoolingRegistrationsImported: true };
         this.owner.register('service:current-user', Service.extend({ prescriber, isSCOManagingStudents }));
 
         // when
@@ -50,7 +50,7 @@ module('Integration | Component | information-banner', function(hooks) {
 
     test('should not render the banner regardless of whether students have been imported or not', async function(assert) {
       // given
-      prescriber = { areNewYearStudentsImported: false };
+      prescriber = { areNewYearSchoolingRegistrationsImported: false };
       this.owner.register('service:current-user', Service.extend({ prescriber, isSCOManagingStudents: false }));
 
       // when

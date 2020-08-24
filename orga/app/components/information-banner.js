@@ -5,7 +5,7 @@ export default class InformationBanner extends Component {
   @service currentUser;
 
   get informationBannerMustBeDisplayed() {
-    return !this.currentUser.prescriber.areNewYearStudentsImported &&
+    return !this.currentUser.prescriber.areNewYearSchoolingRegistrationsImported &&
       this.currentUser.isSCOManagingStudents;
   }
 }

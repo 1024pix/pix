@@ -24,7 +24,7 @@ describe('Acceptance | Controller | Prescriber-controller', () => {
           'first-name': user.firstName,
           'last-name': user.lastName,
           'pix-orga-terms-of-service-accepted': false,
-          'are-new-year-students-imported': false
+          'are-new-year-schooling-registrations-imported': false
         },
         relationships: {
           memberships: {
