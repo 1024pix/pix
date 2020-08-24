@@ -16,7 +16,6 @@
         class="input {{if this.validation.uai.hasError 'input--error'}}"
         @value={{this.uai}}
         @required='true'
-        {{on "focusout" (fn this.validateInput "uai" this.uai)}}
       />
     </div>
 
