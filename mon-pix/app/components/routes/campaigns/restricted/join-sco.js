@@ -3,6 +3,8 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
 import { standardizeNumberInTwoDigitFormat } from 'mon-pix/utils/standardize-number';
+import ENV from 'mon-pix/config/environment';
+import _ from 'lodash';
 
 const ERROR_INPUT_MESSAGE_MAP = {
   firstName: 'Votre prénom n’est pas renseigné.',
@@ -26,21 +28,25 @@ class Validation {
 }
 
 export default class JoinSco extends Component {
-  queryParams = ['participantExternalId'];
-  participantExternalId = null;
-
   @service session;
   @service currentUser;
   @service store;
+  @service intl;
+  @service url;
+  @service router;
 
   validation = new Validation();
+
+  @tracked isLoading = false;
+  @tracked errorMessage;
+  @tracked displayModal = false;
+  @tracked modalErrorMessage = null;
 
   @tracked firstName = '';
   @tracked lastName = '';
   @tracked dayOfBirth = '';
   @tracked monthOfBirth = '';
   @tracked yearOfBirth = '';
-  @tracked studentNumber = '';
 
   constructor() {
     super(...arguments);
@@ -68,8 +74,26 @@ export default class JoinSco extends Component {
   }
 
   @action
-  attemptNext(event) {
+  closeModal() {
+    this.displayModal = false;
+  }
+
+  @action
+  async goToHome() {
+    await this.session.invalidate();
+    return window.location.replace(this.url.homeUrl);
+  }
+
+  @action
+  async goToCampaignConnectionForm() {
+    await this.session.invalidate();
+    return this.router.replaceWith('campaigns.restricted.login-or-register-to-access', { queryParams: { displayRegisterForm: false } });
+  }
+
+  @action
+  async attemptNext(event) {
     event.preventDefault();
+    this.isLoading = true;
     this._validateInputName('firstName', this.firstName);
     this._validateInputName('lastName', this.lastName);
     this._validateInputDay('dayOfBirth', this.dayOfBirth);
@@ -83,8 +107,17 @@ export default class JoinSco extends Component {
       birthdate: this.birthdate,
       campaignCode: this.args.campaignCode,
     });
-    if (!this.isFormNotValid) {
-      return this.args.onSubmit(schoolingRegistration);
+    if (this.isFormNotValid) {
+      return this.isLoading = false;
+    }
+
+    try {
+      await this.args.onSubmit(schoolingRegistration);
+      this.isLoading = false;
+    } catch (errorResponse) {
+      schoolingRegistration.unloadRecord();
+      this._setErrorMessageForAttemptNextAction(errorResponse);
+      this.isLoading = false;
     }
   }
 
@@ -140,5 +173,34 @@ export default class JoinSco extends Component {
     if (value) {
       this.attribute = standardizeNumberInTwoDigitFormat(value);
     }
+  }
+  _setErrorMessageForAttemptNextAction(errorResponse) {
+    errorResponse.errors.forEach((error) => {
+      if (error.status === '409') {
+        const message = this._showErrorMessageByShortCode(error.meta);
+        this.errorMessage = message;
+        this.displayModal = true;
+        return this.modalErrorMessage = message;
+      }
+      if (error.status === '404') {
+        return this.errorMessage = 'Vous êtes un élève ? <br/> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.<br/> <br/> Vous êtes un enseignant ? <br/> L‘accès à un parcours n‘est pas disponible pour le moment.';
+      }
+      return this.errorMessage = error.detail;
+    });
+  }
+
+  _showErrorMessageByShortCode(meta) {
+    const defaultMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE);
+
+    const errors = [
+      { code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION', shortCode:'R11', message: `Vous possédez déjà un compte Pix avec l’adresse e-mail <br>${meta.value}<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code R11)` },
+      { code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION', shortCode:'R12', message:`Vous possédez déjà un compte Pix utilisé avec l’identifiant <br>${meta.value}<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code R12)` },
+      { code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION', shortCode:'R13', message: 'Vous possédez déjà un compte Pix via l‘ENT dans un autre établissement scolaire.<br>Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l‘aide de Pix Orga.' },
+      { code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_SAME_ORGANIZATION', shortCode:'R31', message:`Vous possédez déjà un compte Pix utilisé dans votre établissement scolaire, avec l‘adresse mail <br>${meta.value}.<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br> (Code R31)` },
+      { code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION', shortCode:'R32', message:`Vous possédez déjà un compte Pix utilisé dans votre établissement scolaire, avec l‘identifiant<br>${meta.value}.<br>Pour continuer, connectez-vous à ce compte ou demandez de l‘aide à un enseignant.<br> (Code R32)` },
+      { code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION', shortCode:'R33', message:'Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.' }
+    ];
+
+    return  _.find(errors, ['shortCode', meta.shortCode]).message || defaultMessage;
   }
 }

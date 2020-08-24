@@ -14,6 +14,10 @@ export default class SchoolingRegistrationUserAssociation extends ApplicationAda
       return url + '/auto';
     }
 
+    if (adapterOptions && adapterOptions.registerAdditional) {
+      return url + '/register';
+    }
+
     return url;
   }
 

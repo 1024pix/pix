@@ -1,6 +1,8 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
+const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
 const higherEducationRegistrationRepository = require('../../../../lib/infrastructure/repositories/higher-education-registration-repository');
 const HigherEducationRegistrationSet = require('../../../../lib/domain/models/HigherEducationRegistrationSet');
+const HigherEducationRegistration = require('../../../../lib/domain/models/HigherEducationRegistration');
+const { SchoolingRegistrationsCouldNotBeSavedError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Infrastructure | Repository | higher-education-registration-repository', () => {
 
@@ -153,6 +155,68 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
         const organizationIds = higherEducationRegistrations.map(({ organizationId }) => organizationId);
 
         expect(organizationIds).to.exactlyContain([organization.id, otherOrganization.id]);
+      });
+    });
+  });
+
+  describe('#save', () => {
+    afterEach(() => {
+      return knex('schooling-registrations').delete();
+    });
+
+    context('when there is no other schooling registration with the same student number in the organization', () => {
+      it('should create higher education registration', async function() {
+        //given
+        const organization = databaseBuilder.factory.buildOrganization();
+        const user = databaseBuilder.factory.buildUser();
+
+        await databaseBuilder.commit();
+
+        const higherEducationRegistrationAttributes = {
+          userId: user.id,
+          studentNumber: '123456',
+          firstName: 'firstName',
+          lastName: 'lastName',
+          birthdate: '2010-01-01',
+          organizationId: organization.id
+        };
+
+        const higherEducationRegistration = new HigherEducationRegistration(higherEducationRegistrationAttributes);
+
+        //when
+        await higherEducationRegistrationRepository.save(higherEducationRegistration);
+
+        //then
+        const [createdHigherEducationRegistration] = await knex('schooling-registrations').where({ organizationId: organization.id });
+        expect(createdHigherEducationRegistration).to.contain(higherEducationRegistrationAttributes);
+      });
+    });
+    context('when there is another schooling registration with the same student number in the organization', () => {
+      it('throws an error', async function() {
+        //given
+        const organization = databaseBuilder.factory.buildOrganization();
+        const user = databaseBuilder.factory.buildUser();
+        databaseBuilder.factory.buildSchoolingRegistration({ studentNumber: '123456', organizationId: organization.id });
+
+        await databaseBuilder.commit();
+
+        const higherEducationRegistrationAttributes = {
+          userId: user.id,
+          studentNumber: '123456',
+          firstName: 'firstName',
+          lastName: 'lastName',
+          birthdate: '2010-01-01',
+          organizationId: organization.id
+        };
+
+        const higherEducationRegistration = new HigherEducationRegistration(higherEducationRegistrationAttributes);
+
+        //when
+        const error = await catchErr(higherEducationRegistrationRepository.save)(higherEducationRegistration);
+
+        //then
+        expect(error).to.be.an.instanceOf(SchoolingRegistrationsCouldNotBeSavedError);
+
       });
     });
   });
