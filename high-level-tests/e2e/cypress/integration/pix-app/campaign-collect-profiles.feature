@@ -45,16 +45,16 @@ Fonctionnalité: Campagne de collecte de profils
     Lorsque je clique sur "J'envoie mon profil"
     Alors je vois que j'ai partagé mon profil
 
-  Scénario: Je partage mon profil de manière restreinte en étant connecté via un organisme externe
-    Étant donné que je vais sur Pix via un organisme externe
-    Et je vais sur la page d'accès à une campagne
-    Lorsque je saisis "WOLF" dans le champ "Ce code permet de démarrer un parcours"
-    Et je clique sur "Commencer"
-    Alors je vois la page de "rejoindre" de la campagne
-    Lorsque je saisis la date de naissance 23-10-1986
-    Et je clique sur "C'est parti !"
-    Alors je vois la page de "presentation" de la campagne
-    Lorsque je clique sur "C’est parti !"
-    Alors je vois la page d'"envoi-profil" de la campagne
-    Lorsque je clique sur "J'envoie mon profil"
-    Alors je vois que j'ai partagé mon profil
+#  Scénario: Je partage mon profil de manière restreinte en étant connecté via un organisme externe
+#    Étant donné que je vais sur Pix via un organisme externe
+#    Et je vais sur la page d'accès à une campagne
+#    Lorsque je saisis "WOLF" dans le champ "Ce code permet de démarrer un parcours"
+#    Et je clique sur "Commencer"
+#    Alors je vois la page de "rejoindre" de la campagne
+#    Lorsque je saisis la date de naissance 23-10-1986
+#    Et je clique sur "C'est parti !"
+#    Alors je vois la page de "presentation" de la campagne
+#    Lorsque je clique sur "C’est parti !"
+#    Alors je vois la page d'"envoi-profil" de la campagne
+#    Lorsque je clique sur "J'envoie mon profil"
+#    Alors je vois que j'ai partagé mon profil
