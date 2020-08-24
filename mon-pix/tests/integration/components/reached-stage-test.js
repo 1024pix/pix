@@ -19,8 +19,8 @@ describe('Integration | Component | reached-stage', function() {
     await render(hbs`<ReachedStage @starCount={{this.reachedStageStarCount}} @percentage={{this.percentage}} @stageCount={{this.stageCount}} />`);
 
     // then
-    expect(find('.reached-stage__stars')).to.exist;
-    expect(find('.reached-stage__percentage-text').textContent.trim()).to.equal('50 % de réussite');
+    expect(find('.reached-stage-score__stars')).to.exist;
+    expect(find('.reached-stage-score__percentage-text').textContent.trim()).to.equal('50 % de réussite');
     _expectStars(this.reachedStageStarCount, this.stageCount);
   });
 
