@@ -1,13 +1,12 @@
 const _ = require('lodash');
 const { knex } = require('../bookshelf');
+const settings = require('../../config');
 const BookshelfUser = require('../data/user');
 const { ForbiddenAccess, UserNotFoundError } = require('../../domain/errors');
 const Prescriber = require('../../domain/read-models/Prescriber');
 const Membership = require('../../domain/models/Membership');
 const UserOrgaSettings = require('../../domain/models/UserOrgaSettings');
 const Organization = require('../../domain/models/Organization');
-
-const DATE_FOR_IMPORT_BANNER = new Date('2020-08-15T00:00:00Z');
 
 function _toPrescriberDomain(bookshelfUser) {
   const { id, firstName, lastName, pixOrgaTermsOfServiceAccepted } = bookshelfUser.toJSON();
@@ -57,14 +56,19 @@ function _toUserOrgaSettingsDomain(userOrgaSettingsBookshelf) {
 }
 
 async function _areNewYearSchoolingRegistrationsImportedForPrescriber(prescriber) {
+  console.log(settings.features.newYearSchoolingRegistrationsImportDate);
   const currentOrganizationId = prescriber.userOrgaSettings.id ?
     prescriber.userOrgaSettings.currentOrganization.id :
     prescriber.memberships[0].organization.id;
   const atLeastOneSchoolingRegistration = await knex('organizations')
     .select('organizations.id')
     .join('schooling-registrations', 'schooling-registrations.organizationId', 'organizations.id')
-    .where('organizations.id', currentOrganizationId)
-    .where('schooling-registrations.createdAt', '>=', DATE_FOR_IMPORT_BANNER)
+    .where((qb) => {
+      qb.where('organizations.id', currentOrganizationId);
+      if (settings.features.newYearSchoolingRegistrationsImportDate) {
+        qb.where('schooling-registrations.createdAt', '>=', settings.features.newYearSchoolingRegistrationsImportDate);
+      }
+    })
     .first();
 
   prescriber.areNewYearSchoolingRegistrationsImported = Boolean(atLeastOneSchoolingRegistration);
