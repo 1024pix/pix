@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v2.186.0 (24/08/2020)
+
+- [#1777](https://github.com/1024pix/pix/pull/1777) [FEATURE] Autoriser l'auto-inscription si la réconciliation ne se fait pas avec un numéro étudiant (PIX-1062)
+- [#1779](https://github.com/1024pix/pix/pull/1779) [FEATURE] Renvoyer un token contenant les informations permettant de créer l'utilisateur lors d'une requête provenant du GAR (PIX-1117).
+- [#1788](https://github.com/1024pix/pix/pull/1788) [FEATURE] Ne pas afficher le lien de récupération sur la page d'acceptation d'une invitation (PIX-1149).
+- [#1752](https://github.com/1024pix/pix/pull/1752) [FEATURE] Récupération des données API via le code de vérification (PIX-773)
+- [#1771](https://github.com/1024pix/pix/pull/1771) [FEATURE] Empêcher un élève de se réconcilier lors de l'inscription qu'il ait un compte utilisateur au sein du même établissement ou ailleurs (PIX-986).
+- [#1789](https://github.com/1024pix/pix/pull/1789) [TECH] Muscler les tests sur la sélection des épreuves de certification
+- [#1773](https://github.com/1024pix/pix/pull/1773) [DOC] Ajouter méthode de connexion avec fournisseur d'identité externe.
+
 ## v2.185.0 (20/08/2020)
 
 - [#1785](https://github.com/1024pix/pix/pull/1785) [FEATURE] Donner accès à la récupération d'une organisation (PIX-884).
