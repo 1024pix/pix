@@ -29,9 +29,6 @@ class Validation {
 }
 
 export default class JoinSco extends Component {
-  queryParams = ['participantExternalId'];
-  participantExternalId = null;
-
   @service session;
   @service currentUser;
   @service store;
@@ -51,7 +48,6 @@ export default class JoinSco extends Component {
   @tracked dayOfBirth = '';
   @tracked monthOfBirth = '';
   @tracked yearOfBirth = '';
-  @tracked studentNumber = '';
 
   constructor() {
     super(...arguments);
@@ -61,11 +57,6 @@ export default class JoinSco extends Component {
       const userFirstNameAndLastName = decodeToken(tokenIdForExternalUser);
       this.firstName = userFirstNameAndLastName['first_name'];
       this.lastName = userFirstNameAndLastName['last_name'];
-    }
-
-    if (this.session.data.authenticated.source === 'external') {
-      this.firstName = this.currentUser.user.firstName;
-      this.lastName = this.currentUser.user.lastName;
     }
   }
 
@@ -82,7 +73,7 @@ export default class JoinSco extends Component {
   }
 
   get isDisabled() {
-    return this.session.data.authenticated.source === 'external' || (undefined !== get(this.session,'data.externalUser'));
+    return (undefined !== get(this.session,'data.externalUser'));
   }
 
   @action
