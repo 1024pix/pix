@@ -152,6 +152,11 @@ describe('Integration | Repository | Target-profile', () => {
     let campaignParticipationId, targetProfileId;
 
     beforeEach(async () => {
+      const anotherTargetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      const anotherCampaignId = databaseBuilder.factory.buildCampaign({ targetProfileId: anotherTargetProfileId }).id;
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId: anotherCampaignId });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: anotherTargetProfileId });
+
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
       campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
