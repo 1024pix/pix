@@ -56,7 +56,7 @@ function _toUserOrgaSettingsDomain(userOrgaSettingsBookshelf) {
   });
 }
 
-async function _areNewYearStudentsImportedForPrescriber(prescriber) {
+async function _areNewYearSchoolingRegistrationsImportedForPrescriber(prescriber) {
   const currentOrganizationId = prescriber.userOrgaSettings.id ?
     prescriber.userOrgaSettings.currentOrganization.id :
     prescriber.memberships[0].organization.id;
@@ -67,7 +67,7 @@ async function _areNewYearStudentsImportedForPrescriber(prescriber) {
     .where('schooling-registrations.createdAt', '>=', DATE_FOR_IMPORT_BANNER)
     .first();
 
-  prescriber.areNewYearStudentsImported = Boolean(atLeastOneSchoolingRegistration);
+  prescriber.areNewYearSchoolingRegistrationsImported = Boolean(atLeastOneSchoolingRegistration);
 }
 
 module.exports = {
@@ -90,7 +90,7 @@ module.exports = {
         throw new ForbiddenAccess(`User of ID ${userId} is not a prescriber`);
       }
 
-      await _areNewYearStudentsImportedForPrescriber(prescriber);
+      await _areNewYearSchoolingRegistrationsImportedForPrescriber(prescriber);
 
       return prescriber;
     } catch (err) {

@@ -156,7 +156,7 @@ describe('Integration | Infrastructure | Repository | Prescriber', () => {
 
       context('when prescriber has a user-orga-settings', () => {
 
-        it('should return areNewYearStudentsImported as true if there is at least one schooling-registrations created after 2020-08-15 for the organization of the user-orga-settings', async () => {
+        it('should return areNewYearSchoolingRegistrationsImported as true if there is at least one schooling-registrations created after 2020-08-15 for the organization of the user-orga-settings', async () => {
           // given
           const userId = databaseBuilder.factory.buildUser().id;
           const organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -169,10 +169,10 @@ describe('Integration | Infrastructure | Repository | Prescriber', () => {
           const foundPrescriber = await prescriberRepository.getPrescriber(userId);
 
           // then
-          expect(foundPrescriber.areNewYearStudentsImported).to.be.true;
+          expect(foundPrescriber.areNewYearSchoolingRegistrationsImported).to.be.true;
         });
 
-        it('should return areNewYearStudentsImported as false if there is no schooling-registrations created after 2020-08-15 for the organization of the user-orga-settings', async () => {
+        it('should return areNewYearSchoolingRegistrationsImported as false if there is no schooling-registrations created after 2020-08-15 for the organization of the user-orga-settings', async () => {
           // given
           const userId = databaseBuilder.factory.buildUser().id;
           const organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -185,14 +185,14 @@ describe('Integration | Infrastructure | Repository | Prescriber', () => {
           const foundPrescriber = await prescriberRepository.getPrescriber(userId);
 
           // then
-          expect(foundPrescriber.areNewYearStudentsImported).to.be.false;
+          expect(foundPrescriber.areNewYearSchoolingRegistrationsImported).to.be.false;
         });
 
       });
 
       context('when prescriber does not have a user-orga-settings', () => {
 
-        it('should return areNewYearStudentsImported as true if there is at least one schooling-registrations created after 2020-08-15 for the organization of the first membership', async () => {
+        it('should return areNewYearSchoolingRegistrationsImported as true if there is at least one schooling-registrations created after 2020-08-15 for the organization of the first membership', async () => {
           // given
           const userId = databaseBuilder.factory.buildUser().id;
           const organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -204,10 +204,10 @@ describe('Integration | Infrastructure | Repository | Prescriber', () => {
           const foundPrescriber = await prescriberRepository.getPrescriber(userId);
 
           // then
-          expect(foundPrescriber.areNewYearStudentsImported).to.be.true;
+          expect(foundPrescriber.areNewYearSchoolingRegistrationsImported).to.be.true;
         });
 
-        it('should return areNewYearStudentsImported as false if there is no schooling-registrations created after 2020-08-15 for the organization of the first membership', async () => {
+        it('should return areNewYearSchoolingRegistrationsImported as false if there is no schooling-registrations created after 2020-08-15 for the organization of the first membership', async () => {
           // given
           const userId = databaseBuilder.factory.buildUser().id;
           const organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -219,7 +219,7 @@ describe('Integration | Infrastructure | Repository | Prescriber', () => {
           const foundPrescriber = await prescriberRepository.getPrescriber(userId);
 
           // then
-          expect(foundPrescriber.areNewYearStudentsImported).to.be.false;
+          expect(foundPrescriber.areNewYearSchoolingRegistrationsImported).to.be.false;
         });
 
       });

@@ -24,7 +24,7 @@ module('Acceptance | Information Banner', function(hooks) {
       server.create('prescriber', {
         id: user.id,
         pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
-        areNewYearStudentsImported: false,
+        areNewYearSchoolingRegistrationsImported: false,
         memberships: user.memberships,
         userOrgaSettings: user.userOrgaSettings,
       });

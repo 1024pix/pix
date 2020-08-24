@@ -21,8 +21,8 @@ module.exports = {
       },
 
       attributes: [
-        'firstName', 'lastName', 'pixOrgaTermsOfServiceAccepted', 'areNewYearStudentsImported',
-        'memberships', 'userOrgaSettings', 
+        'firstName', 'lastName', 'pixOrgaTermsOfServiceAccepted', 'areNewYearSchoolingRegistrationsImported',
+        'memberships', 'userOrgaSettings',
       ],
       memberships: {
         ref: 'id',
