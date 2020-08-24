@@ -17,8 +17,10 @@ module.exports = {
 
   async getByCampaignId(campaignId) {
     const targetProfileBookshelf = await BookshelfTargetProfile
-      .query((qb) => qb.innerJoin('campaigns', 'campaigns.targetProfileId', 'target-profiles.id'))
-      .query((qb) => qb.innerJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id'))
+      .query((qb) => {
+        qb.innerJoin('campaigns', 'campaigns.targetProfileId', 'target-profiles.id');
+        qb.innerJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id');
+      })
       .where({ 'campaigns.id': campaignId })
       .fetch({ require: true, withRelated: [
         'skillIds', {
@@ -33,9 +35,11 @@ module.exports = {
 
   async getByCampaignParticipationId(campaignParticipationId) {
     const targetProfileBookshelf = await BookshelfTargetProfile
-      .query((qb) => qb.innerJoin('campaigns', 'campaigns.targetProfileId', 'target-profiles.id'))
-      .query((qb) => qb.innerJoin('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id'))
-      .query((qb) => qb.innerJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id'))
+      .query((qb) => {
+        qb.innerJoin('campaigns', 'campaigns.targetProfileId', 'target-profiles.id');
+        qb.innerJoin('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id');
+        qb.innerJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id');
+      })
       .where({ 'campaign-participations.id': campaignParticipationId })
       .fetch({ require: true, withRelated: [
         'skillIds', {
