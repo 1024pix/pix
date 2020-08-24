@@ -148,6 +148,33 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
     });
   });
 
+  module('when user is reconciled', function({ beforeEach }) {
+
+    beforeEach(function() {
+      const store = this.owner.lookup('service:store');
+      this.set('students', [
+        store.createRecord('student', {
+          lastName: 'La Terreur',
+          firstName: 'Gigi',
+          birthdate: '2010-01-01',
+          username: 'blueivy.carter0701',
+          isAuthenticatedFromGar: false,
+        })
+      ]);
+      return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+    });
+    test('it should display the manage account entry menu', async function(assert) {
+      // given
+      await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+
+      // when
+      await click('[aria-label="Afficher les actions"]');
+
+      // then
+      assert.contains('Gérer le compte');
+    });
+  });
+
   module('when user authentification method is username', function({ beforeEach }) {
 
     beforeEach(function() {
@@ -172,16 +199,6 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
       assert.dom('[aria-label="Afficher les actions"]').exists();
     });
 
-    test('it should display the manage account entry menu', async function(assert) {
-      // given
-      await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
-
-      // when
-      await click('[aria-label="Afficher les actions"]');
-
-      // then
-      assert.contains('Gérer le compte');
-    });
   });
 
   module('when user authentification method is email', function({ beforeEach }) {
@@ -208,17 +225,6 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
       assert.dom('[aria-label="Afficher les actions"]').exists();
     });
 
-    // eslint-disable-next-line mocha/no-identical-title
-    test('it should display the manage account entry menu', async function(assert) {
-      // given
-      await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
-
-      // when
-      await click('[aria-label="Afficher les actions"]');
-
-      // then
-      assert.contains('Gérer le compte');
-    });
   });
 
   module('when user authentification method is samlId', function({ beforeEach }) {
@@ -253,17 +259,6 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
       assert.dom('[aria-label="Afficher les actions"]').exists();
     });
 
-    // eslint-disable-next-line mocha/no-identical-title
-    test('it should display the manage account entry menu', async function(assert) {
-      // given
-      await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
-
-      // when
-      await click('[aria-label="Afficher les actions"]');
-
-      // then
-      assert.contains('Gérer le compte');
-    });
   });
 
   module('user rights', (hooks) => {
