@@ -57,25 +57,6 @@ module('Unit | Service | current-user', function(hooks) {
       assert.equal(currentUserService.memberships, memberships);
     });
 
-    module('when user has no memberships', (hooks) => {
-
-      hooks.beforeEach(() => {
-        sinon.stub(sessionStub, 'invalidate').resolves();
-      });
-
-      test('should be disconnected', async (assert) => {
-        // given
-        connectedUser.memberships = [];
-
-        // when
-        await currentUserService.load();
-
-        // then
-        sinon.assert.calledOnce(sessionStub.invalidate);
-        assert.ok(true);
-      });
-    });
-
     test('should load the organization', async function(assert) {
       // given
       const organization = Object.create({ id: 9 });
@@ -348,6 +329,31 @@ module('Unit | Service | current-user', function(hooks) {
       });
       const currentUser = this.owner.lookup('service:currentUser');
       currentUser.session = sessionStub;
+
+      // when
+      await currentUser.load();
+
+      // then
+      assert.equal(currentUser.prescriber, null);
+    });
+  });
+
+  module('user is not a prescriber anymore', function() {
+
+    test('should redirect to login because not a prescriber', async function(assert) {
+      // given
+      const connectedUserId = 1;
+      const sessionStub = Service.create({
+        isAuthenticated: true,
+        data: { authenticated: { user_id: connectedUserId } },
+        invalidate: () => resolve('invalidate'),
+      });
+      const storeStub = Service.create({
+        queryRecord: () => reject([{ code: 403 }])
+      });
+      const currentUser = this.owner.lookup('service:currentUser');
+      currentUser.session = sessionStub;
+      currentUser.store = storeStub;
 
       // when
       await currentUser.load();

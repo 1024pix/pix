@@ -1,9 +1,13 @@
+const _ = require('lodash');
+const { knex } = require('../bookshelf');
 const BookshelfUser = require('../data/user');
-const { UserNotFoundError } = require('../../domain/errors');
+const { ForbiddenAccess, UserNotFoundError } = require('../../domain/errors');
 const Prescriber = require('../../domain/read-models/Prescriber');
 const Membership = require('../../domain/models/Membership');
 const UserOrgaSettings = require('../../domain/models/UserOrgaSettings');
 const Organization = require('../../domain/models/Organization');
+
+const DATE_FOR_IMPORT_BANNER = new Date('2020-08-15T00:00:00Z');
 
 function _toPrescriberDomain(bookshelfUser) {
   const { id, firstName, lastName, pixOrgaTermsOfServiceAccepted } = bookshelfUser.toJSON();
@@ -52,6 +56,20 @@ function _toUserOrgaSettingsDomain(userOrgaSettingsBookshelf) {
   });
 }
 
+async function _areNewYearStudentsImportedForPrescriber(prescriber) {
+  const currentOrganizationId = prescriber.userOrgaSettings.id ?
+    prescriber.userOrgaSettings.currentOrganization.id :
+    prescriber.memberships[0].organization.id;
+  const atLeastOneSchoolingRegistration = await knex('organizations')
+    .select('organizations.id')
+    .join('schooling-registrations', 'schooling-registrations.organizationId', 'organizations.id')
+    .where('organizations.id', currentOrganizationId)
+    .where('schooling-registrations.createdAt', '>=', DATE_FOR_IMPORT_BANNER)
+    .first();
+
+  prescriber.areNewYearStudentsImported = Boolean(atLeastOneSchoolingRegistration);
+}
+
 module.exports = {
 
   async getPrescriber(userId) {
@@ -68,17 +86,11 @@ module.exports = {
           ] });
       const prescriber = _toPrescriberDomain(prescriberFromDB);
 
-      const currentOrganizationId = prescriber.userOrgaSettings.id ?
-        prescriber.userOrgaSettings.currentOrganization.id :
-        prescriber.memberships[0].organization.id;
+      if (_.isEmpty(prescriber.memberships)) {
+        throw new ForbiddenAccess(`User of ID ${userId} is not a prescriber`);
+      }
 
-      const atLeastOneSchoolingRegistration = await knex('organizations')
-        .select('organizations.id')
-        .join('schooling-registrations', 'schooling-registrations.organizationId', 'organizations.id')
-        .where('organizations.id', currentOrganizationId)
-        .where('schooling-registrations.createdAt', '>=', new Date('2020-08-15T00:00:00Z'))
-        .first();
-      prescriber.areNewYearStudentsImported = Boolean(atLeastOneSchoolingRegistration);
+      await _areNewYearStudentsImportedForPrescriber(prescriber);
 
       return prescriber;
     } catch (err) {
