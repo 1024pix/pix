@@ -78,7 +78,7 @@ describe('Integration | Component | routes/campaigns/restricted/join-sup', funct
       onSubmitStub = sinon.stub().rejects({ errors: [error] });
       this.set('onSubmitStub', onSubmitStub);
 
-      // given 
+      // given
       await render(hbs`<Routes::Campaigns::Restricted::JoinSup @campaignCode={{123}} @onSubmit={{this.onSubmitStub}}/>`);
 
       await fillIn('#studentNumber', '1234');
@@ -91,7 +91,7 @@ describe('Integration | Component | routes/campaigns/restricted/join-sup', funct
   });
 
   context('when i want change the student number', () => {
-    it('should hide the inputs firstname, lastname and birthdate', async function() {
+    it('should be possible de edit student number', async function() {
       // when
       this.set('onSubmitStub', onSubmitStub);
 
@@ -100,10 +100,10 @@ describe('Integration | Component | routes/campaigns/restricted/join-sup', funct
 
       await fillIn('#studentNumber', '1234');
       await click('[type="submit"]');
+      await click(contains('Modifier le numéro étudiant'));
 
       // then
-      expect(find('#studentNumber')).to.exist;
-      expect(contains('Changer de numéro étudiant'));
+      expect(find('#studentNumber').disabled).to.be.false;
     });
   });
 });

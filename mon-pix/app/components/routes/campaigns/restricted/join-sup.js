@@ -125,6 +125,7 @@ export default class JoinSup extends Component {
   @action
   async hideFurtherInformationForm() {
     this.showFurtherInformationForm = false;
+    this.errorMessage = null;
     this.firstName = '';
     this.lastName = '';
     this.dayOfBirth = '';

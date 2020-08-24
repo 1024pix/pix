@@ -182,6 +182,7 @@
   &:active {
     text-decoration: underline;
     color: $blue-hover;
+    cursor: pointer;
   }
 
   &--underline {
