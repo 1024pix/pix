@@ -1,4 +1,5 @@
 const path = require('path');
+const moment = require('moment');
 
 function parseJSONEnv(varName) {
   if (process.env[varName]) {
@@ -14,6 +15,18 @@ function isFeatureEnabled(environmentVariable) {
 function _getNumber(numberAsString, defaultIntNumber) {
   const number = parseInt(numberAsString, 10);
   return isNaN(number) ? defaultIntNumber : number;
+}
+
+function _getDate(dateAsString) {
+  if (!dateAsString) {
+    return null;
+  }
+  const dateAsMoment = moment(dateAsString);
+  if (!dateAsMoment.isValid()) {
+    return null;
+  }
+
+  return dateAsMoment.toDate();
 }
 
 module.exports = (function() {
@@ -117,6 +130,7 @@ module.exports = (function() {
       dayBeforeImproving: _getNumber(process.env.DAY_BEFORE_IMPROVING, 4),
       dayBeforeCompetenceResetV2: _getNumber(process.env.DAY_BEFORE_COMPETENCE_RESET_V2,7),
       garAccessV2: isFeatureEnabled(process.env.GAR_ACCESS_V2),
+      newYearSchoolingRegistrationsImportDate: _getDate(process.env.NEW_YEAR_SCHOOLING_REGISTRATIONS_IMPORT_DATE),
     },
 
     infra: {

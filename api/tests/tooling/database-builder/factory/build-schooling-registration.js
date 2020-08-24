@@ -27,6 +27,7 @@ module.exports = function buildSchoolingRegistration({
   department = faker.name.jobArea(),
   group = faker.random.alphaNumeric(3),
   diploma = faker.name.jobType(),
+  createdAt = faker.date.recent(),
   organizationId,
   userId,
 } = {}) {
@@ -55,6 +56,7 @@ module.exports = function buildSchoolingRegistration({
     department,
     group,
     diploma,
+    createdAt,
     organizationId,
     userId,
   };

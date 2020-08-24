@@ -232,7 +232,8 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     lastName: userWithEmailAndUsername.lastName,
     birthdate: '2003-09-30',
     organizationId: SCO2OrganizationId,
-    nationalStudentId: INE
+    nationalStudentId: INE,
+    createdAt: new Date('2020-08-14')
   });
 
   databaseBuilder.factory.buildSchoolingRegistration({
@@ -241,7 +242,8 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     lastName: userWithEmailAndUsername.lastName,
     birthdate: '2003-09-30',
     organizationId: SCO2OrganizationId,
-    nationalStudentId: anotherINE
+    nationalStudentId: anotherINE,
+    createdAt: new Date('2020-08-14')
   });
 
 };
