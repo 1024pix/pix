@@ -14,7 +14,9 @@ class HigherEducationRegistration {
     department,
     educationalTeam,
     group,
-    studyScheme
+    studyScheme,
+    organizationId,
+    userId,
   } = {}) {
     this.firstName = firstName;
     this.middleName = middleName;
@@ -29,7 +31,9 @@ class HigherEducationRegistration {
     this.educationalTeam = educationalTeam;
     this.group = group;
     this.studyScheme = studyScheme;
-
+    this.organizationId = organizationId;
+    this.userId = userId,
+    this.isSupernumerary = false;
     this._validate();
   }
 
@@ -41,6 +45,10 @@ class HigherEducationRegistration {
       studentNumber: this.studentNumber,
       email: this.email
     });
+  }
+
+  setIsSupernumerary() {
+    this.isSupernumerary = true;
   }
 }
 

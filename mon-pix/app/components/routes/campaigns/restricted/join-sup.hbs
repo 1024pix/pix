@@ -7,16 +7,42 @@
             @name="studentNumber"
             @value={{this.studentNumber}}
             placeholder="Numéro étudiant"
-            @required="true"
+            @disabled={{this.showFurtherInformationForm}}
+            @readonly={{this.showFurtherInformationForm}}
+            class={{if this.validation.studentNumber "input--error"}}
+            @focusOut={{fn this.triggerInputStringValidation "studentNumber" this.studentNumber}}
     />
+    <div class={{if this.validation.studentNumber "join-restricted-campaign__field-error"}} role="alert">
+      {{this.validation.studentNumber}}
+    </div>
+    {{#if this.showFurtherInformationForm}}
+      <button type="button" class="link join-restricted-campaign__back-button" {{on 'click' this.hideFurtherInformationForm}}>
+        Modifier le numéro étudiant
+      </button>
+    {{/if}}
   </div>
-  {{#if @errorMessage}}
-    <div class="join-restricted-campaign__error" aria-live="polite">{{{@errorMessage}}}</div>
+
+  {{#if this.errorMessage}}
+    <div class="join-restricted-campaign__error" aria-live="polite">{{{this.errorMessage}}}</div>
   {{/if}}
-  {{#if @isLoading}}
-    <button type="button" disabled class="button button--big"><span class="loader-in-button">&nbsp;</span></button>
+  {{#if this.showFurtherInformationForm}}
+    <Routes::Campaigns::Restricted::UserInformationForm
+            @validation={{this.validation}}
+            @firstName={{this.firstName}}
+            @lastName={{this.lastName}}
+            @dayOfBirth={{this.dayOfBirth}}
+            @monthOfBirth={{this.monthOfBirth}}
+            @yearOfBirth={{this.yearOfBirth}}
+            @triggerInputStringValidation={{this.triggerInputStringValidation}}
+            @triggerInputDayValidation={{this.triggerInputDayValidation}}
+            @triggerInputMonthValidation={{this.triggerInputMonthValidation}}
+            @triggerInputYearValidation={{this.triggerInputYearValidation}}
+    />
+  {{/if}}
+  {{#if this.isLoading}}
+    <button type="button" disabled class="button button--big join-restricted-campaign__submit-button"><span class="loader-in-button">&nbsp;</span></button>
   {{else}}
-    <button type="submit" class="button button--big" {{on 'click' this.attemptNext}}>
+    <button type="submit" class="button button--big join-restricted-campaign__submit-button" {{on 'click' this.attemptNext}}>
       C'est parti !
     </button>
   {{/if}}

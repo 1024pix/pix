@@ -1,10 +1,5 @@
 const usecases = require('../../domain/usecases');
 const schoolingRegistrationSerializer = require('../../infrastructure/serializers/jsonapi/schooling-registration-user-association-serializer');
-const _ = require('lodash');
-
-function _isReconciliationWithUserDetails(payload) {
-  return _.every(['first-name', 'last-name', 'birthdate'], _.partial(_.has, payload)) || payload['student-number'];
-}
 
 module.exports = {
   async reconcileAutomatically(request) {
@@ -19,24 +14,37 @@ module.exports = {
     const authenticatedUserId = request.auth.credentials.userId;
     const payload = request.payload.data.attributes;
     const campaignCode = payload['campaign-code'];
-    let schoolingRegistration;
 
-    if (_isReconciliationWithUserDetails(payload)) {
-      const reconciliationInfo = {
-        id: authenticatedUserId,
-        firstName: payload['first-name'],
-        lastName: payload['last-name'],
-        birthdate: payload['birthdate'],
-        studentNumber: payload['student-number'],
-      };
+    const reconciliationInfo = {
+      id: authenticatedUserId,
+      firstName: payload['first-name'],
+      lastName: payload['last-name'],
+      birthdate: payload['birthdate'],
+      studentNumber: payload['student-number'],
+    };
 
-      schoolingRegistration = await usecases.reconcileUserToSchoolingRegistrationData({ campaignCode, reconciliationInfo });
-    } else {
-      // deprecated in favor of associateAutomatically function
-      schoolingRegistration = await usecases.reconcileUserToOrganization({ userId: authenticatedUserId, campaignCode });
-    }
+    const schoolingRegistration = await usecases.reconcileUserToSchoolingRegistrationData({ campaignCode, reconciliationInfo });
 
     return schoolingRegistrationSerializer.serialize(schoolingRegistration);
+  },
+
+  async registerSupernumeraryHigherEducationRegistration(request, h) {
+    const userId = request.auth.credentials.userId;
+    const payload = request.payload.data.attributes;
+
+    const campaignCode = payload['campaign-code'];
+
+    const userInfo = {
+      userId,
+      studentNumber: payload['student-number'],
+      firstName: payload['first-name'],
+      lastName: payload['last-name'],
+      birthdate: payload['birthdate'],
+    };
+
+    await usecases.registerSupernumeraryHigherEducationRegistration({ campaignCode, userInfo });
+
+    return h.response(null).code(204);
   },
 
   findAssociation(request) {

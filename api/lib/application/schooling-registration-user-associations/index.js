@@ -34,14 +34,6 @@ exports.register = async function(server) {
                 type: 'schooling-registration-user-associations'
               }
             }),
-            Joi.object({
-              data: {
-                attributes: {
-                  'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                },
-                type: 'schooling-registration-user-associations'
-              }
-            })
           ),
           failAction: (request, h) => {
             const errorHttpStatusCode = 422;
@@ -57,6 +49,18 @@ exports.register = async function(server) {
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Elle associe des données saisies par l’utilisateur à l’inscription de l’élève dans cette organisation\n' +
           '- L’utilisation de cette route avec uniquement le paramètre campaign-code est dépréciée en faveur de la route /auto'
+        ],
+        tags: ['api', 'schoolingRegistrationUserAssociation']
+      }
+    },
+    {
+      method: 'POST',
+      path: '/api/schooling-registration-user-associations/register',
+      config: {
+        handler: schoolingRegistrationUserAssociationController.registerSupernumeraryHigherEducationRegistration,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Elle crée une inscription surnuméraire pour l’utilisateur dans cette organisation\n'
         ],
         tags: ['api', 'schoolingRegistrationUserAssociation']
       }

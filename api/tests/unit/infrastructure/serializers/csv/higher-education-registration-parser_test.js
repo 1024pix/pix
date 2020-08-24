@@ -50,6 +50,9 @@ describe('HigherEducationRegistrationParser', () => {
           educationalTeam: 'Hattori Hanzo',
           group: 'Deadly Viper Assassination Squad',
           studyScheme: 'hello darkness my old friend',
+          userId: undefined,
+          organizationId: undefined,
+          isSupernumerary: false
         });
         expect(registrations[1]).to.deep.equal({
           firstName: 'O-Ren',
@@ -65,6 +68,9 @@ describe('HigherEducationRegistrationParser', () => {
           educationalTeam: 'Bill',
           group: 'Deadly Viper Assassination Squad',
           studyScheme: undefined,
+          userId: undefined,
+          organizationId: undefined,
+          isSupernumerary: false
         });
       });
     });
