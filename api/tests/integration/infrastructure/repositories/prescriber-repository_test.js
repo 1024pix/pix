@@ -1,6 +1,7 @@
 const { expect, databaseBuilder, catchErr } = require('../../../test-helper');
 const faker = require('faker');
 const bcrypt = require('bcrypt');
+const settings = require('../../../../lib/config');
 
 const { ForbiddenAccess, UserNotFoundError } = require('../../../../lib/domain/errors');
 const prescriberRepository = require('../../../../lib/infrastructure/repositories/prescriber-repository');
@@ -154,9 +155,77 @@ describe('Integration | Infrastructure | Repository | Prescriber', () => {
         expect(foundPrescriber).to.be.an.instanceOf(Prescriber);
       });
 
+      context('when newYearSchoolingRegistrationsImportDate is defined in the env.', () => {
+
+        let originalEnvValue;
+        beforeEach(() => {
+          originalEnvValue = settings.features.newYearSchoolingRegistrationsImportDate;
+          settings.features.newYearSchoolingRegistrationsImportDate = '2020-08-15T00:00:00Z';
+        });
+
+        afterEach(() => {
+          settings.features.newYearSchoolingRegistrationsImportDate = originalEnvValue;
+        });
+
+        it('should return areNewYearSchoolingRegistrationsImported as true if there is at least one schooling-registrations created after the date in the env. for the organization', async () => {
+          // given
+          const userId = databaseBuilder.factory.buildUser().id;
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+          databaseBuilder.factory.buildMembership({ userId, organizationId });
+          databaseBuilder.factory.buildUserOrgaSettings({ userId, currentOrganizationId: organizationId });
+          databaseBuilder.factory.buildSchoolingRegistration({ organizationId, createdAt: new Date('2020-08-17') });
+          await databaseBuilder.commit();
+
+          // when
+          const foundPrescriber = await prescriberRepository.getPrescriber(userId);
+
+          // then
+          expect(foundPrescriber.areNewYearSchoolingRegistrationsImported).to.be.true;
+        });
+      });
+
+      context('when newYearSchoolingRegistrationsImportDate is not defined in the env.', () => {
+
+        let originalEnvValue;
+        beforeEach(() => {
+          originalEnvValue = settings.features.newYearSchoolingRegistrationsImportDate;
+          settings.features.newYearSchoolingRegistrationsImportDate = null;
+        });
+
+        afterEach(() => {
+          settings.features.newYearSchoolingRegistrationsImportDate = originalEnvValue;
+        });
+
+        it('should return areNewYearSchoolingRegistrationsImported as true if there is at least one schooling-registrations created for the organization', async () => {
+          // given
+          const userId = databaseBuilder.factory.buildUser().id;
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+          databaseBuilder.factory.buildMembership({ userId, organizationId });
+          databaseBuilder.factory.buildUserOrgaSettings({ userId, currentOrganizationId: organizationId });
+          databaseBuilder.factory.buildSchoolingRegistration({ organizationId });
+          await databaseBuilder.commit();
+
+          // when
+          const foundPrescriber = await prescriberRepository.getPrescriber(userId);
+
+          // then
+          expect(foundPrescriber.areNewYearSchoolingRegistrationsImported).to.be.true;
+        });
+      });
+
       context('when prescriber has a user-orga-settings', () => {
 
-        it('should return areNewYearSchoolingRegistrationsImported as true if there is at least one schooling-registrations created after 2020-08-15 for the organization of the user-orga-settings', async () => {
+        let originalEnvValue;
+        beforeEach(() => {
+          originalEnvValue = settings.features.newYearSchoolingRegistrationsImportDate;
+          settings.features.newYearSchoolingRegistrationsImportDate = '2020-08-15T00:00:00Z';
+        });
+
+        afterEach(() => {
+          settings.features.newYearSchoolingRegistrationsImportDate = originalEnvValue;
+        });
+
+        it('should return areNewYearSchoolingRegistrationsImported as true if there is at least one schooling-registrations created for the organization of the user-orga-settings', async () => {
           // given
           const userId = databaseBuilder.factory.buildUser().id;
           const organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -172,7 +241,7 @@ describe('Integration | Infrastructure | Repository | Prescriber', () => {
           expect(foundPrescriber.areNewYearSchoolingRegistrationsImported).to.be.true;
         });
 
-        it('should return areNewYearSchoolingRegistrationsImported as false if there is no schooling-registrations created after 2020-08-15 for the organization of the user-orga-settings', async () => {
+        it('should return areNewYearSchoolingRegistrationsImported as false if there is no schooling-registrations created for the organization of the user-orga-settings', async () => {
           // given
           const userId = databaseBuilder.factory.buildUser().id;
           const organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -192,7 +261,17 @@ describe('Integration | Infrastructure | Repository | Prescriber', () => {
 
       context('when prescriber does not have a user-orga-settings', () => {
 
-        it('should return areNewYearSchoolingRegistrationsImported as true if there is at least one schooling-registrations created after 2020-08-15 for the organization of the first membership', async () => {
+        let originalEnvValue;
+        beforeEach(() => {
+          originalEnvValue = settings.features.newYearSchoolingRegistrationsImportDate;
+          settings.features.newYearSchoolingRegistrationsImportDate = '2020-08-15T00:00:00Z';
+        });
+
+        afterEach(() => {
+          settings.features.newYearSchoolingRegistrationsImportDate = originalEnvValue;
+        });
+
+        it('should return areNewYearSchoolingRegistrationsImported as true if there is at least one schooling-registrations created for the organization of the first membership', async () => {
           // given
           const userId = databaseBuilder.factory.buildUser().id;
           const organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -207,7 +286,7 @@ describe('Integration | Infrastructure | Repository | Prescriber', () => {
           expect(foundPrescriber.areNewYearSchoolingRegistrationsImported).to.be.true;
         });
 
-        it('should return areNewYearSchoolingRegistrationsImported as false if there is no schooling-registrations created after 2020-08-15 for the organization of the first membership', async () => {
+        it('should return areNewYearSchoolingRegistrationsImported as false if there is no schooling-registrations created for the organization of the first membership', async () => {
           // given
           const userId = databaseBuilder.factory.buildUser().id;
           const organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -221,7 +300,6 @@ describe('Integration | Infrastructure | Repository | Prescriber', () => {
           // then
           expect(foundPrescriber.areNewYearSchoolingRegistrationsImported).to.be.false;
         });
-
       });
     });
   });
