@@ -56,7 +56,6 @@ function _toUserOrgaSettingsDomain(userOrgaSettingsBookshelf) {
 }
 
 async function _areNewYearSchoolingRegistrationsImportedForPrescriber(prescriber) {
-  console.log(settings.features.newYearSchoolingRegistrationsImportDate);
   const currentOrganizationId = prescriber.userOrgaSettings.id ?
     prescriber.userOrgaSettings.currentOrganization.id :
     prescriber.memberships[0].organization.id;
