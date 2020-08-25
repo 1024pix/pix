@@ -549,6 +549,116 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
         expect(csvLines[1]).to.equal(csvDataExpected);
       });
     });
+
+    context('when organization is SUP', () => {
+      let campaignWithoutIdPixLabel;
+      const organization = domainBuilder.buildOrganization({ type: 'SUP' });
+
+      beforeEach(() => {
+        campaignWithoutIdPixLabel = domainBuilder.buildCampaign.ofTypeAssessment({
+          name: 'CampaignName',
+          code: 'AZERTY123',
+          organizationId: organization.id,
+          idPixLabel: null,
+        });
+        const user = domainBuilder.buildUser({ firstName: '@Jean', lastName: '=Bono' });
+        const campaignParticipationInfo = {
+          id: 1,
+          isShared: false,
+          createdAt: new Date('2019-02-25T10:00:00Z'),
+          userId: 123,
+          participantFirstName: user.firstName,
+          participantLastName: user.lastName,
+          organizationName: organization.name,
+          organizationType: organization.type,
+          campaignId: campaignWithoutIdPixLabel.id,
+          campaignName: campaignWithoutIdPixLabel.name,
+          campaignIdPixLabel: campaignWithoutIdPixLabel.idPixLabel,
+          studentNumber: 'ie24052',
+          isCompleted: true,
+        };
+        user.memberships = [{ organization: { id:  organization.id } }];
+        userRepository.getWithMemberships.resolves(user);
+        findByCampaignIdStub.resolves([campaignParticipationInfo]);
+        campaignRepository.get.resolves(campaignWithoutIdPixLabel);
+        organizationRepository.get.resolves(organization);
+      });
+
+      it('should return the header and the data in CSV styles with student number', async () => {
+        // given
+        const csvHeadersExpected =
+          '\uFEFF"Nom de l\'organisation";' +
+          '"ID Campagne";' +
+          '"Nom de la campagne";' +
+          '"Nom du Profil Cible";' +
+          '"Nom du Participant";' +
+          '"Prénom du Participant";' +
+          '"Numéro Étudiant";' +
+          '"% de progression";' +
+          '"Date de début";' +
+          '"Partage (O/N)";' +
+          '"Date du partage";' +
+          '"% maitrise de l\'ensemble des acquis du profil";' +
+          '"% de maitrise des acquis de la compétence Competence1";' +
+          '"Nombre d\'acquis du profil cible dans la compétence Competence1";' +
+          '"Acquis maitrisés dans la compétence Competence1";' +
+          '"% de maitrise des acquis du domaine Domain 1";' +
+          '"Nombre d\'acquis du profil cible du domaine Domain 1";' +
+          '"Acquis maitrisés du domaine Domain 1";' +
+          '"\'@web1";' +
+          '"\'@web2";' +
+          '"\'@web3";' +
+          '"\'@web4";' +
+          '"\'@web5"';
+
+        const csvDataExpected =
+          `"${organization.name}";` +
+          `${campaignWithoutIdPixLabel.id};` +
+          `"${campaignWithoutIdPixLabel.name}";` +
+          `"'${targetProfile.name}";` +
+          `"'${user.lastName}";` +
+          `"'${user.firstName}";` +
+          '"ie24052";' +
+          '1;' +
+          '2019-02-25;' +
+          '"Non";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA"';
+
+        // when
+        startWritingCampaignAssessmentResultsToStream({
+          userId: user.id,
+          campaignId: campaign.id,
+          writableStream,
+          campaignRepository,
+          userRepository,
+          targetProfileRepository,
+          competenceRepository,
+          organizationRepository,
+          campaignParticipationInfoRepository,
+          knowledgeElementRepository,
+          campaignCsvExportService
+        });
+
+        const csv = await csvPromise;
+        const csvLines = csv.split('\n');
+
+        // then
+        expect(csvLines[0]).to.equal(csvHeadersExpected);
+        expect(csvLines[1]).to.equal(csvDataExpected);
+      });
+    });
   });
 });
 
