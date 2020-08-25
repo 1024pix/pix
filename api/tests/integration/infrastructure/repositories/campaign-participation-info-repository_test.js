@@ -24,6 +24,8 @@ describe('Integration | Repository | Campaign Participation Info', () => {
         userId,
         isShared: true,
       });
+      databaseBuilder.factory.buildAssessment({ campaignParticipationId: campaignParticipation1.id, userId, state: 'started', createdAt: new Date('2019-12-31'),
+      });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign2.id,
         isShared: true,
@@ -32,6 +34,14 @@ describe('Integration | Repository | Campaign Participation Info', () => {
     });
 
     it('should return all the campaign-participation links to the given campaign', async () => {
+      databaseBuilder.factory.buildAssessment({
+        campaignParticipationId: campaignParticipation1.id,
+        createdAt: new Date('2020-01-02'),
+        state: 'started',
+      });
+
+      await databaseBuilder.commit();
+
       // given
       const campaignId = campaign1.id;
 
@@ -60,12 +70,13 @@ describe('Integration | Repository | Campaign Participation Info', () => {
           campaignParticipationId: campaignParticipation1.id,
           createdAt: new Date('2020-01-02'),
           state: 'completed',
-
+          userId
         });
         databaseBuilder.factory.buildAssessment({
           campaignParticipationId: campaignParticipation1.id,
           createdAt: new Date('2020-01-01'),
           state: 'started',
+          userId
         });
         await databaseBuilder.commit();
       });
@@ -137,12 +148,13 @@ describe('Integration | Repository | Campaign Participation Info', () => {
       it('Should return null as shared date', async () => {
         // given
         const campaign = databaseBuilder.factory.buildCampaign({ sharedAt: null });
-        databaseBuilder.factory.buildCampaignParticipation({
+        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
           userId,
           isShared: false,
           sharedAt: null
-        });
+        }).id;
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'started' });
 
         await databaseBuilder.commit();
 
@@ -160,12 +172,13 @@ describe('Integration | Repository | Campaign Participation Info', () => {
       it('should return the student number', async () => {
         // given
         const campaign = databaseBuilder.factory.buildCampaign({ sharedAt: null });
-        databaseBuilder.factory.buildCampaignParticipation({
+        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
           userId,
           isShared: false,
           sharedAt: null
-        });
+        }).id;
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'started' });
         const studentNumber = databaseBuilder.factory.buildSchoolingRegistration({
           organizationId: campaign.organizationId,
           userId,
