@@ -32,6 +32,7 @@ export default class JoinSup extends Component {
   @tracked errorMessage;
   @tracked isLoading = false;
   @tracked showFurtherInformationForm = false;
+  @tracked noStudentNumber = false;
 
   @tracked firstName = '';
   @tracked lastName = '';
@@ -93,7 +94,7 @@ export default class JoinSup extends Component {
 
       schoolingRegistration = this.store.createRecord('schooling-registration-user-association', {
         id: this.args.campaignCode + '_' + this.lastName,
-        studentNumber: this.studentNumber,
+        studentNumber: this.noStudentNumber ? null : this.studentNumber,
         firstName: this.firstName,
         lastName: this.lastName,
         birthdate: this.birthdate,
@@ -123,14 +124,22 @@ export default class JoinSup extends Component {
   }
 
   @action
-  async hideFurtherInformationForm() {
+  hideFurtherInformationForm() {
     this.showFurtherInformationForm = false;
+    this.noStudentNumber = false;
     this.errorMessage = null;
     this.firstName = '';
     this.lastName = '';
     this.dayOfBirth = '';
     this.monthOfBirth = '';
     this.yearOfBirth = '';
+  }
+
+  @action
+  toggleNoStudentNumber() {
+    this.noStudentNumber = !this.noStudentNumber;
+    this.showFurtherInformationForm = !this.showFurtherInformationForm;
+    this.errorMessage = null;
   }
 
   _setErrorMessageForAttemptNextAction(errorResponse) {
