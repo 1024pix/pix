@@ -21,12 +21,12 @@ given(`je m'inscris avec le prénom {string}, le nom {string}, le mail {string} 
 });
 
 // When
-when('je vais sur Pix via un organisme externe', () => {
-  cy.loginExternalPlatform();
+when('je me connecte à Pix via le GAR', () => {
+  cy.loginExternalPlatformForTheFirstTime();
 });
 
-when('je vais sur Pix pour accéder à une campagne via le GAR', () => {
-  cy.loginFromGarToJoinCampaign();
+when('je me connecte sur Pix pour la seconde fois via le GAR', () => {
+  cy.loginExternalPlatformForTheSecondTime();
 });
 
 when(`je vais sur l'inscription de Pix`, () => {
