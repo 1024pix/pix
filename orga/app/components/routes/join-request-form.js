@@ -3,7 +3,6 @@ import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import InputValidator from '../../utils/input-validator';
-import isUAIValid from '../../utils/uai-validator';
 
 const isStringValid = (value) => value ? Boolean(value.trim()) : undefined;
 
@@ -19,7 +18,6 @@ export default class JoinRequestForm extends Component {
   @tracked isLoading = false;
 
   validation = {
-    uai: new InputValidator(isUAIValid, 'L\'UAI n\'est pas au bon format.'),
     firstName: new InputValidator(isStringValid, 'Votre prénom n’est pas renseigné.'),
     lastName: new InputValidator(isStringValid, 'Votre nom n’est pas renseigné.'),
   };
