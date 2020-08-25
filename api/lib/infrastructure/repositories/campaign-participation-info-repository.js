@@ -12,10 +12,16 @@ module.exports = {
           _assessmentRankByCreationDate(),
           'users.firstName',
           'users.lastName',
+          'schooling-registrations.studentNumber',
         ])
           .from('campaign-participations')
           .leftJoin('users', 'campaign-participations.userId', 'users.id')
           .leftJoin('assessments', 'campaign-participations.id', 'assessments.campaignParticipationId')
+          .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
+          .leftJoin('schooling-registrations', function() {
+            this.on('schooling-registrations.userId', 'campaign-participations.userId')
+              .andOn('schooling-registrations.organizationId', 'campaigns.organizationId');
+          })
           .where({ campaignId: campaignId });
       })
       .from('campaignParticipationWithUserAndRankedAssessment')
@@ -34,6 +40,7 @@ function _rowToCampaignParticipationInfo(row) {
     participantFirstName: row.firstName,
     participantLastName: row.lastName,
     participantExternalId: row.participantExternalId,
+    studentNumber: row.studentNumber,
     userId: row.userId,
     isCompleted: row.state === Assessment.states.COMPLETED,
     createdAt: new Date(row.createdAt),

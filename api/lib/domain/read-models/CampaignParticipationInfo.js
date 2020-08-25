@@ -6,6 +6,7 @@ const validationSchema = Joi.object({
   participantFirstName: Joi.string().required(),
   participantLastName: Joi.string().required(),
   participantExternalId: Joi.string().optional().allow(null),
+  studentNumber: Joi.string().optional().allow(null),
   userId: Joi.number().integer().required(),
   isCompleted: Joi.boolean().required(),
   createdAt: Joi.date().required(),
@@ -17,7 +18,8 @@ class CampaignParticipationInfo {
   constructor({
     participantFirstName,
     participantLastName,
-    participantExternalId,
+    participantExternalId = null,
+    studentNumber = null,
     userId,
     isCompleted,
     createdAt,
@@ -26,6 +28,7 @@ class CampaignParticipationInfo {
     this.participantFirstName = participantFirstName;
     this.participantLastName = participantLastName;
     this.participantExternalId = participantExternalId;
+    this.studentNumber = studentNumber;
     this.userId = userId;
     this.isCompleted = isCompleted;
     this.createdAt = createdAt;
