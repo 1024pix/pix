@@ -15,8 +15,8 @@ module.exports = {
           'schooling-registrations.studentNumber',
         ])
           .from('campaign-participations')
-          .leftJoin('users', 'campaign-participations.userId', 'users.id')
-          .leftJoin('assessments', 'campaign-participations.id', 'assessments.campaignParticipationId')
+          .join('users', 'campaign-participations.userId', 'users.id')
+          .join('assessments', 'campaign-participations.id', 'assessments.campaignParticipationId')
           .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
           .leftJoin('schooling-registrations', function() {
             this.on('schooling-registrations.userId', 'campaign-participations.userId')
