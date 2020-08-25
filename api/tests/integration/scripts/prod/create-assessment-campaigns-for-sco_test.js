@@ -17,30 +17,6 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
       return databaseBuilder.commit();
     });
 
-    it('should create the campaign model', async () => {
-      // given
-      const creatorId = '789';
-      const targetProfileId = '123';
-      const campaignData = {
-        targetProfileId,
-        name: 'CampaignName',
-        externalId,
-        title: 'SomeTitle',
-        customLandingPageText: 'SomeLandingPage',
-      };
-
-      // when
-      const campaigns = await prepareCampaigns(creatorId, [campaignData]);
-
-      // then
-      expect(campaigns).to.have.length(1);
-      expect(campaigns[0].organizationId).to.equal(organizationId);
-      expect(campaigns[0].targetProfileId).to.equal(campaignData.targetProfileId);
-      expect(campaigns[0].name).to.equal(campaignData.name);
-      expect(campaigns[0].title).to.equal(campaignData.title);
-      expect(campaigns[0].customLandingPageText).to.equal(campaignData.customLandingPageText);
-    });
-
     it('should generate a code for the campaign model', async () => {
       // given
       const creatorId = '789';
@@ -69,11 +45,15 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
         targetProfileId: targetProfileId1,
         name: 'Name1',
         externalId,
+        title: 'title1',
+        customLandingPageText: 'customLandingPageText1'
       };
       const campaignData2 = {
         targetProfileId: targetProfileId2,
         name: 'Name2',
         externalId,
+        title: 'title2',
+        customLandingPageText: 'customLandingPageText2'
       };
 
       // when
@@ -81,12 +61,18 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
 
       // then
       expect(campaigns).to.have.length(2);
+      expect(campaigns[0].organizationId).to.equal(organizationId);
       expect(campaigns[0].targetProfileId).to.equal(campaignData1.targetProfileId);
       expect(campaigns[0].name).to.equal(campaignData1.name);
-      expect(campaigns[0].organizationId).to.equal(organizationId);
+      expect(campaigns[0].title).to.equal(campaignData1.title);
+      expect(campaigns[0].customLandingPageText).to.equal(campaignData1.customLandingPageText);
+
+      expect(campaigns[1].organizationId).to.equal(organizationId);
       expect(campaigns[1].targetProfileId).to.equal(campaignData2.targetProfileId);
       expect(campaigns[1].name).to.equal(campaignData2.name);
-      expect(campaigns[1].organizationId).to.equal(organizationId);
+      expect(campaigns[1].title).to.equal(campaignData2.title);
+      expect(campaigns[1].customLandingPageText).to.equal(campaignData2.customLandingPageText);
+     
     });
 
     it('should throw a validate error when campaign is not valid', async () => {
@@ -106,7 +92,7 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
 
   describe('#checkData', () => {
 
-    it('should create the campaign model', () => {
+    it('should create proper campaign attributes', () => {
       // given
       const targetProfileId = '123';
       const name = 'SomeName';
@@ -125,6 +111,28 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
         externalId,
         title,
         customLandingPageText,
+      });
+    });
+
+    it('replace title and customLandingPageText when there has empty', () => {
+      // given
+      const targetProfileId = '123';
+      const name = 'SomeName';
+      const externalId = '456';
+      const title = '';
+      const customLandingPageText = '';
+      const csvData = [{ targetProfileId, name, externalId, title, customLandingPageText }];
+
+      // when
+      const checkedData = checkData(csvData);
+
+      // then
+      expect(checkedData[0]).to.deep.equal({
+        targetProfileId,
+        name,
+        externalId,
+        title: null,
+        customLandingPageText: null,
       });
     });
 

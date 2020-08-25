@@ -49,7 +49,7 @@ function checkData(csvData) {
     if (_.isEmpty(customLandingPageText)) customLandingPageText = null;
 
     return { targetProfileId, name, externalId, title, customLandingPageText };
-  }).filter((data) => !!data);
+  });
 }
 
 async function prepareCampaigns(creatorId, campaignsData) {
