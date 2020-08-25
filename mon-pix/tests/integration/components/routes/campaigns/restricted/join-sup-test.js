@@ -106,4 +106,20 @@ describe('Integration | Component | routes/campaigns/restricted/join-sup', funct
       expect(find('#studentNumber').disabled).to.be.false;
     });
   });
+
+  context('when i don’t have a student number', () => {
+    it('should display user data form', async function() {
+      // when
+      this.set('onSubmitStub', onSubmitStub);
+
+      // given
+      await render(hbs`<Routes::Campaigns::Restricted::JoinSup @campaignCode={{123}} @onSubmit={{this.onSubmitStub}}/>`);
+
+      await click('[type="checkbox"]');
+
+      // then
+      expect(find('#studentNumber').disabled).to.be.true;
+      expect(find('#firstName')).to.exist;
+    });
+  });
 });

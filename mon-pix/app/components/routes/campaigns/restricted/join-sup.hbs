@@ -20,6 +20,11 @@
         Modifier le numéro étudiant
       </button>
     {{/if}}
+
+    <label for="no-student-number">
+      <Input @type="checkbox" @id="no-student-number" class="join-restricted-campaign__no-student-number" @checked={{this.noStudentNumber}} {{on 'click' this.toggleNoStudentNumber}}/>
+      Je n’ai pas de numéro étudiant
+    </label>
   </div>
 
   {{#if this.errorMessage}}

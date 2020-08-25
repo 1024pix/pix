@@ -5,7 +5,7 @@
     margin: 0 auto;
   }
 
-  input {
+  input[type="text"] {
     width: 100%;
     height: 50px;
     border-radius: 4px;
@@ -83,7 +83,7 @@
     justify-content: space-between;
     align-items: center;
 
-    & input {
+    & input[type="text"] {
       text-align: center;
       padding-left: 0;
       margin-bottom: 4px;
@@ -99,6 +99,10 @@
   &__back-button {
     margin: 0;
     text-align: right;
+  }
+
+  &__no-student-number {
+    margin: 10px 8px 0 0;
   }
 }
 

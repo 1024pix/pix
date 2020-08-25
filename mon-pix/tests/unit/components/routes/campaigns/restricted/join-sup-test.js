@@ -27,11 +27,11 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
 
   describe('#attemptNext', function() {
 
-    beforeEach(function() {
-      component.studentNumber = '123456';
-    });
-
     context('when only student number is required', () => {
+      beforeEach(function() {
+        component.studentNumber = '123456';
+      });
+
       it('call on submit function', async function() {
         // given
         const schoolingRegistration = Symbol('registration');
@@ -43,15 +43,20 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
             campaignCode: component.args.campaignCode,
           }
         ).returns(schoolingRegistration);
-  
+
         // when
         await component.actions.attemptNext.call(component, eventStub);
+
         // then
         sinon.assert.calledWith(onSubmitStub, schoolingRegistration, {});
       });
     });
 
     context('when all user info are required', () => {
+      beforeEach(function() {
+        component.studentNumber = '123456';
+      });
+
       it('call on submit function', async function() {
         // given
         component.firstName = 'firstName';
@@ -73,10 +78,48 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
             campaignCode: component.args.campaignCode,
           }
         ).returns(schoolingRegistration);
-        
         component.showFurtherInformationForm = true;
+
         // when
         await component.actions.attemptNext.call(component, eventStub);
+
+        // then
+        sinon.assert.calledWith(onSubmitStub, schoolingRegistration, adapterOptions);
+      });
+    });
+
+    context('when student number is not required but others attributes are', () => {
+      beforeEach(function() {
+        component.noStudentNumber = true;
+      });
+
+      it('call on submit function', async function() {
+        // given
+        component.firstName = 'firstName';
+        component.lastName = 'lastName';
+        component.dayOfBirth = '01';
+        component.monthOfBirth = '01';
+        component.yearOfBirth = '2010';
+
+        const adapterOptions = { registerAdditional: true };
+        const schoolingRegistration = Symbol('registration');
+        storeStub.createRecord.withArgs(
+          'schooling-registration-user-association',
+          {
+            id: `${component.args.campaignCode}_${component.lastName}`,
+            studentNumber: null,
+            firstName: component.firstName,
+            lastName: component.lastName,
+            birthdate: component.birthdate,
+            campaignCode: component.args.campaignCode,
+          }
+        ).returns(schoolingRegistration);
+
+        component.showFurtherInformationForm = true;
+
+        // when
+        await component.actions.attemptNext.call(component, eventStub);
+
         // then
         sinon.assert.calledWith(onSubmitStub, schoolingRegistration, adapterOptions);
       });
@@ -95,7 +138,6 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
     });
 
     it('should prevent default handling of event', async function() {
-      // given
       // when
       await component.actions.attemptNext.call(component, eventStub);
 
