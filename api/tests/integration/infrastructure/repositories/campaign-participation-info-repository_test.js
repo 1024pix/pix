@@ -48,6 +48,7 @@ describe('Integration | Repository | Campaign Participation Info', () => {
           isCompleted: false,
           participantFirstName: 'First',
           participantLastName: 'Last',
+          studentNumber: null,
         }
       ]);
       expect(campaignParticipationInfos[0].isShared).to.be.true;
@@ -86,6 +87,7 @@ describe('Integration | Repository | Campaign Participation Info', () => {
             isCompleted: true,
             participantFirstName: 'First',
             participantLastName: 'Last',
+            studentNumber: null,
           }
         ]);
         expect(campaignParticipationInfos[0].isShared).to.be.true;
@@ -124,6 +126,7 @@ describe('Integration | Repository | Campaign Participation Info', () => {
             isCompleted: false,
             participantFirstName: 'First',
             participantLastName: 'Last',
+            studentNumber: null,
           }
         ]);
         expect(campaignParticipationInfos[0].isShared).to.be.true;
@@ -149,6 +152,32 @@ describe('Integration | Repository | Campaign Participation Info', () => {
         // then
         expect(campaignParticipationInfos[0].isShared).to.be.false;
         expect(campaignParticipationInfos[0].sharedAt).to.equal(null);
+      });
+    });
+
+    context('When the participation has a schooling registration with a student number', () => {
+
+      it('should return the student number', async () => {
+        // given
+        const campaign = databaseBuilder.factory.buildCampaign({ sharedAt: null });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          userId,
+          isShared: false,
+          sharedAt: null
+        });
+        const studentNumber = databaseBuilder.factory.buildSchoolingRegistration({
+          organizationId: campaign.organizationId,
+          userId,
+          studentNumber: 'Pipon et Jambon',
+        }).studentNumber;
+        await databaseBuilder.commit();
+
+        // when
+        const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
+
+        // then
+        expect(campaignParticipationInfos[0].studentNumber).to.equal(studentNumber);
       });
     });
   });

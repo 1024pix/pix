@@ -12,6 +12,7 @@ describe('Unit | Domain | Read-models | CampaignParticipationInfo', () => {
         participantFirstName: 'Mariah',
         participantLastName: 'Carey',
         participantExternalId: 'Christmas1990',
+        studentNumber: 'SuperEtudiant',
         userId: 123,
         isCompleted: true,
         createdAt: new Date('2019-04-01'),
@@ -52,6 +53,20 @@ describe('Unit | Domain | Read-models | CampaignParticipationInfo', () => {
       expect(() => new CampaignParticipationInfo({ ...validArguments, participantExternalId: null }))
         .not.to.throw(ObjectValidationError);
       expect(() => new CampaignParticipationInfo({ ...validArguments, participantExternalId: undefined }))
+        .not.to.throw(ObjectValidationError);
+    });
+
+    it('should throw an ObjectValidationError when studentNumber is not valid', () => {
+      // when
+      expect(() => new CampaignParticipationInfo({ ...validArguments, studentNumber: 123456 }))
+        .to.throw(ObjectValidationError);
+    });
+
+    it('should not throw an ObjectValidationError when studentNumber is null or undefined', () => {
+      // when
+      expect(() => new CampaignParticipationInfo({ ...validArguments, studentNumber: null }))
+        .not.to.throw(ObjectValidationError);
+      expect(() => new CampaignParticipationInfo({ ...validArguments, studentNumber: undefined }))
         .not.to.throw(ObjectValidationError);
     });
 

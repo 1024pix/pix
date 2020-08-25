@@ -87,6 +87,7 @@ class CampaignAssessmentCsvLine {
       this.targetProfile.name,
       this.campaignParticipationInfo.participantLastName,
       this.campaignParticipationInfo.participantFirstName,
+      ...(this.organization.type === 'SUP' ? [this.campaignParticipationInfo.studentNumber] : []),
       ...(this.campaign.idPixLabel ? [this.campaignParticipationInfo.participantExternalId] : []),
       this.campaignParticipationService.progress(this.campaignParticipationInfo.isCompleted, this.knowledgeElements.length, this.targetProfile.skills.length),
       moment.utc(this.campaignParticipationInfo.createdAt).format('YYYY-MM-DD'),
