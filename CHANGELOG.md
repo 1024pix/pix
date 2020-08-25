@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v2.187.0 (25/08/2020)
+
+- [#1801](https://github.com/1024pix/pix/pull/1801) [FEATURE] Affiche un bandeau indiquant de réaliser les campagnes de pré-rentrée (PIX-1115).
+- [#1787](https://github.com/1024pix/pix/pull/1787) [FEATURE] Activer l'ajout d'un moyen de connexion dans tous les cas (PIX-1141).
+- [#1799](https://github.com/1024pix/pix/pull/1799) [FEATURE] Ajout d'un script pour créer en masse les campagnes de rentrée du SCO (PIX-1083).
+- [#1792](https://github.com/1024pix/pix/pull/1792) [FEATURE] Afficher l'image du palier pour les profils cibles associés (PIX-1053). 
+- [#1794](https://github.com/1024pix/pix/pull/1794) [FEATURE] Afficher une bannière invitant les membres d'une organisation SCO à importer des élèves si ce n'est pas fait après une certaine date (PIX-1085)
+- [#1797](https://github.com/1024pix/pix/pull/1797) [BUGFIX] Supprimer la validation syntaxique des UAIs lors d'une demande administration SCO (PIX-1162)
+- [#1800](https://github.com/1024pix/pix/pull/1800) [CLEANUP] Oubli d'un console.log dans le prescriberRepository
+
 ## v2.186.0 (24/08/2020)
 
 - [#1777](https://github.com/1024pix/pix/pull/1777) [FEATURE] Autoriser l'auto-inscription si la réconciliation ne se fait pas avec un numéro étudiant (PIX-1062)
