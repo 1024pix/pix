@@ -24,6 +24,7 @@ export default class FeedbackPanel extends Component {
   _category = null;
   _questions = questions;
   _sendButtonStatus = buttonStatusTypes.unrecorded;
+  _currentMajorCategory = null;
 
   constructor(owner, args) {
     super(owner, args);
@@ -57,6 +58,7 @@ export default class FeedbackPanel extends Component {
   @action
   async sendFeedback(event) {
     event && event.preventDefault();
+
     if (this.isSendButtonDisabled) {
       return;
     }
@@ -69,9 +71,12 @@ export default class FeedbackPanel extends Component {
       return;
     }
 
+    const category = this._category ?
+      this.intl.t(this._category) :
+      this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.' + this._currentMajorCategory);
     const feedback = this.store.createRecord('feedback', {
       content: this.content,
-      category: this._category,
+      category,
       assessment: this.args.assessment,
       challenge: this.args.challenge,
       answer: _.get(this.args, 'answer.value', null),
@@ -93,9 +98,10 @@ export default class FeedbackPanel extends Component {
     this.quickHelpInstructions = null;
     this.emptyTextBoxMessageError = null;
     this.displayQuestionDropdown = false;
+    this._category = null;
 
-    this.nextCategory = this._questions[event.target.value];
-    this._category = event.target.value;
+    this._currentMajorCategory = event.target.value;
+    this.nextCategory = this._questions[this._currentMajorCategory];
 
     if (this.nextCategory.length > 1) {
       this.displayQuestionDropdown = true;
@@ -111,7 +117,6 @@ export default class FeedbackPanel extends Component {
       this.quickHelpInstructions = null;
       this.emptyTextBoxMessageError = null;
     }
-
     this.emptyTextBoxMessageError = null;
     this._category = this.nextCategory[event.target.value].name;
     this._showFeedbackActionBasedOnCategoryType(this.nextCategory[event.target.value]);

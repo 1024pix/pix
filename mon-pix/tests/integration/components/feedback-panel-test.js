@@ -20,7 +20,7 @@ const TEXTAREA = 'textarea.feedback-panel__field--content';
 const DROPDOWN = '.feedback-panel__dropdown';
 const TUTORIAL_AREA = '.feedback-panel__tutorial-content';
 
-const PICK_CATEGORY_WITH_NESTED_LEVEL = 'instructions';
+const PICK_CATEGORY_WITH_NESTED_LEVEL = 'question';
 const PICK_CATEGORY_WITH_TEXTAREA = 'link';
 const PICK_CATEGORY_WITH_TUTORIAL = 'picture';
 
