@@ -1,7 +1,6 @@
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
-import ENV from 'pix-orga/config/environment';
 import { tracked } from '@glimmer/tracking';
 
 export default class ListItems extends Component {
@@ -12,20 +11,18 @@ export default class ListItems extends Component {
   @service notifications;
 
   @tracked student = null;
-  @tracked isShowingModal = false;
+  @tracked isShowingAuthenticationMethodModal = false;
   @tracked isShowingDissociateModal = false;
 
-  isGenerateUsernameFeatureIsEnabled = ENV.APP.IS_GENERATE_USERNAME_FEATURE_ENABLED;
-
   @action
-  openPasswordReset(student) {
+  openAuthenticationMethodModal(student) {
     this.student = student;
-    this.isShowingModal = true;
+    this.isShowingAuthenticationMethodModal = true;
   }
 
   @action
-  closePasswordReset() {
-    this.isShowingModal = false;
+  closeAuthenticationMethodModal() {
+    this.isShowingAuthenticationMethodModal = false;
   }
 
   @action

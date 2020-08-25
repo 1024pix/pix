@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import get from 'lodash/get';
 
-export default class PasswordResetModal extends Component {
+export default class ManageAuthenticationMethodModal extends Component {
 
   @service store;
   @service notifications;
@@ -82,7 +82,7 @@ export default class PasswordResetModal extends Component {
   }
 
   @action
-  closePasswordReset() {
+  closeModal() {
     this.isUniquePasswordVisible = false;
     this.args.close();
   }

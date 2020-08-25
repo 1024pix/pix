@@ -46,9 +46,4 @@ export default class Student extends Model {
     return Boolean(!this.hasEmail && !this.hasUsername && this.isAuthenticatedFromGar);
   }
 
-  @computed('hasUsername', 'hasEmail', 'isAuthenticatedFromGar')
-  get isAuthenticatedWithEmailOrUsernameOnly() {
-    return Boolean((this.hasEmail || this.hasUsername) && !this.isAuthenticatedFromGar);
-  }
-
 }
