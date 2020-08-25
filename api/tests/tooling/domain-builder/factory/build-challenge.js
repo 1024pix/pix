@@ -20,6 +20,7 @@ module.exports = function buildChallenge(
     type = Challenge.Type.QCM,
     locales = ['fr'],
     autReply = false,
+    alternativeInstruction,
     // includes
     answer,
     validator = new Validator(),
@@ -44,6 +45,7 @@ module.exports = function buildChallenge(
     type,
     locales,
     autReply,
+    alternativeInstruction,
     // includes
     answer,
     validator,
