@@ -102,10 +102,10 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     const targetProfileRepository = { get: () => undefined };
     const competenceRepository = { list: () => undefined };
     const organizationRepository = { get: () => undefined };
-    const campaignParticipationRepository = { findAssessmentResultDataByCampaignId: () => undefined };
+    const campaignParticipationInfoRepository = { findByCampaignId: () => undefined };
     const knowledgeElementRepository = { findUniqByUserId: () => undefined };
 
-    let findAssessmentResultDataByCampaignIdStub;
+    let findByCampaignIdStub;
     let targetProfileRepositoryStub;
     let knowledgeElementRepositoryStub;
 
@@ -120,7 +120,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       sinon.stub(userRepository, 'getWithMemberships').resolves(user);
       sinon.stub(organizationRepository, 'get').resolves(organization);
       knowledgeElementRepositoryStub = sinon.stub(knowledgeElementRepository, 'findUniqByUserId').resolves(knowledgeElements);
-      findAssessmentResultDataByCampaignIdStub = sinon.stub(campaignParticipationRepository, 'findAssessmentResultDataByCampaignId');
+      findByCampaignIdStub = sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId');
 
       writableStream = new PassThrough();
       csvPromise = streamToPromise(writableStream);
@@ -151,7 +151,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
         '"\'@web3";' +
         '"\'@web4";' +
         '"\'@web5"\n';
-      findAssessmentResultDataByCampaignIdStub.resolves([]);
+      findByCampaignIdStub.resolves([]);
 
       // when
       startWritingCampaignAssessmentResultsToStream({
@@ -163,7 +163,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
         targetProfileRepository,
         competenceRepository,
         organizationRepository,
-        campaignParticipationRepository,
+        campaignParticipationInfoRepository,
         knowledgeElementRepository,
         campaignCsvExportService
       });
@@ -178,8 +178,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
 
       it('should return the complete line with user results for her participation', async () => {
         // given
-        const campaignParticipationResultData = {
-          id: 1,
+        const campaignParticipationInfo = {
           isShared: true,
           isCompleted: true,
           createdAt: new Date('2019-02-25T10:00:00Z'),
@@ -189,7 +188,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           participantFirstName: user.firstName,
           participantLastName: user.lastName,
         };
-        findAssessmentResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
+        findByCampaignIdStub.resolves([campaignParticipationInfo]);
 
         const csvSecondLine = `"${organization.name}";` +
           `${campaign.id};` +
@@ -197,7 +196,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           `"'${targetProfile.name}";` +
           `"'${user.lastName}";` +
           `"'${user.firstName}";` +
-          `"'${campaignParticipationResultData.participantExternalId}";` +
+          `"'${campaignParticipationInfo.participantExternalId}";` +
           '1;' +
           '2019-02-25;' +
           '"Oui";' +
@@ -225,7 +224,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           targetProfileRepository,
           competenceRepository,
           organizationRepository,
-          campaignParticipationRepository,
+          campaignParticipationInfoRepository,
           knowledgeElementRepository,
           campaignCsvExportService
         });
@@ -243,7 +242,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       it('should return the beginning of the line with user information for her participation', async () => {
         // given
 
-        const campaignParticipationResultData = {
+        const campaignParticipationInfo = {
           id: 1,
           isShared: false,
           isCompleted: true,
@@ -255,7 +254,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           participantLastName: user.lastName,
         };
 
-        findAssessmentResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
+        findByCampaignIdStub.resolves([campaignParticipationInfo]);
 
         const csvSecondLine =
           `"${organization.name}";` +
@@ -264,7 +263,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           `"'${targetProfile.name}";` +
           `"'${user.lastName}";` +
           `"'${user.firstName}";` +
-          `"'${campaignParticipationResultData.participantExternalId}";` +
+          `"'${campaignParticipationInfo.participantExternalId}";` +
           '1;' +
           '2019-02-25;' +
           '"Non";' +
@@ -292,7 +291,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           targetProfileRepository,
           competenceRepository,
           organizationRepository,
-          campaignParticipationRepository,
+          campaignParticipationInfoRepository,
           knowledgeElementRepository,
           campaignCsvExportService
         });
@@ -309,7 +308,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       it('should return a percentage of progression of 1', async () => {
         // given
 
-        const campaignParticipationResultData = {
+        const campaignParticipationInfo = {
           id: 1,
           isShared: false,
           createdAt: new Date('2019-02-25T10:00:00Z'),
@@ -321,7 +320,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           participantLastName: user.lastName,
         };
 
-        findAssessmentResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
+        findByCampaignIdStub.resolves([campaignParticipationInfo]);
         knowledgeElementRepositoryStub.resolves([]);
 
         const csvSecondLine =
@@ -331,7 +330,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           `"'${targetProfile.name}";` +
           `"'${user.lastName}";` +
           `"'${user.firstName}";` +
-          `"'${campaignParticipationResultData.participantExternalId}";` +
+          `"'${campaignParticipationInfo.participantExternalId}";` +
           '1;' +
           '2019-02-25;' +
           '"Non";' +
@@ -359,7 +358,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           targetProfileRepository,
           competenceRepository,
           organizationRepository,
-          campaignParticipationRepository,
+          campaignParticipationInfoRepository,
           knowledgeElementRepository,
           campaignCsvExportService
         });
@@ -394,7 +393,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       it('should return a percentage of knowledge element evaluated divided by the number of skill in the target profile', async () => {
         // given
 
-        const campaignParticipationResultData = {
+        const campaignParticipationInfo = {
           id: 1,
           isShared: false,
           createdAt: new Date('2019-02-25T10:00:00Z'),
@@ -406,7 +405,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           participantLastName: user.lastName,
         };
 
-        findAssessmentResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
+        findByCampaignIdStub.resolves([campaignParticipationInfo]);
 
         const csvSecondLine =
           `"${organization.name}";` +
@@ -415,7 +414,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           `"${targetProfile.name}";` +
           `"'${user.lastName}";` +
           `"'${user.firstName}";` +
-          `"'${campaignParticipationResultData.participantExternalId}";` +
+          `"'${campaignParticipationInfo.participantExternalId}";` +
           '0,5;' +
           '2019-02-25;' +
           '"Non";' +
@@ -440,7 +439,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           targetProfileRepository,
           competenceRepository,
           organizationRepository,
-          campaignParticipationRepository,
+          campaignParticipationInfoRepository,
           knowledgeElementRepository,
           campaignCsvExportService
         });
@@ -457,7 +456,13 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       let campaignWithoutIdPixLabel;
 
       beforeEach(() => {
-        const campaignParticipationResultData = {
+        campaignWithoutIdPixLabel = domainBuilder.buildCampaign.ofTypeAssessment({
+          name: 'CampaignName',
+          code: 'AZERTY123',
+          organizationId: organization.id,
+          idPixLabel: null,
+        });
+        const campaignParticipationInfo = {
           id: 1,
           isShared: false,
           createdAt: new Date('2019-02-25T10:00:00Z'),
@@ -467,14 +472,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           isCompleted: true,
         };
 
-        findAssessmentResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
-
-        campaignWithoutIdPixLabel = domainBuilder.buildCampaign.ofTypeAssessment({
-          name: 'CampaignName',
-          code: 'AZERTY123',
-          organizationId: organization.id,
-          idPixLabel: null,
-        });
+        findByCampaignIdStub.resolves([campaignParticipationInfo]);
         campaignRepository.get.resolves(campaignWithoutIdPixLabel);
       });
 
@@ -538,7 +536,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           targetProfileRepository,
           competenceRepository,
           organizationRepository,
-          campaignParticipationRepository,
+          campaignParticipationInfoRepository,
           knowledgeElementRepository,
           campaignCsvExportService
         });
@@ -553,3 +551,4 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     });
   });
 });
+

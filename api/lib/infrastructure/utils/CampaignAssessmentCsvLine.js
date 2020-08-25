@@ -9,7 +9,7 @@ class CampaignAssessmentCsvLine {
     organization,
     campaign,
     competences,
-    campaignParticipationResultData,
+    campaignParticipationInfo,
     targetProfile,
     participantKnowledgeElements,
     campaignParticipationService,
@@ -18,9 +18,8 @@ class CampaignAssessmentCsvLine {
     this.organization = organization;
     this.campaign = campaign;
     this.competences = competences;
-    this.campaignParticipationResultData = campaignParticipationResultData;
+    this.campaignParticipationInfo = campaignParticipationInfo;
     this.targetProfile = targetProfile;
-    this.isShared = campaignParticipationResultData.isShared;
     this.knowledgeElements = participantKnowledgeElements
       .filter((ke) => _.find(targetProfile.skills, { id: ke.skillId }));
     this.campaignParticipationService = campaignParticipationService;
@@ -32,7 +31,7 @@ class CampaignAssessmentCsvLine {
   toCsvLine() {
     return [
       ...this._makeCommonColumns(),
-      ...(this.isShared ? this._makeSharedColumns() : this._makeNotSharedColumns())
+      ...(this.campaignParticipationInfo.isShared ? this._makeSharedColumns() : this._makeNotSharedColumns())
     ];
   }
 
@@ -81,20 +80,19 @@ class CampaignAssessmentCsvLine {
   }
 
   _makeCommonColumns() {
-    const { participantFirstName, participantLastName } = this.campaignParticipationResultData;
     return [
       this.organization.name,
       this.campaign.id,
       this.campaign.name,
       this.targetProfile.name,
-      participantLastName,
-      participantFirstName,
-      ...(this.campaign.idPixLabel ? [this.campaignParticipationResultData.participantExternalId] : []),
-      this.campaignParticipationService.progress(this.campaignParticipationResultData.isCompleted, this.knowledgeElements.length, this.targetProfile.skills.length),
-      moment.utc(this.campaignParticipationResultData.createdAt).format('YYYY-MM-DD'),
-      this.isShared ? 'Oui' : 'Non',
-      this.isShared ? moment.utc(this.campaignParticipationResultData.sharedAt).format('YYYY-MM-DD') : EMPTY_CONTENT,
-      this.isShared ? this._percentageSkillsValidated() : EMPTY_CONTENT,
+      this.campaignParticipationInfo.participantLastName,
+      this.campaignParticipationInfo.participantFirstName,
+      ...(this.campaign.idPixLabel ? [this.campaignParticipationInfo.participantExternalId] : []),
+      this.campaignParticipationService.progress(this.campaignParticipationInfo.isCompleted, this.knowledgeElements.length, this.targetProfile.skills.length),
+      moment.utc(this.campaignParticipationInfo.createdAt).format('YYYY-MM-DD'),
+      this.campaignParticipationInfo.isShared ? 'Oui' : 'Non',
+      this.campaignParticipationInfo.isShared ? moment.utc(this.campaignParticipationInfo.sharedAt).format('YYYY-MM-DD') : EMPTY_CONTENT,
+      this.campaignParticipationInfo.isShared ? this._percentageSkillsValidated() : EMPTY_CONTENT,
     ];
   }
 
