@@ -24,10 +24,9 @@ module.exports = async function registerSupernumeraryHigherEducationRegistration
     firstName,
     lastName,
     birthdate,
-    organizationId: campaign.organizationId
+    organizationId: campaign.organizationId,
+    isSupernumerary: true,
   });
-
-  higherEducationRegistration.setIsSupernumerary();
 
   await higherEducationRegistrationRepository.save(higherEducationRegistration);
 };
