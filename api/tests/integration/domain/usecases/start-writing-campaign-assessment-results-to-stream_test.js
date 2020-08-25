@@ -5,7 +5,7 @@ const cache = require('../../../../lib/infrastructure/caches/learning-content-ca
 const startWritingCampaignAssessmentResultsToStream = require('../../../../lib/domain/usecases/start-writing-campaign-assessment-results-to-stream');
 
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
+const campaignParticipationInfoRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-info-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
@@ -174,7 +174,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-
         targetProfileRepository,
         competenceRepository,
         organizationRepository,
-        campaignParticipationRepository,
+        campaignParticipationInfoRepository,
         knowledgeElementRepository,
         campaignCsvExportService
       });

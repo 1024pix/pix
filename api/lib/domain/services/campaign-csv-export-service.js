@@ -10,7 +10,7 @@ function createOneCsvLine({
   organization,
   campaign,
   competences,
-  campaignParticipationResultData,
+  campaignParticipationInfo,
   targetProfile,
   participantKnowledgeElements,
 }) {
@@ -18,7 +18,7 @@ function createOneCsvLine({
     organization,
     campaign,
     competences,
-    campaignParticipationResultData,
+    campaignParticipationInfo,
     targetProfile,
     participantKnowledgeElements,
     campaignParticipationService,

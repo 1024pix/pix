@@ -48,27 +48,6 @@ module.exports = {
       .then(_toDomain);
   },
 
-  async findAssessmentResultDataByCampaignId(campaignId) {
-    const results = await knex.with('campaignParticipationWithUserAndRankedAssessment',
-      (qb) => {
-        qb.select([
-          'campaign-participations.*',
-          'assessments.state',
-          _assessmentRankByCreationDate(),
-          'users.firstName',
-          'users.lastName',
-        ])
-          .from('campaign-participations')
-          .leftJoin('users', 'campaign-participations.userId', 'users.id')
-          .leftJoin('assessments', 'campaign-participations.id', 'assessments.campaignParticipationId')
-          .where({ campaignId: campaignId });
-      })
-      .from('campaignParticipationWithUserAndRankedAssessment')
-      .where({ rank: 1 });
-
-    return results.map(_rowToResult);
-  },
-
   async findProfilesCollectionResultDataByCampaignId(campaignId) {
     const results = await knex.with('campaignParticipationWithUser',
       (qb) => {
