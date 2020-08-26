@@ -351,9 +351,7 @@ describe('Acceptance | API | Certifications', () => {
 
       it('should return 200 HTTP status code and the certification', async () => {
         // given
-        const pixScore = assessmentResult.pixScore;
-        const certificationVerificationCode = certificationCourse.verificationCode;
-        const verificationCode = `${certificationVerificationCode}-${pixScore}`;
+        const verificationCode = certificationCourse.verificationCode;
         options = {
           method: 'POST',
           url: '/api/shared-certifications',

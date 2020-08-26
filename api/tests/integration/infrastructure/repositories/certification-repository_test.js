@@ -8,7 +8,7 @@ const CertificationCourseBookshelf = require('../../../../lib/infrastructure/dat
 const PARTNER_CLEA_KEY = 'BANANA';
 
 describe('Integration | Repository | Certification ', () => {
-  const verificationCode = 'P-123498';
+  const verificationCode = 'P-123498NN';
   const pixScore = 400;
 
   let userId;
@@ -160,25 +160,12 @@ describe('Integration | Repository | Certification ', () => {
     });
 
     context('when verificationCode does not match', () => {
-      it('should throw an error when the given pixScore is incorrect', async () => {
+      it('should throw an error', async () => {
         //given
-        const wrongVerificationCode = 'P-BBBCCC';
+        const wrongVerificationCode = 'P-BBBCCC$$';
 
         // when
         const error = await catchErr(certificationRepository.getShareableCertificateByVerificationCode)({ verificationCode: wrongVerificationCode });
-
-        // then
-        expect(error).to.be.instanceOf(NotFoundError);
-      });
-    });
-
-    context('when no certificationCourse is found', () => {
-      it('should throw an error', async () => {
-        //given
-        const verificationCode = 'P-123456';
-
-        // when
-        const error = await catchErr(certificationRepository.getShareableCertificateByVerificationCode)({ verificationCode });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
