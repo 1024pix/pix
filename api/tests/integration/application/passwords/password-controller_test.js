@@ -56,7 +56,7 @@ describe('Integration | Application | Passwords | password-controller', () => {
         expect(response.statusCode).to.equal(404);
       });
 
-      it('should respond an HTTP response with status code 500 when PasswordNotMatching', async () => {
+      it('should respond an HTTP response with status code 401 when PasswordNotMatching', async () => {
         // given
         usecases.updateExpiredPassword.rejects(new PasswordNotMatching());
 
@@ -64,7 +64,7 @@ describe('Integration | Application | Passwords | password-controller', () => {
         const response = await httpTestServer.request(method, url, payload);
 
         // then
-        expect(response.statusCode).to.equal(500);
+        expect(response.statusCode).to.equal(401);
       });
 
       it('should respond an HTTP response with status code 403 when ForbiddenAccess', async () => {
