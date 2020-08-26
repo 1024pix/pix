@@ -730,6 +730,18 @@
       "start": "Start"
     },
 
+    "fill-in-certificate-verification-code": {
+      "title": "Verifier une certification",
+      "first-title": "Vérifier un score de certification",
+      "description": "Code de vérification (P-XXXXXXXX)",
+      "errors": {
+        "wrong-format": "Veuillez vérifier votre code.",
+        "missing-code": "Veuillez saisir un code au format P-XXXXXXXX.",
+        "not-found": "Il n'y a pas de certificat Pix correspondant"
+      },
+      "verify": "Vérifier le score"
+    },
+
     "fill-in-id-pix": {
       "title": "Enter my username",
       "first-title": "Before starting",

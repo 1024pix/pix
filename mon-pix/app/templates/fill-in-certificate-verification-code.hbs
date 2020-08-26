@@ -1,13 +1,17 @@
+{{page-title (t 'pages.fill-in-certificate-verification-code.title')}}
 <BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
   <burger.outlet>
     <NavbarHeader @burger={{burger}} />
     <PixBackgroundHeader>
       <PixBlock>
         <div class="fill-in-certificate-verification-code__container">
-          <h3 class="fill-in-certificate-verification-code__title">Page de vérification du code de certificat</h3>
-          <label for="certificate-verification-code" class="fill-in-certificate-verification-code__instruction">Code de vérification (P-XXXXXXXX)</label>
           <form class="fill-in-certificate-verification-code__form" autocomplete="off">
-
+            <h3 class="fill-in-certificate-verification-code__title">
+              {{t "pages.fill-in-certificate-verification-code.first-title"}}
+            </h3>
+            <label for="certificate-verification-code" class="fill-in-certificate-verification-code__instruction">
+              {{t "pages.fill-in-certificate-verification-code.description"}}
+            </label>
             <div class="fill-in-certificate-verification-code__form-field">
               <Input required
                 @type="text" @id="certificate-verification-code"
@@ -27,14 +31,14 @@
               type="submit"
               class="button button--extra-big fill-in-certificate-verification-code__start-button"
               {{action 'checkCertificate'}}>
-              Vérifer
+              {{t "pages.fill-in-certificate-verification-code.verify"}}
             </button>
           </div>
         </form>
         {{#if this.showNotFoundCertificationErrorMessage}}
         <div class="fill-in-certificate-verification-code__not-found">
           <FaIcon @icon="exclamation-triangle"/>
-          <span>Il n'y a pas de certificat Pix correspondant</span>
+          <span>{{t "pages.fill-in-certificate-verification-code.errors.not-found"}}</span>
         </div>
         {{/if}}
       </div>
