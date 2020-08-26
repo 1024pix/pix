@@ -185,3 +185,26 @@
   font-weight: $font-heavy;
   text-transform: uppercase;
 }
+
+.challenge-statement__alternative-instruction {
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  button {
+    padding: 0;
+    font-size: 1rem;
+    color: $blue;
+    font-weight: 500;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+
+    &:hover {
+      color: $dark-blue-pro
+    }
+  }
+
+  &-text {
+    margin-top: 10px;
+  }
+}
