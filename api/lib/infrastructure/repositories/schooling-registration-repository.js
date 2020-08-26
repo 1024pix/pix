@@ -112,7 +112,7 @@ module.exports = {
       .query((qb) => {
         qb.where('organizationId', organizationId);
         if (birthdate) qb.where('birthdate', birthdate);
-        if (studentNumber) qb.where('studentNumber', studentNumber);
+        if (studentNumber) qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
       })
       .fetchAll();
 

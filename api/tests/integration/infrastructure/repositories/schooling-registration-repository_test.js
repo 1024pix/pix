@@ -516,25 +516,25 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       it('should return found schoolingRegistrations with birthdate', async () => {
         // given
         const reconciliationInfo = { birthdate: '2000-03-31' };
-  
+
         // when
         const result = await schoolingRegistrationRepository.findByOrganizationIdAndUserData({
           organizationId: organization.id, reconciliationInfo
         });
-  
+
         // then
         expect(result.length).to.be.equal(2);
       });
-  
+
       it('should return empty array with wrong birthdate', async () => {
         // given
         const reconciliationInfo = { birthdate: '2001-03-31' };
-  
+
         // when
         const result = await schoolingRegistrationRepository.findByOrganizationIdAndUserData({
           organizationId: organization.id, reconciliationInfo
         });
-  
+
         // then
         expect(result.length).to.be.equal(0);
       });
@@ -543,26 +543,26 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
     context('find with user student number', () => {
       it('should return found schoolingRegistrations with studentNumber', async () => {
         // given
-        const reconciliationInfo = { studentNumber: '123A' };
-  
+        const reconciliationInfo = { studentNumber: '123a' };
+
         // when
         const result = await schoolingRegistrationRepository.findByOrganizationIdAndUserData({
           organizationId: organization.id, reconciliationInfo
         });
-  
+
         // then
         expect(result.length).to.be.equal(1);
       });
-  
+
       it('should return empty array with wrong studentNumber', async () => {
         // given
         const reconciliationInfo = { studentNumber: '789B' };
-  
+
         // when
         const result = await schoolingRegistrationRepository.findByOrganizationIdAndUserData({
           organizationId: organization.id, reconciliationInfo
         });
-  
+
         // then
         expect(result.length).to.be.equal(0);
       });
