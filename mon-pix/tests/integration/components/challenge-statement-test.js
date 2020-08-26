@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, findAll, render } from '@ember/test-helpers';
+import { click, find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
@@ -82,6 +82,82 @@ describe('Integration | Component | ChallengeStatement', function() {
       expect(find('.challenge-statement__instruction').textContent.trim())
         .to.equal('Veuillez envoyer un email à l\'adresse recigAYl5bl96WGXj-267845-0502@pix-infra.ovh pour valider cette épreuve');
     });
+  });
+
+  /*
+   * Alternative instruction
+   * ------------------------------------------------
+   */
+
+  describe('Alternative instruction section:', function() {
+
+    it('should hide alternative instruction zone if no alternative instruction', async function() {
+      // given
+      addAssessmentToContext(this, { id: '267845' });
+      addChallengeToContext(this, {
+        id: 'recigAYl5bl96WGXj',
+        instruction: 'La consigne de mon test',
+        alternativeInstruction: ''
+      });
+
+      // when
+      await renderChallengeStatement();
+
+      // then
+      expect(find('.challenge-statement__alternative-instruction')).to.not.exist;
+    });
+
+    it('should show alternative instruction zone if there is an alternative instruction', async function() {
+      // given
+      addAssessmentToContext(this, { id: '267845' });
+      addChallengeToContext(this, {
+        id: 'recigAYl5bl96WGXj',
+        instruction: 'La consigne de mon test',
+        alternativeInstruction: 'La consigne alternative de mon test'
+      });
+
+      // when
+      await renderChallengeStatement();
+
+      // then
+      expect(find('.challenge-statement__alternative-instruction')).to.exist;
+    });
+
+    it('should display alternative instruction text on button click', async function() {
+      // given
+      addAssessmentToContext(this, { id: '267845' });
+      addChallengeToContext(this, {
+        id: 'recigAYl5bl96WGXj',
+        instruction: 'La consigne de mon test',
+        alternativeInstruction: 'La consigne alternative de mon test'
+      });
+
+      // when
+      await renderChallengeStatement();
+      await click('.challenge-statement__alternative-instruction button');
+
+      // then
+      expect(find('.challenge-statement__alternative-instruction-text')).to.exist;
+    });
+
+    it('should hide alternative instruction text on second button click', async function() {
+      // given
+      addAssessmentToContext(this, { id: '267845' });
+      addChallengeToContext(this, {
+        id: 'recigAYl5bl96WGXj',
+        instruction: 'La consigne de mon test',
+        alternativeInstruction: 'La consigne alternative de mon test'
+      });
+
+      // when
+      await renderChallengeStatement();
+      await click('.challenge-statement__alternative-instruction button');
+      await click('.challenge-statement__alternative-instruction button');
+
+      // then
+      expect(find('.challenge-statement__alternative-instruction-text')).to.not.exist;
+    });
+
   });
 
   /*
