@@ -287,7 +287,7 @@ describe('Acceptance | Controller | password-controller', () => {
 
     context('When password is invalid', () => {
 
-      it('should respond 500 HTTP status code', async () => {
+      it('should respond 401 HTTP status code', async () => {
         // given
         options.payload.data.attributes = { username, expiredPassword: 'wrongPassword01', newPassword };
 
@@ -295,7 +295,7 @@ describe('Acceptance | Controller | password-controller', () => {
         const response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(500);
+        expect(response.statusCode).to.equal(401);
       });
     });
 

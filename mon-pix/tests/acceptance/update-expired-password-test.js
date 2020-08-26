@@ -32,12 +32,12 @@ describe('Acceptance | Update Expired Password', function() {
     // given
     const badPasswordErrorResponse = {
       errors: [{
-        status: 500,
-        title: 'Internal Server Error',
+        status: 401,
+        title: 'Unauthorized',
         detail: 'Mauvais mot de passe.'
       }]
     };
-    this.server.post('/expired-password-updates', () => (badPasswordErrorResponse), 500);
+    this.server.post('/expired-password-updates', () => (badPasswordErrorResponse), 401);
 
     await fillIn('#password', 'newPass12345!');
 

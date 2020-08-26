@@ -143,7 +143,7 @@ describe('Unit | Component | Update Expired Password', () => {
       it('should set authenticationHasFailed to true', async () => {
         // given
         const response = {
-          errors: [ { status: '500' } ]
+          errors: [ { status: '400' } ]
         };
         component.session.authenticate.rejects(response);
 
