@@ -78,6 +78,21 @@ Cypress.Commands.add('loginExternalPlatform', () => {
   cy.wait(['@getCurrentUser']);
 });
 
+
+Cypress.Commands.add('loginFromGarToJoinCampaign', () => {
+  cy.server();
+  const token = jsonwebtoken.sign(
+    {
+      'first_name': 'Daenerys',
+      'last_name': 'Targaryen',
+      'saml_id': '123456789'
+    },
+    Cypress.env('AUTH_SECRET'),
+    { expiresIn: '1h' }
+  );
+  cy.visitMonPix(`/campagnes?externalUser=${token}`);
+});
+
 Cypress.Commands.add('loginWithAlmostExpiredToken', () => {
   cy.server();
   cy.route('/api/users/me').as('getCurrentUser');

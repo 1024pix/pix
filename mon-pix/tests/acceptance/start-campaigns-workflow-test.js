@@ -725,6 +725,9 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
       });
 
       context('When campaign is restricted  and SCO', function() {
+
+        const tokenIdExternalUser = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdF9uYW1lIjoiRmlyc3QiLCJsYXN0X25hbWUiOiJMYXN0Iiwic2FtbF9pZCI6InNhbWxJRHFzZnNmcWZxZnNxZmhmZmdyciIsImlhdCI6MTU5NzkyOTQ0OCwiZXhwIjoxNTk3OTMzMDQ4fQ.KRh6ZKr6EwM1QvveTHsWush6z9meVAI6enVYgSQ-MuI';
+
         beforeEach(function() {
           campaign = server.create('campaign', { isRestricted: true, organizationType: 'SCO' });
         });
@@ -733,7 +736,9 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
           it('should set by default firstName and lastName', async function() {
             // when
-            await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
+            await visit(`/campagnes?externalUser=${tokenIdExternalUser}`);
+            await fillIn('#campaign-code', campaign.code);
+            await click('.fill-in-campaign-code__start-button');
 
             //then
             expect(find('#firstName').value).to.equal(garUser.firstName);
@@ -742,7 +747,9 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
           it('should redirect to landing page when fields are filled in', async function() {
             // given
-            await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
+            await visit(`/campagnes?externalUser=${tokenIdExternalUser}`);
+            await fillIn('#campaign-code', campaign.code);
+            await click('.fill-in-campaign-code__start-button');
 
             // when
             await fillIn('#dayOfBirth', '10');
