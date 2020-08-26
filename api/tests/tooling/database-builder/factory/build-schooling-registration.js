@@ -28,6 +28,7 @@ module.exports = function buildSchoolingRegistration({
   group = faker.random.alphaNumeric(3),
   diploma = faker.name.jobType(),
   createdAt = faker.date.recent(),
+  isSupernumerary = false,
   organizationId,
   userId,
 } = {}) {
@@ -57,6 +58,7 @@ module.exports = function buildSchoolingRegistration({
     group,
     diploma,
     createdAt,
+    isSupernumerary,
     organizationId,
     userId,
   };
