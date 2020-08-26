@@ -29,7 +29,8 @@ class Validation {
 
 export default class JoinSup extends Component {
   @service store;
-  @tracked errorMessage;
+  @tracked errorForQuickFormMessage;
+  @tracked errorForFurtherInformationMessage;
   @tracked isLoading = false;
   @tracked showFurtherInformationForm = false;
   @tracked noStudentNumber = false;
@@ -127,7 +128,8 @@ export default class JoinSup extends Component {
   hideFurtherInformationForm() {
     this.showFurtherInformationForm = false;
     this.noStudentNumber = false;
-    this.errorMessage = null;
+    this.errorForQuickFormMessage = null;
+    this.errorForFurtherInformationMessage = null;
     this.firstName = '';
     this.lastName = '';
     this.dayOfBirth = '';
@@ -137,19 +139,25 @@ export default class JoinSup extends Component {
 
   @action
   toggleNoStudentNumber() {
+    this.studentNumber = null;
     this.noStudentNumber = !this.noStudentNumber;
     this.showFurtherInformationForm = !this.showFurtherInformationForm;
-    this.errorMessage = null;
+    this.errorForQuickFormMessage = null;
+    this.errorForFurtherInformationMessage = null;
   }
 
   _setErrorMessageForAttemptNextAction(errorResponse) {
     errorResponse.errors.forEach((error) => {
+      const messageFor409 = 'Vous possédez déjà un compte Pix. Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.';
+      if (this.showFurtherInformationForm && error.status === '409') {
+        return this.errorForFurtherInformationMessage = messageFor409;
+      }
       if (error.status === '409') {
-        return this.errorMessage = 'Vous possédez déjà un compte Pix. Pour continuer, connectez-vous à ce compte.';
+        return this.errorForQuickFormMessage = messageFor409;
       }
       if (error.status === '404') {
         this.showFurtherInformationForm = true;
-        return this.errorMessage = 'Vérifiez votre numéro étudiant ou saisissez les informations ci-dessous.';
+        return this.errorForQuickFormMessage = 'Vérifiez votre numéro étudiant ou saisissez les informations ci-dessous.';
       }
       return this.errorMessage = error.detail;
     });
