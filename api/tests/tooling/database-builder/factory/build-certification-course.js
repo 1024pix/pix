@@ -18,7 +18,7 @@ module.exports = function buildCertificationCourse({
   updatedAt = faker.date.recent(),
   completedAt = faker.date.recent(),
   isPublished = faker.random.boolean(),
-  verificationCode = `P-${faker.random.alphaNumeric(6).toUpperCase()}`,
+  verificationCode = `P-${faker.random.alphaNumeric(8).toUpperCase()}`,
   isV2Certification = faker.random.boolean(),
   userId,
   sessionId,

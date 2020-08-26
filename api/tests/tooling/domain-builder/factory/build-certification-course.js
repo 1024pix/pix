@@ -18,7 +18,7 @@ module.exports = function buildCertificationCourse(
     nbChallenges = faker.random.number(40),
     isV2Certification = false,
     isPublished = faker.random.boolean(),
-    verificationCode = `P-${faker.random.alphaNumeric(6).toUpperCase()}`,
+    verificationCode = `P-${faker.random.alphaNumeric(8).toUpperCase()}`,
     // includes
     acquiredPartnerCertifications = [],
     // references

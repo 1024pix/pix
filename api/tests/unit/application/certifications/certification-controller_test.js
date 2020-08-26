@@ -72,7 +72,7 @@ describe('Unit | Controller | certifications-controller', () => {
     const certification = domainBuilder.buildPrivateCertificateWithCompetenceTree();
     const serializedCertification = '{JSON}';
 
-    const verificationCode = 'P-123456-500';
+    const verificationCode = 'P-123456BB';
     const request = { payload: { verificationCode } };
 
     beforeEach(() => {

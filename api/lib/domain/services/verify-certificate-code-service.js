@@ -2,7 +2,7 @@ const _ = require('lodash');
 const certificationCourseRepository = require('../../../lib/infrastructure/repositories/certification-course-repository');
 const { CertificateVerificationCodeGenerationTooManyTrials } = require('../../../lib/domain/errors');
 const availableCharacters = '2346789BCDFGHJKMPQRTVWXY'.split('');
-const NB_CHAR = 6;
+const NB_CHAR = 8;
 const NB_OF_TRIALS = 1000;
 
 function _generateCode() {
