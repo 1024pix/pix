@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const { expect } = require('../../../test-helper');
 const CampaignParticipationInfo = require('../../../../lib/domain/read-models/CampaignParticipationInfo');
 const { ObjectValidationError } = require('../../../../lib/domain/errors');

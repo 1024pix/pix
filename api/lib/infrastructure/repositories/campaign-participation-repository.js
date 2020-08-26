@@ -188,10 +188,6 @@ function _getLastAssessmentIdForCampaignParticipation(bookshelfCampaignParticipa
   return null;
 }
 
-function _assessmentRankByCreationDate() {
-  return knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS rank', ['assessments.campaignParticipationId', 'assessments.createdAt']);
-}
-
 function _rowToResult(row) {
   return {
     id: row.id,
