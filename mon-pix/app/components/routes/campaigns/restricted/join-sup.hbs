@@ -27,8 +27,8 @@
     </label>
   </div>
 
-  {{#if this.errorMessage}}
-    <div class="join-restricted-campaign__error" aria-live="polite">{{{this.errorMessage}}}</div>
+  {{#if this.errorForQuickFormMessage}}
+    <div class="join-restricted-campaign__error" aria-live="polite">{{{this.errorForQuickFormMessage}}}</div>
   {{/if}}
   {{#if this.showFurtherInformationForm}}
     <Routes::Campaigns::Restricted::UserInformationForm
@@ -43,6 +43,9 @@
             @triggerInputMonthValidation={{this.triggerInputMonthValidation}}
             @triggerInputYearValidation={{this.triggerInputYearValidation}}
     />
+  {{/if}}
+  {{#if this.errorForFurtherInformationMessage}}
+    <div class="join-restricted-campaign__error" aria-live="polite">{{{this.errorForFurtherInformationMessage}}}</div>
   {{/if}}
   {{#if this.isLoading}}
     <button type="button" disabled class="button button--big join-restricted-campaign__submit-button"><span class="loader-in-button">&nbsp;</span></button>
