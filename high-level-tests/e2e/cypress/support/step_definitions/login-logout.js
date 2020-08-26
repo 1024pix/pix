@@ -25,6 +25,10 @@ when('je vais sur Pix via un organisme externe', () => {
   cy.loginExternalPlatform();
 });
 
+when('je vais sur Pix pour accéder à une campagne via le GAR', () => {
+  cy.loginFromGarToJoinCampaign();
+});
+
 when(`je vais sur l'inscription de Pix`, () => {
   cy.visitMonPix(`/inscription`);
 });

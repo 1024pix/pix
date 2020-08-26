@@ -288,17 +288,10 @@ describe('Unit | Component | routes/campaigns/restricted/join', function() {
 
   describe('#isDisabled', function() {
 
-    it('should be false if source is not external', function() {
-      // when
-      const result = component.isDisabled;
-
-      // then
-      expect(result).to.equal(false);
-    });
-
-    it('should be true if source is external', function() {
+    it('should disable lastName,firstName inputs if external User', function() {
       // given
-      sessionStub.data.authenticated.source = 'external';
+      const tokenIdExternalUser = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdF9uYW1lIjoiRmlyc3QiLCJsYXN0X25hbWUiOiJMYXN0Iiwic2FtbF9pZCI6InNhbWxJRHFzZnNmcWZxZnNxZmhmZmdyciIsImlhdCI6MTU5NzkyOTQ0OCwiZXhwIjoxNTk3OTMzMDQ4fQ.KRh6ZKr6EwM1QvveTHsWush6z9meVAI6enVYgSQ-MuI';
+      sessionStub.data.externalUser = tokenIdExternalUser;
 
       // when
       const result = component.isDisabled;
@@ -306,6 +299,15 @@ describe('Unit | Component | routes/campaigns/restricted/join', function() {
       // then
       expect(result).to.equal(true);
     });
+
+    it('should enable lastName,firstName inputs if not external User', function() {
+      // when
+      const result = component.isDisabled;
+
+      // then
+      expect(result).to.equal(false);
+    });
+
   });
 
   describe('#attemptNext', function() {

@@ -3,8 +3,9 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
 import { standardizeNumberInTwoDigitFormat } from 'mon-pix/utils/standardize-number';
+import { decodeToken } from 'mon-pix/helpers/jwt';
+import { get, find } from 'lodash';
 import ENV from 'mon-pix/config/environment';
-import _ from 'lodash';
 
 const ERROR_INPUT_MESSAGE_MAP = {
   firstName: 'Votre prénom n’est pas renseigné.',
@@ -51,9 +52,11 @@ export default class JoinSco extends Component {
   constructor() {
     super(...arguments);
 
-    if (this.session.data.authenticated.source === 'external') {
-      this.firstName = this.currentUser.user.firstName;
-      this.lastName = this.currentUser.user.lastName;
+    const tokenIdForExternalUser = this.session.data.externalUser;
+    if (tokenIdForExternalUser) {
+      const userFirstNameAndLastName = decodeToken(tokenIdForExternalUser);
+      this.firstName = userFirstNameAndLastName['first_name'];
+      this.lastName = userFirstNameAndLastName['last_name'];
     }
   }
 
@@ -70,7 +73,7 @@ export default class JoinSco extends Component {
   }
 
   get isDisabled() {
-    return this.session.data.authenticated.source === 'external';
+    return (undefined !== get(this.session,'data.externalUser'));
   }
 
   @action
@@ -201,6 +204,6 @@ export default class JoinSco extends Component {
       { code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION', shortCode:'R33', message:'Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.' }
     ];
 
-    return  _.find(errors, ['shortCode', meta.shortCode]).message || defaultMessage;
+    return  find(errors, ['shortCode', meta.shortCode]).message || defaultMessage;
   }
 }
