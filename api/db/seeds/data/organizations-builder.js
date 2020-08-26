@@ -42,6 +42,8 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     birthdate: '2000-05-28',
     organizationId: 2,
     userId: sansaStark.id,
+    isSupernumerary: true,
+    studentNumber: null,
   });
 
   // Type: SCO
