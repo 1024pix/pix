@@ -9,6 +9,7 @@ export default class ChallengeStatement extends Component {
   @service mailGenerator;
 
   @tracked selectedAttachmentUrl;
+  @tracked displayAlternativeInstruction = false;
 
   constructor() {
     super(...arguments);
@@ -36,6 +37,11 @@ export default class ChallengeStatement extends Component {
 
   get id() {
     return 'challenge_statement_' + this.args.challenge.id;
+  }
+
+  @action
+  toggleAlternativeInstruction() {
+    this.displayAlternativeInstruction = !this.displayAlternativeInstruction;
   }
 
   @action

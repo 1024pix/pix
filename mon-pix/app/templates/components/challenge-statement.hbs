@@ -72,4 +72,19 @@
   {{#if @challenge.hasValidEmbedDocument}}
     <ChallengeEmbedSimulator @embedDocument={{this.challengeEmbedDocument}} />
   {{/if}}
+
+  {{#if @challenge.alternativeInstruction}}
+    <div class="challenge-statement__alternative-instruction">
+      {{#if this.displayAlternativeInstruction}}
+        <button type="button" {{on "click" this.toggleAlternativeInstruction}}>
+          {{t 'pages.challenge.statement.alternative-instruction.actions.hide'}}
+        </button>
+        <MarkdownToHtml class="challenge-statement__alternative-instruction-text" @markdown={{@challenge.alternativeInstruction}} />
+      {{else}}
+        <button type="button" {{on "click" this.toggleAlternativeInstruction}}>
+          {{t 'pages.challenge.statement.alternative-instruction.actions.display'}}
+        </button>
+      {{/if}}
+    </div>
+  {{/if}}
 </div>
