@@ -22,6 +22,24 @@ describe('Unit | Helpers | decodeToken', function() {
       expect(decodedToken).to.deep.equal(expectedResult);
     });
 
+    it('should extract userId and source from token', function() {
+      // given
+      const user_id = 1;
+      const source = 'mon-pix';
+      const token = 'aaa.' + btoa(`{
+        "user_id": ${user_id},
+        "source": "${source}",
+        "iat": 1545321469,
+        "exp": 4702193958
+      }`) + '.bbb';
+
+      // when
+      const dataFromToken = decodeToken(token);
+
+      // then
+      expect(dataFromToken.user_id).to.equal(user_id);
+      expect(dataFromToken.source).to.equal(source);
+
+    });
   });
 });
-
