@@ -1,8 +1,8 @@
 class BaseHttpError extends Error {
   constructor(message) {
     super(message);
-    this.title = 'Internal Server Error';
-    this.status = 500;
+    this.title = 'Default Bad Request';
+    this.status = 400;
   }
 }
 

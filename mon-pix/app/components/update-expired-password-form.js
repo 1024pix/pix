@@ -6,6 +6,8 @@ import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import isPasswordValid from '../utils/password-validator';
 import { tracked } from '@glimmer/tracking';
+import { get } from 'lodash';
+import ENV from 'mon-pix/config/environment';
 
 const ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.';
 
@@ -28,6 +30,7 @@ const SUBMISSION_MAP = {
 };
 
 export default class UpdateExpiredPasswordForm extends Component {
+  @service intl;
   @service session;
   @service url;
 
@@ -70,8 +73,26 @@ export default class UpdateExpiredPasswordForm extends Component {
     const scope = 'mon-pix';
     try {
       await this.session.authenticate('authenticator:oauth2', { login, password,  scope });
-    } catch (response) {
-      this.authenticationHasFailed = true;
+    } catch (errorResponse) {
+      const error = get(errorResponse, 'errors[0]');
+      this._manageErrorsApi(error);
     }
+  }
+
+  _manageErrorsApi(error) {
+    const statusCode = get(error, 'status');
+    this.errorMessage = this._showErrorMessages(statusCode);
+  }
+
+  _showErrorMessages(statusCode) {
+    const httpStatusCodeMessages = {
+      '400': ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.MESSAGE,
+      '401': this.authenticationHasFailed = true,
+      '500': ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
+      '502': ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
+      '504': ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.MESSAGE,
+      'default': ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
+    };
+    return this.intl.t(httpStatusCodeMessages[statusCode] || httpStatusCodeMessages['default']);
   }
 }
