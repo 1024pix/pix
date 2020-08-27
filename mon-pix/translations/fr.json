@@ -317,6 +317,12 @@
         "label": "Question"
       },
       "statement": {
+        "alternative-instruction": {
+          "actions": {
+            "display": "Afficher l'alternative textuelle",
+            "hide": "Cacher l'alternative textuelle"
+          }
+        },
         "file-download": {
           "actions": {
             "choose-type": "Choisissez le type de fichier que vous voulez utiliser",
