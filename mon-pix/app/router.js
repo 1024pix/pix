@@ -50,6 +50,7 @@ Router.map(function() {
   this.route('user-certifications', { path: 'mes-certifications' }, function() {
     this.route('get', { path: '/:id' });
   });
+  this.route('fill-in-certificate-verification-code', { path: '/verification-code-certificat' });
 
   this.route('fill-in-campaign-code', { path: '/campagnes' });
   this.route('campaigns', { path: '/campagnes/:code' }, function() {
