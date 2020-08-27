@@ -6,7 +6,6 @@
   background: $pix-orga-old-gradient;
   align-items: center;
   justify-content: center;
-  min-height: 800px;
 
   a {
     color: $communication-dark;
@@ -20,10 +19,10 @@
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    padding: 32px 10px 40px;
+    padding: 32px 10px 20px;
 
     @include device-is('tablet') {
-      padding: 32px 67px 40px;
+      padding: 32px 67px 20px;
     }
   }
 
@@ -43,8 +42,7 @@
     max-width: 497px;
     font-size: 0.875rem;
     font-weight: 400;
-    line-height: 1.375rem;
-    margin: 0 0 48px;
+    line-height: 1.25rem;
   }
 
   &__error-message {
