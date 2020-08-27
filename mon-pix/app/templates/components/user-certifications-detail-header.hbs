@@ -25,18 +25,17 @@
     </div>
   </div>
   <div class="attestation-and-verification-code">
-    {{!-- TODO : intl --}}
     {{#if @certification.verificationCode}}
       <div class="verification-code">
         <h2 class="verification-code__title">
-          Code de vérification
+          {{t "pages.certificate.verification-code.title"}}
           <PixTooltip
               @class="verification-code__tooltip"
-              @text="Communiquez ce code pour permettre à un tiers de vérifier l'authenticité de votre certificat"
+              @text={{t "pages.certificate.verification-code.tooltip"}}
               @position='top'
               @inline={{false}}
               >
-            <div class="verification-code__title--info">(?)</div>
+            <div class="verification-code__title--info">{{t "pages.certificate.verification-code.info"}}</div>
           </PixTooltip>
         </h2>
         <span class="verification-code__box">

@@ -6,7 +6,7 @@ import { tracked } from '@glimmer/tracking';
 export default class UserCertificationsDetailHeader extends Component {
   @service intl;
 
-  @tracked tooltipText = 'Copier le code';
+  @tracked tooltipText = this.intl.t('pages.certificate.verification-code.copy');
 
   get birthdate() {
     return this.intl.formatDate(this.args.certification.birthdate, { format: 'LL' });
@@ -14,6 +14,6 @@ export default class UserCertificationsDetailHeader extends Component {
 
   @action
   clipboardSuccess() {
-    this.tooltipText = 'Code copié !';
+    this.tooltipText = this.intl.t('pages.certificate.verification-code.copied');
   }
 }
