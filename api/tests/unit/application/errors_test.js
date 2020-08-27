@@ -6,9 +6,9 @@ describe('Unit | Application | HTTP Errors', () => {
   describe('#BaseHttpError', () => {
     it('should have a title, message, and errorCode property', () => {
       // given
-      const expectedTitle = 'Internal Server Error';
+      const expectedTitle = 'Default Bad Request';
       const expectedMessage = 'Boom...';
-      const expectedErrorCode = 500;
+      const expectedErrorCode = 400;
 
       // when
       const httpError = new BaseHttpError('Boom...');
