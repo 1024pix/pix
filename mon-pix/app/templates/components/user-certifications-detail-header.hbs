@@ -24,6 +24,7 @@
 
     </div>
   </div>
+  {{#if this.isSharedCertificateActive}}
   <div class="attestation-and-verification-code">
     {{#if @certification.verificationCode}}
       <div class="verification-code">
@@ -55,9 +56,9 @@
                 </CopyButton>
             </PixTooltip>
           {{/if}}
-
         </span>
       </div>
     {{/if}}
   </div>
+  {{/if}}
 {{/if}}
