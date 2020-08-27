@@ -78,7 +78,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
             campaignCode: component.args.campaignCode,
           }
         ).returns(schoolingRegistration);
-        component.showFurtherInformationForm = true;
+        component.showSupernumeraryForm = true;
 
         // when
         await component.actions.attemptNext.call(component, eventStub);
@@ -91,6 +91,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
     context('when student number is not required but others attributes are', () => {
       beforeEach(function() {
         component.noStudentNumber = true;
+        component.studentNumber = null;
       });
 
       it('call on submit function', async function() {
@@ -115,7 +116,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
           }
         ).returns(schoolingRegistration);
 
-        component.showFurtherInformationForm = true;
+        component.showSupernumeraryForm = true;
 
         // when
         await component.actions.attemptNext.call(component, eventStub);
