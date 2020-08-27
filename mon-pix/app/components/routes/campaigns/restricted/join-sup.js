@@ -29,9 +29,11 @@ class Validation {
 
 export default class JoinSup extends Component {
   @service store;
-  @tracked errorMessage;
+  @tracked errorMessageForStudentNumberForm;
+  @tracked errorMessageForSupernumeraryForm;
   @tracked isLoading = false;
-  @tracked showFurtherInformationForm = false;
+  @tracked showSupernumeraryForm = false;
+  @tracked noStudentNumber = false;
 
   @tracked firstName = '';
   @tracked lastName = '';
@@ -81,7 +83,7 @@ export default class JoinSup extends Component {
     this.isLoading = true;
     let schoolingRegistration;
     const adapterOptions = {};
-    if (this.showFurtherInformationForm) {
+    if (this.showSupernumeraryForm) {
       this._validateInputString('firstName', this.firstName);
       this._validateInputString('lastName', this.lastName);
       this._validateInputDay('dayOfBirth', this.dayOfBirth);
@@ -123,9 +125,11 @@ export default class JoinSup extends Component {
   }
 
   @action
-  async hideFurtherInformationForm() {
-    this.showFurtherInformationForm = false;
-    this.errorMessage = null;
+  hideFurtherInformationForm() {
+    this.showSupernumeraryForm = false;
+    this.noStudentNumber = false;
+    this.errorMessageForStudentNumberForm = null;
+    this.errorMessageForSupernumeraryForm = null;
     this.firstName = '';
     this.lastName = '';
     this.dayOfBirth = '';
@@ -133,14 +137,27 @@ export default class JoinSup extends Component {
     this.yearOfBirth = '';
   }
 
+  @action
+  toggleNoStudentNumber() {
+    this.studentNumber = null;
+    this.noStudentNumber = !this.noStudentNumber;
+    this.showSupernumeraryForm = !this.showSupernumeraryForm;
+    this.errorMessageForStudentNumberForm = null;
+    this.errorMessageForSupernumeraryForm = null;
+  }
+
   _setErrorMessageForAttemptNextAction(errorResponse) {
     errorResponse.errors.forEach((error) => {
+      const messageFor409 = 'Vous possédez déjà un compte Pix. Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.';
+      if (this.showSupernumeraryForm && error.status === '409') {
+        return this.errorMessageForSupernumeraryForm = messageFor409;
+      }
       if (error.status === '409') {
-        return this.errorMessage = 'Vous possédez déjà un compte Pix. Pour continuer, connectez-vous à ce compte.';
+        return this.errorMessageForStudentNumberForm = messageFor409;
       }
       if (error.status === '404') {
-        this.showFurtherInformationForm = true;
-        return this.errorMessage = 'Vérifiez votre numéro étudiant ou saisissez les informations ci-dessous.';
+        this.showSupernumeraryForm = true;
+        return this.errorMessageForStudentNumberForm = 'Vérifiez votre numéro étudiant ou saisissez les informations ci-dessous.';
       }
       return this.errorMessage = error.detail;
     });

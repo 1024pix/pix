@@ -7,25 +7,30 @@
             @name="studentNumber"
             @value={{this.studentNumber}}
             placeholder="Numéro étudiant"
-            @disabled={{this.showFurtherInformationForm}}
-            @readonly={{this.showFurtherInformationForm}}
+            @disabled={{this.showSupernumeraryForm}}
+            @readonly={{this.showSupernumeraryForm}}
             class={{if this.validation.studentNumber "input--error"}}
             @focusOut={{fn this.triggerInputStringValidation "studentNumber" this.studentNumber}}
     />
     <div class={{if this.validation.studentNumber "join-restricted-campaign__field-error"}} role="alert">
       {{this.validation.studentNumber}}
     </div>
-    {{#if this.showFurtherInformationForm}}
+    {{#if this.showSupernumeraryForm}}
       <button type="button" class="link join-restricted-campaign__back-button" {{on 'click' this.hideFurtherInformationForm}}>
         Modifier le numéro étudiant
       </button>
     {{/if}}
+
+    <label for="no-student-number">
+      <Input @type="checkbox" @id="no-student-number" class="join-restricted-campaign__no-student-number" @checked={{this.noStudentNumber}} {{on 'click' this.toggleNoStudentNumber}}/>
+      Je n’ai pas de numéro étudiant
+    </label>
   </div>
 
-  {{#if this.errorMessage}}
-    <div class="join-restricted-campaign__error" aria-live="polite">{{{this.errorMessage}}}</div>
+  {{#if this.errorMessageForStudentNumberForm}}
+    <div class="join-restricted-campaign__error" aria-live="polite">{{{this.errorMessageForStudentNumberForm}}}</div>
   {{/if}}
-  {{#if this.showFurtherInformationForm}}
+  {{#if this.showSupernumeraryForm}}
     <Routes::Campaigns::Restricted::UserInformationForm
             @validation={{this.validation}}
             @firstName={{this.firstName}}
@@ -38,6 +43,9 @@
             @triggerInputMonthValidation={{this.triggerInputMonthValidation}}
             @triggerInputYearValidation={{this.triggerInputYearValidation}}
     />
+  {{/if}}
+  {{#if this.errorMessageForSupernumeraryForm}}
+    <div class="join-restricted-campaign__error" aria-live="polite">{{{this.errorMessageForSupernumeraryForm}}}</div>
   {{/if}}
   {{#if this.isLoading}}
     <button type="button" disabled class="button button--big join-restricted-campaign__submit-button"><span class="loader-in-button">&nbsp;</span></button>

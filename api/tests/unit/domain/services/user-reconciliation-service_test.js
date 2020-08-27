@@ -34,6 +34,16 @@ describe('Unit | Service | user-reconciliation-service', () => {
       lastName: 'Poe',
     };
 
+    context('When schoolingRegistration list is empty', () => {
+      it('should return null', async () => {
+        // when
+        const result = await userReconciliationService.findMatchingCandidateIdForGivenUser([], user);
+
+        // then
+        expect(result).to.equal(null);
+      });
+    });
+
     context('When schoolingRegistration list is not empty', () => {
 
       context('When no schoolingRegistration matched on names', () => {
@@ -514,4 +524,57 @@ describe('Unit | Service | user-reconciliation-service', () => {
     });
   });
 
+  describe('#doesSupernumerarySchoolingRegistrationExist', () => {
+
+    let user;
+    let organizationId;
+    let schoolingRegistrationRepositoryStub;
+
+    beforeEach(() => {
+      organizationId = domainBuilder.buildOrganization().id;
+      schoolingRegistrationRepositoryStub = {
+        findSupernumeraryByOrganizationIdAndBirthdate: sinon.stub(),
+      };
+    });
+
+    context('When schooling registrations are found for organization and birthdate', () => {
+
+      beforeEach(() => {
+        schoolingRegistrationRepositoryStub.findSupernumeraryByOrganizationIdAndBirthdate.resolves(schoolingRegistrations);
+        user = {
+          firstName: schoolingRegistrations[0].firstName,
+          lastName: schoolingRegistrations[0].lastName,
+        };
+      });
+
+      it('should return true', async () => {
+        // when
+        const result = await userReconciliationService.doesSupernumerarySchoolingRegistrationExist({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+
+        // then
+        expect(result).to.be.true;
+      });
+    });
+
+    context('When no schooling registrations found', () => {
+
+      beforeEach(() => {
+        schoolingRegistrationRepositoryStub.findSupernumeraryByOrganizationIdAndBirthdate.resolves([]);
+      });
+
+      it('should return false', async () => {
+        // given
+        user = {
+          firstName: 'fakeFirstName',
+          lastName: 'fakeLastName',
+        };
+
+        // when
+        const result = await userReconciliationService.doesSupernumerarySchoolingRegistrationExist({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+  });
 });

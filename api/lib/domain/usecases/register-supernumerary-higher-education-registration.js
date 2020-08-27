@@ -1,4 +1,4 @@
-const { NotFoundError } = require('../errors');
+const { NotFoundError, SchoolingRegistrationAlreadyLinkedToUserError } = require('../errors');
 const HigherEducationRegistration = require('../models/HigherEducationRegistration');
 
 module.exports = async function registerSupernumeraryHigherEducationRegistration({
@@ -12,10 +12,21 @@ module.exports = async function registerSupernumeraryHigherEducationRegistration
   },
   campaignRepository,
   higherEducationRegistrationRepository,
+  schoolingRegistrationRepository,
+  userReconciliationService,
 }) {
   const campaign = await campaignRepository.getByCode(campaignCode);
   if (!campaign) {
     throw new NotFoundError();
+  }
+
+  const doesSupernumerarySchoolingRegistrationExist = await userReconciliationService.doesSupernumerarySchoolingRegistrationExist({
+    organizationId: campaign.organizationId,
+    reconciliationInfo: { firstName, lastName, birthdate },
+    schoolingRegistrationRepository,
+  });
+  if (doesSupernumerarySchoolingRegistrationExist) {
+    throw new SchoolingRegistrationAlreadyLinkedToUserError();
   }
 
   const higherEducationRegistration = new HigherEducationRegistration({
@@ -24,10 +35,9 @@ module.exports = async function registerSupernumeraryHigherEducationRegistration
     firstName,
     lastName,
     birthdate,
-    organizationId: campaign.organizationId
+    organizationId: campaign.organizationId,
+    isSupernumerary: true,
   });
-
-  higherEducationRegistration.setIsSupernumerary();
 
   await higherEducationRegistrationRepository.save(higherEducationRegistration);
 };

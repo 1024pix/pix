@@ -60,7 +60,7 @@ exports.register = async function(server) {
         handler: schoolingRegistrationUserAssociationController.registerSupernumeraryHigherEducationRegistration,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Elle crée une inscription surnuméraire pour l’utilisateur dans cette organisation\n'
+          '- Elle crée une inscription surnuméraire pour l’utilisateur dans cette organisation'
         ],
         tags: ['api', 'schoolingRegistrationUserAssociation']
       }
