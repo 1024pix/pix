@@ -205,6 +205,17 @@ export default function() {
     }
   });
 
+  this.patch('/organizations/:id/schooling-registration-user-associations/:studentId', (schema, request) => {
+    const { studentId } = request.params;
+    const { data: { attributes : { ['student-number']: studentNumber } } } = JSON.parse(request.requestBody);
+
+    if (schema.students.all().models.find((student) => student.studentNumber === studentNumber)) {
+      return new Response(412);
+    }
+    const student = schema.students.find(studentId);
+    return student.update({ studentNumber });
+  });
+
   this.get('/campaigns/:id');
 
   this.patch('/campaigns/:id');
