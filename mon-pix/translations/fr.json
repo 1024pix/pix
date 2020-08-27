@@ -249,7 +249,7 @@
             "category-selection": {
               "label": "J'ai un problème avec",
               "options": {
-                "accessibility": "L'accessibilité de l'épreuve",
+                "accessibility": "L’accessibilité de l’épreuve",
                 "answer": "La réponse",
                 "embed": "Le simulateur / l'application",
                 "download": "Le fichier à télécharger",

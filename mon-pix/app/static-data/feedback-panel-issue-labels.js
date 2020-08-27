@@ -1,7 +1,7 @@
 const topLevelLabels = [
   {
     name: 'pages.challenge.feedback-panel.form.fields.category-selection.options.question',
-    value: 'instructions',
+    value: 'question',
   },
   {
     name: 'pages.challenge.feedback-panel.form.fields.category-selection.options.picture',
@@ -14,7 +14,7 @@ const topLevelLabels = [
   },
   {
     name: 'pages.challenge.feedback-panel.form.fields.category-selection.options.embed',
-    value: 'simulator',
+    value: 'embed',
   },
   {
     name: 'pages.challenge.feedback-panel.form.fields.category-selection.options.download',
@@ -41,7 +41,7 @@ const topLevelLabels = [
 ];
 
 const questions = {
-  'instructions': [
+  'question': [
     {
       name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.question-not-understood',
       type: 'textbox',
@@ -64,7 +64,7 @@ const questions = {
       type: 'textbox',
     }
   ],
-  'simulator': [
+  'embed': [
     {
       name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.embed-not-displayed.label',
       type: 'tutorial',
