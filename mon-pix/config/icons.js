@@ -6,6 +6,7 @@ module.exports = function() {
       'bars',
       'bookmark',
       'check-circle',
+      'copy',
       'exclamation-circle',
       'exclamation-triangle',
       'eye',
@@ -23,6 +24,7 @@ module.exports = function() {
     ],
     'free-regular-svg-icons': [
       'bookmark',
+      'copy',
       'thumbs-up',
     ],
   };

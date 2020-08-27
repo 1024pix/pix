@@ -22,7 +22,7 @@ exports.register = async function(server) {
         notes: [
           '- **Route nécessitant une authentification**\n' +
           '- Seules les certifications de l’utilisateur authentifié sont accessibles\n' +
-          '- Récupération des informations d’une certification d’un utilisateur',
+          '- Récupération des informations d’une certification de l’utilisateur courant',
         ],
         tags: ['api', 'certifications'],
       },

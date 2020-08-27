@@ -212,6 +212,7 @@ function _buildPrivateCertificate(certificationCenterName, certificationCourse, 
     status: assessmentResult.status,
     commentForCandidate: assessmentResult.commentForCandidate,
     userId: certificationCourse.userId,
+    verificationCode: certificationCourse.verificationCode,
   });
   certificate.cleaCertificationStatus = undefined;
   return certificate;
