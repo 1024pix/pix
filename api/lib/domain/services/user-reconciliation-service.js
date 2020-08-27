@@ -167,10 +167,25 @@ async function createUsernameByUser({ user: { firstName, lastName, birthdate }, 
   return username;
 }
 
+async function doesSupernumerarySchoolingRegistrationExist({
+  organizationId,
+  reconciliationInfo: { firstName, lastName, birthdate },
+  schoolingRegistrationRepository,
+}) {
+  const schoolingRegistrations = await schoolingRegistrationRepository.findSupernumeraryByOrganizationIdAndBirthdate({
+    organizationId,
+    birthdate,
+  });
+
+  const schoolingRegistrationId = findMatchingCandidateIdForGivenUser(schoolingRegistrations, { firstName, lastName });
+  return !!schoolingRegistrationId;
+}
+
 module.exports = {
   generateUsernameUntilAvailable,
   createUsernameByUser,
   findMatchingCandidateIdForGivenUser,
   findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser,
-  checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations
+  checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations,
+  doesSupernumerarySchoolingRegistrationExist,
 };

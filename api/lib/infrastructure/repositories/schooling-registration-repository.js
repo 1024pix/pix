@@ -112,10 +112,22 @@ module.exports = {
       .query((qb) => {
         qb.where('organizationId', organizationId);
         if (birthdate) qb.where('birthdate', birthdate);
-        if (studentNumber) qb.where('studentNumber', studentNumber);
+        if (studentNumber) qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
       })
       .fetchAll();
-  
+
+    return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
+  },
+
+  async findSupernumeraryByOrganizationIdAndBirthdate({ organizationId, birthdate }) {
+    const schoolingRegistrations = await BookshelfSchoolingRegistration
+      .query((qb) => {
+        qb.where('organizationId', organizationId);
+        qb.where('birthdate', birthdate);
+        qb.where('isSupernumerary', true);
+      })
+      .fetchAll();
+
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
   },
 
