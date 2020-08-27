@@ -68,6 +68,7 @@ export default class ListController extends Controller {
     }
   }
 
+  @action
   refresh() {
     this.send('refreshModel');
   }

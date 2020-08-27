@@ -9,7 +9,7 @@ module('Unit | Controller | authenticated/sup-students/list', function(hooks) {
 
   hooks.beforeEach(function() {
     controller = this.owner.lookup('controller:authenticated/sup-students/list');
-    controller.refresh = () => {};
+    controller.send = sinon.stub();
   });
 
   module('#importStudents', function() {
@@ -24,7 +24,7 @@ module('Unit | Controller | authenticated/sup-students/list', function(hooks) {
 
       controller.session = session;
       await controller.importStudents(file);
-
+      
       assert.ok(file.uploadBinary.calledWith(importStudentsURL, { headers }));
     });
 

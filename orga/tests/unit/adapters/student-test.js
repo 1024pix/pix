@@ -7,10 +7,12 @@ module('Unit | Adapters | student', function(hooks) {
   setupTest(hooks);
 
   let adapter;
+  let ajaxStub;
 
   hooks.beforeEach(function() {
     adapter = this.owner.lookup('adapter:student');
-    adapter.ajax = sinon.stub().resolves();
+    ajaxStub = sinon.stub();
+    adapter.set('ajax', ajaxStub);
   });
 
   module('#urlForQuery', () => {
@@ -24,14 +26,9 @@ module('Unit | Adapters | student', function(hooks) {
   });
 
   module('#dissociateUser', function() {
-    let ajaxStub;
-
-    hooks.beforeEach(function() {
-      ajaxStub = sinon.stub();
-      adapter.set('ajax', ajaxStub);
-    });
-
+    
     test('it performs the request to dissociate user from student', async function(assert) {
+      // given
       const model = { id: 12345 };
       const data = {
         data: {
@@ -42,9 +39,42 @@ module('Unit | Adapters | student', function(hooks) {
       };
       const url = `${ENV.APP.API_HOST}/api/schooling-registration-user-associations`;
 
+      // when
       await adapter.dissociateUser(model);
 
+      // then
       assert.ok(ajaxStub.calledWith(url, 'DELETE', { data }));
+    });
+  });
+
+  module('#updateRecord', function() {
+    test('it performs the request to update the student number', async function(assert) {
+      // given
+      const studentId = 10;
+      const studentNumber = 54321;
+      const organizationId = 1;
+      const snapshot = {
+        id: studentId,
+        adapterOptions: { updateStudentNumber: true, studentNumber, organizationId },
+        attr: function() {
+          return studentNumber;
+        },
+      };
+
+      const data = {
+        data: {
+          attributes: {
+            'student-number': studentNumber,
+          },
+        },
+      };
+      const url = `${ENV.APP.API_HOST}/api/organizations/${organizationId}/schooling-registration-user-associations/${studentId}`;
+
+      // when
+      await adapter.updateRecord(null, { modelName: 'students' }, snapshot);
+
+      // then
+      assert.ok(ajaxStub.calledWith(url, 'PATCH', { data }));
     });
   });
 });

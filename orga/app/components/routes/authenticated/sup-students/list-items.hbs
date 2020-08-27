@@ -22,6 +22,7 @@
           <Table::Header>Nom</Table::Header>
           <Table::Header>Prénom</Table::Header>
           <Table::Header>Date de naissance</Table::Header>
+          <Table::Header />
         </tr>
         <tr>
           <Table::Header/>
@@ -38,7 +39,8 @@
             @triggerFiltering={{@triggerFiltering}}
           />
           <Table::Header/>
-          </tr>
+          <Table::Header />
+        </tr>
       </thead>
 
       {{#if @students}}
@@ -48,7 +50,20 @@
             <td>{{student.studentNumber}}</td>
             <td>{{student.lastName}}</td>
             <td>{{student.firstName}}</td>
-            <td>{{moment-format student.birthdate 'DD/MM/YYYY' allow-empty=true}}</td>
+            <td>{{moment-format student.birthdate 'DD/MM/YYYY'}}</td>
+            <td class="list-students-page__actions">
+              {{#if this.currentUser.isAdminInOrganization}}
+                <Dropdown::IconTrigger
+                  @icon="ellipsis-v"
+                  @dropdownButtonClass="list-students-page__dropdown-button"
+                  @dropdownContentClass="list-students-page__dropdown-content"
+                >
+                  <Dropdown::Item @onClick={{fn this.openEditStudentNumberModal student}}>
+                    Éditer le numéro étudiant
+                  </Dropdown::Item>
+                </Dropdown::IconTrigger>
+              {{/if}}
+            </td>
           </tr>
         {{/each}}
 
@@ -60,6 +75,19 @@
       <div class="table__empty content-text">Aucun étudiant.</div>
     {{/unless}}
   </div>
+
+  <EditStudentNumberModal
+    @student={{this.selectedStudent}}
+    @onSaveStudentNumber={{this.onSaveStudentNumber}}
+    @display={{this.isShowingEditStudentNumberModal}}
+    @closeModal={{this.closeEditStudentNumberModal}}
+  />
 </div>
+
+{{#if @isLoading}}
+  <ModalDialog @translucentOverlay={{true}} @containerClass="modal__translucent">
+    <PixLoader />
+  </ModalDialog>
+{{/if}}
 
 <PaginationControl @pagination={{@students.meta}}/>

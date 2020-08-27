@@ -21,6 +21,15 @@
     transition: background-color 0.2s ease;
   }
 
+  &:disabled {
+    background-color: $grey-30;
+    
+    &:hover, &:active, &:focus {
+      cursor: default;
+      background-color: $grey-30;
+    }
+  }
+
   &--white {
     background-color: $white;
     color: $grey-100;
