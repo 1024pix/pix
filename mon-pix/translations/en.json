@@ -317,6 +317,12 @@
         "label": "Challenge"
       },
       "statement": {
+        "alternative-instruction": {
+          "actions": {
+            "display": "Display alternative instruction",
+            "hide": "Hide alternative instruction"
+          }
+        },
         "file-download": {
           "actions": {
             "choose-type": "Select the type of file you want to use",

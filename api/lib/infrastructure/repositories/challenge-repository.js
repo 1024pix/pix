@@ -88,6 +88,7 @@ function _toDomain({ challengeDataObject, skillDataObjects }) {
     type: challengeDataObject.type,
     status: challengeDataObject.status,
     instruction: challengeDataObject.instruction,
+    alternativeInstruction: challengeDataObject.alternativeInstruction,
     proposals: challengeDataObject.proposals,
     timer: challengeDataObject.timer,
     illustrationUrl: challengeDataObject.illustrationUrl,

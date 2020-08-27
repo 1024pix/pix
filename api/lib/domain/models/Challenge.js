@@ -52,6 +52,7 @@ class Challenge {
       embedUrl,
       format,
       illustrationAlt,
+      alternativeInstruction,
       illustrationUrl,
       instruction,
       proposals,
@@ -84,6 +85,7 @@ class Challenge {
     this.type = type;
     this.locales = locales;
     this.autoReply = autoReply;
+    this.alternativeInstruction = alternativeInstruction;
     // includes
     this.skills = skills;
     this.validator = validator;
