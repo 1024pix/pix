@@ -19,7 +19,10 @@
 
 .reached-stage-score {
   &__stars {
-    text-align: center;
+    min-width: 200px;
+    max-width: 250px;
+    display: flex;
+    justify-content: center;
   }
   &__stars img {
     margin: 3px;
