@@ -89,6 +89,13 @@
       "back-link": "Back to my certifications",
       "candidate-birth-complete": "Born on {birthdate} at {birthplace}",
       "certification-center": "Certification center:",
+      "verification-code": {
+        "title": "Verification code",
+        "info": "(?)",
+        "tooltip": "Communiquez ce code pour permettre à un tiers de vérifier l'authenticité de votre certificat",
+        "copy": "Copier le code",
+        "copied": "Code copié !"
+      },
       "clea": {
         "title": "Certified Cléa",
         "alternative": "Certified cléA numérique"

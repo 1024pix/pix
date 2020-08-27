@@ -91,6 +91,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
           pixScore: 23,
           status: 'rejected',
           commentForCandidate: 'Vous auriez dû travailler plus.',
+          verificationCode: 'P-BBBCCCDD',
         }),
       ];
 
@@ -109,7 +110,8 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
               'status': 'rejected',
               'pix-score': 23,
               'comment-for-candidate': 'Vous auriez dû travailler plus.',
-              'clea-certification-status': 'acquired'
+              'clea-certification-status': 'acquired',
+              'verification-code': 'P-BBBCCCDD',
             },
             'relationships': {
               'result-competence-tree': {
@@ -155,8 +157,8 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
               'status': 'rejected',
               'pix-score': 23,
               'comment-for-candidate': 'Vous auriez dû travailler plus.',
-              'clea-certification-status': 'acquired'
-
+              'clea-certification-status': 'acquired',
+              'verification-code': 'P-BBBCCCDD',
             },
             'relationships': {
               'result-competence-tree': {
@@ -193,7 +195,8 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
             'status': 'rejected',
             'pix-score': 23,
             'comment-for-candidate': 'Vous auriez dû travailler plus.',
-            'clea-certification-status': 'acquired'
+            'clea-certification-status': 'acquired',
+            'verification-code': 'P-BBBCCCDD',
           },
           'relationships': {
             'result-competence-tree': {
