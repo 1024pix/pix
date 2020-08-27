@@ -27,7 +27,8 @@ module('Integration | Component | information-banner', function(hooks) {
           // then
           assert.contains('Importer la base Élèves');
           assert.dom('a[href="https://view.genial.ly/5f295b80302a810d2ff9fa60/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23"]').exists();
-          assert.dom('.pix-banner').includesText('Rentrée 2020 : l’administrateur doit importer ou ré-importer la base élèves pour initialiser Pix Orga');
+          assert.dom('a[href="https://view.genial.ly/5f46390591252c0d5246bb63/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23"]').exists();
+          assert.dom('.pix-banner').includesText('Rentrée 2020 : l’administrateur doit importer ou ré-importer la base élèves pour initialiser Pix Orga. Plus d’info collège et lycée (GT et Pro)');
         });
       });
 
@@ -52,7 +53,7 @@ module('Integration | Component | information-banner', function(hooks) {
           await render(hbs`<InformationBanner/>`);
 
           // then
-          assert.dom('.pix-banner').doesNotIncludeText('Rentrée 2020 : l’administrateur doit importer ou ré-importer la base élèves pour initialiser Pix Orga');
+          assert.dom('.pix-banner').doesNotIncludeText('Rentrée 2020 : l’administrateur doit importer ou ré-importer la base élèves pour initialiser Pix Orga. Plus d’info collège et lycée (GT et Pro)');
         });
       });
     });
@@ -125,7 +126,8 @@ module('Integration | Component | information-banner', function(hooks) {
 
           // then
           assert.dom('a[href="https://view.genial.ly/5f295b80302a810d2ff9fa60/?idSlide=e11f61b2-3047-4be3-9a4d-dd9e7cc698ba"]').exists();
-          assert.dom('.pix-banner').includesText('Parcours de rentrée 2020 : les codes sont disponibles dans l’onglet campagnes. N’oubliez pas de les diffuser aux élèves avant la Toussaint.');
+          assert.dom('a[href="https://view.genial.ly/5f46390591252c0d5246bb63/?idSlide=e11f61b2-3047-4be3-9a4d-dd9e7cc698ba"]').exists();
+          assert.dom('.pix-banner').includesText('Parcours de rentrée 2020 : les codes sont disponibles dans l’onglet Campagnes. N’oubliez pas de les diffuser aux élèves avant la Toussaint. Plus d’info collège et lycée (GT et Pro)');
         });
       });
     });
