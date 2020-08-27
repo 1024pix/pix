@@ -40,7 +40,8 @@
     "@ember/optional-features": "^1.1.0",
     "@ember/render-modifiers": "^1.0.2",
     "@fortawesome/ember-fontawesome": "^0.2.1",
-    "@fortawesome/free-regular-svg-icons": "^5.11.2",
+    "@fortawesome/free-brands-svg-icons": "^5.14.0",
+    "@fortawesome/free-regular-svg-icons": "^5.14.0",
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
     "@glimmer/component": "^1.0.0",
     "babel-eslint": "^10.0.3",
@@ -54,6 +55,7 @@
     "ember-cli-autoprefixer": "^0.8.1",
     "ember-cli-babel": "^7.13.0",
     "ember-cli-chai": "^0.5.0",
+    "ember-cli-clipboard": "^0.15.0",
     "ember-cli-dependency-checker": "^3.2.0",
     "ember-cli-eslint": "^5.1.0",
     "ember-cli-google-fonts": "^2.16.2",
@@ -103,7 +105,7 @@
     "loader.js": "^4.7.0",
     "lodash": "^4.17.15",
     "p-queue": "^6.3.0",
-    "pix-ui": "git://github.com/1024pix/pix-ui.git#semver:^v0.5.0",
+    "pix-ui": "git://github.com/1024pix/pix-ui.git#semver:^v0.8.1",
     "sass": "^1.23.7",
     "showdown": "^1.9.1"
   }
