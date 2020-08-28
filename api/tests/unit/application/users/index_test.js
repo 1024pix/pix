@@ -1,8 +1,12 @@
-const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('@hapi/hapi');
+
+const { expect, sinon, HttpTestServer } = require('../../../test-helper');
+
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const userController = require('../../../../lib/application/users/user-controller');
 const userVerification = require('../../../../lib/application/preHandlers/user-existence-verification');
+
+const moduleUnderTest = require('../../../../lib/application/users');
 
 let server;
 
@@ -430,4 +434,78 @@ describe('Unit | Router | user-router', () => {
       expect(JSON.parse(response.payload).errors[0].detail).to.equal('"id" must be a number');
     });
   });
+
+  describe('PATCH /api/users/{id}/authentication-methods/saml', () => {
+
+    const method = 'PATCH';
+    const payload = {
+      data: {
+        id: 1,
+        type: 'external-users',
+        attributes: {
+          'external-user-token': 'TOKEN',
+        },
+      },
+    };
+
+    let url;
+    let httpTestServer;
+
+    beforeEach(() => {
+      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
+      sinon.stub(userController, 'updateUserSamlId').returns('ok');
+
+      httpTestServer = new HttpTestServer(moduleUnderTest);
+    });
+
+    it('should exist', async () => {
+      // given
+      url = '/api/users/1/authentication-methods/saml';
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    describe('Payload schema validation', () => {
+
+      it('should have a valid userId', async () => {
+        // given
+        url = '/api/users/wrongId/authentication-methods/saml';
+
+        // when
+        const response = await httpTestServer.request(method, url);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+      it('should have a payload', async () => {
+        // given
+        url = '/api/users/1/authentication-methods/saml';
+
+        // when
+        const response = await httpTestServer.request(method, url);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+      it('should have an externalUserToken attribute in payload', async () => {
+        // given
+        url = '/api/users/1/authentication-methods/saml';
+        payload.data.attributes['external-user-token'] = '';
+
+        // when
+        const response = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+
+  });
+
 });
