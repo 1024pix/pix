@@ -27,7 +27,9 @@
 }
 
 @include device-is('mobile') {
+
   .user-certifications-page-get {
+
     &__return-to {
       margin-left: -22px;
     }
@@ -45,7 +47,9 @@
 }
 
 @include device-is('tablet') {
+
   .user-certifications-page-get {
+
     &__details-body {
       flex-wrap: wrap;
     }
@@ -53,7 +57,9 @@
 }
 
 @include device-is('desktop') {
+
   .user-certifications-page-get {
+
     &__details-body {
       flex-wrap: nowrap;
     }
