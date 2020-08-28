@@ -39,13 +39,11 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
     let certificationAssessment;
 
     beforeEach(() => {
-      event = new AssessmentCompleted(
+      event = new AssessmentCompleted({
         assessmentId,
         userId,
-        Symbol('targetProfileId'),
-        Symbol('campaignParticipationId'),
-        true,
-      );
+        certificationCourseId: 123,
+      });
       certificationAssessment = {
         id: assessmentId,
         certificationCourseId: Symbol('certificationCourseId'),

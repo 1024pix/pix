@@ -27,7 +27,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
   const assessmentRepository = { get: () => undefined };
   const challengeRepository = { get: () => undefined };
   const competenceEvaluationRepository = {  };
-  const targetProfileRepository = { getByCampaignId: () => undefined };
+  const targetProfileRepository = { getByCampaignParticipationId: () => undefined };
   const skillRepository = { findActiveByCompetenceId: () => undefined };
   const scorecardService = { computeScorecard: () => undefined };
   const knowledgeElementRepository = {
@@ -40,7 +40,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     sinon.stub(assessmentRepository, 'get');
     sinon.stub(challengeRepository, 'get');
     sinon.stub(skillRepository, 'findActiveByCompetenceId');
-    sinon.stub(targetProfileRepository, 'getByCampaignId');
+    sinon.stub(targetProfileRepository, 'getByCampaignParticipationId');
     sinon.stub(scorecardService, 'computeScorecard');
     sinon.stub(knowledgeElementRepository, 'findUniqByUserIdAndAssessmentId');
     sinon.stub(KnowledgeElement, 'createKnowledgeElementsForAnswer');
@@ -121,7 +121,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         KnowledgeElement.createKnowledgeElementsForAnswer.returns([
           firstCreatedKnowledgeElement, secondCreatedKnowledgeElement,
         ]);
-        targetProfileRepository.getByCampaignId.rejects(new NotFoundError());
+        targetProfileRepository.getByCampaignParticipationId.rejects(new NotFoundError());
         scorecardService.computeScorecard.resolves(scorecard);
       });
 
@@ -279,7 +279,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
       beforeEach(() => {
         // given
         assessment.type = Assessment.types.CAMPAIGN;
-        assessment.campaignParticipation = domainBuilder.buildCampaignParticipation();
+        assessment.campaignParticipationId = 123;
         assessmentRepository.get.resolves(assessment);
         skills = domainBuilder.buildSkillCollection({ minLevel: 1, maxLevel: 4 });
         skillAlreadyValidated = skills[0];
@@ -295,7 +295,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
         knowledgeElementRepository.findUniqByUserIdAndAssessmentId.withArgs({ userId: assessment.userId, assessmentId: assessment.id }).resolves([knowledgeElement]);
 
-        targetProfileRepository.getByCampaignId.resolves(targetProfile);
+        targetProfileRepository.getByCampaignParticipationId.resolves(targetProfile);
         KnowledgeElement.createKnowledgeElementsForAnswer.returns([
           firstKnowledgeElement, secondKnowledgeElement,
         ]);
@@ -339,8 +339,8 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         });
 
         // then
-        const expectedArgument = assessment.campaignParticipation.campaignId;
-        expect(targetProfileRepository.getByCampaignId).to.have.been.calledWith(expectedArgument);
+        const expectedArgument = assessment.campaignParticipationId;
+        expect(targetProfileRepository.getByCampaignParticipationId).to.have.been.calledWith(expectedArgument);
       });
 
       it('should call the challenge repository to get the answer challenge', async () => {

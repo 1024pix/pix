@@ -8,7 +8,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessmen
 
   describe('#getNextChallengeForCampaignAssessment', () => {
 
-    let userId, assessmentId, targetProfileId, campaignParticipation,
+    let userId, assessmentId, campaignParticipationId,
       assessment, lastAnswer, answerRepository, challengeRepository, challenges,
       knowledgeElementRepository, recentKnowledgeElements,
       targetProfileRepository, targetProfile, skills, actualNextChallenge,
@@ -18,18 +18,17 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessmen
     beforeEach(async () => {
 
       userId = 'dummyUserId';
-      targetProfileId = 'dummyTargetProfileId';
       assessmentId = 21;
+      campaignParticipationId = 456;
       lastAnswer = null;
 
       answerRepository = { findByAssessment: sinon.stub().resolves([lastAnswer]) };
       challenges = [];
       challengeRepository = { findOperativeBySkills: sinon.stub().resolves(challenges) };
-      campaignParticipation = { getTargetProfileId: sinon.stub().returns(targetProfileId) };
-      assessment = { id: assessmentId, userId, campaignParticipation, isImproving: false };
+      assessment = { id: assessmentId, userId, campaignParticipationId, isImproving: false };
       skills = [];
       targetProfile = { skills };
-      targetProfileRepository = { get: sinon.stub().resolves(targetProfile) };
+      targetProfileRepository = { getByCampaignParticipationId: sinon.stub().resolves(targetProfile) };
       improvementService = { filterKnowledgeElementsIfImproving: sinon.stub().returns(recentKnowledgeElements) };
       pickChallengeService = { pickChallenge: sinon.stub().resolves(challengeWeb22) };
 
@@ -82,7 +81,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessmen
     });
 
     it('should have fetched the target profile', () => {
-      expect(targetProfileRepository.get).to.have.been.calledWithExactly(targetProfileId);
+      expect(targetProfileRepository.getByCampaignParticipationId).to.have.been.calledWithExactly(campaignParticipationId);
     });
 
     it('should have fetched the most recent knowledge elements', () => {

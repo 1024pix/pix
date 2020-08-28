@@ -123,10 +123,7 @@ describe('Unit | UseCase | complete-assessment', () => {
         });
 
         // then
-        expect(result.targetProfileId).to.equal(
-          assessment.campaignParticipation.campaign.targetProfileId
-        );
-        expect(result.campaignParticipationId).to.equal(assessment.campaignParticipation.id);
+        expect(result.campaignParticipationId).to.equal(assessment.campaignParticipationId);
       });
     });
 
@@ -148,7 +145,7 @@ describe('Unit | UseCase | complete-assessment', () => {
         });
 
         // then
-        expect(result.isCertification).to.equal(true);
+        expect(result.isCertificationType).to.equal(true);
       });
     });
   });
@@ -162,21 +159,15 @@ function _buildCompetenceEvaluationAssessment() {
 }
 
 function _buildCampaignAssessment() {
-  const assessment = domainBuilder.buildAssessment(
+  return domainBuilder.buildAssessment(
     {
       id: Symbol('assessmentId'),
       state: 'started',
       type: Assessment.types.CAMPAIGN,
       userId: Symbol('userId'),
-      campaignParticipation: {
-        id: Symbol('campaignParticipationId'),
-        campaign: {
-          targetProfileId: Symbol('targetProfileId')
-        }
-      }
+      campaignParticipationId: Symbol('campaignParticipationId'),
     }
   );
-  return assessment;
 }
 
 function _buildCertificationAssessment() {

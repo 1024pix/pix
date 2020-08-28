@@ -22,7 +22,7 @@ async function handleCertificationScoring({
 }) {
   checkEventType(event, eventType);
 
-  if (event.isCertification) {
+  if (event.isCertificationType) {
     const certificationAssessment = await certificationAssessmentRepository.get(event.assessmentId);
     return _calculateCertificationScore({
       certificationAssessment,

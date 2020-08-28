@@ -16,7 +16,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
         findByAssessment: sinon.stub(),
       };
       targetProfileRepository = {
-        get: sinon.stub(),
+        getByCampaignParticipationId: sinon.stub(),
       };
       challengeRepository = {
         findOperativeBySkills: sinon.stub(),answerRepository
@@ -31,7 +31,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
 
     it('fetches answers, lastAnswer, targetsSkills challenges and knowledgeElements', async () => {
       // given
-      const assessment = domainBuilder.buildAssessment.ofTypeCampaign({ state: 'started' });
+      const assessment = domainBuilder.buildAssessment.ofTypeCampaign({ state: 'started', campaignParticipationId: 1 });
       const answer = domainBuilder.buildAnswer();
       const challenges = [
         domainBuilder.buildChallenge(),
@@ -41,9 +41,8 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
       ];
       const targetProfile = domainBuilder.buildTargetProfile();
 
-      assessment.campaignParticipation.getTargetProfileId = () => 1;
       answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
-      targetProfileRepository.get.withArgs(1).resolves(targetProfile);
+      targetProfileRepository.getByCampaignParticipationId.withArgs(assessment.campaignParticipationId).resolves(targetProfile);
       challengeRepository.findOperativeBySkills.withArgs(targetProfile.skills).resolves(challenges);
       knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves(knowledgeElements);
       improvementService.filterKnowledgeElementsIfImproving.resolves(knowledgeElements);

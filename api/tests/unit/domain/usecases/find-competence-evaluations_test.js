@@ -19,13 +19,13 @@ describe('Unit | UseCase | find-competence-evaluations', () => {
       find: sinon.stub(),
     };
     assessmentRepository = {
-      belongsToUser: sinon.stub()
+      ownedByUser: sinon.stub()
     };
   });
 
   it('should find the competence-evaluations', async () => {
     // given
-    assessmentRepository.belongsToUser.withArgs(assessmentId, userId).resolves(true);
+    assessmentRepository.ownedByUser.withArgs({ id: assessmentId, userId }).resolves(true);
     competenceEvaluationRepository.find.withArgs(options).resolves('ok');
 
     // when
@@ -42,7 +42,7 @@ describe('Unit | UseCase | find-competence-evaluations', () => {
 
   it('should throw an UserNotAuthorizedToAccessEntity error', async () => {
     // given
-    assessmentRepository.belongsToUser.resolves(false);
+    assessmentRepository.ownedByUser.resolves(false);
 
     // when
     const error = await catchErr(findCompetenceEvaluations)({

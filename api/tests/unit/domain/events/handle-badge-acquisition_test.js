@@ -9,7 +9,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
     const domainTransaction = Symbol('a DomainTransaction');
 
     const badgeRepository = {
-      findByTargetProfileId: _.noop,
+      findByCampaignParticipationId: _.noop,
     };
     const badgeAcquisitionRepository = {
       create: _.noop,
@@ -41,11 +41,10 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
     });
     context('when the assessment belongs to a campaign', () => {
 
-      const event = new AssessmentCompleted(
-        Symbol('userId'),
-        Symbol('targetProfileId'),
-        Symbol('campaignParticipationId')
-      );
+      const event = new AssessmentCompleted({
+        userId: 'userId',
+        campaignParticipationId: 'campaignParticipationId',
+      });
 
       context('when the campaign is associated to one badge', () => {
 
@@ -54,12 +53,12 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
         const campaignParticipationResult = Symbol('campaignParticipationResult');
 
         beforeEach(() => {
-          sinon.stub(badgeRepository, 'findByTargetProfileId');
+          sinon.stub(badgeRepository, 'findByCampaignParticipationId');
           badge = {
             id: badgeId,
             badgeCriteria: Symbol('badgeCriteria')
           };
-          badgeRepository.findByTargetProfileId.withArgs(event.targetProfileId).resolves([badge]);
+          badgeRepository.findByCampaignParticipationId.withArgs(event.campaignParticipationId).resolves([badge]);
 
           sinon.stub(badgeAcquisitionRepository, 'create');
 
@@ -109,7 +108,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
         const campaignParticipationResult = Symbol('campaignParticipationResult');
 
         beforeEach(() => {
-          sinon.stub(badgeRepository, 'findByTargetProfileId');
+          sinon.stub(badgeRepository, 'findByCampaignParticipationId');
           badge1 = {
             id: badgeId_1,
             badgeCriteria: Symbol('badgeCriteria')
@@ -118,7 +117,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
             id: badgeId_2,
             badgeCriteria: Symbol('badgeCriteria')
           };
-          badgeRepository.findByTargetProfileId.withArgs(event.targetProfileId).resolves([badge1, badge2]);
+          badgeRepository.findByCampaignParticipationId.withArgs(event.campaignParticipationId).resolves([badge1, badge2]);
 
           sinon.stub(badgeAcquisitionRepository, 'create');
 
@@ -169,14 +168,13 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
       context('when the campaign is not associated to a badge', () => {
         it('should not create a badge', async () => {
           // given
-          const targetProfileId = 1234;
-          sinon.stub(badgeRepository, 'findByTargetProfileId');
-          badgeRepository.findByTargetProfileId.withArgs(targetProfileId).resolves([]);
+          const userId = 42;
+          const campaignParticipationId = 78;
+          const event = new AssessmentCompleted({ userId, campaignParticipationId });
+          sinon.stub(badgeRepository, 'findByCampaignParticipationId');
+          badgeRepository.findByCampaignParticipationId.withArgs(event.campaignParticipationId).resolves([]);
 
           sinon.stub(badgeAcquisitionRepository, 'create');
-
-          const userId = 42;
-          const event = new AssessmentCompleted(userId, targetProfileId);
 
           // when
           await handleBadgeAcquisition({ event, ...dependencies, domainTransaction });
@@ -193,9 +191,8 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
         // given
         sinon.stub(badgeAcquisitionRepository, 'create');
 
-        const targetProfileId = null;
         const userId = 42;
-        const event = new AssessmentCompleted(userId, targetProfileId);
+        const event = new AssessmentCompleted({ userId });
 
         // when
         await handleBadgeAcquisition({ event, ...dependencies, domainTransaction });

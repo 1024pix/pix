@@ -101,7 +101,7 @@ async function _getKnowledgeElements({ assessment, answer, challenge, skillRepos
     targetSkills = await skillRepository.findActiveByCompetenceId(assessment.competenceId);
   }
   if (assessment.isForCampaign()) {
-    const targetProfile = await targetProfileRepository.getByCampaignId(assessment.campaignParticipation.campaignId);
+    const targetProfile = await targetProfileRepository.getByCampaignParticipationId(assessment.campaignParticipationId);
     targetSkills = targetProfile.skills;
   }
   return KnowledgeElement.createKnowledgeElementsForAnswer({

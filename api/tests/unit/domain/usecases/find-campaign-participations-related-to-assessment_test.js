@@ -11,7 +11,7 @@ describe('Unit | UseCase | find-campaign-participations-related-to-assessment', 
   let assessmentId;
   let campaignParticipations;
 
-  const assessmentRepository = { belongsToUser: sinon.stub() };
+  const assessmentRepository = { ownedByUser: sinon.stub() };
   const campaignParticipationRepository = { findByAssessmentId: sinon.stub() };
 
   beforeEach(() => {
@@ -25,13 +25,10 @@ describe('Unit | UseCase | find-campaign-participations-related-to-assessment', 
 
     context('the assessment belongs to the user', () => {
       beforeEach(async () => {
-        assessmentRepository.belongsToUser.resolves(true);
+        assessmentRepository.ownedByUser.withArgs({ id: assessmentId, userId }).resolves(true);
         campaignParticipationRepository.findByAssessmentId.resolves(campaignParticipations);
 
         userCampaignParticipation = await findCampaignParticipationsRelatedToAssessment({ userId, assessmentId, campaignParticipationRepository, assessmentRepository });
-      });
-      it('should check if the assessment belongs to the user', () => {
-        expect(assessmentRepository.belongsToUser).to.have.been.calledWithExactly(assessmentId, userId);
       });
       it('should find the campaign participations', () => {
         expect(campaignParticipationRepository.findByAssessmentId).to.have.been.calledWithExactly(assessmentId);
@@ -42,7 +39,7 @@ describe('Unit | UseCase | find-campaign-participations-related-to-assessment', 
     });
     context('the assessment does not belong to the user', () => {
       beforeEach(async () => {
-        assessmentRepository.belongsToUser.resolves(false);
+        assessmentRepository.ownedByUser.withArgs({ id: assessmentId, userId }).resolves(false);
 
         requestErr = await catchErr(findCampaignParticipationsRelatedToAssessment)({ userId, assessmentId, campaignParticipationRepository, assessmentRepository });
       });

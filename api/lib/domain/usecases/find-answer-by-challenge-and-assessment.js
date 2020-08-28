@@ -11,9 +11,10 @@ module.exports = async function findAnswerByChallengeAndAssessment(
     return null;
   }
 
-  const assessment = await assessmentRepository.get(assessmentId);
-  if (assessment.userId !== userId) {
+  const ownedByUser = await assessmentRepository.ownedByUser({ id: assessmentId, userId });
+  if (!ownedByUser) {
     return null;
   }
+
   return answerRepository.findByChallengeAndAssessment({ challengeId, assessmentId: integerAssessmentId });
 };

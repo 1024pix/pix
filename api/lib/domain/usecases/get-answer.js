@@ -14,8 +14,8 @@ module.exports = async function getAnswer(
     throw new NotFoundError(`Not found answer for ID ${answerId}`);
   }
   const answer = await answerRepository.get(integerAnswerId);
-  const assessment = await assessmentRepository.get(answer.assessmentId);
-  if (assessment.userId !== userId) {
+  const ownedByUser = await assessmentRepository.ownedByUser({ id: answer.assessmentId, userId });
+  if (!ownedByUser) {
     throw new NotFoundError(`Not found answer for ID ${integerAnswerId}`);
   }
   return answer;
