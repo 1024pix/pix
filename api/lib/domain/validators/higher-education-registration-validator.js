@@ -18,6 +18,7 @@ const validationSchema = Joi.object({
   lastName: Joi.string().required(),
   birthdate: Joi.date().required().format('YYYY-MM-DD'),
   email: Joi.string().email().optional(),
+  organizationId: Joi.number().integer().required(),
   isSupernumerary: Joi.boolean().required()
 });
 

@@ -113,8 +113,8 @@ module.exports = {
   async importHigherEducationRegistrations(request, h) {
     const organizationId = parseInt(request.params.id);
     const buffer = request.payload;
-    const higherEducationRegistrationParser = new HigherEducationRegistrationParser(buffer);
-    await usecases.importHigherEducationRegistrations({ organizationId, higherEducationRegistrationParser });
+    const higherEducationRegistrationParser = new HigherEducationRegistrationParser(buffer, organizationId);
+    await usecases.importHigherEducationRegistrations({ higherEducationRegistrationParser });
     return h.response(null).code(204);
   },
 
