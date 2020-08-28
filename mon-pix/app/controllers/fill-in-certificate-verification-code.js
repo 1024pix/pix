@@ -36,16 +36,21 @@ export default class FillInCertificateVerificationCode extends Controller {
     }
 
     try {
-      await this.store.queryRecord('certification', { verificationCode: this.certificateVerificationCode.toUpperCase() });
+      const certification = await this.store.queryRecord('certification', { verificationCode: this.certificateVerificationCode.toUpperCase() });
+      return this.transitionToRoute('shared-certification', certification);
     } catch (error) {
       this.onVerificateCertificationCodeError(error);
     }
   }
 
   onVerificateCertificationCodeError(error) {
-    const { status } = error.errors[0];
-    if (status === '404') {
-      this.showNotFoundCertificationErrorMessage = true;
+    if (error.errors) {
+      const { status } = error.errors[0];
+      if (status === '404') {
+        this.showNotFoundCertificationErrorMessage = true;
+      } else {
+        throw error;
+      }
     } else {
       throw error;
     }
