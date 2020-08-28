@@ -6,6 +6,10 @@
   &__title {
     text-align: center;
     margin-bottom: 32px;
+    font-size: 2rem;
+    font-weight: $font-light;
+    font-family: $font-open-sans;
+    color: $grey-80;
   }
 
   &__instruction {
