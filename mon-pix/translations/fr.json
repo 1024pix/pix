@@ -756,6 +756,11 @@
       "verify": "Vérifier le certificat"
     },
 
+    "shared-certification": {
+      "title": "Partage de certificat",
+      "back-link": "Retour à la saisie du code de vérification"
+    },
+
     "fill-in-id-pix": {
       "title": "Saisir mon identifiant",
       "first-title": "Avant de commencer",
