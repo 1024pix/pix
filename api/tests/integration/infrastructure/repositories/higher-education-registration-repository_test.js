@@ -159,21 +159,20 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
     });
   });
 
-  describe('#save', () => {
+  describe('#saveAndReconcile', () => {
     afterEach(() => {
       return knex('schooling-registrations').delete();
     });
 
     context('when there is no other schooling registration with the same student number in the organization', () => {
-      it('should create higher education registration', async function() {
+      it('should create higher education registration reconciled with user', async function() {
         //given
         const organization = databaseBuilder.factory.buildOrganization();
-        const user = databaseBuilder.factory.buildUser();
+        const userId = databaseBuilder.factory.buildUser().id;
 
         await databaseBuilder.commit();
 
         const higherEducationRegistrationAttributes = {
-          userId: user.id,
           studentNumber: '123456',
           firstName: 'firstName',
           lastName: 'lastName',
@@ -184,24 +183,24 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
         const higherEducationRegistration = new HigherEducationRegistration(higherEducationRegistrationAttributes);
 
         //when
-        await higherEducationRegistrationRepository.save(higherEducationRegistration);
+        await higherEducationRegistrationRepository.saveAndReconcile(higherEducationRegistration, userId);
 
         //then
         const [createdHigherEducationRegistration] = await knex('schooling-registrations').where({ organizationId: organization.id });
         expect(createdHigherEducationRegistration).to.contain(higherEducationRegistrationAttributes);
+        expect(createdHigherEducationRegistration.userId).to.equal(userId);
       });
     });
     context('when there is another schooling registration with the same student number in the organization', () => {
       it('throws an error', async function() {
         //given
         const organization = databaseBuilder.factory.buildOrganization();
-        const user = databaseBuilder.factory.buildUser();
+        const userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildSchoolingRegistration({ studentNumber: '123456', organizationId: organization.id });
 
         await databaseBuilder.commit();
 
         const higherEducationRegistrationAttributes = {
-          userId: user.id,
           studentNumber: '123456',
           firstName: 'firstName',
           lastName: 'lastName',
@@ -212,7 +211,7 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
         const higherEducationRegistration = new HigherEducationRegistration(higherEducationRegistrationAttributes);
 
         //when
-        const error = await catchErr(higherEducationRegistrationRepository.save)(higherEducationRegistration);
+        const error = await catchErr(higherEducationRegistrationRepository.saveAndReconcile)(higherEducationRegistration, userId);
 
         //then
         expect(error).to.be.an.instanceOf(SchoolingRegistrationsCouldNotBeSavedError);

@@ -19,15 +19,15 @@ const ATTRIBUTES_TO_SAVE = [
   'birthdate',
   'organizationId',
   'isSupernumerary',
-  'userId'
 ];
 
 module.exports = {
 
-  async save(higherEducationRegistration) {
+  async saveAndReconcile(higherEducationRegistration, userId) {
     try {
       const registrationToSave = _.pick(higherEducationRegistration, ATTRIBUTES_TO_SAVE);
       registrationToSave.status = higherEducationRegistration.studyScheme;
+      registrationToSave.userId = userId;
 
       await knex('schooling-registrations').insert({ ...registrationToSave });
     } catch (error) {
