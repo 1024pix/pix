@@ -20,8 +20,9 @@ const columnNameByAttribute = {
 
 class HigherEducationRegistrationParser {
 
-  constructor(input) {
+  constructor(input, organizationId) {
     this._input = input;
+    this._organizationId = organizationId;
   }
 
   parse() {
@@ -46,6 +47,7 @@ class HigherEducationRegistrationParser {
     });
 
     registrationAttributes['birthdate'] = convertDateValue({ dateString: line[columnNameByAttribute.birthdate], inputFormat: 'DD/MM/YYYY', alternativeInputFormat: 'DD/MM/YY', outputFormat: 'YYYY-MM-DD' });
+    registrationAttributes['organizationId'] = this._organizationId;
 
     return registrationAttributes;
   }

@@ -19,15 +19,15 @@ const ATTRIBUTES_TO_SAVE = [
   'birthdate',
   'organizationId',
   'isSupernumerary',
-  'userId'
 ];
 
 module.exports = {
 
-  async save(higherEducationRegistration) {
+  async saveAndReconcile(higherEducationRegistration, userId) {
     try {
       const registrationToSave = _.pick(higherEducationRegistration, ATTRIBUTES_TO_SAVE);
       registrationToSave.status = higherEducationRegistration.studyScheme;
+      registrationToSave.userId = userId;
 
       await knex('schooling-registrations').insert({ ...registrationToSave });
     } catch (error) {
@@ -35,11 +35,10 @@ module.exports = {
     }
   },
 
-  saveSet(higherEducationRegistrationSet, organizationId) {
+  saveSet(higherEducationRegistrationSet) {
     const registrationDataToSave = higherEducationRegistrationSet.registrations.map((registration) => {
       const registrationToSave = _.pick(registration, ATTRIBUTES_TO_SAVE);
       registrationToSave.status = registration.studyScheme;
-      registrationToSave.organizationId = organizationId;
       return registrationToSave;
     });
 

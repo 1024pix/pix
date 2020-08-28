@@ -30,7 +30,6 @@ module.exports = async function registerSupernumeraryHigherEducationRegistration
   }
 
   const higherEducationRegistration = new HigherEducationRegistration({
-    userId,
     studentNumber,
     firstName,
     lastName,
@@ -39,5 +38,5 @@ module.exports = async function registerSupernumeraryHigherEducationRegistration
     isSupernumerary: true,
   });
 
-  await higherEducationRegistrationRepository.save(higherEducationRegistration);
+  await higherEducationRegistrationRepository.saveAndReconcile(higherEducationRegistration, userId);
 };
