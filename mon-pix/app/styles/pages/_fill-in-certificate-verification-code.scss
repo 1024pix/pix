@@ -2,6 +2,8 @@
 
   max-width: max-content;
   padding: 48px 60px;
+  font-family: $font-roboto;
+  text-align: center;
 
   &__form {
     display: flex;
@@ -9,7 +11,6 @@
     align-items: center;
 
     .form__title {
-      text-align: center;
       margin-bottom: 32px;
       font-size: 2rem;
       font-weight: $font-light;
@@ -19,9 +20,7 @@
 
     .form__label {
       color: $grey-100;
-      font-family: $font-open-sans;
       font-size: 1.219rem;
-      text-align: center;
       font-weight: $font-light;
       margin-bottom: 16px;
     }
