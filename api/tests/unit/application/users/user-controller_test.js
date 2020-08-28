@@ -748,4 +748,32 @@ describe('Unit | Controller | user-controller', () => {
       expect(response.statusCode).to.equal(204);
     });
   });
+
+  describe('#updateUserSamlId', () => {
+    const userId = 1;
+
+    const request = {
+      auth: { credentials: { userId } },
+      params: { id: userId },
+      payload: {
+        data: {
+          type: 'external-users',
+          attributes: { 'external-user-token': 'TOKEN' },
+        },
+      },
+    };
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'updateUserSamlId').resolves();
+    });
+
+    it('should update samlId', async () => {
+      // when
+      const response = await userController.updateUserSamlId(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+  });
+
 });

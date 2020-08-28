@@ -420,6 +420,49 @@ exports.register = async function(server) {
         tags: ['api', 'administration' , 'user'],
       },
     },
+    {
+      method: 'PATCH',
+      path: '/api/users/{id}/authentication-methods/saml',
+      config: {
+        pre: [{
+          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+          assign: 'requestedUserIsAuthenticatedUser',
+        }],
+        validate: {
+          options: {
+            allowUnknown: false,
+          },
+          params: Joi.object({
+            id: Joi.number().integer().positive().required(),
+          }),
+          payload: Joi.object({
+            data: {
+              id: Joi.number().integer().positive().required(),
+              type: Joi.string().valid('external-users').required(),
+              attributes: {
+                'external-user-token': Joi.string().required(),
+              },
+            },
+          }),
+          failAction: (request, h , err) => {
+            const errorHttpStatusCode = 400;
+            const jsonApiError = new JSONAPIError({
+              status: errorHttpStatusCode.toString(),
+              title: 'Bad request',
+              detail: err.details[0].message,
+            });
+            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
+          },
+        },
+        handler: userController.updateUserSamlId,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Elle ajoute la méthode d\'authentification GAR au compte grâce aux informations\n' +
+          '- contenues dans l\'Id Token.',
+        ],
+        tags: ['api', 'user'],
+      },
+    },
   ]);
 };
 
