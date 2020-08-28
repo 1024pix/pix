@@ -33,33 +33,12 @@
     .form__error--validation {
       color: $pure-orange;
       font-size: 0.875rem;
-      padding: 16px 10px;
-      text-align: center;
+      margin: 16px 10px 0 10px;
     }
 
     .form__error--not-found {
-      margin: 32px auto 0;
-      background-color: #ffdbcc;
-      border-radius: 4px;
-      height: 46px;
-      line-height: 46px;
-      width: 436px;
-      text-align: center;
-  
-      svg {
-        color: rgb(153, 0, 0);
-        margin-right: 6px;
-      }
-  
-      span {
-        color: $error;
-        font-family: $font-roboto;
-        font-size: 14px;
-        font-weight: normal;
-        height: 22px;
-        letter-spacing: 0.15px;
-        width: 380px;
-      }
+      margin: 0;
+      margin-top: 16px;
     }
   }
 }

@@ -36,10 +36,10 @@
           </button>
 
           {{#if this.showNotFoundCertificationErrorMessage}}
-          <div class="form__error--not-found">
+          <PixMessage @type='alert' class="form__error--not-found">
             <FaIcon @icon="exclamation-triangle"/>
             <span>{{t "pages.fill-in-certificate-verification-code.errors.not-found"}}</span>
-          </div>
+          </PixMessage>
           {{/if}}
         </form>
     </PixBlock>
