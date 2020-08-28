@@ -1,47 +1,46 @@
 {{page-title (t 'pages.fill-in-certificate-verification-code.title')}}
+
 <BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
   <burger.outlet>
     <NavbarHeader @burger={{burger}} />
     <PixBackgroundHeader>
-      <PixBlock>
-        <div class="fill-in-certificate-verification-code__container">
-          <form class="fill-in-certificate-verification-code__form" autocomplete="off">
-            <h3 class="fill-in-certificate-verification-code__title">
-              {{t "pages.fill-in-certificate-verification-code.first-title"}}
-            </h3>
-            <label for="certificate-verification-code" class="fill-in-certificate-verification-code__instruction">
-              {{t "pages.fill-in-certificate-verification-code.description"}}
-            </label>
-            <div class="fill-in-certificate-verification-code__form-field">
-              <Input required
-                @type="text" @id="certificate-verification-code"
-                @value={{this.certificateVerificationCode}}
-                @maxlength="10"
-                @key-down={{this.clearErrorMessage}} />
-            </div>
+      <PixBlock class="fill-in-certificate-verification-code">
+        <form class="fill-in-certificate-verification-code__form" autocomplete="off">
 
-            {{#if this.errorMessage}}
-            <div class="fill-in-certificate-verification-code__error" aria-live="polite">
-              {{this.errorMessage}}
-            </div>
-            {{/if}}
+          <h3 class="fill-in-certificate-verification-code__title">
+            {{t "pages.fill-in-certificate-verification-code.first-title"}}
+          </h3>
 
-          <div class="fill-in-certificate-verification-code__actions">
-            <button
-              type="submit"
-              class="button button--extra-big fill-in-certificate-verification-code__start-button"
-              {{action 'checkCertificate'}}>
-              {{t "pages.fill-in-certificate-verification-code.verify"}}
-            </button>
+          <label for="certificate-verification-code" class="fill-in-certificate-verification-code__instruction">
+            {{t "pages.fill-in-certificate-verification-code.description"}}
+          </label>
+          <Input required
+            @type="text" @id="certificate-verification-code"
+            @value={{this.certificateVerificationCode}}
+            @maxlength="10"
+            @key-down={{this.clearErrorMessage}} />
+
+          {{#if this.errorMessage}}
+          <div class="fill-in-certificate-verification-code__error" aria-live="polite">
+            {{this.errorMessage}}
           </div>
+          {{/if}}
+
+          <button
+            class="fill-in-certificate-verification-code__actions"
+            type="submit"
+            class="button button--extra-big fill-in-certificate-verification-code__start-button"
+            {{action 'checkCertificate'}}>
+            {{t "pages.fill-in-certificate-verification-code.verify"}}
+          </button>
+
+          {{#if this.showNotFoundCertificationErrorMessage}}
+          <div class="fill-in-certificate-verification-code__not-found">
+            <FaIcon @icon="exclamation-triangle"/>
+            <span>{{t "pages.fill-in-certificate-verification-code.errors.not-found"}}</span>
+          </div>
+          {{/if}}
         </form>
-        {{#if this.showNotFoundCertificationErrorMessage}}
-        <div class="fill-in-certificate-verification-code__not-found">
-          <FaIcon @icon="exclamation-triangle"/>
-          <span>{{t "pages.fill-in-certificate-verification-code.errors.not-found"}}</span>
-        </div>
-        {{/if}}
-      </div>
     </PixBlock>
     </PixBackgroundHeader>
   </burger.outlet>
