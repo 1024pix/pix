@@ -15,15 +15,17 @@
             {{t "pages.fill-in-certificate-verification-code.description"}}
           </p>
 
-          <label for="certificate-verification-code" class="form__label">
-            {{t "pages.fill-in-certificate-verification-code.label"}}
-          </label>
-          <Input required
-            class="input-code"
-            @type="text" @id="certificate-verification-code"
-            @value={{this.certificateVerificationCode}}
-            @maxlength="10"
-            @key-down={{this.clearErrorMessage}} />
+          <div class="form__input-and-label">
+            <label for="certificate-verification-code">
+              {{t "pages.fill-in-certificate-verification-code.label"}}
+            </label>
+            <Input required
+              class="input-code"
+              @type="text" @id="certificate-verification-code"
+              @value={{this.certificateVerificationCode}}
+              @maxlength="10"
+              @key-down={{this.clearErrorMessage}} />
+          </div>
 
           {{#if this.errorMessage}}
           <div class="form__error--validation" aria-live="polite">
