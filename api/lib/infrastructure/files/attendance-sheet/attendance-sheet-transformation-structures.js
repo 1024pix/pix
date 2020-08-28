@@ -37,7 +37,7 @@ const _TRANSFORMATION_STRUCT_COMMON_V1_1 = [
     header: 'Date de naissance (format : jj/mm/aaaa)',
     property: 'birthdate',
     transformFn: (cellVal) => {
-      return convertDateValue(cellVal, 'DD/MM/YYYY', 'YYYY-MM-DD');
+      return convertDateValue({ dateString: cellVal, inputFormat: 'DD/MM/YYYY', outputFormat: 'YYYY-MM-DD' });
     },
   },
 ];
@@ -87,7 +87,7 @@ const _TRANSFORMATION_STRUCT_COMMON_V1_2 = [
     header: 'Date de naissance (format : jj/mm/aaaa)',
     property: 'birthdate',
     transformFn: (cellVal) => {
-      return convertDateValue(cellVal, 'DD/MM/YYYY', 'YYYY-MM-DD');
+      return convertDateValue({ dateString: cellVal, inputFormat: 'DD/MM/YYYY', outputFormat: 'YYYY-MM-DD' });
     },
   },
 ];

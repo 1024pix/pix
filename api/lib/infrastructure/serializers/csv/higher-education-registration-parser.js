@@ -45,7 +45,7 @@ class HigherEducationRegistrationParser {
       registrationAttributes[attribute] = line[column];
     });
 
-    registrationAttributes['birthdate'] = convertDateValue(line[columnNameByAttribute.birthdate], 'DD/MM/YYYY', 'YYYY-MM-DD');
+    registrationAttributes['birthdate'] = convertDateValue({ dateString: line[columnNameByAttribute.birthdate], inputFormat: 'DD/MM/YYYY', alternativeInputFormat: 'DD/MM/YY', outputFormat: 'YYYY-MM-DD' });
 
     return registrationAttributes;
   }
