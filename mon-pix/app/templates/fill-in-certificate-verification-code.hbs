@@ -15,6 +15,7 @@
             {{t "pages.fill-in-certificate-verification-code.description"}}
           </label>
           <Input required
+            class="input-code"
             @type="text" @id="certificate-verification-code"
             @value={{this.certificateVerificationCode}}
             @maxlength="10"
