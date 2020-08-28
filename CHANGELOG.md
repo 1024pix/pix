@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v2.188.0 (28/08/2020)
+
+- [#1802](https://github.com/1024pix/pix/pull/1802) [FEATURE] En tant qu'étudiant, je veux pouvoir m'auto-inscrire sans numéro étudiant pour accéder à une campagne SUP (PIX-1063).
+- [#1791](https://github.com/1024pix/pix/pull/1791) [FEATURE] Ajout du code de vérification dans le certificat (PIX-437)
+- [#1798](https://github.com/1024pix/pix/pull/1798) [FEATURE] Remonter le champ affiché à l'utilisateur comme nom de catégorie (PIX-1161).
+- [#1784](https://github.com/1024pix/pix/pull/1784) [FEATURE] Déplacer le formulaire de vérification de score sur app (PIX-1109)
+- [#1793](https://github.com/1024pix/pix/pull/1793) [FEATURE] Remplir et désactiver les champs nom et prénom de l'utilisateur connecté via le GAR lors de la réconciliation (PIX-1118).
+- [#1786](https://github.com/1024pix/pix/pull/1786) [FEATURE] Enlever le PixScore du VerificationCode (PIX-1148)
+- [#1808](https://github.com/1024pix/pix/pull/1808) [BUGFIX] Améliorations de design des pages de connexion et de récupération d'espace de Pix Orga (PIX-1116).
+- [#1807](https://github.com/1024pix/pix/pull/1807) [BUGFIX] Affichage des étoiles lorsque le texte du palier est trop long (PIX-1165).
+- [#1782](https://github.com/1024pix/pix/pull/1782) [TECH] Refacto autour de l'usage de assessmentRepository.get() (PIX-1138)
+- [#1804](https://github.com/1024pix/pix/pull/1804) [TECH] Eviter de lever des faux erreurs 500 quand les erreurs du domaines ne sont pas associées à des erreurs HTTP.
+- [#1805](https://github.com/1024pix/pix/pull/1805) [A11Y] Afficher une instruction alternative (PIX-1151)
+
 ## v2.187.0 (25/08/2020)
 
 - [#1801](https://github.com/1024pix/pix/pull/1801) [FEATURE] Affiche un bandeau indiquant de réaliser les campagnes de pré-rentrée (PIX-1115).
