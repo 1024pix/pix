@@ -3,17 +3,14 @@
   &__information {
     font-family: $roboto;
     font-size: 0.875rem;
-    line-height: 1.375rem;
     margin: 0 0 24px;
   }
 
   &__legal-information {
+    color: $blue-zodiac;
     font-family: $roboto;
-    font-size: 0.875rem;
-    line-height: 1.375rem;
-    margin: 16px 0 24px;
-    text-align: center;
-    width: 500px;
+    font-size: 0.6875rem;
+    max-width: 500px;
   }
 
   &__back {
