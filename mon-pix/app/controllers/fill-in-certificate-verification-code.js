@@ -9,7 +9,7 @@ export default class FillInCertificateVerificationCode extends Controller {
 
   certificateVerificationCode = null;
 
-  codeRegex = /^P-[2346789BCDFGHJKMPQRTVWXY]{8}$/i;
+  codeRegex = /^P-[0-9A-Z]{8}$/i;
 
   @tracked
   errorMessage = null;
