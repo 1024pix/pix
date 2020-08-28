@@ -1,4 +1,5 @@
 .competence-results-panel-header {
+
   &__banner {
     display: flex;
     flex-direction: column;
@@ -35,6 +36,7 @@
         padding: 3rem;
         padding-left: 22rem;
       }
+
       @include device-is('desktop') {
         padding-left: 27rem;
       }
@@ -130,6 +132,7 @@
 }
 
 .competence-results-banner-text {
+
   &__results {
     display: flex;
     align-items: center;
@@ -153,6 +156,7 @@
 }
 
 .competence-results-banner-text-results {
+
   &__label {
     color: $white;
     font-family: $font-open-sans;

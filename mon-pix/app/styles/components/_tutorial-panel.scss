@@ -42,7 +42,6 @@
 
 .tutorial-panel__hint-title {
   @include tutorial-panel-title($grey-10);
-
 }
 
 .tutorial-panel__hint-content {
@@ -50,7 +49,7 @@
   font-family: $font-open-sans;
 
   & p {
-    padding: 12px 12px 0px 12px;
+    padding: 12px 12px 0 12px;
   }
 }
 

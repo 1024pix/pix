@@ -1,4 +1,5 @@
 .signup-form {
+
   &__cgu-container {
     max-width: 449px;
     width: 100%;
@@ -8,6 +9,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
+
     @include device-is('tablet') {
       margin-top: 15px;
       margin-bottom: 0;
@@ -26,12 +28,13 @@
   }
 
   &__cgu-label input[type=checkbox] {
-    margin: 3px 15px 3px 0px;
+    margin: 3px 15px 3px 0;
   }
 
   &__cgu-label span {
     color: $grey-80;
     font-size: 0.813rem;
+
     @include device-is('tablet') {
       font-size: 0.875rem;
     }

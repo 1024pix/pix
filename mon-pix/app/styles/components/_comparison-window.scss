@@ -10,9 +10,7 @@
     display: flex;
     align-items: center;
     min-height: 70px;
-
   }
-
 }
 
 .comparison-window--content,
@@ -43,12 +41,12 @@
   }
 }
 
-/*Modal Close button*/
+/* Modal Close button */
 
 .routable-modal--close-button {
   position: absolute;
   top: -25px;
-  right: -10px; /*XXX : right alignment, found no other way to achieve it;*/
+  right: -10px; /* XXX : right alignment, found no other way to achieve it; */
   margin-right: 0;
   height: 17px;
   font-size: 0.875rem;
@@ -57,7 +55,7 @@
   color: $white;
 }
 
-/*Modal Header*/
+/* Modal Header */
 .comparison-window__header {
   background: white;
   position: relative;

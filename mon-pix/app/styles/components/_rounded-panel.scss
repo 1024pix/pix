@@ -61,6 +61,7 @@
 }
 
 .rounded-panel-header {
+
   &__left-wrapper {
     margin-left: 8px;
   }
@@ -100,7 +101,6 @@
       margin: 16px 10px;
       width: auto;
     }
-
   }
 
   @include device-is('tablet') {
@@ -109,6 +109,7 @@
 }
 
 .rounded-panel-header-text {
+
   &__content {
     margin: 10px 0;
   }
@@ -120,6 +121,7 @@
     font-weight: $font-light;
     letter-spacing: 0.009rem;
     line-height: 2.75rem;
+
     @include device-is('tablet') {
       font-size: 2rem;
       line-height: 3.375rem;

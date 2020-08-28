@@ -7,7 +7,7 @@
   padding-left: 24px;
   position: relative;
 
-  &:after {
+  &::after {
     content: ' ';
     display: block;
     width: 4px;
@@ -21,6 +21,7 @@
 }
 
 .tutorial-content {
+
   &__title {
     font-size: 1.125rem;
     line-height: 1.875rem;
@@ -69,6 +70,7 @@
 }
 
 .tutorial-content-actions {
+
   &__save {
     font-size: 0.813rem;
     font-weight: $font-medium;

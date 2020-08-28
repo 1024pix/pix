@@ -5,7 +5,7 @@
   background-color: white;
 }
 
-.learning-more-panel__container{
+.learning-more-panel__container {
   margin: 20px 0 40px;
 }
 
@@ -20,7 +20,7 @@
   margin: 5px;
 }
 
-.learning-more-panel__hint-container-header{
+.learning-more-panel__hint-container-header {
   margin: 25px 15px;
 
   @include device-is('desktop') {
@@ -28,7 +28,7 @@
   }
 }
 
-.learning-more-panel__list-container{
+.learning-more-panel__list-container {
   margin: 0 15px;
 
   @include device-is('desktop') {

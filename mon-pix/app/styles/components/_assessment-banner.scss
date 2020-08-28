@@ -10,7 +10,7 @@
   min-height: 80px;
   max-width: 990px;
   width: 100%;
-  padding:0 10px;
+  padding: 0 10px;
   margin-top: 5px;
 
   @include device-is('desktop') {
@@ -30,7 +30,7 @@
 }
 
 .assessment-banner__pix-logo img {
-  height:47px;
+  height: 47px;
 }
 
 .assessment-banner__splitter {

@@ -18,6 +18,7 @@
 }
 
 .certifications-list-item__clickable {
+
   a {
     color: inherit;
     text-decoration: none;
@@ -39,6 +40,7 @@
 
 .certifications-list-item__row-presentation {
   @extend .certifications-list-item__row;
+
   height: 30px;
 
   @include device-is('tablet') {
@@ -67,7 +69,6 @@
 
   padding: 10px 0;
   border-top: 1px solid $grey-20;
-
   font-size: 1rem;
   color: $grey-60;
   text-align: left;
@@ -92,7 +93,7 @@
 }
 
 .certifications-list-item__cell-pix-score {
-  @extend .certifications-list-item__cell
+  @extend .certifications-list-item__cell;
 }
 
 .certifications-list-item__pix-score {
@@ -105,10 +106,8 @@
   }
 
   margin-left: 10%;
-
   background: url('/images/hexa-pix.svg') no-repeat;
   background-size: cover;
-
   text-align: center;
   display: table;
 
@@ -116,10 +115,8 @@
     display: table-cell;
     vertical-align: middle;
     line-height: normal;
-
     letter-spacing: -1px;
     color: $grey-70;
-
     font-size: 0.5rem;
     font-weight: 300;
 
@@ -159,10 +156,12 @@
 
 .certifications-list-item__clickable .cp-is-open .certifications-list-item__cell-detail::before {
   @include arrow-button();
+
   content: url("/images/icons/icon-arrow-down.svg");
 }
 
 .certifications-list-item__clickable .cp-is-closed .certifications-list-item__cell-detail::before {
   @include arrow-button();
-  content: url("/images/icons/icon-arrow-up.svg")
+
+  content: url("/images/icons/icon-arrow-up.svg");
 }

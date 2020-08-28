@@ -1,4 +1,5 @@
 .navbar-mobile-header {
+
   &__container {
     display: flex;
     align-items: center;
@@ -6,9 +7,7 @@
     padding: 10px 24px;
     width: auto;
   }
-}
 
-.navbar-mobile-header {
   &__burger-icon {
     padding: 0;
     color: $grey-70;
@@ -25,13 +24,14 @@
 }
 
 .navbar-mobile-header-logo {
+
   &__marianne {
+
     > img {
       margin-left: 12px;
-      height:45px;
+      height: 45px;
     }
   }
-
 }
 
 /* Pour faire en sorte que les pages entières et non réduites à leurs éléments */

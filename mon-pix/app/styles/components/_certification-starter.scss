@@ -1,3 +1,6 @@
+/* stylelint-disable declaration-colon-newline-after */
+/* stylelint-disable function-parentheses-newline-inside */
+
 .certification-starter {
   @include device-is('desktop') {
     padding: 50px 70px 40px;
@@ -49,6 +52,7 @@
   $space-between-dashes: 0.6ch;
   $nb-characters: 6;
   $total-width: $nb-characters * (1ch + $space-between-dashes);
+
   text-transform: uppercase;
   box-sizing: content-box;
   border: solid 2px $grey-20;
@@ -76,13 +80,13 @@
     //display differently for IE because 1 character (ch) is equal to 1.162
     line-height: 0.7;
     width: $total-width;
-    padding: 0 0ch 1px 1ch;
+    padding: 0 0 1px 1ch;
     letter-spacing: $space-between-dashes;
     background: repeating-linear-gradient(90deg,
       $grey-22 0,
-      $grey-22 1.30ch,
+      $grey-22 1.3ch,
       transparent 0,
-      transparent 1.30ch + $space-between-dashes) 0 100% / #{$total-width - $space-between-dashes} 2px no-repeat;
+      transparent 1.3ch + $space-between-dashes) 0 100% / #{$total-width - $space-between-dashes} 2px no-repeat;
     background-origin: content-box;
     background-position-y: 2.8ch*$ie11-modifier;
     background-position-x: 0.1ch*$ie11-modifier;

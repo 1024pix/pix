@@ -1,4 +1,7 @@
+/* stylelint-disable no-descending-specificity */
+
 @include device-is('tablet') {
+
   .competence-card {
     flex-direction: column;
     width: 210px;
@@ -13,6 +16,7 @@
   }
 
   .competence-card__color {
+
     &::after {
       right: -200px;
       left: -200px;
@@ -22,7 +26,7 @@
     }
 
     &--jaffa::after {
-      background: radial-gradient($information-dark 25%, $information-light 100%)
+      background: radial-gradient($information-dark 25%, $information-light 100%);
     }
 
     &--emerald::after {
@@ -48,9 +52,6 @@
 
   .competence-card__competence-name {
     font-size: 1rem;
-  }
-
-  .competence-card__competence-name {
     margin: 8px 0;
     padding: 0 4px;
   }
@@ -83,7 +84,7 @@
   }
 
   .competence-card:hover .competence-card__interactions {
-    bottom: 0px;
+    bottom: 0;
     height: 70px;
   }
 
@@ -112,6 +113,7 @@
   }
 
   .competence-card__level {
+
     .score-label {
       display: block;
       text-transform: uppercase;
@@ -128,12 +130,12 @@
     background: url('/images/scorecard-congrats.svg') no-repeat center center;
     background-size: contain;
     margin: -10px -5px;
-
     display: flex;
     justify-content: center;
     align-items: center;
 
     &--with-magnification {
+
       &:hover {
         width: 140px;
         height: 150px;
@@ -177,7 +179,6 @@
     font-size: 0.625rem;
     transition: opacity 0.1s linear;
     letter-spacing: 0.5px;
-    text-transform: uppercase;
   }
 
   .competence-card__interactions {
@@ -226,6 +227,7 @@
   }
 
   .competence-card-interactions {
+
     &__improvement-countdown {
       display: flex;
       flex-direction: column;
@@ -235,6 +237,7 @@
   }
 
   .competence-card-improvement-countdown {
+
     &__label {
       font-size: 0.6875rem;
       letter-spacing: 0.0075rem;
@@ -243,7 +246,7 @@
 
     &__count {
       font-size: 1rem;
-      letter-spacing: 0.010rem;
+      letter-spacing: 0.01rem;
       color: $grey-90;
       margin-top: 6px;
     }
