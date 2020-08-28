@@ -3,103 +3,101 @@
   max-width: max-content;
   padding: 48px 60px;
 
-  &__title {
-    text-align: center;
-    margin-bottom: 32px;
-    font-size: 2rem;
-    font-weight: $font-light;
-    font-family: $font-open-sans;
-    color: $grey-80;
-  }
-
-  &__instruction {
-    color: $grey-100;
-    font-family: $font-open-sans;
-    font-size: 1.219rem;
-    text-align: center;
-    font-weight: $font-light;
-    margin-bottom: 16px;
-  }
-
-  input {
-    box-sizing: content-box;
-    border: solid 2px $grey-20;
-    border-radius: 3px;
-    outline: none;
-    height: 50px;
-    padding: 0 1px 1px .5ch;
-    text-transform: uppercase;
-    width: 15.3ch;
-    background: repeating-linear-gradient(90deg,
-      $grey-22 0,
-      $grey-22 1ch,
-      transparent 0,
-      transparent 1.5ch) 0 96%/98% 2px no-repeat;
-    background-origin: content-box;
-    color: $grey-70;
-    font-size: 1.875rem;
-    font-family: $font-roboto-mono;
-    letter-spacing: .5ch;
-
-    @media all and (-ms-high-contrast: none) {
-      //display differently for IE because 1 character (ch) is equal to 1.162
-      line-height: 0.7;
-      letter-spacing: .4ch;
-      background: repeating-linear-gradient(90deg,
-        $grey-22 0,
-        $grey-22 1.33ch,
-        transparent 0,
-        transparent 1.733ch) 0 96%/98% 2px no-repeat;
-      background-origin: content-box;
-    }
-
-    &::-ms-clear {
-      // not display cross that allow to clear field
-      display: none;
-    }
-  }
-
   &__form {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
-  }
 
-  &__actions {
-    margin-top: 24px;
-  }
-
-  &__error {
-    color: $pure-orange;
-    font-size: 0.875rem;
-    padding: 16px 10px;
-    text-align: center;
-  }
-
-  &__not-found {
-    margin: 32px auto 0;
-    background-color: #FFDBCC;
-    border-radius: 4px;
-    height: 46px;
-    line-height: 46px;
-    width: 436px;
-    text-align: center;
-
-    svg {
-      color: rgb(153, 0, 0);
-      margin-right: 6px;
+    .fill-in-certificate-verification-code__title {
+      text-align: center;
+      margin-bottom: 32px;
+      font-size: 2rem;
+      font-weight: $font-light;
+      font-family: $font-open-sans;
+      color: $grey-80;
     }
 
-    span {
-      color: $error;
-      font-family: $font-roboto;
-      font-size: 14px;
-      font-weight: normal;
-      height: 22px;
-      letter-spacing: 0.15px;
-      width: 380px;
+    .fill-in-certificate-verification-code__instruction {
+      color: $grey-100;
+      font-family: $font-open-sans;
+      font-size: 1.219rem;
+      text-align: center;
+      font-weight: $font-light;
+      margin-bottom: 16px;
+    }
+
+    input {
+      box-sizing: content-box;
+      border: solid 2px $grey-20;
+      border-radius: 3px;
+      outline: none;
+      height: 50px;
+      padding: 0 1px 1px .5ch;
+      text-transform: uppercase;
+      width: 15.3ch;
+      background: repeating-linear-gradient(90deg,
+        $grey-22 0,
+        $grey-22 1ch,
+        transparent 0,
+        transparent 1.5ch) 0 96%/98% 2px no-repeat;
+      background-origin: content-box;
+      color: $grey-70;
+      font-size: 1.875rem;
+      font-family: $font-roboto-mono;
+      letter-spacing: .5ch;
+  
+      @media all and (-ms-high-contrast: none) {
+        //display differently for IE because 1 character (ch) is equal to 1.162
+        line-height: 0.7;
+        letter-spacing: .4ch;
+        background: repeating-linear-gradient(90deg,
+          $grey-22 0,
+          $grey-22 1.33ch,
+          transparent 0,
+          transparent 1.733ch) 0 96%/98% 2px no-repeat;
+        background-origin: content-box;
+      }
+  
+      &::-ms-clear {
+        // not display cross that allow to clear field
+        display: none;
+      }
+    }
+
+    .fill-in-certificate-verification-code__actions {
+      margin-top: 24px;
+    }
+
+    .fill-in-certificate-verification-code__error {
+      color: $pure-orange;
+      font-size: 0.875rem;
+      padding: 16px 10px;
+      text-align: center;
+    }
+
+    .fill-in-certificate-verification-code__not-found {
+      margin: 32px auto 0;
+      background-color: #ffdbcc;
+      border-radius: 4px;
+      height: 46px;
+      line-height: 46px;
+      width: 436px;
+      text-align: center;
+  
+      svg {
+        color: rgb(153, 0, 0);
+        margin-right: 6px;
+      }
+  
+      span {
+        color: $error;
+        font-family: $font-roboto;
+        font-size: 14px;
+        font-weight: normal;
+        height: 22px;
+        letter-spacing: 0.15px;
+        width: 380px;
+      }
     }
   }
 }
