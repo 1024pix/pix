@@ -7,11 +7,11 @@
       <PixBlock class="fill-in-certificate-verification-code">
         <form class="fill-in-certificate-verification-code__form" autocomplete="off">
 
-          <h1 class="fill-in-certificate-verification-code__title">
+          <h1 class="form__title">
             {{t "pages.fill-in-certificate-verification-code.first-title"}}
           </h1>
 
-          <label for="certificate-verification-code" class="fill-in-certificate-verification-code__instruction">
+          <label for="certificate-verification-code" class="form__label">
             {{t "pages.fill-in-certificate-verification-code.description"}}
           </label>
           <Input required
@@ -21,21 +21,21 @@
             @key-down={{this.clearErrorMessage}} />
 
           {{#if this.errorMessage}}
-          <div class="fill-in-certificate-verification-code__error" aria-live="polite">
+          <div class="form__error--validation" aria-live="polite">
             {{this.errorMessage}}
           </div>
           {{/if}}
 
           <button
-            class="fill-in-certificate-verification-code__actions"
+            class="form__actions"
             type="submit"
-            class="button button--extra-big fill-in-certificate-verification-code__start-button"
+            class="button button--extra-big form__start-button"
             {{action 'checkCertificate'}}>
             {{t "pages.fill-in-certificate-verification-code.verify"}}
           </button>
 
           {{#if this.showNotFoundCertificationErrorMessage}}
-          <div class="fill-in-certificate-verification-code__not-found">
+          <div class="form__error--not-found">
             <FaIcon @icon="exclamation-triangle"/>
             <span>{{t "pages.fill-in-certificate-verification-code.errors.not-found"}}</span>
           </div>

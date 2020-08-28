@@ -8,7 +8,7 @@
     flex-direction: column;
     align-items: center;
 
-    .fill-in-certificate-verification-code__title {
+    .form__title {
       text-align: center;
       margin-bottom: 32px;
       font-size: 2rem;
@@ -17,7 +17,7 @@
       color: $grey-80;
     }
 
-    .fill-in-certificate-verification-code__instruction {
+    .form__label {
       color: $grey-100;
       font-family: $font-open-sans;
       font-size: 1.219rem;
@@ -64,18 +64,18 @@
       }
     }
 
-    .fill-in-certificate-verification-code__actions {
+    .form__actions {
       margin-top: 24px;
     }
 
-    .fill-in-certificate-verification-code__error {
+    .form__error--validation {
       color: $pure-orange;
       font-size: 0.875rem;
       padding: 16px 10px;
       text-align: center;
     }
 
-    .fill-in-certificate-verification-code__not-found {
+    .form__error--not-found {
       margin: 32px auto 0;
       background-color: #ffdbcc;
       border-radius: 4px;
