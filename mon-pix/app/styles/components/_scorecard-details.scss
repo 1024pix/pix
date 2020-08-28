@@ -8,6 +8,7 @@
 }
 
 .tutorials-header {
+
   &__title {
     margin-bottom: 4px;
   }
@@ -36,6 +37,7 @@
 }
 
 .scorecard-details {
+
   &__content {
     display: flex;
     flex-direction: column;
@@ -89,6 +91,7 @@
 }
 
 .scorecard-details-content {
+
   &__left {
     display: flex;
     flex-direction: column;
@@ -120,6 +123,7 @@
 }
 
 .scorecard-details-content-left {
+
   &__area {
     text-transform: uppercase;
     font-size: 0.875rem;
@@ -159,6 +163,7 @@
 }
 
 .scorecard-details-content-right {
+
   &__score-container {
     display: flex;
     flex-direction: row;
@@ -183,6 +188,7 @@
 }
 
 .scorecard-details-content-right-score-container {
+
   &__pix-earned {
     display: flex;
     flex-direction: column;
@@ -194,6 +200,7 @@
 }
 
 .scorecard-details-reset-modal {
+
   &__important-message {
     padding: 20px 0;
     color: $grey-200;
@@ -216,6 +223,7 @@
 }
 
 .scorecard-details-improvement-countdown {
+
   &__label {
     font-size: 0.6875rem;
     letter-spacing: 0.0075rem;

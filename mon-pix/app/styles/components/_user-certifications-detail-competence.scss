@@ -81,11 +81,13 @@
 }
 
 @mixin coloriseElements($color) {
+
   .user-certifications-detail-competence__title {
     color: $color;
   }
 
   .user-certifications-detail-competence__competence {
+
     &--level {
       color: $color;
     }
@@ -117,7 +119,9 @@
 }
 
 @include device-is('mobile') {
+
   .user-certifications-detail-competence {
+
     &__title {
       font-size: 0.875rem;
       font-weight: $font-normal;
@@ -128,11 +132,13 @@
     }
 
     &__competence {
+
       &--level {
         padding-right: 0;
       }
 
       &--disabled {
+
         span {
           display: block;
           opacity: 0;

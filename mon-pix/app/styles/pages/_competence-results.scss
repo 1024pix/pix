@@ -1,4 +1,5 @@
 .competence-results-panel-header {
+
   &__banner {
     display: flex;
     flex-direction: column;
@@ -67,7 +68,9 @@
 }
 
 .competence-results-banner {
+
   &__title {
+
     &--tablet {
       display: none;
 
@@ -129,6 +132,7 @@
 }
 
 .competence-results-banner-text {
+
   &__results {
     display: flex;
     align-items: center;
@@ -152,6 +156,7 @@
 }
 
 .competence-results-banner-text-results {
+
   &__label {
     color: $white;
     font-family: $font-open-sans;

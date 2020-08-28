@@ -40,6 +40,7 @@
 }
 
 @include device-is('mobile') {
+
   .congratulations-banner__message {
     padding: 0 8px;
   }

@@ -1,4 +1,5 @@
 .join-restricted-campaign {
+
   form {
     width: 280px;
     display: block;
@@ -143,12 +144,14 @@
 }
 
 .join-error-modal-header {
+
   &__title {
     display: flex;
     align-items: center;
   }
 
   &__close {
+
     &:hover {
       cursor: pointer;
     }
@@ -156,6 +159,7 @@
 }
 
 .join-error-modal-header-title {
+
   &__icon {
     font-size: 20px;
     line-height: 30px;
@@ -173,6 +177,7 @@
 }
 
 .join-error-modal-header-close {
+
   &__icon {
     height: 32px;
     width: 32px;
@@ -184,6 +189,7 @@
 }
 
 .join-error-modal-body {
+
   &__message {
     text-align: left;
     font-family: $font-roboto;

@@ -1,6 +1,7 @@
 /* stylelint-disable no-descending-specificity */
 
 @include device-is('tablet') {
+
   .competence-card {
     flex-direction: column;
     width: 210px;
@@ -15,6 +16,7 @@
   }
 
   .competence-card__color {
+
     &::after {
       right: -200px;
       left: -200px;
@@ -111,6 +113,7 @@
   }
 
   .competence-card__level {
+
     .score-label {
       display: block;
       text-transform: uppercase;
@@ -132,6 +135,7 @@
     align-items: center;
 
     &--with-magnification {
+
       &:hover {
         width: 140px;
         height: 150px;
@@ -223,6 +227,7 @@
   }
 
   .competence-card-interactions {
+
     &__improvement-countdown {
       display: flex;
       flex-direction: column;
@@ -232,6 +237,7 @@
   }
 
   .competence-card-improvement-countdown {
+
     &__label {
       font-size: 0.6875rem;
       letter-spacing: 0.0075rem;

@@ -45,6 +45,7 @@
 }
 
 form .challenge-response {
+
   &--locked {
     position: relative;
   }
@@ -60,12 +61,14 @@ form .challenge-response {
 }
 
 form .challenge-response.challenge-response--locked {
+
   .challenge-proposals {
     opacity: 0.33;
     transition: 0.3s ease;
   }
 
   &:hover {
+
     .challenge-response__locked-overlay {
       opacity: 1;
       transition: 0.9s ease;
@@ -74,6 +77,7 @@ form .challenge-response.challenge-response--locked {
 }
 
 form .challenge-response-locked {
+
   &__icon {
     font-size: 3.125rem;
     opacity: 1;
