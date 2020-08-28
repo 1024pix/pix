@@ -26,7 +26,7 @@ module.exports = {
 
   async checkResetDemand(request) {
     const temporaryKey = request.params.temporaryKey;
-    await tokenService.verifyValidity(temporaryKey);
+    await tokenService.decodeIfValid(temporaryKey);
     const passwordResetDemand = await resetPasswordService.verifyDemand(temporaryKey);
     const user = await userRepository.getByEmail(passwordResetDemand.email);
 

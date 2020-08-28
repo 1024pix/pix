@@ -90,14 +90,14 @@ describe('Unit | Domain | Service | Token Service', function() {
 
   });
 
-  describe('#verifyValidity', () => {
+  describe('#decodeIfValid', () => {
 
     it('should throw an Invalid token error, when token is not valid', () => {
       // given
       const token = 'eyJhbGciOiJIUzI1NiIsIgR5cCI6IkpXVCJ9.eyJ1c2VyX2lPIjoxMjMsImlhdCI6MTQ5OTA3Nzg2Mn0.FRAAoowTA8Bc6BOzD7wWh2viVN47VrPcGgLuHi_NmKw';
 
       // when
-      const promise = tokenService.verifyValidity(token);
+      const promise = tokenService.decodeIfValid(token);
 
       // then
       return promise.catch((result) => {
