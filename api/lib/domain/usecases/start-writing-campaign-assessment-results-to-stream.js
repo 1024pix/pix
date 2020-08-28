@@ -35,7 +35,7 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
   const competences = _extractCompetences(allCompetences, targetProfile.skills);
 
   //Create HEADER of CSV
-  const headers = _createHeaderOfCSV(targetProfile.skills, competences, campaign.idPixLabel, organization.type);
+  const headers = _createHeaderOfCSV(targetProfile.skills, competences, campaign.idPixLabel, organization.type, organization.isManagingStudents);
 
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
@@ -89,7 +89,7 @@ async function _checkCreatorHasAccessToCampaignOrganization(userId, organization
   }
 }
 
-function _createHeaderOfCSV(skills, competences, idPixLabel, organizationType) {
+function _createHeaderOfCSV(skills, competences, idPixLabel, organizationType, organizationIsManagingStudents) {
   const areas = _extractAreas(competences);
 
   return [
@@ -99,7 +99,7 @@ function _createHeaderOfCSV(skills, competences, idPixLabel, organizationType) {
     'Nom du Profil Cible',
     'Nom du Participant',
     'Prénom du Participant',
-    ...(organizationType === 'SUP' ? ['Numéro Étudiant'] : []),
+    ...((organizationType === 'SUP' && organizationIsManagingStudents) ? ['Numéro Étudiant'] : []),
 
     ...(idPixLabel ? [idPixLabel] : []),
 
