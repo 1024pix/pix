@@ -148,6 +148,49 @@ describe('Integration | Repository | Target-profile', () => {
     });
   });
 
+  describe('#getByCampaignParticipationId', () => {
+    let campaignParticipationId, targetProfileId;
+
+    beforeEach(async () => {
+      const anotherTargetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      const anotherCampaignId = databaseBuilder.factory.buildCampaign({ targetProfileId: anotherTargetProfileId }).id;
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId: anotherCampaignId });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: anotherTargetProfileId });
+
+      targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+      campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
+      const { skillId } = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId });
+      const skillAssociatedToTargetProfile = { id: skillId, name: '@Acquis2' };
+      databaseBuilder.factory.buildTargetProfile();
+      databaseBuilder.factory.buildCampaign();
+      databaseBuilder.factory.buildStage({ targetProfileId, threshold: 40 });
+      databaseBuilder.factory.buildStage({ targetProfileId, threshold: 20 });
+      sinon.stub(skillDatasource, 'findOperativeByRecordIds').resolves([skillAssociatedToTargetProfile]);
+
+      await databaseBuilder.commit();
+    });
+
+    it('should return the target profile matching the campaign participation id', async () => {
+      // when
+      const targetProfile = await targetProfileRepository.getByCampaignParticipationId(campaignParticipationId);
+
+      // then
+      expect(targetProfile.id).to.equal(targetProfileId);
+    });
+
+    it('should return the target profile with the stages ordered by threshold ASC', async () => {
+      // when
+      const targetProfile = await targetProfileRepository.getByCampaignParticipationId(campaignParticipationId);
+
+      // then
+      expect(targetProfile.stages).to.exist;
+      expect(targetProfile.stages).to.have.lengthOf(2);
+      expect(targetProfile.stages[0].threshold).to.equal(20);
+      expect(targetProfile.stages[1].threshold).to.equal(40);
+    });
+  });
+
   describe('#findByIds', () => {
     let targetProfile1;
     let targetProfileIds;

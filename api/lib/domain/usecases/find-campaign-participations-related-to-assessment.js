@@ -6,7 +6,7 @@ module.exports = async function findCampaignParticipationsRelatedToAssessment({
   assessmentRepository,
   campaignParticipationRepository,
 }) {
-  if (!(await assessmentRepository.belongsToUser(assessmentId, userId))) {
+  if (!(await assessmentRepository.ownedByUser({ id: assessmentId, userId }))) {
     throw new UserNotAuthorizedToAccessEntity('User does not have an access to this campaign participation');
   }
   return campaignParticipationRepository.findByAssessmentId(assessmentId);

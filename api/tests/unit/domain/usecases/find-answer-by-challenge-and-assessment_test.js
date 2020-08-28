@@ -25,11 +25,11 @@ describe('Unit | UseCase | find-answer-by-challenge-and-assessment', () => {
     };
 
     assessmentRepository = {
-      get: sinon.stub(),
+      ownedByUser: sinon.stub(),
     };
 
     answerRepository.findByChallengeAndAssessment.withArgs({ challengeId, assessmentId }).resolves(answer);
-    assessmentRepository.get.withArgs(assessmentId).resolves(assessment);
+    assessmentRepository.ownedByUser.withArgs({ id: assessmentId, userId }).resolves(assessment);
   });
 
   context('when the assessmentid passed is not an integer', () => {

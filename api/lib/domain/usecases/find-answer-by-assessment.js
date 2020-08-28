@@ -12,8 +12,8 @@ module.exports = async function findAnswerByAssessment(
     throw new EntityValidationError('This assessment ID is not valid.');
   }
 
-  const assessment = await assessmentRepository.get(assessmentId);
-  if (assessment.userId !== userId && assessment.userId) {
+  const ownedByUser = await assessmentRepository.ownedByUser({ id: assessmentId, userId });
+  if (!ownedByUser) {
     throw new UserNotAuthorizedToAccessEntity('User does not have an access to this assessment.');
   }
   return answerRepository.findByAssessment(integerAssessmentId);
