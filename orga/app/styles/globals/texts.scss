@@ -86,4 +86,14 @@
     text-decoration: underline;
     color: $blue-hover;
   }
+
+  &-dark {
+    color: darken($blue, 20%);
+
+    &:hover,
+    &:focus,
+    &:active {
+      color:  darken($blue-hover, 10%);
+    }
+  }
 }
