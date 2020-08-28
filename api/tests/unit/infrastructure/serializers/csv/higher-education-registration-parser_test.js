@@ -2,12 +2,12 @@ const { expect } = require('../../../../test-helper');
 const HigherEducationRegistrationParser = require('../../../../../lib/infrastructure/serializers/csv/higher-education-registration-parser');
 const _ = require('lodash');
 
-describe('HigherEducationRegistrationParser', () => {
+describe('Unit | Infrastructure | HigherEducationRegistrationParser', () => {
   context('when the header is correctly formed', () => {
     context('when there is no line', () => {
       it('returns an empty HigherEducationRegistrationSet', () => {
         const input = 'Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime';
-        const parser = new HigherEducationRegistrationParser(input);
+        const parser = new HigherEducationRegistrationParser(input, 123);
 
         const higherEducationRegistrationSet = parser.parse();
 
@@ -20,7 +20,7 @@ describe('HigherEducationRegistrationParser', () => {
         Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
         O-Ren;;;Ishii;Cottonmouth;01/01/1980;ishii@example.net;789;Assassination Squad;Bill;Deadly Viper Assassination Squad;DUT;;
         `;
-        const parser = new HigherEducationRegistrationParser(input);
+        const parser = new HigherEducationRegistrationParser(input, 456);
 
         const higherEducationRegistrationSet = parser.parse();
         const registrations = higherEducationRegistrationSet.registrations;
@@ -32,7 +32,8 @@ describe('HigherEducationRegistrationParser', () => {
         Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
         O-Ren;;;Ishii;Cottonmouth;01/01/1980;ishii@example.net;789;Assassination Squad;Bill;Deadly Viper Assassination Squad;DUT;;
         `;
-        const parser = new HigherEducationRegistrationParser(input);
+        const organizationId = 789;
+        const parser = new HigherEducationRegistrationParser(input, organizationId);
 
         const higherEducationRegistrationSet = parser.parse();
         const registrations = _.sortBy(higherEducationRegistrationSet.registrations, 'preferredLastName');
@@ -50,7 +51,7 @@ describe('HigherEducationRegistrationParser', () => {
           educationalTeam: 'Hattori Hanzo',
           group: 'Deadly Viper Assassination Squad',
           studyScheme: 'hello darkness my old friend',
-          organizationId: undefined,
+          organizationId,
           isSupernumerary: false
         });
         expect(registrations[1]).to.deep.equal({
@@ -67,7 +68,7 @@ describe('HigherEducationRegistrationParser', () => {
           educationalTeam: 'Bill',
           group: 'Deadly Viper Assassination Squad',
           studyScheme: undefined,
-          organizationId: undefined,
+          organizationId,
           isSupernumerary: false
         });
       });

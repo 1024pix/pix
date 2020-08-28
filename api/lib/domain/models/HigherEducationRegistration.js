@@ -43,6 +43,7 @@ class HigherEducationRegistration {
       birthdate: this.birthdate,
       studentNumber: this.studentNumber,
       email: this.email,
+      organizationId: this.organizationId,
       isSupernumerary: this.isSupernumerary,
     });
   }

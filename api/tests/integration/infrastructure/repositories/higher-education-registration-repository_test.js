@@ -19,6 +19,7 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
 
         const higherEducationRegistrationSet = new HigherEducationRegistrationSet();
         const registration1 = {
+          organizationId: organization.id,
           firstName: 'Elle',
           middleName: 'One',
           thirdName: 'Eyed',
@@ -50,6 +51,7 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
           status: 'I have no idea what it\'s like.'
         };
         const registration2 = {
+          organizationId: organization.id,
           firstName: 'O-Ren',
           middleName: 'Unknown',
           thirdName: 'Unknown',
@@ -112,6 +114,7 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
           firstName: 'Elle',
           lastName: 'Driver',
           birthdate: '2020-01-01',
+          organizationId: organization.id
         };
 
         higherEducationRegistrationSet.addRegistration(registration);
@@ -144,6 +147,7 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
           birthdate: '2020-01-01',
           preferredLastName: 'Sidewinder',
           studentNumber: '12',
+          organizationId: organization.id,
         };
 
         higherEducationRegistrationSet.addRegistration(registration);

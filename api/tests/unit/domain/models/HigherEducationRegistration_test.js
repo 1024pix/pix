@@ -12,7 +12,8 @@ describe('Unit | Domain | Models | HigherEducationRegistration', () => {
       studentNumber: 'A12345',
       firstName: 'Oren',
       lastName: 'Ishii',
-      birthdate: '2020-01-01'
+      birthdate: '2020-01-01',
+      organizationId: 123,
     };
 
     context('when firstName is not present', () => {
@@ -121,6 +122,19 @@ describe('Unit | Domain | Models | HigherEducationRegistration', () => {
 
         const errorList = error.invalidAttributes.map(({ attribute }) => attribute);
         expect(errorList).to.exactlyContain(['lastName', 'firstName']);
+      });
+    });
+
+    context('when organizationId is not valid', () => {
+      it('throws an error when organizationId is not defined', async () => {
+        const error = await catchErr(buildRegistration)({ ...validAttributes, organizationId: null });
+
+        expect(error).to.be.instanceOf(EntityValidationError);
+      });
+      it('throws an error when organizationId is not a number', async () => {
+        const error = await catchErr(buildRegistration)({ ...validAttributes, organizationId: 'salut' });
+
+        expect(error).to.be.instanceOf(EntityValidationError);
       });
     });
   });
