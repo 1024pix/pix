@@ -61,19 +61,44 @@ describe('Unit | Utils | date-utils', () => {
 
   describe('#convertDateValue', () => {
 
-    context('when dateValue does not match inputFormat', () => {
+    context('when alternativeInputFormat does not exist', () => {
 
-      it('should return null', () => {
-        expect(convertDateValue('1980-05-05', 'DD/MM/YYYY', 'YYYY-MM-DD')).to.be.null;
+      context('when dateValue does not match inputFormat', () => {
+        it('should return null', () => {
+          expect(convertDateValue({ dateString: '1980-05-05', inputFormat: 'DD/MM/YYYY', outputFormat: 'YYYY-MM-DD' })).to.be.null;
+        });
+      });
+
+      context('when dateValue matches inputFormat', () => {
+        it('should return converted date', () => {
+          expect(convertDateValue({ dateString: '05/05/1980', inputFormat: 'DD/MM/YYYY', outputFormat: 'YYYY-MM-DD' })).to.equal('1980-05-05');
+        });
       });
     });
 
-    context('when dateValue matches inputFormat', () => {
+    context('when alternativeInputFormat exists', () => {
 
-      it('should return null', () => {
-        expect(convertDateValue('05/05/1980', 'DD/MM/YYYY', 'YYYY-MM-DD')).to.equal('1980-05-05');
+      context('when dateValue does not match nor inputFormat, nor alternativeInputFormat', () => {
+        it('should return null', () => {
+          expect(convertDateValue({ dateString: '1980-05-05', inputFormat: 'DD/MM/YYYY', alternativeInputFormat: 'DD/MM/YY', outputFormat: 'YYYY-MM-DD' })).to.be.null;
+        });
+      });
+
+      context('when dateValue matches inputFormat', () => {
+        it('should return converted date', () => {
+          expect(convertDateValue({ dateString: '05/05/1980', inputFormat: 'DD/MM/YYYY', alternativeInputFormat: 'DD/MM/YY', outputFormat: 'YYYY-MM-DD' })).to.equal('1980-05-05');
+        });
+      });
+
+      context('when dateValue matches alternativeInputFormat', () => {
+        it('should return converted date with date < 2000', () => {
+          expect(convertDateValue({ dateString: '05/05/80', inputFormat: 'DD/MM/YYYY', alternativeInputFormat: 'DD/MM/YY', outputFormat: 'YYYY-MM-DD' })).to.equal('1980-05-05');
+        });
+
+        it('should return converted date with date > 2000', () => {
+          expect(convertDateValue({ dateString: '05/05/02', inputFormat: 'DD/MM/YYYY', alternativeInputFormat: 'DD/MM/YY', outputFormat: 'YYYY-MM-DD' })).to.equal('2002-05-05');
+        });
       });
     });
   });
-
 });
