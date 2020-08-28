@@ -23,7 +23,6 @@ describe('Unit | Domain | Models | HigherEducationRegistrationSet', () => {
           educationalTeam: 'Pai Mei',
           group: 'Deadly Viper Assassination Squad',
           studyScheme: 'I have no idea what it\'s like.',
-          userId: 12345,
           organizationId: 1,
           isSupernumerary: false
         };
@@ -72,7 +71,6 @@ describe('Unit | Domain | Models | HigherEducationRegistrationSet', () => {
           educationalTeam: 'Pai Mei',
           group: 'Deadly Viper Assassination Squad',
           studyScheme: 'I have always no idea what it\'s like.',
-          userId: 123456,
           organizationId: 2,
           isSupernumerary: false
         };

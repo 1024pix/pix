@@ -16,7 +16,6 @@ class HigherEducationRegistration {
     group,
     studyScheme,
     organizationId,
-    userId,
     isSupernumerary = false,
   } = {}) {
     this.firstName = firstName;
@@ -33,7 +32,6 @@ class HigherEducationRegistration {
     this.group = group;
     this.studyScheme = studyScheme;
     this.organizationId = organizationId;
-    this.userId = userId;
     this.isSupernumerary = isSupernumerary;
     this._validate();
   }
