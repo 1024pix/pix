@@ -9,7 +9,7 @@
     flex-direction: column;
     align-items: start;
     padding-bottom: 48px;
-    margin:auto;
+    margin: auto;
 
     @include device-is('tablet') {
       flex-direction: row;
@@ -165,8 +165,10 @@
   &__share-container {
     padding: 16px 40px 32px 40px;
     text-align: center;
+
     &--left {
       text-align: center;
+
       @include device-is('tablet') {
         text-align: left;
       }
@@ -197,7 +199,6 @@
 }
 
 .skill-review-share {
-
   &__stage-congrats {
     padding: 20px 40px 0 40px;
     text-align: center;
@@ -276,7 +277,7 @@
 }
 
 @media print {
-  a[href]:after {
+  a[href]::after {
     content: none;
   }
 

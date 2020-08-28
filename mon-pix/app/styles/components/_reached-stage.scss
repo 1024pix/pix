@@ -24,10 +24,12 @@
     display: flex;
     justify-content: center;
   }
+
   &__stars img {
     margin: 3px;
     padding-bottom: 16px;
   }
+
   &__percentage-text {
     font-family: $font-roboto;
     font-size: 0.875rem;

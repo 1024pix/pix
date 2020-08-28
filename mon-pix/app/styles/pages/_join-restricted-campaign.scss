@@ -136,7 +136,7 @@
     display: flex;
     justify-content: center;
 
-    >.button {
+    > .button {
       margin: 0 8px;
     }
   }
@@ -156,7 +156,6 @@
 }
 
 .join-error-modal-header-title {
-
   &__icon {
     font-size: 20px;
     line-height: 30px;
@@ -185,7 +184,6 @@
 }
 
 .join-error-modal-body {
-
   &__message {
     text-align: left;
     font-family: $font-roboto;
@@ -194,4 +192,3 @@
     color: $grey-200;
   }
 }
-
