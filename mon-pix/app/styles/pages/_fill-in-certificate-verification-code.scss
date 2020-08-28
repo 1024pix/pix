@@ -1,9 +1,12 @@
 .fill-in-certificate-verification-code {
-
   max-width: max-content;
-  padding: 48px 60px;
+  padding: 48px 24px;
   font-family: $font-roboto;
   text-align: center;
+
+  @include device-is('tablet') {
+    padding: 48px 60px;
+  }
 
   &__form {
     display: flex;
@@ -22,14 +25,15 @@
       max-width: 500px;
       color: $grey-60;
       font-weight: $font-light;
-      margin-bottom: 34px;
+      margin-bottom: 32px;
+      line-height: 22px;
     }
 
     .form__input-and-label {
       display: flex;
       flex-direction: column;
 
-      label  {
+      label {
         color: $grey-100;
         font-size: 0.875rem;
         font-weight: $font-normal;
@@ -40,17 +44,14 @@
       }
     }
 
-    input.input-code {
-      max-width: calc(280px - 4px - 0.5ch - 1px);
-    }
-
     .form__actions {
       margin-top: 24px;
       padding: 14px 20px;
+      width: calc(276px + 4px + 0.5ch + 1px);
     }
 
     .form__error--validation {
-      color: $pure-orange;
+      color: $red;
       font-size: 0.875rem;
       margin: 16px 10px 0 10px;
     }
@@ -58,6 +59,10 @@
     .form__error--not-found {
       margin: 0;
       margin-top: 16px;
+
+      svg {
+        margin-right: 4px;
+      }
     }
   }
 }

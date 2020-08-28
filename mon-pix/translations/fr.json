@@ -749,8 +749,8 @@
       "description": "La certification Pix atteste d’un niveau de maitrise des compétences numériques, reconnu par l’État et le monde professionnel.",
       "label": "Code de vérification (P-XXXXXXXX)",
       "errors": {
-        "wrong-format": "Veuillez vérifier votre code.",
-        "missing-code": "Veuillez saisir un code au format P-XXXXXXXX.",
+        "wrong-format": "Veuillez vérifier le format de votre code (P-XXXXXXX).",
+        "missing-code": "Merci de renseigner le code de vérification.",
         "not-found": "Il n'y a pas de certificat Pix correspondant."
       },
       "verify": "Vérifier le certificat"
