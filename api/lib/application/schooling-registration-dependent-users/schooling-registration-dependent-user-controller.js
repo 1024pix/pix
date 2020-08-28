@@ -32,7 +32,7 @@ module.exports = {
 
     const createdUser = await usecases.createUserAndReconcileToSchoolingRegistrationFromExternalUser({ campaignCode, token, birthdate });
 
-    const accessToken = tokenService.createTokenFromUser(createdUser, 'external');
+    const accessToken = tokenService.createAccessTokenFromUser(createdUser, 'external');
 
     const response = {
       data: {

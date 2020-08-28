@@ -19,7 +19,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
   beforeEach(() => {
     userRepository = { getByUsernameOrEmailWithRoles: sinon.stub() };
     tokenService = {
-      createTokenFromUser: sinon.stub()
+      createAccessTokenFromUser: sinon.stub()
     };
     sinon.stub(authenticationService, 'getUserByUsernameAndPassword');
   });
@@ -29,7 +29,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
     const accessToken = 'jwt.access.token';
     const user = domainBuilder.buildUser({ email: userEmail, password: userPassword, shouldChangePassword: false });
     authenticationService.getUserByUsernameAndPassword.resolves(user);
-    tokenService.createTokenFromUser.returns(accessToken);
+    tokenService.createAccessTokenFromUser.returns(accessToken);
 
     // when
     await authenticateUser({ username: userEmail, password: userPassword, userRepository, tokenService });
@@ -38,7 +38,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
     expect(authenticationService.getUserByUsernameAndPassword).to.have.been.calledWithExactly({
       username: userEmail, password: userPassword, userRepository
     });
-    expect(tokenService.createTokenFromUser).to.have.been.calledWithExactly(user, 'pix');
+    expect(tokenService.createAccessTokenFromUser).to.have.been.calledWithExactly(user, 'pix');
   });
 
   it('should rejects an error when given username (email) does not match an existing one', async () => {

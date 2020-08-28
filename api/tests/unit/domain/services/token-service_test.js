@@ -41,7 +41,7 @@ describe('Unit | Domain | Service | Token Service', function() {
     it('should return userId if the token passed is valid', () => {
       // given
       const user = new User({ id: 123 });
-      const token = tokenService.createTokenFromUser(user, 'pix');
+      const token = tokenService.createAccessTokenFromUser(user, 'pix');
 
       // when
       const result = tokenService.extractUserId(token);
