@@ -5,12 +5,13 @@ const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-convert
 const Bookshelf = require('../bookshelf');
 const PrivateCertificate = require('../../domain/models/PrivateCertificate');
 const ShareableCertificate = require('../../domain/models/ShareableCertificate');
+const { status: assessmentStatus } = require('../../domain/models/AssessmentResult');
 const { NotFoundError, CertificationCourseNotPublishableError } = require('../../../lib/domain/errors');
 
 async function getAssessmentResultsStatusesBySessionId(id) {
   const collection = await CertificationCourseBookshelf
     .query((qb) => {
-      qb.innerJoin('assessments','assessments.certificationCourseId','certification-courses.id');
+      qb.innerJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id');
       qb.innerJoin(
         Bookshelf.knex.raw(
           `"assessment-results" ar ON ar."assessmentId" = "assessments".id
@@ -107,19 +108,23 @@ module.exports = {
 
   async getShareableCertificateByVerificationCode({ verificationCode }) {
     const certificationCourseDTO = await _getBaseCertificationQuery()
-      .where({ verificationCode })
+      .where({ verificationCode, 'isPublished': true })
       .first();
+    const notFoundError = new NotFoundError('There is no certification course with this verification code');
 
     if (!certificationCourseDTO) {
-      throw new NotFoundError('There is no certification course with this verification code');
+      throw notFoundError;
     }
 
     const latestAssessmentResult = await _getLatestAssessmentResult(certificationCourseDTO.id);
+    if (!latestAssessmentResult || latestAssessmentResult.status !== assessmentStatus.VALIDATED) {
+      throw notFoundError;
+    }
 
     return new ShareableCertificate({
       ...certificationCourseDTO,
-      pixScore: latestAssessmentResult && latestAssessmentResult.pixScore,
-      status: latestAssessmentResult && latestAssessmentResult.status,
+      pixScore: latestAssessmentResult.pixScore,
+      status: latestAssessmentResult.status,
     });
   },
 };

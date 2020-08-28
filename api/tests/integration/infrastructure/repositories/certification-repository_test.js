@@ -2,18 +2,23 @@ const { expect, domainBuilder, databaseBuilder, catchErr, knex } = require('../.
 const certificationRepository = require('../../../../lib/infrastructure/repositories/certification-repository');
 const { NotFoundError, CertificationCourseNotPublishableError } = require('../../../../lib/domain/errors');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const { status } = require('../../../../lib/domain/models/AssessmentResult');
 const ShareableCertificate = require('../../../../lib/domain/models/ShareableCertificate');
 
 const CertificationCourseBookshelf = require('../../../../lib/infrastructure/data/certification-course');
 const PARTNER_CLEA_KEY = 'BANANA';
+const verificationCode = 'P-123498NN';
+const notPublishedSessionVerificationCode = 'P-123498XX';
+const rejectedSessionVerificationCode = 'P-123498ZZ';
 
 describe('Integration | Repository | Certification ', () => {
-  const verificationCode = 'P-123498NN';
+
   const pixScore = 400;
 
   let userId;
-  let session;
-  let certificationCourse;
+  let completeSession;
+  let completeCertificationCourse;
+  let completeAssementResult;
   let expectedCertification;
   const type = Assessment.types.CERTIFICATION;
 
@@ -23,21 +28,19 @@ describe('Integration | Repository | Certification ', () => {
   let sessionWithStartedAndErrorCertifCourseIds;
 
   beforeEach(async () => {
+
     userId = databaseBuilder.factory.buildUser().id;
     databaseBuilder.factory.buildBadge({ key: PARTNER_CLEA_KEY });
     const {
       id: certificationCenterId,
       name: certificationCenter,
     } = databaseBuilder.factory.buildCertificationCenter({ name: 'Certif College' });
-    session = databaseBuilder.factory.buildSession({ certificationCenterId, certificationCenter });
-    certificationCourse = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId: session.id, isPublished: true, verificationCode });
-    const assessment = databaseBuilder.factory.buildAssessment({
-      certificationCourseId: certificationCourse.id,
-      userId,
-      type,
-    });
-    const assessmentResult = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment.id, pixScore });
-    expectedCertification = _buildPrivateCertificate(session.certificationCenter, certificationCourse, assessmentResult, session.publishedAt);
+    ({ session: completeSession, certificationCourse: completeCertificationCourse, assessmentResult: completeAssementResult }
+      = _buildValidatedPublishedCertificationData({ verificationCode, certificationCenterId, certificationCenter, userId, type, pixScore }));
+    _buildNotPublishedCertificationData({ verificationCode: notPublishedSessionVerificationCode, certificationCenterId, certificationCenter, userId, type, pixScore });
+    _buildRejectedCertificationData({ verificationCode: rejectedSessionVerificationCode, certificationCenterId, certificationCenter, userId, type, pixScore });
+
+    expectedCertification = _buildPrivateCertificate(certificationCenter, completeCertificationCourse, completeAssementResult, completeSession.publishedAt);
     databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: expectedCertification.id, partnerKey: PARTNER_CLEA_KEY, acquired: false });
 
     sessionLatestAssessmentRejectedCertifCourseIds = [];
@@ -68,7 +71,7 @@ describe('Integration | Repository | Certification ', () => {
 
     it('should return a certification with needed informations', async () => {
       // when
-      const certificate = await certificationRepository.getPrivateCertificateByCertificationCourseId({ id: certificationCourse.id });
+      const certificate = await certificationRepository.getPrivateCertificateByCertificationCourseId({ id: completeCertificationCourse.id });
 
       // then
       expect(certificate).to.deep.equal(expectedCertification);
@@ -88,12 +91,12 @@ describe('Integration | Repository | Certification ', () => {
 
     beforeEach(() => {
       // Without assessment
-      databaseBuilder.factory.buildCertificationCourse({ userId, sessionId: session.id });
+      databaseBuilder.factory.buildCertificationCourse({ userId, sessionId: completeSession.id });
       // Without assessment-result
-      const withoutAsrCcId = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId: session.id }).id;
+      const withoutAsrCcId = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId: completeSession.id }).id;
       databaseBuilder.factory.buildAssessment({ userId, certificationCourseId: withoutAsrCcId });
       // Ok
-      const certificationCourse1 = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId: session.id });
+      const certificationCourse1 = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId: completeSession.id });
       const assessment1 = databaseBuilder.factory.buildAssessment({
         certificationCourseId: certificationCourse1.id,
         userId,
@@ -101,7 +104,7 @@ describe('Integration | Repository | Certification ', () => {
         state: 'started',
       });
       const assessmentResult1 = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment1.id });
-      const certificationCourse2 = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId: session.id });
+      const certificationCourse2 = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId: completeSession.id });
       const assessment2 = databaseBuilder.factory.buildAssessment({
         certificationCourseId: certificationCourse2.id,
         userId,
@@ -110,8 +113,8 @@ describe('Integration | Repository | Certification ', () => {
       });
       const assessmentResult2 = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment2.id });
       expectedCertifications = [
-        _buildPrivateCertificate(session.certificationCenter, certificationCourse1, assessmentResult1, session.publishedAt),
-        _buildPrivateCertificate(session.certificationCenter, certificationCourse2, assessmentResult2, session.publishedAt),
+        _buildPrivateCertificate(completeSession.certificationCenter, certificationCourse1, assessmentResult1, completeSession.publishedAt),
+        _buildPrivateCertificate(completeSession.certificationCenter, certificationCourse2, assessmentResult2, completeSession.publishedAt),
         expectedCertification,
       ];
 
@@ -159,6 +162,25 @@ describe('Integration | Repository | Certification ', () => {
       });
     });
 
+    context('when verificationCode match a not published certificate', () => {
+      it('should throw an error', async () => {
+        // when
+        const error = await catchErr(certificationRepository.getShareableCertificateByVerificationCode)({ verificationCode: notPublishedSessionVerificationCode });
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
+      });
+    });
+    context('when verificationCode match an rejected certificate', () => {
+      it('should throw an error', async () => {
+        // when
+        const error = await catchErr(certificationRepository.getShareableCertificateByVerificationCode)({ verificationCode: rejectedSessionVerificationCode });
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
+      });
+    });
+
     context('when verificationCode does not match', () => {
       it('should throw an error', async () => {
         //given
@@ -196,6 +218,41 @@ describe('Integration | Repository | Certification ', () => {
   }
 
 });
+
+function _buildValidatedPublishedCertificationData({ certificationCenterId, certificationCenter, verificationCode, userId, type, pixScore }) {
+  return _buildCertificationData({ certificationCenterId, certificationCenter, isPublished: true, status: status.VALIDATED, verificationCode, userId, type, pixScore });
+}
+
+function _buildNotPublishedCertificationData({ certificationCenterId, certificationCenter, verificationCode, userId, type, pixScore }) {
+  return _buildCertificationData({ certificationCenterId, certificationCenter, isPublished: false, status: status.VALIDATED, verificationCode, userId, type, pixScore });
+}
+
+function _buildRejectedCertificationData({ certificationCenterId, certificationCenter, verificationCode, userId, type, pixScore }) {
+  return _buildCertificationData({ certificationCenterId, certificationCenter, isPublished: true, status: status.REJECTED, verificationCode, userId, type, pixScore });
+}
+
+function _buildCertificationData({ isPublished, status, verificationCode, certificationCenterId, certificationCenter, userId, type, pixScore }) {
+  const session = databaseBuilder.factory.buildSession({
+    certificationCenterId,
+    certificationCenter,
+    publishedAt: new Date('2020-02-21T14:23:56Z')
+  });
+
+  const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
+    userId,
+    sessionId: session.id,
+    isPublished,
+
+    verificationCode
+  });
+  const assessment = databaseBuilder.factory.buildAssessment({
+    certificationCourseId: certificationCourse.id,
+    userId,
+    type,
+  });
+  const assessmentResult = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment.id, pixScore, status  });
+  return { session, certificationCourse, assessmentResult };
+}
 
 function _buildPrivateCertificate(certificationCenterName, certificationCourse, assessmentResult, deliveredAt) {
   const certificate = domainBuilder.buildPrivateCertificate({
