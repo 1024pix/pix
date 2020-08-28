@@ -80,6 +80,7 @@ class CampaignAssessmentCsvLine {
   }
 
   _makeCommonColumns() {
+
     return [
       this.organization.name,
       this.campaign.id,
@@ -87,7 +88,7 @@ class CampaignAssessmentCsvLine {
       this.targetProfile.name,
       this.campaignParticipationInfo.participantLastName,
       this.campaignParticipationInfo.participantFirstName,
-      ...(this.organization.type === 'SUP' ? [this.campaignParticipationInfo.studentNumber] : []),
+      ...this._studentNumber,
       ...(this.campaign.idPixLabel ? [this.campaignParticipationInfo.participantExternalId] : []),
       this.campaignParticipationService.progress(this.campaignParticipationInfo.isCompleted, this.knowledgeElements.length, this.targetProfile.skills.length),
       moment.utc(this.campaignParticipationInfo.createdAt).format('YYYY-MM-DD'),
@@ -152,6 +153,13 @@ class CampaignAssessmentCsvLine {
     return _.round(this._countValidatedKnowledgeElements() / this.targetProfile.skills.length, 2);
   }
 
+  get _studentNumber() {
+    let studentNumber = null;
+    if (this.organization.type == 'SUP' && this.organization.isManagingStudents) {
+      studentNumber = this.campaignParticipationInfo.studentNumber || '';
+    }
+    return [studentNumber].filter((value) => value != null);
+  }
 }
 
 module.exports = CampaignAssessmentCsvLine;
