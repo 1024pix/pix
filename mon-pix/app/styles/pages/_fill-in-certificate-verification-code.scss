@@ -11,18 +11,32 @@
     align-items: center;
 
     .form__title {
-      margin-bottom: 32px;
+      margin-bottom: 16px;
       font-size: 2rem;
       font-weight: $font-light;
       font-family: $font-open-sans;
       color: $grey-80;
     }
 
+    .form__description {
+      max-width: 500px;
+      color: $grey-60;
+      font-weight: $font-light;
+      margin-bottom: 34px;
+    }
+
     .form__label {
       color: $grey-100;
-      font-size: 1.219rem;
+      font-size: 0.875rem;
       font-weight: $font-light;
-      margin-bottom: 16px;
+      margin-bottom: 6px;
+      text-align: left;
+      letter-spacing: 0.15px;
+      line-height: 22px;
+    }
+
+    input.input-code {
+      max-width: calc(280px - 4px - 0.5ch - 1px);
     }
 
     .form__actions {

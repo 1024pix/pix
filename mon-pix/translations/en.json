@@ -746,7 +746,8 @@
     "fill-in-certificate-verification-code": {
       "title": "Verifier une certification",
       "first-title": "Vérifier un score de certification",
-      "description": "Code de vérification (P-XXXXXXXX)",
+      "description": "La certification Pix atteste d’un niveau de maitrise des compétences numériques, reconnu par l’État et le monde professionnel.",
+      "label": "Code de vérification (P-XXXXXXXX)",
       "errors": {
         "wrong-format": "Veuillez vérifier votre code.",
         "missing-code": "Veuillez saisir un code au format P-XXXXXXXX.",

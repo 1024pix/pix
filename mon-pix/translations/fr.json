@@ -744,15 +744,16 @@
     },
 
     "fill-in-certificate-verification-code": {
-      "title": "Verifier une certification",
-      "first-title": "Vérifier un score de certification",
-      "description": "Code de vérification (P-XXXXXXXX)",
+      "title": "Vérifier un certificat Pix",
+      "first-title": "Vérifier un certificat Pix",
+      "description": "La certification Pix atteste d’un niveau de maitrise des compétences numériques, reconnu par l’État et le monde professionnel.",
+      "label": "Code de vérification (P-XXXXXXXX)",
       "errors": {
         "wrong-format": "Veuillez vérifier votre code.",
         "missing-code": "Veuillez saisir un code au format P-XXXXXXXX.",
-        "not-found": "Il n'y a pas de certificat Pix correspondant"
+        "not-found": "Il n'y a pas de certificat Pix correspondant."
       },
-      "verify": "Vérifier le score"
+      "verify": "Vérifier le certificat"
     },
 
     "fill-in-id-pix": {
