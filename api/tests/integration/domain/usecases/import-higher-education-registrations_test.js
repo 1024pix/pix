@@ -18,7 +18,7 @@ describe('Integration | UseCase | ImportHigherEducationRegistration', () => {
 
     const organization = databaseBuilder.factory.buildOrganization();
     await databaseBuilder.commit();
-    await importHigherEducationRegistration({ organizationId: organization.id, higherEducationRegistrationRepository, higherEducationRegistrationParser: new HigherEducationRegistrationParser(buffer) });
+    await importHigherEducationRegistration({ higherEducationRegistrationRepository, higherEducationRegistrationParser: new HigherEducationRegistrationParser(buffer, organization.id) });
 
     const registrations = await knex('schooling-registrations').where({ organizationId: organization.id });
     expect(registrations).to.have.lengthOf(2);
