@@ -15,7 +15,7 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
     userRepository,
     targetProfileRepository,
     competenceRepository,
-    campaignParticipationRepository,
+    campaignParticipationInfoRepository,
     organizationRepository,
     knowledgeElementRepository,
     campaignCsvExportService,
@@ -25,17 +25,17 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
 
   await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
 
-  const [targetProfile, allCompetences, organization, campaignParticipationResultDatas] = await Promise.all([
+  const [targetProfile, allCompetences, organization, campaignParticipationInfos] = await Promise.all([
     targetProfileRepository.get(campaign.targetProfileId),
     competenceRepository.list(),
     organizationRepository.get(campaign.organizationId),
-    campaignParticipationRepository.findAssessmentResultDataByCampaignId(campaign.id),
+    campaignParticipationInfoRepository.findByCampaignId(campaign.id),
   ]);
 
   const competences = _extractCompetences(allCompetences, targetProfile.skills);
 
   //Create HEADER of CSV
-  const headers = _createHeaderOfCSV(targetProfile.skills, competences, campaign.idPixLabel);
+  const headers = _createHeaderOfCSV(targetProfile.skills, competences, campaign.idPixLabel, organization.type, organization.isManagingStudents);
 
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
@@ -48,17 +48,17 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
   // after this function's returned promise resolves. If we await the map
   // function, node will keep all the data in memory until the end of the
   // complete operation.
-  bluebird.map(campaignParticipationResultDatas, async (campaignParticipationResultData) => {
+  bluebird.map(campaignParticipationInfos, async (campaignParticipationInfo) => {
     const participantKnowledgeElements = await knowledgeElementRepository.findUniqByUserId({
-      userId: campaignParticipationResultData.userId,
-      limitDate: campaignParticipationResultData.sharedAt,
+      userId: campaignParticipationInfo.userId,
+      limitDate: campaignParticipationInfo.sharedAt,
     });
 
     const csvLine = campaignCsvExportService.createOneCsvLine({
       organization,
       campaign,
       competences,
-      campaignParticipationResultData,
+      campaignParticipationInfo,
       targetProfile,
       participantKnowledgeElements,
     });
@@ -89,7 +89,7 @@ async function _checkCreatorHasAccessToCampaignOrganization(userId, organization
   }
 }
 
-function _createHeaderOfCSV(skills, competences, idPixLabel) {
+function _createHeaderOfCSV(skills, competences, idPixLabel, organizationType, organizationIsManagingStudents) {
   const areas = _extractAreas(competences);
 
   return [
@@ -99,6 +99,7 @@ function _createHeaderOfCSV(skills, competences, idPixLabel) {
     'Nom du Profil Cible',
     'Nom du Participant',
     'Prénom du Participant',
+    ...((organizationType === 'SUP' && organizationIsManagingStudents) ? ['Numéro Étudiant'] : []),
 
     ...(idPixLabel ? [idPixLabel] : []),
 
