@@ -24,7 +24,7 @@ describe('Acceptance | API | Certifications', () => {
     certificationCourse = databaseBuilder.factory.buildCertificationCourse({
       sessionId: session.id,
       userId,
-      isPublished: false
+      isPublished: true
     });
     assessment = databaseBuilder.factory.buildAssessment({
       userId,
@@ -37,7 +37,7 @@ describe('Acceptance | API | Certifications', () => {
       level: 1,
       pixScore: 23,
       emitter: 'PIX-ALGO',
-      status: 'rejected',
+      status: 'validated',
     });
     databaseBuilder.factory.buildPartnerCertification({
       certificationCourseId: certificationCourse.id,
@@ -480,10 +480,10 @@ describe('Acceptance | API | Certifications', () => {
           url: '/api/shared-certifications',
           payload: {},
         };
-  
+
         // when
         const response = await server.inject(options);
-  
+
         // then
         expect(response.statusCode).to.equal(500);
       });
@@ -496,10 +496,10 @@ describe('Acceptance | API | Certifications', () => {
           url: '/api/shared-certifications',
           payload: { verificationCode },
         };
-  
+
         // when
         const response = await server.inject(options);
-  
+
         // then
         expect(response.statusCode).to.equal(404);
       });
