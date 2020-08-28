@@ -1,4 +1,5 @@
 import { action } from '@ember/object';
+import { later } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import Component from '@glimmer/component';
@@ -152,10 +153,12 @@ export default class FeedbackPanel extends Component {
   }
 
   _scrollIntoFeedbackPanel() {
-    const feedbackPanelElements = document.getElementsByClassName('feedback-panel__view');
-    if (feedbackPanelElements && feedbackPanelElements[0]) {
-      feedbackPanelElements[0].scrollIntoView();
-    }
+    later(function() {
+      const feedbackPanelElements = document.getElementsByClassName('feedback-panel__view');
+      if (feedbackPanelElements && feedbackPanelElements[0]) {
+        feedbackPanelElements[0].scrollIntoView();
+      }
+    });
   }
 
   get _isComparisonWindowContext() {
