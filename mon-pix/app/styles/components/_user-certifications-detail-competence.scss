@@ -17,6 +17,7 @@
 
   &__title {
     @include leftElement;
+
     font-family: $font-roboto;
     font-size: 0.9rem;
     letter-spacing: 0.5px;
@@ -27,12 +28,14 @@
 
     &--level {
       @include rightElement;
+
       color: $grey-60;
     }
   }
 
   &__competence {
     @include leftElement;
+
     color: $grey-80;
     height: 100%;
     font-family: $font-open-sans;
@@ -42,6 +45,7 @@
 
     &--level {
       @include rightElement;
+
       font-weight: bold;
       font-size: 1.5rem;
     }
@@ -58,7 +62,7 @@
 
     &--disabled {
       opacity: 0.4;
-  
+
       span {
         display: none;
       }
@@ -70,19 +74,24 @@
     height: 75px;
     min-height: 60px;
   }
+
   > :last-child {
     border: none;
   }
 }
 
 @mixin coloriseElements($color) {
+
   .user-certifications-detail-competence__title {
     color: $color;
   }
+
   .user-certifications-detail-competence__competence {
+
     &--level {
       color: $color;
     }
+
     &::before {
       background-color: $color;
     }
@@ -92,37 +101,44 @@
 .user-certifications-detail-competence--jaffa {
   @include coloriseElements($information-light);
 }
+
 .user-certifications-detail-competence--emerald {
   @include coloriseElements($content-light);
 }
+
 .user-certifications-detail-competence--cerulean {
   @include coloriseElements($communication-light);
 }
+
 .user-certifications-detail-competence--wild-strawberry {
   @include coloriseElements($security-light);
 }
+
 .user-certifications-detail-competence--butterfly-bush {
   @include coloriseElements($environment-light);
 }
 
 @include device-is('mobile') {
+
   .user-certifications-detail-competence {
+
     &__title {
       font-size: 0.875rem;
       font-weight: $font-normal;
 
       &--level {
-        padding-right: 0px;
+        padding-right: 0;
       }
     }
 
     &__competence {
 
       &--level {
-        padding-right: 0px;
+        padding-right: 0;
       }
 
       &--disabled {
+
         span {
           display: block;
           opacity: 0;

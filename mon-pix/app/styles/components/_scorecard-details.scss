@@ -8,6 +8,7 @@
 }
 
 .tutorials-header {
+
   &__title {
     margin-bottom: 4px;
   }
@@ -36,6 +37,7 @@
 }
 
 .scorecard-details {
+
   &__content {
     display: flex;
     flex-direction: column;
@@ -89,6 +91,7 @@
 }
 
 .scorecard-details-content {
+
   &__left {
     display: flex;
     flex-direction: column;
@@ -112,14 +115,15 @@
     padding: 0 30px;
     white-space: nowrap;
     max-width: 100%;
+
     @include device-is('desktop') {
       max-width: 30%;
     }
   }
-
 }
 
 .scorecard-details-content-left {
+
   &__area {
     text-transform: uppercase;
     font-size: 0.875rem;
@@ -128,15 +132,19 @@
     &--jaffa {
       color: $information-light;
     }
+
     &--emerald {
       color: $content-light;
     }
+
     &--cerulean {
       color: $communication-light;
     }
+
     &--wild-strawberry {
       color: $security-light;
     }
+
     &--butterfly-bush {
       color: $environment-light;
     }
@@ -155,6 +163,7 @@
 }
 
 .scorecard-details-content-right {
+
   &__score-container {
     display: flex;
     flex-direction: row;
@@ -179,6 +188,7 @@
 }
 
 .scorecard-details-content-right-score-container {
+
   &__pix-earned {
     display: flex;
     flex-direction: column;
@@ -190,6 +200,7 @@
 }
 
 .scorecard-details-reset-modal {
+
   &__important-message {
     padding: 20px 0;
     color: $grey-200;
@@ -212,6 +223,7 @@
 }
 
 .scorecard-details-improvement-countdown {
+
   &__label {
     font-size: 0.6875rem;
     letter-spacing: 0.0075rem;
@@ -220,7 +232,7 @@
 
   &__count {
     font-size: 1rem;
-    letter-spacing: 0.010rem;
+    letter-spacing: 0.01rem;
     color: $grey-90;
     margin-top: 6px;
   }

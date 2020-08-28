@@ -1,3 +1,5 @@
+/* stylelint-disable no-descending-specificity */
+
 .logged-user-details {
   position: absolute;
   right: 0;
@@ -101,7 +103,7 @@
     background-color: $grey-10;
   }
 
-  &> svg {
+  & > svg {
     margin-right: 5px;
   }
 }

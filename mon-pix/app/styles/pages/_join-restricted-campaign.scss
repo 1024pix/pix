@@ -1,4 +1,5 @@
 .join-restricted-campaign {
+
   form {
     width: 280px;
     display: block;
@@ -136,19 +137,21 @@
     display: flex;
     justify-content: center;
 
-    >.button {
+    > .button {
       margin: 0 8px;
     }
   }
 }
 
 .join-error-modal-header {
+
   &__title {
     display: flex;
     align-items: center;
   }
 
   &__close {
+
     &:hover {
       cursor: pointer;
     }
@@ -174,6 +177,7 @@
 }
 
 .join-error-modal-header-close {
+
   &__icon {
     height: 32px;
     width: 32px;
@@ -194,4 +198,3 @@
     color: $grey-200;
   }
 }
-

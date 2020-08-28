@@ -1,13 +1,14 @@
 .assessment-banner {
+
   &--certification {
-      display: flex;
-      justify-content: space-around;
-      align-items: flex-start;
-      width: 100%;
-      height: 270px;
-      background: $green-gradient;
-      box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
-      color: $white;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    width: 100%;
+    height: 270px;
+    background: $green-gradient;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
+    color: $white;
   }
 }
 
@@ -18,12 +19,12 @@
   width: 150px;
 
   &__label {
-   opacity: 0.5;
-   text-transform: uppercase;
- }
+    opacity: 0.5;
+    text-transform: uppercase;
+  }
 
- &__value {
-   font-size: 1.875rem;
-   font-weight: bold;
- }
+  &__value {
+    font-size: 1.875rem;
+    font-weight: bold;
+  }
 }

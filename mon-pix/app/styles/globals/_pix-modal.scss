@@ -31,7 +31,7 @@ $pix-modal-border-radius: 5px;
       align-items: center;
       cursor: pointer;
 
-      &> span {
+      & > span {
         color: inherit;
         font-size: 0.875rem;
         margin-right: 5px;
@@ -43,7 +43,7 @@ $pix-modal-border-radius: 5px;
         }
       }
 
-      &> svg {
+      & > svg {
         font-size: 0.875rem;
       }
     }
@@ -114,7 +114,7 @@ $pix-modal-border-radius: 5px;
           flex-direction: row-reverse;
           justify-content: center;
 
-          >.button {
+          > .button {
             margin: 0 10px;
           }
         }
@@ -158,7 +158,6 @@ $pix-modal-border-radius: 5px;
 .ember-modal-overlay.translucent {
   background-color: rgba(red($grey-80), green($grey-80), blue($grey-80), 0.95);
 }
-
 
 /* Scrolling
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
