@@ -56,6 +56,9 @@ exports.register = async (server) => {
         auth: false,
         handler: organizationInvitationController.getOrganizationInvitation,
         validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required(),
+          }),
           query: Joi.object({
             code: Joi.string().required(),
           }),
