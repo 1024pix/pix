@@ -1,4 +1,5 @@
-const _ = require('lodash');
+const omit = require('lodash/omit');
+
 const Bookshelf = require('../bookshelf');
 const BookshelfUser = require('../data/user');
 const moment = require('moment');
@@ -114,7 +115,7 @@ function _setSearchFiltersForQueryBuilder(filter, qb) {
 }
 
 function _adaptModelToDb(user) {
-  return _.omit(user, [
+  return omit(user, [
     'id', 'campaignParticipations', 'pixRoles', 'memberships',
     'certificationCenterMemberships', 'pixScore', 'knowledgeElements',
     'scorecards', 'userOrgaSettings',
@@ -426,6 +427,19 @@ module.exports = {
       .where({ id: userId })
       .save({ password: hashedNewPassword, shouldChangePassword: false }, { patch: true, method: 'update' })
       .then((bookshelfUser) => bookshelfUser.toDomainEntity())
+      .catch((err) => {
+        if (err instanceof BookshelfUser.NoRowsUpdatedError) {
+          throw new UserNotFoundError(`User not found for ID ${userId}`);
+        }
+        throw err;
+      });
+  },
+
+  async updateSamlId({ userId, samlId }) {
+    return BookshelfUser
+      .where({ id: userId })
+      .save({ samlId }, { patch: true, method: 'update' })
+      .then(() => true)
       .catch((err) => {
         if (err instanceof BookshelfUser.NoRowsUpdatedError) {
           throw new UserNotFoundError(`User not found for ID ${userId}`);
