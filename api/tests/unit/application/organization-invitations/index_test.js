@@ -61,6 +61,20 @@ describe('Unit | Router | organization-invitation-router', () => {
       // then
       expect(response.statusCode).to.equal(200);
     });
+
+    it('should return Bad Request Error when invitation identifier is not a number', async () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/organization-invitations/XXXXXXXXXXXXXXXX15812?code=DZWMP7L5UM'
+      };
+
+      // when
+      const response = await server.inject(options, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
   });
 
 });
