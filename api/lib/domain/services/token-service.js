@@ -2,7 +2,7 @@ const jsonwebtoken = require('jsonwebtoken');
 const { InvalidTemporaryKeyError } = require('../../domain/errors');
 const settings = require('../../config');
 
-function createTokenFromUser(user, source) {
+function createAccessTokenFromUser(user, source) {
   return jsonwebtoken.sign({
     user_id: user.id,
     source
@@ -62,7 +62,7 @@ function extractUserIdForCampaignResults(token) {
 }
 
 module.exports = {
-  createTokenFromUser,
+  createAccessTokenFromUser,
   createTokenForCampaignResults,
   createTokenForStudentReconciliation,
   extractUserIdForCampaignResults,

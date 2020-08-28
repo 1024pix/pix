@@ -32,7 +32,7 @@ module.exports = {
 
       const user = await usecases.getOrCreateSamlUser({ userAttributes });
 
-      const token = tokenService.createTokenFromUser(user, 'external');
+      const token = tokenService.createAccessTokenFromUser(user, 'external');
 
       return h.redirect(`/?token=${encodeURIComponent(token)}&user-id=${user.id}`);
     } catch (e) {

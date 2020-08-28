@@ -13,7 +13,7 @@ describe('Unit | Application | Controller | Saml', () => {
 
       beforeEach(() => {
         features.garAccessV2 = false;
-        sinon.stub(tokenService, 'createTokenFromUser').returns('dummy-token');
+        sinon.stub(tokenService, 'createAccessTokenFromUser').returns('dummy-token');
       });
 
       it('should call use case to get or create account for user', async () => {

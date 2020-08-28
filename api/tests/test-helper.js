@@ -41,7 +41,7 @@ function generateValidRequestAuthorizationHeader(userId = 1234) {
   const user = {
     id: userId,
   };
-  const accessToken = tokenService.createTokenFromUser(user, 'pix');
+  const accessToken = tokenService.createAccessTokenFromUser(user, 'pix');
   return `Bearer ${accessToken}`;
 }
 
