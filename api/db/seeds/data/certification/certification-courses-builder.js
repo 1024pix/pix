@@ -37,8 +37,8 @@ function certificationCoursesBuilder({ databaseBuilder }) {
     { userId: CERTIF_SUCCESS_USER_ID, sessionId: PROBLEMS_FINALIZED_SESSION_ID, assessmentId: ASSESSMENT_SUCCESS_IN_PROBLEMS_FINALIZED_SESSION_ID, candidateData: CANDIDATE_DATA_SUCCESS, examinerComment: 'A regardé son téléphone pendant le test', hasSeenEndTestScreen: true, isPublished: false, verificationCode: 'P-FFFFFFJJ' },
     { userId: CERTIF_FAILURE_USER_ID, sessionId: PROBLEMS_FINALIZED_SESSION_ID, assessmentId: ASSESSMENT_FAILURE_IN_PROBLEMS_FINALIZED_SESSION_ID, candidateData: CANDIDATE_DATA_FAILURE, examinerComment: 'Son ordinateur a explosé', hasSeenEndTestScreen: false, isPublished: false, verificationCode: 'P-666GGGKK' },
     { userId: CERTIF_REGULAR_USER5_ID, sessionId: PROBLEMS_FINALIZED_SESSION_ID, assessmentId: ASSESSMENT_STARTED_IN_PROBLEMS_FINALIZED_SESSION_ID, candidateData: CANDIDATE_DATA_STARTED, examinerComment: 'Elle a pas finis sa certif', hasSeenEndTestScreen: false, isPublished: false, verificationCode: 'P-777HHHMM'  },
-    { userId: CERTIF_SUCCESS_USER_ID, sessionId: PUBLISHED_SESSION_ID, assessmentId: ASSESSMENT_SUCCESS_PUBLISHED_SESSION_ID, candidateData: CANDIDATE_DATA_SUCCESS, hasSeenEndTestScreen: true, isPublished: true, verificationCode: 'P-888JJJLL'  },
-    { userId: CERTIF_FAILURE_USER_ID, sessionId: PUBLISHED_SESSION_ID, assessmentId: ASSESSMENT_FAILURE_PUBLISHED_SESSION_ID, candidateData: CANDIDATE_DATA_FAILURE, hasSeenEndTestScreen: true, isPublished: true, verificationCode: 'P-999LLLPP'  },
+    { userId: CERTIF_SUCCESS_USER_ID, sessionId: PUBLISHED_SESSION_ID, assessmentId: ASSESSMENT_SUCCESS_PUBLISHED_SESSION_ID, candidateData: CANDIDATE_DATA_SUCCESS, hasSeenEndTestScreen: true, isPublished: true, verificationCode: 'P-888JJJXX'  },
+    { userId: CERTIF_FAILURE_USER_ID, sessionId: PUBLISHED_SESSION_ID, assessmentId: ASSESSMENT_FAILURE_PUBLISHED_SESSION_ID, candidateData: CANDIDATE_DATA_FAILURE, hasSeenEndTestScreen: true, isPublished: true, verificationCode: 'P-999MMMPP'  },
   ], (certificationCourseData) => {
     _buildCertificationCourse(databaseBuilder, certificationCourseData);
   });
