@@ -35,7 +35,7 @@ function extractTokenFromAuthChain(authChain) {
   return authChain.replace(/Bearer /g, '');
 }
 
-function verifyValidity(token) {
+function decodeIfValid(token) {
   return new Promise((resolve, reject) => {
     const decoded = getDecodedToken(token);
     return (!decoded) ? reject(new InvalidTemporaryKeyError()) : resolve(decoded);
@@ -68,5 +68,5 @@ module.exports = {
   extractUserIdForCampaignResults,
   extractUserId,
   extractTokenFromAuthChain,
-  verifyValidity,
+  decodeIfValid,
 };
