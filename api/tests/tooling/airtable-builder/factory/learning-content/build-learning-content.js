@@ -37,7 +37,9 @@ const buildLearningContent = function(learningContent) {
               tube: [tube.id],
               status: skill.status,
               compétenceViaTube: [competence.id],
-              nom: skill.nom
+              nom: skill.nom,
+              pixValue: skill.pixValue,
+              comprendre: skill.tutorialIds,
             }
           );
         });
