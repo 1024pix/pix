@@ -14,6 +14,7 @@ const ERROR_INPUT_MESSAGE_MAP = {
   monthOfBirth: 'Votre mois de naissance n’est pas valide.',
   yearOfBirth: 'Votre année de naissance n’est pas valide.',
 };
+const ACCOUNT_WITH_SAMLID_ALREADY_EXISTS_ERRORS = ['R13', 'R33'];
 
 const isDayValid = (value) => value > 0 && value <= 31;
 const isMonthValid = (value) => value > 0 && value <= 12;
@@ -42,6 +43,7 @@ export default class JoinSco extends Component {
   @tracked errorMessage;
   @tracked displayModal = false;
   @tracked modalErrorMessage = null;
+  @tracked displayContinueButton = false;
 
   @tracked firstName = '';
   @tracked lastName = '';
@@ -199,6 +201,7 @@ export default class JoinSco extends Component {
       if (error.status === '409') {
         const message = this._showErrorMessageByShortCode(error.meta);
         this.displayModal = true;
+        this.displayContinueButton = !ACCOUNT_WITH_SAMLID_ALREADY_EXISTS_ERRORS.includes(error.meta.shortCode);
         return this.modalErrorMessage = message;
       }
       if (error.status === '404') {
@@ -220,6 +223,6 @@ export default class JoinSco extends Component {
       { code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION', shortCode:'R33', message:'Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.' }
     ];
 
-    return  find(errors, ['shortCode', meta.shortCode]).message || defaultMessage;
+    return find(errors, ['shortCode', meta.shortCode]).message || defaultMessage;
   }
 }
