@@ -43,6 +43,7 @@
   }
 
   &:focus {
+    background-color: $grey-20;
     text-decoration: none;
   }
 }
