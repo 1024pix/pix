@@ -271,6 +271,8 @@
               }
             },
             "detail-selection": {
+              "aria-first": "Vous avez un problème avec",
+              "aria-secondary": "Précisez votre problème",
               "label": "Précisez",
               "options": {
                 "answer-not-accepted": "Ma réponse est correcte mais n’a pas été validée",
@@ -304,7 +306,8 @@
                 "tutorial-link-error": "Le lien vers le tutoriel mène vers une autre page ou une page d’erreur",
                 "tutorial-not-accepted": "Le tutoriel n’est pas adapté",
                 "tutorial-proposal": "J’ai un tutoriel à vous proposer"
-              }
+              },
+              "problem-suggestion-description": "Décrivez votre problème ou votre suggestion"
             }
           },
           "status": {
