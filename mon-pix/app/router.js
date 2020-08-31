@@ -47,6 +47,7 @@ Router.map(function() {
     this.route('resume', { path: '/:certification_course_id' });
     this.route('results', { path: '/:certification_number/results' });
   });
+  this.route('shared-certification', { path: '/partage-certificat/:id' });
   this.route('user-certifications', { path: 'mes-certifications' }, function() {
     this.route('get', { path: '/:id' });
   });
