@@ -31,6 +31,9 @@
   },
 
   "pages": {
+    "assessment-banner": {
+      "title": "Challenge for the assessment: "
+    },
     "assessment-results": {
       "title": "End of assessment",
       "actions": {
