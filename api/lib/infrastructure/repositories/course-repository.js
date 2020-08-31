@@ -14,28 +14,31 @@ function _toDomain(courseDataObject) {
   });
 }
 
+async function _get(id) {
+  try {
+    const courseDataObject = await courseDatasource.get(id);
+    return _toDomain(courseDataObject);
+  }
+  catch (error) {
+    if (error instanceof AirtableResourceNotFound) {
+      throw new NotFoundError();
+    }
+    throw error;
+  }
+}
+
 module.exports = {
 
   async get(id) {
-    try {
-      const courseDataObject = await courseDatasource.get(id);
-      return _toDomain(courseDataObject);
-    }
-    catch (error) {
-      if (error instanceof AirtableResourceNotFound) {
-        throw new NotFoundError();
-      }
-      throw error;
-    }
+    return _get(id);
   },
 
-  getCourseName(id) {
-    return this.get(id)
-      .then((course) => {
-        return course.name;
-      })
-      .catch(() => {
-        throw new NotFoundError('Le test demandé n\'existe pas');
-      });
+  async getCourseName(id) {
+    try {
+      const course = await _get(id);
+      return course.name;
+    } catch (err) {
+      throw new NotFoundError('Le test demandé n\'existe pas');
+    }
   }
 };
