@@ -271,6 +271,8 @@
               }
             },
             "detail-selection": {
+              "aria-first": "You have a problem with",
+              "aria-secondary": "Specify your problem",
               "label": "Add more details",
               "options": {
                 "answer-not-accepted": "My answer is correct but has not been accepted",
@@ -304,7 +306,8 @@
                 "tutorial-link-error": "Wrong tutorial link",
                 "tutorial-not-accepted": "Tutorial is not adapted",
                 "tutorial-proposal": "I have a tutorial suggestion"
-              }
+              },
+              "problem-suggestion-description": "Describe your problem or suggestion"
             }
           },
           "status": {
