@@ -756,6 +756,11 @@
       "verify": "Vérifier le score"
     },
 
+    "shared-certification": {
+      "title": "Partage de certificat",
+      "back-link": "Retour à la saisie du code de vérification"
+    },
+
     "fill-in-id-pix": {
       "title": "Enter my username",
       "first-title": "Before starting",

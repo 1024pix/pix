@@ -19,6 +19,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
             'last-name': 'The all mighty',
             'birthplace': 'Namek',
             'birthdate': '1989-10-24',
+            'delivered-at': '2020-10-24',
             'external-id': 'xenoverse2',
             'examiner-comment': 'Un signalement surveillant',
           },
@@ -31,6 +32,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
         lastName: 'The all mighty',
         birthplace: 'Namek',
         birthdate: '1989-10-24',
+        deliveredAt: '2020-10-24',
         externalId: 'xenoverse2',
         examinerComment: 'Un signalement surveillant',
       };
