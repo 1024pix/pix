@@ -1,9 +1,9 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const getPrivateCertificate = require('../../../../lib/domain/usecases/certificate/get-private-certificate');
 const ResultCompetenceTree = require('../../../../lib/domain/models/ResultCompetenceTree');
 
-describe('Unit | UseCase | getPrivateCertificate', () => {
+describe('Unit | UseCase | getPrivateCertificate', async () => {
 
   const userId = 2;
   const certificationId = '23';
@@ -22,6 +22,11 @@ describe('Unit | UseCase | getPrivateCertificate', () => {
     getCleaCertificationStatus: () => undefined,
   };
 
+  const dependencies = { certificationRepository,
+    cleaCertificationStatusRepository,
+    assessmentResultRepository,
+    competenceTreeRepository };
+
   beforeEach(() => {
     certificationRepository.getPrivateCertificateByCertificationCourseId = sinon.stub();
     assessmentResultRepository.findLatestByCertificationCourseIdWithCompetenceMarks = sinon.stub();
@@ -29,11 +34,10 @@ describe('Unit | UseCase | getPrivateCertificate', () => {
     cleaCertificationStatusRepository.getCleaCertificationStatus = sinon.stub().resolves(cleaCertificationStatus);
   });
 
-  context('when the user is not owner of the certification', () => {
+  context('when the user is not owner of the certification', async () => {
 
     const randomOtherUserId = 666;
     let certificate;
-    let promise;
 
     beforeEach(() => {
       // given
@@ -42,37 +46,22 @@ describe('Unit | UseCase | getPrivateCertificate', () => {
         id: certificationId
       });
       certificationRepository.getPrivateCertificateByCertificationCourseId.resolves(certificate);
-
-      // when
-      promise = getPrivateCertificate({
-        certificationId,
-        certificationRepository,
-        cleaCertificationStatusRepository,
-        assessmentResultRepository,
-        competenceTreeRepository,
-        userId,
-      });
     });
 
-    it('should get the certification from the repository', () => {
-      // then
-      return promise.catch(() => {
-        expect(certificationRepository.getPrivateCertificateByCertificationCourseId).to.have.been.calledWith({ id: certificationId });
-      });
-    });
+    it('Should throw an error if user is not the owner of the certificate', async () => {
+      // given
+      const error = await catchErr(getPrivateCertificate)({ certificationId, userId, ...dependencies, });
 
-    it('should throw an notFound error', () => {
       // then
-      return expect(promise).to.be.rejectedWith(NotFoundError);
+      expect(error).to.be.instanceOf(NotFoundError);
     });
   });
 
-  context('when the user is owner of the certification', () => {
+  context('when the user is owner of the certification', async () => {
 
     let assessmentResult;
     let certificate;
     let competenceTree;
-    let promise;
 
     beforeEach(() => {
       // given
@@ -88,59 +77,40 @@ describe('Unit | UseCase | getPrivateCertificate', () => {
 
       competenceTree = domainBuilder.buildCompetenceTree();
       competenceTreeRepository.get.resolves(competenceTree);
-
-      // when
-      promise = getPrivateCertificate({
-        certificationId,
-        certificationRepository,
-        cleaCertificationStatusRepository,
-        assessmentResultRepository,
-        competenceTreeRepository,
-        userId,
-      });
     });
 
-    it('should get the certification from the repository', () => {
+    it('should get the certification from the repository', async () => {
       // then
-      return promise.then(() => {
-        expect(certificationRepository.getPrivateCertificateByCertificationCourseId).to.have.been.calledWith({ id: certificationId });
-      });
+      const result = await getPrivateCertificate({ certificationId, userId, ...dependencies, });
+      expect(result).to.equal(certificate);
     });
 
-    it('should return the certification returned from the repository', () => {
-      // then
-      return promise.then((certification) => {
-        expect(certification).to.equal(certification);
-      });
-    });
-
-    it('should return the certification with the resultCompetenceTree', () => {
+    it('should return the certification with the resultCompetenceTree', async () => {
       const expectedResultCompetenceTree = ResultCompetenceTree.generateTreeFromCompetenceMarks({
         competenceTree,
         competenceMarks: assessmentResult.competenceMarks,
       });
       expectedResultCompetenceTree.id = `${certificationId}-${assessmentResult.id}`;
+      const result = await getPrivateCertificate({ certificationId, userId, ...dependencies, });
 
       // then
-      return promise.then((certification) => {
-        expect(certification.resultCompetenceTree).to.be.an.instanceOf(ResultCompetenceTree);
-        expect(certification.resultCompetenceTree).to.deep.equal(expectedResultCompetenceTree);
-      });
+      expect(result.resultCompetenceTree).to.be.an.instanceOf(ResultCompetenceTree);
+      expect(result.resultCompetenceTree).to.deep.equal(expectedResultCompetenceTree);
+
     });
 
-    it('should set the included resultCompetenceTree id to certificationID-assessmentResultId', () => {
+    it('should set the included resultCompetenceTree id to certificationID-assessmentResultId', async () => {
       const expectedId = `${certificationId}-${assessmentResult.id}`;
+      const result = await getPrivateCertificate({ certificationId, userId, ...dependencies, });
 
       // then
-      return promise.then((certification) => {
-        expect(certification.resultCompetenceTree.id).to.equal(expectedId);
-      });
+      expect(result.resultCompetenceTree.id).to.equal(expectedId);
     });
 
-    it('should set cleaCertificationStatus', () => {
-      return promise.then((certification) => {
-        expect(certification.cleaCertificationStatus).to.equal(cleaCertificationStatus);
-      });
+    it('should set cleaCertificationStatus', async () => {
+      const result = await getPrivateCertificate({ certificationId, userId, ...dependencies, });
+
+      expect(result.cleaCertificationStatus).to.equal(cleaCertificationStatus);
     });
   });
 });
