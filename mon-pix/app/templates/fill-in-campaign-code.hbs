@@ -17,8 +17,10 @@
         <form class="fill-in-campaign-code__form" autocomplete="off">
 
           <div class="fill-in-campaign-code__form-field">
-            <Input required 
-              @type="text" @id="campaign-code" 
+            <Input required
+              @id="campaign-code"
+              class="input-code"
+              @type="text"
               @value={{this.campaignCode}} 
               @maxlength="9"
               @key-down={{this.clearErrorMessage}} />
