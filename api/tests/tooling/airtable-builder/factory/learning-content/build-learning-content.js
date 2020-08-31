@@ -66,8 +66,13 @@ const buildLearningContent = function(learningContent) {
     allCompetences.push(competences);
     return buildArea({
       id: area.id,
+      code: area.code,
+      nom: area.name,
+      titreFr: area.titleFr,
+      titreEn: area.titleEn,
+      couleur: area.color,
       competenceIds: competences.map((competence) => competence.id),
-      nomCompetences: competences.map((competence) => competence.name)
+      nomCompetences: competences.map((competence) => competence.name),
     });
   });
   return {
