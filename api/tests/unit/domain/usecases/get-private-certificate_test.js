@@ -8,9 +8,12 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
   const userId = 2;
   const certificationId = '23';
   const cleaCertificationStatus = 'someStatus';
+  const verificationCode = 'P-XXXXXXXX';
 
   const certificationRepository = {
     getByCertificationCourseId: () => undefined,
+    hasVerificationCode: sinon.stub().resolves(true),
+    saveVerificationCode: sinon.stub().resolves(),
   };
   const assessmentResultRepository = {
     findLatestByCertificationCourseIdWithCompetenceMarks: () => undefined,
@@ -22,10 +25,17 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
     getCleaCertificationStatus: () => undefined,
   };
 
-  const dependencies = { certificationRepository,
+  const verifyCertificateCodeService = {
+    generateCertificateVerificationCode: sinon.stub().resolves(verificationCode)
+  };
+
+  const dependencies = {
+    certificationRepository,
     cleaCertificationStatusRepository,
     assessmentResultRepository,
-    competenceTreeRepository };
+    competenceTreeRepository,
+    verifyCertificateCodeService,
+  };
 
   beforeEach(() => {
     certificationRepository.getPrivateCertificateByCertificationCourseId = sinon.stub();
@@ -80,9 +90,25 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
     });
 
     it('should get the certification from the repository', async () => {
-      // then
+      // given
+      certificationRepository.hasVerificationCode.withArgs(certificationId).resolves(true);
+
+      // when
       const result = await getPrivateCertificate({ certificationId, userId, ...dependencies, });
+
+      // then
       expect(result).to.equal(certificate);
+    });
+
+    it('should save a certification code and return the filled certification', async () => {
+      // given
+      certificationRepository.hasVerificationCode.withArgs(certificationId).resolves(false);
+
+      // when
+      await getPrivateCertificate({ certificationId, userId, ...dependencies, });
+
+      // then
+      expect(certificationRepository.saveVerificationCode).to.have.been.calledWith(certificationId,verificationCode);
     });
 
     it('should return the certification with the resultCompetenceTree', async () => {
