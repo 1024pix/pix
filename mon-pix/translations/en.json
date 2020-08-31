@@ -323,6 +323,13 @@
       "illustration": {
         "placeholder": "Image loading"
       },
+      "parts": {
+        "answer-input": "Your answer",
+        "feedback": "Notify a problem",
+        "instruction": "Instructions for the challenge",
+        "progress": "Your progress",
+        "validation": "Validate or pass this challenge"
+      },
       "progress-bar": {
         "label": "Challenge"
       },
