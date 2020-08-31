@@ -47,6 +47,13 @@ const buildLearningContent = function(learningContent) {
         return buildTube(
           {
             id: tube.id,
+            nom: tube.name,
+            description: tube.description,
+            titre: tube.title,
+            titrePratiqueFrFr: tube.practicalTitleFr || tube.practicalTitle,
+            descriptionPratiqueFrFr: tube.practicalDescriptionFr || tube.practicalDescription,
+            titrePratiqueEnUs: tube.practicalTitleEn || tube.practicalTitle,
+            descriptionPratiqueEnUs: tube.practicalDescriptionEn || tube.practicalDescription,
             competences: [competence.id]
           }
         );
