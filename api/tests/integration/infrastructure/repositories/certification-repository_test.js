@@ -87,6 +87,31 @@ describe('Integration | Repository | Certification ', () => {
     });
   });
 
+  describe('#hasVerificationCode', () => {
+
+    it('should return false if certificate does not have a verificationCode', async () => {
+      // given
+      const { certificationCourse } = _buildValidatedPublishedCertificationData({ verificationCode: null, certificationCenterId, certificationCenter, userId, type, pixScore });
+      await databaseBuilder.commit();
+      // when
+      const result = await certificationRepository.hasVerificationCode(certificationCourse.id);
+
+      // then
+      expect(result).to.be.false;
+    });
+
+    it('should return true if certificate has a verificationCode', async () => {
+      // given
+      const { certificationCourse } = _buildValidatedPublishedCertificationData({ verificationCode: 'P-888BBBDD', certificationCenterId, certificationCenter, userId, type, pixScore });
+      await databaseBuilder.commit();
+      // when
+      const result = await certificationRepository.hasVerificationCode(certificationCourse.id);
+
+      // then
+      expect(result).to.be.true;
+    });
+  });
+
   describe('#findByUserId', () => {
     let expectedCertifications;
 
@@ -251,8 +276,7 @@ function _buildCertificationData({ isPublished, status, verificationCode, certif
     userId,
     sessionId: session.id,
     isPublished,
-
-    verificationCode
+    verificationCode,
   });
   const assessment = databaseBuilder.factory.buildAssessment({
     certificationCourseId: certificationCourse.id,
