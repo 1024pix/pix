@@ -112,6 +112,23 @@ describe('Integration | Repository | Certification ', () => {
     });
   });
 
+  describe('#saveVerificationCode', () => {
+
+    it('should save verification code', async () => {
+      // given
+      const { certificationCourse } = _buildValidatedPublishedCertificationData({ verificationCode: null, certificationCenterId, certificationCenter, userId, type, pixScore });
+      await databaseBuilder.commit();
+      const verificationCode = 'P-XXXXXXXX';
+
+      // when
+      await certificationRepository.saveVerificationCode(certificationCourse.id, verificationCode);
+
+      // then
+      const savedCertificationCourse = await CertificationCourseBookshelf.where({ id: certificationCourse.id }).fetch({ columns: 'verificationCode' });
+      expect(savedCertificationCourse.attributes.verificationCode).to.equal(verificationCode);
+    });
+  });
+
   describe('#findByUserId', () => {
     let expectedCertifications;
 
