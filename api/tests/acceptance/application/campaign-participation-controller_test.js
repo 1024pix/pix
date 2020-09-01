@@ -523,6 +523,7 @@ describe('Acceptance | API | Campaign Participations', () => {
     beforeEach(() => {
       airtableBuilder.mockList({ tableName: 'Competences' }).returns([]).activate();
       airtableBuilder.mockList({ tableName: 'Domaines' }).returns([]).activate();
+      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([]).activate();
     });
 
     afterEach(() => {

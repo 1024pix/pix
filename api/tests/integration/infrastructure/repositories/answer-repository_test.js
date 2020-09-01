@@ -59,6 +59,40 @@ describe('Integration | Repository | AnswerRepository', () => {
     });
   });
 
+  describe('#findByIds', () => {
+
+    context('when there are no answers', () => {
+
+      it('should return an empty list if nothing is found', async () => {
+        // when
+        const foundAnswers = await AnswerRepository.findByIds([100]);
+
+        // then
+        expect(foundAnswers).to.be.empty;
+      });
+    });
+
+    context('when there is an answer', () => {
+      let answerIds;
+
+      beforeEach(() => {
+        const firstAnswerId = databaseBuilder.factory.buildAnswer({ assessmentId: assessmentId }).id;
+        const secondAnswerId = databaseBuilder.factory.buildAnswer({ assessmentId: assessmentId }).id;
+        answerIds = [firstAnswerId, secondAnswerId];
+        return databaseBuilder.commit();
+      });
+
+      it('should retrieve all answers from its id', async () => {
+        // when
+        const foundAnswers = await AnswerRepository.findByIds(answerIds);
+
+        // then
+        expect(foundAnswers[0]).to.be.an.instanceof(Answer);
+        expect(_.map(foundAnswers, 'id')).to.deep.equal(answerIds);
+      });
+    });
+  });
+
   describe('#findByChallengeAndAssessment', () => {
 
     beforeEach(() => {
