@@ -27,18 +27,19 @@ describe('Integration | Repository | Certification ', () => {
   let sessionLatestAssessmentRejectedCertifCourseIds;
   let sessionWithStartedAndErrorCertifCourseIds;
 
+  let certificationCenterId;
+  let certificationCenter;
+
   beforeEach(async () => {
 
     userId = databaseBuilder.factory.buildUser().id;
     databaseBuilder.factory.buildBadge({ key: PARTNER_CLEA_KEY });
-    const {
+    ({
       id: certificationCenterId,
       name: certificationCenter,
-    } = databaseBuilder.factory.buildCertificationCenter({ name: 'Certif College' });
+    } = databaseBuilder.factory.buildCertificationCenter({ name: 'Certif College' }));
     ({ session: completeSession, certificationCourse: completeCertificationCourse, assessmentResult: completeAssementResult }
       = _buildValidatedPublishedCertificationData({ verificationCode, certificationCenterId, certificationCenter, userId, type, pixScore }));
-    _buildNotPublishedCertificationData({ verificationCode: notPublishedSessionVerificationCode, certificationCenterId, certificationCenter, userId, type, pixScore });
-    _buildRejectedCertificationData({ verificationCode: rejectedSessionVerificationCode, certificationCenterId, certificationCenter, userId, type, pixScore });
 
     expectedCertification = _buildPrivateCertificate(certificationCenter, completeCertificationCourse, completeAssementResult, completeSession.publishedAt);
     databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: expectedCertification.id, partnerKey: PARTNER_CLEA_KEY, acquired: false });
@@ -164,6 +165,10 @@ describe('Integration | Repository | Certification ', () => {
 
     context('when verificationCode match a not published certificate', () => {
       it('should throw an error', async () => {
+        // given
+        _buildNotPublishedCertificationData({ verificationCode: notPublishedSessionVerificationCode, certificationCenterId, certificationCenter, userId, type, pixScore });
+        await databaseBuilder.commit();
+
         // when
         const error = await catchErr(certificationRepository.getShareableCertificateByVerificationCode)({ verificationCode: notPublishedSessionVerificationCode });
 
@@ -171,8 +176,12 @@ describe('Integration | Repository | Certification ', () => {
         expect(error).to.be.instanceOf(NotFoundError);
       });
     });
+
     context('when verificationCode match an rejected certificate', () => {
       it('should throw an error', async () => {
+        // given
+        _buildRejectedCertificationData({ verificationCode: rejectedSessionVerificationCode, certificationCenterId, certificationCenter, userId, type, pixScore });
+        await databaseBuilder.commit();
         // when
         const error = await catchErr(certificationRepository.getShareableCertificateByVerificationCode)({ verificationCode: rejectedSessionVerificationCode });
 
