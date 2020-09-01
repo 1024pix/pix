@@ -3,18 +3,16 @@
 
 import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { resolve, reject } from 'rsvp';
 import {
-  click,
-  fillIn,
-  find,
-  render,
-  triggerEvent
+  click, fillIn, find, render, triggerEvent
 } from '@ember/test-helpers';
+
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
+
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 const EMPTY_FIRSTNAME_ERROR_MESSAGE = 'Votre prénom n’est pas renseigné.';
 const EMPTY_LASTNAME_ERROR_MESSAGE = 'Votre nom n’est pas renseigné.';
@@ -24,7 +22,10 @@ const INVALID_YEAR_OF_BIRTH_ERROR_MESSAGE = 'Votre année de naissance n’est p
 const EMPTY_EMAIL_ERROR_MESSAGE = 'Votre email n’est pas valide.';
 const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.';
 
+import { getRegisterErrorsMessageByShortCode } from 'mon-pix/utils/errors-messages';
+
 describe('Integration | Component | routes/register-form', function() {
+
   setupIntlRenderingTest();
 
   let sessionStub;
@@ -323,14 +324,16 @@ describe('Integration | Component | routes/register-form', function() {
 
         it('should display the error message related to the short code S61)', async function() {
           // given
+          const meta = { shortCode: 'S61', value: 'j***@example.net' };
+          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+
           const error = {
             status: '409',
             code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta: { shortCode: 'S61', value: 'j***@example.net' }
+            meta
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix avec l‘adresse e-mail<br>j***@example.net<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code S61)';
 
           this.owner.unregister('service:store');
           this.owner.register('service:store', storeStub);
@@ -370,14 +373,17 @@ describe('Integration | Component | routes/register-form', function() {
 
         it('should display the error message related to the short code S62)', async function() {
           // given
+          const meta = { shortCode: 'S62', value: 'j***.h***2' };
+          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+
           const error = {
             status: '409',
             code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta: { shortCode: 'S62', value: 'j***.h***2' }
+            meta
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix avec l‘identifiant<br>j***.h***2<br>Pour continuer, connectez-vous à ce compte ou demandez de l‘aide à un enseignant.<br>(Code S62)';
+
           this.owner.unregister('service:store');
           this.owner.register('service:store', storeStub);
           storeStub.prototype.createRecord = () => {
@@ -416,14 +422,17 @@ describe('Integration | Component | routes/register-form', function() {
 
         it('should display the error message related to the short code S63)', async function() {
           // given
+          const meta = { shortCode: 'S63', value: undefined };
+          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+
           const error = {
             status: '409',
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta: { shortCode: 'S63', value: undefined }
+            meta
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.<br>Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l‘aide de Pix Orga.<br>(Code S63)';
+
           this.owner.unregister('service:store');
           this.owner.register('service:store', storeStub);
           storeStub.prototype.createRecord = () => {
@@ -462,14 +471,17 @@ describe('Integration | Component | routes/register-form', function() {
 
         it('should display the error message related to the short code S63)', async function() {
           // given
+          const meta = { shortCode: 'S63', value: undefined };
+          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+
           const error = {
             status: '409',
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta: { shortCode: 'S63', value: undefined }
+            meta
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.<br>Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l‘aide de Pix Orga.<br>(Code S63)';
+
           this.owner.unregister('service:store');
           this.owner.register('service:store', storeStub);
           storeStub.prototype.createRecord = () => {
@@ -508,14 +520,17 @@ describe('Integration | Component | routes/register-form', function() {
 
         it('should display the error message related to the short code S63)', async function() {
           // given
+          const meta = { shortCode: 'S63', value: undefined };
+          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+
           const error = {
             status: '409',
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta: { shortCode: 'S63', value: undefined }
+            meta
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.<br>Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l‘aide de Pix Orga.<br>(Code S63)';
+
           this.owner.unregister('service:store');
           this.owner.register('service:store', storeStub);
           storeStub.prototype.createRecord = () => {
@@ -554,14 +569,17 @@ describe('Integration | Component | routes/register-form', function() {
 
         it('should display the error message related to the short code S63)', async function() {
           // given
+          const  meta = { shortCode: 'S63', value: undefined };
+          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+
           const error = {
             status: '409',
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta: { shortCode: 'S63', value: undefined }
+            meta
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.<br>Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l‘aide de Pix Orga.<br>(Code S63)';
+
           this.owner.unregister('service:store');
           this.owner.register('service:store', storeStub);
           storeStub.prototype.createRecord = () => {
@@ -600,14 +618,17 @@ describe('Integration | Component | routes/register-form', function() {
 
         it('should display the error message related to the short code S62)', async function() {
           // given
+          const meta = { shortCode: 'S62', value: 'j***.h***2' };
+          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+
           const error = {
             status: '409',
             code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta: { shortCode: 'S62', value: 'j***.h***2' }
+            meta
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix avec l‘identifiant<br>j***.h***2<br>Pour continuer, connectez-vous à ce compte ou demandez de l‘aide à un enseignant.<br>(Code S62)';
+
           this.owner.unregister('service:store');
           this.owner.register('service:store', storeStub);
           storeStub.prototype.createRecord = () => {
@@ -650,14 +671,17 @@ describe('Integration | Component | routes/register-form', function() {
 
         it('should display the error message related to the short code S51)', async function() {
           // given
+          const meta = { shortCode: 'S51', value: 'j***@example.net' };
+          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+
           const error = {
             status: '409',
             code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta: { shortCode: 'S51', value: 'j***@example.net' }
+            meta
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix avec l’adresse e-mail<br>j***@example.net<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code S51)';
+
           this.owner.unregister('service:store');
           this.owner.register('service:store', storeStub);
           storeStub.prototype.createRecord = () => {
@@ -696,14 +720,17 @@ describe('Integration | Component | routes/register-form', function() {
 
         it('should display the error message related to the short code S52)', async function() {
           // given
+          const meta = { shortCode: 'S52', value: 'j***.h***2' };
+          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+
           const error = {
             status: '409',
             code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta: { shortCode: 'S52', value: 'j***.h***2' }
+            meta
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix utilisé avec l’identifiant<br>j***.h***2<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code S52)';
+
           this.owner.unregister('service:store');
           this.owner.register('service:store', storeStub);
           storeStub.prototype.createRecord = () => {
@@ -742,14 +769,17 @@ describe('Integration | Component | routes/register-form', function() {
 
         it('should display the error message related to the short code S53)', async function() {
           // given
+          const meta = { shortCode: 'S53', value: undefined };
+          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+
           const error = {
             status: '409',
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta: { shortCode: 'S53', value: undefined }
+            meta
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l‘ENT. Utilisez-le pour rejoindre le parcours.';
+
           this.owner.unregister('service:store');
           this.owner.register('service:store', storeStub);
           storeStub.prototype.createRecord = () => {
@@ -788,14 +818,17 @@ describe('Integration | Component | routes/register-form', function() {
 
         it('should display the error message related to the short code S53)', async function() {
           // given
+          const meta = { shortCode: 'S53', value: undefined };
+          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+
           const error = {
             status: '409',
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta: { shortCode: 'S53', value: undefined }
+            meta
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l‘ENT. Utilisez-le pour rejoindre le parcours.';
+
           this.owner.unregister('service:store');
           this.owner.register('service:store', storeStub);
           storeStub.prototype.createRecord = () => {
@@ -834,14 +867,17 @@ describe('Integration | Component | routes/register-form', function() {
 
         it('should display the error message related to the short code S53)', async function() {
           // given
+          const meta = { shortCode: 'S53', value: undefined };
+          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+
           const error = {
             status: '409',
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta: { shortCode: 'S53', value: undefined }
+            meta
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l‘ENT. Utilisez-le pour rejoindre le parcours.';
+
           this.owner.unregister('service:store');
           this.owner.register('service:store', storeStub);
           storeStub.prototype.createRecord = () => {
@@ -880,14 +916,17 @@ describe('Integration | Component | routes/register-form', function() {
 
         it('should display the error message related to the short code S53)', async function() {
           // given
+          const meta = { shortCode: 'S53', value: undefined };
+          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+
           const error = {
             status: '409',
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta: { shortCode: 'S53', value: undefined }
+            meta
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l‘ENT. Utilisez-le pour rejoindre le parcours.';
+
           this.owner.unregister('service:store');
           this.owner.register('service:store', storeStub);
           storeStub.prototype.createRecord = () => {
@@ -926,14 +965,17 @@ describe('Integration | Component | routes/register-form', function() {
 
         it('should display the error message related to the short code S52)', async function() {
           // given
+          const meta = { shortCode: 'S52', value: 'j***.h***2' };
+          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+
           const error = {
             status: '409',
             code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta: { shortCode: 'S52', value: 'j***.h***2' }
+            meta
           };
-          const expectedErrorMessage = 'Vous possédez déjà un compte Pix utilisé avec l’identifiant<br>j***.h***2<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code S52)';
+
           this.owner.unregister('service:store');
           this.owner.register('service:store', storeStub);
           storeStub.prototype.createRecord = () => {
