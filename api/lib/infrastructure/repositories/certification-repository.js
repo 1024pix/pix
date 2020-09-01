@@ -114,6 +114,12 @@ module.exports = {
     return Boolean(certification.attributes.verificationCode);
   },
 
+  async saveVerificationCode(id, verificationCode) {
+    return CertificationCourseBookshelf
+      .where({ id })
+      .save({ verificationCode }, { method: 'update' });
+  },
+
   async getShareableCertificateByVerificationCode({ verificationCode }) {
     const certificationCourseDTO = await _getBaseCertificationQuery()
       .where({ verificationCode, 'isPublished': true })
