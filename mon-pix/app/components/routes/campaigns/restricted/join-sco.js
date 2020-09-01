@@ -94,7 +94,7 @@ export default class JoinSco extends Component {
   }
 
   @action
-  async attemptNext(event) {
+  async submit(event) {
     event.preventDefault();
     this.isLoading = true;
     this._validateInputName('firstName', this.firstName);
@@ -103,22 +103,21 @@ export default class JoinSco extends Component {
     this._validateInputMonth('monthOfBirth', this.monthOfBirth);
     this._validateInputYear('yearOfBirth', this.yearOfBirth);
 
-    const schoolingRegistration = this.store.createRecord('schooling-registration-user-association', {
-      id: this.args.campaignCode + '_' + this.lastName,
-      firstName: this.firstName,
-      lastName: this.lastName,
-      birthdate: this.birthdate,
-      campaignCode: this.args.campaignCode,
-    });
     if (this.isFormNotValid) {
       return this.isLoading = false;
     }
 
+    const externalUserToken = this.session.get('data.externalUser');
+    const reconciliationRecord = this._getReconciliationRecord(externalUserToken);
     try {
-      await this.args.onSubmit(schoolingRegistration);
+      if (externalUserToken) {
+        await this.args.onSubmitToCreateAndReconcile(reconciliationRecord);
+      } else {
+        await this.args.onSubmitToReconcile(reconciliationRecord);
+      }
       this.isLoading = false;
     } catch (errorResponse) {
-      schoolingRegistration.unloadRecord();
+      reconciliationRecord.unloadRecord();
       this._setErrorMessageForAttemptNextAction(errorResponse);
       this.isLoading = false;
     }
@@ -148,6 +147,24 @@ export default class JoinSco extends Component {
     value = value.trim();
     this.yearOfBirth = value;
     this._validateInputYear(key, value);
+  }
+
+  _getReconciliationRecord(hasExternalUserToken) {
+    const externalUserToken = this.session.get('data.externalUser');
+    if (hasExternalUserToken) {
+      return this.store.createRecord('external-user', {
+        birthdate: this.birthdate,
+        campaignCode: this.args.campaignCode,
+        externalUserToken,
+      });
+    }
+    return this.store.createRecord('schooling-registration-user-association', {
+      id: this.args.campaignCode + '_' + this.lastName,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      birthdate: this.birthdate,
+      campaignCode: this.args.campaignCode,
+    });
   }
 
   _executeFieldValidation(key, value, isValid) {
@@ -181,7 +198,6 @@ export default class JoinSco extends Component {
     errorResponse.errors.forEach((error) => {
       if (error.status === '409') {
         const message = this._showErrorMessageByShortCode(error.meta);
-        this.errorMessage = message;
         this.displayModal = true;
         return this.modalErrorMessage = message;
       }

@@ -92,7 +92,7 @@ describe('Unit | Controller | PasswordController', () => {
 
     beforeEach(() => {
       sinon.stub(resetPasswordService, 'verifyDemand');
-      sinon.stub(tokenService, 'verifyValidity').resolves({});
+      sinon.stub(tokenService, 'decodeIfValid').resolves({});
       sinon.stub(errorSerializer, 'serialize');
       sinon.stub(userRepository, 'getByEmail').resolves(fetchedUser);
       sinon.stub(userSerializer, 'serialize');
@@ -104,8 +104,8 @@ describe('Unit | Controller | PasswordController', () => {
 
       // then
       return promise.catch(() => {
-        sinon.assert.calledOnce(tokenService.verifyValidity);
-        sinon.assert.calledWith(tokenService.verifyValidity, request.params.temporaryKey);
+        sinon.assert.calledOnce(tokenService.decodeIfValid);
+        sinon.assert.calledWith(tokenService.decodeIfValid, request.params.temporaryKey);
       });
 
     });

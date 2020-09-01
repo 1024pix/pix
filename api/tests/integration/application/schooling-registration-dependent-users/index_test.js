@@ -11,6 +11,7 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
   beforeEach(() => {
     sinon.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents').callsFake((request, h) => h.response(true));
     sinon.stub(schoolingRegistrationDependentUserController, 'createAndReconcileUserToSchoolingRegistration').callsFake((request, h) => h.response('ok').code(201));
+    sinon.stub(schoolingRegistrationDependentUserController, 'createUserAndReconcileToSchoolingRegistrationFromExternalUser').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(schoolingRegistrationDependentUserController, 'generateUsernameWithTemporaryPassword').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(schoolingRegistrationDependentUserController, 'updatePassword').callsFake((request, h) => h.response('ok').code(200));
     httpTestServer = new HttpTestServer(moduleUnderTest);
@@ -114,6 +115,75 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
 
       // then
       expect(response.statusCode).to.equal(400);
+    });
+  });
+
+  describe('POST /api/schooling-registration-dependent-users/external-user-token', () => {
+
+    let method;
+    let url;
+    let payload;
+    let response;
+
+    beforeEach(async () => {
+      // given
+      method = 'POST';
+      url = '/api/schooling-registration-dependent-users/external-user-token';
+      payload = {
+        data: {
+          attributes: {
+            'campaign-code': 'RESTRICTD',
+            'external-user-token': 'external-user-token',
+            'birthdate': '1948-12-21',
+            'access-token': null,
+          },
+          type: 'external-users',
+        }
+      };
+    });
+
+    it('should succeed', async () => {
+      // when
+      response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should return a 400 Bad Request when campaignCode is missing', async () => {
+      // given
+      payload.data.attributes['campaign-code'] = '';
+
+      // when
+      response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+      expect(JSON.parse(response.payload).errors[0].detail).to.equal('"data.attributes.campaign-code" is not allowed to be empty');
+    });
+
+    it('should return 400 Bad Request when external-user-token is missing', async () => {
+      // given
+      payload.data.attributes['external-user-token'] = '';
+
+      // when
+      response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+      expect(JSON.parse(response.payload).errors[0].detail).to.equal('"data.attributes.external-user-token" is not allowed to be empty');
+    });
+
+    it('should return 400 Bad Request when birthDate is not a valid date', async () => {
+      // given
+      payload.data.attributes.birthdate = '2012*-12-12';
+
+      // when
+      response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+      expect(JSON.parse(response.payload).errors[0].detail).to.equal('"data.attributes.birthdate" must be in YYYY-MM-DD format');
     });
   });
 

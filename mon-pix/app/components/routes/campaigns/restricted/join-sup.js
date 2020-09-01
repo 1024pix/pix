@@ -78,7 +78,7 @@ export default class JoinSup extends Component {
   }
 
   @action
-  async attemptNext(event) {
+  async submit(event) {
     event.preventDefault();
     this.isLoading = true;
     let schoolingRegistration;
@@ -115,7 +115,7 @@ export default class JoinSup extends Component {
     }
 
     try {
-      await this.args.onSubmit(schoolingRegistration, adapterOptions);
+      await this.args.onSubmitToReconcile(schoolingRegistration, adapterOptions);
       this.isLoading = false;
     } catch (errorResponse) {
       schoolingRegistration.unloadRecord();
