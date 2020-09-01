@@ -148,10 +148,6 @@ class Challenge {
     }
   }
 
-  static findById(challenges, id) {
-    return _(challenges).find({ id });
-  }
-
   static findBySkill({ challenges, skill }) {
     return _.filter(challenges, (challenge) => challenge.hasSkill(skill));
   }

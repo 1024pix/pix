@@ -16,6 +16,7 @@ class UserCompetence {
     pixScore,
     estimatedLevel,
     // includes
+    skills = [],
     // references
   } = {}) {
     this.id = id;
@@ -26,7 +27,7 @@ class UserCompetence {
     this.pixScore = pixScore;
     this.estimatedLevel = estimatedLevel;
     // includes
-    this.skills = [];
+    this.skills = skills;
     // references
   }
 

@@ -4,21 +4,23 @@ const bluebird = require('bluebird');
 const UserCompetence = require('../models/UserCompetence');
 const PlacementProfile = require('../models/PlacementProfile');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
+const skillRepository = require('../../infrastructure/repositories/skill-repository');
 const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
 const knowledgeElementRepository = require('../../infrastructure/repositories/knowledge-element-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const scoringService = require('./scoring/scoring-service');
+const KnowledgeElement = require('../models/KnowledgeElement');
 
 async function getPlacementProfile({ userId, limitDate, isV2Certification = true, allowExcessPixAndLevels = true }) {
-  const competences = await competenceRepository.listPixCompetencesOnly();
+  const pixCompetences = await competenceRepository.listPixCompetencesOnly();
   if (isV2Certification) {
-    return _generatePlacementProfileV2({ userId, profileDate: limitDate, competences, allowExcessPixAndLevels });
+    return _generatePlacementProfileV2({ userId, profileDate: limitDate, competences: pixCompetences, allowExcessPixAndLevels });
   }
-  return _generatePlacementProfileV1({ userId, profileDate: limitDate, competences });
+  return _generatePlacementProfileV1({ userId, profileDate: limitDate, competences: pixCompetences });
 }
 
-async function _createUserCompetencesV1({ allCompetences, userLastAssessments, limitDate }) {
-  return bluebird.mapSeries(allCompetences, async (competence) => {
+async function _createUserCompetencesV1({ competences, userLastAssessments, limitDate }) {
+  return bluebird.mapSeries(competences, async (competence) => {
     const assessment = _.find(userLastAssessments, { competenceId: competence.id });
     let estimatedLevel = 0;
     let pixScore = 0;
@@ -45,21 +47,34 @@ async function _generatePlacementProfileV1({ userId, profileDate, competences })
   });
   const userLastAssessments = await assessmentRepository
     .findLastCompletedAssessmentsForEachCompetenceByUser(placementProfile.userId, placementProfile.profileDate);
-  placementProfile.userCompetences = await _createUserCompetencesV1({ allCompetences: competences, userLastAssessments, limitDate: placementProfile.profileDate });
+  placementProfile.userCompetences = await _createUserCompetencesV1({ competences, userLastAssessments, limitDate: placementProfile.profileDate });
 
   return placementProfile;
 }
 
-function _createUserCompetencesV2({ knowledgeElementsByCompetence, allCompetences, allowExcessPixAndLevels = true }) {
-  return allCompetences.map((competence) => {
+function _createUserCompetencesV2({
+  knowledgeElementsByCompetence,
+  competences,
+  allowExcessPixAndLevels = true,
+  skills = [],
+}) {
+
+  const skillMap = new Map(skills.map((skill) => [skill.id, skill]));
+
+  return competences.map((competence) => {
+
+    const knowledgeElementsForCompetence = knowledgeElementsByCompetence[competence.id] || [];
+
     const {
       pixScoreForCompetence,
       currentLevel,
     } = scoringService.calculateScoringInformationForCompetence({
-      knowledgeElements: knowledgeElementsByCompetence[competence.id],
+      knowledgeElements: knowledgeElementsForCompetence,
       allowExcessPix: allowExcessPixAndLevels,
       allowExcessLevel: allowExcessPixAndLevels,
     });
+
+    const competenceDirectValidatedSkills = _matchingValidatedDirectSkillsForCompetence(knowledgeElementsForCompetence, skillMap);
 
     return new UserCompetence({
       id: competence.id,
@@ -68,6 +83,7 @@ function _createUserCompetencesV2({ knowledgeElementsByCompetence, allCompetence
       name: competence.name,
       estimatedLevel: currentLevel,
       pixScore: pixScoreForCompetence,
+      skills: competenceDirectValidatedSkills,
     });
   });
 }
@@ -81,10 +97,13 @@ async function _generatePlacementProfileV2({ userId, profileDate, competences, a
   const knowledgeElementsByCompetence = await knowledgeElementRepository
     .findUniqByUserIdGroupedByCompetenceId({ userId: placementProfile.userId, limitDate: placementProfile.profileDate });
 
+  const skills = await skillRepository.list();
+
   placementProfile.userCompetences = _createUserCompetencesV2({
     knowledgeElementsByCompetence,
-    allCompetences: competences,
+    competences,
     allowExcessPixAndLevels,
+    skills,
   });
 
   return placementProfile;
@@ -104,7 +123,7 @@ async function getPlacementProfilesWithSnapshotting({ userIdsAndDates, competenc
 
     placementProfile.userCompetences = _createUserCompetencesV2({
       knowledgeElementsByCompetence,
-      allCompetences: competences,
+      competences,
       allowExcessPixAndLevels,
     });
 
@@ -112,6 +131,17 @@ async function getPlacementProfilesWithSnapshotting({ userIdsAndDates, competenc
   }
 
   return placementProfilesList;
+}
+
+function _matchingValidatedDirectSkillsForCompetence(knowledgeElementsForCompetence, skillMap) {
+  const competenceSkills = knowledgeElementsForCompetence.map((ke) => {
+    const skill = skillMap.get(ke.skillId);
+    if (ke.status === KnowledgeElement.StatusType.VALIDATED && ke.source ===  KnowledgeElement.SourceType.DIRECT) {
+      return skill;
+    }
+  });
+
+  return _.compact(competenceSkills);
 }
 
 module.exports = {

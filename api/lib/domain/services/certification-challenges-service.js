@@ -16,46 +16,33 @@ module.exports = {
   async pickCertificationChallenges(placementProfile) {
     const knowledgeElementsByCompetence = await knowledgeElementRepository
       .findUniqByUserIdGroupedByCompetenceId({ userId: placementProfile.userId, limitDate: placementProfile.profileDate });
-
     const knowledgeElements = KnowledgeElement.findDirectlyValidatedFromGroups(knowledgeElementsByCompetence);
     const answerIds = _.map(knowledgeElements, 'answerId');
 
-    const challengeIdsCorrectlyAnswered = await answerRepository.findChallengeIdsFromAnswerIds(answerIds);
+    const alreadyAnsweredChallengeIds = (await answerRepository.findChallengeIdsFromAnswerIds(answerIds))
+      .map((id) => { return { id }; });
 
-    const allChallenges = await challengeRepository.findFrenchFranceOperative();
-    const challengesAlreadyAnswered = challengeIdsCorrectlyAnswered.map((challengeId) => Challenge.findById(allChallenges, challengeId));
-
-    challengesAlreadyAnswered.forEach((challenge) => {
-      if (!challenge) {
-        return;
-      }
-
-      const userCompetence = _getUserCompetenceByChallengeCompetenceId(placementProfile.userCompetences, challenge);
-
-      if (!userCompetence || !userCompetence.isCertifiable()) {
-        return;
-      }
-
-      challenge.skills
-        .filter((skill) => _skillHasAtLeastOneChallenge(skill, allChallenges))
-        .forEach((publishedSkill) => userCompetence.addSkill(publishedSkill));
-    });
-
+    const allFrFrOperativeChallenges = await challengeRepository.findFrenchFranceOperative();
     const userCompetences = UserCompetence.orderSkillsOfCompetenceByDifficulty(placementProfile.userCompetences);
     let certificationChallengesByCompetence = {};
 
     userCompetences.forEach((userCompetence) => {
+      if (!userCompetence.isCertifiable()) {
+        return;
+      }
       userCompetence.skills.forEach((skill) => {
         if (!_hasCompetenceEnoughCertificationChallenges(userCompetence.id, certificationChallengesByCompetence)) {
-          const challengesToValidateCurrentSkill = Challenge.findBySkill({ challenges: allChallenges, skill });
-          const challengesLeftToAnswer = _.difference(challengesToValidateCurrentSkill, challengesAlreadyAnswered);
+          const challengesToValidateCurrentSkill = Challenge.findBySkill({ challenges: allFrFrOperativeChallenges, skill });
+          const challengesLeftToAnswer = _.differenceBy(challengesToValidateCurrentSkill, alreadyAnsweredChallengeIds, 'id');
 
           const challengesPoolToPickChallengeFrom = (_.isEmpty(challengesLeftToAnswer)) ? challengesToValidateCurrentSkill : challengesLeftToAnswer;
+          if (_.isEmpty(challengesPoolToPickChallengeFrom)) {
+            return;
+          }
           const challenge = _.sample(challengesPoolToPickChallengeFrom);
-
           const certificationChallenge = new CertificationChallenge({
             challengeId: challenge.id,
-            competenceId: skill.competenceId,
+            competenceId: userCompetence.id,
             associatedSkillName: skill.name,
             associatedSkillId: skill.id,
           });
@@ -81,13 +68,4 @@ function _addUniqueCertificationChallengeForCompetence(certificationChallengesBy
   }
   mutatedCertificationChallengesByCompetence[certificationChallenge.competenceId] = certificationChallengesForGivenCompetence;
   return mutatedCertificationChallengesByCompetence;
-}
-
-function _getUserCompetenceByChallengeCompetenceId(userCompetences, challenge) {
-  return challenge ? userCompetences.find((userCompetence) => userCompetence.id === challenge.competenceId) : null;
-}
-
-function _skillHasAtLeastOneChallenge(skill, challenges) {
-  const challengesBySkill = Challenge.findBySkill({ challenges, skill });
-  return challengesBySkill.length > 0;
 }

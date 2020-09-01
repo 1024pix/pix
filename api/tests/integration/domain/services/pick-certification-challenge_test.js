@@ -357,6 +357,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
                 skills: [
                   {
                     id: 'recArea1_Competence1_Tube1_Skill1',
+                    nom: '@recArea1_Competence1_Tube1_Skill1',
                     status: 'actif',
                     challenges: [
                       {
@@ -420,6 +421,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
                 skills: [
                   {
                     id: 'recArea1_Competence1_Tube1_Skill1',
+                    nom: '@recArea1_Competence1_Tube1_Skill1',
                     status: 'actif',
                     challenges: [
                       {
@@ -474,6 +476,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       pixValue: sufficientPixValueToBeCertifiableOnCompetence,
       acquisitionDate: placementDate,
     });
+
     const placementProfile = await placementProfileService.getPlacementProfile({
       userId: certifiableUserId,
       limitDate: certificationDate,
@@ -620,6 +623,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
                 skills: [
                   {
                     id: 'recArea1_Competence1_Tube1_Skill1',
+                    nom: '@area1_Competence1_Tube1_Skill1',
                     status: 'actif',
                     challenges: [
                       {
@@ -705,4 +709,3 @@ async function _buildCorrectAnswerAndKnowledgeElement({
 function _addOneDayToDate(date) {
   return moment(date).add(1, 'day').toDate();
 }
-
