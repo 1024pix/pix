@@ -717,37 +717,40 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
     });
 
     context('When user is logged in with an external platform', function() {
-      let garUser;
 
-      beforeEach(async function() {
-        garUser = server.create('user', 'external');
-        await authenticateByGAR(garUser);
-      });
-
-      context('When campaign is restricted  and SCO', function() {
-
-        const tokenIdExternalUser = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdF9uYW1lIjoiRmlyc3QiLCJsYXN0X25hbWUiOiJMYXN0Iiwic2FtbF9pZCI6InNhbWxJRHFzZnNmcWZxZnNxZmhmZmdyciIsImlhdCI6MTU5NzkyOTQ0OCwiZXhwIjoxNTk3OTMzMDQ4fQ.KRh6ZKr6EwM1QvveTHsWush6z9meVAI6enVYgSQ-MuI';
-
+      context('When campaign is restricted and SCO', function() {
         beforeEach(function() {
           campaign = server.create('campaign', { isRestricted: true, organizationType: 'SCO' });
         });
 
-        context('When association is not already done', function() {
+        context('When association is not already done and reconciliation token is provided', function() {
+
+          beforeEach(async function() {
+            const externalUserToken = 'aaa.' + btoa('{"first_name":"JeanPrescrit","last_name":"Campagne","saml_id":"SamlId","source":"external","iat":1545321469,"exp":4702193958}') + '.bbb';
+            await visit(`/campagnes?externalUser=${externalUserToken}`);
+          });
+
+          it('should redirect to reconciliation form', async function() {
+            // when
+            await fillIn('#campaign-code', campaign.code);
+            await click('.fill-in-campaign-code__start-button');
+
+            // then
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`);
+          });
 
           it('should set by default firstName and lastName', async function() {
             // when
-            await visit(`/campagnes?externalUser=${tokenIdExternalUser}`);
             await fillIn('#campaign-code', campaign.code);
             await click('.fill-in-campaign-code__start-button');
 
             //then
-            expect(find('#firstName').value).to.equal(garUser.firstName);
-            expect(find('#lastName').value).to.equal(garUser.lastName);
+            expect(find('#firstName').value).to.equal('JeanPrescrit');
+            expect(find('#lastName').value).to.equal('Campagne');
           });
 
           it('should redirect to landing page when fields are filled in', async function() {
             // given
-            await visit(`/campagnes?externalUser=${tokenIdExternalUser}`);
             await fillIn('#campaign-code', campaign.code);
             await click('.fill-in-campaign-code__start-button');
 
@@ -756,6 +759,27 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await fillIn('#monthOfBirth', '12');
             await fillIn('#yearOfBirth', '2000');
             await click('.button');
+
+            //then
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+          });
+        });
+
+        context('When association is already done and user is created', function() {
+
+          let garUser;
+
+          beforeEach(async function() {
+            garUser = server.create('user', 'external');
+            await authenticateByGAR(garUser);
+            server.create('schooling-registration-user-association', {
+              campaignCode: campaign.code
+            });
+          });
+
+          it('should redirect to landing page', async function() {
+            // when
+            await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
 
             //then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
@@ -781,47 +805,6 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
               expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code}/presentation`.toLowerCase());
             });
           });
-        });
-
-        context('When association is already done', function() {
-
-          beforeEach(async function() {
-            server.create('schooling-registration-user-association', {
-              campaignCode: campaign.code
-            });
-          });
-
-          it('should redirect to landing page', async function() {
-            // when
-            await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
-
-            //then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
-          });
-        });
-      });
-    });
-
-    context('When user is redirected to fill-in-campaign-code after an external platform request', function() {
-
-      const campaignCode = 'CAMPAIGN_CODE';
-      const studentReconciliationToken = 'studentReconciliationToken';
-
-      context('When campaign is restricted and SCO', function() {
-        beforeEach(function() {
-          campaign = server.create('campaign', { isRestricted: true, organizationType: 'SCO', code: campaignCode });
-        });
-
-        it('should redirect to reconciliation form', async function() {
-          // given
-          await visit(`/campagnes?externalUser=${studentReconciliationToken}`);
-
-          // when
-          await fillIn('#campaign-code', campaignCode);
-          await click('.fill-in-campaign-code__start-button');
-
-          // then
-          expect(currentURL()).to.equal(`/campagnes/${campaignCode}/privee/rejoindre`);
         });
       });
     });

@@ -66,31 +66,33 @@ Cypress.Commands.add('loginAdmin', (username, password) => {
   cy.wait(['@getCurrentUser']);
 });
 
-Cypress.Commands.add('loginExternalPlatform', () => {
+Cypress.Commands.add('loginExternalPlatformForTheFirstTime', () => {
+  cy.server();
+  const externalUserToken = jsonwebtoken.sign({
+        first_name: 'Daenerys',
+        last_name: 'Targaryen',
+        saml_id:  'SamlIdOfDaenerys',
+        source: 'external'
+      },
+      Cypress.env('AUTH_SECRET'),
+    { expiresIn: '1h' }
+    );
+
+  cy.visitMonPix(`/campagnes/?externalUser=${externalUserToken}`);
+});
+
+Cypress.Commands.add('loginExternalPlatformForTheSecondTime', () => {
   cy.server();
   cy.route('/api/users/me').as('getCurrentUser');
-  const token = jsonwebtoken.sign(
-    { user_id: 1, source: 'external' },
+  const token = jsonwebtoken.sign({
+      user_id: 1,
+      source: 'external'
+    },
     Cypress.env('AUTH_SECRET'),
     { expiresIn: '1h' }
   );
   cy.visitMonPix(`/?token=${token}`);
   cy.wait(['@getCurrentUser']);
-});
-
-
-Cypress.Commands.add('loginFromGarToJoinCampaign', () => {
-  cy.server();
-  const token = jsonwebtoken.sign(
-    {
-      'first_name': 'Daenerys',
-      'last_name': 'Targaryen',
-      'saml_id': '123456789'
-    },
-    Cypress.env('AUTH_SECRET'),
-    { expiresIn: '1h' }
-  );
-  cy.visitMonPix(`/campagnes?externalUser=${token}`);
 });
 
 Cypress.Commands.add('loginWithAlmostExpiredToken', () => {

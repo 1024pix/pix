@@ -98,6 +98,56 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
     });
   });
 
+  describe('#createUserAndReconcileToSchoolingRegistrationFromExternalUser', () => {
+
+    const payload = { data: { attributes: {} } };
+
+    beforeEach(() => {
+      sandbox.stub(usecases, 'createUserAndReconcileToSchoolingRegistrationFromExternalUser').rejects();
+      payload.data.attributes = {
+        'campaign-code': 'RESTRICTD',
+        'external-user-token': 'external-user-token',
+        'birthdate': '1948-12-21',
+        'access-token': null,
+      };
+    });
+
+    context('Success cases', () => {
+
+      const createdUser = domainBuilder.buildUser();
+
+      it('should return an HTTP response with status code 200 and access-token in payload', async () => {
+        // given
+        usecases.createUserAndReconcileToSchoolingRegistrationFromExternalUser.resolves(createdUser);
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users/external-user-token', payload);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data.attributes['access-token']).to.not.be.empty;
+      });
+
+    });
+
+    context('Error cases', () => {
+
+      context('when a NotFoundError is thrown', () => {
+
+        it('should resolve a 404 HTTP response', async () => {
+          // given
+          usecases.createUserAndReconcileToSchoolingRegistrationFromExternalUser.rejects(new NotFoundError());
+
+          // when
+          const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users/external-usertoken', payload);
+
+          // then
+          expect(response.statusCode).to.equal(404);
+        });
+      });
+    });
+  });
+
   describe('#generateUsernameWithTemporaryPassword', () => {
 
     const payload = { data: { attributes: {} } };
