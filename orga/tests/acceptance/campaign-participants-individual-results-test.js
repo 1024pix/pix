@@ -14,15 +14,11 @@ module('Acceptance | Campaign Participants Individual Results', function(hooks) 
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  let participant, campaignParticipationResult;
-
   hooks.beforeEach(async () => {
     const user = createUserWithMembershipAndTermsOfServiceAccepted();
     createPrescriberByUser(user);
 
     server.create('campaign', { id: 1 });
-    participant = server.create('user', { firstName: 'Jack', lastName: 'Doe' });
-    campaignParticipationResult = server.create('campaign-participation-result', 'withCompetenceResults');
 
     await authenticateSession({
       user_id: user.id,
@@ -32,9 +28,10 @@ module('Acceptance | Campaign Participants Individual Results', function(hooks) 
     });
   });
 
-  test('it should display individual results when participation is shared', async function(assert) {
+  test('it should display individual results', async function(assert) {
     // given
-    server.create('campaign-participation', { campaignId: 1, userId: participant.id, campaignParticipationResult, isShared: true });
+    const campaignAssessmentParticipationResult = server.create('campaign-assessment-participation-result', 'withCompetenceResults', { id: 1, campaignId: 1 });
+    server.create('campaign-assessment-participation', { id: 1, campaignId: 1, campaignAssessmentParticipationResult });
 
     // when
     await visit('/campagnes/1/participants/1');
@@ -43,9 +40,10 @@ module('Acceptance | Campaign Participants Individual Results', function(hooks) 
     assert.contains('Compétences (2)');
   });
 
-  test('it should not display individual results when participation is not shared', async function(assert) {
+  test('it should not display individual results when competence results are empty', async function(assert) {
     // given
-    server.create('campaign-participation', { campaignId: 1, userId: participant.id, campaignParticipationResult, isShared: false });
+    const campaignAssessmentParticipationResult = server.create('campaign-assessment-participation-result', 'withEmptyCompetenceResults', { id: 1, campaignId: 1 });
+    server.create('campaign-assessment-participation', { id: 1, campaignId: 1, campaignAssessmentParticipationResult });
 
     // when
     await visit('/campagnes/1/participants/1');

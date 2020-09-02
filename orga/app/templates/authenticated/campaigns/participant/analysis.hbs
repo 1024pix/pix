@@ -1,4 +1,4 @@
 <Routes::Authenticated::Campaigns::Details::AnalysisTab
-  @campaignTubeRecommendations={{@model.campaignAnalysis.campaignTubeRecommendations}}
-  @displayAnalysis={{@model.isShared}}
+  @campaignTubeRecommendations={{@model.campaignTubeRecommendations}}
+  @displayAnalysis={{gt @model.campaignTubeRecommendations.length 0}}
 />

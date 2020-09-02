@@ -15,7 +15,7 @@ module.exports = {
     const result = await _fetchCampaignAssessmentParticipationResultAttributesFromCampaignParticipation(campaignId, campaignParticipationId);
 
     return _buildCampaignAssessmentParticipationResults(result, targetedSkillIds);
-  }
+  },
 };
 
 async function _fetchCampaignAssessmentParticipationResultAttributesFromCampaignParticipation(campaignId, campaignParticipationId) {
@@ -35,7 +35,7 @@ async function _fetchCampaignAssessmentParticipationResultAttributesFromCampaign
         .leftJoin('campaigns', 'campaign-participations.campaignId', 'campaigns.id')
         .where({
           campaignId,
-          'campaign-participations.id': campaignParticipationId
+          'campaign-participations.id': campaignParticipationId,
         });
     })
     .from('campaignAssessmentParticipationResult');
@@ -51,7 +51,7 @@ async function _buildCampaignAssessmentParticipationResults(result, targetedSkil
   if (!result.isShared) {
     return new CampaignAssessmentParticipationResult({
       ...result,
-      competenceResults: []
+      competenceResults: [],
     });
   }
   const competences = await competenceRepository.list();
@@ -82,7 +82,7 @@ async function _buildCampaignAssessmentParticipationResults(result, targetedSkil
 
   return new CampaignAssessmentParticipationResult({
     ...result,
-    competenceResults
+    competenceResults,
   });
 }
 

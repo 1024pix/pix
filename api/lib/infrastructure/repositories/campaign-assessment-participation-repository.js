@@ -13,7 +13,7 @@ module.exports = {
     const result = await _fetchCampaignAssessmentAttributesFromCampaignParticipation(campaignId, campaignParticipationId);
 
     return _buildCampaignAssessmentParticipation(result, targetedSkillIds);
-  }
+  },
 };
 
 async function _fetchCampaignAssessmentAttributesFromCampaignParticipation(campaignId, campaignParticipationId) {
@@ -43,7 +43,7 @@ async function _fetchCampaignAssessmentAttributesFromCampaignParticipation(campa
         })
         .where({
           campaignId,
-          'campaign-participations.id': campaignParticipationId
+          'campaign-participations.id': campaignParticipationId,
         });
     })
     .from('campaignAssessmentParticipation')

@@ -9,7 +9,7 @@ import {
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Campaign Details Participants', function(hooks) {
+module('Acceptance | Campaign Participants Results', function(hooks) {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -19,8 +19,9 @@ module('Acceptance | Campaign Details Participants', function(hooks) {
     createPrescriberByUser(user);
 
     server.create('campaign', { id: 1 });
-    server.createList('campaign-participation', 2, { campaignId: 1 });
-    server.createList('campaign-assessment-participation-summary', 2);
+    const campaignAssessmentParticipationResult = server.create('campaign-assessment-participation-result', 'withCompetenceResults', { id: 1, campaignId: 1 });
+    server.create('campaign-assessment-participation', { id: 1, campaignId: 1, campaignAssessmentParticipationResult });
+    server.create('campaign-assessment-participation-summary', { id: 1 });
 
     await authenticateSession({
       user_id: user.id,
@@ -35,7 +36,7 @@ module('Acceptance | Campaign Details Participants', function(hooks) {
     test('it could click on user to go to details', async function(assert) {
       // when
       await visit('/campagnes/1/participants');
-      await click('.tr--clickable:first-child');
+      await click('[aria-label="Participant"]:first-child');
 
       // then
       assert.equal(currentURL(), '/campagnes/1/participants/1/resultats');

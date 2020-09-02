@@ -9,7 +9,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', () => {
       it('should compute a validatedSkillsCount of 0', () => {
         const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
           validatedSkillsCount: 0,
-          isShared: true
+          isShared: true,
         });
 
         expect(campaignAssessmentParticipation.validatedSkillsCount).equal(0);
@@ -18,7 +18,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', () => {
       it('should compute a validatedSkillsCount of 7', () => {
         const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
           validatedSkillsCount: 7,
-          isShared: true
+          isShared: true,
         });
 
         expect(campaignAssessmentParticipation.validatedSkillsCount).equal(7);
@@ -29,7 +29,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', () => {
       it('should compute a validatedSkillsCount of 7', () => {
         const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
           validatedSkillsCount: 7,
-          isShared: false
+          isShared: false,
         });
 
         expect(campaignAssessmentParticipation.validatedSkillsCount).equal(undefined);
@@ -46,7 +46,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', () => {
           const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
             totalSkillsCount,
             validatedSkillsCount: 'anything',
-            isShared: true
+            isShared: true,
           });
 
           expect(campaignAssessmentParticipation.masteryPercentage).equal(0);
@@ -60,7 +60,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', () => {
           const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
             totalSkillsCount,
             validatedSkillsCount,
-            isShared: true
+            isShared: true,
           });
 
           expect(campaignAssessmentParticipation.masteryPercentage).equal(25);
@@ -72,7 +72,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', () => {
           const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
             totalSkillsCount,
             validatedSkillsCount,
-            isShared: true
+            isShared: true,
           });
 
           expect(campaignAssessmentParticipation.masteryPercentage).equal(33);
@@ -85,7 +85,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', () => {
         const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
           totalSkillsCount: 1,
           validatedSkillsCount: 1,
-          isShared: false
+          isShared: false,
         });
 
         expect(campaignAssessmentParticipation.masteryPercentage).equal(undefined);

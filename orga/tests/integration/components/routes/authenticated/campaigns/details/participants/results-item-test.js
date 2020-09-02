@@ -12,53 +12,17 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
     store = this.owner.lookup('service:store');
   });
 
-  test('it should display a sentence when there is no participant result yet', async function(assert) {
-    // given
-    const campaignParticipation = store.createRecord('campaignParticipation', {
-      isShared: false,
-      campaignParticipationResult: null,
-    });
-
-    this.set('campaignParticipation', campaignParticipation);
-
+  test('it should display a sentence when displayResults is false', async function(assert) {
     // when
-    await render(hbs`<Routes::Authenticated::Campaigns::Details::Participants::ResultsItem @campaignParticipation={{campaignParticipation}} />`);
+    await render(hbs`<Routes::Authenticated::Campaigns::Details::Participants::ResultsItem @displayResults={{false}} />`);
 
     // then
     assert.contains('En attente de résultats');
   });
 
-  test('it should display a sentence when participant results have not been shared yet', async function(assert) {
+  test('it should display results when displayResults is true', async function(assert) {
     // given
-    const campaignParticipation = store.createRecord('campaignParticipation', {
-      isShared: false,
-      campaignParticipationResult: {
-        totalSkillsCount: 30,
-        testedSkillsCount: 29,
-        validatedSkillsCount: 15,
-        competenceResults: [{
-          name: 'Compétence 1',
-          index: '1.1',
-          totalSkillsCount: 10,
-          testedSkillsCount: 9,
-          validatedSkillsCount: 5,
-          areaColor:'jaffa',
-        }],
-      },
-    });
-
-    this.set('campaignParticipation', campaignParticipation);
-
-    // when
-    await render(hbs`<Routes::Authenticated::Campaigns::Details::Participants::ResultsItem @campaignParticipation={{campaignParticipation}} />`);
-
-    // then
-    assert.contains('En attente de résultats');
-  });
-
-  test('it should display participant results', async function(assert) {
-    // given
-    const competenceResult = store.createRecord('competenceResult', {
+    const competenceResult = store.createRecord('campaignAssessmentParticipationCompetenceResult', {
       name: 'Compétence 1',
       index: '1.1',
       totalSkillsCount: 10,
@@ -67,22 +31,17 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
       areaColor: 'jaffa',
     });
 
-    const campaignParticipationResult = store.createRecord('campaignParticipationResult', {
+    const campaignAssessmentParticipationResult = store.createRecord('campaignAssessmentParticipationResult', {
       totalSkillsCount: 30,
       testedSkillsCount: 29,
       validatedSkillsCount: 15,
-      competenceResults: [competenceResult],
+      competenceResults: [competenceResult]
     });
 
-    const campaignParticipation = store.createRecord('campaignParticipation', {
-      isShared: true,
-      campaignParticipationResult,
-    });
-
-    this.set('campaignParticipation', campaignParticipation);
+    this.set('campaignAssessmentParticipationResult', campaignAssessmentParticipationResult);
 
     // when
-    await render(hbs`<Routes::Authenticated::Campaigns::Details::Participants::ResultsItem @campaignParticipation={{campaignParticipation}} />`);
+    await render(hbs`<Routes::Authenticated::Campaigns::Details::Participants::ResultsItem @campaignAssessmentParticipationResult={{campaignAssessmentParticipationResult}} @displayResults={{true}} />`);
 
     // then
     assert.dom('[aria-label="Résultats par compétence"]').exists({ count: 1 });

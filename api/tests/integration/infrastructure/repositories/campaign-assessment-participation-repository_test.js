@@ -37,16 +37,16 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
 
         campaignParticipationId = databaseBuilder.factory.buildAssessmentFromParticipation({
           ...participation,
-          campaignId
+          campaignId,
         }, participant).campaignParticipationId;
 
         databaseBuilder.factory.buildAssessmentFromParticipation({
-          campaignId
+          campaignId,
         }, {});
 
         const otherCampaign = databaseBuilder.factory.buildCampaign();
         databaseBuilder.factory.buildAssessmentFromParticipation({
-          campaignId: otherCampaign.id
+          campaignId: otherCampaign.id,
         }, {});
 
         await databaseBuilder.commit();
@@ -90,7 +90,7 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
           campaignId,
           userId,
           isShared: true,
-          sharedAt: new Date('2020-12-12')
+          sharedAt: new Date('2020-12-12'),
         }).id;
         databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, createdAt: new Date('2020-10-10'), state: Assessment.states.COMPLETED }).id;
         databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, createdAt: new Date('2020-11-11'), state: Assessment.states.STARTED }).id;
@@ -98,7 +98,7 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
         databaseBuilder.factory.buildKnowledgeElement({
           userId,
           skillId: skill1.id,
-          createdAt: new Date('2020-11-11')
+          createdAt: new Date('2020-11-11'),
         });
 
         await databaseBuilder.commit();
@@ -119,7 +119,7 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
         campaignParticipationId = databaseBuilder.factory.buildAssessmentFromParticipation({
           isShared: false,
           sharedAt: null,
-          campaignId
+          campaignId,
         }, {}).campaignParticipationId;
 
         await databaseBuilder.commit();
@@ -167,7 +167,7 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
             campaignId,
             userId,
             isShared: true,
-            sharedAt: new Date('2020-01-02')
+            sharedAt: new Date('2020-01-02'),
           }).id;
 
           databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
@@ -175,17 +175,17 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
           databaseBuilder.factory.buildKnowledgeElement({
             userId,
             skillId: skill1.id,
-            createdAt: new Date('2020-01-01')
+            createdAt: new Date('2020-01-01'),
           });
           databaseBuilder.factory.buildKnowledgeElement({
             userId,
             skillId: skill2.id,
-            createdAt: new Date('2020-01-03')
+            createdAt: new Date('2020-01-03'),
           });
           databaseBuilder.factory.buildKnowledgeElement({
             userId,
             skillId: skill3.id,
-            createdAt: new Date('2020-01-01')
+            createdAt: new Date('2020-01-01'),
           });
 
           await databaseBuilder.commit();
@@ -210,7 +210,7 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
             campaignId,
             userId,
             isShared: true,
-            sharedAt: new Date('2020-01-02')
+            sharedAt: new Date('2020-01-02'),
           }).id;
 
           databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
@@ -218,12 +218,12 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
           databaseBuilder.factory.buildKnowledgeElement({
             userId,
             skillId: skill1.id,
-            createdAt: new Date('2020-01-01')
+            createdAt: new Date('2020-01-01'),
           });
           databaseBuilder.factory.buildKnowledgeElement({
             userId,
             skillId: skill2.id,
-            createdAt: new Date('2020-01-03')
+            createdAt: new Date('2020-01-03'),
           });
 
           await databaseBuilder.commit();
@@ -250,20 +250,20 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
             campaignId,
             userId,
             isShared: false,
-            sharedAt: null
+            sharedAt: null,
           }).id;
 
           databaseBuilder.factory.buildKnowledgeElement({
             status: KnowledgeElement.StatusType.VALIDATED,
             userId,
             skillId: skill1.id,
-            createdAt: new Date('2020-01-01')
+            createdAt: new Date('2020-01-01'),
           });
           databaseBuilder.factory.buildKnowledgeElement({
             status: KnowledgeElement.StatusType.INVALIDATED,
             userId,
             skillId: skill2.id,
-            createdAt: new Date('2020-01-01')
+            createdAt: new Date('2020-01-01'),
           });
           await databaseBuilder.commit();
         });

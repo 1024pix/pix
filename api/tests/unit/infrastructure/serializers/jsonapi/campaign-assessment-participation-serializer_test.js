@@ -33,16 +33,16 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
           relationships: {
             'campaign-analysis': {
               links: {
-                related: '/api/campaign-participations/1/analyses'
-              }
+                related: '/api/campaign-participations/1/analyses',
+              },
             },
             'campaign-assessment-participation-result': {
               links: {
-                'related': '/api/campaigns/2/assessment-participations/1/results'
-              }
+                'related': '/api/campaigns/2/assessment-participations/1/results',
+              },
             },
-          }
-        }
+          },
+        },
       };
 
       modelCampaignAssessmentParticipation = new CampaignAssessmentParticipation({

@@ -17,17 +17,17 @@ const createServer = async () => {
     routes: {
       cors: {
         origin: ['*'],
-        additionalHeaders: ['X-Requested-With']
+        additionalHeaders: ['X-Requested-With'],
       },
       response: {
-        emptyStatusCode: 204
-      }
+        emptyStatusCode: 204,
+      },
     },
     port: config.port,
     router: {
       isCaseSensitive: false,
-      stripTrailingSlash: true
-    }
+      stripTrailingSlash: true,
+    },
   });
 
   server.ext('onPreResponse', preResponseUtils.handleDomainAndHttpErrors);

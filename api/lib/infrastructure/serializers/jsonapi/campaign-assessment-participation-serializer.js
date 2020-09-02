@@ -26,7 +26,7 @@ module.exports = {
         relationshipLinks: {
           related(record, current, parent) {
             return `/api/campaigns/${record.campaignId}/assessment-participations/${parent.id}/results`;
-          }
+          },
         },
       },
       campaignAnalysis: {
@@ -35,8 +35,8 @@ module.exports = {
         relationshipLinks: {
           related(record, current, parent) {
             return `/api/campaign-participations/${parent.id}/analyses`;
-          }
-        }
+          },
+        },
       },
     }).serialize(campaignAssessmentParticipation);
   },

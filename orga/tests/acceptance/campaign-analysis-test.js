@@ -15,7 +15,6 @@ module('Acceptance | Campaign Analysis', function(hooks) {
   setupMirage(hooks);
 
   hooks.beforeEach(async () => {
-    server.logging = true;
     const user = createUserWithMembershipAndTermsOfServiceAccepted();
     createPrescriberByUser(user);
 

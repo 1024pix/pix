@@ -18,7 +18,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
       const skills = [
         airtableBuilder.factory.buildSkill({ id: 'skill1', nom: '@acquis1', ['compétenceViaTube']: ['rec1'] }),
         airtableBuilder.factory.buildSkill({ id: 'skill2', nom: '@acquis2', ['compétenceViaTube']: ['rec2'] }),
-        airtableBuilder.factory.buildSkill({ id: 'skill3', nom: '@autreAcquis', ['compétenceViaTube']: ['rec3'] })
+        airtableBuilder.factory.buildSkill({ id: 'skill3', nom: '@autreAcquis', ['compétenceViaTube']: ['rec3'] }),
       ];
       airtableBuilder.mockList({ tableName: 'Domaines' }).returns(areas).activate();
       airtableBuilder.mockList({ tableName: 'Competences' }).returns(competences).activate();
@@ -38,16 +38,16 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
         campaignId = databaseBuilder.factory.buildAssessmentCampaign({}).id;
 
         campaignParticipationId = databaseBuilder.factory.buildAssessmentFromParticipation({
-          campaignId
+          campaignId,
         }, {}).campaignParticipationId;
 
         databaseBuilder.factory.buildAssessmentFromParticipation({
-          campaignId: campaignId
+          campaignId: campaignId,
         }, {});
 
         const otherCampaign = databaseBuilder.factory.buildCampaign();
         databaseBuilder.factory.buildAssessmentFromParticipation({
-          campaignId: otherCampaign.id
+          campaignId: otherCampaign.id,
         }, {});
 
         await databaseBuilder.commit();
@@ -73,7 +73,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
         campaignParticipationId = databaseBuilder.factory.buildAssessmentFromParticipation({
           isShared: false,
           sharedAt: null,
-          campaignId
+          campaignId,
         }, {}).campaignParticipationId;
 
         await databaseBuilder.commit();
@@ -95,7 +95,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
           campaignId,
           userId,
           isShared: true,
-          sharedAt: new Date('2020-01-02')
+          sharedAt: new Date('2020-01-02'),
         }).id;
 
         databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
@@ -125,7 +125,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
             index: '1.1',
             name: 'Compétence 1',
             totalSkillsCount: 1,
-            validatedSkillsCount: 1
+            validatedSkillsCount: 1,
           },
           {
             areaColor: 'orange',
@@ -134,7 +134,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
             name: 'Compétence 2',
             totalSkillsCount: 1,
             validatedSkillsCount: 0,
-          }
+          },
         ];
 
         const campaignAssessmentParticipationResult = await campaignAssessmentParticipationResultRepository.getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId });
