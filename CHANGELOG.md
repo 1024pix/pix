@@ -1,5 +1,23 @@
 # Pix Changelog
 
+## v2.189.0 (02/09/2020)
+
+- [#1824](https://github.com/1024pix/pix/pull/1824) [FEATURE] Mise à jour des messages contenus dans la modale Dissocier un élève, dans Pix Orga (PIX-1155).
+- [#1818](https://github.com/1024pix/pix/pull/1818) [FEATURE] Amélioration de l'accessibilité de la page épreuve (PIX-1152).
+- [#1819](https://github.com/1024pix/pix/pull/1819) [FEATURE] Eviter d'induire en erreur nos utilisateurs en affichant des boutons qui ne permettront pas de poursuivre leur parcours (PIX-1164).
+- [#1803](https://github.com/1024pix/pix/pull/1803) [FEATURE] Créer le compte utilisateur d'un élève provenant du GAR à la réconciliation (PIX-1119).
+- [#1815](https://github.com/1024pix/pix/pull/1815) [FEATURE] Affichage certificat partageable [PIX-787]
+- [#1813](https://github.com/1024pix/pix/pull/1813) [FEATURE] Design de la page de vérification du certificat [PIX-1167]
+- [#1809](https://github.com/1024pix/pix/pull/1809) [FEATURE] Affichage plus alertant et plus informatif des bannières SCO de Pix Orga.
+- [#1810](https://github.com/1024pix/pix/pull/1810) [FEATURE] Autoriser le format de date DD/MM/YY dans le fichier d'import des étudiants du SUP (Pix-1134).
+- [#1823](https://github.com/1024pix/pix/pull/1823) [BUGFIX] Permettre à tous les utilisateurs d'accéder au menu de déconnexion (PIX-1163). 
+- [#1816](https://github.com/1024pix/pix/pull/1816) [BUGFIX] Scroll automatique sur le formulaire de signalement (PIX-1174)
+- [#1812](https://github.com/1024pix/pix/pull/1812) [BUGFIX] L'import d'étudiants via CSV annule la réconciliation si elle existe (PIX-1087)
+- [#1811](https://github.com/1024pix/pix/pull/1811) [BUGFIX] Ajouter une validation JOI pour l'identifiant de l'invitation afin de ne pas générer une erreur 500. (PIX-1177)
+- [#1817](https://github.com/1024pix/pix/pull/1817) [TECH] Remplacement de tests unitaires de repositories par des tests d'intégration (PIX-1179)
+- [#1740](https://github.com/1024pix/pix/pull/1740) [TECH] Ajouter un linter scss à Pix App.
+- [#1795](https://github.com/1024pix/pix/pull/1795) Ajouter le numéro étudiant du participant dans les exports CSV de campagne d'évaluation (PIX-1090).
+
 ## v2.188.0 (28/08/2020)
 
 - [#1802](https://github.com/1024pix/pix/pull/1802) [FEATURE] En tant qu'étudiant, je veux pouvoir m'auto-inscrire sans numéro étudiant pour accéder à une campagne SUP (PIX-1063).
