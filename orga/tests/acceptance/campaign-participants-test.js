@@ -40,7 +40,7 @@ module('Acceptance | Campaign Participants', function(hooks) {
 
     test('it should display participant list with default settings for pagination', async function(assert) {
       // when
-      await visit('/campagnes/1/participants');
+      await visit('/campagnes/1/evaluations');
 
       // then
       assert.dom('table tbody tr').exists({ count: pageSize });
@@ -54,7 +54,7 @@ module('Acceptance | Campaign Participants', function(hooks) {
       const changedPageNumber = 2;
 
       // when
-      await visit(`/campagnes/1/participants?pageNumber=${changedPageNumber}&pageSize=${changedPageSize}`);
+      await visit(`/campagnes/1/evaluations?pageNumber=${changedPageNumber}&pageSize=${changedPageSize}`);
 
       // then
       assert.dom('table tbody tr').exists({ count: changedPageSize });
@@ -64,13 +64,13 @@ module('Acceptance | Campaign Participants', function(hooks) {
 
     test('it should redirect to participant details when user clicks on row', async function(assert) {
       // given
-      await visit('/campagnes/1/participants');
+      await visit('/campagnes/1/evaluations');
 
       // when
       await click('table tbody .tr--clickable');
 
       // then
-      assert.equal(currentURL(), '/campagnes/1/participants/1/resultats');
+      assert.equal(currentURL(), '/campagnes/1/evaluations/1/resultats');
     });
   });
 
@@ -81,7 +81,7 @@ module('Acceptance | Campaign Participants', function(hooks) {
       const changedPageSize = 25;
 
       // when
-      await visit('/campagnes/1/participants');
+      await visit('/campagnes/1/evaluations');
       await fillIn('.page-size select', changedPageSize);
 
       // then
@@ -94,7 +94,7 @@ module('Acceptance | Campaign Participants', function(hooks) {
       // given
       const changedPageSize = 25;
 
-      await visit('/campagnes/1/participants');
+      await visit('/campagnes/1/evaluations');
       await fillIn('.page-size select', changedPageSize);
       const someElementFromPage1 = this.element.querySelector('table tbody tr:nth-child(5)').textContent;
 
@@ -112,7 +112,7 @@ module('Acceptance | Campaign Participants', function(hooks) {
       const startPage = 3;
 
       // when
-      await visit(`/campagnes/1/participants?pageNumber=${startPage}`);
+      await visit(`/campagnes/1/evaluations?pageNumber=${startPage}`);
       await fillIn('.page-size select', changedPageSize);
 
       // then

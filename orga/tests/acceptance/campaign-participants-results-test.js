@@ -35,20 +35,20 @@ module('Acceptance | Campaign Participants Results', function(hooks) {
 
     test('it could click on user to go to details', async function(assert) {
       // when
-      await visit('/campagnes/1/participants');
+      await visit('/campagnes/1/evaluations');
       await click('[aria-label="Participant"]:first-child');
 
       // then
-      assert.equal(currentURL(), '/campagnes/1/participants/1/resultats');
+      assert.equal(currentURL(), '/campagnes/1/evaluations/1/resultats');
     });
 
     test('it could return on list of participants', async function(assert) {
       // when
-      await visit('/campagnes/1/participants/1');
+      await visit('/campagnes/1/evaluations/1');
       await click('[aria-label="Retourner au détail de la campagne"]');
 
       // then
-      assert.equal(currentURL(), '/campagnes/1/participants');
+      assert.equal(currentURL(), '/campagnes/1/evaluations');
     });
   });
 
