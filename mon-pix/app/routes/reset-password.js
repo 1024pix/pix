@@ -1,8 +1,7 @@
 import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
-
-const _ = require('lodash');
+import get from 'lodash/get';
 
 @classic
 export default class ResetPasswordRoute extends Route {
@@ -16,7 +15,7 @@ export default class ResetPasswordRoute extends Route {
       const user = await this.store.queryRecord('user', { passwordResetTemporaryKey });
       return { user, temporaryKey: passwordResetTemporaryKey };
     } catch (error) {
-      const status = _.get(error, 'errors[0].status');
+      const status = get(error, 'errors[0].status');
       if (status && (status === 401 || status && 404)) {
         this.errors.push(this.intl.t('pages.reset-password.error'));
         this.replaceWith('password-reset-demand');

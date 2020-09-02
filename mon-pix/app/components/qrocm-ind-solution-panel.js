@@ -6,7 +6,8 @@ import { computed } from '@ember/object';
 import { htmlSafe } from '@ember/template';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import _ from 'lodash';
+import forEach from 'lodash/forEach';
+import keys from 'lodash/keys';
 import answersAsObject from 'mon-pix/utils/answers-as-object';
 import solutionsAsObject from 'mon-pix/utils/solution-as-object';
 import labelsAsObject from 'mon-pix/utils/labels-as-object';
@@ -36,13 +37,13 @@ class QrocmIndSolutionPanel extends Component {
 
     const escapedProposals = this.challenge.get('proposals').replace(/(\n\n|\n)/gm, '<br>');
     const labels = labelsAsObject(htmlSafe(escapedProposals).string);
-    const answers = answersAsObject(this.answer.value, _.keys(labels));
+    const answers = answersAsObject(this.answer.value, keys(labels));
     const solutions = solutionsAsObject(this.solution);
     const resultDetails = resultDetailsAsObject(this.answer.resultDetails);
 
     const inputFields = [];
 
-    _.forEach(labels, (label, labelKey) => {
+    forEach(labels, (label, labelKey) => {
       const answerOutcome = _computeAnswerOutcome(answers[labelKey], resultDetails[labelKey]);
       const inputClass = _computeInputClass(answerOutcome);
 

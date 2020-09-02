@@ -1,6 +1,7 @@
 import { action } from '@ember/object';
-import _ from 'lodash';
 import { inject as service } from '@ember/service';
+import filter from 'lodash/filter';
+import isEmpty from 'lodash/isEmpty';
 
 import ChallengeItemGeneric from './challenge-item-generic';
 import jsyaml from 'js-yaml';
@@ -39,7 +40,7 @@ export default class ChallengeItemQrocm extends ChallengeItemGeneric {
   }
 
   _hasEmptyAnswerFields(answers) {
-    return _.filter(answers, _.isEmpty).length;
+    return filter(answers, isEmpty).length;
   }
 
   _getAnswerValue() {

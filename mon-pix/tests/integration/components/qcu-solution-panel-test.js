@@ -4,7 +4,7 @@ import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import _ from 'lodash';
+import times from 'lodash/times';
 
 const assessment = {};
 let challenge = null;
@@ -117,7 +117,7 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
         await render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // Then
-        _.times(findAll('.comparison-window .qcu-panel__proposal-radio').length, function(index) {
+        times(findAll('.comparison-window .qcu-panel__proposal-radio').length, function(index) {
           expect(find('.comparison-window .qcu-panel__proposal-radio:eq(' + index + ')').getAttribute('disabled')).to.equal('disabled');
         });
       });

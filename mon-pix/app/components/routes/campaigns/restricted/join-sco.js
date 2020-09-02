@@ -4,7 +4,8 @@ import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
 import { standardizeNumberInTwoDigitFormat } from 'mon-pix/utils/standardize-number';
 import { decodeToken } from 'mon-pix/helpers/jwt';
-import { get } from 'lodash';
+import get from 'lodash/get';
+
 import ENV from 'mon-pix/config/environment';
 
 import { getJoinErrorsMessageByShortCode } from '../../../../utils/errors-messages';
