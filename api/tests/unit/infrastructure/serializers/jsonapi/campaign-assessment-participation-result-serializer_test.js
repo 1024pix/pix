@@ -23,7 +23,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result
               data: [{
                 id: '3',
                 type: 'campaign-assessment-participation-competence-results',
-              }]
+              }],
             },
           },
         },
@@ -54,7 +54,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result
             title: 'area1',
             color: 'blue',
           },
-        })]
+        })],
       });
     });
 

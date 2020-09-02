@@ -2,37 +2,36 @@
   <table>
     <thead>
     <tr>
-      <th class="table__column--wide">Compétences ({{if @campaignParticipation.isShared
-                                                            @campaignParticipation.campaignParticipationResult.competenceResults.length '-' }})</th>
+      <th class="table__column--wide">Compétences ({{if @displayResults @campaignAssessmentParticipationResult.sortedCompetenceResults.length '-' }})</th>
       <th class="table__column--wide">Résultats</th>
       <th class="table__column--small">Acquis validés</th>
       <th class="table__column--small">Acquis évalués</th>
     </tr>
     </thead>
 
-    {{#if @campaignParticipation.isShared }}
+    {{#if @displayResults}}
       <tbody>
-      {{#each @campaignParticipation.campaignParticipationResult.competenceResults as |competence|}}
+      {{#each @campaignAssessmentParticipationResult.sortedCompetenceResults as |competenceResult|}}
         <tr aria-label="Résultats par compétence">
           <td class="competences-col__name">
-            <span class="competences-col__border competences-col__border--{{competence.areaColor}}"></span>
+            <span class="competences-col__border competences-col__border--{{competenceResult.areaColor}}"></span>
             <span>
-              {{competence.name}}
+              {{competenceResult.name}}
             </span>
           </td>
           <td>
-            <ProgressionGauge @total={{competence.totalSkillsCountPercentage}} @value={{competence.validatedSkillsPercentage}}>
-              <p class="sr-only">Ce participant a validé </p>{{competence.validatedSkillsPercentage}}%<p class="sr-only"> de la compétence {{competence.name}}.</p>
+            <ProgressionGauge @total={{competenceResult.totalSkillsCountPercentage}} @value={{competenceResult.validatedSkillsCountPercentage}}>
+              <p class="sr-only">Ce participant a validé </p>{{competenceResult.validatedSkillsCountPercentage}}%<p class="sr-only"> de la compétence {{competenceResult.name}}.</p>
             </ProgressionGauge>
           </td>
-          <td>{{competence.validatedSkillsCount}}</td>
-          <td>{{competence.totalSkillsCount}}</td>
+          <td>{{competenceResult.validatedSkillsCount}}</td>
+          <td>{{competenceResult.totalSkillsCount}}</td>
         </tr>
       {{/each}}
       </tbody>
     {{/if}}
   </table>
-  {{#unless @campaignParticipation.isShared }}
+  {{#unless @displayResults}}
     <div class="table__empty content-text">En attente de résultats</div>
   {{/unless}}
 </div>

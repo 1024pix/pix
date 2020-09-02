@@ -9,10 +9,10 @@ describe('Unit | UseCase | get-campaign-assessment-participation-result', () => 
 
   beforeEach(() => {
     campaignRepository = {
-      checkIfUserOrganizationHasAccessToCampaign: sinon.stub()
+      checkIfUserOrganizationHasAccessToCampaign: sinon.stub(),
     };
     campaignAssessmentParticipationResultRepository = {
-      getByCampaignIdAndCampaignParticipationId: sinon.stub()
+      getByCampaignIdAndCampaignParticipationId: sinon.stub(),
     };
   });
 

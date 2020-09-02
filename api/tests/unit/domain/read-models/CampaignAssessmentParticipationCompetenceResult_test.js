@@ -7,7 +7,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationCompetenceResu
   describe('#areaColor', () => {
     it('returns the area color', () => {
       const campaignAssessmentParticipationCompetenceResult = new CampaignAssessmentParticipationCompetenceResult({
-        area: new Area({ color: 'red' })
+        area: new Area({ color: 'red' }),
       });
 
       expect(campaignAssessmentParticipationCompetenceResult.areaColor).equal('red');

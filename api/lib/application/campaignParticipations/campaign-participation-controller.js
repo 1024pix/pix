@@ -89,5 +89,5 @@ module.exports = {
 
     const campaignAssessmentParticipationResult = await usecases.getCampaignAssessmentParticipationResult({ userId, campaignId, campaignParticipationId });
     return campaignAssessmentParticipationResultSerializer.serialize(campaignAssessmentParticipationResult);
-  }
+  },
 };

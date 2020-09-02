@@ -98,8 +98,8 @@ exports.register = async function(server) {
           '- L’utilisateur doit avoir les droits d‘accès à l‘organisation liée à la participation à la campagne\n' +
           '- Récupération du profil d’un participant pour la participation à la campagne',
         ],
-        tags: ['api', 'campaign-participation']
-      }
+        tags: ['api', 'campaign-participation'],
+      },
     },
     {
       method: 'GET',
@@ -108,7 +108,7 @@ exports.register = async function(server) {
         validate: {
           params: Joi.object({
             campaignId: Joi.number().integer().required(),
-            campaignParticipationId: Joi.number().integer().required()
+            campaignParticipationId: Joi.number().integer().required(),
           }),
         },
         handler: campaignParticipationController.getCampaignAssessmentParticipation,
@@ -127,7 +127,7 @@ exports.register = async function(server) {
         validate: {
           params: Joi.object({
             campaignId: Joi.number().integer().required(),
-            campaignParticipationId: Joi.number().integer().required()
+            campaignParticipationId: Joi.number().integer().required(),
           }),
         },
         handler: campaignParticipationController.getCampaignAssessmentParticipationResult,
@@ -136,8 +136,8 @@ exports.register = async function(server) {
           '- L’utilisateur doit avoir les droits d‘accès à l‘organisation liée à la campagne\n' +
           '- Récupération des résultats de l’évaluation d’un participant pour la campagne donnée',
         ],
-        tags: ['api', 'campaign-participation']
-      }
+        tags: ['api', 'campaign-participation'],
+      },
     },
   ]);
 };

@@ -11,34 +11,34 @@
 
   <section class="panel panel--header">
     <header class="panel-header__headline">
-      <h2 class="panel-header-title">{{@campaignParticipation.user.firstName}} {{@campaignParticipation.user.lastName}}</h2>
+      <h2 class="panel-header-title">{{@campaignAssessmentParticipation.firstName}} {{@campaignAssessmentParticipation.lastName}}</h2>
     </header>
 
     <div class="panel-header__body">
       <ul class="panel-header__data">
-        {{#if @campaignParticipation.participantExternalId}}
+        {{#if @campaignAssessmentParticipation.participantExternalId}}
           <li class="panel-header-data__content">
             <div class="label-text panel-header-data-content__label">{{@campaign.idPixLabel}}</div>
-            <div class="value-text panel-header-data-content__value">{{@campaignParticipation.participantExternalId}}</div>
+            <div class="value-text panel-header-data-content__value">{{@campaignAssessmentParticipation.participantExternalId}}</div>
           </li>
         {{/if}}
         <li class="panel-header-data__content">
           <div class="label-text panel-header-data-content__label">Commencé le</div>
           <div class="value-text panel-header-data-content__value">
-            {{moment-format @campaignParticipation.createdAt 'DD MMM YYYY'}}
+            {{moment-format @campaignAssessmentParticipation.createdAt 'DD MMM YYYY'}}
           </div>
         </li>
         <li class="panel-header-data__content">
           <div class="label-text panel-header-data-content__label">Avancement</div>
           <div class="value-text panel-header-data-content__value">
-            {{@campaignParticipation.campaignParticipationResult.percentageProgression}}%
+            {{@campaignAssessmentParticipation.progression}}%
           </div>
         </li>
         <li class="panel-header-data__content">
           <div class="label-text panel-header-data-content__label">Envoyé le</div>
-          {{#if @campaignParticipation.sharedAt}}
+          {{#if @campaignAssessmentParticipation.sharedAt}}
             <div class="value-text panel-header-data-content__value">
-              {{moment-format @campaignParticipation.sharedAt 'DD MMM YYYY'}}
+              {{moment-format @campaignAssessmentParticipation.sharedAt 'DD MMM YYYY'}}
             </div>
           {{else}}
             <div class="value-text panel-header-data-content__value">Non disponible</div>
@@ -46,15 +46,15 @@
         </li>
       </ul>
 
-      {{#if @campaignParticipation.isShared}}
+      {{#if @campaignAssessmentParticipation.isShared}}
         <ul class="panel-header__data panel-header__data--highlight">
           <li class="panel-header-data__content panel-header-data__content--horizontal">
             <div aria-label="Résultat" class="panel-header-data-content__progress-bar">
-              <ProgressBar @value={{@campaignParticipation.campaignParticipationResult.masteryPercentage}}>
-                {{@campaignParticipation.campaignParticipationResult.validatedSkillsCount}} / {{@campaignParticipation.campaignParticipationResult.totalSkillsCount}} ACQUIS
+              <ProgressBar @value={{@campaignAssessmentParticipation.masteryPercentage}}>
+                {{@campaignAssessmentParticipation.validatedSkillsCount}} / {{@campaignAssessmentParticipation.totalSkillsCount}} ACQUIS
               </ProgressBar>
             </div>
-            <div class="value-text value-text--highlight">{{@campaignParticipation.campaignParticipationResult.masteryPercentage}}%
+            <div class="value-text value-text--highlight">{{@campaignAssessmentParticipation.masteryPercentage}}%
             </div>
           </li>
         </ul>
@@ -64,10 +64,10 @@
 
   <div class="panel campaign-details__controls">
     <nav class="navbar campaign-details-controls__navbar-tabs">
-      <LinkTo @route="authenticated.campaigns.participant.results" class="navbar-item" @models={{array @campaign.id @campaignParticipation.id}}>
+      <LinkTo @route="authenticated.campaigns.participant.results" class="navbar-item" @models={{array @campaign.id @campaignAssessmentParticipation.id}}>
         Résultats
       </LinkTo>
-      <LinkTo @route="authenticated.campaigns.participant.analysis" class="navbar-item" @models={{array @campaign.id @campaignParticipation.id}}>
+      <LinkTo @route="authenticated.campaigns.participant.analysis" class="navbar-item" @models={{array @campaign.id @campaignAssessmentParticipation.id}}>
         Analyse
       </LinkTo>
     </nav>
