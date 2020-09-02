@@ -11,6 +11,7 @@ describe('Integration | Application | Route | campaignParticipationRouter', () =
     sinon.stub(campaignParticipationController, 'find').callsFake((request, h) => h.response('ok').code(201));
     sinon.stub(campaignParticipationController, 'getAnalysis').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(campaignParticipationController, 'getCampaignAssessmentParticipation').callsFake((request, h) => h.response('ok').code(200));
+    sinon.stub(campaignParticipationController, 'getCampaignAssessmentParticipationResult').callsFake((request, h) => h.response('ok').code(200));
 
     server = Hapi.server();
 
@@ -124,6 +125,48 @@ describe('Integration | Application | Route | campaignParticipationRouter', () =
         const response = await server.inject({
           method: 'GET',
           url: '/api/campaigns/1/assessment-participations/1',
+        });
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+  });
+
+  describe('GET /api/campaigns/{campaignId}/assessment-participations/{campaignParticipationId}/results', () => {
+
+    context('when campaignId is not an integer', () => {
+      it('should return 400 - Bad request', async () => {
+        // when
+        const response = await server.inject({
+          method: 'GET',
+          url: '/api/campaigns/FAKE_ID/assessment-participations/1/results',
+        });
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+
+    context('when campaignParticipationId is not an integer', () => {
+      it('should return 400 - Bad request', async () => {
+        // when
+        const response = await server.inject({
+          method: 'GET',
+          url: '/api/campaigns/1/assessment-participations/FAKE_ID/results',
+        });
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+
+    context('when campaignId and campaignParticipationId are integers', () => {
+      it('should return 200', async () => {
+        // when
+        const response = await server.inject({
+          method: 'GET',
+          url: '/api/campaigns/1/assessment-participations/1/results',
         });
 
         // then
