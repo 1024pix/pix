@@ -38,8 +38,8 @@ describe('Integration | Component | user certifications detail result', function
     });
 
     it('should show the comment for candidate', function() {
-      expect(find('.user-certifications-detail-result__comment-jury')).to.exist;
-      expect(find('.user-certifications-detail-result__comment-jury').textContent).to.include('Comment for candidate');
+      expect(find('.user-certifications-detail-result__jury__comment')).to.exist;
+      expect(find('.user-certifications-detail-result__jury__comment').textContent).to.include('Comment for candidate');
     });
   });
 
@@ -66,7 +66,7 @@ describe('Integration | Component | user certifications detail result', function
     });
 
     it('should not show the comment for candidate', function() {
-      expect(find('.user-certifications-detail-result__comment-jury')).to.not.exist;
+      expect(find('.user-certifications-detail-result__jury__comment')).to.not.exist;
     });
   });
 
