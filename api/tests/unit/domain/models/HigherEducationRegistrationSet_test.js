@@ -108,21 +108,24 @@ describe('Unit | Domain | Models | HigherEducationRegistrationSet', () => {
         const registration1 = {
           firstName: 'Beatrix',
           lastName: 'Kiddo',
-          birthdate: new Date('1980-07-01'),
-          studentNumber: 1
+          birthdate: '1990-04-01',
+          studentNumber: '123ABC',
+          organizationId: 123,
         };
         const registration2 = {
           firstName: 'Ishii',
           lastName: 'O-ren',
-          birthdate: new Date('1990-01-01'),
-          studentNumber: 1
+          birthdate: '1990-04-01',
+          studentNumber: '123ABC',
+          organizationId: 123,
         };
+        await higherEducationRegistrationSet.addRegistration(registration1);
 
-        const addRegistration = higherEducationRegistrationSet.addRegistration.bind(higherEducationRegistrationSet);
-        await catchErr(addRegistration)(registration1);
-        const error = await catchErr(addRegistration)(registration2);
+        const error = await catchErr(higherEducationRegistrationSet.addRegistration, higherEducationRegistrationSet)(registration2);
 
         expect(error).to.be.instanceOf(EntityValidationError);
+        expect(error.key).to.equal('studentNumber');
+        expect(error.why).to.equal('uniqueness');
       });
     });
   });
