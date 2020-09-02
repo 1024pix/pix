@@ -53,7 +53,18 @@ export default class ListController extends Controller {
     } catch (errorResponse) {
       this.set('isLoading', false);
 
-      this.get('notifications').sendError('Quelque chose s\'est mal passé. Veuillez réessayer.');
+      const errorPrefix = 'Une erreur est survenue. Aucun étudiant n\'a été importé.';
+      const globalErrorMessage = `<div>${errorPrefix} Veuillez réessayer ou nous contacter via <a target="_blank" rel="noopener noreferrer" href="https://support.pix.fr/support/tickets/new">le formulaire du centre d'aide</a></div>`;
+      if (!errorResponse.body.errors) {
+        return this.notifications.sendError(globalErrorMessage);
+      }
+
+      errorResponse.body.errors.forEach((error) => {
+        if (error.status === '412') {
+          return this.notifications.sendError(`${errorPrefix} ${error.detail} Veuillez modifier votre fichier et l’importer à nouveau.`);
+        }
+        return this.notifications.sendError(globalErrorMessage);
+      });
 
     }
   }
