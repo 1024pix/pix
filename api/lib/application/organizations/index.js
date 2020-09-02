@@ -1,4 +1,5 @@
 const Joi = require('@hapi/joi');
+const JSONAPIError = require('jsonapi-serializer').Error;
 
 const securityPreHandlers = require('../security-pre-handlers');
 const organizationController = require('./organization-controller');
@@ -212,6 +213,14 @@ exports.register = async (server) => {
         payload: {
           maxBytes: 1048576 * 10, // 10MB
           parse: 'gunzip',
+          failAction: (request, h) => {
+            const jsonApiError = new JSONAPIError({
+              status: '413',
+              title: 'Payload too large',
+              detail: 'La taille du fichier doit être inférieure à 10Mo.',
+            });
+            return h.response(jsonApiError).code(413).takeover();
+          }
         },
         handler: organizationController.importHigherEducationRegistrations,
         notes: [

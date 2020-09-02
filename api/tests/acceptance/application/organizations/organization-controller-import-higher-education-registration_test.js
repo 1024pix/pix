@@ -47,6 +47,22 @@ describe('Acceptance | Application | organization-controller-import-higher-educa
         expect(registrations).to.have.lengthOf(2);
 
       });
+
+      it('fails when the file payload is too large', async () => {
+        const buffer = Buffer.alloc(1048576 * 11, 'B'); // > 10 Mo buffer
+
+        const options = {
+          method: 'POST',
+          url: '/api/organizations/123/schooling-registrations/import-csv',
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(connectedUser.id),
+          },
+          payload: buffer
+        };
+
+        const response = await server.inject(options);
+        expect(response.payload).to.equal('{"errors":[{"status":"413","title":"Payload too large","detail":"La taille du fichier doit être inférieure à 10Mo."}]}');
+      });
     });
 
     context('when the user is not an admin for the organization which managing student', () => {
