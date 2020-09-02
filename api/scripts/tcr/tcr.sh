@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 alteredFilePaths=$(git ls-files -m '*.js');
 
 if [ ! -z "$alteredFilePaths" ] ; then
