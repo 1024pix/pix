@@ -58,12 +58,13 @@
 .attestation-and-verification-code {
   background-color: $grey-10;
   border-radius: 8px;
-  margin-left: auto;
   padding: 24px 20px;
 
   .verification-code {
     font-family: $font-open-sans;
     color: $grey-90;
+    width: 230px;
+    margin: auto;
 
     &__title {
       display: flex;
@@ -83,7 +84,6 @@
     }
 
     &__box {
-      width: 230px;
       padding: 10px 20px;
       border: 1.5px $grey-22 dashed;
       border-radius: 4px;
@@ -111,6 +111,20 @@
 
         &:hover { color: darken($blue, 20%); }
       }
+    }
+  }
+
+  @include device-is('tablet') {
+    margin-left: 0;
+    flex-grow: 1;
+  }
+
+  @include device-is('desktop') {
+    margin-left: auto;
+    flex-grow: 0;
+
+    .verification-code {
+      margin: 0;
     }
   }
 }

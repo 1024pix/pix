@@ -41,6 +41,10 @@
       position: relative;
     }
 
+    &__header {
+      flex-direction: column;
+    }
+
     &__details-body {
       flex-wrap: wrap;
     }
@@ -50,6 +54,10 @@
 @include device-is('tablet') {
 
   .user-certifications-page-get {
+
+    &__header {
+      flex-direction: column;
+    }
 
     &__details-body {
       flex-wrap: wrap;
@@ -63,6 +71,10 @@
 
     &__details-body {
       flex-wrap: nowrap;
+    }
+
+    &__header {
+      flex-direction: row;
     }
   }
 }
