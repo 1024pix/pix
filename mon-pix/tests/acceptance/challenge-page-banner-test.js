@@ -30,6 +30,21 @@ describe('Acceptance | Challenge page banner', function() {
       find('.assessment-banner');
     });
 
+    it('should display accessibility information in the banner', async function() {
+      // given
+      server.create('campaign-participation',
+        { campaign, user, isShared: false , createdAt: Date.now() });
+
+      // when
+      await visit(`campagnes/${campaign.code}`);
+      await click('.campaign-tutorial__ignore-button');
+      const title = find('.assessment-banner__title');
+      const a11yText = title.firstChild.textContent;
+
+      // then
+      expect(a11yText).to.equal('Épreuve pour l\'évaluation : ');
+    });
+
     it('should display the campaign name in the banner', async function() {
       // given
       server.create('campaign-participation',
@@ -38,9 +53,11 @@ describe('Acceptance | Challenge page banner', function() {
       // when
       await visit(`campagnes/${campaign.code}`);
       await click('.campaign-tutorial__ignore-button');
+      const title = find('.assessment-banner__title');
+      const campaignName = title.lastChild.textContent;
 
       // then
-      expect(find('.assessment-banner__title').textContent).to.equal(campaign.title);
+      expect(campaignName).to.equal(campaign.title);
     });
   });
 });

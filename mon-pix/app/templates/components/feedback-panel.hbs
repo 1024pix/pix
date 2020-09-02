@@ -1,4 +1,5 @@
 <div class="feedback-panel">
+  <h2 class="sr-only">{{t 'pages.challenge.parts.feedback'}}</h2>
   <div class="feedback-panel__view feedback-panel__view--link">
     <button class="feedback-panel__open-button"
       {{on "click" this.toggleFeedbackForm}}
@@ -24,14 +25,14 @@
             <form class="feedback-panel__form" {{on "submit" this.sendFeedback}}>
               <div class="feedback-panel__group">
                 <div class="feedback-panel__category-selection">
-                  <select class="feedback-panel__dropdown" {{on "change" this.displayCategoryOptions}}>
+                  <select class="feedback-panel__dropdown" {{on "change" this.displayCategoryOptions}} aria-label={{t 'pages.challenge.feedback-panel.form.fields.detail-selection.aria-first'}}>
                     <option value="" disabled selected>{{t 'pages.challenge.feedback-panel.form.fields.category-selection.label'}}</option>
                     {{#each this.categories as |category|}}
                       <option value={{category.value}}>{{t category.name}}</option>
                     {{/each}}
                   </select>
                   {{#if this.displayQuestionDropdown}}
-                    <select class="feedback-panel__dropdown" {{on "change" this.showFeedback}}>
+                    <select class="feedback-panel__dropdown" {{on "change" this.showFeedback}} aria-label={{t 'pages.challenge.feedback-panel.form.fields.detail-selection.aria-secondary'}}>
                       <option value="default" selected>{{t 'pages.challenge.feedback-panel.form.fields.detail-selection.label'}}</option>
                         {{#each this.nextCategory as |question index|}}
                           <option value={{index}}>{{t question.name}}</option>
@@ -49,7 +50,7 @@
               {{#if this.displayTextBox}}
                 <div class="feedback-panel__group">
                   <p>{{t 'pages.challenge.feedback-panel.form.status.error.max-characters'}}</p>
-                  <Textarea class="feedback-panel__field feedback-panel__field--content" @value={{this.content}} placeholder={{t 'pages.challenge.feedback-panel.form.fields.detail-selection.label'}} @maxlength="10000" @rows={{5}} />
+                  <Textarea class="feedback-panel__field feedback-panel__field--content" @value={{this.content}} placeholder={{t 'pages.challenge.feedback-panel.form.fields.detail-selection.label'}} @maxlength="10000" @rows={{5}} aria-label={{t 'pages.challenge.feedback-panel.form.fields.detail-selection.problem-suggestion-description'}}/>
                 </div>
                 {{#if this.emptyTextBoxMessageError}}
                   <div class="alert alert-danger" role="alert">
