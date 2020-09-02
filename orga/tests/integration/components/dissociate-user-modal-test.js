@@ -5,6 +5,7 @@ import { render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | dissociate-user-modal', function(hooks) {
+
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function() {
@@ -15,12 +16,12 @@ module('Integration | Component | dissociate-user-modal', function(hooks) {
     return render(hbs`<DissociateUserModal @refreshModel={{refreshModel}} @display={{display}} @close={{close}} @student={{student}}/>`);
   });
 
-  module('when the user is authenticated  with an email', function() {
+  module('when the user is authenticated with an email', function() {
 
     test('it displays a message for user authentified by email', async function(assert) {
       this.set('student', { hasEmail: true, email: 'rocky.balboa@example.net', firstName: 'Rocky',  lastName: 'Balboa' });
 
-      assert.contains('Souhaitez-vous dissocier le compte rocky.balboa@example.net de l\'élève Rocky Balboa ?');
+      assert.contains('Souhaitez-vous dissocier le compte Pix de l\'élève Rocky Balboa ?');
     });
   });
 
@@ -29,7 +30,7 @@ module('Integration | Component | dissociate-user-modal', function(hooks) {
     test('it displays a message for user authentified by username', async function(assert) {
       this.set('student', { hasUsername: true, username: 'appolo.creed', firstName: 'Appolo',  lastName: 'Creed' });
 
-      assert.contains('Souhaitez-vous dissocier le compte appolo.creed de l\'élève Appolo Creed ?');
+      assert.contains('Souhaitez-vous dissocier le compte Pix de l\'élève Appolo Creed ?');
     });
   });
 
@@ -38,7 +39,7 @@ module('Integration | Component | dissociate-user-modal', function(hooks) {
     test('it displays a message for user authentified with GAR', async function(assert) {
       this.set('student', { hasEmail: false, hasUsername: false, firstName: 'Ivan', lastName: 'Drago' });
 
-      assert.contains('Souhaitez-vous dissocier le compte du médiacenter de l\'ENT de l\'élève Ivan Drago ?');
+      assert.contains('Souhaitez-vous dissocier le compte Pix de l\'élève Ivan Drago ?');
     });
   });
 
