@@ -6,7 +6,7 @@ const defaultAutoClear = config['ember-cli-notifications'].autoClear;
 export default class Notifications extends NotificationsService {
 
   sendError() {
-    return this.error(...arguments, { autoClear: false, cssClasses: 'notification notification--error' });
+    return this.error(...arguments, { autoClear: false, htmlContent: true, cssClasses: 'notification notification--error' });
   }
 
   sendWarning() {
