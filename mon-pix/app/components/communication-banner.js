@@ -1,6 +1,6 @@
 import { htmlSafe } from '@ember/string';
 import Component from '@glimmer/component';
-const _ = require('lodash');
+import isEmpty from 'lodash/isEmpty';
 import ENV from 'mon-pix/config/environment';
 
 export default class CommunicationBanner extends Component {
@@ -14,7 +14,7 @@ export default class CommunicationBanner extends Component {
   };
 
   get isEnabled() {
-    return !_.isEmpty(this._rawBannerContent) && !_.isEmpty(this.bannerType);
+    return !isEmpty(this._rawBannerContent) && !isEmpty(this.bannerType);
   }
 
   get bannerContent() {

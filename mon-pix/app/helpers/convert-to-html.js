@@ -1,9 +1,9 @@
 import { helper } from '@ember/component/helper';
 import showdown from 'showdown';
-import _ from 'lodash';
+import isArray from 'lodash/isArray';
 
 export function convertToHtml(params) {
-  if (_.isArray(params) && params.length > 0) {
+  if (isArray(params) && params.length > 0) {
     const converter = new showdown.Converter();
     return converter.makeHtml(params[0]);
   }

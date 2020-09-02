@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { run } from '@ember/runloop';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
-import _ from 'lodash';
+import times from 'lodash/times';
 
 describe('Unit | Model | Assessment', function() {
   setupTest();
@@ -17,7 +17,7 @@ describe('Unit | Model | Assessment', function() {
 
     function newAnswers(store, nbAnswers) {
       return run(() => {
-        return _.times(nbAnswers, () => store.createRecord('answer'));
+        return times(nbAnswers, () => store.createRecord('answer'));
       });
     }
 

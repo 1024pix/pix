@@ -9,7 +9,7 @@ import { htmlSafe } from '@ember/string';
 import Component from '@ember/component';
 import { run } from '@ember/runloop';
 import { set, computed } from '@ember/object';
-import _ from 'lodash';
+import round from 'lodash/round';
 import ENV from 'mon-pix/config/environment';
 
 // see http://stackoverflow.com/a/37770048/2595513
@@ -39,7 +39,7 @@ export default Component.extend({
   _currentTime: Date.now(),
 
   remainingSeconds: computed('_elapsedTime', function() {
-    return _.round((this._totalTime - this._elapsedTime) / 1000);
+    return round((this._totalTime - this._elapsedTime) / 1000);
   }),
 
   remainingTime: computed('remainingSeconds', function() {

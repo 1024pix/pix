@@ -8,7 +8,7 @@ import classic from 'ember-classic-decorator';
 import { htmlSafe } from '@ember/template';
 import answersAsObject from 'mon-pix/utils/answers-as-object';
 import labelsAsObject from 'mon-pix/utils/labels-as-object';
-import _ from 'lodash';
+import keys from 'lodash/keys';
 import jsyaml from 'js-yaml';
 
 const classByResultValue = {
@@ -24,7 +24,7 @@ export default class QrocmDepSolutionPanel extends Component {
   get inputFields() {
     const escapedProposals = this.challenge.get('proposals').replace(/(\n\n|\n)/gm, '<br>');
     const labels = labelsAsObject(htmlSafe(escapedProposals).string);
-    const answers = answersAsObject(this.answer.value, _.keys(labels));
+    const answers = answersAsObject(this.answer.value, keys(labels));
 
     return Object.keys(labels).map((key) => {
       const answerIsEmpty = answers[key] === '';

@@ -1,6 +1,6 @@
 import { helper } from '@ember/component/helper';
 import $ from 'jquery';
-import _ from 'lodash';
+import truncate from 'lodash/truncate';
 
 export function stripInstruction(params) {
   let length = 70;
@@ -9,7 +9,7 @@ export function stripInstruction(params) {
   }
   const result = $(params[0]).text();
 
-  return _.truncate(result, {
+  return truncate(result, {
     length,
     separator: ' '
   });

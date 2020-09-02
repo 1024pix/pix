@@ -4,7 +4,7 @@ import { describe, it, before } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import _ from 'lodash';
+import times from 'lodash/times';
 
 const assessment = {};
 let challenge = null;
@@ -117,7 +117,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
 
         // Then
         const size = findAll('.comparison-window .qcm-proposal-label__checkbox-picture').length;
-        _.times(size, function(index) {
+        times(size, function(index) {
           expect(find('.comparison-window .qcm-proposal-label__checkbox-picture:eq(' + index + ')').getAttribute('disabled')).to.equal('disabled');
         });
       });
