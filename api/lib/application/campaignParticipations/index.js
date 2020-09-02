@@ -120,6 +120,25 @@ exports.register = async function(server) {
         tags: ['api', 'campaign-participation'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/campaigns/{campaignId}/assessment-participations/{campaignParticipationId}/results',
+      config: {
+        validate: {
+          params: Joi.object({
+            campaignId: Joi.number().integer().required(),
+            campaignParticipationId: Joi.number().integer().required()
+          }),
+        },
+        handler: campaignParticipationController.getCampaignAssessmentParticipationResult,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- L’utilisateur doit avoir les droits d‘accès à l‘organisation liée à la campagne\n' +
+          '- Récupération des résultats de l’évaluation d’un participant pour la campagne donnée',
+        ],
+        tags: ['api', 'campaign-participation']
+      }
+    },
   ]);
 };
 
