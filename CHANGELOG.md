@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.189.1 (02/09/2020)
+
+- [#1829](https://github.com/1024pix/pix/pull/1829) [BUGFIX] Nombre de caractères pour le code campagne KO [PIX-1220]
+
 ## v2.189.0 (02/09/2020)
 
 - [#1824](https://github.com/1024pix/pix/pull/1824) [FEATURE] Mise à jour des messages contenus dans la modale Dissocier un élève, dans Pix Orga (PIX-1155).
