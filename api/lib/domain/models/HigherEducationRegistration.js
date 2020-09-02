@@ -33,19 +33,7 @@ class HigherEducationRegistration {
     this.studyScheme = studyScheme;
     this.organizationId = organizationId;
     this.isSupernumerary = isSupernumerary;
-    this._validate();
-  }
-
-  _validate() {
-    checkValidation({
-      firstName: this.firstName,
-      lastName: this.lastName,
-      birthdate: this.birthdate,
-      studentNumber: this.studentNumber,
-      email: this.email,
-      organizationId: this.organizationId,
-      isSupernumerary: this.isSupernumerary,
-    });
+    checkValidation(this);
   }
 }
 
