@@ -34,7 +34,7 @@ module('Acceptance | Campaign Participants Individual Results', function(hooks) 
     server.create('campaign-assessment-participation', { id: 1, campaignId: 1, campaignAssessmentParticipationResult });
 
     // when
-    await visit('/campagnes/1/participants/1');
+    await visit('/campagnes/1/evaluations/1');
 
     // then
     assert.contains('Compétences (2)');
@@ -46,7 +46,7 @@ module('Acceptance | Campaign Participants Individual Results', function(hooks) 
     server.create('campaign-assessment-participation', { id: 1, campaignId: 1, campaignAssessmentParticipationResult });
 
     // when
-    await visit('/campagnes/1/participants/1');
+    await visit('/campagnes/1/evaluations/1');
 
     // then
     assert.contains('Compétences (-)');

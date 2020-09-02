@@ -1,0 +1,68 @@
+<article class="profile">
+  <header class="navigation">
+   <PreviousPageButton
+     @route="authenticated.campaigns.campaign.profiles"
+     @routeId={{@campaign.id}}
+     @aria-label="Retourner au détail de la campagne"
+   >
+    {{@campaign.name}}
+   </PreviousPageButton>
+  </header>
+
+  <section class="panel panel--header">
+    <header class="panel-header__headline">
+      <h2 class="panel-header-title">
+        {{@campaignProfile.firstName}} {{@campaignProfile.lastName}}
+      </h2>
+      {{#if (and @campaignProfile.isCertifiable @campaignProfile.isShared)}}
+        <PixTag @color="green-light" class="profile-user__certifiable">Certifiable</PixTag>
+      {{/if}}
+    </header>
+
+    <div class="panel-header__body">
+      <ul class="panel-header__data">
+        {{#if @campaignProfile.externalId}}
+          <li class="panel-header-data__content">
+            <div class="label-text panel-header-data-content__label">{{@campaign.idPixLabel}}</div>
+            <div class="value-text panel-header-data-content__value">{{@campaignProfile.externalId}}</div>
+          </li>
+        {{/if}}
+        <li class="panel-header-data__content">
+          <div class="label-text panel-header-data-content__label">Commencé le</div>
+          <div class="value-text panel-header-data-content__value">{{moment-format @campaignProfile.createdAt 'DD MMM YYYY'}}</div>
+        </li>
+        <li class="panel-header-data__content">
+          <div class="label-text panel-header-data-content__label">Envoyé le</div>
+          {{#if @campaignProfile.sharedAt}}
+            <div class="value-text panel-header-data-content__value">{{moment-format @campaignProfile.sharedAt 'DD MMM YYYY'}}</div>
+          {{else}}
+            <div class="value-text panel-header-data-content__value">Non disponible</div>
+          {{/if}}
+        </li>
+      </ul>
+
+      {{#if @campaignProfile.isShared}}
+        <ul class="panel-header__data panel-header__data--highlight">
+          <li class="panel-header-data__content">
+            <span class="value-text value-text--highlight">{{@campaignProfile.pixScore}}</span>
+            <span class="label-text label-text--dark label-text--small">PIX</span>
+          </li>
+          <li class="panel-header-data__content">
+            <span class="value-text">
+              <span class="value-text value-text--highlight">{{@campaignProfile.certifiableCompetencesCount}}</span>
+              <span>&nbsp;/&nbsp;{{@campaignProfile.competencesCount}}</span>
+            </span>
+            <span class="label-text label-text--dark label-text--small">COMP. CERTIFIABLES</span>
+          </li>
+        </ul>
+      {{/if}}
+    </div>
+  </section>
+
+  <section class="profile-competences panel">
+    <Routes::Authenticated::Campaign::Profile::Table
+      @competences={{@campaignProfile.sortedCompetences}}
+      @isShared={{@campaignProfile.isShared}}
+    />
+  </section>
+</article>

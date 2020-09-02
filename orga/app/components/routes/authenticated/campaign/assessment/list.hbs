@@ -1,0 +1,57 @@
+<div class="panel">
+  <div class="table content-text content-text--small">
+    <table>
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Prénom</th>
+          {{#if @campaign.idPixLabel}}
+            <th>{{@campaign.idPixLabel}}</th>
+          {{/if}}
+          <th>Résultats</th>
+        </tr>
+      </thead>
+
+      {{#if @participations}}
+        <tbody>
+        {{#each @participations as |participation|}}
+          <tr aria-label="Participant" role="button" {{on 'click' (fn @goToAssessmentPage @campaign.id participation.id)}} class="tr--clickable">
+            <td>{{participation.lastName}}</td>
+            <td>{{participation.firstName}}</td>
+            {{#if @campaign.idPixLabel}}
+              <td>{{participation.participantExternalId}}</td>
+            {{/if}}
+            <td>
+              {{#if participation.isShared}}
+                <span class="participant-list__mastery-percentage">
+                  {{participation.masteryPercentage}}%
+                </span>
+              {{else}}
+                {{#if participation.isCompleted}}
+                  <span class="participant-list__icon">
+                    <FaIcon @icon='share-square'></FaIcon>
+                  </span>
+                  En attente
+                {{else}}
+                  <span class="participant-list__icon">
+                    <FaIcon @icon='hourglass-half'></FaIcon>
+                  </span>
+                  En cours de test
+                {{/if}}
+              {{/if}}
+            </td>
+          </tr>
+        {{/each}}
+        </tbody>
+      {{/if}}
+    </table>
+
+    {{#unless @participations}}
+      <div class="table__empty content-text">En attente de participants</div>
+    {{/unless}}
+  </div>
+</div>
+
+{{#if @participations}}
+  <PaginationControl @pagination={{@participations.meta}}/>
+{{/if}}
