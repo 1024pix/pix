@@ -55,9 +55,9 @@
     <div class="join-restricted-campaign__error" aria-live="polite">{{{this.errorMessage}}}</div>
   {{/if}}
   {{#if this.isLoading}}
-    <button type="button" disabled class="button button--big"><span class="loader-in-button">&nbsp;</span></button>
+    <button type="button" disabled class="button button--big join-restricted-campaign__button"><span class="loader-in-button">&nbsp;</span></button>
   {{else}}
-    <button type="submit" class="button button--big" {{on 'click' this.submit}}>
+    <button type="submit" class="button button--big join-restricted-campaign__button" {{on 'click' this.submit}}>
       C'est parti !
     </button>
   {{/if}}
@@ -79,8 +79,10 @@
     </div>
 
     <div class="join-error-modal__footer">
-      <button class="button button--grey" type="button" aria-label="Quitter" {{on 'click' this.goToHome}}>Quitter</button>
-      <button class="button" type="button" aria-label="Continuer avec mon compte Pix" {{on 'click' this.goToCampaignConnectionForm}}>Continuer avec mon compte Pix</button>
+      <button class="button {{if this.displayContinueButton "button--grey"}}" type="button" aria-label="Quitter" {{on 'click' this.goToHome}}>Quitter</button>
+      {{#if this.displayContinueButton}}
+        <button class="button" type="button" aria-label="Continuer avec mon compte Pix" {{on 'click' this.goToCampaignConnectionForm}}>Continuer avec mon compte Pix</button>
+      {{/if}}
     </div>
   </PixModal>
 {{/if}}
