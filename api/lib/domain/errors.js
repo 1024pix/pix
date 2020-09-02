@@ -523,6 +523,12 @@ class WrongDateFormatError extends DomainError {
   }
 }
 
+class CsvStudentsImportError extends DomainError {
+  constructor(message = 'Quelque chose s’est mal passé. Veuillez réessayer.') {
+    super(message);
+  }
+}
+
 class NotImplementedError extends Error {
   constructor(message = 'Not implemented error.') {
     super(message);
@@ -605,4 +611,5 @@ module.exports = {
   UserShouldChangePasswordError,
   WrongDateFormatError,
   NotImplementedError,
+  CsvStudentsImportError,
 };

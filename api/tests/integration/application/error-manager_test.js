@@ -81,6 +81,13 @@ describe('Integration | API | Controller Error', () => {
 
       expect(response.statusCode).to.equal(PRECONDITION_FAILED);
     });
+
+    it('responds Precondition Failed when a CsvStudentsImportError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.CsvStudentsImportError());
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(PRECONDITION_FAILED);
+    });
   });
 
   context('404 Not Found', () => {
