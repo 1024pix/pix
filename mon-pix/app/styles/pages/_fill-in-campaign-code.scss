@@ -28,6 +28,10 @@
   &__form-field {
     display: inline-block;
     text-align: left;
+
+    input {
+      width: 13.6ch;
+    }
   }
 
   &__form {
