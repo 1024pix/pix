@@ -1,20 +1,31 @@
 #!/usr/bin/env bash
-
 alteredFilePaths=$(git ls-files -m '*.js');
+files=$@
+
+function lint () {
+  npx eslint $alteredFilePaths --fix
+}
+
+function test () {
+  npm run test:api:path $files -- --bail
+}
+
+function commit () {
+  echo "TCR => COMMIT"
+  git commit -am "TCR:WIP"
+}
+
+function revert () {
+  echo "TCR => REVERT"
+  git checkout HEAD lib/
+}
 
 if [ ! -z "$alteredFilePaths" ] ; then
-  if npx eslint $alteredFilePaths --fix ; then
-    if npm run test:api:path $@ -- --bail; then
-      echo "TCR => COMMIT"
-      git commit -am "TCR:WIP"
-    else
-      echo "TCR => REVERT"
-      git checkout HEAD lib/
-    fi
+  if lint ; then
+    test && commit || revert
   else
     echo "TCR => ABORT"
   fi
 else
   echo "TCR => NOTHING HAS CHANGED"
 fi
-
