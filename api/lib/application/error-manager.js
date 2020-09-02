@@ -223,6 +223,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.UserCouldNotBeReconciledError) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }
+  if (error instanceof DomainErrors.CsvStudentsImportError) {
+    return new HttpErrors.PreconditionFailedError(error.message);
+  }
 
   return new HttpErrors.BaseHttpError(error.message);
 }
