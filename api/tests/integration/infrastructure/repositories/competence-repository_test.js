@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { expect, airtableBuilder, domainBuilder, databaseBuilder } = require('../../../test-helper');
+const { expect, airtableBuilder, domainBuilder } = require('../../../test-helper');
 const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 const Area = require('../../../../lib/domain/models/Area');
 const Competence = require('../../../../lib/domain/models/Competence');
@@ -65,25 +65,6 @@ describe('Integration | Repository | competence-repository', () => {
 
       // then
       expect(competenceName).to.equal(airtableCompetence.fields['Titre en-us']);
-    });
-  });
-
-  describe('#getPixScoreByCompetence', () => {
-    it('should return the user pixScore by competence within date', async () => {
-      // given
-      const competenceId1 = 'recCompetenceId1';
-      const competenceId2 = 'recCompetenceId2';
-      const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildKnowledgeElement({ competenceId: competenceId1, earnedPix: 1, userId });
-      databaseBuilder.factory.buildKnowledgeElement({ competenceId: competenceId2, earnedPix: 10, userId });
-      await databaseBuilder.commit();
-
-      // when
-      const pixScoreByCompetence = await competenceRepository.getPixScoreByCompetence({ userId });
-
-      // then
-      expect(pixScoreByCompetence[competenceId1]).to.equal(1);
-      expect(pixScoreByCompetence[competenceId2]).to.equal(10);
     });
   });
 

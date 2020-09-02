@@ -4,8 +4,6 @@ const Area = require('../../domain/models/Area');
 const areaDatasource = require('../datasources/airtable/area-datasource');
 const Competence = require('../../domain/models/Competence');
 const competenceDatasource = require('../datasources/airtable/competence-datasource');
-const knowledgeElementRepository = require('./knowledge-element-repository');
-const scoringService = require('../../domain/services/scoring/scoring-service');
 const { NotFoundError } = require('../../domain/errors');
 const { FRENCH_FRANCE } = require('../../domain/constants').LOCALE;
 const { getTranslatedText } = require('../../domain/services/get-translated-text');
@@ -68,20 +66,6 @@ module.exports = {
       }
       throw err;
     }
-  },
-
-  async getPixScoreByCompetence({ userId, limitDate }) {
-    const knowledgeElementsGroupedByCompetenceId = await knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({
-      userId,
-      limitDate,
-    });
-
-    return _.mapValues(knowledgeElementsGroupedByCompetenceId, (knowledgeElements) => {
-      const {
-        pixScoreForCompetence,
-      } = scoringService.calculateScoringInformationForCompetence({ knowledgeElements });
-      return pixScoreForCompetence;
-    });
   },
 
 };

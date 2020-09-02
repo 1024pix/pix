@@ -53,11 +53,6 @@ describe('Acceptance | Controller | users-controller-get-current-user', () => {
                 related: `/api/users/${user.id}/certification-center-memberships`,
               },
             },
-            'pix-score' : {
-              links: {
-                related: `/api/users/${user.id}/pixscore`,
-              },
-            },
             scorecards: {
               links: {
                 related: `/api/users/${user.id}/scorecards`,

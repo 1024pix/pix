@@ -216,28 +216,6 @@ describe('Unit | Router | user-router', () => {
     });
   });
 
-  describe('GET /api/users/{id}/pixscore', function() {
-    beforeEach(() => {
-      sinon.stub(userController, 'getPixScore').returns('ok');
-      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
-      startServer();
-    });
-
-    it('should exist', () => {
-      // given
-      const options = {
-        method: 'GET',
-        url: '/api/users/42/pixscore',
-      };
-
-      // when
-      return server.inject(options).then(() => {
-        // then
-        sinon.assert.calledOnce(userController.getPixScore);
-      });
-    });
-  });
-
   describe('GET /api/users/{id}/scorecards', function() {
     beforeEach(() => {
       sinon.stub(userController, 'getScorecards').returns('ok');

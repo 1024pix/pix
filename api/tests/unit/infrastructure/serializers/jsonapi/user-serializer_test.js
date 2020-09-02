@@ -56,11 +56,6 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
                   related: `/api/users/${userModelObject.id}/certification-center-memberships`,
                 },
               },
-              'pix-score': {
-                links: {
-                  related: `/api/users/${userModelObject.id}/pixscore`,
-                },
-              },
               scorecards: {
                 links: {
                   related: `/api/users/${userModelObject.id}/scorecards`,
