@@ -3,20 +3,17 @@ const areaDatasource = require('../datasources/airtable/area-datasource');
 const competenceRepository = require('./competence-repository');
 const _ = require('lodash');
 
-function list() {
-  return areaDatasource.list()
-    .then((areaDataObjects) => {
-
-      return areaDataObjects.map((areaDataObject) => {
-        return new Area({
-          id: areaDataObject.id,
-          code: areaDataObject.code,
-          name: areaDataObject.name,
-          title: areaDataObject.titleFrFr,
-          color: areaDataObject.color,
-        });
-      });
+async function list() {
+  const areaDataObjects = await areaDatasource.list();
+  return areaDataObjects.map((areaDataObject) => {
+    return new Area({
+      id: areaDataObject.id,
+      code: areaDataObject.code,
+      name: areaDataObject.name,
+      title: areaDataObject.titleFrFr,
+      color: areaDataObject.color,
     });
+  });
 }
 
 async function listWithPixCompetencesOnly() {
