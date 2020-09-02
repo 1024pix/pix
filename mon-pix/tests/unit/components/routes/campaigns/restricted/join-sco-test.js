@@ -483,7 +483,8 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
             // then
             sinon.assert.calledOnce(record.unloadRecord);
             expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
-            expect(component.isLoading).to.equal(false);
+            expect(component.isLoading).to.be.false;
+            expect(component.displayContinueButton).to.be.true;
           });
 
         });
@@ -508,7 +509,8 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
             // then
             sinon.assert.calledOnce(record.unloadRecord);
             expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
-            expect(component.isLoading).to.equal(false);
+            expect(component.isLoading).to.be.false;
+            expect(component.displayContinueButton).to.be.true;
           });
 
         });
@@ -533,7 +535,8 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
             // then
             sinon.assert.calledOnce(record.unloadRecord);
             expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
-            expect(component.isLoading).to.equal(false);
+            expect(component.isLoading).to.be.false;
+            expect(component.displayContinueButton).to.be.false;
           });
 
         });
@@ -558,7 +561,8 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
             // then
             sinon.assert.calledOnce(record.unloadRecord);
             expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
-            expect(component.isLoading).to.equal(false);
+            expect(component.isLoading).to.be.false;
+            expect(component.displayContinueButton).to.be.false;
           });
 
         });
@@ -583,7 +587,8 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
             // then
             sinon.assert.calledOnce(record.unloadRecord);
             expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
-            expect(component.isLoading).to.equal(false);
+            expect(component.isLoading).to.be.false;
+            expect(component.displayContinueButton).to.be.false;
           });
 
         });
@@ -608,7 +613,8 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
             // then
             sinon.assert.calledOnce(record.unloadRecord);
             expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
-            expect(component.isLoading).to.equal(false);
+            expect(component.isLoading).to.be.false;
+            expect(component.displayContinueButton).to.be.false;
           });
 
         });
@@ -633,7 +639,8 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
             // then
             sinon.assert.calledOnce(record.unloadRecord);
             expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
-            expect(component.isLoading).to.equal(false);
+            expect(component.isLoading).to.be.false;
+            expect(component.displayContinueButton).to.be.true;
           });
         });
       });
