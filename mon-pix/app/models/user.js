@@ -2,6 +2,7 @@
 
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 import { computed } from '@ember/object';
+import sum from 'lodash/sum';
 
 export default class User extends Model {
 
@@ -18,7 +19,6 @@ export default class User extends Model {
 
   // includes
   @belongsTo('is-certifiable') isCertifiable;
-  @belongsTo('pix-score') pixScore;
   @hasMany('campaign-participation') campaignParticipations;
   @hasMany('certification') certifications;
   @hasMany('scorecard') scorecards;
@@ -51,4 +51,10 @@ export default class User extends Model {
   get areasCode() {
     return this.scorecards.mapBy('area.code').uniq();
   }
+
+  @computed('scorecards.earnedPix')
+  get pixScore() {
+    return sum(this.scorecards.mapBy('earnedPix'));
+  }
+
 }

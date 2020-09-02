@@ -57,4 +57,26 @@ describe('Unit | Model | user model', function() {
       });
     });
   });
+
+  describe('@pixScore', () => {
+
+    it('should return the sum of earnedPix in Scorecard', function() {
+      return run(() => {
+        // given
+        const scorecard1 = store.createRecord('scorecard', { earnedPix: 5 });
+        const scorecard2 = store.createRecord('scorecard', { earnedPix: 10 });
+        const scorecard3 = store.createRecord('scorecard', { earnedPix: 2 });
+
+        const model = store.createRecord('user');
+        model.set('scorecards', [scorecard1, scorecard2, scorecard3]);
+
+        // when
+        const pixScore = model.get('pixScore');
+
+        // then
+        expect(pixScore).to.equal(17);
+      });
+    });
+  });
+
 });

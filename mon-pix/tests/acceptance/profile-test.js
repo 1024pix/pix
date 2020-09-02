@@ -32,7 +32,7 @@ describe('Acceptance | Profile', function() {
       await visit('/profil');
 
       // then
-      expect(find('.hexagon-score-content__pix-score').textContent).to.contains(user.pixScore.value);
+      expect(find('.hexagon-score-content__pix-score').textContent).to.contains('156');
     });
 
     it('should display scorecards classified accordingly to each area', async function() {

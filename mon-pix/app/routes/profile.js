@@ -14,8 +14,7 @@ export default class ProfileRoute extends Route.extend(SecuredRouteMixin) {
   async afterModel(user) {
     // This reloads are necessary to keep the ui in sync when the
     // user navigates back to this route
-    user.belongsTo('pixScore').reload();
-    user.hasMany('scorecards').reload();
-    user.hasMany('campaignParticipations').reload();
+    await user.hasMany('scorecards').reload();
+    await user.hasMany('campaignParticipations').reload();
   }
 }
