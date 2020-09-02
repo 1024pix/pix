@@ -1,14 +1,8 @@
 <Modal::Dialog class="dissociate-user-modal" @title="Dissocier le compte Pix de l'élève" @display={{@display}} @close={{@close}}>
   <Modal::Body class="dissociate-user-modal__content">
     <p class="content-text">
-    {{#if @student.hasEmail}}
-        Souhaitez-vous dissocier le compte <span class="content-text--bold">{{@student.email}}</span> de l'élève <span class="content-text--bold">{{@student.firstName}} {{@student.lastName}} ?</span>
-    {{else if @student.hasUsername}}
-        Souhaitez-vous dissocier le compte <span class="content-text--bold">{{@student.username}}</span> de l'élève <span class="content-text--bold">{{@student.firstName}} {{@student.lastName}} ?</span>
-    {{else}}
-        Souhaitez-vous dissocier le compte du médiacenter de l'ENT de l'élève <span class="content-text--bold">{{@student.firstName}} {{@student.lastName}} ?</span>
-    {{/if}}
-      </p>
+      Souhaitez-vous dissocier le compte Pix de l'élève <span class="content-text--bold">{{@student.firstName}} {{@student.lastName}} ?</span>
+    </p>
     <p class="content-text content-text--info">
       L’élève pourra s’associer à nouveau avec une autre méthode d’authentification lors d’une prochaine campagne.
       <br/>
