@@ -114,6 +114,7 @@
       },
       "issued-on": "Issued on",
       "jury-title": "Jury observations",
+      "jury-info": "Les observations du jury ne sont pas partagées sur la page de vérification de votre certificat.",
 
       "validity": "Certificate valid for 3 years"
     },

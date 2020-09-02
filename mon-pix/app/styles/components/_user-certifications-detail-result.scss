@@ -23,12 +23,21 @@
     text-align: center;
   }
 
-  &__comment-jury {
-    margin: 8px;
-    font-family: $font-open-sans;
-    font-size: 0.875rem;
-    font-weight: $font-medium;
-    line-height: 1.375rem;
+  &__jury {
+
+    &__info {
+      font-size: 0.75rem;
+    }
+
+    &__comment {
+      font-size: 0.875rem;
+    }
+
+    p {
+      font-family: $font-open-sans;
+      font-weight: $font-medium;
+      line-height: 1.375rem;
+    }
   }
 
   @include device-is('mobile') {
