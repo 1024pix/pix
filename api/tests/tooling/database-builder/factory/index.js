@@ -32,6 +32,7 @@ module.exports = {
   buildOrganizationInvitation: require('./build-organization-invitation'),
   buildMembership: require('./build-membership'),
   buildPixRole: require('./build-pix-role'),
+  buildResetPasswordDemand: require('./build-reset-password-demand'),
   buildSession: require('./build-session'),
   buildSchoolingRegistration: require('./build-schooling-registration'),
   buildSchoolingRegistrationWithUser: require('./build-schooling-registration-with-user'),

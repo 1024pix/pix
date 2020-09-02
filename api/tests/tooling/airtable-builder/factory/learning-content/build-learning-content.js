@@ -37,7 +37,9 @@ const buildLearningContent = function(learningContent) {
               tube: [tube.id],
               status: skill.status,
               compétenceViaTube: [competence.id],
-              nom: skill.nom
+              nom: skill.nom,
+              pixValue: skill.pixValue,
+              comprendre: skill.tutorialIds,
             }
           );
         });
@@ -45,6 +47,13 @@ const buildLearningContent = function(learningContent) {
         return buildTube(
           {
             id: tube.id,
+            nom: tube.name,
+            description: tube.description,
+            titre: tube.title,
+            titrePratiqueFrFr: tube.practicalTitleFr || tube.practicalTitle,
+            descriptionPratiqueFrFr: tube.practicalDescriptionFr || tube.practicalDescription,
+            titrePratiqueEnUs: tube.practicalTitleEn || tube.practicalTitle,
+            descriptionPratiqueEnUs: tube.practicalDescriptionEn || tube.practicalDescription,
             competences: [competence.id]
           }
         );
@@ -64,8 +73,13 @@ const buildLearningContent = function(learningContent) {
     allCompetences.push(competences);
     return buildArea({
       id: area.id,
+      code: area.code,
+      nom: area.name,
+      titreFr: area.titleFr,
+      titreEn: area.titleEn,
+      couleur: area.color,
       competenceIds: competences.map((competence) => competence.id),
-      nomCompetences: competences.map((competence) => competence.name)
+      nomCompetences: competences.map((competence) => competence.name),
     });
   });
   return {
