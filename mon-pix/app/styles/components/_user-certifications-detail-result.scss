@@ -7,8 +7,10 @@
   height: 100%;
   color: $grey-80;
   font-size: 1.125rem;
-  line-height: 1.625rem;
-  margin-bottom: 40px;
+
+  div {
+    line-height: 1.625rem;
+  }
 
   h2 {
     color: $grey-60;
