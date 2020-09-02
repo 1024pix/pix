@@ -1,5 +1,5 @@
 .feedback-panel {
-  color: $grey-80;
+  color: $grey-50;
   font-size: 0.938rem;
   margin-top: -18px;
 }
@@ -12,7 +12,7 @@
   background-color: transparent;
   padding: 0;
   cursor: pointer;
-  color: $grey-30;
+  color: $grey-50;
   font-family: $font-roboto;
   font-weight: $font-medium;
   font-size: 0.875rem;
@@ -31,6 +31,14 @@
 .feedback-panel__form-description {
   margin-bottom: 20px;
   font-size: 1.25rem;
+
+  & .link {
+    color: $blue-hover;
+
+    &:hover {
+      color: $dark-blue-pro;
+    }
+  }
 }
 
 .feedback-panel__form-description p {
@@ -82,7 +90,6 @@
   font-size: 0.938rem;
   margin-top: 20px;
   font-weight: bold;
-  text-align: justify;
   word-break: break-word;
   background-color: $white;
   padding: 20px;
@@ -118,8 +125,13 @@
 }
 
 .feedback-panel__button--send {
-  background-color: $grey-40;
+  background-color: $grey-50;
   color: white;
+
+  &:hover,
+  &:focus {
+    background-color: $grey-70;
+  }
 }
 
 .feedback-panel__form-legal-notice {
@@ -128,6 +140,10 @@
 
   & p {
     font-size: 0.75rem;
+  }
+
+  & a {
+    color: $blue-hover;
   }
 }
 

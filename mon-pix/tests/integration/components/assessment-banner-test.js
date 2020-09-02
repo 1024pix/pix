@@ -31,9 +31,20 @@ describe('Integration | Component | assessment-banner', function() {
       await render(hbs`{{assessment-banner title=assessmentTitle}}`);
     });
 
+    it('should render the banner with accessible title information', function() {
+      const title = find('.assessment-banner__title');
+      expect(title).to.exist;
+      expect(title.childNodes).to.have.length(2);
+      const a11yText = title.firstChild.textContent;
+      expect(a11yText).to.equal('Épreuve pour l\'évaluation : ');
+    });
+
     it('should render the banner with a title', function() {
-      expect(find('.assessment-banner__title')).to.exist;
-      expect(find('.assessment-banner__title').textContent).to.equal('My assessment');
+      const title = find('.assessment-banner__title');
+      expect(title).to.exist;
+      expect(title.childNodes).to.have.length(2);
+      const assessmentName = title.lastChild.textContent;
+      expect(assessmentName).to.equal('My assessment');
     });
 
     it('should render the banner with a splitter', function() {

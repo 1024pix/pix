@@ -12,14 +12,15 @@
 
   <div class="assessment-challenge__content rounded-panel--over-background-banner">
     <ProgressBar @assessment={{@model.assessment}} @answerId={{@model.answer.id}}/>
-
-    {{component (get-challenge-component-class @model.challenge)
+    <main>
+      {{component (get-challenge-component-class @model.challenge)
                 challenge=@model.challenge
                 answer=@model.answer
                 assessment=@model.assessment
                 answerValidated=(route-action "saveAnswerAndNavigate")
                 resumeAssessment=(route-action "resumeAssessment")
     }}
+    </main>
   </div>
 </div>
 
