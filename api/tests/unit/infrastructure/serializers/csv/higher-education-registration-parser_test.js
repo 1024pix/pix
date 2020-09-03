@@ -161,7 +161,7 @@ describe('Unit | Infrastructure | HigherEducationRegistrationParser', () => {
 
       const error = await catchErr(parser.parse, parser)();
 
-      expect(error.message).to.contain('A partir de la ligne 2 :');
+      expect(error.message).to.contain('Ligne 3 :');
     });
   });
 });
