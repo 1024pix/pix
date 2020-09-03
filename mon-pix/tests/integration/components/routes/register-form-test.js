@@ -148,7 +148,7 @@ describe('Integration | Component | routes/register-form', function() {
         await triggerEvent('#firstName', 'blur');
 
         // then
-        expect(find('#register-firstName-container #validationMessage').textContent).to.equal(EMPTY_FIRSTNAME_ERROR_MESSAGE);
+        expect(find('#register-firstName-container #validationMessage-firstName').textContent).to.equal(EMPTY_FIRSTNAME_ERROR_MESSAGE);
         expect(find('#register-firstName-container .form-textfield__input-container--error')).to.exist;
       });
     });
@@ -166,7 +166,7 @@ describe('Integration | Component | routes/register-form', function() {
         await triggerEvent('#lastName', 'blur');
 
         // then
-        expect(find('#register-lastName-container #validationMessage').textContent).to.equal(EMPTY_LASTNAME_ERROR_MESSAGE);
+        expect(find('#register-lastName-container #validationMessage-lastName').textContent).to.equal(EMPTY_LASTNAME_ERROR_MESSAGE);
         expect(find('#register-lastName-container .form-textfield__input-container--error')).to.exist;
       });
     });
@@ -245,7 +245,7 @@ describe('Integration | Component | routes/register-form', function() {
         await triggerEvent('#email', 'blur');
 
         // then
-        expect(find('#register-email-container #validationMessage').textContent).to.equal(EMPTY_EMAIL_ERROR_MESSAGE);
+        expect(find('#register-email-container #validationMessage-email').textContent).to.equal(EMPTY_EMAIL_ERROR_MESSAGE);
         expect(find('#register-email-container .form-textfield__input-container--error')).to.exist;
       });
     });
@@ -267,7 +267,7 @@ describe('Integration | Component | routes/register-form', function() {
         await triggerEvent('#password', 'blur');
 
         // then
-        expect(find('#register-password-container #validationMessage').textContent).to.equal(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE);
+        expect(find('#register-password-container #validationMessage-password').textContent).to.equal(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE);
         expect(find('#register-password-container .form-textfield__input-container--error')).to.exist;
       });
     });
