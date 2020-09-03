@@ -46,7 +46,7 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
 
       context('When email is used', () => {
 
-        it('should return an HTTP response with status code 201', async () => {
+        it('should return an HTTP response with status code 204', async () => {
           // given
           payload.data.attributes.email = 'toto@example.net';
           payload.data.attributes['with-username'] = false;
@@ -56,14 +56,13 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
           const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users', payload);
 
           // then
-          expect(response.statusCode).to.equal(201);
-          expect(response.result.data.id).to.equal(createdUser.id.toString());
+          expect(response.statusCode).to.equal(204);
         });
       });
 
       context('When username is used', () => {
 
-        it('should return an HTTP response with status code 201', async () => {
+        it('should return an HTTP response with status code 204', async () => {
           // given
           payload.data.attributes.username = 'robert.smith1212';
           payload.data.attributes['with-username'] = true;
@@ -73,8 +72,7 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
           const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users', payload);
 
           // then
-          expect(response.statusCode).to.equal(201);
-          expect(response.result.data.id).to.equal(createdUser.id.toString());
+          expect(response.statusCode).to.equal(204);
         });
       });
 
