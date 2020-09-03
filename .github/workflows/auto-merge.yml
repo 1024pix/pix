@@ -1,4 +1,4 @@
-name: check
+name: automerge check
 on:
   pull_request:
     types:
@@ -14,8 +14,8 @@ jobs:
         uses: "pascalgn/automerge-action@v0.8.3"
         env:
           GITHUB_TOKEN: "${{ secrets.PIX_SERVICE_ACTIONS_TOKEN }}"
-          MERGE_LABELS: "Merge-auto test"
+          MERGE_LABELS: ":rocket: Ready to Merge"
           MERGE_COMMIT_MESSAGE: "pull-request-title"
-          UPDATE_LABELS: "Merge-auto test"
+          UPDATE_LABELS: ":rocket: Ready to Merge"
           UPDATE_METHOD: "rebase"
           MERGE_FORKS: "false"
