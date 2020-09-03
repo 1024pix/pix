@@ -16,7 +16,6 @@ export default class Assessment extends Model {
 
   // references
   @attr('string') competenceId;
-  @attr('string') participantExternalId;
 
   // includes
   @hasMany('answer') answers;
