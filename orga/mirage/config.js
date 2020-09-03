@@ -192,6 +192,19 @@ export default function() {
     }
   });
 
+  this.post('/organizations/:id/schooling-registrations/import-csv', (schema, request) => {
+    const type = request.requestBody.type;
+
+    if (type === 'valid-file') {
+      const organizationId = request.params.id;
+      return schema.students.create({ organizationId: organizationId, firstName: 'Harry', lastName: 'Cover' });
+    } else if (type === 'invalid-file') {
+      return new Promise((resolve) => {
+        resolve(new Response(412, {}, { errors: [ { status: '412', detail: 'Erreur d’import' } ] }));
+      });
+    }
+  });
+
   this.get('/campaigns/:id');
 
   this.patch('/campaigns/:id');
