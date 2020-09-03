@@ -46,6 +46,13 @@
       input {
         width: 15.3ch;
       }
+
+      @media all and (-ms-high-contrast: none) {
+
+        input {
+          width: 17.4ch;
+        }
+      }
     }
 
     .form__actions {
