@@ -332,6 +332,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
             schoolingRegistrations[0].userId = '123';
             userRepositoryStub = {
               getUserAuthenticationMethods: sinon.stub().resolves(),
+              updateUserAttributes: sinon.stub().resolves(),
             };
             obfuscationServiceStub = {
               getUserAuthenticationMethodWithObfuscation: sinon.stub().returns({ authenticatedBy: 'email' }),
@@ -341,7 +342,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
           it('should throw OrganizationStudentAlreadyLinkedToUserError', async () => {
             // given
             schoolingRegistrationRepositoryStub.findByOrganizationIdAndUserData.resolves(schoolingRegistrations);
-
+            userRepositoryStub.getUserAuthenticationMethods.resolves({ email: 'email@example.net' });
             // when
             const result = await catchErr(userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub, userRepository: userRepositoryStub, obfuscationService: obfuscationServiceStub });
 
@@ -398,6 +399,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
         schoolingRegistrations[0].userId = '123';
         userRepositoryStub = {
           getUserAuthenticationMethods: sinon.stub().resolves(),
+          updateUserAttributes: sinon.stub().resolves(),
         };
         obfuscationServiceStub = {
           getUserAuthenticationMethodWithObfuscation: sinon.stub().returns({ authenticatedBy: 'email' }),
@@ -406,6 +408,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
         user = {
           studentNumber: '123A',
         };
+        userRepositoryStub.getUserAuthenticationMethods.resolves({ email: 'email@example.net' });
 
         // when
         const result = await catchErr(userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub, userRepository: userRepositoryStub, obfuscationService: obfuscationServiceStub });

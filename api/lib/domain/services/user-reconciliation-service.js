@@ -65,6 +65,10 @@ async function checkIfStudentIsAlreadyReconciledOnTheSameOrganization(matchingSc
     const detail = 'Un compte existe déjà pour l‘élève dans le même établissement.';
     const error = STUDENT_RECONCILIATION_ERRORS.RECONCILIATION.IN_SAME_ORGANIZATION[authenticationMethod.authenticatedBy];
     const meta = { shortCode: error.shortCode, value: authenticationMethod.value };
+    if (authenticationMethod.authenticatedBy === 'samlId') {
+      meta.userId = userId;
+      meta.schoolingRegistrationId = matchingSchoolingRegistration.id;
+    }
     throw new SchoolingRegistrationAlreadyLinkedToUserError(detail, error.code, meta);
   }
 }
@@ -78,6 +82,8 @@ async function checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(st
     const detail = 'Un compte existe déjà pour l‘élève dans un autre établissement.';
     const error = STUDENT_RECONCILIATION_ERRORS.RECONCILIATION.IN_OTHER_ORGANIZATION[authenticationMethod.authenticatedBy];
     const meta = { shortCode: error.shortCode, value: authenticationMethod.value };
+    if (authenticationMethod.authenticatedBy === 'samlId') { meta.userId = userId; }
+
     throw new SchoolingRegistrationAlreadyLinkedToUserError(detail, error.code, meta);
   }
 }
