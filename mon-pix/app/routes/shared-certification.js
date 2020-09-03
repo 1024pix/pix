@@ -7,7 +7,7 @@ export default class SharedCertificationRoute extends Route {
       if (transition && transition.from) {
         transition.abort();
       } else {
-        this.replaceWith('/verification-certificat');
+        this.replaceWith('/verification-certificat?unallowedAccess=true');
       }
     }
   }
