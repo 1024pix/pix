@@ -72,16 +72,16 @@ class HigherEducationRegistrationParser {
   _handleError(err, index) {
     const column = COLUMN_NAME_BY_ATTRIBUTE[err.key];
     if (err.why === 'uniqueness') {
-      throw new CsvStudentsImportError(`A partir de la ligne ${index + 1} : Le champ “Numéro étudiant” doit être unique au sein du fichier.`);
+      throw new CsvStudentsImportError(`Ligne ${index + 2} : Le champ “Numéro étudiant” doit être unique au sein du fichier.`);
     }
     if (err.why === 'max_length') {
-      throw new CsvStudentsImportError(`A partir de la ligne ${index + 1} : Le champ “${column}” doit être inférieur à 255 caractères.`);
+      throw new CsvStudentsImportError(`Ligne ${index + 2} : Le champ “${column}” doit être inférieur à 255 caractères.`);
     }
     if (err.why === 'not_a_date' || err.why === 'date_format') {
-      throw new CsvStudentsImportError(`A partir de la ligne ${index + 1} : Le champ “Date de naissance” doit être au format jj/mm/aaaa.`);
+      throw new CsvStudentsImportError(`Ligne ${index + 2} : Le champ “Date de naissance” doit être au format jj/mm/aaaa.`);
     }
     if (err.why === 'required') {
-      throw new CsvStudentsImportError(`A partir de la ligne ${index + 1} : Le champ “${column}” est obligatoire.`);
+      throw new CsvStudentsImportError(`Ligne ${index + 2} : Le champ “${column}” est obligatoire.`);
     }
     throw err;
   }
