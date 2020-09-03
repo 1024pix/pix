@@ -1,3 +1,4 @@
+import Response from 'ember-cli-mirage/response';
 import { decodeToken } from 'mon-pix/helpers/jwt';
 
 export default function index(config) {
@@ -17,10 +18,10 @@ export default function index(config) {
       password: params.data.attributes['password'],
     };
     const student = schema.students.findBy({ firstName, lastName });
-    const user = schema.users.create(newUser);
-    student.update({ userId: user.id, organizationId });
+    const userId = schema.users.create(newUser).id;
+    student.update({ userId, organizationId });
     schema.schoolingRegistrationUserAssociations.create({ campaignCode });
-    return user;
+    return new Response(204);
   });
 
   config.post('/schooling-registration-dependent-users/external-user-token', (schema, request) => {
