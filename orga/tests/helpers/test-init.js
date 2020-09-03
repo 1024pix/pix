@@ -167,12 +167,12 @@ export function createAdminMembershipWithNbMembers(countMembers) {
   return admin;
 }
 
-export function createUserManagingStudents(role = 'MEMBER') {
+export function createUserManagingStudents(role = 'MEMBER', type = 'SCO') {
   const user = server.create('user', { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com', 'pixOrgaTermsOfServiceAccepted': true });
 
   const organization = server.create('organization', {
     name: 'BRO & Evil Associates',
-    type: 'SCO',
+    type,
     isManagingStudents: true
   });
 
