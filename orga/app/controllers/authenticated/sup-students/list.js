@@ -55,17 +55,16 @@ export default class ListController extends Controller {
 
       const errorPrefix = 'Aucun étudiant n’a été importé.<br/>';
       const globalErrorMessage = `<div>${errorPrefix} Veuillez réessayer ou nous contacter via <a target="_blank" rel="noopener noreferrer" href="https://support.pix.fr/support/tickets/new">le formulaire du centre d'aide</a></div>`;
-      if (!errorResponse.body.errors) {
-        return this.notifications.sendError(globalErrorMessage);
+      if (errorResponse.body.errors) {
+        errorResponse.body.errors.forEach((error) => {
+          if (error.status === '412' || error.status === '413') {
+            return this.notifications.sendError(`<div>${errorPrefix} <strong>${error.detail}</strong><br/> Veuillez modifier votre fichier et l’importer à nouveau.</div>`);
+          }
+          return this.notifications.sendError(globalErrorMessage);
+        });
+      } else {
+        this.notifications.sendError(globalErrorMessage);
       }
-      errorResponse.body.errors.forEach((error) => {
-        if (error.status === '412' || error.status === '413') {
-          return this.notifications.sendError(`<div>${errorPrefix} <b>${error.detail}</b><br/> Veuillez modifier votre fichier et l’importer à nouveau.</div>`);
-        }
-        
-        return this.notifications.sendError(globalErrorMessage);
-      });
-
     }
   }
 
