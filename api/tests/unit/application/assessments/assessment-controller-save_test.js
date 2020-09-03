@@ -4,57 +4,10 @@ const controller = require('../../../../lib/application/assessments/assessment-c
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const usecases = require('../../../../lib/domain/usecases');
 
 describe('Unit | Controller | assessment-controller-save', () => {
 
   describe('#save', () => {
-
-    context('when the assessment saved is a campaign placement', () => {
-
-      const request = {
-        headers: {
-          authorization: 'Bearer my-token',
-        },
-        payload: {
-          data: {
-            id: 42,
-            attributes: {
-              'type': 'CAMPAIGN',
-              'code-campaign': 'CODECAMPAIGN',
-              'participant-external-id': 'matricule123',
-            },
-          },
-        },
-      };
-
-      beforeEach(() => {
-        sinon.stub(usecases, 'createAssessmentForCampaign').resolves({});
-      });
-
-      it('should save an assessment with the type CAMPAIGN and with a fake courseId', async function() {
-        // given
-        const expectedAssessment = new Assessment({
-          id: 42,
-          courseId: null,
-          type: 'CAMPAIGN',
-          state: undefined,
-          userId: null,
-        });
-
-        const expectedCallArguments = {
-          assessment: expectedAssessment,
-          codeCampaign: 'CODECAMPAIGN',
-          participantExternalId: 'matricule123',
-        };
-        // when
-        await controller.save(request, hFake);
-
-        // then
-        sinon.assert.calledOnce(usecases.createAssessmentForCampaign);
-        sinon.assert.calledWith(usecases.createAssessmentForCampaign, expectedCallArguments);
-      });
-    });
 
     context('when the assessment saved is a preview test', () => {
       const request = {
