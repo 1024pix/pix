@@ -23,7 +23,6 @@ export default class Assessment extends Model {
   @belongsTo('certification-course') certificationCourse;
   @belongsTo('course', { inverse: null }) course;
   @belongsTo('progression', { inverse: null }) progression;
-  @belongsTo('assessment-result') result;
 
   // methods
   @equal('type', 'CERTIFICATION') isCertification;
