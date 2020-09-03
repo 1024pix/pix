@@ -14,7 +14,6 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   sessionRepository,
   certificationChallengesService,
   placementProfileService,
-  verifyCertificateCodeService,
 }) {
   const session = await sessionRepository.get(sessionId);
   if (session.accessCode !== accessCode) {
@@ -43,7 +42,6 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     certificationCourseRepository,
     certificationChallengesService,
     placementProfileService,
-    verifyCertificateCodeService,
   });
 };
 
@@ -64,7 +62,6 @@ async function _startNewCertification({
   certificationCourseRepository,
   certificationChallengesService,
   placementProfileService,
-  verifyCertificateCodeService,
 }) {
   const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate: new Date() });
 
@@ -85,8 +82,7 @@ async function _startNewCertification({
   }
 
   const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({ userId, sessionId });
-  const certificateVerificationCode = await verifyCertificateCodeService.generateCertificateVerificationCode();
-  const newCertificationCourse = CertificationCourse.from({ certificationCandidate, challenges: newCertificationChallenges, verificationCode: certificateVerificationCode });
+  const newCertificationCourse = CertificationCourse.from({ certificationCandidate, challenges: newCertificationChallenges });
 
   const savedCertificationCourse = await certificationCourseRepository.save({
     certificationCourse: newCertificationCourse,

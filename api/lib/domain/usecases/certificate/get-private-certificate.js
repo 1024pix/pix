@@ -8,7 +8,13 @@ module.exports = async function getPrivateCertificate({
   cleaCertificationStatusRepository,
   assessmentResultRepository,
   competenceTreeRepository,
+  verifyCertificateCodeService,
 }) {
+  const hasCode = await certificationRepository.hasVerificationCode(certificationId);
+  if (!hasCode) {
+    const code = await verifyCertificateCodeService.generateCertificateVerificationCode();
+    await certificationRepository.saveVerificationCode(certificationId, code);
+  }
   const certificate = await certificationRepository.getPrivateCertificateByCertificationCourseId({ id: certificationId });
   if (certificate.userId !== userId) {
     throw new NotFoundError();

@@ -106,6 +106,20 @@ module.exports = {
       .save({ isPublished: toPublish }, { method: 'update' });
   },
 
+  async hasVerificationCode(id) {
+    const certification = await CertificationCourseBookshelf
+      .where({ id })
+      .fetch({ columns: 'verificationCode' });
+
+    return Boolean(certification.attributes.verificationCode);
+  },
+
+  async saveVerificationCode(id, verificationCode) {
+    return CertificationCourseBookshelf
+      .where({ id })
+      .save({ verificationCode }, { method: 'update' });
+  },
+
   async getShareableCertificateByVerificationCode({ verificationCode }) {
     const certificationCourseDTO = await _getBaseCertificationQuery()
       .where({ verificationCode, 'isPublished': true })
