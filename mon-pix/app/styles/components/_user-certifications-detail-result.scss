@@ -24,11 +24,22 @@
   }
 
   &__comment-jury {
+    display: flex;
+    flex-direction: column;
     margin: 8px;
     font-family: $font-open-sans;
     font-size: 0.875rem;
     font-weight: $font-medium;
     line-height: 1.375rem;
+
+    span {
+      margin-top: 32px;
+      font-size: 12px;
+
+      svg {
+        margin-right: 2px;
+      }
+    }
   }
 
   @include device-is('mobile') {
