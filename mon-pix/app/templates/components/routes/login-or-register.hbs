@@ -24,7 +24,7 @@
         {{/if}}
         <div class={{concat "login-or-register-panel-form__expandable" (if (not @displayRegisterForm) " login-or-register-panel-form__expandable--expanded")}}>
           {{#unless @displayRegisterForm}}
-            <Routes::LoginForm />
+            <Routes::LoginForm @addGarAuthenticationMethodToUser={{@addGarAuthenticationMethodToUser}} />
           {{/unless}}
         </div>
       </div>
