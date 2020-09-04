@@ -1,5 +1,4 @@
 const papa = require('papaparse');
-const _ = require('lodash');
 const HigherEducationRegistrationSet = require('../../../../lib/domain/models/HigherEducationRegistrationSet');
 const { convertDateValue } = require('../../utils/date-utils');
 const { CsvImportError } = require('../../../../lib/domain/errors');
@@ -103,8 +102,15 @@ class HigherEducationRegistrationParser {
   }
 
   _checkColumns(columns) {
-    const expectedColumns = Object.values(COLUMN_NAME_BY_ATTRIBUTE).sort();
-    if (!_.isEqual(expectedColumns, columns.sort())) {
+    const { firstName, lastName, birthdate, studentNumber } = COLUMN_NAME_BY_ATTRIBUTE;
+    const requiredColumns = [firstName, lastName, birthdate, studentNumber];
+    requiredColumns.forEach((column) => {
+      if (!columns.includes(column)) {
+        throw new CsvImportError(`La colonne "${column}" est obligatoire.`);
+      }
+    });
+    const expectedColumns = Object.values(COLUMN_NAME_BY_ATTRIBUTE);
+    if (columns.some((column) => !expectedColumns.includes(column))) {
       throw new CsvImportError('Les entêtes de colonnes doivent être identiques à celle du modèle.');
     }
   }
