@@ -82,8 +82,8 @@ describe('Integration | API | Controller Error', () => {
       expect(response.statusCode).to.equal(PRECONDITION_FAILED);
     });
 
-    it('responds Precondition Failed when a CsvStudentsImportError error occurs', async () => {
-      routeHandler.throws(new DomainErrors.CsvStudentsImportError());
+    it('responds Precondition Failed when a CsvImportError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.CsvImportError());
       const response = await server.inject(options);
 
       expect(response.statusCode).to.equal(PRECONDITION_FAILED);

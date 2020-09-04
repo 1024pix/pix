@@ -2,7 +2,7 @@ const papa = require('papaparse');
 const _ = require('lodash');
 const HigherEducationRegistrationSet = require('../../../../lib/domain/models/HigherEducationRegistrationSet');
 const { convertDateValue } = require('../../utils/date-utils');
-const { CsvStudentsImportError } = require('../../../../lib/domain/errors');
+const { CsvImportError } = require('../../../../lib/domain/errors');
 const PARSING_OPTIONS = {
   header: true,
   skipEmptyLines: 'greedy',
@@ -62,7 +62,7 @@ class HigherEducationRegistrationParser {
     if (errors.length) {
       errors.forEach((error) => {
         if (error.type === 'Delimiter') {
-          throw new CsvStudentsImportError('Le fichier doit être au format csv avec séparateur virgule ou point-virgule.');
+          throw new CsvImportError('Le fichier doit être au format csv avec séparateur virgule ou point-virgule.');
         }
       });
     }
@@ -72,16 +72,16 @@ class HigherEducationRegistrationParser {
   _handleError(err, index) {
     const column = COLUMN_NAME_BY_ATTRIBUTE[err.key];
     if (err.why === 'uniqueness') {
-      throw new CsvStudentsImportError(`Ligne ${index + 2} : Le champ “Numéro étudiant” doit être unique au sein du fichier.`);
+      throw new CsvImportError(`Ligne ${index + 2} : Le champ “Numéro étudiant” doit être unique au sein du fichier.`);
     }
     if (err.why === 'max_length') {
-      throw new CsvStudentsImportError(`Ligne ${index + 2} : Le champ “${column}” doit être inférieur à 255 caractères.`);
+      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column}” doit être inférieur à 255 caractères.`);
     }
     if (err.why === 'not_a_date' || err.why === 'date_format') {
-      throw new CsvStudentsImportError(`Ligne ${index + 2} : Le champ “Date de naissance” doit être au format jj/mm/aaaa.`);
+      throw new CsvImportError(`Ligne ${index + 2} : Le champ “Date de naissance” doit être au format jj/mm/aaaa.`);
     }
     if (err.why === 'required') {
-      throw new CsvStudentsImportError(`Ligne ${index + 2} : Le champ “${column}” est obligatoire.`);
+      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column}” est obligatoire.`);
     }
     throw err;
   }
@@ -105,7 +105,7 @@ class HigherEducationRegistrationParser {
   _checkColumns(columns) {
     const expectedColumns = Object.values(COLUMN_NAME_BY_ATTRIBUTE).sort();
     if (!_.isEqual(expectedColumns, columns.sort())) {
-      throw new CsvStudentsImportError('Les entêtes de colonnes doivent être identiques à celle du modèle.');
+      throw new CsvImportError('Les entêtes de colonnes doivent être identiques à celle du modèle.');
     }
   }
 
