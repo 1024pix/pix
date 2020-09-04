@@ -97,14 +97,14 @@ describe('Unit | Infrastructure | HigherEducationRegistrationParser', () => {
       expect(error.message).to.equal('Les entêtes de colonnes doivent être identiques à celle du modèle.');
     });
 
-    it('should throw an error if a column is missing', async () => {
+    it('should throw an error if a required column is missing', async () => {
       const input = `Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
       The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;`;
       const parser = new HigherEducationRegistrationParser(input, organizationId);
 
       const error = await catchErr(parser.parse, parser)();
 
-      expect(error.message).to.equal('Les entêtes de colonnes doivent être identiques à celle du modèle.');
+      expect(error.message).to.equal('La colonne "Premier prénom" est obligatoire.');
     });
 
   });
