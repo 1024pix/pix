@@ -1,4 +1,5 @@
 const papa = require('papaparse');
+const iconv = require('iconv-lite');
 const HigherEducationRegistrationSet = require('../../../../lib/domain/models/HigherEducationRegistrationSet');
 const { convertDateValue } = require('../../utils/date-utils');
 const { CsvImportError } = require('../../../../lib/domain/errors');
@@ -32,17 +33,22 @@ const COLUMN_NAME_BY_ATTRIBUTE = {
 class HigherEducationRegistrationParser {
 
   constructor(input, organizationId) {
-    this._input = input.toString('utf8').replace(/^\uFEFF/, '');
+    this._input = input;
     this._organizationId = organizationId;
   }
 
   parse() {
     const higherEducationRegistrationSet = new HigherEducationRegistrationSet();
 
-    const { registrationLines, fields } = this._parse();
+    const encoding = this._getFileEncoding();
+    const { registrationLines, fields } = this._parse(encoding);
+
+    if (!encoding) {
+      throw new CsvImportError('Encodage du fichier non supporté.');
+    }
 
     this._checkColumns(fields);
-
+       
     registrationLines.forEach((line, index) => {
       const registrationAttributes = this._lineToRegistrationAttributes(line);
       try {
@@ -55,16 +61,35 @@ class HigherEducationRegistrationParser {
     return higherEducationRegistrationSet;
   }
 
-  _parse() {
-    const { data: registrationLines, meta: { fields }, errors } = papa.parse(this._input, PARSING_OPTIONS);
+  /**
+   * Identify which encoding has the given file.
+   * To check it, we decode and parse the first line of the file with supported encodings.
+   * If there is one with at least "First name" or "Student number" correctly parsed and decoded.
+   */ 
+  _getFileEncoding() {
+    const supported_encodings = ['utf-8', 'win1252', 'macintosh'];
+    const { firstName, studentNumber } = COLUMN_NAME_BY_ATTRIBUTE;
+    for (const encoding of supported_encodings) {
+      const decodedInput = iconv.decode(this._input, encoding);
+      const { meta: { fields } } = papa.parse(decodedInput, { ...PARSING_OPTIONS, preview: 1 });
+      if (fields.some((value) => value === firstName || value === studentNumber)) {
+        return encoding;
+      }
+    }
+  }
 
-    if (errors.length) {
+  _parse(encoding = 'utf8') {
+    const decodedInput = iconv.decode(this._input, encoding);
+    const { data: registrationLines, meta: { fields }, errors } = papa.parse(decodedInput, PARSING_OPTIONS);
+
+    if (errors.length) {  
       errors.forEach((error) => {
         if (error.type === 'Delimiter') {
           throw new CsvImportError('Le fichier doit être au format csv avec séparateur virgule ou point-virgule.');
         }
       });
     }
+
     return { registrationLines, fields };
   }
 
