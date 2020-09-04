@@ -26,7 +26,7 @@ describe('Unit | Domain | Models | HigherEducationRegistration', () => {
       });
     });
 
-    ['firstName', 'lastName', 'studentNumber'].forEach((field) => {
+    ['firstName', 'lastName', 'birthdate', 'studentNumber'].forEach((field) => {
       it(`throw an error when ${field} is required`, async () => {
         const error = await catchErr(buildRegistration)({ ...validAttributes, [field]: undefined, isSupernumerary: false });
 
