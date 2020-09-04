@@ -33,8 +33,7 @@
         {{/if}}
       {{/if}}
     </div>
-
 </div>
-{{#if displayMessage}}
-    <div id="validationMessage" class="form-textfield__message {{validationMessageClass}} form-textfield__message-{{textfieldType}}" role="alert">{{validationMessage}}</div>
-{{/if}}
+
+<div id="validationMessage-{{textfieldName}}" class="form-textfield__message {{validationMessageClass}} form-textfield__message-{{textfieldType}}" role="alert">{{#if displayMessage}}{{validationMessage}}{{/if}}</div>
+
