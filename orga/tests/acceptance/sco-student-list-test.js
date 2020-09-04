@@ -11,7 +11,7 @@ import {
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Student List', function(hooks) {
+module('Acceptance | Sco Student List', function(hooks) {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);

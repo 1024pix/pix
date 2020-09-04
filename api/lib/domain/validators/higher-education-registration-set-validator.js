@@ -1,7 +1,7 @@
 const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
 const { EntityValidationError } = require('../errors');
 
-const validationConfiguration = { abortEarly: false, allowUnknown: true };
+const validationConfiguration = { allowUnknown: true };
 
 const validationSchema = Joi.array().unique('studentNumber');
 
@@ -13,7 +13,10 @@ module.exports = {
     );
 
     if (error) {
-      throw EntityValidationError.fromJoiErrors(error.details);
+      const err = EntityValidationError.fromJoiErrors(error.details);
+      err.key = 'studentNumber';
+      err.why = 'uniqueness';
+      throw err;
     }
   }
 };
