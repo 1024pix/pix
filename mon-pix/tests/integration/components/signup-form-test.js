@@ -202,9 +202,9 @@ describe('Integration | Component | signup form', function() {
 
         // then
         return settled().then(() => {
-          expect(find('.form-textfield__message-text').getAttribute('class')).
-            to.
-            contain('form-textfield__message--error');
+          expect(find('#validationMessage-firstName').getAttribute('class'))
+            .to
+            .contain('form-textfield__message--error');
           expect(find('.form-textfield__message--error').textContent.trim()).to.equal(emptyFirstnameErrorMessage);
           expect(find('#firstName').getAttribute('class')).to.contain('form-textfield__input--error');
           expect(find('.form-textfield-icon__state--error')).to.exist;
@@ -222,8 +222,8 @@ describe('Integration | Component | signup form', function() {
         await triggerEvent('#lastName', 'blur');
 
         // then
-        return settled().then(() => {
-          expect(find('.form-textfield__message-text').getAttribute('class')).
+        return settled().then(async function() {
+          expect(find('#validationMessage-lastName').getAttribute('class')).
             to.
             contain('form-textfield__message--error');
           expect(find('.form-textfield__message--error').textContent.trim()).to.equal(emptyLastnameErrorMessage);
@@ -386,7 +386,7 @@ describe('Integration | Component | signup form', function() {
 
           // then
           return settled().then(() => {
-            expect(find('.form-textfield__message-text').getAttribute('class')).
+            expect(find('#validationMessage-firstName').getAttribute('class')).
               to.
               contain('form-textfield__message--success');
             expect(find('.form-textfield__message--error')).not.to.exist;
@@ -407,7 +407,7 @@ describe('Integration | Component | signup form', function() {
 
           // then
           return settled().then(() => {
-            expect(find('.form-textfield__message-text').getAttribute('class')).
+            expect(find('#validationMessage-lastName').getAttribute('class')).
               to.
               contain('form-textfield__message--success');
             expect(find('.form-textfield__message--error')).not.to.exist;
