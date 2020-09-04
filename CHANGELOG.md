@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v2.190.0 (04/09/2020)
+
+- [#1820](https://github.com/1024pix/pix/pull/1820) [FEATURE] Générer les codes de certification à la volée [PIX-1106]
+- [#1835](https://github.com/1024pix/pix/pull/1835) [BUGFIX] Je dois pouvoir lancer mon parcours après m'être inscrit depuis la double mire SCO (PIX-1222)
+- [#1822](https://github.com/1024pix/pix/pull/1822) [BUGFIX] Ne pas afficher la page /profil suite à l'authentification d'un élève provenant du GAR (PIX-1217).
+- [#1827](https://github.com/1024pix/pix/pull/1827) [CLEANUP] Renommer le Label et la Github action pour l'auto-merge.
+
 ## v2.189.1 (02/09/2020)
 
 - [#1829](https://github.com/1024pix/pix/pull/1829) [BUGFIX] Nombre de caractères pour le code campagne KO [PIX-1220]
