@@ -16,14 +16,6 @@ describe('Unit | Domain | Models | HigherEducationRegistration', () => {
       organizationId: 123,
     };
 
-    context('when firstName is not present', () => {
-      it('throws an error', async () => {
-        const error = await catchErr(buildRegistration)({ ...validAttributes, firstName: null });
-
-        expect(error).to.be.instanceOf(EntityValidationError);
-      });
-    });
-
     context('when all required fields are presents', () => {
       it('is valid', async () => {
         try {
@@ -32,6 +24,73 @@ describe('Unit | Domain | Models | HigherEducationRegistration', () => {
           expect.fail('higherEducationRegistration is valid when all required fields are present');
         }
       });
+    });
+
+    ['firstName', 'lastName', 'studentNumber'].forEach((field) => {
+      it(`throw an error when ${field} is required`, async () => {
+        const error = await catchErr(buildRegistration)({ ...validAttributes, [field]: undefined, isSupernumerary: false });
+
+        expect(error.key).to.equal(field);
+        expect(error.why).to.equal('required');
+      });
+    });
+
+    [
+      'studentNumber',
+      'firstName',
+      'middleName',
+      'thirdName',
+      'lastName',
+      'preferredLastName',
+      'email',
+      'diploma',
+      'department',
+      'educationalTeam',
+      'group',
+      'studyScheme',
+    ].forEach((field) => {
+      it(`throw an error when string ${field} exceeds 255 characters`, async () => {
+        const error = await catchErr(buildRegistration)({ ...validAttributes, [field]: '1'.repeat(256) });
+
+        expect(error.key).to.equal(field);
+        expect(error.why).to.equal('max_length');
+      });
+    });
+
+    [
+      'studentNumber',
+      'firstName',
+      'middleName',
+      'thirdName',
+      'lastName',
+      'preferredLastName',
+      'email',
+      'diploma',
+      'department',
+      'educationalTeam',
+      'group',
+      'studyScheme',
+    ].forEach((field) => {
+      it(`throw an error when ${field} is not a string`, async () => {
+        const error = await catchErr(buildRegistration)({ ...validAttributes, [field]: null });
+
+        expect(error.key).to.equal(field);
+        expect(error.why).to.equal('not_a_string');
+      });
+    });
+
+    it('throw an error when organizationId is not an integer', async () => {
+      const error = await catchErr(buildRegistration)({ ...validAttributes, organizationId: 12.5 });
+
+      expect(error.key).to.equal('organizationId');
+      expect(error.why).to.equal('not_an_integer');
+    });
+
+    it('throw an error when isSupernumerary is not a boolean', async () => {
+      const error = await catchErr(buildRegistration)({ ...validAttributes, isSupernumerary: 'saaaaluuuut' });
+
+      expect(error.key).to.equal('isSupernumerary');
+      expect(error.why).to.equal('not_a_boolean');
     });
 
     context('when isSupernumerary is true', () => {
@@ -43,60 +102,45 @@ describe('Unit | Domain | Models | HigherEducationRegistration', () => {
             expect.fail('higherEducationRegistration is valid when all required fields are present');
           }
         });
-
-        context('when student number is present', () => {
-          it('is valid', async () => {
-            try {
-              await buildRegistration({ ...validAttributes, studentNumber: '1234', isSupernumerary: true });
-            } catch (e) {
-              expect.fail('higherEducationRegistration is valid when all required fields are present');
-            }
-          });
-        });
       });
 
-      context('when isSupernumerary is false', () => {
-        context('when student number is not present', () => {
-          it('throws an error', async () => {
-            const error = await catchErr(buildRegistration)({ ...validAttributes, studentNumber: null, isSupernumerary: false });
-
-            expect(error).to.be.instanceOf(EntityValidationError);
-          });
-        });
-
-        context('when student number is present', () => {
-          it('is valid', async () => {
-            try {
-              await buildRegistration({ ...validAttributes, studentNumber: '1234', isSupernumerary: false });
-            } catch (e) {
-              expect.fail('higherEducationRegistration is valid when all required fields are present');
-            }
-          });
+      context('when student number is present', () => {
+        it('is valid', async () => {
+          try {
+            await buildRegistration({ ...validAttributes, studentNumber: '1234', isSupernumerary: true });
+          } catch (e) {
+            expect.fail('higherEducationRegistration is valid when all required fields are present');
+          }
         });
       });
     });
 
-    context('when lastName is not present', () => {
-      it('throws an error', async () => {
-        const error = await catchErr(buildRegistration)({ ...validAttributes, lastName: null });
+    context('when isSupernumerary is false', () => {
+      context('when student number is not present', () => {
+        it('throws an error', async () => {
+          const error = await catchErr(buildRegistration)({ ...validAttributes, studentNumber: null, isSupernumerary: false });
 
-        expect(error).to.be.instanceOf(EntityValidationError);
+          expect(error).to.be.instanceOf(EntityValidationError);
+        });
       });
-    });
 
-    context('when birthdate is not present', () => {
-      it('throws an error', async () => {
-        const error = await catchErr(buildRegistration)({ ...validAttributes, birthdate: null });
-
-        expect(error).to.be.instanceOf(EntityValidationError);
+      context('when student number is present', () => {
+        it('is valid', async () => {
+          try {
+            await buildRegistration({ ...validAttributes, studentNumber: '1234', isSupernumerary: false });
+          } catch (e) {
+            expect.fail('higherEducationRegistration is valid when all required fields are present');
+          }
+        });
       });
     });
 
     context('when birthdate is not a date', () => {
       it('throws an error', async () => {
-        const error = await catchErr(buildRegistration)({ ...validAttributes, birthdate: 'sdfsdfsdf' });
+        const error = await catchErr(buildRegistration)({ ...validAttributes, birthdate: null });
 
-        expect(error).to.be.instanceOf(EntityValidationError);
+        expect(error.key).to.equal('birthdate');
+        expect(error.why).to.equal('not_a_date');
       });
     });
 
@@ -104,7 +148,8 @@ describe('Unit | Domain | Models | HigherEducationRegistration', () => {
       it('throws an error', async () => {
         const error = await catchErr(buildRegistration)({ ...validAttributes, birthdate: '2020/02/01' });
 
-        expect(error).to.be.instanceOf(EntityValidationError);
+        expect(error.key).to.equal('birthdate');
+        expect(error.why).to.equal('date_format');
       });
     });
 
@@ -112,29 +157,8 @@ describe('Unit | Domain | Models | HigherEducationRegistration', () => {
       it('throws an error', async () => {
         const error = await catchErr(buildRegistration)({ ...validAttributes, email: 'sdfsfsdf' });
 
-        expect(error).to.be.instanceOf(EntityValidationError);
-      });
-    });
-
-    context('when there are several errors', () => {
-      it('throws an error', async () => {
-        const error = await catchErr(buildRegistration)({ ...validAttributes, firstName: null, lastName: null });
-
-        const errorList = error.invalidAttributes.map(({ attribute }) => attribute);
-        expect(errorList).to.exactlyContain(['lastName', 'firstName']);
-      });
-    });
-
-    context('when organizationId is not valid', () => {
-      it('throws an error when organizationId is not defined', async () => {
-        const error = await catchErr(buildRegistration)({ ...validAttributes, organizationId: null });
-
-        expect(error).to.be.instanceOf(EntityValidationError);
-      });
-      it('throws an error when organizationId is not a number', async () => {
-        const error = await catchErr(buildRegistration)({ ...validAttributes, organizationId: 'salut' });
-
-        expect(error).to.be.instanceOf(EntityValidationError);
+        expect(error.key).to.equal('email');
+        expect(error.why).to.equal('email_format');
       });
     });
   });

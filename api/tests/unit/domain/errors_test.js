@@ -71,6 +71,10 @@ describe('Unit | Domain | Errors', () => {
     expect(errors.UserNotAuthorizedToUpdateCampaignError).to.exist;
   });
 
+  it('should export a CsvImportError', () => {
+    expect(errors.CsvImportError).to.exist;
+  });
+
   describe('#SameNationalStudentIdInOrganizationError', () => {
 
     context('When errorDetail is provided', () => {
