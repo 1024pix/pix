@@ -49,15 +49,12 @@ describe('Acceptance | Controller | Schooling-registration-dependent-user', () =
         options.payload.data.attributes['with-username'] = false;
       });
 
-      it('should return an 201 status after having successfully created user and associated user to schoolingRegistration', async () => {
+      it('should return an 204 status after having successfully created user and associated user to schoolingRegistration', async () => {
         // when
         const response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(201);
-        expect(response.result.data.attributes.email).to.equal(email);
-        expect(response.result.data.attributes['first-name']).to.equal(schoolingRegistration.firstName);
-        expect(response.result.data.attributes['last-name']).to.equal(schoolingRegistration.lastName);
+        expect(response.statusCode).to.equal(204);
       });
 
       context('when no schoolingRegistration not linked yet found', () => {
@@ -108,15 +105,12 @@ describe('Acceptance | Controller | Schooling-registration-dependent-user', () =
         options.payload.data.attributes['with-username'] = true;
       });
 
-      it('should return a 201 status after having successfully created user and associated user to schoolingRegistration', async () => {
+      it('should return a 204 status after having successfully created user and associated user to schoolingRegistration', async () => {
         // when
         const response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(201);
-        expect(response.result.data.attributes.username).to.equal(username);
-        expect(response.result.data.attributes['first-name']).to.equal(schoolingRegistration.firstName);
-        expect(response.result.data.attributes['last-name']).to.equal(schoolingRegistration.lastName);
+        expect(response.statusCode).to.equal(204);
       });
 
       context('when username is already taken', () => {

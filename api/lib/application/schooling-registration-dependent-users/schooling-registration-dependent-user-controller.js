@@ -1,5 +1,4 @@
 const usecases = require('../../domain/usecases');
-const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const schoolingRegistrationDependentUser = require('../../infrastructure/serializers/jsonapi/schooling-registration-dependent-user-serializer');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 const tokenService = require('../../domain/services/token-service');
@@ -19,9 +18,9 @@ module.exports = {
     };
     const locale = extractLocaleFromRequest(request);
 
-    const createdUser = await usecases.createAndReconcileUserToSchoolingRegistration({ userAttributes, campaignCode: payload['campaign-code'], locale });
+    await usecases.createAndReconcileUserToSchoolingRegistration({ userAttributes, campaignCode: payload['campaign-code'], locale });
 
-    return h.response(userSerializer.serialize(createdUser)).created();
+    return h.response().code(204);
   },
 
   async createUserAndReconcileToSchoolingRegistrationFromExternalUser(request, h) {

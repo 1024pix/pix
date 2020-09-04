@@ -159,9 +159,12 @@ export default class RegisterForm extends Component {
         this.set('matchingStudentFound', true);
         this.set('isLoading', false);
         this.set('username', response.username);
-        return this.schoolingRegistrationDependentUser = this.store.createRecord('user', {
+        return this.schoolingRegistrationDependentUser = this.store.createRecord('schooling-registration-dependent-user', {
+          id: this.campaignCode + '_' + this.lastName,
+          campaignCode: this.campaignCode,
           firstName: this.firstName,
           lastName: this.lastName,
+          birthdate: this.birthdate,
           email: '',
           username: this.username,
           password: '',
@@ -203,6 +206,7 @@ export default class RegisterForm extends Component {
     this.set('isLoading', true);
     try {
       this.set('schoolingRegistrationDependentUser.password', this.password);
+      this.set('schoolingRegistrationDependentUser.withUsername', this.loginWithUsername);
       if (this.loginWithUsername) {
         this.set('schoolingRegistrationDependentUser.username', this.username);
         this.set('schoolingRegistrationDependentUser.email', undefined);
@@ -210,14 +214,7 @@ export default class RegisterForm extends Component {
         this.set('schoolingRegistrationDependentUser.email', this.email);
         this.set('schoolingRegistrationDependentUser.username', undefined);
       }
-      await this.schoolingRegistrationDependentUser.save({
-        adapterOptions: {
-          isSchoolingRegistrationDependentUser: true,
-          campaignCode: this.campaignCode,
-          birthdate: this.birthdate,
-          withUsername: this.loginWithUsername,
-        }
-      });
+      await this.schoolingRegistrationDependentUser.save();
     } catch (error) {
       this.set('isLoading', false);
       return this._updateInputsStatus();
