@@ -7,26 +7,8 @@ export default class User extends ApplicationAdapter {
     return false;
   }
 
-  urlForCreateRecord(query, { adapterOptions }) {
-    const url = super.urlForCreateRecord(...arguments);
-    if (adapterOptions && adapterOptions.isSchoolingRegistrationDependentUser) {
-      return `${this.host}/${this.namespace}/schooling-registration-dependent-users`;
-    }
-
-    return url;
-  }
-
   createRecord(store, type, snapshot) {
     const { adapterOptions } = snapshot;
-
-    if (adapterOptions && adapterOptions.isSchoolingRegistrationDependentUser) {
-      const url = this.buildURL(type.modelName, null, snapshot, 'createRecord');
-      const serializedUser = this.serialize(snapshot);
-      serializedUser.data.attributes['campaign-code'] = adapterOptions.campaignCode;
-      serializedUser.data.attributes.birthdate = adapterOptions.birthdate;
-      serializedUser.data.attributes['with-username'] = adapterOptions.withUsername;
-      return this.ajax(url, 'POST', { data: serializedUser });
-    }
 
     if (adapterOptions && adapterOptions.updateExpiredPassword) {
       const url = this.buildURL('expired-password-update', null, snapshot, 'createRecord');

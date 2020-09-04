@@ -10,7 +10,7 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
 
   beforeEach(() => {
     sinon.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents').callsFake((request, h) => h.response(true));
-    sinon.stub(schoolingRegistrationDependentUserController, 'createAndReconcileUserToSchoolingRegistration').callsFake((request, h) => h.response('ok').code(201));
+    sinon.stub(schoolingRegistrationDependentUserController, 'createAndReconcileUserToSchoolingRegistration').callsFake((request, h) => h.response().code(204));
     sinon.stub(schoolingRegistrationDependentUserController, 'createUserAndReconcileToSchoolingRegistrationFromExternalUser').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(schoolingRegistrationDependentUserController, 'generateUsernameWithTemporaryPassword').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(schoolingRegistrationDependentUserController, 'updatePassword').callsFake((request, h) => h.response('ok').code(200));
@@ -48,7 +48,7 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
       response = await httpTestServer.request(method, url, payload);
 
       // then
-      expect(response.statusCode).to.equal(201);
+      expect(response.statusCode).to.equal(204);
     });
 
     it('should return 400 when firstName is empty', async () => {
