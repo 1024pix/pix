@@ -652,7 +652,7 @@
       },
       "already-shared": "Thank you, your results have been sent!",
       "archived": "This route has been archived by the organizer. <br/> Sending results is no longer possible but they are taken into account in your route.",
-      "badges-title": "Your success",
+      "badges-title": "{ badgeCount, plural, =1 {Thematic result} other {Thematic results} }",
       "details": {
         "title": "Your detailed results",
         "header-skill": "Skills tested",

@@ -652,7 +652,7 @@
       },
       "already-shared": "Merci, vos résultats ont bien été envoyés !",
       "archived": "Ce parcours a été archivé par l'organisateur.<br/> L'envoi des résultats n'est plus possible mais ils sont bien pris en compte dans votre parcours.",
-      "badges-title": "Vos réussites",
+      "badges-title": "{ badgeCount, plural, =1 {Résultat thématique} other {Résultats thématiques} }",
       "details": {
         "title": "Vos résultats détaillés",
         "header-skill": "Compétences testées",
