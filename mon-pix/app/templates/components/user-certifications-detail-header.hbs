@@ -25,40 +25,40 @@
     </div>
   </div>
   {{#if this.isSharedCertificateActive}}
-  <div class="attestation-and-verification-code">
-    {{#if @certification.verificationCode}}
-      <div class="verification-code">
-        <h2 class="verification-code__title">
-          {{t "pages.certificate.verification-code.title"}}
-          <PixTooltip
-              @class="verification-code__tooltip"
-              @text={{t "pages.certificate.verification-code.tooltip"}}
-              @position='top'
-              @inline={{false}}
-              >
-            <div class="verification-code__title--info">{{t "pages.certificate.verification-code.info"}}</div>
-          </PixTooltip>
-        </h2>
-        <span class="verification-code__box">
-          <p class="verification-code__code">{{@certification.verificationCode}}</p>
-
-          {{#if (is-clipboard-supported)}}
+  {{#if @certification.verificationCode}}
+    <div class="attestation-and-verification-code">
+        <div class="verification-code">
+          <h2 class="verification-code__title">
+            {{t "pages.certificate.verification-code.title"}}
             <PixTooltip
-              @text={{this.tooltipText}}
-              @position='bottom'
-              @inline={{true}}
-              >
-                <CopyButton
-                  @clipboardText={{@certification.verificationCode}}
-                  @success={{this.clipboardSuccess}}
-                  @classNames="icon-button">
-                    <FaIcon class="verification-code__copy-button" @icon="copy" @prefix="far" alt="COPIER" />
-                </CopyButton>
+                @class="verification-code__tooltip"
+                @text={{t "pages.certificate.verification-code.tooltip"}}
+                @position='top'
+                @inline={{false}}
+                >
+              <div class="verification-code__title--info">{{t "pages.certificate.verification-code.info"}}</div>
             </PixTooltip>
-          {{/if}}
-        </span>
-      </div>
-    {{/if}}
-  </div>
+          </h2>
+          <span class="verification-code__box">
+            <p class="verification-code__code">{{@certification.verificationCode}}</p>
+
+            {{#if (is-clipboard-supported)}}
+              <PixTooltip
+                @text={{this.tooltipText}}
+                @position='bottom'
+                @inline={{true}}
+                >
+                  <CopyButton
+                    @clipboardText={{@certification.verificationCode}}
+                    @success={{this.clipboardSuccess}}
+                    @classNames="icon-button">
+                      <FaIcon class="verification-code__copy-button" @icon="copy" @prefix="far" alt="COPIER" />
+                  </CopyButton>
+              </PixTooltip>
+            {{/if}}
+          </span>
+        </div>
+    </div>
+  {{/if}}
   {{/if}}
 {{/if}}
