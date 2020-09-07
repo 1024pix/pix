@@ -1,5 +1,4 @@
-import DS from 'ember-data';
-const { belongsTo, Model } = DS;
+import Model, { belongsTo } from '@ember-data/model';
 
 export default class UserOrgaSetting extends Model {
   @belongsTo('user') user;
