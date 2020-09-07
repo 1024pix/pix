@@ -769,7 +769,8 @@
       "errors": {
         "wrong-format": "Veuillez vérifier votre code.",
         "missing-code": "Veuillez saisir un code au format P-XXXXXXXX.",
-        "not-found": "Il n'y a pas de certificat Pix correspondant"
+        "not-found": "Il n'y a pas de certificat Pix correspondant",
+        "unallowed-access": "Merci de renseigner le code de vérification au format P-XXXXXXXX dans le champ ci-dessus."
       },
       "verify": "Vérifier le score"
     },
