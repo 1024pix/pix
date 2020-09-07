@@ -22,7 +22,7 @@ function revert () {
 
 if [ ! -z "$alteredFilePaths" ] ; then
   if lint ; then
-    test && commit || revert
+    if test ; then commit ; else revert ; fi
   else
     echo "TCR => ABORT"
   fi
