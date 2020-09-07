@@ -17,8 +17,8 @@ export default class ListItems extends Component {
 
   @action
   async onSaveStudentNumber(newStudentNumber) {
-    await this.selectedStudent.save({ 
-      adapterOptions: { 
+    await this.selectedStudent.save({
+      adapterOptions: {
         updateStudentNumber: true,
         organizationId: this.currentUser.organization.id,
         studentNumber: newStudentNumber,
