@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
+
 alteredFilePaths=$(git ls-files -m '*.js');
-files=$@
+files=( "$@" )
 
 function lint () {
   npx eslint $alteredFilePaths --fix
 }
 
 function test () {
-  npm run test:api:path $files -- --bail
+  npm run test:api:path "${files[0]}" -- --bail
 }
 
 function commit () {
