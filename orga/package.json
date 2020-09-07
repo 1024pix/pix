@@ -36,7 +36,7 @@
     "test:watch": "ember exam --serve --reporter dot"
   },
   "devDependencies": {
-    "@ember/optional-features": "^1.1.0",
+    "@ember/optional-features": "^2.0.0",
     "@fortawesome/ember-fontawesome": "^0.2.1",
     "@fortawesome/free-regular-svg-icons": "^5.14.0",
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
