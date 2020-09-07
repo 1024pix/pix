@@ -48,7 +48,7 @@ class HigherEducationRegistrationParser {
     }
 
     this._checkColumns(fields);
-       
+
     registrationLines.forEach((line, index) => {
       const registrationAttributes = this._lineToRegistrationAttributes(line);
       try {
@@ -65,7 +65,7 @@ class HigherEducationRegistrationParser {
    * Identify which encoding has the given file.
    * To check it, we decode and parse the first line of the file with supported encodings.
    * If there is one with at least "First name" or "Student number" correctly parsed and decoded.
-   */ 
+   */
   _getFileEncoding() {
     const supported_encodings = ['utf-8', 'win1252', 'macintosh'];
     const { firstName, studentNumber } = COLUMN_NAME_BY_ATTRIBUTE;
@@ -82,7 +82,7 @@ class HigherEducationRegistrationParser {
     const decodedInput = iconv.decode(this._input, encoding);
     const { data: registrationLines, meta: { fields }, errors } = papa.parse(decodedInput, PARSING_OPTIONS);
 
-    if (errors.length) {  
+    if (errors.length) {
       errors.forEach((error) => {
         if (error.type === 'Delimiter') {
           throw new CsvImportError('Le fichier doit être au format csv avec séparateur virgule ou point-virgule.');
@@ -103,6 +103,9 @@ class HigherEducationRegistrationParser {
     }
     if (err.why === 'not_a_date' || err.why === 'date_format') {
       throw new CsvImportError(`Ligne ${index + 2} : Le champ “Date de naissance” doit être au format jj/mm/aaaa.`);
+    }
+    if (err.why === 'student_number_format') {
+      throw new CsvImportError(`Ligne ${index + 2} : Le champ “numéro étudiant” ne doit pas avoir de caractères spéciaux.`);
     }
     if (err.why === 'required') {
       throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column}” est obligatoire.`);
