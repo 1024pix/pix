@@ -12,29 +12,12 @@ const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = {
 
-  save(request, h) {
-
+  async save(request, h) {
     const assessment = assessmentSerializer.deserialize(request.payload);
     assessment.userId = extractUserIdFromRequest(request);
-
-    return Promise.resolve()
-      .then(() => {
-        if (assessment.isForCampaign()) {
-          const codeCampaign = request.payload.data.attributes['code-campaign'];
-          const participantExternalId = request.payload.data.attributes['participant-external-id'];
-          return usecases.createAssessmentForCampaign({
-            assessment,
-            codeCampaign,
-            participantExternalId
-          });
-        } else {
-          assessment.state = 'started';
-          return assessmentRepository.save({ assessment });
-        }
-      })
-      .then((assessment) => {
-        return h.response(assessmentSerializer.serialize(assessment)).created();
-      });
+    assessment.state = 'started';
+    const createdAssessment = await assessmentRepository.save({ assessment });
+    return h.response(assessmentSerializer.serialize(createdAssessment)).created();
   },
 
   async get(request) {

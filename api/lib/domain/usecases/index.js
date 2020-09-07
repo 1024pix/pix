@@ -97,7 +97,6 @@ module.exports = injectDependencies({
   correctAnswerThenUpdateAssessment: require('./correct-answer-then-update-assessment'),
   createAndReconcileUserToSchoolingRegistration: require('./create-and-reconcile-user-to-schooling-registration'),
   createUserAndReconcileToSchoolingRegistrationFromExternalUser: require('./create-user-and-reconcile-to-schooling-registration-from-external-user'),
-  createAssessmentForCampaign: require('./create-assessment-for-campaign'),
   createCampaign: require('./create-campaign'),
   createCertificationCenterMembership: require('./create-certification-center-membership'),
   createMembership: require('./create-membership'),
