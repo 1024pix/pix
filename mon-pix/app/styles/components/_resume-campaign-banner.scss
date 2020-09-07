@@ -2,8 +2,6 @@
   width: 100%;
 
   @media (min-width: 768px) {
-    position: -webkit-sticky; /* Safari */
-    position: sticky;
     top: 0;
     z-index: 4;
   }
@@ -17,6 +15,7 @@
     padding: 5px;
 
     .resume-campaign-banner__title {
+      color: $grey-200;
       font-family: $font-open-sans;
       font-size: 0.75rem;
 
