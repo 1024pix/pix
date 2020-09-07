@@ -6,7 +6,7 @@ import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import isPasswordValid from '../utils/password-validator';
 import { tracked } from '@glimmer/tracking';
-import { get } from 'lodash';
+import get from 'lodash/get';
 import ENV from 'mon-pix/config/environment';
 
 const ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.';

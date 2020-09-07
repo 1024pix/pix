@@ -1,4 +1,18 @@
-import _ from 'lodash';
+import isNil from 'lodash/isNil';
+import isEmpty from 'lodash/isEmpty';
+import size from 'lodash/size';
+import times from 'lodash/times';
+import constant from 'lodash/constant';
+import isArray from 'lodash/isArray';
+import every from 'lodash/every';
+import isBoolean from 'lodash/isBoolean';
+import isString from 'lodash/isString';
+
+import flow from 'lodash/fp/flow';
+import concat from 'lodash/fp/concat';
+import zip from 'lodash/fp/zip';
+
+const concatToEnd = concat.convert({ rearg: true });
 
 /*
  * Example :
@@ -19,29 +33,29 @@ import _ from 'lodash';
 export default function labeledCheckboxes(proposals, userAnswers) {
 
   // accept that user didn't give any answer yet
-  const definedUserAnswers = _.isNil(userAnswers) ? [] : userAnswers;
+  const definedUserAnswers = isNil(userAnswers) ? [] : userAnswers;
 
   // check pre-conditions
   if (isNotArrayOfString(proposals)) return [];
-  if (_.isEmpty(proposals)) return [];
+  if (isEmpty(proposals)) return [];
   if (_isNotArrayOfBoolean(definedUserAnswers)) return [];
-  if (_.size(definedUserAnswers) > _.size(proposals)) return [];
+  if (size(definedUserAnswers) > size(proposals)) return [];
 
-  const sizeDifference = _(proposals).size() - _(definedUserAnswers).size(); // 2
-  const arrayOfFalse = _.times(sizeDifference, _.constant(false));              // [false, false]
+  const sizeDifference = size(proposals) - size(definedUserAnswers); // 2
+  const arrayOfFalse = times(sizeDifference, constant(false));       // [false, false]
 
-  return _.chain(definedUserAnswers) // [false, true]
-    .concat(arrayOfFalse)     // [false, true, false, false]
-    .zip(proposals)           // [[false, 'prop 1'], [true, 'prop 2'], [false, 'prop 3'], [false, 'prop 4']]
-    .map(_.reverse)           // [['prop 1', false], ['prop 2', true], ['prop 3', false], ['prop 4', false]]
-    .value();
+  const propsBuilder = flow(    // [false, true]
+    concatToEnd(arrayOfFalse),  // [false, true, false, false]
+    zip(proposals),             // [['prop 1', false], ['prop 2', true], ['prop 3', false], ['prop 4', false]]
+  );
 
+  return propsBuilder(definedUserAnswers);
 }
 
 function _isNotArrayOfBoolean(collection) {
-  return !_.isArray(collection) || !_.every(collection, _.isBoolean);
+  return !isArray(collection) || !every(collection, isBoolean);
 }
 
 function isNotArrayOfString(collection) {
-  return !_.isArray(collection) || !_.every(collection, _.isString);
+  return !isArray(collection) || !every(collection, isString);
 }

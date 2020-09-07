@@ -4,7 +4,7 @@
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import _ from 'lodash';
+import pick from 'lodash/pick';
 
 import { setupTest } from 'ember-mocha';
 import EmberObject from '@ember/object';
@@ -53,7 +53,7 @@ describe('Unit | Component | signup-form', function() {
 
       // then
       const user = component.get('user');
-      expect(_.pick(user, ['firstName', 'lastName', 'email'])).to.deep.equal(expectedUser);
+      expect(pick(user, ['firstName', 'lastName', 'email'])).to.deep.equal(expectedUser);
     });
 
     it('should send campaignCode when is defined', () => {

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import get from 'lodash/get';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -27,8 +27,8 @@ export default class SigninForm extends Component {
     try {
       await this.args.authenticateUser(this.username, this.password);
     } catch (response) {
-      const error = _.get(response, 'errors[0]');
-      const isPasswordExpiredError = (_.get(error, 'title') === 'PasswordShouldChange');
+      const error = get(response, 'errors[0]');
+      const isPasswordExpiredError = (get(error, 'title') === 'PasswordShouldChange');
       if (isPasswordExpiredError) {
         await this.args.updateExpiredPassword(this.username, this.password);
       } else {
@@ -40,7 +40,7 @@ export default class SigninForm extends Component {
   }
 
   _manageErrorsApi(firstError) {
-    const statusCode = _.get(firstError, 'status');
+    const statusCode = get(firstError, 'status');
     this.errorMessage = this._showErrorMessages(statusCode);
   }
 

@@ -1,4 +1,6 @@
-import _ from 'lodash';
+import get from 'lodash/get';
+import isBoolean from 'lodash/isBoolean';
+import isString from 'lodash/isString';
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
@@ -58,7 +60,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
         const campaignParticipation = await this.store.createRecord('campaign-participation', { campaign, participantExternalId: this.state.participantExternalId }).save();
         this._updateStateFrom({ ongoingCampaignParticipation: campaignParticipation });
       } catch (err) {
-        if (_.get(err, 'errors[0].status') === 403) {
+        if (get(err, 'errors[0].status') === 403) {
           this.session.invalidate();
           return this.transitionTo('campaigns.start-or-resume', campaign);
         }
@@ -120,15 +122,15 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     const hasUserCompletedRestrictedCampaignAssociation = this._handleQueryParamBoolean(queryParams.associationDone, this.state.hasUserCompletedRestrictedCampaignAssociation);
     const hasUserSeenLandingPage = this._handleQueryParamBoolean(queryParams.hasUserSeenLandingPage, this.state.hasUserSeenLandingPage);
     this.state = {
-      isCampaignRestricted: _.get(campaign, 'isRestricted', this.state.isCampaignRestricted),
-      isCampaignForSCOOrganization: _.get(campaign, 'organizationType') === 'SCO',
+      isCampaignRestricted: get(campaign, 'isRestricted', this.state.isCampaignRestricted),
+      isCampaignForSCOOrganization: get(campaign, 'organizationType') === 'SCO',
       hasUserCompletedRestrictedCampaignAssociation,
       hasUserSeenLandingPage,
       isUserLogged: this.session.isAuthenticated,
       doesUserHaveOngoingParticipation: Boolean(ongoingCampaignParticipation),
-      doesCampaignAskForExternalId: _.get(campaign, 'idPixLabel', this.state.doesCampaignAskForExternalId),
-      participantExternalId: _.get(queryParams, 'participantExternalId', this.state.participantExternalId),
-      externalUser: _.get(session, 'data.externalUser'),
+      doesCampaignAskForExternalId: get(campaign, 'idPixLabel', this.state.doesCampaignAskForExternalId),
+      participantExternalId: get(queryParams, 'participantExternalId', this.state.participantExternalId),
+      externalUser: get(session, 'data.externalUser'),
     };
   }
 
@@ -155,11 +157,11 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
   }
 
   _handleQueryParamBoolean(value, defaultValue) {
-    if (_.isBoolean(value)) {
+    if (isBoolean(value)) {
       return value;
     }
 
-    if (_.isString(value)) {
+    if (isString(value)) {
       return value.toLowerCase() === 'true';
     }
 

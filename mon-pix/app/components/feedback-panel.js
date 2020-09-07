@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import _ from 'lodash';
+import get from 'lodash/get';
 
 import buttonStatusTypes from 'mon-pix/utils/button-status-types';
 import { topLevelLabels, questions } from 'mon-pix/static-data/feedback-panel-issue-labels';
@@ -80,7 +80,7 @@ export default class FeedbackPanel extends Component {
       category,
       assessment: this.args.assessment,
       challenge: this.args.challenge,
-      answer: _.get(this.args, 'answer.value', null),
+      answer: get(this.args, 'answer.value', null),
     });
 
     try {
