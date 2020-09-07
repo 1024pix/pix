@@ -20,7 +20,7 @@ function revert () {
   git checkout HEAD lib/
 }
 
-if [ ! -z "$alteredFilePaths" ] ; then
+if [ -n "$alteredFilePaths" ] ; then
   if lint ; then
     if test ; then commit ; else revert ; fi
   else
