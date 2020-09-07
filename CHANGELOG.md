@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v2.191.0 (07/09/2020)
+
+- [#1845](https://github.com/1024pix/pix/pull/1845) [FEATURE] Amélioration de l'accessibilité de la page profil (PIX-1129).
+- [#1842](https://github.com/1024pix/pix/pull/1842) [FEATURE] Gérer différents types d'encodage pour l'import du CSV d'étudiant (PIX-1133)
+- [#1814](https://github.com/1024pix/pix/pull/1814) [FEATURE] Ajoute des détails sur les erreurs lors de l'import des étudiants (PIX-1086)
+- [#1836](https://github.com/1024pix/pix/pull/1836) [FEATURE] Amélioration de l'accessibilité des pages login/signup (PIX-1180).
+- [#1838](https://github.com/1024pix/pix/pull/1838) [FEATURE] Changer le logo de la marianne (PIX-1204)
+- [#1847](https://github.com/1024pix/pix/pull/1847) [BUGFIX] Interdire les caractères spéciaux pour le numéro étudiant lors de l'import CSV des étudiants (PIX-1226).
+
 ## v2.190.0 (04/09/2020)
 
 - [#1820](https://github.com/1024pix/pix/pull/1820) [FEATURE] Générer les codes de certification à la volée [PIX-1106]
