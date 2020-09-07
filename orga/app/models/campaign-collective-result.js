@@ -1,8 +1,7 @@
-import DS from 'ember-data';
+import Model, { hasMany } from '@ember-data/model';
 import maxBy from 'lodash/maxBy';
 import sum from 'lodash/sum';
 import sumBy from 'lodash/sumBy';
-const { Model, hasMany } = DS;
 
 export default class CampaignCollectiveResult extends Model {
 
