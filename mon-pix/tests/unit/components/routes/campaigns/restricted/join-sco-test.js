@@ -2,9 +2,13 @@ import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
+
 import createComponent from '../../../../../helpers/create-glimmer-component';
 
+import { getJoinErrorsMessageByShortCode } from 'mon-pix/utils/errors-messages';
+
 describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
+
   setupTest();
 
   let component;
@@ -467,14 +471,17 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
           it('should return a conflict error and display the error message related to the short code R11)', async function() {
             // given
+            const meta = { shortCode: 'R11', value: 'j***@example.net' };
+            const expectedErrorMessage = getJoinErrorsMessageByShortCode(meta);
+
             const error = {
               status: '409',
               code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
               title: 'Conflict',
               detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-              meta: { shortCode: 'R11', value: 'j***@example.net' }
+              meta
             };
-            const expectedErrorMessage = 'Vous possédez déjà un compte Pix avec l’adresse e-mail <br>j***@example.net<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code R11)';
+
             onSubmitToReconcileStub.rejects({ errors: [error] });
 
             // when
@@ -493,14 +500,17 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
           it('should return a conflict error and display the error message related to the short code R12)', async function() {
             // given
+            const meta = { shortCode: 'R12', value: 'j***.h***2' };
+            const expectedErrorMessage = getJoinErrorsMessageByShortCode(meta);
+
             const error = {
               status: '409',
               code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
               title: 'Conflict',
               detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-              meta: { shortCode: 'R12', value: 'j***.h***2' }
+              meta
             };
-            const expectedErrorMessage = 'Vous possédez déjà un compte Pix utilisé avec l’identifiant <br>j***.h***2<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code R12)';
+
             onSubmitToReconcileStub.rejects({ errors: [error] });
 
             // when
@@ -519,14 +529,17 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
           it('should return a conflict error and display the error message related to the short code R13)', async function() {
             // given
+            const meta = { shortCode: 'R13', value: undefined };
+            const expectedErrorMessage = getJoinErrorsMessageByShortCode(meta);
+
             const error = {
               status: '409',
               code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
               title: 'Conflict',
               detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-              meta: { shortCode: 'R13', value: undefined }
+              meta
             };
-            const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l‘ENT dans un autre établissement scolaire.<br>Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l‘aide de Pix Orga.';
+
             onSubmitToReconcileStub.rejects({ errors: [error] });
 
             // when
@@ -545,14 +558,17 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
           it('should return a conflict error and display the error message related to the short code R13)', async function() {
             // given
+            const meta = { shortCode: 'R13', value: undefined };
+            const expectedErrorMessage = getJoinErrorsMessageByShortCode(meta);
+
             const error = {
               status: '409',
               code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
               title: 'Conflict',
               detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-              meta: { shortCode: 'R13', value: undefined }
+              meta
             };
-            const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l‘ENT dans un autre établissement scolaire.<br>Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l‘aide de Pix Orga.';
+
             onSubmitToReconcileStub.rejects({ errors: [error] });
 
             // when
@@ -571,14 +587,17 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
           it('should return a conflict error and display the error message related to the short code R13)', async function() {
             // given
+            const meta = { shortCode: 'R13', value: undefined };
+            const expectedErrorMessage = getJoinErrorsMessageByShortCode(meta);
+
             const error = {
               status: '409',
               code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
               title: 'Conflict',
               detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-              meta: { shortCode: 'R13', value: undefined }
+              meta
             };
-            const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l‘ENT dans un autre établissement scolaire.<br>Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l‘aide de Pix Orga.';
+
             onSubmitToReconcileStub.rejects({ errors: [error] });
 
             // when
@@ -597,14 +616,17 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
           it('should return a conflict error and display the error message related to the short code R13)', async function() {
             // given
+            const meta = { shortCode: 'R13', value: undefined };
+            const expectedErrorMessage = getJoinErrorsMessageByShortCode(meta);
+
             const error = {
               status: '409',
               code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
               title: 'Conflict',
               detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-              meta: { shortCode: 'R13', value: undefined }
+              meta
             };
-            const expectedErrorMessage = 'Vous possédez déjà un compte Pix via l‘ENT dans un autre établissement scolaire.<br>Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l‘aide de Pix Orga.';
+
             onSubmitToReconcileStub.rejects({ errors: [error] });
 
             // when
@@ -623,14 +645,17 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
           it('should return a conflict error and display the error message related to the short code R12)', async function() {
             // given
+            const meta = { shortCode: 'R12', value: 'j***.h***2' };
+            const expectedErrorMessage = getJoinErrorsMessageByShortCode(meta);
+
             const error = {
               status: '409',
               code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
               title: 'Conflict',
               detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-              meta: { shortCode: 'R12', value: 'j***.h***2' }
+              meta
             };
-            const expectedErrorMessage = 'Vous possédez déjà un compte Pix utilisé avec l’identifiant <br>j***.h***2<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code R12)';
+
             onSubmitToReconcileStub.rejects({ errors: [error] });
 
             // when

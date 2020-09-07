@@ -4,8 +4,10 @@ import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
 import { standardizeNumberInTwoDigitFormat } from 'mon-pix/utils/standardize-number';
 import { decodeToken } from 'mon-pix/helpers/jwt';
-import { get, find } from 'lodash';
+import { get } from 'lodash';
 import ENV from 'mon-pix/config/environment';
+
+import { getJoinErrorsMessageByShortCode } from '../../../../utils/errors-messages';
 
 const ERROR_INPUT_MESSAGE_MAP = {
   firstName: 'Votre prénom n’est pas renseigné.',
@@ -213,16 +215,6 @@ export default class JoinSco extends Component {
 
   _showErrorMessageByShortCode(meta) {
     const defaultMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE);
-
-    const errors = [
-      { code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION', shortCode:'R11', message: `Vous possédez déjà un compte Pix avec l’adresse e-mail <br>${meta.value}<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code R11)` },
-      { code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION', shortCode:'R12', message:`Vous possédez déjà un compte Pix utilisé avec l’identifiant <br>${meta.value}<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br>(Code R12)` },
-      { code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION', shortCode:'R13', message: 'Vous possédez déjà un compte Pix via l‘ENT dans un autre établissement scolaire.<br>Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l‘aide de Pix Orga.' },
-      { code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_SAME_ORGANIZATION', shortCode:'R31', message:`Vous possédez déjà un compte Pix utilisé dans votre établissement scolaire, avec l‘adresse mail <br>${meta.value}.<br>Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.<br> (Code R31)` },
-      { code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION', shortCode:'R32', message:`Vous possédez déjà un compte Pix utilisé dans votre établissement scolaire, avec l‘identifiant<br>${meta.value}.<br>Pour continuer, connectez-vous à ce compte ou demandez de l‘aide à un enseignant.<br> (Code R32)` },
-      { code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION', shortCode:'R33', message:'Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.' }
-    ];
-
-    return find(errors, ['shortCode', meta.shortCode]).message || defaultMessage;
+    return getJoinErrorsMessageByShortCode(meta) || defaultMessage;
   }
 }
