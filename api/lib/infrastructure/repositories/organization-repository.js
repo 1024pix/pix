@@ -103,7 +103,8 @@ module.exports = {
 
   findScoOrganizationByUai(uai) {
     return BookshelfOrganization
-      .where({ externalId: uai, type: Organization.types.SCO })
+      .query((qb) => qb.where({ type: Organization.types.SCO })
+        .whereRaw('LOWER("externalId") = ? ', `${uai.toLowerCase()}`))
       .fetchAll({ columns: ['id', 'type', 'externalId', 'email'] })
       .then((organizations) => organizations.models.map(_toDomain));
   },
