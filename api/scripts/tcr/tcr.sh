@@ -4,10 +4,12 @@ alteredFilePaths=$(git ls-files -m '*.js');
 files=( "$@" )
 
 function _lint () {
+  echo "TCR => LINT"
   npx eslint $alteredFilePaths --fix
 }
 
 function _test () {
+  echo "TCR => TEST"
   npm run test:api:path "${files[0]}" -- --bail
 }
 
