@@ -498,6 +498,11 @@
 
     "profile": {
       "title": "Votre profil",
+      "accessibility": {
+        "title": "Votre profil Pix",
+        "user-score": "Votre nombre de Pix",
+        "user-skills": "Vos compétences Pix"
+      },
       "competence-card": {
         "congrats": "Bravo !",
         "details": "détails"

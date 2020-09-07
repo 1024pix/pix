@@ -1,4 +1,6 @@
 <div class="rounded-panel-body">
+  <h2 class="sr-only">{{t 'pages.profile.accessibility.user-skills'}}</h2>
+  <div>
   {{#each @areasCode as |areaCode|}}
     <div class="rounded-panel-body__areas">
       {{#each @scorecards as |scorecard|}}
@@ -10,4 +12,5 @@
       {{/each}}
     </div>
   {{/each}}
+  </div>
 </div>
