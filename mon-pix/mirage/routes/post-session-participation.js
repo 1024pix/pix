@@ -1,5 +1,5 @@
 import Response from 'ember-cli-mirage/response';
-import _ from 'lodash';
+import every from 'lodash/every';
 
 export default function(schema, request) {
   const params = JSON.parse(request.requestBody);
@@ -7,7 +7,7 @@ export default function(schema, request) {
   const firstName = params.data.attributes['first-name'];
   const lastName = params.data.attributes['last-name'];
   const birthdate = params.data.attributes['birthdate'];
-  if (!_.every([firstName, lastName, birthdate, sessionId])) {
+  if (!every([firstName, lastName, birthdate, sessionId])) {
     return new Response(400);
   }
   if (lastName === 'PasInscrite') {

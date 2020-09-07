@@ -5,10 +5,10 @@
 
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
+import get from 'lodash/get';
 import isEmailValid from 'mon-pix/utils/email-validator';
 import isPasswordValid from '../utils/password-validator';
 import ENV from 'mon-pix/config/environment';
-const _ = require('lodash');
 
 const ERROR_INPUT_MESSAGE_MAP = {
   firstName: 'pages.sign-up.fields.firstname.error',
@@ -143,7 +143,7 @@ export default Component.extend({
 
       this._trimNamesAndEmailOfUser();
 
-      const campaignCode = _.get(this.session, 'attemptedTransition.from.parent.params.code');
+      const campaignCode = get(this.session, 'attemptedTransition.from.parent.params.code');
 
       this.user.save({ adapterOptions: { campaignCode } }).then(() => {
         const credentials = { login: this.user.email, password: this.user.password };

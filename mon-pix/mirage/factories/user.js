@@ -1,10 +1,10 @@
 import { Factory, trait } from 'ember-cli-mirage';
 import faker from 'faker';
-import _ from 'lodash';
+import sumBy from 'lodash/sumBy';
 
 function _addDefaultPixscore(user, server) {
   if (!user.pixScore) {
-    const pixScoreValue = _.sumBy(user.scorecards.models, 'earnedPix');
+    const pixScoreValue = sumBy(user.scorecards.models, 'earnedPix');
     user.update({
       pixScore: server.create('pix-score', { value: pixScoreValue }),
     });

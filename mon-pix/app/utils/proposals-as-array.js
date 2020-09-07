@@ -1,19 +1,23 @@
-import _ from 'lodash';
+import isString from 'lodash/isString';
+import isEmpty from 'lodash/isEmpty';
 
-function calculate(proposals) {
-  return _.chain(proposals)
-    .thru((e) => '\n' + e)
-    .split(/\n\s*-\s*/)
-    .drop(1)
-    .value();
-}
+import flow from 'lodash/fp/flow';
+import split from 'lodash/fp/split';
+import thru from 'lodash/fp/thru';
+import drop from 'lodash/fp/drop';
+
+const calculate = flow(
+  thru((e) => '\n' + e),
+  split(/\n\s*-\s*/),
+  drop(1)
+);
 
 export default function proposalsAsArray(proposals) {
   // check pre-conditions
   const DEFAULT_RETURN_VALUE = [];
 
-  if (!_.isString(proposals)) return DEFAULT_RETURN_VALUE;
-  if (_(proposals).isEmpty()) return DEFAULT_RETURN_VALUE;
+  if (!isString(proposals)) return DEFAULT_RETURN_VALUE;
+  if (isEmpty(proposals)) return DEFAULT_RETURN_VALUE;
 
   return calculate(proposals);
 }
