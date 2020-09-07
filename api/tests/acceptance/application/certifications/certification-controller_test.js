@@ -20,7 +20,7 @@ describe('Acceptance | API | Certifications', () => {
 
     userId = databaseBuilder.factory.buildUser().id;
     session = databaseBuilder.factory.buildSession();
-    badge = databaseBuilder.factory.buildBadge();
+    badge = databaseBuilder.factory.buildBadge({ key: 'charlotte_aux_fraises' });
     certificationCourse = databaseBuilder.factory.buildCertificationCourse({
       sessionId: session.id,
       userId,
