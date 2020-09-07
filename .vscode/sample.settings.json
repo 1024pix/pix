@@ -6,5 +6,6 @@
         "./mon-pix",
         "./api",
         "./orga"
-    ]
+    ],
+    "javascript.implicitProjectConfig.experimentalDecorators": true
 }
