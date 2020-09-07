@@ -10,7 +10,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
   describe('#create', () => {
 
     beforeEach(async () => {
-      const badgeId = databaseBuilder.factory.buildBadge().id;
+      const badgeId = databaseBuilder.factory.buildBadge({ key: 'éclair_au_chocolat' }).id;
       const userId = databaseBuilder.factory.buildUser().id;
 
       badgeAcquisitionToCreate = databaseBuilder.factory.buildBadgeAcquisition({ badgeId, userId });
@@ -43,7 +43,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
     let badgeId;
 
     beforeEach(async () => {
-      badgeId = databaseBuilder.factory.buildBadge().id;
+      badgeId = databaseBuilder.factory.buildBadge({ key: 'beignet_a_la_creme' }).id;
       userId = databaseBuilder.factory.buildUser().id;
 
       badgeAcquisitionToCreate = databaseBuilder.factory.buildBadgeAcquisition({ badgeId, userId });
