@@ -5,7 +5,7 @@ const validationConfiguration = { allowUnknown: true };
 const MAX_LENGTH = 255;
 
 const validationSchema = Joi.object({
-  studentNumber: Joi.string().max(MAX_LENGTH)
+  studentNumber: Joi.string().regex(/^[a-zA-Z0-9_\\-]*$/).max(MAX_LENGTH)
     .when('$isSupernumerary', {
       switch: [{
         is: true,
@@ -64,6 +64,9 @@ module.exports = {
       }
       if (type === 'boolean.base') {
         err.why = 'not_a_boolean';
+      }
+      if (err.key === 'studentNumber' && type === 'string.pattern.base') {
+        err.why = 'student_number_format';
       }
       throw err;
     }

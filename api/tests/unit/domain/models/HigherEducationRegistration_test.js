@@ -26,7 +26,7 @@ describe('Unit | Domain | Models | HigherEducationRegistration', () => {
       });
     });
 
-    ['firstName', 'lastName', 'studentNumber'].forEach((field) => {
+    ['firstName', 'lastName', 'birthdate', 'studentNumber'].forEach((field) => {
       it(`throw an error when ${field} is required`, async () => {
         const error = await catchErr(buildRegistration)({ ...validAttributes, [field]: undefined, isSupernumerary: false });
 
@@ -159,6 +159,42 @@ describe('Unit | Domain | Models | HigherEducationRegistration', () => {
 
         expect(error.key).to.equal('email');
         expect(error.why).to.equal('email_format');
+      });
+    });
+
+    context('student number', () => {
+      context('when student number is not correctly formed', () => {
+        [
+          '#123457',
+          '1 23457',
+          '1.23457',
+          '1,23457E+11',
+          'gégé',
+        ].forEach((value) => {
+          it(`throw an error when student number is ${value}`, async () => {
+            const error = await catchErr(buildRegistration)({ ...validAttributes, studentNumber: value });
+
+            expect(error.why).to.equal('student_number_format');
+            expect(error.key).to.equal('studentNumber');
+          });
+        });
+      });
+
+      context('when student number is correctly formed', () => {
+        [
+          '123456',
+          '1234aA',
+          '1-a-B',
+          '1_a_B',
+        ].forEach((value) => {
+          it(`throw an error when student number is ${value}`, async () => {
+            try {
+              await buildRegistration({ ...validAttributes, studentNumber: value });
+            } catch (e) {
+              expect.fail('higherEducationRegistration is valid when student number is correctly formed');
+            }
+          });
+        });
       });
     });
   });
