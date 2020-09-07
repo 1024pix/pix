@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import EmberObject from '@ember/object';
+import createGlimmerComponent from '../../helpers/create-glimmer-component';
 import { A } from '@ember/array';
 
 describe('Unit | Component | resume-campaign-banner-component ', function() {
@@ -50,14 +51,14 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
   });
 
   beforeEach(function() {
-    component = this.owner.lookup('component:resume-campaign-banner');
+    component = createGlimmerComponent('component:resume-campaign-banner');
   });
 
   describe('#campaignParticipationState', function() {
     it('should return the most recent campaign among campaigns not finished and not shared', function() {
       // given
       const listCampaignParticipations = [oldCampaignNotFinished, campaignNotFinished];
-      component.set('campaignParticipations', listCampaignParticipations);
+      component.args.campaignParticipations = listCampaignParticipations;
 
       const expectedResult = {
         title: campaignNotFinished.campaign.title,
@@ -67,7 +68,7 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
       };
 
       // when
-      const campaignParticipationState = component.get('campaignParticipationState');
+      const campaignParticipationState = component.campaignParticipationState;
 
       // then
       expect(campaignParticipationState).to.deep.equal(expectedResult);
@@ -76,10 +77,10 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
     it('should return the most recent campaign among campaigns not finished and not shared dynamically', function() {
       // given
       const participations = A([]);
-      component.set('campaignParticipations', participations);
+      component.args.campaignParticipations = participations;
 
       // then
-      expect(component.get('campaignParticipationState')).to.equal(null);
+      expect(component.campaignParticipationState).to.equal(null);
 
       // when
       const updatableCampaignNotFinished = EmberObject.create({
@@ -94,17 +95,18 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
       participations.addObject(updatableCampaignNotFinished);
 
       // then
-      expect(component.get('campaignParticipationState').code).to.equal('AZERTY0');
+      expect(component.campaignParticipationState.code).to.equal('AZERTY0');
 
-      updatableCampaignNotFinished.set('createdAt', '2000-05-13');
+      updatableCampaignNotFinished.createdAt = '2000-05-13';
 
-      expect(component.get('campaignParticipationState').code).to.equal(oldCampaignNotFinished.campaign.code);
+      expect(component.campaignParticipationState.code).to.equal(oldCampaignNotFinished.campaign.code);
     });
 
     it('should return the most recent campaign among campaigns not shared', function() {
       // given
       const listCampaignParticipations = [oldCampaignNotFinished, campaignFinishedButNotShared];
-      component.set('campaignParticipations', listCampaignParticipations);
+      component.args.campaignParticipations = listCampaignParticipations;
+
       const expectedResult = {
         title: campaignFinishedButNotShared.campaign.title,
         code: campaignFinishedButNotShared.campaign.code,
@@ -113,7 +115,7 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
       };
 
       // when
-      const campaignParticipationState = component.get('campaignParticipationState');
+      const campaignParticipationState = component.campaignParticipationState;
 
       // then
       expect(campaignParticipationState).to.deep.equal(expectedResult);
@@ -122,7 +124,8 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
     it('should return the only campaign not finished or not shared', function() {
       // given
       const listCampaignParticipations = [campaignFinished, campaignFinishedButNotShared];
-      component.set('campaignParticipations', listCampaignParticipations);
+      component.args.campaignParticipations = listCampaignParticipations;
+
       const expectedResult = {
         title: campaignFinishedButNotShared.campaign.title,
         code: campaignFinishedButNotShared.campaign.code,
@@ -131,7 +134,7 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
       };
 
       // when
-      const campaignParticipationState = component.get('campaignParticipationState');
+      const campaignParticipationState = component.campaignParticipationState;
 
       // then
       expect(campaignParticipationState).to.deep.equal(expectedResult);
@@ -140,10 +143,10 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
     it('should return null when all campaign are finished', function() {
       // given
       const listCampaignParticipations = [campaignFinished];
-      component.set('campaignParticipations', listCampaignParticipations);
+      component.args.campaignParticipations = listCampaignParticipations;
 
       // when
-      const campaignParticipationState = component.get('campaignParticipationState');
+      const campaignParticipationState = component.campaignParticipationState;
 
       // then
       expect(campaignParticipationState).to.equal(null);
