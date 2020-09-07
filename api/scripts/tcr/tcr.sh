@@ -23,12 +23,13 @@ function _revert () {
   git checkout HEAD lib/
 }
 
-if [ -n "$alteredFilePaths" ] ; then
-  if _lint ; then
-    if _test ; then _commit ; else _revert ; fi
-  else
-    echo "TCR => ABORT"
-  fi
-else
+if [ -z "$alteredFilePaths" ] ; then
   echo "TCR => NOTHING HAS CHANGED"
+  exit 1
 fi
+
+if ! _lint ; then
+  exit 1
+fi
+
+if _test ; then _commit ; else _revert ; fi
