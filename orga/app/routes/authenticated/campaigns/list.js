@@ -38,10 +38,6 @@ export default class ListRoute extends Route {
     }, { reload: true });
   }
 
-  afterModel() {
-    return this.currentUser.organization.memberships;
-  }
-
   resetController(controller, isExiting) {
     if (isExiting) {
       controller.pageNumber = 1;
