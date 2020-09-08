@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v2.192.0 (08/09/2020)
+
+- [#1834](https://github.com/1024pix/pix/pull/1834) [FEATURE] Ameliorer l'affichage du certificat sur mobile et tablette [PIX-1184]
+- [#1843](https://github.com/1024pix/pix/pull/1843) [FEATURE] Ajouter un titre de section pour les badges (PIX-1205).
+- [#1821](https://github.com/1024pix/pix/pull/1821) [FEATURE] Mise à jour des messages d'erreurs R31, R32 et S63 dans Mon-Pix (PIX-1159).
+- [#1839](https://github.com/1024pix/pix/pull/1839) [FEATURE] Ajout d'une erreur lors de tentative d'accès à un certificat partageable via url (PIX-1192)
+- [#1850](https://github.com/1024pix/pix/pull/1850) [BUGFIX] Parsing de date avec une année sur 2 digits pour l'import CSV SUP
+- [#1840](https://github.com/1024pix/pix/pull/1840) [BUGFIX] Input du formulaire de vérification de certification cassé sous IE (PIX-1186)
+- [#1851](https://github.com/1024pix/pix/pull/1851) [TECH] Réparation de tests autos flaky liés à la violation de contrainte d'unicité de la key d'un badge (PIX-1243)
+- [#1825](https://github.com/1024pix/pix/pull/1825) [TECH] Rajouter les sourcemap sur les front-end en production.
+- [#1844](https://github.com/1024pix/pix/pull/1844) [TECH] Enable experimental decorators for vscode in sample config
+- [#1831](https://github.com/1024pix/pix/pull/1831) [TECH] Suppression des imports par défault de lodash dans pix-app
+- [#1848](https://github.com/1024pix/pix/pull/1848) [CLEANUP] Petit désendettement d'Assessment (PIX-1235)
+- [#1846](https://github.com/1024pix/pix/pull/1846) [CLEANUP] Mettre l'affichage du loading directement dans resume (PIX-1127).
+
 ## v2.191.0 (07/09/2020)
 
 - [#1845](https://github.com/1024pix/pix/pull/1845) [FEATURE] Amélioration de l'accessibilité de la page profil (PIX-1129).
