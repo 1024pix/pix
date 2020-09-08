@@ -8,10 +8,10 @@
   </PixBlock>
 
   <div class="user-certifications-page-get__details-body">
-    <UserCertificationsDetailCompetencesList @resultCompetenceTree={{@model.resultCompetenceTree}} />
     {{#if (or @model.commentForCandidate @model.hasCleaCertif)}}
       <UserCertificationsDetailResult @certification={{@model}} />
     {{/if}}
+    <UserCertificationsDetailCompetencesList @resultCompetenceTree={{@model.resultCompetenceTree}} />
   </div>
 
 </PixBackgroundHeader>

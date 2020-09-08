@@ -1,8 +1,11 @@
 {{#if certification.commentForCandidate}}
   <h2>{{t "pages.certificate.jury-title"}}</h2>
-  <PixBlock>
-    <p class="user-certifications-detail-result__comment-jury">
+  <PixBlock class="user-certifications-detail-result__jury">
+    <p class="user-certifications-detail-result__jury__comment">
       {{certification.commentForCandidate}}
+    </p>
+    <p class="user-certifications-detail-result__jury__info">
+      {{fa-icon 'info-circle'}} {{t "pages.certificate.jury-info"}}
     </p>
   </PixBlock>
 {{/if}}

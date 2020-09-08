@@ -20,6 +20,7 @@
 
   &__details-body {
     display: flex;
+    flex-direction: row-reverse;
     width: 100%;
     max-width: 980px;
     margin: 0 10px;
@@ -40,6 +41,10 @@
       position: relative;
     }
 
+    &__header {
+      flex-direction: column;
+    }
+
     &__details-body {
       flex-wrap: wrap;
     }
@@ -49,6 +54,10 @@
 @include device-is('tablet') {
 
   .user-certifications-page-get {
+
+    &__header {
+      flex-direction: column;
+    }
 
     &__details-body {
       flex-wrap: wrap;
@@ -62,6 +71,10 @@
 
     &__details-body {
       flex-wrap: nowrap;
+    }
+
+    &__header {
+      flex-direction: row;
     }
   }
 }
