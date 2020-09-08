@@ -1,5 +1,6 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
+import RSVP from 'rsvp';
 
 export default class ListRoute extends Route {
   queryParams = {
@@ -11,10 +12,19 @@ export default class ListRoute extends Route {
 
   async model(params) {
     const organization = this.currentUser.organization;
-    await organization.hasMany('memberships').reload({ adapterOptions: {
-      'page[size]': params.pageSize,
-      'page[number]': params.pageNumber,
-    } });
-    return organization;
+    const memberships = this.store.query('membership', {
+      filter: {
+        organizationId: organization.id,
+      },
+      page: {
+        number: params.pageNumber,
+        size: params.pageSize,
+      },
+    });
+
+    return RSVP.hash({
+      memberships,
+      organization,
+    });
   }
 }
