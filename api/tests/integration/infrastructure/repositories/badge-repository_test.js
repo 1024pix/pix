@@ -167,7 +167,7 @@ describe('Integration | Repository | Badge', () => {
 
     beforeEach(() => {
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      databaseBuilder.factory.buildBadge({ targetProfileId });
+      databaseBuilder.factory.buildBadge({ targetProfileId, key: 'mille_feuilles' });
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
       databaseBuilder.factory.buildCampaignParticipation({ campaignId });
       return databaseBuilder.commit();
