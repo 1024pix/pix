@@ -6,7 +6,7 @@
   },
 
   "application": {
-    "description": "Pix is an online platform designed to assess and certify the digital skills of French-speaking citizens (students, school leavers, job seekers, seniors)"
+    "description": "Pix is an  online platform open to all (pupils, students, anyone working or in professional training, seniors) designed to assess, develop and certify digital skills"
   },
 
   "common": {
@@ -17,7 +17,7 @@
     },
     "form": {
       "mandatory": "required",
-      "mandatory-fields": "The fields marked '<abbr title=\"mandatory\" class=\"mandatory-mark\">'*'</abbr>' are required"
+      "mandatory-fields": "The fields marked '<abbr title=\"required\" class=\"mandatory-mark\">'*'</abbr>' are required"
     },
     "french-republic": "French Republic",
     "level": "level",
@@ -35,7 +35,7 @@
       "title": "End of test",
       "actions": {
         "continue-pix-experience": "Continue my Pix experience",
-        "return-to-homepage": "Return to home"
+        "return-to-homepage": "Return to homepage"
       },
       "answers": {
         "header": "Your answers"
@@ -55,12 +55,12 @@
       "assessment": {
         "title": "Begin your course",
         "action": "Begin",
-        "announcement": "Start your personalized assessment course.<br /> Sign up or log in to the Pix platform and start your test.",
+        "announcement": "Start your personalised assessment course.<br /> Sign up or log in to the Pix platform and start your test.",
         "details": "During this course, you will be able to:",
-        "legal": "Information about your progress will be sent to the course administrator so they can provide you with support. Your test results will only be shared with your permission.",
+        "legal": "Information about your progress will be sent to the organiser of the course so they can provide you with support. Your test results will only be shared with your permission.",
         "evaluate": {
-          "title": "Assess your digital skills with fun tests on lots of different subjects, like:",
-          "complement": "The Pix public service for the assessment and certification of digital skills enables assessment of your level in five major skill areas covering current uses of digital technology.",
+          "title": "Assess your digital skills with fun tests on different subjects, such as:",
+          "complement": "The Pix public service for the assessment and certification of digital skills enables assessment of your level in 5 major skill areas covering current uses of digital technology.",
           "list": "'<ul><li>'finding information on the internet,'</li><li>'producing documents,'</li><li>'communicating and collaborating online,'</li><li>'securing your work environment,'</li><li>'etc.'</li></ul>'",
           "more-info": {
             "link": "https://pix.org/competences",
@@ -69,18 +69,18 @@
         },
         "develop": {
           "title": "See your results during tests and view tips to progress.",
-          "description": "After five tests, you will be able to see your results and watch tutorials to help you develop your skills."
+          "description": "After 5 questions, you will be able to see your results and watch tutorials to help you develop your skills."
         },
         "certify": {
-          "title": "Prepare for certification recognized by the French government and the business world",
+          "title": "Prepare a certification recognised throughout Europe and in the business world",
           "description": "Pix certification enables you to showcase your digital skills to employers."
         }
       },
       "profiles-collection": {
         "title": "Submit your profile",
         "action": "Let’s go!",
-        "announcement": "Sign up or log in to the Pix platform and send your profile to the recipient organization.",
-        "legal": "Information about your progress will be sent to the administrator so they can provide you with support. It will only be sent with your permission."
+        "announcement": "Sign up or log in to the Pix platform and send your profile to the recipient organisation.",
+        "legal": "Information about your progress will be sent to the organiser so they can provide support. It will only be sent with your permission."
       }
     },
 
@@ -101,8 +101,8 @@
         "alternative": "Digital CléA certification"
       },
       "competences": {
-        "informations": "Your certified score was calculated based on the answers you gave whilst taking the certification. It may be different from the Pix number shown on your profile. When you took the certification, it was possible to reach a maximum of level 5 in skills and 640 pix.",
-        "subtitle": "(levels out of five)",
+        "informations": "Your certified score was calculated based on the answers you gave whilst taking the certification. It may be different from the score shown on your profile. When you took the certification, it was possible to reach a maximum of level 5 in each skill and 640 pix.",
+        "subtitle": "(levels out of 5)",
         "title": "Certified skills"
       },
       "exam-date": "Completion date:",
@@ -116,7 +116,7 @@
     },
 
     "competence-result": {
-      "title": "Results of your skills",
+      "title": "Results",
       "header": {
         "congratulations": "Congratulations!",
         "not-bad": "Not bad, but could be better!",
@@ -151,7 +151,7 @@
       "title": "Your profile cannot be certified yet.",
       "text": "To have your profile certified, you need to have reached at least level 1 in five skills.",
       "action": {
-        "back": "Return to home"
+        "back": "Return to homepage"
       }
     },
 
@@ -169,7 +169,7 @@
       "flag-alt": "Flag",
       "not-finished": {
         "title": "You’ve almost finished",
-        "supervisor": "Call the invigilator: '<br>'They must see this screen to be able to finalize your certification.",
+        "supervisor": "Call the invigilator: '<br>'They must see this screen to be able to finalise your certification.",
         "warning-text": "The invigilator has seen this screen."
       }
     },
@@ -185,7 +185,7 @@
           "email": "dpo@pix.fr",
           "info": "In accordance with the French law governing computer technology and freedoms (“Informatique et Libertés”), you can exercise your right to access and rectify your data by emailing "
         },
-        "info": "By clicking on “Start my test”, I agree to my identifying data, certification number and the circumstances in which the test was taken, as reported by the invigilator, being sent to Pix. Pix will use this information during the board of examiners’ deliberation to produce and archive my results and create my certificate. If this certification was ordered by an organization, I agree to Pix sharing my results with them."
+        "info": "By clicking on “Start my test”, I agree to my identifying data, certification number and the circumstances in which the test was taken, as reported by the invigilator, being sent to Pix. Pix will use this information during the board of examiners’ deliberation to produce and archive my results and create my certificate. If this certification was ordered by an organisation, I agree to Pix sharing my results with them."
       },
       "first-title": "You are about to begin your certification test."
     },
@@ -217,10 +217,10 @@
     },
 
     "challenge": {
-      "title": "Test {stepNumber} of {totalChallengeNumber}",
+      "title": "Question {stepNumber} of {totalChallengeNumber}",
       "actions": {
         "continue": "Continue",
-        "validate": "Confirm",
+        "validate": "Validate",
         "skip": "Skip"
       },
       "already-answered": "You have already answered this question",
@@ -238,7 +238,7 @@
       },
       "embed-simulator": {
         "actions": {
-          "launch": "Open the app",
+          "launch": "Launch the app",
           "reset": "Restart"
         },
         "placeholder": "App loading"
@@ -256,10 +256,10 @@
             "category-selection": {
               "label": "I am experiencing difficulties with",
               "options": {
-                "accessibility": "Accessing the test",
+                "accessibility": "Test accessibility",
                 "answer": "The answer",
                 "embed": "The simulator/app",
-                "download": "The download file",
+                "download": "The file to download",
                 "link": "The link in the question",
                 "other": "Other",
                 "picture": "The image",
@@ -279,11 +279,11 @@
                   },
                   "edit-failure": {
                     "label": "I cannot edit the file",
-                    "solution": "The file is probably open in “Read only” or “Protected mode”.'<br>'Click on “Activate editing” or “Edit document” in the banner at the top of the file if this is shown. '<br>'Otherwise save the file under another name and trying opening file again from here."
+                    "solution": "The file is probably open in “Read only” or “Protected mode”.'<br>'Click on “Activate editing” or “Edit document” in the banner at the top of the file if this is shown. '<br>'Otherwise save the file under another name and try opening file again from here."
                   },
                   "open-failure": {
                     "label": "I cannot open the file on a computer",
-                    "solution": "To take this test, you need to use the LibreOffice suite, which is available free-of-charge for PC and Mac. It contains Libre Office Writer (equivalent to Word) and Libre Office Calc (equivalent to Excel).'<a href=\"https://fr.libreoffice.org/download/telecharger-libreoffice\">'Download Libre Office'</a>'"
+                    "solution": "To answer this question, you need to use the LibreOffice suite, which is available free-of-charge for PC and Mac. It contains Libre Office Writer (equivalent to Word) and Libre Office Calc (equivalent to Excel).'<a href=\"https://www.libreoffice.org/download/download\">'Download Libre Office'</a>'"
                   },
                   "other": "I have another problem with the file"
                 },
@@ -292,7 +292,7 @@
                   "solution": "Your internet connection may not be strong enough.'<br>'Refresh the page by clicking on the refresh button'<object type=\"image/svg+xml\" class=\"tuto-icon\" data=\"/images/icons/icon-reload.svg\"></object>' next to the address bar. Wait a little while, the simulator might display. '<br><br>'If it doesn’t, you can try again later or from another location with a better connection."
                 },
                 "embed-other": "There is another problem with the simulator/app",
-                "other-challenge-proposal": "I have a (great) idea for a test to suggest",
+                "other-challenge-proposal": "I have a (great) idea to suggest for a question",
                 "other-site-improvement": "I have a suggestion for improving the platform",
                 "other-difficulty": "I have another problem",
                 "question-improvement": "I want to suggest an improvement to the question",
@@ -314,7 +314,7 @@
         },
         "information": {
           "data-usage": "'<p>'Pix processes the data from this area to manage and analyse the difficulty encountered and benefit from your feedback. You have rights over your data which can be exercised via '<a href=\"mailto:dpo@pix.fr\" class=\"link\">'dpo@pix.fr'</a>'.'</p><p><a href=\"https://pix.fr/dp-formulaire-signalement-epreuve\" target=\"_blank\" class=\"link\">'To find out more about protecting your data and your rights.'</a></p>'",
-          "guidance": "'<p>'*Make sure you write in this zone: for your benefit and the benefit of others, please stay objective and keep to the facts.'</p><p>'Do not enter any information about yourself or third parties, or any information related to health; religion; political, union-related or philosophical opinions; ethnic origins; or penalties and convictions.'</p>'"
+          "guidance": "'<p>'*Make sure you write in this zone: for your benefit and the benefit of others, please stay objective and keep to the facts.'</p><p>'Do not enter any information about yourself or third parties, or any information related to health; religion; political, or philosophical opinions; trade union affiliation; ethnic origins; or penalties and convictions.'</p>'"
         }
       },
       "illustration": {
@@ -335,16 +335,16 @@
             "choose-type": "Select the type of file you would like to use",
             "download": "Download"
           },
-          "description": "Pix lets you choose which format of file to download If you do not know which option to use, select the default option. This is the file format accessible using the most software.",
+          "description": "Pix lets you choose which format of file to download. If you do not know which option to use, select the default option. This is the file format that is the most commonly used.",
           "file-type": "file .{fileExtension}"
         }
       },
       "skip-error-message": {
-        "qcm": "To confirm, select at least one answer. Otherwise, click Skip.",
-        "qcu": "To confirm, select an answer. Otherwise, click Skip.",
-        "qroc": "To confirm, please fill in the text field. Otherwise, click Skip.",
-        "qroc-auto-reply": "You did not pass the test. Try again or skip to the next.",
-        "qrocm": "To confirm, please complete all answer fields. Otherwise, click Skip."
+        "qcm": "To validate, select at least one answer. Otherwise, click Skip.",
+        "qcu": "To validate, select an answer. Otherwise, click Skip.",
+        "qroc": "To validate, please fill in the text field. Otherwise, click Skip.",
+        "qroc-auto-reply": "You did not answer correctly. Try again or skip to the next question.",
+        "qrocm": "To validate, please complete all answer fields. Otherwise, click Skip."
       }
     },
 
@@ -373,7 +373,7 @@
     },
 
     "comparison-window": {
-      "upcoming-tutorials": "You will soon find tutorials here to help you pass this type of test!!",
+      "upcoming-tutorials": "You will soon find tutorials here to help you answer correctly to this type of question!!",
       "results": {
         "ok": {
           "title": "You got the right answer!",
@@ -396,16 +396,16 @@
           "tooltip": "Out of time"
         },
         "okAutoReply": {
-          "title": "You passed the test",
-          "tooltip": "Test passed"
+          "title": "You correctly answered the question",
+          "tooltip": "Question answered correctly "
         },
         "koAutoReply": {
-          "title": "You did not pass the test",
-          "tooltip": "Test not passed"
+          "title": "You did not correctly answer the question",
+          "tooltip": "Question answered incorrectly"
         },
         "abandAutoReply": {
-          "title": "You have completed the test",
-          "tooltip": "Test completed"
+          "title": "You have skipped the question",
+          "tooltip": "Question skipped"
         },
         "default": {
           "title": "",
@@ -433,9 +433,9 @@
           "label": "Reset",
           "modal": {
             "important-message": "Your Pix { earnedPix } will be deleted.",
-            "important-message-above-level-one": "Your level { level } and your Pix {earnedPix } will be deleted.",
+            "important-message-above-level-one": "Your level { level } and your Pix { earnedPix } will be deleted.",
             "title": "Skill reset",
-            "warning": "NB. if you have an assessment course in progress, you might be asked certain questions again."
+            "warning": "NB. If you have an assessment course in progress, you might be asked some questions again."
           }
         },
         "start": {
@@ -446,13 +446,13 @@
       "next-level-info": "{ remainingPixToNextLevel } Pix to next level { level }",
       "tutorials": {
         "title": "Develop your skills",
-        "description": "Here are a selection of tutorials that will help you increase your number of Pix."
+        "description": "Here are a selection of tutorials that will help you increase your pix score."
       }
     },
 
     "error": {
-      "content-text": "'<p>'Please refresh the page or '<LinkTo @route=\"login\">'return to home'</LinkTo>'.'</p><p>'You can also contact us via '<a href=\"https://support.pix.fr/support/tickets/new\">'the help centre form'</a>'specifying the error code below in the description.'</p><p>'Please excuse any inconvenience caused.'</p><p>'The Pix team.'</p>'",
-      "first-title": "Oops, en error occurred!"
+      "content-text": "'<p>'Please refresh the page or '<LinkTo @route=\"login\">'return to homepage'</LinkTo>'.'</p><p>'You can also contact us via '<a href=\"https://support.pix.fr/support/tickets/new\">'the help centre form'</a>'specifying the error code below in the description.'</p><p>'Please excuse any inconvenience caused.'</p><p>'The Pix team.'</p>'",
+      "first-title": "Oops, an error occurred!"
     },
 
     "learning-more": {
@@ -467,15 +467,15 @@
     "password-reset-demand": {
       "title": "Forgotten your password?",
       "actions": {
-        "back-home": "Return to home",
+        "back-home": "Return to homepage",
         "back-sign-in": "Return to the login page",
         "reset": "Reset my password"
       },
       "error": {
-        "message": "There is no account connected with this email address"
+        "message": "The email address entered does not match any Pix account"
       },
       "page-title": "Password forgotten",
-      "subtitle": "Enter your email address below and we’ll be back on trax",
+      "subtitle": "Enter your email address below",
       "succeed": {
         "help": "If you do not receive this email, please check your spam folder.",
         "instructions": "An email explaining how to reset your password\n has been sent to the email address {email}.",
@@ -489,20 +489,20 @@
         "congrats": "Well done!",
         "details": "details"
       },
-      "first-title": "You have 16 skills to test. '<br>'Get your thinking hat on and off we go&nbsp;!",
+      "first-title": "You have 16 skills to test. '<br>'Get your thinking hat on and off we go!",
       "resume-campaign-banner": {
         "actions": {
           "continue": "Continue",
           "resume": "Resume"
         },
         "reminder-continue-campaign": "You haven’t finished your course",
-        "reminder-continue-campaign-with-title": "You haven’t finished the course “{title}”",
-        "reminder-send-campaign": "Don’t forget to finish your submission!",
-        "reminder-send-campaign-with-title": "“{title}” course finished. Don’t forget to finish your submission!"
+        "reminder-continue-campaign-with-title": "You haven’t finished the course \"{title}\",
+        "reminder-send-campaign": "Don’t forget to submit your results!",
+        "reminder-send-campaign-with-title": "Course \"{title}\" finished. Don’t forget to submit your results!"
       },
       "total-score-helper": {
         "title": "Why 1,024 pix?",
-        "explanation": "That’s the maximum number of pix you can obtain when the eight levels of the Pix framework are available.'<br>'Today, '<span class=\"hexagon-score-information__text--strong\">'the maximum number available is 640 pix'</span>', corresponding to level 5."
+        "explanation": "That’s the maximum number of pix you can get when the 8 levels of the Pix framework will be available.'<br>'Today, '<span class=\"hexagon-score-information__text--strong\">'the maximum number available is 640 pix'</span>', corresponding to level 5."
       }
     },
 
@@ -512,7 +512,7 @@
       "actions": {
         "continue": "Continue your Pix experience"
       },
-      "explanation": "You already submitted the profile below to the organization {organization}'<br>'on {date,date,LL} at {hour,time,hhmm}"
+      "explanation": "You already submitted the profile below to the organisation {organisation}'<br>'on {date,date,LL} at {hour,time,hhmm}"
     },
 
     "reset-password": {
@@ -549,7 +549,7 @@
       "title": "Submit my profile",
       "first-title": "Submitting your Pix profile",
       "errors": {
-        "archived": "It is no longer possible to submitted your profile as the organizer has archived the collection of profiles."
+        "archived": "It is no longer possible to submit your profile as the organiser has archived the collection of profiles."
       },
       "form": {
         "info": "You can only submit it once",
@@ -586,19 +586,19 @@
     },
 
     "sign-up": {
-      "title": "Registration",
+      "title": "Sign up",
       "actions": {
         "submit": "Sign up"
       },
       "fields": {
         "cgu": {
           "error": "You must agree to the Pix terms of use to create an account.",
-          "label": "'<abbr title=\"mandatory\">'*'</abbr>' I agree to the ",
+          "label": "'<abbr title=\"required\">'*'</abbr>' I agree to the ",
           "cgu": "Pix terms of use"
         },
         "email": {
           "error": "Your email address is not valid.",
-          "help": "(eg. name@exemple.org)",
+          "help": "(eg. name@example.org)",
           "label": "Email address"
         },
         "firstname": {
@@ -606,8 +606,8 @@
           "label": "First name"
         },
         "lastname": {
-          "error": "You have not entered your surname.",
-          "label": "Surname"
+          "error": "You have not entered your last name.",
+          "label": "Last name"
         },
         "password": {
           "error": "Your password must contain at least 8 characters and include at least one uppercase letter, one lowercase letter and one number.",
@@ -616,8 +616,8 @@
         }
       },
       "first-title": "Sign up",
-      "instructions": "The fields marked '<abbr title=\"mandatory\" class=\"mandatory-mark\">'*'</abbr> are required",
-      "legal-information": "The information collected in this form are saved in a computer file by Pix to enable access to the service offered by Pix. It will be stored for a maximum of 5 years from the date of the last access to the user account and archived according to the statutory period of limitation (5 years). It will only be shared with Pix and its technical service providers. In accordance with the French law governing computer technology and freedoms (“Informatique et Libertés”), you can exercise the right to access and rectify your data by emailing dpd@pix.fr.",
+      "instructions": "The fields marked '<abbr title=\"required\" class=\"mandatory-mark\">'*'</abbr> are required",
+      "legal-information": "The information collected in this form is saved in a computer file by Pix to enable access to the service offered by Pix. It will be stored for a maximum of 5 years from the date of the last access to the user account and archived according to the statutory period of limitation (5 years). It will only be shared with Pix and its technical service providers. In accordance with the French law governing computer technology and freedoms (“Informatique et Libertés”), you can exercise the right to access and rectify your data by emailing dpd@pix.fr.",
       "subtitle": {
         "link": "log into your account"
       }
@@ -633,8 +633,8 @@
         "try-again": "Try again"
       },
       "already-shared": "Thank you, your results have been submitted!",
-      "archived": "This course has been archived by the organizer.<br/> It is no longer to possible to submit results, but they have been recorded for your course.",
-      "badges-title": "Your passes",
+      "archived": "This course has been archived by the organiser.<br/> It is no longer to possible to submit results, but they have been taken into account for your course.",
+      "badges-title": "Your achievements",
       "details": {
         "title": "Your detailed results",
         "header-skill": "Skills tested",
@@ -645,7 +645,7 @@
       },
       "information": "If you have already completed courses on Pix, questions you have previously answered have not been asked again. However, the result shown here is based on all of your answers.",
       "not-finished": "You can’t submit your results yet, we still have a few questions to ask.",
-      "send-results": "Submit your results to the course organizer so they can provide you with support.",
+      "send-results": "Submit your results to the course organiser so they can provide you with support.",
       "send-title": "Submit your results",
       "stage": {
         "masteryPercentage": "{percentage} % passed",
@@ -679,9 +679,9 @@
           "explanation": "Take all the time you need to finish your course. \nIf a question is timed, we will let you know."
         },
         "page2": {
-          "title": "Learning tutorials",
+          "title": "Tutorials",
           "icon": "icn-tutos.svg",
-          "explanation": "Access tutorials to learn more \nabout each question and progress."
+          "explanation": "Access tutorials to learn more \nabout each question and improve."
         },
         "page3": {
           "title": "Adapted levels of difficulty",
@@ -700,10 +700,10 @@
 
     "user-tutorials": {
       "title": "My tutorials",
-      "description": "Progress with the help of tutorials suggested by the Pix user community.",
+      "description": "Improve with the help of tutorials suggested by the Pix user community.",
       "empty-list-info": {
         "description": {
-          "part1": "During tests, tutorials are recommended. Click on the bookmark icon",
+          "part1": "As you test your skills, tutorials are recommended. Click on the bookmark icon",
           "part2": "to save the ones you want to see again here!"
         },
         "image-link": "images/user-tutorials/illustration.svg",
@@ -715,7 +715,7 @@
           "actions": {
             "evaluate": {
               "extra-information": "Give feedback on this tutorial",
-              "label": "Useful tutorial"
+              "label": "This tutorial is useful"
             },
             "remove": {
               "extra-information": "Remove from my list of tutorials",
@@ -734,11 +734,11 @@
     "fill-in-campaign-code": {
       "title": "I have a code",
       "first-title": "Enter your code",
-      "description": "This code can be used to start a course'<br>'or to submit your profile to an organization",
+      "description": "This code can be used to start a course'<br>'or to submit your profile to an organisation",
       "errors": {
-        "forbidden": "Oops! We can’t find you. Check your details to continue or contact the organizer.",
+        "forbidden": "Oops! We can’t find you. Check your details to continue or contact the organiser.",
         "missing-code": "Please enter a code.",
-        "not-found": "Your code is incorrect. Please check it or contact the organizer."
+        "not-found": "Your code is incorrect. Please check it or contact the organiser."
       },
       "start": "Start"
     },
@@ -764,7 +764,7 @@
     "fill-in-id-pix": {
       "title": "Enter my username",
       "first-title": "Before starting",
-      "announcement": "The organizer needs the information below in order to offer you support:",
+      "announcement": "The organiser needs the information below in order to offer you support:",
       "buttons": {
         "continue": "Continue",
         "cancel": "Cancel"
