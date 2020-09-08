@@ -61,7 +61,9 @@
       </div>
 
       {{#if this.showBadges}}
-        <h2 class="sr-only">{{t 'pages.skill-review.badges-title'}}</h2>
+        <h2 class="skill-review-result__badge-subtitle">
+          {{t 'pages.skill-review.badges-title' badgeCount=this.acquiredBadges.length}}
+        </h2>
         <div class="badge-acquired-container">
           {{#each this.acquiredBadges as |badge|}}
             <BadgeAcquiredCard
