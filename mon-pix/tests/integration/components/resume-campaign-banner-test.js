@@ -9,6 +9,10 @@ describe('Integration | Component | resume-campaign-banner', function() {
 
   setupIntlRenderingTest();
 
+  beforeEach(function() {
+    this.intl.setLocale(['fr', 'fr']);
+  });
+
   describe('Banner display', function() {
     const campaignToResume = EmberObject.create({
       isShared: false,
@@ -60,9 +64,12 @@ describe('Integration | Component | resume-campaign-banner', function() {
 
           // when
           await render(hbs`<ResumeCampaignBanner @campaignParticipations={{campaignParticipations}} />`);
+          const a11yText = find('.resume-campaign-banner__button').firstChild.textContent;
+          const buttonTextContent = find('.resume-campaign-banner__button').lastChild.textContent;
 
           // then
-          expect(find('.resume-campaign-banner__button').textContent).to.equal('Reprendre');
+          expect(a11yText).to.equal(this.intl.t('pages.profile.resume-campaign-banner.accessibility.resume'));
+          expect(buttonTextContent).to.equal(this.intl.t('pages.profile.resume-campaign-banner.actions.resume'));
         });
 
         it('should display a sentence to ask user to resume with the title of campaign', async function() {
@@ -73,7 +80,7 @@ describe('Integration | Component | resume-campaign-banner', function() {
           await render(hbs`<ResumeCampaignBanner @campaignParticipations={{campaignParticipations}} />`);
 
           // then
-          expect(find('.resume-campaign-banner__title').textContent).to.equal(`Vous n'avez pas terminé le parcours "${campaignToResume.campaign.title}"`);
+          expect(find('.resume-campaign-banner__title').textContent).to.equal(this.intl.t('pages.profile.resume-campaign-banner.reminder-continue-campaign-with-title', { title: campaignToResume.campaign.title }));
         });
 
         it('should display a simple sentence to ask user to resume when campaign has no title', async function() {
@@ -85,7 +92,7 @@ describe('Integration | Component | resume-campaign-banner', function() {
           await render(hbs`<ResumeCampaignBanner @campaignParticipations={{campaignParticipations}} />`);
 
           // then
-          expect(find('.resume-campaign-banner__title').textContent).to.equal('Vous n\'avez pas terminé votre parcours');
+          expect(find('.resume-campaign-banner__title').textContent).to.equal(this.intl.t('pages.profile.resume-campaign-banner.reminder-continue-campaign'));
         });
 
       });
@@ -120,9 +127,12 @@ describe('Integration | Component | resume-campaign-banner', function() {
 
           // when
           await render(hbs`<ResumeCampaignBanner @campaignParticipations={{campaignParticipations}} />`);
+          const a11yText = find('.resume-campaign-banner__button').firstChild.textContent;
+          const buttonTextContent = find('.resume-campaign-banner__button').lastChild.textContent;
 
           // then
-          expect(find('.resume-campaign-banner__button').textContent).to.equal('Continuer');
+          expect(a11yText).to.equal(this.intl.t('pages.profile.resume-campaign-banner.accessibility.share'));
+          expect(buttonTextContent).to.equal(this.intl.t('pages.profile.resume-campaign-banner.actions.continue'));
         });
 
         it('should display a sentence to ask user to share his results with the title of campaign', async function() {
@@ -145,7 +155,7 @@ describe('Integration | Component | resume-campaign-banner', function() {
           await render(hbs`<ResumeCampaignBanner @campaignParticipations={{campaignParticipations}} />`);
 
           // then
-          expect(find('.resume-campaign-banner__title').textContent).to.equal('N\'oubliez pas de finaliser votre envoi !');
+          expect(find('.resume-campaign-banner__title').textContent).to.equal(this.intl.t('pages.profile.resume-campaign-banner.reminder-send-campaign'));
         });
       });
 
@@ -195,9 +205,8 @@ describe('Integration | Component | resume-campaign-banner', function() {
           await render(hbs`<ResumeCampaignBanner @campaignParticipations={{campaignParticipations}} />`);
 
           // then
-          expect(find('.resume-campaign-banner__title').textContent).to.equal('N\'oubliez pas de finaliser votre envoi !');
+          expect(find('.resume-campaign-banner__title').textContent).to.equal(this.intl.t('pages.profile.resume-campaign-banner.reminder-send-campaign'));
         });
-
       });
     });
 
