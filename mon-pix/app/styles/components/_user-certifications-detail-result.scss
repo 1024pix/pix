@@ -7,8 +7,10 @@
   height: 100%;
   color: $grey-80;
   font-size: 1.125rem;
-  line-height: 1.625rem;
-  margin-bottom: 40px;
+
+  div {
+    line-height: 1.625rem;
+  }
 
   h2 {
     color: $grey-60;
@@ -23,12 +25,21 @@
     text-align: center;
   }
 
-  &__comment-jury {
-    margin: 8px;
-    font-family: $font-open-sans;
-    font-size: 0.875rem;
-    font-weight: $font-medium;
-    line-height: 1.375rem;
+  &__jury {
+
+    &__info {
+      font-size: 0.75rem;
+    }
+
+    &__comment {
+      font-size: 0.875rem;
+    }
+
+    p {
+      font-family: $font-open-sans;
+      font-weight: $font-medium;
+      line-height: 1.375rem;
+    }
   }
 
   @include device-is('mobile') {
