@@ -8,7 +8,7 @@ export default class SidebarMenu extends Component {
   @computed('currentUser.organization')
   get documentationUrl() {
     if (this.currentUser.isSCOManagingStudents) {
-      return 'https://cloud.pix.fr/s/rWcNFSgdnnNSdqF';
+      return 'https://view.genial.ly/5f3e7a5ba8ffb90d11ac034f';
     }
 
     if (this.currentUser.organization.isPro) {
