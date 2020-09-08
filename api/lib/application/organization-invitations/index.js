@@ -43,6 +43,28 @@ exports.register = async (server) => {
       config: {
         auth: false,
         handler: organizationInvitationController.sendScoInvitation,
+        validate: {
+          payload:
+            Joi.object({
+              data: {
+                attributes: {
+                  'uai': Joi.string().required(),
+                  'first-name': Joi.string().required(),
+                  'last-name': Joi.string().required(),
+                },
+                type: 'sco-organization-invitations'
+              }
+            }),
+          failAction: (request, h, err) => {
+            const errorHttpStatusCode = 400;
+            const jsonApiError = new JSONAPIError({
+              status: errorHttpStatusCode.toString(),
+              title: 'Bad request',
+              detail: err.details[0].message,
+            });
+            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
+          }
+        },
         notes: [
           '- Cette route permet d\'envoyer une invitation pour rejoindre une organisation de type SCO en tant que ADMIN, en renseignant un **UAI**, un **NOM** et un **PRENOM**'
         ],

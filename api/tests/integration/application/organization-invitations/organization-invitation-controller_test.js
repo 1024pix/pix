@@ -95,7 +95,7 @@ describe('Integration | Application | Organization-invitations | organization-in
     const uai = '1234567A';
     const payload = {
       data: {
-        type: 'organization-invitations',
+        type: 'sco-organization-invitations',
         attributes: {
           uai,
           'first-name': 'john',
