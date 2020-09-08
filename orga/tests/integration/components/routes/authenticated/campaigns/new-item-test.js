@@ -128,6 +128,21 @@ module('Integration | Component | routes/authenticated/campaign | new-item', fun
     });
   });
 
+  module('when organization is a type SCO and user is creating an assessment campaign', function() {
+    test('it should display documentation of school paths', async function(assert) {
+      // given
+      const organization = EmberObject.create();
+      this.owner.register('service:current-user', Service.extend({ organization, isSCOManagingStudents: true }));
+      this.campaign = EmberObject.create({});
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaigns::NewItem @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
+
+      // then
+      assert.dom('a[href="https://cloud.pix.fr/s/zK7xHArNzGWaYP7"]').exists();
+    });
+  });
+
   test('it should send campaign creation action when submitted', async function(assert) {
     // given
     this.campaign = EmberObject.create({});
