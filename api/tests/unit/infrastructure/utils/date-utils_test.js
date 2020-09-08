@@ -90,13 +90,21 @@ describe('Unit | Utils | date-utils', () => {
         });
       });
 
-      context('when dateValue matches alternativeInputFormat', () => {
-        it('should return converted date with date < 2000', () => {
-          expect(convertDateValue({ dateString: '05/05/80', inputFormat: 'DD/MM/YYYY', alternativeInputFormat: 'DD/MM/YY', outputFormat: 'YYYY-MM-DD' })).to.equal('1980-05-05');
+      context('when dateValue matches alternativeInputFormat with 2 digits year', () => {
+        it('should return converted date with year 2000 if input year < the current year', () => {
+          const currentYear = new Date().getFullYear();
+          const currentTwoDigitYear = currentYear - 2000;
+          const inputDate = '05/05/' + (currentTwoDigitYear - 1);
+          const expectedDate = (currentYear - 1) + '-05-05';
+          expect(convertDateValue({ dateString: inputDate, inputFormat: 'DD/MM/YYYY', alternativeInputFormat: 'DD/MM/YY', outputFormat: 'YYYY-MM-DD' })).to.equal(expectedDate);
         });
 
-        it('should return converted date with date > 2000', () => {
-          expect(convertDateValue({ dateString: '05/05/02', inputFormat: 'DD/MM/YYYY', alternativeInputFormat: 'DD/MM/YY', outputFormat: 'YYYY-MM-DD' })).to.equal('2002-05-05');
+        it('should return converted date with year 1900 if input year >= the current year', () => {
+          const currentYear = new Date().getFullYear();
+          const currentTwoDigitYear = currentYear - 2000;
+          const inputDate = '05/05/' + currentTwoDigitYear;
+          const expectedDate = (1900 + currentTwoDigitYear) + '-05-05';
+          expect(convertDateValue({ dateString: inputDate, inputFormat: 'DD/MM/YYYY', alternativeInputFormat: 'DD/MM/YY', outputFormat: 'YYYY-MM-DD' })).to.equal(expectedDate);
         });
       });
     });
