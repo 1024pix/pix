@@ -370,20 +370,20 @@ describe('Integration | Repository | Campaign', () => {
         });
       });
 
-      context('when some campaigns creatorId match the the given creatorId searched', () => {
+      context('when some campaigns creator firstName match the the given creatorName searched', () => {
 
         let filter;
 
         beforeEach(() => {
-          const creatorId1 = databaseBuilder.factory.buildUser({}).id;
-          const creatorId2 = databaseBuilder.factory.buildUser({}).id;
+          const creator1 = databaseBuilder.factory.buildUser({});
+          const creator2 = databaseBuilder.factory.buildUser({});
 
-          filter = { creatorId: creatorId1 };
+          filter = { creatorName: creator1.firstName };
 
           _.each([
-            { name: 'Maths L1', creatorId: creatorId1 },
-            { name: 'Maths L2', creatorId: creatorId2 },
-            { name: 'Chimie', creatorId: creatorId1 },
+            { name: 'Maths L1', creatorId: creator1.id },
+            { name: 'Maths L2', creatorId: creator2.id },
+            { name: 'Chimie', creatorId: creator1.id },
           ], (campaign) => {
             databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
           });
@@ -391,7 +391,35 @@ describe('Integration | Repository | Campaign', () => {
           return databaseBuilder.commit();
         });
 
-        it('should return the campaign with right creatorId', async () => {
+        it('should return the matching campaigns', async () => {
+          const { models: actualCampaignsWithReports } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page });
+
+          expect(_.map(actualCampaignsWithReports, 'name')).to.have.members(['Maths L1', 'Chimie']);
+        });
+      });
+
+      context('when some campaigns creator lastName match the the given creatorName searched', () => {
+
+        let filter;
+
+        beforeEach(() => {
+          const creator1 = databaseBuilder.factory.buildUser({});
+          const creator2 = databaseBuilder.factory.buildUser({});
+
+          filter = { creatorName: creator1.lastName };
+
+          _.each([
+            { name: 'Maths L1', creatorId: creator1.id },
+            { name: 'Maths L2', creatorId: creator2.id },
+            { name: 'Chimie', creatorId: creator1.id },
+          ], (campaign) => {
+            databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
+          });
+
+          return databaseBuilder.commit();
+        });
+
+        it('should return the matching campaigns', async () => {
           const { models: actualCampaignsWithReports } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page });
 
           expect(_.map(actualCampaignsWithReports, 'name')).to.have.members(['Maths L1', 'Chimie']);
