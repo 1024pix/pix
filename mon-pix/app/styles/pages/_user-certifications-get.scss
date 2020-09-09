@@ -8,38 +8,17 @@
     align-self: start;
   }
 
-  &--over-background-banner {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 980px;
-    z-index: 1;
-    margin: 68px 0 40px 0;
-    position: relative;
-  }
-
   &__details-body {
     display: flex;
     flex-direction: row-reverse;
     width: 100%;
     max-width: 980px;
-    margin: 0 10px;
   }
 }
 
 @include device-is('mobile') {
 
   .user-certifications-page-get {
-
-    &__return-to {
-      margin-left: -22px;
-    }
-
-    &--over-background-banner {
-      z-index: 1;
-      margin-top: 68px;
-      position: relative;
-    }
 
     &__header {
       flex-direction: column;
