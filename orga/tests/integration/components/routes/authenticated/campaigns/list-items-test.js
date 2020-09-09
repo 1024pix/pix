@@ -123,34 +123,6 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
       assert.dom('[aria-label="Campagne"]:last-child').containsText('Mathilde Bonnin de La Bonninière de Beaumont');
     });
 
-    test('it should display the list of memberships from the organization', async function(assert) {
-      // given
-      const campaigns = [];
-      campaigns.meta = {
-        rowCount: 0,
-      };
-
-      const organizationMembers = [
-        { label: 'Harry Covert' },
-        { label: 'Jean-Michel Jarre' },
-      ];
-
-      this.set('campaigns', campaigns);
-      this.set('organizationMembers', organizationMembers);
-
-      // when
-      await render(hbs`<Routes::Authenticated::Campaigns::ListItems
-                  @campaigns={{campaigns}}
-                  @organizationMembers={{organizationMembers}}
-                  @triggerFiltering={{this.triggerFilteringSpy}}
-                  @goToCampaignPage={{this.goToCampaignPageSpy}} />`);
-
-      // then
-      assert.contains('Tous');
-      assert.contains('Harry Covert');
-      assert.contains('Jean-Michel Jarre');
-    });
-
     test('it must display the creation date of the campaigns', async function(assert) {
       // given
       const store = this.owner.lookup('service:store');
