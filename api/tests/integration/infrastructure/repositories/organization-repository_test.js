@@ -281,6 +281,9 @@ describe('Integration | Repository | Organization', function() {
         { type: 'PRO', name: 'organization 1', externalId: '1234567', email: null },
         { type: 'SCO', name: 'organization 2', externalId: '1234568', email: 'sco.generic.account@example.net' },
         { type: 'SUP', name: 'organization 3', externalId: '1234569', email: null },
+        { type: 'SCO', name: 'organization 4', externalId: '0595401A', email: 'sco2.generic.account@example.net' },
+        { type: 'SCO', name: 'organization 5', externalId: '0587996a', email: 'sco3.generic.account@example.net' },
+        { type: 'SCO', name: 'organization 6', externalId: '058799Aa', email: 'sco4.generic.account@example.net' },
       ], (organization) => {
         return databaseBuilder.factory.buildOrganization(organization);
       });
@@ -292,6 +295,70 @@ describe('Integration | Repository | Organization', function() {
       // given
       const uai = '1234568';
       const organizationSCO = organizations[1];
+
+      // when
+      const foundOrganization = await organizationRepository.findScoOrganizationByUai(uai);
+
+      // then
+      expect(foundOrganization).to.have.lengthOf(1);
+      expect(foundOrganization[0]).to.be.an.instanceof(Organization);
+      expect(foundOrganization[0].externalId).to.equal(organizationSCO.externalId);
+      expect(foundOrganization[0].type).to.equal(organizationSCO.type);
+      expect(foundOrganization[0].email).to.equal(organizationSCO.email);
+    });
+
+    it('should return external identifier for SCO organizations matching given UAI with lower case', async () => {
+      // given
+      const uai = '0595401a';
+      const organizationSCO = organizations[3];
+
+      // when
+      const foundOrganization = await organizationRepository.findScoOrganizationByUai(uai);
+
+      // then
+      expect(foundOrganization).to.have.lengthOf(1);
+      expect(foundOrganization[0]).to.be.an.instanceof(Organization);
+      expect(foundOrganization[0].externalId).to.equal(organizationSCO.externalId);
+      expect(foundOrganization[0].type).to.equal(organizationSCO.type);
+      expect(foundOrganization[0].email).to.equal(organizationSCO.email);
+    });
+
+    it('should return external identifier for SCO organizations matching given UAI with Upper case', async () => {
+      // given
+      const uai = '0587996A';
+      const organizationSCO = organizations[4];
+
+      // when
+      const foundOrganization = await organizationRepository.findScoOrganizationByUai(uai);
+
+      // then
+      expect(foundOrganization).to.have.lengthOf(1);
+      expect(foundOrganization[0]).to.be.an.instanceof(Organization);
+      expect(foundOrganization[0].externalId).to.equal(organizationSCO.externalId);
+      expect(foundOrganization[0].type).to.equal(organizationSCO.type);
+      expect(foundOrganization[0].email).to.equal(organizationSCO.email);
+    });
+
+    it('should return external identifier for SCO organizations matching given UAI with Upper and lower case', async () => {
+      // given
+      const uai = '058799Aa';
+      const organizationSCO = organizations[5];
+
+      // when
+      const foundOrganization = await organizationRepository.findScoOrganizationByUai(uai);
+
+      // then
+      expect(foundOrganization).to.have.lengthOf(1);
+      expect(foundOrganization[0]).to.be.an.instanceof(Organization);
+      expect(foundOrganization[0].externalId).to.equal(organizationSCO.externalId);
+      expect(foundOrganization[0].type).to.equal(organizationSCO.type);
+      expect(foundOrganization[0].email).to.equal(organizationSCO.email);
+    });
+
+    it('should return external identifier for SCO organizations matching given UAI with lower and upper case', async () => {
+      // given
+      const uai = '058799aA';
+      const organizationSCO = organizations[5];
 
       // when
       const foundOrganization = await organizationRepository.findScoOrganizationByUai(uai);
