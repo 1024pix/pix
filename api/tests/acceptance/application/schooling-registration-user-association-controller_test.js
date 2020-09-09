@@ -742,7 +742,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
 
       context('when schoolingRegistration is already associated in the same organization', () => {
 
-        it('should return a schooling registration already linked error (short code S61 when account with email)', async () => {
+        it('should return a schooling registration already linked error (short code S51 when account with email)', async () => {
           // given
           const userWithEmailOnly = databaseBuilder.factory.buildUser({
             username: null,
@@ -757,7 +757,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta: { shortCode: 'S61', value: 'j***@example.net' }
+            meta: { shortCode: 'S51', value: 'j***@example.net' }
           };
 
           options.headers.authorization = generateValidRequestAuthorizationHeader(userWithEmailOnly.id);
@@ -778,7 +778,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a schooling registration already linked error (short code S62 when connected with username)', async () => {
+        it('should return a schooling registration already linked error (short code S52 when connected with username)', async () => {
           // given
           const userWithUsernameOnly = databaseBuilder.factory.buildUser({
             username: 'john.harry0702',
@@ -793,7 +793,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta: { shortCode: 'S62', value: 'j***.h***2' }
+            meta: { shortCode: 'S52', value: 'j***.h***2' }
           };
 
           options.headers.authorization = generateValidRequestAuthorizationHeader(userWithUsernameOnly.id);
@@ -814,7 +814,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a schooling registration already linked error (short code S63 when account with samlId)', async () => {
+        it('should return a schooling registration already linked error (short code S53 when account with samlId)', async () => {
           // given
           const userWithEmailOnly = databaseBuilder.factory.buildUser({
             username: null,
@@ -830,7 +830,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta: { shortCode: 'S63', value: null }
+            meta: { shortCode: 'S53', value: null }
           };
 
           options.headers.authorization = generateValidRequestAuthorizationHeader(userWithEmailOnly.id);
@@ -871,7 +871,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           expect(response.result.errors[0].detail).to.equal('Un compte existe déjà pour l‘élève dans le même établissement.');
         });
 
-        it('should return a schooling registration already linked error (short code S51 when account with email)', async () => {
+        it('should return a schooling registration already linked error (short code S61 when account with email)', async () => {
           // given
           const userWithEmailOnly = databaseBuilder.factory.buildUser({
             username: null,
@@ -892,7 +892,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta: { shortCode: 'S51', value: 'j***@example.net' }
+            meta: { shortCode: 'S61', value: 'j***@example.net' }
           };
 
           options.headers.authorization = generateValidRequestAuthorizationHeader(userWithEmailOnly.id);
@@ -913,7 +913,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a schooling registration already linked error (short code S52 when connected with username)', async () => {
+        it('should return a schooling registration already linked error (short code S62 when connected with username)', async () => {
           // given
           const userWithUsernameOnly = databaseBuilder.factory.buildUser({
             username: 'john.harry0702',
@@ -934,7 +934,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta: { shortCode: 'S52', value: 'j***.h***2' }
+            meta: { shortCode: 'S62', value: 'j***.h***2' }
           };
 
           options.headers.authorization = generateValidRequestAuthorizationHeader(userWithUsernameOnly.id);
@@ -955,7 +955,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a schooling registration already linked error (short code S53 when account with samlId)', async () => {
+        it('should return a schooling registration already linked error (short code S63 when account with samlId)', async () => {
           // given
           const userWithSamlIdOnly = databaseBuilder.factory.buildUser({
             email: null,
@@ -976,7 +976,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta: { shortCode: 'S53', value: null }
+            meta: { shortCode: 'S63', value: null }
           };
 
           options.headers.authorization = generateValidRequestAuthorizationHeader(userWithSamlIdOnly.id);
