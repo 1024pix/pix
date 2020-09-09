@@ -57,13 +57,54 @@ describe('Integration | Application | Organization-invitations | Routes', () => 
       await server.register(route);
     });
 
-    it('should exists', async () => {
+    it('should send invitation when payload is valid', async () => {
+      // given
+      const options = {
+        method: 'POST',
+        url: '/api/organization-invitations/sco',
+        payload: {
+          data: {
+            type: 'sco-organization-invitations',
+            attributes: {
+              uai: '1234567A',
+              'first-name': 'john',
+              'last-name': 'harry',
+            },
+          }
+        }
+      };
+
       // when
-      const response = await server.inject({ method: 'POST', url: '/api/organization-invitations/sco' });
+      const response = await server.inject(options);
 
       // then
       expect(response.statusCode).to.equal(201);
     });
+
+    it('should return bad request when payload is not valid', async () => {
+
+      // given
+      const options = {
+        method: 'POST',
+        url: '/api/organization-invitations/sco',
+        payload: {
+          data: {
+            type: 'sco-organization-invitations',
+            attributes: {
+              uai: '1234567A',
+              lastName: 'harry',
+            },
+          }
+        }
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
   });
 
   describe('GET /api/organization-invitations/:id', () => {

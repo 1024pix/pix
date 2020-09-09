@@ -6,7 +6,7 @@ let organizationsFound = null;
 
 module.exports = async function sendScoInvitation({ uai, firstName, lastName, locale, organizationRepository, organizationInvitationRepository }) {
 
-  organizationsFound = await organizationRepository.findScoOrganizationByUai(uai);
+  organizationsFound = await organizationRepository.findScoOrganizationByUai(uai.trim());
 
   const nbOrganizations = _.get(organizationsFound, 'length', 0);
 

@@ -31,7 +31,7 @@ export default class JoinRequestForm extends Component {
   async submit(event) {
     event.preventDefault();
     this.isLoading = true;
-    const scoOrganizationInvitation = { uai: this.uai, firstName: this.firstName, lastName: this.lastName };
+    const scoOrganizationInvitation = { uai: this.uai.trim(), firstName: this.firstName.trim(), lastName: this.lastName.trim() };
     await this.args.createScoOrganizationInvitation(scoOrganizationInvitation);
     this.isLoading = false;
   }
