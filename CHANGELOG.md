@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v2.193.0 (09/09/2020)
+
+- [#1853](https://github.com/1024pix/pix/pull/1853) [FEATURE]Modifier les liens des documentations sco dans Pix Orga
+- [#1859](https://github.com/1024pix/pix/pull/1859) [BUGFIX] Mise à jour de la définition des erreurs S5x et S6x dans l'API et Mon-Pix (PIX-1248).
+- [#1852](https://github.com/1024pix/pix/pull/1852) [BUGFIX] Saisie de l'UAI insensible à la casse sur le formulaire d'activation des espaces PixOrga (PIX-1239)
+
 ## v2.192.0 (08/09/2020)
 
 - [#1834](https://github.com/1024pix/pix/pull/1834) [FEATURE] Ameliorer l'affichage du certificat sur mobile et tablette [PIX-1184]
