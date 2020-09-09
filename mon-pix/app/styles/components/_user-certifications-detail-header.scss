@@ -29,6 +29,7 @@
     &--grey {
       color: $grey-45;
       font-size: 0.875rem;
+      line-height: 23px;
 
       &:nth-child(2) {
         margin-top: 10px;
@@ -65,6 +66,7 @@
     color: $grey-90;
     width: 230px;
     margin: auto;
+    letter-spacing: 0;
 
     &__title {
       display: flex;
