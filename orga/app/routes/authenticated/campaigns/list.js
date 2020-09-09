@@ -16,7 +16,7 @@ export default class ListRoute extends Route {
     status: {
       refreshModel: true,
     },
-    creatorId: {
+    creatorName: {
       refreshModel: true,
     },
   };
@@ -29,7 +29,7 @@ export default class ListRoute extends Route {
         organizationId: this.currentUser.organization.id,
         name: params.name,
         status: params.status,
-        creatorId: params.creatorId,
+        creatorName: params.creatorName,
       },
       page: {
         number: params.pageNumber,
@@ -43,7 +43,7 @@ export default class ListRoute extends Route {
       controller.pageNumber = 1;
       controller.pageSize = 25;
       controller.name = null;
-      controller.creatorId = null;
+      controller.creatorName = null;
     }
   }
 }

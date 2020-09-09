@@ -12,8 +12,7 @@
     <Routes::Authenticated::Campaigns::ListItems
       @campaigns={{@model}}
       @nameFilter={{this.name}}
-      @organizationMembers={{this.membersOptions}}
-      @campaignCreatorId={{this.creatorId}}
+      @creatorNameFilter={{this.creatorName}}
       @triggerFiltering={{this.triggerFiltering}}
       @goToCampaignPage={{this.goToCampaignPage}}
     />

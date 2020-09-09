@@ -17,12 +17,10 @@
               @placeholder="Rechercher une campagne"
               @triggerFiltering={{@triggerFiltering}}
             />
-            <Table::HeaderFilterSelect
-              @field="creatorId"
-              @options={{@organizationMembers}}
-              @selectedOption={{@campaignCreatorId}}
+            <Table::HeaderFilterInput
+              @field="creatorName"
+              @value={{@creatorNameFilter}}
               @triggerFiltering={{@triggerFiltering}}
-              @emptyOptionLabel="Tous"
             />
             <Table::Header/>
             <Table::Header/>
