@@ -1,7 +1,5 @@
-import DS from 'ember-data';
+import Model, { attr, hasMany } from '@ember-data/model';
 import { equal } from '@ember/object/computed';
-
-const { Model, attr, hasMany } = DS;
 
 export default class CertificationCenter extends Model {
   @attr('string') name;
