@@ -59,7 +59,7 @@
 .attestation-and-verification-code {
   background-color: $grey-10;
   border-radius: 8px;
-  padding: 24px 20px;
+  padding: 16px 20px;
 
   .verification-code {
     font-family: $font-open-sans;
@@ -70,19 +70,10 @@
 
     &__title {
       display: flex;
-      font-size: 0.875rem;
-      padding: 10px 0;
-      color: $grey-60;
+      font-size: 1rem;
+      padding: 0;
+      padding-bottom: 8px;
       font-weight: initial;
-
-      .verification-code__tooltip span {
-        width: 245px;
-      }
-
-      &--info {
-        margin-left: 6px;
-        color: $blue;
-      }
     }
 
     &__box {
@@ -113,6 +104,13 @@
 
         &:hover { color: darken($blue, 20%); }
       }
+    }
+
+    &__informations {
+      font-size: 0.8125rem;
+      margin: 0;
+      margin-top: 8px;
+      line-height: 20px;
     }
   }
 
