@@ -24,7 +24,7 @@ describe('Unit | Service | OrganizationService', () => {
       publicTargetProfiles = [domainBuilder.buildTargetProfile({ isPublic: true })];
 
       const targetProfileShares = [{
-        targetProfile: targetProfileSharesWithOrganization
+        targetProfile: targetProfileSharesWithOrganization,
       }];
 
       const organization = domainBuilder.buildOrganization({ id: organizationId, targetProfileShares });
@@ -69,18 +69,18 @@ describe('Unit | Service | OrganizationService', () => {
       // given
       const targetProfilesOwnedByOrganization = [
         domainBuilder.buildTargetProfile({ name: 'C owned profile', organizationId, isPublic: false }),
-        domainBuilder.buildTargetProfile({ name: 'A owned profile', organizationId, isPublic: false })
+        domainBuilder.buildTargetProfile({ name: 'A owned profile', organizationId, isPublic: false }),
       ];
       const targetProfileSharesWithOrganization = [
         domainBuilder.buildTargetProfile({ name: 'B shared profile', isPublic: false }),
-        domainBuilder.buildTargetProfile({ name: 'W shared profile', isPublic: false })
+        domainBuilder.buildTargetProfile({ name: 'W shared profile', isPublic: false }),
       ];
       const publicTargetProfiles = [
         domainBuilder.buildTargetProfile({ name: 'B Public profile', isPublic: true }),
-        domainBuilder.buildTargetProfile({ name: 'A Public profile', isPublic: true })
+        domainBuilder.buildTargetProfile({ name: 'A Public profile', isPublic: true }),
       ];
       const targetProfileShares = [{
-        targetProfile: targetProfileSharesWithOrganization
+        targetProfile: targetProfileSharesWithOrganization,
       }];
       const organization = domainBuilder.buildOrganization({ id: organizationId, targetProfileShares });
 
@@ -108,10 +108,10 @@ describe('Unit | Service | OrganizationService', () => {
       ];
       const targetProfileSharesWithOrganization = [
         domainBuilder.buildTargetProfile({ isPublic: false, outdated: true }),
-        domainBuilder.buildTargetProfile({ isPublic: false, outdated: false })
+        domainBuilder.buildTargetProfile({ isPublic: false, outdated: false }),
       ];
       const targetProfileShares = [{
-        targetProfile: targetProfileSharesWithOrganization
+        targetProfile: targetProfileSharesWithOrganization,
       }];
       const organization = domainBuilder.buildOrganization({ id: organizationId, targetProfileShares });
 

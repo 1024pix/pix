@@ -40,7 +40,7 @@ describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
 
       // when
       const err = await catchErr(usecases.startOrResumeCompetenceEvaluation)({
-        competenceId, userId, competenceEvaluationRepository, assessmentRepository, competenceRepository
+        competenceId, userId, competenceEvaluationRepository, assessmentRepository, competenceRepository,
       });
 
       // then
@@ -58,7 +58,7 @@ describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
     it('should forward the error', async () => {
       // when
       const err = await catchErr(usecases.startOrResumeCompetenceEvaluation)({
-        competenceId, userId, competenceEvaluationRepository, assessmentRepository, competenceRepository
+        competenceId, userId, competenceEvaluationRepository, assessmentRepository, competenceRepository,
       });
       // then
       expect(err).to.be.instanceOf(Error);
@@ -88,7 +88,7 @@ describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
       });
       it('should return the created competence evaluation', async () => {
         const res = await usecases.startOrResumeCompetenceEvaluation({
-          competenceId, userId, competenceEvaluationRepository, assessmentRepository, competenceRepository
+          competenceId, userId, competenceEvaluationRepository, assessmentRepository, competenceRepository,
         });
         expect(res).to.deep.equal({ competenceEvaluation, created: true });
       });
@@ -101,7 +101,7 @@ describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
       it('should return the existing competence evaluation', async () => {
       // given
         const res = await usecases.startOrResumeCompetenceEvaluation({
-          competenceId, userId, competenceEvaluationRepository, assessmentRepository, competenceRepository
+          competenceId, userId, competenceEvaluationRepository, assessmentRepository, competenceRepository,
         });
         expect(res).to.deep.equal({ competenceEvaluation, created: false });
       });
@@ -126,7 +126,7 @@ describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
         competenceEvaluationRepository.updateAssessmentId.resolves();
 
         res = await usecases.startOrResumeCompetenceEvaluation({
-          competenceId, userId, competenceEvaluationRepository, assessmentRepository, competenceRepository
+          competenceId, userId, competenceEvaluationRepository, assessmentRepository, competenceRepository,
         });
       });
       it('should return the updated competenceEvaluation', () => {

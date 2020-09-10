@@ -35,9 +35,9 @@ describe('Acceptance | Controller | Student-dependent-user', () => {
               'last-name': schoolingRegistration.lastName,
               'birthdate': schoolingRegistration.birthdate,
               'password': 'P@ssw0rd',
-            }
-          }
-        }
+            },
+          },
+        },
       };
     });
 
@@ -65,7 +65,7 @@ describe('Acceptance | Controller | Student-dependent-user', () => {
           const userId = databaseBuilder.factory.buildUser().id;
           const schoolingRegistrationAlreadyLinked = databaseBuilder.factory.buildSchoolingRegistration({
             organizationId: organization.id,
-            userId
+            userId,
           });
           await databaseBuilder.commit();
 

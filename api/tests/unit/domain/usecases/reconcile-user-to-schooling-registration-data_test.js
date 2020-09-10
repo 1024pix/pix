@@ -51,7 +51,7 @@ describe('Unit | UseCase | reconcile-user-to-schooling-registration-data', () =>
       // when
       const result = await catchErr(usecases.reconcileUserToSchoolingRegistrationData)({
         reconciliationInfo: user,
-        campaignCode
+        campaignCode,
       });
 
       // then

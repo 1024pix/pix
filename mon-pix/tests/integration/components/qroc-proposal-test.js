@@ -48,7 +48,7 @@ describe('Integration | Component | QROC proposal', function() {
     [
       { format: 'petit', expectedSize: '11' },
       { format: 'mots', expectedSize: '20' },
-      { format: 'unreferenced_format', expectedSize: '20' }
+      { format: 'unreferenced_format', expectedSize: '20' },
     ].forEach((data) => {
       it(`should display an input with expected size (${data.expectedSize}) when format is ${data.format}`, async function() {
         // given
@@ -118,7 +118,7 @@ describe('Integration | Component | QROC proposal', function() {
           { input: '#ABAND', output: '#ABAND' },
           { input: 'ABAND#', output: 'ABAND#' },
           { input: '#ABAND#', output: '' },
-          { input: '', output: '' }
+          { input: '', output: '' },
         ].forEach(({ input, output }) => {
 
           it(`should display '' value ${input} is providing to component`, async function() {

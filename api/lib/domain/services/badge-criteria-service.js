@@ -10,18 +10,18 @@ function areBadgeCriteriaFulfilled({ campaignParticipationResult, badge }) {
       case BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION :
         isBadgeCriterionFulfilled = _verifyCampaignParticipationResultMasteryPercentageCriterion(
           campaignParticipationResult,
-          criterion.threshold
+          criterion.threshold,
         );
         break;
       case BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE :
         campaignParticipationBadge = _.find(
           campaignParticipationResult.campaignParticipationBadges,
-          (campaignParticipationBadge) => campaignParticipationBadge.id === badge.id
+          (campaignParticipationBadge) => campaignParticipationBadge.id === badge.id,
         );
         if (campaignParticipationBadge) {
           isBadgeCriterionFulfilled = _verifyEveryPartnerCompetenceResultMasteryPercentageCriterion(
             campaignParticipationBadge.partnerCompetenceResults,
-            criterion.threshold
+            criterion.threshold,
           );
         }
         break;

@@ -105,7 +105,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
             previouslyValidatedSkills: [],
             previouslyFailedSkills: [],
             targetSkills: [otherSkill],
-            userId
+            userId,
           });
         });
 
@@ -131,7 +131,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
             previouslyValidatedSkills: [],
             previouslyFailedSkills: [],
             targetSkills,
-            userId
+            userId,
           });
         });
 
@@ -145,7 +145,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
             assessmentId: validAnswer.assessmentId,
             skillId: skill.id,
             userId: 3,
-            competenceId: skill.competenceId
+            competenceId: skill.competenceId,
           });
           directKnowledgeElement.id = undefined;
 
@@ -175,7 +175,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               previouslyFailedSkills: [],
               targetSkills,
               createdAt:undefined,
-              userId
+              userId,
             });
           });
 
@@ -190,7 +190,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               skillId: skill.id,
               createdAt:undefined,
               userId,
-              competenceId: skill.competenceId
+              competenceId: skill.competenceId,
             });
             directKnowledgeElement.id = undefined;
             const inferredKnowledgeElementForEasierSkill = domainBuilder.buildKnowledgeElement({
@@ -202,7 +202,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               skillId: easierSkill.id,
               createdAt:undefined,
               userId,
-              competenceId: easierSkill.competenceId
+              competenceId: easierSkill.competenceId,
             });
             inferredKnowledgeElementForEasierSkill.id = undefined;
             const inferredKnowledgeElementForMuchEasierSkill = domainBuilder.buildKnowledgeElement({
@@ -214,7 +214,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               skillId: muchEasierSkill.id,
               createdAt:undefined,
               userId,
-              competenceId: muchEasierSkill.competenceId
+              competenceId: muchEasierSkill.competenceId,
             });
             inferredKnowledgeElementForMuchEasierSkill.id = undefined;
             const expectedKnowledgeElements = [
@@ -240,7 +240,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               previouslyFailedSkills: [],
               targetSkills,
               createdAt:undefined,
-              userId
+              userId,
             });
           });
 
@@ -254,7 +254,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               assessmentId: invalidAnswer.assessmentId,
               skillId: skill.id,
               userId,
-              competenceId: skill.competenceId
+              competenceId: skill.competenceId,
             });
             directKnowledgeElement.id = undefined;
             const inferredKnowledgeElementForHarderSkill = domainBuilder.buildKnowledgeElement({
@@ -265,7 +265,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               assessmentId: invalidAnswer.assessmentId,
               skillId: harderSkill.id,
               userId,
-              competenceId: harderSkill.competenceId
+              competenceId: harderSkill.competenceId,
             });
             inferredKnowledgeElementForHarderSkill.id = undefined;
             const inferredKnowledgeElementForMuchHarderSkill = domainBuilder.buildKnowledgeElement({
@@ -276,7 +276,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               assessmentId: invalidAnswer.assessmentId,
               skillId: muchHarderSkill.id,
               userId,
-              competenceId: muchHarderSkill.competenceId
+              competenceId: muchHarderSkill.competenceId,
             });
             inferredKnowledgeElementForMuchHarderSkill.id = undefined;
             const expectedKnowledgeElements = [
@@ -359,7 +359,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
             previouslyValidatedSkills: [],
             previouslyFailedSkills: [],
             targetSkills: [skillFromTube1, skillFromTube3],
-            userId
+            userId,
           });
         });
 
@@ -373,7 +373,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
             assessmentId: validAnswer.assessmentId,
             skillId: skillFromTube1.id,
             userId,
-            competenceId: skillFromTube1.competenceId
+            competenceId: skillFromTube1.competenceId,
           });
           directKnowledgeElementFromTube1.id = undefined;
           const directKnowledgeElementFromTube3 = domainBuilder.buildKnowledgeElement({
@@ -384,7 +384,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
             assessmentId: validAnswer.assessmentId,
             skillId: skillFromTube3.id,
             userId,
-            competenceId: skillFromTube3.competenceId
+            competenceId: skillFromTube3.competenceId,
           });
           directKnowledgeElementFromTube3.id = undefined;
           const expectedKnowledgeElements = [directKnowledgeElementFromTube1, directKnowledgeElementFromTube3];
@@ -429,7 +429,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               previouslyValidatedSkills: [],
               previouslyFailedSkills: [],
               targetSkills,
-              userId
+              userId,
             });
           });
 
@@ -443,7 +443,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               assessmentId: validAnswer.assessmentId,
               skillId: skillFromTube1.id,
               userId,
-              competenceId: skillFromTube1.competenceId
+              competenceId: skillFromTube1.competenceId,
             });
             directKnowledgeElementFromTube1.id = undefined;
             const inferredKnowledgeElementForEasierSkillFromTube1 = domainBuilder.buildKnowledgeElement({
@@ -454,7 +454,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               assessmentId: validAnswer.assessmentId,
               skillId: easierSkillFromTube1.id,
               userId,
-              competenceId: easierSkillFromTube1.competenceId
+              competenceId: easierSkillFromTube1.competenceId,
             });
             inferredKnowledgeElementForEasierSkillFromTube1.id = undefined;
             const inferredKnowledgeElementForMuchEasierSkillFromTube1 = domainBuilder.buildKnowledgeElement({
@@ -465,7 +465,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               assessmentId: validAnswer.assessmentId,
               skillId: muchEasierSkillFromTube1.id,
               userId,
-              competenceId: muchEasierSkillFromTube1.competenceId
+              competenceId: muchEasierSkillFromTube1.competenceId,
             });
             inferredKnowledgeElementForMuchEasierSkillFromTube1.id = undefined;
 
@@ -477,7 +477,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               assessmentId: validAnswer.assessmentId,
               skillId: skillFromTube2.id,
               userId,
-              competenceId: skillFromTube2.competenceId
+              competenceId: skillFromTube2.competenceId,
             });
             directKnowledgeElementFromTube2.id = undefined;
             const inferredKnowledgeElementForEasierSkillFromTube2 = domainBuilder.buildKnowledgeElement({
@@ -488,7 +488,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               assessmentId: validAnswer.assessmentId,
               skillId: easierSkillFromTube2.id,
               userId,
-              competenceId: easierSkillFromTube2.competenceId
+              competenceId: easierSkillFromTube2.competenceId,
             });
             inferredKnowledgeElementForEasierSkillFromTube2.id = undefined;
             const inferredKnowledgeElementForMuchEasierSkillFromTube2 = domainBuilder.buildKnowledgeElement({
@@ -499,7 +499,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               assessmentId: validAnswer.assessmentId,
               skillId: muchEasierSkillFromTube2.id,
               userId,
-              competenceId: muchEasierSkillFromTube2.competenceId
+              competenceId: muchEasierSkillFromTube2.competenceId,
             });
             inferredKnowledgeElementForMuchEasierSkillFromTube2.id = undefined;
 
@@ -511,7 +511,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               assessmentId: validAnswer.assessmentId,
               skillId: skillFromTube3.id,
               userId,
-              competenceId: skillFromTube3.competenceId
+              competenceId: skillFromTube3.competenceId,
             });
             directKnowledgeElementFromTube3.id = undefined;
             const inferredKnowledgeElementForEasierSkillFromTube3 = domainBuilder.buildKnowledgeElement({
@@ -522,7 +522,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               assessmentId: validAnswer.assessmentId,
               skillId: easierSkillFromTube3.id,
               userId,
-              competenceId: easierSkillFromTube3.competenceId
+              competenceId: easierSkillFromTube3.competenceId,
             });
             inferredKnowledgeElementForEasierSkillFromTube3.id = undefined;
             const inferredKnowledgeElementForMuchEasierSkillFromTube3 = domainBuilder.buildKnowledgeElement({
@@ -533,7 +533,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               assessmentId: validAnswer.assessmentId,
               skillId: muchEasierSkillFromTube3.id,
               userId,
-              competenceId: muchEasierSkillFromTube3.competenceId
+              competenceId: muchEasierSkillFromTube3.competenceId,
             });
             inferredKnowledgeElementForMuchEasierSkillFromTube3.id = undefined;
 
@@ -565,7 +565,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               previouslyValidatedSkills: [],
               previouslyFailedSkills: [],
               targetSkills,
-              userId
+              userId,
             });
           });
 
@@ -579,7 +579,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               assessmentId: invalidAnswer.assessmentId,
               skillId: skillFromTube1.id,
               userId,
-              competenceId: skillFromTube1.competenceId
+              competenceId: skillFromTube1.competenceId,
             });
             directKnowledgeElementFromTube1.id = undefined;
             const inferredKnowledgeElementForHarderSkillFromTube1 = domainBuilder.buildKnowledgeElement({
@@ -590,7 +590,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               assessmentId: invalidAnswer.assessmentId,
               skillId: harderSkillFromTube1.id,
               userId,
-              competenceId: harderSkillFromTube1.competenceId
+              competenceId: harderSkillFromTube1.competenceId,
             });
             inferredKnowledgeElementForHarderSkillFromTube1.id = undefined;
             const inferredKnowledgeElementForMuchHarderSkillFromTube1 = domainBuilder.buildKnowledgeElement({
@@ -601,7 +601,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               assessmentId: invalidAnswer.assessmentId,
               skillId: muchHarderSkillFromTube1.id,
               userId,
-              competenceId: muchHarderSkillFromTube1.competenceId
+              competenceId: muchHarderSkillFromTube1.competenceId,
             });
             inferredKnowledgeElementForMuchHarderSkillFromTube1.id = undefined;
 
@@ -613,7 +613,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               assessmentId: invalidAnswer.assessmentId,
               skillId: skillFromTube2.id,
               userId,
-              competenceId: skillFromTube2.competenceId
+              competenceId: skillFromTube2.competenceId,
             });
             directKnowledgeElementFromTube2.id = undefined;
             const inferredKnowledgeElementForHarderSkillFromTube2 = domainBuilder.buildKnowledgeElement({
@@ -624,7 +624,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               assessmentId: invalidAnswer.assessmentId,
               skillId: harderSkillFromTube2.id,
               userId,
-              competenceId: harderSkillFromTube2.competenceId
+              competenceId: harderSkillFromTube2.competenceId,
             });
             inferredKnowledgeElementForHarderSkillFromTube2.id = undefined;
             const inferredKnowledgeElementForMuchHarderSkillFromTube2 = domainBuilder.buildKnowledgeElement({
@@ -635,7 +635,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               assessmentId: invalidAnswer.assessmentId,
               skillId: muchHarderSkillFromTube2.id,
               userId,
-              competenceId: muchHarderSkillFromTube2.competenceId
+              competenceId: muchHarderSkillFromTube2.competenceId,
             });
             inferredKnowledgeElementForMuchHarderSkillFromTube2.id = undefined;
 
@@ -647,7 +647,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               assessmentId: invalidAnswer.assessmentId,
               skillId: skillFromTube3.id,
               userId,
-              competenceId: skillFromTube3.competenceId
+              competenceId: skillFromTube3.competenceId,
             });
             directKnowledgeElementFromTube3.id = undefined;
             const inferredKnowledgeElementForHarderSkillFromTube3 = domainBuilder.buildKnowledgeElement({
@@ -658,7 +658,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               assessmentId: invalidAnswer.assessmentId,
               skillId: harderSkillFromTube3.id,
               userId,
-              competenceId: harderSkillFromTube3.competenceId
+              competenceId: harderSkillFromTube3.competenceId,
             });
             inferredKnowledgeElementForHarderSkillFromTube3.id = undefined;
             const inferredKnowledgeElementForMuchHarderSkillFromTube3 = domainBuilder.buildKnowledgeElement({
@@ -669,7 +669,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               assessmentId: invalidAnswer.assessmentId,
               skillId: muchHarderSkillFromTube3.id,
               userId,
-              competenceId: muchHarderSkillFromTube3.competenceId
+              competenceId: muchHarderSkillFromTube3.competenceId,
             });
             inferredKnowledgeElementForMuchHarderSkillFromTube3.id = undefined;
 
@@ -797,7 +797,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
                 assessmentId: validAnswer.assessmentId,
                 skillId: skillFromTube1.id,
                 userId,
-                competenceId: skillFromTube1.competenceId
+                competenceId: skillFromTube1.competenceId,
               });
               directKnowledgeElementFromTube1.id = undefined;
 
@@ -809,7 +809,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
                 assessmentId: validAnswer.assessmentId,
                 skillId: skillFromTube2.id,
                 userId,
-                competenceId: skillFromTube2.competenceId
+                competenceId: skillFromTube2.competenceId,
               });
               directKnowledgeElementFromTube2.id = undefined;
               const inferredKnowledgeElementForMuchEasierSkillFromTube2 = domainBuilder.buildKnowledgeElement({
@@ -820,7 +820,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
                 assessmentId: validAnswer.assessmentId,
                 skillId: muchEasierSkillFromTube2.id,
                 userId,
-                competenceId: muchEasierSkillFromTube2.competenceId
+                competenceId: muchEasierSkillFromTube2.competenceId,
               });
               inferredKnowledgeElementForMuchEasierSkillFromTube2.id = undefined;
 
@@ -832,7 +832,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
                 assessmentId: validAnswer.assessmentId,
                 skillId: skillFromTube3.id,
                 userId,
-                competenceId: skillFromTube3.competenceId
+                competenceId: skillFromTube3.competenceId,
               });
               directKnowledgeElementFromTube3.id = undefined;
               const inferredKnowledgeElementForEasierSkillFromTube3 = domainBuilder.buildKnowledgeElement({
@@ -843,7 +843,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
                 assessmentId: validAnswer.assessmentId,
                 skillId: easierSkillFromTube3.id,
                 userId,
-                competenceId: easierSkillFromTube3.competenceId
+                competenceId: easierSkillFromTube3.competenceId,
               });
               inferredKnowledgeElementForEasierSkillFromTube3.id = undefined;
               const inferredKnowledgeElementForMuchEasierSkillFromTube3 = domainBuilder.buildKnowledgeElement({
@@ -854,7 +854,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
                 assessmentId: validAnswer.assessmentId,
                 skillId: muchEasierSkillFromTube3.id,
                 userId,
-                competenceId: muchEasierSkillFromTube3.competenceId
+                competenceId: muchEasierSkillFromTube3.competenceId,
 
               });
               inferredKnowledgeElementForMuchEasierSkillFromTube3.id = undefined;

@@ -13,7 +13,7 @@ export default class ResultsRoute extends Route {
     const answers = await assessment.answers;
     await RSVP.all([
       ...answers.map((answer) => answer.challenge),
-      ...answers.map((answer) => answer.correction)
+      ...answers.map((answer) => answer.correction),
     ]);
   }
 }

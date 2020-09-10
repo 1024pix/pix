@@ -29,7 +29,7 @@ export default class FillInIdPix extends Controller {
     this.errorMessage = null;
 
     return this.transitionToRoute('campaigns.start-or-resume', this.model.code, {
-      queryParams: { hasUserSeenLandingPage: false }
+      queryParams: { hasUserSeenLandingPage: false },
     });
   }
 }

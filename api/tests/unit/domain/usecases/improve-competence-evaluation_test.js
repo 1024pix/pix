@@ -23,13 +23,13 @@ describe('Unit | UseCase | Improve Competence Evaluation', () => {
       competenceId,
       isImproving: true,
       courseId: '[NOT USED] CompetenceId is in Competence Evaluation.',
-      type: 'COMPETENCE_EVALUATION'
+      type: 'COMPETENCE_EVALUATION',
     });
     createdAssessment = { ...expectedAssessment, id: assessmentId };
 
     competenceEvaluationRepository = {
       getByCompetenceIdAndUserId: sinon.stub().resolves(competenceEvaluation),
-      updateAssessmentId: sinon.stub().resolves({ ...competenceEvaluation, assessmentId })
+      updateAssessmentId: sinon.stub().resolves({ ...competenceEvaluation, assessmentId }),
     };
     assessmentRepository = { save: sinon.stub().resolves(createdAssessment) };
     getCompetenceLevel = sinon.stub().resolves(3);
@@ -59,7 +59,7 @@ describe('Unit | UseCase | Improve Competence Evaluation', () => {
     expect(competenceEvaluationRepository.updateAssessmentId).to.be.calledWith({
       currentAssessmentId: competenceEvaluation.assessmentId,
       newAssessmentId: assessmentId,
-      domainTransaction
+      domainTransaction,
     });
   });
 
@@ -88,7 +88,7 @@ describe('Unit | UseCase | Improve Competence Evaluation', () => {
         getCompetenceLevel,
         userId,
         competenceId,
-        domainTransaction
+        domainTransaction,
       });
 
       // then

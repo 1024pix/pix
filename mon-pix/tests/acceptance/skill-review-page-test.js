@@ -93,7 +93,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
           name: partnerCompetenceResultName,
           totalSkillsCount: 5,
           validatedSkillsCount: 4,
-          masteryPercentage: 80
+          masteryPercentage: 80,
         });
 
         const badge = server.create('campaign-participation-badge', {
@@ -102,7 +102,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
           message: 'Congrats, you won a Pix Emploi badge',
           key: 'PIX_EMPLOI_CLEA',
           isAcquired: false,
-          partnerCompetenceResults: [partnerCompetenceResult]
+          partnerCompetenceResults: [partnerCompetenceResult],
         });
 
         campaignParticipationResult.update({

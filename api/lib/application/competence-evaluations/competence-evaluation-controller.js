@@ -34,10 +34,10 @@ module.exports = {
     const competenceId = request.payload.competenceId;
 
     const competenceEvaluation = await DomainTransaction.execute((domainTransaction) =>
-      usecases.improveCompetenceEvaluation({ competenceId, userId, domainTransaction })
+      usecases.improveCompetenceEvaluation({ competenceId, userId, domainTransaction }),
     );
 
     const serializedCompetenceEvaluation = serializer.serialize(competenceEvaluation);
     return h.response(serializedCompetenceEvaluation);
-  }
+  },
 };

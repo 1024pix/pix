@@ -21,10 +21,10 @@ describe('Unit | Model | CampaignParticipationBadge', function() {
   describe('#maxTotalSkillsCountInPartnerCompetences', function() {
     it('should calculate max total skills', function() {
       const partnerCompetenceResult1 = store.createRecord('partner-competence-result', {
-        totalSkillsCount: 2
+        totalSkillsCount: 2,
       });
       const partnerCompetenceResult2 = store.createRecord('partner-competence-result', {
-        totalSkillsCount: 10
+        totalSkillsCount: 10,
       });
 
       const model = store.createRecord('campaign-participation-badge');

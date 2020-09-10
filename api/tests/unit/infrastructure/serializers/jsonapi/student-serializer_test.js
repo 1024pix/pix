@@ -12,7 +12,7 @@ describe('Unit | Serializer | JSONAPI | student-serializer', () => {
         id: 5,
         firstName: 'John',
         lastName: 'Doe',
-        birthdate: '2020-01-01'
+        birthdate: '2020-01-01',
       });
 
       student.username = 'john.doe0101';
@@ -26,8 +26,8 @@ describe('Unit | Serializer | JSONAPI | student-serializer', () => {
             'last-name': student.lastName,
             'birthdate': student.birthdate,
             'username': student.username,
-          }
-        }
+          },
+        },
       };
 
       // when

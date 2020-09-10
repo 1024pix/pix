@@ -22,7 +22,7 @@ export default Route.extend(ApplicationRouteMixin, {
   _checkForURLAuthentication(transition) {
     if (transition.to.queryParams && transition.to.queryParams.token) {
       return this.session.authenticate(
-        'authenticator:oauth2', { token: transition.to.queryParams.token }
+        'authenticator:oauth2', { token: transition.to.queryParams.token },
       );
     }
   },
@@ -55,6 +55,6 @@ export default Route.extend(ApplicationRouteMixin, {
 
   _loadCurrentUser() {
     return this.currentUser.load().catch(() => this.session.invalidate());
-  }
+  },
 
 });

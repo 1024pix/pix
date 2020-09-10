@@ -8,8 +8,8 @@ exports.register = async function(server) {
       config: {
         auth: false,
         handler: healthcheckController.get,
-        tags: ['api']
-      }
+        tags: ['api'],
+      },
     },
     {
       method: 'GET',
@@ -17,7 +17,7 @@ exports.register = async function(server) {
       config: {
         auth: false,
         handler: healthcheckController.checkDbStatus,
-        tags: ['api'] }
+        tags: ['api'] },
     },
     {
       method: 'GET',
@@ -25,7 +25,7 @@ exports.register = async function(server) {
       config: {
         auth: false,
         handler: healthcheckController.checkRedisStatus,
-        tags: ['api'] }
+        tags: ['api'] },
     },
     {
       method: 'GET',
@@ -33,7 +33,7 @@ exports.register = async function(server) {
       config: {
         auth: false,
         handler: healthcheckController.crashTest,
-        tags: ['api'] }
+        tags: ['api'] },
     },
   ]);
 };

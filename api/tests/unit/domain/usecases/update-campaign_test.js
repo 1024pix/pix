@@ -31,7 +31,7 @@ describe('Unit | UseCase | update-campaign', () => {
     userRepository = { getWithMemberships: sinon.stub() };
     campaignRepository = {
       get: sinon.stub(),
-      update: sinon.stub()
+      update: sinon.stub(),
     };
     // This has to be done separated from the stub declaration, see :
     // http://nikas.praninskas.com/javascript/2015/07/28/quickie-sinon-withargs-not-working/

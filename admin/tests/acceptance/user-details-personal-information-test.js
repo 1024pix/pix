@@ -16,7 +16,7 @@ module('Acceptance | User details personal information', function(hooks) {
       'first-name': 'john',
       'last-name': 'harry',
       username: null,
-      'is-authenticated-from-gar': false
+      'is-authenticated-from-gar': false,
     });
     await createAuthenticateSession({ userId: user.id });
   });

@@ -24,7 +24,7 @@ module('Integration | Component | routes/authenticated/campaign/details | parame
         });
         const campaign = store.createRecord('campaign', {
           type: 'ASSESSMENT',
-          targetProfile
+          targetProfile,
         });
 
         this.set('campaign', campaign);
@@ -40,7 +40,7 @@ module('Integration | Component | routes/authenticated/campaign/details | parame
     module('when type is PROFILES_COLLECTION', function() {
       test('it should not display target profile', async function(assert) {
         const campaign = store.createRecord('campaign', {
-          type: 'PROFILES_COLLECTION'
+          type: 'PROFILES_COLLECTION',
         });
 
         this.set('campaign', campaign);
@@ -59,7 +59,7 @@ module('Integration | Component | routes/authenticated/campaign/details | parame
       test('it should display the idPixLabel', async function(assert) {
         // given
         const campaign = store.createRecord('campaign', {
-          idPixLabel: 'idPixLabel'
+          idPixLabel: 'idPixLabel',
         });
 
         this.set('campaign', campaign);
@@ -111,7 +111,7 @@ module('Integration | Component | routes/authenticated/campaign/details | parame
         // given
         const campaign = store.createRecord('campaign', {
           type: 'ASSESSMENT',
-          title: 'Mon titre de Campagne'
+          title: 'Mon titre de Campagne',
         });
 
         this.set('campaign', campaign);

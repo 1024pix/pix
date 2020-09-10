@@ -9,7 +9,7 @@ const SplashServiceStub = EmberObject.extend({
   hideCount: 0,
   hide() {
     this.hideCount++;
-  }
+  },
 });
 
 describe('Unit | Route | application', function() {
@@ -35,7 +35,7 @@ describe('Unit | Route | application', function() {
       called: false,
       load() {
         this.called = true;
-      }
+      },
     };
     const route = this.owner.lookup('route:application');
     route.set('currentUser', currentUserStub);

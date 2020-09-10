@@ -53,7 +53,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
           lastName: 'bugietta',
           participantExternalId: 'JeBu',
           sharedAt: null,
-        })
+        }),
       ]);
     });
 

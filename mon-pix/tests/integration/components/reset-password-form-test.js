@@ -8,7 +8,7 @@ import {
   find,
   fillIn,
   render,
-  triggerEvent
+  triggerEvent,
 } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -33,7 +33,7 @@ describe('Integration | Component | reset password form', function() {
         { item: '.sign-form__body' },
         { item: '.form-textfield__label' },
         { item: '.form-textfield__input-field-container' },
-        { item: '.button' }
+        { item: '.button' },
       ].forEach(({ item }) => {
         it(`should contains a item with class: ${item}`, async function() {
           // when

@@ -15,8 +15,8 @@ module.exports = {
         relationshipLinks: {
           related(record, current, parent) {
             return `/api/organizations/${parent.id}/memberships`;
-          }
-        }
+          },
+        },
       },
       students: {
         ref: 'id',
@@ -24,8 +24,8 @@ module.exports = {
         relationshipLinks: {
           related(record, current, parent) {
             return `/api/organizations/${parent.id}/students`;
-          }
-        }
+          },
+        },
       },
       targetProfiles: {
         ref: 'id',
@@ -33,10 +33,10 @@ module.exports = {
         relationshipLinks: {
           related: function(record, current, parent) {
             return `/api/organizations/${parent.id}/target-profiles`;
-          }
-        }
+          },
+        },
       },
-      meta
+      meta,
     }).serialize(organizations);
   },
 

@@ -56,7 +56,7 @@ class QrocmIndSolutionPanel extends Component {
         answer: answers[labelKey],
         solution: solutions[labelKey][0],
         emptyOrWrongAnswer: (answerOutcome === 'empty' || answerOutcome === 'ko'),
-        inputClass
+        inputClass,
       };
       inputFields.push(inputField);
     });

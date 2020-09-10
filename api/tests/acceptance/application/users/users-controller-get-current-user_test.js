@@ -45,36 +45,36 @@ describe('Acceptance | Controller | users-controller-get-current-user', () => {
           relationships: {
             memberships: {
               links: {
-                related: `/api/users/${user.id}/memberships`
-              }
+                related: `/api/users/${user.id}/memberships`,
+              },
             },
             'certification-center-memberships': {
               links: {
-                related: `/api/users/${user.id}/certification-center-memberships`
-              }
+                related: `/api/users/${user.id}/certification-center-memberships`,
+              },
             },
             'pix-score' : {
               links: {
-                related: `/api/users/${user.id}/pixscore`
-              }
+                related: `/api/users/${user.id}/pixscore`,
+              },
             },
             scorecards: {
               links: {
-                related: `/api/users/${user.id}/scorecards`
-              }
+                related: `/api/users/${user.id}/scorecards`,
+              },
             },
             'campaign-participations': {
               links: {
-                related: `/api/users/${user.id}/campaign-participations`
-              }
+                related: `/api/users/${user.id}/campaign-participations`,
+              },
             },
             'is-certifiable': {
               links: {
                 related: `/api/users/${user.id}/is-certifiable`,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       };
 
       // when

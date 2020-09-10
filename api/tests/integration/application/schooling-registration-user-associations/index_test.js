@@ -30,9 +30,9 @@ describe('Integration | Application | Route | schooling-registration-user-associ
               'first-name': 'Robert',
               'last-name': 'Smith',
               birthdate: '2012-12-12',
-              'campaign-code': 'RESTRICTD'
-            }
-          }
+              'campaign-code': 'RESTRICTD',
+            },
+          },
         };
 
         // when
@@ -51,8 +51,8 @@ describe('Integration | Application | Route | schooling-registration-user-associ
               'last-name': 'Smith',
               birthdate: '2012-12-12',
               'campaign-code': 'RESTRICTD',
-            }
-          }
+            },
+          },
         };
 
         // when
@@ -81,8 +81,8 @@ describe('Integration | Application | Route | schooling-registration-user-associ
               'last-name': 'Smith',
               birthdate: '2012-12-12',
               'campaign-code': 'RESTRICTD',
-            }
-          }
+            },
+          },
         };
 
         // when
@@ -102,8 +102,8 @@ describe('Integration | Application | Route | schooling-registration-user-associ
               'last-name': INVALID_LASTNAME,
               birthdate: '2012-12-12',
               'campaign-code': 'RESTRICTD',
-            }
-          }
+            },
+          },
         };
 
         // when
@@ -125,8 +125,8 @@ describe('Integration | Application | Route | schooling-registration-user-associ
               'last-name': 'Smith',
               birthdate: INVALID_BIRTHDATE,
               'campaign-code': 'RESTRICTD',
-            }
-          }
+            },
+          },
         };
 
         // when
@@ -146,8 +146,8 @@ describe('Integration | Application | Route | schooling-registration-user-associ
               'last-name': 'Smith',
               birthdate: INVALID_BIRTHDATE,
               'campaign-code': 'RESTRICTD',
-            }
-          }
+            },
+          },
         };
 
         // when
@@ -167,8 +167,8 @@ describe('Integration | Application | Route | schooling-registration-user-associ
               'last-name': 'Smith',
               birthdate: INVALID_BIRTHDATE,
               'campaign-code': 'RESTRICTD',
-            }
-          }
+            },
+          },
         };
 
         // when
@@ -188,8 +188,8 @@ describe('Integration | Application | Route | schooling-registration-user-associ
               'last-name': 'Smith',
               birthdate: '2012-12-12',
               'campaign-code': INVALID_CAMPAIGNCODE,
-            }
-          }
+            },
+          },
         };
 
         // when
@@ -207,9 +207,9 @@ describe('Integration | Application | Route | schooling-registration-user-associ
           data: {
             attributes: {
               'student-number': '123456789A',
-              'campaign-code': 'RESTRICTD'
-            }
-          }
+              'campaign-code': 'RESTRICTD',
+            },
+          },
         };
 
         // when
@@ -225,9 +225,9 @@ describe('Integration | Application | Route | schooling-registration-user-associ
           data: {
             attributes: {
               'student-number': ' ',
-              'campaign-code': 'RESTRICTD'
-            }
-          }
+              'campaign-code': 'RESTRICTD',
+            },
+          },
         };
 
         // when
@@ -249,9 +249,9 @@ describe('Integration | Application | Route | schooling-registration-user-associ
       const payload = {
         data: {
           attributes: {
-            'campaign-code': 'RESTRICTD'
-          }
-        }
+            'campaign-code': 'RESTRICTD',
+          },
+        },
       };
 
       // when
@@ -268,8 +268,8 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         data: {
           attributes: {
             'campaign-code': INVALID_CAMPAIGNCODE,
-          }
-        }
+          },
+        },
       };
 
       // when
@@ -308,8 +308,8 @@ describe('Integration | Application | Route | schooling-registration-user-associ
             'last-name': 'Smith',
             birthdate: '2012-12-12',
             'campaign-code': 'RESTRICTD',
-          }
-        }
+          },
+        },
       };
 
       // when
@@ -328,8 +328,8 @@ describe('Integration | Application | Route | schooling-registration-user-associ
             'last-name': 'Smith',
             birthdate: '2012-12-12',
             'campaign-code': 'RESTRICTD',
-          }
-        }
+          },
+        },
       };
 
       // when
@@ -358,8 +358,8 @@ describe('Integration | Application | Route | schooling-registration-user-associ
             'last-name': 'Smith',
             birthdate: '2012-12-12',
             'campaign-code': 'RESTRICTD',
-          }
-        }
+          },
+        },
       };
 
       // when
@@ -379,8 +379,8 @@ describe('Integration | Application | Route | schooling-registration-user-associ
             'last-name': INVALID_LASTNAME,
             birthdate: '2012-12-12',
             'campaign-code': 'RESTRICTD',
-          }
-        }
+          },
+        },
       };
 
       // when
@@ -400,8 +400,8 @@ describe('Integration | Application | Route | schooling-registration-user-associ
             'last-name': 'Smith',
             birthdate: INVALID_BIRTHDATE,
             'campaign-code': 'RESTRICTD',
-          }
-        }
+          },
+        },
       };
 
       // when
@@ -423,8 +423,8 @@ describe('Integration | Application | Route | schooling-registration-user-associ
             'last-name': 'Smith',
             birthdate: INVALID_BIRTHDATE,
             'campaign-code': 'RESTRICTD',
-          }
-        }
+          },
+        },
       };
 
       // when
@@ -444,8 +444,8 @@ describe('Integration | Application | Route | schooling-registration-user-associ
             'last-name': 'Smith',
             birthdate: INVALID_BIRTHDATE,
             'campaign-code': 'RESTRICTD',
-          }
-        }
+          },
+        },
       };
 
       // when
@@ -465,8 +465,8 @@ describe('Integration | Application | Route | schooling-registration-user-associ
             'last-name': 'Smith',
             birthdate: '2012-12-12',
             'campaign-code': INVALID_CAMPAIGNCODE,
-          }
-        }
+          },
+        },
       };
 
       // when

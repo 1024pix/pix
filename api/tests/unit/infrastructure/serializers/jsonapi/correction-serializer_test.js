@@ -15,7 +15,7 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function() {
         solution: 'Correction value',
         hints: [
           new Hint({ skillName: '@test2', value: 'Indice moins Facile' }),
-          new Hint({ skillName: '@test1', value: 'Indice Facile' })
+          new Hint({ skillName: '@test1', value: 'Indice Facile' }),
         ],
         tutorials: [
           {
@@ -50,7 +50,7 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function() {
               title: 'Comment dresser un chien',
               isSaved: false,
             }),
-          }
+          },
         ],
         learningMoreTutorials: [
           {
@@ -73,8 +73,8 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function() {
               title: 'Why the Universe Needs Dark Energy | Space Time | PBS Digital Studios',
             }),
             userTutorial: { id: 'userTutorial5', userId: 'userId', tutorialId: 'recTuto5' },
-          }
-        ]
+          },
+        ],
       });
 
       // when
@@ -103,7 +103,7 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function() {
                   'id': 'recTuto3',
                   'type': 'tutorials',
                 },
-              ]
+              ],
             },
             'learning-more-tutorials': {
               'data': [
@@ -115,8 +115,8 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function() {
                   'id': 'recTuto5',
                   'type': 'tutorials',
                 },
-              ]
-            }
+              ],
+            },
           },
           'type': 'corrections',
         },
@@ -145,10 +145,10 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function() {
               'user-tutorial': {
                 'data': {
                   'id': 'userTutorial1',
-                  'type': 'user-tutorial'
-                }
-              }
-            }
+                  'type': 'user-tutorial',
+                },
+              },
+            },
           },
           {
             'attributes': {
@@ -157,7 +157,7 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function() {
               'user-id': 'userId',
             },
             'id': 'userTutorial2',
-            'type': 'user-tutorial'
+            'type': 'user-tutorial',
           },
           {
             'attributes': {
@@ -174,10 +174,10 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function() {
               'user-tutorial': {
                 'data': {
                   'id': 'userTutorial2',
-                  'type': 'user-tutorial'
-                }
-              }
-            }
+                  'type': 'user-tutorial',
+                },
+              },
+            },
           },
           {
             'attributes': {
@@ -210,7 +210,7 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function() {
               'user-id': 'userId',
             },
             'id': 'userTutorial5',
-            'type': 'user-tutorial'
+            'type': 'user-tutorial',
           },
           {
             'attributes': {
@@ -227,11 +227,11 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function() {
               'user-tutorial': {
                 'data': {
                   'id': 'userTutorial5',
-                  'type': 'user-tutorial'
-                }
-              }
-            }
-          }
+                  'type': 'user-tutorial',
+                },
+              },
+            },
+          },
         ],
       });
     });

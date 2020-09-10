@@ -201,8 +201,8 @@ describe('Acceptance | Controller | saml-controller', () => {
         method: 'POST',
         url: '/api/saml/assert',
         payload: {
-          SAMLResponse: validSamlResponse.context
-        }
+          SAMLResponse: validSamlResponse.context,
+        },
       });
 
       // then
@@ -217,7 +217,7 @@ describe('Acceptance | Controller | saml-controller', () => {
         lastName,
         samlId,
         password: '',
-        cgu: false
+        cgu: false,
       });
 
       // when
@@ -225,8 +225,8 @@ describe('Acceptance | Controller | saml-controller', () => {
         method: 'POST',
         url: '/api/saml/assert',
         payload: {
-          SAMLResponse: validSamlResponse.context
-        }
+          SAMLResponse: validSamlResponse.context,
+        },
       });
 
       // then

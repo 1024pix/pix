@@ -11,7 +11,7 @@ const certificationCenterlidationJoiSchema = Joi.object({
     .messages({
       'string.empty': 'Le nom n’est pas renseigné.',
       'any.required': 'Le nom n’est pas renseigné.',
-      'string.max': 'Le nom ne doit pas dépasser 255 caractères.'
+      'string.max': 'Le nom ne doit pas dépasser 255 caractères.',
     }),
 
   type: Joi.string()
@@ -28,8 +28,8 @@ const certificationCenterlidationJoiSchema = Joi.object({
     .allow(null)
     .max(255)
     .messages({
-      'string.max': 'L‘identifiant externe ne doit pas dépasser 255 caractères.'
-    })
+      'string.max': 'L‘identifiant externe ne doit pas dépasser 255 caractères.',
+    }),
 });
 
 module.exports = {
@@ -40,5 +40,5 @@ module.exports = {
       throw EntityValidationError.fromJoiErrors(error.details);
     }
     return true;
-  }
+  },
 };

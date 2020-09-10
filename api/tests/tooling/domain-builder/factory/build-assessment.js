@@ -87,7 +87,7 @@ buildAssessment.ofTypeCampaign = function({
     answers,
     course,
     targetProfile,
-    campaignParticipation
+    campaignParticipation,
   });
 };
 
@@ -129,7 +129,7 @@ buildAssessment.ofTypeCompetenceEvaluation = function({
     course,
     targetProfile,
     knowledgeElements,
-    campaignParticipation
+    campaignParticipation,
   });
 };
 

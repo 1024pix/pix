@@ -12,7 +12,7 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function() {
         content: 'Lorem ipsum dolor sit amet consectetur adipiscet.',
         assessmentId: 'assessment_id',
         challengeId: 'challenge_id',
-        createdAt: new Date('2017-09-01T12:14:33Z')
+        createdAt: new Date('2017-09-01T12:14:33Z'),
       };
 
       const serializedFeedback = {
@@ -21,24 +21,24 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function() {
           id: 'feedback_id',
           attributes: {
             content: feedback.content,
-            'created-at': feedback.createdAt
+            'created-at': feedback.createdAt,
           },
           relationships: {
             assessment: {
               data: {
                 id: 'assessment_id',
-                type: 'assessments'
-              }
+                type: 'assessments',
+              },
             },
             challenge: {
               data: {
                 id: 'challenge_id',
-                type: 'challenges'
-              }
-            }
-          }
+                type: 'challenges',
+              },
+            },
+          },
 
-        }
+        },
       };
 
       // when
@@ -55,21 +55,21 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function() {
         content: 'Simple feedback',
         createdAt: new Date('2015-09-06T15:00:00Z'),
         assessmentId: 1,
-        challengeId: 11
+        challengeId: 11,
       };
       const otherFeedback = {
         id: 'other_feedback',
         content: 'Other feedback',
         createdAt: new Date('2016-09-06T16:00:00Z'),
         assessmentId: 1,
-        challengeId: 12
+        challengeId: 12,
       };
       const matchingDatesFeedback = {
         id: 'matching_dates_feedback',
         content: 'Matching dates feedback',
         createdAt: new Date('2017-09-06T17:00:00Z'),
         assessmentId: 2,
-        challengeId: 21
+        challengeId: 21,
       };
       const persistedFeedbacks = [simpleFeedback, otherFeedback, matchingDatesFeedback];
 
@@ -83,35 +83,35 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function() {
           id: simpleFeedback.id,
           attributes: {
             content: simpleFeedback.content,
-            'created-at': simpleFeedback.createdAt
+            'created-at': simpleFeedback.createdAt,
           },
           relationships: {
             assessment: { data: { id: '1', type: 'assessments' } },
-            challenge: { data: { id: '11', type: 'challenges' } }
-          }
+            challenge: { data: { id: '11', type: 'challenges' } },
+          },
         }, {
           type: 'feedbacks',
           id: otherFeedback.id,
           attributes: {
             content: otherFeedback.content,
-            'created-at': otherFeedback.createdAt
+            'created-at': otherFeedback.createdAt,
           },
           relationships: {
             assessment: { data: { id: '1', type: 'assessments' } },
-            challenge: { data: { id: '12', type: 'challenges' } }
-          }
+            challenge: { data: { id: '12', type: 'challenges' } },
+          },
         }, {
           type: 'feedbacks',
           id: matchingDatesFeedback.id,
           attributes: {
             content: matchingDatesFeedback.content,
-            'created-at': matchingDatesFeedback.createdAt
+            'created-at': matchingDatesFeedback.createdAt,
           },
           relationships: {
             assessment: { data: { id: '2', type: 'assessments' } },
-            challenge: { data: { id: '21', type: 'challenges' } }
-          }
-        }]
+            challenge: { data: { id: '21', type: 'challenges' } },
+          },
+        }],
       };
 
       expect(result).to.deep.equal(expectedResponse);
@@ -135,17 +135,17 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function() {
             assessment: {
               data: {
                 type: 'assessments',
-                id: 'assessment_id'
-              }
+                id: 'assessment_id',
+              },
             },
             challenge: {
               data: {
                 type: 'challenges',
-                id: 'challenge_id'
-              }
-            }
-          }
-        }
+                id: 'challenge_id',
+              },
+            },
+          },
+        },
       };
 
       // when

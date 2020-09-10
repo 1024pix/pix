@@ -6,14 +6,14 @@ export default ApplicationSerializer.extend({
     'updatedAt',
     'userId',
     'competenceId',
-    'status'
+    'status',
   ],
   include: ['assessment'],
   links(record) {
     return {
       'scorecard': {
-        related: `/api/scorecards/${record.userId}_${record.competenceId}`
+        related: `/api/scorecards/${record.userId}_${record.competenceId}`,
       },
     };
-  }
+  },
 });

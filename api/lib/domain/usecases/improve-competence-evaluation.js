@@ -8,7 +8,7 @@ module.exports = async function improveCompetenceEvaluation({
   assessmentRepository,
   userId,
   competenceId,
-  domainTransaction
+  domainTransaction,
 }) {
   const competenceEvaluation = await competenceEvaluationRepository.getByCompetenceIdAndUserId({ userId, competenceId });
   const competenceLevel = await getCompetenceLevel({ userId, competenceId });
@@ -23,14 +23,14 @@ module.exports = async function improveCompetenceEvaluation({
     state: Assessment.states.STARTED,
     type: Assessment.types.COMPETENCE_EVALUATION,
     courseId: Assessment.courseIdMessage.COMPETENCE_EVALUATION,
-    isImproving: true
+    isImproving: true,
   });
   const { id: assessmentId } = await assessmentRepository.save({ assessment, domainTransaction });
 
   await competenceEvaluationRepository.updateAssessmentId({
     currentAssessmentId: competenceEvaluation.assessmentId,
     newAssessmentId: assessmentId,
-    domainTransaction
+    domainTransaction,
   });
 
   return { ...competenceEvaluation, assessmentId };

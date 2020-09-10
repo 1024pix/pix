@@ -33,7 +33,7 @@ describe('Unit | UseCase | add-tutorial-to-user', () => {
       tutorialRepository = {
         get: async () => {
           throw new AirtableNotFoundError();
-        }
+        },
       };
       const tutorialId = 'nonExistentTutorialId';
 
@@ -42,7 +42,7 @@ describe('Unit | UseCase | add-tutorial-to-user', () => {
         tutorialRepository,
         userTutorialRepository,
         userId,
-        tutorialId
+        tutorialId,
       });
 
       // Then

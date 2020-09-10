@@ -29,10 +29,10 @@ describe('Integration | Application | Organization-invitations | Routes', () => 
             type: 'organization-invitation-responses',
             attributes: {
               code: 'DZWMP7L5UM',
-              email: 'user@example.net'
+              email: 'user@example.net',
             },
-          }
-        }
+          },
+        },
       };
       // when
       const response = await server.inject(options);
@@ -70,8 +70,8 @@ describe('Integration | Application | Organization-invitations | Routes', () => 
               'first-name': 'john',
               'last-name': 'harry',
             },
-          }
-        }
+          },
+        },
       };
 
       // when
@@ -94,8 +94,8 @@ describe('Integration | Application | Organization-invitations | Routes', () => 
               uai: '1234567A',
               lastName: 'harry',
             },
-          }
-        }
+          },
+        },
       };
 
       // when

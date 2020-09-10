@@ -15,7 +15,7 @@ function  _manageReCaptchaTokenError(error) {
 function _manageError(error, errorType, attribute, message) {
   if (error instanceof errorType) {
     return new EntityValidationError({
-      invalidAttributes: [{ attribute, message }]
+      invalidAttributes: [{ attribute, message }],
     });
   }
 

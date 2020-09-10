@@ -38,7 +38,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', () =
           },
           id: '234567',
           type: 'users',
-        }
+        },
       });
     });
   });
@@ -55,8 +55,8 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', () =
             'first-name': 'Luke',
             'last-name': 'Skywalker',
             email: 'lskywalker@deathstar.empire',
-          }
-        }
+          },
+        },
       };
     });
 

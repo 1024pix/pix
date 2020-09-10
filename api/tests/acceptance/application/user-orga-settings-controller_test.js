@@ -41,12 +41,12 @@ describe('Acceptance | Controller | user-orga-settings-controller', () => {
               organization: {
                 data: {
                   id: expectedOrganizationId,
-                  type: 'organizations'
-                }
-              }
-            }
-          }
-        }
+                  type: 'organizations',
+                },
+              },
+            },
+          },
+        },
       };
     });
 
@@ -101,7 +101,7 @@ describe('Acceptance | Controller | user-orga-settings-controller', () => {
           databaseBuilder.factory.buildMembership({
             userId,
             organizationId: expectedOrganizationId,
-            disabledAt: new Date()
+            disabledAt: new Date(),
           });
 
           options.payload.data.relationships.organization.data.id = expectedOrganizationId;

@@ -13,7 +13,7 @@ describe('Unit | UseCase | find-answer-by-challenge-and-assessment', () => {
     const answer = {
       id: answerId,
       assessmentId,
-      challengeId
+      challengeId,
     };
     const assessment = {
       id: assessmentId,

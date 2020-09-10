@@ -61,11 +61,11 @@ describe('Acceptance | users-controller-get-pix-score', () => {
         const pixScoreExpected = {
           data: {
             attributes: {
-              value: 7
+              value: 7,
             },
             id: `${user.id}`,
-            type: 'pix-scores'
-          }
+            type: 'pix-scores',
+          },
         };
 
         // when

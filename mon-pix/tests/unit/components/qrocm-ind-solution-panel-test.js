@@ -113,7 +113,7 @@ describe('Unit | Component | qrocm-solution-panel', function() {
       challenge = EmberObject.create({ proposals: '- alain@pix.fr : ${num1}\n\n- leonie@pix.fr : ${num2}\n\n- Programme_Pix.pdf : ${num3}\n\n- lucie@pix.fr : ${num4}\n\n- Programme du festival Pix : ${num5}\n\n- jeremy@pix.fr : ${num6}' });
       answer = {
         value: 'num1: \'1\' num2: \'2\' num3: \'3\' num4: \'4\' num5: \'5\' num6: \'6\'',
-        resultDetails: 'num1: false\nnum2: false\nnum3: false\nnum4: false\nnum5: true\nnum6: false'
+        resultDetails: 'num1: false\nnum2: false\nnum3: false\nnum4: false\nnum5: true\nnum6: false',
       };
       solution = 'num1: \n - 2\n\nnum2:\n - 3\n - 4\n\nnum3:\n - 6\n\nnum4:\n - 1\n\nnum5:\n - 5\n\nnum6:\n - 2';
 
@@ -231,7 +231,7 @@ describe('Unit | Component | qrocm-solution-panel', function() {
         answer: '2',
         solution: '2',
         emptyOrWrongAnswer: false,
-        inputClass: 'correction-qroc-box-answer--correct'
+        inputClass: 'correction-qroc-box-answer--correct',
       }];
 
       // when

@@ -33,7 +33,7 @@ describe('Unit | Controller | sessionController', () => {
         date: '2017-12-08',
         time: '14:30',
         description: 'ahah',
-        accessCode: 'ABCD12'
+        accessCode: 'ABCD12',
       });
 
       sinon.stub(usecases, 'createSession').resolves();
@@ -51,15 +51,15 @@ describe('Unit | Controller | sessionController', () => {
               examiner: 'Antoine Toutvenant',
               date: '2017-12-08',
               time: '14:30',
-              description: 'ahah'
-            }
-          }
+              description: 'ahah',
+            },
+          },
         },
         auth: {
           credentials: {
             userId,
-          }
-        }
+          },
+        },
       };
     });
 
@@ -77,12 +77,12 @@ describe('Unit | Controller | sessionController', () => {
         data: {
           type: 'sessions',
           id: 12,
-          attributes: {}
-        }
+          attributes: {},
+        },
       };
       const savedSession = new Session({
         id: '12',
-        certificationCenter: 'Université de dressage de loutres'
+        certificationCenter: 'Université de dressage de loutres',
       });
 
       usecases.createSession.resolves(savedSession);
@@ -107,7 +107,7 @@ describe('Unit | Controller | sessionController', () => {
         auth: { credentials: { userId } },
         params: {
           id: sessionId.toString(),
-        }
+        },
       };
     });
 
@@ -140,7 +140,7 @@ describe('Unit | Controller | sessionController', () => {
         auth: { credentials: { userId } },
         params: {
           id: sessionId.toString(),
-        }
+        },
       };
     });
 
@@ -170,7 +170,7 @@ describe('Unit | Controller | sessionController', () => {
       request = {
         auth: { credentials: { userId: 1 } },
         params: { id : 1 },
-        payload: {}
+        payload: {},
       };
 
       updatedSession = {
@@ -215,7 +215,7 @@ describe('Unit | Controller | sessionController', () => {
         payload: {},
         query: {
           accessToken,
-        }
+        },
       };
 
       expectedHeaders = {
@@ -359,7 +359,7 @@ describe('Unit | Controller | sessionController', () => {
         auth: {
           credentials : {
             userId,
-          }
+          },
         },
       };
       sinon.stub(juryCertificationSummaryRepository, 'findBySessionId').withArgs(sessionId).resolves(juryCertificationSummaries);
@@ -418,7 +418,7 @@ describe('Unit | Controller | sessionController', () => {
         auth: {
           credentials : {
             userId,
-          }
+          },
         },
         payload: {
           data: {
@@ -428,8 +428,8 @@ describe('Unit | Controller | sessionController', () => {
               'birthdate': birthdate,
             },
             type: 'certification-candidates',
-          }
-        }
+          },
+        },
       };
       sinon.stub(certificationCandidateSerializer, 'serialize').withArgs(linkedCertificationCandidate).returns(serializedCertificationCandidate);
     });
@@ -440,7 +440,7 @@ describe('Unit | Controller | sessionController', () => {
         sinon.stub(usecases, 'linkUserToSessionCertificationCandidate')
           .withArgs({ userId, sessionId, firstName, lastName, birthdate }).resolves({
             linkCreated: false,
-            certificationCandidate: linkedCertificationCandidate
+            certificationCandidate: linkedCertificationCandidate,
           });
       });
 
@@ -461,7 +461,7 @@ describe('Unit | Controller | sessionController', () => {
         sinon.stub(usecases, 'linkUserToSessionCertificationCandidate')
           .withArgs({ userId, sessionId, firstName, lastName, birthdate }).resolves({
             linkCreated: true,
-            certificationCandidate: linkedCertificationCandidate
+            certificationCandidate: linkedCertificationCandidate,
           });
       });
 
@@ -532,8 +532,8 @@ describe('Unit | Controller | sessionController', () => {
           id: sessionId,
         },
         payload: {
-          data: { attributes : {} }
-        }
+          data: { attributes : {} },
+        },
       };
     });
 
@@ -673,7 +673,7 @@ describe('Unit | Controller | sessionController', () => {
         auth: {
           credentials : {
             userId,
-          }
+          },
         },
       };
       sinon.stub(usecases, 'assignCertificationOfficerToJurySession').withArgs({ sessionId, certificationOfficerId: userId }).resolves(session);

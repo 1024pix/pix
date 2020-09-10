@@ -24,7 +24,7 @@ module.exports = function buildKnowledgeElementSnapshot({
     id,
     userId,
     snappedAt,
-    snapshot
+    snapshot,
   };
 
   return databaseBuffer.pushInsertable({

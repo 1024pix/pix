@@ -39,7 +39,7 @@ describe('Unit | UseCase | reconcile-user-to-organization', () => {
       // when
       const result = await catchErr(usecases.reconcileUserToOrganization)({
         userId,
-        campaignCode
+        campaignCode,
       });
 
       // then

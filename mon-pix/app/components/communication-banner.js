@@ -10,7 +10,7 @@ export default class CommunicationBanner extends Component {
   _bannerTypes = {
     info: 'info',
     warning: 'warning',
-    error: 'error'
+    error: 'error',
   };
 
   get isEnabled() {

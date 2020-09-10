@@ -10,13 +10,13 @@ module('Unit | Model | campaign-participation-result', function(hooks) {
     test('should calculate max total skills', function(assert) {
       const store = this.owner.lookup('service:store');
       const competenceResult1 = store.createRecord('competence-result', {
-        totalSkillsCount: 2
+        totalSkillsCount: 2,
       });
       const competenceResult2 = store.createRecord('competence-result', {
-        totalSkillsCount: 11
+        totalSkillsCount: 11,
       });
       const competenceResult3 = store.createRecord('competence-result', {
-        totalSkillsCount: 10
+        totalSkillsCount: 10,
       });
 
       const model = run(() => store.createRecord('campaign-participation-result', {}));

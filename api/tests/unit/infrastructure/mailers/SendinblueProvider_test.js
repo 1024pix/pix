@@ -44,7 +44,7 @@ describe('Unit | Class | SendinblueProvider', () => {
           const options = {
             from: senderEmailAddress, to: userEmailAddress,
             fromName: 'Ne pas repondre', subject: 'Creation de compte',
-            template: templateId
+            template: templateId,
           };
 
           const expectedPayload = {
@@ -60,7 +60,7 @@ describe('Unit | Class | SendinblueProvider', () => {
             headers: {
               'content-type': 'application/json',
               'accept': 'application/json',
-            }
+            },
           };
 
           // when
@@ -79,7 +79,7 @@ describe('Unit | Class | SendinblueProvider', () => {
             const options = {
               from: senderEmailAddress, to: userEmailAddress,
               fromName: 'Ne pas repondre', subject: 'Creation de compte',
-              template: templateId, tags
+              template: templateId, tags,
             };
 
             const expectedPayload = {
@@ -96,7 +96,7 @@ describe('Unit | Class | SendinblueProvider', () => {
                 'content-type': 'application/json',
                 'accept': 'application/json',
               },
-              tags
+              tags,
             };
 
             // when
@@ -113,7 +113,7 @@ describe('Unit | Class | SendinblueProvider', () => {
             const options = {
               from: senderEmailAddress, to: userEmailAddress,
               fromName: 'Ne pas repondre', subject: 'Creation de compte',
-              template: templateId, tags
+              template: templateId, tags,
             };
 
             const expectedPayload = {
@@ -129,7 +129,7 @@ describe('Unit | Class | SendinblueProvider', () => {
               headers: {
                 'content-type': 'application/json',
                 'accept': 'application/json',
-              }
+              },
             };
 
             // when

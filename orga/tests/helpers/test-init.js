@@ -11,7 +11,7 @@ export function createPrescriberByUser(user) {
     lastName: user.lastName,
     pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
     memberships: user.memberships,
-    userOrgaSettings: user.userOrgaSettings
+    userOrgaSettings: user.userOrgaSettings,
   });
 
   return prescriber;
@@ -30,7 +30,7 @@ export function createPrescriberWithPixOrgaTermsOfService({ pixOrgaTermsOfServic
 
   const membership = server.create('membership', {
     organizationId: organization.id,
-    userId: user.id
+    userId: user.id,
   });
 
   const prescriber = server.create('prescriber', {
@@ -38,7 +38,7 @@ export function createPrescriberWithPixOrgaTermsOfService({ pixOrgaTermsOfServic
     firstName,
     lastName,
     pixOrgaTermsOfServiceAccepted,
-    memberships: [membership]
+    memberships: [membership],
   });
 
   if (pixOrgaTermsOfServiceAccepted) {
@@ -59,7 +59,7 @@ function _addUserToOrganization(user, { externalId, canCollectProfiles } = {}) {
 
   const memberships = server.create('membership', {
     organizationId: organization.id,
-    userId: user.id
+    userId: user.id,
   });
 
   user.userOrgaSettings = server.create('user-orga-setting', { user, organization });
@@ -87,7 +87,7 @@ export function createUserMembershipWithRole(organizationRole) {
   const user = server.create('user', { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com', 'pixOrgaTermsOfServiceAccepted': true });
 
   const organization = server.create('organization', {
-    name: 'BRO & Evil Associates'
+    name: 'BRO & Evil Associates',
   });
 
   const memberships = server.create('membership', {
@@ -107,7 +107,7 @@ export function createUserWithMultipleMemberships() {
 
   const firstOrganization = server.create('organization', {
     name: 'BRO & Evil Associates',
-    externalId: 'EXTBRO'
+    externalId: 'EXTBRO',
   });
 
   const secondOrganization = server.create('organization', {
@@ -119,12 +119,12 @@ export function createUserWithMultipleMemberships() {
 
   const firstMembership = server.create('membership', {
     organizationId: firstOrganization.id,
-    userId: user.id
+    userId: user.id,
   });
 
   const secondMembership = server.create('membership', {
     organizationId: secondOrganization.id,
-    userId: user.id
+    userId: user.id,
   });
 
   user.memberships = [firstMembership, secondMembership];
@@ -136,14 +136,14 @@ export function createUserWithMultipleMemberships() {
 export function createAdminMembershipWithNbMembers(countMembers) {
 
   const organization = server.create('organization', {
-    name: 'BRO & Evil Associates'
+    name: 'BRO & Evil Associates',
   });
 
   const admin = server.create('user', {
     firstName: 'Harry',
     lastName: 'Cover',
     email: 'harry@cover.com',
-    pixOrgaTermsOfServiceAccepted: true
+    pixOrgaTermsOfServiceAccepted: true,
   });
 
   const adminMemberships = server.create('membership', {
@@ -160,7 +160,7 @@ export function createAdminMembershipWithNbMembers(countMembers) {
       server.create('membership', {
         userId: user.id,
         organizationId: organization.id,
-        organizationRole: 'MEMBER'
+        organizationRole: 'MEMBER',
       });
     });
 
@@ -173,13 +173,13 @@ export function createUserManagingStudents(role = 'MEMBER', type = 'SCO') {
   const organization = server.create('organization', {
     name: 'BRO & Evil Associates',
     type,
-    isManagingStudents: true
+    isManagingStudents: true,
   });
 
   const memberships = server.create('membership', {
     userId: user.id,
     organizationId: organization.id,
-    organizationRole: role
+    organizationRole: role,
   });
 
   user.userOrgaSettings = server.create('user-orga-setting', { user, organization });

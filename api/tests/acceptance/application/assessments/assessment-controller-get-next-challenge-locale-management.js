@@ -89,7 +89,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-locale-man
             id: assessmentId,
             type: Assessment.types.COMPETENCE_EVALUATION,
             userId,
-            competenceId
+            competenceId,
           });
           databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
           await databaseBuilder.commit();
@@ -103,7 +103,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-locale-man
             headers: {
               authorization: generateValidRequestAuthorizationHeader(userId),
               'accept-language': FRENCH_FRANCE,
-            }
+            },
           };
 
           // when
@@ -127,7 +127,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-locale-man
             id: assessmentId,
             type: Assessment.types.COMPETENCE_EVALUATION,
             userId,
-            competenceId
+            competenceId,
           });
           databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
           await databaseBuilder.commit();
@@ -141,7 +141,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-locale-man
             headers: {
               authorization: generateValidRequestAuthorizationHeader(userId),
               'accept-language': FRENCH_FRANCE,
-            }
+            },
           };
 
           // when

@@ -28,7 +28,7 @@ module('Integration | Component | routes/authenticated/campaign/details | partic
       },
     ];
     participations.meta = {
-      rowCount: 1
+      rowCount: 1,
     };
     const goTo = function() {};
 
@@ -63,7 +63,7 @@ module('Integration | Component | routes/authenticated/campaign/details | partic
       },
     ];
     participations.meta = {
-      rowCount: 1
+      rowCount: 1,
     };
     const goTo = function() {};
 
@@ -97,7 +97,7 @@ module('Integration | Component | routes/authenticated/campaign/details | partic
       },
     ];
     participations.meta = {
-      rowCount: 3
+      rowCount: 3,
     };
     const goTo = function() {};
 
@@ -119,12 +119,12 @@ module('Integration | Component | routes/authenticated/campaign/details | partic
     const campaign = store.createRecord('campaign', {
       id: 1,
       name: 'campagne 1',
-      idPixLabel: 'identifiant externe'
+      idPixLabel: 'identifiant externe',
     });
 
     const participations = [{ firstName: 'John', lastName: 'Doe', participantExternalId: '123' }];
     participations.meta = {
-      rowCount: 1
+      rowCount: 1,
     };
 
     const goTo = function() {};
@@ -150,7 +150,7 @@ module('Integration | Component | routes/authenticated/campaign/details | partic
 
     const participations = [];
     participations.meta = {
-      rowCount: 0
+      rowCount: 0,
     };
 
     this.set('campaign', campaign);

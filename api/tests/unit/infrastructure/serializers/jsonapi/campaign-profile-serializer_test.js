@@ -58,7 +58,7 @@ describe('Unit | Serializer | JSONAPI | campaign-profile-serializer', function()
             data: [{
               id: '1',
               type: 'campaign-profile-competences',
-            }]
+            }],
           },
         },
       },

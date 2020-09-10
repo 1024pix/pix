@@ -22,8 +22,8 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
           data: {
             type: 'organization-invitations',
             attributes: { code, email },
-          }
-        }
+          },
+        },
       };
 
       sinon.stub(usecases, 'acceptOrganizationInvitation');
@@ -50,7 +50,7 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
     beforeEach(() => {
       request = {
         params: { id: organizationInvitationId },
-        query: { code: organizationInvitationCode }
+        query: { code: organizationInvitationCode },
       };
 
       sinon.stub(usecases, 'getOrganizationInvitation');

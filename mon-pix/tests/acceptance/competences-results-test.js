@@ -119,10 +119,10 @@ describe('Acceptance | competences results', function() {
         // then
         expect(find('.competence-results-panel-header__banner--congrats')).to.exist;
         expect(find(
-          '.competence-results-banner-text__results:first-child .competence-results-banner-text-results__value'
+          '.competence-results-banner-text__results:first-child .competence-results-banner-text-results__value',
         ).textContent).to.equal('niveau 2');
         expect(find(
-          '.competence-results-banner-text__results:last-child .competence-results-banner-text-results__value'
+          '.competence-results-banner-text__results:last-child .competence-results-banner-text-results__value',
         ).textContent).to.equal('17 pix');
       });
     });

@@ -27,7 +27,7 @@ const contentReference = {
   timedout: {
     icon: 'times-circle',
     color: 'red',
-  }
+  },
 };
 
 export default Component.extend({

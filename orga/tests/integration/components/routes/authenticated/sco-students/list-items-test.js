@@ -132,7 +132,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
           lastName: 'La Terreur',
           firstName: 'Gigi',
           birthdate: '2010-01-01',
-        })
+        }),
       ]);
       return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
     });
@@ -159,7 +159,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
           birthdate: '2010-01-01',
           username: 'blueivy.carter0701',
           isAuthenticatedFromGar: false,
-        })
+        }),
       ]);
       return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
     });
@@ -186,7 +186,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
           birthdate: '2010-01-01',
           username: 'blueivy.carter0701',
           isAuthenticatedFromGar: false,
-        })
+        }),
       ]);
       return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
     });
@@ -212,7 +212,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
           birthdate: '2010-01-01',
           email: 'firstname.lastname@example.net',
           isAuthenticatedFromGar: false,
-        })
+        }),
       ]);
       return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
     });
@@ -239,7 +239,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
           email: null,
           username: null,
           isAuthenticatedFromGar: true,
-        })
+        }),
       ]);
     });
 
@@ -272,7 +272,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
           birthdate: '2010-01-01',
           email: 'firstname.lastname@example.net',
           isAuthenticatedFromGar: false,
-        })
+        }),
       ]);
     });
 

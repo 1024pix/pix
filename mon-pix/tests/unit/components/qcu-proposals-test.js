@@ -30,7 +30,7 @@ describe('Unit | Component | QCU proposals', function() {
       const expectedLabeledRadios = [
         ['prop 1', false],
         ['prop 2', true],
-        ['prop 3', false]
+        ['prop 3', false],
       ];
       initComponent.call(this);
 
@@ -59,7 +59,7 @@ describe('Unit | Component | QCU proposals', function() {
       const expectedLabeledRadios = [
         ['prop 1', false],
         ['prop 2', false],
-        ['prop 3', false]
+        ['prop 3', false],
       ];
       initComponent.call(this);
 
@@ -76,7 +76,7 @@ describe('Unit | Component | QCU proposals', function() {
       const expectedLabeledRadios = [
         ['prop 1', false],
         ['prop 2', false],
-        ['prop 3', false]
+        ['prop 3', false],
       ];
       initComponent.call(this);
 

@@ -6,6 +6,6 @@ module.exports = {
     return new Serializer('course', {
       attributes: ['name', 'description', 'nbChallenges', 'imageUrl'],
     }).serialize(courses);
-  }
+  },
 
 };

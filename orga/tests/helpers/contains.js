@@ -28,7 +28,7 @@ export function contains(text) {
 
   this.pushResult({
     result,
-    message
+    message,
   });
 }
 
@@ -43,6 +43,6 @@ export function notContains(text) {
 
   this.pushResult({
     result,
-    message
+    message,
   });
 }

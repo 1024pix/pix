@@ -8,7 +8,7 @@ function computeLeadTimes(tagDate, commitDateStrings) {
     .map((commitDate) => moment(commitDate))
     .map((commitMoment) => {
       return {
-        leadTime: _computeLeadTime(tagMoment, commitMoment)
+        leadTime: _computeLeadTime(tagMoment, commitMoment),
       };
     });
 }
@@ -18,5 +18,5 @@ function _computeLeadTime(tagMoment, commitMoment) {
 }
 
 module.exports = {
-  computeLeadTimes
+  computeLeadTimes,
 };

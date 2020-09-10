@@ -67,12 +67,12 @@ describe('Unit | UseCase | reset-scorecard', () => {
         campaignParticipationRepository,
         competenceRepository,
         competenceEvaluationRepository,
-        knowledgeElementRepository
+        knowledgeElementRepository,
       });
 
       // then
       expect(scorecardService.resetScorecard).to.have.been.calledWithExactly({
-        userId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, campaignParticipationRepository, competenceRepository, knowledgeElementRepository, competenceEvaluationRepository
+        userId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, campaignParticipationRepository, competenceRepository, knowledgeElementRepository, competenceEvaluationRepository,
       });
       expect(response).to.equal(scorecard);
     });
@@ -126,7 +126,7 @@ describe('Unit | UseCase | reset-scorecard', () => {
         scorecardService,
         competenceRepository,
         competenceEvaluationRepository,
-        knowledgeElementRepository
+        knowledgeElementRepository,
       });
 
       // then

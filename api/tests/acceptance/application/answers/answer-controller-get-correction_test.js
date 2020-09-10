@@ -26,7 +26,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
         competences: ['competence_id'],
         acquis: ['@web3'],
         bonnesReponses: 'fromage',
-        acquix: ['q_first_acquis']
+        acquix: ['q_first_acquis'],
       });
       airtableBuilder.mockList({ tableName: 'Epreuves' }).returns([challenge]).activate();
 
@@ -57,14 +57,14 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
       assessment = databaseBuilder.factory.buildAssessment({
         courseId: 'adaptive_course_id',
         state: 'completed',
-        userId
+        userId,
       });
 
       answer = databaseBuilder.factory.buildAnswer({
         value: 'any good answer',
         result: 'ok',
         challengeId: 'q_first_challenge',
-        assessmentId: assessment.id
+        assessmentId: assessment.id,
       });
 
       await databaseBuilder.commit();
@@ -78,7 +78,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
           url: `/api/answers/${answer.id}/correction`,
           headers: {
             authorization: generateValidRequestAuthorizationHeader(userId),
-            'accept-language': FRENCH_FRANCE
+            'accept-language': FRENCH_FRANCE,
           },
         };
 
@@ -99,7 +99,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
               },
               'learning-more-tutorials': {
                 data: [],
-              }
+              },
             },
           },
           included: [{
@@ -113,7 +113,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
             },
             id: 'french-tutorial-id',
             type: 'tutorials',
-          }]
+          }],
         };
 
         // when

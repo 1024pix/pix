@@ -20,6 +20,6 @@ export default Factory.extend({
         validatedSkillsCount: 10,
       });
       campaignParticipationResult.competenceResults = [competenceResult_1, competenceResult_2];
-    }
-  })
+    },
+  }),
 });

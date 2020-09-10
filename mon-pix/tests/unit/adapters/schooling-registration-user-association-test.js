@@ -60,10 +60,10 @@ describe('Unit | Adapters | schooling-registration-user-association', function()
           data: {
             data: {
               attributes: {
-                'campaign-code': 'AZERTY123'
-              }
-            }
-          }
+                'campaign-code': 'AZERTY123',
+              },
+            },
+          },
         };
         snapshot = {
           record: {},
@@ -72,15 +72,15 @@ describe('Unit | Adapters | schooling-registration-user-association', function()
             campaignCode: 'AZERTY123',
             birthdate: '2020-06-15',
             firstName: 'James',
-            lastName: 'Bond'
+            lastName: 'Bond',
           },
           serialize: function() {
             return {
               data: {
                 attributes: {
-                  'campaign-code' : 'AZERTY123'
-                }
-              }
+                  'campaign-code' : 'AZERTY123',
+                },
+              },
             };
           },
         };
@@ -105,10 +105,10 @@ describe('Unit | Adapters | schooling-registration-user-association', function()
           data: {
             data: {
               attributes: {
-                'campaign-code': 'AZERTY123'
-              }
-            }
-          }
+                'campaign-code': 'AZERTY123',
+              },
+            },
+          },
         };
         snapshot = {
           record: {},
@@ -116,7 +116,7 @@ describe('Unit | Adapters | schooling-registration-user-association', function()
             tryReconciliation: true,
             campaignCode: 'AZERTY123',
             firstName: 'James',
-            lastName: 'Bond'
+            lastName: 'Bond',
           },
           serialize: function() {
             return {
@@ -125,8 +125,8 @@ describe('Unit | Adapters | schooling-registration-user-association', function()
                   'campaign-code': 'AZERTY123',
                   'first-name': 'James',
                   'last-name': 'Bond',
-                }
-              }
+                },
+              },
             };
           },
         };

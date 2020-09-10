@@ -28,7 +28,7 @@ describe('Unit | Controller | campaign-participation-result-controller', () => {
       const response = await campaignParticipationResultController.get({
         params: { id: campaignParticipationId },
         auth: {
-          credentials: { userId }
+          credentials: { userId },
         },
         headers: { 'accept-language': locale },
       });

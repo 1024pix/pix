@@ -7,7 +7,7 @@ const {
 module.exports = async function completeAssessment({
   assessmentId,
   assessmentRepository,
-  domainTransaction
+  domainTransaction,
 }) {
   const assessment = await assessmentRepository.get(assessmentId);
 

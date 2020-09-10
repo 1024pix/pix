@@ -25,26 +25,26 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
                   id: 'recSkill0_0',
                   nom: '@recSkill0_0',
                   challenges: [
-                    { id: 'recChallenge0_0_0' }
-                  ]
+                    { id: 'recChallenge0_0_0' },
+                  ],
                 },
                 {
                   id: 'recSkill0_1',
                   nom: '@recSkill0_1',
                   challenges: [
-                    { id: 'recChallenge0_1_0' }
-                  ]
+                    { id: 'recChallenge0_1_0' },
+                  ],
                 },
                 {
                   id: 'recSkill0_2',
                   nom: '@recSkill0_2',
                   challenges: [
-                    { id: 'recChallenge0_2_0' }
-                  ]
-                }
-              ]
-            }
-          ]
+                    { id: 'recChallenge0_2_0' },
+                  ],
+                },
+              ],
+            },
+          ],
         },
         {
           id: 'recCompetence1',
@@ -56,26 +56,26 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
                   id: 'recSkill1_0',
                   nom: '@recSkill1_0',
                   challenges: [
-                    { id: 'recChallenge1_0_0' }
-                  ]
+                    { id: 'recChallenge1_0_0' },
+                  ],
                 },
                 {
                   id: 'recSkill1_1',
                   nom: '@recSkill1_1',
                   challenges: [
-                    { id: 'recChallenge1_1_0' }
-                  ]
+                    { id: 'recChallenge1_1_0' },
+                  ],
                 },
                 {
                   id: 'recSkill1_2',
                   nom: '@recSkill1_2',
                   challenges: [
-                    { id: 'recChallenge1_2_0' }
-                  ]
-                }
-              ]
-            }
-          ]
+                    { id: 'recChallenge1_2_0' },
+                  ],
+                },
+              ],
+            },
+          ],
         },
         {
           id: 'recCompetence2',
@@ -87,26 +87,26 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
                   id: 'recSkill2_0',
                   nom: '@recSkill2_0',
                   challenges: [
-                    { id: 'recChallenge2_0_0' }
-                  ]
+                    { id: 'recChallenge2_0_0' },
+                  ],
                 },
                 {
                   id: 'recSkill2_1',
                   nom: '@recSkill2_1',
                   challenges: [
-                    { id: 'recChallenge2_1_0' }
-                  ]
+                    { id: 'recChallenge2_1_0' },
+                  ],
                 },
                 {
                   id: 'recSkill2_2',
                   nom: '@recSkill2_2',
                   challenges: [
-                    { id: 'recChallenge2_2_0' }
-                  ]
-                }
-              ]
-            }
-          ]
+                    { id: 'recChallenge2_2_0' },
+                  ],
+                },
+              ],
+            },
+          ],
         },
         {
           id: 'recCompetence3',
@@ -118,26 +118,26 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
                   id: 'recSkill3_0',
                   nom: '@recSkill3_0',
                   challenges: [
-                    { id: 'recChallenge3_0_0' }
-                  ]
+                    { id: 'recChallenge3_0_0' },
+                  ],
                 },
                 {
                   id: 'recSkill3_1',
                   nom: '@recSkill3_1',
                   challenges: [
-                    { id: 'recChallenge3_1_0' }
-                  ]
+                    { id: 'recChallenge3_1_0' },
+                  ],
                 },
                 {
                   id: 'recSkill3_2',
                   nom: '@recSkill3_2',
                   challenges: [
-                    { id: 'recChallenge3_2_0' }
-                  ]
-                }
-              ]
-            }
-          ]
+                    { id: 'recChallenge3_2_0' },
+                  ],
+                },
+              ],
+            },
+          ],
         },
         {
           id: 'recCompetence4',
@@ -149,29 +149,29 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
                   id: 'recSkill4_0',
                   nom: '@recSkill4_0',
                   challenges: [
-                    { id: 'recChallenge4_0_0' }
-                  ]
+                    { id: 'recChallenge4_0_0' },
+                  ],
                 },
                 {
                   id: 'recSkill4_1',
                   nom: '@recSkill4_1',
                   challenges: [
-                    { id: 'recChallenge4_1_0' }
-                  ]
+                    { id: 'recChallenge4_1_0' },
+                  ],
                 },
                 {
                   id: 'recSkill4_2',
                   nom: '@recSkill4_2',
                   challenges: [
-                    { id: 'recChallenge4_2_0' }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
+                    { id: 'recChallenge4_2_0' },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
   ];
 
   before(() => {
@@ -189,7 +189,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
 
     user = databaseBuilder.factory.buildUser({});
     assessment = databaseBuilder.factory.buildAssessment({
-      userId: user.id, state: Assessment.states.STARTED
+      userId: user.id, state: Assessment.states.STARTED,
     });
 
     await databaseBuilder.commit();
@@ -198,7 +198,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
       method: 'PATCH',
       url: `/api/assessments/${assessment.id}/complete-assessment`,
       headers: {
-        authorization: generateValidRequestAuthorizationHeader(user.id)
+        authorization: generateValidRequestAuthorizationHeader(user.id),
       },
     };
   });
@@ -246,28 +246,28 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
-          userId: campaignUser.id
+          userId: campaignUser.id,
         });
         const campaignAssessment = databaseBuilder.factory.buildAssessment({
           id: 5,
           type: 'CAMPAIGN',
           state: Assessment.states.STARTED,
           userId: campaignUser.id,
-          campaignParticipationId: campaignParticipation.id
+          campaignParticipationId: campaignParticipation.id,
         });
         const targetProfileId = campaign.targetProfileId;
         const anyDateBeforeCampaignParticipation = new Date(campaignParticipation.sharedAt.getTime() - 60 * 1000);
         badge = databaseBuilder.factory.buildBadge({ targetProfileId });
         databaseBuilder.factory.buildTargetProfileSkill({
           targetProfileId,
-          skillId: 'recSkill0_0'
+          skillId: 'recSkill0_0',
         });
         databaseBuilder.factory.buildKnowledgeElement({
           skillId: 'recSkill0_0',
           assessmentId: campaignAssessment.id,
           userId: campaignUser.id,
           competenceId: 'recCompetence0',
-          createdAt: anyDateBeforeCampaignParticipation
+          createdAt: anyDateBeforeCampaignParticipation,
         });
         databaseBuilder.factory.buildBadgeCriterion({
           threshold: 75,
@@ -330,7 +330,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         const badgeId = databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA }).id;
         databaseBuilder.factory.buildBadgePartnerCompetence({
           badgeId,
-          skillIds: ['recSkill0_0']
+          skillIds: ['recSkill0_0'],
         });
 
         return databaseBuilder.commit();

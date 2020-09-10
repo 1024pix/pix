@@ -13,7 +13,7 @@ module.exports = async function getNextChallengeForCompetenceEvaluation({
   improvementService,
   assessment,
   userId,
-  locale
+  locale,
 }) {
 
   _checkIfAssessmentBelongsToUser(assessment, userId);
@@ -31,7 +31,7 @@ module.exports = async function getNextChallengeForCompetenceEvaluation({
   return pickChallengeService.pickChallenge({
     skills: possibleSkillsForNextChallenge,
     randomSeed: assessment.id,
-    locale: locale
+    locale: locale,
   });
 };
 

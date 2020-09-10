@@ -18,7 +18,7 @@ describe('Unit | Domain | Events | handle-partner-certification', () => {
     const event = 'not an event of the correct type';
     // when / then
     const error = await catchErr(handlePartnerCertifications)(
-      { event, ...dependencies, domainTransaction }
+      { event, ...dependencies, domainTransaction },
     );
 
     // then
@@ -45,7 +45,7 @@ describe('Unit | Domain | Events | handle-partner-certification', () => {
         certificationCourseId,
         userId,
         reproducibilityRate,
-        domainTransaction
+        domainTransaction,
       }).resolves(cleaCertification);
 
     });
@@ -57,13 +57,13 @@ describe('Unit | Domain | Events | handle-partner-certification', () => {
 
         // when
         await handlePartnerCertifications({
-          event, ...dependencies, domainTransaction
+          event, ...dependencies, domainTransaction,
         });
 
         // then
         expect(partnerCertificationRepository.save).to.have.been.calledWithMatch({
           partnerCertification: cleaCertification,
-          domainTransaction
+          domainTransaction,
         });
       });
     });
@@ -74,7 +74,7 @@ describe('Unit | Domain | Events | handle-partner-certification', () => {
 
         // when
         await handlePartnerCertifications({
-          event, ...dependencies, domainTransaction
+          event, ...dependencies, domainTransaction,
         });
 
         // then

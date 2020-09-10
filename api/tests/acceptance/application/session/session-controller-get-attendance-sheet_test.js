@@ -34,7 +34,7 @@ describe('Acceptance | Controller | session-controller-get-attendance-sheet', ()
       const options = {
         method: 'GET',
         url: `/api/sessions/${sessionIdAllowed}/attendance-sheet?accessToken=${token}`,
-        payload: {}
+        payload: {},
       };
       // when
       const promise = server.inject(options);
@@ -52,7 +52,7 @@ describe('Acceptance | Controller | session-controller-get-attendance-sheet', ()
       const options = {
         method: 'GET',
         url: `/api/sessions/${sessionIdNotAllowed}/attendance-sheet?accessToken=${token}`,
-        payload: {}
+        payload: {},
       };
       // when
       const promise = server.inject(options);

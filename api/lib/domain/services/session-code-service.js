@@ -28,5 +28,5 @@ module.exports = {
     const newSessionCode =  _generateSessionCode();
     const codeAvailable = await sessionRepository.isSessionCodeAvailable(newSessionCode);
     return codeAvailable ? newSessionCode : this.getNewSessionCode();
-  }
+  },
 };

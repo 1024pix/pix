@@ -11,7 +11,7 @@ describe('Unit | Utility | labels as object', function() {
         proposals: 'Clé USB : ${num1}\n\n' +
         'Carte mémoire (SD) : ${num2}\n\n' +
         'Disque dur externe : ${num3}\n\n' +
-        'CD-R / DVD-R : ${num4}'
+        'CD-R / DVD-R : ${num4}',
       };
 
       const expectedResult = {
@@ -32,7 +32,7 @@ describe('Unit | Utility | labels as object', function() {
       // given
       const challenge = {
         proposals: '- Combien le dossier “projet PIX” contient-il de dossiers ? ${Num1}\n\n' +
-        '- Combien le dossier “images” contient-il de fichiers ? ${Num2}'
+        '- Combien le dossier “images” contient-il de fichiers ? ${Num2}',
       };
 
       const expectedResult = {
@@ -54,7 +54,7 @@ describe('Unit | Utility | labels as object', function() {
         '- Programme_Pix.pdf : ${num3}\n' +
         '- lucie@pix.fr : ${num4}\n' +
         '- Programme du festival Pix : ${num5}\n' +
-        '- jeremy@pix.fr : ${num6}'
+        '- jeremy@pix.fr : ${num6}',
       };
 
       const expectedResult = {
@@ -75,13 +75,13 @@ describe('Unit | Utility | labels as object', function() {
     it('should return object with labels and if the key of the input has a placeholder (after #), it does not keep the placeholder', function() {
       // given
       const challenge = {
-        proposals: 'Nom du fichier : ${nomfichier}\nTaille (en ko) : ${taille}\nType : ${type}\nDate de modification : ${datemodif#JJ/MM/AAAA}'
+        proposals: 'Nom du fichier : ${nomfichier}\nTaille (en ko) : ${taille}\nType : ${type}\nDate de modification : ${datemodif#JJ/MM/AAAA}',
       };
       const expectedResult = {
         'nomfichier': 'Nom du fichier : ',
         'taille': 'Taille (en ko) : ',
         'type': 'Type : ',
-        'datemodif': 'Date de modification : '
+        'datemodif': 'Date de modification : ',
       };
       //when
       const result = labelsAsObject(challenge.proposals);

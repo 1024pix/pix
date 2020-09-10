@@ -22,7 +22,7 @@ describe('Unit | Service | PickChallengeService', () => {
         const challenge = await pickChallengeService.pickChallenge({
           skills,
           randomSeed,
-          locale: ENGLISH_SPOKEN
+          locale: ENGLISH_SPOKEN,
         });
 
         // then
@@ -37,7 +37,7 @@ describe('Unit | Service | PickChallengeService', () => {
         const pickChallengePromises = _.times(5, () => pickChallengeService.pickChallenge({
           skills,
           randomSeed,
-          locale: FRENCH_SPOKEN
+          locale: FRENCH_SPOKEN,
         }));
         const challenges = await Promise.all(pickChallengePromises);
 
@@ -56,7 +56,7 @@ describe('Unit | Service | PickChallengeService', () => {
           const challenge = await pickChallengeService.pickChallenge({
             skills,
             randomSeed,
-            locale: ENGLISH_SPOKEN
+            locale: ENGLISH_SPOKEN,
           });
 
           // then
@@ -72,7 +72,7 @@ describe('Unit | Service | PickChallengeService', () => {
             const challenge = await pickChallengeService.pickChallenge({
               skills,
               randomSeed,
-              locale: ENGLISH_SPOKEN
+              locale: ENGLISH_SPOKEN,
             });
 
             // then
@@ -92,7 +92,7 @@ describe('Unit | Service | PickChallengeService', () => {
         const challenge = await pickChallengeService.pickChallenge({
           skills,
           randomSeed,
-          locale: FRENCH_SPOKEN
+          locale: FRENCH_SPOKEN,
         });
 
         // then
@@ -111,7 +111,7 @@ describe('Unit | Service | PickChallengeService', () => {
         const challenge = await pickChallengeService.pickChallenge({
           skills,
           randomSeed,
-          locale: FRENCH_SPOKEN
+          locale: FRENCH_SPOKEN,
         });
 
         // then

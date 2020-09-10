@@ -19,10 +19,10 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       headers: { authorization },
       auth: {
         credentials : {
-          userId
-        }
+          userId,
+        },
       },
-      query
+      query,
     };
     const resultWithPagination = { models: [], pagination: {} };
     const result = [];
@@ -57,15 +57,15 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     const userId = 1;
     const request = {
       params: {
-        id: '5'
+        id: '5',
       },
       headers: {
-        authorization: 'token'
+        authorization: 'token',
       },
       auth: {
         credentials : {
-          userId
-        }
+          userId,
+        },
       },
     };
 
@@ -129,11 +129,11 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
                 data: {
                   id: campaignId,
                   type: 'campaigns',
-                }
-              }
-            }
-          }
-        }
+                },
+              },
+            },
+          },
+        },
       };
     });
 
@@ -186,7 +186,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
           id: campaignParticipationId,
         },
         auth: {
-          credentials: { userId }
+          credentials: { userId },
         },
         query,
       };
@@ -219,7 +219,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
 
     beforeEach(() => {
       request = {
-        params: { id: campaignParticipationId, },
+        params: { id: campaignParticipationId },
         auth: { credentials: { userId } },
       };
 

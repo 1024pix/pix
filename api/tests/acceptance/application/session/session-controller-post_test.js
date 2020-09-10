@@ -38,7 +38,7 @@ describe('Acceptance | Controller | session-controller-post', () => {
                 },
               },
             },
-          }
+          },
         },
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };

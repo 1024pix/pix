@@ -74,5 +74,5 @@ module.exports = {
     delete value.assignedToSelfOnly;
 
     return value;
-  }
+  },
 };

@@ -13,14 +13,14 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     return {
       competence_code: code,
       score: score,
-      level: level
+      level: level,
     };
   };
 
   const createMark = ({
     competence_code,
     score,
-    level
+    level,
   }) => {
     return {
       competence_code,
@@ -41,7 +41,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     createCompetence(anExistingCompetenceCode, 24, 3),
     createCompetence(anExistingCompetenceWithNoScoreCode, null, 5),
     createCompetence(anExistingCompetenceWithNoLevelCode, 40, null),
-    createCompetence(anotherExistingCompetenceCode, 33, 4)
+    createCompetence(anotherExistingCompetenceCode, 33, 4),
   ];
 
   let controller;
@@ -49,7 +49,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   hooks.beforeEach(function() {
     controller = this.owner.lookup('controller:authenticated/certifications/certification/informations');
     controller.certification =  EmberObject.create({
-      competencesWithMark
+      competencesWithMark,
     });
   });
 
@@ -147,7 +147,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       const store = this.owner.lookup('service:store');
 
       const certification = store.createRecord('certification', {
-        competencesWithMark
+        competencesWithMark,
       });
       certification.save = save;
       controller.certification = certification;
@@ -202,13 +202,13 @@ module('Unit | Controller | authenticated/certifications/certification/informati
           {
             competence_code: anExistingCompetenceCode,
             level: controller.MAX_REACHABLE_LEVEL + 1,
-            score: controller.MAX_REACHABLE_PIX_BY_COMPETENCE
+            score: controller.MAX_REACHABLE_PIX_BY_COMPETENCE,
           });
         controller.certification.competencesWithMark.addObject(
           {
             competence_code: anotherExistingCompetenceCode,
             level: controller.MAX_REACHABLE_LEVEL,
-            score: controller.MAX_REACHABLE_PIX_BY_COMPETENCE + 1
+            score: controller.MAX_REACHABLE_PIX_BY_COMPETENCE + 1,
           },
         );
 

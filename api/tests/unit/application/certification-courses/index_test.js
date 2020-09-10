@@ -27,7 +27,7 @@ describe('Unit | Application | Certifications Course | Route', function() {
       // given
       const options = {
         method: 'GET',
-        url: '/api/admin/certifications/1234/details'
+        url: '/api/admin/certifications/1234/details',
       };
 
       // when
@@ -45,7 +45,7 @@ describe('Unit | Application | Certifications Course | Route', function() {
       // given
       const options = {
         method: 'GET',
-        url: '/api/admin/certifications/1234'
+        url: '/api/admin/certifications/1234',
       };
 
       // when
@@ -62,7 +62,7 @@ describe('Unit | Application | Certifications Course | Route', function() {
       // given
       const options = {
         method: 'PATCH',
-        url: '/api/certification-courses/1234'
+        url: '/api/certification-courses/1234',
       };
 
       // when
@@ -79,7 +79,7 @@ describe('Unit | Application | Certifications Course | Route', function() {
       // given
       const options = {
         method: 'POST',
-        url: '/api/certification-courses'
+        url: '/api/certification-courses',
       };
 
       // when
@@ -98,7 +98,7 @@ describe('Unit | Application | Certifications Course | Route', function() {
       // given
       const options = {
         method: 'GET',
-        url: '/api/certification-courses/1234'
+        url: '/api/certification-courses/1234',
       };
 
       // when

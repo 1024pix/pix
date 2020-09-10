@@ -13,7 +13,7 @@ module.exports = {
 
 function getPredictedLevel(knowledgeElements, skills) {
   return _.maxBy(_enumerateCatLevels(),
-    (level) => _probabilityThatUserHasSpecificLevel(level, knowledgeElements, skills)
+    (level) => _probabilityThatUserHasSpecificLevel(level, knowledgeElements, skills),
   );
 }
 
@@ -46,7 +46,7 @@ function _probabilityThatUserHasSpecificLevel(level, knowledgeElements, skills) 
 function findMaxRewardingSkills(...args) {
   return pipe(
     _getMaxRewardingSkills,
-    _clearSkillsIfNotRewarding
+    _clearSkillsIfNotRewarding,
   )(...args);
 }
 

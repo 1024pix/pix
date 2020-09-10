@@ -36,5 +36,5 @@ module.exports = {
     const tubeDatas = await tubeDatasource.findByNames(tubeNames);
     const tubes = _.map(tubeDatas, (tubeData) => _toDomain({ tubeData, locale }));
     return _.orderBy(tubes, (tube) => tube.name.toLowerCase());
-  }
+  },
 };

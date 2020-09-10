@@ -23,7 +23,7 @@ export default class GoogleRecaptchaService extends Service {
       const parameters = {
         'callback': callback,
         'expired-callback': expiredCallback,
-        'sitekey': config.APP.GOOGLE_RECAPTCHA_KEY
+        'sitekey': config.APP.GOOGLE_RECAPTCHA_KEY,
       };
       grecaptcha.render(containerId, parameters);
     }

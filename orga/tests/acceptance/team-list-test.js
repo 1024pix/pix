@@ -5,7 +5,7 @@ import { authenticateSession } from 'ember-simple-auth/test-support';
 
 import {
   createUserMembershipWithRole,
-  createPrescriberByUser
+  createPrescriberByUser,
 } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -96,7 +96,7 @@ module('Acceptance | Team List', function(hooks) {
         const organizationId = server.db.organizations[0].id;
         server.create('organization-invitation', {
           organizationId,
-          createdAt: new Date()
+          createdAt: new Date(),
         });
 
         // when

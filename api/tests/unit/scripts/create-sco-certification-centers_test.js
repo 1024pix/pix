@@ -10,11 +10,11 @@ describe('Unit | Scripts | create-sco-certification-centers.js', () => {
       // given
       const certificationCenters = [
         { name: '  Collège Victor Hugo   ', uai: '1234567a' },
-        { name: '  Lycée Marie Curie     ', uai: '0123456b' }
+        { name: '  Lycée Marie Curie     ', uai: '0123456b' },
       ];
       const expectedResult = [
         { name: 'Collège Victor Hugo', externalId: '1234567a', type: 'SCO' },
-        { name: 'Lycée Marie Curie', externalId: '0123456b', type: 'SCO' }
+        { name: 'Lycée Marie Curie', externalId: '0123456b', type: 'SCO' },
       ];
 
       // when

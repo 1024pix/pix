@@ -32,9 +32,9 @@ describe('Unit | Domain | Models | Organization', () => {
         email: 'jr@lycee.fr',
         targetProfileShares: [
           {
-            targetProfile: []
-          }
-        ]
+            targetProfile: [],
+          },
+        ],
       };
       // when
       const organization = new Organization(rawData);

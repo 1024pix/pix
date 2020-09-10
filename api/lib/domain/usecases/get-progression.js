@@ -25,7 +25,7 @@ module.exports = async function getProgression(
 
     const knowledgeElementsForProgression = await improvementService.filterKnowledgeElementsIfImproving({
       knowledgeElements: knowledgeElementsBeforeSharedDate,
-      assessment
+      assessment,
     });
 
     progression = new Progression({
@@ -40,18 +40,18 @@ module.exports = async function getProgression(
     const competenceEvaluation = await competenceEvaluationRepository.getByAssessmentId(assessmentId);
     const [targetedSkills, knowledgeElements] = await Promise.all([
       skillRepository.findActiveByCompetenceId(competenceEvaluation.competenceId),
-      knowledgeElementRepository.findUniqByUserId({ userId })]
+      knowledgeElementRepository.findUniqByUserId({ userId })],
     );
     const knowledgeElementsForProgression = await improvementService.filterKnowledgeElementsIfImproving({
       knowledgeElements,
-      assessment
+      assessment,
     });
 
     progression = new Progression({
       id: progressionId,
       targetedSkills,
       knowledgeElements: knowledgeElementsForProgression,
-      isProfileCompleted: assessment.isCompleted()
+      isProfileCompleted: assessment.isCompleted(),
     });
   }
 

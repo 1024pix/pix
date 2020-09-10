@@ -38,5 +38,5 @@ function usernameObfuscation(username) {
 module.exports = {
   usernameObfuscation,
   emailObfuscation,
-  getUserAuthenticationMethodWithObfuscation
+  getUserAuthenticationMethodWithObfuscation,
 };

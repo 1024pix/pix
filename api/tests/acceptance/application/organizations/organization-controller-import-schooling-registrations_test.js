@@ -28,7 +28,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
       databaseBuilder.factory.buildMembership({
         organizationId,
         userId: connectedUser.id,
-        organizationRole: Membership.roles.ADMIN
+        organizationRole: Membership.roles.ADMIN,
       });
       await databaseBuilder.commit();
 
@@ -427,13 +427,13 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
             lastName: 'LALOUX',
             firstName: 'RENE',
             nationalStudentId: '123',
-            organizationId
+            organizationId,
           });
           databaseBuilder.factory.buildSchoolingRegistration({
             lastName: 'UEMATSU',
             firstName: 'NOBUO',
             nationalStudentId: '456',
-            organizationId
+            organizationId,
           });
 
           await databaseBuilder.commit();
@@ -534,13 +534,13 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
             lastName: 'LALOUX',
             firstName: 'RENE',
             nationalStudentId: '456',
-            organizationId
+            organizationId,
           });
           databaseBuilder.factory.buildSchoolingRegistration({
             lastName: 'UEMATSU',
             firstName: 'NOBUO',
             nationalStudentId: '789',
-            organizationId
+            organizationId,
           });
 
           await databaseBuilder.commit();
@@ -647,7 +647,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
             lastName: 'LALOUX',
             firstName: 'RENE',
             nationalStudentId: '789',
-            organizationId
+            organizationId,
           });
 
           await databaseBuilder.commit();
@@ -775,7 +775,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: false }).id;
           const userId = databaseBuilder.factory.buildUser.withMembership({
             organizationId,
-            organizationRole: Membership.roles.ADMIN
+            organizationRole: Membership.roles.ADMIN,
           }).id;
           await databaseBuilder.commit();
 
@@ -798,7 +798,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true }).id;
           const userId = databaseBuilder.factory.buildUser.withMembership({
             organizationId,
-            organizationRole: Membership.roles.ADMIN
+            organizationRole: Membership.roles.ADMIN,
           }).id;
           await databaseBuilder.commit();
 
@@ -821,7 +821,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
           const userId = databaseBuilder.factory.buildUser.withMembership({
             organizationId,
-            organizationRole: Membership.roles.MEMBER
+            organizationRole: Membership.roles.MEMBER,
           }).id;
           await databaseBuilder.commit();
 

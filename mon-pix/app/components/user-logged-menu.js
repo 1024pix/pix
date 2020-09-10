@@ -11,7 +11,7 @@ import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import {
   EKMixin as EmberKeyboardMixin,
-  keyDown
+  keyDown,
 } from 'ember-keyboard';
 
 @classic

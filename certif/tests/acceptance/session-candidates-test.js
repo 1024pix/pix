@@ -97,7 +97,7 @@ module('Acceptance | Session Candidates', function(hooks) {
 
           test('it should leave the line up for modification', async function(assert) {
             this.server.post('/sessions/:id/certification-candidates', () => ({
-              errors: [ 'Invalid data' ]
+              errors: [ 'Invalid data' ],
             }), 400);
             // when
             await click('[data-test-id="add-certification-candidate-staging__button"]');
@@ -115,7 +115,7 @@ module('Acceptance | Session Candidates', function(hooks) {
 
           test('it should display notification error', async function(assert) {
             this.server.post('/sessions/:id/certification-candidates', () => ({
-              errors: [ 'Invalid data' ]
+              errors: [ 'Invalid data' ],
             }), 400);
             // when
             await click('[data-test-id="add-certification-candidate-staging__button"]');

@@ -24,5 +24,5 @@ module.exports = Bookshelf.model(modelName, {
     return this.hasMany('Stage', 'targetProfileId');
   },
 }, {
-  modelName
+  modelName,
 });

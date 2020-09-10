@@ -24,6 +24,6 @@ module.exports = async function getPrivateCertificate({
     certificate,
     cleaCertificationStatusRepository,
     assessmentResultRepository,
-    competenceTreeRepository
+    competenceTreeRepository,
   });
 };

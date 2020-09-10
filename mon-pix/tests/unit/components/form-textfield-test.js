@@ -16,7 +16,7 @@ describe('Unit | Component | signupTextfieldComponent', function() {
       { renderingIntent: 'text', inputId: 'shi' },
       { renderingIntent: 'text', inputId: '' },
       { renderingIntent: 'email', inputId: 'email' },
-      { renderingIntent: 'password', inputId: 'password' }
+      { renderingIntent: 'password', inputId: 'password' },
     ].forEach(({ renderingIntent, inputId }) => {
       it(`an ${renderingIntent} when input id is ${inputId}`, function() {
         // given

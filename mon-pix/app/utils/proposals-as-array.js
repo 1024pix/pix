@@ -9,7 +9,7 @@ import drop from 'lodash/fp/drop';
 const calculate = flow(
   thru((e) => '\n' + e),
   split(/\n\s*-\s*/),
-  drop(1)
+  drop(1),
 );
 
 export default function proposalsAsArray(proposals) {

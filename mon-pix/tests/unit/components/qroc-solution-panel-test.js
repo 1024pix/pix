@@ -37,7 +37,7 @@ describe('Unit | Component | qroc-solution-panel', function() {
     it('should return PAS DE REPONSE if the answer is #ABAND#', function() {
       // given
       const answer = {
-        value: '#ABAND#'
+        value: '#ABAND#',
       };
       const component = this.owner.lookup('component:qroc-solution-panel');
       component.set('answer', answer);
@@ -50,7 +50,7 @@ describe('Unit | Component | qroc-solution-panel', function() {
     it('should return the answer if the answer is not #ABAND#', function() {
       // given
       const answer = {
-        value: 'La Reponse B'
+        value: 'La Reponse B',
       };
       const component = this.owner.lookup('component:qroc-solution-panel');
       component.set('answer', answer);

@@ -20,7 +20,7 @@ describe('Integration | Repository | Session', function() {
         examiner: 'Michel Essentiel',
         date: '2017-12-08',
         time: '14:30',
-        description: 'Première certification EVER !!!'
+        description: 'Première certification EVER !!!',
       });
 
       await databaseBuilder.commit();
@@ -62,7 +62,7 @@ describe('Integration | Repository | Session', function() {
         date: '2018-02-23',
         time: '12:00',
         description: 'The lost examen',
-        accessCode: 'ABC123'
+        accessCode: 'ABC123',
       });
 
       return databaseBuilder.commit();
@@ -134,7 +134,7 @@ describe('Integration | Repository | Session', function() {
         date: '2018-02-23',
         time: '12:00:00',
         description: 'CertificationPix pour les jeunes',
-        accessCode: 'NJR10'
+        accessCode: 'NJR10',
       });
       expectedSessionValues = {
         'id': session.id,
@@ -182,7 +182,7 @@ describe('Integration | Repository | Session', function() {
         date: '2018-02-23',
         time: '12:00:00',
         description: 'CertificationPix pour les jeunes',
-        accessCode: 'NJR10'
+        accessCode: 'NJR10',
       });
       expectedSessionValues = {
         'id': session.id,
@@ -289,35 +289,35 @@ describe('Integration | Repository | Session', function() {
           id: 1,
           date: '2017-12-08',
           time: '14:00',
-          certificationCenterId
+          certificationCenterId,
         });
         databaseBuilder.factory.buildSession({
           id: 2,
           date: '2017-12-08',
           time: '16:00',
-          certificationCenterId
+          certificationCenterId,
         });
         databaseBuilder.factory.buildSession({
           id: 3,
           date: '2017-12-09',
           time: '09:00',
-          certificationCenterId
+          certificationCenterId,
         });
         databaseBuilder.factory.buildSession({
           id: 4,
           date: '2017-12-07',
           time: '10:00',
-          certificationCenterId
+          certificationCenterId,
         });
         databaseBuilder.factory.buildSession({
           id: 5,
           date: '2017-12-07',
-          certificationCenterId: undefined
+          certificationCenterId: undefined,
         });
         databaseBuilder.factory.buildSession({
           id: 6,
           date: '2017-12-07',
-          certificationCenterId: certificationCenter2.id
+          certificationCenterId: certificationCenter2.id,
         });
 
         return databaseBuilder.commit();

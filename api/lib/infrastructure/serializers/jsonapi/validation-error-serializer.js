@@ -37,7 +37,7 @@ function serialize(validationErrors) {
   });
 
   return {
-    errors
+    errors,
   };
 }
 

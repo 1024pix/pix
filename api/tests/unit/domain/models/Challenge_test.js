@@ -187,7 +187,7 @@ describe('Unit | Domain | Models | Challenge', () => {
       const challenge = domainBuilder.buildChallenge({ skills: [s1] });
       const knowledgeElements = [];
       const targetProfile = {
-        skills: [s1]
+        skills: [s1],
       };
       // when
       const response = challenge.haveAllSkillsAlreadyBeenTested(knowledgeElements, targetProfile.skills);
@@ -201,7 +201,7 @@ describe('Unit | Domain | Models | Challenge', () => {
       const challenge = domainBuilder.buildChallenge({ skills: [s1] });
       const knowledgeElements = [domainBuilder.buildKnowledgeElement({ skillId: s1.id })];
       const targetProfile = {
-        skills: [s1]
+        skills: [s1],
       };
       // when
       const response = challenge.haveAllSkillsAlreadyBeenTested(knowledgeElements, targetProfile);
@@ -216,7 +216,7 @@ describe('Unit | Domain | Models | Challenge', () => {
       const knowledgeElements = [
         domainBuilder.buildKnowledgeElement({ skillId: s1.id })];
       const targetProfile = {
-        skills: [s1, s2, s3]
+        skills: [s1, s2, s3],
       };
       // when
       const response = challenge.haveAllSkillsAlreadyBeenTested(knowledgeElements, targetProfile.skills);
@@ -231,7 +231,7 @@ describe('Unit | Domain | Models | Challenge', () => {
       const knowledgeElements = [
         domainBuilder.buildKnowledgeElement({ skillId: s1.id })];
       const targetProfile = {
-        skills: [s1]
+        skills: [s1],
       };
       // when
       const response = challenge.haveAllSkillsAlreadyBeenTested(knowledgeElements, targetProfile.skills);

@@ -6,14 +6,14 @@ module.exports = function(defaults) {
   const app = new EmberApp(defaults, {
     sourcemaps: { enabled: true },
     babel: {
-      sourceMaps: 'inline'
+      sourceMaps: 'inline',
     },
     'ember-cli-template-lint': {
-      testGenerator: 'qunit' // or 'mocha', etc.
+      testGenerator: 'qunit', // or 'mocha', etc.
     },
 
     'ember-cli-babel': {
-      includePolyfill: true
+      includePolyfill: true,
     },
   });
 

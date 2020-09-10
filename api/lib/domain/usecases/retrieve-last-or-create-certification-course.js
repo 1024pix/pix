@@ -23,7 +23,7 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   const existingCertificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
     userId,
     sessionId,
-    domainTransaction
+    domainTransaction,
   });
   if (existingCertificationCourse) {
     return {
@@ -49,7 +49,7 @@ async function _getCertificationCourseIfCreatedMeanwhile(certificationCourseRepo
   return await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
     userId,
     sessionId,
-    domainTransaction
+    domainTransaction,
   });
 }
 
@@ -86,7 +86,7 @@ async function _startNewCertification({
 
   const savedCertificationCourse = await certificationCourseRepository.save({
     certificationCourse: newCertificationCourse,
-    domainTransaction
+    domainTransaction,
   });
 
   const newAssessment = Assessment.createForCertificationCourse({ userId, certificationCourseId: savedCertificationCourse.id });

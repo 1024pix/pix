@@ -33,8 +33,8 @@ describe('Unit | Serializer | JSONAPI | UserWithSchoolingRegistration-serializer
             'email': userWithSchoolingRegistration.email,
             'is-authenticated-from-gar': false,
             'student-number': userWithSchoolingRegistration.studentNumber,
-          }
-        }
+          },
+        },
       };
 
       // when

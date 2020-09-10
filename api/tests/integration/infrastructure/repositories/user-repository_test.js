@@ -5,7 +5,7 @@ const _ = require('lodash');
 
 const {
   AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError, SchoolingRegistrationAlreadyLinkedToUserError,
-  NotFoundError, UserNotFoundError
+  NotFoundError, UserNotFoundError,
 } = require('../../../../lib/domain/errors');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const User = require('../../../../lib/domain/models/User');
@@ -45,14 +45,14 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     membershipInDB = databaseBuilder.factory.buildMembership({
       userId: userInDB.id,
       organizationRole: organizationRoleInDB,
-      organizationId: organizationInDB.id
+      organizationId: organizationInDB.id,
     });
 
     certificationCenterInDB = databaseBuilder.factory.buildCertificationCenter();
 
     certificationCenterMembershipInDB = databaseBuilder.factory.buildCertificationCenterMembership({
       userId: userInDB.id,
-      certificationCenterId: certificationCenterInDB.id
+      certificationCenterId: certificationCenterInDB.id,
     });
 
     return databaseBuilder.commit();
@@ -1284,7 +1284,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     it('should throw AlreadyRegisteredUsernameError when username already exist', async () => {
       // given
       databaseBuilder.factory.buildUser({
-        username
+        username,
       });
       await databaseBuilder.commit();
 

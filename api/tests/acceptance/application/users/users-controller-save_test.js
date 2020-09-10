@@ -101,7 +101,7 @@ describe('Acceptance | Controller | users-controller', () => {
             homeUrl: 'https://pix.fr',
             locale: 'fr-fr',
             redirectionUrl: 'https://app.pix.fr/connexion',
-          }
+          },
         };
 
         // when

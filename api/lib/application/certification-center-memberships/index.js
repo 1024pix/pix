@@ -18,9 +18,9 @@ exports.register = async function(server) {
           '- Création d‘un lien entre un utilisateur et un centre de certification\n' +
           '- L‘utilisateur doit avoir les droits d‘accès en tant que Pix Master',
         ],
-        tags: ['api', 'certification-center-membership']
-      }
-    }
+        tags: ['api', 'certification-center-membership'],
+      },
+    },
   ]);
 };
 

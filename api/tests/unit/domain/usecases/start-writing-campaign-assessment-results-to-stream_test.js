@@ -23,47 +23,47 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
         status: 'validated',
         pixScore: 2,
         skillId: skillWeb1.id,
-        createdAt: moment().subtract(2, 'days').toDate()
+        createdAt: moment().subtract(2, 'days').toDate(),
       }),
       domainBuilder.buildKnowledgeElement({
         status: 'validated',
         pixScore: 2,
         skillId: skillWeb2.id,
-        createdAt: moment().subtract(2, 'days').toDate()
+        createdAt: moment().subtract(2, 'days').toDate(),
       }),
       domainBuilder.buildKnowledgeElement({
         status: 'validated',
         pixScore: 2,
         skillId: skillWeb3.id,
-        createdAt: moment().subtract(2, 'days').toDate()
+        createdAt: moment().subtract(2, 'days').toDate(),
       }),
       domainBuilder.buildKnowledgeElement({
         status: 'invalidated',
         pixScore: 2,
         skillId: skillWeb4.id,
-        createdAt: moment().subtract(2, 'days').toDate()
+        createdAt: moment().subtract(2, 'days').toDate(),
       }),
       domainBuilder.buildKnowledgeElement({
         status: 'invalidated',
         pixScore: 2,
         skillId: skillWeb5.id,
-        createdAt: moment().subtract(2, 'days').toDate()
+        createdAt: moment().subtract(2, 'days').toDate(),
       }),
       domainBuilder.buildKnowledgeElement({
         status: 'validated',
         skillId: skillUrl1.id,
-        createdAt: moment().subtract(2, 'days').toDate()
+        createdAt: moment().subtract(2, 'days').toDate(),
       }),
       domainBuilder.buildKnowledgeElement({
         status: 'validated',
         skillId: skillUrl2.id,
-        createdAt: moment().subtract(2, 'days').toDate()
+        createdAt: moment().subtract(2, 'days').toDate(),
       }),
 
     ];
 
     const targetProfile = domainBuilder.buildTargetProfile({
-      skills: listSkills, name: '+Profile 1'
+      skills: listSkills, name: '+Profile 1',
     });
 
     const campaign = domainBuilder.buildCampaign.ofTypeAssessment({
@@ -165,7 +165,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
         organizationRepository,
         campaignParticipationInfoRepository,
         knowledgeElementRepository,
-        campaignCsvExportService
+        campaignCsvExportService,
       });
 
       const csv = await csvPromise;
@@ -226,7 +226,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           organizationRepository,
           campaignParticipationInfoRepository,
           knowledgeElementRepository,
-          campaignCsvExportService
+          campaignCsvExportService,
         });
 
         const csv = await csvPromise;
@@ -293,7 +293,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           organizationRepository,
           campaignParticipationInfoRepository,
           knowledgeElementRepository,
-          campaignCsvExportService
+          campaignCsvExportService,
         });
 
         const csv = await csvPromise;
@@ -360,7 +360,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           organizationRepository,
           campaignParticipationInfoRepository,
           knowledgeElementRepository,
-          campaignCsvExportService
+          campaignCsvExportService,
         });
 
         const csv = await csvPromise;
@@ -374,11 +374,11 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     context('when the campaign participation result is not completed', () => {
       const skillList = [
         domainBuilder.buildSkill({ competenceId: 'recCompetence1' }),
-        domainBuilder.buildSkill({ competenceId: 'recCompetence1' })
+        domainBuilder.buildSkill({ competenceId: 'recCompetence1' }),
       ];
 
       const targetProfile = domainBuilder.buildTargetProfile({
-        skills: skillList
+        skills: skillList,
       });
 
       const knowledgeElements = [
@@ -441,7 +441,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           organizationRepository,
           campaignParticipationInfoRepository,
           knowledgeElementRepository,
-          campaignCsvExportService
+          campaignCsvExportService,
         });
 
         const csv = await csvPromise;
@@ -538,7 +538,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           organizationRepository,
           campaignParticipationInfoRepository,
           knowledgeElementRepository,
-          campaignCsvExportService
+          campaignCsvExportService,
         });
 
         const csv = await csvPromise;
@@ -653,7 +653,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
               organizationRepository,
               campaignParticipationInfoRepository,
               knowledgeElementRepository,
-              campaignCsvExportService
+              campaignCsvExportService,
             });
 
             const csv = await csvPromise;
@@ -752,7 +752,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
               organizationRepository,
               campaignParticipationInfoRepository,
               knowledgeElementRepository,
-              campaignCsvExportService
+              campaignCsvExportService,
             });
 
             const csv = await csvPromise;
@@ -772,7 +772,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
             name: 'CampaignName',
             code: 'AZERTY123',
             organizationId: organization.id,
-            idPixLabel: null
+            idPixLabel: null,
           });
           organizationRepository.get.resolves(organization);
           campaignRepository.get.resolves(campaign);
@@ -857,7 +857,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
             organizationRepository,
             campaignParticipationInfoRepository,
             knowledgeElementRepository,
-            campaignCsvExportService
+            campaignCsvExportService,
           });
 
           const csv = await csvPromise;

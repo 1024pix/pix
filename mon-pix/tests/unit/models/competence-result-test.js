@@ -23,10 +23,10 @@ describe('Unit | Model | Competence-Result', function() {
     it('should retrieve 100 since the competence is the highest number of total skills count', function() {
       const competenceResult = store.createRecord('competence-result');
       const otherCompetenceResult = store.createRecord('competence-result', {
-        totalSkillsCount: 1
+        totalSkillsCount: 1,
       });
       const campaignParticipationResult = store.createRecord('campaign-participation-result', {
-        competenceResults: [otherCompetenceResult, competenceResult]
+        competenceResults: [otherCompetenceResult, competenceResult],
       });
 
       competenceResult.set('totalSkillsCount', 2);
@@ -42,10 +42,10 @@ describe('Unit | Model | Competence-Result', function() {
     it('should retrieve 25 since the competence is not the highest number of total skills count', function() {
       const competenceResult = store.createRecord('competence-result');
       const otherCompetenceResult = store.createRecord('competence-result', {
-        totalSkillsCount: 4
+        totalSkillsCount: 4,
       });
       const campaignParticipationResult = store.createRecord('campaign-participation-result', {
-        competenceResults: [otherCompetenceResult, competenceResult]
+        competenceResults: [otherCompetenceResult, competenceResult],
       });
 
       competenceResult.set('totalSkillsCount', 1);

@@ -68,7 +68,7 @@ module.exports = {
       .fetchPage({
         withRelated: ['user'],
         page: pageNumber,
-        pageSize
+        pageSize,
       });
     const memberships = bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, models);
     return { models: memberships, pagination };
@@ -96,13 +96,13 @@ module.exports = {
     return new BookshelfMembership({ id })
       .save(membershipAttributes, { patch: true, method: 'update', require: true })
       .then((updatedMembership) => updatedMembership.refresh({
-        withRelated: ['user', 'organization']
+        withRelated: ['user', 'organization'],
       }))
       .then(
         (membership) => bookshelfToDomainConverter.buildDomainObject(BookshelfMembership, membership),
         (err) => {
           throw new MembershipUpdateError(err.message);
-        }
+        },
       );
   },
 

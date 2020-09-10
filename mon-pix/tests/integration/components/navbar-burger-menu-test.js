@@ -17,7 +17,7 @@ describe('Integration | Component | navbar-burger-menu', function() {
       user: {
         email: 'bobby.carotte@example.net',
         fullName: 'Bobby Carotte',
-      }
+      },
     }));
 
     await render(hbs`{{navbar-burger-menu}}`);

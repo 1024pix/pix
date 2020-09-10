@@ -10,7 +10,7 @@ describe('Unit | Utils | Request Utils', function() {
       // given
       const userId = 4;
       const request = {
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
       // when
       const result = extractUserIdFromRequest(request);
@@ -69,7 +69,7 @@ describe('Unit | Utils | Request Utils', function() {
       it(`should return ${data.expectedLocale} locale when header is ${data.header}`, function() {
         // given
         const request = {
-          headers: { 'accept-language': data.header }
+          headers: { 'accept-language': data.header },
         };
 
         // when

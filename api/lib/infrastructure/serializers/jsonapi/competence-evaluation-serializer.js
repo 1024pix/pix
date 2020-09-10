@@ -20,9 +20,9 @@ module.exports = {
         relationshipLinks: {
           related: function(record) {
             return `/api/scorecards/${record.userId}_${record.competenceId}`;
-          }
-        }
-      }
+          },
+        },
+      },
     }).serialize(competenceEvaluations);
   },
 };

@@ -88,7 +88,7 @@ async function _saveResult({
     certificationAssessment,
     certificationAssessmentScore,
     assessmentResultRepository,
-    domainTransaction
+    domainTransaction,
   });
 
   await bluebird.mapSeries(certificationAssessmentScore.competenceMarks, (competenceMark) => {

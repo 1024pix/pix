@@ -13,7 +13,7 @@ describe('Unit | Scripts | create-certification-center-memberships-from-organiza
 
       const expectedCertificationCenterMemberships = [
         { certificationCenterId, userId: 1 },
-        { certificationCenterId, userId: 5 }
+        { certificationCenterId, userId: 5 },
       ];
 
       // when

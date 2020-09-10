@@ -8,7 +8,7 @@ module.exports = {
 
 function buildDomainObjects(BookshelfClass, bookshelfObjects) {
   return bookshelfObjects.map(
-    (bookshelfObject) => buildDomainObject(BookshelfClass, bookshelfObject)
+    (bookshelfObject) => buildDomainObject(BookshelfClass, bookshelfObject),
   );
 }
 
@@ -31,13 +31,13 @@ function _buildDomainObject(BookshelfClass, bookshelfObjectJson) {
     if ((relationshipType === 'belongsTo' || relationshipType === 'hasOne') && _.isObject(bookshelfObjectJson[key])) {
       return _buildDomainObject(
         relationshipClass,
-        bookshelfObjectJson[key]
+        bookshelfObjectJson[key],
       );
     }
 
     if ((relationshipType === 'hasMany') && _.isArray(bookshelfObjectJson[key])) {
       return bookshelfObjectJson[key].map(
-        (bookshelfObject) => _buildDomainObject(relationshipClass, bookshelfObject)
+        (bookshelfObject) => _buildDomainObject(relationshipClass, bookshelfObject),
       );
     }
 

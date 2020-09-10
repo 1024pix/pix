@@ -16,15 +16,15 @@ function buildRequestObject(baseUrl, authToken, assessmentId) {
         'relationships': {
           'assessment': {
             'data':{
-              'id':assessmentId
-            }
+              'id':assessmentId,
+            },
 
-          }
-        }
-      }
+          },
+        },
+      },
     },
     url: '/api/assessment-results?recompute=true',
-    json: true
+    json: true,
   };
   return request;
 }

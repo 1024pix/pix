@@ -16,18 +16,18 @@ function buildRequestObject(baseUrl, assessmentId) {
       data: {
         attributes: {
           'estimated-level': null,
-          'pix-score': null
+          'pix-score': null,
         },
         relationships: {
           assessment: {
             data: {
               type: 'assessments',
-              id: assessmentId
-            }
-          }
+              id: assessmentId,
+            },
+          },
         },
-        type: 'assessment-results'
-      }
+        type: 'assessment-results',
+      },
     },
   };
 }
@@ -37,7 +37,7 @@ function main() {
   const ids = parseArgs(process.argv);
   const requests = Promise.all(
     ids.map((id) => buildRequestObject(baseUrl, id))
-      .map((requestObject) => request(requestObject))
+      .map((requestObject) => request(requestObject)),
   );
 
   return requests.then(() => {

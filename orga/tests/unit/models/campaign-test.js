@@ -9,7 +9,7 @@ module('Unit | Model | campaign', function(hooks) {
     const store = this.owner.lookup('service:store');
     const model = run(() => store.createRecord('campaign', {
       name: 'Fake name',
-      code: 'ABC123'
+      code: 'ABC123',
     }));
     assert.equal(model.name, 'Fake name');
     assert.equal(model.code, 'ABC123');
@@ -22,7 +22,7 @@ module('Unit | Model | campaign', function(hooks) {
       name: 'Fake name',
       code: 'ABC123',
       tokenForCampaignResults: 'token',
-      type: 'ASSESSMENT'
+      type: 'ASSESSMENT',
     }));
     assert.equal(model.urlToResult, 'http://localhost:3000/api/campaigns/1/csv-assessment-results?accessToken=token');
   });
@@ -34,7 +34,7 @@ module('Unit | Model | campaign', function(hooks) {
       name: 'Fake name',
       code: 'ABC123',
       tokenForCampaignResults: 'token',
-      type: 'PROFILES_COLLECTION'
+      type: 'PROFILES_COLLECTION',
     }));
     assert.equal(model.urlToResult, 'http://localhost:3000/api/campaigns/1/csv-profiles-collection-results?accessToken=token');
   });

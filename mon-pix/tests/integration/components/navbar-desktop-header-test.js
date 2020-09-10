@@ -62,9 +62,9 @@ describe('Integration | Component | navbar-desktop-header', function() {
           authenticated: {
             token: 'aaa.eyJ1c2VyX2lkIjoxLCJzb3VyY2UiOiJwaXgiLCJpYXQiOjE1NDUyMTg5MDh9.bbbb',
             userId: 1,
-            source: 'pix'
-          }
-        }
+            source: 'pix',
+          },
+        },
       }));
       setBreakpoint('desktop');
       await render(hbs`<NavbarDesktopHeader/>}`);

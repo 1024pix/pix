@@ -57,7 +57,7 @@ module.exports = {
             challengeId: challenge.id,
             competenceId: skill.competenceId,
             associatedSkillName: skill.name,
-            associatedSkillId: skill.id
+            associatedSkillId: skill.id,
           });
           certificationChallengesByCompetence = _addUniqueCertificationChallengeForCompetence(certificationChallengesByCompetence, certificationChallenge);
         }

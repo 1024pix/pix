@@ -41,9 +41,9 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
                       {
                         id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
                         statut: '', // unoperative
-                        langues: ['Franco Français']
-                      }
-                    ]
+                        langues: ['Franco Français'],
+                      },
+                    ],
                   },
                   {
                     id: 'recArea1_Competence1_Tube1_Skill2',
@@ -52,16 +52,16 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
                       {
                         id: 'recArea1_Competence1_Tube1_Skill2_Challenge1',
                         statut: 'validé', // operative
-                        langues: ['Franco Français']
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+                        langues: ['Franco Français'],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
     ];
 
     const airtableObjects = airtableBuilder.factory.buildLearningContent(learningContent);
@@ -85,7 +85,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     });
     const placementProfile = await placementProfileService.getPlacementProfile({
       userId: certifiableUserId,
-      limitDate: certificationDate
+      limitDate: certificationDate,
     });
 
     // when
@@ -115,9 +115,9 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
                       {
                         id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
                         statut: 'validé',
-                        langues: ['Anglais', 'Français']
-                      }
-                    ]
+                        langues: ['Anglais', 'Français'],
+                      },
+                    ],
                   },
                   {
                     id: 'recArea1_Competence1_Tube1_Skill2',
@@ -127,16 +127,16 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
                       {
                         id: 'recArea1_Competence1_Tube1_Skill2_Challenge1',
                         statut: 'validé',
-                        langues: ['Franco Français']
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+                        langues: ['Franco Français'],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
     ];
 
     const airtableObjects = airtableBuilder.factory.buildLearningContent(learningContent);
@@ -148,7 +148,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       skillId: 'recArea1_Competence1_Tube1_Skill1',
       challengeId: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
       pixValue: sufficientPixValueToBeCertifiableOnCompetence,
-      acquisitionDate: placementDate
+      acquisitionDate: placementDate,
     });
     await _buildCorrectAnswerAndKnowledgeElement({
       userId: certifiableUserId,
@@ -156,12 +156,12 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       skillId: 'recArea1_Competence1_Tube1_Skill2',
       challengeId: 'recArea1_Competence1_Tube1_Skill2_Challenge1',
       pixValue: sufficientPixValueToBeCertifiableOnCompetence,
-      acquisitionDate: placementDate
+      acquisitionDate: placementDate,
     });
     await databaseBuilder.commit();
     const placementProfile = await placementProfileService.getPlacementProfile({
       userId: certifiableUserId,
-      limitDate: certificationDate
+      limitDate: certificationDate,
     });
 
     // when
@@ -191,13 +191,13 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
                       {
                         id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
                         statut: 'validé',
-                        langues: ['Franco Français']
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
+                        langues: ['Franco Français'],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
           },
           {
             id: 'recArea1_Competence2',
@@ -213,16 +213,16 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
                       {
                         id: 'recArea1_Competence2_Tube1_Skill1_Challenge1',
                         statut: 'validé',
-                        langues: ['Franco Français']
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+                        langues: ['Franco Français'],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
     ];
 
     const airtableObjects = airtableBuilder.factory.buildLearningContent(learningContent);
@@ -234,7 +234,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       skillId: 'recArea1_Competence1_Tube1_Skill1',
       challengeId: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
       pixValue: unsufficientPixValueToBeCertifiableOnCompetence,
-      acquisitionDate: placementDate
+      acquisitionDate: placementDate,
     });
     await _buildCorrectAnswerAndKnowledgeElement({
       userId: certifiableUserId,
@@ -242,11 +242,11 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       skillId: 'recArea1_Competence2_Tube1_Skill1',
       challengeId: 'recArea1_Competence2_Tube1_Skill1_Challenge1',
       pixValue: sufficientPixValueToBeCertifiableOnCompetence,
-      acquisitionDate: placementDate
+      acquisitionDate: placementDate,
     });
     const placementProfile = await placementProfileService.getPlacementProfile({
       userId: certifiableUserId,
-      limitDate: certificationDate
+      limitDate: certificationDate,
     });
 
     // when
@@ -277,13 +277,13 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
                       {
                         id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
                         statut: 'validé',
-                        langues: ['Franco Français']
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
+                        langues: ['Franco Français'],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
           },
           {
             id: 'recArea1_Competence2',
@@ -300,16 +300,16 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
                       {
                         id: 'recArea1_Competence2_Tube1_Skill1_Challenge1',
                         statut: 'validé',
-                        langues: ['Franco Français']
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+                        langues: ['Franco Français'],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
     ];
 
     const airtableObjects = airtableBuilder.factory.buildLearningContent(learningContent);
@@ -321,7 +321,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       skillId: 'recArea1_Competence1_Tube1_Skill1',
       challengeId: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
       pixValue: sufficientPixValueToBeCertifiableOnCompetence,
-      acquisitionDate: placementDate
+      acquisitionDate: placementDate,
     });
     await _buildCorrectAnswerAndKnowledgeElement({
       userId: certifiableUserId,
@@ -329,11 +329,11 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       skillId: 'recArea1_Competence2_Tube1_Skill1',
       challengeId: 'recArea1_Competence2_Tube1_Skill1_Challenge1',
       pixValue: sufficientPixValueToBeCertifiableOnCompetence,
-      acquisitionDate: placementDate
+      acquisitionDate: placementDate,
     });
     const placementProfile = await placementProfileService.getPlacementProfile({
       userId: certifiableUserId,
-      limitDate: certificationDate
+      limitDate: certificationDate,
     });
 
     // when
@@ -362,26 +362,26 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
                       {
                         id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
                         statut: 'validé',
-                        langues: ['Franco Français']
+                        langues: ['Franco Français'],
                       },
                       {
                         id: 'recArea1_Competence1_Tube1_Skill1_Challenge2',
                         statut: 'validé',
-                        langues: ['Franco Français']
+                        langues: ['Franco Français'],
                       },
                       {
                         id: 'recArea1_Competence1_Tube1_Skill1_Challenge3',
                         statut: 'validé',
-                        langues: ['Franco Français']
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+                        langues: ['Franco Français'],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
     ];
 
     const airtableObjects = airtableBuilder.factory.buildLearningContent(learningContent);
@@ -393,11 +393,11 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       skillId: 'recArea1_Competence1_Tube1_Skill1',
       challengeId: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
       pixValue: sufficientPixValueToBeCertifiableOnCompetence,
-      acquisitionDate: placementDate
+      acquisitionDate: placementDate,
     });
     const placementProfile = await placementProfileService.getPlacementProfile({
       userId: certifiableUserId,
-      limitDate: certificationDate
+      limitDate: certificationDate,
     });
 
     // when
@@ -425,26 +425,26 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
                       {
                         id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
                         statut: 'validé',
-                        langues: ['Franco Français']
+                        langues: ['Franco Français'],
                       },
                       {
                         id: 'recArea1_Competence1_Tube1_Skill1_Challenge2',
                         statut: 'validé',
-                        langues: ['Franco Français']
+                        langues: ['Franco Français'],
                       },
                       {
                         id: 'recArea1_Competence1_Tube1_Skill1_Challenge3',
                         statut: 'validé',
-                        langues: ['Franco Français']
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+                        langues: ['Franco Français'],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
     ];
 
     const airtableObjects = airtableBuilder.factory.buildLearningContent(learningContent);
@@ -456,7 +456,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       skillId: 'recArea1_Competence1_Tube1_Skill1',
       challengeId: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
       pixValue: sufficientPixValueToBeCertifiableOnCompetence,
-      acquisitionDate: placementDate
+      acquisitionDate: placementDate,
     });
     await _buildCorrectAnswerAndKnowledgeElement({
       userId: certifiableUserId,
@@ -464,7 +464,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       skillId: 'recArea1_Competence1_Tube1_Skill2',
       challengeId: 'recArea1_Competence1_Tube1_Skill1_Challenge2',
       pixValue: sufficientPixValueToBeCertifiableOnCompetence,
-      acquisitionDate: placementDate
+      acquisitionDate: placementDate,
     });
     await _buildCorrectAnswerAndKnowledgeElement({
       userId: certifiableUserId,
@@ -472,11 +472,11 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       skillId: 'recArea1_Competence1_Tube1_Skill3',
       challengeId: 'recArea1_Competence1_Tube1_Skill1_Challenge3',
       pixValue: sufficientPixValueToBeCertifiableOnCompetence,
-      acquisitionDate: placementDate
+      acquisitionDate: placementDate,
     });
     const placementProfile = await placementProfileService.getPlacementProfile({
       userId: certifiableUserId,
-      limitDate: certificationDate
+      limitDate: certificationDate,
     });
 
     // when
@@ -505,9 +505,9 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
                       {
                         id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
                         statut: 'validé',
-                        langues: ['Franco Français']
-                      }
-                    ]
+                        langues: ['Franco Français'],
+                      },
+                    ],
                   },
                   {
                     id: 'recArea1_Competence1_Tube1_Skill2',
@@ -517,9 +517,9 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
                       {
                         id: 'recArea1_Competence1_Tube1_Skill2_Challenge1',
                         statut: 'validé',
-                        langues: ['Franco Français']
-                      }
-                    ]
+                        langues: ['Franco Français'],
+                      },
+                    ],
                   },
                   {
                     id: 'recArea1_Competence1_Tube1_Skill3',
@@ -529,9 +529,9 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
                       {
                         id: 'recArea1_Competence1_Tube1_Skill3_Challenge1',
                         statut: 'validé',
-                        langues: ['Franco Français']
-                      }
-                    ]
+                        langues: ['Franco Français'],
+                      },
+                    ],
                   },
                   {
                     id: 'recArea1_Competence1_Tube1_Skill4',
@@ -541,16 +541,16 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
                       {
                         id: 'recArea1_Competence1_Tube1_Skill4_Challenge1',
                         statut: 'validé',
-                        langues: ['Franco Français']
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+                        langues: ['Franco Français'],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
     ];
 
     const airtableObjects = airtableBuilder.factory.buildLearningContent(learningContent);
@@ -562,7 +562,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       skillId: 'recArea1_Competence1_Tube1_Skill1',
       challengeId: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
       pixValue: sufficientPixValueToBeCertifiableOnCompetence,
-      acquisitionDate: placementDate
+      acquisitionDate: placementDate,
     });
     await _buildCorrectAnswerAndKnowledgeElement({
       userId: certifiableUserId,
@@ -570,7 +570,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       skillId: 'recArea1_Competence1_Tube1_Skill2',
       challengeId: 'recArea1_Competence1_Tube1_Skill2_Challenge1',
       pixValue: sufficientPixValueToBeCertifiableOnCompetence,
-      acquisitionDate: placementDate
+      acquisitionDate: placementDate,
     });
     await _buildCorrectAnswerAndKnowledgeElement({
       userId: certifiableUserId,
@@ -578,7 +578,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       skillId: 'recArea1_Competence1_Tube1_Skill3',
       challengeId: 'recArea1_Competence1_Tube1_Skill3_Challenge1',
       pixValue: sufficientPixValueToBeCertifiableOnCompetence,
-      acquisitionDate: placementDate
+      acquisitionDate: placementDate,
     });
     await _buildCorrectAnswerAndKnowledgeElement({
       userId: certifiableUserId,
@@ -586,12 +586,12 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       skillId: 'recArea1_Competence1_Tube1_Skill4',
       challengeId: 'recArea1_Competence1_Tube1_Skill4_Challenge1',
       pixValue: sufficientPixValueToBeCertifiableOnCompetence,
-      acquisitionDate: placementDate
+      acquisitionDate: placementDate,
     });
     await databaseBuilder.commit();
     const placementProfile = await placementProfileService.getPlacementProfile({
       userId: certifiableUserId,
-      limitDate: certificationDate
+      limitDate: certificationDate,
     });
 
     // when
@@ -602,7 +602,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
         'recArea1_Competence1_Tube1_Skill4_Challenge1',
         'recArea1_Competence1_Tube1_Skill3_Challenge1',
         'recArea1_Competence1_Tube1_Skill2_Challenge1',
-      ]
+      ],
     );
   });
 
@@ -625,25 +625,25 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
                       {
                         id: 'recArea1_Competence1_Tube1_Skill1_And_Skill2_Challenge',
                         statut: 'validé',
-                        langues: ['Franco Français']
-                      }
-                    ]
+                        langues: ['Franco Français'],
+                      },
+                    ],
                   },
                   {
                     id: 'recArea1_Competence1_Tube1_Skill2',
                     status: 'actif',
                     challenges: [
                       {
-                        id: 'recArea1_Competence1_Tube1_Skill1_And_Skill2_Challenge' // same id
-                      }
-                    ]
+                        id: 'recArea1_Competence1_Tube1_Skill1_And_Skill2_Challenge', // same id
+                      },
+                    ],
                   },
-                ]
-              }
-            ]
-          }
-        ]
-      }
+                ],
+              },
+            ],
+          },
+        ],
+      },
     ];
 
     const airtableObjects = airtableBuilder.factory.buildLearningContent(learningContent);
@@ -655,7 +655,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       skillId: 'recArea1_Competence1_Tube1_Skill1',
       challengeId: 'recArea1_Competence1_Tube1_Skill1_And_Skill2_Challenge',
       pixValue: sufficientPixValueToBeCertifiableOnCompetence,
-      acquisitionDate: placementDate
+      acquisitionDate: placementDate,
     });
     await _buildCorrectAnswerAndKnowledgeElement({
       userId: certifiableUserId,
@@ -663,11 +663,11 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       skillId: 'recArea1_Competence1_Tube1_Skill2',
       challengeId: 'recArea1_Competence1_Tube1_Skill1_And_Skill2_Challenge',
       pixValue: sufficientPixValueToBeCertifiableOnCompetence,
-      acquisitionDate: placementDate
+      acquisitionDate: placementDate,
     });
     const placementProfile = await placementProfileService.getPlacementProfile({
       userId: certifiableUserId,
-      limitDate: certificationDate
+      limitDate: certificationDate,
     });
 
     // when
@@ -683,12 +683,12 @@ async function _buildCorrectAnswerAndKnowledgeElement({
   challengeId,
   pixValue,
   acquisitionDate,
-  skillId
+  skillId,
 }) {
   const assessmentId = databaseBuilder.factory.buildAssessment({ userId }).id;
   const answerId = databaseBuilder.factory.buildAnswer({
     assessmentId,
-    challengeId
+    challengeId,
   }).id;
   databaseBuilder.factory.buildKnowledgeElement({
     userId,
@@ -697,7 +697,7 @@ async function _buildCorrectAnswerAndKnowledgeElement({
     competenceId,
     answerId,
     createdAt: acquisitionDate,
-    skillId
+    skillId,
   });
   await databaseBuilder.commit();
 }

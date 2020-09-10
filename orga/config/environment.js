@@ -22,8 +22,8 @@ module.exports = function(environment) {
       },
       EXTEND_PROTOTYPES: {
         // Prevent Ember Data from overriding Date.parse.
-        Date: false
-      }
+        Date: false,
+      },
     },
 
     APP: {
@@ -31,7 +31,7 @@ module.exports = function(environment) {
       CAMPAIGNS_ROOT_URL: process.env.CAMPAIGNS_ROOT_URL,
       HOME_URL: process.env.HOME_URL,
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
-      PIX_APP_URL_WITHOUT_EXTENSION: process.env.PIX_APP_URL_WITHOUT_EXTENSION || 'https://app.pix.'
+      PIX_APP_URL_WITHOUT_EXTENSION: process.env.PIX_APP_URL_WITHOUT_EXTENSION || 'https://app.pix.',
     },
 
     googleFonts: [
@@ -44,7 +44,7 @@ module.exports = function(environment) {
     },
 
     moment: {
-      includeLocales: ['fr']
+      includeLocales: ['fr'],
     },
 
     // Set or update content security policies
@@ -55,7 +55,7 @@ module.exports = function(environment) {
       'connect-src': '\'self\' www.google-analytics.com',
       'img-src': '\'self\'',
       'style-src': '\'self\' fonts.googleapis.com',
-      'media-src': '\'self\''
+      'media-src': '\'self\'',
     },
 
     matomo: {

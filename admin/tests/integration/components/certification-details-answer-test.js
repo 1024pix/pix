@@ -15,7 +15,7 @@ module('Integration | Component | certification-details-answer', function(hooks)
     skill:'@skill5',
     challengeId:'rec12345',
     order:5,
-    result:'partially'
+    result:'partially',
   };
 
   test('it renders', async function(assert) {

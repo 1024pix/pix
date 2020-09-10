@@ -1,6 +1,6 @@
 const {
   expect, generateValidRequestAuthorizationHeader,
-  insertUserWithRolePixMaster, databaseBuilder, knex
+  insertUserWithRolePixMaster, databaseBuilder, knex,
 } = require('../../test-helper');
 const createServer = require('../../../server');
 
@@ -28,9 +28,9 @@ describe('Acceptance | API | Certification Center Membership', () => {
             attributes: {
               'user-id': user.id,
               'certification-center-id': certificationCenter.id,
-            }
-          }
-        }
+            },
+          },
+        },
       };
     });
 

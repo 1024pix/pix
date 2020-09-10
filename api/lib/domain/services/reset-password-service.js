@@ -22,5 +22,5 @@ module.exports = {
 
   hasUserAPasswordResetDemandInProgress(email, temporaryKey) {
     return passwordResetDemandRepository.findByUserEmail(email, temporaryKey);
-  }
+  },
 };

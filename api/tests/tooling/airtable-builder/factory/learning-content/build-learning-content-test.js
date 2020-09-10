@@ -18,11 +18,11 @@ describe('Integration | buildLearningContent', () => {
     const learningContent = [
       {
         id: 'recArea1',
-        competences: []
+        competences: [],
       },
       {
         id: 'recArea2',
-        competences: []
+        competences: [],
       },
     ];
 
@@ -44,13 +44,13 @@ describe('Integration | buildLearningContent', () => {
         competences: [
           {
             id: 'recArea1_Competence1',
-            tubes: []
+            tubes: [],
           },
           {
             id: 'recArea1_Competence2',
-            tubes: []
-          }
-        ]
+            tubes: [],
+          },
+        ],
       },
       {
         id: 'recArea2',
@@ -58,14 +58,14 @@ describe('Integration | buildLearningContent', () => {
           {
             id: 'recArea2_Competence1',
             tubes: [],
-            origin: 'Pix+'
+            origin: 'Pix+',
           },
           {
             id: 'recArea2_Competence2',
             tubes: [],
-            origin: 'Pix+'
-          }
-        ]
+            origin: 'Pix+',
+          },
+        ],
       },
     ];
 
@@ -103,16 +103,16 @@ describe('Integration | buildLearningContent', () => {
             tubes: [
               {
                 id: 'recArea1_Competence1_Tube1',
-                skills: []
+                skills: [],
               },
               {
                 id: 'recArea1_Competence1_Tube2',
-                skills: []
-              }
-            ]
-          }
-        ]
-      }
+                skills: [],
+              },
+            ],
+          },
+        ],
+      },
     ];
 
     // when
@@ -145,20 +145,20 @@ describe('Integration | buildLearningContent', () => {
                     id: 'recArea1_Competence1_Tube1_Skill1',
                     nom: '@accesDonnées1',
                     status: 'actif',
-                    challenges: []
+                    challenges: [],
                   },
                   {
                     id: 'recArea1_Competence1_Tube1_Skill2',
                     nom: '@accesDonnées2',
                     status: 'archivé',
-                    challenges: []
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+                    challenges: [],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
     ];
 
     // when
@@ -200,21 +200,21 @@ describe('Integration | buildLearningContent', () => {
                     challenges: [
                       {
                         id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
-                        statut: 'validé'
+                        statut: 'validé',
                       },
                       {
                         id: 'recArea1_Competence1_Tube1_Skill1_Challenge2',
                         statut: 'archivé',
-                        langues: ['Francophone', 'Franco Français']
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+                        langues: ['Francophone', 'Franco Français'],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
     ];
 
     // when
@@ -250,9 +250,9 @@ describe('Integration | buildLearningContent', () => {
                     challenges: [
                       {
                         id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
-                        statut: 'validé'
-                      }
-                    ]
+                        statut: 'validé',
+                      },
+                    ],
                   },
                   {
                     id: 'recArea1_Competence1_Tube1_Skill2',
@@ -260,15 +260,15 @@ describe('Integration | buildLearningContent', () => {
                     challenges: [
                       {
                         id: 'recArea1_Competence1_Tube1_Skill1_Challenge1', // same id
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
     ];
 
     // when

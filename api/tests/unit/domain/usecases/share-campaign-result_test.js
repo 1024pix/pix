@@ -38,7 +38,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
     beforeEach(() => {
       campaign = domainBuilder.buildCampaign.ofTypeAssessment();
       campaignParticipation = domainBuilder.buildCampaignParticipation({
-        campaignId: campaign.id
+        campaignId: campaign.id,
       });
       campaignParticipationId = campaignParticipation.id;
       assessment = domainBuilder.buildAssessment.ofTypeCampaign({ userId });
@@ -91,7 +91,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
             challengeRepository,
             targetProfileRepository,
             knowledgeElementRepository,
-            improvementService
+            improvementService,
           });
         });
 
@@ -209,7 +209,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
     beforeEach(() => {
       campaign = domainBuilder.buildCampaign.ofTypeProfilesCollection();
       campaignParticipation = domainBuilder.buildCampaignParticipation({
-        campaignId: campaign.id
+        campaignId: campaign.id,
       });
       campaignParticipation = campaignParticipation.id;
 

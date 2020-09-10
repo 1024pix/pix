@@ -46,7 +46,7 @@ function _fromBookshelfCampaignWithReportDataToDomain(campaignWithReportData) {
   campaignWithReport.campaignReport = new CampaignReport({
     id: jsonCampaignWithReportData.id,
     participationsCount: jsonCampaignWithReportData.participationsCount || 0,
-    sharedParticipationsCount: jsonCampaignWithReportData.sharedParticipationsCount || 0
+    sharedParticipationsCount: jsonCampaignWithReportData.sharedParticipationsCount || 0,
   });
 
   return new Campaign(campaignWithReport);
@@ -60,7 +60,7 @@ function _countSharedCampaignParticipations(qb) {
       .groupBy('campaignId', 'isShared')
       .having('isShared', '=', true)
       .as('isShared'),
-    'campaigns.id', 'isShared.campaignId'
+    'campaigns.id', 'isShared.campaignId',
   );
 }
 
@@ -71,7 +71,7 @@ function _countCampaignParticipations(qb) {
       .count('* as participationsCount')
       .groupBy('campaignId')
       .as('participations'),
-    'campaigns.id', 'participations.campaignId'
+    'campaigns.id', 'participations.campaignId',
   );
 }
 
@@ -140,7 +140,7 @@ module.exports = {
       'customLandingPageText',
       'creatorId',
       'organizationId',
-      'targetProfileId'
+      'targetProfileId',
     ]);
     const createdCampaign = await (new BookshelfCampaign(campaignAttributes).save());
     return _toDomain(createdCampaign);
@@ -171,7 +171,7 @@ module.exports = {
       .fetchPage({
         page: page.number,
         pageSize: page.size,
-        withRelated: ['creator']
+        withRelated: ['creator'],
       });
 
     const hasCampaigns = await _hasCampaignsInOrganization({ organizationId });

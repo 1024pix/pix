@@ -36,10 +36,10 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(ERROR_RETURN_CODE);
-    }
+    },
   );
 }
 
 module.exports = {
-  markUsersRequiringTermsOfServiceValidationForRevalidation
+  markUsersRequiringTermsOfServiceValidationForRevalidation,
 };

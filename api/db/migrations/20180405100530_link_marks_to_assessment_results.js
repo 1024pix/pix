@@ -17,7 +17,7 @@ exports.up = function(knex) {
       return knex(TABLE_NAME_MARKS)
         .where('assessmentId', '=', result.assessmentId)
         .update({
-          assessmentResultId: result.id
+          assessmentResultId: result.id,
         });
     });
   });

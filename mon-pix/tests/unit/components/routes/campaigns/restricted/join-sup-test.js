@@ -41,7 +41,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
             id: `${component.args.campaignCode}_${component.studentNumber}`,
             studentNumber: component.studentNumber,
             campaignCode: component.args.campaignCode,
-          }
+          },
         ).returns(schoolingRegistration);
 
         // when
@@ -76,7 +76,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
             lastName: component.lastName,
             birthdate: component.birthdate,
             campaignCode: component.args.campaignCode,
-          }
+          },
         ).returns(schoolingRegistration);
         component.showSupernumeraryForm = true;
 
@@ -113,7 +113,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
             lastName: component.lastName,
             birthdate: component.birthdate,
             campaignCode: component.args.campaignCode,
-          }
+          },
         ).returns(schoolingRegistration);
 
         component.showSupernumeraryForm = true;

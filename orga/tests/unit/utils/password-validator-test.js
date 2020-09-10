@@ -42,7 +42,7 @@ module('Unit | Utils | password validator', function(hooks) {
       '+!@)-=`"#&',
       '+!@)-=`"#&1',
       '+!@)-=`"#&1A',
-      '+!@)-=`"#&1a'
+      '+!@)-=`"#&1a',
     ].forEach(function(badPassword) {
       test(`should return false when password is invalid: ${badPassword}`, function(assert) {
         assert.equal(isPasswordValid(badPassword), false);

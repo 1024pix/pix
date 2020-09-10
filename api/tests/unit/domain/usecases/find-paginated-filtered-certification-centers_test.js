@@ -16,7 +16,7 @@ describe('Unit | UseCase | find-paginated-filtered-certification-centers', () =>
       new CertificationCenter({ id: 3 }),
     ];
     const certificationCenterRepository = {
-      findPaginatedFiltered: sinon.stub()
+      findPaginatedFiltered: sinon.stub(),
     };
     certificationCenterRepository.findPaginatedFiltered.withArgs({ filter, page }).resolves({ models: matchingCertificationCenters, pagination: resolvedPagination });
 

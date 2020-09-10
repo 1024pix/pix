@@ -10,7 +10,7 @@ function _createUserWithSharedCampaignParticipation(userName, campaignId, shared
     campaignId,
     userId,
     isShared: true,
-    sharedAt
+    sharedAt,
   });
 
   return { userId, campaignParticipation };
@@ -39,29 +39,29 @@ describe('Integration | Repository | Service | Campaign collective result reposi
     _.each([
       {
         competence: { id: 'recCompetenceA', name: 'Competence A', index: '1.1', area: { color: 'jaffa' } },
-        skillIds: ['recUrl1', 'recUrl2', 'recUrl3', 'recUrl4', 'recUrl5']
+        skillIds: ['recUrl1', 'recUrl2', 'recUrl3', 'recUrl4', 'recUrl5'],
       }, {
         competence: { id: 'recCompetenceB', name: 'Competence B', index: '1.2', area: { color: 'jaffa' } },
-        skillIds: ['recFile2', 'recFile3', 'recFile5', 'recText1']
+        skillIds: ['recFile2', 'recFile3', 'recFile5', 'recText1'],
       }, {
         competence: { id: 'recCompetenceC', name: 'Competence C', index: '1.3', area: { color: 'jaffa' } },
-        skillIds: ['recMedia1', 'recMedia2']
+        skillIds: ['recMedia1', 'recMedia2'],
       }, {
         competence: { id: 'recCompetenceD', name: 'Competence D', index: '2.1', area: { color: 'emerald' } },
-        skillIds: ['recAlgo1', 'recAlgo2']
+        skillIds: ['recAlgo1', 'recAlgo2'],
       }, {
         competence: { id: 'recCompetenceE', name: 'Competence E', index: '2.2', area: { color: 'emerald' } },
-        skillIds: ['recBrowser1']
+        skillIds: ['recBrowser1'],
       }, {
         competence: { id: 'recCompetenceF', name: 'Competence F', index: '2.3', area: { color: 'emerald' } },
-        skillIds: ['recComputer1']
+        skillIds: ['recComputer1'],
       },
 
     ], ({ competence, skillIds }) => {
       competences.push(domainBuilder.buildCompetence({ ...competence, skillIds }));
 
       _.each(skillIds, (skillId) => skills.push(
-        airtableBuilder.factory.buildSkill({ id: skillId, 'compétenceViaTube': [competence.id] })
+        airtableBuilder.factory.buildSkill({ id: skillId, 'compétenceViaTube': [competence.id] }),
       ));
     });
 
@@ -175,9 +175,9 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               competenceIndex: '2.3',
               areaColor: 'emerald',
               totalSkillsCount: 1,
-            }
+            },
           ],
-        }
+        },
         ));
       });
 
@@ -217,7 +217,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
             skillId: url1Id,
             status: 'validated',
             campaignId,
-            createdAt: new Date('2019-02-01')
+            createdAt: new Date('2019-02-01'),
           });
 
           await databaseBuilder.commit();
@@ -311,7 +311,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceIndex: '2.3',
                 areaColor: 'emerald',
                 totalSkillsCount: 1,
-              }
+              },
             ],
           };
 
@@ -481,7 +481,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceIndex: '2.3',
                 areaColor: 'emerald',
                 totalSkillsCount: 1,
-              }
+              },
             ],
           };
 

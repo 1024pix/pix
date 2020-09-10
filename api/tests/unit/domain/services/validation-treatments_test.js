@@ -10,7 +10,7 @@ describe('Unit | Service | Validation Treatments', function() {
       { description: 'unbreakable spaces', input: 'unbreakable spaces', expected: 'unbreakablespaces' },
       { description: 'accents', input: 'àâäéèêëîïôöòûùüñń', expected: 'aaaeeeeiiooouuunn' },
       { description: 'cédille', input: 'hameçon', expected: 'hamecon' },
-      { description: 'case', input: 'SHI-fu-Mi', expected: 'shi-fu-mi' }
+      { description: 'case', input: 'SHI-fu-Mi', expected: 'shi-fu-mi' },
     ].forEach((scenario) => {
       it(`should return the given string without "${scenario.description}"`, function() {
         expect(normalizeAndRemoveAccents(scenario.input)).to.equal(scenario.expected);
@@ -34,7 +34,7 @@ describe('Unit | Service | Validation Treatments', function() {
       { description: 'slashs', input: '\\o/', expected: 'o' },
       { description: 'quotes', input: '"quotes"', expected: 'quotes' },
       { description: 'underscore and dashes', input: 'Shi-fu_mi', expected: 'Shifumi' },
-      { description: 'parenthesis', input: '(anyway)', expected: 'anyway' }
+      { description: 'parenthesis', input: '(anyway)', expected: 'anyway' },
     ].forEach((scenario) => {
       it(`should return the given string without "${scenario.description}"`, function() {
         expect(removeSpecialCharacters(scenario.input)).to.equal(scenario.expected);

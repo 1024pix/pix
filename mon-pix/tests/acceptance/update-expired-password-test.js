@@ -34,8 +34,8 @@ describe('Acceptance | Update Expired Password', function() {
       errors: [{
         status: 401,
         title: 'Unauthorized',
-        detail: 'Mauvais mot de passe.'
-      }]
+        detail: 'Mauvais mot de passe.',
+      }],
     };
     this.server.post('/expired-password-updates', () => (badPasswordErrorResponse), 401);
 

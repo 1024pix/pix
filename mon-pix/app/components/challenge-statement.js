@@ -29,7 +29,7 @@ export default class ChallengeStatement extends Component {
       return {
         url: this.args.challenge.embedUrl,
         title: this.args.challenge.embedTitle,
-        height: this.args.challenge.embedHeight
+        height: this.args.challenge.embedHeight,
       };
     }
     return undefined;

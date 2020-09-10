@@ -157,7 +157,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
         databaseBuilder.factory.buildKnowledgeElement({ userId: user.id,
           earnedPix: PIX_COUNT_BY_LEVEL,
           competenceId: 'rec1',
-          createdAt: new Date('2020-01-01')
+          createdAt: new Date('2020-01-01'),
         });
 
         await databaseBuilder.commit();
@@ -175,17 +175,17 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId,
           userId: user.id,
           sharedAt: new Date('2020-01-02'),
-          isShared: true
+          isShared: true,
         });
         databaseBuilder.factory.buildKnowledgeElement({ userId: user.id,
           earnedPix: 1024,
           competenceId: 'rec1',
-          createdAt: new Date('2020-01-01')
+          createdAt: new Date('2020-01-01'),
         });
         databaseBuilder.factory.buildKnowledgeElement({ userId: user.id,
           earnedPix: 1024,
           competenceId: 'rec2',
-          createdAt: new Date('2020-01-01')
+          createdAt: new Date('2020-01-01'),
         });
 
         await databaseBuilder.commit();
@@ -203,17 +203,17 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId,
           userId: user.id,
           sharedAt: new Date('2020-01-02'),
-          isShared: true
+          isShared: true,
         });
         databaseBuilder.factory.buildKnowledgeElement({ userId: user.id,
           earnedPix: PIX_COUNT_BY_LEVEL,
           competenceId: 'rec1',
-          createdAt: new Date('2020-01-01')
+          createdAt: new Date('2020-01-01'),
         });
         databaseBuilder.factory.buildKnowledgeElement({ userId: user.id,
           earnedPix: PIX_COUNT_BY_LEVEL * 2,
           competenceId: 'rec2',
-          createdAt: new Date('2020-01-03')
+          createdAt: new Date('2020-01-03'),
         });
 
         await databaseBuilder.commit();

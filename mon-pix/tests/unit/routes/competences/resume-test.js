@@ -20,7 +20,7 @@ describe('Unit | Route | Competence | Resume', function() {
 
     queryRecordStub = sinon.stub().resolves(competenceEvaluation);
     storeStub = Service.create({
-      queryRecord: queryRecordStub
+      queryRecord: queryRecordStub,
     });
 
     route = this.owner.lookup('route:competences.resume');

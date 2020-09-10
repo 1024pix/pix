@@ -38,7 +38,7 @@ describe('Unit | Infrastructure | Mailers | mailer', () => {
             to: recipient,
             fromName: 'Ne Pas Repondre',
             subject: 'Creation de compte',
-            template: '129291'
+            template: '129291',
           };
 
           // when

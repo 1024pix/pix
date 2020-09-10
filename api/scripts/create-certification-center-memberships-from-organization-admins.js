@@ -105,7 +105,7 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    }
+    },
   );
 }
 
@@ -115,5 +115,5 @@ module.exports = {
   buildCertificationCenterMemberships,
   fetchCertificationCenterMembershipsByExternalId,
   prepareDataForInsert,
-  createCertificationCenterMemberships
+  createCertificationCenterMemberships,
 };

@@ -88,6 +88,6 @@ module.exports = function(/* environment */) {
      * @type {Boolean}
      * @default false
      */
-    wrapTranslationsWithNamespace: false
+    wrapTranslationsWithNamespace: false,
   };
 };

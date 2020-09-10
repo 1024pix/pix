@@ -13,7 +13,7 @@ function _formatAttribute({ attribute, message }) {
       pointer: `/data/attributes/${ _.kebabCase(attribute) }`,
     },
     title: `Invalid data attribute "${ attribute }"`,
-    detail: message
+    detail: message,
   };
 }
 
@@ -25,7 +25,7 @@ function _formatRelationship({ attribute, message }) {
       pointer: `/data/relationships/${ _.kebabCase(relashionship) }`,
     },
     title: `Invalid relationship "${ relashionship }"`,
-    detail: message
+    detail: message,
   };
 }
 
@@ -33,7 +33,7 @@ function _formatUndefinedAttribute({ message }) {
   return {
     status: '422',
     title: 'Invalid data attributes',
-    detail: message
+    detail: message,
   };
 }
 

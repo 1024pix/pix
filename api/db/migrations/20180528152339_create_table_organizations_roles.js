@@ -17,7 +17,7 @@ exports.up = (knex) => {
     })
     .then(() => {
       const roles = [
-        { name: 'ADMIN' }
+        { name: 'ADMIN' },
       ];
 
       return knex.batchInsert(ORGANIZATION_ROLES_TABLE, roles);

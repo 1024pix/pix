@@ -11,7 +11,7 @@ describe('Acceptance | users-controller-find-users', () => {
 
     const userPixMasterId = databaseBuilder.factory.buildUser.withPixRolePixMaster({
       firstName: 'PixMaster_firstName',
-      lastName: 'PixMaster_lastName'
+      lastName: 'PixMaster_lastName',
     }).id;
 
     databaseBuilder.factory.buildUser({ firstName: 'Jean-Paul', lastName: 'Grand', email: 'jean-paul.grand@example.net' });

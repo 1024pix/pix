@@ -11,7 +11,7 @@ exports.register = async function(server) {
         handler: schoolingRegistrationUserAssociationController.reconcileManually,
         validate: {
           options: {
-            allowUnknown: false
+            allowUnknown: false,
           },
           payload: Joi.alternatives().try(
             Joi.object({
@@ -22,7 +22,7 @@ exports.register = async function(server) {
                   'birthdate': Joi.date().format('YYYY-MM-DD').required(),
                   'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                 },
-                type: 'schooling-registration-user-associations'
+                type: 'schooling-registration-user-associations',
               },
             }),
             Joi.object({
@@ -31,8 +31,8 @@ exports.register = async function(server) {
                   'student-number': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                   'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                 },
-                type: 'schooling-registration-user-associations'
-              }
+                type: 'schooling-registration-user-associations',
+              },
             }),
           ),
           failAction: (request, h) => {
@@ -43,15 +43,15 @@ exports.register = async function(server) {
               detail: 'Un des champs saisis n’est pas valide.',
             });
             return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
-          }
+          },
         },
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Elle associe des données saisies par l’utilisateur à l’inscription de l’élève dans cette organisation\n' +
-          '- L’utilisation de cette route avec uniquement le paramètre campaign-code est dépréciée en faveur de la route /auto'
+          '- L’utilisation de cette route avec uniquement le paramètre campaign-code est dépréciée en faveur de la route /auto',
         ],
-        tags: ['api', 'schoolingRegistrationUserAssociation']
-      }
+        tags: ['api', 'schoolingRegistrationUserAssociation'],
+      },
     },
     {
       method: 'POST',
@@ -60,10 +60,10 @@ exports.register = async function(server) {
         handler: schoolingRegistrationUserAssociationController.registerSupernumeraryHigherEducationRegistration,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Elle crée une inscription surnuméraire pour l’utilisateur dans cette organisation'
+          '- Elle crée une inscription surnuméraire pour l’utilisateur dans cette organisation',
         ],
-        tags: ['api', 'schoolingRegistrationUserAssociation']
-      }
+        tags: ['api', 'schoolingRegistrationUserAssociation'],
+      },
     },
     {
       method: 'POST',
@@ -72,15 +72,15 @@ exports.register = async function(server) {
         handler: schoolingRegistrationUserAssociationController.reconcileAutomatically,
         validate: {
           options: {
-            allowUnknown: false
+            allowUnknown: false,
           },
           payload: Joi.object({
             data: {
               attributes: {
                 'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
               },
-              type: 'schooling-registration-user-associations'
-            }
+              type: 'schooling-registration-user-associations',
+            },
           }),
           failAction: (request, h) => {
             const errorHttpStatusCode = 422;
@@ -90,14 +90,14 @@ exports.register = async function(server) {
               detail: 'Un des champs saisis n’est pas valide.',
             });
             return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
-          }
+          },
         },
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Elle essaye d’associer automatiquement l’utilisateur à l’inscription de l’élève dans cette organisation'
+          '- Elle essaye d’associer automatiquement l’utilisateur à l’inscription de l’élève dans cette organisation',
         ],
-        tags: ['api', 'schoolingRegistrationUserAssociation']
-      }
+        tags: ['api', 'schoolingRegistrationUserAssociation'],
+      },
     },
     {
       method: 'GET',
@@ -109,8 +109,8 @@ exports.register = async function(server) {
           '- Récupération de l\'inscription de l\'élève à l\'organisation, et de l\'utilisateur associé\n' +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
-        tags: ['api', 'schoolingRegistrationUserAssociation']
-      }
+        tags: ['api', 'schoolingRegistrationUserAssociation'],
+      },
     },
     {
       method: 'PUT',
@@ -120,7 +120,7 @@ exports.register = async function(server) {
         handler: schoolingRegistrationUserAssociationController.generateUsername,
         validate: {
           options: {
-            allowUnknown: true
+            allowUnknown: true,
           },
           payload: Joi.object({
             data: {
@@ -140,14 +140,14 @@ exports.register = async function(server) {
               detail: 'Un des champs saisis n’est pas valide.',
             });
             return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
-          }
+          },
         },
         notes: [
           '- Elle permet de savoir si un élève identifié par son nom, prénom et date de naissance est inscrit à ' +
-          'l\'organisation détenant la campagne. Cet élève n\'est, de plus, pas encore associé à l\'organisation.'
+          'l\'organisation détenant la campagne. Cet élève n\'est, de plus, pas encore associé à l\'organisation.',
         ],
-        tags: ['api', 'schoolingRegistrationUserAssociation']
-      }
+        tags: ['api', 'schoolingRegistrationUserAssociation'],
+      },
     },
     {
       method: 'DELETE',
@@ -159,16 +159,16 @@ exports.register = async function(server) {
             data: {
               attributes: {
                 'schooling-registration-id': Joi.number(),
-              }
-            }
-          })
+              },
+            },
+          }),
         },
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés et admin au sein de l\'orga**\n' +
-          '- Elle dissocie un utilisateur d\'une inscription d’élève'
+          '- Elle dissocie un utilisateur d\'une inscription d’élève',
         ],
-        tags: ['api', 'schoolingRegistrationUserAssociation']
-      }
+        tags: ['api', 'schoolingRegistrationUserAssociation'],
+      },
     },
   ]);
 };

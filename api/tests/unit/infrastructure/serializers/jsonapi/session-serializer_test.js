@@ -34,15 +34,15 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
             'certification-candidates': {
               links: {
                 related: '/api/sessions/12/certification-candidates',
-              }
+              },
             },
             'certification-reports': {
               'links': {
                 'related': '/api/sessions/12/certification-reports',
-              }
+              },
             },
-          }
-        }
+          },
+        },
       };
       modelSession = new Session({
         id: 12,
@@ -85,7 +85,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         expectedJsonApi.data.relationships['certification-center'] = {
           'links': {
             'related': '/api/certification-centers/13',
-          }
+          },
         };
         expect(json).to.deep.equal(expectedJsonApi);
       });
@@ -115,27 +115,27 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
           certifications: {
             links: {
               related: '/api/sessions/12/certifications',
-            }
+            },
           },
           'certification-candidates': {
             links: {
               related: '/api/sessions/12/certification-candidates',
-            }
+            },
           },
           'certification-reports': {
             'links': {
               'related': '/api/sessions/12/certification-reports',
-            }
+            },
           },
-        }
-      }
+        },
+      },
     };
 
     beforeEach(() => {
       jsonApiSession.data.relationships['certification-center'] = {
         data: {
-          id: 42
-        }
+          id: 42,
+        },
       };
 
       jsonApiSession.data.attributes.date = '2017-01-20';
@@ -183,7 +183,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
           status: statuses.CREATED,
           'examiner-global-comment': 'It was a fine session my dear',
         },
-      }
+      },
     };
 
     beforeEach(function() {

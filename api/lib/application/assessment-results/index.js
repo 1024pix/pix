@@ -9,11 +9,11 @@ exports.register = async function(server) {
       config: {
         pre: [{
           method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster'
+          assign: 'hasRolePixMaster',
         }],
         handler: AssessmentResultController.save,
-        tags: ['api']
-      }
+        tags: ['api'],
+      },
     },
   ]);
 };

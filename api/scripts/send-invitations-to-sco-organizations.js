@@ -45,7 +45,7 @@ async function sendJoinOrganizationInvitations(invitations, tags) {
     }
 
     return organizationInvitationService.createOrganizationInvitation({
-      organizationRepository, organizationInvitationRepository, organizationId, email, tags
+      organizationRepository, organizationInvitationRepository, organizationId, email, tags,
     });
   });
 }
@@ -82,7 +82,7 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    }
+    },
   );
 }
 
@@ -90,5 +90,5 @@ module.exports = {
   getOrganizationByExternalId,
   buildInvitation,
   prepareDataForSending,
-  sendJoinOrganizationInvitations
+  sendJoinOrganizationInvitations,
 };

@@ -12,7 +12,7 @@ module.exports = {
     const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate: sharedAt, allowExcessPixAndLevels: false });
 
     return new CampaignProfile({ ...profile, placementProfile });
-  }
+  },
 };
 
 async function _fetchCampaignProfileAttributesFromCampaignParticipation(campaignId, campaignParticipationId) {
@@ -28,7 +28,7 @@ async function _fetchCampaignProfileAttributesFromCampaignParticipation(campaign
         'campaign-participations.createdAt',
         'campaign-participations.sharedAt',
         'campaign-participations.isShared',
-        'campaign-participations.participantExternalId'
+        'campaign-participations.participantExternalId',
       ])
         .from('campaign-participations')
         .join('users', 'campaign-participations.userId', 'users.id')
@@ -39,7 +39,7 @@ async function _fetchCampaignProfileAttributesFromCampaignParticipation(campaign
         })
         .where({
           campaignId,
-          'campaign-participations.id': campaignParticipationId
+          'campaign-participations.id': campaignParticipationId,
         });
     })
     .from('campaignProfile');

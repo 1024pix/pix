@@ -48,7 +48,7 @@ describe('Integration | Component | routes/campaigns/restricted/join-sup', funct
         firstName: 'John',
         lastName: 'Doe',
         birthdate: '2000-01-01',
-        username: null
+        username: null,
       };
 
       const error = { status: '404' };

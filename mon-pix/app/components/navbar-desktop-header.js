@@ -19,7 +19,7 @@ export default class NavbarDesktopHeader extends Component {
   get _menuItems() {
     return [
       { name: this.intl.t('navigation.not-logged.sign-in'), link: 'login', class: 'navbar-menu-signin-link' },
-      { name: this.intl.t('navigation.not-logged.sign-up'), link: 'inscription', class: 'navbar-menu-signup-link' }
+      { name: this.intl.t('navigation.not-logged.sign-up'), link: 'inscription', class: 'navbar-menu-signup-link' },
     ];
   }
 }

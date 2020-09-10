@@ -17,9 +17,9 @@ exports.register = async (server) => {
               type: Joi.string().required(),
               attributes: {
                 code: Joi.string().required(),
-                email: Joi.string().email().required()
-              }
-            }
+                email: Joi.string().email().required(),
+              },
+            },
           }),
           failAction: (request, h, err) => {
             const errorHttpStatusCode = 400;
@@ -32,10 +32,10 @@ exports.register = async (server) => {
           },
         },
         notes: [
-          '- Cette route permet d\'accepter l\'invitation à rejoindre une organisation, via un **code** et un **email**'
+          '- Cette route permet d\'accepter l\'invitation à rejoindre une organisation, via un **code** et un **email**',
         ],
-        tags: ['api', 'invitations']
-      }
+        tags: ['api', 'invitations'],
+      },
     },
     {
       method: 'POST',
@@ -52,8 +52,8 @@ exports.register = async (server) => {
                   'first-name': Joi.string().required(),
                   'last-name': Joi.string().required(),
                 },
-                type: 'sco-organization-invitations'
-              }
+                type: 'sco-organization-invitations',
+              },
             }),
           failAction: (request, h, err) => {
             const errorHttpStatusCode = 400;
@@ -63,13 +63,13 @@ exports.register = async (server) => {
               detail: err.details[0].message,
             });
             return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
-          }
+          },
         },
         notes: [
-          '- Cette route permet d\'envoyer une invitation pour rejoindre une organisation de type SCO en tant que ADMIN, en renseignant un **UAI**, un **NOM** et un **PRENOM**'
+          '- Cette route permet d\'envoyer une invitation pour rejoindre une organisation de type SCO en tant que ADMIN, en renseignant un **UAI**, un **NOM** et un **PRENOM**',
         ],
-        tags: ['api', 'invitations', 'SCO']
-      }
+        tags: ['api', 'invitations', 'SCO'],
+      },
     },
     {
       method: 'GET',
@@ -97,8 +97,8 @@ exports.register = async (server) => {
         notes: [
           '- Cette route permet de récupérer les détails d\'une invitation selon un **id d\'invitation** et un **code**\n',
         ],
-        tags: ['api', 'invitations']
-      }
+        tags: ['api', 'invitations'],
+      },
     },
 
   ]);

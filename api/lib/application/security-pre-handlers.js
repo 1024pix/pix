@@ -18,7 +18,7 @@ function _replyWithAuthenticationError(h) {
     const jsonApiError = new JSONAPIError({
       code: errorHttpStatusCode,
       title: 'Unauthorized access',
-      detail: 'Missing or invalid access token in request auhorization headers.'
+      detail: 'Missing or invalid access token in request auhorization headers.',
     });
 
     return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
@@ -32,7 +32,7 @@ function _replyWithAuthorizationError(h) {
     const jsonApiError = new JSONAPIError({
       code: errorHttpStatusCode,
       title: 'Forbidden access',
-      detail: 'Missing or insufficient permissions.'
+      detail: 'Missing or insufficient permissions.',
     });
 
     return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
@@ -220,5 +220,5 @@ module.exports = {
   checkUserIsAdminInOrganization,
   checkUserIsAdminInOrganizationOrHasRolePixMaster,
   checkUserIsAdminInSCOOrganizationManagingStudents,
-  checkUserIsAdminInSUPOrganizationManagingStudents
+  checkUserIsAdminInSUPOrganizationManagingStudents,
 };

@@ -38,8 +38,8 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
             username: 'robert.smith1212',
             password: 'P@ssw0rd',
             'with-username': true,
-          }
-        }
+          },
+        },
       };
     });
 
@@ -138,7 +138,7 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
             'access-token': null,
           },
           type: 'external-users',
-        }
+        },
       };
     });
 
@@ -197,9 +197,9 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
         data: {
           attributes: {
             'schooling-registration-id': 1,
-            'organization-id': 3
-          }
-        }
+            'organization-id': 3,
+          },
+        },
       };
 
       // when
@@ -220,9 +220,9 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
         data: {
           attributes: {
             'schooling-registration-id': 1,
-            'organization-id': 3
-          }
-        }
+            'organization-id': 3,
+          },
+        },
       };
 
       // when

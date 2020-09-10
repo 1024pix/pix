@@ -48,29 +48,29 @@ describe('Integration | Infrastructure | airtable', () => {
       fields: {
         foo: 'bar',
         titi: 'toto',
-        toto: 'titi'
-      }
+        toto: 'titi',
+      },
     }, {
       id: 'recId2',
       fields: {
         foo: 'bar',
         titi: 'toto',
-        toto: 'titi'
-      }
+        toto: 'titi',
+      },
     }];
 
     const airtableRecordsJsonWithSpecificFields = [{
       id: 'recId1',
       fields: {
         titi: 'toto',
-        toto: 'titi'
-      }
+        toto: 'titi',
+      },
     }, {
       id: 'recId2',
       fields: {
         titi: 'toto',
-        toto: 'titi'
-      }
+        toto: 'titi',
+      },
     }];
 
     beforeEach(() => {
@@ -83,7 +83,7 @@ describe('Integration | Infrastructure | airtable', () => {
       airtableBuilder
         .mockList({ tableName })
         .respondsToQuery({
-          'fields[]': ['titi', 'toto']
+          'fields[]': ['titi', 'toto'],
         })
         .returns(airtableRecordsJsonWithSpecificFields)
         .activate();

@@ -26,8 +26,8 @@ module.exports = {
         'skillIds', {
           stages: function(query) {
             query.orderBy('threshold', 'ASC');
-          }
-        }]
+          },
+        }],
       });
 
     return _getWithAirtableSkills(targetProfileBookshelf);
@@ -45,8 +45,8 @@ module.exports = {
         'skillIds', {
           stages: function(query) {
             query.orderBy('threshold', 'ASC');
-          }
-        }]
+          },
+        }],
       });
 
     return _getWithAirtableSkills(targetProfileBookshelf);
@@ -78,7 +78,7 @@ async function _getWithAirtableSkills(targetProfile) {
   const associatedSkillAirtableDataObjects = await _getAirtableDataObjectsSkills(targetProfile);
 
   return targetProfileAdapter.fromDatasourceObjects({
-    bookshelfTargetProfile: targetProfile, associatedSkillAirtableDataObjects
+    bookshelfTargetProfile: targetProfile, associatedSkillAirtableDataObjects,
   });
 }
 

@@ -132,7 +132,7 @@ describe('Unit | Model | Challenge', function() {
       embedOptions = {
         embedUrl: 'https://embed.url',
         embedTitle: 'Embed title',
-        embedHeight: '600'
+        embedHeight: '600',
       };
     });
 

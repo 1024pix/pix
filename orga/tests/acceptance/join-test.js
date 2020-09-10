@@ -8,7 +8,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import {
   createUserWithMembership,
   createUserWithMembershipAndTermsOfServiceAccepted,
-  createPrescriberByUser
+  createPrescriberByUser,
 } from '../helpers/test-init';
 
 module('Acceptance | join', function(hooks) {
@@ -23,7 +23,7 @@ module('Acceptance | join', function(hooks) {
       const code = 'ABCDEFGH01';
       const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
       const organizationInvitationId = server.create('organizationInvitation', {
-        organizationId, email: 'random@email.com', status: 'pending', code
+        organizationId, email: 'random@email.com', status: 'pending', code,
       }).id;
 
       // when
@@ -48,7 +48,7 @@ module('Acceptance | join', function(hooks) {
       const code = 'ABCDEFGH01';
       const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
       const organizationInvitationId = server.create('organizationInvitation', {
-        organizationId, email: 'random@email.com', status: 'accepted', code
+        organizationId, email: 'random@email.com', status: 'accepted', code,
       }).id;
 
       // when
@@ -77,7 +77,7 @@ module('Acceptance | join', function(hooks) {
         code = 'ABCDEFGH01';
         const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
         organizationInvitationId = server.create('organizationInvitation', {
-          organizationId, email: 'random@email.com', status: 'pending', code
+          organizationId, email: 'random@email.com', status: 'pending', code,
         }).id;
       });
 
@@ -128,7 +128,7 @@ module('Acceptance | join', function(hooks) {
         code = 'ABCDEFGH01';
         const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
         organizationInvitationId = server.create('organizationInvitation', {
-          organizationId, email: 'random@email.com', status: 'pending', code
+          organizationId, email: 'random@email.com', status: 'pending', code,
         }).id;
       });
 
@@ -179,7 +179,7 @@ module('Acceptance | join', function(hooks) {
         code = 'ABCDEFGH01';
         const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
         organizationInvitationId = server.create('organizationInvitation', {
-          organizationId, email: 'random@email.com', status: 'pending', code
+          organizationId, email: 'random@email.com', status: 'pending', code,
         }).id;
       });
 
@@ -190,7 +190,7 @@ module('Acceptance | join', function(hooks) {
             detail: 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.',
             status: '4O1',
             title: 'Unauthorized',
-          }]
+          }],
         }, 401);
 
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
@@ -221,7 +221,7 @@ module('Acceptance | join', function(hooks) {
         code = 'ABCDEFGH01';
         const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
         organizationInvitationId = server.create('organizationInvitation', {
-          organizationId, email: 'random@email.com', status: 'pending', code
+          organizationId, email: 'random@email.com', status: 'pending', code,
         }).id;
       });
 
@@ -232,7 +232,7 @@ module('Acceptance | join', function(hooks) {
             detail: '',
             status: '412',
             title: '',
-          }]
+          }],
         }, 412);
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
         await click('#login');
@@ -265,7 +265,7 @@ module('Acceptance | join', function(hooks) {
           // given
           const code = 'ABCDEFGH01';
           const organizationInvitationId = server.create('organizationInvitation', {
-            organizationId, email: 'random@email.com', status: 'pending', code
+            organizationId, email: 'random@email.com', status: 'pending', code,
           }).id;
 
           await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
@@ -298,7 +298,7 @@ module('Acceptance | join', function(hooks) {
           // given
           const code = 'ABCDEFGH01';
           const organizationInvitationId = server.create('organizationInvitation', {
-            organizationId, email: 'random@email.com', status: 'pending', code
+            organizationId, email: 'random@email.com', status: 'pending', code,
           }).id;
 
           server.post('/users', {
@@ -306,7 +306,7 @@ module('Acceptance | join', function(hooks) {
               detail: '',
               status: '422',
               title: '',
-            }]
+            }],
           }, 422);
 
           await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);

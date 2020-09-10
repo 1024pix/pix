@@ -4,8 +4,8 @@ module.exports = {
 
   serialize(passwordResetDemands) {
     return new Serializer('password-reset-demand', {
-      attributes: ['email']
+      attributes: ['email'],
     }).serialize(passwordResetDemands);
-  }
+  },
 
 };

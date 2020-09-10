@@ -16,7 +16,7 @@ describe('Unit | UseCase | find-paginated-filtered-users', () => {
       new User({ id: 3 }),
     ];
     const userRepository = {
-      findPaginatedFiltered: sinon.stub()
+      findPaginatedFiltered: sinon.stub(),
     };
     userRepository.findPaginatedFiltered.withArgs({ filter, page }).resolves({ models: matchingUsers, pagination: resolvedPagination });
 

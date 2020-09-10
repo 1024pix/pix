@@ -324,7 +324,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
 
       const membershipActive = {
         organizationId,
-        userId: databaseBuilder.factory.buildUser().id
+        userId: databaseBuilder.factory.buildUser().id,
       };
       const membershipDisabled = {
         organizationId,

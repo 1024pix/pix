@@ -114,9 +114,9 @@ describe('Integration | Application | Organizations | Routes', () => {
         data: {
           type: 'organization-invitations',
           attributes: {
-            email: 'member@organization.org'
+            email: 'member@organization.org',
           },
-        }
+        },
       };
 
       // when
@@ -209,9 +209,9 @@ describe('Integration | Application | Organizations | Routes', () => {
         data: {
           type: 'target-profile-shares',
           attributes: {
-            'target-profiles-to-attach': [1, 2]
+            'target-profiles-to-attach': [1, 2],
           },
-        }
+        },
       };
 
       // when

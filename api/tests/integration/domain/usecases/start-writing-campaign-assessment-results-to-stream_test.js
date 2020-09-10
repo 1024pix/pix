@@ -176,7 +176,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-
         organizationRepository,
         campaignParticipationInfoRepository,
         knowledgeElementRepository,
-        campaignCsvExportService
+        campaignCsvExportService,
       });
 
       const csv = await csvPromise;

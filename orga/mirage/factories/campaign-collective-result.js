@@ -21,7 +21,7 @@ export default Factory.extend({
         totalSkillsCount: '34',
       });
       campaignCollectiveResult.campaignCompetenceCollectiveResults = [competenceCollectiveResult_1, competenceCollectiveResult_2];
-    }
-  })
+    },
+  }),
 
 });

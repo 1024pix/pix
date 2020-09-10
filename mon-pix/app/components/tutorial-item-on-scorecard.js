@@ -12,7 +12,7 @@ export default Component.extend({
   imageForFormat: {
     'vidéo': 'video',
     'son': 'son',
-    'page': 'page'
+    'page': 'page',
   },
   tutorial: null,
 
@@ -22,6 +22,6 @@ export default Component.extend({
       return this.imageForFormat[format];
     }
     return 'page';
-  })
+  }),
 
 });

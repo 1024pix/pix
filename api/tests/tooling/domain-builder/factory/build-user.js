@@ -20,7 +20,7 @@ module.exports = function buildUser(
     pixRoles = [buildPixRole()],
     memberships = [buildMembership()],
     certificationCenterMemberships = [buildCertificationCenterMembership()],
-    shouldChangePassword = false
+    shouldChangePassword = false,
   } = {}) {
 
   return new User({

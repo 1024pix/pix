@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentication';
 import {
   startCampaignByCode,
-  startCampaignByCodeAndExternalId
+  startCampaignByCodeAndExternalId,
 } from '../helpers/campaign';
 import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
@@ -24,7 +24,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
       lastName: 'Campagne',
       username: '',
       userId: null,
-      organizationId: null
+      organizationId: null,
     });
   });
 

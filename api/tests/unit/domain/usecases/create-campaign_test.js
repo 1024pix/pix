@@ -105,7 +105,7 @@ describe('Unit | UseCase | create-campaign', () => {
 
     expect(campaignToCreateWithCode).to.deep.include({
       ..._.pick(campaignToCreate, ['name', 'userId', 'type', 'organizationId']),
-      code: availableCampaignCode
+      code: availableCampaignCode,
     });
   });
 

@@ -23,7 +23,7 @@ module('Unit | Service | current-user', function(hooks) {
         memberships: [{ organization: [] }],
       });
       storeStub = Service.create({
-        queryRecord: () => resolve(connectedUser)
+        queryRecord: () => resolve(connectedUser),
       });
       sessionStub = Service.create({
         isAuthenticated: true,
@@ -256,7 +256,7 @@ module('Unit | Service | current-user', function(hooks) {
         connectedUser.memberships = [membership1, membership2];
 
         storeStub.createRecord = sinon.stub().returns({
-          save: sinon.stub()
+          save: sinon.stub(),
         });
       });
 
@@ -349,7 +349,7 @@ module('Unit | Service | current-user', function(hooks) {
         invalidate: () => resolve('invalidate'),
       });
       const storeStub = Service.create({
-        queryRecord: () => reject([{ code: 403 }])
+        queryRecord: () => reject([{ code: 403 }]),
       });
       const currentUser = this.owner.lookup('service:currentUser');
       currentUser.session = sessionStub;
@@ -369,7 +369,7 @@ module('Unit | Service | current-user', function(hooks) {
       // given
       const connectedUserId = 1;
       const storeStub = Service.create({
-        queryRecord: () => reject({ errors: [{ code: 401 }] })
+        queryRecord: () => reject({ errors: [{ code: 401 }] }),
       });
       const sessionStub = Service.create({
         isAuthenticated: true,

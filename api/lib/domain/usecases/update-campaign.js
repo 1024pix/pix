@@ -14,7 +14,7 @@ module.exports = async function updateCampaign(
 
   const [ user, campaign ] = await Promise.all([
     userRepository.getWithMemberships(userId),
-    campaignRepository.get(campaignId)
+    campaignRepository.get(campaignId),
   ]);
 
   const organizationId = campaign.organizationId;

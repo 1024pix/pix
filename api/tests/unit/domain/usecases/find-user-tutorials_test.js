@@ -65,7 +65,7 @@ describe('Unit | UseCase | find-user-tutorials', () => {
         id: userTutorialId,
         tutorial,
         tutorialId,
-        userId
+        userId,
       }];
 
       // When

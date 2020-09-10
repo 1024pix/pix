@@ -57,7 +57,7 @@ describe('Unit | Route | user certifications/get', function() {
         status: 'validated',
         certificationCenter: 'Université de Lyon',
         isPublished: true,
-        pixScore: 231
+        pixScore: 231,
       });
       findRecordStub.resolves(retrievedCertification);
 
@@ -79,7 +79,7 @@ describe('Unit | Route | user certifications/get', function() {
         status: 'validated',
         certificationCenter: 'Université de Lyon',
         isPublished: false,
-        pixScore: 231
+        pixScore: 231,
       });
       findRecordStub.resolves(retreivedCertification);
 
@@ -102,7 +102,7 @@ describe('Unit | Route | user certifications/get', function() {
         status: 'rejected',
         certificationCenter: 'Université de Lyon',
         isPublished: true,
-        pixScore: 231
+        pixScore: 231,
       });
       findRecordStub.resolves(retreivedCertification);
 

@@ -17,7 +17,7 @@ const buildUserPixRole = function buildUserPixRole({
     values: {
       id,
       'user_id': userId,
-      'pix_role_id': pixRoleId
+      'pix_role_id': pixRoleId,
     },
   });
 };

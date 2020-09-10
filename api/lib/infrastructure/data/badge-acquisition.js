@@ -19,5 +19,5 @@ module.exports = Bookshelf.model(modelName, {
   },
 
 }, {
-  modelName
+  modelName,
 });

@@ -17,7 +17,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
   let answer;
   const addOneLevel = {
     level: 1,
-    pix: 8
+    pix: 8,
   };
 
   const answerRepository = {
@@ -387,7 +387,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           previouslyFailedSkills: [],
           previouslyValidatedSkills: [skillAlreadyValidated],
           targetSkills: targetProfile.skills,
-          userId: assessment.userId
+          userId: assessment.userId,
         };
         expect(KnowledgeElement.createKnowledgeElementsForAnswer).to.have.been.calledWith(expectedArgument);
       });

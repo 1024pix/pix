@@ -64,7 +64,7 @@ describe('Acceptance | Scripts | create-or-update-sco-organizations.js', () => {
           reqheaders: {
             authorization: 'Bearer token',
           },
-        }
+        },
       )
         .patch('/api/organizations/2', (body) => JSON.stringify(body) === JSON.stringify(expectedPatchBody))
         .reply(204, () => {
@@ -79,7 +79,7 @@ describe('Acceptance | Scripts | create-or-update-sco-organizations.js', () => {
           reqheaders: {
             authorization: 'Bearer token',
           },
-        }
+        },
       )
         .post('/api/organizations', (body) => JSON.stringify(body) === JSON.stringify(expectedPostBody))
         .reply(201, () => {
@@ -110,7 +110,7 @@ describe('Acceptance | Scripts | create-or-update-sco-organizations.js', () => {
 
       const expectedResult = [{
         externalId: 'A100',
-        name: 'Lycée Charles De Gaulle'
+        name: 'Lycée Charles De Gaulle',
       }, {
         externalId: 'B200',
         name: 'Collège Marie Curie',
@@ -132,7 +132,7 @@ describe('Acceptance | Scripts | create-or-update-sco-organizations.js', () => {
 
       const expectedResult = [{
         externalId: 'A100',
-        name: 'Lycée Charles De Gaulle'
+        name: 'Lycée Charles De Gaulle',
       }];
 
       // when
@@ -151,7 +151,7 @@ describe('Acceptance | Scripts | create-or-update-sco-organizations.js', () => {
 
       const expectedResult = [{
         externalId: 'A100',
-        name: 'Lycée Charles De Gaulle'
+        name: 'Lycée Charles De Gaulle',
       }];
 
       // when
@@ -170,7 +170,7 @@ describe('Acceptance | Scripts | create-or-update-sco-organizations.js', () => {
 
       const expectedResult = [{
         externalId: 'A100',
-        name: 'Lycée Charles De Gaulle'
+        name: 'Lycée Charles De Gaulle',
       }];
 
       // when

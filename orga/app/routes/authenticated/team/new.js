@@ -11,7 +11,7 @@ export default class NewRoute extends Route {
     const organization = this.currentUser.organization;
     return RSVP.hash({
       organization,
-      organizationInvitation: this.store.createRecord('organizationInvitation', { organizationId: organization.id })
+      organizationInvitation: this.store.createRecord('organizationInvitation', { organizationId: organization.id }),
     });
   }
 }

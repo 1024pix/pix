@@ -16,24 +16,24 @@ describe('Integration | Domain | Models | CampaignAnalysis', () => {
     it('computes a recommendation for each tube', () => {
       const competences = [
         { id: 1, name: 'Competence1Name', area: { color: 'black' } },
-        { id: 2, name: 'Competence2Name', area: { color: 'white' } }
+        { id: 2, name: 'Competence2Name', area: { color: 'white' } },
       ];
 
       const tubes = [
         { id: 1, competenceId: 1 },
-        { id: 2, competenceId: 2 }
+        { id: 2, competenceId: 2 },
       ];
 
       const skills = [
         { id: 1, difficulty: 1, tubeId: 1 },
         { id: 2, difficulty: 2, tubeId: 1 },
-        { id: 3, difficulty: 3, tubeId: 2 }
+        { id: 3, difficulty: 3, tubeId: 2 },
       ];
 
       const validatedKnowledgeElements = [
         { skillId: 1 },
         { skillId: 2 },
-        { skillId: 3 }
+        { skillId: 3 },
       ];
 
       const participantsCount = 1;
@@ -46,25 +46,25 @@ describe('Integration | Domain | Models | CampaignAnalysis', () => {
     it('compute the recommendation for each tube using knowledge element from the right tube skills', () => {
       const tubes = [
         { id: 1, competenceId: 1 },
-        { id: 2, competenceId: 2 }
+        { id: 2, competenceId: 2 },
       ];
 
       const competences = [
         { id: 1, name: 'Competence1Name', area: { color: 'black' } },
-        { id: 2, name: 'Competence2Name', area: { color: 'white' } }
+        { id: 2, name: 'Competence2Name', area: { color: 'white' } },
       ];
 
       const skills = [
         { id: 1, difficulty: 1, tubeId: 1 },
         { id: 2, difficulty: 2, tubeId: 1 },
         { id: 3, difficulty: 1, tubeId: 2 },
-        { id: 4, difficulty: 5, tubeId: 2 }
+        { id: 4, difficulty: 5, tubeId: 2 },
       ];
 
       const validatedKnowledgeElements = [
         { skillId: 1, userId: 1 },
         { skillId: 2, userId: 1 },
-        { skillId: 3, userId: 1 }
+        { skillId: 3, userId: 1 },
       ];
 
       const participantsCount = 1;
@@ -82,12 +82,12 @@ describe('Integration | Domain | Models | CampaignAnalysis', () => {
     it('compute a recommendation for each tube using the right tube', () => {
       const competences = [
         { id: 1, name: 'Competence1Name', area: { color: 'black' } },
-        { id: 2, name: 'Competence2Name', area: { color: 'white' } }
+        { id: 2, name: 'Competence2Name', area: { color: 'white' } },
       ];
 
       const tubes = [
         { id: 1, competenceId: 1, practicalTitle: 'Tube1Name' },
-        { id: 2, competenceId: 2, practicalTitle: 'Tube2Name' }
+        { id: 2, competenceId: 2, practicalTitle: 'Tube2Name' },
       ];
 
       const skills = [
@@ -112,12 +112,12 @@ describe('Integration | Domain | Models | CampaignAnalysis', () => {
     it('compute a recommendation for each tube using the right competence', () => {
       const tubes = [
         { id: 1, competenceId: 1 },
-        { id: 2, competenceId: 2 }
+        { id: 2, competenceId: 2 },
       ];
 
       const competences = [
         { id: 1, name: 'Competence1Name', area: { color: 'black' } },
-        { id: 2, name: 'Competence2Name', area: { color: 'white' } }
+        { id: 2, name: 'Competence2Name', area: { color: 'white' } },
       ];
 
       const skills = [
@@ -175,7 +175,7 @@ describe('Integration | Domain | Models | CampaignAnalysis', () => {
         { skillId: 3, userId: 3 },
         { skillId: 1, userId: 4 },
         { skillId: 2, userId: 4 },
-        { skillId: 3, userId: 4 }
+        { skillId: 3, userId: 4 },
       ];
 
       const participantsCount = 4;

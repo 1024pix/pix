@@ -20,7 +20,7 @@ describe('Unit | Domain | Service | Token Service', function() {
       const expectedTokenAttributes = {
         'first_name': 'Adèle',
         'last_name': 'Lopez',
-        'saml_id': 'IDO-for-adele'
+        'saml_id': 'IDO-for-adele',
       };
 
       // when

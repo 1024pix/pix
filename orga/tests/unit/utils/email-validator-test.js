@@ -15,7 +15,7 @@ module('Unit | Utils | email validator', function(hooks) {
       'INVALID_EMAIL@pix',
       'INVALID_EMAIL@pix.',
       '@pix.fr',
-      '@pix'
+      '@pix',
     ].forEach(function(badEmail) {
       test(`should return false when email is invalid: ${badEmail}`, function(assert) {
         assert.equal(isEmailValid(badEmail), false);
@@ -33,7 +33,7 @@ module('Unit | Utils | email validator', function(hooks) {
       ' user_beta@pix.fr ',
       'user+beta@pix.fr',
       'user+beta@pix.gouv.fr',
-      'user+beta@pix.beta.gouv.fr'
+      'user+beta@pix.beta.gouv.fr',
     ].forEach(function(validEmail) {
       test(`should return true if provided email is valid: ${validEmail}`, function(assert) {
         assert.equal(isEmailValid(validEmail), true);

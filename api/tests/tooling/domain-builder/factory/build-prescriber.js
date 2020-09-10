@@ -14,7 +14,7 @@ function _buildUser() {
   return new User({
     id: faker.random.number(),
     firstName: faker.name.firstName(),
-    lastName: faker.name.lastName()
+    lastName: faker.name.lastName(),
   });
 }
 
@@ -34,8 +34,8 @@ function _buildMemberships() {
     new Membership({
       id: faker.random.number(),
       user: _buildUser(),
-      organization: _buildOrganization()
-    })
+      organization: _buildOrganization(),
+    }),
   ];
 }
 
@@ -43,7 +43,7 @@ function _buildUserOrgaSettings() {
   return new UserOrgaSettings({
     id: faker.random.number(),
     currentOrganization: _buildOrganization(),
-    user: _buildUser()
+    user: _buildUser(),
   });
 }
 
@@ -55,13 +55,13 @@ module.exports = function buildPrescriber(
     pixOrgaTermsOfServiceAccepted = false,
     areNewYearSchoolingRegistrationsImported = false,
     memberships = _buildMemberships(),
-    userOrgaSettings = _buildUserOrgaSettings()
+    userOrgaSettings = _buildUserOrgaSettings(),
   } = {}) {
 
   return new Prescriber({
     id, firstName, lastName,
     pixOrgaTermsOfServiceAccepted,
     areNewYearSchoolingRegistrationsImported,
-    memberships, userOrgaSettings
+    memberships, userOrgaSettings,
   });
 };

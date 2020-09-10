@@ -7,7 +7,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import {
   createUserMembershipWithRole,
   createAdminMembershipWithNbMembers,
-  createPrescriberByUser
+  createPrescriberByUser,
 } from '../helpers/test-init';
 
 module('Acceptance | Team List | Items', function(hooks) {

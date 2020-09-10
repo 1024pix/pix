@@ -8,8 +8,8 @@ exports.register = async function(server) {
       config: {
         auth: false,
         handler: samlController.metadata,
-        tags: ['api']
-      }
+        tags: ['api'],
+      },
     },
 
     {
@@ -18,8 +18,8 @@ exports.register = async function(server) {
       config: {
         auth: false,
         handler: samlController.login,
-        tags: ['api']
-      }
+        tags: ['api'],
+      },
     },
 
     {
@@ -28,8 +28,8 @@ exports.register = async function(server) {
       config: {
         auth: false,
         handler: samlController.assert,
-        tags: ['api']
-      }
+        tags: ['api'],
+      },
     },
   ]);
 };

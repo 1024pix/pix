@@ -44,7 +44,7 @@ async function _getReferentialData() {
   let skills = await Promise.all(
     _.map(competences, (competence) => {
       return skillsRepository.findByCompetenceId(competence.id);
-    })
+    }),
   );
 
   skills = _.flatten(skills);
@@ -89,7 +89,7 @@ function _getInvalidatedSkills(skillsOfChallenges) {
     _.intersectionBy(
       _.flatMap(skillsOfChallenges, 'higherSkills'),
       skillsOfChallenges,
-      'id'
+      'id',
     );
   return skillsInvalidated;
 }

@@ -30,13 +30,13 @@ module.exports = {
         relationshipLinks: {
           related(record, current, parent) {
             return `/api/answers/${parent.id}/correction`;
-          }
-        }
+          },
+        },
       },
       levelup: {
         ref: 'id',
         attributes: ['competenceName', 'level'],
-      }
+      },
     }).serialize(answer);
   },
 

@@ -19,7 +19,7 @@ function _hasRequiredPixValue({ maxReachablePixByCompetenceForClea, cleaCompeten
   return !_.isEmpty(certifiableCompetenceIds)
     && _.every(certifiableCompetenceIds, (competenceId) => _isOverPercentage(
       _.find(cleaCompetenceMarks, { competenceId }).score,
-      maxReachablePixByCompetenceForClea[competenceId]
+      maxReachablePixByCompetenceForClea[competenceId],
     ));
 }
 
@@ -73,7 +73,7 @@ class CleaCertification extends PartnerCertification {
 
     return _hasRequiredPixValue({
       cleaCompetenceMarks: this.cleaCompetenceMarks,
-      maxReachablePixByCompetenceForClea: this.maxReachablePixByCompetenceForClea
+      maxReachablePixByCompetenceForClea: this.maxReachablePixByCompetenceForClea,
     });
   }
 }

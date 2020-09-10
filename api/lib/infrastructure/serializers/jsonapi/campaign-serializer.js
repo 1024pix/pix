@@ -23,7 +23,7 @@ module.exports = {
       targetProfile: {
         ref: 'id',
         included: true,
-        attributes: ['name', 'imageUrl']
+        attributes: ['name', 'imageUrl'],
       },
       campaignReport: {
         ref: 'id',
@@ -32,8 +32,8 @@ module.exports = {
         relationshipLinks: {
           related(record, current, parent) {
             return `/api/campaigns/${parent.id}/campaign-report`;
-          }
-        }
+          },
+        },
       },
       creator: {
         ref: 'id',
@@ -47,8 +47,8 @@ module.exports = {
         relationshipLinks: {
           related(record, current, parent) {
             return `/api/campaigns/${parent.id}/collective-results`;
-          }
-        }
+          },
+        },
       },
       campaignAnalysis: {
         ref: 'id',
@@ -56,8 +56,8 @@ module.exports = {
         relationshipLinks: {
           related(record, current, parent) {
             return `/api/campaigns/${parent.id}/analyses`;
-          }
-        }
+          },
+        },
       },
       meta,
     }).serialize(campaigns);
@@ -74,7 +74,7 @@ module.exports = {
         }
         return new Campaign(campaign);
       });
-  }
+  },
 
 };
 

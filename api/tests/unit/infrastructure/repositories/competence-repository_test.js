@@ -99,7 +99,7 @@ describe('Unit | Repository | CompetenceRepository', function() {
           descriptionFrFr: 'description fr-FR',
           descriptionEnUs: 'description en-US',
           areaId: 'recArea',
-        })
+        }),
       ]);
 
       areaDatasource.list.resolves([

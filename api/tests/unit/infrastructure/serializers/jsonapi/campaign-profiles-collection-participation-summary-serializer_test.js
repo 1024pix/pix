@@ -31,7 +31,7 @@ describe('Unit | Serializer | JSONAPI | campaign-profiles-collection-participati
             'certifiable-competences-count': 8,
           },
         },
-        meta
+        meta,
       };
 
       // when

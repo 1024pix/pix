@@ -112,5 +112,5 @@ module.exports = {
     const validations = utils.treatmentT1T2T3(treatedAnswer, treatedSolutions);
 
     return _formatResult(validations, deactivations);
-  }
+  },
 };

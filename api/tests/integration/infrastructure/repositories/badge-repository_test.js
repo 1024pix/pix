@@ -93,7 +93,7 @@ describe('Integration | Repository | Badge', () => {
     badgeCriterionForBadgeWithSameTargetProfile_2 = ({
       id: 789,
       scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
-      threshold: 35
+      threshold: 35,
     });
     databaseBuilder.factory.buildBadgeCriterion({ ...badgeCriterionForBadgeWithSameTargetProfile_2, badgeId: badgeWithSameTargetProfile_2.id });
   }

@@ -5,7 +5,7 @@ class CampaignProfileCompetence {
     name,
     pixScore,
     estimatedLevel,
-    area
+    area,
   } = {}) {
     this.id = id;
     this.index = index;

@@ -55,7 +55,7 @@ export default class CertificationDetailsController extends Controller {
           competenceId: competence.id,
         };
         return marks;
-      }, {})
+      }, {}),
     });
     this.transitionToRoute('authenticated.certifications.certification.informations', this.details.id);
   }

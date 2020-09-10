@@ -6,7 +6,7 @@ module.exports = function buildTutorial({
   format = 'video',
   link = 'https://youtube.fr',
   source = 'Youtube',
-  title = 'Savoir regarder des vidéos youtube.'
+  title = 'Savoir regarder des vidéos youtube.',
 } = {}) {
   return new Tutorial({
     id,
@@ -14,6 +14,6 @@ module.exports = function buildTutorial({
     format,
     link,
     source,
-    title
+    title,
   });
 };

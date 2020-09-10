@@ -5,7 +5,7 @@ const { UserNotAuthorizedToAccessEntity } = require('../errors');
 const {
   EXTRA_EMPTY_CANDIDATE_ROWS,
   ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
-  ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES
+  ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES,
 } = require('./../../infrastructure/files/attendance-sheet/attendance-sheet-placeholders');
 const moment = require('moment');
 const _ = require('lodash');

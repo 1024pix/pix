@@ -41,7 +41,7 @@ describe('Unit | Utility | password validator', function() {
       '+!@)-=`"#&',
       '+!@)-=`"#&1',
       '+!@)-=`"#&1A',
-      '+!@)-=`"#&1a'
+      '+!@)-=`"#&1a',
     ].forEach(function(badPassword) {
       it(`should return false when password is invalid: ${badPassword}`, function() {
         expect(isPasswordvalid(badPassword)).to.be.false;

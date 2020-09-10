@@ -38,8 +38,8 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', () => {
         samlId: 'IDO',
         firstName: 'PRE',
         lastName: 'NOM',
-      }
-    }
+      },
+    },
   };
 
   context('when user does not exist in database yet', () => {

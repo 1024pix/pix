@@ -71,7 +71,7 @@ const dependencies = {
   userReconciliationService: require('../services/user-reconciliation-service'),
   userRepository: require('../../infrastructure/repositories/user-repository'),
   userTutorialRepository: require('../../infrastructure/repositories/user-tutorial-repository'),
-  verifyCertificateCodeService: require('../../domain/services/verify-certificate-code-service')
+  verifyCertificateCodeService: require('../../domain/services/verify-certificate-code-service'),
 };
 
 const { injectDependencies } = require('../../infrastructure/utils/dependency-injection');
@@ -199,6 +199,6 @@ module.exports = injectDependencies({
   updateSchoolingRegistrationDependentUserPassword: require('./update-schooling-registration-dependent-user-password'),
   updateSession: require('./update-session'),
   updateUserDetailsForAdministration: require('./update-user-details-for-administration'),
-  updateUserPassword: require('./update-user-password')
+  updateUserPassword: require('./update-user-password'),
 
 }, dependencies);

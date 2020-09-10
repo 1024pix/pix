@@ -45,10 +45,10 @@ describe('Integration | Application | Route | campaignParticipationRouter', () =
           data: {
             type: 'campaign-participation',
             attributes: {
-              isShared: true
-            }
-          }
-        }
+              isShared: true,
+            },
+          },
+        },
       });
 
       // then

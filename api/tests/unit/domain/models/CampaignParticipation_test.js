@@ -46,7 +46,7 @@ describe('Unit | Domain | Models | CampaignParticipation', () => {
           { createdAt: new Date('2010-10-02') },
           { createdAt: new Date('2010-10-06') },
           { createdAt: new Date('2010-10-04') },
-        ]
+        ],
       });
       expect(campaignParticipation.lastAssessment)
         .to.deep.equal({ createdAt: new Date('2010-10-06') });

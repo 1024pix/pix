@@ -118,7 +118,7 @@ describe('Integration | Repository | Organization', function() {
         provinceCode: '75',
         isManagingStudents: 'true',
         canCollectProfiles: 'true',
-        email: 'sco.generic.account@example.net'
+        email: 'sco.generic.account@example.net',
       };
 
       let expectedAttributes;
@@ -140,7 +140,7 @@ describe('Integration | Repository | Organization', function() {
           memberships: [],
           students: [],
           targetProfileShares: [],
-          organizationInvitations: []
+          organizationInvitations: [],
         };
         await databaseBuilder.commit();
       });
@@ -177,7 +177,7 @@ describe('Integration | Repository | Organization', function() {
       beforeEach(async () => {
         insertedOrganization = databaseBuilder.factory.buildOrganization();
         sharedProfile = databaseBuilder.factory.buildTargetProfile({
-          isPublic: false
+          isPublic: false,
         });
         databaseBuilder.factory.buildTargetProfileShare({
           organizationId: insertedOrganization.id,
@@ -208,7 +208,7 @@ describe('Integration | Repository | Organization', function() {
 
         const membershipActive = {
           organizationId,
-          userId: databaseBuilder.factory.buildUser().id
+          userId: databaseBuilder.factory.buildUser().id,
         };
         const membershipDisabled = {
           organizationId,

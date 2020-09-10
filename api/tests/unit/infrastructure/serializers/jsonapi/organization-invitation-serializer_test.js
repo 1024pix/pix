@@ -18,7 +18,7 @@ describe('Unit | Serializer | JSONAPI | organization-invitation-serializer', () 
           status: invitationObject.status,
           'updated-at': invitationObject.updatedAt,
         },
-      }
+      },
     };
 
     it('should convert a organization-invitation object into JSON API data', () => {

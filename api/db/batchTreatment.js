@@ -39,5 +39,5 @@ function batch(knex, elementsToUpdate, treatment) {
 }
 
 module.exports = {
-  batch
+  batch,
 };

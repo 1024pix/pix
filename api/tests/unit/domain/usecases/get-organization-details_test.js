@@ -9,7 +9,7 @@ describe('Unit | UseCase | get-organization-details', () => {
     const organizationId = 1234;
     const foundOrganization = domainBuilder.buildOrganization({ id: organizationId, email: 'sco.generic.account@example.net' });
     const organizationRepository = {
-      get: sinon.stub().resolves(foundOrganization)
+      get: sinon.stub().resolves(foundOrganization),
     };
 
     // when

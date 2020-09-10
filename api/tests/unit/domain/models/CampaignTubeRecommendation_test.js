@@ -77,7 +77,7 @@ describe('Unit | Domain | Models | CampaignTubeRecommendation', () => {
         participantsCount,
         maxSkillLevelInTargetProfile,
         competence,
-        tube
+        tube,
       });
 
       expect(campaignTubeRecommendation.averageScore).to.equal(82.5);
@@ -105,7 +105,7 @@ describe('Unit | Domain | Models | CampaignTubeRecommendation', () => {
         participantsCount,
         maxSkillLevelInTargetProfile,
         competence,
-        tube
+        tube,
       });
 
       expect(campaignTubeRecommendation.averageScore).to.equal(47.5);
@@ -129,7 +129,7 @@ describe('Unit | Domain | Models | CampaignTubeRecommendation', () => {
         validatedKnowledgeElements: [],
         maxSkillLevelInTargetProfile,
         competence,
-        tube
+        tube,
       });
 
       expect(campaignTubeRecommendation.averageScore).to.equal(null);
@@ -153,7 +153,7 @@ describe('Unit | Domain | Models | CampaignTubeRecommendation', () => {
         validatedKnowledgeElements: [],
         maxSkillLevelInTargetProfile,
         competence,
-        tube
+        tube,
       });
 
       expect(campaignTubeRecommendation.averageScore).to.equal(15);

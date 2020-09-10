@@ -54,7 +54,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
 
     skills = _.map(targetProfileSkills, (targetProfileSkill) => {
       return airtableBuilder.factory.buildSkill({
-        id: targetProfileSkill.skillId
+        id: targetProfileSkill.skillId,
       });
     });
     const skillIds = _.map(skills, (skill) => skill.id);
@@ -66,7 +66,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
       message: 'You won a Banana Badge',
       title: 'Banana',
       key: 'PIX_BANANA',
-      targetProfileId: targetProfile.id
+      targetProfileId: targetProfile.id,
     });
 
     badgePartnerCompetence = databaseBuilder.factory.buildBadgePartnerCompetence({
@@ -74,7 +74,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
       badgeId: 1,
       name: 'Pix Emploi',
       color: 'emerald',
-      skillIds
+      skillIds,
     });
 
     stage = databaseBuilder.factory.buildStage({
@@ -82,7 +82,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
       message: 'Tu as le palier 1',
       title: 'palier 1',
       threshold: 20,
-      targetProfileId: targetProfile.id
+      targetProfileId: targetProfile.id,
     });
 
     databaseBuilder.factory.buildStage({
@@ -90,7 +90,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
       message: 'Tu as le palier 2',
       title: 'palier 2',
       threshold: 50,
-      targetProfileId: targetProfile.id
+      targetProfileId: targetProfile.id,
     });
 
     targetProfileSkills.slice(2).forEach((targetProfileSkill, index) => {
@@ -200,7 +200,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
               data: [{
                 id: `${badge.id}`,
                 type: 'campaignParticipationBadges',
-              }]
+              }],
             },
             'competence-results': {
               data: [{
@@ -212,14 +212,14 @@ describe('Acceptance | API | Campaign Participation Result', () => {
               }, {
                 id: `${competences[2].id}`,
                 type: 'competenceResults',
-              }]
+              }],
             },
             'reached-stage': {
               data: {
                 id: `${stage.id}`,
                 type: 'reached-stages',
-              }
-            }
+              },
+            },
           },
         },
         included: [{
@@ -233,7 +233,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
             'validated-skills-count': 3,
           },
           id: badgePartnerCompetence.id.toString(),
-          type: 'partnerCompetenceResults'
+          type: 'partnerCompetenceResults',
         }, {
           attributes: {
             'alt-message': 'Banana',
@@ -241,7 +241,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
             'is-acquired': false,
             key: 'PIX_BANANA',
             title: 'Banana',
-            message: 'You won a Banana Badge'
+            message: 'You won a Banana Badge',
           },
           id: '1',
           type: 'campaignParticipationBadges',
@@ -250,11 +250,11 @@ describe('Acceptance | API | Campaign Participation Result', () => {
               data: [
                 {
                   id: '1',
-                  type: 'partnerCompetenceResults'
-                }
-              ]
-            }
-          }
+                  type: 'partnerCompetenceResults',
+                },
+              ],
+            },
+          },
         }, {
           type: 'competenceResults',
           id: competences[0].id.toString(),
@@ -299,7 +299,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
             'star-count': 1,
           },
           id: stage.id.toString(),
-          type: 'reached-stages'
+          type: 'reached-stages',
         }],
       };
 

@@ -13,7 +13,7 @@ async function save(assessmentResult, competenceMarks) {
   await _validatedDataForAllCompetenceMark(competenceMarks);
   const { id }  = await assessmentResultRepository.save(assessmentResult);
   return bluebird.mapSeries(competenceMarks,
-    (competenceMark) => competenceMarkRepository.save(new CompetenceMark({ ...competenceMark, assessmentResultId: id }))
+    (competenceMark) => competenceMarkRepository.save(new CompetenceMark({ ...competenceMark, assessmentResultId: id })),
   );
 }
 

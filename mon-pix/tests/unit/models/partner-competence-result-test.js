@@ -23,10 +23,10 @@ describe('Unit | Model | Partner-Competence-Result', function() {
     it('should retrieve 100 since the competence is the highest number of total skills count', function() {
       const partnerCompetenceResult = store.createRecord('partner-competence-result');
       const otherPartnerCompetenceResult = store.createRecord('partner-competence-result', {
-        totalSkillsCount: 1
+        totalSkillsCount: 1,
       });
       const campaignParticipationBadge = store.createRecord('campaign-participation-badge', {
-        partnerCompetenceResults: [otherPartnerCompetenceResult, partnerCompetenceResult]
+        partnerCompetenceResults: [otherPartnerCompetenceResult, partnerCompetenceResult],
       });
       const campaignParticipationResult = store.createRecord('campaign-participation-result', {
         campaignParticipationBadges: [campaignParticipationBadge],
@@ -45,10 +45,10 @@ describe('Unit | Model | Partner-Competence-Result', function() {
     it('should retrieve 25 since the competence is not the highest number of total skills count', function() {
       const partnerCompetenceResult = store.createRecord('partner-competence-result');
       const otherPartnerCompetenceResult = store.createRecord('partner-competence-result', {
-        totalSkillsCount: 4
+        totalSkillsCount: 4,
       });
       const campaignParticipationBadge = store.createRecord('campaign-participation-badge', {
-        partnerCompetenceResults: [otherPartnerCompetenceResult, partnerCompetenceResult]
+        partnerCompetenceResults: [otherPartnerCompetenceResult, partnerCompetenceResult],
       });
       const campaignParticipationResult = store.createRecord('campaign-participation-result', {
         campaignParticipationBadges: [campaignParticipationBadge],

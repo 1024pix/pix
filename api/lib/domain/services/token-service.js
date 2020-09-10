@@ -5,7 +5,7 @@ const settings = require('../../config');
 function createAccessTokenFromUser(user, source) {
   return jsonwebtoken.sign({
     user_id: user.id,
-    source
+    source,
   }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
 }
 
@@ -19,7 +19,7 @@ function createIdTokenForUserReconciliation(externalUser) {
   return jsonwebtoken.sign({
     first_name: externalUser.firstName,
     last_name: externalUser.lastName,
-    saml_id: externalUser.samlId
+    saml_id: externalUser.samlId,
   }, settings.authentication.secret, { expiresIn: settings.authentication.tokenForStudentReconciliationLifespan });
 }
 

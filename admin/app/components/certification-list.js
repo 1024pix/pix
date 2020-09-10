@@ -7,37 +7,37 @@ export default class CertificationList extends Component {
       propertyName: 'id',
       title: 'Id',
       routeName: 'authenticated.certifications.certification.informations',
-      sortPrecedence: 1
+      sortPrecedence: 1,
     },
     {
       propertyName: 'firstName',
-      title: 'Prénom'
+      title: 'Prénom',
     },
     {
       propertyName: 'lastName',
-      title: 'Nom'
+      title: 'Nom',
     },
     {
       propertyName: 'status',
-      title: 'Statut'
+      title: 'Statut',
     },
     {
       propertyName: 'pixScore',
-      title: 'Score'
+      title: 'Score',
     },
     {
       propertyName: 'creationDate',
-      title: 'Début'
+      title: 'Début',
     },
     {
       propertyName: 'completionDate',
-      title: 'Fin'
+      title: 'Fin',
     },
     {
       component: 'certification-info-published',
       useFilter: false,
       mayBeHidden: false,
-      title: 'Publiée'
+      title: 'Publiée',
     },
   ];
 

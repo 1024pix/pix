@@ -19,7 +19,7 @@ describe('Integration | Component | result item', function() {
       proposals: '- soit possibilite A, et/ou' +
       '\n - soit possibilite B, et/ou' +
       '\n - soit possibilite C, et/ou' +
-      '\n - soit possibilite D'
+      '\n - soit possibilite D',
     });
 
     const answer = EmberObject.create({
@@ -28,8 +28,8 @@ describe('Integration | Component | result item', function() {
       id: 1,
       challenge: emberChallengeObject,
       assessment: {
-        id: 4
-      }
+        id: 4,
+      },
     });
 
     beforeEach(function() {

@@ -19,7 +19,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
         attachments: [
           'http://challenge.attachement.url.docx',
           'http://challenge.attachement.url.odt',
-          'http://challenge.attachement.url.fuck'
+          'http://challenge.attachement.url.fuck',
         ],
         embedUrl: 'https://github.io/page/epreuve.html',
         embedTitle: 'Epreuve de selection de dossier',
@@ -45,14 +45,14 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
             attachments: [
               challenge.attachments[0],
               challenge.attachments[1],
-              challenge.attachments[2]
+              challenge.attachments[2],
             ],
             'embed-url': 'https://github.io/page/epreuve.html',
             'embed-title': 'Epreuve de selection de dossier',
             'embed-height': 500,
             format: 'mots',
-          }
-        }
+          },
+        },
       });
     });
 
@@ -74,8 +74,8 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
             id: '1',
             attributes: {
               competence: 'competence_id',
-            }
-          }
+            },
+          },
         });
       });
 
@@ -94,8 +94,8 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
             id: '1',
             attributes: {
               competence: 'N/A',
-            }
-          }
+            },
+          },
         });
       });
     });

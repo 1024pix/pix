@@ -12,7 +12,7 @@ const PARSING_OPTIONS = {
       return value.length ? value : undefined;
     }
     return value;
-  }
+  },
 };
 const COLUMN_NAME_BY_ATTRIBUTE = {
   firstName: 'Premier prénom',
@@ -27,7 +27,7 @@ const COLUMN_NAME_BY_ATTRIBUTE = {
   educationalTeam: 'Équipe pédagogique',
   group: 'Groupe',
   studyScheme: 'Régime',
-  birthdate: 'Date de naissance (jj/mm/aaaa)'
+  birthdate: 'Date de naissance (jj/mm/aaaa)',
 };
 
 class HigherEducationRegistrationParser {

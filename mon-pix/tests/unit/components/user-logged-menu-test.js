@@ -43,7 +43,7 @@ describe('Unit | Component | User logged Menu', function() {
       // given
       const component = this.owner.lookup('component:user-logged-menu');
       component.set('routing', Service.create({
-        currentRouteName: 'profile'
+        currentRouteName: 'profile',
       }));
 
       // when
@@ -57,7 +57,7 @@ describe('Unit | Component | User logged Menu', function() {
       // given
       const component = this.owner.lookup('component:user-logged-menu');
       component.set('routing', Service.create({
-        currentRouteName: 'other'
+        currentRouteName: 'other',
       }));
 
       // when
@@ -75,8 +75,8 @@ describe('Unit | Component | User logged Menu', function() {
       const component = this.owner.lookup('component:user-logged-menu');
       component.set('currentUser', Service.create({
         user: {
-          email: 'email@example.net'
-        }
+          email: 'email@example.net',
+        },
       }));
 
       // then
@@ -88,8 +88,8 @@ describe('Unit | Component | User logged Menu', function() {
       const component = this.owner.lookup('component:user-logged-menu');
       component.set('currentUser', Service.create({
         user: {
-          username: 'my username'
-        }
+          username: 'my username',
+        },
       }));
 
       // then
@@ -102,8 +102,8 @@ describe('Unit | Component | User logged Menu', function() {
       component.set('currentUser', Service.create({
         user: {
           email: 'email@example.net',
-          username: 'my username'
-        }
+          username: 'my username',
+        },
       }));
 
       // then
@@ -116,7 +116,7 @@ describe('Unit | Component | User logged Menu', function() {
       component.set('currentUser', Service.create({
         user: {
 
-        }
+        },
       }));
 
       // then

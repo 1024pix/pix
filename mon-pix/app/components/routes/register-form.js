@@ -22,7 +22,7 @@ const ERROR_INPUT_MESSAGE_MAP = {
   monthOfBirth: 'Votre mois de naissance n’est pas valide.',
   yearOfBirth: 'Votre année de naissance n’est pas valide.',
   email: 'Votre email n’est pas valide.',
-  password: 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.'
+  password: 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.',
 };
 
 const isDayValid = (value) => value > 0 && value <= 31;
@@ -92,35 +92,35 @@ export default class RegisterForm extends Component {
     const validation = {
       lastName: {
         status: 'default',
-        message: null
+        message: null,
       },
       firstName: {
         status: 'default',
-        message: null
+        message: null,
       },
       dayOfBirth: {
         status: 'default',
-        message: null
+        message: null,
       },
       monthOfBirth: {
         status: 'default',
-        message: null
+        message: null,
       },
       yearOfBirth: {
         status: 'default',
-        message: null
+        message: null,
       },
       email: {
         status: 'default',
-        message: null
+        message: null,
       },
       username: {
         status: 'default',
-        message: null
+        message: null,
       },
       password: {
         status: 'default',
-        message: null
+        message: null,
       },
     };
 

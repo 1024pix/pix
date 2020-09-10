@@ -4,8 +4,8 @@ module.exports = {
   serialize(schoolingRegistrationUserAssociation) {
     return new Serializer('schooling-registration-user-association', {
       attributes: [
-        'lastName', 'firstName', 'birthdate', 'campaignCode'
+        'lastName', 'firstName', 'birthdate', 'campaignCode',
       ],
     }).serialize(schoolingRegistrationUserAssociation);
-  }
+  },
 };

@@ -107,7 +107,7 @@ describe('Integration | UseCase | compute-campaign-analysis', () => {
         competenceRepository,
         targetProfileRepository,
         tubeRepository,
-        knowledgeElementRepository
+        knowledgeElementRepository,
       });
 
       // then

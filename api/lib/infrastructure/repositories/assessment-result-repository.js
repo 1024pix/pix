@@ -59,5 +59,5 @@ module.exports = {
       .fetch({ withRelated: ['competenceMarks'] });
 
     return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessmentResult, latestAssessmentResultBookshelf);
-  }
+  },
 };

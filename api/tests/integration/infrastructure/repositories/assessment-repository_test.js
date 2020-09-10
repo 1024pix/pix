@@ -214,7 +214,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           assessmentResult: {
             createdAt: dateAssessmentResultBefore1,
             emitter: 'PIX',
-            status: AssessmentResult.status.VALIDATED
+            status: AssessmentResult.status.VALIDATED,
           },
         },
         {
@@ -228,7 +228,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           assessmentResult: {
             createdAt: dateAssessmentResultAfter1,
             emitter: 'PIX',
-            status: AssessmentResult.status.VALIDATED
+            status: AssessmentResult.status.VALIDATED,
           },
         },
         {
@@ -242,7 +242,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           assessmentResult: {
             createdAt: dateAssessmentResultBefore2,
             emitter: 'PIX',
-            status: AssessmentResult.status.VALIDATED
+            status: AssessmentResult.status.VALIDATED,
           },
         },
         {
@@ -256,7 +256,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           assessmentResult: {
             createdAt: dateAssessmentResultAfter2,
             emitter: 'PIX',
-            status: AssessmentResult.status.VALIDATED
+            status: AssessmentResult.status.VALIDATED,
           },
         },
         {
@@ -270,7 +270,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           assessmentResult: {
             createdAt: dateAssessmentResultBefore3,
             emitter: 'PIX',
-            status: AssessmentResult.status.VALIDATED
+            status: AssessmentResult.status.VALIDATED,
           },
         },
       ], ({ assessment, assessmentResult }) => {
@@ -295,8 +295,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           campaignParticipationId: null,
           certificationCourseId: null,
           competenceId: johnAssessmentToRemember.competenceId,
-          assessmentResults: []
-        })
+          assessmentResults: [],
+        }),
       ];
 
       // when
@@ -400,7 +400,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({}).id;
       databaseBuilder.factory.buildAssessment({ type: Assessment.types.CAMPAIGN, campaignParticipationId }).id;
       const otherAssessmentId = databaseBuilder.factory.buildAssessment({
-        type: Assessment.types.CAMPAIGN
+        type: Assessment.types.CAMPAIGN,
       }).id;
 
       databaseBuilder.factory.buildCampaignParticipation({ assessmentId: otherAssessmentId });
@@ -429,7 +429,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       databaseBuilder.factory.buildAssessment({
         userId,
         type: Assessment.types.CAMPAIGN,
-        state: Assessment.states.ABORTED
+        state: Assessment.states.ABORTED,
       });
 
       assessmentId = databaseBuilder.factory.buildAssessment({
@@ -485,7 +485,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         assessmentId = databaseBuilder.factory.buildAssessment({
           userId,
           type: Assessment.types.CAMPAIGN,
-          campaignParticipationId: campaignParticipation.id
+          campaignParticipationId: campaignParticipation.id,
         }).id;
 
         await databaseBuilder.commit();
@@ -496,7 +496,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         const assessmentReturned = await assessmentRepository.findLastCampaignAssessmentByUserIdAndCampaignCode({
           userId,
           campaignCode: campaign.code,
-          includeCampaign: true
+          includeCampaign: true,
         });
 
         // then
@@ -510,7 +510,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         const assessmentReturned = await assessmentRepository.findLastCampaignAssessmentByUserIdAndCampaignCode({
           userId,
           campaignCode: campaign.code,
-          includeCampaign: false
+          includeCampaign: false,
         });
 
         // then
@@ -524,7 +524,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         const assessmentReturned = await assessmentRepository.findLastCampaignAssessmentByUserIdAndCampaignCode({
           userId,
           campaignCode: 'fakeCampaignCode',
-          includeCampaign: false
+          includeCampaign: false,
         });
 
         // then

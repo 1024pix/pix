@@ -26,16 +26,16 @@ describe('Unit | Controller | Campaigns | Evaluation | Skill Review', function()
         campaign: EmberObject.create({
           targetProfile: {
             name: 'Cléa Numérique',
-          }
-        })
+          },
+        }),
       }),
       assessment: {
         id: 'assessmentId',
         get: sinon.stub().withArgs('id').resolves('assessmentId'),
         state: 'completed',
         save: sinon.stub().resolves({}),
-        codeCampaign: 'codeCampaign'
-      }
+        codeCampaign: 'codeCampaign',
+      },
     });
     controller.set('showButtonToShareResult', true);
     controller.transitionToRoute = sinon.stub();

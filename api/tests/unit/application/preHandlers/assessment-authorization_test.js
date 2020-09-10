@@ -9,8 +9,8 @@ describe('Unit | Pre-handler | Assessment Authorization', () => {
     const request = {
       headers: { authorization: 'VALID_TOKEN' },
       params: {
-        id: 8
-      }
+        id: 8,
+      },
     };
 
     beforeEach(() => {

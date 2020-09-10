@@ -6,5 +6,5 @@ module.exports = {
     return new Serializer('progression', {
       attributes: ['completionRate'],
     }).serialize(progression);
-  }
+  },
 };

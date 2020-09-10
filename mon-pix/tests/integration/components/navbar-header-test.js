@@ -36,9 +36,9 @@ describe('Integration | Component | navbar-header', function() {
       this.set('burger', {
         state: {
           actions: {
-            toggle: () => true
-          }
-        }
+            toggle: () => true,
+          },
+        },
       });
       await render(hbs`<NavbarHeader @burger={{this.burger}} />`);
       // then

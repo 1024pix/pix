@@ -40,7 +40,7 @@ export default class ResumeRoute extends Route {
     const {
       nextChallengeId,
       assessmentHasNoMoreQuestions,
-      assessmentIsCompleted
+      assessmentIsCompleted,
     } = this._parseState(assessment, nextChallenge);
 
     if (assessmentHasNoMoreQuestions || assessmentIsCompleted) {
@@ -55,7 +55,7 @@ export default class ResumeRoute extends Route {
       assessmentHasNoMoreQuestions,
       assessmentIsCompleted,
       userHasSeenCheckpoint,
-      userHasReachedCheckpoint
+      userHasReachedCheckpoint,
     } = this._parseState(assessment, nextChallenge);
 
     if (assessmentIsCompleted) {
@@ -89,7 +89,7 @@ export default class ResumeRoute extends Route {
       userHasReachedCheckpoint,
       nextChallengeId,
       nextChallenge,
-      assessmentIsCompleted
+      assessmentIsCompleted,
     };
   }
 

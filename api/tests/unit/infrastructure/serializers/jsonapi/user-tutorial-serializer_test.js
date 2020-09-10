@@ -20,8 +20,8 @@ describe('Unit | Serializer | JSONAPI | user-tutorial-serializer', () => {
             attributes: {
               'user-id': 'userId',
               'tutorial-id': 'tutorialId',
-            }
-          }
+            },
+          },
         };
         // when
         const json = serializer.serialize(userTutorial);
@@ -53,7 +53,7 @@ describe('Unit | Serializer | JSONAPI | user-tutorial-serializer', () => {
               data: {
                 id: 'tutorialId',
                 type: 'tutorials',
-              }
+              },
             },
           },
         },

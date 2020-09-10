@@ -17,7 +17,7 @@ describe('Acceptance | Controller | cache-controller', () => {
       options = {
         method: 'DELETE',
         url: '/api/cache',
-        headers: {}
+        headers: {},
       };
     });
 
@@ -74,7 +74,7 @@ describe('Acceptance | Controller | cache-controller', () => {
       options = {
         method: 'PATCH',
         url: '/api/cache',
-        headers: {}
+        headers: {},
       };
     });
 

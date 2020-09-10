@@ -43,7 +43,7 @@ export default Factory.extend({
   withOneChallenge: trait({
     afterCreate(campaign, server) {
       server.create('challenge', 'forCampaign');
-    }
+    },
   }),
 
   withThreeChallenges: trait({
@@ -51,7 +51,7 @@ export default Factory.extend({
       server.create('challenge', 'forCampaign');
       server.create('challenge', 'forCampaign');
       server.create('challenge', 'forCampaign');
-    }
+    },
   }),
 
   ofTypeAssessment: trait({
@@ -59,7 +59,7 @@ export default Factory.extend({
       campaign.update({
         type : 'ASSESSMENT',
       });
-    }
+    },
   }),
 
   ofTypeProfilesCollection: trait({
@@ -67,7 +67,7 @@ export default Factory.extend({
       campaign.update({
         type : 'PROFILES_COLLECTION',
       });
-    }
+    },
   }),
 
   restricted: trait({
@@ -75,6 +75,6 @@ export default Factory.extend({
       campaign.update({
         isRestricted : true,
       });
-    }
+    },
   }),
 });

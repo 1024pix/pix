@@ -39,7 +39,7 @@ module('Unit | Component | login-form', (hooks) => {
       // then
       assert.ok(authenticateStub.calledWith(expectedAuthenticator,
         expectedEmail,
-        sinon.match.any, sinon.match.any
+        sinon.match.any, sinon.match.any,
       ));
     });
   });

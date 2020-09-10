@@ -12,7 +12,7 @@ const { and, or, not, equal } = computed;
 @classNames('certifications-list-item')
 @classNameBindings(
   'certification.isPublished:certifications-list-item__published-item:certifications-list-item__unpublished-item',
-  'isClickable:certifications-list-item__clickable:certifications-list-item__not-clickable'
+  'isClickable:certifications-list-item__clickable:certifications-list-item__not-clickable',
 )
 export default class CertificationsListItem extends Component {
   certification = null;

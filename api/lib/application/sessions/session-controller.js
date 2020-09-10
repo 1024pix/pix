@@ -22,7 +22,7 @@ module.exports = {
       = sessionValidator.validateAndNormalizeFilters(filter, currentUserId);
     const jurySessionsForPaginatedList = await jurySessionRepository.findPaginatedFiltered({
       filters: normalizedFilters,
-      page
+      page,
     });
 
     return jurySessionSerializer.serializeForPaginatedList(jurySessionsForPaginatedList);
@@ -84,7 +84,7 @@ module.exports = {
     const certificationCandidate = await certificationCandidateSerializer.deserialize(request.payload);
     const addedCertificationCandidate = await usecases.addCertificationCandidateToSession({
       sessionId,
-      certificationCandidate
+      certificationCandidate,
     });
 
     return h.response(certificationCandidateSerializer.serialize(addedCertificationCandidate)).created();
@@ -151,7 +151,7 @@ module.exports = {
     const certificationReports = await Promise.all(
       (request.payload.data.included || [])
         .filter((data) => data.type === 'certification-reports')
-        .map((data) => certificationReportSerializer.deserialize({ data }))
+        .map((data) => certificationReportSerializer.deserialize({ data })),
     );
 
     const session = await usecases.finalizeSession({ sessionId, examinerGlobalComment, certificationReports });

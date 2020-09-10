@@ -16,13 +16,13 @@ module.exports = {
         'tubePracticalTitle',
         'tubePracticalDescription',
         'tutorialEvaluation',
-        'userTutorial'
+        'userTutorial',
       ],
       tutorialEvaluation: tutorialEvaluationAttributes,
       userTutorial: userTutorialAttributes,
       typeForAttribute(attribute) {
         return attribute === 'userTutorial' ? 'user-tutorial' : attribute;
-      }
+      },
     }).serialize(tutorial);
   },
 

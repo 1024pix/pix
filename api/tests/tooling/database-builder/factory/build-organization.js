@@ -13,7 +13,7 @@ const buildOrganization = function buildOrganization({
   canCollectProfiles = false,
   createdAt = faker.date.recent(),
   updatedAt = faker.date.recent(),
-  email
+  email,
 } = {}) {
 
   const values = {

@@ -4,9 +4,9 @@ module.exports = {
 
   serialize(pixscore) {
     return new Serializer('pix-score', {
-      attributes: ['value']
+      attributes: ['value'],
     }).serialize(pixscore);
-  }
+  },
 
 };
 

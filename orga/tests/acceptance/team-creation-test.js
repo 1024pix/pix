@@ -5,7 +5,7 @@ import { authenticateSession } from 'ember-simple-auth/test-support';
 
 import {
   createUserMembershipWithRole,
-  createPrescriberByUser
+  createPrescriberByUser,
 } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -139,8 +139,8 @@ module('Acceptance | Team Creation', function(hooks) {
                 detail: '[Object object]',
                 status: '500',
                 title: 'Internal Server Error',
-              }
-            ]
+              },
+            ],
           }, 500);
         await fillIn('#email', 'fake@email');
 
@@ -163,8 +163,8 @@ module('Acceptance | Team Creation', function(hooks) {
                 detail: '',
                 status: '412',
                 title: 'Precondition Failed',
-              }
-            ]
+              },
+            ],
           }, 412);
         await fillIn('#email', 'fake@email');
 
@@ -187,8 +187,8 @@ module('Acceptance | Team Creation', function(hooks) {
                 detail: '',
                 status: '404',
                 title: 'Not Found',
-              }
-            ]
+              },
+            ],
           }, 404);
         await fillIn('#email', 'fake@email');
 
@@ -211,8 +211,8 @@ module('Acceptance | Team Creation', function(hooks) {
                 detail: '',
                 status: '400',
                 title: 'Bad Request',
-              }
-            ]
+              },
+            ],
           }, 400);
         await fillIn('#email', 'fake@email');
 

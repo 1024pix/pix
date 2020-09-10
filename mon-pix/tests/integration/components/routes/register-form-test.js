@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { resolve, reject } from 'rsvp';
 import {
-  click, fillIn, find, render, triggerEvent
+  click, fillIn, find, render, triggerEvent,
 } from '@ember/test-helpers';
 
 import EmberObject from '@ember/object';
@@ -62,7 +62,7 @@ describe('Integration | Component | routes/register-form', function() {
           },
           unloadRecord() {
             return resolve();
-          }
+          },
         });
       };
       sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
@@ -291,7 +291,7 @@ describe('Integration | Component | routes/register-form', function() {
             },
             unloadRecord() {
               return resolve();
-            }
+            },
           });
         };
         sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
@@ -332,7 +332,7 @@ describe('Integration | Component | routes/register-form', function() {
             code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta
+            meta,
           };
 
           this.owner.unregister('service:store');
@@ -346,7 +346,7 @@ describe('Integration | Component | routes/register-form', function() {
               },
               unloadRecord() {
                 return resolve();
-              }
+              },
             });
           };
           sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
@@ -381,7 +381,7 @@ describe('Integration | Component | routes/register-form', function() {
             code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta
+            meta,
           };
 
           this.owner.unregister('service:store');
@@ -395,7 +395,7 @@ describe('Integration | Component | routes/register-form', function() {
               },
               unloadRecord() {
                 return resolve();
-              }
+              },
             });
           };
           sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
@@ -430,7 +430,7 @@ describe('Integration | Component | routes/register-form', function() {
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta
+            meta,
           };
 
           this.owner.unregister('service:store');
@@ -444,7 +444,7 @@ describe('Integration | Component | routes/register-form', function() {
               },
               unloadRecord() {
                 return resolve();
-              }
+              },
             });
           };
           sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
@@ -479,7 +479,7 @@ describe('Integration | Component | routes/register-form', function() {
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta
+            meta,
           };
 
           this.owner.unregister('service:store');
@@ -493,7 +493,7 @@ describe('Integration | Component | routes/register-form', function() {
               },
               unloadRecord() {
                 return resolve();
-              }
+              },
             });
           };
           sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
@@ -528,7 +528,7 @@ describe('Integration | Component | routes/register-form', function() {
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta
+            meta,
           };
 
           this.owner.unregister('service:store');
@@ -542,7 +542,7 @@ describe('Integration | Component | routes/register-form', function() {
               },
               unloadRecord() {
                 return resolve();
-              }
+              },
             });
           };
           sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
@@ -577,7 +577,7 @@ describe('Integration | Component | routes/register-form', function() {
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta
+            meta,
           };
 
           this.owner.unregister('service:store');
@@ -591,7 +591,7 @@ describe('Integration | Component | routes/register-form', function() {
               },
               unloadRecord() {
                 return resolve();
-              }
+              },
             });
           };
           sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
@@ -626,7 +626,7 @@ describe('Integration | Component | routes/register-form', function() {
             code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta
+            meta,
           };
 
           this.owner.unregister('service:store');
@@ -640,7 +640,7 @@ describe('Integration | Component | routes/register-form', function() {
               },
               unloadRecord() {
                 return resolve();
-              }
+              },
             });
           };
           sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
@@ -679,7 +679,7 @@ describe('Integration | Component | routes/register-form', function() {
             code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta
+            meta,
           };
 
           this.owner.unregister('service:store');
@@ -693,7 +693,7 @@ describe('Integration | Component | routes/register-form', function() {
               },
               unloadRecord() {
                 return resolve();
-              }
+              },
             });
           };
           sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
@@ -728,7 +728,7 @@ describe('Integration | Component | routes/register-form', function() {
             code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta
+            meta,
           };
 
           this.owner.unregister('service:store');
@@ -742,7 +742,7 @@ describe('Integration | Component | routes/register-form', function() {
               },
               unloadRecord() {
                 return resolve();
-              }
+              },
             });
           };
           sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
@@ -777,7 +777,7 @@ describe('Integration | Component | routes/register-form', function() {
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta
+            meta,
           };
 
           this.owner.unregister('service:store');
@@ -791,7 +791,7 @@ describe('Integration | Component | routes/register-form', function() {
               },
               unloadRecord() {
                 return resolve();
-              }
+              },
             });
           };
           sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
@@ -826,7 +826,7 @@ describe('Integration | Component | routes/register-form', function() {
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta
+            meta,
           };
 
           this.owner.unregister('service:store');
@@ -840,7 +840,7 @@ describe('Integration | Component | routes/register-form', function() {
               },
               unloadRecord() {
                 return resolve();
-              }
+              },
             });
           };
           sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
@@ -875,7 +875,7 @@ describe('Integration | Component | routes/register-form', function() {
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta
+            meta,
           };
 
           this.owner.unregister('service:store');
@@ -889,7 +889,7 @@ describe('Integration | Component | routes/register-form', function() {
               },
               unloadRecord() {
                 return resolve();
-              }
+              },
             });
           };
           sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
@@ -924,7 +924,7 @@ describe('Integration | Component | routes/register-form', function() {
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta
+            meta,
           };
 
           this.owner.unregister('service:store');
@@ -938,7 +938,7 @@ describe('Integration | Component | routes/register-form', function() {
               },
               unloadRecord() {
                 return resolve();
-              }
+              },
             });
           };
           sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
@@ -973,7 +973,7 @@ describe('Integration | Component | routes/register-form', function() {
             code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta
+            meta,
           };
 
           this.owner.unregister('service:store');
@@ -987,7 +987,7 @@ describe('Integration | Component | routes/register-form', function() {
               },
               unloadRecord() {
                 return resolve();
-              }
+              },
             });
           };
           sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {

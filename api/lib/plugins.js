@@ -11,9 +11,9 @@ const swaggerOptions = {
   grouping: 'tags',
   info: {
     'title': 'Welcome to the Pix api catalog',
-    'version': Pack.version
+    'version': Pack.version,
   },
-  documentationPath: '/api/documentation'
+  documentationPath: '/api/documentation',
 };
 
 const isProduction = ['production', 'staging'].includes(process.env.NODE_ENV);
@@ -24,7 +24,7 @@ const consoleReporters =
       {
         module: 'good-squeeze',
         name: 'SafeJson',
-        args: []
+        args: [],
       },
     ]
     :
@@ -34,15 +34,15 @@ const consoleReporters =
         name: 'Squeeze',
         args: [{
           response: '*',
-          log: '*'
-        }]
+          log: '*',
+        }],
       },
       {
         module: 'good-console',
         args: [{
-          color: settings.logging.colorEnabled
-        }]
-      }
+          color: settings.logging.colorEnabled,
+        }],
+      },
     ]
     ;
 
@@ -56,15 +56,15 @@ const plugins = [
   Blipp,
   {
     plugin: HapiSwagger,
-    options: swaggerOptions
+    options: swaggerOptions,
   },
   {
     plugin: require('good'),
     options: {
       reporters: {
         console: consoleReporters,
-      }
-    }
+      },
+    },
   },
   ...(settings.sentry.enabled ? [
     {
@@ -76,16 +76,16 @@ const plugins = [
           release: `v${Pack.version}`,
           maxBreadcrumbs: settings.sentry.maxBreadcrumbs,
           debug: settings.sentry.debug,
-          maxValueLength: settings.sentry.maxValueLength
+          maxValueLength: settings.sentry.maxValueLength,
         },
         scope: {
           tags: [
-            { name: 'source', value: 'api' }
-          ]
-        }
-      }
-    }
-  ] : [])
+            { name: 'source', value: 'api' },
+          ],
+        },
+      },
+    },
+  ] : []),
 ];
 
 module.exports = plugins;

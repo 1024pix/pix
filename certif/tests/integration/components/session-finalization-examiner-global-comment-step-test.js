@@ -25,13 +25,13 @@ module('Integration | Component | session-finalization-examiner-global-comment-s
 
   test('it renders', async function(assert) {
     assert.dom('label').hasText(
-      'Vous pouvez indiquer un commentaire global sur cette session, par exemple si vous avez rencontré un problème technique qui a impacté le déroulement de la session.'
+      'Vous pouvez indiquer un commentaire global sur cette session, par exemple si vous avez rencontré un problème technique qui a impacté le déroulement de la session.',
     );
     assert.dom('div.session-finalization-examiner-global-comment-step__characters-information')
       .hasText(this.session.examinerGlobalComment.length + ' / ' + this.examinerGlobalCommentMaxLength);
     assert.equal(
       find('textarea').value.trim(),
-      firstComment
+      firstComment,
     );
   });
 

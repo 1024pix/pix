@@ -37,7 +37,7 @@ export default Component.extend({
       }
       const newCertificationCourse = this.store.createRecord('certification-course', {
         accessCode: this.accessCode,
-        sessionId: this.stepsData.joiner.sessionId
+        sessionId: this.stepsData.joiner.sessionId,
       });
       try {
         await newCertificationCourse.save();

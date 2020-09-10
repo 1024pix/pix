@@ -8,7 +8,7 @@ module.exports = async function generateUsernameWithTemporaryPassword({
   encryptionService,
   userReconciliationService,
   userRepository,
-  schoolingRegistrationRepository
+  schoolingRegistrationRepository,
 }) {
 
   const schoolingRegistration = await schoolingRegistrationRepository.get(schoolingRegistrationId);

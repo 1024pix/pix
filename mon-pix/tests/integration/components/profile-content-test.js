@@ -20,7 +20,7 @@ describe('Integration | Component | Profile-content', function() {
         data: {
           authenticated: {
             access_token: 'VALID-TOKEN',
-          }
+          },
         },
       }));
 

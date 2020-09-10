@@ -18,7 +18,7 @@ describe('Unit | Service | VerifyCertificateCode', () => {
 
         // then
         expect(result).to.match(/^P-[2346789BCDFGHJKMPQRTVWXY]{8}$/);
-      })
+      }),
     );
 
     context('when a code is not available', () => {

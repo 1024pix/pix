@@ -24,7 +24,7 @@ async function _createCampaignAssessment(userId, assessmentRepository, createdCa
     state: Assessment.states.STARTED,
     type: Assessment.types.CAMPAIGN,
     courseId: Assessment.courseIdMessage.CAMPAIGN,
-    campaignParticipationId: createdCampaignParticipation.id
+    campaignParticipationId: createdCampaignParticipation.id,
   });
   return assessmentRepository.save({ assessment });
 }

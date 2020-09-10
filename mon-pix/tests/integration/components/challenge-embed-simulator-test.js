@@ -89,7 +89,7 @@ describe('Integration | Component | Challenge Embed Simulator', function() {
       this.set('embedDocument', {
         url: 'http://embed-simulator.url',
         title: 'Embed simulator',
-        height: 200
+        height: 200,
       });
 
       // when

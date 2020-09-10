@@ -39,7 +39,7 @@ describe('Docs | jsonapi-serializer', () => {
         },
         address: {
           ref: 'id',
-          ignoreRelationshipData: true // Unless this is set to true, in which case it it will default to an empty object
+          ignoreRelationshipData: true, // Unless this is set to true, in which case it it will default to an empty object
         },
         books: {
           ref: 'id',
@@ -73,11 +73,11 @@ describe('Docs | jsonapi-serializer', () => {
               data: [
                 { id: '1', type: 'books' },
                 { id: '2', type: 'books' },
-              ]
+              ],
             },
             // ignoreRelationshipData: true, is set for both
             address: {},
-            friend: {}
+            friend: {},
           },
         },
         included: [
@@ -104,7 +104,7 @@ describe('Docs | jsonapi-serializer', () => {
               'first-name': 'Jane',
             },
           },
-        ]
+        ],
       };
 
       expect(serialized).to.deep.equal(expected);
@@ -114,11 +114,11 @@ describe('Docs | jsonapi-serializer', () => {
     it('should only serialize the requested attributes and automatically dash-case them', function() {
       const user = {
         firstName: 'John',
-        age: 20
+        age: 20,
       };
 
       const serialized = new Serializer(resourceType, {
-        attributes: ['firstName']
+        attributes: ['firstName'],
       }).serialize(user);
 
       const expected = {
@@ -126,8 +126,8 @@ describe('Docs | jsonapi-serializer', () => {
           attributes: {
             'first-name': 'John',
           },
-          type: 'users'
-        }
+          type: 'users',
+        },
       };
 
       expect(serialized).to.deep.equal(expected);
@@ -137,21 +137,21 @@ describe('Docs | jsonapi-serializer', () => {
     it('should embed the object "as in"', function() {
       const user = {
         firstName: 'John',
-        address: { street: 'Baker street' }
+        address: { street: 'Baker street' },
       };
 
       const serialized = new Serializer(resourceType, {
-        attributes: ['firstName', 'address']
+        attributes: ['firstName', 'address'],
       }).serialize(user);
 
       const expected = {
         data: {
           attributes: {
             'first-name': 'John',
-            'address': { street: 'Baker street' }
+            'address': { street: 'Baker street' },
           },
-          type: 'users'
-        }
+          type: 'users',
+        },
       };
 
       expect(serialized).to.deep.equal(expected);
@@ -168,7 +168,7 @@ describe('Docs | jsonapi-serializer', () => {
         attributes: ['firstName'],
         topLevelLinks: {
           rel: (user) => `https://example.com/api/users/${user.id}`,
-        }
+        },
       }).serialize(user);
 
       const expected = {
@@ -177,7 +177,7 @@ describe('Docs | jsonapi-serializer', () => {
             'first-name': 'John',
           },
           id: '1',
-          type: 'users'
+          type: 'users',
         },
         links: {
           rel: 'https://example.com/api/users/1',
@@ -192,7 +192,7 @@ describe('Docs | jsonapi-serializer', () => {
     it('should copy the meta object at the top level of the serialized object', function() {
       const user = {
         firstName: 'John',
-        age: 20
+        age: 20,
       };
 
       const serialized = new Serializer(resourceType, {
@@ -205,7 +205,7 @@ describe('Docs | jsonapi-serializer', () => {
           attributes: {
             'first-name': 'John',
           },
-          type: 'users'
+          type: 'users',
         },
         meta: { some: 'meta' },
       };
@@ -224,7 +224,7 @@ describe('Docs | jsonapi-serializer', () => {
         attributes: ['firstName'],
         dataLinks: {
           rel: (user) => `https://example.com/api/users/${user.id}`,
-        }
+        },
       }).serialize(user);
 
       const expected = {
@@ -236,7 +236,7 @@ describe('Docs | jsonapi-serializer', () => {
             rel: 'https://example.com/api/users/1',
           },
           id: '1',
-          type: 'users'
+          type: 'users',
         },
       };
 
@@ -247,7 +247,7 @@ describe('Docs | jsonapi-serializer', () => {
     it('should copy the meta object at the top level of the serialized object', function() {
       const user = {
         firstName: 'John',
-        age: 20
+        age: 20,
       };
 
       const serialized = new Serializer(resourceType, {
@@ -261,7 +261,7 @@ describe('Docs | jsonapi-serializer', () => {
             'first-name': 'John',
           },
           meta: { some: 'meta' },
-          type: 'users'
+          type: 'users',
         },
       };
 
@@ -273,7 +273,7 @@ describe('Docs | jsonapi-serializer', () => {
       const user = {
         id: '1',
         firstName: 'John',
-        job: { title: 'dev', salary: 1337 }
+        job: { title: 'dev', salary: 1337 },
       };
 
       const serialized = new Serializer(resourceType, {
@@ -281,7 +281,7 @@ describe('Docs | jsonapi-serializer', () => {
         job: {
           // This typically is set to the string 'id' but it does not have to be, as demonstrated here
           ref: 'title',
-        }
+        },
       }).serialize(user);
 
       const expected = {
@@ -311,7 +311,7 @@ describe('Docs | jsonapi-serializer', () => {
       const user = {
         id: '1',
         firstName: 'John',
-        job: { id: 1, title: 'dev', salary: 1337 }
+        job: { id: 1, title: 'dev', salary: 1337 },
       };
 
       const serialized = new Serializer(resourceType, {
@@ -345,8 +345,8 @@ describe('Docs | jsonapi-serializer', () => {
             attributes: {
               salary: 1337,
             },
-          }
-        ]
+          },
+        ],
       };
 
       expect(serialized).to.deep.equal(expected);
@@ -355,7 +355,7 @@ describe('Docs | jsonapi-serializer', () => {
       const user = {
         id: '1',
         firstName: 'John',
-        job: { id: 1, title: 'dev', salary: 1337 }
+        job: { id: 1, title: 'dev', salary: 1337 },
       };
 
       const serialized = new Serializer(resourceType, {
@@ -364,7 +364,7 @@ describe('Docs | jsonapi-serializer', () => {
           ref: 'id',
           attributes: ['dev', 'salary'],
           included: false,
-        }
+        },
       }).serialize(user);
 
       const expected = {
@@ -393,7 +393,7 @@ describe('Docs | jsonapi-serializer', () => {
       const user = {
         id: '1',
         firstName: 'John',
-        job: { id: 1, title: 'dev', salary: 1337 }
+        job: { id: 1, title: 'dev', salary: 1337 },
       };
 
       const serialized = new Serializer(resourceType, {
@@ -401,7 +401,7 @@ describe('Docs | jsonapi-serializer', () => {
         job: {
           ref: 'id',
           attributes: ['dev', 'salary'],
-          relationshipMeta: { some: 'data' }
+          relationshipMeta: { some: 'data' },
         },
       }).serialize(user);
 
@@ -429,8 +429,8 @@ describe('Docs | jsonapi-serializer', () => {
             attributes: {
               salary: 1337,
             },
-          }
-        ]
+          },
+        ],
       };
 
       expect(serialized).to.deep.equal(expected);
@@ -441,7 +441,7 @@ describe('Docs | jsonapi-serializer', () => {
       const user = {
         id: '1',
         firstName: 'John',
-        job: { id: 1, title: 'dev', salary: 1337 }
+        job: { id: 1, title: 'dev', salary: 1337 },
       };
 
       const serialized = new Serializer(resourceType, {
@@ -451,8 +451,8 @@ describe('Docs | jsonapi-serializer', () => {
           attributes: ['dev', 'salary'],
           relationshipLinks: {
             related: 'some constant link',
-            self: (relationship) => 'some relationship link using relationship data ' + relationship.id
-          }
+            self: (relationship) => 'some relationship link using relationship data ' + relationship.id,
+          },
         },
       }).serialize(user);
 
@@ -471,8 +471,8 @@ describe('Docs | jsonapi-serializer', () => {
               },
               links: {
                 related: 'some constant link',
-                self: 'some relationship link using relationship data 1'
-              }
+                self: 'some relationship link using relationship data 1',
+              },
             },
           },
         },
@@ -483,8 +483,8 @@ describe('Docs | jsonapi-serializer', () => {
             attributes: {
               salary: 1337,
             },
-          }
-        ]
+          },
+        ],
       };
 
       expect(serialized).to.deep.equal(expected);
@@ -497,7 +497,7 @@ describe('Docs | jsonapi-serializer', () => {
       };
 
       const serialized = new Serializer(resourceType, {
-        attributes: ['firstName', 'age']
+        attributes: ['firstName', 'age'],
       }).serialize(user);
 
       const expected = {
@@ -505,8 +505,8 @@ describe('Docs | jsonapi-serializer', () => {
           attributes: {
             'first-name': 'John',
           },
-          type: 'users'
-        }
+          type: 'users',
+        },
       };
 
       expect(serialized).to.deep.equal(expected);
@@ -519,18 +519,18 @@ describe('Docs | jsonapi-serializer', () => {
       const serialized = new Serializer(resourceType, {
         attributes: ['firstName', 'age'],
         age: {
-          nullIfMissing: true
-        }
+          nullIfMissing: true,
+        },
       }).serialize(user);
 
       const expected = {
         data: {
           attributes: {
             'first-name': 'John',
-            'age': null
+            'age': null,
           },
-          type: 'users'
-        }
+          type: 'users',
+        },
       };
 
       expect(serialized).to.deep.equal(expected);
@@ -540,7 +540,7 @@ describe('Docs | jsonapi-serializer', () => {
     it('should copy the meta object as top level meta JSON-API object', function() {
       const user = {
         firstName: 'John',
-        lastName: 'Doe'
+        lastName: 'Doe',
       };
 
       const serialized = new Serializer(resourceType, {
@@ -548,7 +548,7 @@ describe('Docs | jsonapi-serializer', () => {
         transform(record) {
           record.fullName = record.firstName + ' ' + record.lastName;
           return record;
-        }
+        },
       }).serialize(user);
 
       const expected = {
@@ -556,7 +556,7 @@ describe('Docs | jsonapi-serializer', () => {
           attributes: {
             'full-name': 'John Doe',
           },
-          type: 'users'
+          type: 'users',
         },
       };
 
@@ -568,22 +568,22 @@ describe('Docs | jsonapi-serializer', () => {
       const user = {
         firstName: 'John',
         'last_name': 'Doe',
-        superAge: 20
+        superAge: 20,
       };
 
       const serialized = new Serializer(resourceType, {
         attributes: ['firstName', 'lastName', 'superAge'],
-        keyForAttribute: 'snake_case'
+        keyForAttribute: 'snake_case',
       }).serialize(user);
 
       const expected = {
         data: {
           attributes: {
             'first_name': 'John',
-            'super_age': 20
+            'super_age': 20,
           },
-          type: 'users'
-        }
+          type: 'users',
+        },
       };
 
       expect(serialized).to.deep.equal(expected);
@@ -592,22 +592,22 @@ describe('Docs | jsonapi-serializer', () => {
       const user = {
         firstName: 'John',
         'last_name': 'Doe',
-        superAge: 20
+        superAge: 20,
       };
 
       const serialized = new Serializer(resourceType, {
         attributes: ['firstName', 'lastName', 'superAge'],
-        keyForAttribute: (key) => `__${key}__`
+        keyForAttribute: (key) => `__${key}__`,
       }).serialize(user);
 
       const expected = {
         data: {
           attributes: {
             '__firstName__': 'John',
-            '__superAge__': 20
+            '__superAge__': 20,
           },
-          type: 'users'
-        }
+          type: 'users',
+        },
       };
 
       expect(serialized).to.deep.equal(expected);
@@ -620,7 +620,7 @@ describe('Docs | jsonapi-serializer', () => {
       };
 
       const serialized = new Serializer('user', {
-        attributes: ['firstName']
+        attributes: ['firstName'],
       }).serialize(user);
 
       const expected = {
@@ -628,8 +628,8 @@ describe('Docs | jsonapi-serializer', () => {
           attributes: {
             'first-name': 'John',
           },
-          type: 'users'
-        }
+          type: 'users',
+        },
       };
 
       expect(serialized).to.deep.equal(expected);
@@ -641,7 +641,7 @@ describe('Docs | jsonapi-serializer', () => {
       };
 
       const serialized = new Serializer('body', {
-        attributes: ['size']
+        attributes: ['size'],
       }).serialize(body);
 
       const expected = {
@@ -649,8 +649,8 @@ describe('Docs | jsonapi-serializer', () => {
           attributes: {
             'size': 'large',
           },
-          type: 'bodies'
-        }
+          type: 'bodies',
+        },
       };
 
       expect(serialized).to.deep.equal(expected);
@@ -662,7 +662,7 @@ describe('Docs | jsonapi-serializer', () => {
 
       const serialized = new Serializer('body', {
         attributes: ['size'],
-        pluralizeType: false
+        pluralizeType: false,
       }).serialize(body);
 
       const expected = {
@@ -670,8 +670,8 @@ describe('Docs | jsonapi-serializer', () => {
           attributes: {
             'size': 'large',
           },
-          type: 'body'
-        }
+          type: 'body',
+        },
       };
 
       expect(serialized).to.deep.equal(expected);

@@ -13,13 +13,13 @@ module.exports = {
         const buildedError = _handleWhenInvalidAuthorization('Vous n’êtes pas autorisé à accéder à cette évaluation');
         return h.response(validationErrorSerializer.serialize(buildedError)).code(401).takeover();
       });
-  }
+  },
 };
 
 function _handleWhenInvalidAuthorization(errorMessage) {
   return {
     data: {
-      authorization: [errorMessage]
-    }
+      authorization: [errorMessage],
+    },
   };
 }

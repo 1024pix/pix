@@ -7,5 +7,5 @@ module.exports = {
         'lastName', 'firstName', 'birthdate', 'username', 'email', 'isAuthenticatedFromGAR',
       ],
     }).serialize(students);
-  }
+  },
 };

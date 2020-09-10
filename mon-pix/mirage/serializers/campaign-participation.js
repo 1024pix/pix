@@ -14,11 +14,11 @@ export default ApplicationSerializer.extend({
   links(campaignParticipation) {
     return {
       'assessment': {
-        related: `/api/assessments/${campaignParticipation.assessmentId}`
+        related: `/api/assessments/${campaignParticipation.assessmentId}`,
       },
       'campaignParticipationResult': {
-        related: `/api/campaign-participations/${campaignParticipation.id}/campaign-participation-result`
+        related: `/api/campaign-participations/${campaignParticipation.id}/campaign-participation-result`,
       },
     };
-  }
+  },
 });

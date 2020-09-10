@@ -5,7 +5,7 @@ const {
 module.exports = async function addCertificationCandidateToSession({
   sessionId,
   certificationCandidate,
-  certificationCandidateRepository
+  certificationCandidateRepository,
 }) {
   certificationCandidate.sessionId = sessionId;
   certificationCandidate.validate();
@@ -13,7 +13,7 @@ module.exports = async function addCertificationCandidateToSession({
     sessionId,
     firstName: certificationCandidate.firstName,
     lastName: certificationCandidate.lastName,
-    birthdate: certificationCandidate.birthdate
+    birthdate: certificationCandidate.birthdate,
   });
 
   if (duplicateCandidates.length !== 0) {

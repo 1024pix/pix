@@ -19,7 +19,7 @@ describe('Unit | UseCase | dissociate-user-from-schooling-registration', () => {
 
       schoolingRegistrationRepositoryStub =  {
         dissociateUserFromSchoolingRegistration: sinon.stub(),
-        get: sinon.stub().resolves(schoolingRegistration)
+        get: sinon.stub().resolves(schoolingRegistration),
       };
       membershipRepositoryStub =  { findByUserIdAndOrganizationId: sinon.stub().withArgs({ userId, organizationId: 9, includeOrganization: true }).resolves([{ isAdmin: true }]) };
     });
@@ -30,7 +30,7 @@ describe('Unit | UseCase | dissociate-user-from-schooling-registration', () => {
         userId,
         schoolingRegistrationId,
         membershipRepository: membershipRepositoryStub,
-        schoolingRegistrationRepository: schoolingRegistrationRepositoryStub
+        schoolingRegistrationRepository: schoolingRegistrationRepositoryStub,
       });
 
       // then
@@ -49,7 +49,7 @@ describe('Unit | UseCase | dissociate-user-from-schooling-registration', () => {
 
       schoolingRegistrationRepositoryStub =  {
         dissociateUserFromSchoolingRegistration: sinon.stub(),
-        get: sinon.stub().resolves(schoolingRegistration)
+        get: sinon.stub().resolves(schoolingRegistration),
       };
       membershipRepositoryStub =  { findByUserIdAndOrganizationId: sinon.stub().resolves([]) };
     });
@@ -60,7 +60,7 @@ describe('Unit | UseCase | dissociate-user-from-schooling-registration', () => {
         userId,
         schoolingRegistrationId,
         membershipRepository: membershipRepositoryStub,
-        schoolingRegistrationRepository: schoolingRegistrationRepositoryStub
+        schoolingRegistrationRepository: schoolingRegistrationRepositoryStub,
       });
 
       expect(error).to.be.instanceof(ForbiddenAccess);
@@ -75,7 +75,7 @@ describe('Unit | UseCase | dissociate-user-from-schooling-registration', () => {
 
       schoolingRegistrationRepositoryStub =  {
         dissociateUserFromSchoolingRegistration: sinon.stub(),
-        get: sinon.stub().resolves(schoolingRegistration)
+        get: sinon.stub().resolves(schoolingRegistration),
       };
       membershipRepositoryStub =  { findByUserIdAndOrganizationId: sinon.stub().resolves([{ idAdmin: false }]) };
     });
@@ -86,7 +86,7 @@ describe('Unit | UseCase | dissociate-user-from-schooling-registration', () => {
         userId,
         schoolingRegistrationId,
         membershipRepository: membershipRepositoryStub,
-        schoolingRegistrationRepository: schoolingRegistrationRepositoryStub
+        schoolingRegistrationRepository: schoolingRegistrationRepositoryStub,
       });
 
       expect(error).to.be.instanceof(ForbiddenAccess);

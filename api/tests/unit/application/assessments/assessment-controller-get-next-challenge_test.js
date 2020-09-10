@@ -191,8 +191,8 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         await assessmentController.getNextChallenge({
           params: { id: 1 }, query: { tryImproving: true },
           headers: {
-            'accept-language': locale
-          }
+            'accept-language': locale,
+          },
         });
 
         // then
@@ -224,8 +224,8 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
           params: { id: 1 },
           headers: {
             authorization: generateValidRequestAuthorizationHeader(userId),
-            'accept-language': locale
-          }
+            'accept-language': locale,
+          },
         };
         // when
         await assessmentController.getNextChallenge(request);
