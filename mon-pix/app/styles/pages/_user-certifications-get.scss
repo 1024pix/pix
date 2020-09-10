@@ -10,13 +10,12 @@
 
   &__details-body {
     display: flex;
-    flex-direction: row-reverse;
     width: 100%;
     max-width: 980px;
   }
 }
 
-@include device-is('mobile') {
+@mixin contentInColumn() {
 
   .user-certifications-page-get {
 
@@ -26,34 +25,38 @@
 
     &__details-body {
       flex-wrap: wrap;
+      flex-direction: column-reverse;
     }
   }
 }
 
-@include device-is('tablet') {
+@mixin contentInRow() {
 
   .user-certifications-page-get {
-
-    &__header {
-      flex-direction: column;
-    }
-
-    &__details-body {
-      flex-wrap: wrap;
-    }
-  }
-}
-
-@include device-is('desktop') {
-
-  .user-certifications-page-get {
-
-    &__details-body {
-      flex-wrap: nowrap;
-    }
 
     &__header {
       flex-direction: row;
     }
+
+    &__details-body {
+      flex-wrap: nowrap;
+      flex-direction: row;
+    }
   }
+}
+
+@include device-is('mobile') {
+  @include contentInColumn();
+
+  .user-certifications-page-get__return-to {
+    margin-left: -22px;
+  }
+}
+
+@include device-is('tablet') {
+  @include contentInColumn();
+}
+
+@include device-is('desktop') {
+  @include contentInRow();
 }
