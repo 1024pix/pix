@@ -23,25 +23,25 @@ export default Factory.extend({
   forCompetenceEvaluation: trait({
     afterCreate(challenge) {
       challenge.update({ id: `recCOMPEVAL_${faker.random.alphaNumeric(5)}` });
-    }
+    },
   }),
 
   forCertification: trait({
     afterCreate(challenge) {
       challenge.update({ id: `recCERTIF_${faker.random.alphaNumeric(5)}` });
-    }
+    },
   }),
 
   forDemo: trait({
     afterCreate(challenge) {
       challenge.update({ id: `recDEMO_${faker.random.alphaNumeric(5)}` });
-    }
+    },
   }),
 
   forCampaign: trait({
     afterCreate(challenge) {
       challenge.update({ id: `recSMARPLA_${faker.random.alphaNumeric(5)}` });
-    }
+    },
   }),
 
   QCM: trait({
@@ -52,7 +52,7 @@ export default Factory.extend({
     proposals: '- possibilite 1, et/ou' +
       '\n - possibilite 2, et/ou' +
       '\n - possibilite 3, et/ou' +
-      '\n - possibilite 4'
+      '\n - possibilite 4',
   }),
 
   QCU: trait({
@@ -63,13 +63,13 @@ export default Factory.extend({
     proposals: '- 1ere possibilite\n ' +
       '- 2eme possibilite\n ' +
       '- 3eme possibilite\n' +
-      '- 4eme possibilite'
+      '- 4eme possibilite',
   }),
 
   QROC: trait({
     type: 'QROC',
     instruction: 'Un QROC est une question ouverte avec un simple champ texte libre pour répondre',
-    proposals: 'Entrez le prénom de B. Gates : ${firstname#prénom} (en toutes lettres)\nSVP'
+    proposals: 'Entrez le prénom de B. Gates : ${firstname#prénom} (en toutes lettres)\nSVP',
   }),
 
   withAutoReply: trait({
@@ -83,19 +83,19 @@ export default Factory.extend({
   QROCM: trait({
     type: 'QROCM',
     instruction: 'Un QROCM est une question avec plusieurs champs texte libres pour répondre',
-    proposals: 'Trois logiciels libres : ${logiciel1#un} ${logiciel2#deux} ${logiciel3#trois}\nMerci'
+    proposals: 'Trois logiciels libres : ${logiciel1#un} ${logiciel2#deux} ${logiciel3#trois}\nMerci',
   }),
 
   QROCMind: trait({
     type: 'QROCM-ind',
     instruction: 'L\'URL suivante, censée aboutir à un article, donne lieu à une redirection vers la page d\'accueil du site. Retrouvez la page recherchée. Reportez le titre de l’article et son auteur.',
-    proposals: 'Titre : ${titre}\n' + 'Auteur : ${auteur}'
+    proposals: 'Titre : ${titre}\n' + 'Auteur : ${auteur}',
   }),
 
   QROCMDep: trait({
     type: 'QROCM-dep',
     instruction: 'Aurélie est montée dans le métro après avoir pris cette photo sur le quai.\n A quelle station peut-elle descendre ?',
-    proposals: 'Station 1 : ${station1}\n' + 'Station 2 : ${station2}'
+    proposals: 'Station 1 : ${station1}\n' + 'Station 2 : ${station2}',
   }),
 
   timed: trait({
@@ -107,7 +107,7 @@ export default Factory.extend({
     instruction: 'Un QROC avec deux fichiers',
     attachments: ['file1.docx', 'file1.odt'],
     'illustration-url': 'http://fakeimg.pl/350x200/?text=QCU',
-    proposals: 'Entrez la premiere ligne ${ligne1}'
+    proposals: 'Entrez la premiere ligne ${ligne1}',
   }),
 
   QROCwithFile2: trait({
@@ -115,7 +115,7 @@ export default Factory.extend({
     instruction: 'Un QROC avec deux fichiers, deuxieme version',
     attachments: ['file2.docx', 'file2.odt'],
     'illustration-url': 'http://fakeimg.pl/350x200/?text=QCU',
-    proposals: 'Entrez la premiere ligne ${ligne2}'
+    proposals: 'Entrez la premiere ligne ${ligne2}',
   }),
 
   withAttachment: trait({
@@ -125,7 +125,7 @@ export default Factory.extend({
   withEmbed: trait({
     embedUrl: 'https://example.biz',
     embedTitle: faker.random.words(),
-    embedHeight: '100'
+    embedHeight: '100',
   }),
 
 });

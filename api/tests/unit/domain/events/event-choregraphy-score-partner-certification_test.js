@@ -14,7 +14,7 @@ describe('Event Choregraphy | Score Partner Certification', function() {
     const certificationScoringCompleted = new CertificationScoringCompleted({});
 
     handlerStubs.handleCertificationScoring.withArgs({ domainTransaction, event:assessmentCompleted }).resolves(
-      certificationScoringCompleted
+      certificationScoringCompleted,
     );
 
     // when

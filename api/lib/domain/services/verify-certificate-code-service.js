@@ -21,5 +21,5 @@ module.exports = {
       if (isCodeAvailable) return code;
     }
     throw new CertificateVerificationCodeGenerationTooManyTrials(NB_OF_TRIALS);
-  }
+  },
 };

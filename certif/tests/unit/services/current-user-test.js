@@ -15,14 +15,14 @@ module('Unit | Service | current-user', function(hooks) {
       const connectedUserId = 1;
       const connectedUser = Object.create({
         id: connectedUserId,
-        certificationCenterMemberships: [{ certificationCenter: [] }]
+        certificationCenterMemberships: [{ certificationCenter: [] }],
       });
       const storeStub = Service.create({
-        queryRecord: () => resolve(connectedUser)
+        queryRecord: () => resolve(connectedUser),
       });
       const sessionStub = Service.create({
         isAuthenticated: true,
-        data: { authenticated: { user_id: connectedUserId } }
+        data: { authenticated: { user_id: connectedUserId } },
       });
       const currentUser = this.owner.lookup('service:currentUser');
       currentUser.set('store', storeStub);
@@ -41,14 +41,14 @@ module('Unit | Service | current-user', function(hooks) {
       const certificationCenter = Object.create({ id: 9 });
       const connectedUser = Object.create({
         id: connectedUserId,
-        certificationCenterMemberships: [{ certificationCenter }]
+        certificationCenterMemberships: [{ certificationCenter }],
       });
       const storeStub = Service.create({
-        queryRecord: () => resolve(connectedUser)
+        queryRecord: () => resolve(connectedUser),
       });
       const sessionStub = Service.create({
         isAuthenticated: true,
-        data: { authenticated: { user_id: connectedUserId } }
+        data: { authenticated: { user_id: connectedUserId } },
       });
       const currentUser = this.owner.lookup('service:currentUser');
       currentUser.set('store', storeStub);
@@ -86,7 +86,7 @@ module('Unit | Service | current-user', function(hooks) {
       // Given
       const connectedUserId = 1;
       const storeStub = Service.create({
-        queryRecord: () => reject({ errors: [{ code: 401 }] })
+        queryRecord: () => reject({ errors: [{ code: 401 }] }),
       });
       const sessionStub = Service.create({
         isAuthenticated: true,

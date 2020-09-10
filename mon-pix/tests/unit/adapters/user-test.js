@@ -86,15 +86,15 @@ describe('Unit | Adapters | user', function() {
         const expectedData = {
           data: {
             data: {
-              attributes: { username, expiredPassword, newPassword }
-            }
-          }
+              attributes: { username, expiredPassword, newPassword },
+            },
+          },
         };
 
         // when
         const snapshot = {
           record: { username, password: expiredPassword },
-          adapterOptions: { updateExpiredPassword: true, newPassword }
+          adapterOptions: { updateExpiredPassword: true, newPassword },
         };
         await adapter.createRecord(null, null, snapshot);
 
@@ -112,8 +112,8 @@ describe('Unit | Adapters | user', function() {
         const expectedData = {
           data: {
             meta: { 'campaign-code': campaignCode },
-            data: {}
-          }
+            data: {},
+          },
         };
         const snapshot = {
           record: { },

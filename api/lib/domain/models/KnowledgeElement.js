@@ -32,7 +32,7 @@ class KnowledgeElement {
     assessmentId,
     skillId,
     userId,
-    competenceId
+    competenceId,
   } = {}) {
     this.id = id;
     // attributes
@@ -63,11 +63,11 @@ class KnowledgeElement {
     previouslyFailedSkills,
     previouslyValidatedSkills,
     targetSkills,
-    userId
+    userId,
   }) {
 
     const directKnowledgeElements = _createDirectKnowledgeElements({
-      answer, challenge, previouslyFailedSkills, previouslyValidatedSkills, targetSkills, userId
+      answer, challenge, previouslyFailedSkills, previouslyValidatedSkills, targetSkills, userId,
     });
 
     return _enrichDirectKnowledgeElementsWithInferredKnowledgeElements({
@@ -76,7 +76,7 @@ class KnowledgeElement {
       previouslyFailedSkills,
       previouslyValidatedSkills,
       targetSkills,
-      userId
+      userId,
     });
   }
 
@@ -179,7 +179,7 @@ function _createInferredKnowledgeElements({ answer, status, directSkill, skillTo
       && skillToInfer.difficulty < directSkill.difficulty) {
 
     const newKnowledgeElement = _createKnowledgeElement({
-      answer, skill: skillToInfer, userId, status: statuses.VALIDATED, source: sources.INFERRED
+      answer, skill: skillToInfer, userId, status: statuses.VALIDATED, source: sources.INFERRED,
     });
     newInferredKnowledgeElements.push(newKnowledgeElement);
   }
@@ -187,7 +187,7 @@ function _createInferredKnowledgeElements({ answer, status, directSkill, skillTo
       && skillToInfer.difficulty > directSkill.difficulty) {
 
     const newKnowledgeElement = _createKnowledgeElement({
-      answer, skill: skillToInfer, userId, status: statuses.INVALIDATED, source: sources.INFERRED
+      answer, skill: skillToInfer, userId, status: statuses.INVALIDATED, source: sources.INFERRED,
     });
     newInferredKnowledgeElements.push(newKnowledgeElement);
   }
@@ -205,7 +205,7 @@ function _createKnowledgeElement({ answer, skill, userId, status, source }) {
     source,
     status,
     competenceId: skill.competenceId,
-    userId
+    userId,
   });
 }
 

@@ -21,7 +21,7 @@ module.exports = {
       .orderBy('firstName', 'ASC');
 
     return _.map(results, _toDomain);
-  }
+  },
 };
 
 function _toDomain(juryCertificationSummaryFromDB) {

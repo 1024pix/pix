@@ -110,14 +110,14 @@ describe('Acceptance | Displaying a QCM challenge', () => {
         solution: '1',
         hint: 'Cliquer sur 1',
         tutorials: [tutorial],
-        learningMoreTutorials: [learningMoreTutorial]
+        learningMoreTutorials: [learningMoreTutorial],
       });
       server.create('answer', {
         value: '2',
         result: 'ko',
         assessmentId: assessment.id,
         challengeId :qcmChallenge.id,
-        correction
+        correction,
       });
 
       // when

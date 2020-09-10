@@ -48,36 +48,36 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
             relationships: {
               memberships: {
                 links: {
-                  related: `/api/users/${userModelObject.id}/memberships`
-                }
+                  related: `/api/users/${userModelObject.id}/memberships`,
+                },
               },
               'certification-center-memberships': {
                 links: {
-                  related: `/api/users/${userModelObject.id}/certification-center-memberships`
-                }
+                  related: `/api/users/${userModelObject.id}/certification-center-memberships`,
+                },
               },
               'pix-score': {
                 links: {
-                  related: `/api/users/${userModelObject.id}/pixscore`
-                }
+                  related: `/api/users/${userModelObject.id}/pixscore`,
+                },
               },
               scorecards: {
                 links: {
-                  related: `/api/users/${userModelObject.id}/scorecards`
-                }
+                  related: `/api/users/${userModelObject.id}/scorecards`,
+                },
               },
               'campaign-participations': {
                 links: {
-                  related: `/api/users/${userModelObject.id}/campaign-participations`
-                }
+                  related: `/api/users/${userModelObject.id}/campaign-participations`,
+                },
               },
               'is-certifiable': {
                 links: {
-                  related: `/api/users/${userModelObject.id}/is-certifiable`
-                }
-              }
-            }
-          }
+                  related: `/api/users/${userModelObject.id}/is-certifiable`,
+                },
+              },
+            },
+          },
         };
 
         // when
@@ -101,10 +101,10 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
             'first-name': 'Luke',
             'last-name': 'Skywalker',
             email: 'lskywalker@deathstar.empire',
-            password: ''
+            password: '',
           },
-          relationships: {}
-        }
+          relationships: {},
+        },
       };
     });
 

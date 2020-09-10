@@ -75,9 +75,9 @@ module('Unit | Adapter | certification details', function(hooks) {
               attributes: {
                 'jury-id': null,
                 emitter: 'Jury Pix',
-              }
-            }
-          }
+              },
+            },
+          },
         };
         sinon.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/admin/assessment-results/', 'POST', expectedData);
         assert.ok(adapter); /* required because QUnit wants at least one expect (and does not accept Sinon's one) */

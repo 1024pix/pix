@@ -28,7 +28,7 @@ describe('Unit | Router | answer-router', function() {
       // given
       const options = {
         method: 'POST',
-        url: '/api/answers'
+        url: '/api/answers',
       };
 
       // when
@@ -45,7 +45,7 @@ describe('Unit | Router | answer-router', function() {
       // given
       const options = {
         method: 'GET',
-        url: '/api/answers/answer_id'
+        url: '/api/answers/answer_id',
       };
 
       // when
@@ -62,7 +62,7 @@ describe('Unit | Router | answer-router', function() {
       // given
       const options = {
         method: 'GET',
-        url: '/api/answers'
+        url: '/api/answers',
       };
 
       // when
@@ -79,7 +79,7 @@ describe('Unit | Router | answer-router', function() {
       // given
       const options = {
         method: 'PATCH',
-        url: '/api/answers/answer_id'
+        url: '/api/answers/answer_id',
       };
 
       // when

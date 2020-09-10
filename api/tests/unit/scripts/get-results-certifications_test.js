@@ -12,7 +12,7 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
     '2.1', '2.2', '2.3', '2.4',
     '3.1', '3.2', '3.3', '3.4',
     '4.1', '4.2', '4.3',
-    '5.1', '5.2'
+    '5.1', '5.2',
   ];
 
   describe('buildCertificationRequest', () => {
@@ -77,9 +77,9 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
             'birthdate': '1737-11-20',
             'birthplace': 'Namek',
             'session-id': 1,
-            'external-id': 'Kakarot'
-          }
-        }
+            'external-id': 'Kakarot',
+          },
+        },
       };
       // when
       const result = getResultsCertifications.toCSVRow(object);
@@ -119,11 +119,11 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
             'competences-with-mark': [
               {
                 'competence_code': '1.1',
-                level: 9001
-              }
-            ]
-          }
-        }
+                level: 9001,
+              },
+            ],
+          },
+        },
       };
 
       // when
@@ -141,15 +141,15 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
             'competences-with-mark': [
               {
                 'competence_code': '1.1',
-                level: 4
+                level: 4,
               },
               {
                 'competence_code': '1.2',
-                level: 6
-              }
-            ]
-          }
-        }
+                level: 6,
+              },
+            ],
+          },
+        },
       };
 
       // when
@@ -181,7 +181,7 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
       const competenceCode = '1.1';
       const profile = [{
         'competence_code': competenceCode,
-        level: 9
+        level: 9,
       }];
 
       // when

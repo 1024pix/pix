@@ -19,11 +19,11 @@ module.exports = {
           relationshipLinks: {
             related: function(record, current, parent) {
               return `/api/certification-centers/${parent.id}/sessions`;
-            }
-          }
-        }
-      }
+            },
+          },
+        },
+      },
     }).serialize(certificationCenterMemberships);
-  }
+  },
 };
 

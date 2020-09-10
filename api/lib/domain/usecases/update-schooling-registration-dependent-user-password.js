@@ -8,7 +8,7 @@ module.exports = async function updateSchoolingRegistrationDependentUserPassword
   passwordGenerator,
   encryptionService,
   userRepository,
-  schoolingRegistrationRepository
+  schoolingRegistrationRepository,
 }) {
   const userWithMemberships = await userRepository.getWithMemberships(userId);
   const schoolingRegistration = await schoolingRegistrationRepository.get(schoolingRegistrationId);

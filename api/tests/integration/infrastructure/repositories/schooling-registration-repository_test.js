@@ -60,17 +60,17 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       const schoolingRegistration_2 = databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,
         lastName: 'Avatar',
-        firstName: 'Xavier'
+        firstName: 'Xavier',
       });
       const schoolingRegistration_3 = databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,
         lastName: 'Avatar',
-        firstName: 'Arthur'
+        firstName: 'Arthur',
       });
       const schoolingRegistration_4 = databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,
         lastName: 'Avatar',
-        firstName: 'MATHURIN'
+        firstName: 'MATHURIN',
       });
 
       await databaseBuilder.commit();
@@ -519,7 +519,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
         // when
         const result = await schoolingRegistrationRepository.findByOrganizationIdAndUserData({
-          organizationId: organization.id, reconciliationInfo
+          organizationId: organization.id, reconciliationInfo,
         });
 
         // then
@@ -532,7 +532,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
         // when
         const result = await schoolingRegistrationRepository.findByOrganizationIdAndUserData({
-          organizationId: organization.id, reconciliationInfo
+          organizationId: organization.id, reconciliationInfo,
         });
 
         // then
@@ -547,7 +547,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
         // when
         const result = await schoolingRegistrationRepository.findByOrganizationIdAndUserData({
-          organizationId: organization.id, reconciliationInfo
+          organizationId: organization.id, reconciliationInfo,
         });
 
         // then
@@ -560,7 +560,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
         // when
         const result = await schoolingRegistrationRepository.findByOrganizationIdAndUserData({
-          organizationId: organization.id, reconciliationInfo
+          organizationId: organization.id, reconciliationInfo,
         });
 
         // then
@@ -574,7 +574,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
       // when
       const result = await schoolingRegistrationRepository.findByOrganizationIdAndUserData({
-        organizationId: '999', reconciliationInfo
+        organizationId: '999', reconciliationInfo,
       });
 
       // then
@@ -612,7 +612,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
         // when
         const result = await schoolingRegistrationRepository.findSupernumeraryByOrganizationIdAndBirthdate({
-          organizationId: organization.id, birthdate
+          organizationId: organization.id, birthdate,
         });
 
         // then
@@ -625,7 +625,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
         // when
         const result = await schoolingRegistrationRepository.findSupernumeraryByOrganizationIdAndBirthdate({
-          organizationId: organization.id, birthdate
+          organizationId: organization.id, birthdate,
         });
 
         // then
@@ -638,7 +638,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
         // when
         const result = await schoolingRegistrationRepository.findSupernumeraryByOrganizationIdAndBirthdate({
-          organizationId: '999', birthdate
+          organizationId: '999', birthdate,
         });
 
         // then
@@ -653,7 +653,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
         // when
         const result = await schoolingRegistrationRepository.findSupernumeraryByOrganizationIdAndBirthdate({
-          organizationId: organization.id, birthdate
+          organizationId: organization.id, birthdate,
         });
 
         // then
@@ -698,7 +698,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         organizationId: organization.id,
         userId: null,
         firstName: 'Steeve',
-        lastName: 'Roger'
+        lastName: 'Roger',
       });
       user = databaseBuilder.factory.buildUser({ firstName: 'Steeve', lastName: 'Roger' });
       await databaseBuilder.commit();
@@ -731,7 +731,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       // when
       const error = await catchErr(schoolingRegistrationRepository.reconcileUserToSchoolingRegistration)({
         userId: fakeUserId,
-        schoolingRegistrationId: schoolingRegistration.id
+        schoolingRegistrationId: schoolingRegistration.id,
       });
 
       // then
@@ -755,7 +755,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         organizationId: organization.id,
         userId: null,
         firstName: 'Steeve',
-        lastName: 'Roger'
+        lastName: 'Roger',
       });
       user = databaseBuilder.factory.buildUser({ firstName: 'Steeve', lastName: 'Roger' });
       await databaseBuilder.commit();
@@ -766,7 +766,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       const schoolingRegistrationPatched = await schoolingRegistrationRepository.reconcileUserByNationalStudentIdAndOrganizationId({
         userId: user.id,
         nationalStudentId: schoolingRegistration.nationalStudentId,
-        organizationId: organization.id
+        organizationId: organization.id,
       });
 
       // then
@@ -782,7 +782,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       const error = await catchErr(schoolingRegistrationRepository.reconcileUserByNationalStudentIdAndOrganizationId)({
         userId: user.id,
         nationalStudentId: schoolingRegistration.nationalStudentId,
-        organizationId: fakeOrganizationId
+        organizationId: fakeOrganizationId,
       });
 
       // then
@@ -797,7 +797,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       const error = await catchErr(schoolingRegistrationRepository.reconcileUserByNationalStudentIdAndOrganizationId)({
         userId: user.id,
         nationalStudentId: fakeNationalStudentId,
-        organizationId: organization.id
+        organizationId: organization.id,
       });
 
       // then
@@ -812,7 +812,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       const error = await catchErr(schoolingRegistrationRepository.reconcileUserByNationalStudentIdAndOrganizationId)({
         userId: fakeUserId,
         nationalStudentId: schoolingRegistration.nationalStudentId,
-        organizationId: organization.id
+        organizationId: organization.id,
       });
 
       // then
@@ -942,24 +942,24 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       const schoolingRegistration_2 = databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,
         lastName: 'Avatar',
-        firstName: 'Xavier'
+        firstName: 'Xavier',
       });
       const schoolingRegistration_3 = databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,
         lastName: 'Avatar',
-        firstName: 'Arthur'
+        firstName: 'Arthur',
       });
       const schoolingRegistration_4 = databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,
         lastName: 'Avatar',
-        firstName: 'MATHURIN'
+        firstName: 'MATHURIN',
       });
 
       await databaseBuilder.commit();
 
       // when
       const { data } = await schoolingRegistrationRepository.findPaginatedFilteredSchoolingRegistrations({
-        organizationId: organization.id
+        organizationId: organization.id,
       });
 
       // then
@@ -1094,7 +1094,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         // when
         const { data } = await schoolingRegistrationRepository.findPaginatedFilteredSchoolingRegistrations({
           organizationId: organization.id,
-          page: { number: 2, size: 1 }
+          page: { number: 2, size: 1 },
         });
 
         // then

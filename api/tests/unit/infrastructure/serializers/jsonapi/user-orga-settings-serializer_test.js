@@ -15,14 +15,14 @@ describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', () => {
           name: 'The name of the organization',
           type: 'SUP',
           code: 'WASABI666',
-          externalId: 'EXTID'
+          externalId: 'EXTID',
         },
         user: {
           id: 123,
           firstName: 'firstName',
           lastName: 'lastName',
           email: 'email',
-        }
+        },
       });
 
       const expectedSerializedUserOrgaSettings = {
@@ -34,16 +34,16 @@ describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', () => {
             organization: {
               data:
                 {
-                  type: 'organizations', id: '10293'
+                  type: 'organizations', id: '10293',
                 },
             },
             user: {
               data: {
                 id: '123',
-                type: 'users'
-              }
-            }
-          }
+                type: 'users',
+              },
+            },
+          },
         },
         included: [{
           type: 'organizations',
@@ -52,35 +52,35 @@ describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', () => {
             name: 'The name of the organization',
             type: 'SUP',
             code: 'WASABI666',
-            'external-id': 'EXTID'
+            'external-id': 'EXTID',
           },
           relationships: {
             campaigns: {
               links: {
-                related: '/api/organizations/10293/campaigns'
-              }
+                related: '/api/organizations/10293/campaigns',
+              },
             },
             'target-profiles': {
               links: {
-                related: '/api/organizations/10293/target-profiles'
-              }
+                related: '/api/organizations/10293/target-profiles',
+              },
             },
             memberships: {
               links: {
-                related: '/api/organizations/10293/memberships'
-              }
+                related: '/api/organizations/10293/memberships',
+              },
             },
             students: {
               links: {
-                related: '/api/organizations/10293/students'
-              }
+                related: '/api/organizations/10293/students',
+              },
             },
             'organization-invitations': {
               links: {
                 related: '/api/organizations/10293/invitations',
               },
             },
-          }
+          },
         },
         {
           id: '123',
@@ -89,8 +89,8 @@ describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', () => {
             'first-name': 'firstName',
             'last-name': 'lastName',
             email: 'email',
-          }
-        }]
+          },
+        }],
       };
 
       // when

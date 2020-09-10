@@ -10,15 +10,15 @@ exports.register = async function(server) {
       config: {
         pre: [{
           method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster'
+          assign: 'hasRolePixMaster',
         }],
         handler: systemController.generateAndDownloadHeapDump,
         notes: [
           '- **Route nécessitant une authentification en tant que Pix Master**\n' +
-          '- Génère et retourne un fichier heap dump'
+          '- Génère et retourne un fichier heap dump',
         ],
-        tags: ['api', 'system']
-      }
+        tags: ['api', 'system'],
+      },
     },
     {
       method: 'GET',
@@ -26,15 +26,15 @@ exports.register = async function(server) {
       config: {
         pre: [{
           method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster'
+          assign: 'hasRolePixMaster',
         }],
         handler: systemController.generateAndDownloadHeapProfile,
         notes: [
           '- **Route nécessitant une authentification en tant que Pix Master**\n' +
-          '- Génère et retourne un fichier heap profile'
+          '- Génère et retourne un fichier heap profile',
         ],
-        tags: ['api', 'system']
-      }
+        tags: ['api', 'system'],
+      },
     },
   ]);
 };

@@ -9,7 +9,7 @@ function buildEventDispatcherAndHandlersForTest() {
 
   return {
     handlerStubs,
-    eventDispatcher: _forTestOnly.buildEventDispatcher(handlerStubs)
+    eventDispatcher: _forTestOnly.buildEventDispatcher(handlerStubs),
   };
 }
 

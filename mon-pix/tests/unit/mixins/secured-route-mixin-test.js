@@ -32,23 +32,23 @@ describe('Unit | Mixin | secured-route-mixin', function() {
       const MixinImplementingBeforeModel = Mixin.create({
         beforeModel() {
           return RSVP.resolve('upstreamReturnValue');
-        }
+        },
       });
 
       transition = {
         intent: {
-          url: '/transition/target/url'
+          url: '/transition/target/url',
         },
-        send() {}
+        send() {},
       };
       this.owner.register('service:router', Service.extend({
-        transitionTo() {}
+        transitionTo() {},
       }));
       router = this.owner.lookup('service:router');
 
       this.owner.register('service:session', Service.extend());
       this.owner.register('service:currentUser', Service.extend({
-        user: {}
+        user: {},
       }));
 
       route = Route.extend(MixinImplementingBeforeModel, SecuredRouteMixin).create();

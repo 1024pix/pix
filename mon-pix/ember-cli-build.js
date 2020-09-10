@@ -6,14 +6,14 @@ module.exports = function(defaults) {
   const app = new EmberApp(defaults, {
     sourcemaps: { enabled: true },
     babel: {
-      sourceMaps: 'inline'
+      sourceMaps: 'inline',
     },
     'ember-cli-babel': {
-      includePolyfill: true
+      includePolyfill: true,
     },
     fingerprint: {
       exclude: ['png', 'svg'],
-      extensions: ['js', 'css', 'jpg', 'gif', 'map']
+      extensions: ['js', 'css', 'jpg', 'gif', 'map'],
     },
   });
 

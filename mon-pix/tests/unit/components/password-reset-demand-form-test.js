@@ -19,12 +19,12 @@ describe('Unit | Component | password-reset-demand-form', () => {
     beforeEach(function() {
       saveStub = sinon.stub().resolves();
       createRecordStub = sinon.stub().resolves({
-        save: saveStub
+        save: saveStub,
       });
 
       component = createGlimmerComponent('component:password-reset-demand-form');
       component.store = Service.create({
-        createRecord: createRecordStub
+        createRecord: createRecordStub,
       });
       component.email = sentEmail;
     });

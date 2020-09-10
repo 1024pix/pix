@@ -16,7 +16,7 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
         domainBuilder.buildCompetenceResult({
           id: 2,
           name: 'Soap Principal Awesome',
-        })
+        }),
       ];
       const partnerCompetenceResults = [
         domainBuilder.buildCompetenceResult({
@@ -26,8 +26,8 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
           name: 'Pix Emploi',
           testedSkillsCount: 2,
           totalSkillsCount: 3,
-          validatedSkillsCount: 1
-        })
+          validatedSkillsCount: 1,
+        }),
       ];
 
       const testedSkillsCount = competenceResults[0].testedSkillsCount + competenceResults[1].testedSkillsCount;
@@ -43,7 +43,7 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
         title: 'Palier 1',
         message: 'Vous avez obtenu le palier 1',
         threshold: 50,
-        starCount: 2
+        starCount: 2,
       };
       const stageCount = 3;
       const campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
@@ -73,29 +73,29 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
             'campaign-participation-badges': {
               data: [{
                 id: campaignParticipationBadge.id.toString(),
-                type: 'campaignParticipationBadges'
-              }]
+                type: 'campaignParticipationBadges',
+              }],
             },
             'competence-results': {
               data: [
                 {
                   id: competenceResults[0].id.toString(),
-                  type: 'competenceResults'
+                  type: 'competenceResults',
                 },
                 {
                   id: competenceResults[1].id.toString(),
-                  type: 'competenceResults'
-                }
-              ]
+                  type: 'competenceResults',
+                },
+              ],
             },
             'reached-stage': {
               data: {
                 id: reachedStage.id.toString(),
-                type: 'reached-stages'
-              }
-            }
+                type: 'reached-stages',
+              },
+            },
           },
-          type: 'campaign-participation-results'
+          type: 'campaign-participation-results',
         },
         included: [
           {
@@ -127,11 +127,11 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
                 data: [
                   {
                     id: partnerCompetenceResults[0].id.toString(),
-                    type: 'partnerCompetenceResults'
-                  }
-                ]
-              }
-            }
+                    type: 'partnerCompetenceResults',
+                  },
+                ],
+              },
+            },
           },
           {
             attributes: {
@@ -144,7 +144,7 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
               'validated-skills-count': competenceResults[0].validatedSkillsCount,
             },
             id: competenceResults[0].id.toString(),
-            type: 'competenceResults'
+            type: 'competenceResults',
           },
           {
             attributes: {
@@ -157,7 +157,7 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
               'validated-skills-count': competenceResults[1].validatedSkillsCount,
             },
             id: competenceResults[1].id.toString(),
-            type: 'competenceResults'
+            type: 'competenceResults',
           },
           {
             attributes: {
@@ -167,9 +167,9 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
               'star-count': reachedStage.starCount,
             },
             id: reachedStage.id.toString(),
-            type: 'reached-stages'
+            type: 'reached-stages',
           },
-        ]
+        ],
       };
 
       // when

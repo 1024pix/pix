@@ -17,7 +17,7 @@ exports.up = function(knex) {
             score: mark.score,
             area_code: mark.area_code,
             competence_code: mark.competence_code,
-            assessmentResultId: mark.assessmentResultId
+            assessmentResultId: mark.assessmentResultId,
           });
       });
 
@@ -46,7 +46,7 @@ exports.down = function(knex) {
             score: mark.score,
             area_code: mark.area_code,
             competence_code: mark.competence_code,
-            assessmentResultId: mark.assessmentResultId
+            assessmentResultId: mark.assessmentResultId,
           });
       });
 
@@ -58,7 +58,7 @@ exports.down = function(knex) {
         return knex(TABLE_NAME_MARKS)
           .where('assessmentResultId', '=', result.id)
           .update({
-            assessmentId: result.assessmentResultId
+            assessmentId: result.assessmentResultId,
           });
       });
 

@@ -20,11 +20,11 @@ describe('Unit | Serializer | JSONAPI | certification-center-membership-serializ
                 data: {
                   id: certificationCenter.id.toString(),
                   type: 'certificationCenters',
-                }
-              }
+                },
+              },
             },
             type: 'certificationCenterMemberships',
-          }
+          },
         ],
         included: [
           {
@@ -37,12 +37,12 @@ describe('Unit | Serializer | JSONAPI | certification-center-membership-serializ
               sessions: {
                 links: {
                   related: `/api/certification-centers/${certificationCenter.id}/sessions`,
-                }
-              }
+                },
+              },
             },
-            type: 'certificationCenters'
-          }
-        ]
+            type: 'certificationCenters',
+          },
+        ],
       };
 
       // when

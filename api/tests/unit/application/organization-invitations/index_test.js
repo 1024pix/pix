@@ -31,11 +31,11 @@ describe('Unit | Router | organization-invitation-router', () => {
             type: 'organization-invitation-responses',
             attributes: {
               code: 'DZWMP7L5UM',
-              email: 'user@example.net'
+              email: 'user@example.net',
             },
 
-          }
-        }
+          },
+        },
       };
 
       // when
@@ -52,7 +52,7 @@ describe('Unit | Router | organization-invitation-router', () => {
       // given
       const options = {
         method: 'GET',
-        url: '/api/organization-invitations/1?code=DZWMP7L5UM'
+        url: '/api/organization-invitations/1?code=DZWMP7L5UM',
       };
 
       // when
@@ -66,7 +66,7 @@ describe('Unit | Router | organization-invitation-router', () => {
       // given
       const options = {
         method: 'GET',
-        url: '/api/organization-invitations/XXXXXXXXXXXXXXXX15812?code=DZWMP7L5UM'
+        url: '/api/organization-invitations/XXXXXXXXXXXXXXXX15812?code=DZWMP7L5UM',
       };
 
       // when

@@ -203,7 +203,7 @@ export default class CertificationInformationsController extends Controller {
       competences.addObject({
         competence_code: competenceCode,
         [propName]: parseInt(value),
-        area_code: competenceCode.substr(0, 1)
+        area_code: competenceCode.substr(0, 1),
       });
     }
     this.certification.competencesWithMark = competences;

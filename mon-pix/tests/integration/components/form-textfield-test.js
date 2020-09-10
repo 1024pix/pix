@@ -8,7 +8,7 @@ import {
   findAll,
   render,
   settled,
-  triggerEvent
+  triggerEvent,
 } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -54,7 +54,7 @@ describe('Integration | Component | form textfield', function() {
 
     [
       { item: LABEL, expectedRendering: 'label', expectedText: LABEL_TEXT },
-      { item: MESSAGE, expectedRendering: 'div.message', expectedText: MESSAGE_TEXT }
+      { item: MESSAGE, expectedRendering: 'div.message', expectedText: MESSAGE_TEXT },
 
     ].forEach(function({ item, expectedRendering, expectedText }) {
       it(`Should render a ${expectedRendering}`, function() {

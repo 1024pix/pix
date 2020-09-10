@@ -11,25 +11,25 @@ import classic from 'ember-classic-decorator';
 const INPUT_VALIDATION_STATUS_MAP = {
   default: 'form-textfield__input--default',
   error: 'form-textfield__input--error',
-  success: 'form-textfield__input--success'
+  success: 'form-textfield__input--success',
 };
 
 const ICON_TYPE_STATUS_MAP = {
   default: '',
   error: 'error',
-  success: 'success'
+  success: 'success',
 };
 
 const MESSAGE_VALIDATION_STATUS_MAP = {
   default: 'form-textfield__message--default',
   error: 'form-textfield__message--error',
-  success: 'form-textfield__message--success'
+  success: 'form-textfield__message--success',
 };
 
 const INPUT_CONTAINER_VALIDATION_STATUS_MAP = {
   default: 'form-textfield__input-container--default',
   error: 'form-textfield__input-container--error',
-  success: 'form-textfield__input-container--success'
+  success: 'form-textfield__input-container--success',
 };
 
 @classic

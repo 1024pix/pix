@@ -10,7 +10,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScore', () => {
       it('should return nbPix 0', () => {
         // given
         const certificationAssessmentScore = new CertificationAssessmentScore({
-          competenceMarks: []
+          competenceMarks: [],
         });
 
         // when
@@ -27,7 +27,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScore', () => {
       it('should return the sum of the competence marks score as nbPix', () => {
         // given
         const certificationAssessmentScore = new CertificationAssessmentScore({
-          competenceMarks: [ { score: 12 }, { score: 13 } ]
+          competenceMarks: [ { score: 12 }, { score: 13 } ],
         });
 
         // when
@@ -47,7 +47,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScore', () => {
       it('should return REJECTED as status', () => {
         // given
         const certificationAssessmentScore = new CertificationAssessmentScore({
-          competenceMarks: []
+          competenceMarks: [],
         });
 
         // when
@@ -64,7 +64,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScore', () => {
       it('should return VALIDATED as status', () => {
         // given
         const certificationAssessmentScore = new CertificationAssessmentScore({
-          competenceMarks: [ { score: 12 }, { score: 13 } ]
+          competenceMarks: [ { score: 12 }, { score: 13 } ],
         });
 
         // when

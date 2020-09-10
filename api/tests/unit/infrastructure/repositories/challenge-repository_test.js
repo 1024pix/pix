@@ -291,7 +291,7 @@ describe('Unit | Repository | challenge-repository', () => {
                 'competenceId': 'rec1',
                 'tutorialIds': [DEFAULT_TUTORIAL_ID],
                 'tubeId': 'recTube1',
-              }
+              },
             ]);
             expect(challenges[1].skills).to.deep.equal([
               {
@@ -387,13 +387,13 @@ describe('Unit | Repository | challenge-repository', () => {
                     name: skillWeb1.name,
                     pixValue: skillWeb1.pixValue,
                     tubeId: skillWeb1.tubeId,
-                    tutorialIds: skillWeb1.tutorialIds
-                  })
+                    tutorialIds: skillWeb1.tutorialIds,
+                  }),
                 ],
                 status: airtableChallenge1.status,
                 timer: airtableChallenge1.timer,
                 type: airtableChallenge1.type,
-                validator: new ValidatorQCM({ solution: solution1 })
+                validator: new ValidatorQCM({ solution: solution1 }),
               }),
               new Challenge({
                 answer: undefined,
@@ -417,7 +417,7 @@ describe('Unit | Repository | challenge-repository', () => {
                     name: skillURL2.name,
                     pixValue: skillURL2.pixValue,
                     tubeId: skillURL2.tubeId,
-                    tutorialIds: skillURL2.tutorialIds
+                    tutorialIds: skillURL2.tutorialIds,
                   }),
                   new Skill({
                     competenceId: skillURL3.competenceId,
@@ -425,15 +425,15 @@ describe('Unit | Repository | challenge-repository', () => {
                     name: skillURL3.name,
                     pixValue: skillURL3.pixValue,
                     tubeId: skillURL3.tubeId,
-                    tutorialIds: skillURL3.tutorialIds
-                  })
+                    tutorialIds: skillURL3.tutorialIds,
+                  }),
                 ],
                 status: airtableChallenge2.status,
                 timer: airtableChallenge2.timer,
                 type: airtableChallenge2.type,
-                validator: new ValidatorQCM({ solution: solution2 })
-              })
-            ]
+                validator: new ValidatorQCM({ solution: solution2 }),
+              }),
+            ],
           );
         });
       });
@@ -511,13 +511,13 @@ describe('Unit | Repository | challenge-repository', () => {
                     name: skillWeb1.name,
                     pixValue: skillWeb1.pixValue,
                     tubeId: skillWeb1.tubeId,
-                    tutorialIds: skillWeb1.tutorialIds
-                  })
+                    tutorialIds: skillWeb1.tutorialIds,
+                  }),
                 ],
                 status: airtableChallenge1.status,
                 timer: airtableChallenge1.timer,
                 type: airtableChallenge1.type,
-                validator: new ValidatorQCM({ solution: solution1 })
+                validator: new ValidatorQCM({ solution: solution1 }),
               }),
               new Challenge({
                 answer: undefined,
@@ -541,7 +541,7 @@ describe('Unit | Repository | challenge-repository', () => {
                     name: skillURL2.name,
                     pixValue: skillURL2.pixValue,
                     tubeId: skillURL2.tubeId,
-                    tutorialIds: skillURL2.tutorialIds
+                    tutorialIds: skillURL2.tutorialIds,
                   }),
                   new Skill({
                     competenceId: skillURL3.competenceId,
@@ -549,15 +549,15 @@ describe('Unit | Repository | challenge-repository', () => {
                     name: skillURL3.name,
                     pixValue: skillURL3.pixValue,
                     tubeId: skillURL3.tubeId,
-                    tutorialIds: skillURL3.tutorialIds
-                  })
+                    tutorialIds: skillURL3.tutorialIds,
+                  }),
                 ],
                 status: airtableChallenge2.status,
                 timer: airtableChallenge2.timer,
                 type: airtableChallenge2.type,
-                validator: new ValidatorQCM({ solution: solution2 })
-              })
-            ]
+                validator: new ValidatorQCM({ solution: solution2 }),
+              }),
+            ],
           );
         });
       });

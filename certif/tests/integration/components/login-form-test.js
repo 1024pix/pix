@@ -68,9 +68,9 @@ module('Integration | Component | login-form', function(hooks) {
         'errors': [{
           'status': '401',
           'title': 'Unauthorized',
-          'detail': ENV.APP.API_ERROR_MESSAGES.UNAUTHORIZED.MESSAGE
-        }]
-      }
+          'detail': ENV.APP.API_ERROR_MESSAGES.UNAUTHORIZED.MESSAGE,
+        }],
+      },
     };
 
     sessionStub.prototype.authenticate = () => reject(invalidCredentialsErrorMessage);
@@ -91,8 +91,8 @@ module('Integration | Component | login-form', function(hooks) {
     // given
     const notLinkedToOrganizationErrorMessage = {
       responseJSON: {
-        'errors': [{ 'status': '403', 'title': 'Unauthorized', 'detail': errorMessages.NOT_LINKED_CERTIFICATION_MSG }]
-      }
+        'errors': [{ 'status': '403', 'title': 'Unauthorized', 'detail': errorMessages.NOT_LINKED_CERTIFICATION_MSG }],
+      },
     };
 
     sessionStub.prototype.authenticate = () => reject(notLinkedToOrganizationErrorMessage);
@@ -116,9 +116,9 @@ module('Integration | Component | login-form', function(hooks) {
         'errors': [{
           'status': ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.CODE,
           'title': 'Gateway Timeout',
-          'detail': ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.MESSAGE
-        }]
-      }
+          'detail': ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.MESSAGE,
+        }],
+      },
     };
 
     sessionStub.prototype.authenticate = () => reject(gatewayTimeoutErrorMessage);
@@ -138,7 +138,7 @@ module('Integration | Component | login-form', function(hooks) {
 
     // given
     const msgErrorNotLinkedCertification =  {
-      'errors' : [{ 'status' : '502', 'title' : 'Bad Gateway' , 'detail' : 'Bad gateway occured' }]
+      'errors' : [{ 'status' : '502', 'title' : 'Bad Gateway' , 'detail' : 'Bad gateway occured' }],
     };
 
     sessionStub.prototype.authenticate = () => reject(msgErrorNotLinkedCertification);

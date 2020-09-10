@@ -16,8 +16,8 @@ describe('Unit | Serializer | JSONAPI | schooling-registration-dependent-user-se
         attributes: {
           username: 'john.harry0702',
           'generated-password': 'AZFETGFR',
-        }
-      }
+        },
+      },
     };
 
     it('should convert a schooling-registration-dependent-user object into JSON API data', () => {

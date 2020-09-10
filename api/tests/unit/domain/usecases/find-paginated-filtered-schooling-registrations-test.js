@@ -19,8 +19,8 @@ describe('Unit | UseCase | findPaginatedFilteredSchoolingRegistrations', () => {
       expectedSchoolingRegistrationNotYetReconciled,
       expectedReconciledSchoolingRegistrationWithUsername,
       expectedReconciledSchoolingRegistrationWithEmail,
-      expectedReconciledSchoolingRegistrationFromGAR
-    ]
+      expectedReconciledSchoolingRegistrationFromGAR,
+    ],
   };
   const schoolingRegistrationRepository = { findPaginatedFilteredSchoolingRegistrations: sinon.stub().returns(expectedSchoolingRegistrations) };
 
@@ -29,7 +29,7 @@ describe('Unit | UseCase | findPaginatedFilteredSchoolingRegistrations', () => {
       organizationId,
       filter: { lastName: 'A' },
       page: { size: 10, number: 1 },
-      schoolingRegistrationRepository
+      schoolingRegistrationRepository,
     });
 
     expect(schoolingRegistrationRepository.findPaginatedFilteredSchoolingRegistrations).to.have.been.calledWithExactly({

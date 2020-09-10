@@ -5,6 +5,6 @@ module.exports = {
   execute(accessToken) {
     return tokenService.decodeIfValid(accessToken)
       .catch(() => false);
-  }
+  },
 
 };

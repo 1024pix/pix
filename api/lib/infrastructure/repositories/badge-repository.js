@@ -8,10 +8,10 @@ module.exports = {
       .where({ targetProfileId })
       .fetchAll({
         require: false,
-        withRelated: ['badgeCriteria','badgePartnerCompetences']
+        withRelated: ['badgeCriteria','badgePartnerCompetences'],
       })
       .then((results) =>
-        results.map((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfBadge, result))
+        results.map((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfBadge, result)),
       );
   },
 
@@ -25,10 +25,10 @@ module.exports = {
       .where('campaign-participations.id', campaignParticipationId)
       .fetchAll({
         require: false,
-        withRelated: ['badgeCriteria','badgePartnerCompetences']
+        withRelated: ['badgeCriteria','badgePartnerCompetences'],
       })
       .then((results) =>
-        results.map((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfBadge, result))
+        results.map((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfBadge, result)),
       );
   },
 

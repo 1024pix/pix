@@ -9,7 +9,7 @@ module.exports = {
   markAsBeingUsed(email) {
     return ResetPasswordDemand.where({ email }).save({ used: true }, {
       patch: true,
-      require: false
+      require: false,
     });
   },
 
@@ -33,5 +33,5 @@ module.exports = {
         }
         throw err;
       });
-  }
+  },
 };

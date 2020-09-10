@@ -13,7 +13,7 @@ export default class ListRoute extends Route {
     const organization = this.currentUser.organization;
     await organization.hasMany('memberships').reload({ adapterOptions: {
       'page[size]': params.pageSize,
-      'page[number]': params.pageNumber
+      'page[number]': params.pageNumber,
     } });
     return organization;
   }

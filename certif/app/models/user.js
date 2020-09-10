@@ -1,6 +1,6 @@
 import DS from 'ember-data';
 
-const { Model, attr, hasMany, } = DS;
+const { Model, attr, hasMany } = DS;
 
 export default class User extends Model {
   @attr('string') firstName;

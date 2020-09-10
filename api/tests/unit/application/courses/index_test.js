@@ -21,7 +21,7 @@ describe('Integration | Router | course-router', () => {
       // given
       const options = {
         method: 'GET',
-        url: '/api/courses/course_id'
+        url: '/api/courses/course_id',
       };
 
       // when

@@ -13,8 +13,8 @@ export default class StudentAdapter extends ApplicationAdapter {
       data: {
         attributes: {
           'schooling-registration-id': model.id,
-        }
-      }
+        },
+      },
     };
 
     const url = `${this.host}/${this.namespace}/schooling-registration-user-associations`;

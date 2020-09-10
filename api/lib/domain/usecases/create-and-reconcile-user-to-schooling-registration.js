@@ -21,7 +21,7 @@ function _createDomainUser(userAttributes, encryptedPawsword) {
     email: userAttributes.email,
     username: userAttributes.username,
     password: encryptedPawsword,
-    cgu: false
+    cgu: false,
   });
 }
 
@@ -36,7 +36,7 @@ function  _manageUsernameAvailabilityError(error) {
 function _manageError(error, errorType, attribute, message) {
   if (error instanceof errorType) {
     throw new EntityValidationError({
-      invalidAttributes: [{ attribute, message }]
+      invalidAttributes: [{ attribute, message }],
     });
   }
 

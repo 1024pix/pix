@@ -18,5 +18,5 @@ module.exports = {
       err.why = 'uniqueness';
       throw err;
     }
-  }
+  },
 };

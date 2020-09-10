@@ -22,7 +22,7 @@ describe('Unit | Service | Password Service', function() {
       const signParams = {
         payload: { data: randomGeneratedString },
         secret: settings.temporaryKey.secret,
-        expiration: { expiresIn: settings.temporaryKey.tokenLifespan }
+        expiration: { expiresIn: settings.temporaryKey.tokenLifespan },
       };
 
       // when

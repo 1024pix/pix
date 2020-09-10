@@ -394,10 +394,10 @@ describe('Unit | Application | SecurityPreHandlers', () => {
         auth: {
           credentials: {
             accessToken: 'valid.access.token',
-            userId: 1234
-          }
+            userId: 1234,
+          },
         },
-        params: { id: 5678 }
+        params: { id: 5678 },
       };
 
       it('should authorize access to resource when the user is authenticated, belongs to an Organization and manages students', async () => {
@@ -417,10 +417,10 @@ describe('Unit | Application | SecurityPreHandlers', () => {
         auth: {
           credentials: {
             accessToken: 'valid.access.token',
-            userId: 1234
-          }
+            userId: 1234,
+          },
         },
-        params: { id: 5678 }
+        params: { id: 5678 },
       };
 
       it('should forbid resource access when user was not previously authenticated', async () => {
@@ -474,9 +474,9 @@ describe('Unit | Application | SecurityPreHandlers', () => {
         auth: {
           credentials: {
             accessToken: 'valid.access.token',
-            userId: 1234
-          }
-        }
+            userId: 1234,
+          },
+        },
       };
 
       context('when organization id is in request params', () => {
@@ -500,9 +500,9 @@ describe('Unit | Application | SecurityPreHandlers', () => {
         request.payload = {
           data: {
             attributes: {
-              organizationId: 5678
-            }
-          }
+              organizationId: 5678,
+            },
+          },
         };
 
         it('should authorize access to resource when the user is authenticated, belongs to SCO Organization and manages students', async () => {
@@ -523,8 +523,8 @@ describe('Unit | Application | SecurityPreHandlers', () => {
         auth: {
           credentials: {
             accessToken: 'valid.access.token',
-            userId: 1234
-          }
+            userId: 1234,
+          },
         },
         params: { id: 5678 } };
 
@@ -581,10 +581,10 @@ describe('Unit | Application | SecurityPreHandlers', () => {
         auth: {
           credentials: {
             accessToken: 'valid.access.token',
-            userId: 1234
-          }
+            userId: 1234,
+          },
         },
-        params: { id: 5678 }
+        params: { id: 5678 },
       };
 
       it('should authorize access to resource when the user is authenticated and belongs to organization', async () => {
@@ -629,8 +629,8 @@ describe('Unit | Application | SecurityPreHandlers', () => {
         auth: {
           credentials: {
             accessToken: 'valid.access.token',
-            userId: 1234
-          }
+            userId: 1234,
+          },
         },
       };
 

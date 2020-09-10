@@ -17,7 +17,7 @@ describe('Unit | Serializer | JSONAPI | course-serializer', function() {
           'rec_challenge_2',
           'rec_challenge_3',
           'rec_challenge_4',
-          'rec_challenge_5'
+          'rec_challenge_5',
         ],
       });
 
@@ -35,7 +35,7 @@ describe('Unit | Serializer | JSONAPI | course-serializer', function() {
             'image-url': 'http://image.url',
             'nb-challenges': 5,
           },
-        }
+        },
       });
     });
 

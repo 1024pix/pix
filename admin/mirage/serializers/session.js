@@ -9,5 +9,5 @@ export default ApplicationSerializer.extend({
       },
     };
     return links;
-  }
+  },
 });

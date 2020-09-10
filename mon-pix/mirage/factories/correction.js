@@ -9,5 +9,5 @@ export default Factory.extend({
 
   hint() {
     return faker.random.word();
-  }
+  },
 });

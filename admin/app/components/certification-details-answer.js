@@ -27,6 +27,6 @@ export default Component.extend({
       answer.jury = jury;
       this.set('_jury', jury);
       this.onUpdateRate();
-    }
-  }
+    },
+  },
 });

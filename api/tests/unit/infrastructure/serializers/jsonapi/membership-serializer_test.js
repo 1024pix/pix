@@ -15,7 +15,7 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
           name: 'The name of the organization',
           type: 'SUP',
           code: 'WASABI666',
-          externalId: 'EXTID'
+          externalId: 'EXTID',
         },
         organizationRole: Membership.roles.ADMIN,
         user: {
@@ -23,7 +23,7 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
           firstName: 'firstName',
           lastName: 'lastName',
           email: 'email',
-        }
+        },
       });
 
       const expectedSerializedMembership = {
@@ -37,16 +37,16 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
             organization: {
               data:
                 {
-                  type: 'organizations', id: '10293'
+                  type: 'organizations', id: '10293',
                 },
             },
             user: {
               'data': {
                 id: '123',
-                type: 'users'
-              }
-            }
-          }
+                type: 'users',
+              },
+            },
+          },
         },
         included: [{
           type: 'organizations',
@@ -55,35 +55,35 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
             name: 'The name of the organization',
             type: 'SUP',
             code: 'WASABI666',
-            'external-id': 'EXTID'
+            'external-id': 'EXTID',
           },
           relationships: {
             campaigns: {
               links: {
-                related: '/api/organizations/10293/campaigns'
-              }
+                related: '/api/organizations/10293/campaigns',
+              },
             },
             'target-profiles': {
               links: {
-                related: '/api/organizations/10293/target-profiles'
-              }
+                related: '/api/organizations/10293/target-profiles',
+              },
             },
             memberships: {
               links: {
-                related: '/api/organizations/10293/memberships'
-              }
+                related: '/api/organizations/10293/memberships',
+              },
             },
             students: {
               links: {
-                related: '/api/organizations/10293/students'
-              }
+                related: '/api/organizations/10293/students',
+              },
             },
             'organization-invitations': {
               links: {
                 related: '/api/organizations/10293/invitations',
               },
             },
-          }
+          },
         },
         {
           type: 'users',
@@ -93,7 +93,7 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
             'last-name': 'lastName',
             email: 'email',
           },
-        }]
+        }],
       };
 
       // when
@@ -183,7 +183,7 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
           attributes: {
             'organization-role': 'ADMIN',
           },
-        }
+        },
       };
     });
 

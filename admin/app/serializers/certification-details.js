@@ -13,9 +13,9 @@ export default class CertificationDetails extends JSONAPISerializer {
           userId: payload.userId,
           status: payload.status,
           completedAt: payload.completedAt,
-          listChallengesAndAnswers: payload.listChallengesAndAnswers
+          listChallengesAndAnswers: payload.listChallengesAndAnswers,
         },
-        type: 'certificationDetails'
+        type: 'certificationDetails',
       };
     }
     payload.data.id = id;

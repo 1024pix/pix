@@ -11,14 +11,14 @@ describe('Unit | Service | SolutionService', function() {
       id: 5,
       value: '#ABAND#',
       result: 'aband',
-      challengeId: 'any_challenge_id'
+      challengeId: 'any_challenge_id',
     };
 
     const timedout_answer = {
       id: 6,
       value: '1,2,3',
       result: 'timedout',
-      challengeId: 'any_challenge_id'
+      challengeId: 'any_challenge_id',
     };
 
     it('If the answer is timedout, resolve to the answer itself, unchanged', function(done) {

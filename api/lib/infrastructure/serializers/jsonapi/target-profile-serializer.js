@@ -5,5 +5,5 @@ module.exports = {
     return new Serializer('target-profiles', {
       attributes: ['name'],
     }).serialize(targetProfile);
-  }
+  },
 };

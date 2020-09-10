@@ -42,7 +42,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           // given
           const expectedError = {
             attribute: undefined,
-            message: 'Aucun champ n\'est renseigné.'
+            message: 'Aucun champ n\'est renseigné.',
           };
 
           // when
@@ -59,7 +59,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           // given
           const expectedError = {
             attribute: 'firstName',
-            message: 'Votre prénom n’est pas renseigné.'
+            message: 'Votre prénom n’est pas renseigné.',
           };
           user.firstName = MISSING_VALUE;
 
@@ -77,7 +77,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           // given
           const expectedError = {
             attribute: 'lastName',
-            message: 'Votre nom n’est pas renseigné.'
+            message: 'Votre nom n’est pas renseigné.',
           };
           user.lastName = MISSING_VALUE;
 
@@ -95,7 +95,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           // given
           const expectedError = {
             attribute: 'password',
-            message: 'Votre mot de passe n’est pas renseigné.'
+            message: 'Votre mot de passe n’est pas renseigné.',
           };
           user.password = MISSING_VALUE;
 
@@ -113,7 +113,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           // given
           const expectedError = {
             attribute: 'password',
-            message: 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.'
+            message: 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.',
           };
           user.password = 'invalid';
 
@@ -131,7 +131,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           // given
           const expectedError = {
             attribute: 'cgu',
-            message: 'Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.'
+            message: 'Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.',
           };
           user.cgu = 'false';
 
@@ -149,7 +149,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           // given
           const expectedError = {
             attribute: 'email',
-            message: 'Votre adresse e-mail n’est pas renseignée.'
+            message: 'Votre adresse e-mail n’est pas renseignée.',
           };
           user.email = MISSING_VALUE;
 
@@ -167,7 +167,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           // given
           const expectedError = {
             attribute: 'email',
-            message: 'Le format de l\'adresse e-mail est incorrect.'
+            message: 'Le format de l\'adresse e-mail est incorrect.',
           };
           user.email = 'invalid_email';
 
@@ -185,7 +185,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           // given
           const expectedError = {
             attribute: undefined,
-            message: 'Vous devez renseigner une adresse e-mail et/ou un identifiant.'
+            message: 'Vous devez renseigner une adresse e-mail et/ou un identifiant.',
           };
 
           user.email = undefined;
@@ -244,7 +244,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           // given
           const expectedError = {
             attribute: undefined,
-            message: 'Aucun champ n\'est renseigné.'
+            message: 'Aucun champ n\'est renseigné.',
           };
 
           // when
@@ -261,7 +261,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           // given
           const expectedError = {
             attribute: 'firstName',
-            message: 'Votre prénom n’est pas renseigné.'
+            message: 'Votre prénom n’est pas renseigné.',
           };
           user.firstName = MISSING_VALUE;
 
@@ -279,7 +279,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           // given
           const expectedError = {
             attribute: 'lastName',
-            message: 'Votre nom n’est pas renseigné.'
+            message: 'Votre nom n’est pas renseigné.',
           };
           user.lastName = MISSING_VALUE;
 
@@ -297,7 +297,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           // given
           const expectedError = {
             attribute: 'password',
-            message: 'Votre mot de passe n’est pas renseigné.'
+            message: 'Votre mot de passe n’est pas renseigné.',
           };
           user.password = MISSING_VALUE;
 
@@ -315,7 +315,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           // given
           const expectedError = {
             attribute: 'password',
-            message: 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.'
+            message: 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.',
           };
           user.password = 'invalid';
 
@@ -333,7 +333,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           // given
           const expectedError = {
             attribute: 'username',
-            message: 'Votre identifiant n’est pas renseigné.'
+            message: 'Votre identifiant n’est pas renseigné.',
           };
           user.username = MISSING_VALUE;
 

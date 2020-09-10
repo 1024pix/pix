@@ -24,7 +24,7 @@ exports.up = function(knex) {
         WHEN 'recxlkyNjuu4cJuuF' THEN 'recFpYXCKcyhLI3Nu'
         WHEN 'recye6vmFsi8ernH4' THEN 'recMiZPNl7V1hyE1d'
         WHEN 'recyochcrrSOALQPS' THEN 'recDH19F7kKrfL3Ii'
-      END`)
+      END`),
     });
 };
 

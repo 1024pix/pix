@@ -74,7 +74,7 @@ describe('Unit | Repository | tutorial-repository', () => {
       const tutorialIds = ['recTutorial1', 'recTutorial2'];
       const expectedTutorialList = [
         expectedTutorial,
-        expectedTutorial2
+        expectedTutorial2,
       ];
 
       // when
@@ -109,7 +109,7 @@ describe('Unit | Repository | tutorial-repository', () => {
         expectedTutorial.tutorialEvaluation = tutorialEvaluation;
         expectedTutorial.userTutorial = userTutorial;
         const expectedTutorialList = [
-          expectedTutorial2
+          expectedTutorial2,
         ];
 
         // when
@@ -130,7 +130,7 @@ describe('Unit | Repository | tutorial-repository', () => {
         expectedTutorial.userTutorial = userTutorial;
         const expectedTutorialList = [
           expectedTutorial,
-          expectedTutorial2
+          expectedTutorial2,
         ];
 
         // when
@@ -200,7 +200,7 @@ describe('Unit | Repository | tutorial-repository', () => {
         // then
         const expectedTutorialList = [
           expectedTutorial,
-          expectedTutorial2
+          expectedTutorial2,
         ];
 
         expect(fetchedTutorialList[0]).to.be.an.instanceOf(Tutorial);

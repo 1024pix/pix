@@ -17,5 +17,5 @@ module.exports = {
       .where('badgeId', 'in', badgeIds)
       .fetchAll({ columns: ['badge-acquisitions.badgeId'], require: false });
     return collectionResult.map((obj) => obj.attributes.badgeId);
-  }
+  },
 };

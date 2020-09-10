@@ -11,7 +11,7 @@ module.exports = {
       .fetchAll({
         withRelated: [
           'certificationCenter',
-        ]
+        ],
       });
 
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfCertificationCenterMembership, certificationCenterMemberships);
@@ -38,6 +38,6 @@ module.exports = {
       .where({ userId, certificationCenterId })
       .fetch({ columns: 'id' });
     return Boolean(certificationCenterMembership);
-  }
+  },
 
 };

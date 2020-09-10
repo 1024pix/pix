@@ -50,11 +50,11 @@ const CampaignProfilesCollectionParticipationSummaryRepository = {
           certifiable: placementProfile.isCertifiable(),
           certifiableCompetencesCount: placementProfile.getCertifiableCompetencesCount(),
         });
-      }
+      },
     );
 
     return { data, pagination };
-  }
+  },
 
 };
 
@@ -70,7 +70,7 @@ async function _makeMemoizedGetPlacementProfileForUser(results) {
       return  placementProfileService.getPlacementProfilesWithSnapshotting({
         userIdsAndDates: sharedAtDatesByUsers,
         allowExcessPixAndLevels: false,
-        competences
+        competences,
       });
     });
 

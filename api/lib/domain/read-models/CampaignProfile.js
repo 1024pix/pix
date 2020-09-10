@@ -11,7 +11,7 @@ class CampaignProfile {
     participantExternalId,
     sharedAt,
     isShared,
-    createdAt
+    createdAt,
   }) {
     this.firstName = firstName;
     this.lastName = lastName;

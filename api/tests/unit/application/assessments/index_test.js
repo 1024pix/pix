@@ -77,7 +77,7 @@ describe('Integration | Route | AssessmentRoute', () => {
     beforeEach(() => {
       options = {
         method: 'GET',
-        url: '/api/assessments/assessment_id'
+        url: '/api/assessments/assessment_id',
       };
 
       assessmentController.get.returns('ok');

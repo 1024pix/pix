@@ -125,7 +125,7 @@ module.exports = {
       async ({ userId, sharedAt }) => {
         return _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate: sharedAt });
       },
-      { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }
+      { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS },
     ));
 
     return _filterValidatedKnowledgeElementsByCampaignId(knowledgeElements, campaignId);
@@ -155,7 +155,7 @@ module.exports = {
       knowledgeElementsGroupedByUser[userId] = knowledgeElements;
     }
     return knowledgeElementsGroupedByUser;
-  }
+  },
 
 };
 

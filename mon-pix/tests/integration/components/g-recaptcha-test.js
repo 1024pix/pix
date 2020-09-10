@@ -27,7 +27,7 @@ const stubGoogleRecaptchaService = Service.extend({
 
   reset() {
 
-  }
+  },
 });
 
 describe('Integration | Component | g recaptcha', function() {

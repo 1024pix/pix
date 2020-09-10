@@ -103,7 +103,7 @@ module.exports = {
     const { userId } = request.auth.credentials;
     const campaignId = parseInt(request.params.id);
 
-    return usecases.archiveCampaign({ userId, campaignId, })
+    return usecases.archiveCampaign({ userId, campaignId })
       .then(campaignSerializer.serialize);
   },
 
@@ -155,7 +155,7 @@ module.exports = {
 
     const results = await usecases.findCampaignProfilesCollectionParticipationSummaries({ userId, campaignId, page });
     return campaignProfilesCollectionParticipationSummarySerializer.serialize(results);
-  }
+  },
 };
 
 function _validateFilters(filters) {

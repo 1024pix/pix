@@ -25,8 +25,8 @@ describe('Unit | Serializer | JSONAPI | schooling-registration-user-association-
             'first-name': schoolingRegistration.firstName,
             'last-name': schoolingRegistration.lastName,
             'birthdate': schoolingRegistration.birthdate,
-          }
-        }
+          },
+        },
       };
 
       // when

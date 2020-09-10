@@ -15,29 +15,29 @@ const HEADERS = [
   '2.1', '2.2', '2.3', '2.4',
   '3.1', '3.2', '3.3', '3.4',
   '4.1', '4.2', '4.3',
-  '5.1', '5.2'
+  '5.1', '5.2',
 ];
 
 function buildSessionRequest(baseUrl, authToken, sessionId) {
   return {
     headers: {
-      authorization: 'Bearer ' + authToken
+      authorization: 'Bearer ' + authToken,
     },
     baseUrl: baseUrl,
     url: `/api/sessions/${sessionId}`,
-    json: true
+    json: true,
   };
 }
 
 function buildCertificationRequest(baseUrl, authToken, certificationId) {
   return {
     headers: {
-      authorization: 'Bearer ' + authToken
+      authorization: 'Bearer ' + authToken,
     },
     baseUrl: baseUrl,
     url: `/api/admin/certifications/${certificationId}`,
     json: true,
-    simple: false
+    simple: false,
   };
 }
 
@@ -133,7 +133,7 @@ function main() {
     .then((certificationIds) => {
       const certificationsRequests = Promise.all(
         certificationIds.map((certificationId) => buildCertificationRequest(baseUrl, authToken, certificationId))
-          .map((requestObject) => request(requestObject))
+          .map((requestObject) => request(requestObject)),
       );
 
       return certificationsRequests.then((certificationResults) => certificationResults.map(toCSVRow))
@@ -163,5 +163,5 @@ module.exports = {
   buildCertificationRequest,
   toCSVRow,
   findCompetence,
-  buildSessionRequest
+  buildSessionRequest,
 };

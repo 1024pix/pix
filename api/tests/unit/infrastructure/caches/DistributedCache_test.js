@@ -55,7 +55,7 @@ describe('Unit | Infrastructure | Caches | DistributedCache', () => {
     it('shoud use Redis pub/sub notification mechanism to trigger the caches synchronization', async () => {
       // given
       distributedCacheInstance._redisClientPublisher = {
-        publish: sinon.stub()
+        publish: sinon.stub(),
       };
       distributedCacheInstance._redisClientPublisher.publish.withArgs(channel, 'Flush all').resolves(true);
 

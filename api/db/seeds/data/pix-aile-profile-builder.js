@@ -48,7 +48,7 @@ module.exports = function buildPixAileProfilev2({ databaseBuilder }) {
       userId,
       competenceId,
       type: Assessment.types.COMPETENCE_EVALUATION,
-      state: assessmentState
+      state: assessmentState,
     });
 
     databaseBuilder.factory.buildCompetenceEvaluation({
@@ -82,7 +82,7 @@ module.exports = function buildPixAileProfilev2({ databaseBuilder }) {
         remainingDays,
         remainingHours,
         keSource: KnowledgeElement.SourceType.DIRECT,
-        keStatus: challengeSkill.knowledgeElementStatus
+        keStatus: challengeSkill.knowledgeElementStatus,
       });
 
       _.map(challengeSkill.inferredSkillIds, (inferredSkillId) => {
@@ -110,7 +110,7 @@ module.exports = function buildPixAileProfilev2({ databaseBuilder }) {
       { challengeId: 'rec6ZOkRMNlJNAKgl', skillId: 'recYLxHqrLVUBjF2a', inferredSkillIds: ['recRPl7tXR8n2D5xU'] },
       {
         challengeId: 'recX3USEK62h8rACE', skillId: 'recfO8994EvSQV9Ip', inferredSkillIds: ['rec0aOgRFRJ1qPG0b'],
-        knowledgeElementStatus: KnowledgeElement.StatusType.INVALIDATED
+        knowledgeElementStatus: KnowledgeElement.StatusType.INVALIDATED,
       },
     ],
   });

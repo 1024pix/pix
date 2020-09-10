@@ -42,7 +42,7 @@ describe('Unit | UseCase | finalize-session', () => {
         examinerGlobalComment,
         sessionRepository,
         certificationReports: [],
-        certificationReportRepository
+        certificationReportRepository,
       });
 
       // then
@@ -67,7 +67,7 @@ describe('Unit | UseCase | finalize-session', () => {
           examinerGlobalComment,
           sessionRepository,
           certificationReports,
-          certificationReportRepository
+          certificationReportRepository,
         });
 
         // then

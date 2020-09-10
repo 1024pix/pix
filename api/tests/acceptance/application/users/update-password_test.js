@@ -32,10 +32,10 @@ describe('Acceptance | Controller | users-controller-update-password', () => {
           data: {
             id: user.id,
             attributes: {
-              password: 'Pix2018!'
-            }
-          }
-        }
+              password: 'Pix2018!',
+            },
+          },
+        },
       };
 
       // when
@@ -57,10 +57,10 @@ describe('Acceptance | Controller | users-controller-update-password', () => {
           data: {
             id: user.id,
             attributes: {
-              password: 'Pix2018!'
-            }
-          }
-        }
+              password: 'Pix2018!',
+            },
+          },
+        },
       };
 
       // when

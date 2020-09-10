@@ -76,7 +76,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessmen
 
       expect(improvementService.filterKnowledgeElementsIfImproving).to.have.been.calledWithExactly(({
         knowledgeElements: recentKnowledgeElements,
-        assessment: expectedAssessment
+        assessment: expectedAssessment,
       }));
     });
 

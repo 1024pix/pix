@@ -63,7 +63,7 @@ module('Integration | Component | routes/authenticated/campaign/details | profil
       const campaign = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
-        idPixLabel: 'identifiant externe'
+        idPixLabel: 'identifiant externe',
       });
 
       const profiles = [{ participantExternalId: '123' }];
@@ -91,7 +91,7 @@ module('Integration | Component | routes/authenticated/campaign/details | profil
       const campaign = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
-        idPixLabel: 'identifiant externe'
+        idPixLabel: 'identifiant externe',
       });
 
       const profiles = [
@@ -102,7 +102,7 @@ module('Integration | Component | routes/authenticated/campaign/details | profil
           pixScore: 10,
           certifiable: true,
           certifiableCompetencesCount: 5,
-        }
+        },
       ];
       profiles.meta = { rowCount: 1 };
 

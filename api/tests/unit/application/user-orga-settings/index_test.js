@@ -28,11 +28,11 @@ describe('Unit | Router | user-orga-settings-router', () => {
             organization: {
               data: {
                 id: 1,
-                type: 'organizations'
-              }
-            }
-          }
-        }
+                type: 'organizations',
+              },
+            },
+          },
+        },
       };
     });
 

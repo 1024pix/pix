@@ -24,12 +24,12 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
           userId: expectedUserId,
           createdAt: expectedCreatedAt,
           completedAt: expectedCompletedAt,
-          isV2Certification: true
+          isV2Certification: true,
         }).id;
         certificationAssessmentId = dbf.buildAssessment({
           userId: expectedUserId,
           certificationCourseId: expectedCertificationCourseId,
-          state: expectedState
+          state: expectedState,
         }).id;
         dbf.buildAnswer({ assessmentId: certificationAssessmentId });
         dbf.buildAnswer({ assessmentId: certificationAssessmentId });
@@ -87,23 +87,23 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
           userId: expectedUserId,
           createdAt: expectedCreatedAt,
           completedAt: expectedCompletedAt,
-          isV2Certification: true
+          isV2Certification: true,
         }).id;
         expectedCertificationAssessmentId = dbf.buildAssessment({
           userId: expectedUserId,
           certificationCourseId: certificationCourseId,
-          state: expectedState
+          state: expectedState,
         }).id;
 
         // secondAnswerInTime must be inserted in DB before firstAnswerInTime so we can ensure that ordering is based on createdAt
         secondAnswerInTime = dbf.buildAnswer({
           assessmentId: expectedCertificationAssessmentId,
-          createdAt: new Date('2020-06-24T00:00:01Z')
+          createdAt: new Date('2020-06-24T00:00:01Z'),
         }).id;
 
         firstAnswerInTime = dbf.buildAnswer({
           assessmentId: expectedCertificationAssessmentId,
-          createdAt: new Date('2020-06-24T00:00:00Z')
+          createdAt: new Date('2020-06-24T00:00:00Z'),
         }).id;
 
         dbf.buildCertificationChallenge({ courseId: certificationCourseId });

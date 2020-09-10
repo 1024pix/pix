@@ -60,8 +60,8 @@ describe('Acceptance | API | Progressions', () => {
           method: 'GET',
           url: `/api/progressions/${progressionId}`,
           headers: {
-            authorization: 'invalid.access.token'
-          }
+            authorization: 'invalid.access.token',
+          },
         };
 
         // when
@@ -84,8 +84,8 @@ describe('Acceptance | API | Progressions', () => {
             method: 'GET',
             url: `/api/progressions/${progressionId}`,
             headers: {
-              authorization: generateValidRequestAuthorizationHeader(userId)
-            }
+              authorization: generateValidRequestAuthorizationHeader(userId),
+            },
           };
 
           // when
@@ -107,8 +107,8 @@ describe('Acceptance | API | Progressions', () => {
             method: 'GET',
             url: `/api/progressions/${progressionId}`,
             headers: {
-              authorization: generateValidRequestAuthorizationHeader(userId)
-            }
+              authorization: generateValidRequestAuthorizationHeader(userId),
+            },
           };
 
           // when

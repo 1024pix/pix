@@ -45,7 +45,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
         url: '/api/campaigns/{id}/archive',
         headers: {
           authorization: generateValidRequestAuthorizationHeader(userId),
-        }
+        },
       };
 
       // when
@@ -66,7 +66,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
         url: '/api/campaigns/{id}/archive',
         headers: {
           authorization: generateValidRequestAuthorizationHeader(userId),
-        }
+        },
       };
 
       // when

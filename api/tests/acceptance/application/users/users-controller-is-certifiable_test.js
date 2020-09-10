@@ -28,7 +28,7 @@ describe('Acceptance | users-controller-is-certifiable', () => {
       .returns([competence])
       .activate();
 
-    databaseBuilder.factory.buildKnowledgeElement({ userId: user.id, earnedPix: 10, competenceId: competence.id, });
+    databaseBuilder.factory.buildKnowledgeElement({ userId: user.id, earnedPix: 10, competenceId: competence.id });
 
     options = {
       method: 'GET',
@@ -86,8 +86,8 @@ describe('Acceptance | users-controller-is-certifiable', () => {
               'is-certifiable': false,
             },
             id: `${user.id}`,
-            type: 'isCertifiables'
-          }
+            type: 'isCertifiables',
+          },
         };
 
         // when

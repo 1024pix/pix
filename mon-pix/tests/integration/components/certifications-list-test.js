@@ -21,7 +21,7 @@ describe('Integration | Component | certifications list', function() {
       status: 'validated',
       certificationCenter: 'Université de Paris',
       isPublished: true,
-      pixScore: 231
+      pixScore: 231,
     });
     const certification2 = EmberObject.create({
       id: 2,
@@ -29,7 +29,7 @@ describe('Integration | Component | certifications list', function() {
       status: 'rejected',
       certificationCenter: 'Université de Lyon',
       isPublished: true,
-      pixScore: 231
+      pixScore: 231,
     });
 
     it('should render two certification items when there is 2 completed certifications', async function() {

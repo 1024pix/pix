@@ -60,7 +60,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
           knowledgeElementRepository,
           skillRepository,
           pickChallengeService,
-          improvementService
+          improvementService,
         });
       });
       it('should throw a UserNotAuthorizedToAccessEntity error', () => {
@@ -78,7 +78,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
           knowledgeElementRepository,
           skillRepository,
           pickChallengeService,
-          improvementService
+          improvementService,
         });
       });
       it('should have fetched the answers', () => {

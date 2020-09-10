@@ -16,7 +16,7 @@ describe('Unit | UseCase | find-paginated-filtered-organizations', () => {
       new Organization({ id: 3 }),
     ];
     const organizationRepository = {
-      findPaginatedFiltered: sinon.stub()
+      findPaginatedFiltered: sinon.stub(),
     };
     organizationRepository.findPaginatedFiltered.withArgs({ filter, page }).resolves({ models: matchingOrganizations, pagination: resolvedPagination });
 

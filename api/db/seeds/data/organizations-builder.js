@@ -33,7 +33,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     lastName: 'Stark',
     email: 'sansa.stark@example.net',
     rawPassword: defaultPassword,
-    cgu: false
+    cgu: false,
   });
 
   databaseBuilder.factory.buildSchoolingRegistration({
@@ -55,7 +55,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     isManagingStudents: true,
     canCollectProfiles: true,
     email: 'sco.generic.account@example.net',
-    externalId: '1237457A'
+    externalId: '1237457A',
   });
 
   // Memberships
@@ -82,7 +82,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     userId: disabledUserId,
     organizationId: 3,
     organizationRole: Membership.roles.MEMBER,
-    removedAt: new Date()
+    removedAt: new Date(),
   });
 
   // SchoolingRegistrations
@@ -94,7 +94,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     birthdate: '2010-10-10',
     organizationId: 3,
     userId: null,
-    nationalStudentId: '123456789AB'
+    nationalStudentId: '123456789AB',
   });
 
   const user1Id = databaseBuilder.factory.buildUser.withUnencryptedPassword({
@@ -103,7 +103,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     email: null,
     username: 'george.decambridge2207',
     rawPassword: defaultPassword,
-    cgu: false
+    cgu: false,
   }).id;
 
   databaseBuilder.factory.buildSchoolingRegistration({
@@ -111,7 +111,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     lastName: 'De Cambridge',
     birthdate: '2013-07-22',
     organizationId: 3,
-    userId: user1Id
+    userId: user1Id,
   });
 
   const user2Id = databaseBuilder.factory.buildUser.withUnencryptedPassword({
@@ -120,7 +120,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     email: null,
     username: 'blueivy.carter0701',
     rawPassword: defaultPassword,
-    cgu: false
+    cgu: false,
   }).id;
 
   databaseBuilder.factory.buildSchoolingRegistration({
@@ -128,7 +128,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     lastName: 'Carter',
     birthdate: '2012-01-07',
     organizationId: 3,
-    userId: user2Id
+    userId: user2Id,
   });
 
   const INE = '234567890AB';
@@ -156,7 +156,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     lastName: userWithEmailAndUsername.lastName,
     birthdate: '2003-09-30',
     organizationId: 3,
-    nationalStudentId: INE
+    nationalStudentId: INE,
   });
 
   const anotherINE = '345678901AB';
@@ -167,7 +167,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     email: 'user.pix@example.net',
     username: null,
     rawPassword: defaultPassword,
-    cgu: false
+    cgu: false,
   });
 
   databaseBuilder.factory.buildSchoolingRegistration({
@@ -176,7 +176,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     lastName: userAuthentificationMethodIsEmailOnly.lastName,
     birthdate: '2010-09-30',
     organizationId: 3,
-    nationalStudentId: anotherINE
+    nationalStudentId: anotherINE,
   });
 
   const userAuthentificationMethodIsSamlIdOnly = databaseBuilder.factory.buildUser.withUnencryptedPassword({
@@ -186,7 +186,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     username: null,
     samlId: '1234567',
     rawPassword: defaultPassword,
-    cgu: false
+    cgu: false,
   });
 
   databaseBuilder.factory.buildSchoolingRegistration({
@@ -208,7 +208,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     name: 'Managing students #2',
     isManagingStudents: true,
     canCollectProfiles: true,
-    externalId: '1237457B'
+    externalId: '1237457B',
   });
 
   // Memberships
@@ -223,7 +223,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildMembership({
     userId: adminSCO2ManagingStudentUser,
     organizationId: SCO2OrganizationId,
-    organizationRole: Membership.roles.ADMIN
+    organizationRole: Membership.roles.ADMIN,
   });
 
   // SchoolingRegistrations
@@ -235,7 +235,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     birthdate: '2003-09-30',
     organizationId: SCO2OrganizationId,
     nationalStudentId: INE,
-    createdAt: new Date('2020-08-14')
+    createdAt: new Date('2020-08-14'),
   });
 
   databaseBuilder.factory.buildSchoolingRegistration({
@@ -245,7 +245,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     birthdate: '2003-09-30',
     organizationId: SCO2OrganizationId,
     nationalStudentId: anotherINE,
-    createdAt: new Date('2020-08-14')
+    createdAt: new Date('2020-08-14'),
   });
 
 };

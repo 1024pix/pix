@@ -18,7 +18,7 @@ describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer',
     };
     const expectedScorecards = [
       domainBuilder.buildUserScorecard({ area: area1 }),
-      domainBuilder.buildUserScorecard({ area: area2 })
+      domainBuilder.buildUserScorecard({ area: area2 }),
     ];
 
     const profileSharedForCampaign = new SharedProfileForCampaign({
@@ -58,7 +58,7 @@ describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer',
             color: expectedScorecards[0].area.color,
           },
           id: expectedScorecards[0].area.id,
-          type: 'areas'
+          type: 'areas',
         },
         {
           attributes: {
@@ -77,10 +77,10 @@ describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer',
             area: {
               data: {
                 id: expectedScorecards[0].area.id,
-                type: 'areas'
-              }
-            }
-          }
+                type: 'areas',
+              },
+            },
+          },
         },
         {
           attributes: {
@@ -89,7 +89,7 @@ describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer',
             color: expectedScorecards[1].area.color,
           },
           id: expectedScorecards[1].area.id,
-          type: 'areas'
+          type: 'areas',
         },
         {
           attributes: {
@@ -108,12 +108,12 @@ describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer',
             area: {
               data: {
                 id: expectedScorecards[1].area.id,
-                type: 'areas'
-              }
-            }
-          }
-        }
-      ]
+                type: 'areas',
+              },
+            },
+          },
+        },
+      ],
     };
 
     it('should convert a scorecard object into JSON API data', () => {

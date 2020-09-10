@@ -19,7 +19,7 @@ export default Factory.extend({
         tubePracticalTitle: 'Tube B',
       });
       campaignAnalysis.campaignTubeRecommendations = [tubeRecommendation_1, tubeRecommendation_2];
-    }
-  })
+    },
+  }),
 
 });

@@ -12,46 +12,46 @@ const Validations = buildValidations({
       validator('presence', {
         presence: true,
         ignoreBlank: true,
-        message: 'Le prénom ne peut pas être vide.'
+        message: 'Le prénom ne peut pas être vide.',
       }),
       validator('length', {
         min: 1,
         max: 255,
-        message: 'La longueur du prénom ne doit pas excéder 255 caractères.'
-      })
-    ]
+        message: 'La longueur du prénom ne doit pas excéder 255 caractères.',
+      }),
+    ],
   },
   lastName: {
     validators: [
       validator('presence', {
         presence: true,
         ignoreBlank: true,
-        message: 'Le nom ne peut pas être vide.'
+        message: 'Le nom ne peut pas être vide.',
       }),
       validator('length', {
         min: 1,
         max: 255,
-        message: 'La longueur du nom ne doit pas excéder 255 caractères.'
-      })
-    ]
+        message: 'La longueur du nom ne doit pas excéder 255 caractères.',
+      }),
+    ],
   },
   email: {
     validators: [
       validator('presence', {
         presence: true,
         ignoreBlank: true,
-        message: 'L\'e-mail ne peut pas être vide.'
+        message: 'L\'e-mail ne peut pas être vide.',
       }),
       validator('length', {
         max: 255,
-        message: 'La longueur de l\'email ne doit pas excéder 255 caractères.'
+        message: 'La longueur de l\'email ne doit pas excéder 255 caractères.',
       }),
       validator('format', {
         ignoreBlank: true,
         type: 'email',
-        message: 'L\'e-mail n\'a pas le bon format.'
-      })
-    ]
+        message: 'L\'e-mail n\'a pas le bon format.',
+      }),
+    ],
   },
 });
 

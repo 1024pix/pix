@@ -32,7 +32,7 @@ module.exports = async function getNextChallengeForCampaignAssessment({
   return pickChallengeService.pickChallenge({
     skills: possibleSkillsForNextChallenge,
     randomSeed: assessment.id,
-    locale
+    locale,
   });
 };
 

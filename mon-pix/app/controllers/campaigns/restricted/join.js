@@ -15,7 +15,7 @@ export default class JoinRestrictedCampaignController extends Controller {
   reconcile(schoolingRegistration, adapterOptions) {
     return schoolingRegistration.save({ adapterOptions }).then(() => {
       this.transitionToRoute('campaigns.start-or-resume', this.model.code, {
-        queryParams: { associationDone: true, participantExternalId: this.participantExternalId }
+        queryParams: { associationDone: true, participantExternalId: this.participantExternalId },
       });
     });
   }
@@ -34,7 +34,7 @@ export default class JoinRestrictedCampaignController extends Controller {
     await this.currentUser.load();
 
     return this.transitionToRoute('campaigns.start-or-resume', this.model.code, {
-      queryParams: { associationDone: true, participantExternalId: this.participantExternalId }
+      queryParams: { associationDone: true, participantExternalId: this.participantExternalId },
     });
   }
 }

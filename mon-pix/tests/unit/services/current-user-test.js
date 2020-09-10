@@ -15,7 +15,7 @@ describe('Unit | Service | current-user', function() {
     beforeEach(function() {
       sessionStub = Service.create({ isAuthenticated: true });
       storeStub = Service.create({
-        queryRecord: sinon.stub().resolves(user)
+        queryRecord: sinon.stub().resolves(user),
       });
     });
 
@@ -60,7 +60,7 @@ describe('Unit | Service | current-user', function() {
         invalidate: sinon.stub().resolves('invalidate'),
       });
       storeStub = Service.create({
-        queryRecord: sinon.stub().rejects({ errors: [{ code: 401 }] })
+        queryRecord: sinon.stub().rejects({ errors: [{ code: 401 }] }),
       });
     });
 

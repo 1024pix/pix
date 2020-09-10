@@ -58,7 +58,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       const event = 'not an event of the correct type';
       // when / then
       const error = await catchErr(handleCertificationScoring)(
-        { event, ...dependencies, domainTransaction }
+        { event, ...dependencies, domainTransaction },
       );
 
       // then
@@ -77,7 +77,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       it('should not save any results', async () => {
         // when
         await catchErr(handleCertificationScoring)({
-          event, ...dependencies
+          event, ...dependencies,
         });
 
         // then
@@ -107,7 +107,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
 
         // then
         expect(scoringCertificationService.calculateCertificationAssessmentScore).to.have.been.calledWithExactly(
-          certificationAssessment
+          certificationAssessment,
         );
       });
 
@@ -121,13 +121,13 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
 
         // then
         expect(AssessmentResult.BuildAlgoErrorResult).to.have.been.calledWithExactly(
-          computeError, certificationAssessment.id
+          computeError, certificationAssessment.id,
         );
         expect(assessmentResultRepository.save).to.have.been.calledWithExactly(
-          errorAssessmentResult
+          errorAssessmentResult,
         );
         expect(certificationCourseRepository.changeCompletionDate).to.have.been.calledWithExactly(
-          certificationAssessment.certificationCourseId, now, domainTransaction
+          certificationAssessment.certificationCourseId, now, domainTransaction,
         );
       });
     });
@@ -144,7 +144,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         nbPix,
         status,
         competenceMarks: [competenceMarkData1, competenceMarkData2],
-        percentageCorrectAnswers: 80
+        percentageCorrectAnswers: 80,
       };
 
       beforeEach(() => {
@@ -158,25 +158,25 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       it('should build and save an assessment result with the expected arguments', async () => {
         // when
         await handleCertificationScoring({
-          event, ...dependencies, domainTransaction
+          event, ...dependencies, domainTransaction,
         });
 
         // then
         expect(AssessmentResult.BuildStandardAssessmentResult).to.have.been.calledWithExactly(
           certificationAssessmentScore.nbPix,
           certificationAssessmentScore.status,
-          certificationAssessment.id
+          certificationAssessment.id,
         );
         expect(assessmentResultRepository.save).to.have.been.calledWithExactly(assessmentResult, domainTransaction);
         expect(certificationCourseRepository.changeCompletionDate).to.have.been.calledWithExactly(
-          certificationAssessment.certificationCourseId, now, domainTransaction
+          certificationAssessment.certificationCourseId, now, domainTransaction,
         );
       });
 
       it('should return a CertificationScoringCompleted', async () => {
         // when
         const certificationScoringCompleted = await handleCertificationScoring({
-          event, ...dependencies, domainTransaction
+          event, ...dependencies, domainTransaction,
         });
 
         // then
@@ -191,7 +191,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       it('should build and save as many competence marks as present in the certificationAssessmentScore', async () => {
         // when
         await handleCertificationScoring({
-          event, ...dependencies, domainTransaction
+          event, ...dependencies, domainTransaction,
         });
 
         // then
@@ -212,7 +212,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
 
       // when
       const certificationScoringCompleted = await handleCertificationScoring({
-        event, ...dependencies, domainTransaction
+        event, ...dependencies, domainTransaction,
       });
 
       expect(certificationScoringCompleted).to.be.null;

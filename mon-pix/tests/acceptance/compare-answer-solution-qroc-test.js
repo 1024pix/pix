@@ -1,4 +1,4 @@
-import { click, find, } from '@ember/test-helpers';
+import { click, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import visit from '../helpers/visit';

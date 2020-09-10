@@ -16,7 +16,7 @@ function _toPrescriberDomain(bookshelfUser) {
     lastName,
     pixOrgaTermsOfServiceAccepted,
     memberships: _toMembershipsDomain(bookshelfUser.related('memberships')),
-    userOrgaSettings: _toUserOrgaSettingsDomain(bookshelfUser.related('userOrgaSettings'))
+    userOrgaSettings: _toUserOrgaSettingsDomain(bookshelfUser.related('userOrgaSettings')),
   });
 }
 
@@ -50,7 +50,7 @@ function _toUserOrgaSettingsDomain(userOrgaSettingsBookshelf) {
       type,
       isManagingStudents: Boolean(isManagingStudents),
       canCollectProfiles: Boolean(canCollectProfiles),
-      externalId
+      externalId,
     }),
   });
 }

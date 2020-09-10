@@ -104,7 +104,7 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
                 'is-shared': campaignParticipation2.isShared,
                 'participant-external-id': campaignParticipation2.participantExternalId,
                 'shared-at': campaignParticipation2.sharedAt,
-                'created-at': campaignParticipation2.createdAt
+                'created-at': campaignParticipation2.createdAt,
               },
               relationships: {
                 campaign: {
@@ -113,19 +113,19 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
                 },
                 assessment: {
                   links: {
-                    related: `/api/assessments/${assessment2.id}`
-                  }
+                    related: `/api/assessments/${assessment2.id}`,
+                  },
                 },
                 'campaign-participation-result': {
                   links: {
-                    'related': `/api/campaign-participations/${campaignParticipation2.id}/campaign-participation-result`
-                  }
+                    'related': `/api/campaign-participations/${campaignParticipation2.id}/campaign-participation-result`,
+                  },
                 },
                 'campaign-analysis': {
                   links: {
-                    related: `/api/campaign-participations/${campaignParticipation2.id}/analyses`
-                  }
-                }
+                    related: `/api/campaign-participations/${campaignParticipation2.id}/analyses`,
+                  },
+                },
               },
             },
             {
@@ -135,7 +135,7 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
                 'is-shared': campaignParticipation3.isShared,
                 'participant-external-id': campaignParticipation3.participantExternalId,
                 'shared-at': campaignParticipation3.sharedAt,
-                'created-at': campaignParticipation3.createdAt
+                'created-at': campaignParticipation3.createdAt,
               },
               relationships: {
                 campaign: {
@@ -144,14 +144,14 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
                 },
                 'campaign-participation-result': {
                   links: {
-                    'related': `/api/campaign-participations/${campaignParticipation3.id}/campaign-participation-result`
-                  }
+                    'related': `/api/campaign-participations/${campaignParticipation3.id}/campaign-participation-result`,
+                  },
                 },
                 'campaign-analysis': {
                   links: {
-                    related: `/api/campaign-participations/${campaignParticipation3.id}/analyses`
-                  }
-                }
+                    related: `/api/campaign-participations/${campaignParticipation3.id}/analyses`,
+                  },
+                },
               },
             },
             {
@@ -161,7 +161,7 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
                 'is-shared': campaignParticipation1.isShared,
                 'participant-external-id': campaignParticipation1.participantExternalId,
                 'shared-at': campaignParticipation1.sharedAt,
-                'created-at': campaignParticipation1.createdAt
+                'created-at': campaignParticipation1.createdAt,
               },
               relationships: {
                 campaign: {
@@ -170,19 +170,19 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
                 },
                 assessment: {
                   links: {
-                    related: `/api/assessments/${assessment1.id}`
-                  }
+                    related: `/api/assessments/${assessment1.id}`,
+                  },
                 },
                 'campaign-participation-result': {
                   links: {
-                    'related': `/api/campaign-participations/${campaignParticipation1.id}/campaign-participation-result`
-                  }
+                    'related': `/api/campaign-participations/${campaignParticipation1.id}/campaign-participation-result`,
+                  },
                 },
                 'campaign-analysis': {
                   links: {
-                    related: `/api/campaign-participations/${campaignParticipation1.id}/analyses`
-                  }
-                }
+                    related: `/api/campaign-participations/${campaignParticipation1.id}/analyses`,
+                  },
+                },
               },
             },
           ],
@@ -194,7 +194,7 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
                 code: campaign2.code,
                 title: campaign2.title,
                 type: 'ASSESSMENT',
-              }
+              },
             },
             {
               type: 'campaigns',
@@ -203,7 +203,7 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
                 code: campaign3.code,
                 title: campaign3.title,
                 type: 'PROFILES_COLLECTION',
-              }
+              },
             },
             {
               type: 'campaigns',
@@ -212,7 +212,7 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
                 code: campaign1.code,
                 title: campaign1.title,
                 type: 'ASSESSMENT',
-              }
+              },
             },
           ],
         });

@@ -38,9 +38,9 @@ module.exports = {
             'masteryPercentage',
             'totalSkillsCount',
             'testedSkillsCount',
-            'validatedSkillsCount'
+            'validatedSkillsCount',
           ],
-        }
+        },
       },
       competenceResults: {
         ref: 'id',
@@ -51,7 +51,7 @@ module.exports = {
           'masteryPercentage',
           'totalSkillsCount',
           'testedSkillsCount',
-          'validatedSkillsCount'
+          'validatedSkillsCount',
         ],
       },
       reachedStage: {
@@ -65,7 +65,7 @@ module.exports = {
       },
       typeForAttribute(attribute) {
         return attribute === 'reachedStage' ? 'reached-stages' : attribute;
-      }
+      },
     }).serialize(results);
   },
 };

@@ -12,19 +12,19 @@ module('Unit | Model | campaign-collective-results', function(hooks) {
       const store = this.owner.lookup('service:store');
 
       const competenceCollectiveResults1 = store.createRecord('campaign-competence-collective-result', {
-        averageValidatedSkills: 12
+        averageValidatedSkills: 12,
       });
       const competenceCollectiveResults2 = store.createRecord('campaign-competence-collective-result', {
-        averageValidatedSkills: 45
+        averageValidatedSkills: 45,
       });
       const competenceCollectiveResults3 = store.createRecord('campaign-competence-collective-result', {
-        averageValidatedSkills: 3
+        averageValidatedSkills: 3,
       });
 
       const model = run(() => store.createRecord('campaign-collective-result', {}));
       model.set(
         'campaignCompetenceCollectiveResults',
-        [competenceCollectiveResults1, competenceCollectiveResults2, competenceCollectiveResults3]
+        [competenceCollectiveResults1, competenceCollectiveResults2, competenceCollectiveResults3],
       );
 
       //when
@@ -57,7 +57,7 @@ module('Unit | Model | campaign-collective-results', function(hooks) {
       const model = run(()=> store.createRecord('campaign-collective-result', {}));
       model.set(
         'campaignCompetenceCollectiveResults',
-        [competenceCollectiveResults1, competenceCollectiveResults2, competenceCollectiveResults3]
+        [competenceCollectiveResults1, competenceCollectiveResults2, competenceCollectiveResults3],
       );
 
       //when
@@ -90,7 +90,7 @@ module('Unit | Model | campaign-collective-results', function(hooks) {
       const model = run(()=> store.createRecord('campaign-collective-result', {}));
       model.set(
         'campaignCompetenceCollectiveResults',
-        [competenceCollectiveResults1, competenceCollectiveResults2, competenceCollectiveResults3]
+        [competenceCollectiveResults1, competenceCollectiveResults2, competenceCollectiveResults3],
       );
 
       //when
@@ -123,7 +123,7 @@ module('Unit | Model | campaign-collective-results', function(hooks) {
       const model = run(() => store.createRecord('campaign-collective-result', {}));
       model.set(
         'campaignCompetenceCollectiveResults',
-        [competenceCollectiveResults1, competenceCollectiveResults2, competenceCollectiveResults3]
+        [competenceCollectiveResults1, competenceCollectiveResults2, competenceCollectiveResults3],
       );
       //when
       const maxTotalSkillsCountInCompetences = model.get('maxTotalSkillsCountInCompetences');

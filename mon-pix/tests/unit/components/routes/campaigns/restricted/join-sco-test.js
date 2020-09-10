@@ -29,7 +29,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
     component = createComponent('component:routes/campaigns/restricted/join-sco', {
       onSubmitToReconcile: onSubmitToReconcileStub,
       onSubmitToCreateAndReconcile: onSubmitToCreateAndReconcileStub,
-      campaignCode: 123
+      campaignCode: 123,
     });
     component.store = storeStub;
     component.session = sessionStub;
@@ -411,7 +411,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
             lastName: component.lastName,
             birthdate: component.birthdate,
             campaignCode: component.args.campaignCode,
-          }
+          },
         ).returns(schoolingRegistration);
 
         // when
@@ -433,7 +433,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
         storeStub.createRecord.withArgs('external-user', {
           birthdate: component.birthdate,
           campaignCode: component.args.campaignCode,
-          externalUserToken
+          externalUserToken,
         }).returns(externalUser);
 
         // when
@@ -479,7 +479,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
               code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
               title: 'Conflict',
               detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-              meta
+              meta,
             };
 
             onSubmitToReconcileStub.rejects({ errors: [error] });
@@ -508,7 +508,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
               code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
               title: 'Conflict',
               detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-              meta
+              meta,
             };
 
             onSubmitToReconcileStub.rejects({ errors: [error] });
@@ -537,7 +537,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
               code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
               title: 'Conflict',
               detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-              meta
+              meta,
             };
 
             onSubmitToReconcileStub.rejects({ errors: [error] });
@@ -566,7 +566,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
               code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
               title: 'Conflict',
               detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-              meta
+              meta,
             };
 
             onSubmitToReconcileStub.rejects({ errors: [error] });
@@ -595,7 +595,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
               code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
               title: 'Conflict',
               detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-              meta
+              meta,
             };
 
             onSubmitToReconcileStub.rejects({ errors: [error] });
@@ -624,7 +624,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
               code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
               title: 'Conflict',
               detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-              meta
+              meta,
             };
 
             onSubmitToReconcileStub.rejects({ errors: [error] });
@@ -653,7 +653,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
               code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
               title: 'Conflict',
               detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-              meta
+              meta,
             };
 
             onSubmitToReconcileStub.rejects({ errors: [error] });

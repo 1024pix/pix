@@ -21,7 +21,7 @@ describe('Unit | UseCase | disable-membership', () => {
     // then
     const expectedMembershipAttributes = {
       disabledAt: sinon.match.instanceOf(Date),
-      updatedByUserId: userId
+      updatedByUserId: userId,
     };
     expect(membershipRepository.updateById).to.has.been.calledWithExactly({ id: membershipId, membershipAttributes: expectedMembershipAttributes });
   });

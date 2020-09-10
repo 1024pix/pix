@@ -25,8 +25,8 @@ module.exports = function(environment) {
       },
       EXTEND_PROTOTYPES: {
         // Prevent Ember Data from overriding Date.parse.
-        Date: false
-      }
+        Date: false,
+      },
     },
 
     APP: {
@@ -35,11 +35,11 @@ module.exports = function(environment) {
         BAD_REQUEST: { CODE: '400', MESSAGE: 'Les données envoyées ne sont pas au bon format.' },
         INTERNAL_SERVER_ERROR: {
           CODE: '500',
-          MESSAGE: 'Le service est momentanément indisponible. Veuillez réessayer ultérieurement.'
+          MESSAGE: 'Le service est momentanément indisponible. Veuillez réessayer ultérieurement.',
         },
         GATEWAY_TIMEOUT: {
           CODE: '504',
-          MESSAGE: 'Le service subi des ralentissements. Veuillez réessayer ultérieurement.'
+          MESSAGE: 'Le service subi des ralentissements. Veuillez réessayer ultérieurement.',
         },
         UNAUTHORIZED: { CODE: '401', MESSAGE: 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.' },
         FORBIDDEN: '403',
@@ -57,7 +57,7 @@ module.exports = function(environment) {
     moment: {
       // To cherry-pick specific locale support into your application.
       // Full list of locales: https://github.com/moment/moment/tree/2.10.3/locale
-      includeLocales: ['fr']
+      includeLocales: ['fr'],
     },
 
     // Set or update content security policies

@@ -50,9 +50,9 @@ describe('Integration | Application | Organizations | organization-controller', 
           'logo-url': 'http://log.url',
           'external-id': '02A2145V',
           'province-code': '02A',
-          'email': 'sco.generic.newaccount@example.net'
-        }
-      }
+          'email': 'sco.generic.newaccount@example.net',
+        },
+      },
     };
 
     context('Success cases', () => {
@@ -219,9 +219,9 @@ describe('Integration | Application | Organizations | organization-controller', 
         data: {
           type: 'organization-invitations',
           attributes: {
-            email: invitation.email
+            email: invitation.email,
           },
-        }
+        },
       };
 
       beforeEach(() => {
@@ -247,8 +247,8 @@ describe('Integration | Application | Organizations | organization-controller', 
             'organization-id': invitation.organizationId,
             email: invitation.email,
             status,
-            'updated-at': invitation.updatedAt
-          }
+            'updated-at': invitation.updatedAt,
+          },
         };
         usecases.createOrganizationInvitations.resolves([invitation]);
 
@@ -295,7 +295,7 @@ describe('Integration | Application | Organizations | organization-controller', 
         attributes: {
           'target-profiles-to-attach': [1, 2],
         },
-      }
+      },
     };
 
     context('Error cases', () => {

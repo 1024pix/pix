@@ -17,7 +17,7 @@ describe('Unit | UseCase | find-paginated-filtered-organizations-memberships', (
       new Memberships({ id: 3 }),
     ];
     const membershipRepository = {
-      findPaginatedFiltered: sinon.stub()
+      findPaginatedFiltered: sinon.stub(),
     };
     membershipRepository.findPaginatedFiltered.withArgs({ organizationId, filter, page })
       .resolves({ models: matchingMemberships, pagination: resolvedPagination });

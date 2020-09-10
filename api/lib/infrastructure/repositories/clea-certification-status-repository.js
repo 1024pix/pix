@@ -21,5 +21,5 @@ module.exports = {
       return response.attributes.acquired ? statuses.ACQUIRED : statuses.REJECTED;
     }
     return statuses.NOT_PASSED;
-  }
+  },
 };

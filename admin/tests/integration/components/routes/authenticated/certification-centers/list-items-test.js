@@ -15,7 +15,7 @@ module('Integration | Component | routes/authenticated/certification-centers | l
       { id: 3, name: 'Lola', type: 'PRO', externalId: '789' },
     ];
     certificationCenters.meta = {
-      rowCount: 3
+      rowCount: 3,
     };
     const triggerFiltering = function() {};
 

@@ -27,7 +27,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', () => {
     });
 
     it('should return the shared profile for campaign', async () => {
-      const knowledgeElements = { 'competence1': [], 'competence2': [], };
+      const knowledgeElements = { 'competence1': [], 'competence2': [] };
       const competences = [{ id: 'competence1' },  { id: 'competence2' }];
       // given
       campaignParticipationRepository.findOneByCampaignIdAndUserId.withArgs({ userId, campaignId }).resolves(expectedCampaignParticipation);
@@ -59,7 +59,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', () => {
         scorecards: [
           { id: 'Score1', earnedPix: 10 },
           { id: 'Score2', earnedPix: 5 },
-        ]
+        ],
       });
     });
   });

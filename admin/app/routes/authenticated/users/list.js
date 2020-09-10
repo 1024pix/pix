@@ -4,11 +4,11 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 export default class ListRoute extends Route.extend(AuthenticatedRouteMixin) {
 
   queryParams = {
-    pageNumber: { refreshModel: true, },
-    pageSize: { refreshModel: true, },
-    firstName: { refreshModel: true, },
-    lastName: { refreshModel: true, },
-    email: { refreshModel: true, },
+    pageNumber: { refreshModel: true },
+    pageSize: { refreshModel: true },
+    firstName: { refreshModel: true },
+    lastName: { refreshModel: true },
+    email: { refreshModel: true },
   };
 
   model(params) {

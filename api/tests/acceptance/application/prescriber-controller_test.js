@@ -24,22 +24,22 @@ describe('Acceptance | Controller | Prescriber-controller', () => {
           'first-name': user.firstName,
           'last-name': user.lastName,
           'pix-orga-terms-of-service-accepted': false,
-          'are-new-year-schooling-registrations-imported': false
+          'are-new-year-schooling-registrations-imported': false,
         },
         relationships: {
           memberships: {
             data: [{
               id: membership.id.toString(),
-              type: 'memberships'
-            }]
+              type: 'memberships',
+            }],
           },
           'user-orga-settings': {
             data: {
               id: userOrgaSettingsId.toString(),
-              type: 'userOrgaSettings'
-            }
-          }
-        }
+              type: 'userOrgaSettings',
+            },
+          },
+        },
       },
       included: [
         {
@@ -55,57 +55,57 @@ describe('Acceptance | Controller | Prescriber-controller', () => {
           relationships: {
             memberships: {
               links: {
-                related: `/api/organizations/${organization.id}/memberships`
-              }
+                related: `/api/organizations/${organization.id}/memberships`,
+              },
             },
             'organization-invitations': {
               links: {
-                related: `/api/organizations/${organization.id}/invitations`
-              }
+                related: `/api/organizations/${organization.id}/invitations`,
+              },
             },
             students: {
               links: {
-                related: `/api/organizations/${organization.id}/students`
-              }
+                related: `/api/organizations/${organization.id}/students`,
+              },
             },
             'target-profiles': {
               links: {
-                related: `/api/organizations/${organization.id}/target-profiles`
-              }
-            }
-          }
+                related: `/api/organizations/${organization.id}/target-profiles`,
+              },
+            },
+          },
         },
         {
           id: membership.id.toString(),
           type: 'memberships',
           attributes: {
-            'organization-role': membership.organizationRole
+            'organization-role': membership.organizationRole,
           },
           relationships: {
             organization: {
               data: {
                 id: organization.id.toString(),
-                type: 'organizations'
-              }
-            }
-          }
+                type: 'organizations',
+              },
+            },
+          },
         },
         {
           id: userOrgaSettingsId.toString(),
           type: 'userOrgaSettings',
           attributes: {
-            user: undefined
+            user: undefined,
           },
           relationships: {
             organization: {
               data: {
                 id: organization.id.toString(),
-                type: 'organizations'
-              }
-            }
+                type: 'organizations',
+              },
+            },
           },
-        }
-      ]
+        },
+      ],
     };
   }
 

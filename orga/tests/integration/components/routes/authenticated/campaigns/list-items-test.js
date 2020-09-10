@@ -37,7 +37,7 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
         { name: 'campagne 2', code: 'BBBBBB222' },
       ];
       campaigns.meta = {
-        rowCount: 2
+        rowCount: 2,
       };
       this.set('campaigns', campaigns);
 
@@ -63,11 +63,11 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
       const campaign2 = store.createRecord('campaign', {
         id: 2,
         name: 'campagne 1',
-        code: 'BBBBBB222'
+        code: 'BBBBBB222',
       });
       const campaigns = [campaign1, campaign2];
       campaigns.meta = {
-        rowCount: 2
+        rowCount: 2,
       };
       this.set('campaigns', campaigns);
 
@@ -104,11 +104,11 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
         id: 2,
         name: 'campagne 1',
         creator: user2,
-        code: 'BBBBBB222'
+        code: 'BBBBBB222',
       });
       const campaigns = [campaign1, campaign2];
       campaigns.meta = {
-        rowCount: 2
+        rowCount: 2,
       };
       this.set('campaigns', campaigns);
 
@@ -127,12 +127,12 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
       // given
       const campaigns = [];
       campaigns.meta = {
-        rowCount: 0
+        rowCount: 0,
       };
 
       const organizationMembers = [
         { label: 'Harry Covert' },
-        { label: 'Jean-Michel Jarre' }
+        { label: 'Jean-Michel Jarre' },
       ];
 
       this.set('campaigns', campaigns);
@@ -168,7 +168,7 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
       });
       const campaigns = [campaign2, campaign1];
       campaigns.meta = {
-        rowCount: 2
+        rowCount: 2,
       };
       this.set('campaigns', campaigns);
 
@@ -195,12 +195,12 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
         id: 1,
         name: 'campagne 1',
         code: 'AAAAAA111',
-        campaignReport
+        campaignReport,
       });
 
       const campaigns = [campaign1];
       campaigns.meta = {
-        rowCount: 1
+        rowCount: 1,
       };
       this.set('campaigns', campaigns);
 
@@ -227,12 +227,12 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
         id: 1,
         name: 'campagne 1',
         code: 'AAAAAA111',
-        campaignReport
+        campaignReport,
       });
 
       const campaigns = [campaign1];
       campaigns.meta = {
-        rowCount: 1
+        rowCount: 1,
       };
       this.set('campaigns', campaigns);
 

@@ -61,7 +61,7 @@ function _buildFailureScore(databaseBuilder, createdAt, assessmentId) {
   });
   const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
     level: -1, pixScore: 0, emitter: 'PIX-ALGO', status: 'rejected', commentForJury: null,
-    commentForCandidate: null, commentForOrganization: null, juryId: null, assessmentId, createdAt
+    commentForCandidate: null, commentForOrganization: null, juryId: null, assessmentId, createdAt,
   }).id;
   _.each(CERTIFICATION_FAILURE_COMPETENCE_MARKS_DATA, (competenceMarkData) => {
     databaseBuilder.factory.buildCompetenceMark({ ...competenceMarkData, assessmentResultId, createdAt });

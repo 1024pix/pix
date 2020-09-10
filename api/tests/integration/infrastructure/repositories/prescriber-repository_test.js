@@ -57,7 +57,7 @@ describe('Integration | Infrastructure | Repository | Prescriber', () => {
           organizationId: organization.id,
         });
         userOrgaSettings = databaseBuilder.factory.buildUserOrgaSettings({
-          userId: user.id, currentOrganizationId: organization.id
+          userId: user.id, currentOrganizationId: organization.id,
         });
 
         await databaseBuilder.commit();

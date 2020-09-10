@@ -46,14 +46,14 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
         name: 'Name1',
         externalId,
         title: 'title1',
-        customLandingPageText: 'customLandingPageText1'
+        customLandingPageText: 'customLandingPageText1',
       };
       const campaignData2 = {
         targetProfileId: targetProfileId2,
         name: 'Name2',
         externalId,
         title: 'title2',
-        customLandingPageText: 'customLandingPageText2'
+        customLandingPageText: 'customLandingPageText2',
       };
 
       // when

@@ -27,7 +27,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
         birthdate: '2010-12-01',
         isAuthenticatedFromGar: false,
         hasUsername: true,
-        hasEmail: true
+        hasEmail: true,
       });
 
       this.display = true;
@@ -107,9 +107,9 @@ module('Integration | Component | manage-authentication-method-modal', function(
               save() {
                 return resolve();
               },
-              generatedPassword
+              generatedPassword,
             });
-          }
+          },
         });
         this.owner.unregister('service:store');
         this.owner.register('service:store', storeStub);
@@ -173,7 +173,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
       this.studentGAR = EmberObject.create({
         id: 2,
         isAuthenticatedFromGar: true,
-        isAuthenticatedWithGarOnly: true
+        isAuthenticatedWithGarOnly: true,
       });
       this.display = true;
     });

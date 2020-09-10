@@ -8,7 +8,7 @@ export default ApplicationSerializer.extend({
       },
       'certificationReports': {
         related: `/api/sessions/${session.id}/certification-reports`,
-      }
+      },
     };
-  }
+  },
 });

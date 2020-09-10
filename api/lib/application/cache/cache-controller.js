@@ -7,8 +7,8 @@ module.exports = {
   refreshCacheEntries(request, h) {
     _.forEach(AirtableDatasources, (datasource) =>
       datasource.refreshAirtableCacheRecords().catch((e) =>
-        logger.error(`Error while reloading cache for ${datasource}`, e)
-      )
+        logger.error(`Error while reloading cache for ${datasource}`, e),
+      ),
     );
     return h.response({}).code(202);
   },

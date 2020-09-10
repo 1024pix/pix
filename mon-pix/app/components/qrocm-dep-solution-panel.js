@@ -15,7 +15,7 @@ const classByResultValue = {
   ok: 'correction-qroc-box-answer--correct',
   ko: '',
   partially: '',
-  aband: 'correction-qroc-box-answer--aband'
+  aband: 'correction-qroc-box-answer--aband',
 };
 
 @classic

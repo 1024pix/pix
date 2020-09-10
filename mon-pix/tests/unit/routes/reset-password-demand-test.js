@@ -13,13 +13,13 @@ describe('Unit | Route | changer mot de passe', function() {
     let storeStub;
     let queryRecordStub;
     const params = {
-      temporary_key: 'pwd-reset-demand-token'
+      temporary_key: 'pwd-reset-demand-token',
     };
 
     beforeEach(function() {
       queryRecordStub = sinon.stub();
       storeStub = Service.create({
-        queryRecord: queryRecordStub
+        queryRecord: queryRecordStub,
       });
     });
 
@@ -45,7 +45,7 @@ describe('Unit | Route | changer mot de passe', function() {
       return promise.then(() => {
         sinon.assert.calledOnce(queryRecordStub);
         sinon.assert.calledWith(queryRecordStub, 'user', {
-          passwordResetTemporaryKey: params.temporary_key
+          passwordResetTemporaryKey: params.temporary_key,
         });
       });
     });
@@ -58,17 +58,17 @@ describe('Unit | Route | changer mot de passe', function() {
           data: {
             id: 7,
             attributes: {
-              email: 'pix@qmail.fr'
-            }
-          }
+              email: 'pix@qmail.fr',
+            },
+          },
         };
         const expectedUser = {
           data: {
             id: 7,
             attributes: {
-              email: 'pix@qmail.fr'
-            }
-          }
+              email: 'pix@qmail.fr',
+            },
+          },
         };
 
         queryRecordStub.resolves(fetchedOwnerDetails);

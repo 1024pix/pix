@@ -6,7 +6,7 @@ describe('Unit | Serializer | JSONAPI | scorecard-serializer', () => {
   describe('#serialize()', () => {
     const expectedTutorials = [
       domainBuilder.buildTutorial({ id: 'recTuto1' }),
-      domainBuilder.buildTutorial({ id: 'recTuto2' })
+      domainBuilder.buildTutorial({ id: 'recTuto2' }),
     ];
 
     const scorecardObject = domainBuilder.buildUserScorecard({ tutorials: expectedTutorials });
@@ -23,19 +23,19 @@ describe('Unit | Serializer | JSONAPI | scorecard-serializer', () => {
           'earned-pix': scorecardObject.earnedPix,
           level: scorecardObject.level,
           'pix-score-ahead-of-next-level': scorecardObject.pixScoreAheadOfNextLevel,
-          status: scorecardObject.status
+          status: scorecardObject.status,
         },
         relationships: {
           area: {
             data: {
               id: scorecardObject.area.id,
-              type: 'areas'
-            }
+              type: 'areas',
+            },
           },
           tutorials: {
             links: {
-              related: `/api/scorecards/${scorecardObject.id}/tutorials`
-            }
+              related: `/api/scorecards/${scorecardObject.id}/tutorials`,
+            },
           },
         },
       },
@@ -47,23 +47,23 @@ describe('Unit | Serializer | JSONAPI | scorecard-serializer', () => {
             color: scorecardObject.area.color,
           },
           id: scorecardObject.area.id,
-          type: 'areas'
+          type: 'areas',
         },
         {
           attributes: {
-            ...expectedTutorials[0]
+            ...expectedTutorials[0],
           },
           id: expectedTutorials[0].id,
           type: 'tutorials',
         },
         {
           attributes: {
-            ...expectedTutorials[1]
+            ...expectedTutorials[1],
           },
           id: expectedTutorials[1].id,
           type: 'tutorials',
-        }
-      ]
+        },
+      ],
     };
 
     it('should convert a scorecard object into JSON API data', () => {

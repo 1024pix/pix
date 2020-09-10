@@ -157,7 +157,7 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
       securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents.callsFake((request, h) => h.response(true));
       payload.data.attributes = {
         'schooling-registration-id': 1,
-        'organization-id': 3
+        'organization-id': 3,
       };
       auth.credentials.userId = domainBuilder.buildUser().id;
     });
@@ -207,7 +207,7 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
 
       payload.data.attributes = {
         'schooling-registration-id': 1,
-        'organization-id': 3
+        'organization-id': 3,
       };
 
       auth.credentials.userId = domainBuilder.buildUser().id;

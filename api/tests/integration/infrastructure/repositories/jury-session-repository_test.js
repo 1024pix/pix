@@ -16,7 +16,7 @@ describe('Integration | Repository | JurySession', function() {
       beforeEach(() => {
         const assignedCertificationOfficerId = databaseBuilder.factory.buildUser({
           firstName: 'Pix',
-          lastName: 'Doe'
+          lastName: 'Doe',
         }).id;
         sessionId = databaseBuilder.factory.buildSession({ assignedCertificationOfficerId }).id;
 
@@ -55,7 +55,7 @@ describe('Integration | Repository | JurySession', function() {
       beforeEach(() => {
         const assignedCertificationOfficerId = databaseBuilder.factory.buildUser({
           firstName: 'Pix',
-          lastName: 'Doe'
+          lastName: 'Doe',
         }).id;
         sessionWithCertificationOfficerId = databaseBuilder.factory.buildSession({ assignedCertificationOfficerId }).id;
         sessionWithoutCertificationCenterId = databaseBuilder.factory.buildSession({ certificationCenterId: null }).id;
@@ -72,7 +72,7 @@ describe('Integration | Repository | JurySession', function() {
         // when
         const { jurySessions: matchingJurySessions, pagination } = await jurySessionRepository.findPaginatedFiltered({
           filters,
-          page
+          page,
         });
 
         // then
@@ -90,7 +90,7 @@ describe('Integration | Repository | JurySession', function() {
         // when
         const { jurySessions: matchingJurySessions } = await jurySessionRepository.findPaginatedFiltered({
           filters,
-          page
+          page,
         });
 
         // then
@@ -118,7 +118,7 @@ describe('Integration | Repository | JurySession', function() {
         // when
         const { jurySessions: matchingJurySessions, pagination } = await jurySessionRepository.findPaginatedFiltered({
           filters,
-          page
+          page,
         });
 
         // then
@@ -136,19 +136,19 @@ describe('Integration | Repository | JurySession', function() {
       beforeEach(() => {
         firstSessionId = databaseBuilder.factory.buildSession({
           finalizedAt: new Date('2020-01-01T00:00:00Z'),
-          resultsSentToPrescriberAt: null
+          resultsSentToPrescriberAt: null,
         }).id;
         secondSessionId = databaseBuilder.factory.buildSession({
           finalizedAt: new Date('2020-01-02T00:00:00Z'),
-          resultsSentToPrescriberAt: null
+          resultsSentToPrescriberAt: null,
         }).id;
         thirdSessionId = databaseBuilder.factory.buildSession({
           finalizedAt: new Date('2020-01-02T00:00:00Z'),
-          resultsSentToPrescriberAt: new Date('2020-01-03T00:00:00Z')
+          resultsSentToPrescriberAt: new Date('2020-01-03T00:00:00Z'),
         }).id;
         fourthSessionId = databaseBuilder.factory.buildSession({
           finalizedAt: null,
-          resultsSentToPrescriberAt: null
+          resultsSentToPrescriberAt: null,
         }).id;
 
         return databaseBuilder.commit();
@@ -162,7 +162,7 @@ describe('Integration | Repository | JurySession', function() {
         // when
         const { jurySessions: matchingJurySessions } = await jurySessionRepository.findPaginatedFiltered({
           filters,
-          page
+          page,
         });
 
         // then
@@ -231,7 +231,7 @@ describe('Integration | Repository | JurySession', function() {
           const certificationCenter = databaseBuilder.factory.buildCertificationCenter({ name: 'Université des Laura en Folie !' });
           expectedSession = databaseBuilder.factory.buildSession({
             certificationCenter: certificationCenter.name,
-            certificationCenterId: certificationCenter.id
+            certificationCenterId: certificationCenter.id,
           });
           databaseBuilder.factory.buildSession();
 
@@ -288,12 +288,12 @@ describe('Integration | Repository | JurySession', function() {
             expectedSessionId = databaseBuilder.factory.buildSession({
               finalizedAt: someDate,
               publishedAt: null,
-              assignedCertificationOfficerId: null
+              assignedCertificationOfficerId: null,
             }).id;
             databaseBuilder.factory.buildSession({
               finalizedAt: someDate,
               publishedAt: someDate,
-              assignedCertificationOfficerId: null
+              assignedCertificationOfficerId: null,
             });
 
             return databaseBuilder.commit();
@@ -322,7 +322,7 @@ describe('Integration | Repository | JurySession', function() {
             expectedSessionId = databaseBuilder.factory.buildSession({
               finalizedAt: someDate,
               publishedAt: null,
-              assignedCertificationOfficerId
+              assignedCertificationOfficerId,
             }).id;
             databaseBuilder.factory.buildSession({ publishedAt: someDate, assignedCertificationOfficerId });
 
@@ -490,7 +490,7 @@ describe('Integration | Repository | JurySession', function() {
       // when
       const updatedSession = await jurySessionRepository.assignCertificationOfficer({
         id: sessionId,
-        assignedCertificationOfficerId
+        assignedCertificationOfficerId,
       });
 
       // then
@@ -509,7 +509,7 @@ describe('Integration | Repository | JurySession', function() {
         // when
         const error = await catchErr(jurySessionRepository.assignCertificationOfficer)({
           id: sessionId,
-          assignedCertificationOfficerId: unknownUserId
+          assignedCertificationOfficerId: unknownUserId,
         });
 
         // then
@@ -526,7 +526,7 @@ describe('Integration | Repository | JurySession', function() {
         // when
         const error = await catchErr(jurySessionRepository.assignCertificationOfficer)({
           id: unknownSessionId,
-          assignedCertificationOfficerId
+          assignedCertificationOfficerId,
         });
 
         // then

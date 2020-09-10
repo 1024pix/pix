@@ -9,7 +9,7 @@ module.exports = {
         ref: 'id',
         includes: true,
         attributes: ['tubeId', 'competenceId', 'competenceName', 'tubePracticalTitle', 'areaColor', 'averageScore', 'tutorials'],
-        tutorials: tutorialAttributes
+        tutorials: tutorialAttributes,
       },
     }).serialize(results);
   },

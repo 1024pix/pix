@@ -44,6 +44,6 @@ module.exports = async function computeCampaignParticipationAnalysis(
     skills: targetProfile.skills,
     validatedKnowledgeElements,
     tutorials,
-    participantsCount: 1
+    participantsCount: 1,
   });
 };

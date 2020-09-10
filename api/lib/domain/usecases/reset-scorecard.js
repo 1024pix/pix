@@ -14,7 +14,7 @@ module.exports = async function resetScorecard({
 }) {
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({
     userId,
-    competenceId
+    competenceId,
   });
 
   const nothingToReset = _.isEmpty(knowledgeElements);
@@ -29,7 +29,7 @@ module.exports = async function resetScorecard({
 
   const isCompetenceEvaluationExists = await competenceEvaluationRepository.existsByCompetenceIdAndUserId({
     competenceId,
-    userId
+    userId,
   });
 
   await scorecardService.resetScorecard({
@@ -48,6 +48,6 @@ module.exports = async function resetScorecard({
     competenceId,
     competenceRepository,
     competenceEvaluationRepository,
-    knowledgeElementRepository
+    knowledgeElementRepository,
   });
 };

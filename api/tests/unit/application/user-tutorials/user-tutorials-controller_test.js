@@ -13,7 +13,7 @@ describe('Unit | Controller | User-tutorials', function() {
 
       const request = {
         auth: { credentials: { userId } },
-        params: { tutorialId }
+        params: { tutorialId },
       };
 
       // when
@@ -33,7 +33,7 @@ describe('Unit | Controller | User-tutorials', function() {
       sinon.stub(usecases, 'findUserTutorials').returns([]);
 
       const request = {
-        auth: { credentials: { userId } }
+        auth: { credentials: { userId } },
       };
 
       // when

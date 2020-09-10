@@ -10,7 +10,7 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
     homeName: `pix${settings.domain.tldFr}`,
     homeUrl: `${settings.domain.pix + settings.domain.tldFr}`,
     redirectionUrl: redirectionUrl || `${settings.domain.pixApp + settings.domain.tldFr}/connexion`,
-    locale
+    locale,
   };
 
   if (locale === 'fr') {
@@ -18,7 +18,7 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
       homeName: `pix${settings.domain.tldOrg}`,
       homeUrl: `${settings.domain.pix + settings.domain.tldOrg}`,
       redirectionUrl: redirectionUrl || `${settings.domain.pixApp + settings.domain.tldOrg}/connexion`,
-      locale
+      locale,
     };
   }
 
@@ -28,7 +28,7 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
     to: email,
     subject: 'Création de votre compte PIX',
     template: mailer.accountCreationTemplateId,
-    variables
+    variables,
   });
 }
 
@@ -37,7 +37,7 @@ function sendResetPasswordDemandEmail(email, locale, temporaryKey) {
     homeName: `pix${settings.domain.tldFr}`,
     homeUrl: `${settings.domain.pix + settings.domain.tldFr}`,
     resetUrl: `${settings.domain.pixApp + settings.domain.tldFr}/changer-mot-de-passe/${temporaryKey}`,
-    locale
+    locale,
   };
 
   if (locale === 'fr') {
@@ -45,7 +45,7 @@ function sendResetPasswordDemandEmail(email, locale, temporaryKey) {
       homeName: `pix${settings.domain.tldOrg}`,
       homeUrl: `${settings.domain.pix + settings.domain.tldOrg}`,
       resetUrl: `${settings.domain.pixApp + settings.domain.tldOrg}/changer-mot-de-passe/${temporaryKey}`,
-      locale
+      locale,
     };
   }
 
@@ -55,7 +55,7 @@ function sendResetPasswordDemandEmail(email, locale, temporaryKey) {
     to: email,
     subject: 'Demande de réinitialisation de mot de passe PIX',
     template: mailer.passwordResetTemplateId,
-    variables
+    variables,
   });
 }
 
@@ -65,7 +65,7 @@ function sendOrganizationInvitationEmail({
   organizationInvitationId,
   code,
   locale,
-  tags
+  tags,
 }) {
   locale = locale ? locale : 'fr-fr';
 
@@ -75,7 +75,7 @@ function sendOrganizationInvitationEmail({
     pixHomeUrl: `${settings.domain.pix + settings.domain.tldFr}`,
     pixOrgaHomeUrl: `${settings.domain.pixOrga + settings.domain.tldFr}`,
     redirectionUrl: `${settings.domain.pixOrga + settings.domain.tldFr}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
-    locale
+    locale,
   };
 
   if (locale === 'fr') {
@@ -85,7 +85,7 @@ function sendOrganizationInvitationEmail({
       pixHomeUrl: `${settings.domain.pix + settings.domain.tldOrg}`,
       pixOrgaHomeUrl: `${settings.domain.pixOrga + settings.domain.tldOrg}`,
       redirectionUrl: `${settings.domain.pixOrga + settings.domain.tldOrg}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
-      locale
+      locale,
     };
   }
 
@@ -96,7 +96,7 @@ function sendOrganizationInvitationEmail({
     subject: 'Invitation à rejoindre Pix Orga',
     template: mailer.organizationInvitationTemplateId,
     variables,
-    tags: tags || null
+    tags: tags || null,
   });
 }
 
@@ -107,7 +107,7 @@ function sendScoOrganizationInvitationEmail({
   organizationInvitationId,
   code,
   locale,
-  tags
+  tags,
 }) {
   locale = locale ? locale : 'fr-fr';
 
@@ -118,7 +118,7 @@ function sendScoOrganizationInvitationEmail({
     pixHomeUrl: `${settings.domain.pix + settings.domain.tldFr}`,
     pixOrgaHomeUrl: `${settings.domain.pixOrga + settings.domain.tldFr}`,
     redirectionUrl: `${settings.domain.pixOrga + settings.domain.tldFr}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
-    locale
+    locale,
   };
 
   if (locale === 'fr') {
@@ -129,7 +129,7 @@ function sendScoOrganizationInvitationEmail({
       pixHomeUrl: `${settings.domain.pix + settings.domain.tldOrg}`,
       pixOrgaHomeUrl: `${settings.domain.pixOrga + settings.domain.tldOrg}`,
       redirectionUrl: `${settings.domain.pixOrga + settings.domain.tldOrg}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
-      locale
+      locale,
     };
   }
 
@@ -140,7 +140,7 @@ function sendScoOrganizationInvitationEmail({
     subject: 'Accès à votre espace Pix Orga',
     template: mailer.organizationInvitationScoTemplateId,
     variables,
-    tags: tags || null
+    tags: tags || null,
   });
 }
 

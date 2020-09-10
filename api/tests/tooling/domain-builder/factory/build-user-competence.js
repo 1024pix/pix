@@ -9,7 +9,7 @@ module.exports = function buildUserCompetence({
   name = faker.random.word(),
   area = buildArea(),
   pixScore = 42,
-  estimatedLevel = 1
+  estimatedLevel = 1,
 } = {}) {
 
   const userCompetence = new UserCompetence({

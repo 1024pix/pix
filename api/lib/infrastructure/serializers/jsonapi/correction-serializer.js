@@ -22,7 +22,7 @@ module.exports = {
         const correction = Object.assign({}, record);
         correction.hint = typeof (record.relevantHint) !== 'undefined' ? record.relevantHint.value : null;
         return correction;
-      }
+      },
     }).serialize(correction);
-  }
+  },
 };

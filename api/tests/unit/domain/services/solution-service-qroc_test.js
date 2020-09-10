@@ -27,7 +27,7 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { case:'(single solution) answer with accent, but solution has not', answer: 'wîth àccénts êêê', solution: 'with accents eee' },
       { case:'(multiple solutions) answer is amongst solution', answer: 'variant 1', solution: 'variant 1\nvariant 2\nvariant 3\n' },
       { case:'(multiple solutions) answer is 0.2 away from the closest solution', answer: 'quack', solution: 'quacks\nazertysqdf\nblablabla\n' },
-      { case:'(multiple solutions) answer is 0.25 away from the closest solution', answer: 'quak', solution: 'qvak\nqwak\nanything\n' }
+      { case:'(multiple solutions) answer is 0.25 away from the closest solution', answer: 'quak', solution: 'qvak\nqwak\nanything\n' },
     ];
 
     successfulCases.forEach(function(caze) {
@@ -45,7 +45,7 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { case:'(single solution) answer is 0.3 away from solution', answer: '0123456789', solution: '1234567' },
       { case:'(single solution) answer is 0.5 away from solution', answer: '0123456789', solution: '12345' },
       { case:'(single solution) answer is 10 away from solution', answer: 'a', solution: '0123456789' },
-      { case:'(multiple solutions) answer is minimum 0.4 away from a solution', answer: 'quaks', solution: 'qvakes\nqwakes\nanything\n' }
+      { case:'(multiple solutions) answer is minimum 0.4 away from a solution', answer: 'quaks', solution: 'qvakes\nqwakes\nanything\n' },
     ];
 
     failingCases.forEach(function(caze) {

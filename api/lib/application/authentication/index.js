@@ -10,7 +10,7 @@ exports.register = async (server) => {
       config: {
         auth: false,
         payload: {
-          allow: 'application/x-www-form-urlencoded'
+          allow: 'application/x-www-form-urlencoded',
         },
         validate: {
           payload: Joi.object().required().keys({
@@ -27,11 +27,11 @@ exports.register = async (server) => {
               detail: err.details[0].message,
             });
             return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
-          }
+          },
         },
         handler: AuthenticationController.authenticateUser,
-        tags: ['api']
-      }
+        tags: ['api'],
+      },
     },
 
     /**
@@ -44,12 +44,12 @@ exports.register = async (server) => {
       config: {
         auth: false,
         payload: {
-          allow: 'application/x-www-form-urlencoded'
+          allow: 'application/x-www-form-urlencoded',
         },
         validate: {
           payload: Joi.object().required().keys({
             token: Joi.string().required(),
-            token_type_hint: 'access_token'
+            token_type_hint: 'access_token',
           }),
           failAction: (request, h) => {
             const errorHttpStatusCode = 400;
@@ -59,11 +59,11 @@ exports.register = async (server) => {
               detail: 'The server could not understand the request due to invalid syntax.',
             });
             return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
-          }
+          },
         },
         handler: (request, h) => h.response(),
-        tags: ['api']
-      }
+        tags: ['api'],
+      },
     },
 
   ]);

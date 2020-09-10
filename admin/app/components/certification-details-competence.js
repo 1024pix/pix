@@ -45,7 +45,7 @@ export default class CertificationDetailsCompetence extends Component {
       return ({
         score: newScore.score,
         level: newScore.level,
-        width: htmlSafe('width:' + Math.round((newScore.level / 8) * 100) + '%')
+        width: htmlSafe('width:' + Math.round((newScore.level / 8) * 100) + '%'),
       });
     } else {
       competence.juryScore = false;

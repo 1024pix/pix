@@ -45,7 +45,7 @@ module('Unit | Model | student', function(hooks) {
             lastName: 'De Cambridge',
             firstName: 'George',
             birthdate: '2013-07-22',
-            email: 'georges.decambridge@example.net'
+            email: 'georges.decambridge@example.net',
           };
           const model = store.createRecord('student', student);
 
@@ -60,7 +60,7 @@ module('Unit | Model | student', function(hooks) {
             lastName: 'De Cambridge',
             firstName: 'George',
             birthdate: '2013-07-22',
-            isAuthenticatedFromGar: true
+            isAuthenticatedFromGar: true,
           };
           const model = store.createRecord('student', student);
 

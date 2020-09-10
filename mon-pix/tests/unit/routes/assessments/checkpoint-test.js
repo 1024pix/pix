@@ -28,7 +28,7 @@ describe('Unit | Route | Assessments | Checkpoint', function() {
         isForCampaign: true,
         isCompetenceEvaluation: false,
         set: sinon.stub(),
-        belongsTo: sinon.stub().returns({ reload: reloadStub })
+        belongsTo: sinon.stub().returns({ reload: reloadStub }),
       };
       route.set('store', storeStub);
     });

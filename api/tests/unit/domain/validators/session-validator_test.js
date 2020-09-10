@@ -37,7 +37,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
           // given
           const expectedErrors = [{
             attribute: 'address',
-            message: 'Veuillez donner un nom de site.'
+            message: 'Veuillez donner un nom de site.',
           }];
           session.address = MISSING_VALUE;
 
@@ -59,7 +59,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
           // given
           const expectedErrors = [{
             attribute: 'room',
-            message: 'Veuillez donner un nom de salle.'
+            message: 'Veuillez donner un nom de salle.',
           }];
           session.room = MISSING_VALUE;
 
@@ -81,7 +81,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
           // given
           const expectedErrors = [{
             attribute: 'date',
-            message: 'Veuillez indiquer une date de début.'
+            message: 'Veuillez indiquer une date de début.',
           }];
           session.date = MISSING_VALUE;
 
@@ -103,7 +103,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
           // given
           const expectedErrors = [{
             attribute: 'time',
-            message: 'Veuillez indiquer une heure de début.'
+            message: 'Veuillez indiquer une heure de début.',
           }];
           session.time = '';
 
@@ -121,7 +121,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
           // given
           const expectedErrors = [{
             attribute: 'time',
-            message: 'Veuillez indiquer une heure de début.'
+            message: 'Veuillez indiquer une heure de début.',
           }];
           session.time = '14:23:30';
 
@@ -143,7 +143,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
           // given
           const expectedErrors = [{
             attribute: 'examiner',
-            message: 'Veuillez indiquer un(e) surveillant(e).'
+            message: 'Veuillez indiquer un(e) surveillant(e).',
           }];
           session.examiner = MISSING_VALUE;
 
@@ -356,7 +356,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
           it('should set certificationOfficerId with currentUserId', async () => {
             // given
             const filters = {
-              assignedToSelfOnly: true
+              assignedToSelfOnly: true,
             };
             const currentUserId = 5;
 
@@ -374,7 +374,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
     it('should unset assignToSelfOnly in filters', () => {
       // given
       const filters = {
-        assignedToSelfOnly: true
+        assignedToSelfOnly: true,
       };
 
       // when

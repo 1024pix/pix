@@ -70,11 +70,11 @@ describe('Integration | Repository | Certification Center Membership', () => {
       const otherCertificationCenter = databaseBuilder.factory.buildCertificationCenter();
       expectedCertificationCenterMembership = databaseBuilder.factory.buildCertificationCenterMembership({
         userId: userAsked.id,
-        certificationCenterId: expectedCertificationCenter.id
+        certificationCenterId: expectedCertificationCenter.id,
       });
       databaseBuilder.factory.buildCertificationCenterMembership({
         userId: otherUser.id,
-        certificationCenterId: otherCertificationCenter.id
+        certificationCenterId: otherCertificationCenter.id,
       });
       return databaseBuilder.commit();
     });

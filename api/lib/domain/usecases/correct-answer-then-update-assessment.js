@@ -1,6 +1,6 @@
 const {
   ChallengeAlreadyAnsweredError,
-  ForbiddenAccess
+  ForbiddenAccess,
 } = require('../errors');
 const Examiner = require('../models/Examiner');
 const KnowledgeElement = require('../models/KnowledgeElement');
@@ -54,7 +54,7 @@ module.exports = async function correctAnswerThenUpdateAssessment(
     challenge,
     skillRepository,
     targetProfileRepository,
-    knowledgeElementRepository
+    knowledgeElementRepository,
   });
 
   let answerSaved = await answerRepository.saveWithKnowledgeElements(correctedAnswer, knowledgeElementsFromAnswer);
@@ -66,7 +66,7 @@ module.exports = async function correctAnswerThenUpdateAssessment(
       answerId: answerSaved.id,
       assessmentImproving: assessment.isImproving,
       challengeId: challenge.id,
-      userId
+      userId,
     };
     logger.warn(context, 'Answer saved without knowledge element');
   }
@@ -79,7 +79,7 @@ module.exports = async function correctAnswerThenUpdateAssessment(
     competenceRepository,
     competenceEvaluationRepository,
     knowledgeElementRepository,
-    scorecardBeforeAnswer
+    scorecardBeforeAnswer,
   });
 
   return answerSaved;
@@ -130,7 +130,7 @@ async function _addLevelUpInformation(
     competenceRepository,
     competenceEvaluationRepository,
     knowledgeElementRepository,
-    scorecardBeforeAnswer
+    scorecardBeforeAnswer,
   }) {
   answerSaved.levelup = {};
 

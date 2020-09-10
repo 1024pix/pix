@@ -34,6 +34,6 @@ export default class Organization extends Model {
     },
     after() {
       this.targetProfiles.reload();
-    }
+    },
   });
 }

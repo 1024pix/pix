@@ -26,10 +26,10 @@ describe('Unit | Router | Password router', () => {
         data: {
           attributes: {
             email: 'uzinagaz@example.net',
-            'temporary-key': 'clé'
+            'temporary-key': 'clé',
           },
-          type: 'password-reset'
-        }
+          type: 'password-reset',
+        },
       };
 
       // when
@@ -45,8 +45,8 @@ describe('Unit | Router | Password router', () => {
         // given
         const payload = {
           data: {
-            attributes: {}
-          }
+            attributes: {},
+          },
         };
 
         // when
@@ -70,10 +70,10 @@ describe('Unit | Router | Password router', () => {
           attributes: {
             username: 'firstName.lastName0110',
             expiredPassword: 'expiredPassword01',
-            newPassword: 'Password123'
+            newPassword: 'Password123',
           },
-          type: 'password-reset'
-        }
+          type: 'password-reset',
+        },
       };
 
       // when
@@ -92,10 +92,10 @@ describe('Unit | Router | Password router', () => {
             attributes: {
               username: 'firstName.lastName0110',
               expiredPassword: 'expiredPassword01',
-              newPassword: null
+              newPassword: null,
             },
-            type: 'password-reset'
-          }
+            type: 'password-reset',
+          },
         };
 
         // when

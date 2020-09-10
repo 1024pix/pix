@@ -29,7 +29,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
               'first_challenge',
             ],
           },
-        }]
+        }],
       });
 
     nock('https://api.airtable.com')
@@ -45,9 +45,9 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
             'Référence': '1.1 Mener une recherche et une veille d\'information',
             'Domaine (id persistant)': ['1. Information et données'],
             'Statut': 'validé',
-            'Acquis (via Tubes) (id persistant)': ['@web1']
-          }
-        }]
+            'Acquis (via Tubes) (id persistant)': ['@web1'],
+          },
+        }],
       });
 
     nock('https://api.airtable.com')
@@ -76,7 +76,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
               'competences (id persistant)': ['competence_id'],
               // a bunch of fields
             },
-          }]
+          }],
       });
   });
 
@@ -95,7 +95,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
         databaseBuilder.factory.buildAssessment({
           id: assessmentId,
           type: 'DEMO',
-          courseId: 'course_id'
+          courseId: 'course_id',
         });
         return databaseBuilder.commit();
       });
@@ -152,7 +152,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
         databaseBuilder.factory.buildAssessment({
           id: assessmentId,
           type: 'DEMO',
-          courseId: 'course_id'
+          courseId: 'course_id',
         });
         databaseBuilder.factory.buildAnswer({ challengeId: 'first_challenge', assessmentId });
         return databaseBuilder.commit();
@@ -180,7 +180,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
         databaseBuilder.factory.buildAssessment({
           id: assessmentId,
           type: 'DEMO',
-          courseId: 'course_id'
+          courseId: 'course_id',
         });
         databaseBuilder.factory.buildAnswer({ challengeId: 'first_challenge', assessmentId });
         databaseBuilder.factory.buildAnswer({ challengeId: 'second_challenge', assessmentId });
@@ -200,7 +200,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
         // then
         expect(response.statusCode).to.equal(200);
         expect(response.result).to.deep.equal({
-          data: null
+          data: null,
         });
       });
     });

@@ -20,7 +20,7 @@ exports.up = function(knex) {
             emitter: 'PIX-ALGO',
             commentForJury: 'Computed',
             assessmentId: assessment.id,
-            status: 'validated'
+            status: 'validated',
           });
       });
 

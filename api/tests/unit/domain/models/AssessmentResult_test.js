@@ -10,7 +10,7 @@ describe('Unit | Domain | Models | BookshelfAssessmentResult', () => {
     beforeEach(() => {
       rawData = {
         emitter: '',
-        status: null
+        status: null,
       };
     });
 

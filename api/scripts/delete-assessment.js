@@ -56,7 +56,7 @@ class AssessmentEraser {
       .then((queries) => Promise.all(
         queries.map((query) => {
           this.client.query_and_log(query);
-        })
+        }),
       ))
       .then(() => this.queryBuilder.delete_assessment_results_from_assessment_ids(this.assessment_id))
       .then((query) => this.client.query_and_log(query));
@@ -100,5 +100,5 @@ if (require.main === module) {
 
 module.exports = {
   ScriptQueryBuilder,
-  AssessmentEraser
+  AssessmentEraser,
 };

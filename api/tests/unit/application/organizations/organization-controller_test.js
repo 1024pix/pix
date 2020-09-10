@@ -59,9 +59,9 @@ describe('Unit | Application | Organizations | organization-controller', () => {
             attributes: {
               name: 'Acme',
               type: 'PRO',
-            }
-          }
-        }
+            },
+          },
+        },
       };
     });
 
@@ -125,10 +125,10 @@ describe('Unit | Application | Organizations | organization-controller', () => {
               'logo-url': 'logo',
               'external-id': '02A2145V',
               'province-code': '02A',
-              email: 'sco.generic.newaccount@example.net'
-            }
-          }
-        }
+              email: 'sco.generic.newaccount@example.net',
+            },
+          },
+        },
       };
     });
 
@@ -279,9 +279,9 @@ describe('Unit | Application | Organizations | organization-controller', () => {
         params: { id: organizationId },
         auth: {
           credentials: {
-            userId: 1
-          }
-        }
+            userId: 1,
+          },
+        },
       };
       campaign = domainBuilder.buildCampaign();
       serializedCampaigns = [{ name: campaign.name, code: campaign.code }];
@@ -294,7 +294,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     it('should call the usecase to get the campaigns and associated campaignReports', async () => {
       // given
       request.query = {
-        campaignReport: true
+        campaignReport: true,
       };
       const expectedPage = 2;
       const expectedFilter = { name: 'Math' };
@@ -351,7 +351,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     beforeEach(() => {
       request = {
         auth: { credentials: { userId: connectedUserId } },
-        params: { id: organizationId }
+        params: { id: organizationId },
       };
 
       foundTargetProfiles = [domainBuilder.buildTargetProfile()];
@@ -393,8 +393,8 @@ describe('Unit | Application | Organizations | organization-controller', () => {
             attributes: {
               'target-profiles-to-attach': [targetProfileId],
             },
-          }
-        }
+          },
+        },
       };
 
       sinon.stub(usecases, 'attachTargetProfilesToOrganization');
@@ -423,7 +423,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     beforeEach(() => {
       request = {
         auth: { credentials: { userId: connectedUserId } },
-        params: { id: organizationId.toString() }
+        params: { id: organizationId.toString() },
       };
 
       sinon.stub(usecases, 'findPaginatedFilteredSchoolingRegistrations');
@@ -434,7 +434,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
         data: [{
           ...studentWithUserInfo,
           isAuthenticatedFromGAR: false,
-        }]
+        }],
       };
     });
 
@@ -461,7 +461,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       expect(usecases.findPaginatedFilteredSchoolingRegistrations).to.have.been.calledWith({
         organizationId,
         filter: { lastName: 'Bob', firstName: 'Tom', connexionType: 'email' },
-        page: {}
+        page: {},
       });
     });
 
@@ -500,7 +500,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       request = {
         auth: { credentials: { userId: connectedUserId } },
         params: { id: organizationId.toString() },
-        payload: buffer
+        payload: buffer,
       };
 
       sinon.stub(usecases, 'importSchoolingRegistrationsFromSIECLE');
@@ -536,10 +536,10 @@ describe('Unit | Application | Organizations | organization-controller', () => {
           data: {
             type: 'organization-invitations',
             attributes: {
-              email: invitation.email
+              email: invitation.email,
             },
-          }
-        }
+          },
+        },
       };
 
       sinon.stub(usecases, 'createOrganizationInvitations').resolves([{ id: 1 }]);
@@ -591,11 +591,11 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     const organizationId = 2;
     const request = {
       query: {
-        accessToken: 'token'
+        accessToken: 'token',
       },
       params: {
-        id: organizationId
-      }
+        id: organizationId,
+      },
     };
 
     beforeEach(() => {

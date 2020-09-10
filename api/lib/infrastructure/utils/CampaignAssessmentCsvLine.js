@@ -31,7 +31,7 @@ class CampaignAssessmentCsvLine {
   toCsvLine() {
     return [
       ...this._makeCommonColumns(),
-      ...(this.campaignParticipationInfo.isShared ? this._makeSharedColumns() : this._makeNotSharedColumns())
+      ...(this.campaignParticipationInfo.isShared ? this._makeSharedColumns() : this._makeNotSharedColumns()),
     ];
   }
 
@@ -51,7 +51,7 @@ class CampaignAssessmentCsvLine {
     const skillsForThisCompetence = this._getSkillsOfCompetenceByTargetProfile(competence);
     return {
       skillCount: skillsForThisCompetence.length,
-      validatedSkillCount: this._countValidatedKnowledgeElementsForSkills(skillsForThisCompetence)
+      validatedSkillCount: this._countValidatedKnowledgeElementsForSkills(skillsForThisCompetence),
     };
   }
 
@@ -102,7 +102,7 @@ class CampaignAssessmentCsvLine {
     return [
       ...this._makeCompetenceColumns(),
       ...this._makeAreaColumns(),
-      ..._.map(this.targetProfile.skills, ({ id }) => this._stateOfSkill(id))
+      ..._.map(this.targetProfile.skills, ({ id }) => this._stateOfSkill(id)),
     ];
   }
 
@@ -111,7 +111,7 @@ class CampaignAssessmentCsvLine {
     return [
       ...this._makeNotSharedStatsColumns(this.competences.length * STATS_COLUMNS_COUNT),
       ...this._makeNotSharedStatsColumns(areas.length * STATS_COLUMNS_COUNT),
-      ...this._makeNotSharedStatsColumns(this.targetProfile.skills.length)
+      ...this._makeNotSharedStatsColumns(this.targetProfile.skills.length),
     ];
   }
 

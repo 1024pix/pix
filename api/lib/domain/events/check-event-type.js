@@ -3,5 +3,5 @@ module.exports = {
     if (!(event instanceof eventType)) {
       throw new Error(`event must be of type ${eventType.name}`);
     }
-  }
+  },
 };

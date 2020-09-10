@@ -31,7 +31,7 @@ function convertCSVDataIntoOrganizations(csvParsingResult) {
     const organization = {
       id: parseInt(dataRow[CSV_HEADERS.ID]),
       externalId,
-      provinceCode: externalId.substring(0, 3)
+      provinceCode: externalId.substring(0, 3),
     };
     organizations.push(organization);
     return organizations;
@@ -51,10 +51,10 @@ function _buildRequestObject(accessToken, organization) {
         id: organization.id,
         attributes: {
           'external-id': organization.externalId,
-          'province-code': organization.provinceCode
-        }
-      }
-    }
+          'province-code': organization.provinceCode,
+        },
+      },
+    },
   };
 }
 
@@ -67,9 +67,9 @@ function _buildTokenRequestObject() {
     form: {
       grant_type: 'password',
       username: process.env.PIXMASTER_EMAIL,
-      password: process.env.PIXMASTER_PASSWORD
+      password: process.env.PIXMASTER_PASSWORD,
     },
-    json: true
+    json: true,
   };
 }
 
@@ -87,7 +87,7 @@ function saveOrganizations(options) {
       .catch((err) => {
         errorObjects.push({
           errorMessage: err.message,
-          organization
+          organization,
         });
       });
   });
@@ -150,5 +150,5 @@ if (require.main === module) {
 module.exports = {
   assertFileValidity,
   convertCSVDataIntoOrganizations,
-  saveOrganizations
+  saveOrganizations,
 };

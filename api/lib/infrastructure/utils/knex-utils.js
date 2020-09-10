@@ -26,7 +26,7 @@ const fetchPage = async (queryBuilder, { number = DEFAULT_PAGE, size = DEFAULT_P
       pageSize: size,
       rowCount,
       pageCount: Math.ceil(rowCount / size),
-    }
+    },
   };
 };
 

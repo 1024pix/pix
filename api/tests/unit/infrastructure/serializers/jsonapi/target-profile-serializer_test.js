@@ -14,9 +14,9 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function() {
           id: targetProfile.id.toString(),
           type: 'target-profiles',
           attributes: {
-            name: targetProfile.name
-          }
-        }
+            name: targetProfile.name,
+          },
+        },
       };
 
       // when

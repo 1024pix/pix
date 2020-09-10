@@ -79,7 +79,7 @@ describe('Integration | Component | routes/login-form', function() {
         return EmberObject.create({
           save() {
             return resolve();
-          }
+          },
         });
       };
       sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
@@ -168,7 +168,7 @@ describe('Integration | Component | routes/login-form', function() {
     beforeEach(function() {
       replaceWithStub = sinon.stub();
       const router = Service.extend({
-        replaceWith: replaceWithStub
+        replaceWith: replaceWithStub,
       });
       this.owner.register('service:router', router);
     });

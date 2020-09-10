@@ -70,8 +70,8 @@ describe('Integration | Component | signin form', function() {
           errors: [{
             status: 401,
             detail: expectedErrorMessage,
-            title: 'Unauthorized error'
-          }]
+            title: 'Unauthorized error',
+          }],
         };
         this.set('authenticateUser', sinon.stub().rejects(apiReturn));
         await render(hbs`<SigninForm @authenticateUser={{this.authenticateUser}} />`);
@@ -109,8 +109,8 @@ describe('Integration | Component | signin form', function() {
           errors: [{
             status: 500,
             detail: expectedErrorMessage,
-            title: 'Internal server error'
-          }]
+            title: 'Internal server error',
+          }],
         };
         this.set('authenticateUser', sinon.stub().rejects(apiReturn));
         await render(hbs`<SigninForm @authenticateUser={{this.authenticateUser}} />`);
@@ -131,8 +131,8 @@ describe('Integration | Component | signin form', function() {
           errors: [{
             status: 502,
             detail: expectedErrorMessage,
-            title: 'Bad gateway error'
-          }]
+            title: 'Bad gateway error',
+          }],
         };
         this.set('authenticateUser', sinon.stub().rejects(apiReturn));
         await render(hbs`<SigninForm @authenticateUser={{this.authenticateUser}} />`);
@@ -153,8 +153,8 @@ describe('Integration | Component | signin form', function() {
           errors: [{
             status: 504,
             detail: expectedErrorMessage,
-            title: 'Gateway timeout error'
-          }]
+            title: 'Gateway timeout error',
+          }],
         };
         this.set('authenticateUser', sinon.stub().rejects(apiReturn));
         await render(hbs`<SigninForm @authenticateUser={{this.authenticateUser}} />`);
@@ -174,8 +174,8 @@ describe('Integration | Component | signin form', function() {
           errors: [{
             status: 501,
             detail: 'Not implemented Error',
-            title: 'Not implemented error'
-          }]
+            title: 'Not implemented error',
+          }],
         };
         this.set('authenticateUser', sinon.stub().rejects(apiReturn));
         await render(hbs`<SigninForm @authenticateUser={{this.authenticateUser}} />`);

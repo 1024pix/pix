@@ -29,7 +29,7 @@ class Campaign {
     // references
     organizationId,
     targetProfileId,
-    creatorId
+    creatorId,
   } = {}) {
     this.id = id;
     // attributes

@@ -4,7 +4,7 @@ const { expect, databaseBuilder, knex } = require('../../test-helper');
 
 const BookshelfOrganizationInvitation = require('../../../lib/infrastructure/data/organization-invitation');
 const {
-  getOrganizationByExternalId, buildInvitation, prepareDataForSending, sendJoinOrganizationInvitations
+  getOrganizationByExternalId, buildInvitation, prepareDataForSending, sendJoinOrganizationInvitations,
 } = require('../../../scripts/send-invitations-to-sco-organizations');
 
 describe('Integration | Scripts | send-invitations-to-sco-organizations.js', () => {

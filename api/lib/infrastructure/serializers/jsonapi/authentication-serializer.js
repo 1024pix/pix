@@ -12,8 +12,8 @@ module.exports = {
         authentication.id = model.userId;
         authentication.password = '';
         return authentication;
-      }
+      },
     }).serialize(authentications);
-  }
+  },
 
 };

@@ -5,7 +5,7 @@ import {
   getJoinErrors,
   getJoinErrorsMessageByShortCode,
   getRegisterErrors,
-  getRegisterErrorsMessageByShortCode
+  getRegisterErrorsMessageByShortCode,
 } from 'mon-pix/utils/errors-messages';
 
 describe('Unit | Utility | errors-messages', function() {

@@ -28,28 +28,28 @@ describe('Unit | Controller | assessment-results', () => {
                 level: 2,
                 score: 18,
                 'area_code': 2,
-                'competence_code': 2.1
+                'competence_code': 2.1,
               }, {
                 level: 3,
                 score: 27,
                 'area_code': 3,
-                'competence_code': 3.2
+                'competence_code': 3.2,
               }, {
                 level: 1,
                 score: 9,
                 'area_code': 1,
-                'competence_code': 1.3
-              }
-            ]
+                'competence_code': 1.3,
+              },
+            ],
           },
-          type: 'assessment-results'
-        }
+          type: 'assessment-results',
+        },
       },
       auth: {
         credentials: {
-          userId: 1
-        }
-      }
+          userId: 1,
+        },
+      },
     };
 
     beforeEach(() => {
@@ -68,26 +68,26 @@ describe('Unit | Controller | assessment-results', () => {
         commentForJury: 'Envie de faire un nettoyage de printemps dans les notes',
         commentForCandidate: 'Tada',
         commentForOrganization: 'Je suis sûr que vous etes ok avec nous',
-        juryId: 1
+        juryId: 1,
       });
 
       const competenceMark1 = new CompetenceMark({
         level: 2,
         score: 18,
         area_code: 2,
-        competence_code: 2.1
+        competence_code: 2.1,
       });
       const competenceMark2 = new CompetenceMark({
         level: 3,
         score: 27,
         area_code: 3,
-        competence_code: 3.2
+        competence_code: 3.2,
       });
       const competenceMark3 = new CompetenceMark({
         level: 1,
         score: 9,
         area_code: 1,
-        competence_code: 1.3
+        competence_code: 1.3,
       });
 
       // when

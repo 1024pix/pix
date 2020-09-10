@@ -15,7 +15,7 @@ const campaignParticipationResultRepository = {
       assessmentRepository.get(campaignParticipation.assessmentId),
       knowledgeElementRepository.findUniqByUserId({
         userId: campaignParticipation.userId,
-        limitDate: campaignParticipation.sharedAt
+        limitDate: campaignParticipation.sharedAt,
       }),
     ]);
 
@@ -28,7 +28,7 @@ const campaignParticipationResultRepository = {
       campaignBadges,
       acquiredBadgeIds,
     });
-  }
+  },
 };
 
 module.exports = campaignParticipationResultRepository;

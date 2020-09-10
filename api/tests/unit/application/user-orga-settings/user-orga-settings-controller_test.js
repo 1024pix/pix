@@ -15,7 +15,7 @@ describe('Unit | Controller | user-orga-settings-controller', () => {
     const request = {
       auth: { credentials: { userId } },
       params: {
-        id: userId
+        id: userId,
       },
       payload: {
         data: {
@@ -23,12 +23,12 @@ describe('Unit | Controller | user-orga-settings-controller', () => {
             organization: {
               data: {
                 id: organizationId,
-                type: 'organizations'
-              }
-            }
-          }
-        }
-      }
+                type: 'organizations',
+              },
+            },
+          },
+        },
+      },
     };
 
     const serializedUseOrgaSettings = {

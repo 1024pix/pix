@@ -18,7 +18,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
       getByParticipationId: _.noop,
     };
     const badgeCriteriaService = {
-      areBadgeCriteriaFulfilled: _.noop
+      areBadgeCriteriaFulfilled: _.noop,
     };
 
     const dependencies = {
@@ -33,7 +33,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
       const event = 'not an event of the correct type';
       // when / then
       const error = await catchErr(handleBadgeAcquisition)(
-        { event, ...dependencies, domainTransaction }
+        { event, ...dependencies, domainTransaction },
       );
 
       // then
@@ -56,7 +56,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
           sinon.stub(badgeRepository, 'findByCampaignParticipationId');
           badge = {
             id: badgeId,
-            badgeCriteria: Symbol('badgeCriteria')
+            badgeCriteria: Symbol('badgeCriteria'),
           };
           badgeRepository.findByCampaignParticipationId.withArgs(event.campaignParticipationId).resolves([badge]);
 
@@ -64,7 +64,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
 
           sinon.stub(campaignParticipationResultRepository, 'getByParticipationId');
           campaignParticipationResultRepository.getByParticipationId.withArgs(event.campaignParticipationId, [badge], []).resolves(
-            campaignParticipationResult
+            campaignParticipationResult,
           );
 
           sinon.stub(badgeCriteriaService, 'areBadgeCriteriaFulfilled');
@@ -82,7 +82,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
           // then
           expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly([{
             badgeId,
-            userId: event.userId
+            userId: event.userId,
           }], domainTransaction);
         });
 
@@ -111,11 +111,11 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
           sinon.stub(badgeRepository, 'findByCampaignParticipationId');
           badge1 = {
             id: badgeId_1,
-            badgeCriteria: Symbol('badgeCriteria')
+            badgeCriteria: Symbol('badgeCriteria'),
           };
           badge2 = {
             id: badgeId_2,
-            badgeCriteria: Symbol('badgeCriteria')
+            badgeCriteria: Symbol('badgeCriteria'),
           };
           badgeRepository.findByCampaignParticipationId.withArgs(event.campaignParticipationId).resolves([badge1, badge2]);
 
@@ -123,7 +123,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
 
           sinon.stub(campaignParticipationResultRepository, 'getByParticipationId');
           campaignParticipationResultRepository.getByParticipationId.withArgs(event.campaignParticipationId, [badge1, badge2], []).resolves(
-            campaignParticipationResult
+            campaignParticipationResult,
           );
 
           sinon.stub(badgeCriteriaService, 'areBadgeCriteriaFulfilled');

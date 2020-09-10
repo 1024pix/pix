@@ -1,4 +1,4 @@
-import { click, fillIn, currentURL, find, } from '@ember/test-helpers';
+import { click, fillIn, currentURL, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import {
@@ -7,7 +7,7 @@ import {
 } from '../helpers/authentication';
 import {
   startCampaignByCode,
-  startCampaignByCodeAndExternalId
+  startCampaignByCodeAndExternalId,
 } from '../helpers/campaign';
 import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
@@ -31,7 +31,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
     });
 
     this.server.schema.users.create({
-      mustValidateTermsOfService: true
+      mustValidateTermsOfService: true,
     });
   });
 
@@ -41,7 +41,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
     beforeEach(function() {
       prescritUser = server.create('user', 'withEmail', {
         mustValidateTermsOfService: false,
-        lastTermsOfServiceValidatedAt: null
+        lastTermsOfServiceValidatedAt: null,
       });
     });
 
@@ -150,7 +150,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
                   return { data: null };
                 });
                 server.create('schooling-registration-user-association', {
-                  campaignCode: campaign.code
+                  campaignCode: campaign.code,
                 });
                 await visit('/campagnes');
 
@@ -231,9 +231,9 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
                     'first-name': 'first',
                     'birthdate': '2010-10-10',
                     'campaign-code': 'RESTRICTD',
-                    'username': 'first.last1010'
-                  }, 'type': 'schooling-registration-user-associations'
-                }
+                    'username': 'first.last1010',
+                  }, 'type': 'schooling-registration-user-associations',
+                },
               };
 
               return new Response(200, {}, studentFoundWithUsernameGenerated);
@@ -246,8 +246,8 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
                   'status': '422',
                   'title': 'Invalid data attribute "email"',
                   'detail': 'Cette adresse e-mail est déjà enregistrée, connectez-vous.',
-                  'source': { 'pointer': '/data/attributes/email' }
-                }]
+                  'source': { 'pointer': '/data/attributes/email' },
+                }],
               };
 
               return new Response(422, {}, emailAlreadyExistResponse);
@@ -531,7 +531,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
               return { data: null };
             });
             server.create('schooling-registration-user-association', {
-              campaignCode: campaign.code
+              campaignCode: campaign.code,
             });
 
             // when
@@ -612,7 +612,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
           beforeEach(async function() {
             server.create('schooling-registration-user-association', {
-              campaignCode: campaign.code
+              campaignCode: campaign.code,
             });
           });
 
@@ -773,7 +773,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             garUser = server.create('user', 'external');
             await authenticateByGAR(garUser);
             server.create('schooling-registration-user-association', {
-              campaignCode: campaign.code
+              campaignCode: campaign.code,
             });
           });
 
@@ -793,7 +793,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
                 return { data: null };
               });
               server.create('schooling-registration-user-association', {
-                campaignCode: campaign.code
+                campaignCode: campaign.code,
               });
               await visit('/campagnes');
 

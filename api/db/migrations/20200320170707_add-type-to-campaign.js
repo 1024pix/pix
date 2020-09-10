@@ -7,7 +7,7 @@ exports.up = function(knex) {
   }).then(() => {
     return knex(TABLE_NAME)
       .update({
-        type: 'TEST_GIVEN'
+        type: 'TEST_GIVEN',
       });
   });
 };

@@ -4,7 +4,7 @@ const constants  = require('../../constants');
 
 module.exports = {
   getFilteredSkillsForFirstChallenge,
-  getFilteredSkillsForNextChallenge
+  getFilteredSkillsForNextChallenge,
 };
 
 function getFilteredSkillsForFirstChallenge({ knowledgeElements, tubes, targetSkills }) {

@@ -25,14 +25,14 @@ describe('Acceptance | API | Campaign Participations | Analyses', () => {
 
       targetProfile = databaseBuilder.factory.buildTargetProfile({
         organizationId: organization.id,
-        name: 'Profile 3'
+        name: 'Profile 3',
       });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId1' });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId2' });
       campaign = databaseBuilder.factory.buildCampaign({
         name: 'Campagne de Test N°3',
         organizationId: organization.id,
-        targetProfileId: targetProfile.id
+        targetProfileId: targetProfile.id,
       });
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
@@ -75,8 +75,8 @@ describe('Acceptance | API | Campaign Participations | Analyses', () => {
             'campaign-tube-recommendations': {
               data: [{
                 id: `${campaign.id}_recTube1`,
-                type: 'campaignTubeRecommendations'
-              }]
+                type: 'campaignTubeRecommendations',
+              }],
             },
           },
         },
@@ -89,8 +89,8 @@ describe('Acceptance | API | Campaign Participations | Analyses', () => {
             id: 'recTutorial1',
             link: 'www.liberez-moi.fr',
             source: 'covid-19',
-            title: 'Apprendre à vivre confiné'
-          }
+            title: 'Apprendre à vivre confiné',
+          },
         }, {
           id: `${campaign.id}_recTube1`,
           type: 'campaignTubeRecommendations',
@@ -107,10 +107,10 @@ describe('Acceptance | API | Campaign Participations | Analyses', () => {
               data: [{
                 id: 'recTutorial1',
                 type: 'tutorials',
-              }]
-            }
-          }
-        }]
+              }],
+            },
+          },
+        }],
       };
 
       // when

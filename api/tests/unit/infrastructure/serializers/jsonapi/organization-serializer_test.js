@@ -26,29 +26,29 @@ describe('Unit | Serializer | organization-serializer', () => {
             'is-managing-students': organization.isManagingStudents,
             'credit': organization.credit,
             'can-collect-profiles': organization.canCollectProfiles,
-            'email': organization.email
+            'email': organization.email,
           },
           relationships: {
             memberships: {
               links: {
-                related: `/api/organizations/${organization.id}/memberships`
-              }
+                related: `/api/organizations/${organization.id}/memberships`,
+              },
             },
             students: {
               links: {
-                related: `/api/organizations/${organization.id}/students`
-              }
+                related: `/api/organizations/${organization.id}/students`,
+              },
             },
             'target-profiles': {
               links: {
-                related: `/api/organizations/${organization.id}/target-profiles`
-              }
-            }
-          }
+                related: `/api/organizations/${organization.id}/target-profiles`,
+              },
+            },
+          },
         },
         meta: {
-          some: 'meta'
-        }
+          some: 'meta',
+        },
       });
     });
 

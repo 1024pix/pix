@@ -61,7 +61,7 @@ describe('Integration | Repository | Campaign Participation Info', () => {
             participantFirstName: 'First',
             participantLastName: 'Last',
             studentNumber: null,
-          }
+          },
         ]);
         expect(campaignParticipationInfos[0].isShared).to.be.true;
       });
@@ -75,8 +75,8 @@ describe('Integration | Repository | Campaign Participation Info', () => {
       beforeEach(async () => {
         campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.ASSESSMENT });
 
-        const user1Id = databaseBuilder.factory.buildUser({ firstName: 'The', lastName: 'Narrator', }).id;
-        const user2Id = databaseBuilder.factory.buildUser({ firstName: 'Tyler', lastName: 'Durden', }).id;
+        const user1Id = databaseBuilder.factory.buildUser({ firstName: 'The', lastName: 'Narrator' }).id;
+        const user2Id = databaseBuilder.factory.buildUser({ firstName: 'Tyler', lastName: 'Durden' }).id;
 
         campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
@@ -88,7 +88,7 @@ describe('Integration | Repository | Campaign Participation Info', () => {
         databaseBuilder.factory.buildAssessment({
           campaignParticipationId: campaignParticipation1.id,
           userId:  user1Id,
-          state: 'started'
+          state: 'started',
         });
 
         campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipation({
@@ -146,7 +146,7 @@ describe('Integration | Repository | Campaign Participation Info', () => {
       beforeEach(async () => {
         campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.ASSESSMENT });
 
-        const userId = databaseBuilder.factory.buildUser({ firstName: 'The', lastName: 'Narrator', }).id;
+        const userId = databaseBuilder.factory.buildUser({ firstName: 'The', lastName: 'Narrator' }).id;
 
         campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
@@ -159,14 +159,14 @@ describe('Integration | Repository | Campaign Participation Info', () => {
           campaignParticipationId: campaignParticipation.id,
           userId,
           state: 'completed',
-          createdAt: '2020-01-02'
+          createdAt: '2020-01-02',
         });
 
         databaseBuilder.factory.buildAssessment({
           campaignParticipationId: campaignParticipation.id,
           userId,
           state: 'started',
-          createdAt: '2020-01-01'
+          createdAt: '2020-01-01',
         });
 
         await databaseBuilder.commit();

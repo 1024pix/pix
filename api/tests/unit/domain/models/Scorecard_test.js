@@ -35,7 +35,7 @@ describe('Unit | Domain | Models | Scorecard', () => {
         };
         const knowledgeElements = [{ earnedPix: 5.5, createdAt: new Date() }, {
           earnedPix: 3.6,
-          createdAt: new Date()
+          createdAt: new Date(),
         }];
         computeDaysSinceLastKnowledgeElementStub.withArgs(knowledgeElements).returns(0);
         // when
@@ -101,7 +101,7 @@ describe('Unit | Domain | Models | Scorecard', () => {
         competenceEvaluation = undefined;
         const knowledgeElements = [{ earnedPix: 5.5, createdAt: new Date() }, {
           earnedPix: 3.6,
-          createdAt: new Date()
+          createdAt: new Date(),
         }];
         computeDaysSinceLastKnowledgeElementStub.withArgs(knowledgeElements).returns(0);
         //when
@@ -133,7 +133,7 @@ describe('Unit | Domain | Models | Scorecard', () => {
         // given
         const knowledgeElements = [{ earnedPix: 5.5, createdAt: new Date() }, {
           earnedPix: 3.6,
-          createdAt: new Date()
+          createdAt: new Date(),
         }];
         computeDaysSinceLastKnowledgeElementStub.withArgs(knowledgeElements).returns(0);
         competenceEvaluation = { status: 'reset' };
@@ -219,7 +219,7 @@ describe('Unit | Domain | Models | Scorecard', () => {
           knowledgeElements,
           competenceEvaluation,
           competence,
-          allowExcessPix: true
+          allowExcessPix: true,
         });
         // then
         expect(actualScorecard.earnedPix).to.equal(120);
@@ -351,7 +351,7 @@ describe('Unit | Domain | Models | Scorecard', () => {
       // then
       expect(result).to.deep.equal({
         userId: 1234,
-        competenceId: 'recABC1234'
+        competenceId: 'recABC1234',
       });
     });
   });

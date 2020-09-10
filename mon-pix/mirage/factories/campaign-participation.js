@@ -11,7 +11,7 @@ export default Factory.extend({
       campaignParticipation.assessment.update({ state: 'completed' });
       const campaignParticipationResult = server.schema.campaignParticipationResults.create();
       campaignParticipation.update({ campaignParticipationResult });
-    }
+    },
   }),
 
   afterCreate(campaignParticipation, server) {

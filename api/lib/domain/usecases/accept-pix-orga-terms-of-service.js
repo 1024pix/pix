@@ -1,6 +1,6 @@
 module.exports = function acceptPixOrgaTermsOfService({
   userId,
-  userRepository
+  userRepository,
 }) {
   return userRepository.updatePixOrgaTermsOfServiceAcceptedToTrue(userId);
 };

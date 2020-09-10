@@ -140,7 +140,7 @@ describe('Unit | Repository | correction-repository', function() {
             name: '@web3',
             hintStatus: 'pré-validé',
             tutorialIds: [],
-            learningMoreTutorialIds: ['recTuto3']
+            learningMoreTutorialIds: ['recTuto3'],
           }),
         ];
 

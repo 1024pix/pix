@@ -36,8 +36,8 @@ describe('Integration | Component | tutorial panel', function() {
         this.set('tutorials', [
           {
             title: 'Ceci est un tuto',
-            duration: '20:00:00'
-          }
+            duration: '20:00:00',
+          },
         ]);
       });
 

@@ -18,8 +18,8 @@ exports.register = async function(server) {
           '- Création d‘un nouveau centre de certification\n' +
           '- L‘utilisateur doit avoir les droits d‘accès en tant que Pix Master',
         ],
-        tags: ['api', 'certification-center']
-      }
+        tags: ['api', 'certification-center'],
+      },
     },
     {
       method: 'GET',
@@ -35,8 +35,8 @@ exports.register = async function(server) {
           '- Liste des centres de certification\n' +
           '- L‘utilisateur doit avoir les droits d‘accès en tant que Pix Master',
         ],
-        tags: ['api', 'certification-center']
-      }
+        tags: ['api', 'certification-center'],
+      },
     },
     {
       method: 'GET',
@@ -52,8 +52,8 @@ exports.register = async function(server) {
           '- Récupération d\'un centre de certification\n' +
           '- L‘utilisateur doit avoir les droits d‘accès en tant que Pix Master',
         ],
-        tags: ['api', 'certification-center']
-      }
+        tags: ['api', 'certification-center'],
+      },
     },
     {
       method: 'GET',
@@ -64,8 +64,8 @@ exports.register = async function(server) {
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n',
           '- Elle retourne les sessions rattachées au centre de certification.',
-        ]
-      }
+        ],
+      },
     },
   ]);
 };

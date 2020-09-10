@@ -37,7 +37,7 @@ describe('Unit | Component | result-item-component', function() {
       undefinedAnswer,
       answerWithEmptyResult,
       answerWithUndefinedResult,
-      answerWithNullResult
+      answerWithNullResult,
     ].forEach(function(answer) {
       it(`should returns undefined when answer provided is: ${answer.name}`, function() {
         // when
@@ -56,7 +56,7 @@ describe('Unit | Component | result-item-component', function() {
       { result: 'ko', expectedColor: 'red', expectedIcon: 'times-circle' },
       { result: 'timedout', expectedColor: 'red', expectedIcon: 'times-circle' },
       { result: 'partially', expectedColor: 'orange', expectedIcon: 'check-circle' },
-      { result: 'aband', expectedColor: 'grey', expectedIcon: 'times-circle' }
+      { result: 'aband', expectedColor: 'grey', expectedIcon: 'times-circle' },
     ].forEach((data) => {
       it(`should return a ${data.expectedColor} ${data.expectedIcon} icon when answer provided has a ${data.result} result`, function() {
         // given

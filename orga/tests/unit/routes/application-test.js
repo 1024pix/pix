@@ -9,7 +9,7 @@ function createLoadServiceStub() {
     load: function() {
       this.called = true;
       return resolve();
-    }
+    },
   });
 }
 

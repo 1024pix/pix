@@ -25,5 +25,5 @@ module.exports = {
 
     return usecases.getShareableCertificate({ verificationCode })
       .then((certificate) => certificationSerializer.serializeForSharing(certificate));
-  }
+  },
 };

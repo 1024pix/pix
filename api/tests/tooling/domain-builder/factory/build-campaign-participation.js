@@ -15,7 +15,7 @@ module.exports = function buildCampaignParticipation(
     campaignId = campaign.id,
     assessmentId = null,
     userId = faker.random.number(2),
-    campaignParticipationResult = buildCampaignParticipationResult()
+    campaignParticipationResult = buildCampaignParticipationResult(),
   } = {}) {
 
   return new CampaignParticipation({
@@ -28,6 +28,6 @@ module.exports = function buildCampaignParticipation(
     campaignId,
     assessmentId,
     userId,
-    campaignParticipationResult
+    campaignParticipationResult,
   });
 };

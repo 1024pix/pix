@@ -20,15 +20,15 @@ module.exports = {
 
   PIX_ORGA: {
     SCOPE: 'pix-orga',
-    NOT_LINKED_ORGANIZATION_MSG: 'L\'accès à Pix Orga est limité aux membres invités. Chaque espace est géré par un administrateur Pix Orga propre à l\'organisation qui l\'utilise. Contactez-le pour qu\'il vous y invite.'
+    NOT_LINKED_ORGANIZATION_MSG: 'L\'accès à Pix Orga est limité aux membres invités. Chaque espace est géré par un administrateur Pix Orga propre à l\'organisation qui l\'utilise. Contactez-le pour qu\'il vous y invite.',
   },
   PIX_ADMIN: {
     SCOPE: 'pix-admin',
-    NOT_PIXMASTER_MSG: 'Vous n\'avez pas les droits pour vous connecter.'
+    NOT_PIXMASTER_MSG: 'Vous n\'avez pas les droits pour vous connecter.',
   },
   PIX_CERTIF: {
     SCOPE: 'pix-certif',
-    NOT_LINKED_CERTIFICATION_MSG: 'L\'accès à Pix Certif est limité aux centres de certification Pix. Contactez le référent de votre centre de certification si vous pensez avoir besoin d\'y accéder.'
+    NOT_LINKED_CERTIFICATION_MSG: 'L\'accès à Pix Certif est limité aux centres de certification Pix. Contactez le référent de votre centre de certification si vous pensez avoir besoin d\'y accéder.',
   },
   LOCALE: {
     ENGLISH_SPOKEN: 'en',
@@ -46,7 +46,7 @@ module.exports = {
         email: { shortCode: 'R31', code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION' },
         username: { shortCode: 'R32', code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION' },
         samlId: { shortCode: 'R33', code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION' },
-      }
+      },
     },
     LOGIN_OR_REGISTER: {
       IN_SAME_ORGANIZATION: {
@@ -58,7 +58,7 @@ module.exports = {
         email: { shortCode: 'S61', code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION' },
         username: { shortCode: 'S62', code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION' },
         samlId: { shortCode: 'S63', code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION' },
-      }
+      },
     },
   },
 };

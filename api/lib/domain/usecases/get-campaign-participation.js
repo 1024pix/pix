@@ -5,7 +5,7 @@ module.exports = async function getCampaignParticipation({
   campaignParticipationRepository,
   campaignRepository,
   options,
-  userId
+  userId,
 }) {
   const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId, options);
 

@@ -29,7 +29,7 @@ describe('Unit | Component | warning-page-component ', function() {
         { input: 120, expected: '2:00' },
         { input: 121, expected: '2:01' },
         { input: 122, expected: '2:02' },
-        { input: 130, expected: '2:10' }
+        { input: 130, expected: '2:10' },
       ].forEach((data) => {
         it(`should return "${data.expected}" when passing ${data.input}`, function() {
           // given
@@ -59,7 +59,7 @@ describe('Unit | Component | warning-page-component ', function() {
         { input: 120, expected: '2 minutes' },
         { input: 121, expected: '2 minutes et 1 seconde' },
         { input: 122, expected: '2 minutes et 2 secondes' },
-        { input: 130, expected: '2 minutes et 10 secondes' }
+        { input: 130, expected: '2 minutes et 10 secondes' },
       ].forEach((data) => {
         it(`should return "${data.expected}" when passing ${data.input}`, function() {
           // given

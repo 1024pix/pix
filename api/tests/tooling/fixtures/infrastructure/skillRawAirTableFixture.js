@@ -30,23 +30,23 @@ class SkillRawAirTableFixture extends AirtableRecord {
         [STATUS]: DEFAULT_STATUS,
         'Epreuves': [],
         [COMPETENCE_TUBE_ID]: [
-          DEFAULT_COMPETENCE_ID
+          DEFAULT_COMPETENCE_ID,
         ],
         'Comprendre (id persistant)': [
-          DEFAULT_TUTORIAL_ID
+          DEFAULT_TUTORIAL_ID,
         ],
         'PixValue': DEFAULT_PIX_VALUE,
         'En savoir plus (id persistant)': [
-          ...DEFAULT_LEARNING_TUTORIAL_IDS
+          ...DEFAULT_LEARNING_TUTORIAL_IDS,
         ],
         'Tags': [
-          DEFAULT_TAG
+          DEFAULT_TAG,
         ],
         'Tube (id persistant)': [
-          DEFAULT_TUBE_ID
-        ]
+          DEFAULT_TUBE_ID,
+        ],
       },
-      'createdTime': '2018-01-31T12:41:07.000Z'
+      'createdTime': '2018-01-31T12:41:07.000Z',
     });
   }
 

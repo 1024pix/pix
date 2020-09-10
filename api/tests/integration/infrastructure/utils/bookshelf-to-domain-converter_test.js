@@ -95,7 +95,7 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
       databaseBuilder.factory.buildKnowledgeElement({ userId });
       await databaseBuilder.commit();
       const bookshelfObject = await BookshelfUser.where({ id: userId }).fetch({
-        withRelated: 'knowledgeElements'
+        withRelated: 'knowledgeElements',
       });
 
       // when

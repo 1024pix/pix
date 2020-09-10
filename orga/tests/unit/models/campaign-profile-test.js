@@ -8,12 +8,12 @@ module('Unit | Model | campaign-profile', function(hooks) {
     const store = this.owner.lookup('service:store');
   
     const competence1 = store.createRecord('campaign-profile-competence', { index: '1.2' });
-    const competence2 = store.createRecord('campaign-profile-competence', { index: '2.1', });
+    const competence2 = store.createRecord('campaign-profile-competence', { index: '2.1' });
     const competence3 = store.createRecord('campaign-profile-competence', { index: '1.1.1' });
-    const competence4 = store.createRecord('campaign-profile-competence', { index: '1.1', });
+    const competence4 = store.createRecord('campaign-profile-competence', { index: '1.1' });
 
     const model = store.createRecord('campaign-profile', {
-      competences: [competence1, competence2, competence3, competence4]
+      competences: [competence1, competence2, competence3, competence4],
     });
 
     const sortedCompetences = model.get('sortedCompetences');

@@ -18,7 +18,7 @@ export default class FillInCampaignCodeController extends Controller {
 
     if (!this.campaignCode) {
       this.errorMessage = this.intl.t(
-        'pages.fill-in-campaign-code.errors.missing-code'
+        'pages.fill-in-campaign-code.errors.missing-code',
       );
       return;
     }
@@ -39,11 +39,11 @@ export default class FillInCampaignCodeController extends Controller {
     const { status } = error.errors[0];
     if (status === '403') {
       this.errorMessage = this.intl.t(
-        'pages.fill-in-campaign-code.errors.forbidden'
+        'pages.fill-in-campaign-code.errors.forbidden',
       );
     } else if (status === '404') {
       this.errorMessage = this.intl.t(
-        'pages.fill-in-campaign-code.errors.not-found'
+        'pages.fill-in-campaign-code.errors.not-found',
       );
     } else {
       throw error;

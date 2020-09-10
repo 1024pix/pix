@@ -74,9 +74,9 @@ describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profil
                   {
                     'id': '100_recAbe382T0e1337',
                     'type': 'scorecards',
-                  }
-                ]
-              }
+                  },
+                ],
+              },
             },
             'type': 'SharedProfileForCampaigns',
           },

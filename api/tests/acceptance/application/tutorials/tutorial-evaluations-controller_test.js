@@ -32,7 +32,7 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', () => {
         method: 'PUT',
         url: '/api/users/tutorials/tutorialId/evaluate',
         headers: {
-          authorization: generateValidRequestAuthorizationHeader(4444)
+          authorization: generateValidRequestAuthorizationHeader(4444),
         },
       };
     });
@@ -53,8 +53,8 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', () => {
             attributes: {
               'tutorial-id': 'tutorialId',
               'user-id': 4444,
-            }
-          }
+            },
+          },
         };
 
         // when

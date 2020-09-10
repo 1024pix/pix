@@ -24,8 +24,8 @@ module.exports = {
         relationshipLinks: {
           related(record, current, parent) {
             return `/api/users/${parent.id}/memberships`;
-          }
-        }
+          },
+        },
       },
       certificationCenterMemberships: {
         ref: 'id',
@@ -33,8 +33,8 @@ module.exports = {
         relationshipLinks: {
           related: function(record, current, parent) {
             return `/api/users/${parent.id}/certification-center-memberships`;
-          }
-        }
+          },
+        },
       },
       pixScore: {
         ref: 'id',
@@ -42,8 +42,8 @@ module.exports = {
         relationshipLinks: {
           related: function(record, current, parent) {
             return `/api/users/${parent.id}/pixscore`;
-          }
-        }
+          },
+        },
       },
       scorecards: {
         ref: 'id',
@@ -51,8 +51,8 @@ module.exports = {
         relationshipLinks: {
           related: function(record, current, parent) {
             return `/api/users/${parent.id}/scorecards`;
-          }
-        }
+          },
+        },
       },
       campaignParticipations: {
         ref: 'id',
@@ -60,8 +60,8 @@ module.exports = {
         relationshipLinks: {
           related: function(record, current, parent) {
             return `/api/users/${parent.id}/campaign-participations`;
-          }
-        }
+          },
+        },
       },
       isCertifiable: {
         ref: 'id',
@@ -69,8 +69,8 @@ module.exports = {
         relationshipLinks: {
           related: function(record, current, parent) {
             return `/api/users/${parent.id}/is-certifiable`;
-          }
-        }
+          },
+        },
       },
       meta,
     }).serialize(users);
@@ -89,6 +89,6 @@ module.exports = {
       pixOrgaTermsOfServiceAccepted: json.data.attributes['pix-orga-terms-of-service-accepted'],
       pixCertifTermsOfServiceAccepted: json.data.attributes['pix-certif-terms-of-service-accepted'],
     });
-  }
+  },
 
 };

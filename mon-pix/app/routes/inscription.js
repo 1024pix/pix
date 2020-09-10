@@ -17,7 +17,7 @@ export default Route.extend(UnauthenticatedRouteMixin, {
       firstName: '',
       email: '',
       password: '',
-      cgu: false
+      cgu: false,
     });
   },
 
@@ -31,5 +31,5 @@ export default Route.extend(UnauthenticatedRouteMixin, {
       const scope = 'mon-pix';
       return this.session.authenticate('authenticator:oauth2', { login, password, scope });
     },
-  }
+  },
 });

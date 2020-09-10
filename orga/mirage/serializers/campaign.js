@@ -5,14 +5,14 @@ export default JSONAPISerializer.extend({
   links(campaign) {
     return {
       'campaignReport': {
-        related: `/api/campaigns/${campaign.id}/campaign-report`
+        related: `/api/campaigns/${campaign.id}/campaign-report`,
       },
       'campaignCollectiveResult': {
-        related: `/api/campaigns/${campaign.id}/collective-results`
+        related: `/api/campaigns/${campaign.id}/collective-results`,
       },
       'campaignAnalysis': {
-        related: `/api/campaigns/${campaign.id}/analyses`
-      }
+        related: `/api/campaigns/${campaign.id}/analyses`,
+      },
     };
-  }
+  },
 });

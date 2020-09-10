@@ -6,7 +6,7 @@ exports.up = async function(knex) {
     TABLE_NAME,
     (table) => {
       table.string(COLUMN_NAME);
-    }
+    },
   );
   await knex.raw('CREATE UNIQUE INDEX index_certification_courses_upper_verification_code ON ?? (UPPER(??))', ['certification-courses', 'verificationCode']);
 };

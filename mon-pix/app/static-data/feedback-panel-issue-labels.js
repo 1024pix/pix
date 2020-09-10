@@ -27,12 +27,12 @@ const topLevelLabels = [
   {
     name: 'pages.challenge.feedback-panel.form.fields.category-selection.options.answer',
     value: 'answer',
-    displayOnlyOnComparisonWindow: true
+    displayOnlyOnComparisonWindow: true,
   },
   {
     name: 'pages.challenge.feedback-panel.form.fields.category-selection.options.tutorial',
     value: 'tutorial',
-    displayOnlyOnComparisonWindow: true
+    displayOnlyOnComparisonWindow: true,
   },
   {
     name: 'pages.challenge.feedback-panel.form.fields.category-selection.options.other',
@@ -55,20 +55,20 @@ const questions = {
     {
       name: 'image',
       type: 'tutorial',
-      content: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.picture-not-displayed'
-    }
+      content: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.picture-not-displayed',
+    },
   ],
   'link': [
     {
       name: 'link',
       type: 'textbox',
-    }
+    },
   ],
   'embed': [
     {
       name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.embed-not-displayed.label',
       type: 'tutorial',
-      content: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.embed-not-displayed.solution'
+      content: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.embed-not-displayed.solution',
     },
     {
       name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.embed-other',
@@ -79,17 +79,17 @@ const questions = {
     {
       name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.download.open-failure.label',
       type: 'tutorial',
-      content: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.download.open-failure.solution'
+      content: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.download.open-failure.solution',
     },
     {
       name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.download.lost.label',
       type: 'tutorial',
-      content: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.download.lost.solution'
+      content: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.download.lost.solution',
     },
     {
       name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.download.edit-failure.label',
       type: 'tutorial',
-      content: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.download.edit-failure.solution'
+      content: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.download.edit-failure.solution',
     },
     {
       name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.download.other',
@@ -100,7 +100,7 @@ const questions = {
     {
       name: 'link',
       type: 'textbox',
-    }
+    },
   ],
   'answer': [
     {
@@ -139,7 +139,7 @@ const questions = {
       name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.other-difficulty',
       type: 'textbox',
     },
-  ]
+  ],
 };
 
 export { topLevelLabels, questions };

@@ -59,7 +59,7 @@ export default class ScorecardDetails extends Component {
           const tube = EmberObject.create({
             name: tutorial.tubeName,
             practicalTitle: tutorial.tubePracticalTitle,
-            tutorials: [tutorial]
+            tutorials: [tutorial],
           });
           tutorialsGroupedByTubeName.pushObject(tube);
         } else {

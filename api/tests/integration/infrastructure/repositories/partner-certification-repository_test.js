@@ -15,7 +15,7 @@ describe('Integration | Repository | Partner Certification', function() {
     beforeEach(() => {
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
       partnerCertification = domainBuilder.buildCleaCertification({
-        certificationCourseId
+        certificationCourseId,
       });
       databaseBuilder.factory.buildBadge({ key: partnerCertification.partnerKey });
 
@@ -40,7 +40,7 @@ describe('Integration | Repository | Partner Certification', function() {
       expect(partnerCertificationSaved).to.deep.equal({
         certificationCourseId: partnerCertification.certificationCourseId,
         partnerKey: partnerCertification.partnerKey,
-        acquired: true
+        acquired: true,
       });
     });
 
@@ -78,7 +78,7 @@ describe('Integration | Repository | Partner Certification', function() {
 
       // when
       const cleaCertification = await partnerCertificationRepository.buildCleaCertification({
-        certificationCourseId, userId, reproducibilityRate, skillRepository
+        certificationCourseId, userId, reproducibilityRate, skillRepository,
       });
 
       // then
@@ -100,7 +100,7 @@ describe('Integration | Repository | Partner Certification', function() {
 
       // when
       const cleaCertification = await partnerCertificationRepository.buildCleaCertification({
-        certificationCourseId, userId, reproducibilityRate, skillRepository
+        certificationCourseId, userId, reproducibilityRate, skillRepository,
       });
 
       // then
@@ -123,7 +123,7 @@ describe('Integration | Repository | Partner Certification', function() {
 
       // when
       const cleaCertification = await partnerCertificationRepository.buildCleaCertification({
-        certificationCourseId, userId, reproducibilityRate, skillRepository
+        certificationCourseId, userId, reproducibilityRate, skillRepository,
       });
 
       // then
@@ -145,7 +145,7 @@ describe('Integration | Repository | Partner Certification', function() {
 
       // when
       const cleaCertification = await partnerCertificationRepository.buildCleaCertification({
-        certificationCourseId, userId, reproducibilityRate, skillRepository
+        certificationCourseId, userId, reproducibilityRate, skillRepository,
       });
 
       // then
@@ -174,15 +174,15 @@ async function _setUpCleaCertification({ certificationCourseId, competenceId, sk
   const userId = databaseBuilder.factory.buildUser().id;
   databaseBuilder.factory.buildCertificationCourse({
     userId,
-    id: certificationCourseId
+    id: certificationCourseId,
   }).id;
   const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId, userId }).id;
   const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({ assessmentId }).id;
   const competenceMark = databaseBuilder.factory.buildCompetenceMark(
     {
       assessmentResultId,
-      competenceId
-    }
+      competenceId,
+    },
   );
 
   if (withBadge) {
@@ -195,6 +195,6 @@ async function _setUpCleaCertification({ certificationCourseId, competenceId, sk
   await databaseBuilder.commit();
   return {
     userId,
-    competenceMark
+    competenceMark,
   };
 }

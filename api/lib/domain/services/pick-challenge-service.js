@@ -14,7 +14,7 @@ module.exports = {
     return _pickLocaleChallengeAtIndex(chosenSkill.challenges, locale, key)
         || _pickLocaleChallengeAtIndex(chosenSkill.challenges, FRENCH_SPOKEN, key)
         || _pickLocaleChallengeAtIndex(chosenSkill.challenges, FRENCH_FRANCE, key);
-  }
+  },
 };
 
 function _pickLocaleChallengeAtIndex(challenges, locale, index) {

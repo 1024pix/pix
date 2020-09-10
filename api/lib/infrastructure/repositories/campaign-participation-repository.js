@@ -106,7 +106,7 @@ module.exports = {
       })
       .fetch({
         required: false,
-        withRelated: ['campaign.targetProfile.skillIds', 'assessments']
+        withRelated: ['campaign.targetProfile.skillIds', 'assessments'],
       })
       .then(_convertToDomainWithSkills);
   },
@@ -145,7 +145,7 @@ module.exports = {
 
   countSharedParticipationOfCampaign(campaignId) {
     return this.count({ campaignId, isShared: true });
-  }
+  },
 };
 
 function _adaptModelToDb(campaignParticipation) {

@@ -58,9 +58,9 @@ describe('Integration | Application | Users | Routes', () => {
           attributes: {
             'first-name': 'firstNameUpdated',
             'last-name': 'lastNameUpdated',
-            email: 'emailUpdated@example.net'
-          }
-        }
+            email: 'emailUpdated@example.net',
+          },
+        },
       };
 
       // when
@@ -80,9 +80,9 @@ describe('Integration | Application | Users | Routes', () => {
           id: '123',
           attributes: {
             'last-name': 'lastNameUpdated',
-            email: 'emailUpdated@example.net'
-          }
-        }
+            email: 'emailUpdated@example.net',
+          },
+        },
       };
 
       // when
@@ -104,9 +104,9 @@ describe('Integration | Application | Users | Routes', () => {
           id: '123',
           attributes: {
             'last-name': 'lastNameUpdated',
-            email: 'emailUpdated'
-          }
-        }
+            email: 'emailUpdated',
+          },
+        },
       };
 
       // when

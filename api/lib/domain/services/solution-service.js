@@ -42,7 +42,7 @@ module.exports = {
         return new BookshelfAnswer({
           id: existingAnswer.id,
           result: answerCorrectness.result,
-          resultDetails: answerCorrectness.resultDetails
+          resultDetails: answerCorrectness.resultDetails,
         }).save();
       });
   },
@@ -89,5 +89,5 @@ module.exports = {
     response.result = AnswerStatusJsonApiAdapter.adapt(answerStatus);
     response.resultDetails = resultDetails;
     return response;
-  }
+  },
 };

@@ -36,7 +36,7 @@ describe('Unit | Controller | scorecard-controller', () => {
         params: {
           id: scorecardId,
         },
-        headers: { 'accept-language': locale }
+        headers: { 'accept-language': locale },
       };
 
       // when
@@ -66,7 +66,7 @@ describe('Unit | Controller | scorecard-controller', () => {
         params: {
           id: scorecardId,
         },
-        headers: { 'accept-language': locale }
+        headers: { 'accept-language': locale },
       };
 
       // when

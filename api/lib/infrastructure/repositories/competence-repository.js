@@ -42,7 +42,7 @@ module.exports = {
 
   listPixCompetencesOnly({ locale } = { locale: FRENCH_FRANCE }) {
     return _list({ locale }).then((competences) =>
-      competences.filter((competence) => competence.origin === PixOriginName)
+      competences.filter((competence) => competence.origin === PixOriginName),
     );
   },
 
@@ -91,7 +91,7 @@ function _list({ locale }) {
     .then(([competenceDatas, areaDatas]) => {
       return _.sortBy(
         competenceDatas.map((competenceData) => _toDomain({ competenceData, areaDatas, locale })),
-        'index'
+        'index',
       );
     });
 }

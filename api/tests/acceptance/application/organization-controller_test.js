@@ -29,21 +29,21 @@ describe('Acceptance | Application | organization-controller', () => {
           'fields': {
             'Sous-domaine': '1.3',
             'Titre': 'Traiter des données',
-          }
+          },
         }, {
           'id': 'recofJCxg0NqTqTdP',
           'fields': {
             'Sous-domaine': '4.2',
-            'Titre': 'Protéger les données personnelles et la vie privée'
+            'Titre': 'Protéger les données personnelles et la vie privée',
           },
-        }]
+        }],
       });
 
     nock('https://api.airtable.com')
       .get('/v0/test-base/Domaines')
       .query(true)
       .reply(200, [
-        areaRawAirTableFixture()
+        areaRawAirTableFixture(),
       ]);
   });
 
@@ -66,8 +66,8 @@ describe('Acceptance | Application | organization-controller', () => {
           attributes: {
             name: 'The name of the organization',
             type: 'PRO',
-          }
-        }
+          },
+        },
       };
       options = {
         method: 'POST',
@@ -180,8 +180,8 @@ describe('Acceptance | Application | organization-controller', () => {
             'external-id': '0446758F',
             'province-code': '044',
             'email': 'sco.generic.newaccount@example.net',
-          }
-        }
+          },
+        },
       };
       options = {
         method: 'PATCH',
@@ -368,7 +368,7 @@ describe('Acceptance | Application | organization-controller', () => {
         method: 'GET',
         url: `/api/organizations/${organizationId}/campaigns`,
         headers: {
-          authorization: generateValidRequestAuthorizationHeader(userId)
+          authorization: generateValidRequestAuthorizationHeader(userId),
         },
       };
     });
@@ -525,7 +525,7 @@ describe('Acceptance | Application | organization-controller', () => {
           provinceCode: '45',
           isManagingStudents: true,
           credit: 666,
-          email: 'sco.generic.account@example.net'
+          email: 'sco.generic.account@example.net',
         });
 
         await databaseBuilder.commit();
@@ -557,22 +557,22 @@ describe('Acceptance | Application | organization-controller', () => {
             'relationships': {
               'memberships': {
                 'links': {
-                  'related': `/api/organizations/${organization.id}/memberships`
-                }
+                  'related': `/api/organizations/${organization.id}/memberships`,
+                },
               },
               'students': {
                 'links': {
-                  'related': `/api/organizations/${organization.id}/students`
-                }
+                  'related': `/api/organizations/${organization.id}/students`,
+                },
               },
               'target-profiles': {
                 'links': {
-                  'related': `/api/organizations/${organization.id}/target-profiles`
-                }
-              }
+                  'related': `/api/organizations/${organization.id}/target-profiles`,
+                },
+              },
             },
-            'type': 'organizations'
-          }
+            'type': 'organizations',
+          },
         };
 
         // when
@@ -596,7 +596,7 @@ describe('Acceptance | Application | organization-controller', () => {
               'status': '404',
               'detail': 'Not found organization for ID 999',
               'title': 'Not Found',
-            }]
+            }],
           });
         });
       });
@@ -677,12 +677,12 @@ describe('Acceptance | Application | organization-controller', () => {
                 'user': {
                   'data': {
                     'id': user.id.toString(),
-                    'type': 'users'
-                  }
+                    'type': 'users',
+                  },
                 },
               },
-              'type': 'memberships'
-            }
+              'type': 'memberships',
+            },
           ],
           'included': [
             {
@@ -692,15 +692,15 @@ describe('Acceptance | Application | organization-controller', () => {
                 'last-name': user.lastName,
               },
               'id': user.id.toString(),
-              'type': 'users'
-            }
+              'type': 'users',
+            },
           ],
           'meta': {
             'page': 1,
             'pageCount': 1,
             'pageSize': 10,
-            'rowCount': 1
-          }
+            'rowCount': 1,
+          },
         };
 
         // when
@@ -774,7 +774,7 @@ describe('Acceptance | Application | organization-controller', () => {
       beforeEach(async () => {
         schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
           organizationId: organization.id,
-          userId: user.id
+          userId: user.id,
         });
 
         await databaseBuilder.commit();
@@ -796,8 +796,8 @@ describe('Acceptance | Application | organization-controller', () => {
                 'student-number': schoolingRegistration.studentNumber,
               },
               'id': schoolingRegistration.id.toString(),
-              'type': 'students'
-            }
+              'type': 'students',
+            },
           ],
         };
 
@@ -883,10 +883,10 @@ describe('Acceptance | Application | organization-controller', () => {
             data: {
               type: 'organization-invitations',
               attributes: {
-                email: `${user1.email},${user2.email}`
+                email: `${user1.email},${user2.email}`,
               },
-            }
-          }
+            },
+          },
         };
 
         await databaseBuilder.commit();
@@ -905,17 +905,17 @@ describe('Acceptance | Application | organization-controller', () => {
             attributes: {
               'organization-id': organization.id,
               email: user1.email,
-              status
-            }
+              status,
+            },
           },
           {
             type: 'organization-invitations',
             attributes: {
               'organization-id': organization.id,
               email: user2.email,
-              status
-            }
-          }
+              status,
+            },
+          },
         ];
 
         // when
@@ -956,8 +956,8 @@ describe('Acceptance | Application | organization-controller', () => {
               attributes: {
                 email: user.email,
               },
-            }
-          }
+            },
+          },
         };
 
         await databaseBuilder.commit();
@@ -1138,8 +1138,8 @@ describe('Acceptance | Application | organization-controller', () => {
           type: 'target-profile-share',
           attributes: {
             'target-profiles-to-attach': [targetProfileId1, targetProfileId2],
-          }
-        }
+          },
+        },
       };
       options = {
         method: 'POST',
@@ -1201,7 +1201,7 @@ describe('Acceptance | Application | organization-controller', () => {
       // given
       const options = {
         method: 'GET',
-        url: `/api/organizations/${organization.id}/schooling-registrations/csv-template?accessToken=${accessToken}`
+        url: `/api/organizations/${organization.id}/schooling-registrations/csv-template?accessToken=${accessToken}`,
       };
 
       // when

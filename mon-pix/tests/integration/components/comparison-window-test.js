@@ -27,7 +27,7 @@ describe('Integration | Component | comparison-window', function() {
         '- 1ere possibilite\n ' +
         '- 2eme possibilite\n ' +
         '- 3eme possibilite\n' +
-        '- 4eme possibilite'
+        '- 4eme possibilite',
       });
       correction = EmberObject.create({ solution: '2,3', learningMoreTutorials: [], tutorials: [] });
 
@@ -140,7 +140,7 @@ describe('Integration | Component | comparison-window', function() {
       { status: 'aband' },
       { status: 'partially' },
       { status: 'timedout' },
-      { status: 'default' }
+      { status: 'default' },
     ].forEach(function(data) {
 
       it(`should display the good icon in title when answer's result is "${data.status}"`, async function() {

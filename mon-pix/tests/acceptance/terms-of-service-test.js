@@ -15,7 +15,7 @@ describe('Acceptance | terms-of-service', function() {
       email: 'with-email',
       password: 'pix123',
       mustValidateTermsOfService: true,
-      lastTermsOfServiceValidatedAt: null
+      lastTermsOfServiceValidatedAt: null,
     });
   });
 

@@ -5,7 +5,7 @@ module.exports = {
     certificate,
     cleaCertificationStatusRepository,
     assessmentResultRepository,
-    competenceTreeRepository
+    competenceTreeRepository,
   }) {
     const cleaCertificationStatus = await cleaCertificationStatusRepository.getCleaCertificationStatus(certificate.id);
     certificate.cleaCertificationStatus = cleaCertificationStatus;
@@ -22,7 +22,7 @@ module.exports = {
     certificate.resultCompetenceTree = resultCompetenceTree;
 
     return certificate;
-  }
+  },
 };
 
 async function _getsCompetenceMarksAndAssessmentResultId({ certificationId, assessmentResultRepository }) {

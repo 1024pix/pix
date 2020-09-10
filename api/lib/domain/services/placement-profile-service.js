@@ -58,7 +58,7 @@ function _createUserCompetencesV2({ knowledgeElementsByCompetence, allCompetence
     } = scoringService.calculateScoringInformationForCompetence({
       knowledgeElements: knowledgeElementsByCompetence[competence.id],
       allowExcessPix: allowExcessPixAndLevels,
-      allowExcessLevel: allowExcessPixAndLevels
+      allowExcessLevel: allowExcessPixAndLevels,
     });
 
     return new UserCompetence({

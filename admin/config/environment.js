@@ -22,8 +22,8 @@ module.exports = function(environment) {
       },
       EXTEND_PROTOTYPES: {
         // Prevent Ember Data from overriding Date.parse.
-        Date: false
-      }
+        Date: false,
+      },
     },
 
     APP: {
@@ -34,11 +34,11 @@ module.exports = function(environment) {
         BAD_REQUEST: { CODE: '400', MESSAGE: 'Les données envoyées ne sont pas au bon format.' },
         INTERNAL_SERVER_ERROR: {
           CODE: '500',
-          MESSAGE: 'Le service est momentanément indisponible. Veuillez réessayer ultérieurement.'
+          MESSAGE: 'Le service est momentanément indisponible. Veuillez réessayer ultérieurement.',
         },
         GATEWAY_TIMEOUT: {
           CODE: '504',
-          MESSAGE: 'Le service subi des ralentissements. Veuillez réessayer ultérieurement.'
+          MESSAGE: 'Le service subi des ralentissements. Veuillez réessayer ultérieurement.',
         },
         UNAUTHORIZED: { CODE: '401', MESSAGE: 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.' },
         FORBIDDEN: '403',
@@ -47,7 +47,7 @@ module.exports = function(environment) {
       HOME_URL: process.env.HOME_URL,
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
       ORGANIZATION_DASHBOARD_URL: process.env.ORGANIZATION_DASHBOARD_URL,
-      USER_DASHBOARD_URL: process.env.USER_DASHBOARD_URL
+      USER_DASHBOARD_URL: process.env.USER_DASHBOARD_URL,
     },
 
     googleFonts: [
@@ -63,7 +63,7 @@ module.exports = function(environment) {
       'connect-src': '\'self\' www.google-analytics.com',
       'img-src': '\'self\'',
       'style-src': '\'self\' fonts.googleapis.com',
-      'media-src': '\'self\''
+      'media-src': '\'self\'',
     },
 
     'ember-cli-notifications': {
@@ -112,7 +112,7 @@ module.exports = function(environment) {
     ENV.APP.autoboot = false;
 
     ENV['ember-cli-notifications'] = {
-      clearDuration: 300
+      clearDuration: 300,
     };
 
     ENV.pagination.debounce = 0;

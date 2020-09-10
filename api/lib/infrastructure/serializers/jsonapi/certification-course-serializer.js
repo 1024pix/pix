@@ -23,8 +23,8 @@ module.exports = {
         relationshipLinks: {
           related(record, current) {
             return `/api/assessments/${current.id}`;
-          }
-        }
+          },
+        },
       },
     }).serialize(certificationCourse);
   },

@@ -45,7 +45,7 @@ async function find(BookShelfClass, options) {
     const results = await query.fetchAll({ withRelated });
 
     return {
-      models: bookshelfToDomainConverter.buildDomainObjects(BookShelfClass, results.models)
+      models: bookshelfToDomainConverter.buildDomainObjects(BookShelfClass, results.models),
     };
   }
 

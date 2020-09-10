@@ -12,5 +12,5 @@ module.exports = {
           return h.response(serializedError).code(404).takeover();
         }
       });
-  }
+  },
 };

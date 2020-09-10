@@ -34,7 +34,7 @@ async function getOdsVersionByHeaders({ odsBuffer, transformationStructsByVersio
   const sheetDataRows = await getSheetDataRowsFromOdsBuffer({ odsBuffer });
   const transformationStruct = _.find(
     transformationStructsByVersion,
-    (transformationStruct) => _findHeaderRow(sheetDataRows, transformationStruct.headers)
+    (transformationStruct) => _findHeaderRow(sheetDataRows, transformationStruct.headers),
   );
 
   if (transformationStruct == undefined || transformationStruct.version == undefined) {

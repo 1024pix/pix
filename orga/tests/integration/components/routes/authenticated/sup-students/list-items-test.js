@@ -97,7 +97,7 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
 
   test('it should display the firstName, lastName and birthdate of student', async function(assert) {
     // given
-    const students = [{ lastName: 'La Terreur', firstName: 'Gigi', birthdate: new Date('2010-02-01') },];
+    const students = [{ lastName: 'La Terreur', firstName: 'Gigi', birthdate: new Date('2010-02-01') }];
 
     this.set('students', students);
 

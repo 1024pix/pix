@@ -27,7 +27,7 @@ describe('Unit | UseCase | update-user-details-for-administration', () => {
     await updateUserDetailsForAdministration_test({
       userId,
       userDetailsForAdministration: userToUpdate,
-      userRepository
+      userRepository,
     });
 
     // then
@@ -48,7 +48,7 @@ describe('Unit | UseCase | update-user-details-for-administration', () => {
     await updateUserDetailsForAdministration_test({
       userId,
       userDetailsForAdministration: userToUpdate,
-      userRepository
+      userRepository,
     });
 
     // then

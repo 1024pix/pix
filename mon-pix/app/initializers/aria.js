@@ -4,12 +4,12 @@ export function initializeAria() {
   Ember.TextSupport.reopen({
     attributeBindings: [
       'ariaDescribedBy:aria-describedby',
-      'ariaLabel:aria-label'
-    ]
+      'ariaLabel:aria-label',
+    ],
   });
 }
 
 export default {
   name: 'aria',
-  initialize: initializeAria
+  initialize: initializeAria,
 };

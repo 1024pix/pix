@@ -7,19 +7,19 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
     ecmaFeatures: {
-      legacyDecorators: true
-    }
+      legacyDecorators: true,
+    },
   },
   plugins: [
     'ember',
-    'mocha'
+    'mocha',
   ],
   extends: [
     ...(fs.existsSync('../.eslintrc.yaml') ? ['../.eslintrc.yaml'] : []),
-    'plugin:ember/octane'
+    'plugin:ember/octane',
   ],
   env: {
-    browser: true
+    browser: true,
   },
   rules: {
     'ember/avoid-leaking-state-in-ember-objects': 'off',
@@ -34,7 +34,7 @@ module.exports = {
         'relationship',
         'single-line-function',
         'multi-line-function',
-      ]
+      ],
     }],
     /* Recommended rules */
     'ember/no-mixins': 'off',
@@ -53,14 +53,14 @@ module.exports = {
         'blueprints/*/index.js',
         'config/**/*.js',
         'lib/*/index.js',
-        'server/**/*.js'
+        'server/**/*.js',
       ],
       parserOptions: {
-        sourceType: 'script'
+        sourceType: 'script',
       },
       env: {
         browser: false,
-        node: true
+        node: true,
       },
       plugins: ['node'],
       rules: Object.assign({}, require('eslint-plugin-node').configs.recommended.rules, {
@@ -68,8 +68,8 @@ module.exports = {
 
         // this can be removed once the following is fixed
         // https://github.com/mysticatea/eslint-plugin-node/issues/77
-        'node/no-unpublished-require': 'off'
-      })
+        'node/no-unpublished-require': 'off',
+      }),
     },
     // test files
     {
@@ -80,7 +80,7 @@ module.exports = {
         mocha: true,
       },
       globals: {
-        'server': false
+        'server': false,
       },
     },
   ],

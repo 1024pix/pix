@@ -85,7 +85,7 @@ describe('Unit | UseCase | find-tutorials', () => {
             tubeName: '@wikipédia',
             tubePracticalTitle: 'Practical Title wikipédia',
             tubePracticalDescription: 'Practical Description wikipédia',
-            userTutorial
+            userTutorial,
           };
 
           const expectedTutorial3 = {
@@ -132,14 +132,14 @@ describe('Unit | UseCase | find-tutorials', () => {
               skillId: skill_7.id,
               competenceId: skill_7.competenceId,
               status: KnowledgeElement.StatusType.INVALIDATED,
-              source: KnowledgeElement.SourceType.INFERRED
+              source: KnowledgeElement.SourceType.INFERRED,
             }),
 
             domainBuilder.buildKnowledgeElement({
               skillId: skill_6.id,
               competenceId: skill_6.competenceId,
               status: KnowledgeElement.StatusType.INVALIDATED,
-              source: KnowledgeElement.SourceType.INFERRED
+              source: KnowledgeElement.SourceType.INFERRED,
             }),
 
             domainBuilder.buildKnowledgeElement({ skillId: skill_8.id, competenceId: skill_8.competenceId, status: KnowledgeElement.StatusType.INVALIDATED }),

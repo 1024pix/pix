@@ -84,7 +84,7 @@ async function _checkCreatorHasAccessToCampaignOrganization(userId, organization
 
   if (!user.hasAccessToOrganization(organizationId)) {
     throw new UserNotAuthorizedToGetCampaignResultsError(
-      `User does not have an access to the organization ${organizationId}`
+      `User does not have an access to the organization ${organizationId}`,
     );
   }
 }

@@ -4,5 +4,5 @@ module.exports = {
 
   update(certificationCourse) {
     return certificationCourseRepository.update(certificationCourse);
-  }
+  },
 };

@@ -28,7 +28,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         userId,
         assessmentId,
         answerId,
-        competenceId: 'recABC'
+        competenceId: 'recABC',
       });
       knowledgeElement.id = undefined;
 
@@ -47,7 +47,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         assessmentId: knowledgeElement.assessmentId,
         skillId: `${knowledgeElement.skillId}`,
         userId: knowledgeElement.userId,
-        competenceId: knowledgeElement.competenceId
+        competenceId: knowledgeElement.competenceId,
       };
       return promise
         .then(() => knex('knowledge-elements').first())
@@ -141,7 +141,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       ], ((ke) => databaseBuilder.factory.buildKnowledgeElement(ke)));
 
       databaseBuilder.factory.buildKnowledgeElement({ id: 4, skillId: '5', userId, assessmentId: otherAssessmentId });
-      databaseBuilder.factory.buildKnowledgeElement({ id: 3, skillId: '3', createdAt: new Date('2020-01-01'), userId, assessmentId },);
+      databaseBuilder.factory.buildKnowledgeElement({ id: 3, skillId: '3', createdAt: new Date('2020-01-01'), userId, assessmentId });
 
       await databaseBuilder.commit();
     });
@@ -268,7 +268,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
-        isShared: false
+        isShared: false,
       });
 
       databaseBuilder.factory.buildKnowledgeElement({

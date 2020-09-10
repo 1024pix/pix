@@ -11,7 +11,7 @@ describe('Unit | UseCase | find-campaign-profiles-collection-participation-summa
   const campaignProfilesCollectionParticipationSummaryRepository = { findPaginatedByCampaignId: sinon.stub() };
 
   const campaignProfilesCollectionParticipationSummaries = [
-    new CampaignProfilesCollectionParticipationSummary({ campaignParticipationId: 1, firstName: 'Hello', lastName: 'World' })
+    new CampaignProfilesCollectionParticipationSummary({ campaignParticipationId: 1, firstName: 'Hello', lastName: 'World' }),
   ];
 
   context('the user belongs to the organization of the campaign', () => {

@@ -30,5 +30,5 @@ module.exports = {
 
     return usecases.findSessionsForCertificationCenter({ userId, certificationCenterId })
       .then((sessions) => sessionSerializer.serialize(sessions));
-  }
+  },
 };

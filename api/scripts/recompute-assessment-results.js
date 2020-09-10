@@ -14,13 +14,13 @@ function compute(listOfAssessmentsToRecompute, request) {
             'assessment': {
               'data': {
                 'type': 'assessments',
-                'id': assessmentId
-              }
-            }
-          }, 'type': 'assessment-results'
-        }
+                'id': assessmentId,
+              },
+            },
+          }, 'type': 'assessment-results',
+        },
       },
-      json: true
+      json: true,
     });
   });
 }
@@ -35,7 +35,7 @@ function main() {
   const pathToListOfIds = process.argv[2];
 
   const lineReader = require('readline').createInterface({
-    input: require('fs').createReadStream(pathToListOfIds)
+    input: require('fs').createReadStream(pathToListOfIds),
   });
 
   const listOfAssessmentIdsToRecompute = [];

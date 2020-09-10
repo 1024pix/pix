@@ -12,7 +12,7 @@ NotificationMessageService.reopen({
 
     notification.set('dismiss', true);
     this.content.removeObject(notification);
-  }
+  },
 });
 
 setApplication(Application.create(config.APP));

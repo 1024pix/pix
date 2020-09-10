@@ -33,7 +33,7 @@ const buildUser = function buildUser({
 
   const values = {
     id, firstName, lastName, email, username, password, cgu, lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, samlId, shouldChangePassword, createdAt, updatedAt
+    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, samlId, shouldChangePassword, createdAt, updatedAt,
   };
 
   return databaseBuffer.pushInsertable({
@@ -88,7 +88,7 @@ buildUser.withPixRolePixMaster = function buildUserWithPixRolePixMaster({
 
   const values = {
     id, firstName, lastName, email, password, cgu, lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions
+    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions,
   };
 
   const user = databaseBuffer.pushInsertable({
@@ -119,7 +119,7 @@ buildUser.withMembership = function buildUserWithMemberships({
 
   const values = {
     id, firstName, lastName, email, password, cgu, lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions
+    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions,
   };
 
   organizationId = _.isNil(organizationId) ? buildOrganization().id : organizationId;

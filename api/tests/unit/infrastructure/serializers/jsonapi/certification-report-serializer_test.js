@@ -20,7 +20,7 @@ describe('Unit | Serializer | JSONAPI | certification-report-serializer', functi
           'examiner-comment': certificationReport.examinerComment,
           'has-seen-end-test-screen': certificationReport.hasSeenEndTestScreen,
         },
-      }
+      },
     };
   });
 

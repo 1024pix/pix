@@ -45,7 +45,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       addAssessmentToContext(this, { id: '267845' });
       addChallengeToContext(this, {
         instruction: 'La consigne de mon test',
-        id: 'rec_challenge'
+        id: 'rec_challenge',
       });
 
       // when
@@ -72,7 +72,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       addAssessmentToContext(this, { id: '267845' });
       addChallengeToContext(this, {
         id: 'recigAYl5bl96WGXj',
-        instruction: 'Veuillez envoyer un email à l\'adresse ${EMAIL} pour valider cette épreuve'
+        instruction: 'Veuillez envoyer un email à l\'adresse ${EMAIL} pour valider cette épreuve',
       });
 
       // when
@@ -97,7 +97,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       addChallengeToContext(this, {
         id: 'recigAYl5bl96WGXj',
         instruction: 'La consigne de mon test',
-        alternativeInstruction: ''
+        alternativeInstruction: '',
       });
 
       // when
@@ -113,7 +113,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       addChallengeToContext(this, {
         id: 'recigAYl5bl96WGXj',
         instruction: 'La consigne de mon test',
-        alternativeInstruction: 'La consigne alternative de mon test'
+        alternativeInstruction: 'La consigne alternative de mon test',
       });
 
       // when
@@ -129,7 +129,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       addChallengeToContext(this, {
         id: 'recigAYl5bl96WGXj',
         instruction: 'La consigne de mon test',
-        alternativeInstruction: 'La consigne alternative de mon test'
+        alternativeInstruction: 'La consigne alternative de mon test',
       });
 
       // when
@@ -146,7 +146,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       addChallengeToContext(this, {
         id: 'recigAYl5bl96WGXj',
         instruction: 'La consigne de mon test',
-        alternativeInstruction: 'La consigne alternative de mon test'
+        alternativeInstruction: 'La consigne alternative de mon test',
       });
 
       // when
@@ -171,7 +171,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       const challenge = {
         illustrationUrl: '/images/pix-logo.svg',
         illustrationAlt: 'texte alternatif',
-        id: 'rec_challenge'
+        id: 'rec_challenge',
       };
       addChallengeToContext(this, challenge);
       addAssessmentToContext(this, { id: '267845' });
@@ -210,7 +210,7 @@ describe('Integration | Component | ChallengeStatement', function() {
         addChallengeToContext(this, {
           attachments: [],
           hasAttachment: false,
-          id: 'rec_challenge'
+          id: 'rec_challenge',
         });
         addAssessmentToContext(this, { id: '267845' });
 
@@ -231,7 +231,7 @@ describe('Integration | Component | ChallengeStatement', function() {
           hasAttachment: true,
           hasSingleAttachment: true,
           hasMultipleAttachments: false,
-          id: 'rec_challenge'
+          id: 'rec_challenge',
         });
         addAssessmentToContext(this, { id: '267845' });
 
@@ -254,7 +254,7 @@ describe('Integration | Component | ChallengeStatement', function() {
         hasAttachment: true,
         hasSingleAttachment: false,
         hasMultipleAttachments: true,
-        id: 'rec_challenge'
+        id: 'rec_challenge',
       };
 
       const challengeQROC = {
@@ -264,7 +264,7 @@ describe('Integration | Component | ChallengeStatement', function() {
         hasAttachment: true,
         hasMultipleAttachments: true,
         attachments: ['http://dl.airtable.com/EL9k935vQQS1wAGIhcZU_PIX_parchemin.ppt', 'http://dl.airtable.com/VGAwZSilQji6Spm9C9Tf_PIX_parchemin.odp'],
-        id: 'rec_challenge'
+        id: 'rec_challenge',
       };
 
       it('should display as many radio button as attachments', async function() {

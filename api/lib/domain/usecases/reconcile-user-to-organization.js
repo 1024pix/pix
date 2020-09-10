@@ -23,6 +23,6 @@ module.exports = async function reconcileUserToOrganization({
   return schoolingRegistrationRepository.reconcileUserByNationalStudentIdAndOrganizationId({
     userId,
     nationalStudentId: nationalStudentIdForReconcile,
-    organizationId: campaign.organizationId
+    organizationId: campaign.organizationId,
   });
 };

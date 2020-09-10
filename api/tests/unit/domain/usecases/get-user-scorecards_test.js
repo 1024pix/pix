@@ -63,37 +63,37 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         const competenceList = [
           domainBuilder.buildCompetence({ id: 1 }),
           domainBuilder.buildCompetence({ id: 2 }),
-          domainBuilder.buildCompetence({ id: 3 })
+          domainBuilder.buildCompetence({ id: 3 }),
         ];
         competenceRepository.listPixCompetencesOnly.resolves(competenceList);
 
         const assessmentFinishedOfCompetence1 = domainBuilder.buildAssessment({
           type: 'COMPETENCE_EVALUATION',
-          state: 'completed'
+          state: 'completed',
         });
 
         const assessmentStartedOfCompetence2 = domainBuilder.buildAssessment({
           type: 'CAMPAIGN',
-          state: 'started'
+          state: 'started',
         });
         const competenceEvaluationOfCompetence1 = domainBuilder.buildCompetenceEvaluation({
           competenceId: 1,
-          assessment: assessmentFinishedOfCompetence1
+          assessment: assessmentFinishedOfCompetence1,
         });
 
         const knowledgeElementList = [
           domainBuilder.buildKnowledgeElement({
             competenceId: 1,
-            assessment: assessmentFinishedOfCompetence1
+            assessment: assessmentFinishedOfCompetence1,
           }),
           domainBuilder.buildKnowledgeElement({
             competenceId: 1,
-            assessment: assessmentFinishedOfCompetence1
+            assessment: assessmentFinishedOfCompetence1,
           }),
           domainBuilder.buildKnowledgeElement({
             competenceId: 2,
-            assessment: assessmentStartedOfCompetence2
-          })
+            assessment: assessmentStartedOfCompetence2,
+          }),
         ];
 
         const knowledgeElementGroupedByCompetenceId = {
@@ -133,21 +133,21 @@ describe('Unit | UseCase | get-user-scorecard', () => {
           userId,
           knowledgeElements: knowledgeElementGroupedByCompetenceId[1],
           competence: competenceList[0],
-          competenceEvaluation: competenceEvaluationOfCompetence1
+          competenceEvaluation: competenceEvaluationOfCompetence1,
         }).returns(expectedUserScorecard[0]);
 
         Scorecard.buildFrom.withArgs({
           userId,
           knowledgeElements: knowledgeElementGroupedByCompetenceId[2],
           competence: competenceList[1],
-          competenceEvaluation: undefined
+          competenceEvaluation: undefined,
         }).returns(expectedUserScorecard[1]);
 
         Scorecard.buildFrom.withArgs({
           userId,
           knowledgeElements: undefined,
           competence: competenceList[2],
-          competenceEvaluation: undefined
+          competenceEvaluation: undefined,
         }).returns(expectedUserScorecard[2]);
 
         // when
@@ -156,7 +156,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
           knowledgeElementRepository,
           competenceRepository,
           competenceEvaluationRepository,
-          locale
+          locale,
         });
 
         //then

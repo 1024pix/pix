@@ -9,7 +9,7 @@ import {
   find,
   findAll,
   fillIn,
-  render
+  render,
 } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -74,7 +74,7 @@ describe('Integration | Component | feedback-panel', function() {
     context('when assessment is of type certification', function() {
       beforeEach(async function() {
         const assessment = {
-          isCertification: true
+          isCertification: true,
         };
         this.set('assessment', assessment);
 
@@ -125,7 +125,7 @@ describe('Integration | Component | feedback-panel', function() {
         return Object.create({
           save() {
             return resolve();
-          }
+          },
         });
       }
     }

@@ -23,7 +23,7 @@ describe('Unit | Router | progression-router', () => {
       // given
       const options = {
         method: 'GET',
-        url: '/api/progressions/1'
+        url: '/api/progressions/1',
       };
 
       // when

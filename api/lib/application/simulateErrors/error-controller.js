@@ -4,5 +4,5 @@ module.exports = {
 
   simulateInternalError() {
     throw Boom.internal();
-  }
+  },
 };
