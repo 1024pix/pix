@@ -1,9 +1,7 @@
-import DS from 'ember-data';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import ENV from 'pix-certif/config/environment';
-
-const { Model, attr, belongsTo, hasMany } = DS;
 
 export const CREATED = 'created';
 export const FINALIZED = 'finalized';
@@ -43,9 +41,9 @@ export default class Session extends Model {
     return this.certificationCandidates.isAny('isLinked');
   }
 
-  @computed('id')
+  @computed('id', 'session.data.authenticated.access_token')
   get urlToDownload() {
-    return `${ENV.APP.API_HOST}/api/sessions/${this.id}/attendance-sheet?accessToken=${this.get('session.data.authenticated.access_token')}`;
+    return `${ENV.APP.API_HOST}/api/sessions/${this.id}/attendance-sheet?accessToken=${this.session.data.authenticated.access_token}`;
   }
 
   @computed('id')

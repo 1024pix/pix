@@ -6,7 +6,7 @@ export default class LogoutRoute extends Route {
 
   beforeModel() {
     super.beforeModel(...arguments);
-    if (this.get('session.isAuthenticated')) {
+    if (this.session.isAuthenticated) {
       this.session.invalidate();
     }
   }
