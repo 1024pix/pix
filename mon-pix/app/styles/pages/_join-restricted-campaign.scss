@@ -22,12 +22,14 @@
     }
   }
 
-  &__container {
-    padding-bottom: 30px;
+  &__back-button {
+    padding: 8px;
+    text-align: left;
+  }
 
-    @include device-is('tablet') {
-      padding: 40px;
-    }
+  &__container {
+    display: flex;
+    justify-content: center;
   }
 
   &__title {
