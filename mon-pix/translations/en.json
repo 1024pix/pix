@@ -72,7 +72,7 @@
         },
         "certify": {
           "title": "Prepare a certification recognised throughout Europe and in the business world",
-          "description": "Pix certification enables you to showcase your digital skills to employers."
+          "description": "The Pix Certification enables you to showcase your digital skills to employers."
         },
         "develop": {
           "title": "See your results during tests and view tips to progress.",
@@ -88,16 +88,16 @@
     },
 
     "certificate": {
-      "title": "Pix certificate",
+      "title": "Pix Certificate",
       "back-link": "Return to my certificates",
       "candidate-birth-complete": "Born on {birthdate} in {birthplace}",
       "certification-center": "Certification centre:",
       "verification-code": {
         "title": "Verification code",
         "info": "(?)",
-        "tooltip": "Communiquez ce code pour permettre à un tiers de vérifier l'authenticité de votre certificat",
-        "copy": "Copier le code",
-        "copied": "Code copié !"
+        "tooltip": "Communicate this code to allow a third party to verify the authenticity of your certificate.",
+        "copy": "Copy the code",
+        "copied": "Copied!"
       },
       "clea": {
         "title": "CléA certified",
@@ -532,7 +532,7 @@
       "title": "Profile already submitted",
       "first-title": "There was a problem",
       "actions": {
-        "continue": "Continue your Pix experience"
+        "continue": "Continue my Pix experience"
       },
       "explanation": "You already submitted the profile below to the organisation {organisation}'<br>'on {date,date,LL} at {hour,time,hhmm}"
     },
@@ -575,7 +575,7 @@
       },
       "form": {
         "info": "You can only submit it once",
-        "continue": "Continue your Pix experience",
+        "continue": "Continue my Pix experience",
         "recipient": "Recipient: {recipient}",
         "send": "Submit my profile",
         "shared": "Thank you, your profile has been submitted!"
@@ -650,7 +650,7 @@
       "abstract": "You have mastered '<strong>'{percentage}%'</strong>'<br/> of the skills tested.",
       "abstract-title": "Your result for this course",
       "actions": {
-        "continue": "Continue your Pix experience",
+        "continue": "Continue my Pix experience",
         "send": "Submit my results",
         "try-again": "Try again"
       },
@@ -670,10 +670,10 @@
       "send-results": "Submit your results to the course organiser so they can provide you with support.",
       "send-title": "Submit your results",
       "stage": {
-        "masteryPercentage": "{percentage} % passed",
+        "masteryPercentage": "Success rate: {percentage} %",
         "alt": {
-          "acquiredStar": "Stage no. {index} passed",
-          "unacquiredStar": "Stage no. {index} not passed"
+          "acquiredStar": "Stage no. {index} reached",
+          "unacquiredStar": "Stage no. {index} not reached"
         }
       },
       "try-again": {
@@ -737,7 +737,7 @@
           "actions": {
             "evaluate": {
               "extra-information": "Give feedback on this tutorial",
-              "label": "This tutorial is useful"
+              "label": "Useful tutorial"
             },
             "remove": {
               "extra-information": "Remove from my list of tutorials",
@@ -766,28 +766,28 @@
     },
 
     "fill-in-certificate-verification-code": {
-      "title": "Verifier une certification",
-      "first-title": "Vérifier un score de certification",
-      "description": "La certification Pix atteste d’un niveau de maitrise des compétences numériques, reconnu par l’État et le monde professionnel.",
-      "label": "Code de vérification (P-XXXXXXXX)",
+      "title": "Verify the authenticity of a Pix Certificate",
+      "first-title": "Verify the score of a Pix Certificate",
+      "description": "The Pix Certification assesses digital literacy and is recognised throughout Europe and in the business world.",
+      "label": "Verification code (P-XXXXXXXX)",
       "errors": {
-        "wrong-format": "Veuillez vérifier votre code.",
-        "missing-code": "Veuillez saisir un code au format P-XXXXXXXX.",
-        "not-found": "Il n'y a pas de certificat Pix correspondant",
-        "unallowed-access": "Merci de renseigner le code de vérification au format P-XXXXXXXX dans le champ ci-dessus."
+        "wrong-format": "Please check your verification code",
+        "missing-code": "Please enter the verification code in this format: P-XXXXXXX",
+        "not-found": "There is no corresponding Pix Certificate.",
+        "unallowed-access": "Please fill out the field above with the verification code in this format: P-XXXXXXX"
       },
-      "verify": "Vérifier le score"
+      "verify": "Verify the score"
     },
 
     "shared-certification": {
-      "title": "Partage de certificat",
-      "back-link": "Retour à la saisie du code de vérification"
+      "title": "Share my Pix Certificate",
+      "back-link": "Go back to the verification’s page"
     },
 
     "fill-in-id-pix": {
       "title": "Enter my username",
       "first-title": "Before starting",
-      "announcement": "The organiser needs the information below in order to offer you support:",
+      "announcement": "The organiser needs the information below in order to provide support:",
       "buttons": {
         "continue": "Continue",
         "cancel": "Cancel"
@@ -806,8 +806,8 @@
 
   "navigation": {
     "error": "Error",
-    "homepage": "Home page",
-    "back-to-homepage": "Return to home",
+    "homepage": "Homepage",
+    "back-to-homepage": "Return to homepage",
     "back-to-profile": "Return to profile",
     "main": {
       "code": "I have a code",
