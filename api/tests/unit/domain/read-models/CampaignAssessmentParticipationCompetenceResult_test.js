@@ -45,7 +45,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationCompetenceResu
         targetedSkillIds,
       });
 
-      expect(campaignAssessmentParticipationCompetenceResult.totalSkillsCount).equal(1);
+      expect(campaignAssessmentParticipationCompetenceResult.targetedSkillsCount).equal(1);
     });
 
     it('should compute validated skills count', () => {
