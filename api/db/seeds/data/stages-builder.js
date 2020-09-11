@@ -1,6 +1,11 @@
 module.exports = function stagesBuilder({ databaseBuilder }) {
-  const targetProfileId = 2;
+  _buildStagesForTargetProfileId(databaseBuilder, 2);
 
+  const targetProfileIdWithBadges = 984165;
+  _buildStagesForTargetProfileId(databaseBuilder, targetProfileIdWithBadges);
+};
+
+function _buildStagesForTargetProfileId(databaseBuilder, targetProfileId) {
   const stages = [
     { title: 'palier 1', message: 'Tu as le palier 1', threshold: 0, targetProfileId },
     { title: 'palier 2', message: 'Tu as le palier 2', threshold: 20, targetProfileId },
@@ -10,5 +15,4 @@ module.exports = function stagesBuilder({ databaseBuilder }) {
   ];
 
   stages.forEach((stage) => databaseBuilder.factory.buildStage(stage));
-};
-
+}
