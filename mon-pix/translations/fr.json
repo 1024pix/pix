@@ -510,6 +510,10 @@
       },
       "first-title": "Vous avez 16 compétences à tester. '<br>'On se concentre et c'est partix&nbsp;!",
       "resume-campaign-banner": {
+        "accessibility": {
+          "resume": "Continuer votre parcours",
+          "share": "Partager les résultats de votre parcours"
+        },
         "actions": {
           "continue": "Continuer",
           "resume": "Reprendre"
