@@ -1,3 +1,4 @@
+/* eslint-disable mocha/no-identical-title */
 const { expect, catchErr } = require('../../../test-helper');
 const userValidator = require('../../../../lib/domain/validators/user-validator');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
@@ -214,6 +215,40 @@ describe('Unit | Domain | Validators | user-validator', function() {
             // then
             expect(errors.invalidAttributes).to.have.lengthOf(5);
           }
+        });
+
+        it('should reject with errors on firstName, lastName and password when firstName, lastName and password have a maximum length of 255', async () => {
+          // given
+          const expectedFirstNameError = {
+            attribute: 'firstName',
+            message: 'Votre prénom ne doit pas dépasser les 255 caractères.',
+          };
+          const expectedLastNameError = {
+            attribute: 'lastName',
+            message: 'Votre nom ne doit pas dépasser les 255 caractères.',
+          };
+          const expectedPasswordError = {
+            attribute: 'password',
+            message: 'Votre mot de passe ne doit pas dépasser les 255 caractères.',
+          };
+
+          user = {
+            firstName: 'John'.repeat(70),
+            lastName: 'Doe'.repeat(90),
+            email: 'john.doe@example.net',
+            password: 'Password1234'.repeat(22),
+            cgu: true,
+          };
+
+          // when
+          const errors = await catchErr(userValidator.validate)({ user });
+
+          // then
+          expect(errors.invalidAttributes).to.have.lengthOf(3);
+          expect(errors).to.be.instanceOf(EntityValidationError);
+          expect(errors.invalidAttributes[0]).to.deep.equal(expectedFirstNameError);
+          expect(errors.invalidAttributes[1]).to.deep.equal(expectedLastNameError);
+          expect(errors.invalidAttributes[2]).to.deep.equal(expectedPasswordError);
         });
       });
     });
