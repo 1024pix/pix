@@ -1,9 +1,7 @@
 const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
 
 const certificationController = require('../../../../lib/application/certifications/certification-controller');
-
 const usecases = require('../../../../lib/domain/usecases');
-
 const certificationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
 
 describe('Unit | Controller | certifications-controller', () => {
