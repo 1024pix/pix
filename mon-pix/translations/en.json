@@ -660,13 +660,13 @@
       },
       "already-shared": "Thank you, your results have been submitted!",
       "archived": "This course has been archived by the organiser.<br/> It is no longer to possible to submit results, but they have been taken into account for your course.",
-      "badges-title": "{ badgeCount, plural, =1 {Thematic result} other {Thematic results} }",
+      "badges-title": "Your thematic results",
       "details": {
-        "title": "Your detailed results",
+        "title": "Your results by skill",
         "header-skill": "Skills tested",
         "header-result": "Results",
         "result": "Overall result",
-        "result-by-skill": "Results by skill",
+        "result-by-skill": "Your result for the skill",
         "skill-progress": "'<p class=\"sr-only\">'You have completed '</p>'{percentage}%'<p class=\"sr-only\">' of the skill {skill}.'</p>'"
       },
       "information": "If you have already completed courses on Pix, questions you have previously answered have not been asked again. However, the result shown here is based on all of your answers.",

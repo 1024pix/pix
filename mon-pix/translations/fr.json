@@ -661,13 +661,13 @@
       },
       "already-shared": "Merci, vos résultats ont bien été envoyés !",
       "archived": "Ce parcours a été archivé par l'organisateur.<br/> L'envoi des résultats n'est plus possible mais ils sont bien pris en compte dans votre parcours.",
-      "badges-title": "{ badgeCount, plural, =1 {Résultat thématique} other {Résultats thématiques} }",
+      "badges-title": "Vos résultats thématiques",
       "details": {
-        "title": "Vos résultats détaillés",
+        "title": "Vos résultats par compétence",
         "header-skill": "Compétences testées",
         "header-result": "Résultats",
         "result": "Résultat global",
-        "result-by-skill": "Résultats par compétence",
+        "result-by-skill": "Votre résultat pour la compétence",
         "skill-progress": "'<p class=\"sr-only\">'Vous avez validé '</p>'{percentage}%'<p class=\"sr-only\">' de la compétence {skill}.'</p>'"
       },
       "information": "Si vous avez déjà effectué des parcours sur Pix, les questions auxquelles vous aviez répondu ne vous ont pas été posées de nouveau. En revanche, le résultat affiché ici tient compte de l’ensemble de vos réponses.",
