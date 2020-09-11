@@ -32,6 +32,7 @@ module.exports = {
       campaignAnalysis: {
         ref: 'id',
         ignoreRelationshipData: true,
+        nullIfMissing: true,
         relationshipLinks: {
           related(record, current, parent) {
             return `/api/campaign-participations/${parent.id}/analyses`;

@@ -16,7 +16,6 @@ class CampaignAssessmentParticipation {
     validatedSkillsCount,
     testedSkillsCount,
     campaignAssessmentParticipationResult,
-    campaignAnalysis,
   }) {
     this.firstName = firstName;
     this.lastName = lastName;
@@ -28,7 +27,6 @@ class CampaignAssessmentParticipation {
     this.createdAt = createdAt;
     this.targetedSkillsCount = targetedSkillsCount;
     this.campaignAssessmentParticipationResult = campaignAssessmentParticipationResult;
-    this.campaignAnalysis = campaignAnalysis;
     this.progression = this._computeProgression(assessementState, testedSkillsCount);
 
     if (this.isShared) {
