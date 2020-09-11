@@ -1,5 +1,6 @@
 const usecases = require('../../domain/usecases');
 const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
+const CertificationAttestationPdf = require('../../infrastructure/utils/pdf/certification-attestation-pdf');
 
 module.exports = {
   findUserCertifications(request) {
