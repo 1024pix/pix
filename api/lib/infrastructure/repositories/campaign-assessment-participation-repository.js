@@ -37,12 +37,7 @@ async function _fetchCampaignAssessmentAttributesFromCampaignParticipation(campa
         .join('assessments', 'assessments.campaignParticipationId', 'campaign-participations.id')
         .join('users', 'users.id', 'campaign-participations.userId')
         .leftJoin('schooling-registrations', 'campaign-participations.userId', 'schooling-registrations.userId')
-        .leftJoin('campaigns', function() {
-          this.on({ 'campaign-participations.campaignId': 'campaigns.id' })
-            .andOn({ 'campaigns.organizationId': 'schooling-registrations.organizationId' });
-        })
         .where({
-          campaignId,
           'campaign-participations.id': campaignParticipationId,
         });
     })
