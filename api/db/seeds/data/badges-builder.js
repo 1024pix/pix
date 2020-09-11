@@ -1,33 +1,73 @@
-const BADGE_TEST_ID = 111;
+const BASICS_BADGE_ID = 111;
+const TOOLS_BADGE_ID = 112;
+const MANIP_BADGE_ID = 113;
+const TARGET_PROFILE_ID_FOR_BADGES = 984165;
 const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
 
 function badgesBuilder({ databaseBuilder }) {
+  _createBasicsBadge(databaseBuilder);
+  _createToolsBadge(databaseBuilder);
+  _createManipBadge(databaseBuilder);
+}
 
-  const targetProfileId = 984165;
-
-  const targetProfileSkillIds = [
+function _createBasicsBadge(databaseBuilder) {
+  const targetProfileSkillIdsForBasicsBadge = [
     'rectL2ZZeWPc7yezp', 'recndXqXiv4pv2Ukp', 'recMOy4S8XnaWblYI', 'recagUd44RPEWti0X',
     'recrvTvLTUXEcUIV1', 'recX7RyCsdNV2p168', 'recxtb5aLs6OAAKIg', 'receRbbt9Lb661wFB',
-    'rec71e3PSct2zLEMj', 'recFwJlpllhWzuLom', 'rec0J9OXaAj5v7w3r', 'reclY3njuk6EySJuU',
-    'rec5V9gp65a58nnco', 'recPrXhP0X07OdHXe', 'recPG9ftlGZLiF0O6', 'rectLj7NPg5JcSIqN',
-    'rec9qal2FLjWysrfu', 'rechRPFlSryfY3UnG', 'recL0AotZshb9quhR', 'recrOwaV2PTt1N0i5',
-    'recpdpemRXuzV9r10', 'recWXtN5cNP1JQUVx', 'recTIddrkopID28Ep', 'recBrDIfDDW2IPpZV',
-    'recgOc2OreHCosoRp'
   ];
 
-  const badge = databaseBuilder.factory.buildBadge({
-    id: BADGE_TEST_ID,
-    altMessage: 'Vous avez validé le badge Pix Emploi.',
-    title: 'Pix Emploi',
-    imageUrl: 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges/Pix-emploi.svg',
-    key: 'Other key',
-    message: 'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. ' +
-      'Pour valoriser vos compétences avec une double certification Pix-CléA numérique, renseignez-vous auprès de votre conseiller ou de votre formateur.',
-    targetProfileId,
+  const basicsBadge = databaseBuilder.factory.buildBadge({
+    id: BASICS_BADGE_ID,
+    altMessage: 'Vous avez validé les bases.',
+    title: 'Des bases sont là',
+    imageUrl: 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges/socle-de-base.svg',
+    key: 'Basics',
+    message: 'Bravo ! Vous maîtrisez quelques bases du numérique comme le vocabulaire, la manipulation basique ou l\'utilisation d\'outils',
+    targetProfileId: TARGET_PROFILE_ID_FOR_BADGES,
   });
 
-  _associateBadgePartnerCompetences(databaseBuilder, targetProfileSkillIds, badge);
-  _associateBadgeCriteria(databaseBuilder, badge);
+  _associateBadgePartnerCompetences(databaseBuilder, targetProfileSkillIdsForBasicsBadge, basicsBadge);
+  _associateBadgeCriteria(databaseBuilder, basicsBadge);
+}
+
+function _createToolsBadge(databaseBuilder) {
+  const targetProfileSkillIdsForToolsBadge = [
+    'rec71e3PSct2zLEMj', 'recFwJlpllhWzuLom', 'rec0J9OXaAj5v7w3r', 'reclY3njuk6EySJuU',
+    'rec5V9gp65a58nnco', 'recPrXhP0X07OdHXe', 'recPG9ftlGZLiF0O6', 'rectLj7NPg5JcSIqN',
+  ];
+
+  const toolsBadge = databaseBuilder.factory.buildBadge({
+    id: TOOLS_BADGE_ID,
+    altMessage: 'Vous avez validé le Vocabulaire et outils du numérique.',
+    title: 'Vocabulaire et outils du numérique',
+    imageUrl: 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges/pro-recherche.svg',
+    key: 'Tools',
+    message: 'Vous reconnaissez les éléments courants du numérique: le matériel, la messagerie, un document et un navigateur WEB.',
+    targetProfileId: TARGET_PROFILE_ID_FOR_BADGES,
+  });
+
+  _associateBadgePartnerCompetences(databaseBuilder, targetProfileSkillIdsForToolsBadge, toolsBadge);
+  _associateBadgeCriteria(databaseBuilder, toolsBadge);
+}
+
+function _createManipBadge(databaseBuilder) {
+  const targetProfileSkillIdsForManipBadge = [
+    'rec9qal2FLjWysrfu', 'rechRPFlSryfY3UnG', 'recL0AotZshb9quhR', 'recrOwaV2PTt1N0i5',
+    'recpdpemRXuzV9r10', 'recWXtN5cNP1JQUVx', 'recTIddrkopID28Ep', 'recBrDIfDDW2IPpZV',
+  ];
+
+  const manipBadge = databaseBuilder.factory.buildBadge({
+    id: MANIP_BADGE_ID,
+    altMessage: 'Vous avez validé la manipulation.',
+    title: 'Je manipule',
+    imageUrl: 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges/office.svg',
+    key: 'Manip',
+    message: 'Vous maîtrisez les gestes de base : le clic, la saisie de texte et la navigation entre onglets d\'un navigateur WEB',
+    targetProfileId: TARGET_PROFILE_ID_FOR_BADGES,
+  });
+
+  _associateBadgePartnerCompetences(databaseBuilder, targetProfileSkillIdsForManipBadge, manipBadge);
+  _associateBadgeCriteria(databaseBuilder, manipBadge);
 }
 
 function _associateBadgePartnerCompetences(databaseBuilder, targetProfileSkillIds, badge) {
@@ -37,14 +77,6 @@ function _associateBadgePartnerCompetences(databaseBuilder, targetProfileSkillId
     skillIds: [
       targetProfileSkillIds[0],
       targetProfileSkillIds[1],
-      targetProfileSkillIds[2],
-      targetProfileSkillIds[3],
-      targetProfileSkillIds[4],
-      targetProfileSkillIds[5],
-      targetProfileSkillIds[6],
-      targetProfileSkillIds[7],
-      targetProfileSkillIds[8],
-      targetProfileSkillIds[9],
     ],
     badgeId: badge.id,
   });
@@ -53,12 +85,8 @@ function _associateBadgePartnerCompetences(databaseBuilder, targetProfileSkillId
     name: 'Utiliser des outils informatiques',
     color: null,
     skillIds: [
-      targetProfileSkillIds[10],
-      targetProfileSkillIds[11],
-      targetProfileSkillIds[12],
-      targetProfileSkillIds[13],
-      targetProfileSkillIds[14],
-      targetProfileSkillIds[15],
+      targetProfileSkillIds[2],
+      targetProfileSkillIds[3],
     ],
     badgeId: badge.id,
   });
@@ -67,12 +95,8 @@ function _associateBadgePartnerCompetences(databaseBuilder, targetProfileSkillId
     name: 'Naviguer sur internet',
     color: null,
     skillIds: [
-      targetProfileSkillIds[16],
-      targetProfileSkillIds[17],
-      targetProfileSkillIds[18],
-      targetProfileSkillIds[19],
-      targetProfileSkillIds[20],
-      targetProfileSkillIds[21],
+      targetProfileSkillIds[4],
+      targetProfileSkillIds[5],
     ],
     badgeId: badge.id,
   });
@@ -81,13 +105,13 @@ function _associateBadgePartnerCompetences(databaseBuilder, targetProfileSkillId
     name: 'Partager sur les réseaux sociaux',
     color: null,
     skillIds: [
-      targetProfileSkillIds[22],
-      targetProfileSkillIds[23],
-      targetProfileSkillIds[24],
+      targetProfileSkillIds[6],
+      targetProfileSkillIds[7],
     ],
     badgeId: badge.id,
   });
 }
+
 function _associateBadgeCriteria(databaseBuilder, badge) {
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
@@ -104,5 +128,7 @@ function _associateBadgeCriteria(databaseBuilder, badge) {
 
 module.exports = {
   badgesBuilder,
-  BADGE_PIX_EMPLOI_ID: BADGE_TEST_ID,
+  BASICS_BADGE_ID,
+  TOOLS_BADGE_ID,
+  MANIP_BADGE_ID,
 };
