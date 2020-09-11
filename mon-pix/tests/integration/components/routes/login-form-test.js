@@ -1,17 +1,21 @@
 /* eslint ember/no-classic-classes: 0 */
 /* eslint ember/require-tagless-components: 0 */
 
+import { describe, beforeEach } from 'mocha';
 import { expect } from 'chai';
-import { describe, it, beforeEach } from 'mocha';
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import EmberObject from '@ember/object';
-import { click, fillIn, render, find } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
-import Service from '@ember/service';
-import { reject, resolve } from 'rsvp';
 import sinon from 'sinon';
 
+import { reject, resolve } from 'rsvp';
+
+import { click, fillIn, render, find } from '@ember/test-helpers';
+import EmberObject from '@ember/object';
+import Service from '@ember/service';
+import hbs from 'htmlbars-inline-precompile';
+
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
 describe('Integration | Component | routes/login-form', function() {
+
   setupIntlRenderingTest();
 
   let sessionStub;
@@ -187,4 +191,89 @@ describe('Integration | Component | routes/login-form', function() {
       sinon.assert.calledWith(replaceWithStub, 'update-expired-password');
     });
   });
+
+  context('when external user IdToken exist', function() {
+
+    const externalUserToken = 'ABCD';
+
+    let addGarAuthenticationMethodToUserStub;
+
+    beforeEach(function() {
+      sessionStub.prototype.authenticate = sinon.stub().resolves();
+      sessionStub.prototype.isAuthenticated = sinon.stub().returns(true);
+      sessionStub.prototype.get = sinon.stub().returns(externalUserToken);
+      sessionStub.prototype.set = sinon.stub().resolves();
+
+      addGarAuthenticationMethodToUserStub = sinon.stub();
+    });
+
+    it('should prevent redirection and update user authentication method', async function() {
+      // given
+      const sessionServiceObserver = this.owner.lookup('service:session');
+      this.set('addGarAuthenticationMethodToUser', addGarAuthenticationMethodToUserStub);
+
+      await render(hbs`<Routes::LoginForm @addGarAuthenticationMethodToUser={{this.addGarAuthenticationMethodToUser}} />`);
+
+      await fillIn('#login', 'pix@example.net');
+      await fillIn('#password', 'JeMeLoggue1024');
+
+      // when
+      await click('#submit-connexion');
+
+      // then
+      sinon.assert.calledWith(sessionServiceObserver.set, 'attemptedTransition');
+      sinon.assert.calledWith(addGarAuthenticationMethodToUserStub, externalUserToken);
+    });
+
+    it('should display the specific error message if update fails with http error 4xx', async function() {
+      // given
+      const expectedErrorMessage = 'Les données que vous avez soumises ne sont pas au bon format.';
+      const apiReturn = {
+        errors: [{
+          status: 400,
+          detail: expectedErrorMessage,
+        }],
+      };
+
+      addGarAuthenticationMethodToUserStub.rejects(apiReturn);
+      this.set('addGarAuthenticationMethodToUser', addGarAuthenticationMethodToUserStub);
+
+      await render(hbs`<Routes::LoginForm @addGarAuthenticationMethodToUser={{this.addGarAuthenticationMethodToUser}} />`);
+
+      await fillIn('#login', 'pix@example.net');
+      await fillIn('#password', 'JeMeLoggue1024');
+
+      // when
+      await click('#submit-connexion');
+
+      // then
+      expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage);
+    });
+
+    it('should display the default error message if update fails with other http error', async function() {
+      // given
+      const expectedErrorMessage = 'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.';
+      const apiReturn = {
+        errors: [{
+          status: 500,
+          detail: expectedErrorMessage,
+        }],
+      };
+      addGarAuthenticationMethodToUserStub.rejects(apiReturn);
+
+      this.set('addGarAuthenticationMethodToUser', addGarAuthenticationMethodToUserStub);
+
+      await render(hbs`<Routes::LoginForm @addGarAuthenticationMethodToUser={{this.addGarAuthenticationMethodToUser}} />`);
+
+      await fillIn('#login', 'pix@example.net');
+      await fillIn('#password', 'JeMeLoggue1024');
+
+      // when
+      await click('#submit-connexion');
+
+      // then
+      expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage);
+    });
+  });
+
 });

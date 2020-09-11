@@ -1,3 +1,9 @@
 <div class="login-or-register-to-access-restricted-campaign">
-  <Routes::LoginOrRegister @organizationName={{@model.organizationName}} @campaignCode={{@model.code}} @displayRegisterForm={{this.displayRegisterForm}} @toggleFormsVisibility={{this.toggleFormsVisibility}} />
+  <Routes::LoginOrRegister
+          @organizationName={{@model.organizationName}}
+          @campaignCode={{@model.code}}
+          @displayRegisterForm={{this.displayRegisterForm}}
+          @toggleFormsVisibility={{this.toggleFormsVisibility}}
+          @addGarAuthenticationMethodToUser={{this.addGarAuthenticationMethodToUser}}
+  />
 </div>

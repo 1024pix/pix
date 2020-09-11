@@ -9,7 +9,10 @@ import getUserSharedProfileForCampaign from './get-user-shared-profile-for-campa
 import resetScorecard from './reset-scorecard';
 
 export default function index(config) {
+  config.get('/users/me', getAuthenticatedUser);
+
   config.post('/users');
+  config.post('/users/:id/competences/:competenceId/reset', resetScorecard);
 
   config.get('/users/:userId/campaigns/:campaignId/campaign-participations', getUserCampaignParticipationToCampaign);
   config.get('/users/:userId/campaigns/:campaignId/profile', getUserSharedProfileForCampaign);
@@ -17,6 +20,7 @@ export default function index(config) {
   config.get('/users/:id/pixscore', getPixScore);
   config.get('/users/:id/scorecards', getScorecards);
   config.get('/users/:id/campaign-participations', getUserCampaignParticipations);
+
   config.patch('/users/:id/password-update', (schema, request) => {
     const body = JSON.parse(request.requestBody);
     const user =  schema.users.find(request.params.id);
@@ -34,8 +38,6 @@ export default function index(config) {
     user.hasSeenAssessmentInstructions = true;
     return user;
   });
+  config.patch('/users/:id/authentication-methods/saml', () => new Response(204));
 
-  config.post('/users/:id/competences/:competenceId/reset', resetScorecard);
-
-  config.get('/users/me', getAuthenticatedUser);
 }
