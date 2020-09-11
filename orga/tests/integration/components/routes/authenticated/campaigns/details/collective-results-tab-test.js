@@ -41,7 +41,7 @@ module('Integration | Component | routes/authenticated/campaign/details | collec
       competenceId: 'recCompA',
       competenceName: 'Competence A',
       averageValidatedSkills: 10,
-      totalSkillsCount: 30,
+      targetedSkillsCount: 30
     });
 
     const campaignCompetenceCollectiveResult_2 = store.createRecord('campaign-competence-collective-result', {
@@ -51,12 +51,12 @@ module('Integration | Component | routes/authenticated/campaign/details | collec
       competenceId: 'recCompB',
       competenceName: 'Competence B',
       averageValidatedSkills: 12.5,
-      totalSkillsCount: 50,
+      targetedSkillsCount: 50
     });
 
     const campaignCollectiveResult = store.createRecord('campaign-collective-result', {
       id: 1,
-      campaignCompetenceCollectiveResults: [campaignCompetenceCollectiveResult_1, campaignCompetenceCollectiveResult_2],
+      campaignCompetenceCollectiveResults: [campaignCompetenceCollectiveResult_1, campaignCompetenceCollectiveResult_2]
     });
 
     this.set('campaignCollectiveResult', campaignCollectiveResult);
@@ -65,7 +65,7 @@ module('Integration | Component | routes/authenticated/campaign/details | collec
     // when
     await render(hbs`<Routes::Authenticated::Campaigns::Details::CollectiveResultsTab
       @campaignCollectiveResult={{campaignCollectiveResult}}
-      @sharedParticipationsCount={{sharedParticipationsCount}}/>`,
+      @sharedParticipationsCount={{sharedParticipationsCount}}/>`
     );
 
     // then

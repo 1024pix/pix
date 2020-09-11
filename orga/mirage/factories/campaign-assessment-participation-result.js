@@ -7,7 +7,7 @@ export default Factory.extend({
         areaColor: 'jaffa',
         name: 'Competence A',
         index: '5.1',
-        totalSkillsCount: 4,
+        targetedSkillsCount: 4,
         testedSkillsCount: 3,
         validatedSkillsCount: 2,
       });
@@ -15,7 +15,7 @@ export default Factory.extend({
         areaColor: 'emerald',
         name: 'Competence B',
         index: '3.2',
-        totalSkillsCount: 10,
+        targetedSkillsCount: 10,
         testedSkillsCount: 10,
         validatedSkillsCount: 10,
       });

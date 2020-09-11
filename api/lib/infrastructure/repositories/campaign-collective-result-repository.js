@@ -125,7 +125,7 @@ function _forgeCampaignCompetenceCollectiveResults(campaignId, competences, part
       competenceName: competence.name,
       competenceIndex: competence.index,
       areaColor: competence.area.color,
-      totalSkillsCount: _.size(targetedSkillsByCompetenceId[competenceId]),
+      targetedSkillsCount: _.size(targetedSkillsByCompetenceId[competenceId]),
       averageValidatedSkills,
     });
   })

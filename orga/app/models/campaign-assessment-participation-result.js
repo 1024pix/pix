@@ -8,7 +8,7 @@ export default class CampaignAssessmentParticipationResult extends Model {
   @belongsTo('campaignAssessmentParticipation') campaignAssessmentParticipation;
   @hasMany('campaignAssessmentParticipationCompetenceResult') competenceResults;
 
-  @mapBy('competenceResults', 'totalSkillsCount') totalSkillsCountByCompetence;
+  @mapBy('competenceResults', 'targetedSkillsCount') totalSkillsCountByCompetence;
   @max('totalSkillsCountByCompetence') maxTotalSkillsCount;
 
   @computed('competenceResults')

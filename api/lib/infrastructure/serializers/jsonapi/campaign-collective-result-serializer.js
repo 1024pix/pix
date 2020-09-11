@@ -7,7 +7,7 @@ module.exports = {
       campaignCompetenceCollectiveResults: {
         ref: 'id',
         includes: true,
-        attributes: ['competenceId', 'competenceName', 'areaCode', 'areaColor', 'totalSkillsCount', 'averageValidatedSkills'],
+        attributes: ['competenceId', 'competenceName', 'areaCode', 'areaColor', 'targetedSkillsCount', 'averageValidatedSkills'],
       },
     }).serialize(results);
   },

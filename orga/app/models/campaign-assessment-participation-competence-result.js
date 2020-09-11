@@ -6,20 +6,20 @@ export default class CampaignAssessmentParticipationCompetenceResult extends Mod
   @attr('string') name;
   @attr('string') index;
   @attr('string') areaColor;
-  @attr('number') totalSkillsCount;
+  @attr('number') targetedSkillsCount;
   @attr('number') validatedSkillsCount;
   @belongsTo('campaignAssessmentParticipationResult') campaignAssessmentParticipationResult;
 
   @computed(
-    'totalSkillsCount',
+    'targetedSkillsCount',
     'campaignAssessmentParticipationResult.maxTotalSkillsCount'
   )
   get totalSkillsCountPercentage() {
-    return Math.round(this.totalSkillsCount * 100 / this.campaignAssessmentParticipationResult.get('maxTotalSkillsCount'));
+    return Math.round(this.targetedSkillsCount * 100 / this.campaignAssessmentParticipationResult.get('maxTotalSkillsCount'));
   }
 
-  @computed('validatedSkillsCount', 'totalSkillsCount')
+  @computed('validatedSkillsCount', 'targetedSkillsCount')
   get validatedSkillsCountPercentage() {
-    return Math.round(this.validatedSkillsCount * 100 / this.totalSkillsCount);
+    return Math.round(this.validatedSkillsCount * 100 / this.targetedSkillsCount);
   }
 }
