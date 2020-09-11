@@ -42,9 +42,9 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', () => {
     context('when status is SHARED', () => {
       context('when there are no skills in target profile', () => {
         it('should compute a masteryPercentage of 0', () => {
-          const totalSkillsCount = 0;
+          const targetedSkillsCount = 0;
           const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
-            totalSkillsCount,
+            targetedSkillsCount,
             validatedSkillsCount: 'anything',
             isShared: true,
           });
@@ -55,10 +55,10 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', () => {
 
       context('when there are skills in target profile', () => {
         it('should compute a masteryPercentage accordingly', () => {
-          const totalSkillsCount = 40;
+          const targetedSkillsCount = 40;
           const validatedSkillsCount = 10;
           const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
-            totalSkillsCount,
+            targetedSkillsCount,
             validatedSkillsCount,
             isShared: true,
           });
@@ -67,10 +67,10 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', () => {
         });
 
         it('should compute a masteryPercentage accordingly with rounded value', () => {
-          const totalSkillsCount = 30;
+          const targetedSkillsCount = 30;
           const validatedSkillsCount = 10;
           const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
-            totalSkillsCount,
+            targetedSkillsCount,
             validatedSkillsCount,
             isShared: true,
           });
@@ -83,7 +83,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', () => {
     context('when status is not SHARED', () => {
       it('should return undefined', () => {
         const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
-          totalSkillsCount: 1,
+          targetedSkillsCount: 1,
           validatedSkillsCount: 1,
           isShared: false,
         });
@@ -102,7 +102,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', () => {
           const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
             state: Assessment.states.STARTED,
             testedSkillsCount,
-            totalSkillsCount: 10,
+            targetedSkillsCount: 10,
           });
 
           expect(campaignAssessmentParticipation.progression).equal(0);
@@ -111,24 +111,24 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', () => {
 
       context('when testedSkillsCount != 0', () => {
         it('should compute a progression accordingly', () => {
-          const totalSkillsCount = 40;
+          const targetedSkillsCount = 40;
           const testedSkillsCount = 10;
           const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
             state: Assessment.states.STARTED,
             testedSkillsCount,
-            totalSkillsCount,
+            targetedSkillsCount,
           });
 
           expect(campaignAssessmentParticipation.progression).equal(25);
         });
 
         it('should compute a progression accordingly with rounded value', () => {
-          const totalSkillsCount = 30;
+          const targetedSkillsCount = 30;
           const testedSkillsCount = 10;
           const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
             state: Assessment.states.STARTED,
             testedSkillsCount,
-            totalSkillsCount,
+            targetedSkillsCount,
           });
 
           expect(campaignAssessmentParticipation.progression).equal(33);
@@ -139,7 +139,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', () => {
     context('when state is COMPLETED', () => {
       it('should return 100', () => {
         const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
-          state: Assessment.states.COMPLETED,
+          assessementState: Assessment.states.COMPLETED,
         });
 
         expect(campaignAssessmentParticipation.progression).equal(100);

@@ -64,7 +64,7 @@ async function _buildCampaignAssessmentParticipation(result, targetedSkillIds) {
   const testedSkillsCount = await _getTestedSkillsCountInTargetProfile(result, targetedSkillIds);
   return new CampaignAssessmentParticipation({
     ...result,
-    totalSkillsCount: targetedSkillIds.length,
+    targetedSkillsCount: targetedSkillIds.length,
     validatedSkillsCount: await _getValidatedSkillsCountInTargetProfile(result, targetedSkillIds),
     testedSkillsCount,
   });

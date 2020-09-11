@@ -65,7 +65,7 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
           ...participation,
           campaignId,
           campaignParticipationId,
-          totalSkillsCount: 0,
+          targetedSkillsCount: 0,
           validatedSkillsCount: 0,
           masteryPercentage: 0,
           progression: 100,
@@ -128,14 +128,14 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
       it('create CampaignAssessmentParticipation with empty results', async () => {
         const campaignAssessmentParticipation = await campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId });
 
-        expect(campaignAssessmentParticipation.totalSkillsCount).to.equal(1);
+        expect(campaignAssessmentParticipation.targetedSkillsCount).to.equal(1);
         expect(campaignAssessmentParticipation.validatedSkillsCount).to.equal(undefined);
       });
     });
 
     context('When campaign participation is shared', () => {
 
-      context('totalSkillsCount', () => {
+      context('targetedSkillsCount', () => {
         beforeEach(async () => {
           const skill1 = airtableBuilder.factory.buildSkill({ id: 'skill1' });
           const skill2 = airtableBuilder.factory.buildSkill({ id: 'skill2' });
@@ -150,7 +150,7 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
         it('should equal 2', async () => {
           const campaignAssessmentParticipation = await campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId });
 
-          expect(campaignAssessmentParticipation.totalSkillsCount).to.equal(2);
+          expect(campaignAssessmentParticipation.targetedSkillsCount).to.equal(2);
         });
       });
 
