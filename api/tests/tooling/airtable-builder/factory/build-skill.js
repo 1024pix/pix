@@ -1,4 +1,4 @@
-module.exports = function buildSkill({
+const buildSkill = function buildSkill({
   id = 'recTIddrkopID28Ep',
   indiceFr = 'Peut-on géo-localiser un téléphone lorsqu’il est éteint ? Dans quelle condition une application peut-elle utiliser les données de géolocalisation du t...',
   indiceEn = 'Can we gelocate ?',
@@ -58,3 +58,32 @@ module.exports = function buildSkill({
     'createdTime': createdTime,
   };
 };
+
+buildSkill.fromDomain = function buildSkillFromDomain({
+  domainSkill,
+  challengeIds = [],
+  status = 'actif',
+  createdAt = '2018-03-15T14:38:03.000Z',
+}) {
+  return {
+    id: domainSkill.id,
+    fields: {
+      'id persistant': domainSkill.id,
+      'Indice fr-fr': 'un indice français',
+      'Indice en-us': 'an english hint',
+      'Statut de l\'indice': 'no status',
+      'Epreuves': challengeIds,
+      'Comprendre (id persistant)': domainSkill.tutorialIds,
+      'En savoir plus (id persistant)': [],
+      'Tags': [],
+      'Tube (id persistant)': [domainSkill.tubeId],
+      'Status': status,
+      'Nom': domainSkill.name,
+      'Compétence (via Tube) (id persistant)': [domainSkill.competenceId],
+      'PixValue': domainSkill.pixValue,
+    },
+    'createdTime': createdAt,
+  };
+};
+
+module.exports = buildSkill;
