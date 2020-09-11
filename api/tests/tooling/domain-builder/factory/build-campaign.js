@@ -19,7 +19,7 @@ function buildCampaign({
   targetProfileId = faker.random.number(2),
   targetProfile = buildTargetProfile({ id: targetProfileId }),
   isRestricted = false,
-  organizationLogoUrl
+  organizationLogoUrl,
 } = {}) {
   return new Campaign({
     id,
@@ -37,7 +37,7 @@ function buildCampaign({
     targetProfileId,
     targetProfile,
     isRestricted,
-    organizationLogoUrl
+    organizationLogoUrl,
   });
 }
 
@@ -57,7 +57,7 @@ buildCampaign.ofTypeAssessment = function({
   targetProfileId = faker.random.number(2),
   targetProfile = buildTargetProfile({ id: targetProfileId }),
   isRestricted = false,
-  organizationLogoUrl
+  organizationLogoUrl,
 } = {}) {
   return new Campaign({
     id,
@@ -75,7 +75,7 @@ buildCampaign.ofTypeAssessment = function({
     targetProfileId,
     targetProfile,
     isRestricted,
-    organizationLogoUrl
+    organizationLogoUrl,
   });
 };
 

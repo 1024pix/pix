@@ -38,7 +38,7 @@ export default class RegisterForm extends Component {
       firstName: '',
       email: '',
       password: '',
-      cgu: false
+      cgu: false,
     });
   }
 

@@ -39,10 +39,10 @@ describe('Acceptance | Controller | password-controller', () => {
           payload: {
             data: {
               attributes: {
-                email: 'uzinagaz@example.net'
-              }
-            }
-          }
+                email: 'uzinagaz@example.net',
+              },
+            },
+          },
         };
       });
 
@@ -65,10 +65,10 @@ describe('Acceptance | Controller | password-controller', () => {
           payload: {
             data: {
               attributes: {
-                email: fakeUserEmail
-              }
-            }
-          }
+                email: fakeUserEmail,
+              },
+            },
+          },
         };
 
         sinon.stub(mailjetService, 'sendResetPasswordDemandEmail').resolves();
@@ -93,10 +93,10 @@ describe('Acceptance | Controller | password-controller', () => {
           payload: {
             data: {
               attributes: {
-                email: fakeUserEmail
-              }
-            }
-          }
+                email: fakeUserEmail,
+              },
+            },
+          },
         };
 
         sinon.stub(resetPasswordDemandRepository, 'create').rejects(new Error());
@@ -122,7 +122,7 @@ describe('Acceptance | Controller | password-controller', () => {
 
         options = {
           method: 'GET',
-          url: `/api/password-reset-demands/${temporaryKey}`
+          url: `/api/password-reset-demands/${temporaryKey}`,
         };
 
         // when
@@ -147,7 +147,7 @@ describe('Acceptance | Controller | password-controller', () => {
         // given
         options = {
           method: 'GET',
-          url: '/api/password-reset-demands/invalid-temporary-key'
+          url: '/api/password-reset-demands/invalid-temporary-key',
         };
 
         // when
@@ -167,7 +167,7 @@ describe('Acceptance | Controller | password-controller', () => {
         const temporaryKey = resetPasswordService.generateTemporaryKey();
         options = {
           method: 'GET',
-          url: `/api/password-reset-demands/${temporaryKey}`
+          url: `/api/password-reset-demands/${temporaryKey}`,
         };
 
         // when
@@ -191,7 +191,7 @@ describe('Acceptance | Controller | password-controller', () => {
         const temporaryKey = resetPasswordService.generateTemporaryKey();
         options = {
           method: 'GET',
-          url: `/api/password-reset-demands/${temporaryKey}`
+          url: `/api/password-reset-demands/${temporaryKey}`,
         };
 
         // when
@@ -223,7 +223,7 @@ describe('Acceptance | Controller | password-controller', () => {
         // given
         options = {
           method: 'GET',
-          url: `/api/password-reset-demands/${temporaryKey}`
+          url: `/api/password-reset-demands/${temporaryKey}`,
         };
 
         // when
@@ -248,14 +248,14 @@ describe('Acceptance | Controller | password-controller', () => {
       url: '/api/expired-password-updates',
       payload: {
         data: {
-          attributes: { username, expiredPassword, newPassword }
-        }
-      }
+          attributes: { username, expiredPassword, newPassword },
+        },
+      },
     };
 
     beforeEach(async () => {
       databaseBuilder.factory.buildUser.withUnencryptedPassword({
-        username, rawPassword: expiredPassword, shouldChangePassword: true
+        username, rawPassword: expiredPassword, shouldChangePassword: true,
       });
       await databaseBuilder.commit();
     });
@@ -305,7 +305,7 @@ describe('Acceptance | Controller | password-controller', () => {
         // given
         const username = 'jean.oubliejamais0105';
         databaseBuilder.factory.buildUser.withUnencryptedPassword({
-          username, rawPassword: expiredPassword, shouldChangePassword: false
+          username, rawPassword: expiredPassword, shouldChangePassword: false,
         });
 
         options.payload.data.attributes = { username, expiredPassword, newPassword };

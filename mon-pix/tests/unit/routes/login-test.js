@@ -29,7 +29,7 @@ describe('Unit | Route | login page', function() {
         });
         const queryRecordStub = sinon.stub().resolves(foundUser);
         storeStub = Service.create({
-          queryRecord: queryRecordStub
+          queryRecord: queryRecordStub,
         });
 
         route = this.owner.lookup('route:login');
@@ -49,7 +49,7 @@ describe('Unit | Route | login page', function() {
         // then
         sinon.assert.calledWith(authenticateStub,
           expectedAuthenticator,
-          { login, password, scope }
+          { login, password, scope },
         );
       });
 
@@ -64,7 +64,7 @@ describe('Unit | Route | login page', function() {
         // then
         sinon.assert.calledWith(authenticateStub,
           expectedAuthenticator,
-          { login: trimedEmail, password, scope }
+          { login: trimedEmail, password, scope },
         );
       });
     });

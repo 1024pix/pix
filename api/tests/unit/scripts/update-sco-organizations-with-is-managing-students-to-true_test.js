@@ -39,7 +39,7 @@ describe('Unit | Scripts | update-sco-organizations-with-is-managing-students-to
           reqheaders: {
             authorization: 'Bearer token',
           },
-        }
+        },
       )
         .patch('/api/organizations/1', (body) => JSON.stringify(body) === JSON.stringify(expectedPatchBody))
         .reply(204, () => {

@@ -64,9 +64,9 @@ describe('Integration | Component | navbar-mobile-header', function() {
       this.set('burger', {
         state: {
           actions: {
-            toggle: () => true
-          }
-        }
+            toggle: () => true,
+          },
+        },
       });
 
       // when

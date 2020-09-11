@@ -34,8 +34,8 @@ describe('Integration | Repository | tube-repository', () => {
             id: expectedTube.competenceId,
             tubes: [{ ...expectedTube, skills: [ignoredSkill] }],
           },
-        ]
-      }
+        ],
+      },
     ];
 
     beforeEach(() => {
@@ -90,8 +90,8 @@ describe('Integration | Repository | tube-repository', () => {
             id: expectedTube1.competenceId,
             tubes: [{ ...expectedTube1, skills: [] }],
           },
-        ]
-      }
+        ],
+      },
     ];
 
     beforeEach(() => {
@@ -162,8 +162,8 @@ describe('Integration | Repository | tube-repository', () => {
             id: expectedTube1.competenceId,
             tubes: [{ ...expectedTube1, skills: [] }, { ...ignoredTube, skills: [] }],
           },
-        ]
-      }
+        ],
+      },
     ];
 
     beforeEach(() => {

@@ -31,7 +31,7 @@ describe('Unit | Controller | assessment-controller', function() {
         params: {
           id: assessmentId,
         },
-        headers: { 'accept-language': locale }
+        headers: { 'accept-language': locale },
       };
 
       // when
@@ -47,11 +47,11 @@ describe('Unit | Controller | assessment-controller', function() {
     const assessmentsInJSONAPI = [{
       id: 1,
       type: 'assessments',
-      attributes: { pixScore: 12 }
+      attributes: { pixScore: 12 },
     }, {
       id: 1,
       type: 'assessments',
-      attributes: { pixScore: 12 }
+      attributes: { pixScore: 12 },
     }];
 
     const userId = 24504875;
@@ -65,7 +65,7 @@ describe('Unit | Controller | assessment-controller', function() {
       // given
       const request = {
         query: { 'filter[codeCampaign]': 'Code' },
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
       usecases.findCampaignAssessments.resolves(assessments);
       assessmentSerializer.serialize.returns(assessmentsInJSONAPI);
@@ -82,7 +82,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
       const request = {
         query: { 'filter[codeCampaign]': 'Code' },
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
       it('should call assessment service with query filters', async function() {
@@ -105,7 +105,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
       const request = {
         query: { 'filter[type]': 'DEMO' },
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
       it('should resolve []', async () => {
@@ -124,7 +124,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
       const request = {
         query: { 'filter[type]': 'DEMO' },
-        headers: { authorization: 'Bearer invalidtoken' }
+        headers: { authorization: 'Bearer invalidtoken' },
       };
 
       it('should resolve []', async function() {

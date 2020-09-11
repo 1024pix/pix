@@ -12,21 +12,21 @@ exports.register = async function(server) {
       config: {
         pre: [{
           method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster'
+          assign: 'hasRolePixMaster',
         }],
         handler: membershipController.create,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet de donner l’accès à une organisation, avec un rôle particulier pour un utilisateur donné'
+          '- Elle permet de donner l’accès à une organisation, avec un rôle particulier pour un utilisateur donné',
         ],
         plugins: {
           'hapi-swagger': {
             payloadType: 'form',
-            order: 1
-          }
+            order: 1,
+          },
         },
-        tags: ['api', 'memberships']
-      }
+        tags: ['api', 'memberships'],
+      },
     },
     {
       method: 'PATCH',
@@ -34,11 +34,11 @@ exports.register = async function(server) {
       config: {
         pre: [{
           method: securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster,
-          assign: 'isAdminInOrganizationOrHasRolePixMaster'
+          assign: 'isAdminInOrganizationOrHasRolePixMaster',
         }],
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required()
+            id: Joi.number().integer().required(),
           }),
           failAction: (request, h, err) => {
             const errorHttpStatusCode = 400;
@@ -54,16 +54,16 @@ exports.register = async function(server) {
         description: 'Update organization role by admin for a organization members',
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés en tant qu\'administrateur de l\'organisation ou ayant le rôle Pix Master**\n' +
-          '- Elle permet de modifier le rôle d\'un membre de l\'organisation'
+          '- Elle permet de modifier le rôle d\'un membre de l\'organisation',
         ],
         plugins: {
           'hapi-swagger': {
             payloadType: 'form',
-            order: 2
-          }
+            order: 2,
+          },
         },
         tags: ['api','memberships'],
-      }
+      },
     },
     {
       method: 'POST',
@@ -71,19 +71,19 @@ exports.register = async function(server) {
       config: {
         pre: [{
           method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster'
+          assign: 'hasRolePixMaster',
         }],
         validate: {
           params: Joi.object({
-            id: idSpecification
-          })
+            id: idSpecification,
+          }),
         },
         handler: membershipController.disable,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet la désactivation d\'un membre'
+          '- Elle permet la désactivation d\'un membre',
         ],
-      }
+      },
     },
   ]);
 };

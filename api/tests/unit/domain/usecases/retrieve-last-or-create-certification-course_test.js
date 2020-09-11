@@ -166,7 +166,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           userCompetencesWithChallenges[0].challenges[0].testedSkill = skill1;
           userCompetencesWithChallenges[1].challenges[0].testedSkill = skill2;
           certificationChallengesService.pickCertificationChallenges.withArgs(placementProfile).resolves(
-            _.flatMap(userCompetencesWithChallenges, 'challenges')
+            _.flatMap(userCompetencesWithChallenges, 'challenges'),
           );
         });
 
@@ -219,7 +219,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             birthCity: Symbol('birthCity'),
             externalId: Symbol('externalId'),
             userId,
-            sessionId
+            sessionId,
           };
           const mockCertificationCourse = {
             userId,
@@ -232,12 +232,12 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             isV2Certification: true,
           };
 
-          const savedCertificationChallenge1 = { id: 'savedCertificationChallenge1', };
-          const savedCertificationChallenge2 = { id: 'savedCertificationChallenge2', };
+          const savedCertificationChallenge1 = { id: 'savedCertificationChallenge1' };
+          const savedCertificationChallenge2 = { id: 'savedCertificationChallenge2' };
 
           const savedCertificationCourse = {
             id: 'savedCertificationCourse',
-            challenges: [savedCertificationChallenge1, savedCertificationChallenge2]
+            challenges: [savedCertificationChallenge1, savedCertificationChallenge2],
           };
 
           const mockAssessment = {

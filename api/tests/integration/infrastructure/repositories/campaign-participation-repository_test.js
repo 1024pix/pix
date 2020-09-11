@@ -21,25 +21,25 @@ describe('Integration | Repository | Campaign Participation', () => {
       campaignParticipationNotSharedId = databaseBuilder.factory.buildCampaignParticipation({
         campaignId,
         isShared: false,
-        sharedAt: null
+        sharedAt: null,
       }).id;
 
       databaseBuilder.factory.buildAssessment({
         type: 'CAMPAIGN',
         campaignParticipationId,
-        createdAt: new Date('2000-01-01T10:00:00Z')
+        createdAt: new Date('2000-01-01T10:00:00Z'),
       });
 
       recentAssessmentId = databaseBuilder.factory.buildAssessment({
         type: 'CAMPAIGN',
         campaignParticipationId,
-        createdAt: new Date('2000-03-01T10:00:00Z')
+        createdAt: new Date('2000-03-01T10:00:00Z'),
       }).id;
 
       databaseBuilder.factory.buildAssessment({
         type: 'CAMPAIGN',
         campaignParticipationId: campaignParticipationNotSharedId,
-        createdAt: new Date('2000-02-01T10:00:00Z')
+        createdAt: new Date('2000-02-01T10:00:00Z'),
       });
 
       await databaseBuilder.commit();
@@ -108,7 +108,7 @@ describe('Integration | Repository | Campaign Participation', () => {
       const campaignParticipationToSave = new CampaignParticipation({
         campaignId,
         userId,
-        participantExternalId: '034516273645RET'
+        participantExternalId: '034516273645RET',
       });
 
       // when
@@ -226,7 +226,7 @@ describe('Integration | Repository | Campaign Participation', () => {
           sharedAt: campaignParticipation1.sharedAt,
           participantExternalId: campaignParticipation1.participantExternalId,
           userId: campaignParticipation1.userId,
-        }
+        },
       ]);
     });
 
@@ -280,7 +280,7 @@ describe('Integration | Repository | Campaign Participation', () => {
           campaignId: campaign.id,
           userId,
           isShared: false,
-          sharedAt: null
+          sharedAt: null,
         });
 
         await databaseBuilder.commit();
@@ -511,9 +511,9 @@ describe('Integration | Repository | Campaign Participation', () => {
       const campaignId = databaseBuilder.factory.buildCampaign({}).id;
       const otherCampaignId = databaseBuilder.factory.buildCampaign({}).id;
 
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true, });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: false, });
-      databaseBuilder.factory.buildCampaignParticipation({ otherCampaignId, isShared: true, });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: false });
+      databaseBuilder.factory.buildCampaignParticipation({ otherCampaignId, isShared: true });
 
       await databaseBuilder.commit();
 

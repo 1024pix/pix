@@ -108,14 +108,14 @@ describe('Acceptance | Displaying a QCU challenge', () => {
         solution: '1',
         hint: 'Cliquer sur 1',
         tutorials: [tutorial],
-        learningMoreTutorials: [learningMoreTutorial]
+        learningMoreTutorials: [learningMoreTutorial],
       });
       server.create('answer', {
         value: '2',
         result: 'ko',
         assessmentId: assessment.id,
         challengeId :qcuChallenge.id,
-        correction
+        correction,
       });
 
       // when

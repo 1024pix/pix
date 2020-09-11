@@ -4,11 +4,11 @@ import RSVP from 'rsvp';
 export default class ProfilesRoute extends Route {
   queryParams = {
     pageNumber: {
-      refreshModel: true
+      refreshModel: true,
     },
     pageSize: {
-      refreshModel: true
-    }
+      refreshModel: true,
+    },
   };
 
   model(params) {

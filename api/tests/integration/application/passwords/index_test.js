@@ -24,9 +24,9 @@ describe('Integration | Application | Password | Routes', () => {
           attributes: {
             username: 'firstName.lastName0512',
             expiredPassword: 'expiredPassword01',
-            newPassword: 'newPassword02'
+            newPassword: 'newPassword02',
           },
-        }
+        },
       };
 
       // when

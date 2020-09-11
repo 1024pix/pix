@@ -27,7 +27,7 @@ describe('Unit | Router | cache-router', () => {
       // given
       const options = {
         method: 'DELETE',
-        url: '/api/cache/Table_recXYZ1234'
+        url: '/api/cache/Table_recXYZ1234',
       };
 
       // when
@@ -43,7 +43,7 @@ describe('Unit | Router | cache-router', () => {
       // given
       const options = {
         method: 'PATCH',
-        url: '/api/cache'
+        url: '/api/cache',
       };
 
       // when

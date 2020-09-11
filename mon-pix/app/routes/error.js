@@ -21,7 +21,7 @@ export default class ErrorRoute extends Route {
       controller.setProperties({
         'errorDetail': apiError.detail,
         'errorStatus': apiError.status,
-        'errorTitle': apiError.title
+        'errorTitle': apiError.title,
       });
     } else {
       controller.setProperties({ 'errorDetail': null, 'errorStatus': null, 'errorTitle': null });

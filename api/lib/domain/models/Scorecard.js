@@ -56,7 +56,7 @@ class Scorecard {
       realTotalPixScoreForCompetence,
       pixScoreForCompetence,
       currentLevel,
-      pixAheadForNextLevel
+      pixAheadForNextLevel,
     } = scoringService.calculateScoringInformationForCompetence({ knowledgeElements, allowExcessPix, allowExcessLevel });
     const remainingDaysBeforeReset = _.isEmpty(knowledgeElements) ? null : Scorecard.computeRemainingDaysBeforeReset(knowledgeElements);
     const remainingDaysBeforeImproving = _.isEmpty(knowledgeElements) ? null : Scorecard.computeRemainingDaysBeforeImproving(knowledgeElements);

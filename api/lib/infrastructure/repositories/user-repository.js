@@ -48,7 +48,7 @@ function _toCertificationCenterMembershipsDomain(certificationCenterMembershipBo
       certificationCenter: new CertificationCenter({
         id: bookshelf.related('certificationCenter').get('id'),
         name: bookshelf.related('certificationCenter').get('name'),
-      })
+      }),
     });
   });
 }
@@ -65,7 +65,7 @@ function _toMembershipsDomain(membershipsBookshelf) {
         type: membershipBookshelf.related('organization').get('type'),
         isManagingStudents: Boolean(membershipBookshelf.related('organization').get('isManagingStudents')),
         canCollectProfiles: Boolean(membershipBookshelf.related('organization').get('canCollectProfiles')),
-        externalId: membershipBookshelf.related('organization').get('externalId')
+        externalId: membershipBookshelf.related('organization').get('externalId'),
       }),
     });
   });
@@ -117,7 +117,7 @@ function _adaptModelToDb(user) {
   return _.omit(user, [
     'id', 'campaignParticipations', 'pixRoles', 'memberships',
     'certificationCenterMemberships', 'pixScore', 'knowledgeElements',
-    'scorecards', 'userOrgaSettings'
+    'scorecards', 'userOrgaSettings',
   ]);
 }
 
@@ -148,7 +148,7 @@ module.exports = {
           'memberships.organization',
           'pixRoles',
           'certificationCenterMemberships.certificationCenter',
-        ]
+        ],
       })
       .then((foundUser) => {
         if (foundUser === null) {
@@ -174,7 +174,7 @@ module.exports = {
   getUserAuthenticationMethods(userId) {
     return BookshelfUser
       .where({ id: userId })
-      .fetch({ require: true, columns: ['id','email','username','samlId', ] })
+      .fetch({ require: true, columns: ['id','email','username','samlId' ] })
       .then((userAuthenticationMethods) => _toUserAuthenticationMethods(userAuthenticationMethods))
       .catch((err) => {
         if (err instanceof BookshelfUser.NotFoundError) {
@@ -188,7 +188,7 @@ module.exports = {
     return BookshelfUser
       .where({ id: userId })
       .fetch({ require: true, columns: ['id','firstName','lastName','email','username','cgu','pixOrgaTermsOfServiceAccepted',
-        'pixCertifTermsOfServiceAccepted','samlId', ] })
+        'pixCertifTermsOfServiceAccepted','samlId' ] })
       .then((userDetailsForAdmin) => _toUserDetailsForAdminDomain(userDetailsForAdmin))
       .catch((err) => {
         if (err instanceof BookshelfUser.NotFoundError) {
@@ -203,7 +203,7 @@ module.exports = {
       .query((qb) => _setSearchFiltersForQueryBuilder(filter, qb))
       .fetchPage({
         page: page.number,
-        pageSize: page.size
+        pageSize: page.size,
       })
       .then(({ models, pagination }) => {
         const users = bookshelfToDomainConverter.buildDomainObjects(BookshelfUser, models);
@@ -218,7 +218,7 @@ module.exports = {
         withRelated: [
           { 'memberships': (qb) => qb.where({ disabledAt: null }) },
           'memberships.organization',
-        ]
+        ],
       })
       .then((foundUser) => {
         if (foundUser === null) {
@@ -235,7 +235,7 @@ module.exports = {
         require: true,
         withRelated: [
           'certificationCenterMemberships.certificationCenter',
-        ]
+        ],
       })
       .then(_toDomain)
       .catch((err) => {
@@ -344,7 +344,7 @@ module.exports = {
     const user = await BookshelfUser.where({ id }).fetch();
     await user.save({
       'lastTermsOfServiceValidatedAt': moment().toDate(),
-      'mustValidateTermsOfService': false
+      'mustValidateTermsOfService': false,
     }, { patch: true, method: 'update' });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
   },
@@ -432,6 +432,6 @@ module.exports = {
         }
         throw err;
       });
-  }
+  },
 
 };

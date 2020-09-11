@@ -13,8 +13,8 @@ export function findPaginatedAndFilteredSessions(schema, request) {
       errors: [{
         status: 422,
         title: 'Invalid filters',
-        description: 'Filter on id field must be a number.'
-      }]
+        description: 'Filter on id field must be a number.',
+      }],
     });
   }
   const filteredSessions = _applyFilters(sessions, filters);

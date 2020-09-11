@@ -15,8 +15,8 @@ export function createMembership(schema, request) {
       errors: [{
         status: 400,
         title: 'membership already exists',
-        description: 'A membership for given user ID and organization ID already exists and can not be created again.'
-      }]
+        description: 'A membership for given user ID and organization ID already exists and can not be created again.',
+      }],
     });
   }
 
@@ -28,8 +28,8 @@ export function createMembership(schema, request) {
       errors: [{
         status: 404,
         title: 'user or organization not found',
-        description: 'Can not create membership because user or organization were not found.'
-      }]
+        description: 'Can not create membership because user or organization were not found.',
+      }],
     });
   }
 

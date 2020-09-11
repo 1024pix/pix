@@ -38,8 +38,8 @@ module('Unit | Service | session-info-service', function(hooks) {
     indexedCompetences = {
       '1.1': { level: 1, score: 2 },
       '5.4': { level: 5, score: 4 },
-      '4.3': { level: -1, score: 0 }
-    }
+      '4.3': { level: -1, score: 0 },
+    },
   }) {
     return EmberObject.create({
       id,
@@ -74,7 +74,7 @@ module('Unit | Service | session-info-service', function(hooks) {
       // given
       const session = EmberObject.create({
         id: sessionId,
-        certificationCenterName: 'Certification center'
+        certificationCenterName: 'Certification center',
       });
       const certifications = A([
         buildCertification({ id: '1', sessionId }),
@@ -153,8 +153,8 @@ module('Unit | Service | session-info-service', function(hooks) {
       const session = EmberObject.create({ id: 5 });
       const certifications = A([
         buildCertification({ id: '1', status: 'validated', sessionId: 5, examinerComment: 'examiner comment' }),
-        buildCertification({ id: '2', status: 'validated', sessionId: 5, }),
-        buildCertification({ id: '3', status: 'validated', sessionId: 5, }),
+        buildCertification({ id: '2', status: 'validated', sessionId: 5 }),
+        buildCertification({ id: '3', status: 'validated', sessionId: 5 }),
       ]);
 
       // when

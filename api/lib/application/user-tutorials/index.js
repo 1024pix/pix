@@ -23,7 +23,7 @@ exports.register = async (server) => {
         tags: ['api', 'tutorials'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des tutoriels enregistrés par l‘utilisateur courant\n'
+          '- Récupération des tutoriels enregistrés par l‘utilisateur courant\n',
         ],
       },
     },
@@ -38,7 +38,7 @@ exports.register = async (server) => {
           '- Suppression d‘un tutoriel de la liste des tutoriels enregistrés par l‘utilisateur courant\n' +
           ' - L‘id du tutoriel doit faire référence à un tutoriel existant',
         ],
-      }
+      },
     },
   ]);
 };

@@ -17,7 +17,7 @@ describe('Acceptance | Reset Password Form', function() {
       firstName: 'Brandone',
       lastName: 'Martins',
       email: 'brandone.martins@pix.com',
-      password: '1024pix!'
+      password: '1024pix!',
     });
 
     server.create('password-reset-demand', {
@@ -39,7 +39,7 @@ describe('Acceptance | Reset Password Form', function() {
       firstName: 'Brandone',
       lastName: 'Martins',
       email: 'brandone.martins@pix.com',
-      password: '1024pix!'
+      password: '1024pix!',
     });
 
     server.create('password-reset-demand', {
@@ -65,7 +65,7 @@ describe('Acceptance | Reset Password Form', function() {
       firstName: 'Brandone',
       lastName: 'Martins',
       email: 'brandone.martins@pix.com',
-      password: '1024pix!'
+      password: '1024pix!',
     });
 
     server.create('password-reset-demand', {

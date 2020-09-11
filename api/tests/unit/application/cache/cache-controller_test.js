@@ -10,8 +10,8 @@ describe('Unit | Controller | cache-controller', () => {
 
     const request = {
       params: {
-        cachekey: 'Epreuves_recABCDEF'
-      }
+        cachekey: 'Epreuves_recABCDEF',
+      },
     };
 
     beforeEach(() => {
@@ -62,7 +62,7 @@ describe('Unit | Controller | cache-controller', () => {
 
         // then
         _.forEach(AirtableDatasources, (datasource) =>
-          expect(datasource.refreshAirtableCacheRecords).to.have.been.calledOnce
+          expect(datasource.refreshAirtableCacheRecords).to.have.been.calledOnce,
         );
         expect(response.statusCode).to.equal(202);
       });
@@ -92,7 +92,7 @@ describe('Unit | Controller | cache-controller', () => {
       it('should call log errors as many times as there are datasources', async () => {
         // then
         _.forEach(AirtableDatasources, (datasource) =>
-          expect(datasource.refreshAirtableCacheRecords).to.have.been.calledOnce
+          expect(datasource.refreshAirtableCacheRecords).to.have.been.calledOnce,
         );
         expect(logger.error.callCount).to.equal(datasourcesCount);
       });

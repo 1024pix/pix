@@ -19,28 +19,28 @@ describe('Unit | Controller | feedback-controller', function() {
       data: {
         type: 'feedbacks',
         attributes: {
-          content: 'Lorem ipsum dolor sit amet consectetur adipiscet.'
+          content: 'Lorem ipsum dolor sit amet consectetur adipiscet.',
         },
         relationships: {
           assessment: {
             data: {
               type: 'assessments',
-              id: 'assessment_id'
-            }
+              id: 'assessment_id',
+            },
           },
           challenge: {
             data: {
               type: 'challenges',
-              id: 'challenge_id'
-            }
-          }
-        }
-      }
+              id: 'challenge_id',
+            },
+          },
+        },
+      },
     };
 
     const persistedFeedback = new Feedback({
       id: 'feedback_id',
-      content: 'Lorem ipsum dolor sit amet consectetur adipiscet.'
+      content: 'Lorem ipsum dolor sit amet consectetur adipiscet.',
     });
 
     beforeEach(function() {

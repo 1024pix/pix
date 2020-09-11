@@ -8,7 +8,7 @@ module.exports = function buildArea({
   competences = [],
   color = faker.lorem.word(),
   // optional
-  name
+  name,
 } = {}) {
   name = name || `${code}. ${title}`;
   return new Area({

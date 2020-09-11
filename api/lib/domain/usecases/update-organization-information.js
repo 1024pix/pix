@@ -7,7 +7,7 @@ module.exports = async function updateOrganizationInformation({
   provinceCode,
   isManagingStudents,
   email,
-  organizationRepository
+  organizationRepository,
 }) {
   const organization = await organizationRepository.get(id);
 

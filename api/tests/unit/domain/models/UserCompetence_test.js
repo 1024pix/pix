@@ -14,7 +14,7 @@ describe('Unit | Domain | Models | UserCompetence', () => {
         area: 'area',
         pixScore: 10,
         estimatedLevel: 5,
-        skills: ['some skills']
+        skills: ['some skills'],
       };
 
       // when

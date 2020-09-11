@@ -25,7 +25,7 @@ describe('Unit | Component | g-recaptcha', function() {
 
       reset() {
         serviceResetCalled = true;
-      }
+      },
 
     });
   });

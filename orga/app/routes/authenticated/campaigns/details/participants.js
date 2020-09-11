@@ -5,11 +5,11 @@ export default class ParticipantsRoute extends Route {
 
   queryParams = {
     pageNumber: {
-      refreshModel: true
+      refreshModel: true,
     },
     pageSize: {
-      refreshModel: true
-    }
+      refreshModel: true,
+    },
   };
 
   model(params) {
@@ -21,7 +21,7 @@ export default class ParticipantsRoute extends Route {
           number: params.pageNumber,
           size: params.pageSize,
         },
-        campaignId: campaign.id
+        campaignId: campaign.id,
       }),
     });
   }

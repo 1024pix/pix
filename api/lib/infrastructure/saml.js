@@ -35,7 +35,7 @@ async function parsePostResponse(payload) {
   const { extract } = await _getServiceProvider().parseLoginResponse(
     _getIdentityProvider(),
     'post',
-    { body: payload }
+    { body: payload },
   );
   logger.trace({ parsedSAML: extract }, 'Parsed SAML response');
   return extract.attributes;

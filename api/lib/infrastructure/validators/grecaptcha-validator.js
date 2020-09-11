@@ -27,6 +27,6 @@ module.exports = {
         return resolve();
       });
     });
-  }
+  },
 };
 

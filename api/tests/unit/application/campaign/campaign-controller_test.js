@@ -72,11 +72,11 @@ describe('Unit | Application | Controller | Campaign', () => {
     const campaignId = 2;
     const request = {
       query: {
-        accessToken: 'token'
+        accessToken: 'token',
       },
       params: {
-        id: campaignId
-      }
+        id: campaignId,
+      },
     };
 
     beforeEach(() => {
@@ -128,11 +128,11 @@ describe('Unit | Application | Controller | Campaign', () => {
     const campaignId = 2;
     const request = {
       query: {
-        accessToken: 'token'
+        accessToken: 'token',
       },
       params: {
-        id: campaignId
-      }
+        id: campaignId,
+      },
     };
 
     beforeEach(() => {
@@ -187,7 +187,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     beforeEach(() => {
       request = {
-        query: { 'filter[code]': campaignCode }
+        query: { 'filter[code]': campaignCode },
       };
       sinon.stub(usecases, 'retrieveCampaignInformation');
       sinon.stub(campaignSerializer, 'serialize');
@@ -236,14 +236,14 @@ describe('Unit | Application | Controller | Campaign', () => {
       };
       request = {
         params: {
-          id: campaign.id
+          id: campaign.id,
         },
         auth: {
           credentials: {
-            userId: 1
-          }
+            userId: 1,
+          },
         },
-        query: {}
+        query: {},
       };
 
       sinon.stub(usecases, 'getCampaign');
@@ -283,9 +283,9 @@ describe('Unit | Application | Controller | Campaign', () => {
               name: 'New name',
               title: 'New title',
               'custom-landing-page-text': 'New text',
-            }
-          }
-        }
+            },
+          },
+        },
       };
 
       updatedCampaign = {
@@ -362,8 +362,8 @@ describe('Unit | Application | Controller | Campaign', () => {
       const response = await campaignController.getCollectiveResult({
         params: { id: campaignId },
         auth: {
-          credentials: { userId }
-        }
+          credentials: { userId },
+        },
       });
 
       // then
@@ -376,8 +376,8 @@ describe('Unit | Application | Controller | Campaign', () => {
       const request = {
         params: { id: campaignId },
         auth: {
-          credentials: { userId }
-        }
+          credentials: { userId },
+        },
       };
       usecases.computeCampaignCollectiveResult.rejects(error);
 
@@ -406,8 +406,8 @@ describe('Unit | Application | Controller | Campaign', () => {
       const request = {
         params: { id: campaignId },
         auth: {
-          credentials: { userId }
-        }
+          credentials: { userId },
+        },
       };
       usecases.computeCampaignAnalysis.rejects(error);
 
@@ -442,8 +442,8 @@ describe('Unit | Application | Controller | Campaign', () => {
       const response = await campaignController.archiveCampaign({
         params: { id: campaignId },
         auth: {
-          credentials: { userId }
-        }
+          credentials: { userId },
+        },
       });
 
       // then
@@ -475,8 +475,8 @@ describe('Unit | Application | Controller | Campaign', () => {
       const response = await campaignController.unarchiveCampaign({
         params: { id: campaignId },
         auth: {
-          credentials: { userId }
-        }
+          credentials: { userId },
+        },
       });
 
       // then

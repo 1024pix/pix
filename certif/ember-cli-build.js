@@ -8,22 +8,22 @@ module.exports = function(defaults) {
   const app = new EmberApp(defaults, {
     sourcemaps: { enabled: true },
     babel: {
-      sourceMaps: 'inline'
+      sourceMaps: 'inline',
     },
     'ember-cli-babel': {
-      includePolyfill: true
+      includePolyfill: true,
     },
     addons: {
-      blacklist: pluginsToBlacklist
+      blacklist: pluginsToBlacklist,
     },
 
     flatpickr: {
-      locales: ['fr']
+      locales: ['fr'],
     },
 
     'ember-cli-template-lint': {
-      testGenerator: 'qunit'
-    }
+      testGenerator: 'qunit',
+    },
   });
 
   // Use `app.import` to add additional libraries to the generated

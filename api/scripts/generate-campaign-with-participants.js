@@ -156,7 +156,7 @@ async function _createCampaign({ organizationId, campaignType, targetProfileId }
       organizationId,
       creatorId: adminMemberId,
       targetProfileId,
-      type: campaignType
+      type: campaignType,
     });
 
   return campaignId;
@@ -340,6 +340,6 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    }
+    },
   );
 }

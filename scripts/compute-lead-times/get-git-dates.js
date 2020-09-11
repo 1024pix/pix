@@ -18,5 +18,5 @@ async function getRefNames(maxCount = 6) {
 module.exports = {
   getCommitDatesBetweenTags,
   getTagDate,
-  getRefNames
+  getRefNames,
 };

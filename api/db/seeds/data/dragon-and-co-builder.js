@@ -58,7 +58,7 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
     'rec8b2zEqznu1VdSu', 'rectZKS13rdkqxHer', 'recW4iZCujkyyfCve', 'recxij74P8pBL3pdq', 'recmB2623CruGvA1b',
     'recIOtIleMBECQayX', 'recEPgGwP6P3nZBbK', 'recbZ44oYHqlOGJ2C', 'recU78yTsZnxIghHA', 'recDkqabsU2X5a4Z5',
     'recVv1eoSLW7yFgXv', 'recvBiIG0dvHJOe7i', 'reca2TivtMI9QRWBY', 'recSF5OuzyBOfg97L', 'recUdMS2pRSF4sgnk',
-    'recr9No0p5zGhq2bg', 'recWalmeLbapvhX3K', 'recKTybfk95zVWBDM', 'recKFUQ2CzcYHrxPR'
+    'recr9No0p5zGhq2bg', 'recWalmeLbapvhX3K', 'recKTybfk95zVWBDM', 'recKFUQ2CzcYHrxPR',
   ]
     .forEach((skillId) => {
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: privateTargetProfile.id, skillId });
@@ -87,7 +87,7 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
 
   databaseBuilder.factory.buildTargetProfileShare({
     targetProfileId: privateTargetProfile.id,
-    organizationId: dragonAndCoSubsidiary.id
+    organizationId: dragonAndCoSubsidiary.id,
   });
 
   const proUserSub2 = databaseBuilder.factory.buildUser.withUnencryptedPassword({

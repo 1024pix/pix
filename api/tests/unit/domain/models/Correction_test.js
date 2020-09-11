@@ -35,8 +35,8 @@ describe('Unit | Domain | Models | Correction', () => {
       const correction = new Correction({
         hints: [
           new Hint({ skillName: '@test2', value: 'Indice moins Facile' }),
-          new Hint({ skillName: '@test1', value: 'Indice Facile' })
-        ]
+          new Hint({ skillName: '@test1', value: 'Indice Facile' }),
+        ],
       });
 
       // when

@@ -9,5 +9,5 @@ module.exports = {
 
     return usecases.getPrescriber({ userId: authenticatedUserId })
       .then((prescriber) => prescriberSerializer.serialize(prescriber));
-  }
+  },
 };

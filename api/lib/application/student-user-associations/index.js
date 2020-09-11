@@ -11,7 +11,7 @@ exports.register = async function(server) {
         handler: schoolingRegistrationUserAssociationController.reconcileManually,
         validate: {
           options: {
-            allowUnknown: true
+            allowUnknown: true,
           },
           payload: Joi.object({
             data: {
@@ -31,15 +31,15 @@ exports.register = async function(server) {
               detail: 'Un des champs saisis n’est pas valide.',
             });
             return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
-          }
+          },
         },
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Elle associe des données de l’utilisateur qui fait la requete, à l\'élève de l’organisation' +
           '- L\'utilisation de cette route est dépréciée. Utiliser /api/schooling-registration-user-associations à la place',
         ],
-        tags: ['api', 'studentUserAssociation']
-      }
+        tags: ['api', 'studentUserAssociation'],
+      },
     },
     {
       method: 'GET',
@@ -52,8 +52,8 @@ exports.register = async function(server) {
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié' +
           '- L\'utilisation de cette route est dépréciée. Utiliser /api/schooling-registration-user-associations à la place',
         ],
-        tags: ['api', 'studentUserAssociation']
-      }
+        tags: ['api', 'studentUserAssociation'],
+      },
     },
     {
       method: 'PUT',
@@ -63,7 +63,7 @@ exports.register = async function(server) {
         handler: schoolingRegistrationUserAssociationController.generateUsername,
         validate: {
           options: {
-            allowUnknown: true
+            allowUnknown: true,
           },
           payload: Joi.object({
             data: {
@@ -83,16 +83,16 @@ exports.register = async function(server) {
               detail: 'Un des champs saisis n’est pas valide.',
             });
             return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
-          }
+          },
         },
         notes: [
           '- Elle permet de savoir si un élève identifié par son nom, prénom et date de naissance est présent au sein ' +
           'de l\'organisation détenant la campagne. Cet élève n\'est, de plus, pas encore associé à l\'organisation.' +
           '- L\'utilisation de cette route est dépréciée. Utiliser /api/schooling-registration-user-associations à la place',
         ],
-        tags: ['api', 'studentUserAssociation']
-      }
-    }
+        tags: ['api', 'studentUserAssociation'],
+      },
+    },
   ]);
 };
 

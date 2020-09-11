@@ -81,7 +81,7 @@ describe('Acceptance | Controller | session-controller-create-certification-cand
               'birthdate': '2000-01-01',
             },
             type: 'certification-candidates',
-          }
+          },
         };
         options = {
           method: 'POST',
@@ -141,7 +141,7 @@ describe('Acceptance | Controller | session-controller-create-certification-cand
                 'last-name': 'Bové',
               },
               type: 'certification-candidates',
-            }
+            },
           };
           options.payload = payload;
         });

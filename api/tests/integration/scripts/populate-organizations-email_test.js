@@ -22,7 +22,7 @@ describe('Integration | Scripts | populate-organizations-email.js', () => {
       const csvData = [
         { uai: 'uai1', email: 'uai1@example.net' },
         { uai: 'uai2', email: 'uai2@example.net' },
-        { uai: 'unknown', email: 'unknown@example.net' }
+        { uai: 'unknown', email: 'unknown@example.net' },
       ];
 
       // when

@@ -19,55 +19,55 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
 
     challenge_competence1 = challengeRawAirTableFixture({
       id: 'challenge-competence1',
-      fields: { 'Compétences (via tube) (id persistant)': [competence1.id], 'Acquix (id persistant)': [web1.id] }
+      fields: { 'Compétences (via tube) (id persistant)': [competence1.id], 'Acquix (id persistant)': [web1.id] },
     }),
     challenge_competence1_noSkills = challengeRawAirTableFixture({
       id: 'challenge-competence1-noSkills',
-      fields: { 'Compétences (via tube) (id persistant)': [competence1.id], 'Acquix (id persistant)': undefined }
+      fields: { 'Compétences (via tube) (id persistant)': [competence1.id], 'Acquix (id persistant)': undefined },
     }),
     challenge_competence1_notValidated = challengeRawAirTableFixture({
       id: 'challenge-competence1-notValidated',
       fields: {
         'Compétences (via tube) (id persistant)': [competence1.id],
         'Acquix (id persistant)': [web1.id],
-        Statut: 'proposé'
-      }
+        Statut: 'proposé',
+      },
     }),
     challenge_competence2 = challengeRawAirTableFixture({
       id: 'challenge-competence2',
-      fields: { 'Compétences (via tube) (id persistant)': [competence2.id] }
+      fields: { 'Compétences (via tube) (id persistant)': [competence2.id] },
     }),
     challenge_web1 = challengeRawAirTableFixture({
       id: 'challenge-web1',
       fields: {
         'Acquix (id persistant)': [web1.id],
-        'Langues' : ['Francophone', 'Franco Français']
-      }
+        'Langues' : ['Francophone', 'Franco Français'],
+      },
     }),
     challenge_web1_notValidated = challengeRawAirTableFixture({
       id: 'challenge-web1',
       fields: {
         'Acquix (id persistant)': [web1.id], Statut: 'proposé',
-        'Langues' : ['Francophone', 'Franco Français']
-      }
+        'Langues' : ['Francophone', 'Franco Français'],
+      },
     }),
     challenge_web2 = challengeRawAirTableFixture({
       id: 'challenge-web2',
       fields: {
         'Acquix (id persistant)': [web2.id],
-        'Langues' : ['Anglais']
-      }
+        'Langues' : ['Anglais'],
+      },
     }),
     challenge_web3 = challengeRawAirTableFixture({
       id: 'challenge-web3',
-      fields: { 'Acquix (id persistant)': [web3.id] }
+      fields: { 'Acquix (id persistant)': [web3.id] },
     }),
     challenge_web3_archived = challengeRawAirTableFixture({
       id: 'challenge-web3-archived',
       fields: {
         'Acquix (id persistant)': [web3.id], Statut: 'archivé',
-        'Langues' : ['Franco Français']
-      }
+        'Langues' : ['Franco Français'],
+      },
     });
 
   beforeEach(() => {

@@ -17,7 +17,7 @@ module('Unit | Controller | authenticated/sup-students/list', function(hooks) {
       const session = { data: { authenticated: { access_token: 12345 } } };
 
       const importStudentsURL = `${ENV.APP.API_HOST}/api/organizations/${this.get(
-        'currentUser.organization.id'
+        'currentUser.organization.id',
       )}/schooling-registrations/import-csv`;
       const headers = { Authorization: `Bearer ${12345}` };
       const file = { uploadBinary: sinon.spy() };
@@ -40,7 +40,7 @@ module('Unit | Controller | authenticated/sup-students/list', function(hooks) {
 
       test('notify a global error message if error not handled', async function(assert) {
         file.uploadBinary.rejects({
-          body: { errors: [{ status: '401' }] }
+          body: { errors: [{ status: '401' }] },
         });
 
         // when
@@ -53,8 +53,8 @@ module('Unit | Controller | authenticated/sup-students/list', function(hooks) {
       test('notify a detailed error message if 412 error', async function(assert) {
         file.uploadBinary.rejects({
           body: { errors: [
-            { status: '412', detail: 'Error message' }
-          ] }
+            { status: '412', detail: 'Error message' },
+          ] },
         });
 
         // when
@@ -67,8 +67,8 @@ module('Unit | Controller | authenticated/sup-students/list', function(hooks) {
       test('notify a detailed error message if 413 error', async function(assert) {
         file.uploadBinary.rejects({
           body: { errors: [
-            { status: '413', detail: 'Error message' }
-          ] }
+            { status: '413', detail: 'Error message' },
+          ] },
         });
 
         // when

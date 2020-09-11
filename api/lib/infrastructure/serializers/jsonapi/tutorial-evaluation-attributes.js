@@ -4,6 +4,6 @@ module.exports = {
   attributes: [
     'id',
     'userId',
-    'tutorialId'
+    'tutorialId',
   ],
 };

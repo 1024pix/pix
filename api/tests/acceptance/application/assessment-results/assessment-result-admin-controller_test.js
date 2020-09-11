@@ -15,7 +15,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
       certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
       const assessmentId = databaseBuilder.factory.buildAssessment({
         certificationCourseId: certificationCourseId,
-        type: Assessment.types.CERTIFICATION
+        type: Assessment.types.CERTIFICATION,
       }).id;
       server = await createServer();
 
@@ -54,11 +54,11 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
                   'area_code': 1,
                   'competence_code': 1.3,
                   'competence-id': '1.3',
-                }
-              ]
-            }
-          }
-        }
+                },
+              ],
+            },
+          },
+        },
       };
       return insertUserWithRolePixMaster();
     });
@@ -113,7 +113,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
             pixScore: 0,
             status: 'rejected',
             emitter: 'PIX-ALGO',
-            commentForJury: 'Computed'
+            commentForJury: 'Computed',
           }, 'id');
 
         const resultId = results[0];
@@ -123,7 +123,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
             level: -1,
             score: 0,
             area_code: 2,
-            competence_code: 2.1
+            competence_code: 2.1,
           });
       });
 
@@ -165,22 +165,22 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
                     level: 2,
                     score: 18,
                     'area_code': 2,
-                    'competence_code': 2.1
+                    'competence_code': 2.1,
                   },{
                     level: 3,
                     score: wrongScore,
                     'area_code': 3,
-                    'competence_code': 3.2
+                    'competence_code': 3.2,
                   },{
                     level: 1,
                     score: 218158186,
                     'area_code': 1,
-                    'competence_code': 1.3
-                  }
-                ]
-              }
-            }
-          }
+                    'competence_code': 1.3,
+                  },
+                ],
+              },
+            },
+          },
         };
 
         // when
@@ -191,7 +191,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
         expect(response.result.errors[0]).to.deep.equal({
           'title': 'Unprocessable entity',
           'detail': 'ValidationError: "score" must be less than or equal to 64',
-          'status': '422'
+          'status': '422',
         });
       });
     });

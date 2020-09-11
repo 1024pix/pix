@@ -25,7 +25,7 @@ describe('Integration | UseCases | create-organization-invitations', () => {
 
     // when
     const result = await createOrganizationInvitations({
-      organizationRepository, organizationInvitationRepository, organizationId, emails
+      organizationRepository, organizationInvitationRepository, organizationId, emails,
     });
 
     // then

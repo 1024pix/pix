@@ -3,7 +3,7 @@ import slice from 'lodash/slice';
 export function getPaginationFromQueryParams(queryParams) {
   return {
     pageSize: parseInt(queryParams['page[size]'] ||  10),
-    page: parseInt(queryParams['page[number]'] || 1)
+    page: parseInt(queryParams['page[number]'] || 1),
   };
 }
 

@@ -14,7 +14,7 @@ validator.isTrue = function(value) {
 
 bookshelf.plugin('bookshelf-validate', {
   validateOnSave: true,
-  validator: validator
+  validator: validator,
 });
 
 module.exports = bookshelf;

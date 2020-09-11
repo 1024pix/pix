@@ -35,17 +35,17 @@ describe('Acceptance | API | Assessments POST', () => {
               course: {
                 data: {
                   type: 'course',
-                  id: 'non_adaptive_course_id'
-                }
+                  id: 'non_adaptive_course_id',
+                },
               },
               user: {
                 data: {
                   type: 'users',
-                  id: userId
-                }
-              }
-            }
-          }
+                  id: userId,
+                },
+              },
+            },
+          },
         },
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };

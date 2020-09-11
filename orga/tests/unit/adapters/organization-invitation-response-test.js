@@ -16,7 +16,7 @@ module('Unit | Adapters | organization-invitation-response', function(hooks) {
       // given
       const organizationInvitationId = 123;
       const options = {
-        adapterOptions: { organizationInvitationId }
+        adapterOptions: { organizationInvitationId },
       };
 
       // when

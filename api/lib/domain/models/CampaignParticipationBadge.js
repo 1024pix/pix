@@ -27,7 +27,7 @@ class CampaignParticipationBadge extends Badge {
       title,
       badgeCriteria,
       badgePartnerCompetences,
-      targetProfileId
+      targetProfileId,
     });
     this.partnerCompetenceResults = partnerCompetenceResults;
     this.isAcquired = isAcquired;
@@ -37,7 +37,7 @@ class CampaignParticipationBadge extends Badge {
     return new CampaignParticipationBadge({
       ...badge,
       partnerCompetenceResults,
-      isAcquired
+      isAcquired,
     });
   }
 }

@@ -8,9 +8,9 @@ exports.register = async function(server) {
       config: {
         auth: false,
         handler: ChallengeController.get,
-        tags: ['api']
-      }
-    }
+        tags: ['api'],
+      },
+    },
   ]);
 };
 

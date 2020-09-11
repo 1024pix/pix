@@ -13,7 +13,7 @@ module.exports = {
         feedback.assessment = { id: json.assessmentId };
         feedback.challenge = { id: json.challengeId };
         return feedback;
-      }
+      },
     }).serialize(feedbacks);
   },
 
@@ -26,6 +26,6 @@ module.exports = {
       .then((deserializedFeedback) => {
         return new Feedback(deserializedFeedback);
       });
-  }
+  },
 
 };

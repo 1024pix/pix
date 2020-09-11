@@ -8,20 +8,20 @@ const ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit contenir 8 caractères a
 
 const VALIDATION_MAP = {
   default: {
-    status: 'default', message: null
+    status: 'default', message: null,
   },
   error: {
-    status: 'error', message: ERROR_PASSWORD_MESSAGE
-  }
+    status: 'error', message: ERROR_PASSWORD_MESSAGE,
+  },
 };
 
 const SUBMISSION_MAP = {
   default: {
-    status: 'default', message: null
+    status: 'default', message: null,
   },
   error: {
-    status: 'error', message: ERROR_PASSWORD_MESSAGE
-  }
+    status: 'error', message: ERROR_PASSWORD_MESSAGE,
+  },
 };
 
 export default class ResetPasswordForm extends Component {

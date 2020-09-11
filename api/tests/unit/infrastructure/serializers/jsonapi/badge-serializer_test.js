@@ -25,8 +25,8 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function() {
             key: 'BANANA',
           },
           id: '1',
-          type: 'badges'
-        }
+          type: 'badges',
+        },
       };
 
       // when

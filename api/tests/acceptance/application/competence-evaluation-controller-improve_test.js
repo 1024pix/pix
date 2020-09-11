@@ -21,7 +21,7 @@ describe('Acceptance | API | Improve Competence Evaluation', () => {
       method: 'POST',
       url: '/api/competence-evaluations/improve',
       headers: {
-        authorization: generateValidRequestAuthorizationHeader(userId)
+        authorization: generateValidRequestAuthorizationHeader(userId),
       },
       payload: { competenceId },
     };

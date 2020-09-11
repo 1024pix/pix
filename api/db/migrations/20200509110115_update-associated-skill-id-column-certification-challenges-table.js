@@ -698,5 +698,5 @@ const skills_at_2020_04_30 = {
   'c9c062ab898c3aa7af44fe39e60c0ce9': 'reczOCGv8pz976Acl',
   '41e5ade52beb902862983bbc0d1cc677': 'reczbDKZEEHHm7euk',
   '1f0ec3f5569c96d732ff57fec25b3b0e': 'reczbrTpCmqotxRzN',
-  '34710e95b8426b320afb403b5a9be4e3': 'reczi1YmSo5HDD4ig'
+  '34710e95b8426b320afb403b5a9be4e3': 'reczi1YmSo5HDD4ig',
 };

@@ -58,7 +58,7 @@ describe('Unit | UseCase | complete-assessment', () => {
     [
       _buildCompetenceEvaluationAssessment(),
       _buildCampaignAssessment(),
-      _buildCertificationAssessment()
+      _buildCertificationAssessment(),
     ]
       .forEach((assessment) => {
 
@@ -119,7 +119,7 @@ describe('Unit | UseCase | complete-assessment', () => {
           certificationCourseRepository,
           competenceMarkRepository,
           scoringCertificationService,
-          domainTransaction
+          domainTransaction,
         });
 
         // then
@@ -141,7 +141,7 @@ describe('Unit | UseCase | complete-assessment', () => {
           certificationCourseRepository,
           competenceMarkRepository,
           scoringCertificationService,
-          domainTransaction
+          domainTransaction,
         });
 
         // then
@@ -154,7 +154,7 @@ describe('Unit | UseCase | complete-assessment', () => {
 function _buildCompetenceEvaluationAssessment() {
   return domainBuilder.buildAssessment.ofTypeCompetenceEvaluation({
     id: Symbol('assessmentId'),
-    state: 'started'
+    state: 'started',
   });
 }
 
@@ -166,7 +166,7 @@ function _buildCampaignAssessment() {
       type: Assessment.types.CAMPAIGN,
       userId: Symbol('userId'),
       campaignParticipationId: Symbol('campaignParticipationId'),
-    }
+    },
   );
 }
 

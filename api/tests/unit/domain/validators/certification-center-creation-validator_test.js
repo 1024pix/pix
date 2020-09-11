@@ -33,7 +33,7 @@ describe('Unit | Domain | Validators | certification-center-validator', function
           // given
           const expectedError = {
             attribute: 'name',
-            message: 'Le nom n’est pas renseigné.'
+            message: 'Le nom n’est pas renseigné.',
           };
           const certificationCenterCreationParams = { name: MISSING_VALUE, type: 'PRO' };
 
@@ -51,7 +51,7 @@ describe('Unit | Domain | Validators | certification-center-validator', function
           // given
           const expectedError = {
             attribute: 'name',
-            message: 'Le nom ne doit pas dépasser 255 caractères.'
+            message: 'Le nom ne doit pas dépasser 255 caractères.',
           };
           const certificationCenterCreationParams = { name: 'a'.repeat(256), type: 'PRO' };
 
@@ -74,11 +74,11 @@ describe('Unit | Domain | Validators | certification-center-validator', function
           const expectedError = [
             {
               attribute: 'type',
-              message: 'Le type du centre de certification doit avoir l’une des valeurs suivantes: SCO, SUP, PRO.'
+              message: 'Le type du centre de certification doit avoir l’une des valeurs suivantes: SCO, SUP, PRO.',
             },
             {
               attribute: 'type',
-              message: 'Le type n’est pas renseigné.'
+              message: 'Le type n’est pas renseigné.',
             }];
 
           const certificationCenterCreationParams = { name: 'ACME', type: MISSING_VALUE };
@@ -98,7 +98,7 @@ describe('Unit | Domain | Validators | certification-center-validator', function
           // given
           const expectedError = {
             attribute: 'type',
-            message: 'Le type du centre de certification doit avoir l’une des valeurs suivantes: SCO, SUP, PRO.'
+            message: 'Le type du centre de certification doit avoir l’une des valeurs suivantes: SCO, SUP, PRO.',
           };
           const certificationCenterCreationParams = { name: 'ACME', type: 'PTT' };
 
@@ -115,7 +115,7 @@ describe('Unit | Domain | Validators | certification-center-validator', function
         [
           'SUP',
           'SCO',
-          'PRO'
+          'PRO',
         ].forEach((type) => {
           it(`should not throw with ${type} as type`, function() {
             // given
@@ -135,8 +135,8 @@ describe('Unit | Domain | Validators | certification-center-validator', function
           const expectedError = [
             {
               attribute: 'externalId',
-              message: 'L‘identifiant externe ne doit pas dépasser 255 caractères.'
-            }
+              message: 'L‘identifiant externe ne doit pas dépasser 255 caractères.',
+            },
           ];
 
           const certificationCenterCreationParams = { name: 'ACME', type: 'SCO', externalId: 'a'.repeat(256) };
@@ -155,7 +155,7 @@ describe('Unit | Domain | Validators | certification-center-validator', function
 
       it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
         // given
-        const certificationCenterCreationParams = { name: MISSING_VALUE, type: MISSING_VALUE, };
+        const certificationCenterCreationParams = { name: MISSING_VALUE, type: MISSING_VALUE };
 
         try {
           // when

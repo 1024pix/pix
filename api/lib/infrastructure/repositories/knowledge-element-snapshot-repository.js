@@ -9,7 +9,7 @@ function _toKnowledgeElementCollection({ snapshot } = {}) {
   if (!snapshot) return null;
   return snapshot.map((data) => new KnowledgeElement({
     ...data,
-    createdAt: new Date(data.createdAt)
+    createdAt: new Date(data.createdAt),
   }));
 }
 

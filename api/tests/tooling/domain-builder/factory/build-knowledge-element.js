@@ -12,7 +12,7 @@ module.exports = function buildKnowledgeElement({
   assessmentId = faker.random.number(),
   skillId = `rec${faker.random.uuid()}`,
   userId = faker.random.number(),
-  competenceId = `rec${faker.random.uuid()}`
+  competenceId = `rec${faker.random.uuid()}`,
 } = {}) {
   return new KnowledgeElement({
     id,
@@ -24,6 +24,6 @@ module.exports = function buildKnowledgeElement({
     assessmentId,
     skillId,
     userId,
-    competenceId
+    competenceId,
   });
 };

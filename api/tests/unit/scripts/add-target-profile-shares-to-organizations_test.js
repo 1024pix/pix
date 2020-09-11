@@ -29,7 +29,7 @@ describe('Acceptance | Scripts | add-target-profile-shares-to-organizations.js',
 
       const checkedData = [
         { externalId: 'A100', targetProfileIdList: ['1', '2', '999'] },
-        { externalId: 'B200', targetProfileIdList: ['1', '3', '6'] }
+        { externalId: 'B200', targetProfileIdList: ['1', '3', '6'] },
       ];
 
       // when
@@ -55,14 +55,14 @@ describe('Acceptance | Scripts | add-target-profile-shares-to-organizations.js',
           '1',
           '2',
           '999',
-        ]
+        ],
       }, {
         externalId: 'B200',
         targetProfileIdList: [
           '1',
           '3',
           '6',
-        ]
+        ],
       }];
 
       // when
@@ -85,7 +85,7 @@ describe('Acceptance | Scripts | add-target-profile-shares-to-organizations.js',
           '1',
           '2',
           '999',
-        ]
+        ],
       }];
 
       // when
@@ -108,7 +108,7 @@ describe('Acceptance | Scripts | add-target-profile-shares-to-organizations.js',
           '1',
           '2',
           '999',
-        ]
+        ],
       }];
 
       // when
@@ -131,7 +131,7 @@ describe('Acceptance | Scripts | add-target-profile-shares-to-organizations.js',
           '1',
           '2',
           '999',
-        ]
+        ],
       }];
 
       // when
@@ -154,13 +154,13 @@ describe('Acceptance | Scripts | add-target-profile-shares-to-organizations.js',
           '1',
           '2',
           '999',
-        ]
+        ],
       }, {
         externalId: 'B200',
         targetProfileIdList: [
           '1',
           '3',
-        ]
+        ],
       }];
 
       // when
@@ -183,14 +183,14 @@ describe('Acceptance | Scripts | add-target-profile-shares-to-organizations.js',
           '1',
           '2',
           '999',
-        ]
+        ],
       }, {
         externalId: 'B200',
         targetProfileIdList: [
           '1 ',
           ' 3 ',
-          ' 6'
-        ]
+          ' 6',
+        ],
       }];
 
       // when

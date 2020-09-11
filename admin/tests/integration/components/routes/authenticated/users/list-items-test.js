@@ -23,7 +23,7 @@ module('Integration | Component | routes/authenticated/users | list-items', func
       { id: 3, firstName: 'Lola', lastName: 'Lile', email: 'lola.lile@example.net' },
     ];
     users.meta = {
-      rowCount: 3
+      rowCount: 3,
     };
 
     this.users = users;

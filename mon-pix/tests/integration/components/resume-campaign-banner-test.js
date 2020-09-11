@@ -21,7 +21,7 @@ describe('Integration | Component | resume-campaign-banner', function() {
         code: 'AZERTY',
         title: 'Parcours Pix',
         isTypeAssessment: true,
-      })
+      }),
     });
     const oldCampaignNotFinished = EmberObject.create({
       isShared: false,
@@ -29,7 +29,7 @@ describe('Integration | Component | resume-campaign-banner', function() {
       campaign: EmberObject.create({
         code: 'AZERTY',
         isTypeAssessment: true,
-      })
+      }),
     });
     const campaignFinished = EmberObject.create({
       isShared: true,

@@ -27,9 +27,9 @@ describe('Unit | Serializer | JSONAPI | campaign-analysis-serializer', () => {
               link: 'https://youtube.fr',
               source: 'Youtube',
               title: 'Savoir regarder des vidéos youtube.',
-            }]
-          }
-        ]
+            }],
+          },
+        ],
       };
 
       const expectedSerializedResult = {
@@ -42,7 +42,7 @@ describe('Unit | Serializer | JSONAPI | campaign-analysis-serializer', () => {
               data: [{
                 id: '123_tubeRec1',
                 type: 'campaignTubeRecommendations',
-              }]
+              }],
             },
           },
         },
@@ -55,8 +55,8 @@ describe('Unit | Serializer | JSONAPI | campaign-analysis-serializer', () => {
             format: 'video',
             link: 'https://youtube.fr',
             source: 'Youtube',
-            title: 'Savoir regarder des vidéos youtube.'
-          }
+            title: 'Savoir regarder des vidéos youtube.',
+          },
         }, {
           id: '123_tubeRec1',
           type: 'campaignTubeRecommendations',
@@ -73,12 +73,12 @@ describe('Unit | Serializer | JSONAPI | campaign-analysis-serializer', () => {
               data: [
                 {
                   id: 'recTutorial1',
-                  type: 'tutorials'
-                }
-              ]
-            }
-          }
-        }]
+                  type: 'tutorials',
+                },
+              ],
+            },
+          },
+        }],
       };
 
       // when

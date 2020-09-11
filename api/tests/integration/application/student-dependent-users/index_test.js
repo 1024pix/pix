@@ -35,8 +35,8 @@ describe('Integration | Application | Route | student-dependent-users', () => {
             username: 'robert.smith1212',
             password: 'P@ssw0rd',
             'with-username': true,
-          }
-        }
+          },
+        },
       };
     });
 

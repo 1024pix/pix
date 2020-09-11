@@ -19,10 +19,10 @@ describe('Unit | Service | Organization-Invitation Service', () => {
     organizationInvitationRepository = {
       create: sinon.stub(),
       findOnePendingByOrganizationIdAndEmail: sinon.stub().resolves(null),
-      updateModificationDate: sinon.stub().resolves()
+      updateModificationDate: sinon.stub().resolves(),
     };
     organizationRepository = {
-      get: sinon.stub().resolves({ name: organizationName })
+      get: sinon.stub().resolves({ name: organizationName }),
     };
     sinon.stub(mailService, 'sendOrganizationInvitationEmail').resolves();
     sinon.stub(mailService, 'sendScoOrganizationInvitationEmail').resolves();
@@ -34,7 +34,7 @@ describe('Unit | Service | Organization-Invitation Service', () => {
 
       beforeEach(() => {
         organizationInvitationRepository.create.withArgs({
-          organizationId, email: userEmailAddress, code: sinon.match.string
+          organizationId, email: userEmailAddress, code: sinon.match.string,
         }).resolves({ id: organizationInvitationId, code });
       });
 
@@ -44,12 +44,12 @@ describe('Unit | Service | Organization-Invitation Service', () => {
         const locale = 'fr-fr';
 
         const expectedParameters = {
-          email: userEmailAddress, organizationName, organizationInvitationId, code, locale, tags
+          email: userEmailAddress, organizationName, organizationInvitationId, code, locale, tags,
         };
 
         // when
         await createOrganizationInvitation({
-          organizationRepository, organizationInvitationRepository, organizationId, email: userEmailAddress, locale
+          organizationRepository, organizationInvitationRepository, organizationId, email: userEmailAddress, locale,
         });
 
         // then
@@ -62,12 +62,12 @@ describe('Unit | Service | Organization-Invitation Service', () => {
         const locale = 'fr-fr';
 
         const expectedParameters = {
-          email: userEmailAddress, organizationName, organizationInvitationId, code, locale, tags
+          email: userEmailAddress, organizationName, organizationInvitationId, code, locale, tags,
         };
 
         // when
         await createOrganizationInvitation({
-          organizationRepository, organizationInvitationRepository, organizationId, email: userEmailAddress, locale, tags
+          organizationRepository, organizationInvitationRepository, organizationId, email: userEmailAddress, locale, tags,
         });
 
         // then
@@ -84,19 +84,19 @@ describe('Unit | Service | Organization-Invitation Service', () => {
       beforeEach(async () => {
         // given
         organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves({
-          id: organizationInvitationId, isPending, code
+          id: organizationInvitationId, isPending, code,
         });
 
         // when
         await createOrganizationInvitation({
-          organizationRepository, organizationInvitationRepository, organizationId, email: userEmailAddress, locale
+          organizationRepository, organizationInvitationRepository, organizationId, email: userEmailAddress, locale,
         });
       });
 
       it('should re-send an email with same code', async () => {
         // then
         const expectedParameters = {
-          email: userEmailAddress, organizationName, organizationInvitationId, code, locale, tags
+          email: userEmailAddress, organizationName, organizationInvitationId, code, locale, tags,
         };
 
         expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWith(expectedParameters);
@@ -118,7 +118,7 @@ describe('Unit | Service | Organization-Invitation Service', () => {
 
       beforeEach(() => {
         organizationInvitationRepository.create.withArgs({
-          organizationId, email: userEmailAddress, code: sinon.match.string, role
+          organizationId, email: userEmailAddress, code: sinon.match.string, role,
         }).resolves({ id: organizationInvitationId, code });
       });
 
@@ -128,12 +128,12 @@ describe('Unit | Service | Organization-Invitation Service', () => {
         const locale = 'fr-fr';
 
         const expectedParameters = {
-          email: userEmailAddress, organizationName, organizationInvitationId, firstName, lastName, code, locale, tags
+          email: userEmailAddress, organizationName, organizationInvitationId, firstName, lastName, code, locale, tags,
         };
 
         // when
         await createScoOrganizationInvitation({
-          organizationRepository, organizationInvitationRepository, organizationId, firstName, lastName, email: userEmailAddress, locale
+          organizationRepository, organizationInvitationRepository, organizationId, firstName, lastName, email: userEmailAddress, locale,
         });
 
         // then
@@ -146,12 +146,12 @@ describe('Unit | Service | Organization-Invitation Service', () => {
         const locale = 'fr-fr';
 
         const expectedParameters = {
-          email: userEmailAddress, organizationName, organizationInvitationId, firstName, lastName, code, locale, tags
+          email: userEmailAddress, organizationName, organizationInvitationId, firstName, lastName, code, locale, tags,
         };
 
         // when
         await createScoOrganizationInvitation({
-          organizationRepository, organizationInvitationRepository, organizationId, firstName, lastName, email: userEmailAddress, locale, tags
+          organizationRepository, organizationInvitationRepository, organizationId, firstName, lastName, email: userEmailAddress, locale, tags,
         });
 
         // then
@@ -168,19 +168,19 @@ describe('Unit | Service | Organization-Invitation Service', () => {
       beforeEach(async () => {
         // given
         organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves({
-          id: organizationInvitationId, isPending, code
+          id: organizationInvitationId, isPending, code,
         });
 
         // when
         await createScoOrganizationInvitation({
-          organizationRepository, organizationInvitationRepository, organizationId, firstName, lastName, email: userEmailAddress, locale
+          organizationRepository, organizationInvitationRepository, organizationId, firstName, lastName, email: userEmailAddress, locale,
         });
       });
 
       it('should re-send an email with same code', async () => {
         // then
         const expectedParameters = {
-          email: userEmailAddress, organizationName, organizationInvitationId, firstName, lastName, code, locale, tags
+          email: userEmailAddress, organizationName, organizationInvitationId, firstName, lastName, code, locale, tags,
         };
 
         expect(mailService.sendScoOrganizationInvitationEmail).to.has.been.calledWith(expectedParameters);

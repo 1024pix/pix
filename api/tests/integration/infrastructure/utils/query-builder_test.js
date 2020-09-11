@@ -142,7 +142,7 @@ describe('Integration | Infrastructure | Utils | Query Builder', function() {
     it('should return the competence evaluation with assessment', async function() {
       // when
       const result = await queryBuilder.get(BookshelfCompetenceEvaluation, expectedCompetenceEvaluation.id, {
-        include: ['assessment']
+        include: ['assessment'],
       });
 
       // then

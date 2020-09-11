@@ -10,7 +10,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationSummary', () =
         const campaignAssessmentParticipationSummary = new CampaignAssessmentParticipationSummary({
           targetedSkillCount: 1,
           validatedTargetedSkillCount: 1,
-          isShared: true
+          isShared: true,
         });
 
         expect(campaignAssessmentParticipationSummary.status).equal(CampaignAssessmentParticipationSummary.statuses.SHARED);
@@ -24,7 +24,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationSummary', () =
             targetedSkillCount: 1,
             validatedTargetedSkillCount: 1,
             isShared: false,
-            state: Assessment.states.COMPLETED
+            state: Assessment.states.COMPLETED,
           });
 
           expect(campaignAssessmentParticipationSummary.status).equal(CampaignAssessmentParticipationSummary.statuses.COMPLETED);
@@ -36,7 +36,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationSummary', () =
               targetedSkillCount: 1,
               validatedTargetedSkillCount: 1,
               isShared: false,
-              state: Assessment.states.ONGOING
+              state: Assessment.states.ONGOING,
             });
 
             expect(campaignAssessmentParticipationSummary.status).equal(CampaignAssessmentParticipationSummary.statuses.ONGOING);
@@ -56,7 +56,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationSummary', () =
           const campaignAssessmentParticipationSummary = new CampaignAssessmentParticipationSummary({
             targetedSkillCount,
             validatedTargetedSkillCount: 'anything',
-            isShared: true
+            isShared: true,
           });
 
           expect(campaignAssessmentParticipationSummary.masteryPercentage).equal(0);
@@ -71,7 +71,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationSummary', () =
           const campaignAssessmentParticipationSummary = new CampaignAssessmentParticipationSummary({
             targetedSkillCount,
             validatedTargetedSkillCount: validatedSkillCount,
-            isShared: true
+            isShared: true,
           });
 
           expect(campaignAssessmentParticipationSummary.masteryPercentage).equal(25);
@@ -83,7 +83,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationSummary', () =
           const campaignAssessmentParticipationSummary = new CampaignAssessmentParticipationSummary({
             targetedSkillCount,
             validatedTargetedSkillCount: validatedSkillCount,
-            isShared: true
+            isShared: true,
           });
 
           expect(campaignAssessmentParticipationSummary.masteryPercentage).equal(33);
@@ -97,7 +97,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationSummary', () =
           status: CampaignAssessmentParticipationSummary.statuses.ONGOING,
           targetedSkillCount: 1,
           validatedTargetedSkillCount: 1,
-          isShared: false
+          isShared: false,
         });
 
         expect(campaignAssessmentParticipationSummary.masteryPercentage).equal(undefined);

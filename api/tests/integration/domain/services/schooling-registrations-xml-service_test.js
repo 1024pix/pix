@@ -77,7 +77,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
         MEFCode: '123456789',
         status: 'AP',
         nationalStudentId: '00000000123',
-        division: '4A'
+        division: '4A',
       }, {
         lastName: 'COVERT',
         preferredLastName: 'COJAUNE',
@@ -92,7 +92,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
         MEFCode: '12341234',
         status: 'ST',
         nationalStudentId: '00000000124',
-        division: '4A'
+        division: '4A',
       }];
 
       // when

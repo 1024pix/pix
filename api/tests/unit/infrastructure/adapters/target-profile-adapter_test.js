@@ -29,7 +29,7 @@ describe('Unit | Infrastructure | Adapter | targetSkillAdapter', () => {
       isPublic: Boolean(bookshelfTargetProfile.get('isPublic')),
       organizationId: bookshelfTargetProfile.get('organizationId'),
       skills: [skill],
-      sharedWithOrganizationIds: [organizationWhichShared.get('organizationId')]
+      sharedWithOrganizationIds: [organizationWhichShared.get('organizationId')],
     });
 
     // when

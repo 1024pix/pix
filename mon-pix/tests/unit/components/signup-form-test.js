@@ -21,10 +21,10 @@ describe('Unit | Component | signup-form', function() {
       attemptedTransition: {
         from: {
           parent: {
-            params: {}
-          }
-        }
-      }
+            params: {},
+          },
+        },
+      },
     }));
     component = this.owner.lookup('component:signup-form');
   });
@@ -38,14 +38,14 @@ describe('Unit | Component | signup-form', function() {
         lastName: '  MylastName  ',
         email: '    user@example.net  ',
         password: 'Pix12345',
-        save: sinon.stub().resolves()
+        save: sinon.stub().resolves(),
       });
       component.set('user', userWithSpaces);
 
       const expectedUser = {
         firstName: userWithSpaces.firstName.trim(),
         lastName: userWithSpaces.lastName.trim(),
-        email: userWithSpaces.email.trim()
+        email: userWithSpaces.email.trim(),
       };
 
       // when
@@ -63,7 +63,7 @@ describe('Unit | Component | signup-form', function() {
         lastName: '  MylastName  ',
         email: '    user@example.net  ',
         password: 'Pix12345',
-        save: sinon.stub().resolves()
+        save: sinon.stub().resolves(),
       });
       component.set('user', userWithSpaces);
 

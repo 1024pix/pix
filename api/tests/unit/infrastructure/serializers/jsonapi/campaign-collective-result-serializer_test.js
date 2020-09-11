@@ -30,7 +30,7 @@ describe('Unit | Serializer | JSONAPI | campaign-collective-results-serializer',
             areaColor: 'cerulean',
             totalSkillsCount: 4,
           }),
-        ]
+        ],
       });
 
       const expectedSerializedResult = {
@@ -46,7 +46,7 @@ describe('Unit | Serializer | JSONAPI | campaign-collective-results-serializer',
               }, {
                 id: `${campaignId.toString()}_rec2`,
                 type: 'campaignCompetenceCollectiveResults',
-              }]
+              }],
             },
           },
         },
@@ -60,7 +60,7 @@ describe('Unit | Serializer | JSONAPI | campaign-collective-results-serializer',
             'area-code': '1',
             'area-color': 'jaffa',
             'total-skills-count': 3,
-          }
+          },
         }, {
           id: '123_rec2',
           type: 'campaignCompetenceCollectiveResults',
@@ -71,8 +71,8 @@ describe('Unit | Serializer | JSONAPI | campaign-collective-results-serializer',
             'area-code': '3',
             'area-color': 'cerulean',
             'total-skills-count': 4,
-          }
-        }]
+          },
+        }],
       };
 
       // when

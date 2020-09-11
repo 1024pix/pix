@@ -25,7 +25,7 @@ module.exports = {
       tutorials,
       learningMoreTutorials: learningMoreTutorials,
     });
-  }
+  },
 };
 
 async function _getHints({ skills, locale }) {

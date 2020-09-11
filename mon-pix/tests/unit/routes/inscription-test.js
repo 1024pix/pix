@@ -32,7 +32,7 @@ describe('Unit | Route | inscription', function() {
 
     // Then
     sinon.assert.calledWith(authenticateStub,
-      expectedAuthenticator, { login, password, scope }
+      expectedAuthenticator, { login, password, scope },
     );
   });
 });

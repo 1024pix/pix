@@ -23,7 +23,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
         method: 'POST',
         url: '/api/schooling-registration-user-associations/',
         headers: {},
-        payload: {}
+        payload: {},
       };
 
       user = databaseBuilder.factory.buildUser();
@@ -43,8 +43,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             'campaign-code': campaign.code,
             'first-name': schoolingRegistration.firstName,
             'last-name': schoolingRegistration.lastName,
-            'birthdate': schoolingRegistration.birthdate
-          }
+            'birthdate': schoolingRegistration.birthdate,
+          },
         };
 
         // when
@@ -61,7 +61,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           const userWithEmailOnly = databaseBuilder.factory.buildUser({
             username: null,
             email: 'john.harry@example.net',
-            samlId: null
+            samlId: null,
           });
           const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null });
           schoolingRegistration.userId = userWithEmailOnly.id;
@@ -72,7 +72,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta: { shortCode: 'R31', value: 'j***@example.net' }
+            meta: { shortCode: 'R31', value: 'j***@example.net' },
           };
 
           options.headers.authorization = generateValidRequestAuthorizationHeader(userWithEmailOnly.id);
@@ -81,8 +81,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
               'campaign-code': campaign.code,
               'first-name': schoolingRegistration.firstName,
               'last-name': schoolingRegistration.lastName,
-              'birthdate': schoolingRegistration.birthdate
-            }
+              'birthdate': schoolingRegistration.birthdate,
+            },
           };
 
           // when
@@ -109,7 +109,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta: { shortCode: 'R32', value: 'j***.h***2' }
+            meta: { shortCode: 'R32', value: 'j***.h***2' },
           };
 
           options.headers.authorization = generateValidRequestAuthorizationHeader(userWithUsernameOnly.id);
@@ -118,8 +118,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
               'campaign-code': campaign.code,
               'first-name': schoolingRegistration.firstName,
               'last-name': schoolingRegistration.lastName,
-              'birthdate': schoolingRegistration.birthdate
-            }
+              'birthdate': schoolingRegistration.birthdate,
+            },
           };
 
           // when
@@ -146,7 +146,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta: { shortCode: 'R33', value: null }
+            meta: { shortCode: 'R33', value: null },
           };
 
           options.headers.authorization = generateValidRequestAuthorizationHeader(userWithEmailOnly.id);
@@ -155,8 +155,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
               'campaign-code': campaign.code,
               'first-name': schoolingRegistration.firstName,
               'last-name': schoolingRegistration.lastName,
-              'birthdate': schoolingRegistration.birthdate
-            }
+              'birthdate': schoolingRegistration.birthdate,
+            },
           };
 
           // when
@@ -191,7 +191,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta: { shortCode: 'R11', value: 'j***@example.net' }
+            meta: { shortCode: 'R11', value: 'j***@example.net' },
           };
 
           options.headers.authorization = generateValidRequestAuthorizationHeader(userWithEmailOnly.id);
@@ -200,8 +200,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
               'campaign-code': campaign.code,
               'first-name': schoolingRegistration.firstName,
               'last-name': schoolingRegistration.lastName,
-              'birthdate': schoolingRegistration.birthdate
-            }
+              'birthdate': schoolingRegistration.birthdate,
+            },
           };
 
           // when
@@ -233,7 +233,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta: { shortCode: 'R12', value: 'j***.h***2' }
+            meta: { shortCode: 'R12', value: 'j***.h***2' },
           };
 
           options.headers.authorization = generateValidRequestAuthorizationHeader(userWithUsernameOnly.id);
@@ -242,8 +242,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
               'campaign-code': campaign.code,
               'first-name': schoolingRegistration.firstName,
               'last-name': schoolingRegistration.lastName,
-              'birthdate': schoolingRegistration.birthdate
-            }
+              'birthdate': schoolingRegistration.birthdate,
+            },
           };
 
           // when
@@ -274,7 +274,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta: { shortCode: 'R13', value: null }
+            meta: { shortCode: 'R13', value: null },
           };
 
           options.headers.authorization = generateValidRequestAuthorizationHeader(userWithSamlIdOnly.id);
@@ -283,8 +283,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
               'campaign-code': campaign.code,
               'first-name': schoolingRegistration.firstName,
               'last-name': schoolingRegistration.lastName,
-              'birthdate': schoolingRegistration.birthdate
-            }
+              'birthdate': schoolingRegistration.birthdate,
+            },
           };
 
           // when
@@ -310,10 +310,10 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
                   'campaign-code': campaign.code,
                   'first-name': schoolingRegistration.firstName,
                   'last-name': schoolingRegistration.lastName,
-                  'birthdate': '1990-03-01'
-                }
-              }
-            }
+                  'birthdate': '1990-03-01',
+                },
+              },
+            },
           };
 
           // when
@@ -339,10 +339,10 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
                   'campaign-code': campaign.code,
                   'first-name': 'wrong firstName',
                   'last-name': 'wrong lastName',
-                  'birthdate': schoolingRegistration.birthdate
-                }
-              }
-            }
+                  'birthdate': schoolingRegistration.birthdate,
+                },
+              },
+            },
           };
 
           // when
@@ -382,10 +382,10 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
                   'campaign-code': campaign.code,
                   'first-name': ' ',
                   'last-name': schoolingRegistration.lastName,
-                  'birthdate': schoolingRegistration.birthdate
-                }
-              }
-            }
+                  'birthdate': schoolingRegistration.birthdate,
+                },
+              },
+            },
           };
 
           // when
@@ -404,8 +404,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
         options.payload.data = {
           attributes: {
             'campaign-code': campaign.code,
-            'student-number': schoolingRegistration.studentNumber
-          }
+            'student-number': schoolingRegistration.studentNumber,
+          },
         };
 
         // when
@@ -421,8 +421,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
         options.payload.data = {
           attributes: {
             'campaign-code': campaign.code,
-            'student-number': '456N'
-          }
+            'student-number': '456N',
+          },
         };
 
         // when
@@ -447,7 +447,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
         method: 'POST',
         url: '/api/schooling-registration-user-associations/auto',
         headers: {},
-        payload: {}
+        payload: {},
       };
 
       user = databaseBuilder.factory.buildUser();
@@ -468,7 +468,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
         attributes: {
           'campaign-code': campaign.code,
         },
-        type: 'schooling-registration-user-associations'
+        type: 'schooling-registration-user-associations',
       };
 
       // when
@@ -500,7 +500,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
         options.payload.data = {
           attributes: {
             'campaign-code': campaign.code,
-          }
+          },
         };
 
         // when
@@ -524,7 +524,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
         method: 'POST',
         url: '/api/schooling-registration-user-associations/register',
         headers: {},
-        payload: {}
+        payload: {},
       };
 
       user = databaseBuilder.factory.buildUser();
@@ -549,7 +549,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           'birthdate': '2010-01-01',
           'campaign-code': campaign.code,
         },
-        type: 'schooling-registration-user-associations'
+        type: 'schooling-registration-user-associations',
       };
 
       // when
@@ -690,10 +690,10 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
               'campaign-code': campaignCode,
               'first-name': schoolingRegistration.firstName,
               'last-name': schoolingRegistration.lastName,
-              birthdate: schoolingRegistration.birthdate
-            }
-          }
-        }
+              birthdate: schoolingRegistration.birthdate,
+            },
+          },
+        },
       };
     });
 
@@ -757,7 +757,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta: { shortCode: 'S51', value: 'j***@example.net' }
+            meta: { shortCode: 'S51', value: 'j***@example.net' },
           };
 
           options.headers.authorization = generateValidRequestAuthorizationHeader(userWithEmailOnly.id);
@@ -766,8 +766,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
               'campaign-code': campaignCode,
               'first-name': schoolingRegistration.firstName,
               'last-name': schoolingRegistration.lastName,
-              'birthdate': schoolingRegistration.birthdate
-            }
+              'birthdate': schoolingRegistration.birthdate,
+            },
           };
 
           // when
@@ -783,7 +783,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           const userWithUsernameOnly = databaseBuilder.factory.buildUser({
             username: 'john.harry0702',
             email: null,
-            samlId: null
+            samlId: null,
           });
           const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: userWithUsernameOnly.id });
           await databaseBuilder.commit();
@@ -793,7 +793,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta: { shortCode: 'S52', value: 'j***.h***2' }
+            meta: { shortCode: 'S52', value: 'j***.h***2' },
           };
 
           options.headers.authorization = generateValidRequestAuthorizationHeader(userWithUsernameOnly.id);
@@ -802,8 +802,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
               'campaign-code': campaignCode,
               'first-name': schoolingRegistration.firstName,
               'last-name': schoolingRegistration.lastName,
-              'birthdate': schoolingRegistration.birthdate
-            }
+              'birthdate': schoolingRegistration.birthdate,
+            },
           };
 
           // when
@@ -819,7 +819,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           const userWithEmailOnly = databaseBuilder.factory.buildUser({
             username: null,
             email: null,
-            samlId: '12345689'
+            samlId: '12345689',
           });
           const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null });
           schoolingRegistration.userId = userWithEmailOnly.id;
@@ -830,7 +830,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta: { shortCode: 'S53', value: null }
+            meta: { shortCode: 'S53', value: null },
           };
 
           options.headers.authorization = generateValidRequestAuthorizationHeader(userWithEmailOnly.id);
@@ -839,8 +839,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
               'campaign-code': campaignCode,
               'first-name': schoolingRegistration.firstName,
               'last-name': schoolingRegistration.lastName,
-              'birthdate': schoolingRegistration.birthdate
-            }
+              'birthdate': schoolingRegistration.birthdate,
+            },
           };
 
           // when
@@ -876,7 +876,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           const userWithEmailOnly = databaseBuilder.factory.buildUser({
             username: null,
             email: 'john.harry@example.net',
-            samlId: null
+            samlId: null,
           });
           databaseBuilder.factory.buildSchoolingRegistration({
             nationalStudentId: schoolingRegistration.nationalStudentId,
@@ -892,7 +892,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta: { shortCode: 'S61', value: 'j***@example.net' }
+            meta: { shortCode: 'S61', value: 'j***@example.net' },
           };
 
           options.headers.authorization = generateValidRequestAuthorizationHeader(userWithEmailOnly.id);
@@ -901,8 +901,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
               'campaign-code': campaignCode,
               'first-name': schoolingRegistration.firstName,
               'last-name': schoolingRegistration.lastName,
-              'birthdate': schoolingRegistration.birthdate
-            }
+              'birthdate': schoolingRegistration.birthdate,
+            },
           };
 
           // when
@@ -918,7 +918,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           const userWithUsernameOnly = databaseBuilder.factory.buildUser({
             username: 'john.harry0702',
             email: null,
-            samlId: null
+            samlId: null,
           });
           databaseBuilder.factory.buildSchoolingRegistration({
             nationalStudentId: schoolingRegistration.nationalStudentId,
@@ -934,7 +934,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta: { shortCode: 'S62', value: 'j***.h***2' }
+            meta: { shortCode: 'S62', value: 'j***.h***2' },
           };
 
           options.headers.authorization = generateValidRequestAuthorizationHeader(userWithUsernameOnly.id);
@@ -943,8 +943,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
               'campaign-code': campaignCode,
               'first-name': schoolingRegistration.firstName,
               'last-name': schoolingRegistration.lastName,
-              'birthdate': schoolingRegistration.birthdate
-            }
+              'birthdate': schoolingRegistration.birthdate,
+            },
           };
 
           // when
@@ -976,7 +976,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta: { shortCode: 'S63', value: null }
+            meta: { shortCode: 'S63', value: null },
           };
 
           options.headers.authorization = generateValidRequestAuthorizationHeader(userWithSamlIdOnly.id);
@@ -985,8 +985,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
               'campaign-code': campaignCode,
               'first-name': schoolingRegistration.firstName,
               'last-name': schoolingRegistration.lastName,
-              'birthdate': schoolingRegistration.birthdate
-            }
+              'birthdate': schoolingRegistration.birthdate,
+            },
           };
 
           // when
@@ -1030,15 +1030,15 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
         method: 'DELETE',
         url: '/api/schooling-registration-user-associations/',
         headers: {
-          authorization: authorizationToken
+          authorization: authorizationToken,
         },
         payload: {
           data: {
             attributes: {
-              'schooling-registration-id': schoolingRegistration.id
-            }
-          }
-        }
+              'schooling-registration-id': schoolingRegistration.id,
+            },
+          },
+        },
       };
 
       const response = await server.inject(options);
@@ -1060,15 +1060,15 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
         method: 'DELETE',
         url: '/api/schooling-registration-user-associations/',
         headers: {
-          authorization: authorizationToken
+          authorization: authorizationToken,
         },
         payload: {
           data: {
             attributes: {
-              'schooling-registration-id': schoolingRegistration.id
-            }
-          }
-        }
+              'schooling-registration-id': schoolingRegistration.id,
+            },
+          },
+        },
       };
 
       const response = await server.inject(options);

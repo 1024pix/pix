@@ -41,14 +41,14 @@ describe('Unit | UseCase | get-shareable-certificate', () => {
       certificationRepository,
       cleaCertificationStatusRepository,
       assessmentResultRepository,
-      competenceTreeRepository
+      competenceTreeRepository,
     });
 
     // then
     const expectedCertification = {
       ...certificateWithoutCleaAndCompetenceTree,
       cleaCertificationStatus,
-      resultCompetenceTree: { areas: [], id: '1-1' }
+      resultCompetenceTree: { areas: [], id: '1-1' },
     };
     expect(result).to.be.deep.equal(expectedCertification);
   });
@@ -65,7 +65,7 @@ describe('Unit | UseCase | get-shareable-certificate', () => {
       certificationRepository,
       cleaCertificationStatusRepository,
       assessmentResultRepository,
-      competenceTreeRepository
+      competenceTreeRepository,
     });
 
     // then

@@ -143,5 +143,5 @@ module.exports = {
     return h.response(template)
       .header('Content-Type', 'text/csv;charset=utf-8')
       .header('Content-Disposition', 'attachment; filename=modele-import.csv');
-  }
+  },
 };

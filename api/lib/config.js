@@ -39,7 +39,7 @@ module.exports = (function() {
     environment: (process.env.NODE_ENV || 'development'),
 
     hapi: {
-      options: {}
+      options: {},
     },
 
     airtable: {
@@ -70,7 +70,7 @@ module.exports = (function() {
         templates: {
           accountCreationTemplateId: process.env.MAILJET_ACCOUNT_CREATION_TEMPLATE_ID,
           organizationInvitationTemplateId: process.env.MAILJET_ORGANIZATION_INVITATION_TEMPLATE_ID,
-          passwordResetTemplateId: process.env.MAILJET_PASSWORD_RESET_TEMPLATE_ID
+          passwordResetTemplateId: process.env.MAILJET_PASSWORD_RESET_TEMPLATE_ID,
         },
       },
       sendinblue: {
@@ -79,14 +79,14 @@ module.exports = (function() {
           accountCreationTemplateId: process.env.SENDINBLUE_ACCOUNT_CREATION_TEMPLATE_ID,
           organizationInvitationTemplateId: process.env.SENDINBLUE_ORGANIZATION_INVITATION_TEMPLATE_ID,
           organizationInvitationScoTemplateId: process.env.SENDINBLUE_ORGANIZATION_INVITATION_SCO_TEMPLATE_ID,
-          passwordResetTemplateId: process.env.SENDINBLUE_PASSWORD_RESET_TEMPLATE_ID
+          passwordResetTemplateId: process.env.SENDINBLUE_PASSWORD_RESET_TEMPLATE_ID,
         },
       },
     },
 
     captcha: {
       enabled: isFeatureEnabled(process.env.RECAPTCHA_ENABLED),
-      googleRecaptchaSecret: process.env.RECAPTCHA_KEY
+      googleRecaptchaSecret: process.env.RECAPTCHA_KEY,
     },
 
     authentication: {
@@ -109,7 +109,7 @@ module.exports = (function() {
     temporaryKey: {
       secret: process.env.AUTH_SECRET,
       tokenLifespan: '1d',
-      payload: 'PixResetPassword'
+      payload: 'PixResetPassword',
     },
 
     account: {

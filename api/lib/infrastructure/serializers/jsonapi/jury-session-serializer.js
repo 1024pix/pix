@@ -35,13 +35,13 @@ module.exports = {
         relationshipLinks: {
           related(record, current, parent) {
             return `/api/jury/sessions/${parent.id}/jury-certification-summaries`;
-          }
-        }
+          },
+        },
       },
       assignedCertificationOfficer: {
         ref: 'id',
         included: true,
-        attributes: ['firstName', 'lastName']
+        attributes: ['firstName', 'lastName'],
       },
       transform(jurySession) {
         const transformedJurySession = Object.assign({}, jurySession);

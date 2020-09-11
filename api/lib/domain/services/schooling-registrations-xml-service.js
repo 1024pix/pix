@@ -4,7 +4,7 @@ const moment = require('moment');
 const _ = require('lodash');
 
 module.exports = {
-  extractSchoolingRegistrationsInformationFromSIECLE
+  extractSchoolingRegistrationsInformationFromSIECLE,
 };
 
 function extractSchoolingRegistrationsInformationFromSIECLE(buffer) {

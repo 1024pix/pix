@@ -15,8 +15,8 @@ async function getAssessmentResultsStatusesBySessionId(id) {
       qb.innerJoin(
         Bookshelf.knex.raw(
           `"assessment-results" ar ON ar."assessmentId" = "assessments".id
-                    and ar."createdAt" = (select max(sar."createdAt") from "assessment-results" sar where sar."assessmentId" = "assessments".id)`
-        )
+                    and ar."createdAt" = (select max(sar."createdAt") from "assessment-results" sar where sar."assessmentId" = "assessments".id)`,
+        ),
       );
       qb.where({ 'certification-courses.sessionId': id });
     })

@@ -8,7 +8,7 @@ import { reject, resolve } from 'rsvp';
 
 const errorMessages = {
   NOT_LINKED_ORGANIZATION_MSG: 'Vous ne pouvez pas vous connecter à PixOrga car vous n’êtes rattaché à aucune organisation. Contactez votre administrateur qui pourra vous inviter.',
-  INVALID_CREDENTIEL_MSG: 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.'
+  INVALID_CREDENTIEL_MSG: 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.',
 };
 
 module('Integration | Component | routes/login-form', function(hooks) {
@@ -80,7 +80,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
         return EmberObject.create({
           save() {
             return resolve();
-          }
+          },
         });
       };
       sessionStub.prototype.authenticate = function(authenticator, email, password, scope) {
@@ -115,7 +115,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
 
     // given
     const msgErrorInvalidCredentiel = {
-      'errors': [{ 'status': '401', 'title': 'Unauthorized', 'detail': errorMessages.INVALID_CREDENTIEL_MSG }]
+      'errors': [{ 'status': '401', 'title': 'Unauthorized', 'detail': errorMessages.INVALID_CREDENTIEL_MSG }],
     };
 
     sessionStub.prototype.authenticate = () => reject(msgErrorInvalidCredentiel);
@@ -136,7 +136,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
 
     // given
     const msgErrorNotLinkedOrganization = {
-      'errors': [{ 'status': '403', 'title': 'Unauthorized', 'detail': errorMessages.NOT_LINKED_ORGANIZATION_MSG }]
+      'errors': [{ 'status': '403', 'title': 'Unauthorized', 'detail': errorMessages.NOT_LINKED_ORGANIZATION_MSG }],
     };
 
     sessionStub.prototype.authenticate = () => reject(msgErrorNotLinkedOrganization);

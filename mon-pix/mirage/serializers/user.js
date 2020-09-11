@@ -16,23 +16,23 @@ export default ApplicationSerializer.extend({
     const userBaseUrl = `/api/users/${user.id}`;
     return {
       isCertifiable: {
-        related: `${userBaseUrl}/is-certifiable`
+        related: `${userBaseUrl}/is-certifiable`,
       },
       pixScore: {
-        related: `${userBaseUrl}/pixscore`
+        related: `${userBaseUrl}/pixscore`,
       },
       scorecards: {
-        related: `${userBaseUrl}/scorecards`
+        related: `${userBaseUrl}/scorecards`,
       },
       campaignParticipations: {
-        related: `${userBaseUrl}/campaign-participations`
+        related: `${userBaseUrl}/campaign-participations`,
       },
       certificationCenterMemberships: {
-        related: `${userBaseUrl}/certification-center-memberships`
+        related: `${userBaseUrl}/certification-center-memberships`,
       },
       memberships: {
-        related: `${userBaseUrl}/memberships`
-      }
+        related: `${userBaseUrl}/memberships`,
+      },
     };
-  }
+  },
 });

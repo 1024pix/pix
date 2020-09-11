@@ -13,7 +13,7 @@ describe('Unit | UseCase | get-campaign-participation', () => {
       get: sinon.stub(),
     };
     campaignRepository = {
-      checkIfUserOrganizationHasAccessToCampaign: sinon.stub()
+      checkIfUserOrganizationHasAccessToCampaign: sinon.stub(),
     };
   });
 

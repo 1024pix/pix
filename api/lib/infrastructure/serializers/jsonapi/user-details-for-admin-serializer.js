@@ -7,7 +7,7 @@ module.exports = {
     return new Serializer('user', {
       attributes: [
         'firstName', 'lastName', 'email', 'username', 'cgu','isAuthenticatedFromGAR','pixOrgaTermsOfServiceAccepted',
-        'pixCertifTermsOfServiceAccepted'
+        'pixCertifTermsOfServiceAccepted',
       ],
     }).serialize(usersDetailsForAdmin);
   },
@@ -16,7 +16,7 @@ module.exports = {
       id: json.data.id,
       firstName: json.data.attributes['first-name'],
       lastName: json.data.attributes['last-name'],
-      email: json.data.attributes.email
+      email: json.data.attributes.email,
     });
-  }
+  },
 };

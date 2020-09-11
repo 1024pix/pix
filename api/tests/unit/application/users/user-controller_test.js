@@ -113,7 +113,7 @@ describe('Unit | Controller | user-controller', () => {
       query: {
         'temporary-key': userTemporaryKey,
       },
-      payload
+      payload,
     };
 
     beforeEach(() => {
@@ -128,7 +128,7 @@ describe('Unit | Controller | user-controller', () => {
       usecases.updateUserPassword.withArgs({
         userId,
         password: userPassword,
-        temporaryKey: userTemporaryKey
+        temporaryKey: userTemporaryKey,
       }).resolves({});
       userSerializer.serialize.withArgs({}).returns('ok');
 
@@ -160,7 +160,7 @@ describe('Unit | Controller | user-controller', () => {
           attributes: {
             email: newEmail,
             lastName: 'newLastName',
-            firstName: 'newFirstName'
+            firstName: 'newFirstName',
           },
         },
       };
@@ -168,7 +168,7 @@ describe('Unit | Controller | user-controller', () => {
         params: {
           id: userId,
         },
-        payload
+        payload,
       };
 
       // given
@@ -196,7 +196,7 @@ describe('Unit | Controller | user-controller', () => {
         params: {
           id: userId,
         },
-        payload
+        payload,
       };
 
       userDetailsForAdminSerializer.deserialize.withArgs(payload).returns({ email: newEmail });
@@ -374,12 +374,12 @@ describe('Unit | Controller | user-controller', () => {
     const request = {
       auth: {
         credentials: {
-          userId: userId
-        }
+          userId: userId,
+        },
       },
       params: {
-        id: userId
-      }
+        id: userId,
+      },
     };
 
     beforeEach(() => {
@@ -406,12 +406,12 @@ describe('Unit | Controller | user-controller', () => {
     const request = {
       auth: {
         credentials: {
-          userId: userId
-        }
+          userId: userId,
+        },
       },
       params: {
-        id: userId
-      }
+        id: userId,
+      },
     };
 
     beforeEach(() => {
@@ -533,12 +533,12 @@ describe('Unit | Controller | user-controller', () => {
     const request = {
       auth: {
         credentials: {
-          userId: userId
-        }
+          userId: userId,
+        },
       },
       params: {
-        id: userId
-      }
+        id: userId,
+      },
     };
 
     beforeEach(() => {
@@ -571,12 +571,12 @@ describe('Unit | Controller | user-controller', () => {
       const request = {
         auth: {
           credentials: {
-            userId
-          }
+            userId,
+          },
         },
         params: {
-          id: userId
-        }
+          id: userId,
+        },
       };
 
       // when
@@ -600,12 +600,12 @@ describe('Unit | Controller | user-controller', () => {
       const request = {
         auth: {
           credentials: {
-            userId
-          }
+            userId,
+          },
         },
         params: {
-          id: userId
-        }
+          id: userId,
+        },
       };
 
       // when
@@ -633,13 +633,13 @@ describe('Unit | Controller | user-controller', () => {
       const request = {
         auth: {
           credentials: {
-            userId
-          }
+            userId,
+          },
         },
         params: {
-          id: userId
+          id: userId,
         },
-        headers: { 'accept-language': locale }
+        headers: { 'accept-language': locale },
       };
 
       // when
@@ -667,13 +667,13 @@ describe('Unit | Controller | user-controller', () => {
       const request = {
         auth: {
           credentials: {
-            userId
-          }
+            userId,
+          },
         },
         params: {
           userId,
-          competenceId
-        }
+          competenceId,
+        },
       };
 
       // when
@@ -693,14 +693,14 @@ describe('Unit | Controller | user-controller', () => {
     const request = {
       auth: {
         credentials: {
-          userId
-        }
+          userId,
+        },
       },
       params: {
         userId,
-        campaignId
+        campaignId,
 
-      }
+      },
     };
 
     beforeEach(() => {
@@ -727,11 +727,11 @@ describe('Unit | Controller | user-controller', () => {
     const request = {
       auth: {
         credentials: {
-          userId
-        }
+          userId,
+        },
       },
       params: {
-        id: userId
+        id: userId,
       },
     };
 

@@ -8,7 +8,7 @@ describe('Unit | UseCase | update-membership-attributes', () => {
 
   beforeEach(() => {
     membershipRepository = {
-      updateById: sinon.stub().resolves()
+      updateById: sinon.stub().resolves(),
     };
   });
 

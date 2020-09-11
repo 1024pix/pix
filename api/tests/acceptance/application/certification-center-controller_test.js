@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const {
   expect, generateValidRequestAuthorizationHeader,
-  insertUserWithRolePixMaster, databaseBuilder, knex
+  insertUserWithRolePixMaster, databaseBuilder, knex,
 } = require('../../test-helper');
 const createServer = require('../../../server');
 
@@ -91,9 +91,9 @@ describe('Acceptance | API | Certification Center', () => {
             attributes: {
               name: 'Nouveau Centre de Certif',
               type: 'SCO',
-            }
-          }
-        }
+            },
+          },
+        },
       };
     });
 
@@ -255,7 +255,7 @@ describe('Acceptance | API | Certification Center', () => {
       databaseBuilder.factory.buildCertificationCenterMembership({ certificationCenterId: certificationCenter.id, userId: user.id });
       expectedSessions = [
         databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenter.id }),
-        databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenter.id })
+        databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenter.id }),
       ];
       databaseBuilder.factory.buildSession();
       await databaseBuilder.commit();

@@ -15,7 +15,7 @@ async function _checkCreatorHasAccessToCampaignOrganization(userId, organization
 
   if (!user.hasAccessToOrganization(organizationId)) {
     throw new UserNotAuthorizedToGetCampaignResultsError(
-      `User does not have an access to the organization ${organizationId}`
+      `User does not have an access to the organization ${organizationId}`,
     );
   }
 }
@@ -173,7 +173,7 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
     const placementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
       userIdsAndDates,
       competences: allPixCompetences,
-      allowExcessPixAndLevels: false
+      allowExcessPixAndLevels: false,
     });
 
     let csvLines = '';

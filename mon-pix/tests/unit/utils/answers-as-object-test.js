@@ -9,7 +9,7 @@ describe('Unit | Utility | answers as object', function() {
     it('should return an object of given answers with key of the input', function() {
       // given
       const answer = {
-        value: 'num1: \'4\' num2: \'1\' num3: \'2\' num4: \'3\''
+        value: 'num1: \'4\' num2: \'1\' num3: \'2\' num4: \'3\'',
       };
       const expectedResult = {
         'num1': '4',

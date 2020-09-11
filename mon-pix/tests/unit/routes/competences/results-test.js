@@ -20,7 +20,7 @@ describe('Unit | Route | Competences | Results', function() {
     beforeEach(function() {
       queryStub = sinon.stub();
       storeStub = Service.create({
-        query: queryStub
+        query: queryStub,
       });
       sessionStub = Service.create({
         isAuthenticated: true,

@@ -236,7 +236,7 @@ module('Acceptance | Session Details', function(hooks) {
         assert.rejects(
           visit(`/sessions/${sessionFinalized.id}/finalisation`),
           transitionError,
-          'error raised when visiting finalisation route'
+          'error raised when visiting finalisation route',
         );
       });
     });

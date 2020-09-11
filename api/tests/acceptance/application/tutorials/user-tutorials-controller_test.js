@@ -33,7 +33,7 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
         method: 'PUT',
         url: '/api/users/tutorials/tutorialId',
         headers: {
-          authorization: generateValidRequestAuthorizationHeader(4444)
+          authorization: generateValidRequestAuthorizationHeader(4444),
         },
       };
     });
@@ -52,8 +52,8 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
             attributes: {
               'tutorial-id': 'tutorialId',
               'user-id': 4444,
-            }
-          }
+            },
+          },
         };
 
         // when
@@ -92,7 +92,7 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
         method: 'GET',
         url: '/api/users/tutorials',
         headers: {
-          authorization: generateValidRequestAuthorizationHeader(4444)
+          authorization: generateValidRequestAuthorizationHeader(4444),
         },
       };
     });
@@ -120,10 +120,10 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
               tutorial: {
                 data: {
                   id: 'tutorialId',
-                  type: 'tutorials'
-                }
-              }
-            }
+                  type: 'tutorials',
+                },
+              },
+            },
           }],
           included: [{
             id: 'tutorialId',
@@ -136,7 +136,7 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
               source: 'Source Example, Example',
               title: 'Communiquer',
             },
-          }]
+          }],
         };
         expect(response.result.included).to.deep.equal(expectedUserTutorials.included);
         expect(response.result.data[0].type).to.deep.equal(expectedUserTutorials.data[0].type);
@@ -158,7 +158,7 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
         method: 'DELETE',
         url: '/api/users/tutorials/tutorialId',
         headers: {
-          authorization: generateValidRequestAuthorizationHeader(4444)
+          authorization: generateValidRequestAuthorizationHeader(4444),
         },
       };
     });

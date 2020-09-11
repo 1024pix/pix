@@ -28,7 +28,7 @@ async function _checkIfUserHasAccessToThisCampaignParticipation(userId, campaign
   const campaignParticipationBelongsToUser = (userId === campaignParticipation.userId);
   const userIsMemberOfCampaignOrganization = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(
     campaignParticipation.campaignId,
-    userId
+    userId,
   );
 
   if (!campaignParticipationBelongsToUser && !userIsMemberOfCampaignOrganization) {

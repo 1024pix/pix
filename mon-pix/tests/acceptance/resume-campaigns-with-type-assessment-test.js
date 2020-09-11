@@ -3,7 +3,7 @@ import {
   fillIn,
   currentURL,
   find,
-  findAll
+  findAll,
 } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
@@ -11,7 +11,7 @@ import { authenticateByEmail } from '../helpers/authentication';
 import {
   completeCampaignOfTypeAssessmentAndSeeResultsByCode,
   completeCampaignOfTypeAssessmentByCode,
-  resumeCampaignOfTypeAssessmentByCode
+  resumeCampaignOfTypeAssessmentByCode,
 } from '../helpers/campaign';
 import visit from '../helpers/visit';
 import { invalidateSession } from 'ember-simple-auth/test-support';

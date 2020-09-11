@@ -115,12 +115,12 @@ describe('Unit | Component | scorecard-details ', function() {
         {
           name: tutorial_1.tubeName,
           practicalTitle: tutorial_1.tubePracticalTitle,
-          tutorials: [tutorial_1, tutorial_2]
+          tutorials: [tutorial_1, tutorial_2],
         },
         {
           name: tutorial_3.tubeName,
           practicalTitle: tutorial_3.tubePracticalTitle,
-          tutorials: [tutorial_3]
+          tutorials: [tutorial_3],
         },
       ];
 

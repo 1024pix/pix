@@ -17,7 +17,7 @@ describe('Unit | UseCase | add-tutorial-evaluation', () => {
     it('should call the userTutorialRepository', async function() {
       // Given
       tutorialRepository = {
-        get: domainBuilder.buildTutorial
+        get: domainBuilder.buildTutorial,
       };
       const tutorialId = 'tutorialId';
 
@@ -26,7 +26,7 @@ describe('Unit | UseCase | add-tutorial-evaluation', () => {
         tutorialRepository,
         tutorialEvaluationRepository,
         userId,
-        tutorialId
+        tutorialId,
       });
 
       // Then
@@ -40,7 +40,7 @@ describe('Unit | UseCase | add-tutorial-evaluation', () => {
       tutorialRepository = {
         get: async () => {
           throw new AirtableNotFoundError();
-        }
+        },
       };
       const tutorialId = 'nonExistentTutorialId';
 
@@ -49,7 +49,7 @@ describe('Unit | UseCase | add-tutorial-evaluation', () => {
         tutorialRepository,
         tutorialEvaluationRepository,
         userId,
-        tutorialId
+        tutorialId,
       });
 
       // Then

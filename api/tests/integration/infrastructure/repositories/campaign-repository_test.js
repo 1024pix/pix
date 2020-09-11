@@ -40,7 +40,7 @@ describe('Integration | Repository | Campaign', () => {
       campaignToInsert = databaseBuilder.factory.buildCampaign(
         {
           code: 'BADOIT710',
-          createdAt: new Date('2018-02-06T14:12:45Z')
+          createdAt: new Date('2018-02-06T14:12:45Z'),
         });
       await databaseBuilder.commit();
     });

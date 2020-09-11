@@ -14,7 +14,7 @@ const ERROR_INPUT_MESSAGE_MAP = {
   firstName: 'pages.sign-up.fields.firstname.error',
   lastName: 'pages.sign-up.fields.lastname.error',
   email: 'pages.sign-up.fields.email.error',
-  password: 'pages.sign-up.fields.password.error'
+  password: 'pages.sign-up.fields.password.error',
 };
 
 export default Component.extend({
@@ -70,28 +70,28 @@ export default Component.extend({
     const defaultValidationObject = {
       lastName: {
         status: 'default',
-        message: null
+        message: null,
       },
       firstName: {
         status: 'default',
-        message: null
+        message: null,
       },
       email: {
         status: 'default',
-        message: null
+        message: null,
       },
       password: {
         status: 'default',
-        message: null
+        message: null,
       },
       cgu: {
         status: 'default',
-        message: null
+        message: null,
       },
       recaptchaToken: {
         status: 'default',
-        message: null
-      }
+        message: null,
+      },
     };
 
     this.set('validation', defaultValidationObject);
@@ -155,6 +155,6 @@ export default Component.extend({
         this.set('_tokenHasBeenUsed', true);
         this.set('isLoading', false);
       });
-    }
-  }
+    },
+  },
 });

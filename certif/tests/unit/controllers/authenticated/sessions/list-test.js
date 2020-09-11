@@ -11,7 +11,7 @@ module('Unit | Controller | authenticated/sessions/list', function(hooks) {
       // given
       const controller = this.owner.lookup('controller:authenticated/sessions/list');
       const sessions = ArrayProxy.create({
-        content: []
+        content: [],
       });
       controller.model = sessions;
 
@@ -27,7 +27,7 @@ module('Unit | Controller | authenticated/sessions/list', function(hooks) {
       const controller = this.owner.lookup('controller:authenticated/sessions/list');
       const session1 = { id: 1, date: new Date('2018-08-07T14:00:44Z') };
       const sessions = ArrayProxy.create({
-        content: [session1]
+        content: [session1],
       });
       controller.model = sessions;
 

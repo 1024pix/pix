@@ -3,7 +3,7 @@ const { expect, hFake } = require('../../test-helper');
 const {
   BadRequestError, ConflictError, ForbiddenError,
   BaseHttpError, MissingQueryParamError, NotFoundError,
-  PreconditionFailedError, UnauthorizedError, UnprocessableEntityError
+  PreconditionFailedError, UnauthorizedError, UnprocessableEntityError,
 } = require('../../../lib/application/http-errors');
 
 const { EntityValidationError } = require('../../../lib/domain/errors');
@@ -16,7 +16,7 @@ describe('Integration | Application | PreResponse-utils', () => {
 
     const invalidAttributes = [{
       attribute: 'type',
-      message: 'Error message'
+      message: 'Error message',
     }];
 
     const successfulCases = [
@@ -36,7 +36,7 @@ describe('Integration | Application | PreResponse-utils', () => {
       it(testCase.should, async () => {
         // given
         const request = {
-          response: testCase.response
+          response: testCase.response,
         };
 
         // when

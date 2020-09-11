@@ -12,7 +12,7 @@ const obfuscationService = require('../../../../lib/domain/services/obfuscation-
 const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
 
 const {
-  CampaignCodeError, NotFoundError, EntityValidationError, SchoolingRegistrationAlreadyLinkedToUserError
+  CampaignCodeError, NotFoundError, EntityValidationError, SchoolingRegistrationAlreadyLinkedToUserError,
 } = require('../../../../lib/domain/errors');
 
 const createAndReconcileUserToSchoolingRegistration = require('../../../../lib/domain/usecases/create-and-reconcile-user-to-schooling-registration');
@@ -47,13 +47,13 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
       userAttributes = {
         firstName: 'firstname',
         lastName: 'lastname',
-        birthdate: '2008-01-01'
+        birthdate: '2008-01-01',
       };
 
       // when
       const error = await catchErr(createAndReconcileUserToSchoolingRegistration)({
         campaignCode, userAttributes,
-        campaignRepository, userReconciliationService, schoolingRegistrationRepository
+        campaignRepository, userReconciliationService, schoolingRegistrationRepository,
       });
 
       // then
@@ -67,7 +67,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
     beforeEach(async () => {
       organizationId = databaseBuilder.factory.buildOrganization().id;
       campaignCode = databaseBuilder.factory.buildCampaign({
-        organizationId
+        organizationId,
       }).code;
 
       await databaseBuilder.commit();
@@ -79,7 +79,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
-          organizationId, userId
+          organizationId, userId,
         });
         userAttributes = {
           firstName: schoolingRegistration.firstName,
@@ -105,14 +105,14 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
 
       beforeEach(async () => {
         schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
-          organizationId, userId: null
+          organizationId, userId: null,
         });
         userAttributes = {
           firstName: schoolingRegistration.firstName,
           lastName: schoolingRegistration.lastName,
           birthdate: schoolingRegistration.birthdate,
           email: '',
-          password: ''
+          password: '',
         };
 
         await databaseBuilder.commit();
@@ -126,20 +126,20 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
             invalidAttributes: [
               {
                 attribute: 'email',
-                message: 'Votre adresse e-mail n’est pas renseignée.'
+                message: 'Votre adresse e-mail n’est pas renseignée.',
               },
               {
                 attribute: 'password',
                 message: 'Votre mot de passe n’est pas renseigné.',
               },
-            ]
+            ],
           });
 
           // when
           const error = await catchErr(createAndReconcileUserToSchoolingRegistration)({
             campaignCode, userAttributes,
             campaignRepository, schoolingRegistrationRepository, userRepository,
-            userReconciliationService
+            userReconciliationService,
           });
 
           // then
@@ -154,7 +154,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
           // given
           const email = 'user@organization.org';
           databaseBuilder.factory.buildUser({
-            email
+            email,
           });
           userAttributes.email = email;
           userAttributes.password = 'Pix12345';
@@ -162,8 +162,8 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
           const expectedValidationError = new EntityValidationError({
             invalidAttributes: [{
               attribute: 'email',
-              message: 'Cette adresse e-mail est déjà enregistrée, connectez-vous.'
-            }]
+              message: 'Cette adresse e-mail est déjà enregistrée, connectez-vous.',
+            }],
           });
 
           await databaseBuilder.commit();
@@ -172,7 +172,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
           const error = await catchErr(createAndReconcileUserToSchoolingRegistration)({
             campaignCode, userAttributes,
             campaignRepository, schoolingRegistrationRepository, userRepository,
-            userReconciliationService
+            userReconciliationService,
           });
 
           // then
@@ -203,7 +203,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
           const result = await createAndReconcileUserToSchoolingRegistration({
             campaignCode, userAttributes,
             campaignRepository, schoolingRegistrationRepository, userRepository,
-            userReconciliationService, encryptionService, mailService
+            userReconciliationService, encryptionService, mailService,
           });
 
           // then
@@ -216,14 +216,14 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
 
       beforeEach(async () => {
         schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
-          organizationId, userId: null
+          organizationId, userId: null,
         });
         userAttributes = {
           firstName: schoolingRegistration.firstName,
           lastName: schoolingRegistration.lastName,
           birthdate: schoolingRegistration.birthdate,
           withUsername: true,
-          password: 'Pix12345'
+          password: 'Pix12345',
         };
 
         await databaseBuilder.commit();
@@ -235,15 +235,15 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
           // given
           const username = 'abc.def0112';
           databaseBuilder.factory.buildUser({
-            username
+            username,
           });
           userAttributes.username = username;
 
           const expectedValidationError = new EntityValidationError({
             invalidAttributes: [{
               attribute: 'username',
-              message: 'Cet identifiant n’est plus disponible, merci de recharger la page.'
-            }]
+              message: 'Cet identifiant n’est plus disponible, merci de recharger la page.',
+            }],
           });
 
           await databaseBuilder.commit();
@@ -252,7 +252,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
           const error = await catchErr(createAndReconcileUserToSchoolingRegistration)({
             campaignCode, userAttributes,
             campaignRepository, schoolingRegistrationRepository, userRepository,
-            userReconciliationService
+            userReconciliationService,
           });
 
           // then
@@ -280,7 +280,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
           const result = await createAndReconcileUserToSchoolingRegistration({
             campaignCode, userAttributes,
             campaignRepository, schoolingRegistrationRepository, userRepository,
-            userReconciliationService, encryptionService, mailService
+            userReconciliationService, encryptionService, mailService,
           });
 
           // then

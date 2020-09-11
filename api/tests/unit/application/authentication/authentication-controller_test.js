@@ -16,14 +16,14 @@ describe('Unit | Application | Controller | Authentication', () => {
     beforeEach(() => {
       request = {
         headers: {
-          'content-type': 'application/x-www-form-urlencoded'
+          'content-type': 'application/x-www-form-urlencoded',
         },
         payload: {
           grant_type: 'password',
           username: 'user@email.com',
           password: 'user_password',
-          scope: 'pix-orga'
-        }
+          scope: 'pix-orga',
+        },
       };
       sinon.stub(usecases, 'authenticateUser').resolves(accessToken);
       sinon.stub(tokenService, 'extractUserId').returns(1);
@@ -57,7 +57,7 @@ describe('Unit | Application | Controller | Authentication', () => {
       const expectedResponseResult = {
         token_type: 'bearer',
         access_token: accessToken,
-        user_id: 1
+        user_id: 1,
       };
       expect(response.source).to.deep.equal(expectedResponseResult);
       expect(response.statusCode).to.equal(200);

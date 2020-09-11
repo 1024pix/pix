@@ -20,8 +20,8 @@ describe('Unit | Serializer | JSONAPI | certification-profile-serializer', funct
           attributes: {
             'is-certifiable': true,
           },
-          id: '104'
-        }
+          id: '104',
+        },
       });
     });
   });

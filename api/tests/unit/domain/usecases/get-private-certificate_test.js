@@ -26,7 +26,7 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
   };
 
   const verifyCertificateCodeService = {
-    generateCertificateVerificationCode: sinon.stub().resolves(verificationCode)
+    generateCertificateVerificationCode: sinon.stub().resolves(verificationCode),
   };
 
   const dependencies = {
@@ -53,14 +53,14 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
       // given
       certificate = domainBuilder.buildPrivateCertificate({
         userId: randomOtherUserId,
-        id: certificationId
+        id: certificationId,
       });
       certificationRepository.getPrivateCertificateByCertificationCourseId.resolves(certificate);
     });
 
     it('Should throw an error if user is not the owner of the certificate', async () => {
       // given
-      const error = await catchErr(getPrivateCertificate)({ certificationId, userId, ...dependencies, });
+      const error = await catchErr(getPrivateCertificate)({ certificationId, userId, ...dependencies });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -77,7 +77,7 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
       // given
       certificate = domainBuilder.buildPrivateCertificate({
         userId,
-        id: certificationId
+        id: certificationId,
       });
       certificationRepository.getPrivateCertificateByCertificationCourseId.resolves(certificate);
 
@@ -94,7 +94,7 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
       certificationRepository.hasVerificationCode.withArgs(certificationId).resolves(true);
 
       // when
-      const result = await getPrivateCertificate({ certificationId, userId, ...dependencies, });
+      const result = await getPrivateCertificate({ certificationId, userId, ...dependencies });
 
       // then
       expect(result).to.equal(certificate);
@@ -105,7 +105,7 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
       certificationRepository.hasVerificationCode.withArgs(certificationId).resolves(false);
 
       // when
-      await getPrivateCertificate({ certificationId, userId, ...dependencies, });
+      await getPrivateCertificate({ certificationId, userId, ...dependencies });
 
       // then
       expect(certificationRepository.saveVerificationCode).to.have.been.calledWith(certificationId,verificationCode);
@@ -117,7 +117,7 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
         competenceMarks: assessmentResult.competenceMarks,
       });
       expectedResultCompetenceTree.id = `${certificationId}-${assessmentResult.id}`;
-      const result = await getPrivateCertificate({ certificationId, userId, ...dependencies, });
+      const result = await getPrivateCertificate({ certificationId, userId, ...dependencies });
 
       // then
       expect(result.resultCompetenceTree).to.be.an.instanceOf(ResultCompetenceTree);
@@ -127,14 +127,14 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
 
     it('should set the included resultCompetenceTree id to certificationID-assessmentResultId', async () => {
       const expectedId = `${certificationId}-${assessmentResult.id}`;
-      const result = await getPrivateCertificate({ certificationId, userId, ...dependencies, });
+      const result = await getPrivateCertificate({ certificationId, userId, ...dependencies });
 
       // then
       expect(result.resultCompetenceTree.id).to.equal(expectedId);
     });
 
     it('should set cleaCertificationStatus', async () => {
-      const result = await getPrivateCertificate({ certificationId, userId, ...dependencies, });
+      const result = await getPrivateCertificate({ certificationId, userId, ...dependencies });
 
       expect(result.cleaCertificationStatus).to.equal(cleaCertificationStatus);
     });

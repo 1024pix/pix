@@ -32,7 +32,7 @@ export default class User extends Model {
           if (!areas[competenceArea.get('id')]) {
             areas[competenceArea.get('id')] = {
               name: competenceArea.get('name'),
-              competences: []
+              competences: [],
             };
           }
           areas[competenceArea.get('id')].competences.push(competence);

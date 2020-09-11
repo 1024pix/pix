@@ -50,9 +50,9 @@ describe('Unit | Router | organization-router', () => {
         data: {
           type: 'organization-invitations',
           attributes: {
-            email: 'user1@organization.org'
+            email: 'user1@organization.org',
           },
-        }
+        },
       };
     });
 

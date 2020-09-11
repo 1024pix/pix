@@ -11,10 +11,10 @@ module('Unit | Model | Competence-Result', function(hooks) {
       const store = this.owner.lookup('service:store');
       const model = run(() => store.createRecord('competence-result', {}));
       const otherCompetenceResult = store.createRecord('competence-result', {
-        totalSkillsCount: 1
+        totalSkillsCount: 1,
       });
       const campaignParticipationResult = store.createRecord('campaign-participation-result', {
-        competenceResults: [otherCompetenceResult, model]
+        competenceResults: [otherCompetenceResult, model],
       });
 
       model.set('totalSkillsCount', 2);
@@ -31,10 +31,10 @@ module('Unit | Model | Competence-Result', function(hooks) {
       const store = this.owner.lookup('service:store');
       const model = run(() => store.createRecord('competence-result', {}));
       const otherCompetenceResult = store.createRecord('competence-result', {
-        totalSkillsCount: 4
+        totalSkillsCount: 4,
       });
       const campaignParticipationResult = store.createRecord('campaign-participation-result', {
-        competenceResults: [otherCompetenceResult, model]
+        competenceResults: [otherCompetenceResult, model],
       });
 
       model.set('totalSkillsCount', 1);

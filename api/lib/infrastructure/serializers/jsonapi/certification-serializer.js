@@ -46,8 +46,8 @@ const resultCompetenceTree = {
       ref: 'id',
       type: 'result-competences',
       attributes: ['index', 'level', 'name', 'score'],
-    }
-  }
+    },
+  },
 };
 
 module.exports = {

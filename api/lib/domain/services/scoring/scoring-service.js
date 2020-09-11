@@ -16,7 +16,7 @@ function calculateScoringInformationForCompetence({ knowledgeElements, allowExce
     realTotalPixScoreForCompetence,
     pixScoreForCompetence,
     currentLevel,
-    pixAheadForNextLevel
+    pixAheadForNextLevel,
   };
 }
 

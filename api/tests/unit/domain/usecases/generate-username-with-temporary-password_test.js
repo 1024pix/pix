@@ -23,7 +23,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', () => {
 
   beforeEach(() => {
     schoolingRegistration = domainBuilder.buildSchoolingRegistration({
-      organization
+      organization,
     });
 
     sinon.stub(passwordGenerator, 'generate').returns(expectedPassword);
@@ -42,7 +42,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', () => {
       schoolingRegistrationId: schoolingRegistration.id,
       organizationId,
       passwordGenerator, encryptionService, userReconciliationService,
-      userRepository, schoolingRegistrationRepository
+      userRepository, schoolingRegistrationRepository,
     });
 
     // then
@@ -59,7 +59,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', () => {
       schoolingRegistrationId: schoolingRegistration.id,
       organizationId: organizationId,
       passwordGenerator, encryptionService, userReconciliationService,
-      userRepository, schoolingRegistrationRepository
+      userRepository, schoolingRegistrationRepository,
     });
 
     // then
@@ -77,7 +77,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', () => {
       schoolingRegistrationId: schoolingRegistration.id,
       organizationId,
       passwordGenerator, encryptionService, userReconciliationService,
-      userRepository, schoolingRegistrationRepository
+      userRepository, schoolingRegistrationRepository,
     });
 
     // then

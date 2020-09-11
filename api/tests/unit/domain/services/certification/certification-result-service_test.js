@@ -10,7 +10,7 @@ const placementProfileService = require('../../../../../lib/domain/services/plac
 const UserCompetence = require('../../../../../lib/domain/models/UserCompetence');
 
 function _buildUserCompetence(competence, pixScore, estimatedLevel) {
-  return new UserCompetence({ ...competence, estimatedLevel, pixScore, });
+  return new UserCompetence({ ...competence, estimatedLevel, pixScore });
 }
 
 const pixForCompetence1 = 10;
@@ -242,7 +242,7 @@ describe('Unit | Service | Certification Result Service', function() {
           startedCertificationAssessment =  new CertificationAssessment({
             ...certificationAssessment,
             completedAt: null,
-            state: states.STARTED
+            state: states.STARTED,
           });
         });
 
@@ -250,7 +250,7 @@ describe('Unit | Service | Certification Result Service', function() {
           // when
           const result = await certificationResultService.getCertificationResult({
             certificationAssessment: startedCertificationAssessment,
-            continueOnError
+            continueOnError,
           });
 
           // then
@@ -262,7 +262,7 @@ describe('Unit | Service | Certification Result Service', function() {
           // when
           const result = await certificationResultService.getCertificationResult({
             certificationAssessment: startedCertificationAssessment,
-            continueOnError
+            continueOnError,
           });
 
           // then
@@ -944,7 +944,7 @@ describe('Unit | Service | Certification Result Service', function() {
             { id: 'challenge_B_for_competence_5', competenceId: 'competence_5', type: 'QROCM-dep' },
             { id: 'challenge_A_for_competence_6', competenceId: 'competence_6', type: 'QCM' },
             { id: 'challenge_B_for_competence_6', competenceId: 'competence_6', type: 'QCM' },
-            { id: 'challenge_C_for_competence_6', competenceId: 'competence_6', type: 'QCM' }
+            { id: 'challenge_C_for_competence_6', competenceId: 'competence_6', type: 'QCM' },
           ], domainBuilder.buildChallenge);
 
           const userCompetences = [

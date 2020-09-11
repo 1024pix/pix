@@ -13,7 +13,7 @@ exports.register = async function(server) {
         handler: schoolingRegistrationDependentUserController.createAndReconcileUserToSchoolingRegistration,
         validate: {
           options: {
-            allowUnknown: true
+            allowUnknown: true,
           },
           payload: Joi.object({
             data: {
@@ -26,16 +26,16 @@ exports.register = async function(server) {
                 'with-username': Joi.boolean().required(),
               },
             },
-          })
+          }),
         },
         notes: [
           'Cette route crée un utilisateur et l\'associe à l\'inscription de l\'élève, celle-ci étant recherchée dans l\'organisation à laquelle ' +
           'appartient la campagne spécifiée' +
           '- L\'utilisation de cette route est dépréciée. Utiliser /api/schooling-registration-dependent-users à la place',
         ],
-        tags: ['api', 'studentDependentUser']
-      }
-    }
+        tags: ['api', 'studentDependentUser'],
+      },
+    },
   ]);
 };
 

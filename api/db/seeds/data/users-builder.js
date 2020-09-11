@@ -64,7 +64,7 @@ function usersBuilder({ databaseBuilder }) {
     email: null,
     rawPassword: 'Password123',
     cgu: false,
-    samlId: 'samlId'
+    samlId: 'samlId',
   };
   databaseBuilder.factory.buildUser.withUnencryptedPassword(userWithSamlId);
 

@@ -44,7 +44,7 @@ const userValidationJoiSchema = Joi.object({
     .when('$cguRequired', {
       is: Joi.boolean().required().valid(true),
       then: Joi.required(),
-      otherwise: Joi.optional()
+      otherwise: Joi.optional(),
     })
     .valid(true)
     .messages({
@@ -66,5 +66,5 @@ module.exports = {
       throw EntityValidationError.fromJoiErrors(error.details);
     }
     return true;
-  }
+  },
 };

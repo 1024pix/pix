@@ -5,7 +5,7 @@ const _ = require('lodash');
 
 const KNOWLEDGE_ELEMENT_STATUS = {
   VALIDATED: 'validated',
-  INVALIDATED: 'invalidated'
+  INVALIDATED: 'invalidated',
 };
 
 const ONE_MINUTE = 60;
@@ -203,18 +203,18 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           domainBuilder.buildKnowledgeElement({
             skillId: url2.id,
             status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct'
+            source: 'direct',
           }),
           domainBuilder.buildKnowledgeElement({
             skillId: url3.id,
             status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct'
+            source: 'direct',
           }),
           domainBuilder.buildKnowledgeElement({
             skillId: rechInfo5.id,
             status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED,
-            source: 'direct'
-          })
+            source: 'direct',
+          }),
         ];
 
         // when
@@ -240,12 +240,12 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           domainBuilder.buildKnowledgeElement({
             skillId: web2.id,
             status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED,
-            source: 'direct'
+            source: 'direct',
           }),
           domainBuilder.buildKnowledgeElement({
             skillId: web3.id,
             status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED,
-            source: 'indirect'
+            source: 'indirect',
           }),
         ];
 
@@ -272,28 +272,28 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           domainBuilder.buildKnowledgeElement({
             skillId: web1.id,
             status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'indirect'
+            source: 'indirect',
           }),
           domainBuilder.buildKnowledgeElement({
             skillId: web2.id,
             status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct'
+            source: 'direct',
           }),
           domainBuilder.buildKnowledgeElement({
             skillId: url3.id,
             status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'indirect'
+            source: 'indirect',
           }),
           domainBuilder.buildKnowledgeElement({
             skillId: url4.id,
             status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct'
+            source: 'direct',
           }),
           domainBuilder.buildKnowledgeElement({
             skillId: url6.id,
             status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED,
-            source: 'direct'
-          })
+            source: 'direct',
+          }),
         ];
 
         lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeUrl_6.id, result: AnswerStatus.KO });
@@ -328,29 +328,29 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_5.id, result: AnswerStatus.OK });
         allAnswers = [
           lastAnswer,
-          domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK })
+          domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK }),
         ];
 
         knowledgeElements = [
           domainBuilder.buildKnowledgeElement({
             skillId: web1.id,
             status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'indirect'
+            source: 'indirect',
           }),
           domainBuilder.buildKnowledgeElement({
             skillId: web2.id,
             status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct'
+            source: 'direct',
           }),
           domainBuilder.buildKnowledgeElement({
             skillId: web4.id,
             status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'indirect'
+            source: 'indirect',
           }),
           domainBuilder.buildKnowledgeElement({
             skillId: web6.id,
             status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct'
+            source: 'direct',
           }),
         ];
 
@@ -380,12 +380,12 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           domainBuilder.buildKnowledgeElement({
             skillId: web1.id,
             status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'indirect'
+            source: 'indirect',
           }),
           domainBuilder.buildKnowledgeElement({
             skillId: web2.id,
             status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct'
+            source: 'direct',
           }),
         ];
 
@@ -412,8 +412,8 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           domainBuilder.buildKnowledgeElement({
             skillId: info2.id,
             status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct'
-          })
+            source: 'direct',
+          }),
         ];
 
         // when
@@ -442,8 +442,8 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           domainBuilder.buildKnowledgeElement({
             skillId: info2.id,
             status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct'
-          })
+            source: 'direct',
+          }),
         ];
 
         // when
@@ -477,12 +477,12 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           domainBuilder.buildKnowledgeElement({
             skillId: web1.id,
             status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct'
+            source: 'direct',
           }),
           domainBuilder.buildKnowledgeElement({
             skillId: web2.id,
             status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct'
+            source: 'direct',
           }),
         ];
 
@@ -510,12 +510,12 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           domainBuilder.buildKnowledgeElement({
             skillId: web1.id,
             status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'indirect'
+            source: 'indirect',
           }),
           domainBuilder.buildKnowledgeElement({
             skillId: web2.id,
             status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct'
+            source: 'direct',
           }),
         ];
 
@@ -547,22 +547,22 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           domainBuilder.buildKnowledgeElement({
             skillId: web1.id,
             status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'indirect'
+            source: 'indirect',
           }),
           domainBuilder.buildKnowledgeElement({
             skillId: web2.id,
             status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct'
+            source: 'direct',
           }),
           domainBuilder.buildKnowledgeElement({
             skillId: web5.id,
             status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct'
+            source: 'direct',
           }),
           domainBuilder.buildKnowledgeElement({
             skillId: url2.id,
             status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct'
+            source: 'direct',
           }),
         ];
 
@@ -596,8 +596,8 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           domainBuilder.buildKnowledgeElement({
             skillId: web1.id,
             status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED,
-            source: 'indirect'
-          })
+            source: 'indirect',
+          }),
         ];
 
         // when
@@ -606,7 +606,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           challenges,
           knowledgeElements,
           lastAnswer,
-          allAnswers
+          allAnswers,
         });
 
         // then

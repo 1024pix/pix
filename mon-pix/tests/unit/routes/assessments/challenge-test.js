@@ -14,7 +14,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
   let queryRecordStub;
   let findRecordStub;
   const params = {
-    challenge_id: 'challenge_id'
+    challenge_id: 'challenge_id',
   };
 
   const assessment = {
@@ -26,8 +26,8 @@ describe('Unit | Route | Assessments | Challenge', function() {
   const model = {
     assessment,
     challenge: {
-      id: 'challenge_id'
-    }
+      id: 'challenge_id',
+    },
   };
 
   beforeEach(function() {
@@ -38,7 +38,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
     storeStub = EmberService.create({
       createRecord: createRecordStub,
       queryRecord: queryRecordStub,
-      findRecord: findRecordStub
+      findRecord: findRecordStub,
     });
 
     route = this.owner.lookup('route:assessments.challenge');
@@ -69,7 +69,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
         sinon.assert.calledOnce(queryRecordStub);
         sinon.assert.calledWith(queryRecordStub, 'answer', {
           assessmentId: assessment.id,
-          challengeId: params.challenge_id
+          challengeId: params.challenge_id,
         });
       });
     });
@@ -119,7 +119,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
         // then
         sinon.assert.calledWith(createRecordStub, 'answer', {
           assessment: assessment,
-          challenge: challengeOne
+          challenge: challengeOne,
         });
       });
     });
@@ -139,7 +139,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
       sinon.assert.calledWith(answerToChallengeOne.setProperties, {
         value: answerValue,
         timeout: answerTimeout,
-        elapsedTime: answerElapsedTime
+        elapsedTime: answerElapsedTime,
       });
     });
 
@@ -160,7 +160,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
       sinon.assert.calledWith(answerToChallengeOne.setProperties, {
         value: answerValueWithoutUselessChar,
         timeout: answerTimeout,
-        elapsedTime: answerElapsedTime
+        elapsedTime: answerElapsedTime,
       });
     });
 

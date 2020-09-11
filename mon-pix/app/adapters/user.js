@@ -20,8 +20,8 @@ export default class User extends ApplicationAdapter {
       const { username, password: expiredPassword } = snapshot.record;
       const payload = {
         data: {
-          attributes: { username, expiredPassword, newPassword }
-        }
+          attributes: { username, expiredPassword, newPassword },
+        },
       };
 
       return this.ajax(url, 'POST', { data: payload });

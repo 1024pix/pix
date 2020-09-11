@@ -34,9 +34,9 @@ describe('Acceptance | Controller | Schooling-registration-dependent-user', () =
               'last-name': schoolingRegistration.lastName,
               'birthdate': schoolingRegistration.birthdate,
               'password': 'P@ssw0rd',
-            }
-          }
-        }
+            },
+          },
+        },
       };
     });
 
@@ -64,7 +64,7 @@ describe('Acceptance | Controller | Schooling-registration-dependent-user', () =
           const userId = databaseBuilder.factory.buildUser().id;
           const schoolingRegistrationAlreadyLinked = databaseBuilder.factory.buildSchoolingRegistration({
             organizationId: organization.id,
-            userId
+            userId,
           });
           await databaseBuilder.commit();
 
@@ -144,7 +144,7 @@ describe('Acceptance | Controller | Schooling-registration-dependent-user', () =
       const userId = user.id;
       databaseBuilder.factory.buildMembership({ organizationId, userId });
       schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
-        organizationId, userId
+        organizationId, userId,
       }).id;
       await databaseBuilder.commit();
 
@@ -157,9 +157,9 @@ describe('Acceptance | Controller | Schooling-registration-dependent-user', () =
             attributes: {
               'organization-id': organizationId,
               'schooling-registration-id': schoolingRegistrationId,
-            }
-          }
-        }
+            },
+          },
+        },
       };
     });
 
@@ -186,7 +186,7 @@ describe('Acceptance | Controller | Schooling-registration-dependent-user', () =
     it('should return a 404 status when schoolingRegistration\'s userId does not exist', async () => {
       // given
       const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
-        organizationId, userId: null
+        organizationId, userId: null,
       }).id;
       options.payload.data.attributes['schooling-registration-id'] = schoolingRegistrationId;
 
@@ -251,9 +251,9 @@ describe('Acceptance | Controller | Schooling-registration-dependent-user', () =
             attributes: {
               'organization-id': organizationId,
               'schooling-registration-id': null,
-            }
-          }
-        }
+            },
+          },
+        },
       };
     });
 
@@ -261,7 +261,7 @@ describe('Acceptance | Controller | Schooling-registration-dependent-user', () =
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
-        organizationId, userId
+        organizationId, userId,
       }).id;
       options.payload.data.attributes['schooling-registration-id'] = schoolingRegistrationId;
 
@@ -288,7 +288,7 @@ describe('Acceptance | Controller | Schooling-registration-dependent-user', () =
     it('should return a 404 status when schoolingRegistration\'s userId does not exist', async () => {
       // given
       const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
-        organizationId, userId: null
+        organizationId, userId: null,
       }).id;
       options.payload.data.attributes['schooling-registration-id'] = schoolingRegistrationId;
 
@@ -305,7 +305,7 @@ describe('Acceptance | Controller | Schooling-registration-dependent-user', () =
       // given
       const wrongOrganization = databaseBuilder.factory.buildOrganization();
       const schoolingRegistrationWithWrongOrganization = databaseBuilder.factory.buildSchoolingRegistration({
-        organizationId: wrongOrganization.id
+        organizationId: wrongOrganization.id,
       });
       await databaseBuilder.commit();
 

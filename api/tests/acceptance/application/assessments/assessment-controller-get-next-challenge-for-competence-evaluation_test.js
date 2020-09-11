@@ -9,15 +9,15 @@ const competenceId = 'recCompetence';
 
 const skillWeb1Id = 'recAcquisWeb1';
 const skillWeb1Name = '@web1';
-const skillWeb1 = airtableBuilder.factory.buildSkill({ id: skillWeb1Id, nom: skillWeb1Name, compétenceViaTube: [ competenceId ], });
+const skillWeb1 = airtableBuilder.factory.buildSkill({ id: skillWeb1Id, nom: skillWeb1Name, compétenceViaTube: [ competenceId ] });
 
 const skillWeb2Id = 'recAcquisWeb2';
 const skillWeb2Name = '@web2';
-const skillWeb2 = airtableBuilder.factory.buildSkill({ id: skillWeb2Id, nom: skillWeb2Name, compétenceViaTube: [ competenceId ], });
+const skillWeb2 = airtableBuilder.factory.buildSkill({ id: skillWeb2Id, nom: skillWeb2Name, compétenceViaTube: [ competenceId ] });
 
 const skillWeb3Id = 'recAcquisWeb3';
 const skillWeb3Name = '@web3';
-const skillWeb3 = airtableBuilder.factory.buildSkill({ id: skillWeb3Id, nom: skillWeb3Name, compétenceViaTube: [ competenceId ], });
+const skillWeb3 = airtableBuilder.factory.buildSkill({ id: skillWeb3Id, nom: skillWeb3Name, compétenceViaTube: [ competenceId ] });
 
 const competenceReference = '1.1 Mener une recherche et une veille d’information';
 const competence = airtableBuilder.factory.buildCompetence({
@@ -116,7 +116,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
           assessmentId,
           answerId,
           userId,
-          competenceId
+          competenceId,
         });
         await databaseBuilder.commit();
       });
@@ -126,7 +126,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         const options = {
           method: 'GET',
           url: `/api/assessments/${assessmentId}/next`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         };
 
         // when
@@ -152,7 +152,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
           assessmentId,
           answerId1,
           userId,
-          competenceId
+          competenceId,
         });
         databaseBuilder.factory.buildKnowledgeElement({
           source: KnowledgeElement.SourceType.INFERRED,
@@ -161,7 +161,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
           assessmentId,
           answerId1,
           userId,
-          competenceId
+          competenceId,
         });
         databaseBuilder.factory.buildKnowledgeElement({
           status: KnowledgeElement.StatusType.INVALIDATED,
@@ -169,7 +169,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
           assessmentId,
           answerId2,
           userId,
-          competenceId
+          competenceId,
         });
         await databaseBuilder.commit();
       });
@@ -179,7 +179,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         const options = {
           method: 'GET',
           url: `/api/assessments/${assessmentId}/next`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         };
 
         // when
@@ -189,7 +189,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         return promise.then((response) => {
           expect(response.statusCode).to.equal(200);
           expect(response.result).to.deep.equal({
-            data: null
+            data: null,
           });
         });
       });

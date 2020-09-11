@@ -12,7 +12,7 @@ export default class ParticipantRoute extends Route {
       campaignParticipation: this.store.findRecord(
         'campaignParticipation',
         params.campaign_participation_id,
-        { include: 'user' }
+        { include: 'user' },
       ),
     });
   }

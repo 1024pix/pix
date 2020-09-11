@@ -3,7 +3,7 @@ const getAttendanceSheet = require('../../../../lib/domain/usecases/get-attendan
 const {
   ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES,
   ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
-  EXTRA_EMPTY_CANDIDATE_ROWS
+  EXTRA_EMPTY_CANDIDATE_ROWS,
 } = require('../../../../lib/infrastructure/files/attendance-sheet/attendance-sheet-placeholders');
 const writeOdsUtils = require('../../../../lib/infrastructure/utils/ods/write-ods-utils');
 const readOdsUtils  = require('../../../../lib/infrastructure/utils/ods/read-ods-utils');
@@ -43,7 +43,7 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
         externalId: 'ENT4567',
         extraTimePercentage: null,
       },
-    ]
+    ],
   };
 
   const attendanceSheetSessionData = {

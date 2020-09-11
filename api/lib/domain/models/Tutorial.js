@@ -7,7 +7,7 @@ class Tutorial {
     format,
     link,
     source,
-    title
+    title,
     // includes
     // references
   } = {}) {

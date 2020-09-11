@@ -40,7 +40,7 @@ module.exports = async function linkUserToSessionCertificationCandidate({
     firstName: participatingCertificationCandidate.firstName,
     lastName: participatingCertificationCandidate.lastName,
     birthdate: participatingCertificationCandidate.birthdate,
-    certificationCandidateRepository
+    certificationCandidateRepository,
   });
 
   if (_.isNil(certificationCandidate.userId)) {

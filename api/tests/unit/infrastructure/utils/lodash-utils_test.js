@@ -96,7 +96,7 @@ describe('Unit | Utils | lodash-utils', function() {
       '   ',
       '\t',
       '\r\n',
-      '\n'
+      '\n',
     ].forEach(function(string) {
       it(`should return true if string is "${string}"`, function() {
         expect(_.isBlank(string)).to.be.true;
@@ -108,7 +108,7 @@ describe('Unit | Utils | lodash-utils', function() {
       ' a',
       'a ',
       ' a ',
-      '\ta\ta'
+      '\ta\ta',
     ].forEach(function(string) {
       it(`should return false if string is "${string}"`, function() {
         expect(_.isBlank(string)).to.be.false;

@@ -27,7 +27,7 @@ describe('Integration | Domain | services | scoring | scoring-certification-serv
           'area_code': '1',
           'competence_code': '1.1',
           level: 0,
-          score: 4
+          score: 4,
         }, {
           id: undefined,
           competenceId: 'recComp1.2',
@@ -35,7 +35,7 @@ describe('Integration | Domain | services | scoring | scoring-certification-serv
           'area_code': '2',
           'competence_code': '1.2',
           level: 1,
-          score: 8
+          score: 8,
         }],
       };
 
@@ -51,7 +51,7 @@ describe('Integration | Domain | services | scoring | scoring-certification-serv
       const MAX_REACHABLE_LEVEL = 5;
       const MAX_REACHABLE_PIX = 40;
       const nbrPix = 50;
-      const competenceWithMarkAboveThreshold = { index: '1.1', obtainedLevel: 6, obtainedScore: nbrPix, area_code: '1', };
+      const competenceWithMarkAboveThreshold = { index: '1.1', obtainedLevel: 6, obtainedScore: nbrPix, area_code: '1' };
       const assessment = domainBuilder.buildAssessment({ id: assessmentId, courseId });
 
       sinon.stub(certificationResultService, 'getCertificationResult').resolves({ competencesWithMark: [competenceWithMarkAboveThreshold] });

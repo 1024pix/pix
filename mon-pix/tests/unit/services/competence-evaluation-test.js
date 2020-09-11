@@ -39,7 +39,7 @@ describe('Unit | Service | competence-evaluation', function() {
         sinon.assert.calledWith(store.queryRecord, 'competence-evaluation', {
           improve: true,
           userId,
-          competenceId
+          competenceId,
         });
       });
 

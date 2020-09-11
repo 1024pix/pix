@@ -35,7 +35,7 @@ exports.up = function(knex) {
         return knex(TABLE_NAME_ASSESSMENTS)
           .where('id', '=', assessment.id)
           .update({
-            type: TYPE_PREVIEW
+            type: TYPE_PREVIEW,
           });
       });
 
@@ -52,7 +52,7 @@ exports.up = function(knex) {
         return knex(TABLE_NAME_ASSESSMENTS)
           .where('id', '=', assessment.id)
           .update({
-            type: TYPE_PLACEMENT
+            type: TYPE_PLACEMENT,
           });
       });
 
@@ -72,7 +72,7 @@ exports.up = function(knex) {
         return knex(TABLE_NAME_ASSESSMENTS)
           .where('id', '=', assessment.id)
           .update({
-            type: TYPE_CERTIFICATION
+            type: TYPE_CERTIFICATION,
           });
       });
 
@@ -88,7 +88,7 @@ exports.up = function(knex) {
         return knex(TABLE_NAME_ASSESSMENTS)
           .where('id', '=', assessment.id)
           .update({
-            type: TYPE_DEMO
+            type: TYPE_DEMO,
           });
       });
 

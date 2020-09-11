@@ -6,7 +6,7 @@ import { computed } from '@ember/object';
 function _getNumberOf(juryCertificationSummaries, booleanFct) {
   return _.sumBy(
     juryCertificationSummaries.toArray(),
-    (juryCertificationSummary) => Number(booleanFct(juryCertificationSummary))
+    (juryCertificationSummary) => Number(booleanFct(juryCertificationSummary)),
   );
 }
 
@@ -61,7 +61,7 @@ export default class Session extends Model {
   get isPublished() {
     return _.some(
       this.juryCertificationSummaries.toArray(),
-      (juryCertificationSummary) => juryCertificationSummary.isPublished
+      (juryCertificationSummary) => juryCertificationSummary.isPublished,
     );
   }
 

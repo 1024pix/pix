@@ -29,14 +29,14 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
         method: 'POST',
         url: '/api/token',
         headers: {
-          'content-type': 'application/x-www-form-urlencoded'
+          'content-type': 'application/x-www-form-urlencoded',
         },
         payload: querystring.stringify({
           grant_type: 'password',
           username: 'user.username2453  ',
           password: 'user_password',
-          scope: 'pix-orga'
-        })
+          scope: 'pix-orga',
+        }),
       };
 
       // stub dependencies
@@ -57,7 +57,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       options.payload = querystring.stringify({
         grant_type: 'password',
         username: 'user@email.com',
-        password: 'user_password'
+        password: 'user_password',
       });
 
       // when
@@ -72,7 +72,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       options.payload = querystring.stringify({
         grant_type: 'authorization_code',
         username: 'valid@email.com',
-        password: 'valid_password'
+        password: 'valid_password',
       });
 
       // when
@@ -86,7 +86,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       // given
       options.payload = querystring.stringify({
         grant_type: 'password',
-        password: 'valid_password'
+        password: 'valid_password',
       });
 
       // when
@@ -115,7 +115,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       options.payload = querystring.stringify({
         grant_type: 'authorization_code',
         username: 'a_login_not_an_email',
-        password: 'valid_password'
+        password: 'valid_password',
       });
 
       // when
@@ -149,12 +149,12 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
         method: 'POST',
         url: '/api/revoke',
         headers: {
-          'content-type': 'application/x-www-form-urlencoded'
+          'content-type': 'application/x-www-form-urlencoded',
         },
         payload: querystring.stringify({
           token: 'jwt.access.token',
           token_type_hint: 'access_token',
-        })
+        }),
       };
     });
 

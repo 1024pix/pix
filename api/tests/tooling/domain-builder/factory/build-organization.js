@@ -40,7 +40,7 @@ function buildOrganization(
     email = faker.internet.exampleEmail(),
     createdAt = new Date('2018-01-12T01:02:03Z'),
     memberships = [],
-    targetProfileShares = []
+    targetProfileShares = [],
   } = {}) {
   return new Organization({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, credit, email, canCollectProfiles, createdAt, memberships, targetProfileShares });
 }
@@ -60,8 +60,8 @@ buildOrganization.withMembers = function(
     members = [
       _buildMember({ id: 1, firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com' }),
       _buildMember({ id: 2, firstName: 'Jane', lastName: 'Smith', email: 'jane.smith@example.com' }),
-    ]
-  } = {}
+    ],
+  } = {},
 ) {
   return new Organization({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, credit, canCollectProfiles, createdAt, members });
 };
@@ -78,14 +78,14 @@ buildOrganization.withSchoolingRegistrations = function(
     credit = 500,
     canCollectProfiles = false,
     createdAt = new Date('2018-01-12T01:02:03Z'),
-    students = []
-  } = {}
+    students = [],
+  } = {},
 ) {
   const organization = new Organization({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, credit, canCollectProfiles, createdAt, students });
 
   organization.students = [
     _buildSchoolingRegistration({ id: 1, lastName: 'Doe', firstName: 'John', organization }),
-    _buildSchoolingRegistration({ id: 2, lastName: 'Smith', firstName: 'Jane', organization })
+    _buildSchoolingRegistration({ id: 2, lastName: 'Smith', firstName: 'Jane', organization }),
   ];
 
   return organization;

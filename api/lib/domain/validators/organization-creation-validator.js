@@ -28,5 +28,5 @@ module.exports = {
       throw EntityValidationError.fromJoiErrors(error.details);
     }
     return true;
-  }
+  },
 };

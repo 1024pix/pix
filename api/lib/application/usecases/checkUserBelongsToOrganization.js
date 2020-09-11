@@ -6,5 +6,5 @@ module.exports = {
   execute(userId, organizationId) {
     return membershipRepository.findByUserIdAndOrganizationId({ userId, organizationId })
       .then((memberships) => !_.isEmpty(memberships));
-  }
+  },
 };

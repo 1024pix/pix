@@ -24,7 +24,7 @@ describe('Acceptance | API | Certifications', () => {
     certificationCourse = databaseBuilder.factory.buildCertificationCourse({
       sessionId: session.id,
       userId,
-      isPublished: true
+      isPublished: true,
     });
     assessment = databaseBuilder.factory.buildAssessment({
       userId,
@@ -41,7 +41,7 @@ describe('Acceptance | API | Certifications', () => {
     });
     databaseBuilder.factory.buildPartnerCertification({
       certificationCourseId: certificationCourse.id,
-      partnerKey: badge.key
+      partnerKey: badge.key,
     });
 
     return databaseBuilder.commit();
@@ -153,7 +153,7 @@ describe('Acceptance | API | Certifications', () => {
         area_code: '1',
         competence_code: '1.1',
         assessmentResultId: assessmentResult.id,
-        acquiredPartnerCertifications: [badge.key]
+        acquiredPartnerCertifications: [badge.key],
       });
       return databaseBuilder.commit();
     });
@@ -342,7 +342,7 @@ describe('Acceptance | API | Certifications', () => {
         area_code: '1',
         competence_code: '1.1',
         assessmentResultId: assessmentResult.id,
-        acquiredPartnerCertifications: [badge.key]
+        acquiredPartnerCertifications: [badge.key],
       });
       return databaseBuilder.commit();
     });
@@ -375,7 +375,7 @@ describe('Acceptance | API | Certifications', () => {
               'last-name': certificationCourse.lastName,
               'pix-score': assessmentResult.pixScore,
               'status': assessmentResult.status,
-              'clea-certification-status': 'not_passed'
+              'clea-certification-status': 'not_passed',
             },
             'id': `${certificationCourse.id}`,
             'relationships': {

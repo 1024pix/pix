@@ -44,7 +44,7 @@ module('Integration | Component | routes/authenticated/organizations | list-item
       { id: 3, name: 'Entreprise KSSOS', type: 'PRO', externalId },
     ];
     organizations.meta = {
-      rowCount: 3
+      rowCount: 3,
     };
     this.organizations = organizations;
 

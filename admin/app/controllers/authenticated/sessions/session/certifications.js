@@ -16,7 +16,7 @@ export default class ListController extends Controller {
   get canPublish() {
     return !(_.some(
       this.model.juryCertificationSummaries.toArray(),
-      (certif) => ['error', 'started'].includes(certif.status)
+      (certif) => ['error', 'started'].includes(certif.status),
     ));
   }
 

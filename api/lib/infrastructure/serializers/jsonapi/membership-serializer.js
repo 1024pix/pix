@@ -34,8 +34,8 @@ module.exports = {
           relationshipLinks: {
             related: function(record, current, parent) {
               return `/api/organizations/${parent.id}/campaigns`;
-            }
-          }
+            },
+          },
         },
         targetProfiles: {
           ref: 'id',
@@ -43,8 +43,8 @@ module.exports = {
           relationshipLinks: {
             related: function(record, current, parent) {
               return `/api/organizations/${parent.id}/target-profiles`;
-            }
-          }
+            },
+          },
         },
         memberships: {
           ref: 'id',
@@ -52,8 +52,8 @@ module.exports = {
           relationshipLinks: {
             related: function(record, current, parent) {
               return `/api/organizations/${parent.id}/memberships`;
-            }
-          }
+            },
+          },
         },
         students: {
           ref: 'id',
@@ -61,8 +61,8 @@ module.exports = {
           relationshipLinks: {
             related: function(record, current, parent) {
               return `/api/organizations/${parent.id}/students`;
-            }
-          }
+            },
+          },
         },
         organizationInvitations: {
           ref: 'id',
@@ -70,16 +70,16 @@ module.exports = {
           relationshipLinks: {
             related: function(record, current, parent) {
               return `/api/organizations/${parent.id}/invitations`;
-            }
-          }
+            },
+          },
         },
       },
       user: {
         ref: 'id',
         included: true,
-        attributes: ['firstName', 'lastName', 'email']
+        attributes: ['firstName', 'lastName', 'email'],
       },
-      meta
+      meta,
     }).serialize(membership);
   },
 
@@ -88,5 +88,5 @@ module.exports = {
       id: json.data.id,
       organizationRole: json.data.attributes['organization-role'],
     });
-  }
+  },
 };

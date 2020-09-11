@@ -25,7 +25,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         campaign,
         campaignId: campaign.id,
-        userId: user.id
+        userId: user.id,
       });
       assessment = databaseBuilder.factory.buildAssessment({
         campaignParticipationId: campaignParticipation.id,
@@ -54,30 +54,30 @@ describe('Acceptance | API | Campaign Participations', () => {
         },
         relationships: {
           campaign: {
-            data: null
+            data: null,
           },
           user: {
             data: {
               id: `${user.id}`,
               type: 'users',
-            }
+            },
           },
           assessment: {
             links: {
-              related: `/api/assessments/${assessment.id}`
-            }
+              related: `/api/assessments/${assessment.id}`,
+            },
           },
           'campaign-participation-result': {
             links: {
-              related: `/api/campaign-participations/${campaignParticipation.id}/campaign-participation-result`
-            }
+              related: `/api/campaign-participations/${campaignParticipation.id}/campaign-participation-result`,
+            },
           },
           'campaign-analysis': {
             links: {
-              related: `/api/campaign-participations/${campaignParticipation.id}/analyses`
-            }
-          }
-        }
+              related: `/api/campaign-participations/${campaignParticipation.id}/analyses`,
+            },
+          },
+        },
       };
 
       // when
@@ -133,32 +133,32 @@ describe('Acceptance | API | Campaign Participations', () => {
               campaign: {
                 data: {
                   type: 'campaigns',
-                  id: campaign.id.toString()
-                }
+                  id: campaign.id.toString(),
+                },
               },
               user: {
                 data: {
                   'id': user.id.toString(),
-                  'type': 'users'
-                }
+                  'type': 'users',
+                },
               },
               assessment: {
                 links: {
-                  related: `/api/assessments/${assessment.id}`
-                }
+                  related: `/api/assessments/${assessment.id}`,
+                },
               },
               'campaign-participation-result': {
                 links: {
-                  related: `/api/campaign-participations/${campaignParticipation.id}/campaign-participation-result`
-                }
+                  related: `/api/campaign-participations/${campaignParticipation.id}/campaign-participation-result`,
+                },
               },
               'campaign-analysis': {
                 links: {
-                  related: `/api/campaign-participations/${campaignParticipation.id}/analyses`
-                }
-              }
-            }
-          }
+                  related: `/api/campaign-participations/${campaignParticipation.id}/analyses`,
+                },
+              },
+            },
+          },
         ];
 
         // when
@@ -208,15 +208,15 @@ describe('Acceptance | API | Campaign Participations', () => {
 
       skillWeb1Id = 'recAcquisWeb1';
       const skillWeb1Name = '@web1';
-      const skillWeb1 = airtableBuilder.factory.buildSkill({ id: skillWeb1Id, nom: skillWeb1Name, compétenceViaTube: [ competenceId ], });
+      const skillWeb1 = airtableBuilder.factory.buildSkill({ id: skillWeb1Id, nom: skillWeb1Name, compétenceViaTube: [ competenceId ] });
 
       skillWeb2Id = 'recAcquisWeb2';
       const skillWeb2Name = '@web2';
-      const skillWeb2 = airtableBuilder.factory.buildSkill({ id: skillWeb2Id, nom: skillWeb2Name, compétenceViaTube: [ competenceId ], });
+      const skillWeb2 = airtableBuilder.factory.buildSkill({ id: skillWeb2Id, nom: skillWeb2Name, compétenceViaTube: [ competenceId ] });
 
       skillWeb3Id = 'recAcquisWeb3';
       const skillWeb3Name = '@web3';
-      const skillWeb3 = airtableBuilder.factory.buildSkill({ id: skillWeb3Id, nom: skillWeb3Name, compétenceViaTube: [ competenceId ], });
+      const skillWeb3 = airtableBuilder.factory.buildSkill({ id: skillWeb3Id, nom: skillWeb3Name, compétenceViaTube: [ competenceId ] });
 
       options = {
         method: 'PATCH',
@@ -224,8 +224,8 @@ describe('Acceptance | API | Campaign Participations', () => {
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
         payload: {
           data: {
-            isShared: true
-          }
+            isShared: true,
+          },
         },
       };
 
@@ -299,7 +299,7 @@ describe('Acceptance | API | Campaign Participations', () => {
           { skillId: skillWeb2Id, status: 'validated' },
           { skillId: skillWeb3Id, status: 'validated' },
         ]).each((ke, id) => {
-          databaseBuilder.factory.buildKnowledgeElement({ ...ke, id, userId: user.id, assessmentId: assessment.id, });
+          databaseBuilder.factory.buildKnowledgeElement({ ...ke, id, userId: user.id, assessmentId: assessment.id });
         });
 
         await databaseBuilder.commit();
@@ -368,11 +368,11 @@ describe('Acceptance | API | Campaign Participations', () => {
               data: {
                 id: null,
                 type: 'campaigns',
-              }
-            }
-          }
-        }
-      }
+              },
+            },
+          },
+        },
+      },
     };
 
     beforeEach(async () => {

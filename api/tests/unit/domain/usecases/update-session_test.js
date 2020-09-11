@@ -19,7 +19,7 @@ describe('Unit | UseCase | update-session', () => {
       date: '2017-12-08',
       time: '14:30',
       description: 'miam',
-      accessCode: 'ABCD12'
+      accessCode: 'ABCD12',
     };
     sessionRepository = {
       get: sinon.stub(),
@@ -45,7 +45,7 @@ describe('Unit | UseCase | update-session', () => {
         date: '2017-12-08',
         time: '14:30',
         description: 'miam',
-        accessCode: 'ABCD12'
+        accessCode: 'ABCD12',
       };
 
       // when
@@ -73,7 +73,7 @@ describe('Unit | UseCase | update-session', () => {
         date: '2017-12-08',
         time: '14:30',
         description: 'miam',
-        accessCode: 'ABCD12'
+        accessCode: 'ABCD12',
       };
 
       // when

@@ -1,7 +1,7 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
 const {
-  NotFoundError, SchoolingRegistrationAlreadyLinkedToUserError, AlreadyRegisteredUsernameError
+  NotFoundError, SchoolingRegistrationAlreadyLinkedToUserError, AlreadyRegisteredUsernameError,
 } = require('../../../../lib/domain/errors');
 
 describe('Unit | Service | user-reconciliation-service', () => {
@@ -443,7 +443,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
 
     beforeEach(() => {
       userRepository = {
-        isUsernameAvailable: sinon.stub()
+        isUsernameAvailable: sinon.stub(),
       };
     });
 
@@ -487,7 +487,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
     const user = {
       firstName: 'fakeFirst-Name',
       lastName: 'fake LastName',
-      birthdate: '2008-03-01'
+      birthdate: '2008-03-01',
     };
     const originaldUsername = 'fakefirstname.fakelastname0103';
 
@@ -495,7 +495,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
 
     beforeEach(() => {
       userRepository = {
-        isUsernameAvailable: sinon.stub()
+        isUsernameAvailable: sinon.stub(),
       };
     });
 

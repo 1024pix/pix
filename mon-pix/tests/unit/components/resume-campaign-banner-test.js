@@ -17,7 +17,7 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
     campaign: EmberObject.create({
       code: 'AZERTY0',
       isTypeAssessment: true,
-    })
+    }),
   });
   const oldCampaignNotFinished = EmberObject.create({
     isShared: false,
@@ -25,7 +25,7 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
     campaign: EmberObject.create({
       code: 'AZERTY1',
       isTypeAssessment: true,
-    })
+    }),
   });
   const campaignFinished = EmberObject.create({
     isShared: true,
@@ -64,7 +64,7 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
         title: campaignNotFinished.campaign.title,
         code: campaignNotFinished.campaign.code,
         isTypeAssessment: true,
-        assessment: campaignNotFinished.assessment
+        assessment: campaignNotFinished.assessment,
       };
 
       // when
@@ -89,7 +89,7 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
         isTypeAssessment: true,
         campaign: EmberObject.create({
           code: 'AZERTY0',
-        })
+        }),
       });
       participations.addObject(oldCampaignNotFinished);
       participations.addObject(updatableCampaignNotFinished);
@@ -111,7 +111,7 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
         title: campaignFinishedButNotShared.campaign.title,
         code: campaignFinishedButNotShared.campaign.code,
         isTypeAssessment: true,
-        assessment: campaignFinishedButNotShared.assessment
+        assessment: campaignFinishedButNotShared.assessment,
       };
 
       // when
@@ -130,7 +130,7 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
         title: campaignFinishedButNotShared.campaign.title,
         code: campaignFinishedButNotShared.campaign.code,
         isTypeAssessment: true,
-        assessment: campaignFinishedButNotShared.assessment
+        assessment: campaignFinishedButNotShared.assessment,
       };
 
       // when

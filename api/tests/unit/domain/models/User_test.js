@@ -50,14 +50,14 @@ describe('Unit | Domain | Models | User', () => {
         email: 'email@example.net',
         password: 'pix123',
         cgu: true,
-        pixRoles: []
+        pixRoles: [],
       };
     });
 
     it('should be true if user has role PixMaster ', () => {
       // given
       userRawDetails.pixRoles = [{
-        name: 'PIX_MASTER'
+        name: 'PIX_MASTER',
       }];
       const user = new User(userRawDetails);
 
@@ -87,7 +87,7 @@ describe('Unit | Domain | Models | User', () => {
     it('should be true if user has a role in an organization', () => {
       // given
       const user = domainBuilder.buildUser({
-        memberships: [domainBuilder.buildMembership()]
+        memberships: [domainBuilder.buildMembership()],
       });
 
       // when
@@ -115,7 +115,7 @@ describe('Unit | Domain | Models | User', () => {
     it('should be true if user has a role in a certification center', () => {
       // given
       const user = domainBuilder.buildUser({
-        certificationCenterMemberships: [domainBuilder.buildCertificationCenterMembership()]
+        certificationCenterMemberships: [domainBuilder.buildCertificationCenterMembership()],
       });
 
       // when
@@ -228,7 +228,7 @@ describe('Unit | Domain | Models | User', () => {
     it('should normalize email', () => {
       // given
       const userData = {
-        email: 'TESTMAIL@gmail.com'
+        email: 'TESTMAIL@gmail.com',
       };
 
       // when

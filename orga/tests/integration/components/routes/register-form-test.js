@@ -45,7 +45,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
           },
           unloadRecord() {
             return resolve();
-          }
+          },
         });
       };
       sessionStub.prototype.authenticate = function(authenticator, email, password, scope) {
@@ -178,7 +178,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
           lastName: 'pix',
           email: 'shi@fu.me',
           password: 'Mypassword1',
-          cgu: true
+          cgu: true,
         };
 
         spy = sinon.spy();
@@ -188,7 +188,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
           save: spy,
           unloadRecord: () => {
             return resolve();
-          }
+          },
         });
 
         await render(hbs`<Routes::RegisterForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);

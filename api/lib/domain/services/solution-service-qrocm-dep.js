@@ -155,6 +155,6 @@ module.exports = {
     const fullValidations = _compareAnswersAndSolutions(treatedAnswers, treatedSolutions);
 
     return _formatResult(scoring, fullValidations, deactivations);
-  }
+  },
 
 };

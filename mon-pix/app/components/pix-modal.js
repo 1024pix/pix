@@ -6,7 +6,7 @@ import { on } from '@ember/object/evented';
 import ModalDialog from 'ember-modal-dialog/components/modal-dialog';
 import {
   EKMixin as EmberKeyboardMixin,
-  keyUp
+  keyUp,
 } from 'ember-keyboard';
 
 export default ModalDialog.extend(EmberKeyboardMixin, {
@@ -56,7 +56,7 @@ export default ModalDialog.extend(EmberKeyboardMixin, {
       } else {
         this.onClose();
       }
-    }
-  }
+    },
+  },
 
 });

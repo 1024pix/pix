@@ -18,8 +18,8 @@ describe('Unit | Application | PreResponse-utils', () => {
       // given
       const request = {
         response: {
-          statusCode: 200
-        }
+          statusCode: 200,
+        },
       };
       const expectedString = 'Symbol(continue)';
 
@@ -33,7 +33,7 @@ describe('Unit | Application | PreResponse-utils', () => {
 
     it('should manage DomainError', async () => {
       const request = {
-        response: new DomainError('Error message')
+        response: new DomainError('Error message'),
       };
 
       // when
@@ -45,7 +45,7 @@ describe('Unit | Application | PreResponse-utils', () => {
 
     it('should manage BaseHttpError', async () => {
       const request = {
-        response: new BaseHttpError('Error message')
+        response: new BaseHttpError('Error message'),
       };
 
       // when

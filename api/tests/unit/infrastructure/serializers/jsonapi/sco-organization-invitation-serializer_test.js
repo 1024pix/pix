@@ -11,7 +11,7 @@ describe('Unit | Serializer | JSONAPI | sco-organization-invitation-serializer',
       data: {
         type: 'sco-organization-invitations',
         id: invitationObject.id.toString(),
-      }
+      },
     };
 
     it('should convert an organization-invitation object into JSON API data', () => {

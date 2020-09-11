@@ -12,7 +12,7 @@ describe('Unit | Pre-handler | Session Authorization', () => {
       auth: { credentials: { accessToken: 'valid.access.token', userId } },
       params: {
         id: sessionId,
-      }
+      },
     };
 
     beforeEach(() => {

@@ -20,7 +20,7 @@ module.exports = async function getAssessment(
     assessment,
     locale,
     competenceRepository,
-    courseRepository
+    courseRepository,
   });
 
   return assessment;
@@ -30,7 +30,7 @@ async function _fetchAssessmentTitle({
   assessment,
   locale,
   competenceRepository,
-  courseRepository
+  courseRepository,
 }) {
   switch (assessment.type) {
     case Assessment.types.CERTIFICATION : {

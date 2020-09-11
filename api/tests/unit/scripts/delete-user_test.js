@@ -220,8 +220,8 @@ describe('Delete User Script', () => {
         // given
         const queryResult = {
           rows: [
-            { id: 1 }
-          ]
+            { id: 1 },
+          ],
         };
 
         // when
@@ -234,7 +234,7 @@ describe('Delete User Script', () => {
       it('should throw when result has no rows', () => {
         // given
         const queryResult = {
-          rows: []
+          rows: [],
         };
 
         // then
@@ -249,8 +249,8 @@ describe('Delete User Script', () => {
           rows: [
             { id: 1 },
             { id: 2 },
-            { id: 3 }
-          ]
+            { id: 3 },
+          ],
         };
 
         // when
@@ -263,7 +263,7 @@ describe('Delete User Script', () => {
       it('should return empty array when result has no rows', () => {
         // given
         const queryResult = {
-          rows: []
+          rows: [],
         };
 
         // when
@@ -297,7 +297,7 @@ describe('Delete User Script', () => {
         const userId = 5186;
         subject.userId = userId;
         clientStub.query_and_log.resolves({
-          rows: [{ count: 0 }]
+          rows: [{ count: 0 }],
         });
 
         queryBuilderMock.expects('count_certifications_from_user_id').once().withArgs(userId);
@@ -316,7 +316,7 @@ describe('Delete User Script', () => {
         const userId = 5186;
         subject.userId = userId;
         clientStub.query_and_log.resolves({
-          rows: [{ count: 1 }]
+          rows: [{ count: 1 }],
         });
 
         // when

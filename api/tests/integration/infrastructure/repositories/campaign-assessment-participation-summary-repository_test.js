@@ -26,21 +26,21 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
 
         const participation1 = {
           participantExternalId: 'The good',
-          campaignId: campaign.id
+          campaignId: campaign.id,
         };
 
         databaseBuilder.factory.buildAssessmentFromParticipation(participation1, {});
 
         const participation2 = {
           participantExternalId: 'The bad',
-          campaignId: otherCampaign.id
+          campaignId: otherCampaign.id,
         };
 
         databaseBuilder.factory.buildAssessmentFromParticipation(participation2, {});
 
         const participation3 = {
           participantExternalId: 'The ugly',
-          campaignId: campaign.id
+          campaignId: campaign.id,
         };
 
         databaseBuilder.factory.buildAssessmentFromParticipation(participation3, {});
@@ -65,7 +65,7 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
           participantExternalId: 'The good',
           campaignId: campaign.id,
           isShared: false,
-          userId: user.id
+          userId: user.id,
         };
 
         const campaignParticipation =  databaseBuilder.factory.buildCampaignParticipation(participation);
@@ -73,7 +73,7 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
           campaignParticipationId: campaignParticipation.id,
           createdAt: new Date(2020, 1, 1),
           state: Assessment.states.ONGOING,
-          userId: user.id
+          userId: user.id,
         };
 
         databaseBuilder.factory.buildAssessment(assessment1);
@@ -81,7 +81,7 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
           campaignParticipationId: campaignParticipation.id,
           createdAt: new Date(2020, 1, 2),
           state: Assessment.states.COMPLETED,
-          userId: user.id
+          userId: user.id,
         };
 
         databaseBuilder.factory.buildAssessment(assessment2);
@@ -102,7 +102,7 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
       beforeEach(async () => {
         const skills = [
           { id: 'skill1', name: '@Acquis1' },
-          { id: 'skill1', name: '@Acqui2' }
+          { id: 'skill1', name: '@Acqui2' },
         ];
         skillDatasource.findOperativeByRecordIds.restore();
         sinon.stub(skillDatasource, 'findOperativeByRecordIds').resolves(skills);
@@ -130,7 +130,7 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
         const skills = [
           { id: 'skill1', name: '@Acquis1' },
           { id: 'skill2', name: '@Acquis2' },
-          { id: 'skill3', name: '@Acquis3' }
+          { id: 'skill3', name: '@Acquis3' },
         ];
         skillDatasource.findOperativeByRecordIds.restore();
         sinon.stub(skillDatasource, 'findOperativeByRecordIds').resolves(skills);
@@ -143,7 +143,7 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
           campaignId: campaign.id,
           userId: user.id,
           isShared: true,
-          sharedAt: new Date('2020-01-02')
+          sharedAt: new Date('2020-01-02'),
         });
 
         databaseBuilder.factory.buildAssessment({ campaignParticipationId: campaignParticipation.id, userId: user.id });
@@ -151,18 +151,18 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
         databaseBuilder.factory.buildKnowledgeElement({
           userId: user.id,
           skillId: skills[0].id,
-          createdAt: new Date('2020-01-01')
+          createdAt: new Date('2020-01-01'),
         });
         databaseBuilder.factory.buildKnowledgeElement({
           userId: user.id,
           skillId: skills[1].id,
-          createdAt: new Date('2020-01-02')
+          createdAt: new Date('2020-01-02'),
 
         });
         databaseBuilder.factory.buildKnowledgeElement({
           userId: user.id,
           skillId: skills[2].id,
-          createdAt: new Date('2020-01-03')
+          createdAt: new Date('2020-01-03'),
         });
 
         await databaseBuilder.commit();
@@ -182,7 +182,7 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
         const skills = [
           { id: 'skill1', name: '@Acquis1' },
           { id: 'skill2', name: '@Acquis2' },
-          { id: 'skill3', name: '@Acquis3' }
+          { id: 'skill3', name: '@Acquis3' },
         ];
         skillDatasource.findOperativeByRecordIds.restore();
         sinon.stub(skillDatasource, 'findOperativeByRecordIds').resolves(skills);
@@ -194,7 +194,7 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
         campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
           userId: user.id,
-          sharedAt: new Date('2020-01-02')
+          sharedAt: new Date('2020-01-02'),
         });
 
         databaseBuilder.factory.buildAssessment({ campaignParticipationId: campaignParticipation.id, userId: user.id });
@@ -216,33 +216,33 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
 
         const participant1 = {
           lastName: 'McClane',
-          firstName: 'John'
+          firstName: 'John',
         };
         const participation1 = {
           participantExternalId: 'Third',
-          campaignId: campaign.id
+          campaignId: campaign.id,
         };
 
         databaseBuilder.factory.buildAssessmentFromParticipation(participation1, participant1);
 
         const participant2 = {
           lastName: 'Gruber',
-          firstName: 'Hans'
+          firstName: 'Hans',
         };
         const participation2 = {
           participantExternalId: 'First',
-          campaignId: campaign.id
+          campaignId: campaign.id,
         };
 
         databaseBuilder.factory.buildAssessmentFromParticipation(participation2, participant2);
 
         const participant3 = {
           lastName: 'Holly',
-          firstName: 'McClane'
+          firstName: 'McClane',
         };
         const participation3 = {
           participantExternalId: 'Second',
-          campaignId: campaign.id
+          campaignId: campaign.id,
         };
 
         databaseBuilder.factory.buildAssessmentFromParticipation(participation3, participant3);
@@ -264,7 +264,7 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
         campaign = databaseBuilder.factory.buildAssessmentCampaign({});
 
         const participation = {
-          campaignId: campaign.id
+          campaignId: campaign.id,
         };
 
         databaseBuilder.factory.buildAssessmentFromParticipation(participation, {});
@@ -288,7 +288,7 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
           campaign = databaseBuilder.factory.buildAssessmentCampaign({});
 
           const participation = {
-            campaignId: campaign.id
+            campaignId: campaign.id,
           };
 
           for (let i = 0; i < 11; i++) {

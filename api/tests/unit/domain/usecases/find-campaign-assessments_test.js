@@ -32,7 +32,7 @@ describe('Unit | UseCase | find-campaign-assessments', () => {
     const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaign });
     const assessment = domainBuilder.buildAssessment.ofTypeCampaign({
       userId,
-      campaignParticipation
+      campaignParticipation,
     });
     sinon.stub(assessmentRepository, 'findLastCampaignAssessmentByUserIdAndCampaignCode').resolves(assessment);
 

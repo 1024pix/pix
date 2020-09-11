@@ -19,7 +19,7 @@ module.exports = function assessmentsBuilder({ databaseBuilder }) {
     updatedAt: new Date('2018-02-15T15:00:34Z'),
     userId: 1,
     type: 'PLACEMENT',
-    state: 'completed'
+    state: 'completed',
   });
   databaseBuilder.factory.buildAssessment({
     id: 3,
@@ -29,7 +29,7 @@ module.exports = function assessmentsBuilder({ databaseBuilder }) {
     updatedAt: new Date('2018-02-15T15:03:18Z'),
     userId: 1,
     type: 'PLACEMENT',
-    state: 'completed'
+    state: 'completed',
   });
   databaseBuilder.factory.buildAssessment({
     id: 4,
@@ -39,7 +39,7 @@ module.exports = function assessmentsBuilder({ databaseBuilder }) {
     updatedAt: new Date('2018-02-15T15:04:26Z'),
     userId: 1,
     type: 'PLACEMENT',
-    state: 'completed'
+    state: 'completed',
   });
   databaseBuilder.factory.buildAssessment({
     id: 5,
@@ -49,7 +49,7 @@ module.exports = function assessmentsBuilder({ databaseBuilder }) {
     updatedAt: new Date('2018-02-15T15:07:02Z'),
     userId: 1,
     type: 'PLACEMENT',
-    state: 'completed'
+    state: 'completed',
   });
   databaseBuilder.factory.buildAssessment({
     id: 8,
@@ -59,6 +59,6 @@ module.exports = function assessmentsBuilder({ databaseBuilder }) {
     updatedAt: new Date('2018-01-15T15:00:34Z'),
     userId: 1,
     type: 'PLACEMENT',
-    state: 'started'
+    state: 'started',
   });
 };

@@ -126,8 +126,8 @@ module.exports = function challengeRawAirTableFixture({ id, fields } = { id: 're
       'Format': 'petit',
       'Réponse automatique': false,
       'Langues': [
-        'Francophone'
-      ]
+        'Francophone',
+      ],
     }, fields),
     'createdTime': '2016-08-24T11:59:02.000Z',
   });

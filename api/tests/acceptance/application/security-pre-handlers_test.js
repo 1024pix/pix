@@ -9,8 +9,8 @@ describe('Acceptance | Application | SecurityPreHandlers', () => {
     errors: [{
       code: 403,
       title: 'Forbidden access',
-      detail: 'Missing or insufficient permissions.'
-    }]
+      detail: 'Missing or insufficient permissions.',
+    }],
   };
 
   let server;
@@ -26,7 +26,7 @@ describe('Acceptance | Application | SecurityPreHandlers', () => {
       const options = {
         method: 'POST',
         url: '/api/organizations',
-        payload: {}
+        payload: {},
       };
 
       // when
@@ -37,8 +37,8 @@ describe('Acceptance | Application | SecurityPreHandlers', () => {
         errors: [{
           code: 401,
           title: 'Unauthorized access',
-          detail: 'Missing or invalid access token in request auhorization headers.'
-        }]
+          detail: 'Missing or invalid access token in request auhorization headers.',
+        }],
       };
       expect(response.statusCode).to.equal(401);
       expect(response.result).to.deep.equal(jsonApiError);
@@ -95,7 +95,7 @@ describe('Acceptance | Application | SecurityPreHandlers', () => {
       userId = databaseBuilder.factory.buildUser().id;
       options = {
         method: 'GET',
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
       await databaseBuilder.commit();
@@ -192,7 +192,7 @@ describe('Acceptance | Application | SecurityPreHandlers', () => {
       // given
       databaseBuilder.factory.buildMembership({
         userId, organizationId, organizationRole: Membership.roles.ADMIN,
-        disabledAt: new Date()
+        disabledAt: new Date(),
       });
 
       await databaseBuilder.commit();
@@ -223,10 +223,10 @@ describe('Acceptance | Application | SecurityPreHandlers', () => {
           data: {
             type: 'organization-invitations',
             attributes: {
-              email: 'member@example.net'
-            }
-          }
-        }
+              email: 'member@example.net',
+            },
+          },
+        },
       };
 
       await databaseBuilder.commit();
@@ -252,7 +252,7 @@ describe('Acceptance | Application | SecurityPreHandlers', () => {
       // given
       databaseBuilder.factory.buildMembership({
         userId, organizationId, organizationRole: Membership.roles.ADMIN,
-        disabledAt: new Date()
+        disabledAt: new Date(),
       });
 
       await databaseBuilder.commit();
@@ -276,8 +276,8 @@ describe('Acceptance | Application | SecurityPreHandlers', () => {
         config: {
           pre: [{
             method: securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents,
-          }]
-        }
+          }],
+        },
       });
     });
 
@@ -332,8 +332,8 @@ describe('Acceptance | Application | SecurityPreHandlers', () => {
         config: {
           pre: [{
             method: securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents,
-          }]
-        }
+          }],
+        },
       });
     });
 

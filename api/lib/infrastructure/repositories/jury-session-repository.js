@@ -73,7 +73,7 @@ module.exports = {
       }
       throw new NotFoundError(`La session d'id ${id} n'existe pas.`);
     }
-  }
+  },
 };
 
 function _toDomain(jurySessionFromDB) {

@@ -47,5 +47,5 @@ export default Route.extend(AuthenticatedRouteMixin, {
       controller.resultsSentToPrescriberAt = null;
       controller.assignedToSelfOnly = false;
     }
-  }
+  },
 });

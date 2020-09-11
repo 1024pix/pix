@@ -166,7 +166,7 @@ describe('Acceptance | Certification | Start Certification Course', function() {
             certificationCourse = server.create('certification-course', {
               accessCode: 'ABCD12',
               sessionId: 1,
-              nbChallenges: NB_CHALLENGES
+              nbChallenges: NB_CHALLENGES,
             });
             assessment = certificationCourse.assessment;
           });

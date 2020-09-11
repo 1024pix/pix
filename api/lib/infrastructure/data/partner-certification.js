@@ -9,8 +9,8 @@ module.exports = Bookshelf.model('PartnerCertification', {
 
   get idAttribute() {
     return null;
-  }
+  },
 
 }, {
-  modelName
+  modelName,
 });

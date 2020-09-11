@@ -86,8 +86,8 @@ module.exports = {
     // Restitution
     return {
       result: _formatResult(resultDetails),
-      resultDetails: resultDetails
+      resultDetails: resultDetails,
     };
-  }
+  },
 
 };

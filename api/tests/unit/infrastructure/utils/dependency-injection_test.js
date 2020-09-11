@@ -10,7 +10,7 @@ describe('Unit | Utils | #injectDependencies', function() {
     const toBeInjected = {
       functionToBeInjected: function({ dependency }) {
         return dependency;
-      }
+      },
     };
 
     // when

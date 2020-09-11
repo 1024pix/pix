@@ -50,7 +50,7 @@ export default class ManageAuthenticationMethodModal extends Component {
     event.preventDefault();
     const schoolingRegistrationDependentUser = this.store.createRecord('schooling-registration-dependent-user', {
       organizationId: this.args.organizationId,
-      schoolingRegistrationId: this.args.student.id
+      schoolingRegistrationId: this.args.student.id,
     });
 
     try {
@@ -67,7 +67,7 @@ export default class ManageAuthenticationMethodModal extends Component {
     event.preventDefault();
     const schoolingRegistrationDependentUser = this.store.createRecord('schooling-registration-dependent-user', {
       organizationId: this.args.organizationId,
-      schoolingRegistrationId: this.args.student.id
+      schoolingRegistrationId: this.args.student.id,
     });
 
     try {

@@ -32,7 +32,7 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
           department: 'Assassination Squad',
           educationalTeam: 'Pai Mei',
           group: 'Deadly Viper Assassination Squad',
-          studyScheme: 'I have no idea what it\'s like.'
+          studyScheme: 'I have no idea what it\'s like.',
         };
         const registration1Attributes = {
           organizationId: organization.id,
@@ -48,7 +48,7 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
           department: 'Assassination Squad',
           educationalTeam: 'Pai Mei',
           group: 'Deadly Viper Assassination Squad',
-          status: 'I have no idea what it\'s like.'
+          status: 'I have no idea what it\'s like.',
         };
         const registration2 = {
           organizationId: organization.id,
@@ -64,7 +64,7 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
           department: 'The Crazy 88',
           educationalTeam: 'Bill',
           group: 'Tokyo Crime World',
-          studyScheme: 'I have always no idea what it\'s like.'
+          studyScheme: 'I have always no idea what it\'s like.',
         };
         const registration2Attributes = {
           organizationId: organization.id,
@@ -80,7 +80,7 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
           department: 'The Crazy 88',
           educationalTeam: 'Bill',
           group: 'Tokyo Crime World',
-          status: 'I have always no idea what it\'s like.'
+          status: 'I have always no idea what it\'s like.',
         };
 
         higherEducationRegistrationSet.addRegistration(registration1);
@@ -102,7 +102,7 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
         databaseBuilder.factory.buildSchoolingRegistration({
           preferredLastName: 'Sidewinder',
           studentNumber: '12',
-          organizationId: organization.id
+          organizationId: organization.id,
         });
 
         await databaseBuilder.commit();
@@ -114,7 +114,7 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
           firstName: 'Elle',
           lastName: 'Driver',
           birthdate: '2020-01-01',
-          organizationId: organization.id
+          organizationId: organization.id,
         };
 
         higherEducationRegistrationSet.addRegistration(registration);
@@ -181,7 +181,7 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
           firstName: 'firstName',
           lastName: 'lastName',
           birthdate: '2010-01-01',
-          organizationId: organization.id
+          organizationId: organization.id,
         };
 
         const higherEducationRegistration = new HigherEducationRegistration(higherEducationRegistrationAttributes);
@@ -209,7 +209,7 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
           firstName: 'firstName',
           lastName: 'lastName',
           birthdate: '2010-01-01',
-          organizationId: organization.id
+          organizationId: organization.id,
         };
 
         const higherEducationRegistration = new HigherEducationRegistration(higherEducationRegistrationAttributes);

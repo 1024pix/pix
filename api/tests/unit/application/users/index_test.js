@@ -177,7 +177,7 @@ describe('Unit | Router | user-router', () => {
         it('should have a valid password format in payload', async () => {
           // given
           const payloadAttributes = {
-            'password': 'Mot de passe mal formé'
+            'password': 'Mot de passe mal formé',
           };
 
           // when

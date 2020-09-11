@@ -7,5 +7,5 @@ module.exports = {
     if (error) {
       throw new ObjectValidationError(error);
     }
-  }
+  },
 };

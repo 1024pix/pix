@@ -162,10 +162,10 @@ module('Integration | Component | routes/authenticated/campaign | new-item', fun
       errors: {
         name: [
           {
-            message: 'Le message d\'erreur à afficher'
-          }
-        ]
-      }
+            message: 'Le message d\'erreur à afficher',
+          },
+        ],
+      },
     }));
 
     // when

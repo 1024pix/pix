@@ -10,7 +10,7 @@ function _formatPayload(options) {
     fromName: 'Communauté PIX',
     to: null,
     subject: 'Bienvenue dans la communauté PIX',
-    template: null
+    template: null,
   });
   const variables = configuration.variables || {};
   return {
@@ -19,7 +19,7 @@ function _formatPayload(options) {
     'Subject': configuration.subject,
     'MJ-TemplateID': configuration.template,
     'MJ-TemplateLanguage': 'true',
-    'Recipients': [{ 'Email': configuration.to, 'Vars': variables }]
+    'Recipients': [{ 'Email': configuration.to, 'Vars': variables }],
   };
 }
 

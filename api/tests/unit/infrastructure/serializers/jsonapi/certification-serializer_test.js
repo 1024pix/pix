@@ -322,7 +322,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
           'last-name': 'Bon',
           'status': 'rejected',
           'pix-score': 23,
-          'clea-certification-status': 'acquired'
+          'clea-certification-status': 'acquired',
         },
         'relationships': {
           'result-competence-tree': {

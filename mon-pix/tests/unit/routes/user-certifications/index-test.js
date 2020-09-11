@@ -17,7 +17,7 @@ describe('Unit | Route | user certifications/index', function() {
 
     storeStub = Service.create({
       findAll: findAll,
-      unloadAll: unloadAll
+      unloadAll: unloadAll,
     });
 
     route = this.owner.lookup('route:user-certifications/index');
@@ -31,7 +31,7 @@ describe('Unit | Route | user certifications/index', function() {
   it('should return connected user certifications', function() {
     // given
     const certifications = [
-      EmberObject.create({ id: 1 })
+      EmberObject.create({ id: 1 }),
     ];
     findAll.resolves(certifications);
 

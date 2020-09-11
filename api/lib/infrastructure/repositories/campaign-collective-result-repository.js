@@ -20,7 +20,7 @@ module.exports = {
     const campaignCompetenceCollectiveResults = _forgeCampaignCompetenceCollectiveResults(campaignId, competences, participantCount, targetedSkillsByCompetenceId, participantsKECountByCompetenceId);
 
     return new CampaignCollectiveResult({ id: campaignId, campaignCompetenceCollectiveResults });
-  }
+  },
 };
 
 async function _fetchData(campaignId) {
@@ -38,7 +38,7 @@ async function _fetchData(campaignId) {
 
 function _fetchCampaignWithTargetProfileSkills(campaignId) {
   return BookshelfCampaign.where({ id: campaignId }).fetch({
-    withRelated: 'targetProfile.skillIds'
+    withRelated: 'targetProfile.skillIds',
   });
 }
 
@@ -104,7 +104,7 @@ function _filterByTargetSkills(targetedSkillIds) {
 
 function _computeKERankWithinUserAndSkillByDateDescending(qb) {
   qb.select({
-    rank: knex.raw('RANK() OVER (PARTITION BY "knowledge-elements"."userId", "knowledge-elements"."skillId" ORDER BY "knowledge-elements"."createdAt" DESC)')
+    rank: knex.raw('RANK() OVER (PARTITION BY "knowledge-elements"."userId", "knowledge-elements"."skillId" ORDER BY "knowledge-elements"."createdAt" DESC)'),
   });
 }
 

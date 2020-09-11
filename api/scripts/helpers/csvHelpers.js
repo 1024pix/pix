@@ -15,7 +15,7 @@ const optionsWithHeader = {
       value = value.toUpperCase();
     }
     return value;
-  }
+  },
 };
 
 function checkCsvExtensionFile(filePath) {
@@ -48,5 +48,5 @@ function parseCsvWithHeader(filePath) {
 module.exports = {
   checkCsvExtensionFile,
   parseCsv,
-  parseCsvWithHeader
+  parseCsvWithHeader,
 };

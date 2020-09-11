@@ -27,7 +27,7 @@ export default Route.extend(SecuredRouteMixin, {
       icon: this.intl.t(`pages.tutorial.pages.page${this.tutorialPageId}.icon`),
       explanation: this.intl.t(`pages.tutorial.pages.page${this.tutorialPageId}.explanation`),
       showNextButton: this.tutorialPageId < this.tutorialPageCount - 1,
-      paging: this._setupPaging(this.tutorialPageCount, this.tutorialPageId)
+      paging: this._setupPaging(this.tutorialPageCount, this.tutorialPageId),
     };
   },
 
@@ -38,8 +38,8 @@ export default Route.extend(SecuredRouteMixin, {
       this.tutorialPageId = 0;
       return this.transitionTo('campaigns.assessment.start-or-resume', this.campaignCode, {
         queryParams: {
-          hasConsultedTutorial: true
-        }
+          hasConsultedTutorial: true,
+        },
       });
     },
 
@@ -49,6 +49,6 @@ export default Route.extend(SecuredRouteMixin, {
         this.tutorialPageId = nextTutorialPageId;
         this.refresh();
       }
-    }
-  }
+    },
+  },
 });

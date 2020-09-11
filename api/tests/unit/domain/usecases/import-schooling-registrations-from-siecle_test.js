@@ -30,7 +30,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
 
       const schoolingRegistrationsToUpdate = [
         { lastName: 'Student1', nationalStudentId: 'INE1' },
-        { lastName: 'Student2', nationalStudentId: 'INE2' }
+        { lastName: 'Student2', nationalStudentId: 'INE2' },
       ];
       schoolingRegistrationRepositoryStub.findByOrganizationId.resolves(schoolingRegistrationsToUpdate);
 
@@ -41,7 +41,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
       const schoolingRegistrations = [
         { lastName: 'UpdatedStudent1', nationalStudentId: 'INE1' },
         { lastName: 'UpdatedStudent2', nationalStudentId: 'INE2' },
-        { lastName: 'StudentToCreate', nationalStudentId: 'INE3' }
+        { lastName: 'StudentToCreate', nationalStudentId: 'INE3' },
       ];
 
       expect(schoolingRegistrationsXmlServiceStub.extractSchoolingRegistrationsInformationFromSIECLE).to.have.been.calledWith(buffer);

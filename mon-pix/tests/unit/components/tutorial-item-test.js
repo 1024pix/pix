@@ -12,7 +12,7 @@ describe('Unit | Component | tutorial item', function() {
   const intl = Service.create({ t: sinon.spy() });
   const tutorial = {
     format: 'son',
-    id: 'tutorialId'
+    id: 'tutorialId',
   };
 
   beforeEach(function() {

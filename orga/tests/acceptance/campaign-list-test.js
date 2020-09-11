@@ -4,7 +4,7 @@ import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import {
   createUserWithMembershipAndTermsOfServiceAccepted,
-  createPrescriberByUser
+  createPrescriberByUser,
 } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -88,7 +88,7 @@ module('Acceptance | Campaign List', function(hooks) {
 
         server.create('membership', {
           organizationId: user.userOrgaSettings.organization.id,
-          userId: creator.id
+          userId: creator.id,
         });
 
         server.create('campaign');

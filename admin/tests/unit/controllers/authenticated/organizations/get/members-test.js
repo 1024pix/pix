@@ -16,7 +16,7 @@ module('Unit | Controller | authenticated/organizations/get/members', function(h
     test('it should create an organization-invitation if the email is valid', function(assert) {
       const saveStub = sinon.stub().resolves();
       const createRecordStub = sinon.stub().returns({
-        save: saveStub
+        save: saveStub,
       });
       controller.store = Service.create({ createRecord: createRecordStub });
       controller.model = { organization: { id: 1 } };

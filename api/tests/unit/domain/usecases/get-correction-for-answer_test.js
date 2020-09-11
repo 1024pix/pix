@@ -55,7 +55,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
         // given
         const assessment = domainBuilder.buildAssessment({
           state: 'started',
-          type: Assessment.types.CAMPAIGN
+          type: Assessment.types.CAMPAIGN,
         });
         assessmentRepository.get.withArgs(assessmentId).resolves(assessment);
 
@@ -82,7 +82,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
         // given
         const assessment = domainBuilder.buildAssessment({
           state: 'started',
-          type: Assessment.types.COMPETENCE_EVALUATION
+          type: Assessment.types.COMPETENCE_EVALUATION,
         });
         assessmentRepository.get.withArgs(assessmentId).resolves(assessment);
 
@@ -143,7 +143,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
         answerRepository,
         correctionRepository,
         answerId,
-        userId: 'wrong user id'
+        userId: 'wrong user id',
       });
 
       // then

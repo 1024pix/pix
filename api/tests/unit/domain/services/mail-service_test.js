@@ -28,8 +28,8 @@ describe('Unit | Service | MailService', () => {
           homeName: `${domainFr}`,
           homeUrl: `https://${domainFr}`,
           redirectionUrl: `https://app.${domainFr}/connexion`,
-          locale
-        }
+          locale,
+        },
       };
 
       // when
@@ -54,8 +54,8 @@ describe('Unit | Service | MailService', () => {
           homeName: `${domainFr}`,
           homeUrl: `https://${domainFr}`,
           redirectionUrl,
-          locale
-        }
+          locale,
+        },
       };
 
       // when
@@ -86,8 +86,8 @@ describe('Unit | Service | MailService', () => {
             resetUrl: `https://app.${domainFr}/changer-mot-de-passe/${fakeTemporaryKey}`,
             homeName: `${domainFr}`,
             homeUrl: `https://${domainFr}`,
-            locale
-          }
+            locale,
+          },
         };
 
         // when
@@ -113,8 +113,8 @@ describe('Unit | Service | MailService', () => {
             resetUrl: `https://app.${domainOrg}/changer-mot-de-passe/${fakeTemporaryKey}`,
             homeName: `${domainOrg}`,
             homeUrl: `https://${domainOrg}`,
-            locale
-          }
+            locale,
+          },
         };
 
         // when
@@ -155,14 +155,14 @@ describe('Unit | Service | MailService', () => {
             pixHomeUrl,
             pixOrgaHomeUrl: pixOrgaUrl,
             locale: 'fr-fr',
-            redirectionUrl: `${pixOrgaUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`
+            redirectionUrl: `${pixOrgaUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
           },
-          tags: null
+          tags: null,
         };
 
         // when
         await mailService.sendOrganizationInvitationEmail({
-          email: userEmailAddress, organizationName, organizationInvitationId, code
+          email: userEmailAddress, organizationName, organizationInvitationId, code,
         });
 
         // then
@@ -186,14 +186,14 @@ describe('Unit | Service | MailService', () => {
             pixHomeUrl,
             pixOrgaHomeUrl: pixOrgaUrl,
             locale: 'fr',
-            redirectionUrl: `${pixOrgaUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`
+            redirectionUrl: `${pixOrgaUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
           },
-          tags: null
+          tags: null,
         };
 
         // when
         await mailService.sendOrganizationInvitationEmail({
-          email: userEmailAddress, organizationName, organizationInvitationId, code, locale
+          email: userEmailAddress, organizationName, organizationInvitationId, code, locale,
         });
 
         // then
@@ -218,14 +218,14 @@ describe('Unit | Service | MailService', () => {
             pixHomeUrl,
             pixOrgaHomeUrl: pixOrgaUrl,
             locale: 'fr-fr',
-            redirectionUrl: `${pixOrgaUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`
+            redirectionUrl: `${pixOrgaUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
           },
-          tags
+          tags,
         };
 
         // when
         await mailService.sendOrganizationInvitationEmail({
-          email: userEmailAddress, organizationName, organizationInvitationId, code, tags
+          email: userEmailAddress, organizationName, organizationInvitationId, code, tags,
         });
 
         // then
@@ -264,9 +264,9 @@ describe('Unit | Service | MailService', () => {
           pixHomeUrl,
           pixOrgaHomeUrl: pixOrgaUrl,
           locale: 'fr-fr',
-          redirectionUrl: `${pixOrgaUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`
+          redirectionUrl: `${pixOrgaUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
         },
-        tags: null
+        tags: null,
       };
 
       // when
@@ -274,7 +274,7 @@ describe('Unit | Service | MailService', () => {
         email: userEmailAddress,
         organizationName,
         firstName, lastName,
-        organizationInvitationId, code
+        organizationInvitationId, code,
       });
 
       // then

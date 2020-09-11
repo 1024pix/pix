@@ -4,5 +4,5 @@ const _includes = ['organization', 'user'];
 
 export default ApplicationSerializer.extend({
 
-  include: _includes
+  include: _includes,
 });

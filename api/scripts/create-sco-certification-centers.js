@@ -7,7 +7,7 @@ function prepareDataForInsert(rawCertificationCenters) {
     return {
       name: name.trim(),
       externalId: uai,
-      type: 'SCO'
+      type: 'SCO',
     };
   });
 }
@@ -50,11 +50,11 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    }
+    },
   );
 }
 
 module.exports = {
   prepareDataForInsert,
-  createScoCertificationCenters
+  createScoCertificationCenters,
 };

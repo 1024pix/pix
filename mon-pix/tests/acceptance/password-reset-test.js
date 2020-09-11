@@ -32,7 +32,7 @@ describe('Acceptance | Reset Password', function() {
       firstName: 'Brandone',
       lastName: 'Martins',
       email: 'brandone.martins@pix.com',
-      password: '1024pix!'
+      password: '1024pix!',
     });
     await visit('/mot-de-passe-oublie');
     await fillIn('#email', 'brandone.martins@pix.com');
@@ -51,7 +51,7 @@ describe('Acceptance | Reset Password', function() {
       firstName: 'Brandone',
       lastName: 'Martins',
       email: 'brandone.martins@pix.com',
-      password: '1024pix!'
+      password: '1024pix!',
     });
     await visit('/mot-de-passe-oublie');
     await fillIn('#email', 'unexisting@user.com');

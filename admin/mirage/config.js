@@ -99,9 +99,9 @@ export default function() {
           'cgu': params.data.attributes['cgu'],
           'is-authenticated-from-gar': params.data.attributes['is-authenticated-from-gar'],
           'pix-orga-terms-of-service-accepted': params.data.attributes['pix-orga-terms-of-service-accepted'],
-          'pix-certif-terms-of-service-accepted': params.data.attributes['pix-certif-terms-of-service-accepted']
-        }
-      }
+          'pix-certif-terms-of-service-accepted': params.data.attributes['pix-certif-terms-of-service-accepted'],
+        },
+      },
     };
     return userUpdated;
   });

@@ -19,11 +19,11 @@ describe('Unit | Controller | certification-course-controller', () => {
 
     const request = {
       params: {
-        id: certificationCourseId
+        id: certificationCourseId,
       },
       route: {
-        path: '/certification'
-      }
+        path: '/certification',
+      },
     };
 
     beforeEach(() => {
@@ -52,8 +52,8 @@ describe('Unit | Controller | certification-course-controller', () => {
     const certificationCourseId = 1;
     const request = {
       params: {
-        id: certificationCourseId
-      }
+        id: certificationCourseId,
+      },
     };
 
     beforeEach(() => {
@@ -80,9 +80,9 @@ describe('Unit | Controller | certification-course-controller', () => {
         attributes: {
           id: '1',
           firstName: 'Phil',
-          status: 'rejected'
-        }
-      }
+          status: 'rejected',
+        },
+      },
     };
 
     beforeEach(() => {
@@ -97,10 +97,10 @@ describe('Unit | Controller | certification-course-controller', () => {
           attributes: {
             id: '1',
             firstName: 'Phil',
-            status: 'rejected'
-          }
-        }
-      }
+            status: 'rejected',
+          },
+        },
+      },
     };
 
     it('should deserialize the request payload', async () => {
@@ -164,8 +164,8 @@ describe('Unit | Controller | certification-course-controller', () => {
               'access-code': 'ABCD12',
               'session-id': '12345',
             },
-          }
-        }
+          },
+        },
       };
       sinon.stub(usecases, 'retrieveLastOrCreateCertificationCourse');
       sinon.stub(certificationCourseSerializer, 'serialize');

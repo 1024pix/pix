@@ -36,7 +36,7 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
         const organizationInvitationId = databaseBuilder.factory.buildOrganizationInvitation({
           organizationId,
           status: OrganizationInvitation.StatusType.PENDING,
-          code: code
+          code: code,
         }).id;
 
         options = {
@@ -48,10 +48,10 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
               type: 'organization-invitation-responses',
               attributes: {
                 code,
-                email: userToInviteEmail
+                email: userToInviteEmail,
               },
-            }
-          }
+            },
+          },
         };
 
         await databaseBuilder.commit();
@@ -78,7 +78,7 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
 
         organizationId = databaseBuilder.factory.buildOrganization().id;
         organizationInvitationId = databaseBuilder.factory.buildOrganizationInvitation({
-          organizationId
+          organizationId,
         }).id;
 
         options = {
@@ -90,10 +90,10 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
               type: 'organization-invitation-responses',
               attributes: {
                 code: 'notExistCode',
-                email: 'user@example.net'
+                email: 'user@example.net',
               },
-            }
-          }
+            },
+          },
         };
 
         await databaseBuilder.commit();
@@ -111,7 +111,7 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
         // given
         const { id: organizationInvitationId, code } = databaseBuilder.factory.buildOrganizationInvitation({
           organizationId,
-          status: OrganizationInvitation.StatusType.ACCEPTED
+          status: OrganizationInvitation.StatusType.ACCEPTED,
         });
 
         options.url = `/api/organization-invitations/${organizationInvitationId}/response`;
@@ -130,7 +130,7 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
         // given
         const { id: organizationInvitationId, code } = databaseBuilder.factory.buildOrganizationInvitation({
           organizationId,
-          status: OrganizationInvitation.StatusType.PENDING
+          status: OrganizationInvitation.StatusType.PENDING,
         });
 
         options.url = `/api/organization-invitations/${organizationInvitationId}/response`;
@@ -154,7 +154,7 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
 
         const { id: organizationInvitationId, code } = databaseBuilder.factory.buildOrganizationInvitation({
           organizationId,
-          status: OrganizationInvitation.StatusType.PENDING
+          status: OrganizationInvitation.StatusType.PENDING,
         });
 
         options.url = `/api/organization-invitations/${organizationInvitationId}/response`;
@@ -187,7 +187,7 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
         const organizationInvitationId = databaseBuilder.factory.buildOrganizationInvitation({
           organizationId,
           status: OrganizationInvitation.StatusType.PENDING,
-          code
+          code,
         }).id;
 
         options = {
@@ -217,7 +217,7 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
         organizationId = databaseBuilder.factory.buildOrganization().id;
         organizationInvitationId = databaseBuilder.factory.buildOrganizationInvitation({
           organizationId,
-          code
+          code,
         }).id;
 
         options = {
@@ -257,7 +257,7 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
         organizationInvitationId = databaseBuilder.factory.buildOrganizationInvitation({
           organizationId,
           code,
-          status: 'accepted'
+          status: 'accepted',
         }).id;
         await databaseBuilder.commit();
 

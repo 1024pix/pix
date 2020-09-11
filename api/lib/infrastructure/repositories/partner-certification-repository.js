@@ -14,7 +14,7 @@ module.exports = {
       userId,
       reproducibilityRate,
       domainTransaction = DomainTransaction.emptyTransaction(),
-      skillRepository
+      skillRepository,
     }) {
     const hasAcquiredBadge = await _hasAcquiredBadge(userId, domainTransaction);
     const cleaSkills = await _getCleaSkills(skillRepository);
@@ -22,7 +22,7 @@ module.exports = {
     const cleaCompetenceMarks = await _getCleaCompetenceMarks({
       certificationCourseId,
       cleaCompetenceIds: Object.keys(maxReachablePixByCompetenceForClea),
-      domainTransaction
+      domainTransaction,
     });
 
     return new CleaCertification({
@@ -30,14 +30,14 @@ module.exports = {
       hasAcquiredBadge,
       cleaCompetenceMarks,
       maxReachablePixByCompetenceForClea,
-      reproducibilityRate
+      reproducibilityRate,
     });
   },
 
   async save({ partnerCertification, domainTransaction = DomainTransaction.emptyTransaction() }) {
     return new PartnerCertificationBookshelf(_adaptModelToDB({
       ...partnerCertification,
-      acquired: partnerCertification.isAcquired()
+      acquired: partnerCertification.isAcquired(),
     })).save(null, { transacting: domainTransaction.knexTransaction });
   },
 };
@@ -100,6 +100,6 @@ async function _getCleaSkills(skillRepository) {
 function _getMaxReachablePixByCompetenceForClea(cleaSkills) {
   return _(cleaSkills).groupBy('competenceId')
     .mapValues(
-      (skills) => _.sumBy(skills, 'pixValue')
+      (skills) => _.sumBy(skills, 'pixValue'),
     ).value();
 }

@@ -9,10 +9,10 @@ exports.register = async function(server) {
         tags: ['api'],
         notes: [
           '- **Route nécessitant une authentification**\n' +
-          '- Cette route renvoie une évaluation des acquis utilisateur basée sur un profil cible'
-        ]
-      }
-    }
+          '- Cette route renvoie une évaluation des acquis utilisateur basée sur un profil cible',
+        ],
+      },
+    },
   ]);
 };
 

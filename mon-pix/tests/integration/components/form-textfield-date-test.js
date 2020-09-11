@@ -7,7 +7,7 @@ import {
   findAll,
   render,
   settled,
-  triggerEvent
+  triggerEvent,
 } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -71,7 +71,7 @@ describe('Integration | Component | form textfield date', function() {
       { item: LABEL, expectedRendering: 'label', expectedText: LABEL_TEXT },
       { item: `${MESSAGE}#dayValidationMessage`, expectedRendering: 'div.message', expectedText: 'day message' },
       { item: `${MESSAGE}#monthValidationMessage`, expectedRendering: 'div.message', expectedText: 'month message' },
-      { item: `${MESSAGE}#yearValidationMessage`, expectedRendering: 'div.message', expectedText: 'year message' }
+      { item: `${MESSAGE}#yearValidationMessage`, expectedRendering: 'div.message', expectedText: 'year message' },
 
     ].forEach(function({ item, expectedRendering, expectedText }) {
       it(`Should render a ${expectedRendering}`, function() {

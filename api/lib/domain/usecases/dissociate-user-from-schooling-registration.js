@@ -5,7 +5,7 @@ module.exports = async function dissociateUserFromSchoolingRegistrationData({
   schoolingRegistrationRepository,
   membershipRepository,
   userId,
-  schoolingRegistrationId
+  schoolingRegistrationId,
 }) {
   await _checkUserCanDissociateUserFromSchoolingRegistration(userId, schoolingRegistrationId, schoolingRegistrationRepository, membershipRepository);
 

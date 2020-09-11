@@ -33,8 +33,8 @@ describe('Unit | UseCase | get-or-create-saml-user', () => {
         samlId: 'IDO',
         firstName: 'PRE',
         lastName: 'NOM',
-      }
-    }
+      },
+    },
   };
 
   context('when user does not exist in database yet', () => {

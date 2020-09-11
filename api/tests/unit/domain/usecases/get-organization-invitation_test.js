@@ -28,7 +28,7 @@ describe('Unit | UseCase | get-organization-invitation', () => {
         organizationInvitationId: 1,
         code: 'codeNotExist',
         organizationRepository,
-        organizationInvitationRepository
+        organizationInvitationRepository,
       });
 
       // then
@@ -49,7 +49,7 @@ describe('Unit | UseCase | get-organization-invitation', () => {
         organizationInvitationId: 1,
         code: 'codeNotExist',
         organizationRepository,
-        organizationInvitationRepository
+        organizationInvitationRepository,
       });
 
       // then
@@ -69,7 +69,7 @@ describe('Unit | UseCase | get-organization-invitation', () => {
       const err = await catchErr(getOrganizationInvitation)({
         organizationInvitationId: organizationInvitation.id,
         organizationRepository,
-        organizationInvitationRepository
+        organizationInvitationRepository,
       });
 
       // then
@@ -85,7 +85,7 @@ describe('Unit | UseCase | get-organization-invitation', () => {
       const organizationInvitationPending = domainBuilder.buildOrganizationInvitation({
         status: OrganizationInvitation.StatusType.PENDING,
         organizationId: organization.id,
-        organizationName: null
+        organizationName: null,
       });
       const expectedOrganizationInvitation = { ...organizationInvitationPending, organizationName: organization.name };
 
@@ -97,7 +97,7 @@ describe('Unit | UseCase | get-organization-invitation', () => {
       const result = await getOrganizationInvitation({
         organizationInvitationId, organizationInvitationCode,
         organizationRepository,
-        organizationInvitationRepository
+        organizationInvitationRepository,
       });
 
       // then

@@ -76,10 +76,10 @@ module.exports = {
           'first-name': payload['first-name'],
           birthdate: payload['birthdate'],
           'campaign-code': campaignCode,
-          username
+          username,
         },
-        type: 'schooling-registration-user-associations'
-      }
+        type: 'schooling-registration-user-associations',
+      },
     };
     return h.response(schoolingRegistrationWithUsernameResponse).code(200);
   },
@@ -89,5 +89,5 @@ module.exports = {
     const { userId } = request.auth.credentials;
     await usecases.dissociateUserFromSchoolingRegistration({ userId, schoolingRegistrationId: payload['schooling-registration-id'] });
     return h.response().code(204);
-  }
+  },
 };

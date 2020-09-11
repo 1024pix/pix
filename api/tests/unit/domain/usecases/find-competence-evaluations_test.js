@@ -19,7 +19,7 @@ describe('Unit | UseCase | find-competence-evaluations', () => {
       find: sinon.stub(),
     };
     assessmentRepository = {
-      ownedByUser: sinon.stub()
+      ownedByUser: sinon.stub(),
     };
   });
 
@@ -33,7 +33,7 @@ describe('Unit | UseCase | find-competence-evaluations', () => {
       userId,
       options,
       competenceEvaluationRepository,
-      assessmentRepository
+      assessmentRepository,
     });
 
     // then
@@ -49,7 +49,7 @@ describe('Unit | UseCase | find-competence-evaluations', () => {
       userId,
       options,
       competenceEvaluationRepository,
-      assessmentRepository
+      assessmentRepository,
     });
 
     // then

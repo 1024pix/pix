@@ -15,7 +15,7 @@ exports.up = function(knex) {
         return knex(TABLE_NAME_USER_ORGA_SETTINGS)
           .insert({
             userId: membership.userId,
-            currentOrganizationId: membership.organizationId
+            currentOrganizationId: membership.organizationId,
           });
       });
     });
@@ -33,7 +33,7 @@ exports.down = function(knex) {
         return knex(TABLE_NAME_USER_ORGA_SETTINGS)
           .delete({
             userId: membership.userId,
-            currentOrganizationId: membership.organizationId
+            currentOrganizationId: membership.organizationId,
           });
       });
     });

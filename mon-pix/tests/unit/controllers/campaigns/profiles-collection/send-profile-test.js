@@ -21,7 +21,7 @@ describe('Unit | Controller | campaigns/profiles-collection/send-profile', funct
       id: 1243,
       code: 'CODECAMPAIGN',
     },
-    campaignParticipation
+    campaignParticipation,
   };
   let controller;
 

@@ -15,7 +15,7 @@ exports.register = async function(server) {
         handler: schoolingRegistrationDependentUserController.createAndReconcileUserToSchoolingRegistration,
         validate: {
           options: {
-            allowUnknown: true
+            allowUnknown: true,
           },
           payload: Joi.object({
             data: {
@@ -28,14 +28,14 @@ exports.register = async function(server) {
                 'with-username': Joi.boolean().required(),
               },
             },
-          })
+          }),
         },
         notes: [
           'Cette route crée un utilisateur et l\'associe à l\'élève trouvé au sein de l\'organisation à laquelle ' +
-          'appartient la campagne spécifiée'
+          'appartient la campagne spécifiée',
         ],
-        tags: ['api', 'schoolingRegistrationDependentUser']
-      }
+        tags: ['api', 'schoolingRegistrationDependentUser'],
+      },
     },
     {
       method: 'POST',
@@ -45,7 +45,7 @@ exports.register = async function(server) {
         handler: schoolingRegistrationDependentUserController.createUserAndReconcileToSchoolingRegistrationFromExternalUser,
         validate: {
           options: {
-            allowUnknown: false
+            allowUnknown: false,
           },
           payload: Joi.object({
             data: {
@@ -66,15 +66,15 @@ exports.register = async function(server) {
               detail: err.details[0].message,
             });
             return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
-          }
+          },
         },
         notes: [
           'Cette route crée un compte utilisateur suite à une connexion provenant d\'un IDP externe (GAR). ' +
           'Les informations sont fournies dans un token. Elle réconcilie également cet utilisateur avec l\'inscription ' +
-          'de l\'élève au sein de l\'organisation qui a créé la campagne.'
+          'de l\'élève au sein de l\'organisation qui a créé la campagne.',
         ],
-        tags: ['api', 'schoolingRegistrationDependentUser']
-      }
+        tags: ['api', 'schoolingRegistrationDependentUser'],
+      },
     },
     {
       method: 'POST',
@@ -82,20 +82,20 @@ exports.register = async function(server) {
       config: {
         pre: [{
           method: securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents,
-          assign: 'belongsToScoOrganizationAndManageStudents'
+          assign: 'belongsToScoOrganizationAndManageStudents',
         }],
         handler: schoolingRegistrationDependentUserController.updatePassword,
         validate: {
           options: {
-            allowUnknown: true
+            allowUnknown: true,
           },
           payload: Joi.object({
             data: {
               attributes: {
                 'organization-id': Joi.number().required(),
-                'schooling-registration-id': Joi.number().required()
-              }
-            }
+                'schooling-registration-id': Joi.number().required(),
+              },
+            },
           }),
           failAction: (request, h) => {
             const errorHttpStatusCode = 400;
@@ -105,14 +105,14 @@ exports.register = async function(server) {
               detail: 'The server could not understand the request due to invalid syntax.',
             });
             return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
-          }
+          },
         },
         notes : [
           '- Met à jour le mot de passe d\'un utilisateur identifié par son identifiant élève\n' +
-          '- La demande de modification du mot de passe doit être effectuée par un membre de l\'organisation à laquelle appartient l\'élève.'
+          '- La demande de modification du mot de passe doit être effectuée par un membre de l\'organisation à laquelle appartient l\'élève.',
         ],
         tags: ['api', 'schoolingRegistrationDependentUser'],
-      }
+      },
     },
     {
       method: 'POST',
@@ -120,20 +120,20 @@ exports.register = async function(server) {
       config: {
         pre: [{
           method: securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents,
-          assign: 'belongsToScoOrganizationAndManageStudents'
+          assign: 'belongsToScoOrganizationAndManageStudents',
         }],
         handler: schoolingRegistrationDependentUserController.generateUsernameWithTemporaryPassword,
         validate: {
           options: {
-            allowUnknown: true
+            allowUnknown: true,
           },
           payload: Joi.object({
             data: {
               attributes: {
                 'organization-id': Joi.number().required(),
-                'schooling-registration-id': Joi.number().required()
-              }
-            }
+                'schooling-registration-id': Joi.number().required(),
+              },
+            },
           }),
           failAction: (request, h, err) => {
             const errorHttpStatusCode = 400;
@@ -143,15 +143,15 @@ exports.register = async function(server) {
               detail: err.details[0].message,
             });
             return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
-          }
+          },
         },
         notes : [
           '- Génère un identifiant pour l\'élève avec un mot de passe temporaire \n' +
-          '- La demande de génération d\'identifiant doit être effectuée par un membre de l\'organisation à laquelle appartient l\'élève.'
+          '- La demande de génération d\'identifiant doit être effectuée par un membre de l\'organisation à laquelle appartient l\'élève.',
         ],
         tags: ['api', 'schoolingRegistrationDependentUser', 'username'],
-      }
-    }
+      },
+    },
   ]);
 };
 

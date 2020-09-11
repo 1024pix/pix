@@ -43,22 +43,22 @@ describe('Acceptance | Route | GET /users/id/campaigns/id/campaign-participation
             'is-shared': campaignParticipation.isShared,
             'participant-external-id': campaignParticipation.participantExternalId,
             'shared-at': campaignParticipation.sharedAt,
-            'created-at': campaignParticipation.createdAt
+            'created-at': campaignParticipation.createdAt,
           },
           relationships: {
             campaign: {
-              data: null
+              data: null,
             },
             'campaign-participation-result': {
               links: {
-                'related': `/api/campaign-participations/${campaignParticipation.id}/campaign-participation-result`
-              }
+                'related': `/api/campaign-participations/${campaignParticipation.id}/campaign-participation-result`,
+              },
             },
             'campaign-analysis': {
               links: {
-                related: `/api/campaign-participations/${campaignParticipation.id}/analyses`
-              }
-            }
+                related: `/api/campaign-participations/${campaignParticipation.id}/analyses`,
+              },
+            },
           },
         },
       });

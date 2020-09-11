@@ -4,12 +4,12 @@ function _createSignedUpUser(server) {
   });
 
   const userOrganization = server.create('organization', {
-    name: 'BRO & MALA Corp & Associates'
+    name: 'BRO & MALA Corp & Associates',
   });
 
   const userMembership = server.create('membership', {
     organizationId: userOrganization.id,
-    userId: user.id
+    userId: user.id,
   });
 
   user.memberships = [userMembership];
@@ -37,7 +37,7 @@ function _createStudents(server) {
   const organization = server.create('organization', {
     name: 'College Victor Hugo',
     type: 'SCO',
-    isManagingStudents: true
+    isManagingStudents: true,
   });
 
   const user = server.create('user', {
@@ -47,7 +47,7 @@ function _createStudents(server) {
   const userMembership = server.create('membership', {
     organizationId: organization.id,
     userId: user.id,
-    organizationRole: 'ADMIN'
+    organizationRole: 'ADMIN',
   });
 
   user.memberships = [userMembership];
@@ -69,7 +69,7 @@ function _createOrganizationInvitations(server) {
   const userMembership = server.create('membership', {
     organizationId: organization.id,
     userId: user.id,
-    organizationRole: 'ADMIN'
+    organizationRole: 'ADMIN',
   });
 
   user.memberships = [userMembership];

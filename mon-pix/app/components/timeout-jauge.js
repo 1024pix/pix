@@ -101,6 +101,6 @@ export default Component.extend({
 
   willDestroyElement() {
     this._stop();
-  }
+  },
 
 });

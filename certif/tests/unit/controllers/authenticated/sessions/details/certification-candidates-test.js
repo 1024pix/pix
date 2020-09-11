@@ -22,6 +22,6 @@ module('Unit | Controller | authenticated/sessions/details/certification-candida
     // then
     assert.equal(store.createRecord.calledWith('certification-candidate', certificationCandidateData), true);
     assert.equal(savableCandidate.save.calledWithExactly({ adapterOptions: {
-      registerToSession: true, sessionId: 'sessionId', } }), true);
+      registerToSession: true, sessionId: 'sessionId' } }), true);
   });
 });

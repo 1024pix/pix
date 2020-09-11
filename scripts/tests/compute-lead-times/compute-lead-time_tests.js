@@ -30,7 +30,7 @@ describe('Unit | Script | Lead time computation', () => {
 
     expect(leadTimes).to.deep.equal([
       { leadTime: 1 },
-      { leadTime: 2 }
+      { leadTime: 2 },
     ]);
   });
 });

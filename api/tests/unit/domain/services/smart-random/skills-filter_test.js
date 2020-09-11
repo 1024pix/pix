@@ -5,7 +5,7 @@ const Tube = require('../../../../../lib/domain/models/Tube');
 
 const KNOWLEDGE_ELEMENT_STATUS = {
   VALIDATED: 'validated',
-  INVALIDATED: 'invalidated'
+  INVALIDATED: 'invalidated',
 };
 
 function setPlayableSkills(skills) {
@@ -23,7 +23,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       const targetProfile = new TargetProfile({ skills: [skill1] });
       const knowledgeElements = [];
       const tubes =  [
-        new Tube({ skills: [skill1] })
+        new Tube({ skills: [skill1] }),
       ];
       setPlayableSkills(targetProfile.skills);
 
@@ -31,7 +31,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       const result = skillsFilter.getFilteredSkillsForFirstChallenge({
         knowledgeElements,
         tubes,
-        targetSkills: targetProfile.skills
+        targetSkills: targetProfile.skills,
       });
 
       // then
@@ -44,7 +44,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       const targetProfile = new TargetProfile({ skills: [skill1] });
       const knowledgeElements = [];
       const tubes =  [
-        new Tube({ skills: [skill1] })
+        new Tube({ skills: [skill1] }),
       ];
       setPlayableSkills(targetProfile.skills);
 
@@ -52,7 +52,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       const result = skillsFilter.getFilteredSkillsForFirstChallenge({
         knowledgeElements,
         tubes,
-        targetSkills: targetProfile.skills
+        targetSkills: targetProfile.skills,
       });
 
       // then
@@ -70,7 +70,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       const knowledgeElements = [];
       const tubes =  [
         new Tube({ skills: [skillTube1Level4, skillTube1Level2] }),
-        new Tube({ skills: [skillFromEasyTubeLevel2, skillFromEasyTubeLevel1] })
+        new Tube({ skills: [skillFromEasyTubeLevel2, skillFromEasyTubeLevel1] }),
       ];
       setPlayableSkills(targetProfile.skills);
 
@@ -78,7 +78,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       const result = skillsFilter.getFilteredSkillsForFirstChallenge({
         knowledgeElements,
         tubes,
-        targetSkills: targetProfile.skills
+        targetSkills: targetProfile.skills,
       });
 
       // then
@@ -94,7 +94,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       const knowledgeElements = [];
       const tubes =  [
         new Tube({ skills: [skillTube1Level2Timed] }),
-        new Tube({ skills: [skillTube2Level2] })
+        new Tube({ skills: [skillTube2Level2] }),
       ];
       setPlayableSkills(targetProfile.skills);
 
@@ -102,7 +102,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       const result = skillsFilter.getFilteredSkillsForFirstChallenge({
         knowledgeElements,
         tubes,
-        targetSkills: targetProfile.skills
+        targetSkills: targetProfile.skills,
       });
 
       // then
@@ -119,7 +119,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       const knowledgeElements = [];
       const tubes =  [
         new Tube({ skills: [skillTube1Level2Timed] }),
-        new Tube({ skills: [skillTube2Level2Timed] })
+        new Tube({ skills: [skillTube2Level2Timed] }),
       ];
       setPlayableSkills(targetProfile.skills);
 
@@ -127,7 +127,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       const result = skillsFilter.getFilteredSkillsForFirstChallenge({
         knowledgeElements,
         tubes,
-        targetSkills: targetProfile.skills
+        targetSkills: targetProfile.skills,
       });
 
       // then
@@ -141,7 +141,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       const targetProfile = new TargetProfile({ skills: [playableSkill, notPlayableSkill] });
       const knowledgeElements = [];
       const tubes =  [
-        new Tube({ skills: [playableSkill, notPlayableSkill] })
+        new Tube({ skills: [playableSkill, notPlayableSkill] }),
       ];
       playableSkill.isPlayable = true;
       notPlayableSkill.isPlayable = false;
@@ -150,7 +150,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       const result = skillsFilter.getFilteredSkillsForFirstChallenge({
         knowledgeElements,
         tubes,
-        targetSkills: targetProfile.skills
+        targetSkills: targetProfile.skills,
       });
 
       // then
@@ -179,7 +179,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
           knowledgeElements,
           predictedLevel: 3,
           isLastChallengeTimed: false,
-          targetSkills: targetProfile.skills
+          targetSkills: targetProfile.skills,
         });
 
         // then
@@ -251,7 +251,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
           domainBuilder.buildKnowledgeElement({ skillId: skill2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
         ];
         const tubes =  [
-          new Tube({ skills: [skill1, skill2, skill3, skill4, skill5, skill6] })
+          new Tube({ skills: [skill1, skill2, skill3, skill4, skill5, skill6] }),
         ];
         setPlayableSkills(targetProfile.skills);
 
@@ -280,7 +280,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
         ];
         const tubes =  [
           new Tube({ skills: [skill3, skill4, skill5, skill6] }),
-          new Tube({ skills: [easyTubeSkill1, easyTubeSkill2, easyTubeSkill3] })
+          new Tube({ skills: [easyTubeSkill1, easyTubeSkill2, easyTubeSkill3] }),
         ];
         setPlayableSkills(targetProfile.skills);
 
@@ -307,7 +307,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
           domainBuilder.buildKnowledgeElement({ skillId: skill3.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
         ];
         const tubes =  [
-          new Tube({ skills: [skill3, skill4, skill5, skill6] })
+          new Tube({ skills: [skill3, skill4, skill5, skill6] }),
         ];
         setPlayableSkills(targetProfile.skills);
 
@@ -332,7 +332,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
 
         const knowledgeElements = [];
         const tubes =  [
-          new Tube({ skills: [notPlayableSkill, playableSkill] })
+          new Tube({ skills: [notPlayableSkill, playableSkill] }),
         ];
         notPlayableSkill.isPlayable = false;
         playableSkill.isPlayable = true;
@@ -341,7 +341,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
         const result = skillsFilter.getFilteredSkillsForNextChallenge({
           knowledgeElements,
           tubes,
-          targetSkills: targetProfile.skills
+          targetSkills: targetProfile.skills,
         });
 
         // then

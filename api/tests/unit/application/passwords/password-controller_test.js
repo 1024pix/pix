@@ -26,10 +26,10 @@ describe('Unit | Controller | PasswordController', () => {
       payload: {
         data: {
           attributes: {
-            email: userEmail
-          }
-        }
-      }
+            email: userEmail,
+          },
+        },
+      },
     };
 
     beforeEach(() => {
@@ -51,8 +51,8 @@ describe('Unit | Controller | PasswordController', () => {
         attributes: {
           email: 'Giles75@hotmail.com',
           temporaryKey: 'one token',
-          id: 15
-        }
+          id: 15,
+        },
       };
       request.locale = locale;
 
@@ -78,16 +78,16 @@ describe('Unit | Controller | PasswordController', () => {
 
     const request = {
       params: {
-        temporaryKey: 'token'
-      }
+        temporaryKey: 'token',
+      },
     };
     const fetchedUser = new User({
       id: 'user_id',
-      email: 'email@lost-password.fr'
+      email: 'email@lost-password.fr',
     });
 
     const fetchedPasswordResetDemand = {
-      email: 'lost_pwd@email.fr'
+      email: 'lost_pwd@email.fr',
     };
 
     beforeEach(() => {
@@ -163,10 +163,10 @@ describe('Unit | Controller | PasswordController', () => {
           attributes: {
             username: 'uzinagaz.hheer1206',
             expiredPassword: 'expiredPassword01',
-            newPassword: 'Password123'
+            newPassword: 'Password123',
           },
-        }
-      }
+        },
+      },
     };
 
     beforeEach(() => {

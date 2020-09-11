@@ -9,6 +9,6 @@ module.exports = function buildCertificationCenterMembership(
 
   return new CertificationCenterMembership({
     id,
-    certificationCenter
+    certificationCenter,
   });
 };

@@ -12,8 +12,8 @@ exports.register = async function(server) {
         notes: [
           '- **Cette route est accessible aux utilisateurs pour qui l\'answer appartient à leur assessment**\n' +
           '- Enregistre une réponse à un challenge',
-        ]
-      }
+        ],
+      },
     },
     {
       method: 'GET',
@@ -25,8 +25,8 @@ exports.register = async function(server) {
         notes: [
           '- **Cette route est accessible aux utilisateurs pour qui l\'answer appartient à leur assessment**\n' +
           '- Récupère la réponse',
-        ]
-      }
+        ],
+      },
     },
     {
       method: 'PATCH',
@@ -39,7 +39,7 @@ exports.register = async function(server) {
           '- **Cette route est accessible aux utilisateurs pour qui l\'answer appartient à leur assessment**\n' +
           '- Cette route ne fait rien actuellement',
         ],
-      }
+      },
     },
     {
       method: 'GET',
@@ -51,8 +51,8 @@ exports.register = async function(server) {
         notes: [
           '- **Cette route est accessible aux utilisateurs pour qui l\'answer appartient à leur assessment**\n' +
           '- Récupère la réponse correspondant à un challenge pour un assessment, ou null sinon',
-        ]
-      }
+        ],
+      },
     },
     {
       method: 'GET',
@@ -64,8 +64,8 @@ exports.register = async function(server) {
         notes: [
           '- **Cette route est accessible aux utilisateurs pour qui l\'answer appartient à leur assessment**\n' +
           '- Récupère la correction à une réponse',
-        ]
-      }
+        ],
+      },
     },
   ]);
 };

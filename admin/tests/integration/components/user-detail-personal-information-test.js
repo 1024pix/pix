@@ -15,7 +15,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         lastName: 'Harry',
         email: 'john.harry@example.net',
         username: null,
-        isAuthenticatedFromGAR: false
+        isAuthenticatedFromGAR: false,
       });
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -30,7 +30,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         lastName: 'Harry',
         email: null,
         username: null,
-        isAuthenticatedFromGAR: true
+        isAuthenticatedFromGAR: true,
       });
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -60,7 +60,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         lastName: 'Harry',
         email: 'john.harry@example.net',
         username: 'john.harry2018',
-        isAuthenticatedFromGAR: false
+        isAuthenticatedFromGAR: false,
       });
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -75,7 +75,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         lastName: 'Harry',
         email: 'john.harry@example.net',
         username: null,
-        isAuthenticatedFromGAR: true
+        isAuthenticatedFromGAR: true,
       });
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -90,7 +90,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         lastName: 'Harry',
         email: null,
         username: 'john.harry2018',
-        isAuthenticatedFromGAR: true
+        isAuthenticatedFromGAR: true,
       });
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -105,7 +105,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         lastName: 'Harry',
         email: 'john.harry@example.net',
         username: 'john.harry2018',
-        isAuthenticatedFromGAR: true
+        isAuthenticatedFromGAR: true,
       });
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -223,7 +223,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         firstName: 'John',
         email: 'john.harry@gmail.com',
         username: null,
-        isAuthenticatedFromGAR: false
+        isAuthenticatedFromGAR: false,
       });
     });
 
@@ -234,7 +234,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         lastName: 'Harry',
         email: 'john.harry@example.net',
         username: null,
-        isAuthenticatedFromGAR: false
+        isAuthenticatedFromGAR: false,
       });
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -284,7 +284,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         firstName: 'John',
         email: 'john.harry@gmail.com',
         username: null,
-        isAuthenticatedFromGAR: false
+        isAuthenticatedFromGAR: false,
       });
     });
 

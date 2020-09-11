@@ -24,14 +24,14 @@ describe('Integration | Component | QROCm ind solution panel', function() {
   const challenge = EmberObject.create({
     id: 'challenge_id',
     proposals: 'blabla : ${key1}\nCarte mémoire (SD) : ${key2}\nanswer : ${key3}',
-    format: 'petit'
+    format: 'petit',
   });
   const answer = EmberObject.create({
     id: 'answer_id',
     value: 'key1: \'\' key2: \'wrongAnswer2\' key3: \'rightAnswer3\'',
     resultDetails: 'key1: false\nkey2: false\nkey3: true',
     assessment,
-    challenge
+    challenge,
   });
   const solution = 'key1:\n- rightAnswer1\n' +
     'key2:\n- rightAnswer20\n- rightAnswer21\n' +
@@ -128,7 +128,7 @@ describe('Integration | Component | QROCm ind solution panel', function() {
     [
       { format: 'petit', expectedSize: '11' },
       { format: 'mots', expectedSize: '20' },
-      { format: 'unreferenced_format', expectedSize: '20' }
+      { format: 'unreferenced_format', expectedSize: '20' },
     ].forEach((data) => {
       it(`should display a disabled input with expected size (${data.expectedSize}) when format is ${data.format}`, async function() {
         //given

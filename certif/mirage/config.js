@@ -32,7 +32,7 @@ export default function() {
         token_type: '',
         expires_in: '',
         access_token: 'aaa.' + btoa(`{"user_id":${foundUser.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
-        user_id: foundUser.id
+        user_id: foundUser.id,
       };
     } else {
       return new Response([{ 'status' : '401', 'title' : 'Unauthorized' , 'detail' : 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.' }]);

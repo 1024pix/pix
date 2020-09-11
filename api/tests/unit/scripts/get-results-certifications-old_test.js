@@ -59,7 +59,7 @@ describe('Get Result Certifications Script OLD', () => {
         totalScore: 7331,
         createdAt: new Date('2018-01-31T09:01:00Z'),
         completedAt: new Date('2018-01-31T09:29:16Z'),
-        competencesWithMark: []
+        competencesWithMark: [],
       };
       // when
       const result = toCSVRow(object);
@@ -87,9 +87,9 @@ describe('Get Result Certifications Script OLD', () => {
             name: 'Sécuriser l\'environnement numérique',
             index: '1.1',
             id: 'rec',
-            obtainedLevel: 9001
-          }
-        ]
+            obtainedLevel: 9001,
+          },
+        ],
       };
       // when
       const result = toCSVRow(object);
@@ -105,15 +105,15 @@ describe('Get Result Certifications Script OLD', () => {
             name: 'Mener une recherche',
             index: '1.1',
             id: 'rec',
-            obtainedLevel: 4
+            obtainedLevel: 4,
           },
           {
             name: 'Sécuriser l\'environnement numérique',
             index: '1.2',
             id: 'rec',
-            obtainedLevel: 6
-          }
-        ]
+            obtainedLevel: 6,
+          },
+        ],
       };
       // when
       const result = toCSVRow(object);
@@ -141,7 +141,7 @@ describe('Get Result Certifications Script OLD', () => {
         name: 'Sécuriser l\'environnement numérique',
         index: '1.1',
         id: 'rec',
-        obtainedLevel: 9
+        obtainedLevel: 9,
       }];
       const competenceName = '1.1';
       // when

@@ -22,7 +22,7 @@ describe('Integration | UseCases | update-membership', () => {
     // given
     const membershipId = databaseBuilder.factory.buildMembership({
       organizationId, userId,
-      organizationRole: Membership.roles.MEMBER
+      organizationRole: Membership.roles.MEMBER,
     }).id;
     const newOrganizationRole = Membership.roles.ADMIN;
     const membershipAttributes = { organizationRole: newOrganizationRole, updatedByUserId };
