@@ -18,7 +18,7 @@ module.exports = {
           'name',
           'index',
           'areaColor',
-          'totalSkillsCount',
+          'targetedSkillsCount',
           'validatedSkillsCount',
         ],
       },

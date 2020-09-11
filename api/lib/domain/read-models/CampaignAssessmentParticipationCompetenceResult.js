@@ -10,7 +10,7 @@ class CampaignAssessmentParticipationCompetenceResult {
     this.name = competence.name;
     this.index = competence.index;
     this.areaColor = competence.area && competence.area.color;
-    this.totalSkillsCount = _.intersection(competence.skillIds, targetedSkillIds).length;
+    this.targetedSkillsCount = _.intersection(competence.skillIds, targetedSkillIds).length;
     this.validatedSkillsCount = knowledgeElements
       .filter(({ isValidated }) => isValidated)
       .map(({ skillId }) => skillId)
