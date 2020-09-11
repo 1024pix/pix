@@ -1,6 +1,7 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
+const Student = require('../../../../lib/domain/models/Student');
 const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
@@ -93,11 +94,15 @@ describe('Unit | UseCase | reconcile-user-to-schooling-registration-data', () =>
         findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUserStub.resolves(schoolingRegistration);
         checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizationsStub.throws(new SchoolingRegistrationAlreadyLinkedToUserError(exceptedErrorMEssage));
         reconcileUserToSchoolingRegistrationStub.withArgs({ userId: user.id, schoolingRegistrationId }).resolves(schoolingRegistration);
+        const studentRepository = {
+          getReconciledStudentByNationalStudentId: () => new Student(),
+        };
 
         // when
         const result = await catchErr(usecases.reconcileUserToSchoolingRegistrationData)({
           reconciliationInfo: user,
           campaignCode,
+          studentRepository,
         });
 
         // then
