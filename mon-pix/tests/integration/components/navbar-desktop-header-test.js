@@ -38,12 +38,12 @@ describe('Integration | Component | navbar-desktop-header', function() {
       expect(find('.navbar-desktop-header-container__menu')).to.not.exist;
     });
 
-    it('should display link to inscription page', function() {
+    it('should display link to signup page', function() {
       // then
       expect(find('.navbar-menu-signup-link')).to.exist;
     });
 
-    it('should display link to connection page', function() {
+    it('should display link to login page', function() {
       // then
       expect(find('.navbar-menu-signin-link')).to.exist;
     });
@@ -89,12 +89,12 @@ describe('Integration | Component | navbar-desktop-header', function() {
       expect(find('.logged-user-details')).to.exist;
     });
 
-    it('should not display link to inscription page', function() {
+    it('should not display link to signup page', function() {
       // then
       expect(find('.navbar-menu-signup-link')).to.not.exist;
     });
 
-    it('should not display link to connection page', function() {
+    it('should not display link to login page', function() {
       // then
       expect(find('.navbar-menu-signin-link')).to.not.exist;
     });
@@ -106,6 +106,49 @@ describe('Integration | Component | navbar-desktop-header', function() {
       expect(contains('Profil')).to.exist;
       expect(contains('Certification')).to.exist;
       expect(contains('Aide')).to.exist;
+    });
+  });
+
+  context('when user comes from external platform', function() {
+    beforeEach(async function() {
+      this.owner.register('service:session', Service.extend({
+        isAuthenticated: false,
+        data: {
+          externalUser: 'externalUserToken',
+        },
+      }));
+      setBreakpoint('desktop');
+      await render(hbs`<NavbarDesktopHeader/>`);
+    });
+
+    it('should be rendered', function() {
+      // then
+      expect(find('.navbar-desktop-header__container')).to.exist;
+    });
+
+    it('should display the Pix logo', function() {
+      // then
+      expect(find('.navbar-desktop-header-logo')).to.exist;
+      expect(find('.pix-logo')).to.exist;
+    });
+
+    it('should not display the navigation menu', function() {
+      // then
+      expect(find('.navbar-desktop-header-container__menu')).to.not.exist;
+    });
+
+    it('should not display link to signup page', function() {
+      // then
+      expect(find('.navbar-menu-signup-link')).to.not.exist;
+    });
+
+    it('should not display link to login page', function() {
+      // then
+      expect(find('.navbar-menu-signin-link')).to.not.exist;
+    });
+
+    it('should not display the join campaign link', function() {
+      expect(contains('J\'ai un code')).not.to.exist;
     });
   });
 
