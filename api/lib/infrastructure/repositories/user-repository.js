@@ -434,4 +434,19 @@ module.exports = {
       });
   },
 
+  async updateUserAttributes(id, userAttributes) {
+    try {
+      const bookshelfUser = await BookshelfUser
+        .where({ id })
+        .save(userAttributes, { patch: true, method: 'update' });
+      return bookshelfUser.toDomainEntity();
+
+    } catch (err) {
+      if (err instanceof BookshelfUser.NoRowsUpdatedError) {
+        throw new UserNotFoundError(`User not found for ID ${id}`);
+      }
+      throw err;
+    }
+  },
+
 };

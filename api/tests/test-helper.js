@@ -45,6 +45,10 @@ function generateValidRequestAuthorizationHeader(userId = 1234) {
   return `Bearer ${accessToken}`;
 }
 
+function generateIdTokenForExternalUser(externalUser) {
+  return tokenService.createIdTokenForUserReconciliation(externalUser);
+}
+
 async function getCountOfAllRowsInDatabase()
 {
   const results = [];
@@ -173,6 +177,7 @@ module.exports = {
   domainBuilder: require('./tooling/domain-builder/factory'),
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
+  generateIdTokenForExternalUser,
   getCountOfAllRowsInDatabase,
   hFake,
   HttpTestServer: require('./tooling/server/http-test-server'),
