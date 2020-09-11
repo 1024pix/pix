@@ -2,7 +2,7 @@ const Membership = require('../../../lib/domain/models/Membership');
 
 module.exports = function organizationsBuilder({ databaseBuilder }) {
 
-  const defaultPassword = 'Pix123';
+  const defaultPassword = 'pix123';
 
   // Type: SUP
 

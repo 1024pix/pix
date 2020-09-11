@@ -1,3 +1,5 @@
+const { times } = require('lodash');
+
 module.exports = function campaignsBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildCampaign({
@@ -96,5 +98,24 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     creatorId: 4,
     targetProfileId: 1,
   });
+
+  const createThatManyCampaigns = 30;
+  const startingCampaignId = 100;
+  const aUserId = 4;
+  const anotherUserId = 9;
+  const isEven = (n)=>{ n % 2; };
+
+  times(
+    createThatManyCampaigns,
+    (i) => databaseBuilder.factory.buildCampaign({
+      id: startingCampaignId + i,
+      name: 'Campagne restreinte n°' + i,
+      code: 'SCO2RES' + i,
+      type: 'ASSESSMENT',
+      organizationId: 3,
+      creatorId: isEven(i) ? aUserId : anotherUserId,
+      targetProfileId: 1,
+    }),
+  );
 
 };
