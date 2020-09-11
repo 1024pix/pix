@@ -5,6 +5,7 @@ const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-convert
 const Bookshelf = require('../bookshelf');
 const PrivateCertificate = require('../../domain/models/PrivateCertificate');
 const ShareableCertificate = require('../../domain/models/ShareableCertificate');
+const CertificationAttestation = require('../../domain/models/CertificationAttestation');
 const { status: assessmentStatus } = require('../../domain/models/AssessmentResult');
 const { NotFoundError, CertificationCourseNotPublishableError } = require('../../../lib/domain/errors');
 
@@ -58,26 +59,11 @@ function _getBaseCertificationQuery() {
     .join('sessions', 'sessions.id', 'certification-courses.sessionId');
 }
 
+function getNotFoundErrorMessage(id) {
+  return `Certification attestation not found for ID ${id}`;
+}
+
 module.exports = {
-
-  async getPrivateCertificateByCertificationCourseId({ id }) {
-    const certificationCourseDTO = await _getBaseCertificationQuery()
-      .where('certification-courses.id', '=', id)
-      .first();
-
-    if (!certificationCourseDTO) {
-      throw new NotFoundError(`Not found certification for ID ${id}`);
-    }
-
-    const latestAssessmentResult = await _getLatestAssessmentResult(certificationCourseDTO.id);
-
-    return new PrivateCertificate({
-      ...certificationCourseDTO,
-      pixScore: latestAssessmentResult && latestAssessmentResult.pixScore,
-      status: latestAssessmentResult && latestAssessmentResult.status,
-      commentForCandidate: latestAssessmentResult && latestAssessmentResult.commentForCandidate,
-    });
-  },
 
   async findByUserId(userId) {
     const results = await _getBaseCertificationQuery()
@@ -120,6 +106,25 @@ module.exports = {
       .save({ verificationCode }, { method: 'update' });
   },
 
+  async getPrivateCertificateByCertificationCourseId({ id }) {
+    const certificationCourseDTO = await _getBaseCertificationQuery()
+      .where('certification-courses.id', '=', id)
+      .first();
+
+    if (!certificationCourseDTO) {
+      throw new NotFoundError(`Not found certification for ID ${id}`);
+    }
+
+    const latestAssessmentResult = await _getLatestAssessmentResult(certificationCourseDTO.id);
+
+    return new PrivateCertificate({
+      ...certificationCourseDTO,
+      pixScore: latestAssessmentResult && latestAssessmentResult.pixScore,
+      status: latestAssessmentResult && latestAssessmentResult.status,
+      commentForCandidate: latestAssessmentResult && latestAssessmentResult.commentForCandidate,
+    });
+  },
+
   async getShareableCertificateByVerificationCode({ verificationCode }) {
     const certificationCourseDTO = await _getBaseCertificationQuery()
       .where({ verificationCode, 'isPublished': true })
@@ -136,6 +141,27 @@ module.exports = {
     }
 
     return new ShareableCertificate({
+      ...certificationCourseDTO,
+      pixScore: latestAssessmentResult.pixScore,
+      status: latestAssessmentResult.status,
+    });
+  },
+
+  async getCertificationAttestation({ id }) {
+    const certificationCourseDTO = await _getBaseCertificationQuery()
+      .where('certification-courses.id', '=', id)
+      .first();
+
+    if (!certificationCourseDTO) {
+      throw new NotFoundError(getNotFoundErrorMessage(id));
+    }
+
+    const latestAssessmentResult = await _getLatestAssessmentResult(certificationCourseDTO.id);
+    if (!latestAssessmentResult) {
+      throw new NotFoundError(getNotFoundErrorMessage(id));
+    }
+
+    return new CertificationAttestation({
       ...certificationCourseDTO,
       pixScore: latestAssessmentResult.pixScore,
       status: latestAssessmentResult.status,
