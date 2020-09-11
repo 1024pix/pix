@@ -1,6 +1,5 @@
-const { expect } = require('../../../../test-helper');
+const { expect, domainBuilder } = require('../../../../test-helper');
 const CampaignAssessmentParticipationResult = require('../../../../../lib/domain/read-models/CampaignAssessmentParticipationResult');
-const CampaignAssessmentParticipationCompetenceResult = require('../../../../../lib/domain/read-models/CampaignAssessmentParticipationCompetenceResult');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer');
 
 describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result-serializer', function() {
@@ -11,6 +10,8 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result
     let expectedJsonApi;
 
     beforeEach(() => {
+      const competence = domainBuilder.buildCompetence({ skillIds: ['recSkill0'] });
+      const knowledgeElement = domainBuilder.buildKnowledgeElement({ skillId: 'recSkill0', competenceId: competence.id, status: 'validated' });
       expectedJsonApi = {
         data: {
           type: 'campaign-assessment-participation-results',
@@ -21,7 +22,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result
           relationships: {
             'competence-results': {
               data: [{
-                id: '3',
+                id: competence.id,
                 type: 'campaign-assessment-participation-competence-results',
               }],
             },
@@ -29,32 +30,24 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result
         },
         included: [{
           type: 'campaign-assessment-participation-competence-results',
-          id: '3',
+          id: competence.id,
           attributes: {
-            name: 'Raper des carottes',
-            'index': '1.1',
-            'total-skills-count': 12,
-            'validated-skills-count': 5,
-            'area-color': 'blue',
+            name: competence.name,
+            'index': competence.index,
+            'total-skills-count': 1,
+            'validated-skills-count': 1,
+            'area-color': competence.area.color,
           },
         }],
       };
 
       modelCampaignAssessmentParticipationResult = new CampaignAssessmentParticipationResult({
+        competences: [competence],
         campaignParticipationId: 1,
         campaignId: 2,
-        competenceResults: [ new CampaignAssessmentParticipationCompetenceResult({
-          id: 3,
-          name: 'Raper des carottes',
-          index: '1.1',
-          totalSkillsCount: 12,
-          validatedSkillsCount: 5,
-          area: {
-            id: 1,
-            title: 'area1',
-            color: 'blue',
-          },
-        })],
+        targetedSkillIds: ['recSkill0'],
+        knowledgeElementsByCompetenceId: { [competence.id]: [knowledgeElement] },
+        isShared: true,
       });
     });
 

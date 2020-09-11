@@ -67,7 +67,9 @@ const buildLearningContent = function(learningContent) {
           acquisViaTubes: competence.tubes.flatMap((tube) => tube.skills).map((skill) => skill.id),
           domaineIds: [area.id],
           origin: competence.origin,
-        },
+          sousDomaine: competence.index,
+          titre: competence.name,
+        }
       );
     });
     allCompetences.push(competences);
