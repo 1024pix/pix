@@ -1,23 +1,22 @@
-import { click, fillIn, currentURL, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import {
-  authenticateByEmail,
-  authenticateByGAR,
-} from '../helpers/authentication';
-import {
-  startCampaignByCode,
-  startCampaignByCodeAndExternalId,
-} from '../helpers/campaign';
-import visit from '../helpers/visit';
+
+import { click, fillIn, currentURL, find } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { Response } from 'ember-cli-mirage';
+
+import visit from '../helpers/visit';
 import { contains } from '../helpers/contains';
 
+import { authenticateByEmail, authenticateByGAR } from '../helpers/authentication';
+import { startCampaignByCode, startCampaignByCodeAndExternalId } from '../helpers/campaign';
+
 describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
+
   setupApplicationTest();
   setupMirage();
+
   let campaign;
 
   beforeEach(function() {
@@ -112,7 +111,6 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
               // then
               expect(sentCampaignCode).to.equal(campaign.code);
-
             });
           });
 
@@ -716,7 +714,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
     });
 
-    context('When user is logged in with an external platform', function() {
+    context('When user is logged in an external platform', function() {
 
       context('When campaign is restricted and SCO', function() {
         beforeEach(function() {
@@ -806,6 +804,106 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             });
           });
         });
+
+        context('When user is already reconciled and has no GAR authentication method yet', () => {
+
+          const externalUserToken = 'aaa.' + btoa('{"first_name":"JeanPrescrit","last_name":"Campagne","saml_id":"SamlId","source":"external","iat":1545321469,"exp":4702193958}') + '.bbb';
+
+          beforeEach(async function() {
+            server.post('/schooling-registration-dependent-users/external-user-token', async () => {
+              return new Response(409, {}, {
+                errors: [{
+                  status: '409',
+                  code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
+                  title: 'Conflict',
+                  detail: 'Un compte existe déjà pour l\'élève dans le même établissement.',
+                  meta: {
+                    shortCode: 'R31',
+                    value: 'u***@example.net',
+                  },
+                }],
+              });
+            });
+
+            await visit(`/campagnes?externalUser=${externalUserToken}`);
+          });
+
+          it('should land on start campaign page if GAR authentication method has been added', async () => {
+            // given
+            await fillIn('#campaign-code', campaign.code);
+            await click('.fill-in-campaign-code__start-button');
+
+            await fillIn('#dayOfBirth', '10');
+            await fillIn('#monthOfBirth', '12');
+            await fillIn('#yearOfBirth', '2000');
+            await click('.button');
+
+            await click('button[aria-label="Continuer avec mon compte Pix"]');
+
+            // when
+            await fillIn('#login', prescritUser.email);
+            await fillIn('#password', prescritUser.password);
+            await click('#submit-connexion');
+
+            // then
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+            expect(contains('Commencez votre parcours')).to.exist;
+          });
+
+          it('should display an specific error message if GAR authentication method adding has failed with http statusCode 4xx', async () => {
+            // given
+            const expectedErrorMessage = 'Les données que vous avez soumises ne sont pas au bon format.';
+            const errorsApi = new Response(400, {}, {
+              errors: [{ status: 400 }],
+            });
+            server.patch('/users/:id/authentication-methods/saml', () => errorsApi);
+
+            await fillIn('#campaign-code', campaign.code);
+            await click('.fill-in-campaign-code__start-button');
+
+            await fillIn('#dayOfBirth', '10');
+            await fillIn('#monthOfBirth', '12');
+            await fillIn('#yearOfBirth', '2000');
+            await click('.button');
+
+            await click('button[aria-label="Continuer avec mon compte Pix"]');
+
+            // when
+            await fillIn('#login', prescritUser.email);
+            await fillIn('#password', prescritUser.password);
+            await click('#submit-connexion');
+
+            // then
+            expect(currentURL()).to.contains(`/campagnes/${campaign.code}/privee/identification`);
+            expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage);
+          });
+
+          it('should display the default error message if GAR authentication method adding has failed with others http statusCode', async () => {
+            // given
+            const expectedErrorMessage = 'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.';
+            server.patch('/users/:id/authentication-methods/saml', () => new Response(500));
+
+            await fillIn('#campaign-code', campaign.code);
+            await click('.fill-in-campaign-code__start-button');
+
+            await fillIn('#dayOfBirth', '10');
+            await fillIn('#monthOfBirth', '12');
+            await fillIn('#yearOfBirth', '2000');
+            await click('.button');
+
+            await click('button[aria-label="Continuer avec mon compte Pix"]');
+
+            // when
+            await fillIn('#login', prescritUser.email);
+            await fillIn('#password', prescritUser.password);
+            await click('#submit-connexion');
+
+            // then
+            expect(currentURL()).to.contains(`/campagnes/${campaign.code}/privee/identification`);
+            expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage);
+          });
+        });
+
       });
     });
   });
