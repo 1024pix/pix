@@ -25,14 +25,14 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
     const competenceResult = store.createRecord('campaignAssessmentParticipationCompetenceResult', {
       name: 'Compétence 1',
       index: '1.1',
-      totalSkillsCount: 10,
+      targetedSkillsCount: 10,
       testedSkillsCount: 9,
       validatedSkillsCount: 5,
       areaColor: 'jaffa',
     });
 
     const campaignAssessmentParticipationResult = store.createRecord('campaignAssessmentParticipationResult', {
-      totalSkillsCount: 30,
+      targetedSkillsCount: 30,
       testedSkillsCount: 29,
       validatedSkillsCount: 15,
       competenceResults: [competenceResult]

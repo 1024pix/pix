@@ -171,7 +171,7 @@ module('Integration | Component | routes/authenticated/campaign/evaluation | det
       test('it displays campaign participation details of mastery percentage (validated skills over total skills)', async function(assert) {
         const campaignAssessmentParticipation = {
           validatedSkillsCount: 45,
-          totalSkillsCount: 50,
+          targetedSkillsCount: 50,
           isShared: true
         };
 

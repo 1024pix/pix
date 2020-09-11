@@ -10,13 +10,13 @@ module('Unit | Model | CampaignAssessmentParticipationCompetenceResult', functio
       const store = this.owner.lookup('service:store');
       const model = store.createRecord('campaign-assessment-participation-competence-result', {});
       const otherCompetenceResult = store.createRecord('campaign-assessment-participation-competence-result', {
-        totalSkillsCount: 1
+        targetedSkillsCount: 1
       });
       const campaignAssessmentParticipationResult = store.createRecord('campaign-assessment-participation-result', {
         competenceResults: [otherCompetenceResult, model]
       });
 
-      model.set('totalSkillsCount', 2);
+      model.set('targetedSkillsCount', 2);
       model.set('campaignAssessmentParticipationResult', campaignAssessmentParticipationResult);
 
       // when
@@ -30,13 +30,13 @@ module('Unit | Model | CampaignAssessmentParticipationCompetenceResult', functio
       const store = this.owner.lookup('service:store');
       const model = store.createRecord('campaign-assessment-participation-competence-result', {});
       const otherCompetenceResult = store.createRecord('campaign-assessment-participation-competence-result', {
-        totalSkillsCount: 4
+        targetedSkillsCount: 4
       });
       const campaignAssessmentParticipationResult = store.createRecord('campaign-assessment-participation-result', {
         competenceResults: [otherCompetenceResult, model]
       });
 
-      model.set('totalSkillsCount', 1);
+      model.set('targetedSkillsCount', 1);
       model.set('campaignAssessmentParticipationResult', campaignAssessmentParticipationResult);
 
       // when
@@ -53,7 +53,7 @@ module('Unit | Model | CampaignAssessmentParticipationCompetenceResult', functio
       const store = this.owner.lookup('service:store');
       const model = store.createRecord('campaign-assessment-participation-competence-result', {});
 
-      model.set('totalSkillsCount', 2);
+      model.set('targetedSkillsCount', 2);
       model.set('validatedSkillsCount', 2);
 
       // when
@@ -67,7 +67,7 @@ module('Unit | Model | CampaignAssessmentParticipationCompetenceResult', functio
       const store = this.owner.lookup('service:store');
       const model = store.createRecord('campaign-assessment-participation-competence-result', {});
 
-      model.set('totalSkillsCount', 3);
+      model.set('targetedSkillsCount', 3);
       model.set('validatedSkillsCount', 1);
 
       // when

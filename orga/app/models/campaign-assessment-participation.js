@@ -9,7 +9,7 @@ export default class CampaignAssessmentParticipation extends Model {
   @attr('date') createdAt;
   @attr('date') sharedAt;
   @attr('boolean') isShared;
-  @attr('number') totalSkillsCount;
+  @attr('number') targetedSkillsCount;
   @attr('number') validatedSkillsCount;
   @attr('number') masteryPercentage;
   @attr('number') progression;
