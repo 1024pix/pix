@@ -509,6 +509,10 @@
       },
       "first-title": "You have 16 skills to test. '<br>'Get your thinking hat on and off we go!",
       "resume-campaign-banner": {
+        "accessibility": {
+          "resume": "Resume your campaign",
+          "share": "Share your campaign results"
+        },
         "actions": {
           "continue": "Continue",
           "resume": "Resume"

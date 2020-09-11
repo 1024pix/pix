@@ -70,6 +70,21 @@ describe('Acceptance | Profile', function() {
     context('when user is doing a campaign of type assessment', function() {
       context('when user has not completed the campaign', () => {
 
+        it('should display accessibility information in the banner button', async function() {
+          // given
+          const campaign = server.create('campaign', { isArchived: false, type: 'ASSESSMENT' });
+          server.create('campaign-participation',
+            { campaign, user, isShared: false , createdAt: new Date('2020-04-20T04:05:06Z') });
+
+          // when
+          await visit('/');
+          const button = find('.resume-campaign-banner__button');
+          const a11yText = button.firstChild.textContent;
+
+          // then
+          expect(a11yText).to.equal('Continuer votre parcours');
+        });
+
         it('should display a resume campaign banner for a campaign with no title', async function() {
           // given
           const campaign = server.create('campaign', { isArchived: false, type: 'ASSESSMENT' });
@@ -80,8 +95,8 @@ describe('Acceptance | Profile', function() {
           await visit('/');
 
           // then
-          expect(find('.resume-campaign-banner__container').textContent).to.contain('Vous n\'avez pas terminé votre parcours');
-          expect(find('.resume-campaign-banner__button').textContent).to.equal('Reprendre');
+          expect(find('.resume-campaign-banner__container')).to.exist;
+          expect(find('.resume-campaign-banner__button').lastChild).to.exist;
         });
 
         it('should display a resume campaign banner for a campaign with a campaign with a title', async function() {
@@ -94,8 +109,8 @@ describe('Acceptance | Profile', function() {
           await visit('/');
 
           // then
-          expect(find('.resume-campaign-banner__container').textContent).to.contain(`Vous n'avez pas terminé le parcours "${campaign.title}"`);
-          expect(find('.resume-campaign-banner__button').textContent).to.equal('Reprendre');
+          expect(find('.resume-campaign-banner__container')).to.exist;
+          expect(find('.resume-campaign-banner__button').lastChild).to.exist;
         });
       });
 
@@ -112,8 +127,8 @@ describe('Acceptance | Profile', function() {
           await visit('/');
 
           // then
-          expect(find('.resume-campaign-banner__container').textContent).to.contain('N\'oubliez pas de finaliser votre envoi !');
-          expect(find('.resume-campaign-banner__button').textContent).to.equal('Continuer');
+          expect(find('.resume-campaign-banner__container')).to.exist;
+          expect(find('.resume-campaign-banner__button').lastChild).to.exist;
         });
 
         it('should display a resume campaign banner for a campaign with a campaign with a title', async function() {
@@ -127,14 +142,30 @@ describe('Acceptance | Profile', function() {
           await visit('/');
 
           // then
-          expect(find('.resume-campaign-banner__container').textContent).to.contain(`Parcours "${campaign.title}" terminé. N'oubliez pas de finaliser votre envoi !`);
-          expect(find('.resume-campaign-banner__button').textContent).to.equal('Continuer');
+          expect(find('.resume-campaign-banner__container')).to.exist;
+          expect(find('.resume-campaign-banner__button').lastChild).to.exist;
         });
       });
     });
 
     context('when user is doing a campaign of type collect profile', function() {
       context('when user has not shared the collect profile campaign', () => {
+        it('should display accessibility information in the banner', async function() {
+          // given
+          const campaign = server.create('campaign', { isArchived: false, type: 'ASSESSMENT' });
+          server.create('campaign-participation',
+            { campaign, user, isShared: false , createdAt: new Date('2020-04-20T04:05:06Z') });
+
+          // when
+          await visit('/');
+          const button = find('.resume-campaign-banner__button');
+          const a11yText = button.firstChild.textContent;
+
+          // then
+          expect(button).to.exist;
+          expect(a11yText).to.exist;
+        });
+
         it('should display a resume campaign banner for the campaign', async function() {
           // given
           const campaign = server.create('campaign', { isArchived: false, title: 'SomeTitle', type: 'PROFILES_COLLECTION' });
@@ -146,8 +177,8 @@ describe('Acceptance | Profile', function() {
           await visit('/');
 
           // then
-          expect(find('.resume-campaign-banner__container').textContent).to.contain('N\'oubliez pas de finaliser votre envoi !');
-          expect(find('.resume-campaign-banner__button').textContent).to.equal('Continuer');
+          expect(find('.resume-campaign-banner__container')).to.exist;
+          expect(find('.resume-campaign-banner__button')).to.exist;
         });
       });
     });

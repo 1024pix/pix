@@ -1,10 +1,8 @@
 {{page-title (t 'pages.profile.title')}}
 <BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
   <burger.outlet>
-    {{#if @model.campaignParticipations}}
-      <ResumeCampaignBanner @campaignParticipations={{@model.campaignParticipations}} />
-    {{/if}}
-    <NavbarHeader @burger={{burger}} />
+
+    <NavbarHeader @burger={{burger}} @campaignParticipations={{@model.campaignParticipations}}/>
 
     <ProfileContent @model={{@model}} />
 
