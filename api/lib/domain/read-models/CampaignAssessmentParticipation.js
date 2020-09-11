@@ -12,7 +12,7 @@ class CampaignAssessmentParticipation {
     sharedAt,
     isShared,
     createdAt,
-    totalSkillsCount,
+    targetedSkillsCount,
     validatedSkillsCount,
     testedSkillsCount,
     campaignAssessmentParticipationResult,
@@ -26,7 +26,7 @@ class CampaignAssessmentParticipation {
     this.sharedAt = sharedAt;
     this.isShared = isShared;
     this.createdAt = createdAt;
-    this.totalSkillsCount = totalSkillsCount;
+    this.targetedSkillsCount = targetedSkillsCount;
     this.campaignAssessmentParticipationResult = campaignAssessmentParticipationResult;
     this.campaignAnalysis = campaignAnalysis;
     this.progression = this._computeProgression(assessementState, testedSkillsCount);
@@ -38,8 +38,8 @@ class CampaignAssessmentParticipation {
   }
 
   _computeMasteryPercentage() {
-    if (this.totalSkillsCount !== 0) {
-      return Math.round(this.validatedSkillsCount * 100 / this.totalSkillsCount);
+    if (this.targetedSkillsCount !== 0) {
+      return Math.round(this.validatedSkillsCount * 100 / this.targetedSkillsCount);
     } else {
       return 0;
     }
@@ -47,7 +47,7 @@ class CampaignAssessmentParticipation {
 
   _computeProgression(assessementState, testedSkillsCount) {
     if (assessementState === Assessment.states.COMPLETED) return 100;
-    return Math.round(testedSkillsCount * 100 / this.totalSkillsCount);
+    return Math.round(testedSkillsCount * 100 / this.targetedSkillsCount);
   }
 }
 

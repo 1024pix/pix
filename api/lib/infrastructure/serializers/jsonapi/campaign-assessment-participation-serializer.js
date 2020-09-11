@@ -13,7 +13,7 @@ module.exports = {
         'sharedAt',
         'isShared',
         'campaignId',
-        'totalSkillsCount',
+        'targetedSkillsCount',
         'validatedSkillsCount',
         'masteryPercentage',
         'progression',
