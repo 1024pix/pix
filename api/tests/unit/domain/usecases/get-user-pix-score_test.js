@@ -34,7 +34,7 @@ describe('Unit | UseCase | get-user-pix-score', () => {
     const sumOfPixCompetenceScores = 7;
     const pixScoreExpected = {
       id: userId,
-      value: sumOfPixCompetenceScores
+      value: sumOfPixCompetenceScores,
     };
 
     competenceRepository.getPixScoreByCompetence.resolves({

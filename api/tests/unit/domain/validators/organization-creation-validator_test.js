@@ -33,7 +33,7 @@ describe('Unit | Domain | Validators | organization-validator', function() {
           // given
           const expectedError = {
             attribute: 'name',
-            message: 'Le nom n’est pas renseigné.'
+            message: 'Le nom n’est pas renseigné.',
           };
           const organizationCreationParams = { name: MISSING_VALUE, type: 'PRO' };
 
@@ -56,11 +56,11 @@ describe('Unit | Domain | Validators | organization-validator', function() {
           const expectedError = [
             {
               attribute: 'type',
-              message: 'Le type de l’organisation doit avoir l’une des valeurs suivantes: SCO, SUP, PRO.'
+              message: 'Le type de l’organisation doit avoir l’une des valeurs suivantes: SCO, SUP, PRO.',
             },
             {
               attribute: 'type',
-              message: 'Le type n’est pas renseigné.'
+              message: 'Le type n’est pas renseigné.',
             }];
 
           const organizationCreationParams = { name: 'ACME', type: MISSING_VALUE };
@@ -80,7 +80,7 @@ describe('Unit | Domain | Validators | organization-validator', function() {
           // given
           const expectedError = {
             attribute: 'type',
-            message: 'Le type de l’organisation doit avoir l’une des valeurs suivantes: SCO, SUP, PRO.'
+            message: 'Le type de l’organisation doit avoir l’une des valeurs suivantes: SCO, SUP, PRO.',
           };
           const organizationCreationParams = { name: 'ACME', type: 'PTT' };
 
@@ -97,7 +97,7 @@ describe('Unit | Domain | Validators | organization-validator', function() {
         [
           'SUP',
           'SCO',
-          'PRO'
+          'PRO',
         ].forEach((type) => {
           it(`should not throw with ${type} as type`, function() {
             // given
@@ -112,7 +112,7 @@ describe('Unit | Domain | Validators | organization-validator', function() {
 
       it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
         // given
-        const organizationCreationParams = { name: MISSING_VALUE, type: MISSING_VALUE, };
+        const organizationCreationParams = { name: MISSING_VALUE, type: MISSING_VALUE };
 
         try {
           // when

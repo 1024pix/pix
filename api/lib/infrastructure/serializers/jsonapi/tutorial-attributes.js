@@ -15,5 +15,5 @@ module.exports = {
     'userTutorial',
   ],
   tutorialEvaluation: tutorialEvaluationAttributes,
-  userTutorial: userTutorialAttributes
+  userTutorial: userTutorialAttributes,
 };

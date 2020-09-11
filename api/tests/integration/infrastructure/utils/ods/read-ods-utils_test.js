@@ -12,7 +12,7 @@ const {
 const { CURRENT_ATTENDANCE_SHEET_VERSION } = require('../../../../../lib/infrastructure/files/attendance-sheet/attendance-sheet-transformation-structures');
 
 const {
-  getContentXml, extractTableDataFromOdsFile, getOdsVersionByHeaders, getSheetDataRowsFromOdsBuffer
+  getContentXml, extractTableDataFromOdsFile, getOdsVersionByHeaders, getSheetDataRowsFromOdsBuffer,
 } = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
 
 describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', () => {
@@ -25,7 +25,7 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', () => {
   const SIMPLE_ATTENDANCE_ODS_FILE_PATH = `${__dirname}/files/simple-attendance_test.ods`;
 
   const TRANSFORMATION_STRUCTS_BY_VERSION = _.orderBy(
-    TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION, ['version'], ['desc']
+    TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION, ['version'], ['desc'],
   );
 
   let odsBuffer;
@@ -90,12 +90,12 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', () => {
         {
           header: 'HEADER1',
           property: 'property1',
-          transformFn: (a) => a
+          transformFn: (a) => a,
         },
         {
           header: 'HEADER\n2',
           property: 'property2',
-          transformFn: (a) => a
+          transformFn: (a) => a,
         },
       ];
 
@@ -280,7 +280,7 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', () => {
     it('should read range rows and get the appropriate headers', async () => {
       // given
       const expectedHeaders = _.find(
-        TRANSFORMATION_STRUCTS_BY_VERSION, { 'version': CURRENT_ATTENDANCE_SHEET_VERSION }
+        TRANSFORMATION_STRUCTS_BY_VERSION, { 'version': CURRENT_ATTENDANCE_SHEET_VERSION },
       ).headers;
 
       // when

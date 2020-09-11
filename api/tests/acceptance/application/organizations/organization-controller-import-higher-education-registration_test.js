@@ -37,7 +37,7 @@ describe('Acceptance | Application | organization-controller-import-higher-educa
           headers: {
             authorization: generateValidRequestAuthorizationHeader(connectedUser.id),
           },
-          payload: buffer
+          payload: buffer,
         };
 
         const response = await server.inject(options);
@@ -57,7 +57,7 @@ describe('Acceptance | Application | organization-controller-import-higher-educa
           headers: {
             authorization: generateValidRequestAuthorizationHeader(connectedUser.id),
           },
-          payload: buffer
+          payload: buffer,
         };
 
         const response = await server.inject(options);
@@ -78,7 +78,7 @@ describe('Acceptance | Application | organization-controller-import-higher-educa
           headers: {
             authorization: generateValidRequestAuthorizationHeader(connectedUser.id),
           },
-          payload: buffer
+          payload: buffer,
         };
 
         const response = await server.inject(options);
@@ -100,7 +100,7 @@ describe('Acceptance | Application | organization-controller-import-higher-educa
           headers: {
             authorization: generateValidRequestAuthorizationHeader(connectedUser.id),
           },
-          payload: buffer
+          payload: buffer,
         };
 
         const response = await server.inject(options);

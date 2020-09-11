@@ -17,7 +17,7 @@ describe('Unit | Domain | Services | authentication', () => {
 
     beforeEach(() => {
       userRepository = {
-        getByUsernameOrEmailWithRoles: sinon.stub()
+        getByUsernameOrEmailWithRoles: sinon.stub(),
       };
       sinon.stub(encryptionService, 'check');
     });

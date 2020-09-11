@@ -16,7 +16,7 @@ module.exports = function buildUserOrgaSettings(
   const values = {
     id,
     currentOrganizationId,
-    userId
+    userId,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'user-orga-settings',

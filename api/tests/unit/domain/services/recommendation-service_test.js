@@ -28,7 +28,7 @@ describe('Unit | Service | Campaign Recommendation Service', () => {
         const maxSkillLevelInTargetProfile = 6;
         const skills = [
           { id: 1, difficulty: 1 },
-          { id: 2, difficulty: 4 }
+          { id: 2, difficulty: 4 },
         ];
 
         // when
@@ -93,11 +93,11 @@ describe('Unit | Service | Campaign Recommendation Service', () => {
           { id: 1, difficulty: 1 },
           { id: 2, difficulty: 2 },
           { id: 3, difficulty: 3 },
-          { id: 4, difficulty: 6 }
+          { id: 4, difficulty: 6 },
         ];
 
         const knowledgeElements = [
-          { skillId: 1 }
+          { skillId: 1 },
         ];
         // when
         const score = recommendationService.computeRecommendationScore(skills, maxSkillLevelInTargetProfile, knowledgeElements);

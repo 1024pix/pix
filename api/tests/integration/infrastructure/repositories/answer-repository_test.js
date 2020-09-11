@@ -63,9 +63,9 @@ describe('Integration | Repository | AnswerRepository', () => {
 
     beforeEach(() => {
       _.each([
-        { value: 'answer value', challengeId, assessmentId, }, // nominal case
-        { challengeId: otherChallengeId, assessmentId, }, // same assessmentId, different challengeId
-        { challengeId, assessmentId: otherAssessmentId, }, // different assessmentId, same challengeId
+        { value: 'answer value', challengeId, assessmentId }, // nominal case
+        { challengeId: otherChallengeId, assessmentId }, // same assessmentId, different challengeId
+        { challengeId, assessmentId: otherAssessmentId }, // different assessmentId, same challengeId
       ], (answer) => (databaseBuilder.factory.buildAnswer(answer)));
       return databaseBuilder.commit();
     });
@@ -74,7 +74,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       // when
       const foundAnswers = await AnswerRepository.findByChallengeAndAssessment({
         challengeId,
-        assessmentId
+        assessmentId,
       });
 
       // then
@@ -123,7 +123,7 @@ describe('Integration | Repository | AnswerRepository', () => {
 
       // when
       const challengeIds = await AnswerRepository.findChallengeIdsFromAnswerIds(
-        answerIds.concat([nonExistingAnswerId])
+        answerIds.concat([nonExistingAnswerId]),
       );
 
       // then
@@ -166,9 +166,9 @@ describe('Integration | Repository | AnswerRepository', () => {
 
     beforeEach(() => {
       _.each([
-        { challengeId, assessmentId, },
-        { challengeId, assessmentId: otherAssessmentId, },
-        { challengeId: otherChallengeId, assessmentId, },
+        { challengeId, assessmentId },
+        { challengeId, assessmentId: otherAssessmentId },
+        { challengeId: otherChallengeId, assessmentId },
       ], (answer) => (databaseBuilder.factory.buildAnswer(answer)));
       return databaseBuilder.commit();
     });
@@ -221,9 +221,9 @@ describe('Integration | Repository | AnswerRepository', () => {
 
     beforeEach(() => {
       _.each([
-        { result: 'ok', challengeId, assessmentId, },
-        { result: 'ok', challengeId, assessmentId: otherAssessmentId, },
-        { result: 'ko', challengeId: otherChallengeId, assessmentId, },
+        { result: 'ok', challengeId, assessmentId },
+        { result: 'ok', challengeId, assessmentId: otherAssessmentId },
+        { result: 'ko', challengeId: otherChallengeId, assessmentId },
       ], (answer) => (databaseBuilder.factory.buildAnswer(answer)));
       return databaseBuilder.commit();
     });
@@ -231,7 +231,7 @@ describe('Integration | Repository | AnswerRepository', () => {
     it('should retrieve answers with ok status from assessment id provided', async () => {
       // given
       const expectedStatus = {
-        status: 'ok'
+        status: 'ok',
       };
 
       // when

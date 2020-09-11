@@ -8,12 +8,12 @@ const buildCorrectAnswerAndKnowledgeElement = async function({
   challengeId,
   pixValue,
   acquisitionDate,
-  skillId
+  skillId,
 }) {
   const assessmentId = buildAssessment({ userId }).id;
   const answerId = buildAnswer({
     assessmentId,
-    challengeId
+    challengeId,
   }).id;
   buildKnowledgeElement({
     userId,
@@ -22,7 +22,7 @@ const buildCorrectAnswerAndKnowledgeElement = async function({
     competenceId,
     answerId,
     createdAt: acquisitionDate,
-    skillId
+    skillId,
   });
 };
 

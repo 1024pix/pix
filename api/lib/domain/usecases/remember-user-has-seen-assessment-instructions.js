@@ -1,6 +1,6 @@
 module.exports = function rememberUserHasSeenAssessmentInstructions({
   userId,
-  userRepository
+  userRepository,
 }) {
   return userRepository.updateHasSeenAssessmentInstructionsToTrue(userId);
 };

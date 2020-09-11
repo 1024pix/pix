@@ -43,7 +43,7 @@ class CampaignTubeRecommendation {
         recommendationService.computeRecommendationScore(
           skills,
           maxSkillLevelInTargetProfile,
-          knowledgeElements
+          knowledgeElements,
         ));
 
     return sumOfScores / participantsCount;

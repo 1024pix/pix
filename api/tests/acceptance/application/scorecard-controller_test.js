@@ -104,7 +104,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
         databaseBuilder.factory.buildCompetenceEvaluation({
           userId,
           assessmentId,
-          competenceId: competence.id
+          competenceId: competence.id,
         });
 
         await databaseBuilder.commit();
@@ -145,14 +145,14 @@ describe('Acceptance | Controller | scorecard-controller', () => {
               area: {
                 data: {
                   id: area.id,
-                  type: 'areas'
-                }
+                  type: 'areas',
+                },
               },
               tutorials: {
                 links: {
-                  related: `/api/scorecards/${userId}_${competenceId}/tutorials`
-                }
-              }
+                  related: `/api/scorecards/${userId}_${competenceId}/tutorials`,
+                },
+              },
             },
           },
           included: [
@@ -163,9 +163,9 @@ describe('Acceptance | Controller | scorecard-controller', () => {
                 color: area.fields.Couleur,
               },
               id: area.id,
-              type: 'areas'
-            }
-          ]
+              type: 'areas',
+            },
+          ],
         };
 
         // then
@@ -238,7 +238,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
             id: tubeWebId,
             nom: tubeWeb,
             titrePratiqueFrFr: 'Ceci est un titre pratique',
-            descriptionPratiqueFrFr: 'Ceci est une description pratique'
+            descriptionPratiqueFrFr: 'Ceci est une description pratique',
           }),
         ];
 
@@ -272,7 +272,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
         databaseBuilder.factory.buildCompetenceEvaluation({
           userId,
           assessmentId,
-          competenceId: competence.id
+          competenceId: competence.id,
         });
 
         await databaseBuilder.commit();
@@ -309,9 +309,9 @@ describe('Acceptance | Controller | scorecard-controller', () => {
                 'user-tutorial': {
                   'data': {
                     'id': '10500',
-                    'type': 'user-tutorial'
-                  }
-                }
+                    'type': 'user-tutorial',
+                  },
+                },
               },
             },
             {
@@ -338,7 +338,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
               },
               'id': '10500',
               'type': 'user-tutorial',
-            }
+            },
           ],
         };
 

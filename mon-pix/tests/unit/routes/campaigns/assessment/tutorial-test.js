@@ -18,24 +18,24 @@ describe('Unit | Route | campaigns/evaluation/tutorial', function() {
       page0 : {
         title: 'Vous pouvez rechercher sur internet',
         icon: 'icn-recherche.svg',
-        explanation: 'Si vous ignorez une réponse, \nelle se trouve sûrement sur internet.'
+        explanation: 'Si vous ignorez une réponse, \nelle se trouve sûrement sur internet.',
       },
       page1: {
         title: 'Pas de limite de temps !',
         icon: 'icn-temps.svg',
-        explanation: 'Prenez le temps nécessaire pour terminer votre parcours. \nSi une question est chronométrée, cela vous sera indiqué.'
+        explanation: 'Prenez le temps nécessaire pour terminer votre parcours. \nSi une question est chronométrée, cela vous sera indiqué.',
       },
       page2: {
         title: 'Des tutos pour apprendre',
         icon: 'icn-tutos.svg',
-        explanation: 'Accédez à des tutos pour apprendre davantage \nsur chaque question et progresser.'
+        explanation: 'Accédez à des tutos pour apprendre davantage \nsur chaque question et progresser.',
       },
       page3: {
         title: 'Un niveau de difficulté adapté',
         icon: 'icn-algo.svg',
-        explanation: 'En fonction de vos réponses,\nPix adapte la difficulté des questions.'
-      }
-    }
+        explanation: 'En fonction de vos réponses,\nPix adapte la difficulté des questions.',
+      },
+    },
   };
 
   beforeEach(function() {
@@ -95,7 +95,7 @@ describe('Unit | Route | campaigns/evaluation/tutorial', function() {
     it('should transition to start-or-resume route', async function() {
       // given
       this.owner.register('service:currentUser', Service.extend({
-        user: { save: sinon.stub() }
+        user: { save: sinon.stub() },
       }));
       route.set('campaignCode', 'AZERTY123');
 

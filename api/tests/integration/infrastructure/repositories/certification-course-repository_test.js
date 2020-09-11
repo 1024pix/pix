@@ -30,7 +30,7 @@ describe('Integration | Repository | Certification Course', function() {
           domainBuilder.buildCertificationChallenge(),
           domainBuilder.buildCertificationChallenge(),
           domainBuilder.buildCertificationChallenge(),
-        ]
+        ],
       });
 
       return databaseBuilder.commit();
@@ -57,9 +57,9 @@ describe('Integration | Repository | Certification Course', function() {
       const fieldsToOmitInCertificationChallenge = [ 'id', 'courseId' ];
 
       expect(
-        _.omit(retrievedCertificationCourse, fieldsToOmitInCertificationCourse)
+        _.omit(retrievedCertificationCourse, fieldsToOmitInCertificationCourse),
       ).to.deep.equal(
-        _.omit(certificationCourse, fieldsToOmitInCertificationCourse)
+        _.omit(certificationCourse, fieldsToOmitInCertificationCourse),
       );
 
       const certificationChallengeToBeSaved = _.map(certificationCourse.challenges, (c) => _.omit(c, fieldsToOmitInCertificationChallenge));
@@ -67,7 +67,7 @@ describe('Integration | Repository | Certification Course', function() {
       expect(savedCertificationChallenge).to.deep.equal(certificationChallengeToBeSaved);
 
       expect(
-        _.every(savedCertificationCourse.challenges, (c) => c.courseId === savedCertificationCourse.id)
+        _.every(savedCertificationCourse.challenges, (c) => c.courseId === savedCertificationCourse.id),
       ).to.be.true;
     });
 
@@ -161,11 +161,11 @@ describe('Integration | Repository | Certification Course', function() {
       _.each([
         {
           certificationCourseId: expectedCertificationCourse.id,
-          partnerKey: databaseBuilder.factory.buildBadge({ key: 'forêt_noire' }).key
+          partnerKey: databaseBuilder.factory.buildBadge({ key: 'forêt_noire' }).key,
         },
         {
           certificationCourseId: expectedCertificationCourse.id,
-          partnerKey: databaseBuilder.factory.buildBadge({ key: 'baba_au_rhum' }).key
+          partnerKey: databaseBuilder.factory.buildBadge({ key: 'baba_au_rhum' }).key,
         },
         { certificationCourseId: anotherCourseId, partnerKey: databaseBuilder.factory.buildBadge({ key: 'tropézienne' }).key },
       ], (acquiredPartnerCertification) =>
@@ -205,7 +205,7 @@ describe('Integration | Repository | Certification Course', function() {
           assessmentId = databaseBuilder.factory.buildAssessment({
             type: 'CERTIFICATION',
             certificationCourseId: expectedCertificationCourse.id,
-            userId
+            userId,
           }).id;
           return databaseBuilder.commit();
         });
@@ -258,7 +258,7 @@ describe('Integration | Repository | Certification Course', function() {
       // when
       const certificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
         userId,
-        sessionId
+        sessionId,
       });
 
       // then
@@ -269,7 +269,7 @@ describe('Integration | Repository | Certification Course', function() {
       // when
       const result = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
         userId: userId + 1,
-        sessionId
+        sessionId,
       });
 
       // then

@@ -105,7 +105,7 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
         databaseBuilder.factory.buildCompetenceEvaluation({
           userId,
           assessmentId,
-          competenceId: competence.id
+          competenceId: competence.id,
         });
 
         await databaseBuilder.commit();
@@ -146,14 +146,14 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
               area: {
                 data: {
                   id: area.id,
-                  type: 'areas'
-                }
+                  type: 'areas',
+                },
               },
               tutorials: {
                 links: {
-                  related: `/api/scorecards/${userId}_${competenceId}/tutorials`
-                }
-              }
+                  related: `/api/scorecards/${userId}_${competenceId}/tutorials`,
+                },
+              },
             },
           }],
           included: [
@@ -164,9 +164,9 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
                 color: area.fields.Couleur,
               },
               id: area.id,
-              type: 'areas'
-            }
-          ]
+              type: 'areas',
+            },
+          ],
         };
 
         // then

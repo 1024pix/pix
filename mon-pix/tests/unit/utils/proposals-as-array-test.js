@@ -14,7 +14,7 @@ describe('Unit | Utility | proposals as array', function() {
     { data: '- joli\n- cerf-volant', expected: ['joli', 'cerf-volant'] },
     { data: '- xi\n- foo\n- mi', expected: ['xi', 'foo', 'mi'] },
     { data: '-- foo', expected: ['- foo'] },
-    { data: '- foo\n\r\t\n\r\t\n\r\t\n- bar', expected: ['foo', 'bar'] }
+    { data: '- foo\n\r\t\n\r\t\n\r\t\n- bar', expected: ['foo', 'bar'] },
   ];
 
   testData.forEach(({ data, expected }) => {

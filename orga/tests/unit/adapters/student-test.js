@@ -37,8 +37,8 @@ module('Unit | Adapters | student', function(hooks) {
         data: {
           attributes: {
             'schooling-registration-id': model.id,
-          }
-        }
+          },
+        },
       };
       const url = `${ENV.APP.API_HOST}/api/schooling-registration-user-associations`;
 

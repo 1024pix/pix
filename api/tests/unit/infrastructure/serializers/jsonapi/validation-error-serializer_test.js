@@ -13,20 +13,20 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
       DummyObject = Bookshelf.Model.extend({
         validations: {
           email: [
-            { method: 'isEmail', error: 'Not a valid email address' }
+            { method: 'isEmail', error: 'Not a valid email address' },
           ],
           age: [
             { method: 'isInt', error: 'You cant be so old', args: { min: 10, max: 99 } },
-            { method: 'isLength', error: 'Age can only be two digits', args: { min: 0, max: 2 } }
-          ]
-        }
+            { method: 'isLength', error: 'Age can only be two digits', args: { min: 0, max: 2 } },
+          ],
+        },
       });
     });
 
     it('should format a validation error into a JSON spec', () => {
       // given
       const invalidObject = new DummyObject({
-        email: 'testThatIsNotAnEmail'
+        email: 'testThatIsNotAnEmail',
       });
       const expectedFormattedJSON = {
         'errors': [
@@ -36,10 +36,10 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
             'detail': 'Not a valid email address',
             'source': { 'pointer': '/data/attributes/email' },
             'meta': {
-              'field': 'email'
-            }
-          }
-        ]
+              'field': 'email',
+            },
+          },
+        ],
       };
 
       // when
@@ -57,8 +57,8 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
       // given
       const validationErrors = {
         data: {
-          firstName: ['Error message']
-        }
+          firstName: ['Error message'],
+        },
       };
       const expectedFormattedJSON = {
         'errors': [
@@ -68,10 +68,10 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
             'detail': 'Error message',
             'source': { 'pointer': '/data/attributes/first-name' },
             'meta': {
-              'field': 'firstName'
-            }
-          }
-        ]
+              'field': 'firstName',
+            },
+          },
+        ],
       };
 
       // when
@@ -85,8 +85,8 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
       // given
       const validationErrors = {
         data: {
-          field: ['Error message #1', 'Error message #2', 'Error message #3']
-        }
+          field: ['Error message #1', 'Error message #2', 'Error message #3'],
+        },
       };
       const expectedFormattedJSON = {
         'errors': [
@@ -96,26 +96,26 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
             'detail': 'Error message #1',
             'source': { 'pointer': '/data/attributes/field' },
             'meta': {
-              'field': 'field'
-            }
+              'field': 'field',
+            },
           }, {
             'status': '400',
             'title': 'Invalid Attribute',
             'detail': 'Error message #2',
             'source': { 'pointer': '/data/attributes/field' },
             'meta': {
-              'field': 'field'
-            }
+              'field': 'field',
+            },
           }, {
             'status': '400',
             'title': 'Invalid Attribute',
             'detail': 'Error message #3',
             'source': { 'pointer': '/data/attributes/field' },
             'meta': {
-              'field': 'field'
-            }
-          }
-        ]
+              'field': 'field',
+            },
+          },
+        ],
       };
 
       // when
@@ -129,7 +129,7 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
       // given
       const invalidObject = new DummyObject({
         email: 'test@example.net',
-        age: '200'
+        age: '200',
       });
 
       const expectedFormattedJSON = {
@@ -140,8 +140,8 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
             'detail': 'You cant be so old',
             'source': { 'pointer': '/data/attributes/age' },
             'meta': {
-              'field': 'age'
-            }
+              'field': 'age',
+            },
           },
           {
             'status': '400',
@@ -149,10 +149,10 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
             'detail': 'Age can only be two digits',
             'source': { 'pointer': '/data/attributes/age' },
             'meta': {
-              'field': 'age'
-            }
-          }
-        ]
+              'field': 'age',
+            },
+          },
+        ],
       };
 
       // when
@@ -170,8 +170,8 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
       // given
       const invalidCaptchaResponse = {
         data: {
-          captchaResponse: ['Le captcha est invalide.']
-        }
+          captchaResponse: ['Le captcha est invalide.'],
+        },
       };
 
       const expectJsonFormat = {
@@ -179,15 +179,15 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
           {
             'detail': 'Le captcha est invalide.',
             'meta': {
-              'field': 'captchaResponse'
+              'field': 'captchaResponse',
             },
             'source': {
-              'pointer': '/data/attributes/captcha-response'
+              'pointer': '/data/attributes/captcha-response',
             },
             'status': '400',
-            'title': 'Invalid Attribute'
-          }
-        ]
+            'title': 'Invalid Attribute',
+          },
+        ],
       };
       // when
       const formattedJSON = serializer.serialize(invalidCaptchaResponse);
@@ -200,8 +200,8 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
       // given
       const errors = {
         data: {
-          '': [ 'L\'adresse e-mail ou l\'identifiant et/ou le mot de passe saisi(s) sont incorrects.' ]
-        }
+          '': [ 'L\'adresse e-mail ou l\'identifiant et/ou le mot de passe saisi(s) sont incorrects.' ],
+        },
       };
 
       const expectedFormattedJSON = {
@@ -210,9 +210,9 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
             'status': '400',
             'title': 'Invalid Payload',
             'detail': 'L\'adresse e-mail ou l\'identifiant et/ou le mot de passe saisi(s) sont incorrects.',
-            'source': { 'pointer': '/data/attributes' }
-          }
-        ]
+            'source': { 'pointer': '/data/attributes' },
+          },
+        ],
       };
 
       // when

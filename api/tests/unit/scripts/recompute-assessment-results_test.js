@@ -30,13 +30,13 @@ describe('Unit | Scripts | recompute-assessment-results', () => {
                 'assessment': {
                   'data': {
                     'type': 'assessments',
-                    'id': 123
-                  }
-                }
-              }, 'type': 'assessment-results'
-            }
+                    'id': 123,
+                  },
+                },
+              }, 'type': 'assessment-results',
+            },
           },
-          json: true
+          json: true,
         }]);
 
         expect(request.secondCall.args).to.deep.equal([{
@@ -48,13 +48,13 @@ describe('Unit | Scripts | recompute-assessment-results', () => {
                 'assessment': {
                   'data': {
                     'type': 'assessments',
-                    'id': 987
-                  }
-                }
-              }, 'type': 'assessment-results'
-            }
+                    'id': 987,
+                  },
+                },
+              }, 'type': 'assessment-results',
+            },
           },
-          json: true
+          json: true,
         }]);
 
       });

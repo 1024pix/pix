@@ -17,7 +17,7 @@ describe('Acceptance | Scripts | create-sco-certification-centers.js', () => {
       // given
       const certificationCenters = [
         { name: 'Collège Victor Hugo', externalId: '1234567A', type: 'SCO' },
-        { name: 'Lycée Marie Curie', externalId: '0123456B', type: 'SCO' }
+        { name: 'Lycée Marie Curie', externalId: '0123456B', type: 'SCO' },
       ];
       const numberbefore = await getNumberOfCertificationCenters();
 

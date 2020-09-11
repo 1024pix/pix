@@ -170,12 +170,12 @@ export default Factory.extend({
   certifiable: trait({
     afterCreate(user, server) {
       user.update({ isCertifiable: server.create('is-certifiable', { 'is-certifiable': true }) });
-    }
+    },
   }),
   notCertifiable: trait({
     afterCreate(user, server) {
       user.update({ isCertifiable: server.create('is-certifiable', { 'is-certifiable': false }) });
-    }
+    },
   }),
   withSomeCertificates: trait({
     afterCreate(user, server) {
@@ -205,7 +205,7 @@ export default Factory.extend({
       });
       const certificates = [rejectedCertificate, validatedCertificate];
       user.update({ certifications: certificates });
-    }
+    },
   }),
   afterCreate(user, server) {
     _addDefaultIsCertifiable(user, server);

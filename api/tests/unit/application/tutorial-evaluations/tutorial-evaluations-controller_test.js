@@ -10,12 +10,12 @@ describe('Unit | Controller | Tutorial-evaluations', function() {
       const tutorialId = 'tutorialId';
       const userId = 'userId';
       sinon.stub(usecases, 'addTutorialEvaluation').returns({
-        id: 'tutorialEvaluationId'
+        id: 'tutorialEvaluationId',
       });
 
       const request = {
         auth: { credentials: { userId } },
-        params: { tutorialId }
+        params: { tutorialId },
       };
 
       // when

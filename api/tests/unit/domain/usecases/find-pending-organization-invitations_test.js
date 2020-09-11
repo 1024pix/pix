@@ -28,7 +28,7 @@ describe('Unit | UseCase | find-pending-organization-invitations', () => {
       domainBuilder.buildOrganizationInvitation({ organizationId, status: OrganizationInvitation.StatusType.PENDING }),
     ];
     const organizationInvitationRepositoryStub = {
-      findPendingByOrganizationId: sinon.stub().resolves(foundOrganizationInvitations)
+      findPendingByOrganizationId: sinon.stub().resolves(foundOrganizationInvitations),
     };
 
     // when

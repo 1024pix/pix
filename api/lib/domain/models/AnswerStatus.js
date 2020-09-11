@@ -9,7 +9,7 @@ const UNIMPLEMENTED = 'unimplemented';
 class AnswerStatus {
   constructor({
     // attributes
-    status
+    status,
     // includes
     // references
   } = {}) {

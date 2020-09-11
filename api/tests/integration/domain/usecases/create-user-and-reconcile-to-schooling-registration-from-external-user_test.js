@@ -116,7 +116,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
       // when
       const error = await catchErr(createUserAndReconcileToSchoolingRegistrationByExternalUser)({
         campaignCode, token, birthdate,
-        campaignRepository, tokenService, userReconciliationService, schoolingRegistrationRepository
+        campaignRepository, tokenService, userReconciliationService, schoolingRegistrationRepository,
       });
 
       // then
@@ -173,7 +173,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
         // when
         const error = await catchErr(createUserAndReconcileToSchoolingRegistrationByExternalUser)({
           campaignCode, token, birthdate: schoolingRegistration.birthdate, campaignRepository, tokenService,
-          schoolingRegistrationRepository, userRepository, userReconciliationService, obfuscationService
+          schoolingRegistrationRepository, userRepository, userReconciliationService, obfuscationService,
         });
 
         // then

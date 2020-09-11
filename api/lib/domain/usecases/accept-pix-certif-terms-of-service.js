@@ -1,6 +1,6 @@
 module.exports = function acceptPixCertifTermsOfService({
   userId,
-  userRepository
+  userRepository,
 }) {
   return userRepository.updatePixCertifTermsOfServiceAcceptedToTrue(userId);
 };

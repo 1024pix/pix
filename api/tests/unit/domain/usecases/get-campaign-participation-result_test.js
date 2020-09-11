@@ -16,7 +16,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
   };
 
   const targetProfile = {
-    id: 1
+    id: 1,
   };
 
   let campaignParticipationRepository,
@@ -45,7 +45,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
       targetProfileRepository,
       badgeRepository,
       badgeAcquisitionRepository,
-      campaignParticipationResultRepository
+      campaignParticipationResultRepository,
     };
   });
 
@@ -73,15 +73,15 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
         id: Symbol('acquiredBadgeId'),
         key: 'ACQUIRED_BADGE',
         badgePartnerCompetences: [{
-          id: Symbol('badgePartnerCompetencesId1')
-        }]
+          id: Symbol('badgePartnerCompetencesId1'),
+        }],
       };
       const unacquiredBadge = {
         id: Symbol('unacquiredBadgeId'),
         key: 'UNACQUIRED_BADGE',
         badgePartnerCompetences: [{
-          id: Symbol('badgePartnerCompetencesId2')
-        }]
+          id: Symbol('badgePartnerCompetencesId2'),
+        }],
       };
 
       context('when the campaign only have one badge', function() {
@@ -97,7 +97,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
           badgeRepository.findByTargetProfileId.withArgs(targetProfileId).resolves(campaignBadges);
           badgeAcquisitionRepository.getAcquiredBadgeIds.withArgs({
             userId,
-            badgeIds: acquiredBadgeIds
+            badgeIds: acquiredBadgeIds,
           }).resolves(acquiredBadgeIds);
           campaignParticipationResultRepository.getByParticipationId.withArgs(
             campaignParticipationId,
@@ -127,7 +127,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
           badgeRepository.findByTargetProfileId.withArgs(targetProfileId).resolves(campaignBadges);
           badgeAcquisitionRepository.getAcquiredBadgeIds.withArgs({
             userId,
-            badgeIds: [acquiredBadge.id, unacquiredBadge.id]
+            badgeIds: [acquiredBadge.id, unacquiredBadge.id],
           }).resolves([acquiredBadge.id]);
           campaignParticipationResultRepository.getByParticipationId.withArgs(
             campaignParticipationId,
@@ -152,7 +152,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
       // given
       const campaignParticipationResult = Symbol('campaignParticipationResult');
       const badge = {
-        id: Symbol('badgeId')
+        id: Symbol('badgeId'),
       };
       campaignParticipationResultRepository.getByParticipationId.resolves(campaignParticipationResult);
       campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves({ userId });

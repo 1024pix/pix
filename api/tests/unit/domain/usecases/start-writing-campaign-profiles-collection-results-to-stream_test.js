@@ -38,12 +38,12 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
       userCompetences: [{
         id: 'recCompetence1',
         pixScore: 9,
-        estimatedLevel: 1
+        estimatedLevel: 1,
       }, {
         id: 'recCompetence2',
         pixScore: 4,
-        estimatedLevel: 0
-      }]
+        estimatedLevel: 0,
+      }],
     });
 
     const campaignRepository = { get: () => undefined };

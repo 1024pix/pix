@@ -24,8 +24,8 @@ module.exports = function(environment) {
       },
       EXTEND_PROTOTYPES: {
         // Prevent Ember Data from overriding Date.parse.
-        Date: false
-      }
+        Date: false,
+      },
     },
 
     APP: {
@@ -51,11 +51,11 @@ module.exports = function(environment) {
       API_ERROR_MESSAGES: {
         BAD_REQUEST: {
           CODE: '400',
-          MESSAGE: 'api-error-messages.bad-request-error'
+          MESSAGE: 'api-error-messages.bad-request-error',
         },
         LOGIN_UNAUTHORIZED: {
           CODE: '401',
-          MESSAGE: 'api-error-messages.login-unauthorized-error'
+          MESSAGE: 'api-error-messages.login-unauthorized-error',
         },
         INTERNAL_SERVER_ERROR: {
           CODE: '500',
@@ -63,11 +63,11 @@ module.exports = function(environment) {
         },
         BAD_GATEWAY: {
           CODE: '502',
-          MESSAGE: 'api-error-messages.internal-server-error'
+          MESSAGE: 'api-error-messages.internal-server-error',
         },
         GATEWAY_TIMEOUT: {
           CODE: '504',
-          MESSAGE: 'api-error-messages.internal-server-error'
+          MESSAGE: 'api-error-messages.internal-server-error',
         },
       },
     },
@@ -75,7 +75,7 @@ module.exports = function(environment) {
     googleFonts: [
       'Open+Sans:300,400,600', // used for ex. on buttons
       'Roboto:300,400,500', // used for campaign
-      'Roboto+Mono' //used for monospaced needs
+      'Roboto+Mono', //used for monospaced needs
     ],
 
     fontawesome: {
@@ -90,17 +90,17 @@ module.exports = function(environment) {
       'connect-src': '\'self\' www.google-analytics.com',
       'img-src': '\'self\'',
       'style-src': '\'self\' fonts.googleapis.com',
-      'media-src': '\'self\''
+      'media-src': '\'self\'',
     },
 
     showdown: {
-      openLinksInNewWindow: true
+      openLinksInNewWindow: true,
     },
 
     sentry: {
       dsn: process.env.SENTRY_DSN,
       tags: {
-        source: 'live'
+        source: 'live',
       },
     },
 

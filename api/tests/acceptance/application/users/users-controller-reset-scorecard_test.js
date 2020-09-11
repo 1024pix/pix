@@ -143,34 +143,34 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
 
         _.each([
           {
-            assessment: { userId, },
+            assessment: { userId },
             competenceEvaluation: { competenceId, userId, status: 'started' },
             knowledgeElements: [
-              { skillId: 'web1', status: 'validated', source: 'direct', competenceId, earnedPix: 1, createdAt, },
-              { skillId: 'web2', status: 'invalidated', source: 'direct', competenceId, earnedPix: 2, createdAt, },
-              { skillId: 'web4', status: 'invalidated', source: 'inferred', competenceId, earnedPix: 4, createdAt, },
-              { skillId: 'url2', status: 'validated', source: 'direct', competenceId, earnedPix: 4, createdAt, },
-            ]
+              { skillId: 'web1', status: 'validated', source: 'direct', competenceId, earnedPix: 1, createdAt },
+              { skillId: 'web2', status: 'invalidated', source: 'direct', competenceId, earnedPix: 2, createdAt },
+              { skillId: 'web4', status: 'invalidated', source: 'inferred', competenceId, earnedPix: 4, createdAt },
+              { skillId: 'url2', status: 'validated', source: 'direct', competenceId, earnedPix: 4, createdAt },
+            ],
           },
           {
             assessment: { userId },
             competenceEvaluation: { competenceId: otherStartedCompetenceId, userId, status: 'started' },
             knowledgeElements: [
-              { skillId: 'rechInfo3', status: 'validated', source: 'direct', competenceId: otherStartedCompetenceId, earnedPix: 3, createdAt, },
-            ]
+              { skillId: 'rechInfo3', status: 'validated', source: 'direct', competenceId: otherStartedCompetenceId, earnedPix: 3, createdAt },
+            ],
           },
           {
             assessment: { userId, type: 'CAMPAIGN' },
             campaignParticipation: { campaignId: campaign.id, isShared: false },
             knowledgeElements: [
-              { skillId: 'url1', status: 'validated', source: 'direct', competenceId, earnedPix: 2, createdAt, },
-            ]
-          }
+              { skillId: 'url1', status: 'validated', source: 'direct', competenceId, earnedPix: 2, createdAt },
+            ],
+          },
         ], ({ assessment, competenceEvaluation, knowledgeElements, campaignParticipation }) => {
           const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ ...campaignParticipation }).id;
           const assessmentId = databaseBuilder.factory.buildAssessment({ ...assessment, campaignParticipationId }).id;
-          databaseBuilder.factory.buildCompetenceEvaluation({ ...competenceEvaluation, assessmentId, });
-          _.each(knowledgeElements, (ke) => databaseBuilder.factory.buildKnowledgeElement({ ...ke, userId, assessmentId, }));
+          databaseBuilder.factory.buildCompetenceEvaluation({ ...competenceEvaluation, assessmentId });
+          _.each(knowledgeElements, (ke) => databaseBuilder.factory.buildKnowledgeElement({ ...ke, userId, assessmentId }));
         });
 
         await databaseBuilder.commit();
@@ -211,13 +211,13 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
               area: {
                 data: {
                   id: area.id,
-                  type: 'areas'
-                }
+                  type: 'areas',
+                },
               },
               tutorials: {
                 links: {
-                  related: `/api/scorecards/${userId}_${competenceId}/tutorials`
-                }
+                  related: `/api/scorecards/${userId}_${competenceId}/tutorials`,
+                },
               },
             },
           },
@@ -229,9 +229,9 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
                 color: area.fields.Couleur,
               },
               id: area.id,
-              type: 'areas'
-            }
-          ]
+              type: 'areas',
+            },
+          ],
         };
 
         // when

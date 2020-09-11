@@ -5,7 +5,7 @@ module.exports = function buildBadgeAcquisition(
   {
     id = faker.random.number(),
     userId = faker.random.number(),
-    badgeId = faker.lorem.number()
+    badgeId = faker.lorem.number(),
   } = {}) {
 
   return new BadgeAcquisition({

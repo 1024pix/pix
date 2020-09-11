@@ -5,7 +5,7 @@ const scoOrganizationInvitationSerializer = require('../../../../lib/infrastruct
 const moduleUnderTest = require('../../../../lib/application/organization-invitations');
 
 const {
-  AlreadyExistingOrganizationInvitationError, NotFoundError, UserNotFoundError, OrganizationWithoutEmailError, OrganizationNotFoundError, ManyOrganizationsFoundError
+  AlreadyExistingOrganizationInvitationError, NotFoundError, UserNotFoundError, OrganizationWithoutEmailError, OrganizationNotFoundError, ManyOrganizationsFoundError,
 } = require('../../../../lib/domain/errors');
 
 describe('Integration | Application | Organization-invitations | organization-invitation-controller', () => {
@@ -34,9 +34,9 @@ describe('Integration | Application | Organization-invitations | organization-in
         type: 'organization-invitation-responses',
         attributes: {
           code: 'DZWMP7L5UM',
-          email: 'user@example.net'
-        }
-      }
+          email: 'user@example.net',
+        },
+      },
     };
 
     context('Success cases', () => {
@@ -101,7 +101,7 @@ describe('Integration | Application | Organization-invitations | organization-in
           'first-name': 'john',
           'last-name': 'harry',
         },
-      }
+      },
     };
 
     context('Success cases', () => {

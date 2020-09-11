@@ -79,7 +79,7 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', () => {
       const expectedItems = [
         { uai: '0080017A', name: 'Collège Les Pixous' },
         { uai: '0080018B', name: 'Lycée Pix' },
-        { uai: '0080040A', name: 'Lycée Tant Pix' }
+        { uai: '0080040A', name: 'Lycée Tant Pix' },
       ];
 
       // when

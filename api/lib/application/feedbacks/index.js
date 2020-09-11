@@ -8,8 +8,8 @@ exports.register = async (server) => {
       config: {
         auth: false,
         handler: feedbackController.save,
-        tags: ['api']
-      }
+        tags: ['api'],
+      },
     },
   ]);
 };

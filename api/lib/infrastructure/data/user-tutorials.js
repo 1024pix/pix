@@ -9,5 +9,5 @@ module.exports = Bookshelf.model(modelName, {
   requireFetch: false,
 
 }, {
-  modelName
+  modelName,
 });

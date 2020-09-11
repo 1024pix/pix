@@ -20,7 +20,7 @@ describe('Acceptance | API | Competence Evaluations', () => {
       method: 'POST',
       url: '/api/competence-evaluations/start-or-resume',
       headers: {
-        authorization: generateValidRequestAuthorizationHeader(userId)
+        authorization: generateValidRequestAuthorizationHeader(userId),
       },
       payload: { competenceId },
     };
@@ -146,16 +146,16 @@ describe('Acceptance | API | Competence Evaluations', () => {
             assessment: {
               data: {
                 id: assessment.id.toString(),
-                type: 'assessments'
-              }
+                type: 'assessments',
+              },
             },
             scorecard: {
               links: {
-                related: `/api/scorecards/${userId}_${competenceEvaluation.competenceId}`
-              }
-            }
-          }
-        }
+                related: `/api/scorecards/${userId}_${competenceEvaluation.competenceId}`,
+              },
+            },
+          },
+        },
       ];
 
       // when

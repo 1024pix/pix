@@ -9,7 +9,7 @@ const {
   getCertificationCenterByExternalId, getAdminMembershipsByOrganizationExternalId,
   fetchCertificationCenterMembershipsByExternalId,
   prepareDataForInsert,
-  createCertificationCenterMemberships
+  createCertificationCenterMemberships,
 } = require('../../../scripts/create-certification-center-memberships-from-organization-admins');
 
 describe('Integration | Scripts | create-certification-center-memberships-from-organization-admins.js', () => {
@@ -29,10 +29,10 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
 
   beforeEach(async () => {
     organizationId1 = databaseBuilder.factory.buildOrganization({
-      externalId: externalId1
+      externalId: externalId1,
     }).id;
     organizationId2 = databaseBuilder.factory.buildOrganization({
-      externalId: externalId2
+      externalId: externalId2,
     }).id;
 
     adminUserId1a = databaseBuilder.factory.buildUser().id;
@@ -55,10 +55,10 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
     ], (membership) => (databaseBuilder.factory.buildMembership(membership)));
 
     certificationCenterId1 = databaseBuilder.factory.buildCertificationCenter({
-      externalId: externalId1
+      externalId: externalId1,
     }).id;
     certificationCenterId2 = databaseBuilder.factory.buildCertificationCenter({
-      externalId: externalId2
+      externalId: externalId2,
     }).id;
 
     await databaseBuilder.commit();

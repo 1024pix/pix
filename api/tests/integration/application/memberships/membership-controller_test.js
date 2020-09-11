@@ -25,8 +25,8 @@ describe('Integration | Application | Memberships | membership-controller', () =
         relationships: {
           'user': { data: { type: 'users', id: 1 } },
           'organization': { data: { type: 'organizations', id: 1 } },
-        }
-      }
+        },
+      },
     };
 
     context('Success cases', () => {
@@ -88,14 +88,14 @@ describe('Integration | Application | Memberships | membership-controller', () =
         attributes: {
           'organaization-role': organizationRole,
         },
-      }
+      },
     };
 
     context('Success cases', () => {
 
       beforeEach(() => {
         const membership = domainBuilder.buildMembership({
-          organizationRole: Membership.roles.MEMBER
+          organizationRole: Membership.roles.MEMBER,
         });
         usecases.updateMembership.resolves(membership);
         securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.callsFake((request, h) => h.response(true));

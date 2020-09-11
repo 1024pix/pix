@@ -42,7 +42,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
       // when
       const result = await catchErr(usecases.createAndReconcileUserToSchoolingRegistration)({
         userAttributes,
-        campaignCode
+        campaignCode,
       });
 
       // then
@@ -111,7 +111,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
                 attribute: 'password',
                 message: 'Votre mot de passe n’est pas renseigné.',
               },
-            ]
+            ],
           });
           userValidator.validate.throws(expectedValidationError);
 

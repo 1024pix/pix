@@ -41,7 +41,7 @@ describe('Unit | Utils | knex-utils', () => {
       const rows = [
         { value: '1', rowCount: 3 },
         { value: '2', rowCount: 3 },
-        { value: '3', rowCount: 3 }
+        { value: '3', rowCount: 3 },
       ];
       queryBuilder.offset = () => Promise.resolve(rows);
       

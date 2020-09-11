@@ -16,5 +16,5 @@ module.exports = {
     'no-unused-block-params': false,
     'require-valid-alt-text': false,
     'style-concatenation': false,
-  }
+  },
 };

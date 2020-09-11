@@ -17,17 +17,17 @@ exports.register = async function(server) {
             data: {
               attributes: {
                 email: Joi.string().email().required(),
-                'temporary-key': [Joi.string(), null]
+                'temporary-key': [Joi.string(), null],
               },
-              type: Joi.string()
-            }
-          })
+              type: Joi.string(),
+            },
+          }),
         },
         notes: ['Route publique',
-          'Faire une demande de réinitialisation de mot de passe'
+          'Faire une demande de réinitialisation de mot de passe',
         ],
-        tags: ['api', 'passwords']
-      }
+        tags: ['api', 'passwords'],
+      },
     },
 
     {
@@ -36,8 +36,8 @@ exports.register = async function(server) {
       config: {
         auth: false,
         handler: passwordController.checkResetDemand,
-        tags: ['api', 'passwords']
-      }
+        tags: ['api', 'passwords'],
+      },
     },
     {
       method: 'POST',
@@ -53,15 +53,15 @@ exports.register = async function(server) {
                 expiredPassword: Joi.string().required(),
                 newPassword: Joi.string().pattern(XRegExp(passwordValidationPattern)).required(),
               },
-              type: Joi.string()
-            }
-          })
+              type: Joi.string(),
+            },
+          }),
         },
         notes: ['Route publique',
-          'Cette route permet de mettre à jour un mot de passe expiré'
+          'Cette route permet de mettre à jour un mot de passe expiré',
         ],
-        tags: ['api', 'passwords']
-      }
+        tags: ['api', 'passwords'],
+      },
     },
   ]);
 };

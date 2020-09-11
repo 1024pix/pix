@@ -31,7 +31,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
 
       // when
       const savedCompetenceEvaluation = await DomainTransaction.execute(async (domainTransaction) =>
-        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction })
+        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction }),
       );
 
       // then
@@ -55,7 +55,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
 
       // when
       const savedCompetenceEvaluation = await DomainTransaction.execute(async (domainTransaction) =>
-        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction })
+        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction }),
       );
 
       // then

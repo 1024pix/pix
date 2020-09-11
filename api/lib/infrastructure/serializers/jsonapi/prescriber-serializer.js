@@ -36,8 +36,8 @@ module.exports = {
             relationshipLinks: {
               related: function(record, current, parent) {
                 return `/api/organizations/${parent.id}/memberships`;
-              }
-            }
+              },
+            },
           },
           organizationInvitations: {
             ref: 'id',
@@ -45,8 +45,8 @@ module.exports = {
             relationshipLinks: {
               related: function(record, current, parent) {
                 return `/api/organizations/${parent.id}/invitations`;
-              }
-            }
+              },
+            },
           },
           students: {
             ref: 'id',
@@ -54,8 +54,8 @@ module.exports = {
             relationshipLinks: {
               related: function(record, current, parent) {
                 return `/api/organizations/${parent.id}/students`;
-              }
-            }
+              },
+            },
           },
           targetProfiles: {
             ref: 'id',
@@ -63,8 +63,8 @@ module.exports = {
             relationshipLinks: {
               related: function(record, current, parent) {
                 return `/api/organizations/${parent.id}/target-profiles`;
-              }
-            }
+              },
+            },
           },
         },
       },

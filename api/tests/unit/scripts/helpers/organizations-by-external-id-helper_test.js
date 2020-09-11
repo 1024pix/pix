@@ -45,7 +45,7 @@ describe('Unit | Scripts | organizations-by-external-id-helper.js', () => {
       // given
       const checkedData = [
         { externalId: 'A100', targetProfileIdList: ['1', '2', '999'] },
-        { externalId: 'B200', targetProfileIdList: ['1', '3', '6'] }
+        { externalId: 'B200', targetProfileIdList: ['1', '3', '6'] },
       ];
       organizationRepositoryStub = sinon.stub(organizationRepository, 'findByExternalIdsFetchingIdsOnly').withArgs(['A100', 'B200']).resolves([]);
 

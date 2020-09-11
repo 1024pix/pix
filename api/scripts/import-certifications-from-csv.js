@@ -9,7 +9,7 @@ const CSV_HEADERS = {
   LAST_NAME: 'Nom du candidat',
   BIRTHDATE: 'Date de naissance du candidat',
   BIRTHPLACE: 'Lieu de naissance du candidat',
-  EXTERNAL_ID: 'Identifiant Externe'
+  EXTERNAL_ID: 'Identifiant Externe',
 };
 
 function assertFileValidity(filePath) {
@@ -35,7 +35,7 @@ function convertCSVDataIntoCertifications(csvParsingResult) {
       lastName: dataRow[CSV_HEADERS.LAST_NAME],
       birthdate: dataRow[CSV_HEADERS.BIRTHDATE],
       birthplace: dataRow[CSV_HEADERS.BIRTHPLACE],
-      externalId: dataRow[CSV_HEADERS.EXTERNAL_ID]
+      externalId: dataRow[CSV_HEADERS.EXTERNAL_ID],
     };
     certifications.push(certification);
     return certifications;
@@ -58,10 +58,10 @@ function _buildRequestObject(baseUrl, accessToken, certification) {
           'last-name': certification.lastName,
           'birthplace': certification.birthplace,
           'birthdate': certification.birthdate,
-          'external-id': certification.externalId
-        }
-      }
-    }
+          'external-id': certification.externalId,
+        },
+      },
+    },
   };
 }
 
@@ -80,7 +80,7 @@ function saveCertifications(options) {
       .catch((err) => {
         errorObjects.push({
           errorMessage: err.message,
-          certification: certification
+          certification: certification,
         });
       });
   });
@@ -146,5 +146,5 @@ if (require.main === module) {
 module.exports = {
   assertFileValidity,
   convertCSVDataIntoCertifications,
-  saveCertifications
+  saveCertifications,
 };

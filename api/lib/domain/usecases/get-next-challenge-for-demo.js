@@ -21,7 +21,7 @@ module.exports = function getNextChallengeForDemo({
 
   return Promise.all([
     courseRepository.get(courseId),
-    answerRepository.findByAssessment(assessment.id)
+    answerRepository.findByAssessment(assessment.id),
   ])
     .then(([course, answers]) => {
       logContext.courseId = course.id;

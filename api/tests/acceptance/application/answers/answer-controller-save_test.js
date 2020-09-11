@@ -21,7 +21,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
 
     beforeEach(async () => {
       const assessment = databaseBuilder.factory.buildAssessment({
-        type: 'COMPETENCE_EVALUATION'
+        type: 'COMPETENCE_EVALUATION',
       });
       insertedAssessmentId = assessment.id;
       userId = assessment.userId;
@@ -46,7 +46,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
         const competence = airtableBuilder.factory.buildCompetence({
           id: 'recCompetence',
           domaineIds: [area.id],
-          domaineCode: area['Code']
+          domaineCode: area['Code'],
         });
         const skill = airtableBuilder.factory.buildSkill({
           compétenceViaTube: [competence.id],

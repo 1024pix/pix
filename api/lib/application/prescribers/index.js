@@ -16,7 +16,7 @@ exports.register = async function(server) {
         },
         pre: [{
           method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser'
+          assign: 'requestedUserIsAuthenticatedUser',
         }],
         handler: prescriberController.get,
         notes: [
@@ -25,7 +25,7 @@ exports.register = async function(server) {
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
         tags: ['api', 'user', 'prescription'],
-      }
+      },
     },
 
   ]);

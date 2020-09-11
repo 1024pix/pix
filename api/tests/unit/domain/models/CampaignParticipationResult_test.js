@@ -135,7 +135,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             title: 'palier 2',
             message: 'Tu as le palier 2',
             threshold: 20,
-            starCount: 2
+            starCount: 2,
           },
           stageCount: 5,
           competenceResults: [{
@@ -225,8 +225,8 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             domainBuilder.buildBadgeCriterion({
               id: 17,
               scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
-              threshold: 54
-            })
+              threshold: 54,
+            }),
           ],
           badgePartnerCompetences: [
             domainBuilder.buildBadgePartnerCompetence({
@@ -234,7 +234,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               name: 'Yellow',
               color: 'emerald',
               skillIds: [1, 2, 4],
-            })
+            }),
           ],
           targetProfileId: targetProfile.id,
         });
@@ -274,7 +274,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             badgeCriteria: [{
               id: 17,
               scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
-              threshold: 54
+              threshold: 54,
             }],
             badgePartnerCompetences: [{
               id: 18,
@@ -333,7 +333,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               id: 15,
               scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
               threshold: 54,
-            })
+            }),
           ],
           badgePartnerCompetences: [
             domainBuilder.buildBadgePartnerCompetence({
@@ -341,7 +341,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               name: 'Green',
               color: 'jaffa',
               skillIds: [1, 2, 4],
-            })
+            }),
           ],
           targetProfileId: targetProfile.id,
         });
@@ -356,8 +356,8 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             domainBuilder.buildBadgeCriterion({
               id: 15,
               scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
-              threshold: 54
-            })
+              threshold: 54,
+            }),
           ],
           badgePartnerCompetences: [],
           targetProfileId: targetProfile.id,
@@ -469,8 +469,8 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             domainBuilder.buildBadgeCriterion({
               id: 15,
               scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
-              threshold: 54
-            })
+              threshold: 54,
+            }),
           ],
           badgePartnerCompetences: [
             domainBuilder.buildBadgePartnerCompetence({
@@ -478,7 +478,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               name: 'Green',
               color: 'jaffa',
               skillIds: [1, 2, 4],
-            })
+            }),
           ],
           targetProfileId: targetProfile.id,
         });
@@ -493,8 +493,8 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             domainBuilder.buildBadgeCriterion({
               id: 15,
               scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
-              threshold: 54
-            })
+              threshold: 54,
+            }),
           ],
           badgePartnerCompetences: [
             domainBuilder.buildBadgePartnerCompetence({
@@ -502,7 +502,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               name: 'Yellow',
               color: 'emerald',
               skillIds: [2],
-            })
+            }),
           ],
           targetProfileId: targetProfile.id,
         });
@@ -575,8 +575,8 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               domainBuilder.buildBadgeCriterion({
                 id: 15,
                 scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
-                threshold: 54
-              })
+                threshold: 54,
+              }),
             ],
             badgePartnerCompetences: [
               domainBuilder.buildBadgePartnerCompetence({
@@ -584,7 +584,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
                 name: 'Yellow',
                 color: 'emerald',
                 skillIds: [2],
-              })
+              }),
             ],
             partnerCompetenceResults: [{
               id: 48,
@@ -630,8 +630,8 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             domainBuilder.buildBadgeCriterion({
               id: 15,
               scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
-              threshold: 54
-            })
+              threshold: 54,
+            }),
           ],
           badgePartnerCompetences: [],
           targetProfileId: targetProfile.id,
@@ -648,7 +648,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               id: 15,
               scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
               threshold: 54,
-            })
+            }),
           ],
           badgePartnerCompetences: [],
           targetProfileId: targetProfile.id,

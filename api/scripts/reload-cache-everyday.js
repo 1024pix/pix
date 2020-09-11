@@ -11,21 +11,21 @@ function authenticationTokenRequest() {
       grant_type: 'password',
       username: process.env.PIXMASTER_EMAIL,
       password: process.env.PIXMASTER_PASSWORD,
-      scope: 'pix-cron'
+      scope: 'pix-cron',
     },
-    json: true
+    json: true,
   };
 }
 
 function cacheWarmupRequest(authToken) {
   return {
     headers: {
-      authorization: 'Bearer ' + authToken
+      authorization: 'Bearer ' + authToken,
     },
     method: 'PATCH',
     baseUrl: process.env.BASE_URL,
     uri: '/api/cache',
-    json: true
+    json: true,
   };
 }
 

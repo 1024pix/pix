@@ -13,7 +13,7 @@ module.exports = {
     const options = queryParamsUtils.extractParameters(request.query);
 
     const campaignParticipation = await usecases.getCampaignParticipation({
-      campaignParticipationId, options, userId
+      campaignParticipationId, options, userId,
     });
 
     return serializer.serialize(campaignParticipation);
@@ -71,6 +71,6 @@ module.exports = {
 
     const campaignProfile = await usecases.getCampaignProfile({ userId, campaignId, campaignParticipationId });
     return campaignProfileSerializer.serialize(campaignProfile);
-  }
+  },
 
 };

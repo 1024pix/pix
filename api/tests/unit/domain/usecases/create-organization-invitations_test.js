@@ -28,7 +28,7 @@ describe('Unit | UseCase | create-organization-invitations', () => {
       expect(organizationInvitationService.createOrganizationInvitation).to.has.been.calledOnce;
       expect(organizationInvitationService.createOrganizationInvitation).to.has.been.calledWith({
         organizationRepository, organizationInvitationRepository,
-        organizationId, email: emails[0], locale
+        organizationId, email: emails[0], locale,
       });
     });
 

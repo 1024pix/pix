@@ -12,11 +12,11 @@ export default Factory.extend({
   },
 
   withStartedState: trait({
-    state: 'started'
+    state: 'started',
   }),
 
   withCompletedState: trait({
-    state: 'completed'
+    state: 'completed',
   }),
 
   ofCompetenceEvaluationType: trait({

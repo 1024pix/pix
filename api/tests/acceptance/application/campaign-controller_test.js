@@ -126,14 +126,14 @@ describe('Acceptance | API | Campaign Controller', () => {
       organization = databaseBuilder.factory.buildOrganization();
       targetProfile = databaseBuilder.factory.buildTargetProfile({
         organizationId: organization.id,
-        name: 'Profile 2'
+        name: 'Profile 2',
       });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId1' });
       campaign = databaseBuilder.factory.buildCampaign({
         name: 'Campagne de Test N°2',
         organizationId: organization.id,
         targetProfileId: targetProfile.id,
-        idPixLabel: 'Identifiant entreprise'
+        idPixLabel: 'Identifiant entreprise',
       });
 
       databaseBuilder.factory.buildMembership({
@@ -144,14 +144,14 @@ describe('Acceptance | API | Campaign Controller', () => {
 
       targetProfile = databaseBuilder.factory.buildTargetProfile({
         organizationId: organization.id,
-        name: 'Profile 3'
+        name: 'Profile 3',
       });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId1' });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId2' });
       campaign = databaseBuilder.factory.buildCampaign({
         name: 'Campagne de Test N°3',
         organizationId: organization.id,
-        targetProfileId: targetProfile.id
+        targetProfileId: targetProfile.id,
       });
 
       const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
@@ -166,7 +166,7 @@ describe('Acceptance | API | Campaign Controller', () => {
         userId,
         type: 'CAMPAIGN',
         createdAt: new Date(assessmentStartDate),
-        campaignParticipationId: campaignParticipation.id
+        campaignParticipationId: campaignParticipation.id,
       });
 
       databaseBuilder.factory.buildKnowledgeElement({
@@ -175,7 +175,7 @@ describe('Acceptance | API | Campaign Controller', () => {
         userId,
         assessmentId: assessment.id,
         competenceId: 'recCompetence1',
-        createdAt: faker.date.past(10, campaignParticipation.sharedAt)
+        createdAt: faker.date.past(10, campaignParticipation.sharedAt),
       });
 
       await databaseBuilder.commit();
@@ -185,7 +185,7 @@ describe('Acceptance | API | Campaign Controller', () => {
         id: 'recCompetence1',
         titre: 'Fabriquer un meuble',
         domaineIds: [area.id],
-        acquisViaTubes: ['recSkillId1','recSkillId2']
+        acquisViaTubes: ['recSkillId1','recSkillId2'],
       });
       airtableBuilder.mockList({ tableName: 'Acquis' }).returns([
         airtableBuilder.factory.buildSkill({ id: 'recSkillId1', ['compétenceViaTube']: ['recCompetence1'] }),
@@ -206,7 +206,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       const request = {
         method: 'GET',
         url,
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
       const expectedResult = {
         data: {
@@ -217,8 +217,8 @@ describe('Acceptance | API | Campaign Controller', () => {
             'campaign-competence-collective-results': {
               data: [{
                 id: `${campaign.id}_recCompetence1`,
-                type: 'campaignCompetenceCollectiveResults'
-              }]
+                type: 'campaignCompetenceCollectiveResults',
+              }],
             },
           },
         },
@@ -233,7 +233,7 @@ describe('Acceptance | API | Campaign Controller', () => {
             'competence-name': 'Fabriquer un meuble',
             'total-skills-count': 2,
           },
-        }]
+        }],
       };
 
       // when
@@ -289,7 +289,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       const url = `/api/campaigns/${campaign.id}/csv-assessment-results?accessToken=${accessToken}`;
       const request = {
         method: 'GET',
-        url
+        url,
       };
 
       // when
@@ -343,7 +343,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       const url = `/api/campaigns/${campaign.id}/csv-profiles-collection-results?accessToken=${accessToken}`;
       const request = {
         method: 'GET',
-        url
+        url,
       };
 
       // when
@@ -370,14 +370,14 @@ describe('Acceptance | API | Campaign Controller', () => {
 
       targetProfile = databaseBuilder.factory.buildTargetProfile({
         organizationId: organization.id,
-        name: 'Profile 3'
+        name: 'Profile 3',
       });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId1' });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId2' });
       campaign = databaseBuilder.factory.buildCampaign({
         name: 'Campagne de Test N°3',
         organizationId: organization.id,
-        targetProfileId: targetProfile.id
+        targetProfileId: targetProfile.id,
       });
       databaseBuilder.factory.buildCampaignParticipation({ isShared: true, campaignId: campaign.id });
 
@@ -388,7 +388,7 @@ describe('Acceptance | API | Campaign Controller', () => {
         id: 'recCompetence1',
         titre: 'Fabriquer un meuble',
         acquisViaTubes: ['recSkillId1'],
-        domaineIds: [area.id]
+        domaineIds: [area.id],
       });
       const tutorial = airtableBuilder.factory.buildTutorial({
         id: 'recTutorial1',
@@ -396,20 +396,20 @@ describe('Acceptance | API | Campaign Controller', () => {
         format: '2 mois',
         source: 'covid-19',
         lien: 'www.liberez-moi.fr',
-        createdTime: '2020-03-16T14:38:03.000Z'
+        createdTime: '2020-03-16T14:38:03.000Z',
       });
       airtableBuilder.mockList({ tableName: 'Acquis' }).returns([
         airtableBuilder.factory.buildSkill({
           id: 'recSkillId1',
           'compétenceViaTube': ['recCompetence1'],
           tube: ['recTube1'],
-          comprendre: [tutorial.id]
+          comprendre: [tutorial.id],
         }),
       ]).activate();
       const tube1 = airtableBuilder.factory.buildTube({
         id: 'recTube1',
         titrePratiqueFrFr: 'Monter une étagère FR',
-        competences: ['recCompetence1']
+        competences: ['recCompetence1'],
       });
       airtableBuilder.mockList({ tableName: 'Tubes' }).returns([tube1]).activate();
       airtableBuilder.mockList({ tableName: 'Competences' }).returns([competence1]).activate();
@@ -428,7 +428,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       const request = {
         method: 'GET',
         url,
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
       const expectedResult = {
         data: {
@@ -439,8 +439,8 @@ describe('Acceptance | API | Campaign Controller', () => {
             'campaign-tube-recommendations': {
               data: [{
                 id: `${campaign.id}_recTube1`,
-                type: 'campaignTubeRecommendations'
-              }]
+                type: 'campaignTubeRecommendations',
+              }],
             },
           },
         },
@@ -453,7 +453,7 @@ describe('Acceptance | API | Campaign Controller', () => {
             'id': 'recTutorial1',
             'link': 'www.liberez-moi.fr',
             'source': 'covid-19',
-            'title': 'Apprendre à vivre confiné'
+            'title': 'Apprendre à vivre confiné',
           },
         }, {
           id: `${campaign.id}_recTube1`,
@@ -464,17 +464,17 @@ describe('Acceptance | API | Campaign Controller', () => {
             'competence-id': 'recCompetence1',
             'competence-name': 'Fabriquer un meuble',
             'tube-practical-title': 'Monter une étagère FR',
-            'average-score': 30
+            'average-score': 30,
           },
           relationships: {
             tutorials: {
               data: [{
                 'id': 'recTutorial1',
                 'type': 'tutorials',
-              }]
-            }
-          }
-        }]
+              }],
+            },
+          },
+        }],
       };
 
       // when
@@ -517,17 +517,17 @@ describe('Acceptance | API | Campaign Controller', () => {
             'target-profile': {
               data: {
                 type: 'target-profiles',
-                id: `${targetProfile.id}`
-              }
-            }
-          }
-        }
+                id: `${targetProfile.id}`,
+              },
+            },
+          },
+        },
       };
       options = {
         method: 'POST',
         url: '/api/campaigns',
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-        payload
+        payload,
       };
     });
 
@@ -562,10 +562,10 @@ describe('Acceptance | API | Campaign Controller', () => {
               data: {
                 type: 'target-profiles',
                 id: undefined,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       };
       options.payload = payload;
 
@@ -587,7 +587,7 @@ describe('Acceptance | API | Campaign Controller', () => {
         method: 'POST',
         url: '/api/campaigns',
         headers: { authorization: generateValidRequestAuthorizationHeader(anotherUserId) },
-        payload
+        payload,
       };
 
       // when
@@ -622,12 +622,12 @@ describe('Acceptance | API | Campaign Controller', () => {
       });
       const targetProfile = databaseBuilder.factory.buildTargetProfile({
         organizationId: organization.id,
-        name: 'Profile 3'
+        name: 'Profile 3',
       });
       const campaign = databaseBuilder.factory.buildCampaign({
         name: 'Campagne de Test N°3',
         organizationId: organization.id,
-        targetProfileId: targetProfile.id
+        targetProfileId: targetProfile.id,
       });
 
       const participantId = databaseBuilder.factory.buildUser({ firstName: 'Robert', lastName: 'Bob' }).id;
@@ -669,7 +669,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       const campaignParticipation = {
         participantExternalId: 'Die Hard',
         sharedAt: new Date(2010, 1, 1),
-        campaignId: campaign.id
+        campaignId: campaign.id,
       };
 
       databaseBuilder.factory.buildAssessmentFromParticipation(campaignParticipation, participant);

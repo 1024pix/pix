@@ -13,7 +13,7 @@ const validationSchema = Joi.object({
       }, {
         is: false,
         then: Joi.required(),
-      }]
+      }],
     }),
   firstName: Joi.string().max(MAX_LENGTH).required(),
   middleName: Joi.string().max(MAX_LENGTH).optional(),
@@ -35,7 +35,7 @@ module.exports = {
   checkValidation(higherEducationRegistration) {
     const { error } = validationSchema.validate(
       higherEducationRegistration,
-      { ...validationConfiguration, context: { isSupernumerary: higherEducationRegistration.isSupernumerary } }
+      { ...validationConfiguration, context: { isSupernumerary: higherEducationRegistration.isSupernumerary } },
     );
     if (error) {
       const err = EntityValidationError.fromJoiErrors(error.details);
@@ -70,5 +70,5 @@ module.exports = {
       }
       throw err;
     }
-  }
+  },
 };

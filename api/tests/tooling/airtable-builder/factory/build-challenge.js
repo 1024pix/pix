@@ -104,7 +104,7 @@ const buildChallenge = function buildChallenge({
   format = 'mots',
   illustrationAlt = 'texte alternatif à l\'image',
   langues = [
-    'Francophone'
+    'Francophone',
   ],
   autoReply = false,
 } = {}) {
@@ -252,7 +252,7 @@ buildChallenge.untimed = function buildUntimedChallenge({
   format = 'petit',
   illustrationAlt = 'texte alternatif à l\'image',
   langues = [
-    'Francophone'
+    'Francophone',
   ],
 } = {}) {
 

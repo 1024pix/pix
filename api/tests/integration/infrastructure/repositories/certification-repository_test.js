@@ -286,7 +286,7 @@ function _buildCertificationData({ isPublished, status, verificationCode, certif
   const session = databaseBuilder.factory.buildSession({
     certificationCenterId,
     certificationCenter,
-    publishedAt: new Date('2020-02-21T14:23:56Z')
+    publishedAt: new Date('2020-02-21T14:23:56Z'),
   });
 
   const certificationCourse = databaseBuilder.factory.buildCertificationCourse({

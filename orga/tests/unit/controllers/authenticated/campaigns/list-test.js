@@ -17,7 +17,7 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
     test('it should know when it should display "No campaign panel"', function(assert) {
       // given
       const campaigns = ArrayProxy.create({
-        content: []
+        content: [],
       });
       controller.model = campaigns;
       controller.model.meta = { hasCampaigns: false };
@@ -32,7 +32,7 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
     test('it should know when it should not display "No campaign panel"', function(assert) {
       // given
       const campaigns = ArrayProxy.create({
-        content: []
+        content: [],
       });
       controller.model = campaigns;
       controller.model.meta = { hasCampaigns: true };
@@ -49,7 +49,7 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
       const filterName = 'Dog';
       const campaign1 = { name: 'Cat', createdAt: new Date('2018-08-07') };
       const campaigns = ArrayProxy.create({
-        content: [campaign1]
+        content: [campaign1],
       });
 
       test('it should display an empty table', function(assert) {
@@ -73,8 +73,8 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
         organization: {
           memberships: [{
             user: ObjectProxy.create({
-              content: { id: '1', firstName: 'John', lastName: 'Rambo' }
-            })
+              content: { id: '1', firstName: 'John', lastName: 'Rambo' },
+            }),
           }],
         },
       };

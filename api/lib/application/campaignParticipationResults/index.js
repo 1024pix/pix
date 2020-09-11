@@ -11,8 +11,8 @@ exports.register = async function(server) {
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Récupération du résultat d\'une participation à une campagne',
         ],
-        tags: ['api', 'campaign-participation-result']
-      }
+        tags: ['api', 'campaign-participation-result'],
+      },
     },
   ]);
 };

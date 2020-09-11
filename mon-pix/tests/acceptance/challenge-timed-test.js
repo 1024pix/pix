@@ -71,7 +71,7 @@ describe('Acceptance | Timed challenge', () => {
           timedChallenge = server.create('challenge', 'forCompetenceEvaluation', 'timed');
           server.create('answer', 'skipped', {
             assessment,
-            challenge: timedChallenge
+            challenge: timedChallenge,
           });
 
           // when

@@ -84,7 +84,7 @@ module.exports = datasource.extend({
       format: airtableRecord.get('Format') || 'mots',
       autoReply: Boolean(airtableRecord.get('Réponse automatique')) || false,
       locales: _convertLanguagesToLocales(airtableRecord.get('Langues') || []),
-      alternativeInstruction: airtableRecord.get('Consigne alternative') || ''
+      alternativeInstruction: airtableRecord.get('Consigne alternative') || '',
     };
   },
 
@@ -92,7 +92,7 @@ module.exports = datasource.extend({
     const foundInSkillIds = (skillId) => _.includes(skillIds, skillId);
     const challenges = await this.findOperative();
     return challenges.filter((challengeData) =>
-      _.some(challengeData.skillIds, foundInSkillIds)
+      _.some(challengeData.skillIds, foundInSkillIds),
     );
   },
 
@@ -100,7 +100,7 @@ module.exports = datasource.extend({
     const challenges = await this.findValidated();
     return challenges.filter((challengeData) =>
       !_.isEmpty(challengeData.skillIds)
-      && _.includes(challengeData.competenceId, competenceId)
+      && _.includes(challengeData.competenceId, competenceId),
     );
   },
 
@@ -123,7 +123,7 @@ module.exports = datasource.extend({
     const challenges = await this.list();
     return challenges.filter((challengeData) =>
       _.includes(VALIDATED_CHALLENGES, challengeData.status));
-  }
+  },
 });
 
 function _convertLanguagesToLocales(languages) {

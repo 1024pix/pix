@@ -33,7 +33,7 @@ module.exports = function buildKnowledgeElement({
     assessmentId,
     answerId,
     userId,
-    competenceId
+    competenceId,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'knowledge-elements',

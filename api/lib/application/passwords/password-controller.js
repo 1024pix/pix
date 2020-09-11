@@ -38,5 +38,5 @@ module.exports = {
     await usecases.updateExpiredPassword({ username, expiredPassword, newPassword });
 
     return h.response({ data: { type: 'users' } }).created();
-  }
+  },
 };

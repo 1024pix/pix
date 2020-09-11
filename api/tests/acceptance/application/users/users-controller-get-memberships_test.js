@@ -74,7 +74,7 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
                 'organization-role': organizationRole,
               },
               relationships: {
-                'organization': { data: { type: 'organizations', id: organization.id.toString() }, }
+                'organization': { data: { type: 'organizations', id: organization.id.toString() } },
               },
             },
           ],
@@ -92,18 +92,18 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
               relationships: {
                 campaigns: {
                   links: {
-                    related: `/api/organizations/${organization.id.toString()}/campaigns`
-                  }
+                    related: `/api/organizations/${organization.id.toString()}/campaigns`,
+                  },
                 },
                 memberships: {
                   links: {
-                    related: `/api/organizations/${organization.id.toString()}/memberships`
-                  }
+                    related: `/api/organizations/${organization.id.toString()}/memberships`,
+                  },
                 },
                 'target-profiles': {
                   links: {
-                    related: `/api/organizations/${organization.id.toString()}/target-profiles`
-                  }
+                    related: `/api/organizations/${organization.id.toString()}/target-profiles`,
+                  },
                 },
                 'organization-invitations': {
                   links: {
@@ -112,10 +112,10 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
                 },
                 students: {
                   links: {
-                    related: `/api/organizations/${organization.id.toString()}/students`
-                  }
+                    related: `/api/organizations/${organization.id.toString()}/students`,
+                  },
                 },
-              }
+              },
             },
           ],
         });

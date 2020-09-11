@@ -6,7 +6,7 @@ import { authenticateSession } from 'ember-simple-auth/test-support';
 import {
   createUserWithMembershipAndTermsOfServiceAccepted,
   createUserManagingStudents,
-  createPrescriberByUser
+  createPrescriberByUser,
 } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -208,7 +208,7 @@ module('Acceptance | Sco Student List', function(hooks) {
         hooks.beforeEach(function() {
           server.create('student', {
             organizationId,
-            isAuthenticatedFromGar: true
+            isAuthenticatedFromGar: true,
           });
         });
 
@@ -249,7 +249,7 @@ module('Acceptance | Sco Student List', function(hooks) {
           server.create('student', {
             organizationId,
             isAuthenticatedFromGar: true,
-            username: 'user.gar3011'
+            username: 'user.gar3011',
           });
         });
 

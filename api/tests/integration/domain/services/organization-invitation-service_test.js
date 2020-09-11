@@ -29,14 +29,14 @@ describe('Integration | Service | Organization-Invitation Service', () => {
       const expectedOrganizationInvitation = {
         organizationId,
         email,
-        status: OrganizationInvitation.StatusType.PENDING
+        status: OrganizationInvitation.StatusType.PENDING,
       };
 
       // when
       const result = await createOrganizationInvitation({
         organizationRepository, organizationInvitationRepository,
         organizationId,
-        email
+        email,
       });
 
       // then
@@ -55,7 +55,7 @@ describe('Integration | Service | Organization-Invitation Service', () => {
 
       // when
       const result = await createOrganizationInvitation({
-        organizationRepository, organizationInvitationRepository, organizationId, email
+        organizationRepository, organizationInvitationRepository, organizationId, email,
       });
 
       // then

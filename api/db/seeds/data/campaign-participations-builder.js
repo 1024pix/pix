@@ -19,14 +19,14 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
     { firstName: 'Thierry', lastName: 'Donckele' },
     { firstName: 'Jaune', lastName: 'Attend' },
     { firstName: 'Stéphan', lastName: 'Deumonaco' },
-    { firstName: 'Lise', lastName: 'Nelkay' }
+    { firstName: 'Lise', lastName: 'Nelkay' },
   ];
 
   const pixMembersCompletedShared = [
     { firstName: 'Sébastien', lastName: 'Serra Oupas' },
     { firstName: 'Thomas', lastName: 'Whiskas' },
     { firstName: 'Antoine', lastName: 'Boiduvin' },
-    { firstName: 'Brandone', lastName: 'Bro' }
+    { firstName: 'Brandone', lastName: 'Bro' },
   ];
 
   const participateToBothCampaign = (member, state, isShared) => {
@@ -41,7 +41,7 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
       userId,
       type: Assessment.types.CAMPAIGN,
       state: Assessment.states[state],
-      campaignParticipationId
+      campaignParticipationId,
     });
     const { id: answerId } = databaseBuilder.factory.buildAnswer({
       result: 'ok',
@@ -53,7 +53,7 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
       assessmentId,
       userId,
       competenceId: 'recIhdrmCuEmCDAzj',
-      answerId
+      answerId,
     });
     databaseBuilder.factory.buildKnowledgeElement({
       skillId: 'recVv1eoSLW7yFgXv',

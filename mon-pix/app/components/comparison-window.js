@@ -11,7 +11,7 @@ const TEXT_FOR_RESULT = {
   okAutoReply: { status: 'ok' },
   koAutoReply: { status: 'ko' },
   abandAutoReply: { status: 'aband' },
-  default: { status: 'default' }
+  default: { status: 'default' },
 };
 
 function _getTextForResult(result) {

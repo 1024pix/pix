@@ -54,27 +54,27 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
       const csvParsingResult = {
         data: [{
           'Orga_ID': '1',
-          'Code établissement (code UAI)' : ''
+          'Code établissement (code UAI)' : '',
         }, {
           'Orga_ID': '2',
-          'Code établissement (code UAI)' : '9752145V'
+          'Code établissement (code UAI)' : '9752145V',
         }, {
           'Orga_ID': '3',
-          'Code établissement (code UAI)' : '01A4556S'
-        }]
+          'Code établissement (code UAI)' : '01A4556S',
+        }],
       };
       const expectedOrganizations = [{
         id: 1,
         externalId : '',
-        provinceCode : ''
+        provinceCode : '',
       }, {
         id: 2,
         externalId : '9752145V',
-        provinceCode : '975'
+        provinceCode : '975',
       }, {
         id: 3,
         externalId : '01A4556S',
-        provinceCode : '01A'
+        provinceCode : '01A',
       }];
 
       // when
@@ -93,7 +93,7 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
       process.env.BASE_URL = 'http://localhost:3000';
       options = {
         accessToken: 'token-token',
-        organizations: []
+        organizations: [],
       };
     });
 
@@ -118,19 +118,19 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
           id: 1,
           attributes: {
             'external-id': '9752145V',
-            'province-code': '975'
-          }
-        }
+            'province-code': '975',
+          },
+        },
       };
 
       options.organizations = [{
         id: 1,
         externalId: '9752145V',
-        provinceCode: '975'
+        provinceCode: '975',
       }];
 
       const nockStub = nock('http://localhost:3000', {
-        reqheaders: { authorization: 'Bearer token-token' }
+        reqheaders: { authorization: 'Bearer token-token' },
       })
         .patch('/api/organizations/1', function(body) {
           return JSON.stringify(body) === JSON.stringify(expectedBody);
@@ -152,9 +152,9 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
           id: 1,
           attributes: {
             'external-id': '9752145V',
-            'province-code': '975'
-          }
-        }
+            'province-code': '975',
+          },
+        },
       };
       const expectedBody2 = {
         data: {
@@ -162,9 +162,9 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
           id: 2,
           attributes: {
             'external-id': '',
-            'province-code': ''
-          }
-        }
+            'province-code': '',
+          },
+        },
       };
       const expectedBody3 = {
         data: {
@@ -172,41 +172,41 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
           id: 3,
           attributes: {
             'external-id': '02A2145V',
-            'province-code': '02A'
-          }
-        }
+            'province-code': '02A',
+          },
+        },
       };
 
       options.organizations = [{
         id: 1,
         externalId: '9752145V',
-        provinceCode: '975'
+        provinceCode: '975',
       }, {
         id: 2,
         externalId: '',
-        provinceCode: ''
+        provinceCode: '',
       }, {
         id: 3,
         externalId: '02A2145V',
-        provinceCode: '02A'
+        provinceCode: '02A',
       }];
 
       const nockStub1 = nock('http://localhost:3000', {
-        reqheaders: { authorization: 'Bearer token-token' }
+        reqheaders: { authorization: 'Bearer token-token' },
       })
         .patch('/api/organizations/1', function(body) {
           return JSON.stringify(body) === JSON.stringify(expectedBody1);
         })
         .reply(200, {});
       const nockStub2 = nock('http://localhost:3000', {
-        reqheaders: { authorization: 'Bearer token-token' }
+        reqheaders: { authorization: 'Bearer token-token' },
       })
         .patch('/api/organizations/2', function(body) {
           return JSON.stringify(body) === JSON.stringify(expectedBody2);
         })
         .reply(200, {});
       const nockStub3 = nock('http://localhost:3000', {
-        reqheaders: { authorization: 'Bearer token-token' }
+        reqheaders: { authorization: 'Bearer token-token' },
       })
         .patch('/api/organizations/3', function(body) {
           return JSON.stringify(body) === JSON.stringify(expectedBody3);
@@ -230,9 +230,9 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
           id: 1,
           attributes: {
             'external-id': '9752145V',
-            'province-code': '975'
-          }
-        }
+            'province-code': '975',
+          },
+        },
       };
       const expectedBody2 = {
         data: {
@@ -240,9 +240,9 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
           id: 2,
           attributes: {
             'external-id': '',
-            'province-code': ''
-          }
-        }
+            'province-code': '',
+          },
+        },
       };
       const expectedBody3 = {
         data: {
@@ -250,27 +250,27 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
           id: 3,
           attributes: {
             'external-id': '02A2145V',
-            'province-code': '02A'
-          }
-        }
+            'province-code': '02A',
+          },
+        },
       };
 
       options.organizations = [{
         id: 1,
         externalId: '9752145V',
-        provinceCode: '975'
+        provinceCode: '975',
       }, {
         id: 2,
         externalId: '',
-        provinceCode: ''
+        provinceCode: '',
       }, {
         id: 3,
         externalId: '02A2145V',
-        provinceCode: '02A'
+        provinceCode: '02A',
       }];
 
       const nockStub1 = nock('http://localhost:3000', {
-        reqheaders: { authorization: 'Bearer token-token' }
+        reqheaders: { authorization: 'Bearer token-token' },
       })
         .patch('/api/organizations/1', function(body) {
           return JSON.stringify(body) === JSON.stringify(expectedBody1);
@@ -278,7 +278,7 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
         .replyWithError('Error');
 
       const nockStub2 = nock('http://localhost:3000', {
-        reqheaders: { authorization: 'Bearer token-token' }
+        reqheaders: { authorization: 'Bearer token-token' },
       })
         .patch('/api/organizations/2', function(body) {
           return JSON.stringify(body) === JSON.stringify(expectedBody2);
@@ -286,7 +286,7 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
         .reply(200, {});
 
       const nockStub3 = nock('http://localhost:3000', {
-        reqheaders: { authorization: 'Bearer token-token' }
+        reqheaders: { authorization: 'Bearer token-token' },
       })
         .patch('/api/organizations/3', function(body) {
           return JSON.stringify(body) === JSON.stringify(expectedBody3);
@@ -311,9 +311,9 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
           id: 1,
           attributes: {
             'external-id': '9752145V',
-            'province-code': '975'
-          }
-        }
+            'province-code': '975',
+          },
+        },
       };
       const expectedBody2 = {
         data: {
@@ -321,9 +321,9 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
           id: 2,
           attributes: {
             'external-id': '',
-            'province-code': ''
-          }
-        }
+            'province-code': '',
+          },
+        },
       };
       const expectedBody3 = {
         data: {
@@ -331,42 +331,42 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
           id: 3,
           attributes: {
             'external-id': '02A2145V',
-            'province-code': '02A'
-          }
-        }
+            'province-code': '02A',
+          },
+        },
       };
       const expectedErrorObjects = [{
         errorMessage: 'Error: Error 1',
         organization: {
           id: 1,
           externalId: '9752145V',
-          provinceCode: '975'
-        }
+          provinceCode: '975',
+        },
       }, {
         errorMessage: 'Error: Error 2',
         organization: {
           id: 2,
           externalId: '',
-          provinceCode: ''
-        }
+          provinceCode: '',
+        },
       }];
 
       options.organizations = [{
         id: 1,
         externalId: '9752145V',
-        provinceCode: '975'
+        provinceCode: '975',
       }, {
         id: 2,
         externalId: '',
-        provinceCode: ''
+        provinceCode: '',
       }, {
         id: 3,
         externalId: '02A2145V',
-        provinceCode: '02A'
+        provinceCode: '02A',
       }];
 
       nock('http://localhost:3000', {
-        reqheaders: { authorization: 'Bearer token-token' }
+        reqheaders: { authorization: 'Bearer token-token' },
       })
         .patch('/api/organizations/1', function(body) {
           return JSON.stringify(body) === JSON.stringify(expectedBody1);
@@ -374,7 +374,7 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
         .replyWithError('Error 1');
 
       nock('http://localhost:3000', {
-        reqheaders: { authorization: 'Bearer token-token' }
+        reqheaders: { authorization: 'Bearer token-token' },
       })
         .patch('/api/organizations/2', function(body) {
           return JSON.stringify(body) === JSON.stringify(expectedBody2);
@@ -382,7 +382,7 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
         .replyWithError('Error 2');
 
       nock('http://localhost:3000', {
-        reqheaders: { authorization: 'Bearer token-token' }
+        reqheaders: { authorization: 'Bearer token-token' },
       })
         .patch('/api/organizations/3', function(body) {
           return JSON.stringify(body) === JSON.stringify(expectedBody3);

@@ -41,7 +41,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | detail
     module('when the sharing date is present', function() {
       test('it displays the sharing date', async function(assert) {
         const campaignProfile = {
-          sharedAt: '2020-01-02'
+          sharedAt: '2020-01-02',
         };
 
         const campaign = {};
@@ -75,7 +75,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | detail
     module('when the external id is present', function() {
       test('it displays the external id', async function(assert) {
         const campaignProfile = {
-          externalId: 'i12345'
+          externalId: 'i12345',
         };
 
         const campaign = {};
@@ -91,7 +91,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | detail
     module('when the external id is not present', function() {
       test('it does not display the external id', async function(assert) {
         const campaignProfile = {
-          externalId: null
+          externalId: null,
         };
 
         const campaign = {};
@@ -111,7 +111,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | detail
       test('it displays the pix score', async function(assert) {
         const campaignProfile = {
           pixScore: '1024',
-          isShared: true
+          isShared: true,
         };
 
         const campaign = {};
@@ -127,7 +127,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | detail
       test('it displays the total number of competence', async function(assert) {
         const campaignProfile = {
           competencesCount: 12,
-          isShared: true
+          isShared: true,
         };
 
         const campaign = {};
@@ -142,7 +142,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | detail
       test('it displays the total number of certifiable competence', async function(assert) {
         const campaignProfile = {
           certifiableCompetencesCount: 2,
-          isShared: true
+          isShared: true,
         };
 
         const campaign = {};
@@ -160,7 +160,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | detail
           test('it displays certifiable', async function(assert) {
             const campaignProfile = {
               isCertifiable: true,
-              isShared: true
+              isShared: true,
             };
 
             const campaign = {};
@@ -178,7 +178,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | detail
           test('it does not display certifiable', async function(assert) {
             const campaignProfile = {
               isCertifiable: false,
-              isShared: true
+              isShared: true,
             };
 
             const campaign = {};
@@ -197,7 +197,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | detail
     module('when the  profile is not shared', function() {
       test('it does not display the pix score', async function(assert) {
         const campaignProfile = {
-          isShared: false
+          isShared: false,
         };
 
         const campaign = {};
@@ -213,7 +213,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | detail
       test('it does not display the total number of competence', async function(assert) {
         const campaignProfile = {
           competencesCount: 12,
-          isShared: false
+          isShared: false,
         };
 
         const campaign = {};
@@ -230,7 +230,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | detail
       test('it does not display the total number of certifiable competence', async function(assert) {
         const campaignProfile = {
           certifiableCompetencesCount: 30,
-          isShared: false
+          isShared: false,
         };
 
         const campaign = {};
@@ -246,7 +246,7 @@ module('Integration | Component | routes/authenticated/campaign/profile | detail
       test('it does not display certifiable badge', async function(assert) {
         const campaignProfile = {
           isCertifiable: true,
-          isShared: false
+          isShared: false,
         };
 
         const campaign = {};

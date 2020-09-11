@@ -6,6 +6,6 @@ module.exports = function buildHint({
 } = {}) {
   return new Hint({
     skillName,
-    value
+    value,
   });
 };

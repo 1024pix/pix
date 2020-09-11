@@ -83,7 +83,7 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
           'external-id': certificationCandidate.externalId,
           'extra-time-percentage': certificationCandidate.extraTimePercentage,
           'is-linked': false,
-        }
+        },
       };
 
       expect(_.omit(response.result.data, 'id')).to.deep.equal(expectedData);

@@ -6,7 +6,7 @@ module.exports = function(defaults) {
   const app = new EmberApp(defaults, {
     sourcemaps: { enabled: true },
     babel: {
-      sourceMaps: 'inline'
+      sourceMaps: 'inline',
     },
     'ember-bootstrap': {
       'importBootstrapFont': false,
@@ -17,12 +17,12 @@ module.exports = function(defaults) {
     },
 
     'ember-cli-template-lint': {
-      testGenerator: 'qunit' // or 'mocha', etc.
+      testGenerator: 'qunit', // or 'mocha', etc.
     },
 
     flatpickr: {
-      locales: ['fr']
-    }
+      locales: ['fr'],
+    },
   });
 
   // Use `app.import` to add additional libraries to the generated

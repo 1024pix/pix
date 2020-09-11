@@ -14,7 +14,7 @@ describe('Unit | Infrastructure | Cache | redis-cache', () => {
 
   beforeEach(() => {
     stubbedClient = {
-      lockDisposer: sinon.stub().resolves(() => {})
+      lockDisposer: sinon.stub().resolves(() => {}),
     };
     sinon.stub(RedisCache, 'createClient')
       .withArgs(REDIS_URL)

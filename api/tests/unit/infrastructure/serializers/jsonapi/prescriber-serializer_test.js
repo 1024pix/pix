@@ -14,22 +14,22 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
           'first-name': prescriber.firstName,
           'last-name': prescriber.lastName,
           'pix-orga-terms-of-service-accepted': prescriber.pixOrgaTermsOfServiceAccepted,
-          'are-new-year-schooling-registrations-imported': prescriber.areNewYearSchoolingRegistrationsImported
+          'are-new-year-schooling-registrations-imported': prescriber.areNewYearSchoolingRegistrationsImported,
         },
         relationships: {
           memberships: {
             data: [{
               id: membership.id.toString(),
-              type: 'memberships'
-            }]
+              type: 'memberships',
+            }],
           },
           'user-orga-settings': {
             data: {
               id: userOrgaSettings.id.toString(),
-              type: 'userOrgaSettings'
-            }
-          }
-        }
+              type: 'userOrgaSettings',
+            },
+          },
+        },
       },
       included: [
         {
@@ -45,25 +45,25 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
           relationships: {
             memberships: {
               links: {
-                related: `/api/organizations/${organization.id}/memberships`
-              }
+                related: `/api/organizations/${organization.id}/memberships`,
+              },
             },
             'organization-invitations': {
               links: {
-                related: `/api/organizations/${organization.id}/invitations`
-              }
+                related: `/api/organizations/${organization.id}/invitations`,
+              },
             },
             students: {
               links: {
-                related: `/api/organizations/${organization.id}/students`
-              }
+                related: `/api/organizations/${organization.id}/students`,
+              },
             },
             'target-profiles': {
               links: {
-                related: `/api/organizations/${organization.id}/target-profiles`
-              }
-            }
-          }
+                related: `/api/organizations/${organization.id}/target-profiles`,
+              },
+            },
+          },
         },
         {
           id: membership.id.toString(),
@@ -75,24 +75,24 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
             organization: {
               data: {
                 id: organization.id.toString(),
-                type: 'organizations'
-              }
-            }
-          }
+                type: 'organizations',
+              },
+            },
+          },
         },
         {
           id: userOrgaSettings.id.toString(),
           type: 'userOrgaSettings',
           attributes: {
-            user: null
+            user: null,
           },
           relationships: {
             organization: {
-              data: null
-            }
-          }
-        }
-      ]
+              data: null,
+            },
+          },
+        },
+      ],
     };
   }
 
@@ -111,7 +111,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
       const membership = domainBuilder.buildMembership({
         organization,
         organizationRole: Membership.roles.MEMBER,
-        user
+        user,
       });
 
       user.memberships.push(membership);
@@ -129,7 +129,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
         areNewYearSchoolingRegistrationsImported: false,
         pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
         memberships: [membership],
-        userOrgaSettings
+        userOrgaSettings,
       });
 
       const expectedPrescriberSerialized = createExpectedPrescriberSerialized({ prescriber, membership, userOrgaSettings, organization });

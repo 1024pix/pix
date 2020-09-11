@@ -19,7 +19,7 @@ describe('Acceptance | Controller | session-controller-patch', () => {
       certificationCenter = databaseBuilder.factory.buildCertificationCenter();
       databaseBuilder.factory.buildCertificationCenterMembership({
         userId: user.id,
-        certificationCenterId: certificationCenter.id
+        certificationCenterId: certificationCenter.id,
       });
       session = databaseBuilder.factory.buildSession({
         certificationCenter: certificationCenter.name,
@@ -30,10 +30,10 @@ describe('Acceptance | Controller | session-controller-patch', () => {
         date: '2017-12-08',
         time: '14:30',
         description: 'ahah',
-        accessCode: 'ABCD12'
+        accessCode: 'ABCD12',
       });
       databaseBuilder.factory.buildCertificationCourse({
-        sessionId: session.id
+        sessionId: session.id,
       });
       payload = {
         data: {
@@ -46,9 +46,9 @@ describe('Acceptance | Controller | session-controller-patch', () => {
             date: '2017-08-12',
             time: '14:30',
             description: 'ahah',
-            accessCode: 'ABCD12'
-          }
-        }
+            accessCode: 'ABCD12',
+          },
+        },
       };
 
       await databaseBuilder.commit();
@@ -59,7 +59,7 @@ describe('Acceptance | Controller | session-controller-patch', () => {
         method: 'PATCH',
         url: `/api/sessions/${session.id}`,
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-        payload
+        payload,
       };
 
       // when
@@ -81,7 +81,7 @@ describe('Acceptance | Controller | session-controller-patch', () => {
         method: 'PATCH',
         url: `/api/sessions/${session.id}`,
         headers: { authorization: generateValidRequestAuthorizationHeader(unauthorizedUser.id) },
-        payload
+        payload,
       };
 
       // when

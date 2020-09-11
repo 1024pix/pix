@@ -19,7 +19,7 @@ describe('Unit | UseCase | find-organizations', () => {
 
     const requestErr = await catchErr(usecases.sendScoInvitation)({
       uai,
-      organizationRepository
+      organizationRepository,
     });
 
     expect(requestErr).to.be.instanceOf(OrganizationNotFoundError);
@@ -35,7 +35,7 @@ describe('Unit | UseCase | find-organizations', () => {
 
     const requestErr = await catchErr(usecases.sendScoInvitation)({
       uai,
-      organizationRepository
+      organizationRepository,
     });
 
     expect(requestErr).to.be.instanceOf(OrganizationWithoutEmailError);
@@ -54,7 +54,7 @@ describe('Unit | UseCase | find-organizations', () => {
     // when
     const requestErr = await catchErr(usecases.sendScoInvitation)({
       uai,
-      organizationRepository
+      organizationRepository,
     });
 
     // then

@@ -7,38 +7,38 @@ export default {
     hhmmss: {
       hour: 'numeric',
       minute: 'numeric',
-      second: 'numeric'
-    }
+      second: 'numeric',
+    },
   },
   date: {
     hhmmss: {
       hour: 'numeric',
       minute: 'numeric',
-      second: 'numeric'
+      second: 'numeric',
     },
     L: {
       day:'2-digit',
       month:'2-digit',
-      year:'numeric'
+      year:'numeric',
     },
     LL: {
       day:'numeric',
       month:'long',
-      year:'numeric'
-    }
+      year:'numeric',
+    },
   },
   number: {
     EUR: {
       style: 'currency',
       currency: 'EUR',
       minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+      maximumFractionDigits: 2,
     },
     USD: {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    }
-  }
+      maximumFractionDigits: 2,
+    },
+  },
 };

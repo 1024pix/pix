@@ -5,7 +5,7 @@ module.exports = async function beginCampaignParticipationImprovement({
   campaignParticipationId,
   userId,
   assessmentRepository,
-  campaignParticipationRepository
+  campaignParticipationRepository,
 }) {
 
   const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId, {});

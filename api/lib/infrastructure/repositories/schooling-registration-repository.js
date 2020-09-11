@@ -95,7 +95,7 @@ module.exports = {
             })
             .update(_.omit(schoolingRegistrationToUpdate, ['id', 'createdAt']));
         }),
-        trx.batchInsert('schooling-registrations', schoolingRegistrationsToCreate)
+        trx.batchInsert('schooling-registrations', schoolingRegistrationsToCreate),
       ]);
       await trx.commit();
     } catch (err) {
@@ -194,7 +194,7 @@ module.exports = {
           'schooling-registrations.organizationId',
           'users.username',
           'users.email',
-          'users.samlId'
+          'users.samlId',
         );
         qb.orderByRaw('LOWER("schooling-registrations"."lastName") ASC, LOWER("schooling-registrations"."firstName") ASC');
         qb.leftJoin('users', 'schooling-registrations.userId', 'users.id');
@@ -203,7 +203,7 @@ module.exports = {
       .fetchPage({
         page: page.number,
         pageSize: page.size,
-        withRelated: ['user']
+        withRelated: ['user'],
       });
 
     return {

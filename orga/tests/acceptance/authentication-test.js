@@ -3,7 +3,7 @@ import { visit, currentURL, fillIn, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import {
   authenticateSession,
-  currentSession
+  currentSession,
 } from 'ember-simple-auth/test-support';
 import {
   createUserMembershipWithRole,

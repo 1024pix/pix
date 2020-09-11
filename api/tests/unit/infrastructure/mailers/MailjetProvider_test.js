@@ -41,7 +41,7 @@ describe('Unit | Class | MailjetProvider', function() {
             to: recipient,
             fromName: 'Ne Pas Repondre',
             subject: 'Creation de compte',
-            template: '129291'
+            template: '129291',
           });
 
           // then
@@ -51,7 +51,7 @@ describe('Unit | Class | MailjetProvider', function() {
             'Subject': 'Creation de compte',
             'MJ-TemplateID': '129291',
             'MJ-TemplateLanguage': 'true',
-            'Recipients': [{ 'Email': recipient, 'Vars': {} }]
+            'Recipients': [{ 'Email': recipient, 'Vars': {} }],
           });
         });
 
@@ -72,7 +72,7 @@ describe('Unit | Class | MailjetProvider', function() {
             'Subject': 'Bienvenue dans la communauté PIX',
             'MJ-TemplateID': '129291',
             'MJ-TemplateLanguage': 'true',
-            'Recipients': [{ 'Email': recipient, 'Vars': {} }]
+            'Recipients': [{ 'Email': recipient, 'Vars': {} }],
           });
         });
 
@@ -94,7 +94,7 @@ describe('Unit | Class | MailjetProvider', function() {
             'Subject': 'Bienvenue dans la communauté PIX',
             'MJ-TemplateID': '129291',
             'MJ-TemplateLanguage': 'true',
-            'Recipients': [{ 'Email': recipient, 'Vars': variables }]
+            'Recipients': [{ 'Email': recipient, 'Vars': variables }],
           });
         });
       });

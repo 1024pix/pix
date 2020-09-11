@@ -13,7 +13,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
       // given
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
       const sessions = ArrayProxy.create({
-        certificationReports: []
+        certificationReports: [],
       });
       controller.model = sessions;
 
@@ -35,7 +35,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
           { hasSeenEndTestScreen: false },
           { hasSeenEndTestScreen: false },
           { hasSeenEndTestScreen: true },
-        ]
+        ],
       });
       controller.model = sessions;
 
@@ -53,7 +53,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
       const sessions = ArrayProxy.create({
         certificationReports: [
           { hasSeenEndTestScreen: false },
-        ]
+        ],
       });
       controller.model = sessions;
 
@@ -75,7 +75,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
         certificationReports: [
           { hasSeenEndTestScreen: true },
           { hasSeenEndTestScreen: true },
-        ]
+        ],
       });
       controller.model = sessions;
 
@@ -94,7 +94,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
         certificationReports: [
           { hasSeenEndTestScreen: false },
           { hasSeenEndTestScreen: true },
-        ]
+        ],
       });
       controller.model = sessions;
 
@@ -225,7 +225,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
         certificationReports: [
           { hasSeenEndTestScreen: false },
           { hasSeenEndTestScreen: true },
-        ]
+        ],
       };
       controller.model = sessions;
 

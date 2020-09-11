@@ -11,7 +11,7 @@ export function stripInstruction(params) {
 
   return truncate(result, {
     length,
-    separator: ' '
+    separator: ' ',
   });
 }
 

@@ -8,11 +8,11 @@ function _pickDefaultRole(existingMemberships) {
 
 module.exports = async function acceptOrganizationInvitation({
   organizationInvitationId, code, email,
-  userRepository, membershipRepository, organizationInvitationRepository
+  userRepository, membershipRepository, organizationInvitationRepository,
 }) {
   const foundOrganizationInvitation = await organizationInvitationRepository.getByIdAndCode({
     id: organizationInvitationId,
-    code
+    code,
   });
 
   if (foundOrganizationInvitation.isAccepted) {

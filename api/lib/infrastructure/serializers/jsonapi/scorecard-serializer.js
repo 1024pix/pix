@@ -21,7 +21,7 @@ module.exports = {
 
       area: {
         ref: ['id'],
-        attributes: ['code', 'title', 'color']
+        attributes: ['code', 'title', 'color'],
       },
       tutorials: {
         ref: 'id',
@@ -29,7 +29,7 @@ module.exports = {
         relationshipLinks: {
           related(record, current, parent) {
             return `/api/scorecards/${parent.id}/tutorials`;
-          }
+          },
         },
         attributes: [
           'id',

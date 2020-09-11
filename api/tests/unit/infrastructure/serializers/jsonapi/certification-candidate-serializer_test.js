@@ -26,7 +26,7 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
           'extra-time-percentage': certificationCandidate.extraTimePercentage,
           'is-linked': !_.isNil(certificationCandidate.userId),
         },
-      }
+      },
     };
   });
 

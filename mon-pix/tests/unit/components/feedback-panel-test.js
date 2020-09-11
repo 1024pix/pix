@@ -86,7 +86,7 @@ describe('Unit | Component | feedback-panel', function() {
         save: sinon.stub().resolves(null),
       };
       store = {
-        createRecord: sinon.stub().returns(feedback)
+        createRecord: sinon.stub().returns(feedback),
       };
     });
 

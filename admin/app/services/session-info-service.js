@@ -9,7 +9,7 @@ const competenceIndexes = [
   '2.1', '2.2', '2.3', '2.4',
   '3.1', '3.2', '3.3', '3.4',
   '4.1', '4.2', '4.3',
-  '5.1', '5.2'
+  '5.1', '5.2',
 ];
 
 export default class SessionInfoServiceService extends Service {
@@ -32,7 +32,7 @@ export default class SessionInfoServiceService extends Service {
     const certificationsForJury = _filterCertificationsEligibleForJury(certifications);
     const data = this.buildJuryFileData(certificationsForJury);
     const fileHeaders = _buildJuryFileHeaders();
-    const csv = json2csv.parse(data, { fields: fileHeaders, delimiter: ';', withBOM: true, });
+    const csv = json2csv.parse(data, { fields: fileHeaders, delimiter: ';', withBOM: true });
     const dateWithTime = moment();
     const fileName = _createFileNameWithDate(dateWithTime, fileTitle, sessionId);
     this.fileSaver.saveAs(`${csv}\n`, fileName);
@@ -105,14 +105,14 @@ function _buildSessionExportFileHeaders() {
       'Date de naissance',
       'Lieu de naissance',
       'Identifiant Externe',
-      'Nombre de Pix'
+      'Nombre de Pix',
     ],
     competenceIndexes,
     [
       'Session',
       'Centre de certification',
-      'Date de passage de la certification'
-    ]
+      'Date de passage de la certification',
+    ],
   );
 }
 
@@ -133,9 +133,9 @@ function _buildJuryFileHeaders() {
       'Signalement surveillant',
       'Commentaire pour le jury',
       'Ecran de fin non renseigné',
-      'Note Pix'
+      'Note Pix',
     ],
-    competenceIndexes
+    competenceIndexes,
   );
 }
 

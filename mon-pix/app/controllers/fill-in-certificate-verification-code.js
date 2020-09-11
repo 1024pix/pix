@@ -23,14 +23,14 @@ export default class FillInCertificateVerificationCode extends Controller {
 
     if (!this.certificateVerificationCode) {
       this.errorMessage =  this.intl.t(
-        'pages.fill-in-certificate-verification-code.errors.missing-code'
+        'pages.fill-in-certificate-verification-code.errors.missing-code',
       );
       return;
     }
 
     if (!this.isVerificationCodeValid()) {
       this.errorMessage = this.intl.t(
-        'pages.fill-in-certificate-verification-code.errors.wrong-format'
+        'pages.fill-in-certificate-verification-code.errors.wrong-format',
       );
       return;
     }

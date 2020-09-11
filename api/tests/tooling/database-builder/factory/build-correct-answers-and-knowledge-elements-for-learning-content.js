@@ -21,8 +21,8 @@ const buildCorrectAnswersAndKnowledgeElementsForLearningContent = function(
                 skillId: skill.id,
                 challengeId: challenge.id,
                 pixValue: earnedPix,
-                acquisitionDate: placementDate
-              }
+                acquisitionDate: placementDate,
+              },
             );
           });
         });

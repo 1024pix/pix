@@ -53,8 +53,8 @@ module.exports = {
         relationshipLinks: {
           related(record) {
             return `/api/answers?assessmentId=${record.id}`;
-          }
-        }
+          },
+        },
       },
       course: {
         ref: 'id',
@@ -67,17 +67,17 @@ module.exports = {
         relationshipLinks: {
           related(record, current) {
             return `/api/certification-courses/${current.id}`;
-          }
-        }
+          },
+        },
       },
       progression: {
         ref: 'id',
         relationshipLinks: {
           related(record, current) {
             return `/api/progressions/${current.id}`;
-          }
-        }
-      }
+          },
+        },
+      },
     }).serialize(assessments);
   },
 
@@ -94,7 +94,7 @@ module.exports = {
       type,
       courseId,
     });
-  }
+  },
 };
 
 function _includeCourse(assessments) {

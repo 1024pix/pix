@@ -52,20 +52,20 @@ describe('Acceptance | Controller | membership-controller', () => {
               user: {
                 data: {
                   type: 'users',
-                  id: userId
-                }
+                  id: userId,
+                },
               },
               organization: {
                 data : {
                   type: 'organizations',
-                  id: organizationId
-                }
-              }
-            }
-          }
+                  id: organizationId,
+                },
+              },
+            },
+          },
         },
         headers: {
-          authorization: generateValidRequestAuthorizationHeader(adminUserId)
+          authorization: generateValidRequestAuthorizationHeader(adminUserId),
         },
       };
     });
@@ -85,15 +85,15 @@ describe('Acceptance | Controller | membership-controller', () => {
               user: {
                 data: {
                   type: 'users',
-                  id: userId.toString()
-                }
+                  id: userId.toString(),
+                },
               },
               organization: {
                 data: {
                   type: 'organizations',
-                  id: organizationId.toString()
-                }
-              }
+                  id: organizationId.toString(),
+                },
+              },
             },
           },
         };
@@ -165,10 +165,10 @@ describe('Acceptance | Controller | membership-controller', () => {
           data: {
             id: membershipId.toString(),
             type: 'memberships',
-          }
+          },
         },
         headers: {
-          authorization: generateValidRequestAuthorizationHeader()
+          authorization: generateValidRequestAuthorizationHeader(),
         },
       };
     });

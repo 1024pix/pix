@@ -63,7 +63,7 @@ module.exports = {
 
     const updatedUser = await usecases.updateUserDetailsForAdministration({
       userId,
-      userDetailsForAdministration
+      userDetailsForAdministration,
     });
 
     return userDetailsForAdminSerializer.serialize(updatedUser);
@@ -73,7 +73,7 @@ module.exports = {
     const authenticatedUserId = request.auth.credentials.userId;
 
     const updatedUser = await usecases.acceptPixLastTermsOfService({
-      userId: authenticatedUserId
+      userId: authenticatedUserId,
     });
 
     return userSerializer.serialize(updatedUser);
@@ -83,7 +83,7 @@ module.exports = {
     const authenticatedUserId = request.auth.credentials.userId;
 
     const updatedUser = await usecases.acceptPixOrgaTermsOfService({
-      userId: authenticatedUserId
+      userId: authenticatedUserId,
     });
 
     return userSerializer.serialize(updatedUser);
@@ -93,7 +93,7 @@ module.exports = {
     const authenticatedUserId = request.auth.credentials.userId;
 
     const updatedUser = await usecases.acceptPixCertifTermsOfService({
-      userId: authenticatedUserId
+      userId: authenticatedUserId,
     });
 
     return userSerializer.serialize(updatedUser);
@@ -125,7 +125,7 @@ module.exports = {
 
     const { models: users, pagination } = await usecases.findPaginatedFilteredUsers({
       filter: options.filter,
-      page: options.page
+      page: options.page,
     });
     return userSerializer.serialize(users, pagination);
   },
@@ -181,7 +181,7 @@ module.exports = {
 
     const sharedProfileForCampaign = await usecases.getUserProfileSharedForCampaign({
       userId: authenticatedUserId,
-      campaignId
+      campaignId,
     });
 
     return sharedProfileForCampaignSerializer.serialize(sharedProfileForCampaign);
@@ -191,5 +191,5 @@ module.exports = {
     const userId = parseInt(request.params.id);
     await usecases.anonymizeUser({ userId });
     return h.response({}).code(204);
-  }
+  },
 };

@@ -25,7 +25,7 @@ describe('Integration | UseCase | get-campaign-profile', () => {
       const error = await catchErr(useCases.getCampaignProfile)({
         userId,
         campaignId,
-        campaignParticipationId: 1
+        campaignParticipationId: 1,
       });
 
       // then
@@ -49,7 +49,7 @@ describe('Integration | UseCase | get-campaign-profile', () => {
       const profile = await useCases.getCampaignProfile({
         userId,
         campaignId,
-        campaignParticipationId
+        campaignParticipationId,
       });
 
       // then

@@ -11,7 +11,7 @@ module.exports = {
     return memberships.some((membership) => 
       membership.organization.isManagingStudents
         && membership.organization.type === type
-        && membership.organizationRole === Membership.roles.ADMIN
+        && membership.organizationRole === Membership.roles.ADMIN,
     );
-  }
+  },
 };

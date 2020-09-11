@@ -17,6 +17,6 @@ export default Factory.extend({
 
   pixOrgaTermsOfServiceAccepted() {
     return faker.random.boolean();
-  }
+  },
 
 });

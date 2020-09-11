@@ -10,13 +10,13 @@ module.exports = {
       transform: (profile) => ({ 
         ...profile,
         scorecards: profile.scorecards.map(
-          (scorecard) => ({ ...scorecard, area: { ...scorecard.area } })
-        )
+          (scorecard) => ({ ...scorecard, area: { ...scorecard.area } }),
+        ),
       }),
       attributes: [
         'pixScore',
         'sharedAt',
-        'scorecards'
+        'scorecards',
       ],
       scorecards: {
         ref: 'id',
@@ -33,7 +33,7 @@ module.exports = {
         ],
         area: {
           ref: 'id',
-          attributes: ['code', 'title', 'color']
+          attributes: ['code', 'title', 'color'],
         },
       },
     }).serialize(sharedProfileForCampaign);

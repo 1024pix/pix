@@ -9,7 +9,7 @@ exports.register = async function(server) {
       config: {
         pre: [{
           method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster'
+          assign: 'hasRolePixMaster',
         }],
         handler: certificationCourseController.computeResult,
         tags: ['api'],
@@ -17,8 +17,8 @@ exports.register = async function(server) {
           'Cette route est utilisé par Pix Admin',
           'Elle sert au cas où une certification a eu une erreur de calcul',
           'Cette route ne renvoie pas le bon format.',
-        ]
-      }
+        ],
+      },
     },
     {
       method: 'GET',
@@ -26,19 +26,19 @@ exports.register = async function(server) {
       config: {
         pre: [{
           method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster'
+          assign: 'hasRolePixMaster',
         }],
         handler: certificationCourseController.getResult,
-        tags: ['api']
-      }
+        tags: ['api'],
+      },
     },
     {
       method: 'PATCH',
       path: '/api/certification-courses/{id}',
       config: {
         handler: certificationCourseController.update,
-        tags: ['api']
-      }
+        tags: ['api'],
+      },
     }, {
       method: 'POST',
       path: '/api/certification-courses',
@@ -47,18 +47,18 @@ exports.register = async function(server) {
         notes: [
           '- **Route nécessitant une authentification**\n' +
           '- S\'il existe déjà une certification pour l\'utilisateur courant dans cette session, alors cette route renvoie la certification existante avec un code 200\n' +
-          '- Sinon, crée une certification pour l\'utilisateur courant dans la session indiquée par l\'attribut *access-code*, et la renvoie avec un code 201\n'
+          '- Sinon, crée une certification pour l\'utilisateur courant dans la session indiquée par l\'attribut *access-code*, et la renvoie avec un code 201\n',
         ],
-        tags: ['api']
-      }
+        tags: ['api'],
+      },
     },
     {
       method: 'GET',
       path: '/api/certification-courses/{id}',
       config: {
         handler: certificationCourseController.get,
-        tags: ['api']
-      }
+        tags: ['api'],
+      },
     },
   ]);
 };

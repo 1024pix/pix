@@ -24,7 +24,7 @@ export default class ChallengeRoute extends Route {
   serialize(model) {
     return {
       assessment_id: model.assessment.id,
-      challenge_id: model.challenge.id
+      challenge_id: model.challenge.id,
     };
   }
 
@@ -42,7 +42,7 @@ export default class ChallengeRoute extends Route {
     answer.setProperties({
       value: answerValue.trim(),
       timeout: answerTimeout,
-      elapsedTime: answerElapsedTime
+      elapsedTime: answerElapsedTime,
     });
 
     try {
@@ -54,7 +54,7 @@ export default class ChallengeRoute extends Route {
         queryParams: {
           newLevel: levelup.level,
           competenceLeveled: levelup.competenceName,
-        }
+        },
       } : { queryParams: {} };
 
       return this.transitionTo('assessments.resume', assessment.get('id'), queryParams);

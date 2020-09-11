@@ -28,7 +28,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
           organizationType: 'SCO',
           idPixLabel: 'company id',
           targetProfile: domainBuilder.buildTargetProfile({ id: '123', name: 'TargetProfile1', imageUrl: 'http://url.fr' }),
-          type: 'ASSESSMENT'
+          type: 'ASSESSMENT',
         });
 
         const expectedSerializedCampaign = {
@@ -54,31 +54,31 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
               'target-profile': {
                 data: {
                   id: '123',
-                  type: 'targetProfiles'
-                }
+                  type: 'targetProfiles',
+                },
               },
               'creator': {
                 data: {
                   id: '3453',
                   type: 'users',
-                }
+                },
               },
               'campaign-report': {
                 'links': {
-                  'related': '/api/campaigns/5/campaign-report'
-                }
+                  'related': '/api/campaigns/5/campaign-report',
+                },
               },
               'campaign-collective-result': {
                 'links': {
-                  'related': '/api/campaigns/5/collective-results'
-                }
+                  'related': '/api/campaigns/5/collective-results',
+                },
               },
               'campaign-analysis': {
                 'links': {
-                  'related': '/api/campaigns/5/analyses'
-                }
-              }
-            }
+                  'related': '/api/campaigns/5/analyses',
+                },
+              },
+            },
           },
           included: [
             {
@@ -87,7 +87,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
                 'image-url': 'http://url.fr',
               },
               id: '123',
-              type: 'targetProfiles'
+              type: 'targetProfiles',
             },
             {
               id: '3453',
@@ -95,10 +95,10 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
               attributes: {
                 'first-name': 'Daenerys',
                 'last-name': 'Targaryen',
-              }
-            }
+              },
+            },
           ],
-          meta
+          meta,
         };
 
         // when
@@ -157,52 +157,52 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
               'target-profile': {
                 data: {
                   id: '123',
-                  type: 'targetProfiles'
-                }
+                  type: 'targetProfiles',
+                },
               },
               'creator': {
                 data: {
                   id: '3453',
                   type: 'users',
-                }
+                },
               },
               'campaign-report': {
                 data: {
                   id: '5',
-                  type: 'campaignReports'
+                  type: 'campaignReports',
                 },
                 'links': {
-                  'related': '/api/campaigns/5/campaign-report'
-                }
+                  'related': '/api/campaigns/5/campaign-report',
+                },
               },
               'campaign-collective-result': {
                 'links': {
-                  'related': '/api/campaigns/5/collective-results'
-                }
+                  'related': '/api/campaigns/5/collective-results',
+                },
               },
               'campaign-analysis': {
                 'links': {
-                  'related': '/api/campaigns/5/analyses'
-                }
-              }
-            }
+                  'related': '/api/campaigns/5/analyses',
+                },
+              },
+            },
           },
           included: [
             {
               attributes: {
                 name: 'TargetProfile1',
-                'image-url': 'http://url.fr'
+                'image-url': 'http://url.fr',
               },
               id: '123',
-              type: 'targetProfiles'
+              type: 'targetProfiles',
             },
             {
               attributes: {
                 'participations-count': '5',
-                'shared-participations-count': '3'
+                'shared-participations-count': '3',
               },
               id: '5',
-              type: 'campaignReports'
+              type: 'campaignReports',
             },
             {
               id: '3453',
@@ -210,10 +210,10 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
               attributes: {
                 'first-name': 'Daenerys',
                 'last-name': 'Targaryen',
-              }
-            }
+              },
+            },
           ],
-          meta
+          meta,
         };
 
         // when
@@ -234,7 +234,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
 
         const expectedSerializedCampaigns = {
           data: [],
-          meta
+          meta,
         };
 
         // when
@@ -263,11 +263,11 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
           relationships: {
             'target-profile': {
               data: {
-                id: targetProfileId
-              }
-            }
-          }
-        }
+                id: targetProfileId,
+              },
+            },
+          },
+        },
       };
 
       // when
@@ -295,10 +295,10 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
               'target-profile': {
                 data: {
                   id: undefined,
-                }
-              }
-            }
-          }
+                },
+              },
+            },
+          },
         };
 
         // when

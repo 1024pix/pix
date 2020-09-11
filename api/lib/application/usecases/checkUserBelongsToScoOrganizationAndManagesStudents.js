@@ -8,5 +8,5 @@ module.exports = {
       .then((memberships) => memberships.reduce((belongsToScoOrganization, membership) => {
         return belongsToScoOrganization || (membership.organization.isManagingStudents && Organisation.types.SCO === membership.organization.type);
       }, false));
-  }
+  },
 };

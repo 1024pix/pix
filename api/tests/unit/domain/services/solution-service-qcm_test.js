@@ -32,7 +32,7 @@ describe('Unit | Service | SolutionServiceQCM ', function() {
       { answer: '3, 2, 1', solution: '1, 2, 3' },
       { answer: '1,2,3', solution: '1, 2, 3' },
       { answer: '1,   2,   3   ', solution: '1, 2, 3' },
-      { answer: '1, 2, 3', solution: '1, 2, 3' }
+      { answer: '1, 2, 3', solution: '1, 2, 3' },
     ];
 
     successfulCases.forEach(function(testCase) {
@@ -48,7 +48,7 @@ describe('Unit | Service | SolutionServiceQCM ', function() {
       { answer: '2', solution: '1' },
       { answer: '1, 3', solution: '1, 2' },
       { answer: '1, 2, 3', solution: '1, 2' },
-      { answer: '3, 1', solution: '1, 2' }
+      { answer: '3, 1', solution: '1, 2' },
     ];
 
     failedCases.forEach(function(testCase) {

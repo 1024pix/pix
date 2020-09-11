@@ -18,6 +18,6 @@ module.exports = function buildUserWithSchoolingRegistration(
     birthdate,
     username,
     email,
-    isAuthenticatedFromGAR
+    isAuthenticatedFromGAR,
   });
 };

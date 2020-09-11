@@ -38,9 +38,9 @@ describe('Integration | Component | password reset demand form', function() {
         return Object.create({
           save() {
             return reject();
-          }
+          },
         });
-      }
+      },
     });
     this.owner.unregister('service:store');
     this.owner.register('service:store', storeStub);
@@ -62,9 +62,9 @@ describe('Integration | Component | password reset demand form', function() {
         return Object.create({
           save() {
             return resolve();
-          }
+          },
         });
-      }
+      },
     });
     this.owner.unregister('service:store');
     this.owner.register('service:store', storeStub);
@@ -87,7 +87,7 @@ describe('Integration | Component | password reset demand form', function() {
       },
       shift() {
         return expectedError;
-      }
+      },
     });
     this.owner.register('service:errors', errorsServiceStub);
 

@@ -7,7 +7,7 @@ import {
   fillIn,
   find,
   render,
-  triggerEvent
+  triggerEvent,
 } from '@ember/test-helpers';
 import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';

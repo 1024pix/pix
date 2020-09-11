@@ -24,23 +24,23 @@ describe('Acceptance | Controller | feedback-controller', () => {
           data: {
             type: 'feedbacks',
             attributes: {
-              content: 'Some content'
+              content: 'Some content',
             },
             relationships: {
               assessment: {
                 data: {
                   type: 'assessment',
-                  id: assessmentId
-                }
+                  id: assessmentId,
+                },
               },
               challenge: {
                 data: {
                   type: 'challenge',
-                  id: 'challenge_id'
-                }
-              }
-            }
-          }
+                  id: 'challenge_id',
+                },
+              },
+            },
+          },
         },
         headers: { authorization: generateValidRequestAuthorizationHeader() },
       };

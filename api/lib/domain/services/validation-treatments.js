@@ -31,5 +31,5 @@ module.exports = {
   normalizeAndRemoveAccents,
   removeSpecialCharacters,
   applyPreTreatments,
-  applyTreatments
+  applyTreatments,
 };

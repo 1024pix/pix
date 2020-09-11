@@ -45,7 +45,7 @@ describe('Unit | Service | Scoring Service', () => {
         realTotalPixScoreForCompetence: 56,
         pixScoreForCompetence: MAX_REACHABLE_PIX_BY_COMPETENCE,
         currentLevel: MAX_REACHABLE_LEVEL,
-        pixAheadForNextLevel: 0
+        pixAheadForNextLevel: 0,
       };
 
       // when
@@ -69,7 +69,7 @@ describe('Unit | Service | Scoring Service', () => {
           realTotalPixScoreForCompetence: 56,
           pixScoreForCompetence: 56,
           currentLevel: 7,
-          pixAheadForNextLevel: 0
+          pixAheadForNextLevel: 0,
         };
 
         // when

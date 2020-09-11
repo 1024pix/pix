@@ -34,8 +34,8 @@ module.exports = {
         relationshipLinks: {
           related(record, current, parent) {
             return `/api/sessions/${parent.id}/certification-candidates`;
-          }
-        }
+          },
+        },
       },
       certificationReports: {
         ref: 'id',
@@ -43,8 +43,8 @@ module.exports = {
         relationshipLinks: {
           related(record, current, parent) {
             return `/api/sessions/${parent.id}/certification-reports`;
-          }
-        }
+          },
+        },
       },
       certificationCenter: {
         ref: 'id',
@@ -52,8 +52,8 @@ module.exports = {
         relationshipLinks: {
           related(record, current) {
             return `/api/certification-centers/${current.id}`;
-          }
-        }
+          },
+        },
       },
       transform(session) {
         const transformedSession = Object.assign({}, session);
@@ -108,5 +108,5 @@ module.exports = {
     }
 
     return result;
-  }
+  },
 };

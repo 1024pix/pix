@@ -21,7 +21,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
     fromAirTableObject: (record) => ({
       id: record.id,
       tableName: record.tableName,
-      fields: record.fields
+      fields: record.fields,
     }),
   });
 
@@ -144,7 +144,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
       sinon.stub(cache, 'set');
       sinon.stub(airtable, 'findRecords').resolves([
         { id: 'rec1', tableName: 'Airtable_table', fields: 'value1' },
-        { id: 'rec2', tableName: 'Airtable_table', fields: 'value2' }
+        { id: 'rec2', tableName: 'Airtable_table', fields: 'value2' },
       ]);
     });
 
@@ -172,7 +172,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
       const airtableRecord = {
         id: 'recId',
         tableName: someDatasource.tableName,
-        fields: []
+        fields: [],
       };
       sinon.stub(airtable, 'getRecord')
         .withArgs(someDatasource.tableName, airtableRecord.id)
@@ -186,7 +186,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
       expect(entry).to.deep.equal({
         id: 'recId',
         tableName: 'Airtable_table',
-        fields: []
+        fields: [],
       });
     });
   });

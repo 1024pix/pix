@@ -8,20 +8,20 @@ const ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit contenir 8 caractères a
 
 const VALIDATION_MAP = {
   default: {
-    status: 'default', message: null
+    status: 'default', message: null,
   },
   error: {
-    status: 'error', message: ERROR_PASSWORD_MESSAGE
-  }
+    status: 'error', message: ERROR_PASSWORD_MESSAGE,
+  },
 };
 
 const SUBMISSION_MAP = {
   default: {
-    status: 'default', message: null
+    status: 'default', message: null,
   },
   error: {
-    status: 'error', message: ERROR_PASSWORD_MESSAGE
-  }
+    status: 'error', message: ERROR_PASSWORD_MESSAGE,
+  },
 };
 
 describe('Unit | Component | Update Expired Password', () => {
@@ -74,14 +74,14 @@ describe('Unit | Component | Update Expired Password', () => {
 
     beforeEach(() => {
       const sessionStub = Service.create({
-        authenticate: sinon.stub().resolves()
+        authenticate: sinon.stub().resolves(),
       });
 
       const userToSave = {
         username,
         password: expiredPassword,
         save: sinon.stub().resolves(),
-        unloadRecord: sinon.stub().resolves()
+        unloadRecord: sinon.stub().resolves(),
       };
 
       component.session = sessionStub;
@@ -113,7 +113,7 @@ describe('Unit | Component | Update Expired Password', () => {
         const expectedParameters = {
           login: username,
           password: newPassword,
-          scope
+          scope,
         };
 
         // when
@@ -143,7 +143,7 @@ describe('Unit | Component | Update Expired Password', () => {
       it('should set authenticationHasFailed to true', async () => {
         // given
         const response = {
-          errors: [ { status: '400' } ]
+          errors: [ { status: '400' } ],
         };
         component.session.authenticate.rejects(response);
 

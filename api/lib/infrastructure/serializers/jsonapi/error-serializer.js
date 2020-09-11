@@ -9,5 +9,5 @@ module.exports = {
       code: infrastructureError.code,
       meta: infrastructureError.meta,
     });
-  }
+  },
 };

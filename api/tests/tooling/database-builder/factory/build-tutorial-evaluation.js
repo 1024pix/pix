@@ -12,7 +12,7 @@ module.exports = function buildTutorialEvaluation(
     values: {
       id,
       userId,
-      tutorialId
+      tutorialId,
     },
   });
 };

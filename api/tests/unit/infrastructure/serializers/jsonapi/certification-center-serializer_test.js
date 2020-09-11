@@ -26,7 +26,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', functi
         id: certificationCenterId.toString(),
         name: certificationCenterName,
         createdAt: certificationCenterDate,
-        fakeProperty: 'fakeProperty'
+        fakeProperty: 'fakeProperty',
       });
 
       const expectedSerializedCertificationCenter = {
@@ -40,7 +40,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', functi
             'external-id': undefined,
             'created-at': certificationCenterDate,
           },
-        }
+        },
       };
 
       // when
@@ -64,10 +64,10 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', functi
             name: certificationCenterName,
             type: certificationCenterType,
             'external-id': certificationCenterExternalId,
-            'created-at': new Date('2018-02-01T01:02:03Z')
+            'created-at': new Date('2018-02-01T01:02:03Z'),
           },
-          relationships: {}
-        }
+          relationships: {},
+        },
       };
 
       // when

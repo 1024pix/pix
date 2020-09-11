@@ -13,7 +13,7 @@ describe('Unit | Route | fill-in-campaign-code', function() {
 
       const setStub = sinon.stub();
       const session = {
-        set: setStub
+        set: setStub,
       };
       route.set('session', session);
 

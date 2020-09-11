@@ -16,5 +16,5 @@ module.exports = {
     const result = await usecases.createOrUpdateUserOrgaSettings({ userId, organizationId });
 
     return userOrgaSettingsSerializer.serialize(result);
-  }
+  },
 };

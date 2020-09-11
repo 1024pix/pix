@@ -58,7 +58,7 @@ module.exports = {
       .query((qb) => _setSearchFiltersForQueryBuilder(filter, qb))
       .fetchPage({
         page: page.number,
-        pageSize: page.size
+        pageSize: page.size,
       })
       .then(({ models, pagination }) => ({
         models: models.map(_toDomain),

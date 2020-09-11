@@ -31,7 +31,7 @@ describe('Acceptance | API | Courses', () => {
                 'id': 'attmP7vjRHdp5UcQA',
                 'url': 'https://dl.airtable.com/x5gtLtMTpyJBg9dJov82_keyboard-824317_960_720.jpg',
                 'filename': 'keyboard-824317_960_720.jpg',
-                'type': 'image/jpeg'
+                'type': 'image/jpeg',
               }],
               'Durée': 13,
               'Épreuves.v2': [
@@ -40,10 +40,10 @@ describe('Acceptance | API | Courses', () => {
               'Ordre affichage': 2,
               'Preview': 'http://development.pix.fr/courses/rec_course_id/preview',
               'Nb d\'épreuves': 10,
-              'Acquis': '#ordonnancement,#source,#rechercheInfo,#moteur,#wikipedia,#syntaxe,#sponsor,#rechercheInfo,#cult1.1,#rechercheInfo'
+              'Acquis': '#ordonnancement,#source,#rechercheInfo,#moteur,#wikipedia,#syntaxe,#sponsor,#rechercheInfo,#cult1.1,#rechercheInfo',
             },
-            createdTime: '2016-08-09T15:17:53.000Z'
-          }]
+            createdTime: '2016-08-09T15:17:53.000Z',
+          }],
         });
 
       nock('https://api.airtable.com')
@@ -56,7 +56,7 @@ describe('Acceptance | API | Courses', () => {
             fields: {
               'id persistant': 'k_challenge_id',
             },
-          }]
+          }],
         });
     });
 

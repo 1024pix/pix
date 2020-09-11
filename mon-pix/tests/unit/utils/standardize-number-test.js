@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import {
   standardizeNumber,
-  standardizeNumberInTwoDigitFormat
+  standardizeNumberInTwoDigitFormat,
 } from 'mon-pix/utils/standardize-number';
 
 describe('Unit | Utility | standardizeNumber', function() {

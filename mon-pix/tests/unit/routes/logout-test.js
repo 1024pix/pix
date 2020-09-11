@@ -13,9 +13,9 @@ describe('Unit | Route | logout', () => {
     const invalidateStub = sinon.stub();
     sessionStub = Service.create({ isAuthenticated: true, invalidate: invalidateStub, data: {
       authenticated: {
-        source: 'external'
-      }
-    }
+        source: 'external',
+      },
+    },
     });
 
     const route = this.owner.lookup('route:logout');

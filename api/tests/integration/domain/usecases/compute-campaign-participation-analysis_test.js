@@ -114,7 +114,7 @@ describe('Integration | UseCase | compute-campaign-participation-analysis', () =
           competenceRepository,
           targetProfileRepository,
           tubeRepository,
-          tutorialRepository
+          tutorialRepository,
         });
 
         // then

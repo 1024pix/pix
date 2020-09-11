@@ -4,6 +4,6 @@ module.exports = {
 
   execute(userId) {
     return userRepository.isPixMaster(userId);
-  }
+  },
 
 };

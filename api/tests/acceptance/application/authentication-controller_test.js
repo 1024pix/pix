@@ -37,14 +37,14 @@ describe('Acceptance | Controller | authentication-controller', () => {
         method: 'POST',
         url: '/api/token',
         headers: {
-          'content-type': 'application/x-www-form-urlencoded'
+          'content-type': 'application/x-www-form-urlencoded',
         },
         payload: querystring.stringify({
           grant_type: 'password',
           username: userEmailAddress,
           password: userPassword,
-          scope: 'pix-orga'
-        })
+          scope: 'pix-orga',
+        }),
       };
 
       await databaseBuilder.commit();
@@ -72,7 +72,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
         username,
         rawPassword: userPassword,
         cgu: true,
-        shouldChangePassword
+        shouldChangePassword,
       });
 
       const expectedResponseError = {
@@ -80,9 +80,9 @@ describe('Acceptance | Controller | authentication-controller', () => {
           {
             title: 'PasswordShouldChange',
             status: '401',
-            detail: 'Erreur, vous devez changer votre mot de passe.'
-          }
-        ]
+            detail: 'Erreur, vous devez changer votre mot de passe.',
+          },
+        ],
       };
 
       options.payload = querystring.stringify({

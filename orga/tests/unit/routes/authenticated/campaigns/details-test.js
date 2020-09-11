@@ -15,7 +15,7 @@ module('Unit | Route | authenticated/campaigns/details', function(hooks) {
 
     findRecordStub = sinon.stub();
     const storeStub = Service.create({
-      findRecord: findRecordStub
+      findRecord: findRecordStub,
     });
     route.set('store', storeStub);
   });
@@ -30,7 +30,7 @@ module('Unit | Route | authenticated/campaigns/details', function(hooks) {
       assert.equal(
         redirection,
         expectedRedirection,
-        `expect transition to ${expectedRedirection}, got ${redirection}`
+        `expect transition to ${expectedRedirection}, got ${redirection}`,
       );
     };
 

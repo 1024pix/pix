@@ -50,7 +50,7 @@ describe('Unit | UseCase | delete-unlinked-sertification-candidate', () => {
       // when
       const err = await catchErr(deleteUnlinkedCertificationCandidate)({
         certificationCandidateId,
-        certificationCandidateRepository
+        certificationCandidateRepository,
       });
 
       // then

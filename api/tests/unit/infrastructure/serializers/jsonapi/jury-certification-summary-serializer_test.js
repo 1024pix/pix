@@ -36,7 +36,7 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
             'examiner-comment': modelJuryCertifSummary.examinerComment,
             'has-seen-end-test-screen': modelJuryCertifSummary.hasSeenEndTestScreen,
           },
-        }
+        },
       };
     });
 

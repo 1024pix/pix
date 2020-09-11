@@ -6,7 +6,7 @@ const { expect } = require('../../../../test-helper');
 
 const { getContentXml } = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
 const {
-  makeUpdatedOdsByContentXml, updateXmlRows, updateXmlSparseValues
+  makeUpdatedOdsByContentXml, updateXmlRows, updateXmlSparseValues,
 } = require('../../../../../lib/infrastructure/utils/ods/write-ods-utils');
 
 describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', () => {
@@ -24,7 +24,7 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', () => {
 
       // when
       const updatedOdsFileBuffer = await makeUpdatedOdsByContentXml({
-        stringifiedXml: updatedStringifiedXml, odsFilePath: GET_CONTENT_ODS_FILE_PATH
+        stringifiedXml: updatedStringifiedXml, odsFilePath: GET_CONTENT_ODS_FILE_PATH,
       });
       fs.writeFileSync(updatedOdsFilePath, updatedOdsFileBuffer);
       const result = await getContentXml({ odsFilePath: updatedOdsFilePath });
@@ -43,17 +43,17 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', () => {
     const templateValues = [
       {
         placeholder: 'PLACEHOLDER_1',
-        propertyName: 'name'
+        propertyName: 'name',
       },
       {
         placeholder: 'PLACEHOLDER_2',
-        propertyName: 'age'
-      }
+        propertyName: 'age',
+      },
     ];
 
     const dataToInject = {
       name: 'Dummy name',
-      age: 'Dummy age'
+      age: 'Dummy age',
     };
 
     const stringifiedXml =

@@ -58,7 +58,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
           id: progressionId,
           targetedSkills: targetProfile.skills,
           knowledgeElements: [],
-          isProfileCompleted: assessment.isCompleted()
+          isProfileCompleted: assessment.isCompleted(),
         });
 
         // when
@@ -71,7 +71,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
           knowledgeElementRepository,
           skillRepository,
           targetProfileRepository,
-          improvementService
+          improvementService,
         });
 
         // then
@@ -86,7 +86,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
           assessment.state = 'improving';
           knowledgeElements = [
             domainBuilder.buildKnowledgeElement(),
-            domainBuilder.buildKnowledgeElement()
+            domainBuilder.buildKnowledgeElement(),
           ];
           knowledgeElementsFiltered = [knowledgeElements[0]];
           knowledgeElementRepository.findUniqByUserId.resolves(knowledgeElements);
@@ -106,7 +106,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
             knowledgeElementRepository,
             skillRepository,
             targetProfileRepository,
-            improvementService
+            improvementService,
           });
 
           // then
@@ -122,7 +122,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
             id: progressionId,
             targetedSkills: targetProfile.skills,
             knowledgeElements: knowledgeElementsFiltered,
-            isProfileCompleted: assessment.isCompleted()
+            isProfileCompleted: assessment.isCompleted(),
           });
 
           // when
@@ -135,7 +135,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
             knowledgeElementRepository,
             skillRepository,
             targetProfileRepository,
-            improvementService
+            improvementService,
 
           });
 
@@ -153,7 +153,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
       const competenceEvaluationAssessment = domainBuilder.buildAssessment({
         id: assessmentId,
         userId,
-        type: Assessment.types.COMPETENCE_EVALUATION
+        type: Assessment.types.COMPETENCE_EVALUATION,
       });
 
       const competenceEvaluation = domainBuilder.buildCompetenceEvaluation({
@@ -182,7 +182,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
           knowledgeElementRepository,
           skillRepository,
           targetProfileRepository,
-          improvementService
+          improvementService,
         });
 
         // then
@@ -197,7 +197,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
           id: progressionId,
           targetedSkills: competenceSkills,
           knowledgeElements: [],
-          isProfileCompleted: competenceEvaluationAssessment.isCompleted()
+          isProfileCompleted: competenceEvaluationAssessment.isCompleted(),
         });
 
         // when
@@ -210,7 +210,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
           knowledgeElementRepository,
           skillRepository,
           targetProfileRepository,
-          improvementService
+          improvementService,
         });
 
         // then
@@ -227,7 +227,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
           competenceEvaluationAssessment.state = 'improving';
           knowledgeElements = [
             domainBuilder.buildKnowledgeElement(),
-            domainBuilder.buildKnowledgeElement()
+            domainBuilder.buildKnowledgeElement(),
           ];
           knowledgeElementsFiltered = [knowledgeElements[0]];
           knowledgeElementRepository.findUniqByUserId.resolves(knowledgeElements);
@@ -262,7 +262,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
             id: progressionId,
             targetedSkills: competenceSkills,
             knowledgeElements: knowledgeElementsFiltered,
-            isProfileCompleted: competenceEvaluationAssessment.isCompleted()
+            isProfileCompleted: competenceEvaluationAssessment.isCompleted(),
           });
 
           // when
@@ -310,7 +310,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
           knowledgeElementRepository,
           skillRepository,
           targetProfileRepository,
-          improvementService
+          improvementService,
         });
 
         // then

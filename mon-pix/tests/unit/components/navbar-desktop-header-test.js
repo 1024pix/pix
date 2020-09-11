@@ -53,7 +53,7 @@ describe('Unit | Component | Navbar Desktop Header Component', function() {
         // given
         const expectedUnloggedUserMenu = [
           { link: 'login' },
-          { link: 'inscription' }
+          { link: 'inscription' },
         ];
 
         // then

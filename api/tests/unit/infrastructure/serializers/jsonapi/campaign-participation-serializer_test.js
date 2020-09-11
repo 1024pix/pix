@@ -24,7 +24,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
         testedSkillsCount: 5,
         totalSkillsCount: 6,
         validatedSkillsCount: 2,
-      }
+      },
     ];
     const partnerCompetenceResults = [
       {
@@ -42,11 +42,11 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
         testedSkillsCount: 5,
         totalSkillsCount: 6,
         validatedSkillsCount: 4,
-      }
+      },
     ];
     const campaignParticipationBadge = {
       id: 5,
-      partnerCompetenceResults: partnerCompetenceResults
+      partnerCompetenceResults: partnerCompetenceResults,
     };
     const campaignParticipationResult = {
       id: 1,
@@ -90,29 +90,29 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
             campaign: {
               data: {
                 id: `${ campaign.id }`,
-                type: 'campaigns'
-              }
+                type: 'campaigns',
+              },
             },
             user: {
               data: {
                 id: user.id.toString(),
                 type: 'users',
-              }
+              },
             },
             assessment: {
               links: {
-                related: `/api/assessments/${campaignParticipation.lastAssessment.id}`
-              }
+                related: `/api/assessments/${campaignParticipation.lastAssessment.id}`,
+              },
             },
             'campaign-analysis': {
               links: {
-                related: '/api/campaign-participations/5/analyses'
-              }
+                related: '/api/campaign-participations/5/analyses',
+              },
             },
             'campaign-participation-result': {
               links: {
-                'related': '/api/campaign-participations/5/campaign-participation-result'
-              }
+                'related': '/api/campaign-participations/5/campaign-participation-result',
+              },
             },
           },
         },
@@ -123,7 +123,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
               title: campaign.title,
             },
             id: `${ campaign.id }`,
-            type: 'campaigns'
+            type: 'campaigns',
           },
           {
             attributes: {
@@ -131,9 +131,9 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
               'last-name': 'Essentiel',
             },
             id: user.id.toString(),
-            type: 'users'
+            type: 'users',
           },
-        ]
+        ],
       };
     });
 
@@ -175,10 +175,10 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
             'campaign': {
               data: {
                 id: campaignId.toString(),
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       };
 
       // when

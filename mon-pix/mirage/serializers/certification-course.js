@@ -9,8 +9,8 @@ export default ApplicationSerializer.extend({
   links(certificationCourse) {
     return {
       'assessment': {
-        related: `/api/assessments/${certificationCourse.assessmentId}`
-      }
+        related: `/api/assessments/${certificationCourse.assessmentId}`,
+      },
     };
-  }
+  },
 });

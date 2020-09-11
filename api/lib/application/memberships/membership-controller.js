@@ -33,6 +33,6 @@ module.exports = {
 
     await usecases.disableMembership({ membershipId, userId });
     return h.response().code(204);
-  }
+  },
 
 };

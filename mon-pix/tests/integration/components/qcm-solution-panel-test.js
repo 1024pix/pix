@@ -26,18 +26,18 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
 
     describe('checkbox state', function() {
       const correctAnswer = {
-        id: 'answer_id', assessment, challenge, value: '2,4'
+        id: 'answer_id', assessment, challenge, value: '2,4',
       };
 
       const unCorrectAnswer = {
-        id: 'answer_id', assessment, challenge, value: '1,4'
+        id: 'answer_id', assessment, challenge, value: '1,4',
       };
 
       before(function() {
         challenge = EmberObject.create({
           id: 'challenge_id',
           proposals: '-foo\n- bar\n- qix\n- yon',
-          type: 'QCM'
+          type: 'QCM',
         });
 
         solution = '2,3';

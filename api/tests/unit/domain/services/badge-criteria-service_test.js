@@ -5,7 +5,7 @@ const badgeCriteriaService = require('../../../../lib/domain/services/badge-crit
 
 const CRITERION_THRESHOLD = {
   CAMPAIGN_PARTICIPATION: 85,
-  EVERY_PARTNER_COMPETENCE: 75
+  EVERY_PARTNER_COMPETENCE: 75,
 };
 
 describe('Unit | Domain | Services | badge-criteria', () => {
@@ -16,12 +16,12 @@ describe('Unit | Domain | Services | badge-criteria', () => {
       domainBuilder.buildBadgeCriterion({
         id: 1,
         scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
-        threshold: CRITERION_THRESHOLD.CAMPAIGN_PARTICIPATION
+        threshold: CRITERION_THRESHOLD.CAMPAIGN_PARTICIPATION,
       }),
       domainBuilder.buildBadgeCriterion({
         id: 2,
         scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
-        threshold: CRITERION_THRESHOLD.EVERY_PARTNER_COMPETENCE
+        threshold: CRITERION_THRESHOLD.EVERY_PARTNER_COMPETENCE,
       }),
     ];
     const badge = domainBuilder.buildBadge({ id: 33, badgeCriteria });
@@ -48,7 +48,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
         const campaignParticipationBadge = domainBuilder.buildCampaignParticipationBadge({
           id: badge.id,
           isAcquired: true,
-          partnerCompetenceResults: partnerCompetenceResults
+          partnerCompetenceResults: partnerCompetenceResults,
         });
         campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
           badge,
@@ -86,7 +86,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
         const campaignParticipationBadge = domainBuilder.buildCampaignParticipationBadge({
           id: badge.id,
           isAcquired: true,
-          partnerCompetenceResults: partnerCompetenceResults
+          partnerCompetenceResults: partnerCompetenceResults,
         });
         campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
           badge,
@@ -157,7 +157,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
         const campaignParticipationBadge = domainBuilder.buildCampaignParticipationBadge({
           id: badge.id,
           isAcquired: false,
-          partnerCompetenceResults: partnerCompetenceResults
+          partnerCompetenceResults: partnerCompetenceResults,
         });
         campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
           badge,

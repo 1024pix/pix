@@ -12,7 +12,7 @@ export default class TutorialItemComponent extends Component {
   imageForFormat = {
     'vidéo': 'video',
     'son': 'son',
-    'page': 'page'
+    'page': 'page',
   };
   @tracked savingStatus = buttonStatusTypes.unrecorded;
   @tracked evaluationStatus = buttonStatusTypes.unrecorded;

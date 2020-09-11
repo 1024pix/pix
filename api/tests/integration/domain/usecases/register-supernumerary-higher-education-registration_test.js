@@ -20,7 +20,7 @@ describe('Integration | UseCases | register-supernumerary-higher-education-regis
       const error = await catchErr(registerSupernumeraryHigherEducationRegistration)({
         campaignCode: 'NOTEXIST',
         userInfo: {},
-        campaignRepository
+        campaignRepository,
       });
 
       // then
@@ -109,7 +109,7 @@ describe('Integration | UseCases | register-supernumerary-higher-education-regis
           studentNumber: '123A',
           firstName: 'firstname',
           lastName: 'lastname',
-          birthdate: '2008-01-01'
+          birthdate: '2008-01-01',
         };
 
         // when

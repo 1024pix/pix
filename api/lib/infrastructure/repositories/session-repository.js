@@ -56,9 +56,9 @@ module.exports = {
               qb.select(Bookshelf.knex.raw('*'));
               qb.orderByRaw('LOWER("certification-candidates"."lastName") asc');
               qb.orderByRaw('LOWER("certification-candidates"."firstName") asc');
-            }
-          }
-        ]
+            },
+          },
+        ],
         });
       return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, session);
     } catch (err) {

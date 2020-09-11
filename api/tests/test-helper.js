@@ -99,17 +99,17 @@ const hFake = {
       created() {
         this.statusCode = 201;
         return this;
-      }
+      },
     };
   },
   authenticated(data) {
     return {
-      authenticated: data
+      authenticated: data,
     };
   },
   redirect(location) {
     return {
-      location
+      location,
     };
   },
   file(path, options) {
@@ -183,5 +183,5 @@ module.exports = {
   streamToPromise,
   catchErr,
   testErr: new Error('Fake Error'),
-  compareDatabaseObject
+  compareDatabaseObject,
 };

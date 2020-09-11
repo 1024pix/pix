@@ -22,7 +22,7 @@ const buildLearningContent = function(learningContent) {
                 competences: [competence.id],
                 acquix: [skill.id],
                 statut: challenge.statut,
-                langues: challenge.langues
+                langues: challenge.langues,
               });
             } else {
               sameChallengeForAnotherSkill.fields['Acquix (id persistant)'].push(skill.id);
@@ -40,7 +40,7 @@ const buildLearningContent = function(learningContent) {
               nom: skill.nom,
               pixValue: skill.pixValue,
               comprendre: skill.tutorialIds,
-            }
+            },
           );
         });
         allSkills.push(skills);
@@ -54,8 +54,8 @@ const buildLearningContent = function(learningContent) {
             descriptionPratiqueFrFr: tube.practicalDescriptionFr || tube.practicalDescription,
             titrePratiqueEnUs: tube.practicalTitleEn || tube.practicalTitle,
             descriptionPratiqueEnUs: tube.practicalDescriptionEn || tube.practicalDescription,
-            competences: [competence.id]
-          }
+            competences: [competence.id],
+          },
         );
       });
       allTubes.push(tubes);
@@ -66,8 +66,8 @@ const buildLearningContent = function(learningContent) {
           tubes: competence.tubes.map((tube) => tube.id),
           acquisViaTubes: competence.tubes.flatMap((tube) => tube.skills).map((skill) => skill.id),
           domaineIds: [area.id],
-          origin: competence.origin
-        }
+          origin: competence.origin,
+        },
       );
     });
     allCompetences.push(competences);
@@ -87,7 +87,7 @@ const buildLearningContent = function(learningContent) {
     competences: allCompetences.flat(),
     tubes: allTubes.flat(),
     skills: allSkills.flat(),
-    challenges: _.compact(allChallenges.flat())
+    challenges: _.compact(allChallenges.flat()),
   };
 };
 

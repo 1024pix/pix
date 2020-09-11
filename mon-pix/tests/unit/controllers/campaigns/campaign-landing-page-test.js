@@ -26,7 +26,7 @@ describe('Unit | Controller | Campaigns | Landing Page', function() {
       sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.start-or-resume', 'konami', {
         queryParams: {
           hasUserSeenLandingPage: true,
-        }
+        },
       });
     });
   });

@@ -116,7 +116,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
         area: { code: '1' },
         name: '1.1 Construire un flipper',
         pixScore: 12,
-        estimatedLevel: 1
+        estimatedLevel: 1,
       });
       userCompetence2 = new UserCompetence({
         id: 'competenceRecordIdTwo',
@@ -124,12 +124,12 @@ describe('Unit | Service | Certification Challenge Service', () => {
         area: { code: '1' },
         name: '1.2 Adopter un dauphin',
         pixScore: 23,
-        estimatedLevel: 2
+        estimatedLevel: 2,
       });
       placementProfile = new PlacementProfile({
         userId,
         userCompetences: [],
-        profileDate: 'limitDate'
+        profileDate: 'limitDate',
       });
 
       sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceId')

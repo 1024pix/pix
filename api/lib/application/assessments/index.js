@@ -10,8 +10,8 @@ exports.register = async function(server) {
       config: {
         auth: false,
         handler: assessmentController.save,
-        tags: ['api']
-      }
+        tags: ['api'],
+      },
     },
     {
       method: 'GET',
@@ -19,8 +19,8 @@ exports.register = async function(server) {
       config: {
         auth: false,
         handler: assessmentController.findByFilters,
-        tags: ['api']
-      }
+        tags: ['api'],
+      },
     },
     {
       method: 'GET',
@@ -29,10 +29,10 @@ exports.register = async function(server) {
         auth: false,
         handler: assessmentController.getNextChallenge,
         notes: [
-          '- Récupération de la question suivante pour l\'évaluation donnée'
+          '- Récupération de la question suivante pour l\'évaluation donnée',
         ],
-        tags: ['api']
-      }
+        tags: ['api'],
+      },
     },
     {
       method: 'GET',
@@ -41,11 +41,11 @@ exports.register = async function(server) {
         auth: false,
         pre: [{
           method: assessmentAuthorization.verify,
-          assign: 'authorizationCheck'
+          assign: 'authorizationCheck',
         }],
         handler: assessmentController.get,
-        tags: ['api']
-      }
+        tags: ['api'],
+      },
     },
     {
       method: 'PATCH',
@@ -54,12 +54,12 @@ exports.register = async function(server) {
         auth: false,
         pre: [{
           method: assessmentAuthorization.verify,
-          assign: 'authorizationCheck'
+          assign: 'authorizationCheck',
         }],
         handler: assessmentController.completeAssessment,
-        tags: ['api']
-      }
-    }
+        tags: ['api'],
+      },
+    },
   ]);
 };
 

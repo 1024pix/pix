@@ -82,7 +82,7 @@ describe('Unit | Component | timeout-jauge-component ', function() {
         { allotedTime: '40', _elapsedTime: 4000, expected: 10 },
         { allotedTime: '70', _elapsedTime: 35000, expected: 50 },
         { allotedTime: '120', _elapsedTime: 120000, expected: 100 },
-        { allotedTime: 150, _elapsedTime: 225000, expected: 150 }
+        { allotedTime: 150, _elapsedTime: 225000, expected: 150 },
       ].forEach((data) => {
 
         it(`should return "${data.expected}" when alloting ${data.allotedTime} and _elapsedTime is ${data._elapsedTime}ms`, function() {

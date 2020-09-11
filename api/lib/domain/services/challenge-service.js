@@ -52,9 +52,9 @@ module.exports = {
       partially: partiallyNewCount,
       partiallyDiff: partiallyDiff,
       unimplemented: unimplementedNewCount,
-      unimplementedDiff: unimplementedDiff
+      unimplementedDiff: unimplementedDiff,
     };
 
-  }
+  },
 
 };

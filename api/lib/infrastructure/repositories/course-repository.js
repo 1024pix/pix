@@ -40,5 +40,5 @@ module.exports = {
     } catch (err) {
       throw new NotFoundError('Le test demandé n\'existe pas');
     }
-  }
+  },
 };

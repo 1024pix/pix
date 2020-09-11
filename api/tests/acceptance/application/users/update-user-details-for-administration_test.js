@@ -27,10 +27,10 @@ describe('Acceptance | Controller | users-controller-update-user-details-for-adm
           data: {
             id: user.id,
             attributes: {
-              email: 'emailUpdated'
-            }
-          }
-        }
+              email: 'emailUpdated',
+            },
+          },
+        },
       };
 
       // when
@@ -53,10 +53,10 @@ describe('Acceptance | Controller | users-controller-update-user-details-for-adm
             attributes: {
               firstName: 'firstNameUpdated',
               lastName: 'lastNameUpdated',
-              email: 'emailUpdated'
-            }
-          }
-        }
+              email: 'emailUpdated',
+            },
+          },
+        },
       };
 
       // when
@@ -82,10 +82,10 @@ describe('Acceptance | Controller | users-controller-update-user-details-for-adm
             attributes: {
               'first-name': 'firstNameUpdated',
               'last-name': 'lastNameUpdated',
-              email: 'emailUpdated@example.net'
-            }
-          }
-        }
+              email: 'emailUpdated@example.net',
+            },
+          },
+        },
       };
 
       // when
@@ -111,10 +111,10 @@ describe('Acceptance | Controller | users-controller-update-user-details-for-adm
             attributes: {
               'first-name': 'firstNameUpdated',
               'last-name': 'lastNameUpdated',
-              email: 'emailUpdated@example.net'
-            }
-          }
-        }
+              email: 'emailUpdated@example.net',
+            },
+          },
+        },
       };
 
       // when
@@ -137,8 +137,8 @@ describe('Acceptance | Controller | users-controller-update-user-details-for-adm
             },
             'id': '1234',
             'type': 'users',
-          }
-        }
+          },
+        },
       );
     });
   });

@@ -30,10 +30,10 @@ export default function() {
         token_type: '',
         expires_in: '',
         access_token: 'aaa.' + btoa(`{"user_id":${foundUser.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
-        user_id: foundUser.id
+        user_id: foundUser.id,
       };
     } else {
-      return new Response([{ 'status' : '401', 'title' : 'Unauthorized' , 'detail' : 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.' }]
+      return new Response([{ 'status' : '401', 'title' : 'Unauthorized' , 'detail' : 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.' }],
       );
     }
   });
@@ -101,7 +101,7 @@ export default function() {
 
     schema.organizationInvitations.create({
       organizationId, email: email, status: 'PENDING', code,
-      createdAt: new Date()
+      createdAt: new Date(),
     });
 
     return schema.organizationInvitations.where({ email });
@@ -136,7 +136,7 @@ export default function() {
     const membership = schema.memberships.create({
       userId: prescriber.id,
       organizationId: organizationInvitation.organizationId,
-      organizationRole: 'MEMBER'
+      organizationRole: 'MEMBER',
     });
 
     prescriber.memberships = [membership];
@@ -271,14 +271,14 @@ export default function() {
 
   this.post('/schooling-registration-dependent-users/password-update', (schema) => {
     return schema.schoolingRegistrationDependentUsers.create({
-      generatedPassword: 'Passw0rd'
+      generatedPassword: 'Passw0rd',
     });
   });
 
   this.post('/schooling-registration-dependent-users/generate-username-password', (schema) => {
     return schema.schoolingRegistrationDependentUsers.create({
       username: 'user.gar3112',
-      generatedPassword: 'Passw0rd'
+      generatedPassword: 'Passw0rd',
     });
   });
 

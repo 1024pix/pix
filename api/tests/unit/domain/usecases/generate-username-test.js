@@ -58,7 +58,7 @@ describe('Unit | UseCase | generate-username', () => {
       // when
       const result = await catchErr(generateUsername)({
         studentInformation,
-        campaignCode
+        campaignCode,
       });
 
       // then

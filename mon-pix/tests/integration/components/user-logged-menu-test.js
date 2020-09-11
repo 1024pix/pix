@@ -11,7 +11,7 @@ import {
   findAll,
   render,
   settled,
-  triggerKeyEvent
+  triggerKeyEvent,
 } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -28,7 +28,7 @@ describe('Integration | Component | user logged menu', function() {
           firstName: 'FHI',
           email: 'FHI@4EVER.fr',
           fullName: 'FHI 4EVER',
-        }
+        },
       }));
 
       // when

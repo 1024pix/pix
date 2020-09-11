@@ -19,5 +19,5 @@ export default JSONAPISerializer.extend({
         related: `/api/organizations/${organization.id}/invitations`,
       },
     };
-  }
+  },
 });

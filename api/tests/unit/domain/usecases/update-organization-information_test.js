@@ -19,7 +19,7 @@ describe('Unit | UseCase | update-organization-information', () => {
     });
     organizationRepository = {
       get: sinon.stub().resolves(originalOrganization),
-      update: sinon.stub().callsFake((modifiedOrganization) => modifiedOrganization)
+      update: sinon.stub().callsFake((modifiedOrganization) => modifiedOrganization),
     };
   });
 
@@ -33,7 +33,7 @@ describe('Unit | UseCase | update-organization-information', () => {
       const promise = updateOrganizationInformation({
         id: originalOrganization.id,
         name: newName,
-        organizationRepository
+        organizationRepository,
       });
 
       // then
@@ -52,7 +52,7 @@ describe('Unit | UseCase | update-organization-information', () => {
       const promise = updateOrganizationInformation({
         id: originalOrganization.id,
         type: newType,
-        organizationRepository
+        organizationRepository,
       });
 
       // then
@@ -71,7 +71,7 @@ describe('Unit | UseCase | update-organization-information', () => {
       const promise = updateOrganizationInformation({
         id: originalOrganization.id,
         logoUrl: newLogoUrl,
-        organizationRepository
+        organizationRepository,
       });
 
       // then
@@ -90,7 +90,7 @@ describe('Unit | UseCase | update-organization-information', () => {
       const resultOrganization = await updateOrganizationInformation({
         id: originalOrganization.id,
         externalId,
-        organizationRepository
+        organizationRepository,
       });
 
       // then
@@ -109,7 +109,7 @@ describe('Unit | UseCase | update-organization-information', () => {
       const resultOrganization = await updateOrganizationInformation({
         id: originalOrganization.id,
         externalId,
-        organizationRepository
+        organizationRepository,
       });
 
       // then
@@ -128,7 +128,7 @@ describe('Unit | UseCase | update-organization-information', () => {
       const resultOrganization = await updateOrganizationInformation({
         id: originalOrganization.id,
         provinceCode,
-        organizationRepository
+        organizationRepository,
       });
 
       // then
@@ -147,7 +147,7 @@ describe('Unit | UseCase | update-organization-information', () => {
       const resultOrganization = await updateOrganizationInformation({
         id: originalOrganization.id,
         provinceCode,
-        organizationRepository
+        organizationRepository,
       });
 
       // then
@@ -166,7 +166,7 @@ describe('Unit | UseCase | update-organization-information', () => {
       const resultOrganization = await updateOrganizationInformation({
         id: originalOrganization.id,
         isManagingStudents,
-        organizationRepository
+        organizationRepository,
       });
 
       // then
@@ -185,7 +185,7 @@ describe('Unit | UseCase | update-organization-information', () => {
       const resultOrganization = await updateOrganizationInformation({
         id: originalOrganization.id,
         email: newEmail,
-        organizationRepository
+        organizationRepository,
       });
 
       // then
@@ -209,7 +209,7 @@ describe('Unit | UseCase | update-organization-information', () => {
       const error = await catchErr(updateOrganizationInformation)({
         id: originalOrganization.id,
         logoUrl: 'http://new.logo.url',
-        organizationRepository
+        organizationRepository,
       });
 
       // then

@@ -10,7 +10,7 @@ module('Unit | Service | error-notifier', function(hooks) {
     const service = this.owner.lookup('service:error-notifier');
     const errorMock = sinon.stub();
     service.notifications = {
-      error: errorMock
+      error: errorMock,
     };
     const anError = new Error('a generic error');
 
@@ -26,18 +26,18 @@ module('Unit | Service | error-notifier', function(hooks) {
     const service = this.owner.lookup('service:error-notifier');
     const errorMock = sinon.stub();
     service.notifications = {
-      error: errorMock
+      error: errorMock,
     };
     const anError = {
       errors: [
         {
           title: 'Something went wrong',
-          detail: 'the provided id is invalid'
+          detail: 'the provided id is invalid',
         },
         {
-          title: 'Something else went wrong too !'
-        }
-      ]
+          title: 'Something else went wrong too !',
+        },
+      ],
     };
 
     // when
@@ -47,14 +47,14 @@ module('Unit | Service | error-notifier', function(hooks) {
     assert.ok(errorMock.calledWith(
       sinon.match.has(
         'message',
-        'Something went wrong : the provided id is invalid'
-      )
+        'Something went wrong : the provided id is invalid',
+      ),
     ));
     assert.ok(errorMock.calledWith(
       sinon.match.has(
         'message',
-        'Something else went wrong too ! : undefined'
-      )
+        'Something else went wrong too ! : undefined',
+      ),
     ));
   });
 });

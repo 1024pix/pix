@@ -59,7 +59,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
           'Nom du candidat': 'Stark',
           'Date de naissance du candidat': '29/05/1970',
           'Lieu de naissance du candidat': 'Long Island, New York',
-          'Identifiant Externe' : ''
+          'Identifiant Externe' : '',
         }, {
           'ID de certification': '2',
           'ID de session': '1000',
@@ -67,7 +67,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
           'Nom du candidat': 'Rogers',
           'Date de naissance du candidat': '04/07/1918',
           'Lieu de naissance du candidat': 'New York, New York',
-          'Identifiant Externe' : 'GendarmeId'
+          'Identifiant Externe' : 'GendarmeId',
         }, {
           'ID de certification': '3',
           'ID de session': '1000',
@@ -75,8 +75,8 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
           'Nom du candidat': 'Howlett',
           'Date de naissance du candidat': '17/04/1882',
           'Lieu de naissance du candidat': 'Alberta',
-          'Identifiant Externe' : 'numero eleve'
-        }]
+          'Identifiant Externe' : 'numero eleve',
+        }],
       };
       const expectedCertifications = [{
         id: 1,
@@ -84,21 +84,21 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
         lastName: 'Stark',
         birthdate: '29/05/1970',
         birthplace: 'Long Island, New York',
-        externalId : ''
+        externalId : '',
       }, {
         id: 2,
         firstName: 'Steven',
         lastName: 'Rogers',
         birthdate: '04/07/1918',
         birthplace: 'New York, New York',
-        externalId : 'GendarmeId'
+        externalId : 'GendarmeId',
       }, {
         id: 3,
         firstName: 'James',
         lastName: 'Howlett',
         birthdate: '17/04/1882',
         birthplace: 'Alberta',
-        externalId : 'numero eleve'
+        externalId : 'numero eleve',
       }];
 
       // when
@@ -117,7 +117,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
       options = {
         baseUrl: 'http://localhost:3000',
         accessToken: 'coucou-je-suis-un-token',
-        certifications: []
+        certifications: [],
       };
     });
 
@@ -147,9 +147,9 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
                 'last-name': 'Stark',
                 birthplace: 'Long Island, New York',
                 birthdate: '29/05/1970',
-                'external-id': 'unIdExterne'
-              }
-          }
+                'external-id': 'unIdExterne',
+              },
+          },
       };
 
       options.certifications = [{
@@ -158,11 +158,11 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
         lastName: 'Stark',
         birthdate: '29/05/1970',
         birthplace: 'Long Island, New York',
-        externalId: 'unIdExterne'
+        externalId: 'unIdExterne',
       }];
 
       const nockStub = nock('http://localhost:3000', {
-        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' }
+        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' },
       })
         .patch('/api/certification-courses/1', function(body) {
           return JSON.stringify(body) === JSON.stringify(expectedBody);
@@ -191,9 +191,9 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
                 'last-name': 'Stark',
                 birthplace: 'Long Island, New York',
                 birthdate: '29/05/1970',
-                'external-id': 'Id_super_heros'
-              }
-          }
+                'external-id': 'Id_super_heros',
+              },
+          },
       };
       const expectedBody2 = {
         data:
@@ -206,9 +206,9 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
                 'last-name': 'Gros',
                 birthplace: 'Wherever, whatever',
                 birthdate: '30/09/1998',
-                'external-id': ''
-              }
-          }
+                'external-id': '',
+              },
+          },
       };
       const expectedBody3 = {
         data:
@@ -221,9 +221,9 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
                 'last-name': 'Jean',
                 birthplace: 'Calais, Haut de France',
                 birthdate: '11/11/1900',
-                'external-id': '5'
-              }
-          }
+                'external-id': '5',
+              },
+          },
       };
 
       options.certifications = [{
@@ -232,39 +232,39 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
         lastName: 'Stark',
         birthdate: '29/05/1970',
         birthplace: 'Long Island, New York',
-        externalId: 'Id_super_heros'
+        externalId: 'Id_super_heros',
       }, {
         id: 2,
         firstName: 'Booby',
         lastName: 'Gros',
         birthdate: '30/09/1998',
         birthplace: 'Wherever, whatever',
-        externalId: ''
+        externalId: '',
       }, {
         id: 3,
         firstName: 'Jean',
         lastName: 'Jean',
         birthdate: '11/11/1900',
         birthplace: 'Calais, Haut de France',
-        externalId: '5'
+        externalId: '5',
       }];
 
       const nockStub1 = nock('http://localhost:3000', {
-        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' }
+        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' },
       })
         .patch('/api/certification-courses/1', function(body) {
           return JSON.stringify(body) === JSON.stringify(expectedBody1);
         })
         .reply(200, {});
       const nockStub2 = nock('http://localhost:3000', {
-        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' }
+        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' },
       })
         .patch('/api/certification-courses/2', function(body) {
           return JSON.stringify(body) === JSON.stringify(expectedBody2);
         })
         .reply(200, {});
       const nockStub3 = nock('http://localhost:3000', {
-        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' }
+        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' },
       })
         .patch('/api/certification-courses/3', function(body) {
           return JSON.stringify(body) === JSON.stringify(expectedBody3);
@@ -295,9 +295,9 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
                 'last-name': 'Stark',
                 birthplace: 'Long Island, New York',
                 birthdate: '29/05/1970',
-                'external-id': 'Id_super_heros'
-              }
-          }
+                'external-id': 'Id_super_heros',
+              },
+          },
       };
       const expectedBody2 = {
         data:
@@ -310,9 +310,9 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
                 'last-name': 'Gros',
                 birthplace: 'Wherever, whatever',
                 birthdate: '30/09/1998',
-                'external-id': ''
-              }
-          }
+                'external-id': '',
+              },
+          },
       };
       const expectedBody3 = {
         data:
@@ -325,9 +325,9 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
                 'last-name': 'Jean',
                 birthplace: 'Calais, Haut de France',
                 birthdate: '11/11/1900',
-                'external-id': '5'
-              }
-          }
+                'external-id': '5',
+              },
+          },
       };
 
       options.certifications = [{
@@ -336,25 +336,25 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
         lastName: 'Stark',
         birthdate: '29/05/1970',
         birthplace: 'Long Island, New York',
-        externalId: 'Id_super_heros'
+        externalId: 'Id_super_heros',
       }, {
         id: 2,
         firstName: 'Booby',
         lastName: 'Gros',
         birthdate: '30/09/1998',
         birthplace: 'Wherever, whatever',
-        externalId: ''
+        externalId: '',
       }, {
         id: 3,
         firstName: 'Jean',
         lastName: 'Jean',
         birthdate: '11/11/1900',
         birthplace: 'Calais, Haut de France',
-        externalId: '5'
+        externalId: '5',
       }];
 
       const nockStub1 = nock('http://localhost:3000', {
-        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' }
+        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' },
       })
         .patch('/api/certification-courses/1', function(body) {
           return JSON.stringify(body) === JSON.stringify(expectedBody1);
@@ -362,7 +362,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
         .replyWithError('Error');
 
       const nockStub2 = nock('http://localhost:3000', {
-        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' }
+        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' },
       })
         .patch('/api/certification-courses/2', function(body) {
           return JSON.stringify(body) === JSON.stringify(expectedBody2);
@@ -370,7 +370,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
         .reply(200, {});
 
       const nockStub3 = nock('http://localhost:3000', {
-        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' }
+        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' },
       })
         .patch('/api/certification-courses/3', function(body) {
           return JSON.stringify(body) === JSON.stringify(expectedBody3);
@@ -403,9 +403,9 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
                 'last-name': 'Stark',
                 birthplace: 'Long Island, New York',
                 birthdate: '29/05/1970',
-                'external-id': 'Id_super_heros'
-              }
-          }
+                'external-id': 'Id_super_heros',
+              },
+          },
       };
       const expectedBody2 = {
         data:
@@ -418,9 +418,9 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
                 'last-name': 'Gros',
                 birthplace: 'Wherever, whatever',
                 birthdate: '30/09/1998',
-                'external-id': ''
-              }
-          }
+                'external-id': '',
+              },
+          },
       };
       const expectedBody3 = {
         data:
@@ -433,9 +433,9 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
                 'last-name': 'Jean',
                 birthplace: 'Calais, Haut de France',
                 birthdate: '11/11/1900',
-                'external-id': '5'
-              }
-          }
+                'external-id': '5',
+              },
+          },
       };
       const expectedErrorObjects = [
         {
@@ -446,8 +446,8 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
             lastName: 'Stark',
             birthdate: '29/05/1970',
             birthplace: 'Long Island, New York',
-            externalId: 'Id_super_heros'
-          }
+            externalId: 'Id_super_heros',
+          },
         },
         {
           errorMessage: 'Error: Error 2',
@@ -457,9 +457,9 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
             lastName: 'Gros',
             birthdate: '30/09/1998',
             birthplace: 'Wherever, whatever',
-            externalId: ''
-          }
-        }
+            externalId: '',
+          },
+        },
       ];
 
       options.certifications = [{
@@ -468,25 +468,25 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
         lastName: 'Stark',
         birthdate: '29/05/1970',
         birthplace: 'Long Island, New York',
-        externalId: 'Id_super_heros'
+        externalId: 'Id_super_heros',
       }, {
         id: 2,
         firstName: 'Booby',
         lastName: 'Gros',
         birthdate: '30/09/1998',
         birthplace: 'Wherever, whatever',
-        externalId: ''
+        externalId: '',
       }, {
         id: 3,
         firstName: 'Jean',
         lastName: 'Jean',
         birthdate: '11/11/1900',
         birthplace: 'Calais, Haut de France',
-        externalId: '5'
+        externalId: '5',
       }];
 
       nock('http://localhost:3000', {
-        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' }
+        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' },
       })
         .patch('/api/certification-courses/1', function(body) {
           return JSON.stringify(body) === JSON.stringify(expectedBody1);
@@ -494,7 +494,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
         .replyWithError('Error 1');
 
       nock('http://localhost:3000', {
-        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' }
+        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' },
       })
         .patch('/api/certification-courses/2', function(body) {
           return JSON.stringify(body) === JSON.stringify(expectedBody2);
@@ -502,7 +502,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
         .replyWithError('Error 2');
 
       nock('http://localhost:3000', {
-        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' }
+        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' },
       })
         .patch('/api/certification-courses/3', function(body) {
           return JSON.stringify(body) === JSON.stringify(expectedBody3);

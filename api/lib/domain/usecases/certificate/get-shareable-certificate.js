@@ -5,7 +5,7 @@ module.exports = async function getShareableCertificate({
   certificationRepository,
   cleaCertificationStatusRepository,
   competenceTreeRepository,
-  assessmentResultRepository
+  assessmentResultRepository,
 }) {
   const certificate = await certificationRepository.getShareableCertificateByVerificationCode({ verificationCode });
 
@@ -13,6 +13,6 @@ module.exports = async function getShareableCertificate({
     certificate,
     cleaCertificationStatusRepository,
     assessmentResultRepository,
-    competenceTreeRepository
+    competenceTreeRepository,
   });
 };

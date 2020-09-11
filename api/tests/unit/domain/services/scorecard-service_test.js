@@ -51,7 +51,7 @@ describe('Unit | Service | ScorecardService', function() {
         const competenceEvaluation = domainBuilder.buildCompetenceEvaluation({
           competenceId: 1,
           assessmentId: assessment.id,
-          assessment
+          assessment,
         });
 
         competenceEvaluationRepository.findByUserId.resolves([competenceEvaluation]);
@@ -60,7 +60,7 @@ describe('Unit | Service | ScorecardService', function() {
           name: competence.name,
           earnedPix: earnedPixForCompetenceId1,
           level: levelForCompetenceId1,
-          pixScoreAheadOfNextLevel: pixScoreAheadOfNextLevelForCompetenceId1
+          pixScoreAheadOfNextLevel: pixScoreAheadOfNextLevelForCompetenceId1,
         });
 
         buildFromStub.withArgs({
@@ -69,7 +69,7 @@ describe('Unit | Service | ScorecardService', function() {
           competence,
           competenceEvaluation,
           allowExcessLevel: false,
-          allowExcessPix: false
+          allowExcessPix: false,
         }).returns(expectedUserScorecard);
 
         // when
@@ -78,7 +78,7 @@ describe('Unit | Service | ScorecardService', function() {
           competenceId,
           competenceRepository,
           competenceEvaluationRepository,
-          knowledgeElementRepository
+          knowledgeElementRepository,
         });
 
         //then
@@ -130,7 +130,7 @@ describe('Unit | Service | ScorecardService', function() {
           .onSecondCall().resolves(resetKnowledgeElement2);
 
         [resetKnowledgeElements, resetCampaignParticipation, resetCompetenceEvaluation] = await scorecardService.resetScorecard({
-          userId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, knowledgeElementRepository, competenceEvaluationRepository, campaignParticipationRepository
+          userId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, knowledgeElementRepository, competenceEvaluationRepository, campaignParticipationRepository,
         });
       });
 

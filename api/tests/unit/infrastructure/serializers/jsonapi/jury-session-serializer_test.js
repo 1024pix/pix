@@ -52,10 +52,10 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function() {
             'jury-certification-summaries': {
               links: {
                 related: '/api/jury/sessions/1/jury-certification-summaries',
-              }
+              },
             },
-          }
-        }
+          },
+        },
       };
       modelSession = {
         id: 1,
@@ -93,7 +93,7 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function() {
           data: {
             id: '2',
             type: 'user',
-          }
+          },
         };
         let expectedResult = Object.assign(expectedJsonApi, { meta });
         expectedResult = Object.assign(expectedResult, { included });

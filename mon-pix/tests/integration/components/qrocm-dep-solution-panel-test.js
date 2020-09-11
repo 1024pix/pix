@@ -16,7 +16,7 @@ const classByResultKey = {
   ok: 'ok',
   ko: 'ko',
   partially: 'partially',
-  aband: 'aband'
+  aband: 'aband',
 };
 
 describe('Integration | Component | QROCm dep solution panel', function() {
@@ -27,7 +27,7 @@ describe('Integration | Component | QROCm dep solution panel', function() {
   const challenge = EmberObject.create({
     id: 'challenge_id',
     proposals: '${key1}\n${key2}',
-    format: 'petit'
+    format: 'petit',
   });
   const solution = 'rightAnswer:\n' +
     '- rightAnswer1\n' +
@@ -56,7 +56,7 @@ describe('Integration | Component | QROCm dep solution panel', function() {
             value: 'key1: \'rightAnswer1\' key2: \'rightAnswer2\'',
             result: classByResultKey.ok,
             assessment,
-            challenge
+            challenge,
           });
           this.set('answer', answer);
 
@@ -87,7 +87,7 @@ describe('Integration | Component | QROCm dep solution panel', function() {
             value: 'key1: \'\' key2: \'\'',
             result: classByResultKey.aband,
             assessment,
-            challenge
+            challenge,
           });
           this.set('answer', answer);
 
@@ -118,7 +118,7 @@ describe('Integration | Component | QROCm dep solution panel', function() {
             value: 'key1: \'wrongAnswer1\' key2: \'wrongAnswer2\'',
             result: classByResultKey.ko,
             assessment,
-            challenge
+            challenge,
           });
           this.set('answer', answer);
 
@@ -154,7 +154,7 @@ describe('Integration | Component | QROCm dep solution panel', function() {
         value: 'key1: \'rightAnswer1\' key2: \'rightAnswer2\'',
         result: classByResultKey.ok,
         assessment,
-        challenge
+        challenge,
       });
       this.set('answer', answer);
       this.set('solution', solution);
@@ -164,7 +164,7 @@ describe('Integration | Component | QROCm dep solution panel', function() {
     [
       { format: 'petit', expectedSize: '11' },
       { format: 'mots', expectedSize: '20' },
-      { format: 'unreferenced_format', expectedSize: '20' }
+      { format: 'unreferenced_format', expectedSize: '20' },
     ].forEach((data) => {
       it(`should display a disabled input with expected size (${data.expectedSize}) when format is ${data.format}`, async function() {
         //given
@@ -191,7 +191,7 @@ describe('Integration | Component | QROCm dep solution panel', function() {
         value: 'key1: \'rightAnswer1\' key2: \'rightAnswer2\'',
         result: classByResultKey.ok,
         assessment,
-        challenge
+        challenge,
       });
       this.set('answer', answer);
       this.set('solution', solution);
@@ -219,7 +219,7 @@ describe('Integration | Component | QROCm dep solution panel', function() {
         value: 'key1: \'rightAnswer1\' key2: \'rightAnswer2\'',
         result: classByResultKey.ok,
         assessment,
-        challenge
+        challenge,
       });
       this.set('answer', answer);
       this.set('solution', solution);

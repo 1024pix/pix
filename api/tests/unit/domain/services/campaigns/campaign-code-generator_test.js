@@ -7,7 +7,7 @@ describe('Unit | Domain | Services | campaign code generator', function() {
   describe('#createCampaignCode', () => {
 
     const campaignRepository = {
-      isCodeAvailable: () => undefined
+      isCodeAvailable: () => undefined,
     };
 
     beforeEach(() => {

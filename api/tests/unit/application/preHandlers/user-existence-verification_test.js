@@ -9,8 +9,8 @@ describe('Unit | Pre-handler | User Verification', () => {
   describe('#verifyById', () => {
     const request = {
       params: {
-        id: 7
-      }
+        id: 7,
+      },
     };
 
     beforeEach(() => {

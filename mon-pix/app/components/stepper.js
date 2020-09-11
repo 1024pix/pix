@@ -22,5 +22,5 @@ export default Component.extend(ProgressionTrackerMixin, {
     didMove() {
       this.next();
     },
-  }
+  },
 });

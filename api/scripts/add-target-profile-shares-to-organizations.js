@@ -41,7 +41,7 @@ async function addTargetProfileSharesToOrganizations({ organizationsByExternalId
       if (require.main === module) process.stdout.write(`Adding targetProfiles: ${targetProfileIdList} to organizationId: ${organization.id} `);
       await targetProfileShareRepository.addTargetProfilesToOrganization({
         organizationId: organization.id,
-        targetProfileIdList
+        targetProfileIdList,
       });
       if (require.main === module) process.stdout.write('===> ✔');
     }
@@ -85,7 +85,7 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    }
+    },
   );
 }
 

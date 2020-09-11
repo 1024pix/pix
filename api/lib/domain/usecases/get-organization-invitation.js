@@ -2,7 +2,7 @@ const { AlreadyExistingOrganizationInvitationError } = require('../../domain/err
 
 module.exports = async function getOrganizationInvitation({
   organizationInvitationId, organizationInvitationCode,
-  organizationRepository, organizationInvitationRepository
+  organizationRepository, organizationInvitationRepository,
 }) {
 
   const foundOrganizationInvitation = await organizationInvitationRepository.getByIdAndCode({

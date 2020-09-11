@@ -14,9 +14,9 @@ module.exports = function tubeRawAirTableFixture() {
       'Description pratique fr-fr': 'Identifier un navigateur web et un moteur de recherche, connaître le fonctionnement du moteur de recherche',
       'Description pratique en-us': 'Identify a web browser and a search engine, know how the search engine works',
       'Competences (id persistant)': [
-        'recsvLz0W2ShyfD63'
+        'recsvLz0W2ShyfD63',
       ],
     },
-    'createdTime': '2018-01-31T12:41:07.000Z'
+    'createdTime': '2018-01-31T12:41:07.000Z',
   });
 };

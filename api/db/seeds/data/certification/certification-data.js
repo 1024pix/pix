@@ -549,7 +549,7 @@ const STRONG_CERTIFIABLE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE
   { source: 'direct', skillId: 'recHo6D1spbDR9C2N', earnedPix: 1.33333, status: 'validated', competenceId: 'recMiZPNl7V1hyE1d', result: 'ok', challengeId: 'recKVDoGz1cKdLsZs', elapsedTime: 1, timeout: null, resultDetails: 'null ' },
   { source: 'inferred', skillId: 'rec7WOXWi5ClE8BxH', earnedPix: 2.66667, status: 'validated', competenceId: 'recMiZPNl7V1hyE1d', result: 'ok', challengeId: 'recKVDoGz1cKdLsZs', elapsedTime: 1, timeout: null, resultDetails: 'null ' },
   { source: 'direct', skillId: 'rec4gk0caF0FsTUdU', earnedPix: 1.6, status: 'validated', competenceId: 'recMiZPNl7V1hyE1d', result: 'ok', challengeId: 'recKVDoGz1cKdLsZs', elapsedTime: 1, timeout: null, resultDetails: 'null ' },
-  { source: 'direct', skillId: 'rec7EvARki1b9t574', earnedPix: 4, status: 'validated', competenceId: 'recMiZPNl7V1hyE1d', result: 'ok', challengeId: 'recNMZX1W4lZPdyoY', elapsedTime: 1, timeout: null, resultDetails: 'null ' }
+  { source: 'direct', skillId: 'rec7EvARki1b9t574', earnedPix: 4, status: 'validated', competenceId: 'recMiZPNl7V1hyE1d', result: 'ok', challengeId: 'recNMZX1W4lZPdyoY', elapsedTime: 1, timeout: null, resultDetails: 'null ' },
 ];
 
 const WEAK_CERTIFIABLE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS = [
@@ -645,7 +645,7 @@ const WEAK_CERTIFIABLE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_E
   { source: 'direct', skillId: 'recgUaUfyMezKMFq4', earnedPix: 2.6666667, status: 'validated', competenceId: 'recfr0ax8XrfvJ3ER', result: 'ok', challengeId: 'reciRKZeAy2aZUOJs', elapsedTime: 0, timeout: null, resultDetails: 'fauteuils: true eclairages: true ecrans: true claviers: true souris: true ' },
   { source: 'inferred', skillId: 'recEt62ZnDvmloFXJ', earnedPix: 1.1428572, status: 'validated', competenceId: 'recfr0ax8XrfvJ3ER', result: 'ok', challengeId: 'recsRIMnErARJbrvT', elapsedTime: 0, timeout: null, resultDetails: 'null ' },
   { source: 'direct', skillId: 'recN5s1fpqI5E2a70', earnedPix: 1.1428572, status: 'validated', competenceId: 'recfr0ax8XrfvJ3ER', result: 'ok', challengeId: 'rec1Y36HxRl11WC0d', elapsedTime: 0, timeout: null, resultDetails: 'null ' },
-  { source: 'inferred', skillId: 'rec8uNegbB8PDuYRJ', earnedPix: 1.6, status: 'validated', competenceId: 'recfr0ax8XrfvJ3ER', result: 'ok', challengeId: 'recWfwWRISdCDitAr', elapsedTime: 0, timeout: null, resultDetails: 'null ' }
+  { source: 'inferred', skillId: 'rec8uNegbB8PDuYRJ', earnedPix: 1.6, status: 'validated', competenceId: 'recfr0ax8XrfvJ3ER', result: 'ok', challengeId: 'recWfwWRISdCDitAr', elapsedTime: 0, timeout: null, resultDetails: 'null ' },
 ];
 
 const CERTIFICATION_CHALLENGES_DATA = [
@@ -696,7 +696,7 @@ const CERTIFICATION_CHALLENGES_DATA = [
   { challengeId: 'recvvwlO8ezccUB5L', competenceId: 'recIkYm646lrGvLNT', associatedSkillName: '@archive6' },
   { challengeId: 'recG8nWow8yP7P3WA', competenceId: 'recsvLz0W2ShyfD63', associatedSkillName: '@url6' },
   { challengeId: 'recL8ZmRYbVharE6a', competenceId: 'recsvLz0W2ShyfD63', associatedSkillName: '@sourceImage6' },
-  { challengeId: 'recCGEqqWBQnzD3NZ', competenceId: 'recsvLz0W2ShyfD63', associatedSkillName: '@sourceImage7' }
+  { challengeId: 'recCGEqqWBQnzD3NZ', competenceId: 'recsvLz0W2ShyfD63', associatedSkillName: '@sourceImage7' },
 ];
 
 const CERTIFICATION_SUCCESS_ANSWERS_DATA = [
@@ -747,7 +747,7 @@ const CERTIFICATION_SUCCESS_ANSWERS_DATA = [
   { result: 'ok', challengeId: 'recr8ACvFl8A38zBi', elapsedTime: '0', resultDetails: 'null ' },
   { result: 'ok', challengeId: 'recCiObHYNsZT3LuS', elapsedTime: '0', resultDetails: 'DD: true unit: true RAM: true unit2: true nbre: true uni: true syst: true unit1: true ' },
   { result: 'ok', challengeId: 'rec89GEKgYFZ1vqHr', elapsedTime: '0', resultDetails: 'null ' },
-  { result: 'ok', challengeId: 'reccEwkSAkyPd7e1H', elapsedTime: '2', resultDetails: 'null ' }
+  { result: 'ok', challengeId: 'reccEwkSAkyPd7e1H', elapsedTime: '2', resultDetails: 'null ' },
 ];
 
 const CERTIFICATION_FAILURE_ANSWERS_DATA = [
@@ -798,7 +798,7 @@ const CERTIFICATION_FAILURE_ANSWERS_DATA = [
   { result: 'ko', challengeId: 'recr8ACvFl8A38zBi', elapsedTime: '0', resultDetails: 'null ' },
   { result: 'ko', challengeId: 'recCiObHYNsZT3LuS', elapsedTime: '0', resultDetails: 'DD: false unit: false RAM: false unit2: false nbre: false uni: false syst: false unit1: false ' },
   { result: 'ko', challengeId: 'rec89GEKgYFZ1vqHr', elapsedTime: '0', resultDetails: 'null ' },
-  { result: 'ko', challengeId: 'reccEwkSAkyPd7e1H', elapsedTime: '1', resultDetails: 'null ' }
+  { result: 'ko', challengeId: 'reccEwkSAkyPd7e1H', elapsedTime: '1', resultDetails: 'null ' },
 ];
 
 const CERTIFICATION_SUCCESS_COMPETENCE_MARKS_DATA = [
@@ -817,7 +817,7 @@ const CERTIFICATION_SUCCESS_COMPETENCE_MARKS_DATA = [
   { level: 3, score: 26, area_code: '2', competence_code: '2.2', competenceId: 'recgxqQfz3BqEbtzh' },
   { level: 5, score: 40, area_code: '1', competence_code: '1.3', competenceId: 'recNv8qhaY887jQb2' },
   { level: 5, score: 40, area_code: '1', competence_code: '1.2', competenceId: 'recIkYm646lrGvLNT' },
-  { level: 5, score: 40, area_code: '1', competence_code: '1.1', competenceId: 'recsvLz0W2ShyfD63' }
+  { level: 5, score: 40, area_code: '1', competence_code: '1.1', competenceId: 'recsvLz0W2ShyfD63' },
 ];
 
 const CERTIFICATION_FAILURE_COMPETENCE_MARKS_DATA = [
@@ -836,7 +836,7 @@ const CERTIFICATION_FAILURE_COMPETENCE_MARKS_DATA = [
   { level: -1, score: 0, area_code: '2', competence_code: '2.1', competenceId: 'recDH19F7kKrfL3Ii' },
   { level: -1, score: 0, area_code: '1', competence_code: '1.2', competenceId: 'recNv8qhaY887jQb2' },
   { level: -1, score: 0, area_code: '1', competence_code: '1.3', competenceId: 'recIkYm646lrGvLNT' },
-  { level: -1, score: 0, area_code: '1', competence_code: '1.1', competenceId: 'recsvLz0W2ShyfD63' }
+  { level: -1, score: 0, area_code: '1', competence_code: '1.1', competenceId: 'recsvLz0W2ShyfD63' },
 ];
 
 module.exports = {

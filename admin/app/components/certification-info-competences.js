@@ -24,7 +24,7 @@ export default class CertificationInfoCompetences extends Component {
     });
     return {
       scores: scores,
-      levels: levels
+      levels: levels,
     };
   }
 

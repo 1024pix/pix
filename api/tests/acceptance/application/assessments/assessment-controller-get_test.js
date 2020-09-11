@@ -173,14 +173,14 @@ describe('Acceptance | API | assessment-controller-get', () => {
             'course': {
               data: {
                 id: 'courseId',
-                type: 'courses'
-              }
+                type: 'courses',
+              },
             },
             'answers': {
               'data': [],
               links: {
                 related: `/api/answers?assessmentId=${assessmentId}`,
-              }
+              },
             },
           },
         };
@@ -331,7 +331,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
           userId,
           courseId: 'anyFromAirTable',
           type: 'CAMPAIGN',
-          campaignParticipationId: campaignParticipation.id
+          campaignParticipationId: campaignParticipation.id,
         }).id;
 
       await databaseBuilder.commit();

@@ -2,7 +2,7 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 const authenticateUser = require('../../../../lib/domain/usecases/authenticate-user');
 const User = require('../../../../lib/domain/models/User');
 const {
-  UserNotFoundError, MissingOrInvalidCredentialsError, ForbiddenAccess, UserShouldChangePasswordError
+  UserNotFoundError, MissingOrInvalidCredentialsError, ForbiddenAccess, UserShouldChangePasswordError,
 } = require('../../../../lib/domain/errors');
 
 const authenticationService = require('../../../../lib/domain/services/authentication-service');
@@ -19,7 +19,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
   beforeEach(() => {
     userRepository = { getByUsernameOrEmailWithRoles: sinon.stub() };
     tokenService = {
-      createAccessTokenFromUser: sinon.stub()
+      createAccessTokenFromUser: sinon.stub(),
     };
     sinon.stub(authenticationService, 'getUserByUsernameAndPassword');
   });
@@ -36,7 +36,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
 
     // then
     expect(authenticationService.getUserByUsernameAndPassword).to.have.been.calledWithExactly({
-      username: userEmail, password: userPassword, userRepository
+      username: userEmail, password: userPassword, userRepository,
     });
     expect(tokenService.createAccessTokenFromUser).to.have.been.calledWithExactly(user, 'pix');
   });

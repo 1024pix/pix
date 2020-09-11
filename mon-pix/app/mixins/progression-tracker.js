@@ -18,7 +18,7 @@ export default Mixin.create({
   init() {
     this._super(...arguments);
     this.stepsAhead = this.steps.map(
-      (step) => EmberObject.create({ name: step, status: STEPS.TO_COMPLETE })
+      (step) => EmberObject.create({ name: step, status: STEPS.TO_COMPLETE }),
     );
     this.stepsActivated = [];
     this.next();
@@ -51,5 +51,5 @@ export default Mixin.create({
   },
   hasPrevious() {
     return this.stepsActivated.length > 1;
-  }
+  },
 });

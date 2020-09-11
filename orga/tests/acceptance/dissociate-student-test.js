@@ -4,7 +4,7 @@ import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 
 import {
-  createPrescriberByUser, createUserManagingStudents
+  createPrescriberByUser, createUserManagingStudents,
 } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';

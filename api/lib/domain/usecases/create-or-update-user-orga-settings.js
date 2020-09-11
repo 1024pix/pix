@@ -5,7 +5,7 @@ module.exports = async function createOrUpdateUserOrgaSettings({
   userId,
   organizationId,
   userOrgaSettingsRepository,
-  membershipRepository
+  membershipRepository,
 }) {
   const memberships = await membershipRepository.findByUserIdAndOrganizationId({ userId, organizationId });
 

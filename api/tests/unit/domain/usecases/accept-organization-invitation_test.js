@@ -17,7 +17,7 @@ describe('Unit | UseCase | accept-organization-invitation', () => {
     membershipRepository = {
       create: sinon.stub(),
       findByOrganizationId: sinon.stub(),
-      updateById: sinon.stub()
+      updateById: sinon.stub(),
     };
     organizationInvitationRepository = {
       getByIdAndCode: sinon.stub(),
@@ -35,7 +35,7 @@ describe('Unit | UseCase | accept-organization-invitation', () => {
       const error = await catchErr(acceptOrganizationInvitation)({
         organizationInvitationId: 1,
         code: 'codeNotExist',
-        organizationInvitationRepository
+        organizationInvitationRepository,
       });
 
       // then
@@ -54,7 +54,7 @@ describe('Unit | UseCase | accept-organization-invitation', () => {
       // when
       const err = await catchErr(acceptOrganizationInvitation)({
         organizationInvitationId: organizationInvitation.id,
-        organizationInvitationRepository
+        organizationInvitationRepository,
       });
 
       // then
@@ -70,7 +70,7 @@ describe('Unit | UseCase | accept-organization-invitation', () => {
 
     beforeEach(() => {
       pendingOrganizationInvitation = domainBuilder.buildOrganizationInvitation({
-        status: OrganizationInvitation.StatusType.PENDING
+        status: OrganizationInvitation.StatusType.PENDING,
       });
       organizationInvitationRepository.getByIdAndCode.resolves(pendingOrganizationInvitation);
 
@@ -88,7 +88,7 @@ describe('Unit | UseCase | accept-organization-invitation', () => {
         // when
         await acceptOrganizationInvitation({
           organizationInvitationId, code, email,
-          userRepository, membershipRepository, organizationInvitationRepository
+          userRepository, membershipRepository, organizationInvitationRepository,
         });
 
         // then
@@ -107,7 +107,7 @@ describe('Unit | UseCase | accept-organization-invitation', () => {
         // when
         await acceptOrganizationInvitation({
           organizationInvitationId, code, email,
-          userRepository, membershipRepository, organizationInvitationRepository
+          userRepository, membershipRepository, organizationInvitationRepository,
         });
 
         // then
@@ -127,7 +127,7 @@ describe('Unit | UseCase | accept-organization-invitation', () => {
         // when
         await acceptOrganizationInvitation({
           organizationInvitationId, code, email,
-          userRepository, membershipRepository, organizationInvitationRepository
+          userRepository, membershipRepository, organizationInvitationRepository,
         });
 
         // then
@@ -144,7 +144,7 @@ describe('Unit | UseCase | accept-organization-invitation', () => {
       beforeEach(() => {
         membership = domainBuilder.buildMembership({ user : userToInvite, organizationRole: Membership.roles.MEMBER });
         membershipRepository.findByOrganizationId.withArgs({
-          organizationId: pendingOrganizationInvitation.organizationId
+          organizationId: pendingOrganizationInvitation.organizationId,
         }).resolves([ membership ]);
       });
 
@@ -155,7 +155,7 @@ describe('Unit | UseCase | accept-organization-invitation', () => {
         // when
         const err = await catchErr(acceptOrganizationInvitation)({
           organizationInvitationId, code, email,
-          userRepository, membershipRepository, organizationInvitationRepository
+          userRepository, membershipRepository, organizationInvitationRepository,
         });
 
         // then
@@ -173,7 +173,7 @@ describe('Unit | UseCase | accept-organization-invitation', () => {
           // when
           await acceptOrganizationInvitation({
             organizationInvitationId, code, email,
-            userRepository, membershipRepository, organizationInvitationRepository
+            userRepository, membershipRepository, organizationInvitationRepository,
           });
 
           // then

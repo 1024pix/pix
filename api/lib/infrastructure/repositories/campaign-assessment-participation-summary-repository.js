@@ -42,7 +42,7 @@ const campaignAssessmentParticipationRepository = {
         pageCount: Math.ceil(rowCount / pageSize),
       },
     };
-  }
+  },
 };
 
 function _getRowCount(results) {

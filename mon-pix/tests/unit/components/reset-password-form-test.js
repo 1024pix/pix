@@ -9,20 +9,20 @@ const ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit contenir 8 caractères a
 
 const VALIDATION_MAP = {
   default: {
-    status: 'default', message: null
+    status: 'default', message: null,
   },
   error: {
-    status: 'error', message: ERROR_PASSWORD_MESSAGE
-  }
+    status: 'error', message: ERROR_PASSWORD_MESSAGE,
+  },
 };
 
 const SUBMISSION_MAP = {
   default: {
-    status: 'default', message: null
+    status: 'default', message: null,
   },
   error: {
-    status: 'error', message: ERROR_PASSWORD_MESSAGE
-  }
+    status: 'error', message: ERROR_PASSWORD_MESSAGE,
+  },
 };
 
 describe('Unit | Component | reset password form', function() {
@@ -68,7 +68,7 @@ describe('Unit | Component | reset password form', function() {
       firstName: 'toto',
       lastName: 'riri',
       password: 'Pix123 0 #',
-      save: () => resolve()
+      save: () => resolve(),
     });
 
     describe('When user password is saved', () => {
@@ -115,7 +115,7 @@ describe('Unit | Component | reset password form', function() {
           firstName: 'toto',
           lastName: 'riri',
           password: 'Pix',
-          save: () => reject()
+          save: () => reject(),
         });
         const component = createGlimmerComponent('component:reset-password-form', { user: userWithBadPassword });
 

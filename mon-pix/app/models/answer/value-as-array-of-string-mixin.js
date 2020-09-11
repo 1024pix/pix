@@ -10,6 +10,6 @@ export default Mixin.create({
     } catch (e) {
       return undefined;
     }
-  })
+  }),
 
 });

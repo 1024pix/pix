@@ -109,7 +109,7 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
       // when
       const requestErr = await catchErr(organizationInvitationRepository.getByIdAndCode)({
         id: nonExistentId,
-        code: nonExistentCode
+        code: nonExistentCode,
       });
 
       // then

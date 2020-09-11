@@ -15,11 +15,11 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
   setupIntlRenderingTest();
 
   const correctAnswer = {
-    id: 'answer_id', assessment, challenge, value: '2'
+    id: 'answer_id', assessment, challenge, value: '2',
   };
 
   const unCorrectAnswer = {
-    id: 'answer_id', assessment, challenge, value: '3'
+    id: 'answer_id', assessment, challenge, value: '3',
   };
 
   describe('#Component should renders: ', function() {
@@ -36,7 +36,7 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
         challenge = EmberObject.create({
           id: 'challenge_id',
           proposals: '-foo\n- bar\n- qix\n- yon',
-          type: 'QCM'
+          type: 'QCM',
         });
 
         solution = '2';

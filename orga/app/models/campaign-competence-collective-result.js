@@ -36,7 +36,7 @@ export default class CampaignCompetenceCollectiveResult extends Model {
 
   @computed(
     'totalSkillsCount',
-    'campaignCollectiveResult.maxTotalSkillsCountInCompetences'
+    'campaignCollectiveResult.maxTotalSkillsCountInCompetences',
   )
   get totalSkillsCountPercentage() {
     return Math.round(this.totalSkillsCount * 100 / this.campaignCollectiveResult.get('maxTotalSkillsCountInCompetences'));

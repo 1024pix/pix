@@ -19,7 +19,7 @@ const dependencies = {
 
 const partnerCertificationRepository = injectDependencies(
   require('../../infrastructure/repositories/partner-certification-repository'),
-  dependencies
+  dependencies,
 );
 dependencies.partnerCertificationRepository = partnerCertificationRepository;
 
@@ -47,6 +47,6 @@ module.exports = {
     handlers: handlersToBeInjected,
     buildEventDispatcher: function(stubbedHandlers) {
       return buildEventDispatcher(stubbedHandlers);
-    }
-  }
+    },
+  },
 };

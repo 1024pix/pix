@@ -17,7 +17,7 @@ describe('Unit | Model | Scorecard model', function() {
       { pixScoreAheadOfNextLevel: 0, expectedPercentageAheadOfNextLevel: 0 },
       { pixScoreAheadOfNextLevel: 4, expectedPercentageAheadOfNextLevel: 50 },
       { pixScoreAheadOfNextLevel: 3.33, expectedPercentageAheadOfNextLevel: 41.625 },
-      { pixScoreAheadOfNextLevel: 7.8, expectedPercentageAheadOfNextLevel: 95 }
+      { pixScoreAheadOfNextLevel: 7.8, expectedPercentageAheadOfNextLevel: 95 },
     ].forEach((data) => {
       it(`should return ${data.expectedPercentageAheadOfNextLevel} when pixScoreAheadOfNextLevel is ${data.pixScoreAheadOfNextLevel}`, function() {
         // given

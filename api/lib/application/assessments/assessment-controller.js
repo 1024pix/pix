@@ -81,7 +81,7 @@ module.exports = {
     });
 
     return null;
-  }
+  },
 };
 
 async function _getChallenge(assessment, request) {

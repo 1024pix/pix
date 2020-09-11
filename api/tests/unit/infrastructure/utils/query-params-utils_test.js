@@ -38,7 +38,7 @@ describe('Unit | Utils | Query Params Utils', function() {
       // given
       const query = {
         'page': 1,
-        'pageSize': 10
+        'pageSize': 10,
       };
 
       // when

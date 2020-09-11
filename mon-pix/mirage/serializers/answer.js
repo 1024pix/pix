@@ -7,8 +7,8 @@ export default ApplicationSerializer.extend({
   links(answer) {
     return {
       'correction': {
-        related: `/api/answers/${answer.id}/correction`
+        related: `/api/answers/${answer.id}/correction`,
       },
     };
-  }
+  },
 });

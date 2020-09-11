@@ -5,7 +5,7 @@ import { inject as service } from '@ember/service';
 
 const options = [
   { value: 'ADMIN', label: 'Administrateur' },
-  { value: 'MEMBER', label: 'Membre' }
+  { value: 'MEMBER', label: 'Membre' },
 ];
 
 export default class MemberItem extends Component {

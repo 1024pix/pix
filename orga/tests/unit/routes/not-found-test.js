@@ -12,7 +12,7 @@ module('Unit | Route | not-found', function(hooks) {
       assert.equal(
         redirection,
         expectedRedirection,
-        `expect transition to ${expectedRedirection}, got ${redirection}`
+        `expect transition to ${expectedRedirection}, got ${redirection}`,
       );
     };
 

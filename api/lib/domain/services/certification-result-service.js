@@ -3,7 +3,7 @@ const {
   MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED,
   MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED,
   PIX_COUNT_BY_LEVEL,
-  UNCERTIFIED_LEVEL
+  UNCERTIFIED_LEVEL,
 } = require('../constants');
 const AnswerStatus = require('../models/AnswerStatus');
 const CertificationContract = require('../../domain/models/CertificationContract');
@@ -16,13 +16,13 @@ const qrocmDepChallenge = 'QROCM-dep';
 
 function _selectAnswersMatchingCertificationChallenges(answers, certificationChallenges) {
   return answers.filter(
-    ({ challengeId }) => _.some(certificationChallenges, { challengeId })
+    ({ challengeId }) => _.some(certificationChallenges, { challengeId }),
   );
 }
 
 function _selectChallengesMatchingCompetences(certificationChallenges, testedCompetences) {
   return certificationChallenges.filter(
-    ({ competenceId }) => _.some(testedCompetences, { id: competenceId })
+    ({ competenceId }) => _.some(testedCompetences, { id: competenceId }),
   );
 }
 

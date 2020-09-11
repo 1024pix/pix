@@ -10,7 +10,7 @@ export default class CampaignLandingPageController extends Controller {
   startCampaignParticipation() {
     this.isLoading = true;
     return this.transitionToRoute('campaigns.start-or-resume', this.model.code, {
-      queryParams: { hasUserSeenLandingPage: true }
+      queryParams: { hasUserSeenLandingPage: true },
     });
   }
 }

@@ -22,7 +22,7 @@ describe('Unit | Router | feedback-router', () => {
       // given
       const options = {
         method: 'POST',
-        url: '/api/feedbacks'
+        url: '/api/feedbacks',
       };
 
       // when

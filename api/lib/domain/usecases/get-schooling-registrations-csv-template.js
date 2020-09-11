@@ -34,7 +34,7 @@ function _createHeaderOfCSV() {
     'Équipe pédagogique',
     'Groupe',
     'Diplôme',
-    'Régime'
+    'Régime',
   ];
 }
 

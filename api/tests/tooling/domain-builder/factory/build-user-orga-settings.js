@@ -12,7 +12,7 @@ function _buildUser() {
     id: faker.random.number(),
     firstName: 'Jean',
     lastName: 'Dupont',
-    email: 'jean.dupont@example.net'
+    email: 'jean.dupont@example.net',
   });
 }
 

@@ -10,10 +10,10 @@ exports.register = async function(server) {
         handler: campaignParticipationController.find,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des campaign-participation par assessment'
+          '- Récupération des campaign-participation par assessment',
         ],
-        tags: ['api', 'campaign-participation']
-      }
+        tags: ['api', 'campaign-participation'],
+      },
     },
     {
       method: 'GET',
@@ -24,8 +24,8 @@ exports.register = async function(server) {
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Récupération d\'une campaign-participation par son id',
         ],
-        tags: ['api', 'campaign-participation']
-      }
+        tags: ['api', 'campaign-participation'],
+      },
     },
     {
       method: 'PATCH',
@@ -36,8 +36,8 @@ exports.register = async function(server) {
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Partage de résultat de la campagne d‘un utilisateur, à son organisation',
         ],
-        tags: ['api', 'campaign-participation']
-      }
+        tags: ['api', 'campaign-participation'],
+      },
     },
     {
       method: 'POST',
@@ -46,10 +46,10 @@ exports.register = async function(server) {
         handler: campaignParticipationController.save,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Création d‘une nouvelle participation à une campagne'
+          '- Création d‘une nouvelle participation à une campagne',
         ],
-        tags: ['api', 'campaign-participation']
-      }
+        tags: ['api', 'campaign-participation'],
+      },
     },
     {
       method: 'PATCH',
@@ -61,8 +61,8 @@ exports.register = async function(server) {
           '- Elle permet de progresser à la fin d\'une participation à une campagne' +
           '- Le contenu de la requête n\'est pas pris en compte.',
         ],
-        tags: ['api', 'campaign-participation']
-      }
+        tags: ['api', 'campaign-participation'],
+      },
     },
     {
       method: 'GET',
@@ -70,7 +70,7 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required()
+            id: Joi.number().integer().required(),
           }),
         },
         handler: campaignParticipationController.getAnalysis,
@@ -79,8 +79,8 @@ exports.register = async function(server) {
           '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la participation à la campagne',
           '- Récupération de l\'analyse d\'un participant pour la participation à la campagne',
         ],
-        tags: ['api', 'campaign-participation']
-      }
+        tags: ['api', 'campaign-participation'],
+      },
     },
     {
       method: 'GET',
@@ -89,7 +89,7 @@ exports.register = async function(server) {
         validate: {
           params: Joi.object({
             campaignId: Joi.number().integer().required(),
-            campaignParticipationId: Joi.number().integer().required()
+            campaignParticipationId: Joi.number().integer().required(),
           }),
         },
         handler: campaignParticipationController.getCampaignProfile,
@@ -98,8 +98,8 @@ exports.register = async function(server) {
           '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la participation à la campagne',
           '- Récupération du profil d\'un participant pour la participation à la campagne',
         ],
-        tags: ['api', 'campaign-participation']
-      }
+        tags: ['api', 'campaign-participation'],
+      },
     },
   ]);
 };

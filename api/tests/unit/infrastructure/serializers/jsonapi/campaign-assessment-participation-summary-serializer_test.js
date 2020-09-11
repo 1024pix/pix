@@ -23,13 +23,13 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-summar
           participantExternalId: 'Thief',
           status: 'ONGOING',
           masteryPercentage: '99%',
-        }
+        },
       ];
       const pagination = {
         page: {
           number: 1,
-          pageSize: 2
-        }
+          pageSize: 2,
+        },
       };
       const parameter = { campaignAssessmentParticipationSummaries, pagination };
 
@@ -58,14 +58,14 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-summar
               status: 'ONGOING',
               'mastery-percentage': '99%',
             },
-          }
+          },
         ],
         meta: {
           page: {
             number: 1,
-            pageSize: 2
-          }
-        }
+            pageSize: 2,
+          },
+        },
       });
     });
   });
@@ -87,7 +87,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-summar
             status: 'someStatus',
             'mastery-percentage': 'someMasteryPercentage',
           },
-        }
+        },
       };
 
       modelCampaignAssessmentParticipationSummary = {

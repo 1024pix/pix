@@ -8,7 +8,7 @@ export default class JoinRoute extends Route.extend(UnauthenticatedRouteMixin) {
   model(params) {
     return this.store.queryRecord('organization-invitation', {
       invitationId: params.invitationId,
-      code: params.code
+      code: params.code,
     }).catch((errorResponse) => {
       errorResponse.errors.forEach((error) => {
         if (error.status === '412') {

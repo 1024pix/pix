@@ -109,27 +109,27 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
         solution: 'station1:\n- Versailles-Chantiers\nstation2:\n- Poissy',
         hint: 'Sortir de paris !',
         tutorials: [tutorial],
-        learningMoreTutorials: [learningMoreTutorial]
+        learningMoreTutorials: [learningMoreTutorial],
       });
       server.create('answer', {
         value: 'station1: \'Republique\'\nstation2: \'Chatelet\'\n',
         result: 'ko',
         assessmentId: assessment.id,
         challengeId :qrocmDepChallenge.id,
-        correction: correctionDep
+        correction: correctionDep,
       });
       correctionInd = server.create('correction', {
         solution: 'titre:\n- Le petit prince\nauteur:\n- Saint-Exupéry',
         hint: 'Sortir de paris !',
         tutorials: [tutorial],
-        learningMoreTutorials: [learningMoreTutorial]
+        learningMoreTutorials: [learningMoreTutorial],
       });
       server.create('answer', {
         value: 'titre: \'Le rouge et le noir\'\nauteur: \'Stendhal\'\n',
         result: 'ko',
         assessmentId: assessment.id,
         challengeId :qrocmIndChallenge.id,
-        correction: correctionInd
+        correction: correctionInd,
       });
 
       // when

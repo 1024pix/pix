@@ -13,7 +13,7 @@ describe('Unit | Utility | email validator', function() {
       'INVALID_EMAIL@pix',
       'INVALID_EMAIL@pix.',
       '@pix.fr',
-      '@pix'
+      '@pix',
     ].forEach(function(badEmail) {
       it(`should return false when email is invalid: ${badEmail}`, function() {
         expect(isEmailValid(badEmail)).to.be.false;
@@ -31,7 +31,7 @@ describe('Unit | Utility | email validator', function() {
       ' user_beta@pix.fr ',
       'user+beta@pix.fr',
       'user+beta@pix.gouv.fr',
-      'user+beta@pix.beta.gouv.fr'
+      'user+beta@pix.beta.gouv.fr',
     ].forEach(function(validEmail) {
       it(`should return true if provided email is valid: ${validEmail}`, function() {
         expect(isEmailValid(validEmail)).to.be.true;

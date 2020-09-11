@@ -11,7 +11,7 @@ export default class NewRoute extends Route {
     const organization = this.currentUser.organization;
     return RSVP.hash({
       campaign: this.store.createRecord('campaign', { organizationId: organization.id }),
-      targetProfiles: organization.targetProfiles
+      targetProfiles: organization.targetProfiles,
     });
   }
 }

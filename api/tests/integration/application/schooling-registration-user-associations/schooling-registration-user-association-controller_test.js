@@ -29,7 +29,7 @@ describe('Integration | Application | Schooling-registration-user-association | 
           'last-name': 'Smith',
           birthdate: '2012-12-12',
           'campaign-code': campaignCode,
-        }
+        },
       },
     };
 

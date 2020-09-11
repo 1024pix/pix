@@ -75,7 +75,7 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', () => 
       // when
       const knowledgeElementsByUserId = await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates({
         [userId1]: snappedAt1,
-        [userId2]: snappedAt2
+        [userId2]: snappedAt2,
       });
 
       // then

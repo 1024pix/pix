@@ -19,7 +19,7 @@ function _toDomain(bookshelfOrganization) {
     isManagingStudents: Boolean(rawOrganization.isManagingStudents),
     credit: rawOrganization.credit,
     canCollectProfiles: Boolean(rawOrganization.canCollectProfiles),
-    email: rawOrganization.email
+    email: rawOrganization.email,
   });
 
   let members = [];
@@ -114,7 +114,7 @@ module.exports = {
       .query((qb) => _setSearchFiltersForQueryBuilder(filter, qb))
       .fetchPage({
         page: page.number,
-        pageSize: page.size
+        pageSize: page.size,
       })
       .then(({ models, pagination }) => {
         const organizations = bookshelfToDomainConverter.buildDomainObjects(BookshelfOrganization, models);

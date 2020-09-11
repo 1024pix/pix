@@ -1,6 +1,6 @@
 module.exports = function acceptPixLastTermsOfService({
   userId,
-  userRepository
+  userRepository,
 }) {
   return userRepository.acceptPixLastTermsOfService(userId);
 };

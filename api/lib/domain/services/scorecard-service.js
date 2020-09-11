@@ -28,7 +28,7 @@ async function computeScorecard({
     competenceEvaluation,
     competence,
     allowExcessPix,
-    allowExcessLevel
+    allowExcessLevel,
   });
 }
 
@@ -61,17 +61,17 @@ async function resetScorecard({
       userId,
       resetSkills,
       assessmentRepository,
-      campaignParticipationRepository
-    })
+      campaignParticipationRepository,
+    }),
   ]);
 }
 
 async function _resetKnowledgeElements({ userId, competenceId, knowledgeElementRepository }) {
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({
-    userId, competenceId
+    userId, competenceId,
   });
   const resetKnowledgeElementsPromises = _.map(knowledgeElements,
-    (knowledgeElement) => _resetKnowledgeElement({ knowledgeElement, knowledgeElementRepository })
+    (knowledgeElement) => _resetKnowledgeElement({ knowledgeElement, knowledgeElementRepository }),
   );
   return Promise.all(resetKnowledgeElementsPromises);
 }
@@ -87,7 +87,7 @@ function _resetKnowledgeElement({ knowledgeElement, knowledgeElementRepository }
 
 function _resetCompetenceEvaluation({ userId, competenceId, competenceEvaluationRepository }) {
   return competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId({
-    competenceId, userId, status: CompetenceEvaluation.statuses.RESET
+    competenceId, userId, status: CompetenceEvaluation.statuses.RESET,
   });
 }
 
@@ -103,8 +103,8 @@ async function _resetCampaignAssessments({ userId, resetSkills, assessmentReposi
       assessment: campaignAssessment,
       resetSkills,
       assessmentRepository,
-      campaignParticipationRepository
-    })
+      campaignParticipationRepository,
+    }),
   );
   return Promise.all(resetCampaignAssessmentsPromises);
 }
@@ -114,7 +114,7 @@ async function _resetCampaignAssessment({ assessment, resetSkills, assessmentRep
 
   const resetSkillsNotIncludedInTargetProfile = _computeResetSkillsNotIncludedInTargetProfile({
     targetObjectSkills: _.get(campaignParticipation, 'campaign.targetProfile.skills'),
-    resetSkills
+    resetSkills,
   });
 
   if (!campaignParticipation || campaignParticipation.isShared || resetSkillsNotIncludedInTargetProfile) {
@@ -126,7 +126,7 @@ async function _resetCampaignAssessment({ assessment, resetSkills, assessmentRep
     state: Assessment.states.STARTED,
     type: Assessment.types.CAMPAIGN,
     campaignParticipationId: assessment.campaignParticipationId,
-    courseId: '[NOT USED] Campaign Assessment CourseId Not Used'
+    courseId: '[NOT USED] Campaign Assessment CourseId Not Used',
   });
 
   await assessmentRepository.abortByAssessmentId(assessment.id);

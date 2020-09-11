@@ -45,7 +45,7 @@ describe('Unit | UseCase | update-user-password', () => {
       temporaryKey,
       encryptionService,
       resetPasswordService,
-      userRepository
+      userRepository,
     });
 
     // then
@@ -68,7 +68,7 @@ describe('Unit | UseCase | update-user-password', () => {
       temporaryKey,
       encryptionService,
       resetPasswordService,
-      userRepository
+      userRepository,
     });
 
     // then
@@ -93,7 +93,7 @@ describe('Unit | UseCase | update-user-password', () => {
       temporaryKey,
       encryptionService,
       resetPasswordService,
-      userRepository
+      userRepository,
     });
 
     // then
@@ -120,7 +120,7 @@ describe('Unit | UseCase | update-user-password', () => {
       temporaryKey,
       encryptionService,
       resetPasswordService,
-      userRepository
+      userRepository,
     });
 
     // then
@@ -145,7 +145,7 @@ describe('Unit | UseCase | update-user-password', () => {
         temporaryKey,
         encryptionService,
         resetPasswordService,
-        userRepository
+        userRepository,
       });
 
       // then
@@ -168,7 +168,7 @@ describe('Unit | UseCase | update-user-password', () => {
         temporaryKey,
         encryptionService,
         resetPasswordService,
-        userRepository
+        userRepository,
       });
 
       // then

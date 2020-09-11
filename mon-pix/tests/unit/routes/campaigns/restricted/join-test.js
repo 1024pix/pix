@@ -16,7 +16,7 @@ describe('Unit | Route | campaigns/restricted/join', function() {
       const campaign = { code: 'campaignCode' };
       route.paramsFor = sinon.stub().returns(campaign);
       route.set('store', Service.create({
-        queryRecord: sinon.stub().resolves('a student user association')
+        queryRecord: sinon.stub().resolves('a student user association'),
       }));
       route.set('currentUser', Service.create({
         user: { id: 'id' },

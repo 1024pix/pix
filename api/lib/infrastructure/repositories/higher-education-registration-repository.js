@@ -43,7 +43,7 @@ module.exports = {
     });
 
     return upsert(registrationDataToSave);
-  }
+  },
 };
 
 async function upsert(registrationDataToSave) {

@@ -26,7 +26,7 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
   const reconciliationInfo = {
     firstName: externalUser.firstName,
     lastName: externalUser.lastName,
-    birthdate
+    birthdate,
   };
 
   const schoolingRegistration = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({
@@ -34,7 +34,7 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
     reconciliationInfo,
     schoolingRegistrationRepository,
     userRepository,
-    obfuscationService
+    obfuscationService,
   });
 
   const domainUser = new User({
@@ -47,7 +47,7 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
 
   const userId = await userRepository.createAndReconcileUserToSchoolingRegistration({
     domainUser,
-    schoolingRegistrationId: schoolingRegistration.id
+    schoolingRegistrationId: schoolingRegistration.id,
   });
 
   return userRepository.get(userId);

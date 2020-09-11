@@ -19,10 +19,10 @@ describe('Integration | Repository | CertificationReport', function() {
       const userId2 = databaseBuilder.factory.buildUser().id;
       // In session
       certificationCourseId1 = databaseBuilder.factory.buildCertificationReport(
-        { lastName: 'Jackson', firstName: 'Michaele', sessionId, userId1, examinerComment: 'coucou' }
+        { lastName: 'Jackson', firstName: 'Michaele', sessionId, userId1, examinerComment: 'coucou' },
       ).certificationCourseId;
       certificationCourseId2 = databaseBuilder.factory.buildCertificationReport(
-        { lastName: 'Jackson', firstName: 'Janet', sessionId, userId2, examinerComment: '' }
+        { lastName: 'Jackson', firstName: 'Janet', sessionId, userId2, examinerComment: '' },
       ).certificationCourseId;
       // In other session
       databaseBuilder.factory.buildCertificationReport({ lastName: 'Jackson', firstName: 'Michaele', anotherSessionId, userId1 }).id;

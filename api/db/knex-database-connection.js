@@ -49,7 +49,7 @@ async function emptyAllTables() {
   const tablesToDelete = _.without(tableNames,
     'knex_migrations',
     'knex_migrations_lock',
-    'pix_roles'
+    'pix_roles',
   );
 
   const tables = _.map(tablesToDelete, (tableToDelete) => `"${tableToDelete}"`).join();

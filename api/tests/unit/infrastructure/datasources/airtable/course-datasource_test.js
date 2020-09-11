@@ -27,7 +27,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | CourseDatasource', () 
           'Image': [
             {
               'url': 'https://example.org/course.png',
-            }
+            },
           ],
         },
       });

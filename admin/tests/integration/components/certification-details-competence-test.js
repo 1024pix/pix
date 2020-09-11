@@ -12,7 +12,7 @@ module('Integration | Component | certification-details-competence', function(ho
       skill:'@skill1',
       challengeId:'rec12345',
       order:'1',
-      result:result
+      result:result,
     };
   };
 
@@ -24,7 +24,7 @@ module('Integration | Component | certification-details-competence', function(ho
       positionedScore: 26,
       obtainedLevel: -1,
       obtainedScore: 0,
-      answers:[answer(result[0]), answer(result[1]), answer(result[2])]
+      answers:[answer(result[0]), answer(result[1]), answer(result[2])],
     };
   };
 

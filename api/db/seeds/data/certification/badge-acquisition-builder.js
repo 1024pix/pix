@@ -9,5 +9,5 @@ function badgeAcquisitionBuilder({ databaseBuilder }) {
 }
 
 module.exports = {
-  badgeAcquisitionBuilder
+  badgeAcquisitionBuilder,
 };

@@ -147,7 +147,7 @@ describe('Unit | Service | SolutionService', function() {
         sinon.assert.calledWithExactly(serviceQrocMatch, 'qrocAnswer', 'qrocSolution', {
           t1: true,
           t2: false,
-          t3: false
+          t3: false,
         });
         expect(result).to.deep.equal({ result: ANSWER_OK, resultDetails: null });
       });
@@ -169,7 +169,7 @@ describe('Unit | Service | SolutionService', function() {
         sinon.assert.calledWithExactly(serviceQrocMatch, 'qrocAnswer', 'qrocSolution', {
           t1: true,
           t2: false,
-          t3: false
+          t3: false,
         });
 
         expect(result).to.deep.equal({ result: ANSWER_TIMEDOUT, resultDetails: null });
@@ -252,7 +252,7 @@ describe('Unit | Service | SolutionService', function() {
         sinon.assert.calledWithExactly(serviceQrocmDep$match, 'qrocmDepAnswer', 'qrocmDepSolution', 'anyScoring', {
           t1: true,
           t2: false,
-          t3: false
+          t3: false,
         });
         expect(result).to.deep.equal({ result: ANSWER_OK, resultDetails: null });
       });
@@ -274,7 +274,7 @@ describe('Unit | Service | SolutionService', function() {
         sinon.assert.calledWithExactly(serviceQrocmDep$match, 'qrocmDepAnswer', 'qrocmDepSolution', 'anyScoring', {
           t1: true,
           t2: false,
-          t3: false
+          t3: false,
         });
 
         expect(result).to.deep.equal({ result: ANSWER_TIMEDOUT, resultDetails: null });

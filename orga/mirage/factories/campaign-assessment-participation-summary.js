@@ -17,13 +17,13 @@ export default Factory.extend({
   completed: trait({
     afterCreate(campaignAssessmentParticipationSummary) {
       campaignAssessmentParticipationSummary.update({ status: 'completed' });
-    }
+    },
   }),
 
   ongoing: trait({
     afterCreate(campaignAssessmentParticipationSummary) {
       campaignAssessmentParticipationSummary.update({ status: 'ongoing' });
-    }
+    },
   }),
 
   shared: trait({
@@ -32,6 +32,6 @@ export default Factory.extend({
       if (!campaignAssessmentParticipationSummary.masteryPercentage) {
         campaignAssessmentParticipationSummary.update({ masterPercentage: 33 });
       }
-    }
+    },
   }),
 });

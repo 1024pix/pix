@@ -64,7 +64,7 @@ module('Integration | Component | routes/authenticated/campaign | details-item',
       const campaign = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
-        campaignReport
+        campaignReport,
       });
 
       this.set('campaign', campaign);
@@ -87,7 +87,7 @@ module('Integration | Component | routes/authenticated/campaign | details-item',
     test('it should display campaign details item', async function(assert) {
 
       const campaign = store.createRecord('campaign', {
-        id: 12
+        id: 12,
       });
 
       this.set('campaign', campaign);

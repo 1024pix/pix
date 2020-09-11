@@ -17,7 +17,7 @@ module.exports = async function getUserScorecards({ userId, knowledgeElementRepo
       userId,
       knowledgeElements: knowledgeElementsForCompetence,
       competence,
-      competenceEvaluation
+      competenceEvaluation,
     });
   });
 };

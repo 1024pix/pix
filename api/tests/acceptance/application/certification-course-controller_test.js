@@ -20,7 +20,7 @@ describe('Acceptance | API | Certification Course', () => {
       options = {
         method: 'GET',
         url: '/api/admin/certifications/1234/details',
-        headers: {}
+        headers: {},
       };
     });
 
@@ -72,8 +72,8 @@ describe('Acceptance | API | Certification Course', () => {
           method: 'GET',
           url: `/api/admin/certifications/${certificationCourseId}`,
           headers: {
-            authorization: generateValidRequestAuthorizationHeader()
-          }
+            authorization: generateValidRequestAuthorizationHeader(),
+          },
         };
         return databaseBuilder.commit();
       });
@@ -155,8 +155,8 @@ describe('Acceptance | API | Certification Course', () => {
           method: 'GET',
           url: `/api/admin/certifications/${certificationCourseId}`,
           headers: {
-            authorization: generateValidRequestAuthorizationHeader()
-          }
+            authorization: generateValidRequestAuthorizationHeader(),
+          },
         };
         return databaseBuilder.commit();
       });
@@ -218,7 +218,7 @@ describe('Acceptance | API | Certification Course', () => {
         const options = {
           method: 'GET',
           url: '/api/admin/certifications/200',
-          headers: { authorization: generateValidRequestAuthorizationHeader() }
+          headers: { authorization: generateValidRequestAuthorizationHeader() },
         };
 
         // when
@@ -272,7 +272,7 @@ describe('Acceptance | API | Certification Course', () => {
     beforeEach(() => {
       const { id: certificationCourseId } = databaseBuilder.factory.buildCertificationCourse({
         createdAt: new Date('2019-12-21T15:44:38Z'),
-        completedAt: new Date('2017-12-21T15:48:38Z')
+        completedAt: new Date('2017-12-21T15:48:38Z'),
       });
       options = {
         headers: { authorization: generateValidRequestAuthorizationHeader() },
@@ -286,10 +286,10 @@ describe('Acceptance | API | Certification Course', () => {
               'last-name': 'The all mighty',
               'birthplace': 'Namek',
               'birthdate': '1989-10-24',
-              'external-id': 'xenoverse2'
-            }
-          }
-        }
+              'external-id': 'xenoverse2',
+            },
+          },
+        },
       };
 
       return databaseBuilder.commit();
@@ -344,7 +344,7 @@ describe('Acceptance | API | Certification Course', () => {
       options = {
         method: 'GET',
         url: `/api/certification-courses/${certificationCourse.id}`,
-        headers: {}
+        headers: {},
       };
       expectedCertificationCourse = {
         type: 'certification-courses',
@@ -358,7 +358,7 @@ describe('Acceptance | API | Certification Course', () => {
           assessment: {
             links: {
               related: `/api/assessments/${assessment.id}`,
-            }
+            },
           },
         },
       };
@@ -420,8 +420,8 @@ describe('Acceptance | API | Certification Course', () => {
           attributes: {
             'access-code': '123',
             'session-id': sessionId,
-          }
-        }
+          },
+        },
       };
       options = {
         method: 'POST',
@@ -466,26 +466,26 @@ describe('Acceptance | API | Certification Course', () => {
                       id: 'recSkill0_0',
                       nom: '@recSkill0_0',
                       challenges: [
-                        { id: 'recChallenge0_0_0' }
-                      ]
+                        { id: 'recChallenge0_0_0' },
+                      ],
                     },
                     {
                       id: 'recSkill0_1',
                       nom: '@recSkill0_1',
                       challenges: [
-                        { id: 'recChallenge0_1_0' }
-                      ]
+                        { id: 'recChallenge0_1_0' },
+                      ],
                     },
                     {
                       id: 'recSkill0_2',
                       nom: '@recSkill0_2',
                       challenges: [
-                        { id: 'recChallenge0_2_0' }
-                      ]
-                    }
-                  ]
-                }
-              ]
+                        { id: 'recChallenge0_2_0' },
+                      ],
+                    },
+                  ],
+                },
+              ],
             },
             {
               id: 'recCompetence1',
@@ -497,26 +497,26 @@ describe('Acceptance | API | Certification Course', () => {
                       id: 'recSkill1_0',
                       nom: '@recSkill1_0',
                       challenges: [
-                        { id: 'recChallenge1_0_0' }
-                      ]
+                        { id: 'recChallenge1_0_0' },
+                      ],
                     },
                     {
                       id: 'recSkill1_1',
                       nom: '@recSkill1_1',
                       challenges: [
-                        { id: 'recChallenge1_1_0' }
-                      ]
+                        { id: 'recChallenge1_1_0' },
+                      ],
                     },
                     {
                       id: 'recSkill1_2',
                       nom: '@recSkill1_2',
                       challenges: [
-                        { id: 'recChallenge1_2_0' }
-                      ]
-                    }
-                  ]
-                }
-              ]
+                        { id: 'recChallenge1_2_0' },
+                      ],
+                    },
+                  ],
+                },
+              ],
             },
             {
               id: 'recCompetence2',
@@ -528,26 +528,26 @@ describe('Acceptance | API | Certification Course', () => {
                       id: 'recSkill2_0',
                       nom: '@recSkill2_0',
                       challenges: [
-                        { id: 'recChallenge2_0_0' }
-                      ]
+                        { id: 'recChallenge2_0_0' },
+                      ],
                     },
                     {
                       id: 'recSkill2_1',
                       nom: '@recSkill2_1',
                       challenges: [
-                        { id: 'recChallenge2_1_0' }
-                      ]
+                        { id: 'recChallenge2_1_0' },
+                      ],
                     },
                     {
                       id: 'recSkill2_2',
                       nom: '@recSkill2_2',
                       challenges: [
-                        { id: 'recChallenge2_2_0' }
-                      ]
-                    }
-                  ]
-                }
-              ]
+                        { id: 'recChallenge2_2_0' },
+                      ],
+                    },
+                  ],
+                },
+              ],
             },
             {
               id: 'recCompetence3',
@@ -559,26 +559,26 @@ describe('Acceptance | API | Certification Course', () => {
                       id: 'recSkill3_0',
                       nom: '@recSkill3_0',
                       challenges: [
-                        { id: 'recChallenge3_0_0' }
-                      ]
+                        { id: 'recChallenge3_0_0' },
+                      ],
                     },
                     {
                       id: 'recSkill3_1',
                       nom: '@recSkill3_1',
                       challenges: [
-                        { id: 'recChallenge3_1_0' }
-                      ]
+                        { id: 'recChallenge3_1_0' },
+                      ],
                     },
                     {
                       id: 'recSkill3_2',
                       nom: '@recSkill3_2',
                       challenges: [
-                        { id: 'recChallenge3_2_0' }
-                      ]
-                    }
-                  ]
-                }
-              ]
+                        { id: 'recChallenge3_2_0' },
+                      ],
+                    },
+                  ],
+                },
+              ],
             },
             {
               id: 'recCompetence4',
@@ -590,29 +590,29 @@ describe('Acceptance | API | Certification Course', () => {
                       id: 'recSkill4_0',
                       nom: '@recSkill4_0',
                       challenges: [
-                        { id: 'recChallenge4_0_0' }
-                      ]
+                        { id: 'recChallenge4_0_0' },
+                      ],
                     },
                     {
                       id: 'recSkill4_1',
                       nom: '@recSkill4_1',
                       challenges: [
-                        { id: 'recChallenge4_1_0' }
-                      ]
+                        { id: 'recChallenge4_1_0' },
+                      ],
                     },
                     {
                       id: 'recSkill4_2',
                       nom: '@recSkill4_2',
                       challenges: [
-                        { id: 'recChallenge4_2_0' }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
+                        { id: 'recChallenge4_2_0' },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
       ];
 
       beforeEach(async () => {
@@ -623,7 +623,7 @@ describe('Acceptance | API | Certification Course', () => {
         databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent({
           learningContent,
           userId,
-          earnedPix: 4
+          earnedPix: 4,
         });
 
         await databaseBuilder.commit();

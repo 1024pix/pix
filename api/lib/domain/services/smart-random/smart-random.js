@@ -66,7 +66,7 @@ function _getSkillsWithAddedInformations({ targetSkills, filteredChallenges }) {
       challenges,
       linkedSkills: firstChallenge ? _.reject(firstChallenge.skills, { id: skill.id }) : [],
       timed: firstChallenge ? firstChallenge.isTimed() : false,
-      isPlayable: !!firstChallenge
+      isPlayable: !!firstChallenge,
     });
   });
 }

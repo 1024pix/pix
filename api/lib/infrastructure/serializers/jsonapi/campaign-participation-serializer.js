@@ -27,7 +27,7 @@ module.exports = {
         attributes: ['isShared', 'sharedAt', 'createdAt', 'participantExternalId',  'campaign', 'user', 'campaignParticipationResult', 'assessment', 'campaignAnalysis'],
         campaign: {
           ref: 'id',
-          attributes: ['code', 'title', 'type']
+          attributes: ['code', 'title', 'type'],
         },
         user: {
           ref: 'id',
@@ -39,7 +39,7 @@ module.exports = {
           relationshipLinks: {
             related(record) {
               return `/api/assessments/${record.assessment.id}`;
-            }
+            },
           },
         },
         campaignParticipationResult: {
@@ -48,7 +48,7 @@ module.exports = {
           relationshipLinks: {
             related(record, current, parent) {
               return `/api/campaign-participations/${parent.id}/campaign-participation-result`;
-            }
+            },
           },
         },
         campaignAnalysis: {
@@ -57,8 +57,8 @@ module.exports = {
           relationshipLinks: {
             related(record, current, parent) {
               return `/api/campaign-participations/${parent.id}/analyses`;
-            }
-          }
+            },
+          },
         },
       }).serialize(campaignParticipation);
   },

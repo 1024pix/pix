@@ -55,11 +55,11 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', () => {
             correction: {
               links: {
                 related: `/api/answers/${answerId}/correction`,
-              }
+              },
             },
             levelup: {
-              data: null
-            }
+              data: null,
+            },
           },
         },
       };

@@ -49,13 +49,13 @@ const campaignValidationJoiSchema = Joi.object({
         is: Joi.string().required().valid(Campaign.types.ASSESSMENT),
         then: Joi.required(),
       }],
-      otherwise: Joi.number().allow(null).optional()
+      otherwise: Joi.number().allow(null).optional(),
     })
     .integer()
     .messages({
       'any.required': 'Veuillez sélectionner un profil cible pour votre campagne.',
       'number.base': 'Veuillez sélectionner un profil cible pour votre campagne.',
-      'any.only': 'Un profil cible n’est pas autorisé pour les campagnes de collecte de profils.'
+      'any.only': 'Un profil cible n’est pas autorisé pour les campagnes de collecte de profils.',
     }),
 
   idPixLabel: Joi.string()
@@ -84,11 +84,11 @@ module.exports = {
   validate(campaign) {
     const { error } = campaignValidationJoiSchema.validate(campaign, {
       ...validationConfiguration,
-      context: { type: campaign.type }
+      context: { type: campaign.type },
     });
     if (error) {
       throw EntityValidationError.fromJoiErrors(error.details);
     }
     return true;
-  }
+  },
 };

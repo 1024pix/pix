@@ -28,7 +28,7 @@ describe('Acceptance | Navbar', function() {
       },
       {
         initialRoute: '/profil', initialNavigationItem: '.navbar-desktop-header-menu__item:nth-child(1)',
-        expectedRoute: '/certifications', targetedNavigationItem: '.navbar-desktop-header-menu__item:nth-child(2)'
+        expectedRoute: '/certifications', targetedNavigationItem: '.navbar-desktop-header-menu__item:nth-child(2)',
       },
     ].forEach((usecase) => {
       it(`should redirect from "${usecase.initialRoute}" to "${usecase.expectedRoute}"`, async function() {

@@ -99,15 +99,15 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', () => {
               data: {
                 id: tutorialEvaluationId,
                 type: 'tutorialEvaluation',
-              }
+              },
             },
             'user-tutorial': {
               data: {
                 id: userTutorialId,
                 type: 'user-tutorial',
-              }
-            }
-          }
+              },
+            },
+          },
         },
         included: [
           {
@@ -128,7 +128,7 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', () => {
             id: userTutorialId,
             type: 'user-tutorial',
           },
-        ]
+        ],
       };
 
       // when

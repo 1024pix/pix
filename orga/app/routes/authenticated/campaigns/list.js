@@ -5,19 +5,19 @@ export default class ListRoute extends Route {
 
   queryParams = {
     pageNumber: {
-      refreshModel: true
+      refreshModel: true,
     },
     pageSize: {
-      refreshModel: true
+      refreshModel: true,
     },
     name: {
-      refreshModel: true
+      refreshModel: true,
     },
     status: {
-      refreshModel: true
+      refreshModel: true,
     },
     creatorId: {
-      refreshModel: true
+      refreshModel: true,
     },
   };
 

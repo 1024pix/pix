@@ -54,7 +54,7 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    }
+    },
   );
 }
 

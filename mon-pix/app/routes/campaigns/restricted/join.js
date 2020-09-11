@@ -20,7 +20,7 @@ export default class JoinRoute extends Route {
 
       if (!isEmpty(schoolingRegistration)) {
         return this.replaceWith('campaigns.start-or-resume', campaign.code, {
-          queryParams: { associationDone: true }
+          queryParams: { associationDone: true },
         });
       }
     }

@@ -10,6 +10,6 @@ module.exports = {
       return AnswerStatus.OK;
     }
     return AnswerStatus.KO;
-  }
+  },
 
 };

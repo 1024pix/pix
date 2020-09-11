@@ -14,7 +14,7 @@ module.exports = {
       email: payload.email,
       username: payload.username,
       password: payload.password,
-      withUsername: payload['with-username']
+      withUsername: payload['with-username'],
     };
     const locale = extractLocaleFromRequest(request);
 
@@ -39,7 +39,7 @@ module.exports = {
           'access-token': accessToken,
         },
         type: 'external-users',
-      }
+      },
     };
 
     return h.response(response).code(200);
@@ -60,10 +60,10 @@ module.exports = {
     const schoolingRegistrationWithGeneratedPasswordResponse = {
       data: {
         attributes: {
-          'generated-password': generatedPassword
+          'generated-password': generatedPassword,
         },
-        type: 'schooling-registration-dependent-user'
-      }
+        type: 'schooling-registration-dependent-user',
+      },
     };
 
     return h.response(schoolingRegistrationWithGeneratedPasswordResponse).code(200);

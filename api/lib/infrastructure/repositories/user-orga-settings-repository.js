@@ -34,9 +34,9 @@ module.exports = {
   async update(userId, organizationId) {
     const bookshelfUserOrgaSettings = await BookshelfUserOrgaSettings
       .where({ userId })
-      .save({ currentOrganizationId: organizationId }, { patch: true, method: 'update', });
+      .save({ currentOrganizationId: organizationId }, { patch: true, method: 'update' });
     await bookshelfUserOrgaSettings.related('user').fetch();
     await bookshelfUserOrgaSettings.related('currentOrganization').fetch();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfUserOrgaSettings, bookshelfUserOrgaSettings);
-  }
+  },
 };

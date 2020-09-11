@@ -20,7 +20,7 @@ module.exports = class RedisClient {
       [this._client],
       // As said in the doc, setting retryCount to 0 and treating a failure as the resource being "locked"
       // is a good practice
-      { retryCount: 0 }
+      { retryCount: 0 },
     );
 
     this.get = promisify(this._client.get).bind(this._client);

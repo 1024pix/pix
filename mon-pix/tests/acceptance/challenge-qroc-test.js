@@ -163,14 +163,14 @@ describe('Acceptance | Displaying a QROC challenge', () => {
           solution: 'Mangue',
           hint: 'Manger des fruits',
           tutorials: [tutorial],
-          learningMoreTutorials: [learningMoreTutorial]
+          learningMoreTutorials: [learningMoreTutorial],
         });
         server.create('answer', {
           value: 'Banane',
           result: 'ko',
           assessmentId: assessment.id,
           challengeId: qrocChallenge.id,
-          correction
+          correction,
         });
 
         // when
@@ -338,14 +338,14 @@ describe('Acceptance | Displaying a QROC challenge', () => {
           solution: 'Mangue',
           hint: 'Manger des fruits',
           tutorials: [tutorial],
-          learningMoreTutorials: [learningMoreTutorial]
+          learningMoreTutorials: [learningMoreTutorial],
         });
         server.create('answer', {
           value: 'Banane',
           result: 'ko',
           assessmentId: assessment.id,
           challengeId: qrocChallenge.id,
-          correction
+          correction,
         });
 
         // when

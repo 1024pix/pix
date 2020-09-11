@@ -27,22 +27,22 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
                 {
                   id: assessment.answers[0].id.toString(),
                   type: 'answers',
-                }
+                },
               ],
               links: {
-                related: '/api/answers?assessmentId=' + assessment.id.toString()
-              }
+                related: '/api/answers?assessmentId=' + assessment.id.toString(),
+              },
             },
             course: {
               data: {
                 id: assessment.courseId.toString(),
-                type: 'courses'
-              }
+                type: 'courses',
+              },
             },
             'certification-course': {
               links: {
                 related: `/api/certification-courses/${certificationCourseId}`,
-              }
+              },
             },
           },
         },
@@ -54,7 +54,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
             name: assessment.course.name,
             'nb-challenges': assessment.course.nbChallenges,
           },
-        }]
+        }],
       };
 
       // when
@@ -79,7 +79,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
         },
         links: {
           related: `/api/progressions/progression-${assessment.id}`,
-        }
+        },
       };
 
       // when
@@ -104,7 +104,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
         },
         links: {
           related: `/api/progressions/progression-${assessment.id}`,
-        }
+        },
       };
 
       // when
@@ -119,7 +119,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
     it('should convert an Assessment model object without course into JSON API data', function() {
       //given
       const assessment = domainBuilder.buildAssessment({
-        course: null
+        course: null,
       });
       const expectedCourseJson = {
         data: {

@@ -16,7 +16,7 @@ exports.up = function(knex) {
           .update({
             pixScore: null,
             estimatedLevel: null,
-            updatedAt: knex.fn.now()
+            updatedAt: knex.fn.now(),
           });
       });
     });

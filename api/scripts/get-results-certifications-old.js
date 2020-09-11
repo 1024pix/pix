@@ -21,7 +21,7 @@ function parseArgs(argv) {
 function buildRequestObject(baseUrl, authToken, certificationId) {
   return {
     headers: {
-      authorization: 'Bearer ' + authToken
+      authorization: 'Bearer ' + authToken,
     },
     baseUrl: baseUrl,
     url: `/api/admin/certifications/${certificationId}/details`,
@@ -29,7 +29,7 @@ function buildRequestObject(baseUrl, authToken, certificationId) {
     transform: (body) => {
       body.certificationId = certificationId;
       return body;
-    }
+    },
   };
 }
 
@@ -66,7 +66,7 @@ function main() {
   const ids = parseArgs(process.argv.slice(4));
   const requests = Promise.all(
     ids.map((id) => buildRequestObject(baseUrl, authToken, id))
-      .map((requestObject) => makeRequest(requestObject))
+      .map((requestObject) => makeRequest(requestObject)),
   );
 
   requests.then((certificationResults) => certificationResults.map(toCSVRow))
@@ -91,6 +91,6 @@ if (require.main === module) {
     toCSVRow,
     buildRequestObject,
     findCompetence,
-    HEADERS
+    HEADERS,
   };
 }

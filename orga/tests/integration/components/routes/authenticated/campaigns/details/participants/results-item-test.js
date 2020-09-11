@@ -16,7 +16,7 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
     // given
     const campaignParticipation = store.createRecord('campaignParticipation', {
       isShared: false,
-      campaignParticipationResult: null
+      campaignParticipationResult: null,
     });
 
     this.set('campaignParticipation', campaignParticipation);
@@ -43,8 +43,8 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
           testedSkillsCount: 9,
           validatedSkillsCount: 5,
           areaColor:'jaffa',
-        }]
-      }
+        }],
+      },
     });
 
     this.set('campaignParticipation', campaignParticipation);
@@ -71,12 +71,12 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
       totalSkillsCount: 30,
       testedSkillsCount: 29,
       validatedSkillsCount: 15,
-      competenceResults: [competenceResult]
+      competenceResults: [competenceResult],
     });
 
     const campaignParticipation = store.createRecord('campaignParticipation', {
       isShared: true,
-      campaignParticipationResult
+      campaignParticipationResult,
     });
 
     this.set('campaignParticipation', campaignParticipation);

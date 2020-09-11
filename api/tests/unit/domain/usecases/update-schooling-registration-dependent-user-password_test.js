@@ -1,7 +1,7 @@
 const { sinon, expect, catchErr } = require('../../../test-helper');
 
 const {
-  UserNotFoundError, UserNotAuthorizedToUpdatePasswordError
+  UserNotFoundError, UserNotAuthorizedToUpdatePasswordError,
 } = require('../../../../lib/domain/errors');
 
 const updateSchoolingRegistrationDependentUserPassword = require('../../../../lib/domain/usecases/update-schooling-registration-dependent-user-password');
@@ -27,18 +27,18 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
   beforeEach(() => {
     userMember = {
       id: 1,
-      hasAccessToOrganization: sinon.stub().returns(true)
+      hasAccessToOrganization: sinon.stub().returns(true),
     };
     userStudent = {
       id: 2,
       username: 'first.last0112',
-      email: 'first.last@example.net'
+      email: 'first.last@example.net',
     };
 
     student = {
       id: schoolingRegistrationId,
       userId: userStudent.id,
-      organizationId
+      organizationId,
     };
 
     passwordGenerator = {
@@ -50,7 +50,7 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
     userRepository = {
       get: sinon.stub().resolves(userStudent),
       getWithMemberships: sinon.stub().resolves(userMember),
-      updatePasswordThatShouldBeChanged: sinon.stub().resolves()
+      updatePasswordThatShouldBeChanged: sinon.stub().resolves(),
     };
     schoolingRegistrationRepository = {
       get: sinon.stub().resolves(student),
@@ -66,7 +66,7 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
       passwordGenerator,
       encryptionService,
       userRepository,
-      schoolingRegistrationRepository
+      schoolingRegistrationRepository,
     });
 
     // then
@@ -82,7 +82,7 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
       passwordGenerator,
       encryptionService,
       userRepository,
-      schoolingRegistrationRepository
+      schoolingRegistrationRepository,
     });
 
     // then
@@ -98,7 +98,7 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
       passwordGenerator,
       encryptionService,
       userRepository,
-      schoolingRegistrationRepository
+      schoolingRegistrationRepository,
     });
 
     // then
@@ -115,7 +115,7 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
       passwordGenerator,
       encryptionService,
       userRepository,
-      schoolingRegistrationRepository
+      schoolingRegistrationRepository,
     });
 
     // then
@@ -136,7 +136,7 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
         passwordGenerator,
         encryptionService,
         userRepository,
-        schoolingRegistrationRepository
+        schoolingRegistrationRepository,
       });
 
       // then
@@ -158,7 +158,7 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
         passwordGenerator,
         encryptionService,
         userRepository,
-        schoolingRegistrationRepository
+        schoolingRegistrationRepository,
       });
 
       // then
@@ -180,7 +180,7 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
         passwordGenerator,
         encryptionService,
         userRepository,
-        schoolingRegistrationRepository
+        schoolingRegistrationRepository,
       });
 
       // then
@@ -200,7 +200,7 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
         passwordGenerator,
         encryptionService,
         userRepository,
-        schoolingRegistrationRepository
+        schoolingRegistrationRepository,
       });
 
       // then

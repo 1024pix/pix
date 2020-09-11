@@ -101,24 +101,24 @@ describe('Integration | Service | Placement Profile Service', function() {
         id: 13,
         status: 'completed',
         competenceId: 'competenceRecordIdOne',
-        assessmentResults: [assessmentResult1]
+        assessmentResults: [assessmentResult1],
       });
       const assessment2 = new Assessment({
         id: 1637,
         status: 'completed',
         competenceId: 'competenceRecordIdTwo',
-        assessmentResults: [assessmentResult2]
+        assessmentResults: [assessmentResult2],
       });
       const assessment3 = new Assessment({
         id: 145,
         status: 'completed',
         competenceId: 'competenceRecordIdUnknown',
-        assessmentResults: [assessmentResult3]
+        assessmentResults: [assessmentResult3],
       });
 
       beforeEach(() => {
         sinon.stub(assessmentRepository, 'findLastCompletedAssessmentsForEachCompetenceByUser').resolves([
-          assessment1, assessment2, assessment3
+          assessment1, assessment2, assessment3,
         ]);
       });
 
@@ -159,7 +159,7 @@ describe('Integration | Service | Placement Profile Service', function() {
             name: '1.1 Construire un flipper',
             skills: [],
             pixScore: 0,
-            estimatedLevel: 0
+            estimatedLevel: 0,
           },
           {
             id: 'competenceRecordIdTwo',
@@ -168,7 +168,7 @@ describe('Integration | Service | Placement Profile Service', function() {
             name: '1.2 Adopter un dauphin',
             skills: [],
             pixScore: 0,
-            estimatedLevel: 0
+            estimatedLevel: 0,
           },
           {
             id: 'competenceRecordIdThree',
@@ -177,7 +177,7 @@ describe('Integration | Service | Placement Profile Service', function() {
             name: '1.3 Se faire manger par un requin',
             skills: [],
             pixScore: 0,
-            estimatedLevel: 0
+            estimatedLevel: 0,
           }]);
       });
 
@@ -189,7 +189,7 @@ describe('Integration | Service | Placement Profile Service', function() {
           const ke = domainBuilder.buildKnowledgeElement({
             competenceId: 'competenceRecordIdTwo',
             skillId: skillRemplir2.id,
-            earnedPix: 23
+            earnedPix: 23,
           });
 
           sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceId')
@@ -205,7 +205,7 @@ describe('Integration | Service | Placement Profile Service', function() {
           expect(actualPlacementProfile.userCompetences[0]).to.include({
             id: 'competenceRecordIdOne',
             pixScore: 0,
-            estimatedLevel: 0
+            estimatedLevel: 0,
           });
           expect(actualPlacementProfile.userCompetences[1]).to.include({
             id: 'competenceRecordIdTwo',
@@ -220,20 +220,20 @@ describe('Integration | Service | Placement Profile Service', function() {
             competenceId: 'competenceRecordIdTwo',
             skillId: skillRemplir2.id,
             earnedPix: 8,
-            source: KnowledgeElement.SourceType.INFERRED
+            source: KnowledgeElement.SourceType.INFERRED,
           });
 
           const directKe = domainBuilder.buildKnowledgeElement({
             competenceId: 'competenceRecordIdTwo',
             skillId: skillRemplir4.id,
             earnedPix: 9,
-            source: KnowledgeElement.SourceType.DIRECT
+            source: KnowledgeElement.SourceType.DIRECT,
           });
 
           sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceId')
             .withArgs({
               userId,
-              limitDate: sinon.match.any
+              limitDate: sinon.match.any,
             }).resolves({ 'competenceRecordIdTwo': [inferredKe, directKe] });
 
           // when
@@ -251,7 +251,7 @@ describe('Integration | Service | Placement Profile Service', function() {
 
             const ke = domainBuilder.buildKnowledgeElement({
               competenceId: 'competenceRecordIdOne',
-              earnedPix: 64
+              earnedPix: 64,
             });
 
             sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceId')
@@ -261,14 +261,14 @@ describe('Integration | Service | Placement Profile Service', function() {
             const actualPlacementProfile = await placementProfileService.getPlacementProfile({
               userId,
               limitDate: 'salut',
-              allowExcessPixAndLevels: true
+              allowExcessPixAndLevels: true,
             });
 
             // then
             expect(actualPlacementProfile.userCompetences[0]).to.include({
               id: 'competenceRecordIdOne',
               pixScore: 64,
-              estimatedLevel: 8
+              estimatedLevel: 8,
             });
           });
 
@@ -279,7 +279,7 @@ describe('Integration | Service | Placement Profile Service', function() {
 
             const ke = domainBuilder.buildKnowledgeElement({
               competenceId: 'competenceRecordIdOne',
-              earnedPix: 64
+              earnedPix: 64,
             });
 
             sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceId')
@@ -289,14 +289,14 @@ describe('Integration | Service | Placement Profile Service', function() {
             const actualPlacementProfile = await placementProfileService.getPlacementProfile({
               userId,
               limitDate: 'salut',
-              allowExcessPixAndLevels: false
+              allowExcessPixAndLevels: false,
             });
 
             // then
             expect(actualPlacementProfile.userCompetences[0]).to.include({
               id: 'competenceRecordIdOne',
               pixScore: 40,
-              estimatedLevel: 5
+              estimatedLevel: 5,
             });
           });
         });
@@ -314,7 +314,7 @@ describe('Integration | Service | Placement Profile Service', function() {
       // when
       const actualPlacementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
         userIdsAndDates: { [userId]: 'someLimitDate' },
-        competences
+        competences,
       });
 
       // then
@@ -326,7 +326,7 @@ describe('Integration | Service | Placement Profile Service', function() {
           name: '1.1 Construire un flipper',
           skills: [],
           pixScore: 0,
-          estimatedLevel: 0
+          estimatedLevel: 0,
         },
         {
           id: 'competenceRecordIdTwo',
@@ -335,7 +335,7 @@ describe('Integration | Service | Placement Profile Service', function() {
           name: '1.2 Adopter un dauphin',
           skills: [],
           pixScore: 0,
-          estimatedLevel: 0
+          estimatedLevel: 0,
         },
         {
           id: 'competenceRecordIdThree',
@@ -344,7 +344,7 @@ describe('Integration | Service | Placement Profile Service', function() {
           name: '1.3 Se faire manger par un requin',
           skills: [],
           pixScore: 0,
-          estimatedLevel: 0
+          estimatedLevel: 0,
         }]);
     });
 
@@ -355,7 +355,7 @@ describe('Integration | Service | Placement Profile Service', function() {
         const ke = domainBuilder.buildKnowledgeElement({
           competenceId: 'competenceRecordIdTwo',
           skillId: skillRemplir2.id,
-          earnedPix: 23
+          earnedPix: 23,
         });
 
         sinon.stub(knowledgeElementRepository, 'findSnapshotGroupedByCompetencesForUsers')
@@ -364,14 +364,14 @@ describe('Integration | Service | Placement Profile Service', function() {
         // when
         const actualPlacementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
           userIdsAndDates: { [userId]: 'someLimitDate' },
-          competences
+          competences,
         });
 
         // then
         expect(actualPlacementProfiles[0].userCompetences[0]).to.include({
           id: 'competenceRecordIdOne',
           pixScore: 0,
-          estimatedLevel: 0
+          estimatedLevel: 0,
         });
         expect(actualPlacementProfiles[0].userCompetences[1]).to.include({
           id: 'competenceRecordIdTwo',
@@ -386,14 +386,14 @@ describe('Integration | Service | Placement Profile Service', function() {
           competenceId: 'competenceRecordIdTwo',
           skillId: skillRemplir2.id,
           earnedPix: 8,
-          source: KnowledgeElement.SourceType.INFERRED
+          source: KnowledgeElement.SourceType.INFERRED,
         });
 
         const directKe = domainBuilder.buildKnowledgeElement({
           competenceId: 'competenceRecordIdTwo',
           skillId: skillRemplir4.id,
           earnedPix: 9,
-          source: KnowledgeElement.SourceType.DIRECT
+          source: KnowledgeElement.SourceType.DIRECT,
         });
 
         sinon.stub(knowledgeElementRepository, 'findSnapshotGroupedByCompetencesForUsers')
@@ -402,7 +402,7 @@ describe('Integration | Service | Placement Profile Service', function() {
         // when
         const actualPlacementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
           userIdsAndDates: { [userId]: 'someLimitDate' },
-          competences
+          competences,
         });
 
         // then
@@ -413,7 +413,7 @@ describe('Integration | Service | Placement Profile Service', function() {
         it('should not limit pixScore and level to the max reachable for user competence based on knowledge elements', async () => {
           const ke = domainBuilder.buildKnowledgeElement({
             competenceId: 'competenceRecordIdOne',
-            earnedPix: 64
+            earnedPix: 64,
           });
 
           sinon.stub(knowledgeElementRepository, 'findSnapshotGroupedByCompetencesForUsers')
@@ -423,14 +423,14 @@ describe('Integration | Service | Placement Profile Service', function() {
           const actualPlacementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
             userIdsAndDates: { [userId]: 'someLimitDate' },
             competences,
-            allowExcessPixAndLevels: true
+            allowExcessPixAndLevels: true,
           });
 
           // then
           expect(actualPlacementProfiles[0].userCompetences[0]).to.include({
             id: 'competenceRecordIdOne',
             pixScore: 64,
-            estimatedLevel: 8
+            estimatedLevel: 8,
           });
         });
 
@@ -440,7 +440,7 @@ describe('Integration | Service | Placement Profile Service', function() {
         it('should limit pixScore to 40 and level to 5', async () => {
           const ke = domainBuilder.buildKnowledgeElement({
             competenceId: 'competenceRecordIdOne',
-            earnedPix: 64
+            earnedPix: 64,
           });
 
           sinon.stub(knowledgeElementRepository, 'findSnapshotGroupedByCompetencesForUsers')
@@ -450,14 +450,14 @@ describe('Integration | Service | Placement Profile Service', function() {
           const actualPlacementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
             userIdsAndDates: { [userId]: 'someLimitDate' },
             competences,
-            allowExcessPixAndLevels: false
+            allowExcessPixAndLevels: false,
           });
 
           // then
           expect(actualPlacementProfiles[0].userCompetences[0]).to.include({
             id: 'competenceRecordIdOne',
             pixScore: 40,
-            estimatedLevel: 5
+            estimatedLevel: 5,
           });
         });
       });

@@ -10,7 +10,7 @@ exports.register = async function(server) {
         handler: userOrgaSettingsController.createOrUpdate,
         validate: {
           options: {
-            allowUnknown: true
+            allowUnknown: true,
           },
           payload: Joi.object({
             data: {
@@ -18,20 +18,20 @@ exports.register = async function(server) {
                 organization: {
                   data: {
                     id: Joi.number().integer().required(),
-                  }
-                }
-              }
-            }
-          })
+                  },
+                },
+              },
+            },
+          }),
         },
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Création ou Mise à jour des paramètres utilisateurs liés à Pix Orga\n' +
           '- L’id en paramètre doit correspondre à celui de l’utilisateur authentifié',
         ],
-        tags: ['api', 'user-orga-settings']
-      }
-    }
+        tags: ['api', 'user-orga-settings'],
+      },
+    },
   ]);
 };
 

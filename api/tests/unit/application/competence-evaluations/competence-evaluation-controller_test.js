@@ -48,7 +48,7 @@ describe('Unit | Application | Controller | Competence-Evaluation', () => {
         id: 1,
         assessmentId: competenceEvaluation.assessmentId,
         userId: competenceEvaluation.userId,
-        competenceId
+        competenceId,
       };
       serializer.serialize.returns(serializedCompetenceEvaluation);
 
@@ -73,7 +73,7 @@ describe('Unit | Application | Controller | Competence-Evaluation', () => {
       };
       request = {
         query,
-        auth: { credentials: { userId } }
+        auth: { credentials: { userId } },
       };
       options = { filter: { assessmentId } };
       result = {

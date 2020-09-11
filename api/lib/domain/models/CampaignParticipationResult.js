@@ -67,7 +67,7 @@ class CampaignParticipationResult {
   get masteryPercentage() {
     return _computeMasteryPercentage({
       totalSkillsCount: this.totalSkillsCount,
-      validatedSkillsCount: this.validatedSkillsCount
+      validatedSkillsCount: this.validatedSkillsCount,
     });
   }
 
