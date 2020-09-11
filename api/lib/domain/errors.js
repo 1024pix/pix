@@ -320,6 +320,12 @@ class InvalidCertificationCandidate extends DomainError {
   }
 }
 
+class InvalidExternalUserTokenError extends DomainError {
+  constructor(message = 'L’idToken de l’utilisateur externe est invalide.') {
+    super(message);
+  }
+}
+
 class InvalidRecaptchaTokenError extends DomainError {
   constructor(message = 'Token de recaptcha invalide.') {
     super(message);
@@ -399,6 +405,12 @@ class SchoolingRegistrationAlreadyLinkedToUserError extends DomainError {
     super(message);
     this.code = code;
     this.meta = meta;
+  }
+}
+
+class UserAlreadyExistsWithAuthenticationMethodError extends DomainError {
+  constructor(message = 'Il existe déjà un compte qui possède cette méthode d‘authentification.') {
+    super(message);
   }
 }
 
@@ -573,6 +585,7 @@ module.exports = {
   ImproveCompetenceEvaluationForbiddenError,
   InvalidCertificationCandidate,
   InvalidCertificationReportForFinalization,
+  InvalidExternalUserTokenError,
   InvalidParametersForSessionPublication,
   InvalidRecaptchaTokenError,
   InvalidTemporaryKeyError,
@@ -593,6 +606,7 @@ module.exports = {
   SchoolingRegistrationsCouldNotBeSavedError,
   SchoolingRegistrationNotFound,
   SessionAlreadyFinalizedError,
+  UserAlreadyExistsWithAuthenticationMethodError,
   UserAlreadyLinkedToCandidateInSessionError,
   UserCouldNotBeReconciledError,
   UserNotAuthorizedToAccessEntity,

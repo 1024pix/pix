@@ -6,14 +6,21 @@ const moduleUnderTest = require('../../../../lib/application/users');
 
 describe('Integration | Application | Users | Routes', () => {
 
-  let httpTestServer;
   const methodGET = 'GET';
   const methodPATCH = 'PATCH';
 
+  let payload;
+
+  let httpTestServer;
+
   beforeEach(() => {
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
+    sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
+
     sinon.stub(userController, 'getUserDetailsForAdmin').returns('ok');
     sinon.stub(userController, 'updateUserDetailsForAdministration').returns('updated');
+    sinon.stub(userController, 'updateUserSamlId').returns('updated');
+
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
@@ -70,7 +77,7 @@ describe('Integration | Application | Users | Routes', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return bad request with invalid email message when email is not valid', async () => {
+    it('should return bad request when firstName is missing', async () => {
       // given
       securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
       const url = '/api/admin/users/123';
@@ -92,10 +99,9 @@ describe('Integration | Application | Users | Routes', () => {
       expect(response.statusCode).to.equal(400);
       const firstError = response.result.errors[0];
       expect(firstError.detail).to.equal('"data.attributes.first-name" is required');
-
     });
 
-    it('should return bad request when firstName is missing', async () => {
+    it('should return bad request when lastName is missing', async () => {
       // given
       securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
       const url = '/api/admin/users/123';
@@ -103,7 +109,7 @@ describe('Integration | Application | Users | Routes', () => {
         data: {
           id: '123',
           attributes: {
-            'last-name': 'lastNameUpdated',
+            'first-name': 'firstNameUpdated',
             email: 'emailUpdated',
           },
         },
@@ -115,12 +121,10 @@ describe('Integration | Application | Users | Routes', () => {
       // then
       expect(response.statusCode).to.equal(400);
       const firstError = response.result.errors[0];
-      expect(firstError.detail).to.equal('"data.attributes.first-name" is required');
-
+      expect(firstError.detail).to.equal('"data.attributes.last-name" is required');
     });
 
     it('should return a 400 when id in param is not a number"', async () => {
-
       // given
       const url = '/api/admin/users/NOT_A_NUMBER';
 
@@ -129,6 +133,44 @@ describe('Integration | Application | Users | Routes', () => {
 
       // then
       expect(response.statusCode).to.equal(400);
+    });
+  });
+
+  describe('PATCH /api/users/{id}/authentication-methods/saml', () => {
+
+    const url = '/api/users/1/authentication-methods/saml';
+
+    beforeEach(() => {
+      payload = {
+        data: {
+          id: 1,
+          type: 'external-users',
+          attributes: {
+            'external-user-token': 'TOKEN',
+          },
+        },
+      };
+    });
+
+    it('should update user samlId when payload is valid', async () => {
+      // when
+      const response = await httpTestServer.request(methodPATCH, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should return bad request with invalid message when externalUserToken is not valid', async () => {
+      // given
+      payload.data.attributes = {};
+
+      // when
+      const response = await httpTestServer.request(methodPATCH, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+      const firstError = response.result.errors[0];
+      expect(firstError.detail).to.equal('"data.attributes.external-user-token" is required');
     });
 
   });

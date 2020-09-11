@@ -50,6 +50,11 @@ function getDecodedToken(token) {
   }
 }
 
+function extractSamlId(token) {
+  const decoded = getDecodedToken(token);
+  return decoded.saml_id || null;
+}
+
 function extractUserId(token) {
   const decoded = getDecodedToken(token);
   return decoded.user_id || null;
@@ -73,9 +78,10 @@ module.exports = {
   createAccessTokenFromUser,
   createTokenForCampaignResults,
   createIdTokenForUserReconciliation,
-  extractExternalUserFromIdToken,
-  extractUserIdForCampaignResults,
-  extractUserId,
-  extractTokenFromAuthChain,
   decodeIfValid,
+  extractExternalUserFromIdToken,
+  extractSamlId,
+  extractTokenFromAuthChain,
+  extractUserId,
+  extractUserIdForCampaignResults,
 };

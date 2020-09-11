@@ -3,6 +3,7 @@ import ApplicationAdapter from './application';
 
 @classic
 export default class User extends ApplicationAdapter {
+
   shouldBackgroundReloadRecord() {
     return false;
   }
@@ -74,4 +75,24 @@ export default class User extends ApplicationAdapter {
 
     return url;
   }
+
+  updateRecord(store, type, snapshot) {
+    if (snapshot.adapterOptions.authenticationMethodsSaml) {
+      const payload = {
+        data: {
+          data: {
+            id: snapshot.id,
+            type: 'external-users',
+            attributes: { 'external-user-token': snapshot.adapterOptions.externalUserToken },
+          },
+        },
+      };
+
+      const url = this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot) + '/authentication-methods/saml';
+      return this.ajax(url, 'PATCH', payload);
+    } else {
+      return super.updateRecord(...arguments);
+    }
+  }
+
 }

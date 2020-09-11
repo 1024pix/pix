@@ -4,6 +4,7 @@ import sinon from 'sinon';
 import { setupTest } from 'ember-mocha';
 
 describe('Unit | Adapters | user', function() {
+
   setupTest();
 
   let adapter;
@@ -75,6 +76,7 @@ describe('Unit | Adapters | user', function() {
   describe('#createRecord', () => {
 
     context('when updateExpiredPassword is true', () => {
+
       it('should call expired-password-updates ', async () => {
         // given
         const username = 'username123';
@@ -104,6 +106,7 @@ describe('Unit | Adapters | user', function() {
     });
 
     context('when campaignCode adapterOption is defined', () => {
+
       it('should add campaign-code meta', async () => {
         // given
         const campaignCode = 'AZERTY123';
@@ -126,6 +129,48 @@ describe('Unit | Adapters | user', function() {
 
         // then
         sinon.assert.calledWith(adapter.ajax, expectedUrl, expectedMethod, expectedData);
+      });
+    });
+  });
+
+  describe('#updateRecord', () => {
+
+    let store;
+
+    beforeEach(function() {
+      const serializer = { serializeIntoHash: sinon.stub() };
+      store = this.owner.lookup('service:store');
+      store.serializerFor = sinon.stub().returns(serializer);
+    });
+
+    context('when authenticationMethodsSaml adapterOption passed', () => {
+
+      it('should request PATCH /user/[id]/authentication-methods/saml with externalUserToken attribute', async () => {
+        // given
+        const userId = 123;
+        const externalUserToken = 'ABCD';
+        const snapshot = {
+          id: userId,
+          adapterOptions: {
+            authenticationMethodsSaml: true,
+            externalUserToken,
+          },
+        };
+
+        const expectedPayload = {
+          data: {
+            data: {
+              id: userId,
+              type: 'external-users',
+              attributes: { 'external-user-token': externalUserToken } },
+          },
+        };
+
+        // when
+        await adapter.updateRecord(store, { modelName: 'user' }, snapshot);
+
+        // then
+        sinon.assert.calledWith(adapter.ajax, `http://localhost:3000/api/users/${userId}/authentication-methods/saml`, 'PATCH', expectedPayload);
       });
     });
   });

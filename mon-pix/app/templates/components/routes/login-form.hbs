@@ -3,6 +3,10 @@
     <div id="login-form-error-message" class="login-form__error-message error-message">L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects</div>
   {{/if}}
 
+  {{#if hasUpdateUserError}}
+    <div id="update-form-error-message" class="login-form__error-message error-message">{{this.updateErrorMessage}}</div>
+  {{/if}}
+
   <form {{action 'authenticate' on='submit'}}>
 
     <div id="login-email-container">

@@ -2,6 +2,7 @@ const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-
 
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const usecases = require('../../../../lib/domain/usecases');
+const { InvalidExternalUserTokenError } = require('../../../../lib/domain/errors');
 
 const moduleUnderTest = require('../../../../lib/application/users');
 
@@ -12,9 +13,12 @@ describe('Integration | Application | Users | user-controller', () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
+    sandbox.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser');
+
     sandbox.stub(usecases, 'getUserCampaignParticipationToCampaign');
     sandbox.stub(usecases, 'getUserProfileSharedForCampaign');
-    sandbox.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser');
+    sandbox.stub(usecases, 'updateUserSamlId');
+
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
@@ -66,13 +70,15 @@ describe('Integration | Application | Users | user-controller', () => {
   });
 
   describe('#getUserProfileSharedForCampaign', () => {
+
     context('Error cases', () => {
+
       it('should return a 403 HTTP response', async () => {
         // given
         securityPreHandlers.checkRequestedUserIsAuthenticatedUser.callsFake((request, h) => {
           return Promise.resolve(h.response().code(403).takeover());
         });
-      
+
         // when
         const response = await httpTestServer.request('GET', '/api/users/1234/campaigns/5678/profile');
 
@@ -85,7 +91,7 @@ describe('Integration | Application | Users | user-controller', () => {
         securityPreHandlers.checkRequestedUserIsAuthenticatedUser.callsFake((request, h) => {
           return Promise.resolve(h.response().code(401).takeover());
         });
-      
+
         // when
         const response = await httpTestServer.request('GET', '/api/users/1234/campaigns/5678/profile');
 
@@ -93,5 +99,82 @@ describe('Integration | Application | Users | user-controller', () => {
         expect(response.statusCode).to.equal(401);
       });
     });
+  });
+
+  describe('#updateUserSamlId', () => {
+
+    const method = 'PATCH';
+    const url = '/api/users/1/authentication-methods/saml';
+
+    let payload;
+
+    beforeEach(() => {
+      securityPreHandlers.checkRequestedUserIsAuthenticatedUser.returns(true);
+      payload = {
+        data: {
+          id: 1,
+          type: 'external-users',
+          attributes: {
+            'external-user-token': 'TOKEN',
+          },
+        },
+      };
+    });
+
+    context('Success cases', () => {
+
+      it('should return a HTTP response with status code 204', async () => {
+        // given
+        usecases.updateUserSamlId.resolves(domainBuilder.buildUser());
+
+        // when
+        const response = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+      });
+    });
+
+    context('Error cases', () => {
+
+      it('should return a 403 HTTP response when authenticated user is not authorized to update requested user', async () => {
+        // given
+        securityPreHandlers.checkRequestedUserIsAuthenticatedUser.callsFake((request, h) => {
+          return Promise.resolve(h.response().code(403).takeover());
+        });
+
+        // when
+        const response = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+
+      it('should return a 400 HTTP response when externalUserToken is missing', async () => {
+        // given
+        payload.data.attributes = {};
+
+        // when
+        const response = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+        expect(response.result.errors[0].detail).to.equal('"data.attributes.external-user-token" is required');
+      });
+
+      it('should return a 400 HTTP response when the IdToken is invalid', async () => {
+        // given
+        const expectedMessageError = 'L’idToken de l’utilisateur externe est invalide.';
+        usecases.updateUserSamlId.rejects(new InvalidExternalUserTokenError());
+
+        // when
+        const response = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+        expect(response.result.errors[0].detail).to.equal(expectedMessageError);
+      });
+    });
+
   });
 });
