@@ -1,4 +1,4 @@
-module.exports = function buildTube({
+const buildTube = function buildTube({
   id = 'recTIeergjhID28Ep',
   nom = '@web',
   titre = '',
@@ -29,3 +29,27 @@ module.exports = function buildTube({
     'createdTime': createdTime,
   };
 };
+
+buildTube.fromDomain = function buildTubeFromDomain({
+  domainTube,
+  locale = 'fr-fr',
+  createdAt = '2018-03-15T14:38:03.000Z',
+}) {
+  return {
+    id: domainTube.id,
+    fields: {
+      'id persistant': domainTube.id,
+      'Nom': domainTube.name,
+      'Titre': domainTube.title,
+      'Description': domainTube.description,
+      'Titre pratique fr-fr': locale === 'fr-fr' ? domainTube.practicalTitle : 'un titre français',
+      'Titre pratique en-us': locale === 'fr-fr' ? 'an english title' : domainTube.practicalTitle,
+      'Description pratique fr-fr': locale === 'fr-fr' ? domainTube.practicalDescription : 'une description française',
+      'Description pratique en-us': locale === 'fr-fr' ? 'an english description' : domainTube.practicalDescription,
+      'Competences (id persistant)': [domainTube.competenceId],
+    },
+    'createdTime': createdAt,
+  };
+};
+
+module.exports = buildTube;
