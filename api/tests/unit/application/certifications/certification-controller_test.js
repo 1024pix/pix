@@ -92,4 +92,38 @@ describe('Unit | Controller | certifications-controller', () => {
       expect(response).to.deep.equal(serializedCertification);
     });
   });
+
+  describe('#getCertificationAttestation', () => {
+
+    const certification = domainBuilder.buildPrivateCertificateWithCompetenceTree();
+    const attestationPDF = 'binary string';
+    const userId = 1;
+
+    const request = {
+      auth: { credentials: { userId } },
+      params: { id: certification.id },
+    };
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'getCertificationAttestation');
+    });
+
+    it('should return binary attestation', async () => {
+      // given
+      usecases.getCertificationAttestation.resolves({
+        fileName: 'filename.pdf',
+        fileBuffer: attestationPDF,
+      });
+
+      // when
+      const response = await certificationController.getPDFAttestation(request, hFake);
+
+      // then
+      expect(usecases.getCertificationAttestation).to.have.been.calledWith({
+        userId,
+        certificationId: certification.id,
+      });
+      expect(response.source).to.deep.equal(attestationPDF);
+    });
+  });
 });

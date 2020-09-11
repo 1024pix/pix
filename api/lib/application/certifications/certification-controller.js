@@ -26,4 +26,19 @@ module.exports = {
     return usecases.getShareableCertificate({ verificationCode })
       .then((certificate) => certificationSerializer.serializeForSharing(certificate));
   },
+
+  async getPDFAttestation(request, h) {
+    const userId = request.auth.credentials.userId;
+    const certificationId = parseInt(request.params.id);
+    const {
+      fileName,
+      fileBuffer,
+    } = await usecases.getCertificationAttestation({
+      userId,
+      certificationId,
+    });
+
+    return h.response(fileBuffer)
+      .header('Content-Disposition', `attachment; filename=${fileName}`);
+  },
 };
