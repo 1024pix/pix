@@ -1,6 +1,7 @@
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../test-helper');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, generateIdTokenForExternalUser, knex } = require('../../test-helper');
 const createServer = require('../../../server');
 const Membership = require('../../../lib/domain/models/Membership');
+const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 
 describe('Acceptance | Controller | Schooling-registration-user-associations', () => {
 
@@ -132,13 +133,13 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
 
         it('should return a schooling registration already linked error (short code R33 when account with samlId)', async () => {
           // given
-          const userWithEmailOnly = databaseBuilder.factory.buildUser({
+          const userWithSamlOnly = databaseBuilder.factory.buildUser({
             username: null,
             email: null,
             samlId: '12345689',
           });
           const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null });
-          schoolingRegistration.userId = userWithEmailOnly.id;
+          schoolingRegistration.userId = userWithSamlOnly.id;
           await databaseBuilder.commit();
 
           const expectedResponse = {
@@ -146,10 +147,10 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta: { shortCode: 'R33', value: null },
+            meta: { shortCode: 'R33', value: null, userId: userWithSamlOnly.id, schoolingRegistrationId: schoolingRegistration.id },
           };
 
-          options.headers.authorization = generateValidRequestAuthorizationHeader(userWithEmailOnly.id);
+          options.headers.authorization = generateValidRequestAuthorizationHeader(userWithSamlOnly.id);
           options.payload.data = {
             attributes: {
               'campaign-code': campaign.code,
@@ -169,6 +170,47 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
       });
 
       context('When student is already reconciled in another organization', () => {
+
+        it('should return a schooling registration already linked error (short code R13 when account with samlId)', async () => {
+          // given
+          const userWithSamlIdOnly = databaseBuilder.factory.buildUser({
+            email: null,
+            username: null,
+            samlId: '12345678',
+          });
+          const otherSchoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration();
+          otherSchoolingRegistration.nationalStudentId = schoolingRegistration.nationalStudentId;
+          otherSchoolingRegistration.birthdate = schoolingRegistration.birthdate;
+          otherSchoolingRegistration.firstName = schoolingRegistration.firstName;
+          otherSchoolingRegistration.lastName = schoolingRegistration.lastName;
+          otherSchoolingRegistration.userId = userWithSamlIdOnly.id;
+          await databaseBuilder.commit();
+
+          const expectedResponse = {
+            status: '409',
+            code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
+            meta: { shortCode: 'R13', value: null, userId: userWithSamlIdOnly.id },
+          };
+
+          options.headers.authorization = generateValidRequestAuthorizationHeader(userWithSamlIdOnly.id);
+          options.payload.data = {
+            attributes: {
+              'campaign-code': campaign.code,
+              'first-name': schoolingRegistration.firstName,
+              'last-name': schoolingRegistration.lastName,
+              'birthdate': schoolingRegistration.birthdate,
+            },
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(409);
+          expect(response.result.errors[0]).to.deep.equal(expectedResponse);
+        });
 
         it('should return a schooling registration already linked error (short code R11 when account with email)', async () => {
           // given
@@ -254,46 +296,6 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a schooling registration already linked error (short code R13 when account with samlId)', async () => {
-          // given
-          const userWithSamlIdOnly = databaseBuilder.factory.buildUser({
-            email: null,
-            username: null,
-            samlId: '12345678',
-          });
-          const otherSchoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration();
-          otherSchoolingRegistration.nationalStudentId = schoolingRegistration.nationalStudentId;
-          otherSchoolingRegistration.birthdate = schoolingRegistration.birthdate;
-          otherSchoolingRegistration.firstName = schoolingRegistration.firstName;
-          otherSchoolingRegistration.lastName = schoolingRegistration.lastName;
-          otherSchoolingRegistration.userId = userWithSamlIdOnly.id;
-          await databaseBuilder.commit();
-
-          const expectedResponse = {
-            status: '409',
-            code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
-            title: 'Conflict',
-            detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta: { shortCode: 'R13', value: null },
-          };
-
-          options.headers.authorization = generateValidRequestAuthorizationHeader(userWithSamlIdOnly.id);
-          options.payload.data = {
-            attributes: {
-              'campaign-code': campaign.code,
-              'first-name': schoolingRegistration.firstName,
-              'last-name': schoolingRegistration.lastName,
-              'birthdate': schoolingRegistration.birthdate,
-            },
-          };
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(409);
-          expect(response.result.errors[0]).to.deep.equal(expectedResponse);
-        });
       });
 
       context('when no schoolingRegistration can be associated because birthdate does not match', () => {
@@ -431,6 +433,177 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
         // then
         expect(response.statusCode).to.equal(404);
       });
+    });
+  });
+
+  describe('POST /api/schooling-registration-dependent-users/external-user-token/', () => {
+    let organization;
+    let campaign;
+    let options;
+    let schoolingRegistration;
+
+    beforeEach(async () => {
+      // given
+      options = {
+        method: 'POST',
+        url: '/api/schooling-registration-dependent-users/external-user-token/',
+        headers: {},
+        payload: {},
+      };
+
+      organization = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
+      schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null });
+      campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
+      await databaseBuilder.commit();
+    });
+
+    context('when an external user try to reconcile for the first time', () => {
+
+      it('should return an 200 status after having successfully created the user and associated it to schoolingRegistration', async () => {
+        // given
+        const externalUser = {
+          lastName: schoolingRegistration.lastName,
+          firstName: schoolingRegistration.firstName,
+          samlId: '123456789',
+        };
+        const idTokenForExternalUser = generateIdTokenForExternalUser(externalUser);
+
+        options.payload.data = {
+          attributes: {
+            'campaign-code': campaign.code,
+            'external-user-token': idTokenForExternalUser,
+            'birthdate': schoolingRegistration.birthdate,
+            'access-token': null,
+          },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+
+      context('When external user is already reconciled', () => {
+
+        it('should replace the existing user samlId already reconciled in the other organization with the authenticated user samlId', async () => {
+          // given
+          const user = databaseBuilder.factory.buildUser(
+            {
+              firstName: schoolingRegistration.firstName,
+              lastName: schoolingRegistration.lastName,
+              birthdate: schoolingRegistration.birthdate,
+              samlId: 12345678,
+            });
+          const otherOrganization = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
+          databaseBuilder.factory.buildSchoolingRegistration(
+            {
+              organizationId: otherOrganization.id,
+              firstName: schoolingRegistration.firstName,
+              lastName: schoolingRegistration.lastName,
+              birthdate: schoolingRegistration.birthdate,
+              nationalStudentId: schoolingRegistration.nationalStudentId,
+              userId: user.id,
+            });
+          await databaseBuilder.commit();
+
+          const externalUser = {
+            lastName: schoolingRegistration.lastName,
+            firstName: schoolingRegistration.firstName,
+            samlId: '9876654321',
+          };
+          const idTokenForExternalUser = generateIdTokenForExternalUser(externalUser);
+
+          options.payload.data = {
+            attributes: {
+              'campaign-code': campaign.code,
+              'external-user-token': idTokenForExternalUser,
+              'birthdate': schoolingRegistration.birthdate,
+              'access-token': null,
+            },
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(200);
+          expect(response.payload).to.contains('access-token');
+
+          const userFoundByNewSamlId = await userRepository.getBySamlId(externalUser.samlId);
+          expect(userFoundByNewSamlId.firstName).to.equal(externalUser.firstName);
+          expect(userFoundByNewSamlId.lastName).to.equal(externalUser.lastName);
+
+        });
+
+        it('should replace the existing user samlId already reconciled in the same organization found with the authenticated user samlId', async () => {
+          // given
+          const userWithSamlIdOnly = databaseBuilder.factory.buildUser({
+            samlId: '12345678',
+          });
+          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration(
+            {
+              organizationId: organization.id,
+              userId: userWithSamlIdOnly.id,
+              firstName: userWithSamlIdOnly.firstName,
+              lastName: userWithSamlIdOnly.lastName,
+              birthdate: userWithSamlIdOnly.birthdate,
+            });
+          await databaseBuilder.commit();
+
+          const externalUser = {
+            lastName: schoolingRegistration.lastName,
+            firstName: schoolingRegistration.firstName,
+            samlId: '9876654321',
+          };
+          const idTokenForExternalUser = generateIdTokenForExternalUser(externalUser);
+
+          options.payload.data = {
+            attributes: {
+              'campaign-code': campaign.code,
+              'external-user-token': idTokenForExternalUser,
+              'birthdate': schoolingRegistration.birthdate,
+              'access-token': null,
+            },
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(200);
+          expect(response.payload).to.contains('access-token');
+          const userFoundByNewSamlId = await userRepository.getBySamlId(externalUser.samlId);
+          expect(userFoundByNewSamlId.firstName).to.equal(externalUser.firstName);
+          expect(userFoundByNewSamlId.lastName).to.equal(externalUser.lastName);
+
+        });
+
+      });
+
+      context('when external user id token is not valid', () => {
+
+        it('should respond with a 401 - unauthorized access', async () => {
+          // given
+          const invalidIdToken = 'invalid.id.token';
+
+          options.payload.data = {
+            attributes: {
+              'campaign-code': campaign.code,
+              'external-user-token': invalidIdToken,
+              'birthdate': schoolingRegistration.birthdate,
+              'access-token': null,
+            },
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(401);
+        });
+      });
+
     });
   });
 
