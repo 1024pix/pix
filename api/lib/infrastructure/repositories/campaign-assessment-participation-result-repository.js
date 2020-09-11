@@ -1,6 +1,4 @@
-const _ = require('lodash');
 const CampaignAssessmentParticipationResult = require('../../../lib/domain/read-models/CampaignAssessmentParticipationResult');
-const CampaignAssessmentParticipationCompetenceResult = require('../../../lib/domain/read-models/CampaignAssessmentParticipationCompetenceResult');
 const { NotFoundError } = require('../../../lib/domain/errors');
 const { knex } = require('../bookshelf');
 const competenceRepository = require('./competence-repository');
@@ -48,51 +46,16 @@ async function _fetchCampaignAssessmentParticipationResultAttributesFromCampaign
 }
 
 async function _buildCampaignAssessmentParticipationResults(result, targetedSkillIds) {
-  if (!result.isShared) {
-    return new CampaignAssessmentParticipationResult({
-      ...result,
-      competenceResults: [],
-    });
-  }
   const competences = await competenceRepository.list();
 
   const knowledgeElementsByUserIdAndCompetenceId = await knowledgeElementRepository
     .findSnapshotGroupedByCompetencesForUsers({ [result.userId]: result.sharedAt });
   const knowledgeElementsForUserByCompetenceId = knowledgeElementsByUserIdAndCompetenceId[result.userId];
 
-  let targetedCompetences = _removeUntargetedSkillIdsFromCompetences(competences, targetedSkillIds);
-  targetedCompetences = _removeCompetencesWithoutAnyTargetedSkillsLeft(targetedCompetences);
-
-  const competenceResults = targetedCompetences.map((competence) => {
-    const totalSkillsCount = competence.skillIds.length;
-
-    const validatedKnowledgeElements = _.filter(knowledgeElementsForUserByCompetenceId[competence.id], 'isValidated');
-    const validatedSkillIds = _.map(validatedKnowledgeElements, 'skillId');
-    const validatedSkillsCount = validatedSkillIds.length;
-
-    return new CampaignAssessmentParticipationCompetenceResult({
-      id: competence.id,
-      name: competence.name,
-      index: competence.index,
-      area: competence.area,
-      totalSkillsCount,
-      validatedSkillsCount,
-    });
-  });
-
   return new CampaignAssessmentParticipationResult({
     ...result,
-    competenceResults,
+    competences,
+    knowledgeElementsByCompetenceId: knowledgeElementsForUserByCompetenceId,
+    targetedSkillIds,
   });
-}
-
-function _removeUntargetedSkillIdsFromCompetences(competences, targetProfileSkillsIds) {
-  return _.map(competences, (competence) => {
-    competence.skillIds = _.intersection(competence.skillIds, targetProfileSkillsIds);
-    return competence;
-  });
-}
-
-function _removeCompetencesWithoutAnyTargetedSkillsLeft(competences) {
-  return _.filter(competences, (competence) => !_.isEmpty(competence.skillIds));
 }
