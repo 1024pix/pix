@@ -23,9 +23,10 @@ module.exports = {
       campaignAssessmentParticipationResult: {
         ref: 'id',
         ignoreRelationshipData: true,
+        nullIfMissing: true,
         relationshipLinks: {
-          related(record, current, parent) {
-            return `/api/campaigns/${record.campaignId}/assessment-participations/${parent.id}/results`;
+          related(record) {
+            return `/api/campaigns/${record.campaignId}/assessment-participations/${record.campaignParticipationId}/results`;
           },
         },
       },
@@ -34,8 +35,8 @@ module.exports = {
         ignoreRelationshipData: true,
         nullIfMissing: true,
         relationshipLinks: {
-          related(record, current, parent) {
-            return `/api/campaign-participations/${parent.id}/analyses`;
+          related(record) {
+            return `/api/campaign-participations/${record.campaignParticipationId}/analyses`;
           },
         },
       },
