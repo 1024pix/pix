@@ -25,7 +25,7 @@ describe('Integration | Infrastructure | Utils | CampaignAssessmentCsvLine', () 
       const campaignInfo = domainBuilder.buildCampaignInfo({ idPixLabel: null, organizationIsManagingStudents: false });
       const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ createdAt: new Date('2020-01-01'), isCompleted: false });
       const skill = domainBuilder.buildSkill({ id: 'recSkill', competenceId: 'recCompetence1' });
-      const targetProfile = domainBuilder.buildTargetProfile({ skills: [{ id: skill }] });
+      const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
       const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
         campaignInfo,
         competences: [],
