@@ -117,4 +117,26 @@ describe('Unit | Domain | Models | TargetProfile', () => {
     });
   });
 
+  describe('#getSkillsForCompetence()', () => {
+    let expectedSkills;
+    let targetProfile;
+    const competenceId = 'compId';
+
+    beforeEach(() => {
+      const skill1InCompetence = domainBuilder.buildSkill({ competenceId });
+      const skill2InCompetence = domainBuilder.buildSkill({ competenceId });
+      const otherSkill = domainBuilder.buildSkill({ competenceId: 'otherCompId' });
+      targetProfile = domainBuilder.buildTargetProfile({ skills: [ skill1InCompetence, skill2InCompetence, otherSkill ] });
+      expectedSkills = [ skill1InCompetence, skill2InCompetence ];
+    });
+
+    it('should return skills that are in competence', () => {
+      // when
+      const skills = targetProfile.getSkillsForCompetence(competenceId);
+
+      // then
+      expect(skills).to.deep.equal(expectedSkills);
+    });
+  });
+
 });
