@@ -20,8 +20,10 @@ class CampaignAssessmentCsvLine {
     this.competences = competences;
     this.campaignParticipationInfo = campaignParticipationInfo;
     this.targetProfile = targetProfile;
-    this.knowledgeElements = participantKnowledgeElements
+    const targetedKnowledgeElements = participantKnowledgeElements
       .filter((ke) => targetProfile.hasSkill(ke.skillId));
+    this.targetedKnowledgeElementsCount = targetedKnowledgeElements.length;
+    this.targetedKnowledgeElementsByCompetence = _.groupBy(targetedKnowledgeElements, 'competenceId');
     this.campaignParticipationService = campaignParticipationService;
 
     // To have the good `this` in _getStatsForCompetence, it is necessary to bind it
@@ -35,10 +37,10 @@ class CampaignAssessmentCsvLine {
     ];
   }
 
-  _makeSharedStatsColumns({ skillCount, validatedSkillCount }) {
+  _makeSharedStatsColumns({ targetedSkillCount, validatedSkillCount }) {
     return [
-      _.round(validatedSkillCount / skillCount, 2),
-      skillCount,
+      _.round(validatedSkillCount / targetedSkillCount, 2),
+      targetedSkillCount,
       validatedSkillCount,
     ];
   }
@@ -50,8 +52,8 @@ class CampaignAssessmentCsvLine {
   _getStatsForCompetence(competence) {
     const skillsForThisCompetence = this._getSkillsOfCompetenceByTargetProfile(competence);
     return {
-      skillCount: skillsForThisCompetence.length,
-      validatedSkillCount: this._countValidatedKnowledgeElementsForSkills(skillsForThisCompetence),
+      targetedSkillCount: skillsForThisCompetence.length,
+      validatedSkillCount: this._countValidatedKnowledgeElementsForCompetence(competence.id),
     };
   }
 
@@ -68,12 +70,12 @@ class CampaignAssessmentCsvLine {
       const areaCompetenceStats = _.filter(this.competences, (competence) => competence.area.id === id)
         .map(this._getStatsForCompetence);
 
-      const skillCount = _.sumBy(areaCompetenceStats, 'skillCount');
+      const targetedSkillCount = _.sumBy(areaCompetenceStats, 'targetedSkillCount');
       const validatedSkillCount = _.sumBy(areaCompetenceStats, 'validatedSkillCount');
 
       return this._makeSharedStatsColumns({
         id,
-        skillCount,
+        targetedSkillCount,
         validatedSkillCount,
       });
     });
@@ -90,7 +92,7 @@ class CampaignAssessmentCsvLine {
       this.campaignParticipationInfo.participantFirstName,
       ...this._studentNumber,
       ...(this.campaign.idPixLabel ? [this.campaignParticipationInfo.participantExternalId] : []),
-      this.campaignParticipationService.progress(this.campaignParticipationInfo.isCompleted, this.knowledgeElements.length, this.targetProfile.skills.length),
+      this.campaignParticipationService.progress(this.campaignParticipationInfo.isCompleted, this.targetedKnowledgeElementsCount, this.targetProfile.skills.length),
       moment.utc(this.campaignParticipationInfo.createdAt).format('YYYY-MM-DD'),
       this.campaignParticipationInfo.isShared ? 'Oui' : 'Non',
       this.campaignParticipationInfo.isShared ? moment.utc(this.campaignParticipationInfo.sharedAt).format('YYYY-MM-DD') : EMPTY_CONTENT,
@@ -102,7 +104,7 @@ class CampaignAssessmentCsvLine {
     return [
       ...this._makeCompetenceColumns(),
       ...this._makeAreaColumns(),
-      ..._.map(this.targetProfile.skills, ({ id }) => this._stateOfSkill(id)),
+      ..._.map(this.targetProfile.skills, ({ competenceId, id }) => this._stateOfSkill(competenceId, id)),
     ];
   }
 
@@ -115,8 +117,8 @@ class CampaignAssessmentCsvLine {
     ];
   }
 
-  _stateOfSkill(skillId) {
-    const knowledgeElementForSkill = _.findLast(this.knowledgeElements,
+  _stateOfSkill(competenceId, skillId) {
+    const knowledgeElementForSkill = _.find(this.targetedKnowledgeElementsByCompetence[competenceId],
       (knowledgeElement) => knowledgeElement.skillId === skillId);
     if (knowledgeElementForSkill) {
       return knowledgeElementForSkill.isValidated ? 'OK' : 'KO';
@@ -132,10 +134,9 @@ class CampaignAssessmentCsvLine {
       .filter((skillOfProfile) => skillsOfCompetences.includes(skillOfProfile.id));
   }
 
-  _countValidatedKnowledgeElementsForSkills(skills) {
-    return this.knowledgeElements
-      .filter((knowledgeElement) => knowledgeElement.isValidated &&
-        skills.some((skill) => skill.id === knowledgeElement.skillId))
+  _countValidatedKnowledgeElementsForCompetence(competenceId) {
+    return this.targetedKnowledgeElementsByCompetence[competenceId]
+      .filter((knowledgeElement) => knowledgeElement.isValidated)
       .length;
   }
 
@@ -144,9 +145,10 @@ class CampaignAssessmentCsvLine {
   }
 
   _countValidatedKnowledgeElements() {
-    return this.knowledgeElements
-      .filter((knowledgeElement) => knowledgeElement.isValidated)
-      .length;
+    return _.sum(_.map(this.targetedKnowledgeElementsByCompetence, (knowledgeElements) => {
+      return knowledgeElements.filter((knowledgeElement) => knowledgeElement.isValidated)
+        .length;
+    }));
   }
 
   _percentageSkillsValidated() {
