@@ -104,7 +104,7 @@ class CampaignAssessmentCsvLine {
     return [
       ...this._makeCompetenceColumns(),
       ...this._makeAreaColumns(),
-      ..._.map(this.targetProfile.skills, ({ competenceId, id }) => this._stateOfSkill(competenceId, id)),
+      ..._.map(this.targetProfile.skills, (targetedSkill) => this._makeSkillColumn(targetedSkill)),
     ];
   }
 
@@ -117,14 +117,16 @@ class CampaignAssessmentCsvLine {
     ];
   }
 
-  _stateOfSkill(competenceId, skillId) {
-    const knowledgeElementForSkill = _.find(this.targetedKnowledgeElementsByCompetence[competenceId],
-      (knowledgeElement) => knowledgeElement.skillId === skillId);
-    if (knowledgeElementForSkill) {
-      return knowledgeElementForSkill.isValidated ? 'OK' : 'KO';
-    } else {
-      return 'Non testé';
+  _makeSkillColumn(targetedSkill) {
+    let knowledgeElementForSkill = null;
+    if (targetedSkill.competenceId in this.targetedKnowledgeElementsByCompetence) {
+      knowledgeElementForSkill = _.find(this.targetedKnowledgeElementsByCompetence[targetedSkill.competenceId],
+        (knowledgeElement) => knowledgeElement.skillId === targetedSkill.id);
     }
+
+    return knowledgeElementForSkill
+      ? (knowledgeElementForSkill.isValidated ? 'OK' : 'KO')
+      : 'Non testé';
   }
 
   _countValidatedKnowledgeElementsForCompetence(competenceId) {
