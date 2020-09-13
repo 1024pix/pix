@@ -50,7 +50,7 @@ class CampaignAssessmentCsvLine {
   }
 
   _getStatsForCompetence(competence) {
-    const skillsForThisCompetence = this._getSkillsOfCompetenceByTargetProfile(competence);
+    const skillsForThisCompetence = this.targetProfile.getSkillsForCompetence(competence);
     return {
       targetedSkillCount: skillsForThisCompetence.length,
       validatedSkillCount: this._countValidatedKnowledgeElementsForCompetence(competence.id),
@@ -125,13 +125,6 @@ class CampaignAssessmentCsvLine {
     } else {
       return 'Non testé';
     }
-  }
-
-  _getSkillsOfCompetenceByTargetProfile(competence) {
-    const skillsOfProfile = this.targetProfile.skills;
-    const skillsOfCompetences = competence.skillIds;
-    return skillsOfProfile
-      .filter((skillOfProfile) => skillsOfCompetences.includes(skillOfProfile.id));
   }
 
   _countValidatedKnowledgeElementsForCompetence(competenceId) {
