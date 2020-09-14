@@ -6,7 +6,7 @@ chai.use(require('chai-as-promised'));
 chai.use(require('chai-sorted'));
 chai.use(require('sinon-chai'));
 
-const { knex, listAllTableNames } = require('../db/knex-database-connection');
+const { knex } = require('../db/knex-database-connection');
 
 const DatabaseBuilder = require('./tooling/database-builder/database-builder');
 const databaseBuilder = new DatabaseBuilder({ knex });
@@ -38,20 +38,6 @@ function generateValidRequestAuthorizationHeader(userId = 1234) {
 
 function generateIdTokenForExternalUser(externalUser) {
   return tokenService.createIdTokenForUserReconciliation(externalUser);
-}
-
-async function getCountOfAllRowsInDatabase()
-{
-  const results = [];
-  const tableNames = await listAllTableNames();
-  const promises = _.map(tableNames, (tableName) => {
-    return knex.raw('SELECT COUNT(*) FROM public."' + tableName + '"').then((result) => {
-      results.push({ table : tableName, countRows: _.toInteger(result.rows[0].count) });
-    });
-  });
-  await Promise.all(promises);
-
-  return _.sortBy(results, 'table');
 }
 
 async function insertUserWithRolePixMaster() {
@@ -169,7 +155,6 @@ module.exports = {
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
   generateIdTokenForExternalUser,
-  getCountOfAllRowsInDatabase,
   hFake,
   HttpTestServer: require('./tooling/server/http-test-server'),
   insertUserWithRolePixMaster,
