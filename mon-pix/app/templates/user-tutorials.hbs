@@ -4,7 +4,7 @@
     <NavbarHeader @burger={{burger}} />
     <header role="banner" class="background-banner">
       <div class="user-tutorials-banner">
-        <img src="{{rootURL}}/images/user-tutorials/banner-icon.svg" class="user-tutorials-banner__icon" alt=""/>
+        <img src="{{rootURL}}/images/user-tutorials/banner-icon.svg" class="user-tutorials-banner__icon" role="none" alt=""/>
         <h3 class="user-tutorials-banner__title">{{t 'pages.user-tutorials.title'}}</h3>
         <p class="user-tutorials-banner__description">
           {{t 'pages.user-tutorials.description'}}
@@ -24,6 +24,7 @@
       <article aria-label="tutoriels" class="rounded-panel user-tutorials-no-tutorial">
         <div class="user-tutorials-no-tutorial__illustration">
           <img src="{{rootURL}}/{{t 'pages.user-tutorials.empty-list-info.image-link'}}"
+               role="none"
                alt=""/>
         </div>
         <div class="user-tutorials-no-tutorial__instructions">
