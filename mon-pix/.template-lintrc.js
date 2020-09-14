@@ -14,7 +14,6 @@ module.exports = {
     'no-quoteless-attributes': false,
     'no-triple-curlies': false,
     'no-unused-block-params': false,
-    'require-valid-alt-text': false,
     'style-concatenation': false,
   },
 };
