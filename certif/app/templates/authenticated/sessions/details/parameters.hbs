@@ -28,8 +28,8 @@
         {{#if (is-clipboard-supported)}}
             <div class="tooltip">
                 <span class="tooltip__text tooltip-text session-details-content__tooltip-text">{{this.tooltipText}}</span>
-                <CopyButton @clipboardText={{this.session.accessCode}} @success={{this.clipboardSuccess}} @mouseLeave={{this.clipboardOut}} @classNames="icon-button session-details-content__clipboard-button">
-                  {{fa-icon 'copy' prefix='far'}}
+                <CopyButton @clipboardText={{this.session.accessCode}} @success={{this.clipboardSuccess}} {{on 'mouseLeave' this.clipboardOut}} @classNames="icon-button session-details-content__clipboard-button">
+                  <FaIcon @icon='copy' prefix='far' />
                 </CopyButton>
             </div>
         {{/if}}
