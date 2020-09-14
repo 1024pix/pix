@@ -7,27 +7,27 @@ module.exports = function buildChallenge(
   {
     id = faker.random.uuid(),
     // attributes
-    attachments,
+    attachments = ['URL pièce jointe'],
     embedHeight,
     embedTitle,
     embedUrl,
-    format,
-    illustrationUrl,
-    instruction,
-    proposals,
+    format = 'petit',
+    illustrationUrl = 'Une URL vers l\'illustration',
+    illustrationAlt = 'Le texte de l\'illustration',
+    instruction = 'Des instructions',
+    alternativeInstruction = 'Des instructions alternatives',
+    proposals = 'Une proposition',
     status = 'validé',
     timer,
     type = Challenge.Type.QCM,
     locales = ['fr'],
-    autReply = false,
-    alternativeInstruction,
+    autoReply = false,
     // includes
     answer,
     validator = new Validator(),
     skills = buildSkillCollection(),
     // references
     competenceId = faker.random.uuid(),
-    illustrationAlt,
   } = {}) {
   return new Challenge({
     id,
@@ -44,7 +44,7 @@ module.exports = function buildChallenge(
     timer,
     type,
     locales,
-    autReply,
+    autoReply,
     alternativeInstruction,
     // includes
     answer,
