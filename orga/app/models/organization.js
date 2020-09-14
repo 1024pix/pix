@@ -12,7 +12,6 @@ export default class Organization extends Model {
 
   @hasMany('campaign') campaigns;
   @hasMany('target-profile') targetProfiles;
-  @hasMany('membership') memberships;
   @hasMany('organization-invitation') organizationInvitations;
   @hasMany('student') students;
 

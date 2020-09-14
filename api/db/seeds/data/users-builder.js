@@ -1,5 +1,7 @@
 const PIX_MASTER_ID = 5;
 
+const defaultPassword = 'pix123';
+
 function usersBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildUser.withUnencryptedPassword({
@@ -7,7 +9,7 @@ function usersBuilder({ databaseBuilder }) {
     firstName: 'Tyrion',
     lastName: 'Lannister',
     email: 'sup@example.net',
-    rawPassword: 'pix123',
+    rawPassword: defaultPassword,
     cgu: true,
   });
 
@@ -16,7 +18,7 @@ function usersBuilder({ databaseBuilder }) {
     firstName: 'John',
     lastName: 'Snow',
     email: 'sco@example.net',
-    rawPassword: 'pix123',
+    rawPassword: defaultPassword,
     cgu: true,
   });
 
@@ -25,7 +27,7 @@ function usersBuilder({ databaseBuilder }) {
     firstName: 'Pix',
     lastName: 'Master',
     email: 'pixmaster@example.net',
-    rawPassword: 'pix123',
+    rawPassword: defaultPassword,
     cgu: true,
   });
 
@@ -34,7 +36,7 @@ function usersBuilder({ databaseBuilder }) {
     firstName: 'Aemon',
     lastName: 'Targaryen',
     email: 'sco2@example.net',
-    rawPassword: 'pix123',
+    rawPassword: defaultPassword,
     cgu: true,
   });
 
@@ -43,7 +45,7 @@ function usersBuilder({ databaseBuilder }) {
     firstName: 'Lance',
     lastName: 'Low',
     username: 'lance.low1234',
-    rawPassword: 'pix123',
+    rawPassword: defaultPassword,
     cgu: true,
   });
 
@@ -94,7 +96,7 @@ function usersBuilder({ databaseBuilder }) {
     id: 200,
     firstName: 'Pix',
     lastName: 'Masteur',
-    rawPassword: 'pix123',
+    rawPassword: defaultPassword,
     email: 'pixmasteur@example.net',
     cgu: true,
   });

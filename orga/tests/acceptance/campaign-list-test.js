@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { currentURL, visit, click, fillIn, find } from '@ember/test-helpers';
+import { currentURL, visit, click, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import {
@@ -85,44 +85,29 @@ module('Acceptance | Campaign List', function(hooks) {
 
       hooks.beforeEach(async () => {
         creator = server.create('user', { firstName: 'Harry', lastName: 'Cojaune' });
-
-        server.create('membership', {
-          organizationId: user.userOrgaSettings.organization.id,
-          userId: creator.id,
-        });
-
-        server.create('campaign');
+        server.create('campaign', { creator });
       });
 
-      test('it should filter on creator', async function(assert) {
+      test('t should update URL with creator first name filter', async function(assert) {
         // given
         await visit('/campagnes');
 
         // when
-        await fillIn('select', creator.id);
+        await fillIn('#creatorName', creator.firstName);
 
         // then
-        assert.equal(currentURL(), `/campagnes?creatorId=${creator.id}`);
+        assert.equal(currentURL(), `/campagnes?creatorName=${creator.firstName}`);
       });
 
-      test('it should clear filter on creator', async function(assert) {
+      test('it should remove creator filter in URL', async function(assert) {
         // given
-        await visit(`/campagnes?creatorId=${creator.id}`);
+        await visit(`/campagnes?creatorName=${creator.firstName}`);
 
         // when
-        await fillIn('select', '');
+        await fillIn('#creatorName', '');
 
         // then
         assert.equal(currentURL(), '/campagnes');
-      });
-
-      test('it should select creator using routing param creatorId', async function(assert) {
-        // given
-        await visit(`/campagnes?creatorId=${creator.id}`);
-        const { value: selectedCreator } = find('select');
-
-        // then
-        assert.equal(selectedCreator, creator.id);
       });
     });
   });
