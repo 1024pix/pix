@@ -12,8 +12,7 @@ export default class NavbarDesktopHeader extends Component {
   @alias('session.isAuthenticated') isUserLogged;
 
   get menu() {
-    const menuItems = this._menuItems;
-    return this.isUserLogged ? menuItems.filterBy('permanent', true) : menuItems;
+    return (this.isUserLogged || this._isExternalUser) ? [] : this._menuItems;
   }
 
   get _menuItems() {
@@ -21,5 +20,9 @@ export default class NavbarDesktopHeader extends Component {
       { name: this.intl.t('navigation.not-logged.sign-in'), link: 'login', class: 'navbar-menu-signin-link' },
       { name: this.intl.t('navigation.not-logged.sign-up'), link: 'inscription', class: 'navbar-menu-signup-link' },
     ];
+  }
+
+  get _isExternalUser() {
+    return this.session.get('data.externalUser');
   }
 }
