@@ -1,0 +1,125 @@
+.footer {
+
+  &__container {
+    margin: 0 auto;
+    max-width: 980px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+
+    @include device-is('tablet') {
+      padding: 0 10px 10px;
+    }
+  }
+
+  &__social-medias {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+  }
+
+  &__navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5px;
+  }
+
+  &__copyrights {
+    color: $grey-25;
+    cursor: default;
+    font-size: 0.875rem;
+    letter-spacing: 0.009rem;
+    font-family: $font-roboto;
+  }
+}
+
+.footer-container {
+
+  &__left {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.footer-social-medias__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $grey-20;
+  border-radius: 4.2px;
+  width: 20px;
+  height: 20px;
+  margin: 0 5px;
+  letter-spacing: 0.008rem;
+  font-size: 0.75rem;
+  font-family: $font-roboto;
+
+  &:active,
+  &:focus,
+  &:hover {
+    text-decoration: none;
+    cursor: pointer;
+    background-color: $grey-22;
+    transition: background-color 0.2s ease;
+  }
+}
+
+.footer-social-medias-link__icon {
+  height: 12px;
+  width: 12px;
+  color: $grey-50;
+
+  &:active,
+  &:focus,
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.footer-navigation__item {
+  margin: 0 5px;
+  color: $grey-50;
+  font-size: 0.75rem;
+  font-family: $font-roboto;
+  letter-spacing: 0.008rem;
+
+  &.active {
+    text-decoration: none;
+    color: $light-blue;
+    border-bottom: 2px solid $light-blue;
+  }
+
+  &:focus {
+    text-decoration: none;
+    color: $grey-50;
+  }
+
+  &:hover {
+    text-decoration: none;
+    cursor: pointer;
+    color: $light-blue;
+  }
+}
+
+.footer-logos {
+  display: flex;
+
+  &__french-government {
+    margin-right: 24px;
+
+    > img {
+      height: 43px;
+    }
+  }
+}
+
+.footer-logos-pix__image {
+  height: 40px;
+
+  @include device-is('desktop') {
+    height: 49px;
+  }
+}

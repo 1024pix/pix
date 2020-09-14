@@ -814,6 +814,12 @@
     "homepage": "Homepage",
     "back-to-homepage": "Return to homepage",
     "back-to-profile": "Return to profile",
+    "footer": {
+      "a11y": "Accessibility",
+      "help-center": "Help center",
+      "link-a11y": "https://pix.fr/accessibilite",
+      "link-help-center": "https://pix.org/aide"
+    },
     "main": {
       "code": "I have a code",
       "help": "Help",
