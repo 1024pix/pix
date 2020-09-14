@@ -43,7 +43,7 @@ module.exports = function targetProfilesBuilder({ databaseBuilder }) {
     name: 'Badges - Parcours Test',
     isPublic: true,
     organizationId: 1,
-    imageUrl: 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/profil-cible/Illu_classe2.svg'
+    imageUrl: 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/profil-cible/Illu_classe2.svg',
   });
 
   [ 'rectL2ZZeWPc7yezp',
@@ -70,7 +70,7 @@ module.exports = function targetProfilesBuilder({ databaseBuilder }) {
     'recWXtN5cNP1JQUVx',
     'recTIddrkopID28Ep',
     'recBrDIfDDW2IPpZV',
-    'recgOc2OreHCosoRp'
+    'recgOc2OreHCosoRp',
   ].forEach((skillId) => {
     databaseBuilder.factory.buildTargetProfileSkill({
       targetProfileId: badgeTargetProfile.id,
