@@ -1,4 +1,4 @@
-module.exports = function buildCompetence({
+const buildCompetence = function buildCompetence({
   id = 'recsvLz0W2ShyfD63',
   domaineIds = [
     'recvoGdo7z2z7pXWa',
@@ -86,3 +86,27 @@ module.exports = function buildCompetence({
     'createdTime': createdTime,
   };
 };
+
+buildCompetence.fromDomain = function buildCompetenceFromDomain({
+  domainCompetence,
+  locale = 'fr-fr',
+  createdAt = '2018-03-15T14:38:03.000Z',
+}) {
+  return {
+    id: domainCompetence.id,
+    'fields': {
+      'id persistant': domainCompetence.id,
+      'Domaine (id persistant)': domainCompetence.area ? [domainCompetence.area.id] : [],
+      'Sous-domaine': domainCompetence.index,
+      'Titre fr-fr': locale === 'fr-fr' ? domainCompetence.name : 'un titre français',
+      'Titre en-us': locale === 'fr-fr' ? 'an english title' : domainCompetence.name,
+      'Description fr-fr': locale === 'fr-fr' ? domainCompetence.description : 'une description française',
+      'Description en-us': locale === 'fr-fr' ? 'an english description' : domainCompetence.description,
+      'Acquis (via Tubes) (id persistant)': domainCompetence.skillIds,
+      'Origine': domainCompetence.origin,
+    },
+    'createdTime': createdAt,
+  };
+};
+
+module.exports = buildCompetence;

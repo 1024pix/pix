@@ -1,4 +1,4 @@
-module.exports = function buildCourse({
+const buildCourse = function buildCourse({
   id = 'recPBOj7JzBcgXEtO',
   nom = '3.4 niveau 1 et 2',
   description = 'Programmer niveau 1 et 2',
@@ -65,3 +65,24 @@ module.exports = function buildCourse({
     'createdTime': createdTime,
   };
 };
+
+buildCourse.fromDomain = function buildCourseFromDomain({
+  domainCourse,
+  createdAt = '2018-03-15T14:38:03.000Z',
+}) {
+  return {
+    id: domainCourse.id,
+    'fields': {
+      'id persistant': domainCourse.id,
+      'Nom': domainCourse.name,
+      'Description': domainCourse.description,
+      'Image': [{ url: domainCourse.imageUrl }],
+      'Épreuves (id persistant)': domainCourse.challenges,
+      'Nb d\'épreuves': domainCourse.challenges.length,
+      'Competence (id persistant)': domainCourse.competences,
+    },
+    'createdTime': createdAt,
+  };
+};
+
+module.exports = buildCourse;

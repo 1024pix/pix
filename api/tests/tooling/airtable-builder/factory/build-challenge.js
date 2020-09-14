@@ -361,11 +361,62 @@ function rawBuildChallenge({
       'Record ID': recordID,
       'domaines': domaines,
       'Texte alternatif illustration': illustrationAlt,
-      'format': format,
+      'Format': format,
       'Langues': langues,
     },
     'createdTime': createdTime,
   };
 }
+
+buildChallenge.fromDomain = function buildChallengeFromDomain({
+  domainChallenge,
+  createdAt = '2018-03-15T14:38:03.000Z',
+}) {
+
+  const languages = [];
+  for (const locale of domainChallenge.locales) {
+    if (locale === 'fr') {
+      languages.push('Francophone');
+    }
+    if (locale === 'fr-fr') {
+      languages.push('Franco Français');
+    }
+    if (locale === 'en') {
+      languages.push('Anglais');
+    }
+  }
+
+  return {
+    id: domainChallenge.id,
+    'fields': {
+      'id persistant': domainChallenge.id,
+      'Consigne': domainChallenge.instruction,
+      'Consigne alternative': domainChallenge.alternativeInstruction,
+      'Propositions': domainChallenge.proposals,
+      'Type d\'épreuve': domainChallenge.type,
+      'Illustration de la consigne': [{ url: domainChallenge.illustrationUrl }],
+      'Pièce jointe': domainChallenge.attachments ? domainChallenge.attachments.map((attachmentUrl) => {
+        return { url: attachmentUrl };
+      }) : null,
+      'Bonnes réponses': 'Une solution',
+      'Timer': domainChallenge.timer,
+      'Compétences (via tube) (id persistant)': [domainChallenge.competenceId],
+      'Statut': domainChallenge.status,
+      'Embed URL': domainChallenge.embedUrl,
+      'Embed title': domainChallenge.embedTitle,
+      'Embed height': domainChallenge.embedHeight,
+      'Acquix (id persistant)': domainChallenge.skills.map(({ id }) => id),
+      'Texte alternatif illustration': domainChallenge.illustrationAlt,
+      'Format': domainChallenge.format,
+      'Réponse automatique': domainChallenge.autoReply ? 'Oui' : null,
+      'Langues': languages,
+      'T1 - Espaces, casse & accents': 'Activé',
+      'T2 - Ponctuation': 'Désactivé',
+      'T3 - Distance d\'édition': 'Activé',
+      'Scoring': 'Le scoring',
+    },
+    'createdTime': createdAt,
+  };
+};
 
 module.exports = buildChallenge;
