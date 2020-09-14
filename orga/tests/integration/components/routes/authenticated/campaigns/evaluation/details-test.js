@@ -46,7 +46,7 @@ module('Integration | Component | routes/authenticated/campaign/evaluation | det
 
   test('it displays campaign participation progression', async function(assert) {
     const campaignAssessmentParticipation = {
-      progression: 75
+      progression: 75,
     };
 
     const campaign = {};
@@ -83,7 +83,7 @@ module('Integration | Component | routes/authenticated/campaign/evaluation | det
     module('when the sharing date is present', function() {
       test('it displays the sharing date', async function(assert) {
         const campaignAssessmentParticipation = {
-          sharedAt: '2020-01-02'
+          sharedAt: '2020-01-02',
         };
 
         const campaign = {};
@@ -135,7 +135,7 @@ module('Integration | Component | routes/authenticated/campaign/evaluation | det
       test('it does not display the external id', async function(assert) {
         const campaignAssessmentParticipation = {
           participantExternalId: null,
-          isShared: false
+          isShared: false,
         };
 
         const campaign = {};
@@ -155,7 +155,7 @@ module('Integration | Component | routes/authenticated/campaign/evaluation | det
       test('it displays campaign participation mastery percentage', async function(assert) {
         const campaignAssessmentParticipation = {
           masteryPercentage: 65,
-          isShared: true
+          isShared: true,
         };
 
         const campaign = {};
@@ -172,7 +172,7 @@ module('Integration | Component | routes/authenticated/campaign/evaluation | det
         const campaignAssessmentParticipation = {
           validatedSkillsCount: 45,
           targetedSkillsCount: 50,
-          isShared: true
+          isShared: true,
         };
 
         const campaign = {};
@@ -189,7 +189,7 @@ module('Integration | Component | routes/authenticated/campaign/evaluation | det
     module('when the participation is not shared', function() {
       test('it does not display results', async function(assert) {
         const campaignAssessmentParticipation = {
-          isShared: false
+          isShared: false,
         };
 
         const campaign = {};

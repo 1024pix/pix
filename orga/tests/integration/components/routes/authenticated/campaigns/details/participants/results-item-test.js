@@ -35,7 +35,7 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
       targetedSkillsCount: 30,
       testedSkillsCount: 29,
       validatedSkillsCount: 15,
-      competenceResults: [competenceResult]
+      competenceResults: [competenceResult],
     });
 
     this.set('campaignAssessmentParticipationResult', campaignAssessmentParticipationResult);

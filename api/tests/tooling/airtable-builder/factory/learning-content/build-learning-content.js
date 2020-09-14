@@ -69,7 +69,7 @@ const buildLearningContent = function(learningContent) {
           origin: competence.origin,
           sousDomaine: competence.index,
           titre: competence.name,
-        }
+        },
       );
     });
     allCompetences.push(competences);
