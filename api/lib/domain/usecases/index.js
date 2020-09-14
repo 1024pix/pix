@@ -202,6 +202,7 @@ module.exports = injectDependencies({
   updatePublicationSession: require('./update-publication-session'),
   updateSchoolingRegistrationDependentUserPassword: require('./update-schooling-registration-dependent-user-password'),
   updateSession: require('./update-session'),
+  updateStudentNumber: require('./update-student-number'),
   updateUserDetailsForAdministration: require('./update-user-details-for-administration'),
   updateUserPassword: require('./update-user-password'),
   updateUserSamlId: require('./update-user-samlId'),

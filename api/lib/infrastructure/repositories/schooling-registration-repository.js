@@ -119,6 +119,17 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
   },
 
+  async findOneByOrganizationIdAndStudentNumber(organizationId, studentNumber) {
+    const schoolingRegistration = await BookshelfSchoolingRegistration
+      .query((qb) => {
+        qb.where('organizationId', organizationId);
+        qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
+      })
+      .fetchAll();
+
+    return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistration);
+  },
+
   async findSupernumeraryByOrganizationIdAndBirthdate({ organizationId, birthdate }) {
     const schoolingRegistrations = await BookshelfSchoolingRegistration
       .query((qb) => {
@@ -165,6 +176,14 @@ module.exports = {
       .where({ userId, organizationId })
       .fetch()
       .then((schoolingRegistration) => bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration));
+  },
+
+  async updateStudentNumber(studentId, studentNumber) {
+    await BookshelfSchoolingRegistration
+      .where('id', studentId)
+      .save({ studentNumber }, {
+        patch: true,
+      });
   },
 
   get(schoolingRegistrationId) {
