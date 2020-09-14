@@ -287,5 +287,35 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
         });
       });
     });
+
+    context('when there are several schooling-registrations for the same participant', () => {
+      beforeEach(async () => {
+        const skill = airtableBuilder.factory.buildSkill({ id: 'skill' });
+        airtableBuilder.mockLists({ skills: [skill] });
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        campaignId = databaseBuilder.factory.buildAssessmentCampaignForSkills({ organizationId }, [skill]).id;
+        const userId = databaseBuilder.factory.buildUser().id;
+
+        campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          userId,
+          isShared: true,
+          sharedAt: new Date('2020-12-12'),
+        }).id;
+
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, createdAt: new Date('2020-10-10'), state: Assessment.states.COMPLETED }).id;
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, userId, firstName: 'John', lastName: 'Doe' }).id;
+        databaseBuilder.factory.buildSchoolingRegistration({ userId , firstName: 'Jane', lastName: 'Doe' }).id;
+
+        await databaseBuilder.commit();
+      });
+
+      it('return the first name and the last name of the correct schooling-registration', async () => {
+        const campaignAssessmentParticipation = await campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId });
+
+        expect(campaignAssessmentParticipation.firstName).to.equal('John');
+        expect(campaignAssessmentParticipation.lastName).to.equal('Doe');
+      });
+    });
   });
 });
