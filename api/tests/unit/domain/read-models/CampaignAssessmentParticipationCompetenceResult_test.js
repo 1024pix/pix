@@ -51,7 +51,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationCompetenceResu
     it('should compute validated skills count', () => {
       const competence = domainBuilder.buildCompetence();
 
-      const knowledgeElements = [
+      const targetedKnowledgeElements = [
         domainBuilder.buildKnowledgeElement({ skillId: '1', competenceId: competence.id }),
         domainBuilder.buildKnowledgeElement({ skillId: '2', competenceId: competence.id }),
         domainBuilder.buildKnowledgeElement({ skillId: '3', status: KnowledgeElement.StatusType.INVALIDATED, competenceId: competence.id }),
@@ -59,7 +59,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationCompetenceResu
 
       const campaignAssessmentParticipationCompetenceResult = new CampaignAssessmentParticipationCompetenceResult({
         competence,
-        knowledgeElements,
+        targetedKnowledgeElements,
       });
 
       expect(campaignAssessmentParticipationCompetenceResult.validatedSkillsCount).equal(2);

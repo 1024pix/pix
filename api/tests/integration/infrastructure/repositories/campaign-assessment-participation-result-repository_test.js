@@ -43,18 +43,6 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
                       nom: '@acquis2',
                       challenges: [],
                     },
-                  ],
-                },
-              ],
-            },
-            {
-              id: 'rec3',
-              index: '1.3',
-              name: 'Other Competence',
-              tubes: [
-                {
-                  id: 'recTube3',
-                  skills: [
                     {
                       id: 'skill3',
                       nom: '@autreAcquis',
@@ -105,6 +93,13 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
           competenceId: 'rec2',
           createdAt: new Date('2020-01-01'),
           status: KnowledgeElement.StatusType.INVALIDATED,
+        });
+        databaseBuilder.factory.buildKnowledgeElement({
+          userId,
+          skillId: 'skill3',
+          competenceId: 'rec2',
+          createdAt: new Date('2020-01-01'),
+          status: KnowledgeElement.StatusType.VALIDATED,
         });
         await databaseBuilder.commit();
       });
