@@ -10,10 +10,10 @@ module('Unit | Model | CampaignAssessmentParticipationCompetenceResult', functio
       const store = this.owner.lookup('service:store');
       const model = store.createRecord('campaign-assessment-participation-competence-result', {});
       const otherCompetenceResult = store.createRecord('campaign-assessment-participation-competence-result', {
-        targetedSkillsCount: 1
+        targetedSkillsCount: 1,
       });
       const campaignAssessmentParticipationResult = store.createRecord('campaign-assessment-participation-result', {
-        competenceResults: [otherCompetenceResult, model]
+        competenceResults: [otherCompetenceResult, model],
       });
 
       model.set('targetedSkillsCount', 2);
@@ -30,10 +30,10 @@ module('Unit | Model | CampaignAssessmentParticipationCompetenceResult', functio
       const store = this.owner.lookup('service:store');
       const model = store.createRecord('campaign-assessment-participation-competence-result', {});
       const otherCompetenceResult = store.createRecord('campaign-assessment-participation-competence-result', {
-        targetedSkillsCount: 4
+        targetedSkillsCount: 4,
       });
       const campaignAssessmentParticipationResult = store.createRecord('campaign-assessment-participation-result', {
-        competenceResults: [otherCompetenceResult, model]
+        competenceResults: [otherCompetenceResult, model],
       });
 
       model.set('targetedSkillsCount', 1);

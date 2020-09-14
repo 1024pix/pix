@@ -9,13 +9,13 @@ module('Unit | Model | campaignAssessmentParticipationResult', function(hooks) {
     test('should calculate max total skills', function(assert) {
       const store = this.owner.lookup('service:store');
       const competenceResult1 = store.createRecord('campaign-assessment-participation-competence-result', {
-        targetedSkillsCount: 2
+        targetedSkillsCount: 2,
       });
       const competenceResult2 = store.createRecord('campaign-assessment-participation-competence-result', {
-        targetedSkillsCount: 11
+        targetedSkillsCount: 11,
       });
       const competenceResult3 = store.createRecord('campaign-assessment-participation-competence-result', {
-        targetedSkillsCount: 10
+        targetedSkillsCount: 10,
       });
 
       const model = store.createRecord('campaign-assessment-participation-result', {});
@@ -44,7 +44,7 @@ module('Unit | Model | campaignAssessmentParticipationResult', function(hooks) {
       });
 
       const model = store.createRecord('campaign-assessment-participation-result', {
-        competenceResults: [competenceResult1, competenceResult2, competenceResult3]
+        competenceResults: [competenceResult1, competenceResult2, competenceResult3],
       });
 
       // when

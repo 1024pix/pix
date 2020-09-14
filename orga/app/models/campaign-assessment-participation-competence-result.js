@@ -12,7 +12,7 @@ export default class CampaignAssessmentParticipationCompetenceResult extends Mod
 
   @computed(
     'targetedSkillsCount',
-    'campaignAssessmentParticipationResult.maxTotalSkillsCount'
+    'campaignAssessmentParticipationResult.maxTotalSkillsCount',
   )
   get totalSkillsCountPercentage() {
     return Math.round(this.targetedSkillsCount * 100 / this.campaignAssessmentParticipationResult.get('maxTotalSkillsCount'));

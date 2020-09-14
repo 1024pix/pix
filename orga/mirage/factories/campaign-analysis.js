@@ -20,10 +20,11 @@ export default Factory.extend({
       });
       campaignAnalysis.campaignTubeRecommendations = [tubeRecommendation_1, tubeRecommendation_2];
     },
-    withEmptyTubeRecommendations: trait({
-      afterCreate(campaignAnalysis) {
-        campaignAnalysis.campaignTubeRecommendations = [];
-      },
-    }),
+  }),
+
+  withEmptyTubeRecommendations: trait({
+    afterCreate(campaignAnalysis) {
+      campaignAnalysis.campaignTubeRecommendations = [];
+    },
   }),
 });

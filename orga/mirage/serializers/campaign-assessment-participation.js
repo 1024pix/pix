@@ -10,5 +10,5 @@ export default JSONAPISerializer.extend({
         related: `/api/campaign-participations/${campaignAssessmentParticipation.id}/analyses`,
       },
     };
-  }
+  },
 });
