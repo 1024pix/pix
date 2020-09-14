@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## v2.195.0 (14/09/2020)
+
+- [#1874](https://github.com/1024pix/pix/pull/1874) [FEATURE] Cacher les liens de connexion et d'inscription pour les élèves venant du GAR (PIX-1249).
+- [#1858](https://github.com/1024pix/pix/pull/1858) [BUGFIX] Corriger l'affichage du menu de déconnexion et de changement d'organisation dans Pix Orga (PIX-1219).
+- [#1876](https://github.com/1024pix/pix/pull/1876) [BUGFIX] Ajout d'une validation JOI sur la longueur des inputs firstName, lastName, email et password d'un utilisateur sur le formulaire d'inscription Pix-app (PIX-1253).
+- [#1861](https://github.com/1024pix/pix/pull/1861) [BUGFIX] Ordre d'affichage des blocs sur le certificat (PIX-1250)
+- [#1863](https://github.com/1024pix/pix/pull/1863) [TECH] Enlever le toggle sur le partage du code de vérification (PIX-1254)
+
 ## v2.194.0 (14/09/2020)
 
 - [#1841](https://github.com/1024pix/pix/pull/1841) [FEATURE] Ajouter la méthode d'authentification GAR à l'utilisateur qui vient de se connecter à Mon-Pix (PIX-1095).
