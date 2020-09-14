@@ -1,4 +1,4 @@
-const { expect, airtableBuilder, catchErr } = require('../../../test-helper');
+const { expect, airtableBuilder, domainBuilder, catchErr } = require('../../../test-helper');
 const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 const Course = require('../../../../lib/domain/models/Course');
 const { NotFoundError } = require('../../../../lib/domain/errors');
@@ -14,30 +14,15 @@ describe('Integration | Repository | course-repository', () => {
   describe('#get', () => {
 
     context('when course exists', () => {
-      const expectedCourse = {
-        id: 'recCourse',
-        name: 'courseName',
-        description: 'courseDescription',
-        imageUrl: 'courseImageUrl',
-        challenges: ['recChallenge1'],
-        competences: ['recCompetence1'],
-      };
-
-      beforeEach(() => {
-        const airtableCourse = airtableBuilder.factory.buildCourse({
-          id: expectedCourse.id,
-          nom: expectedCourse.name,
-          description: expectedCourse.description,
-          image: [{ url: expectedCourse.imageUrl }],
-          epreuves: expectedCourse.challenges,
-          competence: expectedCourse.competences,
-        });
-        airtableBuilder.mockLists({ courses: [airtableCourse] });
-      });
 
       it('should return the course', async () => {
+        // given
+        const expectedCourse = domainBuilder.buildCourse();
+        const airtableCourse = airtableBuilder.factory.buildCourse.fromDomain({ domainCourse: expectedCourse });
+        airtableBuilder.mockLists({ courses: [airtableCourse] });
+
         // when
-        const actualCourse = await courseRepository.get('recCourse');
+        const actualCourse = await courseRepository.get(expectedCourse.id);
 
         // then
         expect(actualCourse).to.be.instanceOf(Course);
@@ -61,30 +46,15 @@ describe('Integration | Repository | course-repository', () => {
     });
 
     context('when course exists', () => {
-      const expectedCourse = {
-        id: 'recCourse',
-        name: 'courseName',
-        description: 'courseDescription',
-        imageUrl: 'courseImageUrl',
-        challenges: ['recChallenge1'],
-        competences: ['recCompetence1'],
-      };
-
-      beforeEach(() => {
-        const airtableCourse = airtableBuilder.factory.buildCourse({
-          id: expectedCourse.id,
-          nom: expectedCourse.name,
-          description: expectedCourse.description,
-          image: [{ url: expectedCourse.imageUrl }],
-          epreuves: expectedCourse.challenges,
-          competence: expectedCourse.competences,
-        });
-        airtableBuilder.mockLists({ courses: [airtableCourse] });
-      });
 
       it('should return the course name', async () => {
+        // given
+        const expectedCourse = domainBuilder.buildCourse();
+        const airtableCourse = airtableBuilder.factory.buildCourse.fromDomain({ domainCourse: expectedCourse });
+        airtableBuilder.mockLists({ courses: [airtableCourse] });
+
         // when
-        const actualCourseName = await courseRepository.getCourseName('recCourse');
+        const actualCourseName = await courseRepository.getCourseName(expectedCourse.id);
 
         // then
         expect(actualCourseName).to.equal(expectedCourse.name);
