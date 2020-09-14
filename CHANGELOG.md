@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v2.194.0 (14/09/2020)
+
+- [#1841](https://github.com/1024pix/pix/pull/1841) [FEATURE] Ajouter la méthode d'authentification GAR à l'utilisateur qui vient de se connecter à Mon-Pix (PIX-1095).
+- [#1832](https://github.com/1024pix/pix/pull/1832) [FEATURE] Associer le nouveau samlId de l'élève au compte GAR existant lors de la réconciliation (PIX-1038).
+- [#1870](https://github.com/1024pix/pix/pull/1870) [FEATURE] Mise à jour des textes en anglais. 
+- [#1855](https://github.com/1024pix/pix/pull/1855) [FEATURE] Amélioration de l'accessibilité de la bannière de reprise de campagne (PIX-1130).
+- [#1806](https://github.com/1024pix/pix/pull/1806) [FEATURE] Nouvelles traductions pour la version EN.
+- [#1868](https://github.com/1024pix/pix/pull/1868) [TECH] Ajout d'une méthode dans les airtableBuilder pour construire un objet Airtable à partir d'un objet du domain (PIX-1259)
+- [#1866](https://github.com/1024pix/pix/pull/1866) [TECH] Ajout d'une règle de lint pour les trailing comma sur les déclarations multilignes (PIX-1256)
+- [#1790](https://github.com/1024pix/pix/pull/1790) [TECH] test && commit || revert
+- [#1875](https://github.com/1024pix/pix/pull/1875) [INFRA] Ajoute un stub manquant dans un test unitaire (PIX-1224)
+- [#1854](https://github.com/1024pix/pix/pull/1854) Update en.json
+
 ## v2.193.0 (09/09/2020)
 
 - [#1853](https://github.com/1024pix/pix/pull/1853) [FEATURE]Modifier les liens des documentations sco dans Pix Orga
