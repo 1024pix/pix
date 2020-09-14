@@ -10,18 +10,23 @@ const userValidationJoiSchema = Joi.object({
 
   firstName: Joi.string()
     .required()
+    .max(255)
     .messages({
       'string.empty': 'Votre prénom n’est pas renseigné.',
+      'string.max': 'Votre prénom ne doit pas dépasser les 255 caractères.',
     }),
 
   lastName: Joi.string()
     .required()
+    .max(255)
     .messages({
       'string.empty': 'Votre nom n’est pas renseigné.',
+      'string.max': 'Votre nom ne doit pas dépasser les 255 caractères.',
     }),
 
   email: Joi.string()
     .email()
+    .max(255)
     .messages({
       'string.empty': 'Votre adresse e-mail n’est pas renseignée.',
       'string.email': 'Le format de l\'adresse e-mail est incorrect.',
@@ -35,9 +40,11 @@ const userValidationJoiSchema = Joi.object({
   password: Joi.string()
     .pattern(pattern)
     .required()
+    .max(255)
     .messages({
       'string.empty': 'Votre mot de passe n’est pas renseigné.',
       'string.pattern.base': 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.',
+      'string.max': 'Votre mot de passe ne doit pas dépasser les 255 caractères.',
     }),
 
   cgu: Joi.boolean()
