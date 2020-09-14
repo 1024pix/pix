@@ -22,26 +22,6 @@ module.exports = function buildPixAileProfilev2({ databaseBuilder }) {
     });
   };
 
-  const buildCampaignParticipation = () => {
-
-    const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
-      id: 1,
-      campaignId: 3,
-      userId,
-      isShared: false,
-      sharedAt: null,
-    });
-
-    const { id: assessmentId } = databaseBuilder.factory.buildAssessment({
-      userId,
-      type: Assessment.types.CAMPAIGN,
-      state: Assessment.states.STARTED,
-      campaignParticipationId: campaignParticipation.id,
-    });
-
-    return { assessmentId };
-  };
-
   const buildCompetenceEvaluation = ({ competenceId, assessmentState }) => {
 
     const { id: assessmentId } = databaseBuilder.factory.buildAssessment({
@@ -159,42 +139,5 @@ module.exports = function buildPixAileProfilev2({ databaseBuilder }) {
       { challengeId: 'recijE4sMaS0mkjVu', skillId: 'recGHY2N1qq1FYH4J', inferredSkillIds: ['recTmjG8ygtFjGfP9', 'rechLuj5ydZs48koG', 'recjaPxapJkF1cx5k', 'recRJyPT0FBEeVkzR'] },
       { challengeId: 'recZjuf1caEli6BHp', skillId: 'recW0pab7QV7dlB97', inferredSkillIds: [] },
     ],
-  });
-
-  const { assessmentId: assessmentIdForCampaign } = buildCampaignParticipation();
-
-  // competence 1.2 - campaign - assessment not completed - 0.1 days remaining
-  const CHALLENGE_ID_1_2 = 'recilaoo1zSM4U7nM';
-  const { id: answerId_1_2 } = databaseBuilder.factory.buildAnswer({
-    assessmentId: assessmentIdForCampaign,
-    challengeId: CHALLENGE_ID_1_2,
-    result: 'ok',
-  });
-
-  _buildKnowledgeElement({
-    answerId: answerId_1_2,
-    competenceId: 'recIkYm646lrGvLNT',
-    challengeId: CHALLENGE_ID_1_2,
-    skillId: 'recagUd44RPEWti0X',
-    assessmentId: assessmentIdForCampaign,
-    remainingDays: 0,
-    remainingHours: 1,
-  });
-
-  // competence 3.1 - campaign - assessment not completed - 0 days remaining
-  const CHALLENGE_ID_3_1 = 'recQJ8lx3xyKCvFOh';
-  const { id: answerId_3_1 } = databaseBuilder.factory.buildAnswer({
-    assessmentId: assessmentIdForCampaign,
-    challengeId: CHALLENGE_ID_3_1,
-    result: 'ok',
-  });
-
-  _buildKnowledgeElement({
-    answerId: answerId_3_1,
-    competenceId: 'recOdC9UDVJbAXHAm',
-    challengeId: CHALLENGE_ID_3_1,
-    skillId: 'rec5V9gp65a58nnco',
-    assessmentId: assessmentIdForCampaign,
-    remainingDays: 0,
   });
 };

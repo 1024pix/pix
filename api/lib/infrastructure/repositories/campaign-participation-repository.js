@@ -53,11 +53,8 @@ module.exports = {
       (qb) => {
         qb.select([
           'campaign-participations.*',
-          'users.firstName',
-          'users.lastName',
           knex.raw('COALESCE ("schooling-registrations"."firstName", "users"."firstName") AS "firstName"'),
           knex.raw('COALESCE ("schooling-registrations"."lastName", "users"."lastName") AS "lastName"'),
-
         ])
           .from('campaign-participations')
           .leftJoin('users', 'campaign-participations.userId', 'users.id')

@@ -22,7 +22,8 @@ module('Acceptance | Campaign Participants', function(hooks) {
     createPrescriberByUser(user);
 
     server.create('campaign', { id: 1 });
-    server.createList('campaign-participation', rowCount, { campaignId: 1 });
+    server.createList('campaign-assessment-participation', rowCount, { campaignId: 1 });
+    server.createList('campaign-assessment-participation-result', rowCount, { campaignId: 1 });
     server.createList('campaign-assessment-participation-summary', 20, 'completed');
     server.createList('campaign-assessment-participation-summary', 10, 'ongoing');
     server.createList('campaign-assessment-participation-summary', 20, 'shared');

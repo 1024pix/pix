@@ -10,7 +10,7 @@ export default Factory.extend({
         competenceName: 'Competence A',
         competenceId: 'recCompA',
         averageValidatedSkills: '5',
-        totalSkillsCount: '10',
+        targetedSkillsCount: '10',
       });
       const competenceCollectiveResult_2 = server.create('campaign-competence-collective-result', {
         areaCode: '2',
@@ -18,7 +18,7 @@ export default Factory.extend({
         competenceName: 'Competence B',
         competenceId: 'recCompB',
         averageValidatedSkills: '0',
-        totalSkillsCount: '34',
+        targetedSkillsCount: '34',
       });
       campaignCollectiveResult.campaignCompetenceCollectiveResults = [competenceCollectiveResult_1, competenceCollectiveResult_2];
     },

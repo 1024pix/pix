@@ -43,15 +43,15 @@ module('Unit | Model | campaign-collective-results', function(hooks) {
 
       const competenceCollectiveResults1 = store.createRecord('campaign-competence-collective-result', {
         averageValidatedSkills: 10,
-        totalSkillsCount: 20,
+        targetedSkillsCount: 20,
       });
       const competenceCollectiveResults2 = store.createRecord('campaign-competence-collective-result', {
         averageValidatedSkills: 20,
-        totalSkillsCount: 40,
+        targetedSkillsCount: 40,
       });
       const competenceCollectiveResults3 = store.createRecord('campaign-competence-collective-result', {
         averageValidatedSkills: 30,
-        totalSkillsCount: 60,
+        targetedSkillsCount: 60,
       });
 
       const model = run(()=> store.createRecord('campaign-collective-result', {}));
@@ -76,15 +76,15 @@ module('Unit | Model | campaign-collective-results', function(hooks) {
 
       const competenceCollectiveResults1 = store.createRecord('campaign-competence-collective-result', {
         averageValidatedSkills: 10,
-        totalSkillsCount: 20,
+        targetedSkillsCount: 20,
       });
       const competenceCollectiveResults2 = store.createRecord('campaign-competence-collective-result', {
         averageValidatedSkills: 20,
-        totalSkillsCount: 40,
+        targetedSkillsCount: 40,
       });
       const competenceCollectiveResults3 = store.createRecord('campaign-competence-collective-result', {
         averageValidatedSkills: 30,
-        totalSkillsCount: 60,
+        targetedSkillsCount: 60,
       });
 
       const model = run(()=> store.createRecord('campaign-collective-result', {}));
@@ -109,15 +109,15 @@ module('Unit | Model | campaign-collective-results', function(hooks) {
 
       const competenceCollectiveResults1 = store.createRecord('campaign-competence-collective-result', {
         averageValidatedSkills: 10,
-        totalSkillsCount: 20,
+        targetedSkillsCount: 20,
       });
       const competenceCollectiveResults2 = store.createRecord('campaign-competence-collective-result', {
         averageValidatedSkills: 20,
-        totalSkillsCount: 40,
+        targetedSkillsCount: 40,
       });
       const competenceCollectiveResults3 = store.createRecord('campaign-competence-collective-result', {
         averageValidatedSkills: 30,
-        totalSkillsCount: 60,
+        targetedSkillsCount: 60,
       });
 
       const model = run(() => store.createRecord('campaign-collective-result', {}));

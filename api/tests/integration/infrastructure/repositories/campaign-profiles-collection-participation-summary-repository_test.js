@@ -39,7 +39,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
     it('should return participant data summary for a not shared campaign participation', async () => {
       // given
       const campaignParticipation = { id: 1, campaignId, isShared: false, sharedAt: null, participantExternalId: 'JeBu' };
-      databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Jérémy', lastName: 'bugietta' }, campaignParticipation);
+      databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Jérémy', lastName: 'bugietta' }, campaignParticipation, false);
       await databaseBuilder.commit();
 
       // when
@@ -60,10 +60,10 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
     it('should return participants data summary only for the given campaign id', async () => {
       // given
       const campaignParticipation1 = { campaignId };
-      databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Lise', lastName: 'Quesnel' }, campaignParticipation1);
+      databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Lise', lastName: 'Quesnel' }, campaignParticipation1, false);
       const campaignId2 = databaseBuilder.factory.buildCampaign().id;
       const campaignParticipation2 = { campaignId: campaignId2 };
-      databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Benjamin', lastName: 'Petetot' }, campaignParticipation2);
+      databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Benjamin', lastName: 'Petetot' }, campaignParticipation2, false);
       await databaseBuilder.commit();
 
       // when
@@ -77,11 +77,10 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
     it('should return participants data summary ordered by last name then first name asc (including schooling registration data)', async () => {
       // given
       const campaignParticipation = { campaignId };
-      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ firstName: 'Jaja', lastName: 'Le raplapla', organizationId }, campaignParticipation);
-      databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Jeje', lastName: 'Le neuneu', organizationId }, campaignParticipation);
-      databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Jiji', lastName: 'Le riquiqui', organizationId }, campaignParticipation);
-      databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Jojo', lastName: 'Le rococo', organizationId }, campaignParticipation);
-      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ firstName: 'Juju', lastName: 'Le riquiqui', organizationId }, campaignParticipation);
+      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ firstName: 'Jaja', lastName: 'Le raplapla', organizationId }, campaignParticipation, false);
+      databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Jiji', lastName: 'Le riquiqui', organizationId }, campaignParticipation, false);
+      databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Jojo', lastName: 'Le rococo', organizationId }, campaignParticipation, false);
+      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ firstName: 'Juju', lastName: 'Le riquiqui', organizationId }, campaignParticipation, false);
       await databaseBuilder.commit();
 
       // when
@@ -89,7 +88,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       const names = results.data.map((result) => result.firstName);
 
       // then
-      expect(names).exactlyContainInOrder(['Jeje', 'Jaja', 'Jiji', 'Juju', 'Jojo']);
+      expect(names).exactlyContainInOrder(['Jaja', 'Jiji', 'Juju', 'Jojo']);
     });
 
     describe('when a participant has shared the participation to the campaign', () => {
@@ -100,7 +99,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
         const userId = 999;
 
         campaignParticipation = { id: 1, campaignId, isShared: true, sharedAt };
-        databaseBuilder.factory.buildCampaignParticipationWithUser({ id: userId }, campaignParticipation);
+        databaseBuilder.factory.buildCampaignParticipationWithUser({ id: userId }, campaignParticipation, false);
 
         databaseBuilder.factory.buildKnowledgeElement({
           status: 'validated',

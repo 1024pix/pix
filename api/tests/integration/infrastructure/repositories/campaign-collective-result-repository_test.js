@@ -27,7 +27,7 @@ function _createUserWithNonSharedCampaignParticipation(userName, campaignId) {
   return { userId, campaignParticipation };
 }
 
-describe('Integration | Repository | Service | Campaign collective result repository', () => {
+describe('Integration | Repository | Campaign collective result repository', () => {
   let competences;
 
   beforeEach(() => {
@@ -138,7 +138,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               competenceName: 'Competence A',
               competenceIndex: '1.1',
               areaColor: 'jaffa',
-              totalSkillsCount: 5,
+              targetedSkillsCount: 5,
             },
             {
               averageValidatedSkills: 0,
@@ -147,7 +147,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               competenceName: 'Competence B',
               competenceIndex: '1.2',
               areaColor: 'jaffa',
-              totalSkillsCount: 4,
+              targetedSkillsCount: 4,
             },
             {
               averageValidatedSkills: 0,
@@ -156,7 +156,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               competenceName: 'Competence C',
               competenceIndex: '1.3',
               areaColor: 'jaffa',
-              totalSkillsCount: 1,
+              targetedSkillsCount: 1,
             },
             {
               averageValidatedSkills: 0,
@@ -165,7 +165,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               competenceName: 'Competence E',
               competenceIndex: '2.2',
               areaColor: 'emerald',
-              totalSkillsCount: 1,
+              targetedSkillsCount: 1,
             },
             {
               averageValidatedSkills: 0,
@@ -174,7 +174,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               competenceName: 'Competence F',
               competenceIndex: '2.3',
               areaColor: 'emerald',
-              totalSkillsCount: 1,
+              targetedSkillsCount: 1,
             },
           ],
         },
@@ -274,7 +274,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceName: 'Competence A',
                 competenceIndex: '1.1',
                 areaColor: 'jaffa',
-                totalSkillsCount: 5,
+                targetedSkillsCount: 5,
               },
               {
                 averageValidatedSkills: 4,
@@ -283,7 +283,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceName: 'Competence B',
                 competenceIndex: '1.2',
                 areaColor: 'jaffa',
-                totalSkillsCount: 4,
+                targetedSkillsCount: 4,
               },
               {
                 averageValidatedSkills: 0,
@@ -292,7 +292,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceName: 'Competence C',
                 competenceIndex: '1.3',
                 areaColor: 'jaffa',
-                totalSkillsCount: 1,
+                targetedSkillsCount: 1,
               },
               {
                 averageValidatedSkills: 0,
@@ -301,7 +301,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceName: 'Competence E',
                 competenceIndex: '2.2',
                 areaColor: 'emerald',
-                totalSkillsCount: 1,
+                targetedSkillsCount: 1,
               },
               {
                 averageValidatedSkills: 0,
@@ -310,7 +310,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceName: 'Competence F',
                 competenceIndex: '2.3',
                 areaColor: 'emerald',
-                totalSkillsCount: 1,
+                targetedSkillsCount: 1,
               },
             ],
           };
@@ -444,7 +444,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceName: 'Competence A',
                 competenceIndex: '1.1',
                 areaColor: 'jaffa',
-                totalSkillsCount: 5,
+                targetedSkillsCount: 5,
               },
               {
                 averageValidatedSkills: 5 / 3,
@@ -453,7 +453,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceName: 'Competence B',
                 competenceIndex: '1.2',
                 areaColor: 'jaffa',
-                totalSkillsCount: 4,
+                targetedSkillsCount: 4,
               },
               {
                 averageValidatedSkills: 1 / 3,
@@ -462,7 +462,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceName: 'Competence C',
                 competenceIndex: '1.3',
                 areaColor: 'jaffa',
-                totalSkillsCount: 1,
+                targetedSkillsCount: 1,
               },
               {
                 averageValidatedSkills: 0 / 3,
@@ -471,7 +471,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceName: 'Competence E',
                 competenceIndex: '2.2',
                 areaColor: 'emerald',
-                totalSkillsCount: 1,
+                targetedSkillsCount: 1,
               },
               {
                 averageValidatedSkills: 2 / 3,
@@ -480,7 +480,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceName: 'Competence F',
                 competenceIndex: '2.3',
                 areaColor: 'emerald',
-                totalSkillsCount: 1,
+                targetedSkillsCount: 1,
               },
             ],
           };

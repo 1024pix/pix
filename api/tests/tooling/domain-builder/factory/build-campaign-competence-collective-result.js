@@ -7,7 +7,7 @@ module.exports = function buildCampaignCompetenceCollectiveResult(
     competenceName,
     competenceIndex,
     areaColor,
-    totalSkillsCount,
+    targetedSkillsCount,
     averageValidatedSkills,
   } = {}) {
   return new CampaignCompetenceCollectiveResult({
@@ -16,7 +16,7 @@ module.exports = function buildCampaignCompetenceCollectiveResult(
     competenceName,
     competenceIndex,
     areaColor,
-    totalSkillsCount,
+    targetedSkillsCount,
     averageValidatedSkills,
   });
 };

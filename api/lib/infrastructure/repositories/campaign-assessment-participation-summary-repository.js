@@ -26,7 +26,7 @@ const campaignAssessmentParticipationRepository = {
       .select(knex.raw('COUNT(*) OVER() AS ??', ['rowCount']))
       .from('campaign_participation_summaries')
       .where({ rank: 1 })
-      .orderByRaw('LOWER(??) ASC, LOWER(??) ASC', ['lastName', 'firstName'])
+      .orderByRaw('?? ASC, ?? ASC', ['lowerLastName', 'lowerFirstName'])
       .limit(pageSize).offset(offset);
 
     const rowCount = _getRowCount(results);
@@ -52,13 +52,24 @@ function _getRowCount(results) {
 
 function _campaignParticipationByParticipantSortedByDate(qb, campaignId) {
   qb.select(knex.raw('"campaign-participations"."id" AS "campaignParticipationId"'), knex.raw('"users"."id" AS "userId"'))
-    .select('users.firstName', 'users.lastName', 'campaign-participations.participantExternalId', 'campaign-participations.sharedAt',
-      'campaign-participations.isShared', 'assessments.state',
+    .select(
+      knex.raw('COALESCE (LOWER("schooling-registrations"."firstName"), LOWER("users"."firstName")) AS "lowerFirstName"'),
+      knex.raw('COALESCE (LOWER("schooling-registrations"."lastName"), LOWER("users"."lastName")) AS "lowerLastName"'),
+      knex.raw('COALESCE ("schooling-registrations"."firstName", "users"."firstName") AS "firstName"'),
+      knex.raw('COALESCE ("schooling-registrations"."lastName", "users"."lastName") AS "lastName"'),
+      'campaign-participations.participantExternalId',
+      'campaign-participations.sharedAt',
+      'campaign-participations.isShared',
+      'assessments.state',
       knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS rank', ['assessments.campaignParticipationId', 'assessments.createdAt']))
     .from('campaign-participations')
     .join('assessments', 'assessments.campaignParticipationId', 'campaign-participations.id')
     .join('users', 'users.id', 'campaign-participations.userId')
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
+    .leftJoin('schooling-registrations', function() {
+      this.on({ 'campaign-participations.userId': 'schooling-registrations.userId' })
+        .andOn({ 'campaigns.organizationId': 'schooling-registrations.organizationId' });
+    })
     .where('campaign-participations.campaignId', '=', campaignId);
 }
 

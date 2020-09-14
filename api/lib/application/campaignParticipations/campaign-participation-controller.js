@@ -3,6 +3,8 @@ const usecases = require('../../domain/usecases');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const serializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const campaignAnalysisSerializer = require('../../infrastructure/serializers/jsonapi/campaign-analysis-serializer');
+const campaignAssessmentParticipationSerializer = require('../../infrastructure/serializers/jsonapi/campaign-assessment-participation-serializer');
+const campaignAssessmentParticipationResultSerializer = require('../../infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer');
 const campaignProfileSerializer = require('../../infrastructure/serializers/jsonapi/campaign-profile-serializer');
 
 module.exports = {
@@ -73,4 +75,19 @@ module.exports = {
     return campaignProfileSerializer.serialize(campaignProfile);
   },
 
+  async getCampaignAssessmentParticipation(request) {
+    const { userId } = request.auth.credentials;
+    const { campaignId, campaignParticipationId } = request.params;
+
+    const campaignAssessmentParticipation = await usecases.getCampaignAssessmentParticipation({ userId, campaignId, campaignParticipationId });
+    return campaignAssessmentParticipationSerializer.serialize(campaignAssessmentParticipation);
+  },
+
+  async getCampaignAssessmentParticipationResult(request) {
+    const { userId } = request.auth.credentials;
+    const { campaignId, campaignParticipationId } = request.params;
+
+    const campaignAssessmentParticipationResult = await usecases.getCampaignAssessmentParticipationResult({ userId, campaignId, campaignParticipationId });
+    return campaignAssessmentParticipationResultSerializer.serialize(campaignAssessmentParticipationResult);
+  },
 };

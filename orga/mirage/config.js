@@ -255,19 +255,9 @@ export default function() {
 
   this.get('/campaign-participations/:id');
 
-  this.get('/campaign-participations/:id/campaign-participation-result', (schema, request) => {
-    const campaignParticipationId = request.params.id;
-    const campaignParticipation = schema.campaignParticipations.find(campaignParticipationId);
-    return campaignParticipation.campaignParticipationResult;
-  });
-
   this.get('/campaign-participations/:id/analyses', (schema, request) => {
-    const campaignParticipationId = request.params.id;
-    const campaignParticipation = schema.campaignParticipations.find(campaignParticipationId);
-    return campaignParticipation.campaignAnalysis;
+    return schema.campaignAnalyses.findBy({ ...request.params });
   });
-
-  this.get('/campaign-participation-results/:id');
 
   this.post('/schooling-registration-dependent-users/password-update', (schema) => {
     return schema.schoolingRegistrationDependentUsers.create({
@@ -306,6 +296,14 @@ export default function() {
 
   this.get('/campaigns/:campaignId/profiles-collection-participations/:campaignParticipationId', (schema, request) => {
     return schema.campaignProfiles.findBy({ ...request.params });
+  });
+
+  this.get('/campaigns/:campaignId/assessment-participations/:id', (schema, request) => {
+    return schema.campaignAssessmentParticipations.findBy({ ...request.params });
+  });
+
+  this.get('/campaigns/:campaignId/assessment-participations/:id/results', (schema, request) => {
+    return schema.campaignAssessmentParticipationResults.findBy({ ...request.params });
   });
 
   this.delete('/schooling-registration-user-associations', (schema, request) => {

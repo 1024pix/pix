@@ -19,7 +19,7 @@ export default class CampaignCompetenceCollectiveResult extends Model {
   averageValidatedSkills;
 
   @attr('number')
-  totalSkillsCount;
+  targetedSkillsCount;
 
   @belongsTo('campaign-collective-result')
   campaignCollectiveResult;
@@ -29,16 +29,16 @@ export default class CampaignCompetenceCollectiveResult extends Model {
     return Math.round(this.averageValidatedSkills * 10) / 10;
   }
 
-  @computed('averageValidatedSkills', 'totalSkillsCount')
+  @computed('averageValidatedSkills', 'targetedSkillsCount')
   get validatedSkillsPercentage() {
-    return Math.round(this.averageValidatedSkills * 100 / this.totalSkillsCount);
+    return Math.round(this.averageValidatedSkills * 100 / this.targetedSkillsCount);
   }
 
   @computed(
-    'totalSkillsCount',
+    'targetedSkillsCount',
     'campaignCollectiveResult.maxTotalSkillsCountInCompetences',
   )
   get totalSkillsCountPercentage() {
-    return Math.round(this.totalSkillsCount * 100 / this.campaignCollectiveResult.get('maxTotalSkillsCountInCompetences'));
+    return Math.round(this.targetedSkillsCount * 100 / this.campaignCollectiveResult.get('maxTotalSkillsCountInCompetences'));
   }
 }

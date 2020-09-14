@@ -231,7 +231,7 @@ describe('Acceptance | API | Campaign Controller', () => {
             'average-validated-skills': 1,
             'competence-id': 'recCompetence1',
             'competence-name': 'Fabriquer un meuble',
-            'total-skills-count': 2,
+            'targeted-skills-count': 2,
           },
         }],
       };
