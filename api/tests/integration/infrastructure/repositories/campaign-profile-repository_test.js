@@ -21,10 +21,11 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
       it('return the creation date, the sharing date and the participantExternalId', async () => {
         const campaignId = databaseBuilder.factory.buildCampaign().id;
 
-        databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Freddy', lastName: 'Krugger' },  { campaignId });
+        databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Freddy', lastName: 'Krugger' },  { campaignId }, false);
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithUser(
           { firstName: 'Jason', lastName: 'Voorhees' },
-          { campaignId, createdAt: new Date('2020-01-01'), sharedAt:  new Date('2020-01-02'), participantExternalId: 'Friday the 13th' });
+          { campaignId, createdAt: new Date('2020-01-01'), sharedAt:  new Date('2020-01-02'), participantExternalId: 'Friday the 13th' },
+          false);
 
         await databaseBuilder.commit();
 
@@ -40,7 +41,8 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
 
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithUser(
           { firstName: 'Jason', lastName: 'Voorhees' },
-          { campaignId });
+          { campaignId },
+          false);
 
         await databaseBuilder.commit();
 
@@ -55,7 +57,8 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
 
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithUser(
           { firstName: 'Jason', lastName: 'Voorhees' },
-          { campaignId, createdAt: new Date('2020-01-01'), sharedAt:  new Date('2020-01-02'), isShared: true, participantExternalId: 'Friday the 13th' });
+          { campaignId, createdAt: new Date('2020-01-01'), sharedAt:  new Date('2020-01-02'), isShared: true, participantExternalId: 'Friday the 13th' },
+          false);
 
         await databaseBuilder.commit();
 
@@ -80,8 +83,8 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
       it('return the first name and last name of the participant', async () => {
         const campaignId = databaseBuilder.factory.buildCampaign().id;
 
-        databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Viggo', lastName: 'Tarasov' },  { campaignId });
-        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'John', lastName: 'Shaft' }, { campaignId });
+        databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Viggo', lastName: 'Tarasov' },  { campaignId }, false);
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'John', lastName: 'Shaft' }, { campaignId }, false);
 
         await databaseBuilder.commit();
 
@@ -136,7 +139,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
       it('return the number of competences', async () => {
         const campaignId = databaseBuilder.factory.buildCampaign().id;
 
-        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'John', lastName: 'Shaft' }, { campaignId, isShared: true });
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'John', lastName: 'Shaft' }, { campaignId, isShared: true }, false);
 
         await databaseBuilder.commit();
 
@@ -258,7 +261,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
       it('throws an NotFoundError error', async () => {
         const campaignId = databaseBuilder.factory.buildCampaign({ id: 1 }).id;
 
-        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'John', lastName: 'Shaft' }, { id: 3, campaignId }).id;
+        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'John', lastName: 'Shaft' }, { id: 3, campaignId }, false).id;
 
         await databaseBuilder.commit();
         const error = await catchErr(CampaignProfileRepository.findProfile)(2, campaignParticipationId);

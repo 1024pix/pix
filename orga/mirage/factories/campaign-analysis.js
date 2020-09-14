@@ -22,4 +22,9 @@ export default Factory.extend({
     },
   }),
 
+  withEmptyTubeRecommendations: trait({
+    afterCreate(campaignAnalysis) {
+      campaignAnalysis.campaignTubeRecommendations = [];
+    },
+  }),
 });

@@ -9,9 +9,9 @@ export default class CampaignCollectiveResult extends Model {
 
   @hasMany('campaignCompetenceCollectiveResult') campaignCompetenceCollectiveResults;
 
-  @computed('campaignCompetenceCollectiveResults.@each.totalSkillsCount')
+  @computed('campaignCompetenceCollectiveResults.@each.targetedSkillsCount')
   get maxTotalSkillsCountInCompetences() {
-    return maxBy(this.campaignCompetenceCollectiveResults.toArray(), 'totalSkillsCount').totalSkillsCount;
+    return maxBy(this.campaignCompetenceCollectiveResults.toArray(), 'targetedSkillsCount').targetedSkillsCount;
   }
 
   @computed('campaignCompetenceCollectiveResults.@each.averageValidatedSkills')
@@ -22,9 +22,9 @@ export default class CampaignCollectiveResult extends Model {
     return Math.round(sum(roundedAverageResults) * 10) / 10;
   }
 
-  @computed('campaignCompetenceCollectiveResults.@each.totalSkillsCount')
+  @computed('campaignCompetenceCollectiveResults.@each.targetedSkillsCount')
   get totalSkills() {
-    return sumBy(this.campaignCompetenceCollectiveResults.toArray(), 'totalSkillsCount');
+    return sumBy(this.campaignCompetenceCollectiveResults.toArray(), 'targetedSkillsCount');
   }
 
   @computed('averageValidatedSkillsSum', 'totalSkills')

@@ -211,50 +211,24 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
     });
 
     context('order', () => {
-      beforeEach(async () => {
-        campaign = databaseBuilder.factory.buildAssessmentCampaign({});
-
-        const participant1 = {
-          lastName: 'McClane',
-          firstName: 'John',
-        };
-        const participation1 = {
-          participantExternalId: 'Third',
-          campaignId: campaign.id,
-        };
-
-        databaseBuilder.factory.buildAssessmentFromParticipation(participation1, participant1);
-
-        const participant2 = {
-          lastName: 'Gruber',
-          firstName: 'Hans',
-        };
-        const participation2 = {
-          participantExternalId: 'First',
-          campaignId: campaign.id,
-        };
-
-        databaseBuilder.factory.buildAssessmentFromParticipation(participation2, participant2);
-
-        const participant3 = {
-          lastName: 'Holly',
-          firstName: 'McClane',
-        };
-        const participation3 = {
-          participantExternalId: 'Second',
-          campaignId: campaign.id,
-        };
-
-        databaseBuilder.factory.buildAssessmentFromParticipation(participation3, participant3);
+      it('should return participants data summary ordered by last name then first name asc (including schooling registration data)', async () => {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        campaign = databaseBuilder.factory.buildAssessmentCampaign({ organizationId });
+        const campaignParticipation = { campaignId: campaign.id };
+        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ firstName: 'Jaja', lastName: 'Le raplapla', organizationId }, campaignParticipation, true);
+        databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Jiji', lastName: 'Le riquiqui', organizationId }, campaignParticipation, true);
+        databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Jojo', lastName: 'Le rococo', organizationId }, campaignParticipation, true);
+        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ firstName: 'Juju', lastName: 'Le riquiqui', organizationId }, campaignParticipation, true);
 
         await databaseBuilder.commit();
-      });
 
-      it('orders results by last name ASC then first name ASC ', async () => {
+        // when
         const { campaignAssessmentParticipationSummaries } = await campaignAssessmentParticipationSummaryRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
-        const participantExternalIds = campaignAssessmentParticipationSummaries.map((summary) => summary.participantExternalId);
+        const names = campaignAssessmentParticipationSummaries.map((result) => result.firstName);
 
-        expect(participantExternalIds).to.exactlyContainInOrder(['First', 'Second', 'Third']);
+        // then
+        expect(names).exactlyContainInOrder(['Jaja', 'Jiji', 'Juju', 'Jojo']);
       });
     });
 

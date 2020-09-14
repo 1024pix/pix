@@ -17,22 +17,6 @@ function _createSignedUpUser(server) {
   server.createList('target-profile', 4);
 }
 
-function _createCampaigns(server) {
-  const participationsCount = 100;
-  const campaignReports = server.createList('campaign-report', 6, { participationsCount });
-  const campaigns = campaignReports.map((campaignReport) => {
-    return server.create('campaign', { campaignReport });
-  });
-  campaigns.map((campaign) => {
-    const users = server.createList('user', participationsCount);
-    users.forEach((user) => {
-      const campaignParticipationResult = server.create('campaign-participation-result');
-
-      server.create('campaign-participation', { user, campaign, campaignParticipationResult });
-    });
-  });
-}
-
 function _createStudents(server) {
   const organization = server.create('organization', {
     name: 'College Victor Hugo',
@@ -80,7 +64,6 @@ function _createOrganizationInvitations(server) {
 
 export default function(server) {
   _createSignedUpUser(server);
-  _createCampaigns(server);
   _createStudents(server);
   _createOrganizationInvitations(server);
 }
