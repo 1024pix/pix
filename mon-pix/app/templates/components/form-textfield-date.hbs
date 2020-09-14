@@ -20,10 +20,14 @@
     <div class="form-textfield__icon">
       {{#if dayHasIcon}}
         {{#if (eq dayValidationStatus 'error') }}
-          <img src="/images/icons/icon-error.svg" class="form-textfield-icon__state form-textfield-icon__state--error">
+          <img
+            src="/images/icons/icon-error.svg"
+            class="form-textfield-icon__state form-textfield-icon__state--error"
+            alt={{t "common.form.error"}}
+          >
         {{else}}
           <img src="/images/icons/icon-success.svg"
-               class="form-textfield-icon__state form-textfield-icon__state--success">
+               class="form-textfield-icon__state form-textfield-icon__state--success"  alt={{t "common.form.success"}}>
         {{/if}}
       {{/if}}
     </div>
@@ -44,10 +48,13 @@
     <div class="form-textfield__icon">
       {{#if monthHasIcon}}
         {{#if (eq monthValidationStatus 'error') }}
-          <img src="/images/icons/icon-error.svg" class="form-textfield-icon__state form-textfield-icon__state--error">
+          <img
+            src="/images/icons/icon-error.svg"
+            class="form-textfield-icon__state form-textfield-icon__state--error"
+            alt={{t "common.form.error"}}>
         {{else}}
           <img src="/images/icons/icon-success.svg"
-               class="form-textfield-icon__state form-textfield-icon__state--success">
+               class="form-textfield-icon__state form-textfield-icon__state--success"  alt={{t "common.form.success"}}>
         {{/if}}
       {{/if}}
     </div>
@@ -68,10 +75,13 @@
     <div class="form-textfield__icon">
       {{#if yearHasIcon}}
         {{#if (eq yearValidationStatus 'error') }}
-          <img src="/images/icons/icon-error.svg" class="form-textfield-icon__state form-textfield-icon__state--error">
+          <img
+            src="/images/icons/icon-error.svg"
+            class="form-textfield-icon__state form-textfield-icon__state--error"
+            alt={{t "common.form.error"}}>
         {{else}}
           <img src="/images/icons/icon-success.svg"
-               class="form-textfield-icon__state form-textfield-icon__state--success">
+               class="form-textfield-icon__state form-textfield-icon__state--success"  alt={{t "common.form.success"}}>
         {{/if}}
       {{/if}}
     </div>

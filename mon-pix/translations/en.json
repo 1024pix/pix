@@ -16,8 +16,10 @@
       "quit": "Exit"
     },
     "form": {
+      "error": "error",
       "mandatory": "required",
-      "mandatory-fields": "The fields marked '<abbr title=\"required\" class=\"mandatory-mark\">'*'</abbr>' are required"
+      "mandatory-fields": "The fields marked '<abbr title=\"required\" class=\"mandatory-mark\">'*'</abbr>' are required",
+      "success": "success"
     },
     "french-republic": "French Republic",
     "level": "level",
