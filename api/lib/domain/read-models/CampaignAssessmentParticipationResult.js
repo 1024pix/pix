@@ -2,7 +2,6 @@ const _ = require('lodash');
 const CampaignAssessmentParticipationCompetenceResult = require('./CampaignAssessmentParticipationCompetenceResult');
 
 class CampaignAssessmentParticipationResult {
-
   constructor({
     campaignParticipationId,
     campaignId,
@@ -20,14 +19,16 @@ class CampaignAssessmentParticipationResult {
         return this.isShared && _.intersection(competence.skillIds, targetedSkillIds).length > 0;
       })
       .map((competence) => {
+        const targetedKnowledgeElements = knowledgeElementsByCompetenceId[competence.id].filter((ke) =>{
+          return targetedSkillIds.includes(ke.skillId);
+        });
         return new CampaignAssessmentParticipationCompetenceResult({
           competence,
           targetedSkillIds,
-          knowledgeElements: knowledgeElementsByCompetenceId[competence.id],
+          targetedKnowledgeElements,
         });
       });
   }
 }
 
 module.exports = CampaignAssessmentParticipationResult;
-

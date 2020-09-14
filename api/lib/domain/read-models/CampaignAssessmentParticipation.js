@@ -29,7 +29,7 @@ class CampaignAssessmentParticipation {
 
     if (this.isShared) {
       this.validatedSkillsCount = validatedSkillsCount;
-      this.masteryPercentage = this._computeMasteryPercentage(isShared);
+      this.masteryPercentage = this._computeMasteryPercentage();
     }
   }
 
