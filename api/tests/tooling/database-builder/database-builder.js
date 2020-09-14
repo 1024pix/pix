@@ -1,7 +1,7 @@
-const databaseBuffer = require('./database-buffer');
-const factory = require('./factory/index');
-const knexDatabaseConnection = require('../../../db/knex-database-connection');
 const _ = require('lodash');
+const factory = require('./factory/index');
+const databaseBuffer = require('./database-buffer');
+const knexDatabaseConnection = require('../../../db/knex-database-connection');
 
 module.exports = class DatabaseBuilder {
   constructor({ knex }) {
@@ -25,7 +25,7 @@ module.exports = class DatabaseBuilder {
     }
     this.databaseBuffer.objectsToInsert = [];
     this.databaseBuffer.tablesToDelete = this._selectDirtyTables();
-    await trx.commit();
+    return trx.commit();
   }
 
   async clean() {
@@ -35,9 +35,9 @@ module.exports = class DatabaseBuilder {
     });
     if (rawQuery !== '') {
       await this.knex.raw(rawQuery, this.databaseBuffer.tablesToDelete);
-      this.databaseBuffer.purge();
-      this._purgeDirtiness();
     }
+    this.databaseBuffer.purge();
+    this._purgeDirtiness();
   }
 
   async _initTablesOrderedByDependencyWithDirtinessMap() {
