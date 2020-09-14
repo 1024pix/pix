@@ -95,7 +95,7 @@
           </button>
       {{/if}}
         <button data-test-id='panel-candidate__action__cancel' class="button button--square button--lightgrey certification-candidates-row-actions__close" type="button" {{on "click" (fn @onClickCancel @candidateData)}}>
-          {{fa-icon "times" class="fa-fw certification-candidates-add-button__icon"}}
+          <FaIcon @icon='times' class='fa-fw certification-candidates-add-button__icon' />
         </button>
     </div>
   </td>
