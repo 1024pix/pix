@@ -27,10 +27,10 @@ describe('Unit | Component | Navbar Desktop Header Component', function() {
     context('#menu', function() {
       it('should only contains permanent menu items', function() {
         // given
-        const expectedLoggedUserMenu = [];
+        const expectedMenu = [];
 
         // then
-        expect(component.menu).to.deep.equal(expectedLoggedUserMenu);
+        expect(component.menu).to.deep.equal(expectedMenu);
       });
     });
   });
@@ -51,15 +51,37 @@ describe('Unit | Component | Navbar Desktop Header Component', function() {
     context('#menu', function() {
       it('should set with default values (including connexion link)', function() {
         // given
-        const expectedUnloggedUserMenu = [
+        const expectedMenu = [
           { link: 'login' },
           { link: 'inscription' },
         ];
 
         // then
-        expect(component.menu).to.have.lengthOf(expectedUnloggedUserMenu.length);
-        expect(component.menu[0].link).to.equal(expectedUnloggedUserMenu[0].link);
-        expect(component.menu[1].link).to.equal(expectedUnloggedUserMenu[1].link);
+        expect(component.menu).to.have.lengthOf(expectedMenu.length);
+        expect(component.menu[0].link).to.equal(expectedMenu[0].link);
+        expect(component.menu[1].link).to.equal(expectedMenu[1].link);
+      });
+    });
+  });
+
+  describe('When user comes from external platform', function() {
+    beforeEach(function() {
+      component = createGlimmerComponent('component:navbar-desktop-header');
+      component.session = Service.create({
+        isAuthenticated: false,
+        data: {
+          externalUser: 'externalUserToken',
+        },
+      });
+    });
+
+    context('#menu', function() {
+      it('should return permanent items only', function() {
+        // given
+        const expectedMenu = [];
+
+        // then
+        expect(component.menu).to.deep.equal(expectedMenu);
       });
     });
   });
