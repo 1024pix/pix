@@ -75,7 +75,7 @@ function _countCampaignParticipations(qb) {
   );
 }
 
-function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true, creatorId }) {
+function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true, creatorName }) {
   if (name) {
     qb.whereRaw('LOWER("name") LIKE ?', `%${name.toLowerCase()}%`);
   }
@@ -84,8 +84,8 @@ function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true, creatorId 
   } else {
     qb.whereNotNull('campaigns.archivedAt');
   }
-  if (creatorId) {
-    qb.where('campaigns.creatorId', creatorId);
+  if (creatorName) {
+    qb.whereRaw('(LOWER("users"."firstName") LIKE ? OR LOWER("users"."lastName") LIKE ?)', [`%${creatorName.toLowerCase()}%`, `%${creatorName.toLowerCase()}%`]);
   }
 }
 
@@ -162,6 +162,7 @@ module.exports = {
     const { models, pagination } = await BookshelfCampaign
       .query((qb) => {
         qb.select('campaigns.*', 'participations.participationsCount', 'isShared.sharedParticipationsCount')
+          .innerJoin('users', 'users.id', 'campaigns.creatorId')
           .where('campaigns.organizationId', organizationId)
           .modify(_setSearchFiltersForQueryBuilder, filter)
           .modify(_countCampaignParticipations)
@@ -175,7 +176,7 @@ module.exports = {
       });
 
     const hasCampaigns = await _hasCampaignsInOrganization({ organizationId });
-    
+
     const campaignsWithReports = models.map(_fromBookshelfCampaignWithReportDataToDomain);
     return { models: campaignsWithReports, meta: { ...pagination, hasCampaigns } };
   },

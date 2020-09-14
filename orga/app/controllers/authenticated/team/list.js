@@ -7,5 +7,5 @@ export default class ListController extends Controller {
   queryParams = ['pageNumber', 'pageSize'];
 
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
-  @tracked pageSize = 100;
+  @tracked pageSize = 10;
 }
