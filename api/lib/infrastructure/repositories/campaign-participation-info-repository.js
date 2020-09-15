@@ -10,8 +10,8 @@ module.exports = {
           'campaign-participations.*',
           'assessments.state',
           _assessmentRankByCreationDate(),
-          'users.firstName',
-          'users.lastName',
+          knex.raw('COALESCE ("schooling-registrations"."firstName", "users"."firstName") AS "firstName"'),
+          knex.raw('COALESCE ("schooling-registrations"."lastName", "users"."lastName") AS "lastName"'),
           'schooling-registrations.studentNumber',
         ])
           .from('campaign-participations')
