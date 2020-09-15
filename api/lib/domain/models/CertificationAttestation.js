@@ -1,3 +1,7 @@
+const _ = require('lodash');
+const moment = require('moment');
+const { statuses } = require('../../infrastructure/repositories/clea-certification-status-repository');
+
 class CertificationAttestation {
   constructor({
     id,
@@ -17,18 +21,18 @@ class CertificationAttestation {
     verificationCode,
   } = {}) {
     this.id = id;
-    this.firstName = firstName;
-    this.lastName = lastName;
+    this.firstName = _.startCase(firstName);
+    this.lastName = _.startCase(lastName);
     this.birthdate = birthdate;
     this.birthplace = birthplace;
     this.isPublished = isPublished;
     this.userId = userId;
     this.date = date;
-    this.deliveredAt = deliveredAt;
+    this.deliveredAt = moment(deliveredAt).locale('fr').format('LL');
     this.certificationCenter = certificationCenter;
     this.pixScore = pixScore;
     this.status = status;
-    this.cleaCertificationStatus = cleaCertificationStatus;
+    this.hasAcquiredCleaCertification = cleaCertificationStatus === statuses.ACQUIRED;
     this.resultCompetenceTree = resultCompetenceTree;
     this.verificationCode = verificationCode;
   }
