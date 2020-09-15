@@ -148,7 +148,10 @@
         },
         "fields": {
           "birth-date": "Date of birth",
+          "birth-day": "",
+          "birth-month": "",
           "birth-name": "Given name",
+          "birth-year": "",
           "first-name": "First name",
           "session-number": "Session number"
         }

@@ -149,7 +149,10 @@
         },
         "fields": {
           "birth-date": "Date de naissance",
+          "birth-day": "jour de naissance (JJ)",
+          "birth-month": "mois de naissance (MM)",
           "birth-name": "Nom de naissance",
+          "birth-year": "année de naissance (AAAA)",
           "first-name": "Prénom",
           "session-number": "Numéro de session"
         }
@@ -773,7 +776,7 @@
           },
           "source": "Par"
         }
-      },
+      }
     },
 
     "fill-in-campaign-code": {
