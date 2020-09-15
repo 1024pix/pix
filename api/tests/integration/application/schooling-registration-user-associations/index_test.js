@@ -199,44 +199,6 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         expect(response.statusCode).to.equal(422);
       });
     });
-
-    context('User association with studentNumber and campaignCode', () => {
-      it('should succeed', async () => {
-        // given
-        const payload = {
-          data: {
-            attributes: {
-              'student-number': '123456789A',
-              'campaign-code': 'RESTRICTD',
-            },
-          },
-        };
-
-        // when
-        const response = await httpTestServer.request(method, url, payload);
-
-        // then
-        expect(response.statusCode).to.equal(204);
-      });
-
-      it('should failed if student number is an empty string', async () => {
-        // given
-        const payload = {
-          data: {
-            attributes: {
-              'student-number': ' ',
-              'campaign-code': 'RESTRICTD',
-            },
-          },
-        };
-
-        // when
-        const response = await httpTestServer.request(method, url, payload);
-
-        // then
-        expect(response.statusCode).to.equal(422);
-      });
-    });
   });
 
   describe('POST /api/schooling-registration-user-associations/auto', () => {

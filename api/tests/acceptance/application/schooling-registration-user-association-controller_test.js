@@ -398,42 +398,6 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
         });
       });
     });
-
-    context('associate user with student number', () => {
-      it('should return an 200 status after having successfully associated user to schoolingRegistration', async () => {
-        // given
-        options.headers.authorization = generateValidRequestAuthorizationHeader(user.id);
-        options.payload.data = {
-          attributes: {
-            'campaign-code': campaign.code,
-            'student-number': schoolingRegistration.studentNumber,
-          },
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-      });
-
-      it('should return an 404 status if schooling registration not found for the student number', async () => {
-        // given
-        options.headers.authorization = generateValidRequestAuthorizationHeader(user.id);
-        options.payload.data = {
-          attributes: {
-            'campaign-code': campaign.code,
-            'student-number': '456N',
-          },
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(404);
-      });
-    });
   });
 
   describe('POST /api/schooling-registration-dependent-users/external-user-token/', () => {

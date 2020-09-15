@@ -4,7 +4,6 @@ module.exports = async function reconcileUserToSchoolingRegistrationData({
   campaignCode,
   reconciliationInfo,
   campaignRepository,
-  organizationRepository,
   schoolingRegistrationRepository,
   studentRepository,
   userRepository,
@@ -24,11 +23,8 @@ module.exports = async function reconcileUserToSchoolingRegistrationData({
     userRepository,
     obfuscationService,
   });
-  const organization = await organizationRepository.get(campaign.organizationId);
-  if (organization.isSco) {
-    const student = await studentRepository.getReconciledStudentByNationalStudentId(matchedSchoolingRegistration.nationalStudentId);
-    await userReconciliationService.checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(student, userRepository, obfuscationService);
-  }
+  const student = await studentRepository.getReconciledStudentByNationalStudentId(matchedSchoolingRegistration.nationalStudentId);
+  await userReconciliationService.checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(student, userRepository, obfuscationService);
 
   return schoolingRegistrationRepository.reconcileUserToSchoolingRegistration({ userId: reconciliationInfo.id, schoolingRegistrationId: matchedSchoolingRegistration.id });
 };
