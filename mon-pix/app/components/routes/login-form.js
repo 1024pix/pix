@@ -20,6 +20,7 @@ export default class LoginForm extends Component {
   password = null;
 
   externalUserToken = null;
+  expectedUserId = null;
 
   isLoading = false;
   isPasswordVisible = false;
@@ -47,6 +48,7 @@ export default class LoginForm extends Component {
     const password = this.password;
 
     this.set('externalUserToken', this.session.get('data.externalUser'));
+    this.set('expectedUserId', this.session.get('data.expectedUserId'));
 
     await this._authenticate(password, login);
     await this._addGarAuthenticationMethodToUser();
@@ -79,10 +81,11 @@ export default class LoginForm extends Component {
   async _addGarAuthenticationMethodToUser() {
     if (this.session.isAuthenticated && this.externalUserToken) {
       try {
-        await this.addGarAuthenticationMethodToUser(this.externalUserToken);
+        await this.addGarAuthenticationMethodToUser(this.externalUserToken, this.expectedUserId);
       } catch (response) {
-        this._manageErrorsApi(response);
+        await this.session.invalidate();
 
+        this._manageErrorsApi(response);
         this.set('hasUpdateUserError', true);
       }
     }
@@ -91,12 +94,19 @@ export default class LoginForm extends Component {
   _manageErrorsApi(errorsApi) {
     const defaultErrorMessage = 'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.';
     const errorMessageStatusCode4xx = 'Les données que vous avez soumises ne sont pas au bon format.';
+    const unexpectedUserAccountErrorMessage = 'L\'adresse e-mail ou l\'identifiant est incorrect. Pour continuer, vous devez vous connecter à votre compte qui est sous la forme ';
 
     let errorMessage = defaultErrorMessage;
 
-    const statusCode = get(errorsApi, 'errors[0].status');
-    if (statusCode && statusCode.toString().startsWith('4')) {
-      errorMessage = errorMessageStatusCode4xx;
+    const errorStatus = get(errorsApi, 'errors[0].status');
+    const errorCode = get(errorsApi, 'errors[0].code');
+
+    if (errorStatus && errorStatus.toString().startsWith('4')) {
+      if (errorCode && errorCode === 'UNEXPECTED_USER_ACCOUNT') {
+        errorMessage = unexpectedUserAccountErrorMessage + get(errorsApi, 'errors[0].meta.value');
+      } else {
+        errorMessage = errorMessageStatusCode4xx;
+      }
     }
 
     this.set('updateErrorMessage', errorMessage);

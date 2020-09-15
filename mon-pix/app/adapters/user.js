@@ -83,7 +83,10 @@ export default class User extends ApplicationAdapter {
           data: {
             id: snapshot.id,
             type: 'external-users',
-            attributes: { 'external-user-token': snapshot.adapterOptions.externalUserToken },
+            attributes: {
+              'external-user-token': snapshot.adapterOptions.externalUserToken,
+              'expected-user-id': snapshot.adapterOptions.expectedUserId,
+            },
           },
         },
       };

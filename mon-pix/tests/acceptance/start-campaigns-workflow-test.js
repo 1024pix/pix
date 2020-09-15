@@ -820,6 +820,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
                   meta: {
                     shortCode: 'R31',
                     value: 'u***@example.net',
+                    userId: 1,
                   },
                 }],
               });
@@ -876,6 +877,39 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             // then
             expect(currentURL()).to.contains(`/campagnes/${campaign.code}/privee/identification`);
             expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage);
+          });
+
+          it('should display an specific error message if GAR authentication method adding has failed due to wrong connected account', async () => {
+            // given
+            const expectedErrorMessage = 'L\'adresse e-mail ou l\'identifiant est incorrect. Pour continuer, vous devez vous connecter à votre compte qui est sous la forme ';
+            const expectedObfuscatedConnectionMethod = 't***@example.net';
+            const errorsApi = new Response(409, {}, {
+              errors: [{
+                status: 409,
+                code: 'UNEXPECTED_USER_ACCOUNT',
+                meta: { value: expectedObfuscatedConnectionMethod },
+              }],
+            });
+            server.patch('/users/:id/authentication-methods/saml', () => errorsApi);
+
+            await fillIn('#campaign-code', campaign.code);
+            await click('.fill-in-campaign-code__start-button');
+
+            await fillIn('#dayOfBirth', '10');
+            await fillIn('#monthOfBirth', '12');
+            await fillIn('#yearOfBirth', '2000');
+            await click('.button');
+
+            await click('button[aria-label="Continuer avec mon compte Pix"]');
+
+            // when
+            await fillIn('#login', prescritUser.email);
+            await fillIn('#password', prescritUser.password);
+            await click('#submit-connexion');
+
+            // then
+            expect(currentURL()).to.contains(`/campagnes/${campaign.code}/privee/identification`);
+            expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage + expectedObfuscatedConnectionMethod);
           });
 
           it('should display the default error message if GAR authentication method adding has failed with others http statusCode', async () => {

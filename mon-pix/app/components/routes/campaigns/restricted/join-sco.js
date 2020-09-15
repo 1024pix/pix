@@ -205,6 +205,7 @@ export default class JoinSco extends Component {
         const message = this._showErrorMessageByShortCode(error.meta);
         this.displayModal = true;
         this.displayContinueButton = !ACCOUNT_WITH_SAMLID_ALREADY_EXISTS_ERRORS.includes(error.meta.shortCode);
+        this.session.set('data.expectedUserId', error.meta.userId);
         return this.modalErrorMessage = message;
       }
       if (error.status === '404') {
