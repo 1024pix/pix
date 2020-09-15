@@ -441,6 +441,7 @@ exports.register = async function(server) {
               type: Joi.string().valid('external-users').required(),
               attributes: {
                 'external-user-token': Joi.string().required(),
+                'expected-user-id': Joi.number().positive().required(),
               },
             },
           }),
@@ -458,7 +459,7 @@ exports.register = async function(server) {
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Elle ajoute la méthode d\'authentification GAR au compte grâce aux informations\n' +
-          '- contenues dans l\'Id Token.',
+          '- contenues dans l\'Id Token, si le compte authentifié correspond au compte attendu.',
         ],
         tags: ['api', 'user'],
       },

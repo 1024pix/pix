@@ -195,9 +195,12 @@ module.exports = {
 
   async updateUserSamlId(request, h) {
     const userId = parseInt(request.params.id);
-    const externalUserToken = request.payload.data.attributes['external-user-token'];
+    const {
+      'external-user-token': externalUserToken,
+      'expected-user-id': expectedUserId,
+    } = request.payload.data.attributes;
 
-    await usecases.updateUserSamlId({ userId, externalUserToken });
+    await usecases.updateUserSamlId({ userId, externalUserToken, expectedUserId });
     return h.response().code(204);
   },
 };
