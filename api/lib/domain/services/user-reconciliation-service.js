@@ -25,34 +25,27 @@ function findMatchingCandidateIdForGivenUser(matchingUserCandidates, user) {
 
 async function findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({
   organizationId,
-  reconciliationInfo: { firstName, lastName, birthdate, studentNumber },
+  reconciliationInfo: { firstName, lastName, birthdate },
   schoolingRegistrationRepository,
   userRepository,
   obfuscationService,
 }) {
   const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdAndUserData({
     organizationId,
-    reconciliationInfo: { birthdate, studentNumber },
+    reconciliationInfo: { birthdate },
   });
 
   if (_.isEmpty(schoolingRegistrations)) {
     throw new NotFoundError('There are no schooling registrations found');
   }
 
-  let schoolingRegistration;
-  if (studentNumber) {
-    schoolingRegistration = schoolingRegistrations[0];
-  } else {
-    const schoolingRegistrationId = findMatchingCandidateIdForGivenUser(schoolingRegistrations, { firstName, lastName });
-
-    if (!schoolingRegistrationId) {
-      throw new NotFoundError('There were no schoolingRegistrations matching with names');
-    }
-    schoolingRegistration = _.find(schoolingRegistrations, { 'id': schoolingRegistrationId });
+  const schoolingRegistrationId = findMatchingCandidateIdForGivenUser(schoolingRegistrations, { firstName, lastName });
+  if (!schoolingRegistrationId) {
+    throw new NotFoundError('There were no schoolingRegistrations matching with names');
   }
+  const schoolingRegistration = _.find(schoolingRegistrations, { 'id': schoolingRegistrationId });
 
   await checkIfStudentIsAlreadyReconciledOnTheSameOrganization(schoolingRegistration, userRepository, obfuscationService);
-
   return schoolingRegistration;
 }
 

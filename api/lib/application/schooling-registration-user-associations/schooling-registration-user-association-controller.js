@@ -20,7 +20,6 @@ module.exports = {
       firstName: payload['first-name'],
       lastName: payload['last-name'],
       birthdate: payload['birthdate'],
-      studentNumber: payload['student-number'],
     };
 
     const schoolingRegistration = await usecases.reconcileUserToSchoolingRegistrationData({ campaignCode, reconciliationInfo });

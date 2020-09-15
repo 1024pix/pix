@@ -364,60 +364,6 @@ describe('Unit | Service | user-reconciliation-service', () => {
       });
     });
 
-    context('When schooling registrations are found for organization and student number', () => {
-      it('should return the schooling registration for the given student number', async () => {
-        // given
-        schoolingRegistrationRepositoryStub.findByOrganizationIdAndUserData.resolves([schoolingRegistrations[0]]);
-        user = {
-          studentNumber: '123A',
-        };
-
-        // when
-        const result = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
-
-        // then
-        expect(result).to.equal(schoolingRegistrations[0]);
-      });
-
-      it('should return an error when no schooling registration found for the given student number', async () => {
-        // given
-        schoolingRegistrationRepositoryStub.findByOrganizationIdAndUserData.resolves([]);
-        user = {
-          studentNumber: '123A',
-        };
-
-        // when
-        const result = await catchErr(userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
-
-        // then
-        expect(result).to.be.instanceOf(NotFoundError);
-        expect(result.message).to.equal('There are no schooling registrations found');
-      });
-
-      it('should return an error when the schooling registration was already associated with another user', async () => {
-        // given
-        schoolingRegistrations[0].userId = '123';
-        userRepositoryStub = {
-          getUserAuthenticationMethods: sinon.stub().resolves(),
-          updateUserAttributes: sinon.stub().resolves(),
-        };
-        obfuscationServiceStub = {
-          getUserAuthenticationMethodWithObfuscation: sinon.stub().returns({ authenticatedBy: 'email' }),
-        };
-        schoolingRegistrationRepositoryStub.findByOrganizationIdAndUserData.resolves([schoolingRegistrations[0]]);
-        user = {
-          studentNumber: '123A',
-        };
-        userRepositoryStub.getUserAuthenticationMethods.resolves({ email: 'email@example.net' });
-
-        // when
-        const result = await catchErr(userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub, userRepository: userRepositoryStub, obfuscationService: obfuscationServiceStub });
-
-        // then
-        expect(result).to.be.instanceOf(SchoolingRegistrationAlreadyLinkedToUserError);
-      });
-    });
-
     context('When no schooling registrations found', () => {
 
       beforeEach(() => {
