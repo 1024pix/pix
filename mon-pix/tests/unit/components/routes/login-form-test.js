@@ -20,6 +20,7 @@ describe('Unit | Component | routes/login-form', function() {
       isAuthenticated: sinon.stub().returns(true),
       get: sinon.stub(),
       set: sinon.stub(),
+      invalidate: sinon.stub(),
     };
     routerStub = {
       replaceWith: sinon.stub(),
@@ -79,9 +80,11 @@ describe('Unit | Component | routes/login-form', function() {
     context('when external user IdToken exist', () => {
 
       const externalUserToken = 'ABCD';
+      const expectedUserId = 1;
 
       beforeEach(() => {
-        sessionStub.get.returns(externalUserToken);
+        sessionStub.get.withArgs('data.externalUser').returns(externalUserToken);
+        sessionStub.get.withArgs('data.expectedUserId').returns(expectedUserId);
       });
 
       it('should prevent redirection and update user authentication method', async () => {
@@ -93,16 +96,30 @@ describe('Unit | Component | routes/login-form', function() {
         sinon.assert.calledWith(component.addGarAuthenticationMethodToUser, externalUserToken);
       });
 
-      it('should notify updateUserError when update user authentication method fails', async () => {
-        // given
-        component.addGarAuthenticationMethodToUser.rejects(new Error());
+      context('when update user authentication method fails', () => {
 
-        // when
-        await component.authenticate();
+        it('should display an error message', async () => {
+          // given
+          component.addGarAuthenticationMethodToUser.rejects(new Error());
 
-        // then
-        expect(component.isErrorMessagePresent).to.be.false;
-        expect(component.hasUpdateUserError).to.be.true;
+          // when
+          await component.authenticate();
+
+          // then
+          expect(component.isErrorMessagePresent).to.be.false;
+          expect(component.hasUpdateUserError).to.be.true;
+        });
+
+        it('should invalidate the session', async () => {
+          // given
+          component.addGarAuthenticationMethodToUser.rejects(new Error());
+
+          // when
+          await component.authenticate();
+
+          // then
+          sinon.assert.calledOnce(sessionStub.invalidate);
+        });
       });
     });
   });

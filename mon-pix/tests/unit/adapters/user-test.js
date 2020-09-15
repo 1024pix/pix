@@ -154,6 +154,7 @@ describe('Unit | Adapters | user', function() {
           adapterOptions: {
             authenticationMethodsSaml: true,
             externalUserToken,
+            expectedUserId: userId,
           },
         };
 
@@ -162,7 +163,11 @@ describe('Unit | Adapters | user', function() {
             data: {
               id: userId,
               type: 'external-users',
-              attributes: { 'external-user-token': externalUserToken } },
+              attributes: {
+                'external-user-token': externalUserToken,
+                'expected-user-id': userId,
+              },
+            },
           },
         };
 
