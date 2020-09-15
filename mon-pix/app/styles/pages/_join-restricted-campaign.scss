@@ -22,14 +22,17 @@
     }
   }
 
-  &__back-button {
-    padding: 8px;
-    text-align: left;
+  &__container {
+    padding-bottom: 30px;
+
+    @include device-is('tablet') {
+      padding: 40px;
+    }
   }
 
-  &__container {
-    display: flex;
-    justify-content: center;
+  &__back-button {
+    padding: 4px 0;
+    text-align: right;
   }
 
   &__title {
