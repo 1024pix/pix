@@ -11,6 +11,7 @@
 
   "common": {
     "actions": {
+      "back": "",
       "cancel": "Cancel",
       "close": "Close",
       "quit": "Exit"
@@ -688,6 +689,16 @@
       "try-again": {
         "title": "Want to improve your results?",
         "description": "You can retake some of the questions"
+      }
+    },
+
+    "terms-of-service": {
+      "title": "",
+      "cgu": "",
+      "message": "",
+      "form": {
+        "button": "",
+        "error-message": ""
       }
     },
 

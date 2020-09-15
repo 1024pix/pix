@@ -11,6 +11,7 @@
 
   "common": {
     "actions": {
+      "back": "Retour",
       "cancel": "Annuler",
       "close": "Fermer",
       "quit": "Quitter"
@@ -689,6 +690,16 @@
       "try-again": {
         "title": "Envie d'améliorer vos résultats ?",
         "description": "Vous pouvez retenter certaines questions"
+      }
+    },
+
+    "terms-of-service": {
+      "title": "Conditions d'utilisation",
+      "cgu": "J'accepte les '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\">'conditions d'utilisation de Pix'</a>'",
+      "message": "Nous avons mis à jour nos conditions d'utilisation. Veuillez les accepter afin de pouvoir continuer votre expérience sur Pix.",
+      "form": {
+        "button": "Je continue",
+        "error-message": "Vous devez accepter les conditions d’utilisation de Pix."
       }
     },
 
