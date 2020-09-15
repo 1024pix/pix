@@ -12,7 +12,7 @@
       </div>
     </header>
     {{#if this.model}}
-      <article aria-label="tutoriels" class="user-tutorials-content">
+      <article aria-label={{t 'pages.user-tutorials.label'}} class="user-tutorials-content">
         <h3 class="user-tutorials-content__title">{{t 'pages.user-tutorials.list.title'}}</h3>
         <div>
           {{#each this.model as |userTutorial|}}
@@ -21,7 +21,7 @@
         </div>
       </article>
     {{else}}
-      <article aria-label="tutoriels" class="rounded-panel user-tutorials-no-tutorial">
+      <article aria-label={{t 'pages.user-tutorials.label'}} class="rounded-panel user-tutorials-no-tutorial">
         <div class="user-tutorials-no-tutorial__illustration">
           <img src="{{rootURL}}/{{t 'pages.user-tutorials.empty-list-info.image-link'}}"
                role="none"
