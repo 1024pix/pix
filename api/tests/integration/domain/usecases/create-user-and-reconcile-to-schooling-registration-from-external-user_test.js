@@ -271,5 +271,24 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
         });
       });
     });
+    context('When the external user is already created', () => {
+
+      it('should return the already created user', async () => {
+        // given
+        const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ firstName, lastName, organizationId });
+        schoolingRegistration.userId = undefined;
+        const alreadyCreatedUser = databaseBuilder.factory.buildUser({ firstName, lastName, samlId });
+        await databaseBuilder.commit();
+
+        // when
+        const user = await createUserAndReconcileToSchoolingRegistrationByExternalUser({
+          campaignCode, token, birthdate: schoolingRegistration.birthdate, campaignRepository, tokenService,
+          schoolingRegistrationRepository, studentRepository, userRepository, userReconciliationService, obfuscationService,
+        });
+
+        // then
+        expect(user.id).to.equal(alreadyCreatedUser.id);
+      });
+    });
   });
 });

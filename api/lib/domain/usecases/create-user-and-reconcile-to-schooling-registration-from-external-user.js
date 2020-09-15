@@ -59,6 +59,11 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
     const student = await studentRepository.getReconciledStudentByNationalStudentId(matchedSchoolingRegistration.nationalStudentId);
     await userReconciliationService.checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(student, userRepository, obfuscationService);
 
+    const user = await userRepository.getBySamlId(externalUser.samlId);
+    if (user) {
+      return user;
+    }
+
     userId = await userRepository.createAndReconcileUserToSchoolingRegistration({
       domainUser,
       schoolingRegistrationId: matchedSchoolingRegistration.id,
