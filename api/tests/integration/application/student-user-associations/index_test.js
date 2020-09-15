@@ -8,7 +8,7 @@ describe('Integration | Application | Route | student-user-associations', () => 
   let httpTestServer;
 
   beforeEach(() => {
-    sinon.stub(schoolingRegistrationUserAssociationController, 'reconcileManually').callsFake((request, h) => h.response('ok').code(204));
+    sinon.stub(schoolingRegistrationUserAssociationController, 'reconcileSchoolingRegistrationManually').callsFake((request, h) => h.response('ok').code(204));
     sinon.stub(schoolingRegistrationUserAssociationController, 'findAssociation').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(schoolingRegistrationUserAssociationController, 'generateUsername').callsFake((request, h) => h.response('ok').code(200));
 

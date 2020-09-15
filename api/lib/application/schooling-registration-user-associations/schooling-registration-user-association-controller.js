@@ -10,7 +10,7 @@ module.exports = {
     return schoolingRegistrationSerializer.serialize(schoolingRegistration);
   },
 
-  async reconcileManually(request) {
+  async reconcileSchoolingRegistrationManually(request) {
     const authenticatedUserId = request.auth.credentials.userId;
     const payload = request.payload.data.attributes;
     const campaignCode = payload['campaign-code'];
@@ -22,18 +22,18 @@ module.exports = {
       birthdate: payload['birthdate'],
     };
 
-    const schoolingRegistration = await usecases.reconcileUserToSchoolingRegistrationData({ campaignCode, reconciliationInfo });
+    const schoolingRegistration = await usecases.reconcileSchoolingRegistration({ campaignCode, reconciliationInfo });
 
     return schoolingRegistrationSerializer.serialize(schoolingRegistration);
   },
 
-  async registerSupernumeraryHigherEducationRegistration(request, h) {
+  async reconcileHigherSchoolingRegistration(request, h) {
     const userId = request.auth.credentials.userId;
     const payload = request.payload.data.attributes;
 
     const campaignCode = payload['campaign-code'];
 
-    const userInfo = {
+    const reconciliationInfo = {
       userId,
       studentNumber: payload['student-number'],
       firstName: payload['first-name'],
@@ -41,7 +41,7 @@ module.exports = {
       birthdate: payload['birthdate'],
     };
 
-    await usecases.registerSupernumeraryHigherEducationRegistration({ campaignCode, userInfo });
+    await usecases.reconcileHigherSchoolingRegistration({ campaignCode, reconciliationInfo });
 
     return h.response(null).code(204);
   },
