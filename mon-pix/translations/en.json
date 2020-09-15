@@ -20,7 +20,8 @@
       "error": "error",
       "mandatory": "required",
       "mandatory-fields": "The fields marked '<abbr title=\"required\" class=\"mandatory-mark\">'*'</abbr>' are required",
-      "success": "success"
+      "success": "success",
+      "visible-password": ""
     },
     "french-republic": "French Republic",
     "level": "level",
