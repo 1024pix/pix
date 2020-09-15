@@ -189,6 +189,32 @@ describe('Integration | Repository | Campaign Participation Info', () => {
       });
     });
 
+    context('when a participant has several schooling-registrations', () => {
+      let campaign;
+      beforeEach(async () => {
+        const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        campaign = databaseBuilder.factory.buildCampaign({ organizationId });
+        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          userId,
+        }).id;
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, userId, firstName: 'John', lastName: 'Doe' });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId: otherOrganizationId, userId, firstName: 'Jane', lastName: 'Doe' });
+
+        await databaseBuilder.commit();
+      });
+
+      it('return the first name and the last name of the correct schooling-registration', async () => {
+        const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
+
+        expect(campaignParticipationInfos[0].participantFirstName).to.equal('John');
+        expect(campaignParticipationInfos[0].participantLastName).to.equal('Doe');
+      });
+    });
+
     context('when the participant has a schooling registration for the campaign\'s organization', () => {
       let schoolingRegistration;
       let campaign;
