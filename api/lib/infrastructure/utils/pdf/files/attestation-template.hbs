@@ -160,6 +160,9 @@
       font-size: 12px;
       font-weight: 500;
     }
+    .area__competence-title.disable {
+      color: rgba(38, 57, 90, 0.6);
+    }
 
     /*-----------------------------*/
     /*------- INFOS SECTION -------*/
@@ -263,7 +266,11 @@
           <div class="attestation-bloc">
             <h3 class="area__title"><%- area.title %> <span>NIVEAU</span></h3>
             <% _.forEach((area.resultCompetences), function(competence) { %>
+              <% if (competence.level > 0) { %>
               <p class="area__competence-title"><%- competence.name %> <span><%- competence.level %></span></p>
+              <% } else { %>
+              <p class="area__competence-title disable"><%- competence.name %> </p>
+              <% } %>
             <%}); %>
           </div>
         <%}); %>
