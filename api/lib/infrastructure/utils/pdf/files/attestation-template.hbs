@@ -175,13 +175,21 @@
     }
     .other-informations .attestation-bloc {
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
       padding: 12px 14px;
     }
     .other-informations .other-informations__clea-numerique img {
       width: 70px;
+    }
+    .other-informations .other-informations__clea-numerique h4 {
+      margin-left: 12px;
+      color: #172b4d;
+      font-size: 10px;
+      width: 57px;
+    }
+    .other-informations .other-informations__verification-code .attestation-bloc {
+      flex-direction: column;
     }
     .other-informations .other-informations__verification-code h3 {
       color: rgb(37, 56, 88);
@@ -277,12 +285,15 @@
       </div>
 
       <div class="other-informations">
+        <% if (certificate.cleaCertificationStatus === "acquired") { %>
         <div class="other-informations__clea-numerique">
           <h2 class="attestation-bloc-title">Autre certification obtenue</h2>
           <div class="attestation-bloc">
             <img src="https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges/CleA_Num_certif.svg" alt="Certification Cléa Numérique">
+            <h4>Certifié Cléa Numérique</h4>
           </div>
         </div>
+        <% } %>
 
         <div class="other-informations__verification-code">
           <h2 class="attestation-bloc-title">Vérifier l’authenticité de la certification</h2>
