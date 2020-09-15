@@ -1,7 +1,8 @@
-const schoolingRegistrationUserAssociationController = require('./schooling-registration-user-association-controller');
-const securityPreHandlers = require('../security-pre-handlers');
 const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
+const JSONAPIError = require('jsonapi-serializer').Error;
 const { sendJsonApiError, UnprocessableEntityError, NotFoundError } = require('../http-errors');
+const securityPreHandlers = require('../security-pre-handlers');
+const schoolingRegistrationUserAssociationController = require('./schooling-registration-user-association-controller');
 
 exports.register = async function(server) {
   server.route([
@@ -42,9 +43,36 @@ exports.register = async function(server) {
       path: '/api/schooling-registration-user-associations/register',
       config: {
         handler: schoolingRegistrationUserAssociationController.registerSupernumeraryHigherEducationRegistration,
+        validate: {
+          options: {
+            allowUnknown: false,
+          },
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'birthdate': Joi.date().format('YYYY-MM-DD').required(),
+                'student-number': Joi.string().empty(Joi.string().regex(/^\s*$/)),
+                'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+              },
+              type: 'schooling-registration-user-associations',
+            },
+          }),
+          failAction: (request, h) => {
+            const errorHttpStatusCode = 422;
+            const jsonApiError = new JSONAPIError({
+              status: errorHttpStatusCode.toString(),
+              title: 'Unprocessable entity',
+              detail: 'Un des champs saisis n’est pas valide.',
+            });
+            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
+          },
+        },
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Elle crée une inscription surnuméraire pour l’utilisateur dans cette organisation',
+          '- Elle réconcilie l’utilisateur à l’inscription d’un étudiant dans cette organisation\n' +
+            'ou bien créée une inscription surnuméraire.',
         ],
         tags: ['api', 'schoolingRegistrationUserAssociation'],
       },
@@ -121,7 +149,7 @@ exports.register = async function(server) {
         tags: ['api', 'schoolingRegistrationUserAssociation'],
       },
     },
-      
+
     {
       method: 'PATCH',
       path: '/api/organizations/{id}/schooling-registration-user-associations/{studentId}',
@@ -151,7 +179,7 @@ exports.register = async function(server) {
 
             if (isStudentNumber) {
               return sendJsonApiError(new UnprocessableEntityError('Un des champs saisis n’est pas valide.'), h);
-            } 
+            }
 
             return sendJsonApiError(new NotFoundError('Ressource non trouvée'), h);
 
