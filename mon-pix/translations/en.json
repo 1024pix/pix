@@ -662,12 +662,12 @@
       "archived": "This course has been archived by the organiser.<br/> It is no longer to possible to submit results, but they have been taken into account for your course.",
       "badges-title": "Your thematic results",
       "details": {
-        "title": "Your results by skill",
         "header-skill": "Skills tested",
         "header-result": "Results",
         "result": "Overall result",
-        "result-by-skill": "Your result for the skill",
-        "skill-progress": "'<p class=\"sr-only\">'You have completed '</p>'{percentage}%'<p class=\"sr-only\">' of the skill {skill}.'</p>'"
+        "result-by-skill": "Your results for the skill",
+        "skill-progress": "'<p class=\"sr-only\">'You have completed '</p>'{percentage}%'<p class=\"sr-only\">' of the skill {skill}.'</p>'",
+        "title": "Your results by skill"
       },
       "information": "If you have already completed courses on Pix, questions you have previously answered have not been asked again. However, the result shown here is based on all of your answers.",
       "not-finished": "You can’t submit your results yet, we still have a few questions to ask.",

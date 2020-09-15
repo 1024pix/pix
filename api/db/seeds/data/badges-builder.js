@@ -12,8 +12,10 @@ function badgesBuilder({ databaseBuilder }) {
 
 function _createBasicsBadge(databaseBuilder) {
   const targetProfileSkillIdsForBasicsBadge = [
-    'rectL2ZZeWPc7yezp', 'recndXqXiv4pv2Ukp', 'recMOy4S8XnaWblYI', 'recagUd44RPEWti0X',
-    'recrvTvLTUXEcUIV1', 'recX7RyCsdNV2p168', 'recxtb5aLs6OAAKIg', 'receRbbt9Lb661wFB',
+    ['rectL2ZZeWPc7yezp', 'recndXqXiv4pv2Ukp'],
+    ['recMOy4S8XnaWblYI', 'recagUd44RPEWti0X'],
+    ['recrvTvLTUXEcUIV1', 'recX7RyCsdNV2p168'],
+    ['recxtb5aLs6OAAKIg', 'receRbbt9Lb661wFB'],
   ];
 
   const basicsBadge = databaseBuilder.factory.buildBadge({
@@ -32,8 +34,10 @@ function _createBasicsBadge(databaseBuilder) {
 
 function _createToolsBadge(databaseBuilder) {
   const targetProfileSkillIdsForToolsBadge = [
-    'rec71e3PSct2zLEMj', 'recFwJlpllhWzuLom', 'rec0J9OXaAj5v7w3r', 'reclY3njuk6EySJuU',
-    'rec5V9gp65a58nnco', 'recPrXhP0X07OdHXe', 'recPG9ftlGZLiF0O6', 'rectLj7NPg5JcSIqN',
+    ['rec71e3PSct2zLEMj', 'recFwJlpllhWzuLom'],
+    ['rec0J9OXaAj5v7w3r', 'reclY3njuk6EySJuU'],
+    ['rec5V9gp65a58nnco', 'recPrXhP0X07OdHXe'],
+    ['recPG9ftlGZLiF0O6', 'rectLj7NPg5JcSIqN'],
   ];
 
   const toolsBadge = databaseBuilder.factory.buildBadge({
@@ -52,8 +56,10 @@ function _createToolsBadge(databaseBuilder) {
 
 function _createManipBadge(databaseBuilder) {
   const targetProfileSkillIdsForManipBadge = [
-    'rec9qal2FLjWysrfu', 'rechRPFlSryfY3UnG', 'recL0AotZshb9quhR', 'recrOwaV2PTt1N0i5',
-    'recpdpemRXuzV9r10', 'recWXtN5cNP1JQUVx', 'recTIddrkopID28Ep', 'recBrDIfDDW2IPpZV',
+    ['rec9qal2FLjWysrfu', 'rechRPFlSryfY3UnG'],
+    ['recL0AotZshb9quhR', 'recrOwaV2PTt1N0i5'],
+    ['recpdpemRXuzV9r10', 'recWXtN5cNP1JQUVx'],
+    ['recTIddrkopID28Ep', 'recBrDIfDDW2IPpZV'],
   ];
 
   const manipBadge = databaseBuilder.factory.buildBadge({
@@ -74,40 +80,28 @@ function _associateBadgePartnerCompetences(databaseBuilder, targetProfileSkillId
   databaseBuilder.factory.buildBadgePartnerCompetence({
     name: 'Rechercher des informations sur internet',
     color: null,
-    skillIds: [
-      targetProfileSkillIds[0],
-      targetProfileSkillIds[1],
-    ],
+    skillIds: targetProfileSkillIds[0].map((id) => id),
     badgeId: badge.id,
   });
 
   databaseBuilder.factory.buildBadgePartnerCompetence({
     name: 'Utiliser des outils informatiques',
     color: null,
-    skillIds: [
-      targetProfileSkillIds[2],
-      targetProfileSkillIds[3],
-    ],
+    skillIds: targetProfileSkillIds[1].map((id) => id),
     badgeId: badge.id,
   });
 
   databaseBuilder.factory.buildBadgePartnerCompetence({
     name: 'Naviguer sur internet',
     color: null,
-    skillIds: [
-      targetProfileSkillIds[4],
-      targetProfileSkillIds[5],
-    ],
+    skillIds: targetProfileSkillIds[2].map((id) => id),
     badgeId: badge.id,
   });
 
   databaseBuilder.factory.buildBadgePartnerCompetence({
     name: 'Partager sur les réseaux sociaux',
     color: null,
-    skillIds: [
-      targetProfileSkillIds[6],
-      targetProfileSkillIds[7],
-    ],
+    skillIds: targetProfileSkillIds[3].map((id) => id),
     badgeId: badge.id,
   });
 }
