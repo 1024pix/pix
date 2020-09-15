@@ -752,6 +752,7 @@
         "image-link": "images/user-tutorials/illustration.svg",
         "title": "You haven’t saved anything yet"
       },
+      "label": "",
       "list": {
         "title": "My list",
         "tutorial": {

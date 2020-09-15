@@ -753,6 +753,7 @@
         "image-link": "images/user-tutorials/illustration.svg",
         "title": "Vous n'avez encore rien enregistré"
       },
+      "label": "tutoriels",
       "list": {
         "title": "Ma liste",
         "tutorial": {
@@ -772,7 +773,7 @@
           },
           "source": "Par"
         }
-      }
+      },
     },
 
     "fill-in-campaign-code": {
