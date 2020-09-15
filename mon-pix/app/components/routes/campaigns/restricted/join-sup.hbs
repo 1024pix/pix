@@ -47,14 +47,12 @@
   {{#if this.errorMessageForSupernumeraryForm}}
     <div class="join-restricted-campaign__error" aria-live="polite">{{{this.errorMessageForSupernumeraryForm}}}</div>
   {{/if}}
-  <div class="join-restricted-campaign__container">
+  <button type="submit" disabled={{this.isLoading}} class="button button--big join-restricted-campaign__button" {{on 'click' this.submit}}>
     {{#if this.isLoading}}
-    <button type="button" disabled class="button button--big join-restricted-campaign"><span class="loader-in-button">&nbsp;</span></button>
+      <span class="loader-in-button">&nbsp;</span>
     {{else}}
-      <button type="submit" class="button button--big join-restricted-campaign" {{on 'click' this.submit}}>
-        C'est parti !
-      </button>
+      C'est parti !
     {{/if}}
-  </div>
+  </button>
   
 </form>
