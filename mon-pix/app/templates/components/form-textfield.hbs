@@ -27,9 +27,9 @@
       {{/if}}
       {{#if hasIcon}}
         {{#if (eq validationStatus 'error') }}
-            <img src="/images/icons/icon-error.svg" class="form-textfield-icon__state form-textfield-icon__state--error">
+            <img src="/images/icons/icon-error.svg" class="form-textfield-icon__state form-textfield-icon__state--error" alt={{t "common.form.error"}}>
         {{else}}
-            <img src="/images/icons/icon-success.svg" class="form-textfield-icon__state form-textfield-icon__state--success">
+            <img src="/images/icons/icon-success.svg" class="form-textfield-icon__state form-textfield-icon__state--success" alt={{t "common.form.success"}}>
         {{/if}}
       {{/if}}
     </div>
