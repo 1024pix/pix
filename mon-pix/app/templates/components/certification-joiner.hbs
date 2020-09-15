@@ -27,7 +27,7 @@
                     @id="certificationJoinerDayOfBirth"
                     @input={{action "handleDayInputChange"}}
                     @focus-in={{action "handleInputFocus"}}
-                    aria-label="jour de naissance (JJ)" />
+                    aria-label={{t 'pages.certification-joiner.form.fields.birth-day'}} />
               <div class="certification-joiner__divider"></div>
             <Input @min="1"
                     @max="12"
@@ -36,14 +36,14 @@
                     @id="certificationJoinerMonthOfBirth"
                     @input={{action "handleMonthInputChange"}}
                     @focus-in={{action "handleInputFocus"}}
-                    aria-label="mois de naissance (MM)"/>
+                    aria-label={{t 'pages.certification-joiner.form.fields.birth-month'}}/>
               <div class="certification-joiner__divider"></div>
             <Input @min="1900"
                     @type="number"
                     @value={{this.yearOfBirth}} placeholder="AAAA"
                     @id="certificationJoinerYearOfBirth"
                     @focus-in={{action "handleInputFocus"}}
-                    aria-label="année de naissance (AAAA)"/>
+                    aria-label={{t 'pages.certification-joiner.form.fields.birth-year'}}/>
           </div>
         </div>
       {{#if this.errorMessage}}
