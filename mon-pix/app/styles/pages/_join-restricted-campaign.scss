@@ -30,6 +30,11 @@
     }
   }
 
+  &__back-button {
+    padding: 4px 0;
+    text-align: right;
+  }
+
   &__title {
     color: $grey-100;
     font-family: $font-open-sans;
