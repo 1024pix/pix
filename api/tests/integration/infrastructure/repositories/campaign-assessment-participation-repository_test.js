@@ -292,6 +292,7 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
       beforeEach(async () => {
         const skill = airtableBuilder.factory.buildSkill({ id: 'skill' });
         airtableBuilder.mockLists({ skills: [skill] });
+        const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         campaignId = databaseBuilder.factory.buildAssessmentCampaignForSkills({ organizationId }, [skill]).id;
         const userId = databaseBuilder.factory.buildUser().id;
@@ -303,9 +304,9 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
           sharedAt: new Date('2020-12-12'),
         }).id;
 
-        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, createdAt: new Date('2020-10-10'), state: Assessment.states.COMPLETED }).id;
-        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, userId, firstName: 'John', lastName: 'Doe' }).id;
-        databaseBuilder.factory.buildSchoolingRegistration({ userId , firstName: 'Jane', lastName: 'Doe' }).id;
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, createdAt: new Date('2020-10-10'), state: Assessment.states.COMPLETED });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, userId, firstName: 'John', lastName: 'Doe' });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId: otherOrganizationId, userId, firstName: 'Jane', lastName: 'Doe' });
 
         await databaseBuilder.commit();
       });
