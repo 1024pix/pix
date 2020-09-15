@@ -682,7 +682,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
     });
   });
 
-  describe('#reconcileUserToSchoolingRegistration', () => {
+  describe('#reconcileSchoolingRegistration', () => {
 
     afterEach(() => {
       return knex('schooling-registrations').delete();

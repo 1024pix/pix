@@ -5,9 +5,9 @@ const higherEducationRegistrationRepository = require('../../../../lib/infrastru
 const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
 const { NotFoundError, SchoolingRegistrationAlreadyLinkedToUserError } = require('../../../../lib/domain/errors');
 
-const registerSupernumeraryHigherEducationRegistration = require('../../../../lib/domain/usecases/register-supernumerary-higher-education-registration');
+const reconcileHigherSchoolingRegistration = require('../../../../lib/domain/usecases/reconcile-higher-schooling-registration');
 
-describe('Integration | UseCases | register-supernumerary-higher-education-registration', () => {
+describe('Integration | UseCases | reconcile-higher-schooling-registration', () => {
 
   let userId;
   let organizationId;
@@ -17,9 +17,9 @@ describe('Integration | UseCases | register-supernumerary-higher-education-regis
 
     it('should throw a campaign code error', async () => {
       // when
-      const error = await catchErr(registerSupernumeraryHigherEducationRegistration)({
+      const error = await catchErr(reconcileHigherSchoolingRegistration)({
         campaignCode: 'NOTEXIST',
-        userInfo: {},
+        reconciliationInfo: {},
         campaignRepository,
       });
 
@@ -49,7 +49,7 @@ describe('Integration | UseCases | register-supernumerary-higher-education-regis
 
       it('should throw a SchoolingRegistrationAlreadyLinkedToUserError', async () => {
         // given
-        const userInfo = {
+        const reconciliationInfo = {
           userId,
           firstName: 'Valentin',
           lastName: 'Frangin',
@@ -57,9 +57,9 @@ describe('Integration | UseCases | register-supernumerary-higher-education-regis
         };
 
         // when
-        const error = await catchErr(registerSupernumeraryHigherEducationRegistration)({
+        const error = await catchErr(reconcileHigherSchoolingRegistration)({
           campaignCode,
-          userInfo,
+          reconciliationInfo,
           campaignRepository,
           higherEducationRegistrationRepository,
           schoolingRegistrationRepository,
@@ -79,7 +79,7 @@ describe('Integration | UseCases | register-supernumerary-higher-education-regis
 
       it('should throw a SchoolingRegistrationAlreadyLinkedToUserError', async () => {
         // given
-        const userInfo = {
+        const reconciliationInfo = {
           userId,
           firstName: 'Valentin',
           lastName: 'Frangin',
@@ -87,9 +87,9 @@ describe('Integration | UseCases | register-supernumerary-higher-education-regis
         };
 
         // when
-        const error = await catchErr(registerSupernumeraryHigherEducationRegistration)({
+        const error = await catchErr(reconcileHigherSchoolingRegistration)({
           campaignCode,
-          userInfo,
+          reconciliationInfo,
           campaignRepository,
           higherEducationRegistrationRepository,
           schoolingRegistrationRepository,
@@ -104,7 +104,7 @@ describe('Integration | UseCases | register-supernumerary-higher-education-regis
     context('When no matching supernumerary schooling registration are found', () => {
       it('should save the additional higher education registration with user info', async () => {
       // given
-        const userInfo = {
+        const reconciliationInfo = {
           userId,
           studentNumber: '123A',
           firstName: 'firstname',
@@ -113,9 +113,9 @@ describe('Integration | UseCases | register-supernumerary-higher-education-regis
         };
 
         // when
-        await registerSupernumeraryHigherEducationRegistration({
+        await reconcileHigherSchoolingRegistration({
           campaignCode,
-          userInfo,
+          reconciliationInfo,
           campaignRepository,
           higherEducationRegistrationRepository,
           schoolingRegistrationRepository,

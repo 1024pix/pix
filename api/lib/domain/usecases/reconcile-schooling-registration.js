@@ -1,6 +1,6 @@
 const { CampaignCodeError } = require('../errors');
 
-module.exports = async function reconcileUserToSchoolingRegistrationData({
+module.exports = async function reconcileSchoolingRegistration({
   campaignCode,
   reconciliationInfo,
   campaignRepository,

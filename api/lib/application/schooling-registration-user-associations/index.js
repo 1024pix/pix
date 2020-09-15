@@ -10,7 +10,7 @@ exports.register = async function(server) {
       method: 'POST',
       path: '/api/schooling-registration-user-associations',
       config: {
-        handler: schoolingRegistrationUserAssociationController.reconcileManually,
+        handler: schoolingRegistrationUserAssociationController.reconcileSchoolingRegistrationManually,
         validate: {
           options: {
             allowUnknown: false,
@@ -42,7 +42,7 @@ exports.register = async function(server) {
       method: 'POST',
       path: '/api/schooling-registration-user-associations/register',
       config: {
-        handler: schoolingRegistrationUserAssociationController.registerSupernumeraryHigherEducationRegistration,
+        handler: schoolingRegistrationUserAssociationController.reconcileHigherSchoolingRegistration,
         validate: {
           options: {
             allowUnknown: false,

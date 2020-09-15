@@ -1,9 +1,9 @@
 const { NotFoundError, SchoolingRegistrationAlreadyLinkedToUserError } = require('../errors');
 const HigherEducationRegistration = require('../models/HigherEducationRegistration');
 
-module.exports = async function registerSupernumeraryHigherEducationRegistration({
+module.exports = async function reconcileHigherSchoolingRegistration({
   campaignCode,
-  userInfo: {
+  reconciliationInfo: {
     userId,
     studentNumber,
     firstName,
