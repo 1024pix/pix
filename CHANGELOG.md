@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v2.196.0 (15/09/2020)
+
+- [#1871](https://github.com/1024pix/pix/pull/1871) [FEATURE] Redisposer les boutons "c'est parti" et "modifier numéro étudiant"
+- [#1879](https://github.com/1024pix/pix/pull/1879) [FEATURE] Afficher le nom et prénom des inscriptions à la place des noms et prénoms des utilisateurs dans le CSV de campagne d'évaluation (PIX-1112).
+- [#1826](https://github.com/1024pix/pix/pull/1826) [FEATURE] Affichage des informations de la personne inscrite au lieu des informations du compte utilisateur dans les écrans de Pix Orga des campagnes d'évaluation (PIX-1110).
+- [#1880](https://github.com/1024pix/pix/pull/1880) [BUGFIX] Mettre à jour le rôle d'un membre d'une équipe depuis Pix-Orga (pix-1278)
+- [#1865](https://github.com/1024pix/pix/pull/1865) [BUGFIX] Ne pas tenter de créer un utilisateur dont le samlId existe déjà en base (PIX-1251).
+- [#1878](https://github.com/1024pix/pix/pull/1878) [CLEANUP] Ajout du linter pour vérifier les alt sur les images.
+
 ## v2.195.0 (14/09/2020)
 
 - [#1874](https://github.com/1024pix/pix/pull/1874) [FEATURE] Cacher les liens de connexion et d'inscription pour les élèves venant du GAR (PIX-1249).
