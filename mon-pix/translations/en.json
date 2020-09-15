@@ -669,7 +669,7 @@
       },
       "information": "If you have already completed courses on Pix, questions you have previously answered have not been asked again. However, the result shown here is based on all of your answers.",
       "not-finished": "You can’t submit your results yet, we still have a few questions to ask.",
-      "send-results": "Submit your results to the course organiser so they can provide you with support.",
+      "send-results": "Don't forget to submit your results.",
       "send-title": "Submit your results",
       "stage": {
         "masteryPercentage": "Success rate: {percentage} %",
