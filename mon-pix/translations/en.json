@@ -481,6 +481,11 @@
       "obtained-level": "Level { level } succeeded!"
     },
 
+    "not-connected": {
+      "title": "",
+      "message": ""
+    },
+
     "password-reset-demand": {
       "title": "Forgotten your password?",
       "actions": {

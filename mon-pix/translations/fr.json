@@ -482,6 +482,11 @@
       "obtained-level": "Niveau { level } gagné !"
     },
 
+    "not-connected": {
+      "title": "Déconnecté",
+      "message": "Vous êtes bien déconnecté(e).'<br>'Merci, à bientôt."
+    },
+
     "password-reset-demand": {
       "title": "Mot de passe oublié ?",
       "actions": {
