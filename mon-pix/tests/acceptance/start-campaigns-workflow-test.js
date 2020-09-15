@@ -653,7 +653,12 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
           await visit(`/campagnes/${campaign.code}`);
 
           // when
-          await fillIn('#studentNumber', '123A');
+          await click('#no-student-number');
+          await fillIn('#firstName', 'Jean');
+          await fillIn('#lastName', 'Bon');
+          await fillIn('#dayOfBirth', '01');
+          await fillIn('#monthOfBirth', '01');
+          await fillIn('#yearOfBirth', '2000');
           await click(contains('C\'est parti !'));
 
           // then
