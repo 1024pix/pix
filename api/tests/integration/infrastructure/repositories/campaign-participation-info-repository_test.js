@@ -190,24 +190,21 @@ describe('Integration | Repository | Campaign Participation Info', () => {
     });
 
     context('when the participant has a schooling registration for the campaign\'s organization', () => {
-      let studentNumber;
+      let schoolingRegistration;
       let campaign;
       beforeEach(async () => {
-        const userId = databaseBuilder.factory.buildUser({
-          firstName: 'First',
-          lastName: 'Last',
-        }).id;
-        campaign = databaseBuilder.factory.buildCampaign({ sharedAt: null });
+        const userId = databaseBuilder.factory.buildUser().id;
+        campaign = databaseBuilder.factory.buildCampaign();
         const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
           userId,
         }).id;
         databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'started' });
-        studentNumber = databaseBuilder.factory.buildSchoolingRegistration({
+        schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
           organizationId: campaign.organizationId,
           userId,
           studentNumber: 'Pipon et Jambon',
-        }).studentNumber;
+        });
         databaseBuilder.factory.buildSchoolingRegistration({
           userId,
           studentNumber: 'Yippee Ki Yay',
@@ -222,7 +219,17 @@ describe('Integration | Repository | Campaign Participation Info', () => {
         const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
 
         // then
-        expect(campaignParticipationInfos[0].studentNumber).to.equal(studentNumber);
+        expect(campaignParticipationInfos[0].studentNumber).to.equal(schoolingRegistration.studentNumber);
+      });
+
+      it('should return the first name and last of the schooling registration associated to the given organization', async () => {
+
+        // when
+        const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
+
+        // then
+        expect(campaignParticipationInfos[0].participantFirstName).to.equal(schoolingRegistration.firstName);
+        expect(campaignParticipationInfos[0].participantLastName).to.equal(schoolingRegistration.lastName);
       });
     });
   });
