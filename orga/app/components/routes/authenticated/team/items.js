@@ -35,12 +35,14 @@ export default class Items extends Component {
   }
 
   @action
-  updateRoleOfMember(membership) {
+  async updateRoleOfMember(membership) {
     this.isEditionMode = false;
 
     if (!this.selectedNewRole) return false;
 
     membership.organizationRole = this.selectedNewRole;
+
+    membership.organization = this.currentUser.organization;
 
     return membership.save();
   }
