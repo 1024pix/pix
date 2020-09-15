@@ -53,18 +53,18 @@ async function _generateCertificationTest(userId, competences) {
 }
 
 function updateProgress() {
-  process.stdout.write('.');
+  process.stderr.write('.');
 }
 
 async function main() {
   try {
-    console.log(`Récupération de ${USER_COUNT} utilisateurs certifiables...`);
+    console.error(`Récupération de ${USER_COUNT} utilisateurs certifiables...`);
     const userIds = await _retrieveUserIds();
-    console.log('Récupération OK');
+    console.error('Récupération OK');
     const competences = await competenceRepository.listPixCompetencesOnly();
     let nonCertifiableUserCount = 0;
 
-    console.log('Génération des tests de certification : ');
+    console.error('Génération des tests de certification : ');
     const certificationTestsByUser = _.compact(await bluebird.map(userIds, async (userId) => {
       try {
         const challengeCountByCompetence = await _generateCertificationTest(userId, competences);
@@ -81,9 +81,9 @@ async function main() {
       }
     }, { concurrency: ~~process.env.CONCURRENCY || 10 }));
 
-    console.log('\nGénération des tests de certification OK');
+    console.error('\nGénération des tests de certification OK');
 
-    console.log('Génération des statistiques...');
+    console.error('Génération des statistiques...');
     const competenceIds = _.map(competences, 'id');
     const allChallengeCountByCompetence = _.map(certificationTestsByUser, 'challengeCountByCompetence');
     const challengeCountByCompetenceTotal = _.map(competenceIds, (competenceId) => {
