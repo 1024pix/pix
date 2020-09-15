@@ -36,6 +36,7 @@ describe('Acceptance | Controller | users-controller-update-user-samlid', () => 
             type: 'external-users',
             attributes: {
               'external-user-token': tokenService.createIdTokenForUserReconciliation(userAttributes),
+              'expected-user-id': user.id,
             },
           },
         },
@@ -77,7 +78,7 @@ describe('Acceptance | Controller | users-controller-update-user-samlid', () => 
 
     it('should respond with a 400 if externalUserToken is missing', async () => {
       // given
-      options.payload.data.attributes = {};
+      options.payload.data.attributes['external-user-token'] = {};
 
       // when
       const response = await server.inject(options);
@@ -89,10 +90,7 @@ describe('Acceptance | Controller | users-controller-update-user-samlid', () => 
     it('should respond with a 401 if externalUserToken is invalid', async () => {
       // given
       const expectedErrorMessage = 'Une erreur est survenue. Veuillez réessayer de vous connecter depuis le médiacentre.';
-      options.payload.data.attributes = {
-        'external-user-token': 'ABCD',
-      };
-
+      options.payload.data.attributes['external-user-token'] = 'ABCD';
       // when
       const response = await server.inject(options);
 
@@ -101,12 +99,27 @@ describe('Acceptance | Controller | users-controller-update-user-samlid', () => 
       expect(response.result.errors[0].detail).to.equal(expectedErrorMessage);
     });
 
-    it('should respond with a 404 if repository throws an error', async () => {
+    it('should respond with a 404 if the user is not found', async () => {
       // given
       const missingUserId = 9999;
       const expectedErrorMessage = `User not found for ID ${missingUserId}`;
       options.headers.authorization = generateValidRequestAuthorizationHeader(missingUserId);
       options.url = `/api/users/${missingUserId}/authentication-methods/saml`;
+      options.payload.data.attributes['expected-user-id'] = missingUserId;
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(404);
+      expect(response.result.errors[0].detail).to.equal(expectedErrorMessage);
+    });
+
+    it('should respond with a 404 if the expected user is not found', async () => {
+      // given
+      const nonExistentUserId = 9999;
+      const expectedErrorMessage = `User not found for ID ${nonExistentUserId}`;
+      options.payload.data.attributes['expected-user-id'] = nonExistentUserId;
 
       // when
       const response = await server.inject(options);
@@ -116,5 +129,4 @@ describe('Acceptance | Controller | users-controller-update-user-samlid', () => 
       expect(response.result.errors[0].detail).to.equal(expectedErrorMessage);
     });
   });
-
 });

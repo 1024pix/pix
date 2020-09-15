@@ -346,6 +346,14 @@ class InvalidTemporaryKeyError extends DomainError {
   }
 }
 
+class UnexpectedUserAccount extends DomainError {
+  constructor({ message = 'Ce compte utilisateur n\'est pas celui qui est attendu.', code, meta }) {
+    super(message);
+    this.code = code;
+    this.meta = meta;
+  }
+}
+
 class MembershipCreationError extends DomainError {
   constructor(message = 'Erreur lors de la création du membership à une organisation.') {
     super(message);
@@ -589,6 +597,7 @@ module.exports = {
   InvalidParametersForSessionPublication,
   InvalidRecaptchaTokenError,
   InvalidTemporaryKeyError,
+  UnexpectedUserAccount,
   MembershipCreationError,
   MembershipUpdateError,
   MissingOrInvalidCredentialsError,

@@ -1,7 +1,7 @@
 const { expect, catchErr, databaseBuilder } = require('../../../test-helper');
 
 const tokenService = require('../../../../lib/domain/services/token-service');
-const { UserNotFoundError, InvalidExternalUserTokenError } = require('../../../../lib/domain/errors');
+const { UserNotFoundError, InvalidExternalUserTokenError, UnexpectedUserAccount } = require('../../../../lib/domain/errors');
 
 const { updateUserSamlId } = require('../../../../lib/domain/usecases');
 
@@ -28,7 +28,7 @@ describe('Integration | UseCases | update-user-samlId', () => {
 
     it('should update user samlId', async () => {
       // when
-      const result = await updateUserSamlId({ userId, externalUserToken });
+      const result = await updateUserSamlId({ userId, externalUserToken, expectedUserId: userId });
 
       // then
       expect(result).to.be.true;
@@ -42,7 +42,7 @@ describe('Integration | UseCases | update-user-samlId', () => {
       userId = 1;
 
       // when
-      const error = await catchErr(updateUserSamlId)({ userId, externalUserToken });
+      const error = await catchErr(updateUserSamlId)({ userId, externalUserToken, expectedUserId: userId });
 
       // then
       expect(error).to.be.an.instanceof(UserNotFoundError);
@@ -53,11 +53,23 @@ describe('Integration | UseCases | update-user-samlId', () => {
       externalUserToken = 'INVALID_TOKEN';
 
       // when
-      const error = await catchErr(updateUserSamlId)({ userId, externalUserToken });
+      const error = await catchErr(updateUserSamlId)({ userId, externalUserToken, expectedUserId: userId });
 
       // then
       expect(error).to.be.an.instanceof(InvalidExternalUserTokenError);
       expect(error.message).to.equal('Une erreur est survenue. Veuillez réessayer de vous connecter depuis le médiacentre.');
+    });
+
+    it('should throw an InvalidUserAccount error when the authenticated user is not the expected one', async () => {
+      // given
+      const notExpectedUserId = userId + 1;
+
+      // when
+      const error = await catchErr(updateUserSamlId)({ notExpectedUserId, externalUserToken, expectedUserId: userId });
+
+      // then
+      expect(error).to.be.an.instanceof(UnexpectedUserAccount);
+      expect(error.message).to.equal('Ce compte utilisateur n\'est pas celui qui est attendu.');
     });
   });
 

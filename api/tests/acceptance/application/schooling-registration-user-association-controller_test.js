@@ -73,7 +73,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta: { shortCode: 'R31', value: 'j***@example.net' },
+            meta: { shortCode: 'R31', value: 'j***@example.net', userId: userWithEmailOnly.id },
           };
 
           options.headers.authorization = generateValidRequestAuthorizationHeader(userWithEmailOnly.id);
@@ -110,7 +110,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta: { shortCode: 'R32', value: 'j***.h***2' },
+            meta: { shortCode: 'R32', value: 'j***.h***2', userId: userWithUsernameOnly.id },
           };
 
           options.headers.authorization = generateValidRequestAuthorizationHeader(userWithUsernameOnly.id);
@@ -233,7 +233,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta: { shortCode: 'R11', value: 'j***@example.net' },
+            meta: { shortCode: 'R11', value: 'j***@example.net', userId: userWithEmailOnly.id },
           };
 
           options.headers.authorization = generateValidRequestAuthorizationHeader(userWithEmailOnly.id);
@@ -275,7 +275,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta: { shortCode: 'R12', value: 'j***.h***2' },
+            meta: { shortCode: 'R12', value: 'j***.h***2', userId: userWithUsernameOnly.id },
           };
 
           options.headers.authorization = generateValidRequestAuthorizationHeader(userWithUsernameOnly.id);
