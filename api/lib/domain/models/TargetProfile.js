@@ -47,6 +47,10 @@ class TargetProfile {
   getSkillIds() {
     return this.skills.map((skill) => skill.id);
   }
+
+  getSkillCountForCompetence(competenceId) {
+    return this.skills.filter((skill) => skill.competenceId === competenceId).length;
+  }
 }
 
 module.exports = TargetProfile;
