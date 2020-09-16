@@ -58,6 +58,12 @@ async function _filterValidatedKnowledgeElementsByCampaignId(knowledgeElements, 
   });
 }
 
+function _filterValidatedTargetedKnowledgeElements(knowledgeElements, targetProfile) {
+  return _.filter(knowledgeElements, (knowledgeElement) => {
+    return knowledgeElement.isValidated && targetProfile.hasSkill(knowledgeElement.skillId);
+  });
+}
+
 async function _findByUserIdAndLimitDateThenSaveSnapshot({ userId, limitDate }) {
   const knowledgeElements = await _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate });
   if (limitDate) {
@@ -155,6 +161,24 @@ module.exports = {
       knowledgeElementsGroupedByUser[userId] = _.groupBy(knowledgeElements, 'competenceId');
     }
     return knowledgeElementsGroupedByUser;
+  },
+
+  async findValidatedTargetedGroupedByCompetencesForUsers(userIdsAndDates, targetProfile) {
+    const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
+    const knowledgeElementsGroupedByUserAndCompetence  = {};
+
+    const competencesIds = targetProfile.getCompetenceIds();
+
+    for (const [userId, knowledgeElements] of Object.entries(knowledgeElementsGroupedByUser)) {
+      const validatedTargetedKnowledgeElements = _filterValidatedTargetedKnowledgeElements(knowledgeElements, targetProfile);
+      const knowledgeElementsByCompetenceId = _.groupBy(validatedTargetedKnowledgeElements, 'competenceId');
+      knowledgeElementsGroupedByUserAndCompetence[userId] = {};
+      for (const competenceId  of competencesIds) {
+        knowledgeElementsGroupedByUserAndCompetence[userId][competenceId] = knowledgeElementsByCompetenceId[competenceId] || [];
+      }
+    }
+
+    return knowledgeElementsGroupedByUserAndCompetence;
   },
 
   async findSnapshotForUsers(userIdsAndDates) {
