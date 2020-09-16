@@ -35,6 +35,11 @@ class TargetProfile {
     return Array.from(uniqCompetenceIds);
   }
 
+  getTargetedCompetences(competences) {
+    const targetedCompetenceIds = this.getCompetenceIds();
+    return competences.filter((competence) => targetedCompetenceIds.includes(competence.id));
+  }
+
   getSkillNames() {
     return this.skills.map((skill) => skill.name);
   }
