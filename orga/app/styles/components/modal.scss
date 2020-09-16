@@ -23,6 +23,7 @@
       .modal-header {
         position: relative;
         padding: 32px 48px;
+        border-bottom: 1px solid $grey-20;
 
         &__title {
           font-family: $open-sans;
@@ -37,8 +38,8 @@
 
         &__icon {
           position: absolute;
-          right: 8px;
-          top: 8px;
+          right: 32px;
+          top: 32px;
           color: $grey-45;
           font-size: 1.5rem;
           padding: 3px 9px;

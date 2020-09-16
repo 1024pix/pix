@@ -1,3 +1,4 @@
+const JSONAPIError = require('jsonapi-serializer').Error;
 class BaseHttpError extends Error {
   constructor(message) {
     super(message);
@@ -89,6 +90,15 @@ class BadRequestError extends BaseHttpError {
   }
 }
 
+function sendJsonApiError(httpError, h) {
+  const jsonApiError = new JSONAPIError({
+    status: httpError.status.toString(),
+    title: httpError.title,
+    detail: httpError.message,
+  });
+  return h.response(jsonApiError).code(httpError.status).takeover();
+}
+
 module.exports = {
   BadRequestError,
   BaseHttpError,
@@ -99,6 +109,7 @@ module.exports = {
   NotFoundError,
   PasswordShouldChangeError,
   PreconditionFailedError,
+  sendJsonApiError,
   UnauthorizedError,
   UnprocessableEntityError,
 };

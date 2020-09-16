@@ -90,4 +90,18 @@ module.exports = {
     await usecases.dissociateUserFromSchoolingRegistration({ userId, schoolingRegistrationId: payload['schooling-registration-id'] });
     return h.response().code(204);
   },
+
+  async updateStudentNumber(request, h) {
+    const payload = request.payload.data.attributes;
+    const { userId } = request.auth.credentials;
+    const organizationId =  request.params.id;
+
+    const student = {
+      id: request.params.studentId,
+      studentNumber: payload['student-number'],
+    };
+
+    await usecases.updateStudentNumber({ userId, student, organizationId });
+    return h.response().code(204);
+  },
 };

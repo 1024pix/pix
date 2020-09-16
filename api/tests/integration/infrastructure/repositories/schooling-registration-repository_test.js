@@ -1216,4 +1216,17 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
   });
 
+  describe('#updateStudentNumber', () => {
+    it('should update the student number', async () => {
+      // given
+      const id = databaseBuilder.factory.buildSchoolingRegistration({ studentNumber: 12345 }).id;
+      await databaseBuilder.commit();
+
+      // when
+      await schoolingRegistrationRepository.updateStudentNumber(id, 54321);
+      const [schoolingRegistration] = await knex.select('studentNumber').from('schooling-registrations').where({ id });
+      expect(schoolingRegistration.studentNumber).to.equal('54321');
+    });
+  });
+
 });

@@ -1,6 +1,7 @@
 const schoolingRegistrationUserAssociationController = require('./schooling-registration-user-association-controller');
+const securityPreHandlers = require('../security-pre-handlers');
 const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
-const JSONAPIError = require('jsonapi-serializer').Error;
+const { sendJsonApiError, UnprocessableEntityError, NotFoundError } = require('../http-errors');
 
 exports.register = async function(server) {
   server.route([
@@ -36,13 +37,7 @@ exports.register = async function(server) {
             }),
           ),
           failAction: (request, h) => {
-            const errorHttpStatusCode = 422;
-            const jsonApiError = new JSONAPIError({
-              status: errorHttpStatusCode.toString(),
-              title: 'Unprocessable entity',
-              detail: 'Un des champs saisis n’est pas valide.',
-            });
-            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
+            return sendJsonApiError(new UnprocessableEntityError('Un des champs saisis n’est pas valide.'), h);
           },
         },
         notes: [
@@ -83,13 +78,7 @@ exports.register = async function(server) {
             },
           }),
           failAction: (request, h) => {
-            const errorHttpStatusCode = 422;
-            const jsonApiError = new JSONAPIError({
-              status: errorHttpStatusCode.toString(),
-              title: 'Unprocessable entity',
-              detail: 'Un des champs saisis n’est pas valide.',
-            });
-            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
+            return sendJsonApiError(new UnprocessableEntityError('Un des champs saisis n’est pas valide.'), h);
           },
         },
         notes: [
@@ -133,13 +122,7 @@ exports.register = async function(server) {
             },
           }),
           failAction: (request, h) => {
-            const errorHttpStatusCode = 422;
-            const jsonApiError = new JSONAPIError({
-              status: errorHttpStatusCode.toString(),
-              title: 'Unprocessable entity',
-              detail: 'Un des champs saisis n’est pas valide.',
-            });
-            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
+            return sendJsonApiError(new UnprocessableEntityError('Un des champs saisis n’est pas valide.'), h);
           },
         },
         notes: [
@@ -149,6 +132,50 @@ exports.register = async function(server) {
         tags: ['api', 'schoolingRegistrationUserAssociation'],
       },
     },
+      
+    {
+      method: 'PATCH',
+      path: '/api/organizations/{id}/schooling-registration-user-associations/{studentId}',
+      config: {
+        pre: [{
+          method: securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents,
+        }],
+        handler: schoolingRegistrationUserAssociationController.updateStudentNumber,
+        validate: {
+          options: {
+            allowUnknown: true,
+          },
+          params:
+            Joi.object({
+              id: Joi.number().required(),
+              studentId: Joi.number().required(),
+            }),
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'student-number': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+              },
+            },
+          }),
+          failAction: (request, h, err) => {
+            const isStudentNumber = err.details[0].path.includes('student-number');
+
+            if (isStudentNumber) {
+              return sendJsonApiError(new UnprocessableEntityError('Un des champs saisis n’est pas valide.'), h);
+            } 
+
+            return sendJsonApiError(new NotFoundError('Ressource non trouvée'), h);
+
+          },
+        },
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés et admin au sein de l\'orga**\n' +
+          '- Elle met à jour le numéro étudiant',
+        ],
+        tags: ['api', 'schoolingRegistrationUserAssociation'],
+      },
+    },
+
     {
       method: 'DELETE',
       path: '/api/schooling-registration-user-associations',
