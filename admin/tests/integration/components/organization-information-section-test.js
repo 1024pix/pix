@@ -48,7 +48,7 @@ module('Integration | Component | organization-information-section', function(ho
     let organization;
 
     hooks.beforeEach(function() {
-      organization = EmberObject.create({ id: 1, name: 'Organization SCO', externalId: 'VELIT', provinceCode: 'h50', email: 'sco.generic.account@example.net' });
+      organization = EmberObject.create({ id: 1, name: 'Organization SCO', externalId: 'VELIT', provinceCode: 'h50', email: 'sco.generic.account@example.net', canCollectProfiles: false });
       this.set('organization', organization);
     });
 
@@ -83,6 +83,7 @@ module('Integration | Component | organization-information-section', function(ho
       assert.dom('input#externalId').hasValue(organization.externalId);
       assert.dom('input#provinceCode').hasValue(organization.provinceCode);
       assert.dom('input#email').hasValue(organization.email);
+      assert.dom('input#canCollectProfiles').isNotChecked();
     });
 
     test('it should show error message if organization\'s name is empty', async function(assert) {
@@ -176,6 +177,7 @@ module('Integration | Component | organization-information-section', function(ho
       await fillIn('input#name', 'new name');
       await fillIn('input#externalId', 'new externalId');
       await fillIn('input#provinceCode', 'new provinceCode');
+      await click('input#canCollectProfiles');
 
       // when
       await click('button[aria-label=\'Annuler\'');
@@ -184,6 +186,7 @@ module('Integration | Component | organization-information-section', function(ho
       assert.dom('.organization__name').hasText(organization.name);
       assert.dom('.organization__externalId').hasText(organization.externalId);
       assert.dom('.organization__provinceCode').hasText(organization.provinceCode);
+      assert.dom('.organization__canCollectProfiles').hasText('Non');
     });
 
     test('it should submit the form if there is no error', async function(assert) {
@@ -194,6 +197,7 @@ module('Integration | Component | organization-information-section', function(ho
       await fillIn('input#name', 'new name');
       await fillIn('input#externalId', 'new externalId');
       await fillIn('input#provinceCode', '  ');
+      await click('input#canCollectProfiles');
 
       // when
       await click('button[aria-label=\'Enregistrer\'');
@@ -202,6 +206,7 @@ module('Integration | Component | organization-information-section', function(ho
       assert.dom('.organization__name').hasText('new name');
       assert.dom('.organization__externalId').hasText('new externalId');
       assert.dom('.organization__provinceCode').doesNotExist();
+      assert.dom('.organization__canCollectProfiles').hasText('Oui');
     });
   });
 
