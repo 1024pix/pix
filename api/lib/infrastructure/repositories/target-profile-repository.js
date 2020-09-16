@@ -82,7 +82,7 @@ async function _getWithAirtableSkills(targetProfile) {
   });
 }
 
-async function _getAirtableDataObjectsSkills(bookshelfTargetProfile) {
+function _getAirtableDataObjectsSkills(bookshelfTargetProfile) {
   const skillRecordIds = bookshelfTargetProfile.related('skillIds').map((BookshelfSkillId) => BookshelfSkillId.get('skillId'));
-  return await skillDatasource.findOperativeByRecordIds(skillRecordIds);
+  return skillDatasource.findOperativeByRecordIds(skillRecordIds);
 }
