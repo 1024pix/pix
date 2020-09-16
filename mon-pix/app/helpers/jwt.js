@@ -1,9 +1,9 @@
 import { helper } from '@ember/component/helper';
+import jwt_decode from 'jwt-decode';
 
 export function decodeToken(accessToken)
 {
-  const payloadOfToken = accessToken.split('.')[1];
-  return JSON.parse(atob(payloadOfToken));
+  return jwt_decode(accessToken);
 }
 
 export default helper(decodeToken);
