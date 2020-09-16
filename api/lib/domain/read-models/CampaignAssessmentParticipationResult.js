@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const CampaignAssessmentParticipationCompetenceResult = require('./CampaignAssessmentParticipationCompetenceResult');
 
 class CampaignAssessmentParticipationResult {
@@ -6,28 +5,25 @@ class CampaignAssessmentParticipationResult {
     campaignParticipationId,
     campaignId,
     isShared,
-    competences,
-    knowledgeElementsByCompetenceId = {},
-    targetedSkillIds,
+    targetedCompetences,
+    targetProfile,
+    validatedTargetedKnowledgeElementsByCompetenceId = {},
   }) {
     this.campaignParticipationId = campaignParticipationId;
     this.campaignId = campaignId;
     this.isShared = isShared;
-
-    this.competenceResults = competences
-      .filter((competence) => {
-        return this.isShared && _.intersection(competence.skillIds, targetedSkillIds).length > 0;
-      })
-      .map((competence) => {
-        const targetedKnowledgeElements = knowledgeElementsByCompetenceId[competence.id].filter((ke) =>{
-          return targetedSkillIds.includes(ke.skillId);
+    if (!this.isShared) {
+      this.competenceResults = [];
+    } else {
+      this.competenceResults = targetedCompetences
+        .map((targetedCompetence) => {
+          return new CampaignAssessmentParticipationCompetenceResult({
+            targetedCompetence,
+            targetedSkillsCount: targetProfile.getSkillCountForCompetence(targetedCompetence.id),
+            validatedTargetedKnowledgeElementsCount : validatedTargetedKnowledgeElementsByCompetenceId[targetedCompetence.id].length,
+          });
         });
-        return new CampaignAssessmentParticipationCompetenceResult({
-          competence,
-          targetedSkillIds,
-          targetedKnowledgeElements,
-        });
-      });
+    }
   }
 }
 
