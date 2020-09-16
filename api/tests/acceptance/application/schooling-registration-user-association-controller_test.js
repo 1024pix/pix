@@ -1249,4 +1249,47 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
       expect(response.statusCode).to.equal(403);
     });
   });
+
+  describe('#updateStudentNumber', () => {
+    let organizationId;
+    const studentNumber = '54321';
+    let schoolingRegistrationId;
+    let authorizationToken;
+
+    beforeEach(async () => {
+      organizationId = databaseBuilder.factory.buildOrganization({ isManagingStudents: true, type: 'SUP' }).id;
+
+      const user = databaseBuilder.factory.buildUser();
+      authorizationToken = generateValidRequestAuthorizationHeader(user.id);
+      schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({ organizationId }).id;
+      databaseBuilder.factory.buildMembership({ organizationId, userId: user.id, organizationRole: Membership.roles.ADMIN });
+      await databaseBuilder.commit();
+    });
+    
+    context('Success cases', () => {
+
+      it('should return an HTTP response with status code 204', async () => {
+        const options = {
+          method: 'PATCH',
+          url: `/api/organizations/${organizationId}/schooling-registration-user-associations/${schoolingRegistrationId}`,
+          headers: {
+            authorization: authorizationToken,
+          },
+          payload: {
+            data: {
+              attributes: {
+                'student-number': studentNumber,
+              },
+            },
+          },
+        };
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+      });
+
+    });
+  });
 });

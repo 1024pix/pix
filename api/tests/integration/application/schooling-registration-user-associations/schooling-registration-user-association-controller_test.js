@@ -67,5 +67,4 @@ describe('Integration | Application | Schooling-registration-user-association | 
       });
     });
   });
-
 });
