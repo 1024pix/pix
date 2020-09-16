@@ -38,6 +38,10 @@ class TargetProfile {
   getSkillNames() {
     return this.skills.map((skill) => skill.name);
   }
+
+  getSkillIds() {
+    return this.skills.map((skill) => skill.id);
+  }
 }
 
 module.exports = TargetProfile;
