@@ -46,4 +46,20 @@ describe('Unit | Domain | Models | TargetProfile', () => {
     });
   });
 
+  describe('getSkillNames', () => {
+
+    it('should return an array with targeted skill names', () => {
+      // given
+      const skill1 = domainBuilder.buildSkill({ name: 'acquis1' });
+      const skill2 = domainBuilder.buildSkill({ name: 'acquis2' });
+      const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1, skill2] });
+
+      // when
+      const targetedSkillNames = targetProfile.getSkillNames();
+
+      // then
+      expect(targetedSkillNames).to.exactlyContain(['acquis1', 'acquis2']);
+    });
+  });
+
 });
