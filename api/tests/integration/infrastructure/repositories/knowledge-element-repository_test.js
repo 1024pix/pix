@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const moment = require('moment');
-const { expect, knex, domainBuilder, databaseBuilder, sinon } = require('../../../test-helper');
+const { expect, knex, domainBuilder, databaseBuilder, airtableBuilder, sinon } = require('../../../test-helper');
+const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const knowledgeElementSnapshotRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
@@ -840,6 +841,254 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
           const actualUserSnapshots = await knex.select('*').from('knowledge-element-snapshots').where({ userId: userId1 });
           expect(actualUserSnapshots.length).to.equal(1);
         });
+      });
+    });
+  });
+
+  describe('#findValidatedTargetedGroupedByCompetencesForUsers', () => {
+
+    afterEach(() => {
+      airtableBuilder.cleanAll();
+      cache.flushAll();
+      return knex('knowledge-element-snapshots').delete();
+    });
+
+    it('should return knowledge elements within respective dates grouped by userId the competenceId within target profile of campaign', async () => {
+      // given
+      // Learning content
+      const competence1 = domainBuilder.buildCompetence({ skillIds: ['skill1', 'skill2'] });
+      const competence2 = domainBuilder.buildCompetence({ skillIds: ['skill3'] });
+      const skill1 = domainBuilder.buildSkill({ id: 'skill1', competenceId: competence1.id });
+      const skill2 = domainBuilder.buildSkill({ id: 'skill2', competenceId: competence1.id });
+      const skill3 = domainBuilder.buildSkill({ id: 'skill2', competenceId: competence2.id });
+      const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence1 });
+      const airtableCompetence2 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence2 });
+      const airtableSkill1 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill1 });
+      const airtableSkill2 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill2 });
+      const airtableSkill3 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill3 });
+      airtableBuilder.mockLists({ skills: [airtableSkill1, airtableSkill2, airtableSkill3], competence: [airtableCompetence1, airtableCompetence2] });
+      // Other data
+      const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1, skill2, skill3] });
+      const userId1 = databaseBuilder.factory.buildUser().id;
+      const userId2 = databaseBuilder.factory.buildUser().id;
+      const dateUserId1 = new Date('2020-01-03');
+      const dateUserId2 = new Date('2019-01-03');
+      const knowledgeElement1_1 = databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence1.id, userId: userId1, createdAt: new Date('2020-01-02'), skillId: skill1.id });
+      const knowledgeElement1_2 = databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence1.id, userId: userId1, createdAt: new Date('2020-01-02'), skillId: skill2.id });
+      databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence1.id, userId: userId1, createdAt: new Date('2021-01-02') });
+      const knowledgeElement2_1 = databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence1.id, userId: userId2, createdAt: new Date('2019-01-02'), skillId: skill1.id });
+      const knowledgeElement2_2 = databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence2.id, userId: userId2, createdAt: new Date('2019-01-02'), skillId: skill3.id });
+      databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence1.id, userId: userId2, createdAt: new Date('2020-01-02') });
+      await databaseBuilder.commit();
+
+      // when
+      const knowledgeElementsByUserIdAndCompetenceId =
+        await knowledgeElementRepository.findValidatedTargetedGroupedByCompetencesForUsers({ [userId1]: dateUserId1, [userId2]: dateUserId2 }, targetProfile);
+
+      // then
+      expect(knowledgeElementsByUserIdAndCompetenceId[userId1][competence1.id][0]).to.be.instanceOf(KnowledgeElement);
+      expect(knowledgeElementsByUserIdAndCompetenceId[userId1][competence1.id].length).to.equal(2);
+      expect(knowledgeElementsByUserIdAndCompetenceId[userId1][competence1.id]).to.deep.include.members([knowledgeElement1_1, knowledgeElement1_2]);
+      expect(knowledgeElementsByUserIdAndCompetenceId[userId2]).to.deep.equal({
+        [competence1.id]: [knowledgeElement2_1],
+        [competence2.id]: [knowledgeElement2_2],
+      });
+    });
+
+    it('should return the knowledge elements in the snapshot when user has a snapshot for this date', async () => {
+      // given
+      // Learning content
+      const competence = domainBuilder.buildCompetence({ skillIds: ['skill1'] });
+      const skill = domainBuilder.buildSkill({ id: 'skill1', competenceId: competence.id });
+      const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence });
+      const airtableSkill1 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill });
+      airtableBuilder.mockLists({ skills: [airtableSkill1], competence: [airtableCompetence1] });
+      // Other data
+      const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
+      const userId = databaseBuilder.factory.buildUser().id;
+      const dateUserId = new Date('2020-01-03');
+      const knowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId, competenceId: competence.id, skillId: skill.id });
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({ userId, snappedAt: dateUserId, snapshot: JSON.stringify([knowledgeElement]) });
+      await databaseBuilder.commit();
+
+      // when
+      const knowledgeElementsByUserIdAndCompetenceId =
+          await knowledgeElementRepository.findValidatedTargetedGroupedByCompetencesForUsers({ [userId]: dateUserId }, targetProfile);
+
+      // then
+      expect(knowledgeElementsByUserIdAndCompetenceId[userId][competence.id][0]).to.deep.equal(knowledgeElement);
+    });
+
+    context('when user does not have a snapshot for this date', () => {
+
+      context('when no date is provided along with the user', () => {
+
+        it('should return the knowledge elements with limit date as now', async () => {
+          // given
+          // Learning content
+          const competence = domainBuilder.buildCompetence({ skillIds: ['skill1'] });
+          const skill = domainBuilder.buildSkill({ id: 'skill1', competenceId: competence.id });
+          const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence });
+          const airtableSkill1 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill });
+          airtableBuilder.mockLists({ skills: [airtableSkill1], competence: [airtableCompetence1] });
+          // Other data
+          const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
+          const userId = databaseBuilder.factory.buildUser().id;
+          const expectedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2018-01-01'), competenceId: competence.id, skillId: skill.id });
+          await databaseBuilder.commit();
+
+          // when
+          const knowledgeElementsByUserIdAndCompetenceId =
+            await knowledgeElementRepository.findValidatedTargetedGroupedByCompetencesForUsers({ [userId]: null }, targetProfile);
+
+          // then
+          expect(knowledgeElementsByUserIdAndCompetenceId[userId]).to.deep.equal({
+            [competence.id]: [expectedKnowledgeElement],
+          });
+        });
+
+        it('should not trigger snapshotting', async () => {
+          // given
+          // Learning content
+          const competence = domainBuilder.buildCompetence({ skillIds: ['skill1'] });
+          const skill = domainBuilder.buildSkill({ id: 'skill1', competenceId: competence.id });
+          const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence });
+          const airtableSkill1 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill });
+          airtableBuilder.mockLists({ skills: [airtableSkill1], competence: [airtableCompetence1] });
+          // Other data
+          const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
+          const userId = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2018-01-01'), competenceId: competence.id, skillId: skill.id });
+          await databaseBuilder.commit();
+
+          // when
+          await knowledgeElementRepository.findValidatedTargetedGroupedByCompetencesForUsers({ [userId]: null }, targetProfile);
+
+          // then
+          const actualUserSnapshots = await knex.select('*').from('knowledge-element-snapshots').where({ userId });
+          expect(actualUserSnapshots.length).to.equal(0);
+        });
+      });
+
+      context('when a date is provided along with the user', () => {
+
+        it('should return the knowledge elements at date', async () => {
+          // given
+          // Learning content
+          const competence = domainBuilder.buildCompetence({ skillIds: ['skill1'] });
+          const skill = domainBuilder.buildSkill({ id: 'skill1', competenceId: competence.id });
+          const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence });
+          const airtableSkill1 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill });
+          airtableBuilder.mockLists({ skills: [airtableSkill1], competence: [airtableCompetence1] });
+          // Other data
+          const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
+          const userId = databaseBuilder.factory.buildUser().id;
+          const expectedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2018-01-01'), competenceId: competence.id, skillId: skill.id });
+          await databaseBuilder.commit();
+          // when
+          const knowledgeElementsByUserIdAndCompetenceId =
+            await knowledgeElementRepository.findValidatedTargetedGroupedByCompetencesForUsers({ [userId]: new Date('2018-02-01') }, targetProfile);
+
+          // then
+          expect(knowledgeElementsByUserIdAndCompetenceId[userId]).to.deep.equal({
+            [competence.id]: [expectedKnowledgeElement],
+          });
+        });
+
+        it('should save a snasphot', async () => {
+          // given
+          // Learning content
+          const competence = domainBuilder.buildCompetence({ skillIds: ['skill1'] });
+          const skill = domainBuilder.buildSkill({ id: 'skill1', competenceId: competence.id });
+          const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence });
+          const airtableSkill1 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill });
+          airtableBuilder.mockLists({ skills: [airtableSkill1], competence: [airtableCompetence1] });
+          // Other data
+          const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
+          const userId = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2018-01-01'), competenceId: competence.id, skillId: skill.id });
+          await databaseBuilder.commit();
+
+          // when
+          await knowledgeElementRepository.findValidatedTargetedGroupedByCompetencesForUsers({ [userId]: new Date('2018-02-01') }, targetProfile);
+
+          // then
+          const actualUserSnapshots = await knex.select('*').from('knowledge-element-snapshots').where({ userId });
+          expect(actualUserSnapshots.length).to.equal(1);
+        });
+      });
+    });
+
+    it('should avoid returning non targeted knowledge elements when there are knowledge elements that are not in the target profile', async () => {
+      // given
+      // Learning content
+      const competence = domainBuilder.buildCompetence({ skillIds: ['skill1'] });
+      const skill1 = domainBuilder.buildSkill({ id: 'skill1', competenceId: competence.id });
+      const skill2 = domainBuilder.buildSkill({ id: 'skill2', competenceId: competence.id });
+      const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence });
+      const airtableSkill1 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill1 });
+      const airtableSkill2 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill2 });
+      airtableBuilder.mockLists({ skills: [airtableSkill1, airtableSkill2], competence: [airtableCompetence1] });
+      // Other data
+      const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1] });
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2018-01-01'), competenceId: competence.id, skillId: skill2.id });
+      await databaseBuilder.commit();
+
+      // when
+      const knowledgeElementsByUserIdAndCompetenceId =
+          await knowledgeElementRepository.findValidatedTargetedGroupedByCompetencesForUsers({ [userId]: null }, targetProfile);
+
+      // then
+      expect(knowledgeElementsByUserIdAndCompetenceId[userId]).to.deep.equal({
+        [competence.id]: [],
+      });
+    });
+
+    it('should avoid returning non validated knowledge elements when there are knowledge elements that are not validated', async () => {
+      // given
+      // Learning content
+      const competence = domainBuilder.buildCompetence({ skillIds: ['skill1'] });
+      const skill1 = domainBuilder.buildSkill({ id: 'skill1', competenceId: competence.id });
+      const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence });
+      const airtableSkill1 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill1 });
+      airtableBuilder.mockLists({ skills: [airtableSkill1], competence: [airtableCompetence1] });
+      // Other data
+      const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1] });
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2018-01-01'), competenceId: competence.id, skillId: skill1.id, status: 'BLABLA' });
+      await databaseBuilder.commit();
+
+      // when
+      const knowledgeElementsByUserIdAndCompetenceId =
+        await knowledgeElementRepository.findValidatedTargetedGroupedByCompetencesForUsers({ [userId]: null }, targetProfile);
+
+      // then
+      expect(knowledgeElementsByUserIdAndCompetenceId[userId]).to.deep.equal({
+        [competence.id]: [],
+      });
+    });
+
+    it('should return an empty array on competence that does not have any validated targeted knowledge elements', async () => {
+      // given
+      // Learning content
+      const competence1 = domainBuilder.buildCompetence({ skillIds: ['skill1'] });
+      const skill1 = domainBuilder.buildSkill({ id: 'skill1', competenceId: competence1.id });
+      const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence1 });
+      const airtableSkill1 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill1 });
+      airtableBuilder.mockLists({ skills: [airtableSkill1], competence: [airtableCompetence1] });
+      // Other data
+      const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1] });
+      const userId = databaseBuilder.factory.buildUser().id;
+      await databaseBuilder.commit();
+
+      // when
+      const knowledgeElementsByUserIdAndCompetenceId =
+        await knowledgeElementRepository.findValidatedTargetedGroupedByCompetencesForUsers({ [userId]: null }, targetProfile);
+
+      // then
+      expect(knowledgeElementsByUserIdAndCompetenceId[userId]).to.deep.equal({
+        [competence1.id]: [],
       });
     });
   });
