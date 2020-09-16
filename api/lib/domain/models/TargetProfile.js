@@ -34,6 +34,10 @@ class TargetProfile {
     const uniqCompetenceIds = new Set(competenceIdsOfSkills);
     return Array.from(uniqCompetenceIds);
   }
+
+  getSkillNames() {
+    return this.skills.map((skill) => skill.name);
+  }
 }
 
 module.exports = TargetProfile;
