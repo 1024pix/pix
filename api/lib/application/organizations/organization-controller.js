@@ -45,9 +45,10 @@ module.exports = {
       'external-id': externalId,
       'province-code': provinceCode,
       'is-managing-students': isManagingStudents,
+      'can-collect-profiles': canCollectProfiles,
     } = request.payload.data.attributes;
 
-    return usecases.updateOrganizationInformation({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, email })
+    return usecases.updateOrganizationInformation({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, canCollectProfiles, email })
       .then(organizationSerializer.serialize);
   },
 

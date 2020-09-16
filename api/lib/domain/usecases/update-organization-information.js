@@ -6,6 +6,7 @@ module.exports = async function updateOrganizationInformation({
   externalId,
   provinceCode,
   isManagingStudents,
+  canCollectProfiles,
   email,
   organizationRepository,
 }) {
@@ -18,6 +19,7 @@ module.exports = async function updateOrganizationInformation({
   organization.externalId = externalId;
   organization.provinceCode = provinceCode;
   if (isManagingStudents) organization.isManagingStudents = isManagingStudents;
+  organization.canCollectProfiles = canCollectProfiles;
 
   await organizationRepository.update(organization);
 

@@ -89,6 +89,7 @@ describe('Integration | Repository | Organization', function() {
       organization.externalId = '999Z527F';
       organization.provinceCode = '999';
       organization.isManagingStudents = true;
+      organization.canCollectProfiles = true;
 
       // when
       const organizationSaved = await organizationRepository.update(organization);
@@ -101,6 +102,7 @@ describe('Integration | Repository | Organization', function() {
       expect(organizationSaved.externalId).to.equal(organization.externalId);
       expect(organizationSaved.provinceCode).to.equal(organization.provinceCode);
       expect(organizationSaved.isManagingStudents).to.equal(organization.isManagingStudents);
+      expect(organizationSaved.canCollectProfiles).to.equal(organization.canCollectProfiles);
     });
   });
 
