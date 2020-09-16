@@ -46,6 +46,26 @@ describe('Unit | Domain | Models | TargetProfile', () => {
     });
   });
 
+  describe('getTargetedCompetences', () => {
+
+    it('should filter the targeted competences from competences passed as argument', () => {
+      // given
+      const competence1 = domainBuilder.buildCompetence();
+      const competence2 = domainBuilder.buildCompetence();
+      const nonTargetedCompetence = domainBuilder.buildCompetence();
+      const skill1 = domainBuilder.buildSkill({ competenceId: competence1.id });
+      const skill2 = domainBuilder.buildSkill({ competenceId: competence1.id });
+      const skill3 = domainBuilder.buildSkill({ competenceId: competence2.id });
+      const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1, skill2, skill3] });
+
+      // when
+      const targetedCompetences = targetProfile.getTargetedCompetences([competence1, competence2, nonTargetedCompetence]);
+
+      // then
+      expect(targetedCompetences).to.exactlyContain([competence1, competence2]);
+    });
+  });
+
   describe('getSkillNames', () => {
 
     it('should return an array with targeted skill names', () => {
