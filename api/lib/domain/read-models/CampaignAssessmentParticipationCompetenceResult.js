@@ -1,20 +1,15 @@
-const _ = require('lodash');
-
 class CampaignAssessmentParticipationCompetenceResult {
   constructor({
-    competence,
-    targetedSkillIds = [],
-    targetedKnowledgeElements = [],
+    targetedCompetence,
+    targetedSkillsCount,
+    validatedTargetedKnowledgeElementsCount,
   } = {}) {
-    this.id = competence.id;
-    this.name = competence.name;
-    this.index = competence.index;
-    this.areaColor = competence.area && competence.area.color;
-    this.targetedSkillsCount = _.intersection(competence.skillIds, targetedSkillIds).length;
-    this.validatedSkillsCount = targetedKnowledgeElements
-      .filter(({ isValidated }) => isValidated)
-      .map(({ skillId }) => skillId)
-      .length;
+    this.id = targetedCompetence.id;
+    this.name = targetedCompetence.name;
+    this.index = targetedCompetence.index;
+    this.areaColor = targetedCompetence.area && targetedCompetence.area.color;
+    this.targetedSkillsCount = targetedSkillsCount;
+    this.validatedSkillsCount = validatedTargetedKnowledgeElementsCount;
   }
 }
 

@@ -8,11 +8,10 @@ const targetProfileRepository = require('./target-profile-repository');
 module.exports = {
   async getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId }) {
     const targetProfile = await targetProfileRepository.getByCampaignId(campaignId);
-    const targetedSkillIds = targetProfile.skills.map(({ id }) => id);
 
     const result = await _fetchCampaignAssessmentParticipationResultAttributesFromCampaignParticipation(campaignId, campaignParticipationId);
 
-    return _buildCampaignAssessmentParticipationResults(result, targetedSkillIds);
+    return _buildCampaignAssessmentParticipationResults(result, targetProfile);
   },
 };
 
@@ -45,17 +44,18 @@ async function _fetchCampaignAssessmentParticipationResultAttributesFromCampaign
   return campaignAssessmentParticipationResult;
 }
 
-async function _buildCampaignAssessmentParticipationResults(result, targetedSkillIds) {
-  const competences = await competenceRepository.list();
+async function _buildCampaignAssessmentParticipationResults(result, targetProfile) {
+  const validatedTargetedKnowledgeElementsByUserIdAndCompetenceId = await knowledgeElementRepository
+    .findValidatedTargetedGroupedByCompetencesForUsers({ [result.userId]: result.sharedAt }, targetProfile);
+  const validatedTargetedKnowledgeElementsByCompetenceId = validatedTargetedKnowledgeElementsByUserIdAndCompetenceId[result.userId];
 
-  const knowledgeElementsByUserIdAndCompetenceId = await knowledgeElementRepository
-    .findSnapshotGroupedByCompetencesForUsers({ [result.userId]: result.sharedAt });
-  const knowledgeElementsForUserByCompetenceId = knowledgeElementsByUserIdAndCompetenceId[result.userId];
+  const competences = await competenceRepository.list();
+  const targetedCompetences = targetProfile.getTargetedCompetences(competences);
 
   return new CampaignAssessmentParticipationResult({
     ...result,
-    competences,
-    knowledgeElementsByCompetenceId: knowledgeElementsForUserByCompetenceId,
-    targetedSkillIds,
+    targetedCompetences,
+    targetProfile,
+    validatedTargetedKnowledgeElementsByCompetenceId,
   });
 }
