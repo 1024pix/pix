@@ -86,9 +86,9 @@ describe('Acceptance | Controller | users-controller-update-user-samlid', () => 
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should respond with a 400 if externalUserToken is invalid', async () => {
+    it('should respond with a 401 if externalUserToken is invalid', async () => {
       // given
-      const expectedErrorMessage = 'L’idToken de l’utilisateur externe est invalide.';
+      const expectedErrorMessage = 'Une erreur est survenue. Veuillez réessayer de vous connecter depuis le médiacentre.';
       options.payload.data.attributes = {
         'external-user-token': 'ABCD',
       };
@@ -97,7 +97,7 @@ describe('Acceptance | Controller | users-controller-update-user-samlid', () => 
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(400);
+      expect(response.statusCode).to.equal(401);
       expect(response.result.errors[0].detail).to.equal(expectedErrorMessage);
     });
 
