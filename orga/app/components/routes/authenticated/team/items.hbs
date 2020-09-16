@@ -2,7 +2,7 @@
   <td>{{@membership.user.lastName}}</td>
   <td>{{@membership.user.firstName}}</td>
 
-  {{#if (not this.isEditionMode) }}
+  {{#unless this.isEditionMode }}
     <td>{{@membership.displayRole}}</td>
     {{#if (not-eq @membership.user.id this.currentUser.prescriber.id) }}
       <td>
@@ -16,7 +16,7 @@
     {{else}}
       <td></td>
     {{/if}}
-  {{/if}}
+  {{/unless}}
 
   {{#if this.isEditionMode}}
     <td>
