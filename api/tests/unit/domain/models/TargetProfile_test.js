@@ -50,8 +50,8 @@ describe('Unit | Domain | Models | TargetProfile', () => {
 
     it('should filter the targeted competences from competences passed as argument', () => {
       // given
-      const competence1 = domainBuilder.buildCompetence();
-      const competence2 = domainBuilder.buildCompetence();
+      const competence1 = domainBuilder.buildCompetence({ id: 'competence1' });
+      const competence2 = domainBuilder.buildCompetence({ id: 'competence2' });
       const nonTargetedCompetence = domainBuilder.buildCompetence();
       const skill1 = domainBuilder.buildSkill({ competenceId: competence1.id });
       const skill2 = domainBuilder.buildSkill({ competenceId: competence1.id });
@@ -95,6 +95,25 @@ describe('Unit | Domain | Models | TargetProfile', () => {
 
       // then
       expect(targetedSkillIds).to.exactlyContain(['acquis1', 'acquis2']);
+    });
+  });
+
+  describe('getSkillCountForCompetence', () => {
+
+    it('should return count of skills within competence in target profile', () => {
+      // given
+      const competence1 = domainBuilder.buildCompetence({ id: 'competence1' });
+      const competence2 = domainBuilder.buildCompetence({ id: 'competence2' });
+      const skill1 = domainBuilder.buildSkill({ competenceId: competence1.id });
+      const skill2 = domainBuilder.buildSkill({ competenceId: competence1.id });
+      const skill3 = domainBuilder.buildSkill({ competenceId: competence2.id });
+      const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1, skill2, skill3] });
+
+      // when
+      const skillCountForCompetence = targetProfile.getSkillCountForCompetence(competence1.id);
+
+      // then
+      expect(skillCountForCompetence).to.equal(2);
     });
   });
 
