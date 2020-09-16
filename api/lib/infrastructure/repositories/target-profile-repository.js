@@ -1,4 +1,3 @@
-
 const bluebird = require('bluebird');
 const BookshelfTargetProfile = require('../../infrastructure/data/target-profile');
 const skillDatasource = require('../../infrastructure/datasources/airtable/skill-datasource');
