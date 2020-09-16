@@ -29,4 +29,21 @@ describe('Unit | Domain | Models | TargetProfile', () => {
     });
   });
 
+  describe('getCompetenceIds', () => {
+
+    it('should return an array with unique competence ids of skills in target profile', () => {
+      // given
+      const skill1 = domainBuilder.buildSkill({ competenceId: 'competence1' });
+      const skill2 = domainBuilder.buildSkill({ competenceId: 'competence2' });
+      const skill3 = domainBuilder.buildSkill({ competenceId: 'competence1' });
+      const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1, skill2, skill3] });
+
+      // when
+      const competenceIds = targetProfile.getCompetenceIds();
+
+      // then
+      expect(competenceIds).to.exactlyContain(['competence1', 'competence2']);
+    });
+  });
+
 });
