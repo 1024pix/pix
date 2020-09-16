@@ -28,6 +28,12 @@ class TargetProfile {
   findSkillById(skillId) {
     return this.skills.find((skill) => skill.id === skillId);
   }
+
+  getCompetenceIds() {
+    const competenceIdsOfSkills = this.skills.map((skill) => skill.competenceId);
+    const uniqCompetenceIds = new Set(competenceIdsOfSkills);
+    return Array.from(uniqCompetenceIds);
+  }
 }
 
 module.exports = TargetProfile;

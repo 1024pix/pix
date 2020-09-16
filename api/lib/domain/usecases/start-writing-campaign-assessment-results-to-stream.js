@@ -32,7 +32,7 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
     campaignParticipationInfoRepository.findByCampaignId(campaign.id),
   ]);
 
-  const competences = _extractCompetences(allCompetences, targetProfile.skills);
+  const competences = _extractTargetedCompetences(allCompetences, targetProfile.getCompetenceIds());
 
   //Create HEADER of CSV
   const headers = _createHeaderOfCSV(targetProfile.skills, competences, campaign.idPixLabel, organization.type, organization.isManagingStudents);
@@ -125,18 +125,14 @@ function _createHeaderOfCSV(skills, competences, idPixLabel, organizationType, o
   ];
 }
 
-function _extractCompetences(allCompetences, skills) {
-  return _(skills)
-    .map('competenceId')
-    .uniq()
-    .map((competenceId) => {
-      const competence = _.find(allCompetences, { id: competenceId });
-      if (!competence) {
-        throw new Error(`Unknown competence ${competenceId}`);
-      }
-      return competence;
-    })
-    .value();
+function _extractTargetedCompetences(allCompetences, targetedCompetenceIds) {
+  return targetedCompetenceIds.map((competenceId) => {
+    const competence = _.find(allCompetences, { id: competenceId });
+    if (!competence) {
+      throw new Error(`Unknown competence ${competenceId}`);
+    }
+    return competence;
+  });
 }
 
 function _extractAreas(competences) {
