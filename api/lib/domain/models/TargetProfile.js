@@ -25,8 +25,8 @@ class TargetProfile {
     this.organizationId = organizationId;
   }
 
-  findSkillById(skillId) {
-    return this.skills.find((skill) => skill.id === skillId);
+  hasSkill(skillId) {
+    return this.skills.some((skill) => skill.id === skillId);
   }
 
   getCompetenceIds() {
