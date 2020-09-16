@@ -24,7 +24,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
     notificationsStub = this.owner.lookup('service:notifications');
 
     closeStub = sinon.stub();
-    
+
     sinon.stub(notificationsStub, 'sendSuccess');
 
     this.set('display', true);
@@ -36,8 +36,19 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
 
   module('when the edit student number modal is open', function() {
 
-    test('should render component with student number text', async function(assert) {
-      assert.contains(`Numéro étudiant actuel de ${this.student.firstName} ${this.student.lastName} est : ${this.student.studentNumber}`);
+    module('when there is student number', function() {
+      test('should render component with student number text', async function(assert) {
+        assert.contains(`Numéro étudiant actuel de ${this.student.firstName} ${this.student.lastName} est : ${this.student.studentNumber}`);
+      });
+    });
+
+    module('when there is no student number yet', function() {
+      test('should not render component with student number text', async function(assert) {
+        this.student.set('studentNumber', null);
+        render(hbs`<EditStudentNumberModal @display={{display}} @closeModal={{close}} @student={{this.student}} @onSaveStudentNumber={{onSaveStudentNumber}}/>`);
+
+        assert.notContains(`Numéro étudiant actuel de ${this.student.firstName} ${this.student.lastName} est : ${this.student.studentNumber}`);
+      });
     });
 
     test('should render component with student number input', async function(assert) {
@@ -53,7 +64,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
       test('should have the update button enable', async function(assert) {
         // when
         await fillIn('#studentNumber', this.student.studentNumber);
-  
+
         // then
         assert.dom('button[type=submit]').doesNotHaveAttribute('disabled');
 

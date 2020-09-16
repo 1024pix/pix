@@ -1,7 +1,9 @@
 <Modal::Dialog class="edit-student-number-modal" @title="Édition du numéro étudiant" @display={{@display}} @close={{this.close}}>
   <form {{on 'submit' (fn this.updateStudentNumber)}}>
     <Modal::Body class="edit-student-number-modal__content">
-      <p class="content-text">Numéro étudiant actuel de {{@student.firstName}} {{@student.lastName}} est : <span class=" content-text--info">{{@student.studentNumber}}</span></p>
+      {{#if @student.studentNumber}}
+        <p class="content-text">Numéro étudiant actuel de {{@student.firstName}} {{@student.lastName}} est : <span class=" content-text--info">{{@student.studentNumber}}</span></p>
+      {{/if}}
       <label for="studentNumber" class="content-text">Nouveau numéro étudiant</label>
       <div class="input-container">
         <Input
@@ -18,7 +20,7 @@
     </Modal::Body>
     <Modal::Footer class="edit-student-number-modal__actions">
       <button type="button" class="button button--light-grey" {{on 'click' this.close}}>Annuler</button>
-      <button type="submit" disabled={{this.isDisabled}} class="button">Mettre à jour</button>    
+      <button type="submit" disabled={{this.isDisabled}} class="button">Mettre à jour</button>
     </Modal::Footer>
   </form>
 </Modal::Dialog>
