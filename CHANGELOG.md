@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## v2.197.0 (16/09/2020)
+
+- [#1881](https://github.com/1024pix/pix/pull/1881) [FEATURE] Changement d'une phrase lors de l'envoi des résultats (PIX-1279)
+- [#1882](https://github.com/1024pix/pix/pull/1882) [BUGFIX] Décoder correctement un jeton d'identification contenant des caractères accentués pour un élève provenant du GAR (PIX-1269).
+
 ## v2.196.0 (15/09/2020)
 
 - [#1871](https://github.com/1024pix/pix/pull/1871) [FEATURE] Redisposer les boutons "c'est parti" et "modifier numéro étudiant"
