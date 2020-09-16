@@ -2,30 +2,30 @@ const { expect, domainBuilder } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | TargetProfile', () => {
 
-  describe('findSkillById', () => {
+  describe('hasSkill', () => {
 
-    it('should return the corresponding skill when target profile has the skill by id', () => {
+    it('should return true when the skill is in target profile', () => {
       // given
       const skill = domainBuilder.buildSkill();
       const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
 
       // when
-      const actualSkill = targetProfile.findSkillById(skill.id);
+      const isIncluded = targetProfile.hasSkill(skill.id);
 
       // then
-      expect(actualSkill).to.deep.equal(skill);
+      expect(isIncluded).to.be.true;
     });
 
-    it('should return undefined when no skills found in target profile by given id', () => {
+    it('should return false when the skill is not in target profile', () => {
       // given
       const skill = domainBuilder.buildSkill({ id: 'someId' });
       const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
 
       // when
-      const actualSkill = targetProfile.findSkillById('someOtherId');
+      const isIncluded = targetProfile.hasSkill('someOtherId');
 
       // then
-      expect(actualSkill).to.be.undefined;
+      expect(isIncluded).to.be.false;
     });
   });
 
