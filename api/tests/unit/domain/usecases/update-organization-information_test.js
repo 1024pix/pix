@@ -15,6 +15,7 @@ describe('Unit | UseCase | update-organization-information', () => {
       externalId: 'extId',
       provinceCode: '666',
       isManagingStudents: false,
+      canCollectProfiles: true,
       email: null,
     });
     organizationRepository = {
@@ -175,6 +176,18 @@ describe('Unit | UseCase | update-organization-information', () => {
       expect(resultOrganization.logoUrl).to.equal(originalOrganization.logoUrl);
       expect(resultOrganization.externalId).to.equal(originalOrganization.externalId);
       expect(resultOrganization.isManagingStudents).to.equal(isManagingStudents);
+    });
+
+    it('should allow to update the organization canCollectProfiles (only) if modified', async () => {
+      // when
+      await updateOrganizationInformation({
+        id: originalOrganization.id,
+        canCollectProfiles: false,
+        organizationRepository,
+      });
+
+      // then
+      expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, canCollectProfiles: false });
     });
 
     it('should allow to update the organization email', async () => {
