@@ -1,5 +1,5 @@
 const jsonwebtoken = require('jsonwebtoken');
-const { InvalidTemporaryKeyError } = require('../../domain/errors');
+const { InvalidTemporaryKeyError, InvalidExternalUserTokenError } = require('../../domain/errors');
 const settings = require('../../config');
 
 function createAccessTokenFromUser(user, source) {
@@ -66,7 +66,12 @@ function extractUserIdForCampaignResults(token) {
 }
 
 async function extractExternalUserFromIdToken(token) {
-  const externalUser = await decodeIfValid(token);
+  const externalUser = await getDecodedToken(token);
+
+  if (!externalUser) {
+    throw new InvalidExternalUserTokenError('Une erreur est survenue. Veuillez réessayer de vous connecter depuis le médiacentre.');
+  }
+
   return {
     firstName: externalUser['first_name'],
     lastName: externalUser['last_name'],
