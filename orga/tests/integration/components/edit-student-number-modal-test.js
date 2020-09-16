@@ -70,33 +70,44 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
 
       });
     });
-  
+
     module('when a student number is not entered yet', function() {
-  
+
       test('should have the update button disable', async function(assert) {
         // when
         await fillIn('#studentNumber', '');
         await click('button[type=submit]');
-  
+
         // then
         assert.dom('button[type=submit]').exists();
         assert.dom('button[type=submit]').hasAttribute('disabled');
       });
     });
 
-    module('when the update button is clicked and the student number is entered', function() {
+    module('when the update button is clicked and a good student number is entered', function() {
       test('it display success notification', async function(assert) {
         // given
-        onSaveStudentNumberStub.withArgs(123456).resolves(); 
-       
+        onSaveStudentNumberStub.withArgs(123456).resolves();
+
         // when
         await fillIn('#studentNumber', 123456);
         await click('button[type=submit]');
-  
+
         // then
         assert.dom('.error-message').hasText('');
         sinon.assert.calledOnce(closeStub);
         assert.ok(notificationsStub.sendSuccess.calledWith(`La modification du numéro étudiant ${this.student.firstName} ${this.student.lastName} a bien été effectué.`));
+      });
+    });
+
+    module('when the update button is clicked and a wrong student number is entered', function() {
+      test('it display error message', async function(assert) {
+        // when
+        await fillIn('#studentNumber', ' ');
+        await click('button[type=submit]');
+
+        // then
+        assert.dom('.error-message').hasText('Le numéro étudiant ne doit pas être vide.');
       });
     });
 
