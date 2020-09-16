@@ -66,6 +66,23 @@ async function _findByUserIdAndLimitDateThenSaveSnapshot({ userId, limitDate }) 
   return knowledgeElements;
 }
 
+async function _findSnapshotsForUsers(userIdsAndDates) {
+  const knowledgeElementsGroupedByUser = await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(userIdsAndDates);
+
+  for (const [userIdStr, knowledgeElementsFromSnapshot] of Object.entries(knowledgeElementsGroupedByUser)) {
+    const userId = parseInt(userIdStr);
+    let knowledgeElements = knowledgeElementsFromSnapshot;
+    if (!knowledgeElements) {
+      knowledgeElements = await _findByUserIdAndLimitDateThenSaveSnapshot({
+        userId,
+        limitDate: userIdsAndDates[userId],
+      });
+    }
+    knowledgeElementsGroupedByUser[userId] = knowledgeElements;
+  }
+  return knowledgeElementsGroupedByUser;
+}
+
 module.exports = {
 
   async save(knowledgeElement) {
@@ -132,7 +149,7 @@ module.exports = {
   },
 
   async findSnapshotGroupedByCompetencesForUsers(userIdsAndDates) {
-    const knowledgeElementsGroupedByUser = await this.findSnapshotForUsers(userIdsAndDates);
+    const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
 
     for (const [userId, knowledgeElements] of Object.entries(knowledgeElementsGroupedByUser)) {
       knowledgeElementsGroupedByUser[userId] = _.groupBy(knowledgeElements, 'competenceId');
@@ -140,21 +157,8 @@ module.exports = {
     return knowledgeElementsGroupedByUser;
   },
 
-  async findSnapshotForUsers(sharedAtDatesByUsers) {
-    const knowledgeElementsGroupedByUser = await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(sharedAtDatesByUsers);
-
-    for (const [userIdStr, knowledgeElementsFromSnapshot] of Object.entries(knowledgeElementsGroupedByUser)) {
-      const userId = parseInt(userIdStr);
-      let knowledgeElements = knowledgeElementsFromSnapshot;
-      if (!knowledgeElements) {
-        knowledgeElements = await _findByUserIdAndLimitDateThenSaveSnapshot({
-          userId,
-          limitDate: sharedAtDatesByUsers[userId],
-        });
-      }
-      knowledgeElementsGroupedByUser[userId] = knowledgeElements;
-    }
-    return knowledgeElementsGroupedByUser;
+  async findSnapshotForUsers(userIdsAndDates) {
+    return _findSnapshotsForUsers(userIdsAndDates);
   },
 
 };
