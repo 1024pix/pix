@@ -34,7 +34,7 @@ class CampaignParticipationResult {
   }
 
   static buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements, campaignBadges = [], acquiredBadgeIds = [] }) {
-    const targetProfileSkillsIds = _.map(targetProfile.skills, 'id');
+    const targetProfileSkillsIds = targetProfile.getSkillIds();
     const targetedKnowledgeElements = _removeUntargetedKnowledgeElements(knowledgeElements, targetProfileSkillsIds);
 
     const targetedCompetenceResults = _computeCompetenceResults(competences, targetProfileSkillsIds, targetedKnowledgeElements);
