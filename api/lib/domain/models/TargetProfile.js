@@ -24,6 +24,10 @@ class TargetProfile {
     // references
     this.organizationId = organizationId;
   }
+
+  findSkillById(skillId) {
+    return this.skills.find((skill) => skill.id === skillId);
+  }
 }
 
 module.exports = TargetProfile;
