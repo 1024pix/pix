@@ -1,6 +1,6 @@
 const moment = require('moment');
 
-const { getCertificate } = require('./get-certificate');
+const { getCompleteCertificate } = require('./get-certificate');
 const { NotFoundError } = require('../../errors');
 
 module.exports = async function getCertificationAttestation({
@@ -17,11 +17,11 @@ module.exports = async function getCertificationAttestation({
     throw new NotFoundError();
   }
 
-  const completeCertificate = await getCertificate({
+  const completeCertificate = await getCompleteCertificate({
     certificate: certificationAttestation,
-    cleaCertificationStatusRepository,
     assessmentResultRepository,
     competenceTreeRepository,
+    cleaCertificationStatusRepository,
   });
 
   const formatedDeliveryDate = moment(certificationAttestation.deliveredAt).format('YYYYMMDD');
