@@ -1,7 +1,7 @@
 import Application from '@ember/application';
 import Resolver from './resolver';
 import loadInitializers from 'ember-load-initializers';
-import config from './config/environment';
+import config from 'pix-admin/config/environment';
 
 class App extends Application {
   modulePrefix = config.modulePrefix;
