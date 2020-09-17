@@ -3,12 +3,12 @@
   grid-template-columns: 1fr;
   grid-column-gap: 32px;
   grid-row-gap: 24px;
-  padding: 48px 14px;
+  padding: 0 14px 48px;
 
   @include device-is('tablet') {
     grid-template-columns: 1fr 1fr;
     grid-gap: 32px;
-    padding: 48px 0;
+    padding: 0 0 48px;
   }
 }
 

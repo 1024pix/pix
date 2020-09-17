@@ -58,6 +58,10 @@ when(`je vois {int} résultats par compétence`, (numberOfResultsByCompetence) =
   }
 });
 
+when(`je vois {int} résultats pour la compétence`, (numberOfResultsByCompetence) => {
+  cy.get('[aria-label="Votre résultat pour la compétence"]').should('have.lengthOf', numberOfResultsByCompetence);
+});
+
 then(`je vois la moyenne des résultats à {int}%`, (averageResult) => {
   cy.get('[aria-label="Moyenne des résultats"]').contains(`${averageResult}%`);
 });

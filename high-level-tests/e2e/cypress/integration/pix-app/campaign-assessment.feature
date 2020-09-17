@@ -22,7 +22,7 @@ Fonctionnalité: Campagne d'évaluation
     Lorsque je clique sur "Je passe"
     Et je clique sur "Voir mes résultats"
     Alors je vois un résultat global à 50%
-    Alors je vois 2 résultats par compétence
+    Alors je vois 2 résultats pour la compétence
     Lorsque je clique sur "J'envoie mes résultats"
     Alors je vois que j'ai envoyé les résultats
 
