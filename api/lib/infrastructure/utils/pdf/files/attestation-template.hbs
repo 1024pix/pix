@@ -1,20 +1,302 @@
 <html>
 <head>
   <style>
-    h1 {
-      color: blue;
+    /*------------------------------*/
+    /*------- GENERAL LAYOUT -------*/
+    h1, h2, h3, h4, h5, h6, p {
+      margin: 0;
+      padding: 0;
     }
 
-    p {
-      color: purple;
+    .attestation {
+      display: flex;
+      flex-direction: column;
+      margin: 8px auto;
+      padding-top: 20px;
+      max-width: 500px;
+      font-family: 'Open Sans', Arial, sans-serif;
+      font-size: 8px;
+    }
+
+    .attestation-bloc {
+      background-color: #ffffff;
+      border: 0.5px solid #c1c7d0;
+      border-radius: 6px;
+      box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.05);
+    }
+    .attestation-bloc-title {
+      color: #65758f;
+      font-size: 9px;
+      height: 13px;
+      margin: 4px 0;
+    }
+    .attestation-bloc-title span {
+      font-weight: lighter;
+      font-size: 7px;
+    }
+
+    /*------------------------------*/
+    /*------- TITLE SECTION --------*/
+    .attestation__title {
+      text-align: center;
+      color: #112B50;
+    }
+    .attestation__title h1 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-family: 'Ample', 'Open Sans', Arial, sans-serif;;
+      font-size: 35px;
+      height: 42px;
+    }
+    .attestation__title h1 img {
+      width: 55px;
+    }
+    .attestation__title .separator {
+      border: 0.6px solid #c1c7d0;
+      height: 32px;
+      margin: 0 16px;
+    }
+    .attestation__title p {
+      margin-top: 12px;
+      font-size: 11px;
+    }
+
+    /*------------------------------*/
+    /*------- HEADER SECTION -------*/
+    .attestation__header {
+      padding: 14px;
+      margin: 12px 0;
+      display: flex;
+    }
+    .attestation__header .hexagon {
+      height: 78px;
+      width: 71px;
+      margin-right: 16px;
+      background: url('hexagon-score.svg') no-repeat center center;
+      background-size: cover;
+      color: #172b4d;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .attestation__header .hexagon hr {
+      width: 36px;
+      border: 0.6px solid #c1c7d0;
+      margin: 0 auto 4px;
+    }
+    .attestation__header .hexagon p:nth-of-type(1) {
+      font-family: 'Roboto', Arial, sans-serif;
+      letter-spacing: 2px;
+      text-align: center;
+    }
+    .attestation__header .hexagon p:nth-of-type(2) {
+      font-size: 24px;
+      text-align: center;
+    }
+    .attestation__header .hexagon p:nth-of-type(3) {
+      color: #002d50;
+      font-size: 9px;
+      text-align: center;
+    }
+    .attestation__header .user-informations {
+      color: #112B50;
+      font-size: 9px;
+      line-height: 16px;
+    }
+    .attestation__header .user-informations span {
+      font-weight: bold;
+    }
+    .attestation__header .user-informations p:last-of-type {
+      font-size: 8px;
+      color: #65758f;
+    }
+
+    /*-----------------------------*/
+    /*------ DETAILS SECTION ------*/
+    .attestation__competences-details-and-others-informations {
+      display: flex;
+    }
+
+    /*-----------------------------*/
+    /*----- COMPETENCE SECTION ----*/
+    .competences-details {
+      flex-grow: 1;
+    }
+    .competences-details .attestation-bloc {
+      margin-bottom: 8px;
+    }
+    .competences-details .attestation-bloc > * {
+      height: 24px;
+      border-bottom: 0.5px solid #eaecf0;
+      padding: 0 8px 0 16px;
+      margin: 0;
+      justify-content: space-between;
+      display: flex;
+      align-items: center;
+    }
+    .competences-details span {
+      width: 30px;
+      text-align: center;
+    }
+    .area__title, .area__title span {
+      background: #f4f5f7;
+      border-top-right-radius: 6px;
+      border-top-left-radius: 6px;
+      color: #172b4d;
+      font-size: 7px;
+      font-weight: normal;
+      letter-spacing: 0.23px;
+      text-transform: uppercase;
+    }
+    .area__competence-title {
+      color: #253858;
+      font-weight: 600;
+    }
+    .area__competence-title span {
+      color: #253858;
+      font-family: 'Roboto', Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /*-----------------------------*/
+    /*------- INFOS SECTION -------*/
+    .other-informations {
+      margin-left: 20px;
+      width: 200px;
+    }
+    .other-informations > div {
+      margin-bottom: 18px;
+    }
+    .other-informations .attestation-bloc {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 12px 14px;
+    }
+    .other-informations .other-informations__clea-numerique img {
+      width: 70px;
+    }
+    .other-informations .other-informations__verification-code h3 {
+      color: rgb(37, 56, 88);
+      height: 15px;
+      line-height: 14.5px;
+      font-size: 8px;
+    }
+    .other-informations .other-informations__verification-code button {
+      background: rgb(37, 56, 88);
+      border: none;
+      border-radius: 3.2px;
+      height: 24px;
+      padding: 0 8px;
+      color: white;
+      font-family: 'Roboto';
+      font-size: 12px;
+      letter-spacing: 0.18px;
+      margin: 2px 0 9px 0;
+    }
+    .other-informations .other-informations__verification-code p {
+      color: #172b4d;
+      letter-spacing: 0px;
+      text-align: center;
+    }
+    .other-informations .other-informations__verification-code p a {
+      color: #2568db;
+      cursor: pointer;
+    }
+
+    /*-----------------------------*/
+    /*------- FOOTER SECTION ------*/
+    footer p {
+      font-size: 7px;
+    }
+    footer :nth-child(1) {
+      color: #5E6C84;
+      height: 22px;
+      line-height: 11px;
+      margin-bottom: 15px;
+    }
+    footer :nth-child(2) {
+      color: rgb(37, 56, 88);
+      font-weight: 600;
+      text-align: center;
     }
   </style>
 </head>
 
 <body>
-  <div>
-    <h1>Attestation certificat pix !!</h1>
-    <p>Nom: {{certificate.firstName}}</p>
+  <div class="attestation">
+
+    <div class="attestation__title">
+      <h1>
+        <img src="pix-logo.svg" alt="Pix">
+        <div class="separator"></div>
+        Attestation
+      </h1>
+      <p>Ce document atteste l'obtention d'une certification Pix</p>
+    </div>
+
+    <div class="attestation__header attestation-bloc">
+      <div class="hexagon">
+        <p>PIX</p>
+        <p>500</p>
+        <hr>
+        <p>640*</p>
+      </div>
+      <div class="user-informations">
+        <p>Prénom et nom: <span>{{certificate.firstName}} {{certificate.lastName}}</span></p>
+        <p>Date et lieu de naissance: <span>{{certificate.birthdate}} à {{certificate.birthplace}}</span></p>
+        <p>Centre de certification: <span>{{certificate.certificationCenter}}</span></p>
+        <p>Délivrée le: <span>{{certificate.deliveredAt}}</span></p>
+        <p>La certification est valable trois ans à partir de la date de délivrance</p>
+      </div>
+    </div>
+
+    <div class="attestation__competences-details-and-others-informations">
+      <div class="competences-details">
+        <h2 class="attestation-bloc-title">Compétences certifiées <span>(niveaux sur 5)</span></h2>
+        <div class="attestation-bloc">
+          <h3 class="area__title">Information et données <span>NIVEAU</span></h3>
+          <p class="area__competence-title">Chanter en playback <span>4</span></p>
+          <p class="area__competence-title">Sauter à cloche pied <span>3</span></p>
+          <p class="area__competence-title">Manger des cacahuètes <span>3</span></p>
+        </div>
+
+        <div class="attestation-bloc">
+          <h3 class="area__title">Communication et collaboration <span>NIVEAU</span></h3>
+          <p class="area__competence-title">Fondre du chocolat <span>4</span></p>
+          <p class="area__competence-title">Faire des bulles <span>3</span></p>
+          <p class="area__competence-title">Monter dans un arbre <span>3</span></p>
+        </div>
+      </div>
+
+      <div class="other-informations">
+        <div class="other-informations__clea-numerique">
+          <h2 class="attestation-bloc-title">Autre certification obtenue</h2>
+          <div class="attestation-bloc">
+            <img src="https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges/CleA_Num_certif.svg" alt="Certification Cléa Numérique">
+          </div>
+        </div>
+
+        <div class="other-informations__verification-code">
+          <h2 class="attestation-bloc-title">Vérifier l’authenticité de la certification</h2>
+          <div class="attestation-bloc">
+            <h3>Code de vérification</h3>
+            <button>P-123456</button>
+            <p>Utilisez ce code sur le site: <a href="https://app.pix.fr/verification-certificat">app.pix.fr/verification-certificat</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>* À la date d’obtention de cette certification, le nombre maximum de pix atteignable était de 640, correspondant au niveau 5. Lorsque les 8 niveaux du référentiel Pix seront disponibles, ce nombre maximum sera de 1024 pix.</p>
+      <p>Ce document n’est pas un certificat</p>
+    </footer>
+
   </div>
 </body>
 </html>
