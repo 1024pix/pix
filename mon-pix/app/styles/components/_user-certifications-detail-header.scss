@@ -61,10 +61,26 @@
   border-radius: 8px;
   padding: 16px 20px;
 
+  .attestation {
+    font-size: 0.875rem;
+    margin: auto;
+    text-align: center;
+
+    button {
+      max-width: 250px;
+      padding: 14px 20px;
+    }
+  }
+
+  hr {
+    margin: 24px 0;
+    border: 1px solid $grey-15;
+  }
+
   .verification-code {
     font-family: $font-open-sans;
     color: $grey-90;
-    width: 230px;
+    max-width: 250px;
     margin: auto;
     letter-spacing: 0;
 
@@ -123,7 +139,8 @@
     margin-left: auto;
     flex-grow: 0;
 
-    .verification-code {
+    .verification-code,
+    .attestation {
       margin: 0;
     }
   }
