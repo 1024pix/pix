@@ -302,29 +302,23 @@
       </div>
 
       <div class="other-informations">
-        <div>
-          <% if (certificate.hasAcquiredCleaCertification) { %>
-          <div class="other-informations__clea-numerique">
-            <h2 class="attestation-bloc-title">Autre certification obtenue</h2>
-            <div class="attestation-bloc">
-              <img src="https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges/CleA_Num_certif.svg" alt="Certification Cléa Numérique">
-              <h4>Certifié Cléa Numérique</h4>
-            </div>
-          </div>
-          <% } %>
-
-          <div class="other-informations__verification-code">
-            <h2 class="attestation-bloc-title">Vérifier l’authenticité de la certification</h2>
-            <div class="attestation-bloc">
-              <h3>Code de vérification</h3>
-              <button>{{certificate.verificationCode}}</button>
-              <p>Utilisez ce code sur le site : <a href="https://app.pix.fr/verification-certificat">app.pix.fr/verification-certificat</a></p>
-            </div>
+        <% if (certificate.hasAcquiredCleaCertification) { %>
+        <div class="other-informations__clea-numerique">
+          <h2 class="attestation-bloc-title">Autre certification obtenue</h2>
+          <div class="attestation-bloc">
+            <img src="https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges/CleA_Num_certif.svg" alt="Certification Cléa Numérique">
+            <h4>Certifié Cléa Numérique</h4>
           </div>
         </div>
-        <div class="signature">
-          <h2 class="attestation-bloc-title">Signature du directeur :</h2>
-          <img src='https://royalsceaux.fr/wp-content/uploads/2017/09/16667030616_f68d87be22_c1.jpg' alt="Signature du directeur">
+        <% } %>
+
+        <div class="other-informations__verification-code">
+          <h2 class="attestation-bloc-title">Vérifier l’authenticité de la certification</h2>
+          <div class="attestation-bloc">
+            <h3>Code de vérification</h3>
+            <button>{{certificate.verificationCode}}</button>
+            <p>Utilisez ce code sur le site : <a href="https://app.pix.fr/verification-certificat">app.pix.fr/verification-certificat</a></p>
+          </div>
         </div>
       </div>
     </div>
