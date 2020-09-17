@@ -1,4 +1,4 @@
-const { getCertificate } = require('./get-certificate');
+const { getCompleteCertificate } = require('./get-certificate');
 const { NotFoundError } = require('../../errors');
 
 module.exports = async function getCertificationAttestation({
@@ -14,10 +14,10 @@ module.exports = async function getCertificationAttestation({
     throw new NotFoundError();
   }
 
-  return getCertificate({
+  return getCompleteCertificate({
     certificate: certificationAttestation,
-    cleaCertificationStatusRepository,
     assessmentResultRepository,
     competenceTreeRepository,
+    cleaCertificationStatusRepository,
   });
 };
