@@ -21,7 +21,9 @@ describe('Acceptance | API | Certifications', () => {
     server = await createServer();
 
     userId = databaseBuilder.factory.buildUser().id;
-    session = databaseBuilder.factory.buildSession();
+    session = databaseBuilder.factory.buildSession({
+      publishedAt: new Date(),
+    });
     badge = databaseBuilder.factory.buildBadge({ key: 'charlotte_aux_fraises' });
     certificationCourse = databaseBuilder.factory.buildCertificationCourse({
       sessionId: session.id,
