@@ -27,8 +27,7 @@ describe('Integration | Component | Footer', function() {
     await render(hbs`<Footer />}`);
 
     // then
-    expect(find('.footer-logos__pix')).to.exist;
-    expect(find('.footer-logos-pix__image')).to.exist;
+    expect(find('.pix-logo__image')).to.exist;
   });
 
   it('should display social medias links menu with expected elements', async function() {
@@ -36,9 +35,9 @@ describe('Integration | Component | Footer', function() {
     await render(hbs`<Footer />}`);
 
     // then
-    expect(find('.footer__social-medias')).to.exist;
+    expect(find('.footer-links__social-medias')).to.exist;
 
-    const socialMediaLinks = findAll('.footer-social-medias__link');
+    const socialMediaLinks = findAll('.footer-social-medias__item');
     expect(socialMediaLinks).to.have.lengthOf(3);
     expect(socialMediaLinks[0].href).to.equal('https://www.facebook.com/pg/Pix1024/');
     expect(socialMediaLinks[1].href).to.equal('https://www.linkedin.com/company/gip-pix');
@@ -50,7 +49,7 @@ describe('Integration | Component | Footer', function() {
     await render(hbs`<Footer />}`);
 
     // then
-    expect(find('.footer__navigation')).to.exist;
+    expect(find('.footer-links__navigation')).to.exist;
     expect(findAll('.footer-navigation__item')).to.have.lengthOf(2);
     expect(contains('Centre d\'aide')).to.exist;
     expect(contains('Accessibilité')).to.exist;

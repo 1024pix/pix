@@ -1,7 +1,7 @@
 <footer class="footer">
   <div class="footer__container">
     <div class="footer-container__left">
-      <div class="footer__logos">
+      <div class="footer-container__logos">
         {{#if this.shouldShowTheMarianneLogo}}
           <div class="footer-logos__french-government">
             <img src="{{rootURL}}/images/logo-de-la-republique-francaise.svg"
@@ -9,55 +9,57 @@
           </div>
         {{/if}}
 
-        <div class="footer-logos__pix">
-          <PixLogo/>
+        <PixLogo/>
+      </div>
+
+      <div class="footer-container__links">
+        <div class="footer-links__social-medias">
+          <a href="https://www.facebook.com/pg/Pix1024/"
+             class="footer-social-medias__item"
+             target="_blank"
+             rel="noopener noreferrer">
+            <FaIcon @prefix="fab"
+                    @icon="facebook-f"
+                    class="footer-social-medias-item__icon"/>
+          </a>
+
+          <a href="https://www.linkedin.com/company/gip-pix"
+             class="footer-social-medias__item"
+             target="_blank"
+             rel="noopener noreferrer">
+            <FaIcon @prefix="fab"
+                    @icon="linkedin-in"
+                    class="footer-social-medias-item__icon"
+            />
+          </a>
+
+          <a href="https://twitter.com/Pix_officiel"
+             class="footer-social-medias__item"
+             target="_blank"
+             rel="noopener noreferrer">
+            <FaIcon @prefix="fab"
+                    @icon="twitter"
+                    class="footer-social-medias-item__icon"/>
+          </a>
         </div>
-      </div>
 
-      <div class="footer__social-medias">
-        <a href="https://www.facebook.com/pg/Pix1024/"
-           class="footer-social-medias__link"
-           target="_blank"
-           rel="noopener noreferrer">
-          <FaIcon @prefix="fab" @icon="facebook-f" class="footer-social-medias-link__icon"/>
-        </a>
+        <div class="footer-links__navigation">
+          <a href="{{t 'navigation.footer.link-help-center'}}"
+             target="_blank"
+             class="footer-navigation__item">
+            {{t 'navigation.footer.help-center'}}
+          </a>
 
-        <a href="https://www.linkedin.com/company/gip-pix"
-           class="footer-social-medias__link"
-           target="_blank"
-           rel="noopener noreferrer">
-          <FaIcon @prefix="fab"
-                  @icon="linkedin-in"
-                  class="footer-social-medias-link__icon"
-          />
-        </a>
-
-        <a href="https://twitter.com/Pix_officiel"
-           class="footer-social-medias__link"
-           target="_blank"
-           rel="noopener noreferrer">
-          <FaIcon @prefix="fab"
-                  @icon="twitter"
-                  class="footer-social-medias-link__icon"/>
-        </a>
-      </div>
-
-      <div class="footer__navigation">
-        <a href="{{t 'navigation.footer.link-help-center'}}"
-           target="_blank"
-           class="footer-navigation__item">
-          {{t 'navigation.footer.help-center'}}
-        </a>
-
-        <a href="{{t 'navigation.footer.link-a11y'}}"
-           target="_blank"
-           class="footer-navigation__item">
-          {{t 'navigation.footer.a11y'}}
-        </a>
+          <a href="{{t 'navigation.footer.link-a11y'}}"
+             target="_blank"
+             class="footer-navigation__item">
+            {{t 'navigation.footer.a11y'}}
+          </a>
+        </div>
       </div>
     </div>
 
-    <div class="footer__copyrights">
+    <div class="footer-container__copyrights">
       <span>© 2020 Pix</span>
     </div>
 
