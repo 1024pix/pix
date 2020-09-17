@@ -8,12 +8,15 @@ describe('Unit | UseCase | getCertificationAttestation', async () => {
   const certificationId = '23';
   const aAttestationPDF = 'i am a attestation';
   let dependencies;
+  let certificate;
+  const deliveredAt = new Date('2020-09-17T01:02:03Z');
 
   beforeEach(() => {
     const cleaCertificationStatus = 'someStatus';
-    const certificate = domainBuilder.buildPrivateCertificate({
+    certificate = domainBuilder.buildPrivateCertificate({
       userId,
       id: certificationId,
+      deliveredAt,
     });
     const assessmentResult = domainBuilder.buildAssessmentResult();
     assessmentResult.competenceMarks = [domainBuilder.buildCompetenceMark({ assessmentResultId: assessmentResult.id })];
@@ -35,7 +38,7 @@ describe('Unit | UseCase | getCertificationAttestation', async () => {
     const certificationAttestationPdf = {
       getCertificationAttestationPdfBuffer: sinon.stub().withArgs({ certificate: fullCertificate }).resolves(aAttestationPDF),
     };
-  
+
     dependencies = {
       certificationRepository,
       cleaCertificationStatusRepository,
@@ -63,10 +66,11 @@ describe('Unit | UseCase | getCertificationAttestation', async () => {
 
     it('should return the attestationPDF', async () => {
       // when
-      const result = await getCertificationAttestation({ certificationId, userId, ...dependencies });
+      const { fileName, fileBuffer } = await getCertificationAttestation({ certificationId, userId, ...dependencies });
 
       // then
-      expect(result).to.equal(aAttestationPDF);
+      expect(fileBuffer).to.equal(aAttestationPDF);
+      expect(fileName).to.equal('attestation-pix-20200917.pdf');
     });
   });
 });
