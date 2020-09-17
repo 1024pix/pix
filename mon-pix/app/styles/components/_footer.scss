@@ -9,28 +9,33 @@
     padding: 20px 0;
 
     @include device-is('tablet') {
-      padding: 0 10px 10px;
+      padding: 16px 16px;
+    }
+
+    @include device-is('desktop') {
+      padding: 18px 0 48px;
     }
   }
 
   &__social-medias {
     display: flex;
     justify-content: space-between;
-    padding: 0 10px;
+    padding: 0 10px 0 20px;
+    border-right: 1px solid $grey-20;
   }
 
   &__navigation {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 5px;
+    padding: 0 10px;
   }
 
   &__copyrights {
     color: $grey-25;
     cursor: default;
-    font-size: 0.875rem;
-    letter-spacing: 0.009rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.008rem;
     font-family: $font-roboto;
   }
 }
@@ -44,14 +49,19 @@
   }
 }
 
+.footer-social-medias-link__icon {
+  font-size: 1rem;
+  color: $grey-70;
+}
+
 .footer-social-medias__link {
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: $grey-20;
   border-radius: 4.2px;
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   margin: 0 5px;
   letter-spacing: 0.008rem;
   font-size: 0.75rem;
@@ -62,34 +72,26 @@
   &:hover {
     text-decoration: none;
     cursor: pointer;
-    background-color: $grey-22;
+    background-color: $grey-70;
     transition: background-color 0.2s ease;
-  }
-}
 
-.footer-social-medias-link__icon {
-  height: 12px;
-  width: 12px;
-  color: $grey-50;
-
-  &:active,
-  &:focus,
-  &:hover {
-    text-decoration: none;
+    & > .footer-social-medias-link__icon {
+      color: $grey-5;
+      text-decoration: none;
+    }
   }
 }
 
 .footer-navigation__item {
   margin: 0 5px;
-  color: $grey-50;
-  font-size: 0.75rem;
+  color: $grey-60;
+  font-size: 0.875rem;
   font-family: $font-roboto;
-  letter-spacing: 0.008rem;
+  letter-spacing: 0.009rem;
 
   &.active {
     text-decoration: none;
-    color: $light-blue;
-    border-bottom: 2px solid $light-blue;
+    color: $blue;
   }
 
   &:focus {
@@ -100,7 +102,7 @@
   &:hover {
     text-decoration: none;
     cursor: pointer;
-    color: $light-blue;
+    color: $blue;
   }
 }
 

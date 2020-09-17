@@ -2,18 +2,16 @@
   <div class="footer__container">
     <div class="footer-container__left">
       <div class="footer__logos">
-        <div class="footer-logos__pix">
-          <LinkTo @route="index" class="pix-logo__link" @title={{t 'navigation.homepage'}}>
-            <img class="footer-logos-pix__image" src="{{rootURL}}/images/pix-logo.svg" alt={{t 'common.pix'}}>
-          </LinkTo>
-        </div>
-
         {{#if this.shouldShowTheMarianneLogo}}
           <div class="footer-logos__french-government">
             <img src="{{rootURL}}/images/logo-de-la-republique-francaise.svg"
                  alt="{{t 'common.french-republic'}}">
           </div>
         {{/if}}
+
+        <div class="footer-logos__pix">
+          <PixLogo/>
+        </div>
       </div>
 
       <div class="footer__social-medias">
