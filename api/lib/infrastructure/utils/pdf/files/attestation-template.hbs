@@ -8,12 +8,19 @@
       padding: 0;
     }
 
+    body {
+      background: url('https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/certification/filigrane_certif_attestation.png') no-repeat center center;
+      background-size: cover;
+      max-height: 3508px;
+    }
+
     .attestation {
       display: flex;
       flex-direction: column;
       margin: 8px auto;
       padding-top: 20px;
-      max-width: 500px;
+      max-width: calc(100% - 200px);
+      height: calc(100% - 30px);
       font-family: 'Open Sans', Arial, sans-serif;
       font-size: 8px;
     }
@@ -74,8 +81,8 @@
       height: 78px;
       width: 71px;
       margin-right: 16px;
-      background: url('hexagon-score.svg') no-repeat center center;
-      background-size: cover;
+      background: url('https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/certification/hexagon-score.svg') no-repeat center center;
+      background-size: 100% 100%;
       color: #172b4d;
       display: flex;
       flex-direction: column;
@@ -170,7 +177,7 @@
       margin-left: 20px;
       width: 200px;
     }
-    .other-informations > div {
+    .other-informations, .other-informations__clea-numerique {
       margin-bottom: 18px;
     }
     .other-informations .attestation-bloc {
@@ -218,9 +225,19 @@
       color: #2568db;
       cursor: pointer;
     }
+    .other-informations .signature {
+      margin-top: 275px;
+    }
+    .other-informations .signature img {
+      max-width: calc(100% - 2*20px);
+      margin: 20px;
+    }
 
     /*-----------------------------*/
     /*------- FOOTER SECTION ------*/
+    footer {
+      margin-top: 12px;
+    }
     footer p {
       font-size: 7px;
     }
@@ -243,7 +260,7 @@
 
     <div class="attestation__title">
       <h1>
-        <img src="pix-logo.svg" alt="Pix">
+        <img src='https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/logo/pix-logo.svg' alt="Logo Pix">
         <div class="separator"></div>
         Attestation
       </h1>
@@ -272,12 +289,12 @@
         <h2 class="attestation-bloc-title">Compétences certifiées <span>(niveaux sur 5)</span></h2>
         <% _.forEach((certificate.resultCompetenceTree.areas), function(area) { %>
           <div class="attestation-bloc">
-            <h3 class="area__title"><%- area.title %> <span>NIVEAU</span></h3>
+            <h3 class="area__title">{{ area.title }} <span>NIVEAU</span></h3>
             <% _.forEach((area.resultCompetences), function(competence) { %>
               <% if (competence.level > 0) { %>
-              <p class="area__competence-title"><%- competence.name %> <span><%- competence.level %></span></p>
+              <p class="area__competence-title">{{ competence.name }} <span>{{ competence.level }}</span></p>
               <% } else { %>
-              <p class="area__competence-title disable"><%- competence.name %> </p>
+              <p class="area__competence-title disable">{{ competence.name }}</p>
               <% } %>
             <%}); %>
           </div>
@@ -285,23 +302,29 @@
       </div>
 
       <div class="other-informations">
-        <% if (certificate.hasAcquiredCleaCertification) { %>
-        <div class="other-informations__clea-numerique">
-          <h2 class="attestation-bloc-title">Autre certification obtenue</h2>
-          <div class="attestation-bloc">
-            <img src="https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges/CleA_Num_certif.svg" alt="Certification Cléa Numérique">
-            <h4>Certifié Cléa Numérique</h4>
+        <div>
+          <% if (certificate.hasAcquiredCleaCertification) { %>
+          <div class="other-informations__clea-numerique">
+            <h2 class="attestation-bloc-title">Autre certification obtenue</h2>
+            <div class="attestation-bloc">
+              <img src="https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges/CleA_Num_certif.svg" alt="Certification Cléa Numérique">
+              <h4>Certifié Cléa Numérique</h4>
+            </div>
+          </div>
+          <% } %>
+
+          <div class="other-informations__verification-code">
+            <h2 class="attestation-bloc-title">Vérifier l’authenticité de la certification</h2>
+            <div class="attestation-bloc">
+              <h3>Code de vérification</h3>
+              <button>{{certificate.verificationCode}}</button>
+              <p>Utilisez ce code sur le site : <a href="https://app.pix.fr/verification-certificat">app.pix.fr/verification-certificat</a></p>
+            </div>
           </div>
         </div>
-        <% } %>
-
-        <div class="other-informations__verification-code">
-          <h2 class="attestation-bloc-title">Vérifier l’authenticité de la certification</h2>
-          <div class="attestation-bloc">
-            <h3>Code de vérification</h3>
-            <button>{{certificate.verificationCode}}</button>
-            <p>Utilisez ce code sur le site: <a href="https://app.pix.fr/verification-certificat">app.pix.fr/verification-certificat</a></p>
-          </div>
+        <div class="signature">
+          <h2 class="attestation-bloc-title">Signature du directeur :</h2>
+          <img src='https://royalsceaux.fr/wp-content/uploads/2017/09/16667030616_f68d87be22_c1.jpg' alt="Signature du directeur">
         </div>
       </div>
     </div>
