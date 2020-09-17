@@ -97,7 +97,7 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
       const result = await getPrivateCertificate({ certificationId, userId, ...dependencies });
 
       // then
-      expect(result).to.equal(certificate);
+      expect(result).to.deep.equal(certificate);
     });
 
     it('should save a certification code and return the filled certification', async () => {
