@@ -94,12 +94,14 @@
       "back-link": "Return to my certificates",
       "candidate-birth-complete": "Born on {birthdate} in {birthplace}",
       "certification-center": "Certification centre:",
+      "attestation": "Télécharger mon attestation",
       "verification-code": {
         "title": "Verification code",
         "info": "(?)",
-        "tooltip": "Communicate this code to allow a third party to verify the authenticity of your certificate.",
-        "copy": "Copy the code",
-        "copied": "Copied!"
+        "tooltip": "Communiquez ce code pour permettre à un tiers de vérifier l'authenticité de votre certificat",
+        "copy": "Copier le code",
+        "copied": "Code copié !",
+        "alt": "Copy"
       },
       "clea": {
         "title": "CléA certified",
