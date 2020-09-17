@@ -242,7 +242,7 @@
     <div class="attestation__header attestation-bloc">
       <div class="hexagon">
         <p>PIX</p>
-        <p>500</p>
+        <p>{{certificate.pixScore}}</p>
         <hr>
         <p>640*</p>
       </div>
@@ -256,21 +256,17 @@
     </div>
 
     <div class="attestation__competences-details-and-others-informations">
+
       <div class="competences-details">
         <h2 class="attestation-bloc-title">Compétences certifiées <span>(niveaux sur 5)</span></h2>
-        <div class="attestation-bloc">
-          <h3 class="area__title">Information et données <span>NIVEAU</span></h3>
-          <p class="area__competence-title">Chanter en playback <span>4</span></p>
-          <p class="area__competence-title">Sauter à cloche pied <span>3</span></p>
-          <p class="area__competence-title">Manger des cacahuètes <span>3</span></p>
-        </div>
-
-        <div class="attestation-bloc">
-          <h3 class="area__title">Communication et collaboration <span>NIVEAU</span></h3>
-          <p class="area__competence-title">Fondre du chocolat <span>4</span></p>
-          <p class="area__competence-title">Faire des bulles <span>3</span></p>
-          <p class="area__competence-title">Monter dans un arbre <span>3</span></p>
-        </div>
+        <% _.forEach((certificate.resultCompetenceTree.areas), function(area) { %>
+          <div class="attestation-bloc">
+            <h3 class="area__title"><%- area.title %> <span>NIVEAU</span></h3>
+            <% _.forEach((area.resultCompetences), function(competence) { %>
+              <p class="area__competence-title"><%- competence.name %> <span><%- competence.level %></span></p>
+            <%}); %>
+          </div>
+        <%}); %>
       </div>
 
       <div class="other-informations">
@@ -285,7 +281,7 @@
           <h2 class="attestation-bloc-title">Vérifier l’authenticité de la certification</h2>
           <div class="attestation-bloc">
             <h3>Code de vérification</h3>
-            <button>P-123456</button>
+            <button>{{certificate.verificationCode}}</button>
             <p>Utilisez ce code sur le site: <a href="https://app.pix.fr/verification-certificat">app.pix.fr/verification-certificat</a></p>
           </div>
         </div>
