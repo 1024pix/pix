@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v2.198.0 (18/09/2020)
+
+- [#1886](https://github.com/1024pix/pix/pull/1886) [FEATURE] Permettre la modification de l'accès ou non à la fonctionnalité de collecte de profils depuis Pix Admin (PIX-1288).
+- [#1883](https://github.com/1024pix/pix/pull/1883) [FEATURE] JNVP qu'un élève arrivant depuis le GAR puisse lier son compte GAR à un compte Pix d'un autre élève que celui déjà réconcilié (PIX-1268).
+- [#1887](https://github.com/1024pix/pix/pull/1887) [FEATURE] Gérer l'invalidation du jeton d'identification d'un utilisateur externe (PIX-1252).
+- [#1862](https://github.com/1024pix/pix/pull/1862) [FEATURE] Ajout d'un bouton pour télécharger l'attestation du certificat Pix (PIX-809)
+- [#1857](https://github.com/1024pix/pix/pull/1857) [FEATURE] Modifier le numéro d'un étudiant dans Pix Orga (PIX-1058).
+- [#1873](https://github.com/1024pix/pix/pull/1873) [BUGFIX] Optimisations visuelles de la page de fin de campagne (PIX-1247).
+- [#1884](https://github.com/1024pix/pix/pull/1884) [BUGFIX] Renommer l'argument pour la traduction pages.profile-already-shared.explanation (PIX-1285).
+
 ## v2.197.0 (16/09/2020)
 
 - [#1881](https://github.com/1024pix/pix/pull/1881) [FEATURE] Changement d'une phrase lors de l'envoi des résultats (PIX-1279)
