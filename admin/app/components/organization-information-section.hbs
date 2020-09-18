@@ -71,6 +71,18 @@
                  class={{if (v-get this.form 'email' 'isInvalid') "form-control is-invalid" "form-control"}}
                  @value={{this.form.email}} />
         </div>
+        <div class="form-field organization-edit-form__checkbox">
+          <label for="canCollectProfiles" class="form-field__label">Collecte de profils</label>
+          {{#if (v-get this.form 'canCollectProfiles' 'isInvalid')}}
+            <div class="form-field__error">
+              {{v-get this.form 'canCollectProfiles' 'message'}}
+            </div>
+          {{/if}}
+          <Input id="canCollectProfiles"
+                 @type="checkbox"
+                 class={{if (v-get this.form 'canCollectProfiles' 'isInvalid') "form-control is-invalid" "form-control"}}
+                 @checked={{this.form.canCollectProfiles}} />
+        </div>
         <div class="form-actions">
           <button class="btn btn-outline-default" aria-label="Annuler" type="button" {{on "click" this.cancel}}>Annuler</button>
           <button class="btn btn-success" aria-label="Enregistrer" type="submit">Enregistrer</button>
@@ -95,7 +107,7 @@
               Gère des élèves : <span class="organization__isManagingStudents">{{this.isManagingStudents}}</span><br>
             {{/if}}
             Adresse e-mail: <span class ="organization'__email">{{@organization.email}}</span><br>
-            A accès aux campagnes de collecte de profils : <span class="organization__canCollectProfiles">{{this.canCollectProfiles}}</span><br>
+            Collecte de profils : <span class="organization__canCollectProfiles">{{this.canCollectProfiles}}</span><br>
             Crédits : <span class="organization__credit">{{@organization.credit}}</span>
           </p>
           <button type="button" class="btn btn-outline-default" aria-label="Editer" {{on "click" this.toggleEditMode}}>Editer</button>

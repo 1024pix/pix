@@ -170,7 +170,7 @@ describe('Acceptance | Application | organization-controller', () => {
     let organization;
 
     beforeEach(async () => {
-      organization = databaseBuilder.factory.buildOrganization();
+      organization = databaseBuilder.factory.buildOrganization({ canCollectProfiles: false });
       await databaseBuilder.commit();
       payload = {
         data: {
@@ -180,6 +180,7 @@ describe('Acceptance | Application | organization-controller', () => {
             'external-id': '0446758F',
             'province-code': '044',
             'email': 'sco.generic.newaccount@example.net',
+            'can-collect-profiles': 'true',
           },
         },
       };
@@ -199,13 +200,14 @@ describe('Acceptance | Application | organization-controller', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should create and return the new organization', async () => {
+    it('should return the updated organization', async () => {
       // when
       const response = await server.inject(options);
 
       // then
       expect(response.result.data.attributes['external-id']).to.equal('0446758F');
       expect(response.result.data.attributes['province-code']).to.equal('044');
+      expect(response.result.data.attributes['can-collect-profiles']).to.equal('true');
       expect(parseInt(response.result.data.id)).to.equal(organization.id);
     });
 
