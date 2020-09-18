@@ -92,12 +92,51 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
     it('should get the certification from the repository', async () => {
       // given
       certificationRepository.hasVerificationCode.withArgs(certificationId).resolves(true);
+      const competenceTree = {
+        'areas': [
+          {
+            'code': '1',
+            'color': 'jaffa',
+            'id': 'recvoGdo7z2z7pXWa',
+            'name': '1. Information et données',
+            'resultCompetences': [
+              {
+                'id': 'recsvLz0W2ShyfD63',
+                'index': '1.1',
+                'level': 2,
+                'name': 'Mener une recherche et une veille d’information',
+                'score': 13,
+              },
+              {
+                'id': 'recNv8qhaY887jQb2',
+                'index': '1.2',
+                'level': -1,
+                'name': 'Mener une recherche et une veille d’information',
+                'score': 0,
+              },
+              {
+                'id': 'recIkYm646lrGvLNT',
+                'index': '1.3',
+                'level': -1,
+                'name': 'Mener une recherche et une veille d’information',
+                'score': 0,
+              },
+            ],
+            'title': 'Information et données',
+          },
+        ],
+        'id': '23-1',
+      };
 
       // when
       const result = await getPrivateCertificate({ certificationId, userId, ...dependencies });
 
       // then
-      expect(result).to.deep.equal(certificate);
+      expect(result).to.deep.equal({
+        ...certificate,
+        resultCompetenceTree: competenceTree,
+        cleaCertificationStatus,
+      });
     });
 
     it('should save a certification code and return the filled certification', async () => {

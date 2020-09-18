@@ -1,6 +1,7 @@
 const usecases = require('../../domain/usecases');
 const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
-const CertificationAttestationPdf = require('../../infrastructure/utils/pdf/certification-attestation-pdf');
+const certificationAttestationPdf = require('../../infrastructure/utils/pdf/certification-attestation-pdf');
+const moment = require('moment');
 
 module.exports = {
   findUserCertifications(request) {
@@ -31,13 +32,14 @@ module.exports = {
   async getPDFAttestation(request, h) {
     const userId = request.auth.credentials.userId;
     const certificationId = parseInt(request.params.id);
-    const {
-      fileName,
-      fileBuffer,
-    } = await usecases.getCertificationAttestation({
+    const attestation = await usecases.getCertificationAttestation({
       userId,
       certificationId,
     });
+
+    const formatedDeliveryDate = moment(attestation.deliveredAt).format('YYYYMMDD');
+    const fileBuffer = await certificationAttestationPdf.getCertificationAttestationPdfBuffer({ certificate: attestation });
+    const fileName = `attestation-pix-${formatedDeliveryDate}.pdf`;
 
     return h.response(fileBuffer)
       .header('Content-Disposition', `attachment; filename=${fileName}`);

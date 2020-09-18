@@ -3,6 +3,7 @@ const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
 const certificationController = require('../../../../lib/application/certifications/certification-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const certificationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
+const certificationAttestationPdf = require('../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
 
 describe('Unit | Controller | certifications-controller', () => {
 
@@ -108,10 +109,8 @@ describe('Unit | Controller | certifications-controller', () => {
 
     it('should return binary attestation', async () => {
       // given
-      usecases.getCertificationAttestation.resolves({
-        fileName: 'filename.pdf',
-        fileBuffer: attestationPDF,
-      });
+      sinon.stub(certificationAttestationPdf, 'getCertificationAttestationPdfBuffer').resolves(attestationPDF);
+      usecases.getCertificationAttestation.resolves(certification);
 
       // when
       const response = await certificationController.getPDFAttestation(request, hFake);
@@ -122,6 +121,7 @@ describe('Unit | Controller | certifications-controller', () => {
         certificationId: certification.id,
       });
       expect(response.source).to.deep.equal(attestationPDF);
+      expect(response.headers['Content-Disposition']).to.contains('attachment; filename=attestation-pix-20181003.pdf');
     });
   });
 });

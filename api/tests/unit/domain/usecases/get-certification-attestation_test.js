@@ -6,13 +6,12 @@ describe('Unit | UseCase | getCertificationAttestation', async () => {
 
   const userId = 2;
   const certificationId = '23';
-  const aAttestationPDF = 'i am a attestation';
   let dependencies;
   let certificate;
   const deliveredAt = new Date('2020-09-17T01:02:03Z');
+  const cleaCertificationStatus = 'someStatus';
 
   beforeEach(() => {
-    const cleaCertificationStatus = 'someStatus';
     certificate = domainBuilder.buildPrivateCertificate({
       userId,
       id: certificationId,
@@ -21,22 +20,15 @@ describe('Unit | UseCase | getCertificationAttestation', async () => {
     const assessmentResult = domainBuilder.buildAssessmentResult();
     assessmentResult.competenceMarks = [domainBuilder.buildCompetenceMark({ assessmentResultId: assessmentResult.id })];
     const competenceTree = domainBuilder.buildCompetenceTree();
-    const resultCompetenceTree = `${certificationId}-${assessmentResult.id}`;
-    const fullCertificate = { ...certificate, resultCompetenceTree, cleaCertificationStatus };
-
     const certificationRepository = {
       getCertificationAttestation: sinon.stub().withArgs(certificationId).resolves(certificate),
     };
     const cleaCertificationStatusRepository = {
-      getCleaCertificationStatus: () => sinon.stub().withArgs(certificationId).resolves(cleaCertificationStatus),
+      getCleaCertificationStatus: sinon.stub().withArgs({ id:  certificationId }).resolves(cleaCertificationStatus),
     };
     const competenceTreeRepository = { get: sinon.stub().resolves(competenceTree) };
     const assessmentResultRepository = {
       findLatestByCertificationCourseIdWithCompetenceMarks: sinon.stub().withArgs(certificationId).resolves(assessmentResult),
-    };
-
-    const certificationAttestationPdf = {
-      getCertificationAttestationPdfBuffer: sinon.stub().withArgs({ certificate: fullCertificate }).resolves(aAttestationPDF),
     };
 
     dependencies = {
@@ -44,7 +36,6 @@ describe('Unit | UseCase | getCertificationAttestation', async () => {
       cleaCertificationStatusRepository,
       assessmentResultRepository,
       competenceTreeRepository,
-      certificationAttestationPdf,
     };
   });
 
@@ -65,12 +56,64 @@ describe('Unit | UseCase | getCertificationAttestation', async () => {
   context('when the user is owner of the certification attestation', async () => {
 
     it('should return the attestationPDF', async () => {
+      // given
+      const expectedData = {
+        'birthdate': '1992-06-12',
+        'birthplace': 'Paris',
+        'certificationCenter': 'L’univeristé du Pix',
+        cleaCertificationStatus,
+        'commentForCandidate': 'Comment for Candidate',
+        'date': certificate.date,
+        'deliveredAt': deliveredAt,
+        'firstName': 'Jean',
+        'id': '23',
+        'isPublished': true,
+        'lastName': 'Bon',
+        'pixScore': 31,
+        'resultCompetenceTree': {
+          'areas': [
+            {
+              'code': '1',
+              'color': 'jaffa',
+              'id': 'recvoGdo7z2z7pXWa',
+              'name': '1. Information et données',
+              'resultCompetences': [
+                {
+                  'id': 'recsvLz0W2ShyfD63',
+                  'index': '1.1',
+                  'level': 2,
+                  'name': 'Mener une recherche et une veille d’information',
+                  'score': 13,
+                },
+                {
+                  'id': 'recNv8qhaY887jQb2',
+                  'index': '1.2',
+                  'level': -1,
+                  'name': 'Mener une recherche et une veille d’information',
+                  'score': 0,
+                },
+                {
+                  'id': 'recIkYm646lrGvLNT',
+                  'index': '1.3',
+                  'level': -1,
+                  'name': 'Mener une recherche et une veille d’information',
+                  'score': 0,
+                },
+              ],
+              'title': 'Information et données',
+            },
+          ],
+          'id': '23-1',
+        },
+        'status': 'validated',
+        'userId': 2,
+        'verificationCode': 'P-BBBCCCDD',
+      };
       // when
-      const { fileName, fileBuffer } = await getCertificationAttestation({ certificationId, userId, ...dependencies });
+      const result = await getCertificationAttestation({ certificationId, userId, ...dependencies });
 
       // then
-      expect(fileBuffer).to.equal(aAttestationPDF);
-      expect(fileName).to.equal('attestation-pix-20200917.pdf');
+      expect(result).to.deep.equal(expectedData);
     });
   });
 });
