@@ -45,7 +45,7 @@ describe('Integration | Repository | area-repository', () => {
       // then
       expect(areas).to.have.lengthOf(2);
       expect(areas[0]).to.be.instanceof(Area);
-      expect(areas).to.be.deep.equal([
+      expect(areas).to.deep.include.members([
         { id: area0.id, code: area0.code, name: area0.name, title: area0.titleFr, color: area0.color, competences: [] },
         { id: area1.id, code: area1.code, name: area1.name, title: area1.titleFr, color: area1.color, competences: [] },
       ]);

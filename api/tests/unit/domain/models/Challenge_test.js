@@ -1,6 +1,12 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const Skill = require('../../../../lib/domain/models/Skill');
+const Validator = require('../../../../lib/domain/models/Validator');
+const ValidatorQCM = require('../../../../lib/domain/models/ValidatorQCM');
+const ValidatorQCU = require('../../../../lib/domain/models/ValidatorQCU');
+const ValidatorQROC = require('../../../../lib/domain/models/ValidatorQROC');
+const ValidatorQROCMDep = require('../../../../lib/domain/models/ValidatorQROCMDep');
+const ValidatorQROCMInd = require('../../../../lib/domain/models/ValidatorQROCMInd');
 
 describe('Unit | Domain | Models | Challenge', () => {
 
@@ -264,4 +270,31 @@ describe('Unit | Domain | Models | Challenge', () => {
 
   });
 
+  describe('static#createValidatorForChallengeType', () => {
+
+    const challengeTypeAndValidators = {
+      'QCM': ValidatorQCM,
+      'QCU': ValidatorQCU,
+      'QROC': ValidatorQROC,
+      'QROCM-dep': ValidatorQROCMDep,
+      'QROCM-ind': ValidatorQROCMInd,
+      'other': Validator,
+    };
+
+    Object.entries(challengeTypeAndValidators).forEach(([challengeType, associatedValidatorClass]) => {
+
+      context(`when challenge of type: ${challengeType} exists`, () => {
+
+        it('should return the associated validator class', () => {
+          // when
+          const solution = 'some solution';
+          const validator = Challenge.createValidatorForChallengeType({ challengeType, solution });
+
+          // then
+          expect(validator).to.be.instanceOf(associatedValidatorClass);
+          expect(validator.solution).to.equal(solution);
+        });
+      });
+    });
+  });
 });
