@@ -8,14 +8,8 @@
     padding: 18px 16px;
     width: 100%;
 
-    @include device-is('tablet') {
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18px 16px;
-    }
-
     @include device-is('desktop') {
+      flex-direction: row;
       padding: 18px 0 48px;
     }
   }
@@ -23,12 +17,22 @@
 
 .footer-container {
 
-  &__main {
+  &__content {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    border-top: 1px solid $grey-20;
+    padding-top: 16px;
 
     @include device-is('tablet') {
       flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+
+      @include device-is('desktop') {
+        padding-top: 0;
+        border: none;
+      }
     }
   }
 
@@ -37,20 +41,13 @@
     align-items: center;
     padding-bottom: 16px;
 
-    @include device-is('tablet') {
+    @include device-is('desktop') {
       padding-bottom: 0;
     }
   }
 
   &__links {
     display: flex;
-    border-top: 1px solid $grey-20;
-    padding-top: 16px;
-
-    @include device-is('tablet') {
-      border: none;
-      padding-top: 0;
-    }
   }
 
   &__copyrights {
@@ -76,6 +73,9 @@
 
     @include device-is('tablet') {
       border-right: 1px solid $grey-20;
+    }
+
+    @include device-is('desktop') {
       padding: 0 10px 0 20px;
     }
   }
@@ -149,13 +149,12 @@
   display: flex;
 
   &__french-government {
-    margin-right: 24px;
 
     > img {
-      height: 51px;
+      height: 45px;
 
-      @include device-is('desktop') {
-        height: 60px;
+      @include device-is('tablet') {
+        height: 54px;
       }
     }
   }
