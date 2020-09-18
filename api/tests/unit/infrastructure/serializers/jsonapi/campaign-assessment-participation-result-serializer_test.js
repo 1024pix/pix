@@ -11,7 +11,9 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result
 
     beforeEach(() => {
       const competence = domainBuilder.buildCompetence({ skillIds: ['recSkill0'] });
-      const knowledgeElement = domainBuilder.buildKnowledgeElement({ skillId: 'recSkill0', competenceId: competence.id, status: 'validated' });
+      const targetedSkill = domainBuilder.buildSkill({ competenceId: competence.id, id: 'recSkill0' });
+      const targetProfile = domainBuilder.buildTargetProfile({ skills: [targetedSkill] });
+      const knowledgeElement = domainBuilder.buildKnowledgeElement({ skillId: targetedSkill.id, competenceId: competence.id, status: 'validated' });
       expectedJsonApi = {
         data: {
           type: 'campaign-assessment-participation-results',
@@ -42,11 +44,11 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result
       };
 
       modelCampaignAssessmentParticipationResult = new CampaignAssessmentParticipationResult({
-        competences: [competence],
+        targetedCompetences: [competence],
         campaignParticipationId: 1,
         campaignId: 2,
-        targetedSkillIds: ['recSkill0'],
-        knowledgeElementsByCompetenceId: { [competence.id]: [knowledgeElement] },
+        targetProfile,
+        validatedTargetedKnowledgeElementsByCompetenceId: { [competence.id]: [knowledgeElement] },
         isShared: true,
       });
     });

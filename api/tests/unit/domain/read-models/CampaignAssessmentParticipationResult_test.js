@@ -7,7 +7,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationResult', () =>
       const campaignAssessmentParticipationResult = new CampaignAssessmentParticipationResult({
         campaignParticipationId: 1,
         campaignId: 2,
-        competences: [],
+        targetedCompetences: [],
       });
 
       expect(campaignAssessmentParticipationResult.campaignParticipationId).equal(1);
@@ -16,17 +16,17 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationResult', () =>
 
     context('when the campaignParticipation is not shared', () => {
       it('does not compute CampaignAssessmentParticipationCompetenceResult', () => {
-        const competences = [
-          domainBuilder.buildCompetence({
-            skillIds: [1],
-          }),
+        const targetedCompetences = [
+          domainBuilder.buildCompetence({ id: 'competence1' }),
         ];
+        const targetedSkill = domainBuilder.buildSkill({ competenceId: 'competence1' });
+        const targetProfile = domainBuilder.buildTargetProfile({ skills: [targetedSkill] });
         const campaignAssessmentParticipationResult = new CampaignAssessmentParticipationResult({
           campaignParticipationId: 1,
           campaignId: 2,
-          competences,
+          targetedCompetences,
           isShared: false,
-          targetedSkillIds: [1],
+          targetProfile,
         });
 
         expect(campaignAssessmentParticipationResult.isShared).equal(false);
@@ -36,22 +36,22 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationResult', () =>
 
     context('when the campaignParticipation is shared', () => {
       it('should compute results with targeted competences', () => {
-        const competences = [
+        const targetedCompetences = [
           domainBuilder.buildCompetence({ id: 'recTargeted', skillIds: [1] }),
-          domainBuilder.buildCompetence({ id: 'recNotTargeted', skillIds: [2] }),
         ];
-        const knowledgeElementsByCompetenceId = {
-          recTargeted: [domainBuilder.buildKnowledgeElement({ skillId: 1, competenceId: 'recTargeted' })],
-          recNotTargeted: [domainBuilder.buildKnowledgeElement({ skillId: 2, competenceId: 'recNotTargeted' })],
+        const targetedSkill = domainBuilder.buildSkill({ competenceId: 'competence1' });
+        const targetProfile = domainBuilder.buildTargetProfile({ skills: [targetedSkill] });
+        const validatedTargetedKnowledgeElementsByCompetenceId = {
+          recTargeted: [domainBuilder.buildKnowledgeElement({ skillId: targetedSkill.id, competenceId: 'recTargeted' })],
         };
 
         const campaignAssessmentParticipationResult = new CampaignAssessmentParticipationResult({
           campaignParticipationId: 1,
           campaignId: 2,
-          competences,
+          targetedCompetences,
           isShared: true,
-          targetedSkillIds: [1],
-          knowledgeElementsByCompetenceId,
+          targetProfile,
+          validatedTargetedKnowledgeElementsByCompetenceId,
         });
 
         expect(campaignAssessmentParticipationResult.isShared).equal(true);
