@@ -7,6 +7,7 @@ import { schedule } from '@ember/runloop';
 import { cloneDeep } from 'lodash';
 import { tracked } from '@glimmer/tracking';
 import _ from 'lodash';
+import { ACQUIRED, REJECTED } from '../../../../models/certification';
 
 export default class CertificationInformationsController extends Controller {
 
@@ -30,6 +31,19 @@ export default class CertificationInformationsController extends Controller {
   @computed('certification.status')
   get isValid() {
     return this.certification.status !== 'missing-assessment';
+  }
+
+  @computed('certification.cleaCertificationStatus')
+  get cleaStatusClass() {
+    const cleaStatus = this.certification.cleaCertificationStatus;
+    const cleaClass = 'certification-informations__clea--';
+    if (cleaStatus === ACQUIRED) {
+      return `${cleaClass}acquired`;
+    }
+    if (cleaStatus === REJECTED) {
+      return `${cleaClass}rejected`;
+    }
+    return '';
   }
 
   @action
