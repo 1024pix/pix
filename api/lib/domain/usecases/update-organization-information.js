@@ -18,7 +18,7 @@ module.exports = async function updateOrganizationInformation({
   organization.email = email;
   organization.externalId = externalId;
   organization.provinceCode = provinceCode;
-  if (isManagingStudents) organization.isManagingStudents = isManagingStudents;
+  organization.isManagingStudents = isManagingStudents;
   organization.canCollectProfiles = canCollectProfiles;
 
   await organizationRepository.update(organization);
