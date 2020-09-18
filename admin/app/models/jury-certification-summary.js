@@ -1,6 +1,16 @@
 import { computed } from '@ember/object';
 import Model, { attr } from '@ember-data/model';
 
+const ACQUIRED = 'acquired';
+const REJECTED = 'rejected';
+const NOT_PASSED = 'not_passed';
+
+const partnerCertificationStatusToDisplayName = {
+  [ACQUIRED]: 'Validée',
+  [REJECTED]: 'Rejetée',
+  [NOT_PASSED]: 'Non testée',
+};
+
 export default class JuryCertificationSummary extends Model {
 
   @attr() firstName;
@@ -12,6 +22,7 @@ export default class JuryCertificationSummary extends Model {
   @attr() isPublished;
   @attr() examinerComment;
   @attr() hasSeenEndTestScreen;
+  @attr() cleaCertificationStatus;
 
   @computed('createdAt')
   get creationDate() {
@@ -21,5 +32,10 @@ export default class JuryCertificationSummary extends Model {
   @computed('completedAt')
   get completionDate() {
     return (new Date(this.completedAt)).toLocaleString('fr-FR');
+  }
+
+  @computed('cleaCertificationStatus')
+  get cleaStatus() {
+    return partnerCertificationStatusToDisplayName[this.cleaCertificationStatus];
   }
 }
