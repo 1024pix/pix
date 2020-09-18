@@ -444,6 +444,7 @@ describe('Unit | Router | user-router', () => {
         type: 'external-users',
         attributes: {
           'external-user-token': 'TOKEN',
+          'expected-user-id': 1,
         },
       },
     };
@@ -497,6 +498,18 @@ describe('Unit | Router | user-router', () => {
         // given
         url = '/api/users/1/authentication-methods/saml';
         payload.data.attributes['external-user-token'] = '';
+
+        // when
+        const response = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+      it('should have an expectedUserId attribute in payload', async () => {
+        // given
+        url = '/api/users/1/authentication-methods/saml';
+        payload.data.attributes['expected-user-id'] = null;
 
         // when
         const response = await httpTestServer.request(method, url, payload);

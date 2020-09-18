@@ -18,16 +18,18 @@ export default class LoginOrRegisterToAccessRoute extends Controller {
   }
 
   @action
-  async addGarAuthenticationMethodToUser(externalUserToken) {
+  async addGarAuthenticationMethodToUser(externalUserToken, expectedUserId) {
     await this.currentUser.load();
     await this.currentUser.user.save({
       adapterOptions: {
         authenticationMethodsSaml: true,
         externalUserToken,
+        expectedUserId,
       },
     });
 
     this.session.set('data.externalUser', null);
+    this.session.set('data.expectedUserId', null);
 
     this.transitionToRoute('campaigns.start-or-resume', this.model.code, {
       queryParams: { associationDone: true, participantExternalId: this.participantExternalId },

@@ -147,6 +147,7 @@ describe('Integration | Application | Users | Routes', () => {
           type: 'external-users',
           attributes: {
             'external-user-token': 'TOKEN',
+            'expected-user-id': 1,
           },
         },
       };

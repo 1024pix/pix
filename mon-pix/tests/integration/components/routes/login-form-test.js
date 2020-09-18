@@ -203,6 +203,7 @@ describe('Integration | Component | routes/login-form', function() {
       sessionStub.prototype.isAuthenticated = sinon.stub().returns(true);
       sessionStub.prototype.get = sinon.stub().returns(externalUserToken);
       sessionStub.prototype.set = sinon.stub().resolves();
+      sessionStub.prototype.invalidate = sinon.stub().resolves();
 
       addGarAuthenticationMethodToUserStub = sinon.stub();
     });
@@ -261,6 +262,35 @@ describe('Integration | Component | routes/login-form', function() {
       };
       addGarAuthenticationMethodToUserStub.rejects(apiReturn);
 
+      this.set('addGarAuthenticationMethodToUser', addGarAuthenticationMethodToUserStub);
+
+      await render(hbs`<Routes::LoginForm @addGarAuthenticationMethodToUser={{this.addGarAuthenticationMethodToUser}} />`);
+
+      await fillIn('#login', 'pix@example.net');
+      await fillIn('#password', 'JeMeLoggue1024');
+
+      // when
+      await click('#submit-connexion');
+
+      // then
+      expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage);
+    });
+
+    it('should display the specific error message if update fails with http error 409 and code UNEXPECTED_USER_ACCOUNT', async function() {
+      // given
+      const expectedErrorMessage = 'L\'adresse e-mail ou l\'identifiant est incorrect. Pour continuer, vous devez vous connecter à votre compte qui est sous la forme t***@exmaple.net';
+      const apiReturn = {
+        errors: [{
+          status: 409,
+          detail: expectedErrorMessage,
+          code: 'UNEXPECTED_USER_ACCOUNT',
+          meta: {
+            value: 't***@exmaple.net',
+          },
+        }],
+      };
+
+      addGarAuthenticationMethodToUserStub.rejects(apiReturn);
       this.set('addGarAuthenticationMethodToUser', addGarAuthenticationMethodToUserStub);
 
       await render(hbs`<Routes::LoginForm @addGarAuthenticationMethodToUser={{this.addGarAuthenticationMethodToUser}} />`);

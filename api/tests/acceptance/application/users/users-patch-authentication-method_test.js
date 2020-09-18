@@ -25,6 +25,7 @@ describe('Acceptance | Route | PATCH api/users/{id}/authentication-methods/saml'
           type: 'external-users',
           attributes: {
             'external-user-token': tokenService.createIdTokenForUserReconciliation(userAttributes),
+            'expected-user-id': 1,
           },
         },
       },
@@ -69,6 +70,7 @@ describe('Acceptance | Route | PATCH api/users/{id}/authentication-methods/saml'
       await databaseBuilder.commit();
 
       options.url = `/api/users/${userWithoutSamlId.id}/authentication-methods/saml`;
+      options.payload.data.attributes['expected-user-id'] = userWithoutSamlId.id;
       options.headers.authorization = generateValidRequestAuthorizationHeader(userWithoutSamlId.id);
 
       // when
@@ -86,6 +88,7 @@ describe('Acceptance | Route | PATCH api/users/{id}/authentication-methods/saml'
       await databaseBuilder.commit();
 
       options.url = `/api/users/${userWithSamlId.id}/authentication-methods/saml`;
+      options.payload.data.attributes['expected-user-id'] = userWithSamlId.id;
       options.headers.authorization = generateValidRequestAuthorizationHeader(userWithSamlId.id);
 
       // when
@@ -110,6 +113,7 @@ describe('Acceptance | Route | PATCH api/users/{id}/authentication-methods/saml'
       await databaseBuilder.commit();
 
       options.url = `/api/users/${userWithoutSamlId.id}/authentication-methods/saml`;
+      options.payload.data.attributes['expected-user-id'] = userWithoutSamlId.id;
       options.headers.authorization = generateValidRequestAuthorizationHeader(userWithoutSamlId.id);
 
       // when
@@ -117,6 +121,27 @@ describe('Acceptance | Route | PATCH api/users/{id}/authentication-methods/saml'
 
       // then
       expect(response.statusCode).to.equal(409);
+    });
+
+    it('should respond with conflict error when authentified user does not match the expected one', async () => {
+      // given
+      const userWithoutSamlId = databaseBuilder.factory.buildUser({ samlId: null });
+      const expectedUserEmail = 'test@example.net';
+      const expectedUser = databaseBuilder.factory.buildUser({ email: expectedUserEmail, username: null });
+      await databaseBuilder.commit();
+
+      options.url = `/api/users/${userWithoutSamlId.id}/authentication-methods/saml`;
+      options.payload.data.attributes['expected-user-id'] = expectedUser.id;
+      options.headers.authorization = generateValidRequestAuthorizationHeader(userWithoutSamlId.id);
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(409);
+      const payload = JSON.parse(response.payload);
+      expect(payload.errors[0].code).to.equal('UNEXPECTED_USER_ACCOUNT');
+      expect(payload.errors[0].meta.value).to.equal('t***@example.net');
     });
   });
 

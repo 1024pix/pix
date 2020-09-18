@@ -36,15 +36,17 @@ describe('Unit | Controller | campaigns/restricted/login-or-register-to-access',
     it('should update user with idToken and redirect to campaigns.start-or-resume', async () => {
       // given
       const externalUserToken = 'ABCD';
+      const expectedUserId = 1;
       const expectedOptions = {
         adapterOptions: {
           authenticationMethodsSaml: true,
           externalUserToken,
+          expectedUserId,
         },
       };
 
       // when
-      await controller.actions.addGarAuthenticationMethodToUser.call(controller, externalUserToken);
+      await controller.actions.addGarAuthenticationMethodToUser.call(controller, externalUserToken, expectedUserId);
 
       // then
       sinon.assert.calledOnce(currentUserStub.load);
