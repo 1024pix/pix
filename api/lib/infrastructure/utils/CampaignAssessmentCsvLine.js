@@ -8,15 +8,16 @@ class CampaignAssessmentCsvLine {
   constructor({
     organization,
     campaign,
+    areas,
     competences,
     campaignParticipationInfo,
     targetProfile,
     participantKnowledgeElements,
     campaignParticipationService,
   }) {
-
     this.organization = organization;
     this.campaign = campaign;
+    this.areas = areas;
     this.competences = competences;
     this.campaignParticipationInfo = campaignParticipationInfo;
     this.targetProfile = targetProfile;
@@ -24,6 +25,11 @@ class CampaignAssessmentCsvLine {
       .filter((ke) => targetProfile.hasSkill(ke.skillId));
     this.targetedKnowledgeElementsCount = targetedKnowledgeElements.length;
     this.targetedKnowledgeElementsByCompetence = _.groupBy(targetedKnowledgeElements, 'competenceId');
+    for (const targetedCompetenceId of this.targetProfile.getCompetenceIds()) {
+      if (!this.targetedKnowledgeElementsByCompetence[targetedCompetenceId]) {
+        this.targetedKnowledgeElementsByCompetence[targetedCompetenceId] = [];
+      }
+    }
     this.campaignParticipationService = campaignParticipationService;
 
     // To have the good `this` in _getStatsForCompetence, it is necessary to bind it
@@ -50,7 +56,7 @@ class CampaignAssessmentCsvLine {
   }
 
   _getStatsForCompetence(competence) {
-    const skillsForThisCompetence = this.targetProfile.getSkillsForCompetence(competence);
+    const skillsForThisCompetence = this.targetProfile.getSkillsForCompetence(competence.id);
     return {
       targetedSkillCount: skillsForThisCompetence.length,
       validatedSkillCount: this._countValidatedKnowledgeElementsForCompetence(competence.id),
@@ -65,8 +71,7 @@ class CampaignAssessmentCsvLine {
   }
 
   _makeAreaColumns() {
-    const areas = this._extractAreas();
-    return _.flatMap(areas, ({ id }) => {
+    return _.flatMap(this.areas, ({ id }) => {
       const areaCompetenceStats = _.filter(this.competences, (competence) => competence.area.id === id)
         .map(this._getStatsForCompetence);
 
@@ -109,10 +114,9 @@ class CampaignAssessmentCsvLine {
   }
 
   _makeNotSharedColumns() {
-    const areas = this._extractAreas(this.competences);
     return [
       ...this._makeNotSharedStatsColumns(this.competences.length * STATS_COLUMNS_COUNT),
-      ...this._makeNotSharedStatsColumns(areas.length * STATS_COLUMNS_COUNT),
+      ...this._makeNotSharedStatsColumns(this.areas.length * STATS_COLUMNS_COUNT),
       ...this._makeNotSharedStatsColumns(this.targetProfile.skills.length),
     ];
   }
@@ -133,10 +137,6 @@ class CampaignAssessmentCsvLine {
     return this.targetedKnowledgeElementsByCompetence[competenceId]
       .filter((knowledgeElement) => knowledgeElement.isValidated)
       .length;
-  }
-
-  _extractAreas() {
-    return _.uniqBy(this.competences.map((competence) => competence.area), 'code');
   }
 
   _countValidatedKnowledgeElements() {

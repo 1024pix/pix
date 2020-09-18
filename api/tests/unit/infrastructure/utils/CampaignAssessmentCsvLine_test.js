@@ -30,6 +30,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
       const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
         organization,
         campaign,
+        areas: [],
         competences: [],
         campaignParticipationInfo,
         targetProfile,
@@ -61,6 +62,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
           organization,
           campaign,
+          areas: [],
           competences: [],
           campaignParticipationInfo,
           targetProfile,
@@ -84,6 +86,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
           organization,
           campaign,
+          areas: [],
           competences: [],
           campaignParticipationInfo,
           targetProfile,
@@ -118,6 +121,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
           organization,
           campaign,
+          areas,
           competences,
           campaignParticipationInfo,
           targetProfile,
@@ -176,6 +180,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         const competence2 = domainBuilder.buildCompetence({ id: 'recCompetence2', skillIds: ['recSkill2_1'], area: area1 });
         const competence3 = domainBuilder.buildCompetence({ id: 'recCompetence3', skillIds: ['recSkill3_1', 'recSkill3_2'], area: area2 });
         const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1_1, skill1_2, skill2_1, skill3_1, skill3_2] });
+        const areas = [area1, area2];
         const competences = [competence1, competence2, competence3];
         const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
           status: KnowledgeElement.StatusType.VALIDATED,
@@ -205,6 +210,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
           organization,
           campaign,
+          areas,
           competences,
           campaignParticipationInfo,
           targetProfile,
