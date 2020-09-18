@@ -487,6 +487,74 @@
       "obtained-level": "Niveau { level } gagné !"
     },
 
+    "login-or-register": {
+      "title": "",
+      "invitation": "{ organizationName } vous invite à rejoindre Pix",
+      "login-form": {
+        "button": "Se connecter",
+        "error": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects",
+        "fields": {
+          "login": {
+            "label": "Adresse e-mail ou identifiant"
+          },
+          "password": {
+            "label": "Mot de passe"
+          }
+        },
+        "forgotten-password": {
+          "email": "Une Adresse e-mail :",
+          "instruction": "Mot de passe oublié ? Vous avez un compte Pix avec :",
+          "other-identity": "Un identifiant : Contactez votre enseignant pour le réinitialiser",
+          "reset-link": "Cliquez ici pour le réinitialiser"
+        },
+        "title": "J’ai déjà un compte Pix",
+        "unexpected-user-account-error": "L'adresse e-mail ou l'identifiant est incorrect. Pour continuer, vous devez vous connecter à votre compte qui est sous la forme : "
+      },
+      "register-form": {
+        "button": "S'inscrire",
+        "button-form": "Je m'inscris",
+        "fields": {
+          "birthdate": {
+            "label": "Date de naissance (JJ/MM/AAAA)",
+            "day-error": "Votre jour de naissance n’est pas valide.",
+            "month-error": "Votre mois de naissance n’est pas valide.",
+            "year-error": "Votre année de naissance n’est pas valide."
+          },
+          "cgu": "J’accepte les '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\">'conditions d’utilisation de Pix'</a>'",
+          "email": {
+            "error": "Votre email n’est pas valide.",
+            "help": "(ex: nom@exemple.fr)",
+            "label": "Adresse e-mail"
+          },
+          "firstname": {
+            "error": "Votre prénom n’est pas renseigné.",
+            "label": "Prénom"
+          },
+          "lastname": {
+            "error": "Votre nom n’est pas renseigné.",
+            "label": "Nom"
+          },
+          "password": {
+            "error": "Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.",
+            "help": "(8 caractères minimum, dont une majuscule, une minuscule et un chiffre)",
+            "label": "Mot de passe",
+            "show-button": "rendre le mot de passe lisible"
+          },
+          "username": {
+            "label": "Mon identifiant"
+          }
+        },
+        "legal-text": "Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par Pix pour permettre l’accès au service offert. Elles sont conservées pendant la durée d’utilisation du service et sont destinées à Pix. Les résultats des tests pourront être communiqués à des tiers, avec votre consentement, dans le cas où vous avez été invité à suivre un parcours spécifique. Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en contactant le Délégué à la Protection des Données de Pix à dpo@pix.fr.",
+        "not-me": "Ce n'est pas moi",
+        "options": {
+          "email": "Mon adresse e-mail",
+          "text": "Je m'inscris avec :",
+          "username": "Mon identifiant"
+        },
+        "title": "Je m’inscris sur Pix"
+      }
+    },
+
     "not-connected": {
       "title": "Déconnecté",
       "message": "Vous êtes bien déconnecté(e).'<br>'Merci, à bientôt."

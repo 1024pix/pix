@@ -278,7 +278,7 @@ describe('Integration | Component | routes/login-form', function() {
 
     it('should display the specific error message if update fails with http error 409 and code UNEXPECTED_USER_ACCOUNT', async function() {
       // given
-      const expectedErrorMessage = 'L\'adresse e-mail ou l\'identifiant est incorrect. Pour continuer, vous devez vous connecter à votre compte qui est sous la forme t***@exmaple.net';
+      const expectedErrorMessage = 'L\'adresse e-mail ou l\'identifiant est incorrect. Pour continuer, vous devez vous connecter à votre compte qui est sous la forme : t***@exmaple.net';
       const apiReturn = {
         errors: [{
           status: 409,

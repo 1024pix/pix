@@ -15,6 +15,7 @@ export default class LoginForm extends Component {
   @inject store;
   @inject router;
   @inject currentUser;
+  @inject intl;
 
   login = null;
   password = null;
@@ -92,9 +93,9 @@ export default class LoginForm extends Component {
   }
 
   _manageErrorsApi(errorsApi) {
-    const defaultErrorMessage = 'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.';
-    const errorMessageStatusCode4xx = 'Les données que vous avez soumises ne sont pas au bon format.';
-    const unexpectedUserAccountErrorMessage = 'L\'adresse e-mail ou l\'identifiant est incorrect. Pour continuer, vous devez vous connecter à votre compte qui est sous la forme ';
+    const defaultErrorMessage = this.intl.t('api-error-messages.internal-server-error');
+    const errorMessageStatusCode4xx = this.intl.t('api-error-messages.bad-request-error');
+    const unexpectedUserAccountErrorMessage = this.intl.t('pages.login-or-register.login-form.unexpected-user-account-error');
 
     let errorMessage = defaultErrorMessage;
 

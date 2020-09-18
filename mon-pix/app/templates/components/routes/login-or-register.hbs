@@ -3,12 +3,14 @@
     <div>
       <img src="/images/pix-logo.svg" alt="Pix" class="login-or-register-panel__logo">
     </div>
-    <span class="login-or-register-panel__invitation">{{@organizationName}} vous invite à rejoindre Pix</span>
+    <span class="login-or-register-panel__invitation">{{t 'pages.login-or-register.invitation' organizationName=@organizationName}}</span>
     <div class="login-or-register-panel__forms-container">
       <div class="login-or-register-panel__form">
-        <h1 class="form-title">Je m’inscris sur Pix</h1>
+        <h1 class="form-title">{{t 'pages.login-or-register.register-form.title'}}</h1>
         {{#unless @displayRegisterForm}}
-          <button id="register-button" {{action @toggleFormsVisibility}} class="button button--white button--bordered button--uppercase" type="button">S'inscrire</button>
+          <button id="register-button" {{action @toggleFormsVisibility}} class="button button--white button--bordered button--uppercase" type="button">
+            {{t 'pages.login-or-register.register-form.button'}}
+          </button>
         {{/unless}}
         <div class={{concat "login-or-register-panel-form__expandable" (if @displayRegisterForm " login-or-register-panel-form__expandable--expanded")}}>
           {{#if @displayRegisterForm}}
@@ -18,9 +20,9 @@
       </div>
       <div class="login-or-register-panel__divider"></div>
       <div class="login-or-register-panel__form">
-        <h1 class="form-title">J’ai déjà un compte Pix</h1>
+        <h1 class="form-title">{{t 'pages.login-or-register.login-form.title'}}</h1>
         {{#if @displayRegisterForm}}
-          <button id="login-button" {{action @toggleFormsVisibility}} class="button button--white button--bordered button--uppercase" type="button">Se connecter</button>
+          <button id="login-button" {{action @toggleFormsVisibility}} class="button button--white button--bordered button--uppercase" type="button">{{t 'pages.login-or-register.login-form.button'}}</button>
         {{/if}}
         <div class={{concat "login-or-register-panel-form__expandable" (if (not @displayRegisterForm) " login-or-register-panel-form__expandable--expanded")}}>
           {{#unless @displayRegisterForm}}
