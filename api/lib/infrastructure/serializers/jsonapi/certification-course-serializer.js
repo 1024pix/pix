@@ -16,6 +16,8 @@ module.exports = {
         'nbChallenges',
         'examinerComment',
         'hasSeenEndTestScreen',
+        'firstName',
+        'lastName',
       ],
       assessment: {
         ref: 'id',
