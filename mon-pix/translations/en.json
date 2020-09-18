@@ -486,6 +486,74 @@
       "obtained-level": "Level { level } succeeded!"
     },
 
+    "login-or-register": {
+      "title": "",
+      "invitation": "",
+      "login-form": {
+        "button": "",
+        "error": "",
+        "fields": {
+          "login": {
+            "label": ""
+          },
+          "password": {
+            "label": ""
+          }
+        },
+        "forgotten-password": {
+          "email": "",
+          "instruction": "",
+          "other-identity": "",
+          "reset-link": ""
+        },
+        "title": "",
+        "unexpected-user-account-error": ""
+      },
+      "register-form": {
+        "button": "",
+        "button-form": "",
+        "fields": {
+          "birthdate": {
+            "label": "",
+            "day-error": "",
+            "month-error": "",
+            "year-error": ""
+          },
+          "cgu": "",
+          "email": {
+            "error": "",
+            "help": "",
+            "label": ""
+          },
+          "firstname": {
+            "error": "",
+            "label": ""
+          },
+          "lastname": {
+            "error": "",
+            "label": ""
+          },
+          "password": {
+            "error": "",
+            "help": "",
+            "label": "",
+            "show-button": ""
+          },
+          "username": {
+            "label": ""
+          }
+        },
+        "legal-text": "",
+        "not-me": "",
+        "options": {
+          "email": "",
+          "text": "",
+          "username": ""
+        },
+        "title": ""
+      }
+    },
+
     "not-connected": {
       "title": "",
       "message": ""

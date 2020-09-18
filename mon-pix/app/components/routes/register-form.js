@@ -16,13 +16,13 @@ import ENV from 'mon-pix/config/environment';
 import { getRegisterErrorsMessageByShortCode } from '../../utils/errors-messages';
 
 const ERROR_INPUT_MESSAGE_MAP = {
-  firstName: 'Votre prénom n’est pas renseigné.',
-  lastName: 'Votre nom n’est pas renseigné.',
-  dayOfBirth: 'Votre jour de naissance n’est pas valide.',
-  monthOfBirth: 'Votre mois de naissance n’est pas valide.',
-  yearOfBirth: 'Votre année de naissance n’est pas valide.',
-  email: 'Votre email n’est pas valide.',
-  password: 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.',
+  firstName: 'pages.login-or-register.register-form.fields.firstname.error',
+  lastName: 'pages.login-or-register.register-form.fields.lastname.error',
+  dayOfBirth: 'pages.login-or-register.register-form.fields.birthdate.day-error',
+  monthOfBirth: 'pages.login-or-register.register-form.fields.birthdate.month-error',
+  yearOfBirth: 'pages.login-or-register.register-form.fields.birthdate.year-error',
+  email: 'pages.login-or-register.register-form.fields.email.error',
+  password: 'pages.login-or-register.register-form.fields.password.error',
 };
 
 const isDayValid = (value) => value > 0 && value <= 31;
@@ -269,7 +269,7 @@ export default class RegisterForm extends Component {
 
   _executeFieldValidation(key, value, isValid) {
     const isInvalidInput = !isValid(value);
-    const message = isInvalidInput ? ERROR_INPUT_MESSAGE_MAP[key] : null;
+    const message = isInvalidInput ? this.intl.t(ERROR_INPUT_MESSAGE_MAP[key]) : null;
     const status =  isInvalidInput ? 'error' : 'success';
     const statusObject = 'validation.' + key + '.status';
     const messageObject = 'validation.' + key + '.message';
