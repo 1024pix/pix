@@ -478,6 +478,48 @@
       "first-title": "Oups, une erreur est survenue !"
     },
 
+    "join": {
+      "title": "Rejoindre",
+      "button": "C'est parti !",
+      "fields": {
+        "birthdate": {
+          "label": "Date de naissance",
+          "day-error": "Votre jour de naissance n’est pas valide.",
+          "day-format":"JJ",
+          "month-error": "Votre mois de naissance n’est pas valide.",
+          "month-format": "MM",
+          "year-error": "Votre année de naissance n’est pas valide.",
+          "year-format": "AAAA"
+        },
+        "firstname": {
+          "error": "Votre prénom n’est pas renseigné.",
+          "label": "Prénom"
+        },
+        "lastname": {
+          "error": "Votre nom n’est pas renseigné.",
+          "label": "Nom"
+        }
+      },
+      "first-title":"Rejoignez l'organisation { organizationName }",
+      "sco": {
+        "continue-with-pix": "Continuer avec mon compte Pix",
+        "error-not-found": "Vous êtes un élève ? '<br/>' Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.'<br/><br/>' Vous êtes un enseignant ? '<br/>' L‘accès à un parcours n‘est pas disponible pour le moment.",
+        "login-information-title": "Information de connexion"
+      },
+      "subtitle": "Remplissez les informations manquantes",
+      "sup": {
+        "error": "Veuillez vérifier les informations saisies, ou si vous avez déjà un compte Pix, connectez-vous avec celui-ci.",
+        "fields": {
+          "student-number": {
+            "error": "Votre numéro étudiant n’est pas renseigné.",
+            "label": "Numéro étudiant",
+            "modify": "Modifier le numéro étudiant",
+            "not-existing": "Je n'ai pas de numéro étudiant"
+          }
+        }
+      }
+    },
+
     "learning-more": {
       "title": "Pour en apprendre davantage",
       "info": "Ces liens vers les tutos ont été proposés par des utilisateurs de Pix."

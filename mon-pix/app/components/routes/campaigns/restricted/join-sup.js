@@ -5,12 +5,12 @@ import Component from '@glimmer/component';
 import { standardizeNumberInTwoDigitFormat } from 'mon-pix/utils/standardize-number';
 
 const ERROR_INPUT_MESSAGE_MAP = {
-  studentNumber: 'Votre numéro étudiant n’est pas renseigné.',
-  firstName: 'Votre prénom n’est pas renseigné.',
-  lastName: 'Votre nom n’est pas renseigné.',
-  dayOfBirth: 'Votre jour de naissance n’est pas valide.',
-  monthOfBirth: 'Votre mois de naissance n’est pas valide.',
-  yearOfBirth: 'Votre année de naissance n’est pas valide.',
+  studentNumber: 'pages.join.sup.fields.student-number.error',
+  firstName: 'pages.join.fields.firstname.error',
+  lastName: 'pages.join.fields.lastname.error',
+  dayOfBirth: 'pages.join.fields.birthdate.day-error',
+  monthOfBirth: 'pages.join.fields.birthdate.month-error',
+  yearOfBirth: 'pages.join.fields.birthdate.year-error',
 };
 
 const isDayValid = (value) => value > 0 && value <= 31;
@@ -29,6 +29,7 @@ class Validation {
 
 export default class JoinSup extends Component {
   @service store;
+  @service intl;
   @tracked errorMessage;
   @tracked isLoading = false;
   @tracked showFurtherInformationForm = false;
@@ -144,7 +145,7 @@ export default class JoinSup extends Component {
 
   _setErrorMessageForAttemptNextAction(errorResponse) {
     const ERRORS_HANDLED = ['409', '404'];
-    const ERRORS_HANDLED_MESSAGE = 'Veuillez vérifier les informations saisies, ou si vous avez déjà un compte Pix, connectez-vous avec celui-ci.';
+    const ERRORS_HANDLED_MESSAGE = this.intl.t('pages.join.sup.error');
     errorResponse.errors.forEach((error) => {
       if (ERRORS_HANDLED.includes(error.status)) {
         return this.errorMessage = ERRORS_HANDLED_MESSAGE;
@@ -161,7 +162,7 @@ export default class JoinSup extends Component {
 
   _executeFieldValidation(key, value, isValid) {
     const isInvalidInput = !isValid(value);
-    const message = isInvalidInput ? ERROR_INPUT_MESSAGE_MAP[key] : null;
+    const message = isInvalidInput ? this.intl.t(ERROR_INPUT_MESSAGE_MAP[key]) : null;
     this.validation[key] = message;
   }
 

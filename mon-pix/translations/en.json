@@ -477,6 +477,48 @@
       "first-title": "Oops, an error occurred!"
     },
 
+    "join": {
+      "title": "",
+      "button": "",
+      "fields": {
+        "birthdate": {
+          "label": "",
+          "day-error": "",
+          "day-format":"",
+          "month-error": "",
+          "month-format": "",
+          "year-error": "",
+          "year-format": ""
+        },
+        "firstname": {
+          "error": "",
+          "label": ""
+        },
+        "lastname": {
+          "error": "",
+          "label": ""
+        }
+      },
+      "first-title":"",
+      "sco": {
+        "continue-with-pix": "",
+        "error-not-found": "",
+        "login-information-title": ""
+      },
+      "subtitle": "",
+      "sup": {
+        "error": "",
+        "fields": {
+          "student-number": {
+            "error": "",
+            "label": "",
+            "modify": "",
+            "not-existing": ""
+          }
+        }
+      }
+    },
+
     "learning-more": {
       "title": "To find out more",
       "info": "These tutorial links have been suggested by Pix users."
