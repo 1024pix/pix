@@ -892,6 +892,20 @@
       }
     },
 
+    "update-expired-password": {
+      "title": "Changer mon mot de passe",
+      "button": "Réinitialiser",
+      "fields": {
+        "error": "Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.",
+        "help": "(8 caractères minimum, dont une majuscule, une minuscule et un chiffre)",
+        "label": "Mot de passe"
+      },
+      "first-title": "Réinitialiser le mot de passe",
+      "go-to-login": "Je me connecte",
+      "subtitle": "Choisissez un nouveau mot de passe pour continuer",
+      "validation": "Votre mot de passe a été mis à jour."
+    },
+
     "warning": {
       "action": "Commencer",
       "instructions": "Vous disposerez de '<span class=\"challenge-item-warning__instruction-time\">'{time}'</span>' pour réussir la question suivante.",
