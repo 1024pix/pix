@@ -11,11 +11,11 @@ import ENV from 'mon-pix/config/environment';
 import { getJoinErrorsMessageByShortCode } from '../../../../utils/errors-messages';
 
 const ERROR_INPUT_MESSAGE_MAP = {
-  firstName: 'Votre prénom n’est pas renseigné.',
-  lastName: 'Votre nom n’est pas renseigné.',
-  dayOfBirth: 'Votre jour de naissance n’est pas valide.',
-  monthOfBirth: 'Votre mois de naissance n’est pas valide.',
-  yearOfBirth: 'Votre année de naissance n’est pas valide.',
+  firstName: 'pages.join.fields.firstname.error',
+  lastName: 'pages.join.fields.lastname.error',
+  dayOfBirth: 'pages.join.fields.birthdate.day-error',
+  monthOfBirth: 'pages.join.fields.birthdate.month-error',
+  yearOfBirth: 'pages.join.fields.birthdate.year-error',
 };
 const ACCOUNT_WITH_SAMLID_ALREADY_EXISTS_ERRORS = ['R13', 'R33'];
 
@@ -175,7 +175,7 @@ export default class JoinSco extends Component {
 
   _executeFieldValidation(key, value, isValid) {
     const isInvalidInput = !isValid(value);
-    const message = isInvalidInput ? ERROR_INPUT_MESSAGE_MAP[key] : null;
+    const message = isInvalidInput ? this.intl.t(ERROR_INPUT_MESSAGE_MAP[key]) : null;
     this.validation[key] = message;
   }
 
@@ -210,7 +210,7 @@ export default class JoinSco extends Component {
         return this.modalErrorMessage = message;
       }
       if (error.status === '404') {
-        return this.errorMessage = 'Vous êtes un élève ? <br/> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.<br/> <br/> Vous êtes un enseignant ? <br/> L‘accès à un parcours n‘est pas disponible pour le moment.';
+        return this.errorMessage = this.intl.t('pages.join.sco.error-not-found', { htmlSafe: true });
       }
       return this.errorMessage = error.detail;
     });

@@ -6,10 +6,12 @@ import sinon from 'sinon';
 import createComponent from '../../../../../helpers/create-glimmer-component';
 
 import { getJoinErrorsMessageByShortCode } from 'mon-pix/utils/errors-messages';
+import setupIntl from '../../../../../helpers/setup-intl';
 
 describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
   setupTest();
+  setupIntl();
 
   let component;
   let storeStub;
@@ -473,7 +475,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
         // then
         sinon.assert.calledOnce(record.unloadRecord);
-        expect(component.errorMessage).to.equal('Vous êtes un élève ? <br/> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.<br/> <br/> Vous êtes un enseignant ? <br/> L‘accès à un parcours n‘est pas disponible pour le moment.');
+        expect(component.errorMessage.string).to.equal('Vous êtes un élève ? <br/> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.<br/><br/> Vous êtes un enseignant ? <br/> L‘accès à un parcours n‘est pas disponible pour le moment.');
       });
 
       describe('When student is already reconciled in others organization', async function() {
