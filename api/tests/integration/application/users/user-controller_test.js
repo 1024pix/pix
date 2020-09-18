@@ -162,16 +162,16 @@ describe('Integration | Application | Users | user-controller', () => {
         expect(response.result.errors[0].detail).to.equal('"data.attributes.external-user-token" is required');
       });
 
-      it('should return a 400 HTTP response when the IdToken is invalid', async () => {
+      it('should return a 401 HTTP response when the IdToken is invalid', async () => {
         // given
-        const expectedMessageError = 'L’idToken de l’utilisateur externe est invalide.';
-        usecases.updateUserSamlId.rejects(new InvalidExternalUserTokenError());
+        const expectedMessageError = 'Une erreur est survenue. Veuillez réessayer de vous connecter depuis le médiacentre.';
+        usecases.updateUserSamlId.rejects(new InvalidExternalUserTokenError(expectedMessageError));
 
         // when
         const response = await httpTestServer.request(method, url, payload);
 
         // then
-        expect(response.statusCode).to.equal(400);
+        expect(response.statusCode).to.equal(401);
         expect(response.result.errors[0].detail).to.equal(expectedMessageError);
       });
     });

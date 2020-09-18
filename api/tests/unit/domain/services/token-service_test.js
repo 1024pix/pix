@@ -4,7 +4,7 @@ const jsonwebtoken = require('jsonwebtoken');
 const { catchErr, expect } = require('../../../test-helper');
 
 const User = require('../../../../lib/domain/models/User');
-const { InvalidTemporaryKeyError } = require('../../../../lib/domain/errors');
+const { InvalidTemporaryKeyError, InvalidExternalUserTokenError } = require('../../../../lib/domain/errors');
 const settings = require('../../../../lib/config');
 
 const tokenService = require('../../../../lib/domain/services/token-service');
@@ -54,13 +54,15 @@ describe('Unit | Domain | Service | Token Service', () => {
       expect(result).to.deep.equal(externalUser);
     });
 
-    it('should throw an InvalidTemporaryKeyError if the accessToken is invalid', async () => {
+    it('should throw an InvalidExternalUserTokenError if the idToken is invalid', async () => {
       // given
-      const accessToken = 'WRONG_DATA';
+      const idToken = 'WRONG_DATA';
 
       // when
-      const error = await catchErr(tokenService.extractExternalUserFromIdToken)(accessToken);
-      expect(error).to.be.an.instanceof(InvalidTemporaryKeyError);
+      const error = await catchErr(tokenService.extractExternalUserFromIdToken)(idToken);
+      expect(error).to.be.an.instanceof(InvalidExternalUserTokenError);
+      expect(error.message).to.be.equal('Une erreur est survenue. Veuillez réessayer de vous connecter depuis le médiacentre.');
+
     });
 
   });
