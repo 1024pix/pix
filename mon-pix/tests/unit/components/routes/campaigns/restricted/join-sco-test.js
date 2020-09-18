@@ -22,7 +22,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
   beforeEach(function() {
     record = { unloadRecord: sinon.stub() };
     storeStub = { createRecord: sinon.stub().returns(record) };
-    sessionStub = { data: { authenticated: { source: 'pix' } }, get: sinon.stub() };
+    sessionStub = { data: { authenticated: { source: 'pix' } }, get: sinon.stub(), set: sinon.stub() };
     onSubmitToReconcileStub = sinon.stub();
     onSubmitToCreateAndReconcileStub = sinon.stub();
     eventStub = { preventDefault: sinon.stub() };
@@ -471,7 +471,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
           it('should return a conflict error and display the error message related to the short code R11)', async function() {
             // given
-            const meta = { shortCode: 'R11', value: 'j***@example.net' };
+            const meta = { shortCode: 'R11', value: 'j***@example.net', userId: 1 };
             const expectedErrorMessage = getJoinErrorsMessageByShortCode(meta);
 
             const error = {
@@ -489,6 +489,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
             // then
             sinon.assert.calledOnce(record.unloadRecord);
+            sinon.assert.calledWith(sessionStub.set, 'data.expectedUserId', meta.userId);
             expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
             expect(component.isLoading).to.be.false;
             expect(component.displayContinueButton).to.be.true;
@@ -500,7 +501,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
           it('should return a conflict error and display the error message related to the short code R12)', async function() {
             // given
-            const meta = { shortCode: 'R12', value: 'j***.h***2' };
+            const meta = { shortCode: 'R12', value: 'j***.h***2', userId: 1 };
             const expectedErrorMessage = getJoinErrorsMessageByShortCode(meta);
 
             const error = {
@@ -518,6 +519,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
             // then
             sinon.assert.calledOnce(record.unloadRecord);
+            sinon.assert.calledWith(sessionStub.set, 'data.expectedUserId', meta.userId);
             expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
             expect(component.isLoading).to.be.false;
             expect(component.displayContinueButton).to.be.true;
@@ -529,7 +531,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
           it('should return a conflict error and display the error message related to the short code R13)', async function() {
             // given
-            const meta = { shortCode: 'R13', value: undefined };
+            const meta = { shortCode: 'R13', value: undefined, userId: 1 };
             const expectedErrorMessage = getJoinErrorsMessageByShortCode(meta);
 
             const error = {
@@ -547,6 +549,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
             // then
             sinon.assert.calledOnce(record.unloadRecord);
+            sinon.assert.calledWith(sessionStub.set, 'data.expectedUserId', meta.userId);
             expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
             expect(component.isLoading).to.be.false;
             expect(component.displayContinueButton).to.be.false;
@@ -558,7 +561,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
           it('should return a conflict error and display the error message related to the short code R13)', async function() {
             // given
-            const meta = { shortCode: 'R13', value: undefined };
+            const meta = { shortCode: 'R13', value: undefined, userId: 1 };
             const expectedErrorMessage = getJoinErrorsMessageByShortCode(meta);
 
             const error = {
@@ -576,6 +579,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
             // then
             sinon.assert.calledOnce(record.unloadRecord);
+            sinon.assert.calledWith(sessionStub.set, 'data.expectedUserId', meta.userId);
             expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
             expect(component.isLoading).to.be.false;
             expect(component.displayContinueButton).to.be.false;
@@ -587,7 +591,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
           it('should return a conflict error and display the error message related to the short code R13)', async function() {
             // given
-            const meta = { shortCode: 'R13', value: undefined };
+            const meta = { shortCode: 'R13', value: undefined, userId: 1 };
             const expectedErrorMessage = getJoinErrorsMessageByShortCode(meta);
 
             const error = {
@@ -605,6 +609,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
             // then
             sinon.assert.calledOnce(record.unloadRecord);
+            sinon.assert.calledWith(sessionStub.set, 'data.expectedUserId', meta.userId);
             expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
             expect(component.isLoading).to.be.false;
             expect(component.displayContinueButton).to.be.false;
@@ -616,7 +621,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
           it('should return a conflict error and display the error message related to the short code R13)', async function() {
             // given
-            const meta = { shortCode: 'R13', value: undefined };
+            const meta = { shortCode: 'R13', value: undefined, userId: 1 };
             const expectedErrorMessage = getJoinErrorsMessageByShortCode(meta);
 
             const error = {
@@ -634,6 +639,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
             // then
             sinon.assert.calledOnce(record.unloadRecord);
+            sinon.assert.calledWith(sessionStub.set, 'data.expectedUserId', meta.userId);
             expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
             expect(component.isLoading).to.be.false;
             expect(component.displayContinueButton).to.be.false;
@@ -645,7 +651,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
           it('should return a conflict error and display the error message related to the short code R12)', async function() {
             // given
-            const meta = { shortCode: 'R12', value: 'j***.h***2' };
+            const meta = { shortCode: 'R12', value: 'j***.h***2', userId: 1 };
             const expectedErrorMessage = getJoinErrorsMessageByShortCode(meta);
 
             const error = {
@@ -663,6 +669,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
             // then
             sinon.assert.calledOnce(record.unloadRecord);
+            sinon.assert.calledWith(sessionStub.set, 'data.expectedUserId', meta.userId);
             expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
             expect(component.isLoading).to.be.false;
             expect(component.displayContinueButton).to.be.true;

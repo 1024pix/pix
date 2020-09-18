@@ -118,6 +118,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.InvalidParametersForSessionPublication) {
     return new HttpErrors.BadRequestError(error.message);
   }
+  if (error instanceof DomainErrors.UnexpectedUserAccount) {
+    return new HttpErrors.ConflictError(error.message, error.code, error.meta);
+  }
   if (error instanceof DomainErrors.AlreadyExistingEntity) {
     return new HttpErrors.PreconditionFailedError(error.message);
   }

@@ -2,7 +2,7 @@ const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-
 
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const usecases = require('../../../../lib/domain/usecases');
-const { InvalidExternalUserTokenError } = require('../../../../lib/domain/errors');
+const { InvalidExternalUserTokenError, UnexpectedUserAccount } = require('../../../../lib/domain/errors');
 
 const moduleUnderTest = require('../../../../lib/application/users');
 
@@ -116,6 +116,7 @@ describe('Integration | Application | Users | user-controller', () => {
           type: 'external-users',
           attributes: {
             'external-user-token': 'TOKEN',
+            'expected-user-id': 1,
           },
         },
       };
@@ -173,6 +174,23 @@ describe('Integration | Application | Users | user-controller', () => {
         // then
         expect(response.statusCode).to.equal(401);
         expect(response.result.errors[0].detail).to.equal(expectedMessageError);
+      });
+
+      it('should return a 409 HTTP response when the authentified user does not match the expected one', async () => {
+        // given
+        const expectedMessageError = 'Ce compte utilisateur n\'est pas celui qui est attendu.';
+        const expectedCode = 'EXPECTED_CODE';
+        const expectedMeta = { value: 'obfuscatedEmail' };
+        usecases.updateUserSamlId.rejects(new UnexpectedUserAccount({ code: expectedCode, meta: expectedMeta }));
+
+        // when
+        const response = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(409);
+        expect(response.result.errors[0].detail).to.equal(expectedMessageError);
+        expect(response.result.errors[0].code).to.equal(expectedCode);
+        expect(response.result.errors[0].meta).to.equal(expectedMeta);
       });
     });
 

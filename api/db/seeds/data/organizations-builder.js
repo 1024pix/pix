@@ -87,10 +87,18 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
 
   // SchoolingRegistrations
 
-  databaseBuilder.factory.buildSchoolingRegistration({
-    id: 1,
+  const userFirstLast = databaseBuilder.factory.buildUser.withUnencryptedPassword({
     firstName: 'First',
     lastName: 'Last',
+    email: 'first.last@example.net',
+    rawPassword: defaultPassword,
+    cgu: true,
+  });
+
+  const firstLastSchoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+    id: 1,
+    firstName: userFirstLast.firstName,
+    lastName: userFirstLast.lastName,
     birthdate: '2010-10-10',
     organizationId: 3,
     userId: null,
@@ -213,7 +221,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
 
   // Memberships
 
-  const adminSCO2ManagingStudentUser = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  const adminSCO2ManagingStudentUserId = databaseBuilder.factory.buildUser.withUnencryptedPassword({
     firstName: 'Admin',
     lastName: 'SCO2',
     email: 'admin.sco2@example.net',
@@ -221,7 +229,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
   }).id;
 
   databaseBuilder.factory.buildMembership({
-    userId: adminSCO2ManagingStudentUser,
+    userId: adminSCO2ManagingStudentUserId,
     organizationId: SCO2OrganizationId,
     organizationRole: Membership.roles.ADMIN,
   });
@@ -245,6 +253,16 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     birthdate: '2003-09-30',
     organizationId: SCO2OrganizationId,
     nationalStudentId: anotherINE,
+    createdAt: new Date('2020-08-14'),
+  });
+
+  databaseBuilder.factory.buildSchoolingRegistration({
+    userId: userFirstLast.id,
+    firstName: userFirstLast.firstName,
+    lastName: userFirstLast.lastName,
+    birthdate: firstLastSchoolingRegistration.birthdate,
+    organizationId: SCO2OrganizationId,
+    nationalStudentId: firstLastSchoolingRegistration.nationalStudentId,
     createdAt: new Date('2020-08-14'),
   });
 
