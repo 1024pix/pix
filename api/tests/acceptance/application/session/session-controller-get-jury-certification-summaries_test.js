@@ -57,8 +57,11 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
         certif1 = dbf.buildCertificationCourse({ sessionId, lastName: 'AAA' });
         certif2 = dbf.buildCertificationCourse({ sessionId, lastName: 'CCC' });
 
+        const badge = dbf.buildBadge();
+
         const assessmentId1 = dbf.buildAssessment({ certificationCourseId: certif1.id }).id;
         dbf.buildAssessment({ certificationCourseId: certif2.id });
+        dbf.buildPartnerCertification({ certificationCourseId: certif1.id, partnerKey: badge.key });
 
         asr1 = dbf.buildAssessmentResult({ assessmentId: assessmentId1, createdAt: new Date('2018-04-15T00:00:00Z') });
 
@@ -70,6 +73,7 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
           'is-published': certif1.isPublished,
           'created-at': certif1.createdAt,
           'completed-at': certif1.completedAt,
+          'clea-certification-status': 'acquired',
           'examiner-comment': certif1.examinerComment,
           'has-seen-end-test-screen': certif1.hasSeenEndTestScreen,
         };
@@ -80,6 +84,7 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
           'pix-score': null,
           'is-published': certif2.isPublished,
           'created-at': certif2.createdAt,
+          'clea-certification-status': 'not_passed',
           'completed-at': certif2.completedAt,
           'examiner-comment': certif2.examinerComment,
           'has-seen-end-test-screen': certif2.hasSeenEndTestScreen,
