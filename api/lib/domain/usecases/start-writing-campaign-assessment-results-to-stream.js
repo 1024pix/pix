@@ -32,10 +32,10 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
     campaignParticipationInfoRepository.findByCampaignId(campaign.id),
   ]);
 
-  const competences = _extractCompetences(allCompetences, targetProfile.skills);
+  const competences = _extractTargetedCompetences(allCompetences, targetProfile.getCompetenceIds());
 
   //Create HEADER of CSV
-  const headers = _createHeaderOfCSV(targetProfile.skills, competences, campaign.idPixLabel, organization.type, organization.isManagingStudents);
+  const headers = _createHeaderOfCSV(targetProfile, competences, campaign.idPixLabel, organization.type, organization.isManagingStudents);
 
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
@@ -89,7 +89,7 @@ async function _checkCreatorHasAccessToCampaignOrganization(userId, organization
   }
 }
 
-function _createHeaderOfCSV(skills, competences, idPixLabel, organizationType, organizationIsManagingStudents) {
+function _createHeaderOfCSV(targetProfile, competences, idPixLabel, organizationType, organizationIsManagingStudents) {
   const areas = _extractAreas(competences);
 
   return [
@@ -121,22 +121,18 @@ function _createHeaderOfCSV(skills, competences, idPixLabel, organizationType, o
       `Acquis maitrisés du domaine ${area.title}`,
     ])),
 
-    ...(_.map(skills, 'name')),
+    ...(targetProfile.getSkillNames()),
   ];
 }
 
-function _extractCompetences(allCompetences, skills) {
-  return _(skills)
-    .map('competenceId')
-    .uniq()
-    .map((competenceId) => {
-      const competence = _.find(allCompetences, { id: competenceId });
-      if (!competence) {
-        throw new Error(`Unknown competence ${competenceId}`);
-      }
-      return competence;
-    })
-    .value();
+function _extractTargetedCompetences(allCompetences, targetedCompetenceIds) {
+  return targetedCompetenceIds.map((competenceId) => {
+    const competence = _.find(allCompetences, { id: competenceId });
+    if (!competence) {
+      throw new Error(`Unknown competence ${competenceId}`);
+    }
+    return competence;
+  });
 }
 
 function _extractAreas(competences) {

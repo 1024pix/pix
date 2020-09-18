@@ -21,7 +21,7 @@ class CampaignAssessmentCsvLine {
     this.campaignParticipationInfo = campaignParticipationInfo;
     this.targetProfile = targetProfile;
     this.knowledgeElements = participantKnowledgeElements
-      .filter((ke) => _.find(targetProfile.skills, { id: ke.skillId }));
+      .filter((ke) => targetProfile.hasSkill(ke.skillId));
     this.campaignParticipationService = campaignParticipationService;
 
     // To have the good `this` in _getStatsForCompetence, it is necessary to bind it

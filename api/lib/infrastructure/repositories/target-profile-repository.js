@@ -1,4 +1,3 @@
-
 const bluebird = require('bluebird');
 const BookshelfTargetProfile = require('../../infrastructure/data/target-profile');
 const skillDatasource = require('../../infrastructure/datasources/airtable/skill-datasource');
@@ -82,7 +81,7 @@ async function _getWithAirtableSkills(targetProfile) {
   });
 }
 
-async function _getAirtableDataObjectsSkills(bookshelfTargetProfile) {
+function _getAirtableDataObjectsSkills(bookshelfTargetProfile) {
   const skillRecordIds = bookshelfTargetProfile.related('skillIds').map((BookshelfSkillId) => BookshelfSkillId.get('skillId'));
-  return await skillDatasource.findOperativeByRecordIds(skillRecordIds);
+  return skillDatasource.findOperativeByRecordIds(skillRecordIds);
 }

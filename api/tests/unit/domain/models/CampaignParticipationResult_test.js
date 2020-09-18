@@ -37,10 +37,11 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
       { title: 'palier 5', message: 'Tu as le palier 5', threshold: 80 },
     ];
 
-    const targetProfile = {
+    const targetProfile = domainBuilder.buildTargetProfile({
       id: 1,
       skills,
-    };
+      stages: null,
+    });
 
     const assessment = {
       id: assessmentId,
