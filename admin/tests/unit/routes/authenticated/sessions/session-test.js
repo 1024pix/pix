@@ -10,14 +10,12 @@ module('Unit | Route | authenticated/sessions/session', function(hooks) {
     const sessions = { inputId: 5 };
     const id = Symbol('id');
     const route = this.owner.lookup('route:authenticated/sessions/session');
-    route.controllerFor = sinon.stub().returns(sessions);
 
     // when
-    route.setupController(null, { id });
+    route.setupController(sessions, { id });
 
     // then
     assert.equal(sessions.inputId, id);
-    assert.ok(route.controllerFor.calledWith('authenticated.sessions.session'));
   });
 
   test('#error', function(assert) {

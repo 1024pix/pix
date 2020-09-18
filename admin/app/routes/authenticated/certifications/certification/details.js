@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 
-export default class CertificationDetailsRoute extends Route {  
+export default class CertificationDetailsRoute extends Route {
   model() {
     const { certification_id } = this.paramsFor('authenticated.certifications.certification');
     return this.store.findRecord('certificationDetails', certification_id);
@@ -8,6 +8,7 @@ export default class CertificationDetailsRoute extends Route {
 
   setupController(controller, model) {
     super.setupController(controller, model);
-    this.controllerFor('authenticated.certifications.certification.details').certificationId = model.id;
+    // this.controllerFor('authenticated.certifications.certification.details').certificationId = model.id;
+    controller.certificationId = model.id;
   }
 }

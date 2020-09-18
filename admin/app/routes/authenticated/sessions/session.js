@@ -7,7 +7,8 @@ export default class SessionRoute extends Route {
 
   setupController(controller, model) {
     super.setupController(controller, model);
-    this.controllerFor('authenticated.sessions.session').inputId = model.id;
+    // this.controllerFor('authenticated.sessions.session').inputId = model.id;
+    controller.inputId = model.id;
   }
 
   @action
