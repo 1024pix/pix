@@ -1,7 +1,7 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
-const CampaignAssessmentCsvLine = require('../../../../../lib/infrastructure/utils/CampaignAssessmentCsvLine');
-const campaignParticipationService = require('../../../../../lib/domain/services/campaign-participation-service');
-const KnowledgeElement = require('../../../../../lib/domain/models/KnowledgeElement');
+const { expect, domainBuilder } = require('../../../test-helper');
+const CampaignAssessmentCsvLine = require('../../../../lib/infrastructure/utils/CampaignAssessmentCsvLine');
+const campaignParticipationService = require('../../../../lib/domain/services/campaign-participation-service');
+const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 
 const ORGANIZATION_NAME_COLUMN = 0;
 const CAMPAIGN_ID_COLUMN = 1;
@@ -16,18 +16,20 @@ const PARTICIPATION_SHARED_AT_COLUMN = 9;
 const PARTICIPATION_PROGRESSION_COLUMN = 10;
 const OTHER_COLUMNS = 11;
 
-describe('Integration | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
+describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
 
   describe('#toCsvLine', () => {
 
     it('should return common info', () => {
       // given
-      const campaignInfo = domainBuilder.buildCampaignInfo({ idPixLabel: null, organizationIsManagingStudents: false });
+      const organization = domainBuilder.buildOrganization({ isManagingStudents: false });
+      const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
       const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ createdAt: new Date('2020-01-01'), isCompleted: false });
       const skill = domainBuilder.buildSkill({ id: 'recSkill', competenceId: 'recCompetence1' });
       const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
       const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
-        campaignInfo,
+        organization,
+        campaign,
         competences: [],
         campaignParticipationInfo,
         targetProfile,
@@ -39,9 +41,9 @@ describe('Integration | Infrastructure | Utils | CampaignAssessmentCsvLine', () 
       const csvLine = campaignAssessmentCsvLine.toCsvLine();
 
       // then
-      expect(csvLine[ORGANIZATION_NAME_COLUMN], 'organization name').to.equal(campaignInfo.organizationName);
-      expect(csvLine[CAMPAIGN_ID_COLUMN], 'campaign id').to.equal(campaignInfo.id);
-      expect(csvLine[CAMPAIGN_NAME_COLUMN], 'campaign name').to.equal(campaignInfo.name);
+      expect(csvLine[ORGANIZATION_NAME_COLUMN], 'organization name').to.equal(organization.name);
+      expect(csvLine[CAMPAIGN_ID_COLUMN], 'campaign id').to.equal(campaign.id);
+      expect(csvLine[CAMPAIGN_NAME_COLUMN], 'campaign name').to.equal(campaign.name);
       expect(csvLine[TARGET_PROFLILE_NAME_COLUMN], 'target profile name').to.equal(targetProfile.name);
       expect(csvLine[PARTICIPANT_LAST_NAME_COLUMN], 'participant last name').to.equal(campaignParticipationInfo.participantLastName);
       expect(csvLine[PARTICIPANT_FIRST_NAME_COLUMN], 'participant first name').to.equal(campaignParticipationInfo.participantFirstName);
@@ -52,11 +54,13 @@ describe('Integration | Infrastructure | Utils | CampaignAssessmentCsvLine', () 
     context('on external id column', () => {
       it('should write the student number when organization is of type SUP and campaign is restricted', () => {
         // given
-        const campaignInfo = domainBuilder.buildCampaignInfo({ idPixLabel: null, organizationType: 'SUP', organizationIsManagingStudents: true });
+        const organization = domainBuilder.buildOrganization({ type: 'SUP', isManagingStudents: true });
+        const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
         const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ studentNumber: 'someStudentNumber' });
         const targetProfile = domainBuilder.buildTargetProfile({ skills: [] });
         const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
-          campaignInfo,
+          organization,
+          campaign,
           competences: [],
           campaignParticipationInfo,
           targetProfile,
@@ -73,11 +77,13 @@ describe('Integration | Infrastructure | Utils | CampaignAssessmentCsvLine', () 
 
       it('should write the participantExternalId when campaign has an idPixLabel', () => {
         // given
-        const campaignInfo = domainBuilder.buildCampaignInfo({ idPixLabel: 'I Have One !', organizationIsManagingStudents: false });
+        const organization = domainBuilder.buildOrganization({ isManagingStudents: false });
+        const campaign = domainBuilder.buildCampaign({ idPixLabel: 'I Have One !' });
         const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ participantExternalId: 'someParticipantExternalId' });
         const targetProfile = domainBuilder.buildTargetProfile({ skills: [] });
         const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
-          campaignInfo,
+          organization,
+          campaign,
           competences: [],
           campaignParticipationInfo,
           targetProfile,
@@ -96,7 +102,8 @@ describe('Integration | Infrastructure | Utils | CampaignAssessmentCsvLine', () 
     context('when participation is not shared', () => {
       it('should show appropriate content for not shared participation', () => {
         // given
-        const campaignInfo = domainBuilder.buildCampaignInfo();
+        const organization = domainBuilder.buildOrganization();
+        const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
         const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ sharedAt: null });
         const skill1_1 = domainBuilder.buildSkill({ id: 'recSkill1_1', competenceId: 'recCompetence1' });
         const skill2_1 = domainBuilder.buildSkill({ id: 'recSkill2_1', competenceId: 'recCompetence2' });
@@ -109,7 +116,8 @@ describe('Integration | Infrastructure | Utils | CampaignAssessmentCsvLine', () 
         const areas = [area1, area2];
         const competences = [competence1, competence2];
         const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
-          campaignInfo,
+          organization,
+          campaign,
           competences,
           campaignParticipationInfo,
           targetProfile,
@@ -154,7 +162,8 @@ describe('Integration | Infrastructure | Utils | CampaignAssessmentCsvLine', () 
     context('when participation is shared', () => {
       it('should show appropriate content for shared participation', () => {
         // given
-        const campaignInfo = domainBuilder.buildCampaignInfo();
+        const organization = domainBuilder.buildOrganization();
+        const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
         const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ sharedAt: new Date('2020-01-01') });
         const skill1_1 = domainBuilder.buildSkill({ id: 'recSkill1_1', competenceId: 'recCompetence1' });
         const skill1_2 = domainBuilder.buildSkill({ id: 'recSkill1_2', competenceId: 'recCompetence1' });
@@ -194,7 +203,8 @@ describe('Integration | Infrastructure | Utils | CampaignAssessmentCsvLine', () 
         });
         const participantKnowledgeElements = [ knowledgeElement1, knowledgeElement2, knowledgeElement3, knowledgeElement4 ];
         const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
-          campaignInfo,
+          organization,
+          campaign,
           competences,
           campaignParticipationInfo,
           targetProfile,
