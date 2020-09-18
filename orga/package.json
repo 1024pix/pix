@@ -29,7 +29,9 @@
     "preinstall": "npx check-engine",
     "scalingo-post-ra-creation": "echo 'nothing to do'",
     "start": "ember serve --proxy http://localhost:3000",
-    "test": "ember test"
+    "test": "ember test --reporter dot",
+    "test:lint": "npm test && npm run lint",
+    "test:watch": "ember exam --serve --reporter dot"
   },
   "devDependencies": {
     "@ember/optional-features": "^1.1.0",
