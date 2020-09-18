@@ -3,10 +3,11 @@ import RSVP from 'rsvp';
 import Route from '@ember/routing/route';
 
 export default class ChallengeRoute extends Route {
-  model(params) {
+  async model(params) {
     const store = this.store;
 
-    const assessment = this.modelFor('assessments');
+    const assessment = await this.modelFor('assessments');
+    await assessment.certificationCourse;
     const challengeId = params.challenge_id;
 
     return RSVP.hash({
