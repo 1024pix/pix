@@ -71,7 +71,7 @@ describe('Unit | UseCase | update-user-samlId', () => {
 
       // then
       expect(error).to.be.an.instanceof(InvalidExternalUserTokenError);
-      expect(error.message).to.equal('L’idToken de l’utilisateur externe est invalide.');
+      expect(error.message).to.equal('Une erreur est survenue. Veuillez réessayer de vous connecter depuis le médiacentre.');
     });
   });
 
