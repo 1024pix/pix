@@ -12,7 +12,7 @@ module.exports = async function findAssociationBetweenUserAndSchoolingRegistrati
   }
 
   const campaign = await campaignRepository.getByCode(campaignCode);
-  if (!campaign || !campaign.organizationId) {
+  if (!campaign) {
     throw new CampaignCodeError();
   }
 

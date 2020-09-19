@@ -3,7 +3,7 @@ const moment = require('moment');
 const bluebird = require('bluebird');
 
 const constants = require('../../infrastructure/constants');
-const { UserNotAuthorizedToGetCampaignResultsError, CampaignWithoutOrganizationError } = require('../errors');
+const { UserNotAuthorizedToGetCampaignResultsError } = require('../errors');
 const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
 
 module.exports = async function startWritingCampaignAssessmentResultsToStream(
@@ -35,7 +35,7 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
   const competences = _extractTargetedCompetences(allCompetences, targetProfile.getCompetenceIds());
   const areas = _extractTargetedAreas(competences);
 
-  //Create HEADER of CSV
+  // Create HEADER of CSV
   const headers = _createHeaderOfCSV(targetProfile, areas, competences, campaign.idPixLabel, organization.type, organization.isManagingStudents);
 
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
@@ -89,10 +89,6 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
 };
 
 async function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
-  if (_.isNil(organizationId)) {
-    throw new CampaignWithoutOrganizationError(`Campaign without organization : ${organizationId}`);
-  }
-
   const user = await userRepository.getWithMemberships(userId);
 
   if (!user.hasAccessToOrganization(organizationId)) {
