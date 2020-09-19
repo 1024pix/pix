@@ -34,7 +34,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         competences: [],
         campaignParticipationInfo,
         targetProfile,
-        participantKnowledgeElements: [],
+        participantKnowledgeElementsByCompetenceId: [],
         campaignParticipationService,
       });
 
@@ -66,7 +66,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           competences: [],
           campaignParticipationInfo,
           targetProfile,
-          participantKnowledgeElements: [],
+          participantKnowledgeElementsByCompetenceId: [],
           campaignParticipationService,
         });
 
@@ -90,7 +90,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           competences: [],
           campaignParticipationInfo,
           targetProfile,
-          participantKnowledgeElements: [],
+          participantKnowledgeElementsByCompetenceId: [],
           campaignParticipationService,
         });
 
@@ -125,7 +125,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           competences,
           campaignParticipationInfo,
           targetProfile,
-          participantKnowledgeElements: [],
+          participantKnowledgeElementsByCompetenceId: [],
           campaignParticipationService,
         });
 
@@ -206,7 +206,11 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           skillId: skill3_2.id,
           competenceId: skill3_2.competenceId,
         });
-        const participantKnowledgeElements = [ knowledgeElement1, knowledgeElement2, knowledgeElement3, knowledgeElement4 ];
+        const participantKnowledgeElementsByCompetenceId = {
+          'recCompetence1': [knowledgeElement1],
+          'recCompetence2': [knowledgeElement2],
+          'recCompetence3': [knowledgeElement3, knowledgeElement4],
+        };
         const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
           organization,
           campaign,
@@ -214,7 +218,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           competences,
           campaignParticipationInfo,
           targetProfile,
-          participantKnowledgeElements,
+          participantKnowledgeElementsByCompetenceId,
           campaignParticipationService,
         });
 
