@@ -12,7 +12,7 @@ class CampaignAssessmentCsvLine {
     competences,
     campaignParticipationInfo,
     targetProfile,
-    participantKnowledgeElements,
+    participantKnowledgeElementsByCompetenceId,
     campaignParticipationService,
   }) {
     this.organization = organization;
@@ -21,15 +21,8 @@ class CampaignAssessmentCsvLine {
     this.competences = competences;
     this.campaignParticipationInfo = campaignParticipationInfo;
     this.targetProfile = targetProfile;
-    const targetedKnowledgeElements = participantKnowledgeElements
-      .filter((ke) => targetProfile.hasSkill(ke.skillId));
-    this.targetedKnowledgeElementsCount = targetedKnowledgeElements.length;
-    this.targetedKnowledgeElementsByCompetence = _.groupBy(targetedKnowledgeElements, 'competenceId');
-    for (const targetedCompetenceId of this.targetProfile.getCompetenceIds()) {
-      if (!this.targetedKnowledgeElementsByCompetence[targetedCompetenceId]) {
-        this.targetedKnowledgeElementsByCompetence[targetedCompetenceId] = [];
-      }
-    }
+    this.targetedKnowledgeElementsCount = _.sum(_.map(participantKnowledgeElementsByCompetenceId, (knowledgeElements) => knowledgeElements.length));
+    this.targetedKnowledgeElementsByCompetence = participantKnowledgeElementsByCompetenceId;
     this.campaignParticipationService = campaignParticipationService;
 
     // To have the good `this` in _getStatsForCompetence, it is necessary to bind it
@@ -87,7 +80,6 @@ class CampaignAssessmentCsvLine {
   }
 
   _makeCommonColumns() {
-
     return [
       this.organization.name,
       this.campaign.id,

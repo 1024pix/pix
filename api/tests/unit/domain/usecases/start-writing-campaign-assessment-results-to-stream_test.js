@@ -15,57 +15,42 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     const organization = user.memberships[0].organization;
     const listSkills = domainBuilder.buildSkillCollection({ name: '@web', minLevel: 1, maxLevel: 5 });
     listSkills.forEach((skill) => { skill.competenceId = 'recCompetence1'; });
-    const listSkillsNotInTargetProfile = domainBuilder.buildSkillCollection({ name: '@url', minLevel: 1, maxLevel: 2 });
     const [skillWeb1, skillWeb2, skillWeb3, skillWeb4, skillWeb5] = listSkills;
-    const [skillUrl1, skillUrl2] = listSkillsNotInTargetProfile;
-    const knowledgeElements = [
-      domainBuilder.buildKnowledgeElement({
-        status: 'validated',
-        pixScore: 2,
-        skillId: skillWeb1.id,
-        competenceId: 'recCompetence1',
-        createdAt: moment().subtract(2, 'days').toDate(),
-      }),
-      domainBuilder.buildKnowledgeElement({
-        status: 'validated',
-        pixScore: 2,
-        skillId: skillWeb2.id,
-        competenceId: 'recCompetence1',
-        createdAt: moment().subtract(2, 'days').toDate(),
-      }),
-      domainBuilder.buildKnowledgeElement({
-        status: 'validated',
-        pixScore: 2,
-        skillId: skillWeb3.id,
-        competenceId: 'recCompetence1',
-        createdAt: moment().subtract(2, 'days').toDate(),
-      }),
-      domainBuilder.buildKnowledgeElement({
-        status: 'invalidated',
-        pixScore: 2,
-        skillId: skillWeb4.id,
-        competenceId: 'recCompetence1',
-        createdAt: moment().subtract(2, 'days').toDate(),
-      }),
-      domainBuilder.buildKnowledgeElement({
-        status: 'invalidated',
-        pixScore: 2,
-        skillId: skillWeb5.id,
-        competenceId: 'recCompetence1',
-        createdAt: moment().subtract(2, 'days').toDate(),
-      }),
-      domainBuilder.buildKnowledgeElement({
-        status: 'validated',
-        skillId: skillUrl1.id,
-        createdAt: moment().subtract(2, 'days').toDate(),
-      }),
-      domainBuilder.buildKnowledgeElement({
-        status: 'validated',
-        skillId: skillUrl2.id,
-        createdAt: moment().subtract(2, 'days').toDate(),
-      }),
-
-    ];
+    const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
+      status: 'validated',
+      pixScore: 2,
+      skillId: skillWeb1.id,
+      competenceId: 'recCompetence1',
+      createdAt: moment().subtract(2, 'days').toDate(),
+    });
+    const knowledgeElement2 = domainBuilder.buildKnowledgeElement({
+      status: 'validated',
+      pixScore: 2,
+      skillId: skillWeb2.id,
+      competenceId: 'recCompetence1',
+      createdAt: moment().subtract(2, 'days').toDate(),
+    });
+    const knowledgeElement3 = domainBuilder.buildKnowledgeElement({
+      status: 'validated',
+      pixScore: 2,
+      skillId: skillWeb3.id,
+      competenceId: 'recCompetence1',
+      createdAt: moment().subtract(2, 'days').toDate(),
+    });
+    const knowledgeElement4 = domainBuilder.buildKnowledgeElement({
+      status: 'invalidated',
+      pixScore: 2,
+      skillId: skillWeb4.id,
+      competenceId: 'recCompetence1',
+      createdAt: moment().subtract(2, 'days').toDate(),
+    });
+    const knowledgeElement5 = domainBuilder.buildKnowledgeElement({
+      status: 'invalidated',
+      pixScore: 2,
+      skillId: skillWeb5.id,
+      competenceId: 'recCompetence1',
+      createdAt: moment().subtract(2, 'days').toDate(),
+    });
 
     const targetProfile = domainBuilder.buildTargetProfile({
       skills: listSkills, name: '+Profile 1',
@@ -108,7 +93,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     const competenceRepository = { list: () => undefined };
     const organizationRepository = { get: () => undefined };
     const campaignParticipationInfoRepository = { findByCampaignId: () => undefined };
-    const knowledgeElementRepository = { findUniqByUserId: () => undefined };
+    const knowledgeElementRepository = { findTargetedGroupedByCompetencesForUsers: () => undefined };
 
     let findByCampaignIdStub;
     let targetProfileRepositoryStub;
@@ -124,7 +109,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       targetProfileRepositoryStub = sinon.stub(targetProfileRepository, 'get').resolves(targetProfile);
       sinon.stub(userRepository, 'getWithMemberships').resolves(user);
       sinon.stub(organizationRepository, 'get').resolves(organization);
-      knowledgeElementRepositoryStub = sinon.stub(knowledgeElementRepository, 'findUniqByUserId').resolves(knowledgeElements);
+      knowledgeElementRepositoryStub = sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers');
       findByCampaignIdStub = sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId');
 
       writableStream = new PassThrough();
@@ -194,6 +179,11 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           participantLastName: user.lastName,
         };
         findByCampaignIdStub.resolves([campaignParticipationInfo]);
+        knowledgeElementRepositoryStub
+          .withArgs({ [campaignParticipationInfo.userId]: campaignParticipationInfo.sharedAt }, targetProfile)
+          .resolves({ [campaignParticipationInfo.userId] : {
+            'recCompetence1': [knowledgeElement1, knowledgeElement2, knowledgeElement3, knowledgeElement4, knowledgeElement5],
+          } });
 
         const csvSecondLine = `"${organization.name}";` +
           `${campaign.id};` +
@@ -260,6 +250,11 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
         };
 
         findByCampaignIdStub.resolves([campaignParticipationInfo]);
+        knowledgeElementRepositoryStub
+          .withArgs({ [campaignParticipationInfo.userId]: campaignParticipationInfo.sharedAt }, targetProfile)
+          .resolves({ [campaignParticipationInfo.userId] : {
+            'recCompetence1': [knowledgeElement1, knowledgeElement2, knowledgeElement3, knowledgeElement4, knowledgeElement5],
+          } });
 
         const csvSecondLine =
           `"${organization.name}";` +
@@ -326,7 +321,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
         };
 
         findByCampaignIdStub.resolves([campaignParticipationInfo]);
-        knowledgeElementRepositoryStub.resolves([]);
+        knowledgeElementRepositoryStub.resolves({ [campaignParticipationInfo.userId]: {} });
 
         const csvSecondLine =
           `"${organization.name}";` +
@@ -386,13 +381,10 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
         skills: skillList,
       });
 
-      const knowledgeElements = [
-        domainBuilder.buildKnowledgeElement({ skillId: skillList[0].id }),
-      ];
+      const knowledgeElement = domainBuilder.buildKnowledgeElement({ skillId: skillList[0].id });
 
       beforeEach(() => {
         targetProfileRepositoryStub.resolves(targetProfile);
-        knowledgeElementRepositoryStub.resolves(knowledgeElements);
       });
 
       it('should return a percentage of knowledge element evaluated divided by the number of skill in the target profile', async () => {
@@ -411,6 +403,11 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
         };
 
         findByCampaignIdStub.resolves([campaignParticipationInfo]);
+        knowledgeElementRepositoryStub
+          .withArgs({ [campaignParticipationInfo.userId]: campaignParticipationInfo.sharedAt }, targetProfile)
+          .resolves({ [campaignParticipationInfo.userId] : {
+            'recCompetence1': [knowledgeElement],
+          } });
 
         const csvSecondLine =
           `"${organization.name}";` +
@@ -478,6 +475,11 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
         };
 
         findByCampaignIdStub.resolves([campaignParticipationInfo]);
+        knowledgeElementRepositoryStub
+          .withArgs({ [campaignParticipationInfo.userId]: campaignParticipationInfo.sharedAt }, targetProfile)
+          .resolves({ [campaignParticipationInfo.userId] : {
+            'recCompetence1': [knowledgeElement1, knowledgeElement2, knowledgeElement3, knowledgeElement4, knowledgeElement5],
+          } });
         campaignRepository.get.resolves(campaignWithoutIdPixLabel);
       });
 
@@ -571,6 +573,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           organizationRepository.get.resolves(organization);
           campaignRepository.get.resolves(campaign);
         });
+
         context('when student number is present', () => {
           beforeEach(() => {
             const user = domainBuilder.buildUser({ firstName: '@Jean', lastName: '=Bono' });
@@ -592,6 +595,11 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
             user.memberships = [{ organization: { id:  organization.id } }];
             userRepository.getWithMemberships.resolves(user);
             findByCampaignIdStub.resolves([campaignParticipationInfo]);
+            knowledgeElementRepositoryStub
+              .withArgs({ [campaignParticipationInfo.userId]: campaignParticipationInfo.sharedAt }, targetProfile)
+              .resolves({ [campaignParticipationInfo.userId] : {
+                'recCompetence1': [knowledgeElement1, knowledgeElement2, knowledgeElement3, knowledgeElement4, knowledgeElement5],
+              } });
           });
 
           it('should return the header and the data in CSV styles with student number', async () => {
@@ -691,6 +699,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
             user.memberships = [{ organization: { id:  organization.id } }];
             userRepository.getWithMemberships.resolves(user);
             findByCampaignIdStub.resolves([campaignParticipationInfo]);
+            knowledgeElementRepositoryStub.resolves({ [campaignParticipationInfo.userId]: {} });
           });
 
           it('should return the header and the data in CSV styles with an empty value in the column student number', async () => {
@@ -799,6 +808,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           user.memberships = [{ organization: { id:  organization.id } }];
           userRepository.getWithMemberships.resolves(user);
           findByCampaignIdStub.resolves([campaignParticipationInfo]);
+          knowledgeElementRepositoryStub.resolves({ [campaignParticipationInfo.userId]: {} });
         });
         it('should return the header and the data in CSV styles with an empty value in the column student number', async () => {
           // given

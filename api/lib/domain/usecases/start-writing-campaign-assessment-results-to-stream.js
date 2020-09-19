@@ -49,23 +49,34 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
   // after this function's returned promise resolves. If we await the map
   // function, node will keep all the data in memory until the end of the
   // complete operation.
-  bluebird.map(campaignParticipationInfos, async (campaignParticipationInfo) => {
-    const participantKnowledgeElements = await knowledgeElementRepository.findUniqByUserId({
-      userId: campaignParticipationInfo.userId,
-      limitDate: campaignParticipationInfo.sharedAt,
-    });
+  const campaignParticipationInfoChunks = _.chunk(campaignParticipationInfos, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
+  bluebird.map(campaignParticipationInfoChunks, async (campaignParticipationInfoChunk) => {
+    const userIdsAndDates = Object.fromEntries(campaignParticipationInfoChunk.map((campaignParticipationInfo) => {
+      return [
+        campaignParticipationInfo.userId,
+        campaignParticipationInfo.sharedAt,
+      ];
+    }));
+    const knowledgeElementsByUserIdAndCompetenceId =
+      await knowledgeElementRepository.findTargetedGroupedByCompetencesForUsers(userIdsAndDates, targetProfile);
 
-    const csvLine = campaignCsvExportService.createOneCsvLine({
-      organization,
-      campaign,
-      areas,
-      competences,
-      campaignParticipationInfo,
-      targetProfile,
-      participantKnowledgeElements,
-    });
+    let csvLines = '';
+    for (const [strParticipantId, participantKnowledgeElementsByCompetenceId] of Object.entries(knowledgeElementsByUserIdAndCompetenceId)) {
+      const participantId = parseInt(strParticipantId);
+      const campaignParticipationInfo = campaignParticipationInfoChunk.find((campaignParticipationInfo) => campaignParticipationInfo.userId === participantId);
+      const csvLine = campaignCsvExportService.createOneCsvLine({
+        organization,
+        campaign,
+        areas,
+        competences,
+        campaignParticipationInfo,
+        targetProfile,
+        participantKnowledgeElementsByCompetenceId,
+      });
+      csvLines = csvLines.concat(csvLine);
+    }
 
-    writableStream.write(csvLine);
+    writableStream.write(csvLines);
   }, { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }).then(() => {
     writableStream.end();
   }).catch((error) => {
