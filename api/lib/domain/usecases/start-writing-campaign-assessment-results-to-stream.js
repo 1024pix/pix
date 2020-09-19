@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const fp = require('lodash/fp');
 const moment = require('moment');
 const bluebird = require('bluebird');
 
@@ -133,16 +134,22 @@ function _createHeaderOfCSV(targetProfile, areas, competences, idPixLabel, organ
 }
 
 function _extractTargetedCompetences(allCompetences, targetedCompetenceIds) {
-  return targetedCompetenceIds.map((competenceId) => {
-    const competence = _.find(allCompetences, { id: competenceId });
-    if (!competence) {
-      throw new Error(`Unknown competence ${competenceId}`);
-    }
-    return competence;
-  });
+  return fp.flow(
+    fp.map((competenceId) => {
+      const competence = _.find(allCompetences, { id: competenceId });
+      if (!competence) {
+        throw new Error(`Unknown competence ${competenceId}`);
+      }
+      return competence;
+    }),
+    fp.sortBy(['index']),
+  )(targetedCompetenceIds);
 }
 
 function _extractTargetedAreas(targetedCompetences) {
-  return _.uniqBy(targetedCompetences.map((targetedCompetence) => targetedCompetence.area), 'code');
+  return fp.flow(
+    fp.map((targetedCompetence) => targetedCompetence.area),
+    fp.uniqBy('code'),
+  )(targetedCompetences);
 }
 

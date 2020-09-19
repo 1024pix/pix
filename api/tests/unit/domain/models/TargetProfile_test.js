@@ -70,15 +70,15 @@ describe('Unit | Domain | Models | TargetProfile', () => {
 
     it('should return an array with targeted skill names', () => {
       // given
-      const skill1 = domainBuilder.buildSkill({ name: 'acquis1' });
-      const skill2 = domainBuilder.buildSkill({ name: 'acquis2' });
+      const skill1 = domainBuilder.buildSkill({ name: 'Aacquis2' });
+      const skill2 = domainBuilder.buildSkill({ name: 'Zacquis1' });
       const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1, skill2] });
 
       // when
       const targetedSkillNames = targetProfile.getSkillNames();
 
       // then
-      expect(targetedSkillNames).to.exactlyContain(['acquis1', 'acquis2']);
+      expect(targetedSkillNames).to.exactlyContainInOrder(['Aacquis2', 'Zacquis1']);
     });
   });
 

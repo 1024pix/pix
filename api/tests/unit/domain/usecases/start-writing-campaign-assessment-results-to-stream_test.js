@@ -1,889 +1,374 @@
 const { PassThrough } = require('stream');
-const moment = require('moment');
-
-const { expect, sinon, domainBuilder, streamToPromise } = require('../../../test-helper');
-
-const campaignCsvExportService = require('../../../../lib/domain/services/campaign-csv-export-service');
+const { expect, sinon, domainBuilder, streamToPromise, catchErr } = require('../../../test-helper');
 const startWritingCampaignAssessmentResultsToStream = require('../../../../lib/domain/usecases/start-writing-campaign-assessment-results-to-stream');
-const Area = require('../../../../lib/domain/models/Area');
+const { UserNotAuthorizedToGetCampaignResultsError } = require('../../../../lib/domain/errors');
+const campaignCsvExportService = require('../../../../lib/domain/services/campaign-csv-export-service');
 
 describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', () => {
-
-  describe('#startWritingCampaignAssessmentResultsToStream', () => {
-
-    const user = domainBuilder.buildUser({ firstName: '@Jean', lastName: '=Bono' });
-    const organization = user.memberships[0].organization;
-    const listSkills = domainBuilder.buildSkillCollection({ name: '@web', minLevel: 1, maxLevel: 5 });
-    listSkills.forEach((skill) => { skill.competenceId = 'recCompetence1'; });
-    const [skillWeb1, skillWeb2, skillWeb3, skillWeb4, skillWeb5] = listSkills;
-    const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
-      status: 'validated',
-      pixScore: 2,
-      skillId: skillWeb1.id,
-      competenceId: 'recCompetence1',
-      createdAt: moment().subtract(2, 'days').toDate(),
-    });
-    const knowledgeElement2 = domainBuilder.buildKnowledgeElement({
-      status: 'validated',
-      pixScore: 2,
-      skillId: skillWeb2.id,
-      competenceId: 'recCompetence1',
-      createdAt: moment().subtract(2, 'days').toDate(),
-    });
-    const knowledgeElement3 = domainBuilder.buildKnowledgeElement({
-      status: 'validated',
-      pixScore: 2,
-      skillId: skillWeb3.id,
-      competenceId: 'recCompetence1',
-      createdAt: moment().subtract(2, 'days').toDate(),
-    });
-    const knowledgeElement4 = domainBuilder.buildKnowledgeElement({
-      status: 'invalidated',
-      pixScore: 2,
-      skillId: skillWeb4.id,
-      competenceId: 'recCompetence1',
-      createdAt: moment().subtract(2, 'days').toDate(),
-    });
-    const knowledgeElement5 = domainBuilder.buildKnowledgeElement({
-      status: 'invalidated',
-      pixScore: 2,
-      skillId: skillWeb5.id,
-      competenceId: 'recCompetence1',
-      createdAt: moment().subtract(2, 'days').toDate(),
-    });
-
-    const targetProfile = domainBuilder.buildTargetProfile({
-      skills: listSkills, name: '+Profile 1',
-    });
-
-    const campaign = domainBuilder.buildCampaign.ofTypeAssessment({
-      name:'@Campagne de Test N°1',
-      code:'AZERTY123',
-      organizationId: organization.id,
-      idPixLabel: 'Mail Pro',
-    });
-    const competences = [
-      {
-        id: 'recCompetence1',
-        name: 'Competence1',
-        index: '1.1',
-        skillIds: listSkills.map((skill) => skill.id),
-        area: new Area({
-          id: 'recArea1',
-          code: '1',
-          title: 'Domain 1',
-        }),
-      },
-      {
-        id: 'recCompetence2',
-        name: 'Competence2',
-        index: '3.2',
-        skillIds: [],
-        area: new Area({
-          id: 'recArea3',
-          code: '3',
-          title: 'Domain 3',
-        }),
-      },
-    ];
-
-    const campaignRepository = { get: () => undefined };
-    const userRepository = { getWithMemberships: () => undefined };
-    const targetProfileRepository = { get: () => undefined };
-    const competenceRepository = { list: () => undefined };
-    const organizationRepository = { get: () => undefined };
-    const campaignParticipationInfoRepository = { findByCampaignId: () => undefined };
-    const knowledgeElementRepository = { findTargetedGroupedByCompetencesForUsers: () => undefined };
-
-    let findByCampaignIdStub;
-    let targetProfileRepositoryStub;
-    let knowledgeElementRepositoryStub;
-
-    let writableStream;
-    let csvPromise;
-
-    beforeEach(() => {
-
-      sinon.stub(campaignRepository, 'get').resolves(campaign);
-      sinon.stub(competenceRepository, 'list').resolves(competences);
-      targetProfileRepositoryStub = sinon.stub(targetProfileRepository, 'get').resolves(targetProfile);
-      sinon.stub(userRepository, 'getWithMemberships').resolves(user);
-      sinon.stub(organizationRepository, 'get').resolves(organization);
-      knowledgeElementRepositoryStub = sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers');
-      findByCampaignIdStub = sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId');
-
-      writableStream = new PassThrough();
-      csvPromise = streamToPromise(writableStream);
-    });
-
-    it('should return the header in CSV styles with all competence, domain and skills', async () => {
-      // given
-      const csvExpected = '\uFEFF"Nom de l\'organisation";' +
-        '"ID Campagne";' +
-        '"Nom de la campagne";' +
-        '"Nom du Profil Cible";' +
-        '"Nom du Participant";' +
-        '"Prénom du Participant";' +
-        '"Mail Pro";' +
-        '"% de progression";' +
-        '"Date de début";' +
-        '"Partage (O/N)";' +
-        '"Date du partage";' +
-        '"% maitrise de l\'ensemble des acquis du profil";' +
-        '"% de maitrise des acquis de la compétence Competence1";' +
-        '"Nombre d\'acquis du profil cible dans la compétence Competence1";' +
-        '"Acquis maitrisés dans la compétence Competence1";' +
-        '"% de maitrise des acquis du domaine Domain 1";' +
-        '"Nombre d\'acquis du profil cible du domaine Domain 1";' +
-        '"Acquis maitrisés du domaine Domain 1";' +
-        '"\'@web1";' +
-        '"\'@web2";' +
-        '"\'@web3";' +
-        '"\'@web4";' +
-        '"\'@web5"\n';
-      findByCampaignIdStub.resolves([]);
-
-      // when
-      startWritingCampaignAssessmentResultsToStream({
-        userId: user.id,
-        campaignId: campaign.id,
-        writableStream,
-        campaignRepository,
-        userRepository,
-        targetProfileRepository,
-        competenceRepository,
-        organizationRepository,
-        campaignParticipationInfoRepository,
-        knowledgeElementRepository,
-        campaignCsvExportService,
-      });
-
-      const csv = await csvPromise;
-
-      // then
-      expect(csv).to.equal(csvExpected);
-    });
-
-    context('when isShared is true', () => {
-
-      it('should return the complete line with user results for her participation', async () => {
-        // given
-        const campaignParticipationInfo = {
-          isShared: true,
-          isCompleted: true,
-          createdAt: new Date('2019-02-25T10:00:00Z'),
-          sharedAt: new Date('2019-03-01T23:04:05Z'),
-          participantExternalId: '+Mon mail pro',
-          userId: 123,
-          participantFirstName: user.firstName,
-          participantLastName: user.lastName,
-        };
-        findByCampaignIdStub.resolves([campaignParticipationInfo]);
-        knowledgeElementRepositoryStub
-          .withArgs({ [campaignParticipationInfo.userId]: campaignParticipationInfo.sharedAt }, targetProfile)
-          .resolves({ [campaignParticipationInfo.userId] : {
-            'recCompetence1': [knowledgeElement1, knowledgeElement2, knowledgeElement3, knowledgeElement4, knowledgeElement5],
-          } });
-
-        const csvSecondLine = `"${organization.name}";` +
-          `${campaign.id};` +
-          `"'${campaign.name}";` +
-          `"'${targetProfile.name}";` +
-          `"'${user.lastName}";` +
-          `"'${user.firstName}";` +
-          `"'${campaignParticipationInfo.participantExternalId}";` +
-          '1;' +
-          '2019-02-25;' +
-          '"Oui";' +
-          '2019-03-01;' +
-          '0,6;' +
-          '0,6;' +
-          '5;' +
-          '3;' +
-          '0,6;' +
-          '5;' +
-          '3;' +
-          '"OK";' +
-          '"OK";' +
-          '"OK";' +
-          '"KO";' +
-          '"KO"';
-
-        // when
-        startWritingCampaignAssessmentResultsToStream({
-          userId: user.id,
-          campaignId: campaign.id,
-          writableStream,
-          campaignRepository,
-          userRepository,
-          targetProfileRepository,
-          competenceRepository,
-          organizationRepository,
-          campaignParticipationInfoRepository,
-          knowledgeElementRepository,
-          campaignCsvExportService,
-        });
-
-        const csv = await csvPromise;
-        const csvLines = csv.split('\n');
-
-        // then
-        expect(csvLines[1]).to.equal(csvSecondLine);
-      });
-    });
-
-    context('when isShared is false', () => {
-
-      it('should return the beginning of the line with user information for her participation', async () => {
-        // given
-
-        const campaignParticipationInfo = {
-          id: 1,
-          isShared: false,
-          isCompleted: true,
-          createdAt: new Date('2019-02-25T10:00:00Z'),
-          sharedAt: new Date('2019-03-01T23:04:05Z'),
-          participantExternalId: '-Mon mail pro',
-          userId: 123,
-          participantFirstName: user.firstName,
-          participantLastName: user.lastName,
-        };
-
-        findByCampaignIdStub.resolves([campaignParticipationInfo]);
-        knowledgeElementRepositoryStub
-          .withArgs({ [campaignParticipationInfo.userId]: campaignParticipationInfo.sharedAt }, targetProfile)
-          .resolves({ [campaignParticipationInfo.userId] : {
-            'recCompetence1': [knowledgeElement1, knowledgeElement2, knowledgeElement3, knowledgeElement4, knowledgeElement5],
-          } });
-
-        const csvSecondLine =
-          `"${organization.name}";` +
-          `${campaign.id};` +
-          `"'${campaign.name}";` +
-          `"'${targetProfile.name}";` +
-          `"'${user.lastName}";` +
-          `"'${user.firstName}";` +
-          `"'${campaignParticipationInfo.participantExternalId}";` +
-          '1;' +
-          '2019-02-25;' +
-          '"Non";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA"';
-
-        // when
-        startWritingCampaignAssessmentResultsToStream({
-          userId: user.id,
-          campaignId: campaign.id,
-          writableStream,
-          campaignRepository,
-          userRepository,
-          targetProfileRepository,
-          competenceRepository,
-          organizationRepository,
-          campaignParticipationInfoRepository,
-          knowledgeElementRepository,
-          campaignCsvExportService,
-        });
-
-        const csv = await csvPromise;
-        const csvLines = csv.split('\n');
-
-        // then
-        expect(csvLines[1]).to.equal(csvSecondLine);
-      });
-    });
-
-    context('when the campaign participation result is completed', () => {
-      it('should return a percentage of progression of 1', async () => {
-        // given
-
-        const campaignParticipationInfo = {
-          id: 1,
-          isShared: false,
-          createdAt: new Date('2019-02-25T10:00:00Z'),
-          sharedAt: new Date('2019-03-01T23:04:05Z'),
-          participantExternalId: '-Mon mail pro',
-          isCompleted: true,
-          userId: 123,
-          participantFirstName: user.firstName,
-          participantLastName: user.lastName,
-        };
-
-        findByCampaignIdStub.resolves([campaignParticipationInfo]);
-        knowledgeElementRepositoryStub.resolves({ [campaignParticipationInfo.userId]: {} });
-
-        const csvSecondLine =
-          `"${organization.name}";` +
-          `${campaign.id};` +
-          `"'${campaign.name}";` +
-          `"'${targetProfile.name}";` +
-          `"'${user.lastName}";` +
-          `"'${user.firstName}";` +
-          `"'${campaignParticipationInfo.participantExternalId}";` +
-          '1;' +
-          '2019-02-25;' +
-          '"Non";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA"';
-
-        // when
-        startWritingCampaignAssessmentResultsToStream({
-          userId: user.id,
-          campaignId: campaign.id,
-          writableStream,
-          campaignRepository,
-          userRepository,
-          targetProfileRepository,
-          competenceRepository,
-          organizationRepository,
-          campaignParticipationInfoRepository,
-          knowledgeElementRepository,
-          campaignCsvExportService,
-        });
-
-        const csv = await csvPromise;
-        const csvLines = csv.split('\n');
-
-        // then
-        expect(csvLines[1]).to.equal(csvSecondLine);
-      });
-    });
-
-    context('when the campaign participation result is not completed', () => {
-      const skillList = [
-        domainBuilder.buildSkill({ competenceId: 'recCompetence1' }),
-        domainBuilder.buildSkill({ competenceId: 'recCompetence1' }),
-      ];
-
-      const targetProfile = domainBuilder.buildTargetProfile({
-        skills: skillList,
-      });
-
-      const knowledgeElement = domainBuilder.buildKnowledgeElement({ skillId: skillList[0].id });
-
-      beforeEach(() => {
-        targetProfileRepositoryStub.resolves(targetProfile);
-      });
-
-      it('should return a percentage of knowledge element evaluated divided by the number of skill in the target profile', async () => {
-        // given
-
-        const campaignParticipationInfo = {
-          id: 1,
-          isShared: false,
-          createdAt: new Date('2019-02-25T10:00:00Z'),
-          sharedAt: new Date('2019-03-01T23:04:05Z'),
-          participantExternalId: '-Mon mail pro',
-          userId: 123,
-          isCompleted: false,
-          participantFirstName: user.firstName,
-          participantLastName: user.lastName,
-        };
-
-        findByCampaignIdStub.resolves([campaignParticipationInfo]);
-        knowledgeElementRepositoryStub
-          .withArgs({ [campaignParticipationInfo.userId]: campaignParticipationInfo.sharedAt }, targetProfile)
-          .resolves({ [campaignParticipationInfo.userId] : {
-            'recCompetence1': [knowledgeElement],
-          } });
-
-        const csvSecondLine =
-          `"${organization.name}";` +
-          `${campaign.id};` +
-          `"'${campaign.name}";` +
-          `"${targetProfile.name}";` +
-          `"'${user.lastName}";` +
-          `"'${user.firstName}";` +
-          `"'${campaignParticipationInfo.participantExternalId}";` +
-          '0,5;' +
-          '2019-02-25;' +
-          '"Non";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA"';
-
-        // when
-        startWritingCampaignAssessmentResultsToStream({
-          userId: user.id,
-          campaignId: campaign.id,
-          writableStream,
-          campaignRepository,
-          userRepository,
-          targetProfileRepository,
-          competenceRepository,
-          organizationRepository,
-          campaignParticipationInfoRepository,
-          knowledgeElementRepository,
-          campaignCsvExportService,
-        });
-
-        const csv = await csvPromise;
-        const csvLines = csv.split('\n');
-
-        // then
-        expect(csvLines[1]).to.equal(csvSecondLine);
-      });
-    });
-
-    context('when campaign do not have a idPixLabel', () => {
-      let campaignWithoutIdPixLabel;
-
-      beforeEach(() => {
-        campaignWithoutIdPixLabel = domainBuilder.buildCampaign.ofTypeAssessment({
-          name: 'CampaignName',
-          code: 'AZERTY123',
-          organizationId: organization.id,
-          idPixLabel: null,
-        });
-        const campaignParticipationInfo = {
-          id: 1,
-          isShared: false,
-          createdAt: new Date('2019-02-25T10:00:00Z'),
-          userId: 123,
-          participantFirstName: user.firstName,
-          participantLastName: user.lastName,
-          isCompleted: true,
-        };
-
-        findByCampaignIdStub.resolves([campaignParticipationInfo]);
-        knowledgeElementRepositoryStub
-          .withArgs({ [campaignParticipationInfo.userId]: campaignParticipationInfo.sharedAt }, targetProfile)
-          .resolves({ [campaignParticipationInfo.userId] : {
-            'recCompetence1': [knowledgeElement1, knowledgeElement2, knowledgeElement3, knowledgeElement4, knowledgeElement5],
-          } });
-        campaignRepository.get.resolves(campaignWithoutIdPixLabel);
-      });
-
-      it('should return the header and the data in CSV styles with all competence, domain and skills', async () => {
-        // given
-        const csvHeadersExpected =
-          '\uFEFF"Nom de l\'organisation";' +
-          '"ID Campagne";' +
-          '"Nom de la campagne";' +
-          '"Nom du Profil Cible";' +
-          '"Nom du Participant";' +
-          '"Prénom du Participant";' +
-          '"% de progression";' +
-          '"Date de début";' +
-          '"Partage (O/N)";' +
-          '"Date du partage";' +
-          '"% maitrise de l\'ensemble des acquis du profil";' +
-          '"% de maitrise des acquis de la compétence Competence1";' +
-          '"Nombre d\'acquis du profil cible dans la compétence Competence1";' +
-          '"Acquis maitrisés dans la compétence Competence1";' +
-          '"% de maitrise des acquis du domaine Domain 1";' +
-          '"Nombre d\'acquis du profil cible du domaine Domain 1";' +
-          '"Acquis maitrisés du domaine Domain 1";' +
-          '"\'@web1";' +
-          '"\'@web2";' +
-          '"\'@web3";' +
-          '"\'@web4";' +
-          '"\'@web5"';
-
-        const csvDataExpected =
-          `"${organization.name}";` +
-          `${campaignWithoutIdPixLabel.id};` +
-          `"${campaignWithoutIdPixLabel.name}";` +
-          `"'${targetProfile.name}";` +
-          `"'${user.lastName}";` +
-          `"'${user.firstName}";` +
-          '1;' +
-          '2019-02-25;' +
-          '"Non";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA"';
-
-        // when
-        startWritingCampaignAssessmentResultsToStream({
-          userId: user.id,
-          campaignId: campaign.id,
-          writableStream,
-          campaignRepository,
-          userRepository,
-          targetProfileRepository,
-          competenceRepository,
-          organizationRepository,
-          campaignParticipationInfoRepository,
-          knowledgeElementRepository,
-          campaignCsvExportService,
-        });
-
-        const csv = await csvPromise;
-        const csvLines = csv.split('\n');
-
-        // then
-        expect(csvLines[0]).to.equal(csvHeadersExpected);
-        expect(csvLines[1]).to.equal(csvDataExpected);
-      });
-    });
-
-    context('when organization is SUP', () => {
-      let campaign;
-      let organization;
-
-      context('when the organization manages students', () => {
-        beforeEach(() => {
-          organization = domainBuilder.buildOrganization({ type: 'SUP', isManagingStudents: true });
-          campaign = domainBuilder.buildCampaign.ofTypeAssessment({
-            name: 'CampaignName',
-            code: 'AZERTY123',
-            organizationId: organization.id,
-            idPixLabel: null,
-          });
-          organizationRepository.get.resolves(organization);
-          campaignRepository.get.resolves(campaign);
-        });
-
-        context('when student number is present', () => {
-          beforeEach(() => {
-            const user = domainBuilder.buildUser({ firstName: '@Jean', lastName: '=Bono' });
-            const campaignParticipationInfo = {
-              id: 1,
-              isShared: false,
-              createdAt: new Date('2019-02-25T10:00:00Z'),
-              userId: 123,
-              participantFirstName: user.firstName,
-              participantLastName: user.lastName,
-              organizationName: organization.name,
-              organizationType: organization.type,
-              campaignId: campaign.id,
-              campaignName: campaign.name,
-              campaignIdPixLabel: campaign.idPixLabel,
-              studentNumber: 'ie24052',
-              isCompleted: true,
-            };
-            user.memberships = [{ organization: { id:  organization.id } }];
-            userRepository.getWithMemberships.resolves(user);
-            findByCampaignIdStub.resolves([campaignParticipationInfo]);
-            knowledgeElementRepositoryStub
-              .withArgs({ [campaignParticipationInfo.userId]: campaignParticipationInfo.sharedAt }, targetProfile)
-              .resolves({ [campaignParticipationInfo.userId] : {
-                'recCompetence1': [knowledgeElement1, knowledgeElement2, knowledgeElement3, knowledgeElement4, knowledgeElement5],
-              } });
-          });
-
-          it('should return the header and the data in CSV styles with student number', async () => {
-            // given
-            const csvHeadersExpected =
-              '\uFEFF"Nom de l\'organisation";' +
-              '"ID Campagne";' +
-              '"Nom de la campagne";' +
-              '"Nom du Profil Cible";' +
-              '"Nom du Participant";' +
-              '"Prénom du Participant";' +
-              '"Numéro Étudiant";' +
-              '"% de progression";' +
-              '"Date de début";' +
-              '"Partage (O/N)";' +
-              '"Date du partage";' +
-              '"% maitrise de l\'ensemble des acquis du profil";' +
-              '"% de maitrise des acquis de la compétence Competence1";' +
-              '"Nombre d\'acquis du profil cible dans la compétence Competence1";' +
-              '"Acquis maitrisés dans la compétence Competence1";' +
-              '"% de maitrise des acquis du domaine Domain 1";' +
-              '"Nombre d\'acquis du profil cible du domaine Domain 1";' +
-              '"Acquis maitrisés du domaine Domain 1";' +
-              '"\'@web1";' +
-              '"\'@web2";' +
-              '"\'@web3";' +
-              '"\'@web4";' +
-              '"\'@web5"';
-
-            const csvDataExpected =
-              `"${organization.name}";` +
-              `${campaign.id};` +
-              `"${campaign.name}";` +
-              `"'${targetProfile.name}";` +
-              `"'${user.lastName}";` +
-              `"'${user.firstName}";` +
-              '"ie24052";' +
-              '1;' +
-              '2019-02-25;' +
-              '"Non";' +
-              '"NA";' +
-              '"NA";' +
-              '"NA";' +
-              '"NA";' +
-              '"NA";' +
-              '"NA";' +
-              '"NA";' +
-              '"NA";' +
-              '"NA";' +
-              '"NA";' +
-              '"NA";' +
-              '"NA";' +
-              '"NA"';
-
-            // when
-            startWritingCampaignAssessmentResultsToStream({
-              userId: user.id,
-              campaignId: campaign.id,
-              writableStream,
-              campaignRepository,
-              userRepository,
-              targetProfileRepository,
-              competenceRepository,
-              organizationRepository,
-              campaignParticipationInfoRepository,
-              knowledgeElementRepository,
-              campaignCsvExportService,
-            });
-
-            const csv = await csvPromise;
-            const csvLines = csv.split('\n');
-
-            // then
-            expect(csvLines[0]).to.equal(csvHeadersExpected);
-            expect(csvLines[1]).to.equal(csvDataExpected);
-          });
-        });
-
-        context('when student number is not present', () => {
-          beforeEach(() => {
-            const user = domainBuilder.buildUser({ firstName: '@Jean', lastName: '=Bono' });
-            const campaignParticipationInfo = {
-              id: 1,
-              isShared: false,
-              createdAt: new Date('2019-02-25T10:00:00Z'),
-              userId: 123,
-              participantFirstName: user.firstName,
-              participantLastName: user.lastName,
-              organizationName: organization.name,
-              organizationType: organization.type,
-              campaignId: campaign.id,
-              campaignName: campaign.name,
-              campaignIdPixLabel: campaign.idPixLabel,
-              studentNumber: null,
-              isCompleted: true,
-            };
-            user.memberships = [{ organization: { id:  organization.id } }];
-            userRepository.getWithMemberships.resolves(user);
-            findByCampaignIdStub.resolves([campaignParticipationInfo]);
-            knowledgeElementRepositoryStub.resolves({ [campaignParticipationInfo.userId]: {} });
-          });
-
-          it('should return the header and the data in CSV styles with an empty value in the column student number', async () => {
-            // given
-            const csvHeadersExpected =
-              '\uFEFF"Nom de l\'organisation";' +
-              '"ID Campagne";' +
-              '"Nom de la campagne";' +
-              '"Nom du Profil Cible";' +
-              '"Nom du Participant";' +
-              '"Prénom du Participant";' +
-              '"Numéro Étudiant";' +
-              '"% de progression";' +
-              '"Date de début";' +
-              '"Partage (O/N)";' +
-              '"Date du partage";' +
-              '"% maitrise de l\'ensemble des acquis du profil";' +
-              '"% de maitrise des acquis de la compétence Competence1";' +
-              '"Nombre d\'acquis du profil cible dans la compétence Competence1";' +
-              '"Acquis maitrisés dans la compétence Competence1";' +
-              '"% de maitrise des acquis du domaine Domain 1";' +
-              '"Nombre d\'acquis du profil cible du domaine Domain 1";' +
-              '"Acquis maitrisés du domaine Domain 1";' +
-              '"\'@web1";' +
-              '"\'@web2";' +
-              '"\'@web3";' +
-              '"\'@web4";' +
-              '"\'@web5"';
-
-            const csvDataExpected =
-              `"${organization.name}";` +
-              `${campaign.id};` +
-              `"${campaign.name}";` +
-              `"'${targetProfile.name}";` +
-              `"'${user.lastName}";` +
-              `"'${user.firstName}";` +
-              '"";' +
-              '1;' +
-              '2019-02-25;' +
-              '"Non";' +
-              '"NA";' +
-              '"NA";' +
-              '"NA";' +
-              '"NA";' +
-              '"NA";' +
-              '"NA";' +
-              '"NA";' +
-              '"NA";' +
-              '"NA";' +
-              '"NA";' +
-              '"NA";' +
-              '"NA";' +
-              '"NA"';
-
-            // when
-            startWritingCampaignAssessmentResultsToStream({
-              userId: user.id,
-              campaignId: campaign.id,
-              writableStream,
-              campaignRepository,
-              userRepository,
-              targetProfileRepository,
-              competenceRepository,
-              organizationRepository,
-              campaignParticipationInfoRepository,
-              knowledgeElementRepository,
-              campaignCsvExportService,
-            });
-
-            const csv = await csvPromise;
-            const csvLines = csv.split('\n');
-
-            // then
-            expect(csvLines[0]).to.equal(csvHeadersExpected);
-            expect(csvLines[1]).to.equal(csvDataExpected);
-          });
-        });
-      });
-
-      context('when the organization does not manage students', () => {
-        beforeEach(() => {
-          organization = domainBuilder.buildOrganization({ type: 'SUP', isManagingStudents: false });
-          campaign = domainBuilder.buildCampaign.ofTypeAssessment({
-            name: 'CampaignName',
-            code: 'AZERTY123',
-            organizationId: organization.id,
-            idPixLabel: null,
-          });
-          organizationRepository.get.resolves(organization);
-          campaignRepository.get.resolves(campaign);
-          const user = domainBuilder.buildUser({ firstName: '@Jean', lastName: '=Bono' });
-          const campaignParticipationInfo = {
-            id: 1,
-            isShared: false,
-            createdAt: new Date('2019-02-25T10:00:00Z'),
-            userId: 123,
-            participantFirstName: user.firstName,
-            participantLastName: user.lastName,
-            organizationName: organization.name,
-            organizationType: organization.type,
-            campaignId: campaign.id,
-            campaignName: campaign.name,
-            studentNumber: null,
-            isCompleted: true,
-          };
-          user.memberships = [{ organization: { id:  organization.id } }];
-          userRepository.getWithMemberships.resolves(user);
-          findByCampaignIdStub.resolves([campaignParticipationInfo]);
-          knowledgeElementRepositoryStub.resolves({ [campaignParticipationInfo.userId]: {} });
-        });
-        it('should return the header and the data in CSV styles with an empty value in the column student number', async () => {
-          // given
-          const csvHeadersExpected =
-            '\uFEFF"Nom de l\'organisation";' +
-            '"ID Campagne";' +
-            '"Nom de la campagne";' +
-            '"Nom du Profil Cible";' +
-            '"Nom du Participant";' +
-            '"Prénom du Participant";' +
-            '"% de progression";' +
-            '"Date de début";' +
-            '"Partage (O/N)";' +
-            '"Date du partage";' +
-            '"% maitrise de l\'ensemble des acquis du profil";' +
-            '"% de maitrise des acquis de la compétence Competence1";' +
-            '"Nombre d\'acquis du profil cible dans la compétence Competence1";' +
-            '"Acquis maitrisés dans la compétence Competence1";' +
-            '"% de maitrise des acquis du domaine Domain 1";' +
-            '"Nombre d\'acquis du profil cible du domaine Domain 1";' +
-            '"Acquis maitrisés du domaine Domain 1";' +
-            '"\'@web1";' +
-            '"\'@web2";' +
-            '"\'@web3";' +
-            '"\'@web4";' +
-            '"\'@web5"';
-
-          const csvDataExpected =
-            `"${organization.name}";` +
-            `${campaign.id};` +
-            `"${campaign.name}";` +
-            `"'${targetProfile.name}";` +
-            `"'${user.lastName}";` +
-            `"'${user.firstName}";` +
-            '1;' +
-            '2019-02-25;' +
-            '"Non";' +
-            '"NA";' +
-            '"NA";' +
-            '"NA";' +
-            '"NA";' +
-            '"NA";' +
-            '"NA";' +
-            '"NA";' +
-            '"NA";' +
-            '"NA";' +
-            '"NA";' +
-            '"NA";' +
-            '"NA";' +
-            '"NA"';
-
-          // when
-          startWritingCampaignAssessmentResultsToStream({
-            userId: user.id,
-            campaignId: campaign.id,
-            writableStream,
-            campaignRepository,
-            userRepository,
-            targetProfileRepository,
-            competenceRepository,
-            organizationRepository,
-            campaignParticipationInfoRepository,
-            knowledgeElementRepository,
-            campaignCsvExportService,
-          });
-
-          const csv = await csvPromise;
-          const csvLines = csv.split('\n');
-
-          // then
-          expect(csvLines[0]).to.equal(csvHeadersExpected);
-          expect(csvLines[1]).to.equal(csvDataExpected);
-        });
-      });
-    });
+  const campaignRepository = { get: () => undefined };
+  const userRepository = { getWithMemberships: () => undefined };
+  const targetProfileRepository = { get: () => undefined };
+  const competenceRepository = { list: () => undefined };
+  const organizationRepository = { get: () => undefined };
+  const campaignParticipationInfoRepository = { findByCampaignId: () => undefined };
+  const knowledgeElementRepository = { findTargetedGroupedByCompetencesForUsers: () => undefined };
+  let writableStream;
+  let csvPromise;
+
+  beforeEach(() => {
+    writableStream = new PassThrough();
+    csvPromise = streamToPromise(writableStream);
   });
+
+  it('should throw a UserNotAuthorizedToGetCampaignResultsError when user is not authorized', async () => {
+    // given
+    const notAuthorizedUser = domainBuilder.buildUser({ memberships: [] });
+    const campaign = domainBuilder.buildCampaign();
+    sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
+    sinon.stub(userRepository, 'getWithMemberships').withArgs(notAuthorizedUser.id).resolves(notAuthorizedUser);
+    sinon.stub(targetProfileRepository, 'get').rejects();
+    sinon.stub(competenceRepository, 'list').rejects();
+    sinon.stub(organizationRepository, 'get').rejects();
+    sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').rejects();
+    sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
+
+    // when
+    const err = await catchErr(startWritingCampaignAssessmentResultsToStream)({
+      userId: notAuthorizedUser.id,
+      campaignId: campaign.id,
+      writableStream,
+      campaignRepository,
+      userRepository,
+      targetProfileRepository,
+      competenceRepository,
+      organizationRepository,
+      campaignParticipationInfoRepository,
+      knowledgeElementRepository,
+      campaignCsvExportService,
+    });
+
+    // then
+    expect(err).to.be.instanceOf(UserNotAuthorizedToGetCampaignResultsError);
+    expect(err.message).to.equal(`User does not have an access to the organization ${campaign.organizationId}`);
+  });
+
+  it('should throw an error when target profile presents a competence unknown in the learning content', async () => {
+    // given
+    const { user, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign();
+    const targetedSkillOfUnknownCompetence = domainBuilder.buildSkill({ competenceId: 'TROLOLOLO' });
+    const targetProfile = domainBuilder.buildTargetProfile({ skills: [targetedSkillOfUnknownCompetence] });
+    campaign.targetProfileId = targetProfile.id;
+    sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
+    sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
+    sinon.stub(organizationRepository, 'get').withArgs(campaign.organizationId).resolves(organization);
+    sinon.stub(targetProfileRepository, 'get').withArgs(campaign.targetProfileId).resolves(targetProfile);
+    sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
+    sinon.stub(competenceRepository, 'list').resolves([domainBuilder.buildCompetence({ id: 'realCompetenceId' })]);
+    sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
+
+    // when
+    const err = await catchErr(startWritingCampaignAssessmentResultsToStream)({
+      userId: user.id,
+      campaignId: campaign.id,
+      writableStream,
+      campaignRepository,
+      userRepository,
+      targetProfileRepository,
+      competenceRepository,
+      organizationRepository,
+      campaignParticipationInfoRepository,
+      knowledgeElementRepository,
+      campaignCsvExportService,
+    });
+
+    // then
+    expect(err).to.be.instanceOf(Error);
+    expect(err.message).to.equal('Unknown competence TROLOLOLO');
+  });
+
+  it('should return common parts of header with appropriate info', async () => {
+    // given
+    const { user, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign();
+    const area1 = domainBuilder.buildArea({ code: '1' });
+    const competence1_1 = domainBuilder.buildCompetence({ area: area1, index: '1.1' });
+    const skill1_1_1 = domainBuilder.buildSkill({ competenceId: competence1_1.id, name: '@acquis1' });
+    const competence1_2 = domainBuilder.buildCompetence({ area: area1, index: '1.2' });
+    const skill1_2_1 = domainBuilder.buildSkill({ competenceId: competence1_2.id, name: '@acquis2' });
+    const area2 = domainBuilder.buildArea({ code: '2' });
+    const competence2_1 = domainBuilder.buildCompetence({ area: area2, index: '2.1' });
+    const skill2_1_1 = domainBuilder.buildSkill({ competenceId: competence2_1.id, name: '@acquis3' });
+    const skill2_1_2 = domainBuilder.buildSkill({ competenceId: competence2_1.id, name: '@acquis4' });
+    const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1_1_1, skill1_2_1, skill2_1_1, skill2_1_2] });
+    campaign.targetProfileId = targetProfile.id;
+    sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
+    sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
+    sinon.stub(organizationRepository, 'get').withArgs(campaign.organizationId).resolves(organization);
+    sinon.stub(targetProfileRepository, 'get').withArgs(campaign.targetProfileId).resolves(targetProfile);
+    sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
+    sinon.stub(competenceRepository, 'list').resolves([competence1_2, competence2_1, competence1_1]);
+    sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
+    const csvExpected = '\uFEFF"Nom de l\'organisation";' +
+      '"ID Campagne";' +
+      '"Nom de la campagne";' +
+      '"Nom du Profil Cible";' +
+      '"Nom du Participant";' +
+      '"Prénom du Participant";' +
+      '"% de progression";' +
+      '"Date de début";' +
+      '"Partage (O/N)";' +
+      '"Date du partage";' +
+      '"% maitrise de l\'ensemble des acquis du profil";' +
+      `"% de maitrise des acquis de la compétence ${competence1_1.name}";` +
+      `"Nombre d'acquis du profil cible dans la compétence ${competence1_1.name}";` +
+      `"Acquis maitrisés dans la compétence ${competence1_1.name}";` +
+      `"% de maitrise des acquis de la compétence ${competence1_2.name}";` +
+      `"Nombre d'acquis du profil cible dans la compétence ${competence1_2.name}";` +
+      `"Acquis maitrisés dans la compétence ${competence1_2.name}";` +
+      `"% de maitrise des acquis de la compétence ${competence2_1.name}";` +
+      `"Nombre d'acquis du profil cible dans la compétence ${competence2_1.name}";` +
+      `"Acquis maitrisés dans la compétence ${competence2_1.name}";` +
+      `"% de maitrise des acquis du domaine ${area1.title}";` +
+      `"Nombre d'acquis du profil cible du domaine ${area1.title}";` +
+      `"Acquis maitrisés du domaine ${area1.title}";` +
+      `"% de maitrise des acquis du domaine ${area2.title}";` +
+      `"Nombre d'acquis du profil cible du domaine ${area2.title}";` +
+      `"Acquis maitrisés du domaine ${area2.title}";` +
+      `"'${skill1_1_1.name}";` +
+      `"'${skill1_2_1.name}";` +
+      `"'${skill2_1_1.name}";` +
+      `"'${skill2_1_2.name}"\n`;
+
+    // when
+    startWritingCampaignAssessmentResultsToStream({
+      userId: user.id,
+      campaignId: campaign.id,
+      writableStream,
+      campaignRepository,
+      userRepository,
+      targetProfileRepository,
+      competenceRepository,
+      organizationRepository,
+      campaignParticipationInfoRepository,
+      knowledgeElementRepository,
+      campaignCsvExportService,
+    });
+    const csv = await csvPromise;
+
+    // then
+    expect(csv).to.equal(csvExpected);
+  });
+
+  it('should contains idPixLabel in header if any setup in campaign', async () => {
+    // given
+    const idPixLabel = 'Numéro de carte bleue';
+    const { user, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign({ idPixLabel });
+    const area = domainBuilder.buildArea();
+    const competence = domainBuilder.buildCompetence({ area });
+    const skill = domainBuilder.buildSkill({ competenceId: competence.id });
+    const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
+    campaign.targetProfileId = targetProfile.id;
+    sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
+    sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
+    sinon.stub(organizationRepository, 'get').withArgs(campaign.organizationId).resolves(organization);
+    sinon.stub(targetProfileRepository, 'get').withArgs(campaign.targetProfileId).resolves(targetProfile);
+    sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
+    sinon.stub(competenceRepository, 'list').resolves([competence]);
+    sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
+    const csvExpected = '\uFEFF"Nom de l\'organisation";' +
+      '"ID Campagne";' +
+      '"Nom de la campagne";' +
+      '"Nom du Profil Cible";' +
+      '"Nom du Participant";' +
+      '"Prénom du Participant";' +
+      `"${idPixLabel}";` +
+      '"% de progression";' +
+      '"Date de début";' +
+      '"Partage (O/N)";' +
+      '"Date du partage";' +
+      '"% maitrise de l\'ensemble des acquis du profil";' +
+      `"% de maitrise des acquis de la compétence ${competence.name}";` +
+      `"Nombre d'acquis du profil cible dans la compétence ${competence.name}";` +
+      `"Acquis maitrisés dans la compétence ${competence.name}";` +
+      `"% de maitrise des acquis du domaine ${area.title}";` +
+      `"Nombre d'acquis du profil cible du domaine ${area.title}";` +
+      `"Acquis maitrisés du domaine ${area.title}";` +
+      `"'${skill.name}"\n`;
+
+    // when
+    startWritingCampaignAssessmentResultsToStream({
+      userId: user.id,
+      campaignId: campaign.id,
+      writableStream,
+      campaignRepository,
+      userRepository,
+      targetProfileRepository,
+      competenceRepository,
+      organizationRepository,
+      campaignParticipationInfoRepository,
+      knowledgeElementRepository,
+      campaignCsvExportService,
+    });
+    const csv = await csvPromise;
+
+    // then
+    expect(csv).to.equal(csvExpected);
+  });
+
+  it('should contains Numéro Étudiant header when orga is SUP and managing students', async () => {
+    // given
+    const { user, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign({ isManagingStudents: true, type: 'SUP' });
+    const area = domainBuilder.buildArea();
+    const competence = domainBuilder.buildCompetence({ area });
+    const skill = domainBuilder.buildSkill({ competenceId: competence.id });
+    const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
+    campaign.targetProfileId = targetProfile.id;
+    sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
+    sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
+    sinon.stub(organizationRepository, 'get').withArgs(campaign.organizationId).resolves(organization);
+    sinon.stub(targetProfileRepository, 'get').withArgs(campaign.targetProfileId).resolves(targetProfile);
+    sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
+    sinon.stub(competenceRepository, 'list').resolves([competence]);
+    sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
+    const csvExpected = '\uFEFF"Nom de l\'organisation";' +
+      '"ID Campagne";' +
+      '"Nom de la campagne";' +
+      '"Nom du Profil Cible";' +
+      '"Nom du Participant";' +
+      '"Prénom du Participant";' +
+      '"Numéro Étudiant";' +
+      '"% de progression";' +
+      '"Date de début";' +
+      '"Partage (O/N)";' +
+      '"Date du partage";' +
+      '"% maitrise de l\'ensemble des acquis du profil";' +
+      `"% de maitrise des acquis de la compétence ${competence.name}";` +
+      `"Nombre d'acquis du profil cible dans la compétence ${competence.name}";` +
+      `"Acquis maitrisés dans la compétence ${competence.name}";` +
+      `"% de maitrise des acquis du domaine ${area.title}";` +
+      `"Nombre d'acquis du profil cible du domaine ${area.title}";` +
+      `"Acquis maitrisés du domaine ${area.title}";` +
+      `"'${skill.name}"\n`;
+
+    // when
+    startWritingCampaignAssessmentResultsToStream({
+      userId: user.id,
+      campaignId: campaign.id,
+      writableStream,
+      campaignRepository,
+      userRepository,
+      targetProfileRepository,
+      competenceRepository,
+      organizationRepository,
+      campaignParticipationInfoRepository,
+      knowledgeElementRepository,
+      campaignCsvExportService,
+    });
+    const csv = await csvPromise;
+
+    // then
+    expect(csv).to.equal(csvExpected);
+  });
+
+  it('should process result for each participation and add it to csv', async () => {
+    // given
+    const { user: admin, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign();
+    const area = domainBuilder.buildArea();
+    const competence = domainBuilder.buildCompetence({ area });
+    const skill = domainBuilder.buildSkill({ competenceId: competence.id });
+    const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
+    const participantInfo = domainBuilder.buildCampaignParticipationInfo({ createdAt: new Date('2020-01-01'), sharedAt: new Date('2020-02-01') });
+    const knowledgeElement = domainBuilder.buildKnowledgeElement({
+      status: 'validated',
+      skillId: skill.id,
+      competenceId: competence.id,
+    });
+    campaign.targetProfileId = targetProfile.id;
+    sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
+    sinon.stub(userRepository, 'getWithMemberships').withArgs(admin.id).resolves(admin);
+    sinon.stub(organizationRepository, 'get').withArgs(campaign.organizationId).resolves(organization);
+    sinon.stub(targetProfileRepository, 'get').withArgs(campaign.targetProfileId).resolves(targetProfile);
+    sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([participantInfo]);
+    sinon.stub(competenceRepository, 'list').resolves([competence]);
+    sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').resolves({
+      [participantInfo.userId] : {
+        [competence.id] : [knowledgeElement],
+      },
+    });
+    const csvHeaderExpected = '\uFEFF"Nom de l\'organisation";' +
+      '"ID Campagne";' +
+      '"Nom de la campagne";' +
+      '"Nom du Profil Cible";' +
+      '"Nom du Participant";' +
+      '"Prénom du Participant";' +
+      '"% de progression";' +
+      '"Date de début";' +
+      '"Partage (O/N)";' +
+      '"Date du partage";' +
+      '"% maitrise de l\'ensemble des acquis du profil";' +
+      `"% de maitrise des acquis de la compétence ${competence.name}";` +
+      `"Nombre d'acquis du profil cible dans la compétence ${competence.name}";` +
+      `"Acquis maitrisés dans la compétence ${competence.name}";` +
+      `"% de maitrise des acquis du domaine ${area.title}";` +
+      `"Nombre d'acquis du profil cible du domaine ${area.title}";` +
+      `"Acquis maitrisés du domaine ${area.title}";` +
+      `"'${skill.name}"`;
+    const csvParticipantResultExpected = `"${organization.name}";` +
+      `${campaign.id};` +
+      `"${campaign.name}";` +
+      `"${targetProfile.name}";` +
+      `"${participantInfo.participantLastName}";` +
+      `"${participantInfo.participantFirstName}";` +
+      '1;' +
+      '2020-01-01;' +
+      '"Oui";' +
+      '2020-02-01;' +
+      '1;' +
+      '1;' +
+      '1;' +
+      '1;' +
+      '1;' +
+      '1;' +
+      '1;' +
+      '"OK"';
+
+    // when
+    startWritingCampaignAssessmentResultsToStream({
+      userId: admin.id,
+      campaignId: campaign.id,
+      writableStream,
+      campaignRepository,
+      userRepository,
+      targetProfileRepository,
+      competenceRepository,
+      organizationRepository,
+      campaignParticipationInfoRepository,
+      knowledgeElementRepository,
+      campaignCsvExportService,
+    });
+    const csv = await csvPromise;
+
+    // then
+    const csvLines = csv.split('\n');
+
+    // then
+    expect(csvLines).to.have.length(3);
+    expect(csvLines[0]).equal(csvHeaderExpected);
+    expect(csvLines[1]).equal(csvParticipantResultExpected);
+    expect(csvLines[2]).equal('');
+  });
+
 });
 
+function _buildOrganizationAndUserWithMembershipAndCampaign({ idPixLabel = null, type = 'SCO', isManagingStudents = false } = {}) {
+  const organization = domainBuilder.buildOrganization({ type, isManagingStudents });
+  const user = domainBuilder.buildUser();
+  const membership = domainBuilder.buildMembership({ user, organization });
+  user.memberships = [membership];
+  const campaign = domainBuilder.buildCampaign({ organizationId: organization.id, idPixLabel });
+
+  return {
+    user,
+    campaign,
+    organization,
+  };
+}
