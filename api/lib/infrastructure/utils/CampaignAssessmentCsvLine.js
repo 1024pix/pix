@@ -152,7 +152,7 @@ class CampaignAssessmentCsvLine {
 
   get _studentNumber() {
     let studentNumber = null;
-    if (this.organization.type == 'SUP' && this.organization.isManagingStudents) {
+    if (this.organization.isSup && this.organization.isManagingStudents) {
       studentNumber = this.campaignParticipationInfo.studentNumber || '';
     }
     return [studentNumber].filter((value) => value != null);
