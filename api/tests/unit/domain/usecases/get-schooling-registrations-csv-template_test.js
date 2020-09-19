@@ -1,4 +1,4 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
+const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const getSchoolingRegistrationsCsvTemplate = require('../../../../lib/domain/usecases/get-schooling-registrations-csv-template');
 const _ = require('lodash');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
@@ -12,7 +12,9 @@ describe('Unit | UseCase | get-schooling-registrations-csv-template', () => {
   context('When user is ADMIN in a SUP organization managing students', () => {
     it('should return headers line', async () => {
       // given
-      sinon.stub(membershipRepository, 'findByUserIdAndOrganizationId').resolves([{ isAdmin: true, organization: { isManagingStudents: true, type: 'SUP' } }]);
+      const organization = domainBuilder.buildOrganization({ isManagingStudents: true, type: 'SUP' });
+      const membership = domainBuilder.buildMembership({ organizationRole: 'ADMIN', organization });
+      sinon.stub(membershipRepository, 'findByUserIdAndOrganizationId').resolves([membership]);
 
       // when
       const result = await getSchoolingRegistrationsCsvTemplate({ userId, organizationId, membershipRepository });

@@ -80,7 +80,8 @@ describe('Unit | UseCase | reconcile-user-to-schooling-registration-data', () =>
 
   context('When organization is SCO', () => {
     beforeEach(() => {
-      getOrganizationStub.resolves({ type: 'SCO' });
+      const organization = domainBuilder.buildOrganization({ type: 'SCO' });
+      getOrganizationStub.resolves(organization);
     });
 
     context('When student is already reconciled in others organizations', () => {

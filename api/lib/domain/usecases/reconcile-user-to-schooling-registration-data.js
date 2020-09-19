@@ -1,5 +1,4 @@
 const { CampaignCodeError } = require('../errors');
-const Organization = require('../models/Organization');
 
 module.exports = async function reconcileUserToSchoolingRegistrationData({
   campaignCode,
@@ -26,7 +25,7 @@ module.exports = async function reconcileUserToSchoolingRegistrationData({
     obfuscationService,
   });
   const organization = await organizationRepository.get(campaign.organizationId);
-  if (organization.type === Organization.types.SCO) {
+  if (organization.isSco) {
     const student = await studentRepository.getReconciledStudentByNationalStudentId(matchedSchoolingRegistration.nationalStudentId);
     await userReconciliationService.checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(student, userRepository, obfuscationService);
   }
