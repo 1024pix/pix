@@ -25,7 +25,7 @@ module.exports = function buildCampaign({
     targetProfileId = _.isUndefined(targetProfileId) ? buildTargetProfile({ organizationId }).id : targetProfileId;
   }
 
-  organizationId = _.isUndefined(organizationId) ? buildOrganization().id : organizationId;
+  organizationId = _.isNil(organizationId) ? buildOrganization().id : organizationId;
   creatorId = _.isUndefined(creatorId) ? buildUser().id : creatorId;
 
   const values = {

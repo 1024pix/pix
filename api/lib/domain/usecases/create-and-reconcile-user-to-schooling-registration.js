@@ -88,7 +88,7 @@ module.exports = async function createAndReconcileUserToSchoolingRegistration({
   userReconciliationService,
 }) {
   const campaign = await campaignRepository.getByCode(campaignCode);
-  if (!campaign || !campaign.organizationId) {
+  if (!campaign) {
     throw new CampaignCodeError();
   }
 

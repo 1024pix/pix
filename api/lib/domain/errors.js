@@ -169,12 +169,6 @@ class InvalidParametersForSessionPublication extends DomainError {
   }
 }
 
-class CampaignWithoutOrganizationError extends DomainError {
-  constructor(message = 'L\'organisation de la campagne n\'a pas été trouvée.') {
-    super(message);
-  }
-}
-
 class CompetenceResetError extends DomainError {
   constructor(remainingDaysBeforeReset) {
     super(`Il reste ${remainingDaysBeforeReset} jours avant de pouvoir réinitiliser la compétence.`);
@@ -570,7 +564,6 @@ module.exports = {
   AssessmentNotCompletedError,
   CampaignAlreadyArchivedError,
   CampaignCodeError,
-  CampaignWithoutOrganizationError,
   CertificateVerificationCodeGenerationTooManyTrials,
   CertificationCandidateForbiddenDeletionError,
   CertificationCandidateAlreadyLinkedToUserError,

@@ -19,19 +19,12 @@ describe('Acceptance | API | Campaign Controller', () => {
 
   describe('GET /api/campaign', function() {
 
-    let campaignWithoutOrga;
-
-    beforeEach(async () => {
-      campaignWithoutOrga = databaseBuilder.factory.buildCampaign({ organizationId: null });
-      await databaseBuilder.commit();
-    });
-
     it('should return one NotFoundError if there is no campaign link to the code', async () => {
       // given
-      const fakeCamapignCode = 'FAKE_CAMPAIGN_CODE';
+      const fakeCampaignCode = 'FAKE_CAMPAIGN_CODE';
       const options = {
         method: 'GET',
-        url: `/api/campaigns/?filter[code]=${fakeCamapignCode}`,
+        url: `/api/campaigns/?filter[code]=${fakeCampaignCode}`,
       };
 
       // when
@@ -40,23 +33,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       // then
       expect(response.statusCode).to.equal(404);
       expect(response.result.errors[0].title).to.equal('Not Found');
-      expect(response.result.errors[0].detail).to.equal(`Campaign with code ${fakeCamapignCode} not found`);
-    });
-
-    it('should return an NotFoundError if there is no organization link to the code', async () => {
-      // given
-      const options = {
-        method: 'GET',
-        url: `/api/campaigns/?filter[code]=${campaignWithoutOrga.code}`,
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(404);
-      expect(response.result.errors[0].title).to.equal('Not Found');
-      expect(response.result.errors[0].detail).to.equal(`Not found organization for ID ${null}`);
+      expect(response.result.errors[0].detail).to.equal(`Campaign with code ${fakeCampaignCode} not found`);
     });
 
     context('when organization does not manage student', () => {
@@ -64,7 +41,6 @@ describe('Acceptance | API | Campaign Controller', () => {
       beforeEach(async () => {
         organization = databaseBuilder.factory.buildOrganization({ isManagingStudents: false });
         campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
-        campaignWithoutOrga = databaseBuilder.factory.buildCampaign({ organizationId: null });
         await databaseBuilder.commit();
       });
 
