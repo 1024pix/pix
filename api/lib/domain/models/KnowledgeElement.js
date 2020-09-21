@@ -81,9 +81,9 @@ class KnowledgeElement {
   }
 
   static computeDaysSinceLastKnowledgeElement(knowledgeElements) {
-    const lastKnowledgeElement = _(knowledgeElements).sortBy('createdAt').last();
+    const lastCreatedAt = _(knowledgeElements).map('createdAt').max();
     const precise = true;
-    return moment().diff(lastKnowledgeElement.createdAt, 'days', precise);
+    return moment().diff(lastCreatedAt, 'days', precise);
   }
 
   static findDirectlyValidatedFromGroups(knowledgeElementsByCompetence) {
