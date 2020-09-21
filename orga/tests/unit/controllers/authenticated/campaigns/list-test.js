@@ -120,7 +120,7 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
       controller.send('goToCampaignPage', 123);
 
       // then
-      assert.equal(controller.transitionToRoute.calledWith('authenticated.campaigns.details', 123), true);
+      assert.equal(controller.transitionToRoute.calledWith('authenticated.campaigns.campaign', 123), true);
     });
   });
 });

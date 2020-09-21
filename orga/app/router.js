@@ -37,16 +37,16 @@ Router.map(function() {
       this.route('list', { path: '/' });
       this.route('new', { path: '/creation' });
       this.route('update', { path: '/:campaign_id/modification' });
-      this.route('participant', { path: '/:campaign_id/participants/:campaign_participation_id' }, function() {
+      this.route('assessment', { path: '/:campaign_id/evaluations/:campaign_participation_id' }, function() {
         this.route('results', { path: '/resultats' });
         this.route('analysis', { path: '/analyse' });
       });
       this.route('profile', { path: '/:campaign_id/profils/:campaign_participation_id' });
-      this.route('details', { path: '/:campaign_id' }, function() {
-        this.route('parameters', { path: '/' });
+      this.route('campaign', { path: '/:campaign_id' }, function() {
+        this.route('details', { path: '/' });
         this.route('collective-results', { path: '/resultats-collectifs' });
         this.route('analysis', { path: '/analyse' });
-        this.route('participants');
+        this.route('assessments', { path: '/evaluations' });
         this.route('profiles', { path: '/profils' });
       });
     });
