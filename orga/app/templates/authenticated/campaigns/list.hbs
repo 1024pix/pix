@@ -1,6 +1,6 @@
 <div class="list-campaigns-page">
   {{#if this.displayNoCampaignPanel}}
-    <Routes::Authenticated::Campaigns::NoCampaignPanel />
+    <Routes::Authenticated::Campaign::NoCampaignPanel />
   {{else}}
     <div class="list-campaigns-page__header-page">
       <button role="tab" type="submit" class="list-campaigns-page__tab {{unless this.isArchived  'list-campaigns-page__tab--active' }}" aria-selected="{{ not this.isArchived }}" aria-label="Afficher les campagnes actives" {{on 'click' (fn this.updateCampaignStatus null)}}>Actives</button>
@@ -9,7 +9,7 @@
         <LinkTo @route="authenticated.campaigns.new" class="button button--link">Créer une campagne</LinkTo>
       </div>
     </div>
-    <Routes::Authenticated::Campaigns::ListItems
+    <Routes::Authenticated::Campaign::List
       @campaigns={{@model}}
       @nameFilter={{this.name}}
       @creatorNameFilter={{this.creatorName}}

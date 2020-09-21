@@ -36,7 +36,7 @@ module('Acceptance | Campaign Participants Individual Analysis', function(hooks)
     server.create('campaign-assessment-participation', { id: 1, campaignId: 1, campaignAnalysis });
 
     // when
-    await visit('/campagnes/1/participants/1/analyse');
+    await visit('/campagnes/1/evaluations/1/analyse');
 
     // then
     assert.dom('[aria-label="Analyse par sujet"]').containsText('Sujets (2)');
@@ -48,7 +48,7 @@ module('Acceptance | Campaign Participants Individual Analysis', function(hooks)
     server.create('campaign-assessment-participation', { id: 1, campaignId: 1, campaignAnalysis });
 
     // when
-    await visit('/campagnes/1/participants/1/analyse');
+    await visit('/campagnes/1/evaluations/1/analyse');
 
     // then
     assert.dom('[aria-label="Analyse par sujet"]').containsText('Sujets (-)');
