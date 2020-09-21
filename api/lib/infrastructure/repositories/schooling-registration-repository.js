@@ -107,12 +107,11 @@ module.exports = {
     }
   },
 
-  async findByOrganizationIdAndUserData({ organizationId, reconciliationInfo: { birthdate, studentNumber } = {} }) {
+  async findByOrganizationIdAndBirthdate({ organizationId, birthdate }) {
     const schoolingRegistrations = await BookshelfSchoolingRegistration
       .query((qb) => {
         qb.where('organizationId', organizationId);
-        if (birthdate) qb.where('birthdate', birthdate);
-        if (studentNumber) qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
+        qb.where('birthdate', birthdate);
       })
       .fetchAll();
 
