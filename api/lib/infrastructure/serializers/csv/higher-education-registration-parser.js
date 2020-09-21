@@ -123,7 +123,7 @@ class HigherEducationRegistrationParser {
       registrationAttributes[attribute] = value;
     });
 
-    registrationAttributes['birthdate'] = convertDateValue({ dateString: line[COLUMN_NAME_BY_ATTRIBUTE.birthdate], inputFormat: 'DD/MM/YYYY', alternativeInputFormat: 'DD/MM/YY', outputFormat: 'YYYY-MM-DD' });
+    registrationAttributes['birthdate'] =  this._buildBirthdateAttribute(line[COLUMN_NAME_BY_ATTRIBUTE.birthdate]);
     registrationAttributes['organizationId'] = this._organizationId;
 
     return registrationAttributes;
@@ -141,6 +141,11 @@ class HigherEducationRegistrationParser {
     if (columns.some((column) => !expectedColumns.includes(column))) {
       throw new CsvImportError('Les entêtes de colonnes doivent être identiques à celle du modèle.');
     }
+  }
+
+  _buildBirthdateAttribute(birthdate) {
+    const convertedDate = convertDateValue({ dateString: birthdate, inputFormat: 'DD/MM/YYYY', alternativeInputFormat: 'DD/MM/YY', outputFormat: 'YYYY-MM-DD' });
+    return convertedDate || birthdate;
   }
 
 }
