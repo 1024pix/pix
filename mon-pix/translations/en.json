@@ -4,11 +4,9 @@
     "internal-server-error": "An error occurred, our teams are working on finding a solution. Please try again later.",
     "login-unauthorized-error": "There was an error in the email address or username/password entered."
   },
-
   "application": {
     "description": "Pix is an online platform open to all (pupils, students, anyone working or in professional training, seniors) designed to assess, develop and certify digital skills"
   },
-
   "common": {
     "actions": {
       "cancel": "Cancel",
@@ -31,7 +29,6 @@
     "or": "or",
     "pix": "pix"
   },
-
   "pages": {
     "assessment-banner": {
       "title": "Challenge for the assessment: "
@@ -46,7 +43,6 @@
         "header": "Your answers"
       }
     },
-
     "campaign": {
       "title": "Course",
       "errors": {
@@ -54,7 +50,6 @@
         "no-longer-accessible": "Oops, the requested page is not available."
       }
     },
-
     "campaign-landing": {
       "title": "Presentation",
       "assessment": {
@@ -88,7 +83,6 @@
         "legal": "Information about your progress will be sent to the organiser so they can provide support. It will only be sent with your permission."
       }
     },
-
     "certificate": {
       "title": "Pix Certificate",
       "back-link": "Return to my certificates",
@@ -121,7 +115,6 @@
       "jury-info": "Les observations du jury ne sont pas partagées sur la page de vérification de votre certificat.",
       "validity": "Certificate valid for 3 years"
     },
-
     "competence-result": {
       "title": "Results",
       "header": {
@@ -134,7 +127,6 @@
         "you-have-reached-level": "You reached"
       }
     },
-
     "certification-joiner": {
       "title": "Join a certification session",
       "congratulation-banner": {
@@ -153,7 +145,6 @@
         }
       }
     },
-
     "certification-not-certifiable": {
       "title": "Your profile cannot be certified yet.",
       "text": "To have your profile certified, you need to have reached at least level 1 in five skills.",
@@ -161,7 +152,6 @@
         "back": "Return to homepage"
       }
     },
-
     "certification-results": {
       "title": "Certification progress",
       "action": {
@@ -180,7 +170,6 @@
         "warning-text": "The invigilator has seen this screen."
       }
     },
-
     "certification-start": {
       "title": "Join a certification session",
       "access-code": "Enter the access code sent by the invigilator",
@@ -196,7 +185,6 @@
       },
       "first-title": "You are about to begin your certification test."
     },
-
     "certifications-list": {
       "title": "My certifications",
       "header": {
@@ -222,7 +210,6 @@
         }
       }
     },
-
     "challenge": {
       "title": "Question {stepNumber} of {totalChallengeNumber}",
       "actions": {
@@ -364,7 +351,6 @@
         "qrocm": "To validate, please complete all answer fields. Otherwise, click Skip."
       }
     },
-
     "checkpoint": {
       "title": {
         "assessment-progress": "Course progress",
@@ -388,7 +374,6 @@
         "caption": "course progress"
       }
     },
-
     "comparison-window": {
       "upcoming-tutorials": "You will soon find tutorials here to help you answer correctly to this type of question!!",
       "results": {
@@ -430,7 +415,6 @@
         }
       }
     },
-
     "competence-details": {
       "title": "Skill",
       "actions": {
@@ -466,21 +450,17 @@
         "description": "Here are a selection of tutorials that will help you increase your pix score."
       }
     },
-
     "error": {
       "content-text": "'<p>'Please refresh the page or '<LinkTo @route=\"login\">'return to homepage'</LinkTo>'.'</p><p>'You can also contact us via '<a href=\"https://support.pix.fr/support/tickets/new\">'the help centre form'</a>'specifying the error code below in the description.'</p><p>'Please excuse any inconvenience caused.'</p><p>'The Pix team.'</p>'",
       "first-title": "Oops, an error occurred!"
     },
-
     "learning-more": {
       "title": "To find out more",
       "info": "These tutorial links have been suggested by Pix users."
     },
-
     "levelup-notif": {
       "obtained-level": "Level { level } succeeded!"
     },
-
     "password-reset-demand": {
       "title": "Forgotten your password?",
       "actions": {
@@ -499,7 +479,6 @@
         "subtitle": "Password reset request"
       }
     },
-
     "profile": {
       "title": "Your profile",
       "accessibility": {
@@ -531,7 +510,6 @@
         "explanation": "That’s the maximum number of pix you can get when the 8 levels of the Pix framework will be available.'<br>'Today, '<span class=\"hexagon-score-information__text--strong\">'the maximum number available is 640 pix'</span>', corresponding to level 5."
       }
     },
-
     "profile-already-shared": {
       "title": "Profile already submitted",
       "first-title": "There was a problem",
@@ -540,7 +518,6 @@
       },
       "explanation": "You already submitted the profile below to the organisation {organization}'<br>'on {date,date,LL} at {hour,time,hhmm}"
     },
-
     "reset-password": {
       "title": "Change my password",
       "actions": {
@@ -551,13 +528,11 @@
       "instruction": "Enter your new password",
       "succeed": "Your password has been changed successfully."
     },
-
     "proposals": {
       "answer": {
         "qcu": "The answer to the question is: "
       }
     },
-
     "result-item": {
       "aband": "No answer",
       "actions": {
@@ -570,7 +545,6 @@
       "partially": "Incomplete answer",
       "timedout": "Out of time"
     },
-
     "send-profile": {
       "title": "Submit my profile",
       "first-title": "Submitting your Pix profile",
@@ -586,7 +560,6 @@
       },
       "instructions": "You are about to submit the score and skill levels shown on your Pix profile. <br/> Any changes in your profile after this submission will not be shared. <br/> Remember to check your profile before submitting it!"
     },
-
     "sign-in": {
       "title": "Log in",
       "actions": {
@@ -610,7 +583,6 @@
         "link": "Create an account"
       }
     },
-
     "sign-up": {
       "title": "Sign up",
       "actions": {
@@ -648,7 +620,6 @@
         "link": "log into your account"
       }
     },
-
     "skill-review": {
       "title": "Result",
       "abstract": "You have mastered '<strong>'{percentage}%'</strong>'<br/> of the skills tested.",
@@ -685,12 +656,10 @@
         "description": "You can retake some of the questions"
       }
     },
-
     "time-gauge": {
       "timeout-placeholder": "You have exceeded the time allowed",
       "remaining-time-placeholder": "There is still more time to complete the test"
     },
-
     "tutorial": {
       "next": "Next",
       "pages": {
@@ -718,12 +687,10 @@
       "pass": "Ignore",
       "start": "Start my course"
     },
-
     "tutorial-panel": {
       "title": "For better results next time",
       "info": "These tutorial links have been suggested by Pix users."
     },
-
     "user-tutorials": {
       "title": "My tutorials",
       "description": "Improve with the help of tutorials suggested by the Pix user community.",
@@ -756,7 +723,6 @@
         }
       }
     },
-
     "fill-in-campaign-code": {
       "title": "I have a code",
       "first-title": "Enter your code",
@@ -768,7 +734,6 @@
       },
       "start": "Start"
     },
-
     "fill-in-certificate-verification-code": {
       "title": "Verify the authenticity of a Pix Certificate",
       "first-title": "Verify the score of a Pix Certificate",
@@ -782,12 +747,10 @@
       },
       "verify": "Verify the score"
     },
-
     "shared-certification": {
       "title": "Share my Pix Certificate",
       "back-link": "Go back to the verification’s page"
     },
-
     "fill-in-id-pix": {
       "title": "Enter my username",
       "first-title": "Before starting",
@@ -800,14 +763,12 @@
         "missing-id-pix-label": "Please enter your { idPixLabel }."
       }
     },
-
     "warning": {
       "action": "Start",
       "instructions": "You have '<span class=\"challenge-item-warning__instruction-time\">'{time}'</span>' to complete the next question.",
       "further-instructions": "You can continue answering after this, but the question will not be marked as correct."
     }
   },
-
   "navigation": {
     "error": "Error",
     "homepage": "Homepage",
