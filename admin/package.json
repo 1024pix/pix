@@ -77,7 +77,7 @@
     "ember-models-table": "^3.4.0",
     "ember-moment": "^8.0.0",
     "ember-native-dom-helpers": "^0.6.3",
-    "ember-power-select": "^2.3.5",
+    "ember-power-select": "^4.0.4",
     "ember-qunit": "^4.6.0",
     "ember-resolver": "^8.0.2",
     "ember-simple-auth": "^3.0.0",
