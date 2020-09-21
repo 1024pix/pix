@@ -152,6 +152,7 @@
 
     > img {
       height: 45px;
+      margin-left: 24px;
 
       @include device-is('tablet') {
         height: 54px;
