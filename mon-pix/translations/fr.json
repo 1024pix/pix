@@ -15,7 +15,7 @@
     },
     "form": {
       "error": "erreur",
-      "mandatory": "obligatoiresS",
+      "mandatory": "obligatoire",
       "mandatory-fields": "Les champs marqués de '<abbr title=\"obligatoire\" class=\"mandatory-mark\">'*'</abbr>' sont obligatoires",
       "success": "correct"
     },
