@@ -1,3 +1,4 @@
+commit_message: "Update translation files"
 files:
   - source: /mon-pix/translations/*.json
     translation: /mon-pix/translations/%two_letters_code%.json
