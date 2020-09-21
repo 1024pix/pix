@@ -7,6 +7,7 @@ const placementProfileService = require('../lib/domain/services/placement-profil
 const certificationChallengeService = require('../lib/domain/services/certification-challenges-service');
 
 const USER_COUNT = ~~process.env.USER_COUNT || 100;
+const USER_ID = ~~process.env.USER_ID || null;
 
 function makeRefDataFaster() {
   challengeRepository.list = _.memoize(challengeRepository.findOperative);
@@ -35,6 +36,9 @@ async function _generateCertificationTest(userId, competences) {
   }
 
   const certificationChallenges = await certificationChallengeService.pickCertificationChallenges(placementProfile);
+  if (USER_ID) {
+    console.log(JSON.stringify(certificationChallenges, null, 2));
+  }
 
   const certificationChallengesCountByCompetenceId = _.countBy(certificationChallenges, 'competenceId');
 
@@ -58,8 +62,15 @@ function updateProgress() {
 
 async function main() {
   try {
-    console.error(`Récupération de ${USER_COUNT} utilisateurs certifiables...`);
-    const userIds = await _retrieveUserIds();
+    let userIds;
+    if (USER_ID) {
+      console.error(`userId: ${USER_ID}`);
+      userIds = [USER_ID];
+    }
+    else {
+      console.error(`Récupération de ${USER_COUNT} utilisateurs certifiables...`);
+      userIds = await _retrieveUserIds();
+    }
     console.error('Récupération OK');
     const competences = await competenceRepository.listPixCompetencesOnly();
     let nonCertifiableUserCount = 0;
