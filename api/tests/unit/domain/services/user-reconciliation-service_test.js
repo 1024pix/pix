@@ -289,14 +289,14 @@ describe('Unit | Service | user-reconciliation-service', () => {
     beforeEach(() => {
       organizationId = domainBuilder.buildOrganization().id;
       schoolingRegistrationRepositoryStub = {
-        findByOrganizationIdAndUserData: sinon.stub(),
+        findByOrganizationIdAndBirthdate: sinon.stub(),
       };
     });
 
     context('When schooling registrations are found for organization and birthdate', () => {
 
       beforeEach(() => {
-        schoolingRegistrationRepositoryStub.findByOrganizationIdAndUserData.resolves(schoolingRegistrations);
+        schoolingRegistrationRepositoryStub.findByOrganizationIdAndBirthdate.resolves(schoolingRegistrations);
       });
 
       context('When no schooling registrations matched on names', () => {
@@ -341,7 +341,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
 
           it('should throw OrganizationStudentAlreadyLinkedToUserError', async () => {
             // given
-            schoolingRegistrationRepositoryStub.findByOrganizationIdAndUserData.resolves(schoolingRegistrations);
+            schoolingRegistrationRepositoryStub.findByOrganizationIdAndBirthdate.resolves(schoolingRegistrations);
             userRepositoryStub.getUserAuthenticationMethods.resolves({ email: 'email@example.net' });
             // when
             const result = await catchErr(userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub, userRepository: userRepositoryStub, obfuscationService: obfuscationServiceStub });
@@ -367,7 +367,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
     context('When no schooling registrations found', () => {
 
       beforeEach(() => {
-        schoolingRegistrationRepositoryStub.findByOrganizationIdAndUserData.resolves([]);
+        schoolingRegistrationRepositoryStub.findByOrganizationIdAndBirthdate.resolves([]);
       });
 
       it('should throw NotFoundError', async () => {
