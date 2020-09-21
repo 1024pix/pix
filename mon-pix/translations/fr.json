@@ -4,11 +4,9 @@
     "internal-server-error": "Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.",
     "login-unauthorized-error": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects."
   },
-
   "application": {
     "description": "Pix est une plateforme en ligne d'évaluation et de certification des compétences numériques des citoyens francophones (élèves, étudiant•e•s, décrocheur•se•s, demandeur•se•s d'emploi, sénior•e•s)"
   },
-
   "common": {
     "actions": {
       "cancel": "Annuler",
@@ -31,7 +29,6 @@
     "or": "ou",
     "pix": "pix"
   },
-
   "pages": {
     "assessment-banner": {
       "title": "Épreuve pour l'évaluation : "
@@ -46,7 +43,6 @@
         "header": "Vos réponses"
       }
     },
-
     "campaign": {
       "title": "Parcours",
       "errors": {
@@ -54,7 +50,6 @@
         "no-longer-accessible": "Oups, la page demandée n’est plus accessible."
       }
     },
-
     "campaign-landing": {
       "title": "Présentation",
       "assessment": {
@@ -88,7 +83,6 @@
         "legal": "Les informations relatives à votre profil PIX seront transmises à l'organisateur pour lui permettre de vous accompagner. Elle ne seront transmises qu'avec votre consentement."
       }
     },
-
     "certificate": {
       "title": "Certificat Pix",
       "back-link": "Retour à mes certifications",
@@ -119,10 +113,8 @@
       "issued-on": "Délivré le",
       "jury-title": "Observations du jury",
       "jury-info": "Les observations du jury ne sont pas partagées sur la page de vérification de votre certificat.",
-
       "validity": "Certificat valable 3 ans"
     },
-
     "competence-result": {
       "title": "Résultats de votre compétence",
       "header": {
@@ -135,7 +127,6 @@
         "you-have-reached-level": "Vous avez atteint"
       }
     },
-
     "certification-joiner": {
       "title": "Rejoindre une session de certification",
       "congratulation-banner": {
@@ -154,7 +145,6 @@
         }
       }
     },
-
     "certification-not-certifiable": {
       "title": "Votre profil n'est pas encore certifiable.",
       "text": "Pour faire certifier votre profil, vous devez avoir obtenu un niveau supérieur à 0 dans 5 compétences minimum.",
@@ -162,7 +152,6 @@
         "back": "Retour à l'accueil"
       }
     },
-
     "certification-results": {
       "title": "Avancement de votre certification",
       "action": {
@@ -181,7 +170,6 @@
         "warning-text": "Le surveillant a bien vu cet écran."
       }
     },
-
     "certification-start": {
       "title": "Rejoindre une session de certification",
       "access-code": "Saisissez le code d'accès communiqué par le surveillant",
@@ -197,7 +185,6 @@
       },
       "first-title": "Vous allez commencer votre test de certification"
     },
-
     "certifications-list": {
       "title": "Mes Certifications",
       "header": {
@@ -223,7 +210,6 @@
         }
       }
     },
-
     "challenge": {
       "title": "Épreuve {stepNumber} sur {totalChallengeNumber}",
       "actions": {
@@ -354,7 +340,7 @@
             "download": "Télécharger"
           },
           "description": "Pix vous laisse le choix du format de fichier à télécharger. Si vous ne savez pas quelle option retenir, conservez le choix par défaut. Il correspond au format de fichier pris en charge par le plus grand nombre de logiciels.",
-           "file-type": "fichier .{fileExtension}"
+          "file-type": "fichier .{fileExtension}"
         }
       },
       "skip-error-message": {
@@ -365,7 +351,6 @@
         "qrocm": "Pour valider, veuillez remplir tous les champs réponse. Sinon, passez."
       }
     },
-
     "checkpoint": {
       "title": {
         "assessment-progress": "Avancement du parcours",
@@ -389,7 +374,6 @@
         "caption": "avancement du parcours"
       }
     },
-
     "comparison-window": {
       "upcoming-tutorials": "Bientôt ici des tutoriels pour vous aider à réussir ce type d'épreuves !!",
       "results": {
@@ -431,7 +415,6 @@
         }
       }
     },
-
     "competence-details": {
       "title": "Compétence",
       "actions": {
@@ -467,21 +450,17 @@
         "description": "Voici une sélection de tutos qui pourront vous aider à gagner des Pix."
       }
     },
-
     "error": {
       "content-text": "'<p>'Nous vous invitons à recharger cette page ou '<LinkTo @route=\"login\">'revenir à la page d’accueil'</LinkTo>'.'</p><p>'Vous pouvez aussi nous contacter via '<a href=\"https://support.pix.fr/support/tickets/new\">'le formulaire du centre d'aide'</a>' en nous précisant le code d’erreur ci-dessous dans la description.'</p><p>'Nous vous prions de nous excuser pour la gêne occasionnée.'</p><p>'L’équipe Pix.'</p>'",
       "first-title": "Oups, une erreur est survenue !"
     },
-
     "learning-more": {
       "title": "Pour en apprendre davantage",
       "info": "Ces liens vers les tutos ont été proposés par des utilisateurs de Pix."
     },
-
     "levelup-notif": {
       "obtained-level": "Niveau { level } gagné !"
     },
-
     "password-reset-demand": {
       "title": "Mot de passe oublié ?",
       "actions": {
@@ -500,7 +479,6 @@
         "subtitle": "Demande de réinitialisation de mot de passe"
       }
     },
-
     "profile": {
       "title": "Votre profil",
       "accessibility": {
@@ -532,7 +510,6 @@
         "explanation": "C’est le nombre maximum de pix qu’on pourra atteindre lorsque les 8 niveaux du référentiel Pix seront disponibles.'<br>'Aujourd’hui, '<span class=\"hexagon-score-information__text--strong\">'le maximum est de 640 pix'</span>', correspondant au niveau 5."
       }
     },
-
     "profile-already-shared": {
       "title": "Profil déjà envoyé",
       "first-title": "Tout ne se passe pas comme prévu",
@@ -541,7 +518,6 @@
       },
       "explanation": "Vous avez déjà envoyé le profil ci-dessous à l'organisation {organization}'<br>'le {date,date,LL} à {hour,time,hhmm}"
     },
-
     "reset-password": {
       "title": "Changer mon mot de passe",
       "actions": {
@@ -552,13 +528,11 @@
       "instruction": "Saisissez votre nouveau mot de passe",
       "succeed": "Votre mot de passe a été modifié avec succès."
     },
-
     "proposals": {
       "answer": {
         "qcu": "La réponse à la question est : "
       }
     },
-
     "result-item": {
       "aband": "Sans réponse",
       "actions": {
@@ -571,7 +545,6 @@
       "partially": "Réponse partielle",
       "timedout": "Temps dépassé"
     },
-
     "send-profile": {
       "title": "Envoyer mon profil",
       "first-title": "Envoi de votre profil Pix",
@@ -587,7 +560,6 @@
       },
       "instructions": "Vous allez transmettre le score et les niveaux de compétence présents sur votre profil Pix. <br/> Toute évolution de votre profil après cet envoi ne sera pas transmise. <br/> Pensez à le vérifier avant de l'envoyer !"
     },
-
     "sign-in": {
       "title": "Connexion",
       "actions": {
@@ -611,7 +583,6 @@
         "link": "Créez un compte"
       }
     },
-
     "sign-up": {
       "title": "Inscription",
       "actions": {
@@ -649,7 +620,6 @@
         "link": "connectez-vous à votre compte"
       }
     },
-
     "skill-review": {
       "title": "Résultat",
       "abstract": "Vous maîtrisez '<strong>'{percentage}%'</strong>'<br/> des compétences testées.",
@@ -686,12 +656,10 @@
         "description": "Vous pouvez retenter certaines questions"
       }
     },
-
     "time-gauge": {
       "timeout-placeholder": "Le temps alloué est dépassé",
       "remaining-time-placeholder": "Il reste du temps pour accomplir l'épreuve"
     },
-
     "tutorial": {
       "next": "Suivant",
       "pages": {
@@ -719,12 +687,10 @@
       "pass": "Ignorer",
       "start": "Démarrer mon parcours"
     },
-
     "tutorial-panel": {
       "title": "Pour réussir la prochaine fois",
       "info": "Ces liens vers les tutos ont été proposés par des utilisateurs de Pix."
     },
-
     "user-tutorials": {
       "title": "Mes tutos",
       "description": "Progresser grâce aux tutos suggérés par la communauté des utilisateurs de Pix.",
@@ -757,7 +723,6 @@
         }
       }
     },
-
     "fill-in-campaign-code": {
       "title": "J'ai un code",
       "first-title": "Saisissez votre code",
@@ -769,7 +734,6 @@
       },
       "start": "Commencer"
     },
-
     "fill-in-certificate-verification-code": {
       "title": "Vérifier un certificat Pix",
       "first-title": "Vérifier un certificat Pix",
@@ -783,12 +747,10 @@
       },
       "verify": "Vérifier le certificat"
     },
-
     "shared-certification": {
       "title": "Partage de certificat",
       "back-link": "Retour à la saisie du code de vérification"
     },
-
     "fill-in-id-pix": {
       "title": "Saisir mon identifiant",
       "first-title": "Avant de commencer",
@@ -801,14 +763,12 @@
         "missing-id-pix-label": "Merci de renseigner votre { idPixLabel }."
       }
     },
-
     "warning": {
       "action": "Commencer",
       "instructions": "Vous disposerez de '<span class=\"challenge-item-warning__instruction-time\">'{time}'</span>' pour réussir la question suivante.",
       "further-instructions": "Vous pourrez continuer à répondre ensuite, mais la question ne sera pas considérée comme réussie."
     }
   },
-
   "navigation": {
     "error": "Erreur",
     "homepage": "Page d'accueil",
