@@ -132,7 +132,7 @@ describe('Unit | Infrastructure | HigherEducationRegistrationParser', () => {
 
     it('should throw an error if the birthdate does not have the right format', async () => {
       const input = `Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
-      Beatrix;The;Bride;Kiddo;Black Mamba;1970-01-01;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;`;
+      Beatrix;The;Bride;Kiddo;Black Mamba;1970/01/01;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;`;
       const encodedInput = iconv.encode(input, 'utf8');
       const parser = new HigherEducationRegistrationParser(encodedInput, organizationId);
 
@@ -181,7 +181,7 @@ describe('Unit | Infrastructure | HigherEducationRegistrationParser', () => {
     const input = `Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
           Éçéà niño véga;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
         `;
-       
+
     it('should parse UTF-8 encoding', () => {
       const encodedInput = iconv.encode(input, 'utf8');
       const parser = new HigherEducationRegistrationParser(encodedInput, 123);
@@ -189,7 +189,7 @@ describe('Unit | Infrastructure | HigherEducationRegistrationParser', () => {
       const registrations = higherEducationRegistrationSet.registrations;
       expect(registrations[0].firstName).to.equal('Éçéà niño véga');
     });
-           
+
     it('should parse win1252 encoding (CSV WIN/MSDOS)', () => {
       const encodedInput = iconv.encode(input, 'win1252');
       const parser = new HigherEducationRegistrationParser(encodedInput, 123);
@@ -197,7 +197,7 @@ describe('Unit | Infrastructure | HigherEducationRegistrationParser', () => {
       const registrations = higherEducationRegistrationSet.registrations;
       expect(registrations[0].firstName).to.equal('Éçéà niño véga');
     });
-               
+
     it('should parse macintosh encoding', () => {
       const encodedInput = iconv.encode(input, 'macintosh');
       const parser = new HigherEducationRegistrationParser(encodedInput, 123);

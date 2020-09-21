@@ -20,7 +20,7 @@ const validationSchema = Joi.object({
   thirdName: Joi.string().max(MAX_LENGTH).optional(),
   lastName: Joi.string().max(MAX_LENGTH).required(),
   preferredLastName: Joi.string().max(MAX_LENGTH).optional(),
-  birthdate: Joi.date().required().format('YYYY-MM-DD'),
+  birthdate: Joi.date().required().format('YYYY-MM-DD').empty(null),
   email: Joi.string().max(MAX_LENGTH).email().optional(),
   diploma: Joi.string().max(MAX_LENGTH).optional(),
   department: Joi.string().max(MAX_LENGTH).optional(),
