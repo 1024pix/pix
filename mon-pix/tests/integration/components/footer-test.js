@@ -1,6 +1,3 @@
-/* eslint ember/no-classic-classes: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
 import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
@@ -13,14 +10,6 @@ import { contains } from '../../helpers/contains';
 describe('Integration | Component | Footer', function() {
 
   setupIntlRenderingTest();
-
-  it('should be rendered', async function() {
-    // when
-    await render(hbs`<Footer />}`);
-
-    // then
-    expect(find('.footer')).to.exist;
-  });
 
   it('should display the Pix logo', async function() {
     // when
@@ -39,9 +28,9 @@ describe('Integration | Component | Footer', function() {
 
     const socialMediaLinks = findAll('.footer-social-medias__item');
     expect(socialMediaLinks).to.have.lengthOf(3);
-    expect(socialMediaLinks[0].href).to.equal('https://www.facebook.com/pg/Pix1024/');
-    expect(socialMediaLinks[1].href).to.equal('https://www.linkedin.com/company/gip-pix');
-    expect(socialMediaLinks[2].href).to.equal('https://twitter.com/Pix_officiel');
+    expect(socialMediaLinks[0].href).to.equal(this.intl.t('navigation.footer.social-medias.link.facebook'));
+    expect(socialMediaLinks[1].href).to.equal(this.intl.t('navigation.footer.social-medias.link.linkedin'));
+    expect(socialMediaLinks[2].href).to.equal(this.intl.t('navigation.footer.social-medias.link.twitter'));
   });
 
   it('should display the navigation menu with expected elements', async function() {
@@ -51,13 +40,18 @@ describe('Integration | Component | Footer', function() {
     // then
     expect(find('.footer-links__navigation')).to.exist;
     expect(findAll('.footer-navigation__item')).to.have.lengthOf(2);
-    expect(contains('Centre d\'aide')).to.exist;
-    expect(contains('Accessibilité')).to.exist;
+    expect(contains(this.intl.t('navigation.footer.a11y'))).to.exist;
+    expect(contains(this.intl.t('navigation.footer.help-center'))).to.exist;
   });
 
   it('should not display marianne logo when url does not have frenchDomainExtension', async function() {
     // given
-    this.owner.register('service:url', Service.extend({ isFrenchDomainExtension: false }));
+    class UrlServiceStub extends Service {
+      get isFrenchDomainExtension() {
+        return false;
+      }
+    }
+    this.owner.register('service:url', UrlServiceStub);
 
     // when
     await render(hbs`<Footer />`);
@@ -68,7 +62,12 @@ describe('Integration | Component | Footer', function() {
 
   it('should display marianne logo when url does have frenchDomainExtension', async function() {
     // given
-    this.owner.register('service:url', Service.extend({ isFrenchDomainExtension: true }));
+    class UrlServiceStub extends Service {
+      get isFrenchDomainExtension() {
+        return true;
+      }
+    }
+    this.owner.register('service:url', UrlServiceStub);
 
     // when
     await render(hbs`<Footer />`);
