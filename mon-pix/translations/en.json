@@ -1,328 +1,328 @@
 {
   "api-error-messages": {
-    "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
-    "internal-server-error": "Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.",
-    "login-unauthorized-error": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects."
+    "bad-request-error": "The data entered was not in the correct format.",
+    "internal-server-error": "An error occurred, our teams are working on finding a solution. Please try again later.",
+    "login-unauthorized-error": "There was an error in the email address or username/password entered."
   },
   "application": {
-    "description": "Pix est une plateforme en ligne d'évaluation et de certification des compétences numériques des citoyens francophones (élèves, étudiant•e•s, décrocheur•se•s, demandeur•se•s d'emploi, sénior•e•s)"
+    "description": "Pix is an online platform open to all (pupils, students, anyone working or in professional training, seniors) designed to assess, develop and certify digital skills"
   },
   "common": {
     "actions": {
-      "cancel": "Annuler",
-      "close": "Fermer",
-      "quit": "Quitter"
+      "cancel": "Cancel",
+      "close": "Close",
+      "quit": "Exit"
     },
     "form": {
-      "error": "erreur",
-      "mandatory": "obligatoiresS",
-      "mandatory-fields": "Les champs marqués de '<abbr title=\"obligatoire\" class=\"mandatory-mark\">'*'</abbr>' sont obligatoires",
-      "success": "correct"
+      "error": "error",
+      "mandatory": "required",
+      "mandatory-fields": "The fields marked '<abbr title=\"required\" class=\"mandatory-mark\">'*'</abbr>' are required",
+      "success": "success"
     },
-    "french-republic": "République française",
-    "level": "niveau",
+    "french-republic": "French Republic",
+    "level": "level",
     "loading": {
-      "default": "Chargement en cours",
-      "results": "Préparation de vos résultats",
-      "test": "Votre test est en cours de chargement"
+      "default": "Loading",
+      "results": "Preparing your results",
+      "test": "Your test is loading"
     },
-    "or": "ou",
+    "or": "or",
     "pix": "pix"
   },
   "pages": {
     "assessment-banner": {
-      "title": "Épreuve pour l'évaluation : "
+      "title": "Challenge for the assessment: "
     },
     "assessment-results": {
-      "title": "Fin du test",
+      "title": "End of test",
       "actions": {
-        "continue-pix-experience": "Continuer mon expérience Pix",
-        "return-to-homepage": "Revenir à l'accueil"
+        "continue-pix-experience": "Continue my Pix experience",
+        "return-to-homepage": "Return to homepage"
       },
       "answers": {
-        "header": "Vos réponses"
+        "header": "Your answers"
       }
     },
     "campaign": {
-      "title": "Parcours",
+      "title": "Course",
       "errors": {
-        "not-accessible": "Oups, la page demandée n’est pas accessible.",
-        "no-longer-accessible": "Oups, la page demandée n’est plus accessible."
+        "not-accessible": "Oops, the requested page is not available.",
+        "no-longer-accessible": "Oops, the requested page is not available."
       }
     },
     "campaign-landing": {
-      "title": "Présentation",
+      "title": "Presentation",
       "assessment": {
-        "title": "Commencez votre parcours",
-        "action": "Je commence",
-        "announcement": "Démarrez votre parcours d'évaluation personnalisé.<br /> Inscrivez-vous ou connectez-vous sur la plateforme Pix et lancez votre test.",
-        "details": "Durant ce parcours, vous aurez l’opportunité de :",
-        "legal": "Les informations relatives à votre avancée seront transmises à l'organisateur du parcours pour lui permettre de vous accompagner. Les résultats des tests ne seront transmis qu’avec votre consentement.",
+        "title": "Begin your course",
+        "action": "Begin",
+        "announcement": "Start your personalised assessment course.<br /> Sign up or log in to the Pix platform and start your test.",
+        "details": "During this course, you will be able to:",
+        "legal": "Information about your progress will be sent to the organiser of the course so they can provide you with support. Your test results will only be shared with your permission.",
         "evaluate": {
-          "title": "Mesurer vos compétences numériques avec des tests ludiques sur différents thèmes comme :",
-          "complement": "Le service public d’évaluation et de certification des compétences numériques Pix permet d’évaluer son niveau dans 5 grands domaines de compétences, qui couvrent l’ensemble des usages actuels du numérique.",
-          "list": "'<ul><li>'rechercher de l’information sur internet,'</li><li>'rédiger des documents,'</li><li>'communiquer et collaborer en ligne,'</li><li>'sécuriser son environnement de travail,'</li><li>'etc.'</li></ul>'",
+          "title": "Assess your digital skills with fun tests on different subjects, such as:",
+          "complement": "The Pix public service for the assessment and certification of digital skills enables assessment of your level in 5 major skill areas covering current uses of digital technology.",
+          "list": "'<ul><li>'finding information on the internet,'</li><li>'producing documents,'</li><li>'communicating and collaborating online,'</li><li>'securing your work environment,'</li><li>'etc.'</li></ul>'",
           "more-info": {
-            "link": "https://pix.fr/competences",
-            "label": "En savoir plus."
+            "link": "https://pix.org/competences",
+            "label": "Find out more."
           }
         },
-        "develop": {
-          "title": "Découvrir vos résultats au fil du test et consulter des indices pour progresser.",
-          "description": "Après 5 épreuves, vous pouvez visualiser vos réponses et suivre des tutos pour développer vos compétences."
-        },
         "certify": {
-          "title": "Préparer une certification reconnue par l’État et le monde professionnel",
-          "description": "La certification Pix permet de valoriser ses compétences numériques auprès des employeurs."
+          "title": "Prepare a certification recognised throughout Europe and in the business world",
+          "description": "The Pix Certification enables you to showcase your digital skills to employers."
+        },
+        "develop": {
+          "title": "See your results during tests and view tips to progress.",
+          "description": "After 5 questions, you will be able to see your results and watch tutorials to help you develop your skills."
         }
       },
       "profiles-collection": {
-        "title": "Envoyez votre profil",
-        "action": "C’est parti !",
-        "announcement": "Inscrivez-vous ou connectez-vous sur la plateforme Pix et envoyez votre profil à l'organisation destinataire.",
-        "legal": "Les informations relatives à votre profil PIX seront transmises à l'organisateur pour lui permettre de vous accompagner. Elle ne seront transmises qu'avec votre consentement."
+        "title": "Submit your profile",
+        "action": "Let’s go!",
+        "announcement": "Sign up or log in to the Pix platform and send your profile to the recipient organisation.",
+        "legal": "Information about your progress will be sent to the organiser so they can provide support. It will only be sent with your permission."
       }
     },
     "certificate": {
-      "title": "Certificat Pix",
-      "back-link": "Retour à mes certifications",
-      "candidate-birth-complete": "Né(e) le {birthdate} à {birthplace}",
-      "certification-center": "Centre de certification :",
+      "title": "Pix Certificate",
+      "back-link": "Return to my certificates",
+      "candidate-birth-complete": "Born on {birthdate} in {birthplace}",
+      "certification-center": "Certification centre:",
       "attestation": "Télécharger mon attestation",
       "verification-code": {
-        "title": "Code de vérification",
+        "title": "Verification code",
         "info": "(?)",
         "tooltip": "Communiquez ce code pour permettre à un tiers de vérifier l'authenticité de votre certificat",
         "copy": "Copier le code",
         "copied": "Code copié !",
-        "alt": "Copier"
+        "alt": "Copy"
       },
       "clea": {
-        "title": "Certifié Cléa",
-        "alternative": "Certification cléA numérique"
+        "title": "CléA certified",
+        "alternative": "Digital CléA certification"
       },
       "competences": {
-        "informations": "Votre score certifié a été calculé en fonction de vos réponses lors du passage de la certification. Il peut donc différer du nombre de Pix affiché dans votre profil. Le jour de votre certification il était possible d’atteindre le niveau 5 des compétences et 640 pix au maximum.",
-        "subtitle": "(niveaux sur 5)",
-        "title": "Compétences certifiées"
+        "informations": "Your certified score was calculated based on the answers you gave whilst taking the certification. It may be different from the score shown on your profile. When you took the certification, it was possible to reach a maximum of level 5 in each skill and 640 pix.",
+        "subtitle": "(levels out of 5)",
+        "title": "Certified skills"
       },
-      "exam-date": "Date de passage :",
+      "exam-date": "Completion date:",
       "hexagon-score": {
-        "certified": "certifiés"
+        "certified": "certified"
       },
-      "issued-on": "Délivré le",
-      "jury-title": "Observations du jury",
+      "issued-on": "Delivered on",
+      "jury-title": "Remarks from the board of examiners",
       "jury-info": "Les observations du jury ne sont pas partagées sur la page de vérification de votre certificat.",
-      "validity": "Certificat valable 3 ans"
+      "validity": "Certificate valid for 3 years"
     },
     "competence-result": {
-      "title": "Résultats de votre compétence",
+      "title": "Results",
       "header": {
-        "congratulations": "Félicitations !",
-        "not-bad": "Pas mal, mais pas max !",
-        "not-bad-subtitle": "Encore quelques petits efforts et vous décrocherez le premier niveau.",
-        "too-bad": "Tant pix !",
-        "too-bad-subtitle": "Manifestement, ce n’est pas votre jour mais vous ferez mieux la prochaine fois.",
-        "you-have-earned": "Vous avez",
-        "you-have-reached-level": "Vous avez atteint"
+        "congratulations": "Congratulations!",
+        "not-bad": "Not bad, but could be better!",
+        "not-bad-subtitle": "A little more effort and you’ll reach your first level.",
+        "too-bad": "Never mind!",
+        "too-bad-subtitle": "It doesn’t seem to be your day, but you’ll do better next time.",
+        "you-have-earned": "You have",
+        "you-have-reached-level": "You reached"
       }
     },
     "certification-joiner": {
-      "title": "Rejoindre une session de certification",
+      "title": "Join a certification session",
       "congratulation-banner": {
-        "message": "Bravo {fullName},'<br>'votre profil est certifiable."
+        "message": "Well done, {fullName},'<br>'your profile can now be certified."
       },
-      "first-title": "Rejoindre une session",
+      "first-title": "Join a session",
       "form": {
         "actions": {
-          "submit": "Continuer"
+          "submit": "Continue"
         },
         "fields": {
-          "birth-date": "Date de naissance",
-          "birth-name": "Nom de naissance",
-          "first-name": "Prénom",
-          "session-number": "Numéro de session"
+          "birth-date": "Date of birth",
+          "birth-name": "Given name",
+          "first-name": "First name",
+          "session-number": "Session number"
         }
       }
     },
     "certification-not-certifiable": {
-      "title": "Votre profil n'est pas encore certifiable.",
-      "text": "Pour faire certifier votre profil, vous devez avoir obtenu un niveau supérieur à 0 dans 5 compétences minimum.",
+      "title": "Your profile cannot be certified yet.",
+      "text": "To have your profile certified, you need to have reached at least level 1 in five skills.",
       "action": {
-        "back": "Retour à l'accueil"
+        "back": "Return to homepage"
       }
     },
     "certification-results": {
-      "title": "Avancement de votre certification",
+      "title": "Certification progress",
       "action": {
-        "confirm": "Je confirme",
-        "logout": "Se déconnecter"
+        "confirm": "Confirm",
+        "logout": "Log out"
       },
       "finished": {
-        "title": "Bravo, c'est fini !",
-        "description": "Vos résultats seront prochainement disponibles depuis votre compte.",
-        "warning-text": "Si cet ordinateur n’est pas le vôtre, pensez à vous déconnecter."
+        "title": "Well done, you’ve finished!",
+        "description": "Your results will be available in your account shortly.",
+        "warning-text": "If you are not using your own computer, remember to log out."
       },
-      "flag-alt": "Drapeau",
+      "flag-alt": "Flag",
       "not-finished": {
-        "title": "Vous avez presque terminé",
-        "supervisor": "Appelez le surveillant : '<br>'Il doit impérativement voir cet écran pour finaliser votre certification.",
-        "warning-text": "Le surveillant a bien vu cet écran."
+        "title": "You’ve almost finished",
+        "supervisor": "Call the invigilator: '<br>'They must see this screen to be able to finalise your certification.",
+        "warning-text": "The invigilator has seen this screen."
       }
     },
     "certification-start": {
-      "title": "Rejoindre une session de certification",
-      "access-code": "Saisissez le code d'accès communiqué par le surveillant",
+      "title": "Join a certification session",
+      "access-code": "Enter the access code sent by the invigilator",
       "actions": {
-        "submit": "Commencer mon test"
+        "submit": "Start my test"
       },
       "cgu": {
         "contact": {
           "email": "dpo@pix.fr",
-          "info": "Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en envoyant un mail à "
+          "info": "In accordance with the French law governing computer technology and freedoms (“Informatique et Libertés”), you can exercise your right to access and rectify your data by emailing "
         },
-        "info": "En cliquant sur \"Commencer mon test\", j’accepte que mes données d’identité, le numéro de certification et les circonstances de la passation telles que renseignées par le surveillant soient communiquées à Pix. Pix les utilisera lors de la délibération du jury pour produire et archiver mes résultats et pour éditer mon certificat. Si cette certification m’a été prescrite par une organisation, j’accepte que Pix lui communique mes résultats."
+        "info": "By clicking on “Start my test”, I agree to my identifying data, certification number and the circumstances in which the test was taken, as reported by the invigilator, being sent to Pix. Pix will use this information during the board of examiners’ deliberation to produce and archive my results and create my certificate. If this certification was ordered by an organisation, I agree to Pix sharing my results with them."
       },
-      "first-title": "Vous allez commencer votre test de certification"
+      "first-title": "You are about to begin your certification test."
     },
     "certifications-list": {
-      "title": "Mes Certifications",
+      "title": "My certifications",
       "header": {
-        "certification-center": "centre de certification",
+        "certification-center": "certification centre",
         "date": "date",
-        "score": "score pix",
-        "status": "statut"
+        "score": "pix score",
+        "status": "status"
       },
       "no-certification": {
-        "text": "Vous n'avez pas encore de certification."
+        "text": "You have no certifications yet."
       },
       "statuses": {
         "success": {
-          "action": "voir les résultats",
-          "title": "Certification obtenue"
+          "action": "see results",
+          "title": "Certification awarded"
         },
         "fail": {
-          "action": "détail",
-          "title": "Certification non obtenue"
+          "action": "details",
+          "title": "Certification not awarded"
         },
         "not-published": {
-          "title": "En attente du résultat"
+          "title": "Awaiting results"
         }
       }
     },
     "challenge": {
-      "title": "Épreuve {stepNumber} sur {totalChallengeNumber}",
+      "title": "Question {stepNumber} of {totalChallengeNumber}",
       "actions": {
-        "continue": "Poursuivre",
-        "validate": "Je valide",
-        "skip": "Je passe"
+        "continue": "Continue",
+        "validate": "Validate",
+        "skip": "Skip"
       },
-      "already-answered": "Vous avez déjà répondu à cette question",
+      "already-answered": "You have already answered this question",
       "certification": {
         "title": "Certification {certificationNumber}",
         "banner": {
-          "certification-number": "N° de certification"
+          "certification-number": "Certification no."
         },
         "feedback-panel": {
-          "description": "Pour signaler un problème, appelez votre surveillant et communiquez-lui les informations suivantes :",
-          "certification-number": "votre n° de certification (en haut à droite de l'écran)",
-          "question-number": "le numéro de la question (en haut à droite de l'écran)",
-          "problem": "le problème rencontré"
+          "description": "To report a problem, please call your invigilator and provide the following information:",
+          "certification-number": "your certification no. (in the top-right of the screen)",
+          "question-number": "the question number (in the top-right of the screen)",
+          "problem": "the problem encountered"
         }
       },
       "embed-simulator": {
         "actions": {
-          "launch": "Je lance l’application",
-          "reset": "Réinitialiser"
+          "launch": "Launch the app",
+          "reset": "Restart"
         },
-        "placeholder": "Chargement de l'application en cours"
+        "placeholder": "App loading"
       },
       "feedback-panel": {
         "actions": {
-          "open-close": "Signaler un problème"
+          "open-close": "Report a problem"
         },
-        "description": "Pix est à l’écoute de vos remarques pour améliorer les épreuves proposées !*",
+        "description": "Pix wants to hear from you so we can improve our tests!*",
         "form": {
           "actions": {
-            "submit": "Envoyer"
+            "submit": "Send"
           },
           "fields": {
             "category-selection": {
-              "label": "J'ai un problème avec",
+              "label": "I am experiencing difficulties with",
               "options": {
-                "accessibility": "L’accessibilité de l’épreuve",
-                "answer": "La réponse",
-                "embed": "Le simulateur / l'application",
-                "download": "Le fichier à télécharger",
-                "link": "Le lien indiqué dans la question",
-                "other": "Autre",
-                "picture": "L'image",
-                "question": "La question",
-                "tutorial": "Le tutoriel"
+                "accessibility": "Test accessibility",
+                "answer": "The answer",
+                "embed": "The simulator/app",
+                "download": "The file to download",
+                "link": "The link in the question",
+                "other": "Other",
+                "picture": "The image",
+                "question": "The question",
+                "tutorial": "The tutorial"
               }
             },
             "detail-selection": {
-              "aria-first": "Vous avez un problème avec",
-              "aria-secondary": "Précisez votre problème",
-              "label": "Précisez",
+              "aria-first": "You have a problem with",
+              "aria-secondary": "Specify your problem",
+              "label": "Please specify",
               "options": {
-                "answer-not-accepted": "Ma réponse est correcte mais n’a pas été validée",
-                "answer-not-agreed": "Je ne suis pas d’accord avec la réponse",
+                "answer-not-accepted": "My answer is correct but has not been approved",
+                "answer-not-agreed": "I disagree with the answer",
                 "download": {
                   "lost": {
-                    "label": "Je ne retrouve pas le fichier téléchargé",
-                    "solution": "Par défaut, un fichier téléchargé est enregistré dans un dossier “Téléchargements” ou “Downloads”. Il se peut aussi qu’il soit téléchargé au même endroit que votre dernier téléchargement..."
+                    "label": "I cannot find the downloaded file",
+                    "solution": "By default, files you download will be saved in your “Downloads” folder. It may also have been saved to the same location as your last download..."
                   },
                   "edit-failure": {
-                    "label": "Je n’arrive pas à modifier le fichier",
-                    "solution": "Le fichier est probablement ouvert en “Lecture seule” ou “Mode protégé”. '<br>'Cliquez sur “Activer la modification” ou “Éditer le document” sur le bandeau en haut du fichier s’il s’affiche. '<br>'Sinon enregistrez le fichier sous un autre nom et ouvrez ce nouveau fichier."
+                    "label": "I cannot edit the file",
+                    "solution": "The file is probably open in “Read only” or “Protected mode”.'<br>'Click on “Activate editing” or “Edit document” in the banner at the top of the file if this is shown. '<br>'Otherwise save the file under another name and try opening file again from here."
                   },
                   "open-failure": {
-                    "label": "Je n’arrive pas à ouvrir le fichier sur un ordinateur",
-                    "solution": "Pour réussir cette épreuve, vous pouvez utiliser la suite LibreOffice, gratuite et disponible pour PC et Mac. Elle contient Libre Office Writer (équivalent à Word) et Libre Office Calc (équivalent à Excel).'<a href=\"https://fr.libreoffice.org/download/telecharger-libreoffice\">'Télécharger Libre Office'</a>'"
+                    "label": "I cannot open the file on a computer",
+                    "solution": "To answer this question, you need to use the LibreOffice suite, which is available free-of-charge for PC and Mac. It contains Libre Office Writer (equivalent to Word) and Libre Office Calc (equivalent to Excel).'<a href=\"https://www.libreoffice.org/download/download\">'Download Libre Office'</a>'"
                   },
-                  "other": "J’ai un autre problème avec le fichier"
+                  "other": "I have another problem with the file"
                 },
                 "embed-not-displayed": {
-                  "label": "Le simulateur / l’application ne s’affiche pas",
-                  "solution": "Votre connexion internet est peut-être trop faible.'<br>'Rechargez la page en appuyant sur le bouton actualiser '<object type=\"image/svg+xml\" class=\"tuto-icon\" data=\"/images/icons/icon-reload.svg\"></object>' à côté de la barre d’adresse. Attendez un peu, le simulateur va peut-être s’afficher. '<br><br>'Si ce n’est pas le cas, pouvez-vous retenter à un autre moment ou depuis un autre endroit avec une meilleure connexion ?"
+                  "label": "I cannot see the simulator/app",
+                  "solution": "Your internet connection may not be strong enough.'<br>'Refresh the page by clicking on the refresh button'<object type=\"image/svg+xml\" class=\"tuto-icon\" data=\"/images/icons/icon-reload.svg\"></object>' next to the address bar. Wait a little while, the simulator might display. '<br><br>'If it doesn’t, you can try again later or from another location with a better connection."
                 },
-                "embed-other": "Le simulateur / l’application a un autre problème",
-                "other-challenge-proposal": "J’ai une idée (géniale) d’épreuve à proposer",
-                "other-site-improvement": "J’ai une suggestion d’amélioration de la plateforme",
-                "other-difficulty": "J’ai un autre problème",
-                "question-improvement": "Je souhaite proposer une amélioration de la question",
-                "question-not-understood": "Je ne comprends pas la question",
-                "picture-not-displayed": "Votre connexion internet est peut-être trop faible.'<br>'Rechargez la page en appuyant sur le bouton actualiser '<object type=\"image/svg+xml\" class=\"tuto-icon\" data=\"/images/icons/icon-reload.svg\"></object>' à côté de la barre d’adresse. Attendez un peu, le simulateur va peut-être s’afficher. '<br><br>'Si ce n’est pas le cas, pouvez-vous retenter à un autre moment ou depuis un autre endroit avec une meilleure connexion ?",
-                "tutorial-link-error": "Le lien vers le tutoriel mène vers une autre page ou une page d’erreur",
-                "tutorial-not-accepted": "Le tutoriel n’est pas adapté",
-                "tutorial-proposal": "J’ai un tutoriel à vous proposer"
+                "embed-other": "There is another problem with the simulator/app",
+                "other-challenge-proposal": "I have a (great) idea to suggest for a question",
+                "other-site-improvement": "I have a suggestion for improving the platform",
+                "other-difficulty": "I have another problem",
+                "question-improvement": "I want to suggest an improvement to the question",
+                "question-not-understood": "I do not understand the question",
+                "picture-not-displayed": "Your internet connection may not be strong enough.'<br>'Refresh the page by clicking on the refresh button'<object type=\"image/svg+xml\" class=\"tuto-icon\" data=\"/images/icons/icon-reload.svg\"></object>' next to the address bar. Wait a little while, the simulator might display. '<br><br>'If it doesn’t, you can try again later or from another location with a better connection.",
+                "tutorial-link-error": "The link to the tutorial is to another page or an error page",
+                "tutorial-not-accepted": "The tutorial is not helpful to the question",
+                "tutorial-proposal": "I have a tutorial to suggest"
               },
-              "problem-suggestion-description": "Décrivez votre problème ou votre suggestion"
+              "problem-suggestion-description": "Describe your problem or suggestion"
             }
           },
           "status": {
             "error": {
-              "empty-message": "Vous devez saisir un message.",
-              "max-characters": "Votre message est limité à 10 000 caractères."
+              "empty-message": "You must enter a message.",
+              "max-characters": "Messages cannot contain more than 10,000 characters."
             },
-            "success": "'<p>'Votre commentaire a bien été transmis à l’équipe du projet Pix.'</p><p>'Mercix !'</p>'"
+            "success": "'<p>'Your comment has been sent to the Pix project team.'</p><p>'Thank you!'</p>'"
           }
         },
         "information": {
-          "data-usage": "'<p>'Pix traite les données de cette zone pour gérer et analyser la difficulté rencontrée et bénéficier de votre retour d'expérience. Vous disposez de droits sur vos données qui peuvent être exercés auprès de '<a href=\"mailto:dpo@pix.fr\" class=\"link\">'dpo@pix.fr'</a>'.'</p><p><a href=\"https://pix.fr/dp-formulaire-signalement-epreuve\" target=\"_blank\" class=\"link\">'Pour en savoir plus sur la protection de vos données et sur vos droits.'</a></p>'",
-          "guidance": "'<p>'* Soyez attentifs à ce que vous écrivez dans cette zone : restez objectif et factuel pour votre intérêt et celui des autres.'</p><p>'Notamment, ne saisissez aucune information, vous concernant ou concernant des tiers, sur la santé, la religion, les opinions politiques, syndicales et philosophiques, les origines ethniques, ainsi que sur les sanctions et condamnations.'</p>'"
+          "data-usage": "'<p>'Pix processes the data from this area to manage and analyse the difficulty encountered and benefit from your feedback. You have rights over your data which can be exercised via '<a href=\"mailto:dpo@pix.fr\" class=\"link\">'dpo@pix.fr'</a>'.'</p><p><a href=\"https://pix.fr/dp-formulaire-signalement-epreuve\" target=\"_blank\" class=\"link\">'To find out more about protecting your data and your rights.'</a></p>'",
+          "guidance": "'<p>'*Make sure you write in this zone: for your benefit and the benefit of others, please stay objective and keep to the facts.'</p><p>'Do not enter any information about yourself or third parties, or any information related to health; religion; political, or philosophical opinions; trade union affiliation; ethnic origins; or penalties and convictions.'</p>'"
         }
       },
       "illustration": {
-        "placeholder": "Chargement de l'image en cours"
+        "placeholder": "Image loading"
       },
       "parts": {
-        "answer-input": "Votre réponse",
-        "feedback": "Signaler un problème",
-        "instruction": "Consigne de l'épreuve",
-        "progress": "Votre progression",
-        "validation": "Valider ou passer votre épreuve"
+        "answer-input": "Your answer",
+        "feedback": "Notify a problem",
+        "instruction": "Instructions for the challenge",
+        "progress": "Your progress",
+        "validation": "Validate or pass this challenge"
       },
       "progress-bar": {
         "label": "Question"
@@ -330,466 +330,466 @@
       "statement": {
         "alternative-instruction": {
           "actions": {
-            "display": "Afficher l'alternative textuelle",
-            "hide": "Cacher l'alternative textuelle"
+            "display": "Display alternative instruction",
+            "hide": "Hide alternative instruction"
           }
         },
         "file-download": {
           "actions": {
-            "choose-type": "Choisissez le type de fichier que vous voulez utiliser",
-            "download": "Télécharger"
+            "choose-type": "Select the type of file you would like to use",
+            "download": "Download"
           },
-          "description": "Pix vous laisse le choix du format de fichier à télécharger. Si vous ne savez pas quelle option retenir, conservez le choix par défaut. Il correspond au format de fichier pris en charge par le plus grand nombre de logiciels.",
-          "file-type": "fichier .{fileExtension}"
+          "description": "Pix lets you choose which format of file to download. If you do not know which option to use, select the default option. This is the file format that is the most commonly used.",
+          "file-type": "file .{fileExtension}"
         }
       },
       "skip-error-message": {
-        "qcm": "Pour valider, sélectionnez au moins une réponse. Sinon, passez.",
-        "qcu": "Pour valider, sélectionnez une réponse. Sinon, passez.",
-        "qroc": "Pour valider, veuillez remplir le champ texte. Sinon, passez.",
-        "qroc-auto-reply": "L'épreuve n'est pas réussie. Essayez encore ou passez.",
-        "qrocm": "Pour valider, veuillez remplir tous les champs réponse. Sinon, passez."
+        "qcm": "To validate, select at least one answer. Otherwise, click Skip.",
+        "qcu": "To validate, select an answer. Otherwise, click Skip.",
+        "qroc": "To validate, please fill in the text field. Otherwise, click Skip.",
+        "qroc-auto-reply": "You did not answer correctly. Try again or skip to the next question.",
+        "qrocm": "To validate, please complete all answer fields. Otherwise, click Skip."
       }
     },
     "checkpoint": {
       "title": {
-        "assessment-progress": "Avancement du parcours",
-        "end-of-assessment": "Fin de votre évaluation"
+        "assessment-progress": "Course progress",
+        "end-of-assessment": "End of your assessment"
       },
       "actions": {
         "next-page": {
-          "continue": "Continuer mon parcours",
-          "results": "Voir mes résultats"
+          "continue": "Continue my course",
+          "results": "See my results"
         }
       },
       "answers": {
         "already-finished": {
-          "explanation": "Vous avez déjà répondu aux questions, lors de vos parcours précédents. Vous pouvez directement accéder à vos résultats.",
-          "info": "C’est déjà fini, ne soyez pas surpris !"
+          "explanation": "You have already answered the questions in your previous courses. You can go straight to your results.",
+          "info": "Don’t be surprised, it’s over already!"
         },
-        "header": "vos réponses"
+        "header": "your answers"
       },
       "completion-percentage": {
-        "label": "'<p class=\"sr-only\">'Vous avez effectué '</p>'{completionPercentage}%'<p class=\"sr-only\">' de votre parcours.'</p>'",
-        "caption": "avancement du parcours"
+        "label": "'<p class=\"sr-only\">'You have completed '</p>'{completionPercentage}%'<p class=\"sr-only\">' of your course.'</p>'",
+        "caption": "course progress"
       }
     },
     "comparison-window": {
-      "upcoming-tutorials": "Bientôt ici des tutoriels pour vous aider à réussir ce type d'épreuves !!",
+      "upcoming-tutorials": "You will soon find tutorials here to help you answer correctly to this type of question!!",
       "results": {
         "ok": {
-          "title": "Vous avez la bonne réponse !",
-          "tooltip": "Réponse correcte"
+          "title": "You got the right answer!",
+          "tooltip": "Correct answer"
         },
         "ko": {
-          "title": "Vous n’avez pas la bonne réponse",
-          "tooltip": "Réponse incorrecte"
+          "title": "That’s not the right answer",
+          "tooltip": "Incorrect answer"
         },
         "aband": {
-          "title": "Vous n’avez pas donné de réponse",
-          "tooltip": "Sans réponse"
+          "title": "You did not answer",
+          "tooltip": "No answer"
         },
         "partially": {
-          "title": "Vous avez donné une réponse partielle",
-          "tooltip": "Réponse partielle"
+          "title": "You gave an incomplete answer",
+          "tooltip": "Incomplete answer"
         },
         "timedout": {
-          "title": "Vous avez dépassé le temps imparti",
-          "tooltip": "Temps dépassé"
+          "title": "You ran out of time",
+          "tooltip": "Out of time"
         },
         "okAutoReply": {
-          "title": "Vous avez réussi l’épreuve",
-          "tooltip": "Épreuve réussie"
+          "title": "You correctly answered the question",
+          "tooltip": "Question answered correctly "
         },
         "koAutoReply": {
-          "title": "Vous n’avez pas réussi l’épreuve",
-          "tooltip": "Épreuve non réussie"
+          "title": "You did not correctly answer the question",
+          "tooltip": "Question answered incorrectly"
         },
         "abandAutoReply": {
-          "title": "Vous avez passé l’épreuve",
-          "tooltip": "Épreuve passée"
+          "title": "You have skipped the question",
+          "tooltip": "Question skipped"
         },
         "default": {
           "title": "",
-          "tooltip": "Correction automatique en cours de développement ;)"
+          "tooltip": "Auto-correct under development ;)"
         }
       }
     },
     "competence-details": {
-      "title": "Compétence",
+      "title": "Skill",
       "actions": {
         "continue": {
-          "label": "Reprendre"
+          "label": "Resume"
         },
         "improve": {
           "description": {
-            "waiting-text": "Tenter le niveau supérieur dans",
-            "countdown": "{ daysBeforeImproving, plural, =0 {0 jour.} =1 {1 jour.} other {# jours.} }"
+            "waiting-text": "Try the next level in\n",
+            "countdown": "{ daysBeforeImproving, plural, =0 {0 day.} =1 {1 day.} other {# days.} }"
           },
-          "improvingText": "Tentez d'obtenir le niveau supérieur !",
-          "label": "Retenter"
+          "improvingText": "Try the next level!",
+          "label": "Try again"
         },
         "reset": {
-          "description": "Remise à zéro disponible dans { daysBeforeReset, plural, =0 {0 jour.} =1 {1 jour.} other {# jours.} }",
-          "label": "Remettre à zéro",
+          "description": "Reset available in \n { daysBeforeReset, plural, =0 {0 day.} =1 {1 day.} other {# days.} }",
+          "label": "Reset",
           "modal": {
-            "important-message": "Vos { earnedPix } Pix vont être supprimés.",
-            "important-message-above-level-one": "Votre niveau { level } et vos { earnedPix } Pix vont être supprimés.",
-            "title": "Remise à zéro de la compétence",
-            "warning": "Attention : si vous avez un parcours d’évaluation en cours, certaines questions pourront vous être reposées."
+            "important-message": "Your Pix { earnedPix } will be deleted.",
+            "important-message-above-level-one": "Your level { level } and your Pix { earnedPix } will be deleted.",
+            "title": "Skill reset",
+            "warning": "NB. If you have an assessment course in progress, you might be asked some questions again."
           }
         },
         "start": {
-          "label": "Commencer"
+          "label": "Start"
         }
       },
-      "for-competence": "la compétence {competence}",
-      "next-level-info": "{ remainingPixToNextLevel } pix avant le niveau { level }",
+      "for-competence": "the skill {competence}",
+      "next-level-info": "{ remainingPixToNextLevel } Pix to next level { level }",
       "tutorials": {
-        "title": "Cultivez vos compétences",
-        "description": "Voici une sélection de tutos qui pourront vous aider à gagner des Pix."
+        "title": "Develop your skills",
+        "description": "Here are a selection of tutorials that will help you increase your pix score."
       }
     },
     "error": {
-      "content-text": "'<p>'Nous vous invitons à recharger cette page ou '<LinkTo @route=\"login\">'revenir à la page d’accueil'</LinkTo>'.'</p><p>'Vous pouvez aussi nous contacter via '<a href=\"https://support.pix.fr/support/tickets/new\">'le formulaire du centre d'aide'</a>' en nous précisant le code d’erreur ci-dessous dans la description.'</p><p>'Nous vous prions de nous excuser pour la gêne occasionnée.'</p><p>'L’équipe Pix.'</p>'",
-      "first-title": "Oups, une erreur est survenue !"
+      "content-text": "'<p>'Please refresh the page or '<LinkTo @route=\"login\">'return to homepage'</LinkTo>'.'</p><p>'You can also contact us via '<a href=\"https://support.pix.fr/support/tickets/new\">'the help centre form'</a>'specifying the error code below in the description.'</p><p>'Please excuse any inconvenience caused.'</p><p>'The Pix team.'</p>'",
+      "first-title": "Oops, an error occurred!"
     },
     "learning-more": {
-      "title": "Pour en apprendre davantage",
-      "info": "Ces liens vers les tutos ont été proposés par des utilisateurs de Pix."
+      "title": "To find out more",
+      "info": "These tutorial links have been suggested by Pix users."
     },
     "levelup-notif": {
-      "obtained-level": "Niveau { level } gagné !"
+      "obtained-level": "Level { level } succeeded!"
     },
     "password-reset-demand": {
-      "title": "Mot de passe oublié ?",
+      "title": "Forgotten your password?",
       "actions": {
-        "back-home": "Retour à l'accueil",
-        "back-sign-in": "Retour à la page de connexion",
-        "reset": "Réinitialiser mon mot de passe"
+        "back-home": "Return to homepage",
+        "back-sign-in": "Return to the login page",
+        "reset": "Reset my password"
       },
       "error": {
-        "message": "Cette adresse e-mail ne correspond à aucun compte"
+        "message": "The email address entered does not match any Pix account"
       },
-      "page-title": "Oubli de mot de passe",
-      "subtitle": "Entrez votre adresse e-mail ci-dessous, et c'est repartix",
+      "page-title": "Password forgotten",
+      "subtitle": "Enter your email address below",
       "succeed": {
-        "help": "Si vous ne recevez pas cet e-mail, vérifiez vos courriers indésirables.",
-        "instructions": "Un e-mail contenant la démarche à suivre afin de réinitialiser votre mot de passe\n vous a été envoyé à l’adresse e-mail {email}.",
-        "subtitle": "Demande de réinitialisation de mot de passe"
+        "help": "If you do not receive this email, please check your spam folder.",
+        "instructions": "An email explaining how to reset your password\n has been sent to the email address {email}.",
+        "subtitle": "Password reset request"
       }
     },
     "profile": {
-      "title": "Votre profil",
+      "title": "Your profile",
       "accessibility": {
-        "title": "Votre profil Pix",
-        "user-score": "Votre nombre de Pix",
-        "user-skills": "Vos compétences Pix"
+        "title": "Your Pix profile",
+        "user-score": "Your Pix score",
+        "user-skills": "Your Pix skills"
       },
       "competence-card": {
-        "congrats": "Bravo !",
-        "details": "détails"
+        "congrats": "Well done!",
+        "details": "details"
       },
-      "first-title": "Vous avez 16 compétences à tester. '<br>'On se concentre et c'est partix&nbsp;!",
+      "first-title": "You have 16 skills to test. '<br>'Get your thinking hat on and off we go!",
       "resume-campaign-banner": {
         "accessibility": {
-          "resume": "Continuer votre parcours",
-          "share": "Partager les résultats de votre parcours"
+          "resume": "Resume your campaign",
+          "share": "Share your campaign results"
         },
         "actions": {
-          "continue": "Continuer",
-          "resume": "Reprendre"
+          "continue": "Continue",
+          "resume": "Resume"
         },
-        "reminder-continue-campaign": "Vous n'avez pas terminé votre parcours",
-        "reminder-continue-campaign-with-title": "Vous n'avez pas terminé le parcours \"{title}\"",
-        "reminder-send-campaign": "N'oubliez pas de finaliser votre envoi !",
-        "reminder-send-campaign-with-title": "Parcours \"{title}\" terminé. N'oubliez pas de finaliser votre envoi !"
+        "reminder-continue-campaign": "You haven’t finished your course",
+        "reminder-continue-campaign-with-title": "You haven’t finished the course \"{title}\"",
+        "reminder-send-campaign": "Don’t forget to submit your results!",
+        "reminder-send-campaign-with-title": "Course \"{title}\" finished. Don’t forget to submit your results!"
       },
       "total-score-helper": {
-        "title": "Pourquoi 1024 pix ?",
-        "explanation": "C’est le nombre maximum de pix qu’on pourra atteindre lorsque les 8 niveaux du référentiel Pix seront disponibles.'<br>'Aujourd’hui, '<span class=\"hexagon-score-information__text--strong\">'le maximum est de 640 pix'</span>', correspondant au niveau 5."
+        "title": "Why 1,024 pix?",
+        "explanation": "That’s the maximum number of pix you can get when the 8 levels of the Pix framework will be available.'<br>'Today, '<span class=\"hexagon-score-information__text--strong\">'the maximum number available is 640 pix'</span>', corresponding to level 5."
       }
     },
     "profile-already-shared": {
-      "title": "Profil déjà envoyé",
-      "first-title": "Tout ne se passe pas comme prévu",
+      "title": "Profile already submitted",
+      "first-title": "There was a problem",
       "actions": {
-        "continue": "Continuez votre expérience Pix"
+        "continue": "Continue my Pix experience"
       },
-      "explanation": "Vous avez déjà envoyé le profil ci-dessous à l'organisation {organization}'<br>'le {date,date,LL} à {hour,time,hhmm}"
+      "explanation": "You already submitted the profile below to the organisation {organization}'<br>'on {date,date,LL} at {hour,time,hhmm}"
     },
     "reset-password": {
-      "title": "Changer mon mot de passe",
+      "title": "Change my password",
       "actions": {
-        "submit": "Envoyer",
-        "sign-in": "Connectez-vous"
+        "submit": "Send",
+        "sign-in": "Log in"
       },
-      "error": "Nous sommes désolés, mais votre demande de réinitialisation de mot de passe a déjà été utilisée ou est expirée. Merci de recommencer.",
-      "instruction": "Saisissez votre nouveau mot de passe",
-      "succeed": "Votre mot de passe a été modifié avec succès."
+      "error": "We’re sorry, but your request to reset your password has already been used or has expired. Please start again.",
+      "instruction": "Enter your new password",
+      "succeed": "Your password has been changed successfully."
     },
     "proposals": {
       "answer": {
-        "qcu": "La réponse à la question est : "
+        "qcu": "The answer to the question is: "
       }
     },
     "result-item": {
-      "aband": "Sans réponse",
+      "aband": "No answer",
       "actions": {
         "see-answers-and-tutorials": {
-          "label": "Réponses et tutos"
+          "label": "Answers and tutorials"
         }
       },
-      "ko": "Réponse incorrecte",
-      "ok": "Réponse correcte",
-      "partially": "Réponse partielle",
-      "timedout": "Temps dépassé"
+      "ko": "Incorrect answer",
+      "ok": "Correct answer",
+      "partially": "Incomplete answer",
+      "timedout": "Out of time"
     },
     "send-profile": {
-      "title": "Envoyer mon profil",
-      "first-title": "Envoi de votre profil Pix",
+      "title": "Submit my profile",
+      "first-title": "Submitting your Pix profile",
       "errors": {
-        "archived": "L’envoi de votre profil n’est plus possible car l’organisateur a archivé la collecte de profils."
+        "archived": "It is no longer possible to submit your profile as the organiser has archived the collection of profiles."
       },
       "form": {
-        "info": "Cet envoi n’est possible qu’une seule fois",
-        "continue": "Continuez votre expérience Pix",
-        "recipient": "Destinataire : {recipient}",
-        "send": "J'envoie mon profil",
-        "shared": "Merci, votre profil a bien été envoyé !"
+        "info": "You can only submit it once",
+        "continue": "Continue my Pix experience",
+        "recipient": "Recipient: {recipient}",
+        "send": "Submit my profile",
+        "shared": "Thank you, your profile has been submitted!"
       },
-      "instructions": "Vous allez transmettre le score et les niveaux de compétence présents sur votre profil Pix. <br/> Toute évolution de votre profil après cet envoi ne sera pas transmise. <br/> Pensez à le vérifier avant de l'envoyer !"
+      "instructions": "You are about to submit the score and skill levels shown on your Pix profile. <br/> Any changes in your profile after this submission will not be shared. <br/> Remember to check your profile before submitting it!"
     },
     "sign-in": {
-      "title": "Connexion",
+      "title": "Log in",
       "actions": {
-        "submit": "Je me connecte"
+        "submit": "Log in"
       },
       "error": {
-        "message": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects"
+        "message": "There was a mistake in the email address or username/password entered."
       },
       "fields": {
         "login": {
-          "label": "Adresse e-mail ou identifiant"
+          "label": "Email address or username"
         },
         "password": {
-          "label": "Mot de passe"
+          "label": "Password"
         }
       },
-      "first-title": "Connectez-vous",
-      "forgotten-password": "Mot de passe oublié ?",
+      "first-title": "Log in",
+      "forgotten-password": "Forgotten your password?",
       "subtitle": {
-        "text": "Vous n'avez pas encore de compte Pix ?",
-        "link": "Créez un compte"
+        "text": "Don’t have a Pix account yet?",
+        "link": "Create an account"
       }
     },
     "sign-up": {
-      "title": "Inscription",
+      "title": "Sign up",
       "actions": {
-        "submit": "Je m'inscris"
+        "submit": "Sign up"
       },
       "fields": {
         "cgu": {
-          "error": "Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.",
-          "label": "'<abbr title=\"obligatoire\">'*'</abbr>' J'accepte les ",
-          "cgu": "conditions d'utilisation de Pix"
+          "error": "You must agree to the Pix terms of use to create an account.",
+          "label": "'<abbr title=\"required\">'*'</abbr>' I agree to the ",
+          "cgu": "Pix terms of use"
         },
         "email": {
-          "error": "Votre adresse e-mail n’est pas valide.",
-          "help": "(ex: nom@exemple.fr)",
-          "label": "Adresse e-mail"
+          "error": "Your email address is not valid.",
+          "help": "(eg. name@example.org)",
+          "label": "Email address"
         },
         "firstname": {
-          "error": "Votre prénom n’est pas renseigné.",
-          "label": "Prénom"
+          "error": "You have not entered your first name.",
+          "label": "First name"
         },
         "lastname": {
-          "error": "Votre nom n’est pas renseigné.",
-          "label": "Nom"
+          "error": "You have not entered your last name.",
+          "label": "Last name"
         },
         "password": {
-          "error": "Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.",
-          "help": "(8 caractères minimum, dont une majuscule, une minuscule et un chiffre)",
-          "label": "Mot de passe"
+          "error": "Your password must contain at least 8 characters and include at least one uppercase letter, one lowercase letter and one number.",
+          "help": "(at least 8 characters, including one uppercase letter, one lowercase letter and one number)",
+          "label": "Password"
         }
       },
-      "first-title": "Inscrivez-vous",
-      "instructions": "Les champs marqués de '<abbr title=\"obligatoire\" class=\"mandatory-mark\">'*'</abbr>' sont obligatoires",
-      "legal-information": "Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par Pix pour permettre l'accès au service offert par Pix. Elles sont conservées pendant une durée de 5 ans maximum à compter du dernier accès au compte utilisateur, et archivées selon les délais de prescription légale (5 ans). Elles sont destinées à Pix et à ses prestataires techniques exclusivement. Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en envoyant un mail à dpd@pix.fr.",
+      "first-title": "Sign up",
+      "instructions": "The fields marked '<abbr title=\"required\" class=\"mandatory-mark\">'*'</abbr>' are required",
+      "legal-information": "The information collected in this form is saved in a computer file by Pix to enable access to the service offered by Pix. It will be stored for a maximum of 5 years from the date of the last access to the user account and archived according to the statutory period of limitation (5 years). It will only be shared with Pix and its technical service providers. In accordance with the French law governing computer technology and freedoms (“Informatique et Libertés”), you can exercise the right to access and rectify your data by emailing dpd@pix.fr.",
       "subtitle": {
-        "link": "connectez-vous à votre compte"
+        "link": "log into your account"
       }
     },
     "skill-review": {
-      "title": "Résultat",
-      "abstract": "Vous maîtrisez '<strong>'{percentage}%'</strong>'<br/> des compétences testées.",
-      "abstract-title": "Votre résultat pour ce parcours",
+      "title": "Result",
+      "abstract": "You have mastered '<strong>'{percentage}%'</strong>'<br/> of the skills tested.",
+      "abstract-title": "Your result for this course",
       "actions": {
-        "continue": "Continuez votre expérience Pix",
-        "send": "J'envoie mes résultats",
-        "try-again": "Je retente"
+        "continue": "Continue my Pix experience",
+        "send": "Submit my results",
+        "try-again": "Try again"
       },
-      "already-shared": "Merci, vos résultats ont bien été envoyés !",
-      "archived": "Ce parcours a été archivé par l'organisateur.<br/> L'envoi des résultats n'est plus possible mais ils sont bien pris en compte dans votre parcours.",
-      "badges-title": "{ badgeCount, plural, =1 {Résultat thématique} other {Résultats thématiques} }",
+      "already-shared": "Thank you, your results have been submitted!",
+      "archived": "This course has been archived by the organiser.<br/> It is no longer to possible to submit results, but they have been taken into account for your course.",
+      "badges-title": "{ badgeCount, plural, =1 {Thematic result} other {Thematic results} }",
       "details": {
-        "title": "Vos résultats détaillés",
-        "header-skill": "Compétences testées",
-        "header-result": "Résultats",
-        "result": "Résultat global",
-        "result-by-skill": "Résultats par compétence",
-        "skill-progress": "'<p class=\"sr-only\">'Vous avez validé '</p>'{percentage}%'<p class=\"sr-only\">' de la compétence {skill}.'</p>'"
+        "title": "Your detailed results",
+        "header-skill": "Skills tested",
+        "header-result": "Results",
+        "result": "Overall result",
+        "result-by-skill": "Results by skill",
+        "skill-progress": "'<p class=\"sr-only\">'You have completed '</p>'{percentage}%'<p class=\"sr-only\">' of the skill {skill}.'</p>'"
       },
-      "information": "Si vous avez déjà effectué des parcours sur Pix, les questions auxquelles vous aviez répondu ne vous ont pas été posées de nouveau. En revanche, le résultat affiché ici tient compte de l’ensemble de vos réponses.",
-      "not-finished": "Vous ne pouvez pas encore envoyer vos résultats, nous avons encore quelques questions à vous poser.",
-      "send-results": "N'oubliez pas d'envoyer vos résultats à l'organisateur du parcours.",
-      "send-title": "Envoyez vos résultats",
+      "information": "If you have already completed courses on Pix, questions you have previously answered have not been asked again. However, the result shown here is based on all of your answers.",
+      "not-finished": "You can’t submit your results yet, we still have a few questions to ask.",
+      "send-results": "Don't forget to submit your results.",
+      "send-title": "Submit your results",
       "stage": {
-        "masteryPercentage": "{percentage} % de réussite",
+        "masteryPercentage": "Success rate: {percentage} %",
         "alt": {
-          "acquiredStar": "Palier n°{index} atteint",
-          "unacquiredStar": "Palier n°{index} non atteint"
+          "acquiredStar": "Stage no. {index} reached",
+          "unacquiredStar": "Stage no. {index} not reached"
         }
       },
       "try-again": {
-        "title": "Envie d'améliorer vos résultats ?",
-        "description": "Vous pouvez retenter certaines questions"
+        "title": "Want to improve your results?",
+        "description": "You can retake some of the questions"
       }
     },
     "time-gauge": {
-      "timeout-placeholder": "Le temps alloué est dépassé",
-      "remaining-time-placeholder": "Il reste du temps pour accomplir l'épreuve"
+      "timeout-placeholder": "You have exceeded the time allowed",
+      "remaining-time-placeholder": "There is still more time to complete the test"
     },
     "tutorial": {
-      "next": "Suivant",
+      "next": "Next",
       "pages": {
         "page0": {
-          "title": "Vous pouvez rechercher sur internet",
+          "title": "You can search online",
           "icon": "icn-recherche.svg",
-          "explanation": "Si vous ignorez une réponse, \nelle se trouve sûrement sur internet."
+          "explanation": "If you do not know the answer to a question, \nyou can probably find it on the internet."
         },
         "page1": {
-          "title": "Pas de limite de temps !",
+          "title": "There’s no time limit!",
           "icon": "icn-temps.svg",
-          "explanation": "Prenez le temps nécessaire pour terminer votre parcours. \nSi une question est chronométrée, cela vous sera indiqué."
+          "explanation": "Take all the time you need to finish your course. \nIf a question is timed, we will let you know."
         },
         "page2": {
-          "title": "Des tutos pour apprendre",
+          "title": "Tutorials",
           "icon": "icn-tutos.svg",
-          "explanation": "Accédez à des tutos pour apprendre davantage \nsur chaque question et progresser."
+          "explanation": "Access tutorials to learn more \nabout each question and improve."
         },
         "page3": {
-          "title": "Un niveau de difficulté adapté",
+          "title": "Adapted levels of difficulty",
           "icon": "icn-algo.svg",
-          "explanation": "En fonction de vos réponses,\nPix adapte la difficulté des questions."
+          "explanation": "Based on your answers, \nPix adapts the difficulty of the questions."
         }
       },
-      "pass": "Ignorer",
-      "start": "Démarrer mon parcours"
+      "pass": "Ignore",
+      "start": "Start my course"
     },
     "tutorial-panel": {
-      "title": "Pour réussir la prochaine fois",
-      "info": "Ces liens vers les tutos ont été proposés par des utilisateurs de Pix."
+      "title": "For better results next time",
+      "info": "These tutorial links have been suggested by Pix users."
     },
     "user-tutorials": {
-      "title": "Mes tutos",
-      "description": "Progresser grâce aux tutos suggérés par la communauté des utilisateurs de Pix.",
+      "title": "My tutorials",
+      "description": "Improve with the help of tutorials suggested by the Pix user community.",
       "empty-list-info": {
         "description": {
-          "part1": "Au fil de vos tests, des tutos vous sont recommandés : cliquez sur l'icône marque page",
-          "part2": "pour enregistrer ceux que vous souhaitez retrouver ici !"
+          "part1": "As you test your skills, tutorials are recommended. Click on the bookmark icon",
+          "part2": "to save the ones you want to see again here!"
         },
         "image-link": "images/user-tutorials/illustration.svg",
-        "title": "Vous n'avez encore rien enregistré"
+        "title": "You haven’t saved anything yet"
       },
       "list": {
-        "title": "Ma liste",
+        "title": "My list",
         "tutorial": {
           "actions": {
             "evaluate": {
-              "extra-information": "Donner mon avis sur ce tuto",
-              "label": "Tuto utile"
+              "extra-information": "Give feedback on this tutorial",
+              "label": "Useful tutorial"
             },
             "remove": {
-              "extra-information": "Retirer de ma liste de tutos",
-              "label": "Retirer"
+              "extra-information": "Remove from my list of tutorials",
+              "label": "Remove"
             },
             "save": {
-              "extra-information": "Enregistrer dans ma liste de tutos",
-              "label": "Enregistrer"
+              "extra-information": "Save in my list of tutorials",
+              "label": "Save"
             }
           },
-          "source": "Par"
+          "source": "By"
         }
       }
     },
     "fill-in-campaign-code": {
-      "title": "J'ai un code",
-      "first-title": "Saisissez votre code",
-      "description": "Ce code permet de démarrer un parcours'<br>'ou d’envoyer votre profil à une organisation",
+      "title": "I have a code",
+      "first-title": "Enter your code",
+      "description": "This code can be used to start a course'<br>'or to submit your profile to an organisation",
       "errors": {
-        "forbidden": "Oups ! nous ne parvenons pas à vous trouver. Vérifiez vos informations afin de continuer ou prévenez l’organisateur.",
-        "missing-code": "Veuillez saisir un code.",
-        "not-found": "Votre code est erroné, veuillez vérifier ou contacter l’organisateur."
+        "forbidden": "Oops! We can’t find you. Check your details to continue or contact the organiser.",
+        "missing-code": "Please enter a code.",
+        "not-found": "Your code is incorrect. Please check it or contact the organiser."
       },
-      "start": "Commencer"
+      "start": "Start"
     },
     "fill-in-certificate-verification-code": {
-      "title": "Vérifier un certificat Pix",
-      "first-title": "Vérifier un certificat Pix",
-      "description": "La certification Pix atteste d’un niveau de maitrise des compétences numériques, reconnu par l’État et le monde professionnel.",
-      "label": "Code de vérification (P-XXXXXXXX)",
+      "title": "Verify the authenticity of a Pix Certificate",
+      "first-title": "Verify the score of a Pix Certificate",
+      "description": "The Pix Certification assesses digital literacy and is recognised throughout Europe and in the business world.",
+      "label": "Verification code (P-XXXXXXXX)",
       "errors": {
-        "wrong-format": "Veuillez vérifier le format de votre code (P-XXXXXXX).",
-        "missing-code": "Merci de renseigner le code de vérification.",
-        "not-found": "Il n'y a pas de certificat Pix correspondant.",
-        "unallowed-access": "Merci de renseigner le code de vérification au format P-XXXXXXXX dans le champ ci-dessus."
+        "wrong-format": "Please check your verification code",
+        "missing-code": "Please enter the verification code in this format: P-XXXXXXX",
+        "not-found": "There is no corresponding Pix Certificate.",
+        "unallowed-access": "Please fill out the field above with the verification code in this format: P-XXXXXXX"
       },
-      "verify": "Vérifier le certificat"
+      "verify": "Verify the score"
     },
     "shared-certification": {
-      "title": "Partage de certificat",
-      "back-link": "Retour à la saisie du code de vérification"
+      "title": "Share my Pix Certificate",
+      "back-link": "Go back to the verification’s page"
     },
     "fill-in-id-pix": {
-      "title": "Saisir mon identifiant",
-      "first-title": "Avant de commencer",
-      "announcement": "L'organisateur a besoin de l'information ci-dessous pour pouvoir vous accompagner :",
+      "title": "Enter my username",
+      "first-title": "Before starting",
+      "announcement": "The organiser needs the information below in order to provide support:",
       "buttons": {
-        "continue": "Continuer",
-        "cancel": "Annuler"
+        "continue": "Continue",
+        "cancel": "Cancel"
       },
       "errors": {
-        "missing-id-pix-label": "Merci de renseigner votre { idPixLabel }."
+        "missing-id-pix-label": "Please enter your { idPixLabel }."
       }
     },
     "warning": {
-      "action": "Commencer",
-      "instructions": "Vous disposerez de '<span class=\"challenge-item-warning__instruction-time\">'{time}'</span>' pour réussir la question suivante.",
-      "further-instructions": "Vous pourrez continuer à répondre ensuite, mais la question ne sera pas considérée comme réussie."
+      "action": "Start",
+      "instructions": "You have '<span class=\"challenge-item-warning__instruction-time\">'{time}'</span>' to complete the next question.",
+      "further-instructions": "You can continue answering after this, but the question will not be marked as correct."
     }
   },
   "navigation": {
-    "error": "Erreur",
-    "homepage": "Page d'accueil",
-    "back-to-homepage": "Revenir à la page d’accueil",
-    "back-to-profile": "Revenir au profil",
+    "error": "Error",
+    "homepage": "Homepage",
+    "back-to-homepage": "Return to homepage",
+    "back-to-profile": "Return to profile",
     "main": {
-      "code": "J'ai un code",
-      "help": "Aide",
-      "link-help": "https://pix.fr/aide",
-      "profile": "Profil",
+      "code": "I have a code",
+      "help": "Help",
+      "link-help": "https://pix.org/aide",
+      "profile": "Profile",
       "start-certification": "Certification"
     },
     "not-logged": {
-      "sign-in": "Se connecter",
-      "sign-up": "S'inscrire"
+      "sign-in": "Log in",
+      "sign-up": "Sign up"
     },
     "pix": "Pix",
     "user": {
-      "certifications": "Mes certifications",
-      "sign-out": "Se déconnecter",
-      "tutorials": "Mes tutos"
+      "certifications": "My certifications",
+      "sign-out": "Log out",
+      "tutorials": "My tutorials"
     }
   }
 }
