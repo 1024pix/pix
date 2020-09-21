@@ -14,29 +14,32 @@
     <div class="footer-container__content">
       <div class="footer-container__links">
         <div class="footer-links__social-medias">
-          <a href="https://www.facebook.com/pg/Pix1024/"
+          <a href="{{t 'navigation.footer.social-medias.link.facebook'}}"
              class="footer-social-medias__item"
              target="_blank"
-             rel="noopener noreferrer">
+             rel="noopener noreferrer"
+             aria-label="{{t 'navigation.footer.social-medias.aria-label.facebook'}}">
             <FaIcon @prefix="fab"
                     @icon="facebook-f"
                     class="footer-social-medias-item__icon"/>
           </a>
 
-          <a href="https://www.linkedin.com/company/gip-pix"
+          <a href="{{t 'navigation.footer.social-medias.link.linkedin'}}"
              class="footer-social-medias__item"
              target="_blank"
-             rel="noopener noreferrer">
+             rel="noopener noreferrer"
+             aria-label="{{t 'navigation.footer.social-medias.aria-label.linkedin'}}">
             <FaIcon @prefix="fab"
                     @icon="linkedin-in"
                     class="footer-social-medias-item__icon"
             />
           </a>
 
-          <a href="https://twitter.com/Pix_officiel"
+          <a href="{{t 'navigation.footer.social-medias.link.twitter'}}"
              class="footer-social-medias__item"
              target="_blank"
-             rel="noopener noreferrer">
+             rel="noopener noreferrer"
+             aria-label="{{t 'navigation.footer.social-medias.aria-label.twitter'}}">
             <FaIcon @prefix="fab"
                     @icon="twitter"
                     class="footer-social-medias-item__icon"/>
@@ -59,7 +62,7 @@
       </div>
 
       <div class="footer-container__copyrights">
-        <span>© 2020 Pix</span>
+        <span>© {{ this.currentYear }} Pix</span>
       </div>
     </div>
 
