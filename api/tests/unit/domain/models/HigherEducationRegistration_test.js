@@ -140,7 +140,7 @@ describe('Unit | Domain | Models | HigherEducationRegistration', () => {
         const error = await catchErr(buildRegistration)({ ...validAttributes, birthdate: null });
 
         expect(error.key).to.equal('birthdate');
-        expect(error.why).to.equal('not_a_date');
+        expect(error.why).to.equal('required');
       });
     });
 
@@ -150,6 +150,15 @@ describe('Unit | Domain | Models | HigherEducationRegistration', () => {
 
         expect(error.key).to.equal('birthdate');
         expect(error.why).to.equal('date_format');
+      });
+    });
+
+    context('when birthdate is null', () => {
+      it('throws an error', async () => {
+        const error = await catchErr(buildRegistration)({ ...validAttributes, birthdate: null });
+
+        expect(error.key).to.equal('birthdate');
+        expect(error.why).to.equal('required');
       });
     });
 
