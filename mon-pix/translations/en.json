@@ -67,13 +67,13 @@
             "label": "Find out more."
           }
         },
-        "certify": {
-          "title": "Prepare a certification recognised throughout Europe and in the business world",
-          "description": "The Pix Certification enables you to showcase your digital skills to employers."
-        },
         "develop": {
           "title": "See your results during tests and view tips to progress.",
           "description": "After 5 questions, you will be able to see your results and watch tutorials to help you develop your skills."
+        },
+        "certify": {
+          "title": "Prepare a certification recognised throughout Europe and in the business world",
+          "description": "The Pix Certification enables you to showcase your digital skills to employers."
         }
       },
       "profiles-collection": {
