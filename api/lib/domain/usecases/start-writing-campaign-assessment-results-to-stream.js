@@ -134,14 +134,16 @@ function _createHeaderOfCSV(targetProfile, areas, competences, idPixLabel, organ
 }
 
 function _extractTargetedCompetences(allCompetences, targetedCompetenceIds) {
+  const _findCompetence = (competenceId) => {
+    const competence = _.find(allCompetences, { id: competenceId });
+    if (!competence) {
+      throw new Error(`Unknown competence ${competenceId}`);
+    }
+    return competence;
+  };
+
   return fp.flow(
-    fp.map((competenceId) => {
-      const competence = _.find(allCompetences, { id: competenceId });
-      if (!competence) {
-        throw new Error(`Unknown competence ${competenceId}`);
-      }
-      return competence;
-    }),
+    fp.map(_findCompetence),
     fp.sortBy(['index']),
   )(targetedCompetenceIds);
 }
