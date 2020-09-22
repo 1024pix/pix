@@ -118,7 +118,7 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
   },
 
-  async findOneByOrganizationIdAndStudentNumber(organizationId, studentNumber) {
+  async findByOrganizationIdAndStudentNumber({ organizationId, studentNumber }) {
     const schoolingRegistration = await BookshelfSchoolingRegistration
       .query((qb) => {
         qb.where('organizationId', organizationId);
