@@ -1,7 +1,7 @@
 const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
 const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const higherEducationRegistrationRepository = require('../../../../lib/infrastructure/repositories/higher-education-registration-repository');
+const higherSchoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/higher-schooling-registration-repository');
 const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
 const { NotFoundError, SchoolingRegistrationAlreadyLinkedToUserError } = require('../../../../lib/domain/errors');
 
@@ -56,7 +56,7 @@ describe('Integration | UseCases | reconcile-higher-schooling-registration', () 
           campaignCode,
           reconciliationInfo,
           campaignRepository,
-          higherEducationRegistrationRepository,
+          higherSchoolingRegistrationRepository,
           schoolingRegistrationRepository,
           userReconciliationService,
         });
@@ -84,7 +84,7 @@ describe('Integration | UseCases | reconcile-higher-schooling-registration', () 
           campaignCode,
           reconciliationInfo,
           campaignRepository,
-          higherEducationRegistrationRepository,
+          higherSchoolingRegistrationRepository,
           schoolingRegistrationRepository,
           userReconciliationService,
         });
@@ -114,7 +114,7 @@ describe('Integration | UseCases | reconcile-higher-schooling-registration', () 
           campaignCode,
           reconciliationInfo,
           campaignRepository,
-          higherEducationRegistrationRepository,
+          higherSchoolingRegistrationRepository,
           schoolingRegistrationRepository,
           userReconciliationService,
         });
@@ -149,7 +149,7 @@ describe('Integration | UseCases | reconcile-higher-schooling-registration', () 
             campaignCode,
             reconciliationInfo,
             campaignRepository,
-            higherEducationRegistrationRepository,
+            higherSchoolingRegistrationRepository,
             schoolingRegistrationRepository,
             userReconciliationService,
           });
@@ -181,7 +181,7 @@ describe('Integration | UseCases | reconcile-higher-schooling-registration', () 
             campaignCode,
             reconciliationInfo,
             campaignRepository,
-            higherEducationRegistrationRepository,
+            higherSchoolingRegistrationRepository,
             schoolingRegistrationRepository,
             userReconciliationService,
           });

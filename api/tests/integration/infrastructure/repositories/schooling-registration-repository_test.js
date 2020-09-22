@@ -539,9 +539,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       const birthdate = '2000-03-31';
 
       // when
-      const result = await schoolingRegistrationRepository.findByOrganizationIdAndBirthdate({
-        organizationId: '999', birthdate,
-      });
+      const result = await schoolingRegistrationRepository.findByOrganizationIdAndBirthdate({ organizationId: '999', birthdate });
 
       // then
       expect(result.length).to.be.equal(0);

@@ -1,10 +1,10 @@
 const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
-const higherEducationRegistrationRepository = require('../../../../lib/infrastructure/repositories/higher-education-registration-repository');
-const HigherEducationRegistrationSet = require('../../../../lib/domain/models/HigherEducationRegistrationSet');
-const HigherEducationRegistration = require('../../../../lib/domain/models/HigherEducationRegistration');
+const higherSchoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/higher-schooling-registration-repository');
+const HigherSchoolingRegistrationSet = require('../../../../lib/domain/models/HigherSchoolingRegistrationSet');
+const HigherSchoolingRegistration = require('../../../../lib/domain/models/HigherSchoolingRegistration');
 const { SchoolingRegistrationsCouldNotBeSavedError } = require('../../../../lib/domain/errors');
 
-describe('Integration | Infrastructure | Repository | higher-education-registration-repository', () => {
+describe('Integration | Infrastructure | Repository | higher-schooling-registration-repository', () => {
 
   describe('#saveSet', () => {
     afterEach(() => {
@@ -12,12 +12,12 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
     });
 
     context('when there is no schooling registration with the same student number', () => {
-      it('save all the superior schooling registrations', async function() {
+      it('save all the higher schooling registrations', async function() {
 
         const organization = databaseBuilder.factory.buildOrganization();
         await databaseBuilder.commit();
 
-        const higherEducationRegistrationSet = new HigherEducationRegistrationSet();
+        const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet();
         const registration1 = {
           organizationId: organization.id,
           firstName: 'Elle',
@@ -83,15 +83,15 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
           status: 'I have always no idea what it\'s like.',
         };
 
-        higherEducationRegistrationSet.addRegistration(registration1);
-        higherEducationRegistrationSet.addRegistration(registration2);
+        higherSchoolingRegistrationSet.addRegistration(registration1);
+        higherSchoolingRegistrationSet.addRegistration(registration2);
 
-        await higherEducationRegistrationRepository.saveSet(higherEducationRegistrationSet, organization.id);
+        await higherSchoolingRegistrationRepository.saveSet(higherSchoolingRegistrationSet, organization.id);
 
-        const higherEducationRegistrations = await knex('schooling-registrations').where({ organizationId: organization.id }).orderBy('firstName');
-        expect(higherEducationRegistrations).to.have.lengthOf(2);
-        expect(higherEducationRegistrations[0]).to.include(registration1Attributes);
-        expect(higherEducationRegistrations[1]).to.include(registration2Attributes);
+        const higherSchoolingRegistrations = await knex('schooling-registrations').where({ organizationId: organization.id }).orderBy('firstName');
+        expect(higherSchoolingRegistrations).to.have.lengthOf(2);
+        expect(higherSchoolingRegistrations[0]).to.include(registration1Attributes);
+        expect(higherSchoolingRegistrations[1]).to.include(registration2Attributes);
       });
     });
 
@@ -107,7 +107,7 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
 
         await databaseBuilder.commit();
 
-        const higherEducationRegistrationSet = new HigherEducationRegistrationSet();
+        const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet();
         const registration = {
           preferredLastName: 'California Mountain Snake',
           studentNumber: '12',
@@ -117,13 +117,13 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
           organizationId: organization.id,
         };
 
-        higherEducationRegistrationSet.addRegistration(registration);
+        higherSchoolingRegistrationSet.addRegistration(registration);
 
-        await higherEducationRegistrationRepository.saveSet(higherEducationRegistrationSet, organization.id);
-        const higherEducationRegistrations = await knex('schooling-registrations').where({ organizationId: organization.id });
+        await higherSchoolingRegistrationRepository.saveSet(higherSchoolingRegistrationSet, organization.id);
+        const higherSchoolingRegistrations = await knex('schooling-registrations').where({ organizationId: organization.id });
 
-        expect(higherEducationRegistrations).to.have.lengthOf(1);
-        expect(higherEducationRegistrations[0].preferredLastName).to.equal(registration.preferredLastName);
+        expect(higherSchoolingRegistrations).to.have.lengthOf(1);
+        expect(higherSchoolingRegistrations[0].preferredLastName).to.equal(registration.preferredLastName);
       });
     });
 
@@ -140,7 +140,7 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
 
         await databaseBuilder.commit();
 
-        const higherEducationRegistrationSet = new HigherEducationRegistrationSet();
+        const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet();
         const registration = {
           firstName: 'firstName',
           lastName: 'lastName',
@@ -150,13 +150,13 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
           organizationId: organization.id,
         };
 
-        higherEducationRegistrationSet.addRegistration(registration);
+        higherSchoolingRegistrationSet.addRegistration(registration);
 
-        await higherEducationRegistrationRepository.saveSet(higherEducationRegistrationSet, organization.id);
+        await higherSchoolingRegistrationRepository.saveSet(higherSchoolingRegistrationSet, organization.id);
 
-        const higherEducationRegistrations = await knex('schooling-registrations').where({ preferredLastName: 'Sidewinder' });
+        const higherSchoolingRegistrations = await knex('schooling-registrations').where({ preferredLastName: 'Sidewinder' });
 
-        const organizationIds = higherEducationRegistrations.map(({ organizationId }) => organizationId);
+        const organizationIds = higherSchoolingRegistrations.map(({ organizationId }) => organizationId);
 
         expect(organizationIds).to.exactlyContain([organization.id, otherOrganization.id]);
       });
@@ -169,14 +169,14 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
     });
 
     context('when there is no other schooling registration with the same student number in the organization', () => {
-      it('should create higher education registration reconciled with user', async function() {
+      it('should create higher schooling registration reconciled with user', async function() {
         //given
         const organization = databaseBuilder.factory.buildOrganization();
         const userId = databaseBuilder.factory.buildUser().id;
 
         await databaseBuilder.commit();
 
-        const higherEducationRegistrationAttributes = {
+        const higherSchoolingRegistrationAttributes = {
           studentNumber: '123456',
           firstName: 'firstName',
           lastName: 'lastName',
@@ -184,15 +184,15 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
           organizationId: organization.id,
         };
 
-        const higherEducationRegistration = new HigherEducationRegistration(higherEducationRegistrationAttributes);
+        const higherSchoolingRegistration = new HigherSchoolingRegistration(higherSchoolingRegistrationAttributes);
 
         //when
-        await higherEducationRegistrationRepository.saveAndReconcile(higherEducationRegistration, userId);
+        await higherSchoolingRegistrationRepository.saveAndReconcile(higherSchoolingRegistration, userId);
 
         //then
-        const [createdHigherEducationRegistration] = await knex('schooling-registrations').where({ organizationId: organization.id });
-        expect(createdHigherEducationRegistration).to.contain(higherEducationRegistrationAttributes);
-        expect(createdHigherEducationRegistration.userId).to.equal(userId);
+        const [createdHigherSchoolingRegistration] = await knex('schooling-registrations').where({ organizationId: organization.id });
+        expect(createdHigherSchoolingRegistration).to.contain(higherSchoolingRegistrationAttributes);
+        expect(createdHigherSchoolingRegistration.userId).to.equal(userId);
       });
     });
     context('when there is another schooling registration with the same student number in the organization', () => {
@@ -204,7 +204,7 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
 
         await databaseBuilder.commit();
 
-        const higherEducationRegistrationAttributes = {
+        const higherSchoolingRegistrationAttributes = {
           studentNumber: '123456',
           firstName: 'firstName',
           lastName: 'lastName',
@@ -212,10 +212,10 @@ describe('Integration | Infrastructure | Repository | higher-education-registrat
           organizationId: organization.id,
         };
 
-        const higherEducationRegistration = new HigherEducationRegistration(higherEducationRegistrationAttributes);
+        const higherSchoolingRegistration = new HigherSchoolingRegistration(higherSchoolingRegistrationAttributes);
 
         //when
-        const error = await catchErr(higherEducationRegistrationRepository.saveAndReconcile)(higherEducationRegistration, userId);
+        const error = await catchErr(higherSchoolingRegistrationRepository.saveAndReconcile)(higherSchoolingRegistration, userId);
 
         //then
         expect(error).to.be.an.instanceOf(SchoolingRegistrationsCouldNotBeSavedError);
