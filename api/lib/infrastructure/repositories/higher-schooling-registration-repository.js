@@ -72,5 +72,5 @@ function _getBaseQueryForUpsert() {
   const update = ATTRIBUTES_TO_SAVE
     .map((key) => `"${key}" = EXCLUDED."${key}"`)
     .join(', ');
-  return `? ON CONFLICT ("organizationId", "studentNumber") DO UPDATE SET ${update}`;
+  return `? ON CONFLICT ("organizationId", "studentNumber") WHERE "isSupernumerary" IS FALSE DO UPDATE SET ${update}`;
 }
