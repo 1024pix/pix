@@ -102,7 +102,7 @@ class Challenge {
   }
 
   hasSkill(searchedSkill) {
-    return this.skills.filter((skill) => skill.name === searchedSkill.name).length > 0;
+    return this.skills.filter((skill) => skill.id === searchedSkill.id).length > 0;
   }
 
   get hardestSkill() {
@@ -111,19 +111,6 @@ class Challenge {
 
   testsAtLeastOneNewSkill(alreadyAssessedSkills) {
     return _(this.skills).differenceWith(alreadyAssessedSkills, Skill.areEqual).size() > 0;
-  }
-
-  hasAtLeastOneSkillTested(requiredSkills) {
-    return _.intersection(_.map(this.skills, 'name'), _.map(requiredSkills, 'name')).length !== 0;
-  }
-
-  haveAllSkillsAlreadyBeenTested(knowledgeElements, targetProfileSkills) {
-    const skillIdsAlreadyTested = _.map(knowledgeElements, 'skillId');
-    const targetProfileSkillsIds = _.map(targetProfileSkills, 'id');
-    const challengeSkillsIds = _.map(this.skills, 'id');
-    const challengeSkillsIdsInTargetProfile = _.intersection(challengeSkillsIds, targetProfileSkillsIds);
-
-    return _.every(challengeSkillsIdsInTargetProfile, _.includes.bind(null, skillIdsAlreadyTested));
   }
 
   static createValidatorForChallengeType({ challengeType, solution }) {
