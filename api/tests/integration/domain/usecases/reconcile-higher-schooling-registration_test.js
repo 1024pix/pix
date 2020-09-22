@@ -69,30 +69,63 @@ describe('Integration | UseCases | reconcile-higher-schooling-registration', () 
     });
 
     context('When no registered schooling registration found with student number', () => {
-      it('should create new supernumerary schooling registration with user info', async () => {
-        // given
-        const reconciliationInfo = {
-          userId,
-          studentNumber: '123',
-          firstName: 'firstname',
-          lastName: 'lastname',
-          birthdate: '2008-01-01',
-        };
+      context('When student number already exists in supernumerary', () => {
+        it('should create new supernumerary schooling registration with user info', async () => {
+          // given
+          const reconciliationInfo = {
+            userId,
+            studentNumber: '123',
+            firstName: 'other firstname',
+            lastName: 'other lastname',
+            birthdate: '2008-01-01',
+          };
+          const otherUserId = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildSchoolingRegistration({ ...reconciliationInfo, userId: otherUserId, isSupernumerary: true, organizationId });
+          await databaseBuilder.commit();
 
-        // when
-        await reconcileHigherSchoolingRegistration({
-          campaignCode,
-          reconciliationInfo,
-          campaignRepository,
-          higherSchoolingRegistrationRepository,
-          schoolingRegistrationRepository,
-          userReconciliationService,
+          // when
+          await reconcileHigherSchoolingRegistration({
+            campaignCode,
+            reconciliationInfo,
+            campaignRepository,
+            higherSchoolingRegistrationRepository,
+            schoolingRegistrationRepository,
+            userReconciliationService,
+          });
+
+          // then
+          const [schoolingRegistration] = await knex('schooling-registrations').where({ userId });
+          expect(schoolingRegistration.userId).to.equal(userId);
+          expect(schoolingRegistration.isSupernumerary).to.be.true;
         });
+      });
 
-        // then
-        const [schoolingRegistration] = await knex('schooling-registrations');
-        expect(schoolingRegistration.userId).to.equal(userId);
-        expect(schoolingRegistration.isSupernumerary).to.be.true;
+      context('When student number does not already exist in supernumerary', () => {
+        it('should create supernumerary schooling registration with user info', async () => {
+          // given
+          const reconciliationInfo = {
+            userId,
+            studentNumber: '123',
+            firstName: 'firstname',
+            lastName: 'lastname',
+            birthdate: '2008-01-01',
+          };
+
+          // when
+          await reconcileHigherSchoolingRegistration({
+            campaignCode,
+            reconciliationInfo,
+            campaignRepository,
+            higherSchoolingRegistrationRepository,
+            schoolingRegistrationRepository,
+            userReconciliationService,
+          });
+
+          // then
+          const [schoolingRegistration] = await knex('schooling-registrations');
+          expect(schoolingRegistration.userId).to.equal(userId);
+          expect(schoolingRegistration.isSupernumerary).to.be.true;
+        });
       });
     });
 
