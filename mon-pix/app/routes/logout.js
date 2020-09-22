@@ -11,6 +11,7 @@ export default class LogoutRoute extends Route {
   beforeModel() {
     const session = this.session;
     this.source = session.data.authenticated.source;
+    delete session.data.externalUser;
     if (session.get('isAuthenticated')) {
       return session.invalidate();
     }
