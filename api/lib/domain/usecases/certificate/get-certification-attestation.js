@@ -25,10 +25,10 @@ module.exports = async function getCertificationAttestation({
   });
 
   const formatedDeliveryDate = moment(certificationAttestation.deliveredAt).format('YYYYMMDD');
-  const fileBuffer = await certificationAttestationPdf.getCertificationAttestationPdfBuffer({ certificate: completeCertificate });
+  const fileUint8Array = await certificationAttestationPdf.getCertificationAttestationPdfBuffer({ certificate: completeCertificate });
 
   return {
     fileName: `attestation-pix-${formatedDeliveryDate}.pdf`,
-    fileBuffer,
+    fileUint8Array,
   };
 };

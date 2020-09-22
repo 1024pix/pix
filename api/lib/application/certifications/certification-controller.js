@@ -32,13 +32,16 @@ module.exports = {
     const certificationId = parseInt(request.params.id);
     const {
       fileName,
-      fileBuffer,
+      fileUint8Array,
     } = await usecases.getCertificationAttestation({
       userId,
       certificationId,
     });
 
-    return h.response(fileBuffer)
-      .header('Content-Disposition', `attachment; filename=${fileName}`);
+    const responseBuffer = Buffer.from(fileUint8Array);
+
+    return h.response(responseBuffer)
+      .header('Content-Disposition', `attachment; filename=${fileName}`)
+      .header('Content-type', 'application/pdf');
   },
 };

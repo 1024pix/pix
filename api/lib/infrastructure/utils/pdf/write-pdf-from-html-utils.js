@@ -1,53 +1,30 @@
-const puppeteer = require('puppeteer');
-const _ = require('lodash');
-const { promises: fs } = require('fs');
-
-const INTERPOLATE_REGEX = /{{([\s\S]+?)}}/g;
-
-async function getHtmlContentFromTemplate(templatePath, templateFileName, templateData) {
-  const template = await fs.readFile(`${templatePath}/${templateFileName}`, 'utf8');
-
-  _.templateSettings.interpolate = INTERPOLATE_REGEX;
-  const compiled = _.template(template);
-  const compiledWithData = compiled(templateData);
-  return compiledWithData;
-}
+const { PDFDocument } = require('pdf-lib');
+const fs = require('fs');
 
 async function getPdfBufferFromHtml({
   templatePath,
   templateFileName,
-  templateData,
-  pdfOptions = {
-    format: 'A4',
-    printBackground: true,
-  },
-  getHtmlContent = getHtmlContentFromTemplate,
+  // templateData,
 }) {
-  let browser;
-  let buffer;
+  const pdfDoc = await PDFDocument.create();
 
-  try {
-    browser = await puppeteer.launch({ headless: true, args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-    ] });
-    const page = await browser.newPage();
+  const path = `${templatePath}/${templateFileName}`;
 
-    const htmlContent = await getHtmlContent(templatePath, templateFileName, templateData);
-    await page.setContent(htmlContent);
-    buffer = await page.pdf(pdfOptions);
-  } catch (e) {
-    console.error({ e });
-    throw (e);
-  } finally {
-    // eslint-disable-next-line require-await
-    if (browser) browser.close();
-  }
+  const donorPdfBytes = fs.readFileSync(path);
 
-  return buffer;
+  const donorPdfDoc = await PDFDocument.load(donorPdfBytes);
+
+  const [page] = await pdfDoc.copyPages(donorPdfDoc, [0]);
+
+  pdfDoc.addPage(page);
+
+  // fs.writeFileSync('./toto.pdf', await pdfDoc.save());
+
+  const pdfBytes = await pdfDoc.save();
+
+  return pdfBytes;
 }
 
 module.exports = {
   getPdfBufferFromHtml,
-  getHtmlContentFromTemplate,
 };

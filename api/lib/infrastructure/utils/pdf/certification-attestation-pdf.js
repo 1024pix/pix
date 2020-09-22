@@ -10,9 +10,12 @@ module.exports = {
   async getCertificationAttestationPdfBuffer({
     certificate,
   }) {
+
+    const fileName = certificate.hasAcquiredCleaCertification ? 'attestation-pix-vierge-clea.pdf' : 'attestation-pix-vierge-sans-clea.pdf';
+
     return getPdfBufferFromHtml({
       templatePath: `${__dirname}/files`,
-      templateFileName: 'attestation-template.hbs',
+      templateFileName: fileName,
       templateData: {
         certificate: {
           ...certificate,
