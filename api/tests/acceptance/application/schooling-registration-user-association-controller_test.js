@@ -1214,7 +1214,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
     });
   });
 
-  describe('#updateStudentNumber', () => {
+  describe('PATCH /api/organizations/organizationId/schooling-registration-user-associations/schoolingRegistrationId', () => {
     let organizationId;
     const studentNumber = '54321';
     let schoolingRegistrationId;

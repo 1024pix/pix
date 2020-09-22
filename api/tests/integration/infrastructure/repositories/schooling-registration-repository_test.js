@@ -548,6 +548,51 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
     });
   });
 
+  describe('#findByOrganizationIdAndStudentNumber', () => {
+
+    let organization;
+    const studentNumber = '123A';
+
+    beforeEach(async () => {
+      organization = databaseBuilder.factory.buildOrganization();
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        studentNumber,
+        isSupernumerary: true,
+      });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        studentNumber,
+        isSupernumerary: true,
+      });
+      await databaseBuilder.commit();
+    });
+
+    it('should return found schoolingRegistrations with student number', async () => {
+      // when
+      const result = await schoolingRegistrationRepository.findByOrganizationIdAndStudentNumber({ organizationId: organization.id, studentNumber });
+
+      // then
+      expect(result.length).to.be.equal(2);
+    });
+
+    it('should return empty array with wrong student number', async () => {
+      // when
+      const result = await schoolingRegistrationRepository.findByOrganizationIdAndStudentNumber({ organizationId: organization.id, studentNumber: '123B' });
+
+      // then
+      expect(result.length).to.be.equal(0);
+    });
+
+    it('should return empty array with fake organizationId', async () => {
+      // when
+      const result = await schoolingRegistrationRepository.findByOrganizationIdAndStudentNumber({ organizationId: '999', studentNumber });
+
+      // then
+      expect(result.length).to.be.equal(0);
+    });
+  });
+
   describe('#dissociateUserAndSchoolingRegistration', () => {
 
     let schoolingRegistration;

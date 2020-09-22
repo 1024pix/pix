@@ -92,15 +92,11 @@ module.exports = {
 
   async updateStudentNumber(request, h) {
     const payload = request.payload.data.attributes;
-    const { userId } = request.auth.credentials;
-    const organizationId =  request.params.id;
+    const organizationId = request.params.id;
+    const studentNumber = payload['student-number'];
+    const schoolingRegistrationId = request.params.schoolingRegistrationId;
 
-    const student = {
-      id: request.params.studentId,
-      studentNumber: payload['student-number'],
-    };
-
-    await usecases.updateStudentNumber({ userId, student, organizationId });
+    await usecases.updateStudentNumber({ schoolingRegistrationId, studentNumber, organizationId });
     return h.response().code(204);
   },
 };

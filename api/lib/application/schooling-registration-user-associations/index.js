@@ -152,7 +152,7 @@ exports.register = async function(server) {
 
     {
       method: 'PATCH',
-      path: '/api/organizations/{id}/schooling-registration-user-associations/{studentId}',
+      path: '/api/organizations/{id}/schooling-registration-user-associations/{schoolingRegistrationId}',
       config: {
         pre: [{
           method: securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents,
@@ -165,7 +165,7 @@ exports.register = async function(server) {
           params:
             Joi.object({
               id: Joi.number().required(),
-              studentId: Joi.number().required(),
+              schoolingRegistrationId: Joi.number().required(),
             }),
           payload: Joi.object({
             data: {
@@ -176,13 +176,10 @@ exports.register = async function(server) {
           }),
           failAction: (request, h, err) => {
             const isStudentNumber = err.details[0].path.includes('student-number');
-
             if (isStudentNumber) {
               return sendJsonApiError(new UnprocessableEntityError('Un des champs saisis n’est pas valide.'), h);
             }
-
             return sendJsonApiError(new NotFoundError('Ressource non trouvée'), h);
-
           },
         },
         notes: [
