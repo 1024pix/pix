@@ -3,18 +3,27 @@ const CampaignAssessmentCsvLine = require('../../../../lib/infrastructure/utils/
 const campaignParticipationService = require('../../../../lib/domain/services/campaign-participation-service');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 
-const ORGANIZATION_NAME_COLUMN = 0;
-const CAMPAIGN_ID_COLUMN = 1;
-const CAMPAIGN_NAME_COLUMN = 2;
-const TARGET_PROFLILE_NAME_COLUMN = 3;
-const PARTICIPANT_LAST_NAME_COLUMN = 4;
-const PARTICIPANT_FIRST_NAME_COLUMN = 5;
-const EXTERNAL_ID_OR_STUDENT_NUMBER_COLUMN = 6;
-const PARTICIPATION_CREATED_AT_COLUMN = 7;
-const PARTICIPATION_IS_SHARED_COLUMN = 8;
-const PARTICIPATION_SHARED_AT_COLUMN = 9;
-const PARTICIPATION_PROGRESSION_COLUMN = 10;
-const OTHER_COLUMNS = 11;
+function _computeExpectedColumns(campaign, organization) {
+  const studentNumberPresenceModifier = (organization.type === 'SUP' && organization.isManagingStudents) ? 1 : 0;
+  const externalIdPresenceModifier = campaign.idPixLabel ? 1 : 0;
+
+  return {
+    ORGANIZATION_NAME: 0,
+    CAMPAIGN_ID: 1,
+    CAMPAIGN_NAME: 2,
+    TARGET_PROFILE_NAME: 3,
+    PARTICIPANT_LAST_NAME: 4,
+    PARTICIPANT_FIRST_NAME: 5,
+    STUDENT_NUMBER_COL: 6,
+    EXTERNAL_ID: 6 + studentNumberPresenceModifier,
+    PARTICIPATION_PROGRESSION: 6 + studentNumberPresenceModifier + externalIdPresenceModifier,
+    PARTICIPATION_CREATED_AT: 7 + studentNumberPresenceModifier + externalIdPresenceModifier,
+    PARTICIPATION_IS_SHARED: 8 + studentNumberPresenceModifier + externalIdPresenceModifier,
+    PARTICIPATION_SHARED_AT: 9 + studentNumberPresenceModifier + externalIdPresenceModifier,
+    PARTICIPATION_PERCENTAGE: 10 + studentNumberPresenceModifier + externalIdPresenceModifier,
+    DETAILS_START: 11 + studentNumberPresenceModifier + externalIdPresenceModifier,
+  };
+}
 
 describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
 
@@ -42,17 +51,18 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
       const csvLine = campaignAssessmentCsvLine.toCsvLine();
 
       // then
-      expect(csvLine[ORGANIZATION_NAME_COLUMN], 'organization name').to.equal(organization.name);
-      expect(csvLine[CAMPAIGN_ID_COLUMN], 'campaign id').to.equal(campaign.id);
-      expect(csvLine[CAMPAIGN_NAME_COLUMN], 'campaign name').to.equal(campaign.name);
-      expect(csvLine[TARGET_PROFLILE_NAME_COLUMN], 'target profile name').to.equal(targetProfile.name);
-      expect(csvLine[PARTICIPANT_LAST_NAME_COLUMN], 'participant last name').to.equal(campaignParticipationInfo.participantLastName);
-      expect(csvLine[PARTICIPANT_FIRST_NAME_COLUMN], 'participant first name').to.equal(campaignParticipationInfo.participantFirstName);
-      expect(csvLine[PARTICIPATION_CREATED_AT_COLUMN], 'participant created at').to.equal('2020-01-01');
-      expect(csvLine[PARTICIPATION_PROGRESSION_COLUMN], 'participation progression').to.equal(0);
+      const cols = _computeExpectedColumns(campaign, organization);
+      expect(csvLine[cols.ORGANIZATION_NAME], 'organization name').to.equal(organization.name);
+      expect(csvLine[cols.CAMPAIGN_ID], 'campaign id').to.equal(campaign.id);
+      expect(csvLine[cols.CAMPAIGN_NAME], 'campaign name').to.equal(campaign.name);
+      expect(csvLine[cols.TARGET_PROFILE_NAME], 'target profile name').to.equal(targetProfile.name);
+      expect(csvLine[cols.PARTICIPANT_LAST_NAME], 'participant last name').to.equal(campaignParticipationInfo.participantLastName);
+      expect(csvLine[cols.PARTICIPANT_FIRST_NAME], 'participant first name').to.equal(campaignParticipationInfo.participantFirstName);
+      expect(csvLine[cols.PARTICIPATION_CREATED_AT], 'participant created at').to.equal('2020-01-01');
+      expect(csvLine[cols.PARTICIPATION_PROGRESSION], 'participation progression').to.equal(0);
     });
 
-    context('on external id column', () => {
+    context('on student number column', () => {
       it('should write the student number when organization is of type SUP and campaign is restricted', () => {
         // given
         const organization = domainBuilder.buildOrganization({ type: 'SUP', isManagingStudents: true });
@@ -74,8 +84,12 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         const csvLine = campaignAssessmentCsvLine.toCsvLine();
 
         // then
-        expect(csvLine[EXTERNAL_ID_OR_STUDENT_NUMBER_COLUMN], 'student number').to.equal(campaignParticipationInfo.studentNumber);
+        const cols = _computeExpectedColumns(campaign, organization);
+        expect(csvLine[cols.STUDENT_NUMBER_COL], 'student number').to.equal(campaignParticipationInfo.studentNumber);
       });
+    });
+
+    context('on external id column', () => {
 
       it('should write the participantExternalId when campaign has an idPixLabel', () => {
         // given
@@ -98,7 +112,34 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         const csvLine = campaignAssessmentCsvLine.toCsvLine();
 
         // then
-        expect(csvLine[EXTERNAL_ID_OR_STUDENT_NUMBER_COLUMN], 'external id').to.equal(campaignParticipationInfo.participantExternalId);
+        const cols = _computeExpectedColumns(campaign, organization);
+        expect(csvLine[cols.EXTERNAL_ID], 'external id').to.equal(campaignParticipationInfo.participantExternalId);
+      });
+
+      it('should write the participantExternalId aside with the student number if student number is required', () => {
+        // given
+        const organization = domainBuilder.buildOrganization({ type: 'SUP', isManagingStudents: true });
+        const campaign = domainBuilder.buildCampaign({ idPixLabel: 'I Have One !' });
+        const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ studentNumber: 'someStudentNumber', participantExternalId: 'someParticipantExternalId' });
+        const targetProfile = domainBuilder.buildTargetProfile({ skills: [] });
+        const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
+          organization,
+          campaign,
+          areas: [],
+          competences: [],
+          campaignParticipationInfo,
+          targetProfile,
+          participantKnowledgeElementsByCompetenceId: [],
+          campaignParticipationService,
+        });
+
+        // when
+        const csvLine = campaignAssessmentCsvLine.toCsvLine();
+
+        // then
+        const cols = _computeExpectedColumns(campaign, organization);
+        expect(csvLine[cols.EXTERNAL_ID], 'external id').to.equal(campaignParticipationInfo.participantExternalId);
+        expect(csvLine[cols.STUDENT_NUMBER_COL], 'student number').to.equal(campaignParticipationInfo.studentNumber);
       });
     });
 
@@ -133,26 +174,27 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         const csvLine = campaignAssessmentCsvLine.toCsvLine();
 
         // then
+        const cols = _computeExpectedColumns(campaign, organization);
         const EMPTY_CONTENT = 'NA';
-        expect(csvLine[PARTICIPATION_IS_SHARED_COLUMN], 'is shared').to.equal('Non');
-        expect(csvLine[PARTICIPATION_SHARED_AT_COLUMN], 'shared at').to.equal(EMPTY_CONTENT);
-        expect(csvLine[PARTICIPATION_PROGRESSION_COLUMN], 'participation progression').to.equal(EMPTY_CONTENT);
+        expect(csvLine[cols.PARTICIPATION_IS_SHARED], 'is shared').to.equal('Non');
+        expect(csvLine[cols.PARTICIPATION_SHARED_AT], 'shared at').to.equal(EMPTY_CONTENT);
+        expect(csvLine[cols.PARTICIPATION_PERCENTAGE], 'participation percentage').to.equal(EMPTY_CONTENT);
 
-        let currentColumn = OTHER_COLUMNS;
-        const STAT_COLUMNS_COUNT = 3;
+        let currentColumn = cols.DETAILS_START;
+        const STAT_COLS_COUNT = 3;
         for (let i = 0; i < competences.length; ++i) {
           expect(csvLine[currentColumn + i], '% maitrise de la competence').to.equal(EMPTY_CONTENT);
           expect(csvLine[currentColumn + i + 1], 'nb acquis compétence').to.equal(EMPTY_CONTENT);
           expect(csvLine[currentColumn + i + 2], 'nb acquis validés dans la compétence').to.equal(EMPTY_CONTENT);
         }
-        currentColumn = currentColumn + competences.length * STAT_COLUMNS_COUNT;
+        currentColumn = currentColumn + competences.length * STAT_COLS_COUNT;
 
         for (let i = 0; i < areas.length; ++i) {
           expect(csvLine[currentColumn + i], '% maitrise du domaine').to.equal(EMPTY_CONTENT);
           expect(csvLine[currentColumn + i + 1], 'nb acquis domaine').to.equal(EMPTY_CONTENT);
           expect(csvLine[currentColumn + i + 2], 'nb acquis validés dans le domaine').to.equal(EMPTY_CONTENT);
         }
-        currentColumn = currentColumn + areas.length * STAT_COLUMNS_COUNT;
+        currentColumn = currentColumn + areas.length * STAT_COLS_COUNT;
 
         for (let i = 0; i < targetProfile.skills.length; ++i) {
           expect(csvLine[currentColumn + i], 'statut acquis').to.equal(EMPTY_CONTENT);
@@ -226,11 +268,12 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         const csvLine = campaignAssessmentCsvLine.toCsvLine();
 
         // then
-        expect(csvLine[PARTICIPATION_IS_SHARED_COLUMN], 'is shared').to.equal('Oui');
-        expect(csvLine[PARTICIPATION_SHARED_AT_COLUMN], 'shared at').to.equal('2020-01-01');
-        expect(csvLine[PARTICIPATION_PROGRESSION_COLUMN], 'participation progression').to.equal(0.6);
+        const cols = _computeExpectedColumns(campaign, organization);
+        expect(csvLine[cols.PARTICIPATION_IS_SHARED], 'is shared').to.equal('Oui');
+        expect(csvLine[cols.PARTICIPATION_SHARED_AT], 'shared at').to.equal('2020-01-01');
+        expect(csvLine[cols.PARTICIPATION_PERCENTAGE], 'participation percentage').to.equal(0.6);
 
-        let currentColumn = OTHER_COLUMNS;
+        let currentColumn = cols.DETAILS_START;
         // First competence
         expect(csvLine[currentColumn++], '% maitrise de la competence').to.equal(0.5);
         expect(csvLine[currentColumn++], 'nb acquis compétence').to.equal(2);
