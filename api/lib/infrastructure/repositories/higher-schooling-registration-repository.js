@@ -23,10 +23,10 @@ const ATTRIBUTES_TO_SAVE = [
 
 module.exports = {
 
-  async saveAndReconcile(higherEducationRegistration, userId) {
+  async saveAndReconcile(higherSchoolingRegistration, userId) {
     try {
-      const registrationToSave = _.pick(higherEducationRegistration, ATTRIBUTES_TO_SAVE);
-      registrationToSave.status = higherEducationRegistration.studyScheme;
+      const registrationToSave = _.pick(higherSchoolingRegistration, ATTRIBUTES_TO_SAVE);
+      registrationToSave.status = higherSchoolingRegistration.studyScheme;
       registrationToSave.userId = userId;
 
       await knex('schooling-registrations').insert({ ...registrationToSave });
@@ -35,8 +35,8 @@ module.exports = {
     }
   },
 
-  saveSet(higherEducationRegistrationSet) {
-    const registrationDataToSave = higherEducationRegistrationSet.registrations.map((registration) => {
+  saveSet(higherSchoolingRegistrationSet) {
+    const registrationDataToSave = higherSchoolingRegistrationSet.registrations.map((registration) => {
       const registrationToSave = _.pick(registration, ATTRIBUTES_TO_SAVE);
       registrationToSave.status = registration.studyScheme;
       return registrationToSave;

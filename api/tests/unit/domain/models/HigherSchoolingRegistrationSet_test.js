@@ -1,14 +1,14 @@
-const HigherEducationRegistrationSet = require('../../../../lib/domain/models/HigherEducationRegistrationSet');
+const HigherSchoolingRegistrationSet = require('../../../../lib/domain/models/HigherSchoolingRegistrationSet');
 const { expect, catchErr } = require('../../../test-helper');
 const {  EntityValidationError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Domain | Models | HigherEducationRegistrationSet', () => {
+describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', () => {
 
   context('#addRegistration', () => {
     context('when set has no registration', () => {
       it('creates the first registration of the set', () => {
 
-        const higherEducationRegistrationSet = new HigherEducationRegistrationSet();
+        const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet();
         const registrationAttributes = {
           firstName: 'Beatrix',
           middleName: 'The',
@@ -27,8 +27,8 @@ describe('Unit | Domain | Models | HigherEducationRegistrationSet', () => {
           isSupernumerary: false,
         };
 
-        higherEducationRegistrationSet.addRegistration(registrationAttributes);
-        const registrations = higherEducationRegistrationSet.registrations;
+        higherSchoolingRegistrationSet.addRegistration(registrationAttributes);
+        const registrations = higherSchoolingRegistrationSet.registrations;
 
         expect(registrations).to.have.lengthOf(1);
         expect(registrations[0]).to.deep.equal(registrationAttributes);
@@ -38,7 +38,7 @@ describe('Unit | Domain | Models | HigherEducationRegistrationSet', () => {
     context('when set has registrations', () => {
       it('creates the a new registration for the set', () => {
 
-        const higherEducationRegistrationSet = new HigherEducationRegistrationSet();
+        const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet();
         const registration1 = {
           firstName: 'Beatrix',
           middleName: 'The',
@@ -75,9 +75,9 @@ describe('Unit | Domain | Models | HigherEducationRegistrationSet', () => {
           isSupernumerary: false,
         };
 
-        higherEducationRegistrationSet.addRegistration(registration1);
-        higherEducationRegistrationSet.addRegistration(registration2);
-        const registrations = higherEducationRegistrationSet.registrations;
+        higherSchoolingRegistrationSet.addRegistration(registration1);
+        higherSchoolingRegistrationSet.addRegistration(registration2);
+        const registrations = higherSchoolingRegistrationSet.registrations;
 
         expect(registrations).to.have.lengthOf(2);
         expect(registrations[1]).to.deep.equal(registration2);
@@ -87,14 +87,14 @@ describe('Unit | Domain | Models | HigherEducationRegistrationSet', () => {
     context('when a registration is not valid', () => {
       it('throws an error', async () => {
 
-        const higherEducationRegistrationSet = new HigherEducationRegistrationSet();
+        const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet();
         const registration = {
           firstName: null,
           lastName: 'Kiddo',
           birthdate: new Date('1980-07-01'),
         };
 
-        const addRegistration = higherEducationRegistrationSet.addRegistration.bind(higherEducationRegistrationSet);
+        const addRegistration = higherSchoolingRegistrationSet.addRegistration.bind(higherSchoolingRegistrationSet);
         const error = await catchErr(addRegistration)(registration);
 
         expect(error).to.be.instanceOf(EntityValidationError);
@@ -104,7 +104,7 @@ describe('Unit | Domain | Models | HigherEducationRegistrationSet', () => {
     context('when there is a registration with the same student number', () => {
       it('throws an error', async () => {
 
-        const higherEducationRegistrationSet = new HigherEducationRegistrationSet();
+        const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet();
         const registration1 = {
           firstName: 'Beatrix',
           lastName: 'Kiddo',
@@ -119,9 +119,9 @@ describe('Unit | Domain | Models | HigherEducationRegistrationSet', () => {
           studentNumber: '123ABC',
           organizationId: 123,
         };
-        await higherEducationRegistrationSet.addRegistration(registration1);
+        await higherSchoolingRegistrationSet.addRegistration(registration1);
 
-        const error = await catchErr(higherEducationRegistrationSet.addRegistration, higherEducationRegistrationSet)(registration2);
+        const error = await catchErr(higherSchoolingRegistrationSet.addRegistration, higherSchoolingRegistrationSet)(registration2);
 
         expect(error).to.be.instanceOf(EntityValidationError);
         expect(error.key).to.equal('studentNumber');

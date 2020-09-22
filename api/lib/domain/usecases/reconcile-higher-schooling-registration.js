@@ -1,5 +1,5 @@
 const { NotFoundError } = require('../errors');
-const HigherEducationRegistration = require('../models/HigherEducationRegistration');
+const HigherSchoolingRegistration = require('../models/HigherSchoolingRegistration');
 
 module.exports = async function reconcileHigherSchoolingRegistration({
   campaignCode,
@@ -11,7 +11,7 @@ module.exports = async function reconcileHigherSchoolingRegistration({
     birthdate,
   },
   campaignRepository,
-  higherEducationRegistrationRepository,
+  higherSchoolingRegistrationRepository,
   schoolingRegistrationRepository,
   userReconciliationService,
 }) {
@@ -30,8 +30,8 @@ module.exports = async function reconcileHigherSchoolingRegistration({
   let newHigherSchoolingRegistration;
 
   if (!studentNumber) {
-    newHigherSchoolingRegistration = new HigherEducationRegistration(supernumeraryHigherSchoolingRegistrationAttributes);
-    return higherEducationRegistrationRepository.saveAndReconcile(newHigherSchoolingRegistration, userId);
+    newHigherSchoolingRegistration = new HigherSchoolingRegistration(supernumeraryHigherSchoolingRegistrationAttributes);
+    return higherSchoolingRegistrationRepository.saveAndReconcile(newHigherSchoolingRegistration, userId);
   }
 
   const foundSchoolingRegistration = await schoolingRegistrationRepository.findOneRegisteredByOrganizationIdAndUserData({
@@ -40,11 +40,11 @@ module.exports = async function reconcileHigherSchoolingRegistration({
   });
 
   if (!foundSchoolingRegistration) {
-    newHigherSchoolingRegistration = new HigherEducationRegistration({
+    newHigherSchoolingRegistration = new HigherSchoolingRegistration({
       ...supernumeraryHigherSchoolingRegistrationAttributes,
       studentNumber,
     });
-    return higherEducationRegistrationRepository.saveAndReconcile(newHigherSchoolingRegistration, userId);
+    return higherSchoolingRegistrationRepository.saveAndReconcile(newHigherSchoolingRegistration, userId);
   }
 
   const matchedSchoolingRegistration = await userReconciliationService.findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser({

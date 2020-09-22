@@ -675,7 +675,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
       return knex('schooling-registrations').delete();
     });
 
-    it('should return an 204 status after creating higher education registration', async () => {
+    it('should return an 204 status after creating higher schooling registration', async () => {
       // given
       options.headers.authorization = generateValidRequestAuthorizationHeader(user.id);
       options.payload.data = {
@@ -1229,7 +1229,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
       databaseBuilder.factory.buildMembership({ organizationId, userId: user.id, organizationRole: Membership.roles.ADMIN });
       await databaseBuilder.commit();
     });
-    
+
     context('Success cases', () => {
 
       it('should return an HTTP response with status code 204', async () => {
