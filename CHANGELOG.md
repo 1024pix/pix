@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## v2.199.0 (22/09/2020)
+
+- [#1896](https://github.com/1024pix/pix/pull/1896) [BUGFIX] Gérer l'erreur date de naissance obligatoire lors de l'import des élèves d'une organisation SUP (PIX-1257).
+- [#1888](https://github.com/1024pix/pix/pull/1888) [BUGFIX] Crash lorsqu'on consulte les résultats de campagne d'un participant qui ne s'est pas positionné sur toutes les compétences (PIX-1282)
+- [#1828](https://github.com/1024pix/pix/pull/1828) [TECH] Réorganiser les routes et les composants de Pix Orga.
+- [#1885](https://github.com/1024pix/pix/pull/1885) [TECH] Ajouter le dot reporter aux scripts de tests pour Pix Orga, Pix Certif et Pix Admin.
+- [#1849](https://github.com/1024pix/pix/pull/1849) [TECH] Conversion de tests unitaires de repositories en tests d'intégration (PIX-1236)
+
 ## v2.198.0 (18/09/2020)
 
 - [#1886](https://github.com/1024pix/pix/pull/1886) [FEATURE] Permettre la modification de l'accès ou non à la fonctionnalité de collecte de profils depuis Pix Admin (PIX-1288).
