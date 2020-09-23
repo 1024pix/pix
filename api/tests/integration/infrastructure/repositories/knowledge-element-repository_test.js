@@ -1,7 +1,6 @@
 const _ = require('lodash');
 const moment = require('moment');
-const { expect, knex, domainBuilder, databaseBuilder, airtableBuilder, sinon } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
+const { expect, knex, domainBuilder, databaseBuilder, sinon } = require('../../../test-helper');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const knowledgeElementSnapshotRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
@@ -848,8 +847,6 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
   describe('#findValidatedTargetedGroupedByCompetencesForUsers', () => {
 
     afterEach(() => {
-      airtableBuilder.cleanAll();
-      cache.flushAll();
       return knex('knowledge-element-snapshots').delete();
     });
 
@@ -861,12 +858,6 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       const skill1 = domainBuilder.buildSkill({ id: 'skill1', competenceId: competence1.id });
       const skill2 = domainBuilder.buildSkill({ id: 'skill2', competenceId: competence1.id });
       const skill3 = domainBuilder.buildSkill({ id: 'skill2', competenceId: competence2.id });
-      const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence1 });
-      const airtableCompetence2 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence2 });
-      const airtableSkill1 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill1 });
-      const airtableSkill2 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill2 });
-      const airtableSkill3 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill3 });
-      airtableBuilder.mockLists({ skills: [airtableSkill1, airtableSkill2, airtableSkill3], competence: [airtableCompetence1, airtableCompetence2] });
       // Other data
       const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1, skill2, skill3] });
       const userId1 = databaseBuilder.factory.buildUser().id;
@@ -900,9 +891,6 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       // Learning content
       const competence = domainBuilder.buildCompetence({ skillIds: ['skill1'] });
       const skill = domainBuilder.buildSkill({ id: 'skill1', competenceId: competence.id });
-      const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence });
-      const airtableSkill1 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill });
-      airtableBuilder.mockLists({ skills: [airtableSkill1], competence: [airtableCompetence1] });
       // Other data
       const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
       const userId = databaseBuilder.factory.buildUser().id;
@@ -928,9 +916,6 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
           // Learning content
           const competence = domainBuilder.buildCompetence({ skillIds: ['skill1'] });
           const skill = domainBuilder.buildSkill({ id: 'skill1', competenceId: competence.id });
-          const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence });
-          const airtableSkill1 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill });
-          airtableBuilder.mockLists({ skills: [airtableSkill1], competence: [airtableCompetence1] });
           // Other data
           const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
           const userId = databaseBuilder.factory.buildUser().id;
@@ -952,9 +937,6 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
           // Learning content
           const competence = domainBuilder.buildCompetence({ skillIds: ['skill1'] });
           const skill = domainBuilder.buildSkill({ id: 'skill1', competenceId: competence.id });
-          const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence });
-          const airtableSkill1 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill });
-          airtableBuilder.mockLists({ skills: [airtableSkill1], competence: [airtableCompetence1] });
           // Other data
           const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
           const userId = databaseBuilder.factory.buildUser().id;
@@ -977,9 +959,6 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
           // Learning content
           const competence = domainBuilder.buildCompetence({ skillIds: ['skill1'] });
           const skill = domainBuilder.buildSkill({ id: 'skill1', competenceId: competence.id });
-          const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence });
-          const airtableSkill1 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill });
-          airtableBuilder.mockLists({ skills: [airtableSkill1], competence: [airtableCompetence1] });
           // Other data
           const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
           const userId = databaseBuilder.factory.buildUser().id;
@@ -1000,9 +979,6 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
           // Learning content
           const competence = domainBuilder.buildCompetence({ skillIds: ['skill1'] });
           const skill = domainBuilder.buildSkill({ id: 'skill1', competenceId: competence.id });
-          const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence });
-          const airtableSkill1 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill });
-          airtableBuilder.mockLists({ skills: [airtableSkill1], competence: [airtableCompetence1] });
           // Other data
           const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
           const userId = databaseBuilder.factory.buildUser().id;
@@ -1025,10 +1001,6 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       const competence = domainBuilder.buildCompetence({ skillIds: ['skill1'] });
       const skill1 = domainBuilder.buildSkill({ id: 'skill1', competenceId: competence.id });
       const skill2 = domainBuilder.buildSkill({ id: 'skill2', competenceId: competence.id });
-      const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence });
-      const airtableSkill1 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill1 });
-      const airtableSkill2 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill2 });
-      airtableBuilder.mockLists({ skills: [airtableSkill1, airtableSkill2], competence: [airtableCompetence1] });
       // Other data
       const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1] });
       const userId = databaseBuilder.factory.buildUser().id;
@@ -1050,9 +1022,6 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       // Learning content
       const competence = domainBuilder.buildCompetence({ skillIds: ['skill1'] });
       const skill1 = domainBuilder.buildSkill({ id: 'skill1', competenceId: competence.id });
-      const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence });
-      const airtableSkill1 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill1 });
-      airtableBuilder.mockLists({ skills: [airtableSkill1], competence: [airtableCompetence1] });
       // Other data
       const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1] });
       const userId = databaseBuilder.factory.buildUser().id;
@@ -1074,9 +1043,6 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       // Learning content
       const competence1 = domainBuilder.buildCompetence({ skillIds: ['skill1'] });
       const skill1 = domainBuilder.buildSkill({ id: 'skill1', competenceId: competence1.id });
-      const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence1 });
-      const airtableSkill1 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill1 });
-      airtableBuilder.mockLists({ skills: [airtableSkill1], competence: [airtableCompetence1] });
       // Other data
       const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1] });
       const userId = databaseBuilder.factory.buildUser().id;
@@ -1096,27 +1062,25 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
   describe('#findTargetedGroupedByCompetencesForUsers', () => {
 
     afterEach(() => {
-      airtableBuilder.cleanAll();
-      cache.flushAll();
       return knex('knowledge-element-snapshots').delete();
     });
 
     it('should return knowledge elements within respective dates grouped by userId the competenceId within target profile of campaign', async () => {
       // given
-      // Learning content
-      const competence1 = domainBuilder.buildCompetence({ skillIds: ['skill1', 'skill2'] });
-      const competence2 = domainBuilder.buildCompetence({ skillIds: ['skill3'] });
-      const skill1 = domainBuilder.buildSkill({ id: 'skill1', competenceId: competence1.id });
-      const skill2 = domainBuilder.buildSkill({ id: 'skill2', competenceId: competence1.id });
-      const skill3 = domainBuilder.buildSkill({ id: 'skill2', competenceId: competence2.id });
-      const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence1 });
-      const airtableCompetence2 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence2 });
-      const airtableSkill1 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill1 });
-      const airtableSkill2 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill2 });
-      const airtableSkill3 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill3 });
-      airtableBuilder.mockLists({ skills: [airtableSkill1, airtableSkill2, airtableSkill3], competence: [airtableCompetence1, airtableCompetence2] });
-      // Other data
-      const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1, skill2, skill3] });
+      const skill1 = domainBuilder.buildTargetedSkill({ id: 'skill1', tubeId: 'tube1' });
+      const skill2 = domainBuilder.buildTargetedSkill({ id: 'skill2', tubeId: 'tube1' });
+      const skill3 = domainBuilder.buildTargetedSkill({ id: 'skill3', tubeId: 'tube2' });
+      const tube1 = domainBuilder.buildTargetedTube({ id: 'tube1', skills: [skill1, skill2], competenceId: 'competence1' });
+      const tube2 = domainBuilder.buildTargetedTube({ id: 'tube1', skills: [skill3], competenceId: 'competence2' });
+      const competence1 = domainBuilder.buildTargetedCompetence({ id: 'competence1', tubes: [tube1], areaId: 'area1' });
+      const competence2 = domainBuilder.buildTargetedCompetence({ id: 'competence2', tubes: [tube2], areaId: 'area1' });
+      const area = domainBuilder.buildTargetedArea({ id: 'area1', competences: [competence1, competence2] });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill1, skill2, skill3],
+        tubes: [tube1, tube2],
+        competences: [competence1, competence2],
+        areas: [area],
+      });
       const userId1 = databaseBuilder.factory.buildUser().id;
       const userId2 = databaseBuilder.factory.buildUser().id;
       const dateUserId1 = new Date('2020-01-03');
@@ -1145,14 +1109,16 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
     it('should return the knowledge elements in the snapshot when user has a snapshot for this date', async () => {
       // given
-      // Learning content
-      const competence = domainBuilder.buildCompetence({ skillIds: ['skill1'] });
-      const skill = domainBuilder.buildSkill({ id: 'skill1', competenceId: competence.id });
-      const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence });
-      const airtableSkill1 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill });
-      airtableBuilder.mockLists({ skills: [airtableSkill1], competence: [airtableCompetence1] });
-      // Other data
-      const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
+      const skill = domainBuilder.buildTargetedSkill({ id: 'skill', tubeId: 'tube' });
+      const tube = domainBuilder.buildTargetedTube({ id: 'tube', skills: [skill], competenceId: 'competence' });
+      const competence = domainBuilder.buildTargetedCompetence({ id: 'competence', tubes: [tube], areaId: 'area' });
+      const area = domainBuilder.buildTargetedArea({ id: 'area', competences: [competence] });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill],
+        tubes: [tube],
+        competences: [competence],
+        areas: [area],
+      });
       const userId = databaseBuilder.factory.buildUser().id;
       const dateUserId = new Date('2020-01-03');
       const knowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId, competenceId: competence.id, skillId: skill.id });
@@ -1173,14 +1139,16 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
         it('should return the knowledge elements with limit date as now', async () => {
           // given
-          // Learning content
-          const competence = domainBuilder.buildCompetence({ skillIds: ['skill1'] });
-          const skill = domainBuilder.buildSkill({ id: 'skill1', competenceId: competence.id });
-          const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence });
-          const airtableSkill1 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill });
-          airtableBuilder.mockLists({ skills: [airtableSkill1], competence: [airtableCompetence1] });
-          // Other data
-          const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
+          const skill = domainBuilder.buildTargetedSkill({ id: 'skill', tubeId: 'tube' });
+          const tube = domainBuilder.buildTargetedTube({ id: 'tube', skills: [skill], competenceId: 'competence' });
+          const competence = domainBuilder.buildTargetedCompetence({ id: 'competence', tubes: [tube], areaId: 'area' });
+          const area = domainBuilder.buildTargetedArea({ id: 'area', competences: [competence] });
+          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+            skills: [skill],
+            tubes: [tube],
+            competences: [competence],
+            areas: [area],
+          });
           const userId = databaseBuilder.factory.buildUser().id;
           const expectedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2018-01-01'), competenceId: competence.id, skillId: skill.id });
           await databaseBuilder.commit();
@@ -1197,14 +1165,16 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
         it('should not trigger snapshotting', async () => {
           // given
-          // Learning content
-          const competence = domainBuilder.buildCompetence({ skillIds: ['skill1'] });
-          const skill = domainBuilder.buildSkill({ id: 'skill1', competenceId: competence.id });
-          const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence });
-          const airtableSkill1 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill });
-          airtableBuilder.mockLists({ skills: [airtableSkill1], competence: [airtableCompetence1] });
-          // Other data
-          const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
+          const skill = domainBuilder.buildTargetedSkill({ id: 'skill', tubeId: 'tube' });
+          const tube = domainBuilder.buildTargetedTube({ id: 'tube', skills: [skill], competenceId: 'competence' });
+          const competence = domainBuilder.buildTargetedCompetence({ id: 'competence', tubes: [tube], areaId: 'area' });
+          const area = domainBuilder.buildTargetedArea({ id: 'area', competences: [competence] });
+          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+            skills: [skill],
+            tubes: [tube],
+            competences: [competence],
+            areas: [area],
+          });
           const userId = databaseBuilder.factory.buildUser().id;
           databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2018-01-01'), competenceId: competence.id, skillId: skill.id });
           await databaseBuilder.commit();
@@ -1222,14 +1192,16 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
         it('should return the knowledge elements at date', async () => {
           // given
-          // Learning content
-          const competence = domainBuilder.buildCompetence({ skillIds: ['skill1'] });
-          const skill = domainBuilder.buildSkill({ id: 'skill1', competenceId: competence.id });
-          const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence });
-          const airtableSkill1 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill });
-          airtableBuilder.mockLists({ skills: [airtableSkill1], competence: [airtableCompetence1] });
-          // Other data
-          const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
+          const skill = domainBuilder.buildTargetedSkill({ id: 'skill', tubeId: 'tube' });
+          const tube = domainBuilder.buildTargetedTube({ id: 'tube', skills: [skill], competenceId: 'competence' });
+          const competence = domainBuilder.buildTargetedCompetence({ id: 'competence', tubes: [tube], areaId: 'area' });
+          const area = domainBuilder.buildTargetedArea({ id: 'area', competences: [competence] });
+          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+            skills: [skill],
+            tubes: [tube],
+            competences: [competence],
+            areas: [area],
+          });
           const userId = databaseBuilder.factory.buildUser().id;
           const expectedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2018-01-01'), competenceId: competence.id, skillId: skill.id });
           await databaseBuilder.commit();
@@ -1246,13 +1218,16 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         it('should save a snasphot', async () => {
           // given
           // Learning content
-          const competence = domainBuilder.buildCompetence({ skillIds: ['skill1'] });
-          const skill = domainBuilder.buildSkill({ id: 'skill1', competenceId: competence.id });
-          const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence });
-          const airtableSkill1 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill });
-          airtableBuilder.mockLists({ skills: [airtableSkill1], competence: [airtableCompetence1] });
-          // Other data
-          const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
+          const skill = domainBuilder.buildTargetedSkill({ id: 'skill', tubeId: 'tube' });
+          const tube = domainBuilder.buildTargetedTube({ id: 'tube', skills: [skill], competenceId: 'competence' });
+          const competence = domainBuilder.buildTargetedCompetence({ id: 'competence', tubes: [tube], areaId: 'area' });
+          const area = domainBuilder.buildTargetedArea({ id: 'area', competences: [competence] });
+          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+            skills: [skill],
+            tubes: [tube],
+            competences: [competence],
+            areas: [area],
+          });
           const userId = databaseBuilder.factory.buildUser().id;
           databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2018-01-01'), competenceId: competence.id, skillId: skill.id });
           await databaseBuilder.commit();
@@ -1269,18 +1244,18 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
     it('should avoid returning non targeted knowledge elements when there are knowledge elements that are not in the target profile', async () => {
       // given
-      // Learning content
-      const competence = domainBuilder.buildCompetence({ skillIds: ['skill1'] });
-      const skill1 = domainBuilder.buildSkill({ id: 'skill1', competenceId: competence.id });
-      const skill2 = domainBuilder.buildSkill({ id: 'skill2', competenceId: competence.id });
-      const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence });
-      const airtableSkill1 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill1 });
-      const airtableSkill2 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill2 });
-      airtableBuilder.mockLists({ skills: [airtableSkill1, airtableSkill2], competence: [airtableCompetence1] });
-      // Other data
-      const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1] });
+      const skill = domainBuilder.buildTargetedSkill({ id: 'skill', tubeId: 'tube' });
+      const tube = domainBuilder.buildTargetedTube({ id: 'tube', skills: [skill], competenceId: 'competence' });
+      const competence = domainBuilder.buildTargetedCompetence({ id: 'competence', tubes: [tube], areaId: 'area' });
+      const area = domainBuilder.buildTargetedArea({ id: 'area', competences: [competence] });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill],
+        tubes: [tube],
+        competences: [competence],
+        areas: [area],
+      });
       const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2018-01-01'), competenceId: competence.id, skillId: skill2.id });
+      databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2018-01-01'), competenceId: competence.id, skillId: 'otherSkill' });
       await databaseBuilder.commit();
 
       // when
@@ -1295,16 +1270,18 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
     it('should even return non validated knowledge elements', async () => {
       // given
-      // Learning content
-      const competence = domainBuilder.buildCompetence({ skillIds: ['skill1'] });
-      const skill1 = domainBuilder.buildSkill({ id: 'skill1', competenceId: competence.id });
-      const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence });
-      const airtableSkill1 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill1 });
-      airtableBuilder.mockLists({ skills: [airtableSkill1], competence: [airtableCompetence1] });
-      // Other data
-      const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1] });
+      const skill = domainBuilder.buildTargetedSkill({ id: 'skill', tubeId: 'tube' });
+      const tube = domainBuilder.buildTargetedTube({ id: 'tube', skills: [skill], competenceId: 'competence' });
+      const competence = domainBuilder.buildTargetedCompetence({ id: 'competence', tubes: [tube], areaId: 'area' });
+      const area = domainBuilder.buildTargetedArea({ id: 'area', competences: [competence] });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill],
+        tubes: [tube],
+        competences: [competence],
+        areas: [area],
+      });
       const userId = databaseBuilder.factory.buildUser().id;
-      const expectedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2018-01-01'), competenceId: competence.id, skillId: skill1.id, status: 'invalidated' });
+      const expectedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2018-01-01'), competenceId: competence.id, skillId: skill.id, status: 'invalidated' });
       await databaseBuilder.commit();
 
       // when
@@ -1319,14 +1296,16 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
     it('should return an empty array on competence that does not have any targeted knowledge elements', async () => {
       // given
-      // Learning content
-      const competence1 = domainBuilder.buildCompetence({ skillIds: ['skill1'] });
-      const skill1 = domainBuilder.buildSkill({ id: 'skill1', competenceId: competence1.id });
-      const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence1 });
-      const airtableSkill1 = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: skill1 });
-      airtableBuilder.mockLists({ skills: [airtableSkill1], competence: [airtableCompetence1] });
-      // Other data
-      const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1] });
+      const skill = domainBuilder.buildTargetedSkill({ id: 'skill', tubeId: 'tube' });
+      const tube = domainBuilder.buildTargetedTube({ id: 'tube', skills: [skill], competenceId: 'competence' });
+      const competence = domainBuilder.buildTargetedCompetence({ id: 'competence', tubes: [tube], areaId: 'area' });
+      const area = domainBuilder.buildTargetedArea({ id: 'area', competences: [competence] });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill],
+        tubes: [tube],
+        competences: [competence],
+        areas: [area],
+      });
       const userId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
 
@@ -1336,7 +1315,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
       // then
       expect(knowledgeElementsByUserIdAndCompetenceId[userId]).to.deep.equal({
-        [competence1.id]: [],
+        [competence.id]: [],
       });
     });
   });
