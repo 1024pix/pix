@@ -21,17 +21,17 @@ module.exports = class DatabaseBuilder {
       this._setTableAsDirty(objectToInsert.tableName);
     }
     this.databaseBuffer.objectsToInsert = [];
-    this.databaseBuffer.tablesToDelete = this._selectDirtyTables();
     return trx.commit();
   }
 
   async clean() {
     let rawQuery = '';
-    _.times(this.databaseBuffer.tablesToDelete.length, () => {
+    const tablesToDelete = this._selectDirtyTables();
+    _.times(tablesToDelete.length, () => {
       rawQuery += 'DELETE FROM ??;';
     });
     if (rawQuery !== '') {
-      await this.knex.raw(rawQuery, this.databaseBuffer.tablesToDelete);
+      await this.knex.raw(rawQuery, tablesToDelete);
     }
     this.databaseBuffer.purge();
     this._purgeDirtiness();

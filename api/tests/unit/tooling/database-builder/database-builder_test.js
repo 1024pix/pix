@@ -16,26 +16,35 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', () => {
 
     afterEach(function() {
       sandbox.restore();
+      databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [];
     });
 
     it('should delete content of all tables in databaseBuffer set for deletion when there are some', async () => {
       // given
       const knex = { raw: sinon.stub().resolves() };
       const databaseBuilder = new DatabaseBuilder({ knex });
-      databaseBuilder.databaseBuffer.tablesToDelete = ['table1', 'table2'];
+      databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [{
+        table: 'table2',
+        isDirty: true,
+      }, {
+        table: 'table1',
+        isDirty: true,
+      }, {
+        table: 'table3',
+        isDirty: false,
+      }];
 
       // when
       await databaseBuilder.clean();
 
       // then
-      expect(knex.raw).to.have.been.calledWithExactly('DELETE FROM ??;DELETE FROM ??;', ['table1', 'table2']);
+      expect(knex.raw).to.have.been.calledWithExactly('DELETE FROM ??;DELETE FROM ??;', ['table2', 'table1']);
     });
 
     it('should avoid deleting anything if not table are set for deletion in database buffer', async () => {
       // given
       const knex = { raw: sinon.stub().resolves() };
       const databaseBuilder = new DatabaseBuilder({ knex });
-      databaseBuilder.databaseBuffer.tablesToDelete = [];
 
       // when
       await databaseBuilder.clean();
@@ -48,7 +57,6 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', () => {
       // given
       const knex = { raw: sinon.stub().resolves() };
       const databaseBuilder = new DatabaseBuilder({ knex });
-      databaseBuilder.databaseBuffer.tablesToDelete = ['table1', 'table2'];
       databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [{
         table: 'table1',
         isDirty: true,
@@ -97,7 +105,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', () => {
     });
 
     afterEach(() => {
-      databaseBuilder.databaseBuffer.purge();
+      databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [];
     });
 
     it('should init the database by cleaning it except for specific tables when this is the first call ever to commit()', async () => {
@@ -207,7 +215,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', () => {
       expect(databaseBuilder.databaseBuffer.objectsToInsert).to.be.empty;
     });
 
-    it('should fill tablesToDelete collection in databaseBuffer with dirty table order by priority', async () => {
+    it('should update the dirtynessmap accordingly', async () => {
       // given
       const insertStub = sinon.stub().resolves();
       const trxStub = sinon.stub().returns({ insert: insertStub });
@@ -237,7 +245,16 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', () => {
       await databaseBuilder.commit();
 
       // then
-      expect(databaseBuilder.databaseBuffer.tablesToDelete).to.deep.equal(['table2', 'table1']);
+      expect(databaseBuilder.tablesOrderedByDependencyWithDirtinessMap).to.deep.equal([{
+        table: 'table2',
+        isDirty: true,
+      }, {
+        table: 'table1',
+        isDirty: true,
+      }, {
+        table: 'table3',
+        isDirty: false,
+      }]);
     });
 
     it('should commit the transaction', async () => {
