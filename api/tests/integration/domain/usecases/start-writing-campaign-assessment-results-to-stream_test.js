@@ -1,15 +1,14 @@
 const { PassThrough } = require('stream');
-const { expect, airtableBuilder, databaseBuilder, streamToPromise } = require('../../../test-helper');
+const { expect, airtableBuilder, databaseBuilder, domainBuilder, streamToPromise } = require('../../../test-helper');
 const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 
 const startWritingCampaignAssessmentResultsToStream = require('../../../../lib/domain/usecases/start-writing-campaign-assessment-results-to-stream');
 
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const campaignParticipationInfoRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-info-repository');
-const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
-const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
+const targetProfileWithLearningContentRepository = require('../../../../lib/infrastructure/repositories/target-profile-with-learning-content-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const campaignCsvExportService = require('../../../../lib/domain/services/campaign-csv-export-service');
 
@@ -32,48 +31,42 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-
       organization = databaseBuilder.factory.buildOrganization();
       user = databaseBuilder.factory.buildUser();
       databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id });
-      const skillWeb1 = airtableBuilder.factory.buildSkill({ id: 'recSkillWeb1', nom: '@web1', ['compétenceViaTube']: ['recCompetence1'] });
-      const skillWeb2 = airtableBuilder.factory.buildSkill({ id: 'recSkillWeb2', nom: '@web2', ['compétenceViaTube']: ['recCompetence1'] });
-      const skillWeb3 = airtableBuilder.factory.buildSkill({ id: 'recSkillWeb3', nom: '@web3', ['compétenceViaTube']: ['recCompetence1'] });
-      const skillUrl1 = airtableBuilder.factory.buildSkill({ id: 'recSkillUrl1', nom: '@url1', ['compétenceViaTube']: ['recCompetence2'] });
-      const skills = [skillWeb1, skillWeb2, skillWeb3, skillUrl1];
+      const skillWeb1 = domainBuilder.buildTargetedSkill({ id: 'recSkillWeb1', name: '@web1', tubeId: 'recTube1' });
+      const skillWeb2 = domainBuilder.buildTargetedSkill({ id: 'recSkillWeb2', name: '@web2', tubeId: 'recTube1' });
+      const skillWeb3 = domainBuilder.buildTargetedSkill({ id: 'recSkillWeb3', name: '@web3', tubeId: 'recTube1' });
+      const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skillWeb1, skillWeb2, skillWeb3], competenceId: 'recCompetence1' });
+      const competence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', index: '1.1', tubes: [tube1], areaId: 'recArea1' });
+      const area1 = domainBuilder.buildTargetedArea({ id: 'recArea1', competences: [competence1] });
 
       participant = databaseBuilder.factory.buildUser({ firstName: '@Jean', lastName: '=Bono' });
       const createdAt = new Date('2019-02-25T10:00:00Z');
       databaseBuilder.factory.buildKnowledgeElement({
         status: 'validated',
         skillId: skillWeb1.id,
-        competenceId: 'recCompetence1',
+        competenceId: competence1.id,
         userId: participant.id,
         createdAt,
       });
       databaseBuilder.factory.buildKnowledgeElement({
         status: 'validated',
         skillId: skillWeb2.id,
-        competenceId: 'recCompetence1',
+        competenceId: competence1.id,
         userId: participant.id,
         createdAt,
       });
       databaseBuilder.factory.buildKnowledgeElement({
         status: 'invalidated',
         skillId: skillWeb3.id,
-        competenceId: 'recCompetence1',
+        competenceId: competence1.id,
         userId: participant.id,
         createdAt,
       });
       databaseBuilder.factory.buildKnowledgeElement({
         status: 'validated',
         skillId: skillWeb3.id,
-        competenceId: 'recCompetence1',
+        competenceId: competence1.id,
         userId: participant.id,
         createdAt: new Date('2019-03-25T10:00:00Z'),
-      });
-      databaseBuilder.factory.buildKnowledgeElement({
-        status: 'validated',
-        skillId: skillUrl1.id,
-        competenceId: 'recCompetence2',
-        userId: participant.id,
-        createdAt,
       });
 
       targetProfile = databaseBuilder.factory.buildTargetProfile({ name: '+Profile 1' });
@@ -104,31 +97,17 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-
         state: Assessment.states.COMPLETED,
         type: Assessment.types.CAMPAIGN,
       });
-
       await databaseBuilder.commit();
 
-      const competence1 = airtableBuilder.factory.buildCompetence({
-        id: 'recCompetence1',
-        titre: 'Competence1',
-        sousDomaine: '1.1',
-        domaineIds: ['recArea1'],
-        acquisViaTubes: [skillWeb1, skillWeb2, skillWeb3].map((skill) => skill.id),
+      const domainTargetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skillWeb1, skillWeb2, skillWeb3],
+        tubes: [tube1],
+        competences: [competence1],
+        areas: [area1],
       });
 
-      const competence2 = airtableBuilder.factory.buildCompetence({
-        id: 'recCompetence2',
-        titre: 'Competence2',
-        sousDomaine: '3.2',
-        domaineIds: ['recArea3'],
-        acquisViaTubes: [skillUrl1.id],
-      });
-
-      const area1 = airtableBuilder.factory.buildArea({ id: 'recArea1', code: '1', titre: 'Domain 1' });
-      const area3 = airtableBuilder.factory.buildArea({ id: 'recArea3', code: '3', title: 'Domain 3' });
-
-      airtableBuilder.mockList({ tableName: 'Competences' }).returns([competence1, competence2]).activate();
-      airtableBuilder.mockList({ tableName: 'Acquis' }).returns(skills).activate();
-      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([area1, area3]).activate();
+      const airTableObjects = airtableBuilder.factory.buildLearningContent.fromTargetProfileWithLearningContent({ targetProfile: domainTargetProfile });
+      airtableBuilder.mockLists(airTableObjects);
 
       writableStream = new PassThrough();
       csvPromise = streamToPromise(writableStream);
@@ -171,8 +150,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-
         writableStream,
         campaignRepository,
         userRepository,
-        targetProfileRepository,
-        competenceRepository,
+        targetProfileWithLearningContentRepository,
         organizationRepository,
         campaignParticipationInfoRepository,
         knowledgeElementRepository,

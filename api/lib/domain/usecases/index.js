@@ -65,6 +65,7 @@ const dependencies = {
   studentRepository: require('../../infrastructure/repositories/student-repository'),
   schoolingRegistrationsXmlService: require('../../domain/services/schooling-registrations-xml-service'),
   targetProfileRepository: require('../../infrastructure/repositories/target-profile-repository'),
+  targetProfileWithLearningContentRepository: require('../../infrastructure/repositories/target-profile-with-learning-content-repository'),
   targetProfileShareRepository: require('../../infrastructure/repositories/target-profile-share-repository'),
   tokenService: require('../../domain/services/token-service'),
   tubeRepository: require('../../infrastructure/repositories/tube-repository'),

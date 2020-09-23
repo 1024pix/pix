@@ -8,8 +8,6 @@ class CampaignAssessmentCsvLine {
   constructor({
     organization,
     campaign,
-    areas,
-    competences,
     campaignParticipationInfo,
     targetProfile,
     participantKnowledgeElementsByCompetenceId,
@@ -17,8 +15,6 @@ class CampaignAssessmentCsvLine {
   }) {
     this.organization = organization;
     this.campaign = campaign;
-    this.areas = areas;
-    this.competences = competences;
     this.campaignParticipationInfo = campaignParticipationInfo;
     this.targetProfile = targetProfile;
     this.targetedKnowledgeElementsCount = _.sum(_.map(participantKnowledgeElementsByCompetenceId, (knowledgeElements) => knowledgeElements.length));
@@ -49,24 +45,22 @@ class CampaignAssessmentCsvLine {
   }
 
   _getStatsForCompetence(competence) {
-    const skillsForThisCompetence = this.targetProfile.getSkillsForCompetence(competence.id);
     return {
-      targetedSkillCount: skillsForThisCompetence.length,
+      targetedSkillCount: competence.skillCount,
       validatedSkillCount: this._countValidatedKnowledgeElementsForCompetence(competence.id),
     };
   }
 
   _makeCompetenceColumns() {
-    return _.flatMap(this.competences, (competence) => this._makeSharedStatsColumns({
+    return _.flatMap(this.targetProfile.competences, (competence) => this._makeSharedStatsColumns({
       id: competence.id,
       ...this._getStatsForCompetence(competence),
     }));
   }
 
   _makeAreaColumns() {
-    return _.flatMap(this.areas, ({ id }) => {
-      const areaCompetenceStats = _.filter(this.competences, (competence) => competence.area.id === id)
-        .map(this._getStatsForCompetence);
+    return _.flatMap(this.targetProfile.areas, ({ id, competences }) => {
+      const areaCompetenceStats = competences.map(this._getStatsForCompetence);
 
       const targetedSkillCount = _.sumBy(areaCompetenceStats, 'targetedSkillCount');
       const validatedSkillCount = _.sumBy(areaCompetenceStats, 'validatedSkillCount');
@@ -107,16 +101,17 @@ class CampaignAssessmentCsvLine {
 
   _makeNotSharedColumns() {
     return [
-      ...this._makeNotSharedStatsColumns(this.competences.length * STATS_COLUMNS_COUNT),
-      ...this._makeNotSharedStatsColumns(this.areas.length * STATS_COLUMNS_COUNT),
+      ...this._makeNotSharedStatsColumns(this.targetProfile.competences.length * STATS_COLUMNS_COUNT),
+      ...this._makeNotSharedStatsColumns(this.targetProfile.areas.length * STATS_COLUMNS_COUNT),
       ...this._makeNotSharedStatsColumns(this.targetProfile.skills.length),
     ];
   }
 
   _makeSkillColumn(targetedSkill) {
     let knowledgeElementForSkill = null;
-    if (targetedSkill.competenceId in this.targetedKnowledgeElementsByCompetence) {
-      knowledgeElementForSkill = _.find(this.targetedKnowledgeElementsByCompetence[targetedSkill.competenceId],
+    const competenceId = this.targetProfile.getCompetenceIdOfSkill(targetedSkill.id);
+    if (competenceId in this.targetedKnowledgeElementsByCompetence) {
+      knowledgeElementForSkill = _.find(this.targetedKnowledgeElementsByCompetence[competenceId],
         (knowledgeElement) => knowledgeElement.skillId === targetedSkill.id);
     }
 
