@@ -442,6 +442,17 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
         // then
         sinon.assert.calledWith(onSubmitToCreateAndReconcileStub, externalUser);
       });
+
+      it('should reset error message when submit', async () => {
+        // given
+        component.errorMessage = 'Vous êtes un élève ? Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.';
+
+        // when
+        await component.actions.submit.call(component, eventStub);
+
+        // then
+        expect(component.errorMessage).to.equal(null);
+      });
     });
 
     describe('Errors', function() {
