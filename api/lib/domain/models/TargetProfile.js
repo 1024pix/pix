@@ -1,5 +1,3 @@
-const _ = require('lodash');
-
 class TargetProfile {
   constructor({
     id,
@@ -19,15 +17,6 @@ class TargetProfile {
     this.skills = skills;
     this.stages = stages;
     this.organizationId = organizationId;
-
-    this.skillsByCompetenceId = _.groupBy(this.skills, 'competenceId');
-  }
-
-  getSkillsForCompetence(competenceId) {
-    if (!(competenceId in this.skillsByCompetenceId)) {
-      return [];
-    }
-    return this.skillsByCompetenceId[competenceId];
   }
 
   hasSkill(skillId) {
@@ -43,10 +32,6 @@ class TargetProfile {
   getTargetedCompetences(competences) {
     const targetedCompetenceIds = this.getCompetenceIds();
     return competences.filter((competence) => targetedCompetenceIds.includes(competence.id));
-  }
-
-  getSkillNames() {
-    return this.skills.map((skill) => skill.name);
   }
 
   getSkillIds() {
