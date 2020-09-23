@@ -23,10 +23,10 @@ module.exports = {
       .map((id) => { return { id }; });
 
     const allFrFrOperativeChallenges = await challengeRepository.findFrenchFranceOperative();
-    const userCompetences = UserCompetence.orderSkillsOfCompetenceByDifficulty(placementProfile.userCompetences);
-    let certificationChallengesByCompetence = {};
+    const userCompetencesWithOrderedSkills = UserCompetence.orderSkillsOfCompetenceByDifficulty(placementProfile.userCompetences);
 
-    userCompetences.forEach((userCompetence) => {
+    let certificationChallengesByCompetence = {};
+    userCompetencesWithOrderedSkills.forEach((userCompetence) => {
       if (!userCompetence.isCertifiable()) {
         return;
       }
