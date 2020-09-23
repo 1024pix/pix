@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 class TargetedCompetence {
   constructor({
     id,
@@ -11,6 +13,10 @@ class TargetedCompetence {
     this.index = index;
     this.areaId = areaId;
     this.tubes = tubes;
+  }
+
+  get skillCount() {
+    return _.sumBy(this.tubes, (tube) => tube.skills.length);
   }
 }
 
