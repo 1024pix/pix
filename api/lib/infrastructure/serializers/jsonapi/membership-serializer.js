@@ -10,15 +10,7 @@ module.exports = {
           delete record.user;
         }
 
-        // we add a 'campaigns' attr to the organization so that the serializer
-        // can see there is a 'campaigns' attribute and add the relationship link.
-        if (record.organization) {
-          record.organization.campaigns = [];
-          record.organization.targetProfiles = [];
-          record.organization.memberships = [];
-          record.organization.students = [];
-          record.organization.organizationInvitations = [];
-        } else {
+        if (!record.organization) {
           delete record.organization;
         }
         return record;
@@ -31,6 +23,7 @@ module.exports = {
         campaigns: {
           ref: 'id',
           ignoreRelationshipData: true,
+          nullIfMissing: true,
           relationshipLinks: {
             related: function(record, current, parent) {
               return `/api/organizations/${parent.id}/campaigns`;
@@ -40,6 +33,7 @@ module.exports = {
         targetProfiles: {
           ref: 'id',
           ignoreRelationshipData: true,
+          nullIfMissing: true,
           relationshipLinks: {
             related: function(record, current, parent) {
               return `/api/organizations/${parent.id}/target-profiles`;
@@ -49,6 +43,7 @@ module.exports = {
         memberships: {
           ref: 'id',
           ignoreRelationshipData: true,
+          nullIfMissing: true,
           relationshipLinks: {
             related: function(record, current, parent) {
               return `/api/organizations/${parent.id}/memberships`;
@@ -58,6 +53,7 @@ module.exports = {
         students: {
           ref: 'id',
           ignoreRelationshipData: true,
+          nullIfMissing: true,
           relationshipLinks: {
             related: function(record, current, parent) {
               return `/api/organizations/${parent.id}/students`;
@@ -67,6 +63,7 @@ module.exports = {
         organizationInvitations: {
           ref: 'id',
           ignoreRelationshipData: true,
+          nullIfMissing: true,
           relationshipLinks: {
             related: function(record, current, parent) {
               return `/api/organizations/${parent.id}/invitations`;
