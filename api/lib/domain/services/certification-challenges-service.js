@@ -16,12 +16,10 @@ module.exports = {
   async pickCertificationChallenges(placementProfile) {
     const knowledgeElementsByCompetence = await knowledgeElementRepository
       .findUniqByUserIdGroupedByCompetenceId({ userId: placementProfile.userId, limitDate: placementProfile.profileDate });
-
     const knowledgeElements = KnowledgeElement.findDirectlyValidatedFromGroups(knowledgeElementsByCompetence);
-    const answerIds = _.map(knowledgeElements, 'answerId');
 
-    const alreadyAnsweredChallengeIds = (await answerRepository.findChallengeIdsFromAnswerIds(answerIds))
-      .map((id) => { return { id }; });
+    const answerIds = _.map(knowledgeElements, 'answerId');
+    const alreadyAnsweredChallengeIds = await answerRepository.findChallengeIdsFromAnswerIds(answerIds);
 
     const allFrFrOperativeChallenges = await challengeRepository.findFrenchFranceOperative();
 
@@ -34,13 +32,14 @@ module.exports = {
       userCompetence.skills.forEach((skill) => {
         if (!_hasCompetenceEnoughCertificationChallenges(userCompetence.id, certificationChallengesByCompetence)) {
           const challengesToValidateCurrentSkill = Challenge.findBySkill({ challenges: allFrFrOperativeChallenges, skill });
-          const challengesLeftToAnswer = _.differenceBy(challengesToValidateCurrentSkill, alreadyAnsweredChallengeIds, 'id');
+          const unansweredChallenges = _.filter(challengesToValidateCurrentSkill, (challenge) => !alreadyAnsweredChallengeIds.includes(challenge.id));
 
-          const challengesPoolToPickChallengeFrom = (_.isEmpty(challengesLeftToAnswer)) ? challengesToValidateCurrentSkill : challengesLeftToAnswer;
+          const challengesPoolToPickChallengeFrom = (_.isEmpty(unansweredChallenges)) ? challengesToValidateCurrentSkill : unansweredChallenges;
           if (_.isEmpty(challengesPoolToPickChallengeFrom)) {
             return;
           }
           const challenge = _.sample(challengesPoolToPickChallengeFrom);
+
           const certificationChallenge = new CertificationChallenge({
             challengeId: challenge.id,
             competenceId: userCompetence.id,
