@@ -1,6 +1,5 @@
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const buildCampaign = require('./build-campaign');
-const buildCampaignParticipationResult = require('./build-campaign-participation-result');
 
 const faker = require('faker');
 
@@ -15,7 +14,6 @@ module.exports = function buildCampaignParticipation(
     campaignId = campaign.id,
     assessmentId = null,
     userId = faker.random.number(2),
-    campaignParticipationResult = buildCampaignParticipationResult(),
   } = {}) {
 
   return new CampaignParticipation({
@@ -28,6 +26,5 @@ module.exports = function buildCampaignParticipation(
     campaignId,
     assessmentId,
     userId,
-    campaignParticipationResult,
   });
 };
