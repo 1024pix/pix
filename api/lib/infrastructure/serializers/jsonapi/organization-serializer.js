@@ -4,10 +4,6 @@ module.exports = {
 
   serialize(organizations, meta) {
     return new Serializer('organizations', {
-      transform(record) {
-        record.targetProfiles = [];
-        return record;
-      },
       attributes: ['name', 'type', 'logoUrl', 'externalId', 'provinceCode', 'isManagingStudents', 'credit', 'canCollectProfiles', 'email', 'memberships', 'students', 'targetProfiles'],
       memberships: {
         ref: 'id',
@@ -30,6 +26,7 @@ module.exports = {
       targetProfiles: {
         ref: 'id',
         ignoreRelationshipData: true,
+        nullIfMissing: true,
         relationshipLinks: {
           related: function(record, current, parent) {
             return `/api/organizations/${parent.id}/target-profiles`;

@@ -40,6 +40,7 @@ module.exports = {
       certificationReports: {
         ref: 'id',
         ignoreRelationshipData: true,
+        nullIfMissing: true,
         relationshipLinks: {
           related(record, current, parent) {
             return `/api/sessions/${parent.id}/certification-reports`;
@@ -58,7 +59,6 @@ module.exports = {
       transform(session) {
         const transformedSession = Object.assign({}, session);
         transformedSession.status = session.status;
-        transformedSession.certificationReports = [];
         transformedSession.certificationCenterName = session.certificationCenter;
         delete transformedSession.certificationCenter;
         if (session.certificationCenterId) {

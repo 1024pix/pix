@@ -12,7 +12,6 @@ class Answer {
     timeout,
     value,
     // includes
-    correction,
     levelup,
     // references
     assessmentId,
@@ -27,7 +26,6 @@ class Answer {
     this.timeout = timeout;
     this.value = value;
     // includes
-    this.correction = correction;
     this.levelup = levelup;
     // references
     this.assessmentId = assessmentId;

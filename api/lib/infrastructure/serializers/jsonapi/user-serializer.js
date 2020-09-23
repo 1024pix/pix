@@ -5,11 +5,6 @@ module.exports = {
 
   serialize(users, meta) {
     return new Serializer('user', {
-      transform: (untouchedUser) => {
-        const user = Object.assign({}, untouchedUser);
-        user.isCertifiable = undefined;
-        return user;
-      },
       attributes: [
         'firstName', 'lastName', 'email', 'username',
         'cgu', 'lastTermsOfServiceValidatedAt', 'mustValidateTermsOfService',
@@ -66,6 +61,7 @@ module.exports = {
       isCertifiable: {
         ref: 'id',
         ignoreRelationshipData: true,
+        nullIfMissing: true,
         relationshipLinks: {
           related: function(record, current, parent) {
             return `/api/users/${parent.id}/is-certifiable`;

@@ -26,6 +26,7 @@ module.exports = {
       },
       correction: {
         ref: 'id',
+        nullIfMissing: true,
         ignoreRelationshipData: true,
         relationshipLinks: {
           related(record, current, parent) {
