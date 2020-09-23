@@ -64,9 +64,11 @@
                     Gérer le compte
                   </Dropdown::Item>
                   {{#if this.currentUser.isAdminInOrganization}}
+                    {{#if this.isDissociateButtonEnabled}}
                     <Dropdown::Item @onClick={{fn this.openDissociateModal student}}>
                       Dissocier le compte
                     </Dropdown::Item>
+                    {{/if}}
                   {{/if}}
                 </Dropdown::IconTrigger>
               {{/if}}

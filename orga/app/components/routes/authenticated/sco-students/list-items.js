@@ -2,6 +2,7 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import ENV from 'pix-orga/config/environment';
 
 export default class ListItems extends Component {
 
@@ -13,6 +14,7 @@ export default class ListItems extends Component {
   @tracked student = null;
   @tracked isShowingAuthenticationMethodModal = false;
   @tracked isShowingDissociateModal = false;
+  @tracked isDissociateButtonEnabled = ENV.APP.IS_DISSOCIATE_BUTTON_ENABLED;
 
   @action
   openAuthenticationMethodModal(student) {
