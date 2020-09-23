@@ -44,6 +44,7 @@ module.exports = {
       campaignCollectiveResult: {
         ref: 'id',
         ignoreRelationshipData: true,
+        nullIfMissing: true,
         relationshipLinks: {
           related(record, current, parent) {
             return `/api/campaigns/${parent.id}/collective-results`;
@@ -53,6 +54,7 @@ module.exports = {
       campaignAnalysis: {
         ref: 'id',
         ignoreRelationshipData: true,
+        nullIfMissing: true,
         relationshipLinks: {
           related(record, current, parent) {
             return `/api/campaigns/${parent.id}/analyses`;
