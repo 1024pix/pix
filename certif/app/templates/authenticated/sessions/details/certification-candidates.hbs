@@ -2,13 +2,13 @@
   <div class="content-text context-text--small">
     <div class="panel-actions__header">
       <div class="panel-actions__header-icon">
-        {{fa-icon "info"}}
+        <FaIcon @icon="info" />
       </div>
       <div class="panel-actions__header-title">Ajouter des candidats</div>
     </div>
     <div class="panel-actions__action-row">
       <div class="panel-actions__action-icon">
-        {{fa-icon "file-download"}}
+        <FaIcon @icon="file-download" />
       </div>
       <div class="panel-actions__description">
         <div class="panel-actions__title">Télécharger le PV de session</div>
@@ -20,14 +20,14 @@
         <a data-test-id="attendance_sheet_download_button"
            class="button button--link button--with-icon"
            href="{{this.currentSession.urlToDownload}}" target="_blank" rel="noopener noreferrer" download>
-            Télécharger (.ods){{fa-icon 'file-download'}}
+            Télécharger (.ods)<FaIcon @icon='file-download' />
         </a>
       </div>
     </div>
     <div class="panel-actions__action-row">
       {{#if this.importAllowed}}
         <div class="panel-actions__action-icon">
-          {{fa-icon "cloud-upload-alt"}}
+          <FaIcon @icon="cloud-upload-alt" />
         </div>
         <div class="panel-actions__description">
           <div class="panel-actions__title">Importer le PV de session</div>
@@ -45,13 +45,13 @@
                 class="button button--with-icon"
                 role="button"
                 tabindex="0">
-            Importer (.ods){{fa-icon 'cloud-upload-alt'}}
+            Importer (.ods)<FaIcon @icon='cloud-upload-alt' />
           </span>
           </FileUpload>
         </div>
       {{else}}
         <div class="panel-actions__action-icon">
-          {{fa-icon 'exclamation-circle' class="panel-actions__warning-icon"}}
+          <FaIcon @icon='exclamation-circle' class="panel-actions__warning-icon" />
         </div>
         <div class="panel-actions__description">
           <strong class="panel-actions__warning">
@@ -76,7 +76,7 @@
           Ajouter un candidat
       </div>
       <button type="button" class="button button--square button--lightgrey">
-        {{fa-icon "plus" class="fa-fw certification-candidates-add-button__icon"}}
+        <FaIcon @icon="plus" class="fa-fw certification-candidates-add-button__icon" />
       </button>
     </div>
   </div>
@@ -156,7 +156,7 @@
                           data-test-id="panel-candidate__actions__delete__{{candidate.id}}"
                           type="button"
                           class="button button--square button--lightgrey button--lightgrey--disabled certification-candidates-actions__delete__button--disabled" >
-                        {{fa-icon "trash-alt" class="fa-fw"}}
+                        <FaIcon @icon="trash-alt" class="fa-fw" />
                       </button>
                       <div class="certification-candidates-actions__delete__tooltip">
                         Ce candidat a déjà rejoint la session. Vous ne pouvez pas le supprimer.
@@ -167,7 +167,7 @@
                           type="button"
                           class="button button--square button--lightgrey certification-candidates-actions__delete__button"
                           {{on 'click' (fn this.deleteCertificationCandidate candidate)}} >
-                        {{fa-icon "trash-alt" class="fa-fw"}}
+                        <FaIcon @icon='trash-alt' class='fa-fw' />
                       </button>
                     {{/if}}
                   </div>
