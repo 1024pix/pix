@@ -9,10 +9,6 @@ module.exports = {
         const recordWithoutClass = { ... record };
         recordWithoutClass.memberships.forEach((membership) => {
           membership.organization = { ... membership.organization };
-          membership.organization.targetProfiles = [];
-          membership.organization.memberships = [];
-          membership.organization.students = [];
-          membership.organization.organizationInvitations = [];
         });
         recordWithoutClass.userOrgaSettings.organization = { ... recordWithoutClass.userOrgaSettings.currentOrganization };
         delete recordWithoutClass.userOrgaSettings.currentOrganization;
@@ -33,6 +29,7 @@ module.exports = {
           memberships: {
             ref: 'id',
             ignoreRelationshipData: true,
+            nullIfMissing: true,
             relationshipLinks: {
               related: function(record, current, parent) {
                 return `/api/organizations/${parent.id}/memberships`;
@@ -42,6 +39,7 @@ module.exports = {
           organizationInvitations: {
             ref: 'id',
             ignoreRelationshipData: true,
+            nullIfMissing: true,
             relationshipLinks: {
               related: function(record, current, parent) {
                 return `/api/organizations/${parent.id}/invitations`;
@@ -51,6 +49,7 @@ module.exports = {
           students: {
             ref: 'id',
             ignoreRelationshipData: true,
+            nullIfMissing: true,
             relationshipLinks: {
               related: function(record, current, parent) {
                 return `/api/organizations/${parent.id}/students`;
@@ -60,6 +59,7 @@ module.exports = {
           targetProfiles: {
             ref: 'id',
             ignoreRelationshipData: true,
+            nullIfMissing: true,
             relationshipLinks: {
               related: function(record, current, parent) {
                 return `/api/organizations/${parent.id}/target-profiles`;
