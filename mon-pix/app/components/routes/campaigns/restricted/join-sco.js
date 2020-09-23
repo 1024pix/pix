@@ -218,6 +218,6 @@ export default class JoinSco extends Component {
 
   _showErrorMessageByShortCode(meta) {
     const defaultMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE);
-    return getJoinErrorsMessageByShortCode(meta) || defaultMessage;
+    return this.intl.t(getJoinErrorsMessageByShortCode(meta), { value: meta.value, htlmSafe:true })  || defaultMessage;
   }
 }
