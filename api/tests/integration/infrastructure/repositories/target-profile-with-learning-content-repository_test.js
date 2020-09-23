@@ -15,73 +15,6 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
 
     it('should return target profile with learning content', async () => {
       // given
-      const learningContent = [
-        {
-          id: 'recArea1',
-          titleFr: 'area1_TitleFr',
-          competences: [
-            {
-              id: 'recArea1_Competence1',
-              name: 'competence1_1_name',
-              index: 'competence1_1_index',
-              tubes: [
-                {
-                  id: 'recArea1_Competence1_Tube1',
-                  practicalTitle: 'tube1_1_1_practicalTitle',
-                  skills: [
-                    {
-                      id: 'recArea1_Competence1_Tube1_Skill1',
-                      nom: 'skill1_1_1_1_name',
-                      challenges: [],
-                    },
-                    {
-                      id: 'recArea1_Competence1_Tube1_Skill2',
-                      nom: 'skill1_1_1_2_name',
-                      challenges: [],
-                    },
-                  ],
-                },
-                {
-                  id: 'recArea1_Competence1_Tube2',
-                  practicalTitle: 'tube1_1_2_practicalTitle',
-                  skills: [
-                    {
-                      id: 'recArea1_Competence1_Tube2_Skill1',
-                      nom: 'skill1_1_2_1_name',
-                      challenges: [],
-                    },
-                    {
-                      id: 'recArea1_Competence1_Tube2_Skill2',
-                      nom: 'skill1_1_2_2_name',
-                      challenges: [],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              id: 'recArea1_Competence2',
-              name: 'competence1_2_name',
-              index: 'competence1_2_index',
-              tubes: [
-                {
-                  id: 'recArea1_Competence2_Tube1',
-                  practicalTitle: 'tube1_2_1_practicalTitle',
-                  skills: [
-                    {
-                      id: 'recArea1_Competence2_Tube1_Skill1',
-                      nom: 'skill1_2_1_1_name',
-                      challenges: [],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ];
-      const airtableObjects = airtableBuilder.factory.buildLearningContent(learningContent);
-      airtableBuilder.mockLists(airtableObjects);
       const skill1_1_1_2 = domainBuilder.buildTargetedSkill({
         id: 'recArea1_Competence1_Tube1_Skill2',
         name: 'skill1_1_1_2_name',
@@ -134,6 +67,8 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
         competences: [competence1_1, competence1_2],
         areas: [area1],
       });
+      const airtableObjects = airtableBuilder.factory.buildLearningContent.fromTargetProfileWithLearningContent({ targetProfile: expectedTargetProfile });
+      airtableBuilder.mockLists(airtableObjects);
       await databaseBuilder.commit();
 
       // when

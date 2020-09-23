@@ -93,4 +93,62 @@ const buildLearningContent = function(learningContent) {
   };
 };
 
+buildLearningContent.fromTargetProfileWithLearningContent = function buildLearningContentFromTargetProfileWithLearningContent({
+  targetProfile,
+}) {
+  const allCompetences = [];
+  const allTubes = [];
+  const allSkills = [];
+  const areas = targetProfile.areas.map((area) => {
+    const competences = area.competences.map((competence) => {
+      const tubes = competence.tubes.map((tube) => {
+        const skills = tube.skills.map((skill) => {
+          return buildSkill(
+            {
+              id: skill.id,
+              epreuves: [],
+              tube: [tube.id],
+              compétenceViaTube: [competence.id],
+              nom: skill.name,
+            },
+          );
+        });
+        allSkills.push(skills);
+        return buildTube(
+          {
+            id: tube.id,
+            titrePratiqueFrFr: tube.practicalTitle,
+            competences: [competence.id],
+          },
+        );
+      });
+      allTubes.push(tubes);
+      return buildCompetence(
+        {
+          id: competence.id,
+          epreuves: [],
+          tubes: competence.tubes.map((tube) => tube.id),
+          acquisViaTubes: competence.tubes.flatMap((tube) => tube.skills).map((skill) => skill.id),
+          domaineIds: [area.id],
+          sousDomaine: competence.index,
+          titre: competence.name,
+        },
+      );
+    });
+    allCompetences.push(competences);
+    return buildArea({
+      id: area.id,
+      titreFr: area.title,
+      competenceIds: competences.map((competence) => competence.id),
+      nomCompetences: competences.map((competence) => competence.name),
+    });
+  });
+  return {
+    areas,
+    competences: allCompetences.flat(),
+    tubes: allTubes.flat(),
+    skills: allSkills.flat(),
+  };
+};
+
 module.exports = buildLearningContent;
