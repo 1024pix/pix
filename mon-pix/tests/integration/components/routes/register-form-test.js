@@ -22,8 +22,6 @@ const INVALID_YEAR_OF_BIRTH_ERROR_MESSAGE = 'Votre année de naissance n’est p
 const EMPTY_EMAIL_ERROR_MESSAGE = 'Votre email n’est pas valide.';
 const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.';
 
-import { getRegisterErrorsMessageByShortCode } from 'mon-pix/utils/errors-messages';
-
 describe('Integration | Component | routes/register-form', function() {
 
   setupIntlRenderingTest();
@@ -325,7 +323,7 @@ describe('Integration | Component | routes/register-form', function() {
         it('should display the error message related to the short code S61)', async function() {
           // given
           const meta = { shortCode: 'S61', value: 'j***@example.net' };
-          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s61', { value: meta.value });
 
           const error = {
             status: '409',
@@ -374,7 +372,7 @@ describe('Integration | Component | routes/register-form', function() {
         it('should display the error message related to the short code S62)', async function() {
           // given
           const meta = { shortCode: 'S62', value: 'j***.h***2' };
-          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s62', { value: meta.value });
 
           const error = {
             status: '409',
@@ -423,7 +421,7 @@ describe('Integration | Component | routes/register-form', function() {
         it('should display the error message related to the short code S63)', async function() {
           // given
           const meta = { shortCode: 'S63', value: undefined };
-          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s63', { value: meta.value });
 
           const error = {
             status: '409',
@@ -472,7 +470,7 @@ describe('Integration | Component | routes/register-form', function() {
         it('should display the error message related to the short code S63)', async function() {
           // given
           const meta = { shortCode: 'S63', value: undefined };
-          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s63', { value: meta.value });
 
           const error = {
             status: '409',
@@ -521,7 +519,7 @@ describe('Integration | Component | routes/register-form', function() {
         it('should display the error message related to the short code S63)', async function() {
           // given
           const meta = { shortCode: 'S63', value: undefined };
-          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s63', { value: meta.value });
 
           const error = {
             status: '409',
@@ -570,7 +568,7 @@ describe('Integration | Component | routes/register-form', function() {
         it('should display the error message related to the short code S63)', async function() {
           // given
           const  meta = { shortCode: 'S63', value: undefined };
-          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s63', { value: meta.value });
 
           const error = {
             status: '409',
@@ -619,7 +617,7 @@ describe('Integration | Component | routes/register-form', function() {
         it('should display the error message related to the short code S62)', async function() {
           // given
           const meta = { shortCode: 'S62', value: 'j***.h***2' };
-          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s62', { value: meta.value });
 
           const error = {
             status: '409',
@@ -672,7 +670,7 @@ describe('Integration | Component | routes/register-form', function() {
         it('should display the error message related to the short code S51)', async function() {
           // given
           const meta = { shortCode: 'S51', value: 'j***@example.net' };
-          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s51', { value: meta.value });
 
           const error = {
             status: '409',
@@ -721,7 +719,7 @@ describe('Integration | Component | routes/register-form', function() {
         it('should display the error message related to the short code S52)', async function() {
           // given
           const meta = { shortCode: 'S52', value: 'j***.h***2' };
-          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s52', { value: meta.value });
 
           const error = {
             status: '409',
@@ -770,7 +768,7 @@ describe('Integration | Component | routes/register-form', function() {
         it('should display the error message related to the short code S53)', async function() {
           // given
           const meta = { shortCode: 'S53', value: undefined };
-          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s53', { value: meta.value });
 
           const error = {
             status: '409',
@@ -819,7 +817,7 @@ describe('Integration | Component | routes/register-form', function() {
         it('should display the error message related to the short code S53)', async function() {
           // given
           const meta = { shortCode: 'S53', value: undefined };
-          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s53', { value: meta.value });
 
           const error = {
             status: '409',
@@ -868,7 +866,7 @@ describe('Integration | Component | routes/register-form', function() {
         it('should display the error message related to the short code S53)', async function() {
           // given
           const meta = { shortCode: 'S53', value: undefined };
-          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s53', { value: meta.value });
 
           const error = {
             status: '409',
@@ -917,7 +915,7 @@ describe('Integration | Component | routes/register-form', function() {
         it('should display the error message related to the short code S53)', async function() {
           // given
           const meta = { shortCode: 'S53', value: undefined };
-          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s53', { value: meta.value });
 
           const error = {
             status: '409',
@@ -966,7 +964,7 @@ describe('Integration | Component | routes/register-form', function() {
         it('should display the error message related to the short code S52)', async function() {
           // given
           const meta = { shortCode: 'S52', value: 'j***.h***2' };
-          const expectedErrorMessage = getRegisterErrorsMessageByShortCode(meta);
+          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s52', { value: meta.value });
 
           const error = {
             status: '409',

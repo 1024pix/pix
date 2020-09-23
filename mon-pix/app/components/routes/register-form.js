@@ -189,7 +189,8 @@ export default class RegisterForm extends Component {
 
   _showErrorMessageByShortCode(meta) {
     const defaultMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE);
-    return getRegisterErrorsMessageByShortCode(meta) || defaultMessage;
+    return this.intl.t(getRegisterErrorsMessageByShortCode(meta), { value: meta.value, htlmSafe:true })  || defaultMessage;
+
   }
 
   @action
