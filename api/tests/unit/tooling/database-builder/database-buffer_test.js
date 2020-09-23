@@ -4,7 +4,6 @@ const databaseBuffer = require('../../../tooling/database-builder/database-buffe
 describe('Unit | Tooling | DatabaseBuilder | database-buffer', () => {
   afterEach(() => {
     databaseBuffer.objectsToInsert = [];
-    databaseBuffer.tablesToDelete = [];
   });
 
   describe('#pushInsertable', () => {
@@ -82,17 +81,15 @@ describe('Unit | Tooling | DatabaseBuilder | database-buffer', () => {
 
   describe('#purge', () => {
 
-    it('should empty both objectsToInsert and tablesToDelete arrays', () => {
+    it('should empty objectsToInsert array', () => {
       // given
       databaseBuffer.objectsToInsert = ['someValue'];
-      databaseBuffer.tablesToDelete = ['someOtherValue'];
 
       // when
       databaseBuffer.purge();
 
       // then
       expect(databaseBuffer.objectsToInsert).to.be.empty;
-      expect(databaseBuffer.tablesToDelete).to.be.empty;
     });
 
     context('when no id is provided along with the object', () => {
