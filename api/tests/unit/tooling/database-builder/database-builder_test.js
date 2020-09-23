@@ -102,6 +102,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', () => {
 
     beforeEach(() => {
       databaseBuilder = new DatabaseBuilder({ knex: null });
+      sinon.stub(console, 'error');
     });
 
     afterEach(() => {
@@ -285,6 +286,43 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', () => {
 
       // then
       expect(trxStub.commit).to.have.been.calledOnce;
+    });
+
+    it('should clear the dirtiness map and empty objectsToInsert if something goes wrong when inserting', async () => {
+      // given
+      const insertStub = sinon.stub().rejects();
+      const trxStub = sinon.stub().returns({ insert: insertStub });
+      trxStub.commit = sinon.stub().resolves();
+      const knex = {
+        client: { database: sinon.stub().returns() },
+        transaction: sinon.stub().resolves(trxStub),
+      };
+      databaseBuilder.knex = knex;
+      databaseBuilder.isFirstCommit = false;
+      databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [{
+        table: 'table2',
+        isDirty: false,
+      }, {
+        table: 'table1',
+        isDirty: false,
+      }];
+      databaseBuilder.databaseBuffer.objectsToInsert = [
+        { tableName: 'table1', values: 'someValuesForTable1' },
+        { tableName: 'table2', values: 'someValuesForTable2' },
+      ];
+
+      // when
+      await databaseBuilder.commit();
+
+      // then
+      expect(databaseBuilder.tablesOrderedByDependencyWithDirtinessMap).to.deep.equal([{
+        table: 'table2',
+        isDirty: false,
+      }, {
+        table: 'table1',
+        isDirty: false,
+      }]);
+      expect(databaseBuilder.databaseBuffer.objectsToInsert).to.be.empty;
     });
   });
 });

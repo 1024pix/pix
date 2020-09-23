@@ -15,13 +15,18 @@ module.exports = class DatabaseBuilder {
     if (this.isFirstCommit) {
       await this._init();
     }
-    const trx = await this.knex.transaction();
-    for (const objectToInsert of this.databaseBuffer.objectsToInsert) {
-      await trx(objectToInsert.tableName).insert(objectToInsert.values);
-      this._setTableAsDirty(objectToInsert.tableName);
+    try {
+      const trx = await this.knex.transaction();
+      for (const objectToInsert of this.databaseBuffer.objectsToInsert) {
+        await trx(objectToInsert.tableName).insert(objectToInsert.values);
+        this._setTableAsDirty(objectToInsert.tableName);
+      }
+      await trx.commit();
+    } catch (err) {
+      console.error(`Erreur dans databaseBuilder.commit() : ${err}`);
+      this._purgeDirtiness();
     }
     this.databaseBuffer.objectsToInsert = [];
-    return trx.commit();
   }
 
   async clean() {
