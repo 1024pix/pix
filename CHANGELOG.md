@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## v2.200.0 (23/09/2020)
+
+- [#1908](https://github.com/1024pix/pix/pull/1908) [FEATURE] Ajouter un feature flipping sur le boutton de dissociation des élèves SCO dans PixOrga (PIX-1303)
+- [#1905](https://github.com/1024pix/pix/pull/1905) [BUGFIX] Ne plus afficher le message d'erreur précédent si l'utilisateur possède un compte Pix (PIX-1246) 
+- [#1656](https://github.com/1024pix/pix/pull/1656) [TECH] Amélioration des perfs autour de l'export CSV pour les campagnes d'évaluation (PIX-989)
+- [#1867](https://github.com/1024pix/pix/pull/1867) [TECH] Montée de version d'Ember pour Pix Certif de la 3.18 à 3.21 (PIX-1302)
+- [#1900](https://github.com/1024pix/pix/pull/1900) [TECH] Petite optimisation de code pour récupérer la date du KE le plus récent (PIX-1300)
+
 ## v2.199.0 (22/09/2020)
 
 - [#1896](https://github.com/1024pix/pix/pull/1896) [BUGFIX] Gérer l'erreur date de naissance obligatoire lors de l'import des élèves d'une organisation SUP (PIX-1257).
