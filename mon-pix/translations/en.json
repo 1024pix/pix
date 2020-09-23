@@ -692,6 +692,7 @@
     },
 
     "tutorial": {
+      "title": "Campaign tutorial",
       "next": "Next",
       "pages": {
         "page0": {
