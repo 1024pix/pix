@@ -16,6 +16,7 @@ module.exports = {
   async pickCertificationChallenges(placementProfile) {
     const knowledgeElementsByCompetence = await knowledgeElementRepository
       .findUniqByUserIdGroupedByCompetenceId({ userId: placementProfile.userId, limitDate: placementProfile.profileDate });
+
     const knowledgeElements = KnowledgeElement.findDirectlyValidatedFromGroups(knowledgeElementsByCompetence);
     const answerIds = _.map(knowledgeElements, 'answerId');
 
@@ -23,13 +24,13 @@ module.exports = {
       .map((id) => { return { id }; });
 
     const allFrFrOperativeChallenges = await challengeRepository.findFrenchFranceOperative();
-    const userCompetencesWithOrderedSkills = UserCompetence.orderSkillsOfCompetenceByDifficulty(placementProfile.userCompetences);
+
+    const certifiableUserCompetencesWithOrderedSkills =
+      UserCompetence.orderSkillsOfCompetenceByDifficulty(placementProfile.userCompetences)
+        .filter((uc) => uc.isCertifiable());
 
     let certificationChallengesByCompetence = {};
-    userCompetencesWithOrderedSkills.forEach((userCompetence) => {
-      if (!userCompetence.isCertifiable()) {
-        return;
-      }
+    certifiableUserCompetencesWithOrderedSkills.forEach((userCompetence) => {
       userCompetence.skills.forEach((skill) => {
         if (!_hasCompetenceEnoughCertificationChallenges(userCompetence.id, certificationChallengesByCompetence)) {
           const challengesToValidateCurrentSkill = Challenge.findBySkill({ challenges: allFrFrOperativeChallenges, skill });
