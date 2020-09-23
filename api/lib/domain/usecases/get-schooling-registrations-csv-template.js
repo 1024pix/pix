@@ -39,5 +39,5 @@ function _createHeaderOfCSV() {
 }
 
 function _isAdminInSupOrganizationManagingStudents(membership) {
-  return membership && membership.isAdmin && membership.organization.isManagingStudents && membership.organization.type === 'SUP';
+  return membership && membership.isAdmin && membership.organization.isManagingStudents && membership.organization.isSup;
 }

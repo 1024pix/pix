@@ -13,7 +13,7 @@ module.exports = async function generateUsername({
   studentRepository,
 }) {
   const campaign = await campaignRepository.getByCode(campaignCode);
-  if (!campaign || !campaign.organizationId) {
+  if (!campaign) {
     throw new CampaignCodeError(`Le code campagne ${campaignCode} n'existe pas.`);
   }
 
