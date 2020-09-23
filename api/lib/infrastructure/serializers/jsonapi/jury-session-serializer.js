@@ -32,6 +32,7 @@ module.exports = {
       juryCertificationSummaries : {
         ref: 'id',
         ignoreRelationshipData: true,
+        nullIfMissing: true,
         relationshipLinks: {
           related(record, current, parent) {
             return `/api/jury/sessions/${parent.id}/jury-certification-summaries`;
@@ -46,7 +47,6 @@ module.exports = {
       transform(jurySession) {
         const transformedJurySession = Object.assign({}, jurySession);
         transformedJurySession.status = jurySession.status;
-        transformedJurySession.juryCertificationSummaries = [];
         return transformedJurySession;
       },
       typeForAttribute: function(attribute) {
