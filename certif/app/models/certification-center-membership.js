@@ -1,6 +1,4 @@
-import DS from 'ember-data';
-
-const { Model, belongsTo } = DS;
+import Model, { belongsTo } from '@ember-data/model';
 
 export default class CertificationCenterMembership extends Model {
   @belongsTo('user') user;
