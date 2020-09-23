@@ -1,9 +1,10 @@
 const _ = require('lodash');
+const fp = require('lodash/fp');
 const moment = require('moment');
 const bluebird = require('bluebird');
 
 const constants = require('../../infrastructure/constants');
-const { UserNotAuthorizedToGetCampaignResultsError, CampaignWithoutOrganizationError } = require('../errors');
+const { UserNotAuthorizedToGetCampaignResultsError } = require('../errors');
 const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
 
 module.exports = async function startWritingCampaignAssessmentResultsToStream(
@@ -33,9 +34,10 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
   ]);
 
   const competences = _extractTargetedCompetences(allCompetences, targetProfile.getCompetenceIds());
+  const areas = _extractTargetedAreas(competences);
 
-  //Create HEADER of CSV
-  const headers = _createHeaderOfCSV(targetProfile, competences, campaign.idPixLabel, organization.type, organization.isManagingStudents);
+  // Create HEADER of CSV
+  const headers = _createHeaderOfCSV(targetProfile, areas, competences, campaign.idPixLabel, organization.type, organization.isManagingStudents);
 
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
@@ -48,22 +50,34 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
   // after this function's returned promise resolves. If we await the map
   // function, node will keep all the data in memory until the end of the
   // complete operation.
-  bluebird.map(campaignParticipationInfos, async (campaignParticipationInfo) => {
-    const participantKnowledgeElements = await knowledgeElementRepository.findUniqByUserId({
-      userId: campaignParticipationInfo.userId,
-      limitDate: campaignParticipationInfo.sharedAt,
-    });
+  const campaignParticipationInfoChunks = _.chunk(campaignParticipationInfos, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
+  bluebird.map(campaignParticipationInfoChunks, async (campaignParticipationInfoChunk) => {
+    const userIdsAndDates = Object.fromEntries(campaignParticipationInfoChunk.map((campaignParticipationInfo) => {
+      return [
+        campaignParticipationInfo.userId,
+        campaignParticipationInfo.sharedAt,
+      ];
+    }));
+    const knowledgeElementsByUserIdAndCompetenceId =
+      await knowledgeElementRepository.findTargetedGroupedByCompetencesForUsers(userIdsAndDates, targetProfile);
 
-    const csvLine = campaignCsvExportService.createOneCsvLine({
-      organization,
-      campaign,
-      competences,
-      campaignParticipationInfo,
-      targetProfile,
-      participantKnowledgeElements,
-    });
+    let csvLines = '';
+    for (const [strParticipantId, participantKnowledgeElementsByCompetenceId] of Object.entries(knowledgeElementsByUserIdAndCompetenceId)) {
+      const participantId = parseInt(strParticipantId);
+      const campaignParticipationInfo = campaignParticipationInfoChunk.find((campaignParticipationInfo) => campaignParticipationInfo.userId === participantId);
+      const csvLine = campaignCsvExportService.createOneCsvLine({
+        organization,
+        campaign,
+        areas,
+        competences,
+        campaignParticipationInfo,
+        targetProfile,
+        participantKnowledgeElementsByCompetenceId,
+      });
+      csvLines = csvLines.concat(csvLine);
+    }
 
-    writableStream.write(csvLine);
+    writableStream.write(csvLines);
   }, { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }).then(() => {
     writableStream.end();
   }).catch((error) => {
@@ -76,10 +90,6 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
 };
 
 async function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
-  if (_.isNil(organizationId)) {
-    throw new CampaignWithoutOrganizationError(`Campaign without organization : ${organizationId}`);
-  }
-
   const user = await userRepository.getWithMemberships(userId);
 
   if (!user.hasAccessToOrganization(organizationId)) {
@@ -89,9 +99,7 @@ async function _checkCreatorHasAccessToCampaignOrganization(userId, organization
   }
 }
 
-function _createHeaderOfCSV(targetProfile, competences, idPixLabel, organizationType, organizationIsManagingStudents) {
-  const areas = _extractAreas(competences);
-
+function _createHeaderOfCSV(targetProfile, areas, competences, idPixLabel, organizationType, organizationIsManagingStudents) {
   return [
     'Nom de l\'organisation',
     'ID Campagne',
@@ -126,16 +134,24 @@ function _createHeaderOfCSV(targetProfile, competences, idPixLabel, organization
 }
 
 function _extractTargetedCompetences(allCompetences, targetedCompetenceIds) {
-  return targetedCompetenceIds.map((competenceId) => {
+  const _findCompetence = (competenceId) => {
     const competence = _.find(allCompetences, { id: competenceId });
     if (!competence) {
       throw new Error(`Unknown competence ${competenceId}`);
     }
     return competence;
-  });
+  };
+
+  return fp.flow(
+    fp.map(_findCompetence),
+    fp.sortBy(['index']),
+  )(targetedCompetenceIds);
 }
 
-function _extractAreas(competences) {
-  return _.uniqBy(competences.map((competence) => competence.area), 'code');
+function _extractTargetedAreas(targetedCompetences) {
+  return fp.flow(
+    fp.map((targetedCompetence) => targetedCompetence.area),
+    fp.uniqBy('code'),
+  )(targetedCompetences);
 }
 

@@ -68,7 +68,7 @@ module.exports = async function createUser({
 
     if (campaignCode) {
       const campaign = await campaignRepository.getByCode(campaignCode);
-      if (campaign && campaign.organizationId) {
+      if (campaign) {
         redirectionUrl = getCampaignUrl(locale, campaignCode);
       }
     }

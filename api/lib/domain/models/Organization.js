@@ -43,6 +43,18 @@ class Organization {
     this.organizationInvitations = organizationInvitations;
     // references
   }
+
+  get isSup() {
+    return this.type === types.SUP;
+  }
+
+  get isSco() {
+    return this.type === types.SCO;
+  }
+
+  get isPro() {
+    return this.type === types.PRO;
+  }
 }
 
 Organization.types = types;

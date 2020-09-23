@@ -8,7 +8,7 @@ module.exports = async function reconcileUserToOrganization({
   schoolingRegistrationRepository,
 }) {
   const campaign = await campaignRepository.getByCode(campaignCode);
-  if (!campaign || !campaign.organizationId) {
+  if (!campaign) {
     throw new CampaignCodeError();
   }
 

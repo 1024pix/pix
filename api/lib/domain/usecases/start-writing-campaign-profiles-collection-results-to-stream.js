@@ -3,14 +3,10 @@ const moment = require('moment');
 const bluebird = require('bluebird');
 
 const constants = require('../../infrastructure/constants');
-const { UserNotAuthorizedToGetCampaignResultsError, CampaignWithoutOrganizationError } = require('../errors');
+const { UserNotAuthorizedToGetCampaignResultsError } = require('../errors');
 const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
 
 async function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
-  if (_.isNil(organizationId)) {
-    throw new CampaignWithoutOrganizationError(`Campaign without organization : ${organizationId}`);
-  }
-
   const user = await userRepository.getWithMemberships(userId);
 
   if (!user.hasAccessToOrganization(organizationId)) {
