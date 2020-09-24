@@ -1,11 +1,14 @@
 {{#if currentUser.user}}
-  <div class="logged-user-name" aria-haspopup="true" aria-expanded="{{_canDisplayMenu}}">
+  <button class="logged-user-name"
+          type="button"
+          aria-haspopup="true"
+          aria-expanded="{{_canDisplayMenu}}">
     <a href="#" class="logged-user-name__link" {{action 'toggleUserMenu'}}>
       {{currentUser.user.firstName}}
       <span class="sr-only">{{t 'navigation.user-logged-menu.details'}}</span>
       <span class="caret"></span>
     </a>
-  </div>
+  </button>
 
   {{#if _canDisplayMenu}}
     <ClickOutside @action={{action "closeMenu"}}>
