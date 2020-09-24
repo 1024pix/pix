@@ -2,6 +2,8 @@ const _ = require('lodash');
 const { SchoolingRegistrationsCouldNotBeSavedError } = require('../../domain/errors');
 const { knex } = require('../bookshelf');
 const { getChunkSizeForParameterBinding } = require('../utils/knex-utils');
+const BookshelfSchoolingRegistration = require('../data/schooling-registration');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 
 const ATTRIBUTES_TO_SAVE = [
   'firstName',
@@ -43,6 +45,38 @@ module.exports = {
     });
 
     return upsert(registrationDataToSave);
+  },
+
+  async findByOrganizationIdAndStudentNumber({ organizationId, studentNumber }) {
+    const schoolingRegistration = await BookshelfSchoolingRegistration
+      .query((qb) => {
+        qb.where('organizationId', organizationId);
+        qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
+      })
+      .fetchAll();
+
+    return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistration);
+  },
+
+  async updateStudentNumber(studentId, studentNumber) {
+    await BookshelfSchoolingRegistration
+      .where('id', studentId)
+      .save({ studentNumber }, {
+        patch: true,
+      });
+  },
+
+  async findOneRegisteredByOrganizationIdAndUserData({ organizationId, reconciliationInfo: { birthdate, studentNumber } = {} }) {
+    const schoolingRegistration = await BookshelfSchoolingRegistration
+      .query((qb) => {
+        qb.where('organizationId', organizationId);
+        qb.where('isSupernumerary', false);
+        if (birthdate) qb.where('birthdate', birthdate);
+        if (studentNumber) qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
+      })
+      .fetch();
+
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
   },
 };
 

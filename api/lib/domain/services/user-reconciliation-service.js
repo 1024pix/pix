@@ -26,9 +26,9 @@ function findMatchingCandidateIdForGivenUser(matchingUserCandidates, user) {
 async function findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser({
   organizationId,
   reconciliationInfo: { studentNumber, firstName, lastName, birthdate },
-  schoolingRegistrationRepository,
+  higherSchoolingRegistrationRepository,
 }) {
-  const schoolingRegistration = await schoolingRegistrationRepository.findOneRegisteredByOrganizationIdAndUserData({
+  const schoolingRegistration = await higherSchoolingRegistrationRepository.findOneRegisteredByOrganizationIdAndUserData({
     organizationId,
     reconciliationInfo: { studentNumber, birthdate },
   });

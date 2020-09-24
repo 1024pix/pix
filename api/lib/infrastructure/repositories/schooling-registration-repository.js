@@ -118,30 +118,6 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
   },
 
-  async findByOrganizationIdAndStudentNumber({ organizationId, studentNumber }) {
-    const schoolingRegistration = await BookshelfSchoolingRegistration
-      .query((qb) => {
-        qb.where('organizationId', organizationId);
-        qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
-      })
-      .fetchAll();
-
-    return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistration);
-  },
-
-  async findOneImportedByOrganizationIdAndUserData({ organizationId, reconciliationInfo: { birthdate, studentNumber } = {} }) {
-    const schoolingRegistration = await BookshelfSchoolingRegistration
-      .query((qb) => {
-        qb.where('organizationId', organizationId);
-        qb.where('isSupernumerary', false);
-        if (birthdate) qb.where('birthdate', birthdate);
-        if (studentNumber) qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
-      })
-      .fetch();
-
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
-  },
-
   async reconcileUserToSchoolingRegistration({ userId, schoolingRegistrationId }) {
     const schoolingRegistration = await BookshelfSchoolingRegistration
       .where({ id: schoolingRegistrationId })

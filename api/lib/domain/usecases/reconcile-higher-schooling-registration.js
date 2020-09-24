@@ -34,7 +34,7 @@ module.exports = async function reconcileHigherSchoolingRegistration({
     return higherSchoolingRegistrationRepository.saveAndReconcile(newHigherSchoolingRegistration, userId);
   }
 
-  const foundSchoolingRegistration = await schoolingRegistrationRepository.findOneRegisteredByOrganizationIdAndUserData({
+  const foundSchoolingRegistration = await higherSchoolingRegistrationRepository.findOneRegisteredByOrganizationIdAndUserData({
     organizationId: campaign.organizationId,
     reconciliationInfo: { studentNumber },
   });
@@ -50,7 +50,7 @@ module.exports = async function reconcileHigherSchoolingRegistration({
   const matchedSchoolingRegistration = await userReconciliationService.findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser({
     organizationId: campaign.organizationId,
     reconciliationInfo: { studentNumber, firstName, lastName, birthdate },
-    schoolingRegistrationRepository,
+    higherSchoolingRegistrationRepository,
   });
 
   return schoolingRegistrationRepository.reconcileUserToSchoolingRegistration({ userId, schoolingRegistrationId: matchedSchoolingRegistration.id });

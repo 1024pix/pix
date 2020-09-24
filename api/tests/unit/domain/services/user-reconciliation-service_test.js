@@ -390,11 +390,11 @@ describe('Unit | Service | user-reconciliation-service', () => {
 
     let user;
     let organizationId;
-    let schoolingRegistrationRepositoryStub;
+    let higherSchoolingRegistrationRepositoryStub;
 
     beforeEach(() => {
       organizationId = domainBuilder.buildOrganization().id;
-      schoolingRegistrationRepositoryStub = {
+      higherSchoolingRegistrationRepositoryStub = {
         findOneRegisteredByOrganizationIdAndUserData: sinon.stub(),
       };
     });
@@ -402,7 +402,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
     context('When schooling registrations are found for organization and birthdate', () => {
 
       beforeEach(() => {
-        schoolingRegistrationRepositoryStub.findOneRegisteredByOrganizationIdAndUserData.resolves(schoolingRegistrations[0]);
+        higherSchoolingRegistrationRepositoryStub.findOneRegisteredByOrganizationIdAndUserData.resolves(schoolingRegistrations[0]);
       });
 
       context('When no schooling registrations matched on names', () => {
@@ -415,7 +415,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
           };
 
           // when
-          const error = await catchErr(userReconciliationService.findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+          const error = await catchErr(userReconciliationService.findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, reconciliationInfo: user, higherSchoolingRegistrationRepository: higherSchoolingRegistrationRepositoryStub });
 
           // then
           expect(error).to.be.instanceOf(NotFoundError);
@@ -438,10 +438,10 @@ describe('Unit | Service | user-reconciliation-service', () => {
 
           it('should throw an error', async () => {
             // given
-            schoolingRegistrationRepositoryStub.findOneRegisteredByOrganizationIdAndUserData.resolves(schoolingRegistrations[0]);
+            higherSchoolingRegistrationRepositoryStub.findOneRegisteredByOrganizationIdAndUserData.resolves(schoolingRegistrations[0]);
 
             // when
-            const result = await catchErr(userReconciliationService.findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+            const result = await catchErr(userReconciliationService.findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, reconciliationInfo: user, higherSchoolingRegistrationRepository: higherSchoolingRegistrationRepositoryStub });
 
             // then
             expect(result).to.be.instanceOf(SchoolingRegistrationAlreadyLinkedToUserError);
@@ -452,7 +452,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
 
           it('should return matched SchoolingRegistration', async () => {
             // when
-            const result = await userReconciliationService.findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+            const result = await userReconciliationService.findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId, reconciliationInfo: user, higherSchoolingRegistrationRepository: higherSchoolingRegistrationRepositoryStub });
 
             // then
             expect(result).to.equal(schoolingRegistrations[0]);
@@ -464,7 +464,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
     context('When no schooling registrations found', () => {
 
       beforeEach(() => {
-        schoolingRegistrationRepositoryStub.findOneRegisteredByOrganizationIdAndUserData.resolves(null);
+        higherSchoolingRegistrationRepositoryStub.findOneRegisteredByOrganizationIdAndUserData.resolves(null);
       });
 
       it('should throw an error', async () => {
@@ -475,7 +475,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
         };
 
         // when
-        const error = await catchErr(userReconciliationService.findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+        const error = await catchErr(userReconciliationService.findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, reconciliationInfo: user, higherSchoolingRegistrationRepository: higherSchoolingRegistrationRepositoryStub });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
