@@ -53,6 +53,7 @@ module.exports = {
   buildSkillCollection: require('./build-skill-collection'),
   buildSolution: require('./build-solution'),
   buildTargetedSkill: require('./build-targeted-skill'),
+  buildTargetedTube: require('./build-targeted-tube'),
   buildTargetProfile: require('./build-target-profile'),
   buildTube: require('./build-tube'),
   buildTutorial: require('./build-tutorial'),
