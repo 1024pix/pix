@@ -10,10 +10,12 @@ const tubeDatasource = require('../../infrastructure/datasources/airtable/tube-d
 const competenceDatasource = require('../../infrastructure/datasources/airtable/competence-datasource');
 const areaDatasource = require('../../infrastructure/datasources/airtable/area-datasource');
 const { NotFoundError } = require('../../domain/errors');
+const { FRENCH_FRANCE } = require('../../domain/constants').LOCALE;
+const { getTranslatedText } = require('../../domain/services/get-translated-text');
 
 module.exports = {
 
-  async get(id) {
+  async get({ id, locale = FRENCH_FRANCE }) {
     const results = await knex('target-profiles')
       .leftJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id')
       .select('target-profiles.id', 'target-profiles.name', 'target-profiles_skills.skillId')
@@ -29,7 +31,7 @@ module.exports = {
       tubes,
       competences,
       areas,
-    } = await _getTargetedLearningContent(skillIds);
+    } = await _getTargetedLearningContent(skillIds, locale);
 
     return new TargetProfileWithLearningContent({
       id: results[0].id,
@@ -42,11 +44,11 @@ module.exports = {
   },
 };
 
-async function _getTargetedLearningContent(skillIds) {
+async function _getTargetedLearningContent(skillIds, locale) {
   const skills = await _findTargetedSkills(skillIds);
-  const tubes = await _findTargetedTubes(skills);
-  const competences = await _findTargetedCompetences(tubes);
-  const areas = await _findTargetedAreas(competences);
+  const tubes = await _findTargetedTubes(skills, locale);
+  const competences = await _findTargetedCompetences(tubes, locale);
+  const areas = await _findTargetedAreas(competences, locale);
 
   return {
     skills,
@@ -63,37 +65,40 @@ async function _findTargetedSkills(skillIds) {
   });
 }
 
-async function _findTargetedTubes(skills) {
+async function _findTargetedTubes(skills, locale) {
   const skillsByTubeId = _.groupBy(skills, 'tubeId');
   const airtableTubes = await tubeDatasource.findByRecordIds(Object.keys(skillsByTubeId));
   return airtableTubes.map((airtableTube) => {
+    const practicalTitle = getTranslatedText(locale, { frenchText: airtableTube.practicalTitleFrFr, englishText: airtableTube.practicalTitleEnUs });
     return new TargetedTube({
       ...airtableTube,
-      practicalTitle: airtableTube.practicalTitleFrFr,
+      practicalTitle,
       skills: skillsByTubeId[airtableTube.id],
     });
   });
 }
 
-async function _findTargetedCompetences(tubes) {
+async function _findTargetedCompetences(tubes, locale) {
   const tubesByCompetenceId = _.groupBy(tubes, 'competenceId');
   const airtableCompetences = await competenceDatasource.findByRecordIds(Object.keys(tubesByCompetenceId));
   return airtableCompetences.map((airtableCompetence) => {
+    const name = getTranslatedText(locale, { frenchText: airtableCompetence.nameFrFr, englishText: airtableCompetence.nameEnUs });
     return new TargetedCompetence({
       ...airtableCompetence,
-      name: airtableCompetence.nameFrFr,
+      name,
       tubes: tubesByCompetenceId[airtableCompetence.id],
     });
   });
 }
 
-async function _findTargetedAreas(competences) {
+async function _findTargetedAreas(competences, locale) {
   const competencesByAreaId = _.groupBy(competences, 'areaId');
   const airtableAreas = await areaDatasource.findByRecordIds(Object.keys(competencesByAreaId));
   return airtableAreas.map((airtableArea) => {
+    const title = getTranslatedText(locale, { frenchText: airtableArea.titleFrFr, englishText: airtableArea.titleEnUs });
     return new TargetedArea({
       ...airtableArea,
-      title: airtableArea.titleFrFr,
+      title,
       competences: competencesByAreaId[airtableArea.id],
     });
   });

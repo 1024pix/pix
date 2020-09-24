@@ -12,6 +12,8 @@ const buildCompetence = function buildCompetence({
   ],
   sousDomaine = '1.1',
   titre = 'Mener une recherche et une veille d’information',
+  titreFrFr = null,
+  titreEnUs = null,
   acquisIdentifiants = [
     'recV11ibSCXvaUzZd',
     'recD01ptfJy7c4Sex',
@@ -72,6 +74,8 @@ const buildCompetence = function buildCompetence({
       'Epreuves': epreuves,
       'Sous-domaine': sousDomaine,
       'Titre': titre,
+      'Titre fr-fr': titreFrFr,
+      'Titre en-us': titreEnUs,
       'Acquis (identifiants)': acquisIdentifiants,
       'Tubes': tubes,
       'Acquis (via Tubes) (id persistant)': acquisViaTubes,

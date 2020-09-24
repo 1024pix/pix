@@ -4,6 +4,7 @@ const buildChallenge = require('../build-challenge');
 const buildTube = require('../build-tube');
 const buildCompetence = require('../build-competence');
 const buildArea = require('../build-area');
+const { FRENCH_FRANCE, ENGLISH_SPOKEN } = require('../../../../../lib/domain/constants').LOCALE;
 
 const buildLearningContent = function(learningContent) {
   const allCompetences = [];
@@ -95,6 +96,7 @@ const buildLearningContent = function(learningContent) {
 
 buildLearningContent.fromTargetProfileWithLearningContent = function buildLearningContentFromTargetProfileWithLearningContent({
   targetProfile,
+  locale = FRENCH_FRANCE,
 }) {
   const allCompetences = [];
   const allTubes = [];
@@ -117,7 +119,8 @@ buildLearningContent.fromTargetProfileWithLearningContent = function buildLearni
         return buildTube(
           {
             id: tube.id,
-            titrePratiqueFrFr: tube.practicalTitle,
+            titrePratiqueFrFr: locale === FRENCH_FRANCE ? tube.practicalTitle : null,
+            titrePratiqueEnUs: locale === ENGLISH_SPOKEN ? tube.practicalTitle : null,
             competences: [competence.id],
           },
         );
@@ -131,14 +134,16 @@ buildLearningContent.fromTargetProfileWithLearningContent = function buildLearni
           acquisViaTubes: competence.tubes.flatMap((tube) => tube.skills).map((skill) => skill.id),
           domaineIds: [area.id],
           sousDomaine: competence.index,
-          titre: competence.name,
+          titreFrFr: locale === FRENCH_FRANCE ? competence.name : null,
+          titreEnUs: locale === ENGLISH_SPOKEN ? competence.name : null,
         },
       );
     });
     allCompetences.push(competences);
     return buildArea({
       id: area.id,
-      titreFr: area.title,
+      titreFr: locale === FRENCH_FRANCE ? area.title : null,
+      titreEn: locale === ENGLISH_SPOKEN ? area.title : null,
       competenceIds: competences.map((competence) => competence.id),
       nomCompetences: competences.map((competence) => competence.name),
     });
