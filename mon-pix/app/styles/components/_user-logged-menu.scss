@@ -9,6 +9,8 @@
   text-decoration: none;
   color: $grey-60;
   cursor: pointer;
+  font-size: 1.13rem;
+  font-weight: $font-medium;
 
   &:visited,
   &:focus,
@@ -30,7 +32,6 @@
 .logged-user-name {
   word-break: break-all;
   font-family: $font-roboto;
-  font-size: 1rem;
   letter-spacing: 0.031rem;
   text-align: right;
   color: $grey-60;
