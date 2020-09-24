@@ -57,6 +57,7 @@ module.exports = {
   buildTargetedSkill: require('./build-targeted-skill'),
   buildTargetedTube: require('./build-targeted-tube'),
   buildTargetProfile: require('./build-target-profile'),
+  buildTargetProfileWithLearningContent: require('./build-target-profile-with-learning-content'),
   buildTube: require('./build-tube'),
   buildTutorial: require('./build-tutorial'),
   buildUser: require('./build-user'),
