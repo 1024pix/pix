@@ -70,12 +70,21 @@
   border-radius: 4px;
   overflow: hidden;
   box-shadow: 0 1px 1px 0 rgba(60, 64, 67, 0.08), 0 1px 3px 1px rgba(60, 64, 67, 0.16);
-}
 
-.logged-user-menu__details {
-  color: $grey-80;
-  background-color: $grey-10;
-  padding: 12px 16px;
+  &__details {
+    color: $grey-80;
+    background-color: $grey-10;
+    padding: 12px 16px;
+  }
+
+  &__actions {
+    padding-left: 0;
+    margin: 0;
+
+    & > li {
+      list-style: none;
+    }
+  }
 }
 
 .logged-user-menu-details__fullname {

@@ -17,16 +17,24 @@
           <div class="logged-user-menu-details__fullname">{{currentUser.user.fullName}}</div>
           <div class="logged-user-menu-details__identifier">{{displayedIdentifier}}</div>
         </div>
-        <LinkTo @route="user-tutorials" class="logged-user-menu__link">
-          {{t 'navigation.user.tutorials'}}
-        </LinkTo>
-        <LinkTo @route="user-certifications" class="logged-user-menu__link">
-          {{t 'navigation.user.certifications'}}
-        </LinkTo>
-        <LinkTo @route="logout" class="logged-user-menu__link">
-          {{fa-icon "power-off" class="logged-user-menu__icon"}}
-          {{t 'navigation.user.sign-out'}}
-        </LinkTo>
+        <ul class="logged-user-menu__actions">
+          <li>
+            <LinkTo @route="user-tutorials" class="logged-user-menu__link">
+              {{t 'navigation.user.tutorials'}}
+            </LinkTo>
+          </li>
+          <li>
+            <LinkTo @route="user-certifications" class="logged-user-menu__link">
+              {{t 'navigation.user.certifications'}}
+            </LinkTo>
+          </li>
+          <li>
+            <LinkTo @route="logout" class="logged-user-menu__link">
+              <FaIcon @icon="power-off" class="logged-user-menu__icon"/>
+              {{t 'navigation.user.sign-out'}}
+            </LinkTo>
+          </li>
+        </ul>
       </div>
     </ClickOutside>
   {{/if}}
