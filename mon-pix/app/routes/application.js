@@ -19,8 +19,16 @@ export default Route.extend(ApplicationRouteMixin, {
     this.splash.hide();
   },
 
-  _checkForURLAuthentication(transition) {
+  async _checkForURLAuthentication(transition) {
+
+    if (transition.to.queryParams && transition.to.queryParams.externalUser) {
+      // Logout user when a new external user is authenticated.
+      await this._logoutUser();
+    }
+
     if (transition.to.queryParams && transition.to.queryParams.token) {
+      // Logout user when existing external user is authenticated.
+      await this._logoutUser();
       return this.session.authenticate(
         'authenticator:oauth2', { token: transition.to.queryParams.token },
       );
@@ -55,6 +63,12 @@ export default Route.extend(ApplicationRouteMixin, {
 
   _loadCurrentUser() {
     return this.currentUser.load().catch(() => this.session.invalidate());
+  },
+
+  _logoutUser() {
+    delete this.session.data.expectedUserId;
+    delete this.session.data.externalUser;
+    return this.session.invalidate();
   },
 
 });
