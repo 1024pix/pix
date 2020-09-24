@@ -834,6 +834,9 @@
       "sign-up": "S'inscrire"
     },
     "pix": "Pix",
+    "user-logged-menu": {
+      "details": "Consulter mes informations"
+    },
     "user": {
       "certifications": "Mes certifications",
       "sign-out": "Se déconnecter",
