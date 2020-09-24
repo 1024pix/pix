@@ -17,6 +17,11 @@
     display: flex;
     margin-left: 68px;
     margin-right: 20px;
+    padding-left: 0;
+  }
+
+  &__campaign-menu {
+    padding-left: 0;
   }
 }
 
@@ -27,6 +32,10 @@
     margin-right: 20px;
     padding-top: 5px;
     padding-bottom: 5px;
+    list-style: none;
+  }
+
+  &__link {
     font-size: 1rem;
     font-family: $font-roboto;
     color: $grey-60;
@@ -48,6 +57,19 @@
       cursor: pointer;
       color: $light-blue;
     }
+  }
+}
+
+.navbar-desktop-header-campaign-menu {
+
+  &__button {
+    font-size: 1.13rem;
+    font-weight: $font-medium;
+    font-family: $font-roboto;
+  }
+
+  &__item {
+    list-style: none;
   }
 }
 
