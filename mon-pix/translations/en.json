@@ -810,6 +810,7 @@
   },
 
   "navigation": {
+    "copyrights": "©",
     "error": "Error",
     "homepage": "Homepage",
     "back-to-homepage": "Return to homepage",
@@ -818,19 +819,7 @@
       "a11y": "Accessibility",
       "help-center": "Help center",
       "link-a11y": "https://pix.fr/accessibilite",
-      "link-help-center": "https://pix.org/aide",
-      "social-medias": {
-        "aria-label": {
-          "facebook": "Facebook",
-          "linkedin": "LinkedIn",
-          "twitter": "Twitter"
-        },
-        "link": {
-          "facebook": "https://www.facebook.com/pg/Pix1024/",
-          "linkedin": "https://www.linkedin.com/company/gip-pix",
-          "twitter": "https://twitter.com/Pix_officiel"
-        }
-      }
+      "link-help-center": "https://pix.org/aide"
     },
     "main": {
       "code": "I have a code",

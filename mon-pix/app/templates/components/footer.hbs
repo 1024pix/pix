@@ -12,57 +12,22 @@
     </div>
 
     <div class="footer-container__content">
-      <div class="footer-container__links">
-        <div class="footer-links__social-medias">
-          <a href="{{t 'navigation.footer.social-medias.link.facebook'}}"
-             class="footer-social-medias__item"
-             target="_blank"
-             rel="noopener noreferrer"
-             aria-label="{{t 'navigation.footer.social-medias.aria-label.facebook'}}">
-            <FaIcon @prefix="fab"
-                    @icon="facebook-f"
-                    class="footer-social-medias-item__icon"/>
-          </a>
+      <div class="footer-container-content__navigation">
+        <a href="{{t 'navigation.footer.link-help-center'}}"
+           target="_blank"
+           class="footer-navigation__item">
+          {{t 'navigation.footer.help-center'}}
+        </a>
 
-          <a href="{{t 'navigation.footer.social-medias.link.linkedin'}}"
-             class="footer-social-medias__item"
-             target="_blank"
-             rel="noopener noreferrer"
-             aria-label="{{t 'navigation.footer.social-medias.aria-label.linkedin'}}">
-            <FaIcon @prefix="fab"
-                    @icon="linkedin-in"
-                    class="footer-social-medias-item__icon"
-            />
-          </a>
-
-          <a href="{{t 'navigation.footer.social-medias.link.twitter'}}"
-             class="footer-social-medias__item"
-             target="_blank"
-             rel="noopener noreferrer"
-             aria-label="{{t 'navigation.footer.social-medias.aria-label.twitter'}}">
-            <FaIcon @prefix="fab"
-                    @icon="twitter"
-                    class="footer-social-medias-item__icon"/>
-          </a>
-        </div>
-
-        <div class="footer-links__navigation">
-          <a href="{{t 'navigation.footer.link-help-center'}}"
-             target="_blank"
-             class="footer-navigation__item">
-            {{t 'navigation.footer.help-center'}}
-          </a>
-
-          <a href="{{t 'navigation.footer.link-a11y'}}"
-             target="_blank"
-             class="footer-navigation__item">
-            {{t 'navigation.footer.a11y'}}
-          </a>
-        </div>
+        <a href="{{t 'navigation.footer.link-a11y'}}"
+           target="_blank"
+           class="footer-navigation__item">
+          {{t 'navigation.footer.a11y'}}
+        </a>
       </div>
 
-      <div class="footer-container__copyrights">
-        <span>© {{ this.currentYear }} Pix</span>
+      <div class="footer-container-content__copyrights">
+        <span>{{t 'navigation.copyrights'}} {{ this.currentYear }} {{t 'navigation.pix'}}</span>
       </div>
     </div>
 
