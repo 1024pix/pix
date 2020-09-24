@@ -94,9 +94,7 @@
               Enregistrer
           </button>
       {{/if}}
-        <button data-test-id='panel-candidate__action__cancel' class="button button--square button--lightgrey certification-candidates-row-actions__close" type="button" {{on "click" (fn @onClickCancel @candidateData)}}>
-          <FaIcon @icon='times' class='fa-fw certification-candidates-add-button__icon' />
-        </button>
+        <PixActionButton @icon='times' @triggerAction={{this.cancel}} data-test-id="panel-candidate__action__cancel" />
     </div>
   </td>
 </tr>

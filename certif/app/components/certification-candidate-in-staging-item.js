@@ -7,4 +7,9 @@ export default class CertificationCandidateInStagingItem extends Component {
   updateCandidateDataBirthdate(value) {
     this.args.updateCandidateBirthdate(this.args.candidateData, value);
   }
+
+  @action
+  cancel() {
+    this.args.onClickCancel(this.args.candidateData);
+  }
 }
