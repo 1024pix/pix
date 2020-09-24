@@ -36,5 +36,10 @@ module.exports = datasource.extend({
     };
   },
 
+  async findByRecordIds(competenceIds) {
+    const competences = await this.list();
+    return competences.filter(({ id }) => competenceIds.includes(id));
+  },
+
 });
 
