@@ -353,7 +353,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
 
         context('When schoolingRegistration is not already linked', () => {
 
-          it('should return matchedSchoolingRegistration', async () => {
+          it('should return matched SchoolingRegistration', async () => {
             // when
             const result = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
@@ -382,6 +382,103 @@ describe('Unit | Service | user-reconciliation-service', () => {
 
         // then
         expect(result).to.be.instanceOf(NotFoundError, 'There were no schoolingRegistrations matching');
+      });
+    });
+  });
+
+  describe('#findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser', () => {
+
+    let user;
+    let organizationId;
+    let schoolingRegistrationRepositoryStub;
+
+    beforeEach(() => {
+      organizationId = domainBuilder.buildOrganization().id;
+      schoolingRegistrationRepositoryStub = {
+        findOneRegisteredByOrganizationIdAndUserData: sinon.stub(),
+      };
+    });
+
+    context('When schooling registrations are found for organization and birthdate', () => {
+
+      beforeEach(() => {
+        schoolingRegistrationRepositoryStub.findOneRegisteredByOrganizationIdAndUserData.resolves(schoolingRegistrations[0]);
+      });
+
+      context('When no schooling registrations matched on names', () => {
+
+        it('should throw an error', async () => {
+          // given
+          user = {
+            firstName: 'fakeFirstName',
+            lastName: 'fakeLastName',
+          };
+
+          // when
+          const error = await catchErr(userReconciliationService.findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+
+          // then
+          expect(error).to.be.instanceOf(NotFoundError);
+        });
+      });
+
+      context('When one schooling registration matched on names', () => {
+
+        beforeEach(() => {
+          user = {
+            firstName: schoolingRegistrations[0].firstName,
+            lastName: schoolingRegistrations[0].lastName,
+          };
+        });
+
+        context('When schoolingRegistration is already linked', () => {
+          beforeEach(() => {
+            schoolingRegistrations[0].userId = '123';
+          });
+
+          it('should throw an error', async () => {
+            // given
+            schoolingRegistrationRepositoryStub.findOneRegisteredByOrganizationIdAndUserData.resolves(schoolingRegistrations[0]);
+
+            // when
+            const result = await catchErr(userReconciliationService.findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+
+            // then
+            expect(result).to.be.instanceOf(SchoolingRegistrationAlreadyLinkedToUserError);
+          });
+        });
+
+        context('When schoolingRegistration is not already linked', () => {
+
+          it('should return matched SchoolingRegistration', async () => {
+            // when
+            const result = await userReconciliationService.findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+
+            // then
+            expect(result).to.equal(schoolingRegistrations[0]);
+          });
+        });
+      });
+    });
+
+    context('When no schooling registrations found', () => {
+
+      beforeEach(() => {
+        schoolingRegistrationRepositoryStub.findOneRegisteredByOrganizationIdAndUserData.resolves(null);
+      });
+
+      it('should throw an error', async () => {
+        // given
+        user = {
+          firstName: 'fakeFirstName',
+          lastName: 'fakeLastName',
+        };
+
+        // when
+        const error = await catchErr(userReconciliationService.findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
       });
     });
   });
@@ -470,60 +567,6 @@ describe('Unit | Service | user-reconciliation-service', () => {
 
       // then
       expect(result).to.not.equal(originaldUsername);
-    });
-  });
-
-  describe('#doesSupernumerarySchoolingRegistrationExist', () => {
-
-    let user;
-    let organizationId;
-    let schoolingRegistrationRepositoryStub;
-
-    beforeEach(() => {
-      organizationId = domainBuilder.buildOrganization().id;
-      schoolingRegistrationRepositoryStub = {
-        findSupernumeraryByOrganizationIdAndBirthdate: sinon.stub(),
-      };
-    });
-
-    context('When schooling registrations are found for organization and birthdate', () => {
-
-      beforeEach(() => {
-        schoolingRegistrationRepositoryStub.findSupernumeraryByOrganizationIdAndBirthdate.resolves(schoolingRegistrations);
-        user = {
-          firstName: schoolingRegistrations[0].firstName,
-          lastName: schoolingRegistrations[0].lastName,
-        };
-      });
-
-      it('should return true', async () => {
-        // when
-        const result = await userReconciliationService.doesSupernumerarySchoolingRegistrationExist({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
-
-        // then
-        expect(result).to.be.true;
-      });
-    });
-
-    context('When no schooling registrations found', () => {
-
-      beforeEach(() => {
-        schoolingRegistrationRepositoryStub.findSupernumeraryByOrganizationIdAndBirthdate.resolves([]);
-      });
-
-      it('should return false', async () => {
-        // given
-        user = {
-          firstName: 'fakeFirstName',
-          lastName: 'fakeLastName',
-        };
-
-        // when
-        const result = await userReconciliationService.doesSupernumerarySchoolingRegistrationExist({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
-
-        // then
-        expect(result).to.be.false;
-      });
     });
   });
 });

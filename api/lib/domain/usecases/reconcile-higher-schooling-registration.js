@@ -1,4 +1,4 @@
-const { NotFoundError, SchoolingRegistrationAlreadyLinkedToUserError } = require('../errors');
+const { NotFoundError } = require('../errors');
 const HigherEducationRegistration = require('../models/HigherEducationRegistration');
 
 module.exports = async function reconcileHigherSchoolingRegistration({
@@ -20,23 +20,38 @@ module.exports = async function reconcileHigherSchoolingRegistration({
     throw new NotFoundError();
   }
 
-  const doesSupernumerarySchoolingRegistrationExist = await userReconciliationService.doesSupernumerarySchoolingRegistrationExist({
-    organizationId: campaign.organizationId,
-    reconciliationInfo: { firstName, lastName, birthdate },
-    schoolingRegistrationRepository,
-  });
-  if (doesSupernumerarySchoolingRegistrationExist) {
-    throw new SchoolingRegistrationAlreadyLinkedToUserError();
-  }
-
-  const higherEducationRegistration = new HigherEducationRegistration({
-    studentNumber,
+  const supernumeraryHigherSchoolingRegistrationAttributes = {
     firstName,
     lastName,
     birthdate,
     organizationId: campaign.organizationId,
     isSupernumerary: true,
+  };
+  let newHigherSchoolingRegistration;
+
+  if (!studentNumber) {
+    newHigherSchoolingRegistration = new HigherEducationRegistration(supernumeraryHigherSchoolingRegistrationAttributes);
+    return higherEducationRegistrationRepository.saveAndReconcile(newHigherSchoolingRegistration, userId);
+  }
+
+  const foundSchoolingRegistration = await schoolingRegistrationRepository.findOneRegisteredByOrganizationIdAndUserData({
+    organizationId: campaign.organizationId,
+    reconciliationInfo: { studentNumber },
   });
 
-  await higherEducationRegistrationRepository.saveAndReconcile(higherEducationRegistration, userId);
+  if (!foundSchoolingRegistration) {
+    newHigherSchoolingRegistration = new HigherEducationRegistration({
+      ...supernumeraryHigherSchoolingRegistrationAttributes,
+      studentNumber,
+    });
+    return higherEducationRegistrationRepository.saveAndReconcile(newHigherSchoolingRegistration, userId);
+  }
+
+  const matchedSchoolingRegistration = await userReconciliationService.findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser({
+    organizationId: campaign.organizationId,
+    reconciliationInfo: { studentNumber, firstName, lastName, birthdate },
+    schoolingRegistrationRepository,
+  });
+
+  return schoolingRegistrationRepository.reconcileUserToSchoolingRegistration({ userId, schoolingRegistrationId: matchedSchoolingRegistration.id });
 };

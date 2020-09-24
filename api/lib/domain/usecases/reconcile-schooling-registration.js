@@ -19,7 +19,6 @@ module.exports = async function reconcileSchoolingRegistration({
     organizationId: campaign.organizationId,
     reconciliationInfo,
     schoolingRegistrationRepository,
-    studentRepository,
     userRepository,
     obfuscationService,
   });
