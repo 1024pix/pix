@@ -23,25 +23,28 @@ describe('Acceptance | Navbar', function() {
 
     [
       {
-        initialRoute: '/certifications', initialNavigationItem: '.navbar-desktop-header-menu__item:nth-child(2)',
-        expectedRoute: '/profil', targetedNavigationItem: '.navbar-desktop-header-menu__item:nth-child(1)',
+        initialRoute: '/certifications', initialNavigationItem: 1,
+        expectedRoute: '/profil', targetedNavigationItem: 0,
       },
       {
-        initialRoute: '/profil', initialNavigationItem: '.navbar-desktop-header-menu__item:nth-child(1)',
-        expectedRoute: '/certifications', targetedNavigationItem: '.navbar-desktop-header-menu__item:nth-child(2)',
+        initialRoute: '/profil', initialNavigationItem: 0,
+        expectedRoute: '/certifications', targetedNavigationItem: 1,
       },
-    ].forEach((usecase) => {
-      it(`should redirect from "${usecase.initialRoute}" to "${usecase.expectedRoute}"`, async function() {
+    ].forEach((userNavigation) => {
+      it(`should redirect from "${userNavigation.initialRoute}" to "${userNavigation.expectedRoute}"`, async function() {
         // given
-        await visit(usecase.initialRoute);
-        expect(find(usecase.initialNavigationItem).getAttribute('class')).to.contain('active');
+        await visit(userNavigation.initialRoute);
+        expect(find('.navbar-desktop-header-container__menu').children[userNavigation.initialNavigationItem].children[0]
+          .getAttribute('class')).to.contain('active');
 
         // when
-        await click(usecase.targetedNavigationItem);
+        await click(find('.navbar-desktop-header-container__menu').children[userNavigation.targetedNavigationItem].children[0]);
+
 
         // then
-        expect(currentURL()).to.equal(usecase.expectedRoute);
-        expect(find(usecase.targetedNavigationItem).getAttribute('class')).to.contain('active');
+        expect(currentURL()).to.equal(userNavigation.expectedRoute);
+        expect(find('.navbar-desktop-header-container__menu').children[userNavigation.targetedNavigationItem].children[0]
+          .getAttribute('class')).to.contain('active');
       });
     });
 
@@ -58,11 +61,14 @@ describe('Acceptance | Navbar', function() {
     });
 
     it('should contain link to pix.fr/aide', async function() {
+      // given
+      const helpItem = find('.navbar-desktop-header-container__menu').children[2];
+      const helpLink = helpItem.children[0].getAttribute('href');
       // when
       await visit('/profil');
 
       // then
-      expect(find('.navbar-desktop-header-menu__item:nth-child(3)').getAttribute('href')).to.equal('https://pix.fr/aide');
+      expect(helpLink).to.equal('https://pix.fr/aide');
     });
   });
 });
