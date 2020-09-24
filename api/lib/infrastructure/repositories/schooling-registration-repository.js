@@ -129,18 +129,6 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistration);
   },
 
-  async findSupernumeraryByOrganizationIdAndBirthdate({ organizationId, birthdate }) {
-    const schoolingRegistrations = await BookshelfSchoolingRegistration
-      .query((qb) => {
-        qb.where('organizationId', organizationId);
-        qb.where('birthdate', birthdate);
-        qb.where('isSupernumerary', true);
-      })
-      .fetchAll();
-
-    return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
-  },
-
   async findOneImportedByOrganizationIdAndUserData({ organizationId, reconciliationInfo: { birthdate, studentNumber } = {} }) {
     const schoolingRegistration = await BookshelfSchoolingRegistration
       .query((qb) => {
