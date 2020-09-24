@@ -25,9 +25,9 @@ describe('Integration | Component | user logged menu', function() {
       // given
       this.owner.register('service:currentUser', Service.extend({
         user: {
-          firstName: 'FHI',
-          email: 'FHI@4EVER.fr',
-          fullName: 'FHI 4EVER',
+          firstName: 'Hermione',
+          email: 'hermione.granger@hogwarts.com',
+          fullName: 'Hermione Granger',
         },
       }));
 
@@ -40,11 +40,16 @@ describe('Integration | Component | user logged menu', function() {
       expect(find('.logged-user-details')).to.exist;
     });
 
-    it('should display logged user name ', function() {
+    it('should display logged user name with a11y guidance', function() {
+      const nodes = find('.logged-user-name__link').childNodes;
+      const buttonTextContent = nodes[1].textContent;
+      const a11yText = nodes[3].textContent;
+
       // then
       expect(find('.logged-user-name')).to.exist;
       expect(find('.logged-user-name__link')).to.exist;
-      expect(find('.logged-user-name__link').textContent.trim()).to.be.equal('FHI');
+      expect(a11yText).to.equal(this.intl.t('navigation.user-logged-menu.details'));
+      expect(buttonTextContent).to.equal('Hermione');
     });
 
     it('should hide user menu, when no action on user-name', async function() {
@@ -67,8 +72,8 @@ describe('Integration | Component | user logged menu', function() {
         // then
         expect(find('.logged-user-menu')).to.exist;
         expect(findAll('.logged-user-menu__link')).to.have.lengthOf(MENU_ITEMS_COUNT);
-        expect(find('.logged-user-menu-details__fullname').textContent.trim()).to.equal('FHI 4EVER');
-        expect(find('.logged-user-menu-details__identifier').textContent.trim()).to.equal('FHI@4EVER.fr');
+        expect(find('.logged-user-menu-details__fullname').textContent.trim()).to.equal('Hermione Granger');
+        expect(find('.logged-user-menu-details__identifier').textContent.trim()).to.equal('hermione.granger@hogwarts.com');
       });
     });
 

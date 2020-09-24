@@ -833,6 +833,9 @@
       "sign-up": "Sign up"
     },
     "pix": "Pix",
+    "user-logged-menu": {
+      "details": "Check my details"
+    },
     "user": {
       "certifications": "My certifications",
       "sign-out": "Log out",
