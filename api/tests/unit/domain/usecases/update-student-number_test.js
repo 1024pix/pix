@@ -9,7 +9,7 @@ describe('Unit | UseCase | update-student-number', () => {
 
   let schoolingRegistration;
 
-  const schoolingRegistrationRepository = {
+  const higherSchoolingRegistrationRepository = {
     findByOrganizationIdAndStudentNumber: sinon.stub(),
     updateStudentNumber: sinon.stub(),
   };
@@ -18,13 +18,13 @@ describe('Unit | UseCase | update-student-number', () => {
     beforeEach(() => {
       schoolingRegistration = domainBuilder.buildSchoolingRegistration();
 
-      schoolingRegistrationRepository.findByOrganizationIdAndStudentNumber
+      higherSchoolingRegistrationRepository.findByOrganizationIdAndStudentNumber
         .withArgs({ organizationId, studentNumber })
         .resolves([schoolingRegistration]);
     });
     it('should return an error', async () => {
       // when
-      const error = await catchErr(updateStudentNumber)({ schoolingRegistrationRepository, schoolingRegistrationId, studentNumber, organizationId });
+      const error = await catchErr(updateStudentNumber)({ higherSchoolingRegistrationRepository, schoolingRegistrationId, studentNumber, organizationId });
       const errorMessage = `Le numéro étudiant saisi est déjà utilisé par l’étudiant ${schoolingRegistration.firstName} ${schoolingRegistration.lastName}.`;
 
       // then
@@ -35,14 +35,14 @@ describe('Unit | UseCase | update-student-number', () => {
 
   context('When there are not schooling registration with the same student number', () => {
     beforeEach(() => {
-      schoolingRegistrationRepository.findByOrganizationIdAndStudentNumber.withArgs({ organizationId, studentNumber }).resolves([]);
+      higherSchoolingRegistrationRepository.findByOrganizationIdAndStudentNumber.withArgs({ organizationId, studentNumber }).resolves([]);
     });
     it('should update a student number', async () => {
       // when
-      await updateStudentNumber({ schoolingRegistrationRepository, schoolingRegistrationId, studentNumber, organizationId });
+      await updateStudentNumber({ higherSchoolingRegistrationRepository, schoolingRegistrationId, studentNumber, organizationId });
 
       // then
-      expect(schoolingRegistrationRepository.updateStudentNumber).to.have.been.calledWith(schoolingRegistrationId, studentNumber);
+      expect(higherSchoolingRegistrationRepository.updateStudentNumber).to.have.been.calledWith(schoolingRegistrationId, studentNumber);
     });
   });
 });
