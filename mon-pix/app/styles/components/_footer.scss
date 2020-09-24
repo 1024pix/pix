@@ -45,9 +45,17 @@
       padding-bottom: 0;
     }
   }
+}
 
-  &__links {
+.footer-container-content {
+
+  &__navigation {
     display: flex;
+    align-items: center;
+
+    @include device-is('desktop') {
+      padding: 0 15px;
+    }
   }
 
   &__copyrights {
@@ -61,30 +69,6 @@
     @include device-is('tablet') {
       padding-top: 0;
     }
-  }
-}
-
-.footer-links {
-
-  &__social-medias {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    @include device-is('tablet') {
-      border-right: 1px solid $grey-20;
-    }
-
-    @include device-is('desktop') {
-      padding: 0 10px 0 20px;
-    }
-  }
-
-  &__navigation {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 15px;
   }
 }
 
@@ -122,7 +106,7 @@
 }
 
 .footer-navigation__item {
-  margin: 0 5px;
+  margin: 0 10px 0 0;
   color: $grey-60;
   font-size: 0.875rem;
   font-family: $font-roboto;

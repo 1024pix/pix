@@ -19,26 +19,11 @@ describe('Integration | Component | Footer', function() {
     expect(find('.pix-logo__image')).to.exist;
   });
 
-  it('should display social medias links menu with expected elements', async function() {
-    // when
-    await render(hbs`<Footer />}`);
-
-    // then
-    expect(find('.footer-links__social-medias')).to.exist;
-
-    const socialMediaLinks = findAll('.footer-social-medias__item');
-    expect(socialMediaLinks).to.have.lengthOf(3);
-    expect(socialMediaLinks[0].href).to.equal(this.intl.t('navigation.footer.social-medias.link.facebook'));
-    expect(socialMediaLinks[1].href).to.equal(this.intl.t('navigation.footer.social-medias.link.linkedin'));
-    expect(socialMediaLinks[2].href).to.equal(this.intl.t('navigation.footer.social-medias.link.twitter'));
-  });
-
   it('should display the navigation menu with expected elements', async function() {
     // when
     await render(hbs`<Footer />}`);
 
     // then
-    expect(find('.footer-links__navigation')).to.exist;
     expect(findAll('.footer-navigation__item')).to.have.lengthOf(2);
     expect(contains(this.intl.t('navigation.footer.a11y'))).to.exist;
     expect(contains(this.intl.t('navigation.footer.help-center'))).to.exist;
