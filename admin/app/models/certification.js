@@ -78,4 +78,14 @@ export default class Certification extends Model {
   get displayCleaCertificationStatus() {
     return partnerCertificationStatusToDisplayName[this.cleaCertificationStatus];
   }
+
+  @computed('cleaCertificationStatus')
+  get isCleaCertificationIsAcquired() {
+    return this.cleaCertificationStatus === ACQUIRED;
+  }
+
+  @computed('cleaCertificationStatus')
+  get isCleaCertificationIsRejected() {
+    return this.cleaCertificationStatus === REJECTED;
+  }
 }
