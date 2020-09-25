@@ -512,7 +512,16 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
       });
 
       context('When campaign is not restricted', function() {
+        it('should redirect to landing page', async function() {
+          // given
+          campaign = server.create('campaign');
 
+          // when
+          await visit(`/campagnes/${campaign.code}`);
+
+          //then
+          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+        });
       });
 
       context('When campaign is restricted and SCO', function() {
