@@ -16,11 +16,11 @@ class TargetProfileWithLearningContent {
   }
 
   get skillNames() {
-    return this.skills.map((skill) => skill.name).sort();
+    return this.skills.map((skill) => skill.name);
   }
 
   get competenceIds() {
-    return this.competences.map((competences) => competences.id).sort();
+    return this.competences.map((competences) => competences.id);
   }
 
   hasSkill(skillId) {
