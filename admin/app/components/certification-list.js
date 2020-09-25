@@ -22,6 +22,10 @@ export default class CertificationList extends Component {
       title: 'Statut',
     },
     {
+      propertyName: 'cleaStatus',
+      title: 'Certification CléA numérique',
+    },
+    {
       propertyName: 'pixScore',
       title: 'Score',
     },

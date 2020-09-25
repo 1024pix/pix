@@ -14,6 +14,7 @@ module.exports = {
         'isPublished',
         'examinerComment',
         'hasSeenEndTestScreen',
+        'cleaCertificationStatus',
       ],
     }).serialize(juryCertificationSummary);
   },

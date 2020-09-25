@@ -2,6 +2,16 @@ const { status: assessmentResultStatuses } = require('../models/AssessmentResult
 
 const STARTED = 'started';
 
+const ACQUIRED = true;
+const REJECTED = false;
+const NOT_PASSED = null;
+
+const statuses = {
+  [ACQUIRED]: 'acquired',
+  [REJECTED]: 'rejected',
+  [NOT_PASSED]: 'not_passed',
+};
+
 class JuryCertificationSummary {
   constructor({
     id,
@@ -14,6 +24,7 @@ class JuryCertificationSummary {
     isPublished,
     examinerComment,
     hasSeenEndTestScreen,
+    cleaCertificationStatus,
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -23,6 +34,7 @@ class JuryCertificationSummary {
       this.status = STARTED;
     }
     this.pixScore = pixScore;
+    this.cleaCertificationStatus = statuses[cleaCertificationStatus];
     this.createdAt = createdAt;
     this.completedAt = completedAt;
     this.isPublished = isPublished;
