@@ -308,12 +308,6 @@ class ImproveCompetenceEvaluationForbiddenError extends DomainError {
   }
 }
 
-class InvalidCertificationCandidate extends DomainError {
-  constructor(message = 'Candidat de certification invalide.') {
-    super(message);
-  }
-}
-
 class InvalidExternalUserTokenError extends DomainError {
   constructor(message = 'L’idToken de l’utilisateur externe est invalide.') {
     super(message);
@@ -584,7 +578,6 @@ module.exports = {
   FileValidationError,
   ForbiddenAccess,
   ImproveCompetenceEvaluationForbiddenError,
-  InvalidCertificationCandidate,
   InvalidCertificationReportForFinalization,
   InvalidExternalUserTokenError,
   InvalidParametersForSessionPublication,

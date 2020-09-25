@@ -2,7 +2,7 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 const CertificationCandidate = require('../../../../lib/domain/models/CertificationCandidate');
 const certificationCandidateRepository = require('../../../../lib/infrastructure/repositories/certification-candidate-repository');
 const addCertificationCandidateToSession = require('../../../../lib/domain/usecases/add-certification-candidate-to-session');
-const { CertificationCandidateByPersonalInfoTooManyMatchesError, InvalidCertificationCandidate } = require('../../../../lib/domain/errors');
+const { CertificationCandidateByPersonalInfoTooManyMatchesError, EntityValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | add-certification-candidate-to-session', () => {
   const sessionId = 1;
@@ -17,11 +17,11 @@ describe('Unit | UseCase | add-certification-candidate-to-session', () => {
   context('when certification candidate does not pass JOI validation', () => {
 
     beforeEach(() => {
-      CertificationCandidate.prototype.validate.throws(new InvalidCertificationCandidate());
+      CertificationCandidate.prototype.validate.throws(new EntityValidationError({ invalidAttributes: [] }));
       certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: 'WrongDateFormat', sessionId: null });
     });
 
-    it('should throw an InvalidCertificationCandidate error', async () => {
+    it('should throw an EntityValidationError error', async () => {
       // when
       const err = await catchErr(addCertificationCandidateToSession)({
         sessionId,
@@ -30,7 +30,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', () => {
       });
 
       // then
-      expect(err).to.be.instanceOf(InvalidCertificationCandidate);
+      expect(err).to.be.instanceOf(EntityValidationError);
       expect(certificationCandidateRepository.saveInSession.notCalled).to.be.true;
     });
 
