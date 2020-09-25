@@ -29,6 +29,8 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
             'nb-challenges': 2,
             'examiner-comment': 'Signalement de l\'examinateur',
             'has-seen-end-test-screen': true,
+            'first-name': certificationCourse.firstName,
+            'last-name': certificationCourse.lastName,
           },
           relationships: {
             assessment: {

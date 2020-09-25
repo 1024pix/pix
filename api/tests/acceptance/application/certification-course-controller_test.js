@@ -353,6 +353,8 @@ describe('Acceptance | API | Certification Course', () => {
           'examiner-comment': 'il s\'est enfuit de la session',
           'has-seen-end-test-screen': false,
           'nb-challenges': 0,
+          'first-name': certificationCourse.firstName,
+          'last-name': certificationCourse.lastName,
         },
         relationships: {
           assessment: {

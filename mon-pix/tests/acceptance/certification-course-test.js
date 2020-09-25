@@ -163,10 +163,12 @@ describe('Acceptance | Certification | Start Certification Course', function() {
             for (let i = 0; i < NB_CHALLENGES; ++i) {
               server.create('challenge', 'forCertification');
             }
-            certificationCourse = server.create('certification-course', {
+            certificationCourse = this.server.create('certification-course', {
               accessCode: 'ABCD12',
               sessionId: 1,
               nbChallenges: NB_CHALLENGES,
+              firstName: 'Laura',
+              lastName: 'Bravo',
             });
             assessment = certificationCourse.assessment;
           });
