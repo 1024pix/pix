@@ -1,4 +1,4 @@
-const { expect, domainBuilder } = require('../../../test-helper');
+const { expect, domainBuilder, catchErr } = require('../../../test-helper');
 const CertificationCandidate = require('../../../../lib/domain/models/CertificationCandidate');
 const { InvalidCertificationCandidate } = require('../../../../lib/domain/errors');
 const { ValidationError } = require('@hapi/joi');
@@ -43,239 +43,109 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
 
   describe('validate', () => {
 
+    const buildCertificationCandidate = (attributes) => new CertificationCandidate(attributes);
+
     context('current version 1.3', () => {
+      const version = '1.3';
 
-      it('should not throw when the object is valid', () => {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate();
+      const validAttributes = {
+        firstName: 'Oren',
+        lastName: 'Ishii',
+        birthCity: 'Torreilles',
+        birthProvinceCode: '66',
+        birthCountry: 'France',
+        birthdate: '2010-01-01',
+        sessionId: 123,
+      };
 
-        // when
-        certificationCandidate.validate();
-
-        // then
-        expect(true).to.be.true;
+      context('when all required fields are presents', () => {
+        it('should be ok when object is valid', () => {
+          try {
+            const certificationCandidate = buildCertificationCandidate(validAttributes);
+            certificationCandidate.validate(version);
+          } catch (e) {
+            expect.fail('certificationCandidate is valid when all required fields are present');
+          }
+        });
       });
 
-      it('should return an error if firstName is not defined', () => {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate();
-        certificationCandidate.firstName = undefined;
+      [
+        'firstName',
+        'lastName',
+        'birthCity',
+        'birthProvinceCode',
+        'birthCountry',
+      ].forEach((field) => {
+        it(`should throw an error when field ${field} is not a string`, async () => {
+          const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field]: 123 });
+          const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
-        // when
-        try {
-          certificationCandidate.validate();
-          expect.fail('Expected error to have been thrown');
-        } catch (err) { // then
-          expect(err).to.be.instanceOf(InvalidCertificationCandidate);
-        }
+          expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+        });
+
+        it(`should throw an error when field ${field} is not present`, async () => {
+          const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field]: undefined });
+          const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
+
+          expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+        });
       });
 
-      it('should return an error if firstName is not a string', () => {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({ firstName: 123 });
+      it('should throw an error when field sessionId is not a number', async () => {
+        const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sessionId: 'salut' });
+        const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
-        // when
-        try {
-          certificationCandidate.validate();
-          expect.fail('Expected error to have been thrown');
-        } catch (err) { // then
-          expect(err).to.be.instanceOf(InvalidCertificationCandidate);
-        }
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
       });
 
-      it('should return an error if lastName is not defined', () => {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate();
-        certificationCandidate.lastName = undefined;
+      it('should throw an error when field sessionId is not present', async () => {
+        const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sessionId: undefined });
+        const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
-        // when
-        try {
-          certificationCandidate.validate();
-          expect.fail('Expected error to have been thrown');
-        } catch (err) { // then
-          expect(err).to.be.instanceOf(InvalidCertificationCandidate);
-        }
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
       });
 
-      it('should return an error if lastName is not a string', () => {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({ lastName: 123 });
+      it('should throw an error when field externalId is not a string', async () => {
+        const certificationCandidate = buildCertificationCandidate({ ...validAttributes, externalId: 1235 });
+        const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
-        // when
-        try {
-          certificationCandidate.validate();
-          expect.fail('Expected error to have been thrown');
-        } catch (err) { // then
-          expect(err).to.be.instanceOf(InvalidCertificationCandidate);
-        }
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
       });
 
-      it('should return an error if birthCity is not defined', () => {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate();
-        certificationCandidate.birthCity = undefined;
+      it('should throw an error when birthdate is not a date', async () => {
+        const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: 'je mange des légumes' });
+        const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
-        // when
-        try {
-          certificationCandidate.validate();
-          expect.fail('Expected error to have been thrown');
-        } catch (err) { // then
-          expect(err).to.be.instanceOf(InvalidCertificationCandidate);
-        }
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
       });
 
-      it('should return an error if birthCity is not a string', () => {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthCity: 123 });
+      it('should throw an error when birthdate is not a valid format', async () => {
+        const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: '2020/02/01' });
+        const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
-        // when
-        try {
-          certificationCandidate.validate();
-          expect.fail('Expected error to have been thrown');
-        } catch (err) { // then
-          expect(err).to.be.instanceOf(InvalidCertificationCandidate);
-        }
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
       });
 
-      it('should return an error if birthProvinceCode is not defined', () => {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate();
-        certificationCandidate.birthProvinceCode = undefined;
+      it('should throw an error when birthdate is null', async () => {
+        const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: null });
+        const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
-        // when
-        try {
-          certificationCandidate.validate();
-          expect.fail('Expected error to have been thrown');
-        } catch (err) { // then
-          expect(err).to.be.instanceOf(InvalidCertificationCandidate);
-        }
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
       });
 
-      it('should return an error if birthProvinceCode is not a string', () => {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthProvinceCode: 123 });
+      it('should throw an error when birthdate is not present', async () => {
+        const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: undefined });
+        const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
-        // when
-        try {
-          certificationCandidate.validate();
-          expect.fail('Expected error to have been thrown');
-        } catch (err) { // then
-          expect(err).to.be.instanceOf(InvalidCertificationCandidate);
-        }
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
       });
 
-      it('should return an error if birthCountry is not defined', () => {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate();
-        certificationCandidate.birthCountry = undefined;
+      it('should throw an error when field extraTimePercentage is not a number', async () => {
+        const certificationCandidate = buildCertificationCandidate({ ...validAttributes, extraTimePercentage: 'salut' });
+        const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
-        // when
-        try {
-          certificationCandidate.validate();
-          expect.fail('Expected error to have been thrown');
-        } catch (err) { // then
-          expect(err).to.be.instanceOf(InvalidCertificationCandidate);
-        }
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
       });
-
-      it('should return an error if birthCountry is not a string', () => {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthCountry: 123 });
-
-        // when
-        try {
-          certificationCandidate.validate();
-          expect.fail('Expected error to have been thrown');
-        } catch (err) { // then
-          expect(err).to.be.instanceOf(InvalidCertificationCandidate);
-        }
-      });
-
-      it('should return an error if email is not an email type of string', () => {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({ email: 'Je mange des saucisses' });
-
-        // when
-        try {
-          certificationCandidate.validate();
-          expect.fail('Expected error to have been thrown');
-        } catch (err) { // then
-          expect(err).to.be.instanceOf(InvalidCertificationCandidate);
-        }
-      });
-
-      it('should return an error if externalId is not a string', () => {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({ externalId: 123 });
-
-        // when
-        try {
-          certificationCandidate.validate();
-          expect.fail('Expected error to have been thrown');
-        } catch (err) { // then
-          expect(err).to.be.instanceOf(InvalidCertificationCandidate);
-        }
-      });
-
-      it('should return an error if extraTimePercentage is not a number', () => {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({ extraTimePercentage: 'aaa' });
-
-        // when
-        try {
-          certificationCandidate.validate();
-          expect.fail('Expected error to have been thrown');
-        } catch (err) { // then
-          expect(err).to.be.instanceOf(InvalidCertificationCandidate);
-        }
-      });
-
-      it('should return an error if birthdate is not defined', () => {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate();
-        certificationCandidate.birthdate = undefined;
-
-        // when
-        return expect(() => certificationCandidate.validate())
-          .to.throw(InvalidCertificationCandidate);
-      });
-
-      it('should return an error if birthdate is not a date in iso format', () => {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: '04/01/1990' });
-
-        // when
-        return expect(() => certificationCandidate.validate())
-          .to.throw(InvalidCertificationCandidate);
-      });
-
-      it('should return an error if birthdate not greater than 1900-01-01', () => {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: '1899-06-06' });
-
-        // when
-        return expect(() => certificationCandidate.validate())
-          .to.throw(InvalidCertificationCandidate);
-      });
-
-      it('should return an error if birthdate does not exist (such as 31th November)', () => {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: '1999-11-31' });
-
-        // when
-        return expect(() => certificationCandidate.validate())
-          .to.throw(InvalidCertificationCandidate);
-      });
-
-      it('should return an error if sessionId is not a number', () => {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: 'a' });
-
-        // then
-        return expect(() => certificationCandidate.validate())
-          .to.throw(InvalidCertificationCandidate);
-      });
-
     });
   });
 
