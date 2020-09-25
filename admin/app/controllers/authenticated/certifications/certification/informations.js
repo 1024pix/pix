@@ -32,6 +32,18 @@ export default class CertificationInformationsController extends Controller {
     return this.certification.status !== 'missing-assessment';
   }
 
+  @computed('certification.{isCleaCertificationIsAcquired,isCleaCertificationIsRejected}')
+  get cleaStatusClass() {
+    const cleaClass = 'certification-informations__clea--';
+    if (this.certification.isCleaCertificationIsAcquired) {
+      return `${cleaClass}acquired`;
+    }
+    if (this.certification.isCleaCertificationIsRejected) {
+      return `${cleaClass}rejected`;
+    }
+    return '';
+  }
+
   @action
   onEdit() {
     this.edition = true;

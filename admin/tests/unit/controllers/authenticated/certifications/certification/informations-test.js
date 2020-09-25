@@ -53,6 +53,27 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     });
   });
 
+  module('#cleaStatusClass', () => {
+
+    test('it should return acquired class', async function(assert) {
+      controller.certification = EmberObject.create({ isCleaCertificationIsAcquired: true });
+      assert.equal(controller.cleaStatusClass, 'certification-informations__clea--acquired');
+    });
+
+    test('it should return rejected class', async function(assert) {
+      controller.certification = EmberObject.create({ isCleaCertificationIsRejected: true });
+      assert.equal(controller.cleaStatusClass, 'certification-informations__clea--rejected');
+    });
+
+    test('it should return empty class', async function(assert) {
+      controller.certification = EmberObject.create({
+        isCleaCertificationIsAcquired: false,
+        isCleaCertificationIsRejected: false,
+      });
+      assert.equal(controller.cleaStatusClass, '');
+    });
+  });
+
   module('#onUpdateScore', () => {
 
     module('when there is a given score', function() {
