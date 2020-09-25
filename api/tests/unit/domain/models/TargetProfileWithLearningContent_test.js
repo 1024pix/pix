@@ -4,17 +4,17 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
 
   describe('get#skillNames', () => {
 
-    it('should return an array with targeted skill names order by name', () => {
+    it('should return an array with targeted skill names', () => {
       // given
-      const skill1 = domainBuilder.buildTargetedSkill({ name: 'Zacquis1' });
-      const skill2 = domainBuilder.buildTargetedSkill({ name: 'Aacquis2' });
+      const skill1 = domainBuilder.buildTargetedSkill({ name: '@acquis1' });
+      const skill2 = domainBuilder.buildTargetedSkill({ name: '@acquis2' });
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ skills: [skill1, skill2] });
 
       // when
       const targetedSkillNames = targetProfile.skillNames;
 
       // then
-      expect(targetedSkillNames).to.exactlyContainInOrder(['Aacquis2', 'Zacquis1']);
+      expect(targetedSkillNames).to.exactlyContainInOrder(['@acquis1', '@acquis2']);
     });
   });
 
@@ -22,15 +22,15 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
 
     it('should return an array with targeted competence ids order by id', () => {
       // given
-      const competence1 = domainBuilder.buildTargetedCompetence({ id: 'ZCompId' });
-      const competence2 = domainBuilder.buildTargetedCompetence({ id: 'ACompId' });
+      const competence1 = domainBuilder.buildTargetedCompetence({ id: 'compId1' });
+      const competence2 = domainBuilder.buildTargetedCompetence({ id: 'compId2' });
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ competences: [competence1, competence2] });
 
       // when
       const targetedCompetenceIds = targetProfile.competenceIds;
 
       // then
-      expect(targetedCompetenceIds).to.exactlyContainInOrder(['ACompId', 'ZCompId']);
+      expect(targetedCompetenceIds).to.exactlyContainInOrder(['compId1', 'compId2']);
     });
   });
 
