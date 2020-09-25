@@ -1,3 +1,5 @@
+const { statuses } = require('../../infrastructure/repositories/clea-certification-status-repository');
+
 class CertificationAttestation {
   constructor({
     id,
@@ -31,6 +33,7 @@ class CertificationAttestation {
     this.cleaCertificationStatus = cleaCertificationStatus;
     this.resultCompetenceTree = resultCompetenceTree;
     this.verificationCode = verificationCode;
+    this.hasAcquiredCleaCertification = cleaCertificationStatus === statuses.ACQUIRED;
   }
 }
 
