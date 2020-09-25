@@ -22,6 +22,7 @@ describe('Unit | Utils | write-pdf-utils', () => {
         copyPages: sinon.stub().withArgs(pdfUnit8arrayTemplateBuffer).resolves([page]),
         addPage,
         save: sinon.stub().resolves(pdfUnit8arrayTemplateBuffer),
+        registerFontkit: sinon.stub(),
       });
 
       fs.promises.readFile = sinon.stub().withArgs(`${templatePath}/${templateFileName}`).resolves(donorPdfBytes);
@@ -32,6 +33,8 @@ describe('Unit | Utils | write-pdf-utils', () => {
       const returnedPdfBuffer = await getPdfBuffer({
         templatePath,
         templateFileName,
+        applyDynamicInformationsInPDF: () => {},
+        data: {},
       });
 
       // then

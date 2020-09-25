@@ -17,6 +17,8 @@ describe('Integration | Infrastructure | Utils | Pdf | write-Pdf-utils', () => {
       const result = await getPdfBuffer({
         templatePath: `${__dirname}/files`,
         templateFileName,
+        applyDynamicInformationsInPDF: () => {},
+        data: {},
       });
 
       // then
