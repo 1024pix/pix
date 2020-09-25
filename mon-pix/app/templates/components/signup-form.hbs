@@ -12,6 +12,12 @@
     </div>
   </div>
 
+  {{#if this.errorMessage}}
+    <div class="sign-form__notification-message sign-form__notification-message--error" aria-live="polite">
+      {{this.errorMessage}}
+    </div>
+  {{/if}}
+
   {{#if _notificationMessage}}
     <div class="sign-form__notification-message sign-form__notification-message--success" aria-live="polite">
       {{_notificationMessage}}
