@@ -48,29 +48,27 @@ describe('Unit | Route | Assessments | Challenge', function() {
   });
 
   describe('#model', function() {
-    it('should correctly call the store to find assessment and challenge', function() {
+    it('should correctly call the store to find assessment and challenge', async function() {
       // when
-      route.model(params);
+      await route.model(params);
 
       // then
       sinon.assert.calledWith(route.modelFor, 'assessments');
       sinon.assert.calledWith(findRecordStub, 'challenge', params.challenge_id);
     });
-    it('should call queryRecord to find answer', function() {
+    it('should call queryRecord to find answer', async function() {
       // given
       model.assessment.get.withArgs('isCertification').returns(false);
       model.assessment.get.withArgs('course').returns({ getProgress: sinon.stub().returns('course') });
 
       // when
-      const promise = route.model(params);
+      await route.model(params);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(queryRecordStub);
-        sinon.assert.calledWith(queryRecordStub, 'answer', {
-          assessmentId: assessment.id,
-          challengeId: params.challenge_id,
-        });
+      sinon.assert.calledOnce(queryRecordStub);
+      sinon.assert.calledWith(queryRecordStub, 'answer', {
+        assessmentId: assessment.id,
+        challengeId: params.challenge_id,
       });
     });
   });
