@@ -12,7 +12,7 @@ const CURRENT_ATTENDANCE_SHEET_VERSION = '1.3';
 //  - transformFn -> Transformation function through which the cell value will be processed into the final value
 
 // V1.1
-const _TRANSFORMATION_STRUCT_COMMON_V1_1 = [
+const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_1 = [
   {
     header: 'NOM',
     property: 'lastName',
@@ -40,10 +40,6 @@ const _TRANSFORMATION_STRUCT_COMMON_V1_1 = [
       return convertDateValue({ dateString: cellVal, inputFormat: 'DD/MM/YYYY', outputFormat: 'YYYY-MM-DD' });
     },
   },
-];
-
-const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_1 = [
-  ..._TRANSFORMATION_STRUCT_COMMON_V1_1,
   {
     header: 'Commune de naissance',
     property: 'birthCity',
@@ -62,7 +58,7 @@ const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_1 = [
 ];
 
 // V1.2
-const _TRANSFORMATION_STRUCT_COMMON_V1_2 = [
+const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_2 = [
   {
     header: 'Nom de naissance',
     property: 'lastName',
@@ -90,10 +86,6 @@ const _TRANSFORMATION_STRUCT_COMMON_V1_2 = [
       return convertDateValue({ dateString: cellVal, inputFormat: 'DD/MM/YYYY', outputFormat: 'YYYY-MM-DD' });
     },
   },
-];
-
-const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_2 = [
-  ..._TRANSFORMATION_STRUCT_COMMON_V1_2,
   {
     header: 'Commune de naissance',
     property: 'birthCity',
