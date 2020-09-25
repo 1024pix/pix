@@ -1,7 +1,11 @@
 {{#if this.displayNewYearSchoolingRegistrationsImportBanner}}
-  <PixBanner @actionLabel='Importer la base Élèves' @actionUrl='authenticated.sco-students'>
+  <PixBanner>
     <FaIcon @icon="exclamation-triangle" class="warning-icon" />
-    Rentrée 2020 : l’administrateur doit <strong>importer ou ré-importer la base</strong> élèves pour initialiser Pix Orga. Plus d’info
+    Rentrée 2020 : l’<strong>administrateur</strong> doit
+    <LinkTo @route="authenticated.sco-students" class="link link-dark">
+      importer ou ré-importer la base élèves
+    </LinkTo>
+    pour initialiser Pix Orga. Plus d’info
     <a href="https://view.genial.ly/5f295b80302a810d2ff9fa60/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23" class="link link-dark" target="_blank" rel="noopener noreferrer">
       collège
       <FaIcon @icon="external-link-alt" />
