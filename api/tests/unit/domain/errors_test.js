@@ -43,10 +43,6 @@ describe('Unit | Domain | Errors', () => {
     expect(errors.NotFoundError).to.exist;
   });
 
-  it('should export a InvalidCertificationCandidate', () => {
-    expect(errors.InvalidCertificationCandidate).to.exist;
-  });
-
   it('should export a InvalidCertificationReportForFinalization', () => {
     expect(errors.InvalidCertificationReportForFinalization).to.exist;
   });

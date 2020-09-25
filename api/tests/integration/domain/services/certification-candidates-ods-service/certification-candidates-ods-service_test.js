@@ -1,7 +1,7 @@
 const { expect, databaseBuilder } = require('../../../../test-helper');
 const certificationCandidatesOdsService = require('../../../../../lib/domain/services/certification-candidates-ods-service');
 const CertificationCandidate = require('../../../../../lib/domain/models/CertificationCandidate');
-const { InvalidCertificationCandidate } = require('../../../../../lib/domain/errors');
+const { EntityValidationError } = require('../../../../../lib/domain/errors');
 const fs = require('fs');
 const _ = require('lodash');
 
@@ -20,7 +20,7 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
 
   context('When attendance sheet is of version 1.3', () => {
 
-    it('should throw a InvalidCertificationCandidate if any of the candidate data is missing a mandatory field', async () => {
+    it('should throw a EntityValidationError if any of the candidate data is missing a mandatory field', async () => {
       // given
       const odsFilePath = `${__dirname}/attendance_sheet_1-3_extract_mandatory_ko_test.ods`;
       const odsBuffer = fs.readFileSync(odsFilePath);
@@ -30,11 +30,11 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
         await certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet({ sessionId, odsBuffer });
       } catch (error) {
         // then
-        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+        expect(error).to.be.instanceOf(EntityValidationError);
       }
     });
 
-    it('should throw a InvalidCertificationCandidate if any of the candidate data is invalid and cannot be casted', async () => {
+    it('should throw a EntityValidationError if any of the candidate data is invalid and cannot be casted', async () => {
       // given
       const odsFilePath = `${__dirname}/attendance_sheet_1-3_extract_wrongvalue_ko_test.ods`;
       const odsBuffer = fs.readFileSync(odsFilePath);
@@ -44,7 +44,7 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
         await certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet({ sessionId, odsBuffer });
       } catch (error) {
         // then
-        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+        expect(error).to.be.instanceOf(EntityValidationError);
       }
     });
 

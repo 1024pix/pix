@@ -169,9 +169,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.SameNationalStudentIdInFileError) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }
-  if (error instanceof DomainErrors.InvalidCertificationCandidate) {
-    return new HttpErrors.BadRequestError(error.message);
-  }
   if (error instanceof DomainErrors.AssessmentNotCompletedError) {
     return new HttpErrors.ConflictError(error.message);
   }

@@ -162,12 +162,12 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
 
       });
 
-      it('should return a 400 status after error in data validity checker', async () => {
+      it('should return a 422 status after error in data validity checker', async () => {
         // when
         const response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(400);
+        expect(response.statusCode).to.equal(422);
       });
 
     });
