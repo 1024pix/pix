@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v2.201.0 (25/09/2020)
+
+- [#1912](https://github.com/1024pix/pix/pull/1912) [FEATURE] Amélioration de l'accessibilité des pages campagne (PIX-1181).
+- [#1909](https://github.com/1024pix/pix/pull/1909) [FEATURE] Déconnecter l'utilisateur s'il veut se connecter depuis le GAR (PIX-1291).
+- [#1907](https://github.com/1024pix/pix/pull/1907) [TECH] Remplacer les bidouilles mises dans les transform() des JSONAPI serializers par la mise en place de la config nullIfMissing dans les attributs sérialisés (PIX-1304)
+
 ## v2.200.0 (23/09/2020)
 
 - [#1908](https://github.com/1024pix/pix/pull/1908) [FEATURE] Ajouter un feature flipping sur le boutton de dissociation des élèves SCO dans PixOrga (PIX-1303)
