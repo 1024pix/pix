@@ -1,4 +1,4 @@
-const { getCompleteCertificate } = require('./get-certificate');
+const { decorateWithCleaStatusAndCompetenceTree } = require('./decorate-with-clea-status-and-competence-tree');
 const { NotFoundError } = require('../../errors');
 
 module.exports = async function getCertificationAttestation({
@@ -14,8 +14,9 @@ module.exports = async function getCertificationAttestation({
     throw new NotFoundError();
   }
 
-  return getCompleteCertificate({
-    certificate: certificationAttestation,
+  return decorateWithCleaStatusAndCompetenceTree({
+    certificationId,
+    toBeDecorated: certificationAttestation,
     assessmentResultRepository,
     competenceTreeRepository,
     cleaCertificationStatusRepository,
