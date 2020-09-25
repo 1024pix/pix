@@ -1109,19 +1109,14 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
     it('should return the knowledge elements in the snapshot when user has a snapshot for this date', async () => {
       // given
-      const skill = domainBuilder.buildTargetedSkill({ id: 'skill', tubeId: 'tube' });
-      const tube = domainBuilder.buildTargetedTube({ id: 'tube', skills: [skill], competenceId: 'competence' });
-      const competence = domainBuilder.buildTargetedCompetence({ id: 'competence', tubes: [tube], areaId: 'area' });
-      const area = domainBuilder.buildTargetedArea({ id: 'area', competences: [competence] });
-      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
-        skills: [skill],
-        tubes: [tube],
-        competences: [competence],
-        areas: [area],
-      });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const userId = databaseBuilder.factory.buildUser().id;
       const dateUserId = new Date('2020-01-03');
-      const knowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId, competenceId: competence.id, skillId: skill.id });
+      const knowledgeElement = databaseBuilder.factory.buildKnowledgeElement({
+        userId,
+        competenceId: targetProfile.competences[0].id,
+        skillId: targetProfile.skills[0].id,
+      });
       databaseBuilder.factory.buildKnowledgeElementSnapshot({ userId, snappedAt: dateUserId, snapshot: JSON.stringify([knowledgeElement]) });
       await databaseBuilder.commit();
 
@@ -1130,7 +1125,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         await knowledgeElementRepository.findTargetedGroupedByCompetencesForUsers({ [userId]: dateUserId }, targetProfile);
 
       // then
-      expect(knowledgeElementsByUserIdAndCompetenceId[userId][competence.id][0]).to.deep.equal(knowledgeElement);
+      expect(knowledgeElementsByUserIdAndCompetenceId[userId][targetProfile.competences[0].id][0]).to.deep.equal(knowledgeElement);
     });
 
     context('when user does not have a snapshot for this date', () => {
@@ -1139,18 +1134,14 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
         it('should return the knowledge elements with limit date as now', async () => {
           // given
-          const skill = domainBuilder.buildTargetedSkill({ id: 'skill', tubeId: 'tube' });
-          const tube = domainBuilder.buildTargetedTube({ id: 'tube', skills: [skill], competenceId: 'competence' });
-          const competence = domainBuilder.buildTargetedCompetence({ id: 'competence', tubes: [tube], areaId: 'area' });
-          const area = domainBuilder.buildTargetedArea({ id: 'area', competences: [competence] });
-          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
-            skills: [skill],
-            tubes: [tube],
-            competences: [competence],
-            areas: [area],
-          });
+          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
           const userId = databaseBuilder.factory.buildUser().id;
-          const expectedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2018-01-01'), competenceId: competence.id, skillId: skill.id });
+          const expectedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({
+            userId,
+            createdAt: new Date('2018-01-01'),
+            competenceId: targetProfile.competences[0].id,
+            skillId: targetProfile.skills[0].id,
+          });
           await databaseBuilder.commit();
 
           // when
@@ -1159,24 +1150,20 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
           // then
           expect(knowledgeElementsByUserIdAndCompetenceId[userId]).to.deep.equal({
-            [competence.id]: [expectedKnowledgeElement],
+            [targetProfile.competences[0].id]: [expectedKnowledgeElement],
           });
         });
 
         it('should not trigger snapshotting', async () => {
           // given
-          const skill = domainBuilder.buildTargetedSkill({ id: 'skill', tubeId: 'tube' });
-          const tube = domainBuilder.buildTargetedTube({ id: 'tube', skills: [skill], competenceId: 'competence' });
-          const competence = domainBuilder.buildTargetedCompetence({ id: 'competence', tubes: [tube], areaId: 'area' });
-          const area = domainBuilder.buildTargetedArea({ id: 'area', competences: [competence] });
-          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
-            skills: [skill],
-            tubes: [tube],
-            competences: [competence],
-            areas: [area],
-          });
+          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
           const userId = databaseBuilder.factory.buildUser().id;
-          databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2018-01-01'), competenceId: competence.id, skillId: skill.id });
+          databaseBuilder.factory.buildKnowledgeElement({
+            userId,
+            createdAt: new Date('2018-01-01'),
+            competenceId: targetProfile.competences[0].id,
+            skillId: targetProfile.skills[0].id,
+          });
           await databaseBuilder.commit();
 
           // when
@@ -1192,44 +1179,36 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
         it('should return the knowledge elements at date', async () => {
           // given
-          const skill = domainBuilder.buildTargetedSkill({ id: 'skill', tubeId: 'tube' });
-          const tube = domainBuilder.buildTargetedTube({ id: 'tube', skills: [skill], competenceId: 'competence' });
-          const competence = domainBuilder.buildTargetedCompetence({ id: 'competence', tubes: [tube], areaId: 'area' });
-          const area = domainBuilder.buildTargetedArea({ id: 'area', competences: [competence] });
-          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
-            skills: [skill],
-            tubes: [tube],
-            competences: [competence],
-            areas: [area],
-          });
+          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
           const userId = databaseBuilder.factory.buildUser().id;
-          const expectedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2018-01-01'), competenceId: competence.id, skillId: skill.id });
+          const expectedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({
+            userId,
+            createdAt: new Date('2018-01-01'),
+            competenceId: targetProfile.competences[0].id,
+            skillId: targetProfile.skills[0].id,
+          });
           await databaseBuilder.commit();
+
           // when
           const knowledgeElementsByUserIdAndCompetenceId =
             await knowledgeElementRepository.findTargetedGroupedByCompetencesForUsers({ [userId]: new Date('2018-02-01') }, targetProfile);
 
           // then
           expect(knowledgeElementsByUserIdAndCompetenceId[userId]).to.deep.equal({
-            [competence.id]: [expectedKnowledgeElement],
+            [targetProfile.competences[0].id]: [expectedKnowledgeElement],
           });
         });
 
         it('should save a snasphot', async () => {
           // given
-          // Learning content
-          const skill = domainBuilder.buildTargetedSkill({ id: 'skill', tubeId: 'tube' });
-          const tube = domainBuilder.buildTargetedTube({ id: 'tube', skills: [skill], competenceId: 'competence' });
-          const competence = domainBuilder.buildTargetedCompetence({ id: 'competence', tubes: [tube], areaId: 'area' });
-          const area = domainBuilder.buildTargetedArea({ id: 'area', competences: [competence] });
-          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
-            skills: [skill],
-            tubes: [tube],
-            competences: [competence],
-            areas: [area],
-          });
+          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
           const userId = databaseBuilder.factory.buildUser().id;
-          databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2018-01-01'), competenceId: competence.id, skillId: skill.id });
+          databaseBuilder.factory.buildKnowledgeElement({
+            userId,
+            createdAt: new Date('2018-01-01'),
+            competenceId: targetProfile.competences[0].id,
+            skillId: targetProfile.skills[0].id,
+          });
           await databaseBuilder.commit();
 
           // when
@@ -1244,18 +1223,14 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
     it('should avoid returning non targeted knowledge elements when there are knowledge elements that are not in the target profile', async () => {
       // given
-      const skill = domainBuilder.buildTargetedSkill({ id: 'skill', tubeId: 'tube' });
-      const tube = domainBuilder.buildTargetedTube({ id: 'tube', skills: [skill], competenceId: 'competence' });
-      const competence = domainBuilder.buildTargetedCompetence({ id: 'competence', tubes: [tube], areaId: 'area' });
-      const area = domainBuilder.buildTargetedArea({ id: 'area', competences: [competence] });
-      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
-        skills: [skill],
-        tubes: [tube],
-        competences: [competence],
-        areas: [area],
-      });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2018-01-01'), competenceId: competence.id, skillId: 'otherSkill' });
+      databaseBuilder.factory.buildKnowledgeElement({
+        userId,
+        createdAt: new Date('2018-01-01'),
+        competenceId: targetProfile.competences[0].id,
+        skillId: 'id_de_skill_improbable_et_different_de_celui_du_builder',
+      });
       await databaseBuilder.commit();
 
       // when
@@ -1264,24 +1239,21 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
       // then
       expect(knowledgeElementsByUserIdAndCompetenceId[userId]).to.deep.equal({
-        [competence.id]: [],
+        [targetProfile.competences[0].id]: [],
       });
     });
 
     it('should even return non validated knowledge elements', async () => {
       // given
-      const skill = domainBuilder.buildTargetedSkill({ id: 'skill', tubeId: 'tube' });
-      const tube = domainBuilder.buildTargetedTube({ id: 'tube', skills: [skill], competenceId: 'competence' });
-      const competence = domainBuilder.buildTargetedCompetence({ id: 'competence', tubes: [tube], areaId: 'area' });
-      const area = domainBuilder.buildTargetedArea({ id: 'area', competences: [competence] });
-      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
-        skills: [skill],
-        tubes: [tube],
-        competences: [competence],
-        areas: [area],
-      });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const userId = databaseBuilder.factory.buildUser().id;
-      const expectedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2018-01-01'), competenceId: competence.id, skillId: skill.id, status: 'invalidated' });
+      const expectedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({
+        userId,
+        createdAt: new Date('2018-01-01'),
+        competenceId: targetProfile.competences[0].id,
+        skillId: targetProfile.skills[0].id,
+        status: 'invalidated',
+      });
       await databaseBuilder.commit();
 
       // when
@@ -1290,22 +1262,13 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
       // then
       expect(knowledgeElementsByUserIdAndCompetenceId[userId]).to.deep.equal({
-        [competence.id]: [expectedKnowledgeElement],
+        [targetProfile.competences[0].id]: [expectedKnowledgeElement],
       });
     });
 
     it('should return an empty array on competence that does not have any targeted knowledge elements', async () => {
       // given
-      const skill = domainBuilder.buildTargetedSkill({ id: 'skill', tubeId: 'tube' });
-      const tube = domainBuilder.buildTargetedTube({ id: 'tube', skills: [skill], competenceId: 'competence' });
-      const competence = domainBuilder.buildTargetedCompetence({ id: 'competence', tubes: [tube], areaId: 'area' });
-      const area = domainBuilder.buildTargetedArea({ id: 'area', competences: [competence] });
-      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
-        skills: [skill],
-        tubes: [tube],
-        competences: [competence],
-        areas: [area],
-      });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const userId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
 
@@ -1315,7 +1278,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
       // then
       expect(knowledgeElementsByUserIdAndCompetenceId[userId]).to.deep.equal({
-        [competence.id]: [],
+        [targetProfile.competences[0].id]: [],
       });
     });
   });
