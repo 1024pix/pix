@@ -13,7 +13,6 @@ const certificationChallengesService = require('../../../../lib/domain/services/
 
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
-const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
 
@@ -104,13 +103,6 @@ describe('Unit | Service | Certification Challenge Service', () => {
   const challengeForSkillRequin5 = _createChallenge('challengeRecordIdNine', competenceRequin.id, [skillRequin5], '@requin5');
   const challengeForSkillRequin8 = _createChallenge('challengeRecordIdTen', competenceRequin.id, [skillRequin8], '@requin8');
 
-  const competences = [
-    competenceFlipper,
-    competenceRemplir,
-    competenceRequin,
-    competenceKoala,
-  ];
-
   beforeEach(() => {
     sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves([
       challengeForSkillCitation4,
@@ -128,7 +120,6 @@ describe('Unit | Service | Certification Challenge Service', () => {
       challengeForSkillKoala1,
       challengeForSkillKoala2,
     ]);
-    sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves(competences);
     sinon.stub(skillRepository, 'findOperativeByIds').callsFake(findOperativeByIds);
   });
 
