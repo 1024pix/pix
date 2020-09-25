@@ -9,7 +9,7 @@ const schoolingRegistrationRepository = require('../../../../lib/infrastructure/
 
 const { CampaignCodeError, NotFoundError, SchoolingRegistrationAlreadyLinkedToUserError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | reconcile-user-to-schooling-registration-data', () => {
+describe('Unit | UseCase | reconcile-schooling-registration', () => {
 
   let reconcileUserToSchoolingRegistrationStub;
   let campaignCode;
@@ -50,7 +50,7 @@ describe('Unit | UseCase | reconcile-user-to-schooling-registration-data', () =>
       getCampaignStub.withArgs(campaignCode).resolves(null);
 
       // when
-      const result = await catchErr(usecases.reconcileUserToSchoolingRegistrationData)({
+      const result = await catchErr(usecases.reconcileSchoolingRegistration)({
         reconciliationInfo: user,
         campaignCode,
       });
@@ -67,7 +67,7 @@ describe('Unit | UseCase | reconcile-user-to-schooling-registration-data', () =>
       findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUserStub.throws(new NotFoundError('Error message'));
 
       // when
-      const result = await catchErr(usecases.reconcileUserToSchoolingRegistrationData)({
+      const result = await catchErr(usecases.reconcileSchoolingRegistration)({
         reconciliationInfo: user,
         campaignCode,
       });
@@ -100,7 +100,7 @@ describe('Unit | UseCase | reconcile-user-to-schooling-registration-data', () =>
         };
 
         // when
-        const result = await catchErr(usecases.reconcileUserToSchoolingRegistrationData)({
+        const result = await catchErr(usecases.reconcileSchoolingRegistration)({
           reconciliationInfo: user,
           campaignCode,
           studentRepository,
@@ -126,7 +126,7 @@ describe('Unit | UseCase | reconcile-user-to-schooling-registration-data', () =>
       getOrganizationStub.resolves({ type: 'SUP' });
 
       // when
-      const result = await usecases.reconcileUserToSchoolingRegistrationData({
+      const result = await usecases.reconcileSchoolingRegistration({
         reconciliationInfo: user,
         campaignCode,
       });

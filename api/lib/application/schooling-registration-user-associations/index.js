@@ -1,7 +1,8 @@
-const schoolingRegistrationUserAssociationController = require('./schooling-registration-user-association-controller');
-const securityPreHandlers = require('../security-pre-handlers');
 const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
+const JSONAPIError = require('jsonapi-serializer').Error;
 const { sendJsonApiError, UnprocessableEntityError, NotFoundError } = require('../http-errors');
+const securityPreHandlers = require('../security-pre-handlers');
+const schoolingRegistrationUserAssociationController = require('./schooling-registration-user-association-controller');
 
 exports.register = async function(server) {
   server.route([
@@ -9,33 +10,22 @@ exports.register = async function(server) {
       method: 'POST',
       path: '/api/schooling-registration-user-associations',
       config: {
-        handler: schoolingRegistrationUserAssociationController.reconcileManually,
+        handler: schoolingRegistrationUserAssociationController.reconcileSchoolingRegistrationManually,
         validate: {
           options: {
             allowUnknown: false,
           },
-          payload: Joi.alternatives().try(
-            Joi.object({
-              data: {
-                attributes: {
-                  'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                  'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                  'birthdate': Joi.date().format('YYYY-MM-DD').required(),
-                  'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                },
-                type: 'schooling-registration-user-associations',
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'birthdate': Joi.date().format('YYYY-MM-DD').required(),
+                'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
               },
-            }),
-            Joi.object({
-              data: {
-                attributes: {
-                  'student-number': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                  'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                },
-                type: 'schooling-registration-user-associations',
-              },
-            }),
-          ),
+              type: 'schooling-registration-user-associations',
+            },
+          }),
           failAction: (request, h) => {
             return sendJsonApiError(new UnprocessableEntityError('Un des champs saisis n’est pas valide.'), h);
           },
@@ -52,10 +42,37 @@ exports.register = async function(server) {
       method: 'POST',
       path: '/api/schooling-registration-user-associations/register',
       config: {
-        handler: schoolingRegistrationUserAssociationController.registerSupernumeraryHigherEducationRegistration,
+        handler: schoolingRegistrationUserAssociationController.reconcileHigherSchoolingRegistration,
+        validate: {
+          options: {
+            allowUnknown: false,
+          },
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'birthdate': Joi.date().format('YYYY-MM-DD').required(),
+                'student-number': Joi.string().empty(Joi.string().regex(/^\s*$/)),
+                'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+              },
+              type: 'schooling-registration-user-associations',
+            },
+          }),
+          failAction: (request, h) => {
+            const errorHttpStatusCode = 422;
+            const jsonApiError = new JSONAPIError({
+              status: errorHttpStatusCode.toString(),
+              title: 'Unprocessable entity',
+              detail: 'Un des champs saisis n’est pas valide.',
+            });
+            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
+          },
+        },
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Elle crée une inscription surnuméraire pour l’utilisateur dans cette organisation',
+          '- Elle réconcilie l’utilisateur à l’inscription d’un étudiant dans cette organisation\n' +
+            'ou bien créée une inscription surnuméraire.',
         ],
         tags: ['api', 'schoolingRegistrationUserAssociation'],
       },
@@ -132,10 +149,10 @@ exports.register = async function(server) {
         tags: ['api', 'schoolingRegistrationUserAssociation'],
       },
     },
-      
+
     {
       method: 'PATCH',
-      path: '/api/organizations/{id}/schooling-registration-user-associations/{studentId}',
+      path: '/api/organizations/{id}/schooling-registration-user-associations/{schoolingRegistrationId}',
       config: {
         pre: [{
           method: securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents,
@@ -148,7 +165,7 @@ exports.register = async function(server) {
           params:
             Joi.object({
               id: Joi.number().required(),
-              studentId: Joi.number().required(),
+              schoolingRegistrationId: Joi.number().required(),
             }),
           payload: Joi.object({
             data: {
@@ -159,13 +176,10 @@ exports.register = async function(server) {
           }),
           failAction: (request, h, err) => {
             const isStudentNumber = err.details[0].path.includes('student-number');
-
             if (isStudentNumber) {
               return sendJsonApiError(new UnprocessableEntityError('Un des champs saisis n’est pas valide.'), h);
-            } 
-
+            }
             return sendJsonApiError(new NotFoundError('Ressource non trouvée'), h);
-
           },
         },
         notes: [

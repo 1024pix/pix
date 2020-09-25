@@ -16,7 +16,7 @@ describe('Unit | UseCase | generate-username', () => {
 
   let campaignCode;
   let createUsernameByUser;
-  let findByOrganizationIdAndUserDataStub;
+  let findByOrganizationIdAndBirthdateStub;
   let findMatchingCandidateIdForGivenUserStub;
   let getCampaignStub;
   let getReconciledStudentByNationalStudentdStub;
@@ -42,7 +42,7 @@ describe('Unit | UseCase | generate-username', () => {
       .withArgs(campaignCode)
       .resolves({ organizationId });
     getUserAuthenticationMethodsStub = sinon.stub(userRepository, 'getUserAuthenticationMethods');
-    findByOrganizationIdAndUserDataStub = sinon.stub(schoolingRegistrationRepository, 'findByOrganizationIdAndUserData');
+    findByOrganizationIdAndBirthdateStub = sinon.stub(schoolingRegistrationRepository, 'findByOrganizationIdAndBirthdate');
     getReconciledStudentByNationalStudentdStub = sinon.stub(studentRepository, 'getReconciledStudentByNationalStudentId');
     getUserAuthenticationMethodWithObfuscationStub = sinon.stub(obfuscationService,'getUserAuthenticationMethodWithObfuscation');
     findMatchingCandidateIdForGivenUserStub = sinon.stub(userReconciliationService,'findMatchingCandidateIdForGivenUser');
@@ -70,7 +70,7 @@ describe('Unit | UseCase | generate-username', () => {
 
     it('should throw a SchoolingRegistrationNotFound error', async () => {
       // given
-      findByOrganizationIdAndUserDataStub.resolves([]);
+      findByOrganizationIdAndBirthdateStub.resolves([]);
 
       // when
       const result = await catchErr(generateUsername)({
@@ -88,7 +88,7 @@ describe('Unit | UseCase | generate-username', () => {
 
     it('should throw a SchoolingRegistrationNotFound error', async () => {
       // given
-      findByOrganizationIdAndUserDataStub.resolves([schoolingRegistration]);
+      findByOrganizationIdAndBirthdateStub.resolves([schoolingRegistration]);
       findMatchingCandidateIdForGivenUserStub.withArgs([schoolingRegistration], studentInformation).resolves();
 
       // when
@@ -112,7 +112,7 @@ describe('Unit | UseCase | generate-username', () => {
       schoolingRegistration.lastName = studentInformation.lastName;
       const exceptedErrorMEssage = 'Un compte existe déjà pour l‘élève dans le même établissement.';
 
-      findByOrganizationIdAndUserDataStub.resolves([schoolingRegistration]);
+      findByOrganizationIdAndBirthdateStub.resolves([schoolingRegistration]);
       findMatchingCandidateIdForGivenUserStub.resolves(schoolingRegistration.id);
       getUserAuthenticationMethodsStub.resolves();
       getUserAuthenticationMethodWithObfuscationStub.resolves({  authenticatedBy: 'email', value: 'e***@example.net' });
@@ -136,7 +136,7 @@ describe('Unit | UseCase | generate-username', () => {
       schoolingRegistration.firstName = studentInformation.firstName;
       schoolingRegistration.lastName = studentInformation.lastName;
       const exceptedErrorMEssage = 'Un compte existe déjà pour l‘élève dans un autre établissement.';
-      findByOrganizationIdAndUserDataStub.resolves([schoolingRegistration]);
+      findByOrganizationIdAndBirthdateStub.resolves([schoolingRegistration]);
       findMatchingCandidateIdForGivenUserStub.resolves(schoolingRegistration.id);
       const student = new Student({ account: { userId: studentInformation.id } });
       getReconciledStudentByNationalStudentdStub.resolves(student);
@@ -160,7 +160,7 @@ describe('Unit | UseCase | generate-username', () => {
     it('should return username', async () => {
       // given
       const username = studentInformation.firstName + '.' + studentInformation.lastName + '0112';
-      findByOrganizationIdAndUserDataStub.resolves([schoolingRegistration]);
+      findByOrganizationIdAndBirthdateStub.resolves([schoolingRegistration]);
       findMatchingCandidateIdForGivenUserStub.resolves(schoolingRegistration.id);
       createUsernameByUser.resolves(username);
 

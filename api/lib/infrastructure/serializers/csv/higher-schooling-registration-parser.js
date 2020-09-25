@@ -1,6 +1,6 @@
 const papa = require('papaparse');
 const iconv = require('iconv-lite');
-const HigherEducationRegistrationSet = require('../../../../lib/domain/models/HigherEducationRegistrationSet');
+const HigherSchoolingRegistrationSet = require('../../../../lib/domain/models/HigherSchoolingRegistrationSet');
 const { convertDateValue } = require('../../utils/date-utils');
 const { CsvImportError } = require('../../../../lib/domain/errors');
 const PARSING_OPTIONS = {
@@ -30,7 +30,7 @@ const COLUMN_NAME_BY_ATTRIBUTE = {
   birthdate: 'Date de naissance (jj/mm/aaaa)',
 };
 
-class HigherEducationRegistrationParser {
+class HigherSchoolingRegistrationParser {
 
   constructor(input, organizationId) {
     this._input = input;
@@ -38,7 +38,7 @@ class HigherEducationRegistrationParser {
   }
 
   parse() {
-    const higherEducationRegistrationSet = new HigherEducationRegistrationSet();
+    const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet();
 
     const encoding = this._getFileEncoding();
     const { registrationLines, fields } = this._parse(encoding);
@@ -52,13 +52,13 @@ class HigherEducationRegistrationParser {
     registrationLines.forEach((line, index) => {
       const registrationAttributes = this._lineToRegistrationAttributes(line);
       try {
-        higherEducationRegistrationSet.addRegistration(registrationAttributes);
+        higherSchoolingRegistrationSet.addRegistration(registrationAttributes);
       } catch (err) {
         this._handleError(err, index);
       }
     });
 
-    return higherEducationRegistrationSet;
+    return higherSchoolingRegistrationSet;
   }
 
   /**
@@ -150,5 +150,5 @@ class HigherEducationRegistrationParser {
 
 }
 
-module.exports = HigherEducationRegistrationParser;
+module.exports = HigherSchoolingRegistrationParser;
 

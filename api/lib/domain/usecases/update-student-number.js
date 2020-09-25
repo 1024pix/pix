@@ -2,18 +2,17 @@ const _ = require('lodash');
 const { AlreadyExistingEntity } = require('../../domain/errors');
 
 module.exports = async function updateStudentNumber({
-  schoolingRegistrationRepository,
-  student,
+  schoolingRegistrationId,
+  studentNumber,
   organizationId,
+  higherSchoolingRegistrationRepository,
 }) {
-  const { id, studentNumber } = student;
+  const foundHigherSchoolingRegistrations = await higherSchoolingRegistrationRepository.findByOrganizationIdAndStudentNumber({ organizationId, studentNumber });
 
-  const [schoolingRegistration] = await schoolingRegistrationRepository.findOneByOrganizationIdAndStudentNumber(organizationId, studentNumber);
-
-  if (_.isEmpty(schoolingRegistration)) {
-    await schoolingRegistrationRepository.updateStudentNumber(id, studentNumber);
+  if (_.isEmpty(foundHigherSchoolingRegistrations)) {
+    await higherSchoolingRegistrationRepository.updateStudentNumber(schoolingRegistrationId, studentNumber);
   } else {
-    const errorMessage = `Le numéro étudiant saisi est déjà utilisé par l’étudiant ${schoolingRegistration.firstName} ${schoolingRegistration.lastName}.`;
+    const errorMessage = `Le numéro étudiant saisi est déjà utilisé par l’étudiant ${foundHigherSchoolingRegistrations[0].firstName} ${foundHigherSchoolingRegistrations[0].lastName}.`;
     throw new AlreadyExistingEntity(errorMessage);
   }
 };

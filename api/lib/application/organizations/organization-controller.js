@@ -8,7 +8,7 @@ const organizationSerializer = require('../../infrastructure/serializers/jsonapi
 const organizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/organization-invitation-serializer');
 const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
 const userWithSchoolingRegistrationSerializer = require('../../infrastructure/serializers/jsonapi/user-with-schooling-registration-serializer');
-const HigherEducationRegistrationParser = require('../../infrastructure/serializers/csv/higher-education-registration-parser');
+const HigherSchoolingRegistrationParser = require('../../infrastructure/serializers/csv/higher-schooling-registration-parser');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
@@ -111,11 +111,11 @@ module.exports = {
       .then(() => null);
   },
 
-  async importHigherEducationRegistrations(request, h) {
+  async importHigherSchoolingRegistrations(request, h) {
     const organizationId = parseInt(request.params.id);
     const buffer = request.payload;
-    const higherEducationRegistrationParser = new HigherEducationRegistrationParser(buffer, organizationId);
-    await usecases.importHigherEducationRegistrations({ higherEducationRegistrationParser });
+    const higherSchoolingRegistrationParser = new HigherSchoolingRegistrationParser(buffer, organizationId);
+    await usecases.importHigherSchoolingRegistrations({ higherSchoolingRegistrationParser });
     return h.response(null).code(204);
   },
 

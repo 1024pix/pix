@@ -29,10 +29,9 @@ class Validation {
 
 export default class JoinSup extends Component {
   @service store;
-  @tracked errorMessageForStudentNumberForm;
-  @tracked errorMessageForSupernumeraryForm;
+  @tracked errorMessage;
   @tracked isLoading = false;
-  @tracked showSupernumeraryForm = false;
+  @tracked showFurtherInformationForm = false;
   @tracked noStudentNumber = false;
 
   @tracked firstName = '';
@@ -83,7 +82,7 @@ export default class JoinSup extends Component {
     this.isLoading = true;
     let schoolingRegistration;
     const adapterOptions = {};
-    if (this.showSupernumeraryForm) {
+    if (this.showFurtherInformationForm) {
       this._validateInputString('firstName', this.firstName);
       this._validateInputString('lastName', this.lastName);
       this._validateInputDay('dayOfBirth', this.dayOfBirth);
@@ -107,11 +106,8 @@ export default class JoinSup extends Component {
       if (this.validation.studentNumber) {
         return this.isLoading = false;
       }
-      schoolingRegistration = this.store.createRecord('schooling-registration-user-association', {
-        id: this.args.campaignCode + '_' + this.studentNumber,
-        studentNumber: this.studentNumber,
-        campaignCode: this.args.campaignCode,
-      });
+      this.isLoading = false;
+      return this.showFurtherInformationForm = true;
     }
 
     try {
@@ -126,10 +122,9 @@ export default class JoinSup extends Component {
 
   @action
   hideFurtherInformationForm() {
-    this.showSupernumeraryForm = false;
+    this.showFurtherInformationForm = false;
     this.noStudentNumber = false;
-    this.errorMessageForStudentNumberForm = null;
-    this.errorMessageForSupernumeraryForm = null;
+    this.errorMessage = null;
     this.firstName = '';
     this.lastName = '';
     this.dayOfBirth = '';
@@ -139,25 +134,20 @@ export default class JoinSup extends Component {
 
   @action
   toggleNoStudentNumber() {
+    if (!this.studentNumber) {
+      this.showFurtherInformationForm = !this.showFurtherInformationForm;
+    }
     this.studentNumber = null;
     this.noStudentNumber = !this.noStudentNumber;
-    this.showSupernumeraryForm = !this.showSupernumeraryForm;
-    this.errorMessageForStudentNumberForm = null;
-    this.errorMessageForSupernumeraryForm = null;
+    this.errorMessage = null;
   }
 
   _setErrorMessageForAttemptNextAction(errorResponse) {
+    const ERRORS_HANDLED = ['409', '404'];
+    const ERRORS_HANDLED_MESSAGE = 'Veuillez vérifier les informations saisies, ou si vous avez déjà un compte Pix, connectez-vous avec celui-ci.';
     errorResponse.errors.forEach((error) => {
-      const messageFor409 = 'Vous possédez déjà un compte Pix. Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.';
-      if (this.showSupernumeraryForm && error.status === '409') {
-        return this.errorMessageForSupernumeraryForm = messageFor409;
-      }
-      if (error.status === '409') {
-        return this.errorMessageForStudentNumberForm = messageFor409;
-      }
-      if (error.status === '404') {
-        this.showSupernumeraryForm = true;
-        return this.errorMessageForStudentNumberForm = 'Vérifiez votre numéro étudiant ou saisissez les informations ci-dessous.';
+      if (ERRORS_HANDLED.includes(error.status)) {
+        return this.errorMessage = ERRORS_HANDLED_MESSAGE;
       }
       return this.errorMessage = error.detail;
     });

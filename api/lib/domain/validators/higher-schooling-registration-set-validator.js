@@ -6,9 +6,9 @@ const validationConfiguration = { allowUnknown: true };
 const validationSchema = Joi.array().unique('studentNumber');
 
 module.exports = {
-  checkValidation(higherEducationRegistrationSet) {
+  checkValidation(higherSchoolingRegistrationSet) {
     const { error } = validationSchema.validate(
-      higherEducationRegistrationSet.registrations,
+      higherSchoolingRegistrationSet.registrations,
       validationConfiguration,
     );
 

@@ -484,7 +484,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
     });
   });
 
-  describe('#findByOrganizationIdAndUserData', () => {
+  describe('#findByOrganizationIdAndBirthdate', () => {
 
     let organization;
 
@@ -512,153 +512,37 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       await databaseBuilder.commit();
     });
 
-    context('find with user birthdate', () => {
-      it('should return found schoolingRegistrations with birthdate', async () => {
-        // given
-        const reconciliationInfo = { birthdate: '2000-03-31' };
-
-        // when
-        const result = await schoolingRegistrationRepository.findByOrganizationIdAndUserData({
-          organizationId: organization.id, reconciliationInfo,
-        });
-
-        // then
-        expect(result.length).to.be.equal(2);
-      });
-
-      it('should return empty array with wrong birthdate', async () => {
-        // given
-        const reconciliationInfo = { birthdate: '2001-03-31' };
-
-        // when
-        const result = await schoolingRegistrationRepository.findByOrganizationIdAndUserData({
-          organizationId: organization.id, reconciliationInfo,
-        });
-
-        // then
-        expect(result.length).to.be.equal(0);
-      });
-    });
-
-    context('find with user student number', () => {
-      it('should return found schoolingRegistrations with studentNumber', async () => {
-        // given
-        const reconciliationInfo = { studentNumber: '123a' };
-
-        // when
-        const result = await schoolingRegistrationRepository.findByOrganizationIdAndUserData({
-          organizationId: organization.id, reconciliationInfo,
-        });
-
-        // then
-        expect(result.length).to.be.equal(1);
-      });
-
-      it('should return empty array with wrong studentNumber', async () => {
-        // given
-        const reconciliationInfo = { studentNumber: '789B' };
-
-        // when
-        const result = await schoolingRegistrationRepository.findByOrganizationIdAndUserData({
-          organizationId: organization.id, reconciliationInfo,
-        });
-
-        // then
-        expect(result.length).to.be.equal(0);
-      });
-    });
-
-    it('should return empty array with fake organizationId', async () => {
+    it('should return found schoolingRegistrations with birthdate', async () => {
       // given
-      const reconciliationInfo = { birthdate: '2000-03-31' };
+      const birthdate = '2000-03-31' ;
 
       // when
-      const result = await schoolingRegistrationRepository.findByOrganizationIdAndUserData({
-        organizationId: '999', reconciliationInfo,
-      });
+      const result = await schoolingRegistrationRepository.findByOrganizationIdAndBirthdate({ organizationId: organization.id, birthdate });
+
+      // then
+      expect(result.length).to.be.equal(2);
+    });
+
+    it('should return empty array when there are no schooling-registrations with the given birthdate', async () => {
+      // given
+      const birthdate = '2001-03-31';
+
+      // when
+      const result = await schoolingRegistrationRepository.findByOrganizationIdAndBirthdate({ organizationId: organization.id, birthdate });
 
       // then
       expect(result.length).to.be.equal(0);
     });
-  });
 
-  describe('#findSupernumeraryByOrganizationIdAndBirthdate', () => {
+    it('should return empty array when there is no schooling-registrations with the given organizationId', async () => {
+      // given
+      const birthdate = '2000-03-31';
 
-    let organization;
+      // when
+      const result = await schoolingRegistrationRepository.findByOrganizationIdAndBirthdate({ organizationId: '999', birthdate });
 
-    beforeEach(async () => {
-      organization = databaseBuilder.factory.buildOrganization();
-      databaseBuilder.factory.buildSchoolingRegistration({
-        organizationId: organization.id,
-        birthdate: '2000-03-31',
-      });
-      await databaseBuilder.commit();
-    });
-
-    context('When there is some supernumerary', () => {
-
-      beforeEach(async () => {
-        databaseBuilder.factory.buildSchoolingRegistration({
-          organizationId: organization.id,
-          birthdate: '2000-03-31',
-          isSupernumerary: true,
-        });
-        await databaseBuilder.commit();
-      });
-
-      it('should return found supernumerary schoolingRegistrations with birthdate and organizationId', async () => {
-        // given
-        const birthdate = '2000-03-31';
-
-        // when
-        const result = await schoolingRegistrationRepository.findSupernumeraryByOrganizationIdAndBirthdate({
-          organizationId: organization.id, birthdate,
-        });
-
-        // then
-        expect(result.length).to.be.equal(1);
-      });
-
-      it('should return empty array with wrong birthdate', async () => {
-        // given
-        const birthdate = '2001-03-31' ;
-
-        // when
-        const result = await schoolingRegistrationRepository.findSupernumeraryByOrganizationIdAndBirthdate({
-          organizationId: organization.id, birthdate,
-        });
-
-        // then
-        expect(result.length).to.be.equal(0);
-      });
-
-      it('should return empty array with wrong organizationId', async () => {
-        // given
-        const birthdate = '2000-03-31' ;
-
-        // when
-        const result = await schoolingRegistrationRepository.findSupernumeraryByOrganizationIdAndBirthdate({
-          organizationId: '999', birthdate,
-        });
-
-        // then
-        expect(result.length).to.be.equal(0);
-      });
-    });
-
-    context('When there is no supernumerary', () => {
-      it('should return empty array when supernumerary is false', async () => {
-        // given
-        const birthdate = '2000-03-31';
-
-        // when
-        const result = await schoolingRegistrationRepository.findSupernumeraryByOrganizationIdAndBirthdate({
-          organizationId: organization.id, birthdate,
-        });
-
-        // then
-        expect(result.length).to.be.equal(0);
-      });
+      // then
+      expect(result.length).to.be.equal(0);
     });
   });
 
@@ -682,7 +566,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
     });
   });
 
-  describe('#reconcileUserToSchoolingRegistration', () => {
+  describe('#reconcileSchoolingRegistration', () => {
 
     afterEach(() => {
       return knex('schooling-registrations').delete();
@@ -1215,18 +1099,4 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
     });
 
   });
-
-  describe('#updateStudentNumber', () => {
-    it('should update the student number', async () => {
-      // given
-      const id = databaseBuilder.factory.buildSchoolingRegistration({ studentNumber: 12345 }).id;
-      await databaseBuilder.commit();
-
-      // when
-      await schoolingRegistrationRepository.updateStudentNumber(id, 54321);
-      const [schoolingRegistration] = await knex.select('studentNumber').from('schooling-registrations').where({ id });
-      expect(schoolingRegistration.studentNumber).to.equal('54321');
-    });
-  });
-
 });

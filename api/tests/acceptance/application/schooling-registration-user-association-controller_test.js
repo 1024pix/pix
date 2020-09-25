@@ -398,42 +398,6 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
         });
       });
     });
-
-    context('associate user with student number', () => {
-      it('should return an 200 status after having successfully associated user to schoolingRegistration', async () => {
-        // given
-        options.headers.authorization = generateValidRequestAuthorizationHeader(user.id);
-        options.payload.data = {
-          attributes: {
-            'campaign-code': campaign.code,
-            'student-number': schoolingRegistration.studentNumber,
-          },
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-      });
-
-      it('should return an 404 status if schooling registration not found for the student number', async () => {
-        // given
-        options.headers.authorization = generateValidRequestAuthorizationHeader(user.id);
-        options.payload.data = {
-          attributes: {
-            'campaign-code': campaign.code,
-            'student-number': '456N',
-          },
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(404);
-      });
-    });
   });
 
   describe('POST /api/schooling-registration-dependent-users/external-user-token/', () => {
@@ -711,7 +675,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
       return knex('schooling-registrations').delete();
     });
 
-    it('should return an 204 status after creating higher education registration', async () => {
+    it('should return an 204 status after creating higher schooling registration', async () => {
       // given
       options.headers.authorization = generateValidRequestAuthorizationHeader(user.id);
       options.payload.data = {
@@ -1250,7 +1214,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
     });
   });
 
-  describe('#updateStudentNumber', () => {
+  describe('PATCH /api/organizations/organizationId/schooling-registration-user-associations/schoolingRegistrationId', () => {
     let organizationId;
     const studentNumber = '54321';
     let schoolingRegistrationId;
@@ -1265,7 +1229,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
       databaseBuilder.factory.buildMembership({ organizationId, userId: user.id, organizationRole: Membership.roles.ADMIN });
       await databaseBuilder.commit();
     });
-    
+
     context('Success cases', () => {
 
       it('should return an HTTP response with status code 204', async () => {

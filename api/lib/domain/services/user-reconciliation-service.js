@@ -23,36 +23,51 @@ function findMatchingCandidateIdForGivenUser(matchingUserCandidates, user) {
     .first() || null;
 }
 
+async function findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser({
+  organizationId,
+  reconciliationInfo: { studentNumber, firstName, lastName, birthdate },
+  higherSchoolingRegistrationRepository,
+}) {
+  const schoolingRegistration = await higherSchoolingRegistrationRepository.findOneRegisteredByOrganizationIdAndUserData({
+    organizationId,
+    reconciliationInfo: { studentNumber, birthdate },
+  });
+
+  if (!schoolingRegistration) {
+    throw new NotFoundError('There are no schooling registrations found');
+  }
+
+  const schoolingRegistrationId = findMatchingCandidateIdForGivenUser([schoolingRegistration], { firstName, lastName });
+  if (!schoolingRegistrationId) {
+    throw new NotFoundError('There were no schoolingRegistrations matching with names');
+  }
+
+  if (!_.isNil(schoolingRegistration.userId))  {
+    throw new SchoolingRegistrationAlreadyLinkedToUserError();
+  }
+  return schoolingRegistration;
+}
+
 async function findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({
   organizationId,
-  reconciliationInfo: { firstName, lastName, birthdate, studentNumber },
+  reconciliationInfo: { firstName, lastName, birthdate },
   schoolingRegistrationRepository,
   userRepository,
   obfuscationService,
 }) {
-  const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdAndUserData({
-    organizationId,
-    reconciliationInfo: { birthdate, studentNumber },
-  });
+  const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdAndBirthdate({ organizationId, birthdate });
 
   if (_.isEmpty(schoolingRegistrations)) {
     throw new NotFoundError('There are no schooling registrations found');
   }
 
-  let schoolingRegistration;
-  if (studentNumber) {
-    schoolingRegistration = schoolingRegistrations[0];
-  } else {
-    const schoolingRegistrationId = findMatchingCandidateIdForGivenUser(schoolingRegistrations, { firstName, lastName });
-
-    if (!schoolingRegistrationId) {
-      throw new NotFoundError('There were no schoolingRegistrations matching with names');
-    }
-    schoolingRegistration = _.find(schoolingRegistrations, { 'id': schoolingRegistrationId });
+  const schoolingRegistrationId = findMatchingCandidateIdForGivenUser(schoolingRegistrations, { firstName, lastName });
+  if (!schoolingRegistrationId) {
+    throw new NotFoundError('There were no schoolingRegistrations matching with names');
   }
+  const schoolingRegistration = _.find(schoolingRegistrations, { 'id': schoolingRegistrationId });
 
   await checkIfStudentIsAlreadyReconciledOnTheSameOrganization(schoolingRegistration, userRepository, obfuscationService);
-
   return schoolingRegistration;
 }
 
@@ -178,25 +193,11 @@ async function createUsernameByUser({ user: { firstName, lastName, birthdate }, 
   return username;
 }
 
-async function doesSupernumerarySchoolingRegistrationExist({
-  organizationId,
-  reconciliationInfo: { firstName, lastName, birthdate },
-  schoolingRegistrationRepository,
-}) {
-  const schoolingRegistrations = await schoolingRegistrationRepository.findSupernumeraryByOrganizationIdAndBirthdate({
-    organizationId,
-    birthdate,
-  });
-
-  const schoolingRegistrationId = findMatchingCandidateIdForGivenUser(schoolingRegistrations, { firstName, lastName });
-  return !!schoolingRegistrationId;
-}
-
 module.exports = {
   generateUsernameUntilAvailable,
   createUsernameByUser,
   findMatchingCandidateIdForGivenUser,
+  findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser,
   findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser,
   checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations,
-  doesSupernumerarySchoolingRegistrationExist,
 };

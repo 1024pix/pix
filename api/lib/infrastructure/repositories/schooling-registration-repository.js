@@ -107,35 +107,11 @@ module.exports = {
     }
   },
 
-  async findByOrganizationIdAndUserData({ organizationId, reconciliationInfo: { birthdate, studentNumber } = {} }) {
-    const schoolingRegistrations = await BookshelfSchoolingRegistration
-      .query((qb) => {
-        qb.where('organizationId', organizationId);
-        if (birthdate) qb.where('birthdate', birthdate);
-        if (studentNumber) qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
-      })
-      .fetchAll();
-
-    return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
-  },
-
-  async findOneByOrganizationIdAndStudentNumber(organizationId, studentNumber) {
-    const schoolingRegistration = await BookshelfSchoolingRegistration
-      .query((qb) => {
-        qb.where('organizationId', organizationId);
-        qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
-      })
-      .fetchAll();
-
-    return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistration);
-  },
-
-  async findSupernumeraryByOrganizationIdAndBirthdate({ organizationId, birthdate }) {
+  async findByOrganizationIdAndBirthdate({ organizationId, birthdate }) {
     const schoolingRegistrations = await BookshelfSchoolingRegistration
       .query((qb) => {
         qb.where('organizationId', organizationId);
         qb.where('birthdate', birthdate);
-        qb.where('isSupernumerary', true);
       })
       .fetchAll();
 
