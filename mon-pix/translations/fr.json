@@ -693,6 +693,7 @@
     },
 
     "tutorial": {
+      "title": "Didacticiel de la campagne",
       "next": "Suivant",
       "pages": {
         "page0": {
