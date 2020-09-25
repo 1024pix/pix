@@ -1,12 +1,12 @@
-const HigherEducationRegistration = require('../../../../lib/domain/models/HigherEducationRegistration');
+const HigherSchoolingRegistration = require('../../../../lib/domain/models/HigherSchoolingRegistration');
 const { expect, catchErr } = require('../../../test-helper');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Domain | Models | HigherEducationRegistration', () => {
+describe('Unit | Domain | Models | HigherSchoolingRegistration', () => {
 
   describe('#validate', () => {
 
-    const buildRegistration = (attributes) => new HigherEducationRegistration(attributes);
+    const buildRegistration = (attributes) => new HigherSchoolingRegistration(attributes);
 
     const validAttributes = {
       studentNumber: 'A12345',
@@ -19,9 +19,9 @@ describe('Unit | Domain | Models | HigherEducationRegistration', () => {
     context('when all required fields are presents', () => {
       it('is valid', async () => {
         try {
-          new HigherEducationRegistration(validAttributes);
+          new HigherSchoolingRegistration(validAttributes);
         } catch (e) {
-          expect.fail('higherEducationRegistration is valid when all required fields are present');
+          expect.fail('higherSchoolingRegistration is valid when all required fields are present');
         }
       });
     });
@@ -99,7 +99,7 @@ describe('Unit | Domain | Models | HigherEducationRegistration', () => {
           try {
             await buildRegistration({ ...validAttributes, studentNumber: null, isSupernumerary: true });
           } catch (e) {
-            expect.fail('higherEducationRegistration is valid when all required fields are present');
+            expect.fail('higherSchoolingRegistration is valid when all required fields are present');
           }
         });
       });
@@ -109,7 +109,7 @@ describe('Unit | Domain | Models | HigherEducationRegistration', () => {
           try {
             await buildRegistration({ ...validAttributes, studentNumber: '1234', isSupernumerary: true });
           } catch (e) {
-            expect.fail('higherEducationRegistration is valid when all required fields are present');
+            expect.fail('higherSchoolingRegistration is valid when all required fields are present');
           }
         });
       });
@@ -129,7 +129,7 @@ describe('Unit | Domain | Models | HigherEducationRegistration', () => {
           try {
             await buildRegistration({ ...validAttributes, studentNumber: '1234', isSupernumerary: false });
           } catch (e) {
-            expect.fail('higherEducationRegistration is valid when all required fields are present');
+            expect.fail('higherSchoolingRegistration is valid when all required fields are present');
           }
         });
       });
@@ -200,7 +200,7 @@ describe('Unit | Domain | Models | HigherEducationRegistration', () => {
             try {
               await buildRegistration({ ...validAttributes, studentNumber: value });
             } catch (e) {
-              expect.fail('higherEducationRegistration is valid when student number is correctly formed');
+              expect.fail('higherSchoolingRegistration is valid when student number is correctly formed');
             }
           });
         });

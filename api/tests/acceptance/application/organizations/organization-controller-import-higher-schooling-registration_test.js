@@ -4,7 +4,7 @@ const Membership = require('../../../../lib/domain/models/Membership');
 const createServer = require('../../../../server');
 let server;
 
-describe('Acceptance | Application | organization-controller-import-higher-education-registrations', () => {
+describe('Acceptance | Application | organization-controller-import-higher-schooling-registrations', () => {
 
   beforeEach(async () => {
     server = await createServer();

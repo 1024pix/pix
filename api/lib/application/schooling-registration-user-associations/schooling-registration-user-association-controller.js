@@ -10,7 +10,7 @@ module.exports = {
     return schoolingRegistrationSerializer.serialize(schoolingRegistration);
   },
 
-  async reconcileManually(request) {
+  async reconcileSchoolingRegistrationManually(request) {
     const authenticatedUserId = request.auth.credentials.userId;
     const payload = request.payload.data.attributes;
     const campaignCode = payload['campaign-code'];
@@ -20,21 +20,20 @@ module.exports = {
       firstName: payload['first-name'],
       lastName: payload['last-name'],
       birthdate: payload['birthdate'],
-      studentNumber: payload['student-number'],
     };
 
-    const schoolingRegistration = await usecases.reconcileUserToSchoolingRegistrationData({ campaignCode, reconciliationInfo });
+    const schoolingRegistration = await usecases.reconcileSchoolingRegistration({ campaignCode, reconciliationInfo });
 
     return schoolingRegistrationSerializer.serialize(schoolingRegistration);
   },
 
-  async registerSupernumeraryHigherEducationRegistration(request, h) {
+  async reconcileHigherSchoolingRegistration(request, h) {
     const userId = request.auth.credentials.userId;
     const payload = request.payload.data.attributes;
 
     const campaignCode = payload['campaign-code'];
 
-    const userInfo = {
+    const reconciliationInfo = {
       userId,
       studentNumber: payload['student-number'],
       firstName: payload['first-name'],
@@ -42,7 +41,7 @@ module.exports = {
       birthdate: payload['birthdate'],
     };
 
-    await usecases.registerSupernumeraryHigherEducationRegistration({ campaignCode, userInfo });
+    await usecases.reconcileHigherSchoolingRegistration({ campaignCode, reconciliationInfo });
 
     return h.response(null).code(204);
   },
@@ -93,15 +92,11 @@ module.exports = {
 
   async updateStudentNumber(request, h) {
     const payload = request.payload.data.attributes;
-    const { userId } = request.auth.credentials;
-    const organizationId =  request.params.id;
+    const organizationId = request.params.id;
+    const studentNumber = payload['student-number'];
+    const schoolingRegistrationId = request.params.schoolingRegistrationId;
 
-    const student = {
-      id: request.params.studentId,
-      studentNumber: payload['student-number'],
-    };
-
-    await usecases.updateStudentNumber({ userId, student, organizationId });
+    await usecases.updateStudentNumber({ schoolingRegistrationId, studentNumber, organizationId });
     return h.response().code(204);
   },
 };

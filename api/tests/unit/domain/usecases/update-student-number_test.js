@@ -1,52 +1,48 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const updateStudentNumber = require('../../../../lib/domain/usecases/update-student-number');
 const { AlreadyExistingEntity } = require('../../../../lib/domain/errors');
+
 describe('Unit | UseCase | update-student-number', () => {
   const organizationId = 2;
-  const student = {
-    id: 1234,
-    studentNumber: 4321,
-  };
+  const studentNumber = '4321A';
+  const schoolingRegistrationId = 1234;
 
   let schoolingRegistration;
 
-  const schoolingRegistrationRepository = {
-    findOneByOrganizationIdAndStudentNumber: sinon.stub(),
+  const higherSchoolingRegistrationRepository = {
+    findByOrganizationIdAndStudentNumber: sinon.stub(),
     updateStudentNumber: sinon.stub(),
   };
 
-  context('When there are a schooling registration with a same student number', () => {
+  context('When there is a schooling registration with the same student number', () => {
     beforeEach(() => {
       schoolingRegistration = domainBuilder.buildSchoolingRegistration();
 
-      schoolingRegistrationRepository.findOneByOrganizationIdAndStudentNumber
-        .withArgs(organizationId, student.studentNumber)
+      higherSchoolingRegistrationRepository.findByOrganizationIdAndStudentNumber
+        .withArgs({ organizationId, studentNumber })
         .resolves([schoolingRegistration]);
     });
     it('should return an error', async () => {
-      // when 
-      const error = await catchErr(updateStudentNumber)({ schoolingRegistrationRepository, student, organizationId });
+      // when
+      const error = await catchErr(updateStudentNumber)({ higherSchoolingRegistrationRepository, schoolingRegistrationId, studentNumber, organizationId });
       const errorMessage = `Le numéro étudiant saisi est déjà utilisé par l’étudiant ${schoolingRegistration.firstName} ${schoolingRegistration.lastName}.`;
-        
+
       // then
       expect(error).to.be.instanceOf(AlreadyExistingEntity);
       expect(error.message).to.equal(errorMessage);
-    
     });
   });
-  
+
   context('When there are not schooling registration with the same student number', () => {
     beforeEach(() => {
-      schoolingRegistrationRepository.findOneByOrganizationIdAndStudentNumber.withArgs(organizationId,student.studentNumber).resolves([]);
+      higherSchoolingRegistrationRepository.findByOrganizationIdAndStudentNumber.withArgs({ organizationId, studentNumber }).resolves([]);
     });
     it('should update a student number', async () => {
       // when
-      await updateStudentNumber({ schoolingRegistrationRepository, student, organizationId });
-        
+      await updateStudentNumber({ higherSchoolingRegistrationRepository, schoolingRegistrationId, studentNumber, organizationId });
+
       // then
-      expect(schoolingRegistrationRepository.updateStudentNumber).to.have.been.calledWith(student.id, student.studentNumber);
-      
+      expect(higherSchoolingRegistrationRepository.updateStudentNumber).to.have.been.calledWith(schoolingRegistrationId, studentNumber);
     });
   });
-  
 });

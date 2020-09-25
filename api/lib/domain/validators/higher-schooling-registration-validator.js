@@ -32,10 +32,10 @@ const validationSchema = Joi.object({
 });
 
 module.exports = {
-  checkValidation(higherEducationRegistration) {
+  checkValidation(higherSchoolingRegistration) {
     const { error } = validationSchema.validate(
-      higherEducationRegistration,
-      { ...validationConfiguration, context: { isSupernumerary: higherEducationRegistration.isSupernumerary } },
+      higherSchoolingRegistration,
+      { ...validationConfiguration, context: { isSupernumerary: higherSchoolingRegistration.isSupernumerary } },
     );
     if (error) {
       const err = EntityValidationError.fromJoiErrors(error.details);

@@ -7,15 +7,15 @@
             @name="studentNumber"
             @value={{this.studentNumber}}
             placeholder="Numéro étudiant"
-            @disabled={{this.showSupernumeraryForm}}
-            @readonly={{this.showSupernumeraryForm}}
+            @disabled={{this.showFurtherInformationForm}}
+            @readonly={{this.showFurtherInformationForm}}
             class={{if this.validation.studentNumber "input--error"}}
             @focusOut={{fn this.triggerInputStringValidation "studentNumber" this.studentNumber}}
     />
     <div class={{if this.validation.studentNumber "join-restricted-campaign__field-error"}} role="alert">
       {{this.validation.studentNumber}}
     </div>
-    {{#if this.showSupernumeraryForm}}
+    {{#if this.showFurtherInformationForm}}
       <button type="button" class="link join-restricted-campaign__back-button" {{on 'click' this.hideFurtherInformationForm}}>
         Modifier le numéro étudiant
       </button>
@@ -27,10 +27,7 @@
     </label>
   </div>
 
-  {{#if this.errorMessageForStudentNumberForm}}
-    <div class="join-restricted-campaign__error" aria-live="polite">{{{this.errorMessageForStudentNumberForm}}}</div>
-  {{/if}}
-  {{#if this.showSupernumeraryForm}}
+  {{#if this.showFurtherInformationForm}}
     <Routes::Campaigns::Restricted::UserInformationForm
             @validation={{this.validation}}
             @firstName={{this.firstName}}
@@ -44,8 +41,8 @@
             @triggerInputYearValidation={{this.triggerInputYearValidation}}
     />
   {{/if}}
-  {{#if this.errorMessageForSupernumeraryForm}}
-    <div class="join-restricted-campaign__error" aria-live="polite">{{{this.errorMessageForSupernumeraryForm}}}</div>
+  {{#if this.errorMessage}}
+    <div class="join-restricted-campaign__error" aria-live="polite">{{{this.errorMessage}}}</div>
   {{/if}}
   <button type="submit" disabled={{this.isLoading}} class="button button--big join-restricted-campaign__button" {{on 'click' this.submit}}>
     {{#if this.isLoading}}
@@ -54,5 +51,5 @@
       C'est parti !
     {{/if}}
   </button>
-  
+
 </form>

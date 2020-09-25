@@ -27,44 +27,18 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
 
   describe('#submit', function() {
 
-    context('when only student number is required', () => {
+    context('when user info are typed', () => {
       beforeEach(function() {
         component.studentNumber = '123456';
-      });
-
-      it('call on submit function', async function() {
-        // given
-        const schoolingRegistration = Symbol('registration');
-        storeStub.createRecord.withArgs(
-          'schooling-registration-user-association',
-          {
-            id: `${component.args.campaignCode}_${component.studentNumber}`,
-            studentNumber: component.studentNumber,
-            campaignCode: component.args.campaignCode,
-          },
-        ).returns(schoolingRegistration);
-
-        // when
-        await component.actions.submit.call(component, eventStub);
-
-        // then
-        sinon.assert.calledWith(onSubmitToReconcileStub, schoolingRegistration, {});
-      });
-    });
-
-    context('when all user info are required', () => {
-      beforeEach(function() {
-        component.studentNumber = '123456';
-      });
-
-      it('call on submit function', async function() {
-        // given
         component.firstName = 'firstName';
         component.lastName = 'lastName';
         component.dayOfBirth = '01';
         component.monthOfBirth = '01';
         component.yearOfBirth = '2010';
+      });
 
+      it('call on submit function', async function() {
+        // given
         const adapterOptions = { registerAdditional: true };
         const schoolingRegistration = Symbol('registration');
         storeStub.createRecord.withArgs(
@@ -78,7 +52,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
             campaignCode: component.args.campaignCode,
           },
         ).returns(schoolingRegistration);
-        component.showSupernumeraryForm = true;
+        component.showFurtherInformationForm = true;
 
         // when
         await component.actions.submit.call(component, eventStub);
@@ -88,20 +62,19 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
       });
     });
 
-    context('when student number is not required but others attributes are', () => {
+    context('when student number is not typed but others attributes are', () => {
       beforeEach(function() {
         component.noStudentNumber = true;
         component.studentNumber = null;
-      });
-
-      it('call on submit function', async function() {
-        // given
         component.firstName = 'firstName';
         component.lastName = 'lastName';
         component.dayOfBirth = '01';
         component.monthOfBirth = '01';
         component.yearOfBirth = '2010';
+      });
 
+      it('call on submit function', async function() {
+        // given
         const adapterOptions = { registerAdditional: true };
         const schoolingRegistration = Symbol('registration');
         storeStub.createRecord.withArgs(
@@ -116,7 +89,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
           },
         ).returns(schoolingRegistration);
 
-        component.showSupernumeraryForm = true;
+        component.showFurtherInformationForm = true;
 
         // when
         await component.actions.submit.call(component, eventStub);

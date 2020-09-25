@@ -28,10 +28,7 @@ module.exports = async function generateUsername({
 };
 
 async function findMatchedSchoolingRegistrationForGivenOrganizationIdAndStudentInfo({ organizationId, studentInformation: { firstName, lastName, birthdate }, schoolingRegistrationRepository, userReconciliationService }) {
-  const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdAndUserData({
-    organizationId,
-    reconciliationInfo: { birthdate },
-  });
+  const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdAndBirthdate({ organizationId, birthdate });
 
   if (schoolingRegistrations.length === 0) {
     throw new SchoolingRegistrationNotFound('There were no schoolingRegistrations matching with organization and birthdate');

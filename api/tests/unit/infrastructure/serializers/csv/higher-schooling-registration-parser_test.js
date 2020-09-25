@@ -1,46 +1,46 @@
 const iconv = require('iconv-lite');
 const { expect, catchErr } = require('../../../../test-helper');
-const HigherEducationRegistrationParser = require('../../../../../lib/infrastructure/serializers/csv/higher-education-registration-parser');
+const HigherSchoolingRegistrationParser = require('../../../../../lib/infrastructure/serializers/csv/higher-schooling-registration-parser');
 const _ = require('lodash');
 
-describe('Unit | Infrastructure | HigherEducationRegistrationParser', () => {
+describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', () => {
   context('when the header is correctly formed', () => {
     context('when there is no line', () => {
-      it('returns an empty HigherEducationRegistrationSet', () => {
+      it('returns an empty HigherSchoolingRegistrationSet', () => {
         const input = 'Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime';
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new HigherEducationRegistrationParser(encodedInput, 123);
+        const parser = new HigherSchoolingRegistrationParser(encodedInput, 123);
 
-        const higherEducationRegistrationSet = parser.parse();
+        const higherSchoolingRegistrationSet = parser.parse();
 
-        expect(higherEducationRegistrationSet.registrations).to.be.empty;
+        expect(higherSchoolingRegistrationSet.registrations).to.be.empty;
       });
     });
     context('when there are lines', () => {
-      it('returns a HigherEducationRegistrationSet with a schooling registration for each line', () => {
+      it('returns a HigherSchoolingRegistrationSet with a schooling registration for each line', () => {
         const input = `Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
         Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
         O-Ren;;;Ishii;Cottonmouth;01/01/1980;ishii@example.net;789;Assassination Squad;Bill;Deadly Viper Assassination Squad;DUT;;
         `;
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new HigherEducationRegistrationParser(encodedInput, 456);
+        const parser = new HigherSchoolingRegistrationParser(encodedInput, 456);
 
-        const higherEducationRegistrationSet = parser.parse();
-        const registrations = higherEducationRegistrationSet.registrations;
+        const higherSchoolingRegistrationSet = parser.parse();
+        const registrations = higherSchoolingRegistrationSet.registrations;
         expect(registrations).to.have.lengthOf(2);
       });
 
-      it('returns a HigherEducationRegistrationSet with a schooling registration for each line using the CSV column', () => {
+      it('returns a HigherSchoolingRegistrationSet with a schooling registration for each line using the CSV column', () => {
         const input = `Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
         Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
         O-Ren;;;Ishii;Cottonmouth;01/01/1980;ishii@example.net;789;Assassination Squad;Bill;Deadly Viper Assassination Squad;DUT;;
         `;
         const organizationId = 789;
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new HigherEducationRegistrationParser(encodedInput, organizationId);
+        const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId);
 
-        const higherEducationRegistrationSet = parser.parse();
-        const registrations = _.sortBy(higherEducationRegistrationSet.registrations, 'preferredLastName');
+        const higherSchoolingRegistrationSet = parser.parse();
+        const registrations = _.sortBy(higherSchoolingRegistrationSet.registrations, 'preferredLastName');
         expect(registrations[0]).to.deep.equal({
           firstName: 'Beatrix',
           middleName: 'The',
@@ -85,7 +85,7 @@ describe('Unit | Infrastructure | HigherEducationRegistrationParser', () => {
       const input = `Premier prénom\\Deuxième prénom\\Troisième prénom\\Nom de famille\\Nom d’usage\\Date de naissance (jj/mm/aaaa)\\Email\\Numéro étudiant\\Composante\\Équipe pédagogique\\Groupe\\Diplôme\\Régime
       Beatrix\\The\\Bride\\Kiddo\\Black Mamba\\01/01/1970\\thebride@example.net\\12346\\Assassination Squad\\Hattori Hanzo\\Deadly Viper Assassination Squad\\Master\\hello darkness my old friend\\`;
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new HigherEducationRegistrationParser(encodedInput, organizationId);
+      const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId);
 
       const error = await catchErr(parser.parse, parser)();
 
@@ -96,7 +96,7 @@ describe('Unit | Infrastructure | HigherEducationRegistrationParser', () => {
       const input = `Premier prénom;Deuxième prénom2;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
       Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;`;
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new HigherEducationRegistrationParser(encodedInput, organizationId);
+      const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId);
 
       const error = await catchErr(parser.parse, parser)();
 
@@ -107,7 +107,7 @@ describe('Unit | Infrastructure | HigherEducationRegistrationParser', () => {
       const input = `Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
       The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;`;
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new HigherEducationRegistrationParser(encodedInput, organizationId);
+      const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId);
 
       const error = await catchErr(parser.parse, parser)();
 
@@ -123,7 +123,7 @@ describe('Unit | Infrastructure | HigherEducationRegistrationParser', () => {
       const input = `Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
       Beatrix;Thhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhe;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;`;
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new HigherEducationRegistrationParser(encodedInput, organizationId);
+      const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId);
 
       const error = await catchErr(parser.parse, parser)();
 
@@ -134,7 +134,7 @@ describe('Unit | Infrastructure | HigherEducationRegistrationParser', () => {
       const input = `Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
       Beatrix;The;Bride;Kiddo;Black Mamba;1970/01/01;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;`;
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new HigherEducationRegistrationParser(encodedInput, organizationId);
+      const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId);
 
       const error = await catchErr(parser.parse, parser)();
 
@@ -145,7 +145,7 @@ describe('Unit | Infrastructure | HigherEducationRegistrationParser', () => {
       const input = `Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
       Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;`;
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new HigherEducationRegistrationParser(encodedInput, organizationId);
+      const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId);
 
       const error = await catchErr(parser.parse, parser)();
 
@@ -157,7 +157,7 @@ describe('Unit | Infrastructure | HigherEducationRegistrationParser', () => {
       Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
       Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;`;
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new HigherEducationRegistrationParser(encodedInput, organizationId);
+      const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId);
 
       const error = await catchErr(parser.parse, parser)();
 
@@ -169,7 +169,7 @@ describe('Unit | Infrastructure | HigherEducationRegistrationParser', () => {
       Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
       Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;`;
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new HigherEducationRegistrationParser(encodedInput, organizationId);
+      const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId);
 
       const error = await catchErr(parser.parse, parser)();
 
@@ -184,31 +184,31 @@ describe('Unit | Infrastructure | HigherEducationRegistrationParser', () => {
 
     it('should parse UTF-8 encoding', () => {
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new HigherEducationRegistrationParser(encodedInput, 123);
-      const higherEducationRegistrationSet = parser.parse();
-      const registrations = higherEducationRegistrationSet.registrations;
+      const parser = new HigherSchoolingRegistrationParser(encodedInput, 123);
+      const higherSchoolingRegistrationSet = parser.parse();
+      const registrations = higherSchoolingRegistrationSet.registrations;
       expect(registrations[0].firstName).to.equal('Éçéà niño véga');
     });
 
     it('should parse win1252 encoding (CSV WIN/MSDOS)', () => {
       const encodedInput = iconv.encode(input, 'win1252');
-      const parser = new HigherEducationRegistrationParser(encodedInput, 123);
-      const higherEducationRegistrationSet = parser.parse();
-      const registrations = higherEducationRegistrationSet.registrations;
+      const parser = new HigherSchoolingRegistrationParser(encodedInput, 123);
+      const higherSchoolingRegistrationSet = parser.parse();
+      const registrations = higherSchoolingRegistrationSet.registrations;
       expect(registrations[0].firstName).to.equal('Éçéà niño véga');
     });
 
     it('should parse macintosh encoding', () => {
       const encodedInput = iconv.encode(input, 'macintosh');
-      const parser = new HigherEducationRegistrationParser(encodedInput, 123);
-      const higherEducationRegistrationSet = parser.parse();
-      const registrations = higherEducationRegistrationSet.registrations;
+      const parser = new HigherSchoolingRegistrationParser(encodedInput, 123);
+      const higherSchoolingRegistrationSet = parser.parse();
+      const registrations = higherSchoolingRegistrationSet.registrations;
       expect(registrations[0].firstName).to.equal('Éçéà niño véga');
     });
 
     it('should throw an error if encoding not supported', () => {
       const encodedInput = iconv.encode(input, 'utf16');
-      const parser = new HigherEducationRegistrationParser(encodedInput, 123);
+      const parser = new HigherSchoolingRegistrationParser(encodedInput, 123);
       expect(() => parser.parse()).to.throw('Encodage du fichier non supporté.');
     });
   });

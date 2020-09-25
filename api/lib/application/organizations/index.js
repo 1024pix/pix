@@ -222,7 +222,7 @@ exports.register = async (server) => {
             return h.response(jsonApiError).code(413).takeover();
           },
         },
-        handler: organizationController.importHigherEducationRegistrations,
+        handler: organizationController.importHigherSchoolingRegistrations,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés et responsables de l\'organisation**\n' +
           '- Elle permet d\'importer des inscriptions d\'étudiants, en masse, depuis un fichier au format csv\n' +
