@@ -25,8 +25,8 @@ async function extractCertificationCandidatesFromAttendanceSheet({ sessionId, od
   });
 
   _.each(certificationCandidates, (c) => {
-    c.validate(version);
     c.sessionId = sessionId;
+    c.validate(version);
   });
 
   return certificationCandidates;

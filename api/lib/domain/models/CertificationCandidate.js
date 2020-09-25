@@ -4,7 +4,6 @@ const Joi = require('@hapi/joi')
 const { InvalidCertificationCandidate } = require('../errors');
 
 const certificationCandidateValidationJoiSchema_v1_3 = Joi.object({
-  id: Joi.number().integer().optional(),
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),
   birthCity: Joi.string().required(),
@@ -13,10 +12,8 @@ const certificationCandidateValidationJoiSchema_v1_3 = Joi.object({
   email: Joi.string().email().allow(null).optional(),
   externalId: Joi.string().allow(null).optional(),
   birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required(),
-  createdAt: Joi.any().allow(null).optional(),
   extraTimePercentage: Joi.number().allow(null).optional(),
-  sessionId: Joi.number().allow(null).optional(),
-  userId: Joi.number().allow(null).optional(),
+  sessionId: Joi.number().required(),
 });
 
 const certificationCandidateParticipationJoiSchema = Joi.object({
@@ -82,7 +79,7 @@ class CertificationCandidate {
         throw new InvalidCertificationCandidate();
     }
 
-    const { error } = usedSchema.validate(this);
+    const { error } = usedSchema.validate(this, { allowUnknown: true });
     if (error) {
       throw new InvalidCertificationCandidate();
     }
