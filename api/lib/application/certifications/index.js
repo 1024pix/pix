@@ -41,6 +41,19 @@ exports.register = async function(server) {
         tags: ['api', 'certifications', 'shared-certifications'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/attestation/{id}',
+      config: {
+        handler: certificationController.getPDFAttestation,
+        notes: [
+          '- **Route accessible par un user authentifié**\n' +
+          '- Récupération des informations d’une attestation de certification au format PDF' +
+          ' via un id de certification et un user id',
+        ],
+        tags: ['api', 'certifications', 'PDF'],
+      },
+    },
   ]);
 };
 

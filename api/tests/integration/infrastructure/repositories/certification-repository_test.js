@@ -4,6 +4,7 @@ const { NotFoundError, CertificationCourseNotPublishableError } = require('../..
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { status } = require('../../../../lib/domain/models/AssessmentResult');
 const ShareableCertificate = require('../../../../lib/domain/models/ShareableCertificate');
+const CertificationAttestation = require('../../../../lib/domain/models/CertificationAttestation');
 
 const CertificationCourseBookshelf = require('../../../../lib/infrastructure/data/certification-course');
 const PARTNER_CLEA_KEY = 'BANANA';
@@ -243,6 +244,19 @@ describe('Integration | Repository | Certification ', () => {
         // then
         expect(error).to.be.instanceOf(NotFoundError);
       });
+    });
+  });
+
+  describe('#getCertificationAttestation', () => {
+
+    it('should return a certification attestation for a given certification', async () => {
+      // when
+      const certificationAttestation = await certificationRepository.getCertificationAttestation({ id: completeCertificationCourse.id });
+
+      // then
+      expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
+      expect(certificationAttestation.pixScore).to.equal(pixScore);
+      expect(certificationAttestation.firsName).to.equal(userId.firstName);
     });
   });
 

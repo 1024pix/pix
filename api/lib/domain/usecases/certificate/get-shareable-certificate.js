@@ -1,4 +1,4 @@
-const { getCertificate } = require('./get-certificate');
+const { getCompleteCertificate } = require('./get-certificate');
 
 module.exports = async function getShareableCertificate({
   verificationCode,
@@ -9,7 +9,7 @@ module.exports = async function getShareableCertificate({
 }) {
   const certificate = await certificationRepository.getShareableCertificateByVerificationCode({ verificationCode });
 
-  return getCertificate({
+  return getCompleteCertificate({
     certificate,
     cleaCertificationStatusRepository,
     assessmentResultRepository,
