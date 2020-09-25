@@ -254,6 +254,12 @@ class CertificationCandidateForbiddenDeletionError extends DomainError {
   }
 }
 
+class CertificationCandidatesImportError extends DomainError {
+  constructor(message = 'Quelque chose s’est mal passé. Veuillez réessayer.') {
+    super(message);
+  }
+}
+
 class CertificationComputeError extends DomainError {
   constructor(message = 'Erreur lors du calcul de la certification.') {
     super(message);
@@ -568,6 +574,7 @@ module.exports = {
   CertificationCandidateMultipleUserLinksWithinSessionError,
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
+  CertificationCandidatesImportError,
   CertificationCenterMembershipCreationError,
   CertificationComputeError,
   CertificationCourseUpdateError,
