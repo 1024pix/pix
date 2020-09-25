@@ -31,7 +31,7 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
       } catch (error) {
         // then
         expect(error).to.be.instanceOf(CertificationCandidatesImportError);
-        expect(error.message).to.equal('Le champ “Prénom” est obligatoire.');
+        expect(error.message).to.contain('Le champ “Prénom” est obligatoire.');
       }
     });
 
