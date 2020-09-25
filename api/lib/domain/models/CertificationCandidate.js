@@ -3,24 +3,7 @@ const Joi = require('@hapi/joi')
   .extend(require('@hapi/joi-date'));
 const { InvalidCertificationCandidate } = require('../errors');
 
-const certificationCandidateValidationJoiSchema_v1_1 = Joi.object({
-  id: Joi.number().integer().optional(),
-  firstName: Joi.string().required(),
-  lastName: Joi.string().required(),
-  birthCity: Joi.string().required(),
-  birthProvinceCode: Joi.string().required(),
-  birthCountry: Joi.string().required(),
-  email: Joi.string().optional(),
-  externalId: Joi.string().allow(null).optional(),
-  birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required(),
-  createdAt: Joi.any().allow(null).optional(),
-  extraTimePercentage: Joi.number().allow(null).optional(),
-  sessionId: Joi.number().allow(null).optional(),
-  userId: Joi.number().allow(null).optional(),
-});
-
-// Same as v1_1 but with email
-const certificationCandidateValidationJoiSchema_v1_2 = Joi.object({
+const certificationCandidateValidationJoiSchema_v1_3 = Joi.object({
   id: Joi.number().integer().optional(),
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),
@@ -93,11 +76,7 @@ class CertificationCandidate {
     let usedSchema = null;
     switch (version) {
       case '1.3':
-      case '1.2':
-        usedSchema = certificationCandidateValidationJoiSchema_v1_2;
-        break;
-      case '1.1':
-        usedSchema = certificationCandidateValidationJoiSchema_v1_1;
+        usedSchema = certificationCandidateValidationJoiSchema_v1_3;
         break;
       default:
         throw new InvalidCertificationCandidate();
