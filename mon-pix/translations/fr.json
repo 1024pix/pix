@@ -937,7 +937,7 @@
       "back-link": "Retour à la saisie du code de vérification"
     },
 
-    "fill-in-id-pix": {
+    "fill-in-participant-external-id": {
       "title": "Saisir mon identifiant",
       "first-title": "Avant de commencer",
       "announcement": "L'organisateur a besoin de l'information ci-dessous pour pouvoir vous accompagner :",

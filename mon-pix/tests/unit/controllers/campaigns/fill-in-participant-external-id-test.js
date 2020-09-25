@@ -2,7 +2,7 @@ import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Controller | Campaigns | Fill in ParticipantExternalId', function() {
+describe('Unit | Controller | Campaigns | FillInParticipantExternalId', function() {
 
   setupTest();
 
