@@ -1,0 +1,146 @@
+.footer {
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    max-width: 980px;
+    padding: 18px 16px;
+    width: 100%;
+
+    @include device-is('desktop') {
+      flex-direction: row;
+      padding: 18px 0 48px;
+    }
+  }
+}
+
+.footer-container {
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-top: 1px solid $grey-20;
+    padding-top: 16px;
+
+    @include device-is('tablet') {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+
+      @include device-is('desktop') {
+        padding-top: 0;
+        border: none;
+      }
+    }
+  }
+
+  &__logos {
+    display: flex;
+    align-items: center;
+    padding-bottom: 16px;
+
+    @include device-is('desktop') {
+      padding-bottom: 0;
+    }
+  }
+}
+
+.footer-container-content {
+
+  &__navigation {
+    display: flex;
+    align-items: center;
+
+    @include device-is('desktop') {
+      padding: 0 15px;
+    }
+  }
+
+  &__copyrights {
+    color: $grey-25;
+    cursor: default;
+    font-size: 0.75rem;
+    letter-spacing: 0.008rem;
+    font-family: $font-roboto;
+    padding-top: 16px;
+
+    @include device-is('tablet') {
+      padding-top: 0;
+    }
+  }
+}
+
+.footer-social-medias-item__icon {
+  font-size: 1rem;
+  color: $grey-70;
+}
+
+.footer-social-medias__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $grey-20;
+  border-radius: 4.2px;
+  width: 30px;
+  height: 30px;
+  margin: 0 10px 0 0;
+  letter-spacing: 0.008rem;
+  font-size: 0.75rem;
+  font-family: $font-roboto;
+
+  &:active,
+  &:focus,
+  &:hover {
+    text-decoration: none;
+    cursor: pointer;
+    background-color: $grey-70;
+    transition: background-color 0.2s ease;
+
+    & > .footer-social-medias-item__icon {
+      color: $grey-5;
+      text-decoration: none;
+    }
+  }
+}
+
+.footer-navigation__item {
+  margin: 0 10px 0 0;
+  color: $grey-60;
+  font-size: 0.875rem;
+  font-family: $font-roboto;
+  letter-spacing: 0.009rem;
+
+  &.active {
+    text-decoration: none;
+    color: $blue;
+  }
+
+  &:focus {
+    text-decoration: none;
+    color: $grey-50;
+  }
+
+  &:hover {
+    text-decoration: none;
+    cursor: pointer;
+    color: $blue;
+  }
+}
+
+.footer-logos {
+  display: flex;
+
+  &__french-government {
+
+    > img {
+      height: 45px;
+      margin-left: 24px;
+
+      @include device-is('tablet') {
+        height: 54px;
+      }
+    }
+  }
+}

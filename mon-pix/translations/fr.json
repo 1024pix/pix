@@ -811,10 +811,17 @@
   },
 
   "navigation": {
+    "copyrights": "©",
     "error": "Erreur",
     "homepage": "Page d'accueil",
     "back-to-homepage": "Revenir à la page d’accueil",
     "back-to-profile": "Revenir au profil",
+    "footer": {
+      "a11y": "Accessibilité",
+      "help-center": "Centre d'aide",
+      "link-a11y": "https://pix.fr/accessibilite",
+      "link-help-center": "https://pix.fr/aide"
+    },
     "main": {
       "code": "J'ai un code",
       "help": "Aide",
