@@ -25,7 +25,6 @@ module('Integration | Component | information-banner', function(hooks) {
           await render(hbs`<InformationBanner/>`);
 
           // then
-          assert.contains('Importer la base Élèves');
           assert.dom('a[href="https://view.genial.ly/5f295b80302a810d2ff9fa60/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23"]').exists();
           assert.dom('a[href="https://view.genial.ly/5f46390591252c0d5246bb63/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23"]').exists();
           assert.dom('.pix-banner').includesText('Rentrée 2020 : l’administrateur doit importer ou ré-importer la base élèves pour initialiser Pix Orga. Plus d’info collège et lycée (GT et Pro)');
