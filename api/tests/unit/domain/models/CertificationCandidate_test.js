@@ -56,19 +56,6 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         expect(true).to.be.true;
       });
 
-      it('should return an error if id is not a number nor undefined', () => {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({ id: 'salut' });
-
-        // when
-        try {
-          certificationCandidate.validate();
-          expect.fail('Expected error to have been thrown');
-        } catch (err) { // then
-          expect(err).to.be.instanceOf(InvalidCertificationCandidate);
-        }
-      });
-
       it('should return an error if firstName is not defined', () => {
         // given
         const certificationCandidate = domainBuilder.buildCertificationCandidate();
