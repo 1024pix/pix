@@ -510,6 +510,13 @@ describe('Integration | API | Controller Error', () => {
       const payload = JSON.parse(response.payload);
       expect(payload.errors).to.have.lengthOf(3);
     });
+
+    it('responds UnprocessableEntity when a CertificationCandidatesImportError occurs', async () => {
+      routeHandler.throws(new DomainErrors.CertificationCandidatesImportError());
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(UNPROCESSABLE_ENTITY_ERROR);
+    });
   });
 
   context('401 Unauthorized', () => {

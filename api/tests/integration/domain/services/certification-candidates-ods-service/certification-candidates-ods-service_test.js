@@ -1,7 +1,7 @@
 const { expect, databaseBuilder } = require('../../../../test-helper');
 const certificationCandidatesOdsService = require('../../../../../lib/domain/services/certification-candidates-ods-service');
 const CertificationCandidate = require('../../../../../lib/domain/models/CertificationCandidate');
-const { EntityValidationError } = require('../../../../../lib/domain/errors');
+const { CertificationCandidatesImportError } = require('../../../../../lib/domain/errors');
 const fs = require('fs');
 const _ = require('lodash');
 
@@ -20,7 +20,7 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
 
   context('When attendance sheet is of version 1.3', () => {
 
-    it('should throw a EntityValidationError if any of the candidate data is missing a mandatory field', async () => {
+    it('should throw a CertificationCandidatesImportError if there is an error in the file', async () => {
       // given
       const odsFilePath = `${__dirname}/attendance_sheet_1-3_extract_mandatory_ko_test.ods`;
       const odsBuffer = fs.readFileSync(odsFilePath);
@@ -30,21 +30,8 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
         await certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet({ sessionId, odsBuffer });
       } catch (error) {
         // then
-        expect(error).to.be.instanceOf(EntityValidationError);
-      }
-    });
-
-    it('should throw a EntityValidationError if any of the candidate data is invalid and cannot be casted', async () => {
-      // given
-      const odsFilePath = `${__dirname}/attendance_sheet_1-3_extract_wrongvalue_ko_test.ods`;
-      const odsBuffer = fs.readFileSync(odsFilePath);
-
-      // when
-      try {
-        await certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet({ sessionId, odsBuffer });
-      } catch (error) {
-        // then
-        expect(error).to.be.instanceOf(EntityValidationError);
+        expect(error).to.be.instanceOf(CertificationCandidatesImportError);
+        expect(error.message).to.equal('Le champ “Prénom” est obligatoire.');
       }
     });
 

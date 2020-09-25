@@ -71,6 +71,10 @@ describe('Unit | Domain | Errors', () => {
     expect(errors.CsvImportError).to.exist;
   });
 
+  it('should export a CertificationCandidatesImportError', () => {
+    expect(errors.CertificationCandidatesImportError).to.exist;
+  });
+
   describe('#SameNationalStudentIdInOrganizationError', () => {
 
     context('When errorDetail is provided', () => {
