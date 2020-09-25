@@ -9,6 +9,7 @@ export default class Campaign extends Model {
   // attributes
   @attr('string') code;
   @attr('string') idPixLabel;
+  @attr('string') externalIdHelpImageUrl;
   @attr('string') type;
   @attr('string') title;
   @attr('date') archivedAt;
