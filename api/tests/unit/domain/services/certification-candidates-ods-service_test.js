@@ -3,7 +3,7 @@ const certificationCandidatesOdsService = require('../../../../lib/domain/servic
 const readOdsUtils = require('../../../../lib/infrastructure/utils/ods/read-ods-utils');
 const { CertificationCandidatesImportError } = require('../../../../lib/domain/errors');
 
-describe('Integration | Services | extractCertificationCandidatesFromAttendanceSheet', () => {
+describe('Unit | Services | extractCertificationCandidatesFromAttendanceSheet', () => {
   let sessionId;
   let sandbox;
   const odsBuffer = 'someBuffer';
@@ -28,6 +28,26 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
     const expectedVersion = '1.3';
 
     context('error handling', () => {
+      context('line number', () => {
+        it('it should display the appropriate line number in the error', async () => {
+          // given
+          sessionId = 123;
+          const lineNumber = 80;
+          const certificationCandidateData = {
+            ...validCertificationCandidateData,
+            firstName: null,
+          };
+          sandbox.stub(readOdsUtils, 'getOdsVersionByHeaders').resolves(expectedVersion);
+          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves({ [lineNumber] : certificationCandidateData });
+
+          // when
+          const err = await catchErr(certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet)({ sessionId, odsBuffer });
+
+          // then
+          expect(err).to.be.instanceOf(CertificationCandidatesImportError);
+          expect(err.message).to.equal(`Ligne ${lineNumber + 1} : Le champ “Prénom” est obligatoire.`);
+        });
+      });
       context('first name', () => {
         it('it should throw error when missing', async () => {
           // given
@@ -37,14 +57,14 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
             firstName: null,
           };
           sandbox.stub(readOdsUtils, 'getOdsVersionByHeaders').resolves(expectedVersion);
-          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves([certificationCandidateData]);
+          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves({ '1' : certificationCandidateData });
 
           // when
           const err = await catchErr(certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet)({ sessionId, odsBuffer });
 
           // then
           expect(err).to.be.instanceOf(CertificationCandidatesImportError);
-          expect(err.message).to.equal('Le champ “Prénom” est obligatoire.');
+          expect(err.message).to.contain('Le champ “Prénom” est obligatoire.');
         });
         it('it should throw error when not valid', async () => {
           // given
@@ -54,14 +74,14 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
             firstName: 456,
           };
           sandbox.stub(readOdsUtils, 'getOdsVersionByHeaders').resolves(expectedVersion);
-          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves([certificationCandidateData]);
+          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves({ '1' : certificationCandidateData });
 
           // when
           const err = await catchErr(certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet)({ sessionId, odsBuffer });
 
           // then
           expect(err).to.be.instanceOf(CertificationCandidatesImportError);
-          expect(err.message).to.equal('Le champ “Prénom” doit être une chaîne de caractères.');
+          expect(err.message).to.contain('Le champ “Prénom” doit être une chaîne de caractères.');
         });
 
       });
@@ -74,14 +94,14 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
             lastName: null,
           };
           sandbox.stub(readOdsUtils, 'getOdsVersionByHeaders').resolves(expectedVersion);
-          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves([certificationCandidateData]);
+          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves({ '1' : certificationCandidateData });
 
           // when
           const err = await catchErr(certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet)({ sessionId, odsBuffer });
 
           // then
           expect(err).to.be.instanceOf(CertificationCandidatesImportError);
-          expect(err.message).to.equal('Le champ “Nom de naissance” est obligatoire.');
+          expect(err.message).to.contain('Le champ “Nom de naissance” est obligatoire.');
         });
         it('it should throw error when not valid', async () => {
           // given
@@ -91,14 +111,14 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
             lastName: 456,
           };
           sandbox.stub(readOdsUtils, 'getOdsVersionByHeaders').resolves(expectedVersion);
-          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves([certificationCandidateData]);
+          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves({ '1' : certificationCandidateData });
 
           // when
           const err = await catchErr(certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet)({ sessionId, odsBuffer });
 
           // then
           expect(err).to.be.instanceOf(CertificationCandidatesImportError);
-          expect(err.message).to.equal('Le champ “Nom de naissance” doit être une chaîne de caractères.');
+          expect(err.message).to.contain('Le champ “Nom de naissance” doit être une chaîne de caractères.');
         });
 
       });
@@ -111,14 +131,14 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
             birthCity: null,
           };
           sandbox.stub(readOdsUtils, 'getOdsVersionByHeaders').resolves(expectedVersion);
-          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves([certificationCandidateData]);
+          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves({ '1' : certificationCandidateData });
 
           // when
           const err = await catchErr(certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet)({ sessionId, odsBuffer });
 
           // then
           expect(err).to.be.instanceOf(CertificationCandidatesImportError);
-          expect(err.message).to.equal('Le champ “Commune de naissance” est obligatoire.');
+          expect(err.message).to.contain('Le champ “Commune de naissance” est obligatoire.');
         });
         it('it should throw error when not valid', async () => {
           // given
@@ -128,14 +148,14 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
             birthCity: 456,
           };
           sandbox.stub(readOdsUtils, 'getOdsVersionByHeaders').resolves(expectedVersion);
-          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves([certificationCandidateData]);
+          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves({ '1' : certificationCandidateData });
 
           // when
           const err = await catchErr(certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet)({ sessionId, odsBuffer });
 
           // then
           expect(err).to.be.instanceOf(CertificationCandidatesImportError);
-          expect(err.message).to.equal('Le champ “Commune de naissance” doit être une chaîne de caractères.');
+          expect(err.message).to.contain('Le champ “Commune de naissance” doit être une chaîne de caractères.');
         });
 
       });
@@ -148,14 +168,14 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
             birthProvinceCode: null,
           };
           sandbox.stub(readOdsUtils, 'getOdsVersionByHeaders').resolves(expectedVersion);
-          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves([certificationCandidateData]);
+          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves({ '1' : certificationCandidateData });
 
           // when
           const err = await catchErr(certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet)({ sessionId, odsBuffer });
 
           // then
           expect(err).to.be.instanceOf(CertificationCandidatesImportError);
-          expect(err.message).to.equal('Le champ “Code du département de naissance” est obligatoire.');
+          expect(err.message).to.contain('Le champ “Code du département de naissance” est obligatoire.');
         });
         it('it should throw error when not valid', async () => {
           // given
@@ -165,17 +185,17 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
             birthProvinceCode: 456,
           };
           sandbox.stub(readOdsUtils, 'getOdsVersionByHeaders').resolves(expectedVersion);
-          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves([certificationCandidateData]);
+          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves({ '1' : certificationCandidateData });
 
           // when
           const err = await catchErr(certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet)({ sessionId, odsBuffer });
 
           // then
           expect(err).to.be.instanceOf(CertificationCandidatesImportError);
-          expect(err.message).to.equal('Le champ “Code du département de naissance” doit être une chaîne de caractères.');
+          expect(err.message).to.contain('Le champ “Code du département de naissance” doit être une chaîne de caractères.');
         });
-
       });
+
       context('birth country', () => {
         it('it should throw error when missing', async () => {
           // given
@@ -185,15 +205,16 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
             birthCountry: null,
           };
           sandbox.stub(readOdsUtils, 'getOdsVersionByHeaders').resolves(expectedVersion);
-          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves([certificationCandidateData]);
+          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves({ '1' : certificationCandidateData });
 
           // when
           const err = await catchErr(certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet)({ sessionId, odsBuffer });
 
           // then
           expect(err).to.be.instanceOf(CertificationCandidatesImportError);
-          expect(err.message).to.equal('Le champ “Pays de naissance” est obligatoire.');
+          expect(err.message).to.contain('Le champ “Pays de naissance” est obligatoire.');
         });
+
         it('it should throw error when not valid', async () => {
           // given
           sessionId = 123;
@@ -202,17 +223,17 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
             birthCountry: 456,
           };
           sandbox.stub(readOdsUtils, 'getOdsVersionByHeaders').resolves(expectedVersion);
-          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves([certificationCandidateData]);
+          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves({ '1' : certificationCandidateData });
 
           // when
           const err = await catchErr(certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet)({ sessionId, odsBuffer });
 
           // then
           expect(err).to.be.instanceOf(CertificationCandidatesImportError);
-          expect(err.message).to.equal('Le champ “Pays de naissance” doit être une chaîne de caractères.');
+          expect(err.message).to.contain('Le champ “Pays de naissance” doit être une chaîne de caractères.');
         });
-
       });
+
       context('birthdate', () => {
         it('it should throw error when missing', async () => {
           // given
@@ -222,15 +243,16 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
             birthdate: null,
           };
           sandbox.stub(readOdsUtils, 'getOdsVersionByHeaders').resolves(expectedVersion);
-          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves([certificationCandidateData]);
+          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves({ '1' : certificationCandidateData });
 
           // when
           const err = await catchErr(certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet)({ sessionId, odsBuffer });
 
           // then
           expect(err).to.be.instanceOf(CertificationCandidatesImportError);
-          expect(err.message).to.equal('Le champ “Date de naissance (format : jj/mm/aaaa)” est obligatoire.');
+          expect(err.message).to.contain('Le champ “Date de naissance (format : jj/mm/aaaa)” est obligatoire.');
         });
+
         it('it should throw error when not valid', async () => {
           // given
           sessionId = 123;
@@ -239,17 +261,17 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
             birthdate: 'salut',
           };
           sandbox.stub(readOdsUtils, 'getOdsVersionByHeaders').resolves(expectedVersion);
-          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves([certificationCandidateData]);
+          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves({ '1' : certificationCandidateData });
 
           // when
           const err = await catchErr(certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet)({ sessionId, odsBuffer });
 
           // then
           expect(err).to.be.instanceOf(CertificationCandidatesImportError);
-          expect(err.message).to.equal('Le champ “Date de naissance” doit être au format jj/mm/aaaa.');
+          expect(err.message).to.contain('Le champ “Date de naissance” doit être au format jj/mm/aaaa.');
         });
-
       });
+
       context('email', () => {
         it('it should throw error when not valid', async () => {
           // given
@@ -259,17 +281,17 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
             email: 456,
           };
           sandbox.stub(readOdsUtils, 'getOdsVersionByHeaders').resolves(expectedVersion);
-          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves([certificationCandidateData]);
+          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves({ '1' : certificationCandidateData });
 
           // when
           const err = await catchErr(certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet)({ sessionId, odsBuffer });
 
           // then
           expect(err).to.be.instanceOf(CertificationCandidatesImportError);
-          expect(err.message).to.equal('Le champ “Adresse e-mail de convocation” doit être une chaîne de caractères.');
+          expect(err.message).to.contain('Le champ “Adresse e-mail de convocation” doit être une chaîne de caractères.');
         });
-
       });
+
       context('externalId', () => {
         it('it should throw error when not valid', async () => {
           // given
@@ -279,17 +301,17 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
             externalId: 456,
           };
           sandbox.stub(readOdsUtils, 'getOdsVersionByHeaders').resolves(expectedVersion);
-          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves([certificationCandidateData]);
+          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves({ '1' : certificationCandidateData });
 
           // when
           const err = await catchErr(certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet)({ sessionId, odsBuffer });
 
           // then
           expect(err).to.be.instanceOf(CertificationCandidatesImportError);
-          expect(err.message).to.equal('Le champ “Identifiant local” doit être une chaîne de caractères.');
+          expect(err.message).to.contain('Le champ “Identifiant local” doit être une chaîne de caractères.');
         });
-
       });
+
       context('extraTimePercentage', () => {
         it('it should throw error when not valid', async () => {
           // given
@@ -299,16 +321,17 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
             extraTimePercentage: 'salut',
           };
           sandbox.stub(readOdsUtils, 'getOdsVersionByHeaders').resolves(expectedVersion);
-          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves([certificationCandidateData]);
+          sandbox.stub(readOdsUtils, 'extractTableDataFromOdsFile').resolves({ '1' : certificationCandidateData });
 
           // when
           const err = await catchErr(certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet)({ sessionId, odsBuffer });
 
           // then
           expect(err).to.be.instanceOf(CertificationCandidatesImportError);
-          expect(err.message).to.equal('Le champ “Temps majoré ?” doit être un nombre.');
+          expect(err.message).to.contain('Le champ “Temps majoré ?” doit être un nombre.');
         });
       });
+
       context('version', () => {
         it('it should throw error when version is unknown', async () => {
           // given
@@ -323,6 +346,7 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
           expect(err.message).to.equal('La version du document est inconnue.');
         });
       });
+
       context('other', () => {
         it('it should throw generic error when something unknown goes wrong', async () => {
           // given
