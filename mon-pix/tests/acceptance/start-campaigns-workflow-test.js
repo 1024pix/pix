@@ -452,7 +452,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await click('.button');
           });
 
-          it('should redirect to fill-in-id-pix page after signup', async function() {
+          it('should redirect to fill-in-participant-external-id page after signup', async function() {
             // then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/identifiant`);
           });
@@ -596,7 +596,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
           });
 
-          it('should redirect to fill-in-id-pix page', async function() {
+          it('should redirect to fill-in-participant-external-id page', async function() {
             // given
             await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
             await fillIn('#firstName', 'Robert');
@@ -631,7 +631,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
           });
 
-          it('should redirect to fill-in-id-pix page', async function() {
+          it('should redirect to fill-in-participant-external-id page', async function() {
             // given
             await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
 

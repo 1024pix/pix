@@ -937,7 +937,7 @@
       "back-link": "Go back to the verification’s page"
     },
 
-    "fill-in-id-pix": {
+    "fill-in-participant-external-id": {
       "title": "Enter my username",
       "first-title": "Before starting",
       "announcement": "The organiser needs the information below in order to provide support:",
