@@ -105,15 +105,6 @@ exports.register = async function(server) {
           options: {
             allowUnknown: true,
           },
-          failAction: (request, h , err) => {
-            const errorHttpStatusCode = 400;
-            const jsonApiError = new JSONAPIError({
-              status: errorHttpStatusCode.toString(),
-              title: 'Bad request',
-              detail: err.details[0].message,
-            });
-            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
-          },
         },
         handler: userController.updateUserDetailsForAdministration,
         notes : [
@@ -399,15 +390,6 @@ exports.register = async function(server) {
           params: Joi.object({
             id: Joi.number().integer().positive().required(),
           }),
-          failAction: (request, h , err) => {
-            const errorHttpStatusCode = 400;
-            const jsonApiError = new JSONAPIError({
-              status: errorHttpStatusCode.toString(),
-              title: 'Bad request',
-              detail: err.details[0].message,
-            });
-            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
-          },
         },
         pre: [{
           method: securityPreHandlers.checkUserHasRolePixMaster,

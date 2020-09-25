@@ -126,15 +126,6 @@ exports.register = async function(server) {
               },
             },
           }),
-          failAction: (request, h, err) => {
-            const errorHttpStatusCode = 400;
-            const jsonApiError = new JSONAPIError({
-              code: errorHttpStatusCode.toString(),
-              title: 'Bad request',
-              detail: err.details[0].message,
-            });
-            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
-          },
         },
         notes : [
           '- Génère un identifiant pour l\'élève avec un mot de passe temporaire \n' +
