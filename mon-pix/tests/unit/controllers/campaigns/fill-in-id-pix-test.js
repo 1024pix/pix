@@ -1,70 +1,41 @@
-import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
-import setupRenderingTest from '../../../helpers/setup-intl-rendering';
+import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
 describe('Unit | Controller | Campaigns | Fill in ParticipantExternalId', function() {
 
-  setupRenderingTest();
-  
+  setupTest();
+
   const model = {
-    id: 1243,
     code: 'CODECAMPAIGN',
-    idPixLabel: 'Identifiant professionnel',
   };
   const participantExternalId = 'matricule123';
 
   let controller;
 
   beforeEach(function() {
-    controller = this.owner.lookup('controller:campaigns/fill-in-id-pix');
+    controller = this.owner.lookup('controller:campaigns/fill-in-participant-external-id');
     controller.set('model', model);
+    controller.transitionToRoute = sinon.stub();
   });
 
-  describe('#submit', () => {
-
-    let transitionToRouteStub;
-
-    beforeEach(function() {
-      transitionToRouteStub = sinon.stub();
-      controller.set('transitionToRoute', transitionToRouteStub);
-    });
-
+  describe('#onSubmitParticipantExternalId', () => {
     it('should transition to route campaigns.start-or-resume when participant external id is fulfilled', () => {
-      // given
-      controller.set('participantExternalId', participantExternalId);
-
       // when
-      controller.actions.submit.call(controller);
+      controller.actions.onSubmitParticipantExternalId.call(controller, participantExternalId);
 
       // then
-      sinon.assert.calledWith(transitionToRouteStub, 'campaigns.start-or-resume', controller.model, { queryParams: { participantExternalId } });
-    });
-
-    it('should display error when participant external id is empty', () => {
-      // given
-      controller.set('participantExternalId', '');
-
-      // when
-      controller.actions.submit.call(controller);
-
-      // then
-      expect(controller.get('errorMessage')).to.equal(`Merci de renseigner votre ${controller.get('model.idPixLabel')}.`);
+      sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.start-or-resume', controller.model, { queryParams: { participantExternalId } });
     });
   });
 
-  describe('#cancel', () => {
-
-    beforeEach(function() {
-      controller.transitionToRoute = sinon.stub();
-    });
-
+  describe('#onCancel', () => {
     it('should transition to start or resume', () => {
       // when
-      controller.actions.cancel.call(controller);
+      controller.actions.onCancel.call(controller);
 
       // then
-      sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.start-or-resume', controller.get('model.code'));
+      sinon.assert.calledWithExactly(controller.transitionToRoute, 'campaigns.start-or-resume', controller.get('model.code'), { queryParams: { hasUserSeenLandingPage: false } });
     });
   });
 });
