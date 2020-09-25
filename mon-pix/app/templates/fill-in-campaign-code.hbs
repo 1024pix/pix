@@ -6,11 +6,11 @@
     <div class="background-banner-wrapper">
       <div class="background-banner"></div>
 
-      <div
+      <main
         class="fill-in-campaign-code__container rounded-panel rounded-panel--strong rounded-panel--over-background-banner">
-        <h3 class="fill-in-campaign-code__title rounded-panel-title">
+        <h1 class="fill-in-campaign-code__title rounded-panel-title">
           {{t 'pages.fill-in-campaign-code.first-title'}}
-        </h3>
+        </h1>
 
         <label for="campaign-code"
           class="fill-in-campaign-code__instruction">{{{t 'pages.fill-in-campaign-code.description'}}}</label>
@@ -21,7 +21,7 @@
               @id="campaign-code"
               class="input-code"
               @type="text"
-              @value={{this.campaignCode}} 
+              @value={{this.campaignCode}}
               @maxlength="9"
               @key-down={{this.clearErrorMessage}} />
           </div>
@@ -33,15 +33,15 @@
           {{/if}}
 
           <div class="fill-in-campaign-code__actions">
-            <button 
+            <button
               type="submit"
-              class="button button--extra-big fill-in-campaign-code__start-button" 
+              class="button button--extra-big fill-in-campaign-code__start-button"
               {{action 'startCampaign'}}>
               {{t 'pages.fill-in-campaign-code.start'}}
             </button>
           </div>
         </form>
-      </div>
+      </main>
     </div>
   </burger.outlet>
 </BurgerMenu>
