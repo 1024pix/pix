@@ -1,4 +1,4 @@
-const { getCertificate } = require('./get-certificate');
+const { getCompleteCertificate } = require('./get-certificate');
 const { NotFoundError } = require('../../errors');
 
 module.exports = async function getPrivateCertificate({
@@ -20,7 +20,7 @@ module.exports = async function getPrivateCertificate({
     throw new NotFoundError();
   }
 
-  return getCertificate({
+  return getCompleteCertificate({
     certificate,
     cleaCertificationStatusRepository,
     assessmentResultRepository,

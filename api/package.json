@@ -63,6 +63,7 @@
     "node-mailjet": "^3.3.1",
     "papaparse": "^5.2.0",
     "path": "^0.12.7",
+    "pdf-lib": "^1.11.1",
     "pg": "^7.18.2",
     "randomstring": "^1.1.5",
     "redis": "^3.0.2",

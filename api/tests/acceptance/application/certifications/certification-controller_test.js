@@ -19,7 +19,7 @@ describe('Acceptance | API | Certifications', () => {
     server = await createServer();
 
     userId = databaseBuilder.factory.buildUser().id;
-    session = databaseBuilder.factory.buildSession();
+    session = databaseBuilder.factory.buildSession({ publishedAt: new Date('2018-12-01T01:02:03Z') });
     badge = databaseBuilder.factory.buildBadge({ key: 'charlotte_aux_fraises' });
     certificationCourse = databaseBuilder.factory.buildCertificationCourse({
       sessionId: session.id,
@@ -505,5 +505,81 @@ describe('Acceptance | API | Certifications', () => {
       });
     });
 
+  });
+
+  describe('GET /api/attestation/pdf', () => {
+    before(function() {
+      const area = airtableBuilder.factory.buildArea();
+      airtableBuilder.mockList({ tableName: 'Domaines' })
+        .returns([area])
+        .activate();
+
+      const epreuves = [
+        'rec02tVrimXNkgaLD',
+        'rec0gm0GFue3PQB3k',
+        'rec0hoSlSwCeNNLkq',
+        'rec2FcZ4jsPuY1QYt',
+        'rec39bDMnaVw3MyMR',
+        'rec3FMoD8h9USTktb',
+        'rec3P7fvPSpFkIFLV',
+      ];
+      const competences = map([{
+        id: 'recsvLz0W2ShyfD63',
+        epreuves,
+        sousDomaine: '1.1',
+        titre: 'Mener une recherche et une veille d’information',
+      }, {
+        id: 'recNv8qhaY887jQb2',
+        epreuves,
+        sousDomaine: '1.2',
+        titre: 'Gérer des données',
+      }, {
+        id: 'recIkYm646lrGvLNT',
+        epreuves,
+        sousDomaine: '1.3',
+        titre: 'Traiter des données',
+      }], (competence) => airtableBuilder.factory.buildCompetence(competence));
+
+      airtableBuilder.mockList({ tableName: 'Competences' })
+        .returns(competences)
+        .activate();
+    });
+
+    after(() => {
+      airtableBuilder.cleanAll();
+      return cache.flushAll();
+    });
+
+    beforeEach(() => {
+      databaseBuilder.factory.buildCompetenceMark({
+        level: 3,
+        score: 23,
+        area_code: '1',
+        competence_code: '1.1',
+        assessmentResultId: assessmentResult.id,
+        acquiredPartnerCertifications: [badge.key],
+      });
+      return databaseBuilder.commit();
+    });
+
+    context('when user own the certification', () => {
+      it('should return 200 HTTP status code and the certification', async () => {
+        // given
+        options = {
+          method: 'GET',
+          url: `/api/attestation/${certificationCourse.id}`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.headers['content-type']).to.equal('application/pdf');
+        expect(response.headers['content-disposition']).to.include('filename=attestation-pix');
+        expect(response.file).not.to.be.null;
+      });
+    });
   });
 });
