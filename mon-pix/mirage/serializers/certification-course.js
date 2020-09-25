@@ -5,6 +5,8 @@ export default ApplicationSerializer.extend({
     'nbChallenges',
     'examinerComment',
     'hasSeenEndTestScreen',
+    'firstName',
+    'lastName',
   ],
   links(certificationCourse) {
     return {
