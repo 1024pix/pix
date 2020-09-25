@@ -60,4 +60,42 @@ describe('Unit | Infrastructure | Datasource | Airtable | TubeDatasource', () =>
     });
   });
 
+  describe('#findByRecordIds', () => {
+
+    it('should return an array of matching airtable tube data objects', async function() {
+      // given
+      const rawTube1 = tubeRawAirTableFixture('RECORD_ID_RAW_TUBE_1');
+      const rawTube2 = tubeRawAirTableFixture('RECORD_ID_RAW_TUBE_2');
+      const rawTube3 = tubeRawAirTableFixture('RECORD_ID_RAW_TUBE_3');
+      const rawTube4 = tubeRawAirTableFixture('RECORD_ID_RAW_TUBE_4');
+
+      const records = [rawTube1, rawTube2, rawTube3, rawTube4];
+      sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake(records));
+      const expectedTubeIds = [
+        rawTube1.fields['id persistant'],
+        rawTube2.fields['id persistant'],
+        rawTube4.fields['id persistant'],
+      ];
+
+      // when
+      const foundTubes = await tubeDatasource.findByRecordIds(expectedTubeIds);
+      // then
+      expect(foundTubes.map(({ id }) => id)).to.deep.equal(expectedTubeIds);
+    });
+
+    it('should return an empty array when there are no objects matching the ids', async function() {
+      // given
+      const rawTube1 = tubeRawAirTableFixture('RECORD_ID_RAW_TUBE_1');
+
+      const records = [rawTube1];
+      sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake(records));
+
+      // when
+      const foundTubes = await tubeDatasource.findByRecordIds(['some_other_id']);
+
+      // then
+      expect(foundTubes).to.be.empty;
+    });
+  });
+
 });

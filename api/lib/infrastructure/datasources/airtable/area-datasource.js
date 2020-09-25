@@ -29,5 +29,10 @@ module.exports = datasource.extend({
     };
   },
 
+  async findByRecordIds(areaIds) {
+    const areas = await this.list();
+    return areas.filter(({ id }) => areaIds.includes(id));
+  },
+
 });
 

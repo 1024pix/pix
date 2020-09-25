@@ -4,6 +4,7 @@ const buildChallenge = require('../build-challenge');
 const buildTube = require('../build-tube');
 const buildCompetence = require('../build-competence');
 const buildArea = require('../build-area');
+const { FRENCH_FRANCE, ENGLISH_SPOKEN } = require('../../../../../lib/domain/constants').LOCALE;
 
 const buildLearningContent = function(learningContent) {
   const allCompetences = [];
@@ -90,6 +91,68 @@ const buildLearningContent = function(learningContent) {
     tubes: allTubes.flat(),
     skills: allSkills.flat(),
     challenges: _.compact(allChallenges.flat()),
+  };
+};
+
+buildLearningContent.fromTargetProfileWithLearningContent = function buildLearningContentFromTargetProfileWithLearningContent({
+  targetProfile,
+  locale = FRENCH_FRANCE,
+}) {
+  const allCompetences = [];
+  const allTubes = [];
+  const allSkills = [];
+  const areas = targetProfile.areas.map((area) => {
+    const competences = area.competences.map((competence) => {
+      const tubes = competence.tubes.map((tube) => {
+        const skills = tube.skills.map((skill) => {
+          return buildSkill(
+            {
+              id: skill.id,
+              epreuves: [],
+              tube: [tube.id],
+              compétenceViaTube: [competence.id],
+              nom: skill.name,
+            },
+          );
+        });
+        allSkills.push(skills);
+        return buildTube(
+          {
+            id: tube.id,
+            titrePratiqueFrFr: locale === FRENCH_FRANCE ? tube.practicalTitle : null,
+            titrePratiqueEnUs: locale === ENGLISH_SPOKEN ? tube.practicalTitle : null,
+            competences: [competence.id],
+          },
+        );
+      });
+      allTubes.push(tubes);
+      return buildCompetence(
+        {
+          id: competence.id,
+          epreuves: [],
+          tubes: competence.tubes.map((tube) => tube.id),
+          acquisViaTubes: competence.tubes.flatMap((tube) => tube.skills).map((skill) => skill.id),
+          domaineIds: [area.id],
+          sousDomaine: competence.index,
+          titreFrFr: locale === FRENCH_FRANCE ? competence.name : null,
+          titreEnUs: locale === ENGLISH_SPOKEN ? competence.name : null,
+        },
+      );
+    });
+    allCompetences.push(competences);
+    return buildArea({
+      id: area.id,
+      titreFr: locale === FRENCH_FRANCE ? area.title : null,
+      titreEn: locale === ENGLISH_SPOKEN ? area.title : null,
+      competenceIds: competences.map((competence) => competence.id),
+      nomCompetences: competences.map((competence) => competence.name),
+    });
+  });
+  return {
+    areas,
+    competences: allCompetences.flat(),
+    tubes: allTubes.flat(),
+    skills: allSkills.flat(),
   };
 };
 
