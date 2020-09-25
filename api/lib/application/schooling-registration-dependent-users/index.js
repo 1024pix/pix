@@ -58,15 +58,6 @@ exports.register = async function(server) {
               type: 'external-users',
             },
           }),
-          failAction: (request, h, err) => {
-            const errorHttpStatusCode = 400;
-            const jsonApiError = new JSONAPIError({
-              status: errorHttpStatusCode.toString(),
-              title: 'Bad request',
-              detail: err.details[0].message,
-            });
-            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
-          },
         },
         notes: [
           'Cette route crée un compte utilisateur suite à une connexion provenant d\'un IDP externe (GAR). ' +
@@ -100,7 +91,7 @@ exports.register = async function(server) {
           failAction: (request, h) => {
             const errorHttpStatusCode = 400;
             const jsonApiError = new JSONAPIError({
-              code: errorHttpStatusCode.toString(),
+              status: errorHttpStatusCode.toString(),
               title: 'Bad request',
               detail: 'The server could not understand the request due to invalid syntax.',
             });
