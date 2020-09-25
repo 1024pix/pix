@@ -46,7 +46,7 @@ describe('Unit | Domain | Models | Organization', () => {
 
   });
 
-  describe('getter#isSco', () => {
+  describe('get#isSco', () => {
 
     it('should return true when organization is of type SCO', () => {
       // given
@@ -65,7 +65,7 @@ describe('Unit | Domain | Models | Organization', () => {
     });
   });
 
-  describe('getter#isSup', () => {
+  describe('get#isSup', () => {
 
     it('should return true when organization is of type SUP', () => {
       // given
@@ -84,7 +84,7 @@ describe('Unit | Domain | Models | Organization', () => {
     });
   });
 
-  describe('getter#isPro', () => {
+  describe('get#isPro', () => {
 
     it('should return true when organization is of type PRO', () => {
       // given
