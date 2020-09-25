@@ -1,0 +1,36 @@
+<footer class="footer">
+  <div class="footer__container">
+    <div class="footer-container__logos">
+      <PixLogo/>
+
+      {{#if this.shouldShowTheMarianneLogo}}
+        <div class="footer-logos__french-government">
+          <img src="{{rootURL}}/images/logo-de-la-republique-francaise.svg"
+               alt="{{t 'common.french-republic'}}">
+        </div>
+      {{/if}}
+    </div>
+
+    <div class="footer-container__content">
+      <div class="footer-container-content__navigation">
+        <a href="{{t 'navigation.footer.link-help-center'}}"
+           target="_blank"
+           class="footer-navigation__item">
+          {{t 'navigation.footer.help-center'}}
+        </a>
+
+        <a href="{{t 'navigation.footer.link-a11y'}}"
+           target="_blank"
+           class="footer-navigation__item">
+          {{t 'navigation.footer.a11y'}}
+        </a>
+      </div>
+
+      <div class="footer-container-content__copyrights">
+        <span>{{t 'navigation.copyrights'}} {{ this.currentYear }} {{t 'navigation.pix'}}</span>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
