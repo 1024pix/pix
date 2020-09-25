@@ -41,6 +41,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
             'is-managing-students': organization.isManagingStudents,
             'name': organization.name,
             'type': organization.type,
+            'credit': organization.credit,
           },
           relationships: {
             memberships: {
