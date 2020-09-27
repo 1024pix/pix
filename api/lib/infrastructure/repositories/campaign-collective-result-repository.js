@@ -82,18 +82,15 @@ function _computeKERankWithinUserAndSkillByDateDescending(qb) {
 function _buildCampaignCompetenceCollectiveResults(campaignId, targetProfile, participantCount, participantsKECountByCompetenceId) {
   return _(targetProfile.competences).map((competence) => {
     let averageValidatedSkills = 0;
-    if (competence.id in participantsKECountByCompetenceId) {
+    if (participantCount && competence.id in participantsKECountByCompetenceId) {
       averageValidatedSkills = participantsKECountByCompetenceId[competence.id] / participantCount;
     }
 
     const area = targetProfile.getAreaOfCompetence(competence.id);
     return new CampaignCompetenceCollectiveResult({
       campaignId,
-      competenceId: competence.id,
-      competenceName: competence.name,
-      competenceIndex: competence.index,
-      areaColor: area.color,
-      targetedSkillsCount: competence.skillCount,
+      targetedArea: area,
+      targetedCompetence: competence,
       averageValidatedSkills,
     });
   })
