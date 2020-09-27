@@ -18,6 +18,22 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
+  describe('get#skillIds', () => {
+
+    it('should return an array with targeted skill names', () => {
+      // given
+      const skill1 = domainBuilder.buildTargetedSkill({ id: 'acquis1' });
+      const skill2 = domainBuilder.buildTargetedSkill({ id: 'acquis2' });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ skills: [skill1, skill2] });
+
+      // when
+      const targetedSkillIds = targetProfile.skillIds;
+
+      // then
+      expect(targetedSkillIds).to.exactlyContain(['acquis1', 'acquis2']);
+    });
+  });
+
   describe('get#competenceIds', () => {
 
     it('should return an array with targeted competence ids order by id', () => {
