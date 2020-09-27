@@ -36,6 +36,12 @@ class TargetProfileWithLearningContent {
 
     return skillTube ? skillTube.competenceId : null;
   }
+
+  getAreaOfCompetence(competenceId) {
+    const area = this.areas.find((area) => area.hasCompetence(competenceId));
+
+    return area || null;
+  }
 }
 
 module.exports = TargetProfileWithLearningContent;
