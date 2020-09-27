@@ -372,7 +372,7 @@ module.exports = {
       const updatedSchoolingRegistrationsCount = await trx('schooling-registrations')
         .where('id', schoolingRegistrationId)
         .whereNull('userId')
-        .update({ userId });
+        .update({ userId, updatedAt: Bookshelf.knex.raw('CURRENT_TIMESTAMP') });
 
       if (updatedSchoolingRegistrationsCount !== 1) {
         throw new SchoolingRegistrationAlreadyLinkedToUserError(`L'inscription ${schoolingRegistrationId} est déjà rattachée à un compte utilisateur.`);
