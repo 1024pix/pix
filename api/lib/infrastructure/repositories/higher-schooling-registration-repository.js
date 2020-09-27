@@ -44,7 +44,7 @@ module.exports = {
       return registrationToSave;
     });
 
-    return upsert(registrationDataToSave);
+    return _upsert(registrationDataToSave);
   },
 
   async findByOrganizationIdAndStudentNumber({ organizationId, studentNumber }) {
@@ -80,7 +80,7 @@ module.exports = {
   },
 };
 
-async function upsert(registrationDataToSave) {
+async function _upsert(registrationDataToSave) {
   const baseQuery = _getBaseQueryForUpsert();
   const registrationDataChunks = _chunkRegistrations(registrationDataToSave);
   const trx = await knex.transaction();
@@ -103,8 +103,9 @@ function _chunkRegistrations(registrations) {
 }
 
 function _getBaseQueryForUpsert() {
-  const update = ATTRIBUTES_TO_SAVE
+  let update = ATTRIBUTES_TO_SAVE
     .map((key) => `"${key}" = EXCLUDED."${key}"`)
     .join(', ');
+  update += ', "updatedAt" = CURRENT_TIMESTAMP';
   return `? ON CONFLICT ("organizationId", "studentNumber") WHERE "isSupernumerary" IS FALSE DO UPDATE SET ${update}`;
 }
