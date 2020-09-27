@@ -2,10 +2,12 @@ class TargetedArea {
   constructor({
     id,
     title,
+    color,
     competences = [],
   } = {}) {
     this.id = id;
     this.title = title;
+    this.color = color;
     this.competences = competences;
   }
 
