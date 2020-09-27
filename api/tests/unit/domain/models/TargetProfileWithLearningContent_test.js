@@ -20,7 +20,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
 
   describe('get#skillIds', () => {
 
-    it('should return an array with targeted skill names', () => {
+    it('should return an array with targeted skill ids', () => {
       // given
       const skill1 = domainBuilder.buildTargetedSkill({ id: 'acquis1' });
       const skill2 = domainBuilder.buildTargetedSkill({ id: 'acquis2' });
@@ -86,7 +86,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     beforeEach(() => {
       const skillNotInCompetence = domainBuilder.buildTargetedSkill({ id: 'otherSkillId', tubeId: 'tube1' });
       const skillInCompetence = domainBuilder.buildTargetedSkill({ id: skillId, tubeId: 'tube2' });
-      const tube1 = domainBuilder.buildTargetedTube({ id: 'tube1', skills: [skillNotInCompetence], competence: 'otherCompId' });
+      const tube1 = domainBuilder.buildTargetedTube({ id: 'tube1', skills: [skillNotInCompetence], competenceId: 'otherCompId' });
       const tube2 = domainBuilder.buildTargetedTube({ id: 'tube2', skills: [skillInCompetence], competenceId: expectedCompetenceId });
       targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ skills: [skillNotInCompetence, skillInCompetence], tubes: [tube1, tube2] });
     });
@@ -105,6 +105,37 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
 
       // then
       expect(competenceId).to.be.null;
+    });
+  });
+
+  describe('getAreaOfCompetence()', () => {
+
+    const competenceId = 'competenceId';
+    let expectedArea;
+    let targetProfile;
+
+    beforeEach(() => {
+      const competenceNotInArea = domainBuilder.buildTargetedCompetence({ id: 'otherCompetenceId', areaId: 'area1' });
+      const competenceInArea = domainBuilder.buildTargetedCompetence({ id: competenceId, areaId: 'area2' });
+      const area1 = domainBuilder.buildTargetedArea({ id: 'area1', competences: [competenceNotInArea] });
+      expectedArea = domainBuilder.buildTargetedArea({ id: 'area2', competences: [competenceInArea] });
+      targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ competences: [competenceNotInArea, competenceInArea], areas: [expectedArea, area1] });
+    });
+
+    it('should return area of competence', () => {
+      // when
+      const area = targetProfile.getAreaOfCompetence(competenceId);
+
+      // then
+      expect(area).to.deep.equal(expectedArea);
+    });
+
+    it('should return null when area of competence is not found', () => {
+      // when
+      const area = targetProfile.getAreaOfCompetence('recPépite');
+
+      // then
+      expect(area).to.be.null;
     });
   });
 
