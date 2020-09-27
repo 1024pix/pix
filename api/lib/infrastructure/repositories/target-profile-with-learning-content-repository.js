@@ -17,32 +17,50 @@ module.exports = {
 
   async get({ id, locale = FRENCH_FRANCE }) {
     const results = await knex('target-profiles')
-      .leftJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id')
       .select('target-profiles.id', 'target-profiles.name', 'target-profiles_skills.skillId')
+      .leftJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id')
       .where('target-profiles.id', id);
 
     if (_.isEmpty(results)) {
       throw new NotFoundError(`Le profil cible ${id} n'existe pas`);
     }
 
-    const skillIds = _.compact(results.map(({ skillId }) => skillId));
-    const {
-      skills,
-      tubes,
-      competences,
-      areas,
-    } = await _getTargetedLearningContent(skillIds, locale);
+    return _toDomain(results, locale);
+  },
 
-    return new TargetProfileWithLearningContent({
-      id: results[0].id,
-      name: results[0].name,
-      skills,
-      tubes,
-      competences,
-      areas,
-    });
+  async getByCampaignId({ campaignId, locale = FRENCH_FRANCE }) {
+    const results = await knex('campaigns')
+      .select('target-profiles.id', 'target-profiles.name', 'target-profiles_skills.skillId')
+      .join('target-profiles', 'target-profiles.id', 'campaigns.targetProfileId')
+      .leftJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id')
+      .where('campaigns.id', campaignId);
+
+    if (_.isEmpty(results)) {
+      throw new NotFoundError(`Le profil cible pour la campagne ${campaignId} n'existe pas`);
+    }
+
+    return _toDomain(results, locale);
   },
 };
+
+async function _toDomain(results, locale) {
+  const skillIds = _.compact(results.map(({ skillId }) => skillId));
+  const {
+    skills,
+    tubes,
+    competences,
+    areas,
+  } = await _getTargetedLearningContent(skillIds, locale);
+
+  return new TargetProfileWithLearningContent({
+    id: results[0].id,
+    name: results[0].name,
+    skills,
+    tubes,
+    competences,
+    areas,
+  });
+}
 
 async function _getTargetedLearningContent(skillIds, locale) {
   const skills = await _findTargetedSkills(skillIds);
