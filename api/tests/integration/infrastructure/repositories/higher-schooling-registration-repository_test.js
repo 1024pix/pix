@@ -126,6 +126,36 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
         expect(higherSchoolingRegistrations).to.have.lengthOf(1);
         expect(higherSchoolingRegistrations[0].preferredLastName).to.equal(registration.preferredLastName);
       });
+      it('should update updatedAt column', async function() {
+
+        const organization = databaseBuilder.factory.buildOrganization();
+        const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
+          preferredLastName: 'Sidewinder',
+          studentNumber: '12',
+          organizationId: organization.id,
+        }).id;
+
+        await databaseBuilder.commit();
+        await knex('schooling-registrations').update({ updatedAt: new Date('2019-01-01') }).where({ id: schoolingRegistrationId });
+        const { updatedAt: beforeUpdatedAt } = await knex.select('updatedAt').from('schooling-registrations').where({ id: schoolingRegistrationId }).first();
+
+        const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet();
+        const registration = {
+          preferredLastName: 'California Mountain Snake',
+          studentNumber: '12',
+          firstName: 'Elle',
+          lastName: 'Driver',
+          birthdate: '2020-01-01',
+          organizationId: organization.id,
+        };
+
+        higherSchoolingRegistrationSet.addRegistration(registration);
+
+        await higherSchoolingRegistrationRepository.saveSet(higherSchoolingRegistrationSet, organization.id);
+        const { updatedAt: afterUpdatedAt } = await knex.select('updatedAt').from('schooling-registrations').where({ id: schoolingRegistrationId }).first();
+
+        expect(beforeUpdatedAt.toString()).to.not.equal(afterUpdatedAt.toString());
+      });
     });
 
     context('when there is schooling registration with the same student number for another organization', () => {
