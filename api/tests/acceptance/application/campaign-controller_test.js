@@ -163,10 +163,15 @@ describe('Acceptance | API | Campaign Controller', () => {
         domaineIds: [area.id],
         acquisViaTubes: ['recSkillId1','recSkillId2'],
       });
+      const tube1 = airtableBuilder.factory.buildTube({
+        id: 'recTube1',
+        competences: [competence1.id],
+      });
       airtableBuilder.mockList({ tableName: 'Acquis' }).returns([
-        airtableBuilder.factory.buildSkill({ id: 'recSkillId1', ['compétenceViaTube']: ['recCompetence1'] }),
-        airtableBuilder.factory.buildSkill({ id: 'recSkillId2', ['compétenceViaTube']: ['recCompetence1'] }),
+        airtableBuilder.factory.buildSkill({ id: 'recSkillId1', ['compétenceViaTube']: ['recCompetence1'], tube: ['recTube1'] }),
+        airtableBuilder.factory.buildSkill({ id: 'recSkillId2', ['compétenceViaTube']: ['recCompetence1'], tube: ['recTube1'] }),
       ]).activate();
+      airtableBuilder.mockList({ tableName: 'Tubes' }).returns([tube1]).activate();
       airtableBuilder.mockList({ tableName: 'Competences' }).returns([competence1]).activate();
       airtableBuilder.mockList({ tableName: 'Domaines' }).returns([area]).activate();
     });
