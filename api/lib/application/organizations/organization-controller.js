@@ -115,7 +115,7 @@ module.exports = {
     const organizationId = parseInt(request.params.id);
     const buffer = request.payload;
     const higherSchoolingRegistrationParser = new HigherSchoolingRegistrationParser(buffer, organizationId);
-    await usecases.importHigherSchoolingRegistrations({ higherSchoolingRegistrationParser });
+    await usecases.importHigherSchoolingRegistrations({ organizationId, higherSchoolingRegistrationParser });
     return h.response(null).code(204);
   },
 
