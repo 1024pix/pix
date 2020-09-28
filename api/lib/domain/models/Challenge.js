@@ -102,7 +102,7 @@ class Challenge {
   }
 
   hasSkill(searchedSkill) {
-    return this.skills.filter((skill) => skill.id === searchedSkill.id).length > 0;
+    return this.skills.some((skill) => skill.id === searchedSkill.id);
   }
 
   get hardestSkill() {
