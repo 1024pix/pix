@@ -41,6 +41,8 @@ const SUBMIT_BUTTON = '.button';
 const userEmpty = EmberObject.create({});
 const CAPTCHA_CONTAINER = '.signup-form__captcha-container';
 
+const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
+
 describe('Integration | Component | signup form', function() {
 
   setupIntlRenderingTest();
@@ -115,6 +117,166 @@ describe('Integration | Component | signup form', function() {
       expect(findAll(SUBMIT_BUTTON)).to.have.length(1);
       expect(find(SUBMIT_BUTTON).textContent.trim()).to.equal(this.intl.t('pages.sign-up.actions.submit'));
       expect(find(SUBMIT_BUTTON).nodeName).to.equal('button'.toUpperCase());
+    });
+
+  });
+
+  describe('When API returns errors', function() {
+
+    const userInputs = {
+      email: 'toto@pix.fr',
+      firstName: 'Marion',
+      lastName: 'Yade',
+      password: 'gipix2017',
+      cgu: true,
+    };
+
+    it('should display an error if api cannot be reached', async function() {
+
+      const expectedErrorMessage = ApiErrorMessages.INTERNAL_SERVER_ERROR.MESSAGE;
+      const stubCatchedApiErrorInternetDisconnected = undefined;
+
+      const user = EmberObject.create({
+
+        ...userInputs,
+
+        save() {
+          return new reject(stubCatchedApiErrorInternetDisconnected);
+        },
+      });
+
+      this.set('user', user);
+      await render(hbs`{{signup-form user=user}}`);
+
+      // when
+      await click(SUBMIT_BUTTON);
+
+      // then
+      expect(find('.sign-form__notification-message--error')).to.exist;
+      expect(find('.sign-form__notification-message--error').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
+
+    });
+
+    it('should display related error message if internal server error', async function() {
+      // given
+      const expectedErrorMessage = ApiErrorMessages.INTERNAL_SERVER_ERROR.MESSAGE;
+      const apiReturn = {
+        errors: [{
+          status: 500,
+          detail: expectedErrorMessage,
+          title: 'Internal server error',
+        }],
+      };
+
+      const user = EmberObject.create({
+
+        ...userInputs,
+
+        save() {
+          return new reject(apiReturn);
+        },
+      });
+
+      this.set('user', user);
+      await render(hbs`{{signup-form user=user}}`);
+
+      // when
+      await click(SUBMIT_BUTTON);
+
+      // then
+      expect(find('.sign-form__notification-message--error')).to.exist;
+      expect(find('.sign-form__notification-message--error').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
+
+    });
+
+    it('should display related error message if bad gateway error', async function() {
+      // given
+      const expectedErrorMessage = ApiErrorMessages.BAD_GATEWAY.MESSAGE;
+      const apiReturn = {
+        errors: [{
+          status: 502,
+          detail: expectedErrorMessage,
+          title: 'Bad gateway error',
+        }],
+      };
+      const user = EmberObject.create({
+
+        ...userInputs,
+
+        save() {
+          return new reject(apiReturn);
+        },
+      });
+
+      this.set('user', user);
+      await render(hbs`{{signup-form user=user}}`);
+
+      // when
+      await click(SUBMIT_BUTTON);
+
+      // then
+      expect(find('.sign-form__notification-message--error')).to.exist;
+      expect(find('.sign-form__notification-message--error').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
+    });
+
+    it('should display related error message if gateway timeout error', async function() {
+      // given
+      const expectedErrorMessage = ApiErrorMessages.GATEWAY_TIMEOUT.MESSAGE;
+      const apiReturn = {
+        errors: [{
+          status: 504,
+          detail: expectedErrorMessage,
+          title: 'Gateway timeout error',
+        }],
+      };
+      const user = EmberObject.create({
+
+        ...userInputs,
+
+        save() {
+          return new reject(apiReturn);
+        },
+      });
+
+      this.set('user', user);
+      await render(hbs`{{signup-form user=user}}`);
+
+      // when
+      await click(SUBMIT_BUTTON);
+
+      // then
+      expect(find('.sign-form__notification-message--error')).to.exist;
+      expect(find('.sign-form__notification-message--error').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
+    });
+
+    it('should display related error message if not implemented error', async function() {
+      // given
+      const expectedErrorMessage = ApiErrorMessages.INTERNAL_SERVER_ERROR.MESSAGE;
+      const apiReturn = {
+        errors: [{
+          status: 501,
+          detail: 'Not implemented Error',
+          title: 'Not implemented error',
+        }],
+      };
+      const user = EmberObject.create({
+
+        ...userInputs,
+
+        save() {
+          return new reject(apiReturn);
+        },
+      });
+
+      this.set('user', user);
+      await render(hbs`{{signup-form user=user}}`);
+
+      // when
+      await click(SUBMIT_BUTTON);
+
+      // then
+      expect(find('.sign-form__notification-message--error')).to.exist;
+      expect(find('.sign-form__notification-message--error').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
     });
 
   });
