@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v2.202.0 (28/09/2020)
+
+- [#1913](https://github.com/1024pix/pix/pull/1913) [FEATURE] Utiliser PixActionButton de pix-ui
+- [#1903](https://github.com/1024pix/pix/pull/1903) [FEATURE] Génération de fichier PDF (PIX-831)
+- [#1892](https://github.com/1024pix/pix/pull/1892) [FEATURE] Ajouter la certif CléA sur pix admin (PIX-656)
+- [#1891](https://github.com/1024pix/pix/pull/1891) [FEATURE] Ajout d'une couleur pour le status de la certification Cléa (PIX-657)
+- [#1894](https://github.com/1024pix/pix/pull/1894) [FEATURE] Changer le nom de l'utilisateur par le nom du candidat en test de certif (PIX-526)
+- [#1916](https://github.com/1024pix/pix/pull/1916) [FEATURE] Révision de la bannière d'import du SCO (PIX-1313).
+- [#1877](https://github.com/1024pix/pix/pull/1877) [FEATURE] Ajouter un footer sur Pix App (PIX-1156).
+- [#1906](https://github.com/1024pix/pix/pull/1906) [FEATURE] Demander à un étudiant de saisir toutes ses informations lors de l'accès à une campagne (PIX-1276).
+- [#1767](https://github.com/1024pix/pix/pull/1767) [TECH] Monter les versions des packages de l'API.
+- [#1901](https://github.com/1024pix/pix/pull/1901) [TECH] Création d'un modèle TargetProfileWithLearningContent (PIX-1301-1)
+- [#1904](https://github.com/1024pix/pix/pull/1904)  [FEATURE] Ajout des informations dynamiques dans le PDF de l'attestation de certification (PIX-1238)
+
 ## v2.201.0 (25/09/2020)
 
 - [#1912](https://github.com/1024pix/pix/pull/1912) [FEATURE] Amélioration de l'accessibilité des pages campagne (PIX-1181).
