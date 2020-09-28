@@ -1,4 +1,4 @@
-const { getCompleteCertificate } = require('./get-certificate');
+const { decorateWithCleaStatusAndCompetenceTree } = require('./decorate-with-clea-status-and-competence-tree');
 
 module.exports = async function getShareableCertificate({
   verificationCode,
@@ -9,8 +9,9 @@ module.exports = async function getShareableCertificate({
 }) {
   const certificate = await certificationRepository.getShareableCertificateByVerificationCode({ verificationCode });
 
-  return getCompleteCertificate({
-    certificate,
+  return decorateWithCleaStatusAndCompetenceTree({
+    certificationId : certificate.id,
+    toBeDecorated: certificate,
     cleaCertificationStatusRepository,
     assessmentResultRepository,
     competenceTreeRepository,

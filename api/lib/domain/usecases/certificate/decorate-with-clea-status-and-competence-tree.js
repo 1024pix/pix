@@ -1,25 +1,26 @@
 const ResultCompetenceTree = require('../../models/ResultCompetenceTree');
 
 module.exports = {
-  getCompleteCertificate : async function({
-    certificate,
+  decorateWithCleaStatusAndCompetenceTree : async function({
+    certificationId,
+    toBeDecorated,
     cleaCertificationStatusRepository,
     assessmentResultRepository,
     competenceTreeRepository,
   }) {
-    const cleaCertificationStatus = await cleaCertificationStatusRepository.getCleaCertificationStatus(certificate.id);
+    const cleaCertificationStatus = await cleaCertificationStatusRepository.getCleaCertificationStatus(certificationId);
 
     const competenceTree = await competenceTreeRepository.get();
-    const [assessmentResultId, competenceMarks] = await _getsCompetenceMarksAndAssessmentResultId({ certificationId: certificate.id, assessmentResultRepository });
+    const [assessmentResultId, competenceMarks] = await _getsCompetenceMarksAndAssessmentResultId({ certificationId, assessmentResultRepository });
 
     const resultCompetenceTree = ResultCompetenceTree.generateTreeFromCompetenceMarks({
       competenceTree,
       competenceMarks,
     });
-    resultCompetenceTree.id = `${certificate.id}-${assessmentResultId}`;
+    resultCompetenceTree.id = `${certificationId}-${assessmentResultId}`;
 
     return {
-      ...certificate,
+      ...toBeDecorated,
       resultCompetenceTree,
       cleaCertificationStatus,
     };

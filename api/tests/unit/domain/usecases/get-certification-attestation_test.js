@@ -1,5 +1,6 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
+const CertificationAttestation = require('../../../../lib/domain/models/CertificationAttestation');
 const getCertificationAttestation = require('../../../../lib/domain/usecases/certificate/get-certification-attestation');
 
 describe('Unit | UseCase | getCertificationAttestation', async () => {
@@ -57,7 +58,7 @@ describe('Unit | UseCase | getCertificationAttestation', async () => {
 
     it('should return the attestationPDF', async () => {
       // given
-      const expectedData = {
+      const expectedData = new CertificationAttestation({
         'birthdate': '1992-06-12',
         'birthplace': 'Paris',
         'certificationCenter': 'L’univeristé du Pix',
@@ -108,7 +109,7 @@ describe('Unit | UseCase | getCertificationAttestation', async () => {
         'status': 'validated',
         'userId': 2,
         'verificationCode': 'P-BBBCCCDD',
-      };
+      });
       // when
       const result = await getCertificationAttestation({ certificationId, userId, ...dependencies });
 
