@@ -1290,6 +1290,19 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         const foundSchoolingRegistrations = await knex('schooling-registrations').where('id', schoolingRegistrationId);
         expect(foundSchoolingRegistrations[0].userId).to.not.be.undefined;
       });
+
+      it('should update updatedAt column in schooling-registration row', async () => {
+        // given
+        await knex('schooling-registrations').update({ updatedAt: new Date('2019-01-01') }).where({ id: schoolingRegistrationId });
+        const { updatedAt: beforeUpdatedAt } = await knex.select('updatedAt').from('schooling-registrations').where({ id: schoolingRegistrationId }).first();
+
+        // when
+        await userRepository.createAndReconcileUserToSchoolingRegistration({ domainUser, schoolingRegistrationId });
+
+        // then
+        const { updatedAt: afterUpdatedAt } = await knex.select('updatedAt').from('schooling-registrations').where({ id: schoolingRegistrationId }).first();
+        expect(afterUpdatedAt).to.be.above(beforeUpdatedAt);
+      });
     });
 
     context('when creation succeeds and association fails', () => {

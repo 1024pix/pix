@@ -88,12 +88,13 @@ module.exports = {
     try {
       await Promise.all([
         bluebird.mapSeries(schoolingRegistrationsToUpdate, async (schoolingRegistrationToUpdate) => {
+          const attributesToUpdate = _.omit(schoolingRegistrationToUpdate, ['id', 'createdAt']);
           await trx('schooling-registrations')
             .where({
               'organizationId': organizationId,
               'nationalStudentId': schoolingRegistrationToUpdate.nationalStudentId,
             })
-            .update(_.omit(schoolingRegistrationToUpdate, ['id', 'createdAt']));
+            .update({ ...attributesToUpdate, updatedAt: Bookshelf.knex.raw('CURRENT_TIMESTAMP') });
         }),
         trx.batchInsert('schooling-registrations', schoolingRegistrationsToCreate),
       ]);

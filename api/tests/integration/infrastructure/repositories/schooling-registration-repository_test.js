@@ -482,6 +482,38 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         expect(error.message).to.equal('L’INE SAMEID123 est déjà présent pour cette organisation.');
       });
     });
+
+    context('whenever a schooling-registration is updated', () => {
+
+      it('should update the updatedAt column in row', async () => {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const baseSchoolingRegistration = {
+          firstName: 'Lucy',
+          lastName: 'Handmade',
+          birthdate: '1990-12-31',
+          nationalStudentId: 'INE1',
+          organizationId,
+        };
+        const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration(baseSchoolingRegistration).id;
+        await databaseBuilder.commit();
+        await knex('schooling-registrations').update({ updatedAt: new Date('2019-01-01') }).where({ id: schoolingRegistrationId });
+        const { updatedAt: beforeUpdatedAt } = await knex.select('updatedAt').from('schooling-registrations').where({ id: schoolingRegistrationId }).first();
+
+        const schoolingRegistration_updated = new SchoolingRegistration({
+          ...baseSchoolingRegistration,
+          firstName: 'Lili',
+        });
+
+        // when
+        await schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations([schoolingRegistration_updated], organizationId);
+
+        // then
+        const { updatedAt: afterUpdatedAt } = await knex.select('updatedAt').from('schooling-registrations').where({ id: schoolingRegistrationId }).first();
+
+        expect(afterUpdatedAt).to.be.above(beforeUpdatedAt);
+      });
+    });
   });
 
   describe('#findByOrganizationIdAndBirthdate', () => {
