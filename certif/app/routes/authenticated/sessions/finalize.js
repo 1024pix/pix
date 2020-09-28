@@ -1,8 +1,6 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
-import config from '../../../config/environment';
-
 export default class SessionsFinalizeRoute extends Route {
   @service notifications;
 
@@ -14,8 +12,7 @@ export default class SessionsFinalizeRoute extends Route {
 
   async afterModel(model, transition) {
     if (model.isFinalized) {
-      const { autoClear, clearDuration } = config.notifications;
-      this.notifications.error('Cette session a déjà été finalisée.', { autoClear, clearDuration });
+      this.notifications.error('Cette session a déjà été finalisée.');
 
       transition.abort();
     }

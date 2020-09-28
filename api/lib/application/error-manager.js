@@ -106,11 +106,17 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.CertificationCandidatePersonalInfoWrongFormat) {
     return new HttpErrors.BadRequestError('Un ou plusieurs champs d\'informations d\'identité sont au mauvais format.');
   }
+  if (error instanceof DomainErrors.CertificationCandidatesImportError) {
+    return new HttpErrors.UnprocessableEntityError(error.message);
+  }
   if (error instanceof DomainErrors.CertificationCandidateForbiddenDeletionError) {
     return new HttpErrors.ForbiddenError(error.message);
   }
   if (error instanceof DomainErrors.CertificationCenterMembershipCreationError) {
     return new HttpErrors.BadRequestError('Le membre ou le centre de certification n\'existe pas.');
+  }
+  if (error instanceof DomainErrors.InvalidCertificationCandidate) {
+    return new HttpErrors.UnprocessableEntityError(error.message);
   }
   if (error instanceof DomainErrors.InvalidCertificationReportForFinalization) {
     return new HttpErrors.BadRequestError(error.message);
@@ -168,9 +174,6 @@ function _mapToHttpError(error) {
   }
   if (error instanceof DomainErrors.SameNationalStudentIdInFileError) {
     return new HttpErrors.UnprocessableEntityError(error.message);
-  }
-  if (error instanceof DomainErrors.InvalidCertificationCandidate) {
-    return new HttpErrors.BadRequestError(error.message);
   }
   if (error instanceof DomainErrors.AssessmentNotCompletedError) {
     return new HttpErrors.ConflictError(error.message);

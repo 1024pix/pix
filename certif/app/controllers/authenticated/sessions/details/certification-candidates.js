@@ -1,11 +1,10 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
+import { htmlSafe } from '@ember/template';
 import EmberObject, { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { tracked } from '@glimmer/tracking';
 import _ from 'lodash';
-
-import config from '../../../../config/environment';
 
 export default class CertificationCandidatesController extends Controller {
 
@@ -47,31 +46,29 @@ export default class CertificationCandidatesController extends Controller {
     const { access_token } = this.session.data.authenticated;
     this.notifications.clearAll();
 
-    const autoClear = config.notifications.autoClear;
-    const clearDuration = config.notifications.clearDuration;
-
     try {
       await file.upload(this.currentSession.urlToUpload, {
         headers: { Authorization: `Bearer ${access_token}` },
       });
       this.currentSession.certificationCandidates.reload();
-      this.notifications.success('La liste des candidats a été importée avec succès.', {
-        autoClear,
-        clearDuration,
-      });
+      this.notifications.success('La liste des candidats a été importée avec succès.');
     }
     catch (err) {
-      const errorDetail = err.body.errors[0].detail ? err.body.errors[0].detail : null;
-      if (errorDetail === 'At least one candidate is already linked to a user') {
-        this.notifications.error('La session a débuté, il n\'est plus possible de modifier la liste des candidats.', {
-          autoClear,
-          clearDuration,
+      const errorPrefix =  htmlSafe('Aucun candidat n’a été importé. </br>');
+      const globalErrorMessage = `${errorPrefix} Veuillez réessayer ou nous contacter via le formulaire du centre d'aide`;
+      if (err.body.errors) {
+        err.body.errors.forEach((error) => {
+          let errorMessage = globalErrorMessage;
+          if (error.status === '422') {
+            errorMessage = htmlSafe(`<p>${errorPrefix}<b>${error.detail}</b> <br>Veuillez modifier votre fichier et l’importer à nouveau.</p>`);
+          }
+          if (error.status === '403' && error.detail === 'At least one candidate is already linked to a user') {
+            errorMessage = 'La session a débuté, il n\'est plus possible de modifier la liste des candidats.';
+          }
+          return this.notifications.error(errorMessage, { cssClasses: 'certification-candidates-notification' });
         });
       } else {
-        this.notifications.error('Une erreur s\'est produite lors de l\'import des candidats.', {
-          autoClear,
-          clearDuration,
-        });
+        this.notifications.error(globalErrorMessage, { cssClasses: 'certification-candidates-notification' });
       }
     }
   }
@@ -79,8 +76,6 @@ export default class CertificationCandidatesController extends Controller {
   @action
   async saveCertificationCandidate(certificationCandidateData) {
     this.notifications.clearAll();
-    const autoClear = config.notifications.autoClear;
-    const clearDuration = config.notifications.clearDuration;
     const sessionId = this.model.id;
     const certificationCandidate = this.store.createRecord('certification-candidate', {
       firstName: this._trimOrUndefinedIfFalsy(certificationCandidateData.firstName),
@@ -106,19 +101,13 @@ export default class CertificationCandidatesController extends Controller {
       await certificationCandidate
         .save({ adapterOptions: { registerToSession: true, sessionId } });
       this.model.certificationCandidates.insertAt(0, certificationCandidate);
-      this.notifications.success('Le candidat a été ajouté avec succès.', {
-        autoClear,
-        clearDuration,
-      });
+      this.notifications.success('Le candidat a été ajouté avec succès.');
     } catch (err) {
       let errorText = 'Une erreur s\'est produite lors de l\'ajout du candidat.';
       if (_.get(err, 'errors[0].status') === '409' || err === 'Duplicate') {
         errorText = 'Ce candidat est déjà dans la liste, vous ne pouvez pas l\'ajouter à nouveau.';
       }
-      this.notifications.error(errorText, {
-        autoClear,
-        clearDuration,
-      });
+      this.notifications.error(errorText);
       certificationCandidate.deleteRecord();
       return false;
     }
@@ -129,25 +118,17 @@ export default class CertificationCandidatesController extends Controller {
   @action
   async deleteCertificationCandidate(certificationCandidate) {
     this.notifications.clearAll();
-    const autoClear = config.notifications.autoClear;
-    const clearDuration = config.notifications.clearDuration;
     const sessionId = this.model.id;
 
     try {
       await certificationCandidate.destroyRecord({ adapterOptions: { sessionId } });
-      this.notifications.success('Le candidat a été supprimé avec succès.', {
-        autoClear,
-        clearDuration,
-      });
+      this.notifications.success('Le candidat a été supprimé avec succès.');
     } catch (err) {
       let errorText = 'Une erreur s\'est produite lors de la suppression du candidat';
       if (_.get(err, 'errors[0].code') === 403) {
         errorText = 'Ce candidat a déjà rejoint la session. Vous ne pouvez pas le supprimer.';
       }
-      this.notifications.error(errorText, {
-        autoClear,
-        clearDuration,
-      });
+      this.notifications.error(errorText);
     }
   }
 
