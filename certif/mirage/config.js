@@ -80,7 +80,7 @@ export default function() {
   this.post('/sessions/:id/certification-candidates/import', upload(function(schema, request) {
     const { name } = request.requestBody.file;
     if (name === 'invalid-file') {
-      return new Response(422, { some: 'header' }, { errors: [ 'generic error'] });
+      return new Response(422, { some: 'header' }, { errors: [{ status: '422', title: 'Unprocessable Entity', detail: 'Une erreur personnalisée' }] });
     }
     if (name === 'forbidden-import') {
       return new Response(403, { some: 'header' }, { errors: [{ status: '403', title: 'Forbidden', detail: 'At least one candidate is already linked to a user' }] });

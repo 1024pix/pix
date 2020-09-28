@@ -1,11 +1,10 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
+import { htmlSafe } from '@ember/template';
 import EmberObject, { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { tracked } from '@glimmer/tracking';
 import _ from 'lodash';
-
-import config from '../../../../config/environment';
 
 export default class CertificationCandidatesController extends Controller {
 
@@ -47,7 +46,6 @@ export default class CertificationCandidatesController extends Controller {
     const { access_token } = this.session.data.authenticated;
     this.notifications.clearAll();
 
-
     try {
       await file.upload(this.currentSession.urlToUpload, {
         headers: { Authorization: `Bearer ${access_token}` },
@@ -56,11 +54,21 @@ export default class CertificationCandidatesController extends Controller {
       this.notifications.success('La liste des candidats a été importée avec succès.');
     }
     catch (err) {
-      const errorDetail = err.body.errors[0].detail ? err.body.errors[0].detail : null;
-      if (errorDetail === 'At least one candidate is already linked to a user') {
-        this.notifications.error('La session a débuté, il n\'est plus possible de modifier la liste des candidats.');
+      const errorPrefix =  htmlSafe('Aucun candidat n’a été importé. </br>');
+      const globalErrorMessage = `${errorPrefix} Veuillez réessayer ou nous contacter via le formulaire du centre d'aide`;
+      if (err.body.errors) {
+        err.body.errors.forEach((error) => {
+          let errorMessage = globalErrorMessage;
+          if (error.status === '422') {
+            errorMessage = htmlSafe(`<p>${errorPrefix}<b>${error.detail}</b> <br>Veuillez modifier votre fichier et l’importer à nouveau.</p>`);
+          }
+          if (error.status === '403' && error.detail === 'At least one candidate is already linked to a user') {
+            errorMessage = 'La session a débuté, il n\'est plus possible de modifier la liste des candidats.';
+          }
+          return this.notifications.error(errorMessage, { cssClasses: 'certification-candidates-notification' });
+        });
       } else {
-        this.notifications.error('Une erreur s\'est produite lors de l\'import des candidats.');
+        this.notifications.error(globalErrorMessage, { cssClasses: 'certification-candidates-notification' });
       }
     }
   }
