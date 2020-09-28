@@ -1,6 +1,6 @@
 const { expect, domainBuilder, catchErr } = require('../../../test-helper');
 const CertificationCandidate = require('../../../../lib/domain/models/CertificationCandidate');
-const { EntityValidationError } = require('../../../../lib/domain/errors');
+const { InvalidCertificationCandidate } = require('../../../../lib/domain/errors');
 const { ValidationError } = require('@hapi/joi');
 
 describe('Unit | Domain | Models | Certification Candidate', () => {
@@ -80,7 +80,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
           const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field]: 123 });
           const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
-          expect(error).to.be.instanceOf(EntityValidationError);
+          expect(error).to.be.instanceOf(InvalidCertificationCandidate);
           expect(error.key).to.equal(field);
           expect(error.why).to.equal('not_a_string');
         });
@@ -89,7 +89,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
           const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field]: undefined });
           const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
-          expect(error).to.be.instanceOf(EntityValidationError);
+          expect(error).to.be.instanceOf(InvalidCertificationCandidate);
           expect(error.key).to.equal(field);
           expect(error.why).to.equal('required');
         });
@@ -98,7 +98,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
           const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field]: null });
           const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
-          expect(error).to.be.instanceOf(EntityValidationError);
+          expect(error).to.be.instanceOf(InvalidCertificationCandidate);
           expect(error.key).to.equal(field);
           expect(error.why).to.equal('required');
         });
@@ -108,7 +108,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sessionId: 'salut' });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
-        expect(error).to.be.instanceOf(EntityValidationError);
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
         expect(error.key).to.equal('sessionId');
         expect(error.why).to.equal('not_a_number');
       });
@@ -117,7 +117,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sessionId: undefined });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
-        expect(error).to.be.instanceOf(EntityValidationError);
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
         expect(error.key).to.equal('sessionId');
         expect(error.why).to.equal('required');
       });
@@ -126,7 +126,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sessionId: null });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
-        expect(error).to.be.instanceOf(EntityValidationError);
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
         expect(error.key).to.equal('sessionId');
         expect(error.why).to.equal('required');
       });
@@ -135,7 +135,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, externalId: 1235 });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
-        expect(error).to.be.instanceOf(EntityValidationError);
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
         expect(error.key).to.equal('externalId');
         expect(error.why).to.equal('not_a_string');
       });
@@ -144,7 +144,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: 'je mange des légumes' });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
-        expect(error).to.be.instanceOf(EntityValidationError);
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
         expect(error.key).to.equal('birthdate');
         expect(error.why).to.equal('date_format');
       });
@@ -153,7 +153,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: '2020/02/01' });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
-        expect(error).to.be.instanceOf(EntityValidationError);
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
         expect(error.key).to.equal('birthdate');
         expect(error.why).to.equal('date_format');
       });
@@ -162,7 +162,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: null });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
-        expect(error).to.be.instanceOf(EntityValidationError);
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
         expect(error.key).to.equal('birthdate');
         expect(error.why).to.equal('required');
       });
@@ -171,7 +171,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: undefined });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
-        expect(error).to.be.instanceOf(EntityValidationError);
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
         expect(error.key).to.equal('birthdate');
         expect(error.why).to.equal('required');
       });
@@ -180,7 +180,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, extraTimePercentage: 'salut' });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
-        expect(error).to.be.instanceOf(EntityValidationError);
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
         expect(error.key).to.equal('extraTimePercentage');
         expect(error.why).to.equal('not_a_number');
       });

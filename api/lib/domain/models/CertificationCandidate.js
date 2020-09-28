@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const Joi = require('@hapi/joi')
   .extend(require('@hapi/joi-date'));
-const { EntityValidationError } = require('../errors');
+const { InvalidCertificationCandidate } = require('../errors');
 
 const certificationCandidateValidationJoiSchema_v1_3 = Joi.object({
   firstName: Joi.string().required().empty(null),
@@ -70,42 +70,21 @@ class CertificationCandidate {
   }
 
   validate(version = '1.3') {
-    let err = null;
+    const err = {};
     let usedSchema = null;
     switch (version) {
       case '1.3':
         usedSchema = certificationCandidateValidationJoiSchema_v1_3;
         break;
       default:
-        err = new EntityValidationError({ invalidAttributes: [] });
         err.key = 'version';
         err.why = 'unknown';
+        throw new InvalidCertificationCandidate({ error: err });
     }
 
     const { error } = usedSchema.validate(this, { allowUnknown: true });
     if (error) {
-      const err = EntityValidationError.fromJoiErrors(error.details);
-      err.key = error.details[0].context.key;
-      const type = error.details[0].type;
-      if (type === 'any.required') {
-        err.why = 'required';
-      }
-      if (type === 'date.format') {
-        err.why = 'date_format';
-      }
-      if (type === 'date.base') {
-        err.why = 'not_a_date';
-      }
-      if (type === 'string.email') {
-        err.why = 'email_format';
-      }
-      if (type === 'string.base') {
-        err.why = 'not_a_string';
-      }
-      if (type === 'number.base' || type === 'number.integer') {
-        err.why = 'not_a_number';
-      }
-      throw err;
+      throw InvalidCertificationCandidate.fromJoiErrorDetail(error.details[0]);
     }
   }
 

@@ -71,10 +71,6 @@ describe('Unit | Domain | Errors', () => {
     expect(errors.CsvImportError).to.exist;
   });
 
-  it('should export a CertificationCandidatesImportError', () => {
-    expect(errors.CertificationCandidatesImportError).to.exist;
-  });
-
   describe('#SameNationalStudentIdInOrganizationError', () => {
 
     context('When errorDetail is provided', () => {
@@ -343,6 +339,181 @@ describe('Unit | Domain | Errors', () => {
             message: 'token should be valid',
           },
         ]);
+      });
+    });
+  });
+
+  describe('InvalidCertificationCandidate', () => {
+
+    context('#fromJoiErrorDetail', () => {
+
+      it('should return an InvalidCertificationCandidateError', () => {
+        // given
+        const joiErrorDetail = {
+          context : { key: 'someKey' },
+          type: 'someType',
+        };
+
+        // when
+        const error = errors.InvalidCertificationCandidate.fromJoiErrorDetail(joiErrorDetail);
+
+        // then
+        expect(error).to.be.instanceOf(errors.InvalidCertificationCandidate);
+      });
+
+      it('should assign key from joiErrorDetail context', () => {
+        // given
+        const joiErrorDetail = {
+          context : { key: 'someKey' },
+          type: 'someType',
+        };
+
+        // when
+        const error = errors.InvalidCertificationCandidate.fromJoiErrorDetail(joiErrorDetail);
+
+        // then
+        expect(error.key).to.equal(joiErrorDetail.context.key);
+      });
+
+      [
+        { type: 'any.required', why: 'required' },
+        { type: 'date.format', why: 'date_format' },
+        { type: 'date.base', why: 'not_a_date' },
+        { type: 'string.email', why: 'email_format' },
+        { type: 'string.base', why: 'not_a_string' },
+        { type: 'number.base', why: 'not_a_number' },
+        { type: 'number.integer', why: 'not_a_number' },
+      ].forEach(({ type, why }) => {
+        it(`should assign why "${why}" to error when joi error type is "${type}"`, async () => {
+          // given
+          const joiErrorDetail = {
+            context : { key: 'someKey' },
+            type,
+          };
+
+          // when
+          const error = errors.InvalidCertificationCandidate.fromJoiErrorDetail(joiErrorDetail);
+
+          // then
+          expect(error.why).to.equal(why);
+        });
+      });
+
+      it('should let why empty when type is unknown', async () => {
+        // given
+        const joiErrorDetail = {
+          context : { key: 'someKey' },
+          type: 'someUnknownType',
+        };
+
+        // when
+        const error = errors.InvalidCertificationCandidate.fromJoiErrorDetail(joiErrorDetail);
+
+        // then
+        expect(error.why).to.be.null;
+      });
+    });
+  });
+
+  describe('CertificationCandidatesImportError', () => {
+
+    context('#fromInvalidCertificationCandidateError', () => {
+
+      it('should return a CertificationCandidatesImportError', () => {
+        // given
+        const invalidCertificationCandidateError = {
+          key: 'someKey',
+          why: 'someWhy',
+        };
+
+        // when
+        const error = errors.CertificationCandidatesImportError.fromInvalidCertificationCandidateError(invalidCertificationCandidateError, {}, 1);
+
+        // then
+        expect(error).to.be.instanceOf(errors.CertificationCandidatesImportError);
+      });
+
+      it('should start the error message with line number', () => {
+        // given
+        const lineNumber = 20;
+        const invalidCertificationCandidateError = {
+          key: 'someKey',
+          why: 'someWhy',
+        };
+
+        // when
+        const error = errors.CertificationCandidatesImportError.fromInvalidCertificationCandidateError(invalidCertificationCandidateError, {}, lineNumber);
+
+        // then
+        expect(error.message.startsWith(`Ligne ${lineNumber} :`)).to.be.true;
+      });
+
+      context('when err.why is known', () => {
+
+        it('should include the right label when found in the keyLabelMap', () => {
+          // given
+          const lineNumber = 20;
+          const invalidCertificationCandidateError = {
+            key: 'someKey',
+            why: 'not_a_date',
+          };
+          const keyLabelMap = {
+            'someKey': 'someLabel',
+            'someOtherKey': 'someOtherLabel',
+          };
+
+          // when
+          const error = errors.CertificationCandidatesImportError.fromInvalidCertificationCandidateError(invalidCertificationCandidateError, keyLabelMap, lineNumber);
+
+          // then
+          expect(error.message).to.contain('Le champ “someLabel”');
+        });
+
+        [
+          { why: 'not_a_date', content: 'doit être au format jj/mm/aaaa.' },
+          { why: 'date_format', content: 'doit être au format jj/mm/aaaa.' },
+          { why: 'email_format', content: 'doit être au format email.' },
+          { why: 'not_a_string', content: 'doit être une chaîne de caractères.' },
+          { why: 'not_a_number', content: 'doit être un nombre.' },
+          { why: 'required', content: 'est obligatoire.' },
+        ].forEach(({ why, content }) => {
+          it(`message should contain "${content}" when why is "${why}"`, async () => {
+            // given
+            const invalidCertificationCandidateError = {
+              key: 'someKey',
+              why,
+            };
+            const keyLabelMap = {
+              'someKey': 'someLabel',
+            };
+
+            // when
+            const error = errors.CertificationCandidatesImportError.fromInvalidCertificationCandidateError(invalidCertificationCandidateError, keyLabelMap, 1);
+
+            // then
+            expect(error.message.endsWith(content)).to.be.true;
+          });
+        });
+      });
+
+      context('when err.why is unknown', () => {
+
+        it('should display generic message', () => {
+          // given
+          const invalidCertificationCandidateError = {
+            key: 'someKey',
+            why: 'unknown',
+          };
+          const keyLabelMap = {
+            'someKey': 'someLabel',
+          };
+
+          // when
+          const error = errors.CertificationCandidatesImportError.fromInvalidCertificationCandidateError(invalidCertificationCandidateError, keyLabelMap, 1);
+
+          // then
+          expect(error.message).to.contain('Quelque chose s\'est mal passé. Veuillez réessayer');
+        });
       });
     });
   });
