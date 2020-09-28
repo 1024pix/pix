@@ -23,11 +23,11 @@ async function extractTableDataFromOdsFile({ odsBuffer, tableHeaderTargetPropert
   const sheetDataRowsBelowHeader = _extractRowsBelowHeader(sheetHeaderRow, sheetDataRows);
   const sheetHeaderPropertyMap = _mapSheetHeadersWithProperties(sheetHeaderRow, tableHeaderTargetPropertyMap);
 
-  const data = _transformSheetDataRows(sheetDataRowsBelowHeader, sheetHeaderPropertyMap);
-  if (_.isEmpty(data)) {
+  const dataByLine = _transformSheetDataRows(sheetDataRowsBelowHeader, sheetHeaderPropertyMap);
+  if (_.isEmpty(dataByLine)) {
     throw new UnprocessableEntityError('No data in table');
   }
-  return data;
+  return dataByLine;
 }
 
 async function getOdsVersionByHeaders({ odsBuffer, transformationStructsByVersion }) {
@@ -111,7 +111,11 @@ function _addTargetDatas(tableHeaderTargetPropertyMap) {
 }
 
 function _transformSheetDataRows(sheetDataRows, sheetHeaderPropertyMap) {
-  return _.map(sheetDataRows, (sheetDataRow) => _transformSheetDataRow(sheetDataRow, sheetHeaderPropertyMap));
+  const dataByLine = {};
+  for (const sheetDataRow of sheetDataRows) {
+    dataByLine[sheetDataRow['__rowNum__']] = _transformSheetDataRow(sheetDataRow, sheetHeaderPropertyMap);
+  }
+  return dataByLine;
 }
 
 function _transformSheetDataRow(sheetDataRow, sheetHeaderPropertyMap) {

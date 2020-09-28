@@ -4,7 +4,6 @@ import { inject as service } from '@ember/service';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { tracked } from '@glimmer/tracking';
-import config from '../../../config/environment';
 import { sumBy } from 'lodash';
 
 export default class SessionsFinalizeController extends Controller {
@@ -30,13 +29,11 @@ export default class SessionsFinalizeController extends Controller {
   }
 
   showErrorNotification(message) {
-    const { autoClear, clearDuration } = config.notifications;
-    this.notifications.error(message, { autoClear, clearDuration });
+    this.notifications.error(message);
   }
 
   showSuccessNotification(message) {
-    const { autoClear, clearDuration } = config.notifications;
-    this.notifications.success(message, { autoClear, clearDuration });
+    this.notifications.success(message);
   }
 
   @action

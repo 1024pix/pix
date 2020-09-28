@@ -157,6 +157,40 @@ class CertificationCourseNotPublishableError extends DomainError {
   }
 }
 
+class InvalidCertificationCandidate extends DomainError {
+  constructor({ message = 'Candidat de certification invalide.', error }) {
+    super(message);
+    this.key = error.key;
+    this.why = error.why;
+  }
+
+  static fromJoiErrorDetail(errorDetail) {
+    const error = {};
+    error.key = errorDetail.context.key;
+    error.why = null;
+    const type = errorDetail.type;
+    if (type === 'any.required') {
+      error.why = 'required';
+    }
+    if (type === 'date.format') {
+      error.why = 'date_format';
+    }
+    if (type === 'date.base') {
+      error.why = 'not_a_date';
+    }
+    if (type === 'string.email') {
+      error.why = 'email_format';
+    }
+    if (type === 'string.base') {
+      error.why = 'not_a_string';
+    }
+    if (type === 'number.base' || type === 'number.integer') {
+      error.why = 'not_a_number';
+    }
+    return new InvalidCertificationCandidate({ error });
+  }
+}
+
 class InvalidCertificationReportForFinalization extends DomainError {
   constructor(message = 'Echec lors de la validation du certification course') {
     super(message);
@@ -254,6 +288,36 @@ class CertificationCandidateForbiddenDeletionError extends DomainError {
   }
 }
 
+class CertificationCandidatesImportError extends DomainError {
+  constructor({ message = 'Quelque chose s\'est mal passé. Veuillez réessayer' } = {}) {
+    super(message);
+  }
+
+  static fromInvalidCertificationCandidateError(error, keyLabelMap, lineNumber) {
+    const label = error.key in keyLabelMap ? keyLabelMap[error.key] : 'none';
+    const linePortion = `Ligne ${lineNumber} :`;
+    let contentPortion = 'Quelque chose s\'est mal passé. Veuillez réessayer';
+
+    if (error.why === 'not_a_date' || error.why === 'date_format') {
+      contentPortion = `Le champ “${label}” doit être au format jj/mm/aaaa.`;
+    }
+    if (error.why === 'email_format') {
+      contentPortion = `Le champ “${label}” doit être au format email.`;
+    }
+    if (error.why === 'not_a_string') {
+      contentPortion = `Le champ “${label}” doit être une chaîne de caractères.`;
+    }
+    if (error.why === 'not_a_number') {
+      contentPortion = `Le champ “${label}” doit être un nombre.`;
+    }
+    if (error.why === 'required') {
+      contentPortion = `Le champ “${label}” est obligatoire.`;
+    }
+
+    return new CertificationCandidatesImportError({ message: `${linePortion} ${contentPortion}` });
+  }
+}
+
 class CertificationComputeError extends DomainError {
   constructor(message = 'Erreur lors du calcul de la certification.') {
     super(message);
@@ -304,12 +368,6 @@ class ForbiddenAccess extends DomainError {
 
 class ImproveCompetenceEvaluationForbiddenError extends DomainError {
   constructor(message = 'Le niveau maximum est déjà atteint pour cette compétence.') {
-    super(message);
-  }
-}
-
-class InvalidCertificationCandidate extends DomainError {
-  constructor(message = 'Candidat de certification invalide.') {
     super(message);
   }
 }
@@ -574,6 +632,7 @@ module.exports = {
   CertificationCandidateMultipleUserLinksWithinSessionError,
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
+  CertificationCandidatesImportError,
   CertificationCenterMembershipCreationError,
   CertificationComputeError,
   CertificationCourseUpdateError,

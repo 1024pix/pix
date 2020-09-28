@@ -75,11 +75,6 @@ module.exports = function(environment) {
       url: 'https://stats.pix.fr/js/container_cMIdKogu.js',
     },
 
-    notifications: {
-      autoClear: true,
-      clearDuration: 3000,
-    },
-
     formBuilderLinkUrl: 'https://eu.123formbuilder.com/form-29080/certification-depot-du-pv-de-session-scanne',
   };
 
@@ -107,9 +102,6 @@ module.exports = function(environment) {
 
     ENV.APP.autoboot = false;
     ENV.APP.rootElement = '#ember-testing';
-
-    ENV.notifications.autoClear = null;
-    ENV.notifications.clearDuration = null;
   }
 
   if (environment === 'production') {

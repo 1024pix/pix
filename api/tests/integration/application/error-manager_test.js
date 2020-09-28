@@ -354,14 +354,6 @@ describe('Integration | API | Controller Error', () => {
       expect(responseDetail(response)).to.equal('Une erreur est survenue durant le traitement.');
     });
 
-    it('responds Bad Request when a InvalidCertificationCandidate error occurs', async () => {
-      routeHandler.throws(new DomainErrors.InvalidCertificationCandidate('Candidat de certification invalide.'));
-      const response = await server.inject(options);
-
-      expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
-      expect(responseDetail(response)).to.equal('Candidat de certification invalide.');
-    });
-
     it('responds Bad Request when a WrongDateFormatError error occurs', async () => {
       routeHandler.throws(new DomainErrors.WrongDateFormatError('Format de date invalide.'));
       const response = await server.inject(options);
@@ -517,6 +509,13 @@ describe('Integration | API | Controller Error', () => {
 
       const payload = JSON.parse(response.payload);
       expect(payload.errors).to.have.lengthOf(3);
+    });
+
+    it('responds UnprocessableEntity when a CertificationCandidatesImportError occurs', async () => {
+      routeHandler.throws(new DomainErrors.CertificationCandidatesImportError());
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(UNPROCESSABLE_ENTITY_ERROR);
     });
   });
 
