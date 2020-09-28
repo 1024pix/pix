@@ -62,7 +62,6 @@ module.exports = {
     seeds: {
       directory: './seeds',
     },
-    ssl: ('true' === process.env.DATABASE_SSL_ENABLED),
     asyncStackTraces: (process.env.KNEX_ASYNC_STACKTRACE_ENABLED !== 'false'),
   },
 };
