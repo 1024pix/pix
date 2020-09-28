@@ -4,6 +4,7 @@ const { knex } = require('../bookshelf');
 const { getChunkSizeForParameterBinding } = require('../utils/knex-utils');
 const BookshelfSchoolingRegistration = require('../data/schooling-registration');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const DomainTransaction = require('../DomainTransaction');
 
 const ATTRIBUTES_TO_SAVE = [
   'firstName',
@@ -25,24 +26,74 @@ const ATTRIBUTES_TO_SAVE = [
 
 module.exports = {
 
+  async save(higherSchoolingRegistration, domainTransaction = DomainTransaction.emptyTransaction()) {
+    const attributes = {
+      ..._.pick(higherSchoolingRegistration, ATTRIBUTES_TO_SAVE),
+      status: higherSchoolingRegistration.studyScheme,
+    };
+
+    try {
+      await BookshelfSchoolingRegistration
+        .where({ id: higherSchoolingRegistration.id })
+        .save(attributes, { method: 'update', transacting: domainTransaction.knexTransaction });
+    } catch (error) {
+      throw new SchoolingRegistrationsCouldNotBeSavedError();
+    }
+  },
+
+  async saveNonSupernumerary(higherSchoolingRegistration, domainTransaction = DomainTransaction.emptyTransaction()) {
+    const attributes = {
+      ..._.pick(higherSchoolingRegistration, ATTRIBUTES_TO_SAVE),
+      status: higherSchoolingRegistration.studyScheme,
+    };
+
+    try {
+      await BookshelfSchoolingRegistration
+        .where({
+          studentNumber: attributes.studentNumber,
+          organizationId: attributes.organizationId,
+          isSupernumerary: false,
+        })
+        .save(attributes, { method: 'update', transacting: domainTransaction.knexTransaction });
+    } catch (error) {
+      throw new SchoolingRegistrationsCouldNotBeSavedError();
+    }
+  },
+
+  async batchCreate(higherSchoolingRegistrations, domainTransaction = DomainTransaction.emptyTransaction()) {
+    const registrationsToInsert = higherSchoolingRegistrations.map((registration) => ({
+      ..._.pick(registration, ATTRIBUTES_TO_SAVE),
+      status: registration.studyScheme,
+    }));
+
+    try {
+      await knex
+        .batchInsert('schooling-registrations', registrationsToInsert)
+        .transacting(domainTransaction.knexTransaction);
+    }  catch (error) {
+      throw new SchoolingRegistrationsCouldNotBeSavedError();
+    }
+  },
+
   async saveAndReconcile(higherSchoolingRegistration, userId) {
     try {
-      const registrationToSave = _.pick(higherSchoolingRegistration, ATTRIBUTES_TO_SAVE);
-      registrationToSave.status = higherSchoolingRegistration.studyScheme;
-      registrationToSave.userId = userId;
+      const attributes = {
+        ..._.pick(higherSchoolingRegistration, ATTRIBUTES_TO_SAVE),
+        status: higherSchoolingRegistration.studyScheme,
+        userId,
+      };
 
-      await knex('schooling-registrations').insert({ ...registrationToSave });
+      await knex('schooling-registrations').insert(attributes);
     } catch (error) {
       throw new SchoolingRegistrationsCouldNotBeSavedError();
     }
   },
 
   saveSet(higherSchoolingRegistrationSet) {
-    const registrationDataToSave = higherSchoolingRegistrationSet.registrations.map((registration) => {
-      const registrationToSave = _.pick(registration, ATTRIBUTES_TO_SAVE);
-      registrationToSave.status = registration.studyScheme;
-      return registrationToSave;
-    });
+    const registrationDataToSave = higherSchoolingRegistrationSet.registrations.map((registration) => ({
+      ..._.pick(registration, ATTRIBUTES_TO_SAVE),
+      status: registration.studyScheme,
+    }));
 
     return _upsert(registrationDataToSave);
   },
@@ -77,6 +128,22 @@ module.exports = {
       .fetch();
 
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
+  },
+
+  async findStudentNumbersNonSupernumerary(organizationId, domainTransaction = DomainTransaction.emptyTransaction()) {
+    const results = await knex('schooling-registrations')
+      .select('studentNumber')
+      .where({ organizationId, isSupernumerary: false })
+      .transacting(domainTransaction.knexTransaction);
+
+    return _.map(results, 'studentNumber');
+  },
+
+  findSupernumerary(organizationId, domainTransaction = DomainTransaction.emptyTransaction()) {
+    return knex('schooling-registrations')
+      .select('studentNumber', 'firstName', 'id', 'lastName', 'birthdate')
+      .where({ organizationId, isSupernumerary: true })
+      .transacting(domainTransaction.knexTransaction);
   },
 };
 
