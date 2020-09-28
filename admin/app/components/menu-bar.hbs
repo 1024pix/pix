@@ -37,6 +37,13 @@
       </PixTooltip>
     </li>
     <li class="menu-bar__entry">
+      <PixTooltip @text='Profils cibles' @position='right' @inline={{true}}>
+        <LinkTo @route="authenticated.target-profiles.list" class="menu-bar__link menu-bar__link--target-profiles">
+          <FaIcon @icon="clipboard-list"></FaIcon>
+        </LinkTo>
+      </PixTooltip>
+    </li>
+    <li class="menu-bar__entry">
       <PixTooltip @text='Outils' @position='right'>
         <LinkTo @route="authenticated.tools" class="menu-bar__link menu-bar__link--tools">
           <FaIcon @icon="tools"></FaIcon>

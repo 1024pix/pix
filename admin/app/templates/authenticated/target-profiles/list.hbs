@@ -1,0 +1,15 @@
+<header class="page-header">
+  <div class="page-title">Tous les profils cibles</div>
+  <div class="page-actions">
+  </div>
+</header>
+
+<main class="page-body">
+  <section class="page-section">
+    <TargetProfiles::ListItems
+      @targetProfiles={{@model}}
+      @id={{this.id}}
+      @name={{this.name}}
+      @triggerFiltering={{this.triggerFiltering}} />
+  </section>
+</main>
