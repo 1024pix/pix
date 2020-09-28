@@ -66,22 +66,6 @@ describe('Unit | Domain | Models | TargetProfile', () => {
     });
   });
 
-  describe('getSkillNames', () => {
-
-    it('should return an array with targeted skill names', () => {
-      // given
-      const skill1 = domainBuilder.buildSkill({ name: 'Aacquis2' });
-      const skill2 = domainBuilder.buildSkill({ name: 'Zacquis1' });
-      const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1, skill2] });
-
-      // when
-      const targetedSkillNames = targetProfile.getSkillNames();
-
-      // then
-      expect(targetedSkillNames).to.exactlyContainInOrder(['Aacquis2', 'Zacquis1']);
-    });
-  });
-
   describe('getSkillIds', () => {
 
     it('should return an array with targeted skill ids', () => {
@@ -114,28 +98,6 @@ describe('Unit | Domain | Models | TargetProfile', () => {
 
       // then
       expect(skillCountForCompetence).to.equal(2);
-    });
-  });
-
-  describe('#getSkillsForCompetence()', () => {
-    let expectedSkills;
-    let targetProfile;
-    const competenceId = 'compId';
-
-    beforeEach(() => {
-      const skill1InCompetence = domainBuilder.buildSkill({ competenceId });
-      const skill2InCompetence = domainBuilder.buildSkill({ competenceId });
-      const otherSkill = domainBuilder.buildSkill({ competenceId: 'otherCompId' });
-      targetProfile = domainBuilder.buildTargetProfile({ skills: [ skill1InCompetence, skill2InCompetence, otherSkill ] });
-      expectedSkills = [ skill1InCompetence, skill2InCompetence ];
-    });
-
-    it('should return skills that are in competence', () => {
-      // when
-      const skills = targetProfile.getSkillsForCompetence(competenceId);
-
-      // then
-      expect(skills).to.deep.equal(expectedSkills);
     });
   });
 

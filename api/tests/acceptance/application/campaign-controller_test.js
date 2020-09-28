@@ -250,6 +250,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       await databaseBuilder.commit();
 
       airtableBuilder.mockList({ tableName: 'Acquis' }).returns([airtableBuilder.factory.buildSkill()]).activate();
+      airtableBuilder.mockList({ tableName: 'Tubes' }).returns([airtableBuilder.factory.buildTube()]).activate();
       airtableBuilder.mockList({ tableName: 'Competences' }).returns([airtableBuilder.factory.buildCompetence()]).activate();
       airtableBuilder.mockList({ tableName: 'Domaines' }).returns([airtableBuilder.factory.buildArea()]).activate();
     });
