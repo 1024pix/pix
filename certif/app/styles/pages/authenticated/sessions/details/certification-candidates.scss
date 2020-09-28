@@ -197,23 +197,18 @@
     justify-content: center;
     align-items: center;
 
-    &__button {
-      font-size: 1rem;
-      color: $grey-35;
+    &-button--disabled {
+      background-color: $grey-22;
+      color: $white;
+      cursor: not-allowed;
 
-      &--disabled {
-        font-size: 1rem;
-        background-color: $grey-22;
-        color: $white;
-        cursor: not-allowed;
-
-        &:hover, &:active, &:focus {
-          background-color: $grey-35;
-        }
+      &:hover, &:active, &:focus {
+        background-color: $grey-35;
       }
     }
+  }
 
-    &__tooltip {
+  &__delete-tooltip {
       visibility: hidden;
       position: absolute;
       right: calc(16px + 38px + 4px); // padding-right parent + width button + petite marge
@@ -224,10 +219,9 @@
       font-size: 0.65rem;
       color: $white;
       background-color: rgba(118, 118, 118, 0.9);
-    }
   }
 
-  &__delete:hover > &__delete__tooltip {
+  &__delete-button--disabled:hover + &__delete-tooltip {
     visibility: visible;
   }
 }
