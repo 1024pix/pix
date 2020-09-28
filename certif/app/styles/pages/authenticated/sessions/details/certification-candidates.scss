@@ -225,3 +225,13 @@
     visibility: visible;
   }
 }
+
+.certification-candidates-notification {
+  p {
+    margin: 0;
+    flex-direction: column;
+  }
+  b {
+    font-weight: bold;
+  }
+}

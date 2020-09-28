@@ -235,7 +235,7 @@ module('Acceptance | Session Candidates', function(hooks) {
         assert.dom('[data-test-notification-message="success"]').hasText('La liste des candidats a été importée avec succès.');
       });
 
-      test('it should display a generic error message when uploading an invalid file', async function(assert) {
+      test('it should display the error message when uploading an invalid file', async function(assert) {
         // given
         await visit(`/sessions/${session.id}/candidats`);
         const file = new File(['foo'], 'invalid-file');
@@ -245,7 +245,7 @@ module('Acceptance | Session Candidates', function(hooks) {
 
         // then
         assert.dom('[data-test-notification-message="error"]').exists();
-        assert.dom('[data-test-notification-message="error"]').hasText('Une erreur s\'est produite lors de l\'import des candidats.');
+        assert.dom('[data-test-notification-message="error"]').hasText('Aucun candidat n’a été importé. Une erreur personnalisée Veuillez modifier votre fichier et l’importer à nouveau.');
       });
 
       test('it should display a specific error message when importing is forbidden', async function(assert) {
