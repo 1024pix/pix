@@ -31,6 +31,7 @@ module.exports = [
   require('./application/student-dependent-users'),
   require('./application/student-user-associations'),
   require('./application/system'),
+  require('./application/target-profiles'),
   require('./application/tutorial-evaluations'),
   require('./application/user-orga-settings'),
   require('./application/user-tutorials'),

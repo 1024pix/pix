@@ -1,9 +1,10 @@
 const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
-  serialize(targetProfile) {
+  serialize(targetProfiles, meta) {
     return new Serializer('target-profiles', {
       attributes: ['name'],
-    }).serialize(targetProfile);
+      meta,
+    }).serialize(targetProfiles);
   },
 };
