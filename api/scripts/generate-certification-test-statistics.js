@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const fp = require('lodash/fp').convert({ cap: false });
 const bluebird = require('bluebird');
 const { knex } = require('../db/knex-database-connection');
 const competenceRepository = require('../lib/infrastructure/repositories/competence-repository');
@@ -39,6 +40,17 @@ async function _generateCertificationTest(userId, competences) {
   if (USER_ID) {
     console.log(JSON.stringify(certificationChallenges, null, 2));
   }
+
+  fp.flow(
+    fp.groupBy('competenceId'),
+    fp.mapValues((ccs) => ccs
+      .map((cc) => cc.associatedSkillName.slice(-1))
+      .join(':'),
+    ),
+    fp.map((levels, competenceId) => `${userId}\t${competenceId}\t${levels}`),
+    fp.sortBy(fp.identity),
+    fp.forEach((line) => console.log(line)),
+  )(certificationChallenges);
 
   const certificationChallengesCountByCompetenceId = _.countBy(certificationChallenges, 'competenceId');
 
@@ -84,6 +96,7 @@ async function main() {
           challengeCountByCompetence,
         };
       } catch (err) {
+        console.error(`Erreur de génération pour le user : ${userId}`, err);
         ++nonCertifiableUserCount;
         return null;
       }
