@@ -118,7 +118,7 @@
     "start": "node bin/www",
     "start:watch": "nodemon bin/www",
     "test": "NODE_ENV=test npm run db:prepare && npm run test:api",
-    "test:api": "npm run test:api:path -- tests",
+    "test:api": "npm run test:api:unit && for dir in $(find tests/* -maxdepth 0 -type d -not -path tests/unit) ; do npm run test:api:path -- $dir ; done ;",
     "test:api:path": "NODE_ENV=test mocha --exit --recursive --reporter=dot",
     "test:api:unit": "TEST_DATABASE_URL=bad_url npm run test:api:path -- tests/unit",
     "test:api:integration": "npm run test:api:path -- tests/integration",
