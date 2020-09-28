@@ -1,19 +1,26 @@
-const { PDFDocument } = require('pdf-lib');
+const { PDFDocument, rgb } = require('pdf-lib');
 const fs = require('fs');
+const fontkit = require('@pdf-lib/fontkit');
 
 async function getPdfBuffer({
   templatePath,
   templateFileName,
+  applyDynamicInformationsInPDF,
+  data,
 }) {
   const pdfDoc = await PDFDocument.create();
 
+  pdfDoc.registerFontkit(fontkit);
+
   const path = `${templatePath}/${templateFileName}`;
 
-  const donorPdfBytes = await fs.promises.readFile(path);
+  const basePdfBytes = await fs.promises.readFile(path);
 
-  const donorPdfDoc = await PDFDocument.load(donorPdfBytes);
+  const donorPdfDoc = await PDFDocument.load(basePdfBytes);
 
   const [page] = await pdfDoc.copyPages(donorPdfDoc, [0]);
+
+  await applyDynamicInformationsInPDF({ pdfDoc, page, data, rgb });
 
   pdfDoc.addPage(page);
 
