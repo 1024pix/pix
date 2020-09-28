@@ -34,7 +34,7 @@ module.exports = {
           const challengesToValidateCurrentSkill = Challenge.findBySkill({ challenges: allFrFrOperativeChallenges, skill });
           const unansweredChallenges = _.filter(challengesToValidateCurrentSkill, (challenge) => !alreadyAnsweredChallengeIds.includes(challenge.id));
 
-          const challengesPoolToPickChallengeFrom = (_.isEmpty(unansweredChallenges)) ? challengesToValidateCurrentSkill : unansweredChallenges;
+          const challengesPoolToPickChallengeFrom = _.isEmpty(unansweredChallenges) ? challengesToValidateCurrentSkill : unansweredChallenges;
           if (_.isEmpty(challengesPoolToPickChallengeFrom)) {
             return;
           }
