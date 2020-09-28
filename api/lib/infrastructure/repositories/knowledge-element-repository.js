@@ -173,13 +173,13 @@ module.exports = {
     const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
     const knowledgeElementsGroupedByUserAndCompetence  = {};
 
-    const competencesIds = targetProfile.getCompetenceIds();
+    const competenceIds = targetProfile.getCompetenceIds();
 
     for (const [userId, knowledgeElements] of Object.entries(knowledgeElementsGroupedByUser)) {
       const validatedTargetedKnowledgeElements = _filterValidatedTargetedKnowledgeElements(knowledgeElements, targetProfile);
       const knowledgeElementsByCompetenceId = _.groupBy(validatedTargetedKnowledgeElements, 'competenceId');
       knowledgeElementsGroupedByUserAndCompetence[userId] = {};
-      for (const competenceId  of competencesIds) {
+      for (const competenceId of competenceIds) {
         knowledgeElementsGroupedByUserAndCompetence[userId][competenceId] = knowledgeElementsByCompetenceId[competenceId] || [];
       }
     }
@@ -191,13 +191,13 @@ module.exports = {
     const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
     const knowledgeElementsGroupedByUserAndCompetence  = {};
 
-    const competencesIds = targetProfile.getCompetenceIds();
+    const competenceIds = targetProfile.competenceIds;
 
     for (const [userId, knowledgeElements] of Object.entries(knowledgeElementsGroupedByUser)) {
       const targetedKnowledgeElements = _filterTargetedKnowledgeElements(knowledgeElements, targetProfile);
       const knowledgeElementsByCompetenceId = _.groupBy(targetedKnowledgeElements, 'competenceId');
       knowledgeElementsGroupedByUserAndCompetence[userId] = {};
-      for (const competenceId  of competencesIds) {
+      for (const competenceId of competenceIds) {
         knowledgeElementsGroupedByUserAndCompetence[userId][competenceId] = knowledgeElementsByCompetenceId[competenceId] || [];
       }
     }

@@ -9,8 +9,6 @@ module.exports = {
 function createOneCsvLine({
   organization,
   campaign,
-  areas,
-  competences,
   campaignParticipationInfo,
   targetProfile,
   participantKnowledgeElementsByCompetenceId,
@@ -18,8 +16,6 @@ function createOneCsvLine({
   const line = new CampaignAssessmentCsvLine({
     organization,
     campaign,
-    areas,
-    competences,
     campaignParticipationInfo,
     targetProfile,
     participantKnowledgeElementsByCompetenceId,
