@@ -6,8 +6,8 @@ const challengeRepository = require('../lib/infrastructure/repositories/challeng
 const placementProfileService = require('../lib/domain/services/placement-profile-service');
 const certificationChallengeService = require('../lib/domain/services/certification-challenges-service');
 
-const USER_COUNT = ~~process.env.USER_COUNT || 100;
-const USER_ID = ~~process.env.USER_ID || null;
+const USER_COUNT = parseInt(process.env.USER_COUNT) || 100;
+const USER_ID = parseInt(process.env.USER_ID) || null;
 
 function makeRefDataFaster() {
   challengeRepository.list = _.memoize(challengeRepository.findOperative);
