@@ -28,6 +28,7 @@ export default Component.extend({
   _tokenHasBeenUsed: null,
   isRecaptchaEnabled: ENV.APP.IS_RECAPTCHA_ENABLED,
   isLoading: false,
+  errorMessage: null,
 
   init() {
     this._super(...arguments);
@@ -150,11 +151,36 @@ export default Component.extend({
         this.authenticateUser(credentials);
         this.set('_tokenHasBeenUsed', true);
         this.set('user.password', null);
-      }).catch(() => {
-        this._updateInputsStatus();
+      }).catch((response) => {
+        const error = get(response, 'errors[0]');
+        if (error) {
+          this._manageErrorsApi(error);
+        }
+        else {
+          this.set('errorMessage', this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE));
+        }
         this.set('_tokenHasBeenUsed', true);
         this.set('isLoading', false);
       });
     },
+  },
+
+  _manageErrorsApi(firstError) {
+    const statusCode = get(firstError, 'status');
+    if (statusCode === '422') {
+      return this._updateInputsStatus();
+    }
+    this.set('errorMessage', this._showErrorMessages(statusCode));
+  },
+
+  _showErrorMessages(statusCode) {
+    const httpStatusCodeMessages = {
+      '400': ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.MESSAGE,
+      '500': ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
+      '502': ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
+      '504': ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.MESSAGE,
+      'default': ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
+    };
+    return this.intl.t(httpStatusCodeMessages[statusCode] || httpStatusCodeMessages['default']);
   },
 });
