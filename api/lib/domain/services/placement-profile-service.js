@@ -9,7 +9,6 @@ const assessmentResultRepository = require('../../infrastructure/repositories/as
 const knowledgeElementRepository = require('../../infrastructure/repositories/knowledge-element-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const scoringService = require('./scoring/scoring-service');
-const KnowledgeElement = require('../models/KnowledgeElement');
 
 async function getPlacementProfile({ userId, limitDate, isV2Certification = true, allowExcessPixAndLevels = true }) {
   const pixCompetences = await competenceRepository.listPixCompetencesOnly();
@@ -74,7 +73,7 @@ function _createUserCompetencesV2({
       allowExcessLevel: allowExcessPixAndLevels,
     });
 
-    const competenceDirectValidatedSkills = _matchingValidatedDirectSkillsForCompetence(knowledgeElementsForCompetence, skillMap);
+    const directlyValidatedCompetenceSkills = _matchingDirectlyValidatedSkillsForCompetence(knowledgeElementsForCompetence, skillMap);
 
     return new UserCompetence({
       id: competence.id,
@@ -83,7 +82,7 @@ function _createUserCompetencesV2({
       name: competence.name,
       estimatedLevel: currentLevel,
       pixScore: pixScoreForCompetence,
-      skills: competenceDirectValidatedSkills,
+      skills: directlyValidatedCompetenceSkills,
     });
   });
 }
@@ -133,13 +132,12 @@ async function getPlacementProfilesWithSnapshotting({ userIdsAndDates, competenc
   return placementProfilesList;
 }
 
-function _matchingValidatedDirectSkillsForCompetence(knowledgeElementsForCompetence, skillMap) {
-  const competenceSkills = knowledgeElementsForCompetence.map((ke) => {
-    const skill = skillMap.get(ke.skillId);
-    if (ke.status === KnowledgeElement.StatusType.VALIDATED && ke.source ===  KnowledgeElement.SourceType.DIRECT) {
-      return skill;
-    }
-  });
+function _matchingDirectlyValidatedSkillsForCompetence(knowledgeElementsForCompetence, skillMap) {
+  const competenceSkills = knowledgeElementsForCompetence
+    .filter((ke) => ke.isDirectlyValidated())
+    .map((ke) => {
+      return skillMap.get(ke.skillId);
+    });
 
   return _.compact(competenceSkills);
 }
