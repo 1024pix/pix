@@ -154,7 +154,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
         await higherSchoolingRegistrationRepository.saveSet(higherSchoolingRegistrationSet, organization.id);
         const { updatedAt: afterUpdatedAt } = await knex.select('updatedAt').from('schooling-registrations').where({ id: schoolingRegistrationId }).first();
 
-        expect(beforeUpdatedAt.toString()).to.not.equal(afterUpdatedAt.toString());
+        expect(afterUpdatedAt).to.be.above(beforeUpdatedAt);
       });
     });
 
