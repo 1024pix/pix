@@ -47,6 +47,7 @@ describe('Acceptance | Controller | Prescriber-controller', () => {
           type: 'organizations',
           attributes: {
             'can-collect-profiles': organization.canCollectProfiles,
+            'credit': organization.credit,
             'external-id': organization.externalId,
             'is-managing-students': organization.isManagingStudents,
             'name': organization.name,
