@@ -86,6 +86,7 @@ export default class CertificationCandidatesController extends Controller {
       birthCountry: this._trimOrUndefinedIfFalsy(certificationCandidateData.birthCountry),
       externalId: this._trimOrUndefinedIfFalsy(certificationCandidateData.externalId),
       email: this._trimOrUndefinedIfFalsy(certificationCandidateData.email),
+      resultRecipientEmail: this._trimOrUndefinedIfFalsy(certificationCandidateData.resultRecipientEmail),
       extraTimePercentage: certificationCandidateData.extraTimePercentage,
     });
 
