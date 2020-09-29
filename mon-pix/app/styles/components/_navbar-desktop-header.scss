@@ -36,16 +36,16 @@
   }
 
   &__link {
-    font-size: 1.13rem;
-    font-weight: $font-medium;
+    font-size: 1rem;
     font-family: $font-roboto;
     color: $grey-60;
     text-decoration: none;
 
     &.active {
       text-decoration: none;
-      color: $light-blue;
-      border-bottom: 2px solid $light-blue;
+      padding-bottom: 5px;
+      color: $blue-hover;
+      border-bottom: 2px solid $blue-hover;
     }
 
     &:focus {
@@ -56,7 +56,7 @@
     &:hover {
       text-decoration: none;
       cursor: pointer;
-      color: $light-blue;
+      color: $blue-hover;
     }
   }
 }
@@ -64,8 +64,7 @@
 .navbar-desktop-header-campaign-menu {
 
   &__button {
-    font-size: 1.13rem;
-    font-weight: $font-medium;
+    font-size: 1rem;
     font-family: $font-roboto;
   }
 
