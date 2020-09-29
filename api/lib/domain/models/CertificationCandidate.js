@@ -10,6 +10,7 @@ const certificationCandidateValidationJoiSchema_v1_3 = Joi.object({
   birthProvinceCode: Joi.string().required().empty(null),
   birthCountry: Joi.string().required().empty(null),
   email: Joi.string().email().allow(null).optional(),
+  resultRecipientEmail: Joi.string().email().allow(null).optional(),
   externalId: Joi.string().allow(null).optional(),
   birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required().empty(null),
   extraTimePercentage: Joi.number().allow(null).optional(),
@@ -24,6 +25,7 @@ const certificationCandidateParticipationJoiSchema = Joi.object({
   birthProvinceCode: Joi.any().allow(null).optional(),
   birthCountry: Joi.any().allow(null).optional(),
   email: Joi.any().allow(null).optional(),
+  resultRecipientEmail: Joi.string().email().allow(null).optional(),
   externalId: Joi.any().allow(null).optional(),
   birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required(),
   createdAt: Joi.any().allow(null).optional(),
@@ -43,6 +45,7 @@ class CertificationCandidate {
       birthProvinceCode,
       birthCountry,
       email,
+      resultRecipientEmail,
       externalId,
       birthdate,
       extraTimePercentage,
@@ -60,6 +63,7 @@ class CertificationCandidate {
     this.birthProvinceCode = birthProvinceCode;
     this.birthCountry = birthCountry;
     this.email = email;
+    this.resultRecipientEmail = resultRecipientEmail;
     this.externalId = externalId;
     this.birthdate = birthdate;
     this.extraTimePercentage = !_.isNil(extraTimePercentage) ? parseFloat(extraTimePercentage) : extraTimePercentage;
