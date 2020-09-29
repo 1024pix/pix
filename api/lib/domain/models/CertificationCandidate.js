@@ -78,6 +78,7 @@ class CertificationCandidate {
     let usedSchema = null;
     switch (version) {
       case '1.3':
+      case '1.4':
         usedSchema = certificationCandidateValidationJoiSchema_v1_3;
         break;
       default:

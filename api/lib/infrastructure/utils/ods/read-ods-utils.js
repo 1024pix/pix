@@ -27,6 +27,7 @@ async function extractTableDataFromOdsFile({ odsBuffer, tableHeaderTargetPropert
   if (_.isEmpty(dataByLine)) {
     throw new UnprocessableEntityError('No data in table');
   }
+
   return dataByLine;
 }
 
