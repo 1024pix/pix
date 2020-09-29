@@ -133,6 +133,24 @@ export function createUserWithMultipleMemberships() {
   return user;
 }
 
+export function createPrescriberForOrganization(userAttributes = {}, organizationAttributes = {}, organizationRole) {
+  const user = server.create('user', { ...userAttributes, 'pixOrgaTermsOfServiceAccepted': true });
+
+  const organization = server.create('organization', organizationAttributes);
+
+  const membership = server.create('membership', {
+    organizationId: organization.id,
+    userId: user.id,
+    organizationRole,
+  });
+  
+  user.memberships = [membership];
+  user.userOrgaSettings = server.create('user-orga-setting', { organization, user });
+
+  createPrescriberByUser(user);
+  return user;
+}
+
 export function createAdminMembershipWithNbMembers(countMembers) {
 
   const organization = server.create('organization', {
