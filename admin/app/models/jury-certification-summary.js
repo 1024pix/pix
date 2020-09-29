@@ -8,7 +8,7 @@ const NOT_PASSED = 'not_passed';
 const partnerCertificationStatusToDisplayName = {
   [ACQUIRED]: 'Validée',
   [REJECTED]: 'Rejetée',
-  [NOT_PASSED]: 'Non testée',
+  [NOT_PASSED]: 'Non passée',
 };
 
 export default class JuryCertificationSummary extends Model {
