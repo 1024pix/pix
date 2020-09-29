@@ -14,24 +14,36 @@
 
     {{#unless isInRouteWithoutLinksInHeader}}
       {{#if this.isUserLogged}}
-        <div class="navbar-desktop-header-container__menu">
-          <LinkTo @route="profile" class="navbar-desktop-header-menu__item">
-             {{t 'navigation.main.profile'}}
-          </LinkTo>
-          <LinkTo @route="certifications" class="navbar-desktop-header-menu__item">
-            {{t 'navigation.main.start-certification'}}
-          </LinkTo>
-          <a href="{{t 'navigation.main.link-help'}}" target="_blank" class="navbar-desktop-header-menu__item">
-            {{t 'navigation.main.help'}}
-          </a>
-        </div>
+        <ul class="navbar-desktop-header-container__menu">
+          <li class="navbar-desktop-header-menu__item">
+            <LinkTo @route="profile" class="navbar-desktop-header-menu__link">
+              {{t 'navigation.main.profile'}}
+            </LinkTo>
+          </li>
+          <li class="navbar-desktop-header-menu__item">
+            <LinkTo @route="certifications" class="navbar-desktop-header-menu__link">
+              {{t 'navigation.main.start-certification'}}
+            </LinkTo>
+          </li>
+          <li class="navbar-desktop-header-menu__item">
+            <a href="{{t 'navigation.main.link-help'}}" target="_blank" class="navbar-desktop-header-menu__link">
+              {{t 'navigation.main.help'}}
+            </a>
+          </li>
+        </ul>
       {{/if}}
     {{/unless}}
 
     {{#if isUserLogged}}
-      <LinkTo @route="fill-in-campaign-code" class="button button--extra-thin button--link">
-        {{t 'navigation.main.code'}}
-      </LinkTo>
+      <ul class="navbar-desktop-header-container__campaign-menu">
+        <li class="navbar-desktop-header-campaign-menu__item">
+          <LinkTo @route="fill-in-campaign-code"
+                  class="button button--extra-thin button--link navbar-desktop-header-campaign-menu__button">
+            {{t 'navigation.main.code'}}
+          </LinkTo>
+        </li>
+      </ul>
+
     {{/if}}
 
     <!-- Links (right) -->

@@ -71,7 +71,7 @@ then(`je suis redirigé vers le compte Certif de {string}`, (fullName) => {
 
 when(`je me déconnecte`, () => {
   cy.get('.logged-user-name__link').click();
-  cy.get('.logged-user-menu__link:last-of-type').click();
+  cy.get('ul.logged-user-menu__actions').children().children("[href*='deconnexion']").click();
 });
 
 when(`je me déconnecte de Pix Orga`, () => {
