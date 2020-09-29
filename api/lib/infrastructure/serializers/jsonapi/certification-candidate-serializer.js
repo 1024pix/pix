@@ -21,6 +21,7 @@ module.exports = {
         'birthCity',
         'birthCountry',
         'email',
+        'resultRecipientEmail',
         'externalId',
         'extraTimePercentage',
         'isLinked',
