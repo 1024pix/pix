@@ -40,7 +40,6 @@ describe('Acceptance | Navbar', function() {
         // when
         await click(find('.navbar-desktop-header-container__menu').children[userNavigation.targetedNavigationItem].children[0]);
 
-
         // then
         expect(currentURL()).to.equal(userNavigation.expectedRoute);
         expect(find('.navbar-desktop-header-container__menu').children[userNavigation.targetedNavigationItem].children[0]
