@@ -34,6 +34,7 @@ module('Unit | Service | session-info-service', function(hooks) {
     sessionId = 1,
     status = 'validated',
     hasSeenEndTestScreen = true,
+    displayCleaCertificationStatus = 'Non passée',
     examinerComment = null,
     indexedCompetences = {
       '1.1': { level: 1, score: 2 },
@@ -58,6 +59,7 @@ module('Unit | Service | session-info-service', function(hooks) {
       juryId: '',
       hasSeenEndTestScreen,
       examinerComment,
+      displayCleaCertificationStatus,
       commentForCandidate: 'candidate',
       commentForOrganization: 'organization',
       commentForJury: 'jury',
@@ -112,7 +114,7 @@ module('Unit | Service | session-info-service', function(hooks) {
           id: sessionId,
           certificationCenterName: '@Certification center',
         });
-        const certifications = A([ certification ]);
+        const certifications = A([certification]);
 
         // when
         await service.downloadSessionExportFile({ session, certifications });
@@ -131,10 +133,10 @@ module('Unit | Service | session-info-service', function(hooks) {
     test('should include certification which status is not "validated"', async function(assert) {
       const session = EmberObject.create({ id: 5 });
       const certifications = A([
-        buildCertification({ id: '1', status: 'validated', sessionId: 5 }),
-        buildCertification({ id: '2', status: 'started', sessionId: 5 }),
-        buildCertification({ id: '3', status: 'rejected', sessionId: 5 }),
-        buildCertification({ id: '4', status: 'error', sessionId: 5 }),
+        buildCertification({ id: '1', status: 'validated', sessionId: 5, displayCleaCertificationStatus: 'Validée' }),
+        buildCertification({ id: '2', status: 'started', sessionId: 5, displayCleaCertificationStatus: 'Validée' }),
+        buildCertification({ id: '3', status: 'rejected', sessionId: 5, displayCleaCertificationStatus: 'Non passée' }),
+        buildCertification({ id: '4', status: 'error', sessionId: 5, displayCleaCertificationStatus: 'Rejetée' }),
       ]);
 
       // when
@@ -142,17 +144,17 @@ module('Unit | Service | session-info-service', function(hooks) {
 
       // then
       assert.equal(fileSaverStub.getContent(), '\uFEFF' +
-        '"ID de session";"ID de certification";"Statut de la certification";"Date de debut";"Date de fin";"Signalement surveillant";"Commentaire pour le jury";"Ecran de fin non renseigné";"Note Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2"\n' +
-        '5;"2";"started";"20/07/2018 14:23:56";"20/07/2018 14:23:56";;"jury";"";100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
-        '5;"3";"rejected";"20/07/2018 14:23:56";"20/07/2018 14:23:56";;"jury";"";100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
-        '5;"4";"error";"20/07/2018 14:23:56";"20/07/2018 14:23:56";;"jury";"";100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
+        '"ID de session";"ID de certification";"Statut de la certification";"Certification CléA numérique";"Date de debut";"Date de fin";"Signalement surveillant";"Commentaire pour le jury";"Ecran de fin non renseigné";"Note Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2"\n' +
+        '5;"2";"started";"Validée";"20/07/2018 14:23:56";"20/07/2018 14:23:56";;"jury";"";100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
+        '5;"3";"rejected";"Non passée";"20/07/2018 14:23:56";"20/07/2018 14:23:56";;"jury";"";100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
+        '5;"4";"error";"Rejetée";"20/07/2018 14:23:56";"20/07/2018 14:23:56";;"jury";"";100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
         '');
     });
 
     test('should include certification with comment from examiner', async function(assert) {
       const session = EmberObject.create({ id: 5 });
       const certifications = A([
-        buildCertification({ id: '1', status: 'validated', sessionId: 5, examinerComment: 'examiner comment' }),
+        buildCertification({ id: '1', status: 'validated', sessionId: 5, examinerComment: 'examiner comment', displayCleaCertificationStatus: 'Validée' }),
         buildCertification({ id: '2', status: 'validated', sessionId: 5 }),
         buildCertification({ id: '3', status: 'validated', sessionId: 5 }),
       ]);
@@ -162,15 +164,15 @@ module('Unit | Service | session-info-service', function(hooks) {
 
       // then
       assert.equal(fileSaverStub.getContent(), '\uFEFF' +
-        '"ID de session";"ID de certification";"Statut de la certification";"Date de debut";"Date de fin";"Signalement surveillant";"Commentaire pour le jury";"Ecran de fin non renseigné";"Note Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2"\n' +
-        '5;"1";"validated";"20/07/2018 14:23:56";"20/07/2018 14:23:56";"examiner comment";"jury";"";100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
+        '"ID de session";"ID de certification";"Statut de la certification";"Certification CléA numérique";"Date de debut";"Date de fin";"Signalement surveillant";"Commentaire pour le jury";"Ecran de fin non renseigné";"Note Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2"\n' +
+        '5;"1";"validated";"Validée";"20/07/2018 14:23:56";"20/07/2018 14:23:56";"examiner comment";"jury";"";100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
         '');
     });
 
     test('should include certification with not checked end screen from examiner', async function(assert) {
       const session = EmberObject.create({ id: 5 });
       const certifications = A([
-        buildCertification({ id: '1', status: 'validated', sessionId: 5, hasSeenEndTestScreen: false }),
+        buildCertification({ id: '1', status: 'validated', sessionId: 5, hasSeenEndTestScreen: false,  displayCleaCertificationStatus: 'Validée' }),
         buildCertification({ id: '2', status: 'validated', sessionId: 5 }),
         buildCertification({ id: '3', status: 'validated', sessionId: 5 }),
       ]);
@@ -180,8 +182,8 @@ module('Unit | Service | session-info-service', function(hooks) {
 
       // then
       assert.equal(fileSaverStub.getContent(), '\uFEFF' +
-        '"ID de session";"ID de certification";"Statut de la certification";"Date de debut";"Date de fin";"Signalement surveillant";"Commentaire pour le jury";"Ecran de fin non renseigné";"Note Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2"\n' +
-        '5;"1";"validated";"20/07/2018 14:23:56";"20/07/2018 14:23:56";;"jury";"non renseigné";100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
+        '"ID de session";"ID de certification";"Statut de la certification";"Certification CléA numérique";"Date de debut";"Date de fin";"Signalement surveillant";"Commentaire pour le jury";"Ecran de fin non renseigné";"Note Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2"\n' +
+        '5;"1";"validated";"Validée";"20/07/2018 14:23:56";"20/07/2018 14:23:56";;"jury";"non renseigné";100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
         '');
     });
 
@@ -189,19 +191,19 @@ module('Unit | Service | session-info-service', function(hooks) {
 
       test('should sanitize Jury data', async function(assert) {
         // given
-        const certification = buildCertification({ id: '1', status: 'validated', sessionId: 5, examinerComment: '@examiner comment' });
+        const certification = buildCertification({ id: '1', status: 'validated', sessionId: 5, examinerComment: '@examiner comment', displayCleaCertificationStatus: 'Non passée' });
         certification.set('commentForJury', '-jury');
 
         const session = EmberObject.create({ id: 5 });
-        const certifications = A([ certification ]);
+        const certifications = A([certification]);
 
         // when
         service.downloadJuryFile({ sessionId: session.id, certifications: certifications });
 
         // then
         assert.equal(fileSaverStub.getContent(), '\uFEFF' +
-          '"ID de session";"ID de certification";"Statut de la certification";"Date de debut";"Date de fin";"Signalement surveillant";"Commentaire pour le jury";"Ecran de fin non renseigné";"Note Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2"\n' +
-          '5;"1";"validated";"20/07/2018 14:23:56";"20/07/2018 14:23:56";"\'@examiner comment";"\'-jury";"";100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
+          '"ID de session";"ID de certification";"Statut de la certification";"Certification CléA numérique";"Date de debut";"Date de fin";"Signalement surveillant";"Commentaire pour le jury";"Ecran de fin non renseigné";"Note Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2"\n' +
+          '5;"1";"validated";"Non passée";"20/07/2018 14:23:56";"20/07/2018 14:23:56";"\'@examiner comment";"\'-jury";"";100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
           '');
       });
     });
@@ -215,10 +217,10 @@ module('Unit | Service | session-info-service', function(hooks) {
       let certifications;
 
       hooks.beforeEach(function() {
-        const indexedCompetences = { '1.1': { level: 3, score: 2 } } ;
+        const indexedCompetences = { '1.1': { level: 3, score: 2 } };
         certifRejected = buildCertification({ sessionId: 1, status: 'rejected', indexedCompetences });
         sessionWithRejectedCertif = { certificationCenterName: 'Salut' };
-        certifications = [ certifRejected ];
+        certifications = [certifRejected];
       });
 
       test('should show "-" or "0" for competences', async function(assert) {
@@ -255,10 +257,10 @@ module('Unit | Service | session-info-service', function(hooks) {
       let certifications;
 
       hooks.beforeEach(function() {
-        const indexedCompetences = { '1.1': { level: 3, score: 2 } } ;
+        const indexedCompetences = { '1.1': { level: 3, score: 2 } };
         certifValidated = buildCertification({ sessionId: 1, indexedCompetences });
         sessionWithValidatedCertif = { certificationCenterName: 'Salut' };
-        certifications = [ certifValidated ];
+        certifications = [certifValidated];
       });
 
       test('should show "-" or correct value for competences', function(assert) {
