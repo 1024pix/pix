@@ -4,56 +4,71 @@
 
   .competence-card {
     flex-direction: column;
-    width: 210px;
+    width: 212px;
     height: 310px;
   }
 
   .competence-card__title {
-    height: 110px;
+    height: 125px;
     overflow: hidden;
     text-align: center;
     padding: 10px 0;
   }
 
-  .competence-card__color {
+  .competence-card__wrapper {
 
     &::after {
       right: -200px;
       left: -200px;
-      top: -350px;
+      top: -330px;
       bottom: 0;
       width: auto;
     }
 
+    &--jaffa,
     &--jaffa::after {
       background: radial-gradient($information-dark 25%, $information-light 100%);
+      background-color: $information-dark;
     }
 
+    &--emerald,
     &--emerald::after {
       background: radial-gradient($content-dark 25%, $content-light 100%);
+      background-color: $content-dark;
     }
 
+    &--cerulean,
     &--cerulean::after {
-      background: radial-gradient($blue 25%, $communication-light 100%);
+      background: radial-gradient($communication-dark 25%, $communication-light 100%);
+      background-color: $communication-dark;
     }
 
+    &--wild-strawberry,
     &--wild-strawberry::after {
       background: radial-gradient($security-dark 25%, $security-light 100%);
+      background-color: $security-dark;
     }
 
+    &--butterfly-bush,
     &--butterfly-bush::after {
       background: radial-gradient($environment-dark 25%, $environment-light 100%);
+      background-color: $environment-dark;
     }
   }
 
   .competence-card__area-name {
-    font-size: 0.563rem;
+    z-index: 2;
+    font-size: 0.7rem;
+    font-weight: $font-medium;
+    margin: 0;
   }
 
   .competence-card__competence-name {
-    font-size: 1rem;
-    margin: 8px 0;
-    padding: 0 4px;
+    z-index: 2;
+    font-size: 1.17rem;
+    font-weight: $font-bold;
+    margin: 0 3px;
+    padding-top: 10px;
   }
 
   .competence-card__body {
