@@ -5,7 +5,7 @@ export const ACQUIRED = 'acquired';
 export const REJECTED = 'rejected';
 export const NOT_PASSED = 'not_passed';
 export const partnerCertificationStatusToDisplayName = {
-  [ACQUIRED]: 'Obtenue',
+  [ACQUIRED]: 'Validée',
   [REJECTED]: 'Rejetée',
   [NOT_PASSED]: 'Non passée',
 };
