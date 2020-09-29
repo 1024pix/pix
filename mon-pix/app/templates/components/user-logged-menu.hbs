@@ -1,13 +1,12 @@
 {{#if currentUser.user}}
-  <button class="logged-user-name"
+  <button class="logged-user-name logged-user-name__link"
           type="button"
           aria-haspopup="true"
-          aria-expanded="{{_canDisplayMenu}}">
-    <a href="#" class="logged-user-name__link" {{action 'toggleUserMenu'}}>
+          aria-expanded="{{_canDisplayMenu}}"
+          {{action 'toggleUserMenu'}}>
       {{currentUser.user.firstName}}
       <span class="sr-only">{{t 'navigation.user-logged-menu.details'}}</span>
       <span class="caret"></span>
-    </a>
   </button>
 
   {{#if _canDisplayMenu}}
