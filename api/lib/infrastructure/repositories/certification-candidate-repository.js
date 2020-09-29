@@ -26,7 +26,7 @@ module.exports = {
 
   async saveInSession({ certificationCandidate, sessionId }) {
     const certificationCandidateDataToSave = _.pick(certificationCandidate,
-      ['id', 'firstName', 'lastName', 'birthCity', 'birthProvinceCode',
+      ['id', 'firstName', 'lastName', 'birthCity', 'birthProvinceCode', 'resultRecipientEmail',
         'birthCountry', 'email', 'externalId', 'birthdate', 'extraTimePercentage']);
 
     try {
