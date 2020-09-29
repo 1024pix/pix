@@ -6,7 +6,6 @@
   box-shadow: $box-shadow-competence-cards;
   border: 1px solid $grey-20;
   border-radius: 11px;
-  background-color: $white;
   transition: all 0.1s linear;
   -webkit-tap-highlight-color: rgba($grey-60, 0.3);
   pointer-events: none;
@@ -33,7 +32,7 @@
   width: 100%;
 }
 
-.competence-card__color {
+.competence-card__wrapper {
 
   &::after {
     width: 110%;
@@ -72,6 +71,7 @@
   letter-spacing: 0.031rem;
   opacity: 0.8;
   text-transform: uppercase;
+  font-weight: $font-bold;
   position: relative;
   margin-bottom: 8px;
 }
@@ -94,7 +94,7 @@
   height: 80px;
 
   &--white-background {
-    background-color: $white;
+    background-color: white;
     background-clip: padding-box;
     border-radius: 50%;
     padding: 5px;

@@ -1,9 +1,10 @@
 <article class="competence-card {{if @interactive "competence-card--interactive"}}">
   <LinkTo @route="competences.details" @model={{@scorecard.competenceId}}>
     <div class="competence-card__title">
-      <span class="competence-card__color competence-card__color--{{@scorecard.area.color}}"></span>
-      <span class="competence-card__area-name">{{@scorecard.area.title}}</span>
-      <span class="competence-card__competence-name">{{@scorecard.name}}</span>
+      <div class="competence-card__wrapper competence-card__wrapper--{{@scorecard.area.color}}">
+        <div class="competence-card__area-name">{{@scorecard.area.title}}</div>
+        <div class="competence-card__competence-name">{{@scorecard.name}}</div>
+      </div>
     </div>
 
     <div class="competence-card__body">

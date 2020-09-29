@@ -40,8 +40,8 @@ describe('Integration | Component | competence-card-mobile', function() {
       await render(hbs`{{competence-card-mobile scorecard=scorecard}}`);
 
       // then
-      expect(find('.competence-card__color').getAttribute('class'))
-        .to.contains('competence-card__color--jaffa');
+      expect(find('.competence-card__wrapper').getAttribute('class'))
+        .to.contains('competence-card__wrapper--jaffa');
     });
 
     it('should display the area name', async function() {
