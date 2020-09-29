@@ -8,6 +8,7 @@ export default class CertificationCandidate extends Model {
   @attr('string') birthProvinceCode;
   @attr('string') birthCountry;
   @attr('string') email;
+  @attr('string') resultRecipientEmail;
   @attr('string') externalId;
   @attr('number') extraTimePercentage;
   @attr('boolean') isLinked;
