@@ -119,7 +119,9 @@
               {{/if}}
                 Pays de naissance
             </th>
+            {{#if this.isResultRecipientEmailVisible}}
             <th>Adresse e-mail du destinataire des résultats</th>
+            {{/if}}
             <th>Adresse e-mail de convocation</th>
             <th>Identifiant externe</th>
             <th class="certification-candidates-table__column-time">Temps majoré</th>
@@ -144,7 +146,9 @@
               <td data-test-id='panel-candidate__birthCity__{{candidate.id}}'>{{candidate.birthCity}}</td>
               <td data-test-id='panel-candidate__birthProvinceCode__{{candidate.id}}'>{{candidate.birthProvinceCode}}</td>
               <td data-test-id='panel-candidate__birthCountry__{{candidate.id}}'>{{candidate.birthCountry}}</td>
+              {{#if this.isResultRecipientEmailVisible}}
               <td data-test-id='panel-candidate__result-recipient-email__{{candidate.id}}'>{{candidate.resultRecipientEmail}}</td>
+              {{/if}}
               <td data-test-id='panel-candidate__email__{{candidate.id}}'>{{candidate.email}}</td>
               <td data-test-id='panel-candidate__externalId__{{candidate.id}}'>{{candidate.externalId}}</td>
               <td data-test-id='panel-candidate__extraTimePercentage__{{candidate.id}}'>{{format-percentage candidate.extraTimePercentage}}</td>
