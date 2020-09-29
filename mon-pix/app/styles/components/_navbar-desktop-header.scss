@@ -17,6 +17,11 @@
     display: flex;
     margin-left: 68px;
     margin-right: 20px;
+    padding-left: 0;
+  }
+
+  &__campaign-menu {
+    padding-left: 0;
   }
 }
 
@@ -27,6 +32,10 @@
     margin-right: 20px;
     padding-top: 5px;
     padding-bottom: 5px;
+    list-style: none;
+  }
+
+  &__link {
     font-size: 1rem;
     font-family: $font-roboto;
     color: $grey-60;
@@ -34,20 +43,33 @@
 
     &.active {
       text-decoration: none;
-      color: $light-blue;
-      border-bottom: 2px solid $light-blue;
+      padding-bottom: 5px;
+      color: $blue-hover;
+      border-bottom: 2px solid $blue-hover;
     }
 
     &:focus {
       text-decoration: none;
-      color: $grey-35;
+      color: $grey-60;
     }
 
     &:hover {
       text-decoration: none;
       cursor: pointer;
-      color: $light-blue;
+      color: $blue-hover;
     }
+  }
+}
+
+.navbar-desktop-header-campaign-menu {
+
+  &__button {
+    font-size: 1rem;
+    font-family: $font-roboto;
+  }
+
+  &__item {
+    list-style: none;
   }
 }
 
