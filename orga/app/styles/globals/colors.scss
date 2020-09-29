@@ -12,8 +12,8 @@ $dark-blue-pro: #1A38A0;
 $dark-green-certif: #1A8C89;
 $dark-green-certif-light: adjust-color($dark-green-certif, $alpha: -0.9);
 $dark-orga: #0095C0;
-$green: #20BF55;
-$green-hover: #058931;
+$green: #038A25;
+$green-hover: darken($green, 4%);
 $orga: #00DDFF;
 $purple: #8A49FF;
 // gradients
