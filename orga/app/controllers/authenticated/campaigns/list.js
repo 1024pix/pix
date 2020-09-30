@@ -1,5 +1,4 @@
-import { action, computed } from '@ember/object';
-import { equal } from '@ember/object/computed';
+import { action } from '@ember/object';
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
@@ -17,9 +16,10 @@ export default class ListController extends Controller {
 
   @service currentUser;
 
-  @equal('status', 'archived') isArchived;
+  get isArchived() {
+    return this.status === 'archived';
+  }
 
-  @computed('model')
   get displayNoCampaignPanel() {
     return !this.model.meta.hasCampaigns;
   }

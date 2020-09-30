@@ -163,7 +163,7 @@ module('Integration | Component | routes/authenticated/campaign/details/tab', fu
     module('when the campaign is not archived', function() {
       test('it should display the button modify', async function(assert) {
         // given
-        const campaign = store.createRecord('campaign', { isArchived: false });
+        const campaign = store.createRecord('campaign', { archivedAt: null });
 
         this.set('campaign', campaign);
 
@@ -178,7 +178,7 @@ module('Integration | Component | routes/authenticated/campaign/details/tab', fu
     module('when the campaign is archived', function() {
       test('it should not display the button modify', async function(assert) {
         // given
-        const campaign = store.createRecord('campaign', { isArchived: true });
+        const campaign = store.createRecord('campaign', { archivedAt: new Date() });
 
         this.set('campaign', campaign);
 

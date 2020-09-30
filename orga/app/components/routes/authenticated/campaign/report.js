@@ -1,4 +1,4 @@
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 
@@ -7,14 +7,12 @@ export default class Report extends Component {
   @service store;
   @service notifications;
 
-  @computed('campaign.campaignReport.participationsCount')
   get participationsCount() {
     const participationsCount = this.args.campaign.campaignReport.get('participationsCount');
 
     return participationsCount > 0 ? participationsCount : '-';
   }
 
-  @computed('campaign.campaignReport.sharedParticipationsCount')
   get sharedParticipationsCount() {
     const sharedParticipationsCount = this.args.campaign.campaignReport.get('sharedParticipationsCount');
 

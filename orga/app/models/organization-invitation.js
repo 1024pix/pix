@@ -1,5 +1,4 @@
 import DS from 'ember-data';
-import { equal } from '@ember/object/computed';
 const { belongsTo, Model, attr } = DS;
 
 export default class OrganizationInvitation extends Model {
@@ -10,6 +9,11 @@ export default class OrganizationInvitation extends Model {
 
   @belongsTo('organization') organization;
 
-  @equal('status', 'pending') isPending;
-  @equal('status', 'accepted') isAccepted;
+  get isPending() {
+    return this.status === 'pending';
+  }
+
+  get isAccepted() {
+    return this.status === 'accepted';
+  }
 }
