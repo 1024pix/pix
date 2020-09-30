@@ -51,6 +51,13 @@ const Validations = buildValidations({
       }),
     ],
   },
+  isManagingStudents: {
+    validators: [
+      validator('inclusion', {
+        in: [true, false],
+      }),
+    ],
+  },
   canCollectProfiles: {
     validators: [
       validator('inclusion', {
@@ -65,6 +72,7 @@ class Form extends Object.extend(Validations) {
   @tracked externalId;
   @tracked provinceCode;
   @tracked email;
+  @tracked isManagingStudents;
   @tracked canCollectProfiles;
 }
 
@@ -122,6 +130,7 @@ export default class OrganizationInformationSection extends Component {
     this.args.organization.set('externalId', !this.form.externalId ? null : this.form.externalId.trim());
     this.args.organization.set('provinceCode', !this.form.provinceCode ? null : this.form.provinceCode.trim());
     this.args.organization.set('email', !this.form.email ? null : this.form.email.trim());
+    this.args.organization.set('isManagingStudents', this.form.isManagingStudents);
     this.args.organization.set('canCollectProfiles', this.form.canCollectProfiles);
 
     this.isEditMode = false;
@@ -133,6 +142,7 @@ export default class OrganizationInformationSection extends Component {
     this.form.externalId = this.args.organization.externalId;
     this.form.provinceCode = this.args.organization.provinceCode;
     this.form.email = this.args.organization.email;
+    this.form.isManagingStudents = this.args.organization.isManagingStudents;
     this.form.canCollectProfiles = this.args.organization.canCollectProfiles;
   }
 }
