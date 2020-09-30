@@ -42,7 +42,7 @@ export default class Session extends Model {
   }
 
   @computed('id', 'session.data.authenticated.access_token')
-  get urlToDownload() {
+  get urlToDownloadAttendanceSheet() {
     return `${ENV.APP.API_HOST}/api/sessions/${this.id}/attendance-sheet?accessToken=${this.session.data.authenticated.access_token}`;
   }
 
