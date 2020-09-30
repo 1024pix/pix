@@ -149,6 +149,7 @@ jobs:
           key: v7-orga-npm-{{ checksum "cachekey" }}
           paths:
             - ~/.npm
+      - run: npm run lint:ci
       - run: npm test
 
   certif_build_and_test:
