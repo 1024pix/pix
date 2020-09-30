@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster } = require('../../test-helper');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster, knex } = require('../../test-helper');
 
 const createServer = require('../../../server');
 const Membership = require('../../../lib/domain/models/Membership');
@@ -10,6 +10,113 @@ describe('Acceptance | Controller | membership-controller', () => {
 
   beforeEach(async () => {
     server = await createServer();
+  });
+
+  describe('POST /api/memberships', () => {
+
+    let options;
+    let userId;
+    let organizationId;
+
+    beforeEach(async () => {
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+      userId = databaseBuilder.factory.buildUser().id;
+      const adminUserId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
+      await databaseBuilder.commit();
+
+      options = {
+        method: 'POST',
+        url: '/api/memberships',
+        payload: {
+          data: {
+            type: 'memberships',
+            attributes: {},
+            relationships: {
+              user: {
+                data: {
+                  type: 'users',
+                  id: userId,
+                },
+              },
+              organization: {
+                data : {
+                  type: 'organizations',
+                  id: organizationId,
+                },
+              },
+            },
+          },
+        },
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(adminUserId),
+        },
+      };
+    });
+
+    context('Success cases', () => {
+
+      afterEach(() => {
+        return knex('memberships').delete();
+      });
+
+      it('should return the created membership', async () => {
+        // given
+        const expectedMembership = {
+          data: {
+            type: 'memberships',
+            id: '1',
+            attributes: {
+              'organization-role': 'ADMIN',
+            },
+            relationships: {
+              user: {
+                data: {
+                  type: 'users',
+                  id: userId.toString(),
+                },
+              },
+            },
+          },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(201);
+        expect(_.omit(response.result, 'included')).to.deep.equal(expectedMembership);
+      });
+
+      context('When a membership is disabled', () => {
+
+        it('should be able to recreate it', async () => {
+          // given
+          databaseBuilder.factory.buildMembership({ userId, organizationId, disabledAt: new Date() });
+          await databaseBuilder.commit();
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(201);
+        });
+      });
+
+      context('When a membership is not disabled', () => {
+
+        it('should not be able to recreate it', async () => {
+          // given
+          databaseBuilder.factory.buildMembership({ userId, organizationId });
+          await databaseBuilder.commit();
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(400);
+        });
+      });
+    });
   });
 
   describe('PATCH /api/memberships/{id}', () => {
