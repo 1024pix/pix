@@ -14,23 +14,11 @@ indent_style = space
 indent_size = 2
 
 [*.js]
-indent_style = space
-indent_size = 2
 quote_type = single
 spaces_around_brackets = both
 
 [*.hbs]
 insert_final_newline = false
-indent_style = space
-indent_size = 2
-
-[*.css]
-indent_style = space
-indent_size = 2
-
-[*.html]
-indent_style = space
-indent_size = 2
 
 [*.{diff,md}]
 trim_trailing_whitespace = false
