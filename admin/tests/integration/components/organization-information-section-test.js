@@ -48,7 +48,16 @@ module('Integration | Component | organization-information-section', function(ho
     let organization;
 
     hooks.beforeEach(function() {
-      organization = EmberObject.create({ id: 1, name: 'Organization SCO', externalId: 'VELIT', provinceCode: 'h50', email: 'sco.generic.account@example.net', canCollectProfiles: false });
+      organization = EmberObject.create({
+        id: 1,
+        name: 'Organization SCO',
+        externalId: 'VELIT',
+        provinceCode: 'h50',
+        email: 'sco.generic.account@example.net',
+        canCollectProfiles: false,
+        isOrganizationSCO: true,
+        isManagingStudents: false,
+      });
       this.set('organization', organization);
     });
 
@@ -84,6 +93,7 @@ module('Integration | Component | organization-information-section', function(ho
       assert.dom('input#provinceCode').hasValue(organization.provinceCode);
       assert.dom('input#email').hasValue(organization.email);
       assert.dom('input#canCollectProfiles').isNotChecked();
+      assert.dom('input#isManagingStudents').isNotChecked();
     });
 
     test('it should show error message if organization\'s name is empty', async function(assert) {
@@ -173,10 +183,12 @@ module('Integration | Component | organization-information-section', function(ho
     test('it should revert changes on click to cancel button', async function(assert) {
       // given
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+
       await click('button[aria-label=\'Editer\'');
       await fillIn('input#name', 'new name');
       await fillIn('input#externalId', 'new externalId');
       await fillIn('input#provinceCode', 'new provinceCode');
+      await click('input#isManagingStudents');
       await click('input#canCollectProfiles');
 
       // when
@@ -186,6 +198,7 @@ module('Integration | Component | organization-information-section', function(ho
       assert.dom('.organization__name').hasText(organization.name);
       assert.dom('.organization__externalId').hasText(organization.externalId);
       assert.dom('.organization__provinceCode').hasText(organization.provinceCode);
+      assert.dom('.organization__isManagingStudents').hasText('Non');
       assert.dom('.organization__canCollectProfiles').hasText('Non');
     });
 
@@ -197,6 +210,7 @@ module('Integration | Component | organization-information-section', function(ho
       await fillIn('input#name', 'new name');
       await fillIn('input#externalId', 'new externalId');
       await fillIn('input#provinceCode', '  ');
+      await click('input#isManagingStudents');
       await click('input#canCollectProfiles');
 
       // when
@@ -207,10 +221,11 @@ module('Integration | Component | organization-information-section', function(ho
       assert.dom('.organization__externalId').hasText('new externalId');
       assert.dom('.organization__provinceCode').doesNotExist();
       assert.dom('.organization__canCollectProfiles').hasText('Oui');
+      assert.dom('.organization__isManagingStudents').hasText('Oui');
     });
   });
 
-  module('When organization is SCO', function(hooks) {
+  module('When organization is SCO or SUP', function(hooks) {
 
     hooks.beforeEach(function() {
       this.organization = EmberObject.create({ type: 'SCO', isOrganizationSCO: true, isManagingStudents: true });
@@ -249,7 +264,7 @@ module('Integration | Component | organization-information-section', function(ho
   module('When organization is not SCO', function(hooks) {
 
     hooks.beforeEach(function() {
-      this.organization = EmberObject.create({ type: 'PRO', isOrganizationSCO: false });
+      this.organization = EmberObject.create({ type: 'PRO', isOrganizationSCO: false, isOrganizationSUP: false });
     });
 
     test('it should not display if it is managing students', async function(assert) {

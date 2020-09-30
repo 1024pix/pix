@@ -71,6 +71,20 @@
                  class={{if (v-get this.form 'email' 'isInvalid') "form-control is-invalid" "form-control"}}
                  @value={{this.form.email}} />
         </div>
+        {{#if (or @organization.isOrganizationSCO @organization.isOrganizationSUP)}}
+          <div class="form-field organization-edit-form__checkbox">
+            <label for="isManagingStudents" class="form-field__label">Gestion d’élèves/étudiants</label>
+            {{#if (v-get this.form 'isManagingStudents' 'isInvalid')}}
+              <div class="form-field__error">
+                {{v-get this.form 'isManagingStudents' 'message'}}
+              </div>
+            {{/if}}
+            <Input id="isManagingStudents"
+                   @type="checkbox"
+                   class={{if (v-get this.form 'isManagingStudents' 'isInvalid') "form-control is-invalid" "form-control"}}
+                   @checked={{this.form.isManagingStudents}} />
+          </div>
+        {{/if}}
         <div class="form-field organization-edit-form__checkbox">
           <label for="canCollectProfiles" class="form-field__label">Collecte de profils</label>
           {{#if (v-get this.form 'canCollectProfiles' 'isInvalid')}}
@@ -103,8 +117,8 @@
             {{#if @organization.provinceCode}}
               Département : <span class="organization__provinceCode">{{@organization.provinceCode}}</span><br>
             {{/if}}
-            {{#if @organization.isOrganizationSCO}}
-              Gère des élèves : <span class="organization__isManagingStudents">{{this.isManagingStudents}}</span><br>
+            {{#if (or @organization.isOrganizationSCO @organization.isOrganizationSUP)}}
+              Gestion d’élèves/étudiants : <span class="organization__isManagingStudents">{{this.isManagingStudents}}</span><br>
             {{/if}}
             Adresse e-mail: <span class ="organization'__email">{{@organization.email}}</span><br>
             Collecte de profils : <span class="organization__canCollectProfiles">{{this.canCollectProfiles}}</span><br>
