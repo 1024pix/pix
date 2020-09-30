@@ -66,7 +66,6 @@
   <PixModal @containerClass="join-error-modal" @onClose={{action this.closeModal}}>
     <div class="join-error-modal__header">
       <div class="join-error-modal-header__title">
-        <FaIcon @icon="times-circle" class="join-error-modal-header-title__icon"></FaIcon>
         <h1 class="join-error-modal-header-title__text">Information de connexion</h1>
       </div>
       <div class="join-error-modal-header__close" aria-label={{t "common.actions.close"}} {{on 'click' this.closeModal}}>
