@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v2.203.0 (30/09/2020)
+
+- [#1937](https://github.com/1024pix/pix/pull/1937) [FEATURE] Permettre de modifier la gestion d'élèves d'une organisation depuis Pix Admin (PIX-1340).
+- [#1938](https://github.com/1024pix/pix/pull/1938) [FEATURE] Suppression du picto dans la modal d'information de connexion du formulaire de réconciliation (PIX-1337).
+- [#1932](https://github.com/1024pix/pix/pull/1932) [FEATURE] Permettre de réinviter un membre d'une organisation désactivé (PIX-813).
+- [#1914](https://github.com/1024pix/pix/pull/1914) [FEATURE] Rendre la navigation de Pix App accessible (PIX-1131).
+- [#1915](https://github.com/1024pix/pix/pull/1915) [FEATURE] Apporter du détail sur l'erreur lors de l'import ODS (PIX-1312)
+- [#1921](https://github.com/1024pix/pix/pull/1921) [BUGFIX] La colonne updatedAt de la table schooling-registrations n'est pas mise à jour (PIX-1315)
+- [#1897](https://github.com/1024pix/pix/pull/1897) [TECH] Suppression de directives .editorconfig inutiles.
+- [#1928](https://github.com/1024pix/pix/pull/1928) [TECH] Permettre aux nouveaux dossiers front d'être lintés par défaut.
+- [#1925](https://github.com/1024pix/pix/pull/1925) [TECH] Suppression d'un appel à la base de donnée dans un test unitaire de usecase.
+- [#1920](https://github.com/1024pix/pix/pull/1920) [TECH] Sortir de la CI dès qu'une erreur de catégorie de lint est rencontrée.
+- [#1910](https://github.com/1024pix/pix/pull/1910) [TECH] Utilisation du modèle TargetProfileWithLearningContent dans le usecase d'export CSV de campagnes d'évaluation (PIX-1301-2)
+- [#1919](https://github.com/1024pix/pix/pull/1919) [TECH] Permettre aux nouveaux dossiers sous API d'être lintés par défaut.
+- [#1929](https://github.com/1024pix/pix/pull/1929) [CLEANUP] Mise à jour de la couleur verte dans Pix App et Pix Orga (PIX-1335).
+- [#1931](https://github.com/1024pix/pix/pull/1931) [FEATURE ] Ajout du statut CléA au fichier avant jury (PIX-1327)
+- [#1927](https://github.com/1024pix/pix/pull/1927) [INFRA] Ne pas autoriser les appels à la base de donnée pour les tests unitaires dans la cible `test` de l'API
+- [#1918](https://github.com/1024pix/pix/pull/1918)  [FEATURE] Gestion des messages d'erreurs envoyés dans le formulaire d'inscription Mon-pix (PIX-1274)
+
 ## v2.202.0 (28/09/2020)
 
 - [#1913](https://github.com/1024pix/pix/pull/1913) [FEATURE] Utiliser PixActionButton de pix-ui
