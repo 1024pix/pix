@@ -110,14 +110,14 @@ module('Acceptance | Session Details', function(hooks) {
         await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
 
         // then
-        assert.dom('[data-test-id="panel-candidate__lastName__1"]').hasText(`${candidateInSession.lastName}`);
-        assert.dom('[data-test-id="panel-candidate__firstName__1"]').hasText(`${candidateInSession.firstName}`);
-        assert.dom('[data-test-id="panel-candidate__birthdate__1"]').hasText(`${moment(candidateInSession.birthdate, 'YYYY-MM-DD').format('DD/MM/YYYY')}`);
-        assert.dom('[data-test-id="panel-candidate__birthCity__1"]').hasText(`${candidateInSession.birthCity}`);
-        assert.dom('[data-test-id="panel-candidate__birthProvinceCode__1"]').hasText(`${candidateInSession.birthProvinceCode}`);
-        assert.dom('[data-test-id="panel-candidate__birthCountry__1"]').hasText(`${candidateInSession.birthCountry}`);
-        assert.dom('[data-test-id="panel-candidate__email__1"]').hasText(`${candidateInSession.email}`);
-        assert.dom('[data-test-id="panel-candidate__externalId__1"]').hasText(`${candidateInSession.externalId}`);
+        assert.dom(`[data-test-id="panel-candidate__lastName__${candidateInSession.id}"]`).hasText(`${candidateInSession.lastName}`);
+        assert.dom(`[data-test-id="panel-candidate__firstName__${candidateInSession.id}"]`).hasText(`${candidateInSession.firstName}`);
+        assert.dom(`[data-test-id="panel-candidate__birthdate__${candidateInSession.id}"]`).hasText(`${moment(candidateInSession.birthdate, 'YYYY-MM-DD').format('DD/MM/YYYY')}`);
+        assert.dom(`[data-test-id="panel-candidate__birthCity__${candidateInSession.id}"]`).hasText(`${candidateInSession.birthCity}`);
+        assert.dom(`[data-test-id="panel-candidate__birthProvinceCode__${candidateInSession.id}"]`).hasText(`${candidateInSession.birthProvinceCode}`);
+        assert.dom(`[data-test-id="panel-candidate__birthCountry__${candidateInSession.id}"]`).hasText(`${candidateInSession.birthCountry}`);
+        assert.dom(`[data-test-id="panel-candidate__email__${candidateInSession.id}"]`).hasText(`${candidateInSession.email}`);
+        assert.dom(`[data-test-id="panel-candidate__externalId__${candidateInSession.id}"]`).hasText(`${candidateInSession.externalId}`);
       });
 
       test('it should display a sentence when there is no certification candidates yet', async function(assert) {
