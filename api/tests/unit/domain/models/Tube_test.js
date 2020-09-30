@@ -40,7 +40,7 @@ describe('Unit | Domain | Models | Tube', () => {
 
     it('should not have a name when skills list is empty and name is not provided', () => {
       // when
-      const tube = new Tube();
+      const tube = new Tube({});
 
       // then
       expect(tube.name).to.equal('');

@@ -1,8 +1,14 @@
 import * as _ from 'lodash';
 
 class Tube {
+  public id;
   public name;
+  public title;
+  public description;
+  public practicalTitle;
+  public practicalDescription;
   public skills;
+  public competenceId;
 
   constructor({
     // attributes
@@ -16,7 +22,7 @@ class Tube {
     skills = [],
     // references
     competenceId,
-  } = {}) {
+  }) {
     // attributes
     this.id = id;
     this.title = title;
