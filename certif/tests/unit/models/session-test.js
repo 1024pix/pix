@@ -25,7 +25,7 @@ module('Unit | Model | session', function(hooks) {
     });
   });
 
-  module('#urlToDownload', function() {
+  module('#urlToDownloadAttendanceSheet', function() {
 
     test('it should return the correct urlToUpload', function(assert) {
       const store = this.owner.lookup('service:store');
@@ -34,12 +34,12 @@ module('Unit | Model | session', function(hooks) {
       assert.equal(model.urlToUpload, `${config.APP.API_HOST}/api/sessions/1/certification-candidates/import`);
     });
 
-    test('it should return the correct urlToDownload', function(assert) {
+    test('it should return the correct urlToDownloadAttendanceSheet', function(assert) {
       const store = this.owner.lookup('service:store');
       const model = run(() => store.createRecord('session', { id: 1 }));
       model.session = { data: { authenticated: { access_token: '123' } } };
 
-      assert.equal(model.urlToDownload, `${config.APP.API_HOST}/api/sessions/1/attendance-sheet?accessToken=123`);
+      assert.equal(model.urlToDownloadAttendanceSheet, `${config.APP.API_HOST}/api/sessions/1/attendance-sheet?accessToken=123`);
     });
   });
 });
