@@ -15,6 +15,7 @@ export default class Organization extends Model {
   @attr() email;
 
   @equal('type', 'SCO') isOrganizationSCO;
+  @equal('type', 'SUP') isOrganizationSUP;
 
   @hasMany('membership') memberships;
   @hasMany('targetProfile') targetProfiles;

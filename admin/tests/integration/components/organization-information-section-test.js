@@ -225,7 +225,7 @@ module('Integration | Component | organization-information-section', function(ho
     });
   });
 
-  module('When organization is SCO', function(hooks) {
+  module('When organization is SCO or SUP', function(hooks) {
 
     hooks.beforeEach(function() {
       this.organization = EmberObject.create({ type: 'SCO', isOrganizationSCO: true, isManagingStudents: true });
@@ -264,7 +264,7 @@ module('Integration | Component | organization-information-section', function(ho
   module('When organization is not SCO', function(hooks) {
 
     hooks.beforeEach(function() {
-      this.organization = EmberObject.create({ type: 'PRO', isOrganizationSCO: false });
+      this.organization = EmberObject.create({ type: 'PRO', isOrganizationSCO: false, isOrganizationSUP: false });
     });
 
     test('it should not display if it is managing students', async function(assert) {
