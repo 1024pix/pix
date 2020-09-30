@@ -55,7 +55,7 @@ module('Acceptance | Session Details', function(hooks) {
       await visit(`/sessions/${sessionFinalized.id}`);
 
       // then
-      assert.dom('.session-details-header__title').hasText(`Session ${sessionFinalized.id}`);
+      assert.dom('.session-details-header__title h1').hasText(`Session ${sessionFinalized.id}`);
       assert.dom('.session-details-container .session-details-row:first-child div:nth-child(2) span').hasText(`${sessionFinalized.address}`);
       assert.dom('.session-details-container .session-details-row:first-child div:nth-child(3) span').hasText(`${sessionFinalized.room}`);
       assert.dom('.session-details-container .session-details-row:first-child div:nth-child(4) span').hasText(`${sessionFinalized.examiner}`);

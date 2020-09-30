@@ -9,6 +9,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   margin: 1em 0;
 }
 
@@ -16,6 +17,11 @@
   &__title {
     display: flex;
     align-items: center;
+    min-width: 300px;
+
+    .button {
+      margin-left: 50px;
+    }
   }
 
   &__datetime {
