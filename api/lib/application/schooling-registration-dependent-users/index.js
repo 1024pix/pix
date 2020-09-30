@@ -1,9 +1,11 @@
-const schoolingRegistrationDependentUserController = require('./schooling-registration-dependent-user-controller');
-const securityPreHandlers = require('../security-pre-handlers');
-const JSONAPIError = require('jsonapi-serializer').Error;
 const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
-const { passwordValidationPattern } = require('../../config').account;
 const XRegExp = require('xregexp');
+
+const securityPreHandlers = require('../security-pre-handlers');
+const { sendJsonApiError, BadRequestError } = require('../http-errors');
+const { passwordValidationPattern } = require('../../config').account;
+
+const schoolingRegistrationDependentUserController = require('./schooling-registration-dependent-user-controller');
 
 exports.register = async function(server) {
   server.route([
@@ -89,13 +91,7 @@ exports.register = async function(server) {
             },
           }),
           failAction: (request, h) => {
-            const errorHttpStatusCode = 400;
-            const jsonApiError = new JSONAPIError({
-              status: errorHttpStatusCode.toString(),
-              title: 'Bad request',
-              detail: 'The server could not understand the request due to invalid syntax.',
-            });
-            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
+            return sendJsonApiError(new BadRequestError('The server could not understand the request due to invalid syntax.'), h);
           },
         },
         notes : [

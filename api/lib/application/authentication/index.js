@@ -1,5 +1,5 @@
 const Joi = require('@hapi/joi');
-const JSONAPIError = require('jsonapi-serializer').Error;
+const { sendJsonApiError, BadRequestError } = require('../http-errors');
 const AuthenticationController = require('./authentication-controller');
 
 exports.register = async (server) => {
@@ -43,13 +43,7 @@ exports.register = async (server) => {
             token_type_hint: 'access_token',
           }),
           failAction: (request, h) => {
-            const errorHttpStatusCode = 400;
-            const jsonApiError = new JSONAPIError({
-              status: errorHttpStatusCode.toString(),
-              title: 'Bad request',
-              detail: 'The server could not understand the request due to invalid syntax.',
-            });
-            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
+            return sendJsonApiError(new BadRequestError('The server could not understand the request due to invalid token.'), h);
           },
         },
         handler: (request, h) => h.response(),

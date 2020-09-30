@@ -1,6 +1,6 @@
 const schoolingRegistrationUserAssociationController = require('./../schooling-registration-user-associations/schooling-registration-user-association-controller');
 const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
-const JSONAPIError = require('jsonapi-serializer').Error;
+const { sendJsonApiError, UnprocessableEntityError } = require('../http-errors');
 
 exports.register = async function(server) {
   server.route([
@@ -24,13 +24,7 @@ exports.register = async function(server) {
             },
           }),
           failAction: (request, h) => {
-            const errorHttpStatusCode = 422;
-            const jsonApiError = new JSONAPIError({
-              status: errorHttpStatusCode.toString(),
-              title: 'Unprocessable entity',
-              detail: 'Un des champs saisis n’est pas valide.',
-            });
-            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
+            return sendJsonApiError(new UnprocessableEntityError('Un des champs saisis n’est pas valide.'), h);
           },
         },
         notes: [
@@ -76,13 +70,7 @@ exports.register = async function(server) {
             },
           }),
           failAction: (request, h) => {
-            const errorHttpStatusCode = 422;
-            const jsonApiError = new JSONAPIError({
-              status: errorHttpStatusCode.toString(),
-              title: 'Unprocessable entity',
-              detail: 'Un des champs saisis n’est pas valide.',
-            });
-            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
+            return sendJsonApiError(new UnprocessableEntityError('Un des champs saisis n’est pas valide.'), h);
           },
         },
         notes: [
