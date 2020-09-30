@@ -16,7 +16,13 @@ module('Acceptance | organization information management', function(hooks) {
 
     test('should edit organization\'s name, externalId, provinceCode and email', async function(assert) {
       // given
-      const organization = this.server.create('organization', { name: 'oldOrganizationName', externalId: 'oldOrganizationExternalId', provinceCode: 'oldProvinceCode', canCollectProfiles: true });
+      const organization = this.server.create('organization', {
+        name: 'oldOrganizationName',
+        externalId: 'oldOrganizationExternalId',
+        provinceCode: 'oldProvinceCode',
+        canCollectProfiles: true,
+        isManagingStudents: true,
+      });
       await visit(`/organizations/${organization.id}`);
       await click('button[aria-label="Editer"]');
 
