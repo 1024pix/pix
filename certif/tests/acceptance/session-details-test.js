@@ -15,12 +15,18 @@ module('Acceptance | Session Details', function(hooks) {
 
   let user;
   let sessionFinalized;
-  let sessionNotFinalized;
+  let sessionNotFinalizedWithoutCandidate;
 
   hooks.beforeEach(function() {
     user = createUserWithMembershipAndTermsOfServiceAccepted();
-    sessionFinalized = server.create('session', { status: FINALIZED, date: '2019-02-18', time: '14:00' });
-    sessionNotFinalized = server.create('session', { status: CREATED });
+    const aCandidate = server.create('certification-candidate', { firstName: 'Laura', lastName: 'Carray' });
+    sessionFinalized = server.create('session', {
+      status: FINALIZED,
+      date: '2019-02-18',
+      time: '14:00',
+      certificationCandidates: [ aCandidate ],
+    });
+    sessionNotFinalizedWithoutCandidate = server.create('session', { status: CREATED });
   });
 
   hooks.afterEach(function() {
@@ -50,16 +56,35 @@ module('Acceptance | Session Details', function(hooks) {
       });
     });
 
-    test('it should display session details page', async function(assert) {
-      // when
-      await visit(`/sessions/${sessionFinalized.id}`);
+    module('when looking at the header', function() {
 
-      // then
-      assert.dom('.session-details-header__title h1').hasText(`Session ${sessionFinalized.id}`);
-      assert.dom('.session-details-container .session-details-row:first-child div:nth-child(2) span').hasText(`${sessionFinalized.address}`);
-      assert.dom('.session-details-container .session-details-row:first-child div:nth-child(3) span').hasText(`${sessionFinalized.room}`);
-      assert.dom('.session-details-container .session-details-row:first-child div:nth-child(4) span').hasText(`${sessionFinalized.examiner}`);
-      assert.dom('.session-details-container .session-details-row:first-child div:nth-child(5) span:first-child').hasText(`${sessionFinalized.accessCode}`);
+      test('it should display session details page', async function(assert) {
+        // when
+        await visit(`/sessions/${sessionFinalized.id}`);
+
+        // then
+        assert.dom('.session-details-header__title h1').hasText(`Session ${sessionFinalized.id}`);
+        assert.dom('.session-details-container .session-details-row:first-child div:nth-child(2) span').hasText(`${sessionFinalized.address}`);
+        assert.dom('.session-details-container .session-details-row:first-child div:nth-child(3) span').hasText(`${sessionFinalized.room}`);
+        assert.dom('.session-details-container .session-details-row:first-child div:nth-child(4) span').hasText(`${sessionFinalized.examiner}`);
+        assert.dom('.session-details-container .session-details-row:first-child div:nth-child(5) span:first-child').hasText(`${sessionFinalized.accessCode}`);
+      });
+
+      test('it should show download button when there is one or more candidate', async function(assert) {
+        // when
+        await visit(`/sessions/${sessionFinalized.id}`);
+
+        // then
+        assert.dom('.session-details-header__title .button').hasText('Télécharger le PV');
+      });
+
+      test('it should not show downlaod button where there is no candidate', async function(assert) {
+        // when
+        await visit(`/sessions/${sessionNotFinalizedWithoutCandidate.id}`);
+
+        // then
+        assert.dom('.session-details-header__title .button').doesNotExist();
+      });
     });
 
     test('it should display properly formatted date and time related to the session', async function(assert) {
@@ -186,7 +211,7 @@ module('Acceptance | Session Details', function(hooks) {
       module('when the session has not CREATED', function() {
         test('it should not display the finalize button', async function(assert) {
           // when
-          await visit(`/sessions/${sessionNotFinalized.id}`);
+          await visit(`/sessions/${sessionNotFinalizedWithoutCandidate.id}`);
 
           // then
           assert.dom('.session-details-content__finalize-button').doesNotExist();
@@ -197,14 +222,14 @@ module('Acceptance | Session Details', function(hooks) {
         test('it should redirect to finalize page on click on finalize button', async function(assert) {
           // given
           const candidatesWithStartingCertif = server.createList('certification-candidate', 2, { isLinked: true });
-          sessionNotFinalized.update({ certificationCandidates: candidatesWithStartingCertif });
-          await visit(`/sessions/${sessionNotFinalized.id}`);
+          sessionNotFinalizedWithoutCandidate.update({ certificationCandidates: candidatesWithStartingCertif });
+          await visit(`/sessions/${sessionNotFinalizedWithoutCandidate.id}`);
 
           // when
           await click('.session-details-content__finalize-button');
 
           // then
-          assert.equal(currentURL(), `/sessions/${sessionNotFinalized.id}/finalisation`);
+          assert.equal(currentURL(), `/sessions/${sessionNotFinalizedWithoutCandidate.id}/finalisation`);
         });
       });
     });
