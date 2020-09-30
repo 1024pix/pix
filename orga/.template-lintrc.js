@@ -7,7 +7,7 @@ module.exports = {
     'no-nested-interactive': false,
     'no-outlet-outside-routes': false,
     'no-inline-styles': {
-      allowDynamicStyles: true
-    }
-  }
+      allowDynamicStyles: true,
+    },
+  },
 };
