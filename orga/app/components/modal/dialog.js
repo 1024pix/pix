@@ -1,5 +1,5 @@
 import snakeCase from 'lodash/snakeCase';
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
 import Component from '@glimmer/component';
 
 export default class Dialog extends Component {
@@ -19,7 +19,6 @@ export default class Dialog extends Component {
     }
   }
 
-  @computed('title')
   get labelId() {
     return `modal_${snakeCase(this.args.title)}_label`;
   }

@@ -1,6 +1,5 @@
 import DS from 'ember-data';
 const { Model, attr } = DS;
-import { equal } from '@ember/object/computed';
 
 export const statuses = {
   SHARED: 'shared',
@@ -15,7 +14,13 @@ export default class CampaignAssessmentParticipationSummary extends Model {
   @attr() status;
   @attr() masteryPercentage;
 
-  @equal('status', statuses.SHARED) isShared;
-  @equal('status', statuses.ONGOING) isOngoing;
-  @equal('status', statuses.COMPLETED) isCompleted;
+  get isShared() {
+    return this.status === statuses.SHARED;
+  }
+  get isOngoing() {
+    return this.status === statuses.ONGOING;
+  }
+  get isCompleted() {
+    return this.status === statuses.COMPLETED;
+  }
 }
