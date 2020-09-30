@@ -2,21 +2,20 @@ import AnswerStatus from './AnswerStatus';
 import * as _ from 'lodash';
 
 class Answer {
-  public id;
 
+  public id;
   public elapsedTime;
   public result;
   public resultDetails;
   public timeout;
   public value;
-
-  public correction;
-
+  public levelup;
   public assessmentId;
   public challengeId;
+  public challenge;
 
-  // FIXME: DO NOT accept "#ABAND#" as an answer, give this information with a boolean,
-  //  and transform it to an AnswerStatus "aband" in the api
+  // FIXME: DO NOT accept "#ABAND#" as an answer, give this information with
+  // a boolean, and transform it to an AnswerStatus "aband" in the api
   public static FAKE_VALUE_FOR_SKIPPED_QUESTIONS = '#ABAND#';
 
   constructor({
@@ -58,6 +57,22 @@ class Answer {
 
   get binaryOutcome() {
     return AnswerStatus.isOK(this.result) ? 1 : 0;
+  }
+
+  /**
+   * @deprecated Method that does not belong here. Answer has no knowledge of challenge
+   * Should maybe belong to challenge ?
+   * (Demeter law broken this.challenge.skills.(first-object).difficulty
+   */
+  maxDifficulty(baseDifficulty = 2) {
+    if (this.challenge) {
+      const difficulties = this.challenge.skills.map((skill) => skill.difficulty);
+      if (difficulties.length > 0) {
+        return Math.max(...difficulties);
+      }
+    }
+    // XXX : to avoid problem when challenge has no skill/ when we cannot get challenge
+    return baseDifficulty;
   }
 
   get hasTimedOut() {
