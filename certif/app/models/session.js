@@ -36,6 +36,11 @@ export default class Session extends Model {
         || this.status === PROCESSED;
   }
 
+  @computed('certificationCandidates.length')
+  get hasOneOrMoreCandidates() {
+    return this.certificationCandidates.length > 0;
+  }
+
   @computed('certificationCandidates.@each.isLinked')
   get hasStarted() {
     return this.certificationCandidates.isAny('isLinked');
