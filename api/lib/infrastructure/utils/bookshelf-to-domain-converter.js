@@ -22,7 +22,7 @@ function buildDomainObject(BookshelfClass, bookshelfObject) {
 function _buildDomainObject(BookshelfClass, bookshelfObjectJson) {
 
   const Model = Models[BookshelfClass.modelName];
-  const domainObject = new Model();
+  const domainObject = new Model({});
 
   const mappedObject = _.mapValues(domainObject, (value, key) => {
     const { relationshipType, relationshipClass } =
