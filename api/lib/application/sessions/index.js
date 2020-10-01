@@ -239,7 +239,7 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
-      path: '/api/jury/sessions/{id}/jury-certification-summaries',
+      path: '/api/admin/sessions/{id}/jury-certification-summaries',
       config: {
         validate: {
           params: Joi.object({
