@@ -4,12 +4,12 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
 import createComponent from '../../../../../helpers/create-glimmer-component';
-
-import { getJoinErrorsMessageByShortCode } from 'mon-pix/utils/errors-messages';
+import setupIntl from '../../../../../helpers/setup-intl';
 
 describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
   setupTest();
+  setupIntl();
 
   let component;
   let storeStub;
@@ -473,7 +473,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
         // then
         sinon.assert.calledOnce(record.unloadRecord);
-        expect(component.errorMessage).to.equal('Vous êtes un élève ? <br/> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.<br/> <br/> Vous êtes un enseignant ? <br/> L‘accès à un parcours n‘est pas disponible pour le moment.');
+        expect(component.errorMessage.string).to.equal('Vous êtes un élève ? <br/> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.<br/><br/> Vous êtes un enseignant ? <br/> L‘accès à un parcours n‘est pas disponible pour le moment.');
       });
 
       describe('When student is already reconciled in others organization', async function() {
@@ -483,7 +483,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
           it('should return a conflict error and display the error message related to the short code R11)', async function() {
             // given
             const meta = { shortCode: 'R11', value: 'j***@example.net', userId: 1 };
-            const expectedErrorMessage = getJoinErrorsMessageByShortCode(meta);
+            const expectedErrorMessage = this.intl.t('api-error-messages.join-error.r11', { value: meta.value });
 
             const error = {
               status: '409',
@@ -513,7 +513,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
           it('should return a conflict error and display the error message related to the short code R12)', async function() {
             // given
             const meta = { shortCode: 'R12', value: 'j***.h***2', userId: 1 };
-            const expectedErrorMessage = getJoinErrorsMessageByShortCode(meta);
+            const expectedErrorMessage =  this.intl.t('api-error-messages.join-error.r12', { value: meta.value });
 
             const error = {
               status: '409',
@@ -543,7 +543,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
           it('should return a conflict error and display the error message related to the short code R13)', async function() {
             // given
             const meta = { shortCode: 'R13', value: undefined, userId: 1 };
-            const expectedErrorMessage = getJoinErrorsMessageByShortCode(meta);
+            const expectedErrorMessage =  this.intl.t('api-error-messages.join-error.r13', { value: meta.value });
 
             const error = {
               status: '409',
@@ -573,7 +573,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
           it('should return a conflict error and display the error message related to the short code R13)', async function() {
             // given
             const meta = { shortCode: 'R13', value: undefined, userId: 1 };
-            const expectedErrorMessage = getJoinErrorsMessageByShortCode(meta);
+            const expectedErrorMessage = this.intl.t('api-error-messages.join-error.r13', { value: meta.value });
 
             const error = {
               status: '409',
@@ -603,7 +603,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
           it('should return a conflict error and display the error message related to the short code R13)', async function() {
             // given
             const meta = { shortCode: 'R13', value: undefined, userId: 1 };
-            const expectedErrorMessage = getJoinErrorsMessageByShortCode(meta);
+            const expectedErrorMessage =  this.intl.t('api-error-messages.join-error.r13', { value: meta.value });
 
             const error = {
               status: '409',
@@ -633,7 +633,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
           it('should return a conflict error and display the error message related to the short code R13)', async function() {
             // given
             const meta = { shortCode: 'R13', value: undefined, userId: 1 };
-            const expectedErrorMessage = getJoinErrorsMessageByShortCode(meta);
+            const expectedErrorMessage =  this.intl.t('api-error-messages.join-error.r13', { value: meta.value });
 
             const error = {
               status: '409',
@@ -663,7 +663,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
           it('should return a conflict error and display the error message related to the short code R12)', async function() {
             // given
             const meta = { shortCode: 'R12', value: 'j***.h***2', userId: 1 };
-            const expectedErrorMessage = getJoinErrorsMessageByShortCode(meta);
+            const expectedErrorMessage =  this.intl.t('api-error-messages.join-error.r12', { value: meta.value });
 
             const error = {
               status: '409',

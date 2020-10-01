@@ -15,5 +15,6 @@ module.exports = {
     'no-triple-curlies': false,
     'no-unused-block-params': false,
     'style-concatenation': false,
-  },
+    'no-bare-strings': ['Pix', '&nbsp;', '&#8226;','.', '*', '1024', '/', '•', '-', '%'],
+  }
 };

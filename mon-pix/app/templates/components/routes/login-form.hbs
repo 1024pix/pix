@@ -1,6 +1,6 @@
 <div class="login-form">
   {{#if isErrorMessagePresent}}
-    <div id="login-form-error-message" class="login-form__error-message error-message">L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects</div>
+    <div id="login-form-error-message" class="login-form__error-message error-message">{{t 'pages.login-or-register.login-form.error'}}</div>
   {{/if}}
 
   {{#if hasUpdateUserError}}
@@ -10,7 +10,7 @@
   <form {{action 'authenticate' on='submit'}}>
 
     <div id="login-email-container">
-      <FormTextfield @label="Adresse e-mail ou identifiant"
+      <FormTextfield @label={{t 'pages.login-or-register.login-form.fields.login.label'}}
                      @textfieldName="login"
                      @validationStatus="default"
                      @inputBindingValue={{login}}
@@ -18,7 +18,7 @@
     </div>
 
     <div id="login-password-container">
-      <FormTextfield @label="Mot de passe"
+      <FormTextfield @label={{t 'pages.login-or-register.login-form.fields.password.label'}}
                      @textfieldName="password"
                      @validationStatus="default"
                      @inputBindingValue={{password}}
@@ -29,20 +29,20 @@
       {{#if isLoading}}
         <button type="button" disabled class="button"><span class="loader-in-button">&nbsp;</span></button>
       {{else}}
-        <button id="submit-connexion" type="submit" class="button button--uppercase">Je me connecte</button>
+        <button id="submit-connexion" type="submit" class="button button--uppercase">{{t 'pages.login-or-register.login-form.button'}}</button>
       {{/if}}
     </div>
 
   </form>
 
   <div class="login-form__forgotten-password help-text">
-    <span>Mot de passe oublié ? Vous avez un compte Pix avec :</span>
+    <span>{{t 'pages.login-or-register.login-form.forgotten-password.instruction'}}</span>
     <ul>
-      <li>Une Adresse e-mail :
-        <LinkTo @id="link_password-reset-demand" @route="password-reset-demand" target="_blank" rel="noopener noreferrer" class="link">Cliquez ici pour le réinitialiser</LinkTo>
+      <li>{{t 'pages.login-or-register.login-form.forgotten-password.email'}}
+        <LinkTo @id="link_password-reset-demand" @route="password-reset-demand" target="_blank" rel="noopener noreferrer" class="link">{{t 'pages.login-or-register.login-form.forgotten-password.reset-link'}}</LinkTo>
       </li>
       <li>
-        Un identifiant : Contactez votre enseignant pour le réinitialiser
+        {{t 'pages.login-or-register.login-form.forgotten-password.other-identity'}}
       </li>
     </ul>
   </div>

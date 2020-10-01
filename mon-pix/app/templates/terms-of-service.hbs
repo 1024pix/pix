@@ -1,35 +1,35 @@
-{{page-title 'Conditions d\'utilisation'}}
+{{page-title (t 'pages.terms-of-service.title')}}
 <div class="terms-of-service-page">
   <div class="terms-of-service-form">
 
     <div class="terms-of-service-form__logo">
-      <a href={{homeUrl}} title="Page d'accueil">
+      <a href={{homeUrl}} title={{t 'navigation.homepage'}}>
         <img class="pix-logo__image" src="{{rootURL}}/images/pix-logo.svg" alt="Pix">
       </a>
     </div>
 
-    <h2 class="terms-of-service-form__title">Conditions d'utilisation</h2>
+    <h2 class="terms-of-service-form__title">{{t 'pages.terms-of-service.title'}}</h2>
 
     <div class="terms-of-service-form__description">
-      Nous avons mis à jour nos conditions d'utilisation. Veuillez les accepter afin de pouvoir continuer votre expérience sur Pix.
+      {{t 'pages.terms-of-service.message'}}
     </div>
 
     <div class="terms-of-service-form__conditions">
       <label for="pix-cgu">
         <Input @type="checkbox" @id="pix-cgu" class="terms-of-service-form-conditions__check" @checked={{this.isTermsOfServiceValidated}}/>
-        J'accepte les <a href="https://pix.fr/conditions-generales-d-utilisation" class="link" target="_blank">conditions
-        d'utilisation de Pix</a>
+        {{t 'pages.terms-of-service.cgu' htmlSafe=true}}
+
       </label>
       {{#if this.showErrorTermsOfServiceNotSelected }}
         <div class="terms-of-service-form-conditions__validation-error">
-          {{'Vous devez accepter les conditions d’utilisation de Pix.'}}
+          {{t 'pages.terms-of-service.form.error-message'}}
         </div>
       {{/if}}
     </div>
 
     <div class="terms-of-service-form__actions">
-      <LinkTo @route="logout" class="button terms-of-service-form-actions__cancel">Retour</LinkTo>
-      <button type="submit" class="button terms-of-service-form-actions__submit" {{on 'click' this.submit}}>Je continue</button>
+      <LinkTo @route="logout" class="button terms-of-service-form-actions__cancel">{{t 'common.actions.back'}}</LinkTo>
+      <button type="submit" class="button terms-of-service-form-actions__submit" {{on 'click' this.submit}}>{{t 'pages.terms-of-service.form.button'}}</button>
     </div>
 
   </div>

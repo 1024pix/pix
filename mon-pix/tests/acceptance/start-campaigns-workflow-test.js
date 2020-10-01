@@ -886,7 +886,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
           it('should display an specific error message if GAR authentication method adding has failed due to wrong connected account', async () => {
             // given
-            const expectedErrorMessage = 'L\'adresse e-mail ou l\'identifiant est incorrect. Pour continuer, vous devez vous connecter à votre compte qui est sous la forme ';
+            const expectedErrorMessage = 'L\'adresse e-mail ou l\'identifiant est incorrect. Pour continuer, vous devez vous connecter à votre compte qui est sous la forme : ';
             const expectedObfuscatedConnectionMethod = 't***@example.net';
             const errorsApi = new Response(409, {}, {
               errors: [{

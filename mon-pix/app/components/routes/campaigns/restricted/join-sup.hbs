@@ -1,12 +1,12 @@
 <form>
   <div class="join-restricted-campaign__row">
-    <label class="join-restricted-campaign__label">Numéro étudiant</label>
+    <label class="join-restricted-campaign__label">{{t 'pages.join.sup.fields.student-number.label'}}</label>
     <Input
             @id="studentNumber"
             @type="text"
             @name="studentNumber"
             @value={{this.studentNumber}}
-            placeholder="Numéro étudiant"
+            placeholder={{t 'pages.join.sup.fields.student-number.label'}}
             @disabled={{this.showFurtherInformationForm}}
             @readonly={{this.showFurtherInformationForm}}
             class={{if this.validation.studentNumber "input--error"}}
@@ -17,13 +17,13 @@
     </div>
     {{#if this.showFurtherInformationForm}}
       <button type="button" class="link join-restricted-campaign__back-button" {{on 'click' this.hideFurtherInformationForm}}>
-        Modifier le numéro étudiant
+        {{t 'pages.join.sup.fields.student-number.modify'}}
       </button>
     {{/if}}
 
     <label for="no-student-number">
       <Input @type="checkbox" @id="no-student-number" class="join-restricted-campaign__no-student-number" @checked={{this.noStudentNumber}} {{on 'click' this.toggleNoStudentNumber}}/>
-      Je n’ai pas de numéro étudiant
+      {{t 'pages.join.sup.fields.student-number.not-existing'}}
     </label>
   </div>
 
@@ -48,7 +48,7 @@
     {{#if this.isLoading}}
       <span class="loader-in-button">&nbsp;</span>
     {{else}}
-      C'est parti !
+      {{t 'pages.join.button'}}
     {{/if}}
   </button>
 

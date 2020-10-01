@@ -2,7 +2,23 @@
   "api-error-messages": {
     "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
     "internal-server-error": "Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.",
-    "login-unauthorized-error": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects."
+    "join-error": {
+      "r11": "Vous possédez déjà un compte Pix avec l’adresse e-mail '<br>'{ value }.'<br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br>'(Code R11)",
+      "r12": "Vous possédez déjà un compte Pix utilisé avec l’identifiant '<br>'{ value }.'<br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br>'(Code R12)",
+      "r13": "Vous possédez déjà un compte Pix via l’ENT dans un autre établissement scolaire.'<br>'Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l’aide de Pix Orga.",
+      "r31": "Vous possédez déjà un compte Pix avec l’adresse e-mail'<br>'{ value }.'<br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br>'(Code R31)",
+      "r32": "Vous possédez déjà un compte Pix utilisé avec l’identifiant'<br>'{ value }.'<br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br>'(Code R32)",
+      "r33": "Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours."
+    },
+    "login-unauthorized-error": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects.",
+    "register-error": {
+      "s51": "Vous possédez déjà un compte Pix avec l’adresse e-mail'<br>'{ value }.'<br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br>'(Code S51)",
+      "s52": "Vous possédez déjà un compte Pix avec l’identifiant'<br>'{ value }.'<br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br>'(Code S52)",
+      "s53": "Vous possédez déjà un compte Pix via l’ENT.'<br>'Utilisez-le pour rejoindre le parcours.",
+      "s61": "Vous possédez déjà un compte Pix avec l’adresse e-mail'<br>'{ value }.'<br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br>'(Code S61)",
+      "s62": "Vous possédez déjà un compte Pix utilisé avec l’identifiant'<br>'{ value }.'<br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br>'(Code S62)",
+      "s63": "Vous possédez déjà un compte Pix via l’ENT dans un autre établissement scolaire.'<br>'Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l’aide de Pix Orga.'<br>'(Code S63)"
+    }
   },
 
   "application": {
@@ -11,6 +27,7 @@
 
   "common": {
     "actions": {
+      "back": "Retour",
       "cancel": "Annuler",
       "close": "Fermer",
       "quit": "Quitter"
@@ -19,7 +36,8 @@
       "error": "erreur",
       "mandatory": "obligatoire",
       "mandatory-fields": "Les champs marqués de '<abbr title=\"obligatoire\" class=\"mandatory-mark\">'*'</abbr>' sont obligatoires",
-      "success": "correct"
+      "success": "correct",
+      "visible-password": "afficher le mot de passe"
     },
     "french-republic": "République française",
     "level": "niveau",
@@ -148,7 +166,10 @@
         },
         "fields": {
           "birth-date": "Date de naissance",
+          "birth-day": "jour de naissance (JJ)",
+          "birth-month": "mois de naissance (MM)",
           "birth-name": "Nom de naissance",
+          "birth-year": "année de naissance (AAAA)",
           "first-name": "Prénom",
           "session-number": "Numéro de session"
         }
@@ -473,6 +494,48 @@
       "first-title": "Oups, une erreur est survenue !"
     },
 
+    "join": {
+      "title": "Rejoindre",
+      "button": "C'est parti !",
+      "fields": {
+        "birthdate": {
+          "label": "Date de naissance",
+          "day-error": "Votre jour de naissance n’est pas valide.",
+          "day-format":"JJ",
+          "month-error": "Votre mois de naissance n’est pas valide.",
+          "month-format": "MM",
+          "year-error": "Votre année de naissance n’est pas valide.",
+          "year-format": "AAAA"
+        },
+        "firstname": {
+          "error": "Votre prénom n’est pas renseigné.",
+          "label": "Prénom"
+        },
+        "lastname": {
+          "error": "Votre nom n’est pas renseigné.",
+          "label": "Nom"
+        }
+      },
+      "first-title":"Rejoignez l'organisation { organizationName }",
+      "sco": {
+        "continue-with-pix": "Continuer avec mon compte Pix",
+        "error-not-found": "Vous êtes un élève ? '<br/>' Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.'<br/><br/>' Vous êtes un enseignant ? '<br/>' L‘accès à un parcours n‘est pas disponible pour le moment.",
+        "login-information-title": "Information de connexion"
+      },
+      "subtitle": "Remplissez les informations manquantes",
+      "sup": {
+        "error": "Veuillez vérifier les informations saisies, ou si vous avez déjà un compte Pix, connectez-vous avec celui-ci.",
+        "fields": {
+          "student-number": {
+            "error": "Votre numéro étudiant n’est pas renseigné.",
+            "label": "Numéro étudiant",
+            "modify": "Modifier le numéro étudiant",
+            "not-existing": "Je n'ai pas de numéro étudiant"
+          }
+        }
+      }
+    },
+
     "learning-more": {
       "title": "Pour en apprendre davantage",
       "info": "Ces liens vers les tutos ont été proposés par des utilisateurs de Pix."
@@ -480,6 +543,79 @@
 
     "levelup-notif": {
       "obtained-level": "Niveau { level } gagné !"
+    },
+
+    "login-or-register": {
+      "title": "",
+      "invitation": "{ organizationName } vous invite à rejoindre Pix",
+      "login-form": {
+        "button": "Se connecter",
+        "error": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects",
+        "fields": {
+          "login": {
+            "label": "Adresse e-mail ou identifiant"
+          },
+          "password": {
+            "label": "Mot de passe"
+          }
+        },
+        "forgotten-password": {
+          "email": "Une Adresse e-mail :",
+          "instruction": "Mot de passe oublié ? Vous avez un compte Pix avec :",
+          "other-identity": "Un identifiant : Contactez votre enseignant pour le réinitialiser",
+          "reset-link": "Cliquez ici pour le réinitialiser"
+        },
+        "title": "J’ai déjà un compte Pix",
+        "unexpected-user-account-error": "L'adresse e-mail ou l'identifiant est incorrect. Pour continuer, vous devez vous connecter à votre compte qui est sous la forme : "
+      },
+      "register-form": {
+        "button": "S'inscrire",
+        "button-form": "Je m'inscris",
+        "fields": {
+          "birthdate": {
+            "label": "Date de naissance (JJ/MM/AAAA)",
+            "day-error": "Votre jour de naissance n’est pas valide.",
+            "month-error": "Votre mois de naissance n’est pas valide.",
+            "year-error": "Votre année de naissance n’est pas valide."
+          },
+          "cgu": "J’accepte les '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\">'conditions d’utilisation de Pix'</a>'",
+          "email": {
+            "error": "Votre email n’est pas valide.",
+            "help": "(ex: nom@exemple.fr)",
+            "label": "Adresse e-mail"
+          },
+          "firstname": {
+            "error": "Votre prénom n’est pas renseigné.",
+            "label": "Prénom"
+          },
+          "lastname": {
+            "error": "Votre nom n’est pas renseigné.",
+            "label": "Nom"
+          },
+          "password": {
+            "error": "Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.",
+            "help": "(8 caractères minimum, dont une majuscule, une minuscule et un chiffre)",
+            "label": "Mot de passe",
+            "show-button": "rendre le mot de passe lisible"
+          },
+          "username": {
+            "label": "Mon identifiant"
+          }
+        },
+        "legal-text": "Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par Pix pour permettre l’accès au service offert. Elles sont conservées pendant la durée d’utilisation du service et sont destinées à Pix. Les résultats des tests pourront être communiqués à des tiers, avec votre consentement, dans le cas où vous avez été invité à suivre un parcours spécifique. Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en contactant le Délégué à la Protection des Données de Pix à dpo@pix.fr.",
+        "not-me": "Ce n'est pas moi",
+        "options": {
+          "email": "Mon adresse e-mail",
+          "text": "Je m'inscris avec :",
+          "username": "Mon identifiant"
+        },
+        "title": "Je m’inscris sur Pix"
+      }
+    },
+
+    "not-connected": {
+      "title": "Déconnecté",
+      "message": "Vous êtes bien déconnecté(e).'<br>'Merci, à bientôt."
     },
 
     "password-reset-demand": {
@@ -687,6 +823,16 @@
       }
     },
 
+    "terms-of-service": {
+      "title": "Conditions d'utilisation",
+      "cgu": "J'accepte les '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\">'conditions d'utilisation de Pix'</a>'",
+      "message": "Nous avons mis à jour nos conditions d'utilisation. Veuillez les accepter afin de pouvoir continuer votre expérience sur Pix.",
+      "form": {
+        "button": "Je continue",
+        "error-message": "Vous devez accepter les conditions d’utilisation de Pix."
+      }
+    },
+
     "time-gauge": {
       "timeout-placeholder": "Le temps alloué est dépassé",
       "remaining-time-placeholder": "Il reste du temps pour accomplir l'épreuve"
@@ -737,6 +883,7 @@
         "image-link": "images/user-tutorials/illustration.svg",
         "title": "Vous n'avez encore rien enregistré"
       },
+      "label": "tutoriels",
       "list": {
         "title": "Ma liste",
         "tutorial": {
@@ -801,6 +948,20 @@
       "errors": {
         "missing-id-pix-label": "Merci de renseigner votre { idPixLabel }."
       }
+    },
+
+    "update-expired-password": {
+      "title": "Changer mon mot de passe",
+      "button": "Réinitialiser",
+      "fields": {
+        "error": "Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.",
+        "help": "(8 caractères minimum, dont une majuscule, une minuscule et un chiffre)",
+        "label": "Mot de passe"
+      },
+      "first-title": "Réinitialiser le mot de passe",
+      "go-to-login": "Je me connecte",
+      "subtitle": "Choisissez un nouveau mot de passe pour continuer",
+      "validation": "Votre mot de passe a été mis à jour."
     },
 
     "warning": {
