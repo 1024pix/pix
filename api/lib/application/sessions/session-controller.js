@@ -72,6 +72,17 @@ module.exports = {
       .header('Content-Disposition', 'attachment; filename=pv-session-' + sessionId + '.ods');
   },
 
+  async getCandidatesImportSheet(request, h) {
+    const sessionId = parseInt(request.params.id);
+    const token = request.query.accessToken;
+    const userId = tokenService.extractUserId(token);
+    const candidateImportSheet = await usecases.getCandidatesImportSheet({ sessionId, userId });
+
+    return h.response(candidateImportSheet)
+      .header('Content-Type', 'application/vnd.oasis.opendocument.spreadsheet')
+      .header('Content-Disposition', 'attachment; filename=liste-candidats-session-' + sessionId + '.ods');
+  },
+
   async getCertificationCandidates(request) {
     const sessionId = parseInt(request.params.id);
 
