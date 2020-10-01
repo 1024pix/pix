@@ -38,7 +38,6 @@ module.exports = {
     }],
     /* Recommended rules */
     'ember/no-mixins': 'off',
-    'ember/no-jquery': 'off',
     /* Avoid lodash default import */
     'no-restricted-imports': ['error', { 'paths': ['lodash'] }],
   },
