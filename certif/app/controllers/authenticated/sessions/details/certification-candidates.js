@@ -5,8 +5,11 @@ import EmberObject, { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { tracked } from '@glimmer/tracking';
 import _ from 'lodash';
+import config from 'pix-certif/config/environment';
 
 export default class CertificationCandidatesController extends Controller {
+
+  isResultRecipientEmailVisible = config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE;
 
   @service session;
   @service notifications;
@@ -86,6 +89,7 @@ export default class CertificationCandidatesController extends Controller {
       birthCountry: this._trimOrUndefinedIfFalsy(certificationCandidateData.birthCountry),
       externalId: this._trimOrUndefinedIfFalsy(certificationCandidateData.externalId),
       email: this._trimOrUndefinedIfFalsy(certificationCandidateData.email),
+      resultRecipientEmail: this._trimOrUndefinedIfFalsy(certificationCandidateData.resultRecipientEmail),
       extraTimePercentage: certificationCandidateData.extraTimePercentage,
     });
 
