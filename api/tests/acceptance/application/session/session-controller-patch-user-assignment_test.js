@@ -3,7 +3,7 @@ const {
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('PATCH /api/jury/sessions/:id/certification-officer-assignment', () => {
+describe('PATCH /api/admin/sessions/:id/certification-officer-assignment', () => {
   let server;
   const options = { method: 'PATCH' };
   let certificationOfficerId;
@@ -21,7 +21,7 @@ describe('PATCH /api/jury/sessions/:id/certification-officer-assignment', () => 
 
     it('should return a 403 error code', async () => {
       // given
-      options.url = '/api/jury/sessions/12/certification-officer-assignment';
+      options.url = '/api/admin/sessions/12/certification-officer-assignment';
       options.headers = { authorization: generateValidRequestAuthorizationHeader(certificationOfficerId) };
 
       // when
@@ -46,7 +46,7 @@ describe('PATCH /api/jury/sessions/:id/certification-officer-assignment', () => 
 
       it('should return a 400 error code', async () => {
         // given
-        options.url = '/api/jury/sessions/test/certification-officer-assignment';
+        options.url = '/api/admin/sessions/test/certification-officer-assignment';
 
         // when
         const response = await server.inject(options);
@@ -62,7 +62,7 @@ describe('PATCH /api/jury/sessions/:id/certification-officer-assignment', () => 
 
         it('should return a 404 error code', async () => {
           // given
-          options.url = '/api/jury/sessions/1/certification-officer-assignment';
+          options.url = '/api/admin/sessions/1/certification-officer-assignment';
 
           // when
           const response = await server.inject(options);
@@ -83,7 +83,7 @@ describe('PATCH /api/jury/sessions/:id/certification-officer-assignment', () => 
 
         it('should return a 200 status code', async () => {
           // given
-          options.url = `/api/jury/sessions/${sessionId}/certification-officer-assignment`;
+          options.url = `/api/admin/sessions/${sessionId}/certification-officer-assignment`;
 
           // when
           const response = await server.inject(options);
