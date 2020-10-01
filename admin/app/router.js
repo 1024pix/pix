@@ -59,6 +59,10 @@ Router.map(function() {
       });
     });
 
+    this.route('target-profiles', function() {
+      this.route('list');
+    });
+
     this.route('tools');
   });
 });

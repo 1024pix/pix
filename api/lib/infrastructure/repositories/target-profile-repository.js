@@ -71,6 +71,19 @@ module.exports = {
 
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfTargetProfile, targetProfilesBookshelf);
   },
+
+  findPaginatedFiltered({ filter, page }) {
+    return BookshelfTargetProfile
+      .query((qb) => _setSearchFiltersForQueryBuilder(filter, qb))
+      .fetchPage({
+        page: page.number,
+        pageSize: page.size,
+      })
+      .then(({ models, pagination }) => {
+        const targetProfiles = bookshelfToDomainConverter.buildDomainObjects(BookshelfTargetProfile, models);
+        return { models: targetProfiles, pagination };
+      });
+  },
 };
 
 async function _getWithAirtableSkills(targetProfile) {
@@ -84,4 +97,14 @@ async function _getWithAirtableSkills(targetProfile) {
 function _getAirtableDataObjectsSkills(bookshelfTargetProfile) {
   const skillRecordIds = bookshelfTargetProfile.related('skillIds').map((BookshelfSkillId) => BookshelfSkillId.get('skillId'));
   return skillDatasource.findOperativeByRecordIds(skillRecordIds);
+}
+
+function _setSearchFiltersForQueryBuilder(filter, qb) {
+  const { name, id } = filter;
+  if (name) {
+    qb.whereRaw('LOWER("name") LIKE ?', `%${name.toLowerCase()}%`);
+  }
+  if (id) {
+    qb.where({ id });
+  }
 }

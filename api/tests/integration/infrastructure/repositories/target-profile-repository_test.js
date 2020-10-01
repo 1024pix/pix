@@ -250,4 +250,146 @@ describe('Integration | Repository | Target-profile', () => {
       expect(foundTargetProfilesAttributes).to.deep.equal([]);
     });
   });
+
+  describe('#findPaginatedFiltered', () => {
+
+    context('when there are target profiles in the database', () => {
+
+      beforeEach(() => {
+        _.times(3, databaseBuilder.factory.buildTargetProfile);
+        return databaseBuilder.commit();
+      });
+
+      it('should return an Array of TargetProfiles', async () => {
+        // given
+        const filter = {};
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
+
+        // when
+        const { models: matchingTargetProfiles, pagination } = await targetProfileRepository.findPaginatedFiltered({ filter, page });
+
+        // then
+        expect(matchingTargetProfiles).to.exist;
+        expect(matchingTargetProfiles).to.have.lengthOf(3);
+        expect(matchingTargetProfiles[0]).to.be.an.instanceOf(TargetProfile);
+        expect(pagination).to.deep.equal(expectedPagination);
+      });
+    });
+
+    context('when there are lots of Target Profiles (> 10) in the database', () => {
+
+      beforeEach(() => {
+        _.times(12, databaseBuilder.factory.buildTargetProfile);
+        return databaseBuilder.commit();
+      });
+
+      it('should return paginated matching Target Profiles', async () => {
+        // given
+        const filter = {};
+        const page = { number: 1, size: 3 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 4, rowCount: 12 };
+
+        // when
+        const { models: matchingTargetProfiles, pagination } = await targetProfileRepository.findPaginatedFiltered({ filter, page });
+
+        // then
+        expect(matchingTargetProfiles).to.have.lengthOf(3);
+        expect(pagination).to.deep.equal(expectedPagination);
+      });
+    });
+
+    context('when there are multiple Target Profiles matching the same "name" search pattern', () => {
+
+      beforeEach(() => {
+        databaseBuilder.factory.buildTargetProfile({ name: 'Dragon & co' });
+        databaseBuilder.factory.buildTargetProfile({ name: 'Dragonades & co' });
+        databaseBuilder.factory.buildTargetProfile({ name: 'Broca & co' });
+        return databaseBuilder.commit();
+      });
+
+      it('should return only Target Profiles matching "name" if given in filters', async () => {
+        // given
+        const filter = { name: 'dra' };
+        const page = { number: 1, size: 10 };
+
+        // when
+        const { models: matchingTargetProfiles } = await targetProfileRepository.findPaginatedFiltered({ filter, page });
+
+        // then
+        expect(matchingTargetProfiles).to.have.lengthOf(2);
+        expect(_.map(matchingTargetProfiles, 'name')).to.have.members(['Dragon & co', 'Dragonades & co']);
+      });
+    });
+
+    context('when there are multiple Target Profiles matching the same "id" search pattern', () => {
+
+      beforeEach(() => {
+        databaseBuilder.factory.buildTargetProfile({ id: 12345 });
+        databaseBuilder.factory.buildTargetProfile({ id: 2345 });
+        databaseBuilder.factory.buildTargetProfile({ id: 6789 });
+        return databaseBuilder.commit();
+      });
+
+      it('should return only Target Profiles exactly matching "id" if given in filters', async () => {
+        // given
+        const filter = { id: '2345' };
+        const page = { number: 1, size: 10 };
+
+        // when
+        const { models: matchingTargetProfiles } = await targetProfileRepository.findPaginatedFiltered({ filter, page });
+
+        // then
+        expect(matchingTargetProfiles).to.have.lengthOf(1);
+        expect(matchingTargetProfiles[0].id).to.equal(2345);
+      });
+    });
+
+    context('when there are multiple Target Profiles matching the fields "name", and "id" search pattern', () => {
+
+      beforeEach(() => {
+        databaseBuilder.factory.buildTargetProfile({ name: 'name_ok', id: 1234 });
+        databaseBuilder.factory.buildTargetProfile({ name: 'name_ko', id: 1235 });
+        databaseBuilder.factory.buildTargetProfile({ name: 'name_ok', id: 4567 });
+
+        return databaseBuilder.commit();
+      });
+
+      it('should return only Target Profiles matching "id" AND "name" if given in filters', async () => {
+        // given
+        const filter = { name: 'name_ok', id: 1234 };
+        const page = { number: 1, size: 10 };
+
+        // when
+        const { models: matchingTargetProfiles } = await targetProfileRepository.findPaginatedFiltered({ filter, page });
+
+        // then
+        expect(matchingTargetProfiles).to.have.lengthOf(1);
+        expect(matchingTargetProfiles[0].name).to.equal('name_ok');
+        expect(matchingTargetProfiles[0].id).to.equal(1234);
+      });
+    });
+
+    context('when there are filters that should be ignored', () => {
+
+      beforeEach(() => {
+        databaseBuilder.factory.buildTargetProfile({ id: 1 });
+        databaseBuilder.factory.buildTargetProfile({ id: 2 });
+
+        return databaseBuilder.commit();
+      });
+
+      it('should ignore the filters and retrieve all target profiles', async () => {
+        // given
+        const filter = { type: 1 };
+        const page = { number: 1, size: 10 };
+
+        // when
+        const { models: matchingTargetProfiles } = await targetProfileRepository.findPaginatedFiltered({ filter, page });
+
+        // then
+        expect(_.map(matchingTargetProfiles, 'id')).to.have.members([1, 2]);
+      });
+    });
+  });
 });

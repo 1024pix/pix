@@ -126,6 +126,7 @@ module.exports = injectDependencies({
   findPaginatedFilteredOrganizationCampaigns: require('./find-paginated-filtered-organization-campaigns'),
   findPaginatedFilteredOrganizationMemberships: require('./find-paginated-filtered-organization-memberships'),
   findPaginatedFilteredOrganizations: require('./find-paginated-filtered-organizations'),
+  findPaginatedFilteredTargetProfiles: require('./find-paginated-filtered-target-profiles'),
   findPaginatedFilteredUsers: require('./find-paginated-filtered-users'),
   findPendingOrganizationInvitations: require('./find-pending-organization-invitations'),
   findSessionsForCertificationCenter: require('./find-sessions-for-certification-center'),
