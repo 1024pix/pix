@@ -57,6 +57,7 @@ function _buildXmlDomFromXmlString(stringifiedXml) {
 function _updateXmlDomWithData(parsedXmlDom, dataToInject, templateValues) {
   const parsedXmlDomUpdated = _.cloneDeep(parsedXmlDom);
   for (const { placeholder, propertyName } of templateValues) {
+
     const targetXmlDomElement = _getXmlDomElementByText(parsedXmlDomUpdated, placeholder);
     if (targetXmlDomElement) {
       const newXmlValue = dataToInject[propertyName];
