@@ -3,7 +3,7 @@ const {
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('PATCH /api/jury/sessions/:id/publication', () => {
+describe('PATCH /api/admin/sessions/:id/publication', () => {
   let server;
   const options = { method: 'PATCH' };
   let userId;
@@ -21,7 +21,7 @@ describe('PATCH /api/jury/sessions/:id/publication', () => {
 
     it('should return a 403 error code', async () => {
       // given
-      options.url = '/api/jury/sessions/1/publication';
+      options.url = '/api/admin/sessions/1/publication';
       options.payload = {
         data: { attributes : { toPublish: true } },
       };
@@ -49,7 +49,7 @@ describe('PATCH /api/jury/sessions/:id/publication', () => {
 
       it('should return a 400 error code', async () => {
         // given
-        options.url = '/api/jury/sessions/any/publication';
+        options.url = '/api/admin/sessions/any/publication';
         options.payload = {
           data: { attributes : { toPublish: true } },
         };
@@ -66,7 +66,7 @@ describe('PATCH /api/jury/sessions/:id/publication', () => {
 
       it('should return a 400 error code', async () => {
         // given
-        options.url = '/api/jury/sessions/1/publication';
+        options.url = '/api/admin/sessions/1/publication';
         options.payload = {
           data: { attributes : { toPublish: 'salut' } },
         };
@@ -85,7 +85,7 @@ describe('PATCH /api/jury/sessions/:id/publication', () => {
 
         it('should return a 404 error code', async () => {
           // given
-          options.url = '/api/jury/sessions/1/publication';
+          options.url = '/api/admin/sessions/1/publication';
           options.payload = {
             data: { attributes : { toPublish: true } },
           };
@@ -105,7 +105,7 @@ describe('PATCH /api/jury/sessions/:id/publication', () => {
 
         beforeEach(() => {
           sessionId = databaseBuilder.factory.buildSession({ publishedAt: date }).id;
-          options.url = `/api/jury/sessions/${sessionId}/publication`;
+          options.url = `/api/admin/sessions/${sessionId}/publication`;
           return databaseBuilder.commit();
         });
 

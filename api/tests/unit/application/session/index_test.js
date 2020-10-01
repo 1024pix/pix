@@ -197,26 +197,26 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
-  describe('PATCH /api/jury/sessions/{id}/publication', () => {
+  describe('PATCH /api/admin/sessions/{id}/publication', () => {
 
     it('should exist', async () => {
-      const res = await server.inject({ method: 'PATCH', url: '/api/jury/sessions/1/publication', payload: { data: { attributes: { toPublish: true } } } });
+      const res = await server.inject({ method: 'PATCH', url: '/api/admin/sessions/1/publication', payload: { data: { attributes: { toPublish: true } } } });
       expect(res.statusCode).to.equal(200);
     });
   });
 
-  describe('PUT /api/jury/sessions/{id}/results-sent-to-prescriber', () => {
+  describe('PUT /api/admin/sessions/{id}/results-sent-to-prescriber', () => {
 
     it('should exist', async () => {
-      const res = await server.inject({ method: 'PUT', url: '/api/jury/sessions/3/results-sent-to-prescriber' });
+      const res = await server.inject({ method: 'PUT', url: '/api/admin/sessions/3/results-sent-to-prescriber' });
       expect(res.statusCode).to.equal(200);
     });
   });
 
-  describe('PATCH /api/jury/sessions/{id}/certification-officer-assignment', () => {
+  describe('PATCH /api/admin/sessions/{id}/certification-officer-assignment', () => {
 
     it('should exist', async () => {
-      const res = await server.inject({ method: 'PATCH', url: '/api/jury/sessions/1/certification-officer-assignment' });
+      const res = await server.inject({ method: 'PATCH', url: '/api/admin/sessions/1/certification-officer-assignment' });
       expect(res.statusCode).to.equal(200);
     });
   });
@@ -245,12 +245,12 @@ describe('Unit | Application | Sessions | Routes', () => {
       { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'POST', url: '/api/sessions/9999999999/candidate-participation' } },
       { condition: 'session ID params is not a number', request: { method: 'PUT', url: '/api/sessions/salut/finalization' } },
       { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'PUT', url: '/api/sessions/9999999999/finalization' } },
-      { condition: 'session ID params is not a number', request: { method: 'PATCH', url: '/api/jury/sessions/salut/publication', payload: { data: { attributes: { toPublish: true } } } } },
-      { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'PATCH', url: '/api/jury/sessions/9999999999/publication', payload: { data: { attributes: { toPublish: true } } } } },
-      { condition: 'session ID params is not a number', request: { method: 'PUT', url: '/api/jury/sessions/salut/results-sent-to-prescriber' } },
-      { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'PUT', url: '/api/jury/sessions/9999999999/results-sent-to-prescriber' } },
-      { condition: 'session ID params is not a number', request: { method: 'PATCH', url: '/api/jury/sessions/salut/certification-officer-assignment' } },
-      { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'PATCH', url: '/api/jury/sessions/9999999999/certification-officer-assignment' } },
+      { condition: 'session ID params is not a number', request: { method: 'PATCH', url: '/api/admin/sessions/salut/publication', payload: { data: { attributes: { toPublish: true } } } } },
+      { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'PATCH', url: '/api/admin/sessions/9999999999/publication', payload: { data: { attributes: { toPublish: true } } } } },
+      { condition: 'session ID params is not a number', request: { method: 'PUT', url: '/api/admin/sessions/salut/results-sent-to-prescriber' } },
+      { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'PUT', url: '/api/admin/sessions/9999999999/results-sent-to-prescriber' } },
+      { condition: 'session ID params is not a number', request: { method: 'PATCH', url: '/api/admin/sessions/salut/certification-officer-assignment' } },
+      { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'PATCH', url: '/api/admin/sessions/9999999999/certification-officer-assignment' } },
     ].forEach(({ condition, request }) => {
       it(`should return 400 when ${condition}`, async () => {
         const res = await server.inject(request);

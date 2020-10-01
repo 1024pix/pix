@@ -11,7 +11,7 @@ export default class SessionAdapter extends ApplicationAdapter {
   }
 
   urlForUpdateRecord(id) {
-    return `${this.host}/${this.namespace}/jury/sessions/${id}`;
+    return `${this.host}/${this.namespace}/admin/sessions/${id}`;
   }
 
   updateRecord(store, type, snapshot) {
