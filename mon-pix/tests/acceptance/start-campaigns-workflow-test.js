@@ -836,6 +836,9 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
           it('should land on start campaign page if GAR authentication method has been added', async () => {
             // given
+            server.create('schooling-registration-user-association', {
+              campaignCode: campaign.code,
+            });
             await fillIn('#campaign-code', campaign.code);
             await click('.fill-in-campaign-code__start-button');
 
