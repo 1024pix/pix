@@ -58,18 +58,6 @@ async function _filterValidatedKnowledgeElementsByCampaignId(knowledgeElements, 
   });
 }
 
-function _filterValidatedTargetedKnowledgeElements(knowledgeElements, targetProfile) {
-  return _.filter(knowledgeElements, (knowledgeElement) => {
-    return knowledgeElement.isValidated && targetProfile.hasSkill(knowledgeElement.skillId);
-  });
-}
-
-function _filterTargetedKnowledgeElements(knowledgeElements, targetProfile) {
-  return _.filter(knowledgeElements, (knowledgeElement) => {
-    return targetProfile.hasSkill(knowledgeElement.skillId);
-  });
-}
-
 async function _findByUserIdAndLimitDateThenSaveSnapshot({ userId, limitDate }) {
   const knowledgeElements = await _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate });
   if (limitDate) {
@@ -174,8 +162,7 @@ module.exports = {
     const knowledgeElementsGroupedByUserAndCompetence  = {};
 
     for (const [userId, knowledgeElements] of Object.entries(knowledgeElementsGroupedByUser)) {
-      const validatedTargetedKnowledgeElements = _filterValidatedTargetedKnowledgeElements(knowledgeElements, targetProfile);
-      knowledgeElementsGroupedByUserAndCompetence[userId] = targetProfile.groupKnowledgeElementsByCompetence(validatedTargetedKnowledgeElements);
+      knowledgeElementsGroupedByUserAndCompetence[userId] = targetProfile.filterValidatedTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements);
     }
 
     return knowledgeElementsGroupedByUserAndCompetence;
@@ -186,8 +173,7 @@ module.exports = {
     const knowledgeElementsGroupedByUserAndCompetence  = {};
 
     for (const [userId, knowledgeElements] of Object.entries(knowledgeElementsGroupedByUser)) {
-      const targetedKnowledgeElements = _filterTargetedKnowledgeElements(knowledgeElements, targetProfile);
-      knowledgeElementsGroupedByUserAndCompetence[userId] = targetProfile.groupKnowledgeElementsByCompetence(targetedKnowledgeElements);
+      knowledgeElementsGroupedByUserAndCompetence[userId] = targetProfile.filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements);
     }
 
     return knowledgeElementsGroupedByUserAndCompetence;
