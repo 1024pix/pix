@@ -27,6 +27,7 @@ const targetProfilesBuilder = require('./data/target-profiles-builder');
 const { usersBuilder } = require('./data/users-builder');
 const usersPixRolesBuilder = require('./data/users_pix_roles-builder');
 const stagesBuilder = require('./data/stages-builder');
+const { usersPix1321Builder } = require('./data/seed-pix1321-builder');
 
 const SEQUENCE_RESTART_AT_NUMBER = 10000000;
 const SEED_NUMBER = 20110228;
@@ -71,6 +72,9 @@ exports.seed = (knex) => {
 
   // Éléments de parcours pour l'utilisateur Pix Aile
   buildPixAileProfile({ databaseBuilder });
+
+  // bug seed 1321
+  usersPix1321Builder({ databaseBuilder });
 
   return databaseBuilder.commit()
     .then(() => alterSequenceIfPG(knex));
