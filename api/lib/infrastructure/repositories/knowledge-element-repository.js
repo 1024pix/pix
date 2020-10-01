@@ -173,7 +173,7 @@ module.exports = {
     const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
     const knowledgeElementsGroupedByUserAndCompetence  = {};
 
-    const competenceIds = targetProfile.getCompetenceIds();
+    const competenceIds = targetProfile.competenceIds;
 
     for (const [userId, knowledgeElements] of Object.entries(knowledgeElementsGroupedByUser)) {
       const validatedTargetedKnowledgeElements = _filterValidatedTargetedKnowledgeElements(knowledgeElements, targetProfile);

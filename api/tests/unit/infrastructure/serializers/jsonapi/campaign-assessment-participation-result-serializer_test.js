@@ -10,10 +10,11 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result
     let expectedJsonApi;
 
     beforeEach(() => {
-      const competence = domainBuilder.buildCompetence({ skillIds: ['recSkill0'] });
-      const targetedSkill = domainBuilder.buildSkill({ competenceId: competence.id, id: 'recSkill0' });
-      const targetProfile = domainBuilder.buildTargetProfile({ skills: [targetedSkill] });
-      const knowledgeElement = domainBuilder.buildKnowledgeElement({ skillId: targetedSkill.id, competenceId: competence.id, status: 'validated' });
+
+      const targetedCompetence = domainBuilder.buildTargetedCompetence({ id: 'competence1', skills: ['oneSkill'], areaId: 'area1' });
+      const targetedArea = domainBuilder.buildTargetedArea({ id: 'area1', competences: [targetedCompetence] });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ competences: [targetedCompetence], areas: [targetedArea] });
+      const knowledgeElement = domainBuilder.buildKnowledgeElement({ skillId: 'someSkillId', competenceId: targetedCompetence.id, status: 'validated' });
       expectedJsonApi = {
         data: {
           type: 'campaign-assessment-participation-results',
@@ -24,7 +25,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result
           relationships: {
             'competence-results': {
               data: [{
-                id: competence.id,
+                id: targetedCompetence.id,
                 type: 'campaign-assessment-participation-competence-results',
               }],
             },
@@ -32,23 +33,23 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result
         },
         included: [{
           type: 'campaign-assessment-participation-competence-results',
-          id: competence.id,
+          id: targetedCompetence.id,
           attributes: {
-            name: competence.name,
-            'index': competence.index,
+            name: targetedCompetence.name,
+            'index': targetedCompetence.index,
             'targeted-skills-count': 1,
             'validated-skills-count': 1,
-            'area-color': competence.area.color,
+            'area-color': targetedArea.color,
           },
         }],
       };
 
       modelCampaignAssessmentParticipationResult = new CampaignAssessmentParticipationResult({
-        targetedCompetences: [competence],
+        targetedCompetences: [targetedCompetence],
         campaignParticipationId: 1,
         campaignId: 2,
         targetProfile,
-        validatedTargetedKnowledgeElementsByCompetenceId: { [competence.id]: [knowledgeElement] },
+        validatedTargetedKnowledgeElementsByCompetenceId: { [targetedCompetence.id]: [knowledgeElement] },
         isShared: true,
       });
     });

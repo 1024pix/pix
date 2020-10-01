@@ -1,13 +1,12 @@
 const CampaignAssessmentParticipationResult = require('../../../lib/domain/read-models/CampaignAssessmentParticipationResult');
 const { NotFoundError } = require('../../../lib/domain/errors');
 const { knex } = require('../bookshelf');
-const competenceRepository = require('./competence-repository');
 const knowledgeElementRepository = require('./knowledge-element-repository');
-const targetProfileRepository = require('./target-profile-repository');
+const targetProfileWithLearningContentRepository = require('./target-profile-with-learning-content-repository');
 
 module.exports = {
   async getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId }) {
-    const targetProfile = await targetProfileRepository.getByCampaignId(campaignId);
+    const targetProfile = await targetProfileWithLearningContentRepository.getByCampaignId({ campaignId });
 
     const result = await _fetchCampaignAssessmentParticipationResultAttributesFromCampaignParticipation(campaignId, campaignParticipationId);
 
@@ -49,13 +48,10 @@ async function _buildCampaignAssessmentParticipationResults(result, targetProfil
     .findValidatedTargetedGroupedByCompetencesForUsers({ [result.userId]: result.sharedAt }, targetProfile);
   const validatedTargetedKnowledgeElementsByCompetenceId = validatedTargetedKnowledgeElementsByUserIdAndCompetenceId[result.userId];
 
-  const competences = await competenceRepository.list();
-  const targetedCompetences = targetProfile.getTargetedCompetences(competences);
-
   return new CampaignAssessmentParticipationResult({
     ...result,
-    targetedCompetences,
-    targetProfile,
+    targetedCompetences: targetProfile.competences,
     validatedTargetedKnowledgeElementsByCompetenceId,
+    targetProfile,
   });
 }
