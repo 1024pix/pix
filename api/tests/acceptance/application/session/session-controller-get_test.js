@@ -10,11 +10,11 @@ describe('Acceptance | Controller | session-controller-get', () => {
     await insertUserWithRolePixMaster();
   });
 
-  describe('GET /api/jury/sessions', () => {
+  describe('GET /api/admin/sessions', () => {
     beforeEach(() => {
       options = {
         method: 'GET',
-        url: '/api/jury/sessions',
+        url: '/api/admin/sessions',
         payload: { },
       };
 
@@ -51,7 +51,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
 
       it('should return a 200 status code with paginated and filtered data', async () => {
         // given
-        options.url = '/api/jury/sessions?filter[id]=121&page[number]=1&page[size]=2';
+        options.url = '/api/admin/sessions?filter[id]=121&page[number]=1&page[size]=2';
         const expectedMetaData = { page: 1, pageSize: 2, rowCount: 1, pageCount: 1 };
 
         // when
@@ -66,7 +66,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
 
       it('should return a 200 status code with empty result', async () => {
         // given
-        options.url = '/api/jury/sessions?filter[id]=4&page[number]=1&page[size]=1';
+        options.url = '/api/admin/sessions?filter[id]=4&page[number]=1&page[size]=1';
         const expectedMetaData = { page: 1, pageSize: 1, rowCount: 0, pageCount: 0 };
 
         // when
@@ -80,7 +80,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
 
       it('should signal an entity validation error for an ID that is too large', async () => {
         // given
-        options.url = '/api/jury/sessions?filter[id]=2147483648';
+        options.url = '/api/admin/sessions?filter[id]=2147483648';
 
         // when
         const response = await server.inject(options);
@@ -91,7 +91,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
 
       it('should signal an entity validation error for an ID that is too small', async () => {
         // given
-        options.url = '/api/jury/sessions?filter[id]=-2147483649';
+        options.url = '/api/admin/sessions?filter[id]=-2147483649';
 
         // when
         const response = await server.inject(options);

@@ -3,11 +3,11 @@ import ApplicationAdapter from './application';
 export default class SessionAdapter extends ApplicationAdapter {
 
   urlForQuery() {
-    return `${this.host}/${this.namespace}/jury/sessions`;
+    return `${this.host}/${this.namespace}/admin/sessions`;
   }
 
   urlForFindRecord(id) {
-    return `${this.host}/${this.namespace}/jury/sessions/${id}`;
+    return `${this.host}/${this.namespace}/admin/sessions/${id}`;
   }
 
   urlForUpdateRecord(id) {

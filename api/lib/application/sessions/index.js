@@ -8,7 +8,7 @@ exports.register = async (server) => {
   server.route([
     {
       method: 'GET',
-      path: '/api/jury/sessions',
+      path: '/api/admin/sessions',
       config: {
         pre: [{
           method: securityPreHandlers.checkUserHasRolePixMaster,
@@ -24,7 +24,7 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
-      path: '/api/jury/sessions/{id}',
+      path: '/api/admin/sessions/{id}',
       config: {
         validate: {
           params: Joi.object({
