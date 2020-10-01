@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-collective-result-serializer');
 
@@ -9,26 +10,30 @@ describe('Unit | Serializer | JSONAPI | campaign-collective-results-serializer',
       // given
       const campaignId = 123;
 
+      const skillsCompetence1 = _.times(3, domainBuilder.buildTargetedSkill());
+      const targetedTube1 = domainBuilder.buildTargetedTube({ skills: skillsCompetence1 });
+      const targetedCompetence1 = domainBuilder.buildTargetedCompetence({ id: 'rec1', index: '1.2', name: 'Cuisson des legumes d’automne', areaId: 'area1', tubes: [targetedTube1] });
+      const targetedArea1 = domainBuilder.buildTargetedArea({ id: 'area1', color: 'jaffa', competences: [targetedCompetence1] });
+
+      const skillsCompetence2 = _.times(4, domainBuilder.buildTargetedSkill());
+      const targetedTube2 = domainBuilder.buildTargetedTube({ skills: skillsCompetence2 });
+      const targetedCompetence2 = domainBuilder.buildTargetedCompetence({ id: 'rec2', index: '3.4', name: 'Tourner un champignon', areaId: 'area2', tubes: [targetedTube2] });
+      const targetedArea2 = domainBuilder.buildTargetedArea({ id: 'area2', color: 'cerulean', competences: [targetedCompetence2] });
+
       const campaignCollectiveResult = domainBuilder.buildCampaignCollectiveResult({
         id: campaignId,
         campaignCompetenceCollectiveResults: [
           domainBuilder.buildCampaignCompetenceCollectiveResult({
             averageValidatedSkills: 2,
             campaignId: campaignId,
-            competenceId: 'rec1',
-            competenceIndex: '1.2',
-            competenceName: 'Cuisson des legumes d’automne',
-            areaColor: 'jaffa',
-            targetedSkillsCount: 3,
+            targetedCompetence: targetedCompetence1,
+            targetedArea: targetedArea1,
           }),
           domainBuilder.buildCampaignCompetenceCollectiveResult({
             averageValidatedSkills: 1,
             campaignId: campaignId,
-            competenceId: 'rec2',
-            competenceIndex: '3.4',
-            competenceName: 'Tourner un champignon',
-            areaColor: 'cerulean',
-            targetedSkillsCount: 4,
+            targetedCompetence: targetedCompetence2,
+            targetedArea: targetedArea2,
           }),
         ],
       });

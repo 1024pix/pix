@@ -1,5 +1,5 @@
 const CampaignCompetenceCollectiveResult = require('../../../../lib/domain/models/CampaignCompetenceCollectiveResult');
-const { expect } = require('../../../test-helper');
+const { expect, domainBuilder } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | CampaignCompetenceCollectiveResult', () => {
 
@@ -8,8 +8,9 @@ describe('Unit | Domain | Models | CampaignCompetenceCollectiveResult', () => {
     it('should return a unique identifier that is the concatenation of "campaignId" and "competenceId"', () => {
       // given
       const campaignId = 123;
-      const competenceId = 'recCompetence';
-      const competenceResult = new CampaignCompetenceCollectiveResult({ campaignId, competenceId });
+      const targetedCompetence = domainBuilder.buildTargetedCompetence({ id: 'recCompetence' });
+      const targetedArea = domainBuilder.buildTargetedArea();
+      const competenceResult = new CampaignCompetenceCollectiveResult({ campaignId, targetedCompetence, targetedArea });
 
       // when
       const competenceResultId = competenceResult.id;
@@ -23,8 +24,9 @@ describe('Unit | Domain | Models | CampaignCompetenceCollectiveResult', () => {
 
     it('should return the area index covered by the competence', () => {
       // given
-      const competenceIndex = '1.2';
-      const competenceResult = new CampaignCompetenceCollectiveResult({ competenceIndex });
+      const targetedCompetence = domainBuilder.buildTargetedCompetence({ index: '1.2' });
+      const targetedArea = domainBuilder.buildTargetedArea();
+      const competenceResult = new CampaignCompetenceCollectiveResult({ targetedCompetence, targetedArea });
 
       // when
       const areaCode = competenceResult.areaCode;

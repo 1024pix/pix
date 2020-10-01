@@ -18,11 +18,10 @@ describe('Unit | Domain | Models | Target-Profile/TargetedTube', () => {
 
     it('should return false when the skill is not in tube', () => {
       // given
-      const skill = domainBuilder.buildTargetedSkill({ id: 'skillId', tubeId: 'tubeId' });
       const tube = domainBuilder.buildTargetedTube({ id: 'tubeId', skills: [] });
 
       // when
-      const isIncluded = tube.hasSkill(skill.id);
+      const isIncluded = tube.hasSkill('someSkillId');
 
       // then
       expect(isIncluded).to.be.false;
