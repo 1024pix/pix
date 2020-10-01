@@ -5,6 +5,7 @@ import { authenticateSession } from 'ember-simple-auth/test-support';
 import moment from 'moment';
 import { createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
 import { CREATED, FINALIZED } from 'pix-certif/models/session';
+import config from 'pix-certif/config/environment';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -70,20 +71,62 @@ module('Acceptance | Session Details', function(hooks) {
         assert.dom('.session-details-container .session-details-row:first-child div:nth-child(5) span:first-child').hasText(`${sessionFinalized.accessCode}`);
       });
 
-      test('it should show download button when there is one or more candidate', async function(assert) {
-        // when
-        await visit(`/sessions/${sessionFinalized.id}`);
+      module('when FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE is on', function(hooks) {
 
-        // then
-        assert.dom('.session-details-header__title .button').hasText('Télécharger le PV');
+        const ft = config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE;
+
+        hooks.before(() => {
+          config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE = true;
+        });
+
+        hooks.after(() => {
+          config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE = ft;
+        });
+
+        test('it should show download button when there is one or more candidate', async function(assert) {
+          // when
+          await visit(`/sessions/${sessionFinalized.id}`);
+
+          // then
+          assert.dom('.session-details-header__title .button').hasText('Télécharger le PV');
+        });
+
+        test('it should not show download button where there is no candidate', async function(assert) {
+          // when
+          await visit(`/sessions/${sessionNotFinalizedWithoutCandidate.id}`);
+
+          // then
+          assert.dom('.session-details-header__title .button').doesNotExist();
+        });
       });
 
-      test('it should not show downlaod button where there is no candidate', async function(assert) {
-        // when
-        await visit(`/sessions/${sessionNotFinalizedWithoutCandidate.id}`);
+      module('when FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE is off', function(hooks) {
 
-        // then
-        assert.dom('.session-details-header__title .button').doesNotExist();
+        const ft = config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE;
+
+        hooks.before(() => {
+          config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE = false;
+        });
+
+        hooks.after(() => {
+          config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE = ft;
+        });
+
+        test('it should show download button when there is one or more candidate1', async function(assert) {
+          // when
+          await visit(`/sessions/${sessionFinalized.id}`);
+
+          // then
+          assert.dom('.session-details-header__title .button').doesNotExist();
+        });
+
+        test('it should not show download button where there is no candidate1', async function(assert) {
+          // when
+          await visit(`/sessions/${sessionNotFinalizedWithoutCandidate.id}`);
+
+          // then
+          assert.dom('.session-details-header__title .button').doesNotExist();
+        });
       });
     });
 
