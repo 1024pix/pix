@@ -9,7 +9,7 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
     server = await createServer();
   });
 
-  describe('GET /jury/sessions/{id}/jury-certification-summaries', function() {
+  describe('GET /api/admin/sessions/{id}/jury-certification-summaries', function() {
     let sessionId;
 
     beforeEach(() => {
@@ -30,7 +30,7 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
         // when
         const response = await server.inject({
           method: 'GET',
-          url: `/api/jury/sessions/${sessionId}/jury-certification-summaries`,
+          url: `/api/admin/sessions/${sessionId}/jury-certification-summaries`,
           payload: {},
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         });
@@ -92,7 +92,7 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
 
         request = {
           method: 'GET',
-          url: `/api/jury/sessions/${sessionId}/jury-certification-summaries`,
+          url: `/api/admin/sessions/${sessionId}/jury-certification-summaries`,
           payload: {},
           headers: { authorization: generateValidRequestAuthorizationHeader(pixMasterId) },
         };

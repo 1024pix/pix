@@ -51,7 +51,7 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function() {
           relationships: {
             'jury-certification-summaries': {
               links: {
-                related: '/api/jury/sessions/1/jury-certification-summaries',
+                related: '/api/admin/sessions/1/jury-certification-summaries',
               },
             },
           },
