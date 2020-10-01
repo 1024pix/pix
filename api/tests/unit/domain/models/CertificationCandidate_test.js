@@ -56,6 +56,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         birthCountry: 'France',
         birthdate: '2010-01-01',
         sessionId: 123,
+        resultRecipientEmail: 'orga@example.net',
       };
 
       context('when all required fields are presents', () => {

@@ -46,19 +46,10 @@ describe('Integration | Repository | CertificationCandidate', function() {
         await certificationCandidateRepository.saveInSession({ certificationCandidate, sessionId });
 
         // then
-        const certificationCandidatesInSession = await knex('certification-candidates')
-          .where({ sessionId }).select('firstName');
-        expect(certificationCandidatesInSession[0].firstName).to.equal(certificationCandidate.firstName);
-      });
-
-      it('should return the saved candidate', async () => {
-        // when
-        const actualCandidate = await certificationCandidateRepository.saveInSession({ certificationCandidate, sessionId });
-
-        // then
-        const checkedAttrs = ['firstName', 'lastName', 'birthCity', 'birthProvinceCode', 'birthCity', 'birthdate', 'email', 'externalId', 'extraTimePercentage'];
-        expect(_.pick(actualCandidate, checkedAttrs)).to.deep.equal(_.pick(certificationCandidate, checkedAttrs));
-        expect(actualCandidate.id).to.not.be.undefined;
+        const [firstCertificationCandidatesInSession] = await certificationCandidateRepository.findBySessionId(sessionId);
+        const attributesToOmit = ['createdAt', 'sessionId', 'userId', 'id'];
+        expect(_.omit(firstCertificationCandidatesInSession, attributesToOmit)).to.deep.equal(_.omit(certificationCandidate, attributesToOmit));
+        expect(firstCertificationCandidatesInSession.sessionId).to.equal(sessionId);
       });
 
       context('when adding a new candidate', () => {

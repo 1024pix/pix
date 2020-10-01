@@ -21,6 +21,7 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
           'birth-province-code': certificationCandidate.birthProvinceCode,
           'birth-country': certificationCandidate.birthCountry,
           'email': certificationCandidate.email,
+          'result-recipient-email': certificationCandidate.resultRecipientEmail,
           'birthdate': certificationCandidate.birthdate,
           'external-id': certificationCandidate.externalId,
           'extra-time-percentage': certificationCandidate.extraTimePercentage,
@@ -59,6 +60,7 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
       expect(deserializedCertificationCandidate.extraTimePercentage).to.equal(certificationCandidate.extraTimePercentage);
       expect(deserializedCertificationCandidate.externalId).to.equal(certificationCandidate.externalId);
       expect(deserializedCertificationCandidate.email).to.equal(certificationCandidate.email);
+      expect(deserializedCertificationCandidate.resultRecipientEmail).to.equal(certificationCandidate.resultRecipientEmail);
     });
 
   });
