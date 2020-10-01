@@ -9,8 +9,8 @@ export default function() {
   this.urlPrefix = 'http://localhost:3000';
   this.namespace = 'api';
 
-  this.get('/jury/sessions', findPaginatedAndFilteredSessions);
-  this.get('/jury/sessions/:id');
+  this.get('/admin/sessions', findPaginatedAndFilteredSessions);
+  this.get('/admin/sessions/:id');
   this.get('/admin/sessions/:id/jury-certification-summaries', getJuryCertificationSummariesBySessionId);
   this.put('/admin/sessions/:id/results-sent-to-prescriber', (schema, request) => {
     const sessionId = request.params.id;

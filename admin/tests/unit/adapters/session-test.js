@@ -17,7 +17,7 @@ module('Unit | Adapter | session', function(hooks) {
       const url = adapter.urlForQuery();
 
       // then
-      assert.ok(url.endsWith('/jury/sessions'));
+      assert.ok(url.endsWith('/admin/sessions'));
     });
   });
 
@@ -27,7 +27,7 @@ module('Unit | Adapter | session', function(hooks) {
       const url = adapter.urlForFindRecord(123, 'sessions');
 
       // then
-      assert.ok(url.endsWith('/jury/sessions/123'));
+      assert.ok(url.endsWith('/admin/sessions/123'));
     });
   });
 

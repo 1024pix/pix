@@ -10,7 +10,7 @@ describe('Acceptance | Controller | session-controller-get-jury-session', () => 
     await insertUserWithRolePixMaster();
   });
 
-  describe('GET /api/jury/sessions/{id}', () => {
+  describe('GET /api/admin/sessions/{id}', () => {
     let expectedJurySession;
 
     beforeEach(() => {
@@ -24,7 +24,7 @@ describe('Acceptance | Controller | session-controller-get-jury-session', () => 
       databaseBuilder.factory.buildSession();
       options = {
         method: 'GET',
-        url: `/api/jury/sessions/${expectedJurySession.id}`,
+        url: `/api/admin/sessions/${expectedJurySession.id}`,
       };
 
       return databaseBuilder.commit();
