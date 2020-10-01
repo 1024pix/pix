@@ -29,11 +29,6 @@ describe('Unit | Helpers | contains', function() {
       await render(hbs`<div><span>Goodbye</span></div>`);
       expect(contains('Hello')).not.to.exist;
     });
-
-    it('should return element that contains exactly the text', async function() {
-      await render(hbs`<div>Hellow</div>`);
-      expect(contains('Hello')).not.to.exist;
-    });
   });
 
   describe('containsAll', function() {
@@ -42,8 +37,18 @@ describe('Unit | Helpers | contains', function() {
       expect(containsAll('Hello')).to.have.lengthOf(2);
     });
 
+    it('should find two elements containing Hel', async function() {
+      await render(hbs`<ul><li>Hello</li><li>Hello</li></ul>`);
+      expect(containsAll('Hel')).to.have.lengthOf(2);
+    });
+
+    it('should find element deeply', async function() {
+      await render(hbs`<ul><li><span>He</span><span>llo</span></li><li><span id="found">Hell</span><span>o</span></li></ul>`);
+      expect(containsAll('Hel')[0].getAttribute('id')).to.equal('found');
+    });
+
     it('should not find any elements', async function() {
-      await render(hbs`<ul><li>Goodbye</li><li>Hellow</li></ul>`);
+      await render(hbs`<ul><li>Goodbye</li><li>Helow</li></ul>`);
       expect(containsAll('Hello')).to.have.lengthOf(0);
     });
   });
