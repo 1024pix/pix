@@ -22,8 +22,11 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
 
   module('when user is admin', function(hooks) {
     hooks.beforeEach(function() {
-      const organization = Object.create({ id: 1 });
-      this.owner.register('service:current-user', Service.extend({ isAdminInOrganization: true, organization }));
+      class CurrentUserStub extends Service {
+        organization = Object.create({ id: 1 });
+        isAdminInOrganization = true;
+      }
+      this.owner.register('service:current-user',  CurrentUserStub);
     });
 
     test('it should display download template button', async function(assert) {
@@ -45,7 +48,10 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
 
   module('when user is only member', function(hooks) {
     hooks.beforeEach(function() {
-      this.owner.register('service:current-user', Service.extend({ isAdminInOrganization: false }));
+      class CurrentUserStub extends Service {
+        isAdminInOrganization = false;
+      }
+      this.owner.register('service:current-user',  CurrentUserStub);
     });
 
     test('it should not display download template button', async function(assert) {

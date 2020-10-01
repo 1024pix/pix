@@ -15,8 +15,10 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
       receivedCampaign = this.campaign;
     });
     this.set('cancelSpy', () => {});
-    const organization = EmberObject.create({ canCollectProfiles: false });
-    this.owner.register('service:current-user', Service.extend({ organization }));
+    class CurrentUserStub extends Service {
+      organization = EmberObject.create({ canCollectProfiles: false });
+    }
+    this.owner.register('service:current-user', CurrentUserStub);
   });
 
   test('it should contain inputs, attributes and validation button', async function(assert) {
@@ -64,8 +66,10 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
 
     test('it should display fields for campaign title and target profile', async function(assert) {
       // given
-      const organization = EmberObject.create({ canCollectProfiles: true });
-      this.owner.register('service:current-user', Service.extend({ organization }));
+      class CurrentUserStub extends Service {
+        organization = EmberObject.create({ canCollectProfiles: true });
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
       this.campaign = EmberObject.create({});
 
       // when
@@ -82,8 +86,10 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
 
     test('it should not display fields for campaign title and target profile', async function(assert) {
       // given
-      const organization = EmberObject.create({ canCollectProfiles: true });
-      this.owner.register('service:current-user', Service.extend({ organization }));
+      class CurrentUserStub extends Service {
+        organization = EmberObject.create({ canCollectProfiles: true });
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
       this.campaign = EmberObject.create({});
 
       // when
@@ -100,8 +106,11 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
 
     test('it should display comment for target profile selection', async function(assert) {
       // given
-      const organization = EmberObject.create({ canCollectProfiles: false });
-      this.owner.register('service:current-user', Service.extend({ organization, isSCOManagingStudents: true }));
+      class CurrentUserStub extends Service {
+        organization = EmberObject.create({ canCollectProfiles: false });
+        isSCOManagingStudents = true;
+      }
+      this.owner.register('service:current-user',  CurrentUserStub);
       this.campaign = EmberObject.create({});
 
       // when
@@ -116,8 +125,11 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
 
     test('it should not display comment for target profile selection', async function(assert) {
       // given
-      const organization = EmberObject.create({ canCollectProfiles: false });
-      this.owner.register('service:current-user', Service.extend({ organization, isSCOManagingStudents: false }));
+      class CurrentUserStub extends Service {
+        organization = EmberObject.create({ canCollectProfiles: false });
+        isSCOManagingStudents = false;
+      }
+      this.owner.register('service:current-user',  CurrentUserStub);
       this.campaign = EmberObject.create({});
 
       // when
@@ -131,8 +143,11 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
   module('when organization is a type SCO and user is creating an assessment campaign', function() {
     test('it should display documentation of school paths', async function(assert) {
       // given
-      const organization = EmberObject.create();
-      this.owner.register('service:current-user', Service.extend({ organization, isSCOManagingStudents: true }));
+      class CurrentUserStub extends Service {
+        organization = EmberObject.create();
+        isSCOManagingStudents = true;
+      }
+      this.owner.register('service:current-user',  CurrentUserStub);
       this.campaign = EmberObject.create({});
 
       // when

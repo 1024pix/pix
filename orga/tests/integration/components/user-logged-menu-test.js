@@ -19,12 +19,17 @@ module('Integration | Component | user-logged-menu', function(hooks) {
     });
     organization2 = Object.create({ id: 2, name: 'Organization 2', externalId: 'EXT2' });
     organization3 = Object.create({ id: 3, name: 'Organization 3', externalId: 'EXT3' });
-    const memberships = [
-      Object.create({ organization }),
-      Object.create({ organization: organization2 }),
-      Object.create({ organization: organization3 }),
-    ];
-    this.owner.register('service:current-user', Service.extend({ prescriber, organization, memberships }));
+
+    class CurrentUserStub extends Service {
+      organization = organization;
+      prescriber = prescriber;
+      memberships = [
+        Object.create({ organization }),
+        Object.create({ organization: organization2 }),
+        Object.create({ organization: organization3 }),
+      ];
+    }
+    this.owner.register('service:current-user', CurrentUserStub);
   });
 
   test('should display user\'s firstName and lastName', async function(assert) {
