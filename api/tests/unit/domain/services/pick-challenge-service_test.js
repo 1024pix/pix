@@ -157,6 +157,31 @@ describe('Unit | Service | PickChallengeService', () => {
       });
     });
 
+    context('when picking a lot of challenges', () => {
+      it('should return all challenges propose', async ()=> {
+        // given
+        const challengeOneForSkillOne = domainBuilder.buildChallenge();
+        const challengeTwoForSkillOne = domainBuilder.buildChallenge();
+        const challengeOneForSkillTwo = domainBuilder.buildChallenge();
+        const challengeTwoForSkillTwo = domainBuilder.buildChallenge();
+        const skillOne = { challenges: [challengeOneForSkillOne, challengeTwoForSkillOne] };
+        const skillTwo = { challenges: [challengeOneForSkillTwo, challengeTwoForSkillTwo] };
+        const skills = [skillOne, skillTwo];
+
+        const pickChallengePromises = _.times(50, (time) => pickChallengeService.pickChallenge({
+          skills,
+          randomSeed: time,
+          locale: FRENCH_SPOKEN,
+        }));
+        const challenges = await Promise.all(pickChallengePromises);
+
+        // then
+        expect(challenges).to.contains(challengeOneForSkillOne);
+        expect(challenges).to.contains(challengeTwoForSkillOne);
+        expect(challenges).to.contains(challengeOneForSkillTwo);
+        expect(challenges).to.contains(challengeTwoForSkillTwo);
+      });
+    });
   });
 })
 ;
