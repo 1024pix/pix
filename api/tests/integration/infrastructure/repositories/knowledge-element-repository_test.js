@@ -1028,6 +1028,28 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       });
     });
 
+    it('should requalify knowledgeElement under actual targeted competence of skill disregarding indicated competenceId', async () => {
+      // given
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+      const userId = databaseBuilder.factory.buildUser().id;
+      const expectedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({
+        userId,
+        createdAt: new Date('2018-01-01'),
+        competenceId: 'competence_depuis_laquelle_lacquis_a_pu_etre_retire',
+        skillId: targetProfile.skills[0].id,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const knowledgeElementsByUserIdAndCompetenceId =
+        await knowledgeElementRepository.findValidatedTargetedGroupedByCompetencesForUsers({ [userId]: null }, targetProfile);
+
+      // then
+      expect(knowledgeElementsByUserIdAndCompetenceId[userId]).to.deep.equal({
+        [targetProfile.competences[0].id]: [expectedKnowledgeElement],
+      });
+    });
+
     it('should avoid returning non validated knowledge elements when there are knowledge elements that are not validated', async () => {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
@@ -1249,6 +1271,28 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       // then
       expect(knowledgeElementsByUserIdAndCompetenceId[userId]).to.deep.equal({
         [targetProfile.competences[0].id]: [],
+      });
+    });
+
+    it('should requalify knowledgeElement under actual targeted competence of skill disregarding indicated competenceId', async () => {
+      // given
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+      const userId = databaseBuilder.factory.buildUser().id;
+      const expectedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({
+        userId,
+        createdAt: new Date('2018-01-01'),
+        competenceId: 'competence_depuis_laquelle_lacquis_a_pu_etre_retire',
+        skillId: targetProfile.skills[0].id,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const knowledgeElementsByUserIdAndCompetenceId =
+        await knowledgeElementRepository.findTargetedGroupedByCompetencesForUsers({ [userId]: null }, targetProfile);
+
+      // then
+      expect(knowledgeElementsByUserIdAndCompetenceId[userId]).to.deep.equal({
+        [targetProfile.competences[0].id]: [expectedKnowledgeElement],
       });
     });
 
