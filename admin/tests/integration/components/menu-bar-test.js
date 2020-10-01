@@ -38,6 +38,14 @@ module('Integration | Component | menu-bar', function(hooks) {
     assert.dom('a.menu-bar__link--certifications').exists();
   });
 
+  test('should contain link to "target-profiles" management page', async function(assert) {
+    // when
+    await render(hbs`{{menu-bar}}`);
+
+    // then
+    assert.dom('a.menu-bar__link--target-profiles').exists();
+  });
+
   test('should contain link to "tools" management page', async function(assert) {
     // when
     await render(hbs`{{menu-bar}}`);
