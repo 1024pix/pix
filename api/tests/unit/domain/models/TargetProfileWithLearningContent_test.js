@@ -139,4 +139,79 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
+  describe('groupKnowledgeElementsByCompetence()', () => {
+
+    it('should return knowledge elements of targeted skill by targeted competence id', () => {
+      // given
+      const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', tubeId: 'recTube1' });
+      const skill2_1 = domainBuilder.buildTargetedSkill({ id: 'recSkill2_1', tubeId: 'recTube2' });
+      const skill2_2 = domainBuilder.buildTargetedSkill({ id: 'recSkill2_2', tubeId: 'recTube2' });
+      const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1], competenceId: 'recCompetence1' });
+      const tube2 = domainBuilder.buildTargetedTube({ id: 'recTube2', skills: [skill2_1, skill2_2], competenceId: 'recCompetence2' });
+      const competence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', tubes: [tube1] });
+      const competence2 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence2', tubes: [tube2] });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill1, skill2_1, skill2_2],
+        tubes: [tube1, tube2],
+        competences: [competence1, competence2],
+      });
+      const knowledgeElement1 = domainBuilder.buildKnowledgeElement({ competenceId: 'recCompetence1', skillId: 'recSkill1' });
+      const knowledgeElement2_1 = domainBuilder.buildKnowledgeElement({ competenceId: 'recCompetence2', skillId: 'recSkill2_1' });
+      const knowledgeElement2_2 = domainBuilder.buildKnowledgeElement({ competenceId: 'recCompetence2', skillId: 'recSkill2_2' });
+      const knowledgeElements = [knowledgeElement1, knowledgeElement2_1, knowledgeElement2_2];
+
+      // when
+      const knowledgeElementsByCompetence = targetProfile.groupKnowledgeElementsByCompetence(knowledgeElements);
+
+      // then
+      expect(knowledgeElementsByCompetence).to.deep.equal({
+        'recCompetence1': [knowledgeElement1],
+        'recCompetence2': [knowledgeElement2_1, knowledgeElement2_2],
+      });
+    });
+
+    it('should categorize knowledgeElement to actual competenceId and not based on the declared one', () => {
+      // given
+      const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', tubeId: 'recTube1' });
+      const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1], competenceId: 'recCompetence1' });
+      const competence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', tubes: [tube1] });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill1],
+        tubes: [tube1],
+        competences: [competence1],
+      });
+      const knowledgeElement1 = domainBuilder.buildKnowledgeElement({ competenceId: 'recOldCompetence', skillId: 'recSkill1' });
+      const knowledgeElements = [knowledgeElement1];
+
+      // when
+      const knowledgeElementsByCompetence = targetProfile.groupKnowledgeElementsByCompetence(knowledgeElements);
+
+      // then
+      expect(knowledgeElementsByCompetence).to.deep.equal({
+        'recCompetence1': [knowledgeElement1],
+      });
+    });
+
+    it('should set an empty array to a targeted competence id when no knowledge element belongs to it', () => {
+      // given
+      const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', tubeId: 'recTube1' });
+      const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1], competenceId: 'recCompetence1' });
+      const competence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', tubes: [tube1] });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill1],
+        tubes: [tube1],
+        competences: [competence1],
+      });
+      const knowledgeElement1 = domainBuilder.buildKnowledgeElement({ competenceId: 'recCompetence1', skillId: 'recOtherSkill' });
+      const knowledgeElements = [knowledgeElement1];
+
+      // when
+      const knowledgeElementsByCompetence = targetProfile.groupKnowledgeElementsByCompetence(knowledgeElements);
+
+      // then
+      expect(knowledgeElementsByCompetence).to.deep.equal({
+        'recCompetence1': [],
+      });
+    });
+  });
 });
