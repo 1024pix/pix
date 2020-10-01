@@ -3,9 +3,11 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 import createComponent from '../../../../../helpers/create-glimmer-component';
+import setupIntl from '../../../../../helpers/setup-intl';
 
 describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
   setupTest();
+  setupIntl();
 
   let component;
   let storeStub;

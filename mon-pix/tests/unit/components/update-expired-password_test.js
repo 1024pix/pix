@@ -4,7 +4,7 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import Service from '@ember/service';
 
-const ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.';
+const ERROR_PASSWORD_MESSAGE = 'pages.update-expired-password.fields.error';
 
 const VALIDATION_MAP = {
   default: {

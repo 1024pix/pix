@@ -1,10 +1,10 @@
 <div class="join-restricted-campaign__row">
-  <label class="join-restricted-campaign__label">Prénom</label>
+  <label class="join-restricted-campaign__label">{{t 'pages.join.fields.firstname.label'}}</label>
   <Input
     @id="firstName"
     @type="text"
     @value={{@firstName}}
-    placeholder="Prénom"
+    placeholder={{t 'pages.join.fields.firstname.label'}}
     @readonly={{this.isDisabled}}
     @disabled={{this.isDisabled}}
     class={{if @validation.firstName "input--error"}}
@@ -16,12 +16,12 @@
 </div>
 
 <div class="join-restricted-campaign__row">
-  <label class="join-restricted-campaign__label">Nom</label>
+  <label class="join-restricted-campaign__label">{{t 'pages.join.fields.lastname.label'}}</label>
   <Input
     @id="lastName"
     @type="text"
     @value={{@lastName}}
-    placeholder="Nom"
+    placeholder={{t 'pages.join.fields.lastname.label'}}
     @readonly={{this.isDisabled}}
     @disabled={{this.isDisabled}}
     class={{if @validation.lastName "input--error"}}
@@ -33,11 +33,11 @@
 </div>
 
 <div class="join-restricted-campaign__row">
-  <label class="join-restricted-campaign__label">Date de naissance</label>
+  <label class="join-restricted-campaign__label">{{t 'pages.join.fields.birthdate.label'}}</label>
   <div class="join-restricted-campaign__birthdate">
-    <Input @id="dayOfBirth" @type="text" @value={{@dayOfBirth}} placeholder="JJ" class={{if @validation.dayOfBirth "input--error"}} @focusOut={{fn @triggerInputDayValidation "dayOfBirth" @dayOfBirth}} />
-    <Input @id="monthOfBirth" @type="text" @value={{@monthOfBirth}} placeholder="MM" class={{if @validation.monthOfBirth "input--error"}} @focusOut={{fn @triggerInputMonthValidation "monthOfBirth" @monthOfBirth}} />
-    <Input @id="yearOfBirth" @type="text" @value={{@yearOfBirth}} placeholder="AAAA" class={{if @validation.yearOfBirth "input--error"}} @focusOut={{fn @triggerInputYearValidation "yearOfBirth" @yearOfBirth}} />
+    <Input @id="dayOfBirth" @type="text" @value={{@dayOfBirth}} placeholder={{t 'pages.join.fields.birthdate.day-format'}} class={{if @validation.dayOfBirth "input--error"}} @focusOut={{fn @triggerInputDayValidation "dayOfBirth" @dayOfBirth}} />
+    <Input @id="monthOfBirth" @type="text" @value={{@monthOfBirth}} placeholder={{t 'pages.join.fields.birthdate.month-format'}} class={{if @validation.monthOfBirth "input--error"}} @focusOut={{fn @triggerInputMonthValidation "monthOfBirth" @monthOfBirth}} />
+    <Input @id="yearOfBirth" @type="text" @value={{@yearOfBirth}} placeholder={{t 'pages.join.fields.birthdate.year-format'}} class={{if @validation.yearOfBirth "input--error"}} @focusOut={{fn @triggerInputYearValidation "yearOfBirth" @yearOfBirth}} />
   </div>
   <div class={{if @validation.dayOfBirth "join-restricted-campaign__field-error"}} role="alert">
     {{@validation.dayOfBirth}}

@@ -2,7 +2,24 @@
   "api-error-messages": {
     "bad-request-error": "The data entered was not in the correct format.",
     "internal-server-error": "An error occurred, our teams are working on finding a solution. Please try again later.",
-    "login-unauthorized-error": "There was an error in the email address or username/password entered."
+    "join-error": {
+      "r11": "",
+      "r12": "",
+      "r13": "",
+      "r31": "",
+      "r32": "",
+      "r33": ""
+    },
+    "login-unauthorized-error": "There was an error in the email address or username/password entered.",
+    "register-error": {
+      "s51": "",
+      "s52": "",
+      "s53": "",
+      "s61": "",
+      "s62": "",
+      "s63": ""
+    }
+
   },
 
   "application": {
@@ -11,6 +28,7 @@
 
   "common": {
     "actions": {
+      "back": "",
       "cancel": "Cancel",
       "close": "Close",
       "quit": "Exit"
@@ -19,7 +37,8 @@
       "error": "error",
       "mandatory": "required",
       "mandatory-fields": "The fields marked '<abbr title=\"required\" class=\"mandatory-mark\">'*'</abbr>' are required",
-      "success": "success"
+      "success": "success",
+      "visible-password": ""
     },
     "french-republic": "French Republic",
     "level": "level",
@@ -147,7 +166,10 @@
         },
         "fields": {
           "birth-date": "Date of birth",
+          "birth-day": "",
+          "birth-month": "",
           "birth-name": "Given name",
+          "birth-year": "",
           "first-name": "First name",
           "session-number": "Session number"
         }
@@ -472,6 +494,48 @@
       "first-title": "Oops, an error occurred!"
     },
 
+    "join": {
+      "title": "",
+      "button": "",
+      "fields": {
+        "birthdate": {
+          "label": "",
+          "day-error": "",
+          "day-format":"",
+          "month-error": "",
+          "month-format": "",
+          "year-error": "",
+          "year-format": ""
+        },
+        "firstname": {
+          "error": "",
+          "label": ""
+        },
+        "lastname": {
+          "error": "",
+          "label": ""
+        }
+      },
+      "first-title":"",
+      "sco": {
+        "continue-with-pix": "",
+        "error-not-found": "",
+        "login-information-title": ""
+      },
+      "subtitle": "",
+      "sup": {
+        "error": "",
+        "fields": {
+          "student-number": {
+            "error": "",
+            "label": "",
+            "modify": "",
+            "not-existing": ""
+          }
+        }
+      }
+    },
+
     "learning-more": {
       "title": "To find out more",
       "info": "These tutorial links have been suggested by Pix users."
@@ -479,6 +543,79 @@
 
     "levelup-notif": {
       "obtained-level": "Level { level } succeeded!"
+    },
+
+    "login-or-register": {
+      "title": "",
+      "invitation": "",
+      "login-form": {
+        "button": "",
+        "error": "",
+        "fields": {
+          "login": {
+            "label": ""
+          },
+          "password": {
+            "label": ""
+          }
+        },
+        "forgotten-password": {
+          "email": "",
+          "instruction": "",
+          "other-identity": "",
+          "reset-link": ""
+        },
+        "title": "",
+        "unexpected-user-account-error": ""
+      },
+      "register-form": {
+        "button": "",
+        "button-form": "",
+        "fields": {
+          "birthdate": {
+            "label": "",
+            "day-error": "",
+            "month-error": "",
+            "year-error": ""
+          },
+          "cgu": "",
+          "email": {
+            "error": "",
+            "help": "",
+            "label": ""
+          },
+          "firstname": {
+            "error": "",
+            "label": ""
+          },
+          "lastname": {
+            "error": "",
+            "label": ""
+          },
+          "password": {
+            "error": "",
+            "help": "",
+            "label": "",
+            "show-button": ""
+          },
+          "username": {
+            "label": ""
+          }
+        },
+        "legal-text": "",
+        "not-me": "",
+        "options": {
+          "email": "",
+          "text": "",
+          "username": ""
+        },
+        "title": ""
+      }
+    },
+
+    "not-connected": {
+      "title": "",
+      "message": ""
     },
 
     "password-reset-demand": {
@@ -686,6 +823,16 @@
       }
     },
 
+    "terms-of-service": {
+      "title": "",
+      "cgu": "",
+      "message": "",
+      "form": {
+        "button": "",
+        "error-message": ""
+      }
+    },
+
     "time-gauge": {
       "timeout-placeholder": "You have exceeded the time allowed",
       "remaining-time-placeholder": "There is still more time to complete the test"
@@ -736,6 +883,7 @@
         "image-link": "images/user-tutorials/illustration.svg",
         "title": "You haven’t saved anything yet"
       },
+      "label": "",
       "list": {
         "title": "My list",
         "tutorial": {
@@ -800,6 +948,20 @@
       "errors": {
         "missing-id-pix-label": "Please enter your { idPixLabel }."
       }
+    },
+
+    "update-expired-password": {
+      "title": "",
+      "button": "",
+      "fields": {
+        "error": "",
+        "help": "",
+        "label": ""
+      },
+      "first-title": "",
+      "go-to-login": "",
+      "subtitle": "",
+      "validation": ""
     },
 
     "warning": {

@@ -1,11 +1,10 @@
-{{page-title 'Déconnecté'}}
+{{page-title (t 'pages.not-connected.title')}}
 <div class="not-connected">
   <div class="rounded-panel not-connected__container">
     <img class="pix-logo__image not-connected__logo" src="/images/pix-logo.svg" alt="Pix">
 
     <p class="not-connected__text-block">
-    Vous êtes bien déconnecté(e).
-      <br>Merci, à bientôt.
+    {{t 'pages.not-connected.message' htmlSafe=true}}
     </p>
   </div>
 </div>
