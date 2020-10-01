@@ -19,6 +19,10 @@ class TargetProfileWithLearningContent {
     return this.skills.map((skill) => skill.name);
   }
 
+  get skillIds() {
+    return this.skills.map((skill) => skill.id);
+  }
+
   get competenceIds() {
     return this.competences.map((competences) => competences.id);
   }
@@ -31,6 +35,12 @@ class TargetProfileWithLearningContent {
     const skillTube = this.tubes.find((tube) => tube.hasSkill(skillId));
 
     return skillTube ? skillTube.competenceId : null;
+  }
+
+  getAreaOfCompetence(competenceId) {
+    const area = this.areas.find((area) => area.hasCompetence(competenceId));
+
+    return area || null;
   }
 }
 

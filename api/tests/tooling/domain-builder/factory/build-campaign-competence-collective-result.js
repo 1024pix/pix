@@ -1,22 +1,18 @@
 const CampaignCompetenceCollectiveResult = require('../../../../lib/domain/models/CampaignCompetenceCollectiveResult');
+const buildTargetedCompetence = require('./build-targeted-competence');
+const buildTargetedArea = require('./build-targeted-area');
 
 module.exports = function buildCampaignCompetenceCollectiveResult(
   {
     campaignId,
-    competenceId,
-    competenceName,
-    competenceIndex,
-    areaColor,
-    targetedSkillsCount,
+    targetedCompetence = buildTargetedCompetence(),
+    targetedArea = buildTargetedArea(),
     averageValidatedSkills,
   } = {}) {
   return new CampaignCompetenceCollectiveResult({
     campaignId,
-    competenceId,
-    competenceName,
-    competenceIndex,
-    areaColor,
-    targetedSkillsCount,
+    targetedCompetence,
+    targetedArea,
     averageValidatedSkills,
   });
 };

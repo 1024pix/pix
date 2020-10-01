@@ -7,26 +7,26 @@ describe('Unit | UseCase | compute-campaign-collective-result', () => {
   const campaignId = 'someCampaignId';
   let campaignRepository;
   let campaignCollectiveResultRepository;
-  let competenceRepository;
-  const expectedCompetences = [];
+  let targetProfileWithLearningContentRepository;
+  const targetProfileWithLearningContent = Symbol('targetProfileWithLearningContent');
 
   beforeEach(() => {
     campaignCollectiveResultRepository = { getCampaignCollectiveResult: sinon.stub() };
     campaignRepository = { checkIfUserOrganizationHasAccessToCampaign: sinon.stub() };
-    competenceRepository = { list: sinon.stub() };
+    targetProfileWithLearningContentRepository = { getByCampaignId: sinon.stub() };
   });
 
   context('User has access to this result', () => {
 
     beforeEach(() => {
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
-      competenceRepository.list.resolves(expectedCompetences);
+      targetProfileWithLearningContentRepository.getByCampaignId.resolves(targetProfileWithLearningContent);
     });
 
     it('should resolve a CampaignCollectiveResult', async () => {
       // given
       const expectedCampaignCollectiveResult = domainBuilder.buildCampaignCollectiveResult();
-      campaignCollectiveResultRepository.getCampaignCollectiveResult.withArgs(campaignId, expectedCompetences).resolves(expectedCampaignCollectiveResult);
+      campaignCollectiveResultRepository.getCampaignCollectiveResult.withArgs(campaignId, targetProfileWithLearningContent).resolves(expectedCampaignCollectiveResult);
 
       // when
       const actualCampaignCollectiveResult = await computeCampaignCollectiveResult({
@@ -34,11 +34,11 @@ describe('Unit | UseCase | compute-campaign-collective-result', () => {
         campaignId,
         campaignRepository,
         campaignCollectiveResultRepository,
-        competenceRepository,
+        targetProfileWithLearningContentRepository,
       });
 
       // then
-      expect(competenceRepository.list).to.have.been.calledOnce;
+      expect(targetProfileWithLearningContentRepository.getByCampaignId).to.have.been.calledOnce;
       expect(actualCampaignCollectiveResult).to.equal(expectedCampaignCollectiveResult);
     });
   });
@@ -55,7 +55,7 @@ describe('Unit | UseCase | compute-campaign-collective-result', () => {
         campaignId,
         campaignRepository,
         campaignCollectiveResultRepository,
-        competenceRepository,
+        targetProfileWithLearningContentRepository,
       });
 
       // then

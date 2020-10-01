@@ -6,7 +6,7 @@ module.exports = async function computeCampaignCollectiveResult(
     campaignId,
     campaignRepository,
     campaignCollectiveResultRepository,
-    competenceRepository,
+    targetProfileWithLearningContentRepository,
   } = {}) {
 
   const hasUserAccessToResult = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, userId);
@@ -15,7 +15,6 @@ module.exports = async function computeCampaignCollectiveResult(
     throw new UserNotAuthorizedToAccessEntity('User does not have access to this campaign');
   }
 
-  const competences = await competenceRepository.list();
-
-  return campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId, competences);
+  const targetProfile = await targetProfileWithLearningContentRepository.getByCampaignId({ campaignId });
+  return campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId, targetProfile);
 };

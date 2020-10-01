@@ -1,22 +1,17 @@
 class CampaignCompetenceCollectiveResult {
 
   constructor({
-    // attributes
     campaignId,
-    competenceId,
-    competenceIndex,
-    competenceName,
-    areaColor,
-    targetedSkillsCount,
+    targetedArea,
+    targetedCompetence,
     averageValidatedSkills,
   } = {}) {
-    // attributes
     this.campaignId = campaignId;
-    this.competenceId = competenceId;
-    this.competenceIndex = competenceIndex;
-    this.competenceName = competenceName;
-    this.areaColor = areaColor;
-    this.targetedSkillsCount = targetedSkillsCount;
+    this.competenceId = targetedCompetence.id;
+    this.competenceIndex = targetedCompetence.index;
+    this.competenceName = targetedCompetence.name;
+    this.areaColor = targetedArea.color;
+    this.targetedSkillsCount = targetedCompetence.skillCount;
     this.averageValidatedSkills = averageValidatedSkills;
   }
 
