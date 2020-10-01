@@ -42,6 +42,21 @@ class TargetProfileWithLearningContent {
 
     return area || null;
   }
+
+  groupKnowledgeElementsByCompetence(knowledgeElements) {
+    const knowledgeElementsGroupedByCompetence = {};
+    for (const competenceId of this.competenceIds) {
+      knowledgeElementsGroupedByCompetence[competenceId] = [];
+    }
+    for (const knowledgeElement of knowledgeElements) {
+      const competenceId = this.getCompetenceIdOfSkill(knowledgeElement.skillId);
+      if (competenceId) {
+        knowledgeElementsGroupedByCompetence[competenceId].push(knowledgeElement);
+      }
+    }
+
+    return knowledgeElementsGroupedByCompetence;
+  }
 }
 
 module.exports = TargetProfileWithLearningContent;
