@@ -8,8 +8,10 @@ module('Integration | Component | sidebar-menu', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it should display documentation a pro organization', async function(assert) {
-    const organization = Object.create({ id: 1, isPro: true });
-    this.owner.register('service:current-user', Service.extend({ organization }));
+    class CurrentUserStub extends Service {
+      organization = Object.create({ id: 1, isPro: true });
+    }
+    this.owner.register('service:current-user', CurrentUserStub);
 
     // when
     await render(hbs`<SidebarMenu />`);
@@ -19,8 +21,11 @@ module('Integration | Component | sidebar-menu', function(hooks) {
   });
 
   test('it should display documentation a sco organization', async function(assert) {
-    const organization = Object.create({ id: 1, type: 'SCO' });
-    this.owner.register('service:current-user', Service.extend({ organization, isSCOManagingStudents: true }));
+    class CurrentUserStub extends Service {
+      organization = Object.create({ id: 1, type: 'SCO' });
+      isSCOManagingStudents = true;
+    }
+    this.owner.register('service:current-user', CurrentUserStub);
 
     // when
     await render(hbs`<SidebarMenu />`);
@@ -30,8 +35,11 @@ module('Integration | Component | sidebar-menu', function(hooks) {
   });
 
   test('it should not display documentation for a sco organization that does not managed students', async function(assert) {
-    const organization = Object.create({ id: 1, type: 'SCO' });
-    this.owner.register('service:current-user', Service.extend({ organization, isSCOManagingStudents: false }));
+    class CurrentUserStub extends Service {
+      organization = Object.create({ id: 1, type: 'SCO' });
+      isSCOManagingStudents = false;
+    }
+    this.owner.register('service:current-user', CurrentUserStub);
 
     // when
     await render(hbs`<SidebarMenu />`);
