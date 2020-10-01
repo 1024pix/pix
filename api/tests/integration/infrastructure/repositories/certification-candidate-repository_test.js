@@ -46,10 +46,10 @@ describe('Integration | Repository | CertificationCandidate', function() {
         await certificationCandidateRepository.saveInSession({ certificationCandidate, sessionId });
 
         // then
-        const certificationCandidatesInSession = await certificationCandidateRepository.findBySessionId(sessionId);
+        const [firstCertificationCandidatesInSession] = await certificationCandidateRepository.findBySessionId(sessionId);
         const attributesToOmit = ['createdAt', 'sessionId', 'userId', 'id'];
-        expect(_.omit(certificationCandidatesInSession[0], attributesToOmit)).to.deep.equal(_.omit(certificationCandidate, attributesToOmit));
-        expect(certificationCandidatesInSession[0].sessionId).to.equal(sessionId);
+        expect(_.omit(firstCertificationCandidatesInSession, attributesToOmit)).to.deep.equal(_.omit(certificationCandidate, attributesToOmit));
+        expect(firstCertificationCandidatesInSession.sessionId).to.equal(sessionId);
       });
 
       context('when adding a new candidate', () => {
