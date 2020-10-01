@@ -2,7 +2,7 @@ import { getRootElement } from '@ember/test-helpers';
 
 function getChildrenThatContainsText(element, text) {
   if (element.children.length === 0) {
-    if (element.textContent.trim() === text) {
+    if (element.textContent.trim().includes(text)) {
       return element;
     }
     return null;
