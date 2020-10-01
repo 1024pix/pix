@@ -15,6 +15,13 @@ module('Acceptance | Session Candidates', function(hooks) {
   let user;
   let session;
 
+  const validLastName = 'MonNom';
+  const validFirstName = 'MonPrenom';
+  const validBirthCity = 'MaVille';
+  const validBirthProvinceCode = '974';
+  const validBirthCountry = 'MonPays';
+  const validBirthdate = '01021990';
+
   hooks.beforeEach(function() {
     user = createUserWithMembershipAndTermsOfServiceAccepted();
     const certificationCenterId = user.certificationCenterMemberships.models[0].certificationCenterId;
@@ -101,12 +108,7 @@ module('Acceptance | Session Candidates', function(hooks) {
             }), 400);
             // when
             await click('[data-test-id="add-certification-candidate-staging__button"]');
-            await fillIn('[data-test-id="panel-candidate__lastName__add-staging"] > div > input', 'MonNom');
-            await fillIn('[data-test-id="panel-candidate__firstName__add-staging"] > div > input', 'MonPrenom');
-            await fillIn('[data-test-id="panel-candidate__birthCity__add-staging"] > div > input', 'MaVille');
-            await fillIn('[data-test-id="panel-candidate__birthProvinceCode__add-staging"] > div > input', 'MonDép');
-            await fillIn('[data-test-id="panel-candidate__birthCountry__add-staging"] > div > input', 'MonPays');
-            await fillIn('[data-test-id="panel-candidate__birthdate__add-staging"] > div > input', '01021990');
+            await _fillFormWithCorrectData();
             await click('[data-test-id="panel-candidate__action__save"]');
 
             // then
@@ -119,16 +121,10 @@ module('Acceptance | Session Candidates', function(hooks) {
             }), 400);
             // when
             await click('[data-test-id="add-certification-candidate-staging__button"]');
-            await fillIn('[data-test-id="panel-candidate__lastName__add-staging"] > div > input', 'MonNom');
-            await fillIn('[data-test-id="panel-candidate__firstName__add-staging"] > div > input', 'MonPrenom');
-            await fillIn('[data-test-id="panel-candidate__birthCity__add-staging"] > div > input', 'MaVille');
-            await fillIn('[data-test-id="panel-candidate__birthProvinceCode__add-staging"] > div > input', 'MonDép');
-            await fillIn('[data-test-id="panel-candidate__birthCountry__add-staging"] > div > input', 'MonPays');
-            await fillIn('[data-test-id="panel-candidate__birthdate__add-staging"] > div > input', '01021990');
+            await _fillFormWithCorrectData();
             await click('[data-test-id="panel-candidate__action__save"]');
 
             // then
-            assert.dom('[data-test-notification-message="error"]').exists();
             assert.dom('[data-test-notification-message="error"]').hasText('Une erreur s\'est produite lors de l\'ajout du candidat.');
           });
         });
@@ -138,12 +134,7 @@ module('Acceptance | Session Candidates', function(hooks) {
           test('it remove the editable line', async function(assert) {
             // when
             await click('[data-test-id="add-certification-candidate-staging__button"]');
-            await fillIn('[data-test-id="panel-candidate__lastName__add-staging"] > div > input', 'MonNom');
-            await fillIn('[data-test-id="panel-candidate__firstName__add-staging"] > div > input', 'MonPrenom');
-            await fillIn('[data-test-id="panel-candidate__birthCity__add-staging"] > div > input', 'MaVille');
-            await fillIn('[data-test-id="panel-candidate__birthProvinceCode__add-staging"] > div > input', 'MonDép');
-            await fillIn('[data-test-id="panel-candidate__birthCountry__add-staging"] > div > input', 'MonPays');
-            await fillIn('[data-test-id="panel-candidate__birthdate__add-staging"] > div > input', '01021990');
+            await _fillFormWithCorrectData();
             await click('[data-test-id="panel-candidate__action__save"]');
 
             // then
@@ -153,28 +144,17 @@ module('Acceptance | Session Candidates', function(hooks) {
           test('it should display notification success', async function(assert) {
             // when
             await click('[data-test-id="add-certification-candidate-staging__button"]');
-            await fillIn('[data-test-id="panel-candidate__lastName__add-staging"] > div > input', 'MonNom');
-            await fillIn('[data-test-id="panel-candidate__firstName__add-staging"] > div > input', 'MonPrenom');
-            await fillIn('[data-test-id="panel-candidate__birthCity__add-staging"] > div > input', 'MaVille');
-            await fillIn('[data-test-id="panel-candidate__birthProvinceCode__add-staging"] > div > input', 'MonDép');
-            await fillIn('[data-test-id="panel-candidate__birthCountry__add-staging"] > div > input', 'MonPays');
-            await fillIn('[data-test-id="panel-candidate__birthdate__add-staging"] > div > input', '01021990');
+            await _fillFormWithCorrectData();
             await click('[data-test-id="panel-candidate__action__save"]');
 
             // then
-            assert.dom('[data-test-notification-message="success"]').exists();
             assert.dom('[data-test-notification-message="success"]').hasText('Le candidat a été ajouté avec succès.');
           });
 
           test('it should add a new candidate entry', async function(assert) {
             // when
             await click('[data-test-id="add-certification-candidate-staging__button"]');
-            await fillIn('[data-test-id="panel-candidate__lastName__add-staging"] > div > input', 'MonNom');
-            await fillIn('[data-test-id="panel-candidate__firstName__add-staging"] > div > input', 'MonPrenom');
-            await fillIn('[data-test-id="panel-candidate__birthCity__add-staging"] > div > input', 'MaVille');
-            await fillIn('[data-test-id="panel-candidate__birthProvinceCode__add-staging"] > div > input', 'MonDép');
-            await fillIn('[data-test-id="panel-candidate__birthCountry__add-staging"] > div > input', 'MonPays');
-            await fillIn('[data-test-id="panel-candidate__birthdate__add-staging"] > div > input', '01021990');
+            await _fillFormWithCorrectData();
             await click('[data-test-id="panel-candidate__action__save"]');
 
             // then
@@ -231,7 +211,6 @@ module('Acceptance | Session Candidates', function(hooks) {
         await upload('#upload-attendance-sheet', file);
 
         // then
-        assert.dom('[data-test-notification-message="success"]').exists();
         assert.dom('[data-test-notification-message="success"]').hasText('La liste des candidats a été importée avec succès.');
       });
 
@@ -244,7 +223,6 @@ module('Acceptance | Session Candidates', function(hooks) {
         await upload('#upload-attendance-sheet', file);
 
         // then
-        assert.dom('[data-test-notification-message="error"]').exists();
         assert.dom('[data-test-notification-message="error"]').hasText('Aucun candidat n’a été importé. Une erreur personnalisée Veuillez modifier votre fichier et l’importer à nouveau.');
       });
 
@@ -257,7 +235,6 @@ module('Acceptance | Session Candidates', function(hooks) {
         await upload('#upload-attendance-sheet', file);
 
         // then
-        assert.dom('[data-test-notification-message="error"]').exists();
         assert.dom('[data-test-notification-message="error"]')
           .hasText('La session a débuté, il n\'est plus possible de modifier la liste des candidats.');
       });
@@ -265,5 +242,18 @@ module('Acceptance | Session Candidates', function(hooks) {
     });
 
   });
+
+  async function _fillFormWithCorrectData() {
+    await _fillCandidateInput('lastName', validLastName);
+    await _fillCandidateInput('firstName', validFirstName);
+    await _fillCandidateInput('birthCity', validBirthCity);
+    await _fillCandidateInput('birthProvinceCode', validBirthProvinceCode);
+    await _fillCandidateInput('birthCountry', validBirthCountry);
+    await _fillCandidateInput('birthdate', validBirthdate);
+  }
+
+  async function _fillCandidateInput(code, value) {
+    await fillIn(`[data-test-id="panel-candidate__${code}__add-staging"] > div > input`, value);
+  }
 
 });
