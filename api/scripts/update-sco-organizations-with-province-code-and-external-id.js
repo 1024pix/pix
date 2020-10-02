@@ -2,6 +2,7 @@
 require('dotenv').config();
 const path = require('path');
 const fs = require('fs');
+const { access } = require('fs').promises;
 const request = require('request-promise-native');
 const papa = require('papaparse');
 
@@ -10,9 +11,10 @@ const CSV_HEADERS = {
   EXTERNAL_ID: 'Code établissement (code UAI)',
 };
 
-function assertFileValidity(filePath) {
-  const fileExists = fs.existsSync(filePath);
-  if (!fileExists) {
+async function assertFileValidity(filePath) {
+  try {
+    await access(filePath, fs.constants.F_OK);
+  } catch (err) {
     const errorMessage = `File not found ${filePath}`;
     throw new Error(errorMessage);
   }

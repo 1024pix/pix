@@ -5,13 +5,13 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
 
   describe('#assertFileValidity', () => {
 
-    it('should throw an error when file does not exist', () => {
+    it('should throw an error when file does not exist', async () => {
       // given
       const filePath = 'inexistant.file';
 
       try {
         // when
-        script.assertFileValidity(filePath);
+        await script.assertFileValidity(filePath);
 
         // then
         expect.fail('Expected error to have been thrown');
@@ -20,13 +20,13 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
       }
     });
 
-    it('should throw an error when file extension is not ".csv"', () => {
+    it('should throw an error when file extension is not ".csv"', async () => {
       // given
       const filePath = `${__dirname}/file_with_bad_extension.html`;
 
       try {
         // when
-        script.assertFileValidity(filePath);
+        await script.assertFileValidity(filePath);
 
         // then
         expect.fail('Expected error to have been thrown');
@@ -35,12 +35,12 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
       }
     });
 
-    it('should return true if file is valid', () => {
+    it('should return true if file is valid', async () => {
       // given
       const filePath = `${__dirname}/valid-organizations-test-file.csv`;
 
       // when
-      const result = script.assertFileValidity(filePath);
+      const result = await script.assertFileValidity(filePath);
 
       // then
       expect(result).to.be.true;
