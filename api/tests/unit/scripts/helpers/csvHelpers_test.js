@@ -30,9 +30,9 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', () => {
       expect(error.message).to.equal('File with extension .html not supported!');
     });
 
-    it('should return true if file is valid', () => {
+    it('should return true if file is valid', async () => {
       // when
-      const result = checkCsvExtensionFile(validFilePath);
+      const result = await checkCsvExtensionFile(validFilePath);
 
       // then
       expect(result).to.be.true;
@@ -40,7 +40,7 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', () => {
 
   });
 
-  describe('#parseCsv', () => {
+  describe('#parseCsv', async () => {
 
     it('should throw a NotFoundError when file does not exist', async () => {
       // when
@@ -51,12 +51,12 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', () => {
       expect(error.message).to.equal(`File ${notExistFilePath} not found!`);
     });
 
-    it('should parse csv file with 3 lines', () => {
+    it('should parse csv file with 3 lines', async () => {
       // given
       const options = { skipEmptyLines: true };
 
       // when
-      const data = parseCsv(validFilePath, options);
+      const data = await parseCsv(validFilePath, options);
 
       // then
       expect(data.length).to.equal(3);
@@ -65,7 +65,7 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', () => {
 
     it('should cast the unexpected utf8 char add by Excel', async () => {
       // when
-      const data = parseCsv(utf8FilePath);
+      const data = await parseCsv(utf8FilePath);
 
       // then
       expect(data.length).to.equal(4);
@@ -74,7 +74,7 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', () => {
 
   describe('#parseCsvWithHeader', () => {
 
-    it('should parse csv file with header', () => {
+    it('should parse csv file with header', async () => {
       // given
       const expectedItems = [
         { uai: '0080017A', name: 'Collège Les Pixous' },
@@ -83,7 +83,7 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', () => {
       ];
 
       // when
-      const items = parseCsvWithHeader(withHeaderFilePath);
+      const items = await parseCsvWithHeader(withHeaderFilePath);
 
       // then
       expect(items.length).to.equal(3);
