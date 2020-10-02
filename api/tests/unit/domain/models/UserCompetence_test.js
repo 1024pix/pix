@@ -5,7 +5,7 @@ describe('Unit | Domain | Models | UserCompetence', () => {
 
   describe('#constructor', () => {
 
-    it('should construct a model UserCompetence from attributes and set skills and challenges to an empty array', () => {
+    it('should construct a model UserCompetence from attributes', () => {
       // given
       const userCompetenceRawData = {
         id: 1,
@@ -22,13 +22,7 @@ describe('Unit | Domain | Models | UserCompetence', () => {
 
       // then
       expect(actualUserCompetence).to.be.an.instanceof(UserCompetence);
-      expect(actualUserCompetence.id).to.deep.equal(userCompetenceRawData.id);
-      expect(actualUserCompetence.index).to.deep.equal(userCompetenceRawData.index);
-      expect(actualUserCompetence.name).to.deep.equal(userCompetenceRawData.name);
-      expect(actualUserCompetence.area).to.deep.equal(userCompetenceRawData.area);
-      expect(actualUserCompetence.pixScore).to.deep.equal(userCompetenceRawData.pixScore);
-      expect(actualUserCompetence.estimatedLevel).to.deep.equal(userCompetenceRawData.estimatedLevel);
-      expect(actualUserCompetence.skills).to.be.empty;
+      expect(actualUserCompetence).to.deep.equal(userCompetenceRawData);
     });
   });
 

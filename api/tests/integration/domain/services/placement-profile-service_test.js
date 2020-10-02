@@ -3,6 +3,7 @@ const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
+const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const placementProfileService = require('../../../../lib/domain/services/placement-profile-service');
 
@@ -89,6 +90,18 @@ describe('Integration | Service | Placement Profile Service', function() {
       challengeForSkillRequin8,
     ]);
     sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves(competences);
+    sinon.stub(skillRepository, 'list').resolves([
+      skillCitation4,
+      skillCollaborer4,
+      skillMoteur3,
+      skillRecherche4,
+      skillRemplir2,
+      skillRemplir4,
+      skillRequin5,
+      skillRequin8,
+      skillUrl3,
+      skillWeb1,
+    ]);
   });
 
   context('V1 Profile', () => {
@@ -202,15 +215,23 @@ describe('Integration | Service | Placement Profile Service', function() {
           });
 
           // then
-          expect(actualPlacementProfile.userCompetences[0]).to.include({
+          expect(actualPlacementProfile.userCompetences[0]).to.deep.include({
             id: 'competenceRecordIdOne',
             pixScore: 0,
             estimatedLevel: 0,
+            skills: [],
           });
-          expect(actualPlacementProfile.userCompetences[1]).to.include({
+          expect(actualPlacementProfile.userCompetences[1]).to.deep.include({
             id: 'competenceRecordIdTwo',
             pixScore: 23,
             estimatedLevel: 2,
+            skills: [skillRemplir2],
+          });
+          expect(actualPlacementProfile.userCompetences[2]).to.deep.include({
+            id: 'competenceRecordIdThree',
+            pixScore: 0,
+            estimatedLevel: 0,
+            skills: [],
           });
         });
 
@@ -265,7 +286,7 @@ describe('Integration | Service | Placement Profile Service', function() {
             });
 
             // then
-            expect(actualPlacementProfile.userCompetences[0]).to.include({
+            expect(actualPlacementProfile.userCompetences[0]).to.deep.include({
               id: 'competenceRecordIdOne',
               pixScore: 64,
               estimatedLevel: 8,
@@ -298,6 +319,55 @@ describe('Integration | Service | Placement Profile Service', function() {
               pixScore: 40,
               estimatedLevel: 5,
             });
+          });
+        });
+      });
+
+      describe('Skills not found in learningContent', () => {
+
+        it('should skip not found skills', async () => {
+          // given
+
+          const kePointingToExistingSkill = domainBuilder.buildKnowledgeElement({
+            competenceId: 'competenceRecordIdTwo',
+            skillId: skillRemplir2.id,
+            earnedPix: 11,
+          });
+
+          const kePointingToMissingSkill = domainBuilder.buildKnowledgeElement({
+            competenceId: 'competenceRecordIdTwo',
+            skillId: 'missing skill id',
+            earnedPix: 11,
+          });
+
+          sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceId')
+            .withArgs({ userId, limitDate: sinon.match.any }).resolves({ competenceRecordIdTwo: [
+              kePointingToExistingSkill, kePointingToMissingSkill] });
+
+          // when
+          const actualPlacementProfile = await placementProfileService.getPlacementProfile({
+            userId,
+            limitDate: 'salut',
+          });
+
+          // then
+          expect(actualPlacementProfile.userCompetences[0]).to.deep.include({
+            id: 'competenceRecordIdOne',
+            pixScore: 0,
+            estimatedLevel: 0,
+            skills: [],
+          });
+          expect(actualPlacementProfile.userCompetences[1]).to.deep.include({
+            id: 'competenceRecordIdTwo',
+            pixScore: 22,
+            estimatedLevel: 2,
+            skills: [skillRemplir2],
+          });
+          expect(actualPlacementProfile.userCompetences[2]).to.deep.include({
+            id: 'competenceRecordIdThree',
+            pixScore: 0,
+            estimatedLevel: 0,
+            skills: [],
           });
         });
       });

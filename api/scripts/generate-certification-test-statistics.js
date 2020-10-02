@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const fp = require('lodash/fp').convert({ cap: false });
 const bluebird = require('bluebird');
 const { knex } = require('../db/knex-database-connection');
 const competenceRepository = require('../lib/infrastructure/repositories/competence-repository');
@@ -6,7 +7,8 @@ const challengeRepository = require('../lib/infrastructure/repositories/challeng
 const placementProfileService = require('../lib/domain/services/placement-profile-service');
 const certificationChallengeService = require('../lib/domain/services/certification-challenges-service');
 
-const USER_COUNT = ~~process.env.USER_COUNT || 100;
+const USER_COUNT = parseInt(process.env.USER_COUNT) || 100;
+const USER_ID = parseInt(process.env.USER_ID) || null;
 
 function makeRefDataFaster() {
   challengeRepository.list = _.memoize(challengeRepository.findOperative);
@@ -35,6 +37,20 @@ async function _generateCertificationTest(userId, competences) {
   }
 
   const certificationChallenges = await certificationChallengeService.pickCertificationChallenges(placementProfile);
+  if (USER_ID) {
+    console.log(JSON.stringify(certificationChallenges, null, 2));
+  }
+
+  fp.flow(
+    fp.groupBy('competenceId'),
+    fp.mapValues((ccs) => ccs
+      .map((cc) => cc.associatedSkillName.slice(-1))
+      .join(':'),
+    ),
+    fp.map((levels, competenceId) => `${userId}\t${competenceId}\t${levels}`),
+    fp.sortBy(fp.identity),
+    fp.forEach((line) => console.log(line)),
+  )(certificationChallenges);
 
   const certificationChallengesCountByCompetenceId = _.countBy(certificationChallenges, 'competenceId');
 
@@ -53,18 +69,25 @@ async function _generateCertificationTest(userId, competences) {
 }
 
 function updateProgress() {
-  process.stdout.write('.');
+  process.stderr.write('.');
 }
 
 async function main() {
   try {
-    console.log(`Récupération de ${USER_COUNT} utilisateurs certifiables...`);
-    const userIds = await _retrieveUserIds();
-    console.log('Récupération OK');
+    let userIds;
+    if (USER_ID) {
+      console.error(`userId: ${USER_ID}`);
+      userIds = [USER_ID];
+    }
+    else {
+      console.error(`Récupération de ${USER_COUNT} utilisateurs certifiables...`);
+      userIds = await _retrieveUserIds();
+    }
+    console.error('Récupération OK');
     const competences = await competenceRepository.listPixCompetencesOnly();
     let nonCertifiableUserCount = 0;
 
-    console.log('Génération des tests de certification : ');
+    console.error('Génération des tests de certification : ');
     const certificationTestsByUser = _.compact(await bluebird.map(userIds, async (userId) => {
       try {
         const challengeCountByCompetence = await _generateCertificationTest(userId, competences);
@@ -73,6 +96,7 @@ async function main() {
           challengeCountByCompetence,
         };
       } catch (err) {
+        console.error(`Erreur de génération pour le user : ${userId}`, err);
         ++nonCertifiableUserCount;
         return null;
       }
@@ -81,9 +105,9 @@ async function main() {
       }
     }, { concurrency: ~~process.env.CONCURRENCY || 10 }));
 
-    console.log('\nGénération des tests de certification OK');
+    console.error('\nGénération des tests de certification OK');
 
-    console.log('Génération des statistiques...');
+    console.error('Génération des statistiques...');
     const competenceIds = _.map(competences, 'id');
     const allChallengeCountByCompetence = _.map(certificationTestsByUser, 'challengeCountByCompetence');
     const challengeCountByCompetenceTotal = _.map(competenceIds, (competenceId) => {

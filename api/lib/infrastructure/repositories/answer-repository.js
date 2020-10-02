@@ -53,6 +53,12 @@ module.exports = {
       });
   },
 
+  findByIds(answerIds) {
+    return BookshelfAnswer.where('id', 'in', answerIds)
+      .fetchAll()
+      .then((answers) => answers.models.map(_toDomain));
+  },
+
   findByChallengeAndAssessment({ challengeId, assessmentId }) {
     return BookshelfAnswer
       .where({ challengeId, assessmentId })

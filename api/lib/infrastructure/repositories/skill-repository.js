@@ -14,6 +14,11 @@ function _toDomain(skillData) {
 
 module.exports = {
 
+  async list() {
+    const skillDatas = await skillDatasource.list();
+    return skillDatas.map(_toDomain);
+  },
+
   async findActiveByCompetenceId(competenceId) {
     const skillDatas = await skillDatasource.findActiveByCompetenceId(competenceId);
     return skillDatas.map(_toDomain);

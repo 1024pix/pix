@@ -14,18 +14,23 @@ describe('Acceptance | users-controller-is-certifiable', () => {
 
     user = databaseBuilder.factory.buildUser();
 
-    const competence = airtableBuilder.factory.buildCompetence({
-      id: 'recCompetence',
-    });
-
     const area = airtableBuilder.factory.buildArea();
-
     airtableBuilder.mockList({ tableName: 'Domaines' })
       .returns([area])
       .activate();
 
+    const competence = airtableBuilder.factory.buildCompetence({
+      id: 'recCompetence',
+    });
     airtableBuilder.mockList({ tableName: 'Competences' })
       .returns([competence])
+      .activate();
+
+    const skill = airtableBuilder.factory.buildSkill({
+      compétenceViaTube: [competence.id],
+    });
+    airtableBuilder.mockList({ tableName: 'Acquis' })
+      .returns([skill])
       .activate();
 
     databaseBuilder.factory.buildKnowledgeElement({ userId: user.id, earnedPix: 10, competenceId: competence.id });

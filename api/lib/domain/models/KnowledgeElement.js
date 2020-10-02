@@ -57,6 +57,10 @@ class KnowledgeElement {
     return this.status === statuses.INVALIDATED;
   }
 
+  isDirectlyValidated() {
+    return this.status === statuses.VALIDATED && this.source === sources.DIRECT;
+  }
+
   static createKnowledgeElementsForAnswer({
     answer,
     challenge,
