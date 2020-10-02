@@ -881,7 +881,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             const errorsApi = new Response(400, {}, {
               errors: [{ status: 400 }],
             });
-            server.patch('/users/:id/authentication-methods/saml', () => errorsApi);
+            server.post('/token-from-external-user', () => errorsApi);
 
             await fillIn('#campaign-code', campaign.code);
             await click('.fill-in-campaign-code__start-button');
@@ -914,7 +914,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
                 meta: { value: expectedObfuscatedConnectionMethod },
               }],
             });
-            server.patch('/users/:id/authentication-methods/saml', () => errorsApi);
+            server.post('/token-from-external-user', () => errorsApi);
 
             await fillIn('#campaign-code', campaign.code);
             await click('.fill-in-campaign-code__start-button');
@@ -939,7 +939,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
           it('should display the default error message if GAR authentication method adding has failed with others http statusCode', async () => {
             // given
             const expectedErrorMessage = 'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.';
-            server.patch('/users/:id/authentication-methods/saml', () => new Response(500));
+            server.post('/token-from-external-user', () => new Response(500));
 
             await fillIn('#campaign-code', campaign.code);
             await click('.fill-in-campaign-code__start-button');
@@ -1009,17 +1009,11 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
               await click('.button');
 
               // then
-              const session = currentSession();
-              expect(session.data.authenticated.source).to.equal(AUTHENTICATED_SOURCE_FROM_MEDIACENTRE);
-
               expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
               expect(contains('Commencez votre parcours')).to.exist;
             });
-
           });
-
         });
-
       });
     });
   });

@@ -20,7 +20,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     return this.state.isCampaignRestricted
       && this.state.isCampaignForSCOOrganization
       && !this.state.isUserLogged
-      && !this.state.externalUser;
+      && (!this.state.externalUser || this.state.hasUserSeenJoinPage);
   }
 
   _redirectToTermsOfServicesBeforeAccessingToCampaign(transition) {
@@ -28,9 +28,9 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     return this.transitionTo('terms-of-service');
   }
 
-  _redirectToLoginBeforeAccessingToCampaign(transition, campaign) {
+  _redirectToLoginBeforeAccessingToCampaign(transition, campaign, displayRegisterForm) {
     this.session.set('attemptedTransition', transition);
-    return this.transitionTo('campaigns.restricted.login-or-register-to-access', campaign.code);
+    return this.transitionTo('campaigns.restricted.login-or-register-to-access', campaign.code, { queryParams: { displayRegisterForm } });
   }
 
   async model() {
@@ -87,7 +87,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     this._updateStateFrom({ campaign, queryParams: transition.to.queryParams, session: this.session });
 
     if (this._shouldLoginToAccessRestrictedCampaign) {
-      return this._redirectToLoginBeforeAccessingToCampaign(transition, campaign);
+      return this._redirectToLoginBeforeAccessingToCampaign(transition, campaign, !this.state.hasUserSeenJoinPage);
     }
 
     if (this._shouldJoinRestrictedCampaign) {
@@ -109,6 +109,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       isCampaignRestricted: false,
       isCampaignForSCOOrganization: false,
       hasUserCompletedRestrictedCampaignAssociation: false,
+      hasUserSeenJoinPage: false,
       hasUserSeenLandingPage: false,
       isUserLogged: false,
       doesUserHaveOngoingParticipation: false,
@@ -121,10 +122,12 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
   _updateStateFrom({ campaign = {}, queryParams = {}, ongoingCampaignParticipation = null, session }) {
     const hasUserCompletedRestrictedCampaignAssociation = this._handleQueryParamBoolean(queryParams.associationDone, this.state.hasUserCompletedRestrictedCampaignAssociation);
     const hasUserSeenLandingPage = this._handleQueryParamBoolean(queryParams.hasUserSeenLandingPage, this.state.hasUserSeenLandingPage);
+    const hasUserSeenJoinPage = this._handleQueryParamBoolean(queryParams.hasUserSeenJoinPage, this.state.hasUserSeenJoinPage);
     this.state = {
       isCampaignRestricted: get(campaign, 'isRestricted', this.state.isCampaignRestricted),
       isCampaignForSCOOrganization: get(campaign, 'organizationType') === 'SCO',
       hasUserCompletedRestrictedCampaignAssociation,
+      hasUserSeenJoinPage,
       hasUserSeenLandingPage,
       isUserLogged: this.session.isAuthenticated,
       doesUserHaveOngoingParticipation: Boolean(ongoingCampaignParticipation),

@@ -19,25 +19,23 @@ export default class LoginOrRegisterToAccessRoute extends Controller {
   }
 
   @action
-  async addGarAuthenticationMethodToUser(externalUserToken, expectedUserId) {
+  async addGarAuthenticationMethodToUser(externalUserAuthenticationRequest) {
+    await externalUserAuthenticationRequest.save();
 
-    await this.currentUser.load();
-    await this.currentUser.user.save({
-      adapterOptions: {
-        authenticationMethodsSaml: true,
-        externalUserToken,
-        expectedUserId,
-      },
-    });
+    await this.session.authenticate(
+      'authenticator:oauth2', { token: externalUserAuthenticationRequest.accessToken },
+    );
 
     await this._clearExternalUserContext();
 
+    await this.currentUser.load();
     await this._reconcileUser();
 
     this.transitionToRoute('campaigns.start-or-resume', this.model.code, {
       queryParams: { associationDone: true, participantExternalId: this.participantExternalId },
     });
   }
+
   _reconcileUser() {
     return this.store.createRecord(
       'schooling-registration-user-association',

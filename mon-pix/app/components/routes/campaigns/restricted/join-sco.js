@@ -95,7 +95,7 @@ export default class JoinSco extends Component {
   @action
   async goToCampaignConnectionForm() {
     await this.session.invalidate();
-    return this.router.replaceWith('campaigns.restricted.login-or-register-to-access', { queryParams: { displayRegisterForm: false } });
+    return this.router.replaceWith('campaigns.start-or-resume', this.args.campaignCode,  { queryParams: { hasUserSeenJoinPage: true } });
   }
 
   @action
