@@ -1,8 +1,11 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
+import config from 'pix-certif/config/environment';
 
 export default class SessionsDetailsController extends Controller {
+
+  isResultRecipientEmailVisible = config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE;
 
   @alias('model') session;
 
