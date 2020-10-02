@@ -20,22 +20,19 @@ describe('Unit | Serializer | JSONAPI | campaign-collective-results-serializer',
       const targetedCompetence2 = domainBuilder.buildTargetedCompetence({ id: 'rec2', index: '3.4', name: 'Tourner un champignon', areaId: 'area2', tubes: [targetedTube2] });
       const targetedArea2 = domainBuilder.buildTargetedArea({ id: 'area2', color: 'cerulean', competences: [targetedCompetence2] });
 
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        competences: [targetedCompetence1, targetedCompetence2],
+        areas: [targetedArea1, targetedArea2],
+      });
+
       const campaignCollectiveResult = domainBuilder.buildCampaignCollectiveResult({
         id: campaignId,
-        campaignCompetenceCollectiveResults: [
-          domainBuilder.buildCampaignCompetenceCollectiveResult({
-            averageValidatedSkills: 2,
-            campaignId: campaignId,
-            targetedCompetence: targetedCompetence1,
-            targetedArea: targetedArea1,
-          }),
-          domainBuilder.buildCampaignCompetenceCollectiveResult({
-            averageValidatedSkills: 1,
-            campaignId: campaignId,
-            targetedCompetence: targetedCompetence2,
-            targetedArea: targetedArea2,
-          }),
-        ],
+        targetProfile,
+        participantCount: 1,
+        participantsValidatedKECountByCompetenceId: [{
+          'rec1': 2,
+          'rec2': 1,
+        }],
       });
 
       const expectedSerializedResult = {

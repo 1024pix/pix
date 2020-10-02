@@ -1,4 +1,4 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
+const { expect, sinon, catchErr } = require('../../../test-helper');
 const { computeCampaignCollectiveResult } = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 
@@ -25,7 +25,7 @@ describe('Unit | UseCase | compute-campaign-collective-result', () => {
 
     it('should resolve a CampaignCollectiveResult', async () => {
       // given
-      const expectedCampaignCollectiveResult = domainBuilder.buildCampaignCollectiveResult();
+      const expectedCampaignCollectiveResult = Symbol('campaignCollectiveResult');
       campaignCollectiveResultRepository.getCampaignCollectiveResult.withArgs(campaignId, targetProfileWithLearningContent).resolves(expectedCampaignCollectiveResult);
 
       // when

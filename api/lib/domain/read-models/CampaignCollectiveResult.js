@@ -1,19 +1,17 @@
 const _ = require('lodash');
-const CampaignCompetenceCollectiveResultProgressive = require('./CampaignCompetenceCollectiveResultProgressive');
 
-class CampaignCollectiveResultProgressive {
+class CampaignCollectiveResult {
 
   constructor({
     id,
     targetProfile,
   } = {}) {
     this.id = id;
-    let targetedCompetences = targetProfile.competences;
-    targetedCompetences = _.sortBy(targetedCompetences, 'index');
+    const targetedCompetences = _.sortBy(targetProfile.competences, 'index');
 
     this.campaignCompetenceCollectiveResults = _.map(targetedCompetences, (targetedCompetence) => {
       const targetedArea = targetProfile.getAreaOfCompetence(targetedCompetence.id);
-      return new CampaignCompetenceCollectiveResultProgressive({
+      return new CampaignCompetenceCollectiveResult({
         campaignId: id,
         targetedCompetence,
         targetedArea,
@@ -37,4 +35,31 @@ class CampaignCollectiveResultProgressive {
   }
 }
 
-module.exports = CampaignCollectiveResultProgressive;
+class CampaignCompetenceCollectiveResult {
+  constructor({
+    campaignId,
+    targetedArea,
+    targetedCompetence,
+  } = {}) {
+    this.areaCode = targetedCompetence.index.split('.')[0];
+    this.competenceId = targetedCompetence.id;
+    this.id = `${campaignId}_${this.competenceId}`;
+    this.competenceName = targetedCompetence.name;
+    this.areaColor = targetedArea.color;
+    this.targetedSkillsCount = targetedCompetence.skillCount;
+    this.validatedSkillCount = 0;
+    this.averageValidatedSkills = 0;
+  }
+
+  addValidatedSkillCount(validatedSkillCount) {
+    this.validatedSkillCount += validatedSkillCount;
+  }
+
+  finalize(participantCount) {
+    if (participantCount) {
+      this.averageValidatedSkills = this.validatedSkillCount / participantCount;
+    }
+  }
+}
+
+module.exports = CampaignCollectiveResult;

@@ -1,12 +1,11 @@
-const CampaignCollectiveResultProgressive = require('../../../../lib/domain/read-models/CampaignCollectiveResultProgressive');
-const CampaignCompetenceCollectiveResultProgressive = require('../../../../lib/domain/read-models/CampaignCompetenceCollectiveResultProgressive');
+const CampaignCollectiveResult = require('../../../../lib/domain/read-models/CampaignCollectiveResult');
 const { expect, domainBuilder } = require('../../../test-helper');
 
-describe('Unit | Domain | Read-Models | CampaignCollectiveResultProgressive', () => {
+describe('Unit | Domain | Read-Models | CampaignCollectiveResult', () => {
 
   describe('constructor', () => {
 
-    it('should initialize as many CampaignCompetenceCollectiveResultProgressive objects as competences in target profile', () => {
+    it('should initialize as many CampaignCompetenceCollectiveResult objects as competences in target profile', () => {
       // given
       const targetedCompetence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', areaId: 'recAreaId' });
       const targetedCompetence2 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence2', areaId: 'recAreaId' });
@@ -15,14 +14,13 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResultProgressive', ()
         competences: [targetedCompetence1, targetedCompetence2],
         areas: [targetedArea],
       });
-      const campaignCollectiveResult = new CampaignCollectiveResultProgressive({ id: 123, targetProfile });
+      const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, targetProfile });
 
       // then
       expect(campaignCollectiveResult.campaignCompetenceCollectiveResults).to.have.length(2);
-      expect(campaignCollectiveResult.campaignCompetenceCollectiveResults[0]).to.be.instanceOf(CampaignCompetenceCollectiveResultProgressive);
     });
 
-    it('should order CampaignCompetenceCollectiveResultProgressive by competenceIndex', () => {
+    it('should order CampaignCompetenceCollectiveResult by competenceIndex', () => {
       // given
       const targetedCompetence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', areaId: 'recAreaId', index: '3.1' });
       const targetedCompetence2 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence2', areaId: 'recAreaId', index: '1.1' });
@@ -31,11 +29,39 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResultProgressive', ()
         competences: [targetedCompetence1, targetedCompetence2],
         areas: [targetedArea],
       });
-      const campaignCollectiveResult = new CampaignCollectiveResultProgressive({ id: 123, targetProfile });
+      const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, targetProfile });
 
       // then
-      expect(campaignCollectiveResult.campaignCompetenceCollectiveResults[0].competenceIndex).to.equal('1.1');
-      expect(campaignCollectiveResult.campaignCompetenceCollectiveResults[1].competenceIndex).to.equal('3.1');
+      expect(campaignCollectiveResult.campaignCompetenceCollectiveResults[0].competenceId).to.equal('recCompetence2');
+      expect(campaignCollectiveResult.campaignCompetenceCollectiveResults[1].competenceId).to.equal('recCompetence1');
+    });
+
+    it('should initialize CampaignCompetenceCollectiveResult with a computed id', () => {
+      // given
+      const targetedCompetence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', areaId: 'recAreaId', index: '3.1' });
+      const targetedArea = domainBuilder.buildTargetedArea({ id: 'recAreaId', competences: [targetedCompetence1] });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        competences: [targetedCompetence1],
+        areas: [targetedArea],
+      });
+      const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, targetProfile });
+
+      // then
+      expect(campaignCollectiveResult.campaignCompetenceCollectiveResults[0].id).to.equal('123_recCompetence1');
+    });
+
+    it('should initialize CampaignCompetenceCollectiveResult with a computed areaCode', () => {
+      // given
+      const targetedCompetence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', areaId: 'recAreaId', index: '3.1' });
+      const targetedArea = domainBuilder.buildTargetedArea({ id: 'recAreaId', competences: [targetedCompetence1] });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        competences: [targetedCompetence1],
+        areas: [targetedArea],
+      });
+      const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, targetProfile });
+
+      // then
+      expect(campaignCollectiveResult.campaignCompetenceCollectiveResults[0].areaCode).to.equal('3');
     });
   });
 
@@ -50,7 +76,7 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResultProgressive', ()
         competences: [targetedCompetence1, targetedCompetence2],
         areas: [targetedArea],
       });
-      const campaignCollectiveResult = new CampaignCollectiveResultProgressive({ id: 123, targetProfile });
+      const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, targetProfile });
       campaignCollectiveResult.addValidatedSkillCountToCompetences({ 'recCompetence1': 5, 'recCompetence2': 3 });
       campaignCollectiveResult.addValidatedSkillCountToCompetences({ 'recCompetence2': 6 });
 
@@ -74,7 +100,7 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResultProgressive', ()
         competences: [targetedCompetence1, targetedCompetence2],
         areas: [targetedArea],
       });
-      const campaignCollectiveResult = new CampaignCollectiveResultProgressive({ id: 123, targetProfile });
+      const campaignCollectiveResult = new CampaignCollectiveResult({ id: 123, targetProfile });
       campaignCollectiveResult.addValidatedSkillCountToCompetences({ 'recCompetence1': 5, 'recCompetence2': 3 });
       campaignCollectiveResult.addValidatedSkillCountToCompetences({ 'recCompetence2': 6 });
 
