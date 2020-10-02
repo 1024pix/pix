@@ -1,4 +1,4 @@
-const fs = require('fs');
+const { writeFile, unlink } = require('fs').promises;
 const moment = require('moment');
 moment.suppressDeprecationWarnings = true;
 
@@ -26,15 +26,15 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', () => {
       const updatedOdsFileBuffer = await makeUpdatedOdsByContentXml({
         stringifiedXml: updatedStringifiedXml, odsFilePath: GET_CONTENT_ODS_FILE_PATH,
       });
-      fs.writeFileSync(updatedOdsFilePath, updatedOdsFileBuffer);
+      await writeFile(updatedOdsFilePath, updatedOdsFileBuffer);
       const result = await getContentXml({ odsFilePath: updatedOdsFilePath });
 
       // then
       expect(result).to.deep.equal(updatedStringifiedXml);
     });
 
-    afterEach(() => {
-      fs.unlinkSync(updatedOdsFilePath);
+    afterEach(async () => {
+      await unlink(updatedOdsFilePath);
     });
   });
 

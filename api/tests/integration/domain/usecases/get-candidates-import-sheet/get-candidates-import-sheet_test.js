@@ -1,4 +1,4 @@
-const fs = require('fs');
+const { unlink, writeFile } = require('fs').promises;
 
 const { expect, databaseBuilder } = require('../../../../test-helper');
 
@@ -38,14 +38,14 @@ describe('Integration | UseCases | getCandidatesImportSheet', () => {
     await databaseBuilder.commit();
   });
 
-  afterEach(() => {
-    fs.unlinkSync(actualOdsFilePath);
+  afterEach(async () => {
+    await unlink(actualOdsFilePath);
   });
 
   it('should return an attendance sheet with session data, certification candidates data prefilled', async () => {
     // when
     const updatedOdsFileBuffer = await getCandidatesImportSheet({ userId, sessionId, sessionRepository });
-    fs.writeFileSync(actualOdsFilePath, updatedOdsFileBuffer);
+    await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
     const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
     const expectResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
 

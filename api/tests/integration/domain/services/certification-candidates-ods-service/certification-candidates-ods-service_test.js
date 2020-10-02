@@ -2,7 +2,7 @@ const { expect, databaseBuilder } = require('../../../../test-helper');
 const certificationCandidatesOdsService = require('../../../../../lib/domain/services/certification-candidates-ods-service');
 const CertificationCandidate = require('../../../../../lib/domain/models/CertificationCandidate');
 const { CertificationCandidatesImportError } = require('../../../../../lib/domain/errors');
-const fs = require('fs');
+const { readFile } = require('fs').promises;
 const _ = require('lodash');
 
 describe('Integration | Services | extractCertificationCandidatesFromAttendanceSheet', () => {
@@ -23,7 +23,7 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
     it('should throw a CertificationCandidatesImportError if there is an error in the file', async () => {
       // given
       const odsFilePath = `${__dirname}/attendance_sheet_1-3_extract_mandatory_ko_test.ods`;
-      const odsBuffer = fs.readFileSync(odsFilePath);
+      const odsBuffer = await readFile(odsFilePath);
 
       // when
       try {
@@ -38,7 +38,7 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
     it('should return extracted and validated certification candidates', async () => {
       // given
       const odsFilePath = `${__dirname}/attendance_sheet_1-3_extract_ok_test.ods`;
-      const odsBuffer = fs.readFileSync(odsFilePath);
+      const odsBuffer = await readFile(odsFilePath);
       const expectedCertificationCandidates = _.map([
         {
           lastName: 'Gallagher', firstName: 'Jack',
