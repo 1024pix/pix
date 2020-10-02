@@ -47,6 +47,9 @@ export default class CertificationCandidatesController extends Controller {
   @action
   async importCertificationCandidates(file) {
     const { access_token } = this.session.data.authenticated;
+    const importError = this.isResultRecipientEmailVisible ?
+      'Veuillez télécharger à nouveau le modèle de liste des candidats et l\'importer à nouveau.' :
+      'Veuillez modifier votre fichier et l’importer à nouveau.';
     this.notifications.clearAll();
 
     try {
@@ -57,22 +60,20 @@ export default class CertificationCandidatesController extends Controller {
       this.notifications.success('La liste des candidats a été importée avec succès.');
     }
     catch (err) {
-      const errorPrefix =  htmlSafe('Aucun candidat n’a été importé. </br>');
-      const globalErrorMessage = `${errorPrefix} Veuillez réessayer ou nous contacter via le formulaire du centre d'aide`;
+      const errorPrefix = 'Aucun candidat n’a été importé. <br>';
+      const defaultErrorMessage = `${errorPrefix} Veuillez réessayer ou nous contacter via le formulaire du centre d'aide`;
+      let errorMessage = defaultErrorMessage;
       if (err.body.errors) {
         err.body.errors.forEach((error) => {
-          let errorMessage = globalErrorMessage;
           if (error.status === '422') {
-            errorMessage = htmlSafe(`<p>${errorPrefix}<b>${error.detail}</b> <br>Veuillez modifier votre fichier et l’importer à nouveau.</p>`);
+            errorMessage = htmlSafe(`<p>${errorPrefix}<b>${error.detail}</b> <br>${importError}</p>`);
           }
           if (error.status === '403' && error.detail === 'At least one candidate is already linked to a user') {
             errorMessage = 'La session a débuté, il n\'est plus possible de modifier la liste des candidats.';
           }
-          return this.notifications.error(errorMessage, { cssClasses: 'certification-candidates-notification' });
         });
-      } else {
-        this.notifications.error(globalErrorMessage, { cssClasses: 'certification-candidates-notification' });
       }
+      this.notifications.error(htmlSafe(errorMessage), { cssClasses: 'certification-candidates-notification' });
     }
   }
 
