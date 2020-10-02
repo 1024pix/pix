@@ -10,7 +10,7 @@ export default class ListController extends Controller {
   @service currentUser;
   @service notifications;
 
-  isLoading = false;
+  @tracked isLoading = false;
 
   @tracked lastName = null;
   @tracked firstName = null;
@@ -18,7 +18,7 @@ export default class ListController extends Controller {
   @tracked pageSize = null;
 
   updateFilters(filters) {
-    this.setProperties(filters);
+    Object.keys(filters).forEach((filterKey) => this[filterKey] = filters[filterKey]);
     this.pageNumber = null;
   }
 
@@ -35,23 +35,23 @@ export default class ListController extends Controller {
 
   @action
   async importStudents(file) {
-    this.set('isLoading', true);
-    this.get('notifications').clearAll();
-    const { access_token } = this.get('session.data.authenticated');
+    this.isLoading = true;
+    this.notifications.clearAll();
+    const { access_token } = this.session.data.authenticated;
 
     try {
-      await file.uploadBinary(`${ENV.APP.API_HOST}/api/organizations/${this.get('currentUser.organization.id')}/schooling-registrations/import-csv`, {
+      await file.uploadBinary(`${ENV.APP.API_HOST}/api/organizations/${this.currentUser.organization.id}/schooling-registrations/import-csv`, {
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
       });
 
       this.refresh();
-      this.set('isLoading', false);
-      this.get('notifications').sendSuccess('La liste a été importée avec succès.');
+      this.isLoading = false;
+      this.notifications.sendSuccess('La liste a été importée avec succès.');
 
     } catch (errorResponse) {
-      this.set('isLoading', false);
+      this.isLoading = false;
 
       const errorPrefix = 'Aucun étudiant n’a été importé.<br/>';
       const globalErrorMessage = `<div>${errorPrefix} Veuillez réessayer ou nous contacter via <a target="_blank" rel="noopener noreferrer" href="https://support.pix.fr/support/tickets/new">le formulaire du centre d'aide</a></div>`;
