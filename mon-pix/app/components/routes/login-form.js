@@ -7,9 +7,6 @@ import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 import { inject } from '@ember/service';
 import { action, computed } from '@ember/object';
-import ENV from 'mon-pix/config/environment';
-
-const AUTHENTICATED_SOURCE_FROM_MEDIACENTRE = ENV.APP.AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
 
 @classic
 export default class LoginForm extends Component {
@@ -54,58 +51,53 @@ export default class LoginForm extends Component {
     this.set('externalUserToken', this.session.get('data.externalUser'));
     this.set('expectedUserId', this.session.get('data.expectedUserId'));
 
-    await this._authenticate(password, login);
-    await this._addGarAuthenticationMethodToUser();
+    if (this.externalUserToken) {
+      await this._authenticateExternalUser(password, login);
+    } else {
+      await this._authenticate(password, login);
+    }
 
     this.set('isLoading', false);
   }
 
   async _authenticate(password, login) {
     const scope = 'mon-pix';
-
-    if (this.externalUserToken) {
-      this.session.set('attemptedTransition', {
-        retry: () => {
-        },
-      });
-    }
-
     try {
       await this.session.authenticate('authenticator:oauth2', { login, password, scope });
-      if (this.externalUserToken) {
-        this.session.set('data.authenticated.source', AUTHENTICATED_SOURCE_FROM_MEDIACENTRE);
-      }
     } catch (err) {
       const title = ('errors' in err) ? err.errors.get('firstObject').title : null;
       if (title === 'PasswordShouldChange') {
         this.store.createRecord('user', { username: this.login, password: this.password });
-        this.session.set('attemptedTransition', {
-          retry: () => {
-            this._addGarAuthenticationMethodToUser();
-          },
-        });
         return this.router.replaceWith('update-expired-password');
       }
       this.set('isErrorMessagePresent', true);
     }
   }
 
-  async _addGarAuthenticationMethodToUser() {
-    if (this.session.isAuthenticated && this.externalUserToken) {
-      try {
-        await this.addGarAuthenticationMethodToUser(this.externalUserToken, this.expectedUserId);
-      } catch (response) {
-        await this.session.invalidate();
-
-        this._manageErrorsApi(response);
-        this.set('hasUpdateUserError', true);
+  async _authenticateExternalUser(password, login) {
+    try {
+      const externalUserAuthenticationRequest = this.store.createRecord('external-user-authentication-request', {
+        username: login,
+        password,
+        externalUserToken: this.externalUserToken,
+        expectedUserId: this.expectedUserId,
+      });
+      await this.addGarAuthenticationMethodToUser(externalUserAuthenticationRequest);
+    } catch (err) {
+      const title = ('errors' in err) ? err.errors.get('firstObject').title : null;
+      if (title === 'PasswordShouldChange') {
+        this.store.createRecord('user', { username: this.login, password: this.password });
+        return this.router.replaceWith('update-expired-password');
       }
+      this._manageErrorsApi(err);
+      this.set('hasUpdateUserError', true);
     }
   }
 
   _manageErrorsApi(errorsApi) {
     const defaultErrorMessage = this.intl.t('api-error-messages.internal-server-error');
     const errorMessageStatusCode4xx = this.intl.t('api-error-messages.bad-request-error');
+    const invalidCredentialsErrorMessage = this.intl.t('pages.login-or-register.login-form.error');
     const unexpectedUserAccountErrorMessage = this.intl.t('pages.login-or-register.login-form.unexpected-user-account-error');
 
     let errorMessage = defaultErrorMessage;
@@ -116,6 +108,8 @@ export default class LoginForm extends Component {
     if (errorStatus && errorStatus.toString().startsWith('4')) {
       if (errorCode && errorCode === 'UNEXPECTED_USER_ACCOUNT') {
         errorMessage = unexpectedUserAccountErrorMessage + get(errorsApi, 'errors[0].meta.value');
+      } else if (errorStatus && errorStatus === '401') {
+        errorMessage = invalidCredentialsErrorMessage;
       } else {
         errorMessage = errorMessageStatusCode4xx;
       }

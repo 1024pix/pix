@@ -87,6 +87,8 @@ export default class UpdateExpiredPasswordForm extends Component {
       await this.session.authenticate('authenticator:oauth2', {
         login, password,  scope: SCOPE_MON_PIX,
       });
+      this.session.set('data.externalUser', null);
+      this.session.set('data.expectedUserId', null);
     } catch (errorResponse) {
       this.authenticationHasFailed = true;
     }

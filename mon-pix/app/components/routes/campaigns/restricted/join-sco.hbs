@@ -64,6 +64,7 @@
 </form>
 {{#if this.displayInformationModal}}
   <Routes::Campaigns::Restricted::JoinScoInformationModal
+          @campaignCode={{@campaignCode}}
           @reconciliationError={{this.reconciliationError}}
           @reconciliationWarning={{this.reconciliationWarning}}
           @closeModal={{this.closeModal}}

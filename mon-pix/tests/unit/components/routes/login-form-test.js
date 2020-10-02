@@ -87,15 +87,6 @@ describe('Unit | Component | routes/login-form', function() {
         sessionStub.get.withArgs('data.expectedUserId').returns(expectedUserId);
       });
 
-      it('should prevent redirection and update user authentication method', async () => {
-        // when
-        await component.authenticate();
-
-        // then
-        sinon.assert.calledWith(component.session.set, 'attemptedTransition');
-        sinon.assert.calledWith(component.addGarAuthenticationMethodToUser, externalUserToken);
-      });
-
       context('when update user authentication method fails', () => {
 
         it('should display an error message', async () => {
@@ -108,17 +99,6 @@ describe('Unit | Component | routes/login-form', function() {
           // then
           expect(component.isErrorMessagePresent).to.be.false;
           expect(component.hasUpdateUserError).to.be.true;
-        });
-
-        it('should invalidate the session', async () => {
-          // given
-          component.addGarAuthenticationMethodToUser.rejects(new Error());
-
-          // when
-          await component.authenticate();
-
-          // then
-          sinon.assert.calledOnce(sessionStub.invalidate);
         });
       });
     });
