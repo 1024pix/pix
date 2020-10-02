@@ -2,6 +2,7 @@ const { expect, databaseBuilder } = require('../../test-helper');
 const querystring = require('querystring');
 
 const createServer = require('../../../server');
+const tokenService = require('../../../lib/domain/services/token-service');
 
 describe('Acceptance | Controller | authentication-controller', () => {
 
@@ -102,4 +103,100 @@ describe('Acceptance | Controller | authentication-controller', () => {
     });
   });
 
+  describe('POST /api/token-from-external-user', () => {
+
+    let options;
+
+    beforeEach(async () => {
+      const password = 'Pix123';
+      const userAttributes = {
+        firstName: 'saml',
+        lastName: 'jackson',
+        samlId: 'SAMLJACKSONID',
+      };
+      const user = databaseBuilder.factory.buildUser.withUnencryptedPassword({ username: 'saml.jackson1234', rawPassword: password });
+      const expectedExternalToken = tokenService.createIdTokenForUserReconciliation(userAttributes);
+
+      options = {
+        method: 'POST',
+        url: '/api/token-from-external-user',
+        payload: {
+          data: {
+            attributes: {
+              username: user.username,
+              password: password,
+              'external-user-token': expectedExternalToken,
+              'expected-user-id': user.id,
+            },
+            type: 'external-user-authentication-requests',
+          },
+        },
+      };
+
+      await databaseBuilder.commit();
+    });
+
+    it('should return an 200 with accessToken when authentication is ok', async () => {
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data.attributes['access-token']).to.exist;
+    });
+
+    context('When credentials are not valid', () => {
+
+      it('should return a 401 Unauthorized', async () => {
+        // given
+        options.payload.data.attributes.username = 'unknown';
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+        expect(response.result.errors[0].detail).to.equal('L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.');
+      });
+    });
+
+    context('When user should change password', () => {
+
+      it('should return a 401 Unauthorized', async () => {
+        // given
+        const password = 'password';
+        const user = databaseBuilder.factory.buildUser.withUnencryptedPassword({ rawPassword: password, shouldChangePassword: true });
+        await databaseBuilder.commit();
+
+        options.payload.data.attributes.username = user.email;
+        options.payload.data.attributes.password = password;
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+        expect(response.result.errors[0].title).to.equal('PasswordShouldChange');
+        expect(response.result.errors[0].detail).to.equal('Erreur, vous devez changer votre mot de passe.');
+      });
+    });
+
+    context('When the authentified user does not match the expected one', () => {
+
+      it('should return a 409 Conflict', async () => {
+        // given
+        const invalidUserId = databaseBuilder.factory.buildUser().id;
+        await databaseBuilder.commit();
+        options.payload.data.attributes['expected-user-id'] = invalidUserId;
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(409);
+        expect(response.result.errors[0].code).to.equal('UNEXPECTED_USER_ACCOUNT');
+        expect(response.result.errors[0].detail).to.equal('Ce compte utilisateur n\'est pas celui qui est attendu.');
+      });
+    });
+  });
 });

@@ -27,18 +27,19 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
   it('should resolves a valid JWT access token when authentication succeeded', async () => {
     // given
     const accessToken = 'jwt.access.token';
+    const source = 'pix';
     const user = domainBuilder.buildUser({ email: userEmail, password: userPassword, shouldChangePassword: false });
     authenticationService.getUserByUsernameAndPassword.resolves(user);
     tokenService.createAccessTokenFromUser.returns(accessToken);
 
     // when
-    await authenticateUser({ username: userEmail, password: userPassword, userRepository, tokenService });
+    await authenticateUser({ username: userEmail, password: userPassword, source, userRepository, tokenService });
 
     // then
     expect(authenticationService.getUserByUsernameAndPassword).to.have.been.calledWithExactly({
       username: userEmail, password: userPassword, userRepository,
     });
-    expect(tokenService.createAccessTokenFromUser).to.have.been.calledWithExactly(user, 'pix');
+    expect(tokenService.createAccessTokenFromUser).to.have.been.calledWithExactly(user, source);
   });
 
   it('should rejects an error when given username (email) does not match an existing one', async () => {

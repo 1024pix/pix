@@ -50,6 +50,28 @@ exports.register = async (server) => {
         tags: ['api'],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/token-from-external-user',
+      config: {
+        auth: false,
+        validate: {
+          payload: Joi.object({
+            data: {
+              type: Joi.string().valid('external-user-authentication-requests').required(),
+              attributes: {
+                username: Joi.string().required(),
+                password: Joi.string().required(),
+                'external-user-token': Joi.string().required(),
+                'expected-user-id': Joi.number().positive().required(),
+              },
+            },
+          }),
+        },
+        handler: AuthenticationController.authenticateExternalUser,
+        tags: ['api'],
+      },
+    },
 
   ]);
 };

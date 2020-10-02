@@ -23,6 +23,7 @@ function _checkUserAccessScope(scope, user) {
 module.exports = async function authenticateUser({
   password,
   scope,
+  source,
   tokenService,
   username,
   userRepository,
@@ -32,7 +33,7 @@ module.exports = async function authenticateUser({
 
     if (!foundUser.shouldChangePassword) {
       _checkUserAccessScope(scope, foundUser);
-      return tokenService.createAccessTokenFromUser(foundUser, 'pix');
+      return tokenService.createAccessTokenFromUser(foundUser, source);
     } else {
       throw new UserShouldChangePasswordError();
     }
