@@ -11,6 +11,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
       beforeEach(() => {
         airtableBuilder.mockList({ tableName: 'Competences' }).returns([]).activate();
         airtableBuilder.mockList({ tableName: 'Domaines' }).returns([]).activate();
+        airtableBuilder.mockList({ tableName: 'Acquis' }).returns([]).activate();
       });
 
       afterEach(() => {
@@ -73,6 +74,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
       beforeEach(() => {
         airtableBuilder.mockList({ tableName: 'Competences' }).returns([]).activate();
         airtableBuilder.mockList({ tableName: 'Domaines' }).returns([]).activate();
+        airtableBuilder.mockList({ tableName: 'Acquis' }).returns([]).activate();
       });
 
       afterEach(() => {
@@ -99,6 +101,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
       beforeEach(() => {
         airtableBuilder.mockList({ tableName: 'Competences' }).returns([]).activate();
         airtableBuilder.mockList({ tableName: 'Domaines' }).returns([]).activate();
+        airtableBuilder.mockList({ tableName: 'Acquis' }).returns([]).activate();
       });
 
       afterEach(() => {
@@ -121,14 +124,21 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
 
     context('certification infos', () => {
       beforeEach(() => {
+        airtableBuilder.mockList({ tableName: 'Domaines' }).returns([]).activate();
+
         const competences = [
           airtableBuilder.factory.buildCompetence({ id: 'rec1', origin: 'Pix' }),
           airtableBuilder.factory.buildCompetence({ id: 'rec2', origin: 'Pix' }),
           airtableBuilder.factory.buildCompetence({ id: 'rec3', origin: 'Other' }),
         ];
         airtableBuilder.mockList({ tableName: 'Competences' }).returns(competences).activate();
-        airtableBuilder.mockList({ tableName: 'Domaines' }).returns([]).activate();
 
+        const skills = [];
+        competences.forEach((competence) => {
+          const skill = airtableBuilder.factory.buildSkill({ compétenceViaTube: [competence.id] });
+          skills.push(skill);
+        });
+        airtableBuilder.mockList({ tableName: 'Acquis' }).returns(skills).activate();
       });
 
       afterEach(() => {
@@ -232,6 +242,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
       beforeEach(() => {
         airtableBuilder.mockList({ tableName: 'Competences' }).returns([]).activate();
         airtableBuilder.mockList({ tableName: 'Domaines' }).returns([]).activate();
+        airtableBuilder.mockList({ tableName: 'Acquis' }).returns([]).activate();
       });
 
       afterEach(() => {
@@ -251,6 +262,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
       beforeEach(() => {
         airtableBuilder.mockList({ tableName: 'Competences' }).returns([]).activate();
         airtableBuilder.mockList({ tableName: 'Domaines' }).returns([]).activate();
+        airtableBuilder.mockList({ tableName: 'Acquis' }).returns([]).activate();
       });
 
       afterEach(() => {

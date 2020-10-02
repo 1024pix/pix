@@ -7,6 +7,7 @@ describe('Integration | UseCase | get-campaign-profile', () => {
   beforeEach(() => {
     airtableBuilder.mockList({ tableName: 'Competences' }).returns([]).activate();
     airtableBuilder.mockList({ tableName: 'Domaines' }).returns([]).activate();
+    airtableBuilder.mockList({ tableName: 'Acquis' }).returns([]).activate();
   });
 
   afterEach(async () => {

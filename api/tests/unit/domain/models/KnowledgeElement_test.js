@@ -34,6 +34,44 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
     });
   });
 
+  describe('#isDirectlyValidated', () => {
+
+    [
+      {
+        status: KnowledgeElement.StatusType.VALIDATED,
+        source: KnowledgeElement.SourceType.DIRECT,
+        expected: true,
+      },
+      {
+        status: KnowledgeElement.StatusType.INVALIDATED,
+        source: KnowledgeElement.SourceType.DIRECT,
+        expected: false,
+      },
+      {
+        status: KnowledgeElement.StatusType.VALIDATED,
+        source: KnowledgeElement.SourceType.INFERRED,
+        expected: false,
+      },
+      {
+        status: KnowledgeElement.StatusType.INVALIDATED,
+        source: KnowledgeElement.SourceType.INFERRED,
+        expected: false,
+      },
+    ].forEach(({ status, source, expected }) => {
+      it(`should be ${expected} with ${status} status and ${source} source`, () => {
+        // given
+        const knowledgeElement = domainBuilder.buildKnowledgeElement({ status, source });
+
+        // when
+        const result = knowledgeElement.isDirectlyValidated();
+
+        // then
+        expect(result).to.equal(expected);
+      });
+    });
+
+  });
+
   describe('#isInValidated', () => {
 
     it('should be true if status invalidated', () => {

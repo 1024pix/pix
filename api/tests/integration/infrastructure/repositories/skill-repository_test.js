@@ -10,6 +10,27 @@ describe('Integration | Repository | skill-repository', () => {
     return cache.flushAll();
   });
 
+  describe('#list', () => {
+
+    it('should resolve all skills', async () => {
+      // given
+      const competenceId = 'recCompetenceId';
+      const activeSkill = domainBuilder.buildSkill({ competenceId });
+      const archivedSkill = domainBuilder.buildSkill({ competenceId });
+      const activeSkill_otherCompetence = domainBuilder.buildSkill({ competenceId: 'recAnotherCompetence' });
+      const airtableActiveSkill = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: activeSkill, status: 'actif' });
+      const airtableArchivedSkill = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: archivedSkill, status: 'archivé' });
+      const airtableActiveSkill_otherCompetence = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: activeSkill_otherCompetence, status: 'actif' });
+      airtableBuilder.mockLists({ skills: [airtableActiveSkill, airtableArchivedSkill, airtableActiveSkill_otherCompetence] });
+
+      // when
+      const skills = await skillRepository.list();
+
+      // then
+      expect(skills).to.deep.equal([activeSkill, archivedSkill, activeSkill_otherCompetence]);
+    });
+  });
+
   describe('#findActiveByCompetenceId', () => {
 
     it('should return all skills in the given competence', async () => {
