@@ -1,35 +1,42 @@
 const _ = require('lodash');
+const bluebird = require('bluebird');
 const { knex } = require('../bookshelf');
-const CampaignCollectiveResult = require('../../domain/models/CampaignCollectiveResult');
-const CampaignCompetenceCollectiveResult = require('../../domain/models/CampaignCompetenceCollectiveResult');
+const CampaignCollectiveResult = require('../../domain/read-models/CampaignCollectiveResult');
 const knowledgeElementRepository = require('./knowledge-element-repository');
+const constants = require('../constants');
 
 module.exports = {
 
   async getCampaignCollectiveResult(campaignId, targetProfile) {
-    const userIdsAndDates = await _getSharedParticipationsUserIdsAndDates(campaignId);
-    const validatedTargetedKnowledgeElementsByUserIdAndCompetenceId =
-      await knowledgeElementRepository.findValidatedTargetedGroupedByCompetencesForUsers(userIdsAndDates, targetProfile);
+    const campaignCollectiveResult = new CampaignCollectiveResult({ id: campaignId, targetProfile });
 
-    const participantsKECountByCompetenceId = _countValidatedKnowledgeElementsByCompetence(validatedTargetedKnowledgeElementsByUserIdAndCompetenceId, targetProfile);
+    const userIdsAndSharedDatesChunks = await _getChunksSharedParticipationsWithUserIdsAndDates(campaignId);
 
-    const campaignCompetenceCollectiveResults = _buildCampaignCompetenceCollectiveResults(campaignId, targetProfile, Object.keys(userIdsAndDates).length, participantsKECountByCompetenceId);
+    let participantCount = 0;
+    await bluebird.mapSeries(userIdsAndSharedDatesChunks, async (userIdsAndSharedDates) => {
+      participantCount += userIdsAndSharedDates.length;
+      const validatedTargetedKnowledgeElementsByUserIdAndCompetenceId =
+        await knowledgeElementRepository.findValidatedTargetedGroupedByCompetencesForUsers(Object.fromEntries(userIdsAndSharedDates), targetProfile);
+      const participantsKECountByCompetenceId = _countValidatedKnowledgeElementsByCompetence(validatedTargetedKnowledgeElementsByUserIdAndCompetenceId, targetProfile);
+      campaignCollectiveResult.addValidatedSkillCountToCompetences(participantsKECountByCompetenceId);
+    });
 
-    return new CampaignCollectiveResult({ id: campaignId, campaignCompetenceCollectiveResults });
+    campaignCollectiveResult.finalize(participantCount);
+    return campaignCollectiveResult;
   },
 };
 
-async function _getSharedParticipationsUserIdsAndDates(campaignId) {
+async function _getChunksSharedParticipationsWithUserIdsAndDates(campaignId) {
   const results = await knex('campaign-participations')
     .select('userId', 'sharedAt')
     .where({ campaignId, isShared: true });
 
-  const userIdsAndDates = {};
+  const userIdsAndDates = [];
   for (const result of results) {
-    userIdsAndDates[result.userId] = result.sharedAt;
+    userIdsAndDates.push([result.userId, result.sharedAt]);
   }
 
-  return userIdsAndDates;
+  return _.chunk(userIdsAndDates, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
 }
 
 function _countValidatedKnowledgeElementsByCompetence(validatedKnowledgeElementsByUserByCompetence, targetProfile) {
@@ -45,24 +52,5 @@ function _countValidatedKnowledgeElementsByCompetence(validatedKnowledgeElements
   }
 
   return validatedCountByCompetence;
-}
-
-function _buildCampaignCompetenceCollectiveResults(campaignId, targetProfile, participantCount, participantsKECountByCompetenceId) {
-  return _(targetProfile.competences).map((competence) => {
-    let averageValidatedSkills = 0;
-    if (participantCount && competence.id in participantsKECountByCompetenceId) {
-      averageValidatedSkills = participantsKECountByCompetenceId[competence.id] / participantCount;
-    }
-
-    const area = targetProfile.getAreaOfCompetence(competence.id);
-    return new CampaignCompetenceCollectiveResult({
-      campaignId,
-      targetedArea: area,
-      targetedCompetence: competence,
-      averageValidatedSkills,
-    });
-  })
-    .sortBy('competenceIndex')
-    .value();
 }
 
