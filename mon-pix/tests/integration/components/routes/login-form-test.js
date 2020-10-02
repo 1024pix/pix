@@ -208,24 +208,6 @@ describe('Integration | Component | routes/login-form', function() {
       addGarAuthenticationMethodToUserStub = sinon.stub();
     });
 
-    it('should prevent redirection and update user authentication method', async function() {
-      // given
-      const sessionServiceObserver = this.owner.lookup('service:session');
-      this.set('addGarAuthenticationMethodToUser', addGarAuthenticationMethodToUserStub);
-
-      await render(hbs`<Routes::LoginForm @addGarAuthenticationMethodToUser={{this.addGarAuthenticationMethodToUser}} />`);
-
-      await fillIn('#login', 'pix@example.net');
-      await fillIn('#password', 'JeMeLoggue1024');
-
-      // when
-      await click('#submit-connexion');
-
-      // then
-      sinon.assert.calledWith(sessionServiceObserver.set, 'attemptedTransition');
-      sinon.assert.calledWith(addGarAuthenticationMethodToUserStub, externalUserToken);
-    });
-
     it('should display the specific error message if update fails with http error 4xx', async function() {
       // given
       const expectedErrorMessage = 'Les données que vous avez soumises ne sont pas au bon format.';
