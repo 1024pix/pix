@@ -1,4 +1,5 @@
 const Hapi = require('@hapi/hapi');
+const { writeFile, stat, unlink } = require('fs').promises;
 const fs = require('fs');
 const FormData = require('form-data');
 const streamToPromise = require('stream-to-promise');
@@ -91,9 +92,10 @@ describe('Unit | Application | Sessions | Routes', () => {
     let options;
     beforeEach(async () => {
       // given
-      fs.writeFileSync(testFilePath, Buffer.alloc(0));
+      await writeFile(testFilePath, Buffer.alloc(0));
       const form = new FormData();
-      form.append('file', fs.createReadStream(testFilePath), { knownLength: fs.statSync(testFilePath).size });
+      const knownLength = await stat(testFilePath).size;
+      form.append('file', fs.createReadStream(testFilePath), { knownLength });
       const payload = await streamToPromise(form);
       options = {
         method: 'POST',
@@ -102,8 +104,8 @@ describe('Unit | Application | Sessions | Routes', () => {
       };
     });
 
-    afterEach(() => {
-      fs.unlinkSync(testFilePath);
+    afterEach(async () => {
+      await unlink(testFilePath);
     });
 
     it('should exist', async () => {

@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../test-helper');
-const fs = require('fs');
+const fs = require('fs').promises;
 
 const NextGitCommitMessage = require('../../../scripts/NextGitCommitMessage');
 
@@ -15,8 +15,8 @@ describe('NextGitCommitMessage', () => {
     const initialCommitMessage = `${initialSubject}\n\n${descriptionBody}`;
     const updatedCommitMessage = `${updatedSubject}\n\n${descriptionBody}`;
 
-    sinon.stub(fs, 'readFileSync').returns(initialCommitMessage);
-    sinon.stub(fs, 'writeFileSync');
+    sinon.stub(fs, 'readFile').returns(initialCommitMessage);
+    sinon.stub(fs, 'writeFile');
 
     const commit = new NextGitCommitMessage(path);
 
@@ -24,6 +24,6 @@ describe('NextGitCommitMessage', () => {
     commit.updateSubject(updatedCommitMessage);
 
     // then
-    expect(fs.writeFileSync).to.have.been.calledWithExactly(path, updatedCommitMessage, { encoding: 'utf-8' });
+    expect(fs.writeFile).to.have.been.calledWithExactly(path, updatedCommitMessage, { encoding: 'utf-8' });
   });
 });
