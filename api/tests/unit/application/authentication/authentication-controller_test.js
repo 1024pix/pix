@@ -34,6 +34,7 @@ describe('Unit | Application | Controller | Authentication', () => {
       const username = 'user@email.com';
       const password = 'user_password';
       const scope = 'pix-orga';
+      const source = 'pix';
 
       // when
       await authenticationController.authenticateUser(request, hFake);
@@ -43,6 +44,7 @@ describe('Unit | Application | Controller | Authentication', () => {
         username,
         password,
         scope,
+        source,
       });
     });
 
@@ -69,4 +71,74 @@ describe('Unit | Application | Controller | Authentication', () => {
     });
   });
 
+  describe('#authenticateExternalUser', () => {
+    let request;
+    const accessToken = 'jwt.access.token';
+    const user = {
+      username: 'saml.jackson1234',
+      password: 'Pix123',
+    };
+
+    beforeEach(() => {
+      request = {
+        payload: {
+          data: {
+            attributes: {
+              username: user.username,
+              password: user.password,
+              'external-user-token': 'SamlJacksonToken',
+              'expected-user-id': 1,
+            },
+            type: 'external-user-authentication-requests',
+          },
+        },
+      };
+
+      sinon.stub(tokenService, 'extractUserId').returns(1);
+      sinon.stub(usecases, 'updateUserSamlId').resolves();
+    });
+
+    it('should check user credentials', async () => {
+      // given
+      const source = 'external';
+      sinon.stub(usecases, 'authenticateUser').resolves(accessToken);
+
+      // when
+      await authenticationController.authenticateExternalUser(request, hFake);
+
+      // then
+      expect(usecases.authenticateUser).to.have.been.calledWith({
+        username: user.username,
+        password: user.password,
+        source,
+      });
+    });
+
+    it('should update user samlId', async () => {
+      // given
+      sinon.stub(usecases, 'authenticateUser').resolves(accessToken);
+
+      // when
+      await authenticationController.authenticateExternalUser(request, hFake);
+
+      // then
+      expect(usecases.updateUserSamlId).to.have.been.calledWith({
+        userId: 1,
+        externalUserToken: 'SamlJacksonToken',
+        expectedUserId: 1,
+      });
+    });
+
+    it('should return an access token', async () => {
+      // given
+      sinon.stub(usecases, 'authenticateUser').resolves(accessToken);
+
+      // when
+      const response = await authenticationController.authenticateExternalUser(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.source.data.attributes['access-token']).to.equal(accessToken);
+    });
+  });
 });

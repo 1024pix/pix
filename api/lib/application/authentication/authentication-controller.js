@@ -9,7 +9,7 @@ module.exports = {
   async authenticateUser(request, h) {
     const { username, password, scope } = request.payload;
 
-    const accessToken = await usecases.authenticateUser({ username, password, scope });
+    const accessToken = await usecases.authenticateUser({ username, password, scope, source: 'pix' });
 
     return h.response({
       token_type: 'bearer',
@@ -22,4 +22,27 @@ module.exports = {
       .header('Pragma', 'no-cache');
   },
 
+  async authenticateExternalUser(request, h) {
+    const {
+      username,
+      password,
+      'external-user-token': externalUserToken,
+      'expected-user-id': expectedUserId,
+    } = request.payload.data.attributes;
+
+    const accessToken = await usecases.authenticateUser({ username, password, source: 'external' });
+    const userId = tokenService.extractUserId(accessToken);
+
+    await usecases.updateUserSamlId({ userId, externalUserToken, expectedUserId });
+
+    const response = {
+      data: {
+        attributes: {
+          'access-token': accessToken,
+        },
+        type: 'external-user-authentication-requests',
+      },
+    };
+    return h.response(response).code(200);
+  },
 };
