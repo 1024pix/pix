@@ -15,6 +15,7 @@ function parseQueryString(queryString) {
   return result;
 }
 
+/* eslint ember/no-get: off */
 export default function() {
 
   this.urlPrefix = 'http://localhost:3000';
