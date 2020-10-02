@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper');
+const { expect, databaseBuilder, domainBuilder, knex } = require('../../../test-helper');
 const campaignCollectiveResultRepository = require('../../../../lib/infrastructure/repositories/campaign-collective-result-repository');
 const CampaignCollectiveResult = require('../../../../lib/domain/models/CampaignCollectiveResult');
 const _ = require('lodash');
@@ -29,6 +29,10 @@ function _createUserWithNonSharedCampaignParticipation(userName, campaignId) {
 describe('Integration | Repository | Campaign collective result repository', () => {
 
   describe('#getCampaignCollectiveResults', () => {
+
+    afterEach(() => {
+      return knex('knowledge-element-snapshots').delete();
+    });
 
     context('in a rich context close to reality', () => {
       let targetProfile;
