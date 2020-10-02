@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v2.204.0 (02/10/2020)
+
+- [#1930](https://github.com/1024pix/pix/pull/1930) [FEATURE] Ajout d'un email pour l'envoie des résultats au(x) prescripteur(s) (PIX-974)
+- [#1922](https://github.com/1024pix/pix/pull/1922) [FEATURE] Réconcilier un utilisateur venant du GAR dans une nouvelle organisation (PIX-1244).
+- [#1923](https://github.com/1024pix/pix/pull/1923) [FEATURE] Affichage de la liste filtrée et paginée des profils cibles dans Pix Admin (PIX-1322).
+- [#1945](https://github.com/1024pix/pix/pull/1945) [TECH] Permet de récupérer les éléments dom par une sous chaîne avec la méthode contains.
+- [#1946](https://github.com/1024pix/pix/pull/1946) [TECH] Utiliser une version stable de la dépendance jwt-decode.
+- [#1939](https://github.com/1024pix/pix/pull/1939) [TECH] Suppression de JQuery dans pix-app
+- [#1924](https://github.com/1024pix/pix/pull/1924) [TECH] Utilisation du modèle TargetProfileWithLearningContent dans le calcul des résultats collectifs
+- [#1893](https://github.com/1024pix/pix/pull/1893) [CLEANUP] Interdire les textes non traduits dans les templates de pix app
+
 ## v2.203.0 (30/09/2020)
 
 - [#1937](https://github.com/1024pix/pix/pull/1937) [FEATURE] Permettre de modifier la gestion d'élèves d'une organisation depuis Pix Admin (PIX-1340).
