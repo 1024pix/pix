@@ -36,13 +36,18 @@ export default class Session extends Model {
         || this.status === PROCESSED;
   }
 
+  @computed('certificationCandidates.length')
+  get hasOneOrMoreCandidates() {
+    return this.certificationCandidates.length > 0;
+  }
+
   @computed('certificationCandidates.@each.isLinked')
   get hasStarted() {
     return this.certificationCandidates.isAny('isLinked');
   }
 
   @computed('id', 'session.data.authenticated.access_token')
-  get urlToDownload() {
+  get urlToDownloadAttendanceSheet() {
     return `${ENV.APP.API_HOST}/api/sessions/${this.id}/attendance-sheet?accessToken=${this.session.data.authenticated.access_token}`;
   }
 

@@ -5,6 +5,7 @@ import { authenticateSession } from 'ember-simple-auth/test-support';
 import moment from 'moment';
 import { createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
 import { CREATED, FINALIZED } from 'pix-certif/models/session';
+import config from 'pix-certif/config/environment';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -15,12 +16,18 @@ module('Acceptance | Session Details', function(hooks) {
 
   let user;
   let sessionFinalized;
-  let sessionNotFinalized;
+  let sessionNotFinalizedWithoutCandidate;
 
   hooks.beforeEach(function() {
     user = createUserWithMembershipAndTermsOfServiceAccepted();
-    sessionFinalized = server.create('session', { status: FINALIZED, date: '2019-02-18', time: '14:00' });
-    sessionNotFinalized = server.create('session', { status: CREATED });
+    const aCandidate = server.create('certification-candidate', { firstName: 'Laura', lastName: 'Carray' });
+    sessionFinalized = server.create('session', {
+      status: FINALIZED,
+      date: '2019-02-18',
+      time: '14:00',
+      certificationCandidates: [ aCandidate ],
+    });
+    sessionNotFinalizedWithoutCandidate = server.create('session', { status: CREATED });
   });
 
   hooks.afterEach(function() {
@@ -50,16 +57,77 @@ module('Acceptance | Session Details', function(hooks) {
       });
     });
 
-    test('it should display session details page', async function(assert) {
-      // when
-      await visit(`/sessions/${sessionFinalized.id}`);
+    module('when looking at the header', function() {
 
-      // then
-      assert.dom('.session-details-header__title').hasText(`Session ${sessionFinalized.id}`);
-      assert.dom('.session-details-container .session-details-row:first-child div:nth-child(2) span').hasText(`${sessionFinalized.address}`);
-      assert.dom('.session-details-container .session-details-row:first-child div:nth-child(3) span').hasText(`${sessionFinalized.room}`);
-      assert.dom('.session-details-container .session-details-row:first-child div:nth-child(4) span').hasText(`${sessionFinalized.examiner}`);
-      assert.dom('.session-details-container .session-details-row:first-child div:nth-child(5) span:first-child').hasText(`${sessionFinalized.accessCode}`);
+      test('it should display session details page', async function(assert) {
+        // when
+        await visit(`/sessions/${sessionFinalized.id}`);
+
+        // then
+        assert.dom('.session-details-header__title h1').hasText(`Session ${sessionFinalized.id}`);
+        assert.dom('.session-details-container .session-details-row:first-child div:nth-child(2) span').hasText(`${sessionFinalized.address}`);
+        assert.dom('.session-details-container .session-details-row:first-child div:nth-child(3) span').hasText(`${sessionFinalized.room}`);
+        assert.dom('.session-details-container .session-details-row:first-child div:nth-child(4) span').hasText(`${sessionFinalized.examiner}`);
+        assert.dom('.session-details-container .session-details-row:first-child div:nth-child(5) span:first-child').hasText(`${sessionFinalized.accessCode}`);
+      });
+
+      module('when FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE is on', function(hooks) {
+
+        const ft = config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE;
+
+        hooks.before(() => {
+          config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE = true;
+        });
+
+        hooks.after(() => {
+          config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE = ft;
+        });
+
+        test('it should show download button when there is one or more candidate', async function(assert) {
+          // when
+          await visit(`/sessions/${sessionFinalized.id}`);
+
+          // then
+          assert.dom('.session-details-header__title .button').hasText('Télécharger le PV');
+        });
+
+        test('it should not show download button where there is no candidate', async function(assert) {
+          // when
+          await visit(`/sessions/${sessionNotFinalizedWithoutCandidate.id}`);
+
+          // then
+          assert.dom('.session-details-header__title .button').doesNotExist();
+        });
+      });
+
+      module('when FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE is off', function(hooks) {
+
+        const ft = config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE;
+
+        hooks.before(() => {
+          config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE = false;
+        });
+
+        hooks.after(() => {
+          config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE = ft;
+        });
+
+        test('it should show download button when there is one or more candidate1', async function(assert) {
+          // when
+          await visit(`/sessions/${sessionFinalized.id}`);
+
+          // then
+          assert.dom('.session-details-header__title .button').doesNotExist();
+        });
+
+        test('it should not show download button where there is no candidate1', async function(assert) {
+          // when
+          await visit(`/sessions/${sessionNotFinalizedWithoutCandidate.id}`);
+
+          // then
+          assert.dom('.session-details-header__title .button').doesNotExist();
+        });
+      });
     });
 
     test('it should display properly formatted date and time related to the session', async function(assert) {
@@ -110,14 +178,14 @@ module('Acceptance | Session Details', function(hooks) {
         await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
 
         // then
-        assert.dom('[data-test-id="panel-candidate__lastName__1"]').hasText(`${candidateInSession.lastName}`);
-        assert.dom('[data-test-id="panel-candidate__firstName__1"]').hasText(`${candidateInSession.firstName}`);
-        assert.dom('[data-test-id="panel-candidate__birthdate__1"]').hasText(`${moment(candidateInSession.birthdate, 'YYYY-MM-DD').format('DD/MM/YYYY')}`);
-        assert.dom('[data-test-id="panel-candidate__birthCity__1"]').hasText(`${candidateInSession.birthCity}`);
-        assert.dom('[data-test-id="panel-candidate__birthProvinceCode__1"]').hasText(`${candidateInSession.birthProvinceCode}`);
-        assert.dom('[data-test-id="panel-candidate__birthCountry__1"]').hasText(`${candidateInSession.birthCountry}`);
-        assert.dom('[data-test-id="panel-candidate__email__1"]').hasText(`${candidateInSession.email}`);
-        assert.dom('[data-test-id="panel-candidate__externalId__1"]').hasText(`${candidateInSession.externalId}`);
+        assert.dom(`[data-test-id="panel-candidate__lastName__${candidateInSession.id}"]`).hasText(`${candidateInSession.lastName}`);
+        assert.dom(`[data-test-id="panel-candidate__firstName__${candidateInSession.id}"]`).hasText(`${candidateInSession.firstName}`);
+        assert.dom(`[data-test-id="panel-candidate__birthdate__${candidateInSession.id}"]`).hasText(`${moment(candidateInSession.birthdate, 'YYYY-MM-DD').format('DD/MM/YYYY')}`);
+        assert.dom(`[data-test-id="panel-candidate__birthCity__${candidateInSession.id}"]`).hasText(`${candidateInSession.birthCity}`);
+        assert.dom(`[data-test-id="panel-candidate__birthProvinceCode__${candidateInSession.id}"]`).hasText(`${candidateInSession.birthProvinceCode}`);
+        assert.dom(`[data-test-id="panel-candidate__birthCountry__${candidateInSession.id}"]`).hasText(`${candidateInSession.birthCountry}`);
+        assert.dom(`[data-test-id="panel-candidate__email__${candidateInSession.id}"]`).hasText(`${candidateInSession.email}`);
+        assert.dom(`[data-test-id="panel-candidate__externalId__${candidateInSession.id}"]`).hasText(`${candidateInSession.externalId}`);
       });
 
       test('it should display a sentence when there is no certification candidates yet', async function(assert) {
@@ -186,7 +254,7 @@ module('Acceptance | Session Details', function(hooks) {
       module('when the session has not CREATED', function() {
         test('it should not display the finalize button', async function(assert) {
           // when
-          await visit(`/sessions/${sessionNotFinalized.id}`);
+          await visit(`/sessions/${sessionNotFinalizedWithoutCandidate.id}`);
 
           // then
           assert.dom('.session-details-content__finalize-button').doesNotExist();
@@ -197,14 +265,14 @@ module('Acceptance | Session Details', function(hooks) {
         test('it should redirect to finalize page on click on finalize button', async function(assert) {
           // given
           const candidatesWithStartingCertif = server.createList('certification-candidate', 2, { isLinked: true });
-          sessionNotFinalized.update({ certificationCandidates: candidatesWithStartingCertif });
-          await visit(`/sessions/${sessionNotFinalized.id}`);
+          sessionNotFinalizedWithoutCandidate.update({ certificationCandidates: candidatesWithStartingCertif });
+          await visit(`/sessions/${sessionNotFinalizedWithoutCandidate.id}`);
 
           // when
           await click('.session-details-content__finalize-button');
 
           // then
-          assert.equal(currentURL(), `/sessions/${sessionNotFinalized.id}/finalisation`);
+          assert.equal(currentURL(), `/sessions/${sessionNotFinalizedWithoutCandidate.id}/finalisation`);
         });
       });
     });
