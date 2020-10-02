@@ -21,7 +21,7 @@ export default class ListController extends Controller {
   @tracked pageSize = null;
 
   updateFilters(filters) {
-    this.setProperties(filters);
+    Object.keys(filters).forEach((filterKey) => this[filterKey] = filters[filterKey]);
     this.pageNumber = null;
   }
 
