@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 class TargetProfileWithLearningContent {
   constructor({
     id,
@@ -37,6 +39,16 @@ class TargetProfileWithLearningContent {
     return skillTube ? skillTube.competenceId : null;
   }
 
+  getCompetence(competenceId) {
+    const foundCompetence = _.find(this.competences, (competence) => competence.id === competenceId);
+    return foundCompetence || null;
+  }
+
+  getArea(areaId) {
+    const foundArea = _.find(this.areas, (area) => area.id === areaId);
+    return foundArea || null;
+  }
+
   getAreaOfCompetence(competenceId) {
     const area = this.areas.find((area) => area.hasCompetence(competenceId));
 
@@ -60,6 +72,11 @@ class TargetProfileWithLearningContent {
 
   filterValidatedTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements) {
     return this.filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements, (knowledgeElement) => knowledgeElement.isValidated);
+  }
+
+  get maxSkillDifficulty() {
+    const skillMaxDifficulty = _.maxBy(this.skills, 'difficulty');
+    return skillMaxDifficulty ? skillMaxDifficulty.difficulty : null;
   }
 }
 
