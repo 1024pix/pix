@@ -77,6 +77,60 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
+  describe('getCompetence', () => {
+
+    it('should return the competence when its in the target profile', () => {
+      // given
+      const competence1 = domainBuilder.buildTargetedCompetence({ id: 'comp1' });
+      const competence2 = domainBuilder.buildTargetedCompetence({ id: 'comp2' });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ competences: [competence1, competence2] });
+
+      // when
+      const actualCompetence = targetProfile.getCompetence('comp2');
+
+      // then
+      expect(actualCompetence).to.deep.equal(competence2);
+    });
+
+    it('should return null if competence not in target profile', () => {
+      // given
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ competences: [] });
+
+      // when
+      const actualCompetence = targetProfile.getCompetence('comp2');
+
+      // then
+      expect(actualCompetence).to.be.null;
+    });
+  });
+
+  describe('getArea', () => {
+
+    it('should return the area when its in the target profile', () => {
+      // given
+      const area1 = domainBuilder.buildTargetedArea({ id: 'area1' });
+      const area2 = domainBuilder.buildTargetedArea({ id: 'area2' });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ areas: [area1, area2] });
+
+      // when
+      const actualArea = targetProfile.getArea('area2');
+
+      // then
+      expect(actualArea).to.deep.equal(area2);
+    });
+
+    it('should return null if area not in target profile', () => {
+      // given
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ areas: [] });
+
+      // when
+      const actualArea = targetProfile.getArea('area2');
+
+      // then
+      expect(actualArea).to.be.null;
+    });
+  });
+
   describe('getCompetenceIdOfSkill()', () => {
 
     const expectedCompetenceId = 'compId';
@@ -357,6 +411,33 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       expect(knowledgeElementsByCompetence).to.deep.equal({
         'recCompetence1': [knowledgeElement2],
       });
+    });
+  });
+
+  describe('get#maxSkillDifficulty', () => {
+
+    it('should highest difficulty of target profile skills', () => {
+      // given
+      const mostDifficultSkill = domainBuilder.buildTargetedSkill({ id: '@rechercheNucléaire5' });
+      const lessDifficultSkill = domainBuilder.buildTargetedSkill({ id: '@faireSesLacets1' });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ skills: [mostDifficultSkill, lessDifficultSkill] });
+
+      // when
+      const maxDifficulty = targetProfile.maxSkillDifficulty;
+
+      // then
+      expect(maxDifficulty).to.equal(5);
+    });
+
+    it('should return null when target profile has no skills', () => {
+      // given
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ skills: [] });
+
+      // when
+      const maxDifficulty = targetProfile.maxSkillDifficulty;
+
+      // then
+      expect(maxDifficulty).to.be.null;
     });
   });
 });
