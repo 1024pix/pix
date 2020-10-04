@@ -8,6 +8,10 @@ class TargetedSkill {
     this.name = name;
     this.tubeId = tubeId;
   }
+
+  get difficulty() {
+    return parseInt(this.name.slice(-1));
+  }
 }
 
 module.exports = TargetedSkill;
