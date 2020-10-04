@@ -3,9 +3,9 @@ const CampaignTubeRecommendation = require('../../../../lib/domain/models/Campai
 module.exports = function buildCampaignTubeRecommendation(
   {
     campaignId,
+    area,
     competence,
     tube,
-    skills,
     validatedKnowledgeElements,
     maxSkillLevelInTargetProfile,
     participantsCount,
@@ -15,7 +15,7 @@ module.exports = function buildCampaignTubeRecommendation(
     campaignId,
     tube,
     competence,
-    skills,
+    area,
     validatedKnowledgeElements,
     maxSkillLevelInTargetProfile,
     participantsCount,

@@ -1,12 +1,12 @@
 const CampaignAnalysis = require('../../../../lib/domain/models/CampaignAnalysis');
-const { expect } = require('../../../test-helper');
+const { expect, domainBuilder } = require('../../../test-helper');
 
 describe('Integration | Domain | Models | CampaignAnalysis', () => {
 
   describe('id', () => {
     it('returns the campaignId', () => {
-      const skills = [{ id: 1, difficulty: 1, tubeId: 1 } ];
-      const campaignAnalysis = new CampaignAnalysis({ campaignId: 12, competences: [], tubes: [], skills, validatedKnowledgeElements: [], participantsCount: 0  });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+      const campaignAnalysis = new CampaignAnalysis({ campaignId: 12, targetProfile, validatedKnowledgeElements: [], participantsCount: 0  });
 
       expect(campaignAnalysis.id).to.equal(12);
     });
@@ -14,176 +14,174 @@ describe('Integration | Domain | Models | CampaignAnalysis', () => {
 
   describe('campaignTubeRecommendations', () => {
     it('computes a recommendation for each tube', () => {
-      const competences = [
-        { id: 1, name: 'Competence1Name', area: { color: 'black' } },
-        { id: 2, name: 'Competence2Name', area: { color: 'white' } },
-      ];
-
-      const tubes = [
-        { id: 1, competenceId: 1 },
-        { id: 2, competenceId: 2 },
-      ];
-
-      const skills = [
-        { id: 1, difficulty: 1, tubeId: 1 },
-        { id: 2, difficulty: 2, tubeId: 1 },
-        { id: 3, difficulty: 3, tubeId: 2 },
-      ];
+      const skill1Tube1 = domainBuilder.buildTargetedSkill({ id: 'recSkill11', name: '@difficulty1', tubeId: 'recTube1' });
+      const skill2Tube1 = domainBuilder.buildTargetedSkill({ id: 'recSkill12', name: '@difficulty2', tubeId: 'recTube1' });
+      const skill1Tube2 = domainBuilder.buildTargetedSkill({ id: 'recSkill21', name: '@difficulty3', tubeId: 'recTube2' });
+      const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', competenceId: 'recCompetence1', practicalTitle: 'TubeName1', skills: [skill1Tube1, skill2Tube1] });
+      const tube2 = domainBuilder.buildTargetedTube({ id: 'recTube2', competenceId: 'recCompetence2', practicalTitle: 'TubeName2', skills: [skill1Tube2] });
+      const competence1 = domainBuilder.buildTargetedCompetence({ name: 'CompetenceName1', id: 'recCompetence1', areaId: 'recArea1', tubes: [tube1] });
+      const competence2 = domainBuilder.buildTargetedCompetence({ name: 'CompetenceName2', id: 'recCompetence2', areaId: 'recArea2', tubes: [tube2] });
+      const area1 = domainBuilder.buildTargetedArea({ id: 'recArea1', competences: [competence1], color: 'black' });
+      const area2 = domainBuilder.buildTargetedArea({ id: 'recArea2', competences: [competence2], color: 'black' });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill1Tube1, skill2Tube1, skill1Tube2],
+        tubes: [tube1, tube2],
+        competences: [competence1, competence2],
+        areas: [area1, area2],
+      });
 
       const validatedKnowledgeElements = [
-        { skillId: 1 },
-        { skillId: 2 },
-        { skillId: 3 },
+        { skillId: 'recSkill11' },
+        { skillId: 'recSkill12' },
+        { skillId: 'recSkill21' },
       ];
 
       const participantsCount = 1;
 
-      const campaignAnalysis = new CampaignAnalysis({ competences, tubes, skills, validatedKnowledgeElements, participantsCount  });
+      const campaignAnalysis = new CampaignAnalysis({ targetProfile, validatedKnowledgeElements, participantsCount  });
 
       expect(campaignAnalysis.campaignTubeRecommendations).to.have.lengthOf(2);
     });
 
     it('compute the recommendation for each tube using knowledge element from the right tube skills', () => {
-      const tubes = [
-        { id: 1, competenceId: 1 },
-        { id: 2, competenceId: 2 },
-      ];
-
-      const competences = [
-        { id: 1, name: 'Competence1Name', area: { color: 'black' } },
-        { id: 2, name: 'Competence2Name', area: { color: 'white' } },
-      ];
-
-      const skills = [
-        { id: 1, difficulty: 1, tubeId: 1 },
-        { id: 2, difficulty: 2, tubeId: 1 },
-        { id: 3, difficulty: 1, tubeId: 2 },
-        { id: 4, difficulty: 5, tubeId: 2 },
-      ];
+      const skill1Tube1 = domainBuilder.buildTargetedSkill({ id: 'recSkill11', name: '@difficulty1', tubeId: 'recTube1' });
+      const skill2Tube1 = domainBuilder.buildTargetedSkill({ id: 'recSkill12', name: '@difficulty2', tubeId: 'recTube1' });
+      const skill1Tube2 = domainBuilder.buildTargetedSkill({ id: 'recSkill21', name: '@difficulty1', tubeId: 'recTube2' });
+      const skill2Tube2 = domainBuilder.buildTargetedSkill({ id: 'recSkill22', name: '@difficulty5', tubeId: 'recTube2' });
+      const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', competenceId: 'recCompetence1', practicalTitle: 'TubeName1', skills: [skill1Tube1, skill2Tube1] });
+      const tube2 = domainBuilder.buildTargetedTube({ id: 'recTube2', competenceId: 'recCompetence2', practicalTitle: 'TubeName2', skills: [skill1Tube2, skill2Tube2] });
+      const competence1 = domainBuilder.buildTargetedCompetence({ name: 'CompetenceName1', id: 'recCompetence1', areaId: 'recArea1', tubes: [tube1] });
+      const competence2 = domainBuilder.buildTargetedCompetence({ name: 'CompetenceName2', id: 'recCompetence2', areaId: 'recArea2', tubes: [tube2] });
+      const area1 = domainBuilder.buildTargetedArea({ id: 'recArea1', competences: [competence1], color: 'black' });
+      const area2 = domainBuilder.buildTargetedArea({ id: 'recArea2', competences: [competence2], color: 'black' });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill1Tube1, skill2Tube1, skill1Tube2, skill2Tube2],
+        tubes: [tube1, tube2],
+        competences: [competence1, competence2],
+        areas: [area1, area2],
+      });
 
       const validatedKnowledgeElements = [
-        { skillId: 1, userId: 1 },
-        { skillId: 2, userId: 1 },
-        { skillId: 3, userId: 1 },
+        { skillId: 'recSkill11', userId: 1 },
+        { skillId: 'recSkill12', userId: 1 },
+        { skillId: 'recSkill21', userId: 1 },
       ];
 
       const participantsCount = 1;
 
-      const campaignAnalysis = new CampaignAnalysis({ competences, tubes, skills, validatedKnowledgeElements, participantsCount });
+      const campaignAnalysis = new CampaignAnalysis({ targetProfile, validatedKnowledgeElements, participantsCount });
       const campaignTubeRecommendations = campaignAnalysis.campaignTubeRecommendations;
 
-      const tube1Recommendation = campaignTubeRecommendations.find(({ tubeId }) => tubeId === 1);
-      const tube2Recommendation = campaignTubeRecommendations.find(({ tubeId }) => tubeId === 2);
+      const tube1Recommendation = campaignTubeRecommendations.find(({ tubeId }) => tubeId === 'recTube1');
+      const tube2Recommendation = campaignTubeRecommendations.find(({ tubeId }) => tubeId === 'recTube2');
 
       expect(tube1Recommendation.averageScore).to.equal(82);
       expect(tube2Recommendation.averageScore).to.equal(50);
     });
 
     it('compute a recommendation for each tube using the right tube', () => {
-      const competences = [
-        { id: 1, name: 'Competence1Name', area: { color: 'black' } },
-        { id: 2, name: 'Competence2Name', area: { color: 'white' } },
-      ];
-
-      const tubes = [
-        { id: 1, competenceId: 1, practicalTitle: 'Tube1Name' },
-        { id: 2, competenceId: 2, practicalTitle: 'Tube2Name' },
-      ];
-
-      const skills = [
-        { id: 1, difficulty: 1, tubeId: 1 },
-        { id: 1, difficulty: 1, tubeId: 2 },
-      ];
+      const skill1Tube1 = domainBuilder.buildTargetedSkill({ id: 'recSkill11', name: '@difficulty1', tubeId: 'recTube1' });
+      const skill1Tube2 = domainBuilder.buildTargetedSkill({ id: 'recSkill21', name: '@difficulty1', tubeId: 'recTube2' });
+      const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', competenceId: 'recCompetence1', practicalTitle: 'TubeName1', skills: [skill1Tube1] });
+      const tube2 = domainBuilder.buildTargetedTube({ id: 'recTube2', competenceId: 'recCompetence2', practicalTitle: 'TubeName2', skills: [skill1Tube2] });
+      const competence1 = domainBuilder.buildTargetedCompetence({ name: 'CompetenceName1', id: 'recCompetence1', areaId: 'recArea1', tubes: [tube1] });
+      const competence2 = domainBuilder.buildTargetedCompetence({ name: 'CompetenceName2', id: 'recCompetence2', areaId: 'recArea2', tubes: [tube2] });
+      const area1 = domainBuilder.buildTargetedArea({ id: 'recArea1', competences: [competence1], color: 'black' });
+      const area2 = domainBuilder.buildTargetedArea({ id: 'recArea2', competences: [competence2], color: 'black' });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill1Tube1, skill1Tube2],
+        tubes: [tube1, tube2],
+        competences: [competence1, competence2],
+        areas: [area1, area2],
+      });
 
       const validatedKnowledgeElements = [];
 
       const participantsCount = 1;
 
-      const campaignAnalysis = new CampaignAnalysis({ competences, tubes, skills, validatedKnowledgeElements, participantsCount });
+      const campaignAnalysis = new CampaignAnalysis({ targetProfile, validatedKnowledgeElements, participantsCount });
       const campaignTubeRecommendations = campaignAnalysis.campaignTubeRecommendations;
 
-      const tube1Recommendation = campaignTubeRecommendations.find(({ tubeId }) => tubeId === 1);
-      const tube2Recommendation = campaignTubeRecommendations.find(({ tubeId }) => tubeId === 2);
+      const tube1Recommendation = campaignTubeRecommendations.find(({ tubeId }) => tubeId === 'recTube1');
+      const tube2Recommendation = campaignTubeRecommendations.find(({ tubeId }) => tubeId === 'recTube2');
 
-      expect(tube1Recommendation.tubePracticalTitle).to.equal('Tube1Name');
-      expect(tube2Recommendation.tubePracticalTitle).to.equal('Tube2Name');
+      expect(tube1Recommendation.tubePracticalTitle).to.equal('TubeName1');
+      expect(tube2Recommendation.tubePracticalTitle).to.equal('TubeName2');
     });
 
     it('compute a recommendation for each tube using the right competence', () => {
-      const tubes = [
-        { id: 1, competenceId: 1 },
-        { id: 2, competenceId: 2 },
-      ];
-
-      const competences = [
-        { id: 1, name: 'Competence1Name', area: { color: 'black' } },
-        { id: 2, name: 'Competence2Name', area: { color: 'white' } },
-      ];
-
-      const skills = [
-        { id: 1, difficulty: 1, tubeId: 1 },
-        { id: 1, difficulty: 1, tubeId: 2 },
-      ];
-
+      const skill1Tube1 = domainBuilder.buildTargetedSkill({ id: 'recSkill11', name: '@difficulty1', tubeId: 'recTube1' });
+      const skill1Tube2 = domainBuilder.buildTargetedSkill({ id: 'recSkill21', name: '@difficulty1', tubeId: 'recTube2' });
+      const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', competenceId: 'recCompetence1', practicalTitle: 'TubeName1', skills: [skill1Tube1] });
+      const tube2 = domainBuilder.buildTargetedTube({ id: 'recTube2', competenceId: 'recCompetence2', practicalTitle: 'TubeName2', skills: [skill1Tube2] });
+      const competence1 = domainBuilder.buildTargetedCompetence({ name: 'CompetenceName1', id: 'recCompetence1', areaId: 'recArea1', tubes: [tube1] });
+      const competence2 = domainBuilder.buildTargetedCompetence({ name: 'CompetenceName2', id: 'recCompetence2', areaId: 'recArea2', tubes: [tube2] });
+      const area1 = domainBuilder.buildTargetedArea({ id: 'recArea1', competences: [competence1], color: 'black' });
+      const area2 = domainBuilder.buildTargetedArea({ id: 'recArea2', competences: [competence2], color: 'white' });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill1Tube1, skill1Tube2],
+        tubes: [tube1, tube2],
+        competences: [competence1, competence2],
+        areas: [area1, area2],
+      });
       const validatedKnowledgeElements = [];
 
       const participantsCount = 1;
 
-      const campaignAnalysis = new CampaignAnalysis({ competences, tubes, skills, validatedKnowledgeElements, participantsCount });
+      const campaignAnalysis = new CampaignAnalysis({ targetProfile, validatedKnowledgeElements, participantsCount });
       const campaignTubeRecommendations = campaignAnalysis.campaignTubeRecommendations;
 
-      const tube1Recommendation = campaignTubeRecommendations.find(({ tubeId }) => tubeId === 1);
-      const tube2Recommendation = campaignTubeRecommendations.find(({ tubeId }) => tubeId === 2);
+      const tube1Recommendation = campaignTubeRecommendations.find(({ tubeId }) => tubeId === 'recTube1');
+      const tube2Recommendation = campaignTubeRecommendations.find(({ tubeId }) => tubeId === 'recTube2');
 
-      expect(tube1Recommendation.competenceId).to.equal(1);
-      expect(tube1Recommendation.competenceName).to.equal('Competence1Name');
+      expect(tube1Recommendation.competenceId).to.equal('recCompetence1');
+      expect(tube1Recommendation.competenceName).to.equal('CompetenceName1');
       expect(tube1Recommendation.areaColor).to.equal('black');
 
-      expect(tube2Recommendation.competenceId).to.equal(2);
-      expect(tube2Recommendation.competenceName).to.equal('Competence2Name');
+      expect(tube2Recommendation.competenceId).to.equal('recCompetence2');
+      expect(tube2Recommendation.competenceName).to.equal('CompetenceName2');
       expect(tube2Recommendation.areaColor).to.equal('white');
     });
 
     it('compute a recommendation for each tube when participant have the same knowledge elements', () => {
-      const tubes = [
-        { id: 1, competenceId: 1 },
-        { id: 2, competenceId: 1 },
-      ];
-
-      const competences = [
-        { id: 1, name: 'Competence1Name', area: { color: 'black' } },
-      ];
-
-      const skills = [
-        { id: 1, difficulty: 1, tubeId: 1 },
-        { id: 2, difficulty: 2, tubeId: 1 },
-        { id: 3, difficulty: 3, tubeId: 1 },
-        { id: 4, difficulty: 4, tubeId: 1 },
-        { id: 5, difficulty: 5, tubeId: 1 },
-        { id: 6, difficulty: 6, tubeId: 2 },
-      ];
+      const skill1Tube1 = domainBuilder.buildTargetedSkill({ id: 'recSkill11', name: '@difficulty1', tubeId: 'recTube1' });
+      const skill2Tube1 = domainBuilder.buildTargetedSkill({ id: 'recSkill12', name: '@difficulty2', tubeId: 'recTube1' });
+      const skill3Tube1 = domainBuilder.buildTargetedSkill({ id: 'recSkill13', name: '@difficulty3', tubeId: 'recTube1' });
+      const skill4Tube1 = domainBuilder.buildTargetedSkill({ id: 'recSkill14', name: '@difficulty4', tubeId: 'recTube1' });
+      const skill5Tube1 = domainBuilder.buildTargetedSkill({ id: 'recSkill15', name: '@difficulty5', tubeId: 'recTube1' });
+      const skill1Tube2 = domainBuilder.buildTargetedSkill({ id: 'recSkill21', name: '@difficulty6', tubeId: 'recTube2' });
+      const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', competenceId: 'recCompetence', practicalTitle: 'TubeName1', skills: [skill1Tube1, skill2Tube1, skill3Tube1, skill4Tube1, skill5Tube1] });
+      const tube2 = domainBuilder.buildTargetedTube({ id: 'recTube2', competenceId: 'recCompetence', practicalTitle: 'TubeName2', skills: [skill1Tube2] });
+      const competence = domainBuilder.buildTargetedCompetence({ name: 'CompetenceName', id: 'recCompetence', areaId: 'recArea', tubes: [tube1, tube2] });
+      const area = domainBuilder.buildTargetedArea({ id: 'recArea', competences: [competence], color: 'black' });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill1Tube1, skill2Tube1, skill3Tube1, skill4Tube1, skill5Tube1, skill1Tube2],
+        tubes: [tube1, tube2],
+        competences: [competence],
+        areas: [area],
+      });
 
       const validatedKnowledgeElements = [
-        { skillId: 1, userId: 1 },
-        { skillId: 2, userId: 1 },
-        { skillId: 3, userId: 1 },
-        { skillId: 1, userId: 2 },
-        { skillId: 2, userId: 2 },
-        { skillId: 3, userId: 2 },
-        { skillId: 1, userId: 3 },
-        { skillId: 2, userId: 3 },
-        { skillId: 3, userId: 3 },
-        { skillId: 1, userId: 4 },
-        { skillId: 2, userId: 4 },
-        { skillId: 3, userId: 4 },
+        { skillId: 'recSkill11', userId: 1 },
+        { skillId: 'recSkill12', userId: 1 },
+        { skillId: 'recSkill13', userId: 1 },
+        { skillId: 'recSkill11', userId: 2 },
+        { skillId: 'recSkill12', userId: 2 },
+        { skillId: 'recSkill13', userId: 2 },
+        { skillId: 'recSkill11', userId: 3 },
+        { skillId: 'recSkill12', userId: 3 },
+        { skillId: 'recSkill13', userId: 3 },
+        { skillId: 'recSkill11', userId: 4 },
+        { skillId: 'recSkill12', userId: 4 },
+        { skillId: 'recSkill13', userId: 4 },
       ];
 
       const participantsCount = 4;
 
-      const campaignAnalysis = new CampaignAnalysis({ competences, tubes, skills, validatedKnowledgeElements, participantsCount });
+      const campaignAnalysis = new CampaignAnalysis({ targetProfile, validatedKnowledgeElements, participantsCount });
       const campaignTubeRecommendations = campaignAnalysis.campaignTubeRecommendations;
 
-      const tube1Recommendation = campaignTubeRecommendations.find(({ tubeId }) => tubeId === 1);
+      const tube1Recommendation = campaignTubeRecommendations.find(({ tubeId }) => tubeId === 'recTube1');
 
       expect(tube1Recommendation.averageScore).to.equal(68.5);
 
