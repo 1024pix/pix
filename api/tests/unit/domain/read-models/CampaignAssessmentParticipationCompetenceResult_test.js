@@ -5,13 +5,16 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationCompetenceResu
 
   describe('constructor', () => {
     it('should correctly initialize the competence data', () => {
-      const targetedCompetence = domainBuilder.buildCompetence({
+      const targetedCompetence = domainBuilder.buildTargetedCompetence({
         id: 'rec123',
         name: 'competence1',
         index: '1.1',
+        areaId: 'area1',
       });
+      const targetedArea = domainBuilder.buildTargetedArea({ id: 'area1' });
 
       const campaignAssessmentParticipationCompetenceResult = new CampaignAssessmentParticipationCompetenceResult({
+        targetedArea,
         targetedCompetence,
       });
 
@@ -21,11 +24,14 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationCompetenceResu
     });
 
     it('should return the area color', () => {
-      const targetedCompetence = domainBuilder.buildCompetence({
-        area: domainBuilder.buildArea({ color: 'red' }),
+      const targetedCompetence = domainBuilder.buildTargetedCompetence({
+        id: 'rec123',
+        areaId: 'area1',
       });
+      const targetedArea = domainBuilder.buildTargetedArea({ id: 'area1', color: 'red' });
 
       const campaignAssessmentParticipationCompetenceResult = new CampaignAssessmentParticipationCompetenceResult({
+        targetedArea,
         targetedCompetence,
       });
 

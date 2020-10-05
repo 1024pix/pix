@@ -17,9 +17,11 @@ class CampaignAssessmentParticipationResult {
     } else {
       this.competenceResults = targetedCompetences
         .map((targetedCompetence) => {
+          const targetedArea = targetProfile.getAreaOfCompetence(targetedCompetence.id);
           return new CampaignAssessmentParticipationCompetenceResult({
+            targetedArea,
             targetedCompetence,
-            targetedSkillsCount: targetProfile.getSkillCountForCompetence(targetedCompetence.id),
+            targetedSkillsCount: targetedCompetence.skillCount,
             validatedTargetedKnowledgeElementsCount : validatedTargetedKnowledgeElementsByCompetenceId[targetedCompetence.id].length,
           });
         });
