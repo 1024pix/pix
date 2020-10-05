@@ -1,0 +1,22 @@
+<header class="page-header">
+  <div class="page-title">
+    <LinkTo @route="authenticated.target-profiles.list">Tous les profils cibles</LinkTo>
+    <span class="wire">&nbsp;>&nbsp;</span>
+    {{@model.name}}
+  </div>
+</header>
+
+<main class="page-body">
+
+  <section class="page-section mb_10">
+    <div class="page-section__header">
+      <h1 class="page-section__title">{{@model.name}}</h1>
+    </div>
+    <div>
+      ID : {{@model.id}}<br>
+      Public : {{this.isPublic}}<br>
+      Archivé : {{this.isOutdated}}<br>
+      Organisation de référence : {{@model.organizationId}}<br>
+    </div>
+  </section>
+</main>
