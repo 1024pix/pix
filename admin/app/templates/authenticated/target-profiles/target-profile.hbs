@@ -16,7 +16,7 @@
       ID : {{@model.id}}<br>
       Public : {{this.isPublic}}<br>
       Archivé : {{this.isOutdated}}<br>
-      Organisation de référence : {{@model.organizationId}}<br>
+      Organisation de référence : <LinkTo @route="authenticated.organizations.get" @model={{@model.organizationId}}> {{@model.organizationId}} </LinkTo><br>
     </div>
   </section>
 </main>
