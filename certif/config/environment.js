@@ -10,6 +10,10 @@ function _getEnvironmentVariableAsNumber({ environmentVariableName, defaultValue
   throw new Error(`Invalid value '${valueToValidate}' for environment variable '${environmentVariableName}'. It should be a number greater than or equal ${minValue}.`);
 }
 
+function _isFeatureEnabled(environmentVariable) {
+  return environmentVariable === 'true';
+}
+
 const ACTIVE_FEATURE_TOGGLES = [];
 
 module.exports = function(environment) {
@@ -47,7 +51,7 @@ module.exports = function(environment) {
       },
       HOME_URL: process.env.HOME_URL,
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
-      FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE: process.env.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE === 'true',
+      FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE: _isFeatureEnabled(process.env.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE),
     },
 
     googleFonts: [
