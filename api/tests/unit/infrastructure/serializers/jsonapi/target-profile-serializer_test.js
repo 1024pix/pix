@@ -7,7 +7,8 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function() {
 
     it('should serialize target profile to JSONAPI', function() {
       // given
-      const targetProfile = domainBuilder.buildTargetProfile({ id: 132, name: 'Les compétences de BRO 2.0' });
+      const organizationId = domainBuilder.buildOrganization({ id: 456, name: 'organization 3.0' }).id;
+      const targetProfile = domainBuilder.buildTargetProfile({ id: 132, organizationId, name: 'Les compétences de BRO 2.0' });
       const meta = { some: 'meta' };
 
       const expectedTargetProfile = {
@@ -16,6 +17,9 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function() {
           type: 'target-profiles',
           attributes: {
             name: targetProfile.name,
+            outdated: targetProfile.outdated,
+            'is-public': targetProfile.isPublic,
+            'organization-id': targetProfile.organizationId,
           },
         },
         meta,
