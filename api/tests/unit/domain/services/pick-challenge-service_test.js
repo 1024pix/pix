@@ -17,12 +17,12 @@ describe('Unit | Service | PickChallengeService', () => {
 
     context('when challenge in selected locale exists', () => {
 
-      it('should return challenge in selected locale', async () => {
+      it('should return challenge in selected locale', () => {
         // given
         const skills = [{ challenges: [frenchChallenge, frenchSpokenChallenge, englishSpokenChallenge] }];
 
         // when
-        const challenge = await pickChallengeService.pickChallenge({
+        const challenge = pickChallengeService.pickChallenge({
           skills,
           randomSeed,
           locale: ENGLISH_SPOKEN,
@@ -32,17 +32,16 @@ describe('Unit | Service | PickChallengeService', () => {
         expect(challenge).to.equal(englishSpokenChallenge);
       });
 
-      it('should always return the same challenge in selected locale', async () => {
+      it('should always return the same challenge in selected locale', () => {
         // given
         const skills = [{ challenges: [frenchChallenge, frenchSpokenChallenge, otherFrenchSpokenChallenge] }];
 
         // when
-        const pickChallengePromises = _.times(5, () => pickChallengeService.pickChallenge({
+        const challenges = _.times(5, () => pickChallengeService.pickChallenge({
           skills,
           randomSeed,
           locale: FRENCH_SPOKEN,
         }));
-        const challenges = await Promise.all(pickChallengePromises);
 
         // then
         expect(challenges).to.contains(frenchSpokenChallenge);
@@ -52,14 +51,14 @@ describe('Unit | Service | PickChallengeService', () => {
 
     });
 
-    context('when challenge in selected locale does not exists', () => {
+    context('when challenge in selected locale does not exist', () => {
 
-      it('should return challenge in other locale', async () => {
+      it('should return challenge in other locale', () => {
         // given
         const skills = [{ challenges: [frenchChallenge] }];
 
         // when
-        const challenge = await pickChallengeService.pickChallenge({
+        const challenge = pickChallengeService.pickChallenge({
           skills,
           randomSeed,
           locale: FRENCH_SPOKEN,
@@ -69,12 +68,12 @@ describe('Unit | Service | PickChallengeService', () => {
         expect(challenge).to.equal(frenchChallenge);
       });
       context('when no challenge in selected non-french locale', () => {
-        it('should return FR challenge', async () => {
+        it('should return FR challenge', () => {
           // given
           const skills = [{ challenges: [frenchChallenge, frenchSpokenChallenge] }];
 
           // when
-          const challenge = await pickChallengeService.pickChallenge({
+          const challenge = pickChallengeService.pickChallenge({
             skills,
             randomSeed,
             locale: ENGLISH_SPOKEN,
@@ -85,12 +84,12 @@ describe('Unit | Service | PickChallengeService', () => {
         });
 
         context('and no FR challenge', () => {
-          it('should return FR-FR challenge', async () => {
+          it('should return FR-FR challenge', () => {
             // given
             const skills = [{ challenges: [frenchChallenge] }];
 
             // when
-            const challenge = await pickChallengeService.pickChallenge({
+            const challenge = pickChallengeService.pickChallenge({
               skills,
               randomSeed,
               locale: ENGLISH_SPOKEN,
@@ -106,12 +105,12 @@ describe('Unit | Service | PickChallengeService', () => {
 
     context('when there is no skills', () => {
 
-      it('should return null', async () => {
+      it('should return null', () => {
         // given
         const skills = [];
 
         // when
-        const challenge = await pickChallengeService.pickChallenge({
+        const challenge = pickChallengeService.pickChallenge({
           skills,
           randomSeed,
           locale: FRENCH_SPOKEN,
@@ -124,12 +123,12 @@ describe('Unit | Service | PickChallengeService', () => {
     });
 
     context('when skills have validated and archived challenges', () => {
-      it('should return validated challenge', async () => {
+      it('should return validated challenge', () => {
         // given
         const skills = [{ challenges: [archivedChallenge, validatedChallenge] }];
 
         // when
-        const challenge = await pickChallengeService.pickChallenge({
+        const challenge = pickChallengeService.pickChallenge({
           skills,
           randomSeed,
           locale: FRENCH_FRANCE,
@@ -141,12 +140,12 @@ describe('Unit | Service | PickChallengeService', () => {
     });
 
     context('when skills only have archived challenges', () => {
-      it('should return archived challenge', async () => {
+      it('should return archived challenge', () => {
         // given
         const skills = [{ challenges: [archivedChallenge] }];
 
         // when
-        const challenge = await pickChallengeService.pickChallenge({
+        const challenge = pickChallengeService.pickChallenge({
           skills,
           randomSeed,
           locale: FRENCH_FRANCE,
@@ -158,7 +157,7 @@ describe('Unit | Service | PickChallengeService', () => {
     });
 
     context('when picking a lot of challenges', () => {
-      it('should return all challenges propose', async ()=> {
+      it('should return all challenges propose', ()=> {
         // given
         const challengeOneForSkillOne = domainBuilder.buildChallenge();
         const challengeTwoForSkillOne = domainBuilder.buildChallenge();
@@ -168,12 +167,11 @@ describe('Unit | Service | PickChallengeService', () => {
         const skillTwo = { challenges: [challengeOneForSkillTwo, challengeTwoForSkillTwo] };
         const skills = [skillOne, skillTwo];
 
-        const pickChallengePromises = _.times(50, (time) => pickChallengeService.pickChallenge({
+        const challenges = _.times(50, (time) => pickChallengeService.pickChallenge({
           skills,
           randomSeed: time,
           locale: FRENCH_SPOKEN,
         }));
-        const challenges = await Promise.all(pickChallengePromises);
 
         // then
         expect(challenges).to.contains(challengeOneForSkillOne);
