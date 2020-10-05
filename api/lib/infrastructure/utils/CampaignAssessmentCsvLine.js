@@ -95,7 +95,7 @@ class CampaignAssessmentCsvLine {
     return [
       ...this._makeCompetenceColumns(),
       ...this._makeAreaColumns(),
-      ..._.map(this.targetProfile.skills, (targetedSkill) => this._makeSkillColumn(targetedSkill)),
+      ...this.organization.type === 'SCO' ? [] : _.map(this.targetProfile.skills, (targetedSkill) => this._makeSkillColumn(targetedSkill)),
     ];
   }
 
@@ -118,6 +118,7 @@ class CampaignAssessmentCsvLine {
     return knowledgeElementForSkill
       ? (knowledgeElementForSkill.isValidated ? 'OK' : 'KO')
       : 'Non testé';
+    
   }
 
   _countValidatedKnowledgeElementsForCompetence(competenceId) {

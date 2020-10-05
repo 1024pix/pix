@@ -209,102 +209,199 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
       });
     });
 
-    it('should show details for each competence, area and skills', () => {
-      // given
-      const organization = domainBuilder.buildOrganization();
-      const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
-      const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ sharedAt: new Date('2020-01-01') });
-      const skill1_1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1_1', tubeId: 'recTube1' });
-      const skill1_2 = domainBuilder.buildTargetedSkill({ id: 'recSkill1_2', tubeId: 'recTube1' });
-      const skill2_1 = domainBuilder.buildTargetedSkill({ id: 'recSkill2_1', tubeId: 'recTube2' });
-      const skill3_1 = domainBuilder.buildTargetedSkill({ id: 'recSkill3_1', tubeId: 'recTube3' });
-      const skill3_2 = domainBuilder.buildTargetedSkill({ id: 'recSkill3_2', tubeId: 'recTube3' });
-      const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1_1, skill1_2], competenceId: 'recCompetence1' });
-      const tube2 = domainBuilder.buildTargetedTube({ id: 'recTube2', skills: [skill2_1], competenceId: 'recCompetence2' });
-      const tube3 = domainBuilder.buildTargetedTube({ id: 'recTube3', skills: [skill3_1, skill3_2], competenceId: 'recCompetence3' });
-      const competence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', tubes: [tube1], areaId: 'recArea1' });
-      const competence2 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence2', tubes: [tube2], areaId: 'recArea1' });
-      const competence3 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence3', tubes: [tube3], areaId: 'recArea2' });
-      const area1 = domainBuilder.buildTargetedArea({ id: 'recArea1', competences: [competence1, competence2] });
-      const area2 = domainBuilder.buildTargetedArea({ id: 'recArea2', competences: [competence3] });
-      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
-        skills: [skill1_1, skill1_2, skill2_1, skill3_1, skill3_2],
-        tubes: [tube1, tube2, tube3],
-        competences: [competence1, competence2, competence3],
-        areas: [area1, area2],
+    context('when organization type is not SCO', () => {
+      it('should show details for each competence, area and skills', () => {
+        // given
+        const organization = domainBuilder.buildOrganization({ type: 'SUP' });
+        const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
+        const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ sharedAt: new Date('2020-01-01') });
+        const skill1_1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1_1', tubeId: 'recTube1' });
+        const skill1_2 = domainBuilder.buildTargetedSkill({ id: 'recSkill1_2', tubeId: 'recTube1' });
+        const skill2_1 = domainBuilder.buildTargetedSkill({ id: 'recSkill2_1', tubeId: 'recTube2' });
+        const skill3_1 = domainBuilder.buildTargetedSkill({ id: 'recSkill3_1', tubeId: 'recTube3' });
+        const skill3_2 = domainBuilder.buildTargetedSkill({ id: 'recSkill3_2', tubeId: 'recTube3' });
+        const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1_1, skill1_2], competenceId: 'recCompetence1' });
+        const tube2 = domainBuilder.buildTargetedTube({ id: 'recTube2', skills: [skill2_1], competenceId: 'recCompetence2' });
+        const tube3 = domainBuilder.buildTargetedTube({ id: 'recTube3', skills: [skill3_1, skill3_2], competenceId: 'recCompetence3' });
+        const competence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', tubes: [tube1], areaId: 'recArea1' });
+        const competence2 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence2', tubes: [tube2], areaId: 'recArea1' });
+        const competence3 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence3', tubes: [tube3], areaId: 'recArea2' });
+        const area1 = domainBuilder.buildTargetedArea({ id: 'recArea1', competences: [competence1, competence2] });
+        const area2 = domainBuilder.buildTargetedArea({ id: 'recArea2', competences: [competence3] });
+        const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+          skills: [skill1_1, skill1_2, skill2_1, skill3_1, skill3_2],
+          tubes: [tube1, tube2, tube3],
+          competences: [competence1, competence2, competence3],
+          areas: [area1, area2],
+        });
+        const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
+          status: KnowledgeElement.StatusType.VALIDATED,
+          earnedPix: 3,
+          skillId: skill1_1.id,
+          competenceId: competence1.id,
+        });
+        const knowledgeElement2 = domainBuilder.buildKnowledgeElement({
+          status: KnowledgeElement.StatusType.INVALIDATED,
+          earnedPix: 2,
+          skillId: skill2_1.id,
+          competenceId: competence2.id,
+        });
+        const knowledgeElement3 = domainBuilder.buildKnowledgeElement({
+          status: KnowledgeElement.StatusType.VALIDATED,
+          earnedPix: 4,
+          skillId: skill3_1.id,
+          competenceId: competence3.id,
+        });
+        const knowledgeElement4 = domainBuilder.buildKnowledgeElement({
+          status: KnowledgeElement.StatusType.VALIDATED,
+          earnedPix: 5,
+          skillId: skill3_2.id,
+          competenceId: competence3.id,
+        });
+        const participantKnowledgeElementsByCompetenceId = {
+          'recCompetence1': [knowledgeElement1],
+          'recCompetence2': [knowledgeElement2],
+          'recCompetence3': [knowledgeElement3, knowledgeElement4],
+        };
+        const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
+          organization,
+          campaign,
+          campaignParticipationInfo,
+          targetProfile,
+          participantKnowledgeElementsByCompetenceId,
+          campaignParticipationService,
+        });
+  
+        // when
+        const csvLine = campaignAssessmentCsvLine.toCsvLine();
+  
+        // then
+        const cols = _computeExpectedColumns(campaign, organization);
+        let currentColumn = cols.DETAILS_START;
+        // First competence
+        expect(csvLine[currentColumn++], '% maitrise de la competence').to.equal(0.5);
+        expect(csvLine[currentColumn++], 'nb acquis compétence').to.equal(2);
+        expect(csvLine[currentColumn++], 'nb acquis validés dans la compétence').to.equal(1);
+        // Second competence
+        expect(csvLine[currentColumn++], '% maitrise de la competence').to.equal(0);
+        expect(csvLine[currentColumn++], 'nb acquis compétence').to.equal(1);
+        expect(csvLine[currentColumn++], 'nb acquis validés dans la compétence').to.equal(0);
+        // Third competence
+        expect(csvLine[currentColumn++], '% maitrise de la competence').to.equal(1);
+        expect(csvLine[currentColumn++], 'nb acquis compétence').to.equal(2);
+        expect(csvLine[currentColumn++], 'nb acquis validés dans la compétence').to.equal(2);
+        // First area
+        expect(csvLine[currentColumn++], '% maitrise du domaine').to.equal(0.33);
+        expect(csvLine[currentColumn++], 'nb acquis domaine').to.equal(3);
+        expect(csvLine[currentColumn++], 'nb acquis validés dans le domaine').to.equal(1);
+        // Second area
+        expect(csvLine[currentColumn++], '% maitrise du domaine').to.equal(1);
+        expect(csvLine[currentColumn++], 'nb acquis domaine').to.equal(2);
+        expect(csvLine[currentColumn++], 'nb acquis validés dans le domaine').to.equal(2);
+        // Target profile skills
+        expect(csvLine[currentColumn++], 'statut acquis').to.equal('OK');
+        expect(csvLine[currentColumn++], 'statut acquis').to.equal('Non testé');
+        expect(csvLine[currentColumn++], 'statut acquis').to.equal('KO');
+        expect(csvLine[currentColumn++], 'statut acquis').to.equal('OK');
+        expect(csvLine[currentColumn++], 'statut acquis').to.equal('OK');
+  
+        expect(csvLine).to.have.lengthOf(currentColumn);
       });
-      const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
-        status: KnowledgeElement.StatusType.VALIDATED,
-        earnedPix: 3,
-        skillId: skill1_1.id,
-        competenceId: competence1.id,
-      });
-      const knowledgeElement2 = domainBuilder.buildKnowledgeElement({
-        status: KnowledgeElement.StatusType.INVALIDATED,
-        earnedPix: 2,
-        skillId: skill2_1.id,
-        competenceId: competence2.id,
-      });
-      const knowledgeElement3 = domainBuilder.buildKnowledgeElement({
-        status: KnowledgeElement.StatusType.VALIDATED,
-        earnedPix: 4,
-        skillId: skill3_1.id,
-        competenceId: competence3.id,
-      });
-      const knowledgeElement4 = domainBuilder.buildKnowledgeElement({
-        status: KnowledgeElement.StatusType.VALIDATED,
-        earnedPix: 5,
-        skillId: skill3_2.id,
-        competenceId: competence3.id,
-      });
-      const participantKnowledgeElementsByCompetenceId = {
-        'recCompetence1': [knowledgeElement1],
-        'recCompetence2': [knowledgeElement2],
-        'recCompetence3': [knowledgeElement3, knowledgeElement4],
-      };
-      const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
-        organization,
-        campaign,
-        campaignParticipationInfo,
-        targetProfile,
-        participantKnowledgeElementsByCompetenceId,
-        campaignParticipationService,
-      });
-
-      // when
-      const csvLine = campaignAssessmentCsvLine.toCsvLine();
-
-      // then
-      const cols = _computeExpectedColumns(campaign, organization);
-      let currentColumn = cols.DETAILS_START;
-      // First competence
-      expect(csvLine[currentColumn++], '% maitrise de la competence').to.equal(0.5);
-      expect(csvLine[currentColumn++], 'nb acquis compétence').to.equal(2);
-      expect(csvLine[currentColumn++], 'nb acquis validés dans la compétence').to.equal(1);
-      // Second competence
-      expect(csvLine[currentColumn++], '% maitrise de la competence').to.equal(0);
-      expect(csvLine[currentColumn++], 'nb acquis compétence').to.equal(1);
-      expect(csvLine[currentColumn++], 'nb acquis validés dans la compétence').to.equal(0);
-      // Third competence
-      expect(csvLine[currentColumn++], '% maitrise de la competence').to.equal(1);
-      expect(csvLine[currentColumn++], 'nb acquis compétence').to.equal(2);
-      expect(csvLine[currentColumn++], 'nb acquis validés dans la compétence').to.equal(2);
-      // First area
-      expect(csvLine[currentColumn++], '% maitrise du domaine').to.equal(0.33);
-      expect(csvLine[currentColumn++], 'nb acquis domaine').to.equal(3);
-      expect(csvLine[currentColumn++], 'nb acquis validés dans le domaine').to.equal(1);
-      // Second area
-      expect(csvLine[currentColumn++], '% maitrise du domaine').to.equal(1);
-      expect(csvLine[currentColumn++], 'nb acquis domaine').to.equal(2);
-      expect(csvLine[currentColumn++], 'nb acquis validés dans le domaine').to.equal(2);
-      // Target profile skills
-      expect(csvLine[currentColumn++], 'statut acquis').to.equal('OK');
-      expect(csvLine[currentColumn++], 'statut acquis').to.equal('Non testé');
-      expect(csvLine[currentColumn++], 'statut acquis').to.equal('KO');
-      expect(csvLine[currentColumn++], 'statut acquis').to.equal('OK');
-      expect(csvLine[currentColumn++], 'statut acquis').to.equal('OK');
-
-      expect(csvLine).to.have.lengthOf(currentColumn);
     });
+
+    context('when organization type is SCO', () => {
+      it('should hide skill details', () => {
+        // given
+        const organization = domainBuilder.buildOrganization({ type: 'SCO' });
+        const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
+        const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ sharedAt: new Date('2020-01-01') });
+        const skill1_1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1_1', tubeId: 'recTube1' });
+        const skill1_2 = domainBuilder.buildTargetedSkill({ id: 'recSkill1_2', tubeId: 'recTube1' });
+        const skill2_1 = domainBuilder.buildTargetedSkill({ id: 'recSkill2_1', tubeId: 'recTube2' });
+        const skill3_1 = domainBuilder.buildTargetedSkill({ id: 'recSkill3_1', tubeId: 'recTube3' });
+        const skill3_2 = domainBuilder.buildTargetedSkill({ id: 'recSkill3_2', tubeId: 'recTube3' });
+        const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1_1, skill1_2], competenceId: 'recCompetence1' });
+        const tube2 = domainBuilder.buildTargetedTube({ id: 'recTube2', skills: [skill2_1], competenceId: 'recCompetence2' });
+        const tube3 = domainBuilder.buildTargetedTube({ id: 'recTube3', skills: [skill3_1, skill3_2], competenceId: 'recCompetence3' });
+        const competence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', tubes: [tube1], areaId: 'recArea1' });
+        const competence2 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence2', tubes: [tube2], areaId: 'recArea1' });
+        const competence3 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence3', tubes: [tube3], areaId: 'recArea2' });
+        const area1 = domainBuilder.buildTargetedArea({ id: 'recArea1', competences: [competence1, competence2] });
+        const area2 = domainBuilder.buildTargetedArea({ id: 'recArea2', competences: [competence3] });
+        const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+          skills: [skill1_1, skill1_2, skill2_1, skill3_1, skill3_2],
+          tubes: [tube1, tube2, tube3],
+          competences: [competence1, competence2, competence3],
+          areas: [area1, area2],
+        });
+        const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
+          status: KnowledgeElement.StatusType.VALIDATED,
+          earnedPix: 3,
+          skillId: skill1_1.id,
+          competenceId: competence1.id,
+        });
+        const knowledgeElement2 = domainBuilder.buildKnowledgeElement({
+          status: KnowledgeElement.StatusType.INVALIDATED,
+          earnedPix: 2,
+          skillId: skill2_1.id,
+          competenceId: competence2.id,
+        });
+        const knowledgeElement3 = domainBuilder.buildKnowledgeElement({
+          status: KnowledgeElement.StatusType.VALIDATED,
+          earnedPix: 4,
+          skillId: skill3_1.id,
+          competenceId: competence3.id,
+        });
+        const knowledgeElement4 = domainBuilder.buildKnowledgeElement({
+          status: KnowledgeElement.StatusType.VALIDATED,
+          earnedPix: 5,
+          skillId: skill3_2.id,
+          competenceId: competence3.id,
+        });
+        const participantKnowledgeElementsByCompetenceId = {
+          'recCompetence1': [knowledgeElement1],
+          'recCompetence2': [knowledgeElement2],
+          'recCompetence3': [knowledgeElement3, knowledgeElement4],
+        };
+        const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
+          organization,
+          campaign,
+          campaignParticipationInfo,
+          targetProfile,
+          participantKnowledgeElementsByCompetenceId,
+          campaignParticipationService,
+        });
+  
+        // when
+        const csvLine = campaignAssessmentCsvLine.toCsvLine();
+  
+        // then
+        const cols = _computeExpectedColumns(campaign, organization);
+        let currentColumn = cols.DETAILS_START;
+        // First competence
+        expect(csvLine[currentColumn++], '% maitrise de la competence').to.equal(0.5);
+        expect(csvLine[currentColumn++], 'nb acquis compétence').to.equal(2);
+        expect(csvLine[currentColumn++], 'nb acquis validés dans la compétence').to.equal(1);
+        // Second competence
+        expect(csvLine[currentColumn++], '% maitrise de la competence').to.equal(0);
+        expect(csvLine[currentColumn++], 'nb acquis compétence').to.equal(1);
+        expect(csvLine[currentColumn++], 'nb acquis validés dans la compétence').to.equal(0);
+        // Third competence
+        expect(csvLine[currentColumn++], '% maitrise de la competence').to.equal(1);
+        expect(csvLine[currentColumn++], 'nb acquis compétence').to.equal(2);
+        expect(csvLine[currentColumn++], 'nb acquis validés dans la compétence').to.equal(2);
+        // First area
+        expect(csvLine[currentColumn++], '% maitrise du domaine').to.equal(0.33);
+        expect(csvLine[currentColumn++], 'nb acquis domaine').to.equal(3);
+        expect(csvLine[currentColumn++], 'nb acquis validés dans le domaine').to.equal(1);
+        // Second area
+        expect(csvLine[currentColumn++], '% maitrise du domaine').to.equal(1);
+        expect(csvLine[currentColumn++], 'nb acquis domaine').to.equal(2);
+        expect(csvLine[currentColumn++], 'nb acquis validés dans le domaine').to.equal(2);
+  
+        expect(csvLine).to.have.lengthOf(currentColumn);
+      });
+    });
+    
   });
 });
