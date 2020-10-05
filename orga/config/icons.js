@@ -14,6 +14,7 @@ module.exports = function() {
       'exclamation-triangle',
       'external-link-alt',
       'hourglass-half',
+      'info-circle',
       'link',
       'power-off',
       'search',

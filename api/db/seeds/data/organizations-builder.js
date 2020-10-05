@@ -11,6 +11,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     type: 'SUP',
     name: 'Tyrion SUP',
     isManagingStudents: true,
+    credit: 10000,
   });
 
   databaseBuilder.factory.buildMembership({
@@ -56,6 +57,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     canCollectProfiles: true,
     email: 'sco.generic.account@example.net',
     externalId: '1237457A',
+    credit: 0,
   });
 
   // Memberships
