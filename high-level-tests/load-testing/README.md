@@ -23,6 +23,11 @@ Generating SIECLE file on organization 1237457A for 4000 users
 SIECLE file for 4000 users in file SIECLE-organization-1237457A-4000-users.xml
 ```
 
+## BDD
+
+Alimenter le fichier .env à partir de sample.env
+Exécuter `npm run generate-dataset`
+
 # Exécution des test
 
 ## Pré-requis :

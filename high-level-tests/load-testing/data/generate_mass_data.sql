@@ -18,9 +18,14 @@ SELECT setval(pg_get_serial_sequence('knowledge-elements','id'), coalesce(max("i
 -----------------------------------------------------------------------------------------------------
 --				Déclaration de constantes   ---------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
-SET LOCAL constants.user_count=1000;
-SET LOCAL constants.competence_evaluation_count=3000;
-SET LOCAL constants.organization_count=5;
+
+ -- 5 million KE
+ -- 200 000 compétences = 200 000 users
+ -- aucune orga = parcours libre
+
+SET LOCAL constants.user_count=200000;
+SET LOCAL constants.competence_evaluation_count=200000;
+SET LOCAL constants.organization_count=0;
 SET LOCAL constants.campaign_per_organization_count=3;
 SET LOCAL constants.participation_per_campaign_count=150;
 SET LOCAL constants.shared_participation_percentage=65;
@@ -33,19 +38,38 @@ SET LOCAL constants.invalidated_knowledge_element_percentage=30; -- Le reste du 
 -----------------------------------------------------------------------------------------------------
 --				Création d'une table temporaire contenant le référentiel   --------------------------
 -----------------------------------------------------------------------------------------------------
-CREATE TEMPORARY TABLE referentiel (
+--CREATE TEMPORARY TABLE referentiel (
+--  rownum SERIAL PRIMARY KEY,
+--  skill_id 		VARCHAR,
+--  tube_id 		VARCHAR,
+--  competence_id VARCHAR,
+--  pix_value 	NUMERIC(6,5),
+--  level			INTEGER
+--) ON COMMIT DROP;
+
+DROP TABLE IF EXISTS referentiel ;
+
+CREATE TABLE referentiel (
   rownum SERIAL PRIMARY KEY,
   skill_id 		VARCHAR,
   tube_id 		VARCHAR,
   competence_id VARCHAR,
   pix_value 	NUMERIC(6,5),
   level			INTEGER
-) ON COMMIT DROP;
-INSERT INTO referentiel(skill_id, competence_id, tube_id, pix_value, level)
-VALUES (...);
--- Ajouter les données du référentiel ici !
+);
 
-
+INSERT INTO referentiel (skill_id, competence_id, tube_id, pix_value, level)
+SELECT
+   s."id"        "skill_id",
+   t."id"        "tube_id",
+   c."id"        "competence_id",
+   s."pixValue"  "pix_value",
+   s."level"     "level"
+FROM
+     skills s
+         INNER JOIN tubes t       ON s."tubeId"       = t."id"
+         INNER JOIN competences c ON t."competenceId" = c."id"
+;
 -----------------------------------------------------------------------------------------------------
 --				Déclaration des fonctions   ---------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
@@ -866,6 +890,4 @@ ALTER TABLE "feedbacks" SET LOGGED;
 ALTER TABLE "competence-marks" SET LOGGED;
 ALTER TABLE "knowledge-elements" SET LOGGED;
 
-
-
-ROLLBACK;
+COMMIT;

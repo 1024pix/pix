@@ -12,12 +12,22 @@
     "preinstall": "npx check-engine",
     "report": "artillery report report/index.json",
     "start": "artillery run --config config/common.yml -e localhost -o report/index.json scenarios/signup-and-placement.yml",
-    "generate-bulk-data:schooling-registrations": "node ./data/generate-schooling-registrations.js"
+    "generate-bulk-data:schooling-registrations": "node ./data/generate-schooling-registrations.js",
+    "generate-dataset": "npm run db:initialize && npm run actually-generate-dataset",
+    "db:initialize": "cd ../../api && npm run db:prepare",
+    "actually-generate-dataset": "node ./data/generate-dataset.js"
   },
   "license": "ISC",
   "devDependencies": {
+    "airtable": "^0.10.0",
     "artillery": "^1.6.0-27",
     "faker": "^4.1.0",
-    "js2xmlparser": "^4.0.1"
+    "js2xmlparser": "^4.0.1",
+    "dotenv": "^8.2.0",
+    "dotenv-cli": "^4.0.0",
+    "execa": "^4.0.3",
+    "lodash": "^4.17.20",
+    "pg": "^8.4.1",
+    "pg-format": "^1.0.4"
   }
 }
