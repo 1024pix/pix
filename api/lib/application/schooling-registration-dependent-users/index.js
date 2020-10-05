@@ -1,9 +1,11 @@
-const schoolingRegistrationDependentUserController = require('./schooling-registration-dependent-user-controller');
-const securityPreHandlers = require('../security-pre-handlers');
-const JSONAPIError = require('jsonapi-serializer').Error;
 const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
-const { passwordValidationPattern } = require('../../config').account;
 const XRegExp = require('xregexp');
+
+const securityPreHandlers = require('../security-pre-handlers');
+const { sendJsonApiError, BadRequestError } = require('../http-errors');
+const { passwordValidationPattern } = require('../../config').account;
+
+const schoolingRegistrationDependentUserController = require('./schooling-registration-dependent-user-controller');
 
 exports.register = async function(server) {
   server.route([
@@ -58,15 +60,6 @@ exports.register = async function(server) {
               type: 'external-users',
             },
           }),
-          failAction: (request, h, err) => {
-            const errorHttpStatusCode = 400;
-            const jsonApiError = new JSONAPIError({
-              status: errorHttpStatusCode.toString(),
-              title: 'Bad request',
-              detail: err.details[0].message,
-            });
-            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
-          },
         },
         notes: [
           'Cette route crée un compte utilisateur suite à une connexion provenant d\'un IDP externe (GAR). ' +
@@ -98,13 +91,7 @@ exports.register = async function(server) {
             },
           }),
           failAction: (request, h) => {
-            const errorHttpStatusCode = 400;
-            const jsonApiError = new JSONAPIError({
-              code: errorHttpStatusCode.toString(),
-              title: 'Bad request',
-              detail: 'The server could not understand the request due to invalid syntax.',
-            });
-            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
+            return sendJsonApiError(new BadRequestError('The server could not understand the request due to invalid syntax.'), h);
           },
         },
         notes : [
@@ -135,15 +122,6 @@ exports.register = async function(server) {
               },
             },
           }),
-          failAction: (request, h, err) => {
-            const errorHttpStatusCode = 400;
-            const jsonApiError = new JSONAPIError({
-              code: errorHttpStatusCode.toString(),
-              title: 'Bad request',
-              detail: err.details[0].message,
-            });
-            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
-          },
         },
         notes : [
           '- Génère un identifiant pour l\'élève avec un mot de passe temporaire \n' +

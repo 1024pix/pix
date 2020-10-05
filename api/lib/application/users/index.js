@@ -1,7 +1,7 @@
 const securityPreHandlers = require('../security-pre-handlers');
 const userController = require('./user-controller');
 const Joi = require('@hapi/joi');
-const JSONAPIError = require('jsonapi-serializer').Error;
+const { sendJsonApiError, BadRequestError } = require('../http-errors');
 const userVerification = require('../preHandlers/user-existence-verification');
 const { passwordValidationPattern } = require('../../config').account;
 const XRegExp = require('xregexp');
@@ -55,13 +55,7 @@ exports.register = async function(server) {
             id: Joi.number().integer().required(),
           }),
           failAction: (request, h) => {
-            const errorHttpStatusCode = 400;
-            const jsonApiError = new JSONAPIError({
-              status: errorHttpStatusCode.toString(),
-              title: 'Bad request',
-              detail: 'L\'identifiant de l\'utilisateur n\'est pas au bon format.',
-            });
-            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
+            return sendJsonApiError(new BadRequestError('L\'identifiant de l\'utilisateur n\'est pas au bon format.'), h);
           },
         },
         handler: userController.getUserDetailsForAdmin,
@@ -104,15 +98,6 @@ exports.register = async function(server) {
           }),
           options: {
             allowUnknown: true,
-          },
-          failAction: (request, h , err) => {
-            const errorHttpStatusCode = 400;
-            const jsonApiError = new JSONAPIError({
-              status: errorHttpStatusCode.toString(),
-              title: 'Bad request',
-              detail: err.details[0].message,
-            });
-            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
           },
         },
         handler: userController.updateUserDetailsForAdministration,
@@ -399,15 +384,6 @@ exports.register = async function(server) {
           params: Joi.object({
             id: Joi.number().integer().positive().required(),
           }),
-          failAction: (request, h , err) => {
-            const errorHttpStatusCode = 400;
-            const jsonApiError = new JSONAPIError({
-              status: errorHttpStatusCode.toString(),
-              title: 'Bad request',
-              detail: err.details[0].message,
-            });
-            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
-          },
         },
         pre: [{
           method: securityPreHandlers.checkUserHasRolePixMaster,
@@ -445,15 +421,6 @@ exports.register = async function(server) {
               },
             },
           }),
-          failAction: (request, h , err) => {
-            const errorHttpStatusCode = 400;
-            const jsonApiError = new JSONAPIError({
-              status: errorHttpStatusCode.toString(),
-              title: 'Bad request',
-              detail: err.details[0].message,
-            });
-            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
-          },
         },
         handler: userController.updateUserSamlId,
         notes: [

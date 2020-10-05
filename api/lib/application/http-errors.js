@@ -90,6 +90,14 @@ class BadRequestError extends BaseHttpError {
   }
 }
 
+class PayloadTooLargeError extends BaseHttpError {
+  constructor(message = 'La taille du fichier doit être inférieure à 10Mo.') {
+    super(message);
+    this.title = 'Payload too large';
+    this.status = 413;
+  }
+}
+
 function sendJsonApiError(httpError, h) {
   const jsonApiError = new JSONAPIError({
     status: httpError.status.toString(),
@@ -108,6 +116,7 @@ module.exports = {
   MissingQueryParamError,
   NotFoundError,
   PasswordShouldChangeError,
+  PayloadTooLargeError,
   PreconditionFailedError,
   sendJsonApiError,
   UnauthorizedError,

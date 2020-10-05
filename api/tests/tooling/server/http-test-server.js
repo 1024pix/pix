@@ -1,6 +1,16 @@
 const Hapi = require('@hapi/hapi');
 const Inert = require('@hapi/inert');
+
 const preResponseUtils = require('../../../lib/application/pre-response-utils');
+const { handleFailAction } = require('../../../lib/validate');
+
+const routesConfig = {
+  routes: {
+    validate: {
+      failAction: handleFailAction,
+    },
+  },
+};
 
 /**
  * ⚠️ You must declare your stubs before calling the HttpTestServer constructor (because of Node.Js memoization).
@@ -16,7 +26,8 @@ const preResponseUtils = require('../../../lib/application/pre-response-utils');
 class HttpTestServer {
 
   constructor(moduleUnderTest) {
-    this.hapiServer = Hapi.server();
+    this.hapiServer = Hapi.server(routesConfig);
+
     this.hapiServer.ext('onPreResponse', preResponseUtils.handleDomainAndHttpErrors);
     this.hapiServer.events.on({ name: 'request', channels: 'error' }, (request, event) => {
       console.error(event.error);
