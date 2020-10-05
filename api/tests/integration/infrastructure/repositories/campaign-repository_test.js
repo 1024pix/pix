@@ -35,13 +35,13 @@ describe('Integration | Repository | Campaign', () => {
 
   describe('#getByCode', () => {
 
-    let campaignToInsert;
+    let campaign;
     beforeEach(async () => {
-      campaignToInsert = databaseBuilder.factory.buildCampaign(
-        {
-          code: 'BADOIT710',
-          createdAt: new Date('2018-02-06T14:12:45Z'),
-        });
+      campaign = databaseBuilder.factory.buildCampaign({
+        code: 'BADOIT710',
+        createdAt: new Date('2018-02-06T14:12:45Z'),
+        externalIdHelpImageUrl: 'some url',
+      });
       await databaseBuilder.commit();
     });
 
@@ -50,15 +50,22 @@ describe('Integration | Repository | Campaign', () => {
       const actualCampaign = await campaignRepository.getByCode('BADOIT710');
 
       // then
-      expect(actualCampaign.id).to.equal(campaignToInsert.id);
-      expect(actualCampaign.name).to.equal(campaignToInsert.name);
-      expect(actualCampaign.code).to.equal(campaignToInsert.code);
-      expect(actualCampaign.organizationId).to.equal(campaignToInsert.organizationId);
-      expect(actualCampaign.createdAt).to.deep.equal(campaignToInsert.createdAt);
-      expect(actualCampaign.targetProfileId).to.equal(campaignToInsert.targetProfileId);
-      expect(actualCampaign.customLandingPageText).to.equal(campaignToInsert.customLandingPageText);
-      expect(actualCampaign.idPixLabel).to.equal(campaignToInsert.idPixLabel);
-      expect(actualCampaign.title).to.equal(campaignToInsert.title);
+      const checkedAttributes = [
+        'id',
+        'name',
+        'organizationId',
+        'code',
+        'targetProfileId',
+        'type',
+        'createdAt',
+        'archivedAt',
+        'creatorId',
+        'customLandingPageText',
+        'idPixLabel',
+        'externalIdHelpImageUrl',
+        'title',
+      ];
+      expect(_.pick(actualCampaign, checkedAttributes)).to.deep.equal(campaign);
     });
 
     it('should resolve null if the code do not correspond to any campaign ', () => {
