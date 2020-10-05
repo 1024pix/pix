@@ -52,7 +52,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     }
 
     if (this._shouldProvideExternalIdToAccessCampaign) {
-      return this.replaceWith('campaigns.fill-in-id-pix', campaign);
+      return this.replaceWith('campaigns.fill-in-participant-external-id', campaign);
     }
 
     if (this._shouldStartCampaignParticipation) {

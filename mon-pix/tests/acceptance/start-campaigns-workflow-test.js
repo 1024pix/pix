@@ -452,7 +452,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await click('.button');
           });
 
-          it('should redirect to fill-in-id-pix page after signup', async function() {
+          it('should redirect to fill-in-participant-external-id page after signup', async function() {
             // then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/identifiant`);
           });
@@ -512,7 +512,16 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
       });
 
       context('When campaign is not restricted', function() {
+        it('should redirect to landing page', async function() {
+          // given
+          campaign = server.create('campaign');
 
+          // when
+          await visit(`/campagnes/${campaign.code}`);
+
+          //then
+          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+        });
       });
 
       context('When campaign is restricted and SCO', function() {
@@ -587,7 +596,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
           });
 
-          it('should redirect to fill-in-id-pix page', async function() {
+          it('should redirect to fill-in-participant-external-id page', async function() {
             // given
             await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
             await fillIn('#firstName', 'Robert');
@@ -622,7 +631,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
           });
 
-          it('should redirect to fill-in-id-pix page', async function() {
+          it('should redirect to fill-in-participant-external-id page', async function() {
             // given
             await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
 
