@@ -50,7 +50,6 @@ module.exports = function(environment) {
       BANNER_CONTENT: process.env.BANNER_CONTENT || '',
       BANNER_TYPE: process.env.BANNER_TYPE || '',
       FT_IMPROVE_COMPETENCE_EVALUATION: process.env.FT_IMPROVE_COMPETENCE_EVALUATION || false,
-      FT_IS_CERTIFICATE_ATTESTATION_ACTIVE: _isFeatureEnabled(process.env.FT_IS_CERTIFICATE_ATTESTATION_ACTIVE),
 
       API_ERROR_MESSAGES: {
         BAD_REQUEST: {
