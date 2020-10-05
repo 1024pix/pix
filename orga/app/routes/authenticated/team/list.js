@@ -27,4 +27,11 @@ export default class ListRoute extends Route {
       organization,
     });
   }
+
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      controller.pageNumber = 1;
+      controller.pageSize = 10;
+    }
+  }
 }
