@@ -7,6 +7,7 @@ export default class Organization extends Model {
   @attr('string') name;
   @attr('string') type;
   @attr('string') externalId;
+  @attr('number') credit;
   @attr('boolean') isManagingStudents;
   @attr('boolean') canCollectProfiles;
 

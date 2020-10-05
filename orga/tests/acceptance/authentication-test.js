@@ -11,6 +11,7 @@ import {
   createUserWithMembershipAndTermsOfServiceAccepted,
   createUserManagingStudents,
   createPrescriberByUser,
+  createPrescriberForOrganization,
 } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -121,7 +122,7 @@ module('Acceptance | authentication', function(hooks) {
       assert.equal(currentURL(), '/campagnes');
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
     });
-
+    
     test('it should show user name', async function(assert) {
       // given
       server.create('campaign');
@@ -142,6 +143,27 @@ module('Acceptance | authentication', function(hooks) {
 
   module('When prescriber is already authenticated', function() {
 
+    module('When the organization has not credits and prescriber is ADMIN', function(hooks) {
+      hooks.beforeEach(async () => {
+        const user = createPrescriberForOrganization({ firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com' }, { name: 'BRO & Evil Associates' }, 'ADMIN');
+
+        await authenticateSession({
+          user_id: user.id,
+          access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
+          expires_in: 3600,
+          token_type: 'Bearer token type',
+        });
+      });
+
+      test('should not show organization credit info', async function(assert) {
+        // when
+        await visit('/');
+        // then
+        assert.dom('.organization-credit-info').doesNotExist();
+      });
+      
+    });
+    
     module('When prescriber has already accepted terms of service', function(hooks) {
 
       hooks.beforeEach(async () => {
@@ -199,7 +221,6 @@ module('Acceptance | authentication', function(hooks) {
       test('should display team menu', async function(assert) {
         // when
         await visit('/');
-
         // then
         assert.dom('.sidebar-menu a').exists({ count: 2 });
         assert.dom('.sidebar-menu').containsText('Campagnes');
@@ -220,7 +241,28 @@ module('Acceptance | authentication', function(hooks) {
         assert.dom('.sidebar-menu a:nth-child(2)').hasClass('active');
         assert.dom('.sidebar-menu a:first-child').hasNoClass('active');
       });
+      
+      module('When the organization has credits and prescriber is ADMIN', function(hooks) {
+        hooks.beforeEach(async () => {
+          const user = createPrescriberForOrganization({ firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com' }, { name: 'BRO & Evil Associates', credit: 10000 }, 'ADMIN');
+  
+          await authenticateSession({
+            user_id: user.id,
+            access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
+            expires_in: 3600,
+            token_type: 'Bearer token type',
+          });
+        });
 
+        test('should show organization credit info', async function(assert) {
+          // when
+          await visit('/');
+          // then
+          assert.dom('.organization-credit-info').exists();
+        });
+        
+      });
+      
       module('When prescriber belongs to an organization that is managing students', function(hooks) {
 
         hooks.beforeEach(async () => {
@@ -295,6 +337,27 @@ module('Acceptance | authentication', function(hooks) {
         assert.dom('.sidebar-menu a:first-child ').hasClass('active');
       });
 
+      module('When the organization has credits and prescriber is MEMBER', function(hooks) {
+        hooks.beforeEach(async () => {
+          const user = createPrescriberForOrganization({ firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com' }, { name: 'BRO & Evil Associates', credit: 10000 }, 'MEMBER');
+  
+          await authenticateSession({
+            user_id: user.id,
+            access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
+            expires_in: 3600,
+            token_type: 'Bearer token type',
+          });
+        });
+
+        test('should not show credit info', async function(assert) {
+          // when
+          await visit('/');
+          // then
+          assert.dom('.organization-credit-info').doesNotExist();
+        });
+        
+      });
+      
       module('When user belongs to an organization that is managing students', function(hooks) {
 
         hooks.beforeEach(async () => {
@@ -321,6 +384,7 @@ module('Acceptance | authentication', function(hooks) {
         });
       });
     });
+    
   });
 
 });

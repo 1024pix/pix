@@ -109,6 +109,7 @@ describe('Integration | Infrastructure | Repository | Prescriber', () => {
         expect(associatedOrganization).to.be.an.instanceof(Organization);
         expect(associatedOrganization.id).to.equal(organization.id);
         expect(associatedOrganization.code).to.equal(organization.code);
+        expect(associatedOrganization.credit).to.equal(organization.credit);
         expect(associatedOrganization.name).to.equal(organization.name);
         expect(associatedOrganization.type).to.equal(organization.type);
       });

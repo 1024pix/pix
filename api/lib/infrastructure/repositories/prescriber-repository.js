@@ -22,13 +22,14 @@ function _toPrescriberDomain(bookshelfUser) {
 
 function _toMembershipsDomain(membershipsBookshelf) {
   return membershipsBookshelf.map((membershipBookshelf) => {
-    const { id, code, name, type, isManagingStudents, canCollectProfiles, externalId } = membershipBookshelf.related('organization').attributes;
+    const { id, code, credit, name, type, isManagingStudents, canCollectProfiles, externalId } = membershipBookshelf.related('organization').attributes;
     return new Membership({
       id: membershipBookshelf.get('id'),
       organizationRole: membershipBookshelf.get('organizationRole'),
       organization: new Organization({
         id,
         code,
+        credit,
         name,
         type,
         isManagingStudents,
