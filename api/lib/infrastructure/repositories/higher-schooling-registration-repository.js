@@ -1,7 +1,6 @@
 const _ = require('lodash');
 const { SchoolingRegistrationsCouldNotBeSavedError } = require('../../domain/errors');
 const { knex } = require('../bookshelf');
-const { getChunkSizeForParameterBinding } = require('../utils/knex-utils');
 const BookshelfSchoolingRegistration = require('../data/schooling-registration');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const DomainTransaction = require('../DomainTransaction');
@@ -89,15 +88,6 @@ module.exports = {
     }
   },
 
-  saveSet(higherSchoolingRegistrationSet) {
-    const registrationDataToSave = higherSchoolingRegistrationSet.registrations.map((registration) => ({
-      ..._.pick(registration, ATTRIBUTES_TO_SAVE),
-      status: registration.studyScheme,
-    }));
-
-    return _upsert(registrationDataToSave);
-  },
-
   async findByOrganizationIdAndStudentNumber({ organizationId, studentNumber }) {
     const schoolingRegistration = await BookshelfSchoolingRegistration
       .query((qb) => {
@@ -146,33 +136,3 @@ module.exports = {
       .transacting(domainTransaction.knexTransaction);
   },
 };
-
-async function _upsert(registrationDataToSave) {
-  const baseQuery = _getBaseQueryForUpsert();
-  const registrationDataChunks = _chunkRegistrations(registrationDataToSave);
-  const trx = await knex.transaction();
-  try {
-    for (const registrationDataChunk of registrationDataChunks) {
-      await trx.raw(baseQuery, [
-        knex('schooling-registrations').insert(registrationDataChunk),
-      ]);
-    }
-    await trx.commit();
-  } catch (err) {
-    await trx.rollback();
-    throw new SchoolingRegistrationsCouldNotBeSavedError();
-  }
-}
-
-function _chunkRegistrations(registrations) {
-  const chunkSize = getChunkSizeForParameterBinding(_.head(registrations));
-  return _.chunk(registrations, chunkSize);
-}
-
-function _getBaseQueryForUpsert() {
-  let update = ATTRIBUTES_TO_SAVE
-    .map((key) => `"${key}" = EXCLUDED."${key}"`)
-    .join(', ');
-  update += ', "updatedAt" = CURRENT_TIMESTAMP';
-  return `? ON CONFLICT ("organizationId", "studentNumber") WHERE "isSupernumerary" IS FALSE DO UPDATE SET ${update}`;
-}
