@@ -80,6 +80,7 @@ module.exports = (function() {
           organizationInvitationTemplateId: process.env.SENDINBLUE_ORGANIZATION_INVITATION_TEMPLATE_ID,
           organizationInvitationScoTemplateId: process.env.SENDINBLUE_ORGANIZATION_INVITATION_SCO_TEMPLATE_ID,
           passwordResetTemplateId: process.env.SENDINBLUE_PASSWORD_RESET_TEMPLATE_ID,
+          certificationResultTemplateId: process.env.SENDINBLUE_CERTIFICATION_RESULT_TEMPLATE_ID,
         },
       },
     },
@@ -175,6 +176,8 @@ module.exports = (function() {
     config.mailing.sendinblue.templates.accountCreationTemplateId = 'test-account-creation-template-id';
     config.mailing.sendinblue.templates.organizationInvitationTemplateId = 'test-organization-invitation-demand-template-id';
     config.mailing.sendinblue.templates.organizationInvitationScoTemplateId = 'test-organization-invitation-sco-demand-template-id';
+    config.mailing.sendinblue.templates.certificationResultTemplateId = 'test-certification-result-template-id';
+
     config.mailing.sendinblue.templates.passwordResetTemplateId = 'test-password-reset-template-id';
 
     config.captcha.enabled = false;

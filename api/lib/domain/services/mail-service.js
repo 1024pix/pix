@@ -1,5 +1,6 @@
 const settings = require('../../config');
 const mailer = require('../../infrastructure/mailers/mailer');
+const moment = require('moment');
 
 const EMAIL_ADDRESS_NO_RESPONSE = 'ne-pas-repondre@pix.fr';
 const PIX_NAME = 'PIX - Ne pas répondre';
@@ -28,6 +29,30 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
     to: email,
     subject: 'Création de votre compte PIX',
     template: mailer.accountCreationTemplateId,
+    variables,
+  });
+}
+
+function sendCertificationResultEmail({
+  email, 
+  sessionId, 
+  sessionDate, 
+  certificationCenterName,
+  link, 
+}) {
+
+  const variables = {
+    link,
+  };
+
+  const formatedSessionDate = moment(sessionDate).locale('fr').format('L');
+
+  return mailer.sendEmail({
+    from: EMAIL_ADDRESS_NO_RESPONSE,
+    fromName: PIX_NAME,
+    to: email,
+    subject: `[Pix] Résultats certifications ${sessionId} du ${formatedSessionDate} à ${certificationCenterName}`,
+    template: mailer.certificationResultTemplateId,
     variables,
   });
 }
@@ -146,6 +171,7 @@ function sendScoOrganizationInvitationEmail({
 
 module.exports = {
   sendAccountCreationEmail,
+  sendCertificationResultEmail,
   sendOrganizationInvitationEmail,
   sendScoOrganizationInvitationEmail,
   sendResetPasswordDemandEmail,
