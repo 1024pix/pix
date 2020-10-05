@@ -14,6 +14,7 @@ function _isFeatureEnabled(environmentVariable) {
 }
 
 module.exports = function(environment) {
+  const matomoEnabled = _isFeatureEnabled(process.env.MATOMO_ENABLED);
   const ENV = {
     modulePrefix: 'pix-orga',
     environment,
@@ -63,9 +64,7 @@ module.exports = function(environment) {
       'media-src': '\'self\'',
     },
 
-    matomo: {
-      url: 'https://stats.pix.fr/js/container_p3ppIohn.js',
-    },
+    matomo: {},
 
     'ember-cli-notifications': {
       autoClear: true,
@@ -86,8 +85,10 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
-    ENV.matomo.url = 'https://stats.pix.fr/js/container_p3ppIohn_dev_22b0fda418abe8fedbf89e9c.js';
-    ENV.matomo.debug = true;
+    if (matomoEnabled) {
+      ENV.matomo.url = 'https://stats.pix.fr/js/container_p3ppIohn_dev_22b0fda418abe8fedbf89e9c.js';
+      ENV.matomo.debug = true;
+    }
   }
 
   if (environment === 'test') {
@@ -117,6 +118,9 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     // here you can enable a production-specific feature
+    if (matomoEnabled) {
+      ENV.matomo.url = 'https://stats.pix.fr/js/container_p3ppIohn.js';
+    }
   }
 
   return ENV;
