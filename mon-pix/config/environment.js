@@ -15,7 +15,7 @@ function _isFeatureEnabled(environmentVariable) {
 
 /* eslint max-statements: off */
 module.exports = function(environment) {
-
+  const matomoEnabled = _isFeatureEnabled(process.env.MATOMO_ENABLED);
   const ENV = {
     modulePrefix: 'mon-pix',
     environment: environment,
@@ -114,9 +114,7 @@ module.exports = function(environment) {
       includeLocales: ['fr'],
     },
 
-    matomo: {
-      url: 'https://stats.pix.fr/js/container_jKDD76j4.js',
-    },
+    matomo: {},
   };
 
   if (environment === 'development') {
@@ -128,8 +126,10 @@ module.exports = function(environment) {
 
     // Redefined in custom initializer 'initializers/configure-pix-api-host.js'
     ENV.APP.HOME_URL = process.env.HOME_URL || '/';
-    ENV.matomo.url = 'https://stats.pix.fr/js/container_jKDD76j4_dev_179474167add1104d6c8a92b.js';
-    ENV.matomo.debug = true;
+    if (matomoEnabled) {
+      ENV.matomo.url = 'https://stats.pix.fr/js/container_jKDD76j4_dev_179474167add1104d6c8a92b.js';
+      ENV.matomo.debug = true;
+    }
     ENV.APP.FT_IMPROVE_COMPETENCE_EVALUATION = true;
   }
 
@@ -159,6 +159,9 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     // here you can enable a production-specific feature
+    if (matomoEnabled) {
+      ENV.matomo.url = 'https://stats.pix.fr/js/container_jKDD76j4.js';
+    }
   }
   return ENV;
 };
