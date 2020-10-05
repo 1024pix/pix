@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { currentURL, visit } from '@ember/test-helpers';
+import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 
@@ -9,6 +9,7 @@ import {
 } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import times from 'lodash/times';
 
 module('Acceptance | Team List', function(hooks) {
 
@@ -105,6 +106,40 @@ module('Acceptance | Team List', function(hooks) {
         // then
         assert.dom('#table-invitations tbody tr').exists({ count: 1 });
       });
+    });
+  });
+
+  module('When the prescriber comes back to this route', function(hooks) {
+
+    hooks.beforeEach(async () => {
+      user = createUserMembershipWithRole('ADMIN');
+      createPrescriberByUser(user);
+
+      await authenticateSession({
+        user_id: user.id,
+        access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
+        expires_in: 3600,
+        token_type: 'Bearer token type',
+      });
+    });
+
+    test('it should land on first page', async (assert) => {
+      // given
+      const organizationId = server.db.organizations[0].id;
+      times(10, () => {
+        server.create('membership', {
+          organizationId,
+          createdAt: new Date(),
+        });
+      });
+      await visit('/equipe?pageNumber=2');
+      await visit('/campagnes');
+
+      // when
+      await click('a[href="/equipe"]');
+
+      // then
+      assert.equal(currentURL(), '/equipe');
     });
   });
 });
