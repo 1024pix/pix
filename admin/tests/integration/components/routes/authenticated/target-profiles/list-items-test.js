@@ -9,12 +9,14 @@ module('Integration | Component | routes/authenticated/target-profiles | list-it
 
   hooks.beforeEach(async function() {
     const triggerFiltering = function() {};
+    const goToTargetProfilePage = function() {};
     this.triggerFiltering = triggerFiltering;
+    this.goToTargetProfilePage = goToTargetProfilePage;
   });
 
   test('it should display header with name and id', async function(assert) {
     // when
-    await render(hbs`<TargetProfiles::ListItems @triggerFiltering={{this.triggerFiltering}} />`);
+    await render(hbs`<TargetProfiles::ListItems @triggerFiltering={{this.triggerFiltering}} @goToTargetProfilePage={{this.goToTargetProfilePage}}/>`);
 
     // then
     assert.contains('ID');
@@ -23,7 +25,7 @@ module('Integration | Component | routes/authenticated/target-profiles | list-it
 
   test('if should display search inputs', async function(assert) {
     // when
-    await render(hbs`<TargetProfiles::ListItems @triggerFiltering={{this.triggerFiltering}} />`);
+    await render(hbs`<TargetProfiles::ListItems @triggerFiltering={{this.triggerFiltering}} @goToTargetProfilePage={{this.goToTargetProfilePage}}/>`);
 
     // then
     assert.dom('input#name').exists();
@@ -43,7 +45,7 @@ module('Integration | Component | routes/authenticated/target-profiles | list-it
     this.targetProfiles = targetProfiles;
 
     // when
-    await render(hbs`<TargetProfiles::ListItems @targetProfiles={{this.targetProfiles}} @triggerFiltering={{this.triggerFiltering}} />`);
+    await render(hbs`<TargetProfiles::ListItems @targetProfiles={{this.targetProfiles}} @triggerFiltering={{this.triggerFiltering}} @goToTargetProfilePage={{this.goToTargetProfilePage}} />`);
 
     // then
     assert.dom('[aria-label="Profil cible"]').exists({ count: 2 });
@@ -58,7 +60,7 @@ module('Integration | Component | routes/authenticated/target-profiles | list-it
     this.targetProfiles = targetProfiles;
 
     // when
-    await render(hbs`<TargetProfiles::ListItems @targetProfiles={{this.targetProfiles}} @triggerFiltering={{this.triggerFiltering}} />`);
+    await render(hbs`<TargetProfiles::ListItems @targetProfiles={{this.targetProfiles}} @triggerFiltering={{this.triggerFiltering}} @goToTargetProfilePage={{this.goToTargetProfilePage}}/>`);
 
     // then
     assert.dom('[aria-label="Profil cible"]').containsText(123);

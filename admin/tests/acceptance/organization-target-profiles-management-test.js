@@ -14,11 +14,11 @@ module('Acceptance | organization target profiles management', function(hooks) {
 
   test('should display organization target profiles', async function(assert) {
     // given
-    const organization = this.server.create('organization');
-    this.server.create('target-profile', { name: 'Profil cible du ghetto', organization });
+    const organizationId = this.server.create('organization').id;
+    this.server.create('target-profile', { name: 'Profil cible du ghetto', organizationId });
 
     // when
-    await visit(`/organizations/${organization.id}/target-profiles`);
+    await visit(`/organizations/${organizationId}/target-profiles`);
 
     // then
     assert.dom('[aria-label="Profil cible"]').includesText('Profil cible du ghetto');
