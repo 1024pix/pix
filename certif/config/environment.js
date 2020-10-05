@@ -17,6 +17,7 @@ function _isFeatureEnabled(environmentVariable) {
 const ACTIVE_FEATURE_TOGGLES = [];
 
 module.exports = function(environment) {
+  const matomoEnabled = _isFeatureEnabled(process.env.MATOMO_ENABLED);
   const ENV = {
     modulePrefix: 'pix-certif',
     environment,
@@ -76,9 +77,7 @@ module.exports = function(environment) {
       'media-src': '\'self\'',
     },
 
-    matomo: {
-      url: 'https://stats.pix.fr/js/container_cMIdKogu.js',
-    },
+    matomo: {},
 
     formBuilderLinkUrl: 'https://eu.123formbuilder.com/form-29080/certification-depot-du-pv-de-session-scanne',
   };
@@ -90,8 +89,10 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
-    ENV.matomo.url = 'https://stats.pix.fr/js/container_cMIdKogu_dev_ace719fc09829675a21c66df.js';
-    ENV.matomo.debug = true;
+    if (matomoEnabled) {
+      ENV.matomo.url = 'https://stats.pix.fr/js/container_cMIdKogu_dev_ace719fc09829675a21c66df.js';
+      ENV.matomo.debug = true;
+    }
   }
 
   if (environment === 'test') {
@@ -112,6 +113,9 @@ module.exports = function(environment) {
   if (environment === 'production') {
     // here you can enable a production-specific feature
     //ENV.APP.API_HOST = 'https://pix.fr/api';
+    if (matomoEnabled) {
+      ENV.matomo.url = 'https://stats.pix.fr/js/container_cMIdKogu.js';
+    }
   }
 
   // Warn for unknown feature toggles
