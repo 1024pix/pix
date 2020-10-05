@@ -9,7 +9,12 @@ function _getEnvironmentVariableAsNumber({ environmentVariableName, defaultValue
   throw new Error(`Invalid value '${valueToValidate}' for environment variable '${environmentVariableName}'. It should be a number greater than or equal ${minValue}.`);
 }
 
+function _isFeatureEnabled(environmentVariable) {
+  return environmentVariable === 'true';
+}
+
 module.exports = function(environment) {
+  const matomoEnabled = _isFeatureEnabled(process.env.MATOMO_ENABLED);
   const ENV = {
     modulePrefix: 'pix-admin',
     environment,
@@ -71,9 +76,7 @@ module.exports = function(environment) {
       includeFontAwesome: true,
     },
 
-    matomo: {
-      url: 'https://stats.pix.fr/js/container_x4fRiAXl.js',
-    },
+    matomo: {},
 
     fontawesome: {
       warnIfNoIconsIncluded: true,
@@ -92,8 +95,10 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
-    ENV.matomo.url = 'https://stats.pix.fr/js/container_x4fRiAXl_dev_a6c96fc927042b6f6e773267.js';
-    ENV.matomo.debug = true;
+    if (matomoEnabled) {
+      ENV.matomo.url = 'https://stats.pix.fr/js/container_x4fRiAXl_dev_a6c96fc927042b6f6e773267.js';
+      ENV.matomo.debug = true;
+    }
   }
 
   if (environment === 'test') {
@@ -120,6 +125,9 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     // here you can enable a production-specific feature
+    if (matomoEnabled) {
+      ENV.matomo.url = 'https://stats.pix.fr/js/container_x4fRiAXl.js';
+    }
   }
 
   return ENV;
