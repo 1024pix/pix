@@ -1,4 +1,5 @@
 const { InvalidParametersForSessionPublication } = require('../../domain/errors');
+const mailService = require('../../domain/services/mail-service');
 
 module.exports = async function updatePublicationSession({
   sessionId,
@@ -14,9 +15,17 @@ module.exports = async function updatePublicationSession({
   }
 
   let session = await sessionRepository.get(sessionId);
+
   await certificationRepository.updatePublicationStatusesBySessionId(sessionId, toPublish);
 
   if (toPublish) {
+    await mailService.sendCertificationResultEmail({ 
+      email: process.env.TEMP_EMAIL,
+      sessionId, 
+      sessionDate: session.date,
+      certificationCenterName: session.certificationCenter,
+      link: 'toto/pix.fr',
+    });
     session = await sessionRepository.updatePublishedAt({ id: sessionId, publishedAt });
   }
 
