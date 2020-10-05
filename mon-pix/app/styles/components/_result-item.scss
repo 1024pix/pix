@@ -45,7 +45,7 @@
 .result-item__correction-button {
   font-weight: $font-normal;
   font-size: 0.875rem;
-  color: $blue;
+  color: $blue-hover;
   border: none;
   outline: none;
   background-color: transparent;
@@ -53,7 +53,7 @@
   &:hover,
   &:focus,
   &:active {
-    color: $blue-hover;
+    color: $dark-blue-pro;
     cursor: pointer;
     text-decoration: underline;
   }
