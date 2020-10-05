@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { currentURL, visit } from '@ember/test-helpers';
+import { currentURL, click, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
@@ -54,6 +54,19 @@ module('Acceptance | Target Profile Details', function(hooks) {
       assert.dom('section').containsText('Public : Oui');
       assert.dom('section').containsText('Archivé : Non');
       assert.dom('section').containsText('Organisation de référence : 456');
+    });
+
+    test('it should redirect to organization details on click', async function(assert) {
+      // given
+      server.create('organization', { id: 456 });
+      server.create('target-profile', { id: 1, organizationId: 456 });
+      await visit('/target-profiles/1');
+
+      // when
+      await click('a[href="/organizations/456"]');
+
+      // then
+      assert.equal(currentURL(), '/organizations/456/members');
     });
   });
 });
