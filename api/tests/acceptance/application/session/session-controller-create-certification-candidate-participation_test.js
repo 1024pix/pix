@@ -63,7 +63,7 @@ describe('Acceptance | Controller | session-controller-create-certification-cand
 
         // then
         expect(response.statusCode).to.equal(400);
-        expect(response.result.error).to.equal('Bad Request');
+        expect(response.result.errors[0].title).to.equal('Bad Request');
       });
 
     });
