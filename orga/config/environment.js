@@ -9,6 +9,10 @@ function _getEnvironmentVariableAsNumber({ environmentVariableName, defaultValue
   throw new Error(`Invalid value '${valueToValidate}' for environment variable '${environmentVariableName}'. It should be a number greater than or equal ${minValue}.`);
 }
 
+function _isFeatureEnabled(environmentVariable) {
+  return environmentVariable === 'true';
+}
+
 module.exports = function(environment) {
   const ENV = {
     modulePrefix: 'pix-orga',
@@ -32,7 +36,7 @@ module.exports = function(environment) {
       HOME_URL: process.env.HOME_URL,
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
       PIX_APP_URL_WITHOUT_EXTENSION: process.env.PIX_APP_URL_WITHOUT_EXTENSION || 'https://app.pix.',
-      IS_DISSOCIATE_BUTTON_ENABLED : process.env.IS_DISSOCIATE_BUTTON_ENABLED === 'true',
+      IS_DISSOCIATE_BUTTON_ENABLED : _isFeatureEnabled(process.env.IS_DISSOCIATE_BUTTON_ENABLED),
     },
 
     googleFonts: [
