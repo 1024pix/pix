@@ -42,6 +42,25 @@ class TargetProfileWithLearningContent {
 
     return area || null;
   }
+
+  filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements, knowledgeElementFilter = () => true) {
+    const knowledgeElementsGroupedByCompetence = {};
+    for (const competenceId of this.competenceIds) {
+      knowledgeElementsGroupedByCompetence[competenceId] = [];
+    }
+    for (const knowledgeElement of knowledgeElements) {
+      const competenceId = this.getCompetenceIdOfSkill(knowledgeElement.skillId);
+      if (competenceId && knowledgeElementFilter(knowledgeElement)) {
+        knowledgeElementsGroupedByCompetence[competenceId].push(knowledgeElement);
+      }
+    }
+
+    return knowledgeElementsGroupedByCompetence;
+  }
+
+  filterValidatedTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements) {
+    return this.filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements, (knowledgeElement) => knowledgeElement.isValidated);
+  }
 }
 
 module.exports = TargetProfileWithLearningContent;

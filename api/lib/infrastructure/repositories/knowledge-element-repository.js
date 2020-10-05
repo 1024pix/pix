@@ -58,18 +58,6 @@ async function _filterValidatedKnowledgeElementsByCampaignId(knowledgeElements, 
   });
 }
 
-function _filterValidatedTargetedKnowledgeElements(knowledgeElements, targetProfile) {
-  return _.filter(knowledgeElements, (knowledgeElement) => {
-    return knowledgeElement.isValidated && targetProfile.hasSkill(knowledgeElement.skillId);
-  });
-}
-
-function _filterTargetedKnowledgeElements(knowledgeElements, targetProfile) {
-  return _.filter(knowledgeElements, (knowledgeElement) => {
-    return targetProfile.hasSkill(knowledgeElement.skillId);
-  });
-}
-
 async function _findByUserIdAndLimitDateThenSaveSnapshot({ userId, limitDate }) {
   const knowledgeElements = await _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate });
   if (limitDate) {
@@ -173,15 +161,8 @@ module.exports = {
     const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
     const knowledgeElementsGroupedByUserAndCompetence  = {};
 
-    const competenceIds = targetProfile.getCompetenceIds();
-
     for (const [userId, knowledgeElements] of Object.entries(knowledgeElementsGroupedByUser)) {
-      const validatedTargetedKnowledgeElements = _filterValidatedTargetedKnowledgeElements(knowledgeElements, targetProfile);
-      const knowledgeElementsByCompetenceId = _.groupBy(validatedTargetedKnowledgeElements, 'competenceId');
-      knowledgeElementsGroupedByUserAndCompetence[userId] = {};
-      for (const competenceId of competenceIds) {
-        knowledgeElementsGroupedByUserAndCompetence[userId][competenceId] = knowledgeElementsByCompetenceId[competenceId] || [];
-      }
+      knowledgeElementsGroupedByUserAndCompetence[userId] = targetProfile.filterValidatedTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements);
     }
 
     return knowledgeElementsGroupedByUserAndCompetence;
@@ -191,15 +172,8 @@ module.exports = {
     const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
     const knowledgeElementsGroupedByUserAndCompetence  = {};
 
-    const competenceIds = targetProfile.competenceIds;
-
     for (const [userId, knowledgeElements] of Object.entries(knowledgeElementsGroupedByUser)) {
-      const targetedKnowledgeElements = _filterTargetedKnowledgeElements(knowledgeElements, targetProfile);
-      const knowledgeElementsByCompetenceId = _.groupBy(targetedKnowledgeElements, 'competenceId');
-      knowledgeElementsGroupedByUserAndCompetence[userId] = {};
-      for (const competenceId of competenceIds) {
-        knowledgeElementsGroupedByUserAndCompetence[userId][competenceId] = knowledgeElementsByCompetenceId[competenceId] || [];
-      }
+      knowledgeElementsGroupedByUserAndCompetence[userId] = targetProfile.filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements);
     }
 
     return knowledgeElementsGroupedByUserAndCompetence;
