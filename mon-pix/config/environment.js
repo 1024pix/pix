@@ -9,6 +9,10 @@ function _getEnvironmentVariableAsNumber({ environmentVariableName, defaultValue
   throw new Error(`Invalid value '${valueToValidate}' for environment variable '${environmentVariableName}'. It should be a number greater than or equal ${minValue}.`);
 }
 
+function _isFeatureEnabled(environmentVariable) {
+  return environmentVariable === 'true';
+}
+
 /* eslint max-statements: off */
 module.exports = function(environment) {
 
@@ -41,12 +45,12 @@ module.exports = function(environment) {
       LOAD_EXTERNAL_SCRIPT: true,
       GOOGLE_RECAPTCHA_KEY: '6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO',
       NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS: 5,
-      IS_RECAPTCHA_ENABLED: process.env.IS_RECAPTCHA_ENABLED === 'true',
+      IS_RECAPTCHA_ENABLED: _isFeatureEnabled(process.env.IS_RECAPTCHA_ENABLED),
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
       BANNER_CONTENT: process.env.BANNER_CONTENT || '',
       BANNER_TYPE: process.env.BANNER_TYPE || '',
       FT_IMPROVE_COMPETENCE_EVALUATION: process.env.FT_IMPROVE_COMPETENCE_EVALUATION || false,
-      FT_IS_CERTIFICATE_ATTESTATION_ACTIVE: process.env.FT_IS_CERTIFICATE_ATTESTATION_ACTIVE === 'true',
+      FT_IS_CERTIFICATE_ATTESTATION_ACTIVE: _isFeatureEnabled(process.env.FT_IS_CERTIFICATE_ATTESTATION_ACTIVE),
 
       API_ERROR_MESSAGES: {
         BAD_REQUEST: {
