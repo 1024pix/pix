@@ -15,6 +15,11 @@ module.exports = {
 
   async getCertificationResult(certificationCourseId) {
     const certificationCourse = await certificationCourseRepository.get(certificationCourseId);
+    return this.getCertificationResultByCertifCourse({ certificationCourse });
+  },
+
+  async getCertificationResultByCertifCourse({ certificationCourse }) {
+    const certificationCourseId = certificationCourse.id;
     const cleaCertificationStatus = await cleaCertificationStatusRepository.getCleaCertificationStatus(certificationCourseId);
     let lastAssessmentResultFull = await assessmentResultRepository.findLatestByCertificationCourseIdWithCompetenceMarks({ certificationCourseId });
     if (!lastAssessmentResultFull) {
