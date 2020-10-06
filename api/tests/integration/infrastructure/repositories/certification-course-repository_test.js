@@ -359,4 +359,38 @@ describe('Integration | Repository | Certification Course', function() {
       expect(result).to.equal(false);
     });
   });
+
+  describe('#findCertificationCoursesBySessionId', () => {
+    let sessionId;
+    let sessionIdWithoutCertifCourses;
+    let firstCertifCourse;
+    let secondCertifCourse;
+
+    beforeEach(() => {
+      // given
+      sessionId = databaseBuilder.factory.buildSession().id;
+      sessionIdWithoutCertifCourses = databaseBuilder.factory.buildSession().id;
+      firstCertifCourse = databaseBuilder.factory.buildCertificationCourse({ sessionId });
+      secondCertifCourse = databaseBuilder.factory.buildCertificationCourse({ sessionId });
+      return databaseBuilder.commit();
+    });
+
+    it('should returns all certification courses id with given sessionId', async () => {
+      // when
+      const certificationCourses = await certificationCourseRepository.findCertificationCoursesBySessionId({ sessionId });
+
+      // then
+      expect(certificationCourses).to.have.lengthOf(2);
+      expect(certificationCourses[0].firstName).to.equal(firstCertifCourse.firstName);
+      expect(certificationCourses[1].hasSeenEndTestScreen).to.equal(secondCertifCourse.hasSeenEndTestScreen);
+    });
+
+    it('should return empty array when no certification course found', async () => {
+      // when
+      const result = await certificationCourseRepository.findCertificationCoursesBySessionId({ sessionId: sessionIdWithoutCertifCourses });
+
+      // then
+      expect(result).to.deep.equal([]);
+    });
+  });
 });
