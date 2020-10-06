@@ -34,24 +34,24 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
 }
 
 function sendCertificationResultEmail({
-  email, 
-  sessionId, 
-  sessionDate, 
+  email,
+  sessionId,
+  sessionDate,
   certificationCenterName,
-  link, 
+  link,
 }) {
-
+  const formatedSessionDate = moment(sessionDate).locale('fr').format('L');
   const variables = {
     link,
+    sessionId,
+    sessionDate: formatedSessionDate,
+    certificationCenterName,
   };
-
-  const formatedSessionDate = moment(sessionDate).locale('fr').format('L');
 
   return mailer.sendEmail({
     from: EMAIL_ADDRESS_NO_RESPONSE,
     fromName: PIX_NAME,
     to: email,
-    subject: `[Pix] Résultats certifications ${sessionId} du ${formatedSessionDate} à ${certificationCenterName}`,
     template: mailer.certificationResultTemplateId,
     variables,
   });

@@ -78,10 +78,12 @@ describe('Unit | Service | MailService', () => {
         from: senderEmailAddress,
         fromName: 'PIX - Ne pas répondre',
         to: userEmailAddress,
-        subject: '[Pix] Résultats certifications 3 du 03/10/2020 à Vincennes',
         template: 'test-certification-result-template-id',
         variables: {
           link,
+          sessionId,
+          certificationCenterName,
+          sessionDate: '03/10/2020',
         },
       };
 

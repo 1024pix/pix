@@ -19,9 +19,10 @@ module.exports = async function updatePublicationSession({
   await certificationRepository.updatePublicationStatusesBySessionId(sessionId, toPublish);
 
   if (toPublish) {
-    await mailService.sendCertificationResultEmail({ 
+
+    await mailService.sendCertificationResultEmail({
       email: process.env.TEMP_EMAIL,
-      sessionId, 
+      sessionId,
       sessionDate: session.date,
       certificationCenterName: session.certificationCenter,
       link: 'toto/pix.fr',
