@@ -90,6 +90,13 @@ module.exports = {
 
     return !exist;
   },
+
+  async findCertificationCoursesBySessionId({ sessionId }) {
+    const bookshelfCertificationCourses = await CertificationCourseBookshelf
+      .where({ sessionId })
+      .fetchAll();
+    return bookshelfToDomainConverter.buildDomainObjects(CertificationCourseBookshelf, bookshelfCertificationCourses);
+  },
 };
 
 function _toDomain(bookshelfCertificationCourse) {

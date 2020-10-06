@@ -359,4 +359,41 @@ describe('Integration | Repository | Certification Course', function() {
       expect(result).to.equal(false);
     });
   });
+
+  describe('#findCertificationCoursesBySessionId', () => {
+    let sessionId;
+    let sessionIdWithoutCertifCourses;
+    let firstCertifCourse;
+    let secondCertifCourse;
+
+    beforeEach(() => {
+      // given
+      sessionId = databaseBuilder.factory.buildSession().id;
+      sessionIdWithoutCertifCourses = databaseBuilder.factory.buildSession().id;
+      firstCertifCourse = databaseBuilder.factory.buildCertificationCourse({ sessionId });
+      secondCertifCourse = databaseBuilder.factory.buildCertificationCourse({ sessionId });
+      return databaseBuilder.commit();
+    });
+
+    function _cleanCertificationCourse(certificationCourse) {
+      return _.omit(certificationCourse, 'assessment', 'challenges', 'updatedAt');
+    }
+    it('should returns all certification courses id with given sessionId', async () => {
+      // when
+      const certificationCourses = await certificationCourseRepository.findCertificationCoursesBySessionId({ sessionId });
+
+      // then
+      expect(certificationCourses).to.have.lengthOf(2);
+      expect(_cleanCertificationCourse(certificationCourses[0])).to.deep.equal(_cleanCertificationCourse(firstCertifCourse));
+      expect(_cleanCertificationCourse(certificationCourses[1])).to.deep.equal(_cleanCertificationCourse(secondCertifCourse));
+    });
+
+    it('should return empty array when no certification course found', async () => {
+      // when
+      const result = await certificationCourseRepository.findCertificationCoursesBySessionId({ sessionId: sessionIdWithoutCertifCourses });
+
+      // then
+      expect(result).to.be.empty;
+    });
+  });
 });
