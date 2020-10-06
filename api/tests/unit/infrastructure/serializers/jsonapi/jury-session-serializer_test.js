@@ -44,9 +44,9 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function() {
             status: 'someStatus',
             description: 'someDescription',
             'examiner-global-comment': 'someComment',
-            'finalized-at': new Date('2020-02-17T14:23:56.000Z'),
-            'results-sent-to-prescriber-at': new Date('2020-02-20T14:23:56.000Z'),
-            'published-at': new Date('2020-02-21T14:23:56.000Z'),
+            'finalized-at': new Date('2020-02-17T14:23:56Z'),
+            'results-sent-to-prescriber-at': new Date('2020-02-20T14:23:56Z'),
+            'published-at': new Date('2020-02-21T14:23:56Z'),
           },
           relationships: {
             'jury-certification-summaries': {
