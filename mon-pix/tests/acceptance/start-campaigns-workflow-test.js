@@ -953,6 +953,61 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             expect(currentURL()).to.contains(`/campagnes/${campaign.code}/privee/identification`);
             expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage);
           });
+
+          context('When user should change password', () => {
+
+            it('should land on start campaign page after updating password expired', async function() {
+
+              // given
+              const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
+
+              server.post('/schooling-registration-dependent-users/external-user-token', async () => {
+                return new Response(409, {}, {
+                  errors: [{
+                    status: '409',
+                    code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
+                    title: 'Conflict',
+                    detail: 'Un compte existe déjà pour l\'élève dans le même établissement.',
+                    meta: {
+                      shortCode: 'R32',
+                      value: 'u***.y***1989',
+                      userId: 1,
+                    },
+                  }],
+                });
+              });
+
+              server.create('schooling-registration-user-association', {
+                campaignCode: campaign.code,
+              });
+
+              // when
+              await fillIn('#campaign-code', campaign.code);
+              await click('.fill-in-campaign-code__start-button');
+
+              await fillIn('#dayOfBirth', '10');
+              await fillIn('#monthOfBirth', '12');
+              await fillIn('#yearOfBirth', '2000');
+              await click('.button');
+              await click('button[aria-label="Continuer avec mon compte Pix"]');
+              await fillIn('#login', userShouldChangePassword.username);
+              await fillIn('#password', userShouldChangePassword.password);
+              await click('#submit-connexion');
+
+              // then
+              expect(currentURL()).to.equal('/mise-a-jour-mot-de-passe-expire');
+
+              // when
+              await fillIn('#password', 'newPass12345!');
+
+              await click('.button');
+
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+              expect(contains('Commencez votre parcours')).to.exist;
+            });
+
+          });
+
         });
 
       });
