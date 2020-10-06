@@ -131,7 +131,7 @@ module.exports = {
     const savedCampaignParticipation = _toDomain(savedBookshelfCampaignParticipation);
 
     const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId: savedCampaignParticipation.userId, limitDate: savedCampaignParticipation.sharedAt });
-    knowledgeElementSnapshotRepository.save({ userId: savedCampaignParticipation.userId, snappedAt: savedCampaignParticipation.sharedAt, knowledgeElements });
+    await knowledgeElementSnapshotRepository.save({ userId: savedCampaignParticipation.userId, snappedAt: savedCampaignParticipation.sharedAt, knowledgeElements });
 
     return savedCampaignParticipation;
   },
