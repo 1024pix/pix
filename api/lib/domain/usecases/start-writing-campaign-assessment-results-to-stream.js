@@ -121,6 +121,6 @@ function _createHeaderOfCSV(targetProfile, idPixLabel, organizationType, organiz
       `Acquis maitrisés du domaine ${area.title}`,
     ])),
 
-    ...(targetProfile.skillNames),
+    ...(organizationType === 'SCO' ? [] : targetProfile.skillNames),
   ];
 }
