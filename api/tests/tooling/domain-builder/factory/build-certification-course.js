@@ -1,6 +1,7 @@
 const faker = require('faker');
 const moment = require('moment');
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
+const buildAssessment = require('./build-assessment');
 
 module.exports = function buildCertificationCourse(
   {
@@ -21,6 +22,8 @@ module.exports = function buildCertificationCourse(
     verificationCode = `P-${faker.random.alphaNumeric(8).toUpperCase()}`,
     // includes
     acquiredPartnerCertifications = [],
+    assessment = buildAssessment({ certificationCourseId: this.id }),
+    challenges = [],
     // references
     userId = faker.random.number(),
     sessionId = faker.random.number(),
@@ -42,6 +45,8 @@ module.exports = function buildCertificationCourse(
     isPublished,
     verificationCode,
     acquiredPartnerCertifications,
+    assessment,
+    challenges,
     sessionId,
     userId,
   });
