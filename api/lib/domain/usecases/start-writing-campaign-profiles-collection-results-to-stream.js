@@ -16,7 +16,9 @@ async function _checkCreatorHasAccessToCampaignOrganization(userId, organization
   }
 }
 
-function _createHeaderOfCSV(competences, idPixLabel) {
+function _createHeaderOfCSV(competences, idPixLabel, organization) {
+  const EMPTY_ARRAY = [];
+  const displayStudentNumber = organization.isSup && organization.isManagingStudents;
   return [
     { title: 'Nom de l\'organisation', property: 'organizationName' },
     { title: 'ID Campagne', property: 'campaignId' },
@@ -24,7 +26,9 @@ function _createHeaderOfCSV(competences, idPixLabel) {
     { title: 'Nom du Participant', property: 'participantLastName' },
     { title: 'Prénom du Participant', property: 'participantFirstName' },
 
-    ...(idPixLabel ? [ { title: idPixLabel, property: 'participantExternalId' } ] : []),
+    ...(displayStudentNumber ? [{ title: 'Numéro Étudiant', property: 'studentNumber' }] : EMPTY_ARRAY),
+
+    ...(idPixLabel ? [ { title: idPixLabel, property: 'participantExternalId' } ] : EMPTY_ARRAY),
 
     { title: 'Envoi (O/N)', property: 'isShared' },
     { title: 'Date de l\'envoi', property: 'sharedAt' },
@@ -42,17 +46,21 @@ function _createHeaderOfCSV(competences, idPixLabel) {
 function _getCommonColumns({
   organization,
   campaign,
+  campaignParticipationResultData,
+
   participantFirstName,
   participantLastName,
-  campaignParticipationResultData,
+  studentNumber,
 }) {
-
+  const EMPTY_LINE = '';
+  const displayStudentNumber = studentNumber && organization.isSup && organization.isManagingStudents;
   return {
     organizationName: organization.name,
     campaignId: campaign.id,
     campaignName: campaign.name,
     participantLastName,
     participantFirstName,
+    studentNumber: displayStudentNumber ? studentNumber : EMPTY_LINE,
     isShared: campaignParticipationResultData.isShared ? 'Oui' : 'Non',
     ...(campaign.idPixLabel ? { participantExternalId: campaignParticipationResultData.participantExternalId } : {}),
   };
@@ -99,13 +107,16 @@ function _createOneLineOfCSV({
 
   participantFirstName,
   participantLastName,
+  studentNumber,
 }) {
   const lineMap = _getCommonColumns({
     organization,
     campaign,
+    campaignParticipationResultData,
+
     participantFirstName,
     participantLastName,
-    campaignParticipationResultData,
+    studentNumber,
   });
 
   if (campaignParticipationResultData.isShared) {
@@ -144,7 +155,7 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
     organizationRepository.get(campaign.organizationId),
     campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId(campaign.id, campaign.type),
   ]);
-  const headers = _createHeaderOfCSV(allPixCompetences, campaign.idPixLabel);
+  const headers = _createHeaderOfCSV(allPixCompetences, campaign.idPixLabel, organization);
 
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
@@ -181,9 +192,10 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
         campaign,
         campaignParticipationResultData,
         placementProfile,
-
+        
         participantFirstName: campaignParticipationResultData.participantFirstName,
         participantLastName: campaignParticipationResultData.participantLastName,
+        studentNumber: campaignParticipationResultData.studentNumber,
       });
       csvLines = csvLines.concat(csvLine);
     }
