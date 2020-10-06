@@ -4,29 +4,29 @@ const SibApiV3Sdk = require('sib-api-v3-sdk');
 const MailingProvider = require('./MailingProvider');
 const { mailing } = require('../../config');
 
-function _formatPayload(options) {
+function _formatPayload({ to, fromName, from, subject, template, variables, tags }) {
   const payload = {
     to: [{
-      email: options.to,
+      email: to,
     }],
     sender: {
-      name: options.fromName,
-      email: options.from,
+      name: fromName,
+      email: from,
     },
-    subject: options.subject || '',
-    templateId: parseInt(options.template),
+    subject,
+    templateId: parseInt(template),
     headers: {
       'content-type': 'application/json',
       'accept': 'application/json',
     },
   };
 
-  if (options.variables) {
-    payload.params = options.variables;
+  if (variables) {
+    payload.params = variables;
   }
 
-  if (_.isArray(options.tags) && !_.isEmpty(options.tags)) {
-    payload.tags = options.tags;
+  if (_.isArray(tags) && !_.isEmpty(tags)) {
+    payload.tags = tags;
   }
 
   return payload;
