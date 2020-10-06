@@ -15,7 +15,7 @@ function _isFeatureEnabled(environmentVariable) {
 
 /* eslint max-statements: off */
 module.exports = function(environment) {
-  const matomoEnabled = _isFeatureEnabled(process.env.MATOMO_ENABLED);
+  const analyticsEnabled = _isFeatureEnabled(process.env.SENDING_ANALYTICS_ENABLED);
   const ENV = {
     modulePrefix: 'mon-pix',
     environment: environment,
@@ -126,7 +126,7 @@ module.exports = function(environment) {
 
     // Redefined in custom initializer 'initializers/configure-pix-api-host.js'
     ENV.APP.HOME_URL = process.env.HOME_URL || '/';
-    if (matomoEnabled) {
+    if (analyticsEnabled) {
       ENV.matomo.url = 'https://stats.pix.fr/js/container_jKDD76j4_dev_179474167add1104d6c8a92b.js';
       ENV.matomo.debug = true;
     }
@@ -159,7 +159,7 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     // here you can enable a production-specific feature
-    if (matomoEnabled) {
+    if (analyticsEnabled) {
       ENV.matomo.url = 'https://stats.pix.fr/js/container_jKDD76j4.js';
     }
   }
