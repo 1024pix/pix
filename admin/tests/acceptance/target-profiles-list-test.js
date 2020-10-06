@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { currentURL, visit } from '@ember/test-helpers';
+import { currentURL, click, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
@@ -67,6 +67,18 @@ module('Acceptance | Target Profiles List', function(hooks) {
         // then
         assert.dom('input#id').hasValue('123');
       });
+    });
+
+    test('it should redirect to target profile details on click', async function(assert) {
+      // given
+      server.create('target-profile', { id: 1 });
+      await visit('/target-profiles/list');
+
+      // when
+      await click('[aria-label="Profil cible"]');
+
+      // then
+      assert.equal(currentURL(), '/target-profiles/1');
     });
   });
 });

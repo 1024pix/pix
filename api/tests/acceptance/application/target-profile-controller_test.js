@@ -14,66 +14,38 @@ describe('Acceptance | Controller | target-profile-controller', () => {
     return cache.flushAll();
   });
 
-  describe('GET /organizations/{id}/target-profiles', () => {
+  describe('GET /api/admin/target-profiles/{id}', () => {
+    let user;
+    let targetProfileId;
 
-    context('when user is authenticated', () => {
+    beforeEach(async () => {
+      nock.cleanAll();
+      nock('https://api.airtable.com')
+        .get('/v0/test-base/Acquis')
+        .query(true)
+        .reply(200, {});
+      targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
 
-      let user;
-      let linkedOrganization;
-
-      beforeEach(async () => {
-        nock.cleanAll();
-        nock('https://api.airtable.com')
-          .get('/v0/test-base/Acquis')
-          .query(true)
-          .reply(200, {});
-        user = databaseBuilder.factory.buildUser({});
-        linkedOrganization = databaseBuilder.factory.buildOrganization({});
-        databaseBuilder.factory.buildMembership({
-          userId: user.id,
-          organizationId: linkedOrganization.id,
-        });
-
-        await databaseBuilder.commit();
-      });
-
-      afterEach(() => {
-        nock.cleanAll();
-      });
-
-      it('should return 200', async () => {
-        const options = {
-          method: 'GET',
-          url: `/api/organizations/${linkedOrganization.id}/target-profiles`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-      });
+      await databaseBuilder.commit();
     });
 
-    context('when user is not authenticated', () => {
-
-      it('should return 401', async () => {
-        const options = {
-          method: 'GET',
-          url: '/api/organizations/1/target-profiles',
-          headers: { authorization: 'Bearer mauvais token' },
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(401);
-      });
-
+    afterEach(() => {
+      nock.cleanAll();
     });
 
+    it('should return 200', async () => {
+      const options = {
+        method: 'GET',
+        url: `/api/admin/target-profiles/${targetProfileId}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
   });
-
 });
