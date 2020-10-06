@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v2.205.0 (06/10/2020)
+
+- [#1961](https://github.com/1024pix/pix/pull/1961) [FEATURE] Affichage du détail d'un profil cible dans Pix Admin (PIX-1349).
+- [#1956](https://github.com/1024pix/pix/pull/1956) [FEATURE] Masquer les acquis dans l'export CSV d'une organisation SCO (PIX-1104)
+- [#1917](https://github.com/1024pix/pix/pull/1917) [FEATURE] Affichage de l'aide pour la saisie de l'identifiant externe (PIX-1295).
+- [#1933](https://github.com/1024pix/pix/pull/1933) [FEATURE] Afficher les informations de crédit d'une organisation (PIX-1287)
+- [#1935](https://github.com/1024pix/pix/pull/1935) [FEATURE]  Import d'une liste de candidats à une session avec le nouveau modèle (PIX-1336)
+- [#1936](https://github.com/1024pix/pix/pull/1936) [FEATURE] Ajout du bouton de téléchargement du PV de session dans le header (PIX-985)
+- [#1860](https://github.com/1024pix/pix/pull/1860) [FEATURE] Générer les tests de certif à partir des acquis validés directs (et plus des épreuves bien répondues) (PIX-968)
+- [#1959](https://github.com/1024pix/pix/pull/1959) [BUGFIX] Permettre à un nouveau utilisateur connecté depuis le GAR et déjà réconcilié avec un compte avec un mot de passe expiré de rejoindre une campagne (PIX-1321).
+- [#1962](https://github.com/1024pix/pix/pull/1962) [BUGFIX] Permettre à la CI de détecter les erreurs de tests. 
+- [#1957](https://github.com/1024pix/pix/pull/1957) [BUGFIX] Remettre la pagination à zéro sur la page équipe de Pix Orga (PIX-1281).
+- [#1951](https://github.com/1024pix/pix/pull/1951) [BUGFIX] Déplacement d'acquis mal pris en compte dans l'export CSV des campagnes d'évaluation et dans le calcul du résultat individuel (PIX-1346)
+- [#1954](https://github.com/1024pix/pix/pull/1954) [TECH] Passage de Cypress à la dernière version (4.6 => 5.3).
+- [#1942](https://github.com/1024pix/pix/pull/1942) [TECH] Linter les templates de pix-orga dans la CI.
+- [#1952](https://github.com/1024pix/pix/pull/1952) [DOC] Ajout d'une ADR pour le choix d'une solution pour générer du PDF
+- [#1941](https://github.com/1024pix/pix/pull/1941) [BSR] Factorisation de la fonction du Server FailAction dans API (PIX-1343).
+- [#1895](https://github.com/1024pix/pix/pull/1895) [DOC] Mise à jour du workflow de connexion GAR.
+
 ## v2.204.0 (02/10/2020)
 
 - [#1930](https://github.com/1024pix/pix/pull/1930) [FEATURE] Ajout d'un email pour l'envoie des résultats au(x) prescripteur(s) (PIX-974)
