@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, render } from '@ember/test-helpers';
+import { find, findAll, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 
 describe('Integration | Component | reached-stage', function() {
@@ -49,12 +49,10 @@ describe('Integration | Component | reached-stage', function() {
 });
 
 function _expectStars(starCount, stageCount) {
-  for (let index = 1 ; index < starCount ; index ++) {
-    expect(find(`#acquired-star-${index}`)).to.exist;
-    expect(find(`#unacquired-star-${index}`)).to.not.exist;
-  }
-  for (let index = starCount ; index < stageCount ; index ++) {
-    expect(find(`#acquired-star-${index}`)).to.not.exist;
-    expect(find(`#unacquired-star-${index}`)).to.exist;
-  }
+  const fullStarCount = starCount > 0 ? starCount - 1 : 0;
+  const fullStarElement = findAll('.reached-stage-score__stars img[data-test-status=\'acquired\']');
+  const emptyStarElement = findAll('.reached-stage-score__stars img[data-test-status=\'unacquired\']');
+
+  expect(fullStarElement.length).to.equal(fullStarCount);
+  expect(emptyStarElement.length).to.equal(stageCount - starCount);
 }

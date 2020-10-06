@@ -818,10 +818,7 @@
       "send-title": "Submit your results",
       "stage": {
         "masteryPercentage": "Success rate: {percentage} %",
-        "alt": {
-          "acquiredStar": "Stage no. {index} reached",
-          "unacquiredStar": "Stage no. {index} not reached"
-        }
+        "starsAcquired": "{acquired, plural, =0 {no star} other {# stars}} acquired over {total}"
       },
       "try-again": {
         "title": "Want to improve your results?",

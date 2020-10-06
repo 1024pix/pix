@@ -818,10 +818,7 @@
       "send-title": "Envoyez vos résultats",
       "stage": {
         "masteryPercentage": "{percentage} % de réussite",
-        "alt": {
-          "acquiredStar": "Palier n°{index} atteint",
-          "unacquiredStar": "Palier n°{index} non atteint"
-        }
+        "starsAcquired": "{acquired, plural, =0 {aucune étoile acquise} other {# étoiles acquises}} sur {total}"
       },
       "try-again": {
         "title": "Envie d'améliorer vos résultats ?",
