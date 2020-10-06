@@ -6,19 +6,19 @@
         <textarea class="correction-qroc-box-answer correction-qroc-box-answer--paragraph {{inputClass}}"
                   rows="5"
                   value="{{answerToDisplay}}"
-                  ariaLabel="réponse donnée"
+                  aria-label={{t 'pages.comparison-window.results.aria-label-given-answer'}}
                   disabled>
         </textarea>
       {{else if (eq answer.challenge.format 'phrase')}}
         <input class="correction-qroc-box-answer correction-qroc-box-answer--sentence {{inputClass}}"
                value="{{answerToDisplay}}"
-               ariaLabel="réponse donnée"
+               aria-label={{t 'pages.comparison-window.results.aria-label-given-answer'}}
                disabled>
       {{else}}
         <input class="correction-qroc-box-answer {{inputClass}}"
                size="{{get-qroc-input-size answer.challenge.format}}"
                value="{{answerToDisplay}}"
-               ariaLabel="réponse donnée"
+               aria-label={{t 'pages.comparison-window.results.aria-label-given-answer'}}
                disabled>
       {{/if}}
     </div>

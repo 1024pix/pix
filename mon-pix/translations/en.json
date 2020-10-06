@@ -450,7 +450,8 @@
           "title": "",
           "tooltip": "Auto-correct under development ;)"
         },
-        "the-answer-was": "The answer was"
+        "the-answer-was": "The answer was",
+        "aria-label-given-answer": "given answer"
       }
     },
 
