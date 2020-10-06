@@ -17,7 +17,7 @@ function _isFeatureEnabled(environmentVariable) {
 const ACTIVE_FEATURE_TOGGLES = [];
 
 module.exports = function(environment) {
-  const matomoEnabled = _isFeatureEnabled(process.env.MATOMO_ENABLED);
+  const analyticsEnabled = _isFeatureEnabled(process.env.SENDING_ANALYTICS_ENABLED);
   const ENV = {
     modulePrefix: 'pix-certif',
     environment,
@@ -89,7 +89,7 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
-    if (matomoEnabled) {
+    if (analyticsEnabled) {
       ENV.matomo.url = 'https://stats.pix.fr/js/container_cMIdKogu_dev_ace719fc09829675a21c66df.js';
       ENV.matomo.debug = true;
     }
@@ -113,7 +113,7 @@ module.exports = function(environment) {
   if (environment === 'production') {
     // here you can enable a production-specific feature
     //ENV.APP.API_HOST = 'https://pix.fr/api';
-    if (matomoEnabled) {
+    if (analyticsEnabled) {
       ENV.matomo.url = 'https://stats.pix.fr/js/container_cMIdKogu.js';
     }
   }
