@@ -35,7 +35,7 @@ module.exports = {
         nullIfMissing: true,
         relationshipLinks: {
           related(record, current, parent) {
-            return `/api/jury/sessions/${parent.id}/jury-certification-summaries`;
+            return `/api/admin/sessions/${parent.id}/jury-certification-summaries`;
           },
         },
       },
