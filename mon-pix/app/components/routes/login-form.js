@@ -73,6 +73,11 @@ export default class LoginForm extends Component {
       const title = ('errors' in err) ? err.errors.get('firstObject').title : null;
       if (title === 'PasswordShouldChange') {
         this.store.createRecord('user', { username: this.login, password: this.password });
+        this.session.set('attemptedTransition', {
+          retry: () => {
+            this._addGarAuthenticationMethodToUser();
+          },
+        });
         return this.router.replaceWith('update-expired-password');
       }
       this.set('isErrorMessagePresent', true);
