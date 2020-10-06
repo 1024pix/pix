@@ -10,4 +10,10 @@ module.exports = {
     const { models: targetProfiles, pagination } = await usecases.findPaginatedFilteredTargetProfiles({ filter: options.filter, page: options.page });
     return targetProfileSerializer.serialize(targetProfiles, pagination);
   },
+
+  async getTargetProfileDetails(request) {
+    const targetProfileId = parseInt(request.params.id);
+    const targetProfilesDetails = await usecases.getTargetProfileDetails({ targetProfileId });
+    return targetProfileSerializer.serialize(targetProfilesDetails);
+  },
 };
