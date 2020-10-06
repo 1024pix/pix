@@ -450,7 +450,8 @@
           "title": "",
           "tooltip": "Correction automatique en cours de développement ;)"
         },
-        "the-answer-was": "La bonne réponse était"
+        "the-answer-was": "La bonne réponse était",
+        "aria-label-given-answer": "réponse donnée"
       }
     },
 
