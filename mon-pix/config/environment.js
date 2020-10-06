@@ -74,6 +74,7 @@ module.exports = function(environment) {
           MESSAGE: 'api-error-messages.internal-server-error',
         },
       },
+      AUTHENTICATED_SOURCE_FROM_MEDIACENTRE: 'external',
     },
 
     googleFonts: [

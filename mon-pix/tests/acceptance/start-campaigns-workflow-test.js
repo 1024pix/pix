@@ -11,6 +11,10 @@ import { contains } from '../helpers/contains';
 
 import { authenticateByEmail, authenticateByGAR } from '../helpers/authentication';
 import { startCampaignByCode, startCampaignByCodeAndExternalId } from '../helpers/campaign';
+import { currentSession } from 'ember-simple-auth/test-support';
+import ENV from 'mon-pix/config/environment';
+
+const AUTHENTICATED_SOURCE_FROM_MEDIACENTRE = ENV.APP.AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
 
 describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
@@ -782,7 +786,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
           let garUser;
 
           beforeEach(async function() {
-            garUser = server.create('user', 'external');
+            garUser = server.create('user', AUTHENTICATED_SOURCE_FROM_MEDIACENTRE);
             await authenticateByGAR(garUser);
             server.create('schooling-registration-user-association', {
               campaignCode: campaign.code,
@@ -862,6 +866,9 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await fillIn('#login', prescritUser.email);
             await fillIn('#password', prescritUser.password);
             await click('#submit-connexion');
+
+            const session = currentSession();
+            expect(session.data.authenticated.source).to.equal(AUTHENTICATED_SOURCE_FROM_MEDIACENTRE);
 
             // then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
@@ -999,8 +1006,11 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
               // when
               await fillIn('#password', 'newPass12345!');
-
               await click('.button');
+
+              // then
+              const session = currentSession();
+              expect(session.data.authenticated.source).to.equal(AUTHENTICATED_SOURCE_FROM_MEDIACENTRE);
 
               expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
               expect(contains('Commencez votre parcours')).to.exist;
