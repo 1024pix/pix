@@ -30,6 +30,7 @@ module.exports = {
   buildKnowledgeElementSnapshot: require('./build-knowledge-element-snapshot'),
   buildOrganization: require('./build-organization'),
   buildOrganizationInvitation: require('./build-organization-invitation'),
+  buildOrganizationTag: require('./build-organization-tag'),
   buildMembership: require('./build-membership'),
   buildPixRole: require('./build-pix-role'),
   buildResetPasswordDemand: require('./build-reset-password-demand'),
