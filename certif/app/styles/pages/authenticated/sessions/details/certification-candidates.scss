@@ -139,6 +139,12 @@
   align-items: center;
 }
 
+.certification-candidates-input-wrapper input {
+  &:required.focused:not(:focus):invalid, &:not(:required):not(:focus):invalid {
+    border: 2px solid $error;
+  }
+}
+
 .certification-candidates-input {
   background: $grey-5;
   border-radius: 4px;
