@@ -9,7 +9,12 @@ function _getEnvironmentVariableAsNumber({ environmentVariableName, defaultValue
   throw new Error(`Invalid value '${valueToValidate}' for environment variable '${environmentVariableName}'. It should be a number greater than or equal ${minValue}.`);
 }
 
+function _isFeatureEnabled(environmentVariable) {
+  return environmentVariable === 'true';
+}
+
 module.exports = function(environment) {
+  const analyticsEnabled = _isFeatureEnabled(process.env.SENDING_ANALYTICS_ENABLED);
   const ENV = {
     modulePrefix: 'pix-orga',
     environment,
@@ -32,7 +37,7 @@ module.exports = function(environment) {
       HOME_URL: process.env.HOME_URL,
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
       PIX_APP_URL_WITHOUT_EXTENSION: process.env.PIX_APP_URL_WITHOUT_EXTENSION || 'https://app.pix.',
-      IS_DISSOCIATE_BUTTON_ENABLED : process.env.IS_DISSOCIATE_BUTTON_ENABLED === 'true',
+      IS_DISSOCIATE_BUTTON_ENABLED : _isFeatureEnabled(process.env.IS_DISSOCIATE_BUTTON_ENABLED),
     },
 
     googleFonts: [
@@ -59,9 +64,7 @@ module.exports = function(environment) {
       'media-src': '\'self\'',
     },
 
-    matomo: {
-      url: 'https://stats.pix.fr/js/container_p3ppIohn.js',
-    },
+    matomo: {},
 
     'ember-cli-notifications': {
       autoClear: true,
@@ -82,8 +85,10 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
-    ENV.matomo.url = 'https://stats.pix.fr/js/container_p3ppIohn_dev_22b0fda418abe8fedbf89e9c.js';
-    ENV.matomo.debug = true;
+    if (analyticsEnabled) {
+      ENV.matomo.url = 'https://stats.pix.fr/js/container_p3ppIohn_dev_22b0fda418abe8fedbf89e9c.js';
+      ENV.matomo.debug = true;
+    }
   }
 
   if (environment === 'test') {
@@ -113,6 +118,9 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     // here you can enable a production-specific feature
+    if (analyticsEnabled) {
+      ENV.matomo.url = 'https://stats.pix.fr/js/container_p3ppIohn.js';
+    }
   }
 
   return ENV;

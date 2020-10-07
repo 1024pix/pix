@@ -9,9 +9,13 @@ function _getEnvironmentVariableAsNumber({ environmentVariableName, defaultValue
   throw new Error(`Invalid value '${valueToValidate}' for environment variable '${environmentVariableName}'. It should be a number greater than or equal ${minValue}.`);
 }
 
+function _isFeatureEnabled(environmentVariable) {
+  return environmentVariable === 'true';
+}
+
 /* eslint max-statements: off */
 module.exports = function(environment) {
-
+  const analyticsEnabled = _isFeatureEnabled(process.env.SENDING_ANALYTICS_ENABLED);
   const ENV = {
     modulePrefix: 'mon-pix',
     environment: environment,
@@ -41,12 +45,12 @@ module.exports = function(environment) {
       LOAD_EXTERNAL_SCRIPT: true,
       GOOGLE_RECAPTCHA_KEY: '6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO',
       NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS: 5,
-      IS_RECAPTCHA_ENABLED: process.env.IS_RECAPTCHA_ENABLED === 'true',
+      IS_RECAPTCHA_ENABLED: _isFeatureEnabled(process.env.IS_RECAPTCHA_ENABLED),
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
       BANNER_CONTENT: process.env.BANNER_CONTENT || '',
       BANNER_TYPE: process.env.BANNER_TYPE || '',
       FT_IMPROVE_COMPETENCE_EVALUATION: process.env.FT_IMPROVE_COMPETENCE_EVALUATION || false,
-      FT_IS_CERTIFICATE_ATTESTATION_ACTIVE: process.env.FT_IS_CERTIFICATE_ATTESTATION_ACTIVE === 'true',
+      FT_IS_CERTIFICATE_ATTESTATION_ACTIVE: _isFeatureEnabled(process.env.FT_IS_CERTIFICATE_ATTESTATION_ACTIVE),
 
       API_ERROR_MESSAGES: {
         BAD_REQUEST: {
@@ -110,9 +114,7 @@ module.exports = function(environment) {
       includeLocales: ['fr'],
     },
 
-    matomo: {
-      url: 'https://stats.pix.fr/js/container_jKDD76j4.js',
-    },
+    matomo: {},
   };
 
   if (environment === 'development') {
@@ -124,8 +126,10 @@ module.exports = function(environment) {
 
     // Redefined in custom initializer 'initializers/configure-pix-api-host.js'
     ENV.APP.HOME_URL = process.env.HOME_URL || '/';
-    ENV.matomo.url = 'https://stats.pix.fr/js/container_jKDD76j4_dev_179474167add1104d6c8a92b.js';
-    ENV.matomo.debug = true;
+    if (analyticsEnabled) {
+      ENV.matomo.url = 'https://stats.pix.fr/js/container_jKDD76j4_dev_179474167add1104d6c8a92b.js';
+      ENV.matomo.debug = true;
+    }
     ENV.APP.FT_IMPROVE_COMPETENCE_EVALUATION = true;
   }
 
@@ -155,6 +159,9 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     // here you can enable a production-specific feature
+    if (analyticsEnabled) {
+      ENV.matomo.url = 'https://stats.pix.fr/js/container_jKDD76j4.js';
+    }
   }
   return ENV;
 };
