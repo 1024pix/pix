@@ -376,6 +376,35 @@ describe('Unit | Controller | sessionController', () => {
 
   });
 
+  describe('#getSessionResults ', () => {
+    let request;
+    const session = { id: 1, date: '2020/01/01', time: '12:00' };
+    const certificationResults = [];
+
+    beforeEach(() => {
+      // given
+      request = {
+        params: { id: session.id },
+        auth: {
+          credentials : {
+            userId,
+          },
+        },
+      };
+      const getSessionResultsReturn = { session, certificationResults };
+      sinon.stub(usecases, 'getSessionResults').withArgs({ sessionId: session.id }).resolves(getSessionResultsReturn);
+    });
+
+    it('should return csv content and fileName', async () => {
+      // when
+      const response = await sessionController.getSessionResults(request, hFake);
+
+      // then
+      const expectedCsv = '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Session";"Centre de certification";"Date de passage de la certification"';
+      expect(response.source.trim()).to.deep.equal(expectedCsv.trim());
+    });
+  });
+
   describe('#getCertificationReports', () => {
     let request;
     const sessionId = 1;
