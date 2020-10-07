@@ -3,10 +3,8 @@ const moment = require('moment');
 const { sinon, expect, knex, databaseBuilder } = require('../../../test-helper');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const Skill = require('../../../../lib/domain/models/Skill');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
-const knowledgeElementSnapshotRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
 
 describe('Integration | Repository | Campaign Participation', () => {
 
@@ -463,7 +461,6 @@ describe('Integration | Repository | Campaign Participation', () => {
 
     let campaignParticipation;
     const frozenTime = new Date('1987-09-01T00:00:00Z');
-    let knowledgeElement;
 
     beforeEach(async () => {
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
@@ -471,16 +468,14 @@ describe('Integration | Repository | Campaign Participation', () => {
         sharedAt: null,
       });
 
-      knowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId: campaignParticipation.userId, createdAt: new Date('1985-09-01T00:00:00Z') });
-
+      databaseBuilder.factory.buildKnowledgeElement({ userId: campaignParticipation.userId, createdAt: new Date('1985-09-01T00:00:00Z') });
       sinon.useFakeTimers(frozenTime);
 
       await databaseBuilder.commit();
-      sinon.stub(knowledgeElementSnapshotRepository, 'save');
     });
 
     afterEach(() => {
-      knowledgeElementSnapshotRepository.save.restore();
+      return knex('knowledge-element-snapshots').delete();
     });
 
     it('should return the shared campaign-participation', async () => {
@@ -497,11 +492,8 @@ describe('Integration | Repository | Campaign Participation', () => {
       await campaignParticipationRepository.share(campaignParticipation);
 
       // then
-      sinon.assert.calledWith(knowledgeElementSnapshotRepository.save, {
-        userId: campaignParticipation.userId,
-        snappedAt: frozenTime,
-        knowledgeElements: [new KnowledgeElement(knowledgeElement)],
-      });
+      const snapshotInDB = await knex.select('id').from('knowledge-element-snapshots');
+      expect(snapshotInDB).to.have.length(1);
     });
   });
 
@@ -517,7 +509,7 @@ describe('Integration | Repository | Campaign Participation', () => {
 
       await databaseBuilder.commit();
 
-      const  numberOfCampaignShared = await campaignParticipationRepository.countSharedParticipationOfCampaign(campaignId);
+      const numberOfCampaignShared = await campaignParticipationRepository.countSharedParticipationOfCampaign(campaignId);
 
       expect(numberOfCampaignShared).to.equal(1);
     });
