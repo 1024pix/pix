@@ -68,66 +68,6 @@ module('Unit | Service | session-info-service', function(hooks) {
     });
   }
 
-  module('#downloadSessionExportFile', function() {
-
-    const sessionId = 555;
-
-    test('it generates well formatted result file', async function(assert) {
-      // given
-      const session = EmberObject.create({
-        id: sessionId,
-        certificationCenterName: 'Certification center',
-      });
-      const certifications = A([
-        buildCertification({ id: '1', sessionId }),
-        buildCertification({ id: '2', sessionId }),
-        buildCertification({ id: '3', sessionId }),
-        buildCertification({ id: '4', sessionId }),
-        buildCertification({ id: '5', sessionId }),
-      ]);
-
-      // when
-      await service.downloadSessionExportFile({ session, certifications });
-
-      // then
-      assert.equal(fileSaverStub.getContent(), '\uFEFF' +
-        '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Session";"Centre de certification";"Date de passage de la certification"\n' +
-        '"1";"Toto";"Le héros";"20/03/1986";"une ville";"1234";100;1;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"0";"-";"-";555;"Certification center";"20/07/2018"\n' +
-        '"2";"Toto";"Le héros";"20/03/1986";"une ville";"1234";100;1;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"0";"-";"-";555;"Certification center";"20/07/2018"\n' +
-        '"3";"Toto";"Le héros";"20/03/1986";"une ville";"1234";100;1;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"0";"-";"-";555;"Certification center";"20/07/2018"\n' +
-        '"4";"Toto";"Le héros";"20/03/1986";"une ville";"1234";100;1;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"0";"-";"-";555;"Certification center";"20/07/2018"\n' +
-        '"5";"Toto";"Le héros";"20/03/1986";"une ville";"1234";100;1;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"0";"-";"-";555;"Certification center";"20/07/2018"\n' +
-        '');
-    });
-
-    module('when data start with illegal characters', function() {
-
-      test('should sanitize session data', async function(assert) {
-        // given
-        const certification = buildCertification({ id: '1', sessionId });
-        certification.set('firstName', '-Toto');
-        certification.set('lastName', '+Le héros');
-        certification.set('birthplace', '=une ville');
-        certification.set('externalId', '@1234');
-
-        const session = EmberObject.create({
-          id: sessionId,
-          certificationCenterName: '@Certification center',
-        });
-        const certifications = A([certification]);
-
-        // when
-        await service.downloadSessionExportFile({ session, certifications });
-
-        // then
-        assert.equal(fileSaverStub.getContent(), '\uFEFF' +
-          '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Session";"Centre de certification";"Date de passage de la certification"\n' +
-          '"1";"\'-Toto";"\'+Le héros";"20/03/1986";"\'=une ville";"\'@1234";100;1;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"0";"-";"-";555;"\'@Certification center";"20/07/2018"\n' +
-          '');
-      });
-    });
-  });
-
   module('#downloadJuryFile', function() {
 
     test('should include certification which status is not "validated"', async function(assert) {
