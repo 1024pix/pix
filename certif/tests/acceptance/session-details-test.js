@@ -1,9 +1,13 @@
 import { module, test } from 'qunit';
 import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { authenticateSession } from 'ember-simple-auth/test-support';
 import moment from 'moment';
-import { createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
+import {
+  createUserWithMembershipAndTermsOfServiceAccepted,
+  createScoUserWithMembershipAndTermsOfServiceAccepted,
+  authenticateSession,
+} from '../helpers/test-init';
+
 import { CREATED, FINALIZED } from 'pix-certif/models/session';
 import config from 'pix-certif/config/environment';
 
@@ -49,12 +53,7 @@ module('Acceptance | Session Details', function(hooks) {
   module('When user is logged in', function(hooks) {
 
     hooks.beforeEach(async () => {
-      await authenticateSession({
-        user_id: user.id,
-        access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
-        expires_in: 3600,
-        token_type: 'Bearer token type',
-      });
+      await authenticateSession(user.id);
     });
 
     module('when looking at the header', function() {
@@ -309,6 +308,67 @@ module('Acceptance | Session Details', function(hooks) {
       });
     });
 
+  });
+
+  module('when visiting the candidates tab', function() {
+    let sessionWithCandidates;
+    let sessionWithImportNotAllowed;
+    let candidateInSession;
+
+    const linkToCandidate = '.session-details-controls__navbar-tabs a:nth-of-type(2)';
+
+    hooks.beforeEach(function() {
+      sessionWithCandidates = server.create('session');
+      candidateInSession = server.create('certification-candidate', { isLinked: false });
+      sessionWithCandidates.update({ certificationCandidates : [candidateInSession] });
+      sessionWithImportNotAllowed = server.create('session');
+      const candidateLinked = server.create('certification-candidate', { isLinked: true });
+      sessionWithImportNotAllowed.update({ certificationCandidates : [candidateLinked] });
+    });
+
+    [
+      { isFeatureToggleEnabled: false, isUserSco: false },
+      { isFeatureToggleEnabled: true, isUserSco: false },
+      { isFeatureToggleEnabled: false, isUserSco: true },
+    ].forEach(({ isFeatureToggleEnabled, isUserSco }) => {
+      module(`when certification prescription sco feature toggle is ${isFeatureToggleEnabled ? 'enabled' : 'disabled'} and the user is ${isUserSco ? 'SCO' : 'not SCO'}`, () => {
+
+        test('it should redirect to the default candidates detail view', async (assert) => {
+          // given
+          server.create('feature-toggle', {
+            certifPrescriptionSco: isFeatureToggleEnabled,
+          });
+          const scoUser = createScoUserWithMembershipAndTermsOfServiceAccepted();
+          const connectedUserId = isUserSco ? scoUser.id : user.id;
+          await authenticateSession(connectedUserId);
+
+          // when
+          await visit(`/sessions/${sessionFinalized.id}`);
+          await click(linkToCandidate);
+
+          // then
+          assert.equal(currentURL(), '/sessions/1/candidats');
+        });
+      });
+    });
+
+    module('when certification prescription sco feature toggle is enabled and the user is SCO',  () => {
+      test('it should redirect to the sco candidates detail view', async (assert) => {
+        // given
+        server.create('feature-toggle', {
+          certifPrescriptionSco: true,
+        });
+        const scoUser = createScoUserWithMembershipAndTermsOfServiceAccepted();
+        await authenticateSession(scoUser.id);
+
+        // when
+        await visit(`/sessions/${sessionFinalized.id}`);
+        await click(linkToCandidate);
+
+        // then
+        assert.equal(currentURL(), '/sessions/1/candidats-sco');
+      });
+    });
   });
 
 });

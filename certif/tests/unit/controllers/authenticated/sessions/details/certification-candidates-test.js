@@ -22,7 +22,12 @@ module('Unit | Controller | authenticated/sessions/details/certification-candida
     const savableCandidate = { save: sinon.stub().resolves(), deleteRecord: sinon.stub().returns() };
     const store = { createRecord: sinon.stub().returns(savableCandidate) };
     const controller = this.owner.lookup('controller:authenticated/sessions/details/certification-candidates');
-    controller.model = { id: 'sessionId', certificationCandidates: { find: sinon.stub().returns(undefined) } };
+    controller.model = {
+      session: {
+        id: 'sessionId',
+        certificationCandidates: { find: sinon.stub().returns(undefined) },
+      },
+    };
     controller.store = store;
 
     // when
@@ -30,7 +35,11 @@ module('Unit | Controller | authenticated/sessions/details/certification-candida
 
     // then
     assert.equal(store.createRecord.calledWith('certification-candidate', certificationCandidateData), true);
-    assert.equal(savableCandidate.save.calledWithExactly({ adapterOptions: {
-      registerToSession: true, sessionId: 'sessionId' } }), true);
+    assert.equal(savableCandidate.save.calledWithExactly({
+      adapterOptions: {
+        registerToSession: true,
+        sessionId: 'sessionId',
+      },
+    }), true);
   });
 });

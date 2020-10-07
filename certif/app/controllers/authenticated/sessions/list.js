@@ -13,6 +13,6 @@ export default class SessionsListController extends Controller {
 
   @action
   goToDetails(session) {
-    this.transitionToRoute('authenticated.sessions.details', session);
+    this.transitionToRoute('authenticated.sessions.details', session.id);
   }
 }

@@ -11,10 +11,10 @@ export default class CertificationCandidatesController extends Controller {
 
   isResultRecipientEmailVisible = config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE;
 
-  @service session;
   @service notifications;
+  @service session;
 
-  @alias('model') currentSession;
+  @alias('model.session') currentSession;
   @tracked candidatesInStaging = [];
 
   @computed('currentSession.certificationCandidates.{[],@each.isLinked}')
@@ -80,7 +80,7 @@ export default class CertificationCandidatesController extends Controller {
   @action
   async saveCertificationCandidate(certificationCandidateData) {
     this.notifications.clearAll();
-    const sessionId = this.model.id;
+    const sessionId = this.currentSession.id;
     const certificationCandidate = this.store.createRecord('certification-candidate', {
       firstName: this._trimOrUndefinedIfFalsy(certificationCandidateData.firstName),
       lastName: this._trimOrUndefinedIfFalsy(certificationCandidateData.lastName),
@@ -105,7 +105,7 @@ export default class CertificationCandidatesController extends Controller {
       }
       await certificationCandidate
         .save({ adapterOptions: { registerToSession: true, sessionId } });
-      this.model.certificationCandidates.insertAt(0, certificationCandidate);
+      this.currentSession.certificationCandidates.unshiftObject(certificationCandidate);
       this.notifications.success('Le candidat a été ajouté avec succès.');
     } catch (err) {
       let errorText = 'Une erreur s\'est produite lors de l\'ajout du candidat.';
@@ -123,7 +123,7 @@ export default class CertificationCandidatesController extends Controller {
   @action
   async deleteCertificationCandidate(certificationCandidate) {
     this.notifications.clearAll();
-    const sessionId = this.model.id;
+    const sessionId = this.currentSession.id;
 
     try {
       await certificationCandidate.destroyRecord({ adapterOptions: { sessionId } });
@@ -171,4 +171,3 @@ export default class CertificationCandidatesController extends Controller {
     candidateInStaging.set(field, value);
   }
 }
-

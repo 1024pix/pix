@@ -13,9 +13,18 @@ module('Unit | Route | authenticated/sessions/details', function(hooks) {
   module('#model', function(hooks) {
     const session_id = 1;
     const returnedSession = Symbol('session');
+    const expectedModels = {
+      isCertifPrescriptionScoEnabled: false,
+      isCertificationCenterSco: true,
+      session: returnedSession,
+    };
 
     hooks.beforeEach(function() {
+      route.modelFor = sinon.stub().returns({
+        isSco: true,
+      });
       route.store.findRecord = sinon.stub().resolves(returnedSession);
+      route.store.peekRecord = sinon.stub().returns({ certifPrescriptionSco: false });
     });
 
     test('it should return the session', async function(assert) {
@@ -24,7 +33,7 @@ module('Unit | Route | authenticated/sessions/details', function(hooks) {
 
       // then
       sinon.assert.calledWith(route.store.findRecord, 'session', session_id);
-      assert.equal(actualSession, returnedSession);
+      assert.deepEqual(actualSession, expectedModels);
     });
   });
 });
