@@ -1,69 +1,113 @@
 ## Cypress
 
-Cypress est un framework de test end to end qu'on utilise pour les tests de non régression end to end.
+Cypress est un framework de test end to end (back-end + front-end).
+Il est utilisé ici pour les tests de non-régression sur les chemins fonctionnels entiers. 
 
->**Note** : testé et fonctionne avec Chrome 72 et les versions supérieures.
->Le navigateur par défaut de Cypress (Electron 59) échoue à une étape de `wait` (potentiellement en relation avec https://github.com/cypress-io/cypress/issues/2387).
 
-### Lancer Cypress sur Postgres
+### Installer un navigateur
+
+Installer Chrome
+
+**Note** 
+
+Toutes les versions de Chrome sont supportées à partir de la [version 64 (2018)](https://docs.cypress.io/guides/guides/launching-browsers.html#Chrome-Browsers)
+
+Cypress supporte [d'autres navigateurs](https://docs.cypress.io/guides/guides/cross-browser-testing.html#Continuous-Integration-Strategies):
+* Chromium
+* Firefox
+* Edge
+
+Cependant, la suite de test Pix étant lancée dans la CI sur Chrome, il est suggéré de l'exécuter en local sur Chrome pour des résultats déterministes.
+
+### Installer Cypress
+
+Installer le module npm cypress
+```
+cd high-level-tests/e2e
+npm ci
+npx cypress install  
+```
+
+Le téléchargment prend quelques minutes
+```
+╰─$ npx cypress install                                                                                                                            1 ↵
+Installing Cypress (version: 4.6.0)
+
+  ⠋  Downloading Cypress      14% 119s
+     Unzipping Cypress      
+     Finishing Installation 
+```
+
+**Note**
+
+Le module npm est un simple [wrapper](https://docs.cypress.io/guides/getting-started/installing-cypress.html#Installing) autour de Cypress, qui permet de gérer de fixer la version et de simplifier l'intégration avec une CI.
+
+L'installation proprement dite est effectuée par `npx cypress install` dans un dossier hors du repository (ex. [/.cache/Cypress](https://docs.cypress.io/guides/getting-started/installing-cypress.html#Binary-cache) pour Linux)
+
+
+### Exécuter les tests
+
+#### Démarrer l'environnement à tester
 
 Pour lancer Cypress sur une plateforme complète, il faut lancer
 * [x] une base de données Postgres,
 * [x] l'API sur ladite base de données,
 * [x] le front connecté à ladite API.
+ 
+Pour les détails, voir [section dédiée](../INSTALLATION.md#L42-L42) du guide d'installation Pix
 
-#### Prérequis
 
-Installer et mettre à jour Chrome.
 
-* Lancer Postgres avec docker via le fichier `docker-compose.yml` (`~/pix`)
+#### Lancer les tests dans Cypress
 
+###### Choisir les tests à lancer
+
+La tâche `cy:open` ouvre un navigateur où il est possible de: 
+- lancer tout ou partie des tests
+- consulter le résultat d'exécution
+- afficher les étapes intermédiaires à des fins d'analyse
+
+Syntaxe:
+- avec une connexion à la BDD par défaut `postgres@localhost/pix_test`
 ```
-docker-compose up -d
+npm run cy:open:local
 ```
-
-* Lancer l'API sur Postgres (`~/pix/api`)
-
-```
-DATABASE_URL=postgresql://postgres@localhost/pix_test npm start
-```
-La variable d'environnement peut également être mise dans le fichier `.env`.
-
-
-* Lancer le front (`~/pix/mon-pix`)
-
-```
-npm start
-```
-
-#### Lancer les tests dans Cypress (`~/pix/high-level-tests/e2e`)
-
-Exécuter `npm install` depuis `~/pix/high-level-tests/e2e`
-
-Lancer les tests Cypress dans une interface interactive, sur la même base de donnée que l'API :
-
+- avec une connexion à la BDD modifiable (ex: sur l'instance `pix_test`)
 ```
 DATABASE_URL=postgresql://postgres@localhost/pix_test npm run cy:open
 ```
 
-Vous pouvez aussi lancer à la place : 
+Les étapes intermédiaires ne sont pas visualisables par défaut, pour ne pas consommer de la place sur la CI.
+C'est ce qu'indique le message : `The snapshot is missing. Displaying current state of the DOM.`
 
+Pour les visualiser en local, à des fins d'analyse, modifier `cypress.json` pour passer la variable `"numTestsKeptInMemory"` de 0 à 1 
 ```
-npm run cy:open:local
+  "numTestsKeptInMemory": 1,
 ```
-Ce script va s'occuper de la variable d'environnement pour vous.
 
-On peut également lancer les tests e2e sans l'interface interactive de Cypress, c'est-à-dire avec les résultats en ligne de commande :
+Attention: ne pas committer ces modifications
 
-```
-DATABASE_URL=postgresql://postgres@localhost/pix_test npm run cy:run
-```
-ou
+##### Lancer l'intégralité des tests
+
+La tâche `cy:run` 
+- lance l'intégralité des tests dans un navigateur
+- affiche le résultat dans la ligne de commande
+
+Note: le navigateur n'est pas headless, les fenêtres seront ouvertes et fermées automatiquement
+
+Syntaxe: 
+- avec une connexion à la BDD par défaut `postgres@localhost/pix_test`
 ```
 npm run cy:run:local
 ```
+- avec une connexion à la BDD modifiable (ex: sur l'instance `pix_test`)
+```
+DATABASE_URL=postgresql://postgres@localhost/pix_test npm run cy:run
+```
 
-#### Écrire des tests Cypress
+### Écrire les tests
+
+#### Tests standard
 
 On utilise
 [cypress-cucumber-preprocessor](https://github.com/TheBrainFamily/cypress-cucumber-preprocessor)
@@ -75,6 +119,10 @@ Pour connaître la liste des mots-clés utilisables, exécuter la commande :
 ```
 npx cucumber-js --i18n-keywords fr
 ```
+
+La plupart des fonctions natives du navigateur sont accessibles, par exemple l'accès au storage avec `window.localStorage.setItem` 
+[Exemple d'utilisation](http://github.com/1024pix/pix/blob/858179613343e238e0f9776374ba4875b688194f/high-level-tests/e2e/cypress/support/commands.js#L5-L5)
+
 
 #### Tests de non régression visuelle
 
