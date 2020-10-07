@@ -1,9 +1,9 @@
 const _ = require('lodash');
 const { SchoolingRegistrationsCouldNotBeSavedError } = require('../../domain/errors');
 const { knex } = require('../bookshelf');
-const { getChunkSizeForParameterBinding } = require('../utils/knex-utils');
 const BookshelfSchoolingRegistration = require('../data/schooling-registration');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const DomainTransaction = require('../DomainTransaction');
 
 const ATTRIBUTES_TO_SAVE = [
   'firstName',
@@ -25,26 +25,67 @@ const ATTRIBUTES_TO_SAVE = [
 
 module.exports = {
 
-  async saveAndReconcile(higherSchoolingRegistration, userId) {
-    try {
-      const registrationToSave = _.pick(higherSchoolingRegistration, ATTRIBUTES_TO_SAVE);
-      registrationToSave.status = higherSchoolingRegistration.studyScheme;
-      registrationToSave.userId = userId;
+  async save(higherSchoolingRegistration, domainTransaction = DomainTransaction.emptyTransaction()) {
+    const attributes = {
+      ..._.pick(higherSchoolingRegistration, ATTRIBUTES_TO_SAVE),
+      status: higherSchoolingRegistration.studyScheme,
+    };
 
-      await knex('schooling-registrations').insert({ ...registrationToSave });
+    try {
+      await BookshelfSchoolingRegistration
+        .where({ id: higherSchoolingRegistration.id })
+        .save(attributes, { method: 'update', transacting: domainTransaction.knexTransaction });
     } catch (error) {
       throw new SchoolingRegistrationsCouldNotBeSavedError();
     }
   },
 
-  saveSet(higherSchoolingRegistrationSet) {
-    const registrationDataToSave = higherSchoolingRegistrationSet.registrations.map((registration) => {
-      const registrationToSave = _.pick(registration, ATTRIBUTES_TO_SAVE);
-      registrationToSave.status = registration.studyScheme;
-      return registrationToSave;
-    });
+  async saveNonSupernumerary(higherSchoolingRegistration, domainTransaction = DomainTransaction.emptyTransaction()) {
+    const attributes = {
+      ..._.pick(higherSchoolingRegistration, ATTRIBUTES_TO_SAVE),
+      status: higherSchoolingRegistration.studyScheme,
+    };
 
-    return _upsert(registrationDataToSave);
+    try {
+      await BookshelfSchoolingRegistration
+        .where({
+          studentNumber: attributes.studentNumber,
+          organizationId: attributes.organizationId,
+          isSupernumerary: false,
+        })
+        .save(attributes, { method: 'update', transacting: domainTransaction.knexTransaction });
+    } catch (error) {
+      throw new SchoolingRegistrationsCouldNotBeSavedError();
+    }
+  },
+
+  async batchCreate(higherSchoolingRegistrations, domainTransaction = DomainTransaction.emptyTransaction()) {
+    const registrationsToInsert = higherSchoolingRegistrations.map((registration) => ({
+      ..._.pick(registration, ATTRIBUTES_TO_SAVE),
+      status: registration.studyScheme,
+    }));
+
+    try {
+      await knex
+        .batchInsert('schooling-registrations', registrationsToInsert)
+        .transacting(domainTransaction.knexTransaction);
+    }  catch (error) {
+      throw new SchoolingRegistrationsCouldNotBeSavedError();
+    }
+  },
+
+  async saveAndReconcile(higherSchoolingRegistration, userId) {
+    try {
+      const attributes = {
+        ..._.pick(higherSchoolingRegistration, ATTRIBUTES_TO_SAVE),
+        status: higherSchoolingRegistration.studyScheme,
+        userId,
+      };
+
+      await knex('schooling-registrations').insert(attributes);
+    } catch (error) {
+      throw new SchoolingRegistrationsCouldNotBeSavedError();
+    }
   },
 
   async findByOrganizationIdAndStudentNumber({ organizationId, studentNumber }) {
@@ -78,34 +119,20 @@ module.exports = {
 
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
   },
+
+  async findStudentNumbersNonSupernumerary(organizationId, domainTransaction = DomainTransaction.emptyTransaction()) {
+    const results = await knex('schooling-registrations')
+      .select('studentNumber')
+      .where({ organizationId, isSupernumerary: false })
+      .transacting(domainTransaction.knexTransaction);
+
+    return _.map(results, 'studentNumber');
+  },
+
+  findSupernumerary(organizationId, domainTransaction = DomainTransaction.emptyTransaction()) {
+    return knex('schooling-registrations')
+      .select('studentNumber', 'firstName', 'id', 'lastName', 'birthdate')
+      .where({ organizationId, isSupernumerary: true })
+      .transacting(domainTransaction.knexTransaction);
+  },
 };
-
-async function _upsert(registrationDataToSave) {
-  const baseQuery = _getBaseQueryForUpsert();
-  const registrationDataChunks = _chunkRegistrations(registrationDataToSave);
-  const trx = await knex.transaction();
-  try {
-    for (const registrationDataChunk of registrationDataChunks) {
-      await trx.raw(baseQuery, [
-        knex('schooling-registrations').insert(registrationDataChunk),
-      ]);
-    }
-    await trx.commit();
-  } catch (err) {
-    await trx.rollback();
-    throw new SchoolingRegistrationsCouldNotBeSavedError();
-  }
-}
-
-function _chunkRegistrations(registrations) {
-  const chunkSize = getChunkSizeForParameterBinding(_.head(registrations));
-  return _.chunk(registrations, chunkSize);
-}
-
-function _getBaseQueryForUpsert() {
-  let update = ATTRIBUTES_TO_SAVE
-    .map((key) => `"${key}" = EXCLUDED."${key}"`)
-    .join(', ');
-  update += ', "updatedAt" = CURRENT_TIMESTAMP';
-  return `? ON CONFLICT ("organizationId", "studentNumber") WHERE "isSupernumerary" IS FALSE DO UPDATE SET ${update}`;
-}
