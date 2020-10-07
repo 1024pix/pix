@@ -1,13 +1,22 @@
 const faker = require('faker');
-const CampaignCollectiveResult = require('../../../../lib/domain/models/CampaignCollectiveResult');
+const { buildTargetProfileWithLearningContent } = require('./build-target-profile-with-learning-content');
+const CampaignCollectiveResult = require('../../../../lib/domain/read-models/CampaignCollectiveResult');
 
 module.exports = function buildCampaignCollectiveResult(
   {
     id = faker.random.number(),
-    campaignCompetenceCollectiveResults = [],
+    targetProfile = buildTargetProfileWithLearningContent(),
+    participantsValidatedKECountByCompetenceId = [],
+    participantCount = 0,
   } = {}) {
-  return new CampaignCollectiveResult({
-    id,
-    campaignCompetenceCollectiveResults,
-  });
+  const campaignCollectiveResult = new CampaignCollectiveResult({ id, targetProfile });
+
+  if (participantCount) {
+    participantsValidatedKECountByCompetenceId.forEach((participantValidatedKECountByCompetence) => {
+      campaignCollectiveResult.addValidatedSkillCountToCompetences(participantValidatedKECountByCompetence);
+    });
+    campaignCollectiveResult.finalize(participantCount);
+  }
+
+  return campaignCollectiveResult;
 };
