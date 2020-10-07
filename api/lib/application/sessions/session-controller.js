@@ -12,6 +12,7 @@ const juryCertificationSummaryRepository = require('../../infrastructure/reposit
 const jurySessionRepository = require('../../infrastructure/repositories/jury-session-repository');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
+const { getCertificationResultsCsv } = require('../../infrastructure/utils/csv/certification-results');
 
 module.exports = {
 
@@ -115,6 +116,16 @@ module.exports = {
     const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
 
     return juryCertificationSummarySerializer.serialize(juryCertificationSummaries);
+  },
+
+  async getSessionResults(request, h) {
+    const sessionId = request.params.id;
+    const { session, certificationResults } =  await usecases.getSessionResults({ sessionId });
+    const csvResult = await getCertificationResultsCsv({ session, certificationResults });
+
+    return h.response(csvResult)
+      .header('Content-Type', 'text/csv;charset=utf-8')
+      .header('Content-Disposition', 'attachment; filename=session-results' + sessionId + '.csv');
   },
 
   async getCertificationReports(request) {
