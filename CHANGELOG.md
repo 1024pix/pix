@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## v2.206.0 (07/10/2020)
+
+- [#1950](https://github.com/1024pix/pix/pull/1950) [FEATURE] Amélioration des choix d'épreuves (PIX-1345).
+- [#1976](https://github.com/1024pix/pix/pull/1976) [BUGFIX] Réparation du bouton de téléchargement de pv de session (PIX-1382)
+- [#1968](https://github.com/1024pix/pix/pull/1968) [BUGFIX] Ajout d'un await sur la creation de snapshots KE lors du partage de participation
+- [#1958](https://github.com/1024pix/pix/pull/1958) [TECH] Rendre les analytics activable via variable d'environnement (PIX-1361)
+- [#1948](https://github.com/1024pix/pix/pull/1948) [TECH] Renommer les routes api/jury en api/admin
+
 ## v2.205.0 (06/10/2020)
 
 - [#1961](https://github.com/1024pix/pix/pull/1961) [FEATURE] Affichage du détail d'un profil cible dans Pix Admin (PIX-1349).
