@@ -94,7 +94,7 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
 
     hooks.beforeEach(function() {
       const save = sinon.stub();
-      controller.session = { save };
+      controller.model = { save };
     });
 
     module('when a user is already assigned to session', function() {
@@ -102,14 +102,14 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
       test('it should show the modal', async function(assert) {
         //given
         const getId = sinon.stub().returns(true);
-        controller.session.assignedCertificationOfficer = { get: getId };
+        controller.model.assignedCertificationOfficer = { get: getId };
 
         // when
         await controller.actions.checkForAssignment.call(controller);
 
         // then
         assert.equal(controller.isShowingAssignmentModal, true);
-        assert.equal(controller.session.save.notCalled, true);
+        assert.equal(controller.model.save.notCalled, true);
       });
     });
 
@@ -118,14 +118,14 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
       test('it should assign user to session', async function(assert) {
         // given
         const getId = sinon.stub().returns(false);
-        controller.session.assignedCertificationOfficer = { get: getId };
-        controller.session.save.withArgs({ adapterOptions: { certificationOfficerAssignment: true } }).resolves();
+        controller.model.assignedCertificationOfficer = { get: getId };
+        controller.model.save.withArgs({ adapterOptions: { certificationOfficerAssignment: true } }).resolves();
 
         // when
         await controller.actions.checkForAssignment.call(controller);
 
         // then
-        assert.ok(controller.session.save.calledWithExactly({ adapterOptions: { certificationOfficerAssignment: true } }));
+        assert.ok(controller.model.save.calledWithExactly({ adapterOptions: { certificationOfficerAssignment: true } }));
         assert.ok(controller.notifications.success.calledWithExactly('La session vous a correctement été assignée'));
         assert.equal(controller.isShowingAssignmentModal, false);
       });
@@ -133,14 +133,14 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
       test('it should show a notification error when save failed', async function(assert) {
         // given
         const getId = sinon.stub().returns(false);
-        controller.session.assignedCertificationOfficer = { get: getId };
-        controller.session.save.withArgs({ adapterOptions: { certificationOfficerAssignment: true } }).rejects();
+        controller.model.assignedCertificationOfficer = { get: getId };
+        controller.model.save.withArgs({ adapterOptions: { certificationOfficerAssignment: true } }).rejects();
 
         // when
         await controller.actions.checkForAssignment.call(controller);
 
         // then
-        assert.ok(controller.session.save.calledOnce);
+        assert.ok(controller.model.save.calledOnce);
         assert.ok(controller.notifications.error.calledWithExactly('Erreur lors de l\'assignation à la session'));
         assert.equal(controller.isShowingAssignmentModal, false);
       });
@@ -163,18 +163,18 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
     hooks.beforeEach(function() {
       const save = sinon.stub();
       save.withArgs({ adapterOptions: { certificationOfficerAssignment: true } }).resolves();
-      controller.session = { save };
+      controller.model = { save };
     });
 
     test('it should assign user to session too', async function(assert) {
       // given
-      controller.session.save.withArgs({ adapterOptions: { certificationOfficerAssignment: true } }).resolves();
+      controller.model.save.withArgs({ adapterOptions: { certificationOfficerAssignment: true } }).resolves();
 
       // when
       await controller.actions.confirmAssignment.call(controller);
 
       // then
-      assert.ok(controller.session.save.calledWithExactly({ adapterOptions: { certificationOfficerAssignment: true } }));
+      assert.ok(controller.model.save.calledWithExactly({ adapterOptions: { certificationOfficerAssignment: true } }));
       assert.ok(controller.notifications.success.calledWithExactly('La session vous a correctement été assignée'));
       assert.equal(controller.isShowingAssignmentModal, false);
     });
@@ -183,13 +183,13 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
       // given
       const save = sinon.stub();
       save.withArgs({ adapterOptions: { certificationOfficerAssignment: true } }).rejects();
-      controller.session = { save };
+      controller.model = { save };
 
       // when
       await controller.actions.confirmAssignment.call(controller);
 
       // then
-      assert.ok(controller.session.save.calledOnce);
+      assert.ok(controller.model.save.calledOnce);
       assert.ok(controller.notifications.error.calledWithExactly('Erreur lors de l\'assignation à la session'));
       assert.equal(controller.isShowingAssignmentModal, false);
     });
