@@ -21,12 +21,6 @@ function buildSchoolingRegistration(
     status = 'AP',
     nationalStudentId = faker.random.alphaNumeric(11),
     division = faker.random.alphaNumeric(2),
-    studentNumber = faker.random.number().toString(),
-    email = faker.internet.exampleEmail(),
-    educationalTeam = faker.name.jobTitle(),
-    department = faker.name.jobArea(),
-    group = faker.random.alphaNumeric(3),
-    diploma = faker.name.jobType(),
     updatedAt = moment(faker.date.past()).format('YYYY-MM-DD'),
   } = {}) {
 
@@ -46,12 +40,6 @@ function buildSchoolingRegistration(
     status,
     nationalStudentId,
     division,
-    studentNumber,
-    email,
-    educationalTeam,
-    department,
-    group,
-    diploma,
     updatedAt,
     organizationId: organization.id,
   });

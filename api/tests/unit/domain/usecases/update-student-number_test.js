@@ -1,4 +1,4 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
+const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const updateStudentNumber = require('../../../../lib/domain/usecases/update-student-number');
 const { AlreadyExistingEntity } = require('../../../../lib/domain/errors');
 
@@ -16,7 +16,7 @@ describe('Unit | UseCase | update-student-number', () => {
 
   context('When there is a schooling registration with the same student number', () => {
     beforeEach(() => {
-      schoolingRegistration = domainBuilder.buildSchoolingRegistration();
+      schoolingRegistration = domainBuilder.buildHigherSchoolingRegistration();
 
       higherSchoolingRegistrationRepository.findByOrganizationIdAndStudentNumber
         .withArgs({ organizationId, studentNumber })
