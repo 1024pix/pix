@@ -1,0 +1,16 @@
+.certification-candidates-sco-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  button {
+    width: 180px;
+  }
+  img {
+    width: 80px;
+  }
+  p {
+    margin: 16px;
+    color:$grey-50;
+  }
+}

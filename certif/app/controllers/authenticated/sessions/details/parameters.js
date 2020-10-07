@@ -5,7 +5,7 @@ import { tracked } from '@glimmer/tracking';
 
 export default class SessionParametersController extends Controller {
 
-  @alias('model') session;
+  @alias('model.session') session;
   @tracked tooltipText = 'Copier le lien direct';
 
   @action
