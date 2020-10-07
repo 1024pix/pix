@@ -1,7 +1,7 @@
 const { expect, nock } = require('../../test-helper');
 
 const { checkData, createOrUpdateOrganizations } = require('../../../scripts/create-or-update-sco-organizations');
-const logoUrl = require('../../../scripts/default-sco-organization-logo-base64');
+const logoUrl = require('../../../scripts/logo/default-sco-organization-logo-base64');
 
 describe('Acceptance | Scripts | create-or-update-sco-organizations.js', () => {
 
