@@ -103,7 +103,7 @@ class CampaignAssessmentCsvLine {
     return [
       ...this._makeNotSharedStatsColumns(this.targetProfile.competences.length * STATS_COLUMNS_COUNT),
       ...this._makeNotSharedStatsColumns(this.targetProfile.areas.length * STATS_COLUMNS_COUNT),
-      ...this._makeNotSharedStatsColumns(this.targetProfile.skills.length),
+      ...this.organization.type === 'SCO' ? [] : this._makeNotSharedStatsColumns(this.targetProfile.skills.length),
     ];
   }
 
@@ -118,7 +118,7 @@ class CampaignAssessmentCsvLine {
     return knowledgeElementForSkill
       ? (knowledgeElementForSkill.isValidated ? 'OK' : 'KO')
       : 'Non testé';
-    
+
   }
 
   _countValidatedKnowledgeElementsForCompetence(competenceId) {
