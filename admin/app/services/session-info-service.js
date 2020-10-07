@@ -17,16 +17,6 @@ export default class SessionInfoServiceService extends Service {
   @service fileSaver;
   @service csvService;
 
-  downloadSessionExportFile({ session, certifications }) {
-    const fileTitle = 'resultats_session';
-    const data = this.buildSessionExportFileData({ session, certifications });
-    const fileHeaders = _buildSessionExportFileHeaders();
-    const csv = json2csv.parse(data, { fields: fileHeaders, delimiter: ';', withBOM: true });
-    const dateWithTime = moment(session.date + ' ' + session.time, 'YYYY-MM-DD HH:mm');
-    const fileName = _createFileNameWithDate(dateWithTime, fileTitle, session.id);
-    this.fileSaver.saveAs(csv + '\n', fileName);
-  }
-
   downloadJuryFile({ sessionId, certifications }) {
     const fileTitle = 'jury_session';
     const certificationsForJury = _filterCertificationsEligibleForJury(certifications);
@@ -95,26 +85,6 @@ export default class SessionInfoServiceService extends Service {
     });
   }
 
-}
-
-function _buildSessionExportFileHeaders() {
-  return _.concat(
-    [
-      'Numéro de certification',
-      'Prénom',
-      'Nom',
-      'Date de naissance',
-      'Lieu de naissance',
-      'Identifiant Externe',
-      'Nombre de Pix',
-    ],
-    competenceIndexes,
-    [
-      'Session',
-      'Centre de certification',
-      'Date de passage de la certification',
-    ],
-  );
 }
 
 function _filterCertificationsEligibleForJury(certifications) {
