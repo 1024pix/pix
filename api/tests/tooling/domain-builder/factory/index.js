@@ -39,6 +39,7 @@ module.exports = {
   buildMembership: require('./build-membership'),
   buildOrganization: require('./build-organization'),
   buildOrganizationInvitation: require('./build-organization-invitation'),
+  buildOrganizationTag: require('./build-organization-tag'),
   buildPixRole: require('./build-pix-role'),
   buildPrescriber: require('./build-prescriber'),
   buildPrivateCertificate: require('./build-private-certificate'),
