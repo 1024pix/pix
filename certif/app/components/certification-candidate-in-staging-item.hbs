@@ -2,51 +2,70 @@
   <td data-test-id='panel-candidate__lastName__add-staging'>
     <div class="certification-candidates-input-wrapper">
       <input
+        type="text"
+        required
         value="{{@candidateData.lastName}}"
-        class="certification-candidates-input"
+        class="certification-candidates-input {{if this.lastNameFocused 'focused'}}"
+        {{on 'focus' this.focusLastName}}
         {{on 'input' (fn @updateCandidateData @candidateData 'lastName')}} >
     </div>
   </td>
   <td data-test-id='panel-candidate__firstName__add-staging'>
     <div class="certification-candidates-input-wrapper">
-        <input
-          value="{{@candidateData.firstName}}"
-          class="certification-candidates-input"
-          {{on 'input' (fn @updateCandidateData @candidateData 'firstName')}} >
+      <input
+        type="text"
+        required
+        value="{{@candidateData.firstName}}"
+        class="certification-candidates-input {{if this.firstNameFocused 'focused'}}"
+        {{on 'focus' this.focusFirstName}}
+        {{on 'input' (fn @updateCandidateData @candidateData 'firstName')}} >
     </div>
   </td>
   <td data-test-id='panel-candidate__birthdate__add-staging'>
-      <div class="certification-candidates-input-wrapper">
-        <OneWayDateMask
-            @placeholder='dd/mm/yyyy'
-            @options={{hash inputFormat='dd/mm/yyyy' outputFormat='yyyy-mm-dd'}}
-            @class='certification-candidates-input'
-            @update={{this.updateCandidateDataBirthdate}}>
-        </OneWayDateMask>
-      </div>
+    <div class="certification-candidates-input-wrapper">
+      <OneWayDateMask
+          required
+          pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}"
+          @placeholder='dd/mm/yyyy'
+          @options={{hash inputFormat='dd/mm/yyyy' outputFormat='yyyy-mm-dd'}}
+          @class="certification-candidates-input {{if this.birthdateFocused 'focused'}}"
+          {{on 'focus' this.focusBirthdate}}
+          @update={{this.updateCandidateDataBirthdate}}>
+      </OneWayDateMask>
+    </div>
   </td>
   <td data-test-id='panel-candidate__birthCity__add-staging'>
     <div class="certification-candidates-input-wrapper">
-        <input
-          value="{{@candidateData.birthCity}}"
-          class="certification-candidates-input"
-          {{on 'input' (fn @updateCandidateData @candidateData 'birthCity')}} >
+      <input
+        type="text"
+        required
+        value="{{@candidateData.birthCity}}"
+        class="certification-candidates-input {{if this.birthCityFocused 'focused'}}"
+        {{on 'focus' this.focusBirthCity}}
+        {{on 'input' (fn @updateCandidateData @candidateData 'birthCity')}} >
     </div>
   </td>
   <td data-test-id='panel-candidate__birthProvinceCode__add-staging'>
     <div class="certification-candidates-input-wrapper">
-        <input
-          value="{{@candidateData.birthProvinceCode}}"
-          class="certification-candidates-input"
-          {{on 'input' (fn @updateCandidateData @candidateData 'birthProvinceCode')}} >
+      <input
+        pattern="{{birthProvinceCodePattern}}"
+        required
+        title="Exemples: 75 pour Paris, 972 pour la Martinique, 2A pour la Corse-du-Sud... Veuillez mettre 99 si le pays de naissance n'est pas la France."
+        value="{{@candidateData.birthProvinceCode}}"
+        class="certification-candidates-input {{if this.birthProvinceCodeFocused 'focused'}}"
+        {{on 'focus' this.focusBirthProvinceCode}}
+        {{on 'input' (fn @updateCandidateData @candidateData 'birthProvinceCode')}} >
     </div>
   </td>
   <td data-test-id='panel-candidate__birthCountry__add-staging'>
     <div class="certification-candidates-input-wrapper">
-        <input
-          value="{{@candidateData.birthCountry}}"
-          class="certification-candidates-input"
-          {{on 'input' (fn @updateCandidateData @candidateData 'birthCountry')}} >
+      <input
+        type="text"
+        required
+        {{on 'focus' this.focusBirthCountry}}
+        value="{{@candidateData.birthCountry}}"
+        class="certification-candidates-input {{if this.birthCountryFocused 'focused'}}"
+        {{on 'input' (fn @updateCandidateData @candidateData 'birthCountry')}} >
     </div>
   </td>
   {{#if this.isResultRecipientEmailVisible}}
@@ -62,26 +81,29 @@
   {{/if}}
   <td data-test-id='panel-candidate__email__add-staging'>
     <div class="certification-candidates-input-wrapper">
-        <input
-          value="{{@candidateData.email}}"
-          class="certification-candidates-input"
-          {{on 'input' (fn @updateCandidateData @candidateData 'email')}} >
+      <input
+        type="email"
+        value="{{@candidateData.email}}"
+        class="certification-candidates-input"
+        {{on 'input' (fn @updateCandidateData @candidateData 'email')}} >
     </div>
   </td>
   <td data-test-id='panel-candidate__externalId__add-staging'>
     <div class="certification-candidates-input-wrapper">
-        <input
-          value="{{@candidateData.externalId}}"
-          class="certification-candidates-input"
-          {{on 'input' (fn @updateCandidateData @candidateData 'externalId')}} >
+      <input
+        type="text"
+        value="{{@candidateData.externalId}}"
+        class="certification-candidates-input"
+        {{on 'input' (fn @updateCandidateData @candidateData 'externalId')}} >
     </div>
   </td>
   <td data-test-id='panel-candidate__extraTimePercentage__add-staging'>
     <div class="certification-candidates-input-wrapper">
-        <input
-          value="{{@candidateData.extraTimePercentage}}"
-          class="certification-candidates-input"
-          {{on 'input' (fn @updateCandidateData @candidateData 'extraTimePercentage')}} >
+      <input
+        type="text"
+        value="{{@candidateData.extraTimePercentage}}"
+        class="certification-candidates-input"
+        {{on 'input' (fn @updateCandidateData @candidateData 'extraTimePercentage')}} >
       <span class="certification-candidates-percentage">
         %
       </span>
@@ -89,27 +111,19 @@
   </td>
   <td>
     <div class="certification-candidates-input-wrapper certification-candidates-row-actions">
-{{#if (and
-        @candidateData.firstName
-        @candidateData.lastName
-        (is-after @candidateData.birthdate '1900-01-01')
-        @candidateData.birthCity
-        @candidateData.birthProvinceCode
-        @candidateData.birthCountry
-        )}}
-          <button data-test-id='panel-candidate__action__save' class="button button--row-item" type="button" {{on "click" (fn @onClickSave @candidateData)}}>
-              Enregistrer
-          </button>
-      {{else}}
-          <button data-test-id='panel-candidate__action__save' class="button button--row-item button--disabled" type="button" disabled="true">
-              Enregistrer
-          </button>
-      {{/if}}
-        <PixActionButton
-          @icon='times'
-          class="certification-candidates-row-actions__close"
-          @triggerAction={{this.cancel}}
-          data-test-id="panel-candidate__action__cancel" />
+      <button data-test-id='panel-candidate__action__save'
+        disabled={{if this.isDisabled true null}}
+        class="button button--row-item {{if this.isDisabled 'button--disabled'}}"
+        type="button"
+        {{on "click" (fn @onClickSave @candidateData)}}
+      >
+          Enregistrer
+      </button>
+      <PixActionButton
+        @icon='times'
+        class="certification-candidates-row-actions__close"
+        @triggerAction={{this.cancel}}
+        data-test-id="panel-candidate__action__cancel" />
     </div>
   </td>
 </tr>
