@@ -1,7 +1,6 @@
 const _ = require('lodash');
-const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
+const { expect, databaseBuilder, knex, catchErr, domainBuilder } = require('../../../test-helper');
 const higherSchoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/higher-schooling-registration-repository');
-const HigherSchoolingRegistration = require('../../../../lib/domain/models/HigherSchoolingRegistration');
 const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
 const { SchoolingRegistrationsCouldNotBeSavedError } = require('../../../../lib/domain/errors');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
@@ -26,10 +25,12 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
           firstName: 'firstName',
           lastName: 'lastName',
           birthdate: '2010-01-01',
-          organizationId: organization.id,
         };
 
-        const higherSchoolingRegistration = new HigherSchoolingRegistration(higherSchoolingRegistrationAttributes);
+        const higherSchoolingRegistration = domainBuilder.buildHigherSchoolingRegistration({ 
+          ...higherSchoolingRegistrationAttributes,
+          organization,
+        });
 
         //when
         await higherSchoolingRegistrationRepository.saveAndReconcile(higherSchoolingRegistration, userId);
@@ -54,10 +55,10 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
           firstName: 'firstName',
           lastName: 'lastName',
           birthdate: '2010-01-01',
-          organizationId: organization.id,
+          organization,
         };
 
-        const higherSchoolingRegistration = new HigherSchoolingRegistration(higherSchoolingRegistrationAttributes);
+        const higherSchoolingRegistration = domainBuilder.buildHigherSchoolingRegistration(higherSchoolingRegistrationAttributes);
 
         //when
         const error = await catchErr(higherSchoolingRegistrationRepository.saveAndReconcile)(higherSchoolingRegistration, userId);
@@ -258,7 +259,6 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
         const organization = databaseBuilder.factory.buildOrganization();
         const user = databaseBuilder.factory.buildUser();
         const registrationAttributes = {
-          organizationId: organization.id,
           firstName: 'O-Ren',
           middleName: 'Unknown',
           thirdName: 'Unknown',
@@ -274,9 +274,9 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
           studyScheme: 'I have always no idea what it\'s like.',
         };
 
-        const higherSchoolingRegistration  = new HigherSchoolingRegistration(registrationAttributes);
+        const higherSchoolingRegistration  = domainBuilder.buildHigherSchoolingRegistration({ organization, ...registrationAttributes });
         const higherSchoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
-          organizationId: registrationAttributes.organizationId,
+          organizationId: organization.id,
           studentNumber: registrationAttributes.studentNumber,
           userId: user.id,
         }).id;
@@ -299,7 +299,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
 
         const organization = databaseBuilder.factory.buildOrganization();
         const registrationAttributes = {
-          organizationId: organization.id,
+          organization,
           firstName: 'O-Ren',
           lastName: 'Ishii',
           studentNumber: '1',
@@ -307,7 +307,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
           isSupernumerary: false,
         };
 
-        const higherSchoolingRegistration  = new HigherSchoolingRegistration(registrationAttributes);
+        const higherSchoolingRegistration  = domainBuilder.buildHigherSchoolingRegistration(registrationAttributes);
         databaseBuilder.factory.buildSchoolingRegistration({ organizationId: registrationAttributes.organizationId }).id;
         databaseBuilder.factory.buildSchoolingRegistration({ studentNumber: registrationAttributes.studentNumber }).id;
         await databaseBuilder.commit();
@@ -326,7 +326,6 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
         const organization = databaseBuilder.factory.buildOrganization();
         const user = databaseBuilder.factory.buildUser();
         const registrationAttributes = {
-          organizationId: organization.id,
           firstName: 'O-Ren',
           lastName: 'Ishii',
           studentNumber: '4',
@@ -334,9 +333,9 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
           studyScheme: 'I have always no idea what it\'s like.',
         };
 
-        const higherSchoolingRegistration  = new HigherSchoolingRegistration(registrationAttributes);
+        const higherSchoolingRegistration  = domainBuilder.buildHigherSchoolingRegistration({ organization, ...registrationAttributes });
         const higherSchoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
-          organizationId: registrationAttributes.organizationId,
+          organizationId: organization.id,
           studentNumber: registrationAttributes.studentNumber,
           userId: user.id,
           isSupernumerary: false,
@@ -360,7 +359,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
         const organization = databaseBuilder.factory.buildOrganization();
         const user = databaseBuilder.factory.buildUser();
         const registrationAttributes = {
-          organizationId: organization.id,
+          organization,
           firstName: 'O-Ren',
           lastName: 'Ishii',
           studentNumber: '4',
@@ -368,7 +367,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
           studyScheme: 'I have always no idea what it\'s like.',
         };
 
-        const higherSchoolingRegistration  = new HigherSchoolingRegistration(registrationAttributes);
+        const higherSchoolingRegistration  = domainBuilder.buildHigherSchoolingRegistration(registrationAttributes);
         databaseBuilder.factory.buildSchoolingRegistration({
           organizationId: registrationAttributes.organizationId,
           studentNumber: registrationAttributes.studentNumber,
@@ -388,7 +387,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
 
         const organization = databaseBuilder.factory.buildOrganization();
         const registrationAttributes = {
-          organizationId: organization.id,
+          organization,
           firstName: 'O-Ren',
           lastName: 'Ishii',
           studentNumber: '1',
@@ -396,7 +395,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
           isSupernumerary: false,
         };
 
-        const higherSchoolingRegistration  = new HigherSchoolingRegistration(registrationAttributes);
+        const higherSchoolingRegistration  = domainBuilder.buildHigherSchoolingRegistration(registrationAttributes);
         databaseBuilder.factory.buildSchoolingRegistration({ organizationId: registrationAttributes.organizationId }).id;
         databaseBuilder.factory.buildSchoolingRegistration({ studentNumber: registrationAttributes.studentNumber }).id;
         await databaseBuilder.commit();
@@ -417,16 +416,16 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
       it('creates the schooling-registration ', async () => {
 
         const organization = databaseBuilder.factory.buildOrganization();
-        const higherSchoolingRegistration1  = new HigherSchoolingRegistration({
-          organizationId: organization.id,
+        const higherSchoolingRegistration1  = domainBuilder.buildHigherSchoolingRegistration({
+          organization,
           firstName: 'O-Ren',
           lastName: 'Ishii',
           studentNumber: '4',
           birthdate: '1990-07-01',
           isSupernumerary: false,
         });
-        const higherSchoolingRegistration2  = new HigherSchoolingRegistration({
-          organizationId: organization.id,
+        const higherSchoolingRegistration2  = domainBuilder.buildHigherSchoolingRegistration({
+          organization,
           firstName: 'John',
           lastName: 'Rambo',
           studentNumber: '5',
@@ -452,8 +451,8 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
 
           const organization = databaseBuilder.factory.buildOrganization();
 
-          const higherSchoolingRegistration  = new HigherSchoolingRegistration({
-            organizationId: organization.id,
+          const higherSchoolingRegistration  = domainBuilder.buildHigherSchoolingRegistration({
+            organization,
             firstName: 'O-Ren',
             lastName: 'Ishii',
             studentNumber: '4',
