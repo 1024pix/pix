@@ -52,6 +52,7 @@ describe('Acceptance | Controller | Prescriber-controller', () => {
             'is-managing-students': organization.isManagingStudents,
             'name': organization.name,
             'type': organization.type,
+            'is-agriculture': false,
           },
           relationships: {
             memberships: {
