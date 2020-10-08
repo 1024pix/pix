@@ -1,5 +1,6 @@
 const faker = require('faker');
 const databaseBuffer = require('../database-buffer');
+const buildTargetProfile = require('./build-target-profile');
 
 module.exports = function buildBadge({
   id,
@@ -10,6 +11,7 @@ module.exports = function buildBadge({
   key = faker.random.words(),
   targetProfileId,
 } = {}) {
+  targetProfileId = targetProfileId ? targetProfileId : buildTargetProfile().id;
 
   const values = {
     id,
