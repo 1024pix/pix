@@ -27,7 +27,7 @@ describe('Integration | Component | routes/campaigns/restricted/join-sup', funct
 
     it('should focus the student number input', async function() {
       // given
-      this.set('onSubmitToReconcileStub', onSubmitToReconcileStub);
+      this.onSubmitToReconcileStub = onSubmitToReconcileStub;
 
       // when
       await render(hbs`<Routes::Campaigns::Restricted::JoinSup @campaignCode={{123}} @onSubmitToReconcile={{this.onSubmitToReconcileStub}}/>`);
@@ -54,7 +54,7 @@ describe('Integration | Component | routes/campaigns/restricted/join-sup', funct
 
     it('should disable input student number', async function() {
       // when
-      this.set('onSubmitToReconcileStub', onSubmitToReconcileStub);
+      this.onSubmitToReconcileStub = onSubmitToReconcileStub;
 
       // given
       await render(hbs`<Routes::Campaigns::Restricted::JoinSup @campaignCode={{123}} @onSubmitToReconcile={{this.onSubmitToReconcileStub}}/>`);
@@ -71,7 +71,7 @@ describe('Integration | Component | routes/campaigns/restricted/join-sup', funct
   context('when i want change the student number', () => {
     it('should be possible to edit student number when a mistake was done', async function() {
       // when
-      this.set('onSubmitToReconcileStub', onSubmitToReconcileStub);
+      this.onSubmitToReconcileStub = onSubmitToReconcileStub;
 
       // given
       await render(hbs`<Routes::Campaigns::Restricted::JoinSup @campaignCode={{123}} @onSubmitToReconcile={{this.onSubmitToReconcileStub}}/>`);
@@ -88,7 +88,7 @@ describe('Integration | Component | routes/campaigns/restricted/join-sup', funct
   context('when i don’t have a student number', () => {
     it('should display user data form', async function() {
       // when
-      this.set('onSubmitToReconcileStub', onSubmitToReconcileStub);
+      this.onSubmitToReconcileStub = onSubmitToReconcileStub;
 
       // given
       await render(hbs`<Routes::Campaigns::Restricted::JoinSup @campaignCode={{123}} @onSubmitToReconcile={{this.onSubmitToReconcileStub}}/>`);
