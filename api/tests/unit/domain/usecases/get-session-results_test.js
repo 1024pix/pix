@@ -6,7 +6,7 @@ const getSessionResults = require('../../../../lib/domain/usecases/get-session-r
 
 describe('Unit | Domain | Use Cases | get-session-results', () => {
 
-  const sessionWith2Candidates = domainBuilder.buildSession();
+  const sessionWith2Candidates = domainBuilder.buildSession({ date: '2020/01/01', time: '12:00' });
   const sessionId = sessionWith2Candidates.id;
   const certificationCourseRepository = {};
   const sessionRepositoryStub = {};
@@ -88,7 +88,20 @@ describe('Unit | Domain | Use Cases | get-session-results', () => {
 
   it('should return all certification results', async () => {
     // when
-    const { session, certificationResults } = await getSessionResults({
+    const { certificationResults } = await getSessionResults({
+      sessionId,
+      sessionRepository: sessionRepositoryStub,
+      certificationCourseRepository,
+    });
+
+    // then
+    const expectedCertifResults = [ firstCertifResult, secondCertifResult, thirdCertifResult ];
+    expect(certificationResults).to.deep.equal(expectedCertifResults);
+  });
+
+  it('should return the session', async () => {
+    // when
+    const { session } = await getSessionResults({
       sessionId,
       sessionRepository: sessionRepositoryStub,
       certificationCourseRepository,
@@ -96,9 +109,20 @@ describe('Unit | Domain | Use Cases | get-session-results', () => {
 
     // then
     const expectedSession = sessionWith2Candidates;
-    const expectedCertifResults = [ firstCertifResult, secondCertifResult, thirdCertifResult ];
     expect(session).to.deep.equal(expectedSession);
-    expect(certificationResults).to.deep.equal(expectedCertifResults);
+  });
+
+  it('should return the fileName', async () => {
+    // when
+    const { fileName } = await getSessionResults({
+      sessionId,
+      sessionRepository: sessionRepositoryStub,
+      certificationCourseRepository,
+    });
+
+    // then
+    const expectedFileName = `20200101_1200_resultats_session_${sessionId}.csv`;
+    expect(fileName).to.deep.equal(expectedFileName);
   });
 
 });

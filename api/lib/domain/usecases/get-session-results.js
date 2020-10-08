@@ -1,4 +1,5 @@
 const { getCertificationResultByCertifCourse } = require('../../domain/services/certification-service');
+const moment = require('moment');
 
 module.exports = async function getSessionResults({
   sessionId,
@@ -12,5 +13,8 @@ module.exports = async function getSessionResults({
     (certificationCourse) => getCertificationResultByCertifCourse({ certificationCourse }),
   ));
 
-  return { session, certificationResults };
+  const dateWithTime = moment(session.date + ' ' + session.time, 'YYYY-MM-DD HH:mm');
+  const fileName = `${dateWithTime.format('YYYYMMDD_HHmm')}_resultats_session_${sessionId}.csv`;
+
+  return { session, certificationResults, fileName };
 };

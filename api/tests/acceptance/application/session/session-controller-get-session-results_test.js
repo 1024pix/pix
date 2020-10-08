@@ -11,11 +11,12 @@ describe('Acceptance | Controller | session-controller-get-session-results', () 
   });
 
   describe('GET /api/admin/sessions/{id}/results', function() {
-    let sessionId;
     let session;
+    let sessionId;
 
     beforeEach(() => {
-      sessionId = databaseBuilder.factory.buildSession().id;
+      session = databaseBuilder.factory.buildSession({ date: '2020/01/01', time: '12:00' });
+      sessionId = session.id;
 
       return databaseBuilder.commit();
     });
@@ -88,6 +89,16 @@ describe('Acceptance | Controller | session-controller-get-session-results', () 
         `${certif1.id};"${certif1.firstName}";"${certif1.lastName}";"${birthdate}";"${certif1.birthplace}";"${certif1.externalId}";${asr1.pixScore};"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";${sessionId};"${session.certificationCenter}";"${createdAt}"\n` +
         `${certif2.id};"${certif2.firstName}";"${certif2.lastName}";"${birthdate}";"${certif2.birthplace}";"${certif2.externalId}";;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";${sessionId};"${session.certificationCenter}";"${createdAt}"`;
         expect(response.payload).to.deep.equal(expectedResult);
+      });
+
+      it('should return the correct fileName', async () => {
+        // when
+        const response = await server.inject(request);
+
+        // then
+        const expectedFileName = `20200101_1200_resultats_session_${sessionId}.csv`;
+        const expectedHeader = `attachment; filename=${expectedFileName}`;
+        expect(response.headers['content-disposition']).to.deep.equal(expectedHeader);
       });
 
     });

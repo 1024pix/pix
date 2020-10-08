@@ -120,12 +120,12 @@ module.exports = {
 
   async getSessionResults(request, h) {
     const sessionId = request.params.id;
-    const { session, certificationResults } =  await usecases.getSessionResults({ sessionId });
+    const { session, certificationResults, fileName } =  await usecases.getSessionResults({ sessionId });
     const csvResult = await getCertificationResultsfCsv({ session, certificationResults });
 
     return h.response(csvResult)
       .header('Content-Type', 'text/csv;charset=utf-8')
-      .header('Content-Disposition', 'attachment; filename=session-results' + sessionId + '.csv');
+      .header('Content-Disposition', `attachment; filename=${fileName}`);
   },
 
   async getCertificationReports(request) {
