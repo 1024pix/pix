@@ -1,7 +1,9 @@
 import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
-
 import Route from '@ember/routing/route';
+import ENV from 'mon-pix/config/environment';
+
+const AUTHENTICATED_SOURCE_FROM_MEDIACENTRE = ENV.APP.AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
 
 @classic
 export default class LogoutRoute extends Route {
@@ -18,7 +20,7 @@ export default class LogoutRoute extends Route {
   }
 
   afterModel() {
-    if (this.source === 'external') {
+    if (this.source === AUTHENTICATED_SOURCE_FROM_MEDIACENTRE) {
       return this._redirectToDisconnectedPage();
     } else {
       return this._redirectToHome();

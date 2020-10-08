@@ -1,6 +1,9 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import { isEmpty } from '@ember/utils';
+import ENV from 'mon-pix/config/environment';
+
+const AUTHENTICATED_SOURCE_FROM_MEDIACENTRE = ENV.APP.AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
 
 export default class JoinRoute extends Route {
   @service currentUser;
@@ -28,7 +31,7 @@ export default class JoinRoute extends Route {
 
   setupController(controller) {
     super.setupController(...arguments);
-    if (this.session.data.authenticated.source === 'external') {
+    if (this.session.data.authenticated.source === AUTHENTICATED_SOURCE_FROM_MEDIACENTRE) {
       controller.set('firstName', this.currentUser.user.firstName);
       controller.set('lastName', this.currentUser.user.lastName);
     }

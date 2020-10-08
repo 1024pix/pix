@@ -10,6 +10,7 @@ import get from 'lodash/get';
 import ENV from 'mon-pix/config/environment';
 
 const ERROR_PASSWORD_MESSAGE = 'pages.update-expired-password.fields.error';
+const AUTHENTICATED_SOURCE_FROM_MEDIACENTRE = ENV.APP.AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
 
 const VALIDATION_MAP = {
   default: {
@@ -69,6 +70,9 @@ export default class UpdateExpiredPasswordForm extends Component {
       this.validation = SUBMISSION_MAP['default'];
       await this.user.unloadRecord();
       await this._authenticateWithUpdatedPassword({ login: this.user.username, password: this.newPassword });
+      if (this.session.get('data.externalUser')) {
+        this.session.data.authenticated.source = AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
+      }
     } catch (err) {
       this.validation = SUBMISSION_MAP['error'];
     } finally {
