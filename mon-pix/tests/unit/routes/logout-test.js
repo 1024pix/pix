@@ -2,6 +2,9 @@ import Service from '@ember/service';
 import sinon from 'sinon';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
+import ENV from 'mon-pix/config/environment';
+
+const AUTHENTICATED_SOURCE_FROM_MEDIACENTRE = ENV.APP.AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
 
 describe('Unit | Route | logout', () => {
   setupTest();
@@ -13,7 +16,7 @@ describe('Unit | Route | logout', () => {
     const invalidateStub = sinon.stub();
     sessionStub = Service.create({ isAuthenticated: true, invalidate: invalidateStub, data: {
       authenticated: {
-        source: 'external',
+        source: AUTHENTICATED_SOURCE_FROM_MEDIACENTRE,
       },
     },
     });
@@ -55,7 +58,7 @@ describe('Unit | Route | logout', () => {
     const route = this.owner.lookup('route:logout');
     route.set('session', sessionStub);
     route._redirectToDisconnectedPage = sinon.stub();
-    route.source = 'external';
+    route.source = AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
 
     // When
     route.afterModel();
