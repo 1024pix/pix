@@ -54,6 +54,9 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
           // then
           expect(find('.fill-in-campaign-code__start-button').textContent).to.contains('Commencer');
+          const focusedElement = document.activeElement;
+          expect(focusedElement).to.be.not.null;
+          expect(focusedElement.id).to.equal('campaign-code', 'The campaign code was not focused');
         });
       });
 
@@ -751,7 +754,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`);
           });
 
-          it('should set by default firstName and lastName', async function() {
+          it('should set by default firstName and lastName and focus the day of birth', async function() {
             // when
             await fillIn('#campaign-code', campaign.code);
             await click('.fill-in-campaign-code__start-button');

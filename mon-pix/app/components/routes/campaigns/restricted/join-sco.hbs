@@ -1,7 +1,7 @@
 <form>
   <div class="join-restricted-campaign__row">
     <label class="join-restricted-campaign__label">{{t 'pages.join.fields.firstname.label'}}</label>
-    <Input
+    <Input  {{autofocus}}
             @id="firstName"
             @type="text"
             @value={{this.firstName}}
@@ -36,7 +36,7 @@
   <div class="join-restricted-campaign__row">
     <label class="join-restricted-campaign__label">{{t 'pages.join.fields.birthdate.label'}}</label>
     <div class="join-restricted-campaign__birthdate">
-      <Input @id="dayOfBirth" @type="text" @value={{this.dayOfBirth}} placeholder={{t 'pages.join.fields.birthdate.day-format'}} class={{if this.validation.dayOfBirth "input--error"}} @focusOut={{ fn this.triggerInputDayValidation "dayOfBirth" this.dayOfBirth }} />
+      <Input @id="dayOfBirth" @type="text" @value={{this.dayOfBirth}} placeholder={{t 'pages.join.fields.birthdate.day-format'}} class={{if this.validation.dayOfBirth "input--error"}} @focusOut={{ fn this.triggerInputDayValidation "dayOfBirth" this.dayOfBirth }} autofocus={{this.isDisabled}} />
       <Input @id="monthOfBirth" @type="text" @value={{this.monthOfBirth}} placeholder={{t 'pages.join.fields.birthdate.month-format'}} class={{if this.validation.monthOfBirth "input--error"}} @focusOut={{ fn this.triggerInputMonthValidation "monthOfBirth" this.monthOfBirth }} />
       <Input @id="yearOfBirth" @type="text" @value={{this.yearOfBirth}} placeholder={{t 'pages.join.fields.birthdate.year-format'}} class={{if this.validation.yearOfBirth "input--error"}} @focusOut={{ fn this.triggerInputYearValidation "yearOfBirth" this.yearOfBirth }} />
     </div>
