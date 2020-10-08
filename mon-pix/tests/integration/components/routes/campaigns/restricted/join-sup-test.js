@@ -24,6 +24,21 @@ describe('Integration | Component | routes/campaigns/restricted/join-sup', funct
   });
 
   context('when the student number is typed', () => {
+
+    it('should focus the student number input', async function() {
+      // given
+      this.set('onSubmitToReconcileStub', onSubmitToReconcileStub);
+
+      // when
+      await render(hbs`<Routes::Campaigns::Restricted::JoinSup @campaignCode={{123}} @onSubmitToReconcile={{this.onSubmitToReconcileStub}}/>`);
+
+      // then
+      const focusedElement = document.activeElement;
+      expect(focusedElement).to.be.not.null;
+      expect(focusedElement.id).to.equal('studentNumber', 'The studentNumber was not focused');
+
+    });
+
     it('should show user data form', async function() {
       // given
       this.set('onSubmitToReconcileStub', onSubmitToReconcileStub);
