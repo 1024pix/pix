@@ -11,6 +11,8 @@ export default class IndexController extends Controller {
   @service notifications;
   @service currentUser;
   @service notifications;
+  @service fileSaver;
+  @service session;
 
   @alias('model') sessionModel;
 
@@ -37,8 +39,14 @@ export default class IndexController extends Controller {
   @action
   async downloadSessionResultFile() {
     try {
-      const certifications = await this._loadAllCertifications(this.sessionModel);
-      this.sessionInfoService.downloadSessionExportFile({ session: this.sessionModel, certifications });
+      const sessionId = this.sessionModel.id;
+      const url = `/api/admin/sessions/${sessionId}/results`;
+      const fileName = 'resultats-session.csv';
+      let token = '';
+      if (this.session.isAuthenticated) {
+        token = this.session.data.authenticated.access_token;
+      }
+      this.fileSaver.save({ url, fileName, token });
     } catch (error) {
       this.notifications.error(error);
     }
