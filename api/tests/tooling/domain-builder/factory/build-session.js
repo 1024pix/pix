@@ -18,6 +18,7 @@ module.exports = function buildSession({
   resultsSentToPrescriberAt = null,
   publishedAt = null,
   assignedCertificationOfficerId,
+  certificationCandidates = [],
 } = {}) {
   return new Session({
     id,
@@ -35,5 +36,6 @@ module.exports = function buildSession({
     resultsSentToPrescriberAt,
     publishedAt,
     assignedCertificationOfficerId,
+    certificationCandidates,
   });
 };

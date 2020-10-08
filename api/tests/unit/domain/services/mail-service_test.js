@@ -66,6 +66,41 @@ describe('Unit | Service | MailService', () => {
     });
   });
 
+  describe('#sendCertificationResultEmail', () => {
+
+    it('should use mailer to send an email with given options', async () => {
+      // given
+      const link = 'pix.fr';
+      const sessionDate = '2020-10-03';
+      const sessionId = '3';
+      const certificationCenterName = 'Vincennes';
+      const expectedOptions = {
+        from: senderEmailAddress,
+        fromName: 'PIX - Ne pas répondre',
+        to: userEmailAddress,
+        template: 'test-certification-result-template-id',
+        variables: {
+          link,
+          sessionId,
+          certificationCenterName,
+          sessionDate: '03/10/2020',
+        },
+      };
+
+      // when
+      await mailService.sendCertificationResultEmail({
+        email: userEmailAddress,
+        sessionId,
+        sessionDate,
+        certificationCenterName,
+        link,
+      });
+
+      // then
+      expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
+    });
+  });
+
   describe('#sendResetPasswordDemandEmail', () => {
 
     context('when provided passwordResetDemandBaseUrl is not production', () => {

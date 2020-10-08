@@ -1,4 +1,6 @@
 const { InvalidParametersForSessionPublication } = require('../../domain/errors');
+const mailService = require('../../domain/services/mail-service');
+const uniqBy = require('lodash/uniqBy');
 
 module.exports = async function updatePublicationSession({
   sessionId,
@@ -13,12 +15,31 @@ module.exports = async function updatePublicationSession({
     throw new InvalidParametersForSessionPublication();
   }
 
-  let session = await sessionRepository.get(sessionId);
+  let session = await sessionRepository.getWithCertificationCandidates(sessionId);
+
   await certificationRepository.updatePublicationStatusesBySessionId(sessionId, toPublish);
 
   if (toPublish) {
+    await _sendPrescriberEmails(session);
     session = await sessionRepository.updatePublishedAt({ id: sessionId, publishedAt });
   }
 
   return session;
 };
+
+async function _sendPrescriberEmails(session) {
+  const recipientEmails = uniqBy(session.certificationCandidates, 'resultRecipientEmail')
+    .map((candidate) => candidate.resultRecipientEmail)
+    .filter(Boolean);
+
+  const promises = recipientEmails.map((recipientEmail) => {
+    return mailService.sendCertificationResultEmail({
+      email: recipientEmail,
+      sessionId: session.id,
+      sessionDate: session.date,
+      certificationCenterName: session.certificationCenter,
+      link: 'EMPTY LINK',
+    });
+  });
+  return Promise.all(promises);
+}
