@@ -380,6 +380,7 @@ describe('Unit | Controller | sessionController', () => {
     let request;
     const session = { id: 1, date: '2020/01/01', time: '12:00' };
     const certificationResults = [];
+    const fileName =  `20200101_1200_resultats_session_${session.id}.csv`;
 
     beforeEach(() => {
       // given
@@ -391,17 +392,19 @@ describe('Unit | Controller | sessionController', () => {
           },
         },
       };
-      const getSessionResultsReturn = { session, certificationResults };
+      const getSessionResultsReturn = { session, certificationResults, fileName };
       sinon.stub(usecases, 'getSessionResults').withArgs({ sessionId: session.id }).resolves(getSessionResultsReturn);
     });
 
     it('should return csv content and fileName', async () => {
       // when
       const response = await sessionController.getSessionResults(request, hFake);
-
+      
       // then
       const expectedCsv = '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Session";"Centre de certification";"Date de passage de la certification"';
+      const expectedHeader = `attachment; filename=${fileName}`;
       expect(response.source.trim()).to.deep.equal(expectedCsv.trim());
+      expect(response.headers['Content-Disposition']).to.equal(expectedHeader);
     });
   });
 
