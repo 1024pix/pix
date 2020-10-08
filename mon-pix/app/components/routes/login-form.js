@@ -7,6 +7,9 @@ import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 import { inject } from '@ember/service';
 import { action, computed } from '@ember/object';
+import ENV from 'mon-pix/config/environment';
+
+const AUTHENTICATED_SOURCE_FROM_MEDIACENTRE = ENV.APP.AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
 
 @classic
 export default class LoginForm extends Component {
@@ -69,6 +72,9 @@ export default class LoginForm extends Component {
 
     try {
       await this.session.authenticate('authenticator:oauth2', { login, password, scope });
+      if (this.externalUserToken) {
+        this.session.set('data.authenticated.source', AUTHENTICATED_SOURCE_FROM_MEDIACENTRE);
+      }
     } catch (err) {
       const title = ('errors' in err) ? err.errors.get('firstObject').title : null;
       if (title === 'PasswordShouldChange') {
