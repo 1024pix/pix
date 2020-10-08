@@ -15,6 +15,18 @@ describe('Integration | Component | routes/campaigns/restricted/fill-in-particip
     this.set('onCancelStub', onCancelStub);
   });
 
+  context('when render', () => {
+    it('should focus the participant externalId input  ', async function() {
+      // given
+      await render(hbs`<Routes::Campaigns::FillInParticipantExternalId @campaign={{campaign}} @onSubmit={{this.onSubmitStub}} @onCancel={{this.onCancelStub}}/>`);
+
+      // then
+      const focusedElement = document.activeElement;
+      expect(focusedElement).to.be.not.null;
+      expect(focusedElement.id).to.equal('id-pix-label', 'The participant external id was not focused');
+    });
+  });
+
   context('when externalIdHelpImageUrl exists', () => {
     it('should display image help', async function() {
       // when
