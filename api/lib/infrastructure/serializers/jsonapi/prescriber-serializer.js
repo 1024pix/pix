@@ -8,9 +8,15 @@ module.exports = {
       transform: (record) => {
         const recordWithoutClass = { ... record };
         recordWithoutClass.memberships.forEach((membership) => {
-          membership.organization = { ... membership.organization };
+          membership.organization = { 
+            ... membership.organization,
+            isAgriculture: membership.organization.isAgriculture,
+          };
         });
-        recordWithoutClass.userOrgaSettings.organization = { ... recordWithoutClass.userOrgaSettings.currentOrganization };
+        recordWithoutClass.userOrgaSettings.organization = {
+          ...recordWithoutClass.userOrgaSettings.currentOrganization,
+          isAgriculture: recordWithoutClass.userOrgaSettings.currentOrganization,
+        };
         delete recordWithoutClass.userOrgaSettings.currentOrganization;
 
         return recordWithoutClass;
@@ -25,7 +31,7 @@ module.exports = {
         attributes: ['organizationRole', 'organization'],
         organization: {
           ref: 'id',
-          attributes: ['code', 'credit', 'name', 'type', 'isManagingStudents', 'canCollectProfiles', 'externalId', 'targetProfiles', 'memberships', 'students', 'organizationInvitations'],
+          attributes: ['code', 'credit', 'name', 'type', 'isManagingStudents', 'canCollectProfiles', 'externalId', 'targetProfiles', 'memberships', 'students', 'organizationInvitations', 'isAgriculture'],
           memberships: {
             ref: 'id',
             ignoreRelationshipData: true,

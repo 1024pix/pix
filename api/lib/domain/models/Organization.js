@@ -55,6 +55,10 @@ class Organization {
   get isPro() {
     return this.type === types.PRO;
   }
+
+  get isAgriculture() {
+    return this.isSco && process.env['AGRICULTURE_ORGANIZATION_ID'] === this.id.toString();
+  }
 }
 
 Organization.types = types;
