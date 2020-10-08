@@ -4,6 +4,9 @@ import Service from '@ember/service';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
+import ENV from 'mon-pix/config/environment';
+
+const AUTHENTICATED_SOURCE_FROM_MEDIACENTRE = ENV.APP.AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
 
 describe('Unit | Route | campaigns/restricted/join', function() {
   setupTest();
@@ -38,7 +41,7 @@ describe('Unit | Route | campaigns/restricted/join', function() {
       const route = this.owner.lookup('route:campaigns.restricted.join');
       const controller = EmberObject.create();
       route.set('session', Service.create({
-        data: { authenticated: { source: 'external' } },
+        data: { authenticated: { source: AUTHENTICATED_SOURCE_FROM_MEDIACENTRE } },
       }));
       const firstName = 'firstName', lastName = 'lastName';
       route.set('currentUser', Service.create({
