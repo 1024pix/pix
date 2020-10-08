@@ -1,20 +1,18 @@
 import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { resolve, reject } from 'rsvp';
-import {
-  click,
-  fillIn,
-  find,
-  render,
-  triggerEvent,
-} from '@ember/test-helpers';
+
+import { click, fillIn, find, render, triggerEvent } from '@ember/test-helpers';
 import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
+
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import { contains } from '../../helpers/contains';
 
 const PASSWORD_INPUT_CLASS = '.form-textfield__input';
 
 describe('Integration | Component | update-expired-password-form', function() {
+
   setupIntlRenderingTest();
 
   let isSaveMethodCalled, saveMethodOptions;
@@ -72,13 +70,16 @@ describe('Integration | Component | update-expired-password-form', function() {
   });
 
   context('errors cases', function() {
+
     it('should display an error, when saving fails', async function() {
       // given
+      const expectedErrorMessage = this.intl.t('api-error-messages.internal-server-error');
+
       const user = EmberObject.create({ username: 'toto', password: 'Password123', save: saveWithRejection, unloadRecord });
       this.set('user', user);
       const newPassword = 'Pix12345!';
 
-      await render(hbs `{{update-expired-password-form user=user}}`);
+      await render(hbs `<UpdateExpiredPasswordForm @user={{this.user}} />`);
 
       // when
       await fillIn(PASSWORD_INPUT_CLASS, newPassword);
@@ -88,7 +89,7 @@ describe('Integration | Component | update-expired-password-form', function() {
 
       // then
       expect(isSaveMethodCalled).to.be.true;
-      expect(find('.form-textfield__message--error')).to.exist;
+      expect(contains(expectedErrorMessage)).to.exist;
     });
   });
 
