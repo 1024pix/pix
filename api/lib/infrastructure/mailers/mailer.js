@@ -57,6 +57,10 @@ class Mailer extends MailingProvider {
     return mailing[this._providerName].templates.organizationInvitationScoTemplateId;
   }
 
+  get certificationResultTemplateId() {
+    return mailing[this._providerName].templates.certificationResultTemplateId;
+  }
+
 }
 
 module.exports = new Mailer();

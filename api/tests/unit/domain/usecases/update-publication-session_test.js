@@ -1,4 +1,5 @@
 const {
+  domainBuilder,
   sinon,
   expect,
   catchErr,
@@ -6,26 +7,29 @@ const {
 
 const updatePublicationSession = require('../../../../lib/domain/usecases/update-publication-session');
 const { InvalidParametersForSessionPublication } = require('../../../../lib/domain/errors');
+const mailService = require('../../../../lib/domain/services/mail-service');
 
 describe('Unit | UseCase | update-publication-session', () => {
 
-  let sessionId;
+  const sessionId = 123;
   let certificationRepository;
   let sessionRepository;
   let toPublish;
   const now = new Date('2019-01-01T05:06:07Z');
+  const sessionDate = '2020-05-08';
   let clock;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     clock = sinon.useFakeTimers(now);
-    sessionId = 123;
     certificationRepository = {
       updatePublicationStatusesBySessionId: sinon.stub(),
     };
     sessionRepository = {
       updatePublishedAt: sinon.stub(),
-      get: sinon.stub(),
+      getWithCertificationCandidates: sinon.stub(),
     };
+
+    mailService.sendCertificationResultEmail = sinon.stub();
   });
 
   afterEach(() => {
@@ -45,7 +49,7 @@ describe('Unit | UseCase | update-publication-session', () => {
         });
 
         // then
-        expect(sessionRepository.get).to.not.have.been.called;
+        expect(sessionRepository.getWithCertificationCandidates).to.not.have.been.called;
         expect(error).to.be.instanceOf(InvalidParametersForSessionPublication);
       });
     });
@@ -61,21 +65,43 @@ describe('Unit | UseCase | update-publication-session', () => {
         });
 
         // then
-        expect(sessionRepository.get).to.not.have.been.called;
+        expect(sessionRepository.getWithCertificationCandidates).to.not.have.been.called;
         expect(error).to.be.instanceOf(InvalidParametersForSessionPublication);
       });
     });
   });
 
   context('when the session exists', () => {
-    const originalSession = Symbol('originalSession');
+    const recipient1 = Symbol('email1@example.net');
+    const recipient2 = Symbol('email2@example.net');
+    const certificationCenter = Symbol('certificationCenter');
+    const candidateWithRecipient1 = domainBuilder.buildCertificationCandidate({
+      resultRecipientEmail: recipient1,
+    });
+    const candidateWithRecipient2 = domainBuilder.buildCertificationCandidate({
+      resultRecipientEmail: recipient2,
+    });
+    const candidate2WithRecipient2 = domainBuilder.buildCertificationCandidate({
+      resultRecipientEmail: recipient2,
+    });
+    const candidateWithNoRecipient = domainBuilder.buildCertificationCandidate({
+      resultRecipientEmail: null,
+    });
+    const originalSession = domainBuilder.buildSession({
+      id: sessionId,
+      certificationCenter,
+      date: sessionDate,
+      certificationCandidates: [
+        candidateWithRecipient1, candidateWithRecipient2, candidate2WithRecipient2, candidateWithNoRecipient,
+      ],
+    });
 
     beforeEach(() => {
-      sessionRepository.get.withArgs(sessionId).resolves(originalSession);
+      sessionRepository.getWithCertificationCandidates.withArgs(sessionId).resolves(originalSession);
     });
 
     context('When we publish the session', () => {
-      const updatedSession = Symbol('updatedSession');
+      const updatedSession = { ...originalSession, publishedAt: now };
 
       beforeEach(() => {
         toPublish = true;
@@ -83,7 +109,17 @@ describe('Unit | UseCase | update-publication-session', () => {
         sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSession);
       });
 
-      it('should return the session', async () => {
+      it('should return update the published date and send result emails', async () => {
+        function getCertificationResultArgs(recipientEmail) {
+          return {
+            email: recipientEmail,
+            sessionId: sessionId,
+            sessionDate,
+            certificationCenterName: certificationCenter,
+            link: 'EMPTY LINK',
+          };
+        }
+
         // when
         const session = await updatePublicationSession({
           sessionId,
@@ -93,7 +129,12 @@ describe('Unit | UseCase | update-publication-session', () => {
         });
 
         // then
-        expect(sessionRepository.updatePublishedAt).calledWithExactly({ id: sessionId, publishedAt: new Date() });
+        expect(sessionRepository.updatePublishedAt).calledWithExactly({ id: sessionId, publishedAt: now });
+        expect(mailService.sendCertificationResultEmail).to.have.been.calledTwice;
+        expect(mailService.sendCertificationResultEmail.firstCall)
+          .to.have.been.calledWithExactly(getCertificationResultArgs(recipient1));
+        expect(mailService.sendCertificationResultEmail.secondCall)
+          .to.have.been.calledWithExactly(getCertificationResultArgs(recipient2));
         expect(session).to.deep.equal(updatedSession);
       });
     });
@@ -116,6 +157,7 @@ describe('Unit | UseCase | update-publication-session', () => {
 
         // then
         expect(sessionRepository.updatePublishedAt).to.not.have.been.called;
+        expect(mailService.sendCertificationResultEmail).to.not.have.been.called;
         expect(session).to.deep.equal(originalSession);
       });
     });
