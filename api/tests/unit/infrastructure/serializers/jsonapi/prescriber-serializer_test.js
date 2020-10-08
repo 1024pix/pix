@@ -42,6 +42,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
             'name': organization.name,
             'type': organization.type,
             'credit': organization.credit,
+            'is-agriculture': organization.isAgriculture,
           },
           relationships: {
             memberships: {

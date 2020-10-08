@@ -10,6 +10,7 @@ export default class Organization extends Model {
   @attr('number') credit;
   @attr('boolean') isManagingStudents;
   @attr('boolean') canCollectProfiles;
+  @attr('boolean') isAgriculture;
 
   @hasMany('campaign') campaigns;
   @hasMany('target-profile') targetProfiles;

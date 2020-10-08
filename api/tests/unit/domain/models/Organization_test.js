@@ -103,4 +103,38 @@ describe('Unit | Domain | Models | Organization', () => {
     });
   });
 
+  describe('get#isAgriculture', () => {
+    beforeEach(() => {
+      process.env['AGRICULTURE_ORGANIZATION_ID'] = '1';
+    });
+
+    afterEach(() => {
+      process.env['AGRICULTURE_ORGANIZATION_ID'] = null;
+    });
+
+    it('should return true when organization is of type SCO and id match Environnement variable AGRICULTURE_ORGANIZATION_ID', () => {
+      // given
+      const organization = domainBuilder.buildOrganization({ id: '1', type: 'SCO' });
+
+      // when / then
+      expect(organization.isAgriculture).is.true;
+    });
+
+    it('should return false when when organization is of type SCO and id doesnt match Environnement variable AGRICULTURE_ORGANIZATION_ID', () => {
+      // given
+      const organization = domainBuilder.buildOrganization({ id: '2', type: 'SCO' });
+
+      // when / then
+      expect(organization.isAgriculture).is.false;
+    });
+
+    it('should return false when when organization is not of type SCO', () => {
+      // given
+      const organization = domainBuilder.buildOrganization({ id: '1', type: 'SUP' });
+
+      // when / then
+      expect(organization.isAgriculture).is.false;
+    });
+  });
+
 });
