@@ -1,5 +1,6 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
+const Badge = require('../../../../lib/domain/models/Badge');
 
 describe('Acceptance | Controller | session-controller-get-jury-certification-summaries', () => {
 
@@ -57,7 +58,7 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
         certif1 = dbf.buildCertificationCourse({ sessionId, lastName: 'AAA' });
         certif2 = dbf.buildCertificationCourse({ sessionId, lastName: 'CCC' });
 
-        const badge = dbf.buildBadge();
+        const badge = dbf.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA });
 
         const assessmentId1 = dbf.buildAssessment({ certificationCourseId: certif1.id }).id;
         dbf.buildAssessment({ certificationCourseId: certif2.id });
