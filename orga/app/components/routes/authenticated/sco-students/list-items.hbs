@@ -2,9 +2,15 @@
   <div class="page__title page-title">Élèves</div>
   {{#if this.currentUser.isAdminInOrganization}}
     <div class="list-students-page__import-students-button">
-      <FileUpload @name="file-upload" @for="students-file-upload" @accept=".xml" @multiple={{false}} @onfileadd={{@importStudents}}>
-        <span class="button" role="button" tabindex="0">Importer (.xml)</span>
-      </FileUpload>
+      {{#if this.currentUser.isAgriculture}}
+        <FileUpload @name="file-upload" @for="students-file-upload" @accept=".csv" @multiple={{false}} @onfileadd={{@importStudents}}>
+          <span class="button" role="button" tabindex="0">Importer (.csv)</span>
+        </FileUpload>
+      {{else}}
+        <FileUpload @name="file-upload" @for="students-file-upload" @accept=".xml" @multiple={{false}} @onfileadd={{@importStudents}}>
+          <span class="button" role="button" tabindex="0">Importer (.xml)</span>
+        </FileUpload>
+      {{/if}}
     </div>
   {{/if}}
 </div>

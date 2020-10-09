@@ -357,6 +357,21 @@ module('Acceptance | Sco Student List', function(hooks) {
         assert.dom('[data-test-notification-message="error"]').hasText('409 - Le détail affiché est envoyé par le back');
       });
 
+      test('it should display an error message when uploading a file with csv problems', async function(assert) {
+        // given
+        await visit('/eleves');
+
+        const file = new Blob(['foo'], { type: 'file-with-csv-problems' });
+
+        // when
+        const input = find('#students-file-upload');
+        await triggerEvent(input, 'change', { files: [file] });
+
+        // then
+        assert.dom('[data-test-notification-message="error"]').exists();
+        assert.dom('[data-test-notification-message="error"]').hasText('412 - Le détail affiché est envoyé par le back');
+      });
+
       test('it should display an error message when something unexpected went wrong on the client', async function(assert) {
         // given
         await visit('/eleves');

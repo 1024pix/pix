@@ -50,9 +50,10 @@ export default class ListController extends Controller {
     this.isLoading = true;
     this.notifications.clearAll();
     const { access_token } = this.session.data.authenticated;
+    const format = this.currentUser.isAgriculture ? 'csv' : 'xml';
 
     try {
-      await file.uploadBinary(`${ENV.APP.API_HOST}/api/organizations/${this.currentUser.organization.id}/schooling-registrations/import-siecle`, {
+      await file.uploadBinary(`${ENV.APP.API_HOST}/api/organizations/${this.currentUser.organization.id}/schooling-registrations/import-siecle?format=${format}`, {
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
@@ -75,7 +76,7 @@ export default class ListController extends Controller {
     }
 
     errorResponse.body.errors.forEach((error) => {
-      if (error.status === '409' || error.status === '422') {
+      if (error.status === '409' || error.status === '422' || error.status === '412') {
         return this.notifications.sendError(error.detail);
       }
       if (error.status === '400') {
