@@ -90,6 +90,8 @@ describe('Integration | Repository | Organization', function() {
       organization.provinceCode = '999';
       organization.isManagingStudents = true;
       organization.canCollectProfiles = true;
+      organization.credit = 50;
+      organization.email = 'email@example.net';
 
       // when
       const organizationSaved = await organizationRepository.update(organization);
@@ -103,6 +105,8 @@ describe('Integration | Repository | Organization', function() {
       expect(organizationSaved.provinceCode).to.equal(organization.provinceCode);
       expect(organizationSaved.isManagingStudents).to.equal(organization.isManagingStudents);
       expect(organizationSaved.canCollectProfiles).to.equal(organization.canCollectProfiles);
+      expect(organizationSaved.credit).to.equal(organization.credit);
+      expect(organizationSaved.email).to.equal(organization.email);
     });
   });
 
