@@ -93,7 +93,7 @@ describe('Integration | Application | Organizations | Routes', () => {
     it('should throw an error when id is invalid', async () => {
       // given
       const method = 'POST';
-      const url = '/api/organizations/wrongId/import-students';
+      const url = '/api/organizations/wrongId/schooling-registrations/import-siecle';
       const payload = {};
 
       // when
