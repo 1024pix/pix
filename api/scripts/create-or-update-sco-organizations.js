@@ -6,7 +6,7 @@
 require('dotenv').config();
 const request = require('request-promise-native');
 
-const logoUrl = require('./default-sco-organization-logo-base64');
+const logoUrl = require('./logo/default-sco-organization-logo-base64');
 const { findOrganizationsByExternalIds, organizeOrganizationsByExternalId } = require('./helpers/organizations-by-external-id-helper');
 const { parseCsv } = require('./helpers/csvHelpers');
 
