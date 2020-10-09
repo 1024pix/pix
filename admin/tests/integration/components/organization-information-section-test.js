@@ -57,6 +57,7 @@ module('Integration | Component | organization-information-section', function(ho
         canCollectProfiles: false,
         isOrganizationSCO: true,
         isManagingStudents: false,
+        credit: 0,
       });
       this.set('organization', organization);
     });
@@ -92,6 +93,7 @@ module('Integration | Component | organization-information-section', function(ho
       assert.dom('input#externalId').hasValue(organization.externalId);
       assert.dom('input#provinceCode').hasValue(organization.provinceCode);
       assert.dom('input#email').hasValue(organization.email);
+      assert.dom('input#credit').hasValue(organization.credit.toString());
       assert.dom('input#canCollectProfiles').isNotChecked();
       assert.dom('input#isManagingStudents').isNotChecked();
     });
@@ -168,6 +170,18 @@ module('Integration | Component | organization-information-section', function(ho
       assert.dom('div[aria-label="Message d\'erreur du champ adresse email"]').hasText('L\'e-mail n\'a pas le bon format.');
     });
 
+    test('it should show error message if organization\'s credit is not valid', async function(assert) {
+      // given
+      await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+
+      // when
+      await click('button[aria-label=\'Editer\'');
+      await fillIn('#credit', 'credit');
+
+      // then
+      assert.contains('Le nombre de crédits doit être un nombre supérieur ou égal à 0.');
+    });
+
     test('it should toggle display mode on click to cancel button', async function(assert) {
       // given
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
@@ -210,6 +224,7 @@ module('Integration | Component | organization-information-section', function(ho
       await fillIn('input#name', 'new name');
       await fillIn('input#externalId', 'new externalId');
       await fillIn('input#provinceCode', '  ');
+      await fillIn('input#credit', 50);
       await click('input#isManagingStudents');
       await click('input#canCollectProfiles');
 
@@ -220,6 +235,7 @@ module('Integration | Component | organization-information-section', function(ho
       assert.dom('.organization__name').hasText('new name');
       assert.dom('.organization__externalId').hasText('new externalId');
       assert.dom('.organization__provinceCode').doesNotExist();
+      assert.dom('.organization__credit').hasText('50');
       assert.dom('.organization__canCollectProfiles').hasText('Oui');
       assert.dom('.organization__isManagingStudents').hasText('Oui');
     });
