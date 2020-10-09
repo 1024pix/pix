@@ -79,43 +79,6 @@ describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', () => {
     });
   });
 
-  context('When file does not match requirements', () => {
-    const organizationId = 123;
-    it('should throw an error if the file is not csv', async () => {
-      const input = `Premier prénom\\Deuxième prénom\\Troisième prénom\\Nom de famille\\Nom d’usage\\Date de naissance (jj/mm/aaaa)\\Email\\Numéro étudiant\\Composante\\Équipe pédagogique\\Groupe\\Diplôme\\Régime
-      Beatrix\\The\\Bride\\Kiddo\\Black Mamba\\01/01/1970\\thebride@example.net\\12346\\Assassination Squad\\Hattori Hanzo\\Deadly Viper Assassination Squad\\Master\\hello darkness my old friend\\`;
-      const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId);
-
-      const error = await catchErr(parser.parse, parser)();
-
-      expect(error.message).to.equal('Le fichier doit être au format csv avec séparateur virgule ou point-virgule.');
-    });
-
-    it('should throw an error if a column is not recognized', async () => {
-      const input = `Premier prénom;Deuxième prénom2;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
-      Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;`;
-      const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId);
-
-      const error = await catchErr(parser.parse, parser)();
-
-      expect(error.message).to.equal('Les entêtes de colonnes doivent être identiques à celle du modèle.');
-    });
-
-    it('should throw an error if a required column is missing', async () => {
-      const input = `Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
-      The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;`;
-      const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId);
-
-      const error = await catchErr(parser.parse, parser)();
-
-      expect(error.message).to.equal('La colonne "Premier prénom" est obligatoire.');
-    });
-
-  });
-
   context('When a column value does not match requirements', () => {
     const organizationId = 123;
 
@@ -174,42 +137,6 @@ describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', () => {
       const error = await catchErr(parser.parse, parser)();
 
       expect(error.message).to.contain('Ligne 3 :');
-    });
-  });
-
-  context('When the file has different encoding', () => {
-    const input = `Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
-          Éçéà niño véga;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
-        `;
-
-    it('should parse UTF-8 encoding', () => {
-      const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new HigherSchoolingRegistrationParser(encodedInput, 123);
-      const higherSchoolingRegistrationSet = parser.parse();
-      const registrations = higherSchoolingRegistrationSet.registrations;
-      expect(registrations[0].firstName).to.equal('Éçéà niño véga');
-    });
-
-    it('should parse win1252 encoding (CSV WIN/MSDOS)', () => {
-      const encodedInput = iconv.encode(input, 'win1252');
-      const parser = new HigherSchoolingRegistrationParser(encodedInput, 123);
-      const higherSchoolingRegistrationSet = parser.parse();
-      const registrations = higherSchoolingRegistrationSet.registrations;
-      expect(registrations[0].firstName).to.equal('Éçéà niño véga');
-    });
-
-    it('should parse macintosh encoding', () => {
-      const encodedInput = iconv.encode(input, 'macintosh');
-      const parser = new HigherSchoolingRegistrationParser(encodedInput, 123);
-      const higherSchoolingRegistrationSet = parser.parse();
-      const registrations = higherSchoolingRegistrationSet.registrations;
-      expect(registrations[0].firstName).to.equal('Éçéà niño véga');
-    });
-
-    it('should throw an error if encoding not supported', () => {
-      const encodedInput = iconv.encode(input, 'utf16');
-      const parser = new HigherSchoolingRegistrationParser(encodedInput, 123);
-      expect(() => parser.parse()).to.throw('Encodage du fichier non supporté.');
     });
   });
 });
