@@ -45,7 +45,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
       return knex('schooling-registrations').delete();
     });
 
-    context('Expected output', () => {
+    context('When a XML SIECLE file is loaded', () => {
 
       context('when no schoolingRegistration has been imported yet, and the file is well formatted', () => {
         beforeEach(() => {
@@ -343,7 +343,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           options.payload = bufferWithMalformedStudent;
         });
 
-        it('should not import any schoolingRegistration and return a 409 - Conflict', async () => {
+        it('should not import any schoolingRegistration and return a 422', async () => {
           // when
           const response = await server.inject(options);
 
@@ -727,6 +727,89 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
       });
     });
 
+    context('When a CSV SIECLE file is loaded', () => {
+
+      context('when no schooling registration has been imported yet, and the file is well formatted', () => {
+        beforeEach(() => {
+          const input = `Identifiant unique*;Premier prénom*;Deuxième prénom;Troisième prénom;Nom de famille*;Nom d’usage;Date de naissance (jj/mm/aaaa)*;Code commune naissance**;Libellé commune naissance**;Code département naissance*;Code pays naissance*;Statut*;Code MEF*;Division*
+          123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
+          456F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
+          `;
+          const buffer = iconv.encode(input, 'UTF-8');
+
+          options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle?format=csv`,
+          options.payload = buffer;
+        });
+
+        it('should respond with a 204 - no content', async () => {
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(204);
+        });
+
+        it('should create all schoolingRegistrations', async () => {
+          // when
+          await server.inject(options);
+
+          // then
+          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+          expect(schoolingRegistrations).to.have.lengthOf(2);
+          expect(_.map(schoolingRegistrations, 'firstName')).to.have.members(['Beatrix', 'O-Ren']);
+        });
+      });
+
+      context('when some schooling registrations data are not well formatted', () => {
+        beforeEach(() => {
+          // given
+          const input = `Identifiant unique*;Premier prénom*;Deuxième prénom;Troisième prénom;Nom de famille*;Nom d’usage;Date de naissance (jj/mm/aaaa)*;Code commune naissance**;Libellé commune naissance**;Code département naissance*;Code pays naissance*;Statut*;Code MEF*;Division*
+          123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
+          456F;O-Ren;;;;Cottonmouth;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
+          `;
+          const buffer = iconv.encode(input, 'UTF-8');
+
+          options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle?format=csv`,
+          options.payload = buffer;
+        });
+
+        it('should not save any schooling registration', async () => {
+          // when
+          const response = await server.inject(options);
+
+          // then
+          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+          expect(schoolingRegistrations).to.have.lengthOf(0);
+          expect(response.statusCode).to.equal(412);
+          expect(response.result.errors[0].detail).to.equal('Ligne 3 : Le champ “Nom de famille*” est obligatoire.');
+        });
+      });
+
+      context('when a schooling registration has the same national student id than an other one in the file', () => {
+        beforeEach(() => {
+          const input = `Identifiant unique*;Premier prénom*;Deuxième prénom;Troisième prénom;Nom de famille*;Nom d’usage;Date de naissance (jj/mm/aaaa)*;Code commune naissance**;Libellé commune naissance**;Code département naissance*;Code pays naissance*;Statut*;Code MEF*;Division*
+          123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
+          123F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
+          `;
+          const buffer = iconv.encode(input, 'UTF-8');
+
+          options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle?format=csv`,
+          options.payload = buffer;
+        });
+
+        it('should not import any schoolingRegistration and return a 422', async () => {
+          // when
+          const response = await server.inject(options);
+
+          // then
+          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+          expect(schoolingRegistrations).to.have.lengthOf(0);
+          expect(response.statusCode).to.equal(422);
+          expect(response.result.errors[0].detail).to.equal('L’INE 123F est présent plusieurs fois dans le fichier. La base SIECLE doit être corrigée pour supprimer les doublons. Réimportez ensuite le nouveau fichier.');
+        });
+      });
+    });
+  
     context('Resource access management', () => {
       beforeEach(() => {
         const buffer = iconv.encode(
