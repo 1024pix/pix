@@ -8,18 +8,17 @@ import sinon from 'sinon';
 module('Integration | Component | information-banner', function(hooks) {
   setupRenderingTest(hooks);
 
-  let prescriber;
-
   module('Import Banner', () => {
     module('when prescriber’s organization is of type SCO that manages students', function() {
-      const isSCOManagingStudents = true;
-
       module('when prescriber has not imported student yet', function() {
+        class CurrentUserStub extends Service {
+          prescriber = { areNewYearSchoolingRegistrationsImported: false }
+          isSCOManagingStudents = true;
+        }
 
         test('should render the banner', async function(assert) {
           // given
-          prescriber = { areNewYearSchoolingRegistrationsImported: false };
-          this.owner.register('service:current-user', Service.extend({ prescriber, isSCOManagingStudents }));
+          this.owner.register('service:current-user', CurrentUserStub);
 
           // when
           await render(hbs`<InformationBanner/>`);
@@ -45,8 +44,11 @@ module('Integration | Component | information-banner', function(hooks) {
 
         test('should not render the banner', async function(assert) {
           // given
-          prescriber = { areNewYearSchoolingRegistrationsImported: true };
-          this.owner.register('service:current-user', Service.extend({ prescriber, isSCOManagingStudents }));
+          class CurrentUserStub extends Service {
+            prescriber = { areNewYearSchoolingRegistrationsImported: true }
+            isSCOManagingStudents = true;
+          }
+          this.owner.register('service:current-user', CurrentUserStub);
 
           // when
           await render(hbs`<InformationBanner/>`);
@@ -61,8 +63,11 @@ module('Integration | Component | information-banner', function(hooks) {
 
       test('should not render the banner regardless of whether students have been imported or not', async function(assert) {
         // given
-        prescriber = { areNewYearSchoolingRegistrationsImported: false };
-        this.owner.register('service:current-user', Service.extend({ prescriber, isSCOManagingStudents: false }));
+        class CurrentUserStub extends Service {
+          prescriber = { areNewYearSchoolingRegistrationsImported: false }
+          isSCOManagingStudents = false;
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
 
         // when
         await render(hbs`<InformationBanner/>`);
@@ -76,8 +81,6 @@ module('Integration | Component | information-banner', function(hooks) {
 
   module('Campaign Banner', () => {
     module('when prescriber’s organization is of type SCO that manages students', function() {
-      const isSCOManagingStudents = true;
-
       module('when banner dead line has passed', function(hooks) {
         const now = new Date('2020-11-03T00:00:00Z');
         let clock;
@@ -92,8 +95,11 @@ module('Integration | Component | information-banner', function(hooks) {
 
         test('should not render the campaign banner', async function(assert) {
           // given
-          prescriber = { areNewYearSchoolingRegistrationsImported: true };
-          this.owner.register('service:current-user', Service.extend({ prescriber, isSCOManagingStudents }));
+          class CurrentUserStub extends Service {
+            prescriber = { areNewYearSchoolingRegistrationsImported: true }
+            isSCOManagingStudents = true;
+          }
+          this.owner.register('service:current-user', CurrentUserStub);
 
           // when
           await render(hbs`<InformationBanner/>`);
@@ -117,8 +123,11 @@ module('Integration | Component | information-banner', function(hooks) {
 
         test('should render the campaign banner', async function(assert) {
           // given
-          prescriber = { areNewYearSchoolingRegistrationsImported: true };
-          this.owner.register('service:current-user', Service.extend({ prescriber, isSCOManagingStudents }));
+          class CurrentUserStub extends Service {
+            prescriber = { areNewYearSchoolingRegistrationsImported: true }
+            isSCOManagingStudents = true;
+          }
+          this.owner.register('service:current-user', CurrentUserStub);
 
           // when
           await render(hbs`<InformationBanner/>`);
@@ -145,8 +154,11 @@ module('Integration | Component | information-banner', function(hooks) {
 
       test('should not display the campaign banner', async function(assert) {
         // given
-        prescriber = { areNewYearSchoolingRegistrationsImported: true };
-        this.owner.register('service:current-user', Service.extend({ prescriber, isSCOManagingStudents: false }));
+        class CurrentUserStub extends Service {
+          prescriber = { areNewYearSchoolingRegistrationsImported: true }
+          isSCOManagingStudents = false;
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
 
         // when
         await render(hbs`<InformationBanner/>`);

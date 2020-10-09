@@ -15,14 +15,13 @@ const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit conteni
 module('Integration | Component | routes/register-form', function(hooks) {
   setupRenderingTest(hooks);
 
-  let sessionStub;
-  let storeStub;
+  class SessionStub extends Service {}
+  class StoreStub extends Service {}
 
   hooks.beforeEach(function() {
     this.set('user', EmberObject.create({}));
-    sessionStub = Service.extend({});
-    storeStub = Service.extend({});
-    this.owner.register('service:session', sessionStub);
+
+    this.owner.register('service:session', SessionStub);
   });
 
   test('it renders', async function(assert) {
@@ -37,8 +36,8 @@ module('Integration | Component | routes/register-form', function(hooks) {
 
     hooks.beforeEach(function() {
       this.owner.unregister('service:store');
-      this.owner.register('service:store', storeStub);
-      storeStub.prototype.createRecord = () => {
+      this.owner.register('service:store', StoreStub);
+      StoreStub.prototype.createRecord = () => {
         return EmberObject.create({
           save() {
             return resolve();
@@ -48,7 +47,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
           },
         });
       };
-      sessionStub.prototype.authenticate = function(authenticator, email, password, scope) {
+      SessionStub.prototype.authenticate = function(authenticator, email, password, scope) {
         this.authenticator = authenticator;
         this.email = email;
         this.password = password;
@@ -183,8 +182,8 @@ module('Integration | Component | routes/register-form', function(hooks) {
 
         spy = sinon.spy();
         this.owner.unregister('service:store');
-        this.owner.register('service:store', storeStub);
-        storeStub.prototype.createRecord = sinon.stub().returns({
+        this.owner.register('service:store', StoreStub);
+        StoreStub.prototype.createRecord = sinon.stub().returns({
           save: spy,
           unloadRecord: () => {
             return resolve();

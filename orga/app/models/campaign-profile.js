@@ -1,6 +1,5 @@
 import DS from 'ember-data';
 const { Model, attr, hasMany } = DS;
-import { computed } from '@ember/object';
 
 export default class CampaignProfile extends Model {
   @attr('string') firstName;
@@ -27,7 +26,6 @@ export default class CampaignProfile extends Model {
 
   @hasMany('campaignProfileCompetence') competences;
 
-  @computed('competences')
   get sortedCompetences() {
     return this.competences.sortBy('index');
   }

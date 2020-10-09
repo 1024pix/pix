@@ -1,5 +1,3 @@
-import { notEmpty } from '@ember/object/computed';
-import { computed } from '@ember/object';
 import Model, { belongsTo, attr } from '@ember-data/model';
 
 const DASH = '\u2013';
@@ -21,10 +19,15 @@ export default class Student extends Model {
   @attr('string') studentNumber;
   @attr('boolean') isAuthenticatedFromGar;
   @belongsTo('organization') organization;
-  @notEmpty('username') hasUsername;
-  @notEmpty('email') hasEmail;
 
-  @computed('hasUsername', 'hasEmail', 'isAuthenticatedFromGar')
+  get hasUsername() {
+    return Boolean(this.username);
+  }
+
+  get hasEmail() {
+    return Boolean(this.email);
+  }
+
   get authenticationMethods() {
     const messages = [];
 
@@ -36,12 +39,10 @@ export default class Student extends Model {
     return messages.length > 0 ? messages.join(SPACING_CHARACTER) : '';
   }
 
-  @computed('hasUsername', 'hasEmail', 'isAuthenticatedFromGar')
   get isStudentAssociated() {
     return Boolean(this.hasEmail || this.hasUsername || this.isAuthenticatedFromGar);
   }
 
-  @computed('hasUsername', 'hasEmail', 'isAuthenticatedFromGar')
   get isAuthenticatedWithGarOnly() {
     return Boolean(!this.hasEmail && !this.hasUsername && this.isAuthenticatedFromGar);
   }

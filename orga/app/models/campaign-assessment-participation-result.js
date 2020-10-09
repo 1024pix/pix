@@ -1,17 +1,16 @@
 import DS from 'ember-data';
 const { Model, attr, hasMany, belongsTo } = DS;
-import { computed } from '@ember/object';
-import { mapBy, max } from '@ember/object/computed';
+import maxBy from 'lodash/maxBy';
 
 export default class CampaignAssessmentParticipationResult extends Model {
   @attr('number') campaignId;
   @belongsTo('campaignAssessmentParticipation') campaignAssessmentParticipation;
   @hasMany('campaignAssessmentParticipationCompetenceResult') competenceResults;
 
-  @mapBy('competenceResults', 'targetedSkillsCount') totalSkillsCountByCompetence;
-  @max('totalSkillsCountByCompetence') maxTotalSkillsCount;
+  get maxTotalSkillsCount() {
+    return maxBy(this.competenceResults.toArray(), 'targetedSkillsCount').targetedSkillsCount;
+  }
 
-  @computed('competenceResults')
   get sortedCompetenceResults() {
     return this.competenceResults.sortBy('index');
   }

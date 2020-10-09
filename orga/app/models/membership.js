@@ -1,6 +1,4 @@
 import DS from 'ember-data';
-import { computed } from '@ember/object';
-import { equal } from '@ember/object/computed';
 const { belongsTo, Model, attr } = DS;
 
 const organizationRoleToDisplayRole = {
@@ -13,9 +11,10 @@ export default class Membership extends Model {
   @belongsTo('organization') organization;
   @attr('string') organizationRole;
 
-  @equal('organizationRole', 'ADMIN') isAdmin;
+  get isAdmin() {
+    return this.organizationRole === 'ADMIN';
+  }
 
-  @computed('organizationRole')
   get displayRole() {
     return organizationRoleToDisplayRole[this.organizationRole];
   }

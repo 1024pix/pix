@@ -279,8 +279,11 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
     module('when user is admin in organization', (hooks) => {
 
       hooks.beforeEach(function() {
+        class CurrentUserStub extends Service {
+          isAdminInOrganization = true;
+        }
+        this.owner.register('service:current-user',  CurrentUserStub);
         this.set('importStudentsSpy', () => {});
-        this.owner.register('service:current-user', Service.extend({ isAdminInOrganization: true }));
         return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
       });
 
@@ -300,7 +303,10 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
     module('when user is not admin in organization', (hooks) => {
 
       hooks.beforeEach(function() {
-        this.owner.register('service:current-user', Service.extend({ isAdminInOrganization: false }));
+        class CurrentUserStub extends Service {
+          isAdminInOrganization = false;
+        }
+        this.owner.register('service:current-user',  CurrentUserStub);
         return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
       });
 

@@ -100,8 +100,8 @@ module('Integration | Component | manage-authentication-method-modal', function(
       let generatedPassword;
 
       hooks.beforeEach(function() {
-        const storeStub = Service.extend({
-          createRecord: () => {
+        class StoreStub extends Service {
+          createRecord() {
             generatedPassword = faker.internet.password();
             return EmberObject.create({
               save() {
@@ -109,10 +109,10 @@ module('Integration | Component | manage-authentication-method-modal', function(
               },
               generatedPassword,
             });
-          },
-        });
+          }
+        }
         this.owner.unregister('service:store');
-        this.owner.register('service:store', storeStub);
+        this.owner.register('service:store', StoreStub);
       });
 
       test('should display unique password input when reset password button is clicked', async function(assert) {
