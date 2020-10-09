@@ -17,6 +17,7 @@ describe('Unit | UseCase | update-organization-information', () => {
       isManagingStudents: true,
       canCollectProfiles: true,
       email: null,
+      credit: null,
     });
     organizationRepository = {
       get: sinon.stub().resolves(originalOrganization),
@@ -168,6 +169,21 @@ describe('Unit | UseCase | update-organization-information', () => {
 
       // then
       expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, email: newEmail });
+    });
+
+    it('should allow to update the organization credit', async () => {
+      // given
+      const newCredit = 100;
+
+      // when
+      await updateOrganizationInformation({
+        id: originalOrganization.id,
+        credit: newCredit,
+        organizationRepository,
+      });
+
+      // then
+      expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, credit: newCredit });
     });
   });
 

@@ -51,6 +51,7 @@ describe('Integration | Application | Organizations | organization-controller', 
           'external-id': '02A2145V',
           'province-code': '02A',
           'email': 'sco.generic.newaccount@example.net',
+          'credit': 10,
         },
       },
     };

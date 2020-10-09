@@ -180,6 +180,7 @@ describe('Acceptance | Application | organization-controller', () => {
             'external-id': '0446758F',
             'province-code': '044',
             'email': 'sco.generic.newaccount@example.net',
+            'credit': 50,
             'can-collect-profiles': 'true',
           },
         },
@@ -208,6 +209,8 @@ describe('Acceptance | Application | organization-controller', () => {
       expect(response.result.data.attributes['external-id']).to.equal('0446758F');
       expect(response.result.data.attributes['province-code']).to.equal('044');
       expect(response.result.data.attributes['can-collect-profiles']).to.equal('true');
+      expect(response.result.data.attributes['email']).to.equal('sco.generic.newaccount@example.net');
+      expect(response.result.data.attributes['credit']).to.equal(50);
       expect(parseInt(response.result.data.id)).to.equal(organization.id);
     });
 
