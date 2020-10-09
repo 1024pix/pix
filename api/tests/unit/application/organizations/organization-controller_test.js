@@ -496,11 +496,13 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     const connectedUserId = 1;
     const organizationId = 145;
     const buffer = null;
+    const format = 'xml';
 
     beforeEach(() => {
       request = {
         auth: { credentials: { userId: connectedUserId } },
         params: { id: organizationId.toString() },
+        query: { format },
         payload: buffer,
       };
 
@@ -513,10 +515,10 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       usecases.importSchoolingRegistrationsFromSIECLE.resolves();
 
       // when
-      await organizationController.importSchoolingRegistrationsFromSIECLE(request);
+      await organizationController.importSchoolingRegistrationsFromSIECLE(request, hFake);
 
       // then
-      expect(usecases.importSchoolingRegistrationsFromSIECLE).to.have.been.calledWith({ organizationId, buffer });
+      expect(usecases.importSchoolingRegistrationsFromSIECLE).to.have.been.calledWith({ organizationId, buffer, format });
     });
   });
 
