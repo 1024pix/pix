@@ -112,6 +112,7 @@ buildLearningContent.fromTargetProfileWithLearningContent = function buildLearni
               tube: [tube.id],
               compétenceViaTube: [competence.id],
               nom: skill.name,
+              comprendre: skill.tutorialIds,
             },
           );
         });

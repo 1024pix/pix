@@ -1,78 +1,70 @@
 const CampaignTubeRecommendation = require('../../../../lib/domain/models/CampaignTubeRecommendation');
-const { expect } = require('../../../test-helper');
+const { expect, domainBuilder } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | CampaignTubeRecommendation', () => {
 
   describe('tube Info', () => {
     it('sets information about tube', () => {
-      const competence = { id: 1, name: 'name', area: { color: 'black' } };
-      const tube = { id: 12, competenceId: 1, practicalTitle: 'TubeName' };
-      const skills = [{ id: 1, difficulty: 1, tubeId: 1 }];
-
+      const tube = domainBuilder.buildTargetedTube({ id: 'recTubeId', competenceId: 'recCompetenceId', practicalTitle: 'TubeName' });
+      const competence = domainBuilder.buildTargetedCompetence({ id: 'recCompetenceId', areaId: 'recAreaId', tubes: [tube] });
+      const area = domainBuilder.buildTargetedArea({ id: 'recAreaId', competences: [competence] });
       const validatedKnowledgeElements = [];
 
-      const campaignTubeRecommendation = new CampaignTubeRecommendation({ competence, tube, skills, validatedKnowledgeElements });
+      const campaignTubeRecommendation = new CampaignTubeRecommendation({ area, competence, tube, validatedKnowledgeElements });
 
-      expect(campaignTubeRecommendation.tubeId).to.equal(12);
+      expect(campaignTubeRecommendation.tubeId).to.equal('recTubeId');
       expect(campaignTubeRecommendation.tubePracticalTitle).to.equal('TubeName');
     });
   });
 
   describe('competence info', () => {
     it('sets information about competence', () => {
-      const competence = { id: 3, name: 'CompetenceName', area: { color: 'Blue' } };
-      const tube = { id: 1, competenceId: 1, practicalTitle: 'TubeName' };
-      const skills = [{ id: 1, difficulty: 1, tubeId: 1 }];
-
+      const tube = domainBuilder.buildTargetedTube({ id: 'recTubeId', competenceId: 'recCompetenceId', practicalTitle: 'TubeName' });
+      const competence = domainBuilder.buildTargetedCompetence({ name: 'CompetenceName', id: 'recCompetenceId', areaId: 'recAreaId', tubes: [tube] });
+      const area = domainBuilder.buildTargetedArea({ id: 'recAreaId', competences: [competence] });
       const validatedKnowledgeElements = [];
 
-      const campaignTubeRecommendation = new CampaignTubeRecommendation({ competence, tube, skills, validatedKnowledgeElements });
+      const campaignTubeRecommendation = new CampaignTubeRecommendation({ area, competence, tube, validatedKnowledgeElements });
 
-      expect(campaignTubeRecommendation.competenceId).to.equal(3);
+      expect(campaignTubeRecommendation.competenceId).to.equal('recCompetenceId');
       expect(campaignTubeRecommendation.competenceName).to.equal('CompetenceName');
     });
   });
 
   describe('@id', () => {
-
     it('should return a unique identifier that is the concatenation of "campaignId" and "tubeId"', () => {
       // given
-      const competence = { id: 1, name: 'name', area: { color: 'black' } };
-      const tube = { id: 'recTube', competenceId: 1, practicalTitle: 'tube' };
-      const skills = [{ id: 1, difficulty: 1, tubeId: 1 }];
+      const tube = domainBuilder.buildTargetedTube({ id: 'recTubeId', competenceId: 'recCompetenceId', practicalTitle: 'TubeName' });
+      const competence = domainBuilder.buildTargetedCompetence({ name: 'CompetenceName', id: 'recCompetenceId', areaId: 'recAreaId', tubes: [tube] });
+      const area = domainBuilder.buildTargetedArea({ id: 'recAreaId', competences: [competence] });
       const validatedKnowledgeElements = [];
-      const campaignId = 123;
-      const campaignTubeRecommendation = new CampaignTubeRecommendation({ campaignId, competence, tube, skills, validatedKnowledgeElements });
+      const campaignTubeRecommendation = new CampaignTubeRecommendation({ campaignId: 123, area, competence, tube, validatedKnowledgeElements });
 
       // when
       const campaignTubeRecommendationId = campaignTubeRecommendation.id;
 
       // then
-      expect(campaignTubeRecommendationId).to.equal('123_recTube');
+      expect(campaignTubeRecommendationId).to.equal('123_recTubeId');
     });
   });
 
   describe('averageScore', () => {
     it('computes the average recommendation of participants', () => {
-      const competence = { id: 1, name: 'name', area: { color: 'black' } };
-      const tube = { id: 1, competenceId: 1, practicalTitle: 'tube' };
+      const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', name: '@difficulty1', tubeId: 'recTubeId' });
+      const skill2 = domainBuilder.buildTargetedSkill({ id: 'recSkill2', name: '@difficulty2', tubeId: 'recTubeId' });
+      const tube = domainBuilder.buildTargetedTube({ id: 'recTubeId', competenceId: 'recCompetenceId', practicalTitle: 'TubeName', skills: [skill1, skill2] });
+      const competence = domainBuilder.buildTargetedCompetence({ name: 'CompetenceName', id: 'recCompetenceId', areaId: 'recAreaId', tubes: [tube] });
+      const area = domainBuilder.buildTargetedArea({ id: 'recAreaId', competences: [competence], color: 'black' });
       const participantsCount = 2;
-
-      const skills = [
-        { id: 1, difficulty: 1 },
-        { id: 2, difficulty: 2 },
-      ];
-
       const validatedKnowledgeElements = [
-        { skillId: 1, userId: 1 },
-        { skillId: 1, userId: 2 },
-        { skillId: 2, userId: 2 },
+        { skillId: 'recSkill1', userId: 1 },
+        { skillId: 'recSkill1', userId: 2 },
+        { skillId: 'recSkill2', userId: 2 },
       ];
-
       const maxSkillLevelInTargetProfile = 2;
 
       const campaignTubeRecommendation = new CampaignTubeRecommendation({
-        skills,
+        area,
         validatedKnowledgeElements,
         participantsCount,
         maxSkillLevelInTargetProfile,
@@ -84,23 +76,20 @@ describe('Unit | Domain | Models | CampaignTubeRecommendation', () => {
     });
 
     it('computes average recommendation when some participants does not have knowledge element', () => {
-      const competence = { id: 1, name: 'name', area: { color: 'black' } };
-      const tube = { id: 1, competenceId: 1, practicalTitle: 'tube' };
+      const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', name: '@difficulty1', tubeId: 'recTubeId' });
+      const skill2 = domainBuilder.buildTargetedSkill({ id: 'recSkill2', name: '@difficulty2', tubeId: 'recTubeId' });
+      const tube = domainBuilder.buildTargetedTube({ id: 'recTubeId', competenceId: 'recCompetenceId', practicalTitle: 'TubeName', skills: [skill1, skill2] });
+      const competence = domainBuilder.buildTargetedCompetence({ name: 'CompetenceName', id: 'recCompetenceId', areaId: 'recAreaId', tubes: [tube] });
+      const area = domainBuilder.buildTargetedArea({ id: 'recAreaId', competences: [competence], color: 'black' });
       const participantsCount = 2;
-
-      const skills = [
-        { id: 1, difficulty: 1 },
-        { id: 2, difficulty: 2 },
-      ];
-
       const validatedKnowledgeElements = [
-        { skillId: 1, userId: 1 },
+        { skillId: 'recSkill1', userId: 1 },
       ];
 
       const maxSkillLevelInTargetProfile = 2;
 
       const campaignTubeRecommendation = new CampaignTubeRecommendation({
-        skills,
+        area,
         validatedKnowledgeElements,
         participantsCount,
         maxSkillLevelInTargetProfile,
@@ -112,19 +101,16 @@ describe('Unit | Domain | Models | CampaignTubeRecommendation', () => {
     });
 
     it('returns null when there is no participant', () => {
-      const competence = { id: 1, name: 'name', area: { color: 'black' } };
-      const tube = { id: 1, competenceId: 1, practicalTitle: 'tube' };
+      const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', name: '@difficulty1', tubeId: 'recTubeId' });
+      const skill2 = domainBuilder.buildTargetedSkill({ id: 'recSkill2', name: '@difficulty2', tubeId: 'recTubeId' });
+      const tube = domainBuilder.buildTargetedTube({ id: 'recTubeId', competenceId: 'recCompetenceId', practicalTitle: 'TubeName', skills: [skill1, skill2] });
+      const competence = domainBuilder.buildTargetedCompetence({ name: 'CompetenceName', id: 'recCompetenceId', areaId: 'recAreaId', tubes: [tube] });
+      const area = domainBuilder.buildTargetedArea({ id: 'recAreaId', competences: [competence], color: 'black' });
+      const maxSkillLevelInTargetProfile = 2;
       const participantsCount = 0;
 
-      const skills = [
-        { id: 1, difficulty: 1 },
-        { id: 2, difficulty: 2 },
-      ];
-
-      const maxSkillLevelInTargetProfile = 2;
-
       const campaignTubeRecommendation = new CampaignTubeRecommendation({
-        skills,
+        area,
         participantsCount,
         validatedKnowledgeElements: [],
         maxSkillLevelInTargetProfile,
@@ -135,20 +121,16 @@ describe('Unit | Domain | Models | CampaignTubeRecommendation', () => {
       expect(campaignTubeRecommendation.averageScore).to.equal(null);
     });
 
-    it('returns the difficulty score when there are participant but no knowledge elements', () => {
-      const competence = { id: 1, name: 'name', area: { color: 'black' } };
-      const tube = { id: 1, competenceId: 1, practicalTitle: 'tube' };
+    it('returns the difficulty score when there are participant but no knowledge elements', () => {      const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', name: '@difficulty1', tubeId: 'recTubeId' });
+      const skill2 = domainBuilder.buildTargetedSkill({ id: 'recSkill2', name: '@difficulty2', tubeId: 'recTubeId' });
+      const tube = domainBuilder.buildTargetedTube({ id: 'recTubeId', competenceId: 'recCompetenceId', practicalTitle: 'TubeName', skills: [skill1, skill2] });
+      const competence = domainBuilder.buildTargetedCompetence({ name: 'CompetenceName', id: 'recCompetenceId', areaId: 'recAreaId', tubes: [tube] });
+      const area = domainBuilder.buildTargetedArea({ id: 'recAreaId', competences: [competence], color: 'black' });
+      const maxSkillLevelInTargetProfile = 4;
       const participantsCount = 2;
 
-      const skills = [
-        { id: 1, difficulty: 1 },
-        { id: 2, difficulty: 2 },
-      ];
-
-      const maxSkillLevelInTargetProfile = 4;
-
       const campaignTubeRecommendation = new CampaignTubeRecommendation({
-        skills,
+        area,
         participantsCount,
         validatedKnowledgeElements: [],
         maxSkillLevelInTargetProfile,
