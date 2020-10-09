@@ -414,33 +414,13 @@
     "comparison-window": {
       "upcoming-tutorials": "Bientôt ici des tutoriels pour vous aider à réussir ce type d'épreuves !!",
       "results": {
-        "ok": {
-          "title": "Vous avez la bonne réponse !",
-          "tooltip": "Réponse correcte"
-        },
-        "ko": {
-          "title": "Vous n’avez pas la bonne réponse",
-          "tooltip": "Réponse incorrecte"
+        "a11y": {
+          "the-answer-was": "La bonne réponse était",
+          "given-answer": "réponse donnée"
         },
         "aband": {
           "title": "Vous n’avez pas donné de réponse",
           "tooltip": "Sans réponse"
-        },
-        "partially": {
-          "title": "Vous avez donné une réponse partielle",
-          "tooltip": "Réponse partielle"
-        },
-        "timedout": {
-          "title": "Vous avez dépassé le temps imparti",
-          "tooltip": "Temps dépassé"
-        },
-        "okAutoReply": {
-          "title": "Vous avez réussi l’épreuve",
-          "tooltip": "Épreuve réussie"
-        },
-        "koAutoReply": {
-          "title": "Vous n’avez pas réussi l’épreuve",
-          "tooltip": "Épreuve non réussie"
         },
         "abandAutoReply": {
           "title": "Vous avez passé l’épreuve",
@@ -449,6 +429,30 @@
         "default": {
           "title": "",
           "tooltip": "Correction automatique en cours de développement ;)"
+        },
+        "ko": {
+          "title": "Vous n’avez pas la bonne réponse",
+          "tooltip": "Réponse incorrecte"
+        },
+        "koAutoReply": {
+          "title": "Vous n’avez pas réussi l’épreuve",
+          "tooltip": "Épreuve non réussie"
+        },
+        "ok": {
+          "title": "Vous avez la bonne réponse !",
+          "tooltip": "Réponse correcte"
+        },
+        "okAutoReply": {
+          "title": "Vous avez réussi l’épreuve",
+          "tooltip": "Épreuve réussie"
+        },
+        "partially": {
+          "title": "Vous avez donné une réponse partielle",
+          "tooltip": "Réponse partielle"
+        },
+        "timedout": {
+          "title": "Vous avez dépassé le temps imparti",
+          "tooltip": "Temps dépassé"
         }
       }
     },

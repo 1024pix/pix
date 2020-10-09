@@ -192,7 +192,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         expect(find('.comparison-window__title-text').textContent.trim()).to.equal('Vous n’avez pas la bonne réponse');
         expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qrocChallenge.instruction);
 
-        const goodAnswer = find('.correction-qroc-box__solution');
+        const goodAnswer = find('.correction-qroc-box__solution-text');
         const badAnswerFromUserResult = find('.correction-qroc-box-answer');
         expect(goodAnswer.textContent.trim()).to.equal('Mangue');
         expect(badAnswerFromUserResult.className).contains('correction-qroc-box-answer--wrong');
@@ -367,7 +367,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         expect(find('.comparison-window__title-text').textContent.trim()).to.equal('Vous n’avez pas la bonne réponse');
         expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qrocChallenge.instruction);
 
-        const goodAnswer = find('.correction-qroc-box__solution');
+        const goodAnswer = find('.correction-qroc-box__solution-text');
         const badAnswerFromUserResult = find('.correction-qroc-box-answer');
         expect(goodAnswer.textContent.trim()).to.equal('Mangue');
         expect(badAnswerFromUserResult.className).contains('correction-qroc-box-answer--wrong');

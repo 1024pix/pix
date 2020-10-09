@@ -1,9 +1,9 @@
 <PixModal @class="comparison-window-modal" @onClose={{@closeComparisonWindow}}>
 
-  <div class="pix-modal__close-link" aria-label={{t "common.actions.close"}} {{action (action @closeComparisonWindow)}}>
+  <button type="button" class="pix-modal__close-link" aria-label={{t "common.actions.close"}} {{on "click" @closeComparisonWindow}}>
     <span>{{t "common.actions.close"}}</span>
-    <FaIcon @icon="times-circle" class="logged-user-menu__icon"></FaIcon>
-  </div>
+    <FaIcon @icon="times-circle" class="logged-user-menu__icon" aria-hidden="true"></FaIcon>
+  </button>
 
   <div class="pix-modal__container comparison-window">
 
@@ -15,7 +15,7 @@
                alt={{t this.resultItem.tooltip}}>
         </div>
       </div>
-      <div class="comparison-window__title-text">{{t this.resultItem.title}}</div>
+      <h3 class="comparison-window__title-text">{{t this.resultItem.title}}</h3>
     </div>
 
     <div class="comparison-window--content">
@@ -91,4 +91,10 @@
       </div>
     </div>
   </div>
+
+  <button type="button" class="pix-modal__close-link" aria-label={{t "common.actions.close"}} {{on "click" @closeComparisonWindow}}>
+    <span>{{t "common.actions.close"}}</span>
+    <FaIcon @icon="times-circle" class="logged-user-menu__icon" aria-hidden="true"></FaIcon>
+  </button>
+
 </PixModal>
