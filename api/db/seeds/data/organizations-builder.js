@@ -207,6 +207,22 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     organizationId: 3,
   });
 
+  databaseBuilder.factory.buildSchoolingRegistration({
+    userId: null,
+    firstName: 'USER1',
+    lastName: 'USER1',
+    birthdate: '2001-01-01',
+    organizationId: 3,
+  });
+
+  databaseBuilder.factory.buildSchoolingRegistration({
+    userId: null,
+    firstName: 'USER1234',
+    lastName: 'USER1234',
+    birthdate: '2001-01-01',
+    organizationId: 3,
+  });
+
   // Type: SCO
 
   // id=5 is already used in dragon-and-co-builder
