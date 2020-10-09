@@ -1,4 +1,4 @@
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
@@ -11,7 +11,6 @@ export default class UserLoggedMenu extends Component {
 
   @tracked isMenuOpen = false;
 
-  @computed('currentUser.organization.name')
   get organizationNameAndExternalId() {
     const organization = this.currentUser.organization;
     if (organization.externalId) {
@@ -20,7 +19,6 @@ export default class UserLoggedMenu extends Component {
     return organization.name;
   }
 
-  @computed('currentUser.organization')
   get eligibleOrganizations() {
     const memberships = this.currentUser.memberships;
     if (!memberships) {

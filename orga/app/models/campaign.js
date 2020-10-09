@@ -1,6 +1,4 @@
 import DS from 'ember-data';
-import { computed } from '@ember/object';
-import { equal } from '@ember/object/computed';
 import ENV from 'pix-orga/config/environment';
 const { Model, attr, belongsTo } = DS;
 
@@ -58,18 +56,18 @@ export default class Campaign extends Model {
   @belongsTo('campaign-analysis')
   campaignAnalysis;
 
-  @equal('type', 'PROFILES_COLLECTION')
-  isTypeProfilesCollection;
+  get isTypeProfilesCollection() {
+    return this.type === 'PROFILES_COLLECTION';
+  }
 
-  @equal('type', 'ASSESSMENT')
-  isTypeAssessment;
+  get isTypeAssessment() {
+    return this.type === 'ASSESSMENT';
+  }
 
-  @computed('isTypeProfilesCollection')
   get readableType() {
     return this.isTypeProfilesCollection ? PROFILES_COLLECTION_TEXT : ASSESSMENT_TEXT;
   }
 
-  @computed('id', 'tokenForCampaignResults')
   get urlToResult() {
     if (this.isTypeAssessment) {
       return `${ENV.APP.API_HOST}/api/campaigns/${this.id}/csv-assessment-results?accessToken=${this.tokenForCampaignResults}`;
@@ -77,7 +75,6 @@ export default class Campaign extends Model {
     return `${ENV.APP.API_HOST}/api/campaigns/${this.id}/csv-profiles-collection-results?accessToken=${this.tokenForCampaignResults}`;
   }
 
-  @computed('archivedAt')
   get isArchived() {
     return Boolean(this.archivedAt);
   }

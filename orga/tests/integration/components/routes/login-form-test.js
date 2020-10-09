@@ -14,15 +14,13 @@ const errorMessages = {
 module('Integration | Component | routes/login-form', function(hooks) {
   setupRenderingTest(hooks);
 
-  let sessionStub;
-  let storeStub;
+  class SessionStub extends Service {}
+  class StoreStub extends Service {}
 
   hooks.beforeEach(function() {
-    sessionStub = Service.extend({});
-    storeStub = Service.extend({});
-    this.owner.register('service:session', sessionStub);
+    this.owner.register('service:session', SessionStub);
     this.owner.unregister('service:store');
-    this.owner.register('service:store', storeStub);
+    this.owner.register('service:store', StoreStub);
   });
 
   test('it should ask for email and password', async function(assert) {
@@ -45,7 +43,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
   module('When there is no invitation', function(hooks) {
 
     hooks.beforeEach(function() {
-      sessionStub.prototype.authenticate = function(authenticator, email, password, scope) {
+      SessionStub.prototype.authenticate = function(authenticator, email, password, scope) {
         this.authenticator = authenticator;
         this.email = email;
         this.password = password;
@@ -76,14 +74,14 @@ module('Integration | Component | routes/login-form', function(hooks) {
   module('When there is an invitation', function(hooks) {
 
     hooks.beforeEach(function() {
-      storeStub.prototype.createRecord = () => {
+      StoreStub.prototype.createRecord = () => {
         return EmberObject.create({
           save() {
             return resolve();
           },
         });
       };
-      sessionStub.prototype.authenticate = function(authenticator, email, password, scope) {
+      SessionStub.prototype.authenticate = function(authenticator, email, password, scope) {
         this.authenticator = authenticator;
         this.email = email;
         this.password = password;
@@ -118,7 +116,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
       'errors': [{ 'status': '401', 'title': 'Unauthorized', 'detail': errorMessages.INVALID_CREDENTIEL_MSG }],
     };
 
-    sessionStub.prototype.authenticate = () => reject(msgErrorInvalidCredentiel);
+    SessionStub.prototype.authenticate = () => reject(msgErrorInvalidCredentiel);
 
     await render(hbs`<Routes::LoginForm/>`);
     await fillIn('#login-email', 'pix@example.net');
@@ -139,7 +137,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
       'errors': [{ 'status': '403', 'title': 'Unauthorized', 'detail': errorMessages.NOT_LINKED_ORGANIZATION_MSG }],
     };
 
-    sessionStub.prototype.authenticate = () => reject(msgErrorNotLinkedOrganization);
+    SessionStub.prototype.authenticate = () => reject(msgErrorNotLinkedOrganization);
 
     await render(hbs`<Routes::LoginForm/>`);
     await fillIn('#login-email', 'pix@example.net');
