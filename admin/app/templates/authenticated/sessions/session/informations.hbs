@@ -1,86 +1,86 @@
 <div class="session-info">
 
   <div class="session-info__certification-officer-assigned">
-    <span>{{this.session.assignedCertificationOfficer.fullName}}</span>
+    <span>{{this.sessionModel.assignedCertificationOfficer.fullName}}</span>
   </div>
 
   <div class="session-info__details">
     <div class="row">
       <div class="col">Centre :</div>
-      <div class="col">{{this.session.certificationCenterName}}</div>
+      <div class="col">{{this.sessionModel.certificationCenterName}}</div>
     </div>
     <div class="row">
       <div class="col">Adresse :</div>
-      <div class="col">{{this.session.address}}</div>
+      <div class="col">{{this.sessionModel.address}}</div>
     </div>
     <div class="row">
       <div class="col">Pièce :</div>
-       <div class="col">{{this.session.room}}</div>
+      <div class="col">{{this.sessionModel.room}}</div>
     </div>
     <div class="row">
       <div class="col">Surveillant :</div>
-      <div class="col">{{this.session.examiner}}</div>
+      <div class="col">{{this.sessionModel.examiner}}</div>
     </div>
     <div class="row">
       <div class="col">Date :</div>
-      <div class="col">{{this.session.displayDate}}</div>
+      <div class="col">{{this.sessionModel.displayDate}}</div>
     </div>
     <div class="row">
       <div class="col">Heure :</div>
-      <div class="col">{{this.session.time}}</div>
+      <div class="col">{{this.sessionModel.time}}</div>
     </div>
     <div class="row">
       <div class="col">Description :</div>
-      <div class="col">{{this.session.description}}</div>
+      <div class="col">{{this.sessionModel.description}}</div>
     </div>
     <div class="row">
       <div class="col">Code d'accès :</div>
-      <div class="col">{{this.session.accessCode}}</div>
+      <div class="col">{{this.sessionModel.accessCode}}</div>
     </div>
     <div class="row">
       <div class="col">Statut :</div>
-      <div class="col">{{this.session.displayStatus}}</div>
+      <div class="col">{{this.sessionModel.displayStatus}}</div>
     </div>
 
-    {{#if this.session.finalizedAt}}
+    {{#if this.sessionModel.finalizedAt}}
       <div class="row">
         <div class="col">Date de finalisation :</div>
-        <div class="col" data-test-id="session-info__finalized-at">{{this.session.displayFinalizationDate}}</div>
+        <div class="col" data-test-id="session-info__finalized-at">{{this.sessionModel.displayFinalizationDate}}</div>
       </div>
     {{/if}}
-    {{#if this.session.publishedAt}}
+    {{#if this.sessionModel.publishedAt}}
       <div class="row">
         <div class="col">Date de publication :</div>
-        <div class="col" data-test-id="session-info__published-at">{{this.session.displayPublishedAtDate}}</div>
+        <div class="col" data-test-id="session-info__published-at">{{this.sessionModel.displayPublishedAtDate}}</div>
       </div>
     {{/if}}
-    {{#if this.session.resultsSentToPrescriberAt}}
+    {{#if this.sessionModel.resultsSentToPrescriberAt}}
       <div class="row">
         <div class="col">Date d'envoi des résultats au prescripteur :</div>
-        <div class="col" data-test-id="session-info__sent-to-prescriber-at">{{this.session.displayResultsSentToPrescriberDate}}</div>
+        <div class="col" data-test-id="session-info__sent-to-prescriber-at">{{this.sessionModel.displayResultsSentToPrescriberDate}}</div>
       </div>
     {{/if}}
   </div>
 
 
-  {{#if this.session.finalizedAt}}
+  {{#if this.sessionModel.finalizedAt}}
   <div class="session-info__stats">
     <div class="row">
       <div class="col">Nombre de signalements :</div>
-      <div class="col" data-test-id="session-info__number-of-report">{{this.session.countExaminerComment}}</div>
+      <div class="col" data-test-id="session-info__number-of-report">{{this.sessionModel.countExaminerComment}}</div>
     </div>
     <div class="row">
       <div class="col">Nombre d'écrans de fin de test non renseignés :</div>
-      <div class="col" data-test-id="session-info__number-of-not-checked-end-screen">{{this.session.countNotCheckedEndScreen}}</div>
+      <div class="col" data-test-id="session-info__number-of-not-checked-end-screen">{{this.sessionModel.countNotCheckedEndScreen}}</div>
     </div>
     <div class="row">
       <div class="col">Nombre de certifications non terminées :</div>
-      <div class="col" data-test-id="session-info__number-of-not-ended-certifications">{{this.session.countNonValidatedCertifications}}</div>
+      <div class="col" data-test-id="session-info__number-of-not-ended-certifications">{{this.sessionModel.countNonValidatedCertifications}}</div>
     </div>
-    {{#if this.session.hasExaminerGlobalComment}}
+    {{#if this.sessionModel.hasExaminerGlobalComment}}
     <div class="row">
       <div class="col">Commentaire global :</div>
-      <div class="col" data-test-id="session-info__examiner-global-comment">{{this.session.examinerGlobalComment}}</div>
+      <div class="col" data-test-id="session-info__examiner-global-comment">{{this.sessionModel.examinerGlobalComment}}</div>
     </div>
     {{/if}}
   </div>
@@ -89,7 +89,7 @@
   <div class="session-info__actions">
     <div class="row row--btn">
 
-      {{#if this.session.finalizedAt}}
+      {{#if this.sessionModel.finalizedAt}}
         {{#if this.isCurrentUserAssignedToSession}}
           <button type="button" class="btn btn-primary btn-disabled">
             Vous êtes assigné à cette session
@@ -109,7 +109,7 @@
         Exporter les résultats
       </button>
 
-      {{#if this.session.areResultsToBeSentToPrescriber}}
+      {{#if this.sessionModel.areResultsToBeSentToPrescriber}}
         <button type="button" class="btn btn-primary" {{on 'click' this.tagSessionAsSentToPrescriber}}>
           Résultats transmis au prescripteur
         </button>
@@ -129,7 +129,7 @@
       <span role="button" {{on 'click' this.cancelAssignment}}>×</span>
     </div>
     <p>
-      L'utilisateur {{this.session.assignedCertificationOfficer.fullName}} s'est déjà assigné cette session.
+      L'utilisateur {{this.sessionModel.assignedCertificationOfficer.fullName}} s'est déjà assigné cette session.
       <br>
       Voulez-vous vous quand même vous assigner cette session ?
     </p>

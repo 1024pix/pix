@@ -11,34 +11,42 @@ export default class IndexController extends Controller {
   @service notifications;
   @service currentUser;
   @service notifications;
+  @service fileSaver;
+  @service session;
 
-  @alias('model') session;
+  @alias('model') sessionModel;
 
   @tracked isShowingAssignmentModal = false;
 
-  @computed('session.status')
+  @computed('sessionModel.status')
   get sessionStatusLabel() {
-    return statusToDisplayName[this.session.status];
+    return statusToDisplayName[this.sessionModel.status];
   }
 
-  @computed('currentUser.user', 'session.assignedCertificationOfficer.id')
+  @computed('currentUser.user', 'sessionModel.assignedCertificationOfficer.id')
   get isCurrentUserAssignedToSession() {
     const currentUserId = this.currentUser.user.get('id');
-    const assignedCertificationOfficerId = this.session.assignedCertificationOfficer.get('id');
+    const assignedCertificationOfficerId = this.sessionModel.assignedCertificationOfficer.get('id');
     return assignedCertificationOfficerId != null
       && currentUserId === assignedCertificationOfficerId;
   }
 
-  @computed('session.assignedCertificationOfficer.id')
+  @computed('sessionModel.assignedCertificationOfficer.id')
   get isAssigned() {
-    return this.session.assignedCertificationOfficer.get('id') ? true : false;
+    return this.sessionModel.assignedCertificationOfficer.get('id') ? true : false;
   }
 
   @action
   async downloadSessionResultFile() {
     try {
-      const certifications = await this._loadAllCertifications(this.session);
-      this.sessionInfoService.downloadSessionExportFile({ session: this.session, certifications });
+      const sessionId = this.sessionModel.id;
+      const url = `/api/admin/sessions/${sessionId}/results`;
+      const fileName = 'resultats-session.csv';
+      let token = '';
+      if (this.session.isAuthenticated) {
+        token = this.session.data.authenticated.access_token;
+      }
+      this.fileSaver.save({ url, fileName, token });
     } catch (error) {
       this.notifications.error(error);
     }
@@ -47,8 +55,8 @@ export default class IndexController extends Controller {
   @action
   async downloadBeforeJuryFile() {
     try {
-      const certifications = await this._loadAllCertifications(this.session);
-      this.sessionInfoService.downloadJuryFile({ sessionId: this.session.id, certifications });
+      const certifications = await this._loadAllCertifications(this.sessionModel);
+      this.sessionInfoService.downloadJuryFile({ sessionId: this.sessionModel.id, certifications });
     } catch (error) {
       this.notifications.error(error);
     }
@@ -56,7 +64,7 @@ export default class IndexController extends Controller {
 
   @action
   async tagSessionAsSentToPrescriber() {
-    await this.session.save({ adapterOptions: { flagResultsAsSentToPrescriber: true } });
+    await this.sessionModel.save({ adapterOptions: { flagResultsAsSentToPrescriber: true } });
   }
 
   @action
@@ -80,7 +88,7 @@ export default class IndexController extends Controller {
 
   async _assignSessionToCurrentUser() {
     try {
-      await this.session.save({ adapterOptions: { certificationOfficerAssignment: true } });
+      await this.sessionModel.save({ adapterOptions: { certificationOfficerAssignment: true } });
       this.notifications.success('La session vous a correctement été assignée');
     } catch (err) {
       this.notifications.error('Erreur lors de l\'assignation à la session');
