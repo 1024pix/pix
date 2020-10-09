@@ -24,8 +24,10 @@ $pix-modal-border-radius: 5px;
 
     .pix-modal__close-link {
       color: $white;
+      background: transparent;
+      border: none;
       text-align: right;
-      margin-bottom: 5px;
+      margin: 5px 0 5px auto;
       display: flex;
       justify-content: flex-end;
       align-items: center;

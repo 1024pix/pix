@@ -414,33 +414,13 @@
     "comparison-window": {
       "upcoming-tutorials": "You will soon find tutorials here to help you answer correctly to this type of question!!",
       "results": {
-        "ok": {
-          "title": "You got the right answer!",
-          "tooltip": "Correct answer"
-        },
-        "ko": {
-          "title": "That’s not the right answer",
-          "tooltip": "Incorrect answer"
+        "a11y": {
+          "the-answer-was": "The answer was",
+          "given-answer": "given answer"
         },
         "aband": {
           "title": "You did not answer",
           "tooltip": "No answer"
-        },
-        "partially": {
-          "title": "You gave an incomplete answer",
-          "tooltip": "Incomplete answer"
-        },
-        "timedout": {
-          "title": "You ran out of time",
-          "tooltip": "Out of time"
-        },
-        "okAutoReply": {
-          "title": "You correctly answered the question",
-          "tooltip": "Question answered correctly "
-        },
-        "koAutoReply": {
-          "title": "You did not correctly answer the question",
-          "tooltip": "Question answered incorrectly"
         },
         "abandAutoReply": {
           "title": "You have skipped the question",
@@ -449,6 +429,30 @@
         "default": {
           "title": "",
           "tooltip": "Auto-correct under development ;)"
+        },
+        "ko": {
+          "title": "That’s not the right answer",
+          "tooltip": "Incorrect answer"
+        },
+        "koAutoReply": {
+          "title": "You did not correctly answer the question",
+          "tooltip": "Question answered incorrectly"
+        },
+        "ok": {
+          "title": "You got the right answer!",
+          "tooltip": "Correct answer"
+        },
+        "okAutoReply": {
+          "title": "You correctly answered the question",
+          "tooltip": "Question answered correctly "
+        },
+        "partially": {
+          "title": "You gave an incomplete answer",
+          "tooltip": "Incomplete answer"
+        },
+        "timedout": {
+          "title": "You ran out of time",
+          "tooltip": "Out of time"
         }
       }
     },

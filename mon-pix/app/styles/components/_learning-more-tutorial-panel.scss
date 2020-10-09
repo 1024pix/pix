@@ -6,21 +6,6 @@
 }
 
 .learning-more-panel__container {
-  margin: 20px 0 40px;
-}
-
-.learning-more-panel__hint-title {
-  @include tutorial-panel-title(white);
-}
-
-.learning-more-panel__tutorial-info {
-  color: $grey-40;
-  font-size: 0.813rem;
-  line-height: 1.25rem;
-  margin: 5px;
-}
-
-.learning-more-panel__hint-container-header {
   margin: 25px 15px;
 
   @include device-is('desktop') {
@@ -28,10 +13,13 @@
   }
 }
 
-.learning-more-panel__list-container {
-  margin: 0 15px;
+.learning-more-panel__hint-title {
+  @include tutorial-panel-title(white);
+}
 
-  @include device-is('desktop') {
-    margin: 0 40px;
-  }
+.learning-more-panel__tutorial-info {
+  color: $grey-50;
+  font-size: 0.813rem;
+  line-height: 1.25rem;
+  margin: 5px;
 }

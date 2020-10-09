@@ -24,12 +24,12 @@
     </div>
 
 
-    <div class="rounded-panel rounded-panel--strong checkpoint__content">
+    <main class="rounded-panel rounded-panel--strong checkpoint__content">
       {{#if this.shouldDisplayAnswers}}
         <div class="rounded-panel-one-line-header">
-          <h1 class="rounded-panel-header-text__content rounded-panel-title rounded-panel-title--all-small-caps">
+          <h2 class="rounded-panel-header-text__content rounded-panel-title rounded-panel-title--all-small-caps">
             {{t 'pages.checkpoint.answers.header'}}
-          </h1>
+          </h2>
         </div>
 
         <div class="assessment-results__list">
@@ -49,7 +49,7 @@
           <CheckpointContinue @assessmentId={{@model.id}} @nextPageButtonText={{this.nextPageButtonText}} />
         </div>
       {{/if}}
-    </div>
+    </main>
   </div>
 
   {{#if this.isShowingModal}}

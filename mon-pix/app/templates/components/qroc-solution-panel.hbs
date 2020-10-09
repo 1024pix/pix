@@ -6,19 +6,19 @@
         <textarea class="correction-qroc-box-answer correction-qroc-box-answer--paragraph {{inputClass}}"
                   rows="5"
                   value="{{answerToDisplay}}"
-                  ariaLabel="réponse donnée"
+                  aria-label={{t 'pages.comparison-window.results.a11y.given-answer'}}
                   disabled>
         </textarea>
       {{else if (eq answer.challenge.format 'phrase')}}
         <input class="correction-qroc-box-answer correction-qroc-box-answer--sentence {{inputClass}}"
                value="{{answerToDisplay}}"
-               ariaLabel="réponse donnée"
+               aria-label={{t 'pages.comparison-window.results.a11y.given-answer'}}
                disabled>
       {{else}}
         <input class="correction-qroc-box-answer {{inputClass}}"
                size="{{get-qroc-input-size answer.challenge.format}}"
                value="{{answerToDisplay}}"
-               ariaLabel="réponse donnée"
+               aria-label={{t 'pages.comparison-window.results.a11y.given-answer'}}
                disabled>
       {{/if}}
     </div>
@@ -26,6 +26,7 @@
     {{#unless isResultOk}}
       <div class="correction-qroc-box__solution">
         <img class="correction-qroc-box__solution-img" src="/images/comparison-window/icon-arrow-right.svg" alt="" role="none">
+        <span class="sr-only">{{t 'pages.comparison-window.results.a11y.the-answer-was'}}</span>
         <div class="correction-qroc-box__solution-text">{{solutionToDisplay}}</div>
       </div>
     {{/unless}}
