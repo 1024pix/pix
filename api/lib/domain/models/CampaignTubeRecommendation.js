@@ -1,30 +1,27 @@
-const recommendationService = require('../services/recommendation-service');
-
 const _ = require('lodash');
+const recommendationService = require('../services/recommendation-service');
 
 class CampaignTubeRecommendation {
 
   constructor({
-    // attributes
     campaignId,
+    area,
     tube,
     competence,
-    skills,
     validatedKnowledgeElements,
     participantsCount,
     maxSkillLevelInTargetProfile,
     tutorials,
   } = {}) {
-    // attributes
     this.campaignId = campaignId;
     this.tubeId = tube.id;
     this.competenceId = competence.id;
     this.competenceName = competence.name;
     this.tubePracticalTitle = tube.practicalTitle;
-    this.areaColor = competence.area.color;
+    this.areaColor = area.color;
     this.averageScore = null;
     if (participantsCount) {
-      this.averageScore = this._computeAverageScore(validatedKnowledgeElements, skills, participantsCount, maxSkillLevelInTargetProfile);
+      this.averageScore = this._computeAverageScore(validatedKnowledgeElements, tube.skills, participantsCount, maxSkillLevelInTargetProfile);
     }
     this.tutorials = tutorials;
   }

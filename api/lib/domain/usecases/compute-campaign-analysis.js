@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const CampaignAnalysis = require('../models/CampaignAnalysis');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 
@@ -6,12 +5,10 @@ module.exports = async function computeCampaignAnalysis(
   {
     userId,
     campaignId,
-    campaignRepository,
-    competenceRepository,
-    targetProfileRepository,
-    tubeRepository,
-    knowledgeElementRepository,
     campaignParticipationRepository,
+    campaignRepository,
+    knowledgeElementRepository,
+    targetProfileWithLearningContentRepository,
     tutorialRepository,
   } = {}) {
 
@@ -21,23 +18,16 @@ module.exports = async function computeCampaignAnalysis(
     throw new UserNotAuthorizedToAccessEntity('User does not have access to this campaign');
   }
 
-  const [competences, tubes, tutorials, targetProfile, validatedKnowledgeElements, participantsCount] = await Promise.all([
-    competenceRepository.list(),
-    tubeRepository.list(),
+  const [tutorials, targetProfile, validatedKnowledgeElements, participantsCount] = await Promise.all([
     tutorialRepository.list(),
-    targetProfileRepository.getByCampaignId(campaignId),
+    targetProfileWithLearningContentRepository.getByCampaignId({ campaignId }),
     knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId),
     campaignParticipationRepository.countSharedParticipationOfCampaign(campaignId),
   ]);
 
-  const targetedTubeIds = _.map(targetProfile.skills, ({ tubeId }) => ({ id: tubeId }));
-  const targetedTubes = _.intersectionBy(tubes, targetedTubeIds, 'id');
-
   return new CampaignAnalysis({
     campaignId,
-    tubes: targetedTubes,
-    competences,
-    skills: targetProfile.skills,
+    targetProfile,
     validatedKnowledgeElements,
     participantsCount,
     tutorials,
