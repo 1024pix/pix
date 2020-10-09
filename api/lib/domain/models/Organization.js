@@ -59,6 +59,10 @@ class Organization {
   get isAgriculture() {
     return this.isSco && process.env['AGRICULTURE_ORGANIZATION_ID'] === this.id.toString();
   }
+
+  get isPoleEmploi() {
+    return process.env['POLE_EMPLOI_ORGANIZATION_ID'] === this.id.toString();
+  }
 }
 
 Organization.types = types;

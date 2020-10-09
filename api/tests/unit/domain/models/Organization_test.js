@@ -137,4 +137,30 @@ describe('Unit | Domain | Models | Organization', () => {
     });
   });
 
+  describe('get#isPoleEmploi', () => {
+    beforeEach(() => {
+      process.env['POLE_EMPLOI_ORGANIZATION_ID'] = '1';
+    });
+
+    afterEach(() => {
+      process.env['POLE_EMPLOI_ORGANIZATION_ID'] = null;
+    });
+
+    it('should return true when organization id match Environnement variable POLE_EMPLOI_ORGANIZATION_ID', () => {
+      // given
+      const organization = domainBuilder.buildOrganization({ id: '1' });
+
+      // when / then
+      expect(organization.isPoleEmploi).is.true;
+    });
+
+    it('should return false when when organization id doesnt match Environnement variable POLE_EMPLOI_ORGANIZATION_ID', () => {
+      // given
+      const organization = domainBuilder.buildOrganization({ id: '2' });
+
+      // when / then
+      expect(organization.isPoleEmploi).is.false;
+    });
+  });
+
 });
