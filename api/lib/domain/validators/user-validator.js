@@ -25,10 +25,11 @@ const userValidationJoiSchema = Joi.object({
     }),
 
   email: Joi.string()
-    .email()
     .max(255)
+    .email({ ignoreLength: true })
     .messages({
       'string.empty': 'Votre adresse e-mail n’est pas renseignée.',
+      'string.max': 'Votre adresse e-mail ne doit pas dépasser les 255 caractères.',
       'string.email': 'Le format de l\'adresse e-mail est incorrect.',
     }),
 
