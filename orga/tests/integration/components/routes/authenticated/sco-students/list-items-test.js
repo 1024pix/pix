@@ -276,27 +276,40 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
       ]);
     });
 
-    module('when user is admin in organization', (hooks) => {
+    module('when user is admin in organization', () => {
+      module('when organization is SCO', (hooks) => {
+        hooks.beforeEach(function() {
+          class CurrentUserStub extends Service {
+            isAdminInOrganization = true;
+          }
+          this.owner.register('service:current-user',  CurrentUserStub);
+          this.set('importStudentsSpy', () => {});
+          return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+        });
 
-      hooks.beforeEach(function() {
-        class CurrentUserStub extends Service {
-          isAdminInOrganization = true;
-        }
-        this.owner.register('service:current-user',  CurrentUserStub);
-        this.set('importStudentsSpy', () => {});
-        return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+        test('it should display import XML file button', async function(assert) {
+          assert.contains('Importer (.xml)');
+        });
+
+        test('it should display the dissociate action', async function(assert) {
+          // when
+          await click('[aria-label="Afficher les actions"]');
+
+          // then
+          assert.contains('Dissocier le compte');
+        });
       });
 
-      test('it should display import button', async function(assert) {
-        assert.contains('Importer (.xml)');
-      });
+      module('when organization is SCO and tagged as Agriculture', (hooks) => {
+        hooks.beforeEach(function() {
+          this.set('importStudentsSpy', () => {});
+          this.owner.register('service:current-user', Service.extend({ isAdminInOrganization: true, isAgriculture: true }));
+          return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+        });
 
-      test('it should display the dissociate action', async function(assert) {
-        // when
-        await click('[aria-label="Afficher les actions"]');
-
-        // then
-        assert.contains('Dissocier le compte');
+        test('it should display import CSV file button', async function(assert) {
+          assert.contains('Importer (.csv)');
+        });
       });
     });
 
@@ -312,6 +325,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
 
       test('it should not display import button', async function(assert) {
         assert.notContains('Importer (.xml)');
+        assert.notContains('Importer (.csv)');
       });
 
       test('it should not display the dissociate action', async function(assert) {
