@@ -6,10 +6,6 @@ import { standardizeNumberInTwoDigitFormat } from 'mon-pix/utils/standardize-num
 import { decodeToken } from 'mon-pix/helpers/jwt';
 import get from 'lodash/get';
 
-import ENV from 'mon-pix/config/environment';
-
-import { getJoinErrorsMessageByShortCode } from '../../../../utils/errors-messages';
-
 const ERROR_INPUT_MESSAGE_MAP = {
   firstName: 'pages.join.fields.firstname.error',
   lastName: 'pages.join.fields.lastname.error',
@@ -17,7 +13,6 @@ const ERROR_INPUT_MESSAGE_MAP = {
   monthOfBirth: 'pages.join.fields.birthdate.month-error',
   yearOfBirth: 'pages.join.fields.birthdate.year-error',
 };
-const ACCOUNT_WITH_SAMLID_ALREADY_EXISTS_ERRORS = ['R13', 'R33'];
 
 const isDayValid = (value) => value > 0 && value <= 31;
 const isMonthValid = (value) => value > 0 && value <= 12;
@@ -37,16 +32,14 @@ export default class JoinSco extends Component {
   @service currentUser;
   @service store;
   @service intl;
-  @service url;
-  @service router;
 
   validation = new Validation();
 
   @tracked isLoading = false;
   @tracked errorMessage;
-  @tracked displayModal = false;
-  @tracked modalErrorMessage = null;
-  @tracked displayContinueButton = false;
+
+  @tracked displayInformationModal = false;
+  @tracked reconciliationError = null;
 
   @tracked firstName = '';
   @tracked lastName = '';
@@ -83,19 +76,7 @@ export default class JoinSco extends Component {
 
   @action
   closeModal() {
-    this.displayModal = false;
-  }
-
-  @action
-  async goToHome() {
-    await this.session.invalidate();
-    return window.location.replace(this.url.homeUrl);
-  }
-
-  @action
-  async goToCampaignConnectionForm() {
-    await this.session.invalidate();
-    return this.router.replaceWith('campaigns.restricted.login-or-register-to-access', { queryParams: { displayRegisterForm: false } });
+    this.displayInformationModal = false;
   }
 
   @action
@@ -175,8 +156,7 @@ export default class JoinSco extends Component {
 
   _executeFieldValidation(key, value, isValid) {
     const isInvalidInput = !isValid(value);
-    const message = isInvalidInput ? this.intl.t(ERROR_INPUT_MESSAGE_MAP[key]) : null;
-    this.validation[key] = message;
+    this.validation[key] = isInvalidInput ? this.intl.t(ERROR_INPUT_MESSAGE_MAP[key]) : null;
   }
 
   _validateInputName(key, value) {
@@ -203,24 +183,18 @@ export default class JoinSco extends Component {
   _setErrorMessageForAttemptNextAction(errorResponse) {
     errorResponse.errors.forEach((error) => {
       if (error.status === '409') {
-        const message = this._showErrorMessageByShortCode(error.meta);
         if ('USER_ALREADY_RECONCILED_IN_THIS_ORGANIZATION' === error.code) {
-          return this.errorMessage = message;
+          this.errorMessage = this.intl.t('api-error-messages.join-error.r70');
+        } else {
+          this.reconciliationError = error;
+          this.displayInformationModal = true;
+          this.session.set('data.expectedUserId', error.meta.userId);
         }
-        this.displayModal = true;
-        this.displayContinueButton = !ACCOUNT_WITH_SAMLID_ALREADY_EXISTS_ERRORS.includes(error.meta.shortCode);
-        this.session.set('data.expectedUserId', error.meta.userId);
-        return this.modalErrorMessage = message;
+      } else if (error.status === '404') {
+        this.errorMessage = this.intl.t('pages.join.sco.error-not-found', { htmlSafe: true });
+      } else {
+        this.errorMessage = error.detail;
       }
-      if (error.status === '404') {
-        return this.errorMessage = this.intl.t('pages.join.sco.error-not-found', { htmlSafe: true });
-      }
-      return this.errorMessage = error.detail;
     });
-  }
-
-  _showErrorMessageByShortCode(meta) {
-    const defaultMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE);
-    return this.intl.t(getJoinErrorsMessageByShortCode(meta), { value: meta.value, htlmSafe:true })  || defaultMessage;
   }
 }
