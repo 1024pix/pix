@@ -477,215 +477,23 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
         expect(component.errorMessage.string).to.equal('Vous êtes un élève ? <br/> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.<br/><br/> Vous êtes un enseignant ? <br/> L‘accès à un parcours n‘est pas disponible pour le moment.');
       });
 
-      describe('When student is already reconciled in others organization', async function() {
+      describe('When student is already reconciled', () => {
 
-        describe('When student account is authenticated by email only', async function() {
+        it('should open information modal and set reconciliationError', async function() {
+          // given
+          const error = { status: '409', meta: { userId: 1 } };
 
-          it('should return a conflict error and display the error message related to the short code R11)', async function() {
-            // given
-            const meta = { shortCode: 'R11', value: 'j***@example.net', userId: 1 };
-            const expectedErrorMessage = this.intl.t('api-error-messages.join-error.r11', { value: meta.value });
+          onSubmitToReconcileStub.rejects({ errors: [error] });
 
-            const error = {
-              status: '409',
-              code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
-              title: 'Conflict',
-              detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-              meta,
-            };
+          // when
+          await component.actions.submit.call(component, eventStub);
 
-            onSubmitToReconcileStub.rejects({ errors: [error] });
-
-            // when
-            await component.actions.submit.call(component, eventStub);
-
-            // then
-            sinon.assert.calledOnce(record.unloadRecord);
-            sinon.assert.calledWith(sessionStub.set, 'data.expectedUserId', meta.userId);
-            expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
-            expect(component.isLoading).to.be.false;
-            expect(component.displayContinueButton).to.be.true;
-          });
-
-        });
-
-        describe('When student account is authenticated by username only', async function() {
-
-          it('should return a conflict error and display the error message related to the short code R12)', async function() {
-            // given
-            const meta = { shortCode: 'R12', value: 'j***.h***2', userId: 1 };
-            const expectedErrorMessage =  this.intl.t('api-error-messages.join-error.r12', { value: meta.value });
-
-            const error = {
-              status: '409',
-              code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
-              title: 'Conflict',
-              detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-              meta,
-            };
-
-            onSubmitToReconcileStub.rejects({ errors: [error] });
-
-            // when
-            await component.actions.submit.call(component, eventStub);
-
-            // then
-            sinon.assert.calledOnce(record.unloadRecord);
-            sinon.assert.calledWith(sessionStub.set, 'data.expectedUserId', meta.userId);
-            expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
-            expect(component.isLoading).to.be.false;
-            expect(component.displayContinueButton).to.be.true;
-          });
-
-        });
-
-        describe('When student account is authenticated by SamlId only', async function() {
-
-          it('should return a conflict error and display the error message related to the short code R13)', async function() {
-            // given
-            const meta = { shortCode: 'R13', value: undefined, userId: 1 };
-            const expectedErrorMessage =  this.intl.t('api-error-messages.join-error.r13', { value: meta.value });
-
-            const error = {
-              status: '409',
-              code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
-              title: 'Conflict',
-              detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-              meta,
-            };
-
-            onSubmitToReconcileStub.rejects({ errors: [error] });
-
-            // when
-            await component.actions.submit.call(component, eventStub);
-
-            // then
-            sinon.assert.calledOnce(record.unloadRecord);
-            sinon.assert.calledWith(sessionStub.set, 'data.expectedUserId', meta.userId);
-            expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
-            expect(component.isLoading).to.be.false;
-            expect(component.displayContinueButton).to.be.false;
-          });
-
-        });
-
-        describe('When student account is authenticated by SamlId and username', async function() {
-
-          it('should return a conflict error and display the error message related to the short code R13)', async function() {
-            // given
-            const meta = { shortCode: 'R13', value: undefined, userId: 1 };
-            const expectedErrorMessage = this.intl.t('api-error-messages.join-error.r13', { value: meta.value });
-
-            const error = {
-              status: '409',
-              code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
-              title: 'Conflict',
-              detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-              meta,
-            };
-
-            onSubmitToReconcileStub.rejects({ errors: [error] });
-
-            // when
-            await component.actions.submit.call(component, eventStub);
-
-            // then
-            sinon.assert.calledOnce(record.unloadRecord);
-            sinon.assert.calledWith(sessionStub.set, 'data.expectedUserId', meta.userId);
-            expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
-            expect(component.isLoading).to.be.false;
-            expect(component.displayContinueButton).to.be.false;
-          });
-
-        });
-
-        describe('When student account is authenticated by SamlId and email', async function() {
-
-          it('should return a conflict error and display the error message related to the short code R13)', async function() {
-            // given
-            const meta = { shortCode: 'R13', value: undefined, userId: 1 };
-            const expectedErrorMessage =  this.intl.t('api-error-messages.join-error.r13', { value: meta.value });
-
-            const error = {
-              status: '409',
-              code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
-              title: 'Conflict',
-              detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-              meta,
-            };
-
-            onSubmitToReconcileStub.rejects({ errors: [error] });
-
-            // when
-            await component.actions.submit.call(component, eventStub);
-
-            // then
-            sinon.assert.calledOnce(record.unloadRecord);
-            sinon.assert.calledWith(sessionStub.set, 'data.expectedUserId', meta.userId);
-            expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
-            expect(component.isLoading).to.be.false;
-            expect(component.displayContinueButton).to.be.false;
-          });
-
-        });
-
-        describe('When student account is authenticated by SamlId, username and email', async function() {
-
-          it('should return a conflict error and display the error message related to the short code R13)', async function() {
-            // given
-            const meta = { shortCode: 'R13', value: undefined, userId: 1 };
-            const expectedErrorMessage =  this.intl.t('api-error-messages.join-error.r13', { value: meta.value });
-
-            const error = {
-              status: '409',
-              code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
-              title: 'Conflict',
-              detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-              meta,
-            };
-
-            onSubmitToReconcileStub.rejects({ errors: [error] });
-
-            // when
-            await component.actions.submit.call(component, eventStub);
-
-            // then
-            sinon.assert.calledOnce(record.unloadRecord);
-            sinon.assert.calledWith(sessionStub.set, 'data.expectedUserId', meta.userId);
-            expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
-            expect(component.isLoading).to.be.false;
-            expect(component.displayContinueButton).to.be.false;
-          });
-
-        });
-
-        describe('When student account is authenticated by username and email', async function() {
-
-          it('should return a conflict error and display the error message related to the short code R12)', async function() {
-            // given
-            const meta = { shortCode: 'R12', value: 'j***.h***2', userId: 1 };
-            const expectedErrorMessage =  this.intl.t('api-error-messages.join-error.r12', { value: meta.value });
-
-            const error = {
-              status: '409',
-              code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
-              title: 'Conflict',
-              detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-              meta,
-            };
-
-            onSubmitToReconcileStub.rejects({ errors: [error] });
-
-            // when
-            await component.actions.submit.call(component, eventStub);
-
-            // then
-            sinon.assert.calledOnce(record.unloadRecord);
-            sinon.assert.calledWith(sessionStub.set, 'data.expectedUserId', meta.userId);
-            expect(component.modalErrorMessage).to.equal(expectedErrorMessage);
-            expect(component.isLoading).to.be.false;
-            expect(component.displayContinueButton).to.be.true;
-          });
+          // then
+          sinon.assert.calledOnce(record.unloadRecord);
+          expect(component.displayInformationModal).to.be.true;
+          expect(component.reconciliationError).to.equal(error);
+          expect(component.isLoading).to.be.false;
+          sinon.assert.calledWith(sessionStub.set, 'data.expectedUserId', error.meta.userId);
         });
 
       });
