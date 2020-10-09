@@ -71,6 +71,18 @@
                  class={{if (v-get this.form 'email' 'isInvalid') "form-control is-invalid" "form-control"}}
                  @value={{this.form.email}} />
         </div>
+        <div class="form-field">
+          <label for="credits" class="form-field__label">Crédits</label>
+          {{#if (v-get this.form 'credit' 'isInvalid')}}
+            <div class="form-field__error">
+              {{v-get this.form 'credit' 'message'}}
+            </div>
+          {{/if}}
+          <Input id="credit"
+                 @type="number"
+                 class={{if (v-get this.form 'credit' 'isInvalid') "form-control is-invalid" "form-control"}}
+                 @value={{this.form.credit}} />
+        </div>
         {{#if (or @organization.isOrganizationSCO @organization.isOrganizationSUP)}}
           <div class="form-field organization-edit-form__checkbox">
             <label for="isManagingStudents" class="form-field__label">Gestion d’élèves/étudiants</label>

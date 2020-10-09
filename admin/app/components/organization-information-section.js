@@ -51,6 +51,16 @@ const Validations = buildValidations({
       }),
     ],
   },
+  credit: {
+    validators: [
+      validator('number', {
+        allowString: true,
+        integer: true,
+        positive: true,
+        message: 'Le nombre de crédits doit être un nombre supérieur ou égal à 0.',
+      }),
+    ],
+  },
   isManagingStudents: {
     validators: [
       validator('inclusion', {
@@ -72,6 +82,7 @@ class Form extends Object.extend(Validations) {
   @tracked externalId;
   @tracked provinceCode;
   @tracked email;
+  @tracked credit;
   @tracked isManagingStudents;
   @tracked canCollectProfiles;
 }
@@ -130,6 +141,7 @@ export default class OrganizationInformationSection extends Component {
     this.args.organization.set('externalId', !this.form.externalId ? null : this.form.externalId.trim());
     this.args.organization.set('provinceCode', !this.form.provinceCode ? null : this.form.provinceCode.trim());
     this.args.organization.set('email', !this.form.email ? null : this.form.email.trim());
+    this.args.organization.set('credit', !this.form.credit ? null : this.form.credit);
     this.args.organization.set('isManagingStudents', this.form.isManagingStudents);
     this.args.organization.set('canCollectProfiles', this.form.canCollectProfiles);
 
@@ -142,6 +154,7 @@ export default class OrganizationInformationSection extends Component {
     this.form.externalId = this.args.organization.externalId;
     this.form.provinceCode = this.args.organization.provinceCode;
     this.form.email = this.args.organization.email;
+    this.form.credit = this.args.organization.credit;
     this.form.isManagingStudents = this.args.organization.isManagingStudents;
     this.form.canCollectProfiles = this.args.organization.canCollectProfiles;
   }
