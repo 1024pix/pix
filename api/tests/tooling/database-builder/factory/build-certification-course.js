@@ -26,7 +26,6 @@ module.exports = function buildCertificationCourse({
 
   userId = _.isUndefined(userId) ? buildUser().id : userId;
   sessionId = _.isUndefined(sessionId) ? buildSession().id : sessionId;
-
   const values = {
     id,
     firstName,
