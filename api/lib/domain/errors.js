@@ -336,6 +336,12 @@ class ChallengeAlreadyAnsweredError extends DomainError {
   }
 }
 
+class CsvParsingError extends DomainError {
+  constructor(message = 'Les données n\'ont pas pu être parsées.') {
+    super(message);
+  }
+}
+
 class EntityValidationError extends DomainError {
   constructor({ invalidAttributes }) {
     super('Echec de validation de l\'entité.');
@@ -639,6 +645,7 @@ module.exports = {
   CertificationCourseNotPublishableError,
   ChallengeAlreadyAnsweredError,
   CompetenceResetError,
+  CsvParsingError,
   EntityValidationError,
   FileValidationError,
   ForbiddenAccess,
