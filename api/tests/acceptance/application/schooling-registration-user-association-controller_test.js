@@ -22,7 +22,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
       // given
       options = {
         method: 'POST',
-        url: '/api/schooling-registration-user-associations/',
+        url: '/api/schooling-registration-user-associations',
         headers: {},
         payload: {},
       };
@@ -47,6 +47,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             'birthdate': schoolingRegistration.birthdate,
           },
         };
+        options.url += '?withReconciliation=true';
 
         // when
         const response = await server.inject(options);
@@ -395,6 +396,35 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
 
           // then
           expect(response.statusCode).to.equal(422);
+        });
+      });
+
+      context('When withReconciliation query param is set to false', () => {
+
+        it('should not reconcile user and return a 204 No Content', async () => {
+          // given
+          options.headers.authorization = generateValidRequestAuthorizationHeader(user.id);
+          options.payload.data = {
+            attributes: {
+              'campaign-code': campaign.code,
+              'first-name': schoolingRegistration.firstName,
+              'last-name': schoolingRegistration.lastName,
+              'birthdate': schoolingRegistration.birthdate,
+            },
+          };
+          options.url += '?withReconciliation=false';
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(204);
+          const schoolingRegistrationInDB = await knex('schooling-registrations').where({
+            firstName: schoolingRegistration.firstName,
+            lastName: schoolingRegistration.lastName,
+            birthdate: schoolingRegistration.birthdate,
+          }).select();
+          expect(schoolingRegistrationInDB.userId).to.be.undefined;
         });
       });
     });

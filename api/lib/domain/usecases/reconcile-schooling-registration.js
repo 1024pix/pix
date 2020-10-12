@@ -4,6 +4,7 @@ const { STUDENT_RECONCILIATION_ERRORS } = require('../constants');
 module.exports = async function reconcileSchoolingRegistration({
   campaignCode,
   reconciliationInfo,
+  withReconciliation,
   campaignRepository,
   schoolingRegistrationRepository,
   studentRepository,
@@ -29,11 +30,12 @@ module.exports = async function reconcileSchoolingRegistration({
 
   await _checkIfAnotherStudentIsAlreadyReconciledWithTheSameOrganizationAndUser(reconciliationInfo.id, campaign.organizationId, schoolingRegistrationRepository);
 
-  return schoolingRegistrationRepository.reconcileUserToSchoolingRegistration({
-    userId: reconciliationInfo.id,
-    schoolingRegistrationId: matchedSchoolingRegistration.id,
-  });
-
+  if (withReconciliation) {
+    return schoolingRegistrationRepository.reconcileUserToSchoolingRegistration({
+      userId: reconciliationInfo.id,
+      schoolingRegistrationId: matchedSchoolingRegistration.id,
+    });
+  }
 };
 
 async function _checkIfAnotherStudentIsAlreadyReconciledWithTheSameOrganizationAndUser(userId, organizationId, schoolingRegistrationRepository) {
