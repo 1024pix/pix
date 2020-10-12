@@ -225,6 +225,20 @@ describe('Unit | Service | user-reconciliation-service', () => {
             // then
             expect(result).to.equal(schoolingRegistrations[0].id);
           });
+
+          it('...a mistake', async () => {
+            // given
+            user.firstName = 'Joey';
+
+            schoolingRegistrations[0].firstName = 'Joe';
+            schoolingRegistrations[0].lastName = user.lastName;
+
+            // when
+            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(schoolingRegistrations, user);
+
+            // then
+            expect(result).to.equal(schoolingRegistrations[0].id);
+          });
         });
 
         context('When multiple matches', () => {
@@ -272,6 +286,25 @@ describe('Unit | Service | user-reconciliation-service', () => {
 
             // then
             expect(result).to.equal(null);
+          });
+        });
+
+        context('When two schoolingRegistrations are close', () => {
+          const twin1 = { firstName: 'allan', lastName: 'Poe' };
+          const twin2 = { firstName: 'alian', lastName: 'Poe' };
+
+          it('should prefer the firstName that match perfectly', async () => {
+            // given
+            schoolingRegistrations[0].firstName = twin1.firstName;
+            schoolingRegistrations[0].lastName = twin1.lastName;
+            schoolingRegistrations[1].firstName = twin2.firstName;
+            schoolingRegistrations[1].lastName = twin2.lastName;
+
+            // when
+            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(schoolingRegistrations, twin1);
+
+            // then
+            expect(result).to.equal(schoolingRegistrations[0].id);
           });
         });
       });
