@@ -1,19 +1,23 @@
-import { click, currentURL, fillIn, find } from '@ember/test-helpers';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
+
+import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { Response } from 'ember-cli-mirage';
+
 import { authenticateByUsername } from '../helpers/authentication';
+import setupIntl from '../helpers/setup-intl';
+import { contains } from '../helpers/contains';
 
 describe('Acceptance | Update Expired Password', function() {
 
   setupApplicationTest();
   setupMirage();
-
-  let userShouldChangePassword;
+  setupIntl();
 
   beforeEach(async function() {
-    userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
+    const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
     await authenticateByUsername(userShouldChangePassword);
   });
 
@@ -28,16 +32,15 @@ describe('Acceptance | Update Expired Password', function() {
     expect(currentURL()).to.equal('/profil');
   });
 
-  it('should display error when password update failed', async function() {
+  it('should display validation error message when update password fails with http 400 error', async function() {
     // given
-    const badPasswordErrorResponse = {
-      errors: [{
-        status: 401,
-        title: 'Unauthorized',
-        detail: 'Mauvais mot de passe.',
-      }],
-    };
-    this.server.post('/expired-password-updates', () => (badPasswordErrorResponse), 401);
+    const expectedValidationErrorMessage = this.intl.t('pages.update-expired-password.fields.error');
+
+    this.server.post('/expired-password-updates', () => {
+      return new Response(400, {}, {
+        errors: [{ status: '400' }],
+      });
+    });
 
     await fillIn('#password', 'newPass12345!');
 
@@ -46,8 +49,43 @@ describe('Acceptance | Update Expired Password', function() {
 
     // then
     expect(currentURL()).to.equal('/mise-a-jour-mot-de-passe-expire');
-    expect(find('.form-textfield__message--error')).to.exist;
+    expect(contains(expectedValidationErrorMessage)).to.exist;
+  });
 
+  it('should display error message when update password fails with http 401 error', async function() {
+    // given
+    const expectedErrorMessage = this.intl.t('api-error-messages.login-unauthorized-error');
+
+    this.server.post('/expired-password-updates', () => {
+      return new Response(401, {}, {
+        errors: [{ status: '401' }],
+      });
+    });
+
+    await fillIn('#password', 'newPass12345!');
+
+    // when
+    await click('.button');
+
+    // then
+    expect(currentURL()).to.equal('/mise-a-jour-mot-de-passe-expire');
+    expect(contains(expectedErrorMessage)).to.exist;
+  });
+
+  it('should display error message when update password fails', async function() {
+    // given
+    const expectedErrorMessage = this.intl.t('api-error-messages.internal-server-error');
+
+    this.server.post('/expired-password-updates', () => new Response(500));
+
+    await fillIn('#password', 'newPass12345!');
+
+    // when
+    await click('.button');
+
+    // then
+    expect(currentURL()).to.equal('/mise-a-jour-mot-de-passe-expire');
+    expect(contains(expectedErrorMessage)).to.exist;
   });
 
 });

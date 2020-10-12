@@ -1,8 +1,11 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
+
 import { setupTest } from 'ember-mocha';
 import Service from '@ember/service';
+
+import setupIntl from '../../helpers/setup-intl';
 
 const ERROR_PASSWORD_MESSAGE = 'pages.update-expired-password.fields.error';
 
@@ -15,18 +18,10 @@ const VALIDATION_MAP = {
   },
 };
 
-const SUBMISSION_MAP = {
-  default: {
-    status: 'default', message: null,
-  },
-  error: {
-    status: 'error', message: ERROR_PASSWORD_MESSAGE,
-  },
-};
-
 describe('Unit | Component | Update Expired Password', () => {
 
   setupTest();
+  setupIntl();
 
   let component;
 
@@ -37,7 +32,7 @@ describe('Unit | Component | Update Expired Password', () => {
   describe('#validatePassword', () => {
 
     it('should set validation status to default, when component is used', () => {
-      expect(component.validation).to.deep.equal(VALIDATION_MAP['default']);
+      expect(component.validation).to.deep.equal(VALIDATION_MAP.default);
     });
 
     it('should set validation status to error, when there is an validation error on password field', () => {
@@ -49,7 +44,7 @@ describe('Unit | Component | Update Expired Password', () => {
       component.send('validatePassword');
 
       // then
-      expect(component.validation).to.deep.equal(VALIDATION_MAP['error']);
+      expect(component.validation).to.deep.equal(VALIDATION_MAP.error);
     });
 
     it('should set validation status to success, when password is valid', () => {
@@ -61,7 +56,7 @@ describe('Unit | Component | Update Expired Password', () => {
       component.send('validatePassword');
 
       // then
-      expect(component.validation).to.deep.equal(VALIDATION_MAP['default']);
+      expect(component.validation).to.deep.equal(VALIDATION_MAP.default);
     });
   });
 
@@ -96,7 +91,7 @@ describe('Unit | Component | Update Expired Password', () => {
         await component.actions.handleUpdatePasswordAndAuthenticate.call(component);
 
         // then
-        expect(component.validation).to.deep.equal(SUBMISSION_MAP['default']);
+        expect(component.validation).to.deep.equal(VALIDATION_MAP.default);
       });
 
       it('should remove user password from the store', async () => {
@@ -126,26 +121,54 @@ describe('Unit | Component | Update Expired Password', () => {
 
     describe('When update password is rejected by api', () => {
 
+      it('should set validation with errors data if http 400 error', async () => {
+        // given
+        const response = {
+          errors: [ { status: '400' } ],
+        };
+        component.user.save.rejects(response);
+
+        // when
+        await component.actions.handleUpdatePasswordAndAuthenticate.call(component);
+
+        // then
+        expect(component.validation).to.deep.equal(VALIDATION_MAP.error);
+      });
+
+      it('should set error message if http 401 error', async () => {
+        // given
+        const expectedErrorMessage = component.intl.t('api-error-messages.login-unauthorized-error');
+        const response = {
+          errors: [ { status: '401' } ],
+        };
+        component.user.save.rejects(response);
+
+        // when
+        await component.actions.handleUpdatePasswordAndAuthenticate.call(component);
+
+        // then
+        expect(component.errorMessage).to.equal(expectedErrorMessage);
+      });
+
       it('should set validation with errors data', async () => {
         // given
+        const expectedErrorMessage = component.intl.t('api-error-messages.internal-server-error');
         component.user.save.rejects();
 
         // when
         await component.actions.handleUpdatePasswordAndAuthenticate.call(component);
 
         // then
-        expect(component.validation).to.deep.equal(SUBMISSION_MAP['error']);
+        expect(component.errorMessage).to.equal(expectedErrorMessage);
       });
 
     });
 
     describe('When authentication after update fails', () => {
+
       it('should set authenticationHasFailed to true', async () => {
         // given
-        const response = {
-          errors: [ { status: '400' } ],
-        };
-        component.session.authenticate.rejects(response);
+        component.session.authenticate.rejects();
 
         // when
         await component.actions.handleUpdatePasswordAndAuthenticate.call(component);

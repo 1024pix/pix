@@ -9,6 +9,7 @@ import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
 import ENV from 'mon-pix/config/environment';
 
+const SCOPE_MON_PIX = 'mon-pix';
 const ERROR_PASSWORD_MESSAGE = 'pages.update-expired-password.fields.error';
 const AUTHENTICATED_SOURCE_FROM_MEDIACENTRE = ENV.APP.AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
 
@@ -21,21 +22,13 @@ const VALIDATION_MAP = {
   },
 };
 
-const SUBMISSION_MAP = {
-  default: {
-    status: 'default', message: null,
-  },
-  error: {
-    status: 'error', message: ERROR_PASSWORD_MESSAGE,
-  },
-};
-
 export default class UpdateExpiredPasswordForm extends Component {
+
   @service intl;
   @service session;
   @service url;
 
-  @tracked validation = VALIDATION_MAP['default'];
+  @tracked validation = VALIDATION_MAP.default;
   @tracked newPassword = null;
   @tracked isLoading = false;
   @tracked authenticationHasFailed = null;
@@ -55,6 +48,7 @@ export default class UpdateExpiredPasswordForm extends Component {
 
   @action
   validatePassword() {
+    this.errorMessage = null;
     const validationStatus = (isPasswordValid(this.newPassword)) ? 'default' : 'error';
     this.validation = VALIDATION_MAP[validationStatus];
   }
@@ -63,45 +57,53 @@ export default class UpdateExpiredPasswordForm extends Component {
   async handleUpdatePasswordAndAuthenticate(event) {
     event && event.preventDefault();
 
-    this.isLoading = true;
-    this.authenticationHasFailed = false;
-    try {
-      await this.user.save({ adapterOptions: { updateExpiredPassword: true, newPassword: this.newPassword } });
-      this.validation = SUBMISSION_MAP['default'];
-      await this.user.unloadRecord();
-      await this._authenticateWithUpdatedPassword({ login: this.user.username, password: this.newPassword });
-      if (this.session.get('data.externalUser')) {
-        this.session.data.authenticated.source = AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
+    this.validatePassword();
+
+    if (!this.validation.message) {
+      this.isLoading = true;
+      this.authenticationHasFailed = false;
+      this.validation = VALIDATION_MAP.default;
+
+      try {
+        await this.user.save({ adapterOptions: { updateExpiredPassword: true, newPassword: this.newPassword } });
+        await this.user.unloadRecord();
+
+        await this._authenticateWithUpdatedPassword({ login: this.user.username, password: this.newPassword });
+
+        if (this.session.get('data.externalUser')) {
+          this.session.data.authenticated.source = AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
+        }
+      } catch (errorResponse) {
+        const error = get(errorResponse, 'errors[0]');
+        this._manageErrorsApi(error);
+      } finally {
+        this.isLoading = false;
       }
-    } catch (err) {
-      this.validation = SUBMISSION_MAP['error'];
-    } finally {
-      this.isLoading = false;
     }
   }
 
   async _authenticateWithUpdatedPassword({ login, password }) {
-    const scope = 'mon-pix';
     try {
-      await this.session.authenticate('authenticator:oauth2', { login, password,  scope });
+      await this.session.authenticate('authenticator:oauth2', {
+        login, password,  scope: SCOPE_MON_PIX,
+      });
     } catch (errorResponse) {
-      const error = get(errorResponse, 'errors[0]');
-      this._manageErrorsApi(error);
+      this.authenticationHasFailed = true;
     }
   }
 
   _manageErrorsApi(error) {
     const statusCode = get(error, 'status');
-    this.errorMessage = this._showErrorMessages(statusCode);
+    if (statusCode === '400') {
+      this.validation = VALIDATION_MAP.error;
+    } else {
+      this.errorMessage = this._showErrorMessages(statusCode);
+    }
   }
 
   _showErrorMessages(statusCode) {
     const httpStatusCodeMessages = {
-      '400': ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.MESSAGE,
-      '401': this.authenticationHasFailed = true,
-      '500': ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
-      '502': ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
-      '504': ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.MESSAGE,
+      '401': ENV.APP.API_ERROR_MESSAGES.LOGIN_UNAUTHORIZED.MESSAGE,
       'default': ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
     };
     return this.intl.t(httpStatusCodeMessages[statusCode] || httpStatusCodeMessages['default']);
