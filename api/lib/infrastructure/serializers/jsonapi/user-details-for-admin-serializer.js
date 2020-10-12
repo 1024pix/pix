@@ -6,8 +6,9 @@ module.exports = {
   serialize(usersDetailsForAdmin) {
     return new Serializer('user', {
       attributes: [
-        'firstName', 'lastName', 'email', 'username', 'cgu','isAuthenticatedFromGAR','pixOrgaTermsOfServiceAccepted',
-        'pixCertifTermsOfServiceAccepted',
+        'firstName', 'lastName', 'email', 'username', 'cgu',
+        'pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted',
+        'isAuthenticatedFromGAR', 'isAssociatedWithSchoolingRegistration',
       ],
     }).serialize(usersDetailsForAdmin);
   },
