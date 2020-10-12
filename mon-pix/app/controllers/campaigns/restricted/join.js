@@ -12,11 +12,16 @@ export default class JoinRestrictedCampaignController extends Controller {
   @service currentUser;
 
   @action
-  reconcile(schoolingRegistration, adapterOptions) {
-    return schoolingRegistration.save({ adapterOptions }).then(() => {
-      this.transitionToRoute('campaigns.start-or-resume', this.model.code, {
-        queryParams: { associationDone: true, participantExternalId: this.participantExternalId },
-      });
+  async reconcile(schoolingRegistration, adapterOptions) {
+    const mustNotRedirectAfterSave = adapterOptions.withReconciliation === false;
+    await schoolingRegistration.save({ adapterOptions });
+
+    if (mustNotRedirectAfterSave) {
+      return;
+    }
+
+    return this.transitionToRoute('campaigns.start-or-resume', this.model.code, {
+      queryParams: { associationDone: true, participantExternalId: this.participantExternalId },
     });
   }
 

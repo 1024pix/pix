@@ -65,6 +65,8 @@
 {{#if this.displayInformationModal}}
   <Routes::Campaigns::Restricted::JoinScoInformationModal
           @reconciliationError={{this.reconciliationError}}
+          @reconciliationWarning={{this.reconciliationWarning}}
           @closeModal={{this.closeModal}}
+          @associate={{this.associate}}
   />
 {{/if}}

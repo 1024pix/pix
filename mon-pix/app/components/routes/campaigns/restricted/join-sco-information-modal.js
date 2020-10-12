@@ -19,11 +19,16 @@ export default class JoinScoInformationModal extends Component {
 
   constructor(owner, args) {
     super(owner, args);
+    if (this.args.reconciliationWarning) {
+      this.isInformationMode = true;
+      this.message = this.intl.t('pages.join.sco.login-information-message', { ...this.args.reconciliationWarning, htmlSafe: true });
+    }
     if (this.args.reconciliationError) {
+      this.isInformationMode = false;
       const error = this.args.reconciliationError;
       this.displayContinueButton = !ACCOUNT_WITH_SAMLID_ALREADY_EXISTS_ERRORS.includes(error.meta.shortCode);
       const defaultMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE);
-      this.message = this.intl.t(getJoinErrorsMessageByShortCode(error.meta), { value: error.meta.value, htlmSafe: true })  || defaultMessage;
+      this.message = this.intl.t(getJoinErrorsMessageByShortCode(error.meta), { value: error.meta.value, htmlSafe: true })  || defaultMessage;
     }
   }
 

@@ -33,6 +33,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
     });
     component.store = storeStub;
     component.session = sessionStub;
+    component.currentUser = { user: {} };
   });
 
   describe('#triggerInputDayValidation', function() {
@@ -398,43 +399,127 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       expect(component.validation.yearOfBirth).to.equal('Votre année de naissance n’est pas valide.');
     });
 
-    context('When user is logged', function() {
+    context('When user does not come from external identity provider', function() {
 
-      it('should associate user with student and redirect to campaigns.start-or-resume', async function() {
+      beforeEach(function() {
+        sessionStub.get.withArgs('data.externalUser').returns(undefined);
+      });
+
+      it('should create a schooling-registration-user-association', async function() {
         // given
-        const schoolingRegistration = Symbol('registration');
-        storeStub.createRecord.withArgs(
-          'schooling-registration-user-association',
-          {
-            id: `${component.args.campaignCode}_${component.lastName}`,
-            firstName: component.firstName,
-            lastName: component.lastName,
-            birthdate: component.birthdate,
-            campaignCode: component.args.campaignCode,
-          },
-        ).returns(schoolingRegistration);
+        storeStub.createRecord.returns({ unloadRecord: () => {} });
 
         // when
         await component.actions.submit.call(component, eventStub);
 
         // then
-        sinon.assert.calledWith(onSubmitToReconcileStub, schoolingRegistration);
+        sinon.assert.calledWith(storeStub.createRecord, 'schooling-registration-user-association', {
+          id: `${component.args.campaignCode}_${component.lastName}`,
+          firstName: component.firstName,
+          lastName: component.lastName,
+          birthdate: component.birthdate,
+          campaignCode: component.args.campaignCode,
+        });
+      });
+
+      it('should call onSubmitToReconcile with withReconciliation adapterOption to false', async function() {
+        // given
+        const schoolingRegistration = { unloadRecord: () => {} };
+        storeStub.createRecord.returns(schoolingRegistration);
+
+        // when
+        await component.actions.submit.call(component, eventStub);
+
+        // then
+        sinon.assert.calledWith(onSubmitToReconcileStub, schoolingRegistration, { withReconciliation: false });
+      });
+
+      it('should call unloadRecord on schooling-registration-user-association', async function() {
+        // given
+        const schoolingRegistration = { unloadRecord: sinon.stub() };
+        storeStub.createRecord.returns(schoolingRegistration);
+
+        // when
+        await component.actions.submit.call(component, eventStub);
+
+        // then
+        sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
+      });
+
+      context('When user is logged in with email', function() {
+
+        it('should open information modal and set reconciliationWarning', async function() {
+          // given
+          const schoolingRegistration = { unloadRecord: () => {} };
+          storeStub.createRecord.returns(schoolingRegistration);
+          const connectionMethod = 'test@example.net';
+          component.currentUser.user.email = connectionMethod;
+          const expectedReconciliationWarning = {
+            connectionMethod,
+            firstName: component.firstName,
+            lastName: component.lastName,
+          };
+
+          // when
+          await component.actions.submit.call(component, eventStub);
+
+          // then
+          expect(component.displayInformationModal).to.be.true;
+          expect(component.reconciliationWarning).to.deep.equal(expectedReconciliationWarning);
+        });
+      });
+
+      context('When user is logged in with username', function() {
+
+        it('should open information modal and set reconciliationWarning', async function() {
+          // given
+          const schoolingRegistration = { unloadRecord: () => {} };
+          storeStub.createRecord.returns(schoolingRegistration);
+          const connectionMethod = 'john.doe3001';
+          component.currentUser.user.username = connectionMethod;
+          const expectedReconciliationWarning = {
+            connectionMethod,
+            firstName: component.firstName,
+            lastName: component.lastName,
+          };
+
+          // when
+          await component.actions.submit.call(component, eventStub);
+
+          // then
+          expect(component.displayInformationModal).to.be.true;
+          expect(component.reconciliationWarning).to.deep.equal(expectedReconciliationWarning);
+        });
       });
     });
 
     context('When user comes from external identity provider', function() {
 
-      it('should call createAndReconcile action', async function() {
-        // given
-        const externalUserToken = 'external-user-token';
-        sessionStub.get.withArgs('data.externalUser').returns(externalUserToken);
+      const externalUserToken = 'external-user-token';
 
-        const externalUser = Symbol('external-user');
-        storeStub.createRecord.withArgs('external-user', {
+      beforeEach(function() {
+        sessionStub.get.withArgs('data.externalUser').returns(externalUserToken);
+      });
+
+      it('should create an external-user', async function() {
+        // given
+        storeStub.createRecord.returns({ unloadRecord: () => {} });
+
+        // when
+        await component.actions.submit.call(component, eventStub);
+
+        // then
+        sinon.assert.calledWith(storeStub.createRecord, 'external-user', {
           birthdate: component.birthdate,
           campaignCode: component.args.campaignCode,
           externalUserToken,
-        }).returns(externalUser);
+        });
+      });
+
+      it('should call createAndReconcile action', async function() {
+        // given
+        const externalUser = {};
+        storeStub.createRecord.returns(externalUser);
 
         // when
         await component.actions.submit.call(component, eventStub);
@@ -526,6 +611,165 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
       });
 
+    });
+  });
+
+  describe('#associate', function() {
+
+    beforeEach(function() {
+      component.firstName = 'Robert';
+      component.lastName = 'Smith';
+      component.dayOfBirth = '10';
+      component.monthOfBirth = '10';
+      component.yearOfBirth = '2000';
+    });
+
+    it('should prevent default handling of event', async function() {
+      // given
+      // when
+      await component.actions.associate.call(component, eventStub);
+
+      // then
+      sinon.assert.called(eventStub.preventDefault);
+    });
+
+    it('should display an error on firstName', async function() {
+      // given
+      component.firstName = ' ';
+
+      // when
+      await component.actions.associate.call(component, eventStub);
+
+      // then
+      sinon.assert.notCalled(onSubmitToReconcileStub);
+      expect(component.validation.firstName).to.equal('Votre prénom n’est pas renseigné.');
+    });
+
+    it('should display an error on lastName', async function() {
+      // given
+      component.lastName = '';
+
+      // when
+      await component.actions.associate.call(component, eventStub);
+
+      // then
+      sinon.assert.notCalled(onSubmitToReconcileStub);
+      expect(component.validation.lastName).to.equal('Votre nom n’est pas renseigné.');
+    });
+
+    it('should display an error on dayOfBirth', async function() {
+      // given
+      component.dayOfBirth = '99';
+
+      // when
+      await component.actions.associate.call(component, eventStub);
+
+      // then
+      sinon.assert.notCalled(onSubmitToReconcileStub);
+      expect(component.validation.dayOfBirth).to.equal('Votre jour de naissance n’est pas valide.');
+    });
+
+    it('should display an error on monthOfBirth', async function() {
+      // given
+      component.monthOfBirth = '99';
+
+      // when
+      await component.actions.associate.call(component, eventStub);
+
+      // then
+      sinon.assert.notCalled(onSubmitToReconcileStub);
+      expect(component.validation.monthOfBirth).to.equal('Votre mois de naissance n’est pas valide.');
+    });
+
+    it('should display an error on yearOfBirth', async function() {
+      // given
+      component.yearOfBirth = '99';
+
+      // when
+      await component.actions.associate.call(component, eventStub);
+
+      // then
+      sinon.assert.notCalled(onSubmitToReconcileStub);
+      expect(component.validation.yearOfBirth).to.equal('Votre année de naissance n’est pas valide.');
+    });
+
+    it('should create a schooling-registration-user-association', async function() {
+      // given
+      storeStub.createRecord.returns({ unloadRecord: () => {} });
+
+      // when
+      await component.actions.associate.call(component, eventStub);
+
+      // then
+      sinon.assert.calledWith(storeStub.createRecord, 'schooling-registration-user-association', {
+        id: `${component.args.campaignCode}_${component.lastName}`,
+        firstName: component.firstName,
+        lastName: component.lastName,
+        birthdate: component.birthdate,
+        campaignCode: component.args.campaignCode,
+      });
+    });
+
+    it('should call onSubmitToReconcile with withReconciliation adapterOption to true', async function() {
+      // given
+      const schoolingRegistration = { unloadRecord: () => {} };
+      storeStub.createRecord.returns(schoolingRegistration);
+
+      // when
+      await component.actions.associate.call(component, eventStub);
+
+      // then
+      sinon.assert.calledWith(onSubmitToReconcileStub, schoolingRegistration, { withReconciliation: true });
+    });
+
+    it('should close the modal', async function() {
+      // when
+      await component.actions.associate.call(component, eventStub);
+
+      // then
+      expect(component.displayInformationModal).to.be.false;
+    });
+
+    describe('Errors', function() {
+      beforeEach(function() {
+        component.firstName = 'pix';
+        component.lastName = 'aile';
+        component.dayOfBirth = '10';
+        component.monthOfBirth = '10';
+        component.yearOfBirth = '1010';
+      });
+
+      it('should display a not found error', async function() {
+        // given
+        onSubmitToReconcileStub.rejects({ errors: [{ status: '404' }] });
+
+        // when
+        await component.actions.submit.call(component, eventStub);
+
+        // then
+        sinon.assert.calledOnce(record.unloadRecord);
+        expect(component.errorMessage.string).to.equal('Vous êtes un élève ? <br/> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.<br/><br/> Vous êtes un enseignant ? <br/> L‘accès à un parcours n‘est pas disponible pour le moment.');
+      });
+
+      describe('When student is already reconciled', () => {
+
+        it('should open information modal and set reconciliationError', async function() {
+          // given
+          const error = { status: '409', meta: { userId: 1 } };
+
+          onSubmitToReconcileStub.rejects({ errors: [error] });
+
+          // when
+          await component.actions.submit.call(component, eventStub);
+
+          // then
+          sinon.assert.calledOnce(record.unloadRecord);
+          expect(component.displayInformationModal).to.be.true;
+          expect(component.reconciliationError).to.equal(error);
+          expect(component.isLoading).to.be.false;
+          sinon.assert.calledWith(sessionStub.set, 'data.expectedUserId', error.meta.userId);
+        });
+      });
     });
   });
 });

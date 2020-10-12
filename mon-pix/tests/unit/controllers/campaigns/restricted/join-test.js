@@ -21,16 +21,36 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
       schoolingRegistration = { save: sinon.stub() };
     });
 
-    it('should associate user with student and redirect to campaigns.start-or-resume', async function() {
-      // given
-      schoolingRegistration.save.resolves();
+    context('When withReconciliation is false', function() {
 
-      // when
-      await controller.actions.reconcile.call(controller, schoolingRegistration);
+      it('should run reconciliation checks and not redirect', async function() {
+        // given
+        schoolingRegistration.save.resolves();
+        const adapterOptions = { withReconciliation: false };
 
-      // then
-      sinon.assert.calledOnce(schoolingRegistration.save);
-      sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.start-or-resume');
+        // when
+        await controller.actions.reconcile.call(controller, schoolingRegistration, adapterOptions);
+
+        // then
+        sinon.assert.calledOnce(schoolingRegistration.save);
+        sinon.assert.notCalled(controller.transitionToRoute);
+      });
+    });
+
+    context('When withReconciliation is true', function() {
+
+      it('should associate user with student and redirect to campaigns.start-or-resume', async function() {
+        // given
+        schoolingRegistration.save.resolves();
+        const adapterOptions = { withReconciliation: true };
+
+        // when
+        await controller.actions.reconcile.call(controller, schoolingRegistration, adapterOptions);
+
+        // then
+        sinon.assert.calledOnce(schoolingRegistration.save);
+        sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.start-or-resume');
+      });
     });
   });
 

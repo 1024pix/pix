@@ -40,6 +40,7 @@ export default class JoinSco extends Component {
 
   @tracked displayInformationModal = false;
   @tracked reconciliationError = null;
+  @tracked reconciliationWarning = null;
 
   @tracked firstName = '';
   @tracked lastName = '';
@@ -84,12 +85,8 @@ export default class JoinSco extends Component {
     event.preventDefault();
     this.isLoading = true;
     this.errorMessage = null;
-    this._validateInputName('firstName', this.firstName);
-    this._validateInputName('lastName', this.lastName);
-    this._validateInputDay('dayOfBirth', this.dayOfBirth);
-    this._validateInputMonth('monthOfBirth', this.monthOfBirth);
-    this._validateInputYear('yearOfBirth', this.yearOfBirth);
 
+    this._validateForm();
     if (this.isFormNotValid) {
       return this.isLoading = false;
     }
@@ -100,9 +97,34 @@ export default class JoinSco extends Component {
       if (externalUserToken) {
         await this.args.onSubmitToCreateAndReconcile(reconciliationRecord);
       } else {
-        await this.args.onSubmitToReconcile(reconciliationRecord);
+        await this.args.onSubmitToReconcile(reconciliationRecord, { withReconciliation: false });
+        reconciliationRecord.unloadRecord();
+        this._displayWarningMessage();
       }
       this.isLoading = false;
+    } catch (errorResponse) {
+      reconciliationRecord.unloadRecord();
+      this._setErrorMessageForAttemptNextAction(errorResponse);
+      this.isLoading = false;
+    }
+  }
+
+  @action
+  async associate(event) {
+    event.preventDefault();
+    this.isLoading = true;
+    this.errorMessage = null;
+
+    this._validateForm();
+    if (this.isFormNotValid) {
+      return this.isLoading = false;
+    }
+
+    const reconciliationRecord = this._getReconciliationRecord();
+    try {
+      await this.args.onSubmitToReconcile(reconciliationRecord, { withReconciliation: true });
+      this.isLoading = false;
+      this.closeModal();
     } catch (errorResponse) {
       reconciliationRecord.unloadRecord();
       this._setErrorMessageForAttemptNextAction(errorResponse);
@@ -134,6 +156,14 @@ export default class JoinSco extends Component {
     value = value.trim();
     this.yearOfBirth = value;
     this._validateInputYear(key, value);
+  }
+
+  _validateForm() {
+    this._validateInputName('firstName', this.firstName);
+    this._validateInputName('lastName', this.lastName);
+    this._validateInputDay('dayOfBirth', this.dayOfBirth);
+    this._validateInputMonth('monthOfBirth', this.monthOfBirth);
+    this._validateInputYear('yearOfBirth', this.yearOfBirth);
   }
 
   _getReconciliationRecord(hasExternalUserToken) {
@@ -196,5 +226,16 @@ export default class JoinSco extends Component {
         this.errorMessage = error.detail;
       }
     });
+  }
+
+  _displayWarningMessage() {
+    const user = this.currentUser.user;
+    const connectionMethod = user.email ? user.email : user.username;
+    this.reconciliationWarning = {
+      connectionMethod,
+      firstName: this.firstName,
+      lastName: this.lastName,
+    };
+    this.displayInformationModal = true;
   }
 }
