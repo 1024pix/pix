@@ -31,7 +31,8 @@
       "back": "Retour",
       "cancel": "Annuler",
       "close": "Fermer",
-      "quit": "Quitter"
+      "quit": "Quitter",
+      "sign-out": "Se déconnecter"
     },
     "form": {
       "error": "erreur",
@@ -525,7 +526,9 @@
       "sco": {
         "continue-with-pix": "Continuer avec mon compte Pix",
         "error-not-found": "Vous êtes un élève ? '<br/>' Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.'<br/><br/>' Vous êtes un enseignant ? '<br/>' L‘accès à un parcours n‘est pas disponible pour le moment.",
-        "login-information-title": "Information de connexion"
+        "login-information-title": "Information de connexion",
+        "login-information-message": "Le compte Pix '<b>'{ connectionMethod }'</b>' va être associé à l'élève: '<b>'{ firstName } { lastName }'</b>'.'<br><br>'S’il s’agit bien de vous, cliquez sur \"Associer\", sinon déconnectez-vous.",
+        "associate": "Associer"
       },
       "subtitle": "Remplissez les informations manquantes",
       "sup": {

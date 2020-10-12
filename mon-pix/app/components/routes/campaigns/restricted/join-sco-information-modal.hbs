@@ -13,10 +13,15 @@
   </div>
 
   <div class="join-error-modal__footer">
-    <button class="button {{if this.displayContinueButton "button--grey"}}" type="button" {{on 'click' this.goToHome}}>
-      {{t 'common.actions.quit'}}</button>
-    {{#if this.displayContinueButton}}
-      <button class="button" type="button" aria-label={{t 'pages.join.sco.continue-with-pix'}} {{on 'click' this.goToCampaignConnectionForm}}>{{t 'pages.join.sco.continue-with-pix'}}</button>
+    {{#if this.isInformationMode}}
+      <button class="button button--grey" type="button" {{on 'click' this.goToHome}}>{{t 'common.actions.sign-out'}}</button>
+      <button class="button" type="button" aria-label={{t 'pages.join.sco.associate'}} {{on 'click' @associate}}>{{t 'pages.join.sco.associate'}}</button>
+    {{else}}
+      <button class="button {{if this.displayContinueButton "button--grey"}}" type="button" {{on 'click' this.goToHome}}>
+        {{t 'common.actions.quit'}}</button>
+      {{#if this.displayContinueButton}}
+        <button class="button" type="button" aria-label={{t 'pages.join.sco.continue-with-pix'}} {{on 'click' this.goToCampaignConnectionForm}}>{{t 'pages.join.sco.continue-with-pix'}}</button>
+      {{/if}}
     {{/if}}
   </div>
 </PixModal>

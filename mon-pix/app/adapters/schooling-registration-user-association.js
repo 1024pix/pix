@@ -22,7 +22,7 @@ export default class SchoolingRegistrationUserAssociation extends ApplicationAda
   }
 
   createRecord(store, type, snapshot) {
-    const url = this.buildURL(type.modelName, null, snapshot, 'createRecord');
+    let url = this.buildURL(type.modelName, null, snapshot, 'createRecord');
     const data = this.serialize(snapshot);
 
     if (snapshot.adapterOptions && snapshot.adapterOptions.searchForMatchingStudent) {
@@ -34,6 +34,11 @@ export default class SchoolingRegistrationUserAssociation extends ApplicationAda
       delete snapshot.adapterOptions.tryReconciliation;
       delete data.data.attributes['first-name'];
       delete data.data.attributes['last-name'];
+    }
+
+    if (snapshot.adapterOptions && snapshot.adapterOptions.withReconciliation !== undefined) {
+      url += `?withReconciliation=${snapshot.adapterOptions.withReconciliation}`;
+      delete snapshot.adapterOptions.withReconciliation;
     }
 
     delete data.data.attributes.username;

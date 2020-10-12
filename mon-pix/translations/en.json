@@ -32,7 +32,8 @@
       "back": "",
       "cancel": "Cancel",
       "close": "Close",
-      "quit": "Exit"
+      "quit": "Exit",
+      "sign-out": "Sign out"
     },
     "form": {
       "error": "error",
@@ -525,7 +526,9 @@
       "sco": {
         "continue-with-pix": "",
         "error-not-found": "",
-        "login-information-title": ""
+        "login-information-title": "",
+        "login-information-message": "",
+        "associate": ""
       },
       "subtitle": "",
       "sup": {
