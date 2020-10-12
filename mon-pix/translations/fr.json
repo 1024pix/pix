@@ -807,19 +807,18 @@
         "header-result": "Résultats",
         "result": "Résultat global",
         "result-by-skill": "Votre résultat pour la compétence",
-        "skill-progress": "'<p class=\"sr-only\">'Vous avez validé '</p>'{percentage}%'<p class=\"sr-only\">' de la compétence {skill}.'</p>'",
         "title": "Vos résultats par compétence"
       },
       "information": "Si vous avez déjà effectué des parcours sur Pix, les questions auxquelles vous aviez répondu ne vous ont pas été posées de nouveau. En revanche, le résultat affiché ici tient compte de l’ensemble de vos réponses.",
       "not-finished": "Vous ne pouvez pas encore envoyer vos résultats, nous avons encore quelques questions à vous poser.",
       "send-results": "N'oubliez pas d'envoyer vos résultats à l'organisateur du parcours.",
+      "send-status": {
+        "in-progress": "Envoi en cours"
+      },
       "send-title": "Envoyez vos résultats",
       "stage": {
         "masteryPercentage": "{percentage} % de réussite",
-        "alt": {
-          "acquiredStar": "Palier n°{index} atteint",
-          "unacquiredStar": "Palier n°{index} non atteint"
-        }
+        "starsAcquired": "{acquired, plural, =0 {aucune étoile acquise} other {# étoiles acquises}} sur {total}"
       },
       "try-again": {
         "title": "Envie d'améliorer vos résultats ?",

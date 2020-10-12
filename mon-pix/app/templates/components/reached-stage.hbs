@@ -1,18 +1,19 @@
   <div class="reached-stage">
     <div class="reached-stage__score">
       <div class="reached-stage-score__stars">
-        {{#each this.acquiredStars as |star|}}
+        {{#if this.firstStar}}
           <img
-            id="acquired-star-{{star}}"
-            src="{{this.rootURL}}/images/stage-plain-star.svg"
-            alt={{t 'pages.skill-review.stage.alt.acquiredStar' index=star}}/>
-        {{/each}}
-        {{#each this.unacquiredStars as |star|}}
-          <img
-            id="unacquired-star-{{star}}"
-            src="{{this.rootURL}}/images/stage-clear-star.svg"
-            alt={{t 'pages.skill-review.stage.alt.unacquiredStar' index=star}}/>
-        {{/each}}
+              data-test-status="{{this.firstStar.status}}"
+              src="{{this.rootURL}}/images/{{this.firstStar.imageSrc}}"
+              alt="{{t 'pages.skill-review.stage.starsAcquired' acquired=this.acquiredStarsCount total=this.totalStarsCount}}"/>
+          {{#each this.otherStars as |star|}}
+            <img
+              data-test-status="{{star.status}}"
+              src="{{this.rootURL}}/images/{{star.imageSrc}}"
+              alt=""
+              role="none"/>
+          {{/each}}
+        {{/if}}
       </div>
       <div class="reached-stage-score__percentage-text">
         {{t 'pages.skill-review.stage.masteryPercentage' percentage=@percentage}}
