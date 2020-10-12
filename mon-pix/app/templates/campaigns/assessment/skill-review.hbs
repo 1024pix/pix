@@ -86,6 +86,7 @@
 
     <div class="skill-review-result__dash-line"></div>
 
+    <main>
      <div class="skill-review-result__table-header">
         <h2 class="skill-review-result__subtitle">
           {{t 'pages.skill-review.details.title'}}
@@ -102,9 +103,10 @@
        @competenceResults={{this.model.campaignParticipation.campaignParticipationResult.competenceResults}}
        @partnerCompetenceResults={{this.model.campaignParticipation.campaignParticipationResult.cleaBadge.partnerCompetenceResults}}
      />
+    </main>
 
     <div class="skill-review-result__information">
-      {{fa-icon 'info-circle' class='skill-review-information__info-icon'}}
+      <FaIcon @icon='info-circle' class='skill-review-information__info-icon' aria-hidden="true"/>
       <div class="skill-review-information__text">
         {{t 'pages.skill-review.information'}}
       </div>

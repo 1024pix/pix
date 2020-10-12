@@ -807,19 +807,18 @@
         "header-result": "Results",
         "result": "Overall result",
         "result-by-skill": "Your results for the skill",
-        "skill-progress": "'<p class=\"sr-only\">'You have completed '</p>'{percentage}%'<p class=\"sr-only\">' of the skill {skill}.'</p>'",
         "title": "Your results by skill"
       },
       "information": "If you have already completed courses on Pix, questions you have previously answered have not been asked again. However, the result shown here is based on all of your answers.",
       "not-finished": "You can’t submit your results yet, we still have a few questions to ask.",
       "send-results": "Don't forget to submit your results.",
+      "send-status": {
+        "in-progress": "Results are being shared..."
+      },
       "send-title": "Submit your results",
       "stage": {
         "masteryPercentage": "Success rate: {percentage} %",
-        "alt": {
-          "acquiredStar": "Stage no. {index} reached",
-          "unacquiredStar": "Stage no. {index} not reached"
-        }
+        "starsAcquired": "{acquired, plural, =0 {no star} other {# stars}} acquired over {total}"
       },
       "try-again": {
         "title": "Want to improve your results?",
