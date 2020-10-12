@@ -10,6 +10,7 @@ class UserDetailsForAdmin {
     pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted,
     isAuthenticatedFromGAR,
+    isAssociatedWithSchoolingRegistration,
   } = {}) {
     this.id = id;
     this.cgu = cgu;
@@ -20,8 +21,8 @@ class UserDetailsForAdmin {
     this.isAuthenticatedFromGAR = isAuthenticatedFromGAR;
     this.pixOrgaTermsOfServiceAccepted = pixOrgaTermsOfServiceAccepted;
     this.pixCertifTermsOfServiceAccepted = pixCertifTermsOfServiceAccepted;
+    this.isAssociatedWithSchoolingRegistration = isAssociatedWithSchoolingRegistration;
   }
 }
 
 module.exports = UserDetailsForAdmin;
-
