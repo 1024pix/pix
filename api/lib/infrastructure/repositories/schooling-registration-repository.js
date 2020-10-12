@@ -46,14 +46,20 @@ function _isReconciled(schoolingRegistration) {
 
 module.exports = {
 
-  findByOrganizationId({ organizationId }) {
+  _findByOrganizationId({ organizationId, orderByRaw }) {
     return BookshelfSchoolingRegistration
       .where({ organizationId })
-      .query((qb) => {
-        qb.orderByRaw('LOWER("lastName") ASC, LOWER("firstName") ASC');
-      })
+      .query((qb) => qb.orderByRaw(orderByRaw))
       .fetchAll()
       .then((schoolingRegistrations) => bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations));
+  },
+
+  findByOrganizationId({ organizationId }) {
+    return this._findByOrganizationId({ organizationId, orderByRaw: 'LOWER("lastName") ASC, LOWER("firstName") ASC' });
+  },
+
+  findByOrganizationIdOrderByDivision({ organizationId }) {
+    return this._findByOrganizationId({ organizationId, orderByRaw: 'LOWER("division") ASC, LOWER("lastName") ASC, LOWER("firstName") ASC' });
   },
 
   async findByUserId({ userId }) {
