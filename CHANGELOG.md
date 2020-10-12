@@ -1,5 +1,29 @@
 # Pix Changelog
 
+## v2.207.0 (12/10/2020)
+
+- [#1992](https://github.com/1024pix/pix/pull/1992) [FEATURE] Upload un CSV d'élève pour les orga SCO Agri (PIX-1351)
+- [#1987](https://github.com/1024pix/pix/pull/1987) [FEATURE] Rendre réutilisable le parser CSV HigherSchoolingRegistrationParser (PIX-1351)
+- [#1963](https://github.com/1024pix/pix/pull/1963) [FEATURE] Création du service permettant la génération des résultats de certification (PIX-1359).
+- [#1980](https://github.com/1024pix/pix/pull/1980) [FEATURE] Permettre de créer en masse des organisations SCO et leur ajouter le tag AGRI (PIX-1221).
+- [#1964](https://github.com/1024pix/pix/pull/1964) [FEATURE] Amélioration de l’accessibilité de la modal Résultats et tutos (PIX-1182).
+- [#1967](https://github.com/1024pix/pix/pull/1967) [FEATURE] Création du mail d'envoi des résultats de certif (PIX-978)
+- [#1981](https://github.com/1024pix/pix/pull/1981) [FEATURE] Ajout d'une variable d'environnement pour identifier une organization "Agri" (PIX-1350)
+- [#1926](https://github.com/1024pix/pix/pull/1926) [FEATURE] Gérer la mise à jour des étudiants surnuméraires des établissements supérieurs avec l'import (PIX-1124).
+- [#1993](https://github.com/1024pix/pix/pull/1993) [BUGFIX] Corriger l'affichage des barres situées dans l'onglet analyse et résultats collectifs (PIX-1317)
+- [#1974](https://github.com/1024pix/pix/pull/1974) [BUGFIX] Suppression des colonnes d'acquis du CSV de campagne d'évaluation avec la mention NA pour le SCO (PIX-1331).
+- [#1944](https://github.com/1024pix/pix/pull/1944) [BUGFIX] Empêche le dépassement mémoire lié à l'affichage des résultats collectifs (+ amélioration des perfs au passage) (PIX-1067)
+- [#1990](https://github.com/1024pix/pix/pull/1990) [TECH] Mise en place d'un Feature Toggle pour spécifier quelle organisation est Pôle Emploi (Pix-1392).
+- [#1978](https://github.com/1024pix/pix/pull/1978) [TECH] Finalisation de la glimmerization et de l'octanification de Pix Orga (Pix-1386).
+- [#1983](https://github.com/1024pix/pix/pull/1983) [TECH] Ajout d'une route pour télécharger les résultats d'une session (PIX-1359)
+- [#1979](https://github.com/1024pix/pix/pull/1979) [TECH] Utiliser le nouveau modèle de TargetProfile dans l'analyse de campagne (PIX-1388)
+- [#1949](https://github.com/1024pix/pix/pull/1949) [TECH] Ajouter une validation front lors de l'ajout de candidat (CERTIF)
+- [#1986](https://github.com/1024pix/pix/pull/1986) [BUG] Amélioration dans Mon-Pix de la gestion des erreurs sur la page Réinitialiser le mot de passe (PIX-1385).
+- [#1960](https://github.com/1024pix/pix/pull/1960) [TECH ] Retirer le feature toggle du telechargement de l'attestation
+- [#1984](https://github.com/1024pix/pix/pull/1984) [CLEANUP] Retrait de la route API dépréciée POST /api/organizations/{id}/import-students pour l'import SIECLE (PIX-TODO)
+- [#1970](https://github.com/1024pix/pix/pull/1970) [BUG] Rediriger les utilisateurs authentifiés depuis le médiacentre vers la page de déconnexion (pix-1284)
+- [#1953](https://github.com/1024pix/pix/pull/1953) [DOC] Mise à jour de la documentation des tests de bout-en-bout.
+
 ## v2.206.0 (07/10/2020)
 
 - [#1950](https://github.com/1024pix/pix/pull/1950) [FEATURE] Amélioration des choix d'épreuves (PIX-1345).
