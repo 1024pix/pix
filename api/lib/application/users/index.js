@@ -58,11 +58,11 @@ exports.register = async function(server) {
             return sendJsonApiError(new BadRequestError('L\'identifiant de l\'utilisateur n\'est pas au bon format.'), h);
           },
         },
-        handler: userController.getUserDetailsForAdmin,
         pre: [{
           method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster',
         }],
+        handler: userController.getUserDetailsForAdmin,
         notes: [
           '- **Cette route est restreinte aux utilisateurs administrateurs**\n' +
           '- Elle permet de récupérer le détail d\'un utilisateur dans un contexte d\'administration\n',
