@@ -53,6 +53,7 @@ module.exports = {
       (qb) => {
         qb.select([
           'campaign-participations.*',
+          'schooling-registrations.studentNumber',
           knex.raw('COALESCE ("schooling-registrations"."firstName", "users"."firstName") AS "firstName"'),
           knex.raw('COALESCE ("schooling-registrations"."lastName", "users"."lastName") AS "lastName"'),
         ])
@@ -194,6 +195,7 @@ function _rowToResult(row) {
     participantExternalId: row.participantExternalId,
     userId: row.userId,
     isCompleted: row.state === 'completed',
+    studentNumber: row.studentNumber,
     participantFirstName: row.firstName,
     participantLastName: row.lastName,
   };
