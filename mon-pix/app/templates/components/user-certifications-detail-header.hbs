@@ -26,12 +26,10 @@
   </div>
   {{#if @certification.verificationCode}}
     <div class="attestation-and-verification-code">
-        {{#if this.isCertificateAttestationActive}}
         <div class="attestation">
           <button class="button" type="button" {{on "click" (fn this.downloadAttestation)}}>{{t "pages.certificate.attestation"}}</button>
         </div>
         <hr>
-        {{/if}}
         <div class="verification-code">
           <h2 class="verification-code__title">
             {{t "pages.certificate.verification-code.title"}}
