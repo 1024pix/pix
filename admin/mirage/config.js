@@ -74,16 +74,7 @@ export default function() {
     return membership.update({ disabledAt: new Date() });
   });
 
-  this.patch('/organizations/:id', (schema, request) => {
-    const organizationId = request.params.id;
-    const params = JSON.parse(request.requestBody);
-    const name = params.data.attributes.name;
-    const externalId = params.data.attributes['external-id'];
-    const provinceCode = params.data.attributes['province-code'];
-
-    const organization = schema.organizations.findBy({ id: organizationId });
-    return organization.update({ name, externalId, provinceCode });
-  });
+  this.patch('/organizations/:id');
 
   this.patch('/admin/users/:id', (schema, request) => {
     const userId = request.params.id;
