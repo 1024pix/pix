@@ -1,0 +1,13 @@
+.add-student {
+
+  &__return-to span {
+    color: $blue-zodia;
+  }
+
+  &__title {
+    color: $grey-70;
+    font-family: $open-sans;
+    font-size: 2.25rem;
+    font-weight: 300;
+  }
+}
