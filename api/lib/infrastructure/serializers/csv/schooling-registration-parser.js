@@ -45,33 +45,9 @@ class SchoolingRegistrationSet {
 class SchoolingRegistrationParser extends CsvRegistrationParser {
 
   constructor(input, organizationId) {
-    super(input, organizationId, COLUMNS);
-  }
-
-  parse() {
     const registrationSet = new SchoolingRegistrationSet();
-    super.parse({
-      registrationSet,
-      onParseLineError: this._handleError,
-    });
-    return registrationSet.registrations;
-  }
 
-  _handleError(err, index) {
-    const column = COLUMNS.find((column) => column.name === err.key);
-    if (err.why === 'max_length') {
-      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” doit être inférieur à ${err.limit} caractères.`);
-    }
-    if (err.why === 'not_a_date' || err.why === 'date_format') {
-      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” doit être au format jj/mm/aaaa.`);
-    }
-    if (err.why === 'required') {
-      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” est obligatoire.`);
-    }
-    if (err.why === 'bad_values') {
-      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” doit être "${err.valids.join(' ou ')}".`);
-    }
-    throw err;
+    super(input, organizationId, COLUMNS, registrationSet);
   }
 }
 
