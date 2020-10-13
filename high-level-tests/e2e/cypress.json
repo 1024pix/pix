@@ -6,7 +6,7 @@
     "CERTIF_URL": "http://localhost:4203"
   },
   "video": false,
-  "blockHosts": "*stats.pix.fr*",
+  "blockHosts": ["*stats.pix.fr*", "*analytics.pix.fr*"],
   "screenshotsFolder": "cypress/snapshots/actual",
   "trashAssetsBeforeRuns": true,
   "projectId": "g2rfqp",
