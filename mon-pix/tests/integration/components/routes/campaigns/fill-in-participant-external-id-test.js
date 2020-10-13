@@ -20,6 +20,7 @@ describe('Integration | Component | routes/campaigns/restricted/fill-in-particip
       // when
       const campaign = {
         externalIdHelpImageUrl: '/images/pix-logo.svg',
+        alternativeTextToExternalIdHelpImage: 'alternative text',
       };
       this.set('campaign', campaign);
 
@@ -28,6 +29,8 @@ describe('Integration | Component | routes/campaigns/restricted/fill-in-particip
 
       // then
       expect(find('img')).to.exist;
+      expect(find('img').getAttribute('alt')).to.contain(campaign.alternativeTextToExternalIdHelpImage);
+      
     });
   });
 
@@ -46,4 +49,5 @@ describe('Integration | Component | routes/campaigns/restricted/fill-in-particip
       expect(find('img')).to.not.exist;
     });
   });
+  
 });
