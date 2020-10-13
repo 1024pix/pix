@@ -34,6 +34,7 @@ describe('Unit | UseCase | reconcile-schooling-registration', () => {
     };
     schoolingRegistrationRepository = {
       reconcileUserToSchoolingRegistration: sinon.stub(),
+      findOneByUserIdAndOrganizationId: sinon.stub(),
     };
     userReconciliationService = {
       findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser: sinon.stub(),
@@ -111,6 +112,43 @@ describe('Unit | UseCase | reconcile-schooling-registration', () => {
     });
   });
 
+  context('When another student is already reconciled in the same organization and with the same user', () => {
+
+    it('should return a SchoolingRegistrationAlreadyLinkedToUser error', async () => {
+      // given
+      schoolingRegistration.userId = user.id;
+      schoolingRegistration.firstName = user.firstName;
+      schoolingRegistration.lastName = user.lastName;
+
+      const alreadyReconciledSchoolingRegistrationWithAnotherStudent = domainBuilder.buildSchoolingRegistration({ organizationId, userId: user.id });
+
+      const exceptedErrorMEssage = 'Un autre étudiant est déjà réconcilié dans la même organisation et avec le même compte utilisateur';
+      campaignRepository.getByCode.withArgs(campaignCode).resolves({ organizationId });
+      userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(schoolingRegistration);
+      studentRepository.getReconciledStudentByNationalStudentId.resolves(new Student());
+      userReconciliationService.checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations.resolves();
+      schoolingRegistrationRepository.findOneByUserIdAndOrganizationId.withArgs({
+        userId: user.id,
+        organizationId,
+      }).resolves(alreadyReconciledSchoolingRegistrationWithAnotherStudent);
+
+      // when
+      const result = await catchErr(usecases.reconcileSchoolingRegistration)({
+        reconciliationInfo: user,
+        campaignCode,
+        campaignRepository,
+        userReconciliationService,
+        studentRepository,
+        schoolingRegistrationRepository,
+      });
+
+      // then
+      expect(result).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToUserError);
+      expect(result.message).to.equal(exceptedErrorMEssage);
+    });
+
+  });
+
   context('When one schoolingRegistration matched on names', () => {
 
     it('should associate user with schoolingRegistration', async () => {
@@ -142,4 +180,5 @@ describe('Unit | UseCase | reconcile-schooling-registration', () => {
       expect(result.userId).to.be.equal(user.id);
     });
   });
+
 });
