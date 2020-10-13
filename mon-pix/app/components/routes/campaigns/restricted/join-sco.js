@@ -204,6 +204,9 @@ export default class JoinSco extends Component {
     errorResponse.errors.forEach((error) => {
       if (error.status === '409') {
         const message = this._showErrorMessageByShortCode(error.meta);
+        if ('USER_ALREADY_RECONCILED_IN_THIS_ORGANIZATION' === error.code) {
+          return this.errorMessage = message;
+        }
         this.displayModal = true;
         this.displayContinueButton = !ACCOUNT_WITH_SAMLID_ALREADY_EXISTS_ERRORS.includes(error.meta.shortCode);
         this.session.set('data.expectedUserId', error.meta.userId);

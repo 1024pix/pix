@@ -8,7 +8,8 @@
       "r13": "",
       "r31": "",
       "r32": "",
-      "r33": ""
+      "r33": "",
+      "r70": ""
     },
     "login-unauthorized-error": "There was an error in the email address or username/password entered.",
     "register-error": {
