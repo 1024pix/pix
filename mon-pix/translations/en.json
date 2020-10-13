@@ -52,7 +52,7 @@
     },
     "pages": {
         "assessment-banner": {
-            "title": "Challenge for the assessment: "
+            "title": "Question for the assessment: "
         },
         "assessment-results": {
             "title": "End of test",
@@ -133,7 +133,7 @@
             },
             "issued-on": "Delivered on",
             "jury-title": "Remarks from the board of examiners",
-            "jury-info": "Comments made by the examination board are not displayed on the verification page of your certificate.",
+            "jury-info": "Comments of the examination board are not displayed on the verification page of your certificate.",
             "validity": "Certificate valid for 3 years"
         },
         "competence-result": {
@@ -141,7 +141,7 @@
             "header": {
                 "congratulations": "Congratulations!",
                 "not-bad": "Not bad, but could be better!",
-                "not-bad-subtitle": "A little more effort and you’ll reach your first level.",
+                "not-bad-subtitle": "A little more effort and you’ll reach the first level.",
                 "too-bad": "Never mind!",
                 "too-bad-subtitle": "It doesn’t seem to be your day, but you’ll do better next time.",
                 "you-have-earned": "You have",
@@ -346,9 +346,9 @@
             "parts": {
                 "answer-input": "Your answer",
                 "feedback": "Report a problem",
-                "instruction": "Instructions for the challenge",
+                "instruction": "Instructions to answer the question",
                 "progress": "Your progress",
-                "validation": "Validate or pass this challenge"
+                "validation": "Validate or skip this question"
             },
             "progress-bar": {
                 "label": "Question"
@@ -356,7 +356,7 @@
             "statement": {
                 "alternative-instruction": {
                     "actions": {
-                        "display": "Display alternative instruction",
+                        "display": "Show alternative instruction",
                         "hide": "Hide alternative instruction"
                     }
                 },
@@ -615,7 +615,7 @@
             "title": "Forgotten your password?",
             "actions": {
                 "back-home": "Return to homepage",
-                "back-sign-in": "Return to the login page",
+                "back-sign-in": "Return to log in page",
                 "reset": "Reset my password"
             },
             "error": {
