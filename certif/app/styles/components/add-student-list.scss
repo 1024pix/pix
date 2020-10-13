@@ -1,0 +1,25 @@
+.add-student-list {
+
+  font-size: 0.875rem;
+  position: relative;
+
+  thead tr {
+    background: $grey-10;
+    border-radius: 4px;
+    outline: 4px solid $white;
+    outline-offset: -4px;
+    border-bottom: 4px solid $grey-10;
+  }
+
+  tr {
+    background-color: $white;
+  }
+
+  th, td {
+    text-align: left;
+    padding-left: 30px;
+  }
+
+  &__column-checkbox { width: 30px; }
+  &__column-birthdate { width: 60%; }
+}
