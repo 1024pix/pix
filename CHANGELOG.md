@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v2.208.0 (13/10/2020)
+
+- [#2003](https://github.com/1024pix/pix/pull/2003) [FEATURE] Ajouter un texte alternatif à l'image d'aide de l'identifiant externe (PIX-1363).
+- [#2006](https://github.com/1024pix/pix/pull/2006) [FEATURE] Ajouter une documentation pour les organisation SCO-AGRI (PIX-1335)
+- [#1999](https://github.com/1024pix/pix/pull/1999) [FEATURE] Réconcilier un élève avec un match strict, et dans un second temps avec une distance d'édition si pas de match (PIX-1401).
+- [#1969](https://github.com/1024pix/pix/pull/1969) [FEATURE] Accessibilité de la page de résultat de campagne (PIX-1183)
+- [#1971](https://github.com/1024pix/pix/pull/1971) [FEATURE] Ajout du numéro étudiant dans l'export csv d'une campagne de collecte de profils (PIX-1139).
+- [#1989](https://github.com/1024pix/pix/pull/1989) [FEATURE] Editer le champ crédits d'une organisation (PIX-1296).
+- [#1996](https://github.com/1024pix/pix/pull/1996) [BUG] Afficher le message d'erreur adéquat lorsque la longueur de l'e-mail est erronée, sur la page d'inscription de Mon-Pix (PIX-1275).
+
 ## v2.207.0 (12/10/2020)
 
 - [#1992](https://github.com/1024pix/pix/pull/1992) [FEATURE] Upload un CSV d'élève pour les orga SCO Agri (PIX-1351)
