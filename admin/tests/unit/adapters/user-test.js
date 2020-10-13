@@ -3,7 +3,9 @@ import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
 module('Unit | Adapter | user', function(hooks) {
+
   setupTest(hooks);
+
   let adapter;
 
   hooks.beforeEach(function() {
@@ -30,29 +32,55 @@ module('Unit | Adapter | user', function(hooks) {
     });
   });
 
-  module('#updateRecord', function() {
+  module('#updateRecord', function(hooks) {
 
-    module('when anonymizeUser adapterOptions is passed', function(hooks) {
+    hooks.beforeEach(function() {
+      sinon.stub(adapter, 'ajax').resolves();
+    });
 
-      hooks.beforeEach(function() {
-        sinon.stub(adapter, 'ajax');
-      });
+    hooks.afterEach(function() {
+      adapter.ajax.restore();
+    });
 
-      hooks.afterEach(function() {
-        adapter.ajax.restore();
-      });
+    module('when anonymizeUser adapterOptions is passed', function() {
 
-      test('should send a POST request to user endpoint', async function(assert) {
+      test('should send a POST request to user anonymize endpoint', async function(assert) {
         // given
-        adapter.ajax.resolves();
+        const expectedUrl = 'http://localhost:3000/api/admin/users/123/anonymize';
+        const adapterOptions = { anonymizeUser: true };
 
         // when
-        await adapter.updateRecord(null, { modelName: 'user' }, { id: 123, adapterOptions: { anonymizeUser: true } });
+        await adapter.updateRecord(
+          null,
+          { modelName: 'user' },
+          { id: 123, adapterOptions },
+        );
 
         // then
-        sinon.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/admin/users/123/anonymize', 'POST');
+        sinon.assert.calledWith(adapter.ajax, expectedUrl, 'POST');
+        assert.ok(adapter); /* required because QUnit wants at least one expect (and does not accept Sinon's one) */
+      });
+    });
+
+    module('when dissociate adapterOptions is passed', function() {
+
+      test('should send a PATCH request to user dissociate endpoint', async function(assert) {
+        // given
+        const expectedUrl = 'http://localhost:3000/api/admin/users/123/dissociate';
+        const adapterOptions = { dissociate: true };
+
+        // when
+        await adapter.updateRecord(
+          null,
+          { modelName: 'user' },
+          { id: 123, adapterOptions },
+        );
+
+        // then
+        sinon.assert.calledWith(adapter.ajax, expectedUrl, 'PATCH');
         assert.ok(adapter); /* required because QUnit wants at least one expect (and does not accept Sinon's one) */
       });
     });
   });
+
 });
