@@ -90,7 +90,7 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
     if (analyticsEnabled) {
-      ENV.matomo.url = 'https://stats.pix.fr/js/container_cMIdKogu_dev_ace719fc09829675a21c66df.js';
+      ENV.matomo.url = process.env.WEB_ANALYTICS_URL;
       ENV.matomo.debug = true;
     }
   }
@@ -114,7 +114,7 @@ module.exports = function(environment) {
     // here you can enable a production-specific feature
     //ENV.APP.API_HOST = 'https://pix.fr/api';
     if (analyticsEnabled) {
-      ENV.matomo.url = 'https://stats.pix.fr/js/container_cMIdKogu.js';
+      ENV.matomo.url = process.env.WEB_ANALYTICS_URL;
     }
   }
 
