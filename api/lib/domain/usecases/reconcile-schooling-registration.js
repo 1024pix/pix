@@ -1,4 +1,5 @@
-const { CampaignCodeError } = require('../errors');
+const { CampaignCodeError, SchoolingRegistrationAlreadyLinkedToUserError } = require('../errors');
+const { STUDENT_RECONCILIATION_ERRORS } = require('../constants');
 
 module.exports = async function reconcileSchoolingRegistration({
   campaignCode,
@@ -22,8 +23,34 @@ module.exports = async function reconcileSchoolingRegistration({
     userRepository,
     obfuscationService,
   });
+
   const student = await studentRepository.getReconciledStudentByNationalStudentId(matchedSchoolingRegistration.nationalStudentId);
   await userReconciliationService.checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(student, userRepository, obfuscationService);
 
-  return schoolingRegistrationRepository.reconcileUserToSchoolingRegistration({ userId: reconciliationInfo.id, schoolingRegistrationId: matchedSchoolingRegistration.id });
+  await _checkIfAnotherStudentIsAlreadyReconciledWithTheSameOrganizationAndUser(reconciliationInfo.id, campaign.organizationId, schoolingRegistrationRepository);
+
+  return schoolingRegistrationRepository.reconcileUserToSchoolingRegistration({
+    userId: reconciliationInfo.id,
+    schoolingRegistrationId: matchedSchoolingRegistration.id,
+  });
+
 };
+
+async function _checkIfAnotherStudentIsAlreadyReconciledWithTheSameOrganizationAndUser(userId, organizationId, schoolingRegistrationRepository) {
+
+  const schoolingRegistrationFound = await schoolingRegistrationRepository.findOneByUserIdAndOrganizationId({
+    userId,
+    organizationId,
+  });
+
+  if (schoolingRegistrationFound) {
+    const detail = 'Un autre étudiant est déjà réconcilié dans la même organisation et avec le même compte utilisateur';
+    const error = STUDENT_RECONCILIATION_ERRORS.RECONCILIATION.IN_SAME_ORGANIZATION.anotherStudentIsAlreadyReconciled;
+    const meta = {
+      shortCode: error.shortCode,
+    };
+    throw new SchoolingRegistrationAlreadyLinkedToUserError(detail, error.code, meta);
+  }
+
+}
+
