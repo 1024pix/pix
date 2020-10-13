@@ -21,6 +21,10 @@ export default function() {
     return schema.sessions.where({ certificationCenterId });
   });
 
+  this.get('/certification-centers/:id/students', (schema) => {
+    return schema.students.all();
+  });
+
   this.post('/revoke', () => {});
 
   this.post('/token', (schema, request) => {

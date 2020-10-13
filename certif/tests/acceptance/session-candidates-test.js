@@ -59,6 +59,21 @@ module('Acceptance | Session Candidates', function(hooks) {
       assert.equal(currentURL(), '/sessions/liste');
     });
 
+    module('add students list sco', function(hooks) {
+      hooks.beforeEach(function() {
+        user = createScoUserWithMembershipAndTermsOfServiceAccepted();
+        server.createList('student', 10);
+      });
+
+      test('it should display the list of students for session', async function(assert) {
+        // when
+        await visit(`/sessions/${session.id}/ajout-eleves`);
+
+        // then
+        assert.dom('table tbody tr').exists({ count: 10 });
+      });
+    });
+
     module('candidates list', function(hooks) {
       let existingCandidates;
 

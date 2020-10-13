@@ -33,10 +33,10 @@ module.exports = {
       .then((sessions) => sessionSerializer.serialize(sessions));
   },
 
-  async getSchoolingRegistrations(request) {
+  async getStudents(request) {
     const certificationCenterId = parseInt(request.params.id);
     const userId = parseInt(request.auth.credentials.userId);
-    const schoolingRegistrations = await usecases.findStudentsFromCertificationCenterId({ userId, certificationCenterId });
-    return studentCertificationSerializer.serialize(schoolingRegistrations);
+    const students = await usecases.findStudentsFromCertificationCenterId({ userId, certificationCenterId });
+    return studentCertificationSerializer.serialize(students);
   },
 };

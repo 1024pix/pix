@@ -3,7 +3,6 @@ const {
   expect, generateValidRequestAuthorizationHeader,
   insertUserWithRolePixMaster, databaseBuilder, knex,
 } = require('../../test-helper');
-const studentCertificationSerializer = require('../../../lib/infrastructure/serializers/jsonapi/student-certification-serializer');
 const createServer = require('../../../server');
 
 describe('Acceptance | API | Certification Center', () => {
@@ -219,20 +218,20 @@ describe('Acceptance | API | Certification Center', () => {
     });
   });
 
-  describe('GET /api/certification-centers/{id}/schooling-registrations', () => {let request;
+  describe('GET /api/certification-centers/{id}/students', () => {let request;
     const externalId = 'XXXX';
 
     function _buildSchoolinRegistrationsWithConnectedUserRequest(user, certificationCenter) {
       return {
         method: 'GET',
-        url: '/api/certification-centers/' + certificationCenter.id + '/schooling-registrations',
+        url: '/api/certification-centers/' + certificationCenter.id + '/students',
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
       };
     }
     function _buildSchoolinRegistrationsNotConnectedUserRequest(certificationCenter) {
       return {
         method: 'GET',
-        url: '/api/certification-centers/' + certificationCenter.id + '/schooling-registrations',
+        url: '/api/certification-centers/' + certificationCenter.id + '/students',
       };
     }
 
@@ -242,7 +241,7 @@ describe('Acceptance | API | Certification Center', () => {
         // given
         const { certificationCenter, user } = _buildUserWithCertificationCenterMemberShip(externalId);
         const organization = _buildOrganization(externalId);
-        _buildSchoolingRegistrations(organization, 1);
+        _buildSchoolingRegistrations(organization, { firstName: 'Laura', lastName: 'certifForEver', division: '2ndB' });
         await databaseBuilder.commit();
 
         const request = _buildSchoolinRegistrationsWithConnectedUserRequest(user, certificationCenter);
@@ -258,7 +257,14 @@ describe('Acceptance | API | Certification Center', () => {
         // given
         const { certificationCenter, user } = _buildUserWithCertificationCenterMemberShip(externalId);
         const organization = _buildOrganization(externalId);
-        const expectedSchoolingRegistrations = _buildSchoolingRegistrations(organization, 5);
+        _buildSchoolingRegistrations(
+          organization,
+          { id: 1, division: '2ndB', firstName: 'Laura', lastName: 'Certif4Ever' },
+          { id: 2, division: '2ndA', firstName: 'Laura', lastName: 'Booooo' },
+          { id: 3, division: '2ndA', firstName: 'Laura', lastName: 'aaaaa' },
+          { id: 4, division: '2ndA', firstName: 'Bart', lastName: 'Coucou' },
+          { id: 5, division: '2ndA', firstName: 'Arthur', lastName: 'Coucou' },
+        );
         await databaseBuilder.commit();
 
         const request = _buildSchoolinRegistrationsWithConnectedUserRequest(user, certificationCenter);
@@ -267,7 +273,7 @@ describe('Acceptance | API | Certification Center', () => {
         const response = await server.inject(request);
 
         // then
-        expect(response.result.data).to.deep.equal(expectedSchoolingRegistrations.data);
+        expect(_.map(response.result.data, 'id')).to.deep.equal(['3', '2', '5', '4', '1']);
       });
 
       context('when the certification center does not exist', () => {
@@ -275,8 +281,7 @@ describe('Acceptance | API | Certification Center', () => {
         it('should return Forbidden Access when the certificationCenter does not exist', async () => {
           // given
           const { user } = _buildUserWithCertificationCenterMemberShip(externalId);
-          const organization = _buildOrganization(externalId);
-          _buildSchoolingRegistrations(organization, 5);
+          _buildOrganization(externalId);
           await databaseBuilder.commit();
 
           const notExistingCertificationCenter = { id: '10203' };
@@ -298,8 +303,7 @@ describe('Acceptance | API | Certification Center', () => {
         it('should return Forbidden Access when user are not register in the certificationCenter', async () => {
           // given
           const { user } = _buildUserWithCertificationCenterMemberShip(externalId);
-          const organization = _buildOrganization(externalId);
-          _buildSchoolingRegistrations(organization, 5);
+          _buildOrganization(externalId);
           certificationCenterWhereUserDoesNotHaveAccess = databaseBuilder.factory.buildCertificationCenter({ externalId });
           await databaseBuilder.commit();
 
@@ -320,8 +324,7 @@ describe('Acceptance | API | Certification Center', () => {
       it('should return 401 HTTP status code if user is not authenticated', async() => {
         // given
         _buildUserWithCertificationCenterMemberShip(externalId);
-        const organization = _buildOrganization(externalId);
-        _buildSchoolingRegistrations(organization, 5);
+        _buildOrganization(externalId);
         const certificationCenterWhereUserDoesNotHaveAccess = databaseBuilder.factory.buildCertificationCenter({ externalId });
         await databaseBuilder.commit();
 
@@ -412,10 +415,8 @@ describe('Acceptance | API | Certification Center', () => {
     const organization = databaseBuilder.factory.buildOrganization({ externalId });
     return organization;
   }
-  function _buildSchoolingRegistrations(organization, numberOfshoolingRegistration) {
-    let schoolingRegistrations = _.times(numberOfshoolingRegistration, () => databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id }));
-    schoolingRegistrations = _.sortBy(schoolingRegistrations, ['division', 'lastName', 'firstName']);
-    return studentCertificationSerializer.serialize(schoolingRegistrations);
+  function _buildSchoolingRegistrations(organization, ...students) {
+    return students.map((student) => databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, ...student }));
   }
 
   function _buildUserWithCertificationCenterMemberShip(certificationCenterExternalId) {

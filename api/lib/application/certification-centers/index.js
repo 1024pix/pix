@@ -57,14 +57,14 @@ exports.register = async function(server) {
     },
     {
       method: 'GET',
-      path: '/api/certification-centers/{id}/schooling-registrations',
+      path: '/api/certification-centers/{id}/students',
       config: {
-        handler: certificationCenterController.getSchoolingRegistrations,
+        handler: certificationCenterController.getStudents,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Récupération d\'une liste d\'élèves SCO à partir d\' un identifiant de centre de certification',
         ],
-        tags: ['api', 'certification-center', 'schooling-registration'],
+        tags: ['api', 'certification-center', 'students'],
       },
     },
     {
