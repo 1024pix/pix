@@ -10,7 +10,11 @@ module.exports = async function improveCompetenceEvaluation({
   competenceId,
   domainTransaction,
 }) {
-  const competenceEvaluation = await competenceEvaluationRepository.getByCompetenceIdAndUserId({ userId, competenceId });
+  const competenceEvaluation = await competenceEvaluationRepository.getByCompetenceIdAndUserId({
+    competenceId,
+    userId,
+    domainTransaction,
+  });
   const competenceLevel = await getCompetenceLevel({ userId, competenceId });
 
   if (competenceLevel === MAX_REACHABLE_LEVEL) {
