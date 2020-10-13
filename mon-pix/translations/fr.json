@@ -8,7 +8,8 @@
       "r13": "Vous possédez déjà un compte Pix via l’ENT dans un autre établissement scolaire.'<br>'Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l’aide de Pix Orga.",
       "r31": "Vous possédez déjà un compte Pix avec l’adresse e-mail'<br>'{ value }.'<br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br>'(Code R31)",
       "r32": "Vous possédez déjà un compte Pix utilisé avec l’identifiant'<br>'{ value }.'<br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br>'(Code R32)",
-      "r33": "Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours."
+      "r33": "Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.",
+      "r70": "Une erreur est survenue. Déconnectez-vous et recommencez."
     },
     "login-unauthorized-error": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects.",
     "register-error": {

@@ -29,6 +29,11 @@ const JOIN_ERRORS = [
     message: 'api-error-messages.join-error.r33',
     code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
   },
+  {
+    shortCode: 'R70',
+    message: 'api-error-messages.join-error.r70',
+    code: 'USER_ALREADY_RECONCILED_IN_THIS_ORGANIZATION',
+  },
 ];
 
 const REGISTER_ERRORS = [
