@@ -127,7 +127,7 @@ module.exports = function(environment) {
     // Redefined in custom initializer 'initializers/configure-pix-api-host.js'
     ENV.APP.HOME_URL = process.env.HOME_URL || '/';
     if (analyticsEnabled) {
-      ENV.matomo.url = 'https://stats.pix.fr/js/container_jKDD76j4_dev_179474167add1104d6c8a92b.js';
+      ENV.matomo.url = process.env.WEB_ANALYTICS_URL;
       ENV.matomo.debug = true;
     }
     ENV.APP.FT_IMPROVE_COMPETENCE_EVALUATION = true;
@@ -160,7 +160,7 @@ module.exports = function(environment) {
   if (environment === 'production') {
     // here you can enable a production-specific feature
     if (analyticsEnabled) {
-      ENV.matomo.url = 'https://stats.pix.fr/js/container_jKDD76j4.js';
+      ENV.matomo.url = process.env.WEB_ANALYTICS_URL;
     }
   }
   return ENV;
