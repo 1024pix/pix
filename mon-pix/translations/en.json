@@ -3,32 +3,31 @@
         "bad-request-error": "The data entered was not in the correct format.",
         "internal-server-error": "An error occurred, our teams are working on finding a solution. Please try again later.",
         "join-error": {
-            "r11": "",
-            "r12": "",
+            "r11": "{ value }",
+            "r12": "{ value }",
             "r13": "",
-            "r31": "",
-            "r32": "",
+            "r31": "{ value }",
+            "r32": "{ value }",
             "r33": "",
             "r70": ""
         },
-      "login-unauthorized-error": "There was an error in the email address or username/password entered.",
-      "register-error": {
-        "s51": "",
-        "s52": "",
-        "s53": "",
-        "s61": "",
-        "s62": "",
-        "s63": ""
-      }
-
+        "login-unauthorized-error": "There was an error in the email address or username/password entered.",
+        "register-error": {
+            "s51": "{ value }",
+            "s52": "{ value }",
+            "s53": "",
+            "s61": "{ value }",
+            "s62": "{ value }",
+            "s63": ""
+        }
     },
     "application": {
         "description": "Pix is an online platform open to all (pupils, students, anyone working or in professional training, seniors) designed to assess, develop and certify digital skills"
     },
     "common": {
         "actions": {
-          "back": "",
-          "cancel": "Cancel",
+            "back": "",
+            "cancel": "Cancel",
             "close": "Close",
             "quit": "Exit",
             "sign-out": "Sign out"
@@ -38,7 +37,7 @@
             "mandatory": "required",
             "mandatory-fields": "The fields marked '<abbr title=\"required\" class=\"mandatory-mark\">'*'</abbr>' are required",
             "success": "success",
-          "visible-password": ""
+            "visible-password": ""
         },
         "french-republic": "French Republic",
         "level": "level",
@@ -160,13 +159,11 @@
                 },
                 "fields": {
                     "birth-date": "Date of birth",
-                  "birth-day": "",
-                  "birth-month": "",
-
-                  "birth-name": "Given name",
-                  "birth-year": "",
-
-                  "first-name": "First name",
+                    "birth-day": "",
+                    "birth-month": "",
+                    "birth-name": "Given name",
+                    "birth-year": "",
+                    "first-name": "First name",
                     "session-number": "Session number"
                 }
             }
@@ -403,48 +400,46 @@
         "comparison-window": {
             "upcoming-tutorials": "You will soon find tutorials here to help you answer correctly to this type of question!!",
             "results": {
-              "a11y": {
-                "the-answer-was": "The answer was",
-                "given-answer": "given answer"
-              },
-              "aband": {
-                "title": "You did not answer",
-                "tooltip": "No answer"
-              },
-              "abandAutoReply": {
-                "title": "You have skipped the question",
-                "tooltip": "Question skipped"
-              },
-              "default": {
-                "title": "",
-                "tooltip": "Auto-correct under development ;)"
-              },
-              "ko": {
-                "title": "That’s not the right answer",
-                "tooltip": "Incorrect answer"
-              },
-              "koAutoReply": {
-                "title": "You did not correctly answer the question",
-                "tooltip": "Question answered incorrectly"
-              },
-
-              "ok": {
+                "a11y": {
+                    "the-answer-was": "The answer was",
+                    "given-answer": "given answer"
+                },
+                "aband": {
+                    "title": "You did not answer",
+                    "tooltip": "No answer"
+                },
+                "abandAutoReply": {
+                    "title": "You have skipped the question",
+                    "tooltip": "Question skipped"
+                },
+                "default": {
+                    "title": "",
+                    "tooltip": "Auto-correct under development ;)"
+                },
+                "ko": {
+                    "title": "That’s not the right answer",
+                    "tooltip": "Incorrect answer"
+                },
+                "koAutoReply": {
+                    "title": "You did not correctly answer the question",
+                    "tooltip": "Question answered incorrectly"
+                },
+                "ok": {
                     "title": "You got the right answer!",
                     "tooltip": "Correct answer"
                 },
-              "okAutoReply": {
-                "title": "You correctly answered the question",
-                "tooltip": "Question answered correctly "
-              },
-
-              "partially": {
+                "okAutoReply": {
+                    "title": "You correctly answered the question",
+                    "tooltip": "Question answered correctly "
+                },
+                "partially": {
                     "title": "You gave an incomplete answer",
                     "tooltip": "Incomplete answer"
                 },
                 "timedout": {
                     "title": "You ran out of time",
                     "tooltip": "Out of time"
-                },
+                }
             }
         },
         "competence-details": {
@@ -486,131 +481,127 @@
             "content-text": "'<p>'Please refresh the page or '<LinkTo @route=\"login\">'return to homepage'</LinkTo>'.'</p><p>'You can also contact us via '<a href=\"https://support.pix.fr/support/tickets/new\">'the help centre form'</a>'specifying the error code below in the description.'</p><p>'Please excuse any inconvenience caused.'</p><p>'The Pix team.'</p>'",
             "first-title": "Oops, an error occurred!"
         },
-
-      "join": {
-        "title": "",
-        "button": "",
-        "fields": {
-          "birthdate": {
-            "label": "",
-            "day-error": "",
-            "day-format":"",
-            "month-error": "",
-            "month-format": "",
-            "year-error": "",
-            "year-format": ""
-          },
-          "firstname": {
-            "error": "",
-            "label": ""
-          },
-          "lastname": {
-            "error": "",
-            "label": ""
-          }
-        },
-        "first-title":"",
-        "sco": {
-          "continue-with-pix": "",
-          "error-not-found": "",
-          "login-information-title": "",
-          "login-information-message": "",
-          "associate": ""
-        },
-        "subtitle": "",
-        "sup": {
-          "error": "",
-          "fields": {
-            "student-number": {
-              "error": "",
-              "label": "",
-              "modify": "",
-              "not-existing": ""
+        "join": {
+            "title": "",
+            "button": "",
+            "fields": {
+                "birthdate": {
+                    "label": "",
+                    "day-error": "",
+                    "day-format": "",
+                    "month-error": "",
+                    "month-format": "",
+                    "year-error": "",
+                    "year-format": ""
+                },
+                "firstname": {
+                    "error": "",
+                    "label": ""
+                },
+                "lastname": {
+                    "error": "",
+                    "label": ""
+                }
+            },
+            "first-title": "{ organizationName }",
+            "sco": {
+                "continue-with-pix": "",
+                "error-not-found": "",
+                "login-information-title": "",
+                "login-information-message": "{ connectionMethod } - { firstName } - { lastName }",
+                "associate": ""
+            },
+            "subtitle": "",
+            "sup": {
+                "error": "",
+                "fields": {
+                    "student-number": {
+                        "error": "",
+                        "label": "",
+                        "modify": "",
+                        "not-existing": ""
+                    }
+                }
             }
-          }
-        }
-      },
-
-      "learning-more": {
+        },
+        "learning-more": {
             "title": "To find out more",
             "info": "These tutorial links have been suggested by Pix users."
         },
         "levelup-notif": {
             "obtained-level": "Level { level } succeeded!"
         },
-
-      "login-or-register": {
-        "title": "",
-        "invitation": "",
-        "login-form": {
-          "button": "",
-          "error": "",
-          "fields": {
-            "login": {
-              "label": ""
+        "login-or-register": {
+            "title": "",
+            "invitation": "{ organizationName }",
+            "login-form": {
+                "button": "",
+                "error": "",
+                "fields": {
+                    "login": {
+                        "label": ""
+                    },
+                    "password": {
+                        "label": ""
+                    }
+                },
+                "forgotten-password": {
+                    "email": "",
+                    "instruction": "",
+                    "other-identity": "",
+                    "reset-link": ""
+                },
+                "title": "",
+                "unexpected-user-account-error": ""
             },
-            "password": {
-              "label": ""
+            "register-form": {
+                "button": "",
+                "button-form": "",
+                "fields": {
+                    "birthdate": {
+                        "label": "",
+                        "day-error": "",
+                        "month-error": "",
+                        "year-error": ""
+                    },
+                    "cgu": "",
+                    "email": {
+                        "error": "",
+                        "help": "",
+                        "label": ""
+                    },
+                    "firstname": {
+                        "error": "",
+                        "label": ""
+                    },
+                    "lastname": {
+                        "error": "",
+                        "label": ""
+                    },
+                    "password": {
+                        "error": "",
+                        "help": "",
+                        "label": "",
+                        "show-button": ""
+                    },
+                    "username": {
+                        "label": ""
+                    }
+                },
+                "legal-text": "",
+                "not-me": "",
+                "options": {
+                    "email": "",
+                    "text": "",
+                    "username": ""
+                },
+                "title": ""
             }
-          },
-          "forgotten-password": {
-            "email": "",
-            "instruction": "",
-            "other-identity": "",
-            "reset-link": ""
-          },
-          "title": "",
-          "unexpected-user-account-error": ""
         },
-        "register-form": {
-          "button": "",
-          "button-form": "",
-          "fields": {
-            "birthdate": {
-              "label": "",
-              "day-error": "",
-              "month-error": "",
-              "year-error": ""
-            },
-            "cgu": "",
-            "email": {
-              "error": "",
-              "help": "",
-              "label": ""
-            },
-            "firstname": {
-              "error": "",
-              "label": ""
-            },
-            "lastname": {
-              "error": "",
-              "label": ""
-            },
-            "password": {
-              "error": "",
-              "help": "",
-              "label": "",
-              "show-button": ""
-            },
-            "username": {
-              "label": ""
-            }
-          },
-          "legal-text": "",
-          "not-me": "",
-          "options": {
-            "email": "",
-            "text": "",
-            "username": ""
-          },
-          "title": ""
-        }
-      },
-
-      "not-connected": {
-        "title": "",
-        "message": ""
-      },
+        "not-connected": {
+            "title": "",
+            "message": ""
+        },
         "password-reset-demand": {
             "title": "Forgotten your password?",
             "actions": {
@@ -787,37 +778,34 @@
                 "header-result": "Results",
                 "result": "Overall result",
                 "result-by-skill": "Your results for the skill",
-                "skill-progress": "'<p class=\"sr-only\">'You have completed '</p>'{percentage}%'<p class=\"sr-only\">' of the skill {skill}.'</p>'",
                 "title": "Your results by skill"
             },
             "information": "If you have already completed personalised tests on Pix, questions you have previously answered have not been asked again. However, the result shown here is based on all of your answers.",
             "not-finished": "You can’t submit your results yet, we still have a few questions to ask.",
             "send-results": "Don't forget to submit your results.",
-          "send-status": {
-            "in-progress": "Results are being shared..."
-          },
-
-          "send-title": "Submit your results",
+            "send-status": {
+                "in-progress": "Results are being shared..."
+            },
+            "send-title": "Submit your results",
             "stage": {
                 "masteryPercentage": "Success rate: {percentage} %",
-              "starsAcquired": "{acquired, plural, =0 {no star} other {# stars}} acquired over {total}"
+                "starsAcquired": "{acquired, plural, =0 {no star} other {# stars}} acquired over {total}"
             },
             "try-again": {
                 "title": "Want to improve your results?",
                 "description": "You can retake some of the questions"
             }
         },
-      "terms-of-service": {
-        "title": "",
-        "cgu": "",
-        "message": "",
-        "form": {
-          "button": "",
-          "error-message": ""
-        }
-      },
-
-      "time-gauge": {
+        "terms-of-service": {
+            "title": "",
+            "cgu": "",
+            "message": "",
+            "form": {
+                "button": "",
+                "error-message": ""
+            }
+        },
+        "time-gauge": {
             "timeout-placeholder": "You have exceeded the time allowed",
             "remaining-time-placeholder": "There is still more time to complete the test"
         },
@@ -864,9 +852,8 @@
                 "image-link": "images/user-tutorials/illustration.svg",
                 "title": "You haven’t saved anything yet"
             },
-          "label": "",
-
-          "list": {
+            "label": "",
+            "list": {
                 "title": "My list",
                 "tutorial": {
                     "actions": {
@@ -915,7 +902,7 @@
             "title": "Share my Pix Certificate",
             "back-link": "Go back to the verification’s page"
         },
-        "fill-in-id-pix": {
+        "fill-in-participant-external-id": {
             "title": "Enter my username",
             "first-title": "Before starting",
             "announcement": "The organiser needs the information below in order to provide support:",
@@ -927,22 +914,20 @@
                 "missing-id-pix-label": "Please enter your { idPixLabel }."
             }
         },
-
-      "update-expired-password": {
-        "title": "",
-        "button": "",
-        "fields": {
-          "error": "",
-          "help": "",
-          "label": ""
+        "update-expired-password": {
+            "title": "",
+            "button": "",
+            "fields": {
+                "error": "",
+                "help": "",
+                "label": ""
+            },
+            "first-title": "",
+            "go-to-login": "",
+            "subtitle": "",
+            "validation": ""
         },
-        "first-title": "",
-        "go-to-login": "",
-        "subtitle": "",
-        "validation": ""
-      },
-
-      "warning": {
+        "warning": {
             "action": "Start",
             "instructions": "You have '<span class=\"challenge-item-warning__instruction-time\">'{time}'</span>' to complete the next question.",
             "further-instructions": "You can continue answering after this, but the question will not be marked as correct."
@@ -972,9 +957,9 @@
             "sign-up": "Sign up"
         },
         "pix": "Pix",
-      "user-logged-menu": {
-        "details": "Check my details"
-      },
+        "user-logged-menu": {
+            "details": "Check my details"
+        },
         "user": {
             "certifications": "My certifications",
             "sign-out": "Log out",
