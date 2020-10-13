@@ -27,13 +27,14 @@ class CsvColumn {
 
 class CsvRegistrationParser {
 
-  constructor(input, organizationId, columns) {
+  constructor(input, organizationId, columns, registrationSet) {
     this._input = input;
     this._organizationId = organizationId;
     this._columns = columns;
+    this.registrationSet = registrationSet;
   }
 
-  parse({ registrationSet, onParseLineError }) {
+  parse() {
     const encoding = this._getFileEncoding();
     const { registrationLines, fields } = this._parse(encoding);
 
@@ -45,12 +46,12 @@ class CsvRegistrationParser {
     registrationLines.forEach((line, index) => {
       const registrationAttributes = this._lineToRegistrationAttributes(line);
       try {
-        registrationSet.addRegistration(registrationAttributes);
+        this.registrationSet.addRegistration(registrationAttributes);
       } catch (err) {
-        onParseLineError(err, index);
+        this._handleError(err, index);
       }
     });
-    return registrationSet;
+    return this.registrationSet;
   }
 
   /**
@@ -117,7 +118,7 @@ class CsvRegistrationParser {
     if (missingMandatoryColumn)  {
       throw new CsvImportError(`La colonne "${missingMandatoryColumn.label}" est obligatoire.`);
     }
-  
+
     // Expected columns
     if (this._columns.some((column) => !parsedColumns.includes(column.label))) {
       throw new CsvImportError('Les entêtes de colonnes doivent être identiques à celle du modèle.');
@@ -129,6 +130,25 @@ class CsvRegistrationParser {
     return convertedDate || dateString;
   }
 
+  _handleError(err, index) {
+    const column = this._columns.find((column) => column.name === err.key);
+    if (err.why === 'min_length') {
+      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” doit être d’au moins ${err.limit} caractères.`);
+    }
+    if (err.why === 'max_length') {
+      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” doit être inférieur à ${err.limit} caractères.`);
+    }
+    if (err.why === 'date_format') {
+      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” doit être au format jj/mm/aaaa.`);
+    }
+    if (err.why === 'required') {
+      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” est obligatoire.`);
+    }
+    if (err.why === 'bad_values') {
+      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” doit être "${err.valids.join(' ou ')}".`);
+    }
+    throw err;
+  }
 }
 
 module.exports = {
