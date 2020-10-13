@@ -1,6 +1,7 @@
 const usecases = require('../../domain/usecases');
 const certificationCenterSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-serializer');
 const sessionSerializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
+const studentCertificationSerializer = require('../../infrastructure/serializers/jsonapi/student-certification-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 
 module.exports = {
@@ -30,5 +31,12 @@ module.exports = {
 
     return usecases.findSessionsForCertificationCenter({ userId, certificationCenterId })
       .then((sessions) => sessionSerializer.serialize(sessions));
+  },
+
+  async getSchoolingRegistrations(request) {
+    const certificationCenterId = parseInt(request.params.id);
+    const userId = parseInt(request.auth.credentials.userId);
+    const schoolingRegistrations = await usecases.findStudentsFromCertificationCenterId({ userId, certificationCenterId });
+    return studentCertificationSerializer.serialize(schoolingRegistrations);
   },
 };
