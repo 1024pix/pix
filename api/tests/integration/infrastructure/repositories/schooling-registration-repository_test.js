@@ -882,7 +882,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       expect(_.map(data, 'id')).to.deep.include.ordered.members([schoolingRegistration_3.id, schoolingRegistration_4.id, schoolingRegistration_2.id, schoolingRegistration_1.id]);
     });
 
-    describe('When schoolingRegistration is filtered' , () => {
+    describe('When schoolingRegistration is filtered', () => {
       it('should return schooling registrations filtered by lastname', async () => {
         // given
         const organization = databaseBuilder.factory.buildOrganization();
@@ -1018,7 +1018,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       });
     });
 
-    describe('When schoolingRegistration is reconciled and authenticated by email (and/or) username' , () => {
+    describe('When schoolingRegistration is reconciled and authenticated by email (and/or) username', () => {
 
       it('should return all schoolingRegistration properties including the reconciled user:email,username', async () => {
 
@@ -1055,7 +1055,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
     });
 
-    describe('When schoolingRegistration is reconciled  and  authenticated from GAR' , () => {
+    describe('When schoolingRegistration is reconciled  and  authenticated from GAR', () => {
 
       it('should return isAuthenticatedFromGAR property equal to true', async () => {
 
@@ -1090,15 +1090,12 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
         // then
         expect(data[0]).to.deep.equal(expectedUserWithSchoolingRegistration);
-
       });
-
     });
 
     describe('When schoolingRegistration is not reconciled' , () => {
 
       it('should return empty email, username, userId', async () => {
-
         // given
         const organization = databaseBuilder.factory.buildOrganization();
         const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
@@ -1125,10 +1122,37 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
         // then
         expect(data[0]).to.deep.equal(expectedUserWithSchoolingRegistration);
-
       });
-
     });
 
+  });
+
+  describe('#dissociateByUser', () => {
+
+    it('should dissociate all schooling registrations by user id', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildSchoolingRegistrationWithUser().userId;
+      databaseBuilder.factory.buildSchoolingRegistration({ userId });
+      databaseBuilder.factory.buildSchoolingRegistration({ userId });
+      await databaseBuilder.commit();
+
+      // when
+      await schoolingRegistrationRepository.dissociateByUser(userId);
+      const foundSchoolingRegistrations = await schoolingRegistrationRepository.findByUserId({ userId });
+
+      // then
+      expect(foundSchoolingRegistrations).to.be.empty;
+    });
+
+    it('should return null when user is not associated with schooling registration', async () => {
+      // when
+      const userNotAssociateWithSchoolingRegistration = 999;
+
+      // when
+      const result = await schoolingRegistrationRepository.dissociateByUser(userNotAssociateWithSchoolingRegistration);
+
+      // then
+      expect(result).to.be.null;
+    });
   });
 });
