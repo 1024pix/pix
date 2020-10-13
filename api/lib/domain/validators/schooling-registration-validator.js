@@ -3,9 +3,10 @@ const { EntityValidationError } = require('../errors');
 
 const validationConfiguration = { allowUnknown: true };
 const MAX_LENGTH = 255;
-const CITY_CODE_MAX_LENGTH = 5;
+const CITY_CODE_LENGTH = 5;
+const PROVINCE_CODE_MIN_LENGTH = 2;
 const PROVINCE_CODE_MAX_LENGTH = 3;
-const COUNTRY_CODE_MAX_LENGTH = 5;
+const COUNTRY_CODE_LENGTH = 5;
 const STATUSES = ['ST', 'AP'];
 const FRANCE_COUNTRY_CODE = '99100';
 
@@ -17,18 +18,18 @@ const validationSchema = Joi.object({
   lastName: Joi.string().max(MAX_LENGTH).required(),
   preferredLastName: Joi.string().max(MAX_LENGTH).optional(),
   birthdate: Joi.date().required().format('YYYY-MM-DD').empty(null),
-  birthCity: Joi.alternatives().conditional('birthCountryCode', { 
+  birthCity: Joi.alternatives().conditional('birthCountryCode', {
     is: FRANCE_COUNTRY_CODE,
     then: Joi.string().max(MAX_LENGTH).optional(),
     otherwise: Joi.string().max(MAX_LENGTH).required(),
   }),
   birthCityCode: Joi.alternatives().conditional('birthCountryCode', {
     is: FRANCE_COUNTRY_CODE,
-    then: Joi.string().max(CITY_CODE_MAX_LENGTH).required(),
-    otherwise: Joi.string().max(CITY_CODE_MAX_LENGTH).optional(),
+    then: Joi.string().min(CITY_CODE_LENGTH).max(CITY_CODE_LENGTH).required(),
+    otherwise: Joi.string().min(CITY_CODE_LENGTH).max(CITY_CODE_LENGTH).optional(),
   }),
-  birthProvinceCode: Joi.string().max(PROVINCE_CODE_MAX_LENGTH).required(),
-  birthCountryCode: Joi.string().max(COUNTRY_CODE_MAX_LENGTH).required(),
+  birthProvinceCode: Joi.string().min(PROVINCE_CODE_MIN_LENGTH).max(PROVINCE_CODE_MAX_LENGTH).required(),
+  birthCountryCode: Joi.string().min(COUNTRY_CODE_LENGTH).max(COUNTRY_CODE_LENGTH).required(),
   status: Joi.string().valid(...STATUSES).required(),
   MEFCode: Joi.string().max(MAX_LENGTH).required(),
   division: Joi.string().max(MAX_LENGTH).required(),
@@ -46,6 +47,10 @@ module.exports = {
       }
       if (type === 'string.max') {
         err.why = 'max_length';
+        err.limit = context.limit;
+      }
+      if (type === 'string.min') {
+        err.why = 'min_length';
         err.limit = context.limit;
       }
       if (type === 'date.format') {
