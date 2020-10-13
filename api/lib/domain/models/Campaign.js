@@ -13,6 +13,7 @@ class Campaign {
     title,
     idPixLabel,
     externalIdHelpImageUrl,
+    alternativeTextToExternalIdHelpImage,
     createdAt,
     organizationLogoUrl,
     organizationName,
@@ -37,6 +38,7 @@ class Campaign {
     this.title = title;
     this.idPixLabel = idPixLabel;
     this.externalIdHelpImageUrl = externalIdHelpImageUrl;
+    this.alternativeTextToExternalIdHelpImage = alternativeTextToExternalIdHelpImage;
     this.createdAt = createdAt;
     this.organizationLogoUrl = organizationLogoUrl;
     this.organizationName = organizationName;

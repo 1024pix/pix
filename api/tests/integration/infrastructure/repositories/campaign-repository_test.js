@@ -41,6 +41,7 @@ describe('Integration | Repository | Campaign', () => {
         code: 'BADOIT710',
         createdAt: new Date('2018-02-06T14:12:45Z'),
         externalIdHelpImageUrl: 'some url',
+        alternativeTextToExternalIdHelpImage: 'alternative text',
       });
       await databaseBuilder.commit();
     });
@@ -63,6 +64,7 @@ describe('Integration | Repository | Campaign', () => {
         'customLandingPageText',
         'idPixLabel',
         'externalIdHelpImageUrl',
+        'alternativeTextToExternalIdHelpImage',
         'title',
       ];
       expect(_.pick(actualCampaign, checkedAttributes)).to.deep.equal(campaign);

@@ -8,7 +8,7 @@ module.exports = {
   serialize(campaigns, meta, { tokenForCampaignResults, ignoreCampaignReportRelationshipData = true } = {}) {
     return new Serializer('campaign', {
       attributes: ['name', 'code', 'title', 'type', 'createdAt', 'customLandingPageText', 'archivedAt',
-        'tokenForCampaignResults', 'idPixLabel', 'externalIdHelpImageUrl', 'organizationLogoUrl', 'organizationName', 'organizationType', 'targetProfile',
+        'tokenForCampaignResults', 'idPixLabel', 'externalIdHelpImageUrl', 'alternativeTextToExternalIdHelpImage', 'organizationLogoUrl', 'organizationName', 'organizationType', 'targetProfile',
         'campaignReport', 'campaignCollectiveResult', 'isRestricted', 'creator', 'campaignAnalysis'],
       typeForAttribute(attribute) {
         if (attribute === 'creator') {
