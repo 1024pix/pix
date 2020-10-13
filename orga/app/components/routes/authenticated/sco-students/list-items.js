@@ -16,6 +16,13 @@ export default class ListItems extends Component {
   @tracked isShowingDissociateModal = false;
   @tracked isDissociateButtonEnabled = ENV.APP.IS_DISSOCIATE_BUTTON_ENABLED;
 
+  get acceptedFileType() {
+    if (this.currentUser.isAgriculture) {
+      return '.csv';
+    }
+    return '.xml';
+  }
+
   @action
   openAuthenticationMethodModal(student) {
     this.student = student;
@@ -37,5 +44,4 @@ export default class ListItems extends Component {
   closeDissociateModal() {
     this.isShowingDissociateModal = false;
   }
-
 }
