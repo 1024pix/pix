@@ -58,6 +58,21 @@ describe('Integration | Component | QROC proposal', function() {
     });
   });
 
+  describe('When format is a date', function() {
+
+    it('should display an input with date type', async function() {
+      // given
+      this.set('proposals', '${myInput}');
+      this.set('format', 'date');
+
+      // when
+      await render(hbs`<QrocProposal @format={{this.format}} @proposals={{this.proposals}} />`);
+
+      // then
+      expect(find('.challenge-response__proposal').getAttribute('type')).to.equal('date');
+    });
+  });
+
   describe('When format is neither a paragraph nor a phrase', function() {
 
     [

@@ -19,9 +19,21 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
   _hasError() {
     return this._getAnswerValue().length < 1;
   }
+  _getCorrectFormatValue(answerValue) {
+    if (this.args.challenge.format === 'date') {
+      const dateArray = answerValue.split('-');
+      return dateArray.length === 3 ? dateArray[2] + '/' + dateArray[1] + '/' + dateArray[0] : answerValue;
+    }
+    return answerValue;
+  }
 
   _getAnswerValue() {
-    return this.showProposal ? (document.querySelector('[data-uid="qroc-proposal-uid"]')).value : this.autoReplyAnswer;
+    if (this.showProposal) {
+      const answerValue = (document.querySelector('[data-uid="qroc-proposal-uid"]')).value;
+      return this._getCorrectFormatValue(answerValue);
+    }
+    return this.autoReplyAnswer;
+
   }
 
   _getErrorMessage() {
