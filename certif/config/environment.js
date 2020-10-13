@@ -17,7 +17,7 @@ function _isFeatureEnabled(environmentVariable) {
 const ACTIVE_FEATURE_TOGGLES = [];
 
 module.exports = function(environment) {
-  const analyticsEnabled = _isFeatureEnabled(process.env.SENDING_ANALYTICS_ENABLED);
+  const analyticsEnabled = _isFeatureEnabled(process.env.WEB_ANALYTICS_ENABLED);
   const ENV = {
     modulePrefix: 'pix-certif',
     environment,
