@@ -107,10 +107,39 @@
       </section>
       <div class="col-md-4">
         {{#if this.canAdministratorModifyUserDetails}}
-        <button type="button" class="btn btn-outline-default" aria-label="Modifier" {{on "click" this.changeEditionMode}}>Modifier
-        </button>
-        <button type="button" class="btn btn-danger" aria-label="Anonymiser" {{on "click" this.toggleDisplayConfirm}}>Anonymiser cet utilisateur
-        </button>
+          <button
+            type="button"
+            class="btn btn-outline-default"
+            aria-label="Modifier"
+            {{on "click" this.changeEditionMode}}
+          >
+            Modifier
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger"
+            aria-label="Anonymiser"
+            {{on "click" this.toggleDisplayConfirm}}
+          >
+            Anonymiser cet utilisateur
+          </button>
+        {{/if}}
+
+        {{#if @user.isAssociatedWithSchoolingRegistration}}
+          {{#if this.isLoading}}
+            <button type="button" disabled class="btn btn-danger">
+              <span class="loader-in-button">&nbsp;</span>
+            </button>
+          {{else}}
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-test-dissociate
+              {{on "click" this.dissociate}}
+            >
+              Dissocier
+            </button>
+          {{/if}}
         {{/if}}
       </div>
     </form>
