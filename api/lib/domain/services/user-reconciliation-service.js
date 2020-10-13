@@ -10,17 +10,14 @@ const { areTwoStringsCloseEnough, isOneStringCloseEnoughFromMultipleStrings } = 
 const { normalizeAndRemoveAccents, removeSpecialCharacters } = require('./validation-treatments');
 
 const MAX_ACCEPTABLE_RATIO = 0.25;
+const STRICT_MATCH_RATIO = 0;
 
 function findMatchingCandidateIdForGivenUser(matchingUserCandidates, user) {
   const standardizedUser = _standardizeUser(user);
   const standardizedMatchingUserCandidates = _.map(matchingUserCandidates, _standardizeMatchingCandidate);
 
-  return _(['firstName', 'middleName', 'thirdName'])
-    .map(_findCandidatesMatchingWithUser(standardizedMatchingUserCandidates, standardizedUser))
-    .filter(_containsOneElement)
-    .flatten()
-    .map('id')
-    .first() || null;
+  const matchingUserFound = _findMatchingCandidate(standardizedMatchingUserCandidates, standardizedUser, STRICT_MATCH_RATIO);
+  return matchingUserFound || _findMatchingCandidate(standardizedMatchingUserCandidates, standardizedUser, MAX_ACCEPTABLE_RATIO);
 }
 
 async function findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser({
@@ -132,22 +129,31 @@ function _standardize(propToStandardize) {
     : propToStandardize;
 }
 
+function _findMatchingCandidate(standardizedMatchingUserCandidates, standardizedUser, maxAcceptableRatio) {
+  return _(['firstName', 'middleName', 'thirdName'])
+    .map(_findCandidatesMatchingWithUser(standardizedMatchingUserCandidates, standardizedUser, maxAcceptableRatio))
+    .filter(_containsOneElement)
+    .flatten()
+    .map('id')
+    .first() || null;
+}
+
 // A given name refers to either a first name, middle name or third name
-function _findCandidatesMatchingWithUser(matchingUserCandidatesStandardized, standardizedUser) {
+function _findCandidatesMatchingWithUser(matchingUserCandidatesStandardized, standardizedUser, maxAcceptableRatio) {
   return (candidateGivenName) => matchingUserCandidatesStandardized
-    .filter(_candidateHasSimilarFirstName(standardizedUser, candidateGivenName))
-    .filter(_candidateHasSimilarLastName(standardizedUser));
+    .filter(_candidateHasSimilarFirstName(standardizedUser, candidateGivenName, maxAcceptableRatio))
+    .filter(_candidateHasSimilarLastName(standardizedUser, maxAcceptableRatio));
 }
 
-function _candidateHasSimilarFirstName({ firstName: userFirstName }, candidateGivenName) {
-  return (candidate) => candidate[candidateGivenName] && areTwoStringsCloseEnough(userFirstName, candidate[candidateGivenName], MAX_ACCEPTABLE_RATIO);
+function _candidateHasSimilarFirstName({ firstName: userFirstName }, candidateGivenName, maxAcceptableRatio = MAX_ACCEPTABLE_RATIO) {
+  return (candidate) => candidate[candidateGivenName] && areTwoStringsCloseEnough(userFirstName, candidate[candidateGivenName], maxAcceptableRatio);
 }
 
-function _candidateHasSimilarLastName({ lastName }) {
+function _candidateHasSimilarLastName({ lastName }, maxAcceptableRatio = MAX_ACCEPTABLE_RATIO) {
   return (candidate) => {
     const candidatesLastName = [candidate.lastName, candidate.preferredLastName]
       .filter((candidateLastName) => candidateLastName);
-    return isOneStringCloseEnoughFromMultipleStrings(lastName, candidatesLastName, MAX_ACCEPTABLE_RATIO);
+    return isOneStringCloseEnoughFromMultipleStrings(lastName, candidatesLastName, maxAcceptableRatio);
   };
 }
 
