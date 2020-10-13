@@ -24,7 +24,7 @@
     </div>
 
     {{#if @campaign.externalIdHelpImageUrl}}
-      <img class="fill-in-participant-external-id__help" src={{@campaign.externalIdHelpImageUrl}} alt="" role="none"/>
+      <img class="fill-in-participant-external-id__help" src={{@campaign.externalIdHelpImageUrl}} alt={{@campaign.alternativeTextToExternalIdHelpImage}}/>
     {{/if}}
 
     <button type="button" disabled={{this.isLoading}} {{on 'click' this.cancel}} class="button button--regular button--no-color fill-in-participant-external-id__cancel-button">

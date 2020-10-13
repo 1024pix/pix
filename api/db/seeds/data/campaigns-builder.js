@@ -56,6 +56,7 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     targetProfileId: 100321,
     idPixLabel: 'identifiant pôle emploi',
     externalIdHelpImageUrl: 'https://placekitten.com/g/500/300',
+    alternativeTextToExternalIdHelpImage: 'Votre identifiant est le nom du premier chaton',
   });
 
   databaseBuilder.factory.buildCampaign({
