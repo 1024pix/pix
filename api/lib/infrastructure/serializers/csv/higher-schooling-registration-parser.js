@@ -22,35 +22,18 @@ const COLUMNS = [
 class HigherSchoolingRegistrationParser extends CsvRegistrationParser {
 
   constructor(input, organizationId) {
-    super(input, organizationId, COLUMNS);
-  }
-
-  parse() {
     const registrationSet = new HigherSchoolingRegistrationSet();
-    return super.parse({
-      registrationSet,
-      onParseLineError: this._handleError,
-    });
+    super(input, organizationId, COLUMNS, registrationSet);
   }
 
   _handleError(err, index) {
-    const column = COLUMNS.find((column) => column.name === err.key);
     if (err.why === 'uniqueness') {
       throw new CsvImportError(`Ligne ${index + 2} : Le champ “Numéro étudiant” doit être unique au sein du fichier.`);
-    }
-    if (err.why === 'max_length') {
-      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” doit être inférieur à 255 caractères.`);
-    }
-    if (err.why === 'not_a_date' || err.why === 'date_format') {
-      throw new CsvImportError(`Ligne ${index + 2} : Le champ “Date de naissance” doit être au format jj/mm/aaaa.`);
     }
     if (err.why === 'student_number_format') {
       throw new CsvImportError(`Ligne ${index + 2} : Le champ “numéro étudiant” ne doit pas avoir de caractères spéciaux.`);
     }
-    if (err.why === 'required') {
-      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” est obligatoire.`);
-    }
-    throw err;
+    super._handleError(...arguments);
   }
 }
 
