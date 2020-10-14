@@ -16,9 +16,9 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
   let eventStub;
 
   beforeEach(function() {
-    const createStudentUserAssociationStub = sinon.stub();
+    const createSchoolingRegistrationUserAssociationStub = sinon.stub();
 
-    storeStub = { createRecord: createStudentUserAssociationStub };
+    storeStub = { createRecord: createSchoolingRegistrationUserAssociationStub };
     sessionStub = { data: { authenticated: { source: 'pix' } } };
     onSubmitToReconcileStub = sinon.stub();
     eventStub = { preventDefault: sinon.stub() };
