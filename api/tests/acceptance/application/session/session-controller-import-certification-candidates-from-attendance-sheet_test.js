@@ -1,6 +1,7 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const fs = require('fs');
+const { stat } = require('fs').promises;
 const FormData = require('form-data');
 const streamToPromise = require('stream-to-promise');
 
@@ -46,19 +47,7 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
 
           beforeEach(async () => {
             // given
-            const form = new FormData();
-            form.append('file', fs.createReadStream(odsFilePath), { knownLength: fs.statSync(odsFilePath).size });
-            const payload = await streamToPromise(form);
-            const authHeader = generateValidRequestAuthorizationHeader(user.id);
-            const token = authHeader.replace('Bearer ', '');
-            const headers = Object.assign({}, form.getHeaders(), { 'authorization': `Bearer ${token}` });
-            options = {
-              method: 'POST',
-              url: `/api/sessions/${sessionIdAllowed}/certification-candidates/import`,
-              headers,
-              payload,
-            };
-
+            options = await createRequest({ odsFilePath, user, sessionIdAllowed });
           });
 
           it('should return an 204 status after success in importing the ods file', async () => {
@@ -78,19 +67,7 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
 
           beforeEach(async () => {
             // given
-            const form = new FormData();
-            form.append('file', fs.createReadStream(odsFilePath), { knownLength: fs.statSync(odsFilePath).size });
-            const payload = await streamToPromise(form);
-            const authHeader = generateValidRequestAuthorizationHeader(user.id);
-            const token = authHeader.replace('Bearer ', '');
-            const headers = Object.assign({}, form.getHeaders(), { 'authorization': `Bearer ${token}` });
-            options = {
-              method: 'POST',
-              url: `/api/sessions/${sessionIdAllowed}/certification-candidates/import`,
-              headers,
-              payload,
-            };
-
+            options = await createRequest({ odsFilePath, user, sessionIdAllowed });
           });
 
           it('should return an 204 status after success in importing the ods file', async () => {
@@ -112,19 +89,7 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
 
         beforeEach(async () => {
           // given
-          const form = new FormData();
-          form.append('file', fs.createReadStream(odsFilePath), { knownLength: fs.statSync(odsFilePath).size });
-          const payload = await streamToPromise(form);
-          const authHeader = generateValidRequestAuthorizationHeader(user.id);
-          const token = authHeader.replace('Bearer ', '');
-          const headers = Object.assign({}, form.getHeaders(), { 'authorization': `Bearer ${token}` });
-          options = {
-            method: 'POST',
-            url: `/api/sessions/${sessionIdAllowed}/certification-candidates/import`,
-            headers,
-            payload,
-          };
-
+          options = await createRequest({ odsFilePath, user, sessionIdAllowed });
         });
 
         it('should return 422 status after failing in importing the ods file', async () => {
@@ -147,19 +112,7 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
 
       beforeEach(async () => {
         // given
-        const form = new FormData();
-        form.append('file', fs.createReadStream(odsFilePath), { knownLength: fs.statSync(odsFilePath).size });
-        const payload = await streamToPromise(form);
-        const authHeader = generateValidRequestAuthorizationHeader(user.id);
-        const token = authHeader.replace('Bearer ', '');
-        const headers = Object.assign({}, form.getHeaders(), { 'authorization': `Bearer ${token}` });
-        options = {
-          method: 'POST',
-          url: `/api/sessions/${sessionIdAllowed}/certification-candidates/import`,
-          headers,
-          payload,
-        };
-
+        options = await createRequest({ odsFilePath, user, sessionIdAllowed });
       });
 
       it('should return a 422 status after error in data validity checker', async () => {
@@ -180,18 +133,7 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
 
       beforeEach(async () => {
         // given
-        const form = new FormData();
-        form.append('file', fs.createReadStream(odsFilePath), { knownLength: fs.statSync(odsFilePath).size });
-        const payload = await streamToPromise(form);
-        const authHeader = generateValidRequestAuthorizationHeader(user.id);
-        const token = authHeader.replace('Bearer ', '');
-        const headers = Object.assign({}, form.getHeaders(), { 'authorization': `Bearer ${token}` });
-        options = {
-          method: 'POST',
-          url: `/api/sessions/${sessionIdAllowed}/certification-candidates/import`,
-          headers,
-          payload,
-        };
+        options = await createRequest({ odsFilePath, user, sessionIdAllowed });
 
         const userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCandidate({ sessionId: sessionIdAllowed, userId });
@@ -211,3 +153,19 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
   });
 
 });
+
+async function createRequest({ odsFilePath, user, sessionIdAllowed }) {
+  const form = new FormData();
+  const knownLength = await stat(odsFilePath).size;
+  form.append('file', fs.createReadStream(odsFilePath), { knownLength });
+  const payload = await streamToPromise(form);
+  const authHeader = generateValidRequestAuthorizationHeader(user.id);
+  const token = authHeader.replace('Bearer ', '');
+  const headers = Object.assign({}, form.getHeaders(), { 'authorization': `Bearer ${token}` });
+  return {
+    method: 'POST',
+    url: `/api/sessions/${sessionIdAllowed}/certification-candidates/import`,
+    headers,
+    payload,
+  };
+}
