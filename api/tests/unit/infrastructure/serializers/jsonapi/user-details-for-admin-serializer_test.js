@@ -18,6 +18,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', () =
         pixOrgaTermsOfServiceAccepted: false,
         pixCertifTermsOfServiceAccepted: false,
         isAuthenticatedFromGAR: false,
+        isAssociatedWithSchoolingRegistration: false,
       });
 
       // when
@@ -35,6 +36,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', () =
             'pix-orga-terms-of-service-accepted': false,
             'pix-certif-terms-of-service-accepted': false,
             'is-authenticated-from-gar': false,
+            'is-associated-with-schooling-registration': false,
           },
           id: '234567',
           type: 'users',

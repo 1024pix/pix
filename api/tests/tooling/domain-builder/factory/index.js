@@ -65,6 +65,7 @@ module.exports = {
   buildTutorial: require('./build-tutorial'),
   buildUser: require('./build-user'),
   buildUserCompetence: require('./build-user-competence'),
+  buildUserDetailsForAdmin: require('./build-user-details-for-admin'),
   buildUserOrgaSettings: require('./build-user-orga-settings'),
   buildUserScorecard: require('./build-user-scorecard'),
   buildUserWithSchoolingRegistration: require('./build-user-with-schooling-registration'),

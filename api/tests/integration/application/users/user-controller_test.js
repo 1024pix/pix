@@ -14,10 +14,12 @@ describe('Integration | Application | Users | user-controller', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     sandbox.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser');
+    sandbox.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
 
     sandbox.stub(usecases, 'getUserCampaignParticipationToCampaign');
     sandbox.stub(usecases, 'getUserProfileSharedForCampaign');
     sandbox.stub(usecases, 'updateUserSamlId');
+    sandbox.stub(usecases, 'dissociateSchoolingRegistrations');
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
@@ -193,6 +195,45 @@ describe('Integration | Application | Users | user-controller', () => {
         expect(response.result.errors[0].meta).to.equal(expectedMeta);
       });
     });
+  });
 
+  describe('#dissociateSchoolingRegistrations', () => {
+
+    const method = 'PATCH';
+    const url = '/api/admin/users/1/dissociate';
+
+    beforeEach(() => {
+      securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
+    });
+
+    context('Success cases', () => {
+
+      it('should return a HTTP response with status code 200', async () => {
+        // given
+        usecases.dissociateSchoolingRegistrations.resolves(domainBuilder.buildUserDetailsForAdmin());
+
+        // when
+        const response = await httpTestServer.request(method, url);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+
+    context('Error cases', () => {
+
+      it('should return a 403 HTTP response when when user is not allowed to access resource', async () => {
+        // given
+        securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => {
+          return Promise.resolve(h.response().code(403).takeover());
+        });
+
+        // when
+        const response = await httpTestServer.request(method, url);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+    });
   });
 });

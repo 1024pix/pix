@@ -4,7 +4,10 @@ import Object, { action } from '@ember/object';
 import { validator, buildValidations } from 'ember-cp-validations';
 import { getOwner } from '@ember/application';
 import { inject as service } from '@ember/service';
+
 import ENV from 'pix-admin/config/environment';
+
+const DISSOCIATE_SUCCESS_NOTIFICATION_MESSAGE = 'La dissociation a bien été effectuée.';
 
 const Validations = buildValidations({
   firstName: {
@@ -65,6 +68,7 @@ export default class UserDetailPersonalInformationComponent extends Component {
 
   @tracked isEditionMode = false;
   @tracked displayConfirm = false;
+  @tracked isLoading = false;
 
   @service notifications;
 
@@ -130,6 +134,22 @@ export default class UserDetailPersonalInformationComponent extends Component {
       this.args.user.rollbackAttributes();
       const messageValidationError = response.errors[0].detail || 'une erreur est survenue, vos modifications n\'ont pas été enregistrées';
       this.notifications.error(messageValidationError);
+    }
+  }
+
+  @action
+  async dissociate(event) {
+    event.preventDefault();
+
+    this.isLoading = true;
+    try {
+      await this.args.user.save({ adapterOptions: { dissociate: true } });
+      this.notifications.success(DISSOCIATE_SUCCESS_NOTIFICATION_MESSAGE);
+    } catch (response) {
+      const errorMessage = 'Une erreur est survenue !';
+      this.notifications.error(errorMessage);
+    } finally {
+      this.isLoading = false;
     }
   }
 

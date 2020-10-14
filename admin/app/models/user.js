@@ -11,6 +11,7 @@ export default class User extends Model {
   @attr('boolean') pixOrgaTermsOfServiceAccepted;
   @attr('boolean') pixCertifTermsOfServiceAccepted;
   @attr('boolean') isAuthenticatedFromGAR;
+  @attr('boolean') isAssociatedWithSchoolingRegistration;
 
   @hasMany('membership') memberships;
 

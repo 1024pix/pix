@@ -10,7 +10,6 @@ describe('Acceptance | Controller | users-controller-update-user-details-for-adm
 
   beforeEach(async () => {
     server = await createServer();
-
     user = await insertUserWithRolePixMaster();
 
   });
@@ -99,7 +98,6 @@ describe('Acceptance | Controller | users-controller-update-user-details-for-adm
   describe('Success case', () => {
 
     it('should reply with 200 status code, when user details are updated', async () => {
-
       // given
       options = {
         method: 'PATCH',
@@ -126,14 +124,15 @@ describe('Acceptance | Controller | users-controller-update-user-details-for-adm
         {
           'data': {
             'attributes': {
-              'cgu': user.cgu,
-              'email': 'emailUpdated@example.net',
               'first-name': 'firstNameUpdated',
-              'is-authenticated-from-gar': false,
               'last-name': 'lastNameUpdated',
+              'email': 'emailUpdated@example.net',
+              'username': null,
+              'cgu': user.cgu,
               'pix-certif-terms-of-service-accepted': user.pixCertifTermsOfServiceAccepted,
               'pix-orga-terms-of-service-accepted': user.pixOrgaTermsOfServiceAccepted,
-              'username': null,
+              'is-authenticated-from-gar': false,
+              'is-associated-with-schooling-registration': false,
             },
             'id': '1234',
             'type': 'users',

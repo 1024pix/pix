@@ -58,11 +58,11 @@ exports.register = async function(server) {
             return sendJsonApiError(new BadRequestError('L\'identifiant de l\'utilisateur n\'est pas au bon format.'), h);
           },
         },
-        handler: userController.getUserDetailsForAdmin,
         pre: [{
           method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster',
         }],
+        handler: userController.getUserDetailsForAdmin,
         notes: [
           '- **Cette route est restreinte aux utilisateurs administrateurs**\n' +
           '- Elle permet de récupérer le détail d\'un utilisateur dans un contexte d\'administration\n',
@@ -429,6 +429,27 @@ exports.register = async function(server) {
           '- contenues dans l\'Id Token, si le compte authentifié correspond au compte attendu.',
         ],
         tags: ['api', 'user'],
+      },
+    },
+    {
+      method: 'PATCH',
+      path: '/api/admin/users/{id}/dissociate',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().positive().required(),
+          }),
+        },
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        handler: userController.dissociateSchoolingRegistrations,
+        notes : [
+          '- Permet à un administrateur de dissocier un utilisateur\n' +
+          'des inscriptions scolaires qui lui sont rattachées.',
+        ],
+        tags: ['api', 'administration' , 'user'],
       },
     },
   ]);
