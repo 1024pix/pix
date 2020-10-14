@@ -108,7 +108,7 @@ module.exports = {
     const buffer = request.payload;
     const { format } = request.query;
 
-    await usecases.importSchoolingRegistrationsFromSIECLE({ organizationId, buffer, format });
+    await usecases.importSchoolingRegistrationsFromSIECLEFormat({ organizationId, buffer, format });
     return h.response(null).code(204);
   },
 
