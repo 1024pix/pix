@@ -8,7 +8,7 @@ import {
 
 describe('Unit | Utility | errors-messages', function() {
 
-  const JOIN_SHORT_CODES_ERRORS = [ 'R11', 'R12', 'R13', 'R31', 'R32', 'R33' ];
+  const JOIN_SHORT_CODES_ERRORS = [ 'R11', 'R12', 'R13', 'R31', 'R32', 'R33', 'R70' ];
   const REGISTER_SHORT_CODES_ERRORS = [ 'S51', 'S52', 'S53', 'S61', 'S62', 'S63' ];
 
   describe('#getJoinErrorsMessageByShortCode', () => {

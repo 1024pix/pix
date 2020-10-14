@@ -456,6 +456,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
     });
 
     describe('Errors', function() {
+
       beforeEach(function() {
         component.firstName = 'pix';
         component.lastName = 'aile';
@@ -686,7 +687,37 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
             expect(component.displayContinueButton).to.be.true;
           });
         });
+
       });
+
+      describe('When another student is already reconciled on the same organization', async function() {
+
+        it('should return a conflict error and display the error message related to the short code R70)', async function() {
+
+          // given
+          const meta = { shortCode: 'R70' };
+          const expectedErrorMessage = this.intl.t('api-error-messages.join-error.r70');
+
+          const error = {
+            status: '409',
+            code: 'USER_ALREADY_RECONCILED_IN_THIS_ORGANIZATION',
+            title: 'Conflict',
+            detail: 'Une erreur est survenue. Déconnectez-vous et recommencez.',
+            meta,
+          };
+
+          onSubmitToReconcileStub.rejects({ errors: [error] });
+
+          // when
+          await component.actions.submit.call(component, eventStub);
+
+          // then
+          expect(component.errorMessage).to.equal(expectedErrorMessage);
+
+        });
+
+      });
+
     });
   });
 });
