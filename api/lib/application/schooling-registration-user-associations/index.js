@@ -31,8 +31,7 @@ exports.register = async function(server) {
         },
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Elle associe des données saisies par l’utilisateur à l’inscription de l’élève dans cette organisation\n' +
-          '- L’utilisation de cette route avec uniquement le paramètre campaign-code est dépréciée en faveur de la route /auto',
+          '- Elle associe des données saisies par l’utilisateur à l’inscription de l’élève dans cette organisation',
         ],
         tags: ['api', 'schoolingRegistrationUserAssociation'],
       },
@@ -74,7 +73,7 @@ exports.register = async function(server) {
       method: 'POST',
       path: '/api/schooling-registration-user-associations/auto',
       config: {
-        handler: schoolingRegistrationUserAssociationController.reconcileAutomatically,
+        handler: schoolingRegistrationUserAssociationController.reconcileSchoolingRegistrationAutomatically,
         validate: {
           options: {
             allowUnknown: false,
