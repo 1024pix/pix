@@ -5,37 +5,6 @@ const { sendJsonApiError, UnprocessableEntityError } = require('../http-errors')
 exports.register = async function(server) {
   server.route([
     {
-      method: 'POST',
-      path: '/api/student-user-associations',
-      config: {
-        handler: schoolingRegistrationUserAssociationController.reconcileSchoolingRegistrationManually,
-        validate: {
-          options: {
-            allowUnknown: true,
-          },
-          payload: Joi.object({
-            data: {
-              attributes: {
-                'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                'birthdate': Joi.date().format('YYYY-MM-DD').required(),
-                'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-              },
-            },
-          }),
-          failAction: (request, h) => {
-            return sendJsonApiError(new UnprocessableEntityError('Un des champs saisis n’est pas valide.'), h);
-          },
-        },
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Elle associe des données de l’utilisateur qui fait la requete, à l\'élève de l’organisation' +
-          '- L\'utilisation de cette route est dépréciée. Utiliser /api/schooling-registration-user-associations à la place',
-        ],
-        tags: ['api', 'studentUserAssociation'],
-      },
-    },
-    {
       method: 'GET',
       path: '/api/student-user-associations',
       config: {
