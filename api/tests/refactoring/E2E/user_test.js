@@ -45,4 +45,33 @@ describe('API /api/users/me', () => {
     expect(response.data.data.attributes.email).to.equal(email);
   });
 
+  it('returns 404 when user is not found', async () => {
+    const email = 'sco@example.net';
+    const password = 'pix123';
+
+    databaseBuilder.factory.buildUser({ email, password });
+    await databaseBuilder.commit();
+
+    const authenticateUrl = 'http://localhost:3000/api/token';
+    const payload = 'grant_type=password&username=' + email + '&password=' + password + '&scope=mon-pix';
+
+    const authenticateResponse = await axios({ method: 'post', url: authenticateUrl, data: payload });
+    await databaseBuilder.clean();
+
+    const config = {
+      headers: { Authorization: `Bearer ${authenticateResponse.data.access_token}` },
+    };
+
+    const requestUrl = 'http://localhost:3000/api/users/me';
+
+    let response = null;
+    try {
+      await axios.get(requestUrl, config);
+    } catch (error) {
+      response = error.response;
+    }
+    expect(response.status).to.equal(404);
+    expect(response.data.errors[0].detail).to.equal('User not found for ID 100000');
+  });
+
 });
