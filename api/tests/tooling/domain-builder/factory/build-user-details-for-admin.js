@@ -15,7 +15,7 @@ module.exports = function buildUserDetailsForAdmin(
     pixOrgaTermsOfServiceAccepted = false,
     isAuthenticatedFromGAR = false,
     isAssociatedWithSchoolingRegistration,
-    schoolingRegistrations,
+    schoolingRegistrations = [],
   } = {}) {
 
   email = isUndefined(email) ? faker.internet.exampleEmail(firstName, lastName).toLowerCase() : email || null;

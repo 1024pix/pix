@@ -29,17 +29,42 @@ describe('Integration | UseCase | get-user-details-for-admin', () => {
 
   it('should return user details for admin with schooling registration association, by user id', async () => {
     // given
-    const user = domainBuilder.buildUser();
-    const expectedUserDetailsForAdmin = domainBuilder.buildUserDetailsForAdmin({
-      ...user,
-      isAssociatedWithSchoolingRegistration: true,
+    const userInDB = databaseBuilder.factory.buildUser();
+    const firstOrganizationInDB = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
+    const firstSchoolingRegistrationInDB = databaseBuilder.factory.buildSchoolingRegistration({
+      id: 1,
+      userId: userInDB.id,
+      organizationId: firstOrganizationInDB.id,
     });
-
-    const { userId } = databaseBuilder.factory.buildSchoolingRegistrationWithUser({ user });
+    const secondOrganizationInDB = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
+    const secondSchoolingRegistrationInDB = databaseBuilder.factory.buildSchoolingRegistration({
+      id: 2,
+      userId: userInDB.id,
+      organizationId: secondOrganizationInDB.id,
+    });
     await databaseBuilder.commit();
 
+    const expectedUserDetailsForAdmin = domainBuilder.buildUserDetailsForAdmin({
+      ...userInDB,
+      isAssociatedWithSchoolingRegistration: true,
+      schoolingRegistrations: [
+        domainBuilder.buildSchoolingRegistrationForAdmin({
+          ...firstSchoolingRegistrationInDB,
+          organizationId: firstOrganizationInDB.id,
+          organizationExternalId: firstOrganizationInDB.externalId,
+          organizationName: firstOrganizationInDB.name,
+        }),
+        domainBuilder.buildSchoolingRegistrationForAdmin({
+          ...secondSchoolingRegistrationInDB,
+          organizationId: secondOrganizationInDB.id,
+          organizationExternalId: secondOrganizationInDB.externalId,
+          organizationName: secondOrganizationInDB.name,
+        }),
+      ],
+    });
+
     // when
-    const foundUserDetailsForAdmin = await getUserDetailsForAdmin({ userId, userRepository, schoolingRegistrationRepository });
+    const foundUserDetailsForAdmin = await getUserDetailsForAdmin({ userId: userInDB.id, userRepository, schoolingRegistrationRepository });
 
     // then
     expect(foundUserDetailsForAdmin).to.be.instanceOf(UserDetailsForAdmin);

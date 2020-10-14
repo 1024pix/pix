@@ -19,6 +19,7 @@ const Membership = require('../../../../lib/domain/models/Membership');
 const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
 const CertificationCenterMembership = require('../../../../lib/domain/models/CertificationCenterMembership');
 const Organization = require('../../../../lib/domain/models/Organization');
+const SchoolingRegistrationForAdmin = require('../../../../lib/domain/read-models/SchoolingRegistrationForAdmin');
 
 describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
@@ -479,82 +480,61 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   });
 
-  describe('get user details for administration usage', () => {
+  describe('#getUserDetailsForAdmin', () => {
 
-    describe('#getUserDetailsForAdmin', () => {
+    it('should return the found user', async () => {
+      // given
+      const userInDB = databaseBuilder.factory.buildUser(userToInsert);
+      await databaseBuilder.commit();
 
-      let userInDb;
+      // when
+      const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
 
-      beforeEach(async () => {
-        userInDb = databaseBuilder.factory.buildUser(userToInsert);
-        await databaseBuilder.commit();
-      });
+      // then
+      expect(userDetailsForAdmin).to.be.an.instanceOf(UserDetailsForAdmin);
+      expect(userDetailsForAdmin.id).to.equal(userInDB.id);
+      expect(userDetailsForAdmin.firstName).to.equal(userInDB.firstName);
+      expect(userDetailsForAdmin.lastName).to.equal(userInDB.lastName);
+      expect(userDetailsForAdmin.email).to.equal(userInDB.email);
+      expect(userDetailsForAdmin.cgu).to.be.true;
+    });
 
-      it('should return the found user', async () => {
-        // when
-        const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDb.id);
+    it('should return a UserNotFoundError if no user is found', async () => {
+      // given
+      const nonExistentUserId = 678;
 
-        // then
-        expect(userDetailsForAdmin).to.be.an.instanceOf(UserDetailsForAdmin);
-        expect(userDetailsForAdmin.id).to.equal(userInDb.id);
-        expect(userDetailsForAdmin.firstName).to.equal(userInDb.firstName);
-        expect(userDetailsForAdmin.lastName).to.equal(userInDb.lastName);
-        expect(userDetailsForAdmin.email).to.equal(userInDb.email);
-        expect(userDetailsForAdmin.cgu).to.be.true;
-      });
+      // when
+      const result = await catchErr(userRepository.getUserDetailsForAdmin)(nonExistentUserId);
 
-      it('should return a UserNotFoundError if no user is found', async () => {
-        // given
-        const nonExistentUserId = 678;
-
-        // when
-        const result = await catchErr(userRepository.getUserDetailsForAdmin)(nonExistentUserId);
-
-        // then
-        expect(result).to.be.instanceOf(UserNotFoundError);
-      });
+      // then
+      expect(result).to.be.instanceOf(UserNotFoundError);
     });
 
     context('when user is authenticated from GAR', () => {
 
-      let userInDb;
-
-      beforeEach(() => {
-        userInDb = databaseBuilder.factory.buildUser(userToInsert);
-        return databaseBuilder.commit();
-      });
-
       it('should return the "isAuthenticatedFromGAR" property to true', async () => {
+        // given
+        const userInDB = databaseBuilder.factory.buildUser(userToInsert);
+        await databaseBuilder.commit();
+
         // when
-        const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDb.id);
+        const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
 
         // then
         expect(userDetailsForAdmin).to.be.an.instanceOf(UserDetailsForAdmin);
         expect(userDetailsForAdmin.cgu).to.be.true;
       });
-
     });
 
     context('when user is not authenticated from GAR', () => {
 
-      let userInDb;
-      const userNotAuthenticatedFromGAR = {
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        email: faker.internet.exampleEmail().toLowerCase(),
-        password: bcrypt.hashSync('A124B2C3#!', 1),
-        cgu: true,
-        samlId: null,
-      };
-
-      beforeEach(() => {
-        userInDb = databaseBuilder.factory.buildUser(userNotAuthenticatedFromGAR);
-        return databaseBuilder.commit();
-      });
-
       it('should return the "isAuthenticatedFromGAR" property to false', async () => {
+        // given
+        const userInDB = databaseBuilder.factory.buildUser({ ...userToInsert, samlId: null });
+        await databaseBuilder.commit();
+
         // when
-        const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDb.id);
+        const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
 
         // then
         expect(userDetailsForAdmin).to.be.an.instanceOf(UserDetailsForAdmin);
@@ -563,6 +543,67 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
     });
 
+    context('when user has schoolingRegistrations from SCO organization', () => {
+
+      it('should return the user with his schoolingRegistrations', async () => {
+        // given
+        const userInDB = databaseBuilder.factory.buildUser(userToInsert);
+        const firstOrganizationInDB = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
+        const firstSchoolingRegistrationInDB = databaseBuilder.factory.buildSchoolingRegistration({ id: 1, userId: userInDB.id, organizationId: firstOrganizationInDB.id });
+        const secondOrganizationInDB = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
+        const secondSchoolingRegistrationInDB = databaseBuilder.factory.buildSchoolingRegistration({ id: 2, userId: userInDB.id, organizationId: secondOrganizationInDB.id });
+        await databaseBuilder.commit();
+
+        // when
+        const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
+
+        // then
+        expect(userDetailsForAdmin.schoolingRegistrations.length).to.equal(2);
+
+        const firstSchoolingRegistration = userDetailsForAdmin.schoolingRegistrations[0];
+        expect(firstSchoolingRegistration).to.be.instanceOf(SchoolingRegistrationForAdmin);
+        expect(firstSchoolingRegistration.firstName).to.equal(firstSchoolingRegistrationInDB.firstName);
+        expect(firstSchoolingRegistration.lastName).to.equal(firstSchoolingRegistrationInDB.lastName);
+        expect(firstSchoolingRegistration.birthdate).to.equal(firstSchoolingRegistrationInDB.birthdate);
+        expect(firstSchoolingRegistration.division).to.equal(firstSchoolingRegistrationInDB.division);
+        expect(firstSchoolingRegistration.organizationId).to.equal(firstOrganizationInDB.id);
+        expect(firstSchoolingRegistration.organizationExternalId).to.equal(firstOrganizationInDB.externalId);
+        expect(firstSchoolingRegistration.organizationName).to.equal(firstOrganizationInDB.name);
+        expect(firstSchoolingRegistration.createdAt).to.deep.equal(firstSchoolingRegistrationInDB.createdAt);
+        expect(firstSchoolingRegistration.updatedAt).to.deep.equal(firstSchoolingRegistrationInDB.updatedAt);
+
+        const secondSchoolingRegistration = userDetailsForAdmin.schoolingRegistrations[1];
+        expect(secondSchoolingRegistration).to.be.instanceOf(SchoolingRegistrationForAdmin);
+        expect(secondSchoolingRegistration.firstName).to.equal(secondSchoolingRegistrationInDB.firstName);
+        expect(secondSchoolingRegistration.lastName).to.equal(secondSchoolingRegistrationInDB.lastName);
+        expect(secondSchoolingRegistration.birthdate).to.equal(secondSchoolingRegistrationInDB.birthdate);
+        expect(secondSchoolingRegistration.division).to.equal(secondSchoolingRegistrationInDB.division);
+        expect(secondSchoolingRegistration.organizationId).to.equal(secondOrganizationInDB.id);
+        expect(secondSchoolingRegistration.organizationExternalId).to.equal(secondOrganizationInDB.externalId);
+        expect(secondSchoolingRegistration.organizationName).to.equal(secondOrganizationInDB.name);
+        expect(secondSchoolingRegistration.createdAt).to.deep.equal(secondSchoolingRegistrationInDB.createdAt);
+        expect(secondSchoolingRegistration.updatedAt).to.deep.equal(secondSchoolingRegistrationInDB.updatedAt);
+      });
+    });
+
+    context('when user has schoolingRegistrations from non-SCO organization', () => {
+
+      it('should return the user with empty schoolingRegistrations', async () => {
+        // given
+        const userInDB = databaseBuilder.factory.buildUser(userToInsert);
+        const firstOrganizationInDB = databaseBuilder.factory.buildOrganization({ type: 'SUP' });
+        databaseBuilder.factory.buildSchoolingRegistration({ id: 1, userId: userInDB.id, organizationId: firstOrganizationInDB.id });
+        const secondOrganizationInDB = databaseBuilder.factory.buildOrganization({ type: 'SUP' });
+        databaseBuilder.factory.buildSchoolingRegistration({ id: 2, userId: userInDB.id, organizationId: secondOrganizationInDB.id });
+        await databaseBuilder.commit();
+
+        // when
+        const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
+
+        // then
+        expect(userDetailsForAdmin.schoolingRegistrations.length).to.equal(0);
+      });
+    });
   });
 
   describe('#create', () => {
