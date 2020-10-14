@@ -20,6 +20,7 @@ describe('Integration | Application | Users | Routes', () => {
     sinon.stub(userController, 'getUserDetailsForAdmin').returns('ok');
     sinon.stub(userController, 'updateUserDetailsForAdministration').returns('updated');
     sinon.stub(userController, 'updateUserSamlId').returns('updated');
+    sinon.stub(userController, 'dissociateSchoolingRegistrations').returns('ok');
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
@@ -173,6 +174,21 @@ describe('Integration | Application | Users | Routes', () => {
       const firstError = response.result.errors[0];
       expect(firstError.detail).to.equal('"data.attributes.external-user-token" is required');
     });
+  });
 
+  describe('PATCH /api/admin/users/{id}/dissociate', () => {
+
+    const url = '/api/admin/users/1/dissociate';
+
+    it('should dissociate user', async () => {
+      // given
+      securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
+
+      // when
+      const response = await httpTestServer.request(methodPATCH, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
   });
 });
