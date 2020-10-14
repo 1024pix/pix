@@ -18,7 +18,7 @@ function buildSchoolingRegistration(
     birthCountryCode = faker.random.number(3).toString(),
     birthProvinceCode = faker.random.alphaNumeric(3),
     MEFCode = faker.random.number(11).toString(),
-    status = 'AP',
+    status = 'ST',
     nationalStudentId = faker.random.alphaNumeric(11),
     division = faker.random.alphaNumeric(2),
     updatedAt = moment(faker.date.past()).format('YYYY-MM-DD'),

@@ -88,7 +88,7 @@ describe('Unit | Domain | Schooling Registration validator', () => {
     });
 
     context('status', () => {
-      it('throw an error when status is not \'ST\' or \'AP\'', async () => {
+      it('throw an error when status is not \'ST\'', async () => {
         const error = await catchErr(checkValidation)({ ...validAttributes, status: 'AA' });
 
         expect(error.key).to.equal('status');
@@ -100,14 +100,6 @@ describe('Unit | Domain | Schooling Registration validator', () => {
           checkValidation({ ...validAttributes, status: 'ST' });
         } catch (e) {
           expect.fail('SchoolingRegistration is valid valid when status is \'ST\'');
-        }
-      });
-
-      it('is valid when status is \'AP\'', async () => {
-        try {
-          checkValidation({ ...validAttributes, status: 'ST' });
-        } catch (e) {
-          expect.fail('SchoolingRegistration is valid valid when status is \'AP\'');
         }
       });
     });
