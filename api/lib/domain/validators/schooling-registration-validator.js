@@ -7,7 +7,7 @@ const CITY_CODE_LENGTH = 5;
 const PROVINCE_CODE_MIN_LENGTH = 2;
 const PROVINCE_CODE_MAX_LENGTH = 3;
 const COUNTRY_CODE_LENGTH = 5;
-const STATUSES = ['ST', 'AP'];
+const STATUSES = ['ST'];
 const FRANCE_COUNTRY_CODE = '99100';
 
 const validationSchema = Joi.object({
