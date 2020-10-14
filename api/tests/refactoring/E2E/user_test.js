@@ -49,7 +49,7 @@ describe('API /api/users/me', () => {
     const email = 'sco@example.net';
     const password = 'pix123';
 
-    databaseBuilder.factory.buildUser({ email, password });
+    const user = await databaseBuilder.factory.buildUser({ email, password });
     await databaseBuilder.commit();
 
     const authenticateUrl = 'http://localhost:3000/api/token';
@@ -71,7 +71,7 @@ describe('API /api/users/me', () => {
       response = error.response;
     }
     expect(response.status).to.equal(404);
-    expect(response.data.errors[0].detail).to.equal('User not found for ID 100000');
+    expect(response.data.errors[0].detail).to.equal(`User not found for ID ${user.id}`);
   });
 
 });
