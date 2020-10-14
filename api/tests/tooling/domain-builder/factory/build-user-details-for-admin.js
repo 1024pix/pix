@@ -14,7 +14,8 @@ module.exports = function buildUserDetailsForAdmin(
     pixCertifTermsOfServiceAccepted = false,
     pixOrgaTermsOfServiceAccepted = false,
     isAuthenticatedFromGAR = false,
-    isAssociatedWithSchoolingRegistration = false,
+    isAssociatedWithSchoolingRegistration,
+    schoolingRegistrations,
   } = {}) {
 
   email = isUndefined(email) ? faker.internet.exampleEmail(firstName, lastName).toLowerCase() : email || null;
@@ -22,6 +23,6 @@ module.exports = function buildUserDetailsForAdmin(
   return new UserDetailsForAdmin({
     id, firstName, lastName, email, username,
     cgu, pixOrgaTermsOfServiceAccepted, pixCertifTermsOfServiceAccepted,
-    isAuthenticatedFromGAR, isAssociatedWithSchoolingRegistration,
+    isAuthenticatedFromGAR, isAssociatedWithSchoolingRegistration, schoolingRegistrations,
   });
 };

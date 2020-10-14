@@ -3,21 +3,24 @@ const {
 } = require('../../../test-helper');
 
 const UserDetailsForAdmin = require('../../../../lib/domain/models/UserDetailsForAdmin');
-const useCases = require('../../../../lib/domain/usecases');
+const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
+const getUserDetailsForAdmin = require('../../../../lib/domain/usecases/get-user-details-for-admin');
 
 describe('Integration | UseCase | get-user-details-for-admin', () => {
 
   it('should return user details for admin without schooling registration association, by user id', async () => {
     // given
     const user = databaseBuilder.factory.buildUser();
-    const expectedUserDetailsForAdmin = domainBuilder.buildUserDetailsForAdmin(user);
+    const expectedUserDetailsForAdmin = domainBuilder.buildUserDetailsForAdmin({
+      ...user,
+      isAssociatedWithSchoolingRegistration: false,
+    });
 
     await databaseBuilder.commit();
 
     // when
-    const foundUserDetailsForAdmin = await useCases.getUserDetailsForAdmin({
-      userId: user.id,
-    });
+    const foundUserDetailsForAdmin = await getUserDetailsForAdmin({ userId: user.id, userRepository, schoolingRegistrationRepository });
 
     // then
     expect(foundUserDetailsForAdmin).to.be.instanceOf(UserDetailsForAdmin);
@@ -36,7 +39,7 @@ describe('Integration | UseCase | get-user-details-for-admin', () => {
     await databaseBuilder.commit();
 
     // when
-    const foundUserDetailsForAdmin = await useCases.getUserDetailsForAdmin({ userId });
+    const foundUserDetailsForAdmin = await getUserDetailsForAdmin({ userId, userRepository, schoolingRegistrationRepository });
 
     // then
     expect(foundUserDetailsForAdmin).to.be.instanceOf(UserDetailsForAdmin);

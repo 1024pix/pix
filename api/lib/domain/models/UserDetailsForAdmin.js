@@ -11,6 +11,7 @@ class UserDetailsForAdmin {
     pixCertifTermsOfServiceAccepted,
     isAuthenticatedFromGAR,
     isAssociatedWithSchoolingRegistration,
+    schoolingRegistrations,
   } = {}) {
     this.id = id;
     this.cgu = cgu;
@@ -22,6 +23,7 @@ class UserDetailsForAdmin {
     this.pixOrgaTermsOfServiceAccepted = pixOrgaTermsOfServiceAccepted;
     this.pixCertifTermsOfServiceAccepted = pixCertifTermsOfServiceAccepted;
     this.isAssociatedWithSchoolingRegistration = isAssociatedWithSchoolingRegistration;
+    this.schoolingRegistrations = schoolingRegistrations;
   }
 }
 
