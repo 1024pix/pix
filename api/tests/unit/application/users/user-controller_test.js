@@ -776,4 +776,30 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
+  describe('#dissociateSchoolingRegistrations', () => {
+
+    const userId = 1;
+    const request = {
+      auth: { credentials: { userId } },
+      params: { id: userId },
+    };
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'dissociateSchoolingRegistrations');
+      sinon.stub(userDetailsForAdminSerializer, 'serialize').resolves();
+    });
+
+    it('should call the dissociate schooling registrations usecase', async () => {
+      // given
+      usecases.dissociateSchoolingRegistrations.resolves({ id: userId });
+
+      // when
+      await userController.dissociateSchoolingRegistrations(request, hFake);
+
+      // then
+      expect(usecases.dissociateSchoolingRegistrations).to.have.been.calledWith({ userId });
+      expect(usecases.dissociateSchoolingRegistrations).to.have.been.calledWith({ userId });
+    });
+  });
+
 });

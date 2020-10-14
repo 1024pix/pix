@@ -489,4 +489,38 @@ describe('Unit | Router | user-router', () => {
     });
   });
 
+  describe('PATCH /api/admin/users/{id}/dissociate', () => {
+
+    const method = 'PATCH';
+
+    beforeEach(() => {
+      sinon.stub(userController, 'dissociateSchoolingRegistrations').returns('ok');
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      httpTestServer = startServer();
+    });
+
+    it('should exist', async () => {
+      // given
+      const url = '/api/admin/users/1/dissociate';
+
+      // when
+      const result = await httpTestServer.request(method, url);
+
+      // then
+      expect(result.statusCode).to.equal(200);
+    });
+
+    it('should return 400 when id is not a number', async () => {
+      // given
+      const url = '/api/admin/users/wrongId/dissociate';
+
+      // when
+      const result = await httpTestServer.request(method, url);
+
+      // then
+      expect(result.statusCode).to.equal(400);
+      expect(JSON.parse(result.payload).errors[0].detail).to.equal('"id" must be a number');
+    });
+  });
+
 });
