@@ -17,12 +17,12 @@ module('Acceptance | User details personal information', function(hooks) {
       'last-name': 'harry',
       username: null,
       'is-authenticated-from-gar': false,
+      'is-associated-with-schooling-registration': true,
     });
     await createAuthenticateSession({ userId: user.id });
   });
 
   test('visiting /users/:id', async function(assert) {
-
     // when
     await visit(`/users/${user.id}`);
 
@@ -65,6 +65,20 @@ module('Acceptance | User details personal information', function(hooks) {
       assert.contains(`prenom_${user.id}`);
       assert.contains(`nom_${user.id}`);
       assert.contains(`email_${user.id}@example.net`);
+    });
+  });
+
+  module('when administrator click on dissociate button', function() {
+
+    test('should not display dissociate button after', async function(assert) {
+      // given
+      await visit(`/users/${user.id}`);
+
+      // when
+      await click('button[data-test-dissociate]');
+
+      // then
+      assert.dom('button[data-test-dissociate]').doesNotExist();
     });
   });
 

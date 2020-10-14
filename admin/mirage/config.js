@@ -107,7 +107,18 @@ export default function() {
       email: `email_${userId}@example.net`,
     };
 
-    const organization = schema.users.findBy({ id: userId });
-    return organization.update(expectedUpdatedUser);
+    const user = schema.users.findBy({ id: userId });
+    return user.update(expectedUpdatedUser);
   });
+
+  this.patch('/admin/users/:id/dissociate', (schema, request) => {
+    const userId = request.params.id;
+    const expectedUpdatedUser = {
+      isAssociatedWithSchoolingRegistration: false,
+    };
+
+    const user = schema.users.findBy({ id: userId });
+    return user.update(expectedUpdatedUser);
+  });
+
 }

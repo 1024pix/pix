@@ -148,6 +148,21 @@ module.exports = {
       });
   },
 
+  async dissociateByUser(userId) {
+    try {
+      await BookshelfSchoolingRegistration
+        .where({ userId })
+        .save({ userId: null }, {
+          patch: true,
+        });
+    } catch (error) {
+      if (error instanceof BookshelfSchoolingRegistration.NoRowsUpdatedError) {
+        return null;
+      }
+      throw error;
+    }
+  },
+
   findOneByUserIdAndOrganizationId({ userId, organizationId }) {
     return BookshelfSchoolingRegistration
       .where({ userId, organizationId })
@@ -207,4 +222,5 @@ module.exports = {
       pagination,
     };
   },
+
 };

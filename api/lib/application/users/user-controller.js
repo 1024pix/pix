@@ -203,4 +203,11 @@ module.exports = {
     await usecases.updateUserSamlId({ userId, externalUserToken, expectedUserId });
     return h.response().code(204);
   },
+
+  async dissociateSchoolingRegistrations(request) {
+    const userId = parseInt(request.params.id);
+    const userDetailsForAdmin = await usecases.dissociateSchoolingRegistrations({ userId });
+    return userDetailsForAdminSerializer.serialize(userDetailsForAdmin);
+  },
+
 };
