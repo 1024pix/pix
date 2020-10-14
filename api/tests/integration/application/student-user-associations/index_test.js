@@ -8,24 +8,9 @@ describe('Integration | Application | Route | student-user-associations', () => 
   let httpTestServer;
 
   beforeEach(() => {
-    sinon.stub(schoolingRegistrationUserAssociationController, 'findAssociation').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(schoolingRegistrationUserAssociationController, 'generateUsername').callsFake((request, h) => h.response('ok').code(200));
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
-  });
-
-  describe('GET /api/student-user-associations', () => {
-
-    const method = 'GET';
-    const url = '/api/student-user-associations';
-
-    it('should exist', async () => {
-      // when
-      const response = await httpTestServer.request(method, url);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
   });
 
   describe('PUT /api/student-user-associations/possibilities', () => {

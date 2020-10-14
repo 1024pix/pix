@@ -5,20 +5,6 @@ const { sendJsonApiError, UnprocessableEntityError } = require('../http-errors')
 exports.register = async function(server) {
   server.route([
     {
-      method: 'GET',
-      path: '/api/student-user-associations',
-      config: {
-        handler: schoolingRegistrationUserAssociationController.findAssociation,
-        notes : [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération du student (au sein d’une organisation) lié au user\n' +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié' +
-          '- L\'utilisation de cette route est dépréciée. Utiliser /api/schooling-registration-user-associations à la place',
-        ],
-        tags: ['api', 'studentUserAssociation'],
-      },
-    },
-    {
       method: 'PUT',
       path: '/api/student-user-associations/possibilities',
       config: {
