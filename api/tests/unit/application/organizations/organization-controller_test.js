@@ -506,19 +506,19 @@ describe('Unit | Application | Organizations | organization-controller', () => {
         payload: buffer,
       };
 
-      sinon.stub(usecases, 'importSchoolingRegistrationsFromSIECLE');
+      sinon.stub(usecases, 'importSchoolingRegistrationsFromSIECLEFormat');
       sinon.stub(studentSerializer, 'serialize');
     });
 
     it('should call the usecase to import schoolingRegistrations', async () => {
       // given
-      usecases.importSchoolingRegistrationsFromSIECLE.resolves();
+      usecases.importSchoolingRegistrationsFromSIECLEFormat.resolves();
 
       // when
       await organizationController.importSchoolingRegistrationsFromSIECLE(request, hFake);
 
       // then
-      expect(usecases.importSchoolingRegistrationsFromSIECLE).to.have.been.calledWith({ organizationId, buffer, format });
+      expect(usecases.importSchoolingRegistrationsFromSIECLEFormat).to.have.been.calledWith({ organizationId, buffer, format });
     });
   });
 
