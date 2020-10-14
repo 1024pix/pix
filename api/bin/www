@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env ts-node
 
 const heapProfile = require('heap-profile');
 const createServer = require('../server');

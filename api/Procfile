@@ -5,4 +5,4 @@ background: npm run scalingo-background-job
 # see https://github.com/1024pix/pix/pull/796
 # and https://github.com/npm/npm/issues/4603
 # for more information
-web: exec node bin/www
+web: exec npx ts-node bin/www
