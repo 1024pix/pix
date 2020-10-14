@@ -5,12 +5,12 @@ const SchoolingRegistrationParser = require('../../infrastructure/serializers/cs
 module.exports = async function importSchoolingRegistrationsFromSIECLE({ organizationId, buffer, format, schoolingRegistrationsXmlService, schoolingRegistrationRepository }) {
 
   let schoolingRegistrationDatas = [];
-  
+
   if (format === 'xml') {
     schoolingRegistrationDatas = schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE(buffer);
   } else if (format === 'csv') {
     const csvSiecleParser = new SchoolingRegistrationParser(buffer, organizationId);
-    schoolingRegistrationDatas = csvSiecleParser.parse();
+    schoolingRegistrationDatas = csvSiecleParser.parse().registrations;
   } else {
     throw new FileValidationError('Format de fichier non valide.');
   }
@@ -18,7 +18,7 @@ module.exports = async function importSchoolingRegistrationsFromSIECLE({ organiz
   if (_.isEmpty(schoolingRegistrationDatas)) {
     throw new FileValidationError('Aucune inscription d\'élève n\'a pu être importée depuis ce fichier.Vérifiez que le fichier est conforme.');
   }
-  
+
   try {
     await schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrationDatas, organizationId);
   } catch (err) {
