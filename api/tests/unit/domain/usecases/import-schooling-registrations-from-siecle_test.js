@@ -1,6 +1,8 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
+const iconv = require('iconv-lite');
 const importSchoolingRegistrationsFromSIECLEFormat = require('../../../../lib/domain/usecases/import-schooling-registrations-from-siecle');
 const { FileValidationError, SchoolingRegistrationsCouldNotBeSavedError, SameNationalStudentIdInFileError, SameNationalStudentIdInOrganizationError } = require('../../../../lib/domain/errors');
+const  SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
 
 describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
 
@@ -22,33 +24,50 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
 
     context('when the format is XML', () => {
       it('should save these informations', async () => {
+        format = 'csv';
+        const input = `Identifiant unique*;Premier prénom*;Deuxième prénom;Troisième prénom;Nom de famille*;Nom d’usage;Date de naissance (jj/mm/aaaa)*;Code commune naissance**;Libellé commune naissance**;Code département naissance*;Code pays naissance*;Statut*;Code MEF*;Division*
+        123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
+        456F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
+        `;
+        buffer = iconv.encode(input, 'utf8');
         // given
-        const extractedschoolingRegistrationsInformations = [
-          { lastName: 'UpdatedStudent1', nationalStudentId: 'INE1' },
-          { lastName: 'UpdatedStudent2', nationalStudentId: 'INE2' },
-          { lastName: 'StudentToCreate', nationalStudentId: 'INE3' },
-        ];
-        schoolingRegistrationsXmlServiceStub.extractSchoolingRegistrationsInformationFromSIECLE.returns(extractedschoolingRegistrationsInformations);
-
-        const schoolingRegistrationsToUpdate = [
-          { lastName: 'Student1', nationalStudentId: 'INE1' },
-          { lastName: 'Student2', nationalStudentId: 'INE2' },
-        ];
-        schoolingRegistrationRepositoryStub.findByOrganizationId.resolves(schoolingRegistrationsToUpdate);
+        const schoolingRegistration1 = new SchoolingRegistration({
+          id: undefined,
+          nationalStudentId: '123F',
+          firstName: 'Beatrix',
+          middleName: 'The',
+          thirdName: 'Bride',
+          lastName: 'Kiddo',
+          preferredLastName: 'Black Mamba',
+          birthdate: '1970-01-01',
+          birthCityCode: '97422',
+          birthProvinceCode: '974',
+          birthCountryCode: '100',
+          status: 'ST',
+          MEFCode: 'MEF1',
+          division: 'Division 1',
+          organizationId,
+        });
+        const schoolingRegistration2 = new SchoolingRegistration({
+          id: undefined,
+          nationalStudentId: '456F',
+          firstName: 'O-Ren',
+          lastName: 'Ishii',
+          preferredLastName: 'Cottonmouth',
+          birthdate: '1980-01-01',
+          birthCity: 'Shangai',
+          birthProvinceCode: '99',
+          birthCountryCode: '132',
+          status: 'ST',
+          MEFCode: 'MEF1',
+          division: 'Division 2',
+          organizationId,
+        });
 
         // when
         await importSchoolingRegistrationsFromSIECLEFormat({ organizationId, buffer, format, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
-        // then
-        const schoolingRegistrations = [
-          { lastName: 'UpdatedStudent1', nationalStudentId: 'INE1' },
-          { lastName: 'UpdatedStudent2', nationalStudentId: 'INE2' },
-          { lastName: 'StudentToCreate', nationalStudentId: 'INE3' },
-        ];
-
-        expect(schoolingRegistrationsXmlServiceStub.extractSchoolingRegistrationsInformationFromSIECLE).to.have.been.calledWith(buffer);
-        expect(schoolingRegistrationRepositoryStub.addOrUpdateOrganizationSchoolingRegistrations).to.have.been.calledWith(schoolingRegistrations, organizationId);
-        expect(schoolingRegistrationRepositoryStub.addOrUpdateOrganizationSchoolingRegistrations).to.not.throw();
+        expect(schoolingRegistrationRepositoryStub.addOrUpdateOrganizationSchoolingRegistrations).to.have.been.calledWith([schoolingRegistration1, schoolingRegistration2], organizationId);
       });
     });
 
