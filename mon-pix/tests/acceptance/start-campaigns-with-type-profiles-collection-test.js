@@ -101,6 +101,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
               await fillIn('#monthOfBirth', '12');
               await fillIn('#yearOfBirth', '2000');
               await click('.button');
+              await click('button[aria-label="Associer"]');
               await click('.campaign-landing-page__start-button');
             });
 
@@ -181,6 +182,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
             await fillIn('#monthOfBirth', '12');
             await fillIn('#yearOfBirth', '2000');
             await click('.button');
+            await click('button[aria-label="Associer"]');
             await click('.button');
             await fillIn('#id-pix-label', 'truc');
 

@@ -39,6 +39,7 @@ Fonctionnalité: Campagne de collecte de profils
     Et je saisis "Targaryen" dans le champ "Nom"
     Et je saisis la date de naissance 23-10-1986
     Et je clique sur "C'est parti !"
+    Et je clique sur le bouton "Associer"
     Alors je vois la page de "presentation" de la campagne
     Lorsque je clique sur "C’est parti !"
     Alors je vois la page d'"envoi-profil" de la campagne
