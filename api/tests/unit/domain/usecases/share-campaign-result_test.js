@@ -1,5 +1,6 @@
 const { sinon, expect, domainBuilder, catchErr } = require('../../../test-helper');
 const { NotFoundError, UserNotAuthorizedToAccessEntity, CampaignAlreadyArchivedError } = require('../../../../lib/domain/errors');
+const CampaignParticipationResultsShared = require('../../../../lib/domain/events/CampaignParticipationResultsShared');
 const usecases = require('../../../../lib/domain/usecases');
 const smartRandom = require('../../../../lib/domain/services/smart-random/smart-random');
 const dataFetcher = require('../../../../lib/domain/services/smart-random/data-fetcher');
@@ -12,7 +13,6 @@ describe('Unit | UseCase | share-campaign-result', () => {
   let assessmentId;
   let campaign;
   let campaignParticipation;
-  let expectedCampaignParticipation;
   const campaignParticipationRepository = {
     share() {},
     get() {},
@@ -57,11 +57,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
 
         beforeEach(() => {
           assessmentRepository.getByCampaignParticipationId.resolves(assessment);
-
-          expectedCampaignParticipation = Symbol('campaign participation');
-
-          sinon.stub(campaignParticipationRepository, 'share')
-            .resolves(expectedCampaignParticipation);
+          sinon.stub(campaignParticipationRepository, 'share').resolves();
 
           // when
           return usecases.shareCampaignResult({
@@ -95,7 +91,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
           });
         });
 
-        it('should return a modified campaign participation', async () => {
+        it('should return a CampaignParticipationResultsShared event', async () => {
           // when
           const result = await usecases.shareCampaignResult({
             userId,
@@ -112,7 +108,9 @@ describe('Unit | UseCase | share-campaign-result', () => {
           });
 
           // then
-          expect(result).to.deep.equal(expectedCampaignParticipation);
+          expect(result).to.be.an.instanceof(CampaignParticipationResultsShared);
+          expect(result.campaignParticipationId).to.equal(campaignParticipationId);
+          expect(result.userId).to.equal(userId);
         });
       });
 
@@ -211,18 +209,15 @@ describe('Unit | UseCase | share-campaign-result', () => {
       campaignParticipation = domainBuilder.buildCampaignParticipation({
         campaignId: campaign.id,
       });
-      campaignParticipation = campaignParticipation.id;
+      campaignParticipationId = campaignParticipation.id;
 
       sinon.stub(campaignRepository, 'get').resolves(campaign);
       sinon.stub(campaignParticipationRepository, 'get').resolves(campaignParticipation);
     });
 
-    it('should return a modified campaign participation', async () => {
+    it('should return a CampaignParticipationResultsShared event', async () => {
       // given
-      expectedCampaignParticipation = Symbol('campaign participation');
-
-      sinon.stub(campaignParticipationRepository, 'share')
-        .resolves(expectedCampaignParticipation);
+      sinon.stub(campaignParticipationRepository, 'share').resolves();
 
       // when
       const result = await usecases.shareCampaignResult({
@@ -233,7 +228,9 @@ describe('Unit | UseCase | share-campaign-result', () => {
       });
 
       // then
-      expect(result).to.deep.equal(expectedCampaignParticipation);
+      expect(result).to.be.an.instanceof(CampaignParticipationResultsShared);
+      expect(result.campaignParticipationId).to.equal(campaignParticipationId);
+      expect(result.userId).to.equal(userId);
     });
 
     context('when the campaign is archived', () => {
