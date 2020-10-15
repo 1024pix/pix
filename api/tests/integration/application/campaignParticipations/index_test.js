@@ -1,10 +1,16 @@
-const { expect, sinon } = require('../../../test-helper');
-const Hapi = require('@hapi/hapi');
+const {
+  expect,
+  sinon,
+  HttpTestServer,
+} = require('../../../test-helper');
+
+const moduleUnderTest = require('../../../../lib/application/campaignParticipations');
+
 const campaignParticipationController = require('../../../../lib/application/campaignParticipations/campaign-participation-controller');
 
 describe('Integration | Application | Route | campaignParticipationRouter', () => {
 
-  let server;
+  let httpTestServer;
 
   beforeEach(() => {
     sinon.stub(campaignParticipationController, 'shareCampaignResult').callsFake((request, h) => h.response('ok').code(201));
@@ -13,23 +19,14 @@ describe('Integration | Application | Route | campaignParticipationRouter', () =
     sinon.stub(campaignParticipationController, 'getCampaignAssessmentParticipation').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(campaignParticipationController, 'getCampaignAssessmentParticipationResult').callsFake((request, h) => h.response('ok').code(200));
 
-    server = Hapi.server();
-
-    return server.register(require('../../../../lib/application/campaignParticipations'));
-  });
-
-  afterEach(() => {
-    server.stop();
+    httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
   describe('GET /api/campaign-participations?filter[assessmentId]={id}', () => {
 
     it('should exist', async () => {
       // when
-      const response = await server.inject({
-        method: 'GET',
-        url: '/api/campaign-participations',
-      });
+      const response = await httpTestServer.request('GET', '/api/campaign-participations');
 
       // then
       expect(response.statusCode).to.equal(201);
@@ -39,19 +36,18 @@ describe('Integration | Application | Route | campaignParticipationRouter', () =
   describe('PATCH /api/campaign-participations/{id}', () => {
 
     it('should exist', async () => {
-      // when
-      const response = await server.inject({
-        method: 'PATCH',
-        url: '/api/campaign-participations/FAKE_ID',
-        payload: {
-          data: {
-            type: 'campaign-participation',
-            attributes: {
-              isShared: true,
-            },
+      // given
+      const payload = {
+        data: {
+          type: 'campaign-participation',
+          attributes: {
+            isShared: true,
           },
         },
-      });
+      };
+
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/campaign-participations/FAKE_ID', payload);
 
       // then
       expect(response.statusCode).to.equal(201);
@@ -60,46 +56,40 @@ describe('Integration | Application | Route | campaignParticipationRouter', () =
 
   describe('GET /api/campaign-participations/{id}/analyses', () => {
 
+    const method = 'GET';
+
     context('when id is not an integer', () => {
 
       it('should return 400 - Bad request', async () => {
         // when
-        const response = await server.inject({
-          method: 'GET',
-          url: '/api/campaign-participations/FAKE_ID/analyses',
-        });
+        const response = await httpTestServer.request(method, '/api/campaign-participations/FAKE_ID/analyses');
 
         // then
         expect(response.statusCode).to.equal(400);
       });
-
     });
 
     context('when id is an integer', () => {
 
       it('should return 200', async () => {
         // when
-        const response = await server.inject({
-          method: 'GET',
-          url: '/api/campaign-participations/12/analyses',
-        });
+        const response = await httpTestServer.request(method, '/api/campaign-participations/12/analyses');
 
         // then
         expect(response.statusCode).to.equal(200);
       });
-
     });
   });
 
   describe('GET /api/campaigns/{campaignId}/assessment-participations/{campaignParticipationId}', () => {
 
+    const method = 'GET';
+
     context('when campaignId is not an integer', () => {
+
       it('should return 400 - Bad request', async () => {
         // when
-        const response = await server.inject({
-          method: 'GET',
-          url: '/api/campaigns/FAKE_ID/assessment-participations/1',
-        });
+        const response = await httpTestServer.request(method, '/api/campaigns/FAKE_ID/assessment-participations/1');
 
         // then
         expect(response.statusCode).to.equal(400);
@@ -107,12 +97,10 @@ describe('Integration | Application | Route | campaignParticipationRouter', () =
     });
 
     context('when campaignParticipationId is not an integer', () => {
+
       it('should return 400 - Bad request', async () => {
         // when
-        const response = await server.inject({
-          method: 'GET',
-          url: '/api/campaigns/1/assessment-participations/FAKE_ID',
-        });
+        const response = await httpTestServer.request(method, '/api/campaigns/1/assessment-participations/FAKE_ID');
 
         // then
         expect(response.statusCode).to.equal(400);
@@ -120,12 +108,10 @@ describe('Integration | Application | Route | campaignParticipationRouter', () =
     });
 
     context('when campaignId and campaignParticipationId are integers', () => {
+
       it('should return 200', async () => {
         // when
-        const response = await server.inject({
-          method: 'GET',
-          url: '/api/campaigns/1/assessment-participations/1',
-        });
+        const response = await httpTestServer.request(method, '/api/campaigns/1/assessment-participations/1');
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -135,13 +121,13 @@ describe('Integration | Application | Route | campaignParticipationRouter', () =
 
   describe('GET /api/campaigns/{campaignId}/assessment-participations/{campaignParticipationId}/results', () => {
 
+    const method = 'GET';
+
     context('when campaignId is not an integer', () => {
+
       it('should return 400 - Bad request', async () => {
         // when
-        const response = await server.inject({
-          method: 'GET',
-          url: '/api/campaigns/FAKE_ID/assessment-participations/1/results',
-        });
+        const response = await httpTestServer.request(method, '/api/campaigns/FAKE_ID/assessment-participations/1/results');
 
         // then
         expect(response.statusCode).to.equal(400);
@@ -149,12 +135,10 @@ describe('Integration | Application | Route | campaignParticipationRouter', () =
     });
 
     context('when campaignParticipationId is not an integer', () => {
+
       it('should return 400 - Bad request', async () => {
         // when
-        const response = await server.inject({
-          method: 'GET',
-          url: '/api/campaigns/1/assessment-participations/FAKE_ID/results',
-        });
+        const response = await httpTestServer.request(method, '/api/campaigns/1/assessment-participations/FAKE_ID/results');
 
         // then
         expect(response.statusCode).to.equal(400);
@@ -162,12 +146,10 @@ describe('Integration | Application | Route | campaignParticipationRouter', () =
     });
 
     context('when campaignId and campaignParticipationId are integers', () => {
+
       it('should return 200', async () => {
         // when
-        const response = await server.inject({
-          method: 'GET',
-          url: '/api/campaigns/1/assessment-participations/1/results',
-        });
+        const response = await httpTestServer.request(method, '/api/campaigns/1/assessment-participations/1/results');
 
         // then
         expect(response.statusCode).to.equal(200);

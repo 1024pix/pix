@@ -1,9 +1,16 @@
-const { expect, sinon } = require('../../../test-helper');
-const Hapi = require('@hapi/hapi');
+const {
+  expect,
+  HttpTestServer,
+  sinon,
+} = require('../../../test-helper');
+
+const moduleUnderTest = require('../../../../lib/application/campaigns');
+
 const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
 
 describe('Integration | Application | Route | campaignRouter', () => {
-  let server;
+
+  let httpTestServer;
 
   beforeEach(() => {
     sinon.stub(campaignController, 'save').callsFake((request, h) => h.response('ok').code(201));
@@ -13,82 +20,50 @@ describe('Integration | Application | Route | campaignRouter', () => {
     sinon.stub(campaignController, 'update').callsFake((request, h) => h.response('ok').code(201));
     sinon.stub(campaignController, 'getAnalysis').callsFake((request, h) => h.response('ok').code(200));
 
-    server = Hapi.server();
-
-    return server.register(require('../../../../lib/application/campaigns'));
-  });
-
-  afterEach(() => {
-    server.stop();
+    httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
   describe('POST /api/campaigns', () => {
 
-    it('should exist', function() {
+    it('should exist', async () => {
       // when
-      const promise = server.inject({
-        method: 'POST',
-        url: '/api/campaigns',
-      });
+      const response = await httpTestServer.request('POST', '/api/campaigns');
 
       // then
-      return promise.then((res) => {
-        expect(res.statusCode).to.equal(201);
-      });
-
+      expect(response.statusCode).to.equal(201);
     });
-
   });
 
   describe('GET /api/campaigns/{id}/csv-assessment-results', () => {
 
-    it('should exist', () => {
+    it('should exist', async () => {
       // when
-      const promise = server.inject({
-        method: 'GET',
-        url: '/api/campaigns/FAKE_ID/csv-assessment-results',
-      });
+      const response = await httpTestServer.request('GET', '/api/campaigns/FAKE_ID/csv-assessment-results');
 
       // then
-      return promise.then((res) => {
-        expect(res.statusCode).to.equal(200);
-      });
-
+      expect(response.statusCode).to.equal(200);
     });
-
   });
 
   describe('GET /api/campaigns/{id}/csv-profiles-collection-results', () => {
 
-    it('should exist', () => {
+    it('should exist', async () => {
       // when
-      const promise = server.inject({
-        method: 'GET',
-        url: '/api/campaigns/FAKE_ID/csv-profiles-collection-results',
-      });
+      const response = await httpTestServer.request('GET', '/api/campaigns/FAKE_ID/csv-profiles-collection-results');
 
       // then
-      return promise.then((res) => {
-        expect(res.statusCode).to.equal(200);
-      });
-
+      expect(response.statusCode).to.equal(200);
     });
-
   });
 
   describe('GET /api/campaigns/{id}', () => {
 
-    it('should return a 200', function() {
+    it('should return a 200', async () => {
       // when
-      const promise = server.inject({
-        method: 'GET',
-        url: '/api/campaigns/1',
-      });
+      const response = await httpTestServer.request('GET', '/api/campaigns/1');
 
       // then
-      return promise.then((res) => {
-        expect(res.statusCode).to.equal(200);
-      });
+      expect(response.statusCode).to.equal(200);
     });
   });
 
@@ -99,10 +74,10 @@ describe('Integration | Application | Route | campaignRouter', () => {
       const campaignId = 1;
 
       // when
-      const result = await server.inject({ method: 'GET', url: `/api/campaigns/${campaignId}/analyses` });
+      const response = await httpTestServer.request('GET', `/api/campaigns/${campaignId}/analyses`);
 
       // then
-      expect(result.statusCode).to.equal(200);
+      expect(response.statusCode).to.equal(200);
     });
 
     it('should return 400', async () => {
@@ -110,28 +85,21 @@ describe('Integration | Application | Route | campaignRouter', () => {
       const campaignId = 'wrongId';
 
       // when
-      const result = await server.inject({ method: 'GET', url: `/api/campaigns/${campaignId}/analyses` });
+      const response = await httpTestServer.request('GET', `/api/campaigns/${campaignId}/analyses`);
 
       // then
-      expect(result.statusCode).to.equal(400);
+      expect(response.statusCode).to.equal(400);
     });
   });
 
   describe('PATCH /api/campaigns/{id}', () => {
 
-    it('should exist', function() {
+    it('should exist', async () => {
       // when
-      const promise = server.inject({
-        method: 'PATCH',
-        url: '/api/campaigns/FAKE_ID',
-      });
+      const response = await httpTestServer.request('PATCH', '/api/campaigns/FAKE_ID');
 
       // then
-      return promise.then((res) => {
-        expect(res.statusCode).to.equal(201);
-      });
+      expect(response.statusCode).to.equal(201);
     });
-
   });
-
 });
