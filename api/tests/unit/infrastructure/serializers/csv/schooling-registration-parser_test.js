@@ -1,6 +1,7 @@
 const iconv = require('iconv-lite');
 const { expect, catchErr } = require('../../../../test-helper');
 const SchoolingRegistrationParser = require('../../../../../lib/infrastructure/serializers/csv/schooling-registration-parser');
+const { EntityValidationError } = require('../../../../../lib/domain/errors');
 
 describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
   context('when the header is correctly formed', () => {
@@ -69,35 +70,53 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
           organizationId,
         });
       });
+
+      context('when the data are not correct', () => {
+        it('should throw an EntityValidationError', async () => {
+          const input = `Identifiant unique*;Premier prénom*;Deuxième prénom;Troisième prénom;Nom de famille*;Nom d’usage;Date de naissance (jj/mm/aaaa)*;Code commune naissance**;Libellé commune naissance**;Code département naissance*;Code pays naissance*;Statut*;Code MEF*;Division*
+      123F;Beatrix;The;Bride;Kiddo;Black Mamba;aaaaa;97422;;200;99100;ST;MEF1;Division 1;
+      `;
+          const encodedInput = iconv.encode(input, 'utf8');
+          const parser = new SchoolingRegistrationParser(encodedInput, 123);
+
+          const error = await catchErr(parser.parse, parser)();
+
+          expect(error).to.be.an.instanceOf(EntityValidationError);
+        });
+      });
     });
   });
 
-  context('When a column value does not match requirements', () => {
+  context('when the header is not correctly formed', () => {
     const organizationId = 123;
 
-    it('should throw an error if the status field is not a correct value', async () => {
-      const input = `Identifiant unique*;Premier prénom*;Deuxième prénom;Troisième prénom;Nom de famille*;Nom d’usage;Date de naissance (jj/mm/aaaa)*;Code commune naissance**;Libellé commune naissance**;Code département naissance*;Code pays naissance*;Statut*;Code MEF*;Division*
-        123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;AA;MEF1;Division 1;
-        `;
-      const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new SchoolingRegistrationParser(encodedInput, organizationId);
+    const header = 'Identifiant unique*;Premier prénom*;Deuxième prénom;Troisième prénom;Nom de famille*;Nom d’usage;Date de naissance (jj/mm/aaaa)*;Code commune naissance**;Libellé commune naissance**;Code département naissance*;Code pays naissance*;Statut*;Code MEF*;Division*;';
+    const fieldList = ['Identifiant unique*', 'Nom de famille*', 'Date de naissance (jj/mm/aaaa)*', 'Code département naissance*', 'Code pays naissance*', 'Statut*', 'Code MEF*', 'Division*'];
+    fieldList.forEach((field) => {
+      context(`when the ${field} column is missing`, () => {
+        it('should throw an CsvImportError', async () => {
+          const input = header.replace(`${field};`,  '');
+          const encodedInput = iconv.encode(input, 'utf8');
+          const parser = new SchoolingRegistrationParser(encodedInput, organizationId);
 
-      const error = await catchErr(parser.parse, parser)();
+          const error = await catchErr(parser.parse, parser)();
 
-      expect(error.message).to.contain('Le champ “Statut*” doit être "ST ou AP".');
+          expect(error.message).to.contain(`La colonne "${field}" est obligatoire.`);
+        });
+      });
     });
 
-    it('should throw an error including line number', async () => {
-      const input = `Identifiant unique*;Premier prénom*;Deuxième prénom;Troisième prénom;Nom de famille*;Nom d’usage;Date de naissance (jj/mm/aaaa)*;Code commune naissance**;Libellé commune naissance**;Code département naissance*;Code pays naissance*;Statut*;Code MEF*;Division*
-        123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
-        456F;O-Ren;;;;Cottonmouth;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
-        `;
-      const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new SchoolingRegistrationParser(encodedInput, organizationId);
+    context('when the Premier prénom* column is missing', () => {
+      it('should throw an CsvImportError', async () => {
+        const input = 'Identifiant unique*;Deuxième prénom;Troisième prénom;Nom de famille*;Nom d’usage;Date de naissance (jj/mm/aaaa)*;Code commune naissance**;Libellé commune naissance**;Code département naissance*;Code pays naissance*;Statut*;Code MEF*;Division*';
+        const encodedInput = iconv.encode(input, 'utf8');
+        const parser = new SchoolingRegistrationParser(encodedInput, organizationId);
 
-      const error = await catchErr(parser.parse, parser)();
+        const error = await catchErr(parser.parse, parser)();
 
-      expect(error.message).to.contain('Ligne 3 :');
+        expect(error.message).to.contain('Encodage du fichier non supporté.');
+      });
     });
+
   });
 });

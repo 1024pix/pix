@@ -1,6 +1,5 @@
 const SchoolingRegistration = require('../../../domain/models/SchoolingRegistration');
 const { checkValidation } = require('../../../domain/validators/schooling-registration-validator');
-const { CsvImportError } = require('../../../../lib/domain/errors');
 
 const { CsvRegistrationParser, CsvColumn } = require('./csv-registration-parser');
 
