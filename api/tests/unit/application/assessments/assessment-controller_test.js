@@ -169,7 +169,7 @@ describe('Unit | Controller | assessment-controller', function() {
       await transactionToBeExecuted(domainTransaction);
 
       // then
-      expect(events.eventDispatcher.dispatch).to.have.been.calledWith(domainTransaction, assessmentCompletedEvent);
+      expect(events.eventDispatcher.dispatch).to.have.been.calledWith(assessmentCompletedEvent, domainTransaction);
     });
   });
 });
