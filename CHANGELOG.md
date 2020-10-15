@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v2.209.0 (15/10/2020)
+
+- [#2000](https://github.com/1024pix/pix/pull/2000) [FEATURE] Ajouter un message d'avertissement avant de réconcilier un élève (PIX-1391).
+- [#2008](https://github.com/1024pix/pix/pull/2008) [FEATURE] Dissocier tous les élèves réconciliés avec un utilisateur dans Pix Admin (PIX-1394).
+- [#2005](https://github.com/1024pix/pix/pull/2005)  [BUGFIX] Empêcher une erreur 500 suite à une violation de contrainte lors d'une réconciliation d'un élève (PIX-1367)
+
 ## v2.208.0 (13/10/2020)
 
 - [#2003](https://github.com/1024pix/pix/pull/2003) [FEATURE] Ajouter un texte alternatif à l'image d'aide de l'identifiant externe (PIX-1363).
