@@ -126,7 +126,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             campaign = server.create('campaign', { isRestricted: true, organizationType: 'SCO' });
           });
 
-          context('When the student has an account but is not reconcilied', function() {
+          context('When the student has an account but is not reconciled', function() {
 
             it('should redirect to reconciliation page', async function() {
               // given
@@ -299,7 +299,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`);
           });
 
-          it('should redirect to landing page when fields are filled in', async function() {
+          it('should redirect to landing page when fields are filled in and associate button is clicked', async function() {
             // given
             await visit(`/campagnes/${campaign.code}`);
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification`);
@@ -318,6 +318,8 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await fillIn('#yearOfBirth', '2000');
 
             await click('.button');
+
+            await click('button[aria-label="Associer"]');
 
             //then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
@@ -583,7 +585,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             expect(find('#lastName').value).to.equal('');
           });
 
-          it('should redirect to landing page when fields are filled in', async function() {
+          it('should redirect to landing page when fields are filled in and associate button is clicked', async function() {
             // given
             await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
 
@@ -595,6 +597,8 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await fillIn('#yearOfBirth', '2000');
 
             await click('.button');
+
+            await click('button[aria-label="Associer"]');
 
             //then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
@@ -609,6 +613,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await fillIn('#monthOfBirth', '12');
             await fillIn('#yearOfBirth', '2000');
             await click('.button');
+            await click('button[aria-label="Associer"]');
 
             // when
             await click('.button');

@@ -91,11 +91,11 @@ describe('Unit | UseCase | reconcile-schooling-registration', () => {
       schoolingRegistration.userId = user.id;
       schoolingRegistration.firstName = user.firstName;
       schoolingRegistration.lastName = user.lastName;
-      const exceptedErrorMEssage = 'Un compte existe déjà pour l\'élève dans un autre établissement.';
+      const exceptedErrorMessage = 'Un compte existe déjà pour l\'élève dans un autre établissement.';
       campaignRepository.getByCode.withArgs(campaignCode).resolves({ organizationId });
       userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(schoolingRegistration);
       studentRepository.getReconciledStudentByNationalStudentId.resolves(new Student());
-      userReconciliationService.checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations.throws(new SchoolingRegistrationAlreadyLinkedToUserError(exceptedErrorMEssage));
+      userReconciliationService.checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations.throws(new SchoolingRegistrationAlreadyLinkedToUserError(exceptedErrorMessage));
 
       // when
       const result = await catchErr(usecases.reconcileSchoolingRegistration)({
@@ -108,7 +108,7 @@ describe('Unit | UseCase | reconcile-schooling-registration', () => {
 
       // then
       expect(result).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToUserError);
-      expect(result.message).to.equal(exceptedErrorMEssage);
+      expect(result.message).to.equal(exceptedErrorMessage);
     });
   });
 
@@ -153,6 +153,7 @@ describe('Unit | UseCase | reconcile-schooling-registration', () => {
 
     it('should associate user with schoolingRegistration', async () => {
       // given
+      const withReconciliation = true;
       schoolingRegistration.userId = user.id;
       schoolingRegistration.firstName = user.firstName;
       schoolingRegistration.lastName = user.lastName;
@@ -168,6 +169,7 @@ describe('Unit | UseCase | reconcile-schooling-registration', () => {
       // when
       const result = await usecases.reconcileSchoolingRegistration({
         reconciliationInfo: user,
+        withReconciliation,
         campaignCode,
         campaignRepository,
         userReconciliationService,
@@ -181,4 +183,33 @@ describe('Unit | UseCase | reconcile-schooling-registration', () => {
     });
   });
 
+  context('When withReconciliation is false', () => {
+
+    it('should not associate user with schoolingRegistration', async () => {
+      // given
+      const withReconciliation = false;
+      schoolingRegistration.userId = user.id;
+      schoolingRegistration.firstName = user.firstName;
+      schoolingRegistration.lastName = user.lastName;
+      campaignRepository.getByCode.withArgs(campaignCode).resolves({ organizationId });
+      userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(schoolingRegistration);
+      studentRepository.getReconciledStudentByNationalStudentId.resolves(new Student());
+      userReconciliationService.checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations.resolves();
+
+      // when
+      const result = await usecases.reconcileSchoolingRegistration({
+        reconciliationInfo: user,
+        withReconciliation,
+        campaignCode,
+        campaignRepository,
+        userReconciliationService,
+        studentRepository,
+        schoolingRegistrationRepository,
+      });
+
+      // then
+      expect(result).to.be.undefined;
+      expect(schoolingRegistrationRepository.reconcileUserToSchoolingRegistration).to.not.have.been.called;
+    });
+  });
 });
