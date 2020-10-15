@@ -134,6 +134,10 @@ module.exports = (function() {
       newYearSchoolingRegistrationsImportDate: _getDate(process.env.NEW_YEAR_SCHOOLING_REGISTRATIONS_IMPORT_DATE),
     },
 
+    featureToggles: {
+      certifPrescriptionSco: isFeatureEnabled(process.env.FT_CERTIF_PRESCRIPTION_SCO),
+    },
+
     infra: {
       concurrencyForHeavyOperations: _getNumber(process.env.INFRA_CONCURRENCY_HEAVY_OPERATIONS, 2),
       chunkSizeForCampaignResultProcessing: _getNumber(process.env.INFRA_CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING, 10),
@@ -163,6 +167,8 @@ module.exports = (function() {
     config.features.dayBeforeImproving = 4;
     config.features.dayBeforeCompetenceResetV2 = 7;
     config.features.garAccessV2 = false;
+
+    config.featureToggles.certifPrescriptionSco = false;
 
     config.mailing.enabled = false;
     config.mailing.provider = 'sendinblue';

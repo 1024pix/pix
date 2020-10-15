@@ -14,6 +14,7 @@ module.exports = [
   require('./application/challenges'),
   require('./application/competence-evaluations'),
   require('./application/courses'),
+  require('./application/feature-toggles'),
   require('./application/feedbacks'),
   require('./application/healthcheck'),
   require('./application/memberships'),

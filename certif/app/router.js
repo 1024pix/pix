@@ -27,6 +27,7 @@ Router.map(function() {
       this.route('details', { path: '/:session_id' }, function() {
         this.route('parameters', { path: '/' });
         this.route('certification-candidates', { path: '/candidats' });
+        this.route('certification-candidates-sco', { path: '/candidats-sco' });
       });
     });
   });
