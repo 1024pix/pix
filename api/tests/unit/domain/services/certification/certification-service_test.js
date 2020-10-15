@@ -5,6 +5,7 @@ const AssessmentResult = require('../../../../../lib/domain/models/AssessmentRes
 const CompetenceMarks = require('../../../../../lib/domain/models/CompetenceMark');
 const CertificationCourse = require('../../../../../lib/domain/models/CertificationCourse');
 
+const assessmentRepository = require('../../../../../lib/infrastructure/repositories/assessment-repository');
 const assessmentResultRepository = require('../../../../../lib/infrastructure/repositories/assessment-result-repository');
 const certificationAssessmentRepository = require('../../../../../lib/infrastructure/repositories/certification-assessment-repository');
 const certificationCourseRepository = require('../../../../../lib/infrastructure/repositories/certification-course-repository');
@@ -62,6 +63,8 @@ describe('Unit | Service | Certification Service', function() {
 
     beforeEach(() => {
       sinon.stub(cleaCertificationStatusRepository, 'getCleaCertificationStatus').resolves(cleaCertificationStatus);
+      sinon.stub(assessmentRepository, 'getIdByCertificationCourseId')
+        .withArgs(certificationCourseId).resolves(assessmentId);
     });
 
     context('when certification is finished', () => {

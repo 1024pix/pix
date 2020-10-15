@@ -1,5 +1,6 @@
 const CertificationResult = require('../models/CertificationResult');
 const Assessment = require('../models/Assessment');
+const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
 const certificationAssessmentRepository = require('../../../lib/infrastructure/repositories/certification-assessment-repository');
 const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
 const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
@@ -20,13 +21,14 @@ async function getCertificationResultByCertifCourse({ certificationCourse }) {
   const certificationCourseId = certificationCourse.id;
   const cleaCertificationStatus = await cleaCertificationStatusRepository.getCleaCertificationStatus(certificationCourseId);
   let lastAssessmentResultFull = await assessmentResultRepository.findLatestByCertificationCourseIdWithCompetenceMarks({ certificationCourseId });
+  const assessmentId = await assessmentRepository.getIdByCertificationCourseId(certificationCourseId);
   if (!lastAssessmentResultFull) {
     lastAssessmentResultFull = { competenceMarks: [], status: Assessment.states.STARTED };
   }
 
   return new CertificationResult({
     id: certificationCourse.id,
-    assessmentId: lastAssessmentResultFull.assessmentId,
+    assessmentId,
     firstName: certificationCourse.firstName,
     lastName: certificationCourse.lastName,
     birthdate: certificationCourse.birthdate,
