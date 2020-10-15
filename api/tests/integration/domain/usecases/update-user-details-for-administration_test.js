@@ -3,7 +3,6 @@ const { expect,catchErr, databaseBuilder } = require('../../../test-helper');
 const { AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
 
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
 const UserDetailsForAdmin = require('../../../../lib/domain/models/UserDetailsForAdmin');
 
 const updateUserDetailsForAdministration = require('../../../../lib/domain/usecases/update-user-details-for-administration');
@@ -31,7 +30,6 @@ describe('Integration | UseCases | updateUserDetailsForAdministration', () => {
       userId,
       userDetailsForAdministration: userToUpdate,
       userRepository,
-      schoolingRegistrationRepository,
     });
 
     // then
@@ -52,28 +50,31 @@ describe('Integration | UseCases | updateUserDetailsForAdministration', () => {
       userId,
       userDetailsForAdministration: userToUpdate,
       userRepository,
-      schoolingRegistrationRepository,
     });
 
     // then
     expect(result.email).equal(userToUpdate.email);
   });
 
-  it('should update user and change attribute isAssociatedWithSchoolingRegistration when association exist', async () => {
+  it('should update user and return it with its schooling registrations', async () => {
     // given
-    userId = databaseBuilder.factory.buildSchoolingRegistrationWithUser().userId;
+    let organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO' }).id;
+    databaseBuilder.factory.buildSchoolingRegistration({ id: 1, userId, organizationId });
+    organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO' }).id;
+    databaseBuilder.factory.buildSchoolingRegistration({ id: 2, userId, organizationId });
     await databaseBuilder.commit();
+    const userDetailsForAdministration = { email: 'partial@example.net' };
 
     // when
     const result = await updateUserDetailsForAdministration({
       userId,
-      userDetailsForAdministration: { email: 'partial@example.net' },
+      userDetailsForAdministration,
       userRepository,
-      schoolingRegistrationRepository,
     });
 
     // then
-    expect(result.isAssociatedWithSchoolingRegistration).to.be.true;
+    expect(result.schoolingRegistrations.length).to.equal(2);
+    expect(result.email).to.equal(userDetailsForAdministration.email);
   });
 
   it('should throw AlreadyRegisteredEmailError when email is already used by another user', async () => {
@@ -87,7 +88,6 @@ describe('Integration | UseCases | updateUserDetailsForAdministration', () => {
       userId,
       userDetailsForAdministration: userToUpdate,
       userRepository,
-      schoolingRegistrationRepository,
     });
 
     // then

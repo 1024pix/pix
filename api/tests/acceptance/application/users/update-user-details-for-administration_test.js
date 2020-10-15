@@ -11,7 +11,6 @@ describe('Acceptance | Controller | users-controller-update-user-details-for-adm
   beforeEach(async () => {
     server = await createServer();
     user = await insertUserWithRolePixMaster();
-
   });
 
   describe('Error case', () => {
@@ -132,7 +131,11 @@ describe('Acceptance | Controller | users-controller-update-user-details-for-adm
               'pix-certif-terms-of-service-accepted': user.pixCertifTermsOfServiceAccepted,
               'pix-orga-terms-of-service-accepted': user.pixOrgaTermsOfServiceAccepted,
               'is-authenticated-from-gar': false,
-              'is-associated-with-schooling-registration': false,
+            },
+            'relationships': {
+              'schooling-registrations': {
+                'data': [],
+              },
             },
             'id': '1234',
             'type': 'users',

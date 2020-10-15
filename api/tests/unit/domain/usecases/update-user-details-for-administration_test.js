@@ -13,19 +13,18 @@ describe('Unit | UseCase | update-user-details-for-administration', () => {
     firstName: 'firstName',
     lastName: 'lastName',
   };
-  const expectedUserDetailsForAdmin = domainBuilder.buildUserDetailsForAdmin(attributesToUpdate);
+  const expectedUserDetailsForAdmin = domainBuilder.buildUserDetailsForAdmin({
+    ...attributesToUpdate,
+    schoolingRegistrations: [domainBuilder.buildSchoolingRegistrationForAdmin()],
+  });
 
   let userRepository;
-  let schoolingRegistrationRepository;
 
   beforeEach(() => {
     userRepository = {
       isEmailAllowedToUseForCurrentUser: sinon.stub().returns(true),
-      updateUserDetailsForAdministration: sinon.stub().resolves(expectedUserDetailsForAdmin),
-    };
-
-    schoolingRegistrationRepository = {
-      findByUserId: sinon.stub().resolves([]),
+      updateUserDetailsForAdministration: sinon.stub().resolves(),
+      getUserDetailsForAdmin: sinon.stub().resolves(expectedUserDetailsForAdmin),
     };
   });
 
@@ -35,29 +34,10 @@ describe('Unit | UseCase | update-user-details-for-administration', () => {
       userId,
       userDetailsForAdministration: attributesToUpdate,
       userRepository,
-      schoolingRegistrationRepository,
     });
 
     // then
     expect(updatedUserDetailsForAdmin).to.be.instanceOf(UserDetailsForAdmin);
     expect(updatedUserDetailsForAdmin).to.equal(expectedUserDetailsForAdmin);
   });
-
-  it('should update user and change attribute isAssociatedWithSchoolingRegistration when association exist', async () => {
-    // given
-    schoolingRegistrationRepository.findByUserId.resolves([{}]);
-    expectedUserDetailsForAdmin.isAssociatedWithSchoolingRegistration = true;
-
-    // when
-    const updatedUserDetailsForAdmin = await updateUserDetailsForAdministration({
-      userId,
-      userDetailsForAdministration: attributesToUpdate,
-      userRepository,
-      schoolingRegistrationRepository,
-    });
-
-    // then
-    expect(updatedUserDetailsForAdmin).to.equal(expectedUserDetailsForAdmin);
-  });
-
 });
