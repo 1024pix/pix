@@ -17,9 +17,9 @@ describe('Unit | Domain | Use Cases | get-session-results', () => {
   const cleaCertifications = [ 'acquired', 'rejected', 'not_passed'];
   const assessmentsIds = [ 1, 2, 3 ];
 
-  const assessmentResult1 = domainBuilder.buildAssessmentResult({ pixScore: 500, competenceMarks: [], createdAt: 'lundi' });
-  const assessmentResult2 = domainBuilder.buildAssessmentResult({ pixScore: 10, competenceMarks: [], createdAt: 'mardi', commentForCandidate: 'Son ordinateur a explosé' });
-  const assessmentResult3 = domainBuilder.buildAssessmentResult({ pixScore: 400, competenceMarks: [], createdAt: 'mercredi' });
+  const assessmentResult1 = domainBuilder.buildAssessmentResult({ pixScore: 500, competenceMarks: [], createdAt: 'lundi', assessmentId: assessmentsIds[0] });
+  const assessmentResult2 = domainBuilder.buildAssessmentResult({ pixScore: 10, competenceMarks: [], createdAt: 'mardi', assessmentId: assessmentsIds[1], commentForCandidate: 'Son ordinateur a explosé' });
+  const assessmentResult3 = domainBuilder.buildAssessmentResult({ pixScore: 400, competenceMarks: [], createdAt: 'mercredi', assessmentId: assessmentsIds[2] });
 
   const firstCertifResult = _buildCertificationResult(certifCourse1, assessmentResult1, cleaCertifications[0]);
   const secondCertifResult = _buildCertificationResult(certifCourse2, assessmentResult2, cleaCertifications[1]);

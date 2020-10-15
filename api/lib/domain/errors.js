@@ -48,6 +48,12 @@ class AlreadyRatedAssessmentError extends DomainError {
   }
 }
 
+class AssessmentResultNotCreatedError extends DomainError {
+  constructor(message = 'L\'assessment result n\'a pas pu être généré.') {
+    super(message);
+  }
+}
+
 class AlreadyRegisteredEmailError extends DomainError {
   constructor(message = 'Cet email est déjà utilisé.') {
     super(message);
@@ -430,6 +436,12 @@ class MissingOrInvalidCredentialsError extends DomainError {
   }
 }
 
+class MissingAssessmentId extends DomainError {
+  constructor(message = 'AssessmentId manquant ou incorrect') {
+    super(message);
+  }
+}
+
 class AssessmentNotCompletedError extends DomainError {
   constructor(message = 'Cette évaluation n\'est pas terminée.') {
     super(message);
@@ -626,6 +638,7 @@ module.exports = {
   NoCampaignParticipationForUserAndCampaign,
   AssessmentEndedError,
   AssessmentNotCompletedError,
+  AssessmentResultNotCreatedError,
   CampaignAlreadyArchivedError,
   CampaignCodeError,
   CertificateVerificationCodeGenerationTooManyTrials,
@@ -660,6 +673,7 @@ module.exports = {
   MembershipCreationError,
   MembershipUpdateError,
   MissingOrInvalidCredentialsError,
+  MissingAssessmentId,
   NotEligibleCandidateError,
   NotFoundError,
   ObjectValidationError,
