@@ -1,7 +1,8 @@
-const { expect, knex, databaseBuilder, domainBuilder } = require('../../../test-helper');
+const { expect, knex, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
 
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const assessmentResultRepository = require('../../../../lib/infrastructure/repositories/assessment-result-repository');
+const { MissingAssessmentId, AssessmentResultNotCreatedError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | AssessmentResult', function() {
 
@@ -9,37 +10,67 @@ describe('Integration | Repository | AssessmentResult', function() {
     let assessmentResultToSave;
     let assessmentResult;
 
-    afterEach(() => {
-      return knex('assessment-results').where('id', assessmentResult.id).delete();
+    describe('when entries are corrects', () => {
+
+      afterEach(() => {
+        return knex('assessment-results').where('id', assessmentResult.id).delete();
+      });
+
+      beforeEach(async () => {
+        const juryId = databaseBuilder.factory.buildUser().id;
+        const assessmentId = databaseBuilder.factory.buildAssessment().id;
+        assessmentResultToSave = domainBuilder.buildAssessmentResult({ juryId, assessmentId });
+        assessmentResultToSave.id = undefined;
+        await databaseBuilder.commit();
+      });
+
+      it('should persist the assessment result in db', async () => {
+        // when
+        assessmentResult = await assessmentResultRepository.save(assessmentResultToSave);
+
+        // then
+        const assessmentResultSaved = await knex('assessment-results').where('id', assessmentResult.id);
+        expect(assessmentResultSaved).to.have.lengthOf(1);
+      });
+
+      it('should return the saved assessment result', async () => {
+        // when
+        assessmentResult = await assessmentResultRepository.save(assessmentResultToSave);
+
+        // then
+        expect(assessmentResult).to.be.an.instanceOf(AssessmentResult);
+
+        expect(assessmentResult).to.have.property('id').and.not.to.be.null;
+      });
     });
 
-    beforeEach(async () => {
-      const juryId = databaseBuilder.factory.buildUser().id;
-      const assessmentId = databaseBuilder.factory.buildAssessment().id;
-      assessmentResultToSave = domainBuilder.buildAssessmentResult({ juryId, assessmentId });
-      assessmentResultToSave.id = undefined;
-      await databaseBuilder.commit();
+    describe('when entries are incorrects', () => {
+
+      beforeEach(async () => {
+        const juryId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildAssessment().id;
+        assessmentResultToSave = domainBuilder.buildAssessmentResult({ juryId });
+        await databaseBuilder.commit();
+      });
+
+      it('should throw a MissingAssessmentId error if assessmentId is null or undefined', async () => {
+        // when
+        assessmentResultToSave.assessmentId = null;
+        const result = await catchErr(assessmentResultRepository.save)(assessmentResultToSave);
+
+        // then
+        expect(result).to.be.instanceOf(MissingAssessmentId);
+      });
+
+      it('should throw an error in others cases', async () => {
+        // when
+        const result = await catchErr(assessmentResultRepository.save)({ assessmentId: 1 });
+
+        // then
+        expect(result).to.be.instanceOf(AssessmentResultNotCreatedError);
+      });
     });
 
-    it('should persist the assessment result in db', async () => {
-      // when
-      assessmentResult = await assessmentResultRepository.save(assessmentResultToSave);
-
-      // then
-      const result = await knex('assessment-results').where('id', assessmentResult.id);
-
-      expect(result).to.have.lengthOf(1);
-    });
-
-    it('should return the saved assessment result', async () => {
-      // when
-      assessmentResult = await assessmentResultRepository.save(assessmentResultToSave);
-
-      // then
-      expect(assessmentResult).to.be.an.instanceOf(AssessmentResult);
-
-      expect(assessmentResult).to.have.property('id').and.not.to.be.null;
-    });
   });
 
   describe('#findLatestLevelAndPixScoreByAssessmentId', () => {

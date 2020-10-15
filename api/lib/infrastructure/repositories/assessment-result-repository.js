@@ -2,6 +2,7 @@ const _ = require('lodash');
 const BookshelfAssessmentResult = require('../data/assessment-result');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../bookshelf');
+const { MissingAssessmentId, AssessmentResultNotCreatedError } = require('../../domain/errors');
 
 module.exports = {
   async save({
@@ -15,20 +16,27 @@ module.exports = {
     juryId,
     assessmentId,
   }, domainTransaction = {}) {
-    const savedAssessmentResultBookshelf = await new BookshelfAssessmentResult({
-      pixScore,
-      status,
-      emitter,
-      commentForJury,
-      commentForCandidate,
-      commentForOrganization,
-      id,
-      juryId,
-      assessmentId,
-    })
-      .save(null, { transacting: domainTransaction.knexTransaction });
+    if (_.isNil(assessmentId)) {
+      throw new MissingAssessmentId();
+    }
+    try {
+      const savedAssessmentResultBookshelf = await new BookshelfAssessmentResult({
+        pixScore,
+        status,
+        emitter,
+        commentForJury,
+        commentForCandidate,
+        commentForOrganization,
+        id,
+        juryId,
+        assessmentId,
+      })
+        .save(null, { require: true, transacting: domainTransaction.knexTransaction });
 
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessmentResult, savedAssessmentResultBookshelf);
+      return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessmentResult, savedAssessmentResultBookshelf);
+    } catch (error) {
+      throw new AssessmentResultNotCreatedError();
+    }
   },
 
   async findLatestLevelAndPixScoreByAssessmentId({ assessmentId, limitDate }) {
