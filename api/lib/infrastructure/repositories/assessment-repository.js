@@ -81,7 +81,7 @@ module.exports = {
 
   getIdByCertificationCourseId(certificationCourseId) {
     return BookshelfAssessment
-      .where({ certificationCourseId, type: 'CERTIFICATION' })
+      .where({ certificationCourseId, type: Assessment.types.CERTIFICATION })
       .fetch({ columns: 'id' })
       .then((result) => result ? result.attributes.id : null);
   },
