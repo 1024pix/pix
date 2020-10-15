@@ -1,20 +1,26 @@
-const { expect, sinon } = require('../../../test-helper');
-const Hapi = require('@hapi/hapi');
+const {
+  expect,
+  HttpTestServer,
+  sinon,
+} = require('../../../test-helper');
+
 const ChallengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const ChallengeSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/challenge-serializer');
 
+const moduleUnderTest = require('../../../../lib/application/challenges');
+
 describe('Unit | Controller | challenge-controller', function() {
 
-  let server;
+  let httpTestServer;
+
   let ChallengeRepoStub;
   let ChallengeSerializerStub;
 
   beforeEach(function() {
     ChallengeRepoStub = sinon.stub(ChallengeRepository, 'get');
     ChallengeSerializerStub = sinon.stub(ChallengeSerializer, 'serialize');
-    server = Hapi.server();
 
-    return server.register(require('../../../../lib/application/challenges'));
+    httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
   describe('#get', function() {
@@ -27,7 +33,7 @@ describe('Unit | Controller | challenge-controller', function() {
       ChallengeSerializerStub.resolves({ serialized: challenge });
 
       // when
-      const response = await server.inject({ method: 'GET', url: '/api/challenges/challenge_id' });
+      const response = await httpTestServer.request('GET', '/api/challenges/challenge_id');
 
       // then
       expect(response.result).to.deep.equal({ serialized: challenge });

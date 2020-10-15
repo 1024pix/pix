@@ -1,45 +1,43 @@
-const { expect, sinon, hFake } = require('../../../test-helper');
-const Hapi = require('@hapi/hapi');
+const {
+  expect,
+  HttpTestServer,
+  sinon,
+} = require('../../../test-helper');
+
+const moduleUnderTest = require('../../../../lib/application/organization-invitations');
+
 const organizationInvitationController = require('../../../../lib/application/organization-invitations/organization-invitation-controller');
 
-let server;
-
-function startServer() {
-  server = Hapi.server();
-  return server.register(require('../../../../lib/application/organization-invitations'));
-}
-
 describe('Unit | Router | organization-invitation-router', () => {
+
+  let httpTestServer;
 
   beforeEach(() => {
     sinon.stub(organizationInvitationController, 'acceptOrganizationInvitation').callsFake((request, h) => h.response().code(204));
     sinon.stub(organizationInvitationController, 'getOrganizationInvitation').callsFake((request, h) => h.response().code(200));
 
-    startServer();
+    httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
   describe('POST /api/organization-invitations/{id}/response', () => {
 
     it('should exists', async () => {
       // given
-      const options = {
-        method: 'POST',
-        url: '/api/organization-invitations/1/response',
-        payload: {
-          data: {
-            id: '100047_DZWMP7L5UM',
-            type: 'organization-invitation-responses',
-            attributes: {
-              code: 'DZWMP7L5UM',
-              email: 'user@example.net',
-            },
-
+      const method = 'POST';
+      const url = '/api/organization-invitations/1/response';
+      const payload = {
+        data: {
+          id: '100047_DZWMP7L5UM',
+          type: 'organization-invitation-responses',
+          attributes: {
+            code: 'DZWMP7L5UM',
+            email: 'user@example.net',
           },
         },
       };
 
       // when
-      const response = await server.inject(options, hFake);
+      const response = await httpTestServer.request(method, url, payload);
 
       // then
       expect(response.statusCode).to.equal(204);
@@ -48,15 +46,14 @@ describe('Unit | Router | organization-invitation-router', () => {
 
   describe('GET /api/organization-invitations/{id}', () => {
 
+    const method = 'GET';
+
     it('should exists', async () => {
       // given
-      const options = {
-        method: 'GET',
-        url: '/api/organization-invitations/1?code=DZWMP7L5UM',
-      };
+      const url = '/api/organization-invitations/1?code=DZWMP7L5UM';
 
       // when
-      const response = await server.inject(options, hFake);
+      const response = await httpTestServer.request(method, url);
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -64,17 +61,13 @@ describe('Unit | Router | organization-invitation-router', () => {
 
     it('should return Bad Request Error when invitation identifier is not a number', async () => {
       // given
-      const options = {
-        method: 'GET',
-        url: '/api/organization-invitations/XXXXXXXXXXXXXXXX15812?code=DZWMP7L5UM',
-      };
+      const url = '/api/organization-invitations/XXXXXXXXXXXXXXXX15812?code=DZWMP7L5UM';
 
       // when
-      const response = await server.inject(options, hFake);
+      const response = await httpTestServer.request(method, url);
 
       // then
       expect(response.statusCode).to.equal(400);
     });
   });
-
 });

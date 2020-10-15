@@ -1,38 +1,31 @@
-const { expect, sinon } = require('../../../test-helper');
-const Hapi = require('@hapi/hapi');
+const {
+  expect,
+  HttpTestServer,
+  sinon,
+} = require('../../../test-helper');
+
+const moduleUnderTest = require('../../../../lib/application/progressions');
+
 const progressionController = require('../../../../lib/application/progressions/progression-controller');
 
 describe('Unit | Router | progression-router', () => {
 
-  let server;
+  let httpTestServer;
 
   beforeEach(() => {
     sinon.stub(progressionController, 'get').callsFake((request, h) => h.response().code(200));
 
-    server = Hapi.server();
-    return server.register(require('../../../../lib/application/progressions'));
-  });
-
-  afterEach(() => {
-    server.stop();
+    httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
   describe('GET /api/progressions/{id}', function() {
 
-    it('should exist', () => {
-      // given
-      const options = {
-        method: 'GET',
-        url: '/api/progressions/1',
-      };
-
+    it('should exist', async () => {
       // when
-      const promise = server.inject(options);
+      const response = await httpTestServer.request('GET', '/api/progressions/1');
 
       // then
-      return promise.then((res) => {
-        expect(res.statusCode).to.equal(200);
-      });
+      expect(response.statusCode).to.equal(200);
     });
   });
 });
