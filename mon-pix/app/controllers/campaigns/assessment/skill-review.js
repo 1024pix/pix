@@ -12,6 +12,15 @@ export default class SkillReviewController extends Controller {
     return !!cleaBadge;
   }
 
+  get _isCleaBadgeAcquired() {
+    const pixEmploiClea = 'PIX_EMPLOI_CLEA';
+    return this.acquiredBadges.some((badge) => badge.key === pixEmploiClea);
+  }
+
+  get hideBadgesTitle() {
+    return this._isCleaBadgeAcquired && this.acquiredBadges.length === 1;
+  }
+
   get showBadges() {
     return this.acquiredBadges.length > 0;
   }
@@ -19,6 +28,10 @@ export default class SkillReviewController extends Controller {
   get acquiredBadges() {
     const badges = this.model.campaignParticipation.campaignParticipationResult.get('campaignParticipationBadges');
     return badges.filter((badge) => badge.isAcquired);
+  }
+
+  get showStages() {
+    return this.stageCount && !this._isCleaBadgeAcquired;
   }
 
   get reachedStage() {

@@ -134,6 +134,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
 
         // then
         expect(find('.badge-acquired-card')).to.exist;
+        expect(find('.skill-review-result__badge-subtitle')).to.exist;
       });
 
       it('should not display the Pix emploi badge when badge is not acquired', async function() {
@@ -167,21 +168,56 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         expect(findAll('.badge-acquired-card').length).to.equal(1);
       });
 
-      it('should display reached stage when campaign has stages', async function() {
-        // given
-        const reachedStage = server.create('reached-stage', {
-          title: 'You reached Stage 1',
-          message: 'You are almost a rock star',
-          threshold: 50,
-          startCount: 2,
+      describe('when campaign has stages', async function() {
+
+        it('should display reached stage', async function() {
+          // given
+          const reachedStage = server.create('reached-stage', {
+            title: 'You reached Stage 1',
+            message: 'You are almost a rock star',
+            threshold: 50,
+            starCount: 2,
+          });
+          campaignParticipationResult.update({ reachedStage });
+          campaignParticipationResult.update({ stageCount: 5 });
+          
+          // when
+          await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
+
+          // then
+          expect(find('.reached-stage')).to.exist;
         });
-        campaignParticipationResult.update({ reachedStage });
 
-        // when
-        await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
+        it('should not display reached stage when CLEA badge acquired', async function() {
+          // given
+          const reachedStage = server.create('reached-stage', {
+            title: 'You reached Stage 1',
+            message: 'You are almost a rock star',
+            threshold: 90,
+            starCount: 2,
+          });
 
-        // then
-        expect(find('.reached-stage')).to.exist;
+          const cleaBadge = server.create('campaign-participation-badge', {
+            altMessage: 'Vous avez validé le badge Pix Emploi.',
+            imageUrl: 'url.svg',
+            isAcquired: true,
+            message: 'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. Pour valoriser vos compétences avec une double certification Pix-CléA numérique, renseignez-vous auprès de votre conseiller ou de votre formateur.',
+            title: 'Pix Emploi - Clea',
+            id: '100',
+            key: 'PIX_EMPLOI_CLEA',
+          });
+
+          campaignParticipationResult.campaignParticipationBadges = [cleaBadge];
+          campaignParticipationResult.update({ reachedStage });
+
+          // when
+          await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
+
+          // then
+          expect(find('.reached-stage')).to.not.exist;
+          expect(find('.skill-review-result__badge-subtitle')).to.not.exist;
+          expect(find('.badge-acquired-card')).to.exist;
+        });
       });
 
       it('should not display reached stage when campaign has no stages', async function() {
