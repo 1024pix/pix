@@ -1,36 +1,34 @@
-const { expect, sinon } = require('../../../test-helper');
-const Hapi = require('@hapi/hapi');
+const {
+  expect,
+  HttpTestServer,
+  sinon,
+} = require('../../../test-helper');
+
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
+
+const moduleUnderTest = require('../../../../lib/application/courses');
+
 const courseController = require('../../../../lib/application/courses/course-controller');
 
-describe('Integration | Router | course-router', () => {
+describe('Unit | Router | course-router', () => {
 
-  let server;
+  let httpTestServer;
 
   beforeEach(() => {
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
     sinon.stub(courseController, 'get').returns('ok');
 
-    server = this.server = Hapi.server();
-    return server.register(require('../../../../lib/application/courses'));
+    httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
   describe('GET /api/courses/{id}', () => {
 
-    it('should exist', () => {
-      // given
-      const options = {
-        method: 'GET',
-        url: '/api/courses/course_id',
-      };
-
+    it('should exist', async () => {
       // when
-      const promise = server.inject(options);
+      const response = await httpTestServer.request('GET', '/api/courses/course_id');
 
       // then
-      return promise.then((res) => {
-        expect(res.statusCode).to.equal(200);
-      });
+      expect(response.statusCode).to.equal(200);
     });
   });
 });

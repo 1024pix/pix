@@ -1,26 +1,31 @@
-const { expect, sinon } = require('../../../test-helper');
-const Hapi = require('@hapi/hapi');
+const {
+  expect,
+  HttpTestServer,
+  sinon,
+} = require('../../../test-helper');
+
+const moduleUnderTest = require('../../../../lib/application/healthcheck');
+
 const healthcheckController = require('../../../../lib/application/healthcheck/healthcheck-controller');
-const route = require('../../../../lib/application/healthcheck');
 
 describe('Unit | Router | HealthcheckRouter', function() {
 
-  let server;
+  let httpTestServer;
 
-  beforeEach(function() {
-    server = this.server = Hapi.server();
+  beforeEach(() => {
+    sinon.stub(healthcheckController, 'get').returns('ok');
+
+    httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
   describe('GET /api', function() {
 
-    beforeEach(function() {
-      sinon.stub(healthcheckController, 'get').returns('ok');
-      return server.register(route);
-    });
-
     it('should exist', async function() {
-      const res = await server.inject({ method: 'GET', url: '/api' });
-      expect(res.statusCode).to.equal(200);
+      // when
+      const response = await httpTestServer.request('GET', '/api');
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 });
