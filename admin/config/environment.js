@@ -14,7 +14,7 @@ function _isFeatureEnabled(environmentVariable) {
 }
 
 module.exports = function(environment) {
-  const analyticsEnabled = _isFeatureEnabled(process.env.SENDING_ANALYTICS_ENABLED);
+  const analyticsEnabled = _isFeatureEnabled(process.env.WEB_ANALYTICS_ENABLED);
   const ENV = {
     modulePrefix: 'pix-admin',
     environment,
@@ -96,7 +96,7 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
     if (analyticsEnabled) {
-      ENV.matomo.url = 'https://stats.pix.fr/js/container_x4fRiAXl_dev_a6c96fc927042b6f6e773267.js';
+      ENV.matomo.url = process.env.WEB_ANALYTICS_URL;
       ENV.matomo.debug = true;
     }
   }
@@ -126,7 +126,7 @@ module.exports = function(environment) {
   if (environment === 'production') {
     // here you can enable a production-specific feature
     if (analyticsEnabled) {
-      ENV.matomo.url = 'https://stats.pix.fr/js/container_x4fRiAXl.js';
+      ENV.matomo.url = process.env.WEB_ANALYTICS_URL;
     }
   }
 
