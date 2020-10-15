@@ -1,60 +1,46 @@
-const { expect, sinon } = require('../../../test-helper');
-const Hapi = require('@hapi/hapi');
+const {
+  expect,
+  HttpTestServer,
+  sinon,
+} = require('../../../test-helper');
+
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
+
+const moduleUnderTest = require('../../../../lib/application/certifications');
+
 const certificationController = require('../../../../lib/application/certifications/certification-controller');
 
 describe('Integration | Application | Route | Certifications', () => {
 
-  let server;
+  let httpTestServer;
 
   beforeEach(() => {
     sinon.stub(certificationController, 'findUserCertifications').returns('ok');
     sinon.stub(certificationController, 'getCertification').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
 
-    server = Hapi.server();
-    return server.register(require('../../../../lib/application/certifications'));
-  });
-
-  afterEach(() => {
-    server.stop();
+    httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
   describe('GET /api/certifications', () => {
 
-    it('should exist', function() {
-      // given
-      const options = {
-        method: 'GET',
-        url: '/api/certifications',
-      };
-
+    it('should exist', async () => {
       // when
-      const promise = server.inject(options);
+      const response = await httpTestServer.request('GET', '/api/certifications');
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-      });
+      expect(response.statusCode).to.equal(200);
     });
   });
 
   describe('GET /api/certifications/:id', () => {
 
-    it('should exist', function() {
-      // given
-      const options = {
-        method: 'GET',
-        url: '/api/certifications/1',
-      };
-
+    it('should exist', async () => {
       // when
-      const promise = server.inject(options);
+      const response = await httpTestServer.request('GET', '/api/certifications/1');
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-      });
+      expect(response.statusCode).to.equal(200);
     });
   });
 });
