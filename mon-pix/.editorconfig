@@ -16,5 +16,9 @@ indent_size = 2
 [*.hbs]
 insert_final_newline = false
 
+[*.json]
+indent_size = 4
+indent_style = space
+
 [*.{diff,md}]
 trim_trailing_whitespace = false
