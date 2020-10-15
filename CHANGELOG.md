@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## v2.210.0 (15/10/2020)
+
+- [#1998](https://github.com/1024pix/pix/pull/1998) [FEATURE]Afficher un onglet "Candidats" spécifique SCO sur la page de détails de ma session (PIX-1372)
+- [#2013](https://github.com/1024pix/pix/pull/2013) [BUGFIX] Envoyer l'assessmentId lorsqu'on modifie une certification (PIX-1421)
+
 ## v2.209.0 (15/10/2020)
 
 - [#2000](https://github.com/1024pix/pix/pull/2000) [FEATURE] Ajouter un message d'avertissement avant de réconcilier un élève (PIX-1391).
