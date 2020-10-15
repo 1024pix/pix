@@ -2,13 +2,13 @@ import { module, test } from 'qunit';
 import { visit, currentURL, fillIn, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import {
-  authenticateSession,
   currentSession,
   invalidateSession,
 } from 'ember-simple-auth/test-support';
 import {
   createUserWithMembership,
   createUserWithMembershipAndTermsOfServiceAccepted,
+  authenticateSession,
 } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -115,12 +115,7 @@ module('Acceptance | authentication', function(hooks) {
     hooks.beforeEach(async () => {
       user = createUserWithMembershipAndTermsOfServiceAccepted();
 
-      await authenticateSession({
-        user_id: user.id,
-        access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
-        expires_in: 3600,
-        token_type: 'Bearer token type',
-      });
+      await authenticateSession(user.id);
     });
 
     test('it should let user access requested page', async function(assert) {

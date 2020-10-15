@@ -5,10 +5,10 @@
       <h1 class="page-title">Session {{this.session.id}}</h1>
       {{#if this.isResultRecipientEmailVisible}}
       {{#if this.session.hasOneOrMoreCandidates}}
-        <a  class="button button--link"
-            href="{{this.session.urlToDownloadAttendanceSheet}}" target="_blank" rel="noopener noreferrer" download>
-              Télécharger le PV
-        </a>
+      <a class="button button--link" href="{{this.session.urlToDownloadAttendanceSheet}}" target="_blank"
+        rel="noopener noreferrer" download>
+        Télécharger le PV
+      </a>
       {{/if}}
       {{/if}}
     </div>
@@ -33,11 +33,18 @@
   <div class="panel session-details__controls">
     <nav class="navbar session-details-controls__navbar-tabs">
       <LinkTo @route="authenticated.sessions.details.parameters" class="navbar-item">
-          Détails
+        Détails
       </LinkTo>
-      <LinkTo @route="authenticated.sessions.details.certification-candidates" class="navbar-item">
+
+      {{#if this.showScoVersion}}
+        <LinkTo @route="authenticated.sessions.details.certification-candidates-sco" class="navbar-item">
           Candidats {{this.certificationCandidatesCount}}
-      </LinkTo>
+        </LinkTo>
+      {{else}}
+        <LinkTo @route="authenticated.sessions.details.certification-candidates" class="navbar-item">
+          Candidats {{this.certificationCandidatesCount}}
+        </LinkTo>
+      {{/if}}
     </nav>
 
   </div>

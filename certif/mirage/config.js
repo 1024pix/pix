@@ -122,4 +122,8 @@ export default function() {
 
     return user;
   });
+
+  this.get('feature-toggles', (schema) => {
+    return schema.featureToggles.findOrCreateBy({ id: 0 });
+  });
 }

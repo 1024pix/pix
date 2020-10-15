@@ -7,10 +7,12 @@ export default class ApplicationRoute extends Route.extend(ApplicationRouteMixin
 
   @service currentUser;
   @service url;
+  @service featureToggles;
 
   routeAfterAuthentication = 'authenticated';
 
-  beforeModel() {
+  async beforeModel() {
+    await this.featureToggles.load();
     return this._loadCurrentUser();
   }
 
