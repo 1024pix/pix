@@ -10,7 +10,7 @@ describe('Event Choregraphy | Campaign Participation Results Sending', function(
     const domainTransaction = Symbol('a transaction');
 
     // when
-    await eventDispatcher.dispatch(domainTransaction, event);
+    await eventDispatcher.dispatch(event, domainTransaction);
 
     // then
     expect(handlerStubs.handleCampaignParticipationResultsSending).to.have.been.calledWith({ event, domainTransaction });
