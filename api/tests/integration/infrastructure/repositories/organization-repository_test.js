@@ -148,6 +148,7 @@ describe('Integration | Repository | Organization', function() {
           students: [],
           targetProfileShares: [],
           organizationInvitations: [],
+          tags: [],
         };
         await databaseBuilder.commit();
       });
@@ -207,7 +208,7 @@ describe('Integration | Repository | Organization', function() {
       });
     });
 
-    context('when organization have memberships', () => {
+    context('when organization has memberships', () => {
 
       it('should return a list of active members', async () => {
         // given

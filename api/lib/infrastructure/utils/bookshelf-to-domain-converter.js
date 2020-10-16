@@ -35,7 +35,7 @@ function _buildDomainObject(BookshelfClass, bookshelfObjectJson) {
       );
     }
 
-    if ((relationshipType === 'hasMany') && _.isArray(bookshelfObjectJson[key])) {
+    if ((relationshipType === 'hasMany' || relationshipType === 'belongsToMany') && _.isArray(bookshelfObjectJson[key])) {
       return bookshelfObjectJson[key].map(
         (bookshelfObject) => _buildDomainObject(relationshipClass, bookshelfObject),
       );

@@ -9,6 +9,7 @@ const Prescriber = require('../../../../lib/domain/read-models/Prescriber');
 const Membership = require('../../../../lib/domain/models/Membership');
 const UserOrgaSettings = require('../../../../lib/domain/models/UserOrgaSettings');
 const Organization = require('../../../../lib/domain/models/Organization');
+const Tag = require('../../../../lib/domain/models/Tag');
 
 describe('Integration | Infrastructure | Repository | Prescriber', () => {
 
@@ -155,6 +156,26 @@ describe('Integration | Infrastructure | Repository | Prescriber', () => {
 
         // then
         expect(foundPrescriber).to.be.an.instanceOf(Prescriber);
+      });
+
+      context('when current organization defined in user-orga-settings has tags', () => {
+
+        it('should return a list of tags', async () => {
+          // given
+          const tag1 = databaseBuilder.factory.buildTag({ name: 'AGRICULTURE' });
+          databaseBuilder.factory.buildOrganizationTag({ organizationId: organization.id, tagId: tag1.id });
+          const tag2 = databaseBuilder.factory.buildTag({ name: 'OTHER' });
+          databaseBuilder.factory.buildOrganizationTag({ organizationId: organization.id, tagId: tag2.id });
+
+          await databaseBuilder.commit();
+
+          // when
+          const foundPrescriber = await prescriberRepository.getPrescriber(user.id);
+
+          // then
+          expect(foundPrescriber.userOrgaSettings.currentOrganization.tags.map((tag) => tag.name)).to.have.members(['OTHER', 'AGRICULTURE']);
+          expect(foundPrescriber.userOrgaSettings.currentOrganization.tags[0]).to.be.instanceOf(Tag);
+        });
       });
 
       context('when newYearSchoolingRegistrationsImportDate is defined in the env.', () => {
