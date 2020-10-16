@@ -10,5 +10,5 @@ class Tag {
     this.name = name;
   }
 }
-
+Tag.AGRICULTURE = 'AGRICULTURE';
 module.exports = Tag;

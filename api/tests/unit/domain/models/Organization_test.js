@@ -1,5 +1,6 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const Organization = require('../../../../lib/domain/models/Organization');
+const Tag = require('../../../../lib/domain/models/Tag');
 
 describe('Unit | Domain | Models | Organization', () => {
 
@@ -104,36 +105,38 @@ describe('Unit | Domain | Models | Organization', () => {
   });
 
   describe('get#isAgriculture', () => {
-    beforeEach(() => {
-      process.env['AGRICULTURE_ORGANIZATION_ID'] = '1';
+
+    context('when organization is not SCO', ()  =>  {
+      it('should return false when the organization has the "AGRICULTURE" tag', () => {
+        // given
+        const tag = domainBuilder.buildTag({ name: Tag.AGRICULTURE });
+        const organization = domainBuilder.buildOrganization({ type: 'SUP', tags: [tag] });
+
+        // when / then
+        expect(organization.isAgriculture).is.false;
+      });
     });
 
-    afterEach(() => {
-      process.env['AGRICULTURE_ORGANIZATION_ID'] = null;
-    });
+    context('when organization is SCO', ()  =>  {
+      it('should return true when organization is of type SCO and has the "AGRICULTURE" tag', () => {
+        // given
+        const tag1 = domainBuilder.buildTag({ name: Tag.AGRICULTURE });
+        const tag2 = domainBuilder.buildTag({ name: 'OTHER' });
+        const organization = domainBuilder.buildOrganization({ type: 'SCO', tags: [tag1, tag2] });
 
-    it('should return true when organization is of type SCO and id match Environnement variable AGRICULTURE_ORGANIZATION_ID', () => {
-      // given
-      const organization = domainBuilder.buildOrganization({ id: '1', type: 'SCO' });
+        // when / then
+        expect(organization.isAgriculture).is.true;
+      });
 
-      // when / then
-      expect(organization.isAgriculture).is.true;
-    });
+      it('should return false when when organization is of type SCO and has not the "AGRICULTURE" tag', () => {
+        // given
+        const tag1 = domainBuilder.buildTag({ name: 'To infinity…and beyond!' });
+        const tag2 = domainBuilder.buildTag({ name: 'OTHER' });
+        const organization = domainBuilder.buildOrganization({ type: 'SCO', tags: [tag1, tag2] });
 
-    it('should return false when when organization is of type SCO and id doesnt match Environnement variable AGRICULTURE_ORGANIZATION_ID', () => {
-      // given
-      const organization = domainBuilder.buildOrganization({ id: '2', type: 'SCO' });
-
-      // when / then
-      expect(organization.isAgriculture).is.false;
-    });
-
-    it('should return false when when organization is not of type SCO', () => {
-      // given
-      const organization = domainBuilder.buildOrganization({ id: '1', type: 'SUP' });
-
-      // when / then
-      expect(organization.isAgriculture).is.false;
+        // when / then
+        expect(organization.isAgriculture).is.false;
+      });
     });
   });
 

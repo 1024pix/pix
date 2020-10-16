@@ -2,11 +2,11 @@ const _ = require('lodash');
 const { knex } = require('../bookshelf');
 const settings = require('../../config');
 const BookshelfUser = require('../data/user');
+const BookshelfMembership = require('../data/membership');
+const BookshelfUserOrgaSettings = require('../data/user-orga-settings');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { ForbiddenAccess, UserNotFoundError } = require('../../domain/errors');
 const Prescriber = require('../../domain/read-models/Prescriber');
-const Membership = require('../../domain/models/Membership');
-const UserOrgaSettings = require('../../domain/models/UserOrgaSettings');
-const Organization = require('../../domain/models/Organization');
 
 function _toPrescriberDomain(bookshelfUser) {
   const { id, firstName, lastName, pixOrgaTermsOfServiceAccepted } = bookshelfUser.toJSON();
@@ -15,44 +15,8 @@ function _toPrescriberDomain(bookshelfUser) {
     firstName,
     lastName,
     pixOrgaTermsOfServiceAccepted,
-    memberships: _toMembershipsDomain(bookshelfUser.related('memberships')),
-    userOrgaSettings: _toUserOrgaSettingsDomain(bookshelfUser.related('userOrgaSettings')),
-  });
-}
-
-function _toMembershipsDomain(membershipsBookshelf) {
-  return membershipsBookshelf.map((membershipBookshelf) => {
-    const { id, code, credit, name, type, isManagingStudents, canCollectProfiles, externalId } = membershipBookshelf.related('organization').attributes;
-    return new Membership({
-      id: membershipBookshelf.get('id'),
-      organizationRole: membershipBookshelf.get('organizationRole'),
-      organization: new Organization({
-        id,
-        code,
-        credit,
-        name,
-        type,
-        isManagingStudents,
-        canCollectProfiles,
-        externalId,
-      }),
-    });
-  });
-}
-
-function _toUserOrgaSettingsDomain(userOrgaSettingsBookshelf) {
-  const { id, code, name, type, isManagingStudents, canCollectProfiles, externalId } = userOrgaSettingsBookshelf.related('currentOrganization').attributes;
-  return new UserOrgaSettings({
-    id: userOrgaSettingsBookshelf.get('id'),
-    currentOrganization: new Organization({
-      id,
-      code,
-      name,
-      type,
-      isManagingStudents: Boolean(isManagingStudents),
-      canCollectProfiles: Boolean(canCollectProfiles),
-      externalId,
-    }),
+    memberships: bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, bookshelfUser.related('memberships')),
+    userOrgaSettings: bookshelfToDomainConverter.buildDomainObject(BookshelfUserOrgaSettings, bookshelfUser.related('userOrgaSettings')),
   });
 }
 
@@ -87,6 +51,7 @@ module.exports = {
             'memberships.organization',
             'userOrgaSettings',
             'userOrgaSettings.currentOrganization',
+            'userOrgaSettings.currentOrganization.tags',
           ] });
       const prescriber = _toPrescriberDomain(prescriberFromDB);
 

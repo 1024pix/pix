@@ -49,7 +49,7 @@ describe('Unit | UseCase | get-schooling-registrations-csv-template', () => {
       expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntity);
     });
   });
-    
+
   context('When user is not ADMIN in a SUP organization', () => {
     it('should throw an error', async () => {
       // given
@@ -64,10 +64,10 @@ describe('Unit | UseCase | get-schooling-registrations-csv-template', () => {
   });
 
   context('When user is ADMIN in a SCO-AGRICULTURE organization managing students', () => {
-    it('should return headers line', async () => {    
-      // given 
-      process.env['AGRICULTURE_ORGANIZATION_ID'] = '1';
-      const organization = domainBuilder.buildOrganization({ id: '1', isManagingStudents: true, type: 'SCO' });
+    it('should return headers line', async () => {
+      // given
+      const tag = domainBuilder.buildTag({ name: 'AGRICULTURE' });
+      const organization = domainBuilder.buildOrganization({ id: '1', isManagingStudents: true, type: 'SCO', tags: [tag] });
       const membership = domainBuilder.buildMembership({ organizationRole: 'ADMIN', organization });
       sinon.stub(membershipRepository, 'findByUserIdAndOrganizationId').resolves([membership]);
 
@@ -89,7 +89,7 @@ describe('Unit | UseCase | get-schooling-registrations-csv-template', () => {
         '"Statut*";' +
         '"Code MEF*";' +
         '"Division*"\n';
-        
+
       expect(result).to.deep.equal(csvExpected);
     });
   });

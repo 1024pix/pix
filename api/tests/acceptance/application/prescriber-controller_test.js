@@ -52,7 +52,6 @@ describe('Acceptance | Controller | Prescriber-controller', () => {
             'is-managing-students': organization.isManagingStudents,
             'name': organization.name,
             'type': organization.type,
-            'is-agriculture': false,
           },
           relationships: {
             memberships: {
@@ -156,7 +155,7 @@ describe('Acceptance | Controller | Prescriber-controller', () => {
 
     describe('Success case', () => {
 
-      it('should return found memberships with 200 HTTP status code', async () => {
+      it('should 200 HTTP status code', async () => {
         // given
         const expectedPrescriber = createExpectedPrescriber({ user, membership, userOrgaSettingsId, organization });
 

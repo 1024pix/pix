@@ -41,8 +41,9 @@ function buildOrganization(
     createdAt = new Date('2018-01-12T01:02:03Z'),
     memberships = [],
     targetProfileShares = [],
+    tags = [],
   } = {}) {
-  return new Organization({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, credit, email, canCollectProfiles, createdAt, memberships, targetProfileShares });
+  return new Organization({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, credit, email, canCollectProfiles, createdAt, memberships, targetProfileShares, tags });
 }
 
 buildOrganization.withMembers = function(
