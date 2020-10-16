@@ -10,33 +10,33 @@ env:
   node: true
 rules:
   arrow-parens:
-    - 2
+    - error
     - always
   comma-dangle:
-    - 2
+    - error
     - "always-multiline"
   computed-property-spacing:
-    - 2
+    - error
     - never
   eol-last:
-    - 2
+    - error
   indent:
-    - 2
+    - error
     - 2
     - SwitchCase: 1
   keyword-spacing:
-    - 2
+    - error
   linebreak-style:
-    - 2
+    - error
     - unix
   "mocha/no-exclusive-tests":
-    - 2
+    - error
   "mocha/no-identical-title":
-    - 2
+    - error
   "mocha/no-skipped-tests":
-    - 1
+    - warn
   no-multiple-empty-lines:
-    - 2
+    - error
     - { max: 1, maxEOF: 1 }
   no-restricted-syntax:
     - error
@@ -46,27 +46,27 @@ rules:
     - selector: "CallExpression[callee.object.object.name='faker'][callee.object.property.name='internet'][callee.property.name='email']"
       message: "Use only faker.internet.exampleEmail()"
   no-unused-vars:
-    - 2
+    - error
     - { argsIgnorePattern: "_" }
   no-var:
-    - 2
+    - error
   object-curly-spacing:
-    - 2
+    - error
     - always
   prefer-const:
-    - 2
+    - error
   quotes:
-    - 2
+    - error
     - single
   semi:
-    - 2
+    - error
     - always
   space-before-blocks:
-    - 2
+    - error
   space-before-function-paren:
-    - 2
+    - error
     - { anonymous: never, named: never, asyncArrow: ignore }
   space-in-parens:
-    - 2
+    - error
   space-infix-ops:
-    - 2
+    - error
