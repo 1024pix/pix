@@ -6,12 +6,16 @@ const iconv = require('iconv-lite');
 describe('Integration | Services | schooling-registrations-xml-service', () => {
 
   describe('extractSchoolingRegistrationsInformationFromSIECLE', () => {
+    const UAIFromSIECLE = '123ABC';
 
     it('should parse in schoolingRegistrations informations', function() {
       // given
       const buffer = iconv.encode(
         '<?xml version="1.0" encoding="ISO-8859-15"?>' +
         '<BEE_ELEVES VERSION="2.1">' +
+        '<PARAMETRES>' +
+        '<UAJ>123ABC</UAJ>' +
+        '</PARAMETRES>' +
         '<DONNEES>' +
         '<ELEVES>' +
         '<ELEVE ELEVE_ID="0001">' +
@@ -99,7 +103,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       const result = schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE(buffer);
 
       //then
-      expect(result).to.deep.equal(expectedSchoolingRegistrations);
+      expect(result).to.deep.equal({ UAIFromSIECLE, resultFromExtraction: expectedSchoolingRegistrations });
     });
 
     it('should not parse schoolingRegistrations who are no longer in the school', function() {
@@ -107,6 +111,9 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       const buffer = iconv.encode(
         '<?xml version="1.0" encoding="ISO-8859-15"?>' +
         '<BEE_ELEVES VERSION="2.1">' +
+        '<PARAMETRES>' +
+        '<UAJ>123ABC</UAJ>' +
+        '</PARAMETRES>' +
         '<DONNEES>' +
         '<ELEVES>' +
         '<ELEVE ELEVE_ID="0001">' +
@@ -206,7 +213,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       const result = schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE(buffer);
 
       //then
-      expect(result).to.deep.equal(expectedSchoolingRegistrations);
+      expect(result).to.deep.equal({ UAIFromSIECLE, resultFromExtraction: expectedSchoolingRegistrations });
     });
   });
 });
