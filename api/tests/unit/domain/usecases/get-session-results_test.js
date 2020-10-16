@@ -88,18 +88,11 @@ describe('Unit | Domain | Use Cases | get-session-results', () => {
 
 });
 
-function _buildCertificationResult(certifCourse, assessmentResult, cleaCertification) {
+function _buildCertificationResult(certifCourse, lastAssessmentResultFull, cleaCertification) {
   return domainBuilder.buildCertificationResult({
     ...certifCourse,
-    assessmentId: assessmentResult.assessmentId,
-    pixScore: assessmentResult.pixScore,
-    commentForCandidate: assessmentResult.commentForCandidate,
-    commentForJury: assessmentResult.commentForJury,
-    commentForOrganization: assessmentResult.commentForOrganization,
-    emitter: assessmentResult.emitter,
-    resultCreatedAt: assessmentResult.createdAt,
-    juryId: assessmentResult.juryId,
-    status: assessmentResult.status,
+    lastAssessmentResultFull,
+    assessmentId: lastAssessmentResultFull.assessmentId,
     cleaCertificationStatus: cleaCertification,
     competencesWithMark: [],
   });

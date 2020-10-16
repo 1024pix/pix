@@ -19,19 +19,26 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', (
       ];
       const competencesWithMark2 = [ { competence_code: '5.1', level: 3 }, { competence_code: '5.2', level: -1 } ];
 
-      const certifResult1 = domainBuilder.buildCertificationResult({
-        firstName: 'Lili',
+      const lastAssessmentResult1 = domainBuilder.buildAssessmentResult({
         status: 'validated',
+        competenceMarks: competencesWithMark1,
+      });
+      const lastAssessmentResult2 = domainBuilder.buildAssessmentResult({
+        status: 'rejected',
+        competenceMarks: competencesWithMark2,
+      });
+
+      const certifResult1 = domainBuilder.buildCertificationResult({
+        lastAssessmentResultFull: lastAssessmentResult1,
+        firstName: 'Lili',
         birthdate,
         createdAt,
-        competencesWithMark: competencesWithMark1,
       });
       const certifResult2 = domainBuilder.buildCertificationResult({
+        lastAssessmentResultFull: lastAssessmentResult2,
         firstName: 'Tom',
-        status: 'rejected',
         birthdate,
         createdAt,
-        competencesWithMark: competencesWithMark2,
       });
 
       const certificationResults = [ certifResult1, certifResult2 ];

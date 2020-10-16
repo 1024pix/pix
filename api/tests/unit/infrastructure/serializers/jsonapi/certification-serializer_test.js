@@ -183,6 +183,8 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
 
     context('the entry data is one certification with a resultCompetenceTree set', () => {
 
+      const assessmentResultId = 1;
+
       const JsonCertificationList = {
         'data': {
           'attributes': {
@@ -292,7 +294,9 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
 
       it('should serialize to JSON with included relationships', () => {
         // given
+        const assessmentResult = domainBuilder.buildAssessmentResult({ id: assessmentResultId });
         const receivedCertificate = domainBuilder.buildPrivateCertificateWithCompetenceTree({
+          assessmentResults: [assessmentResult],
           pixScore: 23,
           status: 'rejected',
           commentForCandidate: 'Vous auriez dû travailler plus.',
@@ -308,6 +312,8 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
   });
 
   describe('#serializeForSharing', () => {
+
+    const assessmentResultId = 1;
 
     const JsonCertificationList = {
       'data': {
@@ -416,7 +422,9 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
 
     it('should serialize certification into JSON data without examinerComment', () => {
       // given
+      const assessmentResult = domainBuilder.buildAssessmentResult({ id: assessmentResultId });
       const receivedCertificate = domainBuilder.buildPrivateCertificateWithCompetenceTree({
+        assessmentResults: [assessmentResult],
         pixScore: 23,
         status: 'rejected',
         commentForCandidate: 'Vous auriez dû travailler plus.',
