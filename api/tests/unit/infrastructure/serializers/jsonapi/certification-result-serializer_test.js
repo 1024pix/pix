@@ -8,7 +8,7 @@ describe('Unit | Serializer | JSONAPI | certification-result-serializer', functi
 
     it('should serialize results of a certification', function() {
       // given
-      const lastAssessmentResultFull = domainBuilder.buildAssessmentResult({
+      const lastAssessmentResult = domainBuilder.buildAssessmentResult({
         createdAt: new Date('2017-02-20T01:02:03Z'),
         pixScore: 30,
         status: 'validated',
@@ -21,7 +21,7 @@ describe('Unit | Serializer | JSONAPI | certification-result-serializer', functi
       });
       const certificationResult = new CertificationResult({
         id: 1,
-        lastAssessmentResultFull,
+        lastAssessmentResult,
         firstName: 'Guy-Manuel',
         lastName: 'De Homem Christo',
         birthdate: '1974-02-08',

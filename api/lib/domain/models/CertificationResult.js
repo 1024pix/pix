@@ -2,7 +2,7 @@ class CertificationResult {
   constructor(
     {
       id,
-      lastAssessmentResultFull,
+      lastAssessmentResult,
       firstName,
       lastName,
       birthplace,
@@ -27,22 +27,22 @@ class CertificationResult {
     this.externalId = externalId;
     this.completedAt = completedAt;
     this.createdAt = createdAt;
-    this.resultCreatedAt = lastAssessmentResultFull.createdAt;
+    this.resultCreatedAt = lastAssessmentResult.createdAt;
     this.isPublished = isPublished;
     this.isV2Certification = isV2Certification;
     this.cleaCertificationStatus = cleaCertificationStatus;
-    this.pixScore = lastAssessmentResultFull.pixScore;
-    this.status = lastAssessmentResultFull.status;
-    this.emitter = lastAssessmentResultFull.emitter;
-    this.commentForCandidate = lastAssessmentResultFull.commentForCandidate;
-    this.commentForJury = lastAssessmentResultFull.commentForJury;
-    this.commentForOrganization = lastAssessmentResultFull.commentForOrganization;
-    this.competencesWithMark = lastAssessmentResultFull.competenceMarks;
+    this.pixScore = lastAssessmentResult.pixScore;
+    this.status = lastAssessmentResult.status;
+    this.emitter = lastAssessmentResult.emitter;
+    this.commentForCandidate = lastAssessmentResult.commentForCandidate;
+    this.commentForJury = lastAssessmentResult.commentForJury;
+    this.commentForOrganization = lastAssessmentResult.commentForOrganization;
+    this.competencesWithMark = lastAssessmentResult.competenceMarks;
     this.examinerComment = examinerComment;
     this.hasSeenEndTestScreen = hasSeenEndTestScreen;
     // references
     this.assessmentId = assessmentId;
-    this.juryId = lastAssessmentResultFull.juryId;
+    this.juryId = lastAssessmentResult.juryId;
     this.sessionId = sessionId;
   }
 }

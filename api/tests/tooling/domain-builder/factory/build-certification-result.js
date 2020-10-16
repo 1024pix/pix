@@ -5,7 +5,7 @@ const buildAssessmentResult = require('./build-assessment-result');
 
 module.exports = function buildCertificationResult({
   id = faker.random.uuid(),
-  lastAssessmentResultFull,
+  lastAssessmentResult,
   firstName = faker.name.firstName(),
   lastName = faker.name.lastName(),
   birthplace = faker.address.city(),
@@ -21,10 +21,10 @@ module.exports = function buildCertificationResult({
   assessmentId,
   sessionId,
 } = {}) {
-  lastAssessmentResultFull = buildAssessmentResult({ ...lastAssessmentResultFull });
+  lastAssessmentResult = buildAssessmentResult({ ...lastAssessmentResult });
   return new CertificationResult({
     id,
-    lastAssessmentResultFull,
+    lastAssessmentResult,
     firstName,
     lastName,
     birthdate,

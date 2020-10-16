@@ -29,13 +29,13 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', (
       });
 
       const certifResult1 = domainBuilder.buildCertificationResult({
-        lastAssessmentResultFull: lastAssessmentResult1,
+        lastAssessmentResult: lastAssessmentResult1,
         firstName: 'Lili',
         birthdate,
         createdAt,
       });
       const certifResult2 = domainBuilder.buildCertificationResult({
-        lastAssessmentResultFull: lastAssessmentResult2,
+        lastAssessmentResult: lastAssessmentResult2,
         firstName: 'Tom',
         birthdate,
         createdAt,
