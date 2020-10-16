@@ -40,18 +40,16 @@ module.exports = {
     if (error) {
       const err = EntityValidationError.fromJoiErrors(error.details);
       err.key = error.details[0].context.key;
-      const type = error.details[0].type;
+      const { type, context } = error.details[0];
       if (type === 'any.required') {
         err.why = 'required';
       }
       if (type === 'string.max') {
         err.why = 'max_length';
+        err.limit = context.limit;
       }
       if (type === 'date.format') {
         err.why = 'date_format';
-      }
-      if (type === 'date.base') {
-        err.why = 'not_a_date';
       }
       if (type === 'string.email') {
         err.why = 'email_format';

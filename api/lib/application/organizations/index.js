@@ -156,6 +156,9 @@ exports.register = async (server) => {
           params: Joi.object({
             id: Joi.number().integer().required(),
           }),
+          query: Joi.object({
+            format: Joi.string().default('xml'),
+          }),
         },
         payload: {
           maxBytes: 1048576 * 10, // 10MB
@@ -164,7 +167,7 @@ exports.register = async (server) => {
         handler: organizationController.importSchoolingRegistrationsFromSIECLE,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés et responsables de l\'organisation**\n' +
-          '- Elle permet d\'importer des inscriptions d\'élèves, en masse, depuis un fichier au format SIECLE\n' +
+          '- Elle permet d\'importer des inscriptions d\'élèves, en masse, depuis un fichier au format XML ou CSV de SIECLE\n' +
           '- Elle ne retourne aucune valeur de retour',
         ],
         tags: ['api', 'schooling-registrations'],

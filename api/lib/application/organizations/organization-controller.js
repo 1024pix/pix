@@ -104,12 +104,13 @@ module.exports = {
     return userWithSchoolingRegistrationSerializer.serialize(data, pagination);
   },
 
-  importSchoolingRegistrationsFromSIECLE(request) {
+  async importSchoolingRegistrationsFromSIECLE(request, h) {
     const organizationId = parseInt(request.params.id);
     const buffer = request.payload;
+    const { format } = request.query;
 
-    return usecases.importSchoolingRegistrationsFromSIECLE({ organizationId, buffer })
-      .then(() => null);
+    await usecases.importSchoolingRegistrationsFromSIECLEFormat({ organizationId, buffer, format });
+    return h.response(null).code(204);
   },
 
   async importHigherSchoolingRegistrations(request, h) {

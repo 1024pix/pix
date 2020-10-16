@@ -79,78 +79,8 @@ describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', () => {
     });
   });
 
-  context('When file does not match requirements', () => {
-    const organizationId = 123;
-    it('should throw an error if the file is not csv', async () => {
-      const input = `Premier prénom\\Deuxième prénom\\Troisième prénom\\Nom de famille\\Nom d’usage\\Date de naissance (jj/mm/aaaa)\\Email\\Numéro étudiant\\Composante\\Équipe pédagogique\\Groupe\\Diplôme\\Régime
-      Beatrix\\The\\Bride\\Kiddo\\Black Mamba\\01/01/1970\\thebride@example.net\\12346\\Assassination Squad\\Hattori Hanzo\\Deadly Viper Assassination Squad\\Master\\hello darkness my old friend\\`;
-      const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId);
-
-      const error = await catchErr(parser.parse, parser)();
-
-      expect(error.message).to.equal('Le fichier doit être au format csv avec séparateur virgule ou point-virgule.');
-    });
-
-    it('should throw an error if a column is not recognized', async () => {
-      const input = `Premier prénom;Deuxième prénom2;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
-      Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;`;
-      const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId);
-
-      const error = await catchErr(parser.parse, parser)();
-
-      expect(error.message).to.equal('Les entêtes de colonnes doivent être identiques à celle du modèle.');
-    });
-
-    it('should throw an error if a required column is missing', async () => {
-      const input = `Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
-      The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;`;
-      const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId);
-
-      const error = await catchErr(parser.parse, parser)();
-
-      expect(error.message).to.equal('La colonne "Premier prénom" est obligatoire.');
-    });
-
-  });
-
   context('When a column value does not match requirements', () => {
     const organizationId = 123;
-
-    it('should throw an error if column value exceed 255 characters', async () => {
-      const input = `Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
-      Beatrix;Thhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhe;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;`;
-      const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId);
-
-      const error = await catchErr(parser.parse, parser)();
-
-      expect(error.message).to.contain('Le champ “Deuxième prénom” doit être inférieur à 255 caractères.');
-    });
-
-    it('should throw an error if the birthdate does not have the right format', async () => {
-      const input = `Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
-      Beatrix;The;Bride;Kiddo;Black Mamba;1970/01/01;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;`;
-      const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId);
-
-      const error = await catchErr(parser.parse, parser)();
-
-      expect(error.message).to.contain('Le champ “Date de naissance” doit être au format jj/mm/aaaa.');
-    });
-
-    it('should throw an error if a required field is missing', async () => {
-      const input = `Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
-      Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;`;
-      const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId);
-
-      const error = await catchErr(parser.parse, parser)();
-
-      expect(error.message).to.contain('Le champ “Numéro étudiant” est obligatoire.');
-    });
 
     it('should throw an error if the student number is not unique', async () => {
       const input = `Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
@@ -161,55 +91,19 @@ describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', () => {
 
       const error = await catchErr(parser.parse, parser)();
 
-      expect(error.message).to.contain('Le champ “Numéro étudiant” doit être unique au sein du fichier.');
+      expect(error.message).to.contain('Ligne 3 : Le champ “Numéro étudiant” doit être unique au sein du fichier.');
     });
 
-    it('should throw an error including line number', async () => {
+    it('should throw an error if the student number is has an incorrect  format', async () => {
       const input = `Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
-      Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
-      Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;`;
+      Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123@;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
+      Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1971;thebride@example.net;1234;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;`;
       const encodedInput = iconv.encode(input, 'utf8');
       const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId);
 
       const error = await catchErr(parser.parse, parser)();
 
-      expect(error.message).to.contain('Ligne 3 :');
-    });
-  });
-
-  context('When the file has different encoding', () => {
-    const input = `Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
-          Éçéà niño véga;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
-        `;
-
-    it('should parse UTF-8 encoding', () => {
-      const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new HigherSchoolingRegistrationParser(encodedInput, 123);
-      const higherSchoolingRegistrationSet = parser.parse();
-      const registrations = higherSchoolingRegistrationSet.registrations;
-      expect(registrations[0].firstName).to.equal('Éçéà niño véga');
-    });
-
-    it('should parse win1252 encoding (CSV WIN/MSDOS)', () => {
-      const encodedInput = iconv.encode(input, 'win1252');
-      const parser = new HigherSchoolingRegistrationParser(encodedInput, 123);
-      const higherSchoolingRegistrationSet = parser.parse();
-      const registrations = higherSchoolingRegistrationSet.registrations;
-      expect(registrations[0].firstName).to.equal('Éçéà niño véga');
-    });
-
-    it('should parse macintosh encoding', () => {
-      const encodedInput = iconv.encode(input, 'macintosh');
-      const parser = new HigherSchoolingRegistrationParser(encodedInput, 123);
-      const higherSchoolingRegistrationSet = parser.parse();
-      const registrations = higherSchoolingRegistrationSet.registrations;
-      expect(registrations[0].firstName).to.equal('Éçéà niño véga');
-    });
-
-    it('should throw an error if encoding not supported', () => {
-      const encodedInput = iconv.encode(input, 'utf16');
-      const parser = new HigherSchoolingRegistrationParser(encodedInput, 123);
-      expect(() => parser.parse()).to.throw('Encodage du fichier non supporté.');
+      expect(error.message).to.contain('Ligne 2 : Le champ “numéro étudiant” ne doit pas avoir de caractères spéciaux.');
     });
   });
 });
