@@ -12,13 +12,15 @@ module('Acceptance | User details personal information', function(hooks) {
   let user = null;
 
   hooks.beforeEach(async function() {
+    const schoolingRegistration = this.server.create('schooling-registration', { firstName: 'John' });
     user = this.server.create('user', {
       'first-name': 'john',
       'last-name': 'harry',
       username: null,
       'is-authenticated-from-gar': false,
-      'is-associated-with-schooling-registration': true,
     });
+    user.schoolingRegistrations = [schoolingRegistration];
+    user.save();
     await createAuthenticateSession({ userId: user.id });
   });
 
