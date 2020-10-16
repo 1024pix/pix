@@ -20,14 +20,14 @@ async function getCertificationResult(certificationCourseId) {
 async function getCertificationResultByCertifCourse({ certificationCourse }) {
   const certificationCourseId = certificationCourse.id;
   const cleaCertificationStatus = await cleaCertificationStatusRepository.getCleaCertificationStatus(certificationCourseId);
-  let lastAssessmentResultFull = await assessmentResultRepository.findLatestByCertificationCourseIdWithCompetenceMarks({ certificationCourseId });
+  let lastAssessmentResult = await assessmentResultRepository.findLatestByCertificationCourseIdWithCompetenceMarks({ certificationCourseId });
   const assessmentId = await assessmentRepository.getIdByCertificationCourseId(certificationCourseId);
-  if (!lastAssessmentResultFull) {
-    lastAssessmentResultFull = { competenceMarks: [], status: Assessment.states.STARTED };
+  if (!lastAssessmentResult) {
+    lastAssessmentResult = { competenceMarks: [], status: Assessment.states.STARTED };
   }
 
   return new CertificationResult({
-    lastAssessmentResultFull,
+    lastAssessmentResult,
     id: certificationCourse.id,
     assessmentId,
     firstName: certificationCourse.firstName,

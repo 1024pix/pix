@@ -88,11 +88,11 @@ describe('Unit | Domain | Use Cases | get-session-results', () => {
 
 });
 
-function _buildCertificationResult(certifCourse, lastAssessmentResultFull, cleaCertification) {
+function _buildCertificationResult(certifCourse, lastAssessmentResult, cleaCertification) {
   return domainBuilder.buildCertificationResult({
     ...certifCourse,
-    lastAssessmentResultFull,
-    assessmentId: lastAssessmentResultFull.assessmentId,
+    lastAssessmentResult,
+    assessmentId: lastAssessmentResult.assessmentId,
     cleaCertificationStatus: cleaCertification,
     competencesWithMark: [],
   });
