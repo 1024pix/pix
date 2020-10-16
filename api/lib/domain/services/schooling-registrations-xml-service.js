@@ -14,10 +14,12 @@ function extractSchoolingRegistrationsInformationFromSIECLE(buffer) {
     return [];
   }
 
+  const UAIFromSIECLE = _getEitherElementValueOrNull(parsedXmlDom, 'UAJ');
+
   const xmlSchoolingRegistrationsStructures = Array.from(parsedXmlDom.getElementsByTagName('STRUCTURES_ELEVE'));
   const xmlSchoolingRegistrations = Array.from(parsedXmlDom.getElementsByTagName('ELEVE'));
 
-  return xmlSchoolingRegistrations
+  const resultFromExtraction = xmlSchoolingRegistrations
     .filter((xmlSchoolingRegistration) => _filterLeftSchoolingRegistrations(xmlSchoolingRegistration, xmlSchoolingRegistrationsStructures))
     .filter((xmlSchoolingRegistration) => _filterNotYetArrivedSchoolingRegistrations(xmlSchoolingRegistration))
     .map((xmlSchoolingRegistration) => {
@@ -41,6 +43,8 @@ function extractSchoolingRegistrationsInformationFromSIECLE(buffer) {
         division: _findSchoolingRegistrationDivision(schoolingRegistrationStructuresContainer),
       };
     });
+
+  return { UAIFromSIECLE, resultFromExtraction };
 }
 
 function _buildXmlDomFromBuffer(xmlBuffer) {

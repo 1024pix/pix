@@ -6,23 +6,25 @@ const  SchoolingRegistration = require('../../../../lib/domain/models/SchoolingR
 
 describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
 
-  let organizationId;
+  const organizationUAI = '123ABC';
+  const organizationId = 1234;
   let buffer;
   let format;
   let schoolingRegistrationsXmlServiceStub;
   let schoolingRegistrationRepositoryStub;
+  let organizationRepositoryStub;
 
   beforeEach(() => {
-    organizationId = 1234;
     buffer = null;
     format = 'xml';
     schoolingRegistrationsXmlServiceStub = { extractSchoolingRegistrationsInformationFromSIECLE: sinon.stub() };
     schoolingRegistrationRepositoryStub = { addOrUpdateOrganizationSchoolingRegistrations: sinon.stub(), findByOrganizationId: sinon.stub() };
+    organizationRepositoryStub = { get: sinon.stub() };
   });
 
   context('when extracted schoolingRegistrations informations can be imported', () => {
 
-    context('when the format is XML', () => {
+    context('when the format is CSV', () => {
       it('should save these informations', async () => {
         format = 'csv';
         const input = `Identifiant unique*;Premier prénom*;Deuxième prénom;Troisième prénom;Nom de famille*;Nom d’usage;Date de naissance (jj/mm/aaaa)*;Code commune naissance**;Libellé commune naissance**;Code département naissance*;Code pays naissance*;Statut*;Code MEF*;Division*
@@ -71,24 +73,26 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
       });
     });
 
-    context('when the format is CSV', () => {
+    context('when the format is XML', () => {
       it('should save these informations', async () => {
         // given
-        const extractedschoolingRegistrationsInformations = [
+        const extractedSchoolingRegistrationsInformations = [
           { lastName: 'UpdatedStudent1', nationalStudentId: 'INE1' },
           { lastName: 'UpdatedStudent2', nationalStudentId: 'INE2' },
           { lastName: 'StudentToCreate', nationalStudentId: 'INE3' },
         ];
-        schoolingRegistrationsXmlServiceStub.extractSchoolingRegistrationsInformationFromSIECLE.returns(extractedschoolingRegistrationsInformations);
+        schoolingRegistrationsXmlServiceStub.extractSchoolingRegistrationsInformationFromSIECLE
+          .returns({ UAIFromSIECLE: organizationUAI, resultFromExtraction: extractedSchoolingRegistrationsInformations });
 
         const schoolingRegistrationsToUpdate = [
           { lastName: 'Student1', nationalStudentId: 'INE1' },
           { lastName: 'Student2', nationalStudentId: 'INE2' },
         ];
         schoolingRegistrationRepositoryStub.findByOrganizationId.resolves(schoolingRegistrationsToUpdate);
+        organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
 
         // when
-        await importSchoolingRegistrationsFromSIECLEFormat({ organizationId, buffer, format, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+        await importSchoolingRegistrationsFromSIECLEFormat({ organizationId, buffer, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
         // then
         const schoolingRegistrations = [
@@ -111,15 +115,17 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
     context('because the file is not valid', () => {
       beforeEach(() => {
         // given
-        schoolingRegistrationsXmlServiceStub.extractSchoolingRegistrationsInformationFromSIECLE.returns([]);
+        schoolingRegistrationsXmlServiceStub.extractSchoolingRegistrationsInformationFromSIECLE.returns({ UAIFromSIECLE: organizationUAI, resultFromExtraction: [] });
+        organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
       });
 
       it('should throw a FileValidationError', async () => {
         // when
-        const result = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, buffer, format, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+        const result = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, buffer, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
         // then
         expect(result).to.be.instanceOf(FileValidationError);
+        expect(result.message).to.equal('Aucune inscription d’élève n’a pu être importée depuis ce fichier. Vérifiez que le fichier est conforme.');
       });
     });
 
@@ -135,6 +141,29 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
 
         // then
         expect(result).to.be.instanceOf(FileValidationError);
+        expect(result.message).to.equal('Format de fichier non valide.');
+      });
+    });
+
+    context('because organization UAI imported is not the same as organization UAI registered', () => {
+      beforeEach(async () => {
+        // given
+        const extractedStudentsInformations = [{ nationalStudentId: '12345678' }];
+        schoolingRegistrationsXmlServiceStub.extractSchoolingRegistrationsInformationFromSIECLE
+          .returns({ UAIFromSIECLE: organizationUAI, resultFromExtraction: extractedStudentsInformations });
+        schoolingRegistrationRepositoryStub.findByOrganizationId.resolves();
+        schoolingRegistrationRepositoryStub.addOrUpdateOrganizationSchoolingRegistrations.throws(new SameNationalStudentIdInOrganizationError());
+        organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: 'otherOrganizationUAI' });
+
+      });
+
+      it('should throw a FileValidationError', async () => {
+        // when
+        result = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, buffer, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+
+        // then
+        expect(result).to.be.instanceOf(FileValidationError);
+        expect(result.message).to.equal('Aucun étudiant n’a été importé. L’import n’est pas possible car l’UAI du fichier SIECLE ne correspond pas à celui de votre établissement. En cas de difficulté, contactez support.pix.fr.');
       });
     });
 
@@ -144,17 +173,21 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
         const extractedSchoolingRegistrationInformations = [
           { lastName: 'UpdatedStudent1', nationalStudentId: 'INE1', organizationId },
         ];
-        schoolingRegistrationsXmlServiceStub.extractSchoolingRegistrationsInformationFromSIECLE.returns(extractedSchoolingRegistrationInformations);
+        schoolingRegistrationsXmlServiceStub.extractSchoolingRegistrationsInformationFromSIECLE
+          .returns({ UAIFromSIECLE: organizationUAI, resultFromExtraction: extractedSchoolingRegistrationInformations });
         schoolingRegistrationRepositoryStub.findByOrganizationId.resolves();
         schoolingRegistrationRepositoryStub.addOrUpdateOrganizationSchoolingRegistrations.throws(new SchoolingRegistrationsCouldNotBeSavedError());
+        organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
+
       });
 
       it('should throw a SchoolingRegistrationsCouldNotBeSavedError', async () => {
         // when
-        result = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, buffer, format, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+        const result = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, buffer, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
         // then
         expect(result).to.be.instanceOf(SchoolingRegistrationsCouldNotBeSavedError);
+        expect(result.message).to.equal('Une erreur est survenue durant le traitement.');
       });
     });
 
@@ -166,17 +199,20 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
           { nationalStudentId: sameNationalStudentId },
           { nationalStudentId: sameNationalStudentId },
         ];
-        schoolingRegistrationsXmlServiceStub.extractSchoolingRegistrationsInformationFromSIECLE.returns(extractedStudentsInformations);
+        schoolingRegistrationsXmlServiceStub.extractSchoolingRegistrationsInformationFromSIECLE
+          .returns({ UAIFromSIECLE: organizationUAI, resultFromExtraction: extractedStudentsInformations });
         schoolingRegistrationRepositoryStub.findByOrganizationId.resolves();
         schoolingRegistrationRepositoryStub.addOrUpdateOrganizationSchoolingRegistrations.throws(new SameNationalStudentIdInOrganizationError());
+        organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
       });
 
       it('should throw a SameNationalStudentIdInOrganizationError', async () => {
         // when
-        result = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, buffer, format, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+        result = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, buffer, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
         // then
         expect(result).to.be.instanceOf(SameNationalStudentIdInFileError);
+        expect(result.message).to.equal('Un INE est présent plusieurs fois dans le fichier. La base SIECLE doit être corrigée pour supprimer les doublons. Réimportez ensuite le nouveau fichier.');
       });
     });
   });
