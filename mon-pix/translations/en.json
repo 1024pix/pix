@@ -4,20 +4,20 @@
         "internal-server-error": "An error occurred, our teams are working on finding a solution. Please try again later.",
         "join-error": {
             "r11": "{ value }",
-            "r12": "{ value }",
+            "r12": "You already have a Pix account under the username '<br>'{ value }.'<br>'To continue, log in with this account or ask for help from a teacher.'<br>'(Code R12)",
             "r13": "",
             "r31": "{ value }",
-            "r32": "{ value }",
+            "r32": "You already have a Pix account under the username '<br>'{ value }.'<br>'To continue, log in with this account or ask for help from a teacher.'<br>'(Code R32)",
             "r33": "",
             "r70": ""
         },
         "login-unauthorized-error": "There was an error in the email address or username/password entered.",
         "register-error": {
             "s51": "{ value }",
-            "s52": "{ value }",
+            "s52": "You already have a Pix account under the username '<br>'{ value }.'<br>'To continue, log in with this account or ask for help from a teacher.'<br>'(Code S52)",
             "s53": "",
             "s61": "{ value }",
-            "s62": "{ value }",
+            "s62": "You already have a Pix account under the username '<br>'{ value }.'<br>'To continue, log in with this account or ask for help from a teacher.'<br>'(Code S62)",
             "s63": ""
         }
     },
@@ -26,7 +26,7 @@
     },
     "common": {
         "actions": {
-            "back": "",
+            "back": "Back",
             "cancel": "Cancel",
             "close": "Close",
             "quit": "Exit",
@@ -37,7 +37,7 @@
             "mandatory": "required",
             "mandatory-fields": "The fields marked '<abbr title=\"required\" class=\"mandatory-mark\">'*'</abbr>' are required",
             "success": "success",
-            "visible-password": ""
+            "visible-password": "Show password"
         },
         "french-republic": "French Republic",
         "level": "level",
@@ -159,10 +159,10 @@
                 },
                 "fields": {
                     "birth-date": "Date of birth",
-                    "birth-day": "",
-                    "birth-month": "",
+                    "birth-day": "Day (DD)",
+                    "birth-month": "Month (MM)",
                     "birth-name": "Given name",
-                    "birth-year": "",
+                    "birth-year": "Year (YYYY)",
                     "first-name": "First name",
                     "session-number": "Session number"
                 }
@@ -482,44 +482,44 @@
             "first-title": "Oops, an error occurred!"
         },
         "join": {
-            "title": "",
-            "button": "",
+            "title": "Join",
+            "button": "Let's go!",
             "fields": {
                 "birthdate": {
-                    "label": "",
-                    "day-error": "",
-                    "day-format": "",
-                    "month-error": "",
-                    "month-format": "",
-                    "year-error": "",
-                    "year-format": ""
+                    "label": "Date of birth",
+                    "day-error": "Invalid date",
+                    "day-format": "DD",
+                    "month-error": "Invalid date",
+                    "month-format": "MM",
+                    "year-error": "Invalid date",
+                    "year-format": "YYYY"
                 },
                 "firstname": {
-                    "error": "",
-                    "label": ""
+                    "error": "You haven't entered your first name.",
+                    "label": "First name"
                 },
                 "lastname": {
-                    "error": "",
-                    "label": ""
+                    "error": "You haven't entered your last name.",
+                    "label": "Last name"
                 }
             },
             "first-title": "{ organizationName }",
             "sco": {
-                "continue-with-pix": "",
+                "continue-with-pix": "Continue with my Pix account",
                 "error-not-found": "",
-                "login-information-title": "",
+                "login-information-title": "Login information",
                 "login-information-message": "{ connectionMethod } - { firstName } - { lastName }",
                 "associate": ""
             },
-            "subtitle": "",
+            "subtitle": "Please fill in the missing information",
             "sup": {
-                "error": "",
+                "error": "Please check the information you have entered. If you already have a Pix account, log in with this account.",
                 "fields": {
                     "student-number": {
-                        "error": "",
-                        "label": "",
-                        "modify": "",
-                        "not-existing": ""
+                        "error": "You haven't entered your student number.",
+                        "label": "Student number",
+                        "modify": "Change student number",
+                        "not-existing": "I don't have a student number"
                     }
                 }
             }
@@ -535,31 +535,31 @@
             "title": "",
             "invitation": "{ organizationName }",
             "login-form": {
-                "button": "",
-                "error": "",
+                "button": "Log in",
+                "error": "There was an error in the email address or username/password entered.",
                 "fields": {
                     "login": {
-                        "label": ""
+                        "label": "Email address or username"
                     },
                     "password": {
-                        "label": ""
+                        "label": "Password"
                     }
                 },
                 "forgotten-password": {
-                    "email": "",
-                    "instruction": "",
-                    "other-identity": "",
-                    "reset-link": ""
+                    "email": "An email address:",
+                    "instruction": "Forgotten your password? You have a Pix account with:",
+                    "other-identity": "Username : Reach out to your teacher to reset it",
+                    "reset-link": "Click here to reset it."
                 },
                 "title": "",
-                "unexpected-user-account-error": ""
+                "unexpected-user-account-error": "There was an error in the email address or username entered. To continue, log in with your account in this format: "
             },
             "register-form": {
                 "button": "",
                 "button-form": "",
                 "fields": {
                     "birthdate": {
-                        "label": "",
+                        "label": "Date of birth (DD/MM/YYYY)",
                         "day-error": "",
                         "month-error": "",
                         "year-error": ""
@@ -567,7 +567,7 @@
                     "cgu": "",
                     "email": {
                         "error": "",
-                        "help": "",
+                        "help": "(eg. name@example.org)",
                         "label": ""
                     },
                     "firstname": {
@@ -581,26 +581,26 @@
                     "password": {
                         "error": "",
                         "help": "",
-                        "label": "",
-                        "show-button": ""
+                        "label": "Password",
+                        "show-button": "Show password"
                     },
                     "username": {
-                        "label": ""
+                        "label": "My username"
                     }
                 },
                 "legal-text": "",
-                "not-me": "",
+                "not-me": "That's not me",
                 "options": {
-                    "email": "",
-                    "text": "",
-                    "username": ""
+                    "email": "My email address",
+                    "text": "Sign up with:",
+                    "username": "My username"
                 },
-                "title": ""
+                "title": "Sign up"
             }
         },
         "not-connected": {
-            "title": "",
-            "message": ""
+            "title": "Logged out",
+            "message": "You've been logged out.'<br>'Thanks! See you soon"
         },
         "password-reset-demand": {
             "title": "Forgotten your password?",
@@ -707,7 +707,7 @@
                 "submit": "Log in"
             },
             "error": {
-                "message": "There was a mistake in the email address or username/password entered."
+                "message": "There was an error in the email address or username/password entered."
             },
             "fields": {
                 "login": {
@@ -900,7 +900,7 @@
         },
         "shared-certification": {
             "title": "Share my Pix Certificate",
-            "back-link": "Go back to the verification’s page"
+            "back-link": "Return to the verification’s page"
         },
         "fill-in-participant-external-id": {
             "title": "Enter my username",
@@ -915,17 +915,26 @@
             }
         },
         "update-expired-password": {
-            "title": "",
-            "button": "",
+            "title": "Change my password",
+            "button": "Reset",
             "fields": {
                 "error": "",
                 "help": "",
-                "label": ""
+                "label": "Password"
             },
-            "first-title": "",
-            "go-to-login": "",
+            "first-title": "Reset my password",
+            "go-to-login": "Log in",
             "subtitle": "",
             "validation": ""
+        },
+        "terms-of-service": {
+            "title": "",
+            "cgu": "",
+            "message": "",
+            "form": {
+                "button": "Continue",
+                "error-message": ""
+            }
         },
         "warning": {
             "action": "Start",
