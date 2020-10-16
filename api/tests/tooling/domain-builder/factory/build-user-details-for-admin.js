@@ -14,7 +14,6 @@ module.exports = function buildUserDetailsForAdmin(
     pixCertifTermsOfServiceAccepted = false,
     pixOrgaTermsOfServiceAccepted = false,
     isAuthenticatedFromGAR = false,
-    isAssociatedWithSchoolingRegistration,
     schoolingRegistrations = [],
   } = {}) {
 
@@ -23,6 +22,6 @@ module.exports = function buildUserDetailsForAdmin(
   return new UserDetailsForAdmin({
     id, firstName, lastName, email, username,
     cgu, pixOrgaTermsOfServiceAccepted, pixCertifTermsOfServiceAccepted,
-    isAuthenticatedFromGAR, isAssociatedWithSchoolingRegistration, schoolingRegistrations,
+    isAuthenticatedFromGAR, schoolingRegistrations,
   });
 };
