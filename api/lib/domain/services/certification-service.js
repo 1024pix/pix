@@ -1,5 +1,4 @@
 const CertificationResult = require('../models/CertificationResult');
-const Assessment = require('../models/Assessment');
 const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
 const certificationAssessmentRepository = require('../../../lib/infrastructure/repositories/certification-assessment-repository');
 const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
@@ -20,13 +19,11 @@ async function getCertificationResult(certificationCourseId) {
 async function getCertificationResultByCertifCourse({ certificationCourse }) {
   const certificationCourseId = certificationCourse.id;
   const cleaCertificationStatus = await cleaCertificationStatusRepository.getCleaCertificationStatus(certificationCourseId);
-  let lastAssessmentResultFull = await assessmentResultRepository.findLatestByCertificationCourseIdWithCompetenceMarks({ certificationCourseId });
+  const lastAssessmentResult = await assessmentResultRepository.findLatestByCertificationCourseIdWithCompetenceMarks({ certificationCourseId });
   const assessmentId = await assessmentRepository.getIdByCertificationCourseId(certificationCourseId);
-  if (!lastAssessmentResultFull) {
-    lastAssessmentResultFull = { competenceMarks: [], status: Assessment.states.STARTED };
-  }
 
   return new CertificationResult({
+    lastAssessmentResult,
     id: certificationCourse.id,
     assessmentId,
     firstName: certificationCourse.firstName,
@@ -36,20 +33,11 @@ async function getCertificationResultByCertifCourse({ certificationCourse }) {
     externalId: certificationCourse.externalId,
     completedAt: certificationCourse.completedAt,
     createdAt: certificationCourse.createdAt,
-    resultCreatedAt: lastAssessmentResultFull.createdAt,
     isPublished: certificationCourse.isPublished,
     isV2Certification: certificationCourse.isV2Certification,
     cleaCertificationStatus,
-    pixScore: lastAssessmentResultFull.pixScore,
-    status: lastAssessmentResultFull.status,
-    emitter: lastAssessmentResultFull.emitter,
-    commentForCandidate: lastAssessmentResultFull.commentForCandidate,
-    commentForJury: lastAssessmentResultFull.commentForJury,
-    commentForOrganization: lastAssessmentResultFull.commentForOrganization,
     examinerComment: certificationCourse.examinerComment,
     hasSeenEndTestScreen: certificationCourse.hasSeenEndTestScreen,
-    competencesWithMark: lastAssessmentResultFull.competenceMarks,
-    juryId: lastAssessmentResultFull.juryId,
     sessionId: certificationCourse.sessionId,
   });
 }
