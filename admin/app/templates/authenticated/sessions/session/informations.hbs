@@ -23,7 +23,7 @@
     </div>
     <div class="row">
       <div class="col">Date :</div>
-      <div class="col">{{this.sessionModel.displayDate}}</div>
+      <div class="col">{{format-date this.sessionModel.date}}</div>
     </div>
     <div class="row">
       <div class="col">Heure :</div>
@@ -45,19 +45,19 @@
     {{#if this.sessionModel.finalizedAt}}
       <div class="row">
         <div class="col">Date de finalisation :</div>
-        <div class="col" data-test-id="session-info__finalized-at">{{this.sessionModel.displayFinalizationDate}}</div>
+        <div class="col" data-test-id="session-info__finalized-at">{{format-date this.sessionModel.finalizedAt}}</div>
       </div>
     {{/if}}
     {{#if this.sessionModel.publishedAt}}
       <div class="row">
         <div class="col">Date de publication :</div>
-        <div class="col" data-test-id="session-info__published-at">{{this.sessionModel.displayPublishedAtDate}}</div>
+        <div class="col" data-test-id="session-info__published-at">{{format-date this.sessionModel.publishedAt}}</div>
       </div>
     {{/if}}
     {{#if this.sessionModel.resultsSentToPrescriberAt}}
       <div class="row">
         <div class="col">Date d'envoi des résultats au prescripteur :</div>
-        <div class="col" data-test-id="session-info__sent-to-prescriber-at">{{this.sessionModel.displayResultsSentToPrescriberDate}}</div>
+        <div class="col" data-test-id="session-info__sent-to-prescriber-at">{{format-date this.sessionModel.resultsSentToPrescriberAt}}</div>
       </div>
     {{/if}}
   </div>
