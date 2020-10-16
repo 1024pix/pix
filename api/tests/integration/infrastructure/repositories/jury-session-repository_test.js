@@ -254,6 +254,66 @@ describe('Integration | Repository | JurySession', function() {
         });
       });
 
+      context('when there is a filter on the certificationCenterType', () => {
+        let expectedSCOSession;
+        let expectedSUPSession;
+        let expectedPROSession;
+
+        beforeEach(() => {
+          const certificationCenterSCO = databaseBuilder.factory.buildCertificationCenter({ type: 'SCO' });
+          expectedSCOSession = databaseBuilder.factory.buildSession({
+            certificationCenter: certificationCenterSCO.name,
+            certificationCenterId: certificationCenterSCO.id,
+          });
+
+          const certificationCenterSUP = databaseBuilder.factory.buildCertificationCenter({ type: 'SUP' });
+          expectedSUPSession = databaseBuilder.factory.buildSession({
+            certificationCenter: certificationCenterSUP.name,
+            certificationCenterId: certificationCenterSUP.id,
+          });
+
+          const certificationCenterPRO = databaseBuilder.factory.buildCertificationCenter({ type: 'PRO' });
+          expectedPROSession = databaseBuilder.factory.buildSession({
+            certificationCenter: certificationCenterPRO.name,
+            certificationCenterId: certificationCenterPRO.id,
+          });
+
+          return databaseBuilder.commit();
+        });
+
+        it('it should find sessions by part of their certification type', async () => {
+          // given
+          const filters = { certificationCenterType: 'SCO' };
+          const page = { number: 1, size: 10 };
+          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 1 };
+
+          // when
+          const { jurySessions, pagination } = await jurySessionRepository.findPaginatedFiltered({ filters, page });
+
+          // then
+          expect(pagination).to.deep.equal(expectedPagination);
+          expect(jurySessions[0].id).to.equal(expectedSCOSession.id);
+          expect(jurySessions).to.have.length(1);
+        });
+
+        it('it should return all sessions if certification type filter is null', async () => {
+          // given
+          const filters = { certificationCenterType: null };
+          const page = { number: 1, size: 10 };
+          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
+
+          // when
+          const { jurySessions, pagination } = await jurySessionRepository.findPaginatedFiltered({ filters, page });
+
+          // then
+          expect(pagination).to.deep.equal(expectedPagination);
+          expect(jurySessions[0].id).to.equal(expectedSCOSession.id);
+          expect(jurySessions[1].id).to.equal(expectedSUPSession.id);
+          expect(jurySessions[2].id).to.equal(expectedPROSession.id);
+          expect(jurySessions).to.have.length(3);
+        });
+      });
+
       context('when there is a filter regarding session status', () => {
 
         context('when there is a filter on created sessions', () => {
