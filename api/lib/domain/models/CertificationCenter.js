@@ -1,3 +1,13 @@
+const SUP = 'SUP';
+const SCO = 'SCO';
+const PRO = 'PRO';
+
+const types = {
+  SUP,
+  SCO,
+  PRO,
+};
+
 class CertificationCenter {
 
   constructor({
@@ -22,3 +32,4 @@ class CertificationCenter {
 }
 
 module.exports = CertificationCenter;
+module.exports.types = types;
