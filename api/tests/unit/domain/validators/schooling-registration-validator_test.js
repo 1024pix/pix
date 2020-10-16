@@ -70,19 +70,11 @@ describe('Unit | Domain | Schooling Registration validator', () => {
     });
 
     context('birthCountryCode', () => {
-      it('throw an error when birthCountryCode has more than 5 characters', async () => {
+      it('throw an error when birthCountryCode has not 5 characters', async () => {
         const error = await catchErr(checkValidation)({ ...validAttributes, birthCountryCode: '123456' });
 
         expect(error.key).to.equal('birthCountryCode');
-        expect(error.why).to.equal('max_length');
-        expect(error.limit).to.equal(5);
-      });
-
-      it('throw an error when birthProvinceCode has lass than 5 characters', async () => {
-        const error = await catchErr(checkValidation)({ ...validAttributes, birthCountryCode: '1234' });
-
-        expect(error.key).to.equal('birthCountryCode');
-        expect(error.why).to.equal('min_length');
+        expect(error.why).to.equal('length');
         expect(error.limit).to.equal(5);
       });
     });
@@ -169,6 +161,14 @@ describe('Unit | Domain | Schooling Registration validator', () => {
         } catch (e) {
           expect.fail('SchoolingRegistration is valid when birthCity is undefined and birthCountry is not France');
         }
+      });
+
+      it('throw an error when birthCityCode has not 5 characters', async () => {
+        const error = await catchErr(checkValidation)({ ...validAttributes, birthCityCode: '1' });
+
+        expect(error.key).to.equal('birthCityCode');
+        expect(error.why).to.equal('length');
+        expect(error.limit).to.equal(5);
       });
     });
   });

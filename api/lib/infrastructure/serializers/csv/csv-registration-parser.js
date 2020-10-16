@@ -138,6 +138,9 @@ class CsvRegistrationParser {
     if (err.why === 'max_length') {
       throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” doit être inférieur à ${err.limit} caractères.`);
     }
+    if (err.why === 'length') {
+      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” doit faire ${err.limit} caractères.`);
+    }
     if (err.why === 'date_format') {
       throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” doit être au format jj/mm/aaaa.`);
     }

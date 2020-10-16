@@ -45,7 +45,7 @@ describe('Unit | Infrastructure | CsvRegistrationParser', () => {
         new CsvColumn({ name: 'col2', label: 'Column 2', isDate: true }),
       ];
 
-      it('should parse different date formats', () => {
+      it('throws a parsing error', () => {
         const input = `Column 1;Column 2;
         O-Ren;2010-01-20;
         O-Ren;20/01/2010;
@@ -62,7 +62,7 @@ describe('Unit | Infrastructure | CsvRegistrationParser', () => {
       });
     });
 
-    context('when there are a validation error', () => {
+    context('when there is a validation error', () => {
       const columns = [
         new CsvColumn({ name: 'ColumnName', label: 'ColumnLabel' }),
       ];
@@ -73,7 +73,7 @@ describe('Unit | Infrastructure | CsvRegistrationParser', () => {
       });
 
       context('when error.why is min_length', () => {
-        it('should parse different date formats', async () => {
+        it('throws a parsing error', async () => {
           error = new Error();
           error.key = 'ColumnName';
           error.why = 'min_length';
@@ -92,7 +92,7 @@ describe('Unit | Infrastructure | CsvRegistrationParser', () => {
       });
 
       context('when error.why is max_length', () => {
-        it('should parse different date formats', async () => {
+        it('throws a parsing error', async () => {
           error = new Error();
           error.key = 'ColumnName';
           error.why = 'max_length';
@@ -111,7 +111,7 @@ describe('Unit | Infrastructure | CsvRegistrationParser', () => {
       });
 
       context('when error.why is required', () => {
-        it('should parse different date formats', async () => {
+        it('throws a parsing error', async () => {
           error = new Error();
           error.key = 'ColumnName';
           error.why = 'required';
@@ -129,7 +129,7 @@ describe('Unit | Infrastructure | CsvRegistrationParser', () => {
       });
 
       context('when error.why is bad_values', () => {
-        it('should parse different date formats', async () => {
+        it('throws a parsing error', async () => {
           error = new Error();
           error.key = 'ColumnName';
           error.why = 'bad_values';
@@ -147,8 +147,27 @@ describe('Unit | Infrastructure | CsvRegistrationParser', () => {
         });
       });
 
+      context('when error.length is bad_values', () => {
+        it('throws a parsing error', async () => {
+          error = new Error();
+          error.key = 'ColumnName';
+          error.why = 'length';
+          error.limit = 2;
+
+          const input = `ColumnLabel;
+          Beatrix;
+          `;
+          const encodedInput = iconv.encode(input, 'utf8');
+          const parser = new CsvRegistrationParser(encodedInput, organizationId, columns, registrationSet);
+
+          const parsingError = await catchErr(parser.parse, parser)();
+
+          expect(parsingError.message).to.contain('Le champ “ColumnLabel” doit faire 2 caractères.');
+        });
+      });
+
       context('when error.why is date_format', () => {
-        it('should parse different date formats', async () => {
+        it('throws a parsing error', async () => {
           error = new Error();
           error.key = 'ColumnName';
           error.why = 'date_format';
