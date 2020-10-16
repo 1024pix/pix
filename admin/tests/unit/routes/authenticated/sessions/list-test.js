@@ -33,6 +33,7 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
         expectedQueryArgs.filter = {
           id: undefined,
           certificationCenterName: undefined,
+          certificationCenterType: undefined,
           status: undefined,
           resultsSentToPrescriberAt: undefined,
           assignedToSelfOnly: undefined,
@@ -52,6 +53,7 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
         expectedQueryArgs.filter = {
           id: 'someId',
           certificationCenterName: undefined,
+          certificationCenterType: undefined,
           status: undefined,
           resultsSentToPrescriberAt: undefined,
           assignedToSelfOnly: undefined,
@@ -74,6 +76,30 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
         expectedQueryArgs.filter = {
           id: undefined,
           certificationCenterName: 'someName',
+          certificationCenterType: undefined,
+          status: undefined,
+          resultsSentToPrescriberAt: undefined,
+          assignedToSelfOnly: undefined,
+        };
+
+        // when
+        await route.model(params);
+
+        // then
+        sinon.assert.calledWith(route.store.query, 'session', expectedQueryArgs);
+        assert.ok(true);
+      });
+    });
+
+    module('when queryParams certificationCenterType is truthy', function() {
+
+      test('it should call store.query with a filter with trimmed certificationCenterType', async function(assert) {
+        // given
+        params.certificationCenterType = 'SCO';
+        expectedQueryArgs.filter = {
+          id: undefined,
+          certificationCenterName: undefined,
+          certificationCenterType: 'SCO',
           status: undefined,
           resultsSentToPrescriberAt: undefined,
           assignedToSelfOnly: undefined,
@@ -96,6 +122,7 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
         expectedQueryArgs.filter = {
           id: undefined,
           certificationCenterName: undefined,
+          certificationCenterType: undefined,
           status: 'someStatus',
           resultsSentToPrescriberAt: undefined,
           assignedToSelfOnly: undefined,
@@ -118,6 +145,7 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
         expectedQueryArgs.filter = {
           id: undefined,
           certificationCenterName: undefined,
+          certificationCenterType: undefined,
           status: undefined,
           resultsSentToPrescriberAt: true,
           assignedToSelfOnly: undefined,
@@ -140,6 +168,7 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
         expectedQueryArgs.filter = {
           id: undefined,
           certificationCenterName: undefined,
+          certificationCenterType: undefined,
           status: undefined,
           resultsSentToPrescriberAt: undefined,
           assignedToSelfOnly: true,
@@ -191,6 +220,7 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
         pageSize: 'somePageSize',
         id: 'someId',
         certificationCenterName: 'someName',
+        certificationCenterType: 'someType',
         status: 'someStatus',
         resultsSentToPrescriberAt: 'someValue',
       };
@@ -207,6 +237,7 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
         assert.equal(controller.pageSize, 10);
         assert.equal(controller.id, null);
         assert.equal(controller.certificationCenterName, null);
+        assert.equal(controller.certificationCenterType, null);
         assert.equal(controller.status, 'finalized');
         assert.equal(controller.resultsSentToPrescriberAt, null);
       });
@@ -224,6 +255,7 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
         assert.equal(controller.id, 'someId');
         assert.equal(controller.certificationCenterName, 'someName');
         assert.equal(controller.status, 'someStatus');
+        assert.equal(controller.certificationCenterType, 'someType');
         assert.equal(controller.resultsSentToPrescriberAt, 'someValue');
       });
     });

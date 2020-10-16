@@ -70,5 +70,20 @@ module('Unit | Controller | authenticated/sessions/list', function(hooks) {
         assert.equal(controller.resultsSentToPrescriberAt, expectedValue);
       });
     });
+
+    module('when fieldName is certificationCenterType', function() {
+
+      test('should update controller certificationCenterType field', async function(assert) {
+        // given
+        controller.certificationCenterType = 'someType';
+
+        // when
+        const expectedValue = 'newType';
+        await controller.triggerFiltering.perform('certificationCenterType', expectedValue);
+
+        // then
+        assert.equal(controller.certificationCenterType, expectedValue);
+      });
+    });
   });
 });
