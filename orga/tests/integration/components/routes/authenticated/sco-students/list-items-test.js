@@ -302,8 +302,12 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
 
       module('when organization is SCO and tagged as Agriculture', (hooks) => {
         hooks.beforeEach(function() {
+          class CurrentUserStub extends Service {
+            isAdminInOrganization = true;
+            isAgriculture = true;
+          }
           this.set('importStudentsSpy', () => {});
-          this.owner.register('service:current-user', Service.extend({ isAdminInOrganization: true, isAgriculture: true }));
+          this.owner.register('service:current-user', CurrentUserStub);
           return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
         });
 
