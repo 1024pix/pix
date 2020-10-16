@@ -10,10 +10,6 @@ function _getNumberOf(juryCertificationSummaries, booleanFct) {
   );
 }
 
-function _formatHumanReadableLocaleDateTime(date) {
-  return date ? (new Date(date)).toLocaleString('fr-FR', { day: 'numeric', month: 'numeric', year: 'numeric' }) : date;
-}
-
 export const CREATED = 'created';
 export const FINALIZED = 'finalized';
 export const IN_PROCESS = 'in_process';
@@ -84,29 +80,9 @@ export default class Session extends Model {
       juryCertificationSummary.status !== 'validated');
   }
 
-  @computed('resultsSentToPrescriberAt')
-  get displayResultsSentToPrescriberDate() {
-    return _formatHumanReadableLocaleDateTime(this.resultsSentToPrescriberAt);
-  }
-
   @computed('resultsSentToPrescriberAt', 'isFinalized')
   get areResultsToBeSentToPrescriber() {
     return Boolean(this.isFinalized && !this.resultsSentToPrescriberAt);
-  }
-
-  @computed('date')
-  get displayDate() {
-    return _formatHumanReadableLocaleDateTime(this.date);
-  }
-
-  @computed('finalizedAt')
-  get displayFinalizationDate() {
-    return _formatHumanReadableLocaleDateTime(this.finalizedAt);
-  }
-
-  @computed('publishedAt')
-  get displayPublishedAtDate() {
-    return _formatHumanReadableLocaleDateTime(this.publishedAt);
   }
 
   @computed('status')

@@ -66,11 +66,11 @@
             {{else}}
               <td class="session-list__item--align-center">-</td>
             {{/if}}
-          <td>{{session.displayDate}} à {{session.time}}</td>
+          <td>{{format-date session.date}} à {{session.time}}</td>
           <td>{{session.displayStatus}}</td>
-          <td>{{session.displayFinalizationDate}}</td>
-          <td>{{session.displayPublishedAtDate}}</td>
-          <td>{{session.displayResultsSentToPrescriberDate}}</td>
+          <td>{{format-date session.finalizedAt}}</td>
+          <td>{{format-date session.publishedAt}}</td>
+          <td>{{format-date session.resultsSentToPrescriberAt}}</td>
           <td class="session-list__item--align-center">
             {{#if session.assignedCertificationOfficer}}
               {{session.assignedCertificationOfficer.fullName}}
