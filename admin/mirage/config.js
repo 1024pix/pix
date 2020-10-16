@@ -114,7 +114,7 @@ export default function() {
   this.patch('/admin/users/:id/dissociate', (schema, request) => {
     const userId = request.params.id;
     const expectedUpdatedUser = {
-      isAssociatedWithSchoolingRegistration: false,
+      schoolingRegistrations: [],
     };
 
     const user = schema.users.findBy({ id: userId });

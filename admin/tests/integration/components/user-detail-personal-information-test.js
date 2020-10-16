@@ -204,28 +204,55 @@ module('Integration | Component | user-detail-personal-information', function(ho
       assert.dom('.user__is-authenticated-from-gar').hasText('NON');
     });
 
-    test('should not display Dissocier button', async function(assert) {
-      // given
-      this.set('user', { isAssociatedWithSchoolingRegistration: false });
+    module('When user has no schoolingRegistrations', function() {
 
-      // when
-      await render(hbs `<UserDetailPersonalInformation @user={{this.user}}/>`);
+      test('should not display dissociate button', async function(assert) {
+        // given
+        this.set('user', { schoolingRegistrations: [] });
 
-      // then
-      assert.dom('button[data-test-dissociate]').doesNotExist();
+        // when
+        await render(hbs `<UserDetailPersonalInformation @user={{this.user}}/>`);
+
+        // then
+        assert.dom('button[data-test-dissociate]').doesNotExist();
+      });
+
+      test('should display no result in schooling registrations table', async function(assert) {
+        // given
+        this.set('user', { schoolingRegistrations: [] });
+
+        // when
+        await render(hbs `<UserDetailPersonalInformation @user={{this.user}}/>`);
+
+        // then
+        assert.contains('Aucun résultat');
+      });
     });
 
-    test('should display dissociate button when user is associate with schooling registration', async function(assert) {
-      // given
-      this.set('user', { isAssociatedWithSchoolingRegistration: true });
-      const expectedText = 'Dissocier';
+    module('When user has schoolingRegistrations', function() {
 
-      // when
-      await render(hbs `<UserDetailPersonalInformation @user={{this.user}}/>`);
+      test('should display dissociate button', async function(assert) {
+        // given
+        this.set('user', { schoolingRegistrations: [{ id: 1 }] });
+        const expectedText = 'Dissocier';
 
-      // then
-      const foundButton = find('button[data-test-dissociate]');
-      assert.dom(foundButton).hasText(expectedText);
+        // when
+        await render(hbs `<UserDetailPersonalInformation @user={{this.user}}/>`);
+
+        // then
+        const foundButton = find('button[data-test-dissociate]');
+        assert.dom(foundButton).hasText(expectedText);
+      });
+
+      test('should display schooling registrations in table', async function(assert) {
+        // given
+        this.set('user', { schoolingRegistrations: [{ id: 1 }, { id: 2 }] });
+
+        // when
+        await render(hbs `<UserDetailPersonalInformation @user={{this.user}}/>`);
+
+        assert.dom('tr[aria-label="Inscription"]').exists({ count: 2 });
+      });
     });
   });
 

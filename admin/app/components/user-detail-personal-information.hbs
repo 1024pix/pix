@@ -124,26 +124,70 @@
             Anonymiser cet utilisateur
           </button>
         {{/if}}
-
-        {{#if @user.isAssociatedWithSchoolingRegistration}}
-          {{#if this.isLoading}}
-            <button type="button" disabled class="btn btn-danger">
-              <span class="loader-in-button">&nbsp;</span>
-            </button>
-          {{else}}
-            <button
-              type="button"
-              class="btn btn-danger"
-              data-test-dissociate
-              {{on "click" this.dissociate}}
-            >
-              Dissocier
-            </button>
-          {{/if}}
-        {{/if}}
       </div>
     </form>
   {{/if}}
+</section>
+
+<section class="page-section mb_10">
+  <header class="page-section__header">
+    <h2 class="page-section__title">Informations élèves SCO</h2>
+  </header>
+  {{#if @user.schoolingRegistrations}}
+  <div class="schooling-registrations-buttons">
+    {{#if this.isLoading}}
+      <button type="button" disabled class="btn btn-danger">
+        <span class="loader-in-button">&nbsp;</span>
+      </button>
+    {{else}}
+      <button
+              type="button"
+              class="btn btn-danger"
+              data-test-dissociate
+        {{on "click" this.dissociate}}
+      >
+        Dissocier
+      </button>
+    {{/if}}
+  </div>
+  {{/if}}
+
+  <div class="schooling-registrations-table content-text content-text--small">
+    <table class="table-admin">
+      <thead>
+      <tr>
+        <th>Prénom</th>
+        <th>Nom</th>
+        <th>DDN</th>
+        <th class="table__column--small">Classe</th>
+        <th class="table__column--small">Orga ID</th>
+        <th>UAI</th>
+        <th class="table__column--wide">Nom de l'orga</th>
+        <th>Date d'import</th>
+        <th>Dernière MAJ</th>
+      </tr>
+      </thead>
+      <tbody>
+      {{#each @user.schoolingRegistrations as |schoolingRegistration|}}
+        <tr aria-label="Inscription">
+          <td>{{schoolingRegistration.firstName}}</td>
+          <td>{{schoolingRegistration.lastName}}</td>
+          <td>{{format-date schoolingRegistration.birthdate}}</td>
+          <td>{{schoolingRegistration.division}}</td>
+          <td><LinkTo @route="authenticated.organizations.get" @model={{schoolingRegistration.organizationId}}>{{schoolingRegistration.organizationId}}</LinkTo></td>
+          <td>{{schoolingRegistration.organizationExternalId}}</td>
+          <td title="{{schoolingRegistration.organizationName}}">{{schoolingRegistration.organizationName}}</td>
+          <td>{{format-date schoolingRegistration.createdAt}}</td>
+          <td>{{format-date schoolingRegistration.updatedAt}}</td>
+        </tr>
+      {{else}}
+        <tr>
+          <td colspan="9" class="table-admin-empty">Aucun résultat</td>
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
+  </div>
 </section>
 
 <ConfirmPopup @message="Êtes-vous sûr de vouloir anonymiser cet utilisateur ? Ceci n’est pas réversible."
