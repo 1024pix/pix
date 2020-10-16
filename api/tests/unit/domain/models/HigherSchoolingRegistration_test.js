@@ -54,6 +54,7 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', () => {
 
         expect(error.key).to.equal(field);
         expect(error.why).to.equal('max_length');
+        expect(error.limit).to.equal(255);
       });
     });
 
