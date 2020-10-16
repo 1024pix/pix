@@ -1,4 +1,4 @@
-const { expect } = require('../../../../test-helper');
+const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-result-serializer');
 const CertificationResult = require('../../../../../lib/domain/models/CertificationResult');
 
@@ -8,8 +8,20 @@ describe('Unit | Serializer | JSONAPI | certification-result-serializer', functi
 
     it('should serialize results of a certification', function() {
       // given
+      const lastAssessmentResultFull = domainBuilder.buildAssessmentResult({
+        createdAt: new Date('2017-02-20T01:02:03Z'),
+        pixScore: 30,
+        status: 'validated',
+        emitter: 'PIX_ALGO',
+        commentForCandidate: null,
+        commentForJury: 'Salut',
+        commentForOrganization: '',
+        competenceMarks: [],
+        juryId: 21,
+      });
       const certificationResult = new CertificationResult({
         id: 1,
+        lastAssessmentResultFull,
         firstName: 'Guy-Manuel',
         lastName: 'De Homem Christo',
         birthdate: '1974-02-08',
@@ -17,20 +29,11 @@ describe('Unit | Serializer | JSONAPI | certification-result-serializer', functi
         externalId: 'Grammys2016',
         createdAt: new Date('2017-02-20T01:02:03Z'),
         completedAt: new Date('2017-02-20T01:02:03Z'),
-        resultCreatedAt: new Date('2017-02-20T01:02:03Z'),
         isPublished: true,
         isV2Certification: true,
-        pixScore: 30,
-        status: 'validated',
-        emitter: 'PIX_ALGO',
-        commentForCandidate: null,
-        commentForJury: 'Salut',
-        commentForOrganization: '',
         examinerComment: 'un commentaire',
         hasSeenEndTestScreen: true,
         cleaCertificationStatus: 'acquired',
-        competencesWithMark: [],
-        juryId: 21,
         sessionId: 22,
         assessmentId: 99,
       });

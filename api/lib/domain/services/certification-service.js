@@ -27,6 +27,7 @@ async function getCertificationResultByCertifCourse({ certificationCourse }) {
   }
 
   return new CertificationResult({
+    lastAssessmentResultFull,
     id: certificationCourse.id,
     assessmentId,
     firstName: certificationCourse.firstName,
@@ -36,20 +37,11 @@ async function getCertificationResultByCertifCourse({ certificationCourse }) {
     externalId: certificationCourse.externalId,
     completedAt: certificationCourse.completedAt,
     createdAt: certificationCourse.createdAt,
-    resultCreatedAt: lastAssessmentResultFull.createdAt,
     isPublished: certificationCourse.isPublished,
     isV2Certification: certificationCourse.isV2Certification,
     cleaCertificationStatus,
-    pixScore: lastAssessmentResultFull.pixScore,
-    status: lastAssessmentResultFull.status,
-    emitter: lastAssessmentResultFull.emitter,
-    commentForCandidate: lastAssessmentResultFull.commentForCandidate,
-    commentForJury: lastAssessmentResultFull.commentForJury,
-    commentForOrganization: lastAssessmentResultFull.commentForOrganization,
     examinerComment: certificationCourse.examinerComment,
     hasSeenEndTestScreen: certificationCourse.hasSeenEndTestScreen,
-    competencesWithMark: lastAssessmentResultFull.competenceMarks,
-    juryId: lastAssessmentResultFull.juryId,
     sessionId: certificationCourse.sessionId,
   });
 }

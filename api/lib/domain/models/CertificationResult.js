@@ -2,7 +2,7 @@ class CertificationResult {
   constructor(
     {
       id,
-      // attributes
+      lastAssessmentResultFull,
       firstName,
       lastName,
       birthplace,
@@ -10,22 +10,12 @@ class CertificationResult {
       externalId,
       completedAt,
       createdAt,
-      resultCreatedAt,
       isPublished,
       isV2Certification,
       cleaCertificationStatus,
-      pixScore,
-      status,
-      emitter,
-      commentForCandidate,
-      commentForJury,
-      commentForOrganization,
-      competencesWithMark,
       examinerComment,
       hasSeenEndTestScreen,
-      // references
       assessmentId,
-      juryId,
       sessionId,
     } = {}) {
     this.id = id;
@@ -37,22 +27,22 @@ class CertificationResult {
     this.externalId = externalId;
     this.completedAt = completedAt;
     this.createdAt = createdAt;
-    this.resultCreatedAt = resultCreatedAt;
+    this.resultCreatedAt = lastAssessmentResultFull.createdAt;
     this.isPublished = isPublished;
     this.isV2Certification = isV2Certification;
     this.cleaCertificationStatus = cleaCertificationStatus;
-    this.pixScore = pixScore;
-    this.status = status;
-    this.emitter = emitter;
-    this.commentForCandidate = commentForCandidate;
-    this.commentForJury = commentForJury;
-    this.commentForOrganization = commentForOrganization;
-    this.competencesWithMark = competencesWithMark;
+    this.pixScore = lastAssessmentResultFull.pixScore;
+    this.status = lastAssessmentResultFull.status;
+    this.emitter = lastAssessmentResultFull.emitter;
+    this.commentForCandidate = lastAssessmentResultFull.commentForCandidate;
+    this.commentForJury = lastAssessmentResultFull.commentForJury;
+    this.commentForOrganization = lastAssessmentResultFull.commentForOrganization;
+    this.competencesWithMark = lastAssessmentResultFull.competenceMarks;
     this.examinerComment = examinerComment;
     this.hasSeenEndTestScreen = hasSeenEndTestScreen;
     // references
     this.assessmentId = assessmentId;
-    this.juryId = juryId;
+    this.juryId = lastAssessmentResultFull.juryId;
     this.sessionId = sessionId;
   }
 }
