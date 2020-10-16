@@ -9,6 +9,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
     pageSize: { refreshModel: true },
     id: { refreshModel: true },
     certificationCenterName: { refreshModel: true },
+    certificationCenterType: { refreshModel: true },
     status: { refreshModel: true },
     resultsSentToPrescriberAt: { refreshModel: true },
     assignedToSelfOnly: { refreshModel: true },
@@ -21,6 +22,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
         filter: {
           id: trim(params.id) || undefined,
           certificationCenterName: trim(params.certificationCenterName) || undefined,
+          certificationCenterType: params.certificationCenterType || undefined,
           status: params.status || undefined,
           resultsSentToPrescriberAt: params.resultsSentToPrescriberAt || undefined,
           assignedToSelfOnly: params.assignedToSelfOnly,
@@ -43,6 +45,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
       controller.pageSize = 10;
       controller.id = null;
       controller.certificationCenterName = null;
+      controller.certificationCenterType = null;
       controller.status = FINALIZED;
       controller.resultsSentToPrescriberAt = null;
       controller.assignedToSelfOnly = false;
