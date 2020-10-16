@@ -11,14 +11,17 @@ describe('Unit | UseCase | getCertificationAttestation', async () => {
   let certificate;
   const deliveredAt = new Date('2020-09-17T01:02:03Z');
   const cleaCertificationStatus = 'someStatus';
+  let assessmentResult;
+  const assessmentResultId = 1;
 
   beforeEach(() => {
     certificate = domainBuilder.buildPrivateCertificate({
       userId,
       id: certificationId,
       deliveredAt,
+      status: 'validated',
     });
-    const assessmentResult = domainBuilder.buildAssessmentResult();
+    assessmentResult = domainBuilder.buildAssessmentResult({ id: assessmentResultId, status: 'validated' });
     assessmentResult.competenceMarks = [domainBuilder.buildCompetenceMark({ assessmentResultId: assessmentResult.id })];
     const competenceTree = domainBuilder.buildCompetenceTree();
     const certificationRepository = {
@@ -110,6 +113,7 @@ describe('Unit | UseCase | getCertificationAttestation', async () => {
         'userId': 2,
         'verificationCode': 'P-BBBCCCDD',
       });
+
       // when
       const result = await getCertificationAttestation({ certificationId, userId, ...dependencies });
 

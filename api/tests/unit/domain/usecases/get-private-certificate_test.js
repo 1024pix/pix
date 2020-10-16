@@ -69,6 +69,7 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
 
   context('when the user is owner of the certification', async () => {
 
+    const assessmentResultId = 123;
     let assessmentResult;
     let certificate;
     let competenceTree;
@@ -81,7 +82,7 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
       });
       certificationRepository.getPrivateCertificateByCertificationCourseId.resolves(certificate);
 
-      assessmentResult = domainBuilder.buildAssessmentResult();
+      assessmentResult = domainBuilder.buildAssessmentResult({ id: assessmentResultId });
       assessmentResult.competenceMarks = [domainBuilder.buildCompetenceMark()];
       assessmentResultRepository.findLatestByCertificationCourseIdWithCompetenceMarks.resolves(assessmentResult);
 
@@ -125,7 +126,7 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
             'title': 'Information et données',
           },
         ],
-        'id': '23-1',
+        'id': '23-123',
       };
 
       // when

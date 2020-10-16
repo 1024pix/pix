@@ -16,11 +16,10 @@ function _buildCompetenceMarks(level, score, area_code, competence_code, compete
   return new CompetenceMarks({ level, score, area_code, competence_code, competenceId });
 }
 
-function _buildAssessmentResult(pixScore, level) {
+function _buildAssessmentResult(pixScore) {
   return new AssessmentResult({
     id: 'assessment_result_id',
     pixScore,
-    level,
     emitter: 'PIX-ALGO',
   });
 }
@@ -85,7 +84,7 @@ describe('Unit | Service | Certification Service', function() {
           hasSeenEndTestScreen: true,
         });
         sinon.stub(certificationCourseRepository, 'get').resolves(certificationCourse);
-        const assessmentResult = _buildAssessmentResult(20, 3);
+        const assessmentResult = _buildAssessmentResult(20);
         assessmentResult.competenceMarks = [_buildCompetenceMarks(3, 27, '2', '2.1', 'rec2.1')];
         sinon.stub(assessmentResultRepository, 'findLatestByCertificationCourseIdWithCompetenceMarks')
           .withArgs({ certificationCourseId }).resolves({ ...assessmentResult, assessmentId });
