@@ -37,10 +37,21 @@ describe('Unit | UseCase | Improve Competence Evaluation', () => {
 
   it('should retrieve competence evaluation from id', async () => {
     // when
-    await improveCompetenceEvaluation({ assessmentRepository, competenceEvaluationRepository, getCompetenceLevel, userId, competenceId, domainTransaction });
+    await improveCompetenceEvaluation({
+      assessmentRepository,
+      competenceEvaluationRepository,
+      getCompetenceLevel,
+      userId,
+      competenceId,
+      domainTransaction,
+    });
 
     // then
-    expect(competenceEvaluationRepository.getByCompetenceIdAndUserId).to.be.calledWith({ competenceId, userId });
+    expect(competenceEvaluationRepository.getByCompetenceIdAndUserId).to.be.calledWith({
+      competenceId,
+      userId,
+      domainTransaction,
+    });
   });
 
   it('should create an improving assessment', async () => {
