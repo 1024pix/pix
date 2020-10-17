@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { click, currentURL, visit, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { createUserWithMembershipAndTermsOfServiceAccepted, authenticateSession } from '../helpers/test-init';
+import { createUserAndMembershipAndTermsOfServiceAccepted, authenticateSession } from '../helpers/test-init';
 import { upload } from 'ember-file-upload/test-support';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -13,6 +13,7 @@ module('Acceptance | Session Candidates', function(hooks) {
 
   let user;
   let session;
+  let certificationCenter;
 
   const validLastName = 'MonNom';
   const validFirstName = 'MonPrenom';
@@ -22,9 +23,7 @@ module('Acceptance | Session Candidates', function(hooks) {
   const validBirthdate = '01021990';
 
   hooks.beforeEach(function() {
-    user = createUserWithMembershipAndTermsOfServiceAccepted();
-    const certificationCenterId = user.certificationCenterMemberships.models[0].certificationCenterId;
-    session = server.create('session', { certificationCenterId });
+    createSession();
   });
 
   hooks.afterEach(function() {
@@ -98,7 +97,7 @@ module('Acceptance | Session Candidates', function(hooks) {
 
           test('it should leave the line up for modification', async function(assert) {
             this.server.post('/sessions/:id/certification-candidates', () => ({
-              errors: [ 'Invalid data' ],
+              errors: ['Invalid data'],
             }), 400);
             // when
             await click('[data-test-id="add-certification-candidate-staging__button"]');
@@ -111,7 +110,7 @@ module('Acceptance | Session Candidates', function(hooks) {
 
           test('it should display notification error', async function(assert) {
             this.server.post('/sessions/:id/certification-candidates', () => ({
-              errors: [ 'Invalid data' ],
+              errors: ['Invalid data'],
             }), 400);
             // when
             await click('[data-test-id="add-certification-candidate-staging__button"]');
@@ -188,7 +187,6 @@ module('Acceptance | Session Candidates', function(hooks) {
             // then
             assert.dom(`[data-test-id="panel-candidate__lastName__${notLinkedCertificationCandidate.id}"]`).doesNotExist();
           });
-
         });
       });
 
@@ -250,4 +248,9 @@ module('Acceptance | Session Candidates', function(hooks) {
     await fillIn(`[data-test-id="panel-candidate__${code}__add-staging"] > div > input`, value);
   }
 
+  function createSession() {
+    ({ user, certificationCenter } = createUserAndMembershipAndTermsOfServiceAccepted());
+    session = server.create('session', { certificationCenterId: certificationCenter.id });
+  }
 });
+
