@@ -38,14 +38,16 @@ describe('Unit | Controller | campaigns/restricted/login-or-register-to-access',
 
     it('should redirect to campaigns.start-or-resume', async () => {
       // given
-      const externalUserToken = 'ABCD';
+      const externallUserAuthenticationRequest = {
+        save: sinon.stub(),
+      };
 
       const saveStub = sinon.stub();
       const storeStub = { createRecord: sinon.stub().returns({ save: saveStub }) };
       controller.set('store', storeStub);
 
       // when
-      await controller.actions.addGarAuthenticationMethodToUser.call(controller, externalUserToken, expectedUserId);
+      await controller.actions.addGarAuthenticationMethodToUser.call(controller, externallUserAuthenticationRequest);
 
       // then
       sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.start-or-resume');
@@ -56,12 +58,12 @@ describe('Unit | Controller | campaigns/restricted/login-or-register-to-access',
       // given
       const externalUserToken = 'ABCD';
 
-      const expectedOptions = {
-        adapterOptions: {
-          authenticationMethodsSaml: true,
-          externalUserToken,
-          expectedUserId,
-        },
+      const expectedExternalUserAuthenticationRequest = {
+        externalUserToken,
+        expectedUserId,
+        username: 'saml',
+        password: 'jackson',
+        save: sinon.stub(),
       };
 
       const saveStub = sinon.stub();
@@ -69,18 +71,19 @@ describe('Unit | Controller | campaigns/restricted/login-or-register-to-access',
       controller.set('store', storeStub);
 
       // when
-      await controller.actions.addGarAuthenticationMethodToUser.call(controller, externalUserToken, expectedUserId);
+      await controller.actions.addGarAuthenticationMethodToUser.call(controller, expectedExternalUserAuthenticationRequest);
 
       // then
-      sinon.assert.calledOnce(currentUserStub.load);
-      sinon.assert.calledWith(currentUserStub.user.save, expectedOptions);
-
+      sinon.assert.calledOnce(expectedExternalUserAuthenticationRequest.save);
       sinon.assert.calledWith(sessionStub.set, 'data.externalUser', null);
+      sinon.assert.calledWith(sessionStub.set, 'data.expectedUserId', null);
     });
 
     it('should reconcile user', async () => {
       // given
-      const externalUserToken = 'ABCD';
+      const expectedExternalUserAuthenticationRequest = {
+        save: sinon.stub(),
+      };
 
       const expectedCampaignCode = campaignCode;
 
@@ -92,7 +95,7 @@ describe('Unit | Controller | campaigns/restricted/login-or-register-to-access',
       controller.set('store', storeStub);
 
       // when
-      await controller.actions.addGarAuthenticationMethodToUser.call(controller, externalUserToken, expectedUserId);
+      await controller.actions.addGarAuthenticationMethodToUser.call(controller, expectedExternalUserAuthenticationRequest);
 
       // then
       sinon.assert.calledWith(storeStub.createRecord, expectedStoreOptions.arg1, expectedStoreOptions.arg2);

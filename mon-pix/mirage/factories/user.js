@@ -151,7 +151,7 @@ export default Factory.extend({
     password: faker.internet.password(),
   }),
   withUsername: trait({
-    username: faker.internet.exampleEmail(),
+    username: faker.internet.userName(),
     password: faker.internet.password(),
   }),
   external: trait({
