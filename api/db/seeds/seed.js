@@ -18,11 +18,13 @@ const { certificationSessionsBuilder } = require('./data/certification/certifica
 const { certificationUsersBuilder } = require('./data/certification/users');
 const certificationUserProfilesBuilder = require('./data/certification/user-profiles-builder');
 const certificationCenterMembershipsBuilder = require('./data/certification/certification-center-memberships-builder');
-const dragonAndCoBuilder = require('./data/dragon-and-co-builder');
-const organizationsBuilder = require('./data/organizations-builder');
+const organizationsProBuilder = require('./data/organizations-pro-builder');
+const organizationsScoBuilder = require('./data/organizations-sco-builder');
+const organizationsSupBuilder = require('./data/organizations-sup-builder');
 const pixAileBuilder = require('./data/pix-aile-builder');
 const { badgesBuilder } = require('./data/badges-builder');
 const { pixEmploiTargetProfileBuilder } = require('./data/pix-emploi-target-profile-builder');
+const tagsBuilder = require('./data/tags-builder');
 const targetProfilesBuilder = require('./data/target-profiles-builder');
 const { usersBuilder } = require('./data/users-builder');
 const usersPixRolesBuilder = require('./data/users_pix_roles-builder');
@@ -43,8 +45,10 @@ exports.seed = (knex) => {
   pixAileBuilder({ databaseBuilder });
 
   // Organizations
-  dragonAndCoBuilder({ databaseBuilder });
-  organizationsBuilder({ databaseBuilder });
+  tagsBuilder({ databaseBuilder });
+  organizationsProBuilder({ databaseBuilder });
+  organizationsScoBuilder({ databaseBuilder });
+  organizationsSupBuilder({ databaseBuilder });
 
   // Target Profiles
   targetProfilesBuilder({ databaseBuilder });

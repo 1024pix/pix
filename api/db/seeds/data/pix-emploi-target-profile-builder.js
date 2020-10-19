@@ -7,8 +7,8 @@ function pixEmploiTargetProfileBuilder({ databaseBuilder }) {
   const pixEmploiProfile = databaseBuilder.factory.buildTargetProfile({
     id: 100321,
     name: 'Pix emploi - Parcours complet',
-    isPublic: true,
-    organizationId: 1,
+    isPublic: false,
+    organizationId: 4,
   });
 
   const buildBadgePartnerCompetence1Skills = [databaseBuilder.factory.buildTargetProfileSkill({
