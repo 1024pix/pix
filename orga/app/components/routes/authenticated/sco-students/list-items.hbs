@@ -2,6 +2,12 @@
   <div class="page__title page-title">Élèves</div>
   {{#if this.currentUser.isAdminInOrganization}}
     <div class="list-students-page__import-students-button">
+      {{#if this.currentUser.isAgriculture}}
+        <a class="button button--link button--no-color"
+          href="{{this.urlToDownloadCsvTemplate}}" target="_blank" rel="noopener noreferrer" download>
+          Télécharger le modèle
+        </a>
+      {{/if}}
       <FileUpload @name="file-upload" @for="students-file-upload" @accept={{this.acceptedFileType}} @multiple={{false}} @onfileadd={{@importStudents}}>
         <span class="button" role="button" tabindex="0">Importer ({{this.acceptedFileType}})</span>
       </FileUpload>
