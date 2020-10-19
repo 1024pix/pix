@@ -30,6 +30,7 @@
           @options={{hash inputFormat='dd/mm/yyyy' outputFormat='yyyy-mm-dd'}}
           @class="certification-candidates-input {{if this.birthdateFocused 'focused'}}"
           {{on 'focus' this.focusBirthdate}}
+          @value={{undefined}}
           @update={{this.updateCandidateDataBirthdate}}>
       </OneWayDateMask>
     </div>
