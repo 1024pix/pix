@@ -4,20 +4,16 @@
     {{t 'pages.fill-in-participant-external-id.announcement'}}
   </p>
 
-  <form {{on 'submit' this.submit}} class="fill-in-participant-external-id__form">
+  <form class="fill-in-participant-external-id__form">
     <div class="fill-in-participant-external-id-form__section">
       <div class="fill-in-participant-external-id__form-field">
         <label for="id-pix-label">{{@campaign.idPixLabel}}</label>
         <Input required @id="id-pix-label" @value={{this.participantExternalId}} />
       </div>
 
-      <button type="submit" disabled={{this.isLoading}} class="button button--big">
-        {{#if this.isLoading}}
-          <span class="loader-in-button">&nbsp;</span>
-        {{else}}
+      <PixButton type="submit" class="button button--big" @action={{action this.submit}} @loading-color="white">
           {{t 'pages.fill-in-participant-external-id.buttons.continue'}}
-        {{/if}}
-      </button>
+      </PixButton>
       {{#if this.errorMessage}}
         <div class="fill-in-participant-external-id__form__error-message">{{this.errorMessage}}</div>
       {{/if}}
