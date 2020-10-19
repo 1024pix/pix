@@ -9,6 +9,9 @@
             <th>{{@campaign.idPixLabel}}</th>
           {{/if}}
           <th>Résultats</th>
+          {{#if @campaign.targetProfile.hasBadges}}
+            <th>Résultats Thématiques</th>
+          {{/if}}
         </tr>
       </thead>
 
@@ -40,6 +43,9 @@
                 {{/if}}
               {{/if}}
             </td>
+            {{#if @campaign.targetProfile.hasBadges}}
+              <td>Not implemented</td>
+            {{/if}}
           </tr>
         {{/each}}
         </tbody>
