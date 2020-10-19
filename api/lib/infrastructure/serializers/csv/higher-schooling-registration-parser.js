@@ -9,14 +9,14 @@ const COLUMNS = [
   new CsvColumn({ name: 'thirdName', label:'Troisième prénom' }),
   new CsvColumn({ name: 'lastName', label:'Nom de famille', isRequired: true }),
   new CsvColumn({ name: 'preferredLastName', label:'Nom d’usage' }),
-  new CsvColumn({ name: 'studentNumber', label:'Numéro étudiant', isRequired: true, checkEncoding: true }),
+  new CsvColumn({ name: 'birthdate', label:'Date de naissance (jj/mm/aaaa)', isRequired: true, isDate: true }),
   new CsvColumn({ name: 'email', label:'Email' }),
-  new CsvColumn({ name: 'diploma', label:'Diplôme' }),
+  new CsvColumn({ name: 'studentNumber', label:'Numéro étudiant', isRequired: true, checkEncoding: true }),
   new CsvColumn({ name: 'department', label:'Composante' }),
   new CsvColumn({ name: 'educationalTeam', label:'Équipe pédagogique' }),
   new CsvColumn({ name: 'group', label:'Groupe' }),
+  new CsvColumn({ name: 'diploma', label:'Diplôme' }),
   new CsvColumn({ name: 'studyScheme', label:'Régime' }),
-  new CsvColumn({ name: 'birthdate', label:'Date de naissance (jj/mm/aaaa)', isRequired: true, isDate: true }),
 ];
 
 class HigherSchoolingRegistrationParser extends CsvRegistrationParser {
@@ -36,6 +36,8 @@ class HigherSchoolingRegistrationParser extends CsvRegistrationParser {
     super._handleError(...arguments);
   }
 }
+
+HigherSchoolingRegistrationParser.COLUMNS = COLUMNS;
 
 module.exports = HigherSchoolingRegistrationParser;
 
