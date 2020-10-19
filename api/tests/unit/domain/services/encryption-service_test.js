@@ -1,3 +1,4 @@
+/* eslint-disable no-sync */
 const { sinon, expect } = require('../../../test-helper');
 
 const bcrypt = require('bcrypt');

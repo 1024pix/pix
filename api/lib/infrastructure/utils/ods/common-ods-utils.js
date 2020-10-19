@@ -1,6 +1,5 @@
-const util = require('util');
 const JSZip = require('jszip');
-const fs = require('fs');
+const fs = require('fs').promises;
 
 async function loadOdsZip(odsFilePath) {
   const odsFileData = await _openOdsFile(odsFilePath);
@@ -9,7 +8,7 @@ async function loadOdsZip(odsFilePath) {
 }
 
 function _openOdsFile(odsFilePath) {
-  return util.promisify(fs.readFile)(odsFilePath);
+  return fs.readFile(odsFilePath);
 }
 
 module.exports = {

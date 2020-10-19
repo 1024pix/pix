@@ -8,3 +8,4 @@ rules:
     selector: "CallExpression[callee.object.name='knex'][callee.property.name='raw'][arguments.0.type='TemplateLiteral']",
     message: "do not use template strings with knex.raw to avoid SQL injection"
   }]
+  no-sync: error

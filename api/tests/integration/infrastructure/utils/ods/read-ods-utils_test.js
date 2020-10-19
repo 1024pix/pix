@@ -1,4 +1,4 @@
-const fs = require('fs');
+const { readFile } = require('fs').promises;
 const _ = require('lodash');
 const moment = require('moment');
 moment.suppressDeprecationWarnings = true;
@@ -46,8 +46,8 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', () => {
 
   describe('#extractTableDataFromOdsFile', () => {
 
-    beforeEach(() => {
-      odsBuffer = fs.readFileSync(DEFAULT_ODS_FILE_PATH);
+    beforeEach(async () => {
+      odsBuffer = await readFile(DEFAULT_ODS_FILE_PATH);
     });
 
     const TRANSFORM_STRUCT = [
@@ -154,7 +154,7 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', () => {
 
       it('should throw a UnprocessableEntityError', async () => {
         // given
-        const emptyOdsBuffer = fs.readFileSync(EMPTY_TABLE_ODS_FILE_PATH);
+        const emptyOdsBuffer = await readFile(EMPTY_TABLE_ODS_FILE_PATH);
 
         // when
         const result = await catchErr(extractTableDataFromOdsFile)({
@@ -209,7 +209,7 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', () => {
 
       it('should return the appropriate version', async () => {
         // given
-        odsBuffer = fs.readFileSync(DEFAULT_ODS_FILE_PATH);
+        odsBuffer = await readFile(DEFAULT_ODS_FILE_PATH);
 
         // when
         const version = await getOdsVersionByHeaders({
@@ -223,7 +223,7 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', () => {
 
       it('should get the current attendance sheet version', async () => {
         // given
-        odsBuffer = fs.readFileSync(SIMPLE_ATTENDANCE_ODS_FILE_PATH);
+        odsBuffer = await readFile(SIMPLE_ATTENDANCE_ODS_FILE_PATH);
         const transformationStructsByVersion = TRANSFORMATION_STRUCTS_BY_VERSION;
 
         // when
@@ -238,7 +238,7 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', () => {
 
       it('should throw a UnprocessableEntityError', async () => {
         // given
-        odsBuffer = fs.readFileSync(UNKNOWN_VERSION_ODS_FILE_PATH);
+        odsBuffer = await readFile(UNKNOWN_VERSION_ODS_FILE_PATH);
 
         // when
         const result = await catchErr(getOdsVersionByHeaders)({
@@ -255,7 +255,7 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', () => {
 
       it('should return the appropriate version regardless of the newlines', async () => {
         // given
-        odsBuffer = fs.readFileSync(NEW_LINE_ODS_FILE_PATH);
+        odsBuffer = await readFile(NEW_LINE_ODS_FILE_PATH);
 
         // when
         const version = await getOdsVersionByHeaders({
@@ -273,8 +273,8 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', () => {
 
     const candidatesRange = { range: 'B8:K9' };
 
-    before(() => {
-      odsBuffer = fs.readFileSync(SIMPLE_ATTENDANCE_ODS_FILE_PATH);
+    before(async () => {
+      odsBuffer = await readFile(SIMPLE_ATTENDANCE_ODS_FILE_PATH);
     });
 
     it('should read range rows and get the appropriate headers', async () => {

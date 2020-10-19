@@ -16,6 +16,7 @@ describe('Integration | Infrastructure | Repository | Prescriber', () => {
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
     email: faker.internet.exampleEmail().toLowerCase(),
+    /* eslint-disable-next-line no-sync */
     password: bcrypt.hashSync('A124B2C3#!', 1),
     cgu: true,
     samlId: 'some-saml-id',

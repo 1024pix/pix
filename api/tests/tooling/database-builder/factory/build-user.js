@@ -1,3 +1,4 @@
+/* eslint-disable no-sync */
 const faker = require('faker');
 const databaseBuffer = require('../database-buffer');
 const Membership = require('../../../../lib/domain/models/Membership');

@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { readFile, access } = require('fs').promises;
 const path = require('path');
 const papa = require('papaparse');
 
@@ -18,8 +19,10 @@ const optionsWithHeader = {
   },
 };
 
-function checkCsvExtensionFile(filePath) {
-  if (!fs.existsSync(filePath)) {
+async function checkCsvExtensionFile(filePath) {
+  try {
+    await access(filePath, fs.constants.F_OK);
+  } catch (err) {
     throw new NotFoundError(`File ${filePath} not found!`);
   }
 
@@ -32,9 +35,9 @@ function checkCsvExtensionFile(filePath) {
   return true;
 }
 
-function parseCsv(filePath, options) {
-  checkCsvExtensionFile(filePath);
-  const rawData = fs.readFileSync(filePath, 'utf8');
+async function parseCsv(filePath, options) {
+  await checkCsvExtensionFile(filePath);
+  const rawData = await readFile(filePath, 'utf8');
   const cleanedData = rawData.toString('utf8').replace(/^\uFEFF/, '');
   const { data } = papa.parse(cleanedData, options);
 
