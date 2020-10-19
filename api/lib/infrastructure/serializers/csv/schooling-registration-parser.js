@@ -50,5 +50,7 @@ class SchoolingRegistrationParser extends CsvRegistrationParser {
   }
 }
 
+SchoolingRegistrationParser.COLUMNS = COLUMNS;
+
 module.exports = SchoolingRegistrationParser;
 
