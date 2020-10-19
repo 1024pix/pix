@@ -13,7 +13,6 @@ export default class ScorecardDetails extends Component {
   @service competenceEvaluation;
 
   @tracked showResetModal = false;
-  @tracked improveButtonStatus = buttonStatusTypes.unrecorded;
 
   get level() {
     return this.args.scorecard.isNotStarted ? null : this.args.scorecard.level;
@@ -89,17 +88,10 @@ export default class ScorecardDetails extends Component {
 
   @action
   async improveCompetenceEvaluation() {
-    this.improveButtonStatus = buttonStatusTypes.pending;
-
     const userId = this.currentUser.user.id;
     const competenceId = this.args.scorecard.competenceId;
     const scorecardId = this.args.scorecard.id;
-    try {
-      this.competenceEvaluation.improve({ userId, competenceId, scorecardId });
-    } catch {
-      this.improveButtonStatus = buttonStatusTypes.unrecorded;
-    }
-
+    return this.competenceEvaluation.improve({ userId, competenceId, scorecardId });
   }
 
 }
