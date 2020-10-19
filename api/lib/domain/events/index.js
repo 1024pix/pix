@@ -4,15 +4,16 @@ const _ = require('lodash');
 
 const dependencies = {
   assessmentResultRepository: require('../../infrastructure/repositories/assessment-result-repository'),
-  certificationAssessmentRepository: require('../../infrastructure/repositories/certification-assessment-repository'),
   badgeAcquisitionRepository: require('../../infrastructure/repositories/badge-acquisition-repository'),
   badgeCriteriaService: require('../services/badge-criteria-service'),
   badgeRepository: require('../../infrastructure/repositories/badge-repository'),
   campaignParticipationResultRepository: require('../../infrastructure/repositories/campaign-participation-result-repository'),
+  certificationAssessmentRepository: require('../../infrastructure/repositories/certification-assessment-repository'),
   certificationCourseRepository: require('../../infrastructure/repositories/certification-course-repository'),
   competenceMarkRepository: require('../../infrastructure/repositories/competence-mark-repository'),
   competenceRepository: require('../../infrastructure/repositories/competence-repository'),
   knowledgeElementRepository: require('../../infrastructure/repositories/knowledge-element-repository'),
+  organizationRepository: require('../../infrastructure/repositories/organization-repository'),
   scoringCertificationService: require('../services/scoring/scoring-certification-service'),
   skillRepository: require('../../infrastructure/repositories/skill-repository'),
 };
@@ -25,6 +26,7 @@ dependencies.partnerCertificationRepository = partnerCertificationRepository;
 
 const handlersToBeInjected = {
   handleBadgeAcquisition: require('./handle-badge-acquisition'),
+  handleCampaignParticipationResultsSending: require('./handle-campaign-participation-results-sending'),
   handleCertificationScoring: require('./handle-certification-scoring'),
   handlePartnerCertifications: require('./handle-partner-certification'),
 };

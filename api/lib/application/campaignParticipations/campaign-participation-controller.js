@@ -1,4 +1,5 @@
 const usecases = require('../../domain/usecases');
+const events = require('../../domain/events');
 
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const serializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
@@ -36,15 +37,16 @@ module.exports = {
     return serializer.serialize(campaignParticipations);
   },
 
-  shareCampaignResult(request) {
+  async shareCampaignResult(request) {
     const userId = request.auth.credentials.userId;
     const campaignParticipationId = parseInt(request.params.id);
 
-    return usecases.shareCampaignResult({
+    const event = await usecases.shareCampaignResult({
       userId,
       campaignParticipationId,
-    })
-      .then(() => null);
+    });
+    await events.eventDispatcher.dispatch(event);
+    return null;
   },
 
   async beginImprovement(request) {

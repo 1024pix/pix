@@ -10,7 +10,7 @@ describe('Event Choregraphy | Score Certification', function() {
     const domainTransaction = Symbol('a transaction');
 
     // when
-    await eventDispatcher.dispatch(domainTransaction, event);
+    await eventDispatcher.dispatch(event, domainTransaction);
 
     // then
     expect(handlerStubs.handleCertificationScoring).to.have.been.calledWith({ domainTransaction, event });

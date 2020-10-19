@@ -77,7 +77,7 @@ module.exports = {
 
     await DomainTransaction.execute(async (domainTransaction) => {
       const event = await usecases.completeAssessment({ domainTransaction, assessmentId });
-      await events.eventDispatcher.dispatch(domainTransaction, event);
+      await events.eventDispatcher.dispatch(event, domainTransaction);
     });
 
     return null;

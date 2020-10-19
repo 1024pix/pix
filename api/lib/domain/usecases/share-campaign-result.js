@@ -1,4 +1,5 @@
 const { UserNotAuthorizedToAccessEntity, AssessmentNotCompletedError, CampaignAlreadyArchivedError } = require('../errors');
+const CampaignParticipationResultsShared = require('../events/CampaignParticipationResultsShared');
 const smartRandom = require('../services/smart-random/smart-random');
 const dataFetcher = require('../services/smart-random/data-fetcher');
 
@@ -45,5 +46,13 @@ module.exports = async function shareCampaignResult({
     }
   }
 
-  return campaignParticipationRepository.share(campaignParticipation);
+  await campaignParticipationRepository.share(campaignParticipation);
+
+  return new CampaignParticipationResultsShared({
+    campaignId: campaign.id,
+    isAssessment: campaign.isAssessment(),
+    campaignParticipationId: campaignParticipation.id,
+    userId,
+    organizationId: campaign.organizationId,
+  });
 };

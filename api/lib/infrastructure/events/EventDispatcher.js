@@ -17,12 +17,12 @@ class EventDispatcher {
     }
   }
 
-  async dispatch(domainTransaction, dispatchedEvent) {
+  async dispatch(dispatchedEvent, domainTransaction) {
     const subscriptions = this._subscriptions.filter(({ event }) => dispatchedEvent instanceof event);
 
     for (const { eventHandler } of subscriptions) {
       const returnedEvent = await eventHandler({ domainTransaction, event: dispatchedEvent });
-      await this.dispatch(domainTransaction, returnedEvent);
+      await this.dispatch(returnedEvent, domainTransaction);
     }
   }
 }
