@@ -1,8 +1,15 @@
+{{#if @studentList}}
 <div class="table add-student-list">
   <table>
     <thead>
       <tr>
-        <th class="add-student-list__column-checkbox">▢</th>
+        <th>
+          <CertifCheckbox
+            class="add-student-list__checker"
+            @state={{headerCheckboxStatus}}
+            {{on 'click' toggleAllItems}}>
+          </CertifCheckbox>
+        </th>
         <th>Classe</th>
         <th>Nom</th>
         <th>Prénom</th>
@@ -12,7 +19,12 @@
     <tbody>
       {{#each @studentList as |student|}}
         <tr>
-          <td class="add-student-list__column-checkbox">▢</td>
+          <td class="add-student-list__column-checkbox">
+            <CertifCheckbox
+              @state={{if student.isSelected 'checked' 'unchecked'}}
+              {{on 'click' (fn toggleItem student)}}>
+            </CertifCheckbox>
+          </td>
           <td>{{student.division}}</td>
           <td>{{student.lastName}}</td>
           <td>{{student.firstName}}</td>
@@ -22,3 +34,4 @@
     </tbody>
   </table>
 </div>
+{{/if}}
