@@ -71,6 +71,15 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
   },
 
+  async findByUserIdAndSCOOrganization({ userId }) {
+    const schoolingRegistrations = await BookshelfSchoolingRegistration
+      .query((qb) => qb.join('organizations', 'schooling-registrations.organizationId', 'organizations.id'))
+      .where({ userId, type: 'SCO' })
+      .fetchAll();
+
+    return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
+  },
+
   async addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrationDatas, organizationId) {
 
     const nationalStudentIdsFromFile = schoolingRegistrationDatas.map((schoolingRegistrationData) => schoolingRegistrationData.nationalStudentId);
@@ -154,19 +163,10 @@ module.exports = {
       });
   },
 
-  async dissociateByUser(userId) {
-    try {
-      await BookshelfSchoolingRegistration
-        .where({ userId })
-        .save({ userId: null }, {
-          patch: true,
-        });
-    } catch (error) {
-      if (error instanceof BookshelfSchoolingRegistration.NoRowsUpdatedError) {
-        return null;
-      }
-      throw error;
-    }
+  async dissociateUserFromSchoolingRegistrationIds(schoolingRegistrationIds) {
+    await BookshelfSchoolingRegistration
+      .where('id', 'in', schoolingRegistrationIds)
+      .save({ userId: null }, { patch: true });
   },
 
   findOneByUserIdAndOrganizationId({ userId, organizationId }) {
