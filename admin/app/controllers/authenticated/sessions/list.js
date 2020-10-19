@@ -16,6 +16,7 @@ export default class SessionListController extends Controller {
   @tracked pageSize = 10;
   @tracked id = null;
   @tracked certificationCenterName = null;
+  @tracked certificationCenterType = null;
   @tracked status = FINALIZED;
   @tracked resultsSentToPrescriberAt = null;
   @tracked assignedToSelfOnly = false;
@@ -24,7 +25,14 @@ export default class SessionListController extends Controller {
 
   sessionStatusAndLabels = [
     { status: null, label: 'Tous' },
-    ..._.map(statusToDisplayName, (label, status) => ({ status, label })),
+    ...(_.map(statusToDisplayName, (label, status) => ({ status, label }))),
+  ];
+
+  certificationCenterTypeAndLabels = [
+    { certificationCenterType: null, label: 'Toutes' },
+    { certificationCenterType: 'SCO', label: 'Sco' },
+    { certificationCenterType: 'SUP', label: 'Sup' },
+    { certificationCenterType: 'PRO', label: 'Pro' },
   ];
 
   sessionResultsSentToPrescriberAtAndLabels = [
@@ -42,6 +50,7 @@ export default class SessionListController extends Controller {
         value = param.target.value; // param is an InputEvent
         break;
       case 'status':
+      case 'certificationCenterType':
       case 'resultsSentToPrescriberAt':
       case 'assignedToSelfOnly':
         debounceDuration = 0;
@@ -52,6 +61,7 @@ export default class SessionListController extends Controller {
     }
     this.pendingFilters[fieldName] = value;
     yield timeout(debounceDuration);
+
     this.setProperties(this.pendingFilters);
     this.pendingFilters = {};
     this.pageNumber = DEFAULT_PAGE_NUMBER;

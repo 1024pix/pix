@@ -95,13 +95,18 @@ function _toDomain(jurySessionFromDB) {
 }
 
 function _setupFilters(query, filters) {
-  const { id, certificationCenterName, status, resultsSentToPrescriberAt, assignedCertificationOfficerId } = filters;
+  const { id, certificationCenterName, status, resultsSentToPrescriberAt, assignedCertificationOfficerId, certificationCenterType } = filters;
 
   if (id) {
     query.where('sessions.id', id);
   }
+
   if (certificationCenterName) {
     query.whereRaw('LOWER("certificationCenter") LIKE ?', `%${certificationCenterName.toLowerCase()}%`);
+  }
+
+  if (certificationCenterType) {
+    query.where('certification-centers.type', certificationCenterType);
   }
 
   if (assignedCertificationOfficerId) {
