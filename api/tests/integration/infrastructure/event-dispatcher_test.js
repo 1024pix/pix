@@ -24,7 +24,7 @@ describe('Integration | Infrastructure | EventHandler', () => {
     eventDispatcher.subscribe(TestEvent, eventHandler);
 
     // when
-    await eventDispatcher.dispatch(domainTransaction, event);
+    await eventDispatcher.dispatch(event, domainTransaction);
 
     // then
     expect(eventHandler).to.have.been.calledWith({ domainTransaction, event });
@@ -51,7 +51,7 @@ describe('Integration | Infrastructure | EventHandler', () => {
     eventDispatcher.subscribe(TestEvent, eventHandler_2);
 
     // when
-    await eventDispatcher.dispatch(domainTransaction, event);
+    await eventDispatcher.dispatch(event, domainTransaction);
 
     // then
     expect(eventHandler_1).to.have.been.calledWith({ domainTransaction, event });
@@ -66,8 +66,8 @@ describe('Integration | Infrastructure | EventHandler', () => {
     eventDispatcher.subscribe(TestEvent, eventHandler);
 
     // when
-    await eventDispatcher.dispatch(domainTransaction, event);
-    await eventDispatcher.dispatch(domainTransaction, otherEvent);
+    await eventDispatcher.dispatch(event, domainTransaction);
+    await eventDispatcher.dispatch(otherEvent, domainTransaction);
 
     // then
     expect(eventHandler).to.have.been.calledWith({ domainTransaction, event });
@@ -83,7 +83,7 @@ describe('Integration | Infrastructure | EventHandler', () => {
     eventDispatcher.subscribe(AnotherTestEvent, eventHandler);
 
     // when
-    await eventDispatcher.dispatch(domainTransaction, event);
+    await eventDispatcher.dispatch(event, domainTransaction);
 
     // then
     expect(eventHandler).to.have.been.calledWith({ domainTransaction, event:returnedEvent });

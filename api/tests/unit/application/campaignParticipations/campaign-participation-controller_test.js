@@ -3,8 +3,10 @@ const { sinon, expect, domainBuilder, hFake } = require('../../../test-helper');
 const campaignParticipationController = require('../../../../lib/application/campaignParticipations/campaign-participation-controller');
 const serializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
+const events = require('../../../../lib/domain/events');
 const usecases = require('../../../../lib/domain/usecases');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
+const CampaignParticipationResultsShared = require('../../../../lib/domain/events/CampaignParticipationResultsShared');
 
 describe('Unit | Application | Controller | Campaign-Participation', () => {
 
@@ -86,6 +88,19 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       const updateCampaignParticiaption = usecases.shareCampaignResult.firstCall.args[0];
       expect(updateCampaignParticiaption).to.have.property('campaignParticipationId');
       expect(updateCampaignParticiaption).to.have.property('userId');
+    });
+
+    it('should dispatch the campaign participation results shared event', async () => {
+      // given
+      const campaignParticipationResultsSharedEvent = new CampaignParticipationResultsShared();
+      usecases.shareCampaignResult.resolves(campaignParticipationResultsSharedEvent);
+      sinon.stub(events.eventDispatcher, 'dispatch');
+
+      // when
+      await campaignParticipationController.shareCampaignResult(request, hFake);
+
+      // then
+      expect(events.eventDispatcher.dispatch).to.have.been.calledWith(campaignParticipationResultsSharedEvent);
     });
 
     context('when the request comes from a different user', () => {
