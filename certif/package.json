@@ -75,7 +75,7 @@
     "ember-moment": "^8.0.0",
     "ember-qunit": "^4.6.0",
     "ember-resolver": "^8.0.2",
-    "ember-simple-auth": "^3.0.0",
+    "ember-simple-auth": "^3.0.1",
     "ember-sinon": "^5.0.0",
     "ember-source": "~3.21.1",
     "ember-truth-helpers": "^2.1.0",
