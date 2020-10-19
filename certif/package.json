@@ -84,7 +84,7 @@
     "faker": "^5.1.0",
     "loader.js": "^4.7.0",
     "lodash": "^4.17.15",
-    "p-queue": "^6.3.0",
+    "p-queue": "^6.6.2",
     "pix-ui": "git://github.com/1024pix/pix-ui.git#semver:^v0.10.0",
     "qunit-dom": "^1.4.0",
     "sass": "^1.26.3"
