@@ -153,7 +153,7 @@ describe('Integration | Scripts | create-or-update-sco-agri-organizations', () =
 
   describe('#addTag', () => {
 
-    context('When AGRI tag does not exist', () => {
+    context('When AGRICULTURE tag does not exist', () => {
 
       afterEach(() => {
         return knex('tags').delete();
@@ -169,16 +169,16 @@ describe('Integration | Scripts | create-or-update-sco-agri-organizations', () =
         // then
         const tagsInDB = await knex('tags').select();
         expect(tagsInDB.length).to.equal(1);
-        expect(tagsInDB[0].name).to.equal('AGRI');
+        expect(tagsInDB[0].name).to.equal('AGRICULTURE');
       });
     });
 
-    context('When AGRI tag already exists in DB', () => {
+    context('When AGRICULTURE tag already exists in DB', () => {
 
       let agriTag;
 
       beforeEach(async () => {
-        agriTag = databaseBuilder.factory.buildTag({ name: 'AGRI' });
+        agriTag = databaseBuilder.factory.buildTag({ name: 'AGRICULTURE' });
         await databaseBuilder.commit();
       });
 
@@ -186,9 +186,9 @@ describe('Integration | Scripts | create-or-update-sco-agri-organizations', () =
         return knex('organization-tags').delete();
       });
 
-      context('When organization does not have an AGRI tag', () => {
+      context('When organization does not have an AGRICULTURE tag', () => {
 
-        it('should add AGRI tag to the organization', async () => {
+        it('should add AGRICULTURE tag to the organization', async () => {
           // given
           const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
           await databaseBuilder.commit();
