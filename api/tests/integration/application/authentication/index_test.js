@@ -218,4 +218,70 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
     });
   });
 
+  describe('POST /api/token-from-external-user', function() {
+
+    let options;
+
+    beforeEach(async () => {
+      options = {
+        method: 'POST',
+        url: '/api/token-from-external-user',
+        payload: {
+          data: {
+            attributes: {
+              username: 'saml.jackson0101',
+              password: 'password',
+              'external-user-token': 'expectedExternalToken',
+              'expected-user-id': 1,
+            },
+            type: 'external-user-authentication-requests',
+          },
+        },
+      };
+    });
+
+    it('should return a 400 BAd Request if username is missing', async () => {
+      // given
+      options.payload.data.attributes.username = undefined;
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return a 400 BAd Request if password is missing', async () => {
+      // given
+      options.payload.data.attributes.password = undefined;
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return a 400 BAd Request if external-user-token is missing', async () => {
+      // given
+      options.payload.data.attributes['external-user-token'] = undefined;
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return a 400 BAd Request if expected-user-id is missing', async () => {
+      // given
+      options.payload.data.attributes['expected-user-id'] = undefined;
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+  });
 });
