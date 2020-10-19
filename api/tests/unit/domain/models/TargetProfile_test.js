@@ -2,6 +2,26 @@ const { expect, domainBuilder } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | TargetProfile', () => {
 
+  describe('hasBadges', () => {
+
+    it('should return true when target profile has badges', () => {
+      // given
+      const badge = domainBuilder.buildBadge();
+      const targetProfile = domainBuilder.buildTargetProfile({ badges: [badge] });
+
+      // then
+      expect(targetProfile.hasBadges).to.be.true;
+    });
+
+    it('should return false when target profile doesn‘t have badges', () => {
+      // given
+      const targetProfile = domainBuilder.buildTargetProfile();
+
+      // then
+      expect(targetProfile.hasBadges).to.be.false;
+    });
+  });
+
   describe('hasSkill', () => {
 
     it('should return true when the skill is in target profile', () => {

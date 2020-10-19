@@ -7,6 +7,7 @@ class TargetProfile {
     outdated,
     skills = [],
     stages,
+    badges,
     organizationId,
   } = {}) {
     this.id = id;
@@ -16,7 +17,12 @@ class TargetProfile {
     this.outdated = outdated;
     this.skills = skills;
     this.stages = stages;
+    this.badges = badges;
     this.organizationId = organizationId;
+  }
+
+  get hasBadges() {
+    return !!this.badges && this.badges.length > 0;
   }
 
   hasSkill(skillId) {

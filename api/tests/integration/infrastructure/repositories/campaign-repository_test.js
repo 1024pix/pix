@@ -488,11 +488,10 @@ describe('Integration | Repository | Campaign', () => {
     let campaign;
 
     beforeEach(() => {
-      const bookshelfCampaign = databaseBuilder.factory.buildCampaign({
-        id: 1,
-        name: 'My campaign',
-      });
+      const targetProfile = databaseBuilder.factory.buildTargetProfile({ id: 2 });
+      const bookshelfCampaign = databaseBuilder.factory.buildCampaign({ id: 1, name: 'My campaign', targetProfile });
       campaign = domainBuilder.buildCampaign(bookshelfCampaign);
+
       return databaseBuilder.commit();
     });
 
@@ -512,6 +511,26 @@ describe('Integration | Repository | Campaign', () => {
       const promise = campaignRepository.get(nonExistentId);
       // then
       return expect(promise).to.have.been.rejectedWith(NotFoundError);
+    });
+
+    describe('when target profile related is requested', () => {
+      it('should contain the target profile in the campaign', async () => {
+        // when
+        const result = await campaignRepository.get(campaign.id, { include: 'targetProfile' });
+
+        // then
+        expect(result.targetProfile.id).to.equal(campaign.targetProfile.id);
+      });
+    });
+
+    describe('when target profile and badges related is requested', () => {
+      it('should contain the target profile and badges in the campaign', async () => {
+        // when
+        const result = await campaignRepository.get(campaign.id, { include: ['targetProfile.badges'] });
+
+        // then
+        expect(result.targetProfile.badges).to.deep.equal([]);
+      });
     });
   });
 
