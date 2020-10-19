@@ -1,5 +1,7 @@
 const Joi = require('@hapi/joi');
 const { statuses } = require('../models/Session');
+const { types } = require('../models/CertificationCenter');
+
 const { EntityValidationError } = require('../errors');
 const { idSpecification } = require('./id-specification');
 
@@ -49,6 +51,8 @@ const sessionFiltersValidationSchema = Joi.object({
   resultsSentToPrescriberAt: Joi.boolean().optional(),
   assignedToSelfOnly: Joi.boolean().optional(),
   certificationCenterName: Joi.string().trim().optional(),
+  certificationCenterType: Joi.string().trim()
+    .valid(types.SUP, types.SCO, types.PRO).optional(),
 });
 
 module.exports = {
@@ -61,7 +65,7 @@ module.exports = {
   },
 
   validateAndNormalizeFilters(filters, assignedCertificationOfficerId) {
-    const { value, error } = sessionFiltersValidationSchema.validate(filters, validationConfiguration);
+    const { value, error } = sessionFiltersValidationSchema.validate(filters, { abortEarly: true });
 
     if (error) {
       throw EntityValidationError.fromJoiErrors(error.details);
