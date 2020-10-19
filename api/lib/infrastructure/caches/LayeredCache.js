@@ -15,8 +15,9 @@ class LayeredCache extends Cache {
   }
 
   async set(key, object) {
+    const cachedObject = await this._secondLevelCache.set(key, object);
     await this._firstLevelCache.flushAll();
-    return this._secondLevelCache.set(key, object);
+    return cachedObject;
   }
 
   async flushAll() {
