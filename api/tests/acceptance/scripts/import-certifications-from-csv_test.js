@@ -8,10 +8,11 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
     it('should throw an error when file does not exist', () => {
       // given
       const filePath = 'inexistant.file';
+      const err = { code: 'ENOENT' };
 
       try {
         // when
-        script.assertFileValidity(filePath);
+        script.assertFileValidity(err, filePath);
 
         // then
         expect.fail('Expected error to have been thrown');
@@ -23,10 +24,11 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
     it('should throw an error when file extension is not ".csv"', () => {
       // given
       const filePath = `${__dirname}/file_with_bad_extension.html`;
+      const err = { code: 'random error' };
 
       try {
         // when
-        script.assertFileValidity(filePath);
+        script.assertFileValidity(err, filePath);
 
         // then
         expect.fail('Expected error to have been thrown');
@@ -38,9 +40,10 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
     it('should return true if file is valid', () => {
       // given
       const filePath = `${__dirname}/valid-certifications-test-file.csv`;
+      const err = {};
 
       // when
-      const result = script.assertFileValidity(filePath);
+      const result = script.assertFileValidity(err, filePath);
 
       // then
       expect(result).to.be.true;

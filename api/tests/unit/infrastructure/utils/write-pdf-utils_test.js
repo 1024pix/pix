@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const { PDFDocument } = require('pdf-lib');
-const fs = require('fs');
+const fs = require('fs').promises;
 
 const { getPdfBuffer } = require('../../../../lib/infrastructure/utils/pdf/write-pdf-utils');
 
@@ -25,7 +25,7 @@ describe('Unit | Utils | write-pdf-utils', () => {
         registerFontkit: sinon.stub(),
       });
 
-      fs.promises.readFile = sinon.stub().withArgs(`${templatePath}/${templateFileName}`).resolves(donorPdfBytes);
+      sinon.stub(fs, 'readFile').withArgs(`${templatePath}/${templateFileName}`).resolves(donorPdfBytes);
 
       PDFDocument.load = sinon.stub().withArgs(donorPdfBytes).resolves(donorPdfDoc);
 

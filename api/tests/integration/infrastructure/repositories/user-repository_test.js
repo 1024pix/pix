@@ -1,3 +1,4 @@
+/* eslint-disable no-sync */
 const faker = require('faker');
 const bcrypt = require('bcrypt');
 

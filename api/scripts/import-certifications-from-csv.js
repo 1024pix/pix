@@ -12,18 +12,38 @@ const CSV_HEADERS = {
   EXTERNAL_ID: 'Identifiant Externe',
 };
 
-function assertFileValidity(filePath) {
-  const fileExists = fs.existsSync(filePath);
-  if (!fileExists) {
+function assertFileValidity(err, filePath) {
+  if (err && err.code === 'ENOENT') {
     const errorMessage = `File not found ${filePath}`;
     throw new Error(errorMessage);
   }
+
   const fileExtension = path.extname(filePath);
   if (fileExtension !== '.csv') {
     const errorMessage = `File extension not supported ${fileExtension}`;
     throw new Error(errorMessage);
   }
+
   return true;
+}
+
+function readMyData(data, baseUrl, accessToken) {
+  // We delete the BOM UTF8 at the beginning of the CSV,
+  // otherwise the first element is wrongly parsed.
+  const csvRawData = data.toString('utf8').replace(/^\uFEFF/, '');
+
+  const parsedCSVData = papa.parse(csvRawData, { header: true });
+
+  const certifications = convertCSVDataIntoCertifications(parsedCSVData);
+  const options = { baseUrl, accessToken, certifications };
+
+  saveCertifications(options)
+    .then((errorObjects) => {
+      _logErrorObjects(errorObjects);
+    })
+    .then(() => {
+      console.log('\nFin du script');
+    });
 }
 
 function convertCSVDataIntoCertifications(csvParsingResult) {
@@ -108,29 +128,13 @@ function main() {
 
     const filePath = process.argv[4];
 
-    console.log('\nTest de validité du fichier...');
-    assertFileValidity(filePath);
-    console.log('Test de validité du fichier : OK');
+    fs.open(filePath, 'r', (err, data) => {
+      console.log('\nTest de validité du fichier...');
+      assertFileValidity(err, filePath);
+      console.log('Test de validité du fichier : OK');
 
-    fs.readFile(filePath, 'utf8', function(err, data) {
       console.log('\nTéléversement des certifications sur le serveur...');
-
-      // We delete the BOM UTF8 at the beginning of the CSV,
-      // otherwise the first element is wrongly parsed.
-      const csvRawData = data.toString('utf8').replace(/^\uFEFF/, '');
-
-      const parsedCSVData = papa.parse(csvRawData, { header: true });
-
-      const certifications = convertCSVDataIntoCertifications(parsedCSVData);
-      const options = { baseUrl, accessToken, certifications };
-
-      saveCertifications(options)
-        .then((errorObjects) => {
-          _logErrorObjects(errorObjects);
-        })
-        .then(() => {
-          console.log('\nFin du script');
-        });
+      readMyData(data, baseUrl, accessToken);
     });
 
   } catch (err) {
