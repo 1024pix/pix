@@ -9,21 +9,44 @@ describe('Unit | UseCase | dissociate-schooling-registrations', () => {
 
   beforeEach(() => {
     schoolingRegistrationRepository = {
-      dissociateByUser: sinon.stub().resolves(),
+      findByUserIdAndSCOOrganization: sinon.stub(),
+      dissociateUserFromSchoolingRegistrationIds: sinon.stub().resolves(),
     };
     userRepository = {
       getUserDetailsForAdmin: sinon.stub(),
     };
   });
 
-  it('should dissociate schooling registrations by user id and return updated user', async () => {
+  context('When user is not associated to SCO organizations', () => {
+
+    it('should not dissociate user', async () => {
+      // given
+      const userId = 1;
+      schoolingRegistrationRepository.findByUserIdAndSCOOrganization.resolves([]);
+      userRepository.getUserDetailsForAdmin.resolves({ id: userId, schoolingRegistrations: [] });
+
+      // when
+      await dissociateSchoolingRegistrations({
+        userId,
+        schoolingRegistrationRepository,
+        userRepository,
+      });
+
+      // then
+      expect(schoolingRegistrationRepository.dissociateUserFromSchoolingRegistrationIds).to.not.have.been.called;
+    });
+  });
+
+  it('should dissociate user from schooling registrations and return updated user', async () => {
     // given
     const userId = 1;
+    const expectedSchoolingRegistration = { id: 1 };
     const expectedUserDetailsForAdmin = {
       id: userId,
       schoolingRegistrations: [],
     };
 
+    schoolingRegistrationRepository.findByUserIdAndSCOOrganization.resolves([expectedSchoolingRegistration]);
     userRepository.getUserDetailsForAdmin.resolves({ id: userId, schoolingRegistrations: [] });
 
     // when
@@ -34,6 +57,7 @@ describe('Unit | UseCase | dissociate-schooling-registrations', () => {
     });
 
     // then
+    expect(schoolingRegistrationRepository.dissociateUserFromSchoolingRegistrationIds).to.have.been.calledWith([expectedSchoolingRegistration.id]);
     expect(updatedUserDetailsForAdmin).to.deep.equal(expectedUserDetailsForAdmin);
   });
 });
