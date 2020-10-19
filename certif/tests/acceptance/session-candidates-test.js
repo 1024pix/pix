@@ -1,7 +1,9 @@
 import { module, test } from 'qunit';
 import { click, currentURL, visit, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { createUserAndMembershipAndTermsOfServiceAccepted, authenticateSession } from '../helpers/test-init';
+import {
+  createUserAndMembershipAndTermsOfServiceAccepted,
+  authenticateSession } from '../helpers/test-init';
 import { upload } from 'ember-file-upload/test-support';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -60,27 +62,12 @@ module('Acceptance | Session Candidates', function(hooks) {
       assert.equal(currentURL(), '/sessions/liste');
     });
 
-    module('add students list sco', function(hooks) {
-      hooks.beforeEach(function() {
-        user = createScoUserWithMembershipAndTermsOfServiceAccepted();
-        server.createList('student', 10);
-      });
-
-      test('it should display the list of students for session', async function(assert) {
-        // when
-        await visit(`/sessions/${session.id}/ajout-eleves`);
-
-        // then
-        assert.dom('table tbody tr').exists({ count: 10 });
-      });
-    });
-
     module('candidates list', function(hooks) {
       let existingCandidates;
 
       hooks.beforeEach(function() {
         existingCandidates = server.createList('certification-candidate', 4, { isLinked: false });
-        session.update({ certificationCandidates : existingCandidates });
+        session.update({ certificationCandidates: existingCandidates });
       });
 
       test('it should list the existing candidates in the session', async function(assert) {
@@ -127,11 +114,11 @@ module('Acceptance | Session Candidates', function(hooks) {
 
         module('when user is not SCO', function(hooks) {
 
-        hooks.beforeEach(async function() {
-          await visit(`/sessions/${session.id}/candidats`);
-        });
+          hooks.beforeEach(async function() {
+            await visit(`/sessions/${session.id}/candidats`);
+          });
 
-        module('when candidate data not valid', function() {
+          module('when candidate data not valid', function() {
 
             test('it should leave the line up for modification', async function(assert) {
               this.server.post('/sessions/:id/certification-candidates', () => ({
@@ -142,9 +129,9 @@ module('Acceptance | Session Candidates', function(hooks) {
               await _fillFormWithCorrectData();
               await click('[data-test-id="panel-candidate__action__save"]');
 
-            // then
-            assert.dom('[data-test-id="panel-candidate__lastName__add-staging"]').exists();
-          });
+              // then
+              assert.dom('[data-test-id="panel-candidate__lastName__add-staging"]').exists();
+            });
 
             test('it should display notification error', async function(assert) {
               this.server.post('/sessions/:id/certification-candidates', () => ({
@@ -155,10 +142,10 @@ module('Acceptance | Session Candidates', function(hooks) {
               await _fillFormWithCorrectData();
               await click('[data-test-id="panel-candidate__action__save"]');
 
-            // then
-            assert.dom('[data-test-notification-message="error"]').hasText('Une erreur s\'est produite lors de l\'ajout du candidat.');
+              // then
+              assert.dom('[data-test-notification-message="error"]').hasText('Une erreur s\'est produite lors de l\'ajout du candidat.');
+            });
           });
-        });
 
           module('when candidate data is valid', function() {
 
@@ -202,7 +189,7 @@ module('Acceptance | Session Candidates', function(hooks) {
         hooks.beforeEach(async function() {
           linkedCertificationCandidate = server.create('certification-candidate', { isLinked: true });
           notLinkedCertificationCandidate = server.create('certification-candidate', { isLinked: false });
-          session.update({ certificationCandidates : [linkedCertificationCandidate, notLinkedCertificationCandidate] });
+          session.update({ certificationCandidates: [linkedCertificationCandidate, notLinkedCertificationCandidate] });
           await visit(`/sessions/${session.id}/candidats`);
         });
 
@@ -292,3 +279,4 @@ module('Acceptance | Session Candidates', function(hooks) {
     session = server.create('session', { certificationCenterId: certificationCenter.id });
   }
 });
+

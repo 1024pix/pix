@@ -353,5 +353,4 @@ module('Acceptance | Session Details', function(hooks) {
       });
     });
   });
-
 });
