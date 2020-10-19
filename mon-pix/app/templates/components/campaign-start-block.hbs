@@ -17,16 +17,14 @@
       {{{@announcementText}}}
     </h2>
 
-    <form {{action @startCampaignParticipation on="submit"}}>
-      {{#if @isLoading}}
-          <button type="button" disabled class="campaign-landing-page__start-button button button--big">
-            <span class="loader-in-button ">&nbsp;</span>
-          </button>
-      {{else}}
-        <button type="submit" class="campaign-landing-page__start-button button button--big">
+    <form>
+        <PixButton
+           type="submit"
+           class="campaign-landing-page__start-button button button--big"
+           @action={{action @startCampaignParticipation on="submit"}}
+           @loading-color='white'>
           {{@buttonText}}
-        </button>
-      {{/if}}
+        </PixButton>
     </form>
 
     <p class="campaign-landing-page__start__text__legal">
