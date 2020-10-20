@@ -7,30 +7,6 @@ import { CREATED, FINALIZED } from 'pix-certif/models/session';
 module('Unit | Model | session', function(hooks) {
   setupTest(hooks);
 
-  module('#hasOneOrMoreCandidates', function() {
-
-    test('it should return true if there is one or more candidate', function(assert) {
-      const store = this.owner.lookup('service:store');
-      const candidate = run(() => store.createRecord('certification-candidate', {
-        firstName: 'Anne',
-        lastName: 'So',
-      }));
-      const session = run(() => store.createRecord('session', {
-        id: 123,
-        certificationCandidates: [ candidate ],
-      }));
-
-      assert.equal(session.hasOneOrMoreCandidates, true);
-    });
-
-    test('it should return false if there is no candidate', function(assert) {
-      const store = this.owner.lookup('service:store');
-      const session = run(() => store.createRecord('session', { id: 123 }));
-
-      assert.equal(session.hasOneOrMoreCandidates, false);
-    });
-  });
-
   module('#displayStatus', function() {
 
     test('it should return the correct displayName', function(assert) {

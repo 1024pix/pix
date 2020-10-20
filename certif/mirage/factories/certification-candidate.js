@@ -48,4 +48,7 @@ export default Factory.extend({
     return faker.random.boolean();
   },
 
+  sessionId() {
+    return faker.random.number();
+  },
 });

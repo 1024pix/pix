@@ -49,12 +49,13 @@ module('Acceptance | Session Candidates', function(hooks) {
 
     hooks.beforeEach(async () => {
       await authenticateSession(user.id);
+      server.createList('certification-candidate', 4, { sessionId: session.id, isLinked: false });
     });
 
     test('it should redirect to update page on click on return button', async function(assert) {
       // given
       await visit(`/sessions/${session.id}`);
-
+      
       // when
       await click('.session-details-content__return-button');
 
@@ -62,13 +63,18 @@ module('Acceptance | Session Candidates', function(hooks) {
       assert.equal(currentURL(), '/sessions/liste');
     });
 
-    module('candidates list', function(hooks) {
-      let existingCandidates;
+    test('it should show the number of candidates on tab', async function(assert) {
+      // when
+      await visit(`/sessions/${session.id}`);
 
-      hooks.beforeEach(function() {
-        existingCandidates = server.createList('certification-candidate', 4, { isLinked: false });
-        session.update({ certificationCandidates: existingCandidates });
-      });
+      // then
+      const candidateTabSelector = '.session-details-controls__navbar-tabs a:nth-of-type(2)';
+      const expectedTabContent = 'Candidats (4)';
+      const candidateTabElement = document.querySelector(candidateTabSelector);
+      assert.equal(candidateTabElement.innerHTML.trim(), expectedTabContent);
+    });
+
+    module('candidates list', function() {
 
       test('it should list the existing candidates in the session', async function(assert) {
         // when
@@ -187,9 +193,8 @@ module('Acceptance | Session Candidates', function(hooks) {
         let notLinkedCertificationCandidate;
 
         hooks.beforeEach(async function() {
-          linkedCertificationCandidate = server.create('certification-candidate', { isLinked: true });
-          notLinkedCertificationCandidate = server.create('certification-candidate', { isLinked: false });
-          session.update({ certificationCandidates: [linkedCertificationCandidate, notLinkedCertificationCandidate] });
+          linkedCertificationCandidate = server.create('certification-candidate', { isLinked: true, sessionId: session.id });
+          notLinkedCertificationCandidate = server.create('certification-candidate', { isLinked: false, sessionId: session.id });
           await visit(`/sessions/${session.id}/candidats`);
         });
 
