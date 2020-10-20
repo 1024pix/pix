@@ -1,19 +1,27 @@
-const { expect, sinon } = require('../../../test-helper');
-const Hapi = require('@hapi/hapi');
-const _ = require('lodash');
+const {
+  expect,
+  HttpTestServer,
+  sinon,
+} = require('../../../test-helper');
+
+const { cloneDeep } = require('lodash');
+
 const Feedback = require('../../../../lib/infrastructure/data/feedback');
-const route = require('../../../../lib/application/feedbacks');
+
+const moduleUnderTest = require('../../../../lib/application/feedbacks');
 
 describe('Unit | Controller | feedback-controller', function() {
 
-  let server;
+  let httpTestServer;
 
   beforeEach(function() {
-    server = Hapi.server();
-    return server.register(route);
+    httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
   describe('#save', function() {
+
+    const method = 'POST';
+    const url = '/api/feedbacks';
 
     const jsonFeedback = {
       data: {
@@ -48,23 +56,25 @@ describe('Unit | Controller | feedback-controller', function() {
     });
 
     it('should return a successful response with HTTP code 201 when feedback was saved', async function() {
+      // given
+      const payload = jsonFeedback;
+
       // when
-      const res = await server.inject({ method: 'POST', url: '/api/feedbacks', payload: jsonFeedback });
+      const response = await httpTestServer.request(method, url, payload);
 
       // then
-      expect(res.statusCode).to.equal(201);
+      expect(response.statusCode).to.equal(201);
     });
 
     it('should persist feedback data into the Feedback Repository', async function() {
       // given
-      const payload = _.cloneDeep(jsonFeedback);
+      const payload = cloneDeep(jsonFeedback);
 
       // when
-      await server.inject({ method: 'POST', url: '/api/feedbacks', payload });
+      await httpTestServer.request(method, url, payload);
 
       // then
       expect(Feedback.prototype.save).to.have.been.calledOnce;
     });
-
   });
 });

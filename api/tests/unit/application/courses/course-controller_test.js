@@ -1,21 +1,21 @@
-const { expect, sinon, hFake, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const Hapi = require('@hapi/hapi');
+const {
+  expect,
+  hFake,
+  sinon,
+  generateValidRequestAuthorizationHeader,
+} = require('../../../test-helper');
 
-const courseController = require('../../../../lib/application/courses/course-controller');
 const Course = require('../../../../lib/domain/models/Course');
 const courseService = require('../../../../lib/domain/services/course-service');
 const courseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/course-serializer');
 
-describe('Unit | Controller | course-controller', () => {
+const courseController = require('../../../../lib/application/courses/course-controller');
 
-  let server;
+describe('Unit | Controller | course-controller', () => {
 
   beforeEach(() => {
     sinon.stub(courseService, 'getCourse');
     sinon.stub(courseSerializer, 'serialize');
-
-    server = this.server = Hapi.server();
-    return server.register(require('../../../../lib/application/courses'));
   });
 
   describe('#get', () => {
@@ -48,5 +48,4 @@ describe('Unit | Controller | course-controller', () => {
       expect(response).to.deep.equal(course);
     });
   });
-
 });
