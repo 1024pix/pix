@@ -1,4 +1,4 @@
-const { expect } = require('../../../../test-helper');
+const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-assessment-participation-summary-serializer');
 
 describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-summary-serializer', function() {
@@ -23,6 +23,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-summar
           participantExternalId: 'Thief',
           status: 'ONGOING',
           masteryPercentage: '99%',
+          badges: [domainBuilder.buildBadge({ id:1, title: 'b1', imageUrl: 'http://toto.svg', altMessage: 'alt' })],
         },
       ];
       const pagination = {
@@ -58,8 +59,27 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-summar
               status: 'ONGOING',
               'mastery-percentage': '99%',
             },
+            relationships: {
+              badges: {
+                data: [
+                  {
+                    id: '1',
+                    type: 'badges',
+                  },
+                ],
+              },
+            },
           },
         ],
+        included: [{
+          attributes: {
+            'image-url': 'http://toto.svg',
+            'title': 'b1',
+            'alt-message': 'alt',
+          },
+          id: '1',
+          type: 'badges',
+        }],
         meta: {
           page: {
             number: 1,
