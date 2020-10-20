@@ -19,12 +19,13 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
 
   describe('POST /api/organizations/{id}/schooling-registrations/import-siecle', () => {
 
+    const externalId = 'UAI123ABC';
     let organizationId;
     let options;
 
     beforeEach(async () => {
       const connectedUser = databaseBuilder.factory.buildUser();
-      organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
+      organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true, externalId }).id;
       databaseBuilder.factory.buildMembership({
         organizationId,
         userId: connectedUser.id,
@@ -52,6 +53,9 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const buffer = iconv.encode(
             '<?xml version="1.0" encoding="ISO-8859-15"?>' +
             '<BEE_ELEVES VERSION="2.1">' +
+              '<PARAMETRES>' +
+              '<UAJ>UAI123ABC</UAJ>' +
+              '</PARAMETRES>' +
               '<DONNEES>' +
                 '<ELEVES>' +
                   '<ELEVE ELEVE_ID="0001">' +
@@ -142,6 +146,9 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const malformedStudentsBuffer = iconv.encode(
             '<?xml version="1.0" encoding="ISO-8859-15"?>' +
             '<BEE_ELEVES VERSION="2.1">' +
+            '<PARAMETRES>' +
+            '<UAJ>UAI123ABC</UAJ>' +
+            '</PARAMETRES>' +
               '<DONNEES>' +
                 '<ELEVES>' +
                   wellFormattedStudent +
@@ -246,6 +253,9 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const buffer = iconv.encode(
             '<?xml version="1.0" encoding="ISO-8859-15"?>' +
             '<BEE_ELEVES VERSION="2.1">' +
+              '<PARAMETRES>' +
+              '<UAJ>UAI123ABC</UAJ>' +
+              '</PARAMETRES>' +
               '<DONNEES>' +
                 '<ELEVES>' +
                   '<ELEVE ELEVE_ID="0001">' +
@@ -318,6 +328,9 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const bufferWithMalformedStudent = iconv.encode(
             '<?xml version="1.0" encoding="ISO-8859-15"?>' +
             '<BEE_ELEVES VERSION="2.1">' +
+            '<PARAMETRES>' +
+            '<UAJ>UAI123ABC</UAJ>' +
+            '</PARAMETRES>' +
             '<DONNEES>' +
             '<ELEVES>' +
             schoolingRegistration1 +
@@ -393,6 +406,9 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const bufferWithMalformedStudent = iconv.encode(
             '<?xml version="1.0" encoding="ISO-8859-15"?>' +
             '<BEE_ELEVES VERSION="2.1">' +
+              '<PARAMETRES>' +
+              '<UAJ>UAI123ABC</UAJ>' +
+              '</PARAMETRES>' +
               '<DONNEES>' +
                 '<ELEVES>' +
                   schoolingRegistrationThatCantBeUpdatedBecauseBirthdateIsMissing +
@@ -505,6 +521,9 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const buffer = iconv.encode(
             '<?xml version="1.0" encoding="ISO-8859-15"?>' +
             '<BEE_ELEVES VERSION="2.1">' +
+              '<PARAMETRES>' +
+              '<UAJ>UAI123ABC</UAJ>' +
+              '</PARAMETRES>' +
               '<DONNEES>' +
                 '<ELEVES>' +
                   schoolingRegistrationThatCouldBeCreated +
@@ -612,6 +631,9 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const buffer = iconv.encode(
             '<?xml version="1.0" encoding="ISO-8859-15"?>' +
             '<BEE_ELEVES VERSION="2.1">' +
+              '<PARAMETRES>' +
+              '<UAJ>UAI123ABC</UAJ>' +
+              '</PARAMETRES>' +
               '<DONNEES>' +
                 '<ELEVES>' +
                   schoolingRegistrationThatCantBeCreatedBecauseBirthdateIsMissing +
@@ -671,6 +693,9 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const malformedStudentsBuffer = iconv.encode(
             '<?xml version="1.0" encoding="ISO-8859-15"?>' +
             '<BEE_ELEVES VERSION="2.1">' +
+              '<PARAMETRES>' +
+              '<UAJ>UAI123ABC</UAJ>' +
+              '</PARAMETRES>' +
               '<DONNEES>' +
                 '<ELEVES>' +
                   '<ELEVE ELEVE_ID="0001">' +
@@ -710,6 +735,9 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const malformedBuffer = iconv.encode(
             '<?xml version="1.0" encoding="ISO-8859-15"?>' +
             '<BEE_ELEVES VERSION="2.1">' +
+              '<PARAMETRES>' +
+              '<UAJ>UAI123ABC</UAJ>' +
+              '</PARAMETRES>' +
             '</BEE_ELEVES>', 'ISO-8859-15');
           options.payload = malformedBuffer;
         });
@@ -722,7 +750,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
           expect(schoolingRegistrations).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(422);
-          expect(response.result.errors[0].detail).to.equal('Aucune inscription d\'élève n\'a pu être importée depuis ce fichier.Vérifiez que le fichier est conforme.');
+          expect(response.result.errors[0].detail).to.equal('Aucune inscription d’élève n’a pu être importée depuis ce fichier. Vérifiez que le fichier est conforme.');
         });
       });
     });
@@ -809,12 +837,15 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
     });
-  
+
     context('Resource access management', () => {
       beforeEach(() => {
         const buffer = iconv.encode(
           '<?xml version="1.0" encoding="ISO-8859-15"?>' +
           '<BEE_ELEVES VERSION="2.1">' +
+            '<PARAMETRES>' +
+            '<UAJ>UAI123ABC</UAJ>' +
+            '</PARAMETRES>' +
           '</BEE_ELEVES>', 'ISO-8859-15');
         options.payload = buffer;
       });
