@@ -3,7 +3,7 @@ import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
 import {
-  createUserWithMembership,
+  createUserWithMembershipAndTermsOfServiceNotAccepted,
   createUserWithMembershipAndTermsOfServiceAccepted,
   authenticateSession,
 } from '../helpers/test-init';
@@ -28,7 +28,7 @@ module('Acceptance | terms-of-service', function(hooks) {
   module('When user is authenticated and has not yet accepted terms of service', function(hooks) {
 
     hooks.beforeEach(async () => {
-      user = createUserWithMembership();
+      user = createUserWithMembershipAndTermsOfServiceNotAccepted();
 
       await authenticateSession(user.id);
     });
