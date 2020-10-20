@@ -6,7 +6,7 @@ import {
   invalidateSession,
 } from 'ember-simple-auth/test-support';
 import {
-  createUserWithMembership,
+  createUserWithMembershipAndTermsOfServiceNotAccepted,
   createUserWithMembershipAndTermsOfServiceAccepted,
   authenticateSession,
 } from '../helpers/test-init';
@@ -39,7 +39,7 @@ module('Acceptance | authentication', function(hooks) {
 
     hooks.beforeEach(async () => {
       await invalidateSession();
-      user = createUserWithMembership();
+      user = createUserWithMembershipAndTermsOfServiceNotAccepted();
     });
 
     test('it should redirect user to the terms-of-service page', async function(assert) {

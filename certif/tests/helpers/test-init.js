@@ -1,15 +1,16 @@
 import { authenticateSession as emberAuthenticateSession } from 'ember-simple-auth/test-support';
 
-export function createUserWithMembership() {
+export function createUserAndMembership(pixCertifTermsOfServiceAccepted = false, certificationCenterType, certificationCenterName = 'Centre de certification du pix') {
   const user = server.create('user', {
     firstName: 'Harry',
     lastName: 'Cover',
     email: 'harry@cover.com',
-    'pixCertifTermsOfServiceAccepted': false,
+    pixCertifTermsOfServiceAccepted,
   });
 
   const certificationCenter = server.create('certificationCenter', {
-    name: 'Centre de certification du pix',
+    name: certificationCenterName,
+    type: certificationCenterType,
   });
 
   const certificationCenterMembership = server.create('certificationCenterMembership', {
@@ -20,53 +21,23 @@ export function createUserWithMembership() {
   user.certificationCenterMemberships = [certificationCenterMembership];
   user.save();
 
-  return user;
+  return { user, certificationCenter };
 }
 
 export function createScoUserWithMembershipAndTermsOfServiceAccepted() {
-  const user = server.create('user', {
-    firstName: 'Harry',
-    lastName: 'SCO-ver',
-    email: 'harry@scover.com',
-    'pixCertifTermsOfServiceAccepted': true,
-  });
-
-  const certificationCenter = server.create('certificationCenter', {
-    name: 'Centre de certification SCO du pix',
-    type: 'SCO',
-  });
-
-  const certificationCenterMembership = server.create('certificationCenterMembership', {
-    certificationCenter,
-    user,
-  });
-
-  user.certificationCenterMemberships = [certificationCenterMembership];
-  user.save();
-
-  return user;
+  return createUserWithMembershipAndTermsOfServiceAccepted('SCO' , 'Centre de certification SCO du pix');
 }
 
-export function createUserWithMembershipAndTermsOfServiceAccepted() {
-  const user = server.create('user', {
-    firstName: 'Harry',
-    lastName: 'Cover',
-    email: 'harry@cover.com',
-    'pixCertifTermsOfServiceAccepted': true,
-  });
+export function createUserAndMembershipAndTermsOfServiceAccepted(certificationCenterType = undefined, certificationCenterName = 'Centre de certification du pix') {
+  return createUserAndMembership(true, certificationCenterType , certificationCenterName);
+}
 
-  const certificationCenter = server.create('certificationCenter', {
-    name: 'Centre de certification du pix',
-  });
-
-  const certificationCenterMembership = server.create('certificationCenterMembership', {
-    certificationCenter,
-    user,
-  });
-
-  user.certificationCenterMemberships = [certificationCenterMembership];
-  user.save();
-
+export function createUserWithMembershipAndTermsOfServiceAccepted(certificationCenterType = undefined, certificationCenterName = 'Centre de certification du pix') {
+  const { user } = createUserAndMembership(true, certificationCenterType , certificationCenterName);
+  return user;
+}
+export function createUserWithMembershipAndTermsOfServiceNotAccepted() {
+  const { user } = createUserAndMembership(false);
   return user;
 }
 

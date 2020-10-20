@@ -30,25 +30,21 @@ describe('Acceptance | API | Certification Center', () => {
         options.headers = { authorization: generateValidRequestAuthorizationHeader() };
       });
 
-      it('should return 200 HTTP status', () => {
+      it('should return 200 HTTP status', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(200);
-        });
+        expect(response.statusCode).to.equal(200);
       });
 
-      it('should return a list of certificationCenter, with their name and id', () => {
+      it('should return a list of certificationCenter, with their name and id', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.result.data).to.have.lengthOf(5);
-          expect(_.keys(response.result.data[0].attributes)).to.have.members(['id', 'name', 'type', 'external-id', 'created-at']);
-        });
+        expect(response.result.data).to.have.lengthOf(5);
+        expect(_.keys(response.result.data[0].attributes)).to.have.members(['id', 'name', 'type', 'external-id', 'created-at']);
       });
     });
     context('when user is not PixMaster', () => {
@@ -56,26 +52,22 @@ describe('Acceptance | API | Certification Center', () => {
         options.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
       });
 
-      it('should return 403 HTTP status code ', () => {
+      it('should return 403 HTTP status code ', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(403);
-        });
+        expect(response.statusCode).to.equal(403);
       });
     });
 
     context('when user is not connected', () => {
-      it('should return 401 HTTP status code if user is not authenticated', () => {
+      it('should return 401 HTTP status code if user is not authenticated', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(401);
-        });
+        expect(response.statusCode).to.equal(401);
       });
     });
   });
@@ -106,25 +98,21 @@ describe('Acceptance | API | Certification Center', () => {
         options.headers = { authorization: generateValidRequestAuthorizationHeader() };
       });
 
-      it('should return 200 HTTP status', () => {
+      it('should return 200 HTTP status', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(200);
-        });
+        expect(response.statusCode).to.equal(200);
       });
 
-      it('should return the certification center created', () => {
+      it('should return the certification center created', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.result.data.attributes.name).to.equal('Nouveau Centre de Certif');
-          expect(response.result.data.attributes.id).to.be.ok;
-        });
+        expect(response.result.data.attributes.name).to.equal('Nouveau Centre de Certif');
+        expect(response.result.data.attributes.id).to.be.ok;
       });
 
     });
@@ -134,26 +122,22 @@ describe('Acceptance | API | Certification Center', () => {
         options.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
       });
 
-      it('should return 403 HTTP status code ', () => {
+      it('should return 403 HTTP status code ', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(403);
-        });
+        expect(response.statusCode).to.equal(403);
       });
     });
 
     context('when user is not connected', () => {
-      it('should return 401 HTTP status code if user is not authenticated', () => {
+      it('should return 401 HTTP status code if user is not authenticated', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(401);
-        });
+        expect(response.statusCode).to.equal(401);
       });
     });
 
@@ -176,40 +160,34 @@ describe('Acceptance | API | Certification Center', () => {
         options.headers = { authorization: generateValidRequestAuthorizationHeader() };
       });
 
-      it('should return 200 HTTP status', () => {
+      it('should return 200 HTTP status', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(200);
-        });
+        expect(response.statusCode).to.equal(200);
       });
 
-      it('should return the certification center asked', () => {
+      it('should return the certification center asked', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.result.data.id).to.equal(expectedCertificationCenter.id.toString());
-          expect(response.result.data.attributes.name).to.equal(expectedCertificationCenter.name);
-        });
+        expect(response.result.data.id).to.equal(expectedCertificationCenter.id.toString());
+        expect(response.result.data.attributes.name).to.equal(expectedCertificationCenter.name);
       });
 
-      it('should return notFoundError when the certificationCenter not exist', () => {
+      it('should return notFoundError when the certificationCenter not exist', async () => {
         // given
         options.url = '/api/certification-centers/112334';
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(404);
-          expect(response.result.errors[0].title).to.equal('Not Found');
-          expect(response.result.errors[0].detail).to.equal('Certification center with id: 112334 not found');
-        });
+        expect(response.statusCode).to.equal(404);
+        expect(response.result.errors[0].title).to.equal('Not Found');
+        expect(response.result.errors[0].detail).to.equal('Certification center with id: 112334 not found');
       });
 
     });
@@ -219,26 +197,22 @@ describe('Acceptance | API | Certification Center', () => {
         options.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
       });
 
-      it('should return 403 HTTP status code ', () => {
+      it('should return 403 HTTP status code ', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(403);
-        });
+        expect(response.statusCode).to.equal(403);
       });
     });
 
     context('when user is not connected', () => {
-      it('should return 401 HTTP status code if user is not authenticated', () => {
+      it('should return 401 HTTP status code if user is not authenticated', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(401);
-        });
+        expect(response.statusCode).to.equal(401);
       });
     });
   });
@@ -270,26 +244,22 @@ describe('Acceptance | API | Certification Center', () => {
         options.headers = { authorization: generateValidRequestAuthorizationHeader(user.id) };
       });
 
-      it('should return 200 HTTP status', () => {
+      it('should return 200 HTTP status', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(200);
-        });
+        expect(response.statusCode).to.equal(200);
       });
 
-      it('should return the list of sessions', () => {
+      it('should return the list of sessions', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.result.data).to.have.lengthOf(expectedSessions.length);
-          expect(response.result.data.map((sessions) => sessions.id))
-            .to.have.members(expectedSessions.map((sessions) => sessions.id.toString()));
-        });
+        expect(response.result.data).to.have.lengthOf(expectedSessions.length);
+        expect(response.result.data.map((sessions) => sessions.id))
+          .to.have.members(expectedSessions.map((sessions) => sessions.id.toString()));
       });
 
     });
@@ -299,26 +269,22 @@ describe('Acceptance | API | Certification Center', () => {
         options.headers = { authorization: generateValidRequestAuthorizationHeader(otherUser.id) };
       });
 
-      it('should return 403 HTTP status code ', () => {
+      it('should return 403 HTTP status code ', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(403);
-        });
+        expect(response.statusCode).to.equal(403);
       });
     });
 
     context('when user is not connected', () => {
-      it('should return 401 HTTP status code if user is not authenticated', () => {
+      it('should return 401 HTTP status code if user is not authenticated', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(401);
-        });
+        expect(response.statusCode).to.equal(401);
       });
     });
   });
