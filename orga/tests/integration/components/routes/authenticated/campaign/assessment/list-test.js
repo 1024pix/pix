@@ -176,4 +176,63 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       assert.contains('En attente de participants');
     });
   });
+
+  module('when the campaign doesn‘t have badges', function() {
+    test('it should not display badge column', async function(assert) {
+      // given
+      const campaign = store.createRecord('campaign', {
+        id: 1,
+        name: 'campagne 1',
+      });
+
+      const participations = [{ firstName: 'John', lastName: 'Doe' }];
+      participations.meta = { rowCount: 1 };
+
+      const goTo = function() {
+      };
+
+      this.set('campaign', campaign);
+      this.set('participations', participations);
+      this.set('goToAssessmentPage', goTo);
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
+
+      // then
+      assert.notContains('Résultats Thématiques');
+    });
+  });
+
+  module('when the campaign has badges', function() {
+    test('it should display badge column', async function(assert) {
+      // given
+      const badge = store.createRecord('badge', { id: 'b1', imageUrl: 'url-badge' });
+      const targetProfile = store.createRecord('targetProfile', {
+        id: 't1',
+        hasBadges: true,
+      });
+      const campaign = store.createRecord('campaign', {
+        id: 1,
+        name: 'campagne 1',
+        targetProfile,
+      });
+
+      const participations = [{ firstName: 'John', lastName: 'Doe', badges: [badge] }];
+      participations.meta = { rowCount: 1 };
+
+      const goTo = function() {
+      };
+
+      this.set('campaign', campaign);
+      this.set('participations', participations);
+      this.set('goToAssessmentPage', goTo);
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
+
+      // then
+      assert.contains('Résultats Thématiques');
+      assert.dom('img[src="url-badge"]').exists();
+    });
+  });
 });

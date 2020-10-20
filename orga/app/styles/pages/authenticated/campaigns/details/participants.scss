@@ -1,22 +1,28 @@
-.participant-list__mastery-percentage {
-  color: $blue;
-  font-size: 1.25rem;
-  margin-left: 26px;
-}
+.participant-list {
+  &__mastery-percentage {
+    color: $blue;
+    font-size: 1.25rem;
+    margin-left: 26px;
+  }
 
-.participant-list__icon {
-  margin-right: 8px;
-  min-width: 15px;
-  display: inline-block;
-}
+  &__icon {
+    margin-right: 8px;
+    min-width: 15px;
+    display: inline-block;
+  }
 
-.participant-list__header {
-  display: flex;
-  align-items: center;
-  align-content: center;
-  height: 60px;
-  padding-left: 30px;
-  color: $grey-60;
-  font-family: $roboto;
-  font-size: 0.875rem;
+  &__header {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    height: 60px;
+    padding-left: 30px;
+    color: $grey-60;
+    font-family: $roboto;
+    font-size: 0.875rem;
+  }
+
+  &__badge {
+    height: 40px;
+  }
 }

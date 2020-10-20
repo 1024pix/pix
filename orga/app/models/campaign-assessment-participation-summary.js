@@ -1,5 +1,5 @@
 import DS from 'ember-data';
-const { Model, attr } = DS;
+const { Model, attr, hasMany } = DS;
 
 export const statuses = {
   SHARED: 'shared',
@@ -13,6 +13,8 @@ export default class CampaignAssessmentParticipationSummary extends Model {
   @attr() participantExternalId;
   @attr() status;
   @attr() masteryPercentage;
+
+  @hasMany('Badge') badges;
 
   get isShared() {
     return this.status === statuses.SHARED;
