@@ -9,21 +9,7 @@
         <th>
           <div class="session-finalization-reports-informations-step__row">
             <div class="session-finalization-reports-informations-step__checker" {{on 'click' (fn @toggleAllCertificationReportsHasSeenEndTestScreen this.hasCheckedSomething)}}>
-              {{#if this.hasCheckedEverything}}
-                <div class="checkbox checkbox--checked">
-                  <img
-                    src="/icons/icon-done.svg"
-                    class="session-finalization-reports-informations-step__done-icon"
-                    alt="checkbox" >
-                </div>
-              {{else if this.hasCheckedSomething}}
-                <div class="checkbox checkbox--unchecked">
-                  <div class="session-finalization-reports-informations-step__dash-icon"></div>
-                </div>
-              {{else}}
-                <div class="checkbox checkbox--unchecked">
-                </div>
-              {{/if}}
+              <CertifCheckbox @state={{headerCheckboxStatus}}></CertifCheckbox>
             </div>
             Écran de fin du test vu
           </div>
@@ -46,22 +32,11 @@
             />
           </td>
           <td>
-            {{#if report.hasSeenEndTestScreen}}
-              <div
-                data-test-id="finalization-report-has-seen-end-test-screen_{{report.certificationCourseId}}"
-                class="checkbox checkbox--checked"
-                {{on 'click' (fn @toggleCertificationReportHasSeenEndTestScreen report)}}>
-                <img
-                  src="/icons/icon-done.svg"
-                  class="session-finalization-reports-informations-step__done-icon"
-                  alt="checkbox" >
-              </div>
-            {{else}}
-              <div
-                data-test-id="finalization-report-has-seen-end-test-screen_{{report.certificationCourseId}}"
-                class="checkbox checkbox--unchecked"
-                {{on 'click' (fn @toggleCertificationReportHasSeenEndTestScreen report)}}/>
-            {{/if}}
+            <CertifCheckbox
+                    data-test-id="finalization-report-has-seen-end-test-screen_{{report.certificationCourseId}}"
+                    @state={{if report.hasSeenEndTestScreen 'checked' 'unchecked'}}
+              {{on 'click' (fn @toggleCertificationReportHasSeenEndTestScreen report)}}>
+            </CertifCheckbox>
           </td>
         </tr>
       {{/each}}

@@ -217,26 +217,33 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
 
   module('#action toggleAllCertificationReportsHasSeenEndTestScreen', function() {
 
-    test('it should toggle the hasSeenEndTestScreen attribute of all the certifs in session to false depending on if some were checked', function(assert) {
-      // given
-      const someWereChecked = true;
-      const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const sessions = {
-        certificationReports: [
-          { hasSeenEndTestScreen: false },
-          { hasSeenEndTestScreen: true },
-        ],
-      };
-      controller.model = sessions;
+    [
+      { hasSeenEndTestScreen1: true, hasSeenEndTestScreen2: true, expectedState: false },
+      { hasSeenEndTestScreen1: true, hasSeenEndTestScreen2: false, expectedState: false },
+      { hasSeenEndTestScreen1: false, hasSeenEndTestScreen2: true, expectedState: false },
+      { hasSeenEndTestScreen1: false, hasSeenEndTestScreen2: false, expectedState: true },
+    ].forEach(({ hasSeenEndTestScreen1, hasSeenEndTestScreen2, expectedState }) =>
+      test('it should toggle the hasSeenEndTestScreen attribute of all certifs in session to false depending on if some were checked', function(assert) {
+        // given
+        const someWereChecked = hasSeenEndTestScreen1 || hasSeenEndTestScreen2;
+        const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
+        const sessions = {
+          certificationReports: [
+            { hasSeenEndTestScreen: hasSeenEndTestScreen1 },
+            { hasSeenEndTestScreen: hasSeenEndTestScreen2 },
+          ],
+        };
+        controller.model = sessions;
 
-      // when
-      controller.send('toggleAllCertificationReportsHasSeenEndTestScreen', someWereChecked);
+        // when
+        controller.send('toggleAllCertificationReportsHasSeenEndTestScreen', someWereChecked);
 
-      // then
-      sessions.certificationReports.forEach((certif) => {
-        assert.equal(certif.hasSeenEndTestScreen, !someWereChecked);
-      });
-    });
+        // then
+        sessions.certificationReports.forEach((certif) => {
+          assert.equal(certif.hasSeenEndTestScreen, expectedState);
+        });
+      }),
+    );
   });
 
   module('#action openModal', function() {
