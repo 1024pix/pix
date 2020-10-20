@@ -2,7 +2,7 @@ const usecases = require('../../domain/usecases');
 const schoolingRegistrationSerializer = require('../../infrastructure/serializers/jsonapi/schooling-registration-user-association-serializer');
 
 module.exports = {
-  async reconcileAutomatically(request) {
+  async reconcileSchoolingRegistrationAutomatically(request) {
     const authenticatedUserId = request.auth.credentials.userId;
     const payload = request.payload.data.attributes;
     const campaignCode = payload['campaign-code'];
