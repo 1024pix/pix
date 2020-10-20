@@ -17,4 +17,8 @@ export default class SessionFinalizationReportsInformationsStep extends Componen
     return this.certifReportsAreNotEmpty && hasOneOrMoreCheck;
   }
 
+  get headerCheckboxStatus() {
+    return this.hasCheckedEverything ? 'checked' : this.hasCheckedSomething ? 'partial' : 'unchecked';
+  }
+
 }
