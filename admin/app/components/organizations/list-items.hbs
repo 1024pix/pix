@@ -11,21 +11,21 @@
           <th>
             <input id="name"
                    type="text"
-                   value={{unbound @name}}
+                   value={{@name}}
                    oninput={{perform @triggerFiltering 'name'}}
                    class="table-admin-input" />
           </th>
           <th>
             <input id="type"
                    type="text"
-                   value={{unbound @type}}
+                   value={{@type}}
                    oninput={{perform @triggerFiltering 'type'}}
                    class="table-admin-input" />
           </th>
           <th>
             <input id="externalId"
                    type="text"
-                   value={{unbound @externalId}}
+                   value={{@externalId}}
                    oninput={{perform @triggerFiltering 'externalId'}}
                    class="table-admin-input" />
           </th>
