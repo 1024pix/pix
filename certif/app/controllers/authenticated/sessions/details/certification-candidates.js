@@ -17,12 +17,13 @@ export default class CertificationCandidatesController extends Controller {
   @alias('model.session') currentSession;
   @alias('model.isUserFromSco') isUserFromSco;
   @alias('model.isCertifPrescriptionScoEnabled') isCertifPrescriptionScoEnabled;
+  @alias('model.certificationCandidates') certificationCandidates;
 
   @tracked candidatesInStaging = [];
 
-  @computed('currentSession.certificationCandidates.{[],@each.isLinked}')
+  @computed('certificationCandidates.{[],@each.isLinked}')
   get importAllowed() {
-    return _.every(this.currentSession.certificationCandidates.toArray(), (certificationCandidate) => {
+    return _.every(this.certificationCandidates.toArray(), (certificationCandidate) => {
       return !certificationCandidate.isLinked;
     });
   }
@@ -41,7 +42,7 @@ export default class CertificationCandidatesController extends Controller {
   }
 
   _hasDuplicate({ currentLastName, currentFirstName, currentBirthdate }) {
-    return this.currentSession.certificationCandidates.find(({ lastName, firstName, birthdate }) =>
+    return this.certificationCandidates.find(({ lastName, firstName, birthdate }) =>
       lastName.toLowerCase() === currentLastName.toLowerCase() &&
       firstName.toLowerCase() === currentFirstName.toLowerCase() &&
       birthdate === currentBirthdate) !== undefined;
@@ -59,7 +60,7 @@ export default class CertificationCandidatesController extends Controller {
       await file.upload(this.currentSession.urlToUpload, {
         headers: { Authorization: `Bearer ${access_token}` },
       });
-      this.currentSession.certificationCandidates.reload();
+      this.model.reloadCertificationCandidate();
       this.notifications.success('La liste des candidats a été importée avec succès.');
     }
     catch (err) {
@@ -108,7 +109,7 @@ export default class CertificationCandidatesController extends Controller {
       }
       await certificationCandidate
         .save({ adapterOptions: { registerToSession: true, sessionId } });
-      this.currentSession.certificationCandidates.unshiftObject(certificationCandidate);
+      this.model.reloadCertificationCandidate();
       this.notifications.success('Le candidat a été ajouté avec succès.');
     } catch (err) {
       let errorText = 'Une erreur s\'est produite lors de l\'ajout du candidat.';

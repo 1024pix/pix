@@ -4,29 +4,29 @@ import { setupTest } from 'ember-qunit';
 module('Unit | Controller | authenticated/sessions/details', function(hooks) {
   setupTest(hooks);
 
-  module('#computed certificationCandidatesCount()', function() {
+  module('#certificationCandidatesCount', function() {
     test('should return a string the the candidate count if more than 0 candidate', function(assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/sessions/details');
-      controller.model = { session: { certificationCandidates: ['candidate1', 'candidate2'] } };
+      controller.model = { certificationCandidates: ['candidate1', 'candidate2'] };
 
       // when
-      const actualStrCertificationCandidatesCount = controller.certificationCandidatesCount;
+      const certificationCandidatesCountResult = controller.certificationCandidatesCount;
 
       // then
-      assert.equal(actualStrCertificationCandidatesCount, `(${controller.model.session.certificationCandidates.length})`);
+      assert.equal(certificationCandidatesCountResult, '(2)');
     });
 
     test('should return an empty string when there are no certification candidates in the session', function(assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/sessions/details');
-      controller.model = { session: { certificationCandidates: [] } };
+      controller.model = { certificationCandidates: [] };
 
       // when
-      const actualStrCertificationCandidatesCount = controller.certificationCandidatesCount;
+      const certificationCandidatesCountResult = controller.certificationCandidatesCount;
 
       // then
-      assert.equal(actualStrCertificationCandidatesCount, '');
+      assert.equal(certificationCandidatesCountResult, '');
     });
   });
 });
