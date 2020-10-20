@@ -7,10 +7,29 @@ export default class FillInCampaignCodeController extends Controller {
 
   @service store;
   @service intl;
+  @service session;
+  @service currentUser;
 
   campaignCode = null;
 
   @tracked errorMessage = null;
+
+  get isUserAuthenticated() {
+    return this.session.isAuthenticated;
+  }
+
+  get firstTitle() {
+    return this.isUserAuthenticated
+      ? this.intl.t('pages.fill-in-campaign-code.first-title-connected', { firstName: this.currentUser.user.firstName })
+      : this.intl.t('pages.fill-in-campaign-code.first-title-not-connected');
+  }
+
+  get warningMessage() {
+    return this.intl.t('pages.fill-in-campaign-code.warning-message', {
+      firstName: this.currentUser.user.firstName,
+      lastName: this.currentUser.user.lastName,
+    });
+  }
 
   @action
   async startCampaign() {
@@ -53,5 +72,10 @@ export default class FillInCampaignCodeController extends Controller {
   @action
   clearErrorMessage() {
     this.errorMessage = null;
+  }
+
+  @action
+  disconnect() {
+    this.session.invalidate();
   }
 }
