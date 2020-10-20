@@ -1,5 +1,28 @@
 # Pix Changelog
 
+## v2.211.0 (20/10/2020)
+
+- [#2029](https://github.com/1024pix/pix/pull/2029) [FEATURE] Ajouter le type nombre au réponse QROC (PIX-1455).
+- [#2015](https://github.com/1024pix/pix/pull/2015) [FEATURE] Ne pas afficher les paliers quand on a obtenu le badge CléA (PIX-1383).
+- [#2026](https://github.com/1024pix/pix/pull/2026) [FEATURE] Pouvoir télécharger le modèle csv en tant qu'organisation SCO-AGRICULTURE. (PIX-1357)
+- [#2021](https://github.com/1024pix/pix/pull/2021) [FEATURE] Filtrer les sessions par type de centre de certification (PIX-1341)
+- [#2014](https://github.com/1024pix/pix/pull/2014) [FEATURE] Logguer en console les résultats mockés d'un participant à une campagne d'évaluation Pôle Emploi (PIX-1393).
+- [#1994](https://github.com/1024pix/pix/pull/1994) [FEATURE] Ajout de l'import CSV des élèves pour les orga SCO Agri
+- [#1988](https://github.com/1024pix/pix/pull/1988) [FEATURE] Parser un CSV SIECLE et l'importer (PIX-1351)
+- [#2011](https://github.com/1024pix/pix/pull/2011) [BUGFIX] Amélioration de la gestion du cache de premier niveau.
+- [#2007](https://github.com/1024pix/pix/pull/2007) [BUGFIX] Ajouter une transaction à l'improve d'une CompetenceEval (PIX-1411).
+- [#2028](https://github.com/1024pix/pix/pull/2028) [TECH] Enrichir les test helpers de pix certif et async/await des tests d'API
+- [#2025](https://github.com/1024pix/pix/pull/2025) [TECH] Montée de version mineure de la BDD 12.3=>12.4.
+- [#2010](https://github.com/1024pix/pix/pull/2010) [TECH] Suppression de routes API dépréciées (PIX-1416).
+- [#2019](https://github.com/1024pix/pix/pull/2019) [TECH] Nettoyage et mise à jour des données de tests, aussi nommées seeds (PIX-1425).
+- [#1955](https://github.com/1024pix/pix/pull/1955) [TECH] Enlever les actions synchrones qui bloquent nodejs
+- [#2020](https://github.com/1024pix/pix/pull/2020) [TECH] Refacto du certification result
+- [#2009](https://github.com/1024pix/pix/pull/2009) [TECH] Migration de `stats.pix.fr` à `analytics.pix.fr`
+- [#2017](https://github.com/1024pix/pix/pull/2017) [BSR] Utiliser que le helper HttpTestServer, pour les tests d'intégration et les tests unitaires, dans l'API (PIX-1423).
+- [#2016](https://github.com/1024pix/pix/pull/2016) [REFACTO] Centraliser l'authentification des élèves venant du GAR (PIX-1422).
+- [#2018](https://github.com/1024pix/pix/pull/2018) [CLEANUP] Rendre les niveaux d'erreurs de lint explicites.
+- [#2004](https://github.com/1024pix/pix/pull/2004) [TRANSLATION] Mise à jour des traductions.
+
 ## v2.210.0 (15/10/2020)
 
 - [#1998](https://github.com/1024pix/pix/pull/1998) [FEATURE]Afficher un onglet "Candidats" spécifique SCO sur la page de détails de ma session (PIX-1372)
