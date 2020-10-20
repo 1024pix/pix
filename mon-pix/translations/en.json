@@ -481,12 +481,126 @@
             "content-text": "'<p>'Please refresh the page or '<LinkTo @route=\"login\">'return to homepage'</LinkTo>'.'</p><p>'You can also contact us via '<a href=\"https://support.pix.fr/support/tickets/new\">'the help centre form'</a>'specifying the error code below in the description.'</p><p>'Please excuse any inconvenience caused.'</p><p>'The Pix team.'</p>'",
             "first-title": "Oops, an error occurred!"
         },
+        "join": {
+            "title": "Join",
+            "button": "Let's go!",
+            "fields": {
+                "birthdate": {
+                    "label": "Date of birth",
+                    "day-error": "Your birth day is invalid.",
+                    "day-format": "DD",
+                    "month-error": "Your birth month is invalid.",
+                    "month-format": "MM",
+                    "year-error": "Your birth year is invalid.",
+                    "year-format": "YYYY"
+                },
+                "firstname": {
+                    "error": "You haven't entered your first name.",
+                    "label": "First name"
+                },
+                "lastname": {
+                    "error": "You haven't entered your last name.",
+                    "label": "Last name"
+                }
+            },
+            "first-title": "{ organizationName }",
+            "sco": {
+                "continue-with-pix": "Continue with my Pix account",
+                "error-not-found": "If you're a pupil '<br/>' Check your information (first name, last name and date of birth) or contact a teacher.'<br/><br/>' If you're a teacher '<br/>' Access to this personalised test is not available at the moment.",
+                "login-information-title": "Login information",
+                "login-information-message": "The Pix account  '<b>'{ connectionMethod }'</b>' will be linked with the pupil:  '<b>'{ firstName }  { lastName }'</b>'.'<b>'If this is you, click on \"Link\". Otherwise, log out.",
+                "associate": "Link"
+            },
+            "subtitle": "Please fill in the missing information",
+            "sup": {
+                "error": "Please check the information you have entered. If you already have a Pix account, log in with this account.",
+                "fields": {
+                    "student-number": {
+                        "error": "You haven't entered your student number.",
+                        "label": "Student number",
+                        "modify": "Change student number",
+                        "not-existing": "I don't have a student number"
+                    }
+                }
+            }
+        },
         "learning-more": {
             "title": "To find out more",
             "info": "These tutorial links have been suggested by Pix users."
         },
         "levelup-notif": {
             "obtained-level": "Level { level } succeeded!"
+        },
+        "login-or-register": {
+            "title": "",
+            "invitation": "{ organizationName }",
+            "login-form": {
+                "button": "Log in",
+                "error": "There was an error in the email address or username/password entered.",
+                "fields": {
+                    "login": {
+                        "label": "Email address or username"
+                    },
+                    "password": {
+                        "label": "Password"
+                    }
+                },
+                "forgotten-password": {
+                    "email": "An email address:",
+                    "instruction": "Forgotten your password? You have a Pix account with:",
+                    "other-identity": "Username : Reach out to your teacher to reset it",
+                    "reset-link": "Click here to reset it."
+                },
+                "title": "I already have a Pix account.",
+                "unexpected-user-account-error": "There was an error in the email address or username entered. To continue, log in with your account in this format: "
+            },
+            "register-form": {
+                "button": "Sign up",
+                "button-form": "Sign up",
+                "fields": {
+                    "birthdate": {
+                        "label": "Date of birth (DD/MM/YYYY)",
+                        "day-error": "Your birth day is invalid.",
+                        "month-error": "Your birth month is invalid.",
+                        "year-error": "Your birth year is invalid."
+                    },
+                    "cgu": "I agree to the '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\">'terms and conditions of use of the Pix platform'</a>'",
+                    "email": {
+                        "error": "Your email address is invalid.",
+                        "help": "(eg. name@example.org)",
+                        "label": "Email address"
+                    },
+                    "firstname": {
+                        "error": "You haven't entered your first name.",
+                        "label": "First name"
+                    },
+                    "lastname": {
+                        "error": "You haven't entered your last name.",
+                        "label": "Last name"
+                    },
+                    "password": {
+                        "error": "Your password must contain at least 8 characters and include at least one uppercase letter, one lowercase letter and one number.",
+                        "help": "(At least 8 characters, including one uppercase letter, one lowercase letter and one number)",
+                        "label": "Password",
+                        "show-button": "Show password"
+                    },
+                    "username": {
+                        "label": "My username"
+                    }
+                },
+                "legal-text": "The information collected in this form is saved in a computer file by Pix to enable access to the service offered by Pix. They are kept for the duration of use of the service and are intended for Pix. Test results may be communicated to third parties, with your consent, if you have been invited to take a specific personalised test. In accordance with the French law governing computer technology and freedoms (“Informatique et Libertés”), you can exercise the right to access and rectify your data by emailing our Data Protection Officer at dpo@pix.fr.",
+                "not-me": "That's not me",
+                "options": {
+                    "email": "My email address",
+                    "text": "Sign up with:",
+                    "username": "My username"
+                },
+                "title": "Sign up"
+            }
+        },
+        "not-connected": {
+            "title": "Logged out",
+            "message": "You've been logged out.'<br>'Thanks! See you soon"
         },
         "password-reset-demand": {
             "title": "Forgotten your password?",
@@ -664,27 +778,31 @@
                 "header-result": "Results",
                 "result": "Overall result",
                 "result-by-skill": "Your results for the skill",
-                "skill-progress": "'<p class=\"sr-only\">'You have completed '</p>'{percentage}%'<p class=\"sr-only\">' of the skill {skill}.'</p>'",
                 "title": "Your results by skill"
             },
             "information": "If you have already completed personalised tests on Pix, questions you have previously answered have not been asked again. However, the result shown here is based on all of your answers.",
             "not-finished": "You can’t submit your results yet, we still have a few questions to ask.",
             "send-results": "Don't forget to submit your results.",
+            "send-status": {
+                "in-progress": "Results are being shared..."
+            },
             "send-title": "Submit your results",
             "stage": {
                 "masteryPercentage": "Success rate: {percentage} %",
-                "alt": {
-                    "acquiredStar": "Stage no. {index} reached",
-                    "unacquiredStar": "Stage no. {index} not reached"
-                },
                 "starsAcquired": "{acquired, plural, =0 {no star} other {# stars}} acquired over {total}"
             },
             "try-again": {
                 "title": "Want to improve your results?",
                 "description": "You can retake some of the questions"
-            },
-            "send-status": {
-                "in-progress": "Results are being shared..."
+            }
+        },
+        "terms-of-service": {
+            "title": "Terms and conditions of use",
+            "cgu": "I agree to the '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\">'terms and conditions of use of the Pix platform'</a>'",
+            "message": "We have updated our terms and conditions of use. Please agree to them in order to continue your experience on Pix.",
+            "form": {
+                "button": "Continue",
+                "error-message": "You must agree to the terms and conditions of use."
             }
         },
         "time-gauge": {
@@ -784,146 +902,6 @@
             "title": "Share my Pix Certificate",
             "back-link": "Return to the verification’s page"
         },
-        "fill-in-id-pix": {
-            "title": "Enter my username",
-            "first-title": "Before starting",
-            "announcement": "The organiser needs the information below in order to provide support:",
-            "buttons": {
-                "continue": "Continue",
-                "cancel": "Cancel"
-            },
-            "errors": {
-                "missing-id-pix-label": "Please enter your { idPixLabel }."
-            }
-        },
-        "warning": {
-            "action": "Start",
-            "instructions": "You have '<span class=\"challenge-item-warning__instruction-time\">'{time}'</span>' to complete the next question.",
-            "further-instructions": "You can continue answering after this, but the question will not be marked as correct."
-        },
-        "join": {
-            "title": "Join",
-            "button": "Let's go!",
-            "fields": {
-                "birthdate": {
-                    "label": "Date of birth",
-                    "day-error": "Your birth day is invalid.",
-                    "day-format": "DD",
-                    "month-error": "Your birth month is invalid.",
-                    "month-format": "MM",
-                    "year-error": "Your birth year is invalid.",
-                    "year-format": "YYYY"
-                },
-                "firstname": {
-                    "error": "You haven't entered your first name.",
-                    "label": "First name"
-                },
-                "lastname": {
-                    "error": "You haven't entered your last name.",
-                    "label": "Last name"
-                }
-            },
-            "first-title": "{ organizationName }",
-            "sco": {
-                "continue-with-pix": "Continue with my Pix account",
-                "error-not-found": "If you're a pupil '<br/>' Check your information (first name, last name and date of birth) or contact a teacher.'<br/><br/>' If you're a teacher '<br/>' Access to this personalised test is not available at the moment.",
-                "login-information-title": "Login information",
-                "login-information-message": "The Pix account  '<b>'{ connectionMethod }'</b>' will be linked with the pupil:  '<b>'{ firstName }  { lastName }'</b>'.'<b>'If this is you, click on \"Link\". Otherwise, log out.",
-                "associate": "Link"
-            },
-            "subtitle": "Please fill in the missing information",
-            "sup": {
-                "error": "Please check the information you have entered. If you already have a Pix account, log in with this account.",
-                "fields": {
-                    "student-number": {
-                        "error": "You haven't entered your student number.",
-                        "label": "Student number",
-                        "modify": "Change student number",
-                        "not-existing": "I don't have a student number"
-                    }
-                }
-            }
-        },
-        "login-or-register": {
-            "title": "",
-            "invitation": "{ organizationName }",
-            "login-form": {
-                "button": "Log in",
-                "error": "There was an error in the email address or username/password entered.",
-                "fields": {
-                    "login": {
-                        "label": "Email address or username"
-                    },
-                    "password": {
-                        "label": "Password"
-                    }
-                },
-                "forgotten-password": {
-                    "email": "An email address:",
-                    "instruction": "Forgotten your password? You have a Pix account with:",
-                    "other-identity": "Username : Reach out to your teacher to reset it",
-                    "reset-link": "Click here to reset it."
-                },
-                "title": "I already have a Pix account.",
-                "unexpected-user-account-error": "There was an error in the email address or username entered. To continue, log in with your account in this format: "
-            },
-            "register-form": {
-                "button": "Sign up",
-                "button-form": "Sign up",
-                "fields": {
-                    "birthdate": {
-                        "label": "Date of birth (DD/MM/YYYY)",
-                        "day-error": "Your birth day is invalid.",
-                        "month-error": "Your birth month is invalid.",
-                        "year-error": "Your birth year is invalid."
-                    },
-                    "cgu": "I agree to the '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\">'terms and conditions of use of the Pix platform'</a>'",
-                    "email": {
-                        "error": "Your email address is invalid.",
-                        "help": "(eg. name@example.org)",
-                        "label": "Email address"
-                    },
-                    "firstname": {
-                        "error": "You haven't entered your first name.",
-                        "label": "First name"
-                    },
-                    "lastname": {
-                        "error": "You haven't entered your last name.",
-                        "label": "Last name"
-                    },
-                    "password": {
-                        "error": "Your password must contain at least 8 characters and include at least one uppercase letter, one lowercase letter and one number.",
-                        "help": "(At least 8 characters, including one uppercase letter, one lowercase letter and one number)",
-                        "label": "Password",
-                        "show-button": "Show password"
-                    },
-                    "username": {
-                        "label": "My username"
-                    }
-                },
-                "legal-text": "The information collected in this form is saved in a computer file by Pix to enable access to the service offered by Pix. They are kept for the duration of use of the service and are intended for Pix. Test results may be communicated to third parties, with your consent, if you have been invited to take a specific personalised test. In accordance with the French law governing computer technology and freedoms (“Informatique et Libertés”), you can exercise the right to access and rectify your data by emailing our Data Protection Officer at dpo@pix.fr.",
-                "not-me": "That's not me",
-                "options": {
-                    "email": "My email address",
-                    "text": "Sign up with:",
-                    "username": "My username"
-                },
-                "title": "Sign up"
-            }
-        },
-        "not-connected": {
-            "title": "Logged out",
-            "message": "You've been logged out.'<br>'Thanks! See you soon"
-        },
-        "terms-of-service": {
-            "title": "Terms and conditions of use",
-            "cgu": "I agree to the '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\">'terms and conditions of use of the Pix platform'</a>'",
-            "message": "We have updated our terms and conditions of use. Please agree to them in order to continue your experience on Pix.",
-            "form": {
-                "button": "Continue",
-                "error-message": "You must agree to the terms and conditions of use."
-            }
-        },
         "fill-in-participant-external-id": {
             "title": "Enter my username",
             "first-title": "Before starting",
@@ -948,6 +926,11 @@
             "go-to-login": "Log in",
             "subtitle": "Choose a new password to continue",
             "validation": "Your password has been updated."
+        },
+        "warning": {
+            "action": "Start",
+            "instructions": "You have '<span class=\"challenge-item-warning__instruction-time\">'{time}'</span>' to complete the next question.",
+            "further-instructions": "You can continue answering after this, but the question will not be marked as correct."
         }
     },
     "navigation": {
@@ -974,13 +957,13 @@
             "sign-up": "Sign up"
         },
         "pix": "Pix",
+        "user-logged-menu": {
+            "details": "Check my details"
+        },
         "user": {
             "certifications": "My certifications",
             "sign-out": "Log out",
             "tutorials": "My tutorials"
-        },
-        "user-logged-menu": {
-            "details": "Check my details"
         }
     }
 }
