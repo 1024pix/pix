@@ -10,7 +10,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
   beforeEach(() => {
     sinon.stub(schoolingRegistrationUserAssociationController, 'reconcileSchoolingRegistrationManually').callsFake((request, h) => h.response('ok').code(204));
     sinon.stub(schoolingRegistrationUserAssociationController, 'reconcileHigherSchoolingRegistration').callsFake((request, h) => h.response('ok').code(204));
-    sinon.stub(schoolingRegistrationUserAssociationController, 'reconcileAutomatically').callsFake((request, h) => h.response('ok').code(204));
+    sinon.stub(schoolingRegistrationUserAssociationController, 'reconcileSchoolingRegistrationAutomatically').callsFake((request, h) => h.response('ok').code(204));
     sinon.stub(schoolingRegistrationUserAssociationController, 'findAssociation').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(schoolingRegistrationUserAssociationController, 'generateUsername').callsFake((request, h) => h.response('ok').code(200));
 

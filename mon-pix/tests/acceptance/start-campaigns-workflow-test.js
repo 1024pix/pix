@@ -241,7 +241,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
               return new Response(200, {}, studentFoundWithUsernameGenerated);
             });
 
-            this.server.post('student-dependent-users', () => {
+            this.server.post('schooling-registration-dependent-users', () => {
 
               const emailAlreadyExistResponse = {
                 'errors': [{
