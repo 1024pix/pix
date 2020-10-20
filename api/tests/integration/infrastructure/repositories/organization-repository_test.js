@@ -1,4 +1,5 @@
-const { expect, knex, domainBuilder, databaseBuilder } = require('../../../test-helper');
+const { catchErr, expect, knex, domainBuilder, databaseBuilder } = require('../../../test-helper');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 const Organization = require('../../../../lib/domain/models/Organization');
 const BookshelfOrganization = require('../../../../lib/infrastructure/data/organization');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
@@ -233,6 +234,50 @@ describe('Integration | Repository | Organization', function() {
         expect(foundOrganization.members).to.have.lengthOf(1);
         expect(foundOrganization.members[0].id).to.deep.equal(membershipActive.userId);
       });
+    });
+  });
+
+  describe('#getIdByCertificationCenterId', () => {
+    let organizations;
+    let organization;
+    let certificationCenterId;
+
+    beforeEach(async () => {
+      organizations = _.map([
+        { id: 1, type: 'SCO', name: 'organization 1', externalId: '1234567' },
+        { id: 2, type: 'SCO', name: 'organization 2', externalId: '1234568' },
+        { id: 3, type: 'SCO', name: 'organization 3', externalId: '1234569' },
+      ], (organization) => {
+        return databaseBuilder.factory.buildOrganization(organization);
+      });
+
+      organization = organizations[1];
+
+      certificationCenterId = databaseBuilder.factory
+        .buildCertificationCenter({ externalId: organization.externalId })
+        .id;
+
+      await databaseBuilder.commit();
+    });
+
+    it('should return the id of the organization given the certification center id', async () => {
+      // when
+      const organisationId = await organizationRepository.getIdByCertificationCenterId(certificationCenterId);
+
+      // then
+      expect(organisationId).to.equal(organization.id);
+    });
+
+    it('should throw an error if the id does not match an certification center with organization ', async () => {
+      // given
+      const wrongCertificationCenterId = '666';
+
+      // when
+      const error = await catchErr(organizationRepository.getIdByCertificationCenterId)(wrongCertificationCenterId);
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
+      expect(error.message).to.equal('Not found organization for certification center id 666');
     });
   });
 

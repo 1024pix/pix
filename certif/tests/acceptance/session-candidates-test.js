@@ -1,7 +1,9 @@
 import { module, test } from 'qunit';
 import { click, currentURL, visit, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { createUserAndMembershipAndTermsOfServiceAccepted, authenticateSession } from '../helpers/test-init';
+import {
+  createUserAndMembershipAndTermsOfServiceAccepted,
+  authenticateSession } from '../helpers/test-init';
 import { upload } from 'ember-file-upload/test-support';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -23,6 +25,7 @@ module('Acceptance | Session Candidates', function(hooks) {
   const validBirthdate = '01021990';
 
   hooks.beforeEach(function() {
+    server.create('feature-toggle', { id: 0, certifPrescriptionSco: true });
     createSession();
   });
 
@@ -64,7 +67,7 @@ module('Acceptance | Session Candidates', function(hooks) {
 
       hooks.beforeEach(function() {
         existingCandidates = server.createList('certification-candidate', 4, { isLinked: false });
-        session.update({ certificationCandidates : existingCandidates });
+        session.update({ certificationCandidates: existingCandidates });
       });
 
       test('it should list the existing candidates in the session', async function(assert) {
@@ -87,71 +90,94 @@ module('Acceptance | Session Candidates', function(hooks) {
         assert.dom('table tbody tr').exists({ count: 2 });
       });
 
-      module('add candidate', function(hooks) {
+      module('add candidate', function() {
 
-        hooks.beforeEach(async function() {
-          await visit(`/sessions/${session.id}/candidats`);
-        });
+        module('when user is SCO', function() {
 
-        module('when candidate data not valid', function() {
+          module('add students list sco', function() {
 
-          test('it should leave the line up for modification', async function(assert) {
-            this.server.post('/sessions/:id/certification-candidates', () => ({
-              errors: ['Invalid data'],
-            }), 400);
-            // when
-            await click('[data-test-id="add-certification-candidate-staging__button"]');
-            await _fillFormWithCorrectData();
-            await click('[data-test-id="panel-candidate__action__save"]');
+            test('it should display the list of students for session', async function(assert) {
+              // given
+              certificationCenter.update({ type: 'SCO' });
+              server.createList('student', 10);
 
-            // then
-            assert.dom('[data-test-id="panel-candidate__lastName__add-staging"]').exists();
-          });
+              // when
+              await visit(`/sessions/${session.id}/candidats`);
+              await click('.button.button--link');
 
-          test('it should display notification error', async function(assert) {
-            this.server.post('/sessions/:id/certification-candidates', () => ({
-              errors: ['Invalid data'],
-            }), 400);
-            // when
-            await click('[data-test-id="add-certification-candidate-staging__button"]');
-            await _fillFormWithCorrectData();
-            await click('[data-test-id="panel-candidate__action__save"]');
-
-            // then
-            assert.dom('[data-test-notification-message="error"]').hasText('Une erreur s\'est produite lors de l\'ajout du candidat.');
+              // then
+              assert.equal(currentURL(), `/sessions/${session.id}/ajout-eleves`);
+              assert.dom('table tbody tr').exists({ count: 10 });
+            });
           });
         });
 
-        module('when candidate data is valid', function() {
+        module('when user is not SCO', function(hooks) {
 
-          test('it remove the editable line', async function(assert) {
-            // when
-            await click('[data-test-id="add-certification-candidate-staging__button"]');
-            await _fillFormWithCorrectData();
-            await click('[data-test-id="panel-candidate__action__save"]');
-
-            // then
-            assert.dom('[data-test-id="panel-candidate__lastName__add-staging"]').doesNotExist();
+          hooks.beforeEach(async function() {
+            await visit(`/sessions/${session.id}/candidats`);
           });
 
-          test('it should display notification success', async function(assert) {
-            // when
-            await click('[data-test-id="add-certification-candidate-staging__button"]');
-            await _fillFormWithCorrectData();
-            await click('[data-test-id="panel-candidate__action__save"]');
+          module('when candidate data not valid', function() {
 
-            // then
-            assert.dom('[data-test-notification-message="success"]').hasText('Le candidat a été ajouté avec succès.');
+            test('it should leave the line up for modification', async function(assert) {
+              this.server.post('/sessions/:id/certification-candidates', () => ({
+                errors: ['Invalid data'],
+              }), 400);
+              // when
+              await click('[data-test-id="add-certification-candidate-staging__button"]');
+              await _fillFormWithCorrectData();
+              await click('[data-test-id="panel-candidate__action__save"]');
+
+              // then
+              assert.dom('[data-test-id="panel-candidate__lastName__add-staging"]').exists();
+            });
+
+            test('it should display notification error', async function(assert) {
+              this.server.post('/sessions/:id/certification-candidates', () => ({
+                errors: ['Invalid data'],
+              }), 400);
+              // when
+              await click('[data-test-id="add-certification-candidate-staging__button"]');
+              await _fillFormWithCorrectData();
+              await click('[data-test-id="panel-candidate__action__save"]');
+
+              // then
+              assert.dom('[data-test-notification-message="error"]').hasText('Une erreur s\'est produite lors de l\'ajout du candidat.');
+            });
           });
 
-          test('it should add a new candidate entry', async function(assert) {
-            // when
-            await click('[data-test-id="add-certification-candidate-staging__button"]');
-            await _fillFormWithCorrectData();
-            await click('[data-test-id="panel-candidate__action__save"]');
+          module('when candidate data is valid', function() {
 
-            // then
-            assert.dom('table tbody tr').exists({ count: 5 });
+            test('it remove the editable line', async function(assert) {
+              // when
+              await click('[data-test-id="add-certification-candidate-staging__button"]');
+              await _fillFormWithCorrectData();
+              await click('[data-test-id="panel-candidate__action__save"]');
+
+              // then
+              assert.dom('[data-test-id="panel-candidate__lastName__add-staging"]').doesNotExist();
+            });
+
+            test('it should display notification success', async function(assert) {
+              // when
+              await click('[data-test-id="add-certification-candidate-staging__button"]');
+              await _fillFormWithCorrectData();
+              await click('[data-test-id="panel-candidate__action__save"]');
+
+              // then
+              assert.dom('[data-test-notification-message="success"]').hasText('Le candidat a été ajouté avec succès.');
+            });
+
+            test('it should add a new candidate entry', async function(assert) {
+              // when
+              await click('[data-test-id="add-certification-candidate-staging__button"]');
+              await _fillFormWithCorrectData();
+              await click('[data-test-id="panel-candidate__action__save"]');
+
+              // then
+              assert.dom('table tbody tr').exists({ count: 5 });
+            });
           });
         });
       });
@@ -163,7 +189,7 @@ module('Acceptance | Session Candidates', function(hooks) {
         hooks.beforeEach(async function() {
           linkedCertificationCandidate = server.create('certification-candidate', { isLinked: true });
           notLinkedCertificationCandidate = server.create('certification-candidate', { isLinked: false });
-          session.update({ certificationCandidates : [linkedCertificationCandidate, notLinkedCertificationCandidate] });
+          session.update({ certificationCandidates: [linkedCertificationCandidate, notLinkedCertificationCandidate] });
           await visit(`/sessions/${session.id}/candidats`);
         });
 

@@ -15,6 +15,9 @@ export default class CertificationCandidatesController extends Controller {
   @service session;
 
   @alias('model.session') currentSession;
+  @alias('model.isCertificationCenterSco') isCertificationCenterSco;
+  @alias('model.isCertifPrescriptionScoEnabled') isCertifPrescriptionScoEnabled;
+
   @tracked candidatesInStaging = [];
 
   @computed('currentSession.certificationCandidates.{[],@each.isLinked}')

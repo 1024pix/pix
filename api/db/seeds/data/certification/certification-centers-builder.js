@@ -8,12 +8,14 @@ const SUP_CERTIF_CENTER_ID = 3;
 const SUP_CERTIF_CENTER_NAME = 'Centre SUP des Anne-Étoiles';
 const NONE_CERTIF_CENTER_ID = 4;
 const NONE_CERTIF_CENTER_NAME = 'Centre NOTYPE des Anne-Étoiles';
+const SCO_EXTERNAL_ID = '1237457A';
 
 function certificationCentersBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildCertificationCenter({
     id: SCO_CERTIF_CENTER_ID,
     name: SCO_CERTIF_CENTER_NAME,
+    externalId: SCO_EXTERNAL_ID,
     type: 'SCO',
   });
 

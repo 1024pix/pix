@@ -330,6 +330,7 @@ module('Acceptance | Session Details', function(hooks) {
       { isFeatureToggleEnabled: false, isUserSco: false },
       { isFeatureToggleEnabled: true, isUserSco: false },
       { isFeatureToggleEnabled: false, isUserSco: true },
+      { isFeatureToggleEnabled: true, isUserSco: true },
     ].forEach(({ isFeatureToggleEnabled, isUserSco }) => {
       module(`when certification prescription sco feature toggle is ${isFeatureToggleEnabled ? 'enabled' : 'disabled'} and the user is ${isUserSco ? 'SCO' : 'not SCO'}`, () => {
 
@@ -351,24 +352,5 @@ module('Acceptance | Session Details', function(hooks) {
         });
       });
     });
-
-    module('when certification prescription sco feature toggle is enabled and the user is SCO',  () => {
-      test('it should redirect to the sco candidates detail view', async (assert) => {
-        // given
-        server.create('feature-toggle', {
-          certifPrescriptionSco: true,
-        });
-        const scoUser = createScoUserWithMembershipAndTermsOfServiceAccepted();
-        await authenticateSession(scoUser.id);
-
-        // when
-        await visit(`/sessions/${sessionFinalized.id}`);
-        await click(linkToCandidate);
-
-        // then
-        assert.equal(currentURL(), '/sessions/1/candidats-sco');
-      });
-    });
   });
-
 });
