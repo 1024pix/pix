@@ -94,6 +94,19 @@ module.exports = {
       });
   },
 
+  async getIdByCertificationCenterId(certificationCenterId) {
+    const bookshelfOrganization = await BookshelfOrganization
+      .query((qb) => {
+        qb.join('certification-centers', 'certification-centers.externalId', 'organizations.externalId');
+        qb.where('certification-centers.id', '=', certificationCenterId);
+      })
+      .fetch({ columns: ['organizations.id'] });
+
+    const id = _.get(bookshelfOrganization, 'attributes.id');
+    if (id) return id;
+    throw new NotFoundError(`Not found organization for certification center id ${certificationCenterId}`);
+  },
+
   findByExternalIdsFetchingIdsOnly(externalIds) {
     return BookshelfOrganization
       .where('externalId', 'in', externalIds)

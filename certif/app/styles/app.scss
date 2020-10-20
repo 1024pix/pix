@@ -18,6 +18,7 @@
 @import "pages/login";
 @import "pages/authenticated";
 @import "pages/authenticated/sessions";
+@import "pages/authenticated/sessions/add-student";
 @import "pages/authenticated/sessions/details";
 @import "pages/authenticated/sessions/list-items";
 @import "pages/authenticated/sessions/no-session-panel";
@@ -25,6 +26,7 @@
 @import "pages/authenticated/sessions/details/certification-candidates-sco";
 @import "pages/authenticated/terms-of-service";
 
+@import "components/add-student-list";
 @import "components/ember-cli-notifications-ie-fallback";
 @import "components/login-form";
 @import "components/finalize";

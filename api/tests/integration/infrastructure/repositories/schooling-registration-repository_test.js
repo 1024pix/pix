@@ -81,6 +81,116 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       // then
       expect(_.map(schoolingRegistrations, 'id')).to.deep.include.ordered.members([schoolingRegistration_3.id, schoolingRegistration_4.id, schoolingRegistration_2.id, schoolingRegistration_1.id]);
     });
+
+    it('should return empty array when there are no result', async () => {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+      await databaseBuilder.commit();
+
+      // when
+      const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationId({ organizationId: organization.id });
+
+      // then
+      expect(schoolingRegistrations).to.be.empty;
+    });
+  });
+
+  describe('#findByOrganizationIdOrderByDivision', () => {
+
+    it('should return instances of SchoolingRegistration', async () => {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+      const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        userId: null,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdOrderByDivision({ organizationId: organization.id });
+
+      // then
+      const anySchoolingRegistration = schoolingRegistrations[0];
+      expect(anySchoolingRegistration).to.be.an.instanceOf(SchoolingRegistration);
+
+      expect(anySchoolingRegistration.firstName).to.equal(schoolingRegistration.firstName);
+      expect(anySchoolingRegistration.lastName).to.equal(schoolingRegistration.lastName);
+      expect(anySchoolingRegistration.birthdate).to.deep.equal(schoolingRegistration.birthdate);
+    });
+
+    it('should return all the schoolingRegistrations for a given organization ID', async () => {
+      // given
+      const organization_1 = databaseBuilder.factory.buildOrganization();
+      const organization_2 = databaseBuilder.factory.buildOrganization();
+
+      const user = databaseBuilder.factory.buildUser();
+
+      const schoolingRegistration_1 = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization_1.id });
+      const schoolingRegistration_2 = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization_1.id, userId: user.id });
+      databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization_2.id });
+
+      await databaseBuilder.commit();
+
+      // when
+      const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdOrderByDivision({ organizationId: organization_1.id });
+
+      // then
+      expect(_.map(schoolingRegistrations, 'id')).to.have.members([schoolingRegistration_1.id, schoolingRegistration_2.id]);
+    });
+
+    it('should order schoolingRegistrations by division and last name and then first name with no sensitive case', async () => {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+
+      const schoolingRegistration3B = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: '3b',
+      });
+      const schoolingRegistration3ABA = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: '3A',
+        lastName: 'B',
+        firstName: 'A',
+      });
+      const schoolingRegistration3ABB = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: '3A',
+        lastName: 'B',
+        firstName: 'B',
+      });
+      const schoolingRegistrationT2 = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: 'T2',
+      });
+      const schoolingRegistrationT1CB = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: 't1',
+        lastName: 'C',
+        firstName: 'B',
+      });
+      const schoolingRegistrationT1CA = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: 't1',
+        lastName: 'C',
+        firstName: 'A',
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdOrderByDivision({ organizationId: organization.id });
+
+      // then
+      expect(_.map(schoolingRegistrations, 'id')).to.deep.include.ordered.members([
+        schoolingRegistration3ABA.id,
+        schoolingRegistration3ABB.id,
+        schoolingRegistration3B.id,
+        schoolingRegistrationT1CA.id,
+        schoolingRegistrationT1CB.id,
+        schoolingRegistrationT2.id,
+      ]);
+    });
   });
 
   describe('#findByUserId', () => {

@@ -14,11 +14,4 @@ export default class SessionsDetailsController extends Controller {
     const certificationCandidatesCount = this.session.certificationCandidates.length;
     return certificationCandidatesCount > 0 ? `(${certificationCandidatesCount})`  : '';
   }
-
-  get showScoVersion() {
-    const isCertifPrescriptionScoEnabled = this.model.isCertifPrescriptionScoEnabled;
-    const isCertificationCenterSco = this.model.isCertificationCenterSco;
-
-    return isCertifPrescriptionScoEnabled && isCertificationCenterSco;
-  }
 }

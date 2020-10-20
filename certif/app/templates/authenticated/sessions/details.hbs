@@ -35,16 +35,9 @@
       <LinkTo @route="authenticated.sessions.details.parameters" class="navbar-item">
         Détails
       </LinkTo>
-
-      {{#if this.showScoVersion}}
-        <LinkTo @route="authenticated.sessions.details.certification-candidates-sco" class="navbar-item">
-          Candidats {{this.certificationCandidatesCount}}
-        </LinkTo>
-      {{else}}
-        <LinkTo @route="authenticated.sessions.details.certification-candidates" class="navbar-item">
-          Candidats {{this.certificationCandidatesCount}}
-        </LinkTo>
-      {{/if}}
+      <LinkTo @route="authenticated.sessions.details.certification-candidates" class="navbar-item">
+        Candidats {{this.certificationCandidatesCount}}
+      </LinkTo>
     </nav>
 
   </div>

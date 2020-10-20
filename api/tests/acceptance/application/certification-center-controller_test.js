@@ -7,7 +7,7 @@ const createServer = require('../../../server');
 
 describe('Acceptance | API | Certification Center', () => {
 
-  let server, options;
+  let server, request;
 
   beforeEach(async () => {
     server = await createServer();
@@ -16,7 +16,7 @@ describe('Acceptance | API | Certification Center', () => {
 
   describe('GET /api/certification-centers', () => {
     beforeEach(async () => {
-      options = {
+      request = {
         method: 'GET',
         url: '/api/certification-centers',
       };
@@ -27,12 +27,12 @@ describe('Acceptance | API | Certification Center', () => {
 
     context('when user is Pix Master', () => {
       beforeEach(() => {
-        options.headers = { authorization: generateValidRequestAuthorizationHeader() };
+        request.headers = { authorization: generateValidRequestAuthorizationHeader() };
       });
 
       it('should return 200 HTTP status', async () => {
         // when
-        const response = await server.inject(options);
+        const response = await server.inject(request);
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -40,21 +40,22 @@ describe('Acceptance | API | Certification Center', () => {
 
       it('should return a list of certificationCenter, with their name and id', async () => {
         // when
-        const response = await server.inject(options);
+        const response = await server.inject(request);
 
         // then
         expect(response.result.data).to.have.lengthOf(5);
         expect(_.keys(response.result.data[0].attributes)).to.have.members(['id', 'name', 'type', 'external-id', 'created-at']);
       });
     });
+
     context('when user is not PixMaster', () => {
       beforeEach(() => {
-        options.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
+        request.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
       });
 
       it('should return 403 HTTP status code ', async () => {
         // when
-        const response = await server.inject(options);
+        const response = await server.inject(request);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -64,7 +65,7 @@ describe('Acceptance | API | Certification Center', () => {
     context('when user is not connected', () => {
       it('should return 401 HTTP status code if user is not authenticated', async () => {
         // when
-        const response = await server.inject(options);
+        const response = await server.inject(request);
 
         // then
         expect(response.statusCode).to.equal(401);
@@ -74,7 +75,7 @@ describe('Acceptance | API | Certification Center', () => {
 
   describe('POST /api/certification-centers', () => {
     beforeEach(() => {
-      options = {
+      request = {
         method: 'POST',
         url: '/api/certification-centers',
         payload: {
@@ -95,12 +96,12 @@ describe('Acceptance | API | Certification Center', () => {
 
     context('when user is Pix Master', () => {
       beforeEach(() => {
-        options.headers = { authorization: generateValidRequestAuthorizationHeader() };
+        request.headers = { authorization: generateValidRequestAuthorizationHeader() };
       });
 
       it('should return 200 HTTP status', async () => {
         // when
-        const response = await server.inject(options);
+        const response = await server.inject(request);
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -108,7 +109,7 @@ describe('Acceptance | API | Certification Center', () => {
 
       it('should return the certification center created', async () => {
         // when
-        const response = await server.inject(options);
+        const response = await server.inject(request);
 
         // then
         expect(response.result.data.attributes.name).to.equal('Nouveau Centre de Certif');
@@ -119,12 +120,12 @@ describe('Acceptance | API | Certification Center', () => {
 
     context('when user is not PixMaster', () => {
       beforeEach(() => {
-        options.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
+        request.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
       });
 
       it('should return 403 HTTP status code ', async () => {
         // when
-        const response = await server.inject(options);
+        const response = await server.inject(request);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -134,7 +135,7 @@ describe('Acceptance | API | Certification Center', () => {
     context('when user is not connected', () => {
       it('should return 401 HTTP status code if user is not authenticated', async () => {
         // when
-        const response = await server.inject(options);
+        const response = await server.inject(request);
 
         // then
         expect(response.statusCode).to.equal(401);
@@ -149,7 +150,7 @@ describe('Acceptance | API | Certification Center', () => {
       expectedCertificationCenter = databaseBuilder.factory.buildCertificationCenter({});
       databaseBuilder.factory.buildCertificationCenter({});
       await databaseBuilder.commit();
-      options = {
+      request = {
         method: 'GET',
         url: '/api/certification-centers/' + expectedCertificationCenter.id,
       };
@@ -157,12 +158,12 @@ describe('Acceptance | API | Certification Center', () => {
 
     context('when user is Pix Master', () => {
       beforeEach(() => {
-        options.headers = { authorization: generateValidRequestAuthorizationHeader() };
+        request.headers = { authorization: generateValidRequestAuthorizationHeader() };
       });
 
       it('should return 200 HTTP status', async () => {
         // when
-        const response = await server.inject(options);
+        const response = await server.inject(request);
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -170,7 +171,7 @@ describe('Acceptance | API | Certification Center', () => {
 
       it('should return the certification center asked', async () => {
         // when
-        const response = await server.inject(options);
+        const response = await server.inject(request);
 
         // then
         expect(response.result.data.id).to.equal(expectedCertificationCenter.id.toString());
@@ -179,10 +180,10 @@ describe('Acceptance | API | Certification Center', () => {
 
       it('should return notFoundError when the certificationCenter not exist', async () => {
         // given
-        options.url = '/api/certification-centers/112334';
+        request.url = '/api/certification-centers/112334';
 
         // when
-        const response = await server.inject(options);
+        const response = await server.inject(request);
 
         // then
         expect(response.statusCode).to.equal(404);
@@ -194,12 +195,12 @@ describe('Acceptance | API | Certification Center', () => {
 
     context('when user is not PixMaster', () => {
       beforeEach(() => {
-        options.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
+        request.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
       });
 
       it('should return 403 HTTP status code ', async () => {
         // when
-        const response = await server.inject(options);
+        const response = await server.inject(request);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -209,7 +210,128 @@ describe('Acceptance | API | Certification Center', () => {
     context('when user is not connected', () => {
       it('should return 401 HTTP status code if user is not authenticated', async () => {
         // when
-        const response = await server.inject(options);
+        const response = await server.inject(request);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
+    });
+  });
+
+  describe('GET /api/certification-centers/{id}/students', () => {let request;
+    const externalId = 'XXXX';
+
+    function _buildSchoolinRegistrationsWithConnectedUserRequest(user, certificationCenter) {
+      return {
+        method: 'GET',
+        url: '/api/certification-centers/' + certificationCenter.id + '/students',
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      };
+    }
+    function _buildSchoolinRegistrationsNotConnectedUserRequest(certificationCenter) {
+      return {
+        method: 'GET',
+        url: '/api/certification-centers/' + certificationCenter.id + '/students',
+      };
+    }
+
+    context('when user is connected', () => {
+
+      it('should return 200 HTTP status', async () => {
+        // given
+        const { certificationCenter, user } = _buildUserWithCertificationCenterMemberShip(externalId);
+        const organization = _buildOrganization(externalId);
+        _buildSchoolingRegistrations(organization, { firstName: 'Laura', lastName: 'certifForEver', division: '2ndB' });
+        await databaseBuilder.commit();
+
+        const request = _buildSchoolinRegistrationsWithConnectedUserRequest(user, certificationCenter);
+
+        // when
+        const response = await server.inject(request);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('should return the schooling registrations asked', async () => {
+        // given
+        const { certificationCenter, user } = _buildUserWithCertificationCenterMemberShip(externalId);
+        const organization = _buildOrganization(externalId);
+        _buildSchoolingRegistrations(
+          organization,
+          { id: 1, division: '2ndB', firstName: 'Laura', lastName: 'Certif4Ever' },
+          { id: 2, division: '2ndA', firstName: 'Laura', lastName: 'Booooo' },
+          { id: 3, division: '2ndA', firstName: 'Laura', lastName: 'aaaaa' },
+          { id: 4, division: '2ndA', firstName: 'Bart', lastName: 'Coucou' },
+          { id: 5, division: '2ndA', firstName: 'Arthur', lastName: 'Coucou' },
+        );
+        await databaseBuilder.commit();
+
+        const request = _buildSchoolinRegistrationsWithConnectedUserRequest(user, certificationCenter);
+
+        // when
+        const response = await server.inject(request);
+
+        // then
+        expect(_.map(response.result.data, 'id')).to.deep.equal(['3', '2', '5', '4', '1']);
+      });
+
+      context('when the certification center does not exist', () => {
+
+        it('should return Forbidden Access when the certificationCenter does not exist', async () => {
+          // given
+          const { user } = _buildUserWithCertificationCenterMemberShip(externalId);
+          _buildOrganization(externalId);
+          await databaseBuilder.commit();
+
+          const notExistingCertificationCenter = { id: '10203' };
+          const request = _buildSchoolinRegistrationsWithConnectedUserRequest(user, notExistingCertificationCenter);
+
+          // when
+          const response = await server.inject(request);
+
+          // then
+          expect(response.statusCode).to.equal(403);
+          expect(response.result.errors[0].title).to.equal('Forbidden');
+          expect(response.result.errors[0].detail).to.equal(`User ${user.id} is not a member of certification center ${notExistingCertificationCenter.id}`);
+        });
+      });
+
+      context('when user is not a member of the certification center', () => {
+        let certificationCenterWhereUserDoesNotHaveAccess;
+
+        it('should return Forbidden Access when user are not register in the certificationCenter', async () => {
+          // given
+          const { user } = _buildUserWithCertificationCenterMemberShip(externalId);
+          _buildOrganization(externalId);
+          certificationCenterWhereUserDoesNotHaveAccess = databaseBuilder.factory.buildCertificationCenter({ externalId });
+          await databaseBuilder.commit();
+
+          const request = _buildSchoolinRegistrationsWithConnectedUserRequest(user, certificationCenterWhereUserDoesNotHaveAccess);
+
+          // when
+          const response = await server.inject(request);
+
+          // then
+          expect(response.statusCode).to.equal(403);
+          expect(response.result.errors[0].title).to.equal('Forbidden');
+          expect(response.result.errors[0].detail).to.equal(`User ${user.id} is not a member of certification center ${certificationCenterWhereUserDoesNotHaveAccess.id}`);
+        });
+      });
+    });
+
+    context('when user is not connected', () => {
+      it('should return 401 HTTP status code if user is not authenticated', async() => {
+        // given
+        _buildUserWithCertificationCenterMemberShip(externalId);
+        _buildOrganization(externalId);
+        const certificationCenterWhereUserDoesNotHaveAccess = databaseBuilder.factory.buildCertificationCenter({ externalId });
+        await databaseBuilder.commit();
+
+        request = _buildSchoolinRegistrationsNotConnectedUserRequest(certificationCenterWhereUserDoesNotHaveAccess);
+
+        // when
+        const response = await server.inject(request);
 
         // then
         expect(response.statusCode).to.equal(401);
@@ -233,7 +355,7 @@ describe('Acceptance | API | Certification Center', () => {
       ];
       databaseBuilder.factory.buildSession();
       await databaseBuilder.commit();
-      options = {
+      request = {
         method: 'GET',
         url: '/api/certification-centers/' + certificationCenter.id + '/sessions',
       };
@@ -241,12 +363,12 @@ describe('Acceptance | API | Certification Center', () => {
 
     context('when user is linked to the certification center', () => {
       beforeEach(() => {
-        options.headers = { authorization: generateValidRequestAuthorizationHeader(user.id) };
+        request.headers = { authorization: generateValidRequestAuthorizationHeader(user.id) };
       });
 
       it('should return 200 HTTP status', async () => {
         // when
-        const response = await server.inject(options);
+        const response = await server.inject(request);
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -254,7 +376,7 @@ describe('Acceptance | API | Certification Center', () => {
 
       it('should return the list of sessions', async () => {
         // when
-        const response = await server.inject(options);
+        const response = await server.inject(request);
 
         // then
         expect(response.result.data).to.have.lengthOf(expectedSessions.length);
@@ -266,12 +388,12 @@ describe('Acceptance | API | Certification Center', () => {
 
     context('when user is not linked to certification center', () => {
       beforeEach(async () => {
-        options.headers = { authorization: generateValidRequestAuthorizationHeader(otherUser.id) };
+        request.headers = { authorization: generateValidRequestAuthorizationHeader(otherUser.id) };
       });
 
       it('should return 403 HTTP status code ', async () => {
         // when
-        const response = await server.inject(options);
+        const response = await server.inject(request);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -281,12 +403,30 @@ describe('Acceptance | API | Certification Center', () => {
     context('when user is not connected', () => {
       it('should return 401 HTTP status code if user is not authenticated', async () => {
         // when
-        const response = await server.inject(options);
+        const response = await server.inject(request);
 
         // then
         expect(response.statusCode).to.equal(401);
       });
     });
   });
+
+  function _buildOrganization(externalId) {
+    const organization = databaseBuilder.factory.buildOrganization({ externalId });
+    return organization;
+  }
+  function _buildSchoolingRegistrations(organization, ...students) {
+    return students.map((student) => databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, ...student }));
+  }
+
+  function _buildUserWithCertificationCenterMemberShip(certificationCenterExternalId) {
+    const user = databaseBuilder.factory.buildUser({});
+    const certificationCenter = databaseBuilder.factory.buildCertificationCenter({ externalId: certificationCenterExternalId });
+    databaseBuilder.factory.buildCertificationCenterMembership({
+      certificationCenterId: certificationCenter.id,
+      userId: user.id,
+    });
+    return { user, certificationCenter };
+  }
 
 });

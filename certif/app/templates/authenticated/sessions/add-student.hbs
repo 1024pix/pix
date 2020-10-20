@@ -1,0 +1,11 @@
+<div class="add-student">
+
+  <PixReturnTo
+    @route="authenticated.sessions.details.certification-candidates"
+    @model={{@model.sessionId}}
+    class="add-student__return-to">Retour à la session</PixReturnTo>
+
+  <h1 class="add-student__title">Ajouter des candidats</h1>
+
+  <AddStudentList @studentList={{@model.students}} />
+</div>

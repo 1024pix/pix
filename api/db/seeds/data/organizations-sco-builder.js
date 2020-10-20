@@ -2,6 +2,7 @@ const Membership = require('../../../lib/domain/models/Membership');
 
 module.exports = function organizationsScoBuilder({ databaseBuilder }) {
   const defaultPassword = 'pix123';
+  const SCO_EXTERNAL_ID = '1237457A';
 
   /* COLLEGE */
   const scoUser1 = databaseBuilder.factory.buildUser.withUnencryptedPassword({
@@ -31,7 +32,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     isManagingStudents: true,
     canCollectProfiles: true,
     email: 'sco.generic.account@example.net',
-    externalId: '1237457A',
+    externalId: SCO_EXTERNAL_ID,
     provinceCode: '12',
   });
 
