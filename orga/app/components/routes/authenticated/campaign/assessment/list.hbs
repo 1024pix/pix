@@ -44,7 +44,11 @@
               {{/if}}
             </td>
             {{#if @campaign.targetProfile.hasBadges}}
-              <td>Not implemented</td>
+              <td>
+                {{#each participation.badges as |badge|}}
+                  <img src={{badge.imageUrl}} alt={{badge.altMessage}} class="participant-list__badge" />
+                {{/each}}
+              </td>
             {{/if}}
           </tr>
         {{/each}}
