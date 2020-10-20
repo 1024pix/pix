@@ -1,38 +1,31 @@
-const { expect, sinon } = require('../../../test-helper');
-const Hapi = require('@hapi/hapi');
+const {
+  expect,
+  HttpTestServer,
+  sinon,
+} = require('../../../test-helper');
+
+const moduleUnderTest = require('../../../../lib/application/answers');
+
 const AnswerController = require('../../../../lib/application/answers/answer-controller');
 
 describe('Unit | Router | answer-router', function() {
 
-  let server;
+  let httpTestServer;
 
   beforeEach(function() {
-
     sinon.stub(AnswerController, 'save').callsFake((request, h) => h.response().code(201));
     sinon.stub(AnswerController, 'get').callsFake((request, h) => h.response().code(200));
     sinon.stub(AnswerController, 'find').callsFake((request, h) => h.response().code(200));
     sinon.stub(AnswerController, 'update').callsFake((request, h) => h.response().code(204));
 
-    server = Hapi.server();
-
-    return server.register(require('../../../../lib/application/answers'));
-  });
-
-  afterEach(() => {
-    server.stop();
+    httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
   describe('POST /api/answers', function() {
 
     it('should exist', async () => {
-      // given
-      const options = {
-        method: 'POST',
-        url: '/api/answers',
-      };
-
       // when
-      const result = await server.inject(options);
+      const result = await httpTestServer.request('POST', '/api/answers');
 
       // then
       expect(result.statusCode).to.equal(201);
@@ -42,14 +35,8 @@ describe('Unit | Router | answer-router', function() {
   describe('GET /api/answers/{id}', function() {
 
     it('should exist', async () => {
-      // given
-      const options = {
-        method: 'GET',
-        url: '/api/answers/answer_id',
-      };
-
       // when
-      const result = await server.inject(options);
+      const result = await httpTestServer.request('GET', '/api/answers/answer_id');
 
       // then
       expect(result.statusCode).to.equal(200);
@@ -59,14 +46,8 @@ describe('Unit | Router | answer-router', function() {
   describe('GET /api/answers?assessment=<assessment_id>&challenge=<challenge_id>', function() {
 
     it('should exist', async () => {
-      // given
-      const options = {
-        method: 'GET',
-        url: '/api/answers',
-      };
-
       // when
-      const result = await server.inject(options);
+      const result = await httpTestServer.request('GET', '/api/answers');
 
       // then
       expect(result.statusCode).to.equal(200);
@@ -76,14 +57,8 @@ describe('Unit | Router | answer-router', function() {
   describe('PATCH /api/answers/{id}', function() {
 
     it('should exist', async () => {
-      // given
-      const options = {
-        method: 'PATCH',
-        url: '/api/answers/answer_id',
-      };
-
       // when
-      const result = await server.inject(options);
+      const result = await httpTestServer.request('PATCH', '/api/answers/answer_id');
 
       // then
       expect(result.statusCode).to.equal(204);

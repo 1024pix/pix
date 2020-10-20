@@ -1,67 +1,58 @@
-const Hapi = require('@hapi/hapi');
+const {
+  expect,
+  HttpTestServer,
+  sinon,
+} = require('../../../test-helper');
+
 const querystring = require('querystring');
-const { expect, sinon } = require('../../../test-helper');
+
+const moduleUnderTest =  require('../../../../lib/application/authentication');
+
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
 
 describe('Integration | Application | Route | AuthenticationRouter', () => {
 
-  let server;
+  let httpTestServer;
 
   beforeEach(() => {
-    // configure and start server
-    server = Hapi.server();
+    sinon.stub(authenticationController, 'authenticateUser').callsFake((request, h) => h.response({
+      token_type: 'bearer',
+      access_token: 'some-jwt-access-token',
+      user_id: 'the-user-id',
+    }));
 
-    return server.register(require('../../../../lib/application/authentication'));
-  });
-
-  afterEach(() => {
-    server.stop();
+    httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
   describe('POST /api/token', () => {
 
-    let options;
-    let server;
+    const method = 'POST';
+    const url = '/api/token';
+    const headers = {
+      'content-type': 'application/x-www-form-urlencoded',
+    };
+
+    let payload;
 
     beforeEach(() => {
-      // configure a request (valid by default)
-      options = {
-        method: 'POST',
-        url: '/api/token',
-        headers: {
-          'content-type': 'application/x-www-form-urlencoded',
-        },
-        payload: querystring.stringify({
-          grant_type: 'password',
-          username: 'user.username2453  ',
-          password: 'user_password',
-          scope: 'pix-orga',
-        }),
-      };
-
-      // stub dependencies
-      sinon.stub(authenticationController, 'authenticateUser').callsFake((request, h) => h.response({
-        token_type: 'bearer',
-        access_token: 'some-jwt-access-token',
-        user_id: 'the-user-id',
-      }));
-
-      // instance new Hapi.js server with minimal config to test route
-      server = Hapi.server();
-
-      return server.register(require('../../../../lib/application/authentication'));
+      payload = querystring.stringify({
+        grant_type: 'password',
+        username: 'user.username2453  ',
+        password: 'user_password',
+        scope: 'pix-orga',
+      });
     });
 
     it('should return a response with HTTP status code 200 even if there is no scope in the request', async () => {
       // given
-      options.payload = querystring.stringify({
+      payload = querystring.stringify({
         grant_type: 'password',
         username: 'user@email.com',
         password: 'user_password',
       });
 
       // when
-      const response = await server.inject(options);
+      const response = await httpTestServer.request(method, url, payload, null, headers);
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -69,14 +60,14 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
     it('should return a 400 when grant type is not "password"', async () => {
       // given
-      options.payload = querystring.stringify({
+      payload = querystring.stringify({
         grant_type: 'authorization_code',
         username: 'valid@email.com',
         password: 'valid_password',
       });
 
       // when
-      const response = await server.inject(options);
+      const response = await httpTestServer.request(method, url, payload, null, headers);
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -84,13 +75,13 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
     it('should return a 400 when username is missing', async () => {
       // given
-      options.payload = querystring.stringify({
+      payload = querystring.stringify({
         grant_type: 'password',
         password: 'valid_password',
       });
 
       // when
-      const response = await server.inject(options);
+      const response = await httpTestServer.request(method, url, payload, null, headers);
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -98,13 +89,13 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
     it('should return a 400 when password is missing', async () => {
       // given
-      options.payload = querystring.stringify({
+      payload = querystring.stringify({
         grant_type: 'password',
         username: 'valid@email.com',
       });
 
       // when
-      const response = await server.inject(options);
+      const response = await httpTestServer.request(method, url, payload, null, headers);
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -112,55 +103,51 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
     it('should return a 400 when username is not an email', async () => {
       // given
-      options.payload = querystring.stringify({
+      payload = querystring.stringify({
         grant_type: 'authorization_code',
         username: 'a_login_not_an_email',
         password: 'valid_password',
       });
 
       // when
-      const response = await server.inject(options);
+      const response = await httpTestServer.request(method, url, payload, null, headers);
 
       // then
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return a JSON API error (415) when request "Content-Type" header is not "application/x-www-form-urlencoded"', () => {
+    it('should return a JSON API error (415) when request "Content-Type" header is not "application/x-www-form-urlencoded"', async () => {
       // given
-      options.headers['content-type'] = 'text/html';
+      headers['content-type'] = 'text/html';
 
       // when
-      const promise = server.inject(options);
+      const response = await httpTestServer.request(method, url, payload, null, headers);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(415);
-      });
+      expect(response.statusCode).to.equal(415);
     });
   });
 
   describe('POST /revoke', () => {
 
-    let options;
+    const method = 'POST';
+    const url = '/api/revoke';
+    const headers = {
+      'content-type': 'application/x-www-form-urlencoded',
+    };
+
+    let payload;
 
     beforeEach(() => {
-      // configure a request (valid by default)
-      options = {
-        method: 'POST',
-        url: '/api/revoke',
-        headers: {
-          'content-type': 'application/x-www-form-urlencoded',
-        },
-        payload: querystring.stringify({
-          token: 'jwt.access.token',
-          token_type_hint: 'access_token',
-        }),
-      };
+      payload = querystring.stringify({
+        token: 'jwt.access.token',
+        token_type_hint: 'access_token',
+      });
     });
 
     it('should return a response with HTTP status code 204 when route handler (a.k.a. controller) is successful', async () => {
       // when
-      const response = await server.inject(options);
+      const response = await httpTestServer.request(method, url, payload, null, headers);
 
       // then
       expect(response.statusCode).to.equal(204);
@@ -168,13 +155,13 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
     it('should return a 400 when grant type is not "access_token" nor "refresh_token"', async () => {
       // given
-      options.payload = querystring.stringify({
+      payload = querystring.stringify({
         token: 'jwt.access.token',
         token_type_hint: 'not_standard_token_type',
       });
 
       // when
-      const response = await server.inject(options);
+      const response = await httpTestServer.request(method, url, payload, null, headers);
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -182,12 +169,12 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
     it('should return a 400 when token is missing', async () => {
       // given
-      options.payload = querystring.stringify({
+      payload = querystring.stringify({
         token_type_hint: 'access_token',
       });
 
       // when
-      const response = await server.inject(options);
+      const response = await httpTestServer.request(method, url, payload, null, headers);
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -195,12 +182,12 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
     it('should return a response with HTTP status code 204 even when token type hint is missing', async () => {
       // given
-      options.payload = querystring.stringify({
+      payload = querystring.stringify({
         token: 'jwt.access.token',
       });
 
       // when
-      const response = await server.inject(options);
+      const response = await httpTestServer.request(method, url, payload, null, headers);
 
       // then
       expect(response.statusCode).to.equal(204);
@@ -208,10 +195,10 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
     it('should return a JSON API error (415) when request "Content-Type" header is not "application/x-www-form-urlencoded"', async () => {
       // given
-      options.headers['content-type'] = 'text/html';
+      headers['content-type'] = 'text/html';
 
       // when
-      const response = await server.inject(options);
+      const response = await httpTestServer.request(method, url, payload, null, headers);
 
       // then
       expect(response.statusCode).to.equal(415);
@@ -220,32 +207,31 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
   describe('POST /api/token-from-external-user', function() {
 
-    let options;
+    const method = 'POST';
+    const url = '/api/token-from-external-user';
 
-    beforeEach(async () => {
-      options = {
-        method: 'POST',
-        url: '/api/token-from-external-user',
-        payload: {
-          data: {
-            attributes: {
-              username: 'saml.jackson0101',
-              password: 'password',
-              'external-user-token': 'expectedExternalToken',
-              'expected-user-id': 1,
-            },
-            type: 'external-user-authentication-requests',
+    let payload;
+
+    beforeEach(() => {
+      payload = {
+        data: {
+          attributes: {
+            username: 'saml.jackson0101',
+            password: 'password',
+            'external-user-token': 'expectedExternalToken',
+            'expected-user-id': 1,
           },
+          type: 'external-user-authentication-requests',
         },
       };
     });
 
     it('should return a 400 BAd Request if username is missing', async () => {
       // given
-      options.payload.data.attributes.username = undefined;
+      payload.data.attributes.username = undefined;
 
       // when
-      const response = await server.inject(options);
+      const response = await httpTestServer.request(method, url, payload);
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -253,10 +239,10 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
     it('should return a 400 BAd Request if password is missing', async () => {
       // given
-      options.payload.data.attributes.password = undefined;
+      payload.data.attributes.password = undefined;
 
       // when
-      const response = await server.inject(options);
+      const response = await httpTestServer.request(method, url, payload);
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -264,10 +250,10 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
     it('should return a 400 BAd Request if external-user-token is missing', async () => {
       // given
-      options.payload.data.attributes['external-user-token'] = undefined;
+      payload.data.attributes['external-user-token'] = undefined;
 
       // when
-      const response = await server.inject(options);
+      const response = await httpTestServer.request(method, url, payload);
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -275,10 +261,10 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
     it('should return a 400 BAd Request if expected-user-id is missing', async () => {
       // given
-      options.payload.data.attributes['expected-user-id'] = undefined;
+      payload.data.attributes['expected-user-id'] = undefined;
 
       // when
-      const response = await server.inject(options);
+      const response = await httpTestServer.request(method, url, payload);
 
       // then
       expect(response.statusCode).to.equal(400);

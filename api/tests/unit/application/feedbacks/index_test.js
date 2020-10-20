@@ -1,38 +1,31 @@
-const { expect, sinon } = require('../../../test-helper');
-const Hapi = require('@hapi/hapi');
+const {
+  expect,
+  HttpTestServer,
+  sinon,
+} = require('../../../test-helper');
+
+const moduleUnderTest = require('../../../../lib/application/feedbacks');
+
 const feedbackController = require('../../../../lib/application/feedbacks/feedback-controller');
-const route = require('../../../../lib/application/feedbacks');
 
 describe('Unit | Router | feedback-router', () => {
 
-  let server;
+  let httpTestServer;
 
   beforeEach(() => {
-    server = Hapi.server();
+    sinon.stub(feedbackController, 'save').returns('ok');
+
+    httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
   describe('POST /api/feedbacks', () => {
 
-    beforeEach(() => {
-      sinon.stub(feedbackController, 'save').returns('ok');
-      return server.register(route);
-    });
-
-    it('should exist', () => {
-      // given
-      const options = {
-        method: 'POST',
-        url: '/api/feedbacks',
-      };
-
+    it('should exist', async () => {
       // when
-      const promise = server.inject(options);
+      const response = await httpTestServer.request('POST', '/api/feedbacks');
 
       // then
-      return promise.then((result) => {
-        expect(result.statusCode).to.equal(200);
-      });
+      expect(response.statusCode).to.equal(200);
     });
   });
-
 });

@@ -1,16 +1,23 @@
-const Hapi = require('@hapi/hapi');
 const { writeFile, stat, unlink } = require('fs').promises;
 const fs = require('fs');
 const FormData = require('form-data');
 const streamToPromise = require('stream-to-promise');
-const { expect, sinon } = require('../../../test-helper');
+
+const {
+  expect,
+  HttpTestServer,
+  sinon,
+} = require('../../../test-helper');
+
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const sessionController = require('../../../../lib/application/sessions/session-controller');
 const sessionAuthorization = require('../../../../lib/application/preHandlers/session-authorization');
-const route = require('../../../../lib/application/sessions');
+
+const moduleUnderTest = require('../../../../lib/application/sessions');
 
 describe('Unit | Application | Sessions | Routes', () => {
-  let server;
+
+  let httpTestServer;
 
   beforeEach(() => {
     sinon.stub(sessionAuthorization, 'verify').returns(null);
@@ -33,75 +40,95 @@ describe('Unit | Application | Sessions | Routes', () => {
     sinon.stub(sessionController, 'flagResultsAsSentToPrescriber').returns('ok');
     sinon.stub(sessionController, 'assignCertificationOfficer').returns('ok');
 
-    server = Hapi.server();
-    return server.register(route);
+    httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
   describe('GET /api/sessions/{id}', () => {
 
     it('should exist', async () => {
-      const res = await server.inject({ method: 'GET', url: '/api/sessions/3' });
-      expect(res.statusCode).to.equal(200);
+      // when
+      const response = await httpTestServer.request('GET', '/api/sessions/3');
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 
   describe('GET /api/admin/sessions/{id}', () => {
 
     it('should exist', async () => {
-      const res = await server.inject({ method: 'GET', url: '/api/admin/sessions/123' });
-      expect(res.statusCode).to.equal(200);
+      // when
+      const response = await httpTestServer.request('GET', '/api/admin/sessions/123');
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 
   describe('GET /api/admin/sessions', () => {
 
     it('should exist', async () => {
-      const res = await server.inject({ method: 'GET', url: '/api/admin/sessions' });
-      expect(res.statusCode).to.equal(200);
+      // when
+      const response = await httpTestServer.request('GET', '/api/admin/sessions');
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 
   describe('POST /api/session', () => {
 
     it('should exist', async () => {
-      const res = await server.inject({ method: 'POST', url: '/api/sessions' });
-      expect(res.statusCode).to.equal(200);
+      /// when
+      const response = await httpTestServer.request('POST', '/api/sessions');
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 
   describe('GET /api/sessions/{id}/attendance-sheet', () => {
 
     it('should exist', async () => {
-      const res = await server.inject({ method: 'GET', url: '/api/sessions/1/attendance-sheet' });
-      expect(res.statusCode).to.equal(200);
+      // when
+      const response = await httpTestServer.request('GET', '/api/sessions/1/attendance-sheet');
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 
   describe('PATCH /api/sessions/{id}', () => {
 
     it('should exist', async () => {
-      const res = await server.inject({ method: 'PATCH', url: '/api/sessions/1' });
-      expect(res.statusCode).to.equal(200);
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/sessions/1');
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 
   describe('POST /api/sessions/{id}/certification-candidates/import', () => {
-    let sessionId;
 
     const testFilePath = `${__dirname}/testFile_temp.ods`;
-    let options;
+
+    const method = 'POST';
+
+    let headers;
+    let url;
+    let payload;
+
+    let sessionId;
+
     beforeEach(async () => {
-      // given
       await writeFile(testFilePath, Buffer.alloc(0));
       const form = new FormData();
       const knownLength = await stat(testFilePath).size;
       form.append('file', fs.createReadStream(testFilePath), { knownLength });
-      const payload = await streamToPromise(form);
-      options = {
-        method: 'POST',
-        headers: form.getHeaders(),
-        payload,
-      };
+
+      headers = form.getHeaders();
+      payload = await streamToPromise(form);
     });
 
     afterEach(async () => {
@@ -111,13 +138,13 @@ describe('Unit | Application | Sessions | Routes', () => {
     it('should exist', async () => {
       // given
       sessionId = 3;
-      options.url = `/api/sessions/${sessionId}/certification-candidates/import`;
+      url = `/api/sessions/${sessionId}/certification-candidates/import`;
 
       // when
-      const res = await server.inject(options);
+      const response = await httpTestServer.request(method, url, payload, null, headers);
 
       // then
-      expect(res.statusCode).to.equal(200);
+      expect(response.statusCode).to.equal(200);
     });
 
     context('when session ID params is not a number', () => {
@@ -125,13 +152,13 @@ describe('Unit | Application | Sessions | Routes', () => {
       it('should return 400', async () => {
         // given
         sessionId = 'salut';
-        options.url = `/api/sessions/${sessionId}/certification-candidates/import`;
+        url = `/api/sessions/${sessionId}/certification-candidates/import`;
 
         // when
-        const res = await server.inject(options);
+        const response = await httpTestServer.request(method, url, payload, null, headers);
 
         // then
-        expect(res.statusCode).to.equal(400);
+        expect(response.statusCode).to.equal(400);
       });
     });
 
@@ -140,13 +167,13 @@ describe('Unit | Application | Sessions | Routes', () => {
       it('should return 400', async () => {
         // given
         sessionId = 9999999999;
-        options.url = `/api/sessions/${sessionId}/certification-candidates/import`;
+        url = `/api/sessions/${sessionId}/certification-candidates/import`;
 
         // when
-        const res = await server.inject(options);
+        const response = await httpTestServer.request(method, url, payload, null, headers);
 
         // then
-        expect(res.statusCode).to.equal(400);
+        expect(response.statusCode).to.equal(400);
       });
     });
   });
@@ -154,72 +181,108 @@ describe('Unit | Application | Sessions | Routes', () => {
   describe('GET /api/sessions/{id}/certification-candidates', () => {
 
     it('should exist', async () => {
-      const res = await server.inject({ method: 'GET', url: '/api/sessions/3/certification-candidates' });
-      expect(res.statusCode).to.equal(200);
+      // when
+      const response = await httpTestServer.request('GET', '/api/sessions/3/certification-candidates');
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 
   describe('POST /api/sessions/{id}/certification-candidates', () => {
 
     it('should exist', async () => {
-      const res = await server.inject({ method: 'POST', url: '/api/sessions/3/certification-candidates' });
-      expect(res.statusCode).to.equal(200);
+      // when
+      const response = await httpTestServer.request('POST', '/api/sessions/3/certification-candidates');
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 
   describe('DELETE /api/sessions/{id}/certification-candidates/{certificationCandidateId}', () => {
 
     it('should exist', async () => {
-      const res = await server.inject({ method: 'DELETE', url: '/api/sessions/3/certification-candidates/1' });
-      expect(res.statusCode).to.equal(200);
+      // when
+      const response = await httpTestServer.request('DELETE', '/api/sessions/3/certification-candidates/1');
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 
   describe('GET /api/admin/sessions/{id}/jury-certification-summaries', () => {
 
     it('should exist', async () => {
-      const res = await server.inject({ method: 'GET', url: '/api/admin/sessions/1/jury-certification-summaries' });
-      expect(res.statusCode).to.equal(200);
+      // when
+      const response = await httpTestServer.request('GET', '/api/admin/sessions/1/jury-certification-summaries');
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 
   describe('POST /api/sessions/{id}/candidate-participation', () => {
 
     it('should exist', async () => {
-      const res = await server.inject({ method: 'POST', url: '/api/sessions/3/candidate-participation' });
-      expect(res.statusCode).to.equal(200);
+      // when
+      const response = await httpTestServer.request('POST', '/api/sessions/3/candidate-participation');
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 
   describe('PUT /api/sessions/{id}/finalization', () => {
 
     it('should exist', async () => {
-      const res = await server.inject({ method: 'PUT', url: '/api/sessions/3/finalization' });
-      expect(res.statusCode).to.equal(200);
+      // when
+      const response = await httpTestServer.request('PUT', '/api/sessions/3/finalization');
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 
   describe('PATCH /api/admin/sessions/{id}/publication', () => {
 
     it('should exist', async () => {
-      const res = await server.inject({ method: 'PATCH', url: '/api/admin/sessions/1/publication', payload: { data: { attributes: { toPublish: true } } } });
-      expect(res.statusCode).to.equal(200);
+      // given
+      const payload = {
+        data: {
+          attributes: {
+            toPublish: true,
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/admin/sessions/1/publication', payload);
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 
   describe('PUT /api/admin/sessions/{id}/results-sent-to-prescriber', () => {
 
     it('should exist', async () => {
-      const res = await server.inject({ method: 'PUT', url: '/api/admin/sessions/3/results-sent-to-prescriber' });
-      expect(res.statusCode).to.equal(200);
+      // when
+      const response = await httpTestServer.request('PUT', '/api/admin/sessions/3/results-sent-to-prescriber');
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 
   describe('PATCH /api/admin/sessions/{id}/certification-officer-assignment', () => {
 
     it('should exist', async () => {
-      const res = await server.inject({ method: 'PATCH', url: '/api/admin/sessions/1/certification-officer-assignment' });
-      expect(res.statusCode).to.equal(200);
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/admin/sessions/1/certification-officer-assignment');
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 
@@ -255,8 +318,11 @@ describe('Unit | Application | Sessions | Routes', () => {
       { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'PATCH', url: '/api/admin/sessions/9999999999/certification-officer-assignment' } },
     ].forEach(({ condition, request }) => {
       it(`should return 400 when ${condition}`, async () => {
-        const res = await server.inject(request);
-        expect(res.statusCode).to.equal(400);
+        // when
+        const response = await httpTestServer.request(request.method, request.url, request.payload || null);
+
+        // then
+        expect(response.statusCode).to.equal(400);
       });
     });
   });
