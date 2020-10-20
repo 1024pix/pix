@@ -18,6 +18,7 @@ class CampaignAssessmentParticipationSummary {
     isShared,
     targetedSkillCount,
     validatedTargetedSkillCount,
+    badges = [],
   } = {}) {
     this.campaignParticipationId = campaignParticipationId;
     this.userId = userId;
@@ -29,6 +30,7 @@ class CampaignAssessmentParticipationSummary {
     this.targetedSkillCount = targetedSkillCount;
     this.validatedTargetedSkillCount = validatedTargetedSkillCount;
     this.masteryPercentage = this._computeMasteryPercentage(isShared);
+    this.badges = badges;
   }
 
   _computeMasteryPercentage(isShared) {
@@ -44,6 +46,10 @@ class CampaignAssessmentParticipationSummary {
     if (isShared) return CampaignAssessmentParticipationSummary.statuses.SHARED;
     if (state === Assessment.states.COMPLETED) return CampaignAssessmentParticipationSummary.statuses.COMPLETED;
     return CampaignAssessmentParticipationSummary.statuses.ONGOING;
+  }
+
+  setBadges(badges) {
+    this.badges = badges;
   }
 }
 
