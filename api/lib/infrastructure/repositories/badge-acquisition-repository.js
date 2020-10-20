@@ -1,4 +1,5 @@
 const Bookshelf = require('../bookshelf');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const BookshelfBadgeAcquisition = require('../../infrastructure/data/badge-acquisition');
 const DomainTransaction = require('../DomainTransaction');
 
@@ -17,5 +18,32 @@ module.exports = {
       .where('badgeId', 'in', badgeIds)
       .fetchAll({ columns: ['badge-acquisitions.badgeId'], require: false });
     return collectionResult.map((obj) => obj.attributes.badgeId);
+  },
+
+  async getCampaignAcquiredBadgesByUsers({ campaignId, userIds }) {
+    const results = await BookshelfBadgeAcquisition
+      .query((qb) => {
+        qb.join('badges', 'badges.id', 'badge-acquisitions.badgeId');
+        qb.join('campaigns', 'campaigns.targetProfileId', 'badges.targetProfileId');
+        qb.where('campaigns.id', '=', campaignId);
+        qb.where('badge-acquisitions.userId', 'IN', userIds);
+      })
+      .fetchAll({ 
+        withRelated: ['badge'],
+        require: false,
+      });
+
+    const badgeAcquisitions = results.map((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfBadgeAcquisition, result));
+    
+    const acquiredBadgeIdsByUsers = {};
+    for (const badgeAcquisition of badgeAcquisitions) {
+      const { userId, badge } = badgeAcquisition;
+      if (acquiredBadgeIdsByUsers[userId]) {
+        acquiredBadgeIdsByUsers[userId].push(badge);
+      } else {
+        acquiredBadgeIdsByUsers[userId] = [badge];
+      }
+    }
+    return acquiredBadgeIdsByUsers;
   },
 };

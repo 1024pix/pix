@@ -50,12 +50,6 @@ describe('Integration | Repository | Badge Acquisition', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await knex('badge-acquisitions').delete();
-      await knex('badges').delete();
-      return knex('users').delete();
-    });
-
     it('should check that the user has acquired the badge', async () => {
       // when
       const acquiredBadgeIds = await badgeAcquisitionRepository.getAcquiredBadgeIds({ userId, badgeIds: [badgeId] });
@@ -70,6 +64,44 @@ describe('Integration | Repository | Badge Acquisition', () => {
 
       // then
       expect(acquiredBadgeIds.length).to.equal(0);
+    });
+  });
+
+  describe('#getCampaignAcquiredBadgesByUsers', () => {
+    let campaign;
+    let user1;
+    let user2;
+    let user3;
+    let badge1;
+    let badge2;
+
+    beforeEach(async () => {
+      const targetProfile = databaseBuilder.factory.buildTargetProfile();
+      campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+      badge1 = databaseBuilder.factory.buildBadge({ targetProfileId: targetProfile.id });
+      badge2 = databaseBuilder.factory.buildBadge({ targetProfileId: targetProfile.id });
+      user1 = databaseBuilder.factory.buildUser();
+      user2 = databaseBuilder.factory.buildUser();
+      user3 = databaseBuilder.factory.buildUser();
+      databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge1.id, userId: user1.id });
+      databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge1.id, userId: user2.id });
+      databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge2.id, userId: user2.id });
+      databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge2.id, userId: user3.id });
+
+      await databaseBuilder.commit();
+    });
+
+    it('should return badge ids acquired by user for a campaign', async () => {
+      // when
+      const acquiredBadgeIdsByUsers = await badgeAcquisitionRepository.getCampaignAcquiredBadgesByUsers({ 
+        campaignId: campaign.id,
+        userIds: [user1.id, user2.id],
+      });
+
+      // then
+      expect(acquiredBadgeIdsByUsers[user1.id][0]).to.includes(badge1);
+      expect(acquiredBadgeIdsByUsers[user2.id][0]).to.includes(badge1);
+      expect(acquiredBadgeIdsByUsers[user2.id][1]).to.includes(badge2);
     });
   });
 });
