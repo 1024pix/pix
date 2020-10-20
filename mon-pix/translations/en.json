@@ -2,7 +2,6 @@
     "api-error-messages": {
         "bad-request-error": "The data entered was not in the correct format.",
         "internal-server-error": "An error occurred, our teams are working on finding a solution. Please try again later.",
-        "login-unauthorized-error": "There was an error in the email address or username/password entered.",
         "join-error": {
             "r11": "{ value }",
             "r12": "You already have a Pix account under the username '<br>'{ value }.'<br>'To continue, log in with this account or ask for help from a teacher.'<br>'(Code R12)",
@@ -12,6 +11,7 @@
             "r33": "You already have a Pix account through your virtual learning environment (\"ENT\"). Log in with this account to take your personalised test.",
             "r70": "An error occurred. Please log out and try again."
         },
+        "login-unauthorized-error": "There was an error in the email address or username/password entered.",
         "register-error": {
             "s51": "{ value }",
             "s52": "You already have a Pix account under the username '<br>'{ value }.'<br>'To continue, log in with this account or ask for help from a teacher.'<br>'(Code S52)",
@@ -26,10 +26,10 @@
     },
     "common": {
         "actions": {
+            "back": "Back",
             "cancel": "Cancel",
             "close": "Close",
             "quit": "Exit",
-            "back": "Back",
             "sign-out": "Sign out"
         },
         "form": {
@@ -89,7 +89,7 @@
                 },
                 "certify": {
                     "title": "Prepare a certification recognised throughout Europe and in the business world",
-                    "description": "The Pix Certification enables you to showcase your digital skills to employers."
+                    "description": "The Pix Certification enables you to highlight your digital skills to employers."
                 },
                 "develop": {
                     "title": "See your results as you go along and view tips to improve.",
@@ -131,8 +131,8 @@
                 "certified": "certified"
             },
             "issued-on": "Delivered on",
-            "jury-title": "Remarks from the board of examiners",
-            "jury-info": "Comments of the examination board are not displayed on the verification page of your certificate.",
+            "jury-title": "Notes from the examining body",
+            "jury-info": "Notes from the examining body are not displayed on the verification page of your certificate.",
             "validity": "Certificate valid for 3 years"
         },
         "competence-result": {
@@ -159,12 +159,12 @@
                 },
                 "fields": {
                     "birth-date": "Date of birth",
-                    "birth-name": "Given name",
-                    "first-name": "First name",
-                    "session-number": "Session number",
                     "birth-day": "Day (DD)",
                     "birth-month": "Month (MM)",
-                    "birth-year": "Year (YYYY)"
+                    "birth-name": "Given name",
+                    "birth-year": "Year (YYYY)",
+                    "first-name": "First name",
+                    "session-number": "Session number"
                 }
             }
         },
@@ -376,7 +376,7 @@
         },
         "checkpoint": {
             "title": {
-                "assessment-progress": "Personalised test progress",
+                "assessment-progress": "Progress",
                 "end-of-assessment": "End of your assessment"
             },
             "actions": {
@@ -394,39 +394,19 @@
             },
             "completion-percentage": {
                 "label": "'<p class=\"sr-only\">'You have completed '</p>'{completionPercentage}%'<p class=\"sr-only\">' of your personalised test.'</p>'",
-                "caption": "personalised test progress"
+                "caption": "progress"
             }
         },
         "comparison-window": {
             "upcoming-tutorials": "You will soon find tutorials here to help you answer correctly to this type of question!!",
             "results": {
-                "ok": {
-                    "title": "You got the right answer!",
-                    "tooltip": "Correct answer"
-                },
-                "ko": {
-                    "title": "That’s not the right answer",
-                    "tooltip": "Incorrect answer"
+                "a11y": {
+                    "the-answer-was": "The answer was",
+                    "given-answer": "given answer"
                 },
                 "aband": {
                     "title": "You did not answer",
                     "tooltip": "No answer"
-                },
-                "partially": {
-                    "title": "You gave an incomplete answer",
-                    "tooltip": "Incomplete answer"
-                },
-                "timedout": {
-                    "title": "You ran out of time",
-                    "tooltip": "Out of time"
-                },
-                "okAutoReply": {
-                    "title": "You correctly answered the question",
-                    "tooltip": "Question answered correctly "
-                },
-                "koAutoReply": {
-                    "title": "You did not correctly answer the question",
-                    "tooltip": "Question answered incorrectly"
                 },
                 "abandAutoReply": {
                     "title": "You have skipped the question",
@@ -436,9 +416,29 @@
                     "title": "",
                     "tooltip": "Auto-correct under development ;)"
                 },
-                "a11y": {
-                    "the-answer-was": "The answer was",
-                    "given-answer": "given answer"
+                "ko": {
+                    "title": "That’s not the right answer",
+                    "tooltip": "Incorrect answer"
+                },
+                "koAutoReply": {
+                    "title": "You did not correctly answer the question",
+                    "tooltip": "Question answered incorrectly"
+                },
+                "ok": {
+                    "title": "You got the right answer!",
+                    "tooltip": "Correct answer"
+                },
+                "okAutoReply": {
+                    "title": "You correctly answered the question",
+                    "tooltip": "Question answered correctly "
+                },
+                "partially": {
+                    "title": "You gave an incomplete answer",
+                    "tooltip": "Incomplete answer"
+                },
+                "timedout": {
+                    "title": "You ran out of time",
+                    "tooltip": "Out of time"
                 }
             }
         },
@@ -487,19 +487,19 @@
             "fields": {
                 "birthdate": {
                     "label": "Date of birth",
-                    "day-error": "Your birth day is invalid.",
+                    "day-error": "Your birth day is in an invalid format.",
                     "day-format": "DD",
-                    "month-error": "Your birth month is invalid.",
+                    "month-error": "Your birth month is in an invalid format.",
                     "month-format": "MM",
-                    "year-error": "Your birth year is invalid.",
+                    "year-error": "Your birth year is in an invalid format.",
                     "year-format": "YYYY"
                 },
                 "firstname": {
-                    "error": "You haven't entered your first name.",
+                    "error": "Please enter your first name.",
                     "label": "First name"
                 },
                 "lastname": {
-                    "error": "You haven't entered your last name.",
+                    "error": "Please enter your last name.",
                     "label": "Last name"
                 }
             },
@@ -507,7 +507,7 @@
             "sco": {
                 "continue-with-pix": "Continue with my Pix account",
                 "error-not-found": "If you're a pupil '<br/>' Check your information (first name, last name and date of birth) or contact a teacher.'<br/><br/>' If you're a teacher '<br/>' Access to this personalised test is not available at the moment.",
-                "login-information-title": "Login information",
+                "login-information-title": "Pix account information",
                 "login-information-message": "The Pix account  '<b>'{ connectionMethod }'</b>' will be linked with the pupil:  '<b>'{ firstName }  { lastName }'</b>'.'<b>'If this is you, click on \"Link\". Otherwise, log out.",
                 "associate": "Link"
             },
@@ -548,7 +548,7 @@
                 "forgotten-password": {
                     "email": "An email address:",
                     "instruction": "Forgotten your password? You have a Pix account with:",
-                    "other-identity": "Username : Reach out to your teacher to reset it",
+                    "other-identity": "Username: Contact your teacher to reset it",
                     "reset-link": "Click here to reset it."
                 },
                 "title": "I already have a Pix account.",
@@ -560,9 +560,9 @@
                 "fields": {
                     "birthdate": {
                         "label": "Date of birth (DD/MM/YYYY)",
-                        "day-error": "Your birth day is invalid.",
-                        "month-error": "Your birth month is invalid.",
-                        "year-error": "Your birth year is invalid."
+                        "day-error": "Your birth day is in an invalid format.",
+                        "month-error": "Your birth month is in an invalid format.",
+                        "year-error": "Your birth year is in an invalid format."
                     },
                     "cgu": "I agree to the '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\">'terms and conditions of use of the Pix platform'</a>'",
                     "email": {
@@ -736,7 +736,7 @@
                     "cgu": "Pix terms of use"
                 },
                 "email": {
-                    "error": "Your email address is not valid.",
+                    "error": "Your email address is invalid.",
                     "help": "(eg. name@example.org)",
                     "label": "Email address"
                 },
@@ -802,7 +802,7 @@
             "message": "We have updated our terms and conditions of use. Please agree to them in order to continue your experience on Pix.",
             "form": {
                 "button": "Continue",
-                "error-message": "You must agree to the terms and conditions of use."
+                "error-message": "Please agree to the terms and conditions of use."
             }
         },
         "time-gauge": {
@@ -852,6 +852,7 @@
                 "image-link": "images/user-tutorials/illustration.svg",
                 "title": "You haven’t saved anything yet"
             },
+            "label": "Tutorials",
             "list": {
                 "title": "My list",
                 "tutorial": {
@@ -871,8 +872,7 @@
                     },
                     "source": "By"
                 }
-            },
-            "label": "Tutorials"
+            }
         },
         "fill-in-campaign-code": {
             "title": "I have a code",
@@ -957,13 +957,13 @@
             "sign-up": "Sign up"
         },
         "pix": "Pix",
-        "user-logged-menu": {
-            "details": "Check my details"
-        },
         "user": {
             "certifications": "My certifications",
             "sign-out": "Log out",
             "tutorials": "My tutorials"
+        },
+        "user-logged-menu": {
+            "details": "Check my details"
         }
     }
 }
