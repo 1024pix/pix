@@ -550,6 +550,15 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
         component.yearOfBirth = '1010';
       });
 
+      it('should display no error', async function() {
+        // when
+        await component.actions.submit.call(component, eventStub);
+
+        // then
+        sinon.assert.calledOnce(record.unloadRecord);
+        expect(component.errorMessage).to.be.null;
+      });
+
       it('should display a not found error', async function() {
         // given
         onSubmitToReconcileStub.rejects({ errors: [{ status: '404' }] });
@@ -559,7 +568,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
         // then
         sinon.assert.calledOnce(record.unloadRecord);
-        expect(component.errorMessage.string).to.equal('Vous êtes un élève ? <br/> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.<br/><br/> Vous êtes un enseignant ? <br/> L‘accès à un parcours n‘est pas disponible pour le moment.');
+        expect(component.errorMessage.string.length).to.be.greaterThan(0);
       });
 
       describe('When student is already reconciled', () => {
@@ -748,7 +757,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
         // then
         sinon.assert.calledOnce(record.unloadRecord);
-        expect(component.errorMessage.string).to.equal('Vous êtes un élève ? <br/> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.<br/><br/> Vous êtes un enseignant ? <br/> L‘accès à un parcours n‘est pas disponible pour le moment.');
+        expect(component.errorMessage.string).to.equal('Vous êtes un élève ? <br> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.<br><br> Vous êtes un enseignant ? <br> L‘accès à un parcours n‘est pas disponible pour le moment.');
       });
 
       describe('When student is already reconciled', () => {
