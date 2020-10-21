@@ -16,8 +16,8 @@ module.exports = Bookshelf.model(modelName, {
     return this.hasMany('TargetProfileSkill', 'targetProfileId');
   },
 
-  badge() {
-    return this.belongsTo('Badge', 'targetProfileId');
+  badges() {
+    return this.hasMany('Badge', 'targetProfileId');
   },
 
   stages() {

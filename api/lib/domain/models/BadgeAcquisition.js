@@ -3,6 +3,7 @@ class BadgeAcquisition {
     id,
     // attributes
     // includes
+    badge,
     // references
     userId,
     badgeId,
@@ -10,6 +11,7 @@ class BadgeAcquisition {
     this.id = id;
     // attributes
     // includes
+    this.badge = badge;
     // references
     this.userId = userId;
     this.badgeId = badgeId;

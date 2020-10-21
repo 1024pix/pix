@@ -16,7 +16,13 @@ module.exports = {
         'participantExternalId',
         'status',
         'masteryPercentage',
+        'badges',
       ],
+      badges: {
+        ref: 'id',
+        included: true,
+        attributes: ['title', 'altMessage', 'imageUrl'],
+      },
       meta,
     }).serialize(campaignAssessmentParticipationSummaries);
   },

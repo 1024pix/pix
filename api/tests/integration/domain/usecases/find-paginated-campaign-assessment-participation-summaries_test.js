@@ -32,13 +32,14 @@ describe('Integration | UseCase | find-paginated-campaign-assessment-participati
   context('when requesting user is allowed to access campaign informations', () => {
     let campaign;
     let user;
+    let participant;
 
     beforeEach(async () => {
       const skill = { id: 'Skill1', name:  '@Acquis1' };
       const organization = databaseBuilder.factory.buildOrganization();
       campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({ organizationId: organization.id }, [skill]);
       const participation = { participantExternalId: 'Ashitaka', campaignId: campaign.id };
-      const participant = { firstName: 'Princess', lastName: 'Mononoke' };
+      participant = { id: 123, firstName: 'Princess', lastName: 'Mononoke' };
       user = databaseBuilder.factory.buildUser();
       databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id });
       databaseBuilder.factory.buildAssessmentFromParticipation(participation, participant);
@@ -59,6 +60,26 @@ describe('Integration | UseCase | find-paginated-campaign-assessment-participati
       });
 
       expect(campaignAssessmentParticipationSummaries[0].participantExternalId).to.equal('Ashitaka');
+    });
+
+    context('when target profile has badges', () => {
+      let badge;
+
+      beforeEach(async () => {
+        badge = databaseBuilder.factory.buildBadge({ targetProfileId: campaign.targetProfileId });
+        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge.id, userId: participant.id });
+        await databaseBuilder.commit();
+      });
+
+      it('returns the campaignAssessmentParticipationSummaries for the participants with badges', async () => {
+        const { campaignAssessmentParticipationSummaries } = await useCases.findPaginatedCampaignAssessmentParticipationSummaries({
+          userId: user.id,
+          campaignId: campaign.id,
+        });
+  
+        expect(campaignAssessmentParticipationSummaries[0].badges.length).to.equal(1);
+        expect(campaignAssessmentParticipationSummaries[0].badges[0]).to.includes(badge);
+      });
     });
   });
 });
