@@ -8,8 +8,14 @@ module.exports = {
       attributes: [
         'firstName', 'lastName', 'email', 'username', 'cgu',
         'pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted',
-        'isAuthenticatedFromGAR', 'isAssociatedWithSchoolingRegistration',
+        'isAuthenticatedFromGAR', 'schoolingRegistrations',
       ],
+      schoolingRegistrations: {
+        ref: 'id',
+        includes: true,
+        attributes: ['firstName', 'lastName', 'birthdate', 'division', 'organizationId', 'organizationExternalId',
+          'organizationName', 'createdAt', 'updatedAt'],
+      },
     }).serialize(usersDetailsForAdmin);
   },
   deserialize(json) {

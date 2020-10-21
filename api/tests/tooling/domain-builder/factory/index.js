@@ -48,6 +48,7 @@ module.exports = {
   buildProgression: require('./build-progression'),
   buildResultCompetenceTree: require('./build-result-competence-tree'),
   buildSchoolingRegistration: require('./build-schooling-registration'),
+  buildSchoolingRegistrationForAdmin: require('./build-schooling-registration-for-admin'),
   buildSession: require('./build-session'),
   buildShareableCertificate: require('./build-shareable-certificate'),
   buildSkill: require('./build-skill'),

@@ -1,5 +1,4 @@
-const { expect } = require('../../../../test-helper');
-const UserDetailsForAdmin = require('../../../../../lib/domain/models/UserDetailsForAdmin');
+const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-details-for-admin-serializer');
 
 describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', () => {
@@ -8,17 +7,8 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', () =
 
     it('should serialize user details for Pix Admin', () => {
       // given
-      const modelObject = new UserDetailsForAdmin({
-        id: '234567',
-        firstName: 'Luke',
-        lastName: 'Skywalker',
-        email: 'lskywalker@deathstar.empire',
-        username: 'luke.skywalker1234',
-        cgu: true,
-        pixOrgaTermsOfServiceAccepted: false,
-        pixCertifTermsOfServiceAccepted: false,
-        isAuthenticatedFromGAR: false,
-        isAssociatedWithSchoolingRegistration: false,
+      const modelObject = domainBuilder.buildUserDetailsForAdmin({
+        schoolingRegistrations: [domainBuilder.buildSchoolingRegistrationForAdmin()],
       });
 
       // when
@@ -28,19 +18,41 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', () =
       expect(json).to.be.deep.equal({
         data: {
           attributes: {
-            'first-name': 'Luke',
-            'last-name': 'Skywalker',
-            'email': 'lskywalker@deathstar.empire',
-            'username': 'luke.skywalker1234',
-            'cgu': true,
-            'pix-orga-terms-of-service-accepted': false,
-            'pix-certif-terms-of-service-accepted': false,
-            'is-authenticated-from-gar': false,
-            'is-associated-with-schooling-registration': false,
+            'first-name': modelObject.firstName,
+            'last-name': modelObject.lastName,
+            'email': modelObject.email,
+            'username': modelObject.username,
+            'cgu': modelObject.cgu,
+            'pix-orga-terms-of-service-accepted': modelObject.pixOrgaTermsOfServiceAccepted,
+            'pix-certif-terms-of-service-accepted': modelObject.pixCertifTermsOfServiceAccepted,
+            'is-authenticated-from-gar': modelObject.isAuthenticatedFromGAR,
           },
-          id: '234567',
+          relationships: {
+            'schooling-registrations': {
+              'data': [{
+                'id': `${modelObject.schoolingRegistrations[0].id}`,
+                'type': 'schoolingRegistrations',
+              }],
+            },
+          },
+          id: `${modelObject.id}`,
           type: 'users',
         },
+        included: [{
+          attributes: {
+            'first-name': modelObject.schoolingRegistrations[0].firstName,
+            'last-name': modelObject.schoolingRegistrations[0].lastName,
+            'birthdate': modelObject.schoolingRegistrations[0].birthdate,
+            'division': modelObject.schoolingRegistrations[0].division,
+            'organization-id': modelObject.schoolingRegistrations[0].organizationId,
+            'organization-external-id': modelObject.schoolingRegistrations[0].organizationExternalId,
+            'organization-name': modelObject.schoolingRegistrations[0].organizationName,
+            'created-at': modelObject.schoolingRegistrations[0].createdAt,
+            'updated-at': modelObject.schoolingRegistrations[0].updatedAt,
+          },
+          'id': `${modelObject.schoolingRegistrations[0].id}`,
+          'type': 'schoolingRegistrations',
+        }],
       });
     });
   });

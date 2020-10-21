@@ -11,6 +11,7 @@ const Membership = require('../../domain/models/Membership');
 const CertificationCenter = require('../../domain/models/CertificationCenter');
 const CertificationCenterMembership = require('../../domain/models/CertificationCenterMembership');
 const Organization = require('../../domain/models/Organization');
+const SchoolingRegistrationForAdmin = require('../../domain/read-models/SchoolingRegistrationForAdmin');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 
 const PIX_MASTER_ROLE_ID = 1;
@@ -29,6 +30,27 @@ function _toUserDetailsForAdminDomain(BookshelfUser) {
     pixOrgaTermsOfServiceAccepted: rawUserDetailsForAdmin.pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted: rawUserDetailsForAdmin.pixCertifTermsOfServiceAccepted,
     isAuthenticatedFromGAR: !!rawUserDetailsForAdmin.samlId,
+    schoolingRegistrations: _toSchoolingRegistrationsForAdmin(rawUserDetailsForAdmin.schoolingRegistrations),
+  });
+}
+
+function _toSchoolingRegistrationsForAdmin(schoolingRegistrations) {
+  if (!schoolingRegistrations) {
+    return [];
+  }
+  return schoolingRegistrations.map((schoolingRegistration) => {
+    return new SchoolingRegistrationForAdmin({
+      id: schoolingRegistration.id,
+      firstName: schoolingRegistration.firstName,
+      lastName: schoolingRegistration.lastName,
+      birthdate: schoolingRegistration.birthdate,
+      division: schoolingRegistration.division,
+      organizationId: schoolingRegistration.organization.id,
+      organizationExternalId: schoolingRegistration.organization.externalId,
+      organizationName: schoolingRegistration.organization.name,
+      createdAt: schoolingRegistration.createdAt,
+      updatedAt: schoolingRegistration.updatedAt,
+    });
   });
 }
 
@@ -188,8 +210,15 @@ module.exports = {
   getUserDetailsForAdmin(userId) {
     return BookshelfUser
       .where({ id: userId })
-      .fetch({ require: true, columns: ['id','firstName','lastName','email','username','cgu','pixOrgaTermsOfServiceAccepted',
-        'pixCertifTermsOfServiceAccepted','samlId' ] })
+      .fetch({ require: true,
+        columns: ['id','firstName','lastName','email','username','cgu','pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted','samlId' ],
+        withRelated: [{
+          schoolingRegistrations: (query) => { query
+            .leftJoin('organizations', 'schooling-registrations.organizationId','organizations.id')
+            .where({ type: 'SCO' })
+            .orderBy('id'); } }, 'schoolingRegistrations.organization',
+        ],
+      })
       .then((userDetailsForAdmin) => _toUserDetailsForAdminDomain(userDetailsForAdmin))
       .catch((err) => {
         if (err instanceof BookshelfUser.NotFoundError) {

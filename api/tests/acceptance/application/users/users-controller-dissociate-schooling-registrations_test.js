@@ -50,7 +50,11 @@ describe('Acceptance | Controller | users-controller-dissociate-schooling-regist
           'pix-orga-terms-of-service-accepted': user.pixOrgaTermsOfServiceAccepted,
           'pix-certif-terms-of-service-accepted': user.pixCertifTermsOfServiceAccepted,
           'is-authenticated-from-gar': false,
-          'is-associated-with-schooling-registration': false,
+        },
+        'relationships': {
+          'schooling-registrations': {
+            'data': [],
+          },
         },
       };
 

@@ -24,22 +24,6 @@ describe('Integration | UseCases | dissociate-schooling-registrations', () => {
 
     // then
     expect(updatedUserDetailsForAdmin).to.be.instanceOf(UserDetailsForAdmin);
-    expect(updatedUserDetailsForAdmin.isAssociatedWithSchoolingRegistration).to.be.false;
-  });
-
-  it('should update user when it is not associated with schooling registration', async () => {
-    // given
-    const userId = databaseBuilder.factory.buildUser().id;
-    await databaseBuilder.commit();
-
-    // when
-    const updatedUserDetailsForAdmin = await dissociateSchoolingRegistrations({
-      userId,
-      schoolingRegistrationRepository,
-      userRepository,
-    });
-
-    // then
-    expect(updatedUserDetailsForAdmin.isAssociatedWithSchoolingRegistration).to.be.false;
+    expect(updatedUserDetailsForAdmin.schoolingRegistrations).to.be.empty;
   });
 });

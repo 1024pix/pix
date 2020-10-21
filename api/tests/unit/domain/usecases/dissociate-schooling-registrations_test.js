@@ -9,47 +9,45 @@ describe('Unit | UseCase | dissociate-schooling-registrations', () => {
 
   beforeEach(() => {
     schoolingRegistrationRepository = {
-      dissociateByUser: sinon.stub().resolves(),
-      findByUserId: sinon.stub(),
+      findByUserIdAndSCOOrganization: sinon.stub(),
+      dissociateUserFromSchoolingRegistrationIds: sinon.stub().resolves(),
     };
     userRepository = {
       getUserDetailsForAdmin: sinon.stub(),
     };
   });
 
-  it('should dissociate schooling registrations by user id and return updated user', async () => {
-    // given
-    const userId = 1;
-    const expectedUserDetailsForAdmin = {
-      id: userId,
-      isAssociatedWithSchoolingRegistration: false,
-    };
+  context('When user is not associated to SCO organizations', () => {
 
-    schoolingRegistrationRepository.findByUserId.resolves([]);
-    userRepository.getUserDetailsForAdmin.resolves({ id: userId });
+    it('should not dissociate user', async () => {
+      // given
+      const userId = 1;
+      schoolingRegistrationRepository.findByUserIdAndSCOOrganization.resolves([]);
+      userRepository.getUserDetailsForAdmin.resolves({ id: userId, schoolingRegistrations: [] });
 
-    // when
-    const updatedUserDetailsForAdmin = await dissociateSchoolingRegistrations({
-      userId,
-      schoolingRegistrationRepository,
-      userRepository,
+      // when
+      await dissociateSchoolingRegistrations({
+        userId,
+        schoolingRegistrationRepository,
+        userRepository,
+      });
+
+      // then
+      expect(schoolingRegistrationRepository.dissociateUserFromSchoolingRegistrationIds).to.not.have.been.called;
     });
-
-    // then
-    expect(updatedUserDetailsForAdmin).to.deep.equal(expectedUserDetailsForAdmin);
   });
 
-  it('should return updated user when it is not associated with schooling registration', async () => {
+  it('should dissociate user from schooling registrations and return updated user', async () => {
     // given
-    const userId = 999;
+    const userId = 1;
+    const expectedSchoolingRegistration = { id: 1 };
     const expectedUserDetailsForAdmin = {
       id: userId,
-      isAssociatedWithSchoolingRegistration: false,
+      schoolingRegistrations: [],
     };
 
-    schoolingRegistrationRepository.dissociateByUser.returns(null);
-    schoolingRegistrationRepository.findByUserId.resolves([]);
-    userRepository.getUserDetailsForAdmin.resolves({ id: userId });
+    schoolingRegistrationRepository.findByUserIdAndSCOOrganization.resolves([expectedSchoolingRegistration]);
+    userRepository.getUserDetailsForAdmin.resolves({ id: userId, schoolingRegistrations: [] });
 
     // when
     const updatedUserDetailsForAdmin = await dissociateSchoolingRegistrations({
@@ -59,6 +57,7 @@ describe('Unit | UseCase | dissociate-schooling-registrations', () => {
     });
 
     // then
+    expect(schoolingRegistrationRepository.dissociateUserFromSchoolingRegistrationIds).to.have.been.calledWith([expectedSchoolingRegistration.id]);
     expect(updatedUserDetailsForAdmin).to.deep.equal(expectedUserDetailsForAdmin);
   });
 });
