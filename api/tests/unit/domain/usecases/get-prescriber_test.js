@@ -13,7 +13,7 @@ describe('Unit | UseCase | get-prescriber', () => {
   beforeEach(() => {
     prescriberRepository = { getPrescriber: sinon.stub() };
     membershipRepository = { findByUserId: sinon.stub() };
-    userOrgaSettingsRepository = { findOneByUserId: sinon.stub(), create: sinon.stub() };
+    userOrgaSettingsRepository = { findOneByUserId: sinon.stub(), create: sinon.stub(), update: sinon.stub() };
   });
 
   context('When user is not a member of any organization', () => {
@@ -117,6 +117,31 @@ describe('Unit | UseCase | get-prescriber', () => {
 
       // then
       expect(result).to.deep.equal(expectedResult);
+    });
+
+    context('When userOrgaSettings doest not belongs to user\'s memberships anymore', () => {
+
+      it('should not update userOrgaSettings', async () => {
+        // given
+        const user = domainBuilder.buildUser({ id: userId });
+        const membership1 = domainBuilder.buildMembership({ user });
+        const membership2 = domainBuilder.buildMembership({ user });
+        membershipRepository.findByUserId.withArgs({ userId }).resolves([membership1, membership2]);
+        const outdatedOrganization = domainBuilder.buildOrganization();
+        const userOrgaSettings = domainBuilder.buildUserOrgaSettings({ currentOrganization: outdatedOrganization, user });
+        userOrgaSettingsRepository.findOneByUserId.withArgs(userId).resolves(userOrgaSettings);
+
+        // when
+        await getPrescriber({
+          userId,
+          prescriberRepository,
+          membershipRepository,
+          userOrgaSettingsRepository,
+        });
+
+        // then
+        expect(userOrgaSettingsRepository.update).to.have.been.calledWithExactly(userId, membership1.organization.id);
+      });
     });
   });
 });
