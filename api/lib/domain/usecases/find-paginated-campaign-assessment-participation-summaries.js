@@ -6,12 +6,23 @@ module.exports = async function findPaginatedCampaignAssessmentParticipationSumm
   page,
   campaignRepository,
   campaignAssessmentParticipationSummaryRepository,
+  badgeAcquisitionRepository,
 }) {
 
   if (!(await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, userId))) {
     throw new UserNotAuthorizedToAccessEntity('User does not belong to an organization that owns the campaign');
   }
-  const campaignAssessmentParticipationSummariesWithPagination = await campaignAssessmentParticipationSummaryRepository.findPaginatedByCampaignId({ page, campaignId });
 
-  return campaignAssessmentParticipationSummariesWithPagination;
+  // get campaign assessment participations
+  const paginatedParticipations = await campaignAssessmentParticipationSummaryRepository.findPaginatedByCampaignId({ page, campaignId });
+
+  // get users badges for campaign
+  const userIds = paginatedParticipations.campaignAssessmentParticipationSummaries.map((participation) => participation.userId);
+  const acquiredBadgeIdsByUsers = await badgeAcquisitionRepository.getCampaignAcquiredBadgesByUsers({ campaignId, userIds });
+  paginatedParticipations.campaignAssessmentParticipationSummaries.forEach((participation) => {
+    const badges = acquiredBadgeIdsByUsers[participation.userId];
+    participation.setBadges(badges);
+  });
+
+  return paginatedParticipations;
 };

@@ -13,6 +13,13 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
 
       it('should convert a Campaign model object into JSON API data', function() {
         // given
+        const targetProfile = domainBuilder.buildTargetProfile({ 
+          id: '123',
+          name: 'TargetProfile1',
+          imageUrl: 'http://url.fr',
+          badges: [domainBuilder.buildBadge({ id: 456, title: 'badge1', imageUrl: 'http://url.fr' })],
+        });
+
         const campaign = new Campaign({
           id: 5,
           name: 'My zuper campaign',
@@ -29,7 +36,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
           idPixLabel: 'company id',
           externalIdHelpImageUrl: 'some url',
           alternativeTextToExternalIdHelpImage: 'alternative text',
-          targetProfile: domainBuilder.buildTargetProfile({ id: '123', name: 'TargetProfile1', imageUrl: 'http://url.fr' }),
+          targetProfile,
           type: 'ASSESSMENT',
         });
 
@@ -89,6 +96,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
               attributes: {
                 name: 'TargetProfile1',
                 'image-url': 'http://url.fr',
+                'has-badges': true,
               },
               id: '123',
               type: 'targetProfiles',
@@ -200,6 +208,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
               attributes: {
                 name: 'TargetProfile1',
                 'image-url': 'http://url.fr',
+                'has-badges': false,
               },
               id: '123',
               type: 'targetProfiles',
