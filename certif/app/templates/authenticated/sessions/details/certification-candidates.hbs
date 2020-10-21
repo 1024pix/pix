@@ -1,4 +1,4 @@
-{{#if (and this.isCertificationCenterSco this.isCertifPrescriptionScoEnabled)}}
+{{#if (and this.isUserFromSco this.isCertifPrescriptionScoEnabled)}}
   <CertificationCandidatesSco @sessionId={{this.currentSession.id}}></CertificationCandidatesSco>
 {{else}}
 <div class="panel panel-actions">
