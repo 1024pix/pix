@@ -4,21 +4,21 @@
         "internal-server-error": "An error occurred, our teams are working on finding a solution. Please try again later.",
         "join-error": {
             "r11": "{ value }",
-            "r12": "{ value }",
-            "r13": "",
+            "r12": "You already have a Pix account under the username '<br />'{ value }.'<br />'To continue, log in with this account or ask for help from a teacher.'<br />'(Code R12)",
+            "r13": "You already have a Pix account through your virtual learning environment (\"ENT\") in another school '<br /> 'To continue, contact a teacher who can give you access to this account using Pix Orga.",
             "r31": "{ value }",
-            "r32": "{ value }",
-            "r33": "",
-            "r70": ""
+            "r32": "You already have a Pix account under the username '<br />'{ value }.'<br />'To continue, log in with this account or ask for help from a teacher.'<br />'(Code R32)",
+            "r33": "You already have a Pix account through your virtual learning environment (\"ENT\"). Log in with this account to take your personalised test.",
+            "r70": "An error occurred. Please log out and try again."
         },
         "login-unauthorized-error": "There was an error in the email address or username/password entered.",
         "register-error": {
             "s51": "{ value }",
-            "s52": "{ value }",
-            "s53": "",
+            "s52": "You already have a Pix account under the username '<br />'{ value }.'<br>'To continue, log in with this account or ask for help from a teacher.'<br />'(Code S52)",
+            "s53": "You already have a Pix account through your virtual learning environment (\"ENT\"). Log in with this account to take your personalised test.",
             "s61": "{ value }",
-            "s62": "{ value }",
-            "s63": ""
+            "s62": "You already have a Pix account under the username '<br />'{ value }.'<br />'To continue, log in with this account or ask for help from a teacher.'<br />'(Code S62)",
+            "s63": "You already have a Pix account through your virtual learning environment (\"ENT\") in another school '<br /> 'To continue, contact a teacher who can give you access to this account using Pix Orga.'<br />'(Code S63)"
         }
     },
     "application": {
@@ -26,7 +26,7 @@
     },
     "common": {
         "actions": {
-            "back": "",
+            "back": "Back",
             "cancel": "Cancel",
             "close": "Close",
             "quit": "Exit",
@@ -37,7 +37,7 @@
             "mandatory": "required",
             "mandatory-fields": "The fields marked '<abbr title=\"required\" class=\"mandatory-mark\">'*'</abbr>' are required",
             "success": "success",
-            "visible-password": ""
+            "visible-password": "Show password"
         },
         "french-republic": "French Republic",
         "level": "level",
@@ -89,7 +89,7 @@
                 },
                 "certify": {
                     "title": "Prepare a certification recognised throughout Europe and in the business world",
-                    "description": "The Pix Certification enables you to showcase your digital skills to employers."
+                    "description": "The Pix Certification enables you to highlight your digital skills to employers."
                 },
                 "develop": {
                     "title": "See your results as you go along and view tips to improve.",
@@ -131,8 +131,8 @@
                 "certified": "certified"
             },
             "issued-on": "Delivered on",
-            "jury-title": "Remarks from the board of examiners",
-            "jury-info": "Comments of the examination board are not displayed on the verification page of your certificate.",
+            "jury-title": "Notes from the examining body",
+            "jury-info": "Notes from the examining body are not displayed on the verification page of your certificate.",
             "validity": "Certificate valid for 3 years"
         },
         "competence-result": {
@@ -159,10 +159,10 @@
                 },
                 "fields": {
                     "birth-date": "Date of birth",
-                    "birth-day": "",
-                    "birth-month": "",
+                    "birth-day": "Day (DD)",
+                    "birth-month": "Month (MM)",
                     "birth-name": "Given name",
-                    "birth-year": "",
+                    "birth-year": "Year (YYYY)",
                     "first-name": "First name",
                     "session-number": "Session number"
                 }
@@ -376,7 +376,7 @@
         },
         "checkpoint": {
             "title": {
-                "assessment-progress": "Personalised test progress",
+                "assessment-progress": "Progress",
                 "end-of-assessment": "End of your assessment"
             },
             "actions": {
@@ -394,7 +394,7 @@
             },
             "completion-percentage": {
                 "label": "'<p class=\"sr-only\">'You have completed '</p>'{completionPercentage}%'<p class=\"sr-only\">' of your personalised test.'</p>'",
-                "caption": "personalised test progress"
+                "caption": "progress"
             }
         },
         "comparison-window": {
@@ -482,44 +482,44 @@
             "first-title": "Oops, an error occurred!"
         },
         "join": {
-            "title": "",
-            "button": "",
+            "title": "Join",
+            "button": "Let's go!",
             "fields": {
                 "birthdate": {
-                    "label": "",
-                    "day-error": "",
-                    "day-format": "",
-                    "month-error": "",
-                    "month-format": "",
-                    "year-error": "",
-                    "year-format": ""
+                    "label": "Date of birth",
+                    "day-error": "Your birth day is in an invalid format.",
+                    "day-format": "DD",
+                    "month-error": "Your birth month is in an invalid format.",
+                    "month-format": "MM",
+                    "year-error": "Your birth year is in an invalid format.",
+                    "year-format": "YYYY"
                 },
                 "firstname": {
-                    "error": "",
-                    "label": ""
+                    "error": "Please enter your first name.",
+                    "label": "First name"
                 },
                 "lastname": {
-                    "error": "",
-                    "label": ""
+                    "error": "Please enter your last name.",
+                    "label": "Last name"
                 }
             },
             "first-title": "{ organizationName }",
             "sco": {
-                "continue-with-pix": "",
-                "error-not-found": "",
-                "login-information-title": "",
-                "login-information-message": "{ connectionMethod } - { firstName } - { lastName }",
-                "associate": ""
+                "continue-with-pix": "Continue with my Pix account",
+                "error-not-found": "If you're a pupil '<br />' Check your information (first name, last name and date of birth) or contact a teacher.'<br /><br />' If you're a teacher '<br />' Access to this personalised test is not available at the moment.",
+                "login-information-title": "Pix account information",
+                "login-information-message": "The Pix account  '<b>'{ connectionMethod }'</b>' will be linked with the pupil:  '<b>'{ firstName }  { lastName }'</b>'.'<b>'If this is you, click on \"Link\". Otherwise, log out.",
+                "associate": "Link"
             },
-            "subtitle": "",
+            "subtitle": "Please fill in the missing information",
             "sup": {
-                "error": "",
+                "error": "Please check the information you have entered. If you already have a Pix account, log in with this account.",
                 "fields": {
                     "student-number": {
-                        "error": "",
-                        "label": "",
-                        "modify": "",
-                        "not-existing": ""
+                        "error": "You haven't entered your student number.",
+                        "label": "Student number",
+                        "modify": "Change student number",
+                        "not-existing": "I don't have a student number"
                     }
                 }
             }
@@ -535,72 +535,72 @@
             "title": "",
             "invitation": "{ organizationName }",
             "login-form": {
-                "button": "",
-                "error": "",
+                "button": "Log in",
+                "error": "There was an error in the email address or username/password entered.",
                 "fields": {
                     "login": {
-                        "label": ""
+                        "label": "Email address or username"
                     },
                     "password": {
-                        "label": ""
+                        "label": "Password"
                     }
                 },
                 "forgotten-password": {
-                    "email": "",
-                    "instruction": "",
-                    "other-identity": "",
-                    "reset-link": ""
+                    "email": "An email address:",
+                    "instruction": "Forgotten your password? You have a Pix account with:",
+                    "other-identity": "Username: Contact your teacher to reset it",
+                    "reset-link": "Click here to reset it."
                 },
-                "title": "",
-                "unexpected-user-account-error": ""
+                "title": "I already have a Pix account.",
+                "unexpected-user-account-error": "There was an error in the email address or username entered. To continue, log in with your account in this format: "
             },
             "register-form": {
-                "button": "",
-                "button-form": "",
+                "button": "Sign up",
+                "button-form": "Sign up",
                 "fields": {
                     "birthdate": {
-                        "label": "",
-                        "day-error": "",
-                        "month-error": "",
-                        "year-error": ""
+                        "label": "Date of birth (DD/MM/YYYY)",
+                        "day-error": "Your birth day is in an invalid format.",
+                        "month-error": "Your birth month is in an invalid format.",
+                        "year-error": "Your birth year is in an invalid format."
                     },
-                    "cgu": "",
+                    "cgu": "I agree to the '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\">'terms and conditions of use of the Pix platform'</a>'",
                     "email": {
-                        "error": "",
-                        "help": "",
-                        "label": ""
+                        "error": "Your email address is invalid.",
+                        "help": "(eg. name@example.org)",
+                        "label": "Email address"
                     },
                     "firstname": {
-                        "error": "",
-                        "label": ""
+                        "error": "You haven't entered your first name.",
+                        "label": "First name"
                     },
                     "lastname": {
-                        "error": "",
-                        "label": ""
+                        "error": "You haven't entered your last name.",
+                        "label": "Last name"
                     },
                     "password": {
-                        "error": "",
-                        "help": "",
-                        "label": "",
-                        "show-button": ""
+                        "error": "Your password must contain at least 8 characters and include at least one uppercase letter, one lowercase letter and one number.",
+                        "help": "(At least 8 characters, including one uppercase letter, one lowercase letter and one number)",
+                        "label": "Password",
+                        "show-button": "Show password"
                     },
                     "username": {
-                        "label": ""
+                        "label": "My username"
                     }
                 },
-                "legal-text": "",
-                "not-me": "",
+                "legal-text": "The information collected in this form is saved in a computer file by Pix to enable access to the service offered by Pix. They are kept for the duration of use of the service and are intended for Pix. Test results may be communicated to third parties, with your consent, if you have been invited to take a specific personalised test. In accordance with the French law governing computer technology and freedoms (“Informatique et Libertés”), you can exercise the right to access and rectify your data by emailing our Data Protection Officer at dpo@pix.fr.",
+                "not-me": "That's not me",
                 "options": {
-                    "email": "",
-                    "text": "",
-                    "username": ""
+                    "email": "My email address",
+                    "text": "Sign up with:",
+                    "username": "My username"
                 },
-                "title": ""
+                "title": "Sign up"
             }
         },
         "not-connected": {
-            "title": "",
-            "message": ""
+            "title": "Logged out",
+            "message": "You've been logged out.'<br />'Thanks! See you soon"
         },
         "password-reset-demand": {
             "title": "Forgotten your password?",
@@ -707,7 +707,7 @@
                 "submit": "Log in"
             },
             "error": {
-                "message": "There was a mistake in the email address or username/password entered."
+                "message": "There was an error in the email address or username/password entered."
             },
             "fields": {
                 "login": {
@@ -736,7 +736,7 @@
                     "cgu": "Pix terms of use"
                 },
                 "email": {
-                    "error": "Your email address is not valid.",
+                    "error": "Your email address is invalid.",
                     "help": "(eg. name@example.org)",
                     "label": "Email address"
                 },
@@ -797,12 +797,12 @@
             }
         },
         "terms-of-service": {
-            "title": "",
-            "cgu": "",
-            "message": "",
+            "title": "Terms and conditions of use",
+            "cgu": "I agree to the '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\">'terms and conditions of use of the Pix platform'</a>'",
+            "message": "We have updated our terms and conditions of use. Please agree to them in order to continue your experience on Pix.",
             "form": {
-                "button": "",
-                "error-message": ""
+                "button": "Continue",
+                "error-message": "Please agree to the terms and conditions of use."
             }
         },
         "time-gauge": {
@@ -852,7 +852,7 @@
                 "image-link": "images/user-tutorials/illustration.svg",
                 "title": "You haven’t saved anything yet"
             },
-            "label": "",
+            "label": "Tutorials",
             "list": {
                 "title": "My list",
                 "tutorial": {
@@ -900,7 +900,7 @@
         },
         "shared-certification": {
             "title": "Share my Pix Certificate",
-            "back-link": "Go back to the verification’s page"
+            "back-link": "Return to the verification’s page"
         },
         "fill-in-participant-external-id": {
             "title": "Enter my username",
@@ -915,17 +915,17 @@
             }
         },
         "update-expired-password": {
-            "title": "",
-            "button": "",
+            "title": "Change my password",
+            "button": "Reset",
             "fields": {
-                "error": "",
-                "help": "",
-                "label": ""
+                "error": "Your password must contain at least 8 characters and include at least one uppercase letter, one lowercase letter and one number.",
+                "help": "(At least 8 characters, including one uppercase letter, one lowercase letter and one number)",
+                "label": "Password"
             },
-            "first-title": "",
-            "go-to-login": "",
-            "subtitle": "",
-            "validation": ""
+            "first-title": "Reset my password",
+            "go-to-login": "Log in",
+            "subtitle": "Choose a new password to continue",
+            "validation": "Your password has been updated."
         },
         "warning": {
             "action": "Start",
@@ -942,13 +942,13 @@
         "footer": {
             "a11y": "Accessibility",
             "help-center": "Help center",
-            "link-a11y": "https://pix.fr/accessibilite",
-            "link-help-center": "https://pix.org/aide"
+            "link-a11y": "https://pix.fr/accessibility",
+            "link-help-center": "https://pix.org/help"
         },
         "main": {
             "code": "I have a code",
             "help": "Help",
-            "link-help": "https://pix.org/aide",
+            "link-help": "https://pix.org/help",
             "profile": "Profile",
             "start-certification": "Certification"
         },
@@ -957,13 +957,13 @@
             "sign-up": "Sign up"
         },
         "pix": "Pix",
-        "user-logged-menu": {
-            "details": "Check my details"
-        },
         "user": {
             "certifications": "My certifications",
             "sign-out": "Log out",
             "tutorials": "My tutorials"
+        },
+        "user-logged-menu": {
+            "details": "Check my details"
         }
     }
 }
