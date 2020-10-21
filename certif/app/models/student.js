@@ -5,4 +5,5 @@ export default class StudentModel extends Model {
   @attr('string') lastName;
   @attr('date-only') birthdate;
   @attr('string') division;
+  @attr('boolean', { defaultValue: false }) isSelected;
 }
