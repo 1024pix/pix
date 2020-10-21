@@ -1,0 +1,15 @@
+{{#if (eq @state 'checked')}}
+  <button type="button" class="checkbox checkbox--checked" ...attributes>
+    <img
+            src="/icons/icon-done.svg"
+            class="checkbox-step__done-icon"
+            alt="checkbox" >
+  </button>
+{{else if (eq @state 'partial')}}
+  <button type="button" class="checkbox checkbox--unchecked checkbox--partial" ...attributes>
+    <div class="checkbox-step__dash-icon"></div>
+  </button>
+{{else}}
+  <button type="button" class="checkbox checkbox--unchecked" ...attributes>
+  </button>
+{{/if}}

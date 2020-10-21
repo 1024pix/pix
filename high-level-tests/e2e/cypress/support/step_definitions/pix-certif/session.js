@@ -102,7 +102,7 @@ when('je retire un candidat de la liste', () => {
 
 when(`j'oublie de cocher une case d'Écran de fin de test vu`, () => {
   cy.get('table.session-finalization-reports-informations-step__table tbody tr').each(function ($element, index, collection) {
-    const checkBox = $element.find('td:nth-child(5) div');
+    const checkBox = $element.find('td:nth-child(5) button');
     if(index !== collection.length - 1 && checkBox.hasClass('checkbox--unchecked')) {
       cy.wrap(checkBox).click();
     } else if(index === collection.length - 1 && checkBox.hasClass('checkbox--checked')) {
@@ -113,7 +113,7 @@ when(`j'oublie de cocher une case d'Écran de fin de test vu`, () => {
 
 when(`je coche toutes les cases d'Écran de fin de test vu`, () => {
   cy.get('table.session-finalization-reports-informations-step__table tbody tr').each(function ($element) {
-    const checkBox = $element.find('td:nth-child(5) div');
+    const checkBox = $element.find('td:nth-child(5) button');
     if(checkBox.hasClass('checkbox--unchecked')) {
       cy.wrap(checkBox).click();
     }
