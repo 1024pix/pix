@@ -95,6 +95,7 @@
     "ember-responsive": "^3.0.5",
     "ember-route-action-helper": "^2.0.7",
     "ember-simple-auth": "^3.0.0",
+    "ember-simple-auth-oidc": "^3.0.0",
     "ember-sinon": "^4.1.1",
     "ember-source": "~3.18.1",
     "ember-template-lint": "^2.9.1",
