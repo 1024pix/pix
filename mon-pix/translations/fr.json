@@ -876,14 +876,17 @@
         },
         "fill-in-campaign-code": {
             "title": "J'ai un code",
-            "first-title": "Saisissez votre code",
+            "first-title-not-connected": "Saisissez votre code",
+            "first-title-connected": "{ firstName }, saisissez votre code",
             "description": "Ce code permet de démarrer un parcours'<br>'ou d’envoyer votre profil à une organisation",
             "errors": {
                 "forbidden": "Oups ! nous ne parvenons pas à vous trouver. Vérifiez vos informations afin de continuer ou prévenez l’organisateur.",
                 "missing-code": "Veuillez saisir un code.",
                 "not-found": "Votre code est erroné, veuillez vérifier ou contacter l’organisateur."
             },
-            "start": "Commencer"
+            "start": "Commencer",
+            "warning-message": "Vous n'êtes pas { firstName } { lastName } ?",
+            "warning-message-logout": "Se déconnecter"
         },
         "fill-in-certificate-verification-code": {
             "title": "Vérifier un certificat Pix",
