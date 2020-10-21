@@ -75,7 +75,7 @@
             "assessment": {
                 "title": "Commencez votre parcours",
                 "action": "Je commence",
-                "announcement": "Démarrez votre parcours d'évaluation personnalisé.<br /> Inscrivez-vous ou connectez-vous sur la plateforme Pix et lancez votre test.",
+                "announcement": "Démarrez votre parcours d'évaluation personnalisé.'<br>' Inscrivez-vous ou connectez-vous sur la plateforme Pix et lancez votre test.",
                 "details": "Durant ce parcours, vous aurez l’opportunité de :",
                 "legal": "Les informations relatives à votre avancée seront transmises à l'organisateur du parcours pour lui permettre de vous accompagner. Les résultats des tests ne seront transmis qu’avec votre consentement.",
                 "evaluate": {
@@ -506,7 +506,7 @@
             "first-title": "Rejoignez l'organisation { organizationName }",
             "sco": {
                 "continue-with-pix": "Continuer avec mon compte Pix",
-                "error-not-found": "Vous êtes un élève ? '<br/>' Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.'<br/><br/>' Vous êtes un enseignant ? '<br/>' L‘accès à un parcours n‘est pas disponible pour le moment.",
+                "error-not-found": "Vous êtes un élève ? '<br>' Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.'<br><br>' Vous êtes un enseignant ? '<br>' L‘accès à un parcours n‘est pas disponible pour le moment.",
                 "login-information-title": "Information de connexion",
                 "login-information-message": "Le compte Pix '<b>'{ connectionMethod }'</b>' va être associé à l'élève: '<b>'{ firstName } { lastName }'</b>'.'<br><br>'S’il s’agit bien de vous, cliquez sur \"Associer\", sinon déconnectez-vous.",
                 "associate": "Associer"
@@ -699,7 +699,7 @@
                 "send": "J'envoie mon profil",
                 "shared": "Merci, votre profil a bien été envoyé !"
             },
-            "instructions": "Vous allez transmettre le score et les niveaux de compétence présents sur votre profil Pix. <br/> Toute évolution de votre profil après cet envoi ne sera pas transmise. <br/> Pensez à le vérifier avant de l'envoyer !"
+            "instructions": "Vous allez transmettre le score et les niveaux de compétence présents sur votre profil Pix. '<br>' Toute évolution de votre profil après cet envoi ne sera pas transmise. '<br>' Pensez à le vérifier avant de l'envoyer !"
         },
         "sign-in": {
             "title": "Connexion",
@@ -763,7 +763,7 @@
         },
         "skill-review": {
             "title": "Résultat",
-            "abstract": "Vous maîtrisez '<strong>'{percentage}%'</strong>'<br/> des compétences testées.",
+            "abstract": "Vous maîtrisez '<strong>'{percentage}%'</strong><br>' des compétences testées.",
             "abstract-title": "Votre résultat pour ce parcours",
             "actions": {
                 "continue": "Continuez votre expérience Pix",
@@ -771,7 +771,7 @@
                 "try-again": "Je retente"
             },
             "already-shared": "Merci, vos résultats ont bien été envoyés !",
-            "archived": "Ce parcours a été archivé par l'organisateur.<br/> L'envoi des résultats n'est plus possible mais ils sont bien pris en compte dans votre parcours.",
+            "archived": "Ce parcours a été archivé par l'organisateur.'<br>' L'envoi des résultats n'est plus possible mais ils sont bien pris en compte dans votre parcours.",
             "badges-title": "Vos résultats thématiques",
             "details": {
                 "header-skill": "Compétences testées",
