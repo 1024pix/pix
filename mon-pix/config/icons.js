@@ -16,6 +16,7 @@ module.exports = function() {
       'exclamation-triangle',
       'eye',
       'eye-slash',
+      'hourglass-end',
       'image',
       'info-circle',
       'lock',
