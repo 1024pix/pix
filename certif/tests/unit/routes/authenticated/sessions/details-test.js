@@ -15,14 +15,13 @@ module('Unit | Route | authenticated/sessions/details', function(hooks) {
     const returnedSession = Symbol('session');
     const expectedModels = {
       isCertifPrescriptionScoEnabled: false,
-      isCertificationCenterSco: true,
+      isUserFromSco: true,
       session: returnedSession,
     };
 
     hooks.beforeEach(function() {
-      route.modelFor = sinon.stub().returns({
-        isSco: true,
-      });
+      const currentUser = this.owner.lookup('service:current-user');
+      currentUser.isFromSco = true;
       route.store.findRecord = sinon.stub().resolves(returnedSession);
       route.store.peekRecord = sinon.stub().returns({ certifPrescriptionSco: false });
     });
