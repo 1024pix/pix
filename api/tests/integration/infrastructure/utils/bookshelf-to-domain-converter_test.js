@@ -5,10 +5,12 @@ const User = require('../../../../lib/domain/models/User');
 const Membership = require('../../../../lib/domain/models/Membership');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
+const Tag = require('../../../../lib/domain/models/Tag');
 
 const BookshelfUser = require('../../../../lib/infrastructure/data/user');
 const BookshelfCampaign = require('../../../../lib/infrastructure/data/campaign');
 const BookshelfCampaignParticipation = require('../../../../lib/infrastructure/data/campaign-participation');
+const BookshelfOrganization = require('../../../../lib/infrastructure/data/organization');
 
 describe('Integration | Infrastructure | Utils | Bookshelf to domain converter', function() {
 
@@ -88,6 +90,26 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
       // then
       expect(domainObject.targetProfile).to.be.instanceOf(TargetProfile);
     });
+
+    it('should support belongs-to-many relationships', async () => {
+      //given
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      databaseBuilder.factory.buildOrganizationTag({ organizationId });
+      databaseBuilder.factory.buildOrganizationTag({ organizationId });
+      await databaseBuilder.commit();
+      const bookshelfObject = await BookshelfOrganization.where({ id: organizationId }).fetch({
+        withRelated: ['tags'],
+      });
+
+      // when
+      const domainObject = bookshelfToDomainConverter.buildDomainObject(BookshelfOrganization, bookshelfObject);
+
+      // then
+      expect(domainObject.tags).to.be.instanceOf(Array);
+      expect(domainObject.tags[0]).to.be.instanceOf(Tag);
+      expect(domainObject.tags.length).to.equal(2);
+    });
+
     it('should support domain object relationship’s name not matching the corresponding Bookshelf class name', async () => {
       // given
       const userId = databaseBuilder.factory.buildUser().id;

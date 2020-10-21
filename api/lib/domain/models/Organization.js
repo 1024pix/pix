@@ -1,3 +1,5 @@
+const Tag = require('./Tag');
+
 const types = {
   SCO : 'SCO',
   SUP: 'SUP',
@@ -23,6 +25,7 @@ class Organization {
     targetProfileShares = [],
     students = [],
     organizationInvitations = [],
+    tags = [],
     // references
   } = {}) {
     this.id = id;
@@ -41,6 +44,7 @@ class Organization {
     this.targetProfileShares = targetProfileShares;
     this.students = students;
     this.organizationInvitations = organizationInvitations;
+    this.tags = tags;
     // references
   }
 
@@ -57,7 +61,8 @@ class Organization {
   }
 
   get isAgriculture() {
-    return this.isSco && process.env['AGRICULTURE_ORGANIZATION_ID'] === this.id.toString();
+    const tagsName = this.tags.map((tag) => tag.name);
+    return this.isSco && tagsName.includes(Tag.AGRICULTURE);
   }
 
   get isPoleEmploi() {
