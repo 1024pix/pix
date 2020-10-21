@@ -64,7 +64,6 @@ describe('Acceptance | Controller | membership-controller', () => {
         const expectedMembership = {
           data: {
             type: 'memberships',
-            id: '1',
             attributes: {
               'organization-role': 'ADMIN',
             },
@@ -84,7 +83,7 @@ describe('Acceptance | Controller | membership-controller', () => {
 
         // then
         expect(response.statusCode).to.equal(201);
-        expect(_.omit(response.result, 'included')).to.deep.equal(expectedMembership);
+        expect(_.omit(response.result, ['included', 'data.id'])).to.deep.equal(expectedMembership);
       });
 
       context('When a membership is disabled', () => {

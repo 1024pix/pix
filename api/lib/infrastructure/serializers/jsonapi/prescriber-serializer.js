@@ -6,16 +6,16 @@ module.exports = {
     return new Serializer('prescriber', {
 
       transform: (record) => {
-        const recordWithoutClass = { ... record };
+        const recordWithoutClass = { ...record };
         recordWithoutClass.memberships.forEach((membership) => {
-          membership.organization = { 
-            ... membership.organization,
-            isAgriculture: membership.organization.isAgriculture,
-          };
+          membership.organization = { ...membership.organization };
         });
-        recordWithoutClass.userOrgaSettings.organization = {
-          ...recordWithoutClass.userOrgaSettings.currentOrganization,
-          isAgriculture: recordWithoutClass.userOrgaSettings.currentOrganization,
+        recordWithoutClass.userOrgaSettings = {
+          ...recordWithoutClass.userOrgaSettings,
+          organization: {
+            ...recordWithoutClass.userOrgaSettings.currentOrganization,
+            isAgriculture: recordWithoutClass.userOrgaSettings.currentOrganization.isAgriculture,
+          },
         };
         delete recordWithoutClass.userOrgaSettings.currentOrganization;
 
@@ -31,7 +31,7 @@ module.exports = {
         attributes: ['organizationRole', 'organization'],
         organization: {
           ref: 'id',
-          attributes: ['code', 'credit', 'name', 'type', 'isManagingStudents', 'canCollectProfiles', 'externalId', 'targetProfiles', 'memberships', 'students', 'organizationInvitations', 'isAgriculture'],
+          attributes: ['code', 'credit', 'name', 'type', 'isManagingStudents', 'canCollectProfiles', 'externalId', 'targetProfiles', 'memberships', 'students', 'organizationInvitations'],
           memberships: {
             ref: 'id',
             ignoreRelationshipData: true,
@@ -79,7 +79,7 @@ module.exports = {
         attributes: ['organization', 'user'],
         organization: {
           ref: 'id',
-          attributes: ['name', 'type'],
+          attributes: ['name', 'type', 'isAgriculture'],
         },
       },
     }).serialize(prescriber);

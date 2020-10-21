@@ -15,7 +15,7 @@ const organizationRepository = require('../lib/infrastructure/repositories/organ
 const tagRepository = require('../lib/infrastructure/repositories/tag-repository');
 const organizationTagRepository = require('../lib/infrastructure/repositories/organization-tag-repository');
 
-const TAG_NAME = 'AGRI';
+const TAG_NAME = 'AGRICULTURE';
 
 function checkData({ csvData }) {
   return csvData.map((data) => {
@@ -97,7 +97,7 @@ async function addTag(organizations) {
 }
 
 async function main() {
-  console.log('Starting creating or updating SCO AGRI organizations.');
+  console.log('Starting creating or updating SCO AGRICULTURE organizations.');
 
   try {
     const filePath = process.argv[2];
@@ -120,7 +120,7 @@ async function main() {
     const createOrUpdatedOrganizations = await createOrUpdateOrganizations({ organizationsByExternalId, checkedData });
     console.log('ok');
 
-    console.log('Adding AGRI tag...');
+    console.log('Adding AGRICULTURE tag...');
     await addTag(createOrUpdatedOrganizations);
     console.log('\nDone.');
 
