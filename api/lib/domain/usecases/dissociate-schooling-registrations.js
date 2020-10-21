@@ -3,12 +3,12 @@ module.exports = async function dissociateSchoolingRegistrations({
   schoolingRegistrationRepository,
   userRepository,
 }) {
-  await schoolingRegistrationRepository.dissociateByUser(userId);
+  const scoSchoolingRegistrations = await schoolingRegistrationRepository.findByUserIdAndSCOOrganization({ userId });
 
-  const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userId);
+  if (scoSchoolingRegistrations.length > 0) {
+    const scoSchoolingRegistrationIds = scoSchoolingRegistrations.map((scoSchoolingRegistration) => scoSchoolingRegistration.id);
+    await schoolingRegistrationRepository.dissociateUserFromSchoolingRegistrationIds(scoSchoolingRegistrationIds);
+  }
 
-  const foundSchoolingRegistrations = await schoolingRegistrationRepository.findByUserId({ userId });
-  userDetailsForAdmin.isAssociatedWithSchoolingRegistration = foundSchoolingRegistrations.length > 0;
-
-  return userDetailsForAdmin;
+  return await userRepository.getUserDetailsForAdmin(userId);
 };

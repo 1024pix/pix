@@ -5,26 +5,20 @@ const getUserDetailsForAdmin = require('../../../../lib/domain/usecases/get-user
 describe('Unit | UseCase | get-user-details-for-admin', () => {
 
   let userRepository;
-  let schoolingRegistrationRepository;
 
   beforeEach(() => {
     userRepository = { getUserDetailsForAdmin: sinon.stub() };
-    schoolingRegistrationRepository = { findByUserId: sinon.stub() };
   });
 
-  it('should get the user details in adminstration contexte', async () => {
+  it('should get the user details in administration context', async () => {
     // given
     const userId = 1;
-    const expectedUserDetailsForAdmin = {
-      id: userId,
-      isAssociatedWithSchoolingRegistration: true,
-    };
+    const expectedUserDetailsForAdmin = { id: userId };
 
     userRepository.getUserDetailsForAdmin.withArgs(userId).resolves({ id: userId });
-    schoolingRegistrationRepository.findByUserId.withArgs({ userId }).resolves([{ id: 10 }]);
 
     // when
-    const result = await getUserDetailsForAdmin({ userId, userRepository, schoolingRegistrationRepository });
+    const result = await getUserDetailsForAdmin({ userId, userRepository });
 
     // then
     expect(result).to.deep.equal(expectedUserDetailsForAdmin);

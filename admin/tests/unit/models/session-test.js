@@ -48,6 +48,7 @@ module('Unit | Model | session', function(hooks) {
     });
 
   });
+
   module('#hasExaminerGlobalComment', function() {
 
     module('when there is no examinerGlobalComment', function() {
@@ -255,65 +256,6 @@ module('Unit | Model | session', function(hooks) {
       assert.equal(countNonValidated, 0);
     });
 
-  });
-
-  module('#displayDate', function() {
-
-    test('it should display date without time properly', function(assert) {
-      // given
-      const session = store.createRecord('session', { date: '2020-01-01' });
-
-      // when
-      const displayDate = session.displayDate;
-
-      // then
-      assert.equal(displayDate, '01/01/2020');
-    });
-  });
-
-  module('#displayFinalizationDate', function() {
-
-    test('it should display finalizedAt date properly', function(assert) {
-      // given
-      const finalizedAt = new Date('2018-12-01T02:02:03Z');
-      const session = store.createRecord('session', { finalizedAt });
-
-      // when
-      const displayFinalizationDate = session.displayFinalizationDate;
-
-      // then
-      assert.equal(displayFinalizationDate, '01/12/2018');
-    });
-  });
-
-  module('#displayResultsSentToPrescriberDate', function() {
-
-    test('it should display resultsSentToPrescriberAt date properly', function(assert) {
-      // given
-      const resultsSentToPrescriberAt = new Date('2018-12-01T01:02:03Z');
-      const session = store.createRecord('session', { resultsSentToPrescriberAt });
-
-      // when
-      const displayResultsSentToPrescriberDate = session.displayResultsSentToPrescriberDate;
-
-      // then
-      assert.equal(displayResultsSentToPrescriberDate, '01/12/2018');
-    });
-  });
-
-  module('#displayPublishedAtDate', function() {
-
-    test('it should display publishedAt date properly', function(assert) {
-      // given
-      const publishedAt = new Date('2018-12-01T01:02:03Z');
-      const session = store.createRecord('session', { publishedAt });
-
-      // when
-      const displayPublishedAtDate = session.displayPublishedAtDate;
-
-      // then
-      assert.equal(displayPublishedAtDate, '01/12/2018');
-    });
   });
 
   module('#areResultsToBeSentToPrescriber', function() {

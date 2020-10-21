@@ -252,6 +252,29 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
     });
   });
 
+  describe('#findByUserIdAndSCOOrganization', () => {
+
+    it('should return schoolingRegistrations belonging to SCO organizations and user only', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const otherUserId = databaseBuilder.factory.buildUser().id;
+      const firstScoOrganizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO' }).id;
+      const secondScoOrganizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO' }).id;
+      const supOrganizationId = databaseBuilder.factory.buildOrganization({ type: 'SUP' }).id;
+      databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId: firstScoOrganizationId });
+      databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId: secondScoOrganizationId });
+      databaseBuilder.factory.buildSchoolingRegistration({ userId: otherUserId, organizationId: secondScoOrganizationId });
+      databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId: supOrganizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const schoolingRegistrations = await schoolingRegistrationRepository.findByUserIdAndSCOOrganization({ userId });
+
+      // then
+      expect(schoolingRegistrations.length).to.equal(2);
+    });
+  });
+
   describe('#addOrUpdateOrganizationSchoolingRegistrations', () => {
 
     context('when there are only schoolingRegistrations to create', () => {
@@ -705,6 +728,24 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       // then
       const schoolingRegistrationPatched = await schoolingRegistrationRepository.get(schoolingRegistration.id);
       expect(schoolingRegistrationPatched.userId).to.equal(null);
+    });
+  });
+
+  describe('#dissociateUserFromSchoolingRegistrationIds', () => {
+
+    it('should delete association between user and schoolingRegistrations', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const firstSchoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({ userId }).id;
+      const secondSchoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({ userId }).id;
+      await databaseBuilder.commit();
+
+      // when
+      await schoolingRegistrationRepository.dissociateUserFromSchoolingRegistrationIds([firstSchoolingRegistrationId, secondSchoolingRegistrationId]);
+
+      // then
+      const schoolingRegistrationsByUserId = await schoolingRegistrationRepository.findByUserId({ userId });
+      expect(schoolingRegistrationsByUserId.length).to.equal(0);
     });
   });
 
@@ -1235,34 +1276,5 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       });
     });
 
-  });
-
-  describe('#dissociateByUser', () => {
-
-    it('should dissociate all schooling registrations by user id', async () => {
-      // given
-      const userId = databaseBuilder.factory.buildSchoolingRegistrationWithUser().userId;
-      databaseBuilder.factory.buildSchoolingRegistration({ userId });
-      databaseBuilder.factory.buildSchoolingRegistration({ userId });
-      await databaseBuilder.commit();
-
-      // when
-      await schoolingRegistrationRepository.dissociateByUser(userId);
-      const foundSchoolingRegistrations = await schoolingRegistrationRepository.findByUserId({ userId });
-
-      // then
-      expect(foundSchoolingRegistrations).to.be.empty;
-    });
-
-    it('should return null when user is not associated with schooling registration', async () => {
-      // when
-      const userNotAssociateWithSchoolingRegistration = 999;
-
-      // when
-      const result = await schoolingRegistrationRepository.dissociateByUser(userNotAssociateWithSchoolingRegistration);
-
-      // then
-      expect(result).to.be.null;
-    });
   });
 });
