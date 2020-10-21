@@ -38,7 +38,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
         // then
         expect(find('.alert')).to.exist;
-        expect(find('.alert').textContent.trim()).to.equal('L\'épreuve n\'est pas réussie. Essayez encore ou passez.');
+        expect(find('.alert').textContent.trim()).to.equal('L\'épreuve n\'est pas encore réussie. Vous aurez un message “Vous pouvez valider” quand vous aurez réussi. Essayez encore ou passez.');
       });
 
       it('should go to the next challenge when user validates after finishing successfully the embed', async () => {
