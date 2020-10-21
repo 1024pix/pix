@@ -56,4 +56,11 @@
     padding: 16px 10px;
     text-align: center;
   }
+
+  &__warning {
+    color: $grey-90;
+    font-size: 0.875rem;
+    text-align: center;
+    margin-top: 10px;
+  }
 }

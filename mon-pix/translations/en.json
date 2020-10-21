@@ -876,14 +876,17 @@
         },
         "fill-in-campaign-code": {
             "title": "I have a code",
-            "first-title": "Enter your code",
+            "first-title-not-connected": "Enter your code",
+            "first-title-connected": "{ firstName }, enter your code",
             "description": "This code can be used to start a personalised test'<br>'or to submit your profile to an organisation",
             "errors": {
                 "forbidden": "Oops! We can’t find you. Check your details to continue or contact the organiser.",
                 "missing-code": "Please enter a code.",
                 "not-found": "Your code is incorrect. Please check it or contact the organiser."
             },
-            "start": "Start"
+            "start": "Start",
+            "warning-message": "If you are not { firstName } { lastName },",
+            "warning-message-logout": "please log out"
         },
         "fill-in-certificate-verification-code": {
             "title": "Verify the authenticity of a Pix Certificate",
