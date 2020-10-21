@@ -81,6 +81,13 @@ module.exports = {
       .then((memberships) => bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, memberships));
   },
 
+  findByUserId({ userId }) {
+    return BookshelfMembership
+      .where({ userId, disabledAt: null })
+      .fetchAll({ withRelated: ['organization'] })
+      .then((memberships) => bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, memberships));
+  },
+
   isMembershipExistingByOrganizationIdAndEmail(organizationId, email) {
     return BookshelfMembership
       .where({ 'memberships.organizationId': organizationId, 'users.email': email })
