@@ -31,12 +31,10 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       participations.meta = {
         rowCount: 1,
       };
-      const goTo = function() {
-      };
 
       this.set('campaign', campaign);
       this.set('participations', participations);
-      this.set('goToAssessmentPage', goTo);
+      this.set('goToAssessmentPage', () => {});
 
       // when
       await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
@@ -69,12 +67,10 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       participations.meta = {
         rowCount: 1,
       };
-      const goTo = function() {
-      };
 
       this.set('campaign', campaign);
       this.set('participations', participations);
-      this.set('goToAssessmentPage', goTo);
+      this.set('goToAssessmentPage', () => {});
 
       // when
       await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
@@ -106,12 +102,10 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       participations.meta = {
         rowCount: 3,
       };
-      const goTo = function() {
-      };
 
       this.set('campaign', campaign);
       this.set('participations', participations);
-      this.set('goToAssessmentPage', goTo);
+      this.set('goToAssessmentPage', () => {});
 
       // when
       await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
@@ -137,12 +131,9 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
         rowCount: 1,
       };
 
-      const goTo = function() {
-      };
-
       this.set('campaign', campaign);
       this.set('participations', participations);
-      this.set('goToAssessmentPage', goTo);
+      this.set('goToAssessmentPage', () => {});
 
       // when
       await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
@@ -188,12 +179,9 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       const participations = [{ firstName: 'John', lastName: 'Doe' }];
       participations.meta = { rowCount: 1 };
 
-      const goTo = function() {
-      };
-
       this.set('campaign', campaign);
       this.set('participations', participations);
-      this.set('goToAssessmentPage', goTo);
+      this.set('goToAssessmentPage', () => {});
 
       // when
       await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
@@ -220,12 +208,10 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       const participations = [{ firstName: 'John', lastName: 'Doe', badges: [badge] }];
       participations.meta = { rowCount: 1 };
 
-      const goTo = function() {
-      };
-
       this.set('campaign', campaign);
       this.set('participations', participations);
-      this.set('goToAssessmentPage', goTo);
+      this.set('goToAssessmentPage', () => {});
+
       // when
       await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
 
@@ -250,17 +236,44 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       const participations = [{ firstName: 'John', lastName: 'Doe', badges: [badge] }];
       participations.meta = { rowCount: 1 };
 
-      const goTo = function() {
-      };
-
       this.set('campaign', campaign);
       this.set('participations', participations);
-      this.set('goToAssessmentPage', goTo);
+      this.set('goToAssessmentPage', () => {});
       // when
       await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
       
       // then
       assert.dom('.pix-tooltip__content').exists();
+    });
+  });
+
+  module('when the campaign has stages', function() {
+    test('it should display stars instead of mastery percentage in result column', async function(assert) {
+      // given
+      const stage = store.createRecord('stage', { id: 's1', threshold: 50 });
+      const campaignReport = store.createRecord('campaign-report', {
+        id: 'c1',
+        stages: [stage],
+      });
+      const campaign = store.createRecord('campaign', {
+        id: 1,
+        name: 'campagne 1',
+        campaignReport,
+      });
+
+      const participations = [{ firstName: 'John', lastName: 'Doe', masteryPercentage: 60, isShared: true }];
+      participations.meta = { rowCount: 1 };
+
+      this.set('campaign', campaign);
+      this.set('participations', participations);
+      this.set('goToAssessmentPage', () => {});
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
+
+      // then
+      assert.notContains('60%');
+      assert.dom('.pix-stars').exists();
     });
   });
 });

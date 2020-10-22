@@ -26,9 +26,16 @@
             {{/if}}
             <td>
               {{#if participation.isShared}}
-                <span class="participant-list__mastery-percentage">
-                  {{participation.masteryPercentage}}%
-                </span>
+                {{#if @campaign.campaignReport.hasStages}}
+                  <StageStars
+                    @result={{participation.masteryPercentage}} 
+                    @stages={{@campaign.campaignReport.stages}}
+                  />
+                {{else}}
+                  <span class="participant-list__mastery-percentage">
+                    {{participation.masteryPercentage}}%
+                  </span>
+                {{/if}}
               {{else}}
                 {{#if participation.isCompleted}}
                   <span class="participant-list__icon">
