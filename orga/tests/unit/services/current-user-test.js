@@ -3,7 +3,6 @@ import { setupTest } from 'ember-qunit';
 import { reject, resolve } from 'rsvp';
 import Object from '@ember/object';
 import Service from '@ember/service';
-import sinon from 'sinon';
 
 module('Unit | Service | current-user', function(hooks) {
 
@@ -240,82 +239,6 @@ module('Unit | Service | current-user', function(hooks) {
 
         // then
         assert.equal(currentUserService.organization.id, organization2.id);
-      });
-    });
-
-    module('when user has no userOrgaSettings', function(hooks) {
-
-      let firstOrganization;
-
-      hooks.beforeEach(function() {
-        const user = Object.create({ id: 1 });
-        firstOrganization = Object.create({ id: 9 });
-        const secondOrganization = Object.create({ id: 10 });
-        const membership1 = Object.create({ user, organization: firstOrganization });
-        const membership2 = Object.create({ user, organization: secondOrganization });
-        connectedUser.memberships = [membership1, membership2];
-
-        storeStub.createRecord = sinon.stub().returns({
-          save: sinon.stub(),
-        });
-      });
-
-      test('should create it', async function(assert) {
-        // given
-        const createRecordSpy = sinon.spy();
-        storeStub.createRecord = createRecordSpy;
-
-        // when
-        await currentUserService.load();
-
-        // then
-        assert.equal(createRecordSpy.callCount, 1);
-        assert.ok(createRecordSpy.calledWith('user-orga-setting', { organization: firstOrganization }));
-      });
-
-      test('should set the first membership\'s organization as current organization', async function(assert) {
-        // when
-        await currentUserService.load();
-
-        // then
-        assert.equal(currentUserService.organization, firstOrganization);
-      });
-    });
-
-    module('when organization in userOrgaSettings doesn\'t match with memberships', function(hooks) {
-
-      let saveStub;
-      let firstOrganization;
-
-      hooks.beforeEach(function() {
-        firstOrganization = Object.create({ id: 9, type: 'SCO', isManagingStudents: false, isSco: true });
-        const secondOrganization = Object.create({ id: 10, type: 'SCO', isManagingStudents: false, isSco: true });
-        const notMatchingOrganization = Object.create({ id: 11, type: 'SCO', isManagingStudents: false, isSco: true });
-
-        const membership1 = Object.create({ organization: firstOrganization, organizationRole: 'ADMIN', isAdmin: true });
-        const membership2 = Object.create({ organization: secondOrganization, organizationRole: 'ADMIN', isAdmin: true });
-        connectedUser.memberships = [membership1, membership2];
-
-        saveStub = sinon.stub();
-
-        connectedUser.userOrgaSettings = Object.create({ organization: notMatchingOrganization, save: saveStub });
-      });
-
-      test('should update the organization of the userOrgaSettings', async function(assert) {
-        // when
-        await currentUserService.load();
-
-        // then
-        assert.equal(saveStub.callCount, 1);
-      });
-
-      test('should set the membership\'s organization as current organization', async function(assert) {
-        // when
-        await currentUserService.load();
-
-        // then
-        assert.equal(currentUserService.organization, firstOrganization);
-        assert.equal(currentUserService.organization, firstOrganization);
       });
     });
   });
