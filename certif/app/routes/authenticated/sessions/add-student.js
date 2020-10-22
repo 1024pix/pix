@@ -18,4 +18,13 @@ export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
       (sessionId) => this.transitionTo('authenticated.sessions.details.certification-candidates', sessionId),
     );
   }
+
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      const allStudentsInStore = this.store.peekAll('student');
+      allStudentsInStore.forEach((student) => {
+        student.isSelected = false;
+      });
+    }
+  }
 }
