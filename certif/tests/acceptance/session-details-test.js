@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import {
-  createUserWithMembershipAndTermsOfServiceAccepted,
+  createUserAndMembershipAndTermsOfServiceAccepted,
   authenticateSession,
 } from '../helpers/test-init';
 
@@ -37,22 +37,36 @@ module('Acceptance | Session Details', function(hooks) {
   module('when user is logged in', function(hooks) {
 
     let user;
+    let session;
+    let certificationCenter;
 
     hooks.beforeEach(async () => {
-      user = createUserWithMembershipAndTermsOfServiceAccepted();
+      ({ user, certificationCenter } = createUserAndMembershipAndTermsOfServiceAccepted());
+      session = server.create('session', { certificationCenterId: certificationCenter.id });
       await authenticateSession(user.id);
     });
     
     test('it should redirect to session list on click on return button', async function(assert) {
-      // given
-      const session = server.create('session');
-      
       // when
       await visit(`/sessions/${session.id}`);
       await click('.session-details-content__return-button');
 
       // then
       assert.equal(currentURL(), '/sessions/liste');
+    });
+
+    test('it should show the number of candidates on tab', async function(assert) {
+      // given
+      server.createList('certification-candidate', 4, { sessionId: session.id });
+
+      // when
+      await visit(`/sessions/${session.id}`);
+
+      // then
+      const candidateTabSelector = '.session-details-controls__navbar-tabs a:nth-of-type(2)';
+      const expectedTabContent = 'Candidats (4)';
+      const candidateTabElement = document.querySelector(candidateTabSelector);
+      assert.equal(candidateTabElement.innerHTML.trim(), expectedTabContent);
     });
 
     module('when looking at the header', function() {
