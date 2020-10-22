@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v2.212.0 (22/10/2020)
+
+- [#2024](https://github.com/1024pix/pix/pull/2024) [FEATURE] Afficher la liste des inscriptions d'un élève dans Pix Admin (PIX-1384).
+- [#2035](https://github.com/1024pix/pix/pull/2035) [FEATURE] Ajout du prénom et nom du user connecté sur la page saisie code parcours (PIX-1415).
+- [#2022](https://github.com/1024pix/pix/pull/2022) [FEATURE] Utiliser les tags pour définir si une organisation est de type "Agriculture" (PIX-1354).
+- [#2032](https://github.com/1024pix/pix/pull/2032) [FEATURE] Afficher les résultats thématiques dans la liste des participants (PIX-1442)
+- [#2030](https://github.com/1024pix/pix/pull/2030) [FEATURE] Permettre la selection d'élèves comme candidats d'une session (PIX-1374).
+- [#2033](https://github.com/1024pix/pix/pull/2033) [FEATURE] Changer le message pour les épreuves à validation auto (PIX-1453).
+- [#2023](https://github.com/1024pix/pix/pull/2023) [FEATURE] Autoriser l'import XML SIECLE seulement pour les organisations ayant un UAI concordant (PIX-1293).
+- [#1997](https://github.com/1024pix/pix/pull/1997) [FEATURE] Afficher la liste des étudiants SCO pour l'ajout des candidats (PIX-1373)
+- [#2036](https://github.com/1024pix/pix/pull/2036) [TRANSLATION] Ajout de traduction
+
 ## v2.211.0 (20/10/2020)
 
 - [#2029](https://github.com/1024pix/pix/pull/2029) [FEATURE] Ajouter le type nombre au réponse QROC (PIX-1455).
