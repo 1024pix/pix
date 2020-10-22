@@ -33,5 +33,11 @@
       {{/each}}
     </tbody>
   </table>
+
+  {{#if this.hasCheckedSomething}}
+    <div class="add-student-list__bottom-action-bar">
+      <button class="button button--link">Ajouter</button>
+    </div>
+  {{/if}}
 </div>
 {{/if}}
