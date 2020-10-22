@@ -9,4 +9,13 @@ export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
     );
     return { session, students };
   }
+
+  setupController(controller, model) {
+    super.setupController(controller, model);
+
+    this.controllerFor('authenticated.sessions.add-student').set(
+      'returnToSessionCandidates',
+      (sessionId) => this.transitionTo('authenticated.sessions.details.certification-candidates', sessionId),
+    );
+  }
 }
