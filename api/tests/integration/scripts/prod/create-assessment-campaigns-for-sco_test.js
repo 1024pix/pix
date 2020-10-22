@@ -25,10 +25,11 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
         targetProfileId,
         name: 'CampaignName',
         externalId,
+        creatorId,
       };
 
       // when
-      const campaigns = await prepareCampaigns(creatorId, [campaignData]);
+      const campaigns = await prepareCampaigns([campaignData]);
 
       // then
       expect(typeof campaigns[0].code === 'string').to.be.true;
@@ -47,6 +48,7 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
         externalId,
         title: 'title1',
         customLandingPageText: 'customLandingPageText1',
+        creatorId,
       };
       const campaignData2 = {
         targetProfileId: targetProfileId2,
@@ -54,10 +56,11 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
         externalId,
         title: 'title2',
         customLandingPageText: 'customLandingPageText2',
+        creatorId,
       };
 
       // when
-      const campaigns = await prepareCampaigns(creatorId, [campaignData1, campaignData2]);
+      const campaigns = await prepareCampaigns([campaignData1, campaignData2]);
 
       // then
       expect(campaigns).to.have.length(2);
@@ -72,7 +75,7 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
       expect(campaigns[1].name).to.equal(campaignData2.name);
       expect(campaigns[1].title).to.equal(campaignData2.title);
       expect(campaigns[1].customLandingPageText).to.equal(campaignData2.customLandingPageText);
-     
+
     });
 
     it('should throw a validate error when campaign is not valid', async () => {
@@ -83,7 +86,7 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
       };
 
       // when
-      const error = await catchErr(prepareCampaigns)('123', [campaignData]);
+      const error = await catchErr(prepareCampaigns)([campaignData]);
 
       // then
       expect(error).to.be.instanceOf(EntityValidationError);
@@ -99,7 +102,8 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
       const externalId = '456';
       const title = 'SomeTitle';
       const customLandingPageText = 'SomeLandingPageText';
-      const csvData = [{ targetProfileId, name, externalId, title, customLandingPageText }];
+      const creatorId = '789';
+      const csvData = [{ targetProfileId, name, externalId, title, customLandingPageText, creatorId }];
 
       // when
       const checkedData = checkData(csvData);
@@ -111,6 +115,7 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
         externalId,
         title,
         customLandingPageText,
+        creatorId,
       });
     });
 
@@ -121,7 +126,8 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
       const externalId = '456';
       const title = '';
       const customLandingPageText = '';
-      const csvData = [{ targetProfileId, name, externalId, title, customLandingPageText }];
+      const creatorId = '789';
+      const csvData = [{ targetProfileId, name, externalId, title, customLandingPageText, creatorId }];
 
       // when
       const checkedData = checkData(csvData);
@@ -133,6 +139,7 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
         externalId,
         title: null,
         customLandingPageText: null,
+        creatorId,
       });
     });
 
@@ -141,7 +148,8 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
       const targetProfileId = undefined;
       const name = 'SomeName';
       const externalId = '123';
-      const csvData = [{ targetProfileId, name, externalId }];
+      const creatorId = '789';
+      const csvData = [{ targetProfileId, name, externalId, creatorId }];
 
       // when
       const error = await catchErr(checkData)(csvData);
@@ -156,7 +164,8 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
       const targetProfileId = '123';
       const name = undefined;
       const externalId = '123';
-      const csvData = [{ targetProfileId, name, externalId }];
+      const creatorId = '789';
+      const csvData = [{ targetProfileId, name, externalId, creatorId }];
 
       // when
       const error = await catchErr(checkData)(csvData);
@@ -171,7 +180,8 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
       const targetProfileId = '123';
       const name = 'SomeName';
       const externalId = undefined;
-      const csvData = [{ targetProfileId, name, externalId }];
+      const creatorId = '789';
+      const csvData = [{ targetProfileId, name, externalId, creatorId }];
 
       // when
       const error = await catchErr(checkData)(csvData);
@@ -179,6 +189,22 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
       // then
       expect(error).to.be.instanceOf(Error);
       expect(error.message).to.equal('Un externalId est manquant pour le profil cible 123.');
+    });
+
+    it('should throw an error if creatorId is missing', async () => {
+      // given
+      const targetProfileId = '123';
+      const name = 'SomeName';
+      const externalId = '123';
+      const creatorId = undefined;
+      const csvData = [{ targetProfileId, name, externalId, creatorId }];
+
+      // when
+      const error = await catchErr(checkData)(csvData);
+
+      // then
+      expect(error).to.be.instanceOf(Error);
+      expect(error.message).to.equal('Un creatorId est manquant pour le profil cible 123.');
     });
   });
 
