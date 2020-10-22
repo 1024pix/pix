@@ -9,14 +9,14 @@
     margin-right: 16px;
   }
 
-  &-step__dash-icon {
-    width: 10px;
+  &__dash-icon {
+    min-width: 10px;
     height: 4px;
     border-radius: 1px;
     background-color: $grey-22;
   }
 
-  &:hover &__dash-icon{
+  &--partial:hover &__dash-icon {
     background-color: $grey-40;
   }
 
