@@ -114,6 +114,7 @@ module.exports = injectDependencies({
   disableMembership: require('./disable-membership'),
   dissociateUserFromSchoolingRegistration: require('./dissociate-user-from-schooling-registration'),
   dissociateSchoolingRegistrations: require('./dissociate-schooling-registrations'),
+  enrollStudentsToSession: require('./enroll-students-to-session'),
   finalizeSession: require('./finalize-session'),
   findAnswerByChallengeAndAssessment: require('./find-answer-by-challenge-and-assessment'),
   findAnswerByAssessment: require('./find-answer-by-assessment'),
