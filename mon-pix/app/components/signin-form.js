@@ -27,30 +27,20 @@ export default class SigninForm extends Component {
     try {
       await this.args.authenticateUser(this.username, this.password);
     } catch (response) {
-      const error = get(response, 'errors[0]');
-      const isPasswordExpiredError = (get(error, 'title') === 'PasswordShouldChange');
-      if (isPasswordExpiredError) {
+      const shouldChangePassword = get(response, 'responseJSON.errors[0].title') === 'PasswordShouldChange';
+      if (shouldChangePassword) {
         await this.args.updateExpiredPassword(this.username, this.password);
       } else {
-        this._manageErrorsApi(error);
+        this.errorMessage = this._findErrorMessage(response.status);
       }
-
       this.hasFailed = true;
     }
   }
 
-  _manageErrorsApi(firstError) {
-    const statusCode = get(firstError, 'status');
-    this.errorMessage = this._showErrorMessages(statusCode);
-  }
-
-  _showErrorMessages(statusCode) {
+  _findErrorMessage(statusCode) {
     const httpStatusCodeMessages = {
       '400': ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.MESSAGE,
       '401': ENV.APP.API_ERROR_MESSAGES.LOGIN_UNAUTHORIZED.MESSAGE,
-      '500': ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
-      '502': ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
-      '504': ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.MESSAGE,
       'default': ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
     };
     return this.intl.t(httpStatusCodeMessages[statusCode] || httpStatusCodeMessages['default']);
