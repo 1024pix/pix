@@ -179,7 +179,12 @@ describe('Integration | Component | routes/login-form', function() {
 
     it('should redirect to "update-expired-password" route', async function() {
       // given
-      sessionStub.prototype.authenticate = () => reject({ errors: [{ title: 'PasswordShouldChange' }] });
+      const response = {
+        responseJSON: {
+          errors: [{ title: 'PasswordShouldChange' }],
+        },
+      };
+      sessionStub.prototype.authenticate = () => reject(response);
       await render(hbs`{{routes/login-form}}`);
       await fillIn('#login', 'pix@example.net');
       await fillIn('#password', 'Mauvais mot de passe');

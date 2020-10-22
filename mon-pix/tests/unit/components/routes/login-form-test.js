@@ -64,10 +64,12 @@ describe('Unit | Component | routes/login-form', function() {
       it('should redirect to update-expired-password if user should change password', async () => {
         // given
         const expectedRouteName = 'update-expired-password';
-        const err = {
-          errors: [{ title: 'PasswordShouldChange' }],
+        const response = {
+          responseJSON: {
+            errors: [{ title: 'PasswordShouldChange' }],
+          },
         };
-        sessionStub.authenticate.rejects(err);
+        sessionStub.authenticate.rejects(response);
 
         // when
         await component.authenticate();

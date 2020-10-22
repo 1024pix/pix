@@ -66,14 +66,22 @@ describe('Integration | Component | signin form', function() {
       it('should display related error message if unauthorized error', async function() {
         // given
         const expectedErrorMessage = ApiErrorMessages.LOGIN_UNAUTHORIZED.MESSAGE;
-        const apiReturn = {
-          errors: [{
-            status: 401,
-            detail: expectedErrorMessage,
-            title: 'Unauthorized error',
-          }],
-        };
-        this.set('authenticateUser', sinon.stub().rejects(apiReturn));
+        this.set('authenticateUser', sinon.stub().rejects({ status: 401 }));
+        await render(hbs`<SigninForm @authenticateUser={{this.authenticateUser}} />`);
+
+        // when
+        await fillIn('input#login', 'usernotexist@example.net');
+        await fillIn('input#password', 'password');
+        await click('button.button');
+
+        // then
+        expect(find('.sign-form__notification-message--error').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
+      });
+
+      it('should display related error message if bad request error', async function() {
+        // given
+        const expectedErrorMessage = ApiErrorMessages.BAD_REQUEST.MESSAGE;
+        this.set('authenticateUser', sinon.stub().rejects({ status: 400 }));
         await render(hbs`<SigninForm @authenticateUser={{this.authenticateUser}} />`);
 
         // when
@@ -101,96 +109,7 @@ describe('Integration | Component | signin form', function() {
         expect(find('.sign-form__notification-message--error').textContent.trim()).to.equal(this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.MESSAGE));
 
       });
-
-      it('should display related error message if internal server error', async function() {
-        // given
-        const expectedErrorMessage = ApiErrorMessages.INTERNAL_SERVER_ERROR.MESSAGE;
-        const apiReturn = {
-          errors: [{
-            status: 500,
-            detail: expectedErrorMessage,
-            title: 'Internal server error',
-          }],
-        };
-        this.set('authenticateUser', sinon.stub().rejects(apiReturn));
-        await render(hbs`<SigninForm @authenticateUser={{this.authenticateUser}} />`);
-
-        // when
-        await fillIn('input#login', 'johnharry@example.net');
-        await fillIn('input#password', 'password123');
-        await click('button.button');
-
-        // then
-        expect(find('.sign-form__notification-message--error').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
-      });
-
-      it('should display related error message if bad gateway error', async function() {
-        // given
-        const expectedErrorMessage = ApiErrorMessages.BAD_GATEWAY.MESSAGE;
-        const apiReturn = {
-          errors: [{
-            status: 502,
-            detail: expectedErrorMessage,
-            title: 'Bad gateway error',
-          }],
-        };
-        this.set('authenticateUser', sinon.stub().rejects(apiReturn));
-        await render(hbs`<SigninForm @authenticateUser={{this.authenticateUser}} />`);
-
-        // when
-        await fillIn('input#login', 'johnharry@example.net');
-        await fillIn('input#password', 'password123');
-        await click('button.button');
-
-        // then
-        expect(find('.sign-form__notification-message--error').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
-      });
-
-      it('should display related error message if gateway timeout error', async function() {
-        // given
-        const expectedErrorMessage = ApiErrorMessages.GATEWAY_TIMEOUT.MESSAGE;
-        const apiReturn = {
-          errors: [{
-            status: 504,
-            detail: expectedErrorMessage,
-            title: 'Gateway timeout error',
-          }],
-        };
-        this.set('authenticateUser', sinon.stub().rejects(apiReturn));
-        await render(hbs`<SigninForm @authenticateUser={{this.authenticateUser}} />`);
-
-        // when
-        await fillIn('input#login', 'johnharry@example.net');
-        await fillIn('input#password', 'password123');
-        await click('button.button');
-
-        // then
-        expect(find('.sign-form__notification-message--error').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
-      });
-
-      it('should display related error message if not implemented error', async function() {
-        // given
-        const apiReturn = {
-          errors: [{
-            status: 501,
-            detail: 'Not implemented Error',
-            title: 'Not implemented error',
-          }],
-        };
-        this.set('authenticateUser', sinon.stub().rejects(apiReturn));
-        await render(hbs`<SigninForm @authenticateUser={{this.authenticateUser}} />`);
-
-        // when
-        await fillIn('input#login', 'johnharry@example.net');
-        await fillIn('input#password', 'password123');
-        await click('button.button');
-
-        // then
-        expect(find('.sign-form__notification-message--error').textContent.trim()).to.equal(this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.MESSAGE));
-      });
-
     });
-
   });
 
   describe('Behaviours', function() {

@@ -64,9 +64,9 @@ export default class LoginForm extends Component {
     const scope = 'mon-pix';
     try {
       await this.session.authenticate('authenticator:oauth2', { login, password, scope });
-    } catch (err) {
-      const title = ('errors' in err) ? err.errors.get('firstObject').title : null;
-      if (title === 'PasswordShouldChange') {
+    } catch (response) {
+      const shouldChangePassword = get(response, 'responseJSON.errors[0].title') === 'PasswordShouldChange';
+      if (shouldChangePassword) {
         this.store.createRecord('user', { username: this.login, password: this.password });
         return this.router.replaceWith('update-expired-password');
       }
