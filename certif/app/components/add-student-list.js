@@ -45,6 +45,7 @@ export default class AddStudentList extends Component {
     const studentListToAdd = this.args.studentList.filter((student) => student.isSelected);
     try {
       await this.args.session.save({ adapterOptions: { studentListToAdd, sessionId } });
+      this.args.returnToSessionCandidates(sessionId);
     } catch (error) {
       this.notifications.error('Une erreur est survenue au moment d‘enregistrer les candidats... ');
     }
