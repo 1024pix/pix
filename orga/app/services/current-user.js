@@ -20,23 +20,9 @@ export default class CurrentUserService extends Service {
         this.prescriber = await this.store.queryRecord('prescriber', this.session.data.authenticated.user_id);
         this.memberships = await this.prescriber.memberships;
         const userOrgaSettings = await this.prescriber.userOrgaSettings;
-
-        let membership;
-        if (userOrgaSettings) {
-          membership = await this._getMembershipByUserOrgaSettings(this.memberships.toArray(), userOrgaSettings);
-          if (!membership) {
-            membership = await this.memberships.firstObject;
-            await this._updateUserOrgaSettings(userOrgaSettings, membership, this.prescriber.id);
-          }
-        } else {
-          const userId = this.prescriber.id;
-          membership = await this.memberships.firstObject;
-          const organization = membership.organization;
-          await this._createUserOrgaSettings({ userId, organization });
-        }
+        const membership = await this._getMembershipByUserOrgaSettings(this.memberships.toArray(), userOrgaSettings);
 
         await this._setOrganizationProperties(membership);
-
       } catch (error) {
         const errorCode = get(error, 'errors[0].code');
         if ([401, 403].includes(errorCode)) {
@@ -55,15 +41,6 @@ export default class CurrentUserService extends Service {
       }
     }
     return null;
-  }
-
-  async _updateUserOrgaSettings(userOrgaSettings, membership, userId) {
-    userOrgaSettings.organization = await membership.organization;
-    userOrgaSettings.save({ adapterOptions: { userId } });
-  }
-
-  async _createUserOrgaSettings({ userId, organization }) {
-    await this.store.createRecord('user-orga-setting', { organization }).save({ adapterOptions: { userId } });
   }
 
   async _setOrganizationProperties(membership) {
