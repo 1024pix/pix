@@ -101,13 +101,6 @@ module.exports = function(environment) {
       openLinksInNewWindow: true,
     },
 
-    sentry: {
-      dsn: process.env.SENTRY_DSN,
-      tags: {
-        source: 'live',
-      },
-    },
-
     moment: {
       // Locale supported by moment.js
       // English is bundled automatically, not need to add en in includeLocales
@@ -115,6 +108,21 @@ module.exports = function(environment) {
     },
 
     matomo: {},
+
+    '@sentry/ember': {
+      disablePerformance: true,
+      sentry: {
+        dsn: process.env.SENTRY_DSN,
+        environment: (process.env.SENTRY_ENVIRONMENT || 'development'),
+        maxBreadcrumbs: _getEnvironmentVariableAsNumber({ environmentVariable: process.env.SENTRY_MAX_BREADCRUMBS, defaultValue: 100, minValue: 100 }),
+        debug: _isFeatureEnabled(process.env.SENTRY_DEBUG),
+        release: `v${process.env.npm_package_version}`,
+      },
+    },
+
+    sentry: {
+      enabled: _isFeatureEnabled(process.env.SENTRY_ENABLED),
+    },
   };
 
   if (environment === 'development') {
