@@ -1,7 +1,7 @@
 const { CampaignCodeError, ObjectValidationError } = require('../errors');
 const User = require('../models/User');
 const { STUDENT_RECONCILIATION_ERRORS } = require('../constants');
-const get = require('lodash/get');
+const { get, isNil } = require('lodash');
 
 module.exports = async function createUserAndReconcileToSchoolingRegistrationFromExternalUser({
   campaignCode,
@@ -55,7 +55,9 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
       schoolingRegistrationRepository,
     });
 
-    await userReconciliationService.checkIfStudentIsAlreadyReconciledOnTheSameOrganization(matchedSchoolingRegistration, userRepository, obfuscationService);
+    if (!isNil(matchedSchoolingRegistration.userId)) {
+      await userReconciliationService.checkIfStudentIsAlreadyReconciledOnTheSameOrganization(matchedSchoolingRegistration.userId, userRepository, obfuscationService);
+    }
 
     const student = await studentRepository.getReconciledStudentByNationalStudentId(matchedSchoolingRegistration.nationalStudentId);
     if (get(student, 'account')) {
@@ -77,8 +79,10 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
     if (reconciliationErrors.includes(error.code)) {
 
       await userRepository.updateUserAttributes(error.meta.userId, { samlId: externalUser.samlId });
-      const schoolingRegistrationId = error.meta.schoolingRegistrationId || matchedSchoolingRegistration.id;
-      const schoolingRegistration = await schoolingRegistrationRepository.reconcileUserToSchoolingRegistration({ userId: error.meta.userId , schoolingRegistrationId });
+      const schoolingRegistration = await schoolingRegistrationRepository.reconcileUserToSchoolingRegistration({
+        userId: error.meta.userId,
+        schoolingRegistrationId: matchedSchoolingRegistration.id,
+      });
       userId = schoolingRegistration.userId;
 
     } else {
