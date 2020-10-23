@@ -6,6 +6,15 @@ module.exports = function targetProfilesBuilder({ databaseBuilder }) {
     organizationId: 5,
   });
 
+  databaseBuilder.factory.buildTargetProfileShare({
+    targetProfileId: targetProfile.id,
+    organizationId: 1,
+  });
+  databaseBuilder.factory.buildTargetProfileShare({
+    targetProfileId: targetProfile.id,
+    organizationId: 2,
+  });
+
   [ 'rectL2ZZeWPc7yezp',
     'recndXqXiv4pv2Ukp',
     'recMOy4S8XnaWblYI',
