@@ -46,6 +46,14 @@ function _isReconciled(schoolingRegistration) {
 
 module.exports = {
 
+  findByIds({ ids }) {
+    const schoolingRegistrations = BookshelfSchoolingRegistration
+      .where('id', 'in', ids)
+      .fetchAll();
+
+    return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
+  },
+
   _findByOrganizationId({ organizationId, orderByRaw }) {
     return BookshelfSchoolingRegistration
       .where({ organizationId })

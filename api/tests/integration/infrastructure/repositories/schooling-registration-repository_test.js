@@ -8,6 +8,42 @@ const { NotFoundError, SameNationalStudentIdInOrganizationError, UserCouldNotBeR
 
 describe('Integration | Infrastructure | Repository | schooling-registration-repository', () => {
 
+  describe('#findByIds', () => {
+
+    it('should return all the schoolingRegistrations for given schoolingRegistration IDs', async () => {
+      // given
+      const student1 = databaseBuilder.factory.buildSchoolingRegistration();
+      const student2 = databaseBuilder.factory.buildSchoolingRegistration();
+      const ids = [ student1.id, student2.id ];
+      await databaseBuilder.commit();
+
+      // when
+      const schoolingRegistrationsResult = await schoolingRegistrationRepository.findByIds({ ids });
+
+      // then
+      const anySchoolingRegistration = schoolingRegistrationsResult[0];
+      expect(anySchoolingRegistration).to.be.an.instanceOf(SchoolingRegistration);
+      expect(anySchoolingRegistration.firstName).to.equal(student1.firstName);
+      expect(anySchoolingRegistration.lastName).to.equal(student1.lastName);
+      expect(anySchoolingRegistration.birthdate).to.deep.equal(student1.birthdate);
+      expect(_.map(schoolingRegistrationsResult, 'id')).to.have.members([student1.id, student2.id]);
+    });
+
+    it('should return empty array when there are no result', async () => {
+      // given
+      databaseBuilder.factory.buildSchoolingRegistration({ id: 1 });
+      databaseBuilder.factory.buildSchoolingRegistration({ id: 2 });
+      const notFoundIds = [ 3, 4 ];
+      await databaseBuilder.commit();
+
+      // when
+      const schoolingRegistrations = await schoolingRegistrationRepository.findByIds({ ids: notFoundIds });
+
+      // then
+      expect(schoolingRegistrations).to.be.empty;
+    });
+  });
+
   describe('#findByOrganizationId', () => {
 
     it('should return instances of SchoolingRegistration', async () => {
