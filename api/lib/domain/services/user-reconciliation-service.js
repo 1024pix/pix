@@ -64,26 +64,25 @@ async function findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser(
   return _.find(schoolingRegistrations, { 'id': schoolingRegistrationId });
 }
 
-async function checkIfStudentIsAlreadyReconciledOnTheSameOrganization(userId, userRepository, obfuscationService) {
-  const user = await userRepository.getUserAuthenticationMethods(userId);
-  const authenticationMethod = obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
+async function checkIfStudentHasAnAlreadyReconciledAccount(schoolingRegistration, userRepository, obfuscationService, studentRepository) {
+  if (!_.isNil(schoolingRegistration.userId)) {
+    await _buildStudentReconciliationError(schoolingRegistration.userId, 'IN_SAME_ORGANIZATION', userRepository, obfuscationService);
+  }
 
-  const detail = 'Un compte existe déjà pour l‘élève dans le même établissement.';
-  const error = STUDENT_RECONCILIATION_ERRORS.RECONCILIATION.IN_SAME_ORGANIZATION[authenticationMethod.authenticatedBy];
-  const meta = {
-    shortCode: error.shortCode,
-    value: authenticationMethod.value,
-    userId: userId,
-  };
-  throw new SchoolingRegistrationAlreadyLinkedToUserError(detail, error.code, meta);
+  const student = await studentRepository.getReconciledStudentByNationalStudentId(schoolingRegistration.nationalStudentId);
+  if (_.get(student, 'account')) {
+    await _buildStudentReconciliationError(student.account.userId, 'IN_OTHER_ORGANIZATION', userRepository, obfuscationService);
+  }
 }
 
-async function checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(userId, userRepository, obfuscationService) {
+async function _buildStudentReconciliationError(userId, errorContext, userRepository, obfuscationService) {
   const user = await userRepository.getUserAuthenticationMethods(userId);
   const authenticationMethod = obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
 
-  const detail = 'Un compte existe déjà pour l‘élève dans un autre établissement.';
-  const error = STUDENT_RECONCILIATION_ERRORS.RECONCILIATION.IN_OTHER_ORGANIZATION[authenticationMethod.authenticatedBy];
+  const detailWhenSameOrganization = 'Un compte existe déjà pour l‘élève dans le même établissement.';
+  const detailWhenOtherOrganization = 'Un compte existe déjà pour l‘élève dans un autre établissement.';
+  const detail = errorContext === 'IN_SAME_ORGANIZATION' ? detailWhenSameOrganization : detailWhenOtherOrganization;
+  const error = STUDENT_RECONCILIATION_ERRORS.RECONCILIATION[errorContext][authenticationMethod.authenticatedBy];
   const meta = {
     shortCode: error.shortCode,
     value: authenticationMethod.value,
@@ -190,6 +189,5 @@ module.exports = {
   findMatchingCandidateIdForGivenUser,
   findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser,
   findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser,
-  checkIfStudentIsAlreadyReconciledOnTheSameOrganization,
-  checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations,
+  checkIfStudentHasAnAlreadyReconciledAccount,
 };
