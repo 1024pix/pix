@@ -15,11 +15,13 @@ const { getTranslatedText } = require('../../domain/services/get-translated-text
 
 module.exports = {
 
-  async get({ id, locale = FRENCH_FRANCE }) {
+  async getWithBadges({ id, locale = FRENCH_FRANCE }) {
     const results = await knex('target-profiles')
-      .select('target-profiles.id', 'target-profiles.name', 'target-profiles_skills.skillId')
+      .select('target-profiles.id', 'target-profiles.name', 'target-profiles_skills.skillId', knex.raw('ARRAY_AGG (badges.title) badges'))
       .leftJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id')
-      .where('target-profiles.id', id);
+      .leftJoin('badges', 'badges.targetProfileId', 'target-profiles.id')
+      .where('target-profiles.id', id)
+      .groupBy('target-profiles.id', 'target-profiles.name', 'target-profiles_skills.skillId');
 
     if (_.isEmpty(results)) {
       throw new NotFoundError(`Le profil cible ${id} n'existe pas`);
@@ -51,6 +53,7 @@ async function _toDomain(results, locale) {
     competences,
     areas,
   } = await _getTargetedLearningContent(skillIds, locale);
+  const badges = results[0].badges;
 
   return new TargetProfileWithLearningContent({
     id: results[0].id,
@@ -59,6 +62,7 @@ async function _toDomain(results, locale) {
     tubes,
     competences,
     areas,
+    badges: badges && !_.isEmpty(badges[0]) ? badges : [],
   });
 }
 
