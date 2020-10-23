@@ -12,6 +12,8 @@ export default class InformationBanner extends Component {
 
   get displayNewYearCampaignsBanner() {
     const isBeforeBannerDeadLine = new Date() < new Date(bannerDeadLine);
-    return isBeforeBannerDeadLine && this.currentUser.isSCOManagingStudents;
+    return isBeforeBannerDeadLine &&
+      this.currentUser.isSCOManagingStudents &&
+      !this.currentUser.isAgriculture;
   }
 }
