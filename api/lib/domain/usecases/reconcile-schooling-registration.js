@@ -1,5 +1,6 @@
 const { CampaignCodeError, SchoolingRegistrationAlreadyLinkedToUserError } = require('../errors');
 const { STUDENT_RECONCILIATION_ERRORS } = require('../constants');
+const get = require('lodash/get');
 
 module.exports = async function reconcileSchoolingRegistration({
   campaignCode,
@@ -26,7 +27,9 @@ module.exports = async function reconcileSchoolingRegistration({
   });
 
   const student = await studentRepository.getReconciledStudentByNationalStudentId(matchedSchoolingRegistration.nationalStudentId);
-  await userReconciliationService.checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(student, userRepository, obfuscationService);
+  if (get(student, 'account')) {
+    await userReconciliationService.checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(student.account.userId, userRepository, obfuscationService);
+  }
 
   await _checkIfAnotherStudentIsAlreadyReconciledWithTheSameOrganizationAndUser(reconciliationInfo.id, campaign.organizationId, schoolingRegistrationRepository);
 
