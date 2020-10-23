@@ -1,5 +1,5 @@
 import { createMembership } from './handlers/memberships';
-import { attachTargetProfiles, getOrganizationTargetProfiles } from './handlers/target-profiles';
+import { attachTargetProfiles, getOrganizationTargetProfiles, findPaginatedTargetProfileOrganizations } from './handlers/target-profiles';
 import { getJuryCertificationSummariesBySessionId } from './handlers/get-jury-certification-summaries-by-session-id';
 import { findPaginatedAndFilteredSessions } from './handlers/find-paginated-and-filtered-sessions';
 import { findPaginatedOrganizationMemberships } from './handlers/organizations';
@@ -46,6 +46,7 @@ export default function() {
   this.post('/organizations/:id/target-profiles', attachTargetProfiles);
   this.get('/admin/target-profiles');
   this.get('/admin/target-profiles/:id');
+  this.get('/admin/target-profiles/:id/organizations', findPaginatedTargetProfileOrganizations);
 
   this.get('/admin/certifications/:id');
 

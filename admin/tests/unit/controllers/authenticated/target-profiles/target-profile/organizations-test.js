@@ -1,12 +1,12 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Controller | authenticated/organizations/list', function(hooks) {
+module('Unit | Controller | authenticated/target-profiles/target-profile/organizations', function(hooks) {
   setupTest(hooks);
   let controller;
 
   hooks.beforeEach(function() {
-    controller = this.owner.lookup('controller:authenticated.organizations.list');
+    controller = this.owner.lookup('controller:authenticated.target-profiles.target-profile.organizations');
   });
 
   module('#updateFilters', function() {
